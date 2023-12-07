@@ -1,120 +1,171 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hFvfub1k"
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73227B9;
-	Thu,  7 Dec 2023 06:38:10 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4CA62669;
-	Thu,  7 Dec 2023 15:37:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701959847;
-	bh=zXe+jRGFsIALQDiNPjUbby+TY+TBluHe2uMVYoZajGE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hFvfub1kMNWT+sajOcN5s7Ix3DNF2A6Pkg5dQ9Y7g9Coz6OmKJnCPKj2yL9gUCwUK
-	 8mnLCDDOxUytTLxkyTZeJGqrH5UF7H7W1qtp4hNUzgp15DJZLkbLfPcGsN6exWkTrZ
-	 O1MzrHNjifnFuxyRI9lkqoozUdRpBmc8Z61b/zJ0=
-Date: Thu, 7 Dec 2023 16:38:14 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Message-ID: <20231207143814.GD15521@pendragon.ideasonboard.com>
-References: <20231202035511.487946-1-sjg@chromium.org>
- <20231202035511.487946-3-sjg@chromium.org>
- <20231203153401.GV8402@pendragon.ideasonboard.com>
- <20231207142723.GA3187877@google.com>
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="LAtosgVP"
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2070.outbound.protection.outlook.com [40.107.220.70])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC09128;
+	Thu,  7 Dec 2023 06:58:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Re3eP664f/0FTxPF/AYhsNpoOw5E+NvyPIL0vTGRSJTdv1vsyT5E3+xf/A9tb80LHRVK5HvoMzBinkK4nPMT6dWbDYTXl1DeMNoO3eV5ZFr6q4wxdiBNw/arBDHbdrEzGplRL2AK0L9sw87JTFMUVdDgbraX77KgZMm/sO54Yu1SpHWrUryMtt2AxFKXajTUomnlg3VwxKCW0nwSAxMf3EwRVY8wwuP3tf4po5ob9haenlitsDxqOMTXteArGBUCEWU4enX2Zhxkk/RAmxztKC7ASXjMN2b4W/bi7ZuKTeO7AnaVT4FaBxL3amfJ3otckmfBXSz4ywzAR420Ga53CQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=i67kcyKcdobkbYaTd9MF1EeAf3SUZGw/LNZlRB+L08A=;
+ b=BstC7+1IDbAovtDi3YOw7hFn7vGd0sbGrXHOqvqyjtOYSDEBFTaGI2Q9UqVRmkiseKmnMy63MA/MyQATOZA7wtHikII++77EVw3EwBl4ECF6PLtasyPzU8vLF079MpX2Mkl9tXQvCXj8fYsAgMkLCnDyM/UpCB75TGW+A2Y2czwR4kG9y2tB2iE/OCMtGiRg4bRDlU7Z5JWegjXy5VfqUxBgTCN8P9e3/GMTepUwR6AHBOe2Nc/3UoCkgooXkzkAYckEF/H2w18/zL0BGKDv+KVjyA50hPZ+NPILGFAMv+0MQRfby4aFxA7WpQoBaJ/WvXXS78QojUYSWepr/+FCgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i67kcyKcdobkbYaTd9MF1EeAf3SUZGw/LNZlRB+L08A=;
+ b=LAtosgVPz0aZeRsIHEm2qLoWEKdSrNjd9+16rXsyS+WFyoHrmy3jiIVIm9lnpwIZKBZE+esbLpI2zrluAwDUgAz41DFgOR7miZo9+pv1zGlvxtw/B0b9pEyzljxgN0Hmbcr//xT0gjvgmMyQY67jqzxwG9UlYR3nrxk7l8s10V4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by SA0PR17MB4175.namprd17.prod.outlook.com (2603:10b6:806:82::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.27; Thu, 7 Dec
+ 2023 14:58:19 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7068.027; Thu, 7 Dec 2023
+ 14:58:19 +0000
+Date: Thu, 7 Dec 2023 09:58:13 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Michal Hocko <mhocko@kernel.org>,
+	Tejun Heo <tj@kernel.org>, ying.huang@intel.com,
+	Jonathan Corbet <corbet@lwn.net>, rakie.kim@sk.com,
+	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
+	Peter Zijlstra <peterz@infradead.org>,
+	Frank van der Linden <fvdl@google.com>
+Subject: Re: [RFC PATCH 07/11] mm/mempolicy: add userland mempolicy arg
+ structure
+Message-ID: <ZXHdhVeel1dOxlYJ@memverge.com>
+References: <20231207002759.51418-1-gregory.price@memverge.com>
+ <20231207002759.51418-8-gregory.price@memverge.com>
+ <67fab0f1-e326-4ad8-9def-4d2bd5489b33@app.fastmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67fab0f1-e326-4ad8-9def-4d2bd5489b33@app.fastmail.com>
+X-ClientProxiedBy: SJ0PR05CA0023.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::28) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231207142723.GA3187877@google.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SA0PR17MB4175:EE_
+X-MS-Office365-Filtering-Correlation-Id: aeba84c5-f709-40da-d709-08dbf734f2e4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	sNuqdicEcHMxEOzw+LNH3f0rQGyP0tFFDNy+qS1o15aS5i/U+EAf9sMqY1gy6OPdytyvZMElBvouqQhH/6EZRKvyZy9zZg6BEItff95zV5H6y8OTxX6M9a2AMBPOvnJKPiV7LcCgvAfaqZW7JLZ2T/j/1nKYYrVQSERdzjgPFjYeyCosTMtQx/khUz9S5QPE9xlUdit1XUlECoW65RyEZRZBm4UVDoXxQxpucOf0P7E/cyf/k+CSPuEZXxW4N5eN4W8Xx/5luE35cSgTN0mWtbItQDc3bM/cw5pZvylfFn71+v91L8pWA6CGsYjCBTghgVH+WslxhshEKCRHKZO+T8PTqJtx84Qm6cP8z5M5HSePphFUE+C7n0RQDzVzZ4TFECWx6IljrucHSwGcZUNCv2wpWF/2U1X9hAhwYLPbIDKNVbrSewmcpfL0InGMWCRu1pXxf2VVp3KxHTyMZjWHdUxnR9H/chPp7awZC5IJF5I84XjKpmyNej/PzM+jEhKNonxy+dzYMW9F7Z4yP2XtEgadyGICtZiWHhLdlBqElv6zZIEcpBfLkWPSppAI4S7d
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(136003)(366004)(39850400004)(376002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(7406005)(7416002)(66946007)(66476007)(54906003)(66556008)(6916009)(316002)(44832011)(8936002)(4326008)(8676002)(5660300002)(478600001)(6486002)(2906002)(6506007)(6512007)(6666004)(2616005)(36756003)(26005)(41300700001)(38100700002)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4VHDfYgT7sDTno20H/8W9PXyI59Uq9XEsMgjnJu9ExreIAbDsP54sv+Bda1p?=
+ =?us-ascii?Q?5To8UJuWc9QcMol00GSTJAjIGgv/MI0v6LDAlxtuUmB8t4HNEUXGzXFZE4fH?=
+ =?us-ascii?Q?zRlPEwmt9HPLt/qygTokQPZ+Hx44jhbzNLRAum0RtYKibcmrplbpnOPFnYS4?=
+ =?us-ascii?Q?/Nc5GCgFFD2m+5Z0LSt+0fPqnUsiKT1Ey/ISlLYOMHh7b/8C3M4HIBcNlGMR?=
+ =?us-ascii?Q?n4VK35lmBkf21ReaL6sIcIYN5UdodhNarOdBqePa/Sd3GMC2ePVDG53TWIvw?=
+ =?us-ascii?Q?rbMiAisSiK0UA7sB7Z3nehZvTmmecKc/L02iCWUALWgJ5zge3xho5Rkf5CVK?=
+ =?us-ascii?Q?k+FdgCBeZYH1UaGl/2VtZyI73uDX++IeyqirJHTFRVTX6P1SsGDfWI+O9pyQ?=
+ =?us-ascii?Q?81a8gwXuxV8P5CnbHFyd/AqGFyxBweinvmOa5z4Oag6BUhbtwRjPUWQ6WAJr?=
+ =?us-ascii?Q?jH2UtGgRh948U8eXFkt9K+K8Kk52x2dakB+PT0EtJ1DV0AsTZtZGlPPBiPnG?=
+ =?us-ascii?Q?1eqDiYhUyoMzyqipxCjzZ/EeL3yZJsEr7JU1GaAthiq0AHMd5vva55zX1HGC?=
+ =?us-ascii?Q?SMw3eCYi3v34MIhL43r5JsgwkcLH4udwtS8W87/+QYHa4aP33F+P7xzn/XOO?=
+ =?us-ascii?Q?W9MaHHMLdg/OBj1+9B70dwjWBOPTo6KxLvKe4Po96MRbRXuJ7CGo2Qe7IN1Q?=
+ =?us-ascii?Q?L082LZvtU6h5fRk3d5CsbOss4lPcblpIchn21Bi/lhA5aDohqFC1dYjNllJ2?=
+ =?us-ascii?Q?SVsUYSllYWgrFuxMOZjG3Xw9+NV4vhK2OGUI5xJYFoucF8K3NfVG5WkChhNv?=
+ =?us-ascii?Q?4adI0k6sOTLNL0iNzhlTqfdixlNkWw1vz96X2vMuIbsqNqOCqLUTXNem/A0O?=
+ =?us-ascii?Q?0vBsW8FfbugV+qoGjpveZpQ9kQastDJS/Rcj8TYih/RieUd5u1HCPLfbZT9q?=
+ =?us-ascii?Q?C1bqYvFy9p3KA52HL9mq4WB3fDNCs3O7mFxg98pHle05Ia7xbSm0ap7MgB+k?=
+ =?us-ascii?Q?WiWGgRE/Nhp60vi6vseLuC/8C/UInJYWc3+yilE6P+raE+jE7nXeLNAbDM2R?=
+ =?us-ascii?Q?dB1fnIkNPH6nfu/yl/tAOeeXPLiPw8s8HcLwvI6T874oyrZoGgC9gKAVvih3?=
+ =?us-ascii?Q?qiWkn6rZRk/HDXkRUqplCPP0mTZs2rClXo3fjUMzXkjf5AG99nbtgcxgSsf8?=
+ =?us-ascii?Q?e7Q8UO3W9CtdxDqscrCo5ybflfyQNhHYOC3LadI3R18tLF4qPlkw0upUJoYK?=
+ =?us-ascii?Q?SRbvPzznqWcjS+SynjvfvZod6OFpkjcXBnAZQBlHsse2CKfOKrpzkCrNtsuN?=
+ =?us-ascii?Q?zWjMED2GOoHoWKe4cVGO7sGI7FGPlAb2SOW+Cpqv/nQFNYCDYW4/UtG8oxjb?=
+ =?us-ascii?Q?AE0FUGI6gipIqs/kPn4c3S3/jbF8VBpeOGoaIrMtp1czKs/pazTIlDwWFHhw?=
+ =?us-ascii?Q?1ON1B7bJmQc3WYFCLkSOZa2lezppvhGPM0ibwaP+4KFYNBbdtKJcfUFdxru5?=
+ =?us-ascii?Q?1tjVnbOkxohNJVvyuOvxpB6Frq1FPip20FX4rxu/VzjHFM305+mwt3062tXQ?=
+ =?us-ascii?Q?o4Z7P+FEKK4QMIwnUn5qaOJ8hIHjRmmT8j9ale2IipPND1ylkE6SQdx7ODTU?=
+ =?us-ascii?Q?pw=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aeba84c5-f709-40da-d709-08dbf734f2e4
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2023 14:58:19.0174
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0wX5lioStHt9yAxYCidYr+uftOYMQIcS9jo5Q0tMMNW6HylLn6KBJ1FKl+TgxcaOKlCLVKUZv4kTta3Gu68iiO3tweVOFxrbwvxEm6bDCQ0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR17MB4175
 
-On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
-> On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
-> > Hi Simon,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > Add a script which produces a Flat Image Tree (FIT), a single file
-> > > containing the built kernel and associated devicetree files.
-> > > Compression defaults to gzip which gives a good balance of size and
-> > > performance.
-> > > 
-> > > The files compress from about 86MB to 24MB using this approach.
-> > > 
-> > > The FIT can be used by bootloaders which support it, such as U-Boot
-> > > and Linuxboot. It permits automatic selection of the correct
-> > > devicetree, matching the compatible string of the running board with
-> > > the closest compatible string in the FIT. There is no need for
-> > > filenames or other workarounds.
-> > > 
-> > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > FIT_COMPRESSION to select a different algorithm.
-> > > 
-> > > The FIT can be examined using 'dumpimage -l'.
-> > > 
-> > > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > > requires compression utilities for the algorithm being used. Supported
-> > > compression options are the same as the Image.xxx files. For now there
-> > > is no way to change the compression other than by editing the rule for
-> > > $(obj)/image.fit
-> > > 
-> > > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > > this here, since it must be built separately from the Linux build.
-> > 
-> > FIT images are very useful, so I think this is a very welcome addition
-> > to the kernel build system. It can get tricky though: given the
-> > versatile nature of FIT images, there can't be any
-> > one-size-fits-them-all solution to build them, and striking the right
-> > balance between what makes sense for the kernel and the features that
-> > users may request will probably lead to bikeshedding. As we all love
-> > bikeshedding, I thought I would start selfishly, with a personal use
-> > case :-) This isn't a yak-shaving request though, I don't see any reason
-> > to delay merging this series.
-> > 
-> > Have you envisioned building FIT images with a subset of DTBs, or adding
-> > DTBOs ? Both would be fairly trivial extensions to this script by
-> > extending the supported command line arguments. It would perhaps be more
-> > difficult to integrate in the kernel build system though. This leads me
-> > to a second question: would you consider merging extensions to this
-> > script if they are not used by the kernel build system, but meant for
-> > users who manually invoke the script ? More generally, is the script
+On Thu, Dec 07, 2023 at 08:13:22AM +0100, Arnd Bergmann wrote:
+> On Thu, Dec 7, 2023, at 01:27, Gregory Price wrote:
+> > This patch adds the new user-api argument structure intended for
+> > set_mempolicy2 and mbind2.
+> >
+> > struct mpol_args {
+> >   /* Basic mempolicy settings */
+> >   unsigned short mode;
+> >   unsigned short mode_flags;
+> >   unsigned long *pol_nodes;
+> >   unsigned long pol_maxnodes;
+> >
+> >   /* get_mempolicy2: policy information (e.g. next interleave node) */
+> >   int policy_node;
+> >
+> >   /* get_mempolicy2: memory range policy */
+> >   unsigned long addr;
+> >   int addr_node;
+> >
+> >   /* all operations: policy home node */
+> >   unsigned long home_node;
+> >
+> >   /* mbind2: address ranges to apply the policy */
+> >   const struct iovec __user *vec;
+> >   size_t vlen;
+> > };
 > 
-> We'd also be interested in some customization, though in a different way.
-> We imagine having a rule file that says X compatible string should map
-> to A base DTB, plus B and C DTBO for the configuration section. The base
-> DTB would carry all common elements of some device, while the DTBOs
-> carry all the possible second source components, like different display
-> panels or MIPI cameras for instance. This could drastically reduce the
-> size of FIT images in ChromeOS by deduplicating all the common stuff.
-
-Do you envision the "mapping" compatible string mapping to a config
-section in the FIT image, that would bundle the base DTB and the DTBOs ?
-
-> > meant to be used stand-alone as well, in which case its command line
-> > arguments need to remain backward-compatible, or do you see it as being
-> > internal to the kernel ?
+> This is not a great structure layout for a system call ABI,
+> mostly because it requires adding a compat syscall handler
+> to be usable from 32-bit tasks. It would be nice if this
+> could be rewritten in a way that uses only fixed-length
+> members (__u16, __u32, __aligned_u64), though that does
+> require the use of u64_to_user_ptr() to replace the pointers
+> and the reverse in userspace.
 > 
-> [...]
+> Aside from this, you should avoid holes in the data structure.
+> On 64-bit architectures, the layout above has holes after
+> policy_node and after addr_node.
 > 
-> ChenYu
+>       Arnd
 
--- 
-Regards,
+doh, clearly i didn't stop to think about alignment. Good eye.
+I'll redo this with __u/s members and fix the holes.
 
-Laurent Pinchart
+Didn't stop to think about compat pointers.  I don't think the
+u64_to_user_ptr pattern is offensive, so i'll make that change.
+At least I don't see what the other options are beyond compat.
+
+Thanks
+~Gregory
