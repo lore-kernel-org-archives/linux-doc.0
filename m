@@ -1,113 +1,138 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Wobu4kRe"
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B40F01718;
-	Thu,  7 Dec 2023 12:49:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1701982124; x=1702586924; i=w_armin@gmx.de;
-	bh=j1KQyy5uZSILlZqSsSLS4MPgyN7jRnDBrPne253w/98=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Wobu4kRet4gqvrIHkX2jrUrdBFggYsB+Y9RFiRqdlYxkj+JSKg7L5EBuTWoLGN9F
-	 Hj9Sl24cl4STDiyMfRStquQ8xXqhufPDx4zrzIArgoOwAC6HswGZkTFBB6cubMR7L
-	 VdRv+EBHvOk3yvcnxzDpgoZu8noOUSwOLUNza3xdDXcaX3G56Wrbw0LIA6qwdtZeE
-	 yd4Gj5CyP/vgcYcFol0psU85fKG8G95y0rzfSj35jd1TRy6O7fC0D1G7mQ/0k2TVR
-	 SeYZdR5W0eB3zpWkhJPjLewIwbdACPkwwTF9wUKotIEV7dX6wFfEJoEo96EAatjov
-	 7wxkUcn5Vysi5r2Miw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mf0BG-1rhvxm0Vbe-00gWKN; Thu, 07
- Dec 2023 21:48:44 +0100
-Message-ID: <67069bf0-58d9-44d3-94ac-4cbc2647d447@gmx.de>
-Date: Thu, 7 Dec 2023 21:48:43 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="c8B/JvlL"
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5AC1716
+	for <linux-doc@vger.kernel.org>; Thu,  7 Dec 2023 12:53:14 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54c64316a22so1890268a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 12:53:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701982392; x=1702587192; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oWIflf5hcpue6wGtlwNE/HkT4tbMsQSgIfDnrjtjjfg=;
+        b=c8B/JvlL241AVApFlMOMEU71qJxiM19TKArDurZrBANlu7YBhDBXwSgkbfua/d8XtZ
+         WfB9iTKD4UeUFE/1G8xm+4RNZWPdz87iSzi6rbarvzt1/pdZX4+ZJvEF8One39Dx8RGH
+         iiFln6d4IqKX/xXVK6Rwv2ppGNiVpwEFRMGos=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701982392; x=1702587192;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oWIflf5hcpue6wGtlwNE/HkT4tbMsQSgIfDnrjtjjfg=;
+        b=n+Jc1+FiYNTszj4Zm0gfmABG6Zy8+/+2gf7c9nnB3x0e3jUQQVyoYAmgxVm/nL2WFm
+         YIk0F242i00BLVeRjUWJsWumWsA6IuVyGArVf5fbF7RnXPTKtbtidAI4gbj1LP6ospea
+         CBCRnfUQ2JCcircBEpPmnQb8PfCoHyHCT6x9RkE8STuANvMgb+hVGJIw7ITsm8pasCWF
+         yMOnaGhS1kkBIZMtELbBNEu8eM8ZnurHwPHLUfx3Z9dJQ0CtM3dSTJDfgDIcIYYPhkfq
+         PpTadlL3k1Qfj2mD8QYXIW1CugNTMHp8LocG/WPsqMkensvyaDhnfUJPkGeQY9Qe24ti
+         NITg==
+X-Gm-Message-State: AOJu0YzgzPxAgkB2Txwv+4fBaDKfzahG8YQDl7+ejfGVNDEsZSi9AmbM
+	lO39uHg42XIdLtJztOYy8KpSWPTpdWRNwsKEKBQqhg==
+X-Google-Smtp-Source: AGHT+IGlqecBeKpKJsPolkl+LHqMluq7H92QsuDLPCGLyyt/tYoOLIFC7+pQZSilRLUlakLEfiXMyZjPKdw0aG6O2m4=
+X-Received: by 2002:a17:907:2948:b0:a19:a19a:eac0 with SMTP id
+ et8-20020a170907294800b00a19a19aeac0mr1471204ejc.121.1701982392232; Thu, 07
+ Dec 2023 12:53:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] hwmon: Add driver for Gigabyte AORUS Waterforce AIO
- coolers
-Content-Language: en-US
-To: Aleksa Savic <savicaleksa83@gmail.com>, linux-hwmon@vger.kernel.org
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231207122402.107032-1-savicaleksa83@gmail.com>
- <ce3568c5-c35b-40b5-80f1-8334d1b3549b@gmx.de>
- <f6522abb-885d-4476-bf27-5ee8b48138bd@gmail.com>
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <f6522abb-885d-4476-bf27-5ee8b48138bd@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:81m6qr5n2wi/45vDrfvBrgtzddgoNeb23aZ/edWnNoRvayYIdEg
- OF5OdaVYEROH4WrDLXDDTbbJkrhgKPZxCY84OjWP/tDkMgmG6i8tlE82PlwayJLtGe2MWhY
- H0OPp98u1xb3CxuG8KkEY07O3o03K2u54hs8Qe4TgkmaoGXaOagErmpD54deKDtgdAFox+g
- B755s4uYQfPfJX+8cQpyw==
-UI-OutboundReport: notjunk:1;M01:P0:riQAvS79JTc=;WUYCzJoA3zXDwlHjK6hopcaQDOE
- TCHTIL8gu/0fQzWbxWL3jwTj6xX3S+7y4UvfUxoyaoKCzFCzElsvA3wxibUUrI9R4dvSzR1/3
- Mle85oLrI9p/Y3KRHtMKOfp1k7oibA1iuyVbSu9UB9IbitPhoO3UeCNFGBHgnattAmifRJ4J5
- 28A8l+m/J+sfBSVGOh9Ri1MRGmcx9ECk0+RDAm6znPZ2sMoeGjW767ytA+gxLpVlqCjjj4ArF
- DRLROB2mKgPrPZ8TsmfeVWhFpEI4ycdzmvEPsEuOUbmrMLGzOJqPEaxewHbR0xqtL2EPq64RY
- HuCK09WOj2onJdC3KdGFfvrZa0xHKhvyNS47+Y/+sG+D7eNpYdyj1ObzkhTUWqewCAsxe4EB8
- 1mb1ZFqiQ4X8c5tvwiJgP3HVc8MREmDso7U7JXtAhJ0EpJHwZlfWmBCTYyftxdoBYQSBSZ0MB
- u6bFU1js22Dk+QFdpbboJ4nA82pgofvT0dlwfS15c8O9vxkm16g+bIuwUWqHVDxv8IbHlxei7
- qLXtXY3I08BHw22RDqpE/+IArIbFZ7v36EPrxBYbUp4ZFLj4aJUPHoLTBjJIRNRnvxJ/YvgxX
- Lk8BuDJpKyhsWYxQ9kTKnJPgfYT3rU2ET/1oT1ivYLZihraRXJtWvcEOKA5QpF10kMFpfUW80
- MKh3oLhzYcaPQIqBSC47slE2exUr65/qAgGorpGDDOwek4TCdbcx3t8f157rRG6IyAHbIFi+P
- tgquCz9B6C/x67PNRqEjDF//9S997W0hjFv4IJnrHUklmywDucEE4Kk2g4P14AbKvqZEyqBFY
- xUAPrsGDeQQ3yz6VQVz25Gp6+I4+Puv+Km1hh7yd+0TocSvvy+hfydhFG7YTYCh3JFyAs3POe
- bIeTQnHwcmmCkmui6HGdbg11VHuyoMtp5FQexAFj/W6ewL0Cc2xJems1CZXP405hZHiKm7HVp
- j+s0UWZpoddTkRzmWhChxuCkcsQ=
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com> <20231207142723.GA3187877@google.com>
+ <20231207143814.GD15521@pendragon.ideasonboard.com>
+In-Reply-To: <20231207143814.GD15521@pendragon.ideasonboard.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Thu, 7 Dec 2023 13:52:53 -0700
+Message-ID: <CAPnjgZ1q3yBeyYfjLumJ03HR7JM1xwN7sMbNJqfUWpsVxFTs4Q@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Am 07.12.23 um 21:04 schrieb Aleksa Savic:
+Hi,
 
-> On 2023-12-07 20:39:23 GMT+01:00, Armin Wolf wrote:
->> Am 07.12.23 um 13:23 schrieb Aleksa Savic:
->>
-> ...
+On Thu, 7 Dec 2023 at 07:38, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
->>> +
->>> +static struct hid_driver waterforce_driver =3D {
->>> +=C2=A0=C2=A0=C2=A0 .name =3D "waterforce",
->>> +=C2=A0=C2=A0=C2=A0 .id_table =3D waterforce_table,
->>> +=C2=A0=C2=A0=C2=A0 .probe =3D waterforce_probe,
->>> +=C2=A0=C2=A0=C2=A0 .remove =3D waterforce_remove,
->>> +=C2=A0=C2=A0=C2=A0 .raw_event =3D waterforce_raw_event,
->>> +};
->>> +
->>> +static int __init waterforce_init(void)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 return hid_register_driver(&waterforce_driver);
->>> +}
->>> +
->>> +static void __exit waterforce_exit(void)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 hid_unregister_driver(&waterforce_driver);
->>> +}
->>> +
->>> +/* When compiled into the kernel, initialize after the HID bus */
->>> +late_initcall(waterforce_init);
->>> +module_exit(waterforce_exit);
->> Hi,
->>
->> I think you could use the module_hid_driver() macro here.
-> As far as I'm aware, hwmon will get built before hid, so a late_initcall=
-()
-> is necessary for this to function when compiled as a built-in driver. Ot=
-her
-> HID drivers in hwmon also do this (see nzxt-smart2 for an example).
+> On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
+> > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
+> > > Hi Simon,
+> > >
+> > > Thank you for the patch.
+> > >
+> > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > > > Add a script which produces a Flat Image Tree (FIT), a single file
+> > > > containing the built kernel and associated devicetree files.
+> > > > Compression defaults to gzip which gives a good balance of size and
+> > > > performance.
+> > > >
+> > > > The files compress from about 86MB to 24MB using this approach.
+> > > >
+> > > > The FIT can be used by bootloaders which support it, such as U-Boot
+> > > > and Linuxboot. It permits automatic selection of the correct
+> > > > devicetree, matching the compatible string of the running board with
+> > > > the closest compatible string in the FIT. There is no need for
+> > > > filenames or other workarounds.
+> > > >
+> > > > Add a 'make image.fit' build target for arm64, as well. Use
+> > > > FIT_COMPRESSION to select a different algorithm.
+> > > >
+> > > > The FIT can be examined using 'dumpimage -l'.
+> > > >
+> > > > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > > > requires compression utilities for the algorithm being used. Supported
+> > > > compression options are the same as the Image.xxx files. For now there
+> > > > is no way to change the compression other than by editing the rule for
+> > > > $(obj)/image.fit
+> > > >
+> > > > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > > > this here, since it must be built separately from the Linux build.
+> > >
+> > > FIT images are very useful, so I think this is a very welcome addition
+> > > to the kernel build system. It can get tricky though: given the
+> > > versatile nature of FIT images, there can't be any
+> > > one-size-fits-them-all solution to build them, and striking the right
+> > > balance between what makes sense for the kernel and the features that
+> > > users may request will probably lead to bikeshedding. As we all love
+> > > bikeshedding, I thought I would start selfishly, with a personal use
+> > > case :-) This isn't a yak-shaving request though, I don't see any reason
+> > > to delay merging this series.
+> > >
+> > > Have you envisioned building FIT images with a subset of DTBs, or adding
+> > > DTBOs ? Both would be fairly trivial extensions to this script by
+> > > extending the supported command line arguments. It would perhaps be more
+> > > difficult to integrate in the kernel build system though. This leads me
+> > > to a second question: would you consider merging extensions to this
+> > > script if they are not used by the kernel build system, but meant for
+> > > users who manually invoke the script ? More generally, is the script
+> >
+> > We'd also be interested in some customization, though in a different way.
+> > We imagine having a rule file that says X compatible string should map
+> > to A base DTB, plus B and C DTBO for the configuration section. The base
+> > DTB would carry all common elements of some device, while the DTBOs
+> > carry all the possible second source components, like different display
+> > panels or MIPI cameras for instance. This could drastically reduce the
+> > size of FIT images in ChromeOS by deduplicating all the common stuff.
 >
-> Aleksa
+> Do you envision the "mapping" compatible string mapping to a config
+> section in the FIT image, that would bundle the base DTB and the DTBOs ?
 >
-Interesting, in this case forget about my suggestion above.
+> > > meant to be used stand-alone as well, in which case its command line
+> > > arguments need to remain backward-compatible, or do you see it as being
+> > > internal to the kernel ?
 
-Armin Wolf
+It is great to see all this discussion! I did send a proposal to the
+U-Boot ML about extensions but it was mixed up with other things, so
+I'll start a new thread.
 
->>> +
->>> +MODULE_LICENSE("GPL");
->>> +MODULE_AUTHOR("Aleksa Savic <savicaleksa83@gmail.com>");
->>> +MODULE_DESCRIPTION("Hwmon driver for Gigabyte AORUS Waterforce AIO co=
-olers");
->
+For now, I am really just waiting for this to be applied, before
+talking too much about future possibilities.
+
+Regards,
+SImon
