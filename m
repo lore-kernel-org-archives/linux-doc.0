@@ -1,129 +1,120 @@
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CEF610F7;
-	Thu,  7 Dec 2023 06:30:59 -0800 (PST)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-	by ex01.ufhost.com (Postfix) with ESMTP id EE40C24E260;
-	Thu,  7 Dec 2023 22:30:53 +0800 (CST)
-Received: from EXMBX072.cuchost.com (172.16.6.82) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
- 2023 22:30:53 +0800
-Received: from localhost.localdomain (202.188.176.82) by EXMBX072.cuchost.com
- (172.16.6.82) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
- 2023 22:30:47 +0800
-From: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
-To: Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>, "Mark
- Rutland" <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Dan Williams <dan.j.williams@intel.com>, "Ilkka
- Koskinen" <ilkka@os.amperecomputing.com>, Jonathan Cameron
-	<Jonathan.Cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>
-CC: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>, Ley Foon Tan
-	<leyfoon.tan@starfivetech.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<devicetree@vger.kernel.org>
-Subject: [PATCH v5 3/3] docs: perf: Add description for StarFive's StarLink PMU
-Date: Thu, 7 Dec 2023 22:29:40 +0800
-Message-ID: <20231207142940.1794032-4-jisheng.teoh@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231207142940.1794032-1-jisheng.teoh@starfivetech.com>
-References: <20231207142940.1794032-1-jisheng.teoh@starfivetech.com>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hFvfub1k"
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73227B9;
+	Thu,  7 Dec 2023 06:38:10 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4CA62669;
+	Thu,  7 Dec 2023 15:37:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701959847;
+	bh=zXe+jRGFsIALQDiNPjUbby+TY+TBluHe2uMVYoZajGE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hFvfub1kMNWT+sajOcN5s7Ix3DNF2A6Pkg5dQ9Y7g9Coz6OmKJnCPKj2yL9gUCwUK
+	 8mnLCDDOxUytTLxkyTZeJGqrH5UF7H7W1qtp4hNUzgp15DJZLkbLfPcGsN6exWkTrZ
+	 O1MzrHNjifnFuxyRI9lkqoozUdRpBmc8Z61b/zJ0=
+Date: Thu, 7 Dec 2023 16:38:14 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	U-Boot Mailing List <u-boot@lists.denx.de>,
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+Message-ID: <20231207143814.GD15521@pendragon.ideasonboard.com>
+References: <20231202035511.487946-1-sjg@chromium.org>
+ <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com>
+ <20231207142723.GA3187877@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX072.cuchost.com
- (172.16.6.82)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231207142723.GA3187877@google.com>
 
-StarFive StarLink PMU support monitoring L3 memory system PMU events.
-Add documentation to describe StarFive StarLink PMU support and it's
-usage.
+On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
+> On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
+> > Hi Simon,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > > Add a script which produces a Flat Image Tree (FIT), a single file
+> > > containing the built kernel and associated devicetree files.
+> > > Compression defaults to gzip which gives a good balance of size and
+> > > performance.
+> > > 
+> > > The files compress from about 86MB to 24MB using this approach.
+> > > 
+> > > The FIT can be used by bootloaders which support it, such as U-Boot
+> > > and Linuxboot. It permits automatic selection of the correct
+> > > devicetree, matching the compatible string of the running board with
+> > > the closest compatible string in the FIT. There is no need for
+> > > filenames or other workarounds.
+> > > 
+> > > Add a 'make image.fit' build target for arm64, as well. Use
+> > > FIT_COMPRESSION to select a different algorithm.
+> > > 
+> > > The FIT can be examined using 'dumpimage -l'.
+> > > 
+> > > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > > requires compression utilities for the algorithm being used. Supported
+> > > compression options are the same as the Image.xxx files. For now there
+> > > is no way to change the compression other than by editing the rule for
+> > > $(obj)/image.fit
+> > > 
+> > > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > > this here, since it must be built separately from the Linux build.
+> > 
+> > FIT images are very useful, so I think this is a very welcome addition
+> > to the kernel build system. It can get tricky though: given the
+> > versatile nature of FIT images, there can't be any
+> > one-size-fits-them-all solution to build them, and striking the right
+> > balance between what makes sense for the kernel and the features that
+> > users may request will probably lead to bikeshedding. As we all love
+> > bikeshedding, I thought I would start selfishly, with a personal use
+> > case :-) This isn't a yak-shaving request though, I don't see any reason
+> > to delay merging this series.
+> > 
+> > Have you envisioned building FIT images with a subset of DTBs, or adding
+> > DTBOs ? Both would be fairly trivial extensions to this script by
+> > extending the supported command line arguments. It would perhaps be more
+> > difficult to integrate in the kernel build system though. This leads me
+> > to a second question: would you consider merging extensions to this
+> > script if they are not used by the kernel build system, but meant for
+> > users who manually invoke the script ? More generally, is the script
+> 
+> We'd also be interested in some customization, though in a different way.
+> We imagine having a rule file that says X compatible string should map
+> to A base DTB, plus B and C DTBO for the configuration section. The base
+> DTB would carry all common elements of some device, while the DTBOs
+> carry all the possible second source components, like different display
+> panels or MIPI cameras for instance. This could drastically reduce the
+> size of FIT images in ChromeOS by deduplicating all the common stuff.
 
-Signed-off-by: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
----
- Documentation/admin-guide/perf/index.rst      |  1 +
- .../perf/starfive_starlink_pmu.rst            | 46 +++++++++++++++++++
- 2 files changed, 47 insertions(+)
- create mode 100644 Documentation/admin-guide/perf/starfive_starlink_pmu.=
-rst
+Do you envision the "mapping" compatible string mapping to a config
+section in the FIT image, that would bundle the base DTB and the DTBOs ?
 
-diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/adm=
-in-guide/perf/index.rst
-index a2e6f2c81146..c5de7579a71b 100644
---- a/Documentation/admin-guide/perf/index.rst
-+++ b/Documentation/admin-guide/perf/index.rst
-@@ -13,6 +13,7 @@ Performance monitor support
-    imx-ddr
-    qcom_l2_pmu
-    qcom_l3_pmu
-+   starfive_starlink_pmu
-    arm-ccn
-    arm-cmn
-    xgene-pmu
-diff --git a/Documentation/admin-guide/perf/starfive_starlink_pmu.rst b/D=
-ocumentation/admin-guide/perf/starfive_starlink_pmu.rst
-new file mode 100644
-index 000000000000..2932ddb4eb76
---- /dev/null
-+++ b/Documentation/admin-guide/perf/starfive_starlink_pmu.rst
-@@ -0,0 +1,46 @@
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+StarFive StarLink Performance Monitor Unit (PMU)
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+StarFive StarLink Performance Monitor Unit (PMU) exists within the
-+StarLink Coherent Network on Chip (CNoC) that connects multiple CPU
-+clusters with an L3 memory system.
-+
-+The uncore PMU supports overflow interrupt, up to 16 programmable 64bit
-+event counters, and an independent 64bit cycle counter.
-+The PMU can only be accessed via Memory Mapped I/O and are common to the
-+cores connected to the same PMU.
-+
-+Driver exposes supported PMU events in sysfs "events" directory under::
-+
-+  /sys/bus/event_source/devices/starfive_starlink_pmu/events/
-+
-+Driver exposes cpu used to handle PMU events in sysfs "cpumask" director=
-y
-+under::
-+
-+  /sys/bus/event_source/devices/starfive_starlink_pmu/cpumask/
-+
-+Driver describes the format of config (event ID) in sysfs "format" direc=
-tory
-+under::
-+
-+  /sys/bus/event_source/devices/starfive_starlink_pmu/format/
-+
-+Example of perf usage::
-+
-+	$ perf list
-+
-+	starfive_starlink_pmu/cycles/                      [Kernel PMU event]
-+	starfive_starlink_pmu/read_hit/                    [Kernel PMU event]
-+	starfive_starlink_pmu/read_miss/                   [Kernel PMU event]
-+	starfive_starlink_pmu/read_request/                [Kernel PMU event]
-+	starfive_starlink_pmu/release_request/             [Kernel PMU event]
-+	starfive_starlink_pmu/write_hit/                   [Kernel PMU event]
-+	starfive_starlink_pmu/write_miss/                  [Kernel PMU event]
-+	starfive_starlink_pmu/write_request/               [Kernel PMU event]
-+	starfive_starlink_pmu/writeback/                   [Kernel PMU event]
-+
-+
-+	$ perf stat -a -e /starfive_starlink_pmu/cycles/ sleep 1
-+
-+Sampling is not supported. As a result, "perf record" is not supported.
-+Attaching to a task is not supported, only system-wide counting is suppo=
-rted.
---=20
-2.25.1
+> > meant to be used stand-alone as well, in which case its command line
+> > arguments need to remain backward-compatible, or do you see it as being
+> > internal to the kernel ?
+> 
+> [...]
+> 
+> ChenYu
 
+-- 
+Regards,
+
+Laurent Pinchart
