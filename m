@@ -1,161 +1,158 @@
-Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50AB7128;
-	Thu,  7 Dec 2023 07:04:15 -0800 (PST)
-Received: from in01.mta.xmission.com ([166.70.13.51]:50210)
-	by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1rBFvA-00DcXX-OW; Thu, 07 Dec 2023 08:04:12 -0700
-Received: from ip68-227-168-167.om.om.cox.net ([68.227.168.167]:53772 helo=email.froward.int.ebiederm.org.xmission.com)
-	by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1rBFv9-00Bx3Q-Mr; Thu, 07 Dec 2023 08:04:12 -0700
-From: "Eric W. Biederman" <ebiederm@xmission.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: Alexey Dobriyan <adobriyan@gmail.com>,  akpm@linux-foundation.org,
-  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org,  Randy Dunlap
- <rdunlap@infradead.org>,  Bagas Sanjaya <bagasdotme@gmail.com>,  Jonathan
- Corbet <corbet@lwn.net>,  linux-mm@kvack.org
-References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
-	<e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
-	<c4233c97-306c-4db8-9667-34fc31ec4aed@p183>
-	<87edp7jyu4.fsf@meer.lwn.net>
-	<88d3f1bb-f4e0-4c40-9304-3843513a1262@p183>
-	<202312061456.2103DA1@keescook>
-Date: Thu, 07 Dec 2023 09:03:45 -0600
-In-Reply-To: <202312061456.2103DA1@keescook> (Kees Cook's message of "Wed, 6
-	Dec 2023 14:58:23 -0800")
-Message-ID: <874jgugilq.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F18O/3DR"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ED2B137
+	for <linux-doc@vger.kernel.org>; Thu,  7 Dec 2023 07:20:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701962418;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aBGTHGwalkoi/mJWuDTNACB5Q2kodLYGhoMiNDutoGI=;
+	b=F18O/3DRl0vukjnBJEKVTkGiRQfsDfYAIgo+wewrUbDGXoMWHP1ixICxc3GI4MDViTs/Up
+	3e5yuj57loXyEC0xe9ZIBdrtJJUDEgchydv8/M8SnTpDmjXk4vFZYoSf3Ps5xS+D0QgxTp
+	3d/CIp4TheqrcBiOr/Lu6gBIMOy5GP4=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-92-hU-aDaxtMOyux2n2q4u78g-1; Thu, 07 Dec 2023 10:20:16 -0500
+X-MC-Unique: hU-aDaxtMOyux2n2q4u78g-1
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-42595dc46e3so2756441cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 07:20:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701962416; x=1702567216;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aBGTHGwalkoi/mJWuDTNACB5Q2kodLYGhoMiNDutoGI=;
+        b=MJ3PoN7VxQ+nSv0LUp21awtZvDo1uDShdpQMwlRZCDdk5sck0vZ5GsmDtne1nRzZUG
+         MyUFb+XJXG0mSmYQ+ELQWN5Gn+lxibcPA9la3SIzo6xUXEOMt5VrjGpwoxl2YP0ArrZk
+         fOXg1/TcDYcoEgpZRS52dnv3Ad31K1LcG6egpWqP3uv+29C04NWcsICHcDSJah3jPhLv
+         JV3s4ti83xwSFI0bWaYN2ezfA9Yktm44DP4DRrtCU8QfqJ8h/lSLjPaFoW6sbhmhYFp8
+         5KZ8oTo/F/NcXuFRzB9VozDvm48Q2mvaOURLrpFBah8CCOpSZw5s/9wSJPlxmfM0ieDX
+         6jpQ==
+X-Gm-Message-State: AOJu0YyKub1LRKEfD93p4c9NTIKDAUsXG/aSMFM9+0e6EL6rqXH+4pBT
+	Vkybno8uqEJAvSSZaC9+2vjO2B3dDcBOWb/hSk2EQGSxZh/M2sMF975qDen/+iRGj0PPB4NJe0/
+	1JlmzVdT4R8P4JlIu1ZNz
+X-Received: by 2002:ac8:5cc5:0:b0:423:7766:a6f4 with SMTP id s5-20020ac85cc5000000b004237766a6f4mr2772208qta.15.1701962416051;
+        Thu, 07 Dec 2023 07:20:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEQW6FZgS48niLt79yNrj+zSCpythqw85QeE+yCUszBntFb7RV7q5lP63f7i9ydCptw5RyYRw==
+X-Received: by 2002:ac8:5cc5:0:b0:423:7766:a6f4 with SMTP id s5-20020ac85cc5000000b004237766a6f4mr2772195qta.15.1701962415800;
+        Thu, 07 Dec 2023 07:20:15 -0800 (PST)
+Received: from [192.168.1.9] (pool-68-160-135-240.bstnma.fios.verizon.net. [68.160.135.240])
+        by smtp.gmail.com with ESMTPSA id f21-20020ac84995000000b00423890096afsm3610qtq.2.2023.12.07.07.20.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 07:20:15 -0800 (PST)
+Message-ID: <273a86d6-d220-fdcf-3c2f-70516c519ff9@redhat.com>
+Date: Thu, 7 Dec 2023 10:20:13 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1rBFv9-00Bx3Q-Mr;;;mid=<874jgugilq.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.168.167;;;frm=ebiederm@xmission.com;;;spf=pass
-X-XM-AID: U2FsdGVkX18gHe4AAPySm6PcZ6ADt9YsIZiR6u4P+3k=
-X-SA-Exim-Connect-IP: 68.227.168.167
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Level: 
-X-Spam-Virus: No
-X-Spam-DCC: XMission; sa01 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Kees Cook <keescook@chromium.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 447 ms - load_scoreonly_sql: 0.03 (0.0%),
-	signal_user_changed: 3.5 (0.8%), b_tie_ro: 2.4 (0.5%), parse: 0.91
-	(0.2%), extract_message_metadata: 9 (2.0%), get_uri_detail_list: 1.56
-	(0.3%), tests_pri_-2000: 9 (2.1%), tests_pri_-1000: 2.0 (0.5%),
-	tests_pri_-950: 1.09 (0.2%), tests_pri_-900: 0.76 (0.2%),
-	tests_pri_-90: 90 (20.1%), check_bayes: 87 (19.4%), b_tokenize: 9
-	(2.1%), b_tok_get_all: 8 (1.7%), b_comp_prob: 1.85 (0.4%),
-	b_tok_touch_all: 65 (14.5%), b_finish: 0.67 (0.1%), tests_pri_0: 320
-	(71.6%), check_dkim_signature: 0.56 (0.1%), check_dkim_adsp: 2.8
-	(0.6%), poll_dns_idle: 0.75 (0.2%), tests_pri_10: 1.59 (0.4%),
-	tests_pri_500: 6 (1.4%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v3] ELF: document some de-facto PT_* ABI quirks
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Content-Language: en-US
+To: Miroslav Benes <mbenes@suse.cz>
+Cc: Marcos Paulo de Souza <mpdesouza@suse.com>, Shuah Khan
+ <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, Petr Mladek <pmladek@suse.com>,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ live-patching@vger.kernel.org
+References: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com>
+ <20231031-send-lp-kselftests-v3-2-2b1655c2605f@suse.com>
+ <ZWn7dEzVWoKxycmy@redhat.com>
+ <alpine.LSU.2.21.2312061543280.13051@pobox.suse.cz>
+From: Joe Lawrence <joe.lawrence@redhat.com>
+Subject: Re: [PATCH v3 2/3] livepatch: Move tests from lib/livepatch to
+ selftests/livepatch
+In-Reply-To: <alpine.LSU.2.21.2312061543280.13051@pobox.suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Kees Cook <keescook@chromium.org> writes:
+On 12/6/23 10:05, Miroslav Benes wrote:
+> On Fri, 1 Dec 2023, Joe Lawrence wrote:
+> 
+>> On Tue, Oct 31, 2023 at 06:10:52PM -0300, Marcos Paulo de Souza wrote:
+>>> The modules are being moved from lib/livepatch to
+>>> tools/testing/selftests/livepatch/test_modules.
+>>>
+>>> This code moving will allow writing more complex tests, like for example an
+>>> userspace C code that will call a livepatched kernel function.
+>>>
+>>> The modules are now built as out-of-tree
+>>> modules, but being part of the kernel source means they will be maintained.
+>>>
+>>> Another advantage of the code moving is to be able to easily change,
+>>> debug and rebuild the tests by running make on the selftests/livepatch directory,
+>>> which is not currently possible since the modules on lib/livepatch are
+>>> build and installed using the "modules" target.
+>>>
+>>> The current approach also keeps the ability to execute the tests manually by
+>>> executing the scripts inside selftests/livepatch directory, as it's currently
+>>> supported. If the modules are modified, they needed to be rebuilt before running
+>>> the scripts though.
+>>>
+>>> The modules are built before running the selftests when using the
+>>> kselftest invocations:
+>>>
+>>> 	make kselftest TARGETS=livepatch
+>>> or
+>>> 	make -C tools/testing/selftests/livepatch run_tests
+>>>
+>>
+>> Quick question:
+>>
+>> - We have been building with CONFIG_LIVEPATCH_TEST=m to generate the
+>>   test modules at kernel build time
+>>
+>> - Our packaging filters out the selftest scripts and supporting modules
+>>   from the general kernel RPM package into their subpackages
+>>
+>> - Tests are run as part of CKI or other manual tests by installing the
+>>   pre-built packages from the previous step
+>>
+>>
+>> After this patch, we would need to add something like the following to
+>> our kernel build, before packaging:
+>>
+>>   $ make KDIR=$(pwd) -C tools/testing/selftests/livepatch/
+>>          ^^^^
+>>
+>> If this is the correct way to build the test modules for *this* tree and
+>> /lib/modules/$(shell uname -r)/build... it might be useful to document
+>> in the commit message as an alternative use case.
+> 
+> So if I understand it correctly, you would like to stick to pre-building 
+> the modules (not in-tree but now after the kernel is build using the 
+> proposed way), package them and then install everything on a system 
+> running the respective kernel. A valid use case in my opinion.
+> 
 
-> *thread necromancy* Question below...
->
-> On Sat, Apr 15, 2023 at 08:37:29PM +0300, Alexey Dobriyan wrote:
->> Turns out rules about PT_INTERP, PT_GNU_STACK and PT_GNU_PROPERTY
->> program headers are slightly different.
->> 
->> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
->> ---
->> 
->> 	v3: move to Documentation/userspace-api/
->> 	v2: integrate into documentation build system
->> 
->>  Documentation/userspace-api/ELF.rst   |   34 ++++++++++++++++++++++++++++++++++
->>  Documentation/userspace-api/index.rst |    1 +
->>  2 files changed, 35 insertions(+)
->> 
->> new file mode 100644
->> --- /dev/null
->> +++ b/Documentation/userspace-api/ELF.rst
->> @@ -0,0 +1,34 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=================================
->> +Linux-specific ELF idiosyncrasies
->> +=================================
->> +
->> +Definitions
->> +===========
->> +
->> +"First" program header is the one with the smallest offset in the file:
->> +e_phoff.
+That would accurate.  If this use case can be supported, it wouldn't
+require changes to our CKI / testing scripts, only the post-build
+packaging bits.
 
-Confusing e_phoff is the defined location of the array of program
-headers.
+> My idea is to abandon this way completely, take the selftests and build 
+> and run them on the system right away.
+> 
+> Both should be doable, hopefully, if we wire it all correctly... and 
+> document it.
+> 
+I can't think of why it shouldn't continue to work, even in a future
+where newer livepatching selftests support older kernels.  (We would
+just have newer selftests sources backported to test older kernel sources.)
 
-Perhaps the "First" in that array with the lowest e_phnum?
+Are there any test cases which truly need to be build on-the-fly?  Aside
+from testing different toolchain pieces?
 
->> +"Last" program header is the one with the biggest offset in the file:
->> +e_phoff + (e_phnum - 1) * sizeof(Elf_Phdr).
-
-Ditto the "Last" in the array with the largest array index.
-
-I nit pick this because it sounded at first like you were talking about
-p_offset.  Which is a value contained in the program header entry.
-
->> +PT_INTERP
->> +=========
->> +
->> +First PT_INTERP program header is used to locate the filename of ELF
->> +interpreter. Other PT_INTERP headers are ignored (since Linux 2.4.11).
->> +
->> +PT_GNU_STACK
->> +============
->> +
->> +Last PT_GNU_STACK program header defines userspace stack executability
->> +(since Linux 2.6.6). Other PT_GNU_STACK headers are ignored.
->> +
->> +PT_GNU_PROPERTY
->> +===============
->> +
->> +ELF interpreter's last PT_GNU_PROPERTY program header is used (since
->> +Linux 5.8). If interpreter doesn't have one, then the last PT_GNU_PROPERTY
->> +program header of an executable is used. Other PT_GNU_PROPERTY headers
->> +are ignored.
-
-A more interesting property to document is that PT_GNU_PROPERTY must
-precede PT_INTERP in the linux implementation, otherwise we ignore it.
-
-> Should we perhaps solve some of these in some way? What would folks
-> prefer the behaviors be? (I like to have things been "as expected", but
-> it's not very obvious here for redundant headers...)
-
-All of these are really headers that should appear only once.
-
-Quite frankly if we are going to do something with this my sense is that
-we should fail the execve with a clear error code as userspace should
-not be doing this, and accepting a malformed executable will hide
-errors, and perhaps hide someone causing problems.
-
-I really don't think having multiple copies of these headers with
-different values is something we should encourage.
-
-It looks like -ELIBBAD is the documented way to fail and report
-a bad file format.
-
-
-For PT_GNU_PROPTERTY perhaps we should accept it anywhere, instead of
-silently ignoring it depending upon it's location?
-
-I thinking change the code to talk one pass through the program headers
-to identify the interesting headers, and then with the interesting
-headers all identified we go do something with them.
-
-Anyway just my opinion, but that is what it feels like to me.
-
-Eric
-
+-- 
+Joe
 
