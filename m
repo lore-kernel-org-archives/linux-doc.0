@@ -1,116 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD361433B9;
-	Thu,  7 Dec 2023 17:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbTTwS+L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4AD3C433C8;
-	Thu,  7 Dec 2023 17:18:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701969513;
-	bh=66JMbMuX4AYxelynC3Ne6j5CsaJjJ0MIOrMHqrN63I8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RbTTwS+LIkADPVMWjvU2TmMwhavexszXtfiV6JPJg3bClqH9I3jcs7kAOnvAhJcjZ
-	 aSoS0T/3+qHcMUammD4rGONcLFRIy/ykrxdDq77zyZjRPm+EUuKYHjcxNvjMz8yQuI
-	 efbdW3BBa5oWDzu7wUury7Ya4Zv3882sgjt4BA/2cirTYh+qnbKMuVuK5M/CdI07BN
-	 Rdl9L8nweP7fYGK2OQq1PhyaqG9AQzbDE2WVg7WWFqgw/q2cobAnf6P16yAeabUva4
-	 69rXnzBrgkxp+Hm7ziHzGHKxMQ3j7z0AnmhV85k5aCNhbl8cljwIgKapVGJo1kOkfL
-	 AXlHgjMZt0GXA==
-Date: Thu, 7 Dec 2023 17:18:28 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Martin Kurbanov <mmkurbanov@salutedevices.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel@salutedevices.com
-Subject: Re: [PATCH v1 2/2] dt-bindings: leds: aw200xx: add 'interrupts'
- property
-Message-ID: <20231207-purple-mulled-776447ea26f3@spud>
-References: <20231207125938.175119-1-mmkurbanov@salutedevices.com>
- <20231207125938.175119-3-mmkurbanov@salutedevices.com>
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F7331718;
+	Thu,  7 Dec 2023 09:58:23 -0800 (PST)
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3b9d23c8bf7so820311b6e.0;
+        Thu, 07 Dec 2023 09:58:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701971902; x=1702576702;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XlGlC1SkIL9mmE58AXO5RRQ634yhMDTeXthN1KRiRhM=;
+        b=oulV3p8FKKu1N+MwwHPqu8KgOslcNAkL3l2U1hkNhCEQhnIDKEHgmWXr7RZJ8S46EI
+         ITOYSAEk4Z/PLR4NXDtMO9PeiITRrqLn+3IG3TbUlmo7FHXjB6z1nKyHE5/a9HPFRyzy
+         8tKp9VIel2Ea3fWNQgHaf3LOUS6fR4bDt/ksslyWhWOKdn5o65tsOboaa5nxcxplMRGb
+         nYIuwlxyf76ZJvDIsNaR6pgl9dAdfaQPrDj4QUIBmkWebf6VdaPDK5NlgcAY50ITW6G6
+         wY8laqR6eXehqLe3rt/0zrDQP+gOTax6M/lnwVnTMVN19NYHIneOSYooSipUvp4HFr7b
+         L4fw==
+X-Gm-Message-State: AOJu0YyKMNGpq2OUlT6gGqYKe8COqKy4af05z06ZQ4dicF+4lu+I2vL9
+	NNOtx1+6gE+uAq2zjPSPoAra5JkGrA==
+X-Google-Smtp-Source: AGHT+IHxq2Dw8sFsLLI+z4S9TgWxaf6l0cocAGF+yc2TisyC49euiJvcC1n+Yr/0HeIX18RO0y1CyA==
+X-Received: by 2002:a05:6870:390c:b0:1fa:fee1:6f1e with SMTP id b12-20020a056870390c00b001fafee16f1emr3075427oap.10.1701971902619;
+        Thu, 07 Dec 2023 09:58:22 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id k29-20020a05687022dd00b001fb0edac63csm58231oaf.6.2023.12.07.09.58.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 09:58:22 -0800 (PST)
+Received: (nullmailer pid 2977746 invoked by uid 1000);
+	Thu, 07 Dec 2023 17:58:20 -0000
+Date: Thu, 7 Dec 2023 11:58:20 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Nishanth Menon <nm@ti.com>, linux-mediatek@lists.infradead.org, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Olof Johansson <olof@lixom.net>, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Andrew Davis <afd@ti.com>, Andrew Lunn <andrew@lunn.ch>, linux-rockchip@lists.infradead.org, 
+	Michal Simek <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Konrad Dybcio <konradybcio@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-amlogic@lists.infradead.org, 
+	Bjorn Andersson <andersson@kernel.org>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	workflows@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, devicetree@vger.kernel.org, 
+	Heiko Stuebner <heiko@sntech.de>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v4] docs: dt-bindings: add DTS Coding Style document
+Message-ID: <170197172648.2974247.13097453111547800548.robh@kernel.org>
+References: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="oVyXoo7fHC9IKh7M"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231207125938.175119-3-mmkurbanov@salutedevices.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231203174622.18402-1-krzysztof.kozlowski@linaro.org>
 
 
---oVyXoo7fHC9IKh7M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Dec 07, 2023 at 03:59:38PM +0300, Martin Kurbanov wrote:
-> Added support for interrupt to the LED controller driver, which
-> indicates the finished of the auto-breath pattern.
->=20
-> Signed-off-by: Martin Kurbanov <mmkurbanov@salutedevices.com>
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Cheers,
-Conor.
-
+On Sun, 03 Dec 2023 18:46:22 +0100, Krzysztof Kozlowski wrote:
+> Document preferred coding style for Devicetree sources (DTS and DTSI),
+> to bring consistency among all (sub)architectures and ease in reviews.
+> 
+> Cc: Andrew Davis <afd@ti.com>
+> cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Bjorn Andersson <andersson@kernel.org>
+> Cc: Chen-Yu Tsai <wens@kernel.org>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Michal Simek <michal.simek@amd.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Nishanth Menon <nm@ti.com>
+> Cc: Olof Johansson <olof@lixom.net>
+> Cc: Rafał Miłecki <zajec5@gmail.com>
+> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Acked-by: Heiko Stuebner <heiko@sntech.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Konrad Dybcio <konradybcio@kernel.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
 > ---
->  Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml b=
-/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> index 54d6d1f08e24..7ab35b7a3fe6 100644
-> --- a/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> +++ b/Documentation/devicetree/bindings/leds/awinic,aw200xx.yaml
-> @@ -44,6 +44,9 @@ properties:
->    enable-gpios:
->      maxItems: 1
-> =20
-> +  interrupts:
-> +    maxItems: 1
-> +
->  patternProperties:
->    "^led@[0-9a-f]+$":
->      type: object
-> @@ -137,6 +140,7 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
->      #include <dt-bindings/leds/common.h>
-> =20
->      i2c {
-> @@ -149,6 +153,8 @@ examples:
->              #address-cells =3D <1>;
->              #size-cells =3D <0>;
->              enable-gpios =3D <&gpio 3 GPIO_ACTIVE_HIGH>;
-> +            interrupt-parent =3D <&gpio_intc>;
-> +            interrupts =3D <13 IRQ_TYPE_LEVEL_LOW>;
-> =20
->              led@0 {
->                  reg =3D <0x0>;
-> --=20
-> 2.40.0
->=20
+> 
+> Merging idea: Rob/DT bindings
+> 
+> Changes in v4
+> =============
+> 1. Drop label at the top (Jon)
+> 2. Grammar fixes (Laurent, Dragan)
+> 3. "Unless a bus defines differently, unit addresses shall ..." (Rob)
+> 4. Use hex in example of dma-controller (Andrew)
+> 5. Example: soc@ -> soc@0
+> 6. Reverse points 2 and 3 in "Indentation" (Andrew)
+> 7. Use full path to coding style doc (Conor)
+> 
+> Changes in v3
+> =============
+> 1. should->shall (Angelo)
+> 2. Comments // -> /* (Angelo, Michal)
+> 3. Use imaginary example in "Order of Properties in Device Node"
+>    (Angelo)
+> 4. Added paragraphs for three sections with justifications of chosen
+>    style.
+> 5. Allow two style of ordering overrides in board DTS: alphabetically or
+>    by order of DTSI (Rob).
+> 6. I did not incorporate feedback about, due to lack of consensus and my
+>    disagreement:
+>    a. SoM being DTS without DTSI in "Organizing DTSI and DTS"
+> 
+> Changes in v2
+> =============
+> 1. Hopefully incorporate entire feedback from comments:
+> a. Fix \ { => / { (Rob)
+> b. Name: dts-coding-style (Rob)
+> c. Exceptions for ordering nodes by name for Renesas and pinctrl (Geert,
+>    Konrad)
+> d. Ordering properties by common/vendor (Rob)
+> e. Array entries in <> (Rob)
+> 
+> 2. New chapter: Organizing DTSI and DTS
+> 
+> 3. Several grammar fixes (missing articles)
+> 
+> Cc: linux-rockchip@lists.infradead.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-amlogic@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: workflows@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  .../devicetree/bindings/dts-coding-style.rst  | 196 ++++++++++++++++++
+>  Documentation/devicetree/bindings/index.rst   |   1 +
+>  2 files changed, 197 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/dts-coding-style.rst
+> 
 
---oVyXoo7fHC9IKh7M
-Content-Type: application/pgp-signature; name="signature.asc"
+I added the quotes as discussed and applied, thanks!
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXH+ZAAKCRB4tDGHoIJi
-0qhtAP47F/B1cUNLeC+Zw8DZQCsevoFvAnB3JIN089SDrE8Q+QD/ZPUbAwPkUDer
-6ezZuuXwJuzVYZ/dwLRWpbJpm2jsmQM=
-=seS0
------END PGP SIGNATURE-----
-
---oVyXoo7fHC9IKh7M--
+Rob
