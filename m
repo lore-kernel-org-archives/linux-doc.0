@@ -1,40 +1,40 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XWkp78Jt"
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15121730
-	for <linux-doc@vger.kernel.org>; Thu,  7 Dec 2023 16:52:57 -0800 (PST)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5de8c2081d1so1810217b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 16:52:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nKnwUW+O"
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F147D1728
+	for <linux-doc@vger.kernel.org>; Thu,  7 Dec 2023 16:53:01 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-db548aff7baso2047073276.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 16:53:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701996777; x=1702601577; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1701996781; x=1702601581; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hfCMsfp1IUoZ64EVVtr7gxYSAUWCUtGUA5R8s2RxKzs=;
-        b=XWkp78Jt2QfvZg8KL7llBcvri5RjxOftzxLo0jx+7924tKzy++MPlqogZva2qqiyHY
-         +bueHNbRUnR3T9ac90rBm7qI3/wDGbnJN/nP8rsklNS96u4ZWHZSFl+syYtRZ0VX77x3
-         4H+75nfKvExAlegJE/i8inw6F53Al++9/MEQy42vYTBYdujlyUcroYYZtih02yNAIzge
-         8n9USaAsYZMIKt5sMYTcgQ2a0AtrWPCAh6X7T6YCdxNsTCfWn+sGys4zJnbJwZRVveoz
-         xBNWojBDl1810EOBaMMJh2y57X8lkYKiRr9DE5U1SXABZldjMU/S2aKk893QNxUF4YmV
-         Pt0g==
+        bh=V1r8ZXlyktFk/hR6LvKbeClNyv61T/bWHclepM8Rp88=;
+        b=nKnwUW+ODKImfMaS+HQrnvNEyZvj4JFMXrS8bZ2Yj2CEkAWfRhNkOcAbSNZryzCV40
+         IEP3lXnGr0DPXlGGLhlUv9I9HMPS4JPnRE7WCrvUzpjlrtvyTGHZ21wStkG0XrDx2NMW
+         UxP6Ekq10yozd0+HCZ2rraY2EqsiLLQf7nZUnVP6fq27YMRIRrL3OzLJnG1+wUA+pcXO
+         vd6SaMDoFYSUNiRcyaZnRvWOhdHS3Y3Lw/f3oaqITRv1LXh3YNJumLBbszFEM4o6mo34
+         MaFYf2i0lX6QKtI2a/1XI8KLfwQUm79xAeSyNffz3LXeA1Otv48DStwIYBlBzvrjFvl2
+         oJGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701996777; x=1702601577;
+        d=1e100.net; s=20230601; t=1701996781; x=1702601581;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hfCMsfp1IUoZ64EVVtr7gxYSAUWCUtGUA5R8s2RxKzs=;
-        b=rNX+zrw60+6YuEDYeDCLkRWwmjm61XYgUD3zePVGN7bN9xWJoLsstJxJk2WcBf+NDN
-         uoRu/Wcg+a0pFr7m2lucDOTQy6v0/jK59W4dCG7v/YOZ4dlozmaG9vas5utMWgSPu2VN
-         Hz6DY0gDcoGjhyDr4tLSkZnfjj3uau3m7cWLl9kENrCbV4fv6ixM+hJ9+q0+VpwOGNJf
-         CufVrlUz7mAlSUlyoAohY0RotrT4YaGlY9flfHz5jpseEd0kQpQkRhstqlkVTD1g+r4O
-         wOlG+6uJuQfxDXulh/kcxDZxgGZb8RD/o1ZI8zZY9uikTcO2YQ4A/uhIMSb7Q5InyAGj
-         a/1g==
-X-Gm-Message-State: AOJu0YyEaBIuXK/oecboF/uZ3hFb0tAVcwEsuKTd0VB8foT7S8VAImW/
-	gmP/wyZ5OHn2wu7likGspHo8k4/HE0R16B5UMQ==
-X-Google-Smtp-Source: AGHT+IEutjJnS2EH/ZQ+5x+IuH211lQgvDfZASfUKd2jgJtW5JenzTRObxK0Vp6bTrTGEljS7VIcMH18dMhy9n5y3A==
+        bh=V1r8ZXlyktFk/hR6LvKbeClNyv61T/bWHclepM8Rp88=;
+        b=d0R4HNx4RLuf7KK8Zq3QbaVD2tz1+WFNFhYhne/Oggymo+RPAO7wY0obAjaH2LmXNC
+         2u5XLkdG8wL8jnbq+MChiJl05T7O2WBZefwXHHuZ6sF9X7lPsz6JqLCx3E4w6f88qNhf
+         qg8bynB+54Z3R4o5oNVz3NnLNc35C7XprajosPZ4ACVvEGwP7h9LN3SzVRK9C2peKFm1
+         VWp7MQzuWSzkPg4FLHzApqch4431By52TrF910MKCPtcgO+k6aCJhpG8lA3/eKmCGcpg
+         ZOF6C+UWPauwxvUn0fLi6iB7Qls5MTUNxjMU+1pKAiCgw/0SI04eOaYA4K10suZlwA5n
+         6Aqw==
+X-Gm-Message-State: AOJu0YwDyA1I0teQGvzjx4LvdW8L0HzIQ+7cn9qTBS9S3WImFv6tveAS
+	pGFQaznu9mIFfMZJ92VcClNuGAUfcoOBrB8kyg==
+X-Google-Smtp-Source: AGHT+IEj1VqfFnBiOaXdk3C7zQ8oyWSVZPqGPRw04iIGc/p6HTi+O3QytptJH8qJW9Cs/Vxkfvehw/gsxCl4ycls9Q==
 X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2c4:200:f1cf:c733:235b:9fff])
- (user=almasrymina job=sendgmr) by 2002:a81:441f:0:b0:5d5:5183:ebdb with SMTP
- id r31-20020a81441f000000b005d55183ebdbmr57205ywa.10.1701996776836; Thu, 07
- Dec 2023 16:52:56 -0800 (PST)
-Date: Thu,  7 Dec 2023 16:52:32 -0800
+ (user=almasrymina job=sendgmr) by 2002:a25:cc4b:0:b0:db5:3bdf:ff55 with SMTP
+ id l72-20020a25cc4b000000b00db53bdfff55mr39860ybf.6.1701996781080; Thu, 07
+ Dec 2023 16:53:01 -0800 (PST)
+Date: Thu,  7 Dec 2023 16:52:34 -0800
 In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -44,9 +44,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20231208005250.2910004-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
-Message-ID: <20231208005250.2910004-2-almasrymina@google.com>
-Subject: [net-next v1 01/16] net: page_pool: factor out releasing DMA from
- releasing the page
+Message-ID: <20231208005250.2910004-4-almasrymina@google.com>
+Subject: [net-next v1 03/16] queue_api: define queue api
 From: Mina Almasry <almasrymina@google.com>
 To: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -64,79 +63,56 @@ Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.ne
 	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-From: Jakub Kicinski <kuba@kernel.org>
+This API enables the net stack to reset the queues used for devmem.
 
-Releasing the DMA mapping will be useful for other types
-of pages, so factor it out. Make sure compiler inlines it,
-to avoid any regressions.
-
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 Signed-off-by: Mina Almasry <almasrymina@google.com>
 
 ---
+ include/linux/netdevice.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-This is implemented by Jakub in his RFC:
-
-https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
-
-I take no credit for the idea or implementation. This is a critical
-dependency of device memory TCP and thus I'm pulling it into this series
-to make it revewable and mergable.
-
----
- net/core/page_pool.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
-
-diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-index c2e7c9a6efbe..ca1b3b65c9b5 100644
---- a/net/core/page_pool.c
-+++ b/net/core/page_pool.c
-@@ -548,21 +548,16 @@ s32 page_pool_inflight(const struct page_pool *pool, bool strict)
- 	return inflight;
- }
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 1b935ee341b4..316f7dee86ce 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1432,6 +1432,20 @@ struct netdev_net_notifier {
+  *			   struct kernel_hwtstamp_config *kernel_config,
+  *			   struct netlink_ext_ack *extack);
+  *	Change the hardware timestamping parameters for NIC device.
++ *
++ * void *(*ndo_queue_mem_alloc)(struct net_device *dev, int idx);
++ *	Allocate memory for an RX queue. The memory returned in the form of
++ *	a void * can be passed to ndo_queue_mem_free() for freeing or to
++ *	ndo_queue_start to create an RX queue with this memory.
++ *
++ * void	(*ndo_queue_mem_free)(struct net_device *dev, void *);
++ *	Free memory from an RX queue.
++ *
++ * int (*ndo_queue_start)(struct net_device *dev, int idx, void *);
++ *	Start an RX queue at the specified index.
++ *
++ * int (*ndo_queue_stop)(struct net_device *dev, int idx, void **);
++ *	Stop the RX queue at the specified index.
+  */
+ struct net_device_ops {
+ 	int			(*ndo_init)(struct net_device *dev);
+@@ -1673,6 +1687,16 @@ struct net_device_ops {
+ 	int			(*ndo_hwtstamp_set)(struct net_device *dev,
+ 						    struct kernel_hwtstamp_config *kernel_config,
+ 						    struct netlink_ext_ack *extack);
++	void *			(*ndo_queue_mem_alloc)(struct net_device *dev,
++						       int idx);
++	void			(*ndo_queue_mem_free)(struct net_device *dev,
++						      void *queue_mem);
++	int			(*ndo_queue_start)(struct net_device *dev,
++						   int idx,
++						   void *queue_mem);
++	int			(*ndo_queue_stop)(struct net_device *dev,
++						  int idx,
++						  void **out_queue_mem);
+ };
  
--/* Disconnects a page (from a page_pool).  API users can have a need
-- * to disconnect a page (from a page_pool), to allow it to be used as
-- * a regular page (that will eventually be returned to the normal
-- * page-allocator via put_page).
-- */
--static void page_pool_return_page(struct page_pool *pool, struct page *page)
-+static __always_inline
-+void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
- {
- 	dma_addr_t dma;
--	int count;
- 
- 	if (!(pool->p.flags & PP_FLAG_DMA_MAP))
- 		/* Always account for inflight pages, even if we didn't
- 		 * map them
- 		 */
--		goto skip_dma_unmap;
-+		return;
- 
- 	dma = page_pool_get_dma_addr(page);
- 
-@@ -571,7 +566,19 @@ static void page_pool_return_page(struct page_pool *pool, struct page *page)
- 			     PAGE_SIZE << pool->p.order, pool->p.dma_dir,
- 			     DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_WEAK_ORDERING);
- 	page_pool_set_dma_addr(page, 0);
--skip_dma_unmap:
-+}
-+
-+/* Disconnects a page (from a page_pool).  API users can have a need
-+ * to disconnect a page (from a page_pool), to allow it to be used as
-+ * a regular page (that will eventually be returned to the normal
-+ * page-allocator via put_page).
-+ */
-+void page_pool_return_page(struct page_pool *pool, struct page *page)
-+{
-+	int count;
-+
-+	__page_pool_release_page_dma(pool, page);
-+
- 	page_pool_clear_pp_info(page);
- 
- 	/* This may be the last page returned, releasing the pool, so
+ /**
 -- 
 2.43.0.472.g3155946c3a-goog
 
