@@ -1,50 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="biz4J9KI"
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5AE210EF
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 12:33:31 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1d069b1d127so19431275ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 12:33:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702067611; x=1702672411; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QDm0samvC5P/9akoWEQePvjxWAFPqGq3UDU4GCf/u2w=;
-        b=biz4J9KIXHNfFMbLKLd6Vip5DgTs3WNWMW8OpSG60hKVvBvSBf85ugT4Fp9ClQtRxP
-         4lqiRypX3LgE/bv921jNX81eUMvjfb/wFOs4Z0bnokqysi04jMakpvOKogTNba9rVrZV
-         rs8te3+sMR9g24qEoevHKZpoYK/jEGzCPWJBys6zDxaMP2eo2pfsx86s3TwGJJ1UZSeE
-         z3WDvlGvYpsRbHE0/Usjc1yVDgcG40ZTjJ3BNCgemb+UtgQh1Xfd0tu4uGKkLVJZTDYC
-         zj2NcRvF3PLbTaQ+Q3KgvkWjw/NmuoIt52qkWDtU9YqokTlTdFKD+xZqKm4+NavD0huv
-         ZY6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702067611; x=1702672411;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QDm0samvC5P/9akoWEQePvjxWAFPqGq3UDU4GCf/u2w=;
-        b=m/B+l27nEirdkcSQQcLlaFvZ2PfoQKzcd5oM4Un9T/yUubdwWkwr766k17oDoZl/3X
-         dsXGzyJCPJ2Dp1PeZR8mf31Gdnmde69PNS7zyHd5nBDa1ZV6jshEtpIISEZzk6gzEMwj
-         EHXNRCn6Yav52ZRwxHCkHundnvyFA+2vKrHq2l2Fpa8fmjw7eTs2CUj+fm30v2FFyjxL
-         fEYXliLn/HdhxjN7vLzVnry5/vqB18ZAjtwCcQdbEteLRPdpon98m8j8GvGxfasPU4FY
-         bx2IACrD00oRrMXoTtLyUT+lMVqZK09WIfWhJXCZhyYGUtFUJcBrVcZFd+90cUcZ/U/p
-         toDg==
-X-Gm-Message-State: AOJu0Yz9bVAS/GkLoB3ZfadHJI4D5v4+8RqHGkGwhdrcqx2hFQn9mGtd
-	3rKVSZF/AFEhG/S81Rwiwpg79QwrDMWZiSLaBpQ=
-X-Google-Smtp-Source: AGHT+IFnMNHGLXwMuu/G8AJ6XSzadocAlVjm2CAHJzFuxIZSIqeBa5t6fI09aIMFEJdey2lv+sByOQ==
-X-Received: by 2002:a17:902:ea0c:b0:1d1:c917:2e5c with SMTP id s12-20020a170902ea0c00b001d1c9172e5cmr833506plg.95.1702067611033;
-        Fri, 08 Dec 2023 12:33:31 -0800 (PST)
-Received: from p14s ([2604:3d09:148c:c800:bc99:83ae:a2d5:c5ca])
-        by smtp.gmail.com with ESMTPSA id n5-20020a170902e54500b001cfcc10491fsm2120947plf.161.2023.12.08.12.33.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 12:33:30 -0800 (PST)
-Date: Fri, 8 Dec 2023 13:33:28 -0700
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Adrien Leravat <adrien.leravat@gmail.com>
-Cc: andersson@kernel.org, corbet@lwn.net, linux-remoteproc@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: rmpsg: update with rpmsg_endpoint
-Message-ID: <ZXN9mAXUeHopmdiQ@p14s>
-References: <20231203200606.255302-1-adrien.leravat@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWQ/jZGm"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A033EA;
+	Fri,  8 Dec 2023 13:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702072241; x=1733608241;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lGTn+rBSOCG48Ab9NF0vjFUxQRip0d3DjXMPj7vFZzc=;
+  b=LWQ/jZGmNCU2NdF0bV/LONBdFHhoDwJ0FyCOd2v4ClRR+Qrx4EyyEeUN
+   15laNQcKVaryV4w7GVkFHHA9Aq7OixFv37er63YZEFGIV84+5WYv7wic7
+   aXFTtiPaOaAeK6ds6siI7msKdpZaBnnl7H0xWRpuJYcFMY1teydO5Rdae
+   CDxEL+/w1w7V28QhX69U/ulXzYrWM6nH+LXH2Cdas7JN/49jC+pzjGlcH
+   ppM9mY0BCmDOJL+Ar2Tk1H0iNLt/8hL2ZicYOzNVo23vqxwTaATxUBgxH
+   5/UEPg8+OFPKFW6YvZEHQqK8XE76AmRs9hmX6itnUWFBoQBUE51uuzGCT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="393335220"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="393335220"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 13:50:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="765621441"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="765621441"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 13:50:40 -0800
+Date: Fri, 8 Dec 2023 13:50:38 -0800
+From: Tony Luck <tony.luck@intel.com>
+To: babu.moger@amd.com
+Cc: Fenghua Yu <fenghua.yu@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v6 1/3] x86/resctrl: Add mount option "mba_MBps_event"
+Message-ID: <ZXOPrjoDZbJPrl/6@agluck-desk3>
+References: <20231201214737.104444-1-tony.luck@intel.com>
+ <20231207195613.153980-1-tony.luck@intel.com>
+ <20231207195613.153980-2-tony.luck@intel.com>
+ <7de1b242-e8cb-9968-876e-d3e311443b57@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,146 +54,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231203200606.255302-1-adrien.leravat@gmail.com>
+In-Reply-To: <7de1b242-e8cb-9968-876e-d3e311443b57@amd.com>
 
-On Sun, Dec 03, 2023 at 12:06:04PM -0800, Adrien Leravat wrote:
-> It seems the documentation was not updated when `rpmsg_sendto`
-> and related switched from `rpmsg_channel` to `rpmsg_endpoint`.
-> This change updates the proper calls, text, and the sample.
+On Fri, Dec 08, 2023 at 12:29:18PM -0600, Moger, Babu wrote:
+> Hi Tony,
 > 
-> Signed-off-by: Adrien Leravat <adrien.leravat@gmail.com>
-> ---
->  Documentation/staging/rpmsg.rst | 50 ++++++++++++++++++---------------
->  1 file changed, 27 insertions(+), 23 deletions(-)
->
-
-Thanks for the refactoring.  I have applied this patch.
-
-Mathieu
-
-> diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
-> index 1ce353cb232a..dba3e5f65612 100644
-> --- a/Documentation/staging/rpmsg.rst
-> +++ b/Documentation/staging/rpmsg.rst
-> @@ -68,13 +68,14 @@ User API
->  
->  ::
->  
-> -  int rpmsg_send(struct rpmsg_channel *rpdev, void *data, int len);
-> +  int rpmsg_send(struct rpmsg_endpoint *ept, void *data, int len);
->  
-> -sends a message across to the remote processor on a given channel.
-> -The caller should specify the channel, the data it wants to send,
-> +sends a message across to the remote processor from the given endpoint.
-> +The caller should specify the endpoint, the data it wants to send,
->  and its length (in bytes). The message will be sent on the specified
-> -channel, i.e. its source and destination address fields will be
-> -set to the channel's src and dst addresses.
-> +endpoint's channel, i.e. its source and destination address fields will be
-> +respectively set to the endpoint's src address and its parent channel
-> +dst addresses.
->  
->  In case there are no TX buffers available, the function will block until
->  one becomes available (i.e. until the remote processor consumes
-> @@ -87,17 +88,18 @@ Returns 0 on success and an appropriate error value on failure.
->  
->  ::
->  
-> -  int rpmsg_sendto(struct rpmsg_channel *rpdev, void *data, int len, u32 dst);
-> +  int rpmsg_sendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
->  
-> -sends a message across to the remote processor on a given channel,
-> +sends a message across to the remote processor from a given endpoint,
->  to a destination address provided by the caller.
->  
-> -The caller should specify the channel, the data it wants to send,
-> +The caller should specify the endpoint, the data it wants to send,
->  its length (in bytes), and an explicit destination address.
->  
->  The message will then be sent to the remote processor to which the
-> -channel belongs, using the channel's src address, and the user-provided
-> -dst address (thus the channel's dst address will be ignored).
-> +endpoints's channel belongs, using the endpoints's src address,
-> +and the user-provided dst address (thus the channel's dst address
-> +will be ignored).
->  
->  In case there are no TX buffers available, the function will block until
->  one becomes available (i.e. until the remote processor consumes
-> @@ -110,18 +112,19 @@ Returns 0 on success and an appropriate error value on failure.
->  
->  ::
->  
-> -  int rpmsg_send_offchannel(struct rpmsg_channel *rpdev, u32 src, u32 dst,
-> +  int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
->  							void *data, int len);
->  
->  
->  sends a message across to the remote processor, using the src and dst
->  addresses provided by the user.
->  
-> -The caller should specify the channel, the data it wants to send,
-> +The caller should specify the endpoint, the data it wants to send,
->  its length (in bytes), and explicit source and destination addresses.
->  The message will then be sent to the remote processor to which the
-> -channel belongs, but the channel's src and dst addresses will be
-> -ignored (and the user-provided addresses will be used instead).
-> +endpoint's channel belongs, but the endpoint's src and channel dst
-> +addresses will be ignored (and the user-provided addresses will
-> +be used instead).
->  
->  In case there are no TX buffers available, the function will block until
->  one becomes available (i.e. until the remote processor consumes
-> @@ -134,13 +137,14 @@ Returns 0 on success and an appropriate error value on failure.
->  
->  ::
->  
-> -  int rpmsg_trysend(struct rpmsg_channel *rpdev, void *data, int len);
-> +  int rpmsg_trysend(struct rpmsg_endpoint *ept, void *data, int len);
->  
-> -sends a message across to the remote processor on a given channel.
-> -The caller should specify the channel, the data it wants to send,
-> +sends a message across to the remote processor from a given endpoint.
-> +The caller should specify the endpoint, the data it wants to send,
->  and its length (in bytes). The message will be sent on the specified
-> -channel, i.e. its source and destination address fields will be
-> -set to the channel's src and dst addresses.
-> +endpoint's channel, i.e. its source and destination address fields will be
-> +respectively set to the endpoint's src address and its parent channel
-> +dst addresses.
->  
->  In case there are no TX buffers available, the function will immediately
->  return -ENOMEM without waiting until one becomes available.
-> @@ -150,10 +154,10 @@ Returns 0 on success and an appropriate error value on failure.
->  
->  ::
->  
-> -  int rpmsg_trysendto(struct rpmsg_channel *rpdev, void *data, int len, u32 dst)
-> +  int rpmsg_trysendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst)
->  
->  
-> -sends a message across to the remote processor on a given channel,
-> +sends a message across to the remote processor from a given endoint,
->  to a destination address provided by the user.
->  
->  The user should specify the channel, the data it wants to send,
-> @@ -171,7 +175,7 @@ Returns 0 on success and an appropriate error value on failure.
->  
->  ::
->  
-> -  int rpmsg_trysend_offchannel(struct rpmsg_channel *rpdev, u32 src, u32 dst,
-> +  int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
->  							void *data, int len);
->  
->  
-> @@ -284,7 +288,7 @@ content to the console.
->  	dev_info(&rpdev->dev, "chnl: 0x%x -> 0x%x\n", rpdev->src, rpdev->dst);
->  
->  	/* send a message on our channel */
-> -	err = rpmsg_send(rpdev, "hello!", 6);
-> +	err = rpmsg_send(rpdev->ept, "hello!", 6);
->  	if (err) {
->  		pr_err("rpmsg_send failed: %d\n", err);
->  		return err;
-> -- 
-> 2.43.0
+> On 12/7/2023 1:56 PM, Tony Luck wrote:
+> > -static int set_mba_sc(bool mba_sc)
+> > +static int set_mba_sc(bool mba_sc, enum resctrl_event_id mba_mbps_event)
+> >   {
+> >   	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
+> >   	u32 num_closid = resctrl_arch_get_num_closid(r);
+> > @@ -2313,6 +2313,7 @@ static int set_mba_sc(bool mba_sc)
+> >   		return -EINVAL;
+> >   	r->membw.mba_sc = mba_sc;
+> > +	r->membw.mba_mbps_event = mba_mbps_event;
+> >   	list_for_each_entry(d, &r->domains, list) {
+> >   		for (i = 0; i < num_closid; i++)
+> > @@ -2445,13 +2446,14 @@ static void rdt_disable_ctx(void)
+> >   {
+> >   	resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L3, false);
+> >   	resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L2, false);
+> > -	set_mba_sc(false);
+> > +	set_mba_sc(false, QOS_L3_MBM_LOCAL_EVENT_ID);
 > 
+> This is kind of miss leading. Why do you pass "QOS_L3_MBM_LOCAL_EVENT_ID"
+> here?
+> 
+> If you move the following initialization to rdt_enable_ctx, then you don't
+> need to pass the second argument.
+> 
+> r->membw.mba_mbps_event = mba_mbps_event;
+
+Babu,
+
+Yes. That was funky. I will drop the second argumen to set_mba_sc() and
+move the initialization to rdt_enable_ctx()
+
+Thnaks for the review.
+
+-Tony
