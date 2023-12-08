@@ -1,116 +1,102 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N3QOUT7B"
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC1A171F
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 02:10:07 -0800 (PST)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5d1ed4b268dso23673127b3.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 02:10:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KXF2AQ59"
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BAA81733
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 02:18:05 -0800 (PST)
+Received: by mail-oo1-xc29.google.com with SMTP id 006d021491bc7-58e28e0461bso938938eaf.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 02:18:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702030206; x=1702635006; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d4MXXH5cbPxzFQMx+eKCBMLxcs0KvqjK2kPkW0nLFkA=;
-        b=N3QOUT7B/2U9w0TIVO9Yaxwm3671HaMgZ5oIpgtryVcoN3WkcNoYKTtnOI/8Yxc/qS
-         U47kE6h/WP1McWitCqImdtG/mllGttk+w1GHfaqTqVTI/VC8E7GNlYbhFkGSYX0/lwDR
-         3GA8FyMeONKItTIF73tIWVsYTL2bNQYW4bf5NNbvypkq5vjMbT9N1OYZWQzRi2EJTUGl
-         RDW3qwuYb/D3PuCaWMpsXbAO78OkAFZVk80ygFkvRLUnRKgoaCJnv6o4e1rRIT8ylUDw
-         3A5mR86qCWGY9JMuRW0jWkdnGp+nO0j78t0YjclCV3zIZSilVfCEEaKQoffj4qlmBWC7
-         J/lw==
+        d=linaro.org; s=google; t=1702030685; x=1702635485; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0NmoRHTCNAA7+499JkbNaILAA7b/35IKN2Lx1hQIG3s=;
+        b=KXF2AQ59Fi0jagfOvLpUPu0PYkMjscrkMZjs4ncAEagK0RHma78+Vz0G1IZNcbp0qb
+         IfBwGDzsFXSbIfOW1xrvp3RP5yBmtFoMYtWRyn8JpB3JPClVRUA5KIDBhX96qtTzebv5
+         P+DOTZR0KKR6gr4n/Vfc6OFU8X2V1An4zb3BO4N7TM9VDdcOf0Zv2e73j7mSgY/uIkud
+         ZEkla8lLU3ULVTBsN+KWiYYEqwYEFTPoP0nTUL5nFvQ2p4onv0z8KAP2J8HIrNUKZjTe
+         UZa2XHE4l5OcnWan2gNkvgicvTwyoDbMpMPdFnFwQACl3ACMreQ5qU/3tCsZpTR+5DQw
+         NErw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702030206; x=1702635006;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d4MXXH5cbPxzFQMx+eKCBMLxcs0KvqjK2kPkW0nLFkA=;
-        b=XMF8sT4tLl2gSEwK5LAUCd+QXSNhyLVJKD3yRvJScFoKQTn9M1ckmm8iqbZN8N4QBT
-         akghpfW551VMVYKmZL4fi6921yfUI3ICzINb/El1QEfpSyZHbs5NS47h1f4uj+q+hrYK
-         ppl/sV12pM5AWfbSPRmL79MYuckMKj3EzNCn+9jDGkDnwJpfPZs9IFhf+YOh4tv6r4Ff
-         N1P8mwyWw/L4+JWxrQYFxDng4ifS30lMGYZuN83m4UVKGgwz3JLhFhrybOk8KDcf3azG
-         rxQNyH4LpfCefHL2kzuH87fzvOA7XuFHsG7I0T5Gd3HRfFhDPg5t183U9xL93B7qeYtF
-         DWtg==
-X-Gm-Message-State: AOJu0YxYpTZiQhiqcS5qhyjMah3SkCQ2CEmw5/E2hrnVvzV4E9Uo72eg
-	BRpAIDTil9vnv/37h8VqRiLPSTwelMszjw==
-X-Google-Smtp-Source: AGHT+IGRCKchlwDieJP65LzkIospb19LMxwfhEMGz5PddR5fY3t/b8MjzABJjvWV9MENqxn3YYZ6m3IfVjrfog==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a81:be18:0:b0:5d4:27ab:83c with SMTP id
- i24-20020a81be18000000b005d427ab083cmr58978ywn.1.1702030206337; Fri, 08 Dec
- 2023 02:10:06 -0800 (PST)
-Date: Fri, 08 Dec 2023 18:09:32 +0800
-In-Reply-To: <20231208-kunit_bus-v2-0-e95905d9b325@google.com>
+        d=1e100.net; s=20230601; t=1702030685; x=1702635485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0NmoRHTCNAA7+499JkbNaILAA7b/35IKN2Lx1hQIG3s=;
+        b=vQdyjUcwyKNQmp44oLiWl3knA9Q/3xfrntDg+9K1UtDBLYyyyrrxfu0O4Xiw59oqG0
+         SwfUOfhN61JwWA3FQxWsWMggraWw+XMkeRy2ZnZuJegYvoVp95e0K0RK/F7sfHrxvLAo
+         SrNZ738myoX8ZCx0aSRPYOD25bn9IH5xyUreKu8XYQ1gru5uVZ9w3p45ZlJDBKDcqcqJ
+         8w7HowFlWmqxSf25r0HoNrjzN6BcM5SHWKcB/SNrzdnMPktoaC8J61oivlTpC9xyobas
+         wAKH+sUmZK+2aAdk3vBMjKXsz1lDkMfaSshsfFGtOigUAJ48YPrNLG3++n7qRNlktmnT
+         fmfQ==
+X-Gm-Message-State: AOJu0YzbBTK0Py3mPuAR6xjhu45a8lRiRQcBzVh3PG6Vua8uNlzlOBKF
+	GF0RgOk/IBpxfpIZNb8fQ7Y2dg==
+X-Google-Smtp-Source: AGHT+IGUPMOIa7veeC+WP5/Up7/5mLKPL7gPv1ouzH7ay63AtOjYttMQ4IMHhSTQWYYKskYm9a5FFw==
+X-Received: by 2002:a05:6358:2496:b0:170:17ea:f4e8 with SMTP id m22-20020a056358249600b0017017eaf4e8mr3233758rwc.53.1702030684708;
+        Fri, 08 Dec 2023 02:18:04 -0800 (PST)
+Received: from localhost ([122.172.82.6])
+        by smtp.gmail.com with ESMTPSA id k21-20020aa788d5000000b006ce79876f9csm1228840pff.82.2023.12.08.02.18.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 02:18:04 -0800 (PST)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: rust: Clarify that 'rustup override' applies to build directory
+Date: Fri,  8 Dec 2023 15:48:01 +0530
+Message-Id: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231208-kunit_bus-v2-0-e95905d9b325@google.com>
-X-Mailer: b4 0.13-dev-099c9
-Message-ID: <20231208-kunit_bus-v2-4-e95905d9b325@google.com>
-Subject: [PATCH v2 4/4] ASoC: topology: Replace fake root_device with
- kunit_device in tests
-From: davidgow@google.com
-To: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org, 
-	David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: *
 
-Using struct root_device to create fake devices for tests is something
-of a hack. The new struct kunit_device is meant for this purpose, so use
-it instead.
+Rustup override is required to be set for the build directory and not
+necessarily the kernel source tree (unless the build directory is its
+subdir).
 
-Acked-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: David Gow <davidgow@google.com>
+Clarify the same in quick-start guide.
+
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 ---
- sound/soc/soc-topology-test.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ Documentation/rust/quick-start.rst | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/soc-topology-test.c b/sound/soc/soc-topology-test.c
-index 2cd3540cec04..70cbccc42a42 100644
---- a/sound/soc/soc-topology-test.c
-+++ b/sound/soc/soc-topology-test.c
-@@ -9,6 +9,7 @@
- #include <sound/core.h>
- #include <sound/soc.h>
- #include <sound/soc-topology.h>
-+#include <kunit/device.h>
- #include <kunit/test.h>
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+index f382914f4191..a7a08955fe46 100644
+--- a/Documentation/rust/quick-start.rst
++++ b/Documentation/rust/quick-start.rst
+@@ -39,8 +39,13 @@ If ``rustup`` is being used, enter the checked out source code directory
+ 	rustup override set $(scripts/min-tool-version.sh rustc)
  
- /* ===== HELPER FUNCTIONS =================================================== */
-@@ -21,26 +22,19 @@
-  */
- static struct device *test_dev;
+ This will configure your working directory to use the correct version of
+-``rustc`` without affecting your default toolchain. If you are not using
+-``rustup``, fetch a standalone installer from:
++``rustc`` without affecting your default toolchain.
++
++Note that the override applies to the build directory (and its sub-directories).
++If the kernel is built with `O=<build directory>`, the override must be set for
++the build directory instead.
++
++If you are not using ``rustup``, fetch a standalone installer from:
  
--static struct device_driver test_drv = {
--	.name = "sound-soc-topology-test-driver",
--};
--
- static int snd_soc_tplg_test_init(struct kunit *test)
- {
--	test_dev = root_device_register("sound-soc-topology-test");
-+	test_dev = kunit_device_register(test, "sound-soc-topology-test");
- 	test_dev = get_device(test_dev);
- 	if (!test_dev)
- 		return -ENODEV;
+ 	https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
  
--	test_dev->driver = &test_drv;
--
- 	return 0;
- }
- 
- static void snd_soc_tplg_test_exit(struct kunit *test)
- {
- 	put_device(test_dev);
--	root_device_unregister(test_dev);
- }
- 
- /*
-
 -- 
-2.43.0.472.g3155946c3a-goog
+2.31.1.272.g89b43f80a514
 
