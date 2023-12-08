@@ -1,93 +1,99 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EvAywlk1"
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF0A81706;
-	Thu,  7 Dec 2023 17:14:33 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-7b70de199f6so8031639f.2;
-        Thu, 07 Dec 2023 17:14:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BvbnBT/j"
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0323110E3
+	for <linux-doc@vger.kernel.org>; Thu,  7 Dec 2023 17:47:34 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-db5e692d4e0so1909346276.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 17:47:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701998073; x=1702602873; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1702000053; x=1702604853; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yo7cHeMTarcGBUaA8OM2fMUJyq8/LpYExJLjCHdh5Nc=;
-        b=EvAywlk11vAybVFoYb2/hKS8i9IqpVgXPH78bIQgRsYD4jynVOG0tG61jeRqsWNhDp
-         XVOW7H2bZ1CJF9BKR6twI5O7/pfJ4EWdBdfTC8Lswenfr7osbAPPF5S2bftsUSoE1k7r
-         Pna4vAPsb5dZnrgEsbFTLayXjODFd5V3aN5J8j/WOKi8iveno7NJguPwjWse9LnQ/DOo
-         7httFtKl+MV0bXCSyH22xHCeyKDGkExxweDyTMvRP7uz7S0n9ASgJ/PLIii0i2IwNjUM
-         i5yfUIWQoCGV9a0jhq75Tl3mEBgKcbTpjxyO9UqODg9F9FaFmYGckRYj68CPkWJoSEcz
-         rhnQ==
+        bh=QasjkTvE12oeIkeDPIYBXwIAiruihNVVX4fkQH8L17I=;
+        b=BvbnBT/jCw/UUnZgs0UH+5sifjP4Ni5A0uCwDWSA08tYT8kQE0Rke9gqi6DMjXSugm
+         hIADFMw1HFyj6rbRK/EGrGdq9McVURKMPTVPpCBTH9C0b7bNKpyWvI819pvo8ywfiMgR
+         pDL3r+43rIS20Q0og4yBM7i0mjzBM/mCH/kmsEsULve5DqpWbWFNoGFltr0be8Ln6HcG
+         2vwP7GXJfZK6Ov4V1k6ts55liIt6EsxjzGidH6MG95edz3LKdQIJmzc/RAmulZ+Z4zMi
+         I3JrAll0CHg1LSmnqLFFMAggHkvoAIJGv3aZmbd563cTKNirj7ZqUGiQBhOomg+JGhle
+         ku7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701998073; x=1702602873;
+        d=1e100.net; s=20230601; t=1702000053; x=1702604853;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yo7cHeMTarcGBUaA8OM2fMUJyq8/LpYExJLjCHdh5Nc=;
-        b=CXf8e4gOklRcu7ffjJelqPfv0TZ6FH87VzpQN1ZLntCe/eqcOv/KuVQrnvjv07LxUc
-         kOu3YRxtSXMaBs6mY05kJBof1Wga6Gc9KmMI1K2FP6Avl+PL0gEoWWikVTgLhv09FT0A
-         ipZ3FKBXamCPwqAUgYYv2igY7p6ssc1G9pL6yXen10Y0OuLchetdXpUQtQQzBxjFWVat
-         AUOZzUEwbpBM3jR5yrq5VVSB6xPVxSzU8H4WJ9SZgmnhTmR1vD+3Dz17uoJprhvF1mTL
-         UoFIdSK3TYRkU6Izl2MtoUYvcFlCJxm5JgoyJQwkmhUPqyKJ6tOdfLlXWZw77ifG29Vb
-         SlDA==
-X-Gm-Message-State: AOJu0YzsZnKwwUutlNmSooHbgRCiWvmvltu9tsB/o3OYur0A7rQw7FXF
-	5R1/gNz8QDZ8PNSluyFRbVcp2ybYnuRwoZAz1Cs=
-X-Google-Smtp-Source: AGHT+IGbjmLNlRtCGSEhodbGWN+yzNI4TT0/HC0YbFZhYWMfP1qxatOgxAM6aeeJ3rqqfImLhOJqQviiHaz3CA0yUJo=
-X-Received: by 2002:a5d:8194:0:b0:7b3:973d:c4 with SMTP id u20-20020a5d8194000000b007b3973d00c4mr4073115ion.16.1701998073117;
- Thu, 07 Dec 2023 17:14:33 -0800 (PST)
+        bh=QasjkTvE12oeIkeDPIYBXwIAiruihNVVX4fkQH8L17I=;
+        b=H4nk9ojGMiYSn15CuJUep0huyQzfsH27W2j+cL4Edpg/qwfMwSI2sKx/xFRuU32BXn
+         ICVZJeDi59ZYqySSVyDRcIVRJB85TiQEH1J70P1CAs0iIXXBI9X4OTPCtvRm4ZsOcRaE
+         H+jwZk9ojHJ036lBu1GqVFuJYLfaEu27d8S0Y4tJPOqpedKOgfJcg3u83LCdavmc4H5d
+         SOJffonivNeLO/+0czAUrsNLbK2MAzOx6wHs1w+PuJNnybCuTjdsdBofcCIBpRj5NoOU
+         bDLAZ7JVNLNNAYIXExUF1g8c7I8qptGGyQeqIpKsIvqz9PzYLHHS4w1k25j7Vleo/jml
+         j3zQ==
+X-Gm-Message-State: AOJu0YwiqLvb93h8acD9SdQbDcZZSfOwFsvhq2E5bpDPqbouSrIYEH6E
+	XdYCAvX+4WQ/LCRjEOIdol8DzUYONCUXzgo6IgnhRg==
+X-Google-Smtp-Source: AGHT+IGkcaN4vvcrb8T5smexqtqjrDfI96Nzc421af0VFhb8gbbvwzsJEs/NJAkNTu4GFPThK+R150NgDMf09+eZHpo=
+X-Received: by 2002:a05:6902:18ca:b0:db7:dad0:60d7 with SMTP id
+ ck10-20020a05690218ca00b00db7dad060d7mr4259393ybb.100.1702000052997; Thu, 07
+ Dec 2023 17:47:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207192406.3809579-1-nphamcs@gmail.com> <20231207141142.307745be167d044b0eec1b42@linux-foundation.org>
- <CAKEwX=Oa4hKCvhhR7D9kbQ-gi2LaKBjeC3GNB3b91doVB07vEA@mail.gmail.com>
-In-Reply-To: <CAKEwX=Oa4hKCvhhR7D9kbQ-gi2LaKBjeC3GNB3b91doVB07vEA@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Thu, 7 Dec 2023 17:14:22 -0800
-Message-ID: <CAKEwX=O7uovg611oyXFKTJdQ3y+Fi42RAXVheT904RcDOXwtjg@mail.gmail.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org, 
-	cerasuolodomenico@gmail.com, yosryahmed@google.com, sjenning@redhat.com, 
-	ddstreet@ieee.org, vitaly.wool@konsulko.com, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, shakeelb@google.com, muchun.song@linux.dev, 
-	hughd@google.com, corbet@lwn.net, konrad.wilk@oracle.com, 
-	senozhatsky@chromium.org, rppt@kernel.org, linux-mm@kvack.org, 
-	kernel-team@meta.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	david@ixit.cz, chrisl@kernel.org
+References: <20231208005250.2910004-1-almasrymina@google.com>
+In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 7 Dec 2023 17:47:19 -0800
+Message-ID: <CAHS8izPitBiASmmdZQ91HRmK33YBZJXOmmCybgeuGYTjP231ug@mail.gmail.com>
+Subject: Re: [net-next v1 00/16] Device Memory TCP
+To: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, David Wei <dw@davidwei.uk>, 
+	Pavel Begunkov <asml.silence@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Arnd Bergmann <arnd@arndb.de>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeelb@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 7, 2023 at 4:42=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote:
+On Thu, Dec 7, 2023 at 4:52=E2=80=AFPM Mina Almasry <almasrymina@google.com=
+> wrote:
 >
-[..]
+> Major changes in v1:
+> --------------
 >
-> I don't have any concrete numbers though - any numbers I can pull out
-> are from highly artificial tasks that only serve to test the
-> correctness aspect of the implementation. zswap.writeback disablement
-> would of course be faster in these situations (up to 33%!!!!) - but
-> that's basically just saying HDD is slow. Which is not very
-> informative or surprising, so I did not include it in the changelog.
+> 1. Implemented MVP queue API ndos to remove the userspace-visible
+>    driver reset.
+>
+> 2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+>
+> 3. Removed RFC tag.
+>
+> Many smaller addressed comments across all the patches (patches have
+> individual change log).
+>
+> Full tree including the rest of the GVE driver changes:
+> https://github.com/mina/linux/commits/tcpdevmem-v1
+>
+> Cc: Yunsheng Lin <linyunsheng@huawei.com>
+> Cc: Shailend Chand <shailend@google.com>
+> Cc: Harshitha Ramamurthy <hramamurthy@google.com>
+>
 
-For instance, on a server with HDD, I allocate memories and populate
-them with random values (so that zswap store will always fail), and
-specify memory.high low enough to trigger reclaim. The time it takes
-to allocate the memories and just read through it a couple of times
-(doing silly things like computing the values' average etc.):
+Welp, I messed up the subject line. It should say [PATCH net-next...]
+across all the patches. This may trip up bots and email filters. If
+this is annoying, I'll resend with the fixed subject line after the
+24hr cooldown period. Sorry about that.
 
-zswap.writeback disabled:
-real 0m30.537s
-user 0m23.687s
-sys 0m6.637s
-0 pages swapped in
-0 pages swapped out
-
-zswap.writeback enabled:
-real 0m45.061s
-user 0m24.310s
-sys 0m8.892s
-712686 pages swapped in
-461093 pages swapped out
-
-(the last two lines are from vmstat -s).
+--=20
+Thanks,
+Mina
