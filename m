@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BBE41C8E
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 19:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2BE5025D
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 19:58:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="srFtzH7b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8848FC433C7;
-	Fri,  8 Dec 2023 19:57:30 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="BkptlubX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96AB2C433C9;
+	Fri,  8 Dec 2023 19:58:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1702065451;
-	bh=t99NEmpj1FuaIiuCbAEn4oZ3Z7HmMn2zlDkQmUMlo68=;
+	s=korg; t=1702065503;
+	bh=l/xdBEqejIBDBfyrbxLDZm1aCPxAUkB5gCdqIhDScoo=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=srFtzH7bBResBMSJzOLKtKeNVfecDDDsflVsoADT8dc4QsaV+hDy6JYa0fDT3rdw/
-	 /+qA5icI2kfJuHuRz5ObGU1BkO3SSZ/8uf04gOr1HhrVSNw56ay0NTKyE4P4LhYrmL
-	 r7yl0odutcZCfTxsazBgPYAlK91jHn3altwqgw78=
-Date: Fri, 8 Dec 2023 11:57:29 -0800
+	b=BkptlubX345IW5aVCldqDNKuHbxUB1kJVmDDFs12+3s9hWGiS4nOhdxbnwGFTlL4c
+	 b0MUodgMFZkx7kX/z9mbw7HPggvGOg3lZ2gaXzro0cX9o4wPtmHcZVqdFb25kH6p+r
+	 XGr6FVQkDaYsRIcMTIPKTN/TE3YPPVeYWHuEroow=
+Date: Fri, 8 Dec 2023 11:58:21 -0800
 From: Andrew Morton <akpm@linux-foundation.org>
 To: Nhat Pham <nphamcs@gmail.com>
 Cc: tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
@@ -27,11 +27,12 @@ Cc: tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
  linux-doc@vger.kernel.org, david@ixit.cz, chrisl@kernel.org
 Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback
  disabling
-Message-Id: <20231208115729.acb78677883c13c2c62a29d3@linux-foundation.org>
-In-Reply-To: <CAKEwX=Oa4hKCvhhR7D9kbQ-gi2LaKBjeC3GNB3b91doVB07vEA@mail.gmail.com>
+Message-Id: <20231208115821.402176c9e37ab11470a8656d@linux-foundation.org>
+In-Reply-To: <CAKEwX=O7uovg611oyXFKTJdQ3y+Fi42RAXVheT904RcDOXwtjg@mail.gmail.com>
 References: <20231207192406.3809579-1-nphamcs@gmail.com>
 	<20231207141142.307745be167d044b0eec1b42@linux-foundation.org>
 	<CAKEwX=Oa4hKCvhhR7D9kbQ-gi2LaKBjeC3GNB3b91doVB07vEA@mail.gmail.com>
+	<CAKEwX=O7uovg611oyXFKTJdQ3y+Fi42RAXVheT904RcDOXwtjg@mail.gmail.com>
 X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -42,24 +43,35 @@ Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 7 Dec 2023 16:42:59 -0800 Nhat Pham <nphamcs@gmail.com> wrote:
+On Thu, 7 Dec 2023 17:14:22 -0800 Nhat Pham <nphamcs@gmail.com> wrote:
 
-> >
-> > Also, it would be quite helpful of the changelog were to give us some
-> > idea of how important this tunable is.  What sort of throughput
-> > differences might it cause and under what circumstances?
+> > I don't have any concrete numbers though - any numbers I can pull out
+> > are from highly artificial tasks that only serve to test the
+> > correctness aspect of the implementation. zswap.writeback disablement
+> > would of course be faster in these situations (up to 33%!!!!) - but
+> > that's basically just saying HDD is slow. Which is not very
+> > informative or surprising, so I did not include it in the changelog.
 > 
-> For the most part, this feature is motivated by internal parties who
-> have already established their opinions regarding swapping - the
-> workloads that are highly sensitive to IO, and especially those who
-> are using servers with really slow disk performance (for instance,
-> massive but slow HDDs). For these folks, it's impossible to convince
-> them to even entertain zswap if swapping also comes as a packaged
-> deal. Writeback disabling is quite a useful feature in these
-> situations - on a mixed workloads deployment, they can disable
-> writeback for the more IO-sensitive workloads, and enable writeback
-> for other background workloads.
+> For instance, on a server with HDD, I allocate memories and populate
+> them with random values (so that zswap store will always fail), and
+> specify memory.high low enough to trigger reclaim. The time it takes
+> to allocate the memories and just read through it a couple of times
+> (doing silly things like computing the values' average etc.):
 > 
-> (Maybe we should include the paragraph above as part of the changelog?)
+> zswap.writeback disabled:
+> real 0m30.537s
+> user 0m23.687s
+> sys 0m6.637s
+> 0 pages swapped in
+> 0 pages swapped out
+> 
+> zswap.writeback enabled:
+> real 0m45.061s
+> user 0m24.310s
+> sys 0m8.892s
+> 712686 pages swapped in
+> 461093 pages swapped out
+> 
+> (the last two lines are from vmstat -s).
 
-I pasted it in, thanks.
+I pasted that also.
