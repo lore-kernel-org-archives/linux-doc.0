@@ -1,198 +1,85 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Mn8HAlA1"
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DDBBD1;
-	Fri,  8 Dec 2023 10:00:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1702058417; x=1702663217; i=w_armin@gmx.de;
-	bh=jCIeWudHWYfPX0tCxiCJvcyjCWHgh2ksRM0QRawqgGA=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Mn8HAlA1aBZat4uZLhYsMhnjG2wQHpFkSTY0223bYP0uxG4DktDYe9UNbkVHFLyL
-	 7Q3S8o0sEtFf/JyBVaN6VtF3l5rlkSRMpunvu1k1D0TOVTBCFMb8NDqUPQ+EWw5yt
-	 tp1wJ8qPFODuaZZSmIu0vDkd8S8CNxRsa1UahegetRs6Yr0yDAP8heD/tmhVYuBRT
-	 37ApEjc1RfR5CTIdKOBchqMGCGrO1dWhDDeXqM7/NAJhlGOORqRMIV3A/CZZlcBWE
-	 eiTxg6SniKQyybtaZyZMpK4iTu639FI6ctiCEBbdXtbn7vhgy+hNpKfbq6bpNV4F2
-	 dmuqxgAuQkhDm6HcXg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MVN6j-1qlViA29gd-00SL1v; Fri, 08
- Dec 2023 19:00:17 +0100
-Message-ID: <44b649bd-b3da-4d66-ab2f-140024db9539@gmx.de>
-Date: Fri, 8 Dec 2023 19:00:15 +0100
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Ku3Fwe5I"
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57DDB1732
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 10:04:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1702058660; x=1702317860;
+	bh=PTmEXgI7BxufT0npzlsJT5kiKHIgc9s02WiJV5XBNQU=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=Ku3Fwe5Ivvvv7/4sAslKhSLbNE2c16L8W9Vp2kURUwCdrCDOtvKhiKIMRbTdK+mLb
+	 Ti7kJUTNntqDHGEdE/Z0ZzRQtCNOd1Ub7YXRTUkkM6VYDHMchM9FzkXNzQT/blk/cd
+	 VxjB0iLT27kzVChTAGy0f6kaeZxfXQjbAyOG8tlH9uJunL93YkuR+lVz0cyeuMFjM6
+	 +cjKRCuJp7gCslhzCntRKnuKz4z9XlyqusEBM3xbN5iiNhb1niGGQIdNc/FDO37NjK
+	 BdutuscjCKkjvnVgI/ubh+oIPvQ+s8WYwvM1jJehNprfolLSsWuogbdxl87AYgN+o+
+	 CdGM0doVGmiOQ==
+Date: Fri, 08 Dec 2023 18:04:01 +0000
+To: Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: rust: Clarify that 'rustup override' applies to build directory
+Message-ID: <4738ad1c-eb54-4ad6-98c8-3852de3e8fc3@proton.me>
+In-Reply-To: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
+References: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
+Feedback-ID: 71780778:user:proton
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] platform/x86: dell-smbios-wmi: Stop using WMI chardev
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, corbet@lwn.net,
- Dell.Client.Kernel@dell.com, linux-doc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-References: <20231207222623.232074-1-W_Armin@gmx.de>
- <20231207222623.232074-4-W_Armin@gmx.de>
- <b4789282-920-e9e-5deb-d107d5bb4c7@linux.intel.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <b4789282-920-e9e-5deb-d107d5bb4c7@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1yEg3cwfTKNleA0AuC4aDi4P2Ck4NZZftBiMwbpGwDcfcW7B4Xl
- PE4Y4lSaszH1Q6uZ+UgE9tomytSyXrei5IAxtz02xqmz3p32kCwprVBjEEUU8OqLshe4ZJ2
- 6ZJq1yatESrZ/wgwxwwMAyRNv0YLDb+rkkCIjBDm1HaX5UdhclObQT8n625vybTFMK2QK3I
- s/OGMyyKmbvEhrMeF18iQ==
-UI-OutboundReport: notjunk:1;M01:P0:m/fC9DcmGuo=;ftkS8WMT3J2Mw2rmOeLiLWZOV8D
- 7HA9rymgdFTwJWVLvUzoPrCkgBJAKrV07rkjFZOQOQdBawtiqOfi3e6zdOuTzhtiU3Jf/JoIm
- qvMJ0X/ztZCGSCh84eLQ1ZPqAI8wHt0p43qVUgnagyoKj9aF8qbiRuWW4fFiFjX77FK2QZcOB
- TkCrbznTGzdT0AkyDAra/Dc82wq9S1N1mkkyDs5hWHkflWKAC/iDpghL257hQzce5/LzrLRv9
- JNLvS+/Bzcvt0T/q5vfdLsWYi7NVmq/oJmWSunhMR9VNvANh8FH5pK9W/in+Wx47Ixz8WBgvV
- jPzCTvnrJsdMxYYYk2Ncqbl4siXi8gdyD7xWD37viqHR465225RSlAPrSI88eLxsq2NoWAwEM
- kyYxSIWE/fF9WOKxoIM2rclnD2GUylz510Kd13VcrHgnG4yBlsmBXj8rhQbiCv1rEXK7x9mpv
- DHClbWlyoIFcKvIoMF/rJA5LYn8tmUjc2N58A4V9BqyAZ+cBbLx1wC0TicEyA5dyIw+W8wwfZ
- uL9yhhaWuxdwisRRQ3erNHaWK1kZ24QLH0TI6MtRJfleSodx2cwJL58lmeb6/cdHHEQywhzg3
- jWnI64fKt0un84qZaZw3A/TOqqe9TDUCUrt8OrqSDZ8KLg2hd5OQWgVgN1ygjDcnKvWPHIp1m
- xhWUqoAuwEajVtUQyy7Wf+73QVB/ctQxzgtywhT6G7UBICHQ6tNmaTJYYdcGp9bH3We5XEIFr
- XcD/Sr77jZ4RpP6MsxBfa5ITzmYUwg95a8eDeKM1Wui8kdiD1DrLxqAXACThD11JiG8G1oHs0
- pYXIay715SsGXrx0nrtQMrsRrX+M9SXyFRo1IWmt8IAkanxgD5cSyTKmaDHxKlxWwI26IAp9t
- oPCpbrAG1Sud/ah192XD6vn5oz4F4JL4jdpSiN1DQPCHMPBYk4Dc8hCmP/AzqZC1Wuw2Yq9qU
- SZfdmq7BYZTBi97DdtbY/cB8+wY=
 
-Am 08.12.23 um 14:41 schrieb Ilpo J=C3=A4rvinen:
+On 12/8/23 11:18, Viresh Kumar wrote:
+> Rustup override is required to be set for the build directory and not
+> necessarily the kernel source tree (unless the build directory is its
+> subdir).
+>=20
+> Clarify the same in quick-start guide.
+>=20
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  Documentation/rust/quick-start.rst | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quic=
+k-start.rst
+> index f382914f4191..a7a08955fe46 100644
+> --- a/Documentation/rust/quick-start.rst
+> +++ b/Documentation/rust/quick-start.rst
+> @@ -39,8 +39,13 @@ If ``rustup`` is being used, enter the checked out sou=
+rce code directory
+>  =09rustup override set $(scripts/min-tool-version.sh rustc)
+>=20
+>  This will configure your working directory to use the correct version of
+> -``rustc`` without affecting your default toolchain. If you are not using
+> -``rustup``, fetch a standalone installer from:
+> +``rustc`` without affecting your default toolchain.
+> +
+> +Note that the override applies to the build directory (and its sub-direc=
+tories).
 
-> On Thu, 7 Dec 2023, Armin Wolf wrote:
->
->> The WMI chardev API will be removed in the near future.
->> Reimplement the necessary bits used by this driver so
->> that userspace software depending on it does no break.
->>
->> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->> ---
->>   drivers/platform/x86/dell/dell-smbios-wmi.c | 163 ++++++++++++++-----=
--
->>   1 file changed, 117 insertions(+), 46 deletions(-)
->>
->> diff --git a/drivers/platform/x86/dell/dell-smbios-wmi.c b/drivers/plat=
-form/x86/dell/dell-smbios-wmi.c
->> index 931cc50136de..61f40f462eca 100644
->> --- a/drivers/platform/x86/dell/dell-smbios-wmi.c
->> +++ b/drivers/platform/x86/dell/dell-smbios-wmi.c
->> @@ -32,7 +35,9 @@ struct wmi_smbios_priv {
->>   	struct list_head list;
->>   	struct wmi_device *wdev;
->>   	struct device *child;
->> -	u32 req_buf_size;
->> +	u64 req_buf_size;
->> +	u32 hotfix;
->> +	struct miscdevice char_dev;
->>   };
->>   static LIST_HEAD(wmi_list);
->
->>   static int dell_smbios_wmi_probe(struct wmi_device *wdev, const void =
-*context)
->>   {
->> -	struct wmi_driver *wdriver =3D
->> -		container_of(wdev->dev.driver, struct wmi_driver, driver);
->>   	struct wmi_smbios_priv *priv;
->> -	u32 hotfix;
->> +	u32 buffer_size;
->>   	int count;
->>   	int ret;
->>
->> @@ -162,39 +225,44 @@ static int dell_smbios_wmi_probe(struct wmi_devic=
-e *wdev, const void *context)
->>   	if (!priv)
->>   		return -ENOMEM;
->>
->> +	priv->wdev =3D wdev;
->> +	dev_set_drvdata(&wdev->dev, priv);
->> +
->>   	/* WMI buffer size will be either 4k or 32k depending on machine */
->> -	if (!dell_wmi_get_size(&priv->req_buf_size))
->> +	if (!dell_wmi_get_size(&buffer_size))
->>   		return -EPROBE_DEFER;
->>
->> +	priv->req_buf_size =3D buffer_size;
->> +
->>   	/* some SMBIOS calls fail unless BIOS contains hotfix */
->> -	if (!dell_wmi_get_hotfix(&hotfix))
->> +	if (!dell_wmi_get_hotfix(&priv->hotfix))
->>   		return -EPROBE_DEFER;
->> -	if (!hotfix) {
->> +
->> +	if (!priv->hotfix)
->>   		dev_warn(&wdev->dev,
->>   			"WMI SMBIOS userspace interface not supported(%u), try upgrading t=
-o a newer BIOS\n",
->> -			hotfix);
->> -		wdriver->filter_callback =3D NULL;
->> -	}
->> +			priv->hotfix);
->>
->>   	/* add in the length object we will use internally with ioctl */
->>   	priv->req_buf_size +=3D sizeof(u64);
->> -	ret =3D set_required_buffer_size(wdev, priv->req_buf_size);
->> -	if (ret)
->> -		return ret;
->>
->>   	count =3D get_order(priv->req_buf_size);
->>   	priv->buf =3D (void *)__get_free_pages(GFP_KERNEL, count);
->>   	if (!priv->buf)
->>   		return -ENOMEM;
->>
->> +	if (priv->hotfix) {
->> +		ret =3D dell_smbios_wmi_register_chardev(priv);
->> +		if (ret)
->> +			goto fail_chardev;
->> +	}
->> +
->>   	/* ID is used by dell-smbios to set priority of drivers */
->>   	wdev->dev.id =3D 1;
->>   	ret =3D dell_smbios_register_device(&wdev->dev, &dell_smbios_wmi_cal=
-l);
->>   	if (ret)
->>   		goto fail_register;
->>
->> -	priv->wdev =3D wdev;
->> -	dev_set_drvdata(&wdev->dev, priv);
->>   	mutex_lock(&list_mutex);
->>   	list_add_tail(&priv->list, &wmi_list);
->>   	mutex_unlock(&list_mutex);
->> @@ -202,6 +270,9 @@ static int dell_smbios_wmi_probe(struct wmi_device =
-*wdev, const void *context)
->>   	return 0;
->>
->>   fail_register:
->> +	if (priv->hotfix)
->> +               dell_smbios_wmi_unregister_chardev(priv);
-> I don't understand how hotfix -> priv->hotfix is related to this patch n=
-or
-> why it's necessary?
->
-> Or did you mean to use it also in dell_smbios_wmi_remove() but forgot to
-> add the if (priv->hotfix) there?
+Shouldn't this be "Note that the override only applies to the current
+working directory (and its sub-directories)."?
+I think it would also be useful to continue with this: "But in order
+to build the kernel, this override must affect the build directory.".
 
-I indeed forgot to add the "if (priv->hotfix)" here, good catch.
+And then you could also mention that in the default location for the
+build directory is in the repository.
 
-> In any case, it would be better to put that conversion into own patch
-> before this one.
+--=20
+Cheers,
+Benno
 
-I could also drop the priv->hotfix related changes and instead modify the =
-driver
-to use devres (devm_get_free_pages() for example). This would also simplif=
-y the
-error handling code.
+> +If the kernel is built with `O=3D<build directory>`, the override must b=
+e set for
+> +the build directory instead.
+> +
+> +If you are not using ``rustup``, fetch a standalone installer from:
+>=20
+>  =09https://forge.rust-lang.org/infra/other-installation-methods.html#sta=
+ndalone
 
-I will send a v2 soon containing the necessary patches.
-
->> @@ -211,6 +282,7 @@ static void dell_smbios_wmi_remove(struct wmi_devic=
-e *wdev)
->>         struct wmi_smbios_priv *priv =3D dev_get_drvdata(&wdev->dev);
->>         int count;
->>
->> +      dell_smbios_wmi_unregister_chardev(priv);
->>         mutex_lock(&call_mutex);
->>         mutex_lock(&list_mutex);
->>         list_del(&priv->list);
