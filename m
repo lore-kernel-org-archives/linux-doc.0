@@ -1,126 +1,125 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e+67vVrk"
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0289A1700
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 11:22:45 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1d1d307bbb3so18785ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 11:22:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="puGdxYqA"
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0DDC199C
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 11:23:16 -0800 (PST)
+Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-7cab49152b9so306980241.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 11:23:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702063364; x=1702668164; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1702063396; x=1702668196; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gZ30NYGkjbX21PN8dBphQWbz/hwhfTyVX43/tAQx5MY=;
-        b=e+67vVrkWgtowE8T0B2/6pvrUPb7JRkiDCGV+ZyA4WG047KFlfArw7P2ojuK/uxbwE
-         tIZs3Bf3+C6LUFCDFxNDlwhaG89lwY+COojS3pzOIVPBytGELlodDeQITV90Vh4w1oB+
-         gHyWsuQBL938RTHdFNlheVWxycfIZQ23SPRcncjkfD9kRNDKP8Ln/xvDfFUrk/4EMb5V
-         LFSWwmSdNZV1gIHGZ3HBYiyR1j5tI7oyW997lIn/OtxyFZnUlnRg7ezvnZ7cMQsURzmx
-         G+PzGBm6RSPoBKsX18UrAIX38+iLGTE5fmFB6CBWtMDV/T7Zcz1V2k7Umj4olTqsSHB5
-         KCoQ==
+        bh=eNuhxRDBfdQenk+uC5+I+2o2Yad/2wCHUso1pH85sfo=;
+        b=puGdxYqAoQo3bHG294LrXUJmKf0r2uufNMehZOj/ib8lgIMoVsopaKC4B4b6fUFyya
+         +B9rAwaP7t2N4ealA6hhXjhKtZfHcQqR6mND4Wm8Bn+OcwAWZPIz8cpOBRc9eMDbClhr
+         m0HzrbjSOx0Odg45PVXWbTCRw/nXU3Cn7nmp3mL+o1poKncrgSXhF/YFLuLQHGoSStQf
+         RrJGwyuzvUNDUEsmKjSD2uxYZ/BCYB8G86AaueFaliWGMcb/21OR7QeKm0LdzJc1VKhI
+         29fSLZU9MNVBk7gsWs++emPmOErx0U5NoIpQDDk2xKmI0xt174+doddUkTq2O/QdtbwO
+         qpuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702063364; x=1702668164;
+        d=1e100.net; s=20230601; t=1702063396; x=1702668196;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gZ30NYGkjbX21PN8dBphQWbz/hwhfTyVX43/tAQx5MY=;
-        b=kS/Zm39uSx03skvJm6n7VgpW035mv4QZOfWQMNF9Q/tN6KhCGIsEg34UGVN61V656X
-         7bo6Oe2ydfMvTpDkphHwDarhNcKp2dMa8n9rrirB7JSoKBjDI4wgzN28AJONe57xL3mZ
-         Q8YlfmAlfmm59VRKvQKPBDfJqTZrbU9yMb6RAC4u2zkmcJFOUfDh+LOloFfWvWq9wCZO
-         0ppj+d09nXuJam4WREVBLg19cuupvUgz6xHc888vIQCRKtvmDu6kaedPKz86SbzVuhsz
-         9usd+ANT27lsREEeo6UFv+p+YfdSsvWgtZsfmVL5HMyQ0DpUbLIBYGCP8MY6FSKXPKAf
-         BzRg==
-X-Gm-Message-State: AOJu0YxI/R3wHIPxNp3Uon7hrai3dZw1hBmXHjGirYC9Ru8qAkSAMQFN
-	xKOCM0QjSl5SWCNVSjmebXvpQoFDdpjcFVnlqHDgzg==
-X-Google-Smtp-Source: AGHT+IGasWbbXvVDHLeMypAYC8mh/pLHr897bAE6/ckWJyPBsRxFn+J1youQDVPIKNs88w/EVxdL10enFiyIBoZk4VI=
-X-Received: by 2002:a17:902:e881:b0:1d0:4548:97ff with SMTP id
- w1-20020a170902e88100b001d0454897ffmr195882plg.13.1702063364214; Fri, 08 Dec
- 2023 11:22:44 -0800 (PST)
+        bh=eNuhxRDBfdQenk+uC5+I+2o2Yad/2wCHUso1pH85sfo=;
+        b=FiY8cAirFVcKWA12dN5Dc5rlHJyZq4AYyQs8dCD94iTDMqxJBK9JC3ngrNBCBLCUvq
+         wVa86BXn4tiPDOEyfQseoreLEy8BxsPRMZ+PWVIN/LLGzFcUOPGz7Id1lXinafj6yo8l
+         vMmjxp/yDGBGu1TL2mCttoYNotRVCoOneezo/57jOERA63Ccy0cYNfaaROO1TmEnVspJ
+         4NovrEV8Nb0nu9ShXgcCgQCi15hkR3y4LhwfTQmt2mbjsITJNFYsRIghc2uZ4B1MOsTS
+         A+rZ9LUWaRdIP8xub3peHiOs9J3ZI1poHfCXvdmnE0hCmvVJh4anTqS9b1li5+fYDlyb
+         yiQQ==
+X-Gm-Message-State: AOJu0YyQvqZriibMTwvyZ6ztsSmzweLHO3N6B+BzpMS3SQR24nQbJ6kf
+	8xr+lGfKILTMeoDfo6Gqgg1wUIlT/sMvxs6gRS09Xg==
+X-Google-Smtp-Source: AGHT+IHb22ZjibDls1yBkhF7QNEaIMpgDSaJZ0OHWa3jb0vnzr6qisUp6akF/Nl59oBqhH37DmVgAI0o7BDgdz/1wpc=
+X-Received: by 2002:a05:6102:38ce:b0:465:e3df:13a with SMTP id
+ k14-20020a05610238ce00b00465e3df013amr837357vst.9.1702063395773; Fri, 08 Dec
+ 2023 11:23:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231201214737.104444-1-tony.luck@intel.com> <20231207195613.153980-1-tony.luck@intel.com>
- <20231207195613.153980-4-tony.luck@intel.com>
-In-Reply-To: <20231207195613.153980-4-tony.luck@intel.com>
-From: Peter Newman <peternewman@google.com>
-Date: Fri, 8 Dec 2023 11:22:33 -0800
-Message-ID: <CALPaoCgjHb3HiS9u9v2FZHL=h2VohU+X=GVpDo-u2k2pXQu8PA@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] x86/resctrl: Add new "mba_MBps_event" mount option
- to documentation
-To: Tony Luck <tony.luck@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org, 
-	Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>, 
-	Jamie Iles <quic_jiles@quicinc.com>, Babu Moger <babu.moger@amd.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, patches@lists.linux.dev
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-14-almasrymina@google.com> <dd47a2a4-cb80-4164-8855-045999931a8e@kernel.org>
+In-Reply-To: <dd47a2a4-cb80-4164-8855-045999931a8e@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 8 Dec 2023 11:23:04 -0800
+Message-ID: <CAHS8izPwkARkYjPYPY2t-5H=XFTdn=NcWk0EwiCycThR5xFmtg@mail.gmail.com>
+Subject: Re: [net-next v1 13/16] tcp: RX path for devmem TCP
+To: David Ahern <dsahern@kernel.org>
+Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 7, 2023 at 11:56=E2=80=AFAM Tony Luck <tony.luck@intel.com> wro=
+On Fri, Dec 8, 2023 at 9:55=E2=80=AFAM David Ahern <dsahern@kernel.org> wro=
 te:
 >
-> New mount option may be used to choose a specific memory bandwidth
-> monitoring event to feed the MBA Software Controller(mba_sc) feedback
-> loop.
+> On 12/7/23 5:52 PM, Mina Almasry wrote:
+> > In tcp_recvmsg_locked(), detect if the skb being received by the user
+> > is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVME=
+M
+> > flag - pass it to tcp_recvmsg_devmem() for custom handling.
+> >
+> > tcp_recvmsg_devmem() copies any data in the skb header to the linear
+> > buffer, and returns a cmsg to the user indicating the number of bytes
+> > returned in the linear buffer.
+> >
+> > tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
+> > and returns to the user a cmsg_devmem indicating the location of the
+> > data in the dmabuf device memory. cmsg_devmem contains this information=
+:
+> >
+> > 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
+> > 2. the size of the frag. 'frag_size'.
+> > 3. an opaque token 'frag_token' to return to the kernel when the buffer
+> > is to be released.
+> >
+> > The pages awaiting freeing are stored in the newly added
+> > sk->sk_user_pages, and each page passed to userspace is get_page()'d.
+> > This reference is dropped once the userspace indicates that it is
+> > done reading this page.  All pages are released when the socket is
+> > destroyed.
+> >
+> > Signed-off-by: Willem de Bruijn <willemb@google.com>
+> > Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ---
+> >
+> > Changes in v1:
+> > - Added dmabuf_id to dmabuf_cmsg (David/Stan).
+> > - Devmem -> dmabuf (David).
+> > - Change tcp_recvmsg_dmabuf() check to skb->dmabuf (Paolo).
+> > - Use __skb_frag_ref() & napi_pp_put_page() for refcounting (Yunsheng).
+> >
+> > RFC v3:
+> > - Fixed issue with put_cmsg() failing silently.
+> >
 >
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> ---
->  Documentation/arch/x86/resctrl.rst | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/=
-resctrl.rst
-> index a6279df64a9d..a0c521db6786 100644
-> --- a/Documentation/arch/x86/resctrl.rst
-> +++ b/Documentation/arch/x86/resctrl.rst
-> @@ -35,7 +35,8 @@ about the feature from resctrl's info directory.
->
->  To use the feature mount the file system::
->
-> - # mount -t resctrl resctrl [-o cdp[,cdpl2][,mba_MBps][,debug]] /sys/fs/=
-resctrl
-> + # mount -t resctrl resctrl [-o cdp[,cdpl2][,mba_MBps] \
-> + [,mba_MBps_event=3D[mbm_local_bytes|mbm_total_bytes]][,debug]] /sys/fs/=
-resctrl
->
->  mount options are:
->
-> @@ -45,7 +46,12 @@ mount options are:
->         Enable code/data prioritization in L2 cache allocations.
->  "mba_MBps":
->         Enable the MBA Software Controller(mba_sc) to specify MBA
-> -       bandwidth in MBps
-> +       bandwidth in MBps. Defaults to using MBM local bandwidth,
-> +       but will use total bandwidth on systems that do not support
-> +       local bandwidth monitoring.
-> +"mba_MBps_event=3D[mbm_local_bytes|mbm_total_bytes]":
-> +       Enable the MBA Software Controller(mba_sc) with a specific
-> +       MBM event as input to the feedback loop.
->  "debug":
->         Make debug files accessible. Available debug files are annotated =
-with
->         "Available only with debug option".
-> @@ -538,6 +544,12 @@ where as user can switch to the "MBA software contro=
-ller" mode using
->  a mount option 'mba_MBps'. The schemata format is specified in the below
->  sections.
->
-> +By default the software feedback mechanism uses measurement of local
-> +memory bandwidth to make adjustments to throttling levels. If a system
-> +is running applications with poor NUMA locality users may want to use
-> +the "mba_MBps_event=3Dmbm_total_bytes" mount option which will use total
-> +memory bandwidth measurements instead of local.
-> +
->  L3 schemata file details (code and data prioritization disabled)
->  ----------------------------------------------------------------
->  With CDP disabled the L3 schemata format is::
-> --
-> 2.41.0
->
+> What happens if a retransmitted packet is received or an rx window is
+> closed and a probe is received where the kernel drops the skb - is the
+> iov reference(s) in the skb returned to the pool by the stack and ready
+> for use again?
 
-for content:
+When an skb is dropped, skb_frag_unref() is called on the frags, which
+calls napi_pp_put_page(), drops the references, and the iov is
+recycled, yes.
 
-Reviewed-by: Peter Newman <peternewman@google.com>
+--=20
+Thanks,
+Mina
