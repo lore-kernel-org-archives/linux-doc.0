@@ -1,186 +1,141 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MX82t5rw"
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 210DD90;
-	Fri,  8 Dec 2023 15:10:18 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BDE1C37F;
-	Fri,  8 Dec 2023 23:10:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BDE1C37F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1702077017; bh=h1vmUzNrA1esMkjOn4r8ba6qLg2focxoebfLYZwtvB4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=MX82t5rwEJ68bqtiGnOJFlwLTLzVjg7hDVYqMCPW9e9CBmeY+Ewes8GA+Fhe4DVco
-	 qBm6/Bp4dyMQnP8Q5qDwjDBRoRYirnrL1emysv6sEDAOT5tqkq0md6baS1Vwc2ZZvV
-	 UxJdNX/iAy5ezsbsxWM2JZwZs6aukQsK17GSfKp53f3uy/Od5u2IYLL6upfabuif3t
-	 OpVt3ZMqhWfvxhBV0CaD4a2LNX5rtbWY1vZQwvbE4swtmUFgsiVPXkbdM5P0KiK8Fj
-	 0xy3it+qxINOU55bmjn3uZBXSAQqIy/1exqQM6K3NYcmrxJllZr4sYIXxNOlMv3vaq
-	 TXHRITX9xwFog==
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH v2] docs: Raise the minimum Sphinx requirement to 2.4.4
-Date: Fri, 08 Dec 2023 16:10:17 -0700
-Message-ID: <874jgs47fq.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iciff3s5"
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4DB290;
+	Fri,  8 Dec 2023 15:13:27 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-33350fcb2c7so1875238f8f.2;
+        Fri, 08 Dec 2023 15:13:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702077206; x=1702682006; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vdvT6mOf5g65CEarA8B1SO8V/fqN2dA07OWm6nPK8JQ=;
+        b=Iciff3s57iWo3gbYznNcUJOihqjfopVbGB8/Eu+g+tGhLUECb0udcZd5vjumWbAckd
+         HFLzNCzu8upvQHdt7sS7fpqr3LmVr86qLW9gbr5dwYLUb67cgRLUWR8bkZfAg/pIYv8F
+         rVdTZIkNxJcQHxYJ/5i3tVyADeWce15OEleb4yj+J5ebSM3YbyEiOsvkf7FC+66tV0vH
+         jt+6fYXYlIEtnhSqfxO69LF3jaKwehfqCZEwgbNHCF4Qyf6vCyrDdfDXRcUkxPNmFC7S
+         6OcX4fVOMsdJwmH/QbRiPrirORnEtQjJHHK464dABiQ6qiwtg1d6fnHD8Jlxz0LiLCd1
+         EuiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702077206; x=1702682006;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vdvT6mOf5g65CEarA8B1SO8V/fqN2dA07OWm6nPK8JQ=;
+        b=I68ZjREOWkJe9yebTRIgX7ZMrt3c6elKdZbMMbkBRhg9uf6vdhZm9e+ds7I6Lk87vc
+         7XTXd346kvaR1Pu7DAaqP7wBoZNkLvCmtDB7Sw+C4Y0tcgQPC/+U227fymznSKT55AX/
+         X+R52QLo/7li8zR1BZ8+pGsxZJA0Bo7FiO/rHf66LrG0sbBvN4lm995Q7o+4qyEFr7pQ
+         TV37AzhV+fbS5tpBh6TIp2cKmxc1J+g4CnfiTtC+Rk/LdaVts4BQgc1YQs1AfSHnUvBu
+         C7VuKQpslAuTrhn69bIHqRITMKukv0sNH9/AeMe7wGdkip4roIqENA9gU8T+5/Vv4cDZ
+         Q5nw==
+X-Gm-Message-State: AOJu0YwCJUbYbDbCP8dXS9UMtZCTUc7ZZTCyb2rDoXwI9YyRxpkqa2Iq
+	M4+Tw2N0PcQoB7dig2eb3aY=
+X-Google-Smtp-Source: AGHT+IEBHi/D2vKjO2h2A/tT7jCBjGoOCfZq8DH8NQxvNJdBherB8vnCQiq7VQs7WHEKIMjIAwZ5UA==
+X-Received: by 2002:adf:f74e:0:b0:333:546b:bcda with SMTP id z14-20020adff74e000000b00333546bbcdamr358457wrp.137.1702077205923;
+        Fri, 08 Dec 2023 15:13:25 -0800 (PST)
+Received: from [192.168.8.100] ([85.255.236.117])
+        by smtp.gmail.com with ESMTPSA id e33-20020a5d5961000000b0033346fe9b9bsm2923952wri.83.2023.12.08.15.13.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Dec 2023 15:13:25 -0800 (PST)
+Message-ID: <d17e203c-ee9f-44fc-8b03-bb34e80701e7@gmail.com>
+Date: Fri, 8 Dec 2023 23:05:49 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory
+ provider
+Content-Language: en-US
+To: Mina Almasry <almasrymina@google.com>,
+ Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann
+ <arnd@arndb.de>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com>
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20231208005250.2910004-9-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Commit 31abfdda6527 (docs: Deprecate use of Sphinx < 2.4.x) in 6.2 added a
-warning that support for older versions of Sphinx would be going away.
-There have been no complaints, so the time has come.  Raise the minimum
-Sphinx version to 2.4.4 and clean out some compatibility code that we no
-longer need.
+On 12/8/23 00:52, Mina Almasry wrote:
+> Implement a memory provider that allocates dmabuf devmem page_pool_iovs.
+> 
+> The provider receives a reference to the struct netdev_dmabuf_binding
+> via the pool->mp_priv pointer. The driver needs to set this pointer for
+> the provider in the page_pool_params.
+> 
+> The provider obtains a reference on the netdev_dmabuf_binding which
+> guarantees the binding and the underlying mapping remains alive until
+> the provider is destroyed.
+> 
+> Usage of PP_FLAG_DMA_MAP is required for this memory provide such that
+> the page_pool can provide the driver with the dma-addrs of the devmem.
+> 
+> Support for PP_FLAG_DMA_SYNC_DEV is omitted for simplicity.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+[...]
+> +void __page_pool_iov_free(struct page_pool_iov *ppiov);
+> +
+> +static inline void page_pool_iov_put_many(struct page_pool_iov *ppiov,
+> +					  unsigned int count)
+> +{
+> +	if (!refcount_sub_and_test(count, &ppiov->refcount))
+> +		return;
+> +
+> +	__page_pool_iov_free(ppiov);
+> +}
+> +
+> +/* page pool mm helpers */
+> +
+> +DECLARE_STATIC_KEY_FALSE(page_pool_mem_providers);
+> +static inline bool page_is_page_pool_iov(const struct page *page)
+> +{
+> +	return static_branch_unlikely(&page_pool_mem_providers) &&
+> +	       (unsigned long)page & PP_IOV;
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
-Only change since v1 is setting the recommended version to 3.4.3, as
-seems to be the consensus for the best choice.
+Are there any recommendations of not using static keys in widely
+used inline functions? I'm not familiar with static key code
+generation, but I think the compiler will bloat users with fat chunks
+of code in unlikely paths. And I'd assume it creates an array of all
+uses, which it'll be walked on enabling/disabling the branch.
 
- Documentation/conf.py              |  2 +-
- Documentation/doc-guide/sphinx.rst |  2 +-
- Documentation/process/changes.rst  |  2 +-
- Documentation/sphinx/automarkup.py |  6 +-----
- Documentation/sphinx/cdomain.py    |  6 +-----
- Documentation/sphinx/kfigure.py    |  8 +-------
- scripts/sphinx-pre-install         | 10 +---------
- 7 files changed, 7 insertions(+), 29 deletions(-)
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 20bd74edcca9..3a1a804c3a13 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -47,7 +47,7 @@ from load_config import loadConfig
- # -- General configuration ------------------------------------------------
- 
- # If your documentation needs a minimal Sphinx version, state it here.
--needs_sphinx = '1.7'
-+needs_sphinx = '2.4.4'
- 
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index bb7971643fcf..3d125fb4139d 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -28,7 +28,7 @@ Sphinx Install
- ==============
- 
- The ReST markups currently used by the Documentation/ files are meant to be
--built with ``Sphinx`` version 1.7 or higher.
-+built with ``Sphinx`` version 2.4.4 or higher.
- 
- There's a script that checks for the Sphinx requirements. Please see
- :ref:`sphinx-pre-install` for further details.
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index bb96ca0f774b..559587a89974 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -58,7 +58,7 @@ mcelog                 0.6              mcelog --version
- iptables               1.4.2            iptables -V
- openssl & libcrypto    1.0.0            openssl version
- bc                     1.06.95          bc --version
--Sphinx\ [#f1]_         1.7              sphinx-build --version
-+Sphinx\ [#f1]_         2.4.4            sphinx-build --version
- cpio                   any              cpio --version
- GNU tar                1.28             tar --version
- gtags (optional)       6.6.5            gtags --version
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-index acc6d55718bd..a413f8dd5115 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -7,11 +7,7 @@
- from docutils import nodes
- import sphinx
- from sphinx import addnodes
--if sphinx.version_info[0] < 2 or \
--   sphinx.version_info[0] == 2 and sphinx.version_info[1] < 1:
--    from sphinx.environment import NoUri
--else:
--    from sphinx.errors import NoUri
-+from sphinx.errors import NoUri
- import re
- from itertools import chain
- 
-diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
-index 4eb150bf509c..e6959af25402 100644
---- a/Documentation/sphinx/cdomain.py
-+++ b/Documentation/sphinx/cdomain.py
-@@ -127,11 +127,7 @@ def setup(app):
- 
-     # Handle easy Sphinx 3.1+ simple new tags: :c:expr and .. c:namespace::
-     app.connect('source-read', c_markups)
--
--    if (major == 1 and minor < 8):
--        app.override_domain(CDomain)
--    else:
--        app.add_domain(CDomain, override=True)
-+    app.add_domain(CDomain, override=True)
- 
-     return dict(
-         version = __version__,
-diff --git a/Documentation/sphinx/kfigure.py b/Documentation/sphinx/kfigure.py
-index 13e885bbd499..97166333b727 100644
---- a/Documentation/sphinx/kfigure.py
-+++ b/Documentation/sphinx/kfigure.py
-@@ -61,13 +61,7 @@ import sphinx
- from sphinx.util.nodes import clean_astext
- import kernellog
- 
--# Get Sphinx version
--major, minor, patch = sphinx.version_info[:3]
--if major == 1 and minor > 3:
--    # patches.Figure only landed in Sphinx 1.4
--    from sphinx.directives.patches import Figure  # pylint: disable=C0413
--else:
--    Figure = images.Figure
-+Figure = images.Figure
- 
- __version__  = '1.0.0'
- 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 1fb88fdceec3..25aefbb35377 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -32,8 +32,7 @@ my $python_cmd = "";
- my $activate_cmd;
- my $min_version;
- my $cur_version;
--my $rec_version = "1.7.9";	# PDF won't build here
--my $min_pdf_version = "2.4.4";	# Min version where pdf builds
-+my $rec_version = "3.4.3";
- my $latest_avail_ver;
- 
- #
-@@ -791,9 +790,6 @@ sub recommend_sphinx_version($)
- 
- 	# Version is OK. Nothing to do.
- 	if ($cur_version && ($cur_version ge $rec_version)) {
--		if ($cur_version lt $min_pdf_version) {
--			print "note: If you want pdf, you need at least Sphinx $min_pdf_version.\n";
--		}
- 		return;
- 	};
- 
-@@ -842,10 +838,6 @@ sub recommend_sphinx_version($)
- 			printf "\t. $activate_cmd\n";
- 			deactivate_help();
- 
--			if ($latest_avail_ver lt $min_pdf_version) {
--				print "note: If you want pdf, you need at least Sphinx $min_pdf_version.\n";
--			}
--
- 			return;
- 		}
- 
+> +}
+> +
+> +static inline struct page_pool_iov *page_to_page_pool_iov(struct page *page)
+> +{
+> +	if (page_is_page_pool_iov(page))
+> +		return (struct page_pool_iov *)((unsigned long)page & ~PP_IOV);
+> +
+> +	DEBUG_NET_WARN_ON_ONCE(true);
+> +	return NULL;
+> +}
+> +
+>   /**
+>    * page_pool_dev_alloc_pages() - allocate a page.
+>    * @pool:	pool from which to allocate
 -- 
-2.42.0
-
+Pavel Begunkov
