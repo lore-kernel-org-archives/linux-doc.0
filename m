@@ -1,335 +1,385 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="ogzh/wEr"
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7705B173B;
-	Fri,  8 Dec 2023 10:11:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1702059047; x=1702663847; i=w_armin@gmx.de;
-	bh=P9edKpKexTHVvkOcXN5hlM+yTHAv/d7T1y5gwBKtBDY=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=ogzh/wErEJl3m6V15nDnjN9SZ+uAT4up6rCslwEYVM/0zoR5NPySf3g+VaFHA+O9
-	 p+Lhvpc1UUhc7MYJBiUEy6jUkVqrR78+GslmRzI2rSroiI7pE/Ntu6AH5DVUcumVa
-	 xTHdRXM66tja8T8c7zyotsN7XkYVBHl775X7jirqZAii8m/fucZTLNKZOCqkYPMxY
-	 oWXy3X9qX41w3nljlHbEgDQHBcvxVJudEQfFE5pan+FqKmwdbFMvqZmx6euD6lxvx
-	 hupCs/yOZJXx5LJI621NURFyqg5Vq9wramxSMcr2hEHYCAzyOxLx8zZKVURk/KxW3
-	 wMH2mDPwCgjMu7VxPg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MzQg6-1rOuuN2pCi-00vMWS; Fri, 08
- Dec 2023 19:10:47 +0100
-Message-ID: <e7da54e0-177c-46cc-8407-17bdb07010a0@gmx.de>
-Date: Fri, 8 Dec 2023 19:10:46 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v7+hDp1S"
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6968E
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 10:17:20 -0800 (PST)
+Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-35d57ab6f5bso4435ab.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 10:17:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702059440; x=1702664240; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rT+IqEgBG0h+KBQVMoiPQaupxIMoYqveRu1390Nm3NU=;
+        b=v7+hDp1SouoCGD1fahvlCGzteeDuK14DgaqE1g+wnA1utMrwlVoBiYiE4C8SDqyjEV
+         TyZre61gCNPXvj35t1Up6W/XZd/24IzN8G/Ls2iY+DvZVfLyTHYNVGbhSGxqHZs331rD
+         NkXPP7xJym5KUarQ18LQSCv96A2W7UnfqzY8Xn3O1OZIWzwOHWT1HEKkn1zlajeBmNJA
+         1xX9E+DJIeJNHj1pyiw3ew/HoGLsivJX6qchCGjhJt1kPvCXm2LLe9Ps789npTouyRiz
+         Fzly3MZIrxolvvLZknULVjuggJ7cMoWg+nHZPIsA5JiQcy7wc6ZtFZD+9esza7TV5re7
+         ds0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702059440; x=1702664240;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rT+IqEgBG0h+KBQVMoiPQaupxIMoYqveRu1390Nm3NU=;
+        b=b3zNnEUpc13GJnLSuSvob+lOcIzn7Gx9NW9IHE8SxRS/1srtI30/BVXTaIsbJO3uX5
+         DoHDA/E4z2hxNev+nHwn9YjKaO+mvjZkY25120oGt+Wfq6uDbuRAtla2kGhlIm43fCRP
+         64gR+kyh129pzfVSl3vkyroVgrzdK+y+6huktrlEKGhaHU+ohWgiOx5kBiYwHgqkPhBE
+         DkZRoSMG9twSXC0dTXnFPXb+sbQKLmhNDNTKPrYWRKzYyDs18u9Tvk+WHPr4NDMsqHxH
+         igDjOEFeJLVbQdbYBlCwEWeCYCf+S+emgsosT1Vd70wAGSvOo1nkeJuvwvEZfyGajUNV
+         OP0Q==
+X-Gm-Message-State: AOJu0YwCb/EHH2TMTrx42HZDWfQ8gU1B0xBu9D1LNLPpou/opsqyXtsp
+	hmiWskjr90uANK8tbT9BYrP3zt6XLhAUvgXiyx7sAg==
+X-Google-Smtp-Source: AGHT+IH0/NXGMQE81etiuHRrZE0cVxQZNyZhSrRDTKfpiBdT14P7txnmutXo3GyPbc5TdiySCBh+bXEmFC/bDqFzxg4=
+X-Received: by 2002:a92:da05:0:b0:35c:e4c2:5345 with SMTP id
+ z5-20020a92da05000000b0035ce4c25345mr190166ilm.21.1702059439867; Fri, 08 Dec
+ 2023 10:17:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] platform/x86: wmi: Add driver development guide
-Content-Language: en-US
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, corbet@lwn.net,
- Dell.Client.Kernel@dell.com, linux-doc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-References: <20231207222623.232074-1-W_Armin@gmx.de>
- <20231207222623.232074-6-W_Armin@gmx.de>
- <aefc53a4-2472-4613-ef9d-5d3ad972bef3@linux.intel.com>
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <aefc53a4-2472-4613-ef9d-5d3ad972bef3@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20231201214737.104444-1-tony.luck@intel.com> <20231207195613.153980-1-tony.luck@intel.com>
+ <20231207195613.153980-2-tony.luck@intel.com>
+In-Reply-To: <20231207195613.153980-2-tony.luck@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Fri, 8 Dec 2023 10:17:08 -0800
+Message-ID: <CALPaoCji1yzfkA=tms3LhYMvRB+wSJQM3qzPKrHNEa7a+KduTA@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] x86/resctrl: Add mount option "mba_MBps_event"
+To: Tony Luck <tony.luck@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org, 
+	Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>, 
+	Jamie Iles <quic_jiles@quicinc.com>, Babu Moger <babu.moger@amd.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:T7gz8CBFZZ/+cLVrnlzQUdkpmoZ1c6nscBTQslx3HIoM5Mtky8l
- jGLsxbNrWCcGGOZRi1i52etNBUTAT0c8BMs+e49dj6uy7f1868EhogLvy0uHXRheHHBrbnL
- WK499EcnjCp9b5n9uJqeyx9UKLdgZpu/dT7WDCQy/NUzrX3aQUnUxKAcgJvQC16sF3G//Ue
- YYQAxuwJMebWnFEffBoYQ==
-UI-OutboundReport: notjunk:1;M01:P0:yyAgzB0BofA=;VWrJ0W4bZblvabSS9HUzMsXIw5a
- AiqsgXQGHu5tWDoVmsBaiiLhkAbilRv/fk0uSH2SkpDiv1+8rZv6zbKP6aQxu1VgjBgOYK96k
- QvkEHA/jhnkKXueAviXbtPGk7vJ4nVQ07pgyrFTTVrzoi5nBnF1kor3RrhFhFs9yBn4QU359h
- f/ck86TV/HHczksasfrDRmGSVCseYWI76LC/Cd9BFkYu0oQFgsmauz7O+sGoI7e15xD6N0uZt
- ZMKS1/ergSdoJ7lY89fIDLKAOMWHJUviFMQ7m5RGupiRTRFF/IW8LRKCIJXJ+IdfUZegCNiRZ
- QYFZ5IOLVbdPNA2FtCUAN5FM9Zp9ediGyCBrtylkbKo+dVKW8zFNcro/moCpsIRhOPvkzKzFq
- +uX+0v+ga701N6Zj4AtRrz+d4nJHHaiHghyLsOQuVHksMw2F9Qn5aixcQK69iKXbG0EIksyYO
- FUqtSo7lRvgVAvWnQG/WFVSZXAmxgn5aoCKDryEQlxTQzgCGjBqkXuMiud1bQ6QrDzfogarFw
- VErppY+dagcZQS72gVTfePTYDG7WYPAl8htd/FDb5j2ynLyzclYY3kfLjzRHUIZTof0Y7rkJV
- i+zP2e+Jq4qIzN+XplTkfXE1gzJySwjMEGMNrxhbtTm1/n/4N9Lm+65QnOF5OsbX2KZpS9wsC
- thnFaqMUVcJEixXG0sLsO2/y0Z+/61+ztt4WT9Y2JQwkAFdA4PolZwjrdLSqR8WZsu5/HInYd
- /YsPhhcOmvKNDLeSwjN63sg1041fUkDen0x8wtu9UOVua9iPIQ0bW7tdIyssgwCevQXXc7nZM
- Hh1VxeMbKtWAmOF+7hZNAfi2lLSHlvJp/kH8VTlUn1cL+grSyDlAcH5AMRJOUGuok5e0vvRSi
- TdTptJT75owqFET+n54gNN7K46hMxzJ5UfGila9pdwKLEqMKJS3xbIaHSVxG6rDZcdEvT+Mg4
- 20+tjcvdFnqkSnAUwRYDMQrdhEk=
 
-Am 08.12.23 um 13:25 schrieb Ilpo J=C3=A4rvinen:
+Hi Tony,
 
-> On Thu, 7 Dec 2023, Armin Wolf wrote:
+On Thu, Dec 7, 2023 at 11:56=E2=80=AFAM Tony Luck <tony.luck@intel.com> wro=
+te:
 >
->> Since 2010, an LWN article covering WMI drivers exists:
->>
->> 	https://lwn.net/Articles/391230/
->>
->> Since the introduction of the modern bus-based interface
->> and other userspace tooling (fwts wmi, bmfdec, ...), this
->> article is outdated and causes people to still submit new
->> WMI drivers using the deprecated GUID-based interface.
->> Fix this by adding a short guid on how to develop WMI drivers
-> Too used to typing guid(?), here you want "guide" instead. :-D (I know
-> that feeling when my fingers type something else than I think).
+> The MBA Software Controller(mba_sc) is a feedback loop that uses
+> measurements of local memory bandwidth to adjust MBA throttling levels
+> to keep workloads in a resctrl group within a target bandwidth set in
+> the schemata file.
 >
->> using the modern bus-based interface.
->>
->> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->> ---
->>   .../wmi/driver-development-guide.rst          | 126 +++++++++++++++++=
-+
->>   Documentation/wmi/index.rst                   |   1 +
->>   2 files changed, 127 insertions(+)
->>   create mode 100644 Documentation/wmi/driver-development-guide.rst
->>
->> diff --git a/Documentation/wmi/driver-development-guide.rst b/Documenta=
-tion/wmi/driver-development-guide.rst
->> new file mode 100644
->> index 000000000000..a831e2728d25
->> --- /dev/null
->> +++ b/Documentation/wmi/driver-development-guide.rst
->> @@ -0,0 +1,126 @@
->> +.. SPDX-License-Identifier: GPL-2.0-or-later
->> +
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->> +WMI driver development guide
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->> +
->> +The WMI subsystem provides a rich driver api for implementing WMI driv=
-ers,
-> API
+> Users may want to use total memory bandwidth instead of local to handle
+> workloads that have poor NUMA localization.
 >
->> +documented at Documentation/driver-api/wmi.rst. This document will ser=
-ve
->> +as an introductory guide for WMI driver writers using this API. It is =
-supposed
->> +t be an successor to the original `LWN article <https://lwn.net/Articl=
-es/391230/>`_
-> t -> to
->
->> +which deals with WMI drivers using the deprecated GUID-based WMI inter=
-face.
->> +
->> +Optaining WMI device information
-> Obtaining
->
->> +--------------------------------
->> +
->> +Before developing an WMI driver, information about the WMI device in q=
-uestion
->> +must be optained. The `lswmi <https://pypi.org/project/lswmi>`_ utilit=
-y can be
-> obtained
->
->> +used to display detailed WMI device information using the following co=
-mmand:
->> +
->> +::
->> +
->> +  lswmi -V
->> +
->> +The resulting output will contain information about all WMI devices in=
-side a given
->> +machine, plus some extra information.
->> +
->> +In order to find out more about the interface used to communicate with=
- a WMI device,
->> +the `bmfdec <https://github.com/pali/bmfdec>`_ utilities can be used t=
-o decode
->> +the Binary MOF information used to describe WMI devices. The ``wmi-bmo=
-f`` driver
-> (Managed Object Format)
->
->> +exposes this information to userspace, see Documentation/ABI/stable/sy=
-sfs-platform-wmi-bmof.
-> This should use a true link to the file.
->
->> +In order to retrieve the decoded Binary MOF information, use the follo=
-wing command (requires root):
->> +
->> +::
->> +
->> +  ./bmf2mof /sys/bus/wmi/devices/05901221-D566-11D1-B2F0-00A0C9062910[=
--X]/bmof
->> +
->> +Sometimes, looking at the disassembled ACPI tables used to describe th=
-e WMI device
->> +helps in understanding how the WMI device is supposed to work. To find=
- out which
->> +ACPI method handles which WMI device, the `fwts <https://github.com/fw=
-ts/fwts>`_
->> +program can be used with the following command (requires root):
->> +
->> +::
->> +
->> +  fwts wmi -
->> +
->> +Basic WMI driver structure
->> +--------------------------
->> +
->> +The basic WMI driver is build around the struct wmi_driver, which is t=
-hen bound
->> +to matching WMI devices using an struct wmi_device_id table. Please no=
-te that each
-> an struct -> a struct
->
->> +WMI driver should be able to be instantiated multiple times.
->> +
->> +::
->> +
->> +  static const struct wmi_device_id foo_id_table[] =3D {
->> +         { "936DA01F-9ABD-4D9D-80C7-02AF85C822A8", NULL },
->> +         { }
->> +  };
->> +  MODULE_DEVICE_TABLE(wmi, foo_id_table);
->> +
->> +  static struct wmi_driver foo_driver =3D {
->> +        .driver =3D {
->> +                .name =3D "foo",
->> +                .probe_type =3D PROBE_PREFER_ASYNCHRONOUS,        /* o=
-ptional */
->> +                .pm =3D pm_sleep_ptr(&foo_dev_pm_ops),            /* o=
-ptional */
->> +        },
->> +        .id_table =3D foo_id_table,
->> +        .probe =3D foo_probe,
->> +        .remove =3D foo_remove,         /* optional, devres is preferr=
-ed */
->> +        .notify =3D foo_notify,         /* optional, for event handlin=
-g */
->> +  };
->> +  module_wmi_driver(foo_driver);
->> +
->> +If your WMI driver is not using any deprecated GUID-based WMI function=
-s and is
->> +able to be instantiated multiple times, please add its GUID to ``allow=
-_duplicates``
->> +inside drivers/platform/x86/wmi.c, so that the WMI subsystem does not =
-block duplicate
->> +GUIDs for it.
-> Just voicing wouldn't it be more useful to not burden new stuff with thi=
-s
-> at all and construct the opposite list instead with the GUIDs that have
-> a driver that don't support duplicates? It's the existing set of GUIDs w=
-e
-> have in-tree minus those currently on the list, correct?
+> Add a new mount option "mba_MBps_event=3D{event_name}" where event_name
+> is one of "mbm_Local_bytes" or "mbm_total_bytes" that allows a user to
 
-You are right about this, i am already thinking about a different approach=
- which
-does not rely on such a whitelist.
+It's "mbm_local_bytes" in the matching logic later on.
 
-Basically, the legacy GUID-based functions only act on WMI devices which h=
-ave an
-ID of zero (which means they where found first), so that legacy drivers do=
- not see
-WMI devices with a duplicate GUID.
-At the same time, WMI drivers would have to set a flag inside their struct=
- wmi_driver
-to indicate that they can be safely instantiated multiple times, otherwise=
- they would
-only be allowed to bind to WMI devices with an ID of zero (which are uniqu=
-e).
 
-This would replace the whitelist with a flag inside wmi_driver, which can =
-be enabled
-by the driver developer without having to touch the WMI driver core at all=
-.
+> specify which monitoring event to use.
+>
+> Update the once-per-second polling code to use the chosen event (local
+> or total memory bandwidth).
+>
+> Signed-off-by: Tony Luck <tony.luck@intel.com>
+> ---
+>  include/linux/resctrl.h                |  2 +
+>  arch/x86/kernel/cpu/resctrl/internal.h |  3 +-
+>  arch/x86/kernel/cpu/resctrl/monitor.c  | 21 +++++----
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 61 +++++++++++++++++++++-----
+>  4 files changed, 63 insertions(+), 24 deletions(-)
+>
+> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+> index 66942d7fba7f..1feb3b2e64fa 100644
+> --- a/include/linux/resctrl.h
+> +++ b/include/linux/resctrl.h
+> @@ -129,6 +129,7 @@ enum membw_throttle_mode {
+>   * @throttle_mode:     Bandwidth throttling mode when threads request
+>   *                     different memory bandwidths
+>   * @mba_sc:            True if MBA software controller(mba_sc) is enable=
+d
+> + * @mba_mbps_event:    Event (local or total) for mba_sc
+>   * @mb_map:            Mapping of memory B/W percentage to memory B/W de=
+lay
+>   */
+>  struct resctrl_membw {
+> @@ -138,6 +139,7 @@ struct resctrl_membw {
+>         bool                            arch_needs_linear;
+>         enum membw_throttle_mode        throttle_mode;
+>         bool                            mba_sc;
+> +       enum resctrl_event_id           mba_mbps_event;
+>         u32                             *mb_map;
+>  };
+>
+> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu=
+/resctrl/internal.h
+> index a4f1aa15f0a2..8b9b8f664324 100644
+> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> @@ -58,7 +58,8 @@ struct rdt_fs_context {
+>         struct kernfs_fs_context        kfc;
+>         bool                            enable_cdpl2;
+>         bool                            enable_cdpl3;
+> -       bool                            enable_mba_mbps;
+> +       bool                            enable_mba_mbps_local;
+> +       bool                            enable_mba_mbps_total;
+>         bool                            enable_debug;
+>  };
+>
+> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/=
+resctrl/monitor.c
+> index f136ac046851..d9e590f1cbc3 100644
+> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+> @@ -431,9 +431,10 @@ static int __mon_event_count(u32 rmid, struct rmid_r=
+ead *rr)
+>   */
+>  static void mbm_bw_count(u32 rmid, struct rmid_read *rr)
+>  {
+> -       struct mbm_state *m =3D &rr->d->mbm_local[rmid];
+>         u64 cur_bw, bytes, cur_bytes;
+> +       struct mbm_state *m;
+>
+> +       m =3D get_mbm_state(rr->d, rmid, rr->evtid);
 
-I think i will split out this patch from the next revision of the series, =
-since getting
-rid of the whitelist should be a separate series.
+WARN_ON(m =3D=3D NULL) since we assume the caller has confirmed rr->evtid
+is an MBM event?
 
-Thanks,
-Armin Wolf
+>         cur_bytes =3D rr->val;
+>         bytes =3D cur_bytes - m->prev_bw_bytes;
+>         m->prev_bw_bytes =3D cur_bytes;
+> @@ -521,19 +522,21 @@ static void update_mba_bw(struct rdtgroup *rgrp, st=
+ruct rdt_domain *dom_mbm)
+>         u32 closid, rmid, cur_msr_val, new_msr_val;
+>         struct mbm_state *pmbm_data, *cmbm_data;
+>         u32 cur_bw, delta_bw, user_bw;
+> +       enum resctrl_event_id evt_id;
+>         struct rdt_resource *r_mba;
+>         struct rdt_domain *dom_mba;
+>         struct list_head *head;
+>         struct rdtgroup *entry;
+>
+> -       if (!is_mbm_local_enabled())
+> +       if (!is_mbm_enabled())
+>                 return;
+>
+>         r_mba =3D &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
+> +       evt_id =3D r_mba->membw.mba_mbps_event;
+>
+>         closid =3D rgrp->closid;
+>         rmid =3D rgrp->mon.rmid;
+> -       pmbm_data =3D &dom_mbm->mbm_local[rmid];
+> +       pmbm_data =3D get_mbm_state(dom_mbm, rmid, evt_id);
 
->> +WMI method drivers
->> +------------------
->> +
->> +WMI drivers can call WMI device methods using wmidev_evaluate_method()=
-, the
->> +structure of the ACPI buffer passed to this function is device-specifi=
-c and usually
->> +needs some tinkering to get right. Looking at the ACPI tables containi=
-ng the WMI
->> +device usually helps here. The method id and instance number passed to=
- this function
->> +are also device-specific, looking at the decoded Binary MOF is usually=
- enough to
->> +find the right values.
->> +The maximum instance number can be retrieved during runtime using wmid=
-ev_instance_count().
->> +
->> +Take a look at drivers/platform/x86/inspur_platform_profile.c for an e=
-xample WMI method driver.
->> +
->> +WMI data block drivers
->> +----------------------
->> +
->> +WMI drivers can query WMI device data blocks using wmidev_block_query(=
-), the
->> +structure of the returned ACPI object is again device-specific. Some W=
-MI devices
->> +also allow for setting data blocks using wmidev_block_set().
->> +The maximum instance number can also be retrieved using wmidev_instanc=
-e_count().
->> +
->> +Take a look at drivers/platform/x86/intel/wmi/sbl-fw-update.c for an e=
-xample
->> +WMI data block driver.
->> +
->> +WMI event drivers
->> +-----------------
->> +
->> +WMI drivers can receive WMI event notifications by providing the notif=
-y() callback
->> +inside the struct wmi_driver. The WMI subsystem will then take care of=
- setting
->> +up the WMI event accordingly. Plase note that the ACPI object passed t=
-o this callback
-> Plase -> Please
+One defensive WARN_ON((!pmbm_data) for this function to ensure evt_id
+is valid for this call and the ones in the loop below?
+
 >
->> +is optional and its structure device-specific. It also does not need t=
-o be freed,
-> structure is device-specific.
+>         dom_mba =3D get_domain_from_cpu(smp_processor_id(), r_mba);
+>         if (!dom_mba) {
+> @@ -553,7 +556,7 @@ static void update_mba_bw(struct rdtgroup *rgrp, stru=
+ct rdt_domain *dom_mbm)
+>          */
+>         head =3D &rgrp->mon.crdtgrp_list;
+>         list_for_each_entry(entry, head, mon.crdtgrp_list) {
+> -               cmbm_data =3D &dom_mbm->mbm_local[entry->mon.rmid];
+> +               cmbm_data =3D get_mbm_state(dom_mbm, entry->mon.rmid, evt=
+_id);
+>                 cur_bw +=3D cmbm_data->prev_bw;
+>                 delta_bw +=3D cmbm_data->delta_bw;
+>         }
+> @@ -616,18 +619,14 @@ static void mbm_update(struct rdt_resource *r, stru=
+ct rdt_domain *d, int rmid)
+>                 rr.evtid =3D QOS_L3_MBM_TOTAL_EVENT_ID;
+>                 rr.val =3D 0;
+>                 __mon_event_count(rmid, &rr);
+> +               if (is_mba_sc(NULL) && rr.evtid =3D=3D r->membw.mba_mbps_=
+event)
+> +                       mbm_bw_count(rmid, &rr);
+>         }
+>         if (is_mbm_local_enabled()) {
+>                 rr.evtid =3D QOS_L3_MBM_LOCAL_EVENT_ID;
+>                 rr.val =3D 0;
+>                 __mon_event_count(rmid, &rr);
+> -
+> -               /*
+> -                * Call the MBA software controller only for the
+> -                * control groups and when user has enabled
+> -                * the software controller explicitly.
+> -                */
+> -               if (is_mba_sc(NULL))
+> +               if (is_mba_sc(NULL) && rr.evtid =3D=3D r->membw.mba_mbps_=
+event)
+>                         mbm_bw_count(rmid, &rr);
+>         }
+>  }
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu=
+/resctrl/rdtgroup.c
+> index 69a1de92384a..5f64a0b2597c 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -2294,7 +2294,7 @@ static bool supports_mba_mbps(void)
+>  {
+>         struct rdt_resource *r =3D &rdt_resources_all[RDT_RESOURCE_MBA].r=
+_resctrl;
 >
->> +the WMI subsystem takes care of that.
-> I'd state the freeing part more strongly:
+> -       return (is_mbm_local_enabled() &&
+> +       return (is_mbm_enabled() &&
+>                 r->alloc_capable && is_mba_linear());
+>  }
 >
-> Releasing the ACPI object is handled by the WMI subsystem, not the drive=
-r.
+> @@ -2302,7 +2302,7 @@ static bool supports_mba_mbps(void)
+>   * Enable or disable the MBA software controller
+>   * which helps user specify bandwidth in MBps.
+>   */
+> -static int set_mba_sc(bool mba_sc)
+> +static int set_mba_sc(bool mba_sc, enum resctrl_event_id mba_mbps_event)
+>  {
+>         struct rdt_resource *r =3D &rdt_resources_all[RDT_RESOURCE_MBA].r=
+_resctrl;
+>         u32 num_closid =3D resctrl_arch_get_num_closid(r);
+> @@ -2313,6 +2313,7 @@ static int set_mba_sc(bool mba_sc)
+>                 return -EINVAL;
 >
->> +
->> +Take a look at drivers/platform/x86/xiaomi-wmi.c for an example WMI ev=
-ent driver.
->> +
->> +Things to avoid
->> +---------------
->> +
->> +When developing WMI drivers, there are a couple of things which should=
- be avoid
->> +if feasible:
->> +
->> +- usage of the deprecated GUID-based WMI interface
-> It would be nice to be more specific because it's far from obvious at th=
-is
-> point how to differentiate. So perhaps adding something like this would
-> help:
+>         r->membw.mba_sc =3D mba_sc;
+> +       r->membw.mba_mbps_event =3D mba_mbps_event;
 >
-> (avoid functions with wmi_ prefix that input GUID converting it into
-> a wmi_device using wmi_find_device_by_guid()).
+>         list_for_each_entry(d, &r->domains, list) {
+>                 for (i =3D 0; i < num_closid; i++)
+> @@ -2445,13 +2446,14 @@ static void rdt_disable_ctx(void)
+>  {
+>         resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L3, false);
+>         resctrl_arch_set_cdp_enabled(RDT_RESOURCE_L2, false);
+> -       set_mba_sc(false);
+> +       set_mba_sc(false, QOS_L3_MBM_LOCAL_EVENT_ID);
 >
->> +- bypassing of the WMI subsystem when talking to WMI devices
->> +- WMI drivers which cannot be instantiated multiple times.
->> +
->> +Many older WMI drivers violate one or more points from this list. The =
-reason for
->> +this is that the WMI subsystem evolved significantly over the last two=
- decades,
->> +so there is a lot of legacy cruft inside older WMI drivers.
+>         resctrl_debug =3D false;
+>  }
 >
+>  static int rdt_enable_ctx(struct rdt_fs_context *ctx)
+>  {
+> +       enum resctrl_event_id mba_mbps_event;
+>         int ret =3D 0;
+>
+>         if (ctx->enable_cdpl2) {
+> @@ -2466,8 +2468,12 @@ static int rdt_enable_ctx(struct rdt_fs_context *c=
+tx)
+>                         goto out_cdpl2;
+>         }
+>
+> -       if (ctx->enable_mba_mbps) {
+> -               ret =3D set_mba_sc(true);
+> +       if (ctx->enable_mba_mbps_local || ctx->enable_mba_mbps_total) {
+> +               if (ctx->enable_mba_mbps_total)
+> +                       mba_mbps_event =3D QOS_L3_MBM_TOTAL_EVENT_ID;
+> +               else
+> +                       mba_mbps_event =3D QOS_L3_MBM_LOCAL_EVENT_ID;
+
+Total takes precedence over local when the user picks both.
+
+> +               ret =3D set_mba_sc(true, mba_mbps_event);
+>                 if (ret)
+>                         goto out_cdpl3;
+>         }
+> @@ -2683,15 +2689,17 @@ enum rdt_param {
+>         Opt_cdp,
+>         Opt_cdpl2,
+>         Opt_mba_mbps,
+> +       Opt_mba_mbps_event,
+>         Opt_debug,
+>         nr__rdt_params
+>  };
+>
+>  static const struct fs_parameter_spec rdt_fs_parameters[] =3D {
+> -       fsparam_flag("cdp",             Opt_cdp),
+> -       fsparam_flag("cdpl2",           Opt_cdpl2),
+> -       fsparam_flag("mba_MBps",        Opt_mba_mbps),
+> -       fsparam_flag("debug",           Opt_debug),
+> +       fsparam_flag("cdp",                     Opt_cdp),
+> +       fsparam_flag("cdpl2",                   Opt_cdpl2),
+> +       fsparam_flag("mba_MBps",                Opt_mba_mbps),
+> +       fsparam_string("mba_MBps_event",        Opt_mba_mbps_event),
+> +       fsparam_flag("debug",                   Opt_debug),
+>         {}
+>  };
+>
+> @@ -2715,7 +2723,25 @@ static int rdt_parse_param(struct fs_context *fc, =
+struct fs_parameter *param)
+>         case Opt_mba_mbps:
+>                 if (!supports_mba_mbps())
+>                         return -EINVAL;
+> -               ctx->enable_mba_mbps =3D true;
+> +               if (is_mbm_local_enabled())
+> +                       ctx->enable_mba_mbps_local =3D true;
+> +               else
+> +                       return -EINVAL;
+> +               return 0;
+> +       case Opt_mba_mbps_event:
+> +               if (!supports_mba_mbps())
+> +                       return -EINVAL;
+> +               if (!strcmp("mbm_local_bytes", param->string)) {
+> +                       if (!is_mbm_local_enabled())
+> +                               return -EINVAL;
+> +                       ctx->enable_mba_mbps_local =3D true;
+> +               } else if (!strcmp("mbm_total_bytes", param->string)) {
+> +                       if (!is_mbm_total_enabled())
+> +                               return -EINVAL;
+> +                       ctx->enable_mba_mbps_total =3D true;
+> +               } else {
+> +                       return -EINVAL;
+
+It looks like if I pass
+"mba_MBps_event=3Dmbm_total_bytes,mba_MBps_event=3Dmbm_local_bytes" I can
+set both flags true.
+
+> +               }
+>                 return 0;
+>         case Opt_debug:
+>                 ctx->enable_debug =3D true;
+> @@ -3780,16 +3806,27 @@ static int rdtgroup_rename(struct kernfs_node *kn=
+,
+>         return ret;
+>  }
+>
+> +static char *mba_sc_event_opt_name(struct rdt_resource *r)
+> +{
+> +       if (r->membw.mba_mbps_event =3D=3D QOS_L3_MBM_LOCAL_EVENT_ID)
+> +               return ",mba_MBps_event=3Dmbm_local_bytes";
+> +       else if (r->membw.mba_mbps_event =3D=3D QOS_L3_MBM_TOTAL_EVENT_ID=
+)
+> +               return ",mba_MBps_event=3Dmbm_total_bytes";
+> +       return "";
+> +}
+> +
+>  static int rdtgroup_show_options(struct seq_file *seq, struct kernfs_roo=
+t *kf)
+>  {
+> +       struct rdt_resource *r_mba =3D &rdt_resources_all[RDT_RESOURCE_MB=
+A].r_resctrl;
+> +
+>         if (resctrl_arch_get_cdp_enabled(RDT_RESOURCE_L3))
+>                 seq_puts(seq, ",cdp");
+>
+>         if (resctrl_arch_get_cdp_enabled(RDT_RESOURCE_L2))
+>                 seq_puts(seq, ",cdpl2");
+>
+> -       if (is_mba_sc(&rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl))
+> -               seq_puts(seq, ",mba_MBps");
+> +       if (is_mba_sc(r_mba))
+> +               seq_puts(seq, mba_sc_event_opt_name(r_mba));
+>
+>         if (resctrl_debug)
+>                 seq_puts(seq, ",debug");
+> --
+> 2.41.0
+>
+
+Consider the setting-both-events quirk and a little bit of defensive
+programming for get_mbm_data() returning NULL.
+
+Assuming the case of "Local" is fixed in the commit message:
+
+Reviewed-by: Peter Newman <peternewman@google.com>
+
+Thanks!
