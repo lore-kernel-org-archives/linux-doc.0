@@ -1,89 +1,102 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RKGZJ1oy"
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7055F10C0;
-	Fri,  8 Dec 2023 07:06:29 -0800 (PST)
-Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-3b9e07690ccso1087795b6e.3;
-        Fri, 08 Dec 2023 07:06:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nqES9lyy"
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B95026B1;
+	Fri,  8 Dec 2023 07:09:34 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50bf3efe2cbso2535809e87.2;
+        Fri, 08 Dec 2023 07:09:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702047988; x=1702652788; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m6pOl44hnRB0dR/4pW+aUDm4MDjfxjNHERGp+p3r9Ks=;
-        b=RKGZJ1oyu1oqtzBh7o6NWd9xtRkwNjSZhcIA60MV6w2bnqt9MEjIUhchJY7zekJOCG
-         JnLVZFybqQpp1lkP4LnAYqXkCcBzV/ngdf0KGu+0fWFG9uo2165cbG/u6dDV8UvrsEXm
-         vwcgPxnNRR12lQRm9i7QXdqaadgOsicojbbYqJV8pdpcFsxBIDYN2UB2Mi24om9FlJdg
-         2d3s9GAsnY5rqa6YLNJrmMObkf75LNzFIOUKdNk10etNHLrvxtchWY6vIpZJV5BObFiI
-         pkCVm+7A6RfNi34mfIN8XGfV5vQ8o7Ce10LQU8iLLdkVS93yOUzK2dBGaCNscaP705ZZ
-         tnHw==
+        d=gmail.com; s=20230601; t=1702048172; x=1702652972; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ty/29TTzygGMDv96OFi4fv1KRAlm0fzyRN/+tNsm1iU=;
+        b=nqES9lyySV7KcxEf5D1DvZ2mWGR1YcQ20T1kIG25Nmv1G/vnxAyEcNR8RoXmJRH9pm
+         ytqFnzKF3XTgkalvod0iTedrtz6ADhKE2cukmTpKaPLAW1pjgAr3+2ZhEcMtacxQcEUd
+         0ThXlov0LCPZhh8nNBoP0J485RAhH0+gzzGDNDjIqBbZp98gdXMlKCmzDUIw3usUGyDJ
+         3ZicbMfMQ65BH8LvNY8SPEPFEFI/81kCXhTCn32idXcSwGcG+01P8085TMk5FwZuZ3yY
+         q7fjmOQkWLVqdqkt1IPITo8M+Rr75Khg9F07O4LyjCXD2v/hsezDSxYnpxaMc3uhyKi6
+         8bGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702047988; x=1702652788;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m6pOl44hnRB0dR/4pW+aUDm4MDjfxjNHERGp+p3r9Ks=;
-        b=RXFORxUeZn1MQWs7njUjEOnoHIZ+yRGPh8O4sslUXTtAyCRqyXOVrYd1hPKqSYj8c9
-         zJPUS4CJ5L1uHmWVl6rGR0QIbqEZVOLBU9d1WFKgGzlCYXv6oXo1Qae5ICDRvJWJ4p8m
-         sjXaZc9MOPJ2fzU80xs6yYXjaIIPXJ77ImXMPGVj3nVvpkSkyoywWeqqFSzwbK6lJI6f
-         d+vYvymVH8rMom+c5fp2ZAGc+mz7xGpWrn9KZJBkVrwprR/kHJuHncmSMulaPYnohT/+
-         4fEq3mr6B5GrB1/x0/UOS0iw8VWIi69Y3WphJuogOlu7WDrz3vOegoQEz46gjJYqWKdK
-         iGOQ==
-X-Gm-Message-State: AOJu0YzbDuOG7uSn02bSSf3bQW0Mc8J3c5hwLJmVF2HP4ZbJFZg5p4ng
-	hJV/E2PREsrTC3ALNx9CVH+X1YZO6RM4GKglIkQ=
-X-Google-Smtp-Source: AGHT+IEhSuVMBLg3I/VAynBjKxWD0Av3ewES2MqnKcaUDavCJV44U8FRNmSesRCL++zVPSTROJlOtkiynJgtwAFZF7g=
-X-Received: by 2002:a05:6808:222a:b0:3b8:b063:5d6c with SMTP id
- bd42-20020a056808222a00b003b8b0635d6cmr163139oib.83.1702047988710; Fri, 08
- Dec 2023 07:06:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702048172; x=1702652972;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ty/29TTzygGMDv96OFi4fv1KRAlm0fzyRN/+tNsm1iU=;
+        b=ETopoIN65eWlTOh2MB61YLUe5//Qw7tZuOjba5S2x/LgQuhGHwrPW5RZFvux+RT8xi
+         8Z4Qg+AuQvUm3QOfBEN++K+e3PXENIB66wEbPdvCBrwO3tdUH+AXkJfRxBUzcGHDO9Ze
+         3kMLeQ3NBw/TQoPrxyFHHC8W0h/pm83DN5Ppl0+nRVMQqM2AJUE9tJyuPCEWfGVyBbRN
+         MBM7zN27lIjxG9tGtsJmSNSDagInwTYZ0VxeA6HAjUPTabZQDK9sUcuj2iSZTIQbJyP6
+         bN44/ctyCypLRuLlw7fSxVbNwTljbgF8ahGSZQh6T46mr1wueTjPEt8GlCOlfTXuZukq
+         pSQA==
+X-Gm-Message-State: AOJu0YwrczprWE2BfUbGwu8EPOSHFdHgM7Tf0gNwLIIL9bahHwCl/blQ
+	PK7nh1jYk8FRWQCzc/GS+qQ=
+X-Google-Smtp-Source: AGHT+IE2/HriMnM04UsszHZPIN2IhDpaQZtu1ft/pq6NRm1cZ88jw68F7XlsEf61IuibCKqQ90+M3g==
+X-Received: by 2002:ac2:5194:0:b0:50c:11:473e with SMTP id u20-20020ac25194000000b0050c0011473emr12611lfi.89.1702048171893;
+        Fri, 08 Dec 2023 07:09:31 -0800 (PST)
+Received: from ?IPV6:2a02:8389:41cf:e200:c92f:1e77:f6cd:6d02? (2a02-8389-41cf-e200-c92f-1e77-f6cd-6d02.cable.dynamic.v6.surfer.at. [2a02:8389:41cf:e200:c92f:1e77:f6cd:6d02])
+        by smtp.gmail.com with ESMTPSA id bd18-20020a056402207200b00542db304680sm846815edb.63.2023.12.08.07.09.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Dec 2023 07:09:31 -0800 (PST)
+Message-ID: <79a9bb81-4488-47d1-a24e-f4abde097d43@gmail.com>
+Date: Fri, 8 Dec 2023 16:09:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
-In-Reply-To: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 8 Dec 2023 16:06:17 +0100
-Message-ID: <CANiq72=0pOVCq2+nNArT4P_FTLDjUFBtVM=X7Emn9FQbB4QqkA@mail.gmail.com>
-Subject: Re: [PATCH] docs: rust: Clarify that 'rustup override' applies to
- build directory
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/5] hwmon: Add support for Amphenol ChipCap 2
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20231020-topic-chipcap2-v3-0-5b3bb50a5f0b@gmail.com>
+ <20231020-topic-chipcap2-v3-5-5b3bb50a5f0b@gmail.com>
+ <04475f91-bdce-4677-894c-74c2bb8233d9@sirena.org.uk>
+ <5b62afcb-254d-4dfc-8332-7979c62ea2c2@gmail.com>
+ <6cce1b87-a9a9-4554-9dae-c24d1d276fb5@sirena.org.uk>
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <6cce1b87-a9a9-4554-9dae-c24d1d276fb5@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 8, 2023 at 11:18=E2=80=AFAM Viresh Kumar <viresh.kumar@linaro.o=
-rg> wrote:
->
-> @@ -39,8 +39,13 @@ If ``rustup`` is being used, enter the checked out sou=
-rce code directory
->         rustup override set $(scripts/min-tool-version.sh rustc)
->
->  This will configure your working directory to use the correct version of
-> -``rustc`` without affecting your default toolchain. If you are not using
-> -``rustup``, fetch a standalone installer from:
-> +``rustc`` without affecting your default toolchain.
-> +
-> +Note that the override applies to the build directory (and its sub-direc=
-tories).
-> +If the kernel is built with `O=3D<build directory>`, the override must b=
-e set for
-> +the build directory instead.
-> +
-> +If you are not using ``rustup``, fetch a standalone installer from:
+On 07.12.23 21:44, Mark Brown wrote:
 
-Thanks Viresh!
+> There is a specific API for exclusive regulators which the driver is not
+> using, and it's unconditionally doing the disable/enable cycle here.
+> 
 
-I think it may be a bit more clear/compact if we simply change the
-"enter the checked out source code directory" sentence instead above?
-What do you think?
+That is right, I will call regulator_get_exclusive() instead.
 
-Cheers,
-Miguel
+> The driver needs to be explicitly configured for this and have separate
+> code paths for normal operation and operation where the supply can be
+> bounced like this.  In neither code path should the supply be optional.
+> Right now we don't have a mechanism for discovering optionally exclusive
+> and enable/disablable supplies which is what the device needs, we could
+> potentially add that since this does seem like a viable use case and we
+> already have enough information in the DT to say if the supply matches
+> the constraints.  Probably the two properties queryable separately.  If
+> that API were added then the driver would do a normal regulator_get()
+> then check if it has the capabilities it needs and either keep the
+> supply on all the time (or possibly just during measurements?) or enable
+> the alarm functionality.
+In that case I will split the driver development into two steps. First I
+will stick to the existing API and implement only the code path where an
+exclusive regulator is required i.e. not optional, which will simplify
+the review process considerably.
+
+When the driver makes it through and all other issues are also solved, I
+will work on the optional exclusive regulator. This is probably an edge
+case and it will increase complexity to actually use half of the device
+capabilities to save the exclusive regulator, but at some point I would
+like to offer that as well.
+
+Thank you again and best regards,
+Javier Carrasco
