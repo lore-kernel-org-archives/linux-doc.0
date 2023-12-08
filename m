@@ -1,168 +1,394 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77D37F
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 00:19:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="r8VE0l9c"
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2071.outbound.protection.outlook.com [40.107.92.71])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 709F31716;
-	Thu,  7 Dec 2023 16:12:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OdfCFRCUOMRakhgtfCwgH8ilG7fq138W6k8AiTGr7wuExSME1LJka/Qiy2UYd+1C1Stib+BKAG971VqyTEuFxjhFJNVDkmVwuZG6z4fmwW35XA9DEoKoe4WizWGLen4lISMp4sQ+aBEb66PO89ttC5LttXNCm0sHl5LFQUhQAcdGtH/k+iW7ZcyN9gfFkv84hzm4/Y4cG/A+ZzRfi3CZrSh8XxTizpOeNOJzRW96smMN0XCvdyY+OmcPuUJCG6A+p9Lf7sI/dmmMAdPEvMPVvAMsR/jqk7vnJzOMcYS36+8kOmXU/QnoBLYy742d4O+ZRvAmXEv1k2Tq9HZZ5nplJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=naCROcZwFJyDfAQcKuCqlnhY3Re9LTbXdGrG6K0rweM=;
- b=Hx1kRX80fKddb2hP+FOsdW+8q9QvU5lYoJ9QJr5SVbgJYAr7y7/Li/AcqRheyNIZGOfAF1AeOwcqk8j6ftOAz55yhsLMLHUDZw+Vu3YR3lUUWrmbmeILxGDHhLdD81hcWzbTO/IyfD1ykyWFOfWdpX8rRqXAeTnpQKPw07fMctbwfdKHSv0UhNfb3g1xRizFh0YOkieHuIsJbPgkusn5T508smgZLF8OvZls1ojRqiQkW8NZZhWRp/FrICaupiCZyMEr2aV1YYHF8t2zKB79rUa8T3aC1vT9Y0yfo13+6JXL1Pnw7WinfOOiMGbueOIiPSV5KGgGddyAL7MD1zwuyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=naCROcZwFJyDfAQcKuCqlnhY3Re9LTbXdGrG6K0rweM=;
- b=r8VE0l9cVFEC/bXdYRLK6hxkywI5XFh27aXIDOMnet7Xbt9c7RrMltBIt6Wrpd8fcHJ0arlsB84rA7caEjZ/Jfe4bWsTOYrf1yR/tEwnixOpGOXil8AbcuGZJt1uHiSBES+/q5lHJNgbofbOfdnlKpzWvmImq8PCDvahYij1K4U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by SJ0PR17MB5843.namprd17.prod.outlook.com (2603:10b6:a03:40e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.27; Fri, 8 Dec
- 2023 00:12:05 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7068.027; Fri, 8 Dec 2023
- 00:12:05 +0000
-Date: Thu, 7 Dec 2023 19:11:59 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, mhocko@kernel.org, tj@kernel.org,
-	ying.huang@intel.com, corbet@lwn.net, rakie.kim@sk.com,
-	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
-	peterz@infradead.org
-Subject: Re: [RFC PATCH 01/11] mm/mempolicy: implement the sysfs-based
- weighted_interleave interface
-Message-ID: <ZXJfT/EXFu+MtTkW@memverge.com>
-References: <20231207002759.51418-1-gregory.price@memverge.com>
- <20231207002759.51418-2-gregory.price@memverge.com>
- <uxqkbmqbvcvx6wc3g2h6vhkutv5flrq6rslwdfs7pa6kknupwh@a245pbtfqfgj>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <uxqkbmqbvcvx6wc3g2h6vhkutv5flrq6rslwdfs7pa6kknupwh@a245pbtfqfgj>
-X-ClientProxiedBy: SJ0PR03CA0235.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::30) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aQk3jSp5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71BE9C433CA
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 00:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701994798;
+	bh=mDwxbPBb1A5AYZHcCsx/GV3t7KzcIQ+T/wJuXDoRX4w=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=aQk3jSp5JkmAdvCUyKGsQUWCTdIgctWfiJ4IaebDZsIzvR+ev9P2cf+GUdV2RZiS6
+	 er1Klzcfn7xucBwwTFJiDamsloeCsuuLar4Ib+s+byvzKKwJS2gjR18uhPTkO7sj2n
+	 rWHuQx1yQLJfBbCl91qs8FCbW/V4vqlRAe+xWyvms7inpzp1IsDveoqqaisG/OOHPt
+	 IjPlTfwFccKQ/5TmvaZWt41eq1cS9oiE5Uf/8fptoBv8W3parkOqsJ4xyB9YWUXvQU
+	 +RRTKO+2nO+uGzJszYs72xAvftyL9NUyc8sYgUt3+Jq3iTHtNyhwm2UqW0etoUpwp2
+	 HTHLjreDo2vDQ==
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-67a91751ba8so9019606d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 16:19:58 -0800 (PST)
+X-Gm-Message-State: AOJu0YxW5C9u4bpRVAaJ6R4f4XY6npBFjYWCbc1aDb3j3zSKBnOsYnOE
+	IRfyDIiErj8vsiyP2LBkHvZl1i2D+tDPh8X/e4gesw==
+X-Google-Smtp-Source: AGHT+IHH8qUzAYmZPIqWzQmA5CT/QTGVkxl12ScCXZvPymESIzGdG+x2E7gfCbehuq7nxkvRQnm/B7h88Z2nEtK/96M=
+X-Received: by 2002:a05:6a20:5603:b0:18c:4f:ce9e with SMTP id
+ ir3-20020a056a20560300b0018c004fce9emr3737185pzc.43.1701994776637; Thu, 07
+ Dec 2023 16:19:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SJ0PR17MB5843:EE_
-X-MS-Office365-Filtering-Correlation-Id: efd1d4a4-66d9-4f90-627f-08dbf7824f4c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	t3Duk6XKpZ4l7zsZ46tI39m5PyVKQYpIwEn7vT4uyNOfDHnPYz+K4Bk9MLxsNEqz7yEFK3A0jAlpLu5opcglWT6GLQP9JPGeC+civkovDBviCFptMgUc7y8myQ2xgbNUKErioD9WzXj0rskxPX2Zcgr+XGZZ65JbfgBRkj2Zmass3zUQwbATNwHXyShgBli3mBo0LXg/n7eHripRi6XwAjHAqp/CwI3lL9+PconBh2CCaurUcDB1yQbK1iQD8t90Qn2LgWSB9sdzmTegNJa9owxfvHMPKd0PzlPGYBnub8T15LnPTMuKL+Ojj23K6CcMH4FqZYDtnlOPS1KVRvB4X4Q4BYXr0voGYflyS3ZNNZKimpt+0pZS+7wMs+4y8obx8dOu+F3L3Mfx4jZuW6z7ZakDExEqjo4g2iDTOkYrHhamfQTe/PwwlkmdaownPODMP6vBqd4c/BV6EVCLSRt8Hrk2CL0oeiBI+yIdI7HwINe23FRCU2zj3HAoIwAmGVeN63lhFDbBF+qP8SN2cucAbmaHMGL8vF4MW7pfhD9fc8B5nMXlf61d3G0LUKfjnT4OAlbprCER3p+QiySsWVP8mr97QE9ycbQQfF4QaWuPrR7DZtwCSRmr9RE/Msj3vv7Y
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(39840400004)(346002)(376002)(366004)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(41300700001)(921008)(36756003)(5660300002)(2906002)(7416002)(7406005)(83380400001)(6666004)(6506007)(26005)(38100700002)(2616005)(6512007)(478600001)(6486002)(66476007)(66946007)(66556008)(44832011)(8936002)(8676002)(86362001)(316002)(16393002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6kM1oHoIff6eXahaQ1lELhOknww9FIYINdzojy/W0zzEc5mqwbLRZuTOf6+1?=
- =?us-ascii?Q?aDr2ksgtXpEAFCvWL+dfvZuuC9iaJVqdIr8yhDhZ9Y/MpCZX4JBswwYRvaFN?=
- =?us-ascii?Q?GhMTkxdCaQyF/ZVp63UhU4/jpINPXA+lgI615CY4yHLl2qKLexDn/F0JLPzf?=
- =?us-ascii?Q?qfcMooDw5/dZ3d1SgdgaD30Pvvj4CbJroNBlFZJ4B+ypbb8w5cegACwApK1z?=
- =?us-ascii?Q?uzGBHaBMxd9Q/QEnKAiMT3YZlFVslLQWPtf46j1X2ebT0mCodZVpcOa+SqMT?=
- =?us-ascii?Q?yTsKKO11fySOm5yrJMNgKHR+gXZLBvClwDobY4BCX2xrSRYEzw9sAEL58Nig?=
- =?us-ascii?Q?5uZEzWZXVYOOJDVrF+srCorBZ4BCuZ4pbarVEZ8oM/e5gyLEeUkdDlGeRagH?=
- =?us-ascii?Q?IEXL2+cPpESiv5fZZ8RM5n1AHv61HHHSI7+mkB81brDLaHgMZgVJjPab37hK?=
- =?us-ascii?Q?1EwAAuGAZEWGAQxm7/3XwwpMWmV9jUMAtIBNa53nnU+7anvM3968CcLVFPaF?=
- =?us-ascii?Q?IhWVPEJOIWQLaDhuMItCzKX92EHw2QseV/hDMF0c6RKvSPOlTScWyEIPAuCz?=
- =?us-ascii?Q?aZ173fSGJeurU3133bNj0yunnGBc42UdDKfQuqp5AVbZK7hMW6ZheUT/3q62?=
- =?us-ascii?Q?dIo2nJ06XGYYf1FmzxoqP+UL92wQ9khl+LvKuo32qpJnpLKeB71VHXW3nXAK?=
- =?us-ascii?Q?HdpoP+vvH0jBQBTDqqJ16A47Pkh/j7DtCvit2+kpseTg8bjYI8BG9x3EWTfV?=
- =?us-ascii?Q?RaRSmBrETQiZpJnAE9Y3vFXSXl5prbZkPh4oRIUu9lvNqfYvuYzVvbFZ8mMt?=
- =?us-ascii?Q?xaoSrnMPpqaDzLynbxFEDmxc6oATfDtvMo19Pkw6cTrRPmF7hMyvb4oRyPv6?=
- =?us-ascii?Q?a5OM4a9qN4fqx0+FI2pyUJXapmNbMz84p6jjHeenIawkIqBnpVCjVDnsxgmW?=
- =?us-ascii?Q?XYzWDqaVNuzNVmb13Zr1nPOX8WB5wT9zuDxFUJVIOsaJulX+tjYrzZDHM4JJ?=
- =?us-ascii?Q?GJ/q8I8EpxG9960lKL3UKPi9FVpd5oI8AnLaWNb8XrE9Bt7YSXX/sMXEiBUe?=
- =?us-ascii?Q?mtiY2TKfRGfQKKfsy86nErka166e97THnFCaz+OQVXGxWaj8JfWwq+DVzHRB?=
- =?us-ascii?Q?RnrDVZDOpm2BCmd++Ag+mdFs4s+UYy8DzAFVNSfwAu3tpmaQdTpue8+xq7C9?=
- =?us-ascii?Q?acq7KWawGLyJGKFICLlNQL4Eq2pafcGMRPHR58B62RIhVDQiOrkcF68ko4VS?=
- =?us-ascii?Q?rpBx6xkfUCF1V31G16KOLNiKaE09W4OLKbyLhBipZejOO8+p9d7eUjjheH93?=
- =?us-ascii?Q?7LWwDQWCFrGN3CBn+M1Nk+OmmktPYE0SFuWmvetwqwiCH7Vv3GiBH8evBHaf?=
- =?us-ascii?Q?QwJx0/bnhlRTM1fjFdSh6IMdpzlHxaZqcoBUOk60kGcRL5mFmrxC5C/yiCJU?=
- =?us-ascii?Q?RH5gvicy6Lbyd4ZpVEXsvC0PWaKgZgNoQjzlpkUTm4qGUe+rymA1A6OsfvfX?=
- =?us-ascii?Q?nMyJLMfXiqDjXuDspMiO4P2mtPKV0VwfYFXYnPHOjQXDWz3nHX6TuA9td92i?=
- =?us-ascii?Q?qRpUrQW5xnHf/sqFdkxyDnzjt/NaB/1Fl5jLrmG7sz91cT7iAh3rFWIskOlQ?=
- =?us-ascii?Q?JQ=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efd1d4a4-66d9-4f90-627f-08dbf7824f4c
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 00:12:05.3240
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p+aHLrGHdKXqRCL4AufnaHHvk+iXpIjGJaodIPDN7Mfdnv14Mrnepe0YnoXRC1aCwnUGuHwYgkpM1jMU1voi30GYtLH7m5z9F3mMIsCTys0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB5843
+References: <20231207192406.3809579-1-nphamcs@gmail.com>
+In-Reply-To: <20231207192406.3809579-1-nphamcs@gmail.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Thu, 7 Dec 2023 16:19:25 -0800
+X-Gmail-Original-Message-ID: <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+Message-ID: <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com, 
+	hannes@cmpxchg.org, cerasuolodomenico@gmail.com, yosryahmed@google.com, 
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
+	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, david@ixit.cz
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 07, 2023 at 01:56:07PM -0800, Davidlohr Bueso wrote:
-> On Wed, 06 Dec 2023, Gregory Price wrote:
-> > +
-> > +What:		/sys/kernel/mm/mempolicy/weighted_interleave/nodeN/
-> > +Date:		December 2023
-> > +Contact:	Linux memory management mailing list <linux-mm@kvack.org>
-> > +Description:	Configuration interface for accesses initiated from nodeN
-> > +
-> > +		The directory to configure access initiator weights for nodeN.
-> > +
-> > +		Possible numa nodes which have not been marked as a CPU node
-> > +		at boot will not have a nodeN directory made for them at boot.
-> 
-> This could be better rephrased without the negation. ie:
-> 
-> "Only numa nodes with CPUs (compute) will have a nodeN directory."
-> 
+Hi Nhat,
 
-I thought documentation was supposed to be as confusing as possible.
 
-lol I'll update it.  reading it now, this is awful.
-
-> > +		Hotplug for CPU nodes is not supported.
-> 
-> Can this even happen? Hot-adding a previously offlined CPU won't change/add a
-> new numa node. So just rm the line altogether?
+On Thu, Dec 7, 2023 at 11:24=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
+:
 >
+> During our experiment with zswap, we sometimes observe swap IOs due to
+> occasional zswap store failures and writebacks-to-swap. These swapping
+> IOs prevent many users who cannot tolerate swapping from adopting zswap
+> to save memory and improve performance where possible.
+>
+> This patch adds the option to disable this behavior entirely: do not
+> writeback to backing swapping device when a zswap store attempt fail,
+> and do not write pages in the zswap pool back to the backing swap
+> device (both when the pool is full, and when the new zswap shrinker is
+> called).
+>
+> This new behavior can be opted-in/out on a per-cgroup basis via a new
+> cgroup file. By default, writebacks to swap device is enabled, which is
+> the previous behavior. Initially, writeback is enabled for the root
+> cgroup, and a newly created cgroup will inherit the current setting of
+> its parent.
+>
+> Note that this is subtly different from setting memory.swap.max to 0, as
+> it still allows for pages to be stored in the zswap pool (which itself
+> consumes swap space in its current form).
+>
+> This patch should be applied on top of the zswap shrinker series:
+>
+> https://lore.kernel.org/linux-mm/20231130194023.4102148-1-nphamcs@gmail.c=
+om/
+>
+> as it also disables the zswap shrinker, a major source of zswap
+> writebacks.
 
-I... have no idea.  In that sense, aye aye!
+I am wondering about the status of "memory.swap.tiers" proof of concept pat=
+ch?
+Are we still on board to have this two patch merge together somehow so
+we can have
+"memory.swap.tiers" =3D=3D "all" and "memory.swap.tiers" =3D=3D "zswap" cov=
+er the
+memory.zswap.writeback =3D=3D 1 and memory.zswap.writeback =3D=3D 0 case?
 
-> > +static ssize_t node_weight_show(struct kobject *kobj,
-> > +				struct kobj_attribute *attr, char *buf)
-> > +
-> > +static ssize_t node_weight_store(struct kobject *kobj,
-> > +				 struct kobj_attribute *attr,
-> > +				 const char *buf, size_t count)
-> 
-> iw_table will need some (basic) form of serialization.
-> 
+Thanks
 
-originally the SKH group recommended a serialized "N*W,N*W,..." format,
-but this doesn't work for a matrix.
+Chris
 
-Possibly i could add `N-M*W,...;N-M*W,...` and add a nodeN/weightlist
-interface that lets you acquire the whole iw_table for one or more
-nodes.  Might be a nice extension.
-
-I figured there is an aversion to multi-value sysfs files, so I reverted
-back to a one-file-one-value file.  If there is a preference for the
-fully serialized methods, I'll happily add those.  Easy enough and I
-already have the code to parse it.
-
-~Gregory
+>
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> Reviewed-by: Yosry Ahmed <yosryahmed@google.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 12 ++++++++
+>  Documentation/admin-guide/mm/zswap.rst  |  6 ++++
+>  include/linux/memcontrol.h              | 12 ++++++++
+>  include/linux/zswap.h                   |  6 ++++
+>  mm/memcontrol.c                         | 38 +++++++++++++++++++++++++
+>  mm/page_io.c                            |  6 ++++
+>  mm/shmem.c                              |  3 +-
+>  mm/zswap.c                              | 13 +++++++--
+>  8 files changed, 92 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
+n-guide/cgroup-v2.rst
+> index 3f85254f3cef..2b4ac43efdc8 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1679,6 +1679,18 @@ PAGE_SIZE multiple when read back.
+>         limit, it will refuse to take any more stores before existing
+>         entries fault back in or are written out to disk.
+>
+> +  memory.zswap.writeback
+> +       A read-write single value file. The default value is "1". The
+> +       initial value of the root cgroup is 1, and when a new cgroup is
+> +       created, it inherits the current value of its parent.
+> +
+> +       When this is set to 0, all swapping attempts to swapping devices
+> +       are disabled. This included both zswap writebacks, and swapping d=
+ue
+> +       to zswap store failure.
+> +
+> +       Note that this is subtly different from setting memory.swap.max t=
+o
+> +       0, as it still allows for pages to be written to the zswap pool.
+> +
+>    memory.pressure
+>         A read-only nested-keyed file.
+>
+> diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin=
+-guide/mm/zswap.rst
+> index 62fc244ec702..cfa653130346 100644
+> --- a/Documentation/admin-guide/mm/zswap.rst
+> +++ b/Documentation/admin-guide/mm/zswap.rst
+> @@ -153,6 +153,12 @@ attribute, e. g.::
+>
+>  Setting this parameter to 100 will disable the hysteresis.
+>
+> +Some users cannot tolerate the swapping that comes with zswap store fail=
+ures
+> +and zswap writebacks. Swapping can be disabled entirely (without disabli=
+ng
+> +zswap itself) on a cgroup-basis as follows:
+> +
+> +       echo 0 > /sys/fs/cgroup/<cgroup-name>/memory.zswap.writeback
+> +
+>  When there is a sizable amount of cold memory residing in the zswap pool=
+, it
+>  can be advantageous to proactively write these cold pages to swap and re=
+claim
+>  the memory for other use cases. By default, the zswap shrinker is disabl=
+ed.
+> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> index 43b77363ab8e..5de775e6cdd9 100644
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -219,6 +219,12 @@ struct mem_cgroup {
+>
+>  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+>         unsigned long zswap_max;
+> +
+> +       /*
+> +        * Prevent pages from this memcg from being written back from zsw=
+ap to
+> +        * swap, and from being swapped out on zswap store failures.
+> +        */
+> +       bool zswap_writeback;
+>  #endif
+>
+>         unsigned long soft_limit;
+> @@ -1941,6 +1947,7 @@ static inline void count_objcg_event(struct obj_cgr=
+oup *objcg,
+>  bool obj_cgroup_may_zswap(struct obj_cgroup *objcg);
+>  void obj_cgroup_charge_zswap(struct obj_cgroup *objcg, size_t size);
+>  void obj_cgroup_uncharge_zswap(struct obj_cgroup *objcg, size_t size);
+> +bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg);
+>  #else
+>  static inline bool obj_cgroup_may_zswap(struct obj_cgroup *objcg)
+>  {
+> @@ -1954,6 +1961,11 @@ static inline void obj_cgroup_uncharge_zswap(struc=
+t obj_cgroup *objcg,
+>                                              size_t size)
+>  {
+>  }
+> +static inline bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup =
+*memcg)
+> +{
+> +       /* if zswap is disabled, do not block pages going to the swapping=
+ device */
+> +       return true;
+> +}
+>  #endif
+>
+>  #endif /* _LINUX_MEMCONTROL_H */
+> diff --git a/include/linux/zswap.h b/include/linux/zswap.h
+> index 08c240e16a01..a78ceaf3a65e 100644
+> --- a/include/linux/zswap.h
+> +++ b/include/linux/zswap.h
+> @@ -35,6 +35,7 @@ void zswap_swapoff(int type);
+>  void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg);
+>  void zswap_lruvec_state_init(struct lruvec *lruvec);
+>  void zswap_page_swapin(struct page *page);
+> +bool is_zswap_enabled(void);
+>  #else
+>
+>  struct zswap_lruvec_state {};
+> @@ -55,6 +56,11 @@ static inline void zswap_swapoff(int type) {}
+>  static inline void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg)=
+ {}
+>  static inline void zswap_lruvec_state_init(struct lruvec *lruvec) {}
+>  static inline void zswap_page_swapin(struct page *page) {}
+> +
+> +static inline bool is_zswap_enabled(void)
+> +{
+> +       return false;
+> +}
+>  #endif
+>
+>  #endif /* _LINUX_ZSWAP_H */
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index d7bc47316acb..ae8c62c7aa53 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -5538,6 +5538,8 @@ mem_cgroup_css_alloc(struct cgroup_subsys_state *pa=
+rent_css)
+>         WRITE_ONCE(memcg->soft_limit, PAGE_COUNTER_MAX);
+>  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+>         memcg->zswap_max =3D PAGE_COUNTER_MAX;
+> +       WRITE_ONCE(memcg->zswap_writeback,
+> +               !parent || READ_ONCE(parent->zswap_writeback));
+>  #endif
+>         page_counter_set_high(&memcg->swap, PAGE_COUNTER_MAX);
+>         if (parent) {
+> @@ -8174,6 +8176,12 @@ void obj_cgroup_uncharge_zswap(struct obj_cgroup *=
+objcg, size_t size)
+>         rcu_read_unlock();
+>  }
+>
+> +bool mem_cgroup_zswap_writeback_enabled(struct mem_cgroup *memcg)
+> +{
+> +       /* if zswap is disabled, do not block pages going to the swapping=
+ device */
+> +       return !is_zswap_enabled() || !memcg || READ_ONCE(memcg->zswap_wr=
+iteback);
+> +}
+> +
+>  static u64 zswap_current_read(struct cgroup_subsys_state *css,
+>                               struct cftype *cft)
+>  {
+> @@ -8206,6 +8214,31 @@ static ssize_t zswap_max_write(struct kernfs_open_=
+file *of,
+>         return nbytes;
+>  }
+>
+> +static int zswap_writeback_show(struct seq_file *m, void *v)
+> +{
+> +       struct mem_cgroup *memcg =3D mem_cgroup_from_seq(m);
+> +
+> +       seq_printf(m, "%d\n", READ_ONCE(memcg->zswap_writeback));
+> +       return 0;
+> +}
+> +
+> +static ssize_t zswap_writeback_write(struct kernfs_open_file *of,
+> +                               char *buf, size_t nbytes, loff_t off)
+> +{
+> +       struct mem_cgroup *memcg =3D mem_cgroup_from_css(of_css(of));
+> +       int zswap_writeback;
+> +       ssize_t parse_ret =3D kstrtoint(strstrip(buf), 0, &zswap_writebac=
+k);
+> +
+> +       if (parse_ret)
+> +               return parse_ret;
+> +
+> +       if (zswap_writeback !=3D 0 && zswap_writeback !=3D 1)
+> +               return -EINVAL;
+> +
+> +       WRITE_ONCE(memcg->zswap_writeback, zswap_writeback);
+> +       return nbytes;
+> +}
+> +
+>  static struct cftype zswap_files[] =3D {
+>         {
+>                 .name =3D "zswap.current",
+> @@ -8218,6 +8251,11 @@ static struct cftype zswap_files[] =3D {
+>                 .seq_show =3D zswap_max_show,
+>                 .write =3D zswap_max_write,
+>         },
+> +       {
+> +               .name =3D "zswap.writeback",
+> +               .seq_show =3D zswap_writeback_show,
+> +               .write =3D zswap_writeback_write,
+> +       },
+>         { }     /* terminate */
+>  };
+>  #endif /* CONFIG_MEMCG_KMEM && CONFIG_ZSWAP */
+> diff --git a/mm/page_io.c b/mm/page_io.c
+> index cb559ae324c6..5e606f1aa2f6 100644
+> --- a/mm/page_io.c
+> +++ b/mm/page_io.c
+> @@ -201,6 +201,12 @@ int swap_writepage(struct page *page, struct writeba=
+ck_control *wbc)
+>                 folio_end_writeback(folio);
+>                 return 0;
+>         }
+> +
+> +       if (!mem_cgroup_zswap_writeback_enabled(folio_memcg(folio))) {
+> +               folio_mark_dirty(folio);
+> +               return AOP_WRITEPAGE_ACTIVATE;
+> +       }
+> +
+>         __swap_writepage(&folio->page, wbc);
+>         return 0;
+>  }
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index c62f904ba1ca..dd084fbafcf1 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -1514,8 +1514,7 @@ static int shmem_writepage(struct page *page, struc=
+t writeback_control *wbc)
+>
+>                 mutex_unlock(&shmem_swaplist_mutex);
+>                 BUG_ON(folio_mapped(folio));
+> -               swap_writepage(&folio->page, wbc);
+> -               return 0;
+> +               return swap_writepage(&folio->page, wbc);
+>         }
+>
+>         mutex_unlock(&shmem_swaplist_mutex);
+> diff --git a/mm/zswap.c b/mm/zswap.c
+> index daaa949837f2..7ee54a3d8281 100644
+> --- a/mm/zswap.c
+> +++ b/mm/zswap.c
+> @@ -153,6 +153,11 @@ static bool zswap_shrinker_enabled =3D IS_ENABLED(
+>                 CONFIG_ZSWAP_SHRINKER_DEFAULT_ON);
+>  module_param_named(shrinker_enabled, zswap_shrinker_enabled, bool, 0644)=
+;
+>
+> +bool is_zswap_enabled(void)
+> +{
+> +       return zswap_enabled;
+> +}
+> +
+>  /*********************************
+>  * data structures
+>  **********************************/
+> @@ -596,7 +601,8 @@ static unsigned long zswap_shrinker_scan(struct shrin=
+ker *shrinker,
+>         struct zswap_pool *pool =3D shrinker->private_data;
+>         bool encountered_page_in_swapcache =3D false;
+>
+> -       if (!zswap_shrinker_enabled) {
+> +       if (!zswap_shrinker_enabled ||
+> +                       !mem_cgroup_zswap_writeback_enabled(sc->memcg)) {
+>                 sc->nr_scanned =3D 0;
+>                 return SHRINK_STOP;
+>         }
+> @@ -637,7 +643,7 @@ static unsigned long zswap_shrinker_count(struct shri=
+nker *shrinker,
+>         struct lruvec *lruvec =3D mem_cgroup_lruvec(memcg, NODE_DATA(sc->=
+nid));
+>         unsigned long nr_backing, nr_stored, nr_freeable, nr_protected;
+>
+> -       if (!zswap_shrinker_enabled)
+> +       if (!zswap_shrinker_enabled || !mem_cgroup_zswap_writeback_enable=
+d(memcg))
+>                 return 0;
+>
+>  #ifdef CONFIG_MEMCG_KMEM
+> @@ -956,6 +962,9 @@ static int shrink_memcg(struct mem_cgroup *memcg)
+>         struct zswap_pool *pool;
+>         int nid, shrunk =3D 0;
+>
+> +       if (!mem_cgroup_zswap_writeback_enabled(memcg))
+> +               return -EINVAL;
+> +
+>         /*
+>          * Skip zombies because their LRUs are reparented and we would be
+>          * reclaiming from the parent instead of the dead memcg.
+>
+> base-commit: cdcab2d34f129f593c0afbb2493bcaf41f4acd61
+> --
+> 2.34.1
+>
