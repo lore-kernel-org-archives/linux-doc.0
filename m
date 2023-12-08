@@ -1,73 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ksud81eI"
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6BB2102
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 02:32:32 -0800 (PST)
-Received: by mail-ua1-x932.google.com with SMTP id a1e0cc1a2514c-7cab6e2f79aso89296241.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 02:32:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702031552; x=1702636352; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PnvM9UPay+TWsNcwFyjBL5jOimK9gNCNxA7H2kn5h2o=;
-        b=ksud81eILSXwCWXVAE37lJK7fBuSUT6v+PExFGYkBrbYme2WUSHM/0HVn/vHYlw4NV
-         V51q6EkdEUE5iigYrzcyH+ga/JiC/nHrazQmMkPn6TJwTpy9M/8HWr3dmzTEaipL7c19
-         F2DAXycXOOHgjsvt93Z2Llev/0GSql5adCtClIreZA8qGgkz2dJaYVJ6i2d8uhtDU6J1
-         hQgZBwD06zLyBi0H743ClRYgTVE1OkhK7Yi2Z7A7fJiIbtnNd/yyNpmTWmYs0CHCzKr7
-         FJYi9Fcd4aEvfnJcsBiX+oN0aTqOwTIZpSlDIT/T/AFmeHmby/+eEpDlHL6yZ9upaKIi
-         zGJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702031552; x=1702636352;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PnvM9UPay+TWsNcwFyjBL5jOimK9gNCNxA7H2kn5h2o=;
-        b=hNn1rRnvJcLsCgZhHqW+JClZFbN9dDBU+FNTNwhXmO2ykJql0brPLzOrOe/x6pWGbF
-         6vi9p4BtPGVsvFiJeA9jRE4OromJLngk2W4Z2i3zYdrGsv+kDl13qHZVDuaan6RE9HLW
-         wwcXrhQKaIp4bN8gH24mVB9AbK492EVquTNV3tllms283Gt9vIeMdeEOtVTxWt11OPTA
-         d4T4NvRT5Ivd42h2MCCH1JgaOzwg0I86l/6EfU9tpwtY0Jshxh6C2Hs0t87rXfNhObpb
-         aqmM35o0KzhOfge/ftjL9mTwaoBOcn03rVs5lzgeDmDBLKpnDuq5Tsve3glAwSDx/2d9
-         oOiw==
-X-Gm-Message-State: AOJu0YxlBZefK8Q95T6PjVkVTvPQUXRkXdfIkDPrOQll5o2oG7SEllFo
-	1I99vRbyR4t8nmv14OqNr9ZsvgZ/B42+KmO5fK9IGA==
-X-Google-Smtp-Source: AGHT+IFG5wfI7dO2maOsIJsX/n4bsVO+E2Ku1qwKyiajAw6j6p6fJzIra0OgEwMTf7hlFjr5oeYt41iqmDzUDBKXC+0=
-X-Received: by 2002:a05:6102:86:b0:464:9b1f:c718 with SMTP id
- t6-20020a056102008600b004649b1fc718mr4280794vsp.33.1702031551819; Fri, 08 Dec
- 2023 02:32:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AY8YBlKD"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2EA010F7;
+	Fri,  8 Dec 2023 03:31:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702035063; x=1733571063;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=8nNPRoOiMRUc4CWsKGUh1Mf18tvr3fF0GjgxjqrMw5E=;
+  b=AY8YBlKDZNcTwhJN+dbmqPysk5T+HBe2AXWT1CFhpNBr1h1kSBVmJQQ8
+   I386U2BWF7TYYj2yEEWnhkVyIk3XxsnyMunCx8MrdhgYauL/KPvyUR70e
+   PRZK9E5GqtZk/sqcdqJzawAh2BrdLBnRDI/RnRTQ1lH4S91wPW/O5wNFu
+   liW+dpUm/3pWn2UkL0EpWY4Fx7i5BZqwBWia2vPN1VFsG4xw0uEVyhy57
+   u7kXXv/KwQeoDUfHuJtFILNIZJYotg9lXYq+boJvtwNK+2FNR6azs+G0v
+   L3BIIiD1nvoV6/NgJiEbSKFCQ4adUBWpjUcWSpykkPhtrAntHd9S/6ZNt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="480589529"
+X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
+   d="scan'208";a="480589529"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 03:31:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="772100127"
+X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
+   d="scan'208";a="772100127"
+Received: from smatua-mobl.ger.corp.intel.com ([10.251.223.110])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 03:31:00 -0800
+Date: Fri, 8 Dec 2023 13:30:58 +0200 (EET)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Armin Wolf <W_Armin@gmx.de>
+cc: Hans de Goede <hdegoede@redhat.com>, corbet@lwn.net, 
+    Dell.Client.Kernel@dell.com, linux-doc@vger.kernel.org, 
+    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/5] platform/x86: wmi: Remove debug_dump_wdg module
+ param
+In-Reply-To: <20231207222623.232074-2-W_Armin@gmx.de>
+Message-ID: <cb38dd67-f19-dad0-ff73-a06be7945b97@linux.intel.com>
+References: <20231207222623.232074-1-W_Armin@gmx.de> <20231207222623.232074-2-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
-In-Reply-To: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 8 Dec 2023 11:32:20 +0100
-Message-ID: <CAH5fLghkMXfND9Kbg51JZf+Ry+pCvGLGSHtpqOdWK5gHkfU7-g@mail.gmail.com>
-Subject: Re: [PATCH] docs: rust: Clarify that 'rustup override' applies to
- build directory
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="8323329-1657504482-1702035062=:1875"
 
-On Fri, Dec 8, 2023 at 11:18=E2=80=AFAM Viresh Kumar <viresh.kumar@linaro.o=
-rg> wrote:
->
-> Rustup override is required to be set for the build directory and not
-> necessarily the kernel source tree (unless the build directory is its
-> subdir).
->
-> Clarify the same in quick-start guide.
->
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+--8323329-1657504482-1702035062=:1875
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+
+On Thu, 7 Dec 2023, Armin Wolf wrote:
+
+> The functionality of dumping WDG entries is better provided by
+> userspace tools like "fwts wmi", which also does not suffer from
+> garbled printk output caused by pr_cont().
+> 
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+
+-- 
+ i.
+
+--8323329-1657504482-1702035062=:1875--
