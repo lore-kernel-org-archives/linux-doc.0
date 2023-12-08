@@ -1,349 +1,168 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hiezoSPf"
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6722719A8;
-	Fri,  8 Dec 2023 08:19:56 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-a1e116f2072so483540966b.0;
-        Fri, 08 Dec 2023 08:19:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="OabM06Rl"
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 272831987
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 08:34:58 -0800 (PST)
+Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-77f44cd99c6so117489985a.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 08:34:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702052395; x=1702657195; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F5gJtImNxlCwSGryhwwqe0ZjUJP3xRvdUrcpjzHsJYg=;
-        b=hiezoSPf0m2V91ZD89/gEND807+4IIhzdu/fBLzGNcwxbB2BCrKzQADdOERzRYReds
-         vVR6cRmkjReAFjgMYaiRm1HaHRnxhZfmSPqCgh02/k7svTi/knoQU/P57ZGxBu3T82HM
-         RvGR3d38lMUr9wHaO7nrs6hNwMdrXOuBg4hl1V8+jRc/Og4eksx1BbGSnI+aYC8fClMw
-         gz6KhTy4SI0yroyBPVI6JNcVwEA2/mFGzd82Zj3LJAlrmAq12i9c3S7ZG5MIsJ2xRgMb
-         BhQPXAD8gQEfZFU2ICGM81kyGBxNpB5ICccHvAs7HHOjTTOEVoHzWdwIuBRk8ZjUw7MT
-         g+Wg==
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1702053297; x=1702658097; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/2+AmVgLDfypwxW3Bljg7Nlcki/DDdvlAbwDqkv78IU=;
+        b=OabM06RlsYoH86rqmIKGTAdN71vEzChKz6ljpozBVUCt0L86n4wDHJx/nFGzSoBKpr
+         FSUWASqiUGEzGOtiH0I+cTWDNp7me3owCN8jNNoacBmSyE+uc9JIVGYcBI3vapKb9jFo
+         tNoz/tqLEaJY3v0PLxg1ctYBlVd8V4A16sApFS8WRGyEdw4dYCxBYoSJ3iSH0SeaHazh
+         Rc9oke+rIT4pYLfXPfGtfdXVZ01DGuOkXQVYoQmibATsEFpTISQ68/MDxAo8ArVg6G4a
+         9OydwkNyzT7KxSjkzG7SWK0uKX+2Vakd6hjMTPVmbo8mTs10VUf3BDN0wkZ+GsvhBU2j
+         SMGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702052395; x=1702657195;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F5gJtImNxlCwSGryhwwqe0ZjUJP3xRvdUrcpjzHsJYg=;
-        b=IUNat4kKJ3xA0DBJNLrrGt1RfmNcp0Kzoc+JS6qJi4WzGEznzRpoO2mhm0tG5zlJWa
-         wwGZALeEaH3DZZPTFk/Avh29J4QxF5W441ZoN/rOBnS+kG4jBeg5A1eD5i5vOvBPrMnK
-         KyhMRFMNvjTQS/wO4/W6AJ+OiG5UJaeDd32UBw/NWl9JQbQKO3lV+p9PPPV9UcesMyiy
-         9PUpsZ3MUhEH4lDImmSF10QwPph59Zn/Y/4hwTq5CUI/dzfpmJ71PGt7a0eVkVYpK3y5
-         zW92TnBqP3HjGSQ6KMOTZjIEUnplIwaz8q9lbxQTe+tGXHycCFsZct8Q+6G1omaHqiWo
-         YI5A==
-X-Gm-Message-State: AOJu0YxyGt2MxlMc0Co99uB9nWmfSStyJSBlSgZvzqv5Lq61PIc9Ab2J
-	a3znecoKETomldHQ29iZmz4bexR+yEo=
-X-Google-Smtp-Source: AGHT+IH4ByXWeMk6eIo6kBHITU/eE6N8E3I1JNUhV78wHWbUntI6aTS2EHwbiqN3sUZ44sTj6dvHWA==
-X-Received: by 2002:a17:906:2209:b0:a00:ab1a:c81 with SMTP id s9-20020a170906220900b00a00ab1a0c81mr385767ejs.22.1702052394376;
-        Fri, 08 Dec 2023 08:19:54 -0800 (PST)
-Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ub14-20020a170907c80e00b00a1da5d9a602sm1160461ejc.138.2023.12.08.08.19.53
+        d=1e100.net; s=20230601; t=1702053297; x=1702658097;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/2+AmVgLDfypwxW3Bljg7Nlcki/DDdvlAbwDqkv78IU=;
+        b=kvowIkhzaOQl6WVxfrO8Sz1gwBJ3jvpWbyuCEDVu3ZYvQmX+MkJ0f/sMYTqLOde5/6
+         onL45KX0KlEGDdBXeQIKVy+1qTNO7ZUPkM/rX83wQRQ133tynU5w2p8ozAtuHYHv0ZBq
+         US5L27FXpCssEHgmkBUdAhnVToq2/00E5o/kwbkHaPVRPbV2JD5eQ+JFyTZBst4GOmuh
+         hxTRct8zdB8YTNG9cHUyXlP3IdIskwNfNlLwMMUuP+juWx7F8Lb9zdTcy63XTQXVRyEJ
+         iyo4vocPuFmS1GOlX8IolpQAg8Ee8S4lGSY9h+he4464ihR8xR05yOU0czkQXdiYOZah
+         ALBA==
+X-Gm-Message-State: AOJu0YyJf8musbTj80f9wKitMqyV0q0XGRs4H0hI7wqdHf0q0zUw1OX1
+	A25Q5PA8m8qjcnbYdfTdzFyRlQ==
+X-Google-Smtp-Source: AGHT+IFe1Xg0qwccEDuPPnzdLWZ8EYqrBETcx+Lf9yWWCpT5/NmbxdDEr56PRuW1STtBLXxRVw3QKg==
+X-Received: by 2002:a05:620a:2187:b0:77e:ffb5:271a with SMTP id g7-20020a05620a218700b0077effb5271amr1661333qka.44.1702053297239;
+        Fri, 08 Dec 2023 08:34:57 -0800 (PST)
+Received: from localhost (2603-7000-0c01-2716-da5e-d3ff-fee7-26e7.res6.spectrum.com. [2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id rc3-20020a05620a8d8300b0077dc7a029bfsm802254qkn.100.2023.12.08.08.34.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 08:19:53 -0800 (PST)
-Date: Fri, 8 Dec 2023 17:19:52 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/4] pwm: make it possible to apply pwm changes in
- atomic context
-Message-ID: <ZXNCKFZcjFznko89@orome.fritz.box>
-References: <cover.1701248996.git.sean@mess.org>
- <734c9985a6f54d34d9ef20203ba7f962b572cb45.1701248996.git.sean@mess.org>
+        Fri, 08 Dec 2023 08:34:56 -0800 (PST)
+Date: Fri, 8 Dec 2023 11:34:51 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Yosry Ahmed <yosryahmed@google.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, Chris Li <chrisl@kernel.org>,
+	akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com,
+	cerasuolodomenico@gmail.com, sjenning@redhat.com, ddstreet@ieee.org,
+	vitaly.wool@konsulko.com, mhocko@kernel.org,
+	roman.gushchin@linux.dev, shakeelb@google.com,
+	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net,
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org,
+	linux-mm@kvack.org, kernel-team@meta.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	david@ixit.cz
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+Message-ID: <20231208163451.GA880930@cmpxchg.org>
+References: <20231207192406.3809579-1-nphamcs@gmail.com>
+ <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+ <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
+ <CAJD7tkaHaji=0sVobJKajc4hOmOui2U+bZK+1DQ6gbAsQgGLRw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="JGi/lTkRFNO61mX8"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <734c9985a6f54d34d9ef20203ba7f962b572cb45.1701248996.git.sean@mess.org>
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJD7tkaHaji=0sVobJKajc4hOmOui2U+bZK+1DQ6gbAsQgGLRw@mail.gmail.com>
 
+On Thu, Dec 07, 2023 at 05:12:13PM -0800, Yosry Ahmed wrote:
+> On Thu, Dec 7, 2023 at 5:03 PM Nhat Pham <nphamcs@gmail.com> wrote:
+> > On Thu, Dec 7, 2023 at 4:19 PM Chris Li <chrisl@kernel.org> wrote:
+> > > I am wondering about the status of "memory.swap.tiers" proof of concept patch?
+> > > Are we still on board to have this two patch merge together somehow so
+> > > we can have
+> > > "memory.swap.tiers" == "all" and "memory.swap.tiers" == "zswap" cover the
+> > > memory.zswap.writeback == 1 and memory.zswap.writeback == 0 case?
+> > >
+> > > Thanks
+> > >
+> > > Chris
+> > >
+> >
+> > Hi Chris,
+> >
+> > I briefly summarized my recent discussion with Johannes here:
+> >
+> > https://lore.kernel.org/all/CAKEwX=NwGGRAtXoNPfq63YnNLBCF0ZDOdLVRsvzUmYhK4jxzHA@mail.gmail.com/
+> >
+> > TL;DR is we acknowledge the potential usefulness of swap.tiers
+> > interface, but the use case is not quite there yet, so it does not
+> > make too much sense to build up that heavy machinery now.
+> > zswap.writeback is a more urgent need, and does not prevent swap.tiers
+> > if we do decide to implement it.
+> 
+> I am honestly not convinced by this. There is no heavy machinery here.
+> The interface is more generic and extensible, but the implementation
+> is roughly the same. Unless we have a reason to think a swap.tiers
+> interface may make it difficult to extend this later or will not
+> support some use cases, I think we should go ahead with it. If we are
+> worried that "tiers" may not accurately describe future use cases, we
+> can be more generic and call it swap.types or something.
 
---JGi/lTkRFNO61mX8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I have to disagree. The generic swap types or tiers ideas actually
+look pretty far-fetched to me, and there is a lack of convincing
+explanation for why this is even a probable direction for swap.
 
-On Wed, Nov 29, 2023 at 09:13:35AM +0000, Sean Young wrote:
-> Some pwm devices require sleeping, for example if the pwm device is
-> connected over i2c. However, many pwm devices could be used from atomic
-> context, e.g. memmory mapped pwm. This is useful for, for example, the
-> pwm-ir-tx driver which requires precise timing. Sleeping causes havoc
-> with the generated IR signal.
->=20
-> Since not all pmw devices can support atomic context, we also add a
-> pwm_is_atomic() function to check if it is supported.
+For example,
 
-s/i2c/I2C/ and s/pwm/PWM/ in the above. Also, s/memmory/memory/
+1. What are the other backends? Where you seem to see a multitude of
+   backends and arbitrary hierarchies of them, I see compression and
+   flash, and really not much else. And there is only one reasonable
+   direction in which to combine those two.
 
->=20
-> Signed-off-by: Sean Young <sean@mess.org>
-> ---
->  Documentation/driver-api/pwm.rst |  9 +++++
->  drivers/pwm/core.c               | 63 ++++++++++++++++++++++++++------
->  drivers/pwm/pwm-renesas-tpu.c    |  1 -
->  include/linux/pwm.h              | 29 ++++++++++++++-
->  4 files changed, 87 insertions(+), 15 deletions(-)
->=20
-> diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/=
-pwm.rst
-> index f1d8197c8c43..1d4536fdf47c 100644
-> --- a/Documentation/driver-api/pwm.rst
-> +++ b/Documentation/driver-api/pwm.rst
-> @@ -43,6 +43,15 @@ After being requested, a PWM has to be configured usin=
-g::
-> =20
->  	int pwm_apply_might_sleep(struct pwm_device *pwm, struct pwm_state *sta=
-te);
-> =20
-> +Some PWM devices can be used from atomic context. You can check if this =
-is
-> +supported with::
-> +
-> +        bool pwm_is_atomic(struct pwm_device *pwm);
+   The IOPs and latencies of HDDs and network compared to modern
+   memory sizes and compute speeds make them for the most part
+   impractical as paging backends.
 
-This is now going to look a bit odd. I think it'd be best to change this
-to pwm_might_sleep() for consistency with the pwm_apply_might_sleep()
-function. Fine to keep the actual member variable as atomic, though, so
-we don't have to change the default for all drivers.
+   So I don't see a common third swap backend, let alone a fourth or a
+   fifth, or a multitude of meaningful ways of combining them...
 
-> +
-> +If true, the PWM can be configured from atomic context with::
-> +
-> +	int pwm_apply_atomic(struct pwm_device *pwm, struct pwm_state *state);
-> +
->  This API controls both the PWM period/duty_cycle config and the
->  enable/disable state.
-> =20
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index fc92ba622e56..63174e207400 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -463,24 +463,15 @@ static void pwm_apply_debug(struct pwm_device *pwm,
->  }
-> =20
->  /**
-> - * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
-> + * pwm_apply_unchecked() - atomically apply a new state to a PWM device
->   * @pwm: PWM device
->   * @state: new state to apply
->   */
-> -int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state=
- *state)
-> +static int pwm_apply_unchecked(struct pwm_device *pwm, const struct pwm_=
-state *state)
->  {
->  	struct pwm_chip *chip;
->  	int err;
-> =20
-> -	/*
-> -	 * Some lowlevel driver's implementations of .apply() make use of
-> -	 * mutexes, also with some drivers only returning when the new
-> -	 * configuration is active calling pwm_apply_might_sleep() from atomic =
-context
-> -	 * is a bad idea. So make it explicit that calling this function might
-> -	 * sleep.
-> -	 */
-> -	might_sleep();
-> -
->  	if (!pwm || !state || !state->period ||
->  	    state->duty_cycle > state->period)
->  		return -EINVAL;
-> @@ -501,16 +492,64 @@ int pwm_apply_might_sleep(struct pwm_device *pwm, c=
-onst struct pwm_state *state)
-> =20
->  	pwm->state =3D *state;
-> =20
-> +	return 0;
-> +}
-> +
-> +/**
-> + * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
-> + * Cannot be used in atomic context.
-> + * @pwm: PWM device
-> + * @state: new state to apply
-> + */
-> +int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state=
- *state)
-> +{
-> +	int err;
-> +
-> +	/*
-> +	 * Some lowlevel driver's implementations of .apply() make use of
-> +	 * mutexes, also with some drivers only returning when the new
-> +	 * configuration is active calling pwm_apply_might_sleep() from atomic =
-context
-> +	 * is a bad idea. So make it explicit that calling this function might
-> +	 * sleep.
-> +	 */
-> +	might_sleep();
-> +
-> +	if (IS_ENABLED(CONFIG_PWM_DEBUG) && pwm->chip->atomic) {
-> +		/*
-> +		 * Catch any sleeping drivers when atomic is set.
+2. Even if the usecases were there, enabling this would be a ton of
+   work and open interface questions:
 
-I think this is slightly confusing. What we're really trying to catch
-here is drivers that are marked as "atomic" but which still end up
-sleeping during ->apply(), right? So maybe something like this would be
-a bit more explicit:
+  1) There is no generic code to transfer pages between arbitrary
+     backends.
 
-		/*
-		 * Catch any drivers that have been marked as atomic but
-		 * that will sleep anyway.
-		 */
+  2) There is no accepted indirection model where a swap pte can refer
+     to backends dynamically, in a way that makes migration feasible
+     at scale.
 
-> +/**
-> + * pwm_apply_atomic() - apply a new state to a PWM device from atomic co=
-ntext
-> + * Not all pwm devices support this function, check with pwm_is_atomic().
+  3) Arbitrary global strings are somewhat unlikely to be accepted as
+     a way to configure these hierarchies.
 
-s/pwm/PWM/ here...
+  4) Backend file paths in a global sysfs file don't work well with
+     namespacing. The swapfile could be in a container
+     namespace. Containers are not guaranteed to see /sys.
 
-> + * @pwm: PWM device
-> + * @state: new state to apply
-> + */
-> +int pwm_apply_atomic(struct pwm_device *pwm, const struct pwm_state *sta=
-te)
-> +{
-> +	WARN_ONCE(!pwm->chip->atomic,
-> +		  "sleeping pwm driver used in atomic context");
+  5) Fixed keywords like "zswap" might not be good enough - what about
+     compression and backend parameters?
 
-=2E.. and in the warning message as well.
+None of these are insurmountable. My point is that this would be a
+huge amount of prerequisite code and effort for what seems would be a
+fringe usecase at best right now.
 
-> +
-> +	return pwm_apply_unchecked(pwm, state);
-> +}
-> +EXPORT_SYMBOL_GPL(pwm_apply_atomic);
-> +
->  /**
->   * pwm_capture() - capture and report a PWM signal
->   * @pwm: PWM device
-> diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tpu.c
-> index 4239f2c3e8b2..47ea92cd8c67 100644
-> --- a/drivers/pwm/pwm-renesas-tpu.c
-> +++ b/drivers/pwm/pwm-renesas-tpu.c
-> @@ -11,7 +11,6 @@
->  #include <linux/init.h>
->  #include <linux/ioport.h>
->  #include <linux/module.h>
-> -#include <linux/mutex.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-> index 5c5c456948a4..f1fa1243e95a 100644
-> --- a/include/linux/pwm.h
-> +++ b/include/linux/pwm.h
-> @@ -286,6 +286,7 @@ struct pwm_ops {
->   * @npwm: number of PWMs controlled by this chip
->   * @of_xlate: request a PWM device given a device tree PWM specifier
->   * @of_pwm_n_cells: number of cells expected in the device tree PWM spec=
-ifier
-> + * @atomic: can the driver call pwm_apply_atomic in atomic context
+And there could be a lot of curve balls in both the software design as
+well as the hardware development between now and then that could make
+your proposals moot. Is a per-cgroup string file really going to be
+the right way to configure arbitrary hierarchies if they materialize?
 
-Maybe: "can the driver's ->apply() be called in atomic context"?
+This strikes me as premature and speculative, for what could be, some
+day.
 
->   * @list: list node for internal use
->   * @pwms: array of PWM devices allocated by the framework
->   */
-> @@ -299,6 +300,7 @@ struct pwm_chip {
->  	struct pwm_device * (*of_xlate)(struct pwm_chip *chip,
->  					const struct of_phandle_args *args);
->  	unsigned int of_pwm_n_cells;
-> +	bool atomic;
-> =20
->  	/* only used internally by the PWM framework */
->  	struct list_head list;
-> @@ -308,6 +310,7 @@ struct pwm_chip {
->  #if IS_ENABLED(CONFIG_PWM)
->  /* PWM user APIs */
->  int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state=
- *state);
-> +int pwm_apply_atomic(struct pwm_device *pwm, const struct pwm_state *sta=
-te);
->  int pwm_adjust_config(struct pwm_device *pwm);
-> =20
->  /**
-> @@ -378,6 +381,17 @@ static inline void pwm_disable(struct pwm_device *pw=
-m)
->  	pwm_apply_might_sleep(pwm, &state);
->  }
-> =20
-> +/**
-> + * pwm_is_atomic() - is pwm_apply_atomic() supported?
-> + * @pwm: PWM device
-> + *
-> + * Returns: true pwm_apply_atomic() can be called from atomic context.
-> + */
-> +static inline bool pwm_is_atomic(struct pwm_device *pwm)
+We don't even do it for *internal API*. There is a review rule to
+introduce a function in the same patch as its first caller, to make
+sure it's the right abstraction and a good fit for the usecase. There
+is no way we can have a lower bar than that for permanent ABI.
 
-As I mentioned above, I think it'd be more consistent to call this
-pwm_might_sleep().
+The patch here integrates with what zswap is NOW and always has been:
+a compressing writeback cache for swap.
 
-> +{
-> +	return pwm->chip->atomic;
-> +}
-> +
->  /* PWM provider APIs */
->  int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
->  		unsigned long timeout);
-> @@ -406,16 +420,27 @@ struct pwm_device *devm_fwnode_pwm_get(struct devic=
-e *dev,
->  				       struct fwnode_handle *fwnode,
->  				       const char *con_id);
->  #else
-> +static inline bool pwm_is_atomic(struct pwm_device *pwm)
-> +{
-> +	return false;
-> +}
-> +
->  static inline int pwm_apply_might_sleep(struct pwm_device *pwm,
->  					const struct pwm_state *state)
->  {
->  	might_sleep();
-> -	return -ENOTSUPP;
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline int pwm_apply_atomic(struct pwm_device *pwm,
-> +				   const struct pwm_state *state)
-> +{
-> +	return -EOPNOTSUPP;
->  }
-> =20
->  static inline int pwm_adjust_config(struct pwm_device *pwm)
->  {
-> -	return -ENOTSUPP;
-> +	return -EOPNOTSUPP;
->  }
+Should multiple swap tiers overcome all the above and actually become
+real, this knob here would be the least of our worries. It would be
+easy to just ignore, automatically override, or deprecate.
 
-What's wrong with ENOTSUPP?
-
-Thierry
-
---JGi/lTkRFNO61mX8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVzQiUACgkQ3SOs138+
-s6GA/Q//aHBp0JEL3g+xPxWc5/3iX0Y0IwFJ09ixF4DNZdZ1QWzSmx5Fu86ignHB
-kCZLrCXNDYfcOGulaH+hk4WyT008OE9MBuQabKhv598m0q9W57bsjBfWNKlcporK
-CcyO0jB49yAsxrNkbVG89jx710IrgjbuEGiFCw4kZ/PNtYVQGEntXTLVWI4xT26/
-Pbbb8nQTOtDmQ7LLDZLcYqyRssWBeC+fZUARWgNq1m4CN1n6Zeqy2Eua1MmzsYpg
-U/rPcJnTjegLLcPdSqDKgLDA9cIrYd3yCfAKP4PJ76FTq93i2xM4Je9MfaxbiqG/
-Gy+oUo6SCR6UIDZ73T+aiFrAvNTQzvqBUAB93/Na2MUsh7kJlcQi0740jgu8oXex
-aiwlsmJZi5Ud8l+dciLj+AOTihmdi4BswstPgA37LlwE9QaJJHYF77VROGnA8sjG
-q9kVVb3eDPoOE+I0a5bL1mwjvzSVvC1LyFDkzzmtyxEoMiQvIJVu8oj5t+9c1BlZ
-w0jrlkyL+1Her35FaSgTIkMmH5OwsvYW90fsTBzFJnoBPg/1aiDowjISmBtUqBqY
-Z5H4kxuu/K+B6gYdv+e30t8QLd9a9J5FUrvbjRaMq3TuBtuZwnKm9FFpd2/0jeSb
-T/rcthG7Ebid2h5Pxk7gb3vXYsF3BrpajLtPanDqln43vcM3z9Q=
-=rqdV
------END PGP SIGNATURE-----
-
---JGi/lTkRFNO61mX8--
+So I don't think you made a reasonable proposal for an alternative, or
+gave convincing reasons to hold off this one.
