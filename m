@@ -1,85 +1,98 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Ku3Fwe5I"
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57DDB1732
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 10:04:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1702058660; x=1702317860;
-	bh=PTmEXgI7BxufT0npzlsJT5kiKHIgc9s02WiJV5XBNQU=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Ku3Fwe5Ivvvv7/4sAslKhSLbNE2c16L8W9Vp2kURUwCdrCDOtvKhiKIMRbTdK+mLb
-	 Ti7kJUTNntqDHGEdE/Z0ZzRQtCNOd1Ub7YXRTUkkM6VYDHMchM9FzkXNzQT/blk/cd
-	 VxjB0iLT27kzVChTAGy0f6kaeZxfXQjbAyOG8tlH9uJunL93YkuR+lVz0cyeuMFjM6
-	 +cjKRCuJp7gCslhzCntRKnuKz4z9XlyqusEBM3xbN5iiNhb1niGGQIdNc/FDO37NjK
-	 BdutuscjCKkjvnVgI/ubh+oIPvQ+s8WYwvM1jJehNprfolLSsWuogbdxl87AYgN+o+
-	 CdGM0doVGmiOQ==
-Date: Fri, 08 Dec 2023 18:04:01 +0000
-To: Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: rust: Clarify that 'rustup override' applies to build directory
-Message-ID: <4738ad1c-eb54-4ad6-98c8-3852de3e8fc3@proton.me>
-In-Reply-To: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
-References: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
-Feedback-ID: 71780778:user:proton
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yep0MhUe"
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ED6E1985;
+	Fri,  8 Dec 2023 10:07:40 -0800 (PST)
+Received: by mail-oo1-xc30.google.com with SMTP id 006d021491bc7-5908a5d4222so528027eaf.2;
+        Fri, 08 Dec 2023 10:07:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702058860; x=1702663660; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:references:in-reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=C77TpInB1zh8d1IAOUInQ6yFu0SRsNtsyD+hY95J9tA=;
+        b=Yep0MhUeeffOeU8wi45LEmbmRkSUjmwmfEYFDECp7+fx4EEuC/WG2baTWEWjYCKDNp
+         pm3ZYud6HMsO5wSWS7S9XuwwtkMiTeG6fQVfnGKEHXFSiY20x9KpvbnnsHNUM3E+j+ES
+         xvv6GvvUL75IM8ncuAbvgY+PVWG6CEH8ejXayeI1ya2+C7h2G+YUOU/r5KeX6fU7ikj/
+         lvsSIv59x8aN4V8pv4Nh9S1dU2N7uyJq3gUz/qKdUCR6otdZnr3ZIGwcfPjJJrOlUalr
+         goaALsSROs0B38Gp+u+cOum28GNGwikfkFain62AQmDNuKgYY2CPyD8pzN717yZM1AMC
+         q+qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702058860; x=1702663660;
+        h=cc:to:subject:message-id:date:from:references:in-reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C77TpInB1zh8d1IAOUInQ6yFu0SRsNtsyD+hY95J9tA=;
+        b=DOxoFhzxjQaeh4uhn7f4YzAYRSGZk+NEuvssJ3aN8pJ22oOkQwQcl5vq1hpwKkZEAG
+         Tl5q4ITZSkyCNgQDimey/of8DMJ5KpWEB7+tTWCsi5e+t7ruXts8VVKR7Z5KkdWrsFy3
+         Cw7PGCy2fShtwAaDFwNY1iJsmp9M0mLeCp4gMngii6sua0/3JgD8rf5ONvunlPrxEgkP
+         /pJbZf/aeW+tsyxAuGvuycldG/JGiZZm5WUdlm5mzYj032GO4XOu4u3cbornLypNs1nh
+         ePa+vUnTfisT9fMiMRhQd/4pWWkMxhVE07htS85kiBn/VwmaKonrYin67XrDzad+2UGI
+         eSGw==
+X-Gm-Message-State: AOJu0YzFSaEblJrxm8F2WVXArs+ScepAHtChWnbJgtAvJvtsuFbUX5N1
+	IZJCLPo2z8MqymRtq5Pc+DcIpkb5ImQv/KQIPYU=
+X-Google-Smtp-Source: AGHT+IFG9Wqckhd8+QJop7BFj37zOIOYAYHFNhLpTmBdHyZL9wutRVFbzd8r3gESFpX+rio/9ui4gOfULAIXNS5mAt0=
+X-Received: by 2002:a4a:9882:0:b0:590:a673:8016 with SMTP id
+ a2-20020a4a9882000000b00590a6738016mr184730ooj.18.1702058859753; Fri, 08 Dec
+ 2023 10:07:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Received: by 2002:ac9:7f0d:0:b0:506:9554:eef4 with HTTP; Fri, 8 Dec 2023
+ 10:07:39 -0800 (PST)
+In-Reply-To: <ZXEuBnX4FTDdaqn0@xsang-OptiPlex-9020>
+References: <20231204195321.GA1674809@ZenIV> <ZW/fDxjXbU9CU0uz@xsang-OptiPlex-9020>
+ <20231206054946.GM1674809@ZenIV> <ZXCLgJLy2b5LvfvS@xsang-OptiPlex-9020>
+ <20231206161509.GN1674809@ZenIV> <20231206163010.445vjwmfwwvv65su@f>
+ <CAGudoHF-eXYYYStBWEGzgP8RGXG2+ER4ogdtndkgLWSaboQQwA@mail.gmail.com>
+ <20231206170958.GP1674809@ZenIV> <CAGudoHErh41OB6JDWHd2Mxzh5rFOGrV6PKC7Xh8JvTn0ws3L_A@mail.gmail.com>
+ <CAGudoHGgqH=2mb52T4ZMx9bWtyMm7hV9wPvh+7JbtBq0x4ymYA@mail.gmail.com> <ZXEuBnX4FTDdaqn0@xsang-OptiPlex-9020>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Fri, 8 Dec 2023 19:07:39 +0100
+Message-ID: <CAGudoHFReHsRviEMBwc2uSMkd72bB1b5RsWfBbEvY6HHSDSSuA@mail.gmail.com>
+Subject: Re: [viro-vfs:work.dcache2] [__dentry_kill()] 1b738f196e:
+ stress-ng.sysinfo.ops_per_sec -27.2% regression
+To: Oliver Sang <oliver.sang@intel.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	linux-doc@vger.kernel.org, ying.huang@intel.com, feng.tang@intel.com, 
+	fengwei.yin@intel.com, Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/8/23 11:18, Viresh Kumar wrote:
-> Rustup override is required to be set for the build directory and not
-> necessarily the kernel source tree (unless the build directory is its
-> subdir).
->=20
-> Clarify the same in quick-start guide.
->=20
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  Documentation/rust/quick-start.rst | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quic=
-k-start.rst
-> index f382914f4191..a7a08955fe46 100644
-> --- a/Documentation/rust/quick-start.rst
-> +++ b/Documentation/rust/quick-start.rst
-> @@ -39,8 +39,13 @@ If ``rustup`` is being used, enter the checked out sou=
-rce code directory
->  =09rustup override set $(scripts/min-tool-version.sh rustc)
->=20
->  This will configure your working directory to use the correct version of
-> -``rustc`` without affecting your default toolchain. If you are not using
-> -``rustup``, fetch a standalone installer from:
-> +``rustc`` without affecting your default toolchain.
-> +
-> +Note that the override applies to the build directory (and its sub-direc=
-tories).
+On 12/7/23, Oliver Sang <oliver.sang@intel.com> wrote:
+> hi, Mateusz Guzik,
+>
+> On Wed, Dec 06, 2023 at 07:30:36PM +0100, Mateusz Guzik wrote:
+>> Can I get instructions how to reproduce the unixbench regression?
+>
+> I uploaded the reproducer for unixbench in
+> https://download.01.org/0day-ci/archive/20231207/202312070941.6190a04c-oliver.sang@intel.com
+>
+> as in
+> https://download.01.org/0day-ci/archive/20231207/202312070941.6190a04c-oliver.sang@intel.com/reproduce
+>
+> To reproduce:
+>
+>         git clone https://github.com/intel/lkp-tests.git
+>         cd lkp-tests
+>         sudo bin/lkp install job.yaml           # job file is attached in
+> this email
+>         bin/lkp split-job --compatible job.yaml # generate the yaml file for
+> lkp run
+>         sudo bin/lkp run generated-yaml-file
+>
+>         # if come across any failure that blocks the test,
+>         # please remove ~/.lkp and /lkp dir to run from a clean state.
+>
+>
 
-Shouldn't this be "Note that the override only applies to the current
-working directory (and its sub-directories)."?
-I think it would also be useful to continue with this: "But in order
-to build the kernel, this override must affect the build directory.".
+thanks
 
-And then you could also mention that in the default location for the
-build directory is in the repository.
+Looks like this one will require a box with 64 or more cores to run
+on, so my usual test jig is not going to do it. I'll sort it out in
+few days.
 
---=20
-Cheers,
-Benno
-
-> +If the kernel is built with `O=3D<build directory>`, the override must b=
-e set for
-> +the build directory instead.
-> +
-> +If you are not using ``rustup``, fetch a standalone installer from:
->=20
->  =09https://forge.rust-lang.org/infra/other-installation-methods.html#sta=
-ndalone
-
+-- 
+Mateusz Guzik <mjguzik gmail.com>
