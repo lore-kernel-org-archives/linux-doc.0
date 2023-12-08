@@ -1,112 +1,132 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AA19aOJz"
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DA381732
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 11:31:16 -0800 (PST)
-Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-7c57aa2cce8so481764241.2
-        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 11:31:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="K71/BA7x"
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54478199B
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 11:46:08 -0800 (PST)
+Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-35d68239732so9655ab.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 11:46:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702063875; x=1702668675; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1702064767; x=1702669567; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kWu+J+wzMOcih150vf6YNmhjcZNaZMBMCrHoJTVq0Uw=;
-        b=AA19aOJzqgtW3RV80AFQwVMChqnhyx3dotQVTb0hrBmAlbNUmsuBTJtMrljDDTaPE4
-         UT2XZXwwEhyL6RvaC5iWygV0PrrojOamdQDwSsldkfSAMM7VJCtSIzBuUePJhJzEMdpX
-         CPGh4gECrlJoIIISE5H4oez9KZbbP2rZerJwxtlHukbw8x1DHD6xfCD40QWJNSF2TTZv
-         jyd/PaV6H4EEWDsI8Bemrygg75E84QrYgetKO+iTPy9VQtZwScDXn3sfczLGri9aGHpp
-         7vil7CrYcYmsqEFV7IMvKlG6rg+3CTnia8RBmcwiGoSy+xuGXcA38kRCZHFSMQWuS23S
-         tl7Q==
+        bh=bT8WusYF3MgKW2hWDO1w1/JmENKh7p+RAqmgfjq6meU=;
+        b=K71/BA7xht2VhlYTAYMDvVv52u5Ju+v+1w+xXWFJN+HFL13QLcF1v3mtB+y2ECvGl6
+         zhy5mMyuOTFMaFTJNNKUoTcMa4y130V3uTCoeJINUYQpmSVM0xmlnzETh7/ncD0M7fW1
+         NM7tsJJKAPJMg4b7U3btqJiOVXe1YlEnVP3z4J9Q21LcR4Y59gyAkB50TFZm5mi7/HQ2
+         9DGTxNEsn814d2miG3WXQe6xaETbCgRRnpVq81b8TDEV4ouRSgXXm3W324G1NyM6DhKV
+         7W9uw1HmkAuFFZsDmUjmRNdH9IbNSjHbmr18CPa8OASAfbiOjC5acybCfNazKDmW4HrX
+         wyYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702063875; x=1702668675;
+        d=1e100.net; s=20230601; t=1702064767; x=1702669567;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kWu+J+wzMOcih150vf6YNmhjcZNaZMBMCrHoJTVq0Uw=;
-        b=LGDBb8moXX/DHuBkF67agT8rGwvYJ1nwRrX3AoveSvuYsfnAteHSoJaek/83crTXSh
-         7z3+YGf5E4dso5U2hrFGCn8jJSvOpMRPB3bnRr0Rc5v/lcRmUkNsdliOr3AkC2FtLvZe
-         eMD8qur4BOszJqc8cC4xUQtB+XpMGHmQf1tsHQhng1hrlg2JlTiUIUOVtVKMkFY7LJmk
-         WyRLHYJKiLNYhZBeJPcXoyqZwKxeUKt0sOVEGzcIkKjIYt0FsZ5BvcXtvS39t2lt9qKJ
-         CruWLuystn6DO8SvL1HzAEzJoA8fou4JYF2GP7BknB2Y1xItQ2qe4ymh5aItYey20p6y
-         pxwA==
-X-Gm-Message-State: AOJu0YxDsQ/Q13cbsNPGVhHcGL6r3+lripe8Fi7Jz+Sk/ajhsF7hRGH1
-	y42mYeQXPW7TTxW8VaoQk6AmybkFxikp9OaJuFceKA==
-X-Google-Smtp-Source: AGHT+IEWy2ZoASGB97Xf4UzepNASdfhsiRufEtATUoKuaLdGqOq89E4y/cKAIuTMSGCSkffzh0Lc4oz7kiKBOoq4yro=
-X-Received: by 2002:a05:6102:3ec4:b0:464:40b2:e59f with SMTP id
- n4-20020a0561023ec400b0046440b2e59fmr628329vsv.32.1702063875124; Fri, 08 Dec
- 2023 11:31:15 -0800 (PST)
+        bh=bT8WusYF3MgKW2hWDO1w1/JmENKh7p+RAqmgfjq6meU=;
+        b=WygdpAjs1ofNQG+5KN9LswO6E4k+8JIovYyTb4ANcK9Snc0oSsgR+A52T3AXgZ7D+X
+         v6t91bOcB3N+luSUx5o/Eq9CEjeFkyBKm5jV87xF1CQ/Ga0Th1bFkJl/9ZzNaD3taPi5
+         xs1+MyC/oBqKUUL9pb2sWWXk6Ba/NtTJIRoB5IbZAibmtVJqeqU2sO8TJwapPi8wYtnH
+         DY1kBcgxE00mFuokrnFwlkU5XAtA8slP+goCVB54QWXC+Af3zXBJNCHyCi/ZG1AcyHWE
+         aBz6G6fj6kGCScNAl0xFbZYI/T4baqcYhwCTMmrsy7eQY2RNkVNSz+zmNdanTUpqzlwr
+         c3Sw==
+X-Gm-Message-State: AOJu0YwdzxCaXEGOHFRXfQO8MCiUI/LE/J1NkOEhCmGT+mlfSuGBWPGs
+	0ERlEd3FEWLNuh3QgcZ5a1NgWu0FPMY7u34fk/uYSQ==
+X-Google-Smtp-Source: AGHT+IHQwOrL1J8qlP4kXqYjgTDngQ2pVRBMbtxEwv5/cpx9SR/XfiEtCC74zU9ZHMG6Rr8MXyMiA24xdScSXUxvq+o=
+X-Received: by 2002:a92:d283:0:b0:35d:176f:77d4 with SMTP id
+ p3-20020a92d283000000b0035d176f77d4mr216401ilp.22.1702064766459; Fri, 08 Dec
+ 2023 11:46:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com> <3fea9ae9-e9e6-4ba5-812b-2775a6ed9e6a@kernel.org>
-In-Reply-To: <3fea9ae9-e9e6-4ba5-812b-2775a6ed9e6a@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 8 Dec 2023 11:31:01 -0800
-Message-ID: <CAHS8izOc05jQEhU+s6FZtBN4fynUwVPrKsXBtjYo-X8fHQXOjg@mail.gmail.com>
-Subject: Re: [net-next v1 00/16] Device Memory TCP
-To: David Ahern <dsahern@kernel.org>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>
+References: <20231201005720.235639-1-babu.moger@amd.com> <d97cbeba-af6d-4b64-b5c8-32dc437a67b6@intel.com>
+In-Reply-To: <d97cbeba-af6d-4b64-b5c8-32dc437a67b6@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Fri, 8 Dec 2023 11:45:54 -0800
+Message-ID: <CALPaoCjNgv4rFpbovyayNynuAqYGP0rVLv=djVnDO1LR+zU55g@mail.gmail.com>
+Subject: Re: [PATCH 00/15] x86/resctrl : Support AMD QoS RMID Pinning feature
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, James Morse <james.morse@arm.com>, x86@kernel.org, 
+	hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, seanjc@google.com, kim.phillips@amd.com, 
+	jmattson@google.com, ilpo.jarvinen@linux.intel.com, jithu.joseph@intel.com, 
+	kan.liang@linux.intel.com, nikunj@amd.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, rick.p.edgecombe@intel.com, rppt@kernel.org, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com, dhagiani@amd.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 8, 2023 at 9:57=E2=80=AFAM David Ahern <dsahern@kernel.org> wro=
-te:
+On Tue, Dec 5, 2023 at 3:17=E2=80=AFPM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+> On 11/30/2023 4:57 PM, Babu Moger wrote:
+> > c. Read the monitor states. There will be new file "monitor_state"
+> >    for each monitor group when ABMC feature is enabled. By default,
+> >    both total and local MBM events are in "unassign" state.
+> >
+> >       #cat /sys/fs/resctrl/monitor_state
+> >       total=3Dunassign;local=3Dunassign
+> >
+> > d. Read the event mbm_total_bytes and mbm_local_bytes. Note that MBA
+> >    events are not available until the user assigns the events explicitl=
+y.
+> >    Users need to assign the counters to monitor the events in this mode=
+.
+> >
+> >       #cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+> >       Unavailable
 >
-> On 12/7/23 5:52 PM, Mina Almasry wrote:
-> > Major changes in v1:
-> > --------------
-> >
-> > 1. Implemented MVP queue API ndos to remove the userspace-visible
-> >    driver reset.
-> >
-> > 2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
-> >
-> > 3. Removed RFC tag.
-> >
-> > Many smaller addressed comments across all the patches (patches have
-> > individual change log).
-> >
-> > Full tree including the rest of the GVE driver changes:
-> > https://github.com/mina/linux/commits/tcpdevmem-v1
-> >
+> How is the llc_occupancy event impacted when ABMC is enabled? Can all RMI=
+Ds
+> still be used to track cache occupancy?
 >
-> Still a lot of DEVMEM references (e.g., socket API). Any reason not to
-> move those to DMABUF?
+> >
+> >       #cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
+> >       Unavailable
 >
+> I believe that "Unavailable" already has an accepted meaning within curre=
+nt
+> interface and is associated with temporary failure. Even the AMD spec sta=
+tes "This
+> is generally a temporary condition and subsequent reads may succeed". In =
+the
+> scenario above there is no chance that this counter would produce a value=
+ later.
+> I do not think it is ideal to overload existing interface with different =
+meanings
+> associated with a new hardware specific feature ... something like "Disab=
+led" seems
+> more appropriate.
 
-In my mind the naming (maybe too silly/complicated, feel free to correct) i=
-s:
-
-The feature is devmem TCP because we really care about TCPing into
-device memory. So the uapi/feature name retains devmem.
-
-dmabuf is the abstraction for devmem that we use. In theory someone
-can come up with a driver that doesn't like dmabuf and uses something
-else instead, and the devmem TCP support can be extended to support
-that something else. Functions that handle specifically dmabuf and are
-not generic to support general devmem are named accordingly
-(netdev_alloc_dmabuf/netdev_free_dmabuf)
-
-page_pool_iov is a generic type to support generic non-paged memory,
-functions that are supposed to handle any generic non-paged memory and
-named accordingly (page_pool_iov_get_many).
+Could we hide event counter files if they're not enabled? Is there
+value in displaying the value of a non-running counter that will be
+reset the next time it's enabled?
 
 
---=20
-Thanks,
-Mina
+>
+> Considering this we may even consider using these files themselves as a
+> way to enable the counters if they are disabled. For example, just
+> "echo 1 > /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes" can be used
+> to enable this counter. No need for a new "monitor_state". Please note th=
+at this
+> is not an official proposal since there are two other use cases that stil=
+l need to
+> be considered as we await James's feedback on how this may work for MPAM =
+and
+> also how this may be useful on AMD hardware that does not support ABMC bu=
+t
+> users may want to get similar benefits ([1])
+
+We plan to use the ABMC counters as a window to sample the MB/s rate
+of a very large number of groups, so there's a serious concern about
+the number of write syscalls this will take, as they will add up
+quickly for a large RMID*domain count.
+
+To that end, the ideal would be the ability to re-assign all ABMC
+counters on all domains in a single system call.
+
+-Peter
