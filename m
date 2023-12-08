@@ -1,106 +1,205 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OgAwToEi";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9ejqWHIh"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 924501720;
-	Fri,  8 Dec 2023 00:06:31 -0800 (PST)
-Received: from pobox.suse.cz (unknown [10.100.2.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DD49322132;
-	Fri,  8 Dec 2023 08:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702022789; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N/IR1J3Y"
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E9B110F9;
+	Fri,  8 Dec 2023 01:06:31 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 524531BF203;
+	Fri,  8 Dec 2023 09:06:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1702026389;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ALVNWxPwFjvkc8k9VJ00CfPBD03Zhd6OwJyUcqfFfZw=;
-	b=OgAwToEi9qRQ81Nbr+dUaE3OssJkOCDpsl8aNgKYzgPU05VA2spDsKu+1vrnNGRcDSODxj
-	CV5C86Xn6+WlykbM4fQXiS8uJP4EhLHgjcLO7hLWwppflcG8ZZPxjM8WmW/Ovd6QC/u4Z2
-	5ieeupze36HMj7INPypy2aQ0jv3itYI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702022789;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ALVNWxPwFjvkc8k9VJ00CfPBD03Zhd6OwJyUcqfFfZw=;
-	b=9ejqWHIhjdcWNavQ0rt86JqlNtnwaAFa7Vx+QSAj50MRpGTEl8tK2iUi5J6ulZhSxD+9VN
-	ALOnvXz698heDRAQ==
-Date: Fri, 8 Dec 2023 09:06:30 +0100 (CET)
-From: Miroslav Benes <mbenes@suse.cz>
-To: Joe Lawrence <joe.lawrence@redhat.com>
-cc: Marcos Paulo de Souza <mpdesouza@suse.com>, Shuah Khan <shuah@kernel.org>, 
-    Jonathan Corbet <corbet@lwn.net>, Heiko Carstens <hca@linux.ibm.com>, 
-    Vasily Gorbik <gor@linux.ibm.com>, 
-    Alexander Gordeev <agordeev@linux.ibm.com>, 
-    Christian Borntraeger <borntraeger@linux.ibm.com>, 
-    Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-    Jiri Kosina <jikos@kernel.org>, Petr Mladek <pmladek@suse.com>, 
-    linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
-    live-patching@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] livepatch: Move tests from lib/livepatch to
- selftests/livepatch
-In-Reply-To: <273a86d6-d220-fdcf-3c2f-70516c519ff9@redhat.com>
-Message-ID: <alpine.LSU.2.21.2312080854100.14729@pobox.suse.cz>
-References: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com> <20231031-send-lp-kselftests-v3-2-2b1655c2605f@suse.com> <ZWn7dEzVWoKxycmy@redhat.com> <alpine.LSU.2.21.2312061543280.13051@pobox.suse.cz>
- <273a86d6-d220-fdcf-3c2f-70516c519ff9@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	bh=5roaO/aCwaahSO4dVcVLdUYTbvQ3YTQ8egLwSPxt4bM=;
+	b=N/IR1J3YGaG2B3y3zFV5bXYB/qJZnhP4RPeZyLOfqlRuwKanawRdBlJDF22sBUFThQchD7
+	/UVT6ICns1gH9xX1QMFXv8ZaH1zlfWauOJAfcVMP+VFSgBPrb/gxChfVoLoIrqYyHoud3G
+	MygZEk60WMv22KgmDavkfpi6ipk7rOe41YYEHhM+TYwHJsj1pvctPODZfdoHvkefKZ/EF+
+	zYmnXIVNq0qPNA6KLk5sZt7MJHVsCJxr4Wzcc8xQ75qKRx/+rDQMzpQmX5H/ljfy9YbJ/B
+	ArG/ZX6o3Qc17fygz5FLMqiHckunX4p+ZInvovVUq+szi/rumCkGPEXV54t8mw==
+Date: Fri, 8 Dec 2023 10:06:27 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH net-next v2 7/8] dt-bindings: net: pse-pd: Add bindings
+ for PD692x0 PSE controller
+Message-ID: <20231208100627.2a78e720@kmaincent-XPS-13-7390>
+In-Reply-To: <20231205162321.4bd165eb@kmaincent-XPS-13-7390>
+References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
+ <20231201-feature_poe-v2-7-56d8cac607fa@bootlin.com>
+ <20231204230845.GH981228@pengutronix.de>
+ <20231205063606.GI981228@pengutronix.de>
+ <20231205111501.43f80846@kmaincent-XPS-13-7390>
+ <20231205143123.703589c8@kmaincent-XPS-13-7390>
+ <20231205142147.GL981228@pengutronix.de>
+ <20231205162321.4bd165eb@kmaincent-XPS-13-7390>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: 0.58
-X-Spamd-Result: default: False [0.58 / 50.00];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_SPAM_SHORT(1.68)[0.559];
-	 MID_RHS_MATCH_FROMTLD(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[17];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_COUNT_ZERO(0.00)[0];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.00)[16.41%]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-> > My idea is to abandon this way completely, take the selftests and build 
-> > and run them on the system right away.
-> > 
-> > Both should be doable, hopefully, if we wire it all correctly... and 
-> > document it.
-> > 
-> I can't think of why it shouldn't continue to work, even in a future
-> where newer livepatching selftests support older kernels.  (We would
-> just have newer selftests sources backported to test older kernel sources.)
-> 
-> Are there any test cases which truly need to be build on-the-fly?  Aside
-> from testing different toolchain pieces?
+On Tue, 5 Dec 2023 16:23:21 +0100
+K=C3=B6ry Maincent <kory.maincent@bootlin.com> wrote:
 
-https://github.com/SUSE/qa_test_klp is what we would like to migrate to 
-selftests to have just one place for all tests.
+> On Tue, 5 Dec 2023 15:21:47 +0100
+> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+>=20
+> > On Tue, Dec 05, 2023 at 02:31:23PM +0100, K=C3=B6ry Maincent wrote: =20
+> > > On Tue, 5 Dec 2023 11:15:01 +0100
+> > > K=C3=B6ry Maincent <kory.maincent@bootlin.com> wrote:
+> > >    =20
+> > > > On Tue, 5 Dec 2023 07:36:06 +0100
+> > > > Oleksij Rempel <o.rempel@pengutronix.de> wrote:   =20
+> > >     =20
+> > > > > I would expect a devicetree like this:
+> > > > >=20
+> > > > >         ethernet-pse@3c {
+> > > > > 	  // controller compatible should be precise
+> > > > >           compatible =3D "microchip,pd69210";
+> > > > >           reg =3D <0x3c>;
+> > > > >           #pse-cells =3D <1>;
+> > > > >          =20
+> > > > > 	  managers {
+> > > > > 	    manager@0 {
+> > > > > 	      // manager compatible should be included, since we are
+> > > > > 	      // able to campare it with communication results
+> > > > > 	      compatible =3D "microchip,pd69208t4"
+> > > > > 	      // addressing corresponding to the chip select
+> > > > > addressing reg =3D <0>;
+> > > > >=20
+> > > > > 	      physical-ports {
+> > > > > 	        phys0: port@0 {
+> > > > > 		  // each of physical ports is actually a regulator
+> > > > > =20
+> > >=20
+> > > If this phys0 is a regulator, which device will be the consumer of th=
+is
+> > > regulator? log_port0 as the phys0 regulator consumer seems a bit odd!=
+   =20
+> >=20
+> > Why?
+> >  =20
+> > > A 8P8C node should be the consumer.   =20
+> >=20
+> > PHY is not actual consumer of this regulator. State of the Ethernet PHY
+> > is not related to the power supply. We should deliver power independent
+> > of network interface state. There is no other local consumer we can
+> > use in this case. =20
+>=20
+> Just to be clear, are you saying we should use the regulator framework or=
+ is
+> it simply a way of speaking as it behaves like regulator?
+>=20
+> > > Finally, the devicetree would not know the matrix between logical por=
+t and
+> > > physical port, this would be cleaner.
+> > >=20
+> > > Did I miss something?   =20
+> >=20
+> > In case different PSE suppliers are linked withing the PHY node, we
+> > loose most of information needed for PSE functionality. For example how
+> > we will know if our log_port supports PoE4 and PoE2 mode, or only PoE2.
+> > This information is vital for proper PSE configuration, this is why I
+> > suggested to have logica-ports subnodes. With the price of hawing huge
+> > DT on a switch with 48 ports. =20
+>=20
+> It could be known in the of_pse_control_get() function if there is two
+> phandles in the "pses" parameter. Then we add a new enum c33_pse_mode mem=
+ber
+> in the pse_control struct to store the mode.
+> PoE2 and PoE4 is not a parameter of the logical port, it depends of the n=
+umber
+> of PSE ports wired to an 8P8C connector.=20
+>=20
+> In fact I am also working on the tps23881 driver which aimed to be added =
+to
+> this series soon. In the tps23881 case the logical port can only be confi=
+gured
+> to one physical port. Two physical ports (which mean two logical ports) c=
+an
+> still be used to have PoE4 mode.
+> For PoE4, in the pd692x0 driver we use one logical port (one pse_control-=
+>id)
+> configured to two physical ports but in the tps23881 we will need two log=
+ical
+> ports (two pse_control->id).
+>=20
+> So with the tps23881 driver we will need two phandle in the "pses" parame=
+ter
+> to have PoE4, that's why my proposition seems relevant.
+>=20
+> The same goes with your pse-regulator driver, you can't do PoE4 if two
+> regulators is needed for each two pairs group.
 
-There is basically just one live patch template and one supporting kernel 
-module template which is livepatched. The final result is driven by a set 
-of macros and function parameters. In some cases more modules are compiled 
-as parts of a test in a loop.
+Oleksij, what your thought for the binding I have proposed in the thread.
+For the PoE4 we could add a "pses-poe4" bool property alongside the two pha=
+ndle
+in "pses" property.
+Here is the current binding proposition:
+        ethernet-pse@3c {
+	  // controller compatible should be precise
+          compatible =3D "microchip,pd69210";
+          reg =3D <0x3c>;
+          #pse-cells =3D <1>;
+         =20
+	  managers {
+	    manager@0 {
+	      // manager compatible should be included, since we are
+	      // able to compare it with communication results
+	      compatible =3D "microchip,pd69208t4"
+	      // addressing corresponding to the chip select addressing
+	      reg =3D <0>;
 
-However, I do not think there is anything which truly needs to be built 
-on-the-fly in the end. Everything can be worked around. Templates may be 
-abandoned and we would have a live patch and a module(s) per test. Some 
-tests are probably not worth it and may be removed. So it is a question of 
-convenience and maintainability. When we, for example, simplified API and 
-klp_register_patch() was removed, only one place needed to be amended. 
-Also, the current state in lib/livepatch/ could be simplified with the 
-proposed infrastructure as some files could be merged together.
+	      physical-ports {
+	        phys_port0: port@0 {
+		  // each of physical ports is actually a regulator
+		  reg =3D <0>;
+		};
+	        phy_port1: port@1 {
+		  reg =3D <1>;
+		};
+	        phy_port2: port@2 {
+		  reg =3D <2>;
+		};
 
-Miroslav
+               ...
+	      }
+	    manager@1 {
+            ...
+            };
+          };
+	};
+
+....
+  ethernet-phy@1 {
+    reg =3D <1>;
+    pses-poe4;
+    pses =3D <&phy_port0, &phy_port1>;
+  };
+  ethernet-phy@2 {
+    reg =3D <2>;
+    pses =3D <&phy_port2>;
+  }
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
