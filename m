@@ -1,97 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQ+6wDci"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C75093;
-	Fri,  8 Dec 2023 12:09:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702066192; x=1733602192;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=5KkgRylyAgOh6kFcB+6T0GKo4f6Cv7Z82i7HQ4WoAew=;
-  b=UQ+6wDciQZCN2f/f5ZSdgF1fGod7VyNvqmtT3210s8nMZKqUbdgKPmOa
-   EovYCnzVXv1Y+wKlI9b/JZfz3UGweOErnwkh/LkaLpjDDm4HtAI13IzL6
-   MiRjJnxqa9pY9+r6B/T1MPUXngj6zmShquBpgfF1I8+HljtEtZjZOCorc
-   rfk7lg3ylb1LZuN/hbGOfDx9iIohacaKjy8AIXObjsLae9Lv5vQ8uTUEL
-   KnNjPtXlE067V3wP+0/SQWujwppkDAEU8ex+c6OzoV+AOICx7+F96fYJX
-   4TkLVtv/lJ2leHwablkWhpWg77xV0Lkg6/2t991fLXyD9o36q2hhGg5ny
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="460933556"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="460933556"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 12:09:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="945530220"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="945530220"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Dec 2023 12:09:51 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 8 Dec 2023 12:09:51 -0800
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 8 Dec 2023 12:09:50 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 8 Dec 2023 12:09:50 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 8 Dec 2023 12:09:48 -0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="KWnQ7iGo"
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2066.outbound.protection.outlook.com [40.107.243.66])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B142710E6;
+	Fri,  8 Dec 2023 12:30:10 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cRecY0UZ1Q1XmGgIFfnrwAWjAFXpCh0ycqaVhel/GDvwUNT8DVysiRHTlLylq7LMlDqWAdki1xGZimZWR0cQyC7omuLgi+POAmLwyoBWNyb1Gyp4VXvaXxJBRpxtvfw34eZOBw8lzbkeQR8UxA38rNUfjAgcsEWQGKgq2tjobn/N03iU0QCeFqy10UTtbw63J2lzjLSHKk1axzbyIyPsoTJCp5x/o9/Zf7djm1dhz+fYd9lENx013oI9dBgU8Gqh+8oRThGmkJXPzoovT0iZhzYlp0seFNydggb01/XRJZXim9MeQtZKCW1Bz23hQxhKUMJOv3cmJYur7Pdd+H75DQ==
+ b=mVGECp10Ah6kopSza4DH4hJ8MhIkxEUNsY0wk5P7y9YPCzQUevoo5HHoD6ypC5jYrjo7iNrbbubQVcY8H01+cKc+IsgbCJeDQWLNkNYnY5ZVyJMgtrSOl8b/KZbMcqtAe+y0cJj0FWaW0rD6hHBRC4abb9eLvAr7gjf0dvTKJWql+cWe+Rmh4dGAjeC0Cz12U/U5ka+6zOoSAm6iSIUHhK2nguFL+p3bJ+QT6puzF/6YKgz45UyaqsEu1FoqK+xY3yNFmoHkufaUlRdyx10krn6VgCKmvZCfhdNiEHEWrBWppCobDatdsy3KPWYdvSUyB+8vobt7HPhfN8Jl15QxcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nEh6BcPaAY7whBJVS+JDFBd6nLyHl7MYj3fBexrkMn8=;
- b=czSm7oZxMhuybsBQLap4fwEbGYli9nYZ1BhVPCPHHpo2ajvrsJFsTjdYnOSe2AG5HyvwynSwMGqC5lfFFR3ld96jGgfiLgxcJdeYbmidSlXWeyjxCSSKvhDsijI7TSH9gr/mWlWX9PxMSVehn03z4wGvP7IMl4SpyauGt5+ofnLK6oAdRNwPmhWuYEVyQ3e7wDSzBEn95tClwTBhCsFg3IKWJfNI8Ums6+k+YLCcqNYhUKImtySdb60rL2S2/YOZgw4jkG05Pv5Ag0cJxfC5Cp8StjS8RDEyfif9k7IFe2wVhs4otb7bV1NkjHSsVXGZHRLR+Z6wIxx/ZtWIrFZxbg==
+ bh=kXep31Vj7YsyaCiJHkYToC6i5Awy+k3YfN4DUeffgT0=;
+ b=huCLRlWuXUEKYKcu857HzGsxOSBWwhdas4WVL3V5OdahOzRWAeM9ygGjSpsYt/h2NMSCtDFqjE/M6fOZTSb+AC/Aggs/JW+21QarQoKEsiK/8u5wq1cZsrGY9ZtdsHm70cqPJoFVCWxwKqlO13XEuUIl1HB7vGy+KW3vFHA17ERMMCKi0MBjdevA4ovI5r3SyzM0a9Wv7hL5+4HRMiuv9ReDgW3yD/8ZlnNRA137asqSYiU1ZbIciVZAb9uvrMSGWyjbalPD9IwvdUueNBEHdUYqWsxVbxpFQpxVps4LZbyg38lb4AUUebZ/4gwSKDPE4VZAlAuaOvwfDxcz+VeRQw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kXep31Vj7YsyaCiJHkYToC6i5Awy+k3YfN4DUeffgT0=;
+ b=KWnQ7iGoPdtK1dNexlsxDhMWnEF1iDartPxKpxmuQenWRjR7ufqX42kvwaZv1Cbx1ulNWzro4FISFPqi9BQLfyYjYekXEiWpJjHfLReNjxVa/Dnl24bo0Ki5MqkWNfNMo1JmRQ4tHaAxWx4fo4VSnOvmT8KnNLSFJhGFQcnVH/RY4pOuwjYv7pUvLSH5Ygf2nIRTpTDhcTLpLZIY4wQxBy6cp1pfdeqVWiGv7eInxs8/chZCdgK4xDnHuRdR6w0/YRxTNj7r0ltLQZkWCMsvEPHSFEDnltCHVsVN7K/j89fnHuziMOs9HwPJYARRQ16bIObdwZXKZCuEqwP2cUB0aw==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DM4PR11MB6309.namprd11.prod.outlook.com (2603:10b6:8:a8::22) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
+ by CO6PR12MB5460.namprd12.prod.outlook.com (2603:10b6:5:357::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.28; Fri, 8 Dec
- 2023 20:09:44 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7068.025; Fri, 8 Dec 2023
- 20:09:44 +0000
-Message-ID: <d8734783-f310-4f8b-837a-78f838669281@intel.com>
-Date: Fri, 8 Dec 2023 12:09:38 -0800
+ 2023 20:30:07 +0000
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::6b9f:df87:1ee2:88ca]) by BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::6b9f:df87:1ee2:88ca%6]) with mapi id 15.20.7068.028; Fri, 8 Dec 2023
+ 20:30:06 +0000
+Message-ID: <c54b4059-e3a7-40bd-84dc-013dc3b15c65@nvidia.com>
+Date: Fri, 8 Dec 2023 12:29:37 -0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/15] x86/resctrl : Support AMD QoS RMID Pinning feature
+Subject: Re: [PATCH v3 11/11] selftests: error out if kernel header files are
+ not yet built
 Content-Language: en-US
-To: Peter Newman <peternewman@google.com>
-CC: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, James Morse <james.morse@arm.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<seanjc@google.com>, <kim.phillips@amd.com>, <jmattson@google.com>,
-	<ilpo.jarvinen@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kan.liang@linux.intel.com>, <nikunj@amd.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<rick.p.edgecombe@intel.com>, <rppt@kernel.org>,
-	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <eranian@google.com>, <dhagiani@amd.com>
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <d97cbeba-af6d-4b64-b5c8-32dc437a67b6@intel.com>
- <CALPaoCjNgv4rFpbovyayNynuAqYGP0rVLv=djVnDO1LR+zU55g@mail.gmail.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <CALPaoCjNgv4rFpbovyayNynuAqYGP0rVLv=djVnDO1LR+zU55g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+To: David Hildenbrand <david@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Peter Xu <peterx@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20230606071637.267103-1-jhubbard@nvidia.com>
+ <20230606071637.267103-12-jhubbard@nvidia.com>
+ <20231103121652.GA6217@noisy.programming.kicks-ass.net>
+ <a002f903-723f-40ae-8d7a-421ab2e082e2@redhat.com>
+ <20231208151401.GG28727@noisy.programming.kicks-ass.net>
+ <990feea2-c7a8-4cd9-8a6a-bc4bc1c2ffab@redhat.com>
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <990feea2-c7a8-4cd9-8a6a-bc4bc1c2ffab@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR04CA0084.namprd04.prod.outlook.com
- (2603:10b6:303:6b::29) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+X-ClientProxiedBy: BYAPR07CA0083.namprd07.prod.outlook.com
+ (2603:10b6:a03:12b::24) To BY5PR12MB4130.namprd12.prod.outlook.com
+ (2603:10b6:a03:20b::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -99,133 +64,136 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DM4PR11MB6309:EE_
-X-MS-Office365-Filtering-Correlation-Id: db17fa4f-73e6-4ca0-8ce4-08dbf8299e24
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4130:EE_|CO6PR12MB5460:EE_
+X-MS-Office365-Filtering-Correlation-Id: 920f9016-3763-4c09-7715-08dbf82c771d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6+QOuX2QH+ca1TCpCJeJZb1W6G3IerY582lmGX1DUNMu68wNumZ/MpP3fHU3T4GPKlknGZ386RtFnbxN6Hu9WZQzptrE+91wOqMPzkPGpULWvyA7ECMZvWyMyx4H+XlLL1DNWDkC6azB1XEUXsqZnmjrLhCD6GDbZzAbNydX95Jmw4VklNxnenPTtqr12Uht9DVZtOlbqcpLTnM2D7owwSRFUuSc1MDQtpjol+H0uxuND+5/ij+8QUSldbEYoFZKkzlPY6+N5BXRjkZU/Gylqrne2+M4LTe7XCxZtIvKHicSUiq3j8w4oyWTksv3iXqjxEs4Z4Y0Ac2XJfXzZzvPHGFG8WHnO6VGjRTwpEGY/WU3PKJmtVec4MRBX4G1Tsq5Pm/fyo84WzVoQg54hvQas08JUMs2ipljb0JKnkzl2U6Q2YnIlttj+CAwTUpFXvNb5Xy50JZu+puQORw/YLj9WrRuaTWONsbSn8/SAhO+ge0CUY721sibxyAvCWjPwPqs0N6lBQ8zCYW4KM2bKUg6YyLe4q1n3TDNy7aJML1BLIzcx4gefe73GfXrHv175n0VUdUE5Vn99BdLMvZl9hDGEbYopPDIzCWrU1E58GQ8zWoorpHhE7LSukbkFGY4lyl6xMcigfVS+spBnZbCJB8W4w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(366004)(396003)(376002)(346002)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(31686004)(83380400001)(6512007)(26005)(2616005)(6506007)(6666004)(53546011)(478600001)(6486002)(966005)(316002)(6916009)(66476007)(66556008)(66946007)(54906003)(31696002)(38100700002)(8936002)(4326008)(8676002)(86362001)(36756003)(44832011)(5660300002)(2906002)(66899024)(7416002)(82960400001)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info:
+	/EwtO0Xzl3g98SESY269xqbl7F9+HZizzorrUf+zdtFL6eAt77aBT5XXb9zET84FMUjU9bSm+cFkyQWle6fC3p57q7jOT2WP7fWp94YNyRU2VQnM2Z4P4UXM35m9G8ycKUmEaxRjKEmjg8ICM+mU6vlL4GYMGfqdDm29s8zBTDJbAyf1rvgW6rok+JjuIBAPgEPQqVFLkEST0uMnHIO0HK29jWfMvkwmAB+DMKmUiJnY+fc1I4bQSsuiz3EkOCHiJjyaxLqR9uzXP1cSdrEKJ80c5xVPg9yCzwKc8iOpCzmDcCMpqgbvhnPBqCPRJxHiQRqaFkrm7Eq2M+WEEs+od1mYdaNwxdquuI4tz7dGp8xa7Zx7citWru98tEPTh5E3dpm+7dYpER/Q3qHnsfoykwud0lnfEmdyJdQJ/tnGEyrGmnOw5wItK28cieT8N2cuhC9EWaRyrbPVHXKAJpDB2+XxJlIw5BzlFYBDtj6uxRr2WMVHyQLf6kr1zl5ev43rwSag1Kf9pOmYBDRmLFXKWtrNMg22oYCw6y/hSgem78mwHp2HBHNZCjmZhJxeKNSUKT88wXfXB/ml7v28YFXVjH8UeRFcoD7G5Odzm0LN1StlH4h5cy61170ZkT0weE4UtFzovbEwb7Z2n9VwxM7GQY6Bq2BDbByXkfWlmNJcgnKAnxP+CH9WQRMCQ9aC5TOd
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(366004)(136003)(376002)(346002)(230922051799003)(230173577357003)(230273577357003)(451199024)(186009)(1800799012)(64100799003)(6666004)(8676002)(2616005)(6486002)(8936002)(38100700002)(478600001)(4326008)(86362001)(36756003)(6512007)(31696002)(5660300002)(53546011)(41300700001)(31686004)(6506007)(7416002)(316002)(66476007)(66946007)(54906003)(110136005)(66556008)(83380400001)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UzQzV1g0bWFhSWRZdkx0dmJZSjNCUWp5alFnV3ZXcXF6bTlIaG01d0lXbzJs?=
- =?utf-8?B?ZWo1SGJ1WE1uNVFPZEkxZ216L2tJV1ozWnBiM21wZUdxSkE0QlE1VDBJRkJm?=
- =?utf-8?B?ZUJYOXBXdzlqTC8va3RhMmpGQlhnc3pkQnp0alAzWk1IMFBGTGp5OTltYitR?=
- =?utf-8?B?WDNqRnorTlBJR1JJMzBKWmIzQXhPTEliMlBWNC9FYS9RdVJCb0V3L2dOMUV6?=
- =?utf-8?B?TkVkSU4wQUkzMFByT090OFRaQ3BoNlU1VTNqMW9RQkt4eUk2YjJvd2hiMloy?=
- =?utf-8?B?VGNTdWIzbm1pK285dWNUcmdEV0NBcldKWVgrVk1ncmdqNnRsUGNKclFxbEJi?=
- =?utf-8?B?bzRwKzhkTHpGVTJQTnZkbVdoam1Sa2c3a3dlOVRDbWFWcmhWRWxMZ3NIM0Fm?=
- =?utf-8?B?aU10K1JRYU1ZR3VmNDIzUEJ4OTI4V2JZdDZDZVcvZGR2bDVMdVVrZERiM3Ns?=
- =?utf-8?B?Z1EwbHF0T0hzaklWQVhMOTIxQm14cWZCdXBwSTJYVk5wTG1QT25OMExxK1RO?=
- =?utf-8?B?eTdTNTlqMWNBR1FlT2VJYWwxcmNURU5ZOFlWZGZtbk5WMCsyQ09OaExFTDFG?=
- =?utf-8?B?WTlBdEloZDBTTjVxbUdobmFtVTFqZFg2K3RoRDhNN09EYml2SnVld3VvOE5L?=
- =?utf-8?B?enhvVDhlcnFsVTRQQkZka3Zqc0Y1c3QraXFTdzVSTGJqdVlXbEZWelN0REtM?=
- =?utf-8?B?SUh3NVQ3Y3UvTkFEUXpIL3NXb0l5MXczdFNHaTdGbXBkU3IyUkI2d1RlU1F2?=
- =?utf-8?B?ejRQcEhCRnJTNWtlQk84eVpJY3JLaDdMdHpuOGhmaGZKcnNWK3JNcEVTTFdz?=
- =?utf-8?B?Q1YvWC9xaVBld1J1cHNyS0Nnb2FqdzA4YnJ4Vkd1QkMrdlJOS0VDNWJTQWJS?=
- =?utf-8?B?dUttNVlZRXNHWFhvRnE2Y3BKUWhsVFQreFM1djBodVZmdzN0bzdHZEpadkdT?=
- =?utf-8?B?M2wrMXo3L2V1SDdxRDhlbWFoMDZFY3VPWCtqc1BLZUhiTDV1THlFLzE0cVh4?=
- =?utf-8?B?YjJhekxMZXRhQ3hra1ZjZW03K1J4aks0N2RkcXRSWE53eEFwUms1RWd3cmlB?=
- =?utf-8?B?NHZLbDN6aDBuSFpGcE5vSGhoUEtwMXFCZmlhbVRTbTdLcGhHN25lNUtyUEtJ?=
- =?utf-8?B?ZGJiRE1SSHFIbmxqZ0JXSktjRWg3NSs1WVlCMEZlYVJjZEtKcU1ub2NXdXNG?=
- =?utf-8?B?Z0NKV1A5VDZVRVk1RzA2bkJEVGZMT1JpRm9jVmZlckNVV0lFeElnc1pPWTEr?=
- =?utf-8?B?dUl2TE9XbzFJOGk5VElvZUJSRXhrSnVuNWFyREdSYkloQUhIZWx3bHJsazBs?=
- =?utf-8?B?S1dpSlJUN21zUTY2dm44bjVSTmc1UmtmakZVWkZRM1VVeW45cmJyQ1FqeC9T?=
- =?utf-8?B?MjNpK0JRKzBaYlZvbUFob3puRVJVcXNkRElrVUNCUVRKOTRjYW5rVlVCcXVy?=
- =?utf-8?B?cjB2dTdINEFxUVhjTnFCektpVTRtSzMyZkFHb000TTRnenF4TlFBcktvR3pQ?=
- =?utf-8?B?Um1FMFJVY1ozcExvRXVQLzBhYU94ZUsyZlJqc2xiOHhFWmVxQUJ1cXNQT0N4?=
- =?utf-8?B?elRqTHEyWS8rNlpDWllMRS94eHdSQTdaSS9LR0dScmNZZFovQnl1WnpBQnRU?=
- =?utf-8?B?amdBVDBiblZoTXdwblFPK2NWYVR3UGdpT3JlRFJrWWxBcExLMTJ2Mi85NUhY?=
- =?utf-8?B?L1gxenRIMVhlVGVWd3RNYnJqODNndXZwVUFmby9hd0xyVHM2bWZoV0RwYTZp?=
- =?utf-8?B?UmpDOExZa05EcTgzbWpjdzZpR1U0aThna0grVlNySUlhdXFlR2tURkRJL2Qw?=
- =?utf-8?B?UUtQd2t6TS83dHJqem1sb1dzQjNaL0oweTU4UkpScjJlTmNDTVZ0am13VWpE?=
- =?utf-8?B?Y1lIb29GUlR1T1VldGhMTUt6ZHg4MnhjenBNZmk5RXRmZXAzM1BrWTVxamRi?=
- =?utf-8?B?andSd2I2SlZQdTJUMjFaTVhxWGxTd2xINU16Z1pNcXNHR1RIbG1kMFQyblJu?=
- =?utf-8?B?d1l0cWc2ZGVIcW9WcEVOYmg4NzZEVXRXYjM0NHNrbU85dE5xeWEwdEZEUTR6?=
- =?utf-8?B?R2tjS0syUUpQdUY0TWI0cGdpeklTa2FGdDU1czRxRndCN1VBV1NOK3RRdm02?=
- =?utf-8?B?YXpWNE1ZYnd4a2FPQWk4YjArU1k3Yks1WTNSK0M4ck1pdEpaRnMzS2xXVEFN?=
- =?utf-8?B?enc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: db17fa4f-73e6-4ca0-8ce4-08dbf8299e24
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OFFHZ1NBNndWZjBJQlo4Y3JWQWRkaHRvdXhnMzhkcE1SdnlKVUNUMitNWjVX?=
+ =?utf-8?B?cEpKaTIzK0dGTEdkYjZZY0NOR1prRm9JcGlZVVBPUzdjQWs5cVNSOHY4NzRK?=
+ =?utf-8?B?ZUlMdDVqRCs1U1RkNUdQOVBnK1dJeDMxbGNkanBvM2daZUJKbERraXpwMmcx?=
+ =?utf-8?B?dTBnRTVlaXZhdVhSSjh3TEdwMzB2NnpNYkwyb2VaS3BtKzJaZWR6bEhBZFMz?=
+ =?utf-8?B?dldlSk5zZXhBcGhNOWZjWFdES1oxMGk0MzZTTEQvMmtkZnlTSVo3SnordkNr?=
+ =?utf-8?B?RlhMYytxQis4cUpTUUVjU2NkRHNSTjRiSG8xdVpHZUN0VHVnVWwzZVdSTC9j?=
+ =?utf-8?B?ZGQ1TkNJU0hPRlNyY0lZVjUrRUVRUWoyb0NSQk9QK1FTVzN2NENzMVR2d3ZF?=
+ =?utf-8?B?RWlVblFKa2hBOHZOMWZEVTB1NG1CK0h4U0J4eVVHNlRPczJVZDFlTTFpZ2lY?=
+ =?utf-8?B?N1E3YnVmM05UN0IzUkM4MERJdFBiM0MrdVYvT01nL1ZQMXIyNjl6Q0k4Wk1J?=
+ =?utf-8?B?Y2twZ1JVUU9HVmtCbSs1S3k3R0lzeXJ5WUU5Q0hzMk5XOEVzK1h5blkxSmV0?=
+ =?utf-8?B?bHF2K015eTFpZzd2VjFiVUlUaXZTZDVwbDlONkdOWG1NbzR0aUxrOFVUQzRj?=
+ =?utf-8?B?dUtxRk1hTDhQSzBzQ09INFFEWVI5UXlkUGlncDhhbDZTR3dwRi9NV2U0dFdO?=
+ =?utf-8?B?NzJydjJ4YkZBWUNETFRRMlY4RmE3amtRWlZKNnovL0RMOWpJWXh3MUE4TmVr?=
+ =?utf-8?B?WEdYb0Q4RW92aC9NNzFDb1ZyL3dveitCMjJRZkUzNnFLZlNrRTdvaHhYSlFy?=
+ =?utf-8?B?dTNIZW9GVEdyM0tIQzdEb3dNM1V3NnZiQnRjT01LSEoxWURmbWMrZktUUDdo?=
+ =?utf-8?B?RE1MUWxXb2pRN083UElCVVVVMGlEb1NCUGt3K25oS3pXNHBYRnZJUkluTGxP?=
+ =?utf-8?B?UlhFeE9EakpTWm9hZzczR2Zqd3F2SU9TdFhrUkxYZ0lrWHphSmx2WUxYbCtK?=
+ =?utf-8?B?NTczbkxHcG1YTEFxN3dOYWRWTnpneE1ka0gyVlNkK0lxOTRHb0Nzb21LR0lC?=
+ =?utf-8?B?NjZnQkhvNVJjbklvRmJVZCt2dWRTMlhkZWRlQy9PTTdRQmVCNU9TUzBMQ041?=
+ =?utf-8?B?YVFyNDZZbHV3VlJSWWx1d2FmclVxTTRFSVZqS0Zham9uSG1jWFIxeGVTci9C?=
+ =?utf-8?B?djZDa0IvUEM1cnloanRFajI3ckdpRDdmRHR5M0RWRWZ4cGhQdUptRlQ5eWlK?=
+ =?utf-8?B?M2EzVVFFWVZoNDRpcWRsZnpLakx1bUJJZW91b2p1dzB4Q2ZTWVdmMUo4Ky9a?=
+ =?utf-8?B?M1RmWTMxRXFCVWlYVWllYllTcWJhY1lnWm5MVEFxZFY3Z2cxVzd6WHh0b0l5?=
+ =?utf-8?B?RzBxWVBFY1c1UVNCRExWR1NlcnJKZjFwU3J0a2FMT1MwNXcwcXdkV1VnNE9y?=
+ =?utf-8?B?Qi9VZnVEVmJFa01ZSWpxRFlaY1VpcjFWOC9KRlV0ekk3ai93bURkQkV2dytj?=
+ =?utf-8?B?YVVnK3NFdHh3QVJGazJRVExxWDE3cTJ5MnREbzl6T0FXazVva1NDREdKSG1Q?=
+ =?utf-8?B?OGRJbndFMFhURFlqNHRzK3NaOENzVjkyQkEvZlFZUnBTUi9IZUMzU3N0eGd2?=
+ =?utf-8?B?RlRXb2xZdGpzRXBCcHBINkt4TmVNMmsvcWNxaGgwTDZZMWlYVW9ndGFvYXV1?=
+ =?utf-8?B?L3lDbEdEMFdmM1lHdTQvNXM5dmcwQThtT3FUOGUxaHdZclJUb0VVWWxJdmhm?=
+ =?utf-8?B?ZmpkcHpDc095ZGE0bUw2OHcrbnJsWmxPbGhXejhldmU2dTRncEtQVHFhejM4?=
+ =?utf-8?B?b2lFQ091L2dWNW9tZkpvV3NkaXFYZEdOQ3JVNTNGUUpibnBPb1BQMVhGQmc2?=
+ =?utf-8?B?YUUzbWNJbENGNGVVbGFGZm1kL0RPb2dxTDh1V0JOQ2YwYWluazNwM201eWkr?=
+ =?utf-8?B?YkhVekwrNndyOEtiK0FDK3N5QXNzZVpHTWNCZTlYdkZVMTlsL2xRUGtyanYy?=
+ =?utf-8?B?Y3VnZ3E0OGgzZ2JxN2c1cnNoejJlSGRmZFNTSVdKUkVJUG9aVm1hMFkwcmQ0?=
+ =?utf-8?B?TGpEUHI2RDlPcmM2T1ErZnBYUnVEanRIVlFUZXE0K0d1WHZnY0U2eGtqQzlm?=
+ =?utf-8?B?eVMrRjExaEJmZWdXWk1tV25IM2JGb1pxTVp1bEhKbTYwbVFuV3o5MFFLeUZm?=
+ =?utf-8?B?WWc9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 920f9016-3763-4c09-7715-08dbf82c771d
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 20:09:43.9426
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 20:30:06.8599
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZLFJGj1ZV/rkI+xCRPE2uIxqEesU0s1rh0Y/S+nUBsf+IpE0Q9kRnUNUMcuJSdp7BTdMVj9WRjzioUd0ae/wIK5IZGvgAE10xSZEASp25Gg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6309
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: H/29/XPAGC4ZlXw183CQfm0YHJtgdP6aVjk7SlVQIJL2qKxeLnX83vPprF1YDthn//YXudV7/oecfQCEms0gNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5460
 
-Hi Peter,
-
-On 12/8/2023 11:45 AM, Peter Newman wrote:
-> On Tue, Dec 5, 2023 at 3:17 PM Reinette Chatre
-> <reinette.chatre@intel.com> wrote:
->> On 11/30/2023 4:57 PM, Babu Moger wrote:
->>> c. Read the monitor states. There will be new file "monitor_state"
->>>    for each monitor group when ABMC feature is enabled. By default,
->>>    both total and local MBM events are in "unassign" state.
+On 12/8/23 07:21, David Hildenbrand wrote:
+> On 08.12.23 16:14, Peter Zijlstra wrote:
+>> On Fri, Nov 03, 2023 at 01:22:54PM +0100, David Hildenbrand wrote:
+>>> On 03.11.23 13:16, Peter Zijlstra wrote:
+>>>> On Tue, Jun 06, 2023 at 12:16:37AM -0700, John Hubbard wrote:
+>>>>> As per a discussion with Muhammad Usama Anjum [1], the following is 
+>>>>> how
+>>>>> one is supposed to build selftests:
+>>>>>
+>>>>>       make headers && make -C tools/testing/selftests/mm
+>>>>>
+>>>>> Change the selftest build system's lib.mk to fail out with a helpful
+>>>>> message if that prerequisite "make headers" has not been done yet.
+>>>>>
+>>>>
+>>>> NAK NAK NAK
+>>>>
+>>>> This now means I can no longer run selftests, I thank you very much! 
+>>>> :-/
+>>>>
+>>>> root@spr:/usr/src/linux-2.6# make O=defconfig-build/ -j64
+>>>> make[1]: Entering directory '/usr/src/linux-2.6/defconfig-build'
+>>>> ***
+>>>> *** The source tree is not clean, please run 'make mrproper'
+>>>> *** in /usr/src/linux-2.6
+>>>>
+>>>>
+>>>> I've always done:
+>>>>
+>>>>     cd tools/testing/selftests/x86; make
+>>>>
+>>>> and that has always worked
+>>>>
+>>>> Now I can't bloody well build *any* selftest or risk not being able to
+>>>> do builds.
 >>>
->>>       #cat /sys/fs/resctrl/monitor_state
->>>       total=unassign;local=unassign
->>>
->>> d. Read the event mbm_total_bytes and mbm_local_bytes. Note that MBA
->>>    events are not available until the user assigns the events explicitly.
->>>    Users need to assign the counters to monitor the events in this mode.
->>>
->>>       #cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->>>       Unavailable
+>>> This change landed in 6.5, no? And 6.6 was just released. Just 
+>>> curious why
+>>> you notice that now.
 >>
->> How is the llc_occupancy event impacted when ABMC is enabled? Can all RMIDs
->> still be used to track cache occupancy?
+>> And I hit it again (different box etc..)
 >>
->>>
->>>       #cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->>>       Unavailable
->>
->> I believe that "Unavailable" already has an accepted meaning within current
->> interface and is associated with temporary failure. Even the AMD spec states "This
->> is generally a temporary condition and subsequent reads may succeed". In the
->> scenario above there is no chance that this counter would produce a value later.
->> I do not think it is ideal to overload existing interface with different meanings
->> associated with a new hardware specific feature ... something like "Disabled" seems
->> more appropriate.
+>> Can we please get this garbage fixed already?
 > 
-> Could we hide event counter files if they're not enabled? Is there
-> value in displaying the value of a non-running counter that will be
-> reset the next time it's enabled?
+> I'd suggest to either revert or turn into a warning.
 
-It may be possible to hide the counter file when it is disabled but in this
-case it is not clear to me how to communicate to user space that it is
-an available counter that can be enabled and by hiding the file one mechanism
-to actually enable the counter is lost. It is not required to
-display a stale value when a counter is disabled, text like "Disabled"
-can be used.
+That would put us back into a half-broken sort of situation, though...
+see below.
 
->> Considering this we may even consider using these files themselves as a
->> way to enable the counters if they are disabled. For example, just
->> "echo 1 > /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes" can be used
->> to enable this counter. No need for a new "monitor_state". Please note that this
->> is not an official proposal since there are two other use cases that still need to
->> be considered as we await James's feedback on how this may work for MPAM and
->> also how this may be useful on AMD hardware that does not support ABMC but
->> users may want to get similar benefits ([1])
 > 
-> We plan to use the ABMC counters as a window to sample the MB/s rate
-> of a very large number of groups, so there's a serious concern about
-> the number of write syscalls this will take, as they will add up
-> quickly for a large RMID*domain count.
+> @John?
 > 
-> To that end, the ideal would be the ability to re-assign all ABMC
-> counters on all domains in a single system call.
 
-Understood. I've already pointed out that this is a use case needing
-to be considered. Please see [1] - search for "global enable/disable".
+I don't have a strong opinion about how this should be done, and in
+fact I believed at the time that I was bringing the system into
+compliance with what everyone wanted here. :)
 
-Reinette
+There seem to be two conflicting visions:
 
-[1] https://lore.kernel.org/lkml/e36699cf-c73e-401b-b770-63eba708df38@intel.com/
+a) The way it was (much) earlier: use ifdefs and defines to get by
+without the latest kernel headers, or
+
+b) Requiring recent kernel headers to build the various selftests.
+
+Shuah, Peter, others: can we choose a direction please? Either
+way will work, and I personally don't care which one we choose.
 
 
+thanks,
+-- 
+John Hubbard
+NVIDIA
 
