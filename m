@@ -1,131 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624307F
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 00:25:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sxF/mK0k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBFBAC433A9
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 00:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701995127;
-	bh=YQ43gqFi340wtHS4UTT/96YjcDawsBIO7bwc4RETQ5M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sxF/mK0kIuq+FAFL3vXGu4VJXAWDLpJkunN6On2kVqmQHlw4qXsW6rmigTA7cQ+UZ
-	 zqtk1mxrDfWgCMXn/lw38JDyQTCxm21NVKYpDy5QUh+1x145qkOe7IwGSSmMqTjVdZ
-	 U1u+TSwhjarzBonjPeNCY+Gs6W1VUmgff2/uF4IXLy1zKAKc9LQJEggzcMFaiPmwh6
-	 NyyQvSldM2gr6c35yByvAVa3QGn9s3Moa+qzOPNT7FNrxND3uVVKLLu0o06TK4yvqN
-	 lzHSb2BgM11lLLsskq10Md4pyVlK74hlB6jUOvFq5a1mCpdPL4cfF2z+0menBvxS70
-	 HPnwgdxeUcHaA==
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5c2066accc5so1152338a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 07 Dec 2023 16:25:27 -0800 (PST)
-X-Gm-Message-State: AOJu0Yzolz65H10GHyH3VsuVRr0OlgcglEBlqyy8uUSbti4IjGGZX8ry
-	QBmdpiHPki8Nbbe/HEkUbhqUHJ6bahjbcUt8JE3Rlw==
-X-Google-Smtp-Source: AGHT+IEpsq1zGY0OfKQxvKp1EvVbsLwVD6nMl1S5J/UVuBu11zU3BbaxP90u+Kn0UjEV195rA6g1hCojqNHtHKljjg4=
-X-Received: by 2002:a05:6a20:1604:b0:18f:a271:31a9 with SMTP id
- l4-20020a056a20160400b0018fa27131a9mr3577935pzj.74.1701995127255; Thu, 07 Dec
- 2023 16:25:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xp1OZaYw"
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6318FD5B;
+	Thu,  7 Dec 2023 16:43:11 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-7b373b0e9b7so71054839f.0;
+        Thu, 07 Dec 2023 16:43:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701996191; x=1702600991; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8OQ4qcJBnrVu5qdEda2Vkc1e736jChzDqNzRg++7jp4=;
+        b=Xp1OZaYwu7UmbI0jUOrYrDiwhgyOlQEfKxfcDHrsmTS0OUUmChDC50iG+O8GF42b9O
+         X943sj1BPgoR05PWOfKH1du5kzGFCn1o9ctlr2+kW5SPxM3h06LUnUWsoK6zg03BzfcH
+         xYNIboaLLCCstB51Sn0vSWPM2PPSl79eYj+l3zT5BiDNqC2lQmEUBEPUm6AcjhVlhW3Q
+         Zl6dJrZNznPt5vUpvyiXlWCecW+qoE7PH+8tqJ4rfDtTbrvH/XDOh4zGZE0zHvgWNCtz
+         hSMw2Guejll6mTGBQGYtbPzQQC04eSUzPNdaAJLIR4oPEHqkjdg5zis3VgcI2RXx9saZ
+         /eJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701996191; x=1702600991;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8OQ4qcJBnrVu5qdEda2Vkc1e736jChzDqNzRg++7jp4=;
+        b=AUahYRwgKNB0hrw68HZauD7jkg0rewKoypiKdFDDccZJ8ZzjfzbyWZepnLf3bild/F
+         eZFNq0G+OdSnXRJhFm9S42NDyEy+TSfKem2RsLtUU4sZi7IecHZzi2V3mFu6BrHp/T9Y
+         7+VfWCRdsyGcMgNCOCREJDWWsUQfnpHqrHUDMteoDi/rtUIkaIwejMlhoPyIlDJi7/lQ
+         35SP06MQN8qiIFfjjqWiAgXq5Np9i4Cws6F7jz18/9Qhff4KW6mbR004I1u6lnpWDp2P
+         jDM67THU0B5daQeedzLHP/VCjHMzgmZSrBO+xPXf4XZmj0aq+iLTW0DIoRs8ydj1fzuD
+         PeUA==
+X-Gm-Message-State: AOJu0YyUj+95w0wAxs2SPnhC3iGSua5WOIuwFjT1sF+8B7ozJRo2vadz
+	SFCUDQQS30juTYF+9lwemloQPFBVHmjrkTIiM3o=
+X-Google-Smtp-Source: AGHT+IEpRm0jQ8487xc394HrqLkpMOegFa+1vLDmLWlmGaEzkTVkdOUdqPonhL6LsuUtyJKsDg8S18tMf1iCe2gOMD8=
+X-Received: by 2002:a5e:8e04:0:b0:7b6:ef47:7042 with SMTP id
+ a4-20020a5e8e04000000b007b6ef477042mr2369173ion.20.1701996190674; Thu, 07 Dec
+ 2023 16:43:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231130194023.4102148-5-nphamcs@gmail.com> <20231205193307.2432803-1-nphamcs@gmail.com>
-In-Reply-To: <20231205193307.2432803-1-nphamcs@gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Thu, 7 Dec 2023 16:25:16 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuM9hRx48uG5vqp1E26gtaHMQG-B+AAQUoZKNdkD0YeaPw@mail.gmail.com>
-Message-ID: <CAF8kJuM9hRx48uG5vqp1E26gtaHMQG-B+AAQUoZKNdkD0YeaPw@mail.gmail.com>
-Subject: Re: [PATCH v8 4/6] mm: memcg: add per-memcg zswap writeback stat (fix)
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
-	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org, 
-	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeelb@google.com, muchun.song@linux.dev, linux-mm@kvack.org, 
-	kernel-team@meta.com, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, shuah@kernel.org
+References: <20231207192406.3809579-1-nphamcs@gmail.com> <20231207141142.307745be167d044b0eec1b42@linux-foundation.org>
+In-Reply-To: <20231207141142.307745be167d044b0eec1b42@linux-foundation.org>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Thu, 7 Dec 2023 16:42:59 -0800
+Message-ID: <CAKEwX=Oa4hKCvhhR7D9kbQ-gi2LaKBjeC3GNB3b91doVB07vEA@mail.gmail.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org, 
+	cerasuolodomenico@gmail.com, yosryahmed@google.com, sjenning@redhat.com, 
+	ddstreet@ieee.org, vitaly.wool@konsulko.com, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, shakeelb@google.com, muchun.song@linux.dev, 
+	hughd@google.com, corbet@lwn.net, konrad.wilk@oracle.com, 
+	senozhatsky@chromium.org, rppt@kernel.org, linux-mm@kvack.org, 
+	kernel-team@meta.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	david@ixit.cz, chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Chris Li <chrisl@kernel.org> (Google)
+>
+> This does seem to be getting down into the weeds.  How would a user
+> know (or even suspect) that these things are happening to them?  Perhaps
+> it would be helpful to tell people where to go look to determine this.
 
-Chris
+When I test this feature during its development, I primarily just look
+at the swapin/major fault counters to see if I'm experiencing swapping
+IO, and when writeback is disabled, if the IO is still there. We can
+also poll these counters overtime and plot it/compute their rate of
+change. I just assumed this is usually the standard practice, and not
+very zswap-specific in general, so I did not specify in the zswap
+documentation.
 
-On Tue, Dec 5, 2023 at 11:33=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
 >
-> Rename ZSWP_WB to ZSWPWB to better match the existing counters naming
-> scheme.
->
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
-> ---
->  include/linux/vm_event_item.h | 2 +-
->  mm/memcontrol.c               | 2 +-
->  mm/vmstat.c                   | 2 +-
->  mm/zswap.c                    | 4 ++--
->  4 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.=
-h
-> index f4569ad98edf..747943bc8cc2 100644
-> --- a/include/linux/vm_event_item.h
-> +++ b/include/linux/vm_event_item.h
-> @@ -142,7 +142,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT=
-,
->  #ifdef CONFIG_ZSWAP
->                 ZSWPIN,
->                 ZSWPOUT,
-> -               ZSWP_WB,
-> +               ZSWPWB,
->  #endif
->  #ifdef CONFIG_X86
->                 DIRECT_MAP_LEVEL2_SPLIT,
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 21d79249c8b4..0286b7d38832 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -703,7 +703,7 @@ static const unsigned int memcg_vm_event_stat[] =3D {
->  #if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
->         ZSWPIN,
->         ZSWPOUT,
-> -       ZSWP_WB,
-> +       ZSWPWB,
->  #endif
->  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->         THP_FAULT_ALLOC,
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index 2249f85e4a87..cfd8d8256f8e 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -1401,7 +1401,7 @@ const char * const vmstat_text[] =3D {
->  #ifdef CONFIG_ZSWAP
->         "zswpin",
->         "zswpout",
-> -       "zswp_wb",
-> +       "zswpwb",
->  #endif
->  #ifdef CONFIG_X86
->         "direct_map_level2_splits",
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index c65b8ccc6b72..0fb0945c0031 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -761,9 +761,9 @@ static enum lru_status shrink_memcg_cb(struct list_he=
-ad *item, struct list_lru_o
->         zswap_written_back_pages++;
->
->         if (entry->objcg)
-> -               count_objcg_event(entry->objcg, ZSWP_WB);
-> +               count_objcg_event(entry->objcg, ZSWPWB);
->
-> -       count_vm_event(ZSWP_WB);
-> +       count_vm_event(ZSWPWB);
->         /*
->          * Writeback started successfully, the page now belongs to the
->          * swapcache. Drop the entry from zswap - unless invalidate alrea=
-dy
-> --
-> 2.34.1
->
+> Also, it would be quite helpful of the changelog were to give us some
+> idea of how important this tunable is.  What sort of throughput
+> differences might it cause and under what circumstances?
+
+For the most part, this feature is motivated by internal parties who
+have already established their opinions regarding swapping - the
+workloads that are highly sensitive to IO, and especially those who
+are using servers with really slow disk performance (for instance,
+massive but slow HDDs). For these folks, it's impossible to convince
+them to even entertain zswap if swapping also comes as a packaged
+deal. Writeback disabling is quite a useful feature in these
+situations - on a mixed workloads deployment, they can disable
+writeback for the more IO-sensitive workloads, and enable writeback
+for other background workloads.
+
+(Maybe we should include the paragraph above as part of the changelog?)
+
+I don't have any concrete numbers though - any numbers I can pull out
+are from highly artificial tasks that only serve to test the
+correctness aspect of the implementation. zswap.writeback disablement
+would of course be faster in these situations (up to 33%!!!!) - but
+that's basically just saying HDD is slow. Which is not very
+informative or surprising, so I did not include it in the changelog.
