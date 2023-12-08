@@ -1,197 +1,126 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HAN0UxV6"
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF2B1712
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 11:22:20 -0800 (PST)
-Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-35d9344b741so11639935ab.3
-        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 11:22:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e+67vVrk"
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0289A1700
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 11:22:45 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1d1d307bbb3so18785ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 11:22:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702063339; x=1702668139; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1702063364; x=1702668164; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/fl4TQmZ7TqSY+7u7iVEdDd7jYxjMB5PcBQ7oQxgRCs=;
-        b=HAN0UxV6ys8YaXjDivsdosjXOrjl06PVzjpH2uGUPs5RsqNyz/ysrO9CWy6RVg13Em
-         o1xnheW9v3R5B/xzyDnFfqyzhCDAnGNxgu1ZOeb0noyhXzXqIXktsRhkFrU1p0C9y3TY
-         ftnDKEZ12T1NspijOgpRdWkEQ2XXdYXz1fkjSGVsGZH1jjoXbw1ujmvQLDR1YZ7UCuXE
-         BXCf/dqSGgAJejMChBRjSTrHHMQ2TWR0FdTNb8mYl//2KS2jNGUKNBUpdhB4fQn2Qh/7
-         a0qjpcdaKRqNd2cQCwG+PAzkMTDHnoq3069Y+gSpUw2simxV0E5rex2fPmnaCvWTyvtc
-         mhvA==
+        bh=gZ30NYGkjbX21PN8dBphQWbz/hwhfTyVX43/tAQx5MY=;
+        b=e+67vVrkWgtowE8T0B2/6pvrUPb7JRkiDCGV+ZyA4WG047KFlfArw7P2ojuK/uxbwE
+         tIZs3Bf3+C6LUFCDFxNDlwhaG89lwY+COojS3pzOIVPBytGELlodDeQITV90Vh4w1oB+
+         gHyWsuQBL938RTHdFNlheVWxycfIZQ23SPRcncjkfD9kRNDKP8Ln/xvDfFUrk/4EMb5V
+         LFSWwmSdNZV1gIHGZ3HBYiyR1j5tI7oyW997lIn/OtxyFZnUlnRg7ezvnZ7cMQsURzmx
+         G+PzGBm6RSPoBKsX18UrAIX38+iLGTE5fmFB6CBWtMDV/T7Zcz1V2k7Umj4olTqsSHB5
+         KCoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702063339; x=1702668139;
+        d=1e100.net; s=20230601; t=1702063364; x=1702668164;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/fl4TQmZ7TqSY+7u7iVEdDd7jYxjMB5PcBQ7oQxgRCs=;
-        b=Bc/ldkhN2LHEvE2ZKpJkbZ2Ex4pHAErfJA8ojMxNybtUuAsS3s7n3XZF1wvaBivRfN
-         xpKKfb0fu/ZqlSo7Pz1//mlmEAPWIakSHBLhPYUiy/74u+xUhJRBqEoHVI0ataihvwo8
-         ZeZ3ZB+ax+/ukh94/Zg1Awv5vzCW+wBwFvWoVIkLzeiEbEGYx6Om1j8u3LHOiS25oFU3
-         0UYJkarBcBZDONtO15h1KAIzufY7oW0NZYfic2zRb/BxxqZKhOk45EueNR4+7OJB2Uzw
-         1N5Gr9eRB24GkqP9X84nUG4O/lvwqzAvO7VP2Ar6NeJ9dLkFX2wIsU7e69j0iKo9+Ymp
-         ZhnQ==
-X-Gm-Message-State: AOJu0YyOMpPs8OAGIe3bYH29wKyQM1Jqw++uivOQqwQXGJMaL01ssYvF
-	4XnGR8VczsJXbVyXFQouEVgya1Ni4glt/L+ieGNHQg==
-X-Google-Smtp-Source: AGHT+IFGbgyAI36X5vjbEmXlQUSaq7EUn6+m4ee62vVA8uf/+NBisCPcTr1MgahWOFQEmHtZn4kVezMBf7GaXLpVVcg=
-X-Received: by 2002:a05:6e02:12e4:b0:35e:6ba1:7dfb with SMTP id
- l4-20020a056e0212e400b0035e6ba17dfbmr710980iln.29.1702063339125; Fri, 08 Dec
- 2023 11:22:19 -0800 (PST)
+        bh=gZ30NYGkjbX21PN8dBphQWbz/hwhfTyVX43/tAQx5MY=;
+        b=kS/Zm39uSx03skvJm6n7VgpW035mv4QZOfWQMNF9Q/tN6KhCGIsEg34UGVN61V656X
+         7bo6Oe2ydfMvTpDkphHwDarhNcKp2dMa8n9rrirB7JSoKBjDI4wgzN28AJONe57xL3mZ
+         Q8YlfmAlfmm59VRKvQKPBDfJqTZrbU9yMb6RAC4u2zkmcJFOUfDh+LOloFfWvWq9wCZO
+         0ppj+d09nXuJam4WREVBLg19cuupvUgz6xHc888vIQCRKtvmDu6kaedPKz86SbzVuhsz
+         9usd+ANT27lsREEeo6UFv+p+YfdSsvWgtZsfmVL5HMyQ0DpUbLIBYGCP8MY6FSKXPKAf
+         BzRg==
+X-Gm-Message-State: AOJu0YxI/R3wHIPxNp3Uon7hrai3dZw1hBmXHjGirYC9Ru8qAkSAMQFN
+	xKOCM0QjSl5SWCNVSjmebXvpQoFDdpjcFVnlqHDgzg==
+X-Google-Smtp-Source: AGHT+IGasWbbXvVDHLeMypAYC8mh/pLHr897bAE6/ckWJyPBsRxFn+J1youQDVPIKNs88w/EVxdL10enFiyIBoZk4VI=
+X-Received: by 2002:a17:902:e881:b0:1d0:4548:97ff with SMTP id
+ w1-20020a170902e88100b001d0454897ffmr195882plg.13.1702063364214; Fri, 08 Dec
+ 2023 11:22:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-7-almasrymina@google.com> <5752508c-f7bc-44ac-8778-c807b2ee5831@kernel.org>
-In-Reply-To: <5752508c-f7bc-44ac-8778-c807b2ee5831@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 8 Dec 2023 11:22:08 -0800
-Message-ID: <CAHS8izPsQ2XoJy-vYWkn051Yc=D_kSprtQcG4mmPutf1G3+-aw@mail.gmail.com>
-Subject: Re: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
-To: David Ahern <dsahern@kernel.org>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20231201214737.104444-1-tony.luck@intel.com> <20231207195613.153980-1-tony.luck@intel.com>
+ <20231207195613.153980-4-tony.luck@intel.com>
+In-Reply-To: <20231207195613.153980-4-tony.luck@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Fri, 8 Dec 2023 11:22:33 -0800
+Message-ID: <CALPaoCgjHb3HiS9u9v2FZHL=h2VohU+X=GVpDo-u2k2pXQu8PA@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] x86/resctrl: Add new "mba_MBps_event" mount option
+ to documentation
+To: Tony Luck <tony.luck@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org, 
+	Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>, 
+	Jamie Iles <quic_jiles@quicinc.com>, Babu Moger <babu.moger@amd.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 8, 2023 at 9:48=E2=80=AFAM David Ahern <dsahern@kernel.org> wro=
+On Thu, Dec 7, 2023 at 11:56=E2=80=AFAM Tony Luck <tony.luck@intel.com> wro=
 te:
 >
-> On 12/7/23 5:52 PM, Mina Almasry wrote:
-...
-> > +
-> > +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
-> > +             if (rxq->binding =3D=3D binding) {
-> > +                     /* We hold the rtnl_lock while binding/unbinding
-> > +                      * dma-buf, so we can't race with another thread =
-that
-> > +                      * is also modifying this value. However, the dri=
-ver
-> > +                      * may read this config while it's creating its
-> > +                      * rx-queues. WRITE_ONCE() here to match the
-> > +                      * READ_ONCE() in the driver.
-> > +                      */
-> > +                     WRITE_ONCE(rxq->binding, NULL);
-> > +
-> > +                     rxq_idx =3D get_netdev_rx_queue_index(rxq);
-> > +
-> > +                     netdev_restart_rx_queue(binding->dev, rxq_idx);
+> New mount option may be used to choose a specific memory bandwidth
+> monitoring event to feed the MBA Software Controller(mba_sc) feedback
+> loop.
 >
-> Blindly restarting a queue when a dmabuf is heavy handed. If the dmabuf
-> has no outstanding references (ie., no references in the RxQ), then no
-> restart is needed.
+> Signed-off-by: Tony Luck <tony.luck@intel.com>
+> ---
+>  Documentation/arch/x86/resctrl.rst | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
 >
-
-I think I need to stop the queue while binding to a dmabuf for the
-sake of concurrency, no? I.e. the softirq thread may be delivering a
-packet, and in parallel a separate thread holds rtnl_lock and tries to
-bind the dma-buf. At that point the page_pool recreation will race
-with the driver doing page_pool_alloc_page(). I don't think I can
-insert a lock to handle this into the rx fast path, no?
-
-Also, this sounds like it requires (lots of) more changes. The
-page_pool + driver need to report how many pending references there
-are (with locking so we don't race with incoming packets), and have
-them reported via an ndo so that we can skip restarting the queue.
-Implementing the changes in to a huge issue but handling the
-concurrency may be a genuine blocker. Not sure it's worth the upside
-of not restarting the single rx queue?
-
-> > +             }
-> > +     }
-> > +
-> > +     xa_erase(&netdev_dmabuf_bindings, binding->id);
-> > +
-> > +     netdev_dmabuf_binding_put(binding);
-> > +}
-> > +
-> > +int netdev_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
-> > +                             struct netdev_dmabuf_binding *binding)
-> > +{
-> > +     struct netdev_rx_queue *rxq;
-> > +     u32 xa_idx;
-> > +     int err;
-> > +
-> > +     rxq =3D __netif_get_rx_queue(dev, rxq_idx);
-> > +
-> > +     if (rxq->binding)
-> > +             return -EEXIST;
-> > +
-> > +     err =3D xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_limit=
-_32b,
-> > +                    GFP_KERNEL);
-> > +     if (err)
-> > +             return err;
-> > +
-> > +     /* We hold the rtnl_lock while binding/unbinding dma-buf, so we c=
-an't
-> > +      * race with another thread that is also modifying this value. Ho=
-wever,
-> > +      * the driver may read this config while it's creating its * rx-q=
-ueues.
-> > +      * WRITE_ONCE() here to match the READ_ONCE() in the driver.
-> > +      */
-> > +     WRITE_ONCE(rxq->binding, binding);
-> > +
-> > +     err =3D netdev_restart_rx_queue(dev, rxq_idx);
+> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/=
+resctrl.rst
+> index a6279df64a9d..a0c521db6786 100644
+> --- a/Documentation/arch/x86/resctrl.rst
+> +++ b/Documentation/arch/x86/resctrl.rst
+> @@ -35,7 +35,8 @@ about the feature from resctrl's info directory.
 >
-> Similarly, here binding a dmabuf to a queue. I was expecting the dmabuf
-> binding to add entries to the page pool for the queue.
-
-To be honest, I think maybe there's a slight disconnect between how
-you think the page_pool works, and my primitive understanding of how
-it works. Today, I see a 1:1 mapping between rx-queue and page_pool in
-the code. I don't see 1:many or many:1 mappings.
-
-In theory mapping 1 rx-queue to n page_pools is trivial: the driver
-can call page_pool_create() multiple times to generate n queues and
-decide for incoming packets which one to use.
-
-However, mapping n rx-queues to 1 page_pool seems like a can of worms.
-I see code in the page_pool that looks to me (and Willem) like it's
-safe only because the page_pool is used from the same napi context.
-with a n rx-queueue: 1 page_pool mapping, that is no longer true, no?
-There is a tail end of issues to resolve to be able to map 1 page_pool
-to n queues as I understand and even if resolved I'm not sure the
-maintainers are interested in taking the code.
-
-So, per my humble understanding there is no such thing as "add entries
-to the page pool for the (specific) queue", the page_pool is always
-used by 1 queue.
-
-Note that even though this limitation exists, we still support binding
-1 dma-buf to multiple queues, because multiple page pools can use the
-same netdev_dmabuf_binding. I should add that to the docs.
-
-> If the pool was
-> previously empty, then maybe the queue needs to be "started" in the
-> sense of creating with h/w or just pushing buffers into the queue and
-> moving the pidx.
+>  To use the feature mount the file system::
 >
+> - # mount -t resctrl resctrl [-o cdp[,cdpl2][,mba_MBps][,debug]] /sys/fs/=
+resctrl
+> + # mount -t resctrl resctrl [-o cdp[,cdpl2][,mba_MBps] \
+> + [,mba_MBps_event=3D[mbm_local_bytes|mbm_total_bytes]][,debug]] /sys/fs/=
+resctrl
+>
+>  mount options are:
+>
+> @@ -45,7 +46,12 @@ mount options are:
+>         Enable code/data prioritization in L2 cache allocations.
+>  "mba_MBps":
+>         Enable the MBA Software Controller(mba_sc) to specify MBA
+> -       bandwidth in MBps
+> +       bandwidth in MBps. Defaults to using MBM local bandwidth,
+> +       but will use total bandwidth on systems that do not support
+> +       local bandwidth monitoring.
+> +"mba_MBps_event=3D[mbm_local_bytes|mbm_total_bytes]":
+> +       Enable the MBA Software Controller(mba_sc) with a specific
+> +       MBM event as input to the feedback loop.
+>  "debug":
+>         Make debug files accessible. Available debug files are annotated =
+with
+>         "Available only with debug option".
+> @@ -538,6 +544,12 @@ where as user can switch to the "MBA software contro=
+ller" mode using
+>  a mount option 'mba_MBps'. The schemata format is specified in the below
+>  sections.
+>
+> +By default the software feedback mechanism uses measurement of local
+> +memory bandwidth to make adjustments to throttling levels. If a system
+> +is running applications with poor NUMA locality users may want to use
+> +the "mba_MBps_event=3Dmbm_total_bytes" mount option which will use total
+> +memory bandwidth measurements instead of local.
+> +
+>  L3 schemata file details (code and data prioritization disabled)
+>  ----------------------------------------------------------------
+>  With CDP disabled the L3 schemata format is::
+> --
+> 2.41.0
 >
 
-I don't think it's enough to add buffers to the page_pool, no? The
-existing buffers in the page_pool (host mem) must be purged. I think
-maybe the queue needs to be stopped as well so that we don't race with
-incoming packets and end up with skbs with devmem and non-devmem frags
-(unless you're thinking it becomes a requirement to support that, I
-think things are complicated as-is and it's a good simplification).
-When we already purge the existing buffers & restart the queue, it's
-little effort to migrate this to become in line with Jakub's queue-api
-that he also wants to use for per-queue configuration & ndo_stop/open.
+for content:
 
---=20
-Thanks,
-Mina
+Reviewed-by: Peter Newman <peternewman@google.com>
