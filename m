@@ -1,40 +1,40 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="puGdxYqA"
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0DDC199C
-	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 11:23:16 -0800 (PST)
-Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-7cab49152b9so306980241.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 11:23:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wn+1Kwpq"
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 424041712
+	for <linux-doc@vger.kernel.org>; Fri,  8 Dec 2023 11:27:59 -0800 (PST)
+Received: by mail-vs1-xe34.google.com with SMTP id ada2fe7eead31-466006f9fa5so395665137.3
+        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 11:27:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702063396; x=1702668196; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1702063678; x=1702668478; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eNuhxRDBfdQenk+uC5+I+2o2Yad/2wCHUso1pH85sfo=;
-        b=puGdxYqAoQo3bHG294LrXUJmKf0r2uufNMehZOj/ib8lgIMoVsopaKC4B4b6fUFyya
-         +B9rAwaP7t2N4ealA6hhXjhKtZfHcQqR6mND4Wm8Bn+OcwAWZPIz8cpOBRc9eMDbClhr
-         m0HzrbjSOx0Odg45PVXWbTCRw/nXU3Cn7nmp3mL+o1poKncrgSXhF/YFLuLQHGoSStQf
-         RrJGwyuzvUNDUEsmKjSD2uxYZ/BCYB8G86AaueFaliWGMcb/21OR7QeKm0LdzJc1VKhI
-         29fSLZU9MNVBk7gsWs++emPmOErx0U5NoIpQDDk2xKmI0xt174+doddUkTq2O/QdtbwO
-         qpuw==
+        bh=l8NyCuiiYgH2NC+1+G5jDZqmw10slLAD5tJccxA3IOU=;
+        b=wn+1KwpqOUvxlWkstW/oLVbPJnEIbHmb7s+/7bNNdsLzC5es3QyjG7Brk00hx3A6mh
+         OIStZpmgQX/LMTKzWJqSZz4j0zw4pQUGBKsOQFf9DKFAVfSpdNo1H/KXlBmGtl2H0j+U
+         9KwWuVdPoPr5D1mbz0YJDqfPoZgz2rYqKu2cZppU9/+B0WqEpFpkLZlrLJvpMc5JVKjw
+         RlHM68qjUHN7ZsT+fZl55v0QgcUIRlyYMukcCCqMvenFm3i+rl6ShntIlQ8m4OHbPLw3
+         PEjbCV7s9dQKS+JQ4ri+ztcXrYEzdoSCIpqUuO+J4s0aUh/43HpTTpthoYyVf5D440YC
+         MKtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702063396; x=1702668196;
+        d=1e100.net; s=20230601; t=1702063678; x=1702668478;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eNuhxRDBfdQenk+uC5+I+2o2Yad/2wCHUso1pH85sfo=;
-        b=FiY8cAirFVcKWA12dN5Dc5rlHJyZq4AYyQs8dCD94iTDMqxJBK9JC3ngrNBCBLCUvq
-         wVa86BXn4tiPDOEyfQseoreLEy8BxsPRMZ+PWVIN/LLGzFcUOPGz7Id1lXinafj6yo8l
-         vMmjxp/yDGBGu1TL2mCttoYNotRVCoOneezo/57jOERA63Ccy0cYNfaaROO1TmEnVspJ
-         4NovrEV8Nb0nu9ShXgcCgQCi15hkR3y4LhwfTQmt2mbjsITJNFYsRIghc2uZ4B1MOsTS
-         A+rZ9LUWaRdIP8xub3peHiOs9J3ZI1poHfCXvdmnE0hCmvVJh4anTqS9b1li5+fYDlyb
-         yiQQ==
-X-Gm-Message-State: AOJu0YyQvqZriibMTwvyZ6ztsSmzweLHO3N6B+BzpMS3SQR24nQbJ6kf
-	8xr+lGfKILTMeoDfo6Gqgg1wUIlT/sMvxs6gRS09Xg==
-X-Google-Smtp-Source: AGHT+IHb22ZjibDls1yBkhF7QNEaIMpgDSaJZ0OHWa3jb0vnzr6qisUp6akF/Nl59oBqhH37DmVgAI0o7BDgdz/1wpc=
-X-Received: by 2002:a05:6102:38ce:b0:465:e3df:13a with SMTP id
- k14-20020a05610238ce00b00465e3df013amr837357vst.9.1702063395773; Fri, 08 Dec
- 2023 11:23:15 -0800 (PST)
+        bh=l8NyCuiiYgH2NC+1+G5jDZqmw10slLAD5tJccxA3IOU=;
+        b=MY3FQCF8KMyNVZIuoQ2XqJezl8c+q3kQoezuPDd0NavKg3V6LDxM7SKxaYxjzxj0eL
+         CnB4JHTJbKIPqmDIuI8E4iFaO7MQIFL+8Qf8vhraoIFJssD9riYwWm8huyooHqVG/LC6
+         Pyi5B2ewYodmai7nC+LPbMmQ/5DUtiSp0+BxNmIhrOmYkJ1r6h4xrrPoWHoBs6Gyh8QQ
+         260W4hpy/e8mGJ2Tmo9bUY7H6rytcjb+nBOj17F1fzdUtqIXhKO7qlh8hkzu1ZxelovI
+         /I5G6E5Uq/+S2+u/9LDwO1dnuGNBbOEwWeSr70i40RwPzn6cbifqCqotBIB8x7C5BRIb
+         DUfA==
+X-Gm-Message-State: AOJu0Yx2YKx2HtZwhi3vbyVnxFjMCUuVh91FDF7XdCkd7DZhNdiMa7Ue
+	bkr+3RAg49GUCV2KZVB1P0dg5osOJ7Roxh6LNIy1aA==
+X-Google-Smtp-Source: AGHT+IEPi2qW+CNAMULh3I0uZLV+ENMhuoXZdBR03G3pdL5QZhSSzAfl9wtnjBaGr4ZrWdh/Qk9uo4kpcH6n9EBcDGQ=
+X-Received: by 2002:a05:6102:6ca:b0:464:944d:44de with SMTP id
+ m10-20020a05610206ca00b00464944d44demr731655vsg.27.1702063678195; Fri, 08 Dec
+ 2023 11:27:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,12 +42,12 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-14-almasrymina@google.com> <dd47a2a4-cb80-4164-8855-045999931a8e@kernel.org>
-In-Reply-To: <dd47a2a4-cb80-4164-8855-045999931a8e@kernel.org>
+ <20231208005250.2910004-8-almasrymina@google.com> <462da4bf-34f8-40c4-8772-9850b3127baf@kernel.org>
+In-Reply-To: <462da4bf-34f8-40c4-8772-9850b3127baf@kernel.org>
 From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 8 Dec 2023 11:23:04 -0800
-Message-ID: <CAHS8izPwkARkYjPYPY2t-5H=XFTdn=NcWk0EwiCycThR5xFmtg@mail.gmail.com>
-Subject: Re: [net-next v1 13/16] tcp: RX path for devmem TCP
+Date: Fri, 8 Dec 2023 11:27:47 -0800
+Message-ID: <CAHS8izMysKCCoAoVK9KzQrfbtFfagaPMRYSUUjKTqJ-ZwJ53oA@mail.gmail.com>
+Subject: Re: [net-next v1 07/16] netdev: netdevice devmem allocator
 To: David Ahern <dsahern@kernel.org>
 Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -66,59 +66,54 @@ Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 8, 2023 at 9:55=E2=80=AFAM David Ahern <dsahern@kernel.org> wro=
+On Fri, Dec 8, 2023 at 9:56=E2=80=AFAM David Ahern <dsahern@kernel.org> wro=
 te:
 >
 > On 12/7/23 5:52 PM, Mina Almasry wrote:
-> > In tcp_recvmsg_locked(), detect if the skb being received by the user
-> > is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVME=
-M
-> > flag - pass it to tcp_recvmsg_devmem() for custom handling.
+> > diff --git a/net/core/dev.c b/net/core/dev.c
+> > index b8c8be5a912e..30667e4c3b95 100644
+> > --- a/net/core/dev.c
+> > +++ b/net/core/dev.c
+> > @@ -2120,6 +2120,41 @@ static int netdev_restart_rx_queue(struct net_de=
+vice *dev, int rxq_idx)
+> >       return err;
+> >  }
 > >
-> > tcp_recvmsg_devmem() copies any data in the skb header to the linear
-> > buffer, and returns a cmsg to the user indicating the number of bytes
-> > returned in the linear buffer.
-> >
-> > tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
-> > and returns to the user a cmsg_devmem indicating the location of the
-> > data in the dmabuf device memory. cmsg_devmem contains this information=
-:
-> >
-> > 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
-> > 2. the size of the frag. 'frag_size'.
-> > 3. an opaque token 'frag_token' to return to the kernel when the buffer
-> > is to be released.
-> >
-> > The pages awaiting freeing are stored in the newly added
-> > sk->sk_user_pages, and each page passed to userspace is get_page()'d.
-> > This reference is dropped once the userspace indicates that it is
-> > done reading this page.  All pages are released when the socket is
-> > destroyed.
-> >
-> > Signed-off-by: Willem de Bruijn <willemb@google.com>
-> > Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >
-> > ---
-> >
-> > Changes in v1:
-> > - Added dmabuf_id to dmabuf_cmsg (David/Stan).
-> > - Devmem -> dmabuf (David).
-> > - Change tcp_recvmsg_dmabuf() check to skb->dmabuf (Paolo).
-> > - Use __skb_frag_ref() & napi_pp_put_page() for refcounting (Yunsheng).
-> >
-> > RFC v3:
-> > - Fixed issue with put_cmsg() failing silently.
-> >
+> > +struct page_pool_iov *netdev_alloc_dmabuf(struct netdev_dmabuf_binding=
+ *binding)
+> > +{
+> > +     struct dmabuf_genpool_chunk_owner *owner;
+> > +     struct page_pool_iov *ppiov;
+> > +     unsigned long dma_addr;
+> > +     ssize_t offset;
+> > +     ssize_t index;
+> > +
+> > +     dma_addr =3D gen_pool_alloc_owner(binding->chunk_pool, PAGE_SIZE,
 >
-> What happens if a retransmitted packet is received or an rx window is
-> closed and a probe is received where the kernel drops the skb - is the
-> iov reference(s) in the skb returned to the pool by the stack and ready
-> for use again?
+> Any reason not to allow allocation sizes other than PAGE_SIZE? e.g.,
+> 2048 for smaller MTUs or 8192 for larger ones. It can be a property of
+> page_pool and constant across allocations vs allowing different size for
+> each allocation.
 
-When an skb is dropped, skb_frag_unref() is called on the frags, which
-calls napi_pp_put_page(), drops the references, and the iov is
-recycled, yes.
+Only for simplicity. Supporting non-PAGE_SIZE is certainly possible,
+but in my estimation it's a huge can of worms worthy of itss own
+series. I find this series complicated to implement and review and
+support as-is, and if reasonable I would like to punt that as a future
+improvement.
+
+At the minimum, I think the needed changes are:
+
+1. The memory provider needs to report to the page pool the alloc size.
+2. The page_pool needs to handle non-PAGE_SIZE memory regions.
+3. The drivers need to handle non-PAGE_SIZE memory regions. Drivers
+today handle fragged pages, but that is different because it's a
+PAGE_SIZE region that is fragged. This is a non-PAGE_SIZE region in
+the first place.
+4. Any PAGE_SIZE assumptions in the entire net stack need to be removed.
+
+At Google we mostly use page aligned MTUs so we're likely not that
+interested in sub PAGE_SIZE allocations, but we are interested in n *
+PAGE_SIZE allocations, but, I hope, in a separate followup effort.
 
 --=20
 Thanks,
