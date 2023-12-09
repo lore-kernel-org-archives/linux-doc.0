@@ -1,171 +1,130 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KXAPKAVA"
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA70AC
-	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 05:14:13 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-50c02628291so3139558e87.0
-        for <linux-doc@vger.kernel.org>; Sat, 09 Dec 2023 05:14:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702127651; x=1702732451; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yAnV5/VTJKO+oXGb78o4eRSh3GZ7EBZgVLaL6KtYl8o=;
-        b=KXAPKAVAc7wNlN5y2GrIBSNRaMkgKppLh4IRUh4onAQGpPBkV9FbAkZfkt8b1tz/Ty
-         THon9jcecnDyGQS4mZQnZiGXd3ZZjoMJOnX4ZRTAmN4e+Py1vRIyzAVib/g0hgaMoeOP
-         /bptrp2dcSKiX3K5Mgo+itzxLU9YhXwUnKLgU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702127651; x=1702732451;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yAnV5/VTJKO+oXGb78o4eRSh3GZ7EBZgVLaL6KtYl8o=;
-        b=XGhmDa70HJEorC6nEEprXRY4lzYm0wMQlS+UZFMPBYqnp9dtnIm+4xF2HT/3mQkg/3
-         Uhqsv0ZNJE1zb5YVNv9PIW674vAlARQFcHJ6+xaw6WLUcwbl4GimLLNb4HazsffAn1TH
-         jlw2mxj+UGCpOgXkDDQXaflPlBj5k0vK4cw/MO0sL4SoI7Oq/5B25Xf6lXSRPZIbCdwX
-         rhHUxHFyhOa2/oCD1zxlnXdB9hCtD8dmDm5gLlqXo0Y7fv62NjvcL8qhxUprj7vkynx8
-         gTqDC+pyxPMJuymfn3bwZeNGdkyi23gCQckWZ/g4YhEGv9OjkiNgBzg/bRIrfEQYKDXH
-         oJ2w==
-X-Gm-Message-State: AOJu0Yy7xz0l1Ep1Hmhjv+SrLq9xbBSQ4nXGwy1u2Dp1OR8L3iDR2cOn
-	AV7TtP6KKwbg9lwvAur/3z6S2gwGlUagzuZVArZDhA==
-X-Google-Smtp-Source: AGHT+IGeCP4QFN7ZgQJeFnN7faugEryNKJ80Nvg0QuCcVgGBL3GaaL9QrMygC+jl/dS1Ke3ms4zU355E0zK8lA+JEz0=
-X-Received: by 2002:ac2:4acf:0:b0:50b:f8d8:b176 with SMTP id
- m15-20020ac24acf000000b0050bf8d8b176mr648422lfp.124.1702127651029; Sat, 09
- Dec 2023 05:14:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="saTuwZso"
+Received: from pv50p00im-hyfv10021501.me.com (pv50p00im-hyfv10021501.me.com [17.58.6.48])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5B110C8
+	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 05:52:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+	t=1702129942; bh=MTMGsU3m6N+v4JfvzZq2GCUDbnzesSfAOCxIP0t5ZwQ=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=saTuwZsoXeWCenn+5evXdQcbiLj5vQfauhGkJQVaVr/zFkLyrcDRpgy04w38UrAak
+	 MmJriWes2T2vVuz0alhzyxSLKLsYu63qckG79MOdCM5slhPhKDyk1q/e8JPZH0+JSA
+	 fy2dEoqY6lpDPCkCPCePTANxBZ9hvl5TzRbJINMsy6uTEmeDXX+4P2Y1oYYuVe4/nX
+	 XQMxPnB1smYN7CiAbJrYMzqmsOqKicdeW1njoCuGa2rpE45T8//jBwqI0j6VXD59X2
+	 KeS569dirPXHNXSsz/GSVo/OYLn+sUqEcrV2cs6OGtyIKkS+1tMTKMbvzyVQrLtYh9
+	 AaZAM+PPhnnmQ==
+Received: from xiongwei.. (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-hyfv10021501.me.com (Postfix) with ESMTPSA id 0E2BB2C00C4;
+	Sat,  9 Dec 2023 13:52:15 +0000 (UTC)
+From: sxwjean@me.com
+To: vbabka@suse.cz,
+	42.hyeyoo@gmail.com,
+	cl@linux.com,
+	linux-mm@kvack.org
+Cc: penberg@kernel.org,
+	rientjes@google.com,
+	iamjoonsoo.kim@lge.com,
+	roman.gushchin@linux.dev,
+	corbet@lwn.net,
+	keescook@chromium.org,
+	arnd@arndb.de,
+	akpm@linux-foundation.org,
+	gregkh@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xiongwei Song <xiongwei.song@windriver.com>
+Subject: [PATCH v3 0/4] supplement of slab allocator removal
+Date: Sat,  9 Dec 2023 21:51:59 +0800
+Message-Id: <20231209135203.303508-1-sxwjean@me.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231203153401.GV8402@pendragon.ideasonboard.com> <20231207142723.GA3187877@google.com>
- <20231207143814.GD15521@pendragon.ideasonboard.com>
-In-Reply-To: <20231207143814.GD15521@pendragon.ideasonboard.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Sat, 9 Dec 2023 22:13:59 +0900
-Message-ID: <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
-	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: A_f9LtAEiUhmM3s6MswNN90gdWwoafGm
+X-Proofpoint-GUID: A_f9LtAEiUhmM3s6MswNN90gdWwoafGm
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.572,17.11.64.514.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-06-21=5F01:2022-06-21=5F01,2020-02-14=5F11,2022-02-23?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0
+ clxscore=1015 spamscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
+ phishscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2312090120
 
-On Thu, Dec 7, 2023 at 11:38=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
-> > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
-> > > Hi Simon,
-> > >
-> > > Thank you for the patch.
-> > >
-> > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > > Add a script which produces a Flat Image Tree (FIT), a single file
-> > > > containing the built kernel and associated devicetree files.
-> > > > Compression defaults to gzip which gives a good balance of size and
-> > > > performance.
-> > > >
-> > > > The files compress from about 86MB to 24MB using this approach.
-> > > >
-> > > > The FIT can be used by bootloaders which support it, such as U-Boot
-> > > > and Linuxboot. It permits automatic selection of the correct
-> > > > devicetree, matching the compatible string of the running board wit=
-h
-> > > > the closest compatible string in the FIT. There is no need for
-> > > > filenames or other workarounds.
-> > > >
-> > > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > > FIT_COMPRESSION to select a different algorithm.
-> > > >
-> > > > The FIT can be examined using 'dumpimage -l'.
-> > > >
-> > > > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > > > requires compression utilities for the algorithm being used. Suppor=
-ted
-> > > > compression options are the same as the Image.xxx files. For now th=
-ere
-> > > > is no way to change the compression other than by editing the rule =
-for
-> > > > $(obj)/image.fit
-> > > >
-> > > > While FIT supports a ramdisk / initrd, no attempt is made to suppor=
-t
-> > > > this here, since it must be built separately from the Linux build.
-> > >
-> > > FIT images are very useful, so I think this is a very welcome additio=
-n
-> > > to the kernel build system. It can get tricky though: given the
-> > > versatile nature of FIT images, there can't be any
-> > > one-size-fits-them-all solution to build them, and striking the right
-> > > balance between what makes sense for the kernel and the features that
-> > > users may request will probably lead to bikeshedding. As we all love
-> > > bikeshedding, I thought I would start selfishly, with a personal use
-> > > case :-) This isn't a yak-shaving request though, I don't see any rea=
-son
-> > > to delay merging this series.
-> > >
-> > > Have you envisioned building FIT images with a subset of DTBs, or add=
-ing
-> > > DTBOs ? Both would be fairly trivial extensions to this script by
-> > > extending the supported command line arguments. It would perhaps be m=
-ore
-> > > difficult to integrate in the kernel build system though. This leads =
-me
-> > > to a second question: would you consider merging extensions to this
-> > > script if they are not used by the kernel build system, but meant for
-> > > users who manually invoke the script ? More generally, is the script
-> >
-> > We'd also be interested in some customization, though in a different wa=
-y.
-> > We imagine having a rule file that says X compatible string should map
-> > to A base DTB, plus B and C DTBO for the configuration section. The bas=
-e
-> > DTB would carry all common elements of some device, while the DTBOs
-> > carry all the possible second source components, like different display
-> > panels or MIPI cameras for instance. This could drastically reduce the
-> > size of FIT images in ChromeOS by deduplicating all the common stuff.
->
-> Do you envision the "mapping" compatible string mapping to a config
-> section in the FIT image, that would bundle the base DTB and the DTBOs ?
+From: Xiongwei Song <xiongwei.song@windriver.com>
 
-That's exactly the idea. The mapping compatible string could be untied
-from the base board's compatible string if needed (which we probably do).
+Hi,
 
-So something like:
+Patch 1 is to remove an unused parameter. It has a longer history, please
+see the change history inside the patch.
 
-config {
-    config-1 {
-        compatible =3D "google,krane-sku0";
-        fdt =3D "krane-baseboard", "krane-sku0-overlay";
-    };
-};
+---
+Patch 2 is to replace slub_$params with slab_$params.
+Vlastimil Babka pointed out we should use "slab_$param" as the primary
+prefix for long-term plan. Please see [1] for more information.
 
-With "krane-sku0-overlay" being an overlay that holds the differences
-between the SKUs, in this case the display panel and MIPI camera (not
-upstreamed) that applies to SKU0 in particular.
+This patch is to implements that.
 
-Sorry for not giving a more concrete idea.
+I did the basic tests with qemu, which passed values by sl[au]b_max_order,
+sl[au]b_min_order, sl[au]b_min_objects and sl[au]b_debug in command line.
+The values looks correct by printing them out before calculating orders.
 
+---
+Patch 3 is to replace slub_$params in Documentation/mm/slub.rst based on
+the changes of patch 2.
 
-ChenYu
+---
+Patch 4 is original patch 3. It is not related to slab allocator removal.
+It's to correct the description of default value of slub_min_objects in
+Documentation/mm/slub.rst. 
 
-> > > meant to be used stand-alone as well, in which case its command line
-> > > arguments need to remain backward-compatible, or do you see it as bei=
-ng
-> > > internal to the kernel ?
-> >
-> > [...]
-> >
-> > ChenYu
->
-> --
-> Regards,
->
-> Laurent Pinchart
+---
+This series is based on [2].
+
+---
+CHANGES
+V3:
+- patch 1: Collect Reviewed-by tag.
+           Reifne the commit message.
+- patch 2: Remove the changes for variables and functions.
+           Resort slab_$params in doc.
+           Refine the commit message.
+           Remove RFC tag.
+- patch 3: Use slab_$params in slub.rst.
+- patch 4: It's original patch 3. Just resorted patch orders, no any other
+           Changes.
+
+v2: https://lore.kernel.org/linux-mm/457899ac-baab-e976-44ec-dfdeb23be031@suse.cz/T/#t
+- patch 1: Collect Reviewed-by tag.
+- patch 3: Correct spelling mistakes in commit message.
+
+v1: https://lore.kernel.org/linux-mm/20231201031505.286117-1-sxwjean@me.com/
+
+---
+Regards,
+Xiongwei
+
+[1] https://lore.kernel.org/linux-mm/7512b350-4317-21a0-fab3-4101bc4d8f7a@suse.cz/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/log/?h=slab/for-6.8/slab-removal
+
+Xiongwei Song (4):
+  Documentation: kernel-parameters: remove noaliencache
+  mm/slub: unify all sl[au]b parameters with "slab_$param"
+  mm/slub: replace slub_$params with slab_$params in slub.rst
+  mm/slub: correct the default value of slub_min_objects in doc
+
+ .../admin-guide/kernel-parameters.txt         | 75 ++++++++-----------
+ Documentation/mm/slub.rst                     | 60 +++++++--------
+ drivers/misc/lkdtm/heap.c                     |  2 +-
+ mm/Kconfig.debug                              |  6 +-
+ mm/slab.h                                     |  2 +-
+ mm/slab_common.c                              |  4 +-
+ mm/slub.c                                     | 39 +++++-----
+ 7 files changed, 91 insertions(+), 97 deletions(-)
+
+-- 
+2.34.1
+
