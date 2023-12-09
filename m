@@ -1,184 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gNMJw0Mo"
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA2F171F;
-	Fri,  8 Dec 2023 16:15:44 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 81D1E5CC;
-	Sat,  9 Dec 2023 00:15:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 81D1E5CC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1702080944; bh=G+BZb1YJhO7EnX9yCvRFq6Nfa15LkoN+WflbTEHxZlw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=gNMJw0Mo1k6tb71Yy0jKIGRdcqpmxO01J9dVgeRtVqlGMWTxoYtdUH5GRlG+jYCHJ
-	 vSKmBc2nnDqxAMRTbpcUwl6eYuRb4/0Yn5p1623oYEVHYyHex6xWZklndA78aZOjiW
-	 3JTHpDp8s7vhM0HTW+2pc7y9gc1eTkR9kyUq4vbMdyzBhvIBw2m0UGL8wW9RsX5FYH
-	 I/RhB4Dgkhyoa/neGO6EJXc2NOXTil3BM2HJDd09UW+aw/Jxc0J1EIwgSGKeUnFry0
-	 4CfSSj7DdLi3aPq4vImjYBR4cgRw4HKLVmoi5/0VIPIGvCWj6ct0HGhqzAB/uAHoq/
-	 gA0B7rNAZOPIg==
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH RFC] Rework the top-level process page
-Date: Fri, 08 Dec 2023 17:15:43 -0700
-Message-ID: <87msuk2pu8.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LtCdjgIR"
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 944C5172A;
+	Fri,  8 Dec 2023 16:24:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=+Bla+2D/SmF77m+DIEiC5p/+uiJpt3KbwhPpcNnWVmQ=; b=LtCdjgIR9u3vR7VjCKN9E0TxGU
+	LynRo1fqak3yHiqC1RGbnc9nW52U5I+pjiT5QWqNmMctDBx8FBcevYk6rx602TVPZxEYvAKD2wxgn
+	/GTE0yNx4XAYFca4oiZL2H6IKE+bhIjvIQ4AxgDhs1Z6caShufvSzHAhYUCUnzaS6zgYYNMXGrkgn
+	zaxdrx5wL7E7TNR93x9ZeF0xUpkvw0xGAS9V8lnEELhzKVOPVXot38f9kgj2tpYmFXubSvVhO/Mfg
+	mdzy5uDFmD/M9Nu3HEc/+kjY7XGZyAS+cx0pCen4XhtF0N6OlIt0vtRpe6Lq72PrjoHUSI92D2gBq
+	9A3dB8tQ==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rBl9E-00GopX-1P;
+	Sat, 09 Dec 2023 00:24:48 +0000
+Message-ID: <9e6c1e79-7728-42b9-b968-2e9d030d1c27@infradead.org>
+Date: Fri, 8 Dec 2023 16:24:48 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] Rework the top-level process page
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <87msuk2pu8.fsf@meer.lwn.net>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87msuk2pu8.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The process book is arguably the most important documentation we have; the
-top three trafficked pages on docs.kernel.org are found here.  Make a
-beginning effort to impose a more useful organization on this page to ease
-developers into the community.
----
-This is a version of the reworked page I showed briefly during the
-kernel-summit documentation session.  Perhaps more useful than the patch
-itself is the rendered version of the page, which can be seen at:
 
-  https://static.lwn.net/kerneldoc/process/index.html
 
-There is a lot to do to turn this book into a coherent set of
-documentation, but this seems like a plausible step in that direction.
+On 12/8/23 16:15, Jonathan Corbet wrote:
+> +Other material
+> +--------------
+> +
+> +Here are some other guides to the community that are of interest to most
+> +developers are:
 
- Documentation/process/index.rst | 84 ++++++++++++++++++++++++---------
- 1 file changed, 63 insertions(+), 21 deletions(-)
+eh?
 
-diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
-index a1daa309b58d..0751c8c05023 100644
---- a/Documentation/process/index.rst
-+++ b/Documentation/process/index.rst
-@@ -15,49 +15,96 @@ to learn about how our community works.  Reading these documents will make
- it much easier for you to get your changes merged with a minimum of
- trouble.
- 
--Below are the essential guides that every developer should read.
-+An introduction to how kernel development works
-+-----------------------------------------------
-+
-+Read these documents first: an understanding of the material here will ease
-+your entry into the kernel community.
- 
- .. toctree::
-    :maxdepth: 1
- 
--   license-rules
-    howto
--   code-of-conduct
--   code-of-conduct-interpretation
-    development-process
-    submitting-patches
--   handling-regressions
-+   submit-checklist
-+
-+Tools and technical guides for kernel developers
-+------------------------------------------------
-+
-+This is a collection of material that kernel developers should be familiar
-+with. 
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   changes
-    programming-language
-    coding-style
--   maintainer-handbooks
-    maintainer-pgp-guide
-    email-clients
-+   applying-patches
-+   backporting
-+   adding-syscalls
-+   volatile-considered-harmful
-+   botching-up-ioctls
-+
-+Policy guides and developer statements
-+--------------------------------------
-+
-+These are the rules that we try to live by in the kernel community (and
-+beyond).
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   license-rules
-+   code-of-conduct
-+   code-of-conduct-interpretation
-+   contribution-maturity-model
-    kernel-enforcement-statement
-    kernel-driver-statement
-+   stable-api-nonsense
-+   stable-kernel-rules
-+   management-style
-+   researcher-guidelines
- 
--For security issues, see:
-+Dealing with bugs
-+-----------------
-+
-+Bugs are a fact of life; it is important that we handle them properly.
-+The documents below describe our policies around the handling of a couple
-+of special classes of bugs: regressions and security problems.
- 
- .. toctree::
-    :maxdepth: 1
- 
-+   handling-regressions
-    security-bugs
-    embargoed-hardware-issues
- 
--Other guides to the community that are of interest to most developers are:
-+Maintainer information
-+----------------------
-+
-+How to find the people who will accept your patches.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   maintainer-handbooks
-+   maintainers
-+
-+Other material
-+--------------
-+
-+Here are some other guides to the community that are of interest to most
-+developers are:
- 
- .. toctree::
-    :maxdepth: 1
- 
--   changes
--   stable-api-nonsense
--   management-style
--   stable-kernel-rules
--   submit-checklist
-    kernel-docs
-    deprecated
--   maintainers
--   researcher-guidelines
--   contribution-maturity-model
- 
- These are some overall technical guides that have been put here for now for
- lack of a better place.
-@@ -65,12 +112,7 @@ lack of a better place.
- .. toctree::
-    :maxdepth: 1
- 
--   applying-patches
--   backporting
--   adding-syscalls
-    magic-number
--   volatile-considered-harmful
--   botching-up-ioctls
-    clang-format
-    ../arch/riscv/patch-acceptance
-    ../core-api/unaligned-memory-access
 -- 
-2.42.0
-
+~Randy
