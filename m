@@ -1,224 +1,276 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E47F1865C
-	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 17:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vj1zwv1M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13D72C433C9
-	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 17:39:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702143588;
-	bh=xKzWwx8AEAI3xHb0oQk6tJFeNt9OEdWGkDXgMdD6/UQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Vj1zwv1MMe/wNFdh5eB83smfqpwBZ/b5tBCaw8gt/putIO+ftBZrPyeaKYG2JUnVJ
-	 vJrKJtQRO2ZVArMCueGbuogAdvvqp4lV376KTeY7x8a5Y+EYjY73oeZxesulfKJhXu
-	 ecylj4hbS/ALEEEQLtgp+tuLUU3j7pfIIBZD81aiMilZn3wBbnQwt5JplhF1pXNTuh
-	 Bgrza9AxojpgwDg/il/JIFqWk305ynnJWR0omFxpKClczwyF4k05XAKW1y10XGS0qx
-	 arC24CK2jhfsZzzhVp+qf+DOMlTul4QNlFARg2SpjCQUwOX+6nxwXvP5R4L0aflM/M
-	 KL84Ql0oYoWcQ==
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6d9e9b72ecfso1219998a34.3
-        for <linux-doc@vger.kernel.org>; Sat, 09 Dec 2023 09:39:48 -0800 (PST)
-X-Gm-Message-State: AOJu0YzdL5S+Z+YGq3nvPZA2ILiQ2NMDQIBja4TvW99OmvxnkoDhSKlc
-	LmXqJVpOg0uGqVdmcacHJAYi7wFZwZpGm4rqMZ62Uw==
-X-Google-Smtp-Source: AGHT+IGzBwcsqjZG2OFoaatNrjMe2TS0HqjNPUkvBb9KPQ7VLDYVX6Ykag92K8l6Dqop9f9TA3sc1N9q3AjrLqGY+N8=
-X-Received: by 2002:a17:902:704c:b0:1d0:b196:7193 with SMTP id
- h12-20020a170902704c00b001d0b1967193mr1834760plt.126.1702143566610; Sat, 09
- Dec 2023 09:39:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k6Pl2IhO"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE14F2;
+	Sat,  9 Dec 2023 10:25:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702146313; x=1733682313;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0M0nXpWDhcnAg4+20gZZF8o8lfD/T3Wj0UyQZlZSoCU=;
+  b=k6Pl2IhOwKJPLcQ4xKl16TLydrpCqae/2r/y60KYdZKfcNvUnfJR591P
+   HbPkiFWwUgkHnlNhCnyUy+F0yZ3pTR3n6Xgv7YZMnUd2GcOEXZEsnSpA5
+   zAxtkagjmCbPBcRMIqf8QKpAIl/4SiROVQusxW3xEx8jLZ7cQ4evzeLBp
+   76fM+slZ++EqN19nN5ptUHeAEP+lxg6a4k0w1sIx04U2Jv+mOO3Dbl8Wf
+   0uVg8HEU26RHIAQG4Wnk2wJQfxrpYENodUlWt5SyZnRrNxKaiwkxUmJA8
+   7J5+c07SC/JC9fhtdOMsKiXnTisP3S3L3LPV4NOpkLwuM+CIOJmjo1Ajb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1592450"
+X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
+   d="scan'208";a="1592450"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 10:25:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="722202683"
+X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
+   d="scan'208";a="722202683"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 09 Dec 2023 10:25:04 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rC20c-000Fkz-0C;
+	Sat, 09 Dec 2023 18:25:02 +0000
+Date: Sun, 10 Dec 2023 02:24:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, mhocko@kernel.org, tj@kernel.org,
+	ying.huang@intel.com, gregory.price@memverge.com, corbet@lwn.net,
+	rakie.kim@sk.com, hyeongtak.ji@sk.com, honggyu.kim@sk.com,
+	vtavarespetr@micron.com, peterz@infradead.org, jgroves@micron.com,
+	ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com
+Subject: Re: [PATCH v2 08/11] mm/mempolicy: add set_mempolicy2 syscall
+Message-ID: <202312100245.Jgz5mPhJ-lkp@intel.com>
+References: <20231209065931.3458-9-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
- <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
- <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com> <20231209034229.GA1001962@cmpxchg.org>
-In-Reply-To: <20231209034229.GA1001962@cmpxchg.org>
-From: Chris Li <chrisl@kernel.org>
-Date: Sat, 9 Dec 2023 09:39:14 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuMgbN58Dgkyz2vSNUxk_WKM=arcc0VtGM83ALgDaBXhag@mail.gmail.com>
-Message-ID: <CAF8kJuMgbN58Dgkyz2vSNUxk_WKM=arcc0VtGM83ALgDaBXhag@mail.gmail.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
-	lizefan.x@bytedance.com, cerasuolodomenico@gmail.com, yosryahmed@google.com, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, david@ixit.cz, Kairui Song <kasong@tencent.com>, 
-	Minchan Kim <minchan@google.com>, Zhongkun He <hezhongkun.hzk@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231209065931.3458-9-gregory.price@memverge.com>
 
-On Fri, Dec 8, 2023 at 7:42=E2=80=AFPM Johannes Weiner <hannes@cmpxchg.org>=
- wrote:
->
-> On Fri, Dec 08, 2023 at 03:55:59PM -0800, Chris Li wrote:
-> > I can give you three usage cases right now:
-> > 1) Google producting kernel uses SSD only swap, it is currently on
-> > pilot. This is not expressible by the memory.zswap.writeback. You can
-> > set the memory.zswap.max =3D 0 and memory.zswap.writeback =3D 1, then S=
-SD
-> > backed swapfile. But the whole thing feels very clunky, especially
-> > what you really want is SSD only swap, you need to do all this zswap
-> > config dance. Google has an internal memory.swapfile feature
-> > implemented per cgroup swap file type by "zswap only", "real swap file
-> > only", "both", "none" (the exact keyword might be different). running
-> > in the production for almost 10 years. The need for more than zswap
-> > type of per cgroup control is really there.
->
-> We use regular swap on SSD without zswap just fine. Of course it's
-> expressible.
->
-> On dedicated systems, zswap is disabled in sysfs. On shared hosts
-> where it's determined based on which workload is scheduled, zswap is
-> generally enabled through sysfs, and individual cgroup access is
-> controlled via memory.zswap.max - which is what this knob is for.
+Hi Gregory,
 
-The sysfs API is not per cgroup, right?
+kernel test robot noticed the following build warnings:
 
->
-> This is analogous to enabling swap globally, and then opting
-> individual cgroups in and out with memory.swap.max.
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master v6.7-rc4]
+[cannot apply to tip/x86/asm geert-m68k/for-next geert-m68k/for-linus next-20231208]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-That is good to know. Just comparing notes. Google is still using
-cgroup V1. There is a seperate per cgroup zswap switch control
-enabling zswap or not. As well as a swap file type switch to select
-ghost swap file or real swap file.
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231209-150314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231209065931.3458-9-gregory.price%40memverge.com
+patch subject: [PATCH v2 08/11] mm/mempolicy: add set_mempolicy2 syscall
+config: arm-lpc32xx_defconfig (https://download.01.org/0day-ci/archive/20231210/202312100245.Jgz5mPhJ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100245.Jgz5mPhJ-lkp@intel.com/reproduce)
 
-> So this usecase is very much already supported, and it's expressed in
-> a way that's pretty natural for how cgroups express access and lack of
-> access to certain resources.
->
-> I don't see how memory.swap.type or memory.swap.tiers would improve
-> this in any way. On the contrary, it would overlap and conflict with
-> existing controls to manage swap and zswap on a per-cgroup basis.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100245.Jgz5mPhJ-lkp@intel.com/
 
-One minor point is that, if we have a per cgroup list of swap
-tires/devices. It does not need to enter the zswap code to find out
-zswap is disabled. But that is a very minor point.
+All warnings (new ones prefixed by >>):
 
->
-> > 2) As indicated by this discussion, Tencent has a usage case for SSD
-> > and hard disk swap as overflow.
-> > https://lore.kernel.org/linux-mm/20231119194740.94101-9-ryncsn@gmail.co=
-m/
-> > +Kairui
->
-> Multiple swap devices for round robin or with different priorities
-> aren't new, they have been supported for a very, very long time. So
-> far nobody has proposed to control the exact behavior on a per-cgroup
-> basis, and I didn't see anybody in this thread asking for it either.
->
-> So I don't see how this counts as an obvious and automatic usecase for
-> memory.swap.tiers.
+   In file included from kernel/time/time.c:33:
+>> include/linux/syscalls.h:825:43: warning: declaration of 'struct mpol_args' will not be visible outside of this function [-Wvisibility]
+     825 | asmlinkage long sys_set_mempolicy2(struct mpol_args *args, size_t size,
+         |                                           ^
+   1 warning generated.
+--
+   In file included from kernel/time/hrtimer.c:30:
+>> include/linux/syscalls.h:825:43: warning: declaration of 'struct mpol_args' will not be visible outside of this function [-Wvisibility]
+     825 | asmlinkage long sys_set_mempolicy2(struct mpol_args *args, size_t size,
+         |                                           ^
+   kernel/time/hrtimer.c:1651:7: warning: variable 'expires_in_hardirq' set but not used [-Wunused-but-set-variable]
+    1651 |         bool expires_in_hardirq;
+         |              ^
+   kernel/time/hrtimer.c:277:20: warning: unused function 'is_migration_base' [-Wunused-function]
+     277 | static inline bool is_migration_base(struct hrtimer_clock_base *base)
+         |                    ^
+   kernel/time/hrtimer.c:1876:20: warning: unused function '__hrtimer_peek_ahead_timers' [-Wunused-function]
+    1876 | static inline void __hrtimer_peek_ahead_timers(void)
+         |                    ^
+   4 warnings generated.
 
-I assume Tencent would want to use per cgroup control but you have a
-point it is not automatic. It would be best to have Kairui clarify
-whether Tencent wants to use per cgroup SSD vs Hard Disk swap file
-control.
 
->
-> > 3) Android has some fancy swap ideas led by those patches.
-> > https://lore.kernel.org/linux-mm/20230710221659.2473460-1-minchan@kerne=
-l.org/
-> > It got shot down due to removal of frontswap. But the usage case and
-> > product requirement is there.
-> > +Minchan
->
-> This looks like an optimization for zram to bypass the block layer and
-> hook directly into the swap code. Correct me if I'm wrong, but this
-> doesn't appear to have anything to do with per-cgroup backend control.
+vim +825 include/linux/syscalls.h
 
-No in that series. No.
+   794	
+   795	/* CONFIG_MMU only */
+   796	asmlinkage long sys_swapon(const char __user *specialfile, int swap_flags);
+   797	asmlinkage long sys_swapoff(const char __user *specialfile);
+   798	asmlinkage long sys_mprotect(unsigned long start, size_t len,
+   799					unsigned long prot);
+   800	asmlinkage long sys_msync(unsigned long start, size_t len, int flags);
+   801	asmlinkage long sys_mlock(unsigned long start, size_t len);
+   802	asmlinkage long sys_munlock(unsigned long start, size_t len);
+   803	asmlinkage long sys_mlockall(int flags);
+   804	asmlinkage long sys_munlockall(void);
+   805	asmlinkage long sys_mincore(unsigned long start, size_t len,
+   806					unsigned char __user * vec);
+   807	asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
+   808	asmlinkage long sys_process_madvise(int pidfd, const struct iovec __user *vec,
+   809				size_t vlen, int behavior, unsigned int flags);
+   810	asmlinkage long sys_process_mrelease(int pidfd, unsigned int flags);
+   811	asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
+   812				unsigned long prot, unsigned long pgoff,
+   813				unsigned long flags);
+   814	asmlinkage long sys_mbind(unsigned long start, unsigned long len,
+   815					unsigned long mode,
+   816					const unsigned long __user *nmask,
+   817					unsigned long maxnode,
+   818					unsigned flags);
+   819	asmlinkage long sys_get_mempolicy(int __user *policy,
+   820					unsigned long __user *nmask,
+   821					unsigned long maxnode,
+   822					unsigned long addr, unsigned long flags);
+   823	asmlinkage long sys_set_mempolicy(int mode, const unsigned long __user *nmask,
+   824					unsigned long maxnode);
+ > 825	asmlinkage long sys_set_mempolicy2(struct mpol_args *args, size_t size,
+   826					   unsigned long flags);
+   827	asmlinkage long sys_migrate_pages(pid_t pid, unsigned long maxnode,
+   828					const unsigned long __user *from,
+   829					const unsigned long __user *to);
+   830	asmlinkage long sys_move_pages(pid_t pid, unsigned long nr_pages,
+   831					const void __user * __user *pages,
+   832					const int __user *nodes,
+   833					int __user *status,
+   834					int flags);
+   835	asmlinkage long sys_rt_tgsigqueueinfo(pid_t tgid, pid_t  pid, int sig,
+   836			siginfo_t __user *uinfo);
+   837	asmlinkage long sys_perf_event_open(
+   838			struct perf_event_attr __user *attr_uptr,
+   839			pid_t pid, int cpu, int group_fd, unsigned long flags);
+   840	asmlinkage long sys_accept4(int, struct sockaddr __user *, int __user *, int);
+   841	asmlinkage long sys_recvmmsg(int fd, struct mmsghdr __user *msg,
+   842				     unsigned int vlen, unsigned flags,
+   843				     struct __kernel_timespec __user *timeout);
+   844	asmlinkage long sys_recvmmsg_time32(int fd, struct mmsghdr __user *msg,
+   845				     unsigned int vlen, unsigned flags,
+   846				     struct old_timespec32 __user *timeout);
+   847	asmlinkage long sys_wait4(pid_t pid, int __user *stat_addr,
+   848					int options, struct rusage __user *ru);
+   849	asmlinkage long sys_prlimit64(pid_t pid, unsigned int resource,
+   850					const struct rlimit64 __user *new_rlim,
+   851					struct rlimit64 __user *old_rlim);
+   852	asmlinkage long sys_fanotify_init(unsigned int flags, unsigned int event_f_flags);
+   853	asmlinkage long sys_fanotify_mark(int fanotify_fd, unsigned int flags,
+   854					  u64 mask, int fd,
+   855					  const char  __user *pathname);
+   856	asmlinkage long sys_name_to_handle_at(int dfd, const char __user *name,
+   857					      struct file_handle __user *handle,
+   858					      int __user *mnt_id, int flag);
+   859	asmlinkage long sys_open_by_handle_at(int mountdirfd,
+   860					      struct file_handle __user *handle,
+   861					      int flags);
+   862	asmlinkage long sys_clock_adjtime(clockid_t which_clock,
+   863					struct __kernel_timex __user *tx);
+   864	asmlinkage long sys_clock_adjtime32(clockid_t which_clock,
+   865					struct old_timex32 __user *tx);
+   866	asmlinkage long sys_syncfs(int fd);
+   867	asmlinkage long sys_setns(int fd, int nstype);
+   868	asmlinkage long sys_pidfd_open(pid_t pid, unsigned int flags);
+   869	asmlinkage long sys_sendmmsg(int fd, struct mmsghdr __user *msg,
+   870				     unsigned int vlen, unsigned flags);
+   871	asmlinkage long sys_process_vm_readv(pid_t pid,
+   872					     const struct iovec __user *lvec,
+   873					     unsigned long liovcnt,
+   874					     const struct iovec __user *rvec,
+   875					     unsigned long riovcnt,
+   876					     unsigned long flags);
+   877	asmlinkage long sys_process_vm_writev(pid_t pid,
+   878					      const struct iovec __user *lvec,
+   879					      unsigned long liovcnt,
+   880					      const struct iovec __user *rvec,
+   881					      unsigned long riovcnt,
+   882					      unsigned long flags);
+   883	asmlinkage long sys_kcmp(pid_t pid1, pid_t pid2, int type,
+   884				 unsigned long idx1, unsigned long idx2);
+   885	asmlinkage long sys_finit_module(int fd, const char __user *uargs, int flags);
+   886	asmlinkage long sys_sched_setattr(pid_t pid,
+   887						struct sched_attr __user *attr,
+   888						unsigned int flags);
+   889	asmlinkage long sys_sched_getattr(pid_t pid,
+   890						struct sched_attr __user *attr,
+   891						unsigned int size,
+   892						unsigned int flags);
+   893	asmlinkage long sys_renameat2(int olddfd, const char __user *oldname,
+   894				      int newdfd, const char __user *newname,
+   895				      unsigned int flags);
+   896	asmlinkage long sys_seccomp(unsigned int op, unsigned int flags,
+   897				    void __user *uargs);
+   898	asmlinkage long sys_getrandom(char __user *buf, size_t count,
+   899				      unsigned int flags);
+   900	asmlinkage long sys_memfd_create(const char __user *uname_ptr, unsigned int flags);
+   901	asmlinkage long sys_bpf(int cmd, union bpf_attr *attr, unsigned int size);
+   902	asmlinkage long sys_execveat(int dfd, const char __user *filename,
+   903				const char __user *const __user *argv,
+   904				const char __user *const __user *envp, int flags);
+   905	asmlinkage long sys_userfaultfd(int flags);
+   906	asmlinkage long sys_membarrier(int cmd, unsigned int flags, int cpu_id);
+   907	asmlinkage long sys_mlock2(unsigned long start, size_t len, int flags);
+   908	asmlinkage long sys_copy_file_range(int fd_in, loff_t __user *off_in,
+   909					    int fd_out, loff_t __user *off_out,
+   910					    size_t len, unsigned int flags);
+   911	asmlinkage long sys_preadv2(unsigned long fd, const struct iovec __user *vec,
+   912				    unsigned long vlen, unsigned long pos_l, unsigned long pos_h,
+   913				    rwf_t flags);
+   914	asmlinkage long sys_pwritev2(unsigned long fd, const struct iovec __user *vec,
+   915				    unsigned long vlen, unsigned long pos_l, unsigned long pos_h,
+   916				    rwf_t flags);
+   917	asmlinkage long sys_pkey_mprotect(unsigned long start, size_t len,
+   918					  unsigned long prot, int pkey);
+   919	asmlinkage long sys_pkey_alloc(unsigned long flags, unsigned long init_val);
+   920	asmlinkage long sys_pkey_free(int pkey);
+   921	asmlinkage long sys_statx(int dfd, const char __user *path, unsigned flags,
+   922				  unsigned mask, struct statx __user *buffer);
+   923	asmlinkage long sys_rseq(struct rseq __user *rseq, uint32_t rseq_len,
+   924				 int flags, uint32_t sig);
+   925	asmlinkage long sys_open_tree(int dfd, const char __user *path, unsigned flags);
+   926	asmlinkage long sys_move_mount(int from_dfd, const char __user *from_path,
+   927				       int to_dfd, const char __user *to_path,
+   928				       unsigned int ms_flags);
+   929	asmlinkage long sys_mount_setattr(int dfd, const char __user *path,
+   930					  unsigned int flags,
+   931					  struct mount_attr __user *uattr, size_t usize);
+   932	asmlinkage long sys_fsopen(const char __user *fs_name, unsigned int flags);
+   933	asmlinkage long sys_fsconfig(int fs_fd, unsigned int cmd, const char __user *key,
+   934				     const void __user *value, int aux);
+   935	asmlinkage long sys_fsmount(int fs_fd, unsigned int flags, unsigned int ms_flags);
+   936	asmlinkage long sys_fspick(int dfd, const char __user *path, unsigned int flags);
+   937	asmlinkage long sys_pidfd_send_signal(int pidfd, int sig,
+   938					       siginfo_t __user *info,
+   939					       unsigned int flags);
+   940	asmlinkage long sys_pidfd_getfd(int pidfd, int fd, unsigned int flags);
+   941	asmlinkage long sys_landlock_create_ruleset(const struct landlock_ruleset_attr __user *attr,
+   942			size_t size, __u32 flags);
+   943	asmlinkage long sys_landlock_add_rule(int ruleset_fd, enum landlock_rule_type rule_type,
+   944			const void __user *rule_attr, __u32 flags);
+   945	asmlinkage long sys_landlock_restrict_self(int ruleset_fd, __u32 flags);
+   946	asmlinkage long sys_memfd_secret(unsigned int flags);
+   947	asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+   948						    unsigned long home_node,
+   949						    unsigned long flags);
+   950	asmlinkage long sys_cachestat(unsigned int fd,
+   951			struct cachestat_range __user *cstat_range,
+   952			struct cachestat __user *cstat, unsigned int flags);
+   953	asmlinkage long sys_map_shadow_stack(unsigned long addr, unsigned long size, unsigned int flags);
+   954	
 
->
-> > > zswap.writeback is a more urgent need, and does not prevent swap.tier=
-s
-> > > if we do decide to implement it.
-> >
-> > I respect that urgent need, that is why I Ack on the V5 path, under
-> > the understanding that this zswap.writeback is not carved into stones.
-> > When a better interface comes alone, that interface can be obsolete.
-> > Frankly speaking I would much prefer not introducing the cgroup API
-> > which will be obsolete soon.
-> >
-> > If you think zswap.writeback is not removable when another better
-> > alternative is available, please voice it now.
-> >
-> > If you squash my minimal memory.swap.tiers patch, it will also address
-> > your urgent need for merging the "zswap.writeback", no?
->
-> We can always deprecate ABI if something better comes along.
-
-Thanks for the confirmation. That is what I want to hear from you:
-memory.zswap.writeback is not set to stones if something better comes
-along.
-
->
-> However, it's quite bold to claim that memory.swap.tiers is the best
-> way to implement backend control on a per-cgroup basis, and that it'll
-> definitely be needed in the future. You might see this as a foregone
-> conclusion, but I very much doubt this.
-
-Ack.
-
->
-> Even if such a file were to show up, I'm not convinced it should even
-> include zswap as one of the tiers. Zswap isn't a regular swap backend,
-> it doesn't show up in /proc/swaps, it can't be a second tier, the way
-> it interacts with its backend file is very different than how two
-> swapfiles of different priorities interact with each other, it's
-> already controllable with memory.zswap.max, etc.
-
-The rationale to separate out the swap tiers is not based on the
-device, rather depends on the swapin latency distribution and access
-pattern etc. In that regard, the memory based zswap has much lower
-swap in latency, and should be considered a separate tier/class as
-SSD. Even though current zswap allocates swap slots from SSD or ghost
-swap file, I don't consider it an issue to list zswap as a separate
-tier/class. The end of day this is tight to the SLO of the expected
-swapping performance.
-
->
-> I'm open to discussing usecases and proposals for more fine-grained
-> per-cgroup backend control. We've had discussions about per-cgroup
-> swapfiles in the past. Cgroup parameters for swapon are another
-> thought. There are several options and many considerations. The
-> memory.swap.tiers idea is the newest, has probably had the least
-> amount of discussion among them, and looks the least convincing to me.
->
-> Let's work out the requirements first.
-
-I agree with that.  Let's lay out the requirements differently and
-have open discussion to cover each other's usage case.
-
-> The "conflict" with memory.zswap.writeback is a red herring - it's no
-> more of a conflict than setting memory.swap.tiers to "zswap" or "all"
-> and then setting memory.zswap.max or memory.swap.max to 0.
-
-I am not sure I fully understand your point here. Can you elerate?
-I am thinking memory.zswap.writeback and memory.swap.tiers both try to
-describe the relationship of what set of swap tiers the cgroup can
-select. "swap.teris" can specify what order.
-The setting memory.zswap.max or memory.swap.max to 0 is just disable
-zswap/swap. It does not specify the ordering. I am not sure what is
-the "conflict" you are referring to.
-
->
-> So the notion that we have to rush in a minimal version of a MUCH
-> bigger concept, just to support zswap writeback disabling is
-> misguided. And then hope that this format works as the concept evolves
-> and real usecases materialize... There is no reason to take that risk.
->
-
-I am convinced memory.swap.tiers is more general and more straight
-forward to reason about.  You obviously need more convincing. Which is
-fair that I haven't got much more than the minimal patch. As long as
-it is not carved into stones and better things can be developed, I am
-fine with that.
-
-Chris
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
