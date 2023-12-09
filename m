@@ -1,507 +1,1007 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PSFHaeIs"
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91C91BE7;
-	Fri,  8 Dec 2023 23:00:57 -0800 (PST)
-Received: by mail-qk1-x744.google.com with SMTP id af79cd13be357-77f335002cfso150125585a.3;
-        Fri, 08 Dec 2023 23:00:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XhbDcCxU"
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19C4210DF;
+	Sat,  9 Dec 2023 00:02:26 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40c2a444311so27408615e9.2;
+        Sat, 09 Dec 2023 00:02:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702105257; x=1702710057; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f0/QsDUqVOH9BytpPr3Z53rXKvjz2DVO81ae22Cz4+M=;
-        b=PSFHaeIsQxT3fPp6v+QLIMdBumke8orGESvleO4YlR2NesdtdLebrfIWTh3GeLJEoX
-         GHnBrM44EsYOsOxWS2DPAQUD3S4sS98BtE1i6x/K7PoJ3OsePTMm5wObnmk5PqhdN7Ry
-         VO0pteh6G1vz22Lr6bzCSXxyCy1fvwU7C2XM0GzcaAiQV0st8SAMFCRxEDvCx+MVsXNH
-         cI5JSLqV1/V3u/nP180g4D21p0KRm05YqDidTURza/YQ5SRliY5ntxZRelzATan6aicq
-         /VrjhodbVxHopin9rrR6Kjz7K9YteFqKZ1WDyjMrDLl0iR7PR63454iQptro2KgsaARP
-         Gbvg==
+        d=gmail.com; s=20230601; t=1702108944; x=1702713744; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PEaZtybaujus+RINgPJIuD2iQUOhb2y3WyOewsDk/UY=;
+        b=XhbDcCxUMq/5uzslLY5Sp9eXt2Du2h3x7i2o1AAjIuXPoUqUx6tdoTBlQhMUWBpvRK
+         f03VPnG6JGqCdcZittljjnfXz+Qlw3Rbdt0xPkPfgeh285MiTTnYMZq5bFdjGStP47nY
+         8YAifRLIiaLcvyBkQYX33duSQ1MOUB8T8lP31wXf6Yb5PIDux3Bt/MXfTmVbCgkEVmHC
+         j/n4f4H/wl5Fo5o/uKHPEWf7DV+6HirjP7VvSxkQTXNoz3oSpAbhiG7ooNGseM6CCmu7
+         YrgKSb3kdCZO5FI0hNosFHu+JwKuebQl/2yFnTOk3cuL3rtKibyi6rlE+cw7pdwesD5B
+         bZxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702105257; x=1702710057;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f0/QsDUqVOH9BytpPr3Z53rXKvjz2DVO81ae22Cz4+M=;
-        b=Bmzo/qnJSUGfxLkNJUz3akZt2g4PbZTTh/XfhqxJGeyKyJE4SyVsy2MB1xgZnpgkWn
-         eMPvbaswRpcBfTRfb7JTLj6ayOQzFdcCxs6nh8BlGCxkU/AuYAMX27dwKMwpKjk6JuLi
-         OvS9i3NS9upLLnQbi7wIawoA9xKwIb1ZHjzwAAa1LBRSs6u3NDXTBuYf9LWl4Czm9Vf2
-         B3FW6WSAYGQH7kIW8jFF7+e9nnw+yKcjKjWj6FfsfUl3u0oiYwmLirWhVf0BnqbbNrdd
-         Mq34FVHK4HLJxdkC5B5irUgw8GYWND5kwWMg7MKnndjDw6kuoYTG84fYdGuZWzMAuw0o
-         c9aw==
-X-Gm-Message-State: AOJu0YzldZiQ2qug1vLpg+iY/qz1fcPluH5iZVefyj+QEeq+DQsNKFfz
-	FEkwoteq2psWl6zFfSpcSw==
-X-Google-Smtp-Source: AGHT+IHzzAJgvXXv0VkKyzYw1q1C6HSp7DMbEqYwJaHNuPCI+sjP7dceW1TF3ra6bNoategdmsIdnQ==
-X-Received: by 2002:a05:620a:370e:b0:77e:fba3:a23a with SMTP id de14-20020a05620a370e00b0077efba3a23amr1474903qkb.148.1702105256885;
-        Fri, 08 Dec 2023 23:00:56 -0800 (PST)
-Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
-        by smtp.gmail.com with ESMTPSA id x8-20020a81b048000000b005df5d592244sm326530ywk.78.2023.12.08.23.00.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 23:00:56 -0800 (PST)
-From: Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To: linux-mm@kvack.org
-Cc: linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	arnd@arndb.de,
-	tglx@linutronix.de,
-	luto@kernel.org,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	mhocko@kernel.org,
-	tj@kernel.org,
-	ying.huang@intel.com,
-	gregory.price@memverge.com,
-	corbet@lwn.net,
-	rakie.kim@sk.com,
-	hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com,
-	vtavarespetr@micron.com,
-	peterz@infradead.org,
-	jgroves@micron.com,
-	ravis.opensrc@micron.com,
-	sthanneeru@micron.com,
-	emirakhur@micron.com,
-	Hasan.Maruf@amd.com,
-	seungjun.ha@samsung.com,
-	Gregory Price <gregory@gregoryprice.net>
-Subject: [PATCH v2 11/11] mm/mempolicy: extend set_mempolicy2 and mbind2 to support weighted interleave
-Date: Sat,  9 Dec 2023 01:59:33 -0500
-Message-Id: <20231209065931.3458-12-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20231209065931.3458-1-gregory.price@memverge.com>
-References: <20231209065931.3458-1-gregory.price@memverge.com>
+        d=1e100.net; s=20230601; t=1702108944; x=1702713744;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PEaZtybaujus+RINgPJIuD2iQUOhb2y3WyOewsDk/UY=;
+        b=CyBNT10zCVg6yWv1E98M/VgZvNscNO7kPrpuI9SgC7n0/pziv5HX3nOLTHOaMrlQV9
+         elsB0OuThl3VG1wK4NFgSbhqVG+OTnoSXokdEVicBMbsR2rclIkQLcehVOWdBE9V+6Ta
+         ClNzFgg4X6KsxYJsMnEuOihb+oj3MwGQQNNYTlVrBIjqvO40DBmvnwx6krd3VifQOTcN
+         oqQGv9UL4+n5pQzxvcqn2BqXSSYpOgAr1E1JTfGwVtVW9DZdJC6xtjG/VWgPZZnS0l8t
+         DFOZyZScQGLk5685xtcDo/SWgjfORNXkJALXCOCXWN4o+QcJImVX2GHWvOj8Cu/hs3NW
+         aRBQ==
+X-Gm-Message-State: AOJu0YzpBNecPppg361si/cWSukijy1MKf4PCCeU5By4aisdoIzoQw4H
+	d0JwLOsgPgnzbMX8Hl7hgUOpFOmAspWHJXir8e0=
+X-Google-Smtp-Source: AGHT+IHQmSzSZhfa3MM6ymCwWB84qIhrfaTR/XVMOWOwYT+IjEDzOzKMLCFLQ0GllpZwCnhIHEH+hOxQpSMr8rJzdkE=
+X-Received: by 2002:a05:600c:3b8a:b0:406:4573:81d2 with SMTP id
+ n10-20020a05600c3b8a00b00406457381d2mr308188wms.39.1702108943976; Sat, 09 Dec
+ 2023 00:02:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231205074723.3546295-1-chou.cosmo@gmail.com>
+ <20231205074723.3546295-4-chou.cosmo@gmail.com> <a31f5e97-968a-46ae-a378-207936f1df23@roeck-us.net>
+In-Reply-To: <a31f5e97-968a-46ae-a378-207936f1df23@roeck-us.net>
+From: Cosmo Chou <chou.cosmo@gmail.com>
+Date: Sat, 9 Dec 2023 16:02:12 +0800
+Message-ID: <CAOeEDyt+4GrdouY1rr7TYgwOkhg=JWz63c5WppDb55iL3GApHA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] hwmon: Add driver for Astera Labs PT516XX retimer
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: jdelvare@suse.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, corbet@lwn.net, heiko@sntech.de, 
+	jernej.skrabec@gmail.com, macromorgan@hotmail.com, linus.walleij@linaro.org, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	cosmo.chou@quantatw.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Gregory Price <gregory@gregoryprice.net>
+On 12/5/2023 07:55:50 -0800 Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On 12/4/23 23:47, Cosmo Chou wrote:
+> > This driver implements support for temperature monitoring of Astera Labs
+> > PT5161L series PCIe retimer chips.
+> >
+> > This driver implementation originates from the CSDK available at
+> > Link: https://github.com/facebook/openbmc/tree/helium/common/recipes-lib/retimer-v2.14
+> > The communication protocol utilized is based on the I2C/SMBus standard.
+> >
+> > Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
+> > ---
+> >   Documentation/hwmon/index.rst   |   1 +
+> >   Documentation/hwmon/pt516xx.rst |  48 +++
+> >   MAINTAINERS                     |   8 +
+> >   drivers/hwmon/Kconfig           |  10 +
+> >   drivers/hwmon/Makefile          |   1 +
+> >   drivers/hwmon/pt516xx.c         | 648 ++++++++++++++++++++++++++++++++
+> >   6 files changed, 716 insertions(+)
+> >   create mode 100644 Documentation/hwmon/pt516xx.rst
+> >   create mode 100644 drivers/hwmon/pt516xx.c
+> >
+> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> > index 72f4e6065bae..2c4df18db663 100644
+> > --- a/Documentation/hwmon/index.rst
+> > +++ b/Documentation/hwmon/index.rst
+> > @@ -181,6 +181,7 @@ Hardware Monitoring Kernel Drivers
+> >      pmbus
+> >      powerz
+> >      powr1220
+> > +   pt516xx
+> >      pxe1610
+> >      pwm-fan
+> >      q54sj108a2
+> > diff --git a/Documentation/hwmon/pt516xx.rst b/Documentation/hwmon/pt516xx.rst
+> > new file mode 100644
+> > index 000000000000..945194f9a804
+> > --- /dev/null
+> > +++ b/Documentation/hwmon/pt516xx.rst
+> > @@ -0,0 +1,48 @@
+> > +.. SPDX-License-Identifier: GPL-2.0-or-later
+> > +
+> > +Kernel driver pt516xx
+> > +====================
+> > +
+> > +Supported chips:
+> > +
+> > +  * Astera Labs PT5161L
+> > +
+> > +    Prefix: 'pt5161l'
+> > +
+>
+> This should be the driver name and be used for function/variable prefixes.
+> No idea where XX comes into play. The driver for sure won't support
+> PT516[0-9][A-Z], and should not suggest that it does.
+>
+OK, I will correct it to pt5161l.
 
-Extend set_mempolicy2 and mbind2 to support weighted interleave, and
-demonstrate the extensibility of the mpol_args structure.
+> > +    Addresses: I2C 0x24
+> > +
+> > +    Datasheet: http://www.asteralabs.com/wp-content/uploads/2021/03/Astera_Labs_PT5161L_Product_Brief.pdf
+> > +
+> > +Authors: Cosmo Chou <cosmo.chou@quantatw.com>
+> > +
+> > +Description
+> > +-----------
+> > +
+> > +This driver implements support for temperature monitoring of Astera Labs
+> > +PT5161L series PCIe retimer chips.
+> > +
+> > +This driver implementation originates from the CSDK available at
+> > +https://github.com/facebook/openbmc/tree/helium/common/recipes-lib/retimer-v2.14
+> > +The communication protocol utilized is based on the I2C/SMBus standard.
+> > +
+>
+> That strongly suggests that the code has a copyright and license associated
+> with it. None of it is mentioned here.
+>
+It looks like the base code (the link above) declared GPL2.0+ and Apache2.0.
+There is already a declaration in the pt516xx.c: (line 1)
+// SPDX-License-Identifier: GPL-2.0-or-later
 
-To support weighted interleave we add interleave weight fields to the
-following structures:
+Could you give some advice about adding the copyright and license? Thanks.
 
-Kernel Internal:  (include/linux/mempolicy.h)
-struct mempolicy {
-	/* task-local weights to apply to weighted interleave */
-	unsigned char weights[MAX_NUMNODES];
-}
-struct mempolicy_args {
-	/* Optional: interleave weights for MPOL_WEIGHTED_INTERLEAVE */
-	unsigned char *il_weights;	/* of size MAX_NUMNODES */
-}
+> > +For more detailed information and specific implementation details, it is
+> > +recommended to refer to the CSDK source code available at the provided GitHub
+> > +link.
+> > +
+>
+> Linux kernel drivers should be self contained. It is fine to reference documentation,
+> but not out-of-tree source code.
+>
+OK. I will remove this paragraph ("For more detailed information...")
 
-UAPI: (/include/uapi/linux/mempolicy.h)
-struct mpol_args {
-	/* Optional: interleave weights for MPOL_WEIGHTED_INTERLEAVE */
-	unsigned char *il_weights;	/* of size pol_max_nodes */
-}
+> > +Sysfs entries
+> > +----------------
+> > +
+> > +================ ==============================================
+> > +temp1_input      Measured temperature (in millidegrees Celsius)
+> > +================ ==============================================
+> > +
+> > +Debugfs entries
+> > +----------------
+> > +
+> > +================ ====================================
+> > +fw_ver           Firmware version of the retimer
+> > +health           Health status (8 bits)
+> > +                 [0]: Heartbeat Okay (1'b1: OK)
+> > +                 [1]: Firmware loaded Okay (1'b1: OK)
+>
+> This is not from the chip but arbitrarily assigned. It should be
+> reported in separate debugfs files (or all in a single file with
+> multiple lines and human readable information).
+>
+OK. I will separate it to "fw_load_status" and "heartbeat_status".
 
-The task-local weights are a single, one-dimensional array of weights
-that apply to all possible nodes on the system.  If a node is set in
-the mempolicy nodemask, the weight in `il_weights` must be >= 1,
-otherwise set_mempolicy2() will return -EINVAL.  If a node is not
-set in pol_nodemask, the weight will default to `1` in the task policy.
+> > +                 [7:2]: Reserved
+> > +================ ====================================
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 788be9ab5b73..492002ffd12c 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -17482,6 +17482,14 @@ F:   fs/pstore/
+> >   F:  include/linux/pstore*
+> >   K:  \b(pstore|ramoops)
+> >
+> > +PT516XX HARDWARE MONITOR DRIVER
+> > +M:   Cosmo Chou <cosmo.chou@quantatw.com>
+> > +L:   linux-hwmon@vger.kernel.org
+> > +S:   Maintained
+> > +F:   Documentation/devicetree/bindings/hwmon/asteralabs,pt516xx.yaml
+> > +F:   Documentation/hwmon/pt516xx.rst
+> > +F:   drivers/hwmon/pt516xx.c
+> > +
+> >   PTP HARDWARE CLOCK SUPPORT
+> >   M:  Richard Cochran <richardcochran@gmail.com>
+> >   L:  netdev@vger.kernel.org
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index cf27523eed5a..3965bec7774a 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -1703,6 +1703,16 @@ source "drivers/hwmon/peci/Kconfig"
+> >
+> >   source "drivers/hwmon/pmbus/Kconfig"
+> >
+> > +config SENSORS_PT516XX
+> > +     tristate "Astera Labs PT516XX PCIe retimer hardware monitoring"
+> > +     depends on I2C
+> > +     help
+> > +       If you say yes here you get support for temperature monitoring
+> > +       on the Astera Labs PT516XX PCIe retimer.
+> > +
+> > +       This driver can also be built as a module. If so, the module
+> > +       will be called pt516xx.
+> > +
+> >   config SENSORS_PWM_FAN
+> >       tristate "PWM fan"
+> >       depends on (PWM && OF) || COMPILE_TEST
+> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> > index e84bd9685b5c..1942064cd4e9 100644
+> > --- a/drivers/hwmon/Makefile
+> > +++ b/drivers/hwmon/Makefile
+> > @@ -179,6 +179,7 @@ obj-$(CONFIG_SENSORS_PC87427)     += pc87427.o
+> >   obj-$(CONFIG_SENSORS_PCF8591)       += pcf8591.o
+> >   obj-$(CONFIG_SENSORS_POWERZ)        += powerz.o
+> >   obj-$(CONFIG_SENSORS_POWR1220)  += powr1220.o
+> > +obj-$(CONFIG_SENSORS_PT516XX)        += pt516xx.o
+> >   obj-$(CONFIG_SENSORS_PWM_FAN)       += pwm-fan.o
+> >   obj-$(CONFIG_SENSORS_RASPBERRYPI_HWMON)     += raspberrypi-hwmon.o
+> >   obj-$(CONFIG_SENSORS_SBTSI) += sbtsi_temp.o
+> > diff --git a/drivers/hwmon/pt516xx.c b/drivers/hwmon/pt516xx.c
+> > new file mode 100644
+> > index 000000000000..824798559fe1
+> > --- /dev/null
+> > +++ b/drivers/hwmon/pt516xx.c
+> > @@ -0,0 +1,648 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +
+> > +#include <linux/debugfs.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/err.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/init.h>
+> > +#include <linux/hwmon.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mutex.h>
+> > +#include <linux/of_device.h>
+> > +
+> > +/** Main-micro-assisted access command codes */
+>
+> This is not a proper kernel documentation. Either case, use C style comments
+> or C++ style comments, but not both.
+>
+Got it. I will correct the style of comments.
 
-The default value of `1` is required to handle the situation where a
-task migrates to a set of nodes for which weights were not set (up to
-and including the local numa node).  For example, a migrated task whose
-nodemask changes entirely will have all its weights defaulted back
-to `1`, or if the nodemask changes to include a mix of nodes that
-were not previously accounted for - the weighted interleave may be
-suboptimal.
+> > +// Wide register reads
+> > +#define ARIES_MM_RD_WIDE_REG_2B 0x1d
+> > +#define ARIES_MM_RD_WIDE_REG_3B 0x1e
+> > +#define ARIES_MM_RD_WIDE_REG_4B 0x1f
+> > +#define ARIES_MM_RD_WIDE_REG_5B 0x20
+> > +// Wide register writes
+> > +#define ARIES_MM_WR_WIDE_REG_2B 0x21
+> > +#define ARIES_MM_WR_WIDE_REG_3B 0x22
+> > +#define ARIES_MM_WR_WIDE_REG_4B 0x23
+> > +#define ARIES_MM_WR_WIDE_REG_5B 0x24
+>
+> Please use
+>
+> #define<space>NAME<tab>value
+>
+Got it.
 
-If migrations are expected, a task should prefer not to use task-local
-interleave weights, and instead utilize the global settings for natural
-re-weighting on migration.
+> throughout, please. Also, at least ARIES_MM_WR_WIDE_REG_ defines are
+> not used. Please refrain from declaring unused defines.
+>
+Oops... I will remove the unused code.
 
-To support global vs local weighting,  we add the kernel-internal flag:
-MPOL_F_GWEIGHT (1 << 5) /* Utilize global weights */
+> And where does ARIES come from ?
+>
+It's the SoC name of the PCIe retimer.
 
-This flag is set when il_weights is omitted by set_mempolicy2(), or
-when MPOL_WEIGHTED_INTERLEAVE is set by set_mempolicy(). This internal
-mode_flag dictates whether global weights or task-local weights are
-utilized by the the various weighted interleave functions:
+> > +
+> > +/** Temperature measurement constants */
+> > +// Aries current average temp ADC code CSR
+> > +#define ARIES_CURRENT_AVG_TEMP_ADC_CSR 0x42c
+> > +
+> > +// Main Micro Heartbeat reg
+> > +#define ARIES_MM_HEARTBEAT_ADDR 0x923
+> > +
+> > +/** Main SRAM */
+> > +// AL Main SRAM DMEM offset (A0)
+> > +#define AL_MAIN_SRAM_DMEM_OFFSET (64 * 1024)
+> > +// SRAM read command
+> > +#define AL_TG_RD_LOC_IND_SRAM 0x16
+> > +
+> > +/** Micros */
+> > +// Offset for main micro FW info
+> > +#define ARIES_MAIN_MICRO_FW_INFO (96 * 1024 - 128)
+> > +
+> > +/** Path Micro Members */
+> > +// FW Info (Major) offset location in struct
+> > +#define ARIES_MM_FW_VERSION_MAJOR 0
+> > +// FW Info (Minor) offset location in struct
+> > +#define ARIES_MM_FW_VERSION_MINOR 1
+> > +// FW Info (Build no.) offset location in struct
+> > +#define ARIES_MM_FW_VERSION_BUILD 2
+> > +
+> > +/** Offsets for MM assisted accesses */
+> > +// Legacy Address and Data registers (using wide registers)
+> > +// Reg offset to specify Address for MM assisted accesses
+> > +#define ARIES_MM_ASSIST_REG_ADDR_OFFSET 0xd99
+> > +// Reg offset to specify Command
+> > +#define ARIES_MM_ASSIST_CMD_OFFSET 0xd9d
+> > +
+> > +// New Address and Data registers (not using wide registers)
+> > +// Reg offset to MM SPARE 0 used specify Address[7:0]
+> > +#define ARIES_MM_ASSIST_SPARE_0_OFFSET 0xd9f
+> > +// Reg offset to MM SPARE 3 used specify Data Byte 0
+> > +#define ARIES_MM_ASSIST_SPARE_3_OFFSET 0xda2
+> > +
+> > +/** Misc block offsets */
+> > +// Device Load check register
+> > +#define ARIES_CODE_LOAD_REG 0x605
+> > +
+> > +/** Value indicating FW was loaded properly */
+> > +#define ARIES_LOAD_CODE 0xe
+> > +
+> > +/** EEPROM parameters */
+> > +// Time delay between checking MM status of EEPROM write (microseconds)
+> > +#define ARIES_MM_STATUS_TIME 5000
+> > +
+> > +#define ARIES_TEMP_CAL_CODE_DEFAULT 84
+> > +
+> > +/* Struct defining FW version loaded on an Aries device */
+> > +struct pt516xx_fw_ver {
+> > +     u8 major; // FW version major release value
+> > +     u8 minor; // FW version minor release value
+> > +     u16 build; // FW version build release value
+> > +};
+> > +
+> > +/* Each client has this additional data */
+> > +struct pt516xx_data {
+> > +     struct i2c_client *client;
+> > +     struct dentry *debugfs;
+> > +     struct pt516xx_fw_ver fw_ver;
+> > +     struct mutex lock;
+> > +     bool init_done;
+> > +     bool pec_enable; // Enable PEC
+> > +     bool code_load_okay; // indicate if code load reg value is expected
+> > +     bool mm_heartbeat_okay; // indicate if Main Micro heartbeat is good
+> > +     bool mm_wide_reg_valid; // MM assisted Wide Register access
+> > +     u8 temp_cal_code_avg;
+> > +};
+> > +
+> > +static struct dentry *pt516xx_debugfs_dir;
+> > +
+> > +/*
+> > + * Write multiple data bytes to Aries over I2C
+> > + */
+> > +static int pt516xx_write_block_data(struct pt516xx_data *data, u32 address,
+> > +                                 u8 len, u8 *val)
+> > +{
+> > +     struct i2c_client *client = data->client;
+> > +     int ret;
+> > +     u8 remain_len = len;
+> > +     u8 xfer_len, curr_len;
+> > +     u8 buf[16];
+> > +     u8 cmd = 0x0F; // [7]:pec_en, [6:5]:rsvd, [4:2]:func, [1]:start, [0]:end
+> > +     u8 config = 0x40; // [6]:cfg_type, [4:1]:burst_len, [0]:bit16 of address
+> > +
+> > +     if (data->pec_enable)
+> > +             cmd |= 0x80;
+> > +
+> > +     // If byte count is greater than 4, perform multiple iterations
+>
+> Most of those comments are pointless. This is obvious from the code.
+>
+OK. I will reduce the pointless comments.
 
-* weighted_interleave_nodes
-* weighted_interleave_nid
-* alloc_pages_bulk_array_weighted_interleave
+> > +     while (remain_len > 0) {
+> > +             if (remain_len > 4) {
+> > +                     curr_len = 4;
+> > +                     remain_len -= 4;
+> > +             } else {
+> > +                     curr_len = remain_len;
+> > +                     remain_len = 0;
+> > +             }
+> > +
+> > +             buf[0] = config | (curr_len - 1) << 1 | ((address >> 16) & 0x1);
+> > +             buf[1] = (address >> 8) & 0xff;
+> > +             buf[2] = address & 0xff;
+> > +             memcpy(&buf[3], val, curr_len);
+> > +
+> > +             xfer_len = 3 + curr_len;
+> > +             ret = i2c_smbus_write_block_data(client, cmd, xfer_len, buf);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             val += curr_len;
+> > +             address += curr_len;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/*
+> > + * Read multiple data bytes from Aries over I2C
+> > + */
+> > +static int pt516xx_read_block_data(struct pt516xx_data *data, u32 address,
+> > +                                u8 len, u8 *val)
+> > +{
+> > +     struct i2c_client *client = data->client;
+> > +     int ret, tries;
+> > +     u8 remain_len = len;
+> > +     u8 curr_len;
+> > +     u8 wbuf[16], rbuf[24];
+> > +     u8 cmd = 0x08; // [7]:pec_en, [6:5]:rsvd, [4:2]:func, [1]:start, [0]:end
+> > +     u8 config = 0x00; // [6]:cfg_type, [4:1]:burst_len, [0]:bit16 of address
+> > +
+> > +     if (data->pec_enable)
+> > +             cmd |= 0x80;
+> > +
+> > +     // If byte count is greater than 16, perform multiple iterations
+> > +     while (remain_len > 0) {
+> > +             if (remain_len > 16) {
+> > +                     curr_len = 16;
+> > +                     remain_len -= 16;
+> > +             } else {
+> > +                     curr_len = remain_len;
+> > +                     remain_len = 0;
+> > +             }
+> > +
+> > +             wbuf[0] = config | (curr_len - 1) << 1 |
+> > +                       ((address >> 16) & 0x1);
+> > +             wbuf[1] = (address >> 8) & 0xff;
+> > +             wbuf[2] = address & 0xff;
+> > +
+> > +             // Perform read operation
+> > +             for (tries = 0; tries < 3; tries++) {
+> > +                     ret = i2c_smbus_write_block_data(client, (cmd | 0x2), 3,
+> > +                                                      wbuf);
+> > +                     if (ret)
+> > +                             return ret;
+> > +
+> > +                     ret = i2c_smbus_read_block_data(client, (cmd | 0x1),
+> > +                                                     rbuf);
+> > +                     if (ret == curr_len)
+> > +                             break;
+> > +             }
+> > +             if (tries >= 3)
+> > +                     return -ENODATA;
+> > +
+> > +             memcpy(val, rbuf, curr_len);
+> > +             val += curr_len;
+> > +             address += curr_len;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int pt516xx_read_wide_reg(struct pt516xx_data *data, u32 address,
+> > +                              u8 width, u8 *val)
+> > +{
+> > +     int ret, tries;
+> > +     u8 buf[8];
+> > +     u8 status;
+> > +
+> > +     if (data->mm_wide_reg_valid) {
+> > +             // Write address (3 bytes)
+> > +             buf[0] = address & 0xff;
+> > +             buf[1] = (address >> 8) & 0xff;
+> > +             buf[2] = (address >> 16) & 0x1;
+> > +             ret = pt516xx_write_block_data(
+> > +                     data, ARIES_MM_ASSIST_SPARE_0_OFFSET, 3, buf);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             // Set command based on width
+> > +             switch (width) {
+> > +             case 2:
+> > +                     buf[0] = ARIES_MM_RD_WIDE_REG_2B;
+> > +                     break;
+> > +             case 3:
+> > +                     buf[0] = ARIES_MM_RD_WIDE_REG_3B;
+> > +                     break;
+> > +             case 4:
+> > +                     buf[0] = ARIES_MM_RD_WIDE_REG_4B;
+> > +                     break;
+> > +             case 5:
+> > +                     buf[0] = ARIES_MM_RD_WIDE_REG_5B;
+> > +                     break;
+> > +             default:
+> > +                     return -EINVAL;
+> > +             }
+> > +             ret = pt516xx_write_block_data(data, ARIES_MM_ASSIST_CMD_OFFSET,
+> > +                                            1, buf);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             // Check access status
+> > +             status = 0xff;
+> > +             for (tries = 0; tries < 100; tries++) {
+> > +                     ret = pt516xx_read_block_data(
+> > +                             data, ARIES_MM_ASSIST_CMD_OFFSET, 1, &status);
+> > +                     if (ret)
+> > +                             return ret;
+> > +
+> > +                     if (status == 0)
+> > +                             break;
+> > +
+> > +                     usleep_range(ARIES_MM_STATUS_TIME,
+> > +                                  ARIES_MM_STATUS_TIME + 1000);
+> > +             }
+> > +             if (status != 0)
+> > +                     return -ETIMEDOUT;
+> > +
+> > +             // Read N bytes of data based on width
+> > +             ret = pt516xx_read_block_data(
+> > +                     data, ARIES_MM_ASSIST_SPARE_3_OFFSET, width, val);
+> > +             if (ret)
+> > +                     return ret;
+> > +     } else {
+> > +             return pt516xx_read_block_data(data, address, width, val);
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/*
+> > + * Read multiple (up to eight) data bytes from micro SRAM over I2C
+> > + */
+> > +static int
+> > +pt516xx_read_block_data_main_micro_indirect(struct pt516xx_data *data,
+> > +                                         u32 address, u8 len, u8 *val)
+> > +{
+> > +     int ret, tries;
+> > +     u8 buf[8];
+> > +     u8 i, status;
+> > +     u32 uind_offs = ARIES_MM_ASSIST_REG_ADDR_OFFSET;
+> > +     u32 eeprom_base, eeprom_addr;
+> > +
+> > +     // No multi-byte indirect support here. Hence read a byte at a time
+> > +     eeprom_base = address - AL_MAIN_SRAM_DMEM_OFFSET;
+> > +     for (i = 0; i < len; i++) {
+> > +             // Write eeprom addr
+> > +             eeprom_addr = eeprom_base + i;
+> > +             buf[0] = eeprom_addr & 0xff;
+> > +             buf[1] = (eeprom_addr >> 8) & 0xff;
+> > +             buf[2] = (eeprom_addr >> 16) & 0xff;
+> > +             ret = pt516xx_write_block_data(data, uind_offs, 3, buf);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             // Write eeprom cmd
+> > +             buf[0] = AL_TG_RD_LOC_IND_SRAM;
+> > +             ret = pt516xx_write_block_data(data, uind_offs + 4, 1, buf);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             // Test successful access
+> > +             status = 0xff;
+> > +             for (tries = 0; tries < 255; tries++) {
+> > +                     ret = pt516xx_read_block_data(data, uind_offs + 4, 1,
+> > +                                                   &status);
+> > +                     if (ret)
+> > +                             return ret;
+> > +
+> > +                     if (status == 0)
+> > +                             break;
+> > +             }
+> > +             if (status != 0)
+> > +                     return -ETIMEDOUT;
+> > +
+> > +             ret = pt516xx_read_block_data(data, uind_offs + 3, 1, buf);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             val[i] = buf[0];
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/*
+> > + * Check the status of firmware
+> > + */
+> > +static int pt516xx_fwsts_check(struct pt516xx_data *data)
+> > +{
+> > +     int ret, tries;
+> > +     u8 buf[8];
+> > +     u8 heartbeat, major = 0, minor = 0;
+> > +     u16 build = 0;
+> > +     bool hb_changed = false;
+> > +
+> > +     // Read Code Load reg
+> > +     ret = pt516xx_read_block_data(data, ARIES_CODE_LOAD_REG, 1, buf);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     if (buf[0] < ARIES_LOAD_CODE) {
+> > +             dev_warn(
+> > +                     &data->client->dev,
+> > +                     "Code Load reg unexpected. Not all modules are loaded %x\n",
+> > +                     buf[0]);
+> > +             data->code_load_okay = false;
+> > +     } else {
+> > +             data->code_load_okay = true;
+> > +     }
+> > +
+> > +     // Check Main Micro heartbeat
+> > +     // If heartbeat value does not change for 100 tries, no MM heartbeat
+> > +     // Else heartbeat present even if one value changes
+> > +     ret = pt516xx_read_block_data(data, ARIES_MM_HEARTBEAT_ADDR, 1, buf);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     heartbeat = buf[0];
+> > +     for (tries = 0; tries < 100; tries++) {
+> > +             ret = pt516xx_read_block_data(data, ARIES_MM_HEARTBEAT_ADDR, 1,
+> > +                                           buf);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             if (buf[0] != heartbeat) {
+> > +                     hb_changed = true;
+> > +                     break;
+> > +             }
+> > +     }
+> > +     data->mm_heartbeat_okay = hb_changed;
+> > +
+> > +     // Read FW version
+> > +     // If heartbeat not there, set default FW values to 0.0.0
+> > +     // and return success
+> > +     if (data->mm_heartbeat_okay) {
+> > +             // Get FW version (major)
+> > +             ret = pt516xx_read_block_data_main_micro_indirect(
+> > +                     data,
+> > +                     ARIES_MAIN_MICRO_FW_INFO + ARIES_MM_FW_VERSION_MAJOR, 1,
+> > +                     &major);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             // Get FW version (minor)
+> > +             ret = pt516xx_read_block_data_main_micro_indirect(
+> > +                     data,
+> > +                     ARIES_MAIN_MICRO_FW_INFO + ARIES_MM_FW_VERSION_MINOR, 1,
+> > +                     &minor);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             // Get FW version (build)
+> > +             ret = pt516xx_read_block_data_main_micro_indirect(
+> > +                     data,
+> > +                     ARIES_MAIN_MICRO_FW_INFO + ARIES_MM_FW_VERSION_BUILD, 2,
+> > +                     (u8 *)&build);
+> > +             if (ret)
+> > +                     return ret;
+> > +     } else {
+> > +             dev_warn(&data->client->dev, "No Main Micro Heartbeat\n");
+>
+> This and other messages above would create a lot of noise if persistent
+> since the function is called repeatedly.
+>
+OK. I will reduce the debug messages or change to use dev_dbg().
 
-if (pol->flags & MPOL_F_GWEIGHT)
-	pol_weights = iw_table[numa_node_id()].weights;
-else
-	pol_weights = pol->wil.weights;
+> > +     }
+> > +     data->fw_ver.major = major;
+> > +     data->fw_ver.minor = minor;
+> > +     data->fw_ver.build = build;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int pt516xx_fw_is_at_least(struct pt516xx_data *data, u8 major, u8 minor,
+> > +                               u16 build)
+> > +{
+> > +     u32 ver = major << 24 | minor << 16 | build;
+> > +     u32 curr_ver = data->fw_ver.major << 24 | data->fw_ver.minor << 16 |
+> > +                    data->fw_ver.build;
+> > +
+> > +     if (curr_ver >= ver)
+> > +             return true;
+> > +
+> > +     return false;
+> > +}
+> > +
+> > +static int pt516xx_init_dev(struct pt516xx_data *data)
+> > +{
+> > +     int ret;
+> > +
+> > +     mutex_lock(&data->lock);
+> > +     ret = pt516xx_fwsts_check(data);
+> > +     mutex_unlock(&data->lock);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     dev_info(&data->client->dev, "fw_ver: %u.%u.%u\n", data->fw_ver.major,
+> > +              data->fw_ver.minor, data->fw_ver.build);
+> > +
+>
+> Please no such noise
+>
+OK.
 
-To simplify creations and duplication of mempolicies, the weights are
-added as a structure directly within mempolicy. This allows the
-existing logic in __mpol_dup to copy the weights without additional
-allocations:
+> > +     if (pt516xx_fw_is_at_least(data, 2, 2, 0))
+> > +             data->mm_wide_reg_valid = true;
+> > +
+> > +     data->temp_cal_code_avg = ARIES_TEMP_CAL_CODE_DEFAULT;
+>
+> What is the point of this ? temp_cal_code_avg will never be anything else.
+>
+I will change to directly use ARIES_TEMP_CAL_CODE_DEFAULT when calculating.
 
-if (old == current->mempolicy) {
-	task_lock(current);
-	*new = *old;
-	task_unlock(current);
-} else
-	*new = *old
+> > +     data->init_done = true;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int pt516xx_read(struct device *dev, enum hwmon_sensor_types type,
+> > +                     u32 attr, int channel, long *val)
+> > +{
+> > +     struct pt516xx_data *data = dev_get_drvdata(dev);
+> > +     int ret = 0;
+> > +     long adc_code = 0;
+> > +
+>
+> This assumes a specific endianness which isn't given. I am quite sure that the
+> code as written won't work in a big endian system. Also, "long" may be 4 or 8 byte
+> depending on the CPU architecture.
+>
+Oops, I will revise it to be compatible with the big endian system.
+Using long is just to match the prototype of read(): "long *val".
 
-Suggested-by: Rakie Kim <rakie.kim@sk.com>
-Suggested-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
-Suggested-by: Honggyu Kim <honggyu.kim@sk.com>
-Suggested-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
-Co-developed-by: Rakie Kim <rakie.kim@sk.com>
-Signed-off-by: Rakie Kim <rakie.kim@sk.com>
-Co-developed-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
-Signed-off-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
-Co-developed-by: Honggyu Kim <honggyu.kim@sk.com>
-Signed-off-by: Honggyu Kim <honggyu.kim@sk.com>
-Co-developed-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
-Signed-off-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
----
- .../admin-guide/mm/numa_memory_policy.rst     |  10 ++
- include/linux/mempolicy.h                     |   2 +
- include/uapi/linux/mempolicy.h                |   2 +
- mm/mempolicy.c                                | 105 +++++++++++++++++-
- 4 files changed, 115 insertions(+), 4 deletions(-)
+> > +     if (!data->init_done) {
+> > +             ret = pt516xx_init_dev(data);
+> > +             if (ret) {
+> > +                     dev_err(dev, "pt516xx_init_dev failed %d\n", ret);
+> > +                     return ret;
+> > +             }
+> > +     }
+>
+> This is really the wrong place for this code. It should be checked and initialized
+> in the probe function, and probe should bail out if it fails.
+>
+> Also, the only reason to call pt516xx_init_dev() seems to be to determine
+> if "wide reegister access" is supported. If it isn't, pt516xx_read_block_data()
+> is used. Why not call pt516xx_read_block_data() below directly and not bother
+> with wide register access ?
+>
+Previously I followed CSDK using wide_reg to access new FW. Also tried
+old FW, but old FW
+only support read_block_data. After further testing with the new FW,
+it also does support
+read_block_data. So I will revise it to use read_block_data directly
+for temperature. Thanks.
 
-diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
-index f1ba33de3a6e..84c076af74c3 100644
---- a/Documentation/admin-guide/mm/numa_memory_policy.rst
-+++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
-@@ -254,6 +254,8 @@ MPOL_WEIGHTED_INTERLEAVE
- 	This mode operates the same as MPOL_INTERLEAVE, except that
- 	interleaving behavior is executed based on weights set in
- 	/sys/kernel/mm/mempolicy/weighted_interleave/
-+	when configured to utilize global weights, or based on task-local
-+	weights configured with set_mempolicy2(2) or mbind2(2).
- 
- 	Weighted interleave allocations pages on nodes according to
- 	their weight.  For example if nodes [0,1] are weighted [5,2]
-@@ -261,6 +263,13 @@ MPOL_WEIGHTED_INTERLEAVE
- 	2 pages allocated on node1.  This can better distribute data
- 	according to bandwidth on heterogeneous memory systems.
- 
-+	When utilizing task-local weights, weights are not rebalanced
-+	in the event of a task migration.  If a weight has not been
-+	explicitly set for a node set in the new nodemask, the
-+	value of that weight defaults to "1".  For this reason, if
-+	migrations are expected or possible, users should consider
-+	utilizing global interleave weights.
-+
- NUMA memory policy supports the following optional mode flags:
- 
- MPOL_F_STATIC_NODES
-@@ -516,6 +525,7 @@ Extended Mempolicy Arguments::
- 		__u64 addr; /* get_mempolicy2: policy address */
- 		__s32 policy_node; /* get_mempolicy2: policy node information */
- 		__s32 addr_node; /* get_mempolicy2: memory range policy */
-+		__aligned_u64 il_weights;  /* u8 buf of size pol_maxnodes */
- 	};
- 
- The extended mempolicy argument structure is defined to allow the mempolicy
-diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-index 117c5395c6eb..c78874bd84dd 100644
---- a/include/linux/mempolicy.h
-+++ b/include/linux/mempolicy.h
-@@ -58,6 +58,7 @@ struct mempolicy {
- 	/* Weighted interleave settings */
- 	struct {
- 		unsigned char cur_weight;
-+		unsigned char weights[MAX_NUMNODES];
- 	} wil;
- };
- 
-@@ -73,6 +74,7 @@ struct mempolicy_args {
- 	unsigned long addr;		/* get: vma address */
- 	int addr_node;			/* get: node the address belongs to */
- 	int home_node;			/* mbind: use MPOL_MF_HOME_NODE */
-+	unsigned char *il_weights;	/* for mode MPOL_WEIGHTED_INTERLEAVE */
- };
- 
- /*
-diff --git a/include/uapi/linux/mempolicy.h b/include/uapi/linux/mempolicy.h
-index 506ea0f8f34e..687c72fbe6a1 100644
---- a/include/uapi/linux/mempolicy.h
-+++ b/include/uapi/linux/mempolicy.h
-@@ -37,6 +37,7 @@ struct mpol_args {
- 	__u64 addr;
- 	__s32 policy_node;	/* get_mempolicy: policy node info */
- 	__s32 addr_node;	/* get_mempolicy: memory range policy */
-+	__aligned_u64 il_weights; /* size: pol_maxnodes * sizeof(char) */
- };
- 
- /* Flags for set_mempolicy */
-@@ -77,6 +78,7 @@ struct mpol_args {
- #define MPOL_F_SHARED  (1 << 0)	/* identify shared policies */
- #define MPOL_F_MOF	(1 << 3) /* this policy wants migrate on fault */
- #define MPOL_F_MORON	(1 << 4) /* Migrate On protnone Reference On Node */
-+#define MPOL_F_GWEIGHT	(1 << 5) /* Utilize global weights */
- 
- /*
-  * These bit locations are exposed in the vm.zone_reclaim_mode sysctl
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 8f609204fbe7..e5f86e430207 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -271,6 +271,7 @@ static struct mempolicy *mpol_new(struct mempolicy_args *args)
- 	unsigned short mode = args->mode;
- 	unsigned short flags = args->mode_flags;
- 	nodemask_t *nodes = args->policy_nodes;
-+	int node;
- 
- 	if (mode == MPOL_DEFAULT) {
- 		if (nodes && !nodes_empty(*nodes))
-@@ -297,6 +298,19 @@ static struct mempolicy *mpol_new(struct mempolicy_args *args)
- 		    (flags & MPOL_F_STATIC_NODES) ||
- 		    (flags & MPOL_F_RELATIVE_NODES))
- 			return ERR_PTR(-EINVAL);
-+	} else if (mode == MPOL_WEIGHTED_INTERLEAVE) {
-+		/* weighted interleave requires a nodemask and weights > 0 */
-+		if (nodes_empty(*nodes))
-+			return ERR_PTR(-EINVAL);
-+		if (args->il_weights) {
-+			node = first_node(*nodes);
-+			while (node != MAX_NUMNODES) {
-+				if (!args->il_weights[node])
-+					return ERR_PTR(-EINVAL);
-+				node = next_node(node, *nodes);
-+			}
-+		} else if (!(args->mode_flags & MPOL_F_GWEIGHT))
-+			return ERR_PTR(-EINVAL);
- 	} else if (nodes_empty(*nodes))
- 		return ERR_PTR(-EINVAL);
- 
-@@ -309,6 +323,16 @@ static struct mempolicy *mpol_new(struct mempolicy_args *args)
- 	policy->home_node = NUMA_NO_NODE;
- 	policy->wil.cur_weight = 0;
- 	policy->home_node = args->home_node;
-+	if (policy->mode == MPOL_WEIGHTED_INTERLEAVE && args->il_weights) {
-+		policy->wil.cur_weight = 0;
-+		/* Minimum weight value is always 1 */
-+		memset(policy->wil.weights, 1, MAX_NUMNODES);
-+		node = first_node(*nodes);
-+		while (node != MAX_NUMNODES) {
-+			policy->wil.weights[node] = args->il_weights[node];
-+			node = next_node(node, *nodes);
-+		}
-+	}
- 
- 	return policy;
- }
-@@ -1518,6 +1542,9 @@ static long kernel_mbind(unsigned long start, unsigned long len,
- 	if (err)
- 		return err;
- 
-+	if (mode & MPOL_WEIGHTED_INTERLEAVE)
-+		mode_flags |= MPOL_F_GWEIGHT;
-+
- 	memset(&margs, 0, sizeof(margs));
- 	margs.mode = lmode;
- 	margs.mode_flags = mode_flags;
-@@ -1611,6 +1638,8 @@ SYSCALL_DEFINE5(mbind2, const struct iovec __user *, vec, size_t, vlen,
- 	struct iovec iovstack[UIO_FASTIOV];
- 	struct iovec *iov = iovstack;
- 	struct iov_iter iter;
-+	unsigned char weights[MAX_NUMNODES];
-+	unsigned char *weights_ptr;
- 	int err;
- 
- 	if (!vec || !vlen)
-@@ -1648,6 +1677,20 @@ SYSCALL_DEFINE5(mbind2, const struct iovec __user *, vec, size_t, vlen,
- 	} else
- 		margs.policy_nodes = NULL;
- 
-+	if (kargs.mode == MPOL_WEIGHTED_INTERLEAVE) {
-+		weights_ptr = u64_to_user_ptr(kargs.il_weights);
-+		err = copy_struct_from_user(&weights,
-+					    sizeof(weights),
-+					    weights_ptr,
-+					    kargs.pol_maxnodes);
-+		if (err)
-+			return err;
-+		margs.il_weights = weights;
-+	} else {
-+		margs.il_weights = NULL;
-+		flags |= MPOL_F_GWEIGHT;
-+	}
-+
- 	/* For each address range in vector, do_mbind */
- 	err = import_iovec(ITER_DEST, vec, vlen, ARRAY_SIZE(iovstack), &iov,
- 			   &iter);
-@@ -1686,6 +1729,9 @@ static long kernel_set_mempolicy(int mode, const unsigned long __user *nmask,
- 	if (err)
- 		return err;
- 
-+	if (mode & MPOL_WEIGHTED_INTERLEAVE)
-+		mode_flags |= MPOL_F_GWEIGHT;
-+
- 	memset(&args, 0, sizeof(args));
- 	args.mode = lmode;
- 	args.mode_flags = mode_flags;
-@@ -1709,6 +1755,8 @@ SYSCALL_DEFINE3(set_mempolicy2, struct mpol_args __user *, uargs, size_t, usize,
- 	int err;
- 	nodemask_t policy_nodemask;
- 	unsigned long __user *nodes_ptr;
-+	unsigned char weights[MAX_NUMNODES];
-+	unsigned char __user *weights_ptr;
- 
- 	if (flags)
- 		return -EINVAL;
-@@ -1734,6 +1782,20 @@ SYSCALL_DEFINE3(set_mempolicy2, struct mpol_args __user *, uargs, size_t, usize,
- 	} else
- 		margs.policy_nodes = NULL;
- 
-+	if (kargs.mode == MPOL_WEIGHTED_INTERLEAVE && kargs.il_weights) {
-+		weights_ptr = u64_to_user_ptr(kargs.il_weights);
-+		err = copy_struct_from_user(weights,
-+					    sizeof(weights),
-+					    weights_ptr,
-+					    kargs.pol_maxnodes);
-+		if (err)
-+			return err;
-+		margs.il_weights = weights;
-+	} else {
-+		margs.il_weights = NULL;
-+		flags |= MPOL_F_GWEIGHT;
-+	}
-+
- 	return do_set_mempolicy(&margs);
- }
- 
-@@ -1935,6 +1997,8 @@ SYSCALL_DEFINE3(get_mempolicy2, struct mpol_args __user *, uargs, size_t, usize,
- 	int err;
- 	nodemask_t policy_nodemask;
- 	unsigned long __user *nodes_ptr;
-+	unsigned char *weights_ptr;
-+	unsigned char weights[MAX_NUMNODES];
- 
- 	err = copy_struct_from_user(&kargs, sizeof(kargs), uargs, usize);
- 	if (err)
-@@ -1951,6 +2015,9 @@ SYSCALL_DEFINE3(get_mempolicy2, struct mpol_args __user *, uargs, size_t, usize,
- 					  &policy_nodemask);
- 	}
- 
-+	if (kargs.il_weights)
-+		margs.il_weights = weights;
-+
- 	margs.policy_nodes = kargs.pol_nodes ? &policy_nodemask : NULL;
- 	if (flags & MPOL_F_ADDR) {
- 		margs.addr = kargs.addr;
-@@ -1971,6 +2038,13 @@ SYSCALL_DEFINE3(get_mempolicy2, struct mpol_args __user *, uargs, size_t, usize,
- 					 margs.policy_nodes);
- 	}
- 
-+	if (kargs.il_weights) {
-+		weights_ptr = u64_to_user_ptr(kargs.il_weights);
-+		err = copy_to_user(weights_ptr, weights, kargs.pol_maxnodes);
-+		if (err)
-+			return err;
-+	}
-+
- 	return copy_to_user(uargs, &kargs, usize) ? -EFAULT : 0;
- }
- 
-@@ -2087,13 +2161,18 @@ static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
- {
- 	unsigned int next;
- 	struct task_struct *me = current;
-+	unsigned char next_weight;
- 
- 	next = next_node_in(me->il_prev, policy->nodes);
- 	if (next == MAX_NUMNODES)
- 		return next;
- 
--	if (!policy->wil.cur_weight)
--		policy->wil.cur_weight = iw_table[next];
-+	if (!policy->wil.cur_weight) {
-+		next_weight = (policy->flags & MPOL_F_GWEIGHT) ?
-+				iw_table[next] :
-+				policy->wil.weights[next];
-+		policy->wil.cur_weight = next_weight ? next_weight : 1;
-+	}
- 
- 	policy->wil.cur_weight--;
- 	if (!policy->wil.cur_weight)
-@@ -2167,6 +2246,7 @@ static unsigned int weighted_interleave_nid(struct mempolicy *pol, pgoff_t ilx)
- 	nodemask_t nodemask = pol->nodes;
- 	unsigned int target, weight_total = 0;
- 	int nid;
-+	unsigned char *pol_weights;
- 	unsigned char weights[MAX_NUMNODES];
- 	unsigned char weight;
- 
-@@ -2178,8 +2258,13 @@ static unsigned int weighted_interleave_nid(struct mempolicy *pol, pgoff_t ilx)
- 		return nid;
- 
- 	/* Then collect weights on stack and calculate totals */
-+	if (pol->flags & MPOL_F_GWEIGHT)
-+		pol_weights = iw_table;
-+	else
-+		pol_weights = pol->wil.weights;
-+
- 	for_each_node_mask(nid, nodemask) {
--		weight = iw_table[nid];
-+		weight = pol_weights[nid];
- 		weight_total += weight;
- 		weights[nid] = weight;
- 	}
-@@ -2577,6 +2662,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 	unsigned long nr_allocated;
- 	unsigned long rounds;
- 	unsigned long node_pages, delta;
-+	unsigned char *pol_weights;
- 	unsigned char weight;
- 	unsigned char weights[MAX_NUMNODES];
- 	unsigned int weight_total;
-@@ -2590,9 +2676,14 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 
- 	nnodes = nodes_weight(nodes);
- 
-+	if (pol->flags & MPOL_F_GWEIGHT)
-+		pol_weights = iw_table;
-+	else
-+		pol_weights = pol->wil.weights;
-+
- 	/* Collect weights and save them on stack so they don't change */
- 	for_each_node_mask(node, nodes) {
--		weight = iw_table[node];
-+		weight = pol_weights[node];
- 		weight_total += weight;
- 		weights[node] = weight;
- 	}
-@@ -3117,6 +3208,7 @@ void mpol_shared_policy_init(struct shared_policy *sp, struct mempolicy *mpol)
- {
- 	int ret;
- 	struct mempolicy_args margs;
-+	unsigned char weights[MAX_NUMNODES];
- 
- 	sp->root = RB_ROOT;		/* empty tree == default mempolicy */
- 	rwlock_init(&sp->lock);
-@@ -3134,6 +3226,11 @@ void mpol_shared_policy_init(struct shared_policy *sp, struct mempolicy *mpol)
- 		margs.mode_flags = mpol->flags;
- 		margs.policy_nodes = &mpol->w.user_nodemask;
- 		margs.home_node = NUMA_NO_NODE;
-+		if (margs.mode == MPOL_WEIGHTED_INTERLEAVE &&
-+		    !(margs.mode_flags & MPOL_F_GWEIGHT)) {
-+			memcpy(weights, mpol->wil.weights, sizeof(weights));
-+			margs.il_weights = weights;
-+		}
- 
- 		/* contextualize the tmpfs mount point mempolicy to this file */
- 		npol = mpol_new(&margs);
--- 
-2.39.1
+> > +
+> > +     switch (attr) {
+> > +     case hwmon_temp_input:
+> > +             mutex_lock(&data->lock);
+> > +             ret = pt516xx_read_wide_reg(data,
+> > +                                         ARIES_CURRENT_AVG_TEMP_ADC_CSR, 4,
+> > +                                         (u8 *)&adc_code);
+> > +             mutex_unlock(&data->lock);
+> > +             break;
+> > +     default:
+> > +             return -EOPNOTSUPP;
+> > +     }
+> > +     if (ret) {
+> > +             dev_err(dev, "Read adc_code failed %d\n", ret);
+> > +             return ret;
+> > +     }
+The error return has been checked here.
 
+> > +     if (adc_code == 0 || adc_code >= 0x3ff) {
+> > +             dev_err(dev, "Invalid adc_code %lx\n", adc_code);
+> > +             return -EINVAL;
+>
+OK. I will change to use -ENODATA here.
+
+> I guess this is supposed to cover an error return from pt516xx_read_wide_reg()
+> returned an error, assuming that adc_code was not overwritten in that case.
+> This is inappropriate. Error returns from pt516xx_read_wide_reg() should be
+> handled explicitly (and don't indicate "Invalid argument").
+>
+> > +     }
+> > +
+>
+> The above will create logging noise if the chip has a problem. Please make it dev_dbg.
+>
+OK.
+
+> > +     *val = 110000 + ((adc_code - (data->temp_cal_code_avg + 250)) * -320);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static umode_t pt516xx_is_visible(const void *data,
+> > +                               enum hwmon_sensor_types type, u32 attr,
+> > +                               int channel)
+> > +{
+> > +     switch (attr) {
+> > +     case hwmon_temp_input:
+> > +             return 0444;
+> > +     default:
+> > +             break;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static const struct hwmon_channel_info *pt516xx_info[] = {
+> > +     HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
+> > +     NULL
+> > +};
+> > +
+> > +static const struct hwmon_ops pt516xx_hwmon_ops = {
+> > +     .is_visible = pt516xx_is_visible,
+> > +     .read = pt516xx_read,
+> > +};
+> > +
+> > +static const struct hwmon_chip_info pt516xx_chip_info = {
+> > +     .ops = &pt516xx_hwmon_ops,
+> > +     .info = pt516xx_info,
+> > +};
+> > +
+> > +static ssize_t pt516xx_debugfs_read_fw_ver(struct file *file, char __user *buf,
+> > +                                        size_t count, loff_t *ppos)
+> > +{
+> > +     struct pt516xx_data *data = file->private_data;
+> > +     int ret;
+> > +     char ver[32];
+> > +
+> > +     mutex_lock(&data->lock);
+> > +     ret = pt516xx_fwsts_check(data);
+> > +     mutex_unlock(&data->lock);
+>
+> What is the point of (re-)reading the firmware version repeatedly ?
+>
+The PCIe retimer uses normal power rail, that is, it's turned off when
+the system is powered-off.
+Consider that the PCIe retimer is used on a server system, and
+monitored by a BMC. (an
+independent management controller, with embedded Linux) The BMC is
+still working when
+the system is powered-off but remains standby power rail. When the
+retimer FW is updated
+and reload, it can read the correct FW version.
+
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     ret = snprintf(ver, sizeof(ver), "%u.%u.%u\n", data->fw_ver.major,
+> > +                    data->fw_ver.minor, data->fw_ver.build);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     return simple_read_from_buffer(buf, count, ppos, ver, ret + 1);
+> > +}
+> > +
+> > +static const struct file_operations pt516xx_debugfs_ops_fw_ver = {
+> > +     .read = pt516xx_debugfs_read_fw_ver,
+> > +     .open = simple_open,
+> > +};
+> > +
+> > +static ssize_t pt516xx_debugfs_read_health(struct file *file, char __user *buf,
+> > +                                        size_t count, loff_t *ppos)
+> > +{
+> > +     struct pt516xx_data *data = file->private_data;
+> > +     int ret;
+> > +     u8 status = 0;
+> > +     char health[8];
+> > +
+> > +     mutex_lock(&data->lock);
+> > +     ret = pt516xx_fwsts_check(data);
+> > +     mutex_unlock(&data->lock);
+> > +     if (ret == 0) {
+> > +             status |= data->mm_heartbeat_okay ? 1 : 0; // bit0
+> > +             status |= data->code_load_okay ? 2 : 0; // bit1
+>
+> Those should really be separate debugfs files.
+>
+OK.
+
+> > +     }
+> > +
+> > +     ret = snprintf(health, sizeof(health), "0x%02x\n", status);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     return simple_read_from_buffer(buf, count, ppos, health, ret + 1);
+> > +}
+> > +
+> > +static const struct file_operations pt516xx_debugfs_ops_health = {
+> > +     .read = pt516xx_debugfs_read_health,
+> > +     .open = simple_open,
+> > +};
+> > +
+> > +static int pt516xx_init_debugfs(struct pt516xx_data *data)
+> > +{
+> > +     if (!pt516xx_debugfs_dir)
+> > +             return -ENOENT;
+> > +
+>
+> debugfs functions handle this situation, and return values therefore do not
+> need to be checked.
+>
+Got it. I will remove it.
+
+> > +     data->debugfs = debugfs_create_dir(dev_name(&data->client->dev),
+> > +                                        pt516xx_debugfs_dir);
+> > +     if (IS_ERR_OR_NULL(data->debugfs))
+> > +             return -ENOENT;
+> > +
+> Again, unnecessary.
+>
+Got it.
+
+> > +     debugfs_create_file("fw_ver", 0444, data->debugfs, data,
+> > +                         &pt516xx_debugfs_ops_fw_ver);
+> > +
+> > +     debugfs_create_file("health", 0444, data->debugfs, data,
+> > +                         &pt516xx_debugfs_ops_health);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int pt516xx_probe(struct i2c_client *client)
+> > +{
+> > +     struct device *dev = &client->dev;
+> > +     struct device *hwmon_dev;
+> > +     struct pt516xx_data *data;
+> > +
+> > +     data = devm_kzalloc(dev, sizeof(struct pt516xx_data), GFP_KERNEL);
+> > +     if (!data)
+> > +             return -ENOMEM;
+> > +
+> > +     data->client = client;
+> > +     mutex_init(&data->lock);
+> > +     pt516xx_init_dev(data);
+> > +
+> > +     hwmon_dev = devm_hwmon_device_register_with_info(
+> > +             dev, client->name, data, &pt516xx_chip_info, NULL);
+> > +
+> > +     if (pt516xx_init_debugfs(data))
+> > +             dev_warn(dev, "Failed to register debugfs\n");
+>
+> debugfs should fail silently.
+>
+> debugfs files are not removed if a single device is unloaded. Did you check
+> what happens in this case ?
+>
+Oops, I will add the remove callback function to remove the debugfs files.
+
+> > +
+> > +     return PTR_ERR_OR_ZERO(hwmon_dev);
+> > +}
+> > +
+> > +static const struct i2c_device_id pt516xx_id[] = {
+> > +     { "pt5161l", 0 },
+> > +     {}
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, pt516xx_id);
+> > +
+> > +static const struct of_device_id __maybe_unused pt516xx_of_match[] = {
+> > +     { .compatible = "asteralabs,pt5161l" },
+> > +     {},
+> > +};
+> > +MODULE_DEVICE_TABLE(of, pt516xx_of_match);
+> > +
+> > +static struct i2c_driver pt516xx_driver = {
+> > +     .class = I2C_CLASS_HWMON,
+> > +     .driver = {
+> > +             .name = "pt516xx",
+> > +             .of_match_table = of_match_ptr(pt516xx_of_match),
+>
+> This means the driver won't instantiate on an ACPI system if devicetree
+> support is disabled. Is this intentional ?
+>
+OK. I will add the acpi_match_table.
+
+> > +     },
+> > +     .probe = pt516xx_probe,
+> > +     .id_table = pt516xx_id,
+> > +};
+> > +
+> > +module_i2c_driver(pt516xx_driver);
+> > +
+> > +static int __init pt516xx_core_init(void)
+> > +{
+> > +     pt516xx_debugfs_dir = debugfs_create_dir("pt516xx", NULL);
+> > +     if (IS_ERR(pt516xx_debugfs_dir))
+> > +             pt516xx_debugfs_dir = NULL;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void __exit pt516xx_core_exit(void)
+> > +{
+> > +     debugfs_remove_recursive(pt516xx_debugfs_dir);
+> > +}
+> > +
+> > +module_init(pt516xx_core_init);
+> > +module_exit(pt516xx_core_exit);
+> > +
+> > +MODULE_AUTHOR("Cosmo Chou <cosmo.chou@quantatw.com>");
+> > +MODULE_DESCRIPTION("Hwmon driver for Astera Labs Aries PCIe retimer");
+> > +MODULE_LICENSE("GPL");
+>
