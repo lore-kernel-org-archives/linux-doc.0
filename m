@@ -1,72 +1,107 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCA313AE3;
+	Sat,  9 Dec 2023 13:09:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ekfKrsEp"
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84B8510E6
-	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 03:58:01 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-54c5ed26cf6so3810829a12.3
-        for <linux-doc@vger.kernel.org>; Sat, 09 Dec 2023 03:58:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1702123080; x=1702727880; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YxvYWbM0GztVORxWQCRKtFGI3P1vjafrMQXLrc8bXsU=;
-        b=ekfKrsEp60iQDB80zAjyWsOnOerNrpjVtGmFIqdnqZuyc+/+t3IfYAEFZYeIcB/sx+
-         GKhpvVFr6WenmEyWPA8c5Xhe6jIfvII7uIl/pmkSgOYDPP4PkagYoz6saXff0J7YEU9m
-         MJS/MhK3NxH/ej3yA744hooHlTVEizUlFzJqTQG7tCV0cECD7vQFyfAXlEGL91e5aRIb
-         Mr3Y3kE/rpCs1OarP13u+VwCgUzOLx1fIXz+ushU/4UztNzfivNw6lL54ZiF99Nv7Etk
-         DQYASzUQlsJI58il4OfeojUFz3gnDpdQrGgb8lfA++dgKZXQb434P07K/jYyWeee2BTt
-         W3aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702123080; x=1702727880;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YxvYWbM0GztVORxWQCRKtFGI3P1vjafrMQXLrc8bXsU=;
-        b=ElMFouo71KMw0ee+9m61glKnIEIrelVXnjOejbY0X87eBc9v+f6o6qgpPM04VpMlDa
-         ta2rpGT33gLBDJXvJ5eSe9WS3see/AdYUuiytzRShi4RBsuZHdcFDJvMzC0vGa6+bG0/
-         zqHfvp7KQDI5kSYElusiZ4+6UJs84N5Lbu7GQOOjDkm7F8L+FAzN7LdDMJLx9gJQXFxG
-         S/jbHlZ4BItflr4UI5mHqbdLgjJ3RnzmUIUn5W44dUrwyo0qXqkxxM0RT28VpgktAmzD
-         AUSwLneik/dEmZfTnkJLwx6fQqAnFy1DPKxu6anyMBYqCTnfHVTGzxOHf3LGtfb02AqC
-         oyxw==
-X-Gm-Message-State: AOJu0YxbRIHdDcacrlG4nn8TXywkgSf0G15kiI/uR7XEED5EXmgbCJIw
-	O6x5OnGVBxl2t7Eq5bjpzOFYpseVuv6DfAbtFEntXw==
-X-Google-Smtp-Source: AGHT+IH4nCKaVYLKMFZ8qImJzJYlbXcBHMs9wKrrNxbnEPBuO4YaD1OwSWZij8RLR5R+Nexd3aG0dw==
-X-Received: by 2002:a17:907:7203:b0:a19:a19b:55e3 with SMTP id dr3-20020a170907720300b00a19a19b55e3mr889980ejc.115.1702123080035;
-        Sat, 09 Dec 2023 03:58:00 -0800 (PST)
-Received: from ?IPV6:2a10:bac0:b000:731f:e6b0:e567:aab6:1db2? ([2a10:bac0:b000:731f:e6b0:e567:aab6:1db2])
-        by smtp.gmail.com with ESMTPSA id mn6-20020a1709077b0600b00a18374ade6bsm2129793ejc.67.2023.12.09.03.57.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Dec 2023 03:57:59 -0800 (PST)
-Message-ID: <301cd2d8-e798-41ff-9ae1-814566fe5a19@suse.com>
-Date: Sat, 9 Dec 2023 13:57:59 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6jE7XNT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 783C1C433C8;
+	Sat,  9 Dec 2023 13:09:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702127389;
+	bh=BXmvRrbuQ7Zo9bps7+7CLsTiu05XaN6dU9PEwdxs+ro=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S6jE7XNTUdBp/jI1nNZw36YjJLxRXIwjeEtof8D9IiRzLKGfNItYmAr+VT2iAQ38c
+	 38YNmmUUIYntBWbwZ9cGSSxaGQim7h9NbXYE8xNDouYR8+TMgLcesHT+cipBw2tgX/
+	 4lThPROQalN7MagIZParOBO4e1O2Pg4g6V0ixyjV2R33hTQ+sgi2mNYzJWJbwJzmJw
+	 rUnZe+RUTAfAHW4aOwHkof8lj7+6t1uk4lf7Y6WTHOwc+fOGo2/av3fMhf6zCZfn9v
+	 KMPF5McGv4f6VX8d9RocfRsJKSW7FslB0ZP2s+OE7BGvUVe1zwkJUq28+7u8No8Z/8
+	 zs4EO1JDtaj9w==
+Date: Sat, 9 Dec 2023 13:09:45 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v7 24/39] arm64/signal: Set up and restore the GCS
+ context for signal handlers
+Message-ID: <ZXRnGbYI+uq7m9sA@finisterre.sirena.org.uk>
+References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
+ <20231122-arm64-gcs-v7-24-201c483bd775@kernel.org>
+ <8734wcgj79.fsf@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Remove reference to syscall trampoline in PTI
-Content-Language: en-US
-To: corbet@lwn.net
-Cc: tglx@linutronix.de, bp@alien8.de, x86@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231102130204.41043-1-nik.borisov@suse.com>
-From: Nikolay Borisov <nik.borisov@suse.com>
-In-Reply-To: <20231102130204.41043-1-nik.borisov@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="37w+xraunaVzWRvI"
+Content-Disposition: inline
+In-Reply-To: <8734wcgj79.fsf@linaro.org>
+X-Cookie: You might have mail.
 
 
+--37w+xraunaVzWRvI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2.11.23 г. 15:02 ч., Nikolay Borisov wrote:
-> Commit bf904d2762ee ("x86/pti/64: Remove the SYSCALL64 entry trampoline")
-> removed the syscall trampoline and instead opted to enable using the
-> default syscall64 entry point by mapping the percpu TSS. Unfortunately
-> the PTI documentation wasn't updated when the respective changes were
-> made, so let's bring the doc up to speed.
-> 
-> Signed-off-by: Nikolay Borisov <nik.borisov@suse.com>
+On Sat, Dec 09, 2023 at 12:15:22AM -0300, Thiago Jung Bauermann wrote:
+> Mark Brown <broonie@kernel.org> writes:
 
-Ping?
+> > +	/* The cap must have the low bits set to a token value */
+> > +	if (GCS_CAP_TOKEN(val) != 0)
+> > +		return false;
+
+> I found the comment above a little confusing, since the if condition
+> actually checks that low bits aren't set at all. Perhaps reword to
+> something like "The token value of a signal cap must be 0"?
+
+Right, that's bitrot from the previous token format.
+
+> I'm still not proficient enough in GCS to know how exactly this could be
+> abused (e.g., somehow writing the desired return location right above
+> one of these inactive caps and arranging for GCSPR to point to the cap
+> before returning from a signal) but to be safe or paranoid, perhaps zero
+> the location of the cap before returning?
+
+Right, ideally we'd be doing a compare and exchange here to substitute
+in a zero.
+
+--37w+xraunaVzWRvI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV0ZxYACgkQJNaLcl1U
+h9AoDgf/VkzebhdvDSlUlS84JXdoOeqvCdQEoqmGKLcuFu0afYS5oNsgjYoWfoXD
+aoXaZBnOjvf3Wmp5hO2MtDSGOlnNYMS9btFUd+2docNaeKRynVrPd2hEwST4I/yq
+ZeT2mGf5o2wyv6qxW6RsXkgz4UUscznq2pitjl0x4ca+pOIeX+qxPQjayUJhPGtL
+Us1MullRxipMfAZE5H9eGQ5UrEO940lmaqa3GOexHuqAmzs/znZexqoZYXOStiBS
+DTmANL89uVAgAarTtMNsXKkO8mOZ8D9pNtu+zPEO0JNSrVzQgDD363lTYbIjKz5P
+QroAHMW7izjjkY7CBtP6RwOmok0Uvw==
+=u7l1
+-----END PGP SIGNATURE-----
+
+--37w+xraunaVzWRvI--
