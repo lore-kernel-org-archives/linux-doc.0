@@ -1,143 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="I1ET6nwY"
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38B810C4;
-	Sat,  9 Dec 2023 01:49:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1702115391; bh=K4v35Dp8Lp3NPnkhtZ9R6FJpo7oiN2Hzlx29IfU2Lq0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I1ET6nwYmIPj1dDOlJ36cuv6adMCSee+/l3bvMCLtEZVJ3gsKIvTkgWpvUyf4/ydw
-	 CGstHQFag5r1HK6Ftg6STvHYYVV2iTxngtTBcs5UDam5c9d53JE4Z5TzmbLJ5pyyA3
-	 mariSQplhWY+wSwgFCLalvfeRztZooSqtT2s5r0altoeoNl8tTgXkQ09atOVR7mLsm
-	 nZYM0UNi0mHCJ4iNfZBqMg0bpb67Qn22K0ZJJ4W09VbwU3fDZid9ynlvX2K6rPGB8A
-	 5yqzXwpbcGepDvmlvCc/F1FCV6G/xfzG8oGHxmesi7f6GKT4sekIMzJjC2kufb4kXw
-	 dCEcayhOICYsg==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id 9697B100091; Sat,  9 Dec 2023 09:49:51 +0000 (GMT)
-Date: Sat, 9 Dec 2023 09:49:51 +0000
-From: Sean Young <sean@mess.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/4] pwm: make it possible to apply pwm changes in
- atomic context
-Message-ID: <ZXQ4P39_sq10XD9u@gofer.mess.org>
-References: <cover.1701248996.git.sean@mess.org>
- <734c9985a6f54d34d9ef20203ba7f962b572cb45.1701248996.git.sean@mess.org>
- <ZXNCKFZcjFznko89@orome.fritz.box>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ekfKrsEp"
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84B8510E6
+	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 03:58:01 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-54c5ed26cf6so3810829a12.3
+        for <linux-doc@vger.kernel.org>; Sat, 09 Dec 2023 03:58:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1702123080; x=1702727880; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YxvYWbM0GztVORxWQCRKtFGI3P1vjafrMQXLrc8bXsU=;
+        b=ekfKrsEp60iQDB80zAjyWsOnOerNrpjVtGmFIqdnqZuyc+/+t3IfYAEFZYeIcB/sx+
+         GKhpvVFr6WenmEyWPA8c5Xhe6jIfvII7uIl/pmkSgOYDPP4PkagYoz6saXff0J7YEU9m
+         MJS/MhK3NxH/ej3yA744hooHlTVEizUlFzJqTQG7tCV0cECD7vQFyfAXlEGL91e5aRIb
+         Mr3Y3kE/rpCs1OarP13u+VwCgUzOLx1fIXz+ushU/4UztNzfivNw6lL54ZiF99Nv7Etk
+         DQYASzUQlsJI58il4OfeojUFz3gnDpdQrGgb8lfA++dgKZXQb434P07K/jYyWeee2BTt
+         W3aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702123080; x=1702727880;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YxvYWbM0GztVORxWQCRKtFGI3P1vjafrMQXLrc8bXsU=;
+        b=ElMFouo71KMw0ee+9m61glKnIEIrelVXnjOejbY0X87eBc9v+f6o6qgpPM04VpMlDa
+         ta2rpGT33gLBDJXvJ5eSe9WS3see/AdYUuiytzRShi4RBsuZHdcFDJvMzC0vGa6+bG0/
+         zqHfvp7KQDI5kSYElusiZ4+6UJs84N5Lbu7GQOOjDkm7F8L+FAzN7LdDMJLx9gJQXFxG
+         S/jbHlZ4BItflr4UI5mHqbdLgjJ3RnzmUIUn5W44dUrwyo0qXqkxxM0RT28VpgktAmzD
+         AUSwLneik/dEmZfTnkJLwx6fQqAnFy1DPKxu6anyMBYqCTnfHVTGzxOHf3LGtfb02AqC
+         oyxw==
+X-Gm-Message-State: AOJu0YxbRIHdDcacrlG4nn8TXywkgSf0G15kiI/uR7XEED5EXmgbCJIw
+	O6x5OnGVBxl2t7Eq5bjpzOFYpseVuv6DfAbtFEntXw==
+X-Google-Smtp-Source: AGHT+IH4nCKaVYLKMFZ8qImJzJYlbXcBHMs9wKrrNxbnEPBuO4YaD1OwSWZij8RLR5R+Nexd3aG0dw==
+X-Received: by 2002:a17:907:7203:b0:a19:a19b:55e3 with SMTP id dr3-20020a170907720300b00a19a19b55e3mr889980ejc.115.1702123080035;
+        Sat, 09 Dec 2023 03:58:00 -0800 (PST)
+Received: from ?IPV6:2a10:bac0:b000:731f:e6b0:e567:aab6:1db2? ([2a10:bac0:b000:731f:e6b0:e567:aab6:1db2])
+        by smtp.gmail.com with ESMTPSA id mn6-20020a1709077b0600b00a18374ade6bsm2129793ejc.67.2023.12.09.03.57.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Dec 2023 03:57:59 -0800 (PST)
+Message-ID: <301cd2d8-e798-41ff-9ae1-814566fe5a19@suse.com>
+Date: Sat, 9 Dec 2023 13:57:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZXNCKFZcjFznko89@orome.fritz.box>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Remove reference to syscall trampoline in PTI
+Content-Language: en-US
+To: corbet@lwn.net
+Cc: tglx@linutronix.de, bp@alien8.de, x86@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231102130204.41043-1-nik.borisov@suse.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
+In-Reply-To: <20231102130204.41043-1-nik.borisov@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Thierry,
 
 
-On Fri, Dec 08, 2023 at 05:19:52PM +0100, Thierry Reding wrote:
-> On Wed, Nov 29, 2023 at 09:13:35AM +0000, Sean Young wrote:
-> > Some pwm devices require sleeping, for example if the pwm device is
-> > connected over i2c. However, many pwm devices could be used from atomic
-> > context, e.g. memmory mapped pwm. This is useful for, for example, the
-> > pwm-ir-tx driver which requires precise timing. Sleeping causes havoc
-> > with the generated IR signal.
-> > 
-> > Since not all pmw devices can support atomic context, we also add a
-> > pwm_is_atomic() function to check if it is supported.
+On 2.11.23 г. 15:02 ч., Nikolay Borisov wrote:
+> Commit bf904d2762ee ("x86/pti/64: Remove the SYSCALL64 entry trampoline")
+> removed the syscall trampoline and instead opted to enable using the
+> default syscall64 entry point by mapping the percpu TSS. Unfortunately
+> the PTI documentation wasn't updated when the respective changes were
+> made, so let's bring the doc up to speed.
 > 
-> s/i2c/I2C/ and s/pwm/PWM/ in the above. Also, s/memmory/memory/
+> Signed-off-by: Nikolay Borisov <nik.borisov@suse.com>
 
-Thanks for your detailed review. I agree with all your points, they are
-all nice improvements. Just a question at the bottom:
-
-> 
-> > 
-> > Signed-off-by: Sean Young <sean@mess.org>
-> > ---
-> >  Documentation/driver-api/pwm.rst |  9 +++++
-> >  drivers/pwm/core.c               | 63 ++++++++++++++++++++++++++------
-> >  drivers/pwm/pwm-renesas-tpu.c    |  1 -
-> >  include/linux/pwm.h              | 29 ++++++++++++++-
-> >  4 files changed, 87 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
-> > index f1d8197c8c43..1d4536fdf47c 100644
-> > --- a/Documentation/driver-api/pwm.rst
-> > +++ b/Documentation/driver-api/pwm.rst
-> > @@ -43,6 +43,15 @@ After being requested, a PWM has to be configured using::
-> >  
-> >  	int pwm_apply_might_sleep(struct pwm_device *pwm, struct pwm_state *state);
-> >  
-> > +Some PWM devices can be used from atomic context. You can check if this is
-> > +supported with::
-> > +
-> > +        bool pwm_is_atomic(struct pwm_device *pwm);
-> 
-> This is now going to look a bit odd. I think it'd be best to change this
-> to pwm_might_sleep() for consistency with the pwm_apply_might_sleep()
-> function. Fine to keep the actual member variable as atomic, though, so
-> we don't have to change the default for all drivers.
-
-Agreed, I was struggling with finding good name and yours is much better,
-thanks.
-
- > +{
-> > +	return pwm->chip->atomic;
-> > +}
-> > +
-> >  /* PWM provider APIs */
-> >  int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
-> >  		unsigned long timeout);
-> > @@ -406,16 +420,27 @@ struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
-> >  				       struct fwnode_handle *fwnode,
-> >  				       const char *con_id);
-> >  #else
-> > +static inline bool pwm_is_atomic(struct pwm_device *pwm)
-> > +{
-> > +	return false;
-> > +}
-> > +
-> >  static inline int pwm_apply_might_sleep(struct pwm_device *pwm,
-> >  					const struct pwm_state *state)
-> >  {
-> >  	might_sleep();
-> > -	return -ENOTSUPP;
-> > +	return -EOPNOTSUPP;
-> > +}
-> > +
-> > +static inline int pwm_apply_atomic(struct pwm_device *pwm,
-> > +				   const struct pwm_state *state)
-> > +{
-> > +	return -EOPNOTSUPP;
-> >  }
-> >  
-> >  static inline int pwm_adjust_config(struct pwm_device *pwm)
-> >  {
-> > -	return -ENOTSUPP;
-> > +	return -EOPNOTSUPP;
-> >  }
-> 
-> What's wrong with ENOTSUPP?
-
-This was found by checkpatch, see
-
-https://github.com/torvalds/linux/blob/master/scripts/checkpatch.pl#L4891-L4892
-
-# ENOTSUPP is not a standard error code and should be avoided in new patches.
-# Folks usually mean EOPNOTSUPP (also called ENOTSUP), when they type ENOTSUPP.
-
-ENOTSUPP is not really widely used in the tree.
-
-So it was really done to keep checkpatch happy, please let me know what you
-would like me to do here.
-
-Thanks,
-
-Sean
+Ping?
