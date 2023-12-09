@@ -1,225 +1,224 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E47F1865C
+	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 17:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghP5WBio"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11BBC10E6;
-	Sat,  9 Dec 2023 08:47:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702140474; x=1733676474;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9OrBcNRkexSFp7JpzEwrwcmu1QSQkInC3RedZZXvKF0=;
-  b=ghP5WBioZBAVMi+R0lXzHl3v6WJigQygAK1LqAbszuKAde/+fz0ny75N
-   JVwF1wc8QpmHIlJJflP5W8COkdlcl5vElmnonAXi4UNkgx6/TogsUfYzY
-   h2/u/oClYaV1I4E4TmaUlXiKIq7a+39p40hYvdULexw7kHI5thUt7zkip
-   MNDLho2Y1vWkeODk9kyaixTG3izdZF4VevzPU5eQGJzrCGaXYW8tYIIFq
-   RW/avu0XRVZou18BYMBjTCl9ULfdtVU0BzjD1kGM2hdHmiLVnK+BEFNV/
-   60dd2PemblHYCfutUrF3Q1DsoxUuuNmzw6HJd1l2Q5RNr1OElsvYsuIfg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="480711480"
-X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="480711480"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 08:47:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="838462061"
-X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="838462061"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Dec 2023 08:47:46 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rC0US-000Fdf-2R;
-	Sat, 09 Dec 2023 16:47:44 +0000
-Date: Sun, 10 Dec 2023 00:46:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
-	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	mhocko@kernel.org, tj@kernel.org, ying.huang@intel.com,
-	gregory.price@memverge.com, corbet@lwn.net, rakie.kim@sk.com,
-	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
-	peterz@infradead.org, jgroves@micron.com, ravis.opensrc@micron.com,
-	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com
-Subject: Re: [PATCH v2 08/11] mm/mempolicy: add set_mempolicy2 syscall
-Message-ID: <202312100003.aUR6uBvr-lkp@intel.com>
-References: <20231209065931.3458-9-gregory.price@memverge.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vj1zwv1M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13D72C433C9
+	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 17:39:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702143588;
+	bh=xKzWwx8AEAI3xHb0oQk6tJFeNt9OEdWGkDXgMdD6/UQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Vj1zwv1MMe/wNFdh5eB83smfqpwBZ/b5tBCaw8gt/putIO+ftBZrPyeaKYG2JUnVJ
+	 vJrKJtQRO2ZVArMCueGbuogAdvvqp4lV376KTeY7x8a5Y+EYjY73oeZxesulfKJhXu
+	 ecylj4hbS/ALEEEQLtgp+tuLUU3j7pfIIBZD81aiMilZn3wBbnQwt5JplhF1pXNTuh
+	 Bgrza9AxojpgwDg/il/JIFqWk305ynnJWR0omFxpKClczwyF4k05XAKW1y10XGS0qx
+	 arC24CK2jhfsZzzhVp+qf+DOMlTul4QNlFARg2SpjCQUwOX+6nxwXvP5R4L0aflM/M
+	 KL84Ql0oYoWcQ==
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6d9e9b72ecfso1219998a34.3
+        for <linux-doc@vger.kernel.org>; Sat, 09 Dec 2023 09:39:48 -0800 (PST)
+X-Gm-Message-State: AOJu0YzdL5S+Z+YGq3nvPZA2ILiQ2NMDQIBja4TvW99OmvxnkoDhSKlc
+	LmXqJVpOg0uGqVdmcacHJAYi7wFZwZpGm4rqMZ62Uw==
+X-Google-Smtp-Source: AGHT+IGzBwcsqjZG2OFoaatNrjMe2TS0HqjNPUkvBb9KPQ7VLDYVX6Ykag92K8l6Dqop9f9TA3sc1N9q3AjrLqGY+N8=
+X-Received: by 2002:a17:902:704c:b0:1d0:b196:7193 with SMTP id
+ h12-20020a170902704c00b001d0b1967193mr1834760plt.126.1702143566610; Sat, 09
+ Dec 2023 09:39:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231209065931.3458-9-gregory.price@memverge.com>
+References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+ <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
+ <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com> <20231209034229.GA1001962@cmpxchg.org>
+In-Reply-To: <20231209034229.GA1001962@cmpxchg.org>
+From: Chris Li <chrisl@kernel.org>
+Date: Sat, 9 Dec 2023 09:39:14 -0800
+X-Gmail-Original-Message-ID: <CAF8kJuMgbN58Dgkyz2vSNUxk_WKM=arcc0VtGM83ALgDaBXhag@mail.gmail.com>
+Message-ID: <CAF8kJuMgbN58Dgkyz2vSNUxk_WKM=arcc0VtGM83ALgDaBXhag@mail.gmail.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
+	lizefan.x@bytedance.com, cerasuolodomenico@gmail.com, yosryahmed@google.com, 
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
+	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, david@ixit.cz, Kairui Song <kasong@tencent.com>, 
+	Minchan Kim <minchan@google.com>, Zhongkun He <hezhongkun.hzk@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Gregory,
+On Fri, Dec 8, 2023 at 7:42=E2=80=AFPM Johannes Weiner <hannes@cmpxchg.org>=
+ wrote:
+>
+> On Fri, Dec 08, 2023 at 03:55:59PM -0800, Chris Li wrote:
+> > I can give you three usage cases right now:
+> > 1) Google producting kernel uses SSD only swap, it is currently on
+> > pilot. This is not expressible by the memory.zswap.writeback. You can
+> > set the memory.zswap.max =3D 0 and memory.zswap.writeback =3D 1, then S=
+SD
+> > backed swapfile. But the whole thing feels very clunky, especially
+> > what you really want is SSD only swap, you need to do all this zswap
+> > config dance. Google has an internal memory.swapfile feature
+> > implemented per cgroup swap file type by "zswap only", "real swap file
+> > only", "both", "none" (the exact keyword might be different). running
+> > in the production for almost 10 years. The need for more than zswap
+> > type of per cgroup control is really there.
+>
+> We use regular swap on SSD without zswap just fine. Of course it's
+> expressible.
+>
+> On dedicated systems, zswap is disabled in sysfs. On shared hosts
+> where it's determined based on which workload is scheduled, zswap is
+> generally enabled through sysfs, and individual cgroup access is
+> controlled via memory.zswap.max - which is what this knob is for.
 
-kernel test robot noticed the following build errors:
+The sysfs API is not per cgroup, right?
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master v6.7-rc4]
-[cannot apply to tip/x86/asm geert-m68k/for-next geert-m68k/for-linus next-20231208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> This is analogous to enabling swap globally, and then opting
+> individual cgroups in and out with memory.swap.max.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231209-150314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231209065931.3458-9-gregory.price%40memverge.com
-patch subject: [PATCH v2 08/11] mm/mempolicy: add set_mempolicy2 syscall
-config: arc-alldefconfig (https://download.01.org/0day-ci/archive/20231210/202312100003.aUR6uBvr-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100003.aUR6uBvr-lkp@intel.com/reproduce)
+That is good to know. Just comparing notes. Google is still using
+cgroup V1. There is a seperate per cgroup zswap switch control
+enabling zswap or not. As well as a swap file type switch to select
+ghost swap file or real swap file.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312100003.aUR6uBvr-lkp@intel.com/
+> So this usecase is very much already supported, and it's expressed in
+> a way that's pretty natural for how cgroups express access and lack of
+> access to certain resources.
+>
+> I don't see how memory.swap.type or memory.swap.tiers would improve
+> this in any way. On the contrary, it would overlap and conflict with
+> existing controls to manage swap and zswap on a per-cgroup basis.
 
-All error/warnings (new ones prefixed by >>):
+One minor point is that, if we have a per cgroup list of swap
+tires/devices. It does not need to enter the zswap code to find out
+zswap is disabled. But that is a very minor point.
 
-   In file included from init/main.c:21:
->> include/linux/syscalls.h:825:43: warning: 'struct mpol_args' declared inside parameter list will not be visible outside of this definition or declaration
-     825 | asmlinkage long sys_set_mempolicy2(struct mpol_args *args, size_t size,
-         |                                           ^~~~~~~~~
---
-   In file included from arch/arc/kernel/sys.c:3:
->> include/linux/syscalls.h:825:43: warning: 'struct mpol_args' declared inside parameter list will not be visible outside of this definition or declaration
-     825 | asmlinkage long sys_set_mempolicy2(struct mpol_args *args, size_t size,
-         |                                           ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
-      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
-         |                                     ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:34:1: note: in expansion of macro '__SC_COMP'
-      34 | __SC_COMP(__NR_io_setup, sys_io_setup, compat_sys_io_setup)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[0]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
-      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
-         |                                     ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:34:1: note: in expansion of macro '__SC_COMP'
-      34 | __SC_COMP(__NR_io_setup, sys_io_setup, compat_sys_io_setup)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:36:1: note: in expansion of macro '__SYSCALL'
-      36 | __SYSCALL(__NR_io_destroy, sys_io_destroy)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[1]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:36:1: note: in expansion of macro '__SYSCALL'
-      36 | __SYSCALL(__NR_io_destroy, sys_io_destroy)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
-      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
-         |                                     ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:38:1: note: in expansion of macro '__SC_COMP'
-      38 | __SC_COMP(__NR_io_submit, sys_io_submit, compat_sys_io_submit)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[2]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
-      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
-         |                                     ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:38:1: note: in expansion of macro '__SC_COMP'
-      38 | __SC_COMP(__NR_io_submit, sys_io_submit, compat_sys_io_submit)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:40:1: note: in expansion of macro '__SYSCALL'
-      40 | __SYSCALL(__NR_io_cancel, sys_io_cancel)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[3]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:40:1: note: in expansion of macro '__SYSCALL'
-      40 | __SYSCALL(__NR_io_cancel, sys_io_cancel)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:20:34: note: in expansion of macro '__SYSCALL'
-      20 | #define __SC_3264(_nr, _32, _64) __SYSCALL(_nr, _32)
-         |                                  ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:44:1: note: in expansion of macro '__SC_3264'
-      44 | __SC_3264(__NR_io_getevents, sys_io_getevents_time32, sys_io_getevents)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[4]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:20:34: note: in expansion of macro '__SYSCALL'
-      20 | #define __SC_3264(_nr, _32, _64) __SYSCALL(_nr, _32)
-         |                                  ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:44:1: note: in expansion of macro '__SC_3264'
-      44 | __SC_3264(__NR_io_getevents, sys_io_getevents_time32, sys_io_getevents)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:48:1: note: in expansion of macro '__SYSCALL'
-      48 | __SYSCALL(__NR_setxattr, sys_setxattr)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[5]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:48:1: note: in expansion of macro '__SYSCALL'
-      48 | __SYSCALL(__NR_setxattr, sys_setxattr)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
-         |                                    ^
-   include/uapi/asm-generic/unistd.h:50:1: note: in expansion of macro '__SYSCALL'
-      50 | __SYSCALL(__NR_lsetxattr, sys_lsetxattr)
-         | ^~~~~~~~~
-   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[6]')
-      13 | #define __SYSCALL(nr, call) [nr] = (call),
---
-   In file included from kernel/time/hrtimer.c:30:
->> include/linux/syscalls.h:825:43: warning: 'struct mpol_args' declared inside parameter list will not be visible outside of this definition or declaration
-     825 | asmlinkage long sys_set_mempolicy2(struct mpol_args *args, size_t size,
-         |                                           ^~~~~~~~~
-   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
-     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
-     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
-     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
-     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-   kernel/time/hrtimer.c: In function '__run_hrtimer':
-   kernel/time/hrtimer.c:1651:14: warning: variable 'expires_in_hardirq' set but not used [-Wunused-but-set-variable]
-    1651 |         bool expires_in_hardirq;
-         |              ^~~~~~~~~~~~~~~~~~
---
->> arc-elf-ld: arch/arc/kernel/sys.o:(.data+0x724): undefined reference to `sys_set_mempolicy2'
->> arc-elf-ld: arch/arc/kernel/sys.o:(.data+0x724): undefined reference to `sys_set_mempolicy2'
+>
+> > 2) As indicated by this discussion, Tencent has a usage case for SSD
+> > and hard disk swap as overflow.
+> > https://lore.kernel.org/linux-mm/20231119194740.94101-9-ryncsn@gmail.co=
+m/
+> > +Kairui
+>
+> Multiple swap devices for round robin or with different priorities
+> aren't new, they have been supported for a very, very long time. So
+> far nobody has proposed to control the exact behavior on a per-cgroup
+> basis, and I didn't see anybody in this thread asking for it either.
+>
+> So I don't see how this counts as an obvious and automatic usecase for
+> memory.swap.tiers.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I assume Tencent would want to use per cgroup control but you have a
+point it is not automatic. It would be best to have Kairui clarify
+whether Tencent wants to use per cgroup SSD vs Hard Disk swap file
+control.
+
+>
+> > 3) Android has some fancy swap ideas led by those patches.
+> > https://lore.kernel.org/linux-mm/20230710221659.2473460-1-minchan@kerne=
+l.org/
+> > It got shot down due to removal of frontswap. But the usage case and
+> > product requirement is there.
+> > +Minchan
+>
+> This looks like an optimization for zram to bypass the block layer and
+> hook directly into the swap code. Correct me if I'm wrong, but this
+> doesn't appear to have anything to do with per-cgroup backend control.
+
+No in that series. No.
+
+>
+> > > zswap.writeback is a more urgent need, and does not prevent swap.tier=
+s
+> > > if we do decide to implement it.
+> >
+> > I respect that urgent need, that is why I Ack on the V5 path, under
+> > the understanding that this zswap.writeback is not carved into stones.
+> > When a better interface comes alone, that interface can be obsolete.
+> > Frankly speaking I would much prefer not introducing the cgroup API
+> > which will be obsolete soon.
+> >
+> > If you think zswap.writeback is not removable when another better
+> > alternative is available, please voice it now.
+> >
+> > If you squash my minimal memory.swap.tiers patch, it will also address
+> > your urgent need for merging the "zswap.writeback", no?
+>
+> We can always deprecate ABI if something better comes along.
+
+Thanks for the confirmation. That is what I want to hear from you:
+memory.zswap.writeback is not set to stones if something better comes
+along.
+
+>
+> However, it's quite bold to claim that memory.swap.tiers is the best
+> way to implement backend control on a per-cgroup basis, and that it'll
+> definitely be needed in the future. You might see this as a foregone
+> conclusion, but I very much doubt this.
+
+Ack.
+
+>
+> Even if such a file were to show up, I'm not convinced it should even
+> include zswap as one of the tiers. Zswap isn't a regular swap backend,
+> it doesn't show up in /proc/swaps, it can't be a second tier, the way
+> it interacts with its backend file is very different than how two
+> swapfiles of different priorities interact with each other, it's
+> already controllable with memory.zswap.max, etc.
+
+The rationale to separate out the swap tiers is not based on the
+device, rather depends on the swapin latency distribution and access
+pattern etc. In that regard, the memory based zswap has much lower
+swap in latency, and should be considered a separate tier/class as
+SSD. Even though current zswap allocates swap slots from SSD or ghost
+swap file, I don't consider it an issue to list zswap as a separate
+tier/class. The end of day this is tight to the SLO of the expected
+swapping performance.
+
+>
+> I'm open to discussing usecases and proposals for more fine-grained
+> per-cgroup backend control. We've had discussions about per-cgroup
+> swapfiles in the past. Cgroup parameters for swapon are another
+> thought. There are several options and many considerations. The
+> memory.swap.tiers idea is the newest, has probably had the least
+> amount of discussion among them, and looks the least convincing to me.
+>
+> Let's work out the requirements first.
+
+I agree with that.  Let's lay out the requirements differently and
+have open discussion to cover each other's usage case.
+
+> The "conflict" with memory.zswap.writeback is a red herring - it's no
+> more of a conflict than setting memory.swap.tiers to "zswap" or "all"
+> and then setting memory.zswap.max or memory.swap.max to 0.
+
+I am not sure I fully understand your point here. Can you elerate?
+I am thinking memory.zswap.writeback and memory.swap.tiers both try to
+describe the relationship of what set of swap tiers the cgroup can
+select. "swap.teris" can specify what order.
+The setting memory.zswap.max or memory.swap.max to 0 is just disable
+zswap/swap. It does not specify the ordering. I am not sure what is
+the "conflict" you are referring to.
+
+>
+> So the notion that we have to rush in a minimal version of a MUCH
+> bigger concept, just to support zswap writeback disabling is
+> misguided. And then hope that this format works as the concept evolves
+> and real usecases materialize... There is no reason to take that risk.
+>
+
+I am convinced memory.swap.tiers is more general and more straight
+forward to reason about.  You obviously need more convincing. Which is
+fair that I haven't got much more than the minimal patch. As long as
+it is not carved into stones and better things can be developed, I am
+fine with that.
+
+Chris
