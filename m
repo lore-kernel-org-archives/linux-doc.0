@@ -1,45 +1,39 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iy/OVlRw"
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6142F137;
-	Sat,  9 Dec 2023 00:17:55 -0800 (PST)
-Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-7b459364167so101269239f.2;
-        Sat, 09 Dec 2023 00:17:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Lgp4zW9v"
+Received: from smtp-fw-52005.amazon.com (smtp-fw-52005.amazon.com [52.119.213.156])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D361A1;
+	Sat,  9 Dec 2023 01:23:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702109874; x=1702714674; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Vw90yWCuaFmFuU5ynluaqiB/yx3h4VMDt+wN5n9OLZo=;
-        b=Iy/OVlRwshQzUTtWU/6YkQlBVQndchtPGKn5LPQOTU+UtzmRMl9BheydRFfJjxY0ki
-         NgjIGjpicQrVz/ThjyDFkgfQkxR6fS8IDBHEdEBCFUxSbwRXlGNSXZxUrsrgRPW3dGcc
-         OrPYADILpBWM7Opa68JLHD2f5F7pvu+X6Diquvn6KdgXyzEiCbCBovwtO+xuTys4V6nR
-         Nmp3bGcTuRZOIP+n8tascYPr3ZZBs72LYArpLYilNOkEUcq/Y0KMAny+L11nUcPSmqOl
-         +DoeWdQGuROUjS4noksrVt7oNB950jWvMIbFqtn2ifkqLROERuby+t+LWzOX+a5jqazh
-         3pPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702109874; x=1702714674;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vw90yWCuaFmFuU5ynluaqiB/yx3h4VMDt+wN5n9OLZo=;
-        b=FiirOgqac7w/5p182w4onO4gLHGHIDOo7HLNW96NJkFOcnyI+30n4jm7+vPDjDXPiF
-         o37ePyG5XeGpK4yKMZn/gp8BudkFDrNsP/Z2MkT0DlQrg4w4NyjaimDMvUzlvmhFnUYW
-         /gg0IUGc10of5HNKZAytsHT3mZcC/Z6MtCBQrt9iGntOdKgaXA1p+7f1SiHbsng1rtnv
-         SH95B+JlKedCoTTuvSHndFYlsTKzXv37MupmH/Z83US48Sbg356eoUhx8hVMjWpvVgaV
-         JNYS4nL11zYgCjlDokvh0/Xw2Oaidc5a1FcndI3K9U4zcSKJjoN1BQ30RTqwipMOMzNG
-         gXzA==
-X-Gm-Message-State: AOJu0YzSs+bhVcKJo0ZUOcAjEjSbCtGI+jusaUd/XPHJFfY/mxgABjsV
-	ZTITDdvP40cBKcwPoyU/HFc=
-X-Google-Smtp-Source: AGHT+IH+cfKMv3xgzol2WOJ5lHJEvCMIaTKT9Wtn+aUdjQMts0DLGgqa340rZK08kW9nmq1E578iKQ==
-X-Received: by 2002:a05:6e02:16cb:b0:35d:9344:b033 with SMTP id 11-20020a056e0216cb00b0035d9344b033mr1454323ilx.12.1702109874647;
-        Sat, 09 Dec 2023 00:17:54 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id k10-20020a170902694a00b001d1c96a0c63sm2863886plt.274.2023.12.09.00.17.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Dec 2023 00:17:54 -0800 (PST)
-Message-ID: <9573bd00-7b9e-40d0-9229-f273bf4e6a16@gmail.com>
-Date: Sat, 9 Dec 2023 15:17:29 +0700
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1702113792; x=1733649792;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=lpm2Ec+ZtdRX2kOQhYV7jvujbxIe5cPFY0JvY5kUk9c=;
+  b=Lgp4zW9vPqnWu+5BgIrNkexul6HCw3nsFWnHsU4/F+1GH8WnLYuP1Ue6
+   FJVbF9P1wPl8IogmL1Aih+DGe0a3e8h868rIjebeCVhIBSmcYoI8BBbtn
+   3H87a3Ob/yoAmprw5lNVo3g4QF58nRLhC7eKbHqrIxpbm9xm6jNPQP7L4
+   0=;
+X-IronPort-AV: E=Sophos;i="6.04,262,1695686400"; 
+   d="scan'208";a="620750035"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-a65ebc6e.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-52005.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 09:23:10 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan3.iad.amazon.com [10.32.235.38])
+	by email-inbound-relay-iad-1e-m6i4x-a65ebc6e.us-east-1.amazon.com (Postfix) with ESMTPS id 08E546967A;
+	Sat,  9 Dec 2023 09:23:08 +0000 (UTC)
+Received: from EX19MTAUWC002.ant.amazon.com [10.0.7.35:36158]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.41.194:2525] with esmtp (Farcaster)
+ id 40036f68-c748-404a-9e97-d8ad31b4c886; Sat, 9 Dec 2023 09:23:08 +0000 (UTC)
+X-Farcaster-Flow-ID: 40036f68-c748-404a-9e97-d8ad31b4c886
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Sat, 9 Dec 2023 09:23:08 +0000
+Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
+ (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sat, 9 Dec
+ 2023 09:23:06 +0000
+Message-ID: <b32fe3b6-9123-4c20-864b-5282c8dea567@amazon.com>
+Date: Sat, 9 Dec 2023 10:23:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,55 +41,90 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: xfs: consolidate XFS docs into its own
- subdirectory
+Subject: Re: [PATCH v3] initramfs: Expose retained initrd as sysfs file
 Content-Language: en-US
-To: Chandan Babu R <chandan.babu@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, "Darrick J. Wong" <djwong@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux XFS <linux-xfs@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- Namjae Jeon <linkinjeon@kernel.org>, Dave Chinner <dchinner@redhat.com>,
- Steve French <stfrench@microsoft.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Allison Henderson <allison.henderson@oracle.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Charles Han <hanchunchao@inspur.com>,
- Vegard Nossum <vegard.nossum@oracle.com>
-References: <20231129123947.4706-1-bagasdotme@gmail.com>
- <ZXP6kzbfUcLbBtCi@archie.me>
- <874jgryf8d.fsf@debian-BULLSEYE-live-builder-AMD64>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <874jgryf8d.fsf@debian-BULLSEYE-live-builder-AMD64>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>
+CC: Linux Documentation <linux-doc@vger.kernel.org>, Andrew Morton
+	<akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	=?UTF-8?Q?Jan_H=2E_Sch=C3=B6nherr?= <jschoenh@amazon.de>, James Gowans
+	<jgowans@amazon.com>
+References: <20231207235654.16622-1-graf@amazon.com>
+ <ZXPkL1jyXwGH11gJ@archie.me>
+From: Alexander Graf <graf@amazon.com>
+In-Reply-To: <ZXPkL1jyXwGH11gJ@archie.me>
+X-ClientProxiedBy: EX19D033UWA002.ant.amazon.com (10.13.139.10) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 
-On 12/9/23 15:00, Chandan Babu R wrote:
-> On Sat, Dec 09, 2023 at 12:26:43 PM +0700, Bagas Sanjaya wrote:
->> [[PGP Signed Part:No public key for F6B9894955514EA3 created at 2023-12-09T10:56:39+0530 using EDDSA]]
->> On Wed, Nov 29, 2023 at 07:39:47PM +0700, Bagas Sanjaya wrote:
->>> XFS docs are currently in upper-level Documentation/filesystems.
->>> Although these are currently 4 docs, they are already outstanding as
->>> a group and can be moved to its own subdirectory.
->>>
->>> Consolidate them into Documentation/filesystems/xfs/.
->>>
->>> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
->>
->> Hi Jon, Chandan, and Darrick,
->>
->> FYI, XFS tree [1] is not updated since 2 weeks ago (and this patch doesn't get
->> picked up). Would you like to route this patch through docs-next tree or
->> xfs/for-next?
->>
-> 
-> This patch is part of a collection of patches that I am planning to include in
-> the pull request for v6.8-rc1. I am currently running fstests to make sure
-> that there are no regressions.
-> 
-
-OK, thanks!
-
--- 
-An old man doll... just what I always wanted! - Clara
+Ck9uIDA5LjEyLjIzIDA0OjUxLCBCYWdhcyBTYW5qYXlhIHdyb3RlOgo+IE9uIFRodSwgRGVjIDA3
+LCAyMDIzIGF0IDExOjU2OjU0UE0gKzAwMDAsIEFsZXhhbmRlciBHcmFmIHdyb3RlOgo+PiBXaGVu
+IHRoZSBrZXJuZWwgY29tbWFuZCBsaW5lIG9wdGlvbiAicmV0YWluX2luaXRyZCIgaXMgc2V0LCB3
+ZSBkbyBub3QKPj4gZnJlZSB0aGUgaW5pdHJkIG1lbW9yeS4gSG93ZXZlciwgd2UgYWxzbyBkb24n
+dCBleHBvc2UgaXQgdG8gYW55b25lIGZvcgo+PiBjb25zdW1wdGlvbi4gVGhhdCBsZWF2ZXMgdXMg
+aW4gYSB3ZWlyZCBzaXR1YXRpb24gd2hlcmUgdGhlIG9ubHkgdXNlciBvZgo+PiB0aGlzIGZlYXR1
+cmUgaXMgcHBjNjQgYW5kIGFybTY0IHNwZWNpZmljIGtleGVjIHRvb2xpbmcuCj4+Cj4+IFRvIG1h
+a2UgaXQgbW9yZSBnZW5lcmFsbHkgdXNlZnVsLCB0aGlzIHBhdGNoIGFkZHMgYSBrb2JqZWN0IHRv
+IHRoZQo+PiBmaXJtd2FyZSBvYmplY3QgdGhhdCBjb250YWlucyB0aGUgaW5pdHJkIGNvbnRleHQg
+d2hlbiAicmV0YWluX2luaXRyZCIKPj4gaXMgc2V0LiBUaGF0IHdheSwgd2UgY2FuIGFjY2VzcyB0
+aGUgaW5pdHJkIGFueSB0aW1lIGFmdGVyIGJvb3QgZnJvbQo+PiB1c2VyIHNwYWNlIGFuZCBmb3Ig
+ZXhhbXBsZSBoYW5kIGl0IGludG8ga2V4ZWMgYXMgLS1pbml0cmQgcGFyYW1ldGVyCj4+IGlmIHdl
+IHdhbnQgdG8gcmVib290IHRoZSBzYW1lIGluaXRyZC4gT3IgaW5zcGVjdCBpdCBkaXJlY3RseSBs
+b2NhbGx5Lgo+Pgo+PiBXaXRoIHRoaXMgcGF0Y2ggYXBwbGllZCwgdGhlcmUgaXMgYSBuZXcgL3N5
+cy9maXJtd2FyZS9pbml0cmQgZmlsZSB3aGVuCj4+IHRoZSBrZXJuZWwgd2FzIGJvb3RlZCB3aXRo
+IGFuIGluaXRyZCBhbmQgInJldGFpbl9pbml0cmQiIGNvbW1hbmQgbGluZQo+PiBvcHRpb24gaXMg
+c2V0Lgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgR3JhZiA8Z3JhZkBhbWF6b24uY29t
+Pgo+PiBUZXN0ZWQtYnk6IEJhZ2FzIFNhbmpheWEgPGJhZ2FzZG90bWVAZ21haWwuY29tPgo+Pgo+
+PiAtLS0KPj4KPj4gdjEgLT4gdjI6Cj4+Cj4+ICAgIC0gUmV3b3JkIGNvbW1pdCBtZXNzYWdlIHRv
+IGV4cGxhaW4gdGhlIG5ldyBmaWxlIHBhdGgKPj4gICAgLSBBZGQgYSBEb2N1bWVudGF0aW9uL0FC
+SS90ZXN0aW5nL3N5c2ZzLWZpcm13YXJlLWluaXRyZCBmaWxlCj4+Cj4+IHYyIC0+IHYzOgo+Pgo+
+PiAgICAtIE9ubHkgZXhwb3NlIGZpbGUgd2hlbiBpbml0cmQgaXMgcHJlc2VudCAoSmFtZXMgR293
+YW5zKQo+PiAtLS0KPj4gICAuLi4vQUJJL3Rlc3Rpbmcvc3lzZnMtZmlybXdhcmUtaW5pdHJkICAg
+ICAgICAgIHwgIDggKysrKysrKysKPj4gICAuLi4vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRl
+cnMudHh0ICAgICAgICAgIHwgIDUgKysrLS0KPj4gICBpbml0L2luaXRyYW1mcy5jICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgMTggKysrKysrKysrKysrKysrKystCj4+ICAgMyBmaWxl
+cyBjaGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+PiAgIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5nL3N5c2ZzLWZpcm13YXJlLWluaXRy
+ZAo+Pgo+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9BQkkvdGVzdGluZy9zeXNmcy1maXJt
+d2FyZS1pbml0cmQgYi9Eb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5nL3N5c2ZzLWZpcm13YXJlLWlu
+aXRyZAo+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjIwYmY3
+Y2Y3N2ExOQo+PiAtLS0gL2Rldi9udWxsCj4+ICsrKyBiL0RvY3VtZW50YXRpb24vQUJJL3Rlc3Rp
+bmcvc3lzZnMtZmlybXdhcmUtaW5pdHJkCj4+IEBAIC0wLDAgKzEsOCBAQAo+PiArV2hhdDoJCS9z
+eXMvZmlybXdhcmUvaW5pdHJkCj4+ICtEYXRlOgkJRGVjZW1iZXIgMjAyMwo+PiArQ29udGFjdDoJ
+QWxleGFuZGVyIEdyYWYgPGdyYWZAYW1hem9uLmNvbT4KPj4gK0Rlc2NyaXB0aW9uOgo+PiArCQlX
+aGVuIHRoZSBrZXJuZWwgd2FzIGJvb3RlZCB3aXRoIGFuIGluaXRyZCBhbmQgdGhlCj4+ICsJCSJy
+ZXRhaW5faW5pdHJkIiBvcHRpb24gaXMgc2V0IG9uIHRoZSBrZXJuZWwgY29tbWFuZAo+PiArCQls
+aW5lLCAvc3lzL2Zpcm13YXJlL2luaXRyZCBjb250YWlucyB0aGUgY29udGVudHMgb2YgdGhlCj4+
+ICsJCWluaXRyZCB0aGF0IHRoZSBrZXJuZWwgd2FzIGJvb3RlZCB3aXRoLgo+PiBkaWZmIC0tZ2l0
+IGEvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQgYi9Eb2N1
+bWVudGF0aW9uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dAo+PiBpbmRleCA2NTcz
+MWIwNjBlM2YuLjUxNTc1Y2QzMTc0MSAxMDA2NDQKPj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9hZG1p
+bi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQKPj4gKysrIGIvRG9jdW1lbnRhdGlvbi9hZG1p
+bi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQKPj4gQEAgLTI0MzgsNyArMjQzOCw3IEBACj4+
+ICAgCQkJYmV0d2VlbiB1bnJlZ2lzdGVyaW5nIHRoZSBib290IGNvbnNvbGUgYW5kIGluaXRpYWxp
+emluZwo+PiAgIAkJCXRoZSByZWFsIGNvbnNvbGUuCj4+ICAgCj4+IC0Ja2VlcGluaXRyZAlbSFcs
+QVJNXQo+PiArCWtlZXBpbml0cmQJW0hXLEFSTV0gU2VlIHJldGFpbl9pbml0cmQuCj4+ICAgCj4+
+ICAgCWtlcm5lbGNvcmU9CVtLTkwsWDg2LElBLTY0LFBQQ10KPj4gICAJCQlGb3JtYXQ6IG5uW0tN
+R1RQRV0gfCBubiUgfCAibWlycm9yIgo+PiBAQCAtNTU4MCw3ICs1NTgwLDggQEAKPj4gICAJCQlV
+c2VmdWwgZm9yIGRldmljZXMgdGhhdCBhcmUgZGV0ZWN0ZWQgYXN5bmNocm9ub3VzbHkKPj4gICAJ
+CQkoZS5nLiBVU0IgYW5kIE1NQyBkZXZpY2VzKS4KPj4gICAKPj4gLQlyZXRhaW5faW5pdHJkCVtS
+QU1dIEtlZXAgaW5pdHJkIG1lbW9yeSBhZnRlciBleHRyYWN0aW9uCj4+ICsJcmV0YWluX2luaXRy
+ZAlbUkFNXSBLZWVwIGluaXRyZCBtZW1vcnkgYWZ0ZXIgZXh0cmFjdGlvbi4gQWZ0ZXIgYm9vdCwg
+aXQgd2lsbAo+PiArCQkJYmUgYWNjZXNzaWJsZSB2aWEgL3N5cy9maXJtd2FyZS9pbml0cmQuCj4+
+ICAgCj4+ICAgCXJldGJsZWVkPQlbWDg2XSBDb250cm9sIG1pdGlnYXRpb24gb2YgUkVUQmxlZWQg
+KEFyYml0cmFyeQo+PiAgIAkJCVNwZWN1bGF0aXZlIENvZGUgRXhlY3V0aW9uIHdpdGggUmV0dXJu
+IEluc3RydWN0aW9ucykKPiBZb3UgbWF5IHdhbnQgdG8gYWRqdXN0IGRvY3VtZW50YXRpb24gdG8g
+YWRkcmVzcyBteSB0ZXN0aW5nIFsxXS4gSW4gc3VtbWFyeSwKPiBvbmx5IHRoZSBmaXJzdCBpbml0
+cmQgYmxvYiB0aGF0IHdhcyBwYXNzZWQgdG8gdGhlIGtlcm5lbCB3aWxsIGJlIGV4cG9zZWQKPiBp
+biAvc3lzL2Zpcm13YXJlL2luaXRyZC4KCgogRnJvbSB0aGUga2VybmVsJ3MgcG9pbnQgb2Ygdmll
+dywgdGhlcmUgaXMgb25seSBhIHNpbmdsZSBpbml0cmQgYmluYXJ5IAo6KS4gV2hldGhlciB5b3Vy
+IGJvb3QgbG9hZGVyIGNvbmNhdGVuYXRlcyBtdWx0aXBsZSBhcmNoaXZlcyB0byBjcmVhdGUgCnRo
+YXQgc2luZ2xlIG9uZSBvdXQgb2YgbXVsdGlwbGUgaW5kaXZpZHVhbCBmaWxlcyBpcyBhIGJvb3Qg
+bG9hZGVyIAppbXBsZW1lbnRhdGlvbiBkZXRhaWwuCgpBbGV4CgoKCgoKQW1hem9uIERldmVsb3Bt
+ZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAxMTcgQmVybGluCkdlc2No
+YWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MKRWluZ2V0
+cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3MyBCClNp
+dHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
 
