@@ -1,79 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gNMJw0Mo"
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA2F171F;
+	Fri,  8 Dec 2023 16:15:44 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9970D622
-	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 00:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arQKWW0X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E5C1C433CC
-	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 00:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702080624;
-	bh=/Qd28qU1g2yFEdsp9oZ9RTK5j/CkVtLWfnrYw6TNGj8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=arQKWW0Xght4tVmWubvLmZ0/ug1w2OA6AOoxvtcZChqOQ40oE69Amlwx129XAtXXI
-	 YousS0uGwx2Qx5yIfciZjxIuqmYtqRqvPWeNL75CcV+/bPIlfh/5PmZWTSsnkC8TuD
-	 VZdYjptuGdnuTMYdpg3cio0Du2sL7tI5/ufJUrj7zBvGh8JgY4zUXYdSpOFswNNFt3
-	 MlAB/nzi0mtk8ZsqCl5otmER1XnoP0idbx93zhaog/YVMoAgKTznaAxIBroiqU++MP
-	 AS46vr1/rTLIWyzpaoo72j1x2ehWSdLgNB3HvoD0i9112wsNO5eaHIhy8/JQqoJGUj
-	 PCPeUHKJtTgUw==
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7b3b78e6729so116969939f.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 Dec 2023 16:10:24 -0800 (PST)
-X-Gm-Message-State: AOJu0YzRRbmyIOyWt+9htEP3/unGgxMOOs8WiG3MYHK1zvTNGVz+5iVP
-	dLXEavt6DNM+8ex3rLap5iliyOMT8NdGyNGyZR3JdQ==
-X-Google-Smtp-Source: AGHT+IEYanmJJoWkVANumIUyBx+OGbV82E6jJc+vDfUEfLnIWaO7PYxpB1AkcvdAEM9L0SFnAgCCql0eYfg2GAui5DU=
-X-Received: by 2002:a17:90b:1c11:b0:288:4719:75c3 with SMTP id
- oc17-20020a17090b1c1100b00288471975c3mr676015pjb.45.1702080602635; Fri, 08
- Dec 2023 16:10:02 -0800 (PST)
+	by ms.lwn.net (Postfix) with ESMTPSA id 81D1E5CC;
+	Sat,  9 Dec 2023 00:15:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 81D1E5CC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1702080944; bh=G+BZb1YJhO7EnX9yCvRFq6Nfa15LkoN+WflbTEHxZlw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=gNMJw0Mo1k6tb71Yy0jKIGRdcqpmxO01J9dVgeRtVqlGMWTxoYtdUH5GRlG+jYCHJ
+	 vSKmBc2nnDqxAMRTbpcUwl6eYuRb4/0Yn5p1623oYEVHYyHex6xWZklndA78aZOjiW
+	 3JTHpDp8s7vhM0HTW+2pc7y9gc1eTkR9kyUq4vbMdyzBhvIBw2m0UGL8wW9RsX5FYH
+	 I/RhB4Dgkhyoa/neGO6EJXc2NOXTil3BM2HJDd09UW+aw/Jxc0J1EIwgSGKeUnFry0
+	 4CfSSj7DdLi3aPq4vImjYBR4cgRw4HKLVmoi5/0VIPIGvCWj6ct0HGhqzAB/uAHoq/
+	 gA0B7rNAZOPIg==
+From: Jonathan Corbet <corbet@lwn.net>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH RFC] Rework the top-level process page
+Date: Fri, 08 Dec 2023 17:15:43 -0700
+Message-ID: <87msuk2pu8.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
- <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com> <CAJD7tkaHaji=0sVobJKajc4hOmOui2U+bZK+1DQ6gbAsQgGLRw@mail.gmail.com>
-In-Reply-To: <CAJD7tkaHaji=0sVobJKajc4hOmOui2U+bZK+1DQ6gbAsQgGLRw@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Fri, 8 Dec 2023 16:09:51 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuMt7_6_8JTNA5UJkhy3Drw6=802wbwXbvUn+hafmsFA7Q@mail.gmail.com>
-Message-ID: <CAF8kJuMt7_6_8JTNA5UJkhy3Drw6=802wbwXbvUn+hafmsFA7Q@mail.gmail.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
-	lizefan.x@bytedance.com, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, david@ixit.cz
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi Yosry,
+The process book is arguably the most important documentation we have; the
+top three trafficked pages on docs.kernel.org are found here.  Make a
+beginning effort to impose a more useful organization on this page to ease
+developers into the community.
+---
+This is a version of the reworked page I showed briefly during the
+kernel-summit documentation session.  Perhaps more useful than the patch
+itself is the rendered version of the page, which can be seen at:
 
-On Thu, Dec 7, 2023 at 5:12=E2=80=AFPM Yosry Ahmed <yosryahmed@google.com> =
-wrote:
-> > I briefly summarized my recent discussion with Johannes here:
-> >
-> > https://lore.kernel.org/all/CAKEwX=3DNwGGRAtXoNPfq63YnNLBCF0ZDOdLVRsvzU=
-mYhK4jxzHA@mail.gmail.com/
-> >
-> > TL;DR is we acknowledge the potential usefulness of swap.tiers
-> > interface, but the use case is not quite there yet, so it does not
-> > make too much sense to build up that heavy machinery now.
-> > zswap.writeback is a more urgent need, and does not prevent swap.tiers
-> > if we do decide to implement it.
->
-> I am honestly not convinced by this. There is no heavy machinery here.
-> The interface is more generic and extensible, but the implementation
-> is roughly the same. Unless we have a reason to think a swap.tiers
-> interface may make it difficult to extend this later or will not
-> support some use cases, I think we should go ahead with it. If we are
-> worried that "tiers" may not accurately describe future use cases, we
-> can be more generic and call it swap.types or something.
->
-+100.
+  https://static.lwn.net/kerneldoc/process/index.html
 
-Chris
+There is a lot to do to turn this book into a coherent set of
+documentation, but this seems like a plausible step in that direction.
+
+ Documentation/process/index.rst | 84 ++++++++++++++++++++++++---------
+ 1 file changed, 63 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index a1daa309b58d..0751c8c05023 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -15,49 +15,96 @@ to learn about how our community works.  Reading these documents will make
+ it much easier for you to get your changes merged with a minimum of
+ trouble.
+ 
+-Below are the essential guides that every developer should read.
++An introduction to how kernel development works
++-----------------------------------------------
++
++Read these documents first: an understanding of the material here will ease
++your entry into the kernel community.
+ 
+ .. toctree::
+    :maxdepth: 1
+ 
+-   license-rules
+    howto
+-   code-of-conduct
+-   code-of-conduct-interpretation
+    development-process
+    submitting-patches
+-   handling-regressions
++   submit-checklist
++
++Tools and technical guides for kernel developers
++------------------------------------------------
++
++This is a collection of material that kernel developers should be familiar
++with. 
++
++.. toctree::
++   :maxdepth: 1
++
++   changes
+    programming-language
+    coding-style
+-   maintainer-handbooks
+    maintainer-pgp-guide
+    email-clients
++   applying-patches
++   backporting
++   adding-syscalls
++   volatile-considered-harmful
++   botching-up-ioctls
++
++Policy guides and developer statements
++--------------------------------------
++
++These are the rules that we try to live by in the kernel community (and
++beyond).
++
++.. toctree::
++   :maxdepth: 1
++
++   license-rules
++   code-of-conduct
++   code-of-conduct-interpretation
++   contribution-maturity-model
+    kernel-enforcement-statement
+    kernel-driver-statement
++   stable-api-nonsense
++   stable-kernel-rules
++   management-style
++   researcher-guidelines
+ 
+-For security issues, see:
++Dealing with bugs
++-----------------
++
++Bugs are a fact of life; it is important that we handle them properly.
++The documents below describe our policies around the handling of a couple
++of special classes of bugs: regressions and security problems.
+ 
+ .. toctree::
+    :maxdepth: 1
+ 
++   handling-regressions
+    security-bugs
+    embargoed-hardware-issues
+ 
+-Other guides to the community that are of interest to most developers are:
++Maintainer information
++----------------------
++
++How to find the people who will accept your patches.
++
++.. toctree::
++   :maxdepth: 1
++
++   maintainer-handbooks
++   maintainers
++
++Other material
++--------------
++
++Here are some other guides to the community that are of interest to most
++developers are:
+ 
+ .. toctree::
+    :maxdepth: 1
+ 
+-   changes
+-   stable-api-nonsense
+-   management-style
+-   stable-kernel-rules
+-   submit-checklist
+    kernel-docs
+    deprecated
+-   maintainers
+-   researcher-guidelines
+-   contribution-maturity-model
+ 
+ These are some overall technical guides that have been put here for now for
+ lack of a better place.
+@@ -65,12 +112,7 @@ lack of a better place.
+ .. toctree::
+    :maxdepth: 1
+ 
+-   applying-patches
+-   backporting
+-   adding-syscalls
+    magic-number
+-   volatile-considered-harmful
+-   botching-up-ioctls
+    clang-format
+    ../arch/riscv/patch-acceptance
+    ../core-api/unaligned-memory-access
+-- 
+2.42.0
+
