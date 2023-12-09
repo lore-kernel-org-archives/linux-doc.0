@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mNcnR6xq"
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1799410E6;
-	Fri,  8 Dec 2023 19:44:51 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-5c21e185df5so2334731a12.1;
-        Fri, 08 Dec 2023 19:44:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CaNuCSAi"
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D24B10D7;
+	Fri,  8 Dec 2023 19:51:16 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1cfb30ce241so24455585ad.0;
+        Fri, 08 Dec 2023 19:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702093490; x=1702698290; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702093876; x=1702698676; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CCZE7SzFJ+E9PoYCMO1v9KaDTbP1QB2IF1PQTRe+p5A=;
-        b=mNcnR6xqhcCVaDpOJSqpr1gv9Dsd+HXhFEjwA1F1OU/n/k4GXn4cJrtygejYlsNZ7i
-         lLBi+2mlEQkzSA3LsqxQGezXXifCrc/85Wj6+sjqZ+FbaP9e2M8QzDsFVU8NoqquVfsX
-         n7j8D+4t/pHJaBMIvMC7kmTMIZbAn4MZALE9ZVFwJt6DSbihy3pT2Yyw3cgfP33nxOpB
-         kW+CE33Ygtqg3r92kCmJvjlvl7RSN8r4fZMD/IX0F0Is4YlrLHCp3hSfss8RlSCw0iMf
-         lXu1i8K7Q0QlxXXyUCdXAqo5ppZmWiXcloVuJC0aIMgASKo0hCknUHmKWpCbjpFp4EHD
-         LnrQ==
+        bh=WO8EnlAvYoab/qWcCpLZUGAlqCqd0Kozwq+LnU4Q2sM=;
+        b=CaNuCSAiWc+v58FsmYyWA6OvUhPp1/FxU4qB1A3WHdoy03FwKX58zAlo1MqjFEiuS6
+         zkxKDR30IijQL5Zqnw81tr9yjjwB8rmbSToAP4GYktGx7LrOy/T3NF7q93/4rBExav6w
+         /WwKuUYvF6NEe6smbFiCTfU7rDUj4v0jgZggQ+/BsVGTnuRkGt9Cid8Sa5kqfZWv457M
+         Bc5qGkk3uqF3rBaXHch05fkn1npWk0s+rBWz4l2Vsa5mW8EnROnW2ur/0DBP/p88OC7+
+         CR5mOIgVrqgFes3OuE6mbb5QyBTOFmep2hca3ld4XtI21dqgJsHAhAMTsAr7VKbQRDhL
+         EbZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702093490; x=1702698290;
+        d=1e100.net; s=20230601; t=1702093876; x=1702698676;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CCZE7SzFJ+E9PoYCMO1v9KaDTbP1QB2IF1PQTRe+p5A=;
-        b=Ld4jBhqS/1wjv3IAHUIJSkdTgX9XbN8y0qI3HUOtIlo9xj0srGVqfyfzc2OL9uGO6C
-         4jFDGnCGFGUkx/lelJdjBhmmE7jUp6piJb0ecJlKF5MZXXCSgJw8p2Caei76GXJU/Dz8
-         NdAz+kwa82gQQ2W8MfbEvZFzQkOFY1M/9Oq5DU1yt+ZbfOx7q84IMhTV7Nwot6axNWVk
-         zfPwdBowl+sFad+HGRqE+rS+04q/blrLdFP37I13elJV7YilKbAqHzNcXLtLS3373JYo
-         f0xIDb4Oop+Ud8ruTK54+azbCxvsio8u74ExHCTKGGSWfp1/PFZBRePMXz3Op4PU/uEe
-         NIgg==
-X-Gm-Message-State: AOJu0YysWrzFkkx9pzIHaD+aPrLBD9X8rKYVfe6fIGJAKAU5lGi8Ku16
-	jFAHBJ0gsvwkPksd6gqyl0o=
-X-Google-Smtp-Source: AGHT+IFJnoJ5OP9o0L4RyOunrxsffxNyjlr4z+xHc/ojxybr21CalbOHload/ZeP0TH7/HqUoz72AA==
-X-Received: by 2002:a05:6a21:328b:b0:18c:ad4d:3469 with SMTP id yt11-20020a056a21328b00b0018cad4d3469mr1451440pzb.53.1702093490469;
-        Fri, 08 Dec 2023 19:44:50 -0800 (PST)
+        bh=WO8EnlAvYoab/qWcCpLZUGAlqCqd0Kozwq+LnU4Q2sM=;
+        b=WMJQ7u6Lksu7D+tsbI1cxDniOEb98NnlJRmSIz5EL6yEV2JA6UKAV4/1Wg7y9ZOEYo
+         WwJxm3XWIvEUjfrIEIiIdNbuMWxtt+5p2fSefg8fJm80wkA7vHy3iRpF4Z5yeyt83p6M
+         hgcdA0SbqfPEIT9d7MjcxSaL66ZIUl2TDb5uS98ndO97QUuQ8tkYPXOASwvndS1l0kL9
+         kruO7SLmthjJbPduRGKeek4w7k4Z6siIKDxoYA9I3P9pFWIfvW7GwuWa42n2NKCffanx
+         6TJTljqRd6aYnaDRjzjQexgG5phNpfxBGc/luHxf0OVgwnGrDzvJaPjTWKMfREyrvlzs
+         KREw==
+X-Gm-Message-State: AOJu0YyP19azAKjQMEnGBur9pE8g3VMnUvBpNeyVTQ+ZTsGCR+JTtPaD
+	ke3nCjCIfbg991ovOqLhFYU=
+X-Google-Smtp-Source: AGHT+IGuWuhSktyQmxa4f8CGiYcPGAeiBClMm6X2q+TfV7tyTdyUQBY++cFn6OyVz5zhgY7ErgKJNA==
+X-Received: by 2002:a17:902:c942:b0:1d0:7c2a:581a with SMTP id i2-20020a170902c94200b001d07c2a581amr1055748pla.104.1702093875832;
+        Fri, 08 Dec 2023 19:51:15 -0800 (PST)
 Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id t14-20020a63eb0e000000b005ac384b71cbsm2291065pgh.60.2023.12.08.19.44.49
+        by smtp.gmail.com with ESMTPSA id ge13-20020a17090b0e0d00b00286816715ccsm4100353pjb.54.2023.12.08.19.51.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 19:44:49 -0800 (PST)
+        Fri, 08 Dec 2023 19:51:15 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 9332E10211A57; Sat,  9 Dec 2023 10:44:45 +0700 (WIB)
-Date: Sat, 9 Dec 2023 10:44:45 +0700
+	id 1125210211A57; Sat,  9 Dec 2023 10:51:11 +0700 (WIB)
+Date: Sat, 9 Dec 2023 10:51:11 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Alexander Graf <graf@amazon.com>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
@@ -47,13 +47,11 @@ Cc: Linux Documentation <linux-doc@vger.kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jan =?utf-8?Q?H=2E_Sch=C3=B6nherr?= <jschoenh@amazon.de>,
+	Jan H =?utf-8?B?LiBTY2jDtm5oZXJy?= <jschoenh@amazon.de>,
 	James Gowans <jgowans@amazon.com>
-Subject: Re: [PATCH v2] initramfs: Expose retained initrd as sysfs file
-Message-ID: <ZXPiregue0FkxDEs@archie.me>
-References: <20231206213323.78233-1-graf@amazon.com>
- <ZXG8nEEMqorxeM3E@archie.me>
- <2a86a7f2-bbf3-43fb-82b9-40d3397d5578@amazon.com>
+Subject: Re: [PATCH v3] initramfs: Expose retained initrd as sysfs file
+Message-ID: <ZXPkL1jyXwGH11gJ@archie.me>
+References: <20231207235654.16622-1-graf@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,65 +59,114 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kzQn8eZ18UIMUIWi"
+	protocol="application/pgp-signature"; boundary="FEeb2quylvE884eW"
 Content-Disposition: inline
-In-Reply-To: <2a86a7f2-bbf3-43fb-82b9-40d3397d5578@amazon.com>
+In-Reply-To: <20231207235654.16622-1-graf@amazon.com>
 
 
---kzQn8eZ18UIMUIWi
+--FEeb2quylvE884eW
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 08, 2023 at 12:54:18AM +0100, Alexander Graf wrote:
-> Hi Bagas,
+On Thu, Dec 07, 2023 at 11:56:54PM +0000, Alexander Graf wrote:
+> When the kernel command line option "retain_initrd" is set, we do not
+> free the initrd memory. However, we also don't expose it to anyone for
+> consumption. That leaves us in a weird situation where the only user of
+> this feature is ppc64 and arm64 specific kexec tooling.
 >=20
-> On 07.12.23 13:37, Bagas Sanjaya wrote:
-> > On my Arch Linux system, /sys/firmware/initrd is not same as initramfs =
-image
-> > from /boot partition that is uncompressed. `ls -l` listing shows
-> > (with /tmp/initramfs-boot is unzstd'ed initramfs of the same kernel boo=
-ted):
-> >=20
-> > ```
-> > -r--r----- 1 root root 22967535 Dec  7 19:32 /sys/firmware/initrd
-> > -rw------- 1 root root 40960000 Dec  7 19:26 /tmp/initramfs-boot
-> > ```
-> >=20
-> > And thus, `cpio -i -v` listing differs. While in uncompressed initramfs,
-> > I got expected initramfs contents (early userpace for booting), doing t=
-he same
-> > to /sys/firmware/initrd only shows Intel microcode.
-> >=20
-> > Regardless, exposing initramfs as advertised in the patch description w=
-orks for
-> > me.
+> To make it more generally useful, this patch adds a kobject to the
+> firmware object that contains the initrd context when "retain_initrd"
+> is set. That way, we can access the initrd any time after boot from
+> user space and for example hand it into kexec as --initrd parameter
+> if we want to reboot the same initrd. Or inspect it directly locally.
 >=20
+> With this patch applied, there is a new /sys/firmware/initrd file when
+> the kernel was booted with an initrd and "retain_initrd" command line
+> option is set.
 >=20
-> Thanks a bunch for testing the patch!
+> Signed-off-by: Alexander Graf <graf@amazon.com>
+> Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 >=20
-> The reason you're seeing microcode is that something in your boot chain
-> (grub maybe? sd-boot?) sends multiple initrd blobs to Linux: One that
-> contains microcode and another that contains the real initrd. Linux
-> continues extracting past the first cpio archive.
+> ---
 >=20
+> v1 -> v2:
+>=20
+>   - Reword commit message to explain the new file path
+>   - Add a Documentation/ABI/testing/sysfs-firmware-initrd file
+>=20
+> v2 -> v3:
+>=20
+>   - Only expose file when initrd is present (James Gowans)
+> ---
+>  .../ABI/testing/sysfs-firmware-initrd          |  8 ++++++++
+>  .../admin-guide/kernel-parameters.txt          |  5 +++--
+>  init/initramfs.c                               | 18 +++++++++++++++++-
+>  3 files changed, 28 insertions(+), 3 deletions(-)
+>  create mode 100644 Documentation/ABI/testing/sysfs-firmware-initrd
+>=20
+> diff --git a/Documentation/ABI/testing/sysfs-firmware-initrd b/Documentat=
+ion/ABI/testing/sysfs-firmware-initrd
+> new file mode 100644
+> index 000000000000..20bf7cf77a19
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-firmware-initrd
+> @@ -0,0 +1,8 @@
+> +What:		/sys/firmware/initrd
+> +Date:		December 2023
+> +Contact:	Alexander Graf <graf@amazon.com>
+> +Description:
+> +		When the kernel was booted with an initrd and the
+> +		"retain_initrd" option is set on the kernel command
+> +		line, /sys/firmware/initrd contains the contents of the
+> +		initrd that the kernel was booted with.
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index 65731b060e3f..51575cd31741 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2438,7 +2438,7 @@
+>  			between unregistering the boot console and initializing
+>  			the real console.
+> =20
+> -	keepinitrd	[HW,ARM]
+> +	keepinitrd	[HW,ARM] See retain_initrd.
+> =20
+>  	kernelcore=3D	[KNL,X86,IA-64,PPC]
+>  			Format: nn[KMGTPE] | nn% | "mirror"
+> @@ -5580,7 +5580,8 @@
+>  			Useful for devices that are detected asynchronously
+>  			(e.g. USB and MMC devices).
+> =20
+> -	retain_initrd	[RAM] Keep initrd memory after extraction
+> +	retain_initrd	[RAM] Keep initrd memory after extraction. After boot, it=
+ will
+> +			be accessible via /sys/firmware/initrd.
+> =20
+>  	retbleed=3D	[X86] Control mitigation of RETBleed (Arbitrary
+>  			Speculative Code Execution with Return Instructions)
 
-Yes, I use grub on my setup.
+You may want to adjust documentation to address my testing [1]. In summary,
+only the first initrd blob that was passed to the kernel will be exposed
+in /sys/firmware/initrd.
 
-Ciao!
+Thanks.
+
+[1]: https://lore.kernel.org/linux-doc/2a86a7f2-bbf3-43fb-82b9-40d3397d5578=
+@amazon.com/
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---kzQn8eZ18UIMUIWi
+--FEeb2quylvE884eW
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZXPiqAAKCRD2uYlJVVFO
-oynsAQC7FChpsaleO80bxpjwR1pE+W8E2XDPGkJkN90E2ibLBQD8CfRWfCLhx27V
-+pMyktVR4EzB5FZROQG5/iNQsrGdjAg=
-=CASx
+iHQEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZXPkLwAKCRD2uYlJVVFO
+o9Z1AQCrQWF83AwPizuC8FtE0SS3p1lFf+f38Wykxgk15JAF8gD4v/ytNV/onDNw
+N7yfBdbLcPzFteCaq5ja89PggYOIDw==
+=bnQr
 -----END PGP SIGNATURE-----
 
---kzQn8eZ18UIMUIWi--
+--FEeb2quylvE884eW--
