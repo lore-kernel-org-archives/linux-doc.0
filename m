@@ -1,87 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="NbLX2F/c"
-Received: from pv50p00im-hyfv10021501.me.com (pv50p00im-hyfv10021501.me.com [17.58.6.48])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B88751710
-	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 05:53:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-	t=1702129997; bh=C/CNUr2LNMn6Qo2xusn2tYrx0721oOslxNy000GbTmM=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=NbLX2F/cUDL44mi2SabkraD2VVk0hY3/rQGXB0k0Wvss5Rl3/TzCj3rrYn2EQbwSW
-	 FQ7gPhh95AINJgEs4XfJfywasGju3vyAlydBFrDe41RjZvk0ZoahwBhtPuiGNznmHl
-	 jhcxu3Nz44xIXu3D0og6FisvlzScDOozYJI0/52yW50wFS8n2lr7+LQSYJrga/uD4Y
-	 l6HvHiS5lt0fS+PLUa6tcFt8Tg4GrGsdrmbhDaYXwx2NjPbIvHknXaSNMZ1v2ZCrVr
-	 Qo4v7h12JT9DGYqaZLqFGEND+Q9Q+r7gOoRRvIHo0utE6b3NWWlhbltUmoHMgWNLu/
-	 RqlVNJzHrBdYg==
-Received: from xiongwei.. (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-hyfv10021501.me.com (Postfix) with ESMTPSA id 2C2122C0207;
-	Sat,  9 Dec 2023 13:53:10 +0000 (UTC)
-From: sxwjean@me.com
-To: vbabka@suse.cz,
-	42.hyeyoo@gmail.com,
-	cl@linux.com,
-	linux-mm@kvack.org
-Cc: penberg@kernel.org,
-	rientjes@google.com,
-	iamjoonsoo.kim@lge.com,
-	roman.gushchin@linux.dev,
-	corbet@lwn.net,
-	keescook@chromium.org,
-	arnd@arndb.de,
-	akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xiongwei Song <xiongwei.song@windriver.com>
-Subject: [PATCH v3 4/4] mm/slub: correct the default value of slub_min_objects in doc
-Date: Sat,  9 Dec 2023 21:52:03 +0800
-Message-Id: <20231209135203.303508-5-sxwjean@me.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231209135203.303508-1-sxwjean@me.com>
-References: <20231209135203.303508-1-sxwjean@me.com>
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57FF10C8
+	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 05:58:31 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rBxpy-0001ft-6E; Sat, 09 Dec 2023 14:57:46 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rBxpu-00Eecd-U0; Sat, 09 Dec 2023 14:57:42 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rBxpu-00H5EP-JG; Sat, 09 Dec 2023 14:57:42 +0100
+Date: Sat, 9 Dec 2023 14:57:42 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sean Young <sean@mess.org>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Gross <markgross@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v6 1/4] pwm: rename pwm_apply_state() to
+ pwm_apply_might_sleep()
+Message-ID: <20231209135742.3ieusuq3h3xlvjfn@pengutronix.de>
+References: <cover.1701248996.git.sean@mess.org>
+ <37090c1d8d8f42f1e12fa84942027d995189a99e.1701248996.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: SFeMuhdIpG0w4U9kk62gVDJSZEQihs1C
-X-Proofpoint-GUID: SFeMuhdIpG0w4U9kk62gVDJSZEQihs1C
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.572,17.11.64.514.0000000_definitions?=
- =?UTF-8?Q?=3D2022-06-21=5F01:2022-06-21=5F01,2020-02-14=5F11,2022-02-23?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0
- clxscore=1015 spamscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
- phishscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2312090120
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6j77aatd2k4sm7sp"
+Content-Disposition: inline
+In-Reply-To: <37090c1d8d8f42f1e12fa84942027d995189a99e.1701248996.git.sean@mess.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-From: Xiongwei Song <xiongwei.song@windriver.com>
 
-There is no a value assigned to slub_min_objects by default, it always
-is 0 that is initialized by compiler if no assigned value by command line.
-min_objects is calculated based on processor numbers in calculate_order().
-For more details, see commit 9b2cd506e5f2 ("slub: Calculate min_objects
-based on number of processors.")
+--6j77aatd2k4sm7sp
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
----
- Documentation/mm/slub.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Nov 29, 2023 at 09:13:34AM +0000, Sean Young wrote:
+> In order to introduce a pwm api which can be used from atomic context,
+> we will need two functions for applying pwm changes:
+>=20
+> 	int pwm_apply_might_sleep(struct pwm *, struct pwm_state *);
+> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
+>=20
+> This commit just deals with renaming pwm_apply_state(), a following
+> commit will introduce the pwm_apply_atomic() function.
+>=20
+> Acked-by: Hans de Goede <hdegoede@redhat.com>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Acked-by: Lee Jones <lee@kernel.org>
+> Signed-off-by: Sean Young <sean@mess.org>
 
-diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
-index 6579a55b7852..56b27f493ba7 100644
---- a/Documentation/mm/slub.rst
-+++ b/Documentation/mm/slub.rst
-@@ -150,7 +150,7 @@ list_lock once in a while to deal with partial slabs. That overhead is
- governed by the order of the allocation for each slab. The allocations
- can be influenced by kernel parameters:
- 
--.. slab_min_objects=x		(default 4)
-+.. slab_min_objects=x		(default 0)
- .. slab_min_order=x		(default 0)
- .. slab_max_order=x		(default 3 (PAGE_ALLOC_COSTLY_ORDER))
- 
--- 
-2.34.1
+Not a in-detail-review, but I just noticed again, that we have
 
+	K:      pwm_(config|apply_state|ops)
+
+in MAINTAINERS. That one needs adaption, too.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--6j77aatd2k4sm7sp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV0clUACgkQj4D7WH0S
+/k4sEAgArnTQxpu4ZXIskkdh9oxeabDQRo0TziQM0oZ+wnyobvwrkERaAWwUdg1V
+BTu5gKnbpp4QbALgpLCjFiCxxODMDE0zFXfZYpvHhZINc9zUPmHu3VvJmAh36php
+d+svsxVry/mTbk8WqHHdXLWRsgfuMTup2IcSecthS4EheqiiIB1/3J6zlV0hBEvt
+6MR1GepDyknFpPqf5O01Ya8gFZ2lcjJhXLINaH6vtZe+SF9f2ENGsiwPScjzPhY7
+Nkojtd82SQdG1VgWLyGe/JHV9MoZQh60GN3/DIsdSRdcDdAVKOvl9ATY87+CM4Le
+/qSreDunw+R0VYm9mVeyI7sETi446w==
+=Wzva
+-----END PGP SIGNATURE-----
+
+--6j77aatd2k4sm7sp--
