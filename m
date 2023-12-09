@@ -1,199 +1,225 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73E710C9;
-	Sat,  9 Dec 2023 08:31:17 -0800 (PST)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5d7a47d06eeso29556207b3.1;
-        Sat, 09 Dec 2023 08:31:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702139476; x=1702744276;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U39lWSDPg+0DYbB9pP+NhpXAadyQEt+SNRQFJQQg5DE=;
-        b=SWAPg+ezyWdqecaewoMy9cQguXOMP+wRs8Is7or8KioI8A1PLvfTyl/EF8T5oNKyhY
-         QabSqAQ8kw+Z+dsS7K1X4unlrWBuxjMy+356CnHQkKjjGo632sia4AaJv7yxH4QJWCgS
-         D8Btzevk6iTud0qnxOH8T9yASK4floNUJ32ldPGNSkbZCLw6qngKc1lydyukeo+taarJ
-         QHenrQ/ZfiXDnp/MsHNtwuOJcMeU00Umb5OnmXrpVfXme8AgMm6AHctiDwaYzLupG6hD
-         QFUwA1YaNp2yHBuVpYuDWSfNmzwUbzOj48BbYX5wxTPJwFpTPzYhNcSAnnJYDW73Aawa
-         bWfQ==
-X-Gm-Message-State: AOJu0YwmXmdmmT6GviOT9em08FxncfHJ6ZPVB0XY5hRwmQlafRdVtHai
-	0QahJDmMJlT8/SLkFjhHQWVPB3cvSVzGlA==
-X-Google-Smtp-Source: AGHT+IFCdTqPpW2deVlJtEIVu7QcKsVC/gaEBTMSTQWA9zTTAMilp89UddZ/G2KBs6zu8xkFAI10Aw==
-X-Received: by 2002:a81:6555:0:b0:5cb:6131:280a with SMTP id z82-20020a816555000000b005cb6131280amr1470716ywb.0.1702139476632;
-        Sat, 09 Dec 2023 08:31:16 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id v82-20020a814855000000b005d427fea43bsm1579173ywa.48.2023.12.09.08.31.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Dec 2023 08:31:16 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5cbcfdeaff3so29706567b3.0;
-        Sat, 09 Dec 2023 08:31:15 -0800 (PST)
-X-Received: by 2002:a0d:dd53:0:b0:5d1:1bab:5902 with SMTP id
- g80-20020a0ddd53000000b005d11bab5902mr1316761ywe.15.1702139474962; Sat, 09
- Dec 2023 08:31:14 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghP5WBio"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11BBC10E6;
+	Sat,  9 Dec 2023 08:47:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702140474; x=1733676474;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9OrBcNRkexSFp7JpzEwrwcmu1QSQkInC3RedZZXvKF0=;
+  b=ghP5WBioZBAVMi+R0lXzHl3v6WJigQygAK1LqAbszuKAde/+fz0ny75N
+   JVwF1wc8QpmHIlJJflP5W8COkdlcl5vElmnonAXi4UNkgx6/TogsUfYzY
+   h2/u/oClYaV1I4E4TmaUlXiKIq7a+39p40hYvdULexw7kHI5thUt7zkip
+   MNDLho2Y1vWkeODk9kyaixTG3izdZF4VevzPU5eQGJzrCGaXYW8tYIIFq
+   RW/avu0XRVZou18BYMBjTCl9ULfdtVU0BzjD1kGM2hdHmiLVnK+BEFNV/
+   60dd2PemblHYCfutUrF3Q1DsoxUuuNmzw6HJd1l2Q5RNr1OElsvYsuIfg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="480711480"
+X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
+   d="scan'208";a="480711480"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 08:47:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="838462061"
+X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
+   d="scan'208";a="838462061"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 09 Dec 2023 08:47:46 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rC0US-000Fdf-2R;
+	Sat, 09 Dec 2023 16:47:44 +0000
+Date: Sun, 10 Dec 2023 00:46:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
+	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	mhocko@kernel.org, tj@kernel.org, ying.huang@intel.com,
+	gregory.price@memverge.com, corbet@lwn.net, rakie.kim@sk.com,
+	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
+	peterz@infradead.org, jgroves@micron.com, ravis.opensrc@micron.com,
+	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com
+Subject: Re: [PATCH v2 08/11] mm/mempolicy: add set_mempolicy2 syscall
+Message-ID: <202312100003.aUR6uBvr-lkp@intel.com>
+References: <20231209065931.3458-9-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231203153401.GV8402@pendragon.ideasonboard.com> <20231207142723.GA3187877@google.com>
- <20231207143814.GD15521@pendragon.ideasonboard.com> <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
- <20231209152946.GC13421@pendragon.ideasonboard.com>
-In-Reply-To: <20231209152946.GC13421@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sat, 9 Dec 2023 17:31:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
-Message-ID: <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Simon Glass <sjg@chromium.org>, 
-	linux-arm-kernel@lists.infradead.org, Masahiro Yamada <masahiroy@kernel.org>, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, U-Boot Mailing List <u-boot@lists.denx.de>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231209065931.3458-9-gregory.price@memverge.com>
 
-Hi Laurent,
+Hi Gregory,
 
-On Sat, Dec 9, 2023 at 4:29=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Sat, Dec 09, 2023 at 10:13:59PM +0900, Chen-Yu Tsai wrote:
-> > On Thu, Dec 7, 2023 at 11:38=E2=80=AFPM Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > > On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
-> > > > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
-> > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > > > > Add a script which produces a Flat Image Tree (FIT), a single f=
-ile
-> > > > > > containing the built kernel and associated devicetree files.
-> > > > > > Compression defaults to gzip which gives a good balance of size=
- and
-> > > > > > performance.
-> > > > > >
-> > > > > > The files compress from about 86MB to 24MB using this approach.
-> > > > > >
-> > > > > > The FIT can be used by bootloaders which support it, such as U-=
-Boot
-> > > > > > and Linuxboot. It permits automatic selection of the correct
-> > > > > > devicetree, matching the compatible string of the running board=
- with
-> > > > > > the closest compatible string in the FIT. There is no need for
-> > > > > > filenames or other workarounds.
-> > > > > >
-> > > > > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > > > > FIT_COMPRESSION to select a different algorithm.
-> > > > > >
-> > > > > > The FIT can be examined using 'dumpimage -l'.
-> > > > > >
-> > > > > > This features requires pylibfdt (use 'pip install libfdt'). It =
-also
-> > > > > > requires compression utilities for the algorithm being used. Su=
-pported
-> > > > > > compression options are the same as the Image.xxx files. For no=
-w there
-> > > > > > is no way to change the compression other than by editing the r=
-ule for
-> > > > > > $(obj)/image.fit
-> > > > > >
-> > > > > > While FIT supports a ramdisk / initrd, no attempt is made to su=
-pport
-> > > > > > this here, since it must be built separately from the Linux bui=
-ld.
-> > > > >
-> > > > > FIT images are very useful, so I think this is a very welcome add=
-ition
-> > > > > to the kernel build system. It can get tricky though: given the
-> > > > > versatile nature of FIT images, there can't be any
-> > > > > one-size-fits-them-all solution to build them, and striking the r=
-ight
-> > > > > balance between what makes sense for the kernel and the features =
-that
-> > > > > users may request will probably lead to bikeshedding. As we all l=
-ove
-> > > > > bikeshedding, I thought I would start selfishly, with a personal =
-use
-> > > > > case :-) This isn't a yak-shaving request though, I don't see any=
- reason
-> > > > > to delay merging this series.
-> > > > >
-> > > > > Have you envisioned building FIT images with a subset of DTBs, or=
- adding
-> > > > > DTBOs ? Both would be fairly trivial extensions to this script by
-> > > > > extending the supported command line arguments. It would perhaps =
-be more
-> > > > > difficult to integrate in the kernel build system though. This le=
-ads me
-> > > > > to a second question: would you consider merging extensions to th=
-is
-> > > > > script if they are not used by the kernel build system, but meant=
- for
-> > > > > users who manually invoke the script ? More generally, is the scr=
-ipt
-> > > >
-> > > > We'd also be interested in some customization, though in a differen=
-t way.
-> > > > We imagine having a rule file that says X compatible string should =
-map
-> > > > to A base DTB, plus B and C DTBO for the configuration section. The=
- base
-> > > > DTB would carry all common elements of some device, while the DTBOs
-> > > > carry all the possible second source components, like different dis=
-play
-> > > > panels or MIPI cameras for instance. This could drastically reduce =
-the
-> > > > size of FIT images in ChromeOS by deduplicating all the common stuf=
-f.
-> > >
-> > > Do you envision the "mapping" compatible string mapping to a config
-> > > section in the FIT image, that would bundle the base DTB and the DTBO=
-s ?
-> >
-> > That's exactly the idea. The mapping compatible string could be untied
-> > from the base board's compatible string if needed (which we probably do=
-).
-> >
-> > So something like:
-> >
-> > config {
-> >     config-1 {
-> >         compatible =3D "google,krane-sku0";
-> >         fdt =3D "krane-baseboard", "krane-sku0-overlay";
-> >     };
-> > };
-> >
-> > With "krane-sku0-overlay" being an overlay that holds the differences
-> > between the SKUs, in this case the display panel and MIPI camera (not
-> > upstreamed) that applies to SKU0 in particular.
->
-> The kernel DT makefiles already contain information on what overlays to
-> apply to what base boards, in order to test the overlays and produce
-> "full" DTBs. Maybe that information could be leveraged to create the
-> configurations in the FIT image ?
+kernel test robot noticed the following build errors:
 
-Although the "full" DTBs created may only be a subset of all possible
-combinations (I believe Rob just started with creating one "full" DTB
-for each overlay, cfr. the additions I made in commit a09c3e105a208580
-("arm64: dts: renesas: Apply overlays to base dtbs")), that could
-definitely be a start.
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master v6.7-rc4]
+[cannot apply to tip/x86/asm geert-m68k/for-next geert-m68k/for-linus next-20231208]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Now, since the kernel build system already creates "full" DTBs, does
-that mean that all of the base DTBs, overlays, and "full" DTBs will
-end up in the FIT image?
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231209-150314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231209065931.3458-9-gregory.price%40memverge.com
+patch subject: [PATCH v2 08/11] mm/mempolicy: add set_mempolicy2 syscall
+config: arc-alldefconfig (https://download.01.org/0day-ci/archive/20231210/202312100003.aUR6uBvr-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100003.aUR6uBvr-lkp@intel.com/reproduce)
 
-Gr{oetje,eeting}s,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100003.aUR6uBvr-lkp@intel.com/
 
-                        Geert
+All error/warnings (new ones prefixed by >>):
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+   In file included from init/main.c:21:
+>> include/linux/syscalls.h:825:43: warning: 'struct mpol_args' declared inside parameter list will not be visible outside of this definition or declaration
+     825 | asmlinkage long sys_set_mempolicy2(struct mpol_args *args, size_t size,
+         |                                           ^~~~~~~~~
+--
+   In file included from arch/arc/kernel/sys.c:3:
+>> include/linux/syscalls.h:825:43: warning: 'struct mpol_args' declared inside parameter list will not be visible outside of this definition or declaration
+     825 | asmlinkage long sys_set_mempolicy2(struct mpol_args *args, size_t size,
+         |                                           ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
+      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
+         |                                     ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:34:1: note: in expansion of macro '__SC_COMP'
+      34 | __SC_COMP(__NR_io_setup, sys_io_setup, compat_sys_io_setup)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[0]')
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
+      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
+         |                                     ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:34:1: note: in expansion of macro '__SC_COMP'
+      34 | __SC_COMP(__NR_io_setup, sys_io_setup, compat_sys_io_setup)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:36:1: note: in expansion of macro '__SYSCALL'
+      36 | __SYSCALL(__NR_io_destroy, sys_io_destroy)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[1]')
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:36:1: note: in expansion of macro '__SYSCALL'
+      36 | __SYSCALL(__NR_io_destroy, sys_io_destroy)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
+      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
+         |                                     ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:38:1: note: in expansion of macro '__SC_COMP'
+      38 | __SC_COMP(__NR_io_submit, sys_io_submit, compat_sys_io_submit)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[2]')
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
+      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
+         |                                     ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:38:1: note: in expansion of macro '__SC_COMP'
+      38 | __SC_COMP(__NR_io_submit, sys_io_submit, compat_sys_io_submit)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:40:1: note: in expansion of macro '__SYSCALL'
+      40 | __SYSCALL(__NR_io_cancel, sys_io_cancel)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[3]')
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:40:1: note: in expansion of macro '__SYSCALL'
+      40 | __SYSCALL(__NR_io_cancel, sys_io_cancel)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:20:34: note: in expansion of macro '__SYSCALL'
+      20 | #define __SC_3264(_nr, _32, _64) __SYSCALL(_nr, _32)
+         |                                  ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:44:1: note: in expansion of macro '__SC_3264'
+      44 | __SC_3264(__NR_io_getevents, sys_io_getevents_time32, sys_io_getevents)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[4]')
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:20:34: note: in expansion of macro '__SYSCALL'
+      20 | #define __SC_3264(_nr, _32, _64) __SYSCALL(_nr, _32)
+         |                                  ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:44:1: note: in expansion of macro '__SC_3264'
+      44 | __SC_3264(__NR_io_getevents, sys_io_getevents_time32, sys_io_getevents)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:48:1: note: in expansion of macro '__SYSCALL'
+      48 | __SYSCALL(__NR_setxattr, sys_setxattr)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[5]')
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:48:1: note: in expansion of macro '__SYSCALL'
+      48 | __SYSCALL(__NR_setxattr, sys_setxattr)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+         |                                    ^
+   include/uapi/asm-generic/unistd.h:50:1: note: in expansion of macro '__SYSCALL'
+      50 | __SYSCALL(__NR_lsetxattr, sys_lsetxattr)
+         | ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[6]')
+      13 | #define __SYSCALL(nr, call) [nr] = (call),
+--
+   In file included from kernel/time/hrtimer.c:30:
+>> include/linux/syscalls.h:825:43: warning: 'struct mpol_args' declared inside parameter list will not be visible outside of this definition or declaration
+     825 | asmlinkage long sys_set_mempolicy2(struct mpol_args *args, size_t size,
+         |                                           ^~~~~~~~~
+   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
+     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
+   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
+     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
+   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
+     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
+   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
+     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
+         |                                   ^~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
+   kernel/time/hrtimer.c: In function '__run_hrtimer':
+   kernel/time/hrtimer.c:1651:14: warning: variable 'expires_in_hardirq' set but not used [-Wunused-but-set-variable]
+    1651 |         bool expires_in_hardirq;
+         |              ^~~~~~~~~~~~~~~~~~
+--
+>> arc-elf-ld: arch/arc/kernel/sys.o:(.data+0x724): undefined reference to `sys_set_mempolicy2'
+>> arc-elf-ld: arch/arc/kernel/sys.o:(.data+0x724): undefined reference to `sys_set_mempolicy2'
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
