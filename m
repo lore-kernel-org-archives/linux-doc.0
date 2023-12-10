@@ -1,50 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YrPzBP0E"
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47751106
-	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 19:48:10 -0800 (PST)
-Received: by mail-pg1-x54a.google.com with SMTP id 41be03b00d2f7-5c6a04d3a8bso1823590a12.2
-        for <linux-doc@vger.kernel.org>; Sat, 09 Dec 2023 19:48:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MVA3ncTv"
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6471102
+	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 19:49:30 -0800 (PST)
+Received: by mail-pg1-x549.google.com with SMTP id 41be03b00d2f7-5c68fc4928fso1437236a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 09 Dec 2023 19:49:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702180090; x=1702784890; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1702180170; x=1702784970; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jTjMvUzMQM9T6vvixVNHYaRMSP0ZcmvH/bM1JLogYsw=;
-        b=YrPzBP0EnDIP+0ooeVbdXpE56iFddkdZtq0c2Q76nSfCz77q3zwZ5mz8nvvYdgLL8n
-         3O4kxbbBr6uytnOZ5AnOhSRtjc849E7puGEdIizTdnMZ19HFnp7lUz+N6kOAA2kLIJk+
-         EkHViUdFCdL/Lch8wHsIFPOKUO/u0us6dfnT4U7aVjoNytVliR8vbVky+cCOgPWIfXzc
-         aCEH0gXvuTacfaY7RyuMiLxoJrJ0kvde83uAwWoLj5gnae4W3QH9xG47kDDhy+z1MTTB
-         vhyyyQJaZhHEYBm5+iY21/YSESMrnnhxmWSSmB/x6dpTIZaOrcWZjYUNGhNEgbwoYJM0
-         irWQ==
+        bh=MW0tH0tCLOPnmE9TK7jB709vE7J7udoTWRcjSJbRbzw=;
+        b=MVA3ncTv2ztH8VVDR196PceGHb1j2OlSZrlL9Lw2Z9wX6UV2E/Z7XDjt5ZD7SDGkQY
+         tlWHdq4lxTiyvBUAkbTmLAnlnhSqqlhFoLb51b5SdgrG3NTW42ditNtt2dquiK22e2xx
+         Nw689Lh4It2U5heO9IEQmZwv3c3mM3nARmOuJMgEG3Fs+Rwa45tEbyggTQPX1s+IcwtO
+         u3Wiqqvto7KipLkZsC4PQE1A8RgR5sT+O1xaA8N2w+wHjPG1xRdP1x6zOnuCs9mKTdFv
+         04hbe0IOyZyj/hqPtSfyu4DtiDdktMxlvPL5bH+Fgu9pBBtlLtruM13bGr+El8lT1Frm
+         WP6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702180090; x=1702784890;
+        d=1e100.net; s=20230601; t=1702180170; x=1702784970;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jTjMvUzMQM9T6vvixVNHYaRMSP0ZcmvH/bM1JLogYsw=;
-        b=M9fE9ZA/aRPs7D4wYtj2upZfRpR49q1hasHkh8S2/pk52LOnwGucTYUn0TOzRkCBbZ
-         sQ2t9w5YMm9x0VNrTtAVMYBR/9k7i7UxC3lNRX0/HIVYR5N+hX5BPWjN+mmNQ6PqJQ5f
-         sWclAbThHoOJoDXXPCCGPIJkxJtceT/qFHXiHpoJCd1Sv7Cox0DRiE/LCG/vpFlAw5s8
-         WhAM/S3QSbyG69iXnkO+fs+y31TzaSZL2Gi4k7jIXFmjgAtzI0vFrP+KtExS++fxfYcj
-         owobW9Ap7sa6vWcHbhUvMybU2yWuAcFQ98bCN/JqoysHOPWwznu7GZnWCrWkAdC4yHhy
-         1kCA==
-X-Gm-Message-State: AOJu0Yw01lyMJKRqNoxvoL25pBU9cMp0cY/FVapZhaJu7Ao8NBki9P16
-	dM6QBZuRg/NwYWupGMLzZPdB8PVdXWn3bw==
-X-Google-Smtp-Source: AGHT+IEuVYUkbdK82q9MQX/+KKZwtIfK+d+dsTME32So5XP7njZIF7u7LEU9iLCbfAno9hDEov5qyerx5QbU2Q==
+        bh=MW0tH0tCLOPnmE9TK7jB709vE7J7udoTWRcjSJbRbzw=;
+        b=XzN9RhGtDF4ITMuzI4SpEq3RJezi/LHpgrIGqY4mxK6QYGNzSNKN9bYLFMkdx4f/PY
+         BI7TYNd7pcsHfqTEG3K3RLFv8UVj6jkkEDnn0pKNVDemyc9uNaRl6dZ6tIbxPBnf+BuJ
+         8MwTsdyk9OQ3Hh6FMNg6hWMOKvtxLI42j3Pu5bG8XmDOAxXjG5JVf7KK6qfxN8x55WN5
+         1ujFrRybnHJaoWWb2qM2N+imv65DMQ9YOYcbUdDCLFjZlwrSdL+VIIEXwOgeFPSooz5t
+         O89ZK7j8cMHVlVcQv4HzV7awiRWr4m6yBaz/LpKyT3mh/Lx2E3zRGFNymL8rsNMacbby
+         HLVA==
+X-Gm-Message-State: AOJu0YxHwXLdPxjo2jMW+NGvjUGdPVxWwMT/oL/J9QnBu8bwsgw5IY9W
+	Bk9FEaSyAw7B3qmr3dxWw/+cfd8ENuBYdA==
+X-Google-Smtp-Source: AGHT+IHLBajZsz0VxcL0CaCLjiP+JcpZ3Z6iSNDh4oLOCNKWTm9OPBX9RXcqYsgny9cLWKIkHF4CYYDwWcNIvw==
 X-Received: from shakeelb.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:262e])
- (user=shakeelb job=sendgmr) by 2002:a63:9854:0:b0:5bd:bbb4:5275 with SMTP id
- l20-20020a639854000000b005bdbbb45275mr16828pgo.10.1702180089637; Sat, 09 Dec
- 2023 19:48:09 -0800 (PST)
-Date: Sun, 10 Dec 2023 03:48:07 +0000
-In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
+ (user=shakeelb job=sendgmr) by 2002:a63:7317:0:b0:5b8:fe99:152d with SMTP id
+ o23-20020a637317000000b005b8fe99152dmr15385pgc.7.1702180170422; Sat, 09 Dec
+ 2023 19:49:30 -0800 (PST)
+Date: Sun, 10 Dec 2023 03:49:28 +0000
+In-Reply-To: <20231208005250.2910004-2-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
-Message-ID: <20231210034807.kqspmykhxpkdtoiy@google.com>
-Subject: Re: [net-next v1 00/16] Device Memory TCP
+References: <20231208005250.2910004-1-almasrymina@google.com> <20231208005250.2910004-2-almasrymina@google.com>
+Message-ID: <20231210034928.mk4ufxqis2w3wesg@google.com>
+Subject: Re: [net-next v1 01/16] net: page_pool: factor out releasing DMA from
+ releasing the page
 From: Shakeel Butt <shakeelb@google.com>
 To: Mina Almasry <almasrymina@google.com>
 Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
@@ -62,46 +63,15 @@ Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
 	Harshitha Ramamurthy <hramamurthy@google.com>
 Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Dec 07, 2023 at 04:52:31PM -0800, Mina Almasry wrote:
-[...]
+On Thu, Dec 07, 2023 at 04:52:32PM -0800, Mina Almasry wrote:
+> From: Jakub Kicinski <kuba@kernel.org>
 > 
-> Today, the majority of the Device-to-Device data transfers the network are
+> Releasing the DMA mapping will be useful for other types
+> of pages, so factor it out. Make sure compiler inlines it,
+> to avoid any regressions.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
 
-'the network' in above can be removed.
-
-> implemented as the following low level operations: Device-to-Host copy,
-> Host-to-Host network transfer, and Host-to-Device copy.
-> 
-
-[...]
-
-> 
-> ** Part 5: recvmsg() APIs
-> 
-> We define user APIs for the user to send and receive device memory.
-> 
-> Not included with this RFC is the GVE devmem TCP support, just to
-
-no more RFC
-
-> simplify the review. Code available here if desired:
-> https://github.com/mina/linux/tree/tcpdevmem
-> 
-> This RFC is built on top of net-next with Jakub's pp-providers changes
-
-no more RFC
-
-[...]
-> 
-> ** Test Setup
-> 
-> Kernel: net-next with this RFC and memory provider API cherry-picked
-
-no more RFC
-
-> locally.
-> 
-> Hardware: Google Cloud A3 VMs.
-> 
-> NIC: GVE with header split & RSS & flow steering support.
-> 
+Reviewed-by: Shakeel Butt <shakeelb@google.com>
