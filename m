@@ -1,102 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99267125DE;
-	Sun, 10 Dec 2023 14:22:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z46OPbu3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9FFDC433C7;
-	Sun, 10 Dec 2023 14:22:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702218179;
-	bh=8tne0aaAREf7h+qiY6KAldko6jyI6LRXnoNCM9fma6Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z46OPbu3lxs+nSXwJj7g5+uM236T8qcWVMENzV16W8PRn+wPA90J2c/MU1TR09r9G
-	 V7uktPMYA+kX07nhFqGBeWzVnfPGq1sWi8TmA2O/Ypbc+HHzOKCOCc6aUZpI1E2ux5
-	 i7a4xJ46nLuCB9P/YSDucazqkfc40Pwk2ruWwXth0yedV7jS/lBPvlu9h8D8FqQQ5E
-	 7NrgTVM832Ck4BiiNruf7natGB4ETT1vuYgIR5796kVSPSFEDz9SqMvV2j2pOXJx2O
-	 kYv2KFYNFZhj2cny4Ad3h63HQeFh23ezu4307DrPbna88E2yARpEbrhoRhlGsNFA2m
-	 xH4AUl7qyB+aQ==
-Date: Sun, 10 Dec 2023 14:22:56 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v7 26/39] arm64/ptrace: Expose GCS via ptrace and core
- files
-Message-ID: <ZXXJwNdKC/y6bRYn@finisterre.sirena.org.uk>
-References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
- <20231122-arm64-gcs-v7-26-201c483bd775@kernel.org>
- <877clney35.fsf@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="m+JryQTU"
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FA4FD8;
+	Sun, 10 Dec 2023 12:25:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1702239887; x=1702844687; i=w_armin@gmx.de;
+	bh=LHjqlwgNkufpjFeWV3ISQg5S2l9qKebnwZiqRNS6g5Y=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=m+JryQTUJ0roAUpqZ231yKKZJOR/IrqAOQXW3xruX4NBCJ8AO889lx5dzWHDiu78
+	 ZBMIJJ+bZD0ENqlE5WBpC+8ksp8Ye4YAdStaB0ukt35hbKR+yxD5JAngvkTCNYo9V
+	 3wiogiUthOGt9DAV0/HylYnyHQ9rfQEWS6rcaiJv+bybjlbA6yeWj13d8a7//3/GK
+	 DZYJNCc1oGEcpSl3lSZUKw0UY2a8Ie4jON1PxGWUmuAEam5AjTO65zW9m8vphuIyo
+	 5x20Ri4E0lv7j6g1P0g6rvWg3fBJK7W6JWcZXVOhsn3Pnkig3tJHS7efpTr6/EHjF
+	 PjXmBxS53sQU2exu6g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1Mv31c-1rUEFr1HQu-00r3Fd; Sun, 10 Dec 2023 21:24:47 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	corbet@lwn.net
+Cc: Dell.Client.Kernel@dell.com,
+	linux-doc@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] platform/x86: wmi: Cleanup obsolete features
+Date: Sun, 10 Dec 2023 21:24:38 +0100
+Message-Id: <20231210202443.646427-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+xOPyWhFp+ttqF+R"
-Content-Disposition: inline
-In-Reply-To: <877clney35.fsf@linaro.org>
-X-Cookie: You might have mail.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:OH4a1uQzlafpzkNjmLz9Vd7n/MpwUzaBWfMgJ+C5QZzotUa+f75
+ CJu04BjoiatTw1eUT3Q1zChyFLHLvOg5IOcDZxBSNICPdbmYj9iB1WpBXgTVwAZ9Pk8xgTp
+ f35u9SO83qbPk4GDsBVdJHOsUSXmFCNiUAdwwvwm1TfbLfLsZMGyl9WJ5fXCBGB8L51fo5B
+ /4gg98V2PTogukk8sK98w==
+UI-OutboundReport: notjunk:1;M01:P0:9zmj4gF7VEM=;Kc5QoihwiH/63+KNyBqiLrKfmkw
+ +saeb5FPBdAR10eqj2frrCh+0O7Txlvi4bfNF0Nbgo3HB2sT57jt2qCjDtDjcSBRh9FmoX0hw
+ uO3Mez409sFFmgsvw4vPbUcA0wBZ2kutafK3VcUGSYwRlhA9zSfJ8XGVA2AqlUXQgP3onamSY
+ /UN40I4HYmQUQI6kOqA7HGAYaLYKNSD275LZSl9SDnIKo4OgGPr4PEaaz5ReG6xiC5pNG9AW9
+ huckcCyfFN+7vvGDPM8rCw3kn9JcVVqav1o08hdfWf9vhLIiVE7fDcQtuhBemID7ml5+89EHR
+ P0IB1NIDcByCBVnvef4ZrRKhMs8uZoNwMspl/JEzF4bbLtYPyA6uwmHbhYcgC16viPfRlhpk3
+ Sw9O/JQafwJbwlHZInjmWyikXxdgSlZbFqtNdpgP1VzXxnJZ9Rx4RA7kCMvEUQgO/Ghmy+aFP
+ Oi2YXVntCtHDZrsXN7RULrCQo1Q0Cc+kxVBgFIScInNHPjnJLC1umxQsjnpRiKusG5xFKjKTG
+ fPAo8ikgPCt/A4qRMHm4KiEfnee1h2TSr4AR+ulFgTbGhFoiUrYQHGracwo4Z2bkKPj9epKwj
+ 4HKNVyVGAbVmCfyF/WDwvuDIjEoRhqCpjGimsTBuBr9fGxLbsusRxfNyMC1uS1ZxeG5/Sgz7y
+ c6ctStF+Q4LLvONL1ovymqZwNOhEdtB0GVx6cpYZrSY0oQYZFORXXpYK3+qYJM+wsen0Gcccu
+ 5FUkvnu7eK89QBqGoySLf/LuPixBAyGgl1t6X8cSx9HoncefLEBOsnwWI3y6L1QHH2PfTHe6w
+ M2AwSWw0aiW3EdriITPaElWPto0NI3xR3EZYgWlUVPgCOse5Os0B3czHHSpoVFi0Ay13NHoCj
+ oESVO4P1oowZxQ0hJW+0sZ2/D2DnixtuVJTjfRa5PfGQcqaJ+JnphDsrkkea25I8CS0X6REPl
+ TzOg+fST6nAtmvgy5yNJGSM90iA=
 
+This patch series removes three features deemed obsolete:
+- the debug_dump_wdg module param:
+  - suffers from garbled output due to pr_cont()
+  - functionality is better provided by "fwts wmi"
+- the debug_event module param:
+  - pr_cont() usage
+  - uses the deprecated GUID-based API
+  - largely replaced by the ACPI netlink interface
+- ioctl interface
+  - used only by a single driver, no adoption otherwise
+  - numerous design issues
 
---+xOPyWhFp+ttqF+R
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Since the ioctl interface is actually used by userspace programs,
+the only user (the dell-smbios-wmi driver) was modified to implement
+the necessary pieces itself so that no regressions are expected.
 
-On Sat, Dec 09, 2023 at 08:49:02PM -0300, Thiago Jung Bauermann wrote:
-> Mark Brown <broonie@kernel.org> writes:
+The series depends on
+commit cbf54f37600e ("platform/x86: wmi: Skip blocks with zero instances")=
+,
+which is currently in the "fixes" tree.
 
-> > Provide a new register type NT_ARM_GCS reporting the current GCS mode
-> > and pointer for EL0.  Due to the interactions with allocation and
-> > deallocation of Guarded Control Stacks we do not permit any changes to
-> > the GCS mode via ptrace, only GCSPR_EL0 may be changed.
+All patches where tested on a Dell Inspiron 3505 and work without
+issues.
 
-> The code allows disabling GCS. Is that unintended?
+Changes since v1:
+- add Reviewed-by to patches 1, 2 and 5
+- drop patch adding the driver development guide
+- rework error handling in dell-smbios-wmi
 
-No, it's intentional - ptrace has a lot of control over the process,
-there's not a huge point trying to protect against it doing a disable.
-The reason we prevent enabling is the allocation of a GCS along with
-enable, the complexity of doing that on a remote process seemed
-unjustified.  If clone3() ends up allowing manual allocation and
-placement that'll likely be revised.
+Armin Wolf (5):
+  platform/x86: wmi: Remove debug_dump_wdg module param
+  platform/x86: wmi: Remove debug_event module param
+  platform/x86: dell-smbios-wmi: Use devm_get_free_pages()
+  platform/x86: dell-smbios-wmi: Stop using WMI chardev
+  platform/x86: wmi: Remove chardev interface
 
---+xOPyWhFp+ttqF+R
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/platform/x86/dell/dell-smbios-wmi.c | 173 ++++++++----
+ drivers/platform/x86/wmi.c                  | 285 +-------------------
+ include/linux/wmi.h                         |   8 -
+ 3 files changed, 132 insertions(+), 334 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+=2D-
+2.39.2
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV1yb8ACgkQJNaLcl1U
-h9BWYwf/Tu6vlQCwGJ174Zum1yyKhNrP0gXrNj0hXhil/y9CwTApo4pvBUMmBwQz
-JO0qoPePZDOSlxns1bELpj5O5sFq0c8qB1e29Y1nFzNClHf+uyVDswS2nZDBU6Rk
-QyW/T7yJerJVj/Lw5Mh1iJMbf8+iOPyRCJ8iMOnYiCbPpOmz7FuarOxPowUXUTqe
-e/bnana1ic+ctkWCw67wxEB6SJsOSaN2uW7mCj2ftjf9Cq9GmxzYnn8WuOvPHLxQ
-1id5Q0hqIWUqpgKGWDeIng5VHThiIuZDUa4EWQga6fnVZnApv4pRNJY7ttyNS6SS
-VfquKJpzBaa9lItRtIz5Dxs2gX1jyg==
-=9ttk
------END PGP SIGNATURE-----
-
---+xOPyWhFp+ttqF+R--
