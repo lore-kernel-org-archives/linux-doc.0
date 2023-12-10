@@ -1,200 +1,171 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="t6U+Wo49"
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CDAF3
-	for <linux-doc@vger.kernel.org>; Sat,  9 Dec 2023 23:03:13 -0800 (PST)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-1f5bd86ceb3so2428412fac.2
-        for <linux-doc@vger.kernel.org>; Sat, 09 Dec 2023 23:03:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LwFyl/Nj"
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06787FE;
+	Sun, 10 Dec 2023 03:45:24 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-a1c7b20f895so414676866b.2;
+        Sun, 10 Dec 2023 03:45:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1702191792; x=1702796592; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZjIsRqTNDf1ZUfBCKqHqKSty0Nok+i7FEmnwcARKdLI=;
-        b=t6U+Wo49Vqxkj6UA5DRh1ODobhsKSy94+fcyU192lu4tAGk7PSP9WR+g6VZknpmnlr
-         8PZIruZZKSxBGqi2hoqTt9kZNndxnfSmaJOYMUoFHS2Aj9ek8DYw/s3/mM3cnvnkEUdy
-         iVW3ilu8GwkzmMNDCI1qUPKIaMU/8YPKH9sv859xYNqog4WMGquc8hmckQGUd2xWTOQA
-         MWDtUp+1OZ0MWhfxyRtQkh7jqFKCXJRBW4HKAD7VDUsteUSDkTAPxybDKQt5wH8oLKHJ
-         YMx9WGYxHSKJee8HmTlvRVFNkH4cCF8hxassXItIUu4/qxl28VSMveVma20pwhUQSJ4t
-         zXVA==
+        d=gmail.com; s=20230601; t=1702208721; x=1702813521; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yp3hxbGdS2eZBPtlqCepXeiPKyyCDAaMr2U9ZBJTXkg=;
+        b=LwFyl/Njv6bsLT2DAMPOZBwxWFtYrQuTwHaEH9Ok+WrVX2s14Quq10g9mEUg7zEHm9
+         ZUNOhzP/ce1sWjTCot9hG/wsgMGtZxro5tA4kPQtvRS28tmM5qQRO7ydvl6QslWHVkP7
+         bjVOVDipxeFDy45RdsUNg4PdoY+0Vo/zi+hOhw7jLNefj+YwhOi4h+DKPTy/wVBlOcc+
+         pcvzIlqk6HwmvL3ieM1GAW2vhnvvAFV0GLG/giwMmMTssOs3Sma8n8qihzOWbOhgOLTO
+         fFiW1cTDt33X7KWwSsb0lXrKPq/qXXwNpV8Tw/O9BoHttBBh04OTg14Z6ZM/+15WYpn9
+         1gUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702191792; x=1702796592;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZjIsRqTNDf1ZUfBCKqHqKSty0Nok+i7FEmnwcARKdLI=;
-        b=oFMryg+F1Rr4mkirEpSLt4Ltrw69cm4zmuVMJZk0KLlZ0uF96V3an36EywtySVRRVH
-         CF1uLMqhvdNY4pbkeZV7Y1VE/hK1VROl9EVzd/4MnBrTmQFrUZJOHBfpLnkkyjBf4qc6
-         i+saOdUajR2nGFcNiYr3LueBARnh6FtHTwGsCzVr3iRcdIztyHKeZd6I8UlQvwKNCujN
-         IRCZCUknMpc8gJCelSPeFC5OCcUwmAqHnNXYttYUO/rw6h4YukIENYGXQjP7C5E4afoZ
-         UDzDBh1RmJCMQrFY0jPotBYOOx84s5AFPMphU0hvo1/hQrWzA+n5GsOVoao0P2ZHbT35
-         FRbw==
-X-Gm-Message-State: AOJu0YxhmmY9jVqyt76n/L89bkaK6kdBhgoO/eguvBamFguzn09VqaHQ
-	8qHBkW3CecY8l3RQYGA6a4xNCg==
-X-Google-Smtp-Source: AGHT+IF7dbPeSGNYzf+4zTjIef4l3Kxy13SD9t8mjadsfNI4Blcv83g93Y/1lOsphUYUl/vxKi2YvA==
-X-Received: by 2002:a05:6871:521f:b0:1fb:75b:2fdf with SMTP id ht31-20020a056871521f00b001fb075b2fdfmr3174064oac.118.1702191792580;
-        Sat, 09 Dec 2023 23:03:12 -0800 (PST)
-Received: from [157.82.205.15] ([157.82.205.15])
-        by smtp.gmail.com with ESMTPSA id r9-20020a63ec49000000b005b9083b81f0sm4261259pgj.36.2023.12.09.23.03.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Dec 2023 23:03:12 -0800 (PST)
-Message-ID: <d30a038b-d10f-468d-8879-478a6c5b814b@daynix.com>
-Date: Sun, 10 Dec 2023 16:03:05 +0900
+        d=1e100.net; s=20230601; t=1702208721; x=1702813521;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yp3hxbGdS2eZBPtlqCepXeiPKyyCDAaMr2U9ZBJTXkg=;
+        b=d8cndg5peX2HV4eXltkrVB5w4XHxwiUpKLt8zVhDIeXsX0+JOfvcuTfTT+KHadOpj2
+         ZtpR4oqcbNgDpYwPvWYGK0IsL2tJ3PmXC8H36znMe/x8FsnyL5XOunxWE37DuxatQbJ5
+         YvA6mGoefVykVFzjenZC65XG1NMN2SN44LyqetQQ8O49PsqT9jVQ4y1kU7djOL0tksVH
+         2Sna/4KsEhnCED+tZwGhgYqTfJrTgnQ5gPa/Olps1EmA17gbQHs7VAA35rGu1au0OlM3
+         fSbg6vcKiWV8Nk2GEwJRsLKwi9d29Wjxg6/5rPkd5xIHUeARAswGPjI241tpGte4jUh/
+         KRxg==
+X-Gm-Message-State: AOJu0YySlJFaayvI6Fvgz3TWyZicu5/nWKZAjn8YaoPJitEEo9qBGsYe
+	A5DxFA/TFWfjDZlgkyv+9w==
+X-Google-Smtp-Source: AGHT+IEqCsZ7ZXLuWOmv3maORdUwlfQjqZozZP+afPI3r5sYdATksOhbu8geeOgTbY1EoEt+o4ZFWg==
+X-Received: by 2002:a17:906:512:b0:a19:a1ba:8cb6 with SMTP id j18-20020a170906051200b00a19a1ba8cb6mr1279246eja.84.1702208721021;
+        Sun, 10 Dec 2023 03:45:21 -0800 (PST)
+Received: from p183 ([46.53.250.155])
+        by smtp.gmail.com with ESMTPSA id fj8-20020a1709069c8800b00a1d5c342674sm3295540ejc.27.2023.12.10.03.45.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Dec 2023 03:45:20 -0800 (PST)
+Date: Sun, 10 Dec 2023 14:45:18 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Kees Cook <keescook@chromium.org>, akpm@linux-foundation.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org
+Subject: Re: [PATCH v3] ELF: document some de-facto PT_* ABI quirks
+Message-ID: <57f5aa9d-79c5-4f65-b90f-204600edfb80@p183>
+References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
+ <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
+ <c4233c97-306c-4db8-9667-34fc31ec4aed@p183>
+ <87edp7jyu4.fsf@meer.lwn.net>
+ <88d3f1bb-f4e0-4c40-9304-3843513a1262@p183>
+ <202312061456.2103DA1@keescook>
+ <874jgugilq.fsf@email.froward.int.ebiederm.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/7] bpf: Introduce BPF_PROG_TYPE_VNET_HASH
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: Song Liu <song@kernel.org>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Mykola Lysenko <mykolal@fb.com>,
- Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Network Development <netdev@vger.kernel.org>, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>
-References: <20231015141644.260646-1-akihiko.odaki@daynix.com>
- <20231015141644.260646-2-akihiko.odaki@daynix.com>
- <CAADnVQLfUDmgYng8Cw1hiZOMfWNWLjbn7ZGc4yOEz-XmeFEz5Q@mail.gmail.com>
- <2594bb24-74dc-4785-b46d-e1bffcc3e7ed@daynix.com>
- <CAADnVQ+J+bOtvEfdvgUse_Rr07rM5KOZ5DtAmHDgRmi70W68+g@mail.gmail.com>
- <CACGkMEs22078F7rSLEz6eQabkZZ=kujSONUNMThZz5Gp=YiidQ@mail.gmail.com>
- <CAADnVQLt8NWvP8qGWMPx=12PwWWE69P7aS2dbm=khAJkCnJEoQ@mail.gmail.com>
- <9a4853ad-5ef4-4b15-a49e-9edb5ae4468e@daynix.com>
- <6253fb6b-9a53-484a-9be5-8facd46c051e@daynix.com>
- <CAPhsuW5JYoM-Mkehdy=FQsG1nvjbYGzwRZx8BkpG1P7cHdD=eQ@mail.gmail.com>
- <dba89d4b-84aa-4c9f-b016-56fd3ade04b2@daynix.com>
- <CAPhsuW5KLgt_gsih7zi+T99iYVbt7hk7=OCwYzin-H3=OhF54Q@mail.gmail.com>
- <a1f09866-a443-4f74-8025-6cdb32eb1d2c@daynix.com>
- <CAPhsuW4o5o41a+jVjgGP+Ck3eUD8w6coLXMTYewXKJYmciLLnQ@mail.gmail.com>
- <664003d3-aadb-4938-80f6-67fab1c9dcdd@daynix.com>
-In-Reply-To: <664003d3-aadb-4938-80f6-67fab1c9dcdd@daynix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <874jgugilq.fsf@email.froward.int.ebiederm.org>
 
-On 2023/11/22 14:36, Akihiko Odaki wrote:
-> On 2023/11/22 14:25, Song Liu wrote:
->> On Mon, Nov 20, 2023 at 12:05 AM Akihiko Odaki 
->> <akihiko.odaki@daynix.com> wrote:
->>>
->>> On 2023/11/20 6:02, Song Liu wrote:
->> [...]
->>>>> In contrast, our intended use case is more like a normal application.
->>>>> So, for example, a user may download a container and run QEMU 
->>>>> (including
->>>>> the BPF program) installed in the container. As such, it is nice if 
->>>>> the
->>>>> ABI is stable across kernel releases, but it is not guaranteed for
->>>>> kfuncs. Such a use case is already covered with the eBPF steering
->>>>> program so I want to maintain it if possible.
->>>>
->>>> TBH, I don't think stability should be a concern for kfuncs used by 
->>>> QEMU.
->>>> Many core BPF APIs are now implemented as kfuncs: bpf_dynptr_*,
->>>> bpf_rcu_*, etc. As long as there are valid use cases,these kfuncs will
->>>> be supported.
->>>
->>> Documentation/bpf/kfuncs.rst still says:
->>>   > kfuncs provide a kernel <-> kernel API, and thus are not bound by 
->>> any
->>>   > of the strict stability restrictions associated with kernel <-> user
->>>   > UAPIs.
->>>
->>> Is it possible to change the statement like as follows:
->>> "Most kfuncs provide a kernel <-> kernel API, and thus are not bound by
->>> any of the strict stability restrictions associated with kernel <-> user
->>> UAPIs. kfuncs that have same stability restrictions associated with
->>> UAPIs are exceptional, and must be carefully reviewed by subsystem (and
->>> BPF?) maintainers as any other UAPIs are."
->>
->> I am afraid this is against the intention to not guarantee UAPI-level 
->> stability
->> for kfuncs.
+On Thu, Dec 07, 2023 at 09:03:45AM -0600, Eric W. Biederman wrote:
+> Kees Cook <keescook@chromium.org> writes:
 > 
-> Is it possible to ensure that a QEMU binary with the eBPF program 
-> included works on different kernel versions without UAPI-level stability 
-> then? Otherwise, I think we need to think of the minimal UAPI addition 
-> that exposes the feature I propose, and the two options I presented 
-> first are the candidates of such: the stable BPF change or tuntap 
-> interface change.
+> > *thread necromancy* Question below...
+> >
+> > On Sat, Apr 15, 2023 at 08:37:29PM +0300, Alexey Dobriyan wrote:
+> >> Turns out rules about PT_INTERP, PT_GNU_STACK and PT_GNU_PROPERTY
+> >> program headers are slightly different.
+> >> 
+> >> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> >> ---
+> >> 
+> >> 	v3: move to Documentation/userspace-api/
+> >> 	v2: integrate into documentation build system
+> >> 
+> >>  Documentation/userspace-api/ELF.rst   |   34 ++++++++++++++++++++++++++++++++++
+> >>  Documentation/userspace-api/index.rst |    1 +
+> >>  2 files changed, 35 insertions(+)
+> >> 
+> >> new file mode 100644
+> >> --- /dev/null
+> >> +++ b/Documentation/userspace-api/ELF.rst
+> >> @@ -0,0 +1,34 @@
+> >> +.. SPDX-License-Identifier: GPL-2.0
+> >> +
+> >> +=================================
+> >> +Linux-specific ELF idiosyncrasies
+> >> +=================================
+> >> +
+> >> +Definitions
+> >> +===========
+> >> +
+> >> +"First" program header is the one with the smallest offset in the file:
+> >> +e_phoff.
 > 
-> Regards,
-> Akihiko Odaki
+> Confusing e_phoff is the defined location of the array of program
+> headers.
+> 
+> Perhaps the "First" in that array with the lowest e_phnum?
+> 
+> >> +"Last" program header is the one with the biggest offset in the file:
+> >> +e_phoff + (e_phnum - 1) * sizeof(Elf_Phdr).
+> 
+> Ditto the "Last" in the array with the largest array index.
+> 
+> I nit pick this because it sounded at first like you were talking about
+> p_offset.  Which is a value contained in the program header entry.
+> 
+> >> +PT_INTERP
+> >> +=========
+> >> +
+> >> +First PT_INTERP program header is used to locate the filename of ELF
+> >> +interpreter. Other PT_INTERP headers are ignored (since Linux 2.4.11).
+> >> +
+> >> +PT_GNU_STACK
+> >> +============
+> >> +
+> >> +Last PT_GNU_STACK program header defines userspace stack executability
+> >> +(since Linux 2.6.6). Other PT_GNU_STACK headers are ignored.
+> >> +
+> >> +PT_GNU_PROPERTY
+> >> +===============
+> >> +
+> >> +ELF interpreter's last PT_GNU_PROPERTY program header is used (since
+> >> +Linux 5.8). If interpreter doesn't have one, then the last PT_GNU_PROPERTY
+> >> +program header of an executable is used. Other PT_GNU_PROPERTY headers
+> >> +are ignored.
+> 
+> A more interesting property to document is that PT_GNU_PROPERTY must
+> precede PT_INTERP in the linux implementation, otherwise we ignore it.
+> 
+> > Should we perhaps solve some of these in some way? What would folks
+> > prefer the behaviors be? (I like to have things been "as expected", but
+> > it's not very obvious here for redundant headers...)
+> 
+> All of these are really headers that should appear only once.
 
-Now the discussion is stale again so let me summarize the discussion:
+Yes.
 
-A tuntap device can have an eBPF steering program to let the userspace 
-decide which tuntap queue should be used for each packet. QEMU uses this 
-feature to implement the RSS algorithm for virtio-net emulation. Now, 
-the virtio specification has a new feature to report hash values 
-calculated with the RSS algorithm. The goal of this RFC is to report 
-such hash values from the eBPF steering program to the userspace.
+> Quite frankly if we are going to do something with this my sense is that
+> we should fail the execve with a clear error code as userspace should
+> not be doing this, and accepting a malformed executable will hide
+> errors, and perhaps hide someone causing problems.
 
-There are currently three ideas to implement the proposal:
+Maybe do it for PT_GNU_PROPERTY which is relatively new.
 
-1. Abandon eBPF steering program and implement RSS in the kernel.
+> I really don't think having multiple copies of these headers with
+> different values is something we should encourage.
+> 
+> It looks like -ELIBBAD is the documented way to fail and report
+> a bad file format.
 
-It is possible to implement the RSS algorithm in the kernel as it's 
-strictly defined in the specification. However, there are proposals for 
-relevant virtio specification changes, and abandoning eBPF steering 
-program will loose the ability to implement those changes in the 
-userspace. There are concerns that this lead to more UAPI changes in the 
-end.
+It is obvious you don't know how much will break.
 
-2. Add BPF kfuncs.
+> For PT_GNU_PROPTERTY perhaps we should accept it anywhere, instead of
+> silently ignoring it depending upon it's location?
+> 
+> I thinking change the code to talk one pass through the program headers
+> to identify the interesting headers, and then with the interesting
+> headers all identified we go do something with them.
+> 
+> Anyway just my opinion, but that is what it feels like to me.
 
-Adding BPF kfuncs is *the* standard way to add BPF interfaces. hid-bpf 
-is a good reference for this.
-
-The problem with BPF kfuncs is that kfuncs are not considered as stable 
-as UAPI. In my understanding, it is not problematic for things like 
-hid-bpf because programs using those kfuncs affect the entire system 
-state and expected to be centrally managed. Such BPF programs can be 
-updated along with the kernel in a manner similar to kernel modules.
-
-The use case of tuntap steering/hash reporting is somewhat different 
-though; the eBPF program is more like a part of application (QEMU or 
-potentially other VMM) and thus needs to be portable. For example, a 
-user may expect a Debian container with QEMU installed to work on Fedora.
-
-BPF kfuncs do still provide some level of stability, but there is no 
-documentation that tell how stable they are. The worst case scenario I 
-can imagine is that a future legitimate BPF change breaks QEMU, letting 
-the "no regressions" rule force the change to be reverted. Some 
-assurance that kind scenario will not happen is necessary in my opinion.
-
-3. Add BPF program type derived from the conventional steering program type
-
-In principle, it's just to add a feature to report four more bytes to 
-the conventional steering program. However, BPF program types are frozen 
-for feature additions and the proposed change will break the feature freeze.
-
-So what's next? I'm inclined to option 3 due to its minimal ABI/API 
-change, but I'm also fine with option 2 if it is possible to guarantee 
-the ABI/API stability necessary to run pre-built QEMUs on future kernel 
-versions by e.g., explicitly stating the stability of kfuncs. If no 
-objection arises, I'll resend this series with the RFC prefix dropped 
-for upstream inclusion. If it's decided to go for option 1 or 2, I'll 
-post a new version of the series implementing the idea.
-
-Regards,
-Akihiko Odaki
+_Not_ checking for duplicates will result in the simplest and fastest exec.
+which is what current code does.
