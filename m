@@ -1,170 +1,90 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06AA125
-	for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 04:19:41 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rCfEf-0001H0-4X; Mon, 11 Dec 2023 13:18:09 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rCfEe-00F5z5-AI; Mon, 11 Dec 2023 13:18:08 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rCfEe-000tY1-0P; Mon, 11 Dec 2023 13:18:08 +0100
-Date: Mon, 11 Dec 2023 13:18:07 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-samsung-soc@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-staging@lists.linux.dev,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-pwm@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	asahi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH v4 000/115] pwm: Fix lifetime issues for pwm_chips
-Message-ID: <20231211121807.zzlgf3alcoo6lrw7@pengutronix.de>
-References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
- <ZXM4CdJxg-XrYhkn@orome.fritz.box>
- <20231208185033.e6ty2cajcfle6dgk@pengutronix.de>
- <ZXbzcFTnDTKoZAta@orome.fritz.box>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E7C3D96A;
+	Mon, 11 Dec 2023 13:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OtVmf+id"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96BCBC433C7;
+	Mon, 11 Dec 2023 13:20:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702300862;
+	bh=q1SgpAHgTb9yNjf1ijuF/WsU7ziWgOtp9e+gjYp9MJo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OtVmf+id/i3jL+CkVLVQSKAM+su33w9usY4qz6ohe9ikJJaAELtzij3VYjgA9Ewp8
+	 IbjgnPDTmFzYLzisW9RoqzCM+BlinoHFZh9dn8c3DWcsxaE7n/xlIFYd5cNd5iiZYM
+	 xn+RGUNrzobVTZmgr2G/YPkzYJMxadR3JbLDRVmqIeguYU5M9B/epx6dLNTOKngCI1
+	 MfqbPSRfjDDI0mZH6L+x+WiFuG5bmPQYYmqls0mwsWZmq8aHN3nwqrQ5zwoWRasUBO
+	 t0AaPcL5MZAHJ+qrn0787/YMKkAZKw1LM4Ra/RYRDixl9gMGsxMV+U5fiYp+UkKYuN
+	 EBTvml+3hP+1Q==
+Date: Mon, 11 Dec 2023 13:20:55 +0000
+From: Will Deacon <will@kernel.org>
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
+	x86@kernel.org, linux-csky@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org,
+	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	jianyong.wu@arm.com, justin.he@arm.com,
+	James Morse <james.morse@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH 12/21] arm64: setup: Switch over to GENERIC_CPU_DEVICES
+ using arch_register_cpu()
+Message-ID: <20231211132054.GC25681@willie-the-truck>
+References: <ZVyz/Ve5pPu8AWoA@shell.armlinux.org.uk>
+ <E1r5R3b-00Csza-Ku@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yyef2a7pj6vk5dry"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZXbzcFTnDTKoZAta@orome.fritz.box>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <E1r5R3b-00Csza-Ku@rmk-PC.armlinux.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
+On Tue, Nov 21, 2023 at 01:44:51PM +0000, Russell King wrote:
+> From: James Morse <james.morse@arm.com>
+> 
+> To allow ACPI's _STA value to hide CPUs that are present, but not
+> available to online right now due to VMM or firmware policy, the
+> register_cpu() call needs to be made by the ACPI machinery when ACPI
+> is in use. This allows it to hide CPUs that are unavailable from sysfs.
+> 
+> Switching to GENERIC_CPU_DEVICES is an intermediate step to allow all
+> five ACPI architectures to be modified at once.
+> 
+> Switch over to GENERIC_CPU_DEVICES, and provide an arch_register_cpu()
+> that populates the hotpluggable flag. arch_register_cpu() is also the
+> interface the ACPI machinery expects.
+> 
+> The struct cpu in struct cpuinfo_arm64 is never used directly, remove
+> it to use the one GENERIC_CPU_DEVICES provides.
+> 
+> This changes the CPUs visible in sysfs from possible to present, but
+> on arm64 smp_prepare_cpus() ensures these are the same.
+> 
+> This patch also has the effect of moving the registration of CPUs from
+> subsys to driver core initialisation, prior to any initcalls running.
+> 
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Reviewed-by: Shaoqin Huang <shahuang@redhat.com>
+> Reviewed-by: Gavin Shan <gshan@redhat.com>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+> Changes since RFC v2:
+>  * Add note about initialisation order change.
+> ---
+>  arch/arm64/Kconfig           |  1 +
+>  arch/arm64/include/asm/cpu.h |  1 -
+>  arch/arm64/kernel/setup.c    | 13 ++++---------
+>  3 files changed, 5 insertions(+), 10 deletions(-)
 
---yyef2a7pj6vk5dry
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Will Deacon <will@kernel.org>
 
-Hello Thierry,
-
-On Mon, Dec 11, 2023 at 12:33:04PM +0100, Thierry Reding wrote:
-> On Fri, Dec 08, 2023 at 07:50:33PM +0100, Uwe Kleine-K=F6nig wrote:
-> > The TL;DR; is essentially what I already wrote in my last reply to Bart
-> > in the v3 thread[1]:
-> >=20
-> >  - My approach needs more changes to the individual drivers (which I
-> >    don't consider a relevant disadvantage given that the resulting code
-> >    is better);
-> >  - My approach works with less pointer dereferences which IMHO also
-> >    simplifies understanding the code as all relevant data is in a single
-> >    place.
-> >  - My approach has a weaker separation between the core and the lowlevel
-> >    drivers. That's ok in my book given that this doesn't complicate the
-> >    lowlevel drivers and that hiding details considerably better doesn't
-> >    work anyhow (see the drivers that need internal.h in your patch).
-> >=20
-> > For me the single allocation issue is only an added bonus. The relevant
-> > advantage of my approach is that the code is easier and (probably) more
-> > efficient.
->=20
-> I happen to disagree. I think adding pwmchip_alloc() makes things much
-> more complicated for low level drivers.
-
-Looking at e.g.
-https://lore.kernel.org/linux-pwm/2dda818b8bbbe8ba4b9df5ab54f960ff4a4f1ab5.=
-1701860672.git.u.kleine-koenig@pengutronix.de/
-I wonder where you see "much more complication". OK, there are two
-pointers now for chip and private data, but I'd call that at most a
-"mild" complication[1] which is more than balanced out by the
-simplifications in the remaining parts of that patch.
-
-Best regards
-Uwe
-
-[1] I'm not sure I'd refuse someone suggesting the following patch on
-    top of today's next:
-
-	diff --git a/drivers/pwm/pwm-microchip-core.c b/drivers/pwm/pwm-microchip-=
-core.c
-	index c0c53968f3e9..d32e65914599 100644
-	--- a/drivers/pwm/pwm-microchip-core.c
-	+++ b/drivers/pwm/pwm-microchip-core.c
-	@@ -448,12 +448,14 @@ MODULE_DEVICE_TABLE(of, mchp_core_of_match);
-	 static int mchp_core_pwm_probe(struct platform_device *pdev)
-	 {
-		struct mchp_core_pwm_chip *mchp_core_pwm;
-	+	struct pwm_chip *chip;
-		struct resource *regs;
-		int ret;
-	=20
-		mchp_core_pwm =3D devm_kzalloc(&pdev->dev, sizeof(*mchp_core_pwm), GFP_KE=
-RNEL);
-		if (!mchp_core_pwm)
-			return -ENOMEM;
-	+	chip =3D &mchp_core_pwm->chip;
-	=20
-		mchp_core_pwm->base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &=
-regs);
-		if (IS_ERR(mchp_core_pwm->base))
-	@@ -470,9 +472,9 @@ static int mchp_core_pwm_probe(struct platform_device =
-*pdev)
-	=20
-		mutex_init(&mchp_core_pwm->lock);
-	=20
-	-	mchp_core_pwm->chip.dev =3D &pdev->dev;
-	-	mchp_core_pwm->chip.ops =3D &mchp_core_pwm_ops;
-	-	mchp_core_pwm->chip.npwm =3D 16;
-	+	chip->dev =3D &pdev->dev;
-	+	chip->ops =3D &mchp_core_pwm_ops;
-	+	chip->npwm =3D 16;
-	=20
-		mchp_core_pwm->channel_enabled =3D readb_relaxed(mchp_core_pwm->base + MC=
-HPCOREPWM_EN(0));
-		mchp_core_pwm->channel_enabled |=3D
-	@@ -485,7 +487,7 @@ static int mchp_core_pwm_probe(struct platform_device =
-*pdev)
-		writel_relaxed(1U, mchp_core_pwm->base + MCHPCOREPWM_SYNC_UPD);
-		mchp_core_pwm->update_timestamp =3D ktime_get();
-	=20
-	-	ret =3D devm_pwmchip_add(&pdev->dev, &mchp_core_pwm->chip);
-	+	ret =3D devm_pwmchip_add(&pdev->dev, chip);
-		if (ret)
-			return dev_err_probe(&pdev->dev, ret, "Failed to add pwmchip\n");
-=20
-    With that applied before the above mentioned patch there is no
-    complication at all in my eyes.
-
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---yyef2a7pj6vk5dry
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV2/f8ACgkQj4D7WH0S
-/k7QwQgApfQEvhd6se+a8+O5GDdTfjV+EObXMDS2kvZsRHCAmatVaTePkn/Zg6Fo
-ZwGiGr9Ttfcjwf0hpLEmy7G2QP38HPZySu1f9Xo4V6NtkIvo4iPm3o60vDqF3mZM
-i+2779oY7aNOanR7E1KyDs7WfAZowpslVZ9qaXlDs6Pa1Hrz4Z7Wn6sF4gVV0SnX
-Qq2kKClfhZCuWBwwSDHS72BKOj2GRkgP32YIDH1LcEP9iemoZqFJivwMh3VGvIXv
-DocnmNO9JXrr3vx5UTcRHZfakEXbIfGOTtibtXwJDI48rHzGcXYRbYGi5B5Sssx/
-SHrVw/Ghy9VDfrcrkb+gLBfpz7JxyA==
-=RAtQ
------END PGP SIGNATURE-----
-
---yyef2a7pj6vk5dry--
+Will
