@@ -1,65 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4QnZhx5"
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D314F9A;
-	Mon, 11 Dec 2023 14:55:47 -0800 (PST)
-Received: by mail-oi1-x231.google.com with SMTP id 5614622812f47-3b9e2a014e8so3361930b6e.2;
-        Mon, 11 Dec 2023 14:55:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702335347; x=1702940147; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jR8cUnQxE8Fxjjkvko5Z57/p4/4j9l8gY2eevyVTgGg=;
-        b=i4QnZhx5jBd+twQDJQcFQHkDBJbxvntV0tYd3zd/qlEwgrHSORXmI2VhNGmnsc3w0t
-         XBKYkPRZoRGVIrZXzZGGbC1CcVwyPkFs5W47uO38vUAlRZ8c03CxAA+EARsm2ph5Txu1
-         sDmCIvVxIn3B7CSioar0dBUamrHe/rHuULey94iDc955LHlvEh8ESQeH6A/X5f2kBwqN
-         JyWY0w7jphiPAKGPKi0jWX4A567+F9g6d5gDT5OiuCDM14RA92OGJ3S9KdUYHM6lHyGd
-         n4+mgRgqzELEQXuT6uholJTxXVY6h4C/xLsbEGMQ4mR/DUCbFqOdxaZ5N8LHoD2UrzL4
-         8bNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702335347; x=1702940147;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jR8cUnQxE8Fxjjkvko5Z57/p4/4j9l8gY2eevyVTgGg=;
-        b=NfdISvxr1nTAj9MYcFQDQVv5Iu4zb0MyjL1cd7b5b5I5zi+lHwmm+Tq/+2OERg95R/
-         TXjWH08LIgk+znxqVT95W6rocppJWHosNQRcU5QojuS0ClFhEj9rbTaFX0LBpB7wJD07
-         a1XCNcL8FgFeaeM2v7shwbW7PPJM2MfnQxSG/WBL0VX33Y0pj7UxxuDTtH2ZqsF69n2k
-         5WXJwNmfhfv/CBsnxlhtFuA7jamST/KgnjgjgWlWHbIWzynQ10ppvv3xE3IJ7f3bx1wm
-         nXThfdNbvTpzpu5xKWR8d7ZTnP9/jC3awqX0s+//FEI9HUKTmObmZTZ3/6jr6EtmKBu2
-         kxIA==
-X-Gm-Message-State: AOJu0YzFfpeLXWR2O2Mnzsx9qfJPl7JHQYyYENQFYXjZZx+XWSM/TAzw
-	dJ0K2iVZSqz/UfPhL1Hg46U=
-X-Google-Smtp-Source: AGHT+IHDuAZTdcpV4XmlTA7uKfI6uuIRe4lg1MZit6+j+D1VUZEhU7umSXUI8zWgVm0W+j1ePT9gJA==
-X-Received: by 2002:a05:6808:1704:b0:3a4:316c:8eeb with SMTP id bc4-20020a056808170400b003a4316c8eebmr6901931oib.40.1702335346953;
-        Mon, 11 Dec 2023 14:55:46 -0800 (PST)
-Received: from google.com ([2620:0:1000:8411:f6ed:4bc3:49fd:2063])
-        by smtp.gmail.com with ESMTPSA id s16-20020a62e710000000b006cb4fa1174dsm6792664pfh.124.2023.12.11.14.55.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 14:55:46 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date: Mon, 11 Dec 2023 14:55:43 -0800
-From: Minchan Kim <minchan@kernel.org>
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
-	akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com,
-	cerasuolodomenico@gmail.com, yosryahmed@google.com,
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
-	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net,
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org,
-	linux-mm@kvack.org, kernel-team@meta.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	david@ixit.cz, Kairui Song <kasong@tencent.com>,
-	Zhongkun He <hezhongkun.hzk@bytedance.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-Message-ID: <ZXeTb_ACou7TEVsa@google.com>
-References: <20231207192406.3809579-1-nphamcs@gmail.com>
- <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
- <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
- <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
- <20231209034229.GA1001962@cmpxchg.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PC5Az13b"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0956ACD;
+	Mon, 11 Dec 2023 15:27:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702337245; x=1733873245;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DdRXcLF5La/fFvm5gRAwmGzIOBnpwPil+HPUgFmjR5I=;
+  b=PC5Az13b+2i7NFtsUEWn7zis7XeOiwjcGXpeP0/FwQxf+WgZ1KntbVhH
+   o9GY7ICqAw3m7b/cfGpc5hT/ArP1IlxS0KDXEF00z6Tjq7xSE5iakfvHc
+   rwGtvQYOSb6OB0aMCNMwcep3u06nT2Kg4C1A4VjELtotBmVDMB3EAIT7J
+   qCqe75W28k5pt0IuAFMvuWI2MwRaAsIoQb1Ux4HwF5nRQoNwuiArf2fqD
+   d1zTUuoZxCcwH+UGfV/1nFpAVD4d5Y/A8JsguGgz3wr0yQGjusSS8bjdN
+   3U+bCMmkNjvoCzVgjwsHM7f6kwQGTSdWtc1FpNuwxmOBtX22Nacjq8eKH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="391898878"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="391898878"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 15:27:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="776850510"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="776850510"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 11 Dec 2023 15:27:22 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rCpgG-000IZD-12;
+	Mon, 11 Dec 2023 23:27:20 +0000
+Date: Tue, 12 Dec 2023 07:27:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx
+ version
+Message-ID: <202312120740.HxQGwUoL-lkp@intel.com>
+References: <50830030-dca7-4c43-bcc8-449c7cfa9fbb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,80 +50,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231209034229.GA1001962@cmpxchg.org>
+In-Reply-To: <50830030-dca7-4c43-bcc8-449c7cfa9fbb@gmail.com>
 
-On Fri, Dec 08, 2023 at 10:42:29PM -0500, Johannes Weiner wrote:
-> On Fri, Dec 08, 2023 at 03:55:59PM -0800, Chris Li wrote:
-> > I can give you three usage cases right now:
-> > 1) Google producting kernel uses SSD only swap, it is currently on
-> > pilot. This is not expressible by the memory.zswap.writeback. You can
-> > set the memory.zswap.max = 0 and memory.zswap.writeback = 1, then SSD
-> > backed swapfile. But the whole thing feels very clunky, especially
-> > what you really want is SSD only swap, you need to do all this zswap
-> > config dance. Google has an internal memory.swapfile feature
-> > implemented per cgroup swap file type by "zswap only", "real swap file
-> > only", "both", "none" (the exact keyword might be different). running
-> > in the production for almost 10 years. The need for more than zswap
-> > type of per cgroup control is really there.
-> 
-> We use regular swap on SSD without zswap just fine. Of course it's
-> expressible.
-> 
-> On dedicated systems, zswap is disabled in sysfs. On shared hosts
-> where it's determined based on which workload is scheduled, zswap is
-> generally enabled through sysfs, and individual cgroup access is
-> controlled via memory.zswap.max - which is what this knob is for.
-> 
-> This is analogous to enabling swap globally, and then opting
-> individual cgroups in and out with memory.swap.max.
-> 
-> So this usecase is very much already supported, and it's expressed in
-> a way that's pretty natural for how cgroups express access and lack of
-> access to certain resources.
-> 
-> I don't see how memory.swap.type or memory.swap.tiers would improve
-> this in any way. On the contrary, it would overlap and conflict with
-> existing controls to manage swap and zswap on a per-cgroup basis.
-> 
-> > 2) As indicated by this discussion, Tencent has a usage case for SSD
-> > and hard disk swap as overflow.
-> > https://lore.kernel.org/linux-mm/20231119194740.94101-9-ryncsn@gmail.com/
-> > +Kairui
-> 
-> Multiple swap devices for round robin or with different priorities
-> aren't new, they have been supported for a very, very long time. So
-> far nobody has proposed to control the exact behavior on a per-cgroup
-> basis, and I didn't see anybody in this thread asking for it either.
-> 
-> So I don't see how this counts as an obvious and automatic usecase for
-> memory.swap.tiers.
-> 
-> > 3) Android has some fancy swap ideas led by those patches.
-> > https://lore.kernel.org/linux-mm/20230710221659.2473460-1-minchan@kernel.org/
-> > It got shot down due to removal of frontswap. But the usage case and
-> > product requirement is there.
-> > +Minchan
-> 
-> This looks like an optimization for zram to bypass the block layer and
-> hook directly into the swap code. Correct me if I'm wrong, but this
-> doesn't appear to have anything to do with per-cgroup backend control.
+Hi Akira,
 
-Hi Johannes,
+kernel test robot noticed the following build warnings:
 
-I haven't been following the thread closely, but I noticed the discussion
-about potential use cases for zram with memcg.
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.7-rc5 next-20231211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-One interesting idea I have is to implement a swap controller per cgroup.
-This would allow us to tailor the zram swap behavior to the specific needs of
-different groups.
+url:    https://github.com/intel-lab-lkp/linux/commits/Akira-Yokosawa/docs-sphinx-requirement-txt-Reflect-recommended-Sphinx-version/20231210-074628
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/50830030-dca7-4c43-bcc8-449c7cfa9fbb%40gmail.com
+patch subject: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx version
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120740.HxQGwUoL-lkp@intel.com/reproduce)
 
-For example, Group A, which is sensitive to swap latency, could use zram swap
-with a fast compression setting, even if it sacrifices some compression ratio.
-This would prioritize quick access to swapped data, even if it takes up more space.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120740.HxQGwUoL-lkp@intel.com/
 
-On the other hand, Group B, which can tolerate higher swap latency, could benefit
-from a slower compression setting that achieves a higher compression ratio.
-This would maximize memory efficiency at the cost of slightly slower data access.
+All warnings (new ones prefixed by >>):
 
-This approach could provide a more nuanced and flexible way to manage swap usage
-within different cgroups.
+>> Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:344: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:39.
+>> Documentation/gpu/drm-kms:461: ./drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:49.
+>> Documentation/gpu/drm-uapi:434: ./drivers/gpu/drm/drm_ioctl.c:928: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:70.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
