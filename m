@@ -1,243 +1,209 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rvw8gy/a"
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E9D10D8
-	for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 01:12:46 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40c1e8458b9so7058275e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 01:12:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DQkLaLJk"
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCDECB3;
+	Mon, 11 Dec 2023 01:31:24 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2c9f4bb2e5eso57376971fa.1;
+        Mon, 11 Dec 2023 01:31:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702285964; x=1702890764; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BQnzx58xLXH7liWhgauf0+5j4k1VBsh2inHpJ7SFKlA=;
-        b=rvw8gy/aKPv0aziAGHmANufUpBm6Pb4yMcaMU06/eq3Baymr3kBz6K5T2qS6cP8TnM
-         jYpKQZPn/IbFyKiQdryVe3dTg6HVwPmNKzS2T7ppVw7zMLOVyvWkpruZmya/DSDE8r1i
-         yAD1qFeKu0U4/+qPo3BfLG5AS7lQDioxnM4NxJWUWTzHG6DsgkP3rO03IVxOKvRc8Plg
-         zs6YAlUkrhWlakpeNAyv/2V+0udDX0dc8JgXgmmAaNGm2DL8hAP3emjZTrSqnZ8ZFJnM
-         QX9bR9GN8vn8juYehh8WRSNoAzD4nBP2Thgprjowb9bbWmfeUFtFKbyMxDRl14j2cl/z
-         lyBQ==
+        d=gmail.com; s=20230601; t=1702287083; x=1702891883; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bJe20/B6V+1jA/nSiEGTI9TatZJ/dlgC/IshXSznt1k=;
+        b=DQkLaLJkD7Ex8oJ6wG0A2SxJgSrP3q0wpHNRu56Evzs2Y09MLLq9R6njYRbZMhPYu8
+         75WOEaZ18/CO2Dkkf0NjW/gMYrB+XN0vCnXwlYXb/Y90s5+SWR4agqPy54HKJ23d8yia
+         2sKiEZCYcpjwKea6m2ivPmf0dqcX1MtMITStzPJCJNyhOihXxR28ZCaKYwd7TXqu5sof
+         dRHkeZ4hfUw0HgEgzmCx7MI4Pl8fXR4RutrhkPeI8JvIP/FzZ0KLans5NBEfGitFAwZX
+         kVWAFj4TS8oYTaQuFS5S8lUKM+pittOV9cT2D/rEzlCby2m0lTBT4KAXl8/l4AQM7Pqy
+         ZcMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702285964; x=1702890764;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BQnzx58xLXH7liWhgauf0+5j4k1VBsh2inHpJ7SFKlA=;
-        b=gUH4pwZpFfdw9Z0BQdBqtGOI9fEy4M2TIhwrm7CbDdFvuzW4qErT+lPq9IJnGBFJk+
-         9aoTjQUZEbgSkIFUYVhEEQ0hLBemRAzPH3+NMdzg75vYgoygrZucnHRZGKUmasnBhX4w
-         DFhD+Eptr/FKIF548HMh8eAgv8sq4s4W21f0hpa6k2TvrF5WoCOWEYb3awib9wSfqn/r
-         wMq9F0uKBx6rsrC2hh5qtuqqsBr48cxbmAwTqWb3DbTxlhLYJ+nOWG67Oj7/rjufRVIy
-         wUL6gH9/GUBChKnMXgqHJFz7BRFfStD2o9ylRXdOq0o470X6Nd4wH8eelIe/uzcFY8wD
-         FSmw==
-X-Gm-Message-State: AOJu0YwlVkEtAF49shIwUdXA0d6Hqv3kja1hjQlyLRRfyBvnBTEGD52Z
-	o+ZruuOZq+3PltdeuXL0tYEDD7TXTT2MO9G8QlQ=
-X-Google-Smtp-Source: AGHT+IECa2mRSMrrAyUQzCQmdAzXStLVbTARuqDmDbcOJ1bDj2d0C8f4VRhdzkHCBRkSiqaD3tUSEQ==
-X-Received: by 2002:a05:600c:b55:b0:405:39bb:38a8 with SMTP id k21-20020a05600c0b5500b0040539bb38a8mr5158938wmr.2.1702285964124;
-        Mon, 11 Dec 2023 01:12:44 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:999:a3a0:c192:fdd1:8f3d:9943? ([2a01:e0a:999:a3a0:c192:fdd1:8f3d:9943])
-        by smtp.gmail.com with ESMTPSA id s7-20020a05600c45c700b0040c45071c18sm4335030wmo.39.2023.12.11.01.12.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 01:12:43 -0800 (PST)
-Message-ID: <42e0c9d4-318e-4c84-bdfb-fd364bea02d5@rivosinc.com>
-Date: Mon, 11 Dec 2023 10:12:42 +0100
+        d=1e100.net; s=20230601; t=1702287083; x=1702891883;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bJe20/B6V+1jA/nSiEGTI9TatZJ/dlgC/IshXSznt1k=;
+        b=VpLAM/MUCeSoI66NUiqfyhL2wDzSEg2uh+ozXrXGN8/jOvUdFYJ/DoRjv4I7KoZadz
+         oOiIUtaFQ1j6bq8os8AKHXtKoHGDZkQfsMXRP6IBhzaQeD60Qn5jKqZ7C/kZ1tZeGsQP
+         GSLvnnl58ax2v013kChnz/HCsGdywO3wNJuWZMVX9Cpjl3+EY0riE1rXtL32cb3Rtpfs
+         je+JUZd/O+/JSVS9R2TY4RpatRBzYVuBVIHXnvANxs8FpaFvqo2R595Ym9wxZ29yhOVW
+         +2B3rc8OvjTsN2nyTaKJ5fTszD19fl2zW2UvTCQPzXaw/WBf1nNltOhWnyNTL7mXso9+
+         kSTQ==
+X-Gm-Message-State: AOJu0Yy+0XKQVtvqGOHNPna3owcKgHMfSoNRwasve/uHYPb3g9/NGudb
+	uBRx9uRPQUjpJEZRSseieMTssbp+JiCN0/d5gYU=
+X-Google-Smtp-Source: AGHT+IGs39bCZR/J9n/341WQqL87l74iYPcz4l7EGywr8Hox9WXsoI1JGYf+LpYEvAbBya6DsiE1yELvbtVHng+G+uQ=
+X-Received: by 2002:a05:651c:19a4:b0:2cc:1db0:4a6f with SMTP id
+ bx36-20020a05651c19a400b002cc1db04a6fmr839578ljb.32.1702287082654; Mon, 11
+ Dec 2023 01:31:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] riscv: Include riscv_set_icache_flush_ctx prctl
-Content-Language: en-US
-To: Charlie Jenkins <charlie@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20231130-fencei-v2-0-2cb623ab1b1f@rivosinc.com>
- <20231130-fencei-v2-1-2cb623ab1b1f@rivosinc.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20231130-fencei-v2-1-2cb623ab1b1f@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+ <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com> <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
+In-Reply-To: <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Mon, 11 Dec 2023 17:31:05 +0800
+Message-ID: <CAMgjq7AjO=Z4Wa3DYaOJdWA+8aNQ1JHZQYKYOm5-SvvgPPOGKg@mail.gmail.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+To: Chris Li <chrisl@kernel.org>
+Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
+	lizefan.x@bytedance.com, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
+	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org, 
+	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeelb@google.com, muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, david@ixit.cz, Minchan Kim <minchan@google.com>, 
+	Zhongkun He <hezhongkun.hzk@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Chris Li <chrisl@kernel.org> =E4=BA=8E2023=E5=B9=B412=E6=9C=889=E6=97=A5=E5=
+=91=A8=E5=85=AD 07:56=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi Nhat,
+>
+> On Thu, Dec 7, 2023 at 5:03=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
+> >
+> > On Thu, Dec 7, 2023 at 4:19=E2=80=AFPM Chris Li <chrisl@kernel.org> wro=
+te:
+> > >
+> > > Hi Nhat,
+> > >
+> > >
+> > > On Thu, Dec 7, 2023 at 11:24=E2=80=AFAM Nhat Pham <nphamcs@gmail.com>=
+ wrote:
+> > > >
+> > > > During our experiment with zswap, we sometimes observe swap IOs due=
+ to
+> > > > occasional zswap store failures and writebacks-to-swap. These swapp=
+ing
+> > > > IOs prevent many users who cannot tolerate swapping from adopting z=
+swap
+> > > > to save memory and improve performance where possible.
+> > > >
+> > > > This patch adds the option to disable this behavior entirely: do no=
+t
+> > > > writeback to backing swapping device when a zswap store attempt fai=
+l,
+> > > > and do not write pages in the zswap pool back to the backing swap
+> > > > device (both when the pool is full, and when the new zswap shrinker=
+ is
+> > > > called).
+> > > >
+> > > > This new behavior can be opted-in/out on a per-cgroup basis via a n=
+ew
+> > > > cgroup file. By default, writebacks to swap device is enabled, whic=
+h is
+> > > > the previous behavior. Initially, writeback is enabled for the root
+> > > > cgroup, and a newly created cgroup will inherit the current setting=
+ of
+> > > > its parent.
+> > > >
+> > > > Note that this is subtly different from setting memory.swap.max to =
+0, as
+> > > > it still allows for pages to be stored in the zswap pool (which its=
+elf
+> > > > consumes swap space in its current form).
+> > > >
+> > > > This patch should be applied on top of the zswap shrinker series:
+> > > >
+> > > > https://lore.kernel.org/linux-mm/20231130194023.4102148-1-nphamcs@g=
+mail.com/
+> > > >
+> > > > as it also disables the zswap shrinker, a major source of zswap
+> > > > writebacks.
+> > >
+> > > I am wondering about the status of "memory.swap.tiers" proof of conce=
+pt patch?
+> > > Are we still on board to have this two patch merge together somehow s=
+o
+> > > we can have
+> > > "memory.swap.tiers" =3D=3D "all" and "memory.swap.tiers" =3D=3D "zswa=
+p" cover the
+> > > memory.zswap.writeback =3D=3D 1 and memory.zswap.writeback =3D=3D 0 c=
+ase?
+> > >
+> > > Thanks
+> > >
+> > > Chris
+> > >
+> >
+> > Hi Chris,
+> >
+> > I briefly summarized my recent discussion with Johannes here:
+> >
+> > https://lore.kernel.org/all/CAKEwX=3DNwGGRAtXoNPfq63YnNLBCF0ZDOdLVRsvzU=
+mYhK4jxzHA@mail.gmail.com/
+>
+> Sorry I am traveling in a different time zone so not able to get to
+> that email sooner. That email is only sent out less than one day
+> before the V6 patch right?
+>
+> >
+> > TL;DR is we acknowledge the potential usefulness of swap.tiers
+> > interface, but the use case is not quite there yet, so it does not
+>
+> I disagree about no use case. No use case for Meta !=3D no usage case
+> for the rest of the linux kernel community. That mindset really needs
+> to shift to do Linux kernel development. Respect other's usage cases.
+> It is not just Meta's Linux kernel. It is everybody's Linux kernel.
+>
+> I can give you three usage cases right now:
+> 1) Google producting kernel uses SSD only swap, it is currently on
+> pilot. This is not expressible by the memory.zswap.writeback. You can
+> set the memory.zswap.max =3D 0 and memory.zswap.writeback =3D 1, then SSD
+> backed swapfile. But the whole thing feels very clunky, especially
+> what you really want is SSD only swap, you need to do all this zswap
+> config dance. Google has an internal memory.swapfile feature
+> implemented per cgroup swap file type by "zswap only", "real swap file
+> only", "both", "none" (the exact keyword might be different). running
+> in the production for almost 10 years. The need for more than zswap
+> type of per cgroup control is really there.
+>
+> 2) As indicated by this discussion, Tencent has a usage case for SSD
+> and hard disk swap as overflow.
+> https://lore.kernel.org/linux-mm/20231119194740.94101-9-ryncsn@gmail.com/
+> +Kairui
 
+Yes, we are not using zswap. We are using ZRAM for swap since we have
+many different varieties of workload instances, with a very flexible
+storage setup. Some of them don't have the ability to set up a
+swapfile. So we built a pack of kernel infrastructures based on ZRAM,
+which so far worked pretty well.
 
-On 01/12/2023 08:21, Charlie Jenkins wrote:
-> Support new prctl with key PR_RISCV_SET_ICACHE_FLUSH_CTX to enable
-> optimization of cross modifying code. This prctl enables userspace code
-> to use icache flushing instructions such as fence.i with the guarantee
-> that the icache will continue to be clean after thread migration.
-> 
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> ---
->  arch/riscv/include/asm/mmu.h       |  2 ++
->  arch/riscv/include/asm/processor.h |  6 ++++++
->  arch/riscv/mm/cacheflush.c         | 37 +++++++++++++++++++++++++++++++++++++
->  arch/riscv/mm/context.c            |  8 +++++---
->  include/uapi/linux/prctl.h         |  3 +++
->  kernel/sys.c                       |  6 ++++++
->  6 files changed, 59 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
-> index 355504b37f8e..60be458e94da 100644
-> --- a/arch/riscv/include/asm/mmu.h
-> +++ b/arch/riscv/include/asm/mmu.h
-> @@ -19,6 +19,8 @@ typedef struct {
->  #ifdef CONFIG_SMP
->  	/* A local icache flush is needed before user execution can resume. */
->  	cpumask_t icache_stale_mask;
-> +	/* Force local icache flush on all migrations. */
-> +	bool force_icache_flush;
->  #endif
->  #ifdef CONFIG_BINFMT_ELF_FDPIC
->  	unsigned long exec_fdpic_loadmap;
-> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-> index f19f861cda54..7eda6c75e0f2 100644
-> --- a/arch/riscv/include/asm/processor.h
-> +++ b/arch/riscv/include/asm/processor.h
-> @@ -84,6 +84,9 @@ struct thread_struct {
->  	unsigned long vstate_ctrl;
->  	struct __riscv_v_ext_state vstate;
->  	unsigned long align_ctl;
-> +#ifdef CONFIG_SMP
-> +	bool force_icache_flush;
-> +#endif
->  };
->  
->  /* Whitelist the fstate from the task_struct for hardened usercopy */
-> @@ -145,6 +148,9 @@ extern int set_unalign_ctl(struct task_struct *tsk, unsigned int val);
->  #define GET_UNALIGN_CTL(tsk, addr)	get_unalign_ctl((tsk), (addr))
->  #define SET_UNALIGN_CTL(tsk, val)	set_unalign_ctl((tsk), (val))
->  
-> +#define RISCV_SET_ICACHE_FLUSH_CTX(arg1, arg2)	riscv_set_icache_flush_ctx(arg1, arg2)
-> +extern int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread);
-> +
->  #endif /* __ASSEMBLY__ */
->  
->  #endif /* _ASM_RISCV_PROCESSOR_H */
-> diff --git a/arch/riscv/mm/cacheflush.c b/arch/riscv/mm/cacheflush.c
-> index 55a34f2020a8..3b2bf8256a10 100644
-> --- a/arch/riscv/mm/cacheflush.c
-> +++ b/arch/riscv/mm/cacheflush.c
-> @@ -5,6 +5,7 @@
->  
->  #include <linux/acpi.h>
->  #include <linux/of.h>
-> +#include <linux/prctl.h>
->  #include <asm/acpi.h>
->  #include <asm/cacheflush.h>
->  
-> @@ -152,3 +153,39 @@ void __init riscv_init_cbo_blocksizes(void)
->  	if (cboz_block_size)
->  		riscv_cboz_block_size = cboz_block_size;
->  }
-> +
-> +/**
-> + * riscv_set_icache_flush_ctx() - Enable userspace to emit icache flushing instructions.
-> + * @ctx: Sets the type of context
-> + *  - PR_RISCV_CTX_SW_FENCEI: Allow fence.i in userspace. Another fence.i will
-> + *			      emitted on thread/process migration.
-> + * @per_thread: When set to 0, will use the default behavior of setting the
-> + *  icache flush context per process. When set to 1, will use a per thread
-> + *  context.
-> + *
-> + * When in per-process context, there may be multiple threads using the same mm.
-> + * Therefore, the icache can never be assumed clean when. Multiple threads in
-> + * the process may modify instructions in the mm concurrently.
-> + *
-> + * In per-thread context, it can be assumed that all modifications to
-> + * instructions in memory will be performed by this thread. When the thread is
-> + * migrated the icache will be flushed.
-> + *
-> + */
-> +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread)
-> +{
-> +#ifdef CONFIG_SMP
-> +	switch (ctx) {
-> +	case PR_RISCV_CTX_SW_FENCEI:
-> +		if (per_thread)
-> +			current->thread.force_icache_flush = true;
-> +		else
-> +			current->mm->context.force_icache_flush = true;
-> +		break;
-> +
-> +	default:
-> +		break;
-> +	}
-> +#endif
-> +	return 0;
-> +}
-> diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
-> index 217fd4de6134..a394b146e78a 100644
-> --- a/arch/riscv/mm/context.c
-> +++ b/arch/riscv/mm/context.c
-> @@ -297,12 +297,14 @@ static inline void set_mm(struct mm_struct *prev,
->   *
->   * The "cpu" argument must be the current local CPU number.
->   */
-> -static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu)
-> +static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu,
-> +					 struct task_struct *task)
->  {
->  #ifdef CONFIG_SMP
->  	cpumask_t *mask = &mm->context.icache_stale_mask;
->  
-> -	if (cpumask_test_cpu(cpu, mask)) {
-> +	if (cpumask_test_cpu(cpu, mask) || mm->context.force_icache_flush ||
-> +	    mm->context.force_icache_flush) {
+The concern from some teams is that ZRAM (or zswap) can't always free
+up memory so they may lead to higher risk of OOM compared to a
+physical swap device, and they do have suitable devices for doing swap
+on some of their machines. So a secondary swap support is very helpful
+in case of memory usage peak.
 
-Hey Charlie,
+Besides this, another requirement is that different containers may
+have different priority, some containers can tolerate high swap
+overhead while some cannot, so swap tiering is useful for us in many
+ways.
 
-Looks like you duplicated "|| mm->context.force_icache_flush" here.
+And thanks to cloud infrastructure the disk setup could change from
+time to time depending on workload requirements, so our requirement is
+to support ZRAM (always) + SSD (optional) + HDD (also optional) as
+swap backends, while not making things too complex to maintain.
 
-Clément
+Currently we have implemented a cgroup based ZRAM compression
+algorithm control, per-cgroup ZRAM accounting and limit, and a
+experimental kernel worker to migrate cold swap entry from high
+priority device to low priority device at very small scale (lack of
+basic mechanics to do this at large scale, however due to the low IOPS
+of slow device and cold pages are rarely accessed, this wasn't too
+much of a problem so far but kind of ugly). The rest of swapping (eg.
+secondary swap when ZRAM if full) will depend on the kernel's native
+ability.
 
->  		cpumask_clear_cpu(cpu, mask);
->  		/*
->  		 * Ensure the remote hart's writes are visible to this hart.
-> @@ -332,5 +334,5 @@ void switch_mm(struct mm_struct *prev, struct mm_struct *next,
->  
->  	set_mm(prev, next, cpu);
->  
-> -	flush_icache_deferred(next, cpu);
-> +	flush_icache_deferred(next, cpu, task);
->  }
-> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> index 370ed14b1ae0..472801ea78cc 100644
-> --- a/include/uapi/linux/prctl.h
-> +++ b/include/uapi/linux/prctl.h
-> @@ -306,4 +306,7 @@ struct prctl_mm_map {
->  # define PR_RISCV_V_VSTATE_CTRL_NEXT_MASK	0xc
->  # define PR_RISCV_V_VSTATE_CTRL_MASK		0x1f
->  
-> +#define PR_RISCV_SET_ICACHE_FLUSH_CTX	71
-> +# define PR_RISCV_CTX_SW_FENCEI		0
-> +
->  #endif /* _LINUX_PRCTL_H */
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index 420d9cb9cc8e..e806a8a67c36 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -146,6 +146,9 @@
->  #ifndef RISCV_V_GET_CONTROL
->  # define RISCV_V_GET_CONTROL()		(-EINVAL)
->  #endif
-> +#ifndef RISCV_SET_ICACHE_FLUSH_CTX
-> +# define RISCV_SET_ICACHE_FLUSH_CTX(a, b)	(-EINVAL)
-> +#endif
->  
->  /*
->   * this is where the system-wide overflow UID and GID are defined, for
-> @@ -2739,6 +2742,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->  	case PR_RISCV_V_GET_CONTROL:
->  		error = RISCV_V_GET_CONTROL();
->  		break;
-> +	case PR_RISCV_SET_ICACHE_FLUSH_CTX:
-> +		error = RISCV_SET_ICACHE_FLUSH_CTX(arg2, arg3);
-> +		break;
->  	default:
->  		error = -EINVAL;
->  		break;
-> 
+So far it works, not in the best form, need more patches to make it
+work better (eg. the swapin/readahead patch I sent previously). Some
+of our design may also need to change in the long term, and we also
+want a well built interface and kernel mechanics to manage multi tier
+swaps, I'm very willing to talk and collaborate on this.
