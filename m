@@ -1,106 +1,118 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CxVHFMRl"
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D6DD6
-	for <linux-doc@vger.kernel.org>; Sun, 10 Dec 2023 22:47:45 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-5ca119bb5ceso137846a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 10 Dec 2023 22:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702277265; x=1702882065; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a48U/31wlYhKh2YcSR/tePNphggIU3CwJSH0jG+cw8E=;
-        b=CxVHFMRlgB3caYI7f54djRbSS7nlsRY6EH1bJoZAmmP8x+HFbdwt4X4taiBgdo4W+S
-         iDrPms4bPKIRQZbgu6KMNkbeu9iysadMyAkMKSKAwtWZjoCdAxuZMHKvJ02cDpexvipD
-         KLf0klhrHjNTZLoXKRMDFDR9iC2geVo9PxNw4+G+/XA4kLnhBnoMv79OaM6ms+yEesXU
-         1Q7hXLprADmXs4IrKGCwIqCPCMYP2lYya08Z/yIfv030QXKnM8bDQ8WxI2xZxBUM48nC
-         5TGJfuvZdLNifk5Yl8s41zm2Ef03E5ID+l6U9kY71+v/ihiUJ4aCPNu7/1IkF/MBCG0F
-         fx7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702277265; x=1702882065;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a48U/31wlYhKh2YcSR/tePNphggIU3CwJSH0jG+cw8E=;
-        b=OtM3jWRcQkLXUuPHkSadayQcu6S1BBInuS7IxuP6KpoqHcSRvdrzT2dP0L+UHb3gru
-         g1DNUuzpjG/eiXML25xZSTOvrDrxR5Zldq4Po3e+t9AI1M3bqE7lujy6lmYYuluufNVS
-         1AHz8/tC9Nu0XM8l6eXuS5trLPn5aPBD0g9tPzQsXDrirGUkERdPqVg956dazNOpDOL3
-         map1jJeX7huk8S5ZXpus3LM2lTYQKa89LNCqdVpEGuoCR/hCkTNKLiulNa+g76LnDm2E
-         wJDWLGXJwLKoAGC63HDDLVCY30K70Nlw7qBWokfwJ7yizgm+7hRVn/qc6Scl1Uztxfo6
-         nZUg==
-X-Gm-Message-State: AOJu0YzwRRBXyPzbwGJytu7nhcXwZTLrQFnu7u7kKWBArSo8OLYBvN7z
-	zo6bj7TWzxOyBIW54V9EZ9THUQ==
-X-Google-Smtp-Source: AGHT+IH1sraA/ewghKmWcDdZXIY/GSc4x1aDBpmQSc9Y28rj/4GaXYs1TwdtDbpoGr+jWN9S49K08w==
-X-Received: by 2002:a05:6a20:431c:b0:18f:97c:ba03 with SMTP id h28-20020a056a20431c00b0018f097cba03mr1769416pzk.93.1702277265442;
-        Sun, 10 Dec 2023 22:47:45 -0800 (PST)
-Received: from localhost ([122.172.82.6])
-        by smtp.gmail.com with ESMTPSA id pt8-20020a17090b3d0800b002839679c23dsm6161953pjb.13.2023.12.10.22.47.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Dec 2023 22:47:44 -0800 (PST)
-Date: Mon, 11 Dec 2023 12:17:42 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Miguel Ojeda <ojeda@kernel.org>, Benno Lossin <benno.lossin@proton.me>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: rust: Clarify that 'rustup override' applies to
- build directory
-Message-ID: <20231211064742.63l4cmvxe4uso5us@vireshk-i7>
-References: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
- <4738ad1c-eb54-4ad6-98c8-3852de3e8fc3@proton.me>
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="jYEyyqYA"
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4212D1;
+	Sun, 10 Dec 2023 23:19:34 -0800 (PST)
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BANfjlm019781;
+	Sun, 10 Dec 2023 23:19:22 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=pfpt0220; bh=8vh6tf0U
+	iRO7FFwK1zjPOvDLQnY91imk59vOvs2rXlE=; b=jYEyyqYAzz5DIdzvHExKHz7f
+	bvTF4raXGN/jyVoAfnGuV+qNxDaLA8pOxgyOth1/Y7QOdtG9K8LWLePCczqWqQcM
+	KQ/o92y4yEsn4PchLIH5VaY0JcZVLHNzUB8OV7TUHcrIIwkHb7mnS6DRWNgHGnIP
+	2iKz6LKIPOdtCuQWCBXqj7AHafm3toOItGm5V30z+woHYP4sDYo69WMVwD4K/WI+
+	6sq87maP0j7+IZi2kqTC+V0dGsDbGOwWypRsS3cQJqMQH/pqZ5dzKjjJ88v7jsRv
+	P8yGUhIZx2BJXm7pNHzYYuMU0os0QzMwNlk0ZMhUVo+kpp1PLBDgnbBWBogaRw==
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3uvrmjkmgt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Sun, 10 Dec 2023 23:19:22 -0800 (PST)
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 10 Dec
+ 2023 23:19:20 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
+ Transport; Sun, 10 Dec 2023 23:19:20 -0800
+Received: from localhost.localdomain (unknown [10.28.36.175])
+	by maili.marvell.com (Postfix) with ESMTP id D646A3F70A1;
+	Sun, 10 Dec 2023 23:19:14 -0800 (PST)
+From: Srujana Challa <schalla@marvell.com>
+To: <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <kuba@kernel.org>
+CC: <linux-crypto@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <bbrezillon@kernel.org>,
+        <arno@natisbad.org>, <pabeni@redhat.com>, <edumazet@google.com>,
+        <corbet@lwn.net>, <sgoutham@marvell.com>, <bbhushan2@marvell.com>,
+        <jerinj@marvell.com>, <sbhatta@marvell.com>, <hkelam@marvell.com>,
+        <lcherian@marvell.com>, <gakula@marvell.com>,
+        <ndabilpuram@marvell.com>, <schalla@marvell.com>
+Subject: [PATCH net-next v1 00/10] Add Marvell CPT CN10KB/CN10KA B0 support
+Date: Mon, 11 Dec 2023 12:49:03 +0530
+Message-ID: <20231211071913.151225-1-schalla@marvell.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4738ad1c-eb54-4ad6-98c8-3852de3e8fc3@proton.me>
-X-Spam-Level: *
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: vuFEhNP5g5RWo8ezdaOa__R2rmyalrig
+X-Proofpoint-ORIG-GUID: vuFEhNP5g5RWo8ezdaOa__R2rmyalrig
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
 
-On 08-12-23, 18:04, Benno Lossin wrote:
-> Shouldn't this be "Note that the override only applies to the current
-> working directory (and its sub-directories)."?
-> I think it would also be useful to continue with this: "But in order
-> to build the kernel, this override must affect the build directory.".
-> 
-> And then you could also mention that in the default location for the
-> build directory is in the repository.
+Marvell OcteonTX2's next gen platform CN10KB/CN10KA B0
+introduced changes in CPT SG input format(SGv2) to make
+it compatibile with NIX SG input format, to support inline
+IPsec in SG mode.
 
-Based on feedback from Miguel and Benno, how about this instead ?
+This patchset modifies the octeontx2 CPT driver code to
+support SGv2 format for CN10KB/CN10KA B0. And also adds
+code to configure newly introduced HW registers.
+This patchset also implements SW workaround for couple of
+HW erratas.
 
-diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
-index f382914f4191..dee787f92d26 100644
---- a/Documentation/rust/quick-start.rst
-+++ b/Documentation/rust/quick-start.rst
-@@ -33,14 +33,17 @@ A particular version of the Rust compiler is required. Newer versions may or
- may not work because, for the moment, the kernel depends on some unstable
- Rust features.
+v1:
+- Fixed sparse errors reported by kernel test robot.
 
--If ``rustup`` is being used, enter the checked out source code directory
--and run::
-+If ``rustup`` is being used, enter the kernel build directory and run::
+Nithin Dabilpuram (2):
+  crypto/octeontx2: register error interrupts for inline cptlf
+  crypto: octeontx2: support setting ctx ilen for inline CPT LF
 
-        rustup override set $(scripts/min-tool-version.sh rustc)
+Srujana Challa (8):
+  crypto: octeontx2: remove CPT block reset
+  :crypto: octeontx2: add SGv2 support for CN10KB or CN10KA B0
+  crypto: octeontx2: add devlink option to set max_rxc_icb_cnt
+  crypto: octeontx2: add devlink option to set t106 mode
+  crypto: octeontx2: remove errata workaround for CN10KB or CN10KA B0
+    chip.
+  crypto: octeontx2: add LF reset on queue disable
+  octeontx2-af: update CPT inbound inline IPsec mailbox
+  crypto: octeontx2: add ctx_val workaround
 
- This will configure your working directory to use the correct version of
--``rustc`` without affecting your default toolchain. If you are not using
--``rustup``, fetch a standalone installer from:
-+``rustc`` without affecting your default toolchain.
-+
-+Note that the override applies to the current working directory (and its
-+sub-directories).
-+
-+If you are not using ``rustup``, fetch a standalone installer from:
-
-        https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
+ Documentation/crypto/device_drivers/index.rst |   9 +
+ .../crypto/device_drivers/octeontx2.rst       |  29 ++
+ Documentation/crypto/index.rst                |   1 +
+ drivers/crypto/marvell/octeontx2/cn10k_cpt.c  |  89 +++++-
+ drivers/crypto/marvell/octeontx2/cn10k_cpt.h  |  27 ++
+ .../marvell/octeontx2/otx2_cpt_common.h       |  68 +++-
+ .../marvell/octeontx2/otx2_cpt_devlink.c      |  89 +++++-
+ .../marvell/octeontx2/otx2_cpt_hw_types.h     |   9 +-
+ .../marvell/octeontx2/otx2_cpt_mbox_common.c  |  26 ++
+ .../marvell/octeontx2/otx2_cpt_reqmgr.h       | 295 ++++++++++++++++++
+ drivers/crypto/marvell/octeontx2/otx2_cptlf.c | 133 +++++---
+ drivers/crypto/marvell/octeontx2/otx2_cptlf.h | 104 ++++--
+ drivers/crypto/marvell/octeontx2/otx2_cptpf.h |   4 +
+ .../marvell/octeontx2/otx2_cptpf_main.c       |  76 ++---
+ .../marvell/octeontx2/otx2_cptpf_mbox.c       |  82 ++++-
+ .../marvell/octeontx2/otx2_cptpf_ucode.c      |  49 +--
+ .../marvell/octeontx2/otx2_cptpf_ucode.h      |   3 +-
+ drivers/crypto/marvell/octeontx2/otx2_cptvf.h |   2 +
+ .../marvell/octeontx2/otx2_cptvf_algs.c       |  31 ++
+ .../marvell/octeontx2/otx2_cptvf_algs.h       |   5 +
+ .../marvell/octeontx2/otx2_cptvf_main.c       |  25 +-
+ .../marvell/octeontx2/otx2_cptvf_mbox.c       |  28 ++
+ .../marvell/octeontx2/otx2_cptvf_reqmgr.c     | 162 +---------
+ .../net/ethernet/marvell/octeontx2/af/rvu.h   |  20 ++
+ .../ethernet/marvell/octeontx2/af/rvu_cpt.c   |  14 +
+ .../ethernet/marvell/octeontx2/af/rvu_reg.h   |   1 +
+ 26 files changed, 1076 insertions(+), 305 deletions(-)
+ create mode 100644 Documentation/crypto/device_drivers/index.rst
+ create mode 100644 Documentation/crypto/device_drivers/octeontx2.rst
 
 -- 
-viresh
+2.25.1
