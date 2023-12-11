@@ -1,249 +1,264 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="gmtdZlii"
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA47FD
-	for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 11:58:17 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1d32c599e83so6519175ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 11:58:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6q1zdkV"
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DBDD6;
+	Mon, 11 Dec 2023 12:37:18 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3332e351670so4516544f8f.0;
+        Mon, 11 Dec 2023 12:37:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702324697; x=1702929497; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=udnVV+1LLo4lC1xfTDslzGTNJxjoPUuCwayPqZBU8LI=;
-        b=gmtdZliiv6tBM5oa15eyJQ9pOGNwSa71YdCzqGhgR7DA7X2gcedECRNwBnTz1CXSwS
-         nxh87Vykoj4BIVjkwi2efSY7jpQZE+ujINEmOslP3SUAaVL5sUylAiNiMpKdBrwgQpX+
-         YHAVESyHdhPLOe8CFkIIozVeCSxlbTSqxNoVBllNSq0SHHrwhTeCXHsPLxUQw+dk3Ant
-         kcNKSZP6d/UkOztEvd+yq6hD6LFM/KsvLOP48ieISXHVUv61tD+pdJjaugVzjuvrdBlT
-         /9ahgIPlrRnpyB7beIyVkq+wNyzOtR+FU2euj5xaLNmVHplTV3KjmwdhWVbxMsJ8F+f3
-         DTQA==
+        d=gmail.com; s=20230601; t=1702327037; x=1702931837; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5mREG4zmhlrjDE364pycILMuHT3yybZyzypq/2nes4o=;
+        b=V6q1zdkV+wxIKXpM7DWq66B2NPzZBUPK4hr3WRtG+MTVSfExKywo7PK4Bt3nluEqDT
+         MkYrCuuDgvHFyqtkeTL5EVEmHFlAqoCG4wzA1E0AOVgzV7GgxwkQ9vs2R6aGYX15ri2/
+         sp1/AuQvVGRbOCriyt32YoOicKW7+0NZ50d5dTXoKn41lk//umXIHVlwVFUrW8yo+vYp
+         lrn9Cd0RaMPdIaG8HHIVCsPOhnrT3YGAomYLF9MeJLVuBcHmmXArVou5P2kL/Ae82RHR
+         ZnSLIq6BPwppSyaCaayBA0PoehLyk2aJOEhKI7Uz3FPmnyjCKCcFU5bviWtGyL9hN/ou
+         07XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702324697; x=1702929497;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1702327037; x=1702931837;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=udnVV+1LLo4lC1xfTDslzGTNJxjoPUuCwayPqZBU8LI=;
-        b=pYWMJncrV7ZxnEcySrjLULlTnJdKHCxk3TDd8gFNcQn04ZwNEdTm5UHujuTCxJOPyB
-         42EIkrjrZaG+7+6gqBVAnuDyLLrjIRMOrZ7wScqAiu3KM+YZt+NqPOfohE5u1Im0xPSd
-         2ZvWLzbwcAiHGv0AOlCDT4xgR8cRcemPdRi8k7GgQZM3Ta4m9J60OmpQldAy0ciJ/n4l
-         uba2tC0/8KCtHjMHGpfwxGNypBJDkA5ljJtThj0lXTgJ+3y2M7tvKW/TLbKbcWHG8t57
-         Iszl78YKyn+O/uAF8IsDUzc9337zM5siSD6Tn8+sCDwalq6P4MJt/RIeqyoyCmcVUpW2
-         Xzew==
-X-Gm-Message-State: AOJu0YzjAMgJVwfHHzYL2ipC1eWx2Mj0QD20r05eUvjzDwJDmFzm78ge
-	d+lA89S5XtIc3Oeo8N488Tuo9w==
-X-Google-Smtp-Source: AGHT+IF8qEC6cJmCNThPUuX1QiJVGVVFfPZYciPtFoh755w8NOMTAIh9h3+bcKDrrfs1KcEClSYy9Q==
-X-Received: by 2002:a17:902:ced1:b0:1d0:b1f0:1006 with SMTP id d17-20020a170902ced100b001d0b1f01006mr4957616plg.101.1702324696738;
-        Mon, 11 Dec 2023 11:58:16 -0800 (PST)
-Received: from ghost ([12.44.203.122])
-        by smtp.gmail.com with ESMTPSA id f8-20020a170902ce8800b001cfc46baa40sm7051945plg.158.2023.12.11.11.58.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 11:58:16 -0800 (PST)
-Date: Mon, 11 Dec 2023 11:58:13 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] riscv: Include riscv_set_icache_flush_ctx prctl
-Message-ID: <ZXdp1WP+CNutw80I@ghost>
-References: <20231130-fencei-v2-0-2cb623ab1b1f@rivosinc.com>
- <20231130-fencei-v2-1-2cb623ab1b1f@rivosinc.com>
- <42e0c9d4-318e-4c84-bdfb-fd364bea02d5@rivosinc.com>
+        bh=5mREG4zmhlrjDE364pycILMuHT3yybZyzypq/2nes4o=;
+        b=XUGOs0D1C5EKC/b3Z0mxu1ogVHxrWSHJxBA65PBIYaZiH9yi8GafUYjsyV8T4DwD50
+         iI/eYdSCMb2iXzA3PXMw5XKi5yiYfZAet5sASmkxXIgBAHe7dc7e+81MnVu4zONtwbgJ
+         e9xqoQTLS1VsUyMbW8DnbrP/FQ/3S73ZrSodhoH31n3CPmfICPsRdUav5uIZ0y+l2p2f
+         BseSMW0UlBock5k7uzKK3pN9UsOmxf/FSvZP268P+JIQRei1jaSBheA1/uU9tAhth7Dp
+         fvX9tXjqjGZbrnAh1rP5Lge2WvBvNqA5x/tTQ4UEppdSvJroTP+V//2x/hUYGgTp/CUf
+         WKGg==
+X-Gm-Message-State: AOJu0YxI/1+RqepqcdtaXs8ZPwTXd9Ha46KBp8URvAL6Hv6fQJGeJM1S
+	HOj5ktQZ5YXRgkSxBIL4Nfo=
+X-Google-Smtp-Source: AGHT+IEzTCISh0ruDu6vYmjO9E9rylweqKZzQOVwuAulm2hyYEqdn+X3sTHJGxJeaYXMVcOHEARlYA==
+X-Received: by 2002:adf:a198:0:b0:333:38eb:8947 with SMTP id u24-20020adfa198000000b0033338eb8947mr1043696wru.275.1702327036762;
+        Mon, 11 Dec 2023 12:37:16 -0800 (PST)
+Received: from [192.168.8.100] ([85.255.234.108])
+        by smtp.gmail.com with ESMTPSA id o4-20020a5d58c4000000b0033333bee379sm9328312wrf.107.2023.12.11.12.37.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Dec 2023 12:37:16 -0800 (PST)
+Message-ID: <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
+Date: Mon, 11 Dec 2023 20:35:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory
+ provider
+To: Mina Almasry <almasrymina@google.com>
+Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann
+ <arnd@arndb.de>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com>
+ <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
+ <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
+ <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com>
+ <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <42e0c9d4-318e-4c84-bdfb-fd364bea02d5@rivosinc.com>
 
-On Mon, Dec 11, 2023 at 10:12:42AM +0100, Clément Léger wrote:
+On 12/11/23 02:30, Mina Almasry wrote:
+> On Sat, Dec 9, 2023 at 7:05â€¯PM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>
+>> On 12/8/23 23:25, Mina Almasry wrote:
+>>> On Fri, Dec 8, 2023 at 2:56â€¯PM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>>>
+>>>> On 12/8/23 00:52, Mina Almasry wrote:
+>>> ...
+>>>>> +     if (pool->p.queue)
+>>>>> +             binding = READ_ONCE(pool->p.queue->binding);
+>>>>> +
+>>>>> +     if (binding) {
+>>>>> +             pool->mp_ops = &dmabuf_devmem_ops;
+>>>>> +             pool->mp_priv = binding;
+>>>>> +     }
+>>>>
+>>>> Hmm, I don't understand why would we replace a nice transparent
+>>>> api with page pool relying on a queue having devmem specific
+>>>> pointer? It seemed more flexible and cleaner in the last RFC.
+>>>>
+>>>
+>>> Jakub requested this change and may chime in, but I suspect it's to
+>>> further abstract the devmem changes from driver. In this iteration,
+>>> the driver grabs the netdev_rx_queue and passes it to the page_pool,
+>>> and any future configurations between the net stack and page_pool can
+>>> be passed this way with the driver unbothered.
+>>
+>> Ok, that makes sense, but even if passed via an rx queue I'd
+>> at least hope it keeping abstract provider parameters, e.g.
+>> ops, but not hard coded with devmem specific code.
+>>
+>> It might even be better done with a helper like
+>> create_page_pool_from_queue(), unless there is some deeper
+>> interaction b/w pp and rx queues is predicted.
+>>
 > 
+> Off hand I don't see the need for a new create_page_pool_from_queue().
+> page_pool_create() already takes in a param arg that lets us pass in
+> the queue as well as any other params.
 > 
-> On 01/12/2023 08:21, Charlie Jenkins wrote:
-> > Support new prctl with key PR_RISCV_SET_ICACHE_FLUSH_CTX to enable
-> > optimization of cross modifying code. This prctl enables userspace code
-> > to use icache flushing instructions such as fence.i with the guarantee
-> > that the icache will continue to be clean after thread migration.
-> > 
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > ---
-> >  arch/riscv/include/asm/mmu.h       |  2 ++
-> >  arch/riscv/include/asm/processor.h |  6 ++++++
-> >  arch/riscv/mm/cacheflush.c         | 37 +++++++++++++++++++++++++++++++++++++
-> >  arch/riscv/mm/context.c            |  8 +++++---
-> >  include/uapi/linux/prctl.h         |  3 +++
-> >  kernel/sys.c                       |  6 ++++++
-> >  6 files changed, 59 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
-> > index 355504b37f8e..60be458e94da 100644
-> > --- a/arch/riscv/include/asm/mmu.h
-> > +++ b/arch/riscv/include/asm/mmu.h
-> > @@ -19,6 +19,8 @@ typedef struct {
-> >  #ifdef CONFIG_SMP
-> >  	/* A local icache flush is needed before user execution can resume. */
-> >  	cpumask_t icache_stale_mask;
-> > +	/* Force local icache flush on all migrations. */
-> > +	bool force_icache_flush;
-> >  #endif
-> >  #ifdef CONFIG_BINFMT_ELF_FDPIC
-> >  	unsigned long exec_fdpic_loadmap;
-> > diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-> > index f19f861cda54..7eda6c75e0f2 100644
-> > --- a/arch/riscv/include/asm/processor.h
-> > +++ b/arch/riscv/include/asm/processor.h
-> > @@ -84,6 +84,9 @@ struct thread_struct {
-> >  	unsigned long vstate_ctrl;
-> >  	struct __riscv_v_ext_state vstate;
-> >  	unsigned long align_ctl;
-> > +#ifdef CONFIG_SMP
-> > +	bool force_icache_flush;
-> > +#endif
-> >  };
-> >  
-> >  /* Whitelist the fstate from the task_struct for hardened usercopy */
-> > @@ -145,6 +148,9 @@ extern int set_unalign_ctl(struct task_struct *tsk, unsigned int val);
-> >  #define GET_UNALIGN_CTL(tsk, addr)	get_unalign_ctl((tsk), (addr))
-> >  #define SET_UNALIGN_CTL(tsk, val)	set_unalign_ctl((tsk), (val))
-> >  
-> > +#define RISCV_SET_ICACHE_FLUSH_CTX(arg1, arg2)	riscv_set_icache_flush_ctx(arg1, arg2)
-> > +extern int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread);
-> > +
-> >  #endif /* __ASSEMBLY__ */
-> >  
-> >  #endif /* _ASM_RISCV_PROCESSOR_H */
-> > diff --git a/arch/riscv/mm/cacheflush.c b/arch/riscv/mm/cacheflush.c
-> > index 55a34f2020a8..3b2bf8256a10 100644
-> > --- a/arch/riscv/mm/cacheflush.c
-> > +++ b/arch/riscv/mm/cacheflush.c
-> > @@ -5,6 +5,7 @@
-> >  
-> >  #include <linux/acpi.h>
-> >  #include <linux/of.h>
-> > +#include <linux/prctl.h>
-> >  #include <asm/acpi.h>
-> >  #include <asm/cacheflush.h>
-> >  
-> > @@ -152,3 +153,39 @@ void __init riscv_init_cbo_blocksizes(void)
-> >  	if (cboz_block_size)
-> >  		riscv_cboz_block_size = cboz_block_size;
-> >  }
-> > +
-> > +/**
-> > + * riscv_set_icache_flush_ctx() - Enable userspace to emit icache flushing instructions.
-> > + * @ctx: Sets the type of context
-> > + *  - PR_RISCV_CTX_SW_FENCEI: Allow fence.i in userspace. Another fence.i will
-> > + *			      emitted on thread/process migration.
-> > + * @per_thread: When set to 0, will use the default behavior of setting the
-> > + *  icache flush context per process. When set to 1, will use a per thread
-> > + *  context.
-> > + *
-> > + * When in per-process context, there may be multiple threads using the same mm.
-> > + * Therefore, the icache can never be assumed clean when. Multiple threads in
-> > + * the process may modify instructions in the mm concurrently.
-> > + *
-> > + * In per-thread context, it can be assumed that all modifications to
-> > + * instructions in memory will be performed by this thread. When the thread is
-> > + * migrated the icache will be flushed.
-> > + *
-> > + */
-> > +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread)
-> > +{
-> > +#ifdef CONFIG_SMP
-> > +	switch (ctx) {
-> > +	case PR_RISCV_CTX_SW_FENCEI:
-> > +		if (per_thread)
-> > +			current->thread.force_icache_flush = true;
-> > +		else
-> > +			current->mm->context.force_icache_flush = true;
-> > +		break;
-> > +
-> > +	default:
-> > +		break;
-> > +	}
-> > +#endif
-> > +	return 0;
-> > +}
-> > diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
-> > index 217fd4de6134..a394b146e78a 100644
-> > --- a/arch/riscv/mm/context.c
-> > +++ b/arch/riscv/mm/context.c
-> > @@ -297,12 +297,14 @@ static inline void set_mm(struct mm_struct *prev,
-> >   *
-> >   * The "cpu" argument must be the current local CPU number.
-> >   */
-> > -static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu)
-> > +static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu,
-> > +					 struct task_struct *task)
-> >  {
-> >  #ifdef CONFIG_SMP
-> >  	cpumask_t *mask = &mm->context.icache_stale_mask;
-> >  
-> > -	if (cpumask_test_cpu(cpu, mask)) {
-> > +	if (cpumask_test_cpu(cpu, mask) || mm->context.force_icache_flush ||
-> > +	    mm->context.force_icache_flush) {
+>>>>> +
+>>>>>         if (pool->mp_ops) {
+>>>>>                 err = pool->mp_ops->init(pool);
+>>>>>                 if (err) {
+>>>>> @@ -1020,3 +1033,77 @@ void page_pool_update_nid(struct page_pool *pool, int new_nid)
+>>>>>         }
+>>>>>     }
+>>>>>     EXPORT_SYMBOL(page_pool_update_nid);
+>>>>> +
+>>>>> +void __page_pool_iov_free(struct page_pool_iov *ppiov)
+>>>>> +{
+>>>>> +     if (WARN_ON(ppiov->pp->mp_ops != &dmabuf_devmem_ops))
+>>>>> +             return;
+>>>>> +
+>>>>> +     netdev_free_dmabuf(ppiov);
+>>>>> +}
+>>>>> +EXPORT_SYMBOL_GPL(__page_pool_iov_free);
+>>>>
+>>>> I didn't look too deep but I don't think I immediately follow
+>>>> the pp refcounting. It increments pages_state_hold_cnt on
+>>>> allocation, but IIUC doesn't mark skbs for recycle? Then, they all
+>>>> will be put down via page_pool_iov_put_many() bypassing
+>>>> page_pool_return_page() and friends. That will call
+>>>> netdev_free_dmabuf(), which doesn't bump pages_state_release_cnt.
+>>>>
+>>>> At least I couldn't make it work with io_uring, and for my purposes,
+>>>> I forced all puts to go through page_pool_return_page(), which calls
+>>>> the ->release_page callback. The callback will put the reference and
+>>>> ask its page pool to account release_cnt. It also gets rid of
+>>>> __page_pool_iov_free(), as we'd need to add a hook there for
+>>>> customization otherwise.
+>>>>
+>>>> I didn't care about overhead because the hot path for me is getting
+>>>> buffers from a ring, which is somewhat analogous to sock_devmem_dontneed(),
+>>>> but done on pp allocations under napi, and it's done separately.
+>>>>
+>>>> Completely untested with TCP devmem:
+>>>>
+>>>> https://github.com/isilence/linux/commit/14bd56605183dc80b540999e8058c79ac92ae2d8
+>>>>
+>>>
+>>> This was a mistake in the last RFC, which should be fixed in v1. In
+>>> the RFC I was not marking the skbs as skb_mark_for_recycle(), so the
+>>> unreffing path wasn't as expected.
+>>>
+>>> In this iteration, that should be completely fixed. I suspect since I
+>>> just posted this you're actually referring to the issue tested on the
+>>> last RFC? Correct me if wrong.
+>>
+>> Right, it was with RFCv3
+>>
+>>> In this iteration, the reffing story:
+>>>
+>>> - memory provider allocs ppiov and returns it to the page pool with
+>>> ppiov->refcount == 1.
+>>> - The page_pool gives the page to the driver. The driver may
+>>> obtain/release references with page_pool_page_[get|put]_many(), but
+>>> the driver is likely not doing that unless it's doing its own page
+>>> recycling.
+>>> - The net stack obtains references via skb_frag_ref() ->
+>>> page_pool_page_get_many()
+>>> - The net stack drops references via skb_frag_unref() ->
+>>> napi_pp_put_page() -> page_pool_return_page() and friends.
+>>>
+>>> Thus, the issue where the unref path was skipping
+>>> page_pool_return_page() and friends should be resolved in this
+>>> iteration, let me know if you think otherwise, but I think this was an
+>>> issue limited to the last RFC.
+>>
+>> Then page_pool_iov_put_many() should and supposedly would never be
+>> called by non devmap code because all puts must circle back into
+>> ->release_page. Why adding it to into page_pool_page_put_many()?
+>>
+>> @@ -731,6 +731,29 @@ __page_pool_put_page(struct page_pool *pool, struct page *page,
+>> +       if (page_is_page_pool_iov(page)) {
+>> ...
+>> +               page_pool_page_put_many(page, 1);
+>> +               return NULL;
+>> +       }
+>>
+>> Well, I'm looking at this new branch from Patch 10, it can put
+>> the buffer, but what if we race at it's actually the final put?
+>> Looks like nobody is going to to bump up pages_state_release_cnt
+>>
 > 
-> Hey Charlie,
-> 
-> Looks like you duplicated "|| mm->context.force_icache_flush" here.
-> 
-Whoops, will send out a fix for that.
+> Good catch, I think indeed the release_cnt would be incorrect in this
+> case. I think the race is benign in the sense that the ppiov will be
+> freed correctly and available for allocation when the page_pool next
+> needs it; the issue is with the stats AFAICT.
 
-- Charlie
+hold_cnt + release_cnt serves is used for refcounting. In this case
+it'll leak the pool when you try to destroy it.
 
-> Clément
+
+>> If you remove the branch, let it fall into ->release and rely
+>> on refcounting there, then the callback could also fix up
+>> release_cnt or ask pp to do it, like in the patch I linked above
+>>
 > 
-> >  		cpumask_clear_cpu(cpu, mask);
-> >  		/*
-> >  		 * Ensure the remote hart's writes are visible to this hart.
-> > @@ -332,5 +334,5 @@ void switch_mm(struct mm_struct *prev, struct mm_struct *next,
-> >  
-> >  	set_mm(prev, next, cpu);
-> >  
-> > -	flush_icache_deferred(next, cpu);
-> > +	flush_icache_deferred(next, cpu, task);
-> >  }
-> > diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> > index 370ed14b1ae0..472801ea78cc 100644
-> > --- a/include/uapi/linux/prctl.h
-> > +++ b/include/uapi/linux/prctl.h
-> > @@ -306,4 +306,7 @@ struct prctl_mm_map {
-> >  # define PR_RISCV_V_VSTATE_CTRL_NEXT_MASK	0xc
-> >  # define PR_RISCV_V_VSTATE_CTRL_MASK		0x1f
-> >  
-> > +#define PR_RISCV_SET_ICACHE_FLUSH_CTX	71
-> > +# define PR_RISCV_CTX_SW_FENCEI		0
-> > +
-> >  #endif /* _LINUX_PRCTL_H */
-> > diff --git a/kernel/sys.c b/kernel/sys.c
-> > index 420d9cb9cc8e..e806a8a67c36 100644
-> > --- a/kernel/sys.c
-> > +++ b/kernel/sys.c
-> > @@ -146,6 +146,9 @@
-> >  #ifndef RISCV_V_GET_CONTROL
-> >  # define RISCV_V_GET_CONTROL()		(-EINVAL)
-> >  #endif
-> > +#ifndef RISCV_SET_ICACHE_FLUSH_CTX
-> > +# define RISCV_SET_ICACHE_FLUSH_CTX(a, b)	(-EINVAL)
-> > +#endif
-> >  
-> >  /*
-> >   * this is where the system-wide overflow UID and GID are defined, for
-> > @@ -2739,6 +2742,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
-> >  	case PR_RISCV_V_GET_CONTROL:
-> >  		error = RISCV_V_GET_CONTROL();
-> >  		break;
-> > +	case PR_RISCV_SET_ICACHE_FLUSH_CTX:
-> > +		error = RISCV_SET_ICACHE_FLUSH_CTX(arg2, arg3);
-> > +		break;
-> >  	default:
-> >  		error = -EINVAL;
-> >  		break;
-> > 
+> Sadly I don't think this is possible due to the reasons I mention in
+> the commit message of that patch. Prematurely releasing ppiov and not
+> having them be candidates for recycling shows me a 4-5x degradation in
+> performance.
+
+I don't think I follow. The concept is to only recycle a buffer (i.e.
+make it available for allocation) when its refs drop to zero, which is
+IMHO the only way it can work, and IIUC what this patchset is doing.
+
+That's also I suggest to do, but through a slightly different path.
+Let's say at some moment there are 2 refs (e.g. 1 for an skb and
+1 for userspace/xarray).
+
+Say it first puts the skb:
+
+napi_pp_put_page()
+   -> page_pool_return_page()
+     -> mp_ops->release_page()
+        -> need_to_free = put_buf()
+           // not last ref, need_to_free==false,
+           // don't recycle, don't increase release_cnt
+
+Then you put the last ref:
+
+page_pool_iov_put_many()
+   -> page_pool_return_page()
+     -> mp_ops->release_page()
+        -> need_to_free = put_buf()
+           // last ref, need_to_free==true,
+           // recycle and release_cnt++
+
+And that last put can even be recycled right into the
+pp / ptr_ring, in which case it doesn't need to touch
+release_cnt. Does it make sense? I don't see where
+4-5x degradation would come from
+
+
+> What I could do here is detect that the refcount was dropped to 0 and
+> fix up the stats in that case.
+
+-- 
+Pavel Begunkov
