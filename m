@@ -1,117 +1,86 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD515B8
-	for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 06:31:52 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rChJL-00005m-1a; Mon, 11 Dec 2023 15:31:07 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rChJG-00F7ct-Pw; Mon, 11 Dec 2023 15:31:02 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rChJG-000z2u-FK; Mon, 11 Dec 2023 15:31:02 +0100
-Date: Mon, 11 Dec 2023 15:30:59 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v7 1/4] pwm: Rename pwm_apply_state() to
- pwm_apply_might_sleep()
-Message-ID: <20231211143059.dggelgdwjnntx7kf@pengutronix.de>
-References: <cover.1702282806.git.sean@mess.org>
- <f2762a5abc13be9ec05a45927bbd84e9da5bb41c.1702282807.git.sean@mess.org>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJnbZq6U"
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0634B4;
+	Mon, 11 Dec 2023 06:41:53 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1d045097b4cso25751485ad.0;
+        Mon, 11 Dec 2023 06:41:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702305713; x=1702910513; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T9DaHiruHnu1Ugo/eNiPXfm/bzESsaARD0DZgVgoZ3k=;
+        b=QJnbZq6UtI1YhCei0Gaa3tAlKU9QPJ7df82DZwpxWCjBB1tXt2SfLi53HrFYyx26Vk
+         CEOBHe+0f3wzh5fawIKaZxplL9jlYR4P2pmrpSGDUZYnByGdRtea24048ppbij1s6kGr
+         VsoyAeyZ8+ZBtnXgelbRra6tWcnzTWmmW2/jYeW8RWYKe1fQPo0W9S7yofm1GUghTwyV
+         5imTFeACMObj4rEQSme7qM8EIxD5L6xm2OOWnOtEdfHy6NFc/Z3AbA2IKCMoz3mlhcvo
+         UPg0+kX+JZQiEn4XpgEQsozJ0bZB4fVfVL1BfJ8Y+uezIST3kGHwxGF0M4pDbAhh6srl
+         M3ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702305713; x=1702910513;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T9DaHiruHnu1Ugo/eNiPXfm/bzESsaARD0DZgVgoZ3k=;
+        b=JH4331o2PH4zDaiUyZORLgs4S89hVh8ruku7ukfFYMR3VeGRz4PBXB9bNNHc9IuhtQ
+         qInhkfubn3ZOGyEv3CmUZSqpRetjnYYhB/49Md7ZjWO+X95hlDpJ2OUTUxbRCcYQVUdA
+         QilX+tc8SkBjtdCIMSEnEuGPFXF7egKmyCnyVdVJKa/pErV7ZrQO2gRlZZd0VDrn/mtZ
+         e5NEgzN2lxgnlBll3WlT345mATkY9GCrUNIgvGNe/Jt1WpPTXLK7x77wT5yk33EUSy3W
+         0Z7MdB/0N8oWuzlwADAeS22/5X1Fp87yYD0Ik9M1kG0iMX5g/4/X635W7OSsOVihuUfh
+         4npg==
+X-Gm-Message-State: AOJu0YwDfGI/KYO6wtP8aIFl5fmZdLmxE33YbOoqx4FvjaZ0PDAwb6Tp
+	XQ1YCwtHnYNQcKZSRmduF8ioxRS/8ms=
+X-Google-Smtp-Source: AGHT+IFU0Ir8swqWWIKeGisQaCsjK175j5nJ5tGS1mkYhcXbQDjsHUfacT1J59An51dqA5EUbKzOug==
+X-Received: by 2002:a17:902:c183:b0:1d0:6ffd:cea7 with SMTP id d3-20020a170902c18300b001d06ffdcea7mr2061723pld.96.1702305713133;
+        Mon, 11 Dec 2023 06:41:53 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id p20-20020a170902ead400b001d0b5a97cabsm6718612pld.124.2023.12.11.06.41.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 06:41:52 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 11 Dec 2023 06:41:51 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Aleksa Savic <savicaleksa83@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] hwmon: Add driver for Gigabyte AORUS Waterforce AIO
+ coolers
+Message-ID: <10044dce-8416-405f-a525-f547d48411f2@roeck-us.net>
+References: <20231207122402.107032-1-savicaleksa83@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kkbvgfm75p6j7s2z"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f2762a5abc13be9ec05a45927bbd84e9da5bb41c.1702282807.git.sean@mess.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <20231207122402.107032-1-savicaleksa83@gmail.com>
 
+On Thu, Dec 07, 2023 at 01:23:59PM +0100, Aleksa Savic wrote:
+> This driver exposes hardware sensors of the Gigabyte AORUS Waterforce
+> all-in-one CPU liquid coolers, which communicate through a proprietary
+> USB HID protocol. Report offsets were initially discovered in [1] and
+> confirmed by me on a Waterforce X240 by observing the sent reports from
+> the official software.
+> 
+> Available sensors are pump and fan speed in RPM, as well as coolant
+> temperature. Also available through debugfs is the firmware version.
+> 
+> Attaching a fan is optional and allows it to be controlled from the
+> device. If it's not connected, the fan-related sensors will report
+> zeroes.
+> 
+> The addressable RGB LEDs and LCD screen are not supported in this
+> driver and should be controlled through userspace tools.
+> 
+> [1]: https://github.com/liquidctl/liquidctl/issues/167
+> 
+> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
 
---kkbvgfm75p6j7s2z
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied.
 
-On Mon, Dec 11, 2023 at 08:24:52AM +0000, Sean Young wrote:
-> In order to introduce a pwm api which can be used from atomic context,
-> we will need two functions for applying pwm changes:
->=20
-> 	int pwm_apply_might_sleep(struct pwm *, struct pwm_state *);
-> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
->=20
-> This commit just deals with renaming pwm_apply_state(), a following
-> commit will introduce the pwm_apply_atomic() function.
->=20
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Acked-by: Lee Jones <lee@kernel.org>
-> Signed-off-by: Sean Young <sean@mess.org>
-
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---kkbvgfm75p6j7s2z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV3HSIACgkQj4D7WH0S
-/k7bnAf/cRTO22nABcFvyIQZ3V56at9Cfad/B9139ZFHLXIV2KYhrRI/65AlFTP2
-nO0TxvG6yhZVS24t9na92aLNJYXlpQpvKScNCEXaZgKg5IOxBn3FEkChVdv0OeQh
-X5nEqz71490AGYDzpQwXckFxMGo8wFhMRU98Htb8tJcn6NNIcfS8kWRy6bmSly9y
-enHFBwqZ+liARBITVl3+y5Qqr1RErOtO1SZl4wxJjDduSbJfvl0ZVjGhI646k6+G
-+qBYmGe9YrWshP/Foo1PClhXj1dTQUucAnB0gc9fnczRvLOTy11dbHZ66NJLcfB+
-wRvN6iZVO/dLcWu5WihPzL4de3xwLg==
-=C1pU
------END PGP SIGNATURE-----
-
---kkbvgfm75p6j7s2z--
+Thanks,
+Guenter
