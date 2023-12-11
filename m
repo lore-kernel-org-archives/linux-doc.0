@@ -1,84 +1,52 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D13156474;
+	Mon, 11 Dec 2023 23:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PC5Az13b"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0956ACD;
-	Mon, 11 Dec 2023 15:27:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702337245; x=1733873245;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DdRXcLF5La/fFvm5gRAwmGzIOBnpwPil+HPUgFmjR5I=;
-  b=PC5Az13b+2i7NFtsUEWn7zis7XeOiwjcGXpeP0/FwQxf+WgZ1KntbVhH
-   o9GY7ICqAw3m7b/cfGpc5hT/ArP1IlxS0KDXEF00z6Tjq7xSE5iakfvHc
-   rwGtvQYOSb6OB0aMCNMwcep3u06nT2Kg4C1A4VjELtotBmVDMB3EAIT7J
-   qCqe75W28k5pt0IuAFMvuWI2MwRaAsIoQb1Ux4HwF5nRQoNwuiArf2fqD
-   d1zTUuoZxCcwH+UGfV/1nFpAVD4d5Y/A8JsguGgz3wr0yQGjusSS8bjdN
-   3U+bCMmkNjvoCzVgjwsHM7f6kwQGTSdWtc1FpNuwxmOBtX22Nacjq8eKH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="391898878"
-X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="391898878"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 15:27:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="776850510"
-X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="776850510"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Dec 2023 15:27:22 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rCpgG-000IZD-12;
-	Mon, 11 Dec 2023 23:27:20 +0000
-Date: Tue, 12 Dec 2023 07:27:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx
- version
-Message-ID: <202312120740.HxQGwUoL-lkp@intel.com>
-References: <50830030-dca7-4c43-bcc8-449c7cfa9fbb@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aYe8sHkA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DC98C433C7;
+	Mon, 11 Dec 2023 23:28:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702337287;
+	bh=Td2tksWNEZTsFePt2Goqq++ee9OiHD3nprCtzBPchV0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aYe8sHkAHkKmE6Nzo4YoxVCaKNfd6hqk/HKlglrqDprNNZEChuYmNURL74xric7zO
+	 ux0e/uYux8/ZRTllWd1+veKhJruRDri1OrVmhOL63uHDXZ5+2vGFIXX4nrVgFppuex
+	 4XCchECV+VTt49xs/iZAiQixU4afkI4OZ8OpTWc/Cjo9rDPnrnatZPRb2OMPh1VfRJ
+	 EU7AlAxoqUXPADdBfxCol0NBa+GkH1/OtbZGptj4DiFQQV1oaJ+pHZwD7Jis1VSfbU
+	 kLP3loJAqGFgj1VW+G+k6s6pI7gBjvCPvoeGs1pOOA8jZIlAzXdSDEKxYGIN7sY/n6
+	 M8gza4g0aoBLQ==
+Date: Mon, 11 Dec 2023 15:28:06 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
+ <jacob.e.keller@intel.com>, donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v2 01/11] tools/net/ynl-gen-rst: Use bullet
+ lists for attribute-set entries
+Message-ID: <20231211152806.42a5323b@kernel.org>
+In-Reply-To: <20231211164039.83034-2-donald.hunter@gmail.com>
+References: <20231211164039.83034-1-donald.hunter@gmail.com>
+	<20231211164039.83034-2-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <50830030-dca7-4c43-bcc8-449c7cfa9fbb@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Akira,
+On Mon, 11 Dec 2023 16:40:29 +0000 Donald Hunter wrote:
+> The generated .rst for attribute-sets currently uses a sub-sub-heading
+> for each individual attribute. Change this to use a bullet list the
+> attributes in an attribute-set. It is more compact and readable.
 
-kernel test robot noticed the following build warnings:
+This is on purpose, we want to be able to link to the attributes.
+And AFAIU we can only link to headings.
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v6.7-rc5 next-20231211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Akira-Yokosawa/docs-sphinx-requirement-txt-Reflect-recommended-Sphinx-version/20231210-074628
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/50830030-dca7-4c43-bcc8-449c7cfa9fbb%40gmail.com
-patch subject: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx version
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120740.HxQGwUoL-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120740.HxQGwUoL-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:344: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:39.
->> Documentation/gpu/drm-kms:461: ./drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:49.
->> Documentation/gpu/drm-uapi:434: ./drivers/gpu/drm/drm_ioctl.c:928: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:70.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The documentation for attrs is currently a bit sparse so the docs 
+end up looking awkward. But that's a problem with people not writing
+enough doc comments, not with the render, innit? :(
