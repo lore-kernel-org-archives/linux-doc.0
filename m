@@ -1,151 +1,119 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IdTvJob8"
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE568E;
-	Mon, 11 Dec 2023 08:26:42 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a1fae88e66eso95222866b.3;
-        Mon, 11 Dec 2023 08:26:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hrkrjmgh"
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E24F98E;
+	Mon, 11 Dec 2023 08:40:55 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-40c1e3ea2f2so49220745e9.2;
+        Mon, 11 Dec 2023 08:40:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702312001; x=1702916801; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NAIDey4/RJpew1wYosy/s17kDRCEpYHvKTUhWB5Rkvw=;
-        b=IdTvJob8auwMK/WI9suBJdgMxjww90QxPR/YTeoDKWKRDTAO9xWK9O3GFdW5GtNtLB
-         jlTW3wOSFMmcx9qHZF7Yw1e8+ckjW5AL9eVs/IyXhQAOldq3iymF5LJxkqPtSGMvm5CN
-         74ZNL9G1nmUh/Vow8+r4FnERXKfRMPlETYRvVx+/mPbvRqtNrd2P0m9Eg2y1DC4ctp+f
-         ErwwIKcGT/A85W2hCegbJCKJ3kOYBSLJOQDB5iToAY2oDtcUWs777EhKaN/Han+hFGpF
-         hKqzgCB6iI29S1kDwoOf0X+cwjhYZZmwrmQZKxdyJ+yeWjde8uCoqnLo3AwiAfvHFNP8
-         yo3g==
+        d=gmail.com; s=20230601; t=1702312854; x=1702917654; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dkCf0DhZvaO2gkb8ogtkdmwQwzvrHCMJQPh/ypY2+UA=;
+        b=HrkrjmghCxeBfUrKoseS/rzYVwJwcTUPAQUMPULZlqDtVC2GFAs2pneVZCRokXwend
+         mX4VDlav5WwvsEOHeC3dQJZOIqUd/1UNUwPZ55JSJMAvAVGOrkLZrUnpRx/bcejjw3Ct
+         RBaNADp7cXVshTqh30v1MNCpVc0RhdoH2ZYMP4M1VzCf7PzkBzAxsOOPrJgrK3xn0lQh
+         k9IaH6rSVQQ8VYdHrp5zZFkkcRlwdc26CIXMX1I8iN6oku28HRLEI9Np/2AyxNXwiMmJ
+         Cvp2UUkax6KJd5d/nZIe1wrC9ybSkEMso0dAP4UU2ncOuwP/6hCqa00rO8SIQx+K5Qxg
+         8FiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702312001; x=1702916801;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NAIDey4/RJpew1wYosy/s17kDRCEpYHvKTUhWB5Rkvw=;
-        b=XsMzbq47dHBrD4C/v1GBNT2ClO9CSN6BUTHsyQCgnTKn85OISZaqiRwZZ1QYR5eCI4
-         d/jYW6GWxLov/Ga+tSHaVukM72XfBhlbkVLt35JbsS3Rrw3oqH+w5LGC+XHBRIitd22T
-         mmzkbrSMtBwK6O7/NvwZAo4EMRzydzzhOALPAfeAv5BK0wXUnrukVMx8YylyfFDiuVLY
-         WP3oj5/r5xSvuCOgfuvIujn4ou3Um5IKyRESRZbXrcDfmShRhEgR/cGKp8zMWIpDZbP1
-         DfNbVcpuMymeCvjVKXXy/LlGc6bau8YCASZ8pNmbIvp6UwKr6v58lasLyKd9pmI6c6BX
-         4Xlg==
-X-Gm-Message-State: AOJu0YwfuNoxUOQ1ENwtc5lPeDOBouq0xjI0eJQt9GrW78iZNDSPNjF6
-	M8wjcpyHHnfMF0iRVRNOP+5ptC7pMQ==
-X-Google-Smtp-Source: AGHT+IE8SA+Zfu0wxgDjSfpcJ+DvSrQvEKDAlLcq6l3Sc9LzND6SYsZ2l9I7s4JZ3N/dxoOKrwkucA==
-X-Received: by 2002:a17:906:194a:b0:a1d:731b:1ae3 with SMTP id b10-20020a170906194a00b00a1d731b1ae3mr2266030eje.100.1702312000634;
-        Mon, 11 Dec 2023 08:26:40 -0800 (PST)
-Received: from p183 ([46.53.250.155])
-        by smtp.gmail.com with ESMTPSA id vw11-20020a170907a70b00b00a1cbb055575sm4993429ejc.180.2023.12.11.08.26.39
+        d=1e100.net; s=20230601; t=1702312854; x=1702917654;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dkCf0DhZvaO2gkb8ogtkdmwQwzvrHCMJQPh/ypY2+UA=;
+        b=iyIKDXiepDWobK5ql9wu7/krX5o9Rs0dBZByXBGbdZRL4iwTEPSNG90ngYOt8GSESX
+         zzm7MD2bp2SWmG0JBtB7M46mGpzHNGB+97P6ov2zmljSL7XZFm+E/t6IKngL8qEh8TXK
+         8ZQxXd9xCuAL8FzfY4X/BKIV+uTa8vJwwT7IGrAMtBm0HPUuJVt2DJTRT2dogl40f8LZ
+         wYW3UAkXEOMbGojCxgwKPuBRKAIteUAudlz4+5CmaHV6DDH9wjsrRjtqPCJYfxZhlLbc
+         mJ2kV/5Ntrpo6iisByqhuaDUleNuhr6E4gWkbEZIJ66r/fhEjl36lEkzdKzj+UeUzBfZ
+         v7hQ==
+X-Gm-Message-State: AOJu0YwIj331kETePO30UazmxkRcaZck53O/PElp70DdYXiKH5z2pIos
+	Pdw8dmnVhuWr94W3D3sU7m/ems4Nb4MCag==
+X-Google-Smtp-Source: AGHT+IH5VkYMmuyZECS86G/xP1g4J8VVdveSnbzr2Q8HGc12HRJSDfIjBcpfk6dF/fvjcxLr6K2Ynw==
+X-Received: by 2002:a05:600c:4f87:b0:40c:3e9f:c777 with SMTP id n7-20020a05600c4f8700b0040c3e9fc777mr2230516wmq.62.1702312853513;
+        Mon, 11 Dec 2023 08:40:53 -0800 (PST)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:4c3e:5ea1:9128:f0b4])
+        by smtp.gmail.com with ESMTPSA id n9-20020a05600c4f8900b0040c41846923sm7418679wmq.26.2023.12.11.08.40.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 08:26:39 -0800 (PST)
-Date: Mon, 11 Dec 2023 19:26:37 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Kees Cook <keescook@chromium.org>, akpm@linux-foundation.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org
-Subject: Re: [PATCH v3] ELF: document some de-facto PT_* ABI quirks
-Message-ID: <5c50e975-4e57-4feb-8f14-036b7937f350@p183>
-References: <2acb586c-08a9-42d9-a41e-7986cc1383ea@p183>
- <e262ea00-a027-9073-812e-7e034d75e718@infradead.org>
- <c4233c97-306c-4db8-9667-34fc31ec4aed@p183>
- <87edp7jyu4.fsf@meer.lwn.net>
- <88d3f1bb-f4e0-4c40-9304-3843513a1262@p183>
- <202312061456.2103DA1@keescook>
- <874jgugilq.fsf@email.froward.int.ebiederm.org>
- <57f5aa9d-79c5-4f65-b90f-204600edfb80@p183>
- <87edftbr6d.fsf@email.froward.int.ebiederm.org>
+        Mon, 11 Dec 2023 08:40:52 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Jacob Keller <jacob.e.keller@intel.com>
+Cc: donald.hunter@redhat.com,
+	Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH net-next v2 00/11] tools/net/ynl: Add 'sub-message' support to ynl
+Date: Mon, 11 Dec 2023 16:40:28 +0000
+Message-ID: <20231211164039.83034-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87edftbr6d.fsf@email.froward.int.ebiederm.org>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Dec 10, 2023 at 04:58:50PM -0600, Eric W. Biederman wrote:
-> Alexey Dobriyan <adobriyan@gmail.com> writes:
-> 
-> > On Thu, Dec 07, 2023 at 09:03:45AM -0600, Eric W. Biederman wrote:
+This patchset adds a 'sub-message' attribute type to the netlink-raw
+schema and implements it in ynl. This provides support for kind-specific
+options attributes as used in rt_link and tc raw netlink families.
 
-> >> Quite frankly if we are going to do something with this my sense is that
-> >> we should fail the execve with a clear error code as userspace should
-> >> not be doing this, and accepting a malformed executable will hide
-> >> errors, and perhaps hide someone causing problems.
-> >
-> > Maybe do it for PT_GNU_PROPERTY which is relatively new.
-> >
-> >> I really don't think having multiple copies of these headers with
-> >> different values is something we should encourage.
-> >> 
-> >> It looks like -ELIBBAD is the documented way to fail and report
-> >> a bad file format.
-> >
-> > It is obvious you don't know how much will break.
-> 
-> My assumption is frankly that nothing will break.  My quick examination
-> of userspace binaries suggests that nothing is silly enough to duplicate
-> such headers.
+A description of the new 'sub-message' attribute type and the
+corresponding sub-message definitions is provided in patch 5.
 
-Ha! Non-overlapping PT_LOAD segments is reasonable requirement (why would
-you have them?) but it was reverted.
+The patchset includes updates to the rt_link spec and a new tc spec that
+make use of the new 'sub-message' attribute type.
 
-> Do you know of a binaries in userspace that duplicate these headers?
-> 
-> Without a documented ordering arguably anything that results in
-> these headers being duplicated is already buggy, and broken.
-> 
-> I can think of no use for duplicating these headers other than
-> as some kind of gadget in an exploit.  I don't see how such
-> a gadget would be useful currently.
-> 
-> >
-> >> For PT_GNU_PROPTERTY perhaps we should accept it anywhere, instead of
-> >> silently ignoring it depending upon it's location?
-> >> 
-> >> I thinking change the code to talk one pass through the program headers
-> >> to identify the interesting headers, and then with the interesting
-> >> headers all identified we go do something with them.
-> >> 
-> >> Anyway just my opinion, but that is what it feels like to me.
-> >
-> > _Not_ checking for duplicates will result in the simplest and fastest exec.
-> > which is what current code does.
-> 
-> Given that I/O is involved taking a pre-pass through the headers is
-> in the noise, and it might even make the code faster as it would
-> prime the code for the other passes.
+As mentioned in patch 7, encode support is not yet implemented in ynl
+and support for sub-message selectors at a different nest level from the
+key attribute is not yet supported. I plan to work on these in folloup
+patches.
 
-Branches will evict other branches from branch predictor.
-And it is always more code.
+Patches 1-4 are cleanups and fixes in ynl
+Patches 5-7 add sub-message support to the schema and ynl with
+documentation updates.
+Patch 8 adds binary and pad support to structs in netlink-raw.
+Patches 9-10 contain specs that use the sub-message attribute type.
+Patch 11 updates ynl-gen-rst to include sub-messages
 
-ELF is very rigid format. E.g segment headers can overlap everything
-else and it is not a problem. Overmapped PT_LOAD segments aren't
-a problem too (for the kernel).
+Changes since v1: (all reported by Jakub Kicinski, thanks!)
+ - Added cleanups for ynl and generated netlink docs
+ - Describe sub-messages in netlink docs
+ - Cleaned up unintended indent changes
+ - Cleaned up rt-link sub-message definitions
+ - Cleaned up array index expressions to follow python style
+ - Added sub-messages to generated netlink spec docs
 
-These things should have been rejected from the very beginning.
+Donald Hunter (11):
+  tools/net/ynl-gen-rst: Use bullet lists for attribute-set entries
+  tools/net/ynl-gen-rst: Sort the index of generated netlink specs
+  doc/netlink: Regenerate netlink .rst files if ynl-gen-rst changes
+  tools/net/ynl: Use consistent array index expression formatting
+  doc/netlink: Add sub-message support to netlink-raw
+  doc/netlink: Document the sub-message format for netlink-raw
+  tools/net/ynl: Add 'sub-message' attribute decoding to ynl
+  tools/net/ynl: Add binary and pad support to structs for tc
+  doc/netlink/specs: add sub-message type to rt_link family
+  doc/netlink/specs: Add a spec for tc
+  tools/net/ynl-gen-rst: Add sub-messages to generated docs
 
-I'd even argue kernel rejects too much:
+ Documentation/Makefile                        |    7 +-
+ Documentation/netlink/netlink-raw.yaml        |   53 +-
+ Documentation/netlink/specs/rt_link.yaml      |  436 +++-
+ Documentation/netlink/specs/tc.yaml           | 2036 +++++++++++++++++
+ .../userspace-api/netlink/netlink-raw.rst     |   75 +-
+ tools/net/ynl/lib/nlspec.py                   |   55 +
+ tools/net/ynl/lib/ynl.py                      |   94 +-
+ tools/net/ynl/ynl-gen-rst.py                  |   27 +-
+ 8 files changed, 2748 insertions(+), 35 deletions(-)
+ create mode 100644 Documentation/netlink/specs/tc.yaml
 
-		elf_entry = e_entry;
-                if (BAD_ADDR(elf_entry)) {
-                        retval = -EINVAL;
-                        goto out_free_dentry;
-                }
+-- 
+2.42.0
 
-Why even check? If e_entry is bad than process will segfault and that's it.
-
-		elf_ppnt->p_filesz > elf_ppnt->p_memsz
-
-Again, why check, just map the minimum.
-
-> The fastest of course would be to have the elf loader only look
-> at the first of any of these headers.
-> 
-> What got you wanting to document how we handle duplicates?
-
-I read ELF code too much and noticed that loops are slightly different,
-that's all.
