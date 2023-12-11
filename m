@@ -1,160 +1,147 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Bfd6HASy"
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E5F8AF
-	for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 13:56:17 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-7b74bc536dbso16632739f.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 13:56:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4QnZhx5"
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D314F9A;
+	Mon, 11 Dec 2023 14:55:47 -0800 (PST)
+Received: by mail-oi1-x231.google.com with SMTP id 5614622812f47-3b9e2a014e8so3361930b6e.2;
+        Mon, 11 Dec 2023 14:55:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1702331776; x=1702936576; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QWln+CTTERyZ6ImQ/92s4pzeNQeDoALVr1bp+5tWi4A=;
-        b=Bfd6HASyVBFKiddbCav9xD13UkpAkC/+RDM0FWcUg5sLMJgju+dAC/5uW9DMlzRKEx
-         IaRADmo3PI4CvyVjdmdkkGI+lnl1kWBBSh5LrhQEmwqSDt6WKVO5EWaBl3Jha6Cd957U
-         opexMuPQFSO+OJP28mwWqnKoTBD65sMshOW9k=
+        d=gmail.com; s=20230601; t=1702335347; x=1702940147; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jR8cUnQxE8Fxjjkvko5Z57/p4/4j9l8gY2eevyVTgGg=;
+        b=i4QnZhx5jBd+twQDJQcFQHkDBJbxvntV0tYd3zd/qlEwgrHSORXmI2VhNGmnsc3w0t
+         XBKYkPRZoRGVIrZXzZGGbC1CcVwyPkFs5W47uO38vUAlRZ8c03CxAA+EARsm2ph5Txu1
+         sDmCIvVxIn3B7CSioar0dBUamrHe/rHuULey94iDc955LHlvEh8ESQeH6A/X5f2kBwqN
+         JyWY0w7jphiPAKGPKi0jWX4A567+F9g6d5gDT5OiuCDM14RA92OGJ3S9KdUYHM6lHyGd
+         n4+mgRgqzELEQXuT6uholJTxXVY6h4C/xLsbEGMQ4mR/DUCbFqOdxaZ5N8LHoD2UrzL4
+         8bNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702331776; x=1702936576;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QWln+CTTERyZ6ImQ/92s4pzeNQeDoALVr1bp+5tWi4A=;
-        b=iqnKfw+5XLaxctD8QLhXQ8vxLocZrlAQI9SNHQraa0kE2G/DTuJAaO8PgOHvc6GRp/
-         Yt6+quMiORM5yqD8ohwsrwysPerKkpz2m+EapSw1vHbg+qL1kgV2L/eCp8O+GtU73I1c
-         cikV1JKD4PYCZF/DPrxUNTseG9jSAUTVVl/o4rAKZlcCI3RoxFoNekBkleN7KEjQOntX
-         PpnaOHMRkKPt6RFH/ETW+V0tmKqgPnAf7RXVKQz/l4yXtsPiD7vQkThLEoVxIWQpZm8W
-         EHjkwSUfKJr56hbzJpkG0NSYCsZGBde1vfl8vXZGaRAEtldo52MtENbfNUZ0aGY4+xfP
-         Eo2g==
-X-Gm-Message-State: AOJu0YwU/Pxg/sssOdLgYBUhCLdVW7lTjcTDinJA9SiyFJkuBCQmjAHK
-	Z6W7CoVeZNkMs7xZ3tFmMX8rnQ==
-X-Google-Smtp-Source: AGHT+IF6u9PBe1663T7e/DMZyJ7Y1Ma1Qz6eO0no0u2sL4WErWGwXoWSypjjC6bPS2hdgwcAG+zcOw==
-X-Received: by 2002:a6b:a0d:0:b0:7b6:f0b4:92aa with SMTP id z13-20020a6b0a0d000000b007b6f0b492aamr8560958ioi.0.1702331776554;
-        Mon, 11 Dec 2023 13:56:16 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id l27-20020a02cd9b000000b0046938c12608sm2097774jap.122.2023.12.11.13.56.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 13:56:16 -0800 (PST)
-Message-ID: <2c4f2771-0557-4b44-9c98-6bd2e6930d2f@linuxfoundation.org>
-Date: Mon, 11 Dec 2023 14:56:15 -0700
+        d=1e100.net; s=20230601; t=1702335347; x=1702940147;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jR8cUnQxE8Fxjjkvko5Z57/p4/4j9l8gY2eevyVTgGg=;
+        b=NfdISvxr1nTAj9MYcFQDQVv5Iu4zb0MyjL1cd7b5b5I5zi+lHwmm+Tq/+2OERg95R/
+         TXjWH08LIgk+znxqVT95W6rocppJWHosNQRcU5QojuS0ClFhEj9rbTaFX0LBpB7wJD07
+         a1XCNcL8FgFeaeM2v7shwbW7PPJM2MfnQxSG/WBL0VX33Y0pj7UxxuDTtH2ZqsF69n2k
+         5WXJwNmfhfv/CBsnxlhtFuA7jamST/KgnjgjgWlWHbIWzynQ10ppvv3xE3IJ7f3bx1wm
+         nXThfdNbvTpzpu5xKWR8d7ZTnP9/jC3awqX0s+//FEI9HUKTmObmZTZ3/6jr6EtmKBu2
+         kxIA==
+X-Gm-Message-State: AOJu0YzFfpeLXWR2O2Mnzsx9qfJPl7JHQYyYENQFYXjZZx+XWSM/TAzw
+	dJ0K2iVZSqz/UfPhL1Hg46U=
+X-Google-Smtp-Source: AGHT+IHDuAZTdcpV4XmlTA7uKfI6uuIRe4lg1MZit6+j+D1VUZEhU7umSXUI8zWgVm0W+j1ePT9gJA==
+X-Received: by 2002:a05:6808:1704:b0:3a4:316c:8eeb with SMTP id bc4-20020a056808170400b003a4316c8eebmr6901931oib.40.1702335346953;
+        Mon, 11 Dec 2023 14:55:46 -0800 (PST)
+Received: from google.com ([2620:0:1000:8411:f6ed:4bc3:49fd:2063])
+        by smtp.gmail.com with ESMTPSA id s16-20020a62e710000000b006cb4fa1174dsm6792664pfh.124.2023.12.11.14.55.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 14:55:46 -0800 (PST)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+Date: Mon, 11 Dec 2023 14:55:43 -0800
+From: Minchan Kim <minchan@kernel.org>
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
+	akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com,
+	cerasuolodomenico@gmail.com, yosryahmed@google.com,
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net,
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org,
+	linux-mm@kvack.org, kernel-team@meta.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	david@ixit.cz, Kairui Song <kasong@tencent.com>,
+	Zhongkun He <hezhongkun.hzk@bytedance.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+Message-ID: <ZXeTb_ACou7TEVsa@google.com>
+References: <20231207192406.3809579-1-nphamcs@gmail.com>
+ <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+ <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
+ <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
+ <20231209034229.GA1001962@cmpxchg.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] livepatch: Move tests from lib/livepatch to
- selftests/livepatch
-Content-Language: en-US
-To: mpdesouza@suse.com, Joe Lawrence <joe.lawrence@redhat.com>,
- Miroslav Benes <mbenes@suse.cz>
-Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Petr Mladek <pmladek@suse.com>,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
- live-patching@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com>
- <20231031-send-lp-kselftests-v3-2-2b1655c2605f@suse.com>
- <ZWn7dEzVWoKxycmy@redhat.com>
- <alpine.LSU.2.21.2312061543280.13051@pobox.suse.cz>
- <273a86d6-d220-fdcf-3c2f-70516c519ff9@redhat.com>
- <57fb9f30afbaddb09def96aac11c45296a59a277.camel@suse.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <57fb9f30afbaddb09def96aac11c45296a59a277.camel@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231209034229.GA1001962@cmpxchg.org>
 
-On 12/7/23 12:19, mpdesouza@suse.com wrote:
-> On Thu, 2023-12-07 at 10:20 -0500, Joe Lawrence wrote:
->> On 12/6/23 10:05, Miroslav Benes wrote:
->>> On Fri, 1 Dec 2023, Joe Lawrence wrote:
->>>
->>>> On Tue, Oct 31, 2023 at 06:10:52PM -0300, Marcos Paulo de Souza
->>>> wrote:
->>>>> The modules are being moved from lib/livepatch to
->>>>> tools/testing/selftests/livepatch/test_modules.
->>>>>
->>>>> This code moving will allow writing more complex tests, like
->>>>> for example an
->>>>> userspace C code that will call a livepatched kernel function.
->>>>>
->>>>> The modules are now built as out-of-tree
->>>>> modules, but being part of the kernel source means they will be
->>>>> maintained.
->>>>>
->>>>> Another advantage of the code moving is to be able to easily
->>>>> change,
->>>>> debug and rebuild the tests by running make on the
->>>>> selftests/livepatch directory,
->>>>> which is not currently possible since the modules on
->>>>> lib/livepatch are
->>>>> build and installed using the "modules" target.
->>>>>
->>>>> The current approach also keeps the ability to execute the
->>>>> tests manually by
->>>>> executing the scripts inside selftests/livepatch directory, as
->>>>> it's currently
->>>>> supported. If the modules are modified, they needed to be
->>>>> rebuilt before running
->>>>> the scripts though.
->>>>>
->>>>> The modules are built before running the selftests when using
->>>>> the
->>>>> kselftest invocations:
->>>>>
->>>>> 	make kselftest TARGETS=livepatch
->>>>> or
->>>>> 	make -C tools/testing/selftests/livepatch run_tests
->>>>>
->>>>
->>>> Quick question:
->>>>
->>>> - We have been building with CONFIG_LIVEPATCH_TEST=m to generate
->>>> the
->>>>    test modules at kernel build time
->>>>
->>>> - Our packaging filters out the selftest scripts and supporting
->>>> modules
->>>>    from the general kernel RPM package into their subpackages
->>>>
->>>> - Tests are run as part of CKI or other manual tests by
->>>> installing the
->>>>    pre-built packages from the previous step
->>>>
->>>>
->>>> After this patch, we would need to add something like the
->>>> following to
->>>> our kernel build, before packaging:
->>>>
->>>>    $ make KDIR=$(pwd) -C tools/testing/selftests/livepatch/
->>>>           ^^^^
->>>>
->>>> If this is the correct way to build the test modules for *this*
->>>> tree and
->>>> /lib/modules/$(shell uname -r)/build... it might be useful to
->>>> document
->>>> in the commit message as an alternative use case.
+On Fri, Dec 08, 2023 at 10:42:29PM -0500, Johannes Weiner wrote:
+> On Fri, Dec 08, 2023 at 03:55:59PM -0800, Chris Li wrote:
+> > I can give you three usage cases right now:
+> > 1) Google producting kernel uses SSD only swap, it is currently on
+> > pilot. This is not expressible by the memory.zswap.writeback. You can
+> > set the memory.zswap.max = 0 and memory.zswap.writeback = 1, then SSD
+> > backed swapfile. But the whole thing feels very clunky, especially
+> > what you really want is SSD only swap, you need to do all this zswap
+> > config dance. Google has an internal memory.swapfile feature
+> > implemented per cgroup swap file type by "zswap only", "real swap file
+> > only", "both", "none" (the exact keyword might be different). running
+> > in the production for almost 10 years. The need for more than zswap
+> > type of per cgroup control is really there.
 > 
-> That's right:
+> We use regular swap on SSD without zswap just fine. Of course it's
+> expressible.
 > 
-> $ make -C tools/testing/selftests/livepatch/
+> On dedicated systems, zswap is disabled in sysfs. On shared hosts
+> where it's determined based on which workload is scheduled, zswap is
+> generally enabled through sysfs, and individual cgroup access is
+> controlled via memory.zswap.max - which is what this knob is for.
 > 
-> is indeed the way to build the tests without running them. KDIR will be
-> set to  /lib/modules/$(shell uname -r)/build is empty.
+> This is analogous to enabling swap globally, and then opting
+> individual cgroups in and out with memory.swap.max.
 > 
-> Yes, I can definitely add documentation about it inside the
-> tools/testing/selftests/livepatch/README.
+> So this usecase is very much already supported, and it's expressed in
+> a way that's pretty natural for how cgroups express access and lack of
+> access to certain resources.
 > 
+> I don't see how memory.swap.type or memory.swap.tiers would improve
+> this in any way. On the contrary, it would overlap and conflict with
+> existing controls to manage swap and zswap on a per-cgroup basis.
+> 
+> > 2) As indicated by this discussion, Tencent has a usage case for SSD
+> > and hard disk swap as overflow.
+> > https://lore.kernel.org/linux-mm/20231119194740.94101-9-ryncsn@gmail.com/
+> > +Kairui
+> 
+> Multiple swap devices for round robin or with different priorities
+> aren't new, they have been supported for a very, very long time. So
+> far nobody has proposed to control the exact behavior on a per-cgroup
+> basis, and I didn't see anybody in this thread asking for it either.
+> 
+> So I don't see how this counts as an obvious and automatic usecase for
+> memory.swap.tiers.
+> 
+> > 3) Android has some fancy swap ideas led by those patches.
+> > https://lore.kernel.org/linux-mm/20230710221659.2473460-1-minchan@kernel.org/
+> > It got shot down due to removal of frontswap. But the usage case and
+> > product requirement is there.
+> > +Minchan
+> 
+> This looks like an optimization for zram to bypass the block layer and
+> hook directly into the swap code. Correct me if I'm wrong, but this
+> doesn't appear to have anything to do with per-cgroup backend control.
 
-How does the default kselftest run work with these changes?
+Hi Johannes,
 
-make ksefltest - does this still work as it did before this change?
+I haven't been following the thread closely, but I noticed the discussion
+about potential use cases for zram with memcg.
 
-thanks,
--- Shuah
+One interesting idea I have is to implement a swap controller per cgroup.
+This would allow us to tailor the zram swap behavior to the specific needs of
+different groups.
 
+For example, Group A, which is sensitive to swap latency, could use zram swap
+with a fast compression setting, even if it sacrifices some compression ratio.
+This would prioritize quick access to swapped data, even if it takes up more space.
+
+On the other hand, Group B, which can tolerate higher swap latency, could benefit
+from a slower compression setting that achieves a higher compression ratio.
+This would maximize memory efficiency at the cost of slightly slower data access.
+
+This approach could provide a more nuanced and flexible way to manage swap usage
+within different cgroups.
