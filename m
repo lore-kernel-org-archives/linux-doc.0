@@ -1,101 +1,297 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r6xf+iJQ"
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0884E5
-	for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 00:23:45 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-2866fe08b32so2879872a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 00:23:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702283025; x=1702887825; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9SGMAohI1bI080siIkPTaq7KnlqYCY8ucsxsXTXtBIQ=;
-        b=r6xf+iJQQBao2+2QuLGFBT6ysxoN2/o4W96/K6c0U2FKKuET66to4MpA0wpCSK8fO1
-         sOCtPN9DE/xRk/y0FQchypmp229KDq7qF+YBs457x45NLBvQj8oPCp6EgDMhMxfpF21o
-         6hnHxbeSSmxRQg7u+kzk5ygd2jbp5DnmztZj1E1Ry63HzVz/IXF5XDjDvBOcT2fEeJks
-         nCcOR/qhKyfuE/wkMXSsJzLD3Ds7VT852VEMfbt+dgyVlUdsAlXZv28k5TF2HeauoXVB
-         eBOt5Ybt2IIgpIdwAGBWEDfYyJzfN8s6BF4SCzXzYi8JhHofrLmqwuOwzLEPrta8Wrex
-         FbDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702283025; x=1702887825;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9SGMAohI1bI080siIkPTaq7KnlqYCY8ucsxsXTXtBIQ=;
-        b=WKa0crLnLYXU4tRYB/gLvfNXSNIFnZOwxWrozEkT5tNpLqj/eNZdfoFtOSSOnQ5l0Z
-         drPjwW+nSnER5Sn1vgc9wIJUwtA/U8j5I8l+5PdabJ3HkjTYHgMggBel2Gu2vO7nkUVr
-         XIuYD5OJ+dFW+A/Xi5oGuVizTjpNck5k8FPZ15OGVimJjKHaOijp4yYjVJ4nhuw02idj
-         rz+CM3tjUUZ7T7Ztx8C2WCTbUHAo2ywG15UL6uDf3qahQeauAELT1O/PvIUSE+QWLXJD
-         dWuL67OybwMDqdCo466Je/e6x+ogzFKtDME8Rsd88m1rxbUfqT/AHVgjpEB7gYqoXplX
-         AFTA==
-X-Gm-Message-State: AOJu0YxYNJJ3hmOf9VtKUmfbnUOE5LNuLAVw77LJlPxzAxxrK4Al3Ccm
-	QwUd0WZZiD+QgBcqX4UAGALlWA==
-X-Google-Smtp-Source: AGHT+IHUybRnAug3nsceifCVm05j+nlMJJ89oCKo2V9GgwS0YbdYklk/h05eKA9tfXjZHnUAxCL7Mw==
-X-Received: by 2002:a17:90a:df86:b0:28a:464d:5ecb with SMTP id p6-20020a17090adf8600b0028a464d5ecbmr1681094pjv.36.1702283025392;
-        Mon, 11 Dec 2023 00:23:45 -0800 (PST)
-Received: from localhost ([122.172.82.6])
-        by smtp.gmail.com with ESMTPSA id c11-20020a17090a020b00b00286d75e10e4sm8527933pjc.37.2023.12.11.00.23.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 00:23:44 -0800 (PST)
-Date: Mon, 11 Dec 2023 13:53:42 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: "Andreas Hindborg (Samsung)" <nmi@metaspace.dk>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Benno Lossin <benno.lossin@proton.me>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="b+KcQeeA";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="NXte5Tjm"
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63ABE5;
+	Mon, 11 Dec 2023 00:25:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1702283125; bh=7UH+oSSqKJIJniMZRwAXNQdXab/8KZ6Hy7de6PhiNtE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=b+KcQeeAW9UCaPgpNNSD/mpgie0yfdcX/ieZ+CdlXo1aRzVOK13P8GjHBp8dP10Pd
+	 rJloVTABVsk/jV+rmqeytOU9HOsYeHgUWUG3sOuw7ioP5Kuhh8t+5FwMgJ/AhfXYFN
+	 cT/V0BJq3Yo/kji3775LVXcQGyRk/m4R/Fw9FFMWJ/gby8RwIXmwLq+V3HRLa2KSo1
+	 jnkvGFFAXRrwbk4ybukEFwqvFFi07TXFKepW7xuGlR468QCaXgPaTAhPiKcpvRXIwu
+	 v2sd82JFV8TjzJ19bI8qthuwzEHM7K21X3wXqTtjC1+6PzBOwbEuMiF5Oe+5cUBco3
+	 UsvBjjhw3gxyQ==
+Received: by gofer.mess.org (Postfix, from userid 501)
+	id 0D4E8100A08; Mon, 11 Dec 2023 08:25:25 +0000 (GMT)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1702283109; bh=7UH+oSSqKJIJniMZRwAXNQdXab/8KZ6Hy7de6PhiNtE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NXte5TjmDav3bRBaL1uvFZCTblYaeo3nLqnA7IlQpgQLnW2MVhLBYMSfPQ/c/WDmD
+	 gDF4+QzXtOoyH6UXia6IEPuaDYWr9ZMVRws+GjA746TuhjALfLRCbFUd/pjd3CGPj/
+	 +aWzdkxAyLiCNVvGnUB6oEB1HVuQ1aOg/Xm++nF9dszORAPub6eo+sYVjBAGTWXggn
+	 W6qJvmrHTqfHzy8y1XdElVx/jdilf3CRTE3rR0PJOfDmNfa73N6DAysmPwDc43KaFE
+	 5lkkSnOTBH2wu68zYJUnYcSrufDHiMCxDq83Y32lWvCzmcdM8YwNJR6QLd00j6ffHb
+	 zJElHImT8hh2g==
+Received: from localhost.localdomain (bigcore.local [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gofer.mess.org (Postfix) with ESMTPSA id 3AA5A10005E;
+	Mon, 11 Dec 2023 08:25:09 +0000 (GMT)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Sean Young <sean@mess.org>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: rust: Clarify that 'rustup override' applies to
- build directory
-Message-ID: <20231211082342.dkcnlamsyaqxaylg@vireshk-i7>
-References: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
- <4738ad1c-eb54-4ad6-98c8-3852de3e8fc3@proton.me>
- <20231211064742.63l4cmvxe4uso5us@vireshk-i7>
- <87h6kpf9am.fsf@metaspace.dk>
+Subject: [PATCH v7 2/4] pwm: Make it possible to apply PWM changes in atomic context
+Date: Mon, 11 Dec 2023 08:24:53 +0000
+Message-ID: <aacf0081cbc36d6b21cbc207e40b6df54953214d.1702282807.git.sean@mess.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1702282806.git.sean@mess.org>
+References: <cover.1702282806.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87h6kpf9am.fsf@metaspace.dk>
-X-Spam-Level: *
+Content-Transfer-Encoding: 8bit
 
-On 11-12-23, 09:09, Andreas Hindborg (Samsung) wrote:
-> 
-> Thanks for fixing this Viresh!
-> 
-> Viresh Kumar <viresh.kumar@linaro.org> writes:
-> 
-> > diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
-> > index f382914f4191..dee787f92d26 100644
-> > --- a/Documentation/rust/quick-start.rst
-> > +++ b/Documentation/rust/quick-start.rst
-> > @@ -33,14 +33,17 @@ A particular version of the Rust compiler is required. Newer versions may or
-> >  may not work because, for the moment, the kernel depends on some unstable
-> >  Rust features.
-> >
-> > -If ``rustup`` is being used, enter the checked out source code directory
-> > -and run::
-> > +If ``rustup`` is being used, enter the kernel build directory and run::
-> >
-> >         rustup override set $(scripts/min-tool-version.sh rustc)
-> 
-> How about just specifying the path here:
-> 
->          rustup override set --path=<build-dir> $(scripts/min-tool-version.sh rustc)
+Some PWM devices require sleeping, for example if the pwm device is
+connected over I2C. However, many PWM devices could be used from atomic
+context, e.g. memory mapped PWM. This is useful for, for example, the
+pwm-ir-tx driver which requires precise timing. Sleeping causes havoc
+with the generated IR signal.
 
-Hmm, this sounds good too. In that case the above line can be changed to:
+Since not all PWM devices can support atomic context, we also add a
+pwm_might_sleep() function to check if is not supported.
 
-"If ``rustup`` is being used, run::"
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ Documentation/driver-api/pwm.rst |  9 +++++
+ MAINTAINERS                      |  2 +-
+ drivers/pwm/core.c               | 64 ++++++++++++++++++++++++++------
+ drivers/pwm/pwm-renesas-tpu.c    |  1 -
+ include/linux/pwm.h              | 29 ++++++++++++++-
+ 5 files changed, 89 insertions(+), 16 deletions(-)
 
-Looks okay ?
-
+diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+index f1d8197c8c430..3c28ccc4b6113 100644
+--- a/Documentation/driver-api/pwm.rst
++++ b/Documentation/driver-api/pwm.rst
+@@ -46,6 +46,15 @@ After being requested, a PWM has to be configured using::
+ This API controls both the PWM period/duty_cycle config and the
+ enable/disable state.
+ 
++PWM devices can be used from atomic context, if the PWM does not sleep. You
++can check if this the case with::
++
++        bool pwm_might_sleep(struct pwm_device *pwm);
++
++If false, the PWM can also be configured from atomic context with::
++
++	int pwm_apply_atomic(struct pwm_device *pwm, struct pwm_state *state);
++
+ As a consumer, don't rely on the output's state for a disabled PWM. If it's
+ easily possible, drivers are supposed to emit the inactive state, but some
+ drivers cannot. If you rely on getting the inactive state, use .duty_cycle=0,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c2a9e0b5594e7..b55ac220b923d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17585,7 +17585,7 @@ F:	drivers/video/backlight/pwm_bl.c
+ F:	include/dt-bindings/pwm/
+ F:	include/linux/pwm.h
+ F:	include/linux/pwm_backlight.h
+-K:	pwm_(config|apply_might_sleep|ops)
++K:	pwm_(config|apply_might_sleep|apply_atomic|ops)
+ 
+ PXA GPIO DRIVER
+ M:	Robert Jarzmik <robert.jarzmik@free.fr>
+diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+index c2d78136625d5..5fd35cda5786b 100644
+--- a/drivers/pwm/core.c
++++ b/drivers/pwm/core.c
+@@ -433,24 +433,15 @@ static void pwm_apply_debug(struct pwm_device *pwm,
+ }
+ 
+ /**
+- * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
++ * pwm_apply_unchecked() - atomically apply a new state to a PWM device
+  * @pwm: PWM device
+  * @state: new state to apply
+  */
+-int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
++static int pwm_apply_unchecked(struct pwm_device *pwm, const struct pwm_state *state)
+ {
+ 	struct pwm_chip *chip;
+ 	int err;
+ 
+-	/*
+-	 * Some lowlevel driver's implementations of .apply() make use of
+-	 * mutexes, also with some drivers only returning when the new
+-	 * configuration is active calling pwm_apply_might_sleep() from atomic context
+-	 * is a bad idea. So make it explicit that calling this function might
+-	 * sleep.
+-	 */
+-	might_sleep();
+-
+ 	if (!pwm || !state || !state->period ||
+ 	    state->duty_cycle > state->period)
+ 		return -EINVAL;
+@@ -471,16 +462,65 @@ int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
+ 
+ 	pwm->state = *state;
+ 
++	return 0;
++}
++
++/**
++ * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
++ * Cannot be used in atomic context.
++ * @pwm: PWM device
++ * @state: new state to apply
++ */
++int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
++{
++	int err;
++
++	/*
++	 * Some lowlevel driver's implementations of .apply() make use of
++	 * mutexes, also with some drivers only returning when the new
++	 * configuration is active calling pwm_apply_might_sleep() from atomic context
++	 * is a bad idea. So make it explicit that calling this function might
++	 * sleep.
++	 */
++	might_sleep();
++
++	if (IS_ENABLED(CONFIG_PWM_DEBUG) && pwm->chip->atomic) {
++		/*
++		 * Catch any drivers that have been marked as atomic but
++		 * that will sleep anyway.
++		 */
++		non_block_start();
++		err = pwm_apply_unchecked(pwm, state);
++		non_block_end();
++	} else {
++		err = pwm_apply_unchecked(pwm, state);
++	}
++
+ 	/*
+ 	 * only do this after pwm->state was applied as some
+ 	 * implementations of .get_state depend on this
+ 	 */
+ 	pwm_apply_debug(pwm, state);
+ 
+-	return 0;
++	return err;
+ }
+ EXPORT_SYMBOL_GPL(pwm_apply_might_sleep);
+ 
++/**
++ * pwm_apply_atomic() - apply a new state to a PWM device from atomic context
++ * Not all PWM devices support this function, check with pwm_might_sleep().
++ * @pwm: PWM device
++ * @state: new state to apply
++ */
++int pwm_apply_atomic(struct pwm_device *pwm, const struct pwm_state *state)
++{
++	WARN_ONCE(!pwm->chip->atomic,
++		  "sleeping PWM driver used in atomic context");
++
++	return pwm_apply_unchecked(pwm, state);
++}
++EXPORT_SYMBOL_GPL(pwm_apply_atomic);
++
+ /**
+  * pwm_capture() - capture and report a PWM signal
+  * @pwm: PWM device
+diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tpu.c
+index ce92db1f85113..28265fdfc92a9 100644
+--- a/drivers/pwm/pwm-renesas-tpu.c
++++ b/drivers/pwm/pwm-renesas-tpu.c
+@@ -11,7 +11,6 @@
+ #include <linux/init.h>
+ #include <linux/ioport.h>
+ #include <linux/module.h>
+-#include <linux/mutex.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+index b64b8a82415c4..495af3627939c 100644
+--- a/include/linux/pwm.h
++++ b/include/linux/pwm.h
+@@ -285,6 +285,7 @@ struct pwm_ops {
+  * @npwm: number of PWMs controlled by this chip
+  * @of_xlate: request a PWM device given a device tree PWM specifier
+  * @of_pwm_n_cells: number of cells expected in the device tree PWM specifier
++ * @atomic: can the driver's ->apply() be called in atomic context
+  * @pwms: array of PWM devices allocated by the framework
+  */
+ struct pwm_chip {
+@@ -297,6 +298,7 @@ struct pwm_chip {
+ 	struct pwm_device * (*of_xlate)(struct pwm_chip *chip,
+ 					const struct of_phandle_args *args);
+ 	unsigned int of_pwm_n_cells;
++	bool atomic;
+ 
+ 	/* only used internally by the PWM framework */
+ 	struct pwm_device *pwms;
+@@ -305,6 +307,7 @@ struct pwm_chip {
+ #if IS_ENABLED(CONFIG_PWM)
+ /* PWM user APIs */
+ int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state);
++int pwm_apply_atomic(struct pwm_device *pwm, const struct pwm_state *state);
+ int pwm_adjust_config(struct pwm_device *pwm);
+ 
+ /**
+@@ -375,6 +378,17 @@ static inline void pwm_disable(struct pwm_device *pwm)
+ 	pwm_apply_might_sleep(pwm, &state);
+ }
+ 
++/**
++ * pwm_might_sleep() - is pwm_apply_atomic() supported?
++ * @pwm: PWM device
++ *
++ * Returns: false if pwm_apply_atomic() can be called from atomic context.
++ */
++static inline bool pwm_might_sleep(struct pwm_device *pwm)
++{
++	return !pwm->chip->atomic;
++}
++
+ /* PWM provider APIs */
+ int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
+ 		unsigned long timeout);
+@@ -403,16 +417,27 @@ struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
+ 				       struct fwnode_handle *fwnode,
+ 				       const char *con_id);
+ #else
++static inline bool pwm_might_sleep(struct pwm_device *pwm)
++{
++	return true;
++}
++
+ static inline int pwm_apply_might_sleep(struct pwm_device *pwm,
+ 					const struct pwm_state *state)
+ {
+ 	might_sleep();
+-	return -ENOTSUPP;
++	return -EOPNOTSUPP;
++}
++
++static inline int pwm_apply_atomic(struct pwm_device *pwm,
++				   const struct pwm_state *state)
++{
++	return -EOPNOTSUPP;
+ }
+ 
+ static inline int pwm_adjust_config(struct pwm_device *pwm)
+ {
+-	return -ENOTSUPP;
++	return -EOPNOTSUPP;
+ }
+ 
+ static inline int pwm_config(struct pwm_device *pwm, int duty_ns,
 -- 
-viresh
+2.43.0
+
