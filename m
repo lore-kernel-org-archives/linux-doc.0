@@ -1,173 +1,257 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="ClwwgERE"
-Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2147.outbound.protection.outlook.com [40.92.62.147])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5173AF1;
-	Sun, 10 Dec 2023 18:06:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UoL3Zc/AnPGgh/2VAihGhSSIik+XMNFzl7Q5mKOuOqa172scJpi5IkVgIsOIqGq//n+tXbVbWPLMhqiRPuhOzGey1gW7ObdFEIy6gm4Itg9gzxloRxsYNfqLEfc+f8aAknr334bJlYvOOs6zl9T0y4ghNNoLmdUfIiNuFwW+OoDAJlSdYHNz0CSHVG4MRz/X24G2k0UyP0VBGzXR75vyXxibEYKaZn3CqNdwmVC/8vXq2FJIt+PKxh8FeRiFohclF1LRXciVV2JBqVrFNZBac/Bp1emdFcIE+8b6dBLYKMOrYsDrvMbNVVltBTnhmb3GrMihfDZIEYpWLL53QriI4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oLrXma0iKtQ4YANLG7k3EgzdKc0/jyhXNRGR6q4yxqU=;
- b=Q7Yj4KTED1y/98a3+gGRDYXWGLEAFVFQZJO9z+r+rvTkQ/r6gEPlQ4VwB1j4mAW8bzWgt1xYAmB8mMFXFVlOz/9Ndad4tZGSGTVL4NXNTOyKA56eSS9GYfLM095qfpjMVj4CTglOGwdSlj2I0bFCXHmitEB7mH6NhaZ09Yfj5f69iPEv/8ZQ9mlov4U8eC8xh+RFlQRoNb/FQzk6GJfHcfIlHlll68VZomBiRyl6oJy7MyB2HCivpmedLxKKln/8h6sY7LamGksdjO2IgcUERFQoYo4A/QNcdcyUPO8JEwMqCS64XstANPmIXX8K9tJA5544Ig26YOPrsbi+K2LrKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oLrXma0iKtQ4YANLG7k3EgzdKc0/jyhXNRGR6q4yxqU=;
- b=ClwwgEREqAfk7Hd0/eitJcUzVG6HtHR2xbLPNNZzid7nvq6xMwwd3pChl2xQ2DuzWZZpXEAfadZq4PuSae9lupZfwLqLpT3rxXScIJY1sA4Ygd7YnYmsgb9DAWJJgCi4vrFWeDxKyUvRsF6cyR8iR4rm2v1euUZZ+KIH2xOAKiGN9Ezt06DEUn7pgPCo12KELqEC9HgtpMypcEigWyR3q8yTsKx6M4T1E75cCty9mmKwP8+8OCjvWQdymjeOTdP57I5T4Hr6im93essKIiLWvtyKzHryBgQbL0PO+JtKATvxAfv0NGn/1GHwTQn+nfziQcdTM38T7SFJBtka+R6hRA==
-Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:14c::12)
- by SY5P282MB4446.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:26d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32; Mon, 11 Dec
- 2023 02:06:05 +0000
-Received: from MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
- ([fe80::6867:103:3120:36a9]) by MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
- ([fe80::6867:103:3120:36a9%4]) with mapi id 15.20.7068.031; Mon, 11 Dec 2023
- 02:06:04 +0000
-From: Jinjian Song <SongJinJian@hotmail.com>
-To: "loic.poulain@linaro.org" <loic.poulain@linaro.org>
-CC: "chandrashekar.devegowda@intel.com" <chandrashekar.devegowda@intel.com>,
-	"chiranjeevi.rapolu@linux.intel.com" <chiranjeevi.rapolu@linux.intel.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "danielwinkler@google.com"
-	<danielwinkler@google.com>, "davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>, "haijun.liu@mediatek.com"
-	<haijun.liu@mediatek.com>, "jiri@resnulli.us" <jiri@resnulli.us>,
-	"johannes@sipsolutions.net" <johannes@sipsolutions.net>, "kuba@kernel.org"
-	<kuba@kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linuxwwan@intel.com" <linuxwwan@intel.com>, "m.chetan.kumar@linux.intel.com"
-	<m.chetan.kumar@linux.intel.com>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "nmarupaka@google.com" <nmarupaka@google.com>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "ricardo.martinez@linux.intel.com"
-	<ricardo.martinez@linux.intel.com>, "ryazanov.s.a@gmail.com"
-	<ryazanov.s.a@gmail.com>, "vsankar@lenovo.com" <vsankar@lenovo.com>, Joey
- Zhao <joey.zhao@fibocom.com>, "Qifeng Liu(Qifeng)" <liuqf@fibocom.com>,
-	"Fuqiang Yan(Felix)" <felix.yan@fibocom.com>
-Subject: Re: [net-next v4 0/5] net: wwan: t7xx: fw flashing & coredump support
-Thread-Topic: [net-next v4 0/5] net: wwan: t7xx: fw flashing & coredump
- support
-Thread-Index: Ador1V1ORwze2T3nQnyN9/5dZeY+dA==
-Date: Mon, 11 Dec 2023 02:06:03 +0000
-Message-ID:
- <MEYP282MB2697C6AC993637C6E866E492BB8FA@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [h2rsSBDy30DQo5U77b5MX4UKCkm3ZhlQ]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MEYP282MB2697:EE_|SY5P282MB4446:EE_
-x-ms-office365-filtering-correlation-id: ca265cac-2ed9-4dbd-89d0-08dbf9edbadd
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- AkoAQk/W1UXnrxuSQAcoJm2gttl/WHmhBrdEWscSlwiEj2xubk8F1Xrnk/Af9e6L7GoRk3yNUiX3uYiHHv3p2nv76QCTA9OOYClFYkKPaQcKzrIjQ801tchEJlMN2pObLfgOcZfUf7DTE6QWqmtwp7n3lrZq4weuMcdqRJA/kX0OhD/nM+1HcQBdPtv3npLgW5UG7z9BD3DE4edRIQOrH8no8+c657WrutmAVDNwnlmg1cKMth59Q+VtC7/fQuyS+FiiidIRzVVnBhjJNyG0gEXbEcOupsx3tbZ2TwBUgyY7ITOB1xl0CJqMOquGRR2PWuALwsnEo3ii30Conhy2m+Y7Ho4R2lV2LdMvbiSW4SNWjavs7lxKT2uUB6a2dVkYlKqybDkuKYi3EWENyGSHT2lJ0MwfcUHhGwWjoV9spsXrDk28ZJOO+XRZo6LSgHEppgQPt4IKgeM2sbrkT561xJdPLrNa/NvKQxSbb31zdAHjFj6I4Q62MfF1Wt4vf4R7ZFsiRuZTNCW5lMV5Uh8oLPurc+6VUr6Z00sjrNaz4wut4HIm11Hal1ru9l9lTGQgPCVTUbEcLnDiSVO79v4Ku4Ah+8uUdgvDLAikshGPMaY=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?YXdITFBTYmwybmIzV08rbkd1T2gwUG8xcXRmVzVBSVZKUVgrKzJNUzlNYmNJ?=
- =?utf-8?B?NVc5a2VVa0RGNCt4WWNKdUJYdURUM0tmbmxoZzFIK2gzVzlvRlBMS3Q5ME94?=
- =?utf-8?B?VlNqd014L2ZqMTZTZXRyWlJSUU5VTE1wMWlkazZaekMvdmZ2V0RTcDlDZ0w2?=
- =?utf-8?B?bThxdnZNVlRqMDNIcmNiNFA2YTdPcEZ5dzVKN1QydWdycDV5N2hHQUpSd1NB?=
- =?utf-8?B?SHpSbUV2UmlRdkFVYnZieU9nUXNjQ2ZrbEpnK2tRckZJMkY5Z0d0Q0ttbnhP?=
- =?utf-8?B?WXcvRWNBQzNKL1JvNVA1dXVVbjc1YlRzeXhlQ08zTXVyV0V4alZOM1E2a0Rx?=
- =?utf-8?B?TlFEaytZUnMvUnpNci9QWWVHeHBEMUhnRVpQQ2ZGdTBZWU1DTVFnQmJvaGZK?=
- =?utf-8?B?WFV0QlVMa0k3bDBFUEVTTGdnaUpQRTJKenJPOFZVbHZDaXR2WXFRRHBYcTZG?=
- =?utf-8?B?RlQ3RVVqMUNZRTBxWGxid3BXVWR3WnplUWJHeW9SRmpQVGYzbG9ycHFQZFNh?=
- =?utf-8?B?d3FrMDdDb1BQNnhPNUdORmZIZDBVMTlNZS9pTnJBalo4UWxORWZGOWY5Y2R5?=
- =?utf-8?B?eTNvR1NTR3B3NXNtSFRibzY4ZGYzd0JpM2pMeGFyV1Jrd3ZPWTNRdXQ3R215?=
- =?utf-8?B?L1BYaU9Db0NqUG5LLzFNUG1TYmNLUXl0N2FrUVRscHducE9JZmR3UHBNZzAx?=
- =?utf-8?B?VjhsOHhGeTlVNFlXQ1dmUmFQL2hwVm9IaWFkWFhQblN2TkZ4S3ErTkxnZE9V?=
- =?utf-8?B?azRnZlhYMXlZdFhEVk9yTWxyNGNQNE1oYzJqd1dnOGNSZHd6UWZGbkNGYW8y?=
- =?utf-8?B?OHRUY2xyOWRFTnd5MktPUXR5eVR0dE0vTGFYVGlZcWw4am1ZcWJRY3E3aDlo?=
- =?utf-8?B?VWhVbDcwNlFhZ2tFUXBpWFZCVmtBWmlSNkkrSkIvMjV2enJ2eHlVbzNqRXVB?=
- =?utf-8?B?a3IrRzF5Mzk2UmFBYzZ5aVdyTTlaaHZNczNWdUI2M2N2ZHFGb3F4dGt2Wmtw?=
- =?utf-8?B?aWd4N1RQVjFkZi9iNXprU2dtWlRwcyt0ZkdVUVIzNVkrNVFIcHQ0b1VyWk9v?=
- =?utf-8?B?WXk0R29ueGtmbDhoTG1pTzc4bld3RDRJNEp4S29sYmdaSDIrODUwYlBaS09s?=
- =?utf-8?B?dlhPSmg1bmxLUGRwVC9vNXV1SDY4SXRlbmMxcmFDTEo4K0ZXVTJZUVNFWVpX?=
- =?utf-8?B?Mzhpdk5kRjlkSGpjczNGbGlxUWcwUFpOV2tQUmUwNzJtUDU3SHF3LzFhSm9U?=
- =?utf-8?B?Y2l2OG5mMGhrQ2F5T09aMVBnZFBQUStoTlU3QjcraUY2YTBPczJ2dXRibUxy?=
- =?utf-8?B?S0tGcUtPcWVaOVJjYkRJL1UzbGRTekxVMFNNTC9FS2dTUTloVFlmNXJMTER1?=
- =?utf-8?B?YTFYVXpoNy83eWVUNXI1cE1mYUg5YXRVeDNZNzN5ZTdsTTBPNTVZemR1NXBS?=
- =?utf-8?B?T2pFdDZmVm00TUswUEJkY3VtWENmem95eXVwM09oZHFLaHNQWGI4ZDJhTGRX?=
- =?utf-8?B?ZlJBUHVadnlOQ1BFcEtFLzVPZUhIYitLRzdkeDlKYXhib1EvbE9FQm9ET1dQ?=
- =?utf-8?B?ZFF0R1dpLzF4d2o5QWUrblJwYklkZVdwVk9SaGdNSDdrUkNwVFpnMjF4VTBW?=
- =?utf-8?B?TG5sWHU1UGZqNmppbXBISXhJODlUbFE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KDno01d7"
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22AA1DF
+	for <linux-doc@vger.kernel.org>; Sun, 10 Dec 2023 18:19:45 -0800 (PST)
+Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-466029f2d3eso1028649137.3
+        for <linux-doc@vger.kernel.org>; Sun, 10 Dec 2023 18:19:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702261183; x=1702865983; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XKXPy8iwxJNjhTZTw+LJ8Vv0y/XagWuzrwhYe/uRc+M=;
+        b=KDno01d75+zS4pjfKWKOC9dAezwDOu/J7edfZ8RjonSYjckTSYHquV0lK6Mcw8WZuk
+         ODYUSm58Yr5rRs4hW2FB4dXzn+zzC6MoTADOyE2d7cYFaqG3eoH+c0exuXuVhF0azbBz
+         nngL8Ujwvr6JzAdblvnxQm1mN5kUfWqS2RVuhohJXSaRBAFoyZxXtArAghmTdEF6Qslo
+         EEiq9cBHumbvYvnTjWOSTY9PXIwANV8orhBREH6y2i5C5cHlBXvxFBquDz4eum/rDZpH
+         PTdTI7Pu0ep25NABQXrNiEMd12UzinfvSz30molHN5tK8wa+34XZcO+ZoF/EYcoeYdkh
+         hurg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702261183; x=1702865983;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XKXPy8iwxJNjhTZTw+LJ8Vv0y/XagWuzrwhYe/uRc+M=;
+        b=QtZsjqeoDk9xWAfd4AMmQ7TcEFFhfARs80K96r8oodrgaLhldvzeEJ4BGdXgUV7SzS
+         F1uzNz+HGjis5OwC1a83m/cAOjqAUMtT+gOnejelOHik5mH/Yo3uu6aMcUSATAvO4I4A
+         BnybJ9eoce0k/tSEEBcYX0kmNvWjKSsX3fmbdLYoYe3QCLH/a3VBJ3FUwSunaP7MLs5L
+         LdJw6P7TiMTjQXJVUZP+gX4HAphI+ayYxO8jQSyznSAyGcUDrbS+X6M3eGuDtJ8kH16G
+         dxR95nj9LcNYJDYqiQZ2hAgpwe1GEj9q2c52vNd5dYWOGqHD+/UEo8MmF2yDmirEg03P
+         Ey2g==
+X-Gm-Message-State: AOJu0YwpVWnQaFQwA+ZoJoCvfQkmdrzsmwyE0/lu/O9lE9r8uk+63Bk3
+	zXOjLPoiUbv8aT0V4KAi2Y2VPDbMinMLakD2CP8jFA==
+X-Google-Smtp-Source: AGHT+IHqLx2W8x28H6bfMYCWIzb2TuVsmrzJ0q8h3BKh//7HaVRT5Wf6V41+Foj3np3oJjncompRN0RZYYzrciFWAyY=
+X-Received: by 2002:a67:ef44:0:b0:464:77f2:557 with SMTP id
+ k4-20020a67ef44000000b0046477f20557mr2151093vsr.41.1702261183358; Sun, 10 Dec
+ 2023 18:19:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca265cac-2ed9-4dbd-89d0-08dbf9edbadd
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2023 02:06:04.0309
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY5P282MB4446
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-7-almasrymina@google.com> <5752508c-f7bc-44ac-8778-c807b2ee5831@kernel.org>
+ <CAHS8izPsQ2XoJy-vYWkn051Yc=D_kSprtQcG4mmPutf1G3+-aw@mail.gmail.com> <279a2999-3c0a-4839-aa2e-602864197410@kernel.org>
+In-Reply-To: <279a2999-3c0a-4839-aa2e-602864197410@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Sun, 10 Dec 2023 18:19:29 -0800
+Message-ID: <CAHS8izOJ4jTrq9AD5fe3ZY9veU5NP6dFkXGPRw7yz2uMCMGDTg@mail.gmail.com>
+Subject: Re: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
+To: David Ahern <dsahern@kernel.org>
+Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgTG9pYywNCg0KVGhhbmsgeW91IHZlcnkgbXVjaC4NCg0KPiBPbiBGcmksIDMgTm92IDIwMjMg
-YXQgMTE6NDEsIEppcmkgUGlya28gPGppcmlAcmVzbnVsbGkudXM+IHdyb3RlOg0KPiA+ID4NCj4g
-PiA+IE1vbiwgU2VwIDE4LCAyMDIzIGF0IDA4OjU2OjI2QU0gQ0VTVCwgU29uZ0ppbkppYW5AaG90
-bWFpbC5jb20gd3JvdGU6DQo+ID4gPlR1ZSwgU2VwIDEyLCAyMDIzIGF0IDExOjQ4OjQwQU0gQ0VT
-VCwgc29uZ2ppbmppYW5AaG90bWFpbC5jb20gd3JvdGU6DQo+ID4gPj4+QWRkcyBzdXBwb3J0IGZv
-ciB0N3h4IHd3YW4gZGV2aWNlIGZpcm13YXJlIGZsYXNoaW5nICYgY29yZWR1bXAgDQo+ID4gPj4+
-Y29sbGVjdGlvbiB1c2luZyBkZXZsaW5rLg0KPiA+ID4NCj4gPiA+PkkgZG9uJ3QgYmVsaWV2ZSB0
-aGF0IHVzZSBvZiBkZXZsaW5rIGlzIGNvcnJlY3QgaGVyZS4gSXQgc2VlbXMgbGlrZSBhIG1pc2Zp
-dC4gSUlVQywgd2hhdCB5b3UgbmVlZCBpcyB0byBjb21tdW5pY2F0ZSB3aXRoIHRoZSBtb2RlbS4g
-QmFzaWNhbGx5IGEgY29tbXVuaWNhdGlvbiBjaGFubmVsIHRvIG1vZGVtLiBUaGUgb3RoZXIgd3dh
-biBkcml2ZXJzIGltcGxlbWVudCB0aGVzZSBjaGFubmVscyBpbiBfY3RybC5jIGZpbGVzLCB1c2lu
-ZyBtdWx0aXBsZSBwcm90b2NvbHMuIFdoeSBjYW4ndCB5b3UgZG8gc29tZXRoaW5nIHNpbWlsYXIg
-YW5kIGxldCBkZXZsaW5rIG91dCBvZiB0aGlzIHBsZWFzZT8NCj4gPiA+DQo+ID4gPj5VbnRpbCB5
-b3UgcHV0IGluIGFyZ3VtZW50cyB3aHkgeW91IHJlYWxseSBuZWVkIGRldmxpbmsgYW5kIHdoeSBp
-cyBpdCBhIGdvb2QgZml0LCBJJ20gYWdhaW5zdCB0aGlzLiBQbGVhc2UgZG9uJ3Qgc2VuZCBhbnkg
-b3RoZXIgdmVyc2lvbnMgb2YgdGhpcyBwYXRjaHNldCB0aGF0IHVzZSBkZXZsaW5rLg0KPiA+ID4N
-Cj4gPiA+IFllcywgdDd4eCBkcml2ZXIgbmVlZCBjb21tdW5pY2F0ZSB3aXRoIG1vZGVtIHdpdGgg
-YSBjb21tdW5pY2F0aW9uIGNoYW5uZWwgdG8gbW9kZW0uDQo+ID4gPiBJIHRvb2sgYSBsb29rIGF0
-IHRoZSBfY3RybC5jIGZpbGVzIHVuZGVyIHd3YW4gZGlyZWN0b3J5LCBpdCBzZWVtZWQgdGhlIGlt
-cGxlbWVudGF0aW9uIGNhbiBiZSB3ZWxsIGludGVncmF0ZWQgd2l0aCBRdWFsQ29tbW9uJ3MgbW9k
-ZW0sIGlmIHdlIGRvIGxpa2UgdGhpcywgSSB0aGluayB3ZSBuZWVkIG1vZGVtIGZpcm13YXJlIGNo
-YW5nZSwgbWF5YmUgbm90IGJlIHN1aXRhYmxlIGZvciBjdXJyZW50IE1USyBtb2RlbSBkaXJlY3Rs
-eS4NCj4gPiA+IEV4Y2VwdCBmb3IgUXVhbGNvbW0gbW9kZW0gZHJpdmVyLCB0aGVyZSBpcyBhbHNv
-IGFuIEludGVsIHd3YW4gDQo+ID4gPiBkcml2ZXIgJ2lvc20nIGFuZCBpdCB1c2UgZGV2bGluayB0
-byBpbXBsZW1lbnQgZmlybXdhcmUgDQo+ID4gPiBmbGFzaChodHRwczovL3d3dy5rZXJuZWwub3Jn
-L2RvYy9odG1sL2xhdGVzdC9uZXR3b3JraW5nL2RldmxpbmsvaW8NCj4gPiA+IHNtLmh0bWwpLCBJ
-bnRlbCBhbmQgTVRLIGRlc2lnbiBhbmQgdXNlIGRldmxpbmsgdG8gZG8gdGhpcyB3b3JrIG9uDQo+
-ID4NCj4gPiBJZiB0aGF0IGV4aXN0cywgSSBtYWRlIGEgbWlzdGFrZSBhcyBhIGdhdGVrZWVwZXIu
-IFRoYXQgdXNhZ2UgbG9va3MgDQo+ID4gd3JvbmcuDQo+ID4NCj4gPiA+ICdtdGtfdDd4eCcgZHJp
-dmVyIGFuZCBJIGNvbnRpbnVlIHRvIGRvIHRoaXMgd29yay4NCj4gPiA+DQo+ID4gPiBJIHRoaW5r
-IGRldmxpbmsgZnJhbWV3b3JrIGNhbiBzdXBwb3J0IHRoaXMgc2NlbmUgYW5kIGlmIHdlIHVzZSBk
-ZXZsaW5rIHdlIGRvbid0IG5lZWQgdG8gZGV2ZWxvcCBvdGhlciBmbGFzaCB0b29scyBvciBvdGhl
-ciB1c2VyIHNwYWNlIGFwcGxpY2F0aW9ucywgdXNlIHVwc3RyZWFtIGRldmxpbmsgY29tbWFuZHMg
-ZGlyZWN0bHkuDQo+ID4NCj4gPiBQbGVhc2UgZG9uJ3QuDQoNCj4gU28gdGhpcyBpcyBjbGVhciB0
-aGF0IGRldmxpbmsgc2hvdWxkIG5vdCBiZSB1c2VkIGZvciB0aGlzIHd3YW4NCmZpcm13YXJlIHVw
-Z3JhZGUsIGlmIHlvdSBzdGlsbCB3YW50IHRvIGFic3RyYWN0IHRoZSBmYXN0Ym9vdCBwcm90b2Nv
-bCBwYXJ0LCBtYXliZSB0aGUgZWFzaWVyIHdvdWxkIGJlIHRvIG1vdmUgb24gdGhlIGdlbmVyaWMg
-ZmlybXdhcmUgZnJhbWV3b3JrLCBhbmQgZXNwZWNpYWxseSB0aGUgZmlybXdhcmUgdXBsb2FkIEFQ
-SSB3aGljaCBzZWVtcyB0byBiZSBhIGdvb2QgZml0IGhlcmU/IGh0dHBzOi8vZG9jcy5rZXJuZWwu
-b3JnL2RyaXZlci1hcGkvZmlybXdhcmUvZndfdXBsb2FkLmh0bWwjZmlybXdhcmUtdXBsb2FkLWFw
-aQ0KDQoxLlRoaXMgQVBJIHNlZW1lZCBmaXQgaGVyZSwgYnV0IEkgaGF2ZW4ndCBmaW5kIHRoZSBy
-ZWZlciB0byB1c2UgdGhlIEFQSSwgY29kZXMgaW4gL2xpYi90ZXN0X2Zpcm13YXJlLmMgc2hvd24g
-c29tZSBpbnRydWR1Y2UsIEkgdGhpbmsgaWYgSSdtIGNvbnNpZGVyIGhvdyB0byBpbXBsZW1lbnQg
-b3BzLnByZXBhcmUod2hhdCB0byB2ZXJpZnksIGl0IHNlZW1lZCBtb2RlbSB3aWxsIGRvIHRoYXQp
-IGFuZCBvcHMucG9sbF9jb21wbGV0ZT8gQW5kIGl0IHNlZW1lZCByZXF1ZXN0X2Zpcm13YXJlIEFQ
-SSBhbHNvIGNhbiByZWNpZXZlIHRoZSBkYXRhIGZyb20gdXNlIHNwYWNlLCBpcyBpdCBhIHdheSB0
-byB1c2Ugc3lzZnMgdG8gdHJpZ2dlciByZXF1ZXN0IGZpcm13YXJlIHRvIGtlcm5lbD8NCg0KSW4g
-YWRkaXRpb24gdG8gdGhpcywgSSBtYXkgaGF2ZSB0byBjcmVhdGUgc3lzZnMgaW50ZXJmYWNlIHRv
-IHBhc3MgdGhlIGZpcm13YXJlIHBhcnRpdGlvbiBwYXJhbWV0ZXIuQW5kIGZpbmQgYSBub3RoZXIg
-d2F5IHRvIGV4cG9ydCB0aGUgY29yZWR1bXAgcG9ydCB0byB1c2VyIHNwYWNlLg0KDQoyLkhvdyBh
-Ym91dCB3ZSBhZGQgYSBuZXcgV1dBTiBwb3J0IHR5cGUsIGFic3RyYWN0IGZhc3Rib290IGFuZCBk
-dW1wIGNoYW5uZWwsIGxpa2UgV1dBTl9QT1JUX1hYWCwgdGhlbiB1c2UgdGhpcyBwb3J0IHdpdGgg
-V1dBTiBmcmFtZXdvcmsgdG8gaGFuZGxlIGZpcm13YXJlIG9wcyBhbmQgZHVtcCBvcHMuDQoNCkhv
-cGUgdG8gZ2V0IHlvdXIgYWR2aWNlLCB0aGFua3MgdmVyeSBtdWNoLg0KDQpJIHdhbnQgdG8gaW1w
-bGVtZW50IGl0IHVzZSB0aGUgd2F5IG9mIHRpdGxlIDIsIGNyZWF0ZSBhIG5ldyBXV0FOIHBvcnQg
-dHlwZSB1c2VkIGZvciB0aGUgY2hhbm5lbCB3aXRoIG1vZGVtLg0KDQpSZWdhcmRzLA0KSmluamlh
-bg0KDQo=
+On Sat, Dec 9, 2023 at 3:29=E2=80=AFPM David Ahern <dsahern@kernel.org> wro=
+te:
+>
+> On 12/8/23 12:22 PM, Mina Almasry wrote:
+> > On Fri, Dec 8, 2023 at 9:48=E2=80=AFAM David Ahern <dsahern@kernel.org>=
+ wrote:
+> >>
+> >> On 12/7/23 5:52 PM, Mina Almasry wrote:
+> > ...
+> >>> +
+> >>> +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
+> >>> +             if (rxq->binding =3D=3D binding) {
+> >>> +                     /* We hold the rtnl_lock while binding/unbindin=
+g
+> >>> +                      * dma-buf, so we can't race with another threa=
+d that
+> >>> +                      * is also modifying this value. However, the d=
+river
+> >>> +                      * may read this config while it's creating its
+> >>> +                      * rx-queues. WRITE_ONCE() here to match the
+> >>> +                      * READ_ONCE() in the driver.
+> >>> +                      */
+> >>> +                     WRITE_ONCE(rxq->binding, NULL);
+> >>> +
+> >>> +                     rxq_idx =3D get_netdev_rx_queue_index(rxq);
+> >>> +
+> >>> +                     netdev_restart_rx_queue(binding->dev, rxq_idx);
+> >>
+> >> Blindly restarting a queue when a dmabuf is heavy handed. If the dmabu=
+f
+> >> has no outstanding references (ie., no references in the RxQ), then no
+> >> restart is needed.
+> >>
+> >
+> > I think I need to stop the queue while binding to a dmabuf for the
+> > sake of concurrency, no? I.e. the softirq thread may be delivering a
+> > packet, and in parallel a separate thread holds rtnl_lock and tries to
+> > bind the dma-buf. At that point the page_pool recreation will race
+> > with the driver doing page_pool_alloc_page(). I don't think I can
+> > insert a lock to handle this into the rx fast path, no?
+>
+> I think it depends on the details of how entries are added and removed
+> from the pool. I am behind on the pp details at this point, so I do need
+> to do some homework.
+>
+
+I think it also depends on the details of how to invalidate buffers
+posted to the rx queue of a particular driver. For GVE as far as I
+understands when the queue is started I believe it allocates a bunch
+of buffers and posts them to the rx queue. Then it processes the
+completion descriptors from the hardware and posts new buffers to
+replace the ones consumed, so any started queue would have postesd
+buffers in it.
+
+As far as I know we also don't support invalidating posted buffers
+without first stopping the queue, replacing the buffers, and starting
+again. But I don't think these are limitations overly specific to GVE,
+I believe non-RDMA NICs work similarly?
+
+But I'd stress that what I'm proposing here should be extensible to
+capabilities of specific drivers. If one has a driver that allows them
+to invalidate posted buffers on the fly, I imagine they can extend the
+queue API to declare that support to the netstack in a genric way, and
+the net stack can invalidate buffers from the previous page pool and
+supply the new one.
+
+> >
+> > Also, this sounds like it requires (lots of) more changes. The
+> > page_pool + driver need to report how many pending references there
+> > are (with locking so we don't race with incoming packets), and have
+> > them reported via an ndo so that we can skip restarting the queue.
+> > Implementing the changes in to a huge issue but handling the
+> > concurrency may be a genuine blocker. Not sure it's worth the upside
+> > of not restarting the single rx queue?
+>
+> It has to do with the usability of this overall solution. As I mentioned
+> most ML use cases can (and will want to) use many memory allocations for
+> receiving packets - e.g., allocations per message and receiving multiple
+> messages per socket connection.
+>
+
+We support that by flow steering different flows to different RX
+queues. Our NICs don't support smart choosing of which page_pool to
+place the packet in (based on ntuple rule or what not). So flows that
+must land on a given dmabuf are flow steered to that dmabuf, and flows
+that need to land host memory and not flow steered and are RSS'd to
+the non-dmabuf bound queues. This should also be extensible by folks
+that have NICs with the appropriate support.
+
+> >
+> >>> +             }
+> >>> +     }
+> >>> +
+> >>> +     xa_erase(&netdev_dmabuf_bindings, binding->id);
+> >>> +
+> >>> +     netdev_dmabuf_binding_put(binding);
+> >>> +}
+> >>> +
+> >>> +int netdev_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+> >>> +                             struct netdev_dmabuf_binding *binding)
+> >>> +{
+> >>> +     struct netdev_rx_queue *rxq;
+> >>> +     u32 xa_idx;
+> >>> +     int err;
+> >>> +
+> >>> +     rxq =3D __netif_get_rx_queue(dev, rxq_idx);
+> >>> +
+> >>> +     if (rxq->binding)
+> >>> +             return -EEXIST;
+> >>> +
+> >>> +     err =3D xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_lim=
+it_32b,
+> >>> +                    GFP_KERNEL);
+> >>> +     if (err)
+> >>> +             return err;
+> >>> +
+> >>> +     /* We hold the rtnl_lock while binding/unbinding dma-buf, so we=
+ can't
+> >>> +      * race with another thread that is also modifying this value. =
+However,
+> >>> +      * the driver may read this config while it's creating its * rx=
+-queues.
+> >>> +      * WRITE_ONCE() here to match the READ_ONCE() in the driver.
+> >>> +      */
+> >>> +     WRITE_ONCE(rxq->binding, binding);
+> >>> +
+> >>> +     err =3D netdev_restart_rx_queue(dev, rxq_idx);
+> >>
+> >> Similarly, here binding a dmabuf to a queue. I was expecting the dmabu=
+f
+> >> binding to add entries to the page pool for the queue.
+> >
+> > To be honest, I think maybe there's a slight disconnect between how
+> > you think the page_pool works, and my primitive understanding of how
+> > it works. Today, I see a 1:1 mapping between rx-queue and page_pool in
+> > the code. I don't see 1:many or many:1 mappings.
+>
+> I am not referring to 1:N or N:1 for page pool and queues. I am
+> referring to entries within a single page pool for a single Rx queue.
+>
+>
+
+Thanks, glad to hear that. I was afraid there is a miscommunication here.
+
+> >
+> > In theory mapping 1 rx-queue to n page_pools is trivial: the driver
+> > can call page_pool_create() multiple times to generate n queues and
+> > decide for incoming packets which one to use.
+> >
+> > However, mapping n rx-queues to 1 page_pool seems like a can of worms.
+> > I see code in the page_pool that looks to me (and Willem) like it's
+> > safe only because the page_pool is used from the same napi context.
+> > with a n rx-queueue: 1 page_pool mapping, that is no longer true, no?
+> > There is a tail end of issues to resolve to be able to map 1 page_pool
+> > to n queues as I understand and even if resolved I'm not sure the
+> > maintainers are interested in taking the code.
+> >
+> > So, per my humble understanding there is no such thing as "add entries
+> > to the page pool for the (specific) queue", the page_pool is always
+> > used by 1 queue.
+> >
+> > Note that even though this limitation exists, we still support binding
+> > 1 dma-buf to multiple queues, because multiple page pools can use the
+> > same netdev_dmabuf_binding. I should add that to the docs.
+> >
+> >> If the pool was
+> >> previously empty, then maybe the queue needs to be "started" in the
+> >> sense of creating with h/w or just pushing buffers into the queue and
+> >> moving the pidx.
+> >>
+> >>
+> >
+> > I don't think it's enough to add buffers to the page_pool, no? The
+> > existing buffers in the page_pool (host mem) must be purged. I think
+> > maybe the queue needs to be stopped as well so that we don't race with
+> > incoming packets and end up with skbs with devmem and non-devmem frags
+> > (unless you're thinking it becomes a requirement to support that, I
+> > think things are complicated as-is and it's a good simplification).
+> > When we already purge the existing buffers & restart the queue, it's
+> > little effort to migrate this to become in line with Jakub's queue-api
+> > that he also wants to use for per-queue configuration & ndo_stop/open.
+> >
+>
+
+
+--=20
+Thanks,
+Mina
