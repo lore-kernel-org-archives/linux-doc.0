@@ -1,128 +1,90 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7EC9D9
-	for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 03:42:24 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD18I-0005bB-Vy; Tue, 12 Dec 2023 12:41:03 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD18G-00FKJT-S1; Tue, 12 Dec 2023 12:41:00 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD18G-001bBp-HP; Tue, 12 Dec 2023 12:41:00 +0100
-Date: Tue, 12 Dec 2023 12:41:00 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sean Young <sean@mess.org>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Helge Deller <deller@gmx.de>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v8 1/6] pwm: Rename pwm_apply_state() to
- pwm_apply_might_sleep()
-Message-ID: <20231212114100.sn7nzntousql2ays@pengutronix.de>
-References: <cover.1702369869.git.sean@mess.org>
- <9af7ba748fd2eb7e04208b6b183185f1daf78016.1702369869.git.sean@mess.org>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HmnPtokq"
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB31AF7;
+	Tue, 12 Dec 2023 03:42:51 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40c0e7b8a9bso69684845e9.3;
+        Tue, 12 Dec 2023 03:42:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702381370; x=1702986170; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KjLS257ANhmVYbZm8dAntJvqdafGsa7RZY8sb6ycf/8=;
+        b=HmnPtokqDGnjhKYj0V24tvVnVf3LG7YFcfZfU5AaR5JZ4o2zEWu3VamRToaesz30ge
+         0kYLLft7y2wwkxqDHGGLwpqjasELB8764i26mxbES8J9u3/MQv4SdCsvdwrA3qmKxXz1
+         tWXJGydKjBMIbIDNsceW10bxtnVWtgPQdLnK/8RVodpjRJaAMuOI3caP42tofz/8VgOb
+         QZgUc3b39yF3kPuPVWfhejv9r2w+g/hEU4fLX5cc2AGK7iHST86nPKitt9eXr5Lb4gfC
+         957+ZOV19FV4KMvOxzhwx1lFV6bpUGS0vIKvDDP5Lk4I194LGGL+aVLzNo8AwCBHdYCL
+         RtKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702381370; x=1702986170;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KjLS257ANhmVYbZm8dAntJvqdafGsa7RZY8sb6ycf/8=;
+        b=a/mv9oqKh4I8ephkQwUaxpXGJ/7XjdnEJB1wAcQcsYYo8n7tUrKIiPktUDz4+Ax2gc
+         G1Dhl1eS3/w3sUlHe91jaRlQjPoeb4bTXZTMFZQ+AejSFCDiKOIJA64kO23qS5X0t/fZ
+         okDf/JtY2gZ2PSewIGdtBxhVEUgXb7JXg4Txe9+BddJHn2ARmtT6UfSEyPQaUcp5DCvJ
+         R0/INLgnpFH17yN4WWpn4qilNwZ3LbFlHVh976+w4zAp61/1ikKSp/iIRZ+mJcm4AzA0
+         tUuo9+UZaouECMQT6akT7S1av6/b9QcTjKaAj/JTZpQpdAq2v2e34BeqDcJjuTXrIP2D
+         iBHQ==
+X-Gm-Message-State: AOJu0Yw2ZBgLvEM+oBACGGLm/dKfwkWeJQE0stajPWmk8vukIuNdIMUc
+	KSW3bipViZCwZsPXgHvqoOk=
+X-Google-Smtp-Source: AGHT+IGhP3G7qleKXca9wFmzUZ2tZ7g4Zwe6JkYwkFgA0X0y88qImkq4412U1LLU5jbByb50SjYnig==
+X-Received: by 2002:a05:600c:2047:b0:40c:3dd7:98dc with SMTP id p7-20020a05600c204700b0040c3dd798dcmr2699840wmg.75.1702381369988;
+        Tue, 12 Dec 2023 03:42:49 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:4c3e:5ea1:9128:f0b4])
+        by smtp.gmail.com with ESMTPSA id t11-20020a05600c450b00b0040c495b1c90sm5864866wmo.11.2023.12.12.03.42.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 03:42:49 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
+ Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
+ Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
+ <jacob.e.keller@intel.com>,  donald.hunter@redhat.com, Breno Leitao
+ <leitao@debian.org>
+Subject: Re: [PATCH net-next v2 01/11] tools/net/ynl-gen-rst: Use bullet
+ lists for attribute-set entries
+In-Reply-To: <20231211152806.42a5323b@kernel.org> (Jakub Kicinski's message of
+	"Mon, 11 Dec 2023 15:28:06 -0800")
+Date: Tue, 12 Dec 2023 11:27:18 +0000
+Message-ID: <m2h6kn8xux.fsf@gmail.com>
+References: <20231211164039.83034-1-donald.hunter@gmail.com>
+	<20231211164039.83034-2-donald.hunter@gmail.com>
+	<20231211152806.42a5323b@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kqcylsquh2dgmtcq"
-Content-Disposition: inline
-In-Reply-To: <9af7ba748fd2eb7e04208b6b183185f1daf78016.1702369869.git.sean@mess.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 
+Jakub Kicinski <kuba@kernel.org> writes:
 
---kqcylsquh2dgmtcq
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Mon, 11 Dec 2023 16:40:29 +0000 Donald Hunter wrote:
+>> The generated .rst for attribute-sets currently uses a sub-sub-heading
+>> for each individual attribute. Change this to use a bullet list the
+>> attributes in an attribute-set. It is more compact and readable.
+>
+> This is on purpose, we want to be able to link to the attributes.
+> And AFAIU we can only link to headings.
+>
+> The documentation for attrs is currently a bit sparse so the docs 
+> end up looking awkward. But that's a problem with people not writing
+> enough doc comments, not with the render, innit? :(
 
-On Tue, Dec 12, 2023 at 08:34:00AM +0000, Sean Young wrote:
-> In order to introduce a pwm api which can be used from atomic context,
-> we will need two functions for applying pwm changes:
->=20
-> 	int pwm_apply_might_sleep(struct pwm *, struct pwm_state *);
-> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
->=20
-> This commit just deals with renaming pwm_apply_state(), a following
-> commit will introduce the pwm_apply_atomic() function.
->=20
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Acked-by: Lee Jones <lee@kernel.org>
-> Signed-off-by: Sean Young <sean@mess.org>
+Okay, then I think we need to try and improve the formatting. Currently
+h3 and h4 both have font-size: 130% and the attribute headings get
+rendered in bold so they stand out more than the attribute-set headings
+they are under. I suggest:
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+ - Removing the bold markup from the attribute headings
+ - Changing h4 to font-size: 110% in sphinx-static/custom.css
 
-Several affected maintainers already acked, so I guess it's fine to take
-this via the pwm tree. An Ack from the remaining maintainers would be
-very welcome, an alternative would be to split the patch.
-
-Missing Acks so far:
-
- - Jean Delvare / Guenter Roeck for drivers/hwmon/pwm-fan.c
- - Javier Martinez Canillas for drivers/gpu/drm/solomon/ssd130x.c
- - Liam Girdwood / Mark Brown for drivers/regulator/pwm-regulator.c
- - Helge Deller for drivers/video/fbdev/ssd1307fb.c
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---kqcylsquh2dgmtcq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4RssACgkQj4D7WH0S
-/k4FvQgAhhnJ0gGDS9vNrkWmDYMBz0OOooFMMGBMTBk2URyQxiqdxXWCSQKX4pDP
-4H/Hu+EbrEgXfRn0ANEzPIBDBGHQTo7W6N1NGpgxr8Bn1FoRwTzJMCbp62IGORar
-Xr+m5fAJrOjprAETsdyrt8zzjkkJR8Rxg3Gs1bCjjaJGv9VND2ArWlOqwC+I1PWM
-AYDVj/+/0wv8/rqAgNJbjPxdvlcfw/bnqy4/4Gs75Zn9qCRtODT3mCVtAKaWFSsh
-/FMmxKBYIm9ZFhT4skjci6JscC3iWTtp/LeJnoTY2cOyMJePYeRFLT0Ys7+wlsWe
-LCFShS20T2QYBWCYGmIIOHXHa7YwRQ==
-=jAgf
------END PGP SIGNATURE-----
-
---kqcylsquh2dgmtcq--
+That improves things a bit but I feel that the attribute-set headings
+still get a bit lost. Not sure if there is anything we can do about
+that. The devlink spec is a fairly extreme example because it has a lot
+of subset definitions that look especially bleak.
