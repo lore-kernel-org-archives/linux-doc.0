@@ -1,141 +1,145 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ng9xggNY";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YM4XbS5l";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r8qTDk+G";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="n3JMvRKN"
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8914AFE;
-	Tue, 12 Dec 2023 09:21:50 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DE51B1FB77;
-	Tue, 12 Dec 2023 17:21:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702401708; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=EYeLNxxcRpZBsoYcrMasPjbq5v48kbxiKxQZBxiyMNE=;
-	b=ng9xggNYDzAm/v8vqtZGMmLKDskuz7qlLuWHgfqYF1tqpLHRQhXmhUhFQNxTfEcs/BI9vx
-	+y8prtl6hH3ojbHkUW4tm7OCCF/LNI5PLUoqoSWmrtGyFBxCnFy4GyGJiJMJgXaobTJ5L+
-	J8SGsCU2LRxB6obam1m0YSk/il6tWPY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702401708;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=EYeLNxxcRpZBsoYcrMasPjbq5v48kbxiKxQZBxiyMNE=;
-	b=YM4XbS5lkmKbHQVNKll196bMoyPlGmz2ELvMPlffWShv6p6u4OQOeQ2xJuu1jFxRrD234L
-	nEy0p6O0P/2gjxCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702401706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=EYeLNxxcRpZBsoYcrMasPjbq5v48kbxiKxQZBxiyMNE=;
-	b=r8qTDk+GdcbEkYv8KEIw/zD5dtgvE4xb7BhzW3ls/XNQhoEFKqq63m8p7dtkpGzdMEFqJY
-	mCKCjLyqbgdfPG4AIPAElSrNt2Byqf/pRl2diFlM/Cj5v0iu42ES8XOSoU5pFnTOPI1ZQC
-	63sJybP1cFTNgmhGw9fo4KF+iXA8XYc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702401706;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=EYeLNxxcRpZBsoYcrMasPjbq5v48kbxiKxQZBxiyMNE=;
-	b=n3JMvRKNUuh0UZWuqTFyXdpFNaMFZ81h9bnUETg7gj/146SIhjqFosNgK23PZZaaPwzaaw
-	AtHOxDvFIkEyoyBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C9DC1136C7;
-	Tue, 12 Dec 2023 17:21:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jqmsMKqWeGXvOQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 12 Dec 2023 17:21:46 +0000
-From: Vlastimil Babka <vbabka@suse.cz>
-Date: Tue, 12 Dec 2023 18:21:43 +0100
-Subject: [PATCH] Documentation, mm/unaccepted: document accept_memory
- kernel parameter
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ePqER2dE"
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12422B9;
+	Tue, 12 Dec 2023 09:27:51 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1d336760e72so8029535ad.3;
+        Tue, 12 Dec 2023 09:27:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702402070; x=1703006870; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jynICPKoLwHaNl/nb1iCaIX3mL0xnnXkT4vQVCsRZhA=;
+        b=ePqER2dELffZ7v0W6QBXdxpdZnF+D8lY3wgasOxEsI8ltHVpGR9O+qOLLaREPEmR9m
+         Q3G3aObWHyQMzkWtgOhu/aw9G30sPpXW/zQNdQgTMv6KHR3i4k427Zk+G7iv56g4YF86
+         kIVY/WdvGjv7c/dW0JfGHbN33SfXctAy6bbc5pbIFCWqBAAaCgCiSy6baBxzS70gqIvp
+         6y1lXechWjKDEK2SwKMhX4vhknxjfQhM2lZdulQ3URg4j5QIxQZWwAi8WGcMTacLriSH
+         V63sCPpLGvuz4UuzMgcfmwRgGSZbsAOl5jzoPBxXh2Jldpb+cTPFOL8cFx1pzFAGttPc
+         xz3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702402070; x=1703006870;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jynICPKoLwHaNl/nb1iCaIX3mL0xnnXkT4vQVCsRZhA=;
+        b=FsvyzRLY2K8k13aVQ9qLCnIfbR0pr1McdnMrVqJGgJ6Y84j5TFgZxlxahWOxy/oX22
+         atSS1T3BbJIPc1163TQpGvIdh0LmQZUCNrhqypDTpprb+J+t8H1MJHTTGjnoj5S0y1Z8
+         ekBfi1kVZGXB9DvRGyYQve8WOALD5gU+Gpz7Rt6eoQYFYkJ3UpYiaZLFTsTANvaXg9/f
+         V0Y8Fx/el6AFDUjiLCMKwLQUthp5CsTxGQDxRKBMBTWfV4h6yTWUAoZ8ckr5/hh+Ho69
+         isA26V4poNkYppVF33Jo7AjdD3WER9dKXrT+wluvLLhBz+jyjvjtskDOjt0aUCPSBt0E
+         ZYjQ==
+X-Gm-Message-State: AOJu0YxfynQ/klHz5HIOfjhW6TrjgUxTSPlhfJjBOTVk90nIZ3B1oGOc
+	ujTLc+FemEHODqFQmeEJVnNZjZLtzC9yl+v0
+X-Google-Smtp-Source: AGHT+IEmzmstegOSP1NfPzK2eL1lR3d6LdaJTZkEhbecs67QjwOFdMmSiK5G1lV1xqQY3ZbScwc06A==
+X-Received: by 2002:a17:902:d64a:b0:1d3:479d:3d56 with SMTP id y10-20020a170902d64a00b001d3479d3d56mr379083plh.133.1702402069993;
+        Tue, 12 Dec 2023 09:27:49 -0800 (PST)
+Received: from localhost.localdomain ([101.0.63.152])
+        by smtp.gmail.com with ESMTPSA id b18-20020a170902d51200b001cf511aa772sm8863170plg.145.2023.12.12.09.27.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 09:27:49 -0800 (PST)
+From: "Neeraj Upadhyay (AMD)" <neeraj.iitr10@gmail.com>
+To: rcu@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	kernel-team@meta.com,
+	rostedt@goodmis.org,
+	paulmck@kernel.org,
+	Neeraj.Upadhyay@amd.com,
+	Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	David Howells <dhowells@redhat.com>,
+	Jade Alglave <j.alglave@ucl.ac.uk>,
+	Luc Maranget <luc.maranget@inria.fr>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Neeraj Upadhyay <neeraj.iitr10@gmail.com>
+Subject: [PATCH rcu 5/5] doc: Clarify historical disclaimers in memory-barriers.txt
+Date: Tue, 12 Dec 2023 22:56:53 +0530
+Message-Id: <20231212172653.11485-5-neeraj.iitr10@gmail.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231212172343.GA11383@neeraj.linux>
+References: <20231212172343.GA11383@neeraj.linux>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231212-accept_memory_param-v1-1-a9012402b887@suse.cz>
-X-B4-Tracking: v=1; b=H4sIAKaWeGUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2NDI0Mj3cTk5NSCkvjc1Nz8osr4gsSixFxdk0TzxJRk01RTUwsjJaDOgqL
- UtMwKsKnRsbW1AJp1SqRlAAAA
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, 
- Vlastimil Babka <vbabka@suse.cz>
-X-Mailer: b4 0.12.4
-X-Spam-Level: 
-X-Spam-Score: -1.42
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.40
-X-Spamd-Result: default: False [-1.40 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-0.10)[64.97%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,intel.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-The accept_memory kernel parameter was added in commit dcdfdd40fa82
-("mm: Add support for unaccepted memory") but not listed in the
-kernel-parameters doc. Add it there.
+From: "Paul E. McKenney" <paulmck@kernel.org>
 
-Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+This commit makes it clear that the reason that these sections are
+historical is that smp_read_barrier_depends() is no more.  It also
+removes the point about comparison operations, given that there are
+other optimizations that can break address dependencies.
+
+Suggested-by: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Andrea Parri <parri.andrea@gmail.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Jade Alglave <j.alglave@ucl.ac.uk>
+Cc: Luc Maranget <luc.maranget@inria.fr>
+Cc: Akira Yokosawa <akiyks@gmail.com>
+Cc: Daniel Lustig <dlustig@nvidia.com>
+Cc: Joel Fernandes <joel@joelfernandes.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: <linux-arch@vger.kernel.org>
+Cc: <linux-doc@vger.kernel.org>
+Signed-off-by: Neeraj Upadhyay (AMD) <neeraj.iitr10@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ Documentation/memory-barriers.txt | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 65731b060e3f..3a4ebb46073c 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1,3 +1,13 @@
-+	accept_memory=  [MM]
-+			Format: { eager | lazy }
-+			default: lazy
-+			By default, unaccepted memory is accepted lazily to
-+			avoid prolonged boot at the cost of some runtime
-+			overhead until all memory is eventually accepted. In
-+			most cases the overhead is negligible but for some
-+			workloads or for debugging purposes accept_memory=eager
-+			can be used to accept all memory at once during boot.
-+
- 	acpi=		[HW,ACPI,X86,ARM64,RISCV64]
- 			Advanced Configuration and Power Interface
- 			Format: { force | on | off | strict | noirq | rsdt |
-
----
-base-commit: a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-change-id: 20231212-accept_memory_param-4a7adc5e5582
-
-Best regards,
+diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+index d414e145f912..4202174a6262 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -396,10 +396,11 @@ Memory barriers come in four basic varieties:
+ 
+ 
+  (2) Address-dependency barriers (historical).
+-     [!] This section is marked as HISTORICAL: For more up-to-date
+-     information, including how compiler transformations related to pointer
+-     comparisons can sometimes cause problems, see
+-     Documentation/RCU/rcu_dereference.rst.
++     [!] This section is marked as HISTORICAL: it covers the long-obsolete
++     smp_read_barrier_depends() macro, the semantics of which are now
++     implicit in all marked accesses.  For more up-to-date information,
++     including how compiler transformations can sometimes break address
++     dependencies, see Documentation/RCU/rcu_dereference.rst.
+ 
+      An address-dependency barrier is a weaker form of read barrier.  In the
+      case where two loads are performed such that the second depends on the
+@@ -560,9 +561,11 @@ There are certain things that the Linux kernel memory barriers do not guarantee:
+ 
+ ADDRESS-DEPENDENCY BARRIERS (HISTORICAL)
+ ----------------------------------------
+-[!] This section is marked as HISTORICAL: For more up-to-date information,
+-including how compiler transformations related to pointer comparisons can
+-sometimes cause problems, see Documentation/RCU/rcu_dereference.rst.
++[!] This section is marked as HISTORICAL: it covers the long-obsolete
++smp_read_barrier_depends() macro, the semantics of which are now implicit
++in all marked accesses.  For more up-to-date information, including
++how compiler transformations can sometimes break address dependencies,
++see Documentation/RCU/rcu_dereference.rst.
+ 
+ As of v4.15 of the Linux kernel, an smp_mb() was added to READ_ONCE() for
+ DEC Alpha, which means that about the only people who need to pay attention
 -- 
-Vlastimil Babka <vbabka@suse.cz>
+2.40.1
 
