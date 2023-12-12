@@ -1,190 +1,298 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AYjQLFc1"
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D090DC;
-	Tue, 12 Dec 2023 13:36:36 -0800 (PST)
-Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-35da93ba227so22255695ab.0;
-        Tue, 12 Dec 2023 13:36:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702416995; x=1703021795; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QqP0NZs3Xrf1lShIPhdYETxSBrVBzpiJjKpJblNh5Yc=;
-        b=AYjQLFc1mWm7PsZVf+mTAK5HAKJH5Poe3QMyAHDIxYkbtkv+J4MDVuGgR0FErzujJW
-         DJmboS3UaiwT5HeUUHSW7Mi7veWepqgiSn+HrTg6o4VXVTLslmzgCbdM1LIwRSWnvTIP
-         mlzUTaF13btk/yk4E0LqjFlDiHqUqzH66AK4QgReh2YaiYzuXOuZRrF4xZvEpHv7rsg2
-         XBYItqI3wTbOUhBWvI/7ceA8dCTad3fEQ1S0Z9MrJwWDQHJ/dUJ6v20pfG2rK0BLAnvH
-         kRmUrO76zkvxw8vFeE7o1HBr2bVVC7mqemNnHoLQpkzGFgoMnHAGirim2KXr+08kYPl/
-         FarA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702416995; x=1703021795;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QqP0NZs3Xrf1lShIPhdYETxSBrVBzpiJjKpJblNh5Yc=;
-        b=dGStNsrYZOnZ4QmnKq+SwhazG2ccfOLI3X3knYzWl+yM37m8UN/i3GhSEIzlKY8Xes
-         Tat2WrvruKSoSJ1Ea1lc53Vs9UHr3NogHD2+t3RCyHI7H7/Jw1GoeR7x2biXVA+/XbmD
-         hmdK4gaC021qlV46qh7Ak1LTt7xIBCqwnXyTDzgICusBcwISTG4RCnNL2ca4NCkUtliz
-         v6rzjHqczuH4+ZiTm6wRXEFwXyQ+fcS86z5BihJ/oJMsvG3XQPrAOgDymf24u/RmSGKy
-         76mWlhda8BZ28p58ef8O2J88lixSSziPP7cnLeY1H/ZDcQ+Qnx1Gvq19zOJec3L4kqNj
-         r6ig==
-X-Gm-Message-State: AOJu0YykSIsb24nuSose2vY500n+4NGoNyQ3WURZKWCvV7hQZvz3XZeu
-	f4CioT1pVi5KZ8DpoN3VrF2ERxjuUvJjZ5fklgg=
-X-Google-Smtp-Source: AGHT+IGaXYEoLEr7Vl2t1G4tynNtJ16suiLjYiz3UnBB/rUz8+LCA+G682Aa3nkZfTqfgfl4TLs0wlZZOnzseTz//+8=
-X-Received: by 2002:a05:6e02:1cab:b0:35d:59a2:bb5 with SMTP id
- x11-20020a056e021cab00b0035d59a20bb5mr6404771ill.75.1702416994943; Tue, 12
- Dec 2023 13:36:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPBnaQHy"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FDDCAF;
+	Tue, 12 Dec 2023 13:43:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702417437; x=1733953437;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=fpGojZph5I5spuCmJ5ktPfomXo9/HwrlWfKWb6PGfW8=;
+  b=RPBnaQHyjM8Hwu0Zs4mS5FOTa9q9V9rC7Nh6Lqkbrm30k9fTJjKySvv4
+   W0D/Fe9xpRrBMa4Ec79hC3IHl9+a67wHdf72svTrPEzxKACmjCR35Cak6
+   x4cscfD825waMRosT98fUAuvaQjIh2hKs4FTU6lkPAd/n+4WnpFlQYbXC
+   C4VxUGNzQxsZy6fc7K9NlIJm0ddSLGIO3AqsMxj0qKQIHdqRGJAWDSZf0
+   evLw0kJvV/rRNmzRSaW5otUeRZGzzAcA5NZvb29hMhNl0wKB8F2KwURhQ
+   65XqP3XIXBN/WtTb2ugCfrRofdIwDTXItuaLb30YtaVZ/gvCBOshX+QMz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="398716432"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="398716432"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 13:43:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="891774372"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="891774372"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Dec 2023 13:42:57 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 12 Dec 2023 13:42:57 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 13:42:56 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 12 Dec 2023 13:42:56 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nBmarKoBJEXA7GQb+MhBdPIOEYuMky/xYJq0qTkwhvdXpLDMjPd6kn5mXyJ8J2atyzBBzhZT7Buf1c6k5Sm7rILu6ZLEStC1495Noq4FhYUB/vvbaD7hqR38cFoR3xmzHy3kRNmmyK650M79JI9TBQ3ukljHGc2KJ/+PPheqxNRIuwjRgKm+k6D1e89gQNciIfXyYBzgBFUWYs1I/lI03qzdTw6hXnr1ByeKisKFTUNUdzTbccqAATtWnWIjW7IkKQEfbjZUxwuBFd4yVn9+nZx1I8wbm1Nm1b0mPM2lFvS5BbgISe2hEvN4jsV4K0ExsPw7CwCboPQieJWjGGer3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IH91qC85TtKrsv4cjDOHezeZjXkDg0OPsSO6l24umvc=;
+ b=FrT812o0j0o0FGZ14074MzMDTpnTWkNxA0BOhRay3OGwUsP/I5PC6VJBuflSvkEklPMvnrb9Q93j6OgHBTw/QIBkOZ3XFdsPhnndv5euQeU9f4y/hOUBBk0wjM5oYrVz0FRIUdIXOGFtYglSoF3qVZWFnrV9eIql6/enQ8u1rXkNfgkefFTK9T+4cE1yqPbG+mByNBSBgXzMpbkf8gHHhiQ1chYkTdCTgCXVI9nT2GWZsxEJ+aAaJaDYOozc2ekhf6Ez6q0JithifKOUbd23IAI74LWDpwmCHZ7QBIKUVUe6HKEm8YtMCOuzcvCTqFcJjKSBJGVBtTqQqhQSaftJtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by CH3PR11MB8750.namprd11.prod.outlook.com (2603:10b6:610:1c7::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Tue, 12 Dec
+ 2023 21:42:54 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7068.025; Tue, 12 Dec 2023
+ 21:42:54 +0000
+Message-ID: <5215fe1e-52e1-4ca4-8bd2-a42152f3e0e3@intel.com>
+Date: Tue, 12 Dec 2023 13:42:51 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/3] x86/resctrl: Add mount option "mba_MBps_event"
+Content-Language: en-US
+To: Tony Luck <tony.luck@intel.com>
+CC: Peter Newman <peternewman@google.com>, Fenghua Yu <fenghua.yu@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	<x86@kernel.org>, Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
+	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
+	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<patches@lists.linux.dev>
+References: <20231201214737.104444-1-tony.luck@intel.com>
+ <20231207195613.153980-1-tony.luck@intel.com>
+ <20231207195613.153980-2-tony.luck@intel.com>
+ <CALPaoCji1yzfkA=tms3LhYMvRB+wSJQM3qzPKrHNEa7a+KduTA@mail.gmail.com>
+ <ZXORTTIUKWXOsd9p@agluck-desk3>
+ <CALPaoCj_OvMzD8W9+jEORewwDquM6F-sOW32Ngcy+Gm6A1+OcQ@mail.gmail.com>
+ <2377bfb8-00bc-4863-8d70-425cb70c9c0b@intel.com>
+ <ZXi8Rj3znA6lmjE9@agluck-desk3>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <ZXi8Rj3znA6lmjE9@agluck-desk3>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW2PR16CA0063.namprd16.prod.outlook.com
+ (2603:10b6:907:1::40) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
- <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
- <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com> <20231209034229.GA1001962@cmpxchg.org>
-In-Reply-To: <20231209034229.GA1001962@cmpxchg.org>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 12 Dec 2023 13:36:23 -0800
-Message-ID: <CAKEwX=OPQE3eTsfqwQa-bq3NE5YcqnkKfud84+FV4HF-Q_wcTg@mail.gmail.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Chris Li <chrisl@kernel.org>, akpm@linux-foundation.org, tj@kernel.org, 
-	lizefan.x@bytedance.com, cerasuolodomenico@gmail.com, yosryahmed@google.com, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, david@ixit.cz, Kairui Song <kasong@tencent.com>, 
-	Minchan Kim <minchan@google.com>, Zhongkun He <hezhongkun.hzk@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CH3PR11MB8750:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5485c9c6-4511-423e-ec90-08dbfb5b4c15
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dvt30dmVkIOma1iy1qJL5BQpUA311ILmDHmxuNGJYJZhRelUog9rLngQj6A8J0W0FingEsKkO42zAgEGeZ+DAUUtIuB6/0MKA+mwVZ4oexRvLC5R4TU3U35m7K8d7TBS4sNFp4QoAaM4EhPzEKSDFxz3898HG6TvLbiyEvZGuz+us3NTCJwvmVQRxJLRsitrPo6dLbKalxb69kf/VkzqH2TSLX6r2GVj0U9hkfT9oXuGJPmqx8ZvlLSoBnxet4mwBTOcbwf4nc+IMR4aNI+wEc8a97cqQejPp8hq87Tl+NNaSr4H3hh11LMtJxJmZZcwv/a3Hspdg25rs9g9X0hbFzxpQi5JvH3j5tRDdjPNqOOf8gHPIwsAfGa9TOqef6g4zYtz0l1Kt2y9dyyiEDL1Vjb0JuZGK2S/aH+sHL+Rs0zQro9vItPjtHvMabWF7V8IRuN9SM8uhp/j39ZbS417CdrVtUQmm2+Kf9qWTMEOcxIsZpOBFYZYT/snBfwT/oVJHfmlED++iOT6xGkU7wdeBjp7GukRIeazCSYqQ82wwejGL7+cahIuj7q/oBH5DUKm+wB5voyrlYytGRxqjThMtp7FFn0WZHyKzyHGAd90RvfBkDUcUrn9kggHO7VHyl3EIRRNxHH3GbxP51KuB+hcTQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(346002)(366004)(39860400002)(396003)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(41300700001)(38100700002)(82960400001)(8676002)(316002)(8936002)(86362001)(37006003)(31696002)(36756003)(66556008)(66476007)(6636002)(54906003)(66946007)(478600001)(6486002)(2906002)(6862004)(6512007)(31686004)(7416002)(26005)(6506007)(53546011)(5660300002)(44832011)(2616005)(83380400001)(6666004)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MW9TTkE3V1FQK0FweEJ1MDgrOU5qbUYwTmxiTjlTS2oweUc5RGNoQ240TG1L?=
+ =?utf-8?B?VTYvNlNkVktNRVBOdG9MSy90eHBFSU8zMzhZajd0MnhrRVBBTmZLSThlNWtL?=
+ =?utf-8?B?VWgvMFptTnRXWVRkZHlWVStoSWp2Q05QWGw2OWZWYy9iZXFVOWc3eHpndWdD?=
+ =?utf-8?B?ODJHOUpBOEdEclgva242M3ZKSUhXZlRsWHkvdER0Qkh0eWExT2ROQkhac0Jz?=
+ =?utf-8?B?SDNMSlE2MEJpd1EydG4wbVRsdVZ1SElpeFpmYVBzdFpkOU1HM1lGeWtnemVx?=
+ =?utf-8?B?Z0JrQ1NacXZQVmQ1eVhjc2dQU1Q4VmEySE9DTytZNlhOOGhVL3JQbVNKQ3J4?=
+ =?utf-8?B?Y3MxWStFTXBOMVZLYzd5ZjVUZExOTUt5WmdESXZFMElsazRpT1dvNzVHTmtZ?=
+ =?utf-8?B?blVmVzF6TEFlWHFJTWxzaHlJV3I4K1NlVGZiY2lhVml6ZThZcjVrRHZhc1Iv?=
+ =?utf-8?B?VkhHVVZrZndwaC9zVVE3K3VYVjE1dVFmUzFnZlpYZzh3Y0pVWDJZVWNCZmVv?=
+ =?utf-8?B?aG1NUU1IWUg4Z3dDMldQVTJXUWV5QVk3eWxoSTFnL0NCbTJvR0QwQWJ0Vm43?=
+ =?utf-8?B?WlFFeTZTNFFIaUxneW04ZFlWUXZJMmdGL0pCRDdYdFY5OXdjRXllRnVWVTdu?=
+ =?utf-8?B?OWFTU2g3MklwU3dFU3VPdlcvK1pvZ1kwS0Y1dkYzOTN6by94Qk5GSW45TmI5?=
+ =?utf-8?B?R0dtemZtQTJyNDVQMHRFOGNMa3RzUW9qcFlIWWdRbzJBd2VvWGhJTFFIZWlL?=
+ =?utf-8?B?VnE3SC8vU09Mck1UUWxVSkRVamdVak5PL3krSldaNDY5SlMvWGZvMkJJcnd4?=
+ =?utf-8?B?My9rMW52c3Jub0JWR05VVFlTRko5TjM4cG5paUFCdjVTbUs1TDhBVTBoSVFo?=
+ =?utf-8?B?R0FHWFBURmhWaGIzWDR5QytNdmdmMVlYZHA5YmVzVXFvUThTSlUrMGwzR1p5?=
+ =?utf-8?B?UFVhVENzQTZoL0hYZklTY29Qb0UrU3hIMFBVZ0tGS2tETEdhcmZoMnJDdmIw?=
+ =?utf-8?B?OU1IZkcvNjJXRmFramkxZjNJYjJtZTFyTi9QQVJSZCtwcXNKcGVPT1FUdXBs?=
+ =?utf-8?B?NWNndFMxS0NaSGZyNzlkQ3lWUVVQeDYwVWVyVzBYRHpjSmdyb3ZzUHBhelBZ?=
+ =?utf-8?B?S3JYRVBHN2VSMHI1ck1oWVpQTGhoakdURHBJc2FGM29mbXFBYXBidlF1SnNW?=
+ =?utf-8?B?OFpaSUE2cVByQUJzaE00bXNFdTVmdUlMbUwvNGRCeU5QczJkYXYrZTJ5NEs1?=
+ =?utf-8?B?NmRxaWg2Rk9Db0dsUCtYVUZEaTNnSUtFcEVMVE9VN0RrWDk3UGlKTHhYRGNE?=
+ =?utf-8?B?cS94VGNlYkw5Zm1ZRGw0dHlLbmtabVJ2cXVkbThiQ2R3OHFYUXhZMGY0d200?=
+ =?utf-8?B?ZmYyd1RuV2RQblNJZHF3cjZjVUdSV0M2Q3IwRjJFZnRseDBaQUNPeXprSUtU?=
+ =?utf-8?B?OUlXZk9jUGpBc01HY0FJNEZ3RVhCQ3RPd21xaS80ejlpcnpLdUxlTDRVdEhv?=
+ =?utf-8?B?YjhnOU8zM3Z0YXpyYTdvTWROSi9nUkFuQUg4TXZ0V1dvaGZCYVpDM2M3UVF4?=
+ =?utf-8?B?Q1lDUkVFTVJmUTlsQk4rVkw4RXJ0S2ZMUDliNGY2Q3FQUGZUN2RmTk9XSzhk?=
+ =?utf-8?B?Qis4WTV6Ry85RjkrYzl1TWRBQVNKUTk2WWR1VHlwR3ZPUERUbFVIUEFjSHBM?=
+ =?utf-8?B?MVErTm1sSWpuWTZHQldHT2R1QlZYS2JDRjdMSVFzbHhlRnpOc0g2VnprQ3RJ?=
+ =?utf-8?B?SVh6VFE1dnkweUluVWh6RnFXUm1iYXZuVFFhYzNNTERrL3U2SVRQV2EwSitM?=
+ =?utf-8?B?VmlPYTB3UzZiM0d0WTJuMUluVE82RmV5OFloT3BlcmczY3o1UjRDTjV6Y2g2?=
+ =?utf-8?B?RnZoRUhoOTN5aFlZY1BKZjdhR0dYWlpkYmFuNmdCZ3NYdDNINkFLN0tWRUtz?=
+ =?utf-8?B?OVZOd0lteWVGUEl5Sk80QzdodWNndFlYelFLNDhTbDFsb2FubmVDSVIzbVJp?=
+ =?utf-8?B?a0k1L08zVE5wQ1pHMHZSbm8wZTZFamVXSDQvdEIxMkpzU2xQR1BkR1NxR2sw?=
+ =?utf-8?B?ZGh4N0lpOTlGK1d4L2orMVRiK2pNMGNkdnI5VzJNQTRBWWE4dmMyS2dlNk5H?=
+ =?utf-8?B?ZG5kVVNKdEFoSkcvQlF5Wk1oUGRQaEg0ZVY3cGFndHpaU00wazBRYmROZXpv?=
+ =?utf-8?B?R1E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5485c9c6-4511-423e-ec90-08dbfb5b4c15
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 21:42:54.1620
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hLk4sX0kcERWNTKLGiIiVkG62ZSDFc05XLodS4uvVAd+cX8JWSrnu45BC5QxXJbTjHc02Bt3ajQP4xMxBY5/o18W/PsSV3lF/Bea/apXeVA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8750
+X-OriginatorOrg: intel.com
 
-On Fri, Dec 8, 2023 at 7:42=E2=80=AFPM Johannes Weiner <hannes@cmpxchg.org>=
- wrote:
->
-> On Fri, Dec 08, 2023 at 03:55:59PM -0800, Chris Li wrote:
-> > I can give you three usage cases right now:
-> > 1) Google producting kernel uses SSD only swap, it is currently on
-> > pilot. This is not expressible by the memory.zswap.writeback. You can
-> > set the memory.zswap.max =3D 0 and memory.zswap.writeback =3D 1, then S=
-SD
-> > backed swapfile. But the whole thing feels very clunky, especially
-> > what you really want is SSD only swap, you need to do all this zswap
-> > config dance. Google has an internal memory.swapfile feature
-> > implemented per cgroup swap file type by "zswap only", "real swap file
-> > only", "both", "none" (the exact keyword might be different). running
-> > in the production for almost 10 years. The need for more than zswap
-> > type of per cgroup control is really there.
->
-> We use regular swap on SSD without zswap just fine. Of course it's
-> expressible.
->
-> On dedicated systems, zswap is disabled in sysfs. On shared hosts
-> where it's determined based on which workload is scheduled, zswap is
-> generally enabled through sysfs, and individual cgroup access is
-> controlled via memory.zswap.max - which is what this knob is for.
->
-> This is analogous to enabling swap globally, and then opting
-> individual cgroups in and out with memory.swap.max.
->
-> So this usecase is very much already supported, and it's expressed in
-> a way that's pretty natural for how cgroups express access and lack of
-> access to certain resources.
->
-> I don't see how memory.swap.type or memory.swap.tiers would improve
-> this in any way. On the contrary, it would overlap and conflict with
-> existing controls to manage swap and zswap on a per-cgroup basis.
->
-> > 2) As indicated by this discussion, Tencent has a usage case for SSD
-> > and hard disk swap as overflow.
-> > https://lore.kernel.org/linux-mm/20231119194740.94101-9-ryncsn@gmail.co=
-m/
-> > +Kairui
->
-> Multiple swap devices for round robin or with different priorities
-> aren't new, they have been supported for a very, very long time. So
-> far nobody has proposed to control the exact behavior on a per-cgroup
-> basis, and I didn't see anybody in this thread asking for it either.
->
-> So I don't see how this counts as an obvious and automatic usecase for
-> memory.swap.tiers.
->
-> > 3) Android has some fancy swap ideas led by those patches.
-> > https://lore.kernel.org/linux-mm/20230710221659.2473460-1-minchan@kerne=
-l.org/
-> > It got shot down due to removal of frontswap. But the usage case and
-> > product requirement is there.
-> > +Minchan
->
-> This looks like an optimization for zram to bypass the block layer and
-> hook directly into the swap code. Correct me if I'm wrong, but this
-> doesn't appear to have anything to do with per-cgroup backend control.
->
-> > > zswap.writeback is a more urgent need, and does not prevent swap.tier=
-s
-> > > if we do decide to implement it.
-> >
-> > I respect that urgent need, that is why I Ack on the V5 path, under
-> > the understanding that this zswap.writeback is not carved into stones.
-> > When a better interface comes alone, that interface can be obsolete.
-> > Frankly speaking I would much prefer not introducing the cgroup API
-> > which will be obsolete soon.
-> >
-> > If you think zswap.writeback is not removable when another better
-> > alternative is available, please voice it now.
-> >
-> > If you squash my minimal memory.swap.tiers patch, it will also address
-> > your urgent need for merging the "zswap.writeback", no?
->
-> We can always deprecate ABI if something better comes along.
->
-> However, it's quite bold to claim that memory.swap.tiers is the best
-> way to implement backend control on a per-cgroup basis, and that it'll
-> definitely be needed in the future. You might see this as a foregone
-> conclusion, but I very much doubt this.
->
-> Even if such a file were to show up, I'm not convinced it should even
-> include zswap as one of the tiers. Zswap isn't a regular swap backend,
-> it doesn't show up in /proc/swaps, it can't be a second tier, the way
-> it interacts with its backend file is very different than how two
-> swapfiles of different priorities interact with each other, it's
-> already controllable with memory.zswap.max, etc.
+Hi Tony,
 
-This is honestly the thing I was originally most iffy about :) zswap
-is architecturally and semantically separate from other swap options.
-It gets really confusing to lump it as part of the swap tiers.
+On 12/12/2023 12:02 PM, Tony Luck wrote:
+> On Tue, Dec 12, 2023 at 09:54:38AM -0800, Reinette Chatre wrote:
+>>
+>> On 12/8/2023 2:09 PM, Peter Newman wrote:
+>>> On Fri, Dec 8, 2023 at 1:57 PM Tony Luck <tony.luck@intel.com> wrote:
+>>>>
+>>>> On Fri, Dec 08, 2023 at 10:17:08AM -0800, Peter Newman wrote:
+>>>>> Hi Tony,
+>>>>>
+>>>>> On Thu, Dec 7, 2023 at 11:56 AM Tony Luck <tony.luck@intel.com> wrote:
+>>>>>> @@ -2715,7 +2723,25 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
+>>>>>>         case Opt_mba_mbps:
+>>>>>>                 if (!supports_mba_mbps())
+>>>>>>                         return -EINVAL;
+>>>>>> -               ctx->enable_mba_mbps = true;
+>>>>>> +               if (is_mbm_local_enabled())
+>>>>>> +                       ctx->enable_mba_mbps_local = true;
+>>>>>> +               else
+>>>>>> +                       return -EINVAL;
+>>>>>> +               return 0;
+>>>>>> +       case Opt_mba_mbps_event:
+>>>>>> +               if (!supports_mba_mbps())
+>>>>>> +                       return -EINVAL;
+>>>>>> +               if (!strcmp("mbm_local_bytes", param->string)) {
+>>>>>> +                       if (!is_mbm_local_enabled())
+>>>>>> +                               return -EINVAL;
+>>>>>> +                       ctx->enable_mba_mbps_local = true;
+>>>>>> +               } else if (!strcmp("mbm_total_bytes", param->string)) {
+>>>>>> +                       if (!is_mbm_total_enabled())
+>>>>>> +                               return -EINVAL;
+>>>>>> +                       ctx->enable_mba_mbps_total = true;
+>>>>>> +               } else {
+>>>>>> +                       return -EINVAL;
+>>>>>
+>>>>> It looks like if I pass
+>>>>> "mba_MBps_event=mbm_total_bytes,mba_MBps_event=mbm_local_bytes" I can
+>>>>> set both flags true.
+>>>>
+>>>> That's going to be confusing. I'll add code to stop the user from
+>>>> passing both options.
+>>>
+>>> Also kind of confusing, after reading the second patch, I realized
+>>> "mba_MBps_event=mbm_total_bytes,mba_MBps" also results in both being
+>>> set. If you're able to fail the mount operation if both flags somehow
+>>> get set, that would address this one too.
+>>
+>> Are two separate flags required? All existing options within struct rdt_fs_context
+>> are of type bool but that does not imply that it is the required type for
+>> all. 
+> 
+> Reinette,
+> 
+> Maybe a flag and a value?  The structure becomes:
+> 
+> struct rdt_fs_context {
+> 	struct kernfs_fs_context	kfc;
+> 	bool				enable_cdpl2;
+> 	bool				enable_cdpl3;
+> 	bool				enable_mba_mbps;
+> 	enum resctrl_event_id		mba_mbps_event;
+> 	bool				enable_debug;
+> };
 
->
-> I'm open to discussing usecases and proposals for more fine-grained
-> per-cgroup backend control. We've had discussions about per-cgroup
-> swapfiles in the past. Cgroup parameters for swapon are another
-> thought. There are several options and many considerations. The
-> memory.swap.tiers idea is the newest, has probably had the least
-> amount of discussion among them, and looks the least convincing to me.
+A flag and value would work. This brings the implementation close
+to the resource properties. Something that is confusing to me with
+this change is the inconsistent naming:
 
-Definitely. zswap.writeback is a really concrete feature, with
-immediate use-case, whereas swap.tiers seem a bit nebulous to me now,
-the more we discuss it. I'm not against the inclusion of something
-along its line though, and I'm definitely not trying to limit the use
-case of other folks - I'd be happy to contribute my engineering hours
-towards the discussion of the multi-tier swapping design (both
-internal implementation and and public interface), as well as actual
-code, when that design is fully fleshed out :)
+struct rdt_fs_context:
+	bool			enable_mba_mbps
+	enum resctrl event_id	mba_mbps_event
 
->
-> Let's work out the requirements first.
->
-> The "conflict" with memory.zswap.writeback is a red herring - it's no
-> more of a conflict than setting memory.swap.tiers to "zswap" or "all"
-> and then setting memory.zswap.max or memory.swap.max to 0.
+struct resctrl_membw:
+	bool			mba_sc
+	enum resctrl_event_id	mba_mbps_event
 
-Yup.
 
->
-> So the notion that we have to rush in a minimal version of a MUCH
-> bigger concept, just to support zswap writeback disabling is
-> misguided. And then hope that this format works as the concept evolves
-> and real usecases materialize... There is no reason to take that risk.
+The intention with the above naming is not obvious to me. How are
+these intended to be viewed?
+
+One option could be to view these as separately representing user
+space (struct rdt_fs_context) and kernel space (struct resctrl_membw).
+If this is the case then the following naming may be more intuitive:
+
+struct rdt_fs_context:
+	bool			enable_mba_mbps
+	enum resctrl event_id	mba_mbps_event
+
+struct resctrl_membw:
+	bool			mba_sc
+	enum resctrl_event_id	mba_sc_event
+
+
+
+> 
+> Mount option parsing (including blocking user from setting the options
+> multiple times):
+> 
+> 	case Opt_mba_mbps:
+> 		if (!supports_mba_mbps() || ctx->enable_mba_mbps)
+> 			return -EINVAL;
+
+I am not familiar with the API but it seems that invalfc() is available
+to communicate a more useful message to user space than the default one
+shown in changelog of patch #2.
+
+> 		if (is_mbm_local_enabled())
+> 			ctx->mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
+> 		else if (is_mbm_total_enabled())
+> 			ctx->mba_mbps_event = QOS_L3_MBM_TOTAL_EVENT_ID;
+> 		else
+> 			return -EINVAL;
+> 		ctx->enable_mba_mbps = true;
+> 		return 0;
+> 	case Opt_mba_mbps_event:
+> 		if (!supports_mba_mbps() || ctx->enable_mba_mbps)
+> 			return -EINVAL;
+> 		if (!strcmp("mbm_local_bytes", param->string))
+> 			ctx->mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
+> 		else if (!strcmp("mbm_total_bytes", param->string))
+> 			ctx->mba_mbps_event = QOS_L3_MBM_TOTAL_EVENT_ID;
+> 		else
+> 			return -EINVAL;
+> 		ctx->enable_mba_mbps = true;
+> 		return 0;
+> 
+> 
+> and use of the options to enable the feature:
+> 
+> 	if (ctx->enable_mba_mbps) {
+> 		r->membw.mba_mbps_event = ctx->mba_mbps_event;
+> 		ret = set_mba_sc(true);
+> 		if (ret)
+> 			goto out_cdpl3;
+> 	}
+
+Since 0 will not be used for an unset/invalid value I expect mba_mbps_event
+will not (cannot) be cleared by rdt_disable_ctx(). If this is the case I think
+future changes can be supported by expanding the kerneldoc of struct resctrl_membw
+to document that "@mba_mbps_event (or @mba_sc_event?) is invalid if @mba_sc
+is false".
+
+Reinette
