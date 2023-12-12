@@ -1,54 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MmE75n3d"
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB18BE;
-	Mon, 11 Dec 2023 23:33:32 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40c41df5577so22982355e9.0;
-        Mon, 11 Dec 2023 23:33:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LSo5XZFI"
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 160FABE
+	for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 23:43:57 -0800 (PST)
+Received: by mail-ot1-x329.google.com with SMTP id 46e09a7af769-6da16eab6fcso1318651a34.3
+        for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 23:43:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702366410; x=1702971210; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RibkXoWBTp93W+AGk43zCCrx+wIcjVmNc/4L0LjyHiY=;
-        b=MmE75n3dIu8o0fT9rAOC17PnK9NnJkN7j3xzd1ABdIY139ETA9ZK5UXN2Wx9/Hsduk
-         B8W/mIG88R+xH/PgIs1jZGtqTjexNr7OAKK+sfNbm96Ro6yVE7nsRpb5lj2ZUmcWjVo9
-         TJK6z6H+LedujKCzjIFifbLDrv0LQ9z3Sf6wsrCuHZGRolwYuXxn4CvgpMQmGtedklY0
-         9w3nsUtBC2/Xoh44RiaMpyK+Qjxq4SmmJWwuFcPenPt7BOOsM2CbKWwV5FtsB1DBNXtv
-         7q8d2WvwOarmWvJ3WQKCcI2JgtlS73sXpAUoE7Q2ejJHVmIfd8Q2B+FyOrooBww85pi0
-         DwYg==
+        d=linaro.org; s=google; t=1702367036; x=1702971836; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TOXKU7bsGbNdHwHYKjDdosOGqerCEfbXvQrWb4UvRVA=;
+        b=LSo5XZFIc/VUGHNlD/o56Rk2QJkMRRxPmj/6S+vhtduOpSWVmESkYQ4SxUJ442BijS
+         aSuqHfvmvWekqgxUN1RxOntxyQNV7MHgOUx5AVlyu8VmbtlvtxkGNscRUmymye7DG7lu
+         G86q3j5QMnwUbO9MV7I1EnHQS5IHFOn3Iv63bw5Q8NC03KpdUZEZrUKDJkyyZoD6F0K5
+         S5Q1q8D93f0tCHC9EJbcwqOuilkiDujcQFsrelaGsfG0QkaA7GvSRpUu1Fp6jjfhIehN
+         onRKLZ3gWOEJ2kDEIz+56bTUzkHnziQlx5EI7IXQA4zsdlhw9zjK3eAvexXyjTVme+Wm
+         w+eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702366410; x=1702971210;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RibkXoWBTp93W+AGk43zCCrx+wIcjVmNc/4L0LjyHiY=;
-        b=e3sua5KA0Pu1RoNA7o5HdvKzfLE4WS1yTYFyo919NG1eEkmwZBCaWvhm1kIsgdZ7DU
-         fFSjLd0QH2PU2L6XkK8IVw4rziPli6Cri/iANUMNhWMz+fKBa49xy4h0yvd0Cnr/psxl
-         1I1hpcO22RokV/x+hAlOZBo/4UnKvu6I/QbNbKKspn0b8yy/+5ZtHhsJRYFUK+RiRgcU
-         iK2G3vXvfklhMdTizy3T2ALP4XW+wiri6BWNMRgtD9MLHFwpYrRJSfNAsmtzgSn7q8FU
-         3GNladQlAeH9NGu77YxAQt+ASWmLxafm24MuO9gM7/8Zohvg70gqYLk5tioUQwePPn8+
-         ogJA==
-X-Gm-Message-State: AOJu0YwHABg8lBKLNTeULWo2YQ3UZaqkAaQWZbF+l+1c2vEZTM6YF19m
-	VVsvGBd97aQBIDUTyH08Z9fNiD0Tt/8=
-X-Google-Smtp-Source: AGHT+IHoBc9lKgy+FkFhSLMYv7TNNT6NkrTCQC1AYkL+LyRSTdhmu+FixmzZBgQ/o5bat8o3YvxM/g==
-X-Received: by 2002:a7b:cc84:0:b0:40c:1da3:363f with SMTP id p4-20020a7bcc84000000b0040c1da3363fmr1418044wma.348.1702366410298;
-        Mon, 11 Dec 2023 23:33:30 -0800 (PST)
-Received: from amir-ThinkPad-T480.lan ([5.29.249.86])
-        by smtp.gmail.com with ESMTPSA id l15-20020a05600c1d0f00b003feae747ff2sm17896319wms.35.2023.12.11.23.33.28
+        d=1e100.net; s=20230601; t=1702367036; x=1702971836;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TOXKU7bsGbNdHwHYKjDdosOGqerCEfbXvQrWb4UvRVA=;
+        b=mKhRTfks2fOKI1ZZw0t/IBaxm3K1Eas9ekLkPdnb9tUKdeAll74YjbYXLNnnV7rbVI
+         Q7ovWNUk8wMvQ99IYf3kLhxAGcWyXsS7skl7av34kZdYF6Zai/dZWiWXYI8G28diVdVN
+         lMTWKxqk1NOGux8CUm10YV+NxPYEkZ/qOiRfceBrns1UXQNGcZ/iwZTq2RH/9I9J0qir
+         V4MBCG9gc4RA0WBzk1q1iDpFsHRMCNQ0LSgRQwD38+FQM7ZNdhDxkckXnpVYd4kmdh5r
+         cQp3EztgccIalUcBrc5EbAIPpW3CaEI2MqCORQ8XhFncD+pUB3NesqF9yJjvkvd4T9ig
+         mYqg==
+X-Gm-Message-State: AOJu0YwSW4IR/1SXM0LwKkNfXEdDAgYUo3xz4lYmvsjNqXwfmplu04iC
+	YMc+6usR2cKa27RDr8lb+dTlHg==
+X-Google-Smtp-Source: AGHT+IGKLGKqgzeNRv7L+xn0zLYdEZOT4libZggr20dVVKc/KDhBqq0Pl8ckyK54H8v3G3sDD1FWkA==
+X-Received: by 2002:a05:6830:615:b0:6d9:f334:f886 with SMTP id w21-20020a056830061500b006d9f334f886mr5749871oti.18.1702367036432;
+        Mon, 11 Dec 2023 23:43:56 -0800 (PST)
+Received: from localhost ([122.172.82.6])
+        by smtp.gmail.com with ESMTPSA id d12-20020a056a0010cc00b006ce61c9495fsm7470500pfu.206.2023.12.11.23.43.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 23:33:29 -0800 (PST)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-unionfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] overlayfs.rst: fix ReST formatting
-Date: Tue, 12 Dec 2023 09:33:24 +0200
-Message-Id: <20231212073324.245541-3-amir73il@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231212073324.245541-1-amir73il@gmail.com>
-References: <20231212073324.245541-1-amir73il@gmail.com>
+        Mon, 11 Dec 2023 23:43:55 -0800 (PST)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to build directory
+Date: Tue, 12 Dec 2023 13:13:48 +0530
+Message-Id: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,153 +64,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: *
 
-Fix some indentation issues and missing newlines in quoted text.
+Rustup override is required to be set for the build directory and not
+necessarily the kernel source tree (unless the build directory is its
+subdir).
 
-Unindent a) b) enumerated list to workaround github displaying it
-as numbered list.
+Clarify the same in quick-start guide.
 
-Reported-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 ---
- Documentation/filesystems/overlayfs.rst | 69 +++++++++++++------------
- 1 file changed, 35 insertions(+), 34 deletions(-)
+V2:
+- Made few changes based on review comments.
 
-diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
-index 926396fdc5eb..37467ad5cff4 100644
---- a/Documentation/filesystems/overlayfs.rst
-+++ b/Documentation/filesystems/overlayfs.rst
-@@ -174,10 +174,10 @@ programs.
- seek offsets are assigned sequentially when the directories are read.
- Thus if
+ Documentation/rust/quick-start.rst | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+index f382914f4191..7ea931f74e09 100644
+--- a/Documentation/rust/quick-start.rst
++++ b/Documentation/rust/quick-start.rst
+@@ -33,14 +33,18 @@ A particular version of the Rust compiler is required. Newer versions may or
+ may not work because, for the moment, the kernel depends on some unstable
+ Rust features.
  
--  - read part of a directory
--  - remember an offset, and close the directory
--  - re-open the directory some time later
--  - seek to the remembered offset
-+- read part of a directory
-+- remember an offset, and close the directory
-+- re-open the directory some time later
-+- seek to the remembered offset
+-If ``rustup`` is being used, enter the checked out source code directory
+-and run::
++If ``rustup`` is being used, enter the kernel build directory (or use
++`--path=<build-dir>` argument to the `set` sub-command) and run::
  
- there may be little correlation between the old and new locations in
- the list of filenames, particularly if anything has changed in the
-@@ -285,21 +285,21 @@ Permission model
+ 	rustup override set $(scripts/min-tool-version.sh rustc)
  
- Permission checking in the overlay filesystem follows these principles:
- 
-- 1) permission check SHOULD return the same result before and after copy up
-+1) permission check SHOULD return the same result before and after copy up
- 
-- 2) task creating the overlay mount MUST NOT gain additional privileges
-+2) task creating the overlay mount MUST NOT gain additional privileges
- 
-- 3) non-mounting task MAY gain additional privileges through the overlay,
-- compared to direct access on underlying lower or upper filesystems
-+3) non-mounting task MAY gain additional privileges through the overlay,
-+   compared to direct access on underlying lower or upper filesystems
- 
--This is achieved by performing two permission checks on each access
-+This is achieved by performing two permission checks on each access:
- 
-- a) check if current task is allowed access based on local DAC (owner,
--    group, mode and posix acl), as well as MAC checks
-+a) check if current task is allowed access based on local DAC (owner,
-+group, mode and posix acl), as well as MAC checks
- 
-- b) check if mounting task would be allowed real operation on lower or
--    upper layer based on underlying filesystem permissions, again including
--    MAC checks
-+b) check if mounting task would be allowed real operation on lower or
-+upper layer based on underlying filesystem permissions, again including
-+MAC checks
- 
- Check (a) ensures consistency (1) since owner, group, mode and posix acls
- are copied up.  On the other hand it can result in server enforced
-@@ -311,14 +311,14 @@ to create setups where the consistency rule (1) does not hold; normally,
- however, the mounting task will have sufficient privileges to perform all
- operations.
- 
--Another way to demonstrate this model is drawing parallels between
-+Another way to demonstrate this model is drawing parallels between:
- 
--  mount -t overlay overlay -olowerdir=/lower,upperdir=/upper,... /merged
-+ mount -t overlay overlay -olowerdir=/lower,upperdir=/upper,... /merged
- 
--and
-+and:
- 
--  cp -a /lower /upper
--  mount --bind /upper /merged
-+ |  cp -a /lower /upper
-+ |  mount --bind /upper /merged
- 
- The resulting access permissions should be the same.  The difference is in
- the time of copy (on-demand vs. up-front).
-@@ -390,11 +390,11 @@ Data-only lower layers
- With "metacopy" feature enabled, an overlayfs regular file may be a composition
- of information from up to three different layers:
- 
-- 1) metadata from a file in the upper layer
-+1) metadata from a file in the upper layer
- 
-- 2) st_ino and st_dev object identifier from a file in a lower layer
-+2) st_ino and st_dev object identifier from a file in a lower layer
- 
-- 3) data from a file in another lower layer (further below)
-+3) data from a file in another lower layer (further below)
- 
- The "lower data" file can be on any lower layer, except from the top most
- lower layer.
-@@ -421,15 +421,15 @@ Since kernel version v6.8, "data-only" lower layers can also be added using
- the "datadir+" mount options and the fsconfig syscall from new mount api.
- For example:
- 
--  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
--  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
--  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l3", 0);
--  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do1", 0);
--  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do2", 0);
-+ |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
-+ |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
-+ |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l3", 0);
-+ |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do1", 0);
-+ |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do2", 0);
- 
- 
- fs-verity support
------------------------
-+-----------------
- 
- During metadata copy up of a lower file, if the source file has
- fs-verity enabled and overlay verity support is enabled, then the
-@@ -653,9 +653,10 @@ following rules apply:
-    encode an upper file handle from upper inode
- 
- The encoded overlay file handle includes:
-- - Header including path type information (e.g. lower/upper)
-- - UUID of the underlying filesystem
-- - Underlying filesystem encoding of underlying inode
+ This will configure your working directory to use the correct version of
+-``rustc`` without affecting your default toolchain. If you are not using
+-``rustup``, fetch a standalone installer from:
++``rustc`` without affecting your default toolchain.
 +
-+- Header including path type information (e.g. lower/upper)
-+- UUID of the underlying filesystem
-+- Underlying filesystem encoding of underlying inode
++Note that the override applies to the current working directory (and its
++sub-directories).
++
++If you are not using ``rustup``, fetch a standalone installer from:
  
- This encoding format is identical to the encoding format file handles that
- are stored in extended attribute "trusted.overlay.origin".
-@@ -773,9 +774,9 @@ Testsuite
- There's a testsuite originally developed by David Howells and currently
- maintained by Amir Goldstein at:
+ 	https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
  
--  https://github.com/amir73il/unionmount-testsuite.git
-+https://github.com/amir73il/unionmount-testsuite.git
- 
- Run as root:
- 
--  # cd unionmount-testsuite
--  # ./run --ov --verify
-+ |  # cd unionmount-testsuite
-+ |  # ./run --ov --verify
 -- 
-2.34.1
+2.31.1.272.g89b43f80a514
 
