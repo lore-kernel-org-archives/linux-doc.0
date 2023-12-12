@@ -1,103 +1,124 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g4CWJjCd"
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F60710A;
-	Tue, 12 Dec 2023 03:42:59 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-40c19f5f822so31127535e9.1;
-        Tue, 12 Dec 2023 03:42:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702381378; x=1702986178; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1w6ExvjDA6MnJY8U+jRIIUUp1YLCQf5dTNoi7ve07KA=;
-        b=g4CWJjCdC/QYaWa1T9BCEn3+RJj7eq15Cpul0krae7QmUUk4aTt+S5ZSduFIcT5pOx
-         GL6nzMlZ9aAz869aJDwuNQGv/z0R/wwpjEI4WyUYRGHawiAfbB0ofrrwu7Z3VSCPxuOA
-         9qbDdUcLTZu8w1t7d9H0BH63jWoibfEYAhbj5yqTD4BNkROOuRbkDX0HONvLMeKmfArD
-         kdhhn162GQXpA1jw19GU5c+FsdAeveKb6BeiRQOjJkFGCX5RGgJG03sZzZRlszrnd+fc
-         wWnozcozgF0/mhs0lWzKENg8oAl/XXu2rJ9bSPx0cjjTrSwq1Er+D9gsxT3JgjWelw6r
-         ParQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702381378; x=1702986178;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1w6ExvjDA6MnJY8U+jRIIUUp1YLCQf5dTNoi7ve07KA=;
-        b=DB5ize0bGu+bK9IRv+x2xkMvA0RAbbCNQ5w7kBJNBta70tJ2vZvYi3Ob2Cg0dxg/xO
-         s/aW7hj+hC+rh3hgqpbK2S1gNbgo79LuVPeX8IkSjgeGOnD0ZRktmZrq4hHBR+0Jwhpn
-         hAAejkIJUY8NyYUrlk+LOm470d9wBsLF8sfmyMZcfPD/6nRQK+9vUSdtnj1Dta0w5Jk1
-         x+RK+J3peS1Vxs/UaTxXwjXSl+1gXlfkZUjbZO7LHsPnMNJHEH++m6aNyufqLi0IJDOx
-         60dbHcm9teNtOtxSXUueKQstVmOWN22aGYBIhWQBfgHx37jjepN7zBXrjUe5mwtF7Fdn
-         iOIA==
-X-Gm-Message-State: AOJu0Yx5Np/heQvn2htL4+IE8l28OH6Pk3Z9HB60Or40gjOf3N3BZ/2T
-	IovNINbciRBygFFXv0l44B8=
-X-Google-Smtp-Source: AGHT+IH+LrqVSNMWmNIXgt/wkgZA74OEbbbxCoPzKyU1CbHG+AZPiTn3XEw8hq/wJQshl02uHSR55Q==
-X-Received: by 2002:a05:600c:54c4:b0:40c:3984:4983 with SMTP id iw4-20020a05600c54c400b0040c39844983mr3052768wmb.76.1702381377720;
-        Tue, 12 Dec 2023 03:42:57 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:4c3e:5ea1:9128:f0b4])
-        by smtp.gmail.com with ESMTPSA id p14-20020a05600c358e00b0040c37c4c229sm13708499wmq.14.2023.12.12.03.42.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 03:42:57 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
- Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
- Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
- <jacob.e.keller@intel.com>,  donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v2 00/11] tools/net/ynl: Add 'sub-message'
- support to ynl
-In-Reply-To: <20231211153209.2d526d99@kernel.org> (Jakub Kicinski's message of
-	"Mon, 11 Dec 2023 15:32:09 -0800")
-Date: Tue, 12 Dec 2023 11:38:07 +0000
-Message-ID: <m2v8937isg.fsf@gmail.com>
-References: <20231211164039.83034-1-donald.hunter@gmail.com>
-	<20231211153209.2d526d99@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B40CD
+	for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 03:48:18 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD1FF-0006p6-5q; Tue, 12 Dec 2023 12:48:13 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD1FE-00FKLC-PE; Tue, 12 Dec 2023 12:48:12 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD1FE-001bJi-Fs; Tue, 12 Dec 2023 12:48:12 +0100
+Date: Tue, 12 Dec 2023 12:48:12 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sean Young <sean@mess.org>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 4/6] pwm: Make it possible to apply PWM changes in
+ atomic context
+Message-ID: <20231212114812.afzgjiunzc6druov@pengutronix.de>
+References: <cover.1702369869.git.sean@mess.org>
+ <57f48330eb606356e86be17f85253f0e3d6ab104.1702369869.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wotwwsshk5kuseg6"
+Content-Disposition: inline
+In-Reply-To: <57f48330eb606356e86be17f85253f0e3d6ab104.1702369869.git.sean@mess.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
 
-> On Mon, 11 Dec 2023 16:40:28 +0000 Donald Hunter wrote:
->> This patchset adds a 'sub-message' attribute type to the netlink-raw
->> schema and implements it in ynl. This provides support for kind-specific
->> options attributes as used in rt_link and tc raw netlink families.
->> 
->> A description of the new 'sub-message' attribute type and the
->> corresponding sub-message definitions is provided in patch 5.
->> 
->> The patchset includes updates to the rt_link spec and a new tc spec that
->> make use of the new 'sub-message' attribute type.
->> 
->> As mentioned in patch 7, encode support is not yet implemented in ynl
->> and support for sub-message selectors at a different nest level from the
->> key attribute is not yet supported. I plan to work on these in folloup
->> patches.
->
-> Seems to break C codegen:
+--wotwwsshk5kuseg6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ick. Sorry about that. How do you test/validate the C codegen?
+Hello Sean,
 
-> Traceback (most recent call last):
->   File "net-next/tools/net/ynl/ynl-gen-c.py", line 2802, in <module>
->     main()
->   File "net-next/tools/net/ynl/ynl-gen-c.py", line 2531, in main
->     parsed = Family(args.spec, exclude_ops)
->              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->   File "net-next/tools/net/ynl/ynl-gen-c.py", line 889, in __init__
->     super().__init__(file_name, exclude_ops=exclude_ops)
->   File "net-next/tools/net/ynl/lib/nlspec.py", line 481, in __init__
->     raise last_exception
->   File "net-next/tools/net/ynl/lib/nlspec.py", line 472, in __init__
->     elem.resolve()
->   File "net-next/tools/net/ynl/ynl-gen-c.py", line 907, in resolve
->     self.resolve_up(super())
->   File "net-next/tools/net/ynl/lib/nlspec.py", line 53, in resolve_up
->     up.resolve()
->   File "net-next/tools/net/ynl/lib/nlspec.py", line 583, in resolve
->     for elem in self.yaml['sub-messages']:
->                 ~~~~~~~~~^^^^^^^^^^^^^^^^
+On Tue, Dec 12, 2023 at 08:34:03AM +0000, Sean Young wrote:
+> +/**
+> + * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
+> + * Cannot be used in atomic context.
+> + * @pwm: PWM device
+> + * @state: new state to apply
+> + */
+> +int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state=
+ *state)
+> +{
+> +	int err;
+> +
+> +	/*
+> +	 * Some lowlevel driver's implementations of .apply() make use of
+> +	 * mutexes, also with some drivers only returning when the new
+> +	 * configuration is active calling pwm_apply_might_sleep() from atomic =
+context
+> +	 * is a bad idea. So make it explicit that calling this function might
+> +	 * sleep.
+> +	 */
+> +	might_sleep();
+> +
+> +	if (IS_ENABLED(CONFIG_PWM_DEBUG) && pwm->chip->atomic) {
+> +		/*
+> +		 * Catch any drivers that have been marked as atomic but
+> +		 * that will sleep anyway.
+> +		 */
+> +		non_block_start();
+> +		err =3D pwm_apply_unchecked(pwm, state);
+> +		non_block_end();
+> +	} else {
+> +		err =3D pwm_apply_unchecked(pwm, state);
+> +	}
+> +
+>  	/*
+>  	 * only do this after pwm->state was applied as some
+>  	 * implementations of .get_state depend on this
+>  	 */
+> -	pwm_apply_debug(pwm, state);
+> +	if (!err)
+> +		pwm_apply_debug(pwm, state);
+
+It's easier to keep that in pwm_apply_unchecked(), isn't it? Then
+pwm_apply_atomic() also benefits from the checks.
+
+I'm not so happy with the function name of pwm_apply_unchecked(), but I
+don't have a good suggestion either. Probably I'd have chosen
+__pam_apply(), but that's probably subjective.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--wotwwsshk5kuseg6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4SHsACgkQj4D7WH0S
+/k74ygf/d/ALSfb+yMsRUGqLtZbQ7QFlbxZ7Xdahj4u3XgKiwSJwV5WlK8qFsm0T
+Pd7U8STpUt+HJggcHMTOmPYd18XmSZOkX86VPlDLbVFXAGTE9jpy15ll9VLw5vFm
+AqBdeFm81hYOkHvi+9oEkaw6kXhRNlLoGmpxkhWkW7RE2lx+M7I9C/KghvfSJiss
+o77C2/Ak8dhPq1b0c9Nc5DsFQ02QZ7QTujr/eAbPPhmDNv188GKlA7AzTBaGdzEd
+pP01de0tkFB/DDJRsD64YZ2T7UOzzv4RlQGtNVokEpxG8UYLpqhfC5SPjt02Slqz
+AgOY1Y5o7nXSqD6vq9KIFUL7kezbNA==
+=rd9i
+-----END PGP SIGNATURE-----
+
+--wotwwsshk5kuseg6--
