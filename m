@@ -1,201 +1,264 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P4ecB+h6"
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC968AF;
-	Tue, 12 Dec 2023 09:54:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702403684; x=1733939684;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=S/aAN354RdqTaQCyODeTi40YS0uBp2HUHdIsLBKpC50=;
-  b=P4ecB+h6prN8F3UzhtVxGSNfey/o73jBcJx0rgt2/AXIDS57ts46Pq9G
-   oqPvEvr9qKkd1JAgmEdHj5A0PmfvrYZug8ZNcUUpg1MReYozWKh6ucPcV
-   wJYE3arJRQxZJv/lg49MuOJ6FhKMWap8HEnlb24+JH1MT+gOhUa84TTQr
-   fRQG58dhrjPLB/lOa5nTL3DgLeWokmBws9RvH/AUXNfcBrFSfLhWmAgbt
-   IQytF5mTae1omqsUHk4Cnp3TGyNgDHjqq4mpdD9AeTKn6Ej9+ECQMzAlg
-   CbOvSrty9eZsZR5yrU6ZSUuZWoJz66t8t8I4bbRN3ZXKpGufJXSstraL2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1661985"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="1661985"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 09:54:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1104988032"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="1104988032"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Dec 2023 09:54:43 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 12 Dec 2023 09:54:42 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 09:54:42 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 12 Dec 2023 09:54:42 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QQdhrpOUux1V0o+zsAN6/IWIA3UwB3WT491NtCUuekDpLuiH5Jo+GAm/m/2DrAImp0xVJcEysogE4uOxeotkrj/DwTQiwKwi3CJJgTR7QxKNJ7/0ZFi1EE2eBsdUhHVUllBNyRi+QBUcDCBXC9Woaea9q0tCU4qvv4zfr2tSTY4Zu8fZYj/Xz5QQaTTYNUt/+VOrmh8v3X+5C84kgsaLEsHHYOjJz7FJWWgLj4X0r5sNUjGPASJFcJ/546B3iHy3l04CSli2gc8nVtkR2LmOln3I3PtMV0PmH+F74k5fjOBTOlNXCcKIGDfGvd1JDD/AS4jPi8Ii0X+87IUXehBf1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=07YVFAHu5KHldJoJv6OROpr61t2QM25S2J+s7xP/+W0=;
- b=mtUHEp4aUXWZNn3t53+cJ4t19ePf0CweSAt3eHQGKxGUFlXPVxI9+xDho8KQuZQ79YZqjKgpVEaWO890fqbgS+3IRlXl0BnoWdwmzO+PR9CY5tnYqEBgzneRF9m2NHKu0jYHUjOKb1MEd5/0X0VSBdobxFVHQoorvMKl0h0yeZvhT2KpXFlB4PUXcce9wSJjnlPgeDKoSOVUXO7BXXnBYvLbacHVl+AZGSHi21fhVs61klkYkZzW7hRQpgjWK9zU27/FEsuu+tUk1tNEWUl5kaC+8YFajGV2o5vVlIs0O2xpt8d+9d20aZB81g1sz3Vhe+4Jl9pb9+iuiPG+A4yaSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by CYXPR11MB8712.namprd11.prod.outlook.com (2603:10b6:930:df::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Tue, 12 Dec
- 2023 17:54:40 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7068.025; Tue, 12 Dec 2023
- 17:54:40 +0000
-Message-ID: <2377bfb8-00bc-4863-8d70-425cb70c9c0b@intel.com>
-Date: Tue, 12 Dec 2023 09:54:38 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/3] x86/resctrl: Add mount option "mba_MBps_event"
-Content-Language: en-US
-To: Peter Newman <peternewman@google.com>, Tony Luck <tony.luck@intel.com>
-CC: Fenghua Yu <fenghua.yu@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-	"Shuah Khan" <skhan@linuxfoundation.org>, <x86@kernel.org>, Shaopeng Tan
-	<tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>, Jamie Iles
-	<quic_jiles@quicinc.com>, Babu Moger <babu.moger@amd.com>, Randy Dunlap
-	<rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <patches@lists.linux.dev>
-References: <20231201214737.104444-1-tony.luck@intel.com>
- <20231207195613.153980-1-tony.luck@intel.com>
- <20231207195613.153980-2-tony.luck@intel.com>
- <CALPaoCji1yzfkA=tms3LhYMvRB+wSJQM3qzPKrHNEa7a+KduTA@mail.gmail.com>
- <ZXORTTIUKWXOsd9p@agluck-desk3>
- <CALPaoCj_OvMzD8W9+jEORewwDquM6F-sOW32Ngcy+Gm6A1+OcQ@mail.gmail.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <CALPaoCj_OvMzD8W9+jEORewwDquM6F-sOW32Ngcy+Gm6A1+OcQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0220.namprd03.prod.outlook.com
- (2603:10b6:303:b9::15) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AoMV6xwm"
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E03183;
+	Tue, 12 Dec 2023 09:59:27 -0800 (PST)
+Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-6d9e9b72ecfso3302653a34.3;
+        Tue, 12 Dec 2023 09:59:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702403966; x=1703008766; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=NFYtcG0yMvxHxU67vKn04W5+boPhDMgerwN3/npVGR8=;
+        b=AoMV6xwmNsaygfV7q3paL2ZUbemmue2Ya6ymLd/w/v5jNAzRM0/HWpkBgKkniFtveZ
+         8JE9zyrRNJpmNAwp9OVGKqldAujMTsSeIOLKZdTSLBgfLlrQckMdttBmb3XnS4tQVRGy
+         IiFap444d0V0W01W1YT4XuT99sMlN8nd3f5wuUjk/NsjfdXTbTOe1BeHfuEu+9EePj83
+         GoK8K/rURHsPeCCT+bcujMnssZ1NO8SlYZ520OMcVkTEUpXPWvGIL1NbhPZgTUn9xVBa
+         wWKKLATcRRhgXj2R/hJLOJuDpEwniIwVzgHKHjSiJZM6DiUHYpnN+vT/V1f0dHR0n7kZ
+         MNmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702403966; x=1703008766;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NFYtcG0yMvxHxU67vKn04W5+boPhDMgerwN3/npVGR8=;
+        b=NKAE90ggaxMl34gaQp0gpPkG2yqoGcSHlhFcHpVhTgyO1stMLo1qopYQxgpkmk2BqK
+         mjOnrJOfnAjwae8ev1WiJrhIBQK8kAcmHnBVrbqBuoXLWCOCVrTtYtp4Ougl879KOaSv
+         A/SxRPbyjUkc04xnm9sg39Wmd/gr2DTx4ZwsNSkTn3LhRuzkh2ZL2OHKbhYvqdHvzQtP
+         hgbmxE3Om++mHqA+UT5wik3T/acG5M7fTofhTGJnMCQJszhpx1xT1d3EX/8mma5Yr4I7
+         DkySNZ61hbBoGqvhyY/1wCnq53NUzEHWt5Qz0Z0Tirgmmt9ea18OD9BCvbCbg59FCDrZ
+         UavA==
+X-Gm-Message-State: AOJu0Yxp+DtRxpYLWTf2hNCg5TlLGZkN44bc6HnTyN7pJ6IXDo53PnsN
+	GgaBtrCh6mh8Fy9csPVjN9G+RN7hb/A=
+X-Google-Smtp-Source: AGHT+IEP+hPcPCuREBZrQP6PCWeJdQBQpJ31fau6K8TgdyzZN+ahpiTmAdAAPDqtBnDUuigBuOlbPw==
+X-Received: by 2002:a9d:76c6:0:b0:6d8:7a55:11a5 with SMTP id p6-20020a9d76c6000000b006d87a5511a5mr7105598otl.51.1702403966652;
+        Tue, 12 Dec 2023 09:59:26 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id b24-20020a9d7558000000b006d879d8a4d8sm2293027otl.78.2023.12.12.09.59.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Dec 2023 09:59:25 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <92699a3e-1198-4bf9-b5c0-ea8c5c189336@roeck-us.net>
+Date: Tue, 12 Dec 2023 09:59:23 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CYXPR11MB8712:EE_
-X-MS-Office365-Filtering-Correlation-Id: e685784a-4033-454b-ae4e-08dbfb3b69f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z86l1rppDJC8FPaoklhjg+2uFYk4nQ6fVRi1WgdPQsa4cyZtNKQ0tvyCssAKYNq0al+gmNaBmzYD8jjVYGP37YfpRmLpRAxWaBoL53RmC0UpUkrVRso2a5EAHbBoUhddHs5qD9dYXjRLd8Ejw2i+WpVMYjqRh1RPkXhwRZA9rxlJn89xWWGMOiUjJfhZ8zq5wYRKKUpYcWNuX8TPKv5VbYT9R8PE6E/iz9nXPVOF6sFp/7ykNE+5F71urgVbsgho1u4FtaK48Er08tUGkqi8LIn4O/2FiQDD7fsc+8zjuj7EE+q9u9kgL4uOiy5o0fdtcBPj41hk0nBpIfLF1KdXgGgt3RuAJXimOJweqMe0YnoIYC1mQIMFKN1gXRzOsgZXSMPMY5KX8+5WiTlMGujojpMwIdmgVZn+wgD+KPt3PGpLy0irT0zzphMXC3yk8UX4LanAomjWNSoJZMV9if9+YRc1R6KfOpU5/uoqd2lQwkonbERad9lYi0zrgKKxYcRmz48QO5kVcBsXkvUPgzsE52Q256rgAFCH80fKtVTuPbdARErg0hTZT3w3uk8qCID5oEYZotFAah3VpjoPPEBAzu7GI5R+85iVk9nZeUk233oHb1+r16SBU5ZdWGtr4NrgIBN80w4Jx0ycR+V51e3KpQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(366004)(376002)(396003)(39860400002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(31686004)(66556008)(6636002)(66946007)(66476007)(54906003)(82960400001)(36756003)(31696002)(86362001)(478600001)(26005)(2616005)(6512007)(6506007)(53546011)(6486002)(2906002)(316002)(38100700002)(110136005)(4326008)(5660300002)(8676002)(8936002)(44832011)(7416002)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ejVIZHVSVEc1UTBZNTQ0dU8zMWlIUlVudG1OVU8xSk9UcmJyRjdmNzBsem1B?=
- =?utf-8?B?V2llNFp2UzhlL2wrbC9ZVzh6Q093eUpJWjFWMk9KRG5VazRxRzRsVjYwOWZQ?=
- =?utf-8?B?MnE4U1lnMXFmNmR5cmtCdC9vNExYZXI3Z2hjRUVCRjR4Z29OT0Vob0N0TytS?=
- =?utf-8?B?S29qWHJ4cmxBTGp6d0VPZGZDUWc2MHRqdVRqTVFWcUt4dWRHMHQ2WlpJZFE5?=
- =?utf-8?B?TFBGSkx6R0lTRWdRbzFPSWE2b0ZpVitTUHFzaG93WTFuckpScEV0c1lOZlpM?=
- =?utf-8?B?QnNyWlZQdG5wQWgrS1FPcFlPYmtSeWlhSDVsdlhoT3c4YnI4S3Z5OEk4VGd0?=
- =?utf-8?B?cEpTNHo1bHc3ZjdONE5ZcFpqWGRTT0pVOW02UThMV3dUUXUrY0xBY3gvSXZq?=
- =?utf-8?B?UUdFeXMzaUNESzRWRzhZUzRzYzJNUXlGVkNJeEw3Tk45Rll5WldoQmlTZTRp?=
- =?utf-8?B?NnFFaGNtd0UxeC9NYnVMUVRUaWZVZHJKZTBBb0JyMG12a2w4OFBvTGFoa0lB?=
- =?utf-8?B?Y0c2MCtqMzVtVzlsenZzbzc0dlJrSlBoKys3ekU5OXJzcWNzK3pnSDlFU3l3?=
- =?utf-8?B?SjQ0TW5EZVREVVYvYU5TNDI0UXJyaXhGeXI1d3phZzhhdi9VQUl2UVVMYS9J?=
- =?utf-8?B?dXZ3R1A3clNZZS8zQWpqWnJwS0xwY0lWaVp2Y2M3Vzd4OFZ6cnRLVmpNQ2x2?=
- =?utf-8?B?Q0xVMnYvaW9hVzNnZFlqbFpmb2F0S3ZsLzdVNFc4aXBKN216M0xuc1VSZGlr?=
- =?utf-8?B?VUJUVWdQNHprRDlzZEJNM1dybG9hZE1mZkhhc3ZyM0pIRW8xZDlFSU5kd2Zw?=
- =?utf-8?B?SmQ0L3NuS1Rybi92Z1E3YXRVWHcyOUVpNmU4d3F0cUtDOUord3lReU5nTVY1?=
- =?utf-8?B?WWQrTzByaWFFdGNTZ3BFNVRjNWVweXA2T01zZ2FvN2ZUVUpjRW5HTGhVZFF2?=
- =?utf-8?B?bDNOVXU4Y2xuNUk4ZWxNS3paQzMwUDJ5TXo3SnJVeTZJWlBtMHJycGxXV0RS?=
- =?utf-8?B?Ujc3Tm15NjU4YTEzV1hrcDlkcHdHL29PckJEL3R1blZYQnhObnFwcU1KRkVl?=
- =?utf-8?B?RUJvOFhiWldYdFl1Q3FtZ3hDL1Zkc0FtZE11WDdzT3ZMbmFsRTE1cUgwbWNR?=
- =?utf-8?B?YlNJdVFLdy9JaC9aU01rU2pMVERyV3pjWXM4L3lBblhjVGxtMmZ6bXovalFo?=
- =?utf-8?B?b09GSmx3bDZzWGMwZGZGN3FFRE9ha3FJbCtXL3IvRTNmbW9pTkluaS80OUUx?=
- =?utf-8?B?b0hjR2VrN0VmbVhGSnhEemhCYmo1VmlRVVRzcmxlU0VmSFd6bFlSV3BjQ25B?=
- =?utf-8?B?YTBXTEJHcHZ2WE95OXhRNkpOUzlpWUV2N0ovNmFXaTdDcnFEYTVRV2tTbWNS?=
- =?utf-8?B?SlVDelNNNW9lV3hOc3Fwdnp5cnJZSUlSYkdLWDNra1NyV2I0VXlQSnRoTnFt?=
- =?utf-8?B?ZFRKNnN3alo5RC9iMHI0TW5nNnA5R0R1MjFFaWhyZGhaa3pQa0c5d0ZGakJs?=
- =?utf-8?B?cmFaaUErNU9FeVpvbnNBS3A1UTFYU2xBYVJIWllkVHhXMHI5V2VnSkZEVW03?=
- =?utf-8?B?Z3huNGgyd0VaTVJmUGExNTFxTDdhU2RsazhRcnlWQ1VlQ2xrcWhuejNUYTdT?=
- =?utf-8?B?YjFVSjZtL25DSnBhL0RoakF5VzBuMUV5WWJieWt6cjZkcVByU1Z2QnJiWE9C?=
- =?utf-8?B?RkpDZ3ZOQms4bFFkOUpMQXo1enRHbFd6cmE4bndJaTBmQVB6OHBYRHJyUmtJ?=
- =?utf-8?B?d1p0L2pLLzhiQXI1dGdHRFdRWVpsaGZNaGo2VnRxSUxtY1pwMk9remdPMjk5?=
- =?utf-8?B?c2UxZkRoR1hGNU9ZMkVLUnBSMVA2OVRxK3M0RjRxckFENWxvZ3ZLNERuSnFG?=
- =?utf-8?B?TVFSb3BBd1MzclhtR3NGUkpTWEZpNU0wV0wzS1h6NXdYV3UzUnJSZmtvRk9V?=
- =?utf-8?B?SytWczFDNjZLYWdYUzBtNlU2d3BFaTlkaFFjUHpiWk90ZWRCQy9NckhkWm5N?=
- =?utf-8?B?eFkxMWV5b1hXUGpzckMxRmtsekF4eXpTWVVRQ05pcmFpVTR4UjV0SUg4Yktp?=
- =?utf-8?B?MTk4T3RpQ1E5TGVPNFJMMVgxYUtBcEplZkgvdWZ0TzNweGpDQmxOWGtZYnFw?=
- =?utf-8?B?WFBpM1NWREdhOXg3YzFaZVpRdUFXQ3pwZlhkdEg0VUdZb0hKVC9iTHEzVWIr?=
- =?utf-8?B?a2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e685784a-4033-454b-ae4e-08dbfb3b69f7
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 17:54:40.3993
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /MPvLj1YyFn5vpcOwlFBhW2aONa8GD1/hldRPj95Gg/GS3tfo/Nbg39rNa0Z9DzMPSOLRSvPHmWtH2NX6pCn/zLcM4wPB5y2P7PeafPP2fU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8712
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Content-Language: en-US
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, nuno.sa@analog.com
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+References: <20231205-ltc4282-support-v3-0-e0877b281bc2@analog.com>
+ <20231205-ltc4282-support-v3-2-e0877b281bc2@analog.com>
+ <a0eb6cb4-b8af-4a6f-8888-fa18f8f1d188@roeck-us.net>
+ <d190620900ceda6c2846f3828ee389da917a66e0.camel@gmail.com>
+ <436257a1-628e-4a45-884d-348e73d4c5e9@roeck-us.net>
+ <38e41d0b92c0cb1f61e7a1d92137cc94a57a7f85.camel@gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <38e41d0b92c0cb1f61e7a1d92137cc94a57a7f85.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-On 12/8/2023 2:09 PM, Peter Newman wrote:
-> On Fri, Dec 8, 2023 at 1:57 PM Tony Luck <tony.luck@intel.com> wrote:
->>
->> On Fri, Dec 08, 2023 at 10:17:08AM -0800, Peter Newman wrote:
->>> Hi Tony,
+On 12/12/23 07:30, Nuno Sá wrote:
+> On Tue, 2023-12-12 at 07:14 -0800, Guenter Roeck wrote:
+>> On 12/12/23 06:28, Nuno Sá wrote:
+>>> On Mon, 2023-12-11 at 07:36 -0800, Guenter Roeck wrote:
+>>>> On Tue, Dec 05, 2023 at 04:22:56PM +0100, Nuno Sa via B4 Relay wrote:
+>>>>> From: Nuno Sa <nuno.sa@analog.com>
+>>>>>
+>>>>> The LTC4282 hot swap controller allows a board to be safely inserted and
+>>>>> removed from a live backplane. Using one or more external N-channel pass
+>>>>> transistors, board supply voltage and inrush current are ramped up at an
+>>>>> adjustable rate. An I2C interface and onboard ADC allows for monitoring
+>>>>> of board current, voltage, power, energy and fault status.
+>>>>>
+>>>>> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+>>>>> ---
+>>>>> +
+>>>>
+>>>>> +power1_good		Power considered good
+>>>>
+>>>> I really don't like this attribute. Like the ones below it is non-standard
+>>>> and invisible for standard applications. On top of that, I think it isn't
+>>>> really related to "power" but to the output voltage. What does it actually
+>>>> report that isn't included in the FET faults ?
+>>>>
 >>>
->>> On Thu, Dec 7, 2023 at 11:56 AM Tony Luck <tony.luck@intel.com> wrote:
->>>> @@ -2715,7 +2723,25 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
->>>>         case Opt_mba_mbps:
->>>>                 if (!supports_mba_mbps())
->>>>                         return -EINVAL;
->>>> -               ctx->enable_mba_mbps = true;
->>>> +               if (is_mbm_local_enabled())
->>>> +                       ctx->enable_mba_mbps_local = true;
->>>> +               else
->>>> +                       return -EINVAL;
->>>> +               return 0;
->>>> +       case Opt_mba_mbps_event:
->>>> +               if (!supports_mba_mbps())
->>>> +                       return -EINVAL;
->>>> +               if (!strcmp("mbm_local_bytes", param->string)) {
->>>> +                       if (!is_mbm_local_enabled())
->>>> +                               return -EINVAL;
->>>> +                       ctx->enable_mba_mbps_local = true;
->>>> +               } else if (!strcmp("mbm_total_bytes", param->string)) {
->>>> +                       if (!is_mbm_total_enabled())
->>>> +                               return -EINVAL;
->>>> +                       ctx->enable_mba_mbps_total = true;
->>>> +               } else {
->>>> +                       return -EINVAL;
+>>> This is detected with the FB pin and a voltage divider (from the output
+>>> voltage). Basically depending on the level of that pin, the chip indicate
+>>> power
+>>> good or power bad. I was also very reluctant with this attribute (I mention
+>>> it
+>>> in the v1 cover). This might not even indicate any misbehave. We also
+>>> support
+>>> reporting this using the gpio1 pin (if we set it that way). So, I guess I
+>>> can
+>>> just drop this one and add support for it if we ever have a real usecase
+>>> where I
+>>> can actually justify having it :).
 >>>
->>> It looks like if I pass
->>> "mba_MBps_event=mbm_total_bytes,mba_MBps_event=mbm_local_bytes" I can
->>> set both flags true.
+>>> We already have the power_bad fault log in debugfs so I'm not sure if adding
+>>> this one there adds much value.
+>>>
+>>>>
+>>>>> +fet_short_fault		FET short alarm
+>>>>> +fet_bad_fault		FET bad alarm
+>>>>
+>>>> Those attributes have little value since they are not standard attributes
+>>>> and won't be seen by standard applications. On top of that, it is not
+>>>> clear
+>>>> (not documented) what the attribute actually reports. I assume it is
+>>>> associated with the output voltage, i.e., in0, but that is just an
+>>>> assumption.
+>>>>
+>>>
+>>> fet_short - This is one is detected if the ADC measures a current sense
+>>> voltage
+>>>> 0.25mv while the fet gate is off.
+>>>
+>>> fet_bad - Is set by monitoring the voltage at the gate and the drain to
+>>> source
+>>> voltage.
+>>>
+>>> These ones might indicate real issues with the HW so I thought they could be
+>>> important...
+>>>    
+>>>> What do you think about introducing a standard inX_fault attribute ?
+>>>> It would not be as specific as short/bad, but I think it would be more
+>>>> useful and we could add it to the ABI.
+>>>>
+>>>
+>>> It would be better than nothing. And we do have fault logs for both these
+>>> failures so userspace could also use that to know exactly what was the
+>>> issue. If
+>>> that's ok with you, I would then report this in inX_fault? Did you had in
+>>> mind
+>>> putting this in in0 (vsource) or adding a new channel?
+>>>
+>>> In my first draft I had another voltage channel (label: VFET) to report the
+>>> fet_bad condition. I was using the inX_crit or inX_lcrit but it felt bad so
+>>> I
+>>> removed it...
+>>>
 >>
->> That's going to be confusing. I'll add code to stop the user from
->> passing both options.
+>> This isn't an extra voltage channel. It should be associated with the output
+>> voltage because that is what is affected, and that would be in0.
+>>
 > 
-> Also kind of confusing, after reading the second patch, I realized
-> "mba_MBps_event=mbm_total_bytes,mba_MBps" also results in both being
-> set. If you're able to fail the mount operation if both flags somehow
-> get set, that would address this one too.
+> Noted... will go with that and add an introductory patch for having inX_fault in
+> hwmon.
+> 
+>>>>> +fault_logs_reset	Clears all the Logged Faults
+>>>
+>>>> What exactly does that do that is user visible ?
+>>>
+>>> Well, this one is because in some configurations the chip won't enable the
+>>> output load until you reset/clear the fault log keeping it from enabling the
+>>> output. This is the comment I have in the code:
+>>>
+>>> "Fault log failures. These faults might be important in systems where auto-
+>>> retry
+>>> is not enabled since they will cause the part to latch off until they are
+>>> cleared. Typically that happens when the system admin is close enough so he
+>>> can
+>>> check what happened and manually clear the faults. Moreover, manually
+>>> clearing
+>>> the faults might only matter when ON_FAULT_MASK in the CONTROL register is
+>>> set
+>>> (which is the default) as in that case, a turn off signal from the ON pin
+>>> won't
+>>> clear them."
+>>>
+>>> In v1 I was allowing to clear fauls log individually and you recommended to
+>>> have
+>>> an attribute to clear them all at once as that would simplify things.
+>>>
+>>> I just kept it in here because this might be important for the chip to work
+>>> as
+>>> expected again so having it in debugfs might be weird.
+>>>
+>>
+>> How about using a write to in0_fault to clear the log ?
+>>
+> 
+> But that would be just related with the output voltage. You can also have
+> failures on VDD (over and undervolatge fault - I'm using in1_crit and in1_lcrit)
+> and if you have the auto retry bit disabled, then clearing fault logs might be
+> important. This attribute is nice because makes it clear what will be done.
+> OTOH, I do understand your worries with non standard ABI...
+> 
 
-Are two separate flags required? All existing options within struct rdt_fs_context
-are of type bool but that does not imply that it is the required type for
-all. 
+Depends on the meaning of "fault". PMBus, for example, uses the "fault" terminology
+to indicate that critical limits have been exceeded. That isn't a "fault" in the
+terminology used by the hwmon subsystem. Violating a voltage/current/power range
+isn't a fault. A shorted FET or temperature sensor, however, is a fault.
 
-Reinette
+In that sense, if the output is turned off because a voltage / current / power
+limit was violated, a write into the respective alarm register would be appropriate
+to reset it if the condition doesn't auto-reset. It really all depends on the context.
+
+> I'm not sure how usual is for fault logs to be around that would justify for a
+> global standard attribute.
+> 
+
+We could also use in[01]_reset_history. While that is originally intended to reset
+min/max voltage history, I think it makes sense to extend the meaning to include
+fault history (even more so if that history includes over/undervoltage events).
+Plus, there are other _reset_history attributes which could be used to reset
+power/current/temperature history separately if that is supported by the chip.
+
+Thanks,
+Guenter
 
