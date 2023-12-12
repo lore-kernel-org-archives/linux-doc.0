@@ -1,298 +1,143 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPBnaQHy"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FDDCAF;
-	Tue, 12 Dec 2023 13:43:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702417437; x=1733953437;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=fpGojZph5I5spuCmJ5ktPfomXo9/HwrlWfKWb6PGfW8=;
-  b=RPBnaQHyjM8Hwu0Zs4mS5FOTa9q9V9rC7Nh6Lqkbrm30k9fTJjKySvv4
-   W0D/Fe9xpRrBMa4Ec79hC3IHl9+a67wHdf72svTrPEzxKACmjCR35Cak6
-   x4cscfD825waMRosT98fUAuvaQjIh2hKs4FTU6lkPAd/n+4WnpFlQYbXC
-   C4VxUGNzQxsZy6fc7K9NlIJm0ddSLGIO3AqsMxj0qKQIHdqRGJAWDSZf0
-   evLw0kJvV/rRNmzRSaW5otUeRZGzzAcA5NZvb29hMhNl0wKB8F2KwURhQ
-   65XqP3XIXBN/WtTb2ugCfrRofdIwDTXItuaLb30YtaVZ/gvCBOshX+QMz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="398716432"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="398716432"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 13:43:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="891774372"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="891774372"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Dec 2023 13:42:57 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 12 Dec 2023 13:42:57 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 13:42:56 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 12 Dec 2023 13:42:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nBmarKoBJEXA7GQb+MhBdPIOEYuMky/xYJq0qTkwhvdXpLDMjPd6kn5mXyJ8J2atyzBBzhZT7Buf1c6k5Sm7rILu6ZLEStC1495Noq4FhYUB/vvbaD7hqR38cFoR3xmzHy3kRNmmyK650M79JI9TBQ3ukljHGc2KJ/+PPheqxNRIuwjRgKm+k6D1e89gQNciIfXyYBzgBFUWYs1I/lI03qzdTw6hXnr1ByeKisKFTUNUdzTbccqAATtWnWIjW7IkKQEfbjZUxwuBFd4yVn9+nZx1I8wbm1Nm1b0mPM2lFvS5BbgISe2hEvN4jsV4K0ExsPw7CwCboPQieJWjGGer3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IH91qC85TtKrsv4cjDOHezeZjXkDg0OPsSO6l24umvc=;
- b=FrT812o0j0o0FGZ14074MzMDTpnTWkNxA0BOhRay3OGwUsP/I5PC6VJBuflSvkEklPMvnrb9Q93j6OgHBTw/QIBkOZ3XFdsPhnndv5euQeU9f4y/hOUBBk0wjM5oYrVz0FRIUdIXOGFtYglSoF3qVZWFnrV9eIql6/enQ8u1rXkNfgkefFTK9T+4cE1yqPbG+mByNBSBgXzMpbkf8gHHhiQ1chYkTdCTgCXVI9nT2GWZsxEJ+aAaJaDYOozc2ekhf6Ez6q0JithifKOUbd23IAI74LWDpwmCHZ7QBIKUVUe6HKEm8YtMCOuzcvCTqFcJjKSBJGVBtTqQqhQSaftJtQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by CH3PR11MB8750.namprd11.prod.outlook.com (2603:10b6:610:1c7::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Tue, 12 Dec
- 2023 21:42:54 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7068.025; Tue, 12 Dec 2023
- 21:42:54 +0000
-Message-ID: <5215fe1e-52e1-4ca4-8bd2-a42152f3e0e3@intel.com>
-Date: Tue, 12 Dec 2023 13:42:51 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/3] x86/resctrl: Add mount option "mba_MBps_event"
-Content-Language: en-US
-To: Tony Luck <tony.luck@intel.com>
-CC: Peter Newman <peternewman@google.com>, Fenghua Yu <fenghua.yu@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	<x86@kernel.org>, Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
-	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
-	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<patches@lists.linux.dev>
-References: <20231201214737.104444-1-tony.luck@intel.com>
- <20231207195613.153980-1-tony.luck@intel.com>
- <20231207195613.153980-2-tony.luck@intel.com>
- <CALPaoCji1yzfkA=tms3LhYMvRB+wSJQM3qzPKrHNEa7a+KduTA@mail.gmail.com>
- <ZXORTTIUKWXOsd9p@agluck-desk3>
- <CALPaoCj_OvMzD8W9+jEORewwDquM6F-sOW32Ngcy+Gm6A1+OcQ@mail.gmail.com>
- <2377bfb8-00bc-4863-8d70-425cb70c9c0b@intel.com>
- <ZXi8Rj3znA6lmjE9@agluck-desk3>
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <ZXi8Rj3znA6lmjE9@agluck-desk3>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW2PR16CA0063.namprd16.prod.outlook.com
- (2603:10b6:907:1::40) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jrn4Jmrw"
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C3E1AB
+	for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 13:45:29 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-a1db6c63028so712887866b.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 13:45:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702417528; x=1703022328; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JJCdGKISotv2pJZ+hBcpKEM/45HxdS8m491Gp3+BQ4k=;
+        b=jrn4JmrwLj/wAYQmTRabSvSJ5jluhWevaSXS8+Wvx0kjluYQ+VLJJE7oXPaPm+SLXe
+         aL3rUiQJHI08+wMMocMdzAu6/vRTu1zfrQOiWUNqsH626nkGmRZiTIjAeM7v2E95xv6q
+         w+2aqXe77wi1QFnQvveXOISK6AvSVGFLkPBZta0T/1f5JUkA2iyrlAOmAsP0aKvY/kws
+         YBvGsN/vUYs6Qs7j5NRIJcN9lUiwaOsH4yMbtUekdb6rZxCgRHDpIM/8hIcyCebAnLoN
+         oxpK1hZAQlvWmEOADv9xyO9q5kl7b98GOhUrcLO9knhBHYhuPl9gSBMgcKg7VSj9ggoT
+         USRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702417528; x=1703022328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JJCdGKISotv2pJZ+hBcpKEM/45HxdS8m491Gp3+BQ4k=;
+        b=V6ETNfQTUeenLAHb5N+EW8oHyO/Myk5BuHqf/vdRsLIbHG9C+YlZkBP9Lr0bM/3hBv
+         VRvWnMUeCeFxKDFHcQ5OVzuiBwHFcW7LG4Y9+s07YsGJF5K/UfkxNfegQg6o6flM7RZ4
+         OBUoSHoT/Pse7O/vAN3JQ3/qy1Y0m1ULyP7pQpeAsmGYlTOzwXGV9bc5h6nUuQFON8oV
+         sUyvokWKMFHkS68lxI0WBiNH4Gp2ZHZ5ntLxYpF3CeUBNjmUO9yZb45xx8t9MdJSBsYF
+         vhRa0wAJgjN/XazmXCgQep5UODNmruLJDeAV4RgsdUgd+vptOmmYgI2Qii7wudIGrZKj
+         6/kw==
+X-Gm-Message-State: AOJu0Yz4OXl1FdKPWUgpfcl2R++8p31WRzAretpLQTxmVFA70TClRLCh
+	cV/z6lUDQUhHx+cHX0FAZVa3JGTTW9HFrgzQ1tcywg==
+X-Google-Smtp-Source: AGHT+IGf5gzmD+F1vkXOu2tcCBuGrRoRRXqRBUwUV+cVy2Hso3cw8EdmMC/vWvmcYkVNE5dnxlCx+uUI1L46s1J0lTg=
+X-Received: by 2002:a17:906:2d2:b0:a1f:821a:11ae with SMTP id
+ 18-20020a17090602d200b00a1f821a11aemr3419980ejk.20.1702417527636; Tue, 12 Dec
+ 2023 13:45:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CH3PR11MB8750:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5485c9c6-4511-423e-ec90-08dbfb5b4c15
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dvt30dmVkIOma1iy1qJL5BQpUA311ILmDHmxuNGJYJZhRelUog9rLngQj6A8J0W0FingEsKkO42zAgEGeZ+DAUUtIuB6/0MKA+mwVZ4oexRvLC5R4TU3U35m7K8d7TBS4sNFp4QoAaM4EhPzEKSDFxz3898HG6TvLbiyEvZGuz+us3NTCJwvmVQRxJLRsitrPo6dLbKalxb69kf/VkzqH2TSLX6r2GVj0U9hkfT9oXuGJPmqx8ZvlLSoBnxet4mwBTOcbwf4nc+IMR4aNI+wEc8a97cqQejPp8hq87Tl+NNaSr4H3hh11LMtJxJmZZcwv/a3Hspdg25rs9g9X0hbFzxpQi5JvH3j5tRDdjPNqOOf8gHPIwsAfGa9TOqef6g4zYtz0l1Kt2y9dyyiEDL1Vjb0JuZGK2S/aH+sHL+Rs0zQro9vItPjtHvMabWF7V8IRuN9SM8uhp/j39ZbS417CdrVtUQmm2+Kf9qWTMEOcxIsZpOBFYZYT/snBfwT/oVJHfmlED++iOT6xGkU7wdeBjp7GukRIeazCSYqQ82wwejGL7+cahIuj7q/oBH5DUKm+wB5voyrlYytGRxqjThMtp7FFn0WZHyKzyHGAd90RvfBkDUcUrn9kggHO7VHyl3EIRRNxHH3GbxP51KuB+hcTQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(346002)(366004)(39860400002)(396003)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(41300700001)(38100700002)(82960400001)(8676002)(316002)(8936002)(86362001)(37006003)(31696002)(36756003)(66556008)(66476007)(6636002)(54906003)(66946007)(478600001)(6486002)(2906002)(6862004)(6512007)(31686004)(7416002)(26005)(6506007)(53546011)(5660300002)(44832011)(2616005)(83380400001)(6666004)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MW9TTkE3V1FQK0FweEJ1MDgrOU5qbUYwTmxiTjlTS2oweUc5RGNoQ240TG1L?=
- =?utf-8?B?VTYvNlNkVktNRVBOdG9MSy90eHBFSU8zMzhZajd0MnhrRVBBTmZLSThlNWtL?=
- =?utf-8?B?VWgvMFptTnRXWVRkZHlWVStoSWp2Q05QWGw2OWZWYy9iZXFVOWc3eHpndWdD?=
- =?utf-8?B?ODJHOUpBOEdEclgva242M3ZKSUhXZlRsWHkvdER0Qkh0eWExT2ROQkhac0Jz?=
- =?utf-8?B?SDNMSlE2MEJpd1EydG4wbVRsdVZ1SElpeFpmYVBzdFpkOU1HM1lGeWtnemVx?=
- =?utf-8?B?Z0JrQ1NacXZQVmQ1eVhjc2dQU1Q4VmEySE9DTytZNlhOOGhVL3JQbVNKQ3J4?=
- =?utf-8?B?Y3MxWStFTXBOMVZLYzd5ZjVUZExOTUt5WmdESXZFMElsazRpT1dvNzVHTmtZ?=
- =?utf-8?B?blVmVzF6TEFlWHFJTWxzaHlJV3I4K1NlVGZiY2lhVml6ZThZcjVrRHZhc1Iv?=
- =?utf-8?B?VkhHVVZrZndwaC9zVVE3K3VYVjE1dVFmUzFnZlpYZzh3Y0pVWDJZVWNCZmVv?=
- =?utf-8?B?aG1NUU1IWUg4Z3dDMldQVTJXUWV5QVk3eWxoSTFnL0NCbTJvR0QwQWJ0Vm43?=
- =?utf-8?B?WlFFeTZTNFFIaUxneW04ZFlWUXZJMmdGL0pCRDdYdFY5OXdjRXllRnVWVTdu?=
- =?utf-8?B?OWFTU2g3MklwU3dFU3VPdlcvK1pvZ1kwS0Y1dkYzOTN6by94Qk5GSW45TmI5?=
- =?utf-8?B?R0dtemZtQTJyNDVQMHRFOGNMa3RzUW9qcFlIWWdRbzJBd2VvWGhJTFFIZWlL?=
- =?utf-8?B?VnE3SC8vU09Mck1UUWxVSkRVamdVak5PL3krSldaNDY5SlMvWGZvMkJJcnd4?=
- =?utf-8?B?My9rMW52c3Jub0JWR05VVFlTRko5TjM4cG5paUFCdjVTbUs1TDhBVTBoSVFo?=
- =?utf-8?B?R0FHWFBURmhWaGIzWDR5QytNdmdmMVlYZHA5YmVzVXFvUThTSlUrMGwzR1p5?=
- =?utf-8?B?UFVhVENzQTZoL0hYZklTY29Qb0UrU3hIMFBVZ0tGS2tETEdhcmZoMnJDdmIw?=
- =?utf-8?B?OU1IZkcvNjJXRmFramkxZjNJYjJtZTFyTi9QQVJSZCtwcXNKcGVPT1FUdXBs?=
- =?utf-8?B?NWNndFMxS0NaSGZyNzlkQ3lWUVVQeDYwVWVyVzBYRHpjSmdyb3ZzUHBhelBZ?=
- =?utf-8?B?S3JYRVBHN2VSMHI1ck1oWVpQTGhoakdURHBJc2FGM29mbXFBYXBidlF1SnNW?=
- =?utf-8?B?OFpaSUE2cVByQUJzaE00bXNFdTVmdUlMbUwvNGRCeU5QczJkYXYrZTJ5NEs1?=
- =?utf-8?B?NmRxaWg2Rk9Db0dsUCtYVUZEaTNnSUtFcEVMVE9VN0RrWDk3UGlKTHhYRGNE?=
- =?utf-8?B?cS94VGNlYkw5Zm1ZRGw0dHlLbmtabVJ2cXVkbThiQ2R3OHFYUXhZMGY0d200?=
- =?utf-8?B?ZmYyd1RuV2RQblNJZHF3cjZjVUdSV0M2Q3IwRjJFZnRseDBaQUNPeXprSUtU?=
- =?utf-8?B?OUlXZk9jUGpBc01HY0FJNEZ3RVhCQ3RPd21xaS80ejlpcnpLdUxlTDRVdEhv?=
- =?utf-8?B?YjhnOU8zM3Z0YXpyYTdvTWROSi9nUkFuQUg4TXZ0V1dvaGZCYVpDM2M3UVF4?=
- =?utf-8?B?Q1lDUkVFTVJmUTlsQk4rVkw4RXJ0S2ZMUDliNGY2Q3FQUGZUN2RmTk9XSzhk?=
- =?utf-8?B?Qis4WTV6Ry85RjkrYzl1TWRBQVNKUTk2WWR1VHlwR3ZPUERUbFVIUEFjSHBM?=
- =?utf-8?B?MVErTm1sSWpuWTZHQldHT2R1QlZYS2JDRjdMSVFzbHhlRnpOc0g2VnprQ3RJ?=
- =?utf-8?B?SVh6VFE1dnkweUluVWh6RnFXUm1iYXZuVFFhYzNNTERrL3U2SVRQV2EwSitM?=
- =?utf-8?B?VmlPYTB3UzZiM0d0WTJuMUluVE82RmV5OFloT3BlcmczY3o1UjRDTjV6Y2g2?=
- =?utf-8?B?RnZoRUhoOTN5aFlZY1BKZjdhR0dYWlpkYmFuNmdCZ3NYdDNINkFLN0tWRUtz?=
- =?utf-8?B?OVZOd0lteWVGUEl5Sk80QzdodWNndFlYelFLNDhTbDFsb2FubmVDSVIzbVJp?=
- =?utf-8?B?a0k1L08zVE5wQ1pHMHZSbm8wZTZFamVXSDQvdEIxMkpzU2xQR1BkR1NxR2sw?=
- =?utf-8?B?ZGh4N0lpOTlGK1d4L2orMVRiK2pNMGNkdnI5VzJNQTRBWWE4dmMyS2dlNk5H?=
- =?utf-8?B?ZG5kVVNKdEFoSkcvQlF5Wk1oUGRQaEg0ZVY3cGFndHpaU00wazBRYmROZXpv?=
- =?utf-8?B?R1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5485c9c6-4511-423e-ec90-08dbfb5b4c15
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 21:42:54.1620
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hLk4sX0kcERWNTKLGiIiVkG62ZSDFc05XLodS4uvVAd+cX8JWSrnu45BC5QxXJbTjHc02Bt3ajQP4xMxBY5/o18W/PsSV3lF/Bea/apXeVA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8750
-X-OriginatorOrg: intel.com
+References: <MEYP282MB2697C6AC993637C6E866E492BB8FA@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
+In-Reply-To: <MEYP282MB2697C6AC993637C6E866E492BB8FA@MEYP282MB2697.AUSP282.PROD.OUTLOOK.COM>
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Tue, 12 Dec 2023 22:44:51 +0100
+Message-ID: <CAMZdPi-ZxN+eGpHERe1XQ2hyu==bnwx2oHcbzVFtgcfS1k6C_w@mail.gmail.com>
+Subject: Re: [net-next v4 0/5] net: wwan: t7xx: fw flashing & coredump support
+To: Jinjian Song <SongJinJian@hotmail.com>
+Cc: "chandrashekar.devegowda@intel.com" <chandrashekar.devegowda@intel.com>, 
+	"chiranjeevi.rapolu@linux.intel.com" <chiranjeevi.rapolu@linux.intel.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"danielwinkler@google.com" <danielwinkler@google.com>, "davem@davemloft.net" <davem@davemloft.net>, 
+	"edumazet@google.com" <edumazet@google.com>, "haijun.liu@mediatek.com" <haijun.liu@mediatek.com>, 
+	"jiri@resnulli.us" <jiri@resnulli.us>, "johannes@sipsolutions.net" <johannes@sipsolutions.net>, 
+	"kuba@kernel.org" <kuba@kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linuxwwan@intel.com" <linuxwwan@intel.com>, 
+	"m.chetan.kumar@linux.intel.com" <m.chetan.kumar@linux.intel.com>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "nmarupaka@google.com" <nmarupaka@google.com>, 
+	"pabeni@redhat.com" <pabeni@redhat.com>, 
+	"ricardo.martinez@linux.intel.com" <ricardo.martinez@linux.intel.com>, 
+	"ryazanov.s.a@gmail.com" <ryazanov.s.a@gmail.com>, "vsankar@lenovo.com" <vsankar@lenovo.com>, 
+	Joey Zhao <joey.zhao@fibocom.com>, "Qifeng Liu(Qifeng)" <liuqf@fibocom.com>, 
+	"Fuqiang Yan(Felix)" <felix.yan@fibocom.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tony,
+Hi Jinjian,
 
-On 12/12/2023 12:02 PM, Tony Luck wrote:
-> On Tue, Dec 12, 2023 at 09:54:38AM -0800, Reinette Chatre wrote:
->>
->> On 12/8/2023 2:09 PM, Peter Newman wrote:
->>> On Fri, Dec 8, 2023 at 1:57 PM Tony Luck <tony.luck@intel.com> wrote:
->>>>
->>>> On Fri, Dec 08, 2023 at 10:17:08AM -0800, Peter Newman wrote:
->>>>> Hi Tony,
->>>>>
->>>>> On Thu, Dec 7, 2023 at 11:56 AM Tony Luck <tony.luck@intel.com> wrote:
->>>>>> @@ -2715,7 +2723,25 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
->>>>>>         case Opt_mba_mbps:
->>>>>>                 if (!supports_mba_mbps())
->>>>>>                         return -EINVAL;
->>>>>> -               ctx->enable_mba_mbps = true;
->>>>>> +               if (is_mbm_local_enabled())
->>>>>> +                       ctx->enable_mba_mbps_local = true;
->>>>>> +               else
->>>>>> +                       return -EINVAL;
->>>>>> +               return 0;
->>>>>> +       case Opt_mba_mbps_event:
->>>>>> +               if (!supports_mba_mbps())
->>>>>> +                       return -EINVAL;
->>>>>> +               if (!strcmp("mbm_local_bytes", param->string)) {
->>>>>> +                       if (!is_mbm_local_enabled())
->>>>>> +                               return -EINVAL;
->>>>>> +                       ctx->enable_mba_mbps_local = true;
->>>>>> +               } else if (!strcmp("mbm_total_bytes", param->string)) {
->>>>>> +                       if (!is_mbm_total_enabled())
->>>>>> +                               return -EINVAL;
->>>>>> +                       ctx->enable_mba_mbps_total = true;
->>>>>> +               } else {
->>>>>> +                       return -EINVAL;
->>>>>
->>>>> It looks like if I pass
->>>>> "mba_MBps_event=mbm_total_bytes,mba_MBps_event=mbm_local_bytes" I can
->>>>> set both flags true.
->>>>
->>>> That's going to be confusing. I'll add code to stop the user from
->>>> passing both options.
->>>
->>> Also kind of confusing, after reading the second patch, I realized
->>> "mba_MBps_event=mbm_total_bytes,mba_MBps" also results in both being
->>> set. If you're able to fail the mount operation if both flags somehow
->>> get set, that would address this one too.
->>
->> Are two separate flags required? All existing options within struct rdt_fs_context
->> are of type bool but that does not imply that it is the required type for
->> all. 
-> 
-> Reinette,
-> 
-> Maybe a flag and a value?  The structure becomes:
-> 
-> struct rdt_fs_context {
-> 	struct kernfs_fs_context	kfc;
-> 	bool				enable_cdpl2;
-> 	bool				enable_cdpl3;
-> 	bool				enable_mba_mbps;
-> 	enum resctrl_event_id		mba_mbps_event;
-> 	bool				enable_debug;
-> };
+On Mon, 11 Dec 2023 at 03:06, Jinjian Song <SongJinJian@hotmail.com> wrote:
+>
+> > > > Mon, Sep 18, 2023 at 08:56:26AM CEST, SongJinJian@hotmail.com wrote=
+:
+> > > >Tue, Sep 12, 2023 at 11:48:40AM CEST, songjinjian@hotmail.com wrote:
+> > > >>>Adds support for t7xx wwan device firmware flashing & coredump
+> > > >>>collection using devlink.
+> > > >
+> > > >>I don't believe that use of devlink is correct here. It seems like =
+a misfit. IIUC, what you need is to communicate with the modem. Basically a=
+ communication channel to modem. The other wwan drivers implement these cha=
+nnels in _ctrl.c files, using multiple protocols. Why can't you do somethin=
+g similar and let devlink out of this please?
+> > > >
+> > > >>Until you put in arguments why you really need devlink and why is i=
+t a good fit, I'm against this. Please don't send any other versions of thi=
+s patchset that use devlink.
+> > > >
+> > > > Yes, t7xx driver need communicate with modem with a communication c=
+hannel to modem.
+> > > > I took a look at the _ctrl.c files under wwan directory, it seemed =
+the implementation can be well integrated with QualCommon's modem, if we do=
+ like this, I think we need modem firmware change, maybe not be suitable fo=
+r current MTK modem directly.
+> > > > Except for Qualcomm modem driver, there is also an Intel wwan
+> > > > driver 'iosm' and it use devlink to implement firmware
+> > > > flash(https://www.kernel.org/doc/html/latest/networking/devlink/io
+> > > > sm.html), Intel and MTK design and use devlink to do this work on
+> > >
+> > > If that exists, I made a mistake as a gatekeeper. That usage looks
+> > > wrong.
+> > >
+> > > > 'mtk_t7xx' driver and I continue to do this work.
+> > > >
+> > > > I think devlink framework can support this scene and if we use devl=
+ink we don't need to develop other flash tools or other user space applicat=
+ions, use upstream devlink commands directly.
+> > >
+> > > Please don't.
+>
+> > So this is clear that devlink should not be used for this wwan
+> firmware upgrade, if you still want to abstract the fastboot protocol par=
+t, maybe the easier would be to move on the generic firmware framework, and=
+ especially the firmware upload API which seems to be a good fit here? http=
+s://docs.kernel.org/driver-api/firmware/fw_upload.html#firmware-upload-api
+>
+> 1.This API seemed fit here, but I haven't find the refer to use the API, =
+codes in /lib/test_firmware.c shown some intruduce, I think if I'm consider=
+ how to implement ops.prepare(what to verify, it seemed modem will do that)=
+ and ops.poll_complete? And it seemed request_firmware API also can recieve=
+ the data from use space, is it a way to use sysfs to trigger request firmw=
+are to kernel?
+>
+> In addition to this, I may have to create sysfs interface to pass the fir=
+mware partition parameter.And find a nother way to export the coredump port=
+ to user space.
+>
+> 2.How about we add a new WWAN port type, abstract fastboot and dump chann=
+el, like WWAN_PORT_XXX, then use this port with WWAN framework to handle fi=
+rmware ops and dump ops.
+>
+> Hope to get your advice, thanks very much.
+>
+> I want to implement it use the way of title 2, create a new WWAN port typ=
+e used for the channel with modem.
 
-A flag and value would work. This brings the implementation close
-to the resource properties. Something that is confusing to me with
-this change is the inconsistent naming:
+I understand that the firmware update may not be as simple as
+submitting a single blob, and so firmware-upload-api may not be easy
+to use as is. But can you elaborate a bit on 'abstracting fastboot',
+not sure why it is necessary to add another abstraction level when
+fastboot is already supported by open source tools/libraries.
 
-struct rdt_fs_context:
-	bool			enable_mba_mbps
-	enum resctrl event_id	mba_mbps_event
-
-struct resctrl_membw:
-	bool			mba_sc
-	enum resctrl_event_id	mba_mbps_event
-
-
-The intention with the above naming is not obvious to me. How are
-these intended to be viewed?
-
-One option could be to view these as separately representing user
-space (struct rdt_fs_context) and kernel space (struct resctrl_membw).
-If this is the case then the following naming may be more intuitive:
-
-struct rdt_fs_context:
-	bool			enable_mba_mbps
-	enum resctrl event_id	mba_mbps_event
-
-struct resctrl_membw:
-	bool			mba_sc
-	enum resctrl_event_id	mba_sc_event
-
-
-
-> 
-> Mount option parsing (including blocking user from setting the options
-> multiple times):
-> 
-> 	case Opt_mba_mbps:
-> 		if (!supports_mba_mbps() || ctx->enable_mba_mbps)
-> 			return -EINVAL;
-
-I am not familiar with the API but it seems that invalfc() is available
-to communicate a more useful message to user space than the default one
-shown in changelog of patch #2.
-
-> 		if (is_mbm_local_enabled())
-> 			ctx->mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-> 		else if (is_mbm_total_enabled())
-> 			ctx->mba_mbps_event = QOS_L3_MBM_TOTAL_EVENT_ID;
-> 		else
-> 			return -EINVAL;
-> 		ctx->enable_mba_mbps = true;
-> 		return 0;
-> 	case Opt_mba_mbps_event:
-> 		if (!supports_mba_mbps() || ctx->enable_mba_mbps)
-> 			return -EINVAL;
-> 		if (!strcmp("mbm_local_bytes", param->string))
-> 			ctx->mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-> 		else if (!strcmp("mbm_total_bytes", param->string))
-> 			ctx->mba_mbps_event = QOS_L3_MBM_TOTAL_EVENT_ID;
-> 		else
-> 			return -EINVAL;
-> 		ctx->enable_mba_mbps = true;
-> 		return 0;
-> 
-> 
-> and use of the options to enable the feature:
-> 
-> 	if (ctx->enable_mba_mbps) {
-> 		r->membw.mba_mbps_event = ctx->mba_mbps_event;
-> 		ret = set_mba_sc(true);
-> 		if (ret)
-> 			goto out_cdpl3;
-> 	}
-
-Since 0 will not be used for an unset/invalid value I expect mba_mbps_event
-will not (cannot) be cleared by rdt_disable_ctx(). If this is the case I think
-future changes can be supported by expanding the kerneldoc of struct resctrl_membw
-to document that "@mba_mbps_event (or @mba_sc_event?) is invalid if @mba_sc
-is false".
-
-Reinette
+Regards,
+Loic
