@@ -1,62 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAF37B3D9;
-	Tue, 12 Dec 2023 17:21:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="quWq7NFA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 955A4C433C9;
-	Tue, 12 Dec 2023 17:21:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702401677;
-	bh=NjEv9qEr/oYVM+wHeeNDWCRv65KfnIhhpX8bgvPrnAA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=quWq7NFAtXTBXufHjGAQPZuAXrlWxIJ4Rn3ITaI13bZesQeatjNFR7raywE3BfBn7
-	 Pitan+DMqBcCL58QZwCgz3Lh/6jidDw46o+sSHdw2XNETPNFha4R9ntZwxgldpxfvd
-	 ThUunTfPwVTXTNhOAsJ9W9/N6z4PG1M3beyPew54n2U5AZrjlyDMmXs2L7Toa+G5kj
-	 jyTED6ks2sSuPvCG+6dEMiYHKakPG+EvMGSSnpSABMjq1R1ugTLDeB0n3JnFi9LuSS
-	 cUuBfE0LIKezRTEQ8AUTFsdnAhfeVJygPdgHWAaZ27aCb30nqIqsyQPesJMXA3vzFc
-	 vN+/g3oSMdIBg==
-From: Will Deacon <will@kernel.org>
-To: anshuman.khandual@arm.com,
-	mark.rutland@arm.com,
-	linux-arm-kernel@lists.infradead.org,
-	James Clark <james.clark@arm.com>,
-	suzuki.poulose@arm.com,
-	linux-perf-users@vger.kernel.org
-Cc: catalin.marinas@arm.com,
-	kernel-team@android.com,
-	Will Deacon <will@kernel.org>,
-	Zaid Al-Bassam <zalbassam@google.com>,
-	linux-kselftest@vger.kernel.org,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	namhyung@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Shuah Khan <shuah@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	linux-kernel@vger.kernel.org,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	kvm@vger.kernel.org,
-	Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH v7 00/11] arm64: perf: Add support for event counting threshold
-Date: Tue, 12 Dec 2023 17:20:53 +0000
-Message-Id: <170237438420.1648654.4727808470285684911.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20231211161331.1277825-1-james.clark@arm.com>
-References: <20231211161331.1277825-1-james.clark@arm.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ng9xggNY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YM4XbS5l";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r8qTDk+G";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="n3JMvRKN"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8914AFE;
+	Tue, 12 Dec 2023 09:21:50 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DE51B1FB77;
+	Tue, 12 Dec 2023 17:21:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1702401708; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EYeLNxxcRpZBsoYcrMasPjbq5v48kbxiKxQZBxiyMNE=;
+	b=ng9xggNYDzAm/v8vqtZGMmLKDskuz7qlLuWHgfqYF1tqpLHRQhXmhUhFQNxTfEcs/BI9vx
+	+y8prtl6hH3ojbHkUW4tm7OCCF/LNI5PLUoqoSWmrtGyFBxCnFy4GyGJiJMJgXaobTJ5L+
+	J8SGsCU2LRxB6obam1m0YSk/il6tWPY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1702401708;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EYeLNxxcRpZBsoYcrMasPjbq5v48kbxiKxQZBxiyMNE=;
+	b=YM4XbS5lkmKbHQVNKll196bMoyPlGmz2ELvMPlffWShv6p6u4OQOeQ2xJuu1jFxRrD234L
+	nEy0p6O0P/2gjxCQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1702401706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EYeLNxxcRpZBsoYcrMasPjbq5v48kbxiKxQZBxiyMNE=;
+	b=r8qTDk+GdcbEkYv8KEIw/zD5dtgvE4xb7BhzW3ls/XNQhoEFKqq63m8p7dtkpGzdMEFqJY
+	mCKCjLyqbgdfPG4AIPAElSrNt2Byqf/pRl2diFlM/Cj5v0iu42ES8XOSoU5pFnTOPI1ZQC
+	63sJybP1cFTNgmhGw9fo4KF+iXA8XYc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1702401706;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EYeLNxxcRpZBsoYcrMasPjbq5v48kbxiKxQZBxiyMNE=;
+	b=n3JMvRKNUuh0UZWuqTFyXdpFNaMFZ81h9bnUETg7gj/146SIhjqFosNgK23PZZaaPwzaaw
+	AtHOxDvFIkEyoyBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C9DC1136C7;
+	Tue, 12 Dec 2023 17:21:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jqmsMKqWeGXvOQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 12 Dec 2023 17:21:46 +0000
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Tue, 12 Dec 2023 18:21:43 +0100
+Subject: [PATCH] Documentation, mm/unaccepted: document accept_memory
+ kernel parameter
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,51 +65,77 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231212-accept_memory_param-v1-1-a9012402b887@suse.cz>
+X-B4-Tracking: v=1; b=H4sIAKaWeGUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2NDI0Mj3cTk5NSCkvjc1Nz8osr4gsSixFxdk0TzxJRk01RTUwsjJaDOgqL
+ UtMwKsKnRsbW1AJp1SqRlAAAA
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, 
+ Vlastimil Babka <vbabka@suse.cz>
+X-Mailer: b4 0.12.4
+X-Spam-Level: 
+X-Spam-Score: -1.42
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.40
+X-Spamd-Result: default: False [-1.40 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-0.10)[64.97%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.999];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,intel.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Flag: NO
 
-On Mon, 11 Dec 2023 16:13:12 +0000, James Clark wrote:
-> Changes since v6:
-> 
->   * Remove inlines from arm_pmuv3.c
->   * Use format attribute mechanism from SPE
->   * Re-arrange attributes so that threshold comes last and can
->     potentially be extended
->   * Emit an error if the max threshold is exceeded rather than clamping
->   * Convert all register fields to GENMASK
-> 
-> [...]
+The accept_memory kernel parameter was added in commit dcdfdd40fa82
+("mm: Add support for unaccepted memory") but not listed in the
+kernel-parameters doc. Add it there.
 
-Thanks for respinning, James. This looks really good now.
+Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Applied to will (for-next/perf), thanks!
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 65731b060e3f..3a4ebb46073c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1,3 +1,13 @@
++	accept_memory=  [MM]
++			Format: { eager | lazy }
++			default: lazy
++			By default, unaccepted memory is accepted lazily to
++			avoid prolonged boot at the cost of some runtime
++			overhead until all memory is eventually accepted. In
++			most cases the overhead is negligible but for some
++			workloads or for debugging purposes accept_memory=eager
++			can be used to accept all memory at once during boot.
++
+ 	acpi=		[HW,ACPI,X86,ARM64,RISCV64]
+ 			Advanced Configuration and Power Interface
+ 			Format: { force | on | off | strict | noirq | rsdt |
 
-[01/11] arm: perf: Remove inlines from arm_pmuv3.c
-        https://git.kernel.org/will/c/9343c790e6de
-[02/11] arm: perf/kvm: Use GENMASK for ARMV8_PMU_PMCR_N
-        https://git.kernel.org/will/c/62e1f212e5fe
-[03/11] arm: perf: Use GENMASK for PMMIR fields
-        https://git.kernel.org/will/c/2f6a00f30600
-[04/11] arm: perf: Convert remaining fields to use GENMASK
-        https://git.kernel.org/will/c/d30f09b6d7de
-[05/11] arm64: perf: Include threshold control fields in PMEVTYPER mask
-        https://git.kernel.org/will/c/3115ee021bfb
-[06/11] arm: pmu: Share user ABI format mechanism with SPE
-        https://git.kernel.org/will/c/f6da86969a3c
-[07/11] perf/arm_dmc620: Remove duplicate format attribute #defines
-        https://git.kernel.org/will/c/a5f4ca68f348
-[08/11] KVM: selftests: aarch64: Update tools copy of arm_pmuv3.h
-        https://git.kernel.org/will/c/c7b98bf0fc79
-[09/11] arm: pmu: Move error message and -EOPNOTSUPP to individual PMUs
-        https://git.kernel.org/will/c/186c91aaf549
-[10/11] arm64: perf: Add support for event counting threshold
-        https://git.kernel.org/will/c/816c26754447
-[11/11] Documentation: arm64: Document the PMU event counting threshold feature
-        https://git.kernel.org/will/c/bd690638e2c2
+---
+base-commit: a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+change-id: 20231212-accept_memory_param-4a7adc5e5582
 
-Cheers,
+Best regards,
 -- 
-Will
+Vlastimil Babka <vbabka@suse.cz>
 
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
