@@ -1,158 +1,120 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BfyJwxeG"
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2042.outbound.protection.outlook.com [40.107.102.42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8639C;
-	Mon, 11 Dec 2023 19:05:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X+cQnK3Le7yP70ui7Y9pPI6ALz0HnB1za/0t26Ip0CSmCdSBtHdHe/BpTJgWAxcHHlCC6CtgYqV7VI3k4L1WoddscP7Uh8RyFMxvLcRuwo3YF2nIZF4tsAsFiKT47h0JlOkwXJyEgTC3wlU9B0ZGd7bkb7pLJ9FFssuVHWctenrtttIeWkD3OsEdQRbRlSLdndSkcoxTsttForsmNqoWtHwKs9mlNeOvfEswWpDYnRMWLDpGMD+fQNrmFwtnBcm5RSMKBoi4NElpgTTX5ZsnYeCms+e8KXz2BpYN1dSpsLs+U5+Z5AVIYsE7f6cnUdc2ZDhxoY5yMTfysl50oPnKdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9+uOmGCxv5jQ3S56nDb+2034q75jWaVWeqO7sJV4S1o=;
- b=mrINM26TmXWDGHwjo7Orj8NzplepgwYhR2enNShd5F+rV7W6AcYUtngb84tHjLAZELhyW0YoJ0cTRDfd/unylbZ2lAzeiWNDUIapTyAgqmmdcBV4JtbcGj8i62ZxiMkLe9mg07M7zLzI7K8NlBHzL1YaW9ULfdl9yrVAoUSe4KntzbqMh35YPsr8378z/LJ3rMy3+kQVyxDQAJJ2UUXJFrsw8SLkoDPincBzZe3ItkQQrJIpxGUanQRENt3vg3C/Qnb6qLGLjnEfsY8EPwM5gksN+AhhopK+Y8z49akJ8pFp73PH5wmkPDoa8md7NiClw17ifnuOnjXQGlCLQVyOsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9+uOmGCxv5jQ3S56nDb+2034q75jWaVWeqO7sJV4S1o=;
- b=BfyJwxeGfF+qxRBVeHH7KCJMvfFYsW4ixajTsBoF/gW9fR2mD9SZqyD8Yt7y0/uBQxr9NFM9wKHnkWjYWKCDSWPbCll6z5Ql/A70lLP9ZT6Zb8Tb/lJjCtIefF+UB2C6e6XLoPS2r2TZh3tzevQFSCUVgOpGPsCgDPQGVk+n1pv//LZJRjnQiy6YNLCin9lZVD48BqRqRcMne0W1GgOJXABNn237UNOgzCbzsGj/oio7Lvc3zMgo3lffYb/S7e2NXWNTmi3qJYQMMQi430BAZzmu3KzqXgKbr1fqojL0WmgDt/pmMJRKZxS4cZBtfmVBmbmbmlUbGoP7p7YvJTIPwQ==
-Received: from MN2PR12CA0015.namprd12.prod.outlook.com (2603:10b6:208:a8::28)
- by CY5PR12MB6430.namprd12.prod.outlook.com (2603:10b6:930:3a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Tue, 12 Dec
- 2023 03:05:52 +0000
-Received: from BL02EPF0001A103.namprd05.prod.outlook.com
- (2603:10b6:208:a8:cafe::ed) by MN2PR12CA0015.outlook.office365.com
- (2603:10b6:208:a8::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32 via Frontend
- Transport; Tue, 12 Dec 2023 03:05:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BL02EPF0001A103.mail.protection.outlook.com (10.167.241.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7091.18 via Frontend Transport; Tue, 12 Dec 2023 03:05:51 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 11 Dec
- 2023 19:05:34 -0800
-Received: from [10.110.48.28] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 11 Dec
- 2023 19:05:33 -0800
-Message-ID: <1c535446-4e6d-44c1-8fc8-4fa248b7c4a9@nvidia.com>
-Date: Mon, 11 Dec 2023 19:05:32 -0800
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="R6bjtt05"
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B40AD5;
+	Mon, 11 Dec 2023 21:17:53 -0800 (PST)
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BBNtG6F029735;
+	Mon, 11 Dec 2023 21:17:40 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=pfpt0220; bh=wtiVCRd7
+	XDB68Nejdxm1j2GaWUmA0b6kgAneCAUxm4k=; b=R6bjtt05QOQ8rnrRly+yAo6C
+	923E4ofx/snOxwRjrhNVFIgrA9tP8zZLikpSeSL5CsU8sQCih/wiX+VEBkITB2HZ
+	nkpkKfAHqSqcpNOq/dCssSHDDILwYGjtL6Yzek06Wf5t3/A728FrMZZG6J+CMtZz
+	ZM65QlG9Taj6ZuyNWgCo68AdtsN+u3y/3sHOovsIOkNyQH17f+8wY3GkdVx6Er85
+	L6ZR5z6tio/6HRn5RpgWBY6kQ2XFloSHwbCAEQ3an7iGhF6/x9wmbUrnDvzSNd9a
+	FgGxTMmFfE3HGc3C/tVwyV2tytfc4G3b2/vgiX75asFlpALNvu8eWgujPvKMLw==
+Received: from dc5-exch02.marvell.com ([199.233.59.182])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3uvrmjqjac-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Mon, 11 Dec 2023 21:17:40 -0800 (PST)
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 11 Dec
+ 2023 21:17:37 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
+ Transport; Mon, 11 Dec 2023 21:17:37 -0800
+Received: from localhost.localdomain (unknown [10.28.36.175])
+	by maili.marvell.com (Postfix) with ESMTP id EA5523F709A;
+	Mon, 11 Dec 2023 21:17:31 -0800 (PST)
+From: Srujana Challa <schalla@marvell.com>
+To: <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <kuba@kernel.org>
+CC: <linux-crypto@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <bbrezillon@kernel.org>,
+        <arno@natisbad.org>, <pabeni@redhat.com>, <edumazet@google.com>,
+        <corbet@lwn.net>, <sgoutham@marvell.com>, <bbhushan2@marvell.com>,
+        <jerinj@marvell.com>, <sbhatta@marvell.com>, <hkelam@marvell.com>,
+        <lcherian@marvell.com>, <gakula@marvell.com>,
+        <ndabilpuram@marvell.com>, <schalla@marvell.com>
+Subject: [PATCH net-next v2 00/10] Add Marvell CPT CN10KB/CN10KA B0 support
+Date: Tue, 12 Dec 2023 10:47:20 +0530
+Message-ID: <20231212051730.386088-1-schalla@marvell.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: rust: Clarify that 'rustup override' applies to
- build directory
-Content-Language: en-US
-To: Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Benno Lossin <benno.lossin@proton.me>
-CC: Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho
-	<wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
-	<gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
-	<bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, "Alice
- Ryhl" <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>, "Vincent
- Guittot" <vincent.guittot@linaro.org>, <rust-for-linux@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <bf0d4ff21bc25d1ba3a31e49a32bde06dcaf6e44.1702030679.git.viresh.kumar@linaro.org>
- <4738ad1c-eb54-4ad6-98c8-3852de3e8fc3@proton.me>
- <20231211064742.63l4cmvxe4uso5us@vireshk-i7>
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20231211064742.63l4cmvxe4uso5us@vireshk-i7>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|CY5PR12MB6430:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4cb6b6ed-1cdc-4743-d7cd-08dbfabf3fbe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	3qHzcwOjuNTZ4yE9NDzCwTnctR/JE6vZbFk4WP7QiA/LqBXVm1WuxR2ewqF0C0igbJ7x9b2+0REKUhVRob8DiuENIV4GxRBEiov+TJxeKR+f4Q/db1yELxtDXXhbNjBYHn2S0LLgK6+Bsdh9hHbrO6ZMIkeNpcFKWoSCc2KiewgXp7WLmw3JEn/CYoEcUQ/TCbBLEL1T+pgxN0p2UHMCSb+hdF+20zZqtvwJr8qvSfPx0GFSRyitUhbr9mmlsjAqJoG7Lb1AChFDPtvZGKGnZ1iSr9i8bFwSo2skWfj4oX76BdNqHOnWkV2zKhhYNuy4biG35Sweqoc/hO8oc94LuYGxcolxAEpRLWMKh3fxAy873nXNK+2DJf6JpYX87VvEMGyG5RkpLAZOjnxd1dyaSxhezlELKo4a1dv4AmlMEPCaR4cvQey9sjQ48hKOnI91Z4/GjdWmVL28Q3HsSBHV0867NJ3Dn1e7eJ/+2fM55+bedcZD+FCQBCAghQG3ybV1mIUT8uLhHNsRfI9PQhPhVK2GWkTylu6a1JTZirxcInUZCtOGfkA+9OPO7HeAr/nZI4+9sGYF+ZkRfh4PLJo0hAjHZLaaYfy3Ls8TTcZpCjHzxTYSCplQ71E7m7VlHiJ6TPOln/VOuZOt3tsBuqW+LGJnvx59eW8Kh9BVJIy2/DrtT9eiMuHZb5SJSIz1nEtezrn9K57zQrvzVrHtpcib7/fl49LrI+RQ7gm5EfVD6btCl6HSqFDRLNh09VCW9uUKxeWdW28o7+w+KUButMSGlE8HLc2936rEASdrbA1nkimPm1lG9mq49XnoBdjm6SvY
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(39860400002)(396003)(136003)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(82310400011)(46966006)(36840700001)(40470700004)(7416002)(40460700003)(2906002)(41300700001)(36860700001)(7636003)(83380400001)(110136005)(36756003)(86362001)(356005)(82740400003)(2616005)(336012)(478600001)(31696002)(426003)(26005)(53546011)(16526019)(47076005)(966005)(4326008)(5660300002)(316002)(16576012)(70586007)(70206006)(54906003)(8936002)(8676002)(40480700001)(31686004)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 03:05:51.6039
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4cb6b6ed-1cdc-4743-d7cd-08dbfabf3fbe
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0001A103.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6430
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: bWCdsGb9Wo7oDqSt-aI8NxZaHq_gkSLP
+X-Proofpoint-ORIG-GUID: bWCdsGb9Wo7oDqSt-aI8NxZaHq_gkSLP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
 
-On 12/10/23 22:47, Viresh Kumar wrote:
-> On 08-12-23, 18:04, Benno Lossin wrote:
->> Shouldn't this be "Note that the override only applies to the current
->> working directory (and its sub-directories)."?
->> I think it would also be useful to continue with this: "But in order
->> to build the kernel, this override must affect the build directory.".
->>
->> And then you could also mention that in the default location for the
->> build directory is in the repository.
-> 
-> Based on feedback from Miguel and Benno, how about this instead ?
-> 
-> diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
-> index f382914f4191..dee787f92d26 100644
-> --- a/Documentation/rust/quick-start.rst
-> +++ b/Documentation/rust/quick-start.rst
-> @@ -33,14 +33,17 @@ A particular version of the Rust compiler is required. Newer versions may or
->   may not work because, for the moment, the kernel depends on some unstable
->   Rust features.
-> 
-> -If ``rustup`` is being used, enter the checked out source code directory
-> -and run::
-> +If ``rustup`` is being used, enter the kernel build directory and run::
+Marvell OcteonTX2's next gen platform CN10KB/CN10KA B0
+introduced changes in CPT SG input format(SGv2) to make
+it compatibile with NIX SG input format, to support inline
+IPsec in SG mode.
 
-That "enter the kernel build directory" phrase is much better than the
-"enter the checked out source code directory".
+This patchset modifies the octeontx2 CPT driver code to
+support SGv2 format for CN10KB/CN10KA B0. And also adds
+code to configure newly introduced HW registers.
+This patchset also implements SW workaround for couple of
+HW erratas.
 
-I feel confident saying this, because I just read this document over the
-weekend, while getting set up to build rust for Linux. And this phrase
-was a little jarring and weird to me.
+v2:
+- Addressed review comments.
+- Fixed sparse errors reported by kernel test robot.
 
-This is after all a minor point, but it's nice to polish up this getting
-started guide. It's already a concise and excellent guide, by the way.
+Nithin Dabilpuram (2):
+  crypto/octeontx2: register error interrupts for inline cptlf
+  crypto: octeontx2: support setting ctx ilen for inline CPT LF
 
+Srujana Challa (8):
+  crypto: octeontx2: remove CPT block reset
+  crypto: octeontx2: add SGv2 support for CN10KB or CN10KA B0
+  crypto: octeontx2: add devlink option to set max_rxc_icb_cnt
+  crypto: octeontx2: add devlink option to set t106 mode
+  crypto: octeontx2: remove errata workaround for CN10KB or CN10KA B0
+    chip.
+  crypto: octeontx2: add LF reset on queue disable
+  octeontx2-af: update CPT inbound inline IPsec mailbox
+  crypto: octeontx2: add ctx_val workaround
 
-thanks,
+ Documentation/crypto/device_drivers/index.rst |   9 +
+ .../crypto/device_drivers/octeontx2.rst       |  29 ++
+ Documentation/crypto/index.rst                |   1 +
+ drivers/crypto/marvell/octeontx2/cn10k_cpt.c  |  87 ++++-
+ drivers/crypto/marvell/octeontx2/cn10k_cpt.h  |  27 ++
+ .../marvell/octeontx2/otx2_cpt_common.h       |  62 +++-
+ .../marvell/octeontx2/otx2_cpt_devlink.c      |  89 +++++-
+ .../marvell/octeontx2/otx2_cpt_hw_types.h     |   9 +-
+ .../marvell/octeontx2/otx2_cpt_mbox_common.c  |  26 ++
+ .../marvell/octeontx2/otx2_cpt_reqmgr.h       | 300 ++++++++++++++++++
+ drivers/crypto/marvell/octeontx2/otx2_cptlf.c | 133 +++++---
+ drivers/crypto/marvell/octeontx2/otx2_cptlf.h | 105 ++++--
+ drivers/crypto/marvell/octeontx2/otx2_cptpf.h |   4 +
+ .../marvell/octeontx2/otx2_cptpf_main.c       |  71 ++---
+ .../marvell/octeontx2/otx2_cptpf_mbox.c       |  82 ++++-
+ .../marvell/octeontx2/otx2_cptpf_ucode.c      |  49 +--
+ .../marvell/octeontx2/otx2_cptpf_ucode.h      |   3 +-
+ drivers/crypto/marvell/octeontx2/otx2_cptvf.h |   2 +
+ .../marvell/octeontx2/otx2_cptvf_algs.c       |  31 ++
+ .../marvell/octeontx2/otx2_cptvf_algs.h       |   5 +
+ .../marvell/octeontx2/otx2_cptvf_main.c       |  23 +-
+ .../marvell/octeontx2/otx2_cptvf_mbox.c       |  28 ++
+ .../marvell/octeontx2/otx2_cptvf_reqmgr.c     | 162 +---------
+ .../net/ethernet/marvell/octeontx2/af/rvu.h   |  20 ++
+ .../ethernet/marvell/octeontx2/af/rvu_cpt.c   |  14 +
+ .../ethernet/marvell/octeontx2/af/rvu_reg.h   |   1 +
+ 26 files changed, 1068 insertions(+), 304 deletions(-)
+ create mode 100644 Documentation/crypto/device_drivers/index.rst
+ create mode 100644 Documentation/crypto/device_drivers/octeontx2.rst
+
 -- 
-John Hubbard
-NVIDIA
-
-> 
->          rustup override set $(scripts/min-tool-version.sh rustc)
-> 
->   This will configure your working directory to use the correct version of
-> -``rustc`` without affecting your default toolchain. If you are not using
-> -``rustup``, fetch a standalone installer from:
-> +``rustc`` without affecting your default toolchain.
-> +
-> +Note that the override applies to the current working directory (and its
-> +sub-directories).
-> +
-> +If you are not using ``rustup``, fetch a standalone installer from:
-> 
->          https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
-> 
+2.25.1
 
