@@ -1,160 +1,157 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DhzVaL1L"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57C658E;
-	Tue, 12 Dec 2023 12:02:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702411337; x=1733947337;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=KAnG3YVV07ZIrxW3h036E4sox/rMCvD6OghTCdFsjyM=;
-  b=DhzVaL1L3dnRidSVmvpcyDIMlcxokCblrBgMaIrpzvbsvmed/Lqriy1n
-   dpRyc2S9byUaQUGz/yNwbr13/utUpJpUkqGUoBjf5vPd2L1Q3F6Bh1DHG
-   qU3EzHa+9V8RuiL+dmygPNATLuB9MbaQUPVdkKj0pHH7Qktx9WuEr8liO
-   LtrdF+ViboYgUYoN1XCgamWBU+oZtKWSKCLGThvvQm6R79+dmwxaCYT3W
-   tcD30pounz+BlBIAfHebZkKVOkpqAYz3E8q8bIXMFBoGKaw2cbiw4X1rj
-   UmoK/YGkWU9RXY461wsBW6H+OqZryfEHc2QDQpEuqpwc+rDc4RdnymANv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="379856080"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="379856080"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 12:02:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="777215190"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="777215190"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 12:02:16 -0800
-Date: Tue, 12 Dec 2023 12:02:14 -0800
-From: Tony Luck <tony.luck@intel.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Peter Newman <peternewman@google.com>,
-	Fenghua Yu <fenghua.yu@intel.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v6 1/3] x86/resctrl: Add mount option "mba_MBps_event"
-Message-ID: <ZXi8Rj3znA6lmjE9@agluck-desk3>
-References: <20231201214737.104444-1-tony.luck@intel.com>
- <20231207195613.153980-1-tony.luck@intel.com>
- <20231207195613.153980-2-tony.luck@intel.com>
- <CALPaoCji1yzfkA=tms3LhYMvRB+wSJQM3qzPKrHNEa7a+KduTA@mail.gmail.com>
- <ZXORTTIUKWXOsd9p@agluck-desk3>
- <CALPaoCj_OvMzD8W9+jEORewwDquM6F-sOW32Ngcy+Gm6A1+OcQ@mail.gmail.com>
- <2377bfb8-00bc-4863-8d70-425cb70c9c0b@intel.com>
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C201AF;
+	Tue, 12 Dec 2023 12:05:26 -0800 (PST)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5907b9c3fd6so533792eaf.0;
+        Tue, 12 Dec 2023 12:05:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702411525; x=1703016325;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+BOtCilKMUNbBasgq0UMjLFqZa8aCDvdPUV0gfbYhOc=;
+        b=sVUXX4IxtcwSB5JASMrBQk41fA6hU8d6vJjrJaMjfDUalK6IIKDBO5evbIbulOYgJ6
+         7lIch6sZnUkZmcfmOgvq/4DwqHLxcHT52VQOx7q0uXFYADlxGqfuv47bFGIoSPRwKrGF
+         zWW8iVQOUnTn5N8mUYTG6866YHG5be/VCYejuXJ2zFufPZile5qZvfnzEwiEHp7KtzUh
+         JiW1oaTMRNoPMhYOFvGdEkY+VKh/xvFRBfmgP5mC/z0k+D/nHhDEGzfM66rQ1a9NCPUg
+         O+kh82HzDbAeE6jH4z9VhBooVOliu3L4JA/kgHPwLF+2ndsIAWWWSfO3YoU7o9P5jUnM
+         sAeg==
+X-Gm-Message-State: AOJu0YwLcLwa0cCT7iEzeA9QsU/kIcRm6KwBQ6LlWQGQi6/U1vMQmpQD
+	VVB7nQwJHpZzajXux2+msNTc/BZ5y5LRyNbUYNs=
+X-Google-Smtp-Source: AGHT+IG/zOKPoXX+KUgHRd1YwPymLrSadLIsRID5FYaIOT9/r8DyzvG7YUYiYl28l7KFo0FotJK25IwKa9Ys4XqQUjg=
+X-Received: by 2002:a05:6820:220d:b0:58d:5302:5b18 with SMTP id
+ cj13-20020a056820220d00b0058d53025b18mr13982416oob.1.1702411525380; Tue, 12
+ Dec 2023 12:05:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2377bfb8-00bc-4863-8d70-425cb70c9c0b@intel.com>
+References: <ZTffkAdOqL2pI2la@shell.armlinux.org.uk> <CAJZ5v0j-73_+9U3ngDAf9w1ADDhBTKctJdWboqUk-okH2TQGyg@mail.gmail.com>
+ <ZW4ZBkj2oCmxv55T@shell.armlinux.org.uk> <ZXi7do4mVfdsz/k0@shell.armlinux.org.uk>
+In-Reply-To: <ZXi7do4mVfdsz/k0@shell.armlinux.org.uk>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 12 Dec 2023 21:05:14 +0100
+Message-ID: <CAJZ5v0jOU4Re2g5QtxpG0RjP3MYBxqz5Z+TtfXq2dz8HTq9A0A@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 00/39] ACPI/arm64: add support for virtual cpuhotplug
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
+	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
+	James Morse <james.morse@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 12, 2023 at 09:54:38AM -0800, Reinette Chatre wrote:
-> 
-> On 12/8/2023 2:09 PM, Peter Newman wrote:
-> > On Fri, Dec 8, 2023 at 1:57 PM Tony Luck <tony.luck@intel.com> wrote:
-> >>
-> >> On Fri, Dec 08, 2023 at 10:17:08AM -0800, Peter Newman wrote:
-> >>> Hi Tony,
-> >>>
-> >>> On Thu, Dec 7, 2023 at 11:56 AM Tony Luck <tony.luck@intel.com> wrote:
-> >>>> @@ -2715,7 +2723,25 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
-> >>>>         case Opt_mba_mbps:
-> >>>>                 if (!supports_mba_mbps())
-> >>>>                         return -EINVAL;
-> >>>> -               ctx->enable_mba_mbps = true;
-> >>>> +               if (is_mbm_local_enabled())
-> >>>> +                       ctx->enable_mba_mbps_local = true;
-> >>>> +               else
-> >>>> +                       return -EINVAL;
-> >>>> +               return 0;
-> >>>> +       case Opt_mba_mbps_event:
-> >>>> +               if (!supports_mba_mbps())
-> >>>> +                       return -EINVAL;
-> >>>> +               if (!strcmp("mbm_local_bytes", param->string)) {
-> >>>> +                       if (!is_mbm_local_enabled())
-> >>>> +                               return -EINVAL;
-> >>>> +                       ctx->enable_mba_mbps_local = true;
-> >>>> +               } else if (!strcmp("mbm_total_bytes", param->string)) {
-> >>>> +                       if (!is_mbm_total_enabled())
-> >>>> +                               return -EINVAL;
-> >>>> +                       ctx->enable_mba_mbps_total = true;
-> >>>> +               } else {
-> >>>> +                       return -EINVAL;
-> >>>
-> >>> It looks like if I pass
-> >>> "mba_MBps_event=mbm_total_bytes,mba_MBps_event=mbm_local_bytes" I can
-> >>> set both flags true.
-> >>
-> >> That's going to be confusing. I'll add code to stop the user from
-> >> passing both options.
-> > 
-> > Also kind of confusing, after reading the second patch, I realized
-> > "mba_MBps_event=mbm_total_bytes,mba_MBps" also results in both being
-> > set. If you're able to fail the mount operation if both flags somehow
-> > get set, that would address this one too.
-> 
-> Are two separate flags required? All existing options within struct rdt_fs_context
-> are of type bool but that does not imply that it is the required type for
-> all. 
+On Tue, Dec 12, 2023 at 8:58=E2=80=AFPM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
+>
+> On Mon, Dec 04, 2023 at 06:23:02PM +0000, Russell King (Oracle) wrote:
+> > On Tue, Oct 24, 2023 at 08:26:58PM +0200, Rafael J. Wysocki wrote:
+> > > On Tue, Oct 24, 2023 at 5:15=E2=80=AFPM Russell King (Oracle)
+> > > <linux@armlinux.org.uk> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > I'm posting James' patch set updated with most of the review commen=
+ts
+> > > > from his RFC v2 series back in September. Individual patches have a
+> > > > changelog attached at the bottom of the commit message. Those which
+> > > > I have finished updating have my S-o-b on them, those which still h=
+ave
+> > > > outstanding review comments from RFC v2 do not. In some of these ca=
+ses
+> > > > I've asked questions and am waiting for responses.
+> > > >
+> > > > I'm posting this as RFC v3 because there's still some unaddressed
+> > > > comments and it's clearly not ready for merging. Even if it was rea=
+dy
+> > > > to be merged, it is too late in this development cycle to be taking
+> > > > this change in, so there would be little point posting it non-RFC.
+> > > > Also James stated that he's waiting for confirmation from the
+> > > > Kubernetes/Kata folk - I have no idea what the status is there.
+> > > >
+> > > > I will be sending each patch individually to a wider audience
+> > > > appropriate for that patch - apologies to those missing out on this
+> > > > cover message. I have added more mailing lists to the series with t=
+he
+> > > > exception of the acpica list in a hope of this cover message also
+> > > > reaching those folk.
+> > > >
+> > > > The changes that aren't included are:
+> > > >
+> > > > 1. Updates for my patch that was merged via Thomas (thanks!):
+> > > >    c4dd854f740c cpu-hotplug: Provide prototypes for arch CPU regist=
+ration
+> > > >    rather than having this change spread through James' patches.
+> > > >
+> > > > 2. New patch - simplification of PA-RISC's smp_prepare_boot_cpu()
+> > > >
+> > > > 3. Moved "ACPI: Use the acpi_device_is_present() helper in more pla=
+ces"
+> > > >    and "ACPI: Rename acpi_scan_device_not_present() to be about
+> > > >    enumeration" to the beginning of the series - these two patches =
+are
+> > > >    already queued up for merging into 6.7.
+> > > >
+> > > > 4. Moved "arm64, irqchip/gic-v3, ACPI: Move MADT GICC enabled check=
+ into
+> > > >    a helper" to the beginning of the series, which has been submitt=
+ed,
+> > > >    but as yet the fate of that posting isn't known.
+> > > >
+> > > > The first four patches in this series are provided for completness =
+only.
+> > > >
+> > > > There is an additional patch in James' git tree that isn't in the s=
+et
+> > > > of patches that James posted: "ACPI: processor: Only call
+> > > > arch_unregister_cpu() if HOTPLUG_CPU is selected" which looks to me=
+ to
+> > > > be a workaround for arch_unregister_cpu() being under the ifdef. I'=
+ve
+> > > > commented on this on the RFC v2 posting making a suggestion, but as=
+ yet
+> > > > haven't had any response.
+> > > >
+> > > > I've included almost all of James' original covering body below the
+> > > > diffstat.
+> > > >
+> > > > The reason that I'm doing this is to help move this code forward so
+> > > > hopefully it can be merged - which is why I have been keen to dig o=
+ut
+> > > > from James' patches anything that can be merged and submit it
+> > > > separately, since this is a feature for which some users have a
+> > > > definite need for.
+> > >
+> > > I've gone through the series and there is at least one thing in it
+> > > that concerns me a lot and some others that at least appear to be
+> > > really questionable.
+> > >
+> > > I need more time to send comments which I'm not going to do before th=
+e
+> > > 6.7 merge window (sorry), but from what I can say right now, this is
+> > > not looking good.
+> >
+> > Hi Rafael,
+> >
+> > Will you be able to send your comments, so that we can find out what
+> > your other concerns are please? I'm getting questions from interested
+> > parties who want to know what your concerns are.
+> >
+> > Nothing much has changed to the ACPI changes, so I think it's still
+> > valid to have the comments back for this.
+>
+> Hi Rafael,
+>
+> Another gentle prod on this...
 
-Reinette,
+There was a selection of the patches in the series sent separately and
+I believe that some of them have been applied already.
 
-Maybe a flag and a value?  The structure becomes:
-
-struct rdt_fs_context {
-	struct kernfs_fs_context	kfc;
-	bool				enable_cdpl2;
-	bool				enable_cdpl3;
-	bool				enable_mba_mbps;
-	enum resctrl_event_id		mba_mbps_event;
-	bool				enable_debug;
-};
-
-Mount option parsing (including blocking user from setting the options
-multiple times):
-
-	case Opt_mba_mbps:
-		if (!supports_mba_mbps() || ctx->enable_mba_mbps)
-			return -EINVAL;
-		if (is_mbm_local_enabled())
-			ctx->mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-		else if (is_mbm_total_enabled())
-			ctx->mba_mbps_event = QOS_L3_MBM_TOTAL_EVENT_ID;
-		else
-			return -EINVAL;
-		ctx->enable_mba_mbps = true;
-		return 0;
-	case Opt_mba_mbps_event:
-		if (!supports_mba_mbps() || ctx->enable_mba_mbps)
-			return -EINVAL;
-		if (!strcmp("mbm_local_bytes", param->string))
-			ctx->mba_mbps_event = QOS_L3_MBM_LOCAL_EVENT_ID;
-		else if (!strcmp("mbm_total_bytes", param->string))
-			ctx->mba_mbps_event = QOS_L3_MBM_TOTAL_EVENT_ID;
-		else
-			return -EINVAL;
-		ctx->enable_mba_mbps = true;
-		return 0;
-
-
-and use of the options to enable the feature:
-
-	if (ctx->enable_mba_mbps) {
-		r->membw.mba_mbps_event = ctx->mba_mbps_event;
-		ret = set_mba_sc(true);
-		if (ret)
-			goto out_cdpl3;
-	}
-
--Tony
+Can you please send the remaining patches again so it is clear what's
+still outstanding?
