@@ -1,188 +1,56 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FB023A0;
+	Tue, 12 Dec 2023 02:04:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="PmP012Ha"
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE2AA1
-	for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 18:01:14 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-50bffb64178so6114172e87.2
-        for <linux-doc@vger.kernel.org>; Mon, 11 Dec 2023 18:01:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1702346472; x=1702951272; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7KWKhvYJwvM4Jhue2eRdgbRjWAjIqUdVY1eAlzHMEbo=;
-        b=PmP012HaRjZW7W0k3QyntP4F8B8RexAxaIJvVx+6Mx+Z+ZjWhO3Bof9h0sBE4idEVC
-         fyRaqEf6NZTgZ8VRh/X1Soo4vClm+KGVcPmYsptWHqQ0/rf3gOwEKIeoEnj2u3r62aPA
-         F3wFHBEwmIhpUKuBQUMVqoHOiuxLUQpqD01o8ZYiXDWlc/jnxMU5VG+dZmSsDT0j2EOm
-         1O2sGw9psMXUoZK2QoU2GezghdeEm1LPPPx1E600CV1yKHWGXM1xlyaMGlfrZINCdUKZ
-         Z+kpqKefO8xTkmNCWxqmMUCbDYdcVMhL2O5r9KiMb2U3ZD1Bk8rByRHglvy6SOivfTkh
-         uSrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702346472; x=1702951272;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7KWKhvYJwvM4Jhue2eRdgbRjWAjIqUdVY1eAlzHMEbo=;
-        b=QrnVYd8c3msvRwsJTgYM4SUJyL+mZC9HszFq0W3/5TSkSrWtF3wTgBU0r1l4HgzPUT
-         EfU+fOOzpwpMbb4u1uJiu5OlJKeXa4Md7v3jfYGabIDu/9tn6w1f06Q3HW4XMmJ+4G+A
-         2YkFsxZFm3A45TMYUSn4ZodLxQQapiowxb0KpayQZ/Fh0Xmbb+z7CUda2jMpZwqrH5T4
-         F+gYw2Y5g2tGlRmKGxAiGmxzpKpeuhbrrA58omb/PfXtqpbnx3nKAIfrG5UIKsB9/72Z
-         Ie3pSXyEhWg7VqngA2SafLNk1r7QhLWMc93QOMAIgQu/atsLsK88XtY8O0eJ85yErP85
-         tnGA==
-X-Gm-Message-State: AOJu0YyU6oYwgaf5U2oK9/kc4NpVkas6qvSXl6DJ1seaT4U3EV+GUC2z
-	0zWm7aSmg4egooyCCQRNw8IOXw==
-X-Google-Smtp-Source: AGHT+IHLzGUzER1PQtCvbxvQ9OvEFB7C9qq206eKNePTtcEO3I3JMvlhyJvuiG/Ox/5VE5XRq8Dr1w==
-X-Received: by 2002:a05:6512:2349:b0:50c:cdc1:b57 with SMTP id p9-20020a056512234900b0050ccdc10b57mr3057725lfu.3.1702346472558;
-        Mon, 11 Dec 2023 18:01:12 -0800 (PST)
-Received: from ?IPv6:2804:30c:915:cb00:89a8:6d94:ec55:e0a3? ([2804:30c:915:cb00:89a8:6d94:ec55:e0a3])
-        by smtp.gmail.com with ESMTPSA id tj3-20020a170907c24300b00a1b6cba8d20sm5467208ejc.122.2023.12.11.18.01.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 18:01:12 -0800 (PST)
-Message-ID: <e2817181598490e0455e33add1a61021b2535f78.camel@suse.com>
-Subject: Re: [PATCH v3 2/3] livepatch: Move tests from lib/livepatch to
- selftests/livepatch
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Shuah Khan <skhan@linuxfoundation.org>, Joe Lawrence
-	 <joe.lawrence@redhat.com>, Miroslav Benes <mbenes@suse.cz>
-Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Heiko
- Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>,  Sven Schnelle <svens@linux.ibm.com>, Josh
- Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,  Petr
- Mladek <pmladek@suse.com>, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-s390@vger.kernel.org,  live-patching@vger.kernel.org
-Date: Mon, 11 Dec 2023 23:01:02 -0300
-In-Reply-To: <2c4f2771-0557-4b44-9c98-6bd2e6930d2f@linuxfoundation.org>
-References: <20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com>
-	 <20231031-send-lp-kselftests-v3-2-2b1655c2605f@suse.com>
-	 <ZWn7dEzVWoKxycmy@redhat.com>
-	 <alpine.LSU.2.21.2312061543280.13051@pobox.suse.cz>
-	 <273a86d6-d220-fdcf-3c2f-70516c519ff9@redhat.com>
-	 <57fb9f30afbaddb09def96aac11c45296a59a277.camel@suse.com>
-	 <2c4f2771-0557-4b44-9c98-6bd2e6930d2f@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sz8DC5Sq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E6DAC433C9;
+	Tue, 12 Dec 2023 02:04:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702346677;
+	bh=mTxd3NnExIqswI3JfYyfPCct5v9MTCPCUzbB5aTgOr8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sz8DC5SqnEdfioxx6lgXcwQV6c9QJbVoiAEdR8b5WJEf2I5x+RUK4U6poELQMSjtQ
+	 nO13Mjkfy496W7wRwj+i8/XWJLP3JP3Er48r/hWptpyostu7yBn0TgAyr6EkWGLfO3
+	 0sci2BXnLLVuqqhjGEuEHeDMsXI9Hw7hfw/sjrc4Yp+hbN7e3Blna42URKOB1EY251
+	 7P8ppr6AQxjGVllM2JULd7ZoC/Xn6BRcWm/hTv1ki5q1+Q7vctwXF97ptpkThbTLBw
+	 dBwwlWoaTfSLJtSdSyBtiia8ry+dEEKJ6MOQ+TwhAYdNXVrTpzNyfjHeNozIx0BhvL
+	 Qj5uwpTVZxQ1w==
+Date: Mon, 11 Dec 2023 18:04:36 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
+ <jacob.e.keller@intel.com>, donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v2 08/11] tools/net/ynl: Add binary and pad
+ support to structs for tc
+Message-ID: <20231211180436.5560720e@kernel.org>
+In-Reply-To: <20231211164039.83034-9-donald.hunter@gmail.com>
+References: <20231211164039.83034-1-donald.hunter@gmail.com>
+	<20231211164039.83034-9-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2023-12-11 at 14:56 -0700, Shuah Khan wrote:
-> On 12/7/23 12:19, mpdesouza@suse.com=C2=A0wrote:
-> > On Thu, 2023-12-07 at 10:20 -0500, Joe Lawrence wrote:
-> > > On 12/6/23 10:05, Miroslav Benes wrote:
-> > > > On Fri, 1 Dec 2023, Joe Lawrence wrote:
-> > > >=20
-> > > > > On Tue, Oct 31, 2023 at 06:10:52PM -0300, Marcos Paulo de
-> > > > > Souza
-> > > > > wrote:
-> > > > > > The modules are being moved from lib/livepatch to
-> > > > > > tools/testing/selftests/livepatch/test_modules.
-> > > > > >=20
-> > > > > > This code moving will allow writing more complex tests,
-> > > > > > like
-> > > > > > for example an
-> > > > > > userspace C code that will call a livepatched kernel
-> > > > > > function.
-> > > > > >=20
-> > > > > > The modules are now built as out-of-tree
-> > > > > > modules, but being part of the kernel source means they
-> > > > > > will be
-> > > > > > maintained.
-> > > > > >=20
-> > > > > > Another advantage of the code moving is to be able to
-> > > > > > easily
-> > > > > > change,
-> > > > > > debug and rebuild the tests by running make on the
-> > > > > > selftests/livepatch directory,
-> > > > > > which is not currently possible since the modules on
-> > > > > > lib/livepatch are
-> > > > > > build and installed using the "modules" target.
-> > > > > >=20
-> > > > > > The current approach also keeps the ability to execute the
-> > > > > > tests manually by
-> > > > > > executing the scripts inside selftests/livepatch directory,
-> > > > > > as
-> > > > > > it's currently
-> > > > > > supported. If the modules are modified, they needed to be
-> > > > > > rebuilt before running
-> > > > > > the scripts though.
-> > > > > >=20
-> > > > > > The modules are built before running the selftests when
-> > > > > > using
-> > > > > > the
-> > > > > > kselftest invocations:
-> > > > > >=20
-> > > > > > 	make kselftest TARGETS=3Dlivepatch
-> > > > > > or
-> > > > > > 	make -C tools/testing/selftests/livepatch
-> > > > > > run_tests
-> > > > > >=20
-> > > > >=20
-> > > > > Quick question:
-> > > > >=20
-> > > > > - We have been building with CONFIG_LIVEPATCH_TEST=3Dm to
-> > > > > generate
-> > > > > the
-> > > > > =C2=A0=C2=A0 test modules at kernel build time
-> > > > >=20
-> > > > > - Our packaging filters out the selftest scripts and
-> > > > > supporting
-> > > > > modules
-> > > > > =C2=A0=C2=A0 from the general kernel RPM package into their subpa=
-ckages
-> > > > >=20
-> > > > > - Tests are run as part of CKI or other manual tests by
-> > > > > installing the
-> > > > > =C2=A0=C2=A0 pre-built packages from the previous step
-> > > > >=20
-> > > > >=20
-> > > > > After this patch, we would need to add something like the
-> > > > > following to
-> > > > > our kernel build, before packaging:
-> > > > >=20
-> > > > > =C2=A0=C2=A0 $ make KDIR=3D$(pwd) -C tools/testing/selftests/live=
-patch/
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^^^^
-> > > > >=20
-> > > > > If this is the correct way to build the test modules for
-> > > > > *this*
-> > > > > tree and
-> > > > > /lib/modules/$(shell uname -r)/build... it might be useful to
-> > > > > document
-> > > > > in the commit message as an alternative use case.
-> >=20
-> > That's right:
-> >=20
-> > $ make -C tools/testing/selftests/livepatch/
-> >=20
-> > is indeed the way to build the tests without running them. KDIR
-> > will be
-> > set to=C2=A0 /lib/modules/$(shell uname -r)/build is empty.
-> >=20
-> > Yes, I can definitely add documentation about it inside the
-> > tools/testing/selftests/livepatch/README.
-> >=20
->=20
-> How does the default kselftest run work with these changes?
->=20
-> make ksefltest - does this still work as it did before this change?
+On Mon, 11 Dec 2023 16:40:36 +0000 Donald Hunter wrote:
+>                  description: The netlink attribute type
 
-Yes,
+We should perhaps "touch up" this doc, and add that for the use of pad
+within structs len is required. Would be even better if you could
+convince json schema to validate that. The example that starts with 
+a comment:
 
-make kselftest TARGETS=3Dlivepatch
+  # type property is only required if not in subset definition
 
-works the same as before. As well the
+should be pretty close to what we need here?
 
-make -C tools/testing/selftests/livepatch run_tests
-
-Both ways work as before.
->=20
-> thanks,
-> -- Shuah
->=20
+> -                enum: [ u8, u16, u32, u64, s8, s16, s32, s64, string, binary ]
+> +                enum: [ u8, u16, u32, u64, s8, s16, s32, s64, string, binary, pad ]
 
