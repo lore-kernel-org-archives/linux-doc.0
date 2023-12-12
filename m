@@ -1,61 +1,26 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80683660E3;
+	Tue, 12 Dec 2023 22:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H0EgyQbh"
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87733AC;
-	Tue, 12 Dec 2023 14:16:47 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3331752d2b9so4181573f8f.3;
-        Tue, 12 Dec 2023 14:16:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702419405; x=1703024205; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IHEg6ZXv1YE3c9UTRSvzM/ei4Hb8xqiQ3kNy7PW6Q9U=;
-        b=H0EgyQbhW7QLvjby4D58y3B2tLvDocZhuuuiFr5NnAErOX3cJETtKuxK/dv4oJoQGH
-         acR+p6ZaAaWB1j0/1rSemo34HNrUq5r+UOSvxS2qD9TKJIEXai2OuNQ6EXhgEoKddejK
-         SHEVnaU7j7YTC/PJN+WY2kGPjxVfLs7t0NIQQWe2XckzopMRHCRxb7uSUP/CixkPj4Gp
-         Vwt+K1+FZuzlorXkkFeBF8buz/PyfqMdIyeQSEd36cNhehuVEwFqlkec4p82qrZfNoem
-         IBe0JKWJWf5KODGstNJ1l3sBy33xCXqfb3+HInCcVCtsh0Wfarp6HgMGbbvXLn7yWqwG
-         WVaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702419405; x=1703024205;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IHEg6ZXv1YE3c9UTRSvzM/ei4Hb8xqiQ3kNy7PW6Q9U=;
-        b=xIk0wzZ6RTZ2bqyMAhUko+JU/57/YQhSsWEe6/D6xfUsaemZSWBdvLMC22FRgdXxne
-         4IWeYllh9ZyD3aPbiVQyGLBkKJyY4Rk69/6gYDTGh0g1lt913RrXXbo/Ij2PWwd8WzGm
-         dTeL7RB2UEEO/v1TXLHXK4f/xnMglW3Hnn86JyY5adgXzjjb5xpPMXKDZ8CoAyC9u5Jl
-         Bc838xtTLBLbYyfowaDMv3NdK/HY3m82IdgJQqFKQ++BxQJZxU4EJZruTh9DjU5Gr2uY
-         xtlc84U209bo8VTZczHJzY/BWPOL7BMfD69MfQYuRORGIBdNZlpHsjpNs/1GcXLG1ciF
-         kI7g==
-X-Gm-Message-State: AOJu0YwosYY2fwqv58EnA6pfcP5/4Kp5GJuxtNBtpRsdqeUHZEMJTihP
-	v4IXmIxTr2bE5ZNHfvgnYbYM09h5xIIAHA==
-X-Google-Smtp-Source: AGHT+IFNr8oHt+6ib4hM8XNzmfqM+XQOfntzXtWBe0En6NRJIErjNHdd1yVK80dSeN/3KrqPkKWgvg==
-X-Received: by 2002:a05:6000:b83:b0:336:3467:6030 with SMTP id dl3-20020a0560000b8300b0033634676030mr1063095wrb.23.1702419405615;
-        Tue, 12 Dec 2023 14:16:45 -0800 (PST)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:a1a0:2c27:44f7:b972])
-        by smtp.gmail.com with ESMTPSA id a18-20020a5d5092000000b00333415503a7sm11680482wrt.22.2023.12.12.14.16.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 14:16:45 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Breno Leitao <leitao@debian.org>
-Cc: donald.hunter@redhat.com,
-	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v3 13/13] tools/net/ynl-gen-rst: Remove extra indentation from generated docs
-Date: Tue, 12 Dec 2023 22:15:52 +0000
-Message-ID: <20231212221552.3622-14-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231212221552.3622-1-donald.hunter@gmail.com>
-References: <20231212221552.3622-1-donald.hunter@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELbS/ZBc"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0FC50C433C9;
+	Tue, 12 Dec 2023 22:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702419629;
+	bh=tRQTTgbl7FgoXWnczF+Nu4dcXEMjiXldZt7YykkAb7c=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=ELbS/ZBchr9V1OUApYbsPxVfC3QhK6gRdEtyEwYCxImEAmzDbWjyqHJWD7AKHqx7X
+	 1+4RfdahigCRl5Jw/P1jtwgOqsSBAhrILUK1xrDmeBifpFfMhi/LmhZ6sBJfpA+LJD
+	 CzKdS2nDzPg4mZ3cn+9QPo2uYPUE5o09G91tCT3En/TaWVP37X2hnq6fwH03czEUmS
+	 W8nyC/NInZCNDO7/bQvA1MaZLXKS1upyxidzgSVopOC+5TgrYONnszIomeNY9Z0wn2
+	 nBdGCcJVcyVbnwWYYIGEY0Lv4g3fl/G3p5VSmbNux35T5zQrM2qefYGD4C8QkGkjCH
+	 +Qh/vJAsKuHmA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E9729DD4EFE;
+	Tue, 12 Dec 2023 22:20:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,49 +28,110 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4 00/20] riscv: report more ISA extensions through hwprobe
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <170241962895.7374.4064539637441634071.git-patchwork-notify@kernel.org>
+Date: Tue, 12 Dec 2023 22:20:28 +0000
+References: <20231114141256.126749-1-cleger@rivosinc.com>
+In-Reply-To: <20231114141256.126749-1-cleger@rivosinc.com>
+To: =?utf-8?b?Q2zDqW1lbnQgTMOpZ2VyIDxjbGVnZXJAcml2b3NpbmMuY29tPg==?=@ci.codeaurora.org
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, palmer@rivosinc.com,
+ paul.walmsley@sifive.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, aou@eecs.berkeley.edu, corbet@lwn.net,
+ ajones@ventanamicro.com, evan@rivosinc.com, conor@kernel.org,
+ sameo@rivosinc.com, jerry.shih@sifive.com
 
-The output from ynl-gen-rst.py has extra indentation that causes extra
-<blockquote> elements to be generated in the HTML output.
+Hello:
 
-Reduce the indentation so that sphinx doesn't generate unnecessary
-<blockquote> elements.
+This series was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- tools/net/ynl/ynl-gen-rst.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Tue, 14 Nov 2023 09:12:36 -0500 you wrote:
+> In order to be able to gather more information about the supported ISA
+> extensions from userspace using the hwprobe syscall, add more ISA
+> extensions report. This series adds the following ISA extensions parsing
+> support:
+> 
+> - Zfh[min]
+> - Zvfh[min]
+> - Zihintntl
+> - Zbc
+> - Zvbb
+> - Zvbc
+> - Zvkb
+> - Zvkg
+> - Zvkned
+> - Zvknh[ab]
+> - Zvksed
+> - Zvksh
+> - Zvkn
+> - Zvknc
+> - Zvkng
+> - Zvks
+> - Zvksc
+> - Zvksg
+> - Zvkt
+> - Zfa
+> - Zbkb
+> - Zbkc
+> - Zbkx
+> - Zknd
+> - Zkne
+> - Zknh
+> - Zkr
+> - Zksed
+> - Zksh
+> - Zkt
+> 
+> [...]
 
-diff --git a/tools/net/ynl/ynl-gen-rst.py b/tools/net/ynl/ynl-gen-rst.py
-index 675ae8357d5e..f7d5bf96736f 100755
---- a/tools/net/ynl/ynl-gen-rst.py
-+++ b/tools/net/ynl/ynl-gen-rst.py
-@@ -69,7 +69,7 @@ def rst_paragraph(paragraph: str, level: int = 0) -> str:
- 
- def rst_bullet(item: str, level: int = 0) -> str:
-     """Return a formatted a bullet"""
--    return headroom(level) + f" - {item}"
-+    return headroom(level) + f"- {item}"
- 
- 
- def rst_subsection(title: str) -> str:
-@@ -245,7 +245,7 @@ def parse_attr_sets(entries: List[Dict[str, Any]]) -> str:
-             for k in attr.keys():
-                 if k in preprocessed + ignored:
-                     continue
--                lines.append(rst_fields(k, sanitize(attr[k]), 2))
-+                lines.append(rst_fields(k, sanitize(attr[k]), 0))
-             lines.append("\n")
- 
-     return "\n".join(lines)
-@@ -263,7 +263,7 @@ def parse_sub_messages(entries: List[Dict[str, Any]]) -> str:
-             lines.append(rst_bullet(bold(value)))
-             for attr in ['fixed-header', 'attribute-set']:
-                 if attr in fmt:
--                    lines.append(rst_fields(attr, fmt[attr], 2))
-+                    lines.append(rst_fields(attr, fmt[attr], 1))
-             lines.append("\n")
- 
-     return "\n".join(lines)
+Here is the summary with links:
+  - [v4,01/20] riscv: add ISA extension parsing for Zbc
+    https://git.kernel.org/riscv/c/88e752f0986f
+  - [v4,02/20] riscv: hwprobe: export missing Zbc ISA extension
+    https://git.kernel.org/riscv/c/2ae2b9097b2e
+  - [v4,03/20] riscv: add ISA extension parsing for scalar crypto
+    https://git.kernel.org/riscv/c/5ee88a915d4b
+  - [v4,04/20] riscv: hwprobe: add support for scalar crypto ISA extensions
+    https://git.kernel.org/riscv/c/18883cef7e64
+  - [v4,05/20] dt-bindings: riscv: add scalar crypto ISA extensions description
+    https://git.kernel.org/riscv/c/ffd19e815367
+  - [v4,06/20] riscv: add ISA extension parsing for vector crypto
+    https://git.kernel.org/riscv/c/4fa9e167b63b
+  - [v4,07/20] riscv: hwprobe: export vector crypto ISA extensions
+    https://git.kernel.org/riscv/c/d06b89615a9e
+  - [v4,08/20] dt-bindings: riscv: add vector crypto ISA extensions description
+    https://git.kernel.org/riscv/c/eb8c82b7a8c4
+  - [v4,09/20] riscv: add ISA extension parsing for Zfh/Zfh[min]
+    https://git.kernel.org/riscv/c/68bddb2748ac
+  - [v4,10/20] riscv: hwprobe: export Zfh[min] ISA extensions
+    https://git.kernel.org/riscv/c/5cb9bea00d12
+  - [v4,11/20] dt-bindings: riscv: add Zfh[min] ISA extensions description
+    https://git.kernel.org/riscv/c/6853ab83405c
+  - [v4,12/20] riscv: add ISA extension parsing for Zihintntl
+    https://git.kernel.org/riscv/c/8ab84bf68d2b
+  - [v4,13/20] riscv: hwprobe: export Zhintntl ISA extension
+    https://git.kernel.org/riscv/c/814d9823088a
+  - [v4,14/20] dt-bindings: riscv: add Zihintntl ISA extension description
+    https://git.kernel.org/riscv/c/4bd2e33d1613
+  - [v4,15/20] riscv: add ISA extension parsing for Zvfh[min]
+    https://git.kernel.org/riscv/c/c7fa1ef17e6f
+  - [v4,16/20] riscv: hwprobe: export Zvfh[min] ISA extensions
+    https://git.kernel.org/riscv/c/9a42ab69b658
+  - [v4,17/20] dt-bindings: riscv: add Zvfh[min] ISA extension description
+    https://git.kernel.org/riscv/c/1f532a7d898e
+  - [v4,18/20] riscv: add ISA extension parsing for Zfa
+    https://git.kernel.org/riscv/c/4758aec519ae
+  - [v4,19/20] riscv: hwprobe: export Zfa ISA extension
+    https://git.kernel.org/riscv/c/f838a77a4881
+  - [v4,20/20] dt-bindings: riscv: add Zfa ISA extension description
+    https://git.kernel.org/riscv/c/e810a257576f
+
+You are awesome, thank you!
 -- 
-2.42.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
