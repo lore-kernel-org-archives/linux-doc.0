@@ -1,145 +1,281 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZDvzT+jQ"
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A411ACF
-	for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 00:12:28 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-50be3611794so6335901e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 00:12:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702368747; x=1702973547; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cLK67MZ2cMXqVULAwpdm/zZK5C57DrnMrrkfs3M5C2A=;
-        b=ZDvzT+jQKYRl5fjH8/Y0Y/bXhW56+dGYsw+jbmNhgafCApf1iQWv0jnCo607aHTjhW
-         p15FRq7frwgqnkSvUe+9uD8Y2B9Q3Sf+d8EMgtdqc6AuH1uqNwbtzNtiH1lAM6HVHorH
-         ZBssx+/OeaVdHbt+MjpML7Wp1ZCqavgUHnOSC+c1uP3CIret40TWknIPa0fQqxRgJ7pC
-         QGCY+gpPQukFXzkipUOqMf+yxOuryg/uJnYPTOGvlmB15hn/ySakbx9uY5HBqRyheRUY
-         ZpMOGZbda7Z3+va/r6JeUC3BaLBlZaeR0dCDTThdI3VkNY64qhSeJNLykTSHZRwJbVB1
-         6PtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702368747; x=1702973547;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cLK67MZ2cMXqVULAwpdm/zZK5C57DrnMrrkfs3M5C2A=;
-        b=tjrkcXL/Ok7V4V+vysoNflUCckTXL+zKmc5bObjHECye84ujETkOODYTDRPQKYA0Hf
-         SiMxOEW3lgc0gerZ5zNZKTwnQMH/e1HooXfNGrSzYGo4ScP84w2pzlASkXvUKz8bK5ik
-         AER7+1LMj7CyPLkXHdpDYLpnXp4QBkoAUXVFOuvaEOOFe9+gEWA+v+rZSehuhkiNw0j5
-         k7a/0qqGlAWi0IxvhAaigO5gLPEfIz72CRpcjtfdrCHf6Ld2/fOGr4VrISHRBP8g89dg
-         6TFPuxmrqWaNyR2ZzihDzQGDZddmbof+5QH6uhX8VgfLjPfpR79qB/e1JzdGvGCsR5S+
-         CEZA==
-X-Gm-Message-State: AOJu0Yw0UQ3ey7z+rc2wiY04ndscC0jbgDsDid418b3qK94jDw6TfpDc
-	ox7O4FEB0RNUjtv5RLSU7JuKiGXF3DF+GxTFAeqalw==
-X-Google-Smtp-Source: AGHT+IE/4NCAGrcWlk83IyW9mzgbqR3p3HmgUFXHYCCu/8mM+LfWDqVB4qdieN1J9FLWy4acb9y4oFfWbA7pp1ExuZI=
-X-Received: by 2002:a05:6512:2312:b0:50b:f6d2:8569 with SMTP id
- o18-20020a056512231200b0050bf6d28569mr2921097lfu.129.1702368746841; Tue, 12
- Dec 2023 00:12:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="QPnsgTfo";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="HT4lKnG4"
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B2BC10B;
+	Tue, 12 Dec 2023 00:34:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1702370078; bh=2Pw20VBRXdfmL7SgSifOivpj0hhLB50AYu53xedYzp8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QPnsgTfoV8z5MFBYObjmfuemhy4aTCLgCEMCdIEtFyDoYi8H78j7BTr42Ma/paCCt
+	 MyBGgYsCW8KXuD/nPelBP0M2Iq6NBGy0JirzvtlWiRmMIGgcdKCner2LIXrY2kLbYh
+	 fBEiy5vM0l8oFtnuGroUAEDmHFwIFuDZNrsQVmurvBzunmZznfHrvr7liPaipulbN4
+	 cexoDXH8FStEcVzcqw6BiexGlUjfU4V/EEIry8QcI1qyuCW5U/PzFLKySiPFQREalG
+	 SpRA0xCweZA+Z33PmAw0zmPNh7L5aRNg38z9yCF2tqLrEFe3UrfjKADyTK+Tv/x9eX
+	 bfgukpw5JV5ug==
+Received: by gofer.mess.org (Postfix, from userid 501)
+	id 62E12100A03; Tue, 12 Dec 2023 08:34:38 +0000 (GMT)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1702370062; bh=2Pw20VBRXdfmL7SgSifOivpj0hhLB50AYu53xedYzp8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HT4lKnG42tiemYgOwTflbY2RrCzyFwlFqQsInBmJW8jRfRtPiz2mlY2ezOeQMnG4k
+	 XabBGFiVSKlWMBThdv4sF6MmLjtLSOWNskCcCF/Ew5v7CB0izzS7WsE/2m7bufX15N
+	 tR1H0cdbthcyOs5+Ph57h0CfWIOh/oiWqwdn/4ZM3VUC9FJ0wOayNb5KgCilL3HLrq
+	 2Y7uA97oV38Wa3WnIfGcWGfQ2ESbj8D+A7pq4gooSrBbxPL6CuYwNj9QyvyzLLfuIu
+	 AFWMMPztzywuV+UfEh5Qw6mUUNymjJ/RCmGvDDeBd1pc1n1LVVPPnAhYTATTxDmIaX
+	 CwqsYp3RZEnww==
+Received: from localhost.localdomain (bigcore-58.local [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gofer.mess.org (Postfix) with ESMTPSA id A7C671009FC;
+	Tue, 12 Dec 2023 08:34:22 +0000 (GMT)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Sean Young <sean@mess.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v8 4/6] pwm: Make it possible to apply PWM changes in atomic context
+Date: Tue, 12 Dec 2023 08:34:03 +0000
+Message-ID: <57f48330eb606356e86be17f85253f0e3d6ab104.1702369869.git.sean@mess.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1702369869.git.sean@mess.org>
+References: <cover.1702369869.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com> <20231208005250.2910004-2-almasrymina@google.com>
-In-Reply-To: <20231208005250.2910004-2-almasrymina@google.com>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Tue, 12 Dec 2023 10:11:50 +0200
-Message-ID: <CAC_iWjLfc_2cEzRQDRvG1abMYH6dPhc2-c0-skUD1tjdKVFcKw@mail.gmail.com>
-Subject: Re: [net-next v1 01/16] net: page_pool: factor out releasing DMA from
- releasing the page
-To: Mina Almasry <almasrymina@google.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 8 Dec 2023 at 02:52, Mina Almasry <almasrymina@google.com> wrote:
->
-> From: Jakub Kicinski <kuba@kernel.org>
->
-> Releasing the DMA mapping will be useful for other types
-> of pages, so factor it out. Make sure compiler inlines it,
-> to avoid any regressions.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
->
-> ---
->
-> This is implemented by Jakub in his RFC:
->
-> https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
->
-> I take no credit for the idea or implementation. This is a critical
-> dependency of device memory TCP and thus I'm pulling it into this series
-> to make it revewable and mergable.
->
-> ---
->  net/core/page_pool.c | 25 ++++++++++++++++---------
->  1 file changed, 16 insertions(+), 9 deletions(-)
->
-> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index c2e7c9a6efbe..ca1b3b65c9b5 100644
-> --- a/net/core/page_pool.c
-> +++ b/net/core/page_pool.c
-> @@ -548,21 +548,16 @@ s32 page_pool_inflight(const struct page_pool *pool, bool strict)
->         return inflight;
->  }
->
-> -/* Disconnects a page (from a page_pool).  API users can have a need
-> - * to disconnect a page (from a page_pool), to allow it to be used as
-> - * a regular page (that will eventually be returned to the normal
-> - * page-allocator via put_page).
-> - */
-> -static void page_pool_return_page(struct page_pool *pool, struct page *page)
-> +static __always_inline
-> +void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
->  {
->         dma_addr_t dma;
-> -       int count;
->
->         if (!(pool->p.flags & PP_FLAG_DMA_MAP))
->                 /* Always account for inflight pages, even if we didn't
->                  * map them
->                  */
-> -               goto skip_dma_unmap;
-> +               return;
->
->         dma = page_pool_get_dma_addr(page);
->
-> @@ -571,7 +566,19 @@ static void page_pool_return_page(struct page_pool *pool, struct page *page)
->                              PAGE_SIZE << pool->p.order, pool->p.dma_dir,
->                              DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_WEAK_ORDERING);
->         page_pool_set_dma_addr(page, 0);
-> -skip_dma_unmap:
-> +}
-> +
-> +/* Disconnects a page (from a page_pool).  API users can have a need
-> + * to disconnect a page (from a page_pool), to allow it to be used as
-> + * a regular page (that will eventually be returned to the normal
-> + * page-allocator via put_page).
-> + */
-> +void page_pool_return_page(struct page_pool *pool, struct page *page)
-> +{
-> +       int count;
-> +
-> +       __page_pool_release_page_dma(pool, page);
-> +
->         page_pool_clear_pp_info(page);
->
->         /* This may be the last page returned, releasing the pool, so
-> --
-> 2.43.0.472.g3155946c3a-goog
->
+Some PWM devices require sleeping, for example if the pwm device is
+connected over I2C. However, many PWM devices could be used from atomic
+context, e.g. memory mapped PWM. This is useful for, for example, the
+pwm-ir-tx driver which requires precise timing. Sleeping causes havoc
+with the generated IR signal.
 
-Reviewed-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Since not all PWM devices can support atomic context, we also add a
+pwm_might_sleep() function to check if is not supported.
+
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ Documentation/driver-api/pwm.rst |  9 +++++
+ MAINTAINERS                      |  2 +-
+ drivers/pwm/core.c               | 67 +++++++++++++++++++++++++-------
+ include/linux/pwm.h              | 25 ++++++++++++
+ 4 files changed, 89 insertions(+), 14 deletions(-)
+
+diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+index f1d8197c8c430..3c28ccc4b6113 100644
+--- a/Documentation/driver-api/pwm.rst
++++ b/Documentation/driver-api/pwm.rst
+@@ -46,6 +46,15 @@ After being requested, a PWM has to be configured using::
+ This API controls both the PWM period/duty_cycle config and the
+ enable/disable state.
+ 
++PWM devices can be used from atomic context, if the PWM does not sleep. You
++can check if this the case with::
++
++        bool pwm_might_sleep(struct pwm_device *pwm);
++
++If false, the PWM can also be configured from atomic context with::
++
++	int pwm_apply_atomic(struct pwm_device *pwm, struct pwm_state *state);
++
+ As a consumer, don't rely on the output's state for a disabled PWM. If it's
+ easily possible, drivers are supposed to emit the inactive state, but some
+ drivers cannot. If you rely on getting the inactive state, use .duty_cycle=0,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c584805952209..5342cf32d73ff 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17576,7 +17576,7 @@ F:	drivers/video/backlight/pwm_bl.c
+ F:	include/dt-bindings/pwm/
+ F:	include/linux/pwm.h
+ F:	include/linux/pwm_backlight.h
+-K:	pwm_(config|apply_might_sleep|ops)
++K:	pwm_(config|apply_might_sleep|apply_atomic|ops)
+ 
+ PXA GPIO DRIVER
+ M:	Robert Jarzmik <robert.jarzmik@free.fr>
+diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+index c2d78136625d5..30c0623dbd5ba 100644
+--- a/drivers/pwm/core.c
++++ b/drivers/pwm/core.c
+@@ -433,24 +433,15 @@ static void pwm_apply_debug(struct pwm_device *pwm,
+ }
+ 
+ /**
+- * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
++ * pwm_apply_unchecked() - atomically apply a new state to a PWM device
+  * @pwm: PWM device
+  * @state: new state to apply
+  */
+-int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
++static int pwm_apply_unchecked(struct pwm_device *pwm, const struct pwm_state *state)
+ {
+ 	struct pwm_chip *chip;
+ 	int err;
+ 
+-	/*
+-	 * Some lowlevel driver's implementations of .apply() make use of
+-	 * mutexes, also with some drivers only returning when the new
+-	 * configuration is active calling pwm_apply_might_sleep() from atomic context
+-	 * is a bad idea. So make it explicit that calling this function might
+-	 * sleep.
+-	 */
+-	might_sleep();
+-
+ 	if (!pwm || !state || !state->period ||
+ 	    state->duty_cycle > state->period)
+ 		return -EINVAL;
+@@ -471,16 +462,66 @@ int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
+ 
+ 	pwm->state = *state;
+ 
++	return 0;
++}
++
++/**
++ * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
++ * Cannot be used in atomic context.
++ * @pwm: PWM device
++ * @state: new state to apply
++ */
++int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
++{
++	int err;
++
++	/*
++	 * Some lowlevel driver's implementations of .apply() make use of
++	 * mutexes, also with some drivers only returning when the new
++	 * configuration is active calling pwm_apply_might_sleep() from atomic context
++	 * is a bad idea. So make it explicit that calling this function might
++	 * sleep.
++	 */
++	might_sleep();
++
++	if (IS_ENABLED(CONFIG_PWM_DEBUG) && pwm->chip->atomic) {
++		/*
++		 * Catch any drivers that have been marked as atomic but
++		 * that will sleep anyway.
++		 */
++		non_block_start();
++		err = pwm_apply_unchecked(pwm, state);
++		non_block_end();
++	} else {
++		err = pwm_apply_unchecked(pwm, state);
++	}
++
+ 	/*
+ 	 * only do this after pwm->state was applied as some
+ 	 * implementations of .get_state depend on this
+ 	 */
+-	pwm_apply_debug(pwm, state);
++	if (!err)
++		pwm_apply_debug(pwm, state);
+ 
+-	return 0;
++	return err;
+ }
+ EXPORT_SYMBOL_GPL(pwm_apply_might_sleep);
+ 
++/**
++ * pwm_apply_atomic() - apply a new state to a PWM device from atomic context
++ * Not all PWM devices support this function, check with pwm_might_sleep().
++ * @pwm: PWM device
++ * @state: new state to apply
++ */
++int pwm_apply_atomic(struct pwm_device *pwm, const struct pwm_state *state)
++{
++	WARN_ONCE(!pwm->chip->atomic,
++		  "sleeping PWM driver used in atomic context\n");
++
++	return pwm_apply_unchecked(pwm, state);
++}
++EXPORT_SYMBOL_GPL(pwm_apply_atomic);
++
+ /**
+  * pwm_capture() - capture and report a PWM signal
+  * @pwm: PWM device
+diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+index c9cb87b59ac80..495af3627939c 100644
+--- a/include/linux/pwm.h
++++ b/include/linux/pwm.h
+@@ -285,6 +285,7 @@ struct pwm_ops {
+  * @npwm: number of PWMs controlled by this chip
+  * @of_xlate: request a PWM device given a device tree PWM specifier
+  * @of_pwm_n_cells: number of cells expected in the device tree PWM specifier
++ * @atomic: can the driver's ->apply() be called in atomic context
+  * @pwms: array of PWM devices allocated by the framework
+  */
+ struct pwm_chip {
+@@ -297,6 +298,7 @@ struct pwm_chip {
+ 	struct pwm_device * (*of_xlate)(struct pwm_chip *chip,
+ 					const struct of_phandle_args *args);
+ 	unsigned int of_pwm_n_cells;
++	bool atomic;
+ 
+ 	/* only used internally by the PWM framework */
+ 	struct pwm_device *pwms;
+@@ -305,6 +307,7 @@ struct pwm_chip {
+ #if IS_ENABLED(CONFIG_PWM)
+ /* PWM user APIs */
+ int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state);
++int pwm_apply_atomic(struct pwm_device *pwm, const struct pwm_state *state);
+ int pwm_adjust_config(struct pwm_device *pwm);
+ 
+ /**
+@@ -375,6 +378,17 @@ static inline void pwm_disable(struct pwm_device *pwm)
+ 	pwm_apply_might_sleep(pwm, &state);
+ }
+ 
++/**
++ * pwm_might_sleep() - is pwm_apply_atomic() supported?
++ * @pwm: PWM device
++ *
++ * Returns: false if pwm_apply_atomic() can be called from atomic context.
++ */
++static inline bool pwm_might_sleep(struct pwm_device *pwm)
++{
++	return !pwm->chip->atomic;
++}
++
+ /* PWM provider APIs */
+ int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
+ 		unsigned long timeout);
+@@ -403,6 +417,11 @@ struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
+ 				       struct fwnode_handle *fwnode,
+ 				       const char *con_id);
+ #else
++static inline bool pwm_might_sleep(struct pwm_device *pwm)
++{
++	return true;
++}
++
+ static inline int pwm_apply_might_sleep(struct pwm_device *pwm,
+ 					const struct pwm_state *state)
+ {
+@@ -410,6 +429,12 @@ static inline int pwm_apply_might_sleep(struct pwm_device *pwm,
+ 	return -EOPNOTSUPP;
+ }
+ 
++static inline int pwm_apply_atomic(struct pwm_device *pwm,
++				   const struct pwm_state *state)
++{
++	return -EOPNOTSUPP;
++}
++
+ static inline int pwm_adjust_config(struct pwm_device *pwm)
+ {
+ 	return -EOPNOTSUPP;
+-- 
+2.43.0
+
