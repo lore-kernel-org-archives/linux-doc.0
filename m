@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7047765C;
-	Tue, 12 Dec 2023 16:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D365D494;
+	Tue, 12 Dec 2023 16:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ExMUzt3O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31FDC433C9;
-	Tue, 12 Dec 2023 16:11:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jqdFB2Bx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A822DC433C7;
+	Tue, 12 Dec 2023 16:13:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702397492;
-	bh=V+2nKPrBuelC02/BekW0VYkuAWOX+IxzSFJnsB1wVcc=;
+	s=k20201202; t=1702397635;
+	bh=3ZttEBbv0RMCRuUMpKRrIA7ITU+bYmAnlLTWgVGcR+o=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ExMUzt3Owe8bqwyjpoDGLeVYc9rOlo4hO4B/1nqcJ6e4jrMylBZBUjXBtsGXr2amC
-	 lmwraX2yRdyvUF+7mEu9H8408FZ2e73gynqzNARoolNUgvIrw07Q4SSyoLGzQjd2vk
-	 jXT3tNIxQ0ek1G7DovoCqN7gLHXVcJs4kKcRf9mn3toQAnn6jZ278SSOVCmtCL31u2
-	 +DeNFSI6W4GzK7a5xemMyiH+X4/Q4ByrmJgXJ3ZwSkNsX5dZQYsk6DsqvsCOCNo31W
-	 VHcvqvbCsW6JkMDmQ5aHQ/u2fJXXdfQ0ClsLFaALX6SaZ452Js9X/w2e0aNhwEVtmY
-	 3yU9ZFqFNeFOQ==
-Date: Tue, 12 Dec 2023 08:11:30 -0800
+	b=jqdFB2BxPleWbQ6sVBGDbfg8a16QAXyRdPIP939H5tOz608h8JKCxkWTGpuo6L6LG
+	 hm0O5N3sdS79UzxUQ5JjEbDoBU/dZrkTLa8vZzdryGlf1YCBBeqSwAxP7VvFqQFmMT
+	 0tOBWZLdcTwi696c+9OzcIyaCyar9nDQTzj6PKdWTz7cIEMdhdoRSbBNZUcTmfZm+E
+	 TEepu8ST/FYTzd1K3PR5zEwsCipW5IzdNUCwc44igBd4aqs8X3j3xayMbSedQdO3Rm
+	 EAOAEAPn1YyGVUaW7ITQoA2z1KfQ1+iHRMDUhCBPLp+KjFFiRDaeeCm2b80euehviJ
+	 v6EI5wOiO5oPg==
+Date: Tue, 12 Dec 2023 08:13:53 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Donald Hunter <donald.hunter@gmail.com>
 Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
  Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
  Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
- <jacob.e.keller@intel.com>, donald.hunter@redhat.com, Breno Leitao
- <leitao@debian.org>
-Subject: Re: [PATCH net-next v2 01/11] tools/net/ynl-gen-rst: Use bullet
- lists for attribute-set entries
-Message-ID: <20231212081130.6d5beb88@kernel.org>
-In-Reply-To: <m2h6kn8xux.fsf@gmail.com>
+ <jacob.e.keller@intel.com>, donald.hunter@redhat.com, leitao@debian.org
+Subject: Re: [PATCH net-next v2 02/11] tools/net/ynl-gen-rst: Sort the index
+ of generated netlink specs
+Message-ID: <20231212081353.45177018@kernel.org>
+In-Reply-To: <m2cyvb8xq4.fsf@gmail.com>
 References: <20231211164039.83034-1-donald.hunter@gmail.com>
-	<20231211164039.83034-2-donald.hunter@gmail.com>
-	<20231211152806.42a5323b@kernel.org>
-	<m2h6kn8xux.fsf@gmail.com>
+	<20231211164039.83034-3-donald.hunter@gmail.com>
+	<20231211153000.44421adf@kernel.org>
+	<m2cyvb8xq4.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,23 +41,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 12 Dec 2023 11:27:18 +0000 Donald Hunter wrote:
-> Okay, then I think we need to try and improve the formatting. Currently
-> h3 and h4 both have font-size: 130% and the attribute headings get
-> rendered in bold so they stand out more than the attribute-set headings
-> they are under. I suggest:
+On Tue, 12 Dec 2023 11:30:11 +0000 Donald Hunter wrote:
+> Jakub Kicinski <kuba@kernel.org> writes:
+> > On Mon, 11 Dec 2023 16:40:30 +0000 Donald Hunter wrote:  
+> >> The index of netlink specs was being generated unsorted. Sort the output
+> >> before generating the index entries.
+> >> 
+> >> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>  
+> >
+> > Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+> >
+> > Please do CC Breno on tools/net/ynl/ynl-gen-rst.py changes.
+> > https://lore.kernel.org/all/20231211164039.83034-3-donald.hunter@gmail.com/  
 > 
->  - Removing the bold markup from the attribute headings
->  - Changing h4 to font-size: 110% in sphinx-static/custom.css
+> Ack, will do.
+> 
+> Is there a streamlined way to apply output from get_maintainer.pl to
+> individual patches in a series, or do I just add specific names by hand?
 
-SG, but probably as a separate change directed at linux-doc tree?
-
-> That improves things a bit but I feel that the attribute-set headings
-> still get a bit lost. Not sure if there is anything we can do about
-> that. The devlink spec is a fairly extreme example because it has a lot
-> of subset definitions that look especially bleak.
-
-Right.. nobody bothers documenting in the old families.
-netdev is probably the example to look at when deciding on what looks
-okay, hopefully it's closer to what new/documented families would look
-like.
+Some people have a CC command as a git send-email hook.
+Others have scripts to insert CCs into the commits themselves.
+I think there was an attempt to add a relevant code to scripts/
+but I think it was rejected. You gotta look around :(
