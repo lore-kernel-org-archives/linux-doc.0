@@ -1,113 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCB863C0A;
-	Tue, 12 Dec 2023 20:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QK3xwh7/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C190EC433C7;
-	Tue, 12 Dec 2023 20:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702412785;
-	bh=ITS9iepxKmDBteakc9JcBmcwe4qkWaGAUfkgjLJxKz8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QK3xwh7/RovgLawsgEE27tFvsEmWXv9zo7z8pvLyL07K+1LB60nrenIjCvuljOe6O
-	 41c/d6u9DpvjRjFbkGD3P7jmXStQB53cqmZKdEcnFfWLpGUOCj6vXd8lnyrF285YBk
-	 lVETctoAeX57YmnxNLRbavEXKvRsDBaDhwBiBYye6h5MN+tCnF67DNpZdysaYny5kM
-	 t6INZGptEmFHhK3ZOTufikrTYp0MGbYMADqUFNtympWn8LwrjrDYUNKzFAW2JmdTUH
-	 jSwlGihfJo7Y1K458B8sp76wN0x2qFUaS7cUbWtzteUthuknj5NGIFYj3sBiBRZ0Ms
-	 PcHfkNUJGI2Qg==
-Date: Tue, 12 Dec 2023 20:26:15 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "corbet@lwn.net" <corbet@lwn.net>, "ardb@kernel.org" <ardb@kernel.org>,
-	"maz@kernel.org" <maz@kernel.org>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"oleg@redhat.com" <oleg@redhat.com>,
-	"arnd@arndb.de" <arnd@arndb.de>,
-	"ebiederm@xmission.com" <ebiederm@xmission.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"thiago.bauermann@linaro.org" <thiago.bauermann@linaro.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH v7 02/39] prctl: arch-agnostic prctl for shadow stack
-Message-ID: <28c584ff-ef25-464f-852c-c5ddf66e5906@sirena.org.uk>
-References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
- <20231122-arm64-gcs-v7-2-201c483bd775@kernel.org>
- <e1362732ba86990b7707d3f5b785358b77c5f896.camel@intel.com>
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5926BC;
+	Tue, 12 Dec 2023 12:39:41 -0800 (PST)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a1f5cb80a91so665107566b.3;
+        Tue, 12 Dec 2023 12:39:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702413580; x=1703018380;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Go6fvDPmFCdEym2r9IELET0hUv2nxIIQ4R4i+BuwgG0=;
+        b=aTGu9S7ZOTASvwv1kuy2O9ExDx3sDHggfoqgi9O+vwb4s9r9M3bT/6aOONoulBUpdm
+         O5zK2G85fCE8Uqhu0hTfwgCRZrETmVnhPNHVmiofILn4rHUIQeXQ18VxYYh/Mcyg966E
+         yPUBcphMRM7OTCh0HPX6IvX2i5vLVtlkS+fnnlGO4FG459iyXoox+HPYevDjxaiLHdQE
+         vFdblyydPFTM4lwjgcZ7Oe+k3fjNlI5AKFRxII+Ewt4JJsLjt7hbn107qu9z6qnyEeZj
+         RctyVcrDKiBMvtVXRKrwmEA9mHSDyUa48uJF1hronoTfhdHr6xQu9If7CJ2oZN5A88XB
+         AtHA==
+X-Gm-Message-State: AOJu0Yz8od6EOf9gHpTN6gIiUq8AfyJekAJ28CGcFnemKeoHMs+5hHJ3
+	9vZ8913NylrPyzO0vexWQwM=
+X-Google-Smtp-Source: AGHT+IE2kJyLwALQrYrxatA2e5XPjGxAzOJyuIz/sUEcYn9PsHck8cNEBndbF6mmhjVn57sXFAPGeQ==
+X-Received: by 2002:a17:907:d15:b0:a1a:582d:f0e9 with SMTP id gn21-20020a1709070d1500b00a1a582df0e9mr2583209ejc.73.1702413580017;
+        Tue, 12 Dec 2023 12:39:40 -0800 (PST)
+Received: from gmail.com (fwdproxy-cln-025.fbsv.net. [2a03:2880:31ff:19::face:b00c])
+        by smtp.gmail.com with ESMTPSA id rf22-20020a1709076a1600b00a1d0b15f634sm6673271ejc.76.2023.12.12.12.39.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 12:39:39 -0800 (PST)
+Date: Tue, 12 Dec 2023 12:39:35 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	Jacob Keller <jacob.e.keller@intel.com>, donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v2 03/11] doc/netlink: Regenerate netlink .rst
+ files if ynl-gen-rst changes
+Message-ID: <ZXjFB90lpIQqbFtE@gmail.com>
+References: <20231211164039.83034-1-donald.hunter@gmail.com>
+ <20231211164039.83034-4-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LPMEijolhyLOy67U"
-Content-Disposition: inline
-In-Reply-To: <e1362732ba86990b7707d3f5b785358b77c5f896.camel@intel.com>
-X-Cookie: If rash develops, discontinue use.
-
-
---LPMEijolhyLOy67U
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231211164039.83034-4-donald.hunter@gmail.com>
 
-On Tue, Dec 12, 2023 at 08:17:09PM +0000, Edgecombe, Rick P wrote:
-> On Wed, 2023-11-22 at 09:42 +0000, Mark Brown wrote:
+On Mon, Dec 11, 2023 at 04:40:31PM +0000, Donald Hunter wrote:
+> Add ynl-gen-rst.py to the dependencies for the netlink .rst files in the
+> doc Makefile so that the docs get regenerated if the ynl-gen-rst.py
+> script is modified.
+> 
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+>  Documentation/Makefile | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 5c156fbb6cdf..9a31625ea1ff 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -105,11 +105,12 @@ YNL_TOOL:=$(srctree)/tools/net/ynl/ynl-gen-rst.py
+>  YNL_RST_FILES_TMP := $(patsubst %.yaml,%.rst,$(wildcard $(YNL_YAML_DIR)/*.yaml))
+>  YNL_RST_FILES := $(patsubst $(YNL_YAML_DIR)%,$(YNL_RST_DIR)%, $(YNL_RST_FILES_TMP))
+>  
+> -$(YNL_INDEX): $(YNL_RST_FILES)
+> +$(YNL_INDEX): $(YNL_RST_FILES) $(YNL_TOOL)
+>  	@$(YNL_TOOL) -o $@ -x
+>  
+> -$(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml
+> -	@$(YNL_TOOL) -i $< -o $@
 
-> > These features are expected to be inherited by new threads and
-> > cleared
-> > on exec(), unknown features should be rejected for enable but
-> > accepted
-> > for locking (in order to allow for future proofing).
+> +$(YNL_RST_DIR)/%.rst: $(YNL_TOOL)
+> +$(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
+> +	$(YNL_TOOL) -i $< -o $@
 
-> The reason why I stuck with arch_prctl when this came up is that CRIU
-> (and probably other ptracers) needs a way to unlock via ptrace. ptrace
-> arch_prctl() can do this. Did you have a plan for unlocking via ptrace?
+Why do you need both lines here? Isn't the last line enough?
 
-The set of locked features is read/write via ptrace in my arm64 series,
-that's architecture specific unfortunately but that seems to be the way
-with ptrace.
-
-In general if things have a need to get at prctl()s via ptrace we should
-just fix that, at least for arm64 there's things like the vector lengths
-that are currently controlled via prctl(), but it shouldn't be a blocker
-for the locking specifically.
-
---LPMEijolhyLOy67U
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV4weYACgkQJNaLcl1U
-h9BRvwf/S9so8PzoqYCQJHpoRcvkwkq4+soyG3JSVYBAX+IsKPFGhH92O4Zp5DZJ
-aASTrqwmW/PsW8TX8LOC1w1a2OadrpSIa4r8kxsWZWdzkg6OHWcZ/XlhGe4a1yMF
-kUw36Z5PIqQRf02YHLYdelHq6/xswjma9YcOb5iVB0TZAL5mQw/2CHXr4ahGlAFr
-Pj4wVYIkXRohUP6gR04RuD61bfD4WIFneYjIjzPYYYo9yxWSiiOrpO/MD1Jb7bQe
-BaUHpGEsUZysAGRWxVvg+6v85VbHn/PYX8xT5xk9AmfYP8KM8HaClCKtzVBg//10
-a9fZcXajnHu4O2S5h6Jsn5IYnbwpcg==
-=ln+K
------END PGP SIGNATURE-----
-
---LPMEijolhyLOy67U--
+	$(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
