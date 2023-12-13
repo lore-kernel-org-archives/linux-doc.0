@@ -1,120 +1,119 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="IUo7/JGk"
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D398812F
-	for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 03:33:22 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40c1e8458b9so11300485e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 03:33:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702467201; x=1703072001; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OT3PabJ+SN8OyyxUlhRHLBK2j0fBOpZosf39djft3/Y=;
-        b=IUo7/JGkBETfO8Q9lydWp0aYgF9OQQ17gd2BRelk3R0jbu0S/T0iSw+u/L/iGTEZKV
-         bbOn0pe/QxzsGeLHYBbjklqbhxYk8hM4QBmJZFXG+bXyXcyIVcF279xvQctN7pwBaiLH
-         NndsjHrUsEnWMfq2VRwarQ2LFGgnKkWFKZVGQxz6svm6U9S2XScu2AHnUUEeo/g+b/JE
-         RNk4ub/5x06qa8CV6FHZJoTEgnarsV4dRHYV2MjcqqbNEkZ6CSXE3KXyETrPsY6W3y3N
-         7wQ8EeP75RriRnCUAXMMdr509/lpotQ1ugHOEB5/kdlHBK3Z/ceJdpNU8//cuFHH9X/m
-         7oKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702467201; x=1703072001;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OT3PabJ+SN8OyyxUlhRHLBK2j0fBOpZosf39djft3/Y=;
-        b=OAW4Tqq4K23n7Te2pMc+yZcpMm6u0nXLFkyTng1TLOqbYg80P+8l9fX6z8HrUzHEAe
-         69gx/vReZSlJX1rTIVIZMHNYmGhgMj/4GBybiVemndJ0D57ae4iOPkFohqsxl2m4wl+j
-         P7Kll8zoGfFmHZuYhK6bmMt86QV2Yp84OLmtvyiimW3uHp9P5OMtlI+P+QeTppkA6Yig
-         KPVOeNEFmvmVQd6QSOUcN3lbfoTVD4lD6M/yVdvKa1DUfImfbxJ/PHc/IXHZU4Cy5Hbz
-         XBmgq6RmTbJgOpHp6uEr9CDcySBCktImMWkumExhtwfsc1luTtmViMWMI3EpozpFjzVD
-         pj4g==
-X-Gm-Message-State: AOJu0YwLlrU2E70Fw2QkQq83EwV0Ycd5LwlOqCg/1neMzH6LwharH3Wz
-	IRIYbXeCfZTBsFvta8Wi5P07VcaY66OVutY61oM=
-X-Google-Smtp-Source: AGHT+IH9GmoMwESHe8vAwJ7aLTEGq8Q2sisRnckD+tr/gJXlhQQcanfZ3+mQWdFY8OH3kjBBZTEQBA==
-X-Received: by 2002:a05:600c:35d6:b0:40c:b81:c640 with SMTP id r22-20020a05600c35d600b0040c0b81c640mr9664241wmq.0.1702467200958;
-        Wed, 13 Dec 2023 03:33:20 -0800 (PST)
-Received: from carbon-x1.. ([2a01:e0a:999:a3a0:c564:f167:d072:5672])
-        by smtp.gmail.com with ESMTPSA id m27-20020a05600c3b1b00b0040b38292253sm22433137wms.30.2023.12.13.03.33.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 03:33:20 -0800 (PST)
-From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
-To: linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QDOsAyXQ"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 867F3170A;
+	Wed, 13 Dec 2023 03:33:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702467237; x=1734003237;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dL6Em6F9/TJ8e69UFYykBz6xgC2V73mBvEEwVDeutqU=;
+  b=QDOsAyXQ5Xej77dKJp6uRLZZ4kqFCiXuTMkb6VT96UrH6Si8sMVRzovg
+   gIPp6KADgdAcDNsepmRjx2fta57shXwW4VtJthCJ0o2bV7/k+mpDMvu2v
+   llxHVJKJgt1PQoSq8mHH5y4WRc3j5IQbm0Awxqs23YuCuyqV5glqMAPOZ
+   OBfRHuhRmlfoyYMoinXNTrcZMX78S663WBIm3yUh7suNcmTRPI1f9NktC
+   Uc6M2dolekvYV40UCkYiqer8e1j31GBrgpTvxymM/5mEoc7mUkPHfXLbK
+   jf5zlmlHTIJ4xoXWP9jwlwcKrvFRgwrl2V5KzwO4lxQDMu0S3+38YJyF1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394702323"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="394702323"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 03:33:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897302957"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="897302957"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 13 Dec 2023 03:33:04 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDNU5-000KUJ-2l;
+	Wed, 13 Dec 2023 11:33:01 +0000
+Date: Wed, 13 Dec 2023 19:32:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	linux-mm@kvack.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, x86@kernel.org,
+	Eric Biederman <ebiederm@xmission.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Robbin Ehn <rehn@rivosinc.com>
-Subject: [PATCH 8/9] riscv: hwprobe: export Zacas ISA extension
-Date: Wed, 13 Dec 2023 12:33:04 +0100
-Message-ID: <20231213113308.133176-9-cleger@rivosinc.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231213113308.133176-1-cleger@rivosinc.com>
-References: <20231213113308.133176-1-cleger@rivosinc.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	James Gowans <jgowans@amazon.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [PATCH 02/15] memblock: Declare scratch memory as CMA
+Message-ID: <202312131930.gMiphjju-lkp@intel.com>
+References: <20231213000452.88295-3-graf@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231213000452.88295-3-graf@amazon.com>
 
-Export Zacas ISA extension through hwprobe.
+Hi Alexander,
 
-Signed-off-by: Clément Léger <cleger@rivosinc.com>
----
- Documentation/arch/riscv/hwprobe.rst  | 4 ++++
- arch/riscv/include/uapi/asm/hwprobe.h | 1 +
- arch/riscv/kernel/sys_riscv.c         | 1 +
- 3 files changed, 6 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 9b19ca3433de..510e49878834 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -168,6 +168,10 @@ The following keys are defined:
-   * :c:macro:`RISCV_HWPROBE_EXT_ZAM`: The Zam extension v0.1 is supported as
-        defined in the RISC-V ISA manual.
- 
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZACAS`: The Zacas extension is supported as
-+       defined in the Atomic Compare-and-Swap (CAS) instructions manual starting
-+       from commit 5059e0ca641c ("update to ratified").
-+
- * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
-   information about the selected set of processors.
- 
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 2350c45741a6..7ec4331122e7 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -58,6 +58,7 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_EXT_ZFA		(1ULL << 32)
- #define		RISCV_HWPROBE_EXT_ZTSO		(1ULL << 33)
- #define		RISCV_HWPROBE_EXT_ZAM		(1ULL << 34)
-+#define		RISCV_HWPROBE_EXT_ZACAS		(1ULL << 35)
- #define RISCV_HWPROBE_KEY_CPUPERF_0	5
- #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
- #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
-index a8473d7f9d1e..abb0eea3ee08 100644
---- a/arch/riscv/kernel/sys_riscv.c
-+++ b/arch/riscv/kernel/sys_riscv.c
-@@ -176,6 +176,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
- 		EXT_KEY(ZIHINTNTL);
- 		EXT_KEY(ZTSO);
- 		EXT_KEY(ZAM);
-+		EXT_KEY(ZACAS);
- 
- 		if (has_vector()) {
- 			EXT_KEY(ZVBB);
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on arm64/for-next/core akpm-mm/mm-everything linus/master v6.7-rc5 next-20231213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20231213-080941
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20231213000452.88295-3-graf%40amazon.com
+patch subject: [PATCH 02/15] memblock: Declare scratch memory as CMA
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20231213/202312131930.gMiphjju-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312131930.gMiphjju-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312131930.gMiphjju-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/memblock.c:2153:13: warning: 'reserve_scratch_mem' defined but not used [-Wunused-function]
+    2153 | static void reserve_scratch_mem(phys_addr_t start, phys_addr_t end)
+         |             ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/reserve_scratch_mem +2153 mm/memblock.c
+
+  2152	
+> 2153	static void reserve_scratch_mem(phys_addr_t start, phys_addr_t end)
+  2154	{
+  2155	#ifdef CONFIG_MEMBLOCK_SCRATCH
+  2156		ulong start_pfn = pageblock_start_pfn(PFN_DOWN(start));
+  2157		ulong end_pfn = pageblock_align(PFN_UP(end));
+  2158		ulong pfn;
+  2159	
+  2160		for (pfn = start_pfn; pfn < end_pfn; pfn += pageblock_nr_pages) {
+  2161			/* Mark as CMA to prevent kernel allocations in it */
+  2162			set_pageblock_migratetype(pfn_to_page(pfn), MIGRATE_CMA);
+  2163		}
+  2164	#endif
+  2165	}
+  2166	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
