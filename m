@@ -1,99 +1,98 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IH//JhBd"
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA3DA0;
-	Wed, 13 Dec 2023 03:26:24 -0800 (PST)
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3ba084395d9so2294423b6e.0;
-        Wed, 13 Dec 2023 03:26:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="OSKnrqJg"
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72BE3E8
+	for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 03:33:14 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2c9ebc04891so16179121fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 03:33:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702466783; x=1703071583; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b6ML0ly7w4x3IcoxK6kKjw4POy/vTf1Q0LT5CXiDqvM=;
-        b=IH//JhBdgRqdfY9I3lnEL/mpDeljFyAb3Ttu21XNs7Jp6CnLeUxaF7Kp5rFHBO/nfd
-         nVOz5P9TmZ7DQ5Vqe/cLX1juswq12yp0AZBPnsVExEftRgZyu6/0trn7meacsAHE92aL
-         zLnbwFzIJCf6th8eSmp9YsUVsZBzWl27eWmjdZ+CIYLnS7r4V8EY6R/HBH8khn2wlxcz
-         VgNAeQNuh5QebJG5vIsIQMO353pXexk8W1f84iRR7QoAkEtHjQ4T0eUIG6aCEFy8uWt4
-         G8af6M6JsIZetcyqmmIxzyhg2rqDaiqhTNVzDK6K1nLY+zWbMhYX3gId1XLensb3mdf2
-         OVeg==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702467192; x=1703071992; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Atjvu7OpzxGHnkPKQqqXLCnjWBuSkCnCszNZgaSB4s=;
+        b=OSKnrqJgH19YrIIAPWS75xo34p2ioAIwMXE+I1DXvozttVQeL0NALcKpVnB1nsEAQc
+         7HOQLQu5x2l0H645yjf3zWYf1bLCKZwY//8v2Yky7K+SkS0RvaUhljcyjxxTz0jVBfAT
+         bJAW1caZFxTy+XcJaAYxoUyuw4QAkNTFokCZCS0DphgUTKVcdgvv/jh9ENWpgfvyRRXB
+         5mfic6L9olBpaI8mropePCVLkiryylGnlIbdwrzubn9iCKFpXLybpkVsUtq4ADOyECyh
+         BeMkLluuxBtss233mxpLUiIgQGmbZgisugGpVNISjYAPzEVOlam0+eVGyuE8ctTfOQcm
+         PRUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702466783; x=1703071583;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b6ML0ly7w4x3IcoxK6kKjw4POy/vTf1Q0LT5CXiDqvM=;
-        b=d9OyipFIh9PfBTIJnSseVfB+azaZBpU3fUtaRQEQ1yL2GvJ4AevI/EoI/7j8lw8guM
-         vB/uxCR4C6jcykcKKGGAgUXGHBxFpDkpMW2bWEoCJLLGsW7pWPGm9f2BHWByYOa7EySU
-         yI7JqH1Ia/dguaOAF3+CwNJqRxZ0o5VF9kh3lPAofrflXcXFaUBHQf2U8ktl8ZkPs5d/
-         yLK8Wd9Dhj/gqp4kF+7QOI0hozAPZTSk/cuxJ2UOV+lVH5JgQ7YVzBuNkxMKRFbMZZjO
-         ws30RZUSXma/QAcp3syhanUjSOZxgA8rnlSKtraUzvB+Y9rS9Pff+afZCjyT54cjt7+k
-         NQ8w==
-X-Gm-Message-State: AOJu0Ywo6blPXjlneHSAN0D1cu2ZQRWRkw6XNRdvTfCCKZCjd2AZv0SO
-	UO+IJnB4mTGdrA67ZsK/2I0SP8UYUEpdE3ev2KdI3WUO
-X-Google-Smtp-Source: AGHT+IEaX11OTz0PCl0brrfMbyk5S8saff5GltHyoHeUTrANuR99mSVO+FzUpxPlSl3VjznPDUKMUyp1kSqueHc6IVw=
-X-Received: by 2002:a05:6808:2082:b0:3b9:caf1:96bb with SMTP id
- s2-20020a056808208200b003b9caf196bbmr10151690oiw.52.1702466782600; Wed, 13
- Dec 2023 03:26:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702467192; x=1703071992;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1Atjvu7OpzxGHnkPKQqqXLCnjWBuSkCnCszNZgaSB4s=;
+        b=eB3fhO8k3h5r9qPIxTjOIn72eEtLOh6r/vo5t97RUYiQu+sC/Z2TD3DP26NCM4Ymim
+         HwRy31JMMH1dtCHg0/gjLyBxKXLIDWXSt/J0PXwjVmxyi6+jNnch59C2uPWTLSH9g12Q
+         /5l2CJVTgEDFhooJRLfFZOLnvSn8FhNSxAw2HhiCgTH+yTGju1cl6rI1aUs8aF05ZJEq
+         Kcs82IaaqsccSKyng85x56B/pjhFjD+TT34k3rrtnVpdecSbWEZIMhad1zvW+n1qFEv+
+         5Qyi8Ac0lRPmsQFRTQGGzurL1v9ZwrxogoPYx50sIiOInDDgV589bcZiXpbpX5gU82l8
+         MiLw==
+X-Gm-Message-State: AOJu0YxmJGMSrlUrcQj5qTPpjGkXH0AHTQXJbqQ9N7p0laFw2tOGRlGE
+	g7/W48kPQCsRaGkl4iqFtVyH9pHqIi3/xsT4EDw=
+X-Google-Smtp-Source: AGHT+IF28n7Q47rA9vhQP7ckQSu28DeDIVuzSbICtoXTbPIgLDR3icG5MBbRpeB8E8SvlKm6RVJPvA==
+X-Received: by 2002:a05:651c:211e:b0:2c9:e7cb:fe8e with SMTP id a30-20020a05651c211e00b002c9e7cbfe8emr8509940ljq.2.1702467191993;
+        Wed, 13 Dec 2023 03:33:11 -0800 (PST)
+Received: from carbon-x1.. ([2a01:e0a:999:a3a0:c564:f167:d072:5672])
+        by smtp.gmail.com with ESMTPSA id m27-20020a05600c3b1b00b0040b38292253sm22433137wms.30.2023.12.13.03.33.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 03:33:11 -0800 (PST)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Robbin Ehn <rehn@rivosinc.com>
+Subject: [PATCH 0/9] riscv: hwprobe: add Zicond, Zam, Zacas and Ztso support
+Date: Wed, 13 Dec 2023 12:32:56 +0100
+Message-ID: <20231213113308.133176-1-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231212073324.245541-1-amir73il@gmail.com> <20231212073324.245541-2-amir73il@gmail.com>
- <ZXk6eNa8n0n1Uerb@archie.me>
-In-Reply-To: <ZXk6eNa8n0n1Uerb@archie.me>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 13 Dec 2023 13:26:11 +0200
-Message-ID: <CAOQ4uxhxxvTUmyxMiPBOoDu8wFvGBx7PH4HU4bH66yt9RrNOAw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] overlayfs.rst: use consistent terminology
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, 
-	Linux unionfs <linux-unionfs@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 13, 2023 at 7:00=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
-> On Tue, Dec 12, 2023 at 09:33:23AM +0200, Amir Goldstein wrote:
-> > -1) "redirect_dir"
-> > +redirect_dir
-> > +````````````
-> >
-> >  Enabled with the mount option or module option: "redirect_dir=3Don" or=
- with
-> >  the kernel config option CONFIG_OVERLAY_FS_REDIRECT_DIR=3Dy.
-> > @@ -568,7 +569,8 @@ the kernel config option CONFIG_OVERLAY_FS_REDIRECT=
-_DIR=3Dy.
-> >  If this feature is disabled, then rename(2) on a lower or merged direc=
-tory
-> >  will fail with EXDEV ("Invalid cross-device link").
-> >
-> > -2) "inode index"
-> > +index
-> > +`````
-> >
-> >  Enabled with the mount option or module option "index=3Don" or with th=
-e
-> >  kernel config option CONFIG_OVERLAY_FS_INDEX=3Dy.
-> > @@ -577,7 +579,8 @@ If this feature is disabled and a file with multipl=
-e hard links is copied
-> >  up, then this will "break" the link.  Changes will not be propagated t=
-o
-> >  other names referring to the same inode.
-> >
-> > -3) "xino"
-> > +xino
-> > +````
->
-> Why is there section heading conversion above (not mentioned in the patch
-> description)?
+This series add support for a few more extensions that are present in
+the RVA22U64/RVA23U64 (either mandatory or optional) and that are useful
+for userspace:
+- Zicond
+- Zam
+- Zacas
+- Ztso
 
-Because it makes the document look nicer.
-I will add a note about it in the commit message.
+Series currently based on riscv/for-next.
 
-Thanks,
-Amir.
+Clément Léger (9):
+  riscv: add ISA extension parsing for Ztso
+  riscv: hwprobe: export Ztso ISA extension
+  dt-bindings: riscv: add Zam ISA extension description
+  riscv: add ISA extension parsing for Zam
+  riscv: hwprobe: export Zam ISA extension
+  dt-bindings: riscv: add Zacas ISA extension description
+  riscv: add ISA extension parsing for Zacas
+  riscv: hwprobe: export Zacas ISA extension
+  riscv: hwprobe: export Zicond extension
+
+ Documentation/arch/riscv/hwprobe.rst             | 16 ++++++++++++++++
+ .../devicetree/bindings/riscv/extensions.yaml    | 11 +++++++++++
+ arch/riscv/include/asm/hwcap.h                   |  3 +++
+ arch/riscv/include/uapi/asm/hwprobe.h            |  4 ++++
+ arch/riscv/kernel/cpufeature.c                   |  3 +++
+ arch/riscv/kernel/sys_riscv.c                    |  4 ++++
+ 6 files changed, 41 insertions(+)
+
+-- 
+2.43.0
+
