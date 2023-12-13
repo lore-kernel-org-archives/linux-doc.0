@@ -1,239 +1,127 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3582D042;
+	Wed, 13 Dec 2023 13:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="FTxlsm7n"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE0F198;
-	Wed, 13 Dec 2023 04:51:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=4ff4rMpb4e8+j2FVzHVtwCCPXNpYraqqrJVEXYQ7zus=; b=FTxlsm7nMbZ2auwIoWztzjGrLr
-	eJ/+UAL4mRlb+xzpeos7afUrQbA793swTrEBkQs15e6/U2pZQzuZK+w+1AHJpkI3HfUJGZEjFm/Kp
-	W9jVCjZgcW9jZXNT7d7yYBD6uXj3FP+JGLZOMl2DiqfJobHMrn+f2Rn1YL+OviAx4TvVtCo8v3NhG
-	ha0rLs1UNyB4oOrGfMvPk8nj7AxLUehHcXG4csWrXQ+KZWl07iCkmqKO7r4ZhGqDaej9rOshtXdE9
-	mIEiNCaE7QZ92nAimpN8JuMZiod0x/DZEKdfe4Kl4qSvzrc78tI8xR7PubiPehT6ssECE39vdnOjp
-	zzmnovvQ==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:33330 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1rDOhV-0008IF-1A;
-	Wed, 13 Dec 2023 12:50:57 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1rDOhX-00Dvlg-Ci; Wed, 13 Dec 2023 12:50:59 +0000
-In-Reply-To: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
-From: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-To: linux-pm@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	x86@kernel.org,
-	acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org,
-	linux-parisc@vger.kernel.org
-Cc: Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com,
-	justin.he@arm.com,
-	James Morse <james.morse@arm.com>
-Subject: [PATCH RFC v3 21/21] cpumask: Add enabled cpumask for present CPUs
- that can be brought online
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dU6A6nqf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FCFAC433C8;
+	Wed, 13 Dec 2023 13:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702474661;
+	bh=8D28zVA3/D34uSBC1WEJ8ykZpQrL4Gv4bA1SewGPSEQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dU6A6nqfPwdapBIE6N5MQX1pPgpiei2rY3w1Dun0KrZbDxbcB1dhzPyz1J2EGaTQj
+	 UPKZzVa039jVPJ33WfaTofzmcvZFSA/sLBnrGvxr16zaGokjdOl0SKR/ib2Xhd4pc3
+	 SeyCrYIvK1T7imXgRQXe3wDjMIqDoeMuXfobvB10h24nt3i0W5VNcMCs1A+EjSLVk5
+	 f5bcJfQFA0CN8h3S3SdylU7dYmBC9Cd6O+XAZDg7IVkEU8ruiejVfPviMrjE77eEXR
+	 A5aDJUCFKs/hXAy8O8flLE5igxpFsClxETJo/OA439A7sHSLT3d8ZylWdGK4KyBm0k
+	 t9qtTI5q/WF8g==
+Date: Wed, 13 Dec 2023 13:37:32 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v7 02/39] prctl: arch-agnostic prctl for shadow stack
+Message-ID: <0d0d8802-09e3-4ea5-a0b4-b3a08c8a282e@sirena.org.uk>
+References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
+ <20231122-arm64-gcs-v7-2-201c483bd775@kernel.org>
+ <CAKC1njSC5cC_fXnyNAPt=WU6cD-OjLKFxo90oVPmsLJbuWf4nw@mail.gmail.com>
+ <d708b493-267a-4418-be91-9bde6b2cf50c@sirena.org.uk>
+ <CAKC1njSQPO8ja7AkTzQ724hhSsGjchH9dLbbH9LXP0ZiKj-zPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jOCIbEw8Unb2aajd"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1rDOhX-00Dvlg-Ci@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Wed, 13 Dec 2023 12:50:59 +0000
+In-Reply-To: <CAKC1njSQPO8ja7AkTzQ724hhSsGjchH9dLbbH9LXP0ZiKj-zPQ@mail.gmail.com>
+X-Cookie: One size fits all.
 
-From: James Morse <james.morse@arm.com>
 
-The 'offline' file in sysfs shows all offline CPUs, including those
-that aren't present. User-space is expected to remove not-present CPUs
-from this list to learn which CPUs could be brought online.
+--jOCIbEw8Unb2aajd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-CPUs can be present but not-enabled. These CPUs can't be brought online
-until the firmware policy changes, which comes with an ACPI notification
-that will register the CPUs.
+On Tue, Dec 12, 2023 at 04:50:38PM -0800, Deepak Gupta wrote:
 
-With only the offline and present files, user-space is unable to
-determine which CPUs it can try to bring online. Add a new CPU mask
-that shows this based on all the registered CPUs.
+> A theoretical scenario (no current workloads should've this case
+> because no shadow stack)
 
-Signed-off-by: James Morse <james.morse@arm.com>
-Tested-by: Miguel Luis <miguel.luis@oracle.com>
-Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-Tested-by: Jianyong Wu <jianyong.wu@arm.com>
----
-Outstanding comment:
- https://lore.kernel.org/r/20230914175443.000038f6@Huawei.com
----
- drivers/base/cpu.c      | 10 ++++++++++
- include/linux/cpumask.h | 25 +++++++++++++++++++++++++
- kernel/cpu.c            |  3 +++
- 3 files changed, 38 insertions(+)
+> - User mode did _ENABLE on the main thread. Shadow stack was allocated
+> for the current
+>   thread.
+> - User mode created a bunch worker threads to run untrusted contained
+> code. They shadow
+>   stack too.
+> - main thread had to do dlopen and now need to disable shadow stack on
+> itself due to
+>   incompatibility of incoming object in address space.
+> - main thread controls worker threads and knows they're contained and
+> should still be running
+>   with a shadow stack. Although once in a while the main thread needs
+> to perform writes to a shadow
+>   stack of worker threads for some fixup (in the same addr space).
+> main thread doesn't want to delegate
+>   this responsibility of ss writes to worker threads because they're untrusted.
 
-diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-index 13d052bf13f4..a6e96a0a92b7 100644
---- a/drivers/base/cpu.c
-+++ b/drivers/base/cpu.c
-@@ -95,6 +95,7 @@ void unregister_cpu(struct cpu *cpu)
- {
- 	int logical_cpu = cpu->dev.id;
- 
-+	set_cpu_enabled(logical_cpu, false);
- 	unregister_cpu_under_node(logical_cpu, cpu_to_node(logical_cpu));
- 
- 	device_unregister(&cpu->dev);
-@@ -273,6 +274,13 @@ static ssize_t print_cpus_offline(struct device *dev,
- }
- static DEVICE_ATTR(offline, 0444, print_cpus_offline, NULL);
- 
-+static ssize_t print_cpus_enabled(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpu_enabled_mask));
-+}
-+static DEVICE_ATTR(enabled, 0444, print_cpus_enabled, NULL);
-+
- static ssize_t print_cpus_isolated(struct device *dev,
- 				  struct device_attribute *attr, char *buf)
- {
-@@ -413,6 +421,7 @@ int register_cpu(struct cpu *cpu, int num)
- 	register_cpu_under_node(num, cpu_to_node(num));
- 	dev_pm_qos_expose_latency_limit(&cpu->dev,
- 					PM_QOS_RESUME_LATENCY_NO_CONSTRAINT);
-+	set_cpu_enabled(num, true);
- 
- 	return 0;
- }
-@@ -494,6 +503,7 @@ static struct attribute *cpu_root_attrs[] = {
- 	&cpu_attrs[2].attr.attr,
- 	&dev_attr_kernel_max.attr,
- 	&dev_attr_offline.attr,
-+	&dev_attr_enabled.attr,
- 	&dev_attr_isolated.attr,
- #ifdef CONFIG_NO_HZ_FULL
- 	&dev_attr_nohz_full.attr,
-diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index cfb545841a2c..cc72a0887f04 100644
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -92,6 +92,7 @@ static inline void set_nr_cpu_ids(unsigned int nr)
-  *
-  *     cpu_possible_mask- has bit 'cpu' set iff cpu is populatable
-  *     cpu_present_mask - has bit 'cpu' set iff cpu is populated
-+ *     cpu_enabled_mask  - has bit 'cpu' set iff cpu can be brought online
-  *     cpu_online_mask  - has bit 'cpu' set iff cpu available to scheduler
-  *     cpu_active_mask  - has bit 'cpu' set iff cpu available to migration
-  *
-@@ -124,11 +125,13 @@ static inline void set_nr_cpu_ids(unsigned int nr)
- 
- extern struct cpumask __cpu_possible_mask;
- extern struct cpumask __cpu_online_mask;
-+extern struct cpumask __cpu_enabled_mask;
- extern struct cpumask __cpu_present_mask;
- extern struct cpumask __cpu_active_mask;
- extern struct cpumask __cpu_dying_mask;
- #define cpu_possible_mask ((const struct cpumask *)&__cpu_possible_mask)
- #define cpu_online_mask   ((const struct cpumask *)&__cpu_online_mask)
-+#define cpu_enabled_mask   ((const struct cpumask *)&__cpu_enabled_mask)
- #define cpu_present_mask  ((const struct cpumask *)&__cpu_present_mask)
- #define cpu_active_mask   ((const struct cpumask *)&__cpu_active_mask)
- #define cpu_dying_mask    ((const struct cpumask *)&__cpu_dying_mask)
-@@ -993,6 +996,7 @@ extern const DECLARE_BITMAP(cpu_all_bits, NR_CPUS);
- #else
- #define for_each_possible_cpu(cpu) for_each_cpu((cpu), cpu_possible_mask)
- #define for_each_online_cpu(cpu)   for_each_cpu((cpu), cpu_online_mask)
-+#define for_each_enabled_cpu(cpu)   for_each_cpu((cpu), cpu_enabled_mask)
- #define for_each_present_cpu(cpu)  for_each_cpu((cpu), cpu_present_mask)
- #endif
- 
-@@ -1015,6 +1019,15 @@ set_cpu_possible(unsigned int cpu, bool possible)
- 		cpumask_clear_cpu(cpu, &__cpu_possible_mask);
- }
- 
-+static inline void
-+set_cpu_enabled(unsigned int cpu, bool can_be_onlined)
-+{
-+	if (can_be_onlined)
-+		cpumask_set_cpu(cpu, &__cpu_enabled_mask);
-+	else
-+		cpumask_clear_cpu(cpu, &__cpu_enabled_mask);
-+}
-+
- static inline void
- set_cpu_present(unsigned int cpu, bool present)
- {
-@@ -1096,6 +1109,7 @@ static __always_inline unsigned int num_online_cpus(void)
- 	return raw_atomic_read(&__num_online_cpus);
- }
- #define num_possible_cpus()	cpumask_weight(cpu_possible_mask)
-+#define num_enabled_cpus()	cpumask_weight(cpu_enabled_mask)
- #define num_present_cpus()	cpumask_weight(cpu_present_mask)
- #define num_active_cpus()	cpumask_weight(cpu_active_mask)
- 
-@@ -1104,6 +1118,11 @@ static inline bool cpu_online(unsigned int cpu)
- 	return cpumask_test_cpu(cpu, cpu_online_mask);
- }
- 
-+static inline bool cpu_enabled(unsigned int cpu)
-+{
-+	return cpumask_test_cpu(cpu, cpu_enabled_mask);
-+}
-+
- static inline bool cpu_possible(unsigned int cpu)
- {
- 	return cpumask_test_cpu(cpu, cpu_possible_mask);
-@@ -1128,6 +1147,7 @@ static inline bool cpu_dying(unsigned int cpu)
- 
- #define num_online_cpus()	1U
- #define num_possible_cpus()	1U
-+#define num_enabled_cpus()	1U
- #define num_present_cpus()	1U
- #define num_active_cpus()	1U
- 
-@@ -1141,6 +1161,11 @@ static inline bool cpu_possible(unsigned int cpu)
- 	return cpu == 0;
- }
- 
-+static inline bool cpu_enabled(unsigned int cpu)
-+{
-+	return cpu == 0;
-+}
-+
- static inline bool cpu_present(unsigned int cpu)
- {
- 	return cpu == 0;
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index a86972a91991..fe0a5189f8ae 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -3122,6 +3122,9 @@ EXPORT_SYMBOL(__cpu_possible_mask);
- struct cpumask __cpu_online_mask __read_mostly;
- EXPORT_SYMBOL(__cpu_online_mask);
- 
-+struct cpumask __cpu_enabled_mask __read_mostly;
-+EXPORT_SYMBOL(__cpu_enabled_mask);
-+
- struct cpumask __cpu_present_mask __read_mostly;
- EXPORT_SYMBOL(__cpu_present_mask);
- 
--- 
-2.30.2
+> How will it do that (currently _ENABLE is married to _WRITE and _PUSH) ?
 
+That's feeling moderately firmly into "don't do that" territory to be
+honest, the problems of trying to modify the stack of another running
+thread while it's active just don't seem worth it - if you're
+coordinating enough to do the modifications it's probably possible to
+just ask the thread who's stack is being modified to do the modification
+itself and having an unprotected thread writing into shadow stack memory
+doesn't feel great.
+
+That said in terms of the API there would be nothing stopping us saying
+that _WRITE by itself is a valid combination of flags, in which case the
+thread would have permission to write to any shadow stack memory it
+could get to.  For arm64 I think we can implement that, I'm not sure
+about x86.  _PUSH without _ENABLE is a lot less clear, you would at the
+very least at some point have had a stack enabled to have a stack
+pointer.
+
+--jOCIbEw8Unb2aajd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV5s5sACgkQJNaLcl1U
+h9Av7gf+KhSSwAMSrKGbuD6mcS24/uKiaBK6VJvANYNhzxAxCIsGTekSDBnn5rx5
+JlxvhNT7TTqtigEvZs5VwVjBivsip6vCjdwW3bWOP1hBY1vThXm5vDpp6+hC/Xyq
+1dBwZcHedqhHVCH5AfwYiFDtW37k7rKggU19mKapXAMMLHcqniPH9vA8JNfwjvRk
+IZAXnqu2sqKKqhm79iZyFDFo2+8bZYgiZ2FaFCUSA853dm4ujBY2+W9uL4me61jV
+gAwO2vLgmoypMv3xyz83VV6rVoAP3icyuBVYgjuko58Xs74dY4FtD+Xyth9g93qO
+A5biKwps6ME8omCBijyTFUn4Ug8G4A==
+=M047
+-----END PGP SIGNATURE-----
+
+--jOCIbEw8Unb2aajd--
