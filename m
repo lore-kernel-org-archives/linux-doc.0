@@ -1,42 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NxIZgcVb"
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F4F21735;
-	Wed, 13 Dec 2023 14:42:01 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-3363653e180so1822123f8f.0;
-        Wed, 13 Dec 2023 14:42:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kkjb+wHy"
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF8B711A;
+	Wed, 13 Dec 2023 14:42:07 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-336353782efso1672343f8f.0;
+        Wed, 13 Dec 2023 14:42:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702507317; x=1703112117; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sGGuSPtvQjmJveVx9q+4NS7dvTSHaVo6X8DWdsSuIuo=;
-        b=NxIZgcVbuxZ1jGSlWweTMwDpXdfZOIrlyZcXpi1Orem2bN+nZz1A5LyULtkVrO5U4r
-         LMkpygFjRd/YiU9VxsTL8ksTtYHZtwBzQWzR8RZ94TxiRVKmzT/OWJICQIBizJ0IjTm0
-         Rsy85oYCnPWvaocT7dJEnRIeMthsb1sD1V2fhnXVgjj4LJrcuXfi5c2tBCbHhh84ZzdK
-         TUJJ340gPalHw2BnTGkKpQsDWnaD4gKYVHGgPbRjQUGUhucNbKnLrZunQKm1gJFI6zG8
-         TX0htCfFjzCMr6izaLvjF13C9dfPVwLltiamQLKNVLyYcUKTM3DPiM5LiNcDPGkNCcfx
-         wHjA==
+        d=gmail.com; s=20230601; t=1702507324; x=1703112124; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eXgKA8gwtJKvKZlcvRxqLAZNlEcXvz1ltdQN8JnvyAs=;
+        b=Kkjb+wHy9bitSFE4Tmml0Z+YJBVlLgX2NVn0XHbgoIGcXv2q0ZVNKfyTwPucOchQRY
+         2FpQGDWPLA6t5YZ8uOY/dH1nfHIO2/b2HcaDajndjJTrHuewuFmejfNxJM5oERrqVThX
+         4Fxq99uVFVKLH3f3KpgVH9b4b49LUbi9I+ea4MK2DVkH2rVvQPDs+oMUdFsGXHHrBZ1+
+         sgrOq2NnAKEBDtmji8/xfCzjXdrCtIGD8lHVz9TYZyBpiil9W6ns4OfW1xb2aNnty7ZO
+         oG9UcvDt+9iTFfk8YANWuXQTFaRK+xbMNm6vlsFwvOPvOlFMLML2Spgau8hScGm7w1vt
+         2yRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702507317; x=1703112117;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sGGuSPtvQjmJveVx9q+4NS7dvTSHaVo6X8DWdsSuIuo=;
-        b=GNydcbGcszldcuiLGgtKArOv8qU69+ChUYpWD87+KVJehjqNmOULU2v8PAGTBfAJMK
-         OQOL1nEL1oeJKXuoqayycEcwlHQfhNicXbighkMuY+blwYQFYp1Fw2IS+DXHM8p/ZDxo
-         3cIFGpCG6nm/lJguxBJfXg3huVU4yq9kGKhGOx4ewfmbG0YgafwAhXeaXgfT4IljTgmz
-         KggBom4nsuM6YyhF5JKGsS00eg9FJi/Q0l/YBjngt4EvET3oxNZ2qmpgSherWgkZkrTV
-         U938+X1msYlPCGwFivOMaXhZFFVt7UAqtX30evZhcwwWraKExMxHjE6jYPJU3caym+jU
-         H3eg==
-X-Gm-Message-State: AOJu0YzuezRz3xZmoA/eXD9iw0QlnajLlnce2EDh1gpJp6KfZZ84aX2e
-	klixSwnjj9yWsDPc1ZHrRzVmr+sDDsgJfA==
-X-Google-Smtp-Source: AGHT+IFH3EDPsVtChMY1I5Qt1I1seuhGUZL4LbRrbu9J0MUJuCx4+FvDWhJ9VtrZCuC7w8Cg5BmhlA==
-X-Received: by 2002:a5d:610f:0:b0:336:41da:92da with SMTP id v15-20020a5d610f000000b0033641da92damr659927wrt.40.1702507316938;
-        Wed, 13 Dec 2023 14:41:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702507324; x=1703112124;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eXgKA8gwtJKvKZlcvRxqLAZNlEcXvz1ltdQN8JnvyAs=;
+        b=tgMTTbxaDyeyK8Mvg3hkIrmE1YEbvc7hyKEITgI1II1aGd2iPEf4kmzx2e7qoTtvQw
+         2lTVlaG8ck/bv3r1DV4JgDI5yU/Hc1nMaelDzwWlG2yoUzkl+OKUPZAr29RYfOS8htEk
+         Q0tkZDEbJsfqQHXwR6fM0+SS+K/TJS43Eeg4k5wf/58xMuaM/oSfqMpqbtRimDRxPtRQ
+         AfEijyKHDwl2UMa+GhKwHTtj9Jw9g9G9qOyN1Y33DdWIudp18UEiDQAgRfK5epNRHIFz
+         iFD1Dd74g01euTPI9LwBB088i5ob2El0b+F92TPU7A/YHESj6V4n8NwG4vC0SwpoNXwl
+         zXqA==
+X-Gm-Message-State: AOJu0YwHsBycVFcMg0Zt9lsPPpBUIVCy/MsgMgg44ulEaKNgsbuJratp
+	Dmr+KhxuFVWhaDQ0/eB6xcWGq8rmvg6P5w==
+X-Google-Smtp-Source: AGHT+IGV8ppU2ujWkuODCQRtNhyZtSSrES026oTOFGx2KV6pnT94LiLoixpYC3eGputqEvxEwmnQdQ==
+X-Received: by 2002:a5d:65cf:0:b0:333:2fd2:5207 with SMTP id e15-20020a5d65cf000000b003332fd25207mr4813389wrw.128.1702507324110;
+        Wed, 13 Dec 2023 14:42:04 -0800 (PST)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:7840:ddbd:bbf:1e8f])
-        by smtp.gmail.com with ESMTPSA id c12-20020a5d4f0c000000b00336442b3e80sm998562wru.78.2023.12.13.14.41.54
+        by smtp.gmail.com with ESMTPSA id c12-20020a5d4f0c000000b00336442b3e80sm998562wru.78.2023.12.13.14.42.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 14:41:55 -0800 (PST)
+        Wed, 13 Dec 2023 14:42:03 -0800 (PST)
 From: Donald Hunter <donald.hunter@gmail.com>
 To: netdev@vger.kernel.org,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -49,10 +50,12 @@ To: netdev@vger.kernel.org,
 	Breno Leitao <leitao@debian.org>
 Cc: donald.hunter@redhat.com,
 	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v4 00/13] tools/net/ynl: Add 'sub-message' support to ynl
-Date: Wed, 13 Dec 2023 22:41:33 +0000
-Message-ID: <20231213224146.94560-1-donald.hunter@gmail.com>
+Subject: [PATCH net-next v4 04/13] tools/net/ynl: Add 'sub-message' attribute decoding to ynl
+Date: Wed, 13 Dec 2023 22:41:37 +0000
+Message-ID: <20231213224146.94560-5-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231213224146.94560-1-donald.hunter@gmail.com>
+References: <20231213224146.94560-1-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,74 +64,221 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset adds a 'sub-message' attribute type to the netlink-raw
-schema and implements it in ynl. This provides support for kind-specific
-options attributes as used in rt_link and tc raw netlink families.
+Implement the 'sub-message' attribute type in ynl.
 
-A description of the new 'sub-message' attribute type and the
-corresponding sub-message definitions is provided in patch 3.
+Encode support is not yet implemented. Support for sub-message selectors
+at a different nest level from the key attribute is not yet supported.
 
-The patchset includes updates to the rt_link spec and a new tc spec that
-make use of the new 'sub-message' attribute type.
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+---
+ tools/net/ynl/lib/nlspec.py | 55 +++++++++++++++++++++++++++++++++++++
+ tools/net/ynl/lib/ynl.py    | 48 ++++++++++++++++++++++++++------
+ 2 files changed, 95 insertions(+), 8 deletions(-)
 
-As mentioned in patch 4, encode support is not yet implemented in ynl
-and support for sub-message selectors at a different nest level from the
-key attribute is not yet supported. I plan to work on these in folloup
-patches.
-
-Patches 1 is code cleanup in ynl
-Patches 2-4 add sub-message support to the schema and ynl with
-documentation updates.
-Patch 5 adds binary and pad support to structs in netlink-raw.
-Patches 6-8 contain specs that use the sub-message attribute type.
-Patches 9-13 update ynl-gen-rst and its make target
-
-Changes since v3: (reported by Breno Leitao)
- - Remove an unnecessary make dependency from the YNL_INDEX target.
-
-Changes since v2: (reported by Jakub Kicinski and Breno Leitao)
- - Fixed ynl-gen-c breakage
- - Added schema constraint for pad/binary & len
- - Improved description text in raw schema
- - Used | for all multi-line text in schema
- - Updated docs with explanation of what a sub-message is
- - Reverted change in ynl-gen-rst
- - Added ynl-gen-rst patches and grouped them all at end of patchset
-
-Changes since v1: (reported by Jakub Kicinski, thanks!)
- - Added cleanups for ynl and generated netlink docs
- - Describe sub-messages in netlink docs
- - Cleaned up unintended indent changes
- - Cleaned up rt-link sub-message definitions
- - Cleaned up array index expressions to follow python style
- - Added sub-messages to generated netlink spec docs
-
-Donald Hunter (13):
-  tools/net/ynl: Use consistent array index expression formatting
-  doc/netlink: Add sub-message support to netlink-raw
-  doc/netlink: Document the sub-message format for netlink-raw
-  tools/net/ynl: Add 'sub-message' attribute decoding to ynl
-  tools/net/ynl: Add binary and pad support to structs for tc
-  doc/netlink/specs: Add sub-message type to rt_link family
-  doc/netlink/specs: use pad in structs in rt_link
-  doc/netlink/specs: Add a spec for tc
-  doc/netlink: Regenerate netlink .rst files if ynl-gen-rst changes
-  tools/net/ynl-gen-rst: Add sub-messages to generated docs
-  tools/net/ynl-gen-rst: Sort the index of generated netlink specs
-  tools/net/ynl-gen-rst: Remove bold from attribute-set headings
-  tools/net/ynl-gen-rst: Remove extra indentation from generated docs
-
- Documentation/Makefile                        |    6 +-
- Documentation/netlink/netlink-raw.yaml        |   65 +-
- Documentation/netlink/specs/rt_link.yaml      |  449 +++-
- Documentation/netlink/specs/tc.yaml           | 2037 +++++++++++++++++
- .../userspace-api/netlink/netlink-raw.rst     |   96 +-
- tools/net/ynl/lib/nlspec.py                   |   55 +
- tools/net/ynl/lib/ynl.py                      |   94 +-
- tools/net/ynl/ynl-gen-rst.py                  |   31 +-
- 8 files changed, 2788 insertions(+), 45 deletions(-)
- create mode 100644 Documentation/netlink/specs/tc.yaml
-
+diff --git a/tools/net/ynl/lib/nlspec.py b/tools/net/ynl/lib/nlspec.py
+index 92889298b197..44f13e383e8a 100644
+--- a/tools/net/ynl/lib/nlspec.py
++++ b/tools/net/ynl/lib/nlspec.py
+@@ -158,6 +158,9 @@ class SpecAttr(SpecElement):
+         len           integer, optional byte length of binary types
+         display_hint  string, hint to help choose format specifier
+                       when displaying the value
++        sub_message   string, name of sub message type
++        selector      string, name of attribute used to select
++                      sub-message type
+ 
+         is_auto_scalar bool, attr is a variable-size scalar
+     """
+@@ -173,6 +176,8 @@ class SpecAttr(SpecElement):
+         self.byte_order = yaml.get('byte-order')
+         self.len = yaml.get('len')
+         self.display_hint = yaml.get('display-hint')
++        self.sub_message = yaml.get('sub-message')
++        self.selector = yaml.get('selector')
+ 
+         self.is_auto_scalar = self.type == "sint" or self.type == "uint"
+ 
+@@ -278,6 +283,47 @@ class SpecStruct(SpecElement):
+         return self.members.items()
+ 
+ 
++class SpecSubMessage(SpecElement):
++    """ Netlink sub-message definition
++
++    Represents a set of sub-message formats for polymorphic nlattrs
++    that contain type-specific sub messages.
++
++    Attributes:
++        name     string, name of sub-message definition
++        formats  dict of sub-message formats indexed by match value
++    """
++    def __init__(self, family, yaml):
++        super().__init__(family, yaml)
++
++        self.formats = collections.OrderedDict()
++        for elem in self.yaml['formats']:
++            format = self.new_format(family, elem)
++            self.formats[format.value] = format
++
++    def new_format(self, family, format):
++        return SpecSubMessageFormat(family, format)
++
++
++class SpecSubMessageFormat(SpecElement):
++    """ Netlink sub-message definition
++
++    Represents a set of sub-message formats for polymorphic nlattrs
++    that contain type-specific sub messages.
++
++    Attributes:
++        value         attribute value to match against type selector
++        fixed_header  string, name of fixed header, or None
++        attr_set      string, name of attribute set, or None
++    """
++    def __init__(self, family, yaml):
++        super().__init__(family, yaml)
++
++        self.value = yaml.get('value')
++        self.fixed_header = yaml.get('fixed-header')
++        self.attr_set = yaml.get('attribute-set')
++
++
+ class SpecOperation(SpecElement):
+     """Netlink Operation
+ 
+@@ -365,6 +411,7 @@ class SpecFamily(SpecElement):
+ 
+         attr_sets  dict of attribute sets
+         msgs       dict of all messages (index by name)
++        sub_msgs   dict of all sub messages (index by name)
+         ops        dict of all valid requests / responses
+         ntfs       dict of all async events
+         consts     dict of all constants/enums
+@@ -405,6 +452,7 @@ class SpecFamily(SpecElement):
+             jsonschema.validate(self.yaml, schema)
+ 
+         self.attr_sets = collections.OrderedDict()
++        self.sub_msgs = collections.OrderedDict()
+         self.msgs = collections.OrderedDict()
+         self.req_by_value = collections.OrderedDict()
+         self.rsp_by_value = collections.OrderedDict()
+@@ -441,6 +489,9 @@ class SpecFamily(SpecElement):
+     def new_struct(self, elem):
+         return SpecStruct(self, elem)
+ 
++    def new_sub_message(self, elem):
++        return SpecSubMessage(self, elem);
++
+     def new_operation(self, elem, req_val, rsp_val):
+         return SpecOperation(self, elem, req_val, rsp_val)
+ 
+@@ -529,6 +580,10 @@ class SpecFamily(SpecElement):
+             attr_set = self.new_attr_set(elem)
+             self.attr_sets[elem['name']] = attr_set
+ 
++        for elem in self.yaml.get('sub-messages', []):
++            sub_message = self.new_sub_message(elem)
++            self.sub_msgs[sub_message.name] = sub_message
++
+         if self.msg_id_model == 'unified':
+             self._dictify_ops_unified()
+         elif self.msg_id_model == 'directional':
+diff --git a/tools/net/ynl/lib/ynl.py b/tools/net/ynl/lib/ynl.py
+index 5c48f0c9713c..a69fb0c9f728 100644
+--- a/tools/net/ynl/lib/ynl.py
++++ b/tools/net/ynl/lib/ynl.py
+@@ -170,10 +170,9 @@ class NlAttr:
+ 
+ 
+ class NlAttrs:
+-    def __init__(self, msg):
++    def __init__(self, msg, offset=0):
+         self.attrs = []
+ 
+-        offset = 0
+         while offset < len(msg):
+             attr = NlAttr(msg, offset)
+             offset += attr.full_len
+@@ -371,8 +370,8 @@ class NetlinkProtocol:
+         fixed_header_size = 0
+         if ynl:
+             op = ynl.rsp_by_value[msg.cmd()]
+-            fixed_header_size = ynl._fixed_header_size(op)
+-        msg.raw_attrs = NlAttrs(msg.raw[fixed_header_size:])
++            fixed_header_size = ynl._fixed_header_size(op.fixed_header)
++        msg.raw_attrs = NlAttrs(msg.raw, fixed_header_size)
+         return msg
+ 
+     def get_mcast_id(self, mcast_name, mcast_groups):
+@@ -549,6 +548,37 @@ class YnlFamily(SpecFamily):
+         else:
+             rsp[name] = [decoded]
+ 
++    def _resolve_selector(self, attr_spec, vals):
++        sub_msg = attr_spec.sub_message
++        if sub_msg not in self.sub_msgs:
++            raise Exception(f"No sub-message spec named {sub_msg} for {attr_spec.name}")
++        sub_msg_spec = self.sub_msgs[sub_msg]
++
++        selector = attr_spec.selector
++        if selector not in vals:
++            raise Exception(f"There is no value for {selector} to resolve '{attr_spec.name}'")
++        value = vals[selector]
++        if value not in sub_msg_spec.formats:
++            raise Exception(f"No message format for '{value}' in sub-message spec '{sub_msg}'")
++
++        spec = sub_msg_spec.formats[value]
++        return spec
++
++    def _decode_sub_msg(self, attr, attr_spec, rsp):
++        msg_format = self._resolve_selector(attr_spec, rsp)
++        decoded = {}
++        offset = 0
++        if msg_format.fixed_header:
++            decoded.update(self._decode_fixed_header(attr, msg_format.fixed_header));
++            offset = self._fixed_header_size(msg_format.fixed_header)
++        if msg_format.attr_set:
++            if msg_format.attr_set in self.attr_sets:
++                subdict = self._decode(NlAttrs(attr.raw, offset), msg_format.attr_set)
++                decoded.update(subdict)
++            else:
++                raise Exception(f"Unknown attribute-set '{attr_space}' when decoding '{attr_spec.name}'")
++        return decoded
++
+     def _decode(self, attrs, space):
+         if space:
+             attr_space = self.attr_sets[space]
+@@ -586,6 +616,8 @@ class YnlFamily(SpecFamily):
+                     value = self._decode_enum(value, attr_spec)
+                     selector = self._decode_enum(selector, attr_spec)
+                 decoded = {"value": value, "selector": selector}
++            elif attr_spec["type"] == 'sub-message':
++                decoded = self._decode_sub_msg(attr, attr_spec, rsp)
+             else:
+                 if not self.process_unknown:
+                     raise Exception(f'Unknown {attr_spec["type"]} with name {attr_spec["name"]}')
+@@ -626,16 +658,16 @@ class YnlFamily(SpecFamily):
+             return
+ 
+         msg = self.nlproto.decode(self, NlMsg(request, 0, op.attr_set))
+-        offset = 20 + self._fixed_header_size(op)
++        offset = 20 + self._fixed_header_size(op.fixed_header)
+         path = self._decode_extack_path(msg.raw_attrs, op.attr_set, offset,
+                                         extack['bad-attr-offs'])
+         if path:
+             del extack['bad-attr-offs']
+             extack['bad-attr'] = path
+ 
+-    def _fixed_header_size(self, op):
+-        if op.fixed_header:
+-            fixed_header_members = self.consts[op.fixed_header].members
++    def _fixed_header_size(self, name):
++        if name:
++            fixed_header_members = self.consts[name].members
+             size = 0
+             for m in fixed_header_members:
+                 format = NlAttr.get_format(m.type, m.byte_order)
 -- 
 2.42.0
 
