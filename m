@@ -1,43 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MdAQS0cw"
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A2F719AF;
-	Wed, 13 Dec 2023 14:42:05 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-336420a244dso733848f8f.0;
-        Wed, 13 Dec 2023 14:42:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JZNdPXJT"
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66DF918D;
+	Wed, 13 Dec 2023 14:42:08 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-3333b46f26aso6703951f8f.1;
+        Wed, 13 Dec 2023 14:42:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702507322; x=1703112122; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702507326; x=1703112126; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ippq1dNaZAqHOjJJsClArBZB/4VVzURJxqB5Fea8pY0=;
-        b=MdAQS0cwkNkV8h6mOzZ/yVtpn9ytaTfGM6edaY774pbo+7fVQOMPknXoBH6lsf0fGj
-         DRlepBR7b7mx/p+usi2VXHNFeTpMlQ8Tq1F5slRVYwIsgucdgmEcTB9E2aWtJPtTlxLE
-         MnYKvZAdUI5R9QpbKxBAjLtnx0k8Vue4Q8DgbcJclvvDPqJDMzPnXc1E7g/sqSqU0CpH
-         JbV3uPD6SIaflCnXyShg58jgjNkpQ4tqezTl2wSVMJUc+UqDKUBiNFY4IV8OEW4j5vCO
-         Tukl57U9YTGtXaN85ympNpI3vGy3uhqUnO9p2gWn02J0q3prrtjFvIhC7IFxulj+jt9i
-         MGzA==
+        bh=5uDEek6+Jtpacg00rqhgwzK/qMhvND186I0lm7RnUWw=;
+        b=JZNdPXJT2g6gACWQku60AFJlaaKigqpOuN/puo3kF/aDXIgKXvRdErdLPhOu3Z1KgC
+         pKv+GUTWNHF4TexHcXFmrR+Kn1+h7/iDUnD2hKYxwz7kDFyU2r4id/nnospo/RXb+umq
+         Ii90C9azGh+iJ++0CcyFuLj2w7MFKlEyKC1KlCq/c+nZCR1G6L9lEQFriv29ud6F+n/1
+         s7fbTEAGVK34R81pUyUsbIe5k1c3P9m8hR4PDIqYVaTrE/h2U9ykQG+cDfGzjGRgiASN
+         zxrF5WAoCk6pUge21R+Xhbs1jneE7DP8Sd/3Av30yPNKjPcesD3ly+CQ3erfXQEPmbum
+         Mgyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702507322; x=1703112122;
+        d=1e100.net; s=20230601; t=1702507326; x=1703112126;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ippq1dNaZAqHOjJJsClArBZB/4VVzURJxqB5Fea8pY0=;
-        b=KwnBz1etpXGmJHCXaTA+wSOWirHZpkpEtKE2QYX9HaRnRDo6t3qxLRSuifHNBjgLdf
-         pd7DX1NGc5LYGCxXxKUrtNKsBmRLiUc2hV0Qwj1mHInzJmj++WpvM7SzgecM017hbR16
-         BEfgz6aVZ68Iu6elNcNFkssJccIWQkgmd7gtkztRWH3J94uF051kClzKuVnOjEnLkcrD
-         wyLqSRuwFLRHUPXPr988dWmMze+CVV9l3gjH3vjbw3P2FpH2KdDJNnWFM6os3kvV8/k2
-         ccbPIBFh9/dm/xdr23j9n3j/U+ZvXz8TUxXxhfPNNTanX811mY8ETZANSrNmgiVN6CKA
-         Rvaw==
-X-Gm-Message-State: AOJu0YwZTku/U7cdBauhBsRlJW0nMY85J7+32O2fkGSjlLuqH/9gp3XO
-	kUwMyjFazip+F/vrdn5Dez6aezcDWC05Vw==
-X-Google-Smtp-Source: AGHT+IGTTEUY/pykFmRDd/FBn8yYOcFxnI/k75CyZMa1Gh4WG1XUfZEJwecLfwxe+Gb+k5YdcjU8cw==
-X-Received: by 2002:adf:db4e:0:b0:336:4476:ee57 with SMTP id f14-20020adfdb4e000000b003364476ee57mr268749wrj.112.1702507322392;
-        Wed, 13 Dec 2023 14:42:02 -0800 (PST)
+        bh=5uDEek6+Jtpacg00rqhgwzK/qMhvND186I0lm7RnUWw=;
+        b=dwe6aWbETmvdrmhwar/ig81y6m+HEEpNv4sRMELzWKtBJLToHuTEm5+P0S3dC+Cv4R
+         NHDXzrs79GDue42lVM1lBgfk6guBwR7fXDRtdDm6BXnQF8L3I492NMTuLyqgA1avqzkb
+         Js1Lc/mzCReC4qYtU5p2I4RGvfHi3Fq3+lSKeFrLKudvPSh5JSvx2GRePtApjf69hbMS
+         YegaQlVaPG4EIATjI1/JSUF0M4Bn+D+kXjIUBtF16jzz5HNTND3LqmcIt5bKXbcOQAHI
+         qJj519cOyDOu0kPDhsoS3pGWtkkjdzRYnQZj39b4Ckfg2A+mFY+fUdoHMWHq2RtNY0kl
+         Vnmw==
+X-Gm-Message-State: AOJu0Yxq5qhHazLvaP56tRAtHJwptrace9PuParOPk7ekvrVUDs6Vzpf
+	olrZdOPIg62DiM5DcaFEBBU7+fEcEgYubA==
+X-Google-Smtp-Source: AGHT+IEBEmWzC8X4b7L02+NO3WoNfTyzBoy8jXzSLF4I282U9edUETIl+MHS28CVftLDThg3kvdzWg==
+X-Received: by 2002:a5d:4701:0:b0:336:3fd4:2585 with SMTP id y1-20020a5d4701000000b003363fd42585mr785386wrq.110.1702507326035;
+        Wed, 13 Dec 2023 14:42:06 -0800 (PST)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:7840:ddbd:bbf:1e8f])
-        by smtp.gmail.com with ESMTPSA id c12-20020a5d4f0c000000b00336442b3e80sm998562wru.78.2023.12.13.14.42.00
+        by smtp.gmail.com with ESMTPSA id c12-20020a5d4f0c000000b00336442b3e80sm998562wru.78.2023.12.13.14.42.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 14:42:01 -0800 (PST)
+        Wed, 13 Dec 2023 14:42:04 -0800 (PST)
 From: Donald Hunter <donald.hunter@gmail.com>
 To: netdev@vger.kernel.org,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -50,9 +50,9 @@ To: netdev@vger.kernel.org,
 	Breno Leitao <leitao@debian.org>
 Cc: donald.hunter@redhat.com,
 	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v4 03/13] doc/netlink: Document the sub-message format for netlink-raw
-Date: Wed, 13 Dec 2023 22:41:36 +0000
-Message-ID: <20231213224146.94560-4-donald.hunter@gmail.com>
+Subject: [PATCH net-next v4 05/13] tools/net/ynl: Add binary and pad support to structs for tc
+Date: Wed, 13 Dec 2023 22:41:38 +0000
+Message-ID: <20231213224146.94560-6-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231213224146.94560-1-donald.hunter@gmail.com>
 References: <20231213224146.94560-1-donald.hunter@gmail.com>
@@ -64,125 +64,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the spec format used by netlink-raw families like rt and tc.
+The tc netlink-raw family needs binary and pad types for several
+qopt C structs. Add support for them to ynl.
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 Reviewed-by: Jakub Kicinski <kuba@kernel.org>
 ---
- .../userspace-api/netlink/netlink-raw.rst     | 96 ++++++++++++++++++-
- 1 file changed, 95 insertions(+), 1 deletion(-)
+ tools/net/ynl/lib/ynl.py | 36 ++++++++++++++++++++++++++----------
+ 1 file changed, 26 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/userspace-api/netlink/netlink-raw.rst b/Documentation/userspace-api/netlink/netlink-raw.rst
-index f07fb9b9c101..1e14f5f22b8e 100644
---- a/Documentation/userspace-api/netlink/netlink-raw.rst
-+++ b/Documentation/userspace-api/netlink/netlink-raw.rst
-@@ -14,7 +14,8 @@ Specification
- The netlink-raw schema extends the :doc:`genetlink-legacy <genetlink-legacy>`
- schema with properties that are needed to specify the protocol numbers and
- multicast IDs used by raw netlink families. See :ref:`classic_netlink` for more
--information.
-+information. The raw netlink families also make use of type-specific
-+sub-messages.
+diff --git a/tools/net/ynl/lib/ynl.py b/tools/net/ynl/lib/ynl.py
+index a69fb0c9f728..61d672c57fb0 100644
+--- a/tools/net/ynl/lib/ynl.py
++++ b/tools/net/ynl/lib/ynl.py
+@@ -670,8 +670,11 @@ class YnlFamily(SpecFamily):
+             fixed_header_members = self.consts[name].members
+             size = 0
+             for m in fixed_header_members:
+-                format = NlAttr.get_format(m.type, m.byte_order)
+-                size += format.size
++                if m.type in ['pad', 'binary']:
++                    size += m.len
++                else:
++                    format = NlAttr.get_format(m.type, m.byte_order)
++                    size += format.size
+             return size
+         else:
+             return 0
+@@ -681,12 +684,20 @@ class YnlFamily(SpecFamily):
+         fixed_header_attrs = dict()
+         offset = 0
+         for m in fixed_header_members:
+-            format = NlAttr.get_format(m.type, m.byte_order)
+-            [ value ] = format.unpack_from(msg.raw, offset)
+-            offset += format.size
+-            if m.enum:
+-                value = self._decode_enum(value, m)
+-            fixed_header_attrs[m.name] = value
++            value = None
++            if m.type == 'pad':
++                offset += m.len
++            elif m.type == 'binary':
++                value = msg.raw[offset : offset + m.len]
++                offset += m.len
++            else:
++                format = NlAttr.get_format(m.type, m.byte_order)
++                [ value ] = format.unpack_from(msg.raw, offset)
++                offset += format.size
++            if value is not None:
++                if m.enum:
++                    value = self._decode_enum(value, m)
++                fixed_header_attrs[m.name] = value
+         return fixed_header_attrs
  
- Globals
- -------
-@@ -56,3 +57,96 @@ group registration.
-       -
-         name: rtnlgrp-mctp-ifaddr
-         value: 34
-+
-+Sub-messages
-+------------
-+
-+Several raw netlink families such as
-+:doc:`rt_link<../../networking/netlink_spec/rt_link>` and
-+:doc:`tc<../../networking/netlink_spec/tc>` use attribute nesting as an
-+abstraction to carry module specific information.
-+
-+Conceptually it looks as follows::
-+
-+    [OUTER NEST OR MESSAGE LEVEL]
-+      [GENERIC ATTR 1]
-+      [GENERIC ATTR 2]
-+      [GENERIC ATTR 3]
-+      [GENERIC ATTR - wrapper]
-+        [MODULE SPECIFIC ATTR 1]
-+        [MODULE SPECIFIC ATTR 2]
-+
-+The ``GENERIC ATTRs`` at the outer level are defined in the core (or rt_link or
-+core TC), while specific drivers, TC classifiers, qdiscs etc. can carry their
-+own information wrapped in the ``GENERIC ATTR - wrapper``. Even though the
-+example above shows attributes nesting inside the wrapper, the modules generally
-+have full freedom to define the format of the nest. In practice the payload of
-+the wrapper attr has very similar characteristics to a netlink message. It may
-+contain a fixed header / structure, netlink attributes, or both. Because of
-+those shared characteristics we refer to the payload of the wrapper attribute as
-+a sub-message.
-+
-+A sub-message attribute uses the value of another attribute as a selector key to
-+choose the right sub-message format. For example if the following attribute has
-+already been decoded:
-+
-+.. code-block:: json
-+
-+  { "kind": "gre" }
-+
-+and we encounter the following attribute spec:
-+
-+.. code-block:: yaml
-+
-+  -
-+    name: data
-+    type: sub-message
-+    sub-message: linkinfo-data-msg
-+    selector: kind
-+
-+Then we look for a sub-message definition called ``linkinfo-data-msg`` and use
-+the value of the ``kind`` attribute i.e. ``gre`` as the key to choose the
-+correct format for the sub-message:
-+
-+.. code-block:: yaml
-+
-+  sub-messages:
-+    name: linkinfo-data-msg
-+    formats:
-+      -
-+        value: bridge
-+        attribute-set: linkinfo-bridge-attrs
-+      -
-+        value: gre
-+        attribute-set: linkinfo-gre-attrs
-+      -
-+        value: geneve
-+        attribute-set: linkinfo-geneve-attrs
-+
-+This would decode the attribute value as a sub-message with the attribute-set
-+called ``linkinfo-gre-attrs`` as the attribute space.
-+
-+A sub-message can have an optional ``fixed-header`` followed by zero or more
-+attributes from an ``attribute-set``. For example the following
-+``tc-options-msg`` sub-message defines message formats that use a mixture of
-+``fixed-header``, ``attribute-set`` or both together:
-+
-+.. code-block:: yaml
-+
-+  sub-messages:
-+    -
-+      name: tc-options-msg
-+      formats:
-+        -
-+          value: bfifo
-+          fixed-header: tc-fifo-qopt
-+        -
-+          value: cake
-+          attribute-set: tc-cake-attrs
-+        -
-+          value: netem
-+          fixed-header: tc-netem-qopt
-+          attribute-set: tc-netem-attrs
-+
-+Note that a selector attribute must appear in a netlink message before any
-+sub-message attributes that depend on it.
+     def handle_ntf(self, decoded):
+@@ -753,8 +764,13 @@ class YnlFamily(SpecFamily):
+             fixed_header_members = self.consts[op.fixed_header].members
+             for m in fixed_header_members:
+                 value = vals.pop(m.name) if m.name in vals else 0
+-                format = NlAttr.get_format(m.type, m.byte_order)
+-                msg += format.pack(value)
++                if m.type == 'pad':
++                    msg += bytearray(m.len)
++                elif m.type == 'binary':
++                    msg += bytes.fromhex(value)
++                else:
++                    format = NlAttr.get_format(m.type, m.byte_order)
++                    msg += format.pack(value)
+         for name, value in vals.items():
+             msg += self._add_attr(op.attr_set.name, name, value)
+         msg = _genl_msg_finalize(msg)
 -- 
 2.42.0
 
