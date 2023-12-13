@@ -1,139 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA5A28DCB;
-	Wed, 13 Dec 2023 12:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uvBXPCRo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D52CC433C8;
-	Wed, 13 Dec 2023 12:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702469640;
-	bh=2ypXgnL4ECCpmdKkPHhPyQw7+zd7cb6G6jntIn0W0sk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uvBXPCRoFNVcz10CIj8UBIpbjMFwKXefOdwwu1fICqolJgD8TVfji1yCzxM8z7X3d
-	 e2plc4DaOL7/ZIN+zN9h4gIwy7aNXl6HdJ08DviZxC/rVmhappflf1g2rETpLsT/Eb
-	 qBrXqhuakwbA8sf+s8mVebkMLadD4KG+GYkGICZqdqcwldnS9K3D1ikMPeKplbxEqG
-	 XIpZatoZxQbCpN4D63NwqmhWvWoeabTSiE6ASlGnHG+DHAiYCoQO3y3xPg5Qwu0ytS
-	 IUIISRPA9t8EjdGuMgWirtz5z7Lbgvg+Qmcq+tRNg9Yqfxjr25XRrOiLQ5g7Q0woL4
-	 Mh18eR3L9hVnw==
-Date: Wed, 13 Dec 2023 12:13:53 +0000
-From: Will Deacon <will@kernel.org>
-To: Simon Glass <sjg@chromium.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Message-ID: <20231213121353.GA31326@willie-the-truck>
-References: <20231202035511.487946-1-sjg@chromium.org>
- <20231202035511.487946-3-sjg@chromium.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kfACBcOY"
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D3FEA4;
+	Wed, 13 Dec 2023 04:34:28 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-40c2bb872e2so64129345e9.3;
+        Wed, 13 Dec 2023 04:34:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702470866; x=1703075666; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gJkAH+PEEHeF2/e1GKoZROvDjNrDXfi188/DWZu55X0=;
+        b=kfACBcOY+m3ZACAGoZZEWUBMMbxX0H0trOjlIGIKgFuFF7W2TBEjI339FYo15bWTsF
+         RRfKIaLM0xYJWCHQz9sIKxpsn9H06JhigQh8LXenis8g6v6QPoWxjkT4eHQXQA/4REsm
+         pVZnoKxhrWy7JvccnFQsTuMZSKufrpn6tWimcmREBvBz7YUgLIbVQHaBgNuiPXUFJuvn
+         OrRswFgevBBNn6NX+cQ4Uz/YM5+ZqeSLd4HMpu+p4AfEtjs9AX4H3h0LvEGTIjjfM/ie
+         DisDWZ0RW4ZQVn+DsOYcJFaKTL9tAlzmihi4tBeTWXlQlqVkfEzoBk3k25vo23qDFz+v
+         tRcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702470866; x=1703075666;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gJkAH+PEEHeF2/e1GKoZROvDjNrDXfi188/DWZu55X0=;
+        b=ZbrNPsUyVNgU4qrxDEJR9+HnJ0+/7I3KeGvligunZrQsHcpeZ/4ve8N0I4lL5T1Pn7
+         fTHEWOOefBAgEJmOaL7+2nlWHKiBVUVCRlGqatRjeFPLekGtf48JreId2NkL/8o/VykQ
+         lpdeJU1O8ccRgVQ/jVM51+HhdH2DSKhK7rPnG8mZSgaatHi2OZpunEStDgBuZyFLPnri
+         2IlXcwJkfJAOLbQTq0e7UCH/dvMgrSTWKe+ODDGg/AN5q7R1q2NrvPlGAU6FuYlrkbVc
+         ZXNmR5Vw2t6jFwKb78HhVw0ouXu4dMGvYoGJfRREDl/K389eco+Qj6c2FyztMRKYp0i2
+         QQMQ==
+X-Gm-Message-State: AOJu0YyhFCGZSFd1YV9EZtwF5zqZb0t8sMg1+A7g7VBDmM6mXQS8/Z1C
+	mgvb/UQVabWCKl+BC3kkodo=
+X-Google-Smtp-Source: AGHT+IE3XttQN68XC/wZPDRsd1Zvr8bH0pvpwzVR83cB8Ma/IAroH3+r/3R8kXKk10Gwna/GQ4CbgA==
+X-Received: by 2002:a05:600c:2289:b0:40b:5f03:b3a8 with SMTP id 9-20020a05600c228900b0040b5f03b3a8mr1906077wmf.202.1702470866186;
+        Wed, 13 Dec 2023 04:34:26 -0800 (PST)
+Received: from amir-ThinkPad-T480.lan ([5.29.249.86])
+        by smtp.gmail.com with ESMTPSA id fc7-20020a05600c524700b0040c44cb251dsm12667926wmb.46.2023.12.13.04.34.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 04:34:25 -0800 (PST)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	linux-unionfs@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/2] Fixes to overlayfs documentation
+Date: Wed, 13 Dec 2023 14:34:20 +0200
+Message-Id: <20231213123422.344600-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231202035511.487946-3-sjg@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> Add a script which produces a Flat Image Tree (FIT), a single file
-> containing the built kernel and associated devicetree files.
-> Compression defaults to gzip which gives a good balance of size and
-> performance.
-> 
-> The files compress from about 86MB to 24MB using this approach.
-> 
-> The FIT can be used by bootloaders which support it, such as U-Boot
-> and Linuxboot. It permits automatic selection of the correct
-> devicetree, matching the compatible string of the running board with
-> the closest compatible string in the FIT. There is no need for
-> filenames or other workarounds.
-> 
-> Add a 'make image.fit' build target for arm64, as well. Use
-> FIT_COMPRESSION to select a different algorithm.
-> 
-> The FIT can be examined using 'dumpimage -l'.
-> 
-> This features requires pylibfdt (use 'pip install libfdt'). It also
-> requires compression utilities for the algorithm being used. Supported
-> compression options are the same as the Image.xxx files. For now there
-> is no way to change the compression other than by editing the rule for
-> $(obj)/image.fit
-> 
-> While FIT supports a ramdisk / initrd, no attempt is made to support
-> this here, since it must be built separately from the Linux build.
-> 
-> Signed-off-by: Simon Glass <sjg@chromium.org>
-> ---
-> 
-> Changes in v9:
-> - Move the compression control into Makefile.lib
-> 
-> Changes in v8:
-> - Drop compatible string in FDT node
-> - Correct sorting of MAINTAINERS to before ARM64 PORT
-> - Turn compress part of the make_fit.py comment in to a sentence
-> - Add two blank lines before parse_args() and setup_fit()
-> - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> - Add 'mkimage' details Documentation/process/changes.rst
-> - Allow changing the compression used
-> - Tweak cover letter since there is only one clean-up patch
-> 
-> Changes in v7:
-> - Add Image as a dependency of image.fit
-> - Drop kbuild tag
-> - Add dependency on dtbs
-> - Drop unnecessary path separator for dtbs
-> - Rebase to -next
-> 
-> Changes in v5:
-> - Drop patch previously applied
-> - Correct compression rule which was broken in v4
-> 
-> Changes in v4:
-> - Use single quotes for UIMAGE_NAME
-> 
-> Changes in v3:
-> - Drop temporary file image.itk
-> - Drop patch 'Use double quotes for image name'
-> - Drop double quotes in use of UIMAGE_NAME
-> - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> - Avoid hard-coding "arm64" for the DT architecture
-> 
-> Changes in v2:
-> - Drop patch previously applied
-> - Add .gitignore file
-> - Move fit rule to Makefile.lib using an intermediate file
-> - Drop dependency on CONFIG_EFI_ZBOOT
-> - Pick up .dtb files separately from the kernel
-> - Correct pylint too-many-args warning for write_kernel()
-> - Include the kernel image in the file count
-> - Add a pointer to the FIT spec and mention of its wide industry usage
-> - Mention the kernel version in the FIT description
-> 
->  Documentation/process/changes.rst |   9 +
->  MAINTAINERS                       |   7 +
->  arch/arm64/Makefile               |   7 +-
->  arch/arm64/boot/.gitignore        |   1 +
->  arch/arm64/boot/Makefile          |   6 +-
->  scripts/Makefile.lib              |  16 ++
->  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
->  7 files changed, 334 insertions(+), 3 deletions(-)
->  create mode 100755 scripts/make_fit.py
+Hi all,
 
-I'll need Masahiro's Ack on the scripts/ changes before I can take this
-one.
+Some minor fixes to overlayfs.rst that I plan to queue for next merge
+window.
 
-Will
+Some of the fixes are workarounds for oddities of github when parsing
+ReST format [1].
+
+Amir.
+
+[1] https://github.com/torvalds/linux/blob/master/Documentation/filesystems/overlayfs.rst#permission-model
+
+Amir Goldstein (2):
+  overlayfs.rst: use consistent feature names
+  overlayfs.rst: fix ReST formatting
+
+ Documentation/filesystems/overlayfs.rst | 90 +++++++++++++------------
+ 1 file changed, 47 insertions(+), 43 deletions(-)
+
+-- 
+2.34.1
+
