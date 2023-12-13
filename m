@@ -1,99 +1,110 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c4u1tjSv"
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E8818A;
-	Wed, 13 Dec 2023 14:42:21 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-33638e7f71aso12592f8f.1;
-        Wed, 13 Dec 2023 14:42:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="3ZoFWTnv"
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0984DC
+	for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 14:47:53 -0800 (PST)
+Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1efb9571b13so4915432fac.2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 14:47:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702507332; x=1703112132; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VLA+yZoLDjFMN/O1juANGCrbT+QdJr4gSE0ytCTmmgg=;
-        b=c4u1tjSvxiVgT/Q6VzPGaTXFxfehipPkK1FS1FGq5QcXkrPDcpW6mtHhxb9bf5E85a
-         DR4+sdXHaRLMsk3YvR9PJSs0ZYBACdP2elvxKXGTuSCK0QD8x0yA4hRBQtGe/8IxfIoy
-         ruj4WhXe/jgXgJZPVE5BR8c3enHnNgTO6ljQtcdlk5rD2dZN/g5Y9qu8pl6yVKVrisE6
-         CbzF6tEwP9VyzNg5aam58bmj9qLfRJ15IPXcHBb0QXfJGrlf56SPE6pGo+swmwpYEkVw
-         Fq1j7DpP5O/xwzZ2kHrKBdIM6m2wZxny4avMqFcLoRptwkUh7YnyirU/oaExzex1X3DW
-         BuRg==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702507672; x=1703112472; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1jd0FCgelTTfELHf4+xN904J8lDue1JGGAZgJGPEpLc=;
+        b=3ZoFWTnvUL2CarTbGX6sO+B27e7bsIWyR/Xo/ljYfd29aTv0z8koYZ6h+oDQhXl5lX
+         M5u2QhK5rm9X1yECqJHQWOyl60Rniy2baZ20nB/08e1zRbANBOTzuDUjf1fz3AgJO/Vk
+         NwllQuH76m/zZna/VCLyxju+FREjvA9uWBuMuSCXVzMonMhFVUQDhkTkPuIJgsPZwlb+
+         CDSlrS5yyXyVKFmX+mYhVNLlJxnGAzCi/VuHIM7L7kanPIfZPpdstdRZmg25GRxoi7lt
+         tV0nf09rj4EiA5+y4MROyVpWsiUWNIkMuMdm+sF6FkOn5fslrvwyJk7XiVxyU7zXqu0V
+         rCXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702507332; x=1703112132;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VLA+yZoLDjFMN/O1juANGCrbT+QdJr4gSE0ytCTmmgg=;
-        b=K+WloECAXWodkmsUmm4MsyIC4LfqgRHHPj1/eIaNe2mM9cIenLFDbPgSlYFQWZbNsZ
-         xbiGN7ttTYFyK/OAUwkKl+d7Dzpnbj5ePNlVFuisw5mJhRZLryurgm6y3HkguN5mUi14
-         Aa56wKw7QD4ymB2/IxjKnJQj+vYcrMqdGHmxDLwHkHzU6AjnYFVpOgquvALLbBze2gGn
-         1n5QohI0f/bNj5py5qDZBDEHnK+B3Ah1O4SaV2m5TyXZMsXWpUG4Xwma8hYkGfAq7YTP
-         yEeTh4ueDgKWmDgf9yKkTnveKGbhI8tVzY5Pn4M8Ne+YQrzyXPsO8yVHN5XWbBhppKnx
-         ebIQ==
-X-Gm-Message-State: AOJu0Yw2Q1k+noBT1oTxuAnhb6sX6TXc7uX9DDQXU/uZQtGCrp5d7lnN
-	sEzUptxT5DSS7zhtrKQzZECa141NQa+2pQ==
-X-Google-Smtp-Source: AGHT+IHwwRdiOM6SzNxTg3j+mxfZCkh/ui5oZxQYO7Sxu6FeJbfuyRxNTm9STeKXI+YfvUkXXIFcsw==
-X-Received: by 2002:a05:6000:8c:b0:333:2fd7:95fd with SMTP id m12-20020a056000008c00b003332fd795fdmr4797055wrx.56.1702507332471;
-        Wed, 13 Dec 2023 14:42:12 -0800 (PST)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:7840:ddbd:bbf:1e8f])
-        by smtp.gmail.com with ESMTPSA id c12-20020a5d4f0c000000b00336442b3e80sm998562wru.78.2023.12.13.14.42.10
+        d=1e100.net; s=20230601; t=1702507672; x=1703112472;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1jd0FCgelTTfELHf4+xN904J8lDue1JGGAZgJGPEpLc=;
+        b=sWV2iqPvaljIR8VPrzHS2MijhFc2ocgvgir4GNOAwCKyXckIYysWwFy6XMijkqXd53
+         i7boP3/Ygxm9MEp3xAbpmVt0xvwBu/fzmoSWOl/CAyrSwW+sQvGzZqjmuSKhEu6TGnJ2
+         Z9w+vpKH+Yfpv3UEISj5zHBpNOJ8mYZT3k7BBLEpY5qkCvVRp+yTUky88VzkE6z3Onal
+         Djmp5nJBwfjQIYxzaLF/a8/i0/C0zr8o+ApEUrU7BrkM5ATVa9bth1ZG0elTcYAD4n4r
+         IMxNPsdxGgD60Q8EZ6wVe5U8DcIEzqYPCiYj4qGEriKcJBRuwGcHIfGHsvy1RLdz/9KI
+         /CGw==
+X-Gm-Message-State: AOJu0Yx9cLowvs5FOL/rEdb9i13lenfC4HZnSn/cPj0W8eQjnwwpv5dF
+	OOT/Z+rUI0KZCwVs/OWWiZm4Ig==
+X-Google-Smtp-Source: AGHT+IEI/iMw+aM52TxmVlNAm6tlxyE95Jk7Y5bCZtOELwJ+3p+SBg1OfH9FjwiYVr1FIIAYA3ET6A==
+X-Received: by 2002:a05:6870:3854:b0:1fb:251b:6f82 with SMTP id z20-20020a056870385400b001fb251b6f82mr8540545oal.55.1702507672335;
+        Wed, 13 Dec 2023 14:47:52 -0800 (PST)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id bk21-20020a056830369500b006d855e2c56csm2375157otb.31.2023.12.13.14.47.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 14:42:11 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Breno Leitao <leitao@debian.org>
-Cc: donald.hunter@redhat.com,
-	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v4 09/13] doc/netlink: Regenerate netlink .rst files if ynl-gen-rst changes
-Date: Wed, 13 Dec 2023 22:41:42 +0000
-Message-ID: <20231213224146.94560-10-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231213224146.94560-1-donald.hunter@gmail.com>
-References: <20231213224146.94560-1-donald.hunter@gmail.com>
+        Wed, 13 Dec 2023 14:47:51 -0800 (PST)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v3 0/2] riscv: Create and document
+ PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+Date: Wed, 13 Dec 2023 14:47:46 -0800
+Message-Id: <20231213-fencei-v3-0-b75158238eb7@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAJI0emUC/12MQQ7CIBBFr9KwFsMMpq2uvIdxUehgZyEYMETTc
+ Hdpo8a4fD//vVkkikxJHJpZRMqcOPgKetMIOw3+QpLHygIVagDopCNviaXbu1aNXb9zgxL1fIv
+ k+LGGTufKE6d7iM+1m2FZ3wnETyKDVNKQVT2ANQh4jJxDYm+3NlzFUsn4Y2r1NbGaaE2LejBgw
+ P2ZpZQXYFRh/9kAAAA=
+To: Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1702507670; l=1448;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=/YlQ8qL8rFNrU4HyEupJRRntb59YBilc0ngS06eVjfE=;
+ b=jwleU1mQbFQCVc8gBuGN2sz2YjwjLX2t4LgnF5VYuL/LUu7TfGfh9AgGss4pWe4XF+aafVadm
+ 1D/TRXdPTnKCmqHPKcxuSadEhpKsYxnHp3FyETHGk34qPGGwR6XIfO6
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-Add ynl-gen-rst.py to the dependencies for the netlink .rst files in the
-doc Makefile so that the docs get regenerated if the ynl-gen-rst.py
-script is modified. Use $(Q) to honour V=1 in the rules that run
-ynl-gen-rst.py
+Improve the performance of icache flushing by creating a new prctl flag
+PR_RISCV_SET_ICACHE_FLUSH_CTX. The interface is left generic to allow
+for future expansions such as with the proposed J extension [1].
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
-Reviewed-by: Breno Leitao <leitao@debian.org>
+Documentation is also provided to explain the use case.
+
+[1] https://github.com/riscv/riscv-j-extension
+
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 ---
- Documentation/Makefile | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v3:
+- Check if value force_icache_flush set on thread, rather than in mm
+  twice (Clément)
+- Link to v2: https://lore.kernel.org/r/20231130-fencei-v2-0-2cb623ab1b1f@rivosinc.com
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 5c156fbb6cdf..3885bbe260eb 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -106,10 +106,10 @@ YNL_RST_FILES_TMP := $(patsubst %.yaml,%.rst,$(wildcard $(YNL_YAML_DIR)/*.yaml))
- YNL_RST_FILES := $(patsubst $(YNL_YAML_DIR)%,$(YNL_RST_DIR)%, $(YNL_RST_FILES_TMP))
- 
- $(YNL_INDEX): $(YNL_RST_FILES)
--	@$(YNL_TOOL) -o $@ -x
-+	$(Q)$(YNL_TOOL) -o $@ -x
- 
--$(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml
--	@$(YNL_TOOL) -i $< -o $@
-+$(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
-+	$(Q)$(YNL_TOOL) -i $< -o $@
- 
- htmldocs: $(YNL_INDEX)
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
+Changes in v2:
+- Fix kernel-doc comment (Conor)
+- Link to v1: https://lore.kernel.org/r/20231122-fencei-v1-0-bec0811cb212@rivosinc.com
+
+---
+Charlie Jenkins (2):
+      riscv: Include riscv_set_icache_flush_ctx prctl
+      documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+
+ Documentation/arch/riscv/cmodx.rst | 98 ++++++++++++++++++++++++++++++++++++++
+ Documentation/arch/riscv/index.rst |  1 +
+ arch/riscv/include/asm/mmu.h       |  2 +
+ arch/riscv/include/asm/processor.h |  6 +++
+ arch/riscv/mm/cacheflush.c         | 37 ++++++++++++++
+ arch/riscv/mm/context.c            |  8 ++--
+ include/uapi/linux/prctl.h         |  3 ++
+ kernel/sys.c                       |  6 +++
+ 8 files changed, 158 insertions(+), 3 deletions(-)
+---
+base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+change-id: 20231117-fencei-f9f60d784fa0
 -- 
-2.42.0
+- Charlie
 
