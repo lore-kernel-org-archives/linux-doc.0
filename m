@@ -1,148 +1,148 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nvkSHpZu"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5638BA0;
-	Wed, 13 Dec 2023 03:23:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702466592; x=1734002592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EFKlP2H/rVAQxxvmv92h/YY7+JQJiLeLpwP988CiQ8I=;
-  b=nvkSHpZuIvP5VIr94JZomr2SZvU1/Oa0k0gYKu3/m2xO7RM128OuSkxw
-   DYHktUpNv7hToGxLBSXHq/2Y4YmEl/IkBLtvLV14Sttd+OzVyQpe+obpW
-   F9xeBfi4Hs8csOwAefnD0lFdvurTRwnRhbVDwirJHFJF1XJr0zPA4Exii
-   sW0PYA5EU35JDhef73nqJXZuj9UKG18mK5rX2WDp/CgzEHeAN5/OadFuM
-   zDcdeaU/aX+cMrKjMhPI6jIkcDBUXz8PreZ9LGyrH5HTd6X0w78m15a99
-   7CDzMxM9AFfJfqGqwEl4KxSygDzBVb0drPQmA3yog9lsLNpIfLVGTUzn6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394701081"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="394701081"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 03:23:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="802851000"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="802851000"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 13 Dec 2023 03:23:04 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDNKP-000KTb-1L;
-	Wed, 13 Dec 2023 11:23:01 +0000
-Date: Wed, 13 Dec 2023 19:22:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	James Gowans <jgowans@amazon.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH 06/15] arm64: Add KHO support
-Message-ID: <202312131958.BJ7skdaN-lkp@intel.com>
-References: <20231213000452.88295-7-graf@amazon.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZrDF5ALR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9Wndxuy/";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZrDF5ALR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9Wndxuy/"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BD7F10A;
+	Wed, 13 Dec 2023 03:23:29 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0A72D22338;
+	Wed, 13 Dec 2023 11:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1702466607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J8oULe9Q6a8Fv/1vVGgO0lyOnjaJjGxb7lQ/bcbh7QY=;
+	b=ZrDF5ALRylVVW01ePKPFwARd1kwHO5sKN6APKFmYZORcbn50+y+wAUL0IqAR+8v69WdlfA
+	TWxu0Sv7GtTYqUptE2DghyxfNlQ5CwaCTeNd3t16nL1bweYBMpJySlsC9BnKMFPt8dc8wv
+	cUuuoz6SfmQ863yGScGlcarBBDTLToo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1702466607;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J8oULe9Q6a8Fv/1vVGgO0lyOnjaJjGxb7lQ/bcbh7QY=;
+	b=9Wndxuy/Su5J42prvVkZYyTD/NIEbVKH9YkPlAePFnwuYlwT+l3AaWxbtRzRCzVHD2oMJ8
+	DktArNCE62t3pjAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1702466607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J8oULe9Q6a8Fv/1vVGgO0lyOnjaJjGxb7lQ/bcbh7QY=;
+	b=ZrDF5ALRylVVW01ePKPFwARd1kwHO5sKN6APKFmYZORcbn50+y+wAUL0IqAR+8v69WdlfA
+	TWxu0Sv7GtTYqUptE2DghyxfNlQ5CwaCTeNd3t16nL1bweYBMpJySlsC9BnKMFPt8dc8wv
+	cUuuoz6SfmQ863yGScGlcarBBDTLToo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1702466607;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J8oULe9Q6a8Fv/1vVGgO0lyOnjaJjGxb7lQ/bcbh7QY=;
+	b=9Wndxuy/Su5J42prvVkZYyTD/NIEbVKH9YkPlAePFnwuYlwT+l3AaWxbtRzRCzVHD2oMJ8
+	DktArNCE62t3pjAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DBCEB1377F;
+	Wed, 13 Dec 2023 11:23:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5wo8NS6UeWUSaAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 13 Dec 2023 11:23:26 +0000
+Message-ID: <043c49e4-2665-318a-5acb-7081768bc1f3@suse.cz>
+Date: Wed, 13 Dec 2023 12:23:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213000452.88295-7-graf@amazon.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 4/4] mm/slub: correct the default value of
+ slub_min_objects in doc
+Content-Language: en-US
+To: "Song, Xiongwei" <Xiongwei.Song@windriver.com>,
+ "sxwjean@me.com" <sxwjean@me.com>, "42.hyeyoo@gmail.com"
+ <42.hyeyoo@gmail.com>, "cl@linux.com" <cl@linux.com>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>
+Cc: "penberg@kernel.org" <penberg@kernel.org>,
+ "rientjes@google.com" <rientjes@google.com>,
+ "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
+ "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "keescook@chromium.org" <keescook@chromium.org>,
+ "arnd@arndb.de" <arnd@arndb.de>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20231209135203.303508-1-sxwjean@me.com>
+ <20231209135203.303508-5-sxwjean@me.com>
+ <PH0PR11MB51928F0D78863B3E76457622EC89A@PH0PR11MB5192.namprd11.prod.outlook.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <PH0PR11MB51928F0D78863B3E76457622EC89A@PH0PR11MB5192.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: 6.33
+X-Spamd-Bar: ++++
+X-Rspamd-Queue-Id: 0A72D22338
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ZrDF5ALR;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="9Wndxuy/";
+	dmarc=none;
+	spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of vbabka@suse.cz) smtp.mailfrom=vbabka@suse.cz
+X-Spam-Score: 4.42
+X-Spamd-Result: default: False [4.42 / 50.00];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_SPF_SOFTFAIL(4.60)[~all:c];
+	 R_RATELIMIT(0.00)[to_ip_from(RL9sdddhhbu1oo5wyhn6sr3k5b)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
+	 FREEMAIL_TO(0.00)[windriver.com,me.com,gmail.com,linux.com,kvack.org];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 BAYES_HAM(-2.57)[98.09%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,me.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DMARC_NA(1.20)[suse.cz];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[16];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
+X-Rspamd-Server: rspamd1
 
-Hi Alexander,
+On 12/9/23 14:59, Song, Xiongwei wrote:
+> I didn't change description as you mentioned because slab_min_objects doesn't
+> save the calculated value based on the number of processors, but the local
+> variables min_objects doesn't.
 
-kernel test robot noticed the following build warnings:
+Hm I think that's less helpful. The user/admin who will read the doc doesn't
+care about implementation details such as value of a variable, but what's
+the actual observable default behavior, and that is still the automatic
+scaling, right?
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on arm64/for-next/core akpm-mm/mm-everything linus/master v6.7-rc5 next-20231213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Regards,
+> Xiongwei 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20231213-080941
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20231213000452.88295-7-graf%40amazon.com
-patch subject: [PATCH 06/15] arm64: Add KHO support
-config: i386-buildonly-randconfig-001-20231213 (https://download.01.org/0day-ci/archive/20231213/202312131958.BJ7skdaN-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312131958.BJ7skdaN-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312131958.BJ7skdaN-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/of/fdt.c:1012:13: warning: no previous prototype for function 'early_init_dt_check_kho' [-Wmissing-prototypes]
-   void __init early_init_dt_check_kho(void)
-               ^
-   drivers/of/fdt.c:1012:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init early_init_dt_check_kho(void)
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/early_init_dt_check_kho +1012 drivers/of/fdt.c
-
-  1008	
-  1009	/**
-  1010	 * early_init_dt_check_kho - Decode info required for kexec handover from DT
-  1011	 */
-> 1012	void __init early_init_dt_check_kho(void)
-  1013	{
-  1014	#ifdef CONFIG_KEXEC_KHO
-  1015		unsigned long node = chosen_node_offset;
-  1016		u64 kho_start, scratch_start, scratch_size, mem_start, mem_size;
-  1017		const __be32 *p;
-  1018		int l;
-  1019	
-  1020		if ((long)node < 0)
-  1021			return;
-  1022	
-  1023		p = of_get_flat_dt_prop(node, "linux,kho-dt", &l);
-  1024		if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
-  1025			return;
-  1026	
-  1027		kho_start = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1028	
-  1029		p = of_get_flat_dt_prop(node, "linux,kho-scratch", &l);
-  1030		if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
-  1031			return;
-  1032	
-  1033		scratch_start = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1034		scratch_size = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1035	
-  1036		p = of_get_flat_dt_prop(node, "linux,kho-mem", &l);
-  1037		if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
-  1038			return;
-  1039	
-  1040		mem_start = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1041		mem_size = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1042	
-  1043		kho_populate(kho_start, scratch_start, scratch_size, mem_start, mem_size);
-  1044	#endif
-  1045	}
-  1046	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
