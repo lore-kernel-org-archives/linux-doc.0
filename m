@@ -1,192 +1,186 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VSB/pBen";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0e6iPQ0O";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="LsYDTbTy";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="W9wio/Vb"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71032DB;
-	Wed, 13 Dec 2023 03:10:04 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DB8D122338;
-	Wed, 13 Dec 2023 11:10:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702465803; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GqMNj7NL92GZv31m2vvolJIawNqiNIRw7YBZL/+AVUQ=;
-	b=VSB/pBenRGO5wNXCiTEwN7bRJCCLdK503RnGh6MsPsSX413eQjivqsL4QTm1DCAQRjnTUb
-	tOTo4nxzzy7OTQ3KslGfuniqY6ZYCVceAb0/7adBSf6s77S3NapDx+N2DjX0vngHqdrg+g
-	gAgwwQxSVdFctMHNVhNT7cXvXmCrRwA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702465803;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GqMNj7NL92GZv31m2vvolJIawNqiNIRw7YBZL/+AVUQ=;
-	b=0e6iPQ0ODxEOGKSD1cuh0pgTO0oSdtC+BFK1WCvLBS1Pk9nZRNZLAmp2RZreIyZtG1rUIl
-	bdRaEzITD6Zl5YDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702465802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GqMNj7NL92GZv31m2vvolJIawNqiNIRw7YBZL/+AVUQ=;
-	b=LsYDTbTyC1Zw53Mw6ih9EuDrjtULfyGmMd1Cw0rG1FCsEekYQ4gkWsvMyGRU0neK4lfZ6r
-	6j1A/azOe0eq1CESVAyYtPQ7Ncz0kp+XmIVU6fYviYCSjW7RakLApZSDLhLD/nU7sHATio
-	exY3LcPZ0Dru3C6hAs6eIXu3QVTraa0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702465802;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GqMNj7NL92GZv31m2vvolJIawNqiNIRw7YBZL/+AVUQ=;
-	b=W9wio/VbkuEoqaEGV64rwM3baZsgcc1NHrvETuT8uDWSrVc8uqMV6VZ+uuGA/DVkfUbnPy
-	y4BgWYq3WxMDkrAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B8B2C1377F;
-	Wed, 13 Dec 2023 11:10:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DPqyLAqReWXwYwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 13 Dec 2023 11:10:02 +0000
-Message-ID: <73359971-25bc-8ce9-3dd1-b3124c18628b@suse.cz>
-Date: Wed, 13 Dec 2023 12:10:02 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/ocUh/l"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE839B2;
+	Wed, 13 Dec 2023 03:23:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702466591; x=1734002591;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0vG05tOcWt8hNkb/0MfvDKdSwDkxJN+d9TF+RoFO0kI=;
+  b=T/ocUh/leKYo2oyLn+Mo20tfV37e76tTsRtvMumf8G22yxVdlQP8AatP
+   8NM9IKGt4U6Fu6559IEwHrhTUrM/jvWEQ1NJDS1I9AEjGYLzWYCEvbtew
+   PP+xb4/aN5af7wH9fsfmZV0Bpi+i58FhRtBD3Pf19+250Zb+96/5LwM8P
+   463IotjCD9jlnX5Hos1J8BE3YYc+pjWPQXj+PYycxAE8vQCTUit0yWy9n
+   NL81+M9+Ze79gi4RWCU1Jf2yJtvrcJktjPPrApwwSnclsE8cpPgrQJ8u/
+   /hAE4ANv0lOw/nN1zehRDo0AX6mxn7jbx89WKEJNUMu9rBGyZZqWaNdNB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="398793300"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="398793300"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 03:23:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="864592315"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="864592315"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Dec 2023 03:23:03 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDNKP-000KTd-1U;
+	Wed, 13 Dec 2023 11:23:01 +0000
+Date: Wed, 13 Dec 2023 19:22:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	James Gowans <jgowans@amazon.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [PATCH 08/15] tracing: Introduce names for ring buffers
+Message-ID: <202312131922.5dJORQu4-lkp@intel.com>
+References: <20231213000452.88295-9-graf@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFC PATCH v2 2/3] mm/slub: unify all sl[au]b parameters with
- "slab_$param"
-Content-Language: en-US
-To: "Song, Xiongwei" <Xiongwei.Song@windriver.com>,
- "sxwjean@me.com" <sxwjean@me.com>, "42.hyeyoo@gmail.com"
- <42.hyeyoo@gmail.com>, "cl@linux.com" <cl@linux.com>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>
-Cc: "penberg@kernel.org" <penberg@kernel.org>,
- "rientjes@google.com" <rientjes@google.com>,
- "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
- "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "keescook@chromium.org" <keescook@chromium.org>,
- "arnd@arndb.de" <arnd@arndb.de>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20231203001501.126339-1-sxwjean@me.com>
- <20231203001501.126339-3-sxwjean@me.com>
- <75a71276-dff8-ad3a-d238-fcfa3ab39413@suse.cz>
- <PH0PR11MB51928A8212F2EE25916524A3EC89A@PH0PR11MB5192.namprd11.prod.outlook.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <PH0PR11MB51928A8212F2EE25916524A3EC89A@PH0PR11MB5192.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Score: -0.60
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -0.80
-X-Spamd-Result: default: False [-0.80 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,me.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 SUBJECT_HAS_CURRENCY(1.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RL8m16cxuawb3bjqy6gedmikd6)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RCPT_COUNT_TWELVE(0.00)[16];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.cz:email];
-	 FREEMAIL_TO(0.00)[windriver.com,me.com,gmail.com,linux.com,kvack.org];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231213000452.88295-9-graf@amazon.com>
 
-On 12/9/23 02:02, Song, Xiongwei wrote:
-> 
-> 
->> -----Original Message-----
->> From: Vlastimil Babka <vbabka@suse.cz>
->> Sent: Thursday, December 7, 2023 12:15 AM
->> To: sxwjean@me.com; 42.hyeyoo@gmail.com; cl@linux.com; linux-mm@kvack.org
->> Cc: penberg@kernel.org; rientjes@google.com; iamjoonsoo.kim@lge.com;
->> roman.gushchin@linux.dev; corbet@lwn.net; keescook@chromium.org; arnd@arndb.de;
->> akpm@linux-foundation.org; gregkh@linuxfoundation.org; linux-doc@vger.kernel.org; linux-
->> kernel@vger.kernel.org; Song, Xiongwei <Xiongwei.Song@windriver.com>
->> Subject: Re: [RFC PATCH v2 2/3] mm/slub: unify all sl[au]b parameters with "slab_$param"
->> 
->> 
->> On 12/3/23 01:15, sxwjean@me.com wrote:
->> > From: Xiongwei Song <xiongwei.song@windriver.com>
->> >
->> > Since the SLAB allocator has been removed, so we need to clean up the
->> 
->> "we can clean up", as we don't really "need"
->> 
->> > sl[au]b_$params. However, the "slab/SLAB" terms should be keep for
->> > long-term rather than "slub/SLUB". Hence, we should use "slab_$param"
->> 
->> I'd phrase it: With only one slab allocator left, it's better to use the
->> generic "slab" term instead of "slub" which is an implementation detail.
->> Hence ...
->> 
->> > as the primary prefix, which is pointed out by Vlastimil Babka. For more
->> > information please see [1].
->> >
->> > This patch is changing the following slab parameters
->> > - slub_max_order
->> > - slub_min_order
->> > - slub_min_objects
->> > - slub_debug
->> > to
->> > - slab_max_order
->> > - slab_min_order
->> > - slab_min_objects
->> > - slab_debug
->> > as the primary slab parameters in
->> > Documentation/admin-guide/kernel-parameters.txt and source, and rename all
->> > setup functions of them too. Meanwhile, "slub_$params" can also be passed
->> 
->> Not sure about renaming the code at this point, I would just rename the
->> user-visible parameters and their documentation and any comment that refers
->> to the parameters. Functions and variables can come later as part of wider
->> slub/slab change if we decide to do so?
-> 
-> I think we can rename these global variables: 
->     slub_max_order,
->     slub_min_order,
->     slub_min_objects,
->     slub_debug 
-> , which are used to save values that are from parameters. Because some comments
-> are referring to parameters, the others are referring to these global variables, which
-> looks inconsistent, e.g. slub_debug/slab_debug.  Is it acceptable to make them
-> consistent?
+Hi Alexander,
 
-Yeah, as an additional patch.
-Thanks.
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on arm64/for-next/core akpm-mm/mm-everything linus/master v6.7-rc5 next-20231213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20231213-080941
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20231213000452.88295-9-graf%40amazon.com
+patch subject: [PATCH 08/15] tracing: Introduce names for ring buffers
+config: i386-buildonly-randconfig-003-20231213 (https://download.01.org/0day-ci/archive/20231213/202312131922.5dJORQu4-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312131922.5dJORQu4-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312131922.5dJORQu4-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/trace/ring_buffer_benchmark.c:435:53: error: too few arguments provided to function-like macro invocation
+           buffer = ring_buffer_alloc(1000000, RB_FL_OVERWRITE);
+                                                              ^
+   include/linux/ring_buffer.h:96:9: note: macro 'ring_buffer_alloc' defined here
+   #define ring_buffer_alloc(name, size, flags)                    \
+           ^
+>> kernel/trace/ring_buffer_benchmark.c:435:11: error: use of undeclared identifier 'ring_buffer_alloc'; did you mean '__ring_buffer_alloc'?
+           buffer = ring_buffer_alloc(1000000, RB_FL_OVERWRITE);
+                    ^~~~~~~~~~~~~~~~~
+                    __ring_buffer_alloc
+   include/linux/ring_buffer.h:88:1: note: '__ring_buffer_alloc' declared here
+   __ring_buffer_alloc(const char *name, unsigned long size, unsigned flags,
+   ^
+   2 errors generated.
+--
+>> kernel/trace/ring_buffer.c:6096:65: error: too few arguments provided to function-like macro invocation
+           buffer = ring_buffer_alloc(RB_TEST_BUFFER_SIZE, RB_FL_OVERWRITE);
+                                                                          ^
+   include/linux/ring_buffer.h:96:9: note: macro 'ring_buffer_alloc' defined here
+   #define ring_buffer_alloc(name, size, flags)                    \
+           ^
+>> kernel/trace/ring_buffer.c:6096:11: error: use of undeclared identifier 'ring_buffer_alloc'; did you mean '__ring_buffer_alloc'?
+           buffer = ring_buffer_alloc(RB_TEST_BUFFER_SIZE, RB_FL_OVERWRITE);
+                    ^~~~~~~~~~~~~~~~~
+                    __ring_buffer_alloc
+   kernel/trace/ring_buffer.c:1873:19: note: '__ring_buffer_alloc' declared here
+   EXPORT_SYMBOL_GPL(__ring_buffer_alloc);
+                     ^
+   2 errors generated.
+
+
+vim +435 kernel/trace/ring_buffer_benchmark.c
+
+5092dbc96f3acd Steven Rostedt 2009-05-05  429  
+5092dbc96f3acd Steven Rostedt 2009-05-05  430  static int __init ring_buffer_benchmark_init(void)
+5092dbc96f3acd Steven Rostedt 2009-05-05  431  {
+5092dbc96f3acd Steven Rostedt 2009-05-05  432  	int ret;
+5092dbc96f3acd Steven Rostedt 2009-05-05  433  
+5092dbc96f3acd Steven Rostedt 2009-05-05  434  	/* make a one meg buffer in overwite mode */
+5092dbc96f3acd Steven Rostedt 2009-05-05 @435  	buffer = ring_buffer_alloc(1000000, RB_FL_OVERWRITE);
+5092dbc96f3acd Steven Rostedt 2009-05-05  436  	if (!buffer)
+5092dbc96f3acd Steven Rostedt 2009-05-05  437  		return -ENOMEM;
+5092dbc96f3acd Steven Rostedt 2009-05-05  438  
+5092dbc96f3acd Steven Rostedt 2009-05-05  439  	if (!disable_reader) {
+5092dbc96f3acd Steven Rostedt 2009-05-05  440  		consumer = kthread_create(ring_buffer_consumer_thread,
+5092dbc96f3acd Steven Rostedt 2009-05-05  441  					  NULL, "rb_consumer");
+5092dbc96f3acd Steven Rostedt 2009-05-05  442  		ret = PTR_ERR(consumer);
+5092dbc96f3acd Steven Rostedt 2009-05-05  443  		if (IS_ERR(consumer))
+5092dbc96f3acd Steven Rostedt 2009-05-05  444  			goto out_fail;
+5092dbc96f3acd Steven Rostedt 2009-05-05  445  	}
+5092dbc96f3acd Steven Rostedt 2009-05-05  446  
+5092dbc96f3acd Steven Rostedt 2009-05-05  447  	producer = kthread_run(ring_buffer_producer_thread,
+5092dbc96f3acd Steven Rostedt 2009-05-05  448  			       NULL, "rb_producer");
+5092dbc96f3acd Steven Rostedt 2009-05-05  449  	ret = PTR_ERR(producer);
+5092dbc96f3acd Steven Rostedt 2009-05-05  450  
+5092dbc96f3acd Steven Rostedt 2009-05-05  451  	if (IS_ERR(producer))
+5092dbc96f3acd Steven Rostedt 2009-05-05  452  		goto out_kill;
+5092dbc96f3acd Steven Rostedt 2009-05-05  453  
+98e4833ba3c314 Ingo Molnar    2009-11-23  454  	/*
+98e4833ba3c314 Ingo Molnar    2009-11-23  455  	 * Run them as low-prio background tasks by default:
+98e4833ba3c314 Ingo Molnar    2009-11-23  456  	 */
+7ac07434048001 Steven Rostedt 2009-11-25  457  	if (!disable_reader) {
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  458  		if (consumer_fifo >= 2)
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  459  			sched_set_fifo(consumer);
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  460  		else if (consumer_fifo == 1)
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  461  			sched_set_fifo_low(consumer);
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  462  		else
+7ac07434048001 Steven Rostedt 2009-11-25  463  			set_user_nice(consumer, consumer_nice);
+7ac07434048001 Steven Rostedt 2009-11-25  464  	}
+7ac07434048001 Steven Rostedt 2009-11-25  465  
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  466  	if (producer_fifo >= 2)
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  467  		sched_set_fifo(producer);
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  468  	else if (producer_fifo == 1)
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  469  		sched_set_fifo_low(producer);
+4fd5750af02ab7 Peter Zijlstra 2020-07-20  470  	else
+7ac07434048001 Steven Rostedt 2009-11-25  471  		set_user_nice(producer, producer_nice);
+98e4833ba3c314 Ingo Molnar    2009-11-23  472  
+5092dbc96f3acd Steven Rostedt 2009-05-05  473  	return 0;
+5092dbc96f3acd Steven Rostedt 2009-05-05  474  
+5092dbc96f3acd Steven Rostedt 2009-05-05  475   out_kill:
+5092dbc96f3acd Steven Rostedt 2009-05-05  476  	if (consumer)
+5092dbc96f3acd Steven Rostedt 2009-05-05  477  		kthread_stop(consumer);
+5092dbc96f3acd Steven Rostedt 2009-05-05  478  
+5092dbc96f3acd Steven Rostedt 2009-05-05  479   out_fail:
+5092dbc96f3acd Steven Rostedt 2009-05-05  480  	ring_buffer_free(buffer);
+5092dbc96f3acd Steven Rostedt 2009-05-05  481  	return ret;
+5092dbc96f3acd Steven Rostedt 2009-05-05  482  }
+5092dbc96f3acd Steven Rostedt 2009-05-05  483  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
