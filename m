@@ -1,299 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sp6Pj7hK"
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD47AEB
-	for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 23:52:50 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-40c25973988so67856775e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 23:52:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ELko1NmK"
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E98FD0;
+	Wed, 13 Dec 2023 02:03:37 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40c3ca9472dso46371305e9.2;
+        Wed, 13 Dec 2023 02:03:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702453969; x=1703058769; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M39btmxp5CMOvqAic+iM2gRDFVus/hb+Dtb73l5YcRQ=;
-        b=sp6Pj7hKu+lK93QwTGNytyOkZEVL5VJgYXC/Te9Dly9QURdrnkTE7T8YZ6bsdqAmQJ
-         YNuMF9yHWUEu2W3LBADG6YUzvWsZGt39sDhQuKWWVG4sc1USFv24IPAGOaSz/SLgFQb5
-         PqtSfIq8je9pE68QSc5Coq2hulrEIpM2Iqd70uE4xjLzGnO0022NwWhazV67NqZXgmt7
-         AZsOKcCA5SE+4R2ujHMyc+3DSpK2MKGXNOaov+lJR2UGDf4q1SU1t9PPlRWKLELweOWP
-         O5N+2azhs26gSyE9CpsxsXo7NHxabfaEr4pxhoGvHMJKcE+9fEaS3Ybhq64n7P99YUb0
-         /Kpg==
+        d=gmail.com; s=20230601; t=1702461816; x=1703066616; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8qqPzpX3NwhioKDxG+sr3PTetKA9MI6PcjmZfCUj4w=;
+        b=ELko1NmKMoqq3AX79kzl6aDA3dnLkLuGu+Xc32v+KEGRvJKgZPJhq0FkRQsa+l49ua
+         x0D+NJbqbmJHrnrXpYNBC+2WwIfdui5bxAK7QsCyN9M5hhQ0SvvA5WqPHDTVUXMVdZ5n
+         ARnkNN0vMob3v1Vo9AXo1tw8yxgum/6N5E2jAVqqZ0hxpusVewcTrSHkOrd2ymUz3lYp
+         hQAUZUM1ObMpoCKCWFPl43qNFZZhsNFGNrOT7ycmad07J7g8rp8rEe1sF9m7rvuI6Ihe
+         xNgp7kVt6SbP4H68tCcliiWYhjwkhXDB2uDjjlagbVSdyORLp9ozvYy8ZoraFFmGdHK+
+         fr1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702453969; x=1703058769;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M39btmxp5CMOvqAic+iM2gRDFVus/hb+Dtb73l5YcRQ=;
-        b=Q73QOzt8mcs37g//LMiwytf52Rb12kcQFlGDoidshr2v+e3luBo5jAAli0YjfpAvEL
-         qZttjuOe/hgv1+A6DAtwuzzHlQ10ACCLLk2YDKJjUbJB5XJ5kzV3QsThqFKx8+kUdB+q
-         fjwmVvsGdJIaVFYydG2NlH5yDsTALniQ98u0MnxVcfcU1kQnVgRUqe98PHg7Z5PEDiNV
-         sftqJNBU62r0BA4aq1kNA8Ak0LVMop/YlxGT81etiPn6filo1y2L1eR5DCcNqUfrv/1F
-         b9ufYfXUoFQwJW5hBwpn3VO7HNouk0DSqTURZejbL1oi070Zg2IG3AudYkfKwxACgAKq
-         s/zw==
-X-Gm-Message-State: AOJu0YwVT9O2ng0EvD9GM2yGssVU12TKfcnpRAFMv0aK+DDDvP4mJLRx
-	JeUn09a8+pS4PfLuSSiHyhdeCGfV14G5m1CA0nzfBg==
-X-Google-Smtp-Source: AGHT+IF8GsUa/W3RJdThooSHp8WYWcUSc4eP6rXO8ssH3BcKraug5UQYXMvk50EClsQDU3QAMz82hldzzEvDsMEPiCw=
-X-Received: by 2002:a05:600c:11ce:b0:40c:377c:4b62 with SMTP id
- b14-20020a05600c11ce00b0040c377c4b62mr3749772wmi.50.1702453969020; Tue, 12
- Dec 2023 23:52:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702461816; x=1703066616;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f8qqPzpX3NwhioKDxG+sr3PTetKA9MI6PcjmZfCUj4w=;
+        b=VP5nPrckbqR/zxU31kR0JHH8CWHuhURaTRjvxSGN7NG8UHM0sQFBfeMSbpOfjZoZvL
+         j6/c7kAzmzO2r8PR3+MWvp/xMlCtpoRUmL2/Q4VJzo2SW5cmCDKVIj3Ir/8UOHlwTHQ7
+         7tu6ugm9EcryPykRpl7LMSvOtm1F9P2b5HtIfdLjYCsCJdmnE3ysjXsaNoRyBlbvLmpr
+         U6WtaC8kQmmfS9QavNYnhYS//0rtSaPv/TtHNnuCdpiQ2t129FR/c9rzWkrkbp/BlgFl
+         468d5GEy5tOY2rMpZhX7A4hmmnLz6XnS5WSJTi4TWOEgM/ctai46rOmh4FPR5AcjXDVw
+         WYVg==
+X-Gm-Message-State: AOJu0YzB1IBwdueXGmeMOkVhpPxovNXDErvjO8cKknXAFo7I02Idxnba
+	zHHWWpfKuXdJfB5qoCKv8IA=
+X-Google-Smtp-Source: AGHT+IEaHq/xbb7w5dk0fK0Ob0wSA3I9gvWPWTmkEuMomMeLNWr+5CuyK+IBgH1BjH+hTEVvLeI15Q==
+X-Received: by 2002:a05:600c:4f41:b0:40c:3744:9bd9 with SMTP id m1-20020a05600c4f4100b0040c37449bd9mr2639704wmq.113.1702461815811;
+        Wed, 13 Dec 2023 02:03:35 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:a1a0:2c27:44f7:b972])
+        by smtp.gmail.com with ESMTPSA id m11-20020adfe94b000000b00333504001acsm12855584wrn.15.2023.12.13.02.03.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 02:03:34 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: netdev@vger.kernel.org,  Jakub Kicinski <kuba@kernel.org>,  "David S.
+ Miller" <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,  Paolo
+ Abeni <pabeni@redhat.com>,  Jonathan Corbet <corbet@lwn.net>,
+  linux-doc@vger.kernel.org,  Jacob Keller <jacob.e.keller@intel.com>,
+  donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v3 09/13] doc/netlink: Regenerate netlink .rst
+ files if ynl-gen-rst changes
+In-Reply-To: <ZXjuEUmXWRLMbj15@gmail.com> (Breno Leitao's message of "Tue, 12
+	Dec 2023 15:34:41 -0800")
+Date: Wed, 13 Dec 2023 09:42:52 +0000
+Message-ID: <m21qbq780z.fsf@gmail.com>
+References: <20231212221552.3622-1-donald.hunter@gmail.com>
+	<20231212221552.3622-10-donald.hunter@gmail.com>
+	<ZXjuEUmXWRLMbj15@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-10-almasrymina@google.com> <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
- <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
- <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com> <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
- <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
-In-Reply-To: <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 12 Dec 2023 23:52:34 -0800
-Message-ID: <CAHS8izODNXtmhBoPk6z=wuj8tvbndcHHHxcZmH64hY57znT-Mg@mail.gmail.com>
-Subject: Re: [net-next v1 09/16] page_pool: device memory support
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Sun, Dec 10, 2023 at 8:04=E2=80=AFPM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> On Sun, Dec 10, 2023 at 6:26=E2=80=AFPM Mina Almasry <almasrymina@google.=
-com> wrote:
-> >
-> > On Sun, Dec 10, 2023 at 6:04=E2=80=AFPM Yunsheng Lin <linyunsheng@huawe=
-i.com> wrote:
-> > >
-> > > On 2023/12/9 0:05, Mina Almasry wrote:
-> > > > On Fri, Dec 8, 2023 at 1:30=E2=80=AFAM Yunsheng Lin <linyunsheng@hu=
-awei.com> wrote:
-> > > >>
-> > > >>
-> > > >> As mentioned before, it seems we need to have the above checking e=
-very
-> > > >> time we need to do some per-page handling in page_pool core, is th=
-ere
-> > > >> a plan in your mind how to remove those kind of checking in the fu=
-ture?
-> > > >>
-> > > >
-> > > > I see 2 ways to remove the checking, both infeasible:
-> > > >
-> > > > 1. Allocate a wrapper struct that pulls out all the fields the page=
- pool needs:
-> > > >
-> > > > struct netmem {
-> > > >         /* common fields */
-> > > >         refcount_t refcount;
-> > > >         bool is_pfmemalloc;
-> > > >         int nid;
-> > > >         ...
-> > > >         union {
-> > > >                 struct dmabuf_genpool_chunk_owner *owner;
-> > > >                 struct page * page;
-> > > >         };
-> > > > };
-> > > >
-> > > > The page pool can then not care if the underlying memory is iov or
-> > > > page. However this introduces significant memory bloat as this stru=
-ct
-> > > > needs to be allocated for each page or ppiov, which I imagine is no=
-t
-> > > > acceptable for the upside of removing a few static_branch'd if
-> > > > statements with no performance cost.
-> > > >
-> > > > 2. Create a unified struct for page and dmabuf memory, which the mm
-> > > > folks have repeatedly nacked, and I imagine will repeatedly nack in
-> > > > the future.
-> > > >
-> > > > So I imagine the special handling of ppiov in some form is critical
-> > > > and the checking may not be removable.
-> > >
-> > > If the above is true, perhaps devmem is not really supposed to be int=
-ergated
-> > > into page_pool.
-> > >
-> > > Adding a checking for every per-page handling in page_pool core is ju=
-st too
-> > > hacky to be really considerred a longterm solution.
-> > >
-> >
-> > The only other option is to implement another page_pool for ppiov and
-> > have the driver create page_pool or ppiov_pool depending on the state
-> > of the netdev_rx_queue (or some helper in the net stack to do that for
-> > the driver). This introduces some code duplication. The ppiov_pool &
-> > page_pool would look similar in implementation.
-> >
-> > But this was all discussed in detail in RFC v2 and the last response I
-> > heard from Jesper was in favor if this approach, if I understand
-> > correctly:
-> >
-> > https://lore.kernel.org/netdev/7aedc5d5-0daf-63be-21bc-3b724cc1cab9@red=
-hat.com/
-> >
-> > Would love to have the maintainer weigh in here.
-> >
->
-> I should note we may be able to remove some of the checking, but maybe no=
-t all.
->
-> - Checks that disable page fragging for ppiov can be removed once
-> ppiov has frag support (in this series or follow up).
->
-> - If we use page->pp_frag_count (or page->pp_ref_count) for
-> refcounting ppiov, we can remove the if checking in the refcounting.
->
-> - We may be able to store the dma_addr of the ppiov in page->dma_addr,
-> but I'm unsure if that actually works, because the dma_buf dmaddr is
-> dma_addr_t (u32 or u64), but page->dma_addr is unsigned long (4 bytes
-> I think). But if it works for pages I may be able to make it work for
-> ppiov as well.
->
-> - Checks that obtain the page->pp can work with ppiov if we align the
-> offset of page->pp and ppiov->pp.
->
-> - Checks around page->pp_magic can be removed if we also have offset
-> aligned ppiov->pp_magic.
->
-> Sadly I don't see us removing the checking for these other cases:
->
-> - page_is_pfmemalloc(): I'm not allowed to pass a non-struct page into
-> that helper.
->
-> - page_to_nid(): I'm not allowed to pass a non-struct page into that help=
-er.
->
-> - page_pool_free_va(): ppiov have no va.
->
-> - page_pool_sync_for_dev/page_pool_dma_map: ppiov backed by dma-buf
-> fundamentally can't get mapped again.
->
-> Are the removal (or future removal) of these checks enough to resolve thi=
-s?
->
+Breno Leitao <leitao@debian.org> writes:
 
-I took a deeper look here, and with some effort I'm able to remove
-almost all the custom checks for ppiov. The only remaining checks for
-devmem are the checks around these mm calls:
-
-page_is_pfmemalloc()
-page_to_nid()
-page_ref_count()
-compound_head()
-
-page_is_pfmemalloc() checks can be removed by using a bit
-page->pp_magic potentially to indicate pfmemalloc().
-
-The other 3, I'm not sure I can remove. They rely on the page flags or
-other fields not specific to page_pool pages. The next version should
-come with the most minimal amount of devmem checks for the page_pool.
-
-> > > It is somewhat ironical that devmem is using static_branch to allivia=
-te the
-> > > performance impact for normal memory at the possible cost of performa=
-nce
-> > > degradation for devmem, does it not defeat some purpose of intergatin=
-g devmem
-> > > to page_pool?
-> > >
-> >
-> > I don't see the issue. The static branch sets the non-ppiov path as
-> > default if no memory providers are in use, and flips it when they are,
-> > making the default branch prediction ideal in both cases.
-> >
-> > > >
-> > > >> Even though a static_branch check is added in page_is_page_pool_io=
-v(), it
-> > > >> does not make much sense that a core has tow different 'struct' fo=
-r its
-> > > >> most basic data.
-> > > >>
-> > > >> IMHO, the ppiov for dmabuf is forced fitting into page_pool withou=
-t much
-> > > >> design consideration at this point.
-> > > >>
-> > > > ...
-> > > >>
-> > > >> For now, the above may work for the the rx part as it seems that y=
-ou are
-> > > >> only enabling rx for dmabuf for now.
-> > > >>
-> > > >> What is the plan to enable tx for dmabuf? If it is also intergrate=
-d into
-> > > >> page_pool? There was a attempt to enable page_pool for tx, Eric se=
-emed to
-> > > >> have some comment about this:
-> > > >> https://lkml.kernel.org/netdev/2cf4b672-d7dc-db3d-ce90-15b4e91c400=
-5@huawei.com/T/#mb6ab62dc22f38ec621d516259c56dd66353e24a2
-> > > >>
-> > > >> If tx is not intergrated into page_pool, do we need to create a ne=
-w layer for
-> > > >> the tx dmabuf?
-> > > >>
-> > > >
-> > > > I imagine the TX path will reuse page_pool_iov, page_pool_iov_*()
-> > > > helpers, and page_pool_page_*() helpers, but will not need any core
-> > > > page_pool changes. This is because the TX path will have to piggyba=
-ck
-> > >
-> > > We may need another bit/flags checking to demux between page_pool own=
-ed
-> > > devmem and non-page_pool owned devmem.
-> > >
-> >
-> > The way I'm imagining the support, I don't see the need for such
-> > flags. We'd be re-using generic helpers like
-> > page_pool_iov_get_dma_address() and what not that don't need that
-> > checking.
-> >
-> > > Also calling page_pool_*() on non-page_pool owned devmem is confusing
-> > > enough that we may need a thin layer handling non-page_pool owned dev=
-mem
-> > > in the end.
-> > >
-> >
-> > The page_pool_page* & page_pool_iov* functions can be renamed if
-> > confusing. I would think that's no issue (note that the page_pool_*
-> > functions need not be called for TX path).
-> >
-> > > > on MSG_ZEROCOPY (devmem is not copyable), so no memory allocation f=
-rom
-> > > > the page_pool (or otherwise) is needed or possible. RFCv1 had a TX
-> > > > implementation based on dmabuf pages without page_pool involvement,=
- I
-> > > > imagine I'll do something similar.
-> > > It would be good to have a tx implementation for the next version, so
-> > > that we can have a whole picture of devmem.
-> > >
-> > > >
-> >
-> >
-> >
-> > --
-> > Thanks,
-> > Mina
+>> +$(YNL_INDEX): $(YNL_RST_FILES) $(YNL_TOOL)
+>> +	$(Q)$(YNL_TOOL) -o $@ -x
 >
+> Isn't $(YNL_INDEX) depending to $(YNL_TOOL) indirectly since it depends
+> on $(YNL_RST_FILES) ?
 >
->
-> --
-> Thanks,
-> Mina
+> I mean, do you really need the line above?
 
+Sure, the transitive dependency is sufficient. I tend to add an explicit
+dependency for a script that gets run in a target.
 
-
---=20
-Thanks,
-Mina
+Happy to remove that change and respin if you prefer?
