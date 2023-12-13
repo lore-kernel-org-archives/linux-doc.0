@@ -1,502 +1,98 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDScJqc9"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF12592;
-	Tue, 12 Dec 2023 16:34:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702427675; x=1733963675;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=BvVpUOHZS0VQUVIcX9V6/XU/dJq3dnah8tQw84cUjeE=;
-  b=JDScJqc9SjCXSuBwMr3vPpx8js3YEt0eYeWKkj3vUXODmYGmwrmDu8je
-   S6aQ/AOgxYg6O4IX3CfZBZ8qRwXk9c4IwgZFgalmiDOMrOU/MDp1t52+z
-   bMxv9e7/Nuw+DI4wPsTY5BBgq+jD1ym8coR+scLRqO5NgFYrIqti4nn61
-   svA8EmD/oW/0Xglru4I7UarXoYUz9hikX+j0E8VJlr1XfGMJ+Fom+onmi
-   AwSDZFhZ1/xJmTsoWdDhqGT5o1StAD5Proi0GPLB9pT42PyrF8gv9Cobe
-   fm3nc6+X99TpA4XzjArZlXGkiDOUsn3PbG33R2GAAWRH0cMUB7WMY6hQ7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394642286"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="394642286"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 16:34:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="891822639"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="891822639"
-Received: from epologov-mobl2.ccr.corp.intel.com (HELO azaki-desk1.intel.com) ([10.252.49.124])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 16:34:29 -0800
-From: Ahmed Zaki <ahmed.zaki@intel.com>
-To: netdev@vger.kernel.org
-Cc: intel-wired-lan@lists.osuosl.org,
-	corbet@lwn.net,
-	jesse.brandeburg@intel.com,
-	anthony.l.nguyen@intel.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	vladimir.oltean@nxp.com,
-	andrew@lunn.ch,
-	horms@kernel.org,
-	mkubecek@suse.cz,
-	willemdebruijn.kernel@gmail.com,
-	gal@nvidia.com,
-	alexander.duyck@gmail.com,
-	ecree.xilinx@gmail.com,
-	linux-doc@vger.kernel.org,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>
-Subject: [PATCH net-next v9 8/8] iavf: enable symmetric-xor RSS for Toeplitz hash function
-Date: Tue, 12 Dec 2023 17:33:21 -0700
-Message-Id: <20231213003321.605376-9-ahmed.zaki@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231213003321.605376-1-ahmed.zaki@intel.com>
-References: <20231213003321.605376-1-ahmed.zaki@intel.com>
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="VSau86g+"
+Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE5292;
+	Tue, 12 Dec 2023 16:35:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1702427732; x=1733963732;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=VBKvTcQi72PcvnK4SFQYGqORB7BIbXX6crvus+RXOaY=;
+  b=VSau86g+hgAvpNEhvQq2TITJrNMB4SWMV+6VgA2VazzPBXqgrr6EU3Cm
+   0aPvptWHP4IjfQRszkgutWdFF1WjSZWPx9kgpgjryfL165H7qR75+zeLt
+   f4m1HmypvWZP6kkdRJA4A9BIxOK4xl8eqm3xBlx7cYlpYNTKAKH2rS5Mr
+   k=;
+X-IronPort-AV: E=Sophos;i="6.04,271,1695686400"; 
+   d="scan'208";a="259294536"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2c-m6i4x-b1c0e1d0.us-west-2.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 00:35:31 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan3.pdx.amazon.com [10.39.38.70])
+	by email-inbound-relay-pdx-2c-m6i4x-b1c0e1d0.us-west-2.amazon.com (Postfix) with ESMTPS id 634AC80DCC;
+	Wed, 13 Dec 2023 00:35:25 +0000 (UTC)
+Received: from EX19MTAUWC002.ant.amazon.com [10.0.38.20:10819]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.27.95:2525] with esmtp (Farcaster)
+ id 911b45ff-f732-45cd-b0a4-dcec0b0539c8; Wed, 13 Dec 2023 00:35:24 +0000 (UTC)
+X-Farcaster-Flow-ID: 911b45ff-f732-45cd-b0a4-dcec0b0539c8
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 13 Dec 2023 00:35:24 +0000
+Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
+ (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 13 Dec
+ 2023 00:35:19 +0000
+Message-ID: <eb567d99-e03b-4718-9cc9-e27c5e408ea2@amazon.com>
+Date: Wed, 13 Dec 2023 01:35:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/15] tracing: Introduce names for ring buffers
+Content-Language: en-US
+To: Steven Rostedt <rostedt@goodmis.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <kexec@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <x86@kernel.org>, Eric Biederman
+	<ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski
+	<luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Rob Herring
+	<robh+dt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Mark Rutland
+	<mark.rutland@arm.com>, Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra
+	<ashish.kalra@amd.com>, James Gowans <jgowans@amazon.com>, "Stanislav
+ Kinsburskii" <skinsburskii@linux.microsoft.com>, <arnd@arndb.de>,
+	<pbonzini@redhat.com>, <madvenka@linux.microsoft.com>, Anthony Yznaga
+	<anthony.yznaga@oracle.com>, Usama Arif <usama.arif@bytedance.com>, "David
+ Woodhouse" <dwmw@amazon.co.uk>, Benjamin Herrenschmidt
+	<benh@kernel.crashing.org>
+References: <20231213000452.88295-1-graf@amazon.com>
+ <20231213000452.88295-9-graf@amazon.com>
+ <20231212191546.603c0703@gandalf.local.home>
+From: Alexander Graf <graf@amazon.com>
+In-Reply-To: <20231212191546.603c0703@gandalf.local.home>
+X-ClientProxiedBy: EX19D033UWC001.ant.amazon.com (10.13.139.218) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 
-Allow the user to set the symmetric Toeplitz hash function via:
-
-    # ethtool -X eth0 hfunc toeplitz symmetric-xor
-
-The driver will reject any new RSS configuration if a field other than
-(IP src/dst and L4 src/dst ports) is requested for hashing.
-
-The symmetric RSS will not be supported on PFs not advertising the ADV RSS
-Offload flag (ADV_RSS_SUPPORT()), for example the E700 series (i40e).
-
-Reviewed-by: Madhu Chittim <madhu.chittim@intel.com>
-Signed-off-by: Ahmed Zaki <ahmed.zaki@intel.com>
----
- drivers/net/ethernet/intel/iavf/iavf.h        |  5 +-
- .../net/ethernet/intel/iavf/iavf_adv_rss.c    |  8 ++-
- .../net/ethernet/intel/iavf/iavf_adv_rss.h    |  3 +-
- .../net/ethernet/intel/iavf/iavf_ethtool.c    | 32 ++++++++++--
- drivers/net/ethernet/intel/iavf/iavf_main.c   |  4 ++
- .../net/ethernet/intel/iavf/iavf_virtchnl.c   | 41 +++++++++++++++
- drivers/net/ethernet/intel/ice/ice_virtchnl.c | 50 +++++++++++++++++++
- drivers/net/ethernet/intel/ice/ice_virtchnl.h |  1 +
- .../intel/ice/ice_virtchnl_allowlist.c        |  1 +
- include/linux/avf/virtchnl.h                  | 19 +++++++
- 10 files changed, 156 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/net/ethernet/intel/iavf/iavf.h b/drivers/net/ethernet/intel/iavf/iavf.h
-index e7ab89dc883a..f83fbcc72075 100644
---- a/drivers/net/ethernet/intel/iavf/iavf.h
-+++ b/drivers/net/ethernet/intel/iavf/iavf.h
-@@ -312,7 +312,8 @@ struct iavf_adapter {
- #define IAVF_FLAG_AQ_SET_HENA			BIT_ULL(12)
- #define IAVF_FLAG_AQ_SET_RSS_KEY		BIT_ULL(13)
- #define IAVF_FLAG_AQ_SET_RSS_LUT		BIT_ULL(14)
--#define IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE	BIT_ULL(15)
-+#define IAVF_FLAG_AQ_SET_RSS_HFUNC		BIT_ULL(15)
-+#define IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE	BIT_ULL(16)
- #define IAVF_FLAG_AQ_ENABLE_VLAN_STRIPPING	BIT_ULL(19)
- #define IAVF_FLAG_AQ_DISABLE_VLAN_STRIPPING	BIT_ULL(20)
- #define IAVF_FLAG_AQ_ENABLE_CHANNELS		BIT_ULL(21)
-@@ -414,6 +415,7 @@ struct iavf_adapter {
- 	struct iavf_vsi vsi;
- 	u32 aq_wait_count;
- 	/* RSS stuff */
-+	enum virtchnl_rss_algorithm hfunc;
- 	u64 hena;
- 	u16 rss_key_size;
- 	u16 rss_lut_size;
-@@ -539,6 +541,7 @@ void iavf_get_hena(struct iavf_adapter *adapter);
- void iavf_set_hena(struct iavf_adapter *adapter);
- void iavf_set_rss_key(struct iavf_adapter *adapter);
- void iavf_set_rss_lut(struct iavf_adapter *adapter);
-+void iavf_set_rss_hfunc(struct iavf_adapter *adapter);
- void iavf_enable_vlan_stripping(struct iavf_adapter *adapter);
- void iavf_disable_vlan_stripping(struct iavf_adapter *adapter);
- void iavf_virtchnl_completion(struct iavf_adapter *adapter,
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-index 6edbf134b73f..a9e1da35e248 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.c
-@@ -95,17 +95,21 @@ iavf_fill_adv_rss_sctp_hdr(struct virtchnl_proto_hdr *hdr, u64 hash_flds)
-  * @rss_cfg: the virtchnl message to be filled with RSS configuration setting
-  * @packet_hdrs: the RSS configuration protocol header types
-  * @hash_flds: the RSS configuration protocol hash fields
-+ * @symm: if true, symmetric hash is required
-  *
-  * Returns 0 if the RSS configuration virtchnl message is filled successfully
-  */
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds)
-+			  u32 packet_hdrs, u64 hash_flds, bool symm)
- {
- 	struct virtchnl_proto_hdrs *proto_hdrs = &rss_cfg->proto_hdrs;
- 	struct virtchnl_proto_hdr *hdr;
- 
--	rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+	if (symm)
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+	else
-+		rss_cfg->rss_algorithm = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
- 
- 	proto_hdrs->tunnel_level = 0;	/* always outer layer */
- 
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-index 4d3be11af7aa..e31eb2afebea 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-+++ b/drivers/net/ethernet/intel/iavf/iavf_adv_rss.h
-@@ -80,13 +80,14 @@ struct iavf_adv_rss {
- 
- 	u32 packet_hdrs;
- 	u64 hash_flds;
-+	bool symm;
- 
- 	struct virtchnl_rss_cfg cfg_msg;
- };
- 
- int
- iavf_fill_adv_rss_cfg_msg(struct virtchnl_rss_cfg *rss_cfg,
--			  u32 packet_hdrs, u64 hash_flds);
-+			  u32 packet_hdrs, u64 hash_flds, bool symm);
- struct iavf_adv_rss *
- iavf_find_adv_rss_cfg_by_hdrs(struct iavf_adapter *adapter, u32 packet_hdrs);
- void
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-index c376a489e4c2..f147743792fb 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_ethtool.c
-@@ -1529,11 +1529,12 @@ static u32 iavf_adv_rss_parse_hdrs(struct ethtool_rxnfc *cmd)
- /**
-  * iavf_adv_rss_parse_hash_flds - parses hash fields from RSS hash input
-  * @cmd: ethtool rxnfc command
-+ * @symm: true if Symmetric Topelitz is set
-  *
-  * This function parses the rxnfc command and returns intended hash fields for
-  * RSS configuration
-  */
--static u64 iavf_adv_rss_parse_hash_flds(struct ethtool_rxnfc *cmd)
-+static u64 iavf_adv_rss_parse_hash_flds(struct ethtool_rxnfc *cmd, bool symm)
- {
- 	u64 hfld = IAVF_ADV_RSS_HASH_INVALID;
- 
-@@ -1605,17 +1606,20 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	struct iavf_adv_rss *rss_old, *rss_new;
- 	bool rss_new_add = false;
- 	int count = 50, err = 0;
-+	bool symm = false;
- 	u64 hash_flds;
- 	u32 hdrs;
- 
- 	if (!ADV_RSS_SUPPORT(adapter))
- 		return -EOPNOTSUPP;
- 
-+	symm = !!(adapter->hfunc == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC);
-+
- 	hdrs = iavf_adv_rss_parse_hdrs(cmd);
- 	if (hdrs == IAVF_ADV_RSS_FLOW_SEG_HDR_NONE)
- 		return -EINVAL;
- 
--	hash_flds = iavf_adv_rss_parse_hash_flds(cmd);
-+	hash_flds = iavf_adv_rss_parse_hash_flds(cmd, symm);
- 	if (hash_flds == IAVF_ADV_RSS_HASH_INVALID)
- 		return -EINVAL;
- 
-@@ -1623,7 +1627,8 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (!rss_new)
- 		return -ENOMEM;
- 
--	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds)) {
-+	if (iavf_fill_adv_rss_cfg_msg(&rss_new->cfg_msg, hdrs, hash_flds,
-+				      symm)) {
- 		kfree(rss_new);
- 		return -EINVAL;
- 	}
-@@ -1642,9 +1647,11 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 	if (rss_old) {
- 		if (rss_old->state != IAVF_ADV_RSS_ACTIVE) {
- 			err = -EBUSY;
--		} else if (rss_old->hash_flds != hash_flds) {
-+		} else if (rss_old->hash_flds != hash_flds ||
-+			   rss_old->symm != symm) {
- 			rss_old->state = IAVF_ADV_RSS_ADD_REQUEST;
- 			rss_old->hash_flds = hash_flds;
-+			rss_old->symm = symm;
- 			memcpy(&rss_old->cfg_msg, &rss_new->cfg_msg,
- 			       sizeof(rss_new->cfg_msg));
- 		} else {
-@@ -1655,6 +1662,7 @@ iavf_set_adv_rss_hash_opt(struct iavf_adapter *adapter,
- 		rss_new->state = IAVF_ADV_RSS_ADD_REQUEST;
- 		rss_new->packet_hdrs = hdrs;
- 		rss_new->hash_flds = hash_flds;
-+		rss_new->symm = symm;
- 		list_add_tail(&rss_new->list, &adapter->adv_rss_list_head);
- 	}
- 	spin_unlock_bh(&adapter->adv_rss_lock);
-@@ -1905,6 +1913,9 @@ static int iavf_get_rxfh(struct net_device *netdev,
- 	u16 i;
- 
- 	rxfh->hfunc = ETH_RSS_HASH_TOP;
-+	if (adapter->hfunc == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
-+		rxfh->input_xfrm |= RXH_XFRM_SYM_XOR;
-+
- 	if (rxfh->key)
- 		memcpy(rxfh->key, adapter->rss_key, adapter->rss_key_size);
- 
-@@ -1937,6 +1948,18 @@ static int iavf_set_rxfh(struct net_device *netdev,
- 	    rxfh->hfunc != ETH_RSS_HASH_TOP)
- 		return -EOPNOTSUPP;
- 
-+	if ((rxfh->input_xfrm & RXH_XFRM_SYM_XOR) &&
-+	    adapter->hfunc != VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC) {
-+		if (!ADV_RSS_SUPPORT(adapter))
-+			return -EOPNOTSUPP;
-+		adapter->hfunc = VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+		adapter->aq_required |= IAVF_FLAG_AQ_SET_RSS_HFUNC;
-+	} else if (!(rxfh->input_xfrm & RXH_XFRM_SYM_XOR) &&
-+		    adapter->hfunc != VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC) {
-+		adapter->hfunc = VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+		adapter->aq_required |= IAVF_FLAG_AQ_SET_RSS_HFUNC;
-+	}
-+
- 	if (!rxfh->key && !rxfh->indir)
- 		return 0;
- 
-@@ -1955,6 +1978,7 @@ static int iavf_set_rxfh(struct net_device *netdev,
- static const struct ethtool_ops iavf_ethtool_ops = {
- 	.supported_coalesce_params = ETHTOOL_COALESCE_USECS |
- 				     ETHTOOL_COALESCE_USE_ADAPTIVE,
-+	.cap_rss_sym_xor_supported = true,
- 	.get_drvinfo		= iavf_get_drvinfo,
- 	.get_link		= ethtool_op_get_link,
- 	.get_ringparam		= iavf_get_ringparam,
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_main.c b/drivers/net/ethernet/intel/iavf/iavf_main.c
-index 06a87030c163..0b3b33acf1bd 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_main.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_main.c
-@@ -2166,6 +2166,10 @@ static int iavf_process_aq_command(struct iavf_adapter *adapter)
- 		iavf_set_rss_lut(adapter);
- 		return 0;
- 	}
-+	if (adapter->aq_required & IAVF_FLAG_AQ_SET_RSS_HFUNC) {
-+		iavf_set_rss_hfunc(adapter);
-+		return 0;
-+	}
- 
- 	if (adapter->aq_required & IAVF_FLAG_AQ_CONFIGURE_PROMISC_MODE) {
- 		iavf_set_promiscuous(adapter);
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c b/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
-index 64c4443dbef9..64a351e70a56 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_virtchnl.c
-@@ -1141,6 +1141,34 @@ void iavf_set_rss_lut(struct iavf_adapter *adapter)
- 	kfree(vrl);
- }
- 
-+/**
-+ * iavf_set_rss_hfunc
-+ * @adapter: adapter structure
-+ *
-+ * Request the PF to set our RSS Hash function
-+ **/
-+void iavf_set_rss_hfunc(struct iavf_adapter *adapter)
-+{
-+	struct virtchnl_rss_hfunc *vrh;
-+	int len = sizeof(*vrh);
-+
-+	if (adapter->current_op != VIRTCHNL_OP_UNKNOWN) {
-+		/* bail because we already have a command pending */
-+		dev_err(&adapter->pdev->dev, "Cannot set RSS Hash function, command %d pending\n",
-+			adapter->current_op);
-+		return;
-+	}
-+	vrh = kzalloc(len, GFP_KERNEL);
-+	if (!vrh)
-+		return;
-+	vrh->vsi_id = adapter->vsi.id;
-+	vrh->rss_algorithm = adapter->hfunc;
-+	adapter->current_op = VIRTCHNL_OP_CONFIG_RSS_HFUNC;
-+	adapter->aq_required &= ~IAVF_FLAG_AQ_SET_RSS_HFUNC;
-+	iavf_send_pf_msg(adapter, VIRTCHNL_OP_CONFIG_RSS_HFUNC, (u8 *)vrh, len);
-+	kfree(vrh);
-+}
-+
- /**
-  * iavf_enable_vlan_stripping
-  * @adapter: adapter structure
-@@ -2142,6 +2170,19 @@ void iavf_virtchnl_completion(struct iavf_adapter *adapter,
- 			dev_warn(&adapter->pdev->dev, "Failed to add VLAN filter, error %s\n",
- 				 iavf_stat_str(&adapter->hw, v_retval));
- 			break;
-+		case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
-+			dev_warn(&adapter->pdev->dev, "Failed to configure hash function, error %s\n",
-+				 iavf_stat_str(&adapter->hw, v_retval));
-+
-+			if (adapter->hfunc ==
-+					VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
-+				adapter->hfunc =
-+					VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC;
-+			else
-+				adapter->hfunc =
-+					VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC;
-+
-+			break;
- 		default:
- 			dev_err(&adapter->pdev->dev, "PF returned error %d (%s) to our request %d\n",
- 				v_retval, iavf_stat_str(&adapter->hw, v_retval),
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl.c b/drivers/net/ethernet/intel/ice/ice_virtchnl.c
-index 482f8e8b1951..d4ad0739b57b 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl.c
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl.c
-@@ -999,6 +999,51 @@ static int ice_vc_config_rss_lut(struct ice_vf *vf, u8 *msg)
- 				     NULL, 0);
- }
- 
-+/**
-+ * ice_vc_config_rss_hfunc
-+ * @vf: pointer to the VF info
-+ * @msg: pointer to the msg buffer
-+ *
-+ * Configure the VF's RSS Hash function
-+ */
-+static int ice_vc_config_rss_hfunc(struct ice_vf *vf, u8 *msg)
-+{
-+	struct virtchnl_rss_hfunc *vrh = (struct virtchnl_rss_hfunc *)msg;
-+	enum virtchnl_status_code v_ret = VIRTCHNL_STATUS_SUCCESS;
-+	u8 hfunc = ICE_AQ_VSI_Q_OPT_RSS_HASH_TPLZ;
-+	struct ice_vsi *vsi;
-+
-+	if (!test_bit(ICE_VF_STATE_ACTIVE, vf->vf_states)) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	if (!ice_vc_isvalid_vsi_id(vf, vrh->vsi_id)) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	if (!test_bit(ICE_FLAG_RSS_ENA, vf->pf->flags)) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	vsi = ice_get_vf_vsi(vf);
-+	if (!vsi) {
-+		v_ret = VIRTCHNL_STATUS_ERR_PARAM;
-+		goto error_param;
-+	}
-+
-+	if (vrh->rss_algorithm == VIRTCHNL_RSS_ALG_TOEPLITZ_SYMMETRIC)
-+		hfunc = ICE_AQ_VSI_Q_OPT_RSS_HASH_SYM_TPLZ;
-+
-+	if (ice_set_rss_hfunc(vsi, hfunc))
-+		v_ret = VIRTCHNL_STATUS_ERR_ADMIN_QUEUE_ERROR;
-+error_param:
-+	return ice_vc_send_msg_to_vf(vf, VIRTCHNL_OP_CONFIG_RSS_HFUNC, v_ret,
-+				     NULL, 0);
-+}
-+
- /**
-  * ice_vc_cfg_promiscuous_mode_msg
-  * @vf: pointer to the VF info
-@@ -3766,6 +3811,7 @@ static const struct ice_virtchnl_ops ice_virtchnl_dflt_ops = {
- 	.cfg_irq_map_msg = ice_vc_cfg_irq_map_msg,
- 	.config_rss_key = ice_vc_config_rss_key,
- 	.config_rss_lut = ice_vc_config_rss_lut,
-+	.config_rss_hfunc = ice_vc_config_rss_hfunc,
- 	.get_stats_msg = ice_vc_get_stats_msg,
- 	.cfg_promiscuous_mode_msg = ice_vc_cfg_promiscuous_mode_msg,
- 	.add_vlan_msg = ice_vc_add_vlan_msg,
-@@ -3895,6 +3941,7 @@ static const struct ice_virtchnl_ops ice_virtchnl_repr_ops = {
- 	.cfg_irq_map_msg = ice_vc_cfg_irq_map_msg,
- 	.config_rss_key = ice_vc_config_rss_key,
- 	.config_rss_lut = ice_vc_config_rss_lut,
-+	.config_rss_hfunc = ice_vc_config_rss_hfunc,
- 	.get_stats_msg = ice_vc_get_stats_msg,
- 	.cfg_promiscuous_mode_msg = ice_vc_repr_cfg_promiscuous_mode,
- 	.add_vlan_msg = ice_vc_add_vlan_msg,
-@@ -4077,6 +4124,9 @@ void ice_vc_process_vf_msg(struct ice_pf *pf, struct ice_rq_event_info *event,
- 	case VIRTCHNL_OP_CONFIG_RSS_LUT:
- 		err = ops->config_rss_lut(vf, msg);
- 		break;
-+	case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
-+		err = ops->config_rss_hfunc(vf, msg);
-+		break;
- 	case VIRTCHNL_OP_GET_STATS:
- 		err = ops->get_stats_msg(vf, msg);
- 		break;
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl.h b/drivers/net/ethernet/intel/ice/ice_virtchnl.h
-index cd747718de73..60dfbe05980a 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl.h
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl.h
-@@ -32,6 +32,7 @@ struct ice_virtchnl_ops {
- 	int (*cfg_irq_map_msg)(struct ice_vf *vf, u8 *msg);
- 	int (*config_rss_key)(struct ice_vf *vf, u8 *msg);
- 	int (*config_rss_lut)(struct ice_vf *vf, u8 *msg);
-+	int (*config_rss_hfunc)(struct ice_vf *vf, u8 *msg);
- 	int (*get_stats_msg)(struct ice_vf *vf, u8 *msg);
- 	int (*cfg_promiscuous_mode_msg)(struct ice_vf *vf, u8 *msg);
- 	int (*add_vlan_msg)(struct ice_vf *vf, u8 *msg);
-diff --git a/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c b/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
-index 7d547fa616fa..5e19d48a05b4 100644
---- a/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
-+++ b/drivers/net/ethernet/intel/ice/ice_virtchnl_allowlist.c
-@@ -68,6 +68,7 @@ static const u32 vlan_v2_allowlist_opcodes[] = {
- static const u32 rss_pf_allowlist_opcodes[] = {
- 	VIRTCHNL_OP_CONFIG_RSS_KEY, VIRTCHNL_OP_CONFIG_RSS_LUT,
- 	VIRTCHNL_OP_GET_RSS_HENA_CAPS, VIRTCHNL_OP_SET_RSS_HENA,
-+	VIRTCHNL_OP_CONFIG_RSS_HFUNC,
- };
- 
- /* VIRTCHNL_VF_OFFLOAD_RX_FLEX_DESC */
-diff --git a/include/linux/avf/virtchnl.h b/include/linux/avf/virtchnl.h
-index b0e060cc79ac..a44d9dc7e3eb 100644
---- a/include/linux/avf/virtchnl.h
-+++ b/include/linux/avf/virtchnl.h
-@@ -118,6 +118,7 @@ enum virtchnl_ops {
- 	VIRTCHNL_OP_GET_STATS = 15,
- 	VIRTCHNL_OP_RSVD = 16,
- 	VIRTCHNL_OP_EVENT = 17, /* must ALWAYS be 17 */
-+	VIRTCHNL_OP_CONFIG_RSS_HFUNC = 18,
- 	/* opcode 19 is reserved */
- 	VIRTCHNL_OP_IWARP = 20, /* advanced opcode */
- 	VIRTCHNL_OP_RDMA = VIRTCHNL_OP_IWARP,
-@@ -919,6 +920,21 @@ enum virtchnl_rss_algorithm {
- 	VIRTCHNL_RSS_ALG_XOR_SYMMETRIC		= 3,
- };
- 
-+/* VIRTCHNL_OP_CONFIG_RSS_HFUNC
-+ * VF sends this message to configure the RSS hash function. Only supported
-+ * if both PF and VF drivers set the VIRTCHNL_VF_OFFLOAD_RSS_PF bit during
-+ * configuration negotiation.
-+ * The hash function is initialized to VIRTCHNL_RSS_ALG_TOEPLITZ_ASYMMETRIC
-+ * by the PF.
-+ */
-+struct virtchnl_rss_hfunc {
-+	u16 vsi_id;
-+	u16 rss_algorithm; /* enum virtchnl_rss_algorithm */
-+	u32 reserved;
-+};
-+
-+VIRTCHNL_CHECK_STRUCT_LEN(8, virtchnl_rss_hfunc);
-+
- /* VIRTCHNL_OP_ENABLE_CHANNELS
-  * VIRTCHNL_OP_DISABLE_CHANNELS
-  * VF sends these messages to enable or disable channels based on
-@@ -1542,6 +1558,9 @@ virtchnl_vc_validate_vf_msg(struct virtchnl_version_info *ver, u32 v_opcode,
- 							 vrl->lut_entries);
- 		}
- 		break;
-+	case VIRTCHNL_OP_CONFIG_RSS_HFUNC:
-+		valid_len = sizeof(struct virtchnl_rss_hfunc);
-+		break;
- 	case VIRTCHNL_OP_GET_RSS_HENA_CAPS:
- 		break;
- 	case VIRTCHNL_OP_SET_RSS_HENA:
--- 
-2.34.1
+SGkgU3RldmUsCgpPbiAxMy4xMi4yMyAwMToxNSwgU3RldmVuIFJvc3RlZHQgd3JvdGU6Cj4KPiBP
+biBXZWQsIDEzIERlYyAyMDIzIDAwOjA0OjQ1ICswMDAwCj4gQWxleGFuZGVyIEdyYWYgPGdyYWZA
+YW1hem9uLmNvbT4gd3JvdGU6Cj4KPj4gV2l0aCBLSE8gKEtleGVjIEhhbmRPdmVyKSwgd2Ugd2Fu
+dCB0byBwcmVzZXJ2ZSB0cmFjZSBidWZmZXJzIGFjcm9zcwo+PiBrZXhlYy4gVG8gY2Fycnkgb3Zl
+ciB0aGVpciBzdGF0ZSBiZXR3ZWVuIGtlcm5lbHMsIHRoZSBrZXJuZWwgbmVlZHMgYQo+PiBjb21t
+b24gaGFuZGxlIGZvciB0aGVtIHRoYXQgZXhpc3RzIG9uIGJvdGggc2lkZXMuIEFzIGhhbmRsZSB3
+ZSBpbnRyb2R1Y2UKPj4gbmFtZXMgZm9yIHJpbmcgYnVmZmVycy4gSW4gYSBmb2xsb3ctdXAgcGF0
+Y2gsIHRoZSBrZXJuZWwgY2FuIHRoZW4gdXNlCj4+IHRoZXNlIG5hbWVzIHRvIHJlY292ZXIgYnVm
+ZmVyIGNvbnRlbnRzIGZvciBzcGVjaWZpYyByaW5nIGJ1ZmZlcnMuCj4+Cj4gSXMgdGhlcmUgYSB3
+YXkgdG8gdXNlIHRoZSB0cmFjZV9hcnJheSBuYW1lIGluc3RlYWQ/Cj4KPiBUaGUgdHJhY2VfYXJy
+YXkgaXMgdGhlIHN0cnVjdHVyZSB0aGF0IHJlcHJlc2VudHMgZWFjaCB0cmFjaW5nIGluc3RhbmNl
+LiBBbmQKPiBpdCBhbHJlYWR5IGhhcyBhIG5hbWUgZmllbGQuIEFuZCBpZiB5b3UgY2FuIGdldCB0
+aGUgYXNzb2NpYXRlZCByaW5nIGJ1ZmZlcgo+IGZyb20gdGhhdCB0b28uCj4KPiBzdHJ1Y3QgdHJh
+Y2VfYXJyYXkgKnRyOwo+Cj4gICAgICAgICAgdHItPmFycmF5X2J1ZmZlci5idWZmZXIKPgo+ICAg
+ICAgICAgIHRyLT5uYW1lCj4KPiBXaGVuIHlvdSBkbzogbWtkaXIgL3N5cy9rZXJuZWwvdHJhY2lu
+Zy9pbnN0YW5jZS9mb28KPgo+IFlvdSBjcmVhdGUgYSBuZXcgdHJhY2VfYXJyYXkgaW5zdGFuY2Ug
+d2hlcmUgdHItPm5hbWUgPSAiZm9vIiBhbmQgYWxsb2NhdGVzCj4gdGhlIGJ1ZmZlciBmb3IgaXQg
+YXMgd2VsbC4KClRoZSBuYW1lIGluIHRoZSByaW5nIGJ1ZmZlciBpcyBwcmV0dHkgbXVjaCBqdXN0
+IGEgY29weSBvZiB0aGUgdHJhY2UgCmFycmF5IG5hbWUuIEkgdXNlIGl0IHRvIHJlY29uc3RydWN0
+IHdoaWNoIGJ1ZmZlciB3ZSdyZSBhY3R1YWxseSAKcmVmZXJyaW5nIHRvIGluc2lkZSBfX3Jpbmdf
+YnVmZmVyX2FsbG9jKCkuCgpJJ20gYWxsIGVhcnMgZm9yIGFsdGVybmF0aXZlIHN1Z2dlc3Rpb25z
+LiBJIHN1cHBvc2Ugd2UgY291bGQgcGFzcyB0ciBhcyAKYXJndW1lbnQgdG8gcmluZ19idWZmZXJf
+YWxsb2MoKSBpbnN0ZWFkIG9mIHRoZSBuYW1lPwoKCkFsZXgKCgoKCkFtYXpvbiBEZXZlbG9wbWVu
+dCBDZW50ZXIgR2VybWFueSBHbWJICktyYXVzZW5zdHIuIDM4CjEwMTE3IEJlcmxpbgpHZXNjaGFl
+ZnRzZnVlaHJ1bmc6IENocmlzdGlhbiBTY2hsYWVnZXIsIEpvbmF0aGFuIFdlaXNzCkVpbmdldHJh
+Z2VuIGFtIEFtdHNnZXJpY2h0IENoYXJsb3R0ZW5idXJnIHVudGVyIEhSQiAxNDkxNzMgQgpTaXR6
+OiBCZXJsaW4KVXN0LUlEOiBERSAyODkgMjM3IDg3OQoKCg==
 
