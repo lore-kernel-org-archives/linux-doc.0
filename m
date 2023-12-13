@@ -1,172 +1,116 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nplUyg3L"
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DADCCD;
-	Tue, 12 Dec 2023 21:16:41 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6ce939ecfc2so5919040b3a.2;
-        Tue, 12 Dec 2023 21:16:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702444601; x=1703049401; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LRr44WEMSXOTi5UdO7XfFiUfq3ncu6za7AytVC7IChw=;
-        b=nplUyg3Lm7jhyG3NA0DB899gFb4Oz/ops170AIbd6sT5AqkMiClIK6Bz3zxKoFtyaG
-         qFwfmX8WV0ay7lnfG/t6c8hzJRS/ccCcibLppDZC04QSkz3lcnLJMDCRen0GBy4W6SGO
-         8151RvyRCE4TBrhwb8mzj+64KcLEKXOY0DENkg4XX5/5uVhygooVKMQcqtcFpRpiDYHT
-         nxAbGoL6djnau/o7Bb711HxTMSUkBJn9AdgiUtB8O/UXKWau2XDsfHnbGtLFwveW1GKK
-         +ziHoWSK6QSwvghkS8hFevw8lGSgt1eVfLFOzJOhnnP4MsDCNIJuZ4fj5y38a20TWcl/
-         iryQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702444601; x=1703049401;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LRr44WEMSXOTi5UdO7XfFiUfq3ncu6za7AytVC7IChw=;
-        b=moKnHltynTy0u/3xwAEN2l+fxOhU9UxRSyrfmgeSv1KCJ1J3RXWG2+XbvygSmjmY2e
-         raKU0mr90+MaUm32Toa/fzP1GOudJcscE4sgqVsbOC6NH32ghq1L+I+7jDomW0NtUhpd
-         aPWx8vJsREu/iqqIEMr4XyNvl3g9TZxgc9hOf+lHbPh/baeWQXCPB7rHG89cagWvhBUZ
-         JyWCZLuCDM8LFdRwHf+HJdIdfKf2u7UA7pKJ0woW4q9VBs9HEhyK9jUVQmrWeNcViND5
-         zAgp4mVohIgdn94rOqLsygua9eImkUPIqmmfCzvLrVO/N69FVrfJGb8+1dFVbU7KDe2y
-         IB8g==
-X-Gm-Message-State: AOJu0YyU39VpkqRr6YgCYOr4XpkXy71p98NDPHLr9+oIt7UBXZJ54YRU
-	Yrvb0TJttAYvezGemyeFrCU=
-X-Google-Smtp-Source: AGHT+IHMgoOLueyJ4jGuoXnKD1Q/bSXL2KX2jtf9N9Q0IfGiCx0SAHYFVC989l8V+q8J13bd27EEYQ==
-X-Received: by 2002:a05:6a20:9151:b0:190:46c8:a3e1 with SMTP id x17-20020a056a20915100b0019046c8a3e1mr7927874pzc.97.1702444600965;
-        Tue, 12 Dec 2023 21:16:40 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id p1-20020a056a000a0100b006c06779e593sm9399506pfh.16.2023.12.12.21.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 21:16:40 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id BCB8311AB0467; Wed, 13 Dec 2023 12:16:36 +0700 (WIB)
-Date: Wed, 13 Dec 2023 12:16:36 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Christian Brauner <brauner@kernel.org>, linux-unionfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] overlayfs.rst: fix ReST formatting
-Message-ID: <ZXk-NPhtH1g57HWt@archie.me>
-References: <20231212073324.245541-1-amir73il@gmail.com>
- <20231212073324.245541-3-amir73il@gmail.com>
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="XBlRdELe"
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 826A1BD;
+	Tue, 12 Dec 2023 23:31:14 -0800 (PST)
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BCMH459019781;
+	Tue, 12 Dec 2023 23:31:03 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=pfpt0220; bh=pD8pB40+
+	MGPhPGsW22XbO9Z6GQcv7R44T6Pe6un/LSo=; b=XBlRdELePeBKn36psY2AumcG
+	YRYPzyA/x35EQKDafRPKiDMivL/z5V11gQ/i5wnk4D+TcXwAarCnWCqfBrn1JkCe
+	y77k+AwbYdwvWBHmQqjgCmek/nO/Lc1XU2FrN8yQuHhhZVWoEFFPbKpQH6xwfg3r
+	myXpQ+C5F2QaaMqXlE1CLPppr++7eAu9fdDMzDIIVDz5AIc7Ryq0qeqHfpWSjbFc
+	yzuGTRggiipylxljOLLYKLqvfYqaBx1Q0pXmgfLi/w2yAC+KFDqBd5eoq7CQInsi
+	DqOcf2dSFQBbFNaGl2x8YQ3ErRU2U6cdmlWL4pL3onTfwFGGDXtkgCjUyrrx6A==
+Received: from dc5-exch01.marvell.com ([199.233.59.181])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3uvrmjvrhw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Tue, 12 Dec 2023 23:31:03 -0800 (PST)
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 12 Dec
+ 2023 23:31:01 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
+ Transport; Tue, 12 Dec 2023 23:31:01 -0800
+Received: from localhost.localdomain (unknown [10.28.36.175])
+	by maili.marvell.com (Postfix) with ESMTP id 213083F7085;
+	Tue, 12 Dec 2023 23:30:56 -0800 (PST)
+From: Srujana Challa <schalla@marvell.com>
+To: <herbert@gondor.apana.org.au>, <davem@davemloft.net>
+CC: <linux-crypto@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kuba@kernel.org>, <bbrezillon@kernel.org>, <arno@natisbad.org>,
+        <corbet@lwn.net>, <kalesh-anakkur.purayil@broadcom.com>,
+        <horms@kernel.org>, <sgoutham@marvell.com>, <bbhushan2@marvell.com>,
+        <jerinj@marvell.com>, <ndabilpuram@marvell.com>, <schalla@marvell.com>
+Subject: [PATCH v3 0/9] Add Marvell CPT CN10KB/CN10KA B0 support
+Date: Wed, 13 Dec 2023 13:00:46 +0530
+Message-ID: <20231213073055.588530-1-schalla@marvell.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vSL+kmlKkzmtPjfX"
-Content-Disposition: inline
-In-Reply-To: <20231212073324.245541-3-amir73il@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: SGbzkdvS5yTp9Nj50pL9J2olfVuuuIb2
+X-Proofpoint-ORIG-GUID: SGbzkdvS5yTp9Nj50pL9J2olfVuuuIb2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
 
+Marvell OcteonTX2's next gen platform CN10KB/CN10KA B0
+introduced changes in CPT SG input format(SGv2) to make
+it compatibile with NIX SG input format, to support inline
+IPsec in SG mode.
 
---vSL+kmlKkzmtPjfX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patchset modifies the octeontx2 CPT driver code to
+support SGv2 format for CN10KB/CN10KA B0. And also adds
+code to configure newly introduced HW registers.
+This patchset also implements SW workaround for couple of
+HW erratas.
 
-On Tue, Dec 12, 2023 at 09:33:24AM +0200, Amir Goldstein wrote:
-> Fix some indentation issues and missing newlines in quoted text.
->=20
-> Unindent a) b) enumerated list to workaround github displaying it
-> as numbered list.
->=20
-> Reported-by: Christian Brauner <brauner@kernel.org>
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
->  Documentation/filesystems/overlayfs.rst | 69 +++++++++++++------------
->  1 file changed, 35 insertions(+), 34 deletions(-)
->=20
-> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
-systems/overlayfs.rst
-> index 926396fdc5eb..37467ad5cff4 100644
-> --- a/Documentation/filesystems/overlayfs.rst
-> +++ b/Documentation/filesystems/overlayfs.rst
-> @@ -174,10 +174,10 @@ programs.
->  seek offsets are assigned sequentially when the directories are read.
->  Thus if
-> =20
-> -  - read part of a directory
-> -  - remember an offset, and close the directory
-> -  - re-open the directory some time later
-> -  - seek to the remembered offset
-> +- read part of a directory
-> +- remember an offset, and close the directory
-> +- re-open the directory some time later
-> +- seek to the remembered offset
+v3:
+- Dropped a patch to submit to netdev.
+v2:
+- Addressed review comments.
+- Fixed sparse errors reported by kernel test robot.
 
-Looks OK.
+Nithin Dabilpuram (2):
+  crypto/octeontx2: register error interrupts for inline cptlf
+  crypto: octeontx2: support setting ctx ilen for inline CPT LF
 
-> =20
->  there may be little correlation between the old and new locations in
->  the list of filenames, particularly if anything has changed in the
-> @@ -285,21 +285,21 @@ Permission model
-> =20
->  Permission checking in the overlay filesystem follows these principles:
-> =20
-> - 1) permission check SHOULD return the same result before and after copy=
- up
-> +1) permission check SHOULD return the same result before and after copy =
-up
-> =20
-> - 2) task creating the overlay mount MUST NOT gain additional privileges
-> +2) task creating the overlay mount MUST NOT gain additional privileges
-> =20
-> - 3) non-mounting task MAY gain additional privileges through the overlay,
-> - compared to direct access on underlying lower or upper filesystems
-> +3) non-mounting task MAY gain additional privileges through the overlay,
-> +   compared to direct access on underlying lower or upper filesystems
-> =20
-> -This is achieved by performing two permission checks on each access
-> +This is achieved by performing two permission checks on each access:
-> =20
-> - a) check if current task is allowed access based on local DAC (owner,
-> -    group, mode and posix acl), as well as MAC checks
-> +a) check if current task is allowed access based on local DAC (owner,
-> +group, mode and posix acl), as well as MAC checks
-> =20
-> - b) check if mounting task would be allowed real operation on lower or
-> -    upper layer based on underlying filesystem permissions, again includ=
-ing
-> -    MAC checks
-> +b) check if mounting task would be allowed real operation on lower or
-> +upper layer based on underlying filesystem permissions, again including
-> +MAC checks
+Srujana Challa (7):
+  crypto: octeontx2: remove CPT block reset
+  crypto: octeontx2: add SGv2 support for CN10KB or CN10KA B0
+  crypto: octeontx2: add devlink option to set t106 mode
+  crypto: octeontx2: remove errata workaround for CN10KB or CN10KA B0
+    chip.
+  crypto: octeontx2: add LF reset on queue disable
+  octeontx2-af: update CPT inbound inline IPsec mailbox
+  crypto: octeontx2: add ctx_val workaround
 
-Shouldn't the numbered list be `1.` and `a.`?
+ Documentation/crypto/device_drivers/index.rst |   9 +
+ .../crypto/device_drivers/octeontx2.rst       |  25 ++
+ Documentation/crypto/index.rst                |   1 +
+ drivers/crypto/marvell/octeontx2/cn10k_cpt.c  |  86 ++++-
+ drivers/crypto/marvell/octeontx2/cn10k_cpt.h  |  27 ++
+ .../marvell/octeontx2/otx2_cpt_common.h       |  54 +++-
+ .../marvell/octeontx2/otx2_cpt_devlink.c      |  44 ++-
+ .../marvell/octeontx2/otx2_cpt_hw_types.h     |   9 +-
+ .../marvell/octeontx2/otx2_cpt_mbox_common.c  |  26 ++
+ .../marvell/octeontx2/otx2_cpt_reqmgr.h       | 298 ++++++++++++++++++
+ drivers/crypto/marvell/octeontx2/otx2_cptlf.c | 133 +++++---
+ drivers/crypto/marvell/octeontx2/otx2_cptlf.h | 105 ++++--
+ drivers/crypto/marvell/octeontx2/otx2_cptpf.h |   4 +
+ .../marvell/octeontx2/otx2_cptpf_main.c       |  73 ++---
+ .../marvell/octeontx2/otx2_cptpf_mbox.c       |  82 ++++-
+ .../marvell/octeontx2/otx2_cptpf_ucode.c      |  49 +--
+ .../marvell/octeontx2/otx2_cptpf_ucode.h      |   3 +-
+ drivers/crypto/marvell/octeontx2/otx2_cptvf.h |   2 +
+ .../marvell/octeontx2/otx2_cptvf_algs.c       |  31 ++
+ .../marvell/octeontx2/otx2_cptvf_algs.h       |   5 +
+ .../marvell/octeontx2/otx2_cptvf_main.c       |  23 +-
+ .../marvell/octeontx2/otx2_cptvf_mbox.c       |  28 ++
+ .../marvell/octeontx2/otx2_cptvf_reqmgr.c     | 162 +---------
+ 23 files changed, 975 insertions(+), 304 deletions(-)
+ create mode 100644 Documentation/crypto/device_drivers/index.rst
+ create mode 100644 Documentation/crypto/device_drivers/octeontx2.rst
 
-> @@ -421,15 +421,15 @@ Since kernel version v6.8, "data-only" lower layers=
- can also be added using
->  the "datadir+" mount options and the fsconfig syscall from new mount api.
->  For example:
-> =20
-> -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
-> -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
-> -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l3", 0);
-> -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do1", 0);
-> -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do2", 0);
-> + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
-> + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
-> + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l3", 0);
-> + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do1", 0);
-> + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do2", 0);
+-- 
+2.25.1
 
-What about using code block syntax (e.g. `For example::`)?
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---vSL+kmlKkzmtPjfX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZXk+NAAKCRD2uYlJVVFO
-o0p4AQCZZvR2aWqf1mkdwsbtJagAcODwt7KdO9o1fc99tDa9rgD9Gn5zOl1ZDaDB
-p0UMqUnkDDLoMmA7P6EyMZ+/L/9iSwQ=
-=j+hl
------END PGP SIGNATURE-----
-
---vSL+kmlKkzmtPjfX--
