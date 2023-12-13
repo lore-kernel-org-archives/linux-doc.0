@@ -1,119 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QDOsAyXQ"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 867F3170A;
-	Wed, 13 Dec 2023 03:33:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702467237; x=1734003237;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dL6Em6F9/TJ8e69UFYykBz6xgC2V73mBvEEwVDeutqU=;
-  b=QDOsAyXQ5Xej77dKJp6uRLZZ4kqFCiXuTMkb6VT96UrH6Si8sMVRzovg
-   gIPp6KADgdAcDNsepmRjx2fta57shXwW4VtJthCJ0o2bV7/k+mpDMvu2v
-   llxHVJKJgt1PQoSq8mHH5y4WRc3j5IQbm0Awxqs23YuCuyqV5glqMAPOZ
-   OBfRHuhRmlfoyYMoinXNTrcZMX78S663WBIm3yUh7suNcmTRPI1f9NktC
-   Uc6M2dolekvYV40UCkYiqer8e1j31GBrgpTvxymM/5mEoc7mUkPHfXLbK
-   jf5zlmlHTIJ4xoXWP9jwlwcKrvFRgwrl2V5KzwO4lxQDMu0S3+38YJyF1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394702323"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="394702323"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 03:33:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897302957"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="897302957"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 13 Dec 2023 03:33:04 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDNU5-000KUJ-2l;
-	Wed, 13 Dec 2023 11:33:01 +0000
-Date: Wed, 13 Dec 2023 19:32:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org, x86@kernel.org,
-	Eric Biederman <ebiederm@xmission.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	James Gowans <jgowans@amazon.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH 02/15] memblock: Declare scratch memory as CMA
-Message-ID: <202312131930.gMiphjju-lkp@intel.com>
-References: <20231213000452.88295-3-graf@amazon.com>
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88659AF;
+	Wed, 13 Dec 2023 03:48:59 -0800 (PST)
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4SqtyY5ySQz29g0y;
+	Wed, 13 Dec 2023 19:47:49 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5ECA31400DA;
+	Wed, 13 Dec 2023 19:48:57 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 13 Dec
+ 2023 19:48:57 +0800
+Subject: Re: [net-next v1 09/16] page_pool: device memory support
+To: Mina Almasry <almasrymina@google.com>
+CC: Shailend Chand <shailend@google.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst
+	<jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, Jesper
+ Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
+	<ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, David Ahern
+	<dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-10-almasrymina@google.com>
+ <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
+ <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
+ <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com>
+ <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
+ <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
+ <59e07233-24cb-7fb2-1aee-e1cf7eb72fa9@huawei.com>
+ <CAHS8izMdpo0D7GYzMkOtg1ueCODAVNxtwSP_qPseSYXNMhPGCw@mail.gmail.com>
+ <2cdf173c-95e4-2141-56f7-0761705cd737@huawei.com>
+ <CAHS8izOTdqqbS6ajAo+c646UwXkK-aB8ET9uJRS6Auszfi0nfA@mail.gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <17adf1c0-e4ad-4baf-4d01-32d6544cc13e@huawei.com>
+Date: Wed, 13 Dec 2023 19:48:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213000452.88295-3-graf@amazon.com>
+In-Reply-To: <CAHS8izOTdqqbS6ajAo+c646UwXkK-aB8ET9uJRS6Auszfi0nfA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 
-Hi Alexander,
+On 2023/12/12 22:28, Mina Almasry wrote:
 
-kernel test robot noticed the following build warnings:
+...
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on arm64/for-next/core akpm-mm/mm-everything linus/master v6.7-rc5 next-20231213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> the page_ref_*() API may be avoided using the below patch:
+>> https://patchwork.kernel.org/project/netdevbpf/patch/20231113130041.58124-7-linyunsheng@huawei.com/
+>>
+> 
+> Even after the patch above, you're still calling page_ref_count() in
+> the page_pool to check for recycling, so after that patch you're still
+> using page->_refcount.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20231213-080941
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20231213000452.88295-3-graf%40amazon.com
-patch subject: [PATCH 02/15] memblock: Declare scratch memory as CMA
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20231213/202312131930.gMiphjju-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312131930.gMiphjju-lkp@intel.com/reproduce)
+Yes, we still need page_ref_count(), which seems be a similar problem
+like the one for page_is_pfmemalloc(), can we deal with it like most
+of other fields?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312131930.gMiphjju-lkp@intel.com/
+> 
+>> But I am not sure how to do that for tx part if devmem for tx is not
+>> intergating into page_pool, that is why I suggest having a tx implementation
+>> for the next version, so that we can have a whole picture of devmem.
+>>
+> 
+> I strongly prefer to keep the TX implementation in a separate series.
+> This series is complicated to implement and review as it is, and is
+> hitting the 15 patch limit anyway.
 
-All warnings (new ones prefixed by >>):
+I am not sure how complicated the TX implementation for devmem will be
+for the latest version, but from the RFCv1, it seems it is simple enough
+to keep it in one patchset.
 
->> mm/memblock.c:2153:13: warning: 'reserve_scratch_mem' defined but not used [-Wunused-function]
-    2153 | static void reserve_scratch_mem(phys_addr_t start, phys_addr_t end)
-         |             ^~~~~~~~~~~~~~~~~~~
+Anyway, it would be good to sort out the basic idea what is the tx API
+for devmem when designing/implementing the rx API for devmem.
 
-
-vim +/reserve_scratch_mem +2153 mm/memblock.c
-
-  2152	
-> 2153	static void reserve_scratch_mem(phys_addr_t start, phys_addr_t end)
-  2154	{
-  2155	#ifdef CONFIG_MEMBLOCK_SCRATCH
-  2156		ulong start_pfn = pageblock_start_pfn(PFN_DOWN(start));
-  2157		ulong end_pfn = pageblock_align(PFN_UP(end));
-  2158		ulong pfn;
-  2159	
-  2160		for (pfn = start_pfn; pfn < end_pfn; pfn += pageblock_nr_pages) {
-  2161			/* Mark as CMA to prevent kernel allocations in it */
-  2162			set_pageblock_migratetype(pfn_to_page(pfn), MIGRATE_CMA);
-  2163		}
-  2164	#endif
-  2165	}
-  2166	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
