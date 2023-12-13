@@ -1,43 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vyp9KlOl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c4u1tjSv"
 Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41181BCC;
-	Wed, 13 Dec 2023 14:42:12 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-336445a2749so355985f8f.0;
-        Wed, 13 Dec 2023 14:42:11 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E8818A;
+	Wed, 13 Dec 2023 14:42:21 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-33638e7f71aso12592f8f.1;
+        Wed, 13 Dec 2023 14:42:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702507329; x=1703112129; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702507332; x=1703112132; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=a3JY0Tl5uBoHE8m/ovbgncHc7wHlXG+lWF7d67MSbyU=;
-        b=Vyp9KlOlSifYiLlkftXwKQCs5uwtFm25TPUf2EGBasPC0tCZ2CD7yKisozqYWlRH+j
-         YhXB2fp/IuhYeh5ZotnEyLxHYUWIsOa1UBf42Y/j4NrUJiK2aD88Hb3JNmqte5rp3Yyb
-         tKFn3C5ihJnN9HkVNIWeqx3PPQ+AvN3vEHspqCi/R/6PIc2MzyACpQH7e5uOlK8A0UzD
-         ILiIxeengvXwJZU3zQ1L2Rx+UwuzRSCKSmNWBRgXHhKqTa9i0QPqAgpZDAVvvoh3QW1k
-         A4CxeWiZuXD8f56+cmUemr1VY4beNfeeTCc76sK8ZyIw5wFnK+LYNlUbu+5FcRGx5u9z
-         oQvQ==
+        bh=VLA+yZoLDjFMN/O1juANGCrbT+QdJr4gSE0ytCTmmgg=;
+        b=c4u1tjSvxiVgT/Q6VzPGaTXFxfehipPkK1FS1FGq5QcXkrPDcpW6mtHhxb9bf5E85a
+         DR4+sdXHaRLMsk3YvR9PJSs0ZYBACdP2elvxKXGTuSCK0QD8x0yA4hRBQtGe/8IxfIoy
+         ruj4WhXe/jgXgJZPVE5BR8c3enHnNgTO6ljQtcdlk5rD2dZN/g5Y9qu8pl6yVKVrisE6
+         CbzF6tEwP9VyzNg5aam58bmj9qLfRJ15IPXcHBb0QXfJGrlf56SPE6pGo+swmwpYEkVw
+         Fq1j7DpP5O/xwzZ2kHrKBdIM6m2wZxny4avMqFcLoRptwkUh7YnyirU/oaExzex1X3DW
+         BuRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702507329; x=1703112129;
+        d=1e100.net; s=20230601; t=1702507332; x=1703112132;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a3JY0Tl5uBoHE8m/ovbgncHc7wHlXG+lWF7d67MSbyU=;
-        b=RvL66vkqKloCDWRK8TYwACi5gaK4bVjxd7puIowa80xCCynfljnCoJi6uDkxkR6eRW
-         G+d5fnLI0tLmt4CHItzVquqBjEC+j5tBW0KJa5syxr3LuBRSZ60q50BSG7rgZuhLqIbY
-         RHE2rw/eYJfRhAiFak/dHYVWzE3iGkLrmek0m1hrfI0wCk0SS8kqkqupTBRQWFdi5nty
-         HbLnT/JEyeBeW95N47Gm4xGZ8IwOw5EnLIhu+9CJZm8ieIaqGSXoFJ+EH+QU8ftPXMQ2
-         6pr1cVv47hmVm4GG/JdTSRf0/gUEGHNCM1u3YuQWThy0/WpSVlKDftCMiMbrnTzqcjVq
-         gcIg==
-X-Gm-Message-State: AOJu0YxYa/1Jvu8udXM4jUHibcf8iqAbaz2dig5QPz7tg5XxgYg9mROB
-	nCN30DTccgrCLqnmvNadcoKtGaykLrvnYA==
-X-Google-Smtp-Source: AGHT+IE7R1lEYc2Ylhz1odvk1h5dIilWAzLIsZYplmnPbbFi8zIIWk7XSDauaVp561tM5YYaQDW7wQ==
-X-Received: by 2002:adf:e94a:0:b0:336:3510:61fb with SMTP id m10-20020adfe94a000000b00336351061fbmr1729503wrn.55.1702507329302;
-        Wed, 13 Dec 2023 14:42:09 -0800 (PST)
+        bh=VLA+yZoLDjFMN/O1juANGCrbT+QdJr4gSE0ytCTmmgg=;
+        b=K+WloECAXWodkmsUmm4MsyIC4LfqgRHHPj1/eIaNe2mM9cIenLFDbPgSlYFQWZbNsZ
+         xbiGN7ttTYFyK/OAUwkKl+d7Dzpnbj5ePNlVFuisw5mJhRZLryurgm6y3HkguN5mUi14
+         Aa56wKw7QD4ymB2/IxjKnJQj+vYcrMqdGHmxDLwHkHzU6AjnYFVpOgquvALLbBze2gGn
+         1n5QohI0f/bNj5py5qDZBDEHnK+B3Ah1O4SaV2m5TyXZMsXWpUG4Xwma8hYkGfAq7YTP
+         yEeTh4ueDgKWmDgf9yKkTnveKGbhI8tVzY5Pn4M8Ne+YQrzyXPsO8yVHN5XWbBhppKnx
+         ebIQ==
+X-Gm-Message-State: AOJu0Yw2Q1k+noBT1oTxuAnhb6sX6TXc7uX9DDQXU/uZQtGCrp5d7lnN
+	sEzUptxT5DSS7zhtrKQzZECa141NQa+2pQ==
+X-Google-Smtp-Source: AGHT+IHwwRdiOM6SzNxTg3j+mxfZCkh/ui5oZxQYO7Sxu6FeJbfuyRxNTm9STeKXI+YfvUkXXIFcsw==
+X-Received: by 2002:a05:6000:8c:b0:333:2fd7:95fd with SMTP id m12-20020a056000008c00b003332fd795fdmr4797055wrx.56.1702507332471;
+        Wed, 13 Dec 2023 14:42:12 -0800 (PST)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:7840:ddbd:bbf:1e8f])
-        by smtp.gmail.com with ESMTPSA id c12-20020a5d4f0c000000b00336442b3e80sm998562wru.78.2023.12.13.14.42.07
+        by smtp.gmail.com with ESMTPSA id c12-20020a5d4f0c000000b00336442b3e80sm998562wru.78.2023.12.13.14.42.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 14:42:08 -0800 (PST)
+        Wed, 13 Dec 2023 14:42:11 -0800 (PST)
 From: Donald Hunter <donald.hunter@gmail.com>
 To: netdev@vger.kernel.org,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -50,9 +50,9 @@ To: netdev@vger.kernel.org,
 	Breno Leitao <leitao@debian.org>
 Cc: donald.hunter@redhat.com,
 	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v4 07/13] doc/netlink/specs: use pad in structs in rt_link
-Date: Wed, 13 Dec 2023 22:41:40 +0000
-Message-ID: <20231213224146.94560-8-donald.hunter@gmail.com>
+Subject: [PATCH net-next v4 09/13] doc/netlink: Regenerate netlink .rst files if ynl-gen-rst changes
+Date: Wed, 13 Dec 2023 22:41:42 +0000
+Message-ID: <20231213224146.94560-10-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231213224146.94560-1-donald.hunter@gmail.com>
 References: <20231213224146.94560-1-donald.hunter@gmail.com>
@@ -64,46 +64,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The rt_link spec was using pad1, pad2 attributes in structs which
-appears in the ynl output. Replace this with the 'pad' type which
-doesn't pollute the output.
+Add ynl-gen-rst.py to the dependencies for the netlink .rst files in the
+doc Makefile so that the docs get regenerated if the ynl-gen-rst.py
+script is modified. Use $(Q) to honour V=1 in the rules that run
+ynl-gen-rst.py
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+Reviewed-by: Breno Leitao <leitao@debian.org>
 ---
- Documentation/netlink/specs/rt_link.yaml | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ Documentation/Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/netlink/specs/rt_link.yaml b/Documentation/netlink/specs/rt_link.yaml
-index ea6a6157d718..1ad01d52a863 100644
---- a/Documentation/netlink/specs/rt_link.yaml
-+++ b/Documentation/netlink/specs/rt_link.yaml
-@@ -66,8 +66,9 @@ definitions:
-         name: ifi-family
-         type: u8
-       -
--        name: padding
--        type: u8
-+        name: pad
-+        type: pad
-+        len: 1
-       -
-         name: ifi-type
-         type: u16
-@@ -719,11 +720,9 @@ definitions:
-         name: family
-         type: u8
-       -
--        name: pad1
--        type: u8
--      -
--        name: pad2
--        type: u16
-+        name: pad
-+        type: pad
-+        len: 3
-       -
-         name: ifindex
-         type: u32
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 5c156fbb6cdf..3885bbe260eb 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -106,10 +106,10 @@ YNL_RST_FILES_TMP := $(patsubst %.yaml,%.rst,$(wildcard $(YNL_YAML_DIR)/*.yaml))
+ YNL_RST_FILES := $(patsubst $(YNL_YAML_DIR)%,$(YNL_RST_DIR)%, $(YNL_RST_FILES_TMP))
+ 
+ $(YNL_INDEX): $(YNL_RST_FILES)
+-	@$(YNL_TOOL) -o $@ -x
++	$(Q)$(YNL_TOOL) -o $@ -x
+ 
+-$(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml
+-	@$(YNL_TOOL) -i $< -o $@
++$(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
++	$(Q)$(YNL_TOOL) -i $< -o $@
+ 
+ htmldocs: $(YNL_INDEX)
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
 -- 
 2.42.0
 
