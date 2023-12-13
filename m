@@ -1,33 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5E9A20;
-	Wed, 13 Dec 2023 00:15:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 724A5C433C8;
-	Wed, 13 Dec 2023 00:15:03 +0000 (UTC)
-Date: Tue, 12 Dec 2023 19:15:46 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Alexander Graf <graf@amazon.com>
-Cc: <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
- <linux-mm@kvack.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <kexec@lists.infradead.org>,
- <linux-doc@vger.kernel.org>, <x86@kernel.org>, Eric Biederman
- <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski
- <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, "Rob Herring"
- <robh+dt@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>, Mark
- Rutland <mark.rutland@arm.com>, "Tom Lendacky" <thomas.lendacky@amd.com>,
- Ashish Kalra <ashish.kalra@amd.com>, James Gowans <jgowans@amazon.com>,
- Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>, <arnd@arndb.de>,
- <pbonzini@redhat.com>, <madvenka@linux.microsoft.com>, Anthony Yznaga
- <anthony.yznaga@oracle.com>, Usama Arif <usama.arif@bytedance.com>, David
- Woodhouse <dwmw@amazon.co.uk>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>
-Subject: Re: [PATCH 08/15] tracing: Introduce names for ring buffers
-Message-ID: <20231212191546.603c0703@gandalf.local.home>
-In-Reply-To: <20231213000452.88295-9-graf@amazon.com>
-References: <20231213000452.88295-1-graf@amazon.com>
-	<20231213000452.88295-9-graf@amazon.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96EF7EE;
+	Wed, 13 Dec 2023 00:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WV3ljwpP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB37C433C7;
+	Wed, 13 Dec 2023 00:17:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702426642;
+	bh=byq8UrKLG6eAfqdGKqYVFQwQtrWyvf9QV6eyfR+pwA4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WV3ljwpPLNgjx8vUhCJA2TjUMgl4/RMm0JoyQcSbmRXdFCPnCxmg99b2kKGrkdLCZ
+	 n6WNL/Qb499dGL3FiWoy8Nv6fGBqja27O3uLgdhPvabf7jHpVxxTMAS1pEfsEh9D8F
+	 /SEEh0lrETwweak+zJV0DNIWMHob7H+iZc5MgEA3n9HrLKRRHYHgmD88lNjGS9mvQb
+	 Kk1j+7j9+8L9jN1GADZ0X50JdrFuIKNynERAbXf5hggTAelQ94ZWDmY9SYiU7X81k7
+	 MkLvKWFVFNIwGbg4omxUyhbqRAnQUQmt3qrHsrO+nZ6HScioeH090xoFc2geTFcXU4
+	 caljRG9INyuNg==
+Date: Tue, 12 Dec 2023 16:17:21 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
+ <jacob.e.keller@intel.com>, Breno Leitao <leitao@debian.org>,
+ donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v3 03/13] doc/netlink: Document the sub-message
+ format for netlink-raw
+Message-ID: <20231212161721.7abfe73f@kernel.org>
+In-Reply-To: <20231212221552.3622-4-donald.hunter@gmail.com>
+References: <20231212221552.3622-1-donald.hunter@gmail.com>
+	<20231212221552.3622-4-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,31 +40,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 13 Dec 2023 00:04:45 +0000
-Alexander Graf <graf@amazon.com> wrote:
-
-> With KHO (Kexec HandOver), we want to preserve trace buffers across
-> kexec. To carry over their state between kernels, the kernel needs a
-> common handle for them that exists on both sides. As handle we introduce
-> names for ring buffers. In a follow-up patch, the kernel can then use
-> these names to recover buffer contents for specific ring buffers.
+On Tue, 12 Dec 2023 22:15:42 +0000 Donald Hunter wrote:
+> Document the spec format used by netlink-raw families like rt and tc.
 > 
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 
-Is there a way to use the trace_array name instead?
-
-The trace_array is the structure that represents each tracing instance. And
-it already has a name field. And if you can get the associated ring buffer
-from that too.
-
-struct trace_array *tr;
-
-	tr->array_buffer.buffer
-
-	tr->name
-
-When you do: mkdir /sys/kernel/tracing/instance/foo
-
-You create a new trace_array instance where tr->name = "foo" and allocates
-the buffer for it as well.
-
--- Steve
+Reviewed-by: Jakub Kicinski <kuba@kernel.org>
