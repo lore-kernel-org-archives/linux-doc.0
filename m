@@ -1,93 +1,168 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88659AF;
-	Wed, 13 Dec 2023 03:48:59 -0800 (PST)
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4SqtyY5ySQz29g0y;
-	Wed, 13 Dec 2023 19:47:49 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5ECA31400DA;
-	Wed, 13 Dec 2023 19:48:57 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 13 Dec
- 2023 19:48:57 +0800
-Subject: Re: [net-next v1 09/16] page_pool: device memory support
-To: Mina Almasry <almasrymina@google.com>
-CC: Shailend Chand <shailend@google.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst
-	<jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
-	<ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, David Ahern
-	<dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-10-almasrymina@google.com>
- <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
- <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
- <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com>
- <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
- <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
- <59e07233-24cb-7fb2-1aee-e1cf7eb72fa9@huawei.com>
- <CAHS8izMdpo0D7GYzMkOtg1ueCODAVNxtwSP_qPseSYXNMhPGCw@mail.gmail.com>
- <2cdf173c-95e4-2141-56f7-0761705cd737@huawei.com>
- <CAHS8izOTdqqbS6ajAo+c646UwXkK-aB8ET9uJRS6Auszfi0nfA@mail.gmail.com>
-From: Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <17adf1c0-e4ad-4baf-4d01-32d6544cc13e@huawei.com>
-Date: Wed, 13 Dec 2023 19:48:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bmg6DyP2"
+Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com [IPv6:2607:f8b0:4864:20::a36])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 799EF106;
+	Wed, 13 Dec 2023 03:58:40 -0800 (PST)
+Received: by mail-vk1-xa36.google.com with SMTP id 71dfb90a1353d-4b2ee35bff8so2241182e0c.2;
+        Wed, 13 Dec 2023 03:58:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702468719; x=1703073519; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bJYW5yXxVNbgWrbBqu6ykoaRla+y5O3rX61yIqV8BwI=;
+        b=bmg6DyP2EtqqGazk0RdK2pHFIGC9kFcA2cG1gfjKgRHYlPjUm90AANnhWEfU8N21RI
+         b1ckAHYQzd1Fl00zPEgialdfzgvjHSL2j2OxMrTbJOAev7LuyOnzdfk046/eFrnVcXYb
+         KIBDZ+q8T2iDEnBOPhKgVPD+Ny2PQ+dCtaK05/Pk35xk67A+zoQ0PMF6gzPPQxx5qvhG
+         sEIsOEJjw89eexxOo++hv4Zrb1yHvp2+L2eCTktpbFLUovlBRz9qYwiHXOUDfxFG+vz5
+         lBimPOTR6/BAQrS8Ln0roZZcEFHoO1H1I9gND9TzVfulvv2ysAhLNLj1JzDM7aBvfrGZ
+         D7ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702468719; x=1703073519;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bJYW5yXxVNbgWrbBqu6ykoaRla+y5O3rX61yIqV8BwI=;
+        b=KtO+Cx84pM4IVqLbxPG9/vIV2FT9SS0ME1ZaJ69M88yRseM/fCZsgcITx3QEXzgOzo
+         ZWQLhgOLbLRs18J9gyCgah4yctgenvDQzu7l2y8O+KZ7zFjW1/9qvqovsIqFdh+19PU0
+         AX7cKqli6e4fMUcKszVDjCucqhqop74WTzcsP6KGnCtH8pOVTq5CogkXsPfFDgrGNBPl
+         PDcJLk41a10D2qZRJgunJSSj/GNlQ+fJ3mYt+uprjK3SPM+aEQT/UNuNCcs3I0tvWYzC
+         bUYIlEj/W6IXLLrB5Z+wpQJp3vXRVOvUW0EqyPFGg4VDfICQovVkoKoD0JBmNuqoiw+3
+         MuQQ==
+X-Gm-Message-State: AOJu0YyFeaXDYoVX8GH2DfcAdAw/yiRecPJZtkQiThp/wolsq4wPuf2Z
+	WUX41FyMWYfNKEjYKyFqCUhE1sLgMFoYg+RSOmM=
+X-Google-Smtp-Source: AGHT+IEBIT5aN1vDwhu4+FOLNqpegMSUCpaIGhTvXdQLBUs/Ch5UOLd9143bLdmBnA5oXf72T5wgY//Na576s2+LHjY=
+X-Received: by 2002:a1f:f28f:0:b0:4b2:c554:dfc8 with SMTP id
+ q137-20020a1ff28f000000b004b2c554dfc8mr6401285vkh.23.1702468719430; Wed, 13
+ Dec 2023 03:58:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAHS8izOTdqqbS6ajAo+c646UwXkK-aB8ET9uJRS6Auszfi0nfA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500005.china.huawei.com (7.185.36.74)
+References: <20231212073324.245541-1-amir73il@gmail.com> <20231212073324.245541-3-amir73il@gmail.com>
+ <ZXk-NPhtH1g57HWt@archie.me>
+In-Reply-To: <ZXk-NPhtH1g57HWt@archie.me>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 13 Dec 2023 13:58:28 +0200
+Message-ID: <CAOQ4uxj-Jw=F8kZVHGAa74DD6wkQWkyS1nui-Zj7yGy50Qg3cw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] overlayfs.rst: fix ReST formatting
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, linux-unionfs@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2023/12/12 22:28, Mina Almasry wrote:
+On Wed, Dec 13, 2023 at 7:16=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
+>
+> On Tue, Dec 12, 2023 at 09:33:24AM +0200, Amir Goldstein wrote:
+> > Fix some indentation issues and missing newlines in quoted text.
+> >
+> > Unindent a) b) enumerated list to workaround github displaying it
+> > as numbered list.
+> >
+> > Reported-by: Christian Brauner <brauner@kernel.org>
+> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > ---
+> >  Documentation/filesystems/overlayfs.rst | 69 +++++++++++++------------
+> >  1 file changed, 35 insertions(+), 34 deletions(-)
+> >
+> > diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/fi=
+lesystems/overlayfs.rst
+> > index 926396fdc5eb..37467ad5cff4 100644
+> > --- a/Documentation/filesystems/overlayfs.rst
+> > +++ b/Documentation/filesystems/overlayfs.rst
+> > @@ -174,10 +174,10 @@ programs.
+> >  seek offsets are assigned sequentially when the directories are read.
+> >  Thus if
+> >
+> > -  - read part of a directory
+> > -  - remember an offset, and close the directory
+> > -  - re-open the directory some time later
+> > -  - seek to the remembered offset
+> > +- read part of a directory
+> > +- remember an offset, and close the directory
+> > +- re-open the directory some time later
+> > +- seek to the remembered offset
+>
+> Looks OK.
+>
+> >
+> >  there may be little correlation between the old and new locations in
+> >  the list of filenames, particularly if anything has changed in the
+> > @@ -285,21 +285,21 @@ Permission model
+> >
+> >  Permission checking in the overlay filesystem follows these principles=
+:
+> >
+> > - 1) permission check SHOULD return the same result before and after co=
+py up
+> > +1) permission check SHOULD return the same result before and after cop=
+y up
+> >
+> > - 2) task creating the overlay mount MUST NOT gain additional privilege=
+s
+> > +2) task creating the overlay mount MUST NOT gain additional privileges
+> >
+> > - 3) non-mounting task MAY gain additional privileges through the overl=
+ay,
+> > - compared to direct access on underlying lower or upper filesystems
+> > +3) non-mounting task MAY gain additional privileges through the overla=
+y,
+> > +   compared to direct access on underlying lower or upper filesystems
+> >
+> > -This is achieved by performing two permission checks on each access
+> > +This is achieved by performing two permission checks on each access:
+> >
+> > - a) check if current task is allowed access based on local DAC (owner,
+> > -    group, mode and posix acl), as well as MAC checks
+> > +a) check if current task is allowed access based on local DAC (owner,
+> > +group, mode and posix acl), as well as MAC checks
+> >
+> > - b) check if mounting task would be allowed real operation on lower or
+> > -    upper layer based on underlying filesystem permissions, again incl=
+uding
+> > -    MAC checks
+> > +b) check if mounting task would be allowed real operation on lower or
+> > +upper layer based on underlying filesystem permissions, again includin=
+g
+> > +MAC checks
+>
+> Shouldn't the numbered list be `1.` and `a.`?
+>
 
-...
+As I wrote in the commit message:
+"Unindent a) b) enumerated list to workaround github displaying it
+ as numbered list."
 
->>
->> the page_ref_*() API may be avoided using the below patch:
->> https://patchwork.kernel.org/project/netdevbpf/patch/20231113130041.58124-7-linyunsheng@huawei.com/
->>
-> 
-> Even after the patch above, you're still calling page_ref_count() in
-> the page_pool to check for recycling, so after that patch you're still
-> using page->_refcount.
+For some reason github displays a. as 1.:
 
-Yes, we still need page_ref_count(), which seems be a similar problem
-like the one for page_is_pfmemalloc(), can we deal with it like most
-of other fields?
+https://github.com/torvalds/linux/blob/master/Documentation/filesystems/ove=
+rlayfs.rst#permission-model
 
-> 
->> But I am not sure how to do that for tx part if devmem for tx is not
->> intergating into page_pool, that is why I suggest having a tx implementation
->> for the next version, so that we can have a whole picture of devmem.
->>
-> 
-> I strongly prefer to keep the TX implementation in a separate series.
-> This series is complicated to implement and review as it is, and is
-> hitting the 15 patch limit anyway.
+> > @@ -421,15 +421,15 @@ Since kernel version v6.8, "data-only" lower laye=
+rs can also be added using
+> >  the "datadir+" mount options and the fsconfig syscall from new mount a=
+pi.
+> >  For example:
+> >
+> > -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
+> > -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
+> > -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l3", 0);
+> > -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do1", 0);
+> > -  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do2", 0);
+> > + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
+> > + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
+> > + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l3", 0);
+> > + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do1", 0);
+> > + |  fsconfig(fs_fd, FSCONFIG_SET_STRING, "datadir+", "/do2", 0);
+>
+> What about using code block syntax (e.g. `For example::`)?
+>
 
-I am not sure how complicated the TX implementation for devmem will be
-for the latest version, but from the RFCv1, it seems it is simple enough
-to keep it in one patchset.
+Nice! I will convert all code blocks to use this format.
 
-Anyway, it would be good to sort out the basic idea what is the tx API
-for devmem when designing/implementing the rx API for devmem.
-
-> 
+Thanks,
+Amir.
