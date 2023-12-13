@@ -1,335 +1,422 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eewZiZl4"
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 581C8D0;
-	Wed, 13 Dec 2023 02:06:28 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a1f8510883aso544474766b.3;
-        Wed, 13 Dec 2023 02:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702461987; x=1703066787; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JO/HiJ+kSEpW62CdEw92u2NUo66uRjUgw4hq2FXSzZc=;
-        b=eewZiZl4w6iSre8RXg5GFEjNsWtUBJICgCXlyeXW7JaHvE1c/9JzDH56FrkQuvtzjl
-         ggJFQevk0KUGan5EXmORwi2/8RxrsxFcnCJpuY2aaOp/5J+y4xSXB/gdS6o2hoXiCWBi
-         o+bcXZEVATClE9HsPCUZHrFqYgNxvw2WwqPbkkWfCiTz32CRFGEGI//G9M7qkzIO3u5O
-         +mSCc/3l6pcF0IAtOTH4qcLknp1j9ya9ekesVW2kyACUu/hx83dckDMTTBCZ1eJ5B7HU
-         eMfkdBtLPKcujN5EcL9MQ4PzfuuckU/W19N+/mRaQWNfSXXM84br9CF4ToTNVqX67ujl
-         R9uw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cieKq56x"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01EE1A7
+	for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 02:22:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1702462942;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fKZ/Lgffh6YItnjPVn4vBB8RPVFHrOo+shUDIGrxj94=;
+	b=cieKq56xiuDa0BJbwafnxTw49dnaxMprmRZJaQa3Xb26fJbqfMwSCpDBc+Uj0zhFIt66OU
+	F94PtY2wFT6gr0DcjF5yhaclY8iqIixPgDBAbdl6+yAcYqlofcJMitmI4VSrgzYJEsDNqM
+	WxRVwvkE1sc9hjx4RcSZ1AXFoiWiBGc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-365-mLkRNw_UMMK1L8pLsEEToA-1; Wed, 13 Dec 2023 05:22:20 -0500
+X-MC-Unique: mLkRNw_UMMK1L8pLsEEToA-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a1f9ab28654so149658366b.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 02:22:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702461987; x=1703066787;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JO/HiJ+kSEpW62CdEw92u2NUo66uRjUgw4hq2FXSzZc=;
-        b=Ww7y7ceWk8UBzlizaT1CTPoESDd67uKzKQhO3P4zJN1ai+wszzJXWzzC8cA4r2L4oG
-         +GuCKvnnpzhA25iyn2fLZh4UIJ/oYg/IygHV8pGyYJCHHdQmxm3XLOWgyqQjAlB+oZO6
-         6JZpj/VyoKHB4XiHmazt983iI2GUivUkgi80TJjVmk746mLPuUe4TGZpfSTRoA0AEV2L
-         EILHOQgB3PqblUpLV60K24r3OyE9jvpas2H8//Tm5cDvuIj487pIIAo66wXi0lTHeDbn
-         gJXCMSyuJDC9kO6/1Y4q5ozfBe7FOg+jaSijG2vZvoQFUGGdYFLo3n6Z8PeBLB11at+9
-         WcWA==
-X-Gm-Message-State: AOJu0YwmKzV978rm91Ohe8ZI2O8+NllYqyfGVLQaYiR+Fdo/MufQ2GVJ
-	s5lXNpDIKejDkcWyA34ipfw=
-X-Google-Smtp-Source: AGHT+IHxTaCnqbYO7DXlZwQq/8jTkWKawpSDlMAjwhTIAOGgHnNifn1VsFqIyhtZBPEa80x5PDnFPg==
-X-Received: by 2002:a17:907:724d:b0:a1c:a39d:dcbd with SMTP id ds13-20020a170907724d00b00a1ca39ddcbdmr2612616ejc.232.1702461986410;
-        Wed, 13 Dec 2023 02:06:26 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id th19-20020a1709078e1300b00a1bda8db043sm7364051ejc.120.2023.12.13.02.06.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 02:06:25 -0800 (PST)
-Message-ID: <cdf4876c8e5f70d70ac362f79f295cae5e39b1ef.camel@gmail.com>
-Subject: Re: [PATCH v3 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, nuno.sa@analog.com
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Date: Wed, 13 Dec 2023 11:06:25 +0100
-In-Reply-To: <92699a3e-1198-4bf9-b5c0-ea8c5c189336@roeck-us.net>
-References: <20231205-ltc4282-support-v3-0-e0877b281bc2@analog.com>
-	 <20231205-ltc4282-support-v3-2-e0877b281bc2@analog.com>
-	 <a0eb6cb4-b8af-4a6f-8888-fa18f8f1d188@roeck-us.net>
-	 <d190620900ceda6c2846f3828ee389da917a66e0.camel@gmail.com>
-	 <436257a1-628e-4a45-884d-348e73d4c5e9@roeck-us.net>
-	 <38e41d0b92c0cb1f61e7a1d92137cc94a57a7f85.camel@gmail.com>
-	 <92699a3e-1198-4bf9-b5c0-ea8c5c189336@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        d=1e100.net; s=20230601; t=1702462939; x=1703067739;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fKZ/Lgffh6YItnjPVn4vBB8RPVFHrOo+shUDIGrxj94=;
+        b=pjIz1QEM6qWk23uy3ywLqbNn71V9r/PS8D8VmVBJl9x7wORBCkJ527MXlazDE2t/ec
+         yS5Gmqp8L7Gg2r9cweanK2eCUJPM3OgNsExQfFEwxnHEhN2QYEr4thChzUz2DFjIiTUD
+         JKVn/yiZj2joqwzaQ1/A9X8Nh8M1d3e3d8Xe8y3AHom6WwQ9rqoqmvBB9czwv+YecaTM
+         M9uSKDQVinFP+tms3wZFBRIvqI6w/CEbWdvfH5ivJBPIl2t42F0hf4yQwFx+GMfwsvbZ
+         N4FRvuiq2gNKMbaSxJ5xyTlBqAKFScYgcwLWM8hzaXCGPA6ojJWzeIsZwPKLPokTyo/n
+         G7aw==
+X-Gm-Message-State: AOJu0Yxcai8/PRXna9FYf6thFe+5GJpamNHm2BkCdRTlfm1ajWu2RJqv
+	OTETCpN+WU4+IdwnaMYplxsNDrUzzvKPaaAyrpNZ60PuQozZxVUtPt4YWc9PbP8afiXkBFLCt98
+	FPgdCYnrw+pImNnn2XVTF75ayRF6w/n+sSZCk
+X-Received: by 2002:a17:906:225a:b0:a1d:14a6:2f6e with SMTP id 26-20020a170906225a00b00a1d14a62f6emr2930345ejr.56.1702462939391;
+        Wed, 13 Dec 2023 02:22:19 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG+jZ3nrLP+Wa+070vj84Vz+sqk6KDzCdmeuCiXsoUH30QJib9E+95nujJxOKEw6sQZT25ubnuLQgdExHfby+c=
+X-Received: by 2002:a17:906:225a:b0:a1d:14a6:2f6e with SMTP id
+ 26-20020a170906225a00b00a1d14a62f6emr2930335ejr.56.1702462938844; Wed, 13 Dec
+ 2023 02:22:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <2f33be45-fe11-4b69-8e89-4d2824a0bf01@daynix.com>
+ <CAO-hwJJhzHtKrUEw0zrjgub3+eapgJG-zsG0HRB=PaPi6BxG+w@mail.gmail.com> <e256c6df-0a66-4f86-ae96-bff17920c2fb@daynix.com>
+In-Reply-To: <e256c6df-0a66-4f86-ae96-bff17920c2fb@daynix.com>
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date: Wed, 13 Dec 2023 11:22:06 +0100
+Message-ID: <CAO-hwJKMrWYRNpuprDj9=k87V0yHtLPEJuQ94bpOF3O81=v0kA@mail.gmail.com>
+Subject: Re: Should I add BPF kfuncs for userspace apps? And how?
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Jason Wang <jasowang@redhat.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
+	Benjamin Tissoires <bentiss@kernel.org>, bpf <bpf@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, kvm@vger.kernel.org, 
+	LKML <linux-kernel@vger.kernel.org>, virtualization@lists.linux-foundation.org, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
+	Network Development <netdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2023-12-12 at 09:59 -0800, Guenter Roeck wrote:
-> On 12/12/23 07:30, Nuno S=C3=A1 wrote:
-> > On Tue, 2023-12-12 at 07:14 -0800, Guenter Roeck wrote:
-> > > On 12/12/23 06:28, Nuno S=C3=A1 wrote:
-> > > > On Mon, 2023-12-11 at 07:36 -0800, Guenter Roeck wrote:
-> > > > > On Tue, Dec 05, 2023 at 04:22:56PM +0100, Nuno Sa via B4 Relay wr=
-ote:
-> > > > > > From: Nuno Sa <nuno.sa@analog.com>
-> > > > > >=20
-> > > > > > The LTC4282 hot swap controller allows a board to be safely ins=
-erted and
-> > > > > > removed from a live backplane. Using one or more external N-cha=
-nnel pass
-> > > > > > transistors, board supply voltage and inrush current are ramped=
- up at an
-> > > > > > adjustable rate. An I2C interface and onboard ADC allows for mo=
-nitoring
-> > > > > > of board current, voltage, power, energy and fault status.
-> > > > > >=20
-> > > > > > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> > > > > > ---
-> > > > > > +
-> > > > >=20
-> > > > > > +power1_good=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0Power considered good
-> > > > >=20
-> > > > > I really don't like this attribute. Like the ones below it is non=
--standard
-> > > > > and invisible for standard applications. On top of that, I think =
-it isn't
-> > > > > really related to "power" but to the output voltage. What does it=
- actually
-> > > > > report that isn't included in the FET faults ?
-> > > > >=20
-> > > >=20
-> > > > This is detected with the FB pin and a voltage divider (from the ou=
-tput
-> > > > voltage). Basically depending on the level of that pin, the chip in=
-dicate
-> > > > power
-> > > > good or power bad. I was also very reluctant with this attribute (I=
- mention
-> > > > it
-> > > > in the v1 cover). This might not even indicate any misbehave. We al=
-so
-> > > > support
-> > > > reporting this using the gpio1 pin (if we set it that way). So, I g=
-uess I
-> > > > can
-> > > > just drop this one and add support for it if we ever have a real us=
-ecase
-> > > > where I
-> > > > can actually justify having it :).
-> > > >=20
-> > > > We already have the power_bad fault log in debugfs so I'm not sure =
-if adding
-> > > > this one there adds much value.
-> > > >=20
-> > > > >=20
-> > > > > > +fet_short_fault=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0FET short alarm
-> > > > > > +fet_bad_fault=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0FET bad alarm
-> > > > >=20
-> > > > > Those attributes have little value since they are not standard at=
-tributes
-> > > > > and won't be seen by standard applications. On top of that, it is=
- not
-> > > > > clear
-> > > > > (not documented) what the attribute actually reports. I assume it=
- is
-> > > > > associated with the output voltage, i.e., in0, but that is just a=
-n
-> > > > > assumption.
-> > > > >=20
-> > > >=20
-> > > > fet_short - This is one is detected if the ADC measures a current s=
-ense
-> > > > voltage
-> > > > > 0.25mv while the fet gate is off.
-> > > >=20
-> > > > fet_bad - Is set by monitoring the voltage at the gate and the drai=
-n to
-> > > > source
-> > > > voltage.
-> > > >=20
-> > > > These ones might indicate real issues with the HW so I thought they=
- could be
-> > > > important...
-> > > > =C2=A0=C2=A0=20
-> > > > > What do you think about introducing a standard inX_fault attribut=
-e ?
-> > > > > It would not be as specific as short/bad, but I think it would be=
- more
-> > > > > useful and we could add it to the ABI.
-> > > > >=20
-> > > >=20
-> > > > It would be better than nothing. And we do have fault logs for both=
- these
-> > > > failures so userspace could also use that to know exactly what was =
-the
-> > > > issue. If
-> > > > that's ok with you, I would then report this in inX_fault? Did you =
-had in
-> > > > mind
-> > > > putting this in in0 (vsource) or adding a new channel?
-> > > >=20
-> > > > In my first draft I had another voltage channel (label: VFET) to re=
-port the
-> > > > fet_bad condition. I was using the inX_crit or inX_lcrit but it fel=
-t bad so
-> > > > I
-> > > > removed it...
-> > > >=20
-> > >=20
-> > > This isn't an extra voltage channel. It should be associated with the=
- output
-> > > voltage because that is what is affected, and that would be in0.
-> > >=20
-> >=20
-> > Noted... will go with that and add an introductory patch for having inX=
-_fault in
-> > hwmon.
-> >=20
-> > > > > > +fault_logs_reset=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Clea=
-rs all the Logged Faults
-> > > >=20
-> > > > > What exactly does that do that is user visible ?
-> > > >=20
-> > > > Well, this one is because in some configurations the chip won't ena=
-ble the
-> > > > output load until you reset/clear the fault log keeping it from ena=
-bling the
-> > > > output.=C2=A0This is the comment I have in the code:
-> > > >=20
-> > > > "Fault log failures. These faults might be important in systems whe=
-re auto-
-> > > > retry
-> > > > is not enabled since they will cause the part to latch off until th=
-ey are
-> > > > cleared. Typically that happens when the system admin is close enou=
-gh so he
-> > > > can
-> > > > check what happened and manually clear the faults. Moreover, manual=
-ly
-> > > > clearing
-> > > > the faults might only matter when ON_FAULT_MASK in the CONTROL regi=
-ster is
-> > > > set
-> > > > (which is the default) as in that case, a turn off signal from the =
-ON pin
-> > > > won't
-> > > > clear them."
-> > > >=20
-> > > > In v1 I was allowing to clear fauls log individually and you recomm=
-ended to
-> > > > have
-> > > > an attribute to clear them all at once as that would simplify thing=
-s.
-> > > >=20
-> > > > I just kept it in here because this might be important for the chip=
- to work
-> > > > as
-> > > > expected again so having it in debugfs might be weird.
-> > > >=20
-> > >=20
-> > > How about using a write to in0_fault to clear the log ?
-> > >=20
-> >=20
-> > But that would be just related with the output voltage. You can also ha=
-ve
-> > failures on VDD (over and undervolatge fault - I'm using in1_crit and i=
-n1_lcrit)
-> > and if you have the auto retry bit disabled, then clearing fault logs m=
-ight be
-> > important. This attribute is nice because makes it clear what will be d=
-one.
-> > OTOH, I do understand your worries with non standard ABI...
-> >=20
->=20
-> Depends on the meaning of "fault". PMBus, for example, uses the "fault" t=
-erminology
-> to indicate that critical limits have been exceeded. That isn't a "fault"=
- in the
-> terminology used by the hwmon subsystem. Violating a voltage/current/powe=
-r range
-> isn't a fault. A shorted FET or temperature sensor, however, is a fault.
->=20
-> In that sense, if the output is turned off because a voltage / current / =
-power
-> limit was violated, a write into the respective alarm register would be a=
-ppropriate
-> to reset it if the condition doesn't auto-reset. It really all depends on=
- the
-> context.
->=20
+On Tue, Dec 12, 2023 at 1:41=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix=
+.com> wrote:
+>
+> On 2023/12/12 19:39, Benjamin Tissoires wrote:
+> > Hi,
+> >
+> > On Tue, Dec 12, 2023 at 9:11=E2=80=AFAM Akihiko Odaki <akihiko.odaki@da=
+ynix.com> wrote:
+> >>
+> >> Hi,
+>
+> Hi,
+>
+> Thanks for reply.
+>
+> >>
+> >> It is said eBPF is a safe way to extend kernels and that is very
+> >> attarctive, but we need to use kfuncs to add new usage of eBPF and
+> >> kfuncs are said as unstable as EXPORT_SYMBOL_GPL. So now I'd like to a=
+sk
+> >> some questions:
+> >>
+> >> 1) Which should I choose, BPF kfuncs or ioctl, when adding a new featu=
+re
+> >> for userspace apps?
+> >> 2) How should I use BPF kfuncs from userspace apps if I add them?
+> >>
+> >> Here, a "userspace app" means something not like a system-wide daemon
+> >> like systemd (particularly, I have QEMU in mind). I'll describe the
+> >> context more below:
+> >
+> > I'm probably not the best person in the world to answer your
+> > questions, Alexei and others from the BPF core group are, but given
+> > that you pointed at a thread I was involved in, I feel I can give you
+> > a few pointers.
+> >
+> > But first and foremost, I encourage you to schedule an agenda item in
+> > the BPF office hour[4]. Being able to talk with the core people
+> > directly was tremendously helpful to me to understand their point.
+>
+> I prefer emails because I'm not very fluent when speaking in English and
+> may have a difficultly to listen to other people, but I may try it in
+> future.
+>
+> >
+> >
+> >>
+> >> ---
+> >>
+> >> I'm working on a new feature that aids virtio-net implementations usin=
+g
+> >> tuntap virtual network device. You can see [1] for details, but
+> >> basically it's to extend BPF_PROG_TYPE_SOCKET_FILTER to report four mo=
+re
+> >> bytes.
+> >>
+> >> However, with long discussions we have confirmed extending
+> >> BPF_PROG_TYPE_SOCKET_FILTER is not going to happen, and adding kfuncs =
+is
+> >> the way forward. So I decided how to add kfuncs to the kernel and how =
+to
+> >> use it. There are rich documentations for the kernel side, but I found
+> >> little about the userspace. The best I could find is a systemd change
+> >> proposal that is based on WIP kernel changes[2].
+> >
+> > Yes, as Alexei already replied, BPF is not adding new stable APIs,
+> > only kfuncs. The reason being that once it's marked as stable, you
+> > can't really remove it, even if you think it's badly designed and
+> > useless.
+> >
+> > Kfuncs, OTOH are "unstable" by default meaning that the constraints
+> > around it are more relaxed.
+> >
+> > However, "unstable" doesn't mean "unusable". It just means that the
+> > kernel might or might not have the function when you load your program
+> > in userspace. So you have to take that fact into account from day one,
+> > both from the kernel side and the userspace side. The kernel docs have
+> > a nice paragraph explaining that situation and makes the distinction
+> > between relatively unused kfuncs, and well known established ones.
+> >
+> > Regarding the systemd discussion you are mentioning ([2]), this is
+> > something that I have on my plate for a long time. I think I even
+> > mentioned it to Alexei at Kernel Recipes this year, and he frowned his
+> > eyebrows when I mentioned it. And looking at the systemd code and the
+> > benefits over a plain ioctl, it is clearer that in that case, a plain
+> > ioctl is better, mostly because we already know the API and the
+> > semantic.
+> >
+> > A kfunc would be interesting in cases where you are not sure about the
+> > overall design, and so you can give a shot at various API solutions
+> > without having to keep your bad v1 design forever.
+> >
+> >>
+> >> So now I'm wondering how I should use BPF kfuncs from userspace apps i=
+f
+> >> I add them. In the systemd discussion, it is told that Linus said it's
+> >> fine to use BPF kfuncs in a private infrastructure big companies own, =
+or
+> >> in systemd as those users know well about the system[3]. Indeed, those
+> >> users should be able to make more assumptions on the kernel than
+> >> "normal" userspace applications can.
+> >>
+> >> Returning to my proposal, I'm proposing a new feature to be used by QE=
+MU
+> >> or other VMM applications. QEMU is more like a normal userspace
+> >> application, and usually does not make much assumptions on the kernel =
+it
+> >> runs on. For example, it's generally safe to run a Debian container
+> >> including QEMU installed with apt on Fedora. BPF kfuncs may work even =
+in
+> >> such a situation thanks to CO-RE, but it sounds like *accidentally*
+> >> creating UAPIs.
+> >>
+> >> Considering all above, how can I integrate BPF kfuncs to the applicati=
+on?
+> >
+> > FWIW, I'm not sure you can rely on BPF calls from a container. There
+> > is a high chance the syscall gets disabled by the runtime.
+>
+> Right. Container runtimes will not pass CAP_BPF by default, but that
+> restriction can be lifted and I think that's a valid scenario.
+>
+> >
+> >>
+> >> If BPF kfuncs are like EXPORT_SYMBOL_GPL, the natural way to handle th=
+em
+> >> is to think of BPF programs as some sort of kernel modules and
+> >> incorporate logic that behaves like modprobe. More concretely, I can p=
+ut
+> >> eBPF binaries to a directory like:
+> >> /usr/local/share/qemu/ebpf/$KERNEL_RELEASE
+> >
+> > I would advise against that (one program per kernel release). Simply
+> > because your kfunc may or may not have been backported to kernel
+> > release v6.X.Y+1 while it was not there when v6.X.Y was out. So
+> > relying on the kernel number is just going to be a headache.
+> >
+> > As I understand it, the way forward is to rely on the kernel, libbpf
+> > and CO-RE: if the function is not available, the program will simply
+> > not load, and you'll know that this version of the code is not
+> > available (or has changed API).
+> >
+> > So what I would do if some kfunc API is becoming deprecated, is
+> > embedding both code paths in the same BPF unit, but marking them as
+> > not loaded by libppf. Then I can load the compilation unit, try v2 of
+> > the API, and if it's not available, try v1, and if not, then mention
+> > that I can not rely on BPF. Of course, this can also be done with
+> > separate compilation units.
+>
+> Doesn't it mean that the kernel is free to break old versions of QEMU
+> including BPF programs? That's something I'd like to avoid.
 
-Yeah, maybe I'm also failing in giving you all the "context". The device ha=
-s kind of
-three registers for failures/status/logs:
+Couple of points here:
+- when you say "the kernel", it feels like you are talking about an
+external actor tampering with your code. But if you submit a kernel
+patch with a specific use case and get yourself involved in the
+community, why would anybody change your kfunc API without you knowing
+it?
+- the whole warning about "unstable" policy means that the user space
+component should not take for granted the capability. So if the kfunc
+changes/disappears for good reasons (because it was marked as well
+used and deprecated for quite some time), qemu should not *break*, it
+should not provide the functionality, or have a secondary plan.
 
-1. The ADC_ALERT_LOG. This is the typical one for violated min/max limits. =
-They don't
-auto-reset so I'm already doing that in the driver (after reading the alarm=
- bit).
+But even if you are encountering such issues, in case of a change in
+the ABI of your kfunc, it should be easy enough to backport the bpf
+changes to your old QEMUs and ask users to upgrade the user space if
+they upgrade their kernel.
 
-2. The STATUS register. In this one, we have the fet bad/short failures and=
- critical
-limits for VDD (under/over voltage detection). We also have overcurrent det=
-ection and
-the power1_good stuff we already talked about. This is one auto clears and =
-it's RO.
-So we kind of have a mix of faults and critical limits in here.
+AFAIU, it is as unstable as you want it to be. It's just that we are
+not in the "we don't break user space" contract, because we are
+talking about adding a kernel functionality from userspace, which
+requires knowing the kernel intrinsics.
 
-3. The FAULT_LOG register. This one is more about logging and is very simil=
-ar (if not
-identical) in the reported bits with the STATUS register. The differences i=
-s that
-this one does not auto-clears as it's about logging so we want to know abou=
-t historic
-failures and in some configurations (as mentioned before) we do need to cle=
-ar the
-fault log bit so the chip will be able to enable again the output voltage. =
-And
-regarding that we have these main bits:
+>
+> >
+> >>
+> >> Then, QEMU can uname() and get the path to the binary. It will give an
+> >> error if it can't find the binary for the current kernel so that it
+> >> won't create accidental UAPIs.
+> >>
+> >> The obvious downside of this is that it complicates packaging a lot; i=
+t
+> >> requires packaging QEMU eBPF binaries each time a new kernel comes up.
+> >> This complexity is centrally managed by modprobe for kernel modules, b=
+ut
+> >> apparently each application needs to take care of it for BPF programs.
+> >
+> > For my primary use case: HID-BPF, I put kfuncs in kernel v6.3 and
+> > given that I haven't touch this part of the API, the same compilation
+> > unit compiled in the v6.3 era still works on a v6.7-rcx, so no, IMO
+> > it's not complex and doesn't require to follow the kernel releases
+> > (which is the whole point of HID-BPF FWIW).
+>
+> I also expect BPF kfuncs will work well for long if I introduce its
+> usage to QEMU in practice. That said, the interface stability is about
+> when something unexpected happens. What if the interface QEMU relies on
+> is deemed sub-optimal? Without following kernel releases, QEMU may
+> accidentally lose the feature relying on eBPF.
 
- * Under voltage on VDD
- * Over voltage on VDD
- * Over current on the sense resistor
- * FET bad
- * FET short=20
- * Power bad
+In the same way, anybody can tamper with your ioctl or syscall without
+QEMU knowing it.
+And what you need to follow is not the kernel *releases*, but the
+changes in the kfuncs you are interested in.
 
-I can say that the under/over voltage and current will prevent the output t=
-o be
-enabled. I could force that state in my test environment and could see that
-happening. For the FET faults I'm not sure as I cannot force those faults. =
-The power
-stuff won't affect the output.
+>
+> >
+> >>
+> >> In conclusion, I see too much complexity to use BPF in a userspace
+> >> application, which we didn't have to care for
+> >> BPF_PROG_TYPE_SOCKET_FILTER. Isn't there a better way? Or shouldn't I
+> >> use BPF in my case in the first place?
+> >
+> > Given that I'm not a network person, I'm not sure about your use case,
+> > but I would make my decision based on:
+> > - do I know exactly what I want to achieve and I'm confident that I'll
+> > write the proper kernel API from day one? (if not then kfuncs is
+> > appealing because  it's less workload in the long run, but userspace
+> > needs to be slightly smarter)
+>
+> Personally I'm confident that the initial UAPI design will not do a bad
+> thing at least. However, there is a high chance that the design needs to
+> be extended to accommodate new features.
 
-> > I'm not sure how usual is for fault logs to be around that would justif=
-y for a
-> > global standard attribute.
-> >=20
->=20
-> We could also use in[01]_reset_history. While that is originally intended=
- to reset
-> min/max voltage history, I think it makes sense to extend the meaning to =
-include
-> fault history (even more so if that history includes over/undervoltage ev=
-ents).
-> Plus, there are other _reset_history attributes which could be used to re=
-set
-> power/current/temperature history separately if that is supported by the =
-chip.
->=20
+Not trying to offend you or anything, but designs can change for
+multiple reasons. Floppy disks were a good design at the time, and it
+took decades to remove support for it in the kernel. In the same way,
+removing an architecture from the kernel is hard, because even if you
+can not run a new kernel on those architectures, "we do not break
+userspace".
 
-Well, I'm already supporting _reset_history in the voltage/power/current ch=
-annels so
-I can easily extend that for clearing fault history if that is fine with yo=
-u. I just
-need to document it because it's a bit of an "hidden" thing. The question w=
-ould also
-be, should I just document this for this chip docs or in the general hwmon =
-docs?
+The whole BPF approach is to say that users of BPF are not plain
+random users, and they have to know a little bit of the kernel, and
+they know that once the kfunc is here, it doesn't mean it'll stay here
+forever.
 
-- Nuno S=C3=A1
+>
+> > - are all of my use cases covered by using BPF? (what happens if I run
+> > QEMU in a container?) -> BPF might or might not be a solution
+>
+> Yes. Containers can be used to 1) have a different userspace or 2)
+> isolate things for security.
+>
+> Regarding 2), QEMU and libvirt has sandbox mechanisms so we can rely on
+> them instead of containers so we can just pass capabilities to the
+> container. At least, we can always have a setuid helper outside
+> container, and pass around file descriptors it generates.
+>
+> So 1) is the only problem that matters.
+>
+> >
+> > But the nice thing about using BPF kfuncs is that it allows you to
+> > have a testing (not-)UAPI kernel interface. You can then implement the
+> > userspace changes and see how it behaves. And then, once you got the
+> > right design, you can decide to promote it to a proper syscall or
+> > ioctl if you want.
+>
+> I expect it's possible to have testing ioctls. Quickly searching online,
+> there are experimental ioctls[1][2]. I also know DRM has a relaxed
+> policy for closed-source userspace[3].
+
+Sure, but handling a change in the API in those cases is tough in the
+kernel. You probably need to bump versions, return different values
+depending on how many parameters you are given, and you are never sure
+the caller is using the right parameters. BPF simplifies this by
+actually checking the types of the caller, and if there is a
+discrepancy, it'll notify userspace that it is doing something bad.
+
+>
+> So I'm seeing the distinction of UAPI/kfunc even less definitive; UAPIs
+> can also be broken if the subsystem maintainers agree and there is no
+> real user. I also think it's natural to say a kfunc will be stable as
+> long as there is a user, but it contradicts with the current situation.
+
+Please read more carefully the kernel docs [4] (just quoting here the
+beginning):
+
+"""
+Like any other change to the kernel, maintainers will not change or
+remove a kfunc without having a reasonable justification. Whether or
+not they'll choose to change a kfunc will ultimately depend on a
+variety of factors, such as how widely used the kfunc is, how long the
+kfunc has been in the kernel, whether an alternative kfunc exists,
+what the norm is in terms of stability for the subsystem in question,
+and of course what the technical cost is of continuing to support the
+kfunc.
+"""
+
+> kfunc is expressed as EXPORT_SYMBOL_GPL in the documentation, and Linus
+> expects kfunc is for users like big companies or systemd, which closely
+> follow the kernel, according to the systemd discussion I cited in the
+> last email.
+
+Please re-read the doc[4], it's not a 1-to-1 matching to EXPORT_SYMBOL_GPL.
+And being the one who reported Linus' words in that systemd thread,
+Linus was not concerned about "potential situations that may or may
+not happen", because he expected the people who use kfunc to do the
+right thing. Because they are not average programmers. And QEMU
+developers would definitely fit in that category IMO.
+
+And the whole "you can consider kfunc similar to EXPORT_SYMBOL_GPL" is
+just a warning for user space that the kfunc will never be kept only
+for stability reasons. So when you want to use a kfunc, you need to be
+aware of it and not segfault if it's not there (which can not happen
+TBH unless you don't check that your program was correctly loaded).
+
+>
+> According to the discussion above, it may be better off abandoning BPF
+> and implementing all in kernel, with ioctl as I have a (hopefully) sound
+> idea of UAPI design. But I'll also continue considering the BPF option;
+> BPF is still attractive due to its extensibility and safety.
+
+We can not tell you to choose one solution over the other. The choice
+is yours. I personally find BPF more appealing because it allows the
+user space application to define its own kernel API for its own needs
+while relying on just a few defined kfuncs.
+
+But again, sometimes it doesn't work, like the systemd thread you
+linked, it's too big overhead for little gain compared to an ioctl in
+that particular case.
+
+IMO the biggest issue for you is not the stability of the API, but the
+container capabilities. Because allowing CAP_BPF allows for a whole
+lot of nasty things to happen :)
+
+Cheers,
+Benjamin
+
+>
+> Regards,
+> Akihiko Odaki
+>
+> [1]
+> https://www.kernel.org/doc/html/v6.6/userspace-api/media/v4l/hist-v4l2.ht=
+ml?highlight=3Dexperimental#experimental-api-elements
+> [2]
+> https://www.kernel.org/doc/html/v6.6/userspace-api/media/dvb/dmx-expbuf.h=
+tml?highlight=3Dexperimental
+> [3]
+> https://www.kernel.org/doc/html/v6.6/gpu/drm-uapi.html#open-source-usersp=
+ace-requirements
+>
+
+[4] https://www.kernel.org/doc/html/latest/bpf/kfuncs.html?highlight=3Dbpf#=
+kfunc-lifecycle-expectations
+
