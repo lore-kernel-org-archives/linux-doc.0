@@ -1,43 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N3DQmMhN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FvovFUr8"
 Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96885D56;
-	Wed, 13 Dec 2023 14:42:24 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3363ebb277bso770150f8f.2;
-        Wed, 13 Dec 2023 14:42:24 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C04052100;
+	Wed, 13 Dec 2023 14:42:21 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-336447f240cso280482f8f.3;
+        Wed, 13 Dec 2023 14:42:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702507337; x=1703112137; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702507334; x=1703112134; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v1Cw3Yu6aGvXs5Wx/DiJERo5X0a59a10/3prA+sLwwY=;
-        b=N3DQmMhN7DBdil13H9In7xS0S2I0rKO47Ny3RLnTgGvjYA9cvhqeC5ym89GQKW/7QN
-         nCcjWuwcTMRYSldTA7tY15nKnveXV8yP/4/OeEnvQUpCSrNifBDd0PJNANXsPKvH0DuQ
-         s0RtZTQuZtqeSJlFzbANkvv7z+o1IVo8gbj5JyRDJeqCAMn9RMdnyoXcWWagK9Awgte/
-         n3sVZfzzSeAzBo1cettoTder+kMri8ZhOocZrgd3QtlmXSzknBR0MDjYUQD9OxP5R3mD
-         nADT5QctBVyLCQTrsh2IBfBrfE6hjdvtbipUkVvtYxwmhWi2haHl0/YU5vRAAzo16v+4
-         n31Q==
+        bh=kHxjA/PI+QAMG6yG9cC6vwGS4SQuFy0Xe9c6W4xTqrU=;
+        b=FvovFUr8+5Aw/FRG+Xl69tY1wVwyKCG71oIyTyzNi4jisGlkJSdt65HPOwMbQdB5Pu
+         KT0Y9/c1h/neQTmdtyG3mhI2tAseJzcxx7+W3a71WxcLAY98zPcgb2Cc312WbFDs8uZo
+         FRByVFB1o3D3867HXmTTlUy5yUY8Oot8K6YVGogtEYqqiMOcdhQMwSiNbKSKn6xmoQSe
+         wwn90XeAeLIX+7IST/GnqOzyMfipAND479C4yjAYHp7SnSqVd9Fp6UeRRjXTqaPrHtOi
+         nbxIm1nVKad3Fs3KFQgpYfu2glfikBxlB2QUrWPrxXiSJvvvWdvb3uwRsNIYBwThl0Uu
+         4DGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702507337; x=1703112137;
+        d=1e100.net; s=20230601; t=1702507334; x=1703112134;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v1Cw3Yu6aGvXs5Wx/DiJERo5X0a59a10/3prA+sLwwY=;
-        b=mbAwTK2HGOaymA2xwae13NGsTjjGdge0yfP/c3LX14Nz3V/3fHu3boo9pq+yHvDK33
-         ez1hIUFZTfyHI8aBrWR4lxlKyeKHfcKqMSvEUyr1Pf+Gs7pbYdSH5JCsF/lEqeGXifSR
-         qqrhO8oVq8T6vCWOcYsfCYr+eTmpRVje22elDgbOhNnPVAVK9kfi5uieHmV0RCuHpHPR
-         EZnR5L3yYif/fkEVsfKO1nvUlPKCPch/XiuejomYCUzAza5guoYIHy8hCntW5T6bJinT
-         Vrgn6WAatObPRx62Ul9oQqQyTKZ+bnGvdVemoXzI6Uox+pG/X+xRju1QQiJnOBBC5vCO
-         qmvQ==
-X-Gm-Message-State: AOJu0YybEjzOTTSAvMec+b4EhnZYaF89DM0ED+qDz22+wYjaAagCJerv
-	ZMu1HB/5xJZvBv1vVybSVbi67GAMM+7aHg==
-X-Google-Smtp-Source: AGHT+IGtD5sKA1ffZFl9OEdPFfBz1HeouPmCI0fY4okQtoN3SlcC/c9tgFRH5eWIySS6OCHsAW04Ow==
-X-Received: by 2002:adf:a4d2:0:b0:333:3e32:8201 with SMTP id h18-20020adfa4d2000000b003333e328201mr3449999wrb.123.1702507337322;
-        Wed, 13 Dec 2023 14:42:17 -0800 (PST)
+        bh=kHxjA/PI+QAMG6yG9cC6vwGS4SQuFy0Xe9c6W4xTqrU=;
+        b=lxoXEh83rnxvtbhOYV+P6kyxbUnQNF1JTHF9DeTU7aBvs1rtQdzB6s49/Ll65mMVzj
+         5WiaHgENK9Rt9vupa1QsJqpmuhNu0+ol/2UZTJlJwYyNeJO8sqvU8pPbZAsE5jlVahh0
+         hCVIzH/IWHGESLFs5UpyhK+x2ITn7/hGRIYikxjzL5oKqaP2xnYeo0ir41/Ya/iO+07S
+         OQTAGgsLltufPN9Yz1mhH7x4SpKI6pcrOQ9v2VLZfL7trTu2TDFySmQBkEggYAWT+DhQ
+         N2H9F2x4kuWLY+Y4J01mGnWDQAHqflsOLA3gmbfOJqTLRXGwuhZzyN6AyXZHx0pbYqgD
+         v5+w==
+X-Gm-Message-State: AOJu0Ywq4FVjrwZ8aXB08gUM+R1Z3glBKB+QASk799LLTKsl0dKqh681
+	7KE6QjafhjicMvDgMVyzFA3pqnbGXkKyqw==
+X-Google-Smtp-Source: AGHT+IEg0WtTu4qjzMSrMijZ6fI204HwGzosDV0CpG8WD+3/4kZpxrJ+LzBdVQOSrYPBzdxdTlAFiA==
+X-Received: by 2002:a5d:58c9:0:b0:336:363e:fa7f with SMTP id o9-20020a5d58c9000000b00336363efa7fmr1496907wrf.140.1702507334118;
+        Wed, 13 Dec 2023 14:42:14 -0800 (PST)
 Received: from imac.fritz.box ([2a02:8010:60a0:0:7840:ddbd:bbf:1e8f])
-        by smtp.gmail.com with ESMTPSA id c12-20020a5d4f0c000000b00336442b3e80sm998562wru.78.2023.12.13.14.42.15
+        by smtp.gmail.com with ESMTPSA id c12-20020a5d4f0c000000b00336442b3e80sm998562wru.78.2023.12.13.14.42.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 14:42:16 -0800 (PST)
+        Wed, 13 Dec 2023 14:42:13 -0800 (PST)
 From: Donald Hunter <donald.hunter@gmail.com>
 To: netdev@vger.kernel.org,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -50,9 +50,9 @@ To: netdev@vger.kernel.org,
 	Breno Leitao <leitao@debian.org>
 Cc: donald.hunter@redhat.com,
 	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH net-next v4 12/13] tools/net/ynl-gen-rst: Remove bold from attribute-set headings
-Date: Wed, 13 Dec 2023 22:41:45 +0000
-Message-ID: <20231213224146.94560-13-donald.hunter@gmail.com>
+Subject: [PATCH net-next v4 10/13] tools/net/ynl-gen-rst: Add sub-messages to generated docs
+Date: Wed, 13 Dec 2023 22:41:43 +0000
+Message-ID: <20231213224146.94560-11-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231213224146.94560-1-donald.hunter@gmail.com>
 References: <20231213224146.94560-1-donald.hunter@gmail.com>
@@ -64,31 +64,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The generated .rst for attribute-sets currently uses a sub-sub-heading
-for each attribute, with the attribute name in bold. This makes
-attributes stand out more than the attribute-set sub-headings they are
-part of.
-
-Remove the bold markup from attribute sub-sub-headings.
+Add a section for sub-messages to the generated .rst files.
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+Reviewed-by: Breno Leitao <leitao@debian.org>
 ---
- tools/net/ynl/ynl-gen-rst.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/net/ynl/ynl-gen-rst.py | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/tools/net/ynl/ynl-gen-rst.py b/tools/net/ynl/ynl-gen-rst.py
-index 6b7afaa56e22..675ae8357d5e 100755
+index b6292109e236..19e5b34554a1 100755
 --- a/tools/net/ynl/ynl-gen-rst.py
 +++ b/tools/net/ynl/ynl-gen-rst.py
-@@ -235,7 +235,7 @@ def parse_attr_sets(entries: List[Dict[str, Any]]) -> str:
-         lines.append(rst_section(entry["name"]))
-         for attr in entry["attributes"]:
-             type_ = attr.get("type")
--            attr_line = bold(attr["name"])
-+            attr_line = attr["name"]
-             if type_:
-                 # Add the attribute type in the same line
-                 attr_line += f" ({inline(type_)})"
+@@ -251,6 +251,24 @@ def parse_attr_sets(entries: List[Dict[str, Any]]) -> str:
+     return "\n".join(lines)
+ 
+ 
++def parse_sub_messages(entries: List[Dict[str, Any]]) -> str:
++    """Parse sub-message definitions"""
++    lines = []
++
++    for entry in entries:
++        lines.append(rst_section(entry["name"]))
++        for fmt in entry["formats"]:
++            value = fmt["value"]
++
++            lines.append(rst_bullet(bold(value)))
++            for attr in ['fixed-header', 'attribute-set']:
++                if attr in fmt:
++                    lines.append(rst_fields(attr, fmt[attr], 2))
++            lines.append("\n")
++
++    return "\n".join(lines)
++
++
+ def parse_yaml(obj: Dict[str, Any]) -> str:
+     """Format the whole YAML into a RST string"""
+     lines = []
+@@ -287,6 +305,11 @@ def parse_yaml(obj: Dict[str, Any]) -> str:
+         lines.append(rst_subtitle("Attribute sets"))
+         lines.append(parse_attr_sets(obj["attribute-sets"]))
+ 
++    # Sub-messages
++    if "sub-messages" in obj:
++        lines.append(rst_subtitle("Sub-messages"))
++        lines.append(parse_sub_messages(obj["sub-messages"]))
++
+     return "\n".join(lines)
+ 
+ 
 -- 
 2.42.0
 
