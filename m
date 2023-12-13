@@ -1,90 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E449319C;
-	Wed, 13 Dec 2023 00:49:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 864EEC433C8;
-	Wed, 13 Dec 2023 00:49:09 +0000 (UTC)
-Date: Tue, 12 Dec 2023 19:49:52 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Alexander Graf <graf@amazon.com>
-Cc: <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
- <linux-mm@kvack.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <kexec@lists.infradead.org>,
- <linux-doc@vger.kernel.org>, <x86@kernel.org>, Eric Biederman
- <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski
- <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, "Rob Herring"
- <robh+dt@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>, Mark
- Rutland <mark.rutland@arm.com>, "Tom Lendacky" <thomas.lendacky@amd.com>,
- Ashish Kalra <ashish.kalra@amd.com>, James Gowans <jgowans@amazon.com>,
- Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>, <arnd@arndb.de>,
- <pbonzini@redhat.com>, <madvenka@linux.microsoft.com>, Anthony Yznaga
- <anthony.yznaga@oracle.com>, Usama Arif <usama.arif@bytedance.com>, David
- Woodhouse <dwmw@amazon.co.uk>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>
-Subject: Re: [PATCH 09/15] tracing: Introduce names for events
-Message-ID: <20231212194952.5f6d599b@gandalf.local.home>
-In-Reply-To: <20231213000452.88295-10-graf@amazon.com>
-References: <20231213000452.88295-1-graf@amazon.com>
-	<20231213000452.88295-10-graf@amazon.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="sG7bZwXG"
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A0F299
+	for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 16:50:50 -0800 (PST)
+Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-dbc8b07ceddso2674371276.1
+        for <linux-doc@vger.kernel.org>; Tue, 12 Dec 2023 16:50:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702428649; x=1703033449; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IsP6D8T5vC4K0WLWKELqerL/h2k2GCGETaeygCJbK5E=;
+        b=sG7bZwXGvGujWU/Kv07//ZUVZexawR/0ceUWve54iYCKQGNMF8FAbNrrX0aufq9CAv
+         am/BawKeDgKccgvSp/NTP+KRMZ6BZK7v9OYycEgi6hv2ybuLe2iPCCkx3PShmxDN4RmV
+         EaupRUteZGx1Ox/AVwFLXtxIymHvBmJxib2CMOEP72c5OIeu7h7Q201dXqvwIC3R2HeJ
+         VWCFhWgA2Bxfml2Z357GzFJTFQWvXXqaXbxttX89vCDkMKD0fnYBb7Mn2+VTROtmHJXt
+         LUlRdVtkzOSWYNKbYKWbNhHZgufupPR3VYg4GMzTY/ymsFtUEYN562QyUvQnH71juucq
+         RVBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702428649; x=1703033449;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IsP6D8T5vC4K0WLWKELqerL/h2k2GCGETaeygCJbK5E=;
+        b=TPNAPTaqD6DjJACMbSn53Jl4hY3jC0hy/tCVkdrTC/n046UfTriepmxAOpDuTTB6z8
+         /OY7ZYZjOjayhenNRdVA1tn+/EhnD0THHnZdLgH2vF3mJAS4yG9T1IrCsHzrI0zIgPUc
+         H4elyXF2VKR+rTlI7h7uQBCS8CkWdCBA2juMKnrV1IZfLV4N3JyCXtT17Mhr/Tq9WC/F
+         LIr0Qm0D5/30bb6Ta8A80EdMABve4E7XbH0kui9ofydGm5vEg3xaTkgYmD6OC1bB8GhV
+         Ct8k9o+TZMBuE56DzHmszWRV8uf+p+ofoRecxv4XbAtxCRtmDCMLwyibzSyP0uLnhEQS
+         JNLQ==
+X-Gm-Message-State: AOJu0YxSlu+ofbwrBRv7ydZFt6QzdUBPzWHb7+tGneuYJ2qcOowIT1O6
+	9Q/QPRYG9vtZK3jRJTt0Bbb9mXqx0GfHa02W8pGbrA==
+X-Google-Smtp-Source: AGHT+IFg4hZCse8kzky6Y9/DVuxOtpUz/g7bXwrKJ9hF5mEV7x9P3i3TYFdKJnIuamiDiHUwxXUn6NjiQwKNsCzwWqw=
+X-Received: by 2002:a25:8051:0:b0:db7:e91c:eb1d with SMTP id
+ a17-20020a258051000000b00db7e91ceb1dmr4411297ybn.102.1702428649654; Tue, 12
+ Dec 2023 16:50:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
+ <20231122-arm64-gcs-v7-2-201c483bd775@kernel.org> <CAKC1njSC5cC_fXnyNAPt=WU6cD-OjLKFxo90oVPmsLJbuWf4nw@mail.gmail.com>
+ <d708b493-267a-4418-be91-9bde6b2cf50c@sirena.org.uk>
+In-Reply-To: <d708b493-267a-4418-be91-9bde6b2cf50c@sirena.org.uk>
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Tue, 12 Dec 2023 16:50:38 -0800
+Message-ID: <CAKC1njSQPO8ja7AkTzQ724hhSsGjchH9dLbbH9LXP0ZiKj-zPQ@mail.gmail.com>
+Subject: Re: [PATCH v7 02/39] prctl: arch-agnostic prctl for shadow stack
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, 
+	Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, 
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Florian Weimer <fweimer@redhat.com>, 
+	Christian Brauner <brauner@kernel.org>, Thiago Jung Bauermann <thiago.bauermann@linaro.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 13 Dec 2023 00:04:46 +0000
-Alexander Graf <graf@amazon.com> wrote:
+On Tue, Dec 12, 2023 at 11:23=E2=80=AFAM Mark Brown <broonie@kernel.org> wr=
+ote:
+>
+> On Tue, Dec 12, 2023 at 11:17:11AM -0800, Deepak Gupta wrote:
+> > On Wed, Nov 22, 2023 at 1:43=E2=80=AFAM Mark Brown <broonie@kernel.org>=
+ wrote:
+>
+> > > +/*
+> > > + * Set the current shadow stack configuration.  Enabling the shadow
+> > > + * stack will cause a shadow stack to be allocated for the thread.
+> > > + */
+> > > +#define PR_SET_SHADOW_STACK_STATUS      72
+> > > +# define PR_SHADOW_STACK_ENABLE         (1UL << 0)
+>
+> > Other architecture may require disabling shadow stack if glibc
+> > tunables is set to permissive mode.
+> > In permissive mode, if glibc encounters `dlopen` on an object which
+> > doesn't support shadow stack,
+> > glibc should be able to issue PR_SHADOW_STACK_DISABLE.
+>
+> > Architectures can choose to implement or not but I think arch agnostic
+> > code should enumerate this.
+>
+> The current implementation for arm64 and therefore API for the prctl()
+> is that whatever combination of flags is specified will be set, this
+> means that setting the status to something that does not include _ENABLE
+> will result in disabling and we don't need a separate flag for disable.
+> We have use cases that make active use of disabling at runtime.
 
-> With KHO (Kexec HandOver), we want to preserve trace buffers. To parse
-> them, we need to ensure that all trace events that exist in the logs are
-> identical to the ones we parse as. That means we need to match the
-> events before and after kexec.
-> 
-> As a first step towards that, let's give every event a unique name. That
-> way we can clearly identify the event before and after kexec and restore
-> its ID post-kexec.
-> 
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> ---
->  include/linux/trace_events.h         |  1 +
->  include/trace/trace_events.h         |  2 ++
->  kernel/trace/blktrace.c              |  1 +
->  kernel/trace/trace_branch.c          |  1 +
->  kernel/trace/trace_events.c          |  3 +++
->  kernel/trace/trace_functions_graph.c |  4 +++-
->  kernel/trace/trace_output.c          | 13 +++++++++++++
->  kernel/trace/trace_probe.c           |  3 +++
->  kernel/trace/trace_syscalls.c        | 29 ++++++++++++++++++++++++++++
->  9 files changed, 56 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/trace_events.h b/include/linux/trace_events.h
-> index d68ff9b1247f..7670224aa92d 100644
-> --- a/include/linux/trace_events.h
-> +++ b/include/linux/trace_events.h
-> @@ -149,6 +149,7 @@ struct trace_event {
->  	struct hlist_node		node;
->  	int				type;
->  	struct trace_event_functions	*funcs;
-> +	const char			*name;
->  };
+A theoretical scenario (no current workloads should've this case
+because no shadow stack)
 
-OK, this is a hard no. We definitely need to find a different way to do
-this. I'm trying hard to lower the footprint of tracing, and this just
-added 8 bytes to every event on a 64 bit machine.
+- User mode did _ENABLE on the main thread. Shadow stack was allocated
+for the current
+  thread.
+- User mode created a bunch worker threads to run untrusted contained
+code. They shadow
+  stack too.
+- main thread had to do dlopen and now need to disable shadow stack on
+itself due to
+  incompatibility of incoming object in address space.
+- main thread controls worker threads and knows they're contained and
+should still be running
+  with a shadow stack. Although once in a while the main thread needs
+to perform writes to a shadow
+  stack of worker threads for some fixup (in the same addr space).
+main thread doesn't want to delegate
+  this responsibility of ss writes to worker threads because they're untrus=
+ted.
 
-On my box I have 1953 events, and they are constantly growing. This just
-added 15,624 bytes of tracing overhead to that machine.
+How will it do that (currently _ENABLE is married to _WRITE and _PUSH) ?
 
-That may not sound like much, but as this is only for this feature, it just
-added 15K to the overhead for the majority of users.
+Please note that I am making up this scenario just for sake of discussion
+And don't know if software would be using it in this manner.
 
-I'm not sure how easy it is to make this a config option that takes away
-that field when not set. But I would need that at a minimum.
+>
+> Please delete unneeded context from replies, it makes it much easier to
+> find new content.
 
--- Steve
-
+Sorry about that.
+Noted.
