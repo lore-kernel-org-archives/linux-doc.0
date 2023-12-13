@@ -1,65 +1,71 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2147A818;
+	Wed, 13 Dec 2023 19:03:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="sKKi+idO"
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id AB5A095;
-	Wed, 13 Dec 2023 10:56:33 -0800 (PST)
-Received: from skinsburskii. (c-67-170-100-148.hsd1.wa.comcast.net [67.170.100.148])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 74A6A20B74C0;
-	Wed, 13 Dec 2023 10:56:32 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 74A6A20B74C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1702493793;
-	bh=txIReIOWTRs39u8OW5af/PT5Nn7b+8jE2eqzUZ8XWC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sKKi+idOLhnITF/wkGrqC9FTWsyho05pam4Ov+NiMJUNOG9wdoVWzvhAzzVVbi0fM
-	 iq0Sk46HTEoSPfC26F5n/XR5paRCRmarYFa0kFuxc1gAWLfNan2s1/Q+8P81MaF2gS
-	 dZCAJ3GCca9aPvSLzvGvcG/K17vyv+y4Qc5dMZio=
-Date: Wed, 13 Dec 2023 10:56:31 -0800
-From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-To: Alexander Graf <graf@amazon.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org, x86@kernel.org,
-	Eric Biederman <ebiederm@xmission.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	James Gowans <jgowans@amazon.com>, arnd@arndb.de,
-	pbonzini@redhat.com, madvenka@linux.microsoft.com,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH 04/15] kexec: Add KHO parsing support
-Message-ID: <20231213185631.GA14708@skinsburskii.>
-References: <20231213000452.88295-1-graf@amazon.com>
- <20231213000452.88295-5-graf@amazon.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A2fmWay4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F30CC433CA;
+	Wed, 13 Dec 2023 19:03:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702494224;
+	bh=J/iaoXT0rpbsPwoHcTcG3htMVyXBLicckUfUlL8eBn4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=A2fmWay4DvFOhNXj+ErJHs9KGh6CL0CiA9Rrig1Af/yTt6bVBxPQRh3WrazeExAdt
+	 BwpZLqi4FvCUXp0UtWXdHGJQHwjisx9TLgsGXO3lmE3tVnO9XyJb6PNLXhkWjlcntK
+	 bTFDo6HmybRrFTlD+9FPg12pm5Eit9PYTF8sTDMC05N2Ax+Vf4WhFZ2L8srfD6970U
+	 pqKRiTHVjV2R41pjqYebWf3KTZ2vJTG4MJJ7+81YhRPoiaF6FfYzLDgUS1sUujPjnY
+	 iCXltYXanMEKj86HlbuGUvlL4WEIMKIvbFgXeZlOM/VXOlxv2dUm4aZIYzjfUGFQzo
+	 YqCgRsTuuTqrw==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/6] mm/damon: misc updates for 6.8
+Date: Wed, 13 Dec 2023 19:03:32 +0000
+Message-Id: <20231213190338.54146-1-sj@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213000452.88295-5-graf@amazon.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 13, 2023 at 12:04:41AM +0000, Alexander Graf wrote:
-> +void *kho_get_fdt(void)
-> +{
-> +	return fdt;
-> +}
-> +EXPORT_SYMBOL_GPL(kho_get_fdt);
-> +
+Update comments, tests, and documents for DAMON aiming to be merged in
+the next merge window for Linux v6.8.
 
-Same question here (and in other places of this code): shouldn't this
-facility be provided to non-GPL drivers as well?
+SeongJae Park (6):
+  mm/damon: update email of SeongJae
+  mm/damon/core-test: test max_nr_accesses overflow caused
+    divide-by-zero
+  Docs/mm/damon/design: place execution model and data structures at the
+    beginning
+  Docs/admin-guide/mm/damon/usage: update context directory section
+    label
+  Docs/admin-guide/mm/damon/usage: add links to sysfs files hierarchy
+  Docs/admin-guide/mm/damon/usage: use a list for 'state' sysfs file
+    input commands
 
-Also a minor nit: "const void *" looks like a cleaner prototype here.
+ Documentation/admin-guide/mm/damon/usage.rst | 123 +++++++++++--------
+ Documentation/mm/damon/design.rst            |  24 ++--
+ include/linux/damon.h                        |   2 +-
+ mm/damon/core-test.h                         |  13 +-
+ mm/damon/core.c                              |   2 +-
+ mm/damon/dbgfs-test.h                        |   2 +-
+ mm/damon/dbgfs.c                             |   2 +-
+ mm/damon/modules-common.c                    |   2 +-
+ mm/damon/vaddr-test.h                        |   2 +-
+ mm/damon/vaddr.c                             |   2 +-
+ 10 files changed, 106 insertions(+), 68 deletions(-)
+
+
+base-commit: def619f2545d0286e6f4ed6c09fac8f863a70da1
+-- 
+2.34.1
 
