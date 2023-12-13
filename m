@@ -1,233 +1,141 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="ASwUMkXX"
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C11D5;
-	Tue, 12 Dec 2023 23:32:00 -0800 (PST)
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-	by mx0b-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BCJWTvd016329;
-	Tue, 12 Dec 2023 23:31:47 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	pfpt0220; bh=GDiG6FQ7F9Uq2F9eSSa6k6t2Okez0ld3AUW9xkL+QF4=; b=ASw
-	UMkXXOIxKXv/ZfDA8LFtSbrv/aXrdknP6JUvt1kZ7SE5GYW7kWyrzrrsYjQDK9dV
-	t7m7hBXBjO41+HzZEk7HokX6UIIJH3D7HpBnLEyDAzzVS581rPzz6XZoIKoLl7DM
-	YCzdxJKY4mLnX4tuQrMnrrN/nF6jFWgfwth35q4r2XpsnZr8NQzvgHpm5eslcspf
-	wurXGkAq9rI5NuzT54wXTnqjKEESg/XxXm/IGZ6SuYem0KD3nbqltjQeUNKqv+of
-	OJYMXYxxLuAjUqwXXJg0T1XuQQmH88MAtwSoyKqnrtt5mtZydAfarzEpf/uYOfb9
-	4Uqo/zJ9yyEL19/8hvA==
-Received: from dc5-exch01.marvell.com ([199.233.59.181])
-	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3uvrmjvrmf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Tue, 12 Dec 2023 23:31:46 -0800 (PST)
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 12 Dec
- 2023 23:31:45 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
- Transport; Tue, 12 Dec 2023 23:31:45 -0800
-Received: from localhost.localdomain (unknown [10.28.36.175])
-	by maili.marvell.com (Postfix) with ESMTP id 9887D3F70A2;
-	Tue, 12 Dec 2023 23:31:40 -0800 (PST)
-From: Srujana Challa <schalla@marvell.com>
-To: <herbert@gondor.apana.org.au>, <davem@davemloft.net>
-CC: <linux-crypto@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <kuba@kernel.org>, <bbrezillon@kernel.org>, <arno@natisbad.org>,
-        <corbet@lwn.net>, <kalesh-anakkur.purayil@broadcom.com>,
-        <horms@kernel.org>, <sgoutham@marvell.com>, <bbhushan2@marvell.com>,
-        <jerinj@marvell.com>, <ndabilpuram@marvell.com>, <schalla@marvell.com>
-Subject: [PATCH v3 9/9] crypto: octeontx2: support setting ctx ilen for inline CPT LF
-Date: Wed, 13 Dec 2023 13:00:55 +0530
-Message-ID: <20231213073055.588530-10-schalla@marvell.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231213073055.588530-1-schalla@marvell.com>
-References: <20231213073055.588530-1-schalla@marvell.com>
+	dkim=pass (2048-bit key) header.d=jaguarmicro.com header.i=@jaguarmicro.com header.b="dy/1iRvv"
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2082.outbound.protection.outlook.com [40.107.117.82])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F07B7;
+	Tue, 12 Dec 2023 23:38:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GijaYbjdjPtVFH3qzxydJKqN53lLvab5YQM8D9vLnSqQJrtSRPpV7GC295aYFviU1azzUKauAqgJSeJGt9xsUT/N0aPD/MXBy7Qc+veBL7ng23PyPbONrmPo0fHwfyvFIFCS9Mi3jAlN21RkIZcP2dS7vq/D8Q91IBpqCWmXL1lhalFLjz9AzAMlAQDfa68sorqqgR6HYGwn+mBhaDFNt0LKKB1YqjpQdN6dCES6eF44Dd7Yv4w/jV90boj1kD+fDFB9121N24EUEFXqDXRVrLvTCV1c7Qyvo7ip3u7Llo4w6PpnbVCNmmD7IjaTif345O6gfFdqCMJub3uPRyYjxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nz8LUXVttee3jBMiPnBlSzx7YaTmDcKHuF/SsbxK/UA=;
+ b=MCqtw4RU7ekRH9vVL1hh/6l5EHGq4XXzO7VD5ZJxu3lY/9v+JKunyb6032Xt2jaztt4J6uiVm1eNgPZWa3dDv0R8aKhHhoKCbKPQqivWGOoA/mVFEsELz9HJ9gRC9idirihM/AzBDuepa9acv9VxGiGH3NtM7WbhdxFV6SnLRDMVcd0eD91QF8piWdw4bgFajIMxHXH+WEiahHq34Bn/0eOHbfBANkD7ubzalmhSWmMRriDutYaOt52DxjxOYbbDHFqIwfjJPOCDjc5couuQSDw53vOMK+t63ma19WDLDzy5/4LyU57A70HZvv91pF8U8SeLheic4UdHA0PQ/pMNgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=jaguarmicro.com; dmarc=pass action=none
+ header.from=jaguarmicro.com; dkim=pass header.d=jaguarmicro.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaguarmicro.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nz8LUXVttee3jBMiPnBlSzx7YaTmDcKHuF/SsbxK/UA=;
+ b=dy/1iRvvO+DxqmSYBVkUv7QOWZlqHr36bkWLL0Foi+MXhD+6lDaB7hSV06dZUPFI0zm8P3byh+GIO4P2qDn3ToWyLuYlmy47Q6343T05x6C1cluEQsdh6RsW3aCSRH1LxmAnpztheFYwnI+KQJgYoFGhKaJA2g3aTlcjUEIHzIZCNDQBze+64kX31WpQjHOoRxqrTd+ZC65P49qh9QwLBP3w+Q+/8bHBxGah0+itIbigmbHQKwqoa1Vja+Zfi4jyqQB34PPi37xzaSt71ZsBSN7G4svKkw15gpVad2lUD7d9vHsv8DsgMzpSWYF4p7ISJPDfgX9c+zSD+axTglZ88Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=jaguarmicro.com;
+Received: from KL1PR0601MB5773.apcprd06.prod.outlook.com
+ (2603:1096:820:b1::13) by KL1PR06MB7287.apcprd06.prod.outlook.com
+ (2603:1096:820:143::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Wed, 13 Dec
+ 2023 07:38:02 +0000
+Received: from KL1PR0601MB5773.apcprd06.prod.outlook.com
+ ([fe80::e64e:7a41:8ad0:60a0]) by KL1PR0601MB5773.apcprd06.prod.outlook.com
+ ([fe80::e64e:7a41:8ad0:60a0%7]) with mapi id 15.20.7068.033; Wed, 13 Dec 2023
+ 07:38:02 +0000
+From: Rex Nie <rex.nie@jaguarmicro.com>
+To: corbet@lwn.net
+Cc: rdunlap@infradead.org,
+	gregkh@linuxfoundation.org,
+	jim.cromie@gmail.com,
+	mcgrof@kernel.org,
+	rex.nie@jaguarmicro.com,
+	linux@weissschuh.net,
+	lists@jade.fyi,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	angus.chen@jaguarmicro.com
+Subject: [PATCH] Documentation: fix typo in examples of dynamic-debug-howto.rst
+Date: Wed, 13 Dec 2023 15:37:35 +0800
+Message-Id: <20231213073735.2850-1-rex.nie@jaguarmicro.com>
+X-Mailer: git-send-email 2.39.0.windows.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0012.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::15) To KL1PR0601MB5773.apcprd06.prod.outlook.com
+ (2603:1096:820:b1::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: Dg0gkmhJcSIliO67CTXnVVIyoZs3gBtR
-X-Proofpoint-ORIG-GUID: Dg0gkmhJcSIliO67CTXnVVIyoZs3gBtR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KL1PR0601MB5773:EE_|KL1PR06MB7287:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4bc87c25-c1de-46bc-bfb2-08dbfbae6fa5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	t91HUgoT/eGZaRe9Q0xihtnfuLW09qGdMtIM2g/b63IHqni9jH4GwtJ2BpquMe/SRk5cbxvcQpjq/8GNL04ee6VIXhOt9FhGY35uoOzWWhhJt0LijDvKips13KqHpEUVlVaAQarVm5ZVHxeuah0zDprq7Of4/cFqUSjGbyP9Elrd6onK799AjBqoRa0l6iGhA35QyWruBglBrCsCaDMgcJp5Iu+lOpFeqm6jVM4C9eLYlXU21R2IpbcwN0GsMuLFR0gKqe6hBV9nurswIHQi0rV7hG/0k6WbIR5T2u3vn4NgaeQzODclENFPwEEjCc5HdzKRylywjYWkETgMsX9Jf3uXs/kSjPcoPQG32Mm0JLsfoEXQkd7yBV74sPOm+VPqgWJmTCzVc5jWh09mx6ua0r1oomoqPgE4ehiw3InLenXNA+E2R84fKpPGP/eJWUtRTYwRXtvrmS9RV/3jh0uF5iI7OpuAMFi74C2zMiNwMDIjLM6rp67nO+yfPz0bcTpINEAqdQOaUmTtflip2MBs4WgHQiF4XqrQvAh2qFg6C11MqrZmBubhRyGJLbeYoQZsnt1Vq+cFapdscvA5NpxeqG/EgnO8iQjw/8x+51UoqcPl1gX4TH3MlKtZ1nMhFZx4
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0601MB5773.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(136003)(39840400004)(346002)(366004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(6506007)(83380400001)(107886003)(6512007)(2616005)(26005)(1076003)(4326008)(2906002)(6666004)(316002)(8936002)(8676002)(5660300002)(44832011)(6486002)(478600001)(66556008)(66476007)(6916009)(66946007)(52116002)(41300700001)(38100700002)(38350700005)(86362001)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?PEEwoVgcxwjFDdvdBAZc5MazROQoWriECR0COuOxO4iv9kR/IBEA0FDKFctO?=
+ =?us-ascii?Q?IA2mJBIE0lvgARS3mhmGbBFWsDRetAZ9YUGxQx6MbPrC8a+J6mB9beOtPUBH?=
+ =?us-ascii?Q?/sV073Fekf2oVQmSpAEEmLcgqvqiQpWd2lYZ+NyrC07hmxDOdpW8yGRP000J?=
+ =?us-ascii?Q?GHN3uL042IB6o7MKJZ1a5ce4AtG3kD5WMoXaWvWJFfXXs13SUixsCexW1VD9?=
+ =?us-ascii?Q?tKhUv2JXqL7q4unIokpgD+moIDGumjrDPkek3cNhI2IMONeYNwA8cHHQmlxI?=
+ =?us-ascii?Q?AsvMSd37OJKH/jl7f3eJDlbUIiR+emd5gIhwjflDGmiOADgo1ZB+dSNZS9Bh?=
+ =?us-ascii?Q?52VAp0wINCpUu3iCfvdF3fjp2jdEc7mNMnNb49b8DO/Jg92E1fFiRQMRn+hb?=
+ =?us-ascii?Q?+kbtADmT0fLmgscnidl3Jh6qrlSzYJHwOhMmF9f7SPImy8XBw58t3OSg5Ih0?=
+ =?us-ascii?Q?ter+VVQUUJOlia4d3uyaUgZZN+0D/OzvkOHW2sEnNnBJM63/wXoN1ikR9AfN?=
+ =?us-ascii?Q?6dOM6UTcJUPvmfy+cIKu2PxL0ND8Nt5xdc1v59WJJImPhRsL9FF4NZTVHebn?=
+ =?us-ascii?Q?8K1PtrazvGIr4+ZIyoKxCjKeM5u5gkHsvfB5sPHcRQjvaMxk2jMeucBuad34?=
+ =?us-ascii?Q?0uOaxr2YLkhslhcsgexknmZLE44M0O7/Aimcwka0SD83uLARroybIN/2zigv?=
+ =?us-ascii?Q?62uGPjeNSjjyrI6oENXYEQt86sglixUpShX4bef6GZ0eNZXJ1scQwlRc8eBz?=
+ =?us-ascii?Q?k3M8MkE4UFi6e9hTvB5BLznSD3lv1cRm3Qi7LNG2fuMGixFjXoxgHobAyW/V?=
+ =?us-ascii?Q?gNPg0pFz39lzJj1Vq0ofoTRTsAJCu6vQLyBjcuw1eFyhzWMsHwrZo8kDvzkQ?=
+ =?us-ascii?Q?diU55xU3MIIy0CSZsMs2lQhsG4qH6uneaG1harOCkQ0Er1VkfRa18FiUNwBb?=
+ =?us-ascii?Q?+z8rAPePDxVbasfEYXGVZI88W1fj7B1ApYz+CoJKwxXS+VEtat+2SiMtXlgd?=
+ =?us-ascii?Q?tlvgtUk5Ul18G1raKSyVyhasKD589PPdHMeT4krGDMv70J0S/MxskjzUiKO7?=
+ =?us-ascii?Q?X6ZVw9oUZ2IrL1kZopac7M+xJKGDvdiw8xVSs3dpGKa2JmGb45WiC82OgAie?=
+ =?us-ascii?Q?YGqP3QzwOGcIvq0ob82bsbcgSJpbnagnv+KWkHRIXT6X/QfqDVj/W6HdTzzW?=
+ =?us-ascii?Q?HdqKzNffkpUMKsZFtJBh4VpzD0n5uMrxAj6buFgDGt4JwKJMqlJ32wzbQElm?=
+ =?us-ascii?Q?K4h/gpYu2F9fbv4xWVYevBxVSybMARMcMZgHDxUzdTXwzDh88hHe1m6zTh+U?=
+ =?us-ascii?Q?5FAvwhK/gmZF/vAI7nnOjL4bFJjGKfT2N6SvifO2/K3dVPkGadvN8HgRYv3l?=
+ =?us-ascii?Q?9u49PrOtMRIQrsp1Xis65W2K634NhePRDMgHwP2EG3XUayvngrPFczpm0l0T?=
+ =?us-ascii?Q?e328OV99mgKx1D1NXT7e7e3vZcNFQva8GIHXlUdvtlWYwtI7IDBKbE0i4P8X?=
+ =?us-ascii?Q?jj5wCKAJQU0VRHiyiPsNrVRh2x55jKpSpG6EASqvrsJCVe5VRejorfIvL5eH?=
+ =?us-ascii?Q?Ed/ZnvCbib018DRRwu6qXW1mpRkiE5BxY1Rw4LkWjyGhYcPKnptGCz7HwJs+?=
+ =?us-ascii?Q?gg=3D=3D?=
+X-OriginatorOrg: jaguarmicro.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bc87c25-c1de-46bc-bfb2-08dbfbae6fa5
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB5773.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 07:38:02.1106
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 1e45a5c2-d3e1-46b3-a0e6-c5ebf6d8ba7b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XpLLBL8uODTvI7Aq4DX4y8h7slw3qokP/QGHVijkJxwnQukR3gvd0bbQB6PYYFfSWuaL2VxAqAi5ZFyKICjo8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB7287
 
-From: Nithin Dabilpuram <ndabilpuram@marvell.com>
+Since most examples use ddcmd alias, remove the redundant file names
 
-Provide an option in Inline IPsec configure mailbox to configure the
-CPT_AF_LFX_CTL:CTX_ILEN for inline CPT LF attached to CPT RVU PF.
-This is needed to set the ctx ilen to size of inbound SA for
-HW errata IPBUCPT-38756. Not setting this would lead to new context's
-not being fetched.
-
-Also set FLR_FLUSH in CPT_LF_CTX_CTL for CPT LF's as workaround
-for same errata.
-
-Signed-off-by: Nithin Dabilpuram <ndabilpuram@marvell.com>
+Signed-off-by: Rex Nie <rex.nie@jaguarmicro.com>
 ---
- .../marvell/octeontx2/otx2_cpt_common.h       |  2 ++
- .../marvell/octeontx2/otx2_cpt_hw_types.h     |  4 ++-
- drivers/crypto/marvell/octeontx2/otx2_cptlf.c | 32 +++++++++++++++++++
- drivers/crypto/marvell/octeontx2/otx2_cptlf.h | 19 +++++++++++
- .../marvell/octeontx2/otx2_cptpf_mbox.c       |  5 +++
- 5 files changed, 61 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/dynamic-debug-howto.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/crypto/marvell/octeontx2/otx2_cpt_common.h b/drivers/crypto/marvell/octeontx2/otx2_cpt_common.h
-index e0c1bbad93cc..c5b7c57574ef 100644
---- a/drivers/crypto/marvell/octeontx2/otx2_cpt_common.h
-+++ b/drivers/crypto/marvell/octeontx2/otx2_cpt_common.h
-@@ -59,6 +59,8 @@ struct otx2_cpt_rx_inline_lf_cfg {
- 	u32 credit_th;
- 	u16 bpid;
- 	u32 reserved;
-+	u8 ctx_ilen_valid : 1;
-+	u8 ctx_ilen : 7;
- };
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 0c526dac8428..0e9b48daf690 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -321,13 +321,13 @@ Examples
+   :#> ddcmd 'format "nfsd: READ" +p'
  
- /*
-diff --git a/drivers/crypto/marvell/octeontx2/otx2_cpt_hw_types.h b/drivers/crypto/marvell/octeontx2/otx2_cpt_hw_types.h
-index 06bcf49ee379..7e746a4def86 100644
---- a/drivers/crypto/marvell/octeontx2/otx2_cpt_hw_types.h
-+++ b/drivers/crypto/marvell/octeontx2/otx2_cpt_hw_types.h
-@@ -102,6 +102,7 @@
- #define OTX2_CPT_LF_Q_INST_PTR          (0x110)
- #define OTX2_CPT_LF_Q_GRP_PTR           (0x120)
- #define OTX2_CPT_LF_NQX(a)              (0x400 | (a) << 3)
-+#define OTX2_CPT_LF_CTX_CTL             (0x500)
- #define OTX2_CPT_LF_CTX_FLUSH           (0x510)
- #define OTX2_CPT_LF_CTX_ERR             (0x520)
- #define OTX2_CPT_RVU_FUNC_BLKADDR_SHIFT 20
-@@ -472,7 +473,8 @@ union otx2_cptx_af_lf_ctrl {
- 		u64 cont_err:1;
- 		u64 reserved_11_15:5;
- 		u64 nixtx_en:1;
--		u64 reserved_17_47:31;
-+		u64 ctx_ilen:3;
-+		u64 reserved_17_47:28;
- 		u64 grp:8;
- 		u64 reserved_56_63:8;
- 	} s;
-diff --git a/drivers/crypto/marvell/octeontx2/otx2_cptlf.c b/drivers/crypto/marvell/octeontx2/otx2_cptlf.c
-index c3bafd9a11dd..777474d48ae4 100644
---- a/drivers/crypto/marvell/octeontx2/otx2_cptlf.c
-+++ b/drivers/crypto/marvell/octeontx2/otx2_cptlf.c
-@@ -106,6 +106,32 @@ static int cptlf_set_grp_and_pri(struct otx2_cptlfs_info *lfs,
- 	return ret;
- }
+   // enable messages in files of which the paths include string "usb"
+-  :#> ddcmd 'file *usb* +p' > /proc/dynamic_debug/control
++  :#> ddcmd 'file *usb* +p'
  
-+static int cptlf_set_ctx_ilen(struct otx2_cptlfs_info *lfs, int ctx_ilen)
-+{
-+	union otx2_cptx_af_lf_ctrl lf_ctrl;
-+	struct otx2_cptlf_info *lf;
-+	int slot, ret = 0;
-+
-+	for (slot = 0; slot < lfs->lfs_num; slot++) {
-+		lf = &lfs->lf[slot];
-+
-+		ret = otx2_cpt_read_af_reg(lfs->mbox, lfs->pdev,
-+					   CPT_AF_LFX_CTL(lf->slot),
-+					   &lf_ctrl.u, lfs->blkaddr);
-+		if (ret)
-+			return ret;
-+
-+		lf_ctrl.s.ctx_ilen = ctx_ilen;
-+
-+		ret = otx2_cpt_write_af_reg(lfs->mbox, lfs->pdev,
-+					    CPT_AF_LFX_CTL(lf->slot),
-+					    lf_ctrl.u, lfs->blkaddr);
-+		if (ret)
-+			return ret;
-+	}
-+	return ret;
-+}
-+
- static void cptlf_hw_init(struct otx2_cptlfs_info *lfs)
- {
- 	/* Disable instruction queues */
-@@ -443,6 +469,12 @@ int otx2_cptlf_init(struct otx2_cptlfs_info *lfs, u8 eng_grp_mask, int pri,
- 	if (ret)
- 		goto free_iq;
+   // enable all messages
+-  :#> ddcmd '+p' > /proc/dynamic_debug/control
++  :#> ddcmd '+p'
  
-+	if (lfs->ctx_ilen_ovrd) {
-+		ret = cptlf_set_ctx_ilen(lfs, lfs->ctx_ilen);
-+		if (ret)
-+			goto free_iq;
-+	}
-+
- 	return 0;
+   // add module, function to all enabled messages
+-  :#> ddcmd '+mf' > /proc/dynamic_debug/control
++  :#> ddcmd '+mf'
  
- free_iq:
-diff --git a/drivers/crypto/marvell/octeontx2/otx2_cptlf.h b/drivers/crypto/marvell/octeontx2/otx2_cptlf.h
-index ffaca642b640..bd8604be2952 100644
---- a/drivers/crypto/marvell/octeontx2/otx2_cptlf.h
-+++ b/drivers/crypto/marvell/octeontx2/otx2_cptlf.h
-@@ -121,6 +121,8 @@ struct otx2_cptlfs_info {
- 	atomic_t state;         /* LF's state. started/reset */
- 	int blkaddr;            /* CPT blkaddr: BLKADDR_CPT0/BLKADDR_CPT1 */
- 	int global_slot;        /* Global slot across the blocks */
-+	u8 ctx_ilen;
-+	u8 ctx_ilen_ovrd;
- };
- 
- static inline void otx2_cpt_free_instruction_queues(
-@@ -310,6 +312,19 @@ static inline void otx2_cptlf_set_iqueue_exec(struct otx2_cptlf_info *lf,
- 			 OTX2_CPT_LF_INPROG, lf_inprog.u);
- }
- 
-+static inline void otx2_cptlf_set_ctx_flr_flush(struct otx2_cptlf_info *lf)
-+{
-+	u8 blkaddr = lf->lfs->blkaddr;
-+	u64 val;
-+
-+	val = otx2_cpt_read64(lf->lfs->reg_base, blkaddr, lf->slot,
-+			      OTX2_CPT_LF_CTX_CTL);
-+	val |= BIT_ULL(0);
-+
-+	otx2_cpt_write64(lf->lfs->reg_base, blkaddr, lf->slot,
-+			 OTX2_CPT_LF_CTX_CTL, val);
-+}
-+
- static inline void otx2_cptlf_enable_iqueue_exec(struct otx2_cptlf_info *lf)
- {
- 	otx2_cptlf_set_iqueue_exec(lf, true);
-@@ -325,6 +340,10 @@ static inline void otx2_cptlf_enable_iqueues(struct otx2_cptlfs_info *lfs)
- 	int slot;
- 
- 	for (slot = 0; slot < lfs->lfs_num; slot++) {
-+		/* Enable flush on FLR for Errata */
-+		if (is_dev_cn10kb(lfs->pdev))
-+			otx2_cptlf_set_ctx_flr_flush(&lfs->lf[slot]);
-+
- 		otx2_cptlf_enable_iqueue_exec(&lfs->lf[slot]);
- 		otx2_cptlf_enable_iqueue_enq(&lfs->lf[slot]);
- 	}
-diff --git a/drivers/crypto/marvell/octeontx2/otx2_cptpf_mbox.c b/drivers/crypto/marvell/octeontx2/otx2_cptpf_mbox.c
-index 5d63763db2af..ec1ac7e836a3 100644
---- a/drivers/crypto/marvell/octeontx2/otx2_cptpf_mbox.c
-+++ b/drivers/crypto/marvell/octeontx2/otx2_cptpf_mbox.c
-@@ -267,6 +267,9 @@ static int handle_msg_rx_inline_ipsec_lf_cfg(struct otx2_cptpf_dev *cptpf,
- 	otx2_cptlf_set_dev_info(&cptpf->lfs, cptpf->pdev, cptpf->reg_base,
- 				&cptpf->afpf_mbox, BLKADDR_CPT0);
- 	cptpf->lfs.global_slot = 0;
-+	cptpf->lfs.ctx_ilen_ovrd = cfg_req->ctx_ilen_valid;
-+	cptpf->lfs.ctx_ilen = cfg_req->ctx_ilen;
-+
- 	ret = otx2_inline_cptlf_setup(cptpf, &cptpf->lfs, egrp, num_lfs);
- 	if (ret) {
- 		dev_err(&cptpf->pdev->dev, "Inline-Ipsec CPT0 LF setup failed.\n");
-@@ -279,6 +282,8 @@ static int handle_msg_rx_inline_ipsec_lf_cfg(struct otx2_cptpf_dev *cptpf,
- 					cptpf->reg_base, &cptpf->afpf_mbox,
- 					BLKADDR_CPT1);
- 		cptpf->cpt1_lfs.global_slot = num_lfs;
-+		cptpf->cpt1_lfs.ctx_ilen_ovrd = cfg_req->ctx_ilen_valid;
-+		cptpf->cpt1_lfs.ctx_ilen = cfg_req->ctx_ilen;
- 		ret = otx2_inline_cptlf_setup(cptpf, &cptpf->cpt1_lfs, egrp,
- 					      num_lfs);
- 		if (ret) {
+   // boot-args example, with newlines and comments for readability
+   Kernel command line: ...
 -- 
-2.25.1
+2.34.1
 
