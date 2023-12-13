@@ -1,43 +1,43 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ldWMEEcs"
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C670F107
-	for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 03:33:18 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40c192f488cso11230935e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 03:33:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="QqJV3DhQ"
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 311A7114
+	for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 03:33:21 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2c9ebc04891so16179301fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 03:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702467197; x=1703071997; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702467199; x=1703071999; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zJ7qFvLPI16XitLVU7jac70czdbEyCJmCnGlh/kcFn4=;
-        b=ldWMEEcskgoxwTZ2P3sw0LVoHH117VtNo3HnAAcqFCCNj6LUh5XOcI7ZkH5WEsgz/B
-         yNJDQXh6tpS4gZ4ZWFyWLfTsn1tAZT23uhxsBlXvxqpyRY9xV7Qgnv90X4UvBcK0cptR
-         fQUIoQ7tFy55U0RzRmDo29JYdd6APD37uWJY6GYg2pb3F01ojLZpyePGYYD6wAJ7xXUF
-         bT3YMzRZQ9cLj7RBAcwzyKJDyee5LPeEcItbEPNYJlkhIf6LM6zPYdQVRRCIpqm/j2Iz
-         GMP1Advf5CA2Egd9nzsbt8lAT6sanyuWbAka+hFjUgqgbS5jCYLi88uRkWqAH5931y/7
-         go+g==
+        bh=nWX/zjp+iAoc0sTO0EE360u/fHh1vFE2puPVRvnlJSg=;
+        b=QqJV3DhQ6ASn3wBywS585XZ8tatasBB+VWjS6bpB+Lh6xbLL+3fHeQ4ypAICs3Kban
+         FCOvu1L9UZA+W26yp3rwLoe7IEypPJ0U09kxgk5Ei4MDYoGzFiTwocaTsQIXcnc0MCYY
+         SjBqCMwGhi3ZW8bF77p+VsXsL9MtmKI4dLHIFjCYXMRsHOClhsgz7k7Q0kaOuDwaZZBG
+         1gnCTVrouE2fsxLNeH2Zm7RV1qlzyltplavBz6aU+oEZDSGa6rM/EbWreC2GRX8dRi17
+         +Y88FMIt2AFjhb12AzUDvWiHEV/1m+nVW/Joh8WUsbrnf3tJrQqUno5U6ymmmZdK7QxA
+         eFtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702467197; x=1703071997;
+        d=1e100.net; s=20230601; t=1702467199; x=1703071999;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zJ7qFvLPI16XitLVU7jac70czdbEyCJmCnGlh/kcFn4=;
-        b=Od5kQ5UmXNvs6MmfRLmWxAJxOmO7sdZVz2eVYFdcWFP180FNyb4YlcgYgxpMkaQhby
-         8LCk6y0DcunfEdwHzlgmCiLhw8VBoRtxFpAg5+lHWK3Wo/ydNUyOUprSVI08ERTnjXJc
-         HxNf3YUSf8XUz9mrfBGYcn7I5FeOg+IieelCxVaDaqXFAZ2rpNPJTk4hCJ2+7+74mxlw
-         TBm194cG9+4LRWJv3oBYbjQ2na7UrunuZpVe14++Z32CzjlbjxINf/syS8rpreWFGrwd
-         n43tgyZAVUQGr/8IHIC2HHZnwNq8bSiNHMBMacGTo3f3EC6rKrqrXOhwr6K+K/E/yr76
-         jb6w==
-X-Gm-Message-State: AOJu0YzjgIfLXsOljBRykg373GAgPIy2QLSDVVjZdNUyfTDYZqRBjpVI
-	LQC2xckN9UVS7pFHOLC5PMRXB2P3ULG0QlIuT00=
-X-Google-Smtp-Source: AGHT+IFSZAznHPSK5PUles9w0ak3hYXLoPc4Qu5KPjMvXQBkR/ftanO0CSh3prHsJkQveJSFnBCRzQ==
-X-Received: by 2002:a05:600c:1d9b:b0:40c:2960:9603 with SMTP id p27-20020a05600c1d9b00b0040c29609603mr9614366wms.3.1702467197077;
-        Wed, 13 Dec 2023 03:33:17 -0800 (PST)
+        bh=nWX/zjp+iAoc0sTO0EE360u/fHh1vFE2puPVRvnlJSg=;
+        b=oO5odL4aXALy03iHRH5i7jrCNCWEhEJ/cC68vHUcrelFRAwRLlcnFJBcyA3ZSHkg74
+         dxyuel+i2JDSml/FuP3214ADq1/jvVA196g+K9qaCpo5jVPNprp0MGXTeKt3y7bYEQko
+         NrECHlrotK9XAoC9tHb4eylSD7bMBBsdjWX9kbECUMAEUITyLe9XBXkQhUjUqb/mWGcu
+         24ItSNHpts+SvRbP+YhDFuNeeKzV4V7z/YuW24twkZUdmamocOkTXKwwk6N4cklmEJpH
+         86VHsEClETk0LvIFaO1+wJvgJ42bJilT7xienXdPw0tqskRzlZhNgfRk8zQLytdXl2gO
+         hAaw==
+X-Gm-Message-State: AOJu0YykIKnbCg4VpCeFkjkPbf3cDYz2fYLktqwfsFnwISwrFFVqQp0A
+	qA0QBUPjcdoxNldvDBuNWuPh8CnmA/j2R7bOkOI=
+X-Google-Smtp-Source: AGHT+IEuXYkwYCdXUnQRj5u26PSyylqZ1NgdfvKlwWU8/MoItLq0cyd9mcOkAanUk5MDzRp5gaQUuA==
+X-Received: by 2002:a2e:918b:0:b0:2cb:2d8a:a28a with SMTP id f11-20020a2e918b000000b002cb2d8aa28amr5882241ljg.5.1702467199112;
+        Wed, 13 Dec 2023 03:33:19 -0800 (PST)
 Received: from carbon-x1.. ([2a01:e0a:999:a3a0:c564:f167:d072:5672])
-        by smtp.gmail.com with ESMTPSA id m27-20020a05600c3b1b00b0040b38292253sm22433137wms.30.2023.12.13.03.33.15
+        by smtp.gmail.com with ESMTPSA id m27-20020a05600c3b1b00b0040b38292253sm22433137wms.30.2023.12.13.03.33.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 03:33:16 -0800 (PST)
+        Wed, 13 Dec 2023 03:33:18 -0800 (PST)
 From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
 To: linux-doc@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
@@ -52,9 +52,9 @@ Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Robbin Ehn <rehn@rivosinc.com>
-Subject: [PATCH 4/9] riscv: add ISA extension parsing for Zam
-Date: Wed, 13 Dec 2023 12:33:00 +0100
-Message-ID: <20231213113308.133176-5-cleger@rivosinc.com>
+Subject: [PATCH 6/9] dt-bindings: riscv: add Zacas ISA extension description
+Date: Wed, 13 Dec 2023 12:33:02 +0100
+Message-ID: <20231213113308.133176-7-cleger@rivosinc.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231213113308.133176-1-cleger@rivosinc.com>
 References: <20231213113308.133176-1-cleger@rivosinc.com>
@@ -67,39 +67,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add parsing for Zam ISA extension which is part of the riscv-isa manual
-but was not added to ISA parsing up to now.
+Add description for the Zacas ISA extension which was ratified recently.
 
 Signed-off-by: Clément Léger <cleger@rivosinc.com>
 ---
- arch/riscv/include/asm/hwcap.h | 1 +
- arch/riscv/kernel/cpufeature.c | 1 +
- 2 files changed, 2 insertions(+)
+ Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-index 3b31efe2f716..016faa08c8ba 100644
---- a/arch/riscv/include/asm/hwcap.h
-+++ b/arch/riscv/include/asm/hwcap.h
-@@ -85,6 +85,7 @@
- #define RISCV_ISA_EXT_ZVFHMIN		70
- #define RISCV_ISA_EXT_ZFA		71
- #define RISCV_ISA_EXT_ZTSO		72
-+#define RISCV_ISA_EXT_ZAM		73
+diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+index 912cc6a42eb4..264114fa943e 100644
+--- a/Documentation/devicetree/bindings/riscv/extensions.yaml
++++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+@@ -171,6 +171,12 @@ properties:
+             memory types as ratified in the 20191213 version of the privileged
+             ISA specification.
  
- #define RISCV_ISA_EXT_MAX		128
- #define RISCV_ISA_EXT_INVALID		U32_MAX
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 3eb48a0eecb3..e999320398b7 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -259,6 +259,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
- 	__RISCV_ISA_EXT_DATA(zihintntl, RISCV_ISA_EXT_ZIHINTNTL),
- 	__RISCV_ISA_EXT_DATA(zihintpause, RISCV_ISA_EXT_ZIHINTPAUSE),
- 	__RISCV_ISA_EXT_DATA(zihpm, RISCV_ISA_EXT_ZIHPM),
-+	__RISCV_ISA_EXT_DATA(zam, RISCV_ISA_EXT_ZAM),
- 	__RISCV_ISA_EXT_DATA(zfa, RISCV_ISA_EXT_ZFA),
- 	__RISCV_ISA_EXT_DATA(zfh, RISCV_ISA_EXT_ZFH),
- 	__RISCV_ISA_EXT_DATA(zfhmin, RISCV_ISA_EXT_ZFHMIN),
++        - const: zacas
++          description: |
++            The Zacas extension for Atomic Compare-and-Swap (CAS) instructions
++            is supported as ratified at commit 5059e0ca641c ("update to
++            ratified") of the riscv-zacas.
++
+         - const: zam
+           description: |
+             The standard Zam extension for misaligned atomics is supported as
 -- 
 2.43.0
 
