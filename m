@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2147A818;
-	Wed, 13 Dec 2023 19:03:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A98A818;
+	Wed, 13 Dec 2023 19:03:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A2fmWay4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F30CC433CA;
-	Wed, 13 Dec 2023 19:03:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hyr+2MY6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BFAEC433C9;
+	Wed, 13 Dec 2023 19:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702494224;
-	bh=J/iaoXT0rpbsPwoHcTcG3htMVyXBLicckUfUlL8eBn4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=A2fmWay4DvFOhNXj+ErJHs9KGh6CL0CiA9Rrig1Af/yTt6bVBxPQRh3WrazeExAdt
-	 BwpZLqi4FvCUXp0UtWXdHGJQHwjisx9TLgsGXO3lmE3tVnO9XyJb6PNLXhkWjlcntK
-	 bTFDo6HmybRrFTlD+9FPg12pm5Eit9PYTF8sTDMC05N2Ax+Vf4WhFZ2L8srfD6970U
-	 pqKRiTHVjV2R41pjqYebWf3KTZ2vJTG4MJJ7+81YhRPoiaF6FfYzLDgUS1sUujPjnY
-	 iCXltYXanMEKj86HlbuGUvlL4WEIMKIvbFgXeZlOM/VXOlxv2dUm4aZIYzjfUGFQzo
-	 YqCgRsTuuTqrw==
+	s=k20201202; t=1702494230;
+	bh=DCzjM8ciFmSW1ZwCtCZzL7l/QtzSRPhWneY+wKj+vU0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Hyr+2MY6xPiuvWwHsyk6RV0Torov76tR6btlHqK49UggV0nEVIZ7ovqJ6MqiyQoBT
+	 GJ6ggkCUIcocYQhX+C89P+Vh9n1X1PnrDZs1fw0/7mW6bDPCgI8S6xipNOcslhVGmf
+	 OFrxcOB7yW+r6aoNVwiKd6TxmCRcFJdJN6sC2uhEVPUbFUSqM/8TKyhIA/VF2kSaJM
+	 byTvwbOaaFViPxmxVRJISegjpfBKtMo0iUh7T10NR3wVO+1YRpxRMcSv3FINCQEFxC
+	 w2Y77OA4sFv5hwpDOHF64Drm8gPpHk4VToAgobXt0zKgYIKbhnxYA9yC2GCMeSeSXg
+	 sbt3PYCKBjPoA==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -25,10 +25,12 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/6] mm/damon: misc updates for 6.8
-Date: Wed, 13 Dec 2023 19:03:32 +0000
-Message-Id: <20231213190338.54146-1-sj@kernel.org>
+Subject: [PATCH 3/6] Docs/mm/damon/design: place execution model and data structures at the beginning
+Date: Wed, 13 Dec 2023 19:03:35 +0000
+Message-Id: <20231213190338.54146-4-sj@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231213190338.54146-1-sj@kernel.org>
+References: <20231213190338.54146-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,35 +39,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update comments, tests, and documents for DAMON aiming to be merged in
-the next merge window for Linux v6.8.
+The execution model and data structures section at the end of the design
+document is briefly explaining how DAMON works overall.  Knowing that
+first may help better drawing the overall picture.  It may also help
+better understanding following detailed sections.  Move it to the
+beginning of the document.
 
-SeongJae Park (6):
-  mm/damon: update email of SeongJae
-  mm/damon/core-test: test max_nr_accesses overflow caused
-    divide-by-zero
-  Docs/mm/damon/design: place execution model and data structures at the
-    beginning
-  Docs/admin-guide/mm/damon/usage: update context directory section
-    label
-  Docs/admin-guide/mm/damon/usage: add links to sysfs files hierarchy
-  Docs/admin-guide/mm/damon/usage: use a list for 'state' sysfs file
-    input commands
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/mm/damon/design.rst | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
- Documentation/admin-guide/mm/damon/usage.rst | 123 +++++++++++--------
- Documentation/mm/damon/design.rst            |  24 ++--
- include/linux/damon.h                        |   2 +-
- mm/damon/core-test.h                         |  13 +-
- mm/damon/core.c                              |   2 +-
- mm/damon/dbgfs-test.h                        |   2 +-
- mm/damon/dbgfs.c                             |   2 +-
- mm/damon/modules-common.c                    |   2 +-
- mm/damon/vaddr-test.h                        |   2 +-
- mm/damon/vaddr.c                             |   2 +-
- 10 files changed, 106 insertions(+), 68 deletions(-)
-
-
-base-commit: def619f2545d0286e6f4ed6c09fac8f863a70da1
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 8b4a49ac057d..1bb69524a62e 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -5,6 +5,18 @@ Design
+ ======
+ 
+ 
++.. _damon_design_execution_model_and_data_structures:
++
++Execution Model and Data Structures
++===================================
++
++The monitoring-related information including the monitoring request
++specification and DAMON-based operation schemes are stored in a data structure
++called DAMON ``context``.  DAMON executes each context with a kernel thread
++called ``kdamond``.  Multiple kdamonds could run in parallel, for different
++types of monitoring.
++
++
+ Overall Architecture
+ ====================
+ 
+@@ -490,15 +502,3 @@ modules for proactive reclamation and LRU lists manipulation are provided.  For
+ more detail, please read the usage documents for those
+ (:doc:`/admin-guide/mm/damon/reclaim` and
+ :doc:`/admin-guide/mm/damon/lru_sort`).
+-
+-
+-.. _damon_design_execution_model_and_data_structures:
+-
+-Execution Model and Data Structures
+-===================================
+-
+-The monitoring-related information including the monitoring request
+-specification and DAMON-based operation schemes are stored in a data structure
+-called DAMON ``context``.  DAMON executes each context with a kernel thread
+-called ``kdamond``.  Multiple kdamonds could run in parallel, for different
+-types of monitoring.
 -- 
 2.34.1
 
