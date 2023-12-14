@@ -1,168 +1,139 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="ZuWmgDP2"
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F662D41
-	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 09:11:44 -0800 (PST)
-Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-425c6157762so35336361cf.2
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 09:11:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1qRQLnb"
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54883B2;
+	Thu, 14 Dec 2023 09:22:59 -0800 (PST)
+Received: by mail-io1-xd2b.google.com with SMTP id ca18e2360f4ac-7b783ee485eso83421039f.0;
+        Thu, 14 Dec 2023 09:22:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1702573903; x=1703178703; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mxUe6pUm6l0Cf+AsboBSISPAY2O3/ATI4QcyYk76Qaw=;
-        b=ZuWmgDP2RPaxeToLI4GdiMy0n9VxgleimNq2Ve4UflR5VmtBU/ObovLmEhb8iV6WCX
-         q08ZFqn9iBh0SPTx7tbVeCSrRH8RtzvpeMMo6TU06LNRldgfAavMySNRqRL9s7ZULgGx
-         PNOprntlR9j+rTVN1mELsQ8Bv+ZniUijGGoeLamYbtTPesAS9ZejDsxiLcpJScYpIvJR
-         W8Tiw4m0H8xjZVbglShYPEol5K7oNPazMeni8ExOpd7QHTmFCku4cf2QMCD/EhKynml+
-         qEcOp1Aj1ihSJHusQt7/SeHiDKo9rJspkAgJzUlZ5Lw0/BvlY2xR/fnonBUrYWZWzcjz
-         jNzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702573903; x=1703178703;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1702574578; x=1703179378; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mxUe6pUm6l0Cf+AsboBSISPAY2O3/ATI4QcyYk76Qaw=;
-        b=VuVAW/sLmoyNM7SABTMxitODib65afTmfBd4LhZt2SyRTq5BvsedYJ6yEfj7tcTNNy
-         gwqwx450vFbBk3kLdtmhNY8TD4yfU9jUBDLi/Hou1sSvjqVlDhvIpq2h4kibq1tp/n5P
-         A1O1CQ26tekHHSNIrdEVxm8qmLJE+kWNp4FM8NGdILTz+4VrVpUoozHgMChWNWapY/Te
-         UwE5UlfTx3e+xcCSkZO6tBZGwv3h71gqHxcjdsBUX3m2EmSzQwDea7GdHOgv6cFX9sqk
-         GsX1yJdqS/7uCwbzeyHzDVWSXi/P/iH51xr34Jo5EQUpPPRvopWgRlcYH3BQveepNwmn
-         5ynw==
-X-Gm-Message-State: AOJu0YyBuJPL5DTETDBu4jPTVDawxFti9MH+jdATNvnzKPMVAxjMH9E6
-	iM3NSAyy+GQUjywKAFrdBT7w6w==
-X-Google-Smtp-Source: AGHT+IGDCYzqXWzUxXKjMVSmW4MwYuT+8dRIEGxntC/zMVHNGiAZX7h9jOSwoAdpLErOc9Au0X9hgA==
-X-Received: by 2002:ac8:7d52:0:b0:425:4043:96e2 with SMTP id h18-20020ac87d52000000b00425404396e2mr15224897qtb.111.1702573903122;
-        Thu, 14 Dec 2023 09:11:43 -0800 (PST)
-Received: from localhost ([2620:10d:c091:400::5:a0a6])
-        by smtp.gmail.com with ESMTPSA id e7-20020ac845c7000000b00418122186ccsm5911083qto.12.2023.12.14.09.11.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 09:11:42 -0800 (PST)
-Date: Thu, 14 Dec 2023 12:11:37 -0500
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Minchan Kim <minchan@kernel.org>
-Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
-	akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com,
-	cerasuolodomenico@gmail.com, yosryahmed@google.com,
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
-	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net,
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org,
-	linux-mm@kvack.org, kernel-team@meta.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	david@ixit.cz, Kairui Song <kasong@tencent.com>,
-	Zhongkun He <hezhongkun.hzk@bytedance.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-Message-ID: <20231214171137.GA261942@cmpxchg.org>
-References: <20231207192406.3809579-1-nphamcs@gmail.com>
- <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
- <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
- <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
- <20231209034229.GA1001962@cmpxchg.org>
- <ZXeTb_ACou7TEVsa@google.com>
+        bh=wn1zaC13xrpZ8HR3VlWdFsy2rSn+JRCW3L/spRmkW0E=;
+        b=W1qRQLnbZZqsXo+QL9/6qkIJxvbGuJ82kLl+ztb3tmcTEOHrjYV3M248nRdIe12Euo
+         kSSVRsIJwrEGSrO4nDqIBhduiC8zX7jdxlUMW98U/UAkh2FI7Tab7zQ3+uHEO5jklUT4
+         eZyD8qE2QtBtu0cxNPb1RQTx6zMLyonvLUh7l1ltuyGR8xsuW/3TnG5HUoMqiMGcps8/
+         bcu96oii50p78+A/4kAQ0CoT0kpT3m6s6po1DRFFnzGYO+3NtoiswTum8TRQ09ONzwYK
+         vivGmyiKZknt4m/y/5yZqMoxaqv8npwVa55gbDAR+8KK+bxWlNIIHpICD+t6lLubgwOw
+         BlYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702574578; x=1703179378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wn1zaC13xrpZ8HR3VlWdFsy2rSn+JRCW3L/spRmkW0E=;
+        b=B3NSQy4llMj7sScnPfYdauw1kydI1iq2Fp5wgFES+LvsdW0EqZ+8fyL9E7FurAzxNN
+         rbFyncSb1k3mJ/Rx/vDbP2BS1NcmkJdLFQTYOM2B4SVJLG15nSdMrQO9/5hhtSnc6fwd
+         KvXOMOJGbZ3WAHuMXJIz7bSe8KBXato23PqZS22QPyt7AzQDBuH9nc45TX5GQrChUI8v
+         MSr13JI9MvHWTesPlRGd5LLV+MmIpu9gJoVR1AZo2kdWsBaZAeLA5tgGwUHk2wLUmT7e
+         voi8cjGt4eCXAuzGbglgGRDH5WYtP79gZlJXIGarjm/LUWPhUK4ZBKtHwTivn1qWjt9g
+         p3jw==
+X-Gm-Message-State: AOJu0YzNPLGkb1SH0lLXvv5ENXk7bvr1woV6hN+jFHolQA0VqemPYNTP
+	9h/YSVlCEQhdzN9NgkS5rI1bXlMp/ynCtN+DYbM=
+X-Google-Smtp-Source: AGHT+IHe0dQgEg56O3SWkZjdq4Lbk1qqWohc1sV9GUplbadPeS3xUWvg7nOuatLXfVK570X0NwJ97ndHttKFRoH8U9k=
+X-Received: by 2002:a92:c261:0:b0:35f:7d16:c92d with SMTP id
+ h1-20020a92c261000000b0035f7d16c92dmr1572035ild.44.1702574578529; Thu, 14 Dec
+ 2023 09:22:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZXeTb_ACou7TEVsa@google.com>
+References: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
+ <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com>
+In-Reply-To: <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 14 Dec 2023 18:22:47 +0100
+Message-ID: <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
+Subject: Re: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to
+ build directory
+To: Tiago Lam <tiagolam@gmail.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 11, 2023 at 02:55:43PM -0800, Minchan Kim wrote:
-> On Fri, Dec 08, 2023 at 10:42:29PM -0500, Johannes Weiner wrote:
-> > On Fri, Dec 08, 2023 at 03:55:59PM -0800, Chris Li wrote:
-> > > I can give you three usage cases right now:
-> > > 1) Google producting kernel uses SSD only swap, it is currently on
-> > > pilot. This is not expressible by the memory.zswap.writeback. You can
-> > > set the memory.zswap.max = 0 and memory.zswap.writeback = 1, then SSD
-> > > backed swapfile. But the whole thing feels very clunky, especially
-> > > what you really want is SSD only swap, you need to do all this zswap
-> > > config dance. Google has an internal memory.swapfile feature
-> > > implemented per cgroup swap file type by "zswap only", "real swap file
-> > > only", "both", "none" (the exact keyword might be different). running
-> > > in the production for almost 10 years. The need for more than zswap
-> > > type of per cgroup control is really there.
-> > 
-> > We use regular swap on SSD without zswap just fine. Of course it's
-> > expressible.
-> > 
-> > On dedicated systems, zswap is disabled in sysfs. On shared hosts
-> > where it's determined based on which workload is scheduled, zswap is
-> > generally enabled through sysfs, and individual cgroup access is
-> > controlled via memory.zswap.max - which is what this knob is for.
-> > 
-> > This is analogous to enabling swap globally, and then opting
-> > individual cgroups in and out with memory.swap.max.
-> > 
-> > So this usecase is very much already supported, and it's expressed in
-> > a way that's pretty natural for how cgroups express access and lack of
-> > access to certain resources.
-> > 
-> > I don't see how memory.swap.type or memory.swap.tiers would improve
-> > this in any way. On the contrary, it would overlap and conflict with
-> > existing controls to manage swap and zswap on a per-cgroup basis.
-> > 
-> > > 2) As indicated by this discussion, Tencent has a usage case for SSD
-> > > and hard disk swap as overflow.
-> > > https://lore.kernel.org/linux-mm/20231119194740.94101-9-ryncsn@gmail.com/
-> > > +Kairui
-> > 
-> > Multiple swap devices for round robin or with different priorities
-> > aren't new, they have been supported for a very, very long time. So
-> > far nobody has proposed to control the exact behavior on a per-cgroup
-> > basis, and I didn't see anybody in this thread asking for it either.
-> > 
-> > So I don't see how this counts as an obvious and automatic usecase for
-> > memory.swap.tiers.
-> > 
-> > > 3) Android has some fancy swap ideas led by those patches.
-> > > https://lore.kernel.org/linux-mm/20230710221659.2473460-1-minchan@kernel.org/
-> > > It got shot down due to removal of frontswap. But the usage case and
-> > > product requirement is there.
-> > > +Minchan
-> > 
-> > This looks like an optimization for zram to bypass the block layer and
-> > hook directly into the swap code. Correct me if I'm wrong, but this
-> > doesn't appear to have anything to do with per-cgroup backend control.
-> 
-> Hi Johannes,
-> 
-> I haven't been following the thread closely, but I noticed the discussion
-> about potential use cases for zram with memcg.
-> 
-> One interesting idea I have is to implement a swap controller per cgroup.
-> This would allow us to tailor the zram swap behavior to the specific needs of
-> different groups.
-> 
-> For example, Group A, which is sensitive to swap latency, could use zram swap
-> with a fast compression setting, even if it sacrifices some compression ratio.
-> This would prioritize quick access to swapped data, even if it takes up more space.
-> 
-> On the other hand, Group B, which can tolerate higher swap latency, could benefit
-> from a slower compression setting that achieves a higher compression ratio.
-> This would maximize memory efficiency at the cost of slightly slower data access.
-> 
-> This approach could provide a more nuanced and flexible way to manage swap usage
-> within different cgroups.
+On Thu, Dec 14, 2023 at 2:26=E2=80=AFPM Tiago Lam <tiagolam@gmail.com> wrot=
+e:
+>
+> `scripts/min-tool-version.sh` won't exist within the build dir if the
+> option the user takes is "enter the kernel build directory", right? It
+> only works if they use the `--path` argument in the `rustup override
+> set` option.
 
-That makes sense to me.
+Yeah, the script is in the source tree, and the path is the build
+tree. Giving a single one-liner with `--path <builddir>` and
+`<srctree>/scripts...` would be simplest in the sense that it would
+allow us to remove even the "enter ..." part too. But then the command
+cannot be copy-pasted and it is likely harder for newcomers that may
+not be using `O=3D`.
 
-It sounds to me like per-cgroup swapfiles would be the easiest
-solution to this. Then you can create zram devices with different
-configurations and assign them to individual cgroups.
+Something like v1 but a bit simpler, e.g. keeping things as they are,
+but with just a sentence after the command like "If you are building
+the kernel with `O=3D`, i.e. specifying an output directory, then you
+should append `--path <builddir>`." could work.
 
-This would also apply to Kairu's usecase: assign zrams and hdd backups
-as needed on a per-cgroup basis.
+Or we could just provide a `rustupoverride` Make target to do this for
+us [1], since we have all the information needed and would be
+copy-pasteable by everybody. I can send it as a non-mangled patch and
+then Viresh can redo this one on top using it.
 
-In addition, it would naturally solve scalability and isolation
-problems when multiple containers would otherwise be hammering on the
-same swap backends and locks.
+Cheers,
+Miguel
 
-It would also only require one, relatively simple new interface, such
-as a cgroup parameter to swapon().
+[1]
 
-That's highly preferable over a complex configuration file like
-memory.swap.tiers that needs to solve all sorts of visibility and
-namespace issues and duplicate the full configuration interface of
-every backend in some new, custom syntax.
+diff --git a/Makefile b/Makefile
+index 70fc4c11dfc0..7fe82dd4dc6f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -276,7 +276,8 @@ no-dot-config-targets :=3D $(clean-targets) \
+                         cscope gtags TAGS tags help% %docs check% cocciche=
+ck \
+                         $(version_h) headers headers_% archheaders
+archscripts \
+                         %asm-generic kernelversion %src-pkg dt_binding_che=
+ck \
+-                        outputmakefile rustavailable rustfmt rustfmtcheck
++                        outputmakefile rustavailable rustfmt rustfmtcheck =
+\
++                        rustupoverride
+ no-sync-config-targets :=3D $(no-dot-config-targets) %install
+modules_sign kernelrelease \
+                          image_name
+ single-targets :=3D %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s
+%.symtypes %/
+@@ -1611,6 +1612,7 @@ help:
+        @echo  '                    (requires kernel .config;
+downloads external repos)'
+        @echo  '  rust-analyzer   - Generate rust-project.json
+rust-analyzer support file'
+        @echo  '                    (requires kernel .config)'
++       @echo  '  rustupoverride  - Set up a rustup override for the
+build directory'
+        @echo  '  dir/file.[os]   - Build specified target only'
+        @echo  '  dir/file.rsi    - Build macro expanded source,
+similar to C preprocessing.'
+        @echo  '                    Run with RUSTFMT=3Dn to skip
+reformatting if needed.'
+@@ -1735,6 +1737,11 @@ rustfmt:
+ rustfmtcheck: rustfmt_flags =3D --check
+ rustfmtcheck: rustfmt
+
++# `rustup override` setup target
++PHONY +=3D rustupoverride
++rustupoverride:
++       $(Q)rustup override set $(shell
+$(srctree)/scripts/min-tool-version.sh rustc)
++
+ # Misc
+ # ------------------------------------------------------------------------=
+---
