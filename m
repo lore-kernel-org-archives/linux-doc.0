@@ -1,282 +1,443 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMvdZfFB"
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55D47F7;
-	Wed, 13 Dec 2023 20:53:31 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1d336760e72so25134995ad.3;
-        Wed, 13 Dec 2023 20:53:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="TvQf26mB"
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24E5810D
+	for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 21:51:21 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1d35dc7e1bbso10942495ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 21:51:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702529611; x=1703134411; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4p0JqWlRVWER244oAYMvSvdAagyaTbFx+ZsxdGp8c8M=;
-        b=QMvdZfFBa2pGPhZC+ka1DxMZG3p0KmP02Dg9iXXhh8kAeVCsWeHBphw+F7QW/5Dg5f
-         TMGVTdabs9ZaK9ek5cucsyfD3sZ8/AmuheO95IacKu1K4A/hmqL6lX90PjFg7nLPGvfh
-         oaUUOsggfDaAyyGMHiewWcSKYlEt/OHABYotY6Qkk6d5k3omp04LHsaPsvVy+BqZbu8C
-         +0kPONzWCHvtWKIyTDhiB35RLa2lPbE0TUvm5Bchyh9TsG61iSWJQRVsjUKiojKw4M4v
-         FDYblX/mMJ1CwQCZcAszX3xAs41D6C8/yDQ59YuBm/PyKMz7bLYZDc3Q/w1UqxqKT2BN
-         md1Q==
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1702533080; x=1703137880; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rLainWpRefX2BTolt8NbE6C+P9Qi+Zj6K6itw8mdgIw=;
+        b=TvQf26mB301sj3Zt1fR3/p1A2llZ4P2wF0g6eOyazWS11Zvq3gjNPA0n4l6d9pszyy
+         AdThC9H418m6+lKJ/F/vB0YLFI4B9b6ZyDUUv5TibU4on9stmbPa1+L6m7UOvAIpuEX8
+         VhUY1mlcl8fS4NthRaEWbpF6cnkmP8KZZFuy011pv1ssKZ+za/2GT4IfAEzSzVl65atB
+         PD3AZGrxf2rZurpBqPCqJv5W8hDqANA/LABM+MsDOBPfST85SEmbWPtX5nlVOi/SkkzW
+         JQR7piN3vsciPFBbM8VULgXtDHyQI+9UQNZq+BYq6M/7Q73jDHrq4gusDvyIVrs45SzB
+         MuHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702529611; x=1703134411;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4p0JqWlRVWER244oAYMvSvdAagyaTbFx+ZsxdGp8c8M=;
-        b=UBjESvzNHUwzfjZuubxLJASY4T8+fSVRLqTZ9Y111KkFpNaQpmhF8ZFznqIuW2GtPE
-         O+7euVtzt1EMs4Fvnac44l1g0H5VxTdIiOgk+c8ppYOvcE9C7PAmXGQuwnKVVFrlBUg0
-         VBdaxH+PeB8MtGSw0i5oLiUV3OiC8kNyxXm3+pWNCkScNRYqE9m8zrqhsLCma5aTiaAG
-         vRZlHkdbGA4D/1YS8wTTVQcfETo3K9FusNh2QqzPHr2SB99mj5d47Rl65ZmE9AFAFca2
-         0a8Xz7F7vAsEXu6h+kLO9u/DAExQ7Iq8QcBeg+7sk7jNi+pFU/w1N6EJwn9yk71IWIEs
-         Rq8w==
-X-Gm-Message-State: AOJu0YzCQSSqdgtebqaDFosVvSOjeuSsfwpLzO6HAW3YpC5eVMOaIsqf
-	AZui4JONSRxP7aw77zSFiYk=
-X-Google-Smtp-Source: AGHT+IHAqa8+Nqzgnl1SThnXZLfEgHcjKaUcsvdJRH7qqzuRRzk8bk9ia9EeE0DvDVQ02wHsuKBBHg==
-X-Received: by 2002:a17:902:8696:b0:1d2:ec9b:92a with SMTP id g22-20020a170902869600b001d2ec9b092amr8059975plo.73.1702529610501;
-        Wed, 13 Dec 2023 20:53:30 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id g13-20020a170902d5cd00b001d1d6f6b67dsm11422784plh.147.2023.12.13.20.53.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 20:53:30 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id D1340114F75F3; Thu, 14 Dec 2023 11:53:26 +0700 (WIB)
-Date: Thu, 14 Dec 2023 11:53:26 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Christian Brauner <brauner@kernel.org>, linux-unionfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] overlayfs.rst: fix ReST formatting
-Message-ID: <ZXqKRv0eqBiDFqvi@archie.me>
-References: <20231213123422.344600-1-amir73il@gmail.com>
- <20231213123422.344600-3-amir73il@gmail.com>
+        d=1e100.net; s=20230601; t=1702533080; x=1703137880;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rLainWpRefX2BTolt8NbE6C+P9Qi+Zj6K6itw8mdgIw=;
+        b=xN7tAIea0PUF0Tj4C+Slep5LeMsarNNcVZ1EuIJWC4rsRNSuGwFgxOwxrIpVcHoAjW
+         ki3jpBteFXv9GBVQTAegDNAQjF/OxnvJ4wgZORFvqxlCB8ovxwZP/v1IZtcmAUZJfESA
+         2x8/UHCp6Lo8S6FSzQFQBRDP1neGDQt58WXbT4If/MS1LbXHfXMEp+4BkqupP4HpEBc3
+         AhaJDAYykldiVhQ3vf2bRHaSBfSeGxsM268PEGjsivRoFm4kGkjX1FpSuIyRwnBDtkCR
+         TfHNKozJGnHceG7gKTVtLys67TbdabJdH9EHsUplfubpiASqOFKLaeprP7HcJZ3vYm53
+         08BA==
+X-Gm-Message-State: AOJu0Yw9xUtL5OiatMriI7WKD8cWGTUNeIn3Q3UfXaGoy4reNx+JA29f
+	ermnWPBTXXcAHf/kvqnXxH6Upw==
+X-Google-Smtp-Source: AGHT+IFRyNQvpvdQRX4JOkIHdq7XsS4REgw0KvXGNYFu7hOA1IvlbkCqaQ4DOqq+4tpbuujLUp6ryw==
+X-Received: by 2002:a17:903:32ce:b0:1d0:c535:c5d5 with SMTP id i14-20020a17090332ce00b001d0c535c5d5mr11735028plr.60.1702533080380;
+        Wed, 13 Dec 2023 21:51:20 -0800 (PST)
+Received: from [192.168.205.173] ([157.82.200.183])
+        by smtp.gmail.com with ESMTPSA id jl13-20020a170903134d00b001d0b410271fsm11481858plb.218.2023.12.13.21.51.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Dec 2023 21:51:20 -0800 (PST)
+Message-ID: <0d68722c-9e29-407b-9ef0-331683c995d2@daynix.com>
+Date: Thu, 14 Dec 2023 14:51:12 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QN94/mCG3tiHzC20"
-Content-Disposition: inline
-In-Reply-To: <20231213123422.344600-3-amir73il@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Should I add BPF kfuncs for userspace apps? And how?
+To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Mykola Lysenko <mykolal@fb.com>,
+ Shuah Khan <shuah@kernel.org>, Yuri Benditovich
+ <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
+ Benjamin Tissoires <bentiss@kernel.org>, bpf <bpf@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, kvm@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ virtualization@lists.linux-foundation.org,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Network Development <netdev@vger.kernel.org>
+References: <2f33be45-fe11-4b69-8e89-4d2824a0bf01@daynix.com>
+ <CAO-hwJJhzHtKrUEw0zrjgub3+eapgJG-zsG0HRB=PaPi6BxG+w@mail.gmail.com>
+ <e256c6df-0a66-4f86-ae96-bff17920c2fb@daynix.com>
+ <CAO-hwJKMrWYRNpuprDj9=k87V0yHtLPEJuQ94bpOF3O81=v0kA@mail.gmail.com>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <CAO-hwJKMrWYRNpuprDj9=k87V0yHtLPEJuQ94bpOF3O81=v0kA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 2023/12/13 19:22, Benjamin Tissoires wrote:
+> On Tue, Dec 12, 2023 at 1:41 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>
+>> On 2023/12/12 19:39, Benjamin Tissoires wrote:
+>>> Hi,
+>>>
+>>> On Tue, Dec 12, 2023 at 9:11 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>
+>>>> Hi,
+>>
+>> Hi,
+>>
+>> Thanks for reply.
+>>
+>>>>
+>>>> It is said eBPF is a safe way to extend kernels and that is very
+>>>> attarctive, but we need to use kfuncs to add new usage of eBPF and
+>>>> kfuncs are said as unstable as EXPORT_SYMBOL_GPL. So now I'd like to ask
+>>>> some questions:
+>>>>
+>>>> 1) Which should I choose, BPF kfuncs or ioctl, when adding a new feature
+>>>> for userspace apps?
+>>>> 2) How should I use BPF kfuncs from userspace apps if I add them?
+>>>>
+>>>> Here, a "userspace app" means something not like a system-wide daemon
+>>>> like systemd (particularly, I have QEMU in mind). I'll describe the
+>>>> context more below:
+>>>
+>>> I'm probably not the best person in the world to answer your
+>>> questions, Alexei and others from the BPF core group are, but given
+>>> that you pointed at a thread I was involved in, I feel I can give you
+>>> a few pointers.
+>>>
+>>> But first and foremost, I encourage you to schedule an agenda item in
+>>> the BPF office hour[4]. Being able to talk with the core people
+>>> directly was tremendously helpful to me to understand their point.
+>>
+>> I prefer emails because I'm not very fluent when speaking in English and
+>> may have a difficultly to listen to other people, but I may try it in
+>> future.
+>>
+>>>
+>>>
+>>>>
+>>>> ---
+>>>>
+>>>> I'm working on a new feature that aids virtio-net implementations using
+>>>> tuntap virtual network device. You can see [1] for details, but
+>>>> basically it's to extend BPF_PROG_TYPE_SOCKET_FILTER to report four more
+>>>> bytes.
+>>>>
+>>>> However, with long discussions we have confirmed extending
+>>>> BPF_PROG_TYPE_SOCKET_FILTER is not going to happen, and adding kfuncs is
+>>>> the way forward. So I decided how to add kfuncs to the kernel and how to
+>>>> use it. There are rich documentations for the kernel side, but I found
+>>>> little about the userspace. The best I could find is a systemd change
+>>>> proposal that is based on WIP kernel changes[2].
+>>>
+>>> Yes, as Alexei already replied, BPF is not adding new stable APIs,
+>>> only kfuncs. The reason being that once it's marked as stable, you
+>>> can't really remove it, even if you think it's badly designed and
+>>> useless.
+>>>
+>>> Kfuncs, OTOH are "unstable" by default meaning that the constraints
+>>> around it are more relaxed.
+>>>
+>>> However, "unstable" doesn't mean "unusable". It just means that the
+>>> kernel might or might not have the function when you load your program
+>>> in userspace. So you have to take that fact into account from day one,
+>>> both from the kernel side and the userspace side. The kernel docs have
+>>> a nice paragraph explaining that situation and makes the distinction
+>>> between relatively unused kfuncs, and well known established ones.
+>>>
+>>> Regarding the systemd discussion you are mentioning ([2]), this is
+>>> something that I have on my plate for a long time. I think I even
+>>> mentioned it to Alexei at Kernel Recipes this year, and he frowned his
+>>> eyebrows when I mentioned it. And looking at the systemd code and the
+>>> benefits over a plain ioctl, it is clearer that in that case, a plain
+>>> ioctl is better, mostly because we already know the API and the
+>>> semantic.
+>>>
+>>> A kfunc would be interesting in cases where you are not sure about the
+>>> overall design, and so you can give a shot at various API solutions
+>>> without having to keep your bad v1 design forever.
+>>>
+>>>>
+>>>> So now I'm wondering how I should use BPF kfuncs from userspace apps if
+>>>> I add them. In the systemd discussion, it is told that Linus said it's
+>>>> fine to use BPF kfuncs in a private infrastructure big companies own, or
+>>>> in systemd as those users know well about the system[3]. Indeed, those
+>>>> users should be able to make more assumptions on the kernel than
+>>>> "normal" userspace applications can.
+>>>>
+>>>> Returning to my proposal, I'm proposing a new feature to be used by QEMU
+>>>> or other VMM applications. QEMU is more like a normal userspace
+>>>> application, and usually does not make much assumptions on the kernel it
+>>>> runs on. For example, it's generally safe to run a Debian container
+>>>> including QEMU installed with apt on Fedora. BPF kfuncs may work even in
+>>>> such a situation thanks to CO-RE, but it sounds like *accidentally*
+>>>> creating UAPIs.
+>>>>
+>>>> Considering all above, how can I integrate BPF kfuncs to the application?
+>>>
+>>> FWIW, I'm not sure you can rely on BPF calls from a container. There
+>>> is a high chance the syscall gets disabled by the runtime.
+>>
+>> Right. Container runtimes will not pass CAP_BPF by default, but that
+>> restriction can be lifted and I think that's a valid scenario.
+>>
+>>>
+>>>>
+>>>> If BPF kfuncs are like EXPORT_SYMBOL_GPL, the natural way to handle them
+>>>> is to think of BPF programs as some sort of kernel modules and
+>>>> incorporate logic that behaves like modprobe. More concretely, I can put
+>>>> eBPF binaries to a directory like:
+>>>> /usr/local/share/qemu/ebpf/$KERNEL_RELEASE
+>>>
+>>> I would advise against that (one program per kernel release). Simply
+>>> because your kfunc may or may not have been backported to kernel
+>>> release v6.X.Y+1 while it was not there when v6.X.Y was out. So
+>>> relying on the kernel number is just going to be a headache.
+>>>
+>>> As I understand it, the way forward is to rely on the kernel, libbpf
+>>> and CO-RE: if the function is not available, the program will simply
+>>> not load, and you'll know that this version of the code is not
+>>> available (or has changed API).
+>>>
+>>> So what I would do if some kfunc API is becoming deprecated, is
+>>> embedding both code paths in the same BPF unit, but marking them as
+>>> not loaded by libppf. Then I can load the compilation unit, try v2 of
+>>> the API, and if it's not available, try v1, and if not, then mention
+>>> that I can not rely on BPF. Of course, this can also be done with
+>>> separate compilation units.
+>>
+>> Doesn't it mean that the kernel is free to break old versions of QEMU
+>> including BPF programs? That's something I'd like to avoid.
+> 
+> Couple of points here:
+> - when you say "the kernel", it feels like you are talking about an
+> external actor tampering with your code. But if you submit a kernel
+> patch with a specific use case and get yourself involved in the
+> community, why would anybody change your kfunc API without you knowing
+> it?
 
---QN94/mCG3tiHzC20
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You are right in the practical aspect.  I can pay efforts to keep kfunc 
+APIs alive and I'm also sure other developers would also try not to 
+break them for good.
 
-On Wed, Dec 13, 2023 at 02:34:22PM +0200, Amir Goldstein wrote:
-> Fix some indentation issues and fix missing newlines in quoted text
-> by converting quoted text to code blocks.
->=20
-> Unindent a) b) enumerated list to workaround github displaying it
-> as numbered list.
->=20
-> Reported-by: Christian Brauner <brauner@kernel.org>
-> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
->  Documentation/filesystems/overlayfs.rst | 63 +++++++++++++------------
->  1 file changed, 32 insertions(+), 31 deletions(-)
->=20
-> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
-systems/overlayfs.rst
-> index 926396fdc5eb..a36f3a2a2d4b 100644
-> --- a/Documentation/filesystems/overlayfs.rst
-> +++ b/Documentation/filesystems/overlayfs.rst
-> @@ -118,7 +118,7 @@ Where both upper and lower objects are directories, a=
- merged directory
->  is formed.
-> =20
->  At mount time, the two directories given as mount options "lowerdir" and
-> -"upperdir" are combined into a merged directory:
-> +"upperdir" are combined into a merged directory::
-> =20
->    mount -t overlay overlay -olowerdir=3D/lower,upperdir=3D/upper,\
->    workdir=3D/work /merged
-> @@ -174,10 +174,10 @@ programs.
->  seek offsets are assigned sequentially when the directories are read.
->  Thus if
-> =20
-> -  - read part of a directory
-> -  - remember an offset, and close the directory
-> -  - re-open the directory some time later
-> -  - seek to the remembered offset
-> +- read part of a directory
-> +- remember an offset, and close the directory
-> +- re-open the directory some time later
-> +- seek to the remembered offset
-> =20
->  there may be little correlation between the old and new locations in
->  the list of filenames, particularly if anything has changed in the
-> @@ -285,21 +285,21 @@ Permission model
-> =20
->  Permission checking in the overlay filesystem follows these principles:
-> =20
-> - 1) permission check SHOULD return the same result before and after copy=
- up
-> +1) permission check SHOULD return the same result before and after copy =
-up
-> =20
-> - 2) task creating the overlay mount MUST NOT gain additional privileges
-> +2) task creating the overlay mount MUST NOT gain additional privileges
-> =20
-> - 3) non-mounting task MAY gain additional privileges through the overlay,
-> - compared to direct access on underlying lower or upper filesystems
-> +3) non-mounting task MAY gain additional privileges through the overlay,
-> +   compared to direct access on underlying lower or upper filesystems
-> =20
-> -This is achieved by performing two permission checks on each access
-> +This is achieved by performing two permission checks on each access:
-> =20
-> - a) check if current task is allowed access based on local DAC (owner,
-> -    group, mode and posix acl), as well as MAC checks
-> +a) check if current task is allowed access based on local DAC (owner,
-> +group, mode and posix acl), as well as MAC checks
-> =20
-> - b) check if mounting task would be allowed real operation on lower or
-> -    upper layer based on underlying filesystem permissions, again includ=
-ing
-> -    MAC checks
-> +b) check if mounting task would be allowed real operation on lower or
-> +upper layer based on underlying filesystem permissions, again including
-> +MAC checks
-> =20
->  Check (a) ensures consistency (1) since owner, group, mode and posix acls
->  are copied up.  On the other hand it can result in server enforced
-> @@ -311,11 +311,11 @@ to create setups where the consistency rule (1) doe=
-s not hold; normally,
->  however, the mounting task will have sufficient privileges to perform all
->  operations.
-> =20
-> -Another way to demonstrate this model is drawing parallels between
-> +Another way to demonstrate this model is drawing parallels between::
-> =20
->    mount -t overlay overlay -olowerdir=3D/lower,upperdir=3D/upper,... /me=
-rged
-> =20
-> -and
-> +and::
-> =20
->    cp -a /lower /upper
->    mount --bind /upper /merged
-> @@ -328,7 +328,7 @@ Multiple lower layers
->  ---------------------
-> =20
->  Multiple lower layers can now be given using the colon (":") as a
-> -separator character between the directory names.  For example:
-> +separator character between the directory names.  For example::
-> =20
->    mount -t overlay overlay -olowerdir=3D/lower1:/lower2:/lower3 /merged
-> =20
-> @@ -340,13 +340,13 @@ rightmost one and going left.  In the above example=
- lower1 will be the
->  top, lower2 the middle and lower3 the bottom layer.
-> =20
->  Note: directory names containing colons can be provided as lower layer by
-> -escaping the colons with a single backslash.  For example:
-> +escaping the colons with a single backslash.  For example::
-> =20
->    mount -t overlay overlay -olowerdir=3D/a\:lower\:\:dir /merged
-> =20
->  Since kernel version v6.8, directory names containing colons can also
->  be configured as lower layer using the "lowerdir+" mount options and the
-> -fsconfig syscall from new mount api.  For example:
-> +fsconfig syscall from new mount api.  For example::
-> =20
->    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/a:lower::dir", 0);
-> =20
-> @@ -390,11 +390,11 @@ Data-only lower layers
->  With "metacopy" feature enabled, an overlayfs regular file may be a comp=
-osition
->  of information from up to three different layers:
-> =20
-> - 1) metadata from a file in the upper layer
-> +1) metadata from a file in the upper layer
-> =20
-> - 2) st_ino and st_dev object identifier from a file in a lower layer
-> +2) st_ino and st_dev object identifier from a file in a lower layer
-> =20
-> - 3) data from a file in another lower layer (further below)
-> +3) data from a file in another lower layer (further below)
-> =20
->  The "lower data" file can be on any lower layer, except from the top most
->  lower layer.
-> @@ -405,7 +405,7 @@ A normal lower layer is not allowed to be below a dat=
-a-only layer, so single
->  colon separators are not allowed to the right of double colon ("::") sep=
-arators.
-> =20
-> =20
-> -For example:
-> +For example::
-> =20
->    mount -t overlay overlay -olowerdir=3D/l1:/l2:/l3::/do1::/do2 /merged
-> =20
-> @@ -419,7 +419,7 @@ to the absolute path of the "lower data" file in the =
-"data-only" lower layer.
-> =20
->  Since kernel version v6.8, "data-only" lower layers can also be added us=
-ing
->  the "datadir+" mount options and the fsconfig syscall from new mount api.
-> -For example:
-> +For example::
-> =20
->    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
->    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
-> @@ -429,7 +429,7 @@ For example:
-> =20
-> =20
->  fs-verity support
-> -----------------------
-> +-----------------
-> =20
->  During metadata copy up of a lower file, if the source file has
->  fs-verity enabled and overlay verity support is enabled, then the
-> @@ -653,9 +653,10 @@ following rules apply:
->     encode an upper file handle from upper inode
-> =20
->  The encoded overlay file handle includes:
-> - - Header including path type information (e.g. lower/upper)
-> - - UUID of the underlying filesystem
-> - - Underlying filesystem encoding of underlying inode
-> +
-> +- Header including path type information (e.g. lower/upper)
-> +- UUID of the underlying filesystem
-> +- Underlying filesystem encoding of underlying inode
-> =20
->  This encoding format is identical to the encoding format file handles th=
-at
->  are stored in extended attribute "trusted.overlay.origin".
-> @@ -773,9 +774,9 @@ Testsuite
->  There's a testsuite originally developed by David Howells and currently
->  maintained by Amir Goldstein at:
-> =20
-> -  https://github.com/amir73il/unionmount-testsuite.git
-> +https://github.com/amir73il/unionmount-testsuite.git
-> =20
-> -Run as root:
-> +Run as root::
-> =20
->    # cd unionmount-testsuite
->    # ./run --ov --verify
+Nevertheless I'm being careful to evaluate APIs from both of the kernel 
+and userspace (QEMU) viewpoints. If I fail to keep kfuncs stable because 
+I die in an accident, for example, it's a poor excuse for other QEMU 
+developers that I intended to keep them stable with my personal effort.
 
-LGTM, thanks!
+> - the whole warning about "unstable" policy means that the user space
+> component should not take for granted the capability. So if the kfunc
+> changes/disappears for good reasons (because it was marked as well
+> used and deprecated for quite some time), qemu should not *break*, it
+> should not provide the functionality, or have a secondary plan.
+> 
+> But even if you are encountering such issues, in case of a change in
+> the ABI of your kfunc, it should be easy enough to backport the bpf
+> changes to your old QEMUs and ask users to upgrade the user space if
+> they upgrade their kernel.
+> 
+> AFAIU, it is as unstable as you want it to be. It's just that we are
+> not in the "we don't break user space" contract, because we are
+> talking about adding a kernel functionality from userspace, which
+> requires knowing the kernel intrinsics.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+I must admit I'm still not convinced the proposed BPF program 
+functionality needs to know internals of the kernel.
 
---=20
-An old man doll... just what I always wanted! - Clara
+The eBPF program QEMU carries is just to calculate hashes from packets. 
+It doesn't need to know the details of how the kernel handles packets. 
+It only needs to have an access to the packet content.
 
---QN94/mCG3tiHzC20
-Content-Type: application/pgp-signature; name="signature.asc"
+It is exactly what BPF_PROG_TYPE_SOCKET_FILTER does, but it lacks a 
+mechanism to report hash values so I need to extend it or invent a new 
+method. Extending BPF_PROG_TYPE_SOCKET_FILTER is not a way forward since 
+CO-RE is superior to the context rewrite it relies on. But apparently 
+adopting kfuncs and CO-RE also means to lose the "we don't break user 
+space" contract although I have no intention to expose kernel internals 
+to the eBPF program.
 
------BEGIN PGP SIGNATURE-----
+> 
+>>
+>>>
+>>>>
+>>>> Then, QEMU can uname() and get the path to the binary. It will give an
+>>>> error if it can't find the binary for the current kernel so that it
+>>>> won't create accidental UAPIs.
+>>>>
+>>>> The obvious downside of this is that it complicates packaging a lot; it
+>>>> requires packaging QEMU eBPF binaries each time a new kernel comes up.
+>>>> This complexity is centrally managed by modprobe for kernel modules, but
+>>>> apparently each application needs to take care of it for BPF programs.
+>>>
+>>> For my primary use case: HID-BPF, I put kfuncs in kernel v6.3 and
+>>> given that I haven't touch this part of the API, the same compilation
+>>> unit compiled in the v6.3 era still works on a v6.7-rcx, so no, IMO
+>>> it's not complex and doesn't require to follow the kernel releases
+>>> (which is the whole point of HID-BPF FWIW).
+>>
+>> I also expect BPF kfuncs will work well for long if I introduce its
+>> usage to QEMU in practice. That said, the interface stability is about
+>> when something unexpected happens. What if the interface QEMU relies on
+>> is deemed sub-optimal? Without following kernel releases, QEMU may
+>> accidentally lose the feature relying on eBPF.
+> 
+> In the same way, anybody can tamper with your ioctl or syscall without
+> QEMU knowing it.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZXqKRgAKCRD2uYlJVVFO
-ox7rAP9GmjFmHd4pwrcch09X3eeh6E9U4bZBPxWrvTE+yuf0eAEA1dtRezsFR8Xn
-YHtAaL4TGBC9LmhUK68BNfa1y6lhhwA=
-=eBfG
------END PGP SIGNATURE-----
+I suppose it's only the case when the ioctl is marked as experimental, 
+and it's also possible to mark it stable when the design is 
+consolidated. The latter part matters; once I and other kernel/QEMU 
+developers become confident, I'd like to drop the experimental notes 
+from the kernel and QEMU and expect kfuncs to keep working.
 
---QN94/mCG3tiHzC20--
+> And what you need to follow is not the kernel *releases*, but the
+> changes in the kfuncs you are interested in.
+
+That works as long as a version of kfunc is stable across kernel 
+releases. I have to ensure that a breaking change will always require a 
+different symbol for that purpose.
+
+> 
+>>
+>>>
+>>>>
+>>>> In conclusion, I see too much complexity to use BPF in a userspace
+>>>> application, which we didn't have to care for
+>>>> BPF_PROG_TYPE_SOCKET_FILTER. Isn't there a better way? Or shouldn't I
+>>>> use BPF in my case in the first place?
+>>>
+>>> Given that I'm not a network person, I'm not sure about your use case,
+>>> but I would make my decision based on:
+>>> - do I know exactly what I want to achieve and I'm confident that I'll
+>>> write the proper kernel API from day one? (if not then kfuncs is
+>>> appealing because  it's less workload in the long run, but userspace
+>>> needs to be slightly smarter)
+>>
+>> Personally I'm confident that the initial UAPI design will not do a bad
+>> thing at least. However, there is a high chance that the design needs to
+>> be extended to accommodate new features.
+> 
+> Not trying to offend you or anything, but designs can change for
+> multiple reasons. Floppy disks were a good design at the time, and it
+> took decades to remove support for it in the kernel. In the same way,
+> removing an architecture from the kernel is hard, because even if you
+> can not run a new kernel on those architectures, "we do not break
+> userspace".
+
+It's a totally valid point. I expect the underlying networking technique 
+(RSS) will matter for the next decade, but I'm not sure after that.
+
+> 
+> The whole BPF approach is to say that users of BPF are not plain
+> random users, and they have to know a little bit of the kernel, and
+> they know that once the kfunc is here, it doesn't mean it'll stay here
+> forever.
+> 
+>>
+>>> - are all of my use cases covered by using BPF? (what happens if I run
+>>> QEMU in a container?) -> BPF might or might not be a solution
+>>
+>> Yes. Containers can be used to 1) have a different userspace or 2)
+>> isolate things for security.
+>>
+>> Regarding 2), QEMU and libvirt has sandbox mechanisms so we can rely on
+>> them instead of containers so we can just pass capabilities to the
+>> container. At least, we can always have a setuid helper outside
+>> container, and pass around file descriptors it generates.
+>>
+>> So 1) is the only problem that matters.
+>>
+>>>
+>>> But the nice thing about using BPF kfuncs is that it allows you to
+>>> have a testing (not-)UAPI kernel interface. You can then implement the
+>>> userspace changes and see how it behaves. And then, once you got the
+>>> right design, you can decide to promote it to a proper syscall or
+>>> ioctl if you want.
+>>
+>> I expect it's possible to have testing ioctls. Quickly searching online,
+>> there are experimental ioctls[1][2]. I also know DRM has a relaxed
+>> policy for closed-source userspace[3].
+> 
+> Sure, but handling a change in the API in those cases is tough in the
+> kernel. You probably need to bump versions, return different values
+> depending on how many parameters you are given, and you are never sure
+> the caller is using the right parameters. BPF simplifies this by
+> actually checking the types of the caller, and if there is a
+> discrepancy, it'll notify userspace that it is doing something bad.
+
+That's the whole reason I'm reluctant to have an ioctl while I intend to 
+use it like a UAPI. BPF looks nice; it's safer, allows to extend the 
+functionality when the virtio spec QEMU implements gets updated and to 
+reuse the existing code for BPF_PROG_TYPE_SOCKET_FILTER.
+
+> 
+>>
+>> So I'm seeing the distinction of UAPI/kfunc even less definitive; UAPIs
+>> can also be broken if the subsystem maintainers agree and there is no
+>> real user. I also think it's natural to say a kfunc will be stable as
+>> long as there is a user, but it contradicts with the current situation.
+> 
+> Please read more carefully the kernel docs [4] (just quoting here the
+> beginning):
+> 
+> """
+> Like any other change to the kernel, maintainers will not change or
+> remove a kfunc without having a reasonable justification. Whether or
+> not they'll choose to change a kfunc will ultimately depend on a
+> variety of factors, such as how widely used the kfunc is, how long the
+> kfunc has been in the kernel, whether an alternative kfunc exists,
+> what the norm is in terms of stability for the subsystem in question,
+> and of course what the technical cost is of continuing to support the
+> kfunc.
+> """
+> 
+>> kfunc is expressed as EXPORT_SYMBOL_GPL in the documentation, and Linus
+>> expects kfunc is for users like big companies or systemd, which closely
+>> follow the kernel, according to the systemd discussion I cited in the
+>> last email.
+> 
+> Please re-read the doc[4], it's not a 1-to-1 matching to EXPORT_SYMBOL_GPL.
+> And being the one who reported Linus' words in that systemd thread,
+> Linus was not concerned about "potential situations that may or may
+> not happen", because he expected the people who use kfunc to do the
+> right thing. Because they are not average programmers. And QEMU
+> developers would definitely fit in that category IMO.
+> 
+> And the whole "you can consider kfunc similar to EXPORT_SYMBOL_GPL" is
+> just a warning for user space that the kfunc will never be kept only
+> for stability reasons. So when you want to use a kfunc, you need to be
+> aware of it and not segfault if it's not there (which can not happen
+> TBH unless you don't check that your program was correctly loaded).
+> 
+>>
+>> According to the discussion above, it may be better off abandoning BPF
+>> and implementing all in kernel, with ioctl as I have a (hopefully) sound
+>> idea of UAPI design. But I'll also continue considering the BPF option;
+>> BPF is still attractive due to its extensibility and safety.
+> 
+> We can not tell you to choose one solution over the other. The choice
+> is yours. I personally find BPF more appealing because it allows the
+> user space application to define its own kernel API for its own needs
+> while relying on just a few defined kfuncs.
+> 
+> But again, sometimes it doesn't work, like the systemd thread you
+> linked, it's too big overhead for little gain compared to an ioctl in
+> that particular case.
+> 
+> IMO the biggest issue for you is not the stability of the API, but the
+> container capabilities. Because allowing CAP_BPF allows for a whole
+> lot of nasty things to happen :)
+
+I'll keep thinking about what QEMU developers can do for kfuncs, lacking 
+UAPI stability, and if it makes sense to require CAP_BPF.
+
+Regards,
+Akihiko Odaki
