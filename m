@@ -1,70 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/nG4ztM"
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3D498
-	for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 23:00:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702537260; x=1734073260;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FffFyrDqPblMt4ksJNX5nbPAQACX40n9zSviJNipsR8=;
-  b=f/nG4ztMVqOXYF3ecrbMrMqUZLIKAshhAJ8fHrb6j7j/VHovO8GdUtrv
-   Z3wvw6amVO3VZG8E27EpzuIQ5sr16MeVv5jlePuynKF7f97zYE8eyuUmQ
-   VW537eEsy3Fp/6fCbtNq36fuGIZV12EEF3Ml5sZ+IFDy+S00pNcVrRw1W
-   vwssF3JaVIKygqGDhodsU+Yik32vwr+Qwe3Uh8I2CH8yJcTLyLbgeN/H0
-   JiMq1Lx4Rdx11RFwE6rsJ7crtGZsk+MRRRxCF4vwvTvyixLpBYnMx3q++
-   idDpRQMcKu5kfXzm1lz5Z5f+RRdNA/x5yGDd96JiuQKOVK5YBiGjOdNHA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="2232191"
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="2232191"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 23:00:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="892337580"
-X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="892337580"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Dec 2023 23:00:57 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDfiJ-000LiV-1t;
-	Thu, 14 Dec 2023 07:00:55 +0000
-Date: Thu, 14 Dec 2023 15:00:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [intel-tdx:kvm-upstream-next 182/273] htmldocs:
- Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected
- indentation.
-Message-ID: <202312141455.syaL0jxl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W8n+jLe/"
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CEEB9;
+	Wed, 13 Dec 2023 23:02:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=FZaOAO5vmABT0i97bp/ZMibUxD398U4/Yahe2hBKgzU=; b=W8n+jLe/I0E2TDYrMLqrBgsuqL
+	62NNBe7JtDtRBDwETRGttWq8l+UCTtbI/AGYcEqPN61UpWs+ihrwRWLpGa96hnYlkrMDjNynPE9bb
+	2l+zjow865xzGyC1+vbEZZhJjArWX6zHprnskaa9VIFc//MlTZH2tW7SyOKZZ+hTVdnKXzpKFDNIO
+	qnf7h+LTmN2UPGIOOrZTXZjn43bsLCT9r/1IEqrhqBpFvxAB92bdVDhwNTgvP5WWIfZ3t2OFKdILC
+	seuw6NA9eQbR9xkuDm7fHXPhVpS1qfr7QpLTZB3mYP8QBmq98Gs2/Yofyt6WOhUXKVSEqCaIqb5lo
+	rCFc2/HQ==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rDfjM-00H3K5-2k;
+	Thu, 14 Dec 2023 07:02:00 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] scripts/kernel-doc: restore warning for Excess struct/union
+Date: Wed, 13 Dec 2023 23:02:00 -0800
+Message-ID: <20231214070200.24405-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-next
-head:   90fec84219b5d2bf13e61f02777f6a44ab755bc4
-commit: 08596b00bfd68b360732d0a2266c1c845a15e2aa [182/273] x86/virt/tdx: Export TD config params of TDX module via sysfs
-reproduce: (https://download.01.org/0day-ci/archive/20231214/202312141455.syaL0jxl-lkp@intel.com/reproduce)
+The warning for Excess struct or union member description was
+removed when the $nested parameter of check_sections() was removed.
+This causes some kernel-doc notation warnings to be missed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141455.syaL0jxl-lkp@intel.com/
+Recently the kernel test robot somehow reported an Excess member. The
+code in kernel-doc has not issued that warning since kernel v4.16, so I
+don't know how the robot did it. (See the Link for the report.)
 
-All warnings (new ones prefixed by >>):
+  drivers/net/wireless/intel/iwlwifi/fw/dbg.c:86: warning: Excess struct/union/enum/typedef member 'trans_len' description in 'iwl_fw_dump_ptrs'
 
->> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected indentation.
+I patched that warning away even though I could not reproduce the
+warning from kernel-doc. The warning should be issued for extraneous
+struct member or union member description, so restore it.
 
-vim +2 Documentation/ABI/testing/sysfs-firmware-tdx
+Fixes: 1081de2d2f91 ("scripts: kernel-doc: get rid of $nested parameter")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Link: https://lore.kernel.org/all/202312060810.QT9zourt-lkp@intel.com/
+Cc: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ scripts/kernel-doc |    7 +++++++
+ 1 file changed, 7 insertions(+)
 
-   > 2	Date:           March 2023
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff -- a/scripts/kernel-doc b/scripts/kernel-doc
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1659,6 +1659,13 @@ sub check_sections($$$$$) {
+ 					"'$sects[$sx]' " .
+ 					"description in '$decl_name'\n");
+ 			}
++			elsif (($decl_type eq "struct") or
++		       	       ($decl_type eq "union")) {
++				emit_warning("${file}:$.",
++					"Excess $decl_type member " .
++					"'$sects[$sx]' " .
++					"description in '$decl_name'\n");
++			}
+ 		}
+ 	}
+ }
