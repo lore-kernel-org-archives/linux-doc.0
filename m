@@ -1,228 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1A36A011;
-	Thu, 14 Dec 2023 19:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6056A011
+	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 20:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCmMDKsp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702582900; x=1734118900;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=JeJEGG5sFogcxVYcE4xCnsdCdmkxF2xsMcIKN/Q4UTw=;
-  b=QCmMDKspDcbAuPeQERIfCMG2hqmqkpPg7vdeqAhsjWoHax743ZQI4SOm
-   TWuVVGRAzfFKmFDljJVV0+T9yWPDD2+p6zcDJlcycH7LwtAjFx30e6hCQ
-   uGJc7U00L7NsDJMPWT0TvyueM1N6a8DOdrKAHA4THnN+UNsg64Z942OzQ
-   YiE0EAInQpmgS6fYtplLfFvnM2R7vzHx8knOOA7yMWoTcwM3Ai+AiRoMC
-   bhe1CgD4vUzFGYEFFsu32SCa+U3fiDIZzmAeB3qL9wiRAZo490uoGYVJO
-   9du9bGxUIbMfifcOCB1PtY/GBur5sKno/7M5lpOvu84OWP/GU6IirX8g0
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="399013871"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="399013871"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 11:41:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="750666558"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="750666558"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by orsmga006.jf.intel.com with ESMTP; 14 Dec 2023 11:41:32 -0800
-From: Tony Nguyen <anthony.l.nguyen@intel.com>
-To: davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	netdev@vger.kernel.org
-Cc: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
-	anthony.l.nguyen@intel.com,
-	jacob.e.keller@intel.com,
-	vaishnavi.tipireddy@intel.com,
-	horms@kernel.org,
-	leon@kernel.org,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	rdunlap@infradead.org
-Subject: [PATCH net-next v6 5/5] ice: add documentation for FW logging
-Date: Thu, 14 Dec 2023 11:40:40 -0800
-Message-ID: <20231214194042.2141361-6-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231214194042.2141361-1-anthony.l.nguyen@intel.com>
-References: <20231214194042.2141361-1-anthony.l.nguyen@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DcctqYnl"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33621d443a7so4821364f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 12:03:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702584207; x=1703189007; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3t3FbK18GrHFwKE4zIkpGcLL7FiHaNow8xNq3R4/QdI=;
+        b=DcctqYnloBXyzr6/icFJ5nrbeI/fwc45lTK7zT/zDqs/kq2mNANjqfq2WI1CPbOIkl
+         3zpygJURz7qkPfte+tjx80A6gdM+O1FTYI2VvL7SuLYcjzd7H6DpQfdwmDLV9+nXMrPb
+         7dTw0mVB00N20UiuwNWRNzFDHCuBoP+J6TIeAJfZc3sS1MAXMzL9Z0GoRoatm7TLOu8j
+         8ZZNvlX+vs9HJuG2Y82vknoMM3anREwfsFsat4CTGetqMhnBOOAiPMlJfT5NqSfpdkqn
+         3Qd8clBnVZm39r28lU0UGMK8yIuIf8HPnzkmKCt9BujWkP4WutaWkmQdw0Vrw4Oq2nII
+         J76Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702584207; x=1703189007;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3t3FbK18GrHFwKE4zIkpGcLL7FiHaNow8xNq3R4/QdI=;
+        b=Y3EOUahWwEv128AJXQBmzC5QySrVRD5cdZyqg7aX2wu7cvolgjb+dX4sDV8mjUnwPs
+         I/RTywWqQw3ixLHoI0mjObRHD5EarHsVUMIo/Jue9EZKXSZKmF+vO0bREc7lDbZpOrHQ
+         br6SVFex/O526GWbIt2nxDLS/7Qc6JcJ7JdSZaHVK2pHt4dlnsUHzZEwJbgEKxJW0KLw
+         yBCTYpT3gzaFyQYZI3kTOpJHkjqv36+MA2mA/8e/P6oJNG5UZoAmZqNVMBbMdW+Zwwbr
+         beM/2dyFoQLY35AZ+sBM4chMl9VKQlJdrDS1Y0t2/f4cB2ae3eChmi/wzy2o+bECO+YV
+         g/wQ==
+X-Gm-Message-State: AOJu0YyP83YUYmNSiXP2W+Vtb2SBdEchiOBkdYCuSYhMrclOGpT15d0X
+	LYCJerbVhCdgd5vdS29PfvNuRo1m6k8QdR2GCMND6w==
+X-Google-Smtp-Source: AGHT+IFJxGuMnKvxp55N7GC1tz5/h738b4XoM+FeA8fRtBht8xQJ/kBDFL2qAi3ZYkZt7idruFgudyPvdRKWDedOoVg=
+X-Received: by 2002:a05:600c:2313:b0:40c:3e43:4183 with SMTP id
+ 19-20020a05600c231300b0040c3e434183mr4682976wmo.5.1702584207011; Thu, 14 Dec
+ 2023 12:03:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com> <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
+ <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
+ <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com> <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
+ <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
+In-Reply-To: <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 14 Dec 2023 12:03:15 -0800
+Message-ID: <CAHS8izOY9xm=LBEN8sYwEa3aFB4GWDvJVacom3o4mHZPdHzTUg@mail.gmail.com>
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+On Mon, Dec 11, 2023 at 12:37=E2=80=AFPM Pavel Begunkov <asml.silence@gmail=
+.com> wrote:
+...
+> >> If you remove the branch, let it fall into ->release and rely
+> >> on refcounting there, then the callback could also fix up
+> >> release_cnt or ask pp to do it, like in the patch I linked above
+> >>
+> >
+> > Sadly I don't think this is possible due to the reasons I mention in
+> > the commit message of that patch. Prematurely releasing ppiov and not
+> > having them be candidates for recycling shows me a 4-5x degradation in
+> > performance.
+>
+> I don't think I follow. The concept is to only recycle a buffer (i.e.
+> make it available for allocation) when its refs drop to zero, which is
+> IMHO the only way it can work, and IIUC what this patchset is doing.
+>
+> That's also I suggest to do, but through a slightly different path.
+> Let's say at some moment there are 2 refs (e.g. 1 for an skb and
+> 1 for userspace/xarray).
+>
+> Say it first puts the skb:
+>
+> napi_pp_put_page()
+>    -> page_pool_return_page()
+>      -> mp_ops->release_page()
+>         -> need_to_free =3D put_buf()
+>            // not last ref, need_to_free=3D=3Dfalse,
+>            // don't recycle, don't increase release_cnt
+>
+> Then you put the last ref:
+>
+> page_pool_iov_put_many()
+>    -> page_pool_return_page()
+>      -> mp_ops->release_page()
+>         -> need_to_free =3D put_buf()
+>            // last ref, need_to_free=3D=3Dtrue,
+>            // recycle and release_cnt++
+>
+> And that last put can even be recycled right into the
+> pp / ptr_ring, in which case it doesn't need to touch
+> release_cnt. Does it make sense? I don't see where
+> 4-5x degradation would come from
+>
+>
 
-Add documentation for FW logging in
-Documentation/networking/device_drivers/ethernet/intel/ice.rst
+Sorry for the late reply, I have been working on this locally.
 
-Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- .../device_drivers/ethernet/intel/ice.rst     | 141 ++++++++++++++++++
- 1 file changed, 141 insertions(+)
+What you're saying makes sense, and I'm no longer sure why I was
+seeing a perf degradation without '[net-next v1 10/16] page_pool:
+don't release iov on elevanted refcount'. However, even though what
+you're saying is technically correct, AFAIU it's actually semantically
+wrong. When a page is released by the page_pool, we should call
+page_pool_clear_pp_info() and completely disconnect the page from the
+pool. If we call release_page() on a page and then the page pool sees
+it again in page_pool_return_page(), I think that is considered a bug.
+In fact I think what you're proposing is as a result of a bug because
+we don't call a page_pool_clear_pp_info() equivalent on releasing
+ppiov.
 
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-index e4d065c55ea8..5038e54586af 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-@@ -895,6 +895,147 @@ driver writes raw bytes by the GNSS object to the receiver through i2c. Please
- refer to the hardware GNSS module documentation for configuration details.
- 
- 
-+Firmware (FW) logging
-+---------------------
-+The driver supports FW logging via the debugfs interface on PF 0 only. The FW
-+running on the NIC must support FW logging; if the FW doesn't support FW logging
-+the 'fwlog' file will not get created in the ice debugfs directory.
-+
-+Module configuration
-+~~~~~~~~~~~~~~~~~~~~
-+Firmware logging is configured on a per module basis. Each module can be set to
-+a value independent of the other modules (unless the module 'all' is specified).
-+The modules will be instantiated under the 'fwlog/modules' directory.
-+
-+The user can set the log level for a module by writing to the module file like
-+this::
-+
-+  # echo <log_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/<module>
-+
-+where
-+
-+* log_level is a name as described below. Each level includes the
-+  messages from the previous/lower level
-+
-+      *	none
-+      *	error
-+      *	warning
-+      *	normal
-+      *	verbose
-+
-+* module is a name that represents the module to receive events for. The
-+  module names are
-+
-+      *	general
-+      *	ctrl
-+      *	link
-+      *	link_topo
-+      *	dnl
-+      *	i2c
-+      *	sdp
-+      *	mdio
-+      *	adminq
-+      *	hdma
-+      *	lldp
-+      *	dcbx
-+      *	dcb
-+      *	xlr
-+      *	nvm
-+      *	auth
-+      *	vpd
-+      *	iosf
-+      *	parser
-+      *	sw
-+      *	scheduler
-+      *	txq
-+      *	rsvd
-+      *	post
-+      *	watchdog
-+      *	task_dispatch
-+      *	mng
-+      *	synce
-+      *	health
-+      *	tsdrv
-+      *	pfreg
-+      *	mdlver
-+      *	all
-+
-+The name 'all' is special and allows the user to set all of the modules to the
-+specified log_level or to read the log_level of all of the modules.
-+
-+Example usage to configure the modules
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+To set a single module to 'verbose'::
-+
-+  # echo verbose > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/link
-+
-+To set multiple modules then issue the command multiple times::
-+
-+  # echo verbose > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/link
-+  # echo warning > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/ctrl
-+  # echo none > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/dcb
-+
-+To set all the modules to the same value::
-+
-+  # echo normal > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/all
-+
-+To read the log_level of a specific module (e.g. module 'general')::
-+
-+  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/general
-+
-+To read the log_level of all the modules::
-+
-+  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/all
-+
-+Enabling FW log
-+~~~~~~~~~~~~~~~
-+Configuring the modules indicates to the FW that the configured modules should
-+generate events that the driver is interested in, but it **does not** send the
-+events to the driver until the enable message is sent to the FW. To do this
-+the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An example
-+is::
-+
-+  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
-+
-+Retrieving FW log data
-+~~~~~~~~~~~~~~~~~~~~~~
-+The FW log data can be retrieved by reading from 'fwlog/data'. The user can
-+write any value to 'fwlog/data' to clear the data. The data can only be cleared
-+when FW logging is disabled. The FW log data is a binary file that is sent to
-+Intel and used to help debug user issues.
-+
-+An example to read the data is::
-+
-+  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
-+
-+An example to clear the data is::
-+
-+  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
-+
-+Changing how often the log events are sent to the driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver receives FW log data from the Admin Receive Queue (ARQ). The
-+frequency that the FW sends the ARQ events can be configured by writing to
-+'fwlog/nr_messages'. The range is 1-128 (1 means push every log message, 128
-+means push only when the max AQ command buffer is full). The suggested value is
-+10. The user can see what the value is configured to by reading
-+'fwlog/nr_messages'. An example to set the value is::
-+
-+  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_messages
-+
-+Configuring the amount of memory used to store FW log data
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver stores FW log data within the driver. The default size of the memory
-+used to store the data is 1MB. Some use cases may require more or less data so
-+the user can change the amount of memory that is allocated for FW log data.
-+To change the amount of memory then write to 'fwlog/log_size'. The value must be
-+one of: 128K, 256K, 512K, 1M, or 2M. FW logging must be disabled to change the
-+value. An example of changing the value is::
-+
-+  # echo 128K > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/log_size
-+
-+
- Performance Optimization
- ========================
- Driver defaults are meant to fit a wide variety of workloads, but if further
--- 
-2.41.0
+However, I'm reasonably confident I figured out the right thing to do
+here. The page_pool uses page->pp_frag_count for its refcounting.
+pp_frag_count is a misnomer, it's being renamed to pp_ref_count in
+Liang's series[1]). In this series I used a get_page/put_page
+equivalent for refcounting. Once I transitioned to using
+pp_[frag|ref]_count for refcounting inside the page_pool, the issue
+went away, and I no longer need the patch 'page_pool: don't release
+iov on elevanted refcount'.
 
+There is an additional upside, since pages and ppiovs are both being
+refcounted using pp_[frag|ref]_count, we get some unified handling for
+ppiov and we reduce the checks around ppiov. This should be fixed
+properly in the next series.
+
+I still need to do some work (~1 week) before I upload the next
+version as there is a new requirement from MM that we transition to a
+new type and not re-use page*, but I uploaded my changes github with
+the refcounting issues resolved in case they're useful to you. Sorry
+for the churn:
+
+https://github.com/mina/linux/commits/tcpdevmem-v1.5/
+
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D809049&st=
+ate=3D*
+
+--=20
+Thanks,
+Mina
