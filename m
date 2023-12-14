@@ -1,158 +1,357 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jLeMy55d";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="h7p8PaMb";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jLeMy55d";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="h7p8PaMb"
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB0AD113;
-	Thu, 14 Dec 2023 04:35:39 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6685322186;
-	Thu, 14 Dec 2023 12:35:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702557337; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZYirUAC6N29fDSAllwGdxO1Cp96hi+jPjLKPL8qjsww=;
-	b=jLeMy55drn0apwJhysUssEJko4fUz99Wqon+9cBC/NbwIHNgdSsw/47Asose1zLkmdhSFO
-	e/ONvSchmdane62kHzdk9majyh0FXnpWzhdAmsQqxwwWDyvrL1xZafr9R3h7meDulJxvNE
-	PwLaPU8M/HwtwDUAg+UqZgvADorvvng=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702557337;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZYirUAC6N29fDSAllwGdxO1Cp96hi+jPjLKPL8qjsww=;
-	b=h7p8PaMbQYFVCTn+tBJi9d2azbewHW5gpEKL7n6g5NaxtLrQRhxsEvG64ks6sPBGaCVa54
-	dcXjrqxDUo9SjnDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702557337; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZYirUAC6N29fDSAllwGdxO1Cp96hi+jPjLKPL8qjsww=;
-	b=jLeMy55drn0apwJhysUssEJko4fUz99Wqon+9cBC/NbwIHNgdSsw/47Asose1zLkmdhSFO
-	e/ONvSchmdane62kHzdk9majyh0FXnpWzhdAmsQqxwwWDyvrL1xZafr9R3h7meDulJxvNE
-	PwLaPU8M/HwtwDUAg+UqZgvADorvvng=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702557337;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZYirUAC6N29fDSAllwGdxO1Cp96hi+jPjLKPL8qjsww=;
-	b=h7p8PaMbQYFVCTn+tBJi9d2azbewHW5gpEKL7n6g5NaxtLrQRhxsEvG64ks6sPBGaCVa54
-	dcXjrqxDUo9SjnDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F06CD1379A;
-	Thu, 14 Dec 2023 12:35:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bqEcN5j2emU8AgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 14 Dec 2023 12:35:36 +0000
-Message-ID: <f38ee1c0-a68e-b97b-ef92-038c949ee706@suse.cz>
-Date: Thu, 14 Dec 2023 13:35:35 +0100
+	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="pynAIBAW"
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E20125
+	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 04:48:35 -0800 (PST)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-5cece20f006so80553527b3.3
+        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 04:48:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1702558114; x=1703162914; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ynkzbg0VcmBQfCgEEi+/Ynn+2q0pEZCQki+1b/U8ctA=;
+        b=pynAIBAW+ctVhvJnJMUhIlXY5iWlq2jO67tZdhuSn0zaeqiqrikwRLa2uKob4oG0us
+         Cb/u91eLXMIzyb062WNfN41pYwlRr7eSWqI+pKpzoMAuKosvIlgKdLQmipWVq6ZjhLlD
+         JmCNBG2jHEhNbhF7Rord7LDE3WBwfrhflF5tU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702558114; x=1703162914;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ynkzbg0VcmBQfCgEEi+/Ynn+2q0pEZCQki+1b/U8ctA=;
+        b=RLmQAXfC0qHssRz62PMJ+h2HTIDfAuiBoOGqclMey7sDj8gpskc1CMqHHKqerEK9sM
+         lr6n0+eBMIsMJqdKxFK8n+82bWyj/o8sYC9GIkKN/AB+7/zEKQo/5jLyoA53J1Qsp4Qo
+         Cc5+Qwyreg1vYMIsa9B9TSz0fgYrvqwcB46QgtrJt+SAJQ9WgCKyqMfnsHrWSA9Acohf
+         jTTorag1C3ItJmF8XTUJaa+KXuNoEUwSvWwnO/QXN5rglH9Wa7RdMmI2r0qhIg3Yhwvb
+         MF959qeQGWQVZEauo7BqB4q2wVMAReCLzA3E3mFmjzHKf2OcfJ7Z2vGTpsVFJjYGlHNz
+         3M+w==
+X-Gm-Message-State: AOJu0YxyPcxEWdhJA0Tgompp79aN3+wvxxR6nEMeYq4x0JEIJY0Ehisb
+	RPD77jjzvm49BBql0FF5xK+E3A==
+X-Google-Smtp-Source: AGHT+IE3enZpmTguDFDdaq/NlSHNW19uxf+vbgAd53vociQtjZbBAL3ndXs2cO0bNb0DczobieA+MQ==
+X-Received: by 2002:a81:c30e:0:b0:5e3:9b5f:e3f with SMTP id r14-20020a81c30e000000b005e39b5f0e3fmr659201ywk.59.1702558114476;
+        Thu, 14 Dec 2023 04:48:34 -0800 (PST)
+Received: from bill-the-cat (2603-6081-7b00-6400-ef43-b142-0a3d-20b7.res6.spectrum.com. [2603:6081:7b00:6400:ef43:b142:a3d:20b7])
+        by smtp.gmail.com with ESMTPSA id y185-20020a0dd6c2000000b005e309c357desm1021315ywd.145.2023.12.14.04.48.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 04:48:33 -0800 (PST)
+Date: Thu, 14 Dec 2023 07:48:31 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Simon Glass <sjg@chromium.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	U-Boot Mailing List <u-boot@lists.denx.de>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+Message-ID: <20231214124831.GX2513409@bill-the-cat>
+References: <20231202035511.487946-1-sjg@chromium.org>
+ <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com>
+ <20231207142723.GA3187877@google.com>
+ <20231207143814.GD15521@pendragon.ideasonboard.com>
+ <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
+ <20231209152946.GC13421@pendragon.ideasonboard.com>
+ <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
+ <CAGXv+5Est3FL-XcEL-vB-6zVNas0mqb2cNYa==Yb7W2SQU9xVQ@mail.gmail.com>
+ <CAK7LNATyD-PeNbaLTjJmU9=koqqE+V6QvFe09c2VrXopWvjpcw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2] Documentation, mm/unaccepted: document accept_memory
- kernel parameter
-Content-Language: en-US
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Tim Chen <tim.c.chen@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Linux-MM <linux-mm@kvack.org>
-References: <20231214-accept_memory_param-v2-1-f38cd20a0247@suse.cz>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20231214-accept_memory_param-v2-1-f38cd20a0247@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Bar: ++++
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=jLeMy55d;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=h7p8PaMb;
-	dmarc=none;
-	spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of vbabka@suse.cz) smtp.mailfrom=vbabka@suse.cz
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [4.29 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 BAYES_HAM(-0.00)[35.44%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DMARC_NA(1.20)[suse.cz];
-	 R_SPF_SOFTFAIL(4.60)[~all:c];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.cz:+];
-	 MX_GOOD(-0.01)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-0.996];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Score: 4.29
-X-Rspamd-Queue-Id: 6685322186
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="B/bTjf96qQSCoIlX"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNATyD-PeNbaLTjJmU9=koqqE+V6QvFe09c2VrXopWvjpcw@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-+CC linux-mm
 
-On 12/14/23 13:22, Vlastimil Babka wrote:
-> The accept_memory kernel parameter was added in commit dcdfdd40fa82
-> ("mm: Add support for unaccepted memory") but not listed in the
-> kernel-parameters doc. Add it there.
-> 
-> Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
-> changes since v1:
-> - use shorter sentences (Tim Chen)
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 65731b060e3f..91bd74b2e203 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1,3 +1,14 @@
-> +	accept_memory=  [MM]
-> +			Format: { eager | lazy }
-> +			default: lazy
-> +			By default, unaccepted memory is accepted lazily to
-> +			avoid prolonged boot times. The lazy option will add
-> +			some runtime overhead until all memory is eventually
-> +			accepted. In most cases the overhead is negligible.
-> +			For some workloads or for debugging purposes
-> +			accept_memory=eager can be used to accept all memory
-> +			at once during boot.
-> +
->  	acpi=		[HW,ACPI,X86,ARM64,RISCV64]
->  			Advanced Configuration and Power Interface
->  			Format: { force | on | off | strict | noirq | rsdt |
-> 
-> ---
-> base-commit: a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-> change-id: 20231214-accept_memory_param-af395e3a2d45
-> 
-> Best regards,
+--B/bTjf96qQSCoIlX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Dec 14, 2023 at 03:12:07PM +0900, Masahiro Yamada wrote:
+> On Thu, Dec 14, 2023 at 1:03=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org>=
+ wrote:
+> >
+> > On Sun, Dec 10, 2023 at 1:31=E2=80=AFAM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > >
+> > > Hi Laurent,
+> > >
+> > > On Sat, Dec 9, 2023 at 4:29=E2=80=AFPM Laurent Pinchart
+> > > <laurent.pinchart@ideasonboard.com> wrote:
+> > > > On Sat, Dec 09, 2023 at 10:13:59PM +0900, Chen-Yu Tsai wrote:
+> > > > > On Thu, Dec 7, 2023 at 11:38=E2=80=AFPM Laurent Pinchart
+> > > > > <laurent.pinchart@ideasonboard.com> wrote:
+> > > > > > On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
+> > > > > > > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wr=
+ote:
+> > > > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > > > > > > > > Add a script which produces a Flat Image Tree (FIT), a si=
+ngle file
+> > > > > > > > > containing the built kernel and associated devicetree fil=
+es.
+> > > > > > > > > Compression defaults to gzip which gives a good balance o=
+f size and
+> > > > > > > > > performance.
+> > > > > > > > >
+> > > > > > > > > The files compress from about 86MB to 24MB using this app=
+roach.
+> > > > > > > > >
+> > > > > > > > > The FIT can be used by bootloaders which support it, such=
+ as U-Boot
+> > > > > > > > > and Linuxboot. It permits automatic selection of the corr=
+ect
+> > > > > > > > > devicetree, matching the compatible string of the running=
+ board with
+> > > > > > > > > the closest compatible string in the FIT. There is no nee=
+d for
+> > > > > > > > > filenames or other workarounds.
+> > > > > > > > >
+> > > > > > > > > Add a 'make image.fit' build target for arm64, as well. U=
+se
+> > > > > > > > > FIT_COMPRESSION to select a different algorithm.
+> > > > > > > > >
+> > > > > > > > > The FIT can be examined using 'dumpimage -l'.
+> > > > > > > > >
+> > > > > > > > > This features requires pylibfdt (use 'pip install libfdt'=
+). It also
+> > > > > > > > > requires compression utilities for the algorithm being us=
+ed. Supported
+> > > > > > > > > compression options are the same as the Image.xxx files. =
+For now there
+> > > > > > > > > is no way to change the compression other than by editing=
+ the rule for
+> > > > > > > > > $(obj)/image.fit
+> > > > > > > > >
+> > > > > > > > > While FIT supports a ramdisk / initrd, no attempt is made=
+ to support
+> > > > > > > > > this here, since it must be built separately from the Lin=
+ux build.
+> > > > > > > >
+> > > > > > > > FIT images are very useful, so I think this is a very welco=
+me addition
+> > > > > > > > to the kernel build system. It can get tricky though: given=
+ the
+> > > > > > > > versatile nature of FIT images, there can't be any
+> > > > > > > > one-size-fits-them-all solution to build them, and striking=
+ the right
+> > > > > > > > balance between what makes sense for the kernel and the fea=
+tures that
+> > > > > > > > users may request will probably lead to bikeshedding. As we=
+ all love
+> > > > > > > > bikeshedding, I thought I would start selfishly, with a per=
+sonal use
+> > > > > > > > case :-) This isn't a yak-shaving request though, I don't s=
+ee any reason
+> > > > > > > > to delay merging this series.
+> > > > > > > >
+> > > > > > > > Have you envisioned building FIT images with a subset of DT=
+Bs, or adding
+> > > > > > > > DTBOs ? Both would be fairly trivial extensions to this scr=
+ipt by
+> > > > > > > > extending the supported command line arguments. It would pe=
+rhaps be more
+> > > > > > > > difficult to integrate in the kernel build system though. T=
+his leads me
+> > > > > > > > to a second question: would you consider merging extensions=
+ to this
+> > > > > > > > script if they are not used by the kernel build system, but=
+ meant for
+> > > > > > > > users who manually invoke the script ? More generally, is t=
+he script
+> > > > > > >
+> > > > > > > We'd also be interested in some customization, though in a di=
+fferent way.
+> > > > > > > We imagine having a rule file that says X compatible string s=
+hould map
+> > > > > > > to A base DTB, plus B and C DTBO for the configuration sectio=
+n. The base
+> > > > > > > DTB would carry all common elements of some device, while the=
+ DTBOs
+> > > > > > > carry all the possible second source components, like differe=
+nt display
+> > > > > > > panels or MIPI cameras for instance. This could drastically r=
+educe the
+> > > > > > > size of FIT images in ChromeOS by deduplicating all the commo=
+n stuff.
+> > > > > >
+> > > > > > Do you envision the "mapping" compatible string mapping to a co=
+nfig
+> > > > > > section in the FIT image, that would bundle the base DTB and th=
+e DTBOs ?
+> > > > >
+> > > > > That's exactly the idea. The mapping compatible string could be u=
+ntied
+> > > > > from the base board's compatible string if needed (which we proba=
+bly do).
+> > > > >
+> > > > > So something like:
+> > > > >
+> > > > > config {
+> > > > >     config-1 {
+> > > > >         compatible =3D "google,krane-sku0";
+> > > > >         fdt =3D "krane-baseboard", "krane-sku0-overlay";
+> > > > >     };
+> > > > > };
+> > > > >
+> > > > > With "krane-sku0-overlay" being an overlay that holds the differe=
+nces
+> > > > > between the SKUs, in this case the display panel and MIPI camera =
+(not
+> > > > > upstreamed) that applies to SKU0 in particular.
+> > > >
+> > > > The kernel DT makefiles already contain information on what overlay=
+s to
+> > > > apply to what base boards, in order to test the overlays and produce
+> > > > "full" DTBs. Maybe that information could be leveraged to create the
+> > > > configurations in the FIT image ?
+> > >
+> > > Although the "full" DTBs created may only be a subset of all possible
+> > > combinations (I believe Rob just started with creating one "full" DTB
+> > > for each overlay, cfr. the additions I made in commit a09c3e105a208580
+> > > ("arm64: dts: renesas: Apply overlays to base dtbs")), that could
+> > > definitely be a start.
+> > >
+> > > Now, since the kernel build system already creates "full" DTBs, does
+> > > that mean that all of the base DTBs, overlays, and "full" DTBs will
+> > > end up in the FIT image?
+> >
+> > I suppose we could add an option to the packing tool to be able to _not_
+> > add the "full" DTBs if they can also be assembled with a base DTB and
+> > overlays. Think of it as a firmware compatibility option: if the firmwa=
+re
+> > supports overlays, then you almost always want the deconstructed parts,
+> > not the fully assembled ones. Vice versa.
+> >
+> > If we don't we could end up with two configurations that have the same
+> > compatible string?
+>=20
+>=20
+> Right.
+>=20
+> We would end up with such situations because applying
+> an overlay does not change the compatible string.
+>=20
+>=20
+>=20
+> With this code in arch/arm64/boot/dts/ti/Makefile:
+>=20
+> k3-am642-tqma64xxl-mbax4xxl-sdcard-dtbs :=3D \
+>       k3-am642-tqma64xxl-mbax4xxl.dtb k3-am64-tqma64xxl-mbax4xxl-sdcard.d=
+tbo
+> k3-am642-tqma64xxl-mbax4xxl-wlan-dtbs :=3D \
+>       k3-am642-tqma64xxl-mbax4xxl.dtb k3-am64-tqma64xxl-mbax4xxl-wlan.dtbo
+>=20
+>=20
+>=20
+>=20
+> $ fdtdump  arch/arm64/boot/dts/ti/k3-am642-tqma64xxl-mbax4xxl-sdcard.dtb
+> 2>/dev/null| head -n15 | tail -n2
+>     model =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier board";
+>     compatible =3D "tq,am642-tqma6442l-mbax4xxl", "tq,am642-tqma6442l",
+> "ti,am642";
+>=20
+>=20
+> $ fdtdump  arch/arm64/boot/dts/ti/k3-am642-tqma64xxl-mbax4xxl-wlan.dtb
+> 2>/dev/null| head -n15 | tail -n2
+>     model =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier board";
+>     compatible =3D "tq,am642-tqma6442l-mbax4xxl", "tq,am642-tqma6442l",
+> "ti,am642";
+>=20
+>=20
+>=20
+>=20
+>=20
+> These two go into image.fit, but one of them is completely dead
+> since there is no way to distinguish them.
+
+I'd asked Rob about the problem of multiple platforms that don't have a
+unique compatible string, and never did quite conclude if the spec needs
+to spell out one way or another if they really need to be unique.
+There's some valid use cases where you might not, but then there's cases
+like the above where that really seems like a dts bug (and those
+platforms should have their dts* files reworked to be like other
+carrier+som+different peripherals and likely be
+tq,am642-tqma6442l-mbax4xxl-wlan and so on).
+
+>=20
+>=20
+> $ fdtdump  arch/arm64/boot/image.fit
+>=20
+>         ...
+>=20
+>         conf-10 {
+>             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> "tq,am642-tqma6442l", "ti,am642";
+>             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier=
+ board";
+>             fdt =3D "fdt-10";
+>             kernel =3D "kernel";
+>         };
+>=20
+>         ...
+>=20
+>         conf-25 {
+>             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> "tq,am642-tqma6442l", "ti,am642";
+>             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier=
+ board";
+>             fdt =3D "fdt-25";
+>             kernel =3D "kernel";
+>         };
+>=20
+>=20
+>=20
+>=20
+>=20
+> I agree with Chen-Yu.
+
+> FIT should not include full DTBs.
+>=20
+> Bootloaders should assemble the final DTB
+> from base and overlays on-the-fly.
+
+I think we need to think about that more because both FIT and UKI try
+and solve the problem of a single verifiyable (in the various security /
+secure boot meanings of the word) image. So saying "but not DTBs" will I
+believe become "let the distribution people worry about it".
+
+Or am I misunderstanding your comment, and this is only in the context
+of real or quasi overlays?
+
+--=20
+Tom
+
+--B/bTjf96qQSCoIlX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmV6+ZwACgkQFHw5/5Y0
+tyxjZgv/c9kJRHcdwKjxJfBNyd3mWhLVjkey7xi1A9ypEqph2eyZR1XLfN8/ynRW
+TzyE3UF113bhTFT1ejsUwUUVRBrPkZKTdEUmzEgPxOcSVwu43txkexSLcoiPLFhl
+Z8ELDoBQ6XJCBxL3SOHUWuuSrOoxoAoYbQt2YK+H12vCpuCG0stKyzALRmyAlONL
+9F/TbqlsA/GPLH1cm7JeZYJeZ03l0IvBFkKgqEWPgk0mQfYNSHOpz6TyKaf3uVdq
+UBsoJpor/OtUiba3rvdbFUZ2B0zyKij5i4CrmbS/nddpUwR0gskHjultJS+2LT9o
+Hb/XtRWUN8c3V5VBE/EjKzUXRld9ZgkWnhb9jJrngjJmWg/EBvsZjpCFW/gybegM
+AvEffJyA703dfXLpsNQhnVL9YOYFd37G/1oNSVART5kxj+gD+NEP+YKKKqSt1B4P
+yxwViPPcvfq7mfiAsyNgUgB8VxAafx2LSd5uvZqDVQhkCXrpjEv5MR/eMjRgBxmP
+Fa/6zHfn
+=9yva
+-----END PGP SIGNATURE-----
+
+--B/bTjf96qQSCoIlX--
