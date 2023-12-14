@@ -1,146 +1,80 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8A967205
-	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 22:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FF967210;
+	Thu, 14 Dec 2023 22:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="c9Smu2Ty"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-77f35b70944so3618385a.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 14:11:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kryIFjzJ"
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dbcd348f64cso26699276.2;
+        Thu, 14 Dec 2023 14:26:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1702591910; x=1703196710; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kjwv3SJYpxnhyyliVohhGYpPw4WBD1Rbfb+MQW+rnxI=;
-        b=c9Smu2TyHybC9NOCYsUKjdGLXnEbUoyxwh7cvwC2fzsAlLYfbsJ8C6qRUQF4BIiX/P
-         Evmq/fB3uvTCTIn/fIGDDnlNi/0JmqBxz7G+IRQo7492DOlzJ1CBUQfFtH8k7cxsjJRK
-         q/gBjrBAt6i12yZoioi4Xr7glzfZcExr0SnI1RM63SB/w588PNc3smcpbTPScVcqObsz
-         2XttILSKIxbR/VAuOBdAwv3p2VUz56VAs9O5lgn2QG+4QOqQwscURgYsVP/qtU6ruqip
-         f6q/0hjsp7rjvN1fCwBLG98zmH8AgS5+SKyw2GkzpPqLXyL2SGiRkTHbOtggiyCJftBM
-         /Xrg==
+        d=gmail.com; s=20230601; t=1702592765; x=1703197565; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8GewXYhMBPjvgfSqNiYm+0p22+IJCJUykF8TiN4qTyI=;
+        b=kryIFjzJooI5uzK0tVLs438eDoZBeS0/DvxjoJ+tfdfxGN7UXq+VpGGETOZ1CIx0W7
+         giiqEuAsHbB+1jG5nYKhwqpzGiIPFJC7E0o77De54qw3/xJ7EUYuRJh5i+Nvi8BwD+zM
+         BNAWCpaSXNoFk89s02ddBx3pKV43Lia7TphXFfj1gAuvqQm4dnvWO+LLwjtqkF9wnC+X
+         9yQZMvTa0DzJdt9ZRYBPt4maUMwmTUlzvvU+tQy+pvZ/uvkpEzg13xJ+FNzNarf8dDKY
+         3oOYcAvpVZ/NE7rrgGy4cOEgitQfhBbRJWQX8Urrwzp5wxbtdpIVlJLlRcyavfrxtLJC
+         XHAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702591910; x=1703196710;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kjwv3SJYpxnhyyliVohhGYpPw4WBD1Rbfb+MQW+rnxI=;
-        b=N4KpONefNGu0sGvgdgWikbv//EFyOdhRztMz8MUGBNwKB0KkqkYImox7wIw7axuoA9
-         IQdl/H3ZFquMdzkSrcn68Q6S1M5IBazR5J/TkHb00slUdUVJa+ANU1hB0EOKrtV/6s9U
-         n8NS+WWdfu4X5VmgUC68gRfv4MmJYDMd02+P3G15B6sTkYjvwp0bA4dYpfX+BDss2fcS
-         3NTyCGE3EE2RH/lgAWUvw1DngzWU69tM7TPO3Tk26Ot16Wgocf6kMLHmLEQArxSuZzdS
-         FYCN91YEehegxrduDCPpeiyqz6MCd2bhhBzsEWuNrVckCD+4WjL9DH8cI8wpcomBQ4Sp
-         9G0Q==
-X-Gm-Message-State: AOJu0YzmvpT/NERtqMR8HNmDhG5rwrEDWlWi8tkDnWVbVBzrD/WDNcU1
-	uI9q+FaKJ71n+2imDYr4DxLx8A==
-X-Google-Smtp-Source: AGHT+IH8MEU6gyt/5zMK0G9MuFTf5ejKeS/GhVs9rnBbhhJ/HrYy6VGWyrA6SqrFUQ2kzJV6LwpxRA==
-X-Received: by 2002:a05:620a:1a91:b0:77f:36a7:1437 with SMTP id bl17-20020a05620a1a9100b0077f36a71437mr15760905qkb.114.1702591910653;
-        Thu, 14 Dec 2023 14:11:50 -0800 (PST)
-Received: from localhost ([2620:10d:c091:400::5:a0a6])
-        by smtp.gmail.com with ESMTPSA id dv8-20020a05620a1b8800b0077dbdc40458sm5660153qkb.1.2023.12.14.14.11.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 14:11:50 -0800 (PST)
-Date: Thu, 14 Dec 2023 17:11:40 -0500
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Christopher Li <chrisl@kernel.org>
-Cc: Minchan Kim <minchan@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
-	akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com,
-	cerasuolodomenico@gmail.com, yosryahmed@google.com,
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
-	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net,
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org,
-	linux-mm@kvack.org, kernel-team@meta.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	david@ixit.cz, Kairui Song <kasong@tencent.com>,
-	Zhongkun He <hezhongkun.hzk@bytedance.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-Message-ID: <20231214221140.GA269753@cmpxchg.org>
-References: <20231207192406.3809579-1-nphamcs@gmail.com>
- <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
- <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
- <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
- <20231209034229.GA1001962@cmpxchg.org>
- <ZXeTb_ACou7TEVsa@google.com>
- <20231214171137.GA261942@cmpxchg.org>
- <CANeU7QnR+4Lgt8D9Z+Zo3Ydktx_7n45K0b=kVj+qSOzT=5GGQA@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1702592765; x=1703197565;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8GewXYhMBPjvgfSqNiYm+0p22+IJCJUykF8TiN4qTyI=;
+        b=voCG4FZt4wJP40wKA39CVK78F7aoD1kR7oPmnEavWUY04mWV0JiWFGsCGwDHUjr5uc
+         s4TRpsrrbMeB4hT178k+fbfYE4paMf9ky4IND6sZk4DvswW4/aXRBHNG+V9BMHvoCvu7
+         eiftyGw88LsiTS9tptY4kmiAZwi+5LZUiT6OvlfV2RfK5NZtZGv67Aa702MQ/nYCVbIz
+         9ebmIYE7YTQgbMRvHbgQEcm5PWKQUowOvWQKt0lYPt8hOw/9oIpI7+ePx0Hxbh6W3WNc
+         g120/l8StdSO7v+sd9Kpv9B6UT6eZEeTRL5X0A0kbOfHYHyGpp7ujPkBIrmrazO93tB1
+         rBzQ==
+X-Gm-Message-State: AOJu0YwzV0aN0b9VIbjVUgX8yk6KrcBU0EgYr9MNS3NL87g8RWefGovw
+	EWoDacaCoztzp565baMNNMTdmviBkmkQ5VdGrAI=
+X-Google-Smtp-Source: AGHT+IHAzqYLRTQoFGOeJ/iE0CLqEvZfXbrPZse0sTjrBDFxkIJbZXBj/INGKyvyb0CsKUsOrJE6WpLw/Y6imaj2Myk=
+X-Received: by 2002:a25:a28c:0:b0:dbc:d7d6:92e8 with SMTP id
+ c12-20020a25a28c000000b00dbcd7d692e8mr2031677ybi.23.1702592765606; Thu, 14
+ Dec 2023 14:26:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANeU7QnR+4Lgt8D9Z+Zo3Ydktx_7n45K0b=kVj+qSOzT=5GGQA@mail.gmail.com>
+References: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
+ <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com> <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
+In-Reply-To: <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 14 Dec 2023 23:25:54 +0100
+Message-ID: <CANiq72nSh16cBNOoErQ3nDx0gSqq0Co2kv2wKEyqr5YmYUzhbQ@mail.gmail.com>
+Subject: Re: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to
+ build directory
+To: Tiago Lam <tiagolam@gmail.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 14, 2023 at 09:34:06AM -0800, Christopher Li wrote:
-> On Thu, Dec 14, 2023 at 9:11 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
-> 
-> > > Hi Johannes,
-> > >
-> > > I haven't been following the thread closely, but I noticed the discussion
-> > > about potential use cases for zram with memcg.
-> > >
-> > > One interesting idea I have is to implement a swap controller per cgroup.
-> > > This would allow us to tailor the zram swap behavior to the specific needs of
-> > > different groups.
-> > >
-> > > For example, Group A, which is sensitive to swap latency, could use zram swap
-> > > with a fast compression setting, even if it sacrifices some compression ratio.
-> > > This would prioritize quick access to swapped data, even if it takes up more space.
-> > >
-> > > On the other hand, Group B, which can tolerate higher swap latency, could benefit
-> > > from a slower compression setting that achieves a higher compression ratio.
-> > > This would maximize memory efficiency at the cost of slightly slower data access.
-> > >
-> > > This approach could provide a more nuanced and flexible way to manage swap usage
-> > > within different cgroups.
-> >
-> > That makes sense to me.
-> >
-> > It sounds to me like per-cgroup swapfiles would be the easiest
-> > solution to this. Then you can create zram devices with different
-> > configurations and assign them to individual cgroups.
-> 
-> Ideally you need zram then following swap file after the zram. That
-> would be a list of the swap files rather than just one swapfile per
-> cgroup.
+On Thu, Dec 14, 2023 at 6:22=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> > This would also apply to Kairu's usecase: assign zrams and hdd backups
-> > as needed on a per-cgroup basis.
-> 
-> Same there, Kairui's request involves ZRAM and at least one extra swap
-> file. In other words, you really need a per cgroup swap file list.
+> Or we could just provide a `rustupoverride` Make target to do this for
+> us [1], since we have all the information needed and would be
+> copy-pasteable by everybody. I can send it as a non-mangled patch and
+> then Viresh can redo this one on top using it.
 
-Why is that a problem?
+Patch at: https://lore.kernel.org/rust-for-linux/20231214222253.116734-1-oj=
+eda@kernel.org/
 
-swapon(zram, cgroup=foo)
-swapon(hdd, cgroup=foo)
-
-> > In addition, it would naturally solve scalability and isolation
-> > problems when multiple containers would otherwise be hammering on the
-> > same swap backends and locks.
-> >
-> > It would also only require one, relatively simple new interface, such
-> > as a cgroup parameter to swapon().
-> >
-> > That's highly preferable over a complex configuration file like
-> > memory.swap.tiers that needs to solve all sorts of visibility and
-> > namespace issues and duplicate the full configuration interface of
-> > every backend in some new, custom syntax.
-> 
-> If you don't like the syntax of memory.swap.tiers, I am open to
-> suggestions of your preferred syntax as well. The essicents of the
-> swap.tiers is a per cgroup list of the swap back ends. The names imply
-> that. I am not married to any given syntax of how to specify the list.
-> Its goal matches the above requirement pretty well.
-
-Except Minchan said that he would also like different zram parameters
-depending on the cgroup.
-
-There is no way we'll add a memory.swap.tiers with a new configuration
-language for backend parameters.
+Cheers,
+Miguel
