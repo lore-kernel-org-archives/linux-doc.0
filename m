@@ -1,44 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="roL2mfkd"
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2314511A;
-	Thu, 14 Dec 2023 08:53:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=fIFfoB7fiP8F9z4MEfp2p7LeH1J7dMGPo+SgIwKTuLg=; b=roL2mfkdCdllhG5ba7BvkgzOJL
-	SLmYEZllRxYjOi5gMKJ2mMPy8ZXP6JQ43ymwuSaUUL4gAM1RBEz3dpcaW+8qwQUTxnKGezR0NSqYU
-	pVSoCWM2SEIr1QE2eS7MawzRCUHMJ02ORvvrq/rC4vFT0Z5iFqOZBnDTqJnLZQHYf5oTXVEeh9vZB
-	4NnoHFeEDs7jzURkZA8m7zMwtJok6ourk+Rv7IL/rgludRqWhXD11XJNtjYmXoY+myDFeK75AOpS9
-	15sDC3tHt3ysJNEN+RwqqrrJsAQN9SkmsRHYdUSmYqv/FvamYF2ROAKNBJT38cbtuEWxhz5YQSvua
-	O7WsnXPw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55304)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rDoxo-0001iC-0z;
-	Thu, 14 Dec 2023 16:53:32 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rDoxo-0002hO-KC; Thu, 14 Dec 2023 16:53:32 +0000
-Date: Thu, 14 Dec 2023 16:53:32 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Luo Jie <quic_luoj@quicinc.com>
-Cc: andrew@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, corbet@lwn.net, p.zabel@pengutronix.de,
-	f.fainelli@gmail.com, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 01/14] net: phy: introduce core support for phy-mode =
- "10g-qxgmii"
-Message-ID: <ZXszDKwzB7hJZ8yE@shell.armlinux.org.uk>
-References: <20231214094813.24690-1-quic_luoj@quicinc.com>
- <20231214094813.24690-2-quic_luoj@quicinc.com>
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="ZuWmgDP2"
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F662D41
+	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 09:11:44 -0800 (PST)
+Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-425c6157762so35336361cf.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 09:11:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1702573903; x=1703178703; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mxUe6pUm6l0Cf+AsboBSISPAY2O3/ATI4QcyYk76Qaw=;
+        b=ZuWmgDP2RPaxeToLI4GdiMy0n9VxgleimNq2Ve4UflR5VmtBU/ObovLmEhb8iV6WCX
+         q08ZFqn9iBh0SPTx7tbVeCSrRH8RtzvpeMMo6TU06LNRldgfAavMySNRqRL9s7ZULgGx
+         PNOprntlR9j+rTVN1mELsQ8Bv+ZniUijGGoeLamYbtTPesAS9ZejDsxiLcpJScYpIvJR
+         W8Tiw4m0H8xjZVbglShYPEol5K7oNPazMeni8ExOpd7QHTmFCku4cf2QMCD/EhKynml+
+         qEcOp1Aj1ihSJHusQt7/SeHiDKo9rJspkAgJzUlZ5Lw0/BvlY2xR/fnonBUrYWZWzcjz
+         jNzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702573903; x=1703178703;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mxUe6pUm6l0Cf+AsboBSISPAY2O3/ATI4QcyYk76Qaw=;
+        b=VuVAW/sLmoyNM7SABTMxitODib65afTmfBd4LhZt2SyRTq5BvsedYJ6yEfj7tcTNNy
+         gwqwx450vFbBk3kLdtmhNY8TD4yfU9jUBDLi/Hou1sSvjqVlDhvIpq2h4kibq1tp/n5P
+         A1O1CQ26tekHHSNIrdEVxm8qmLJE+kWNp4FM8NGdILTz+4VrVpUoozHgMChWNWapY/Te
+         UwE5UlfTx3e+xcCSkZO6tBZGwv3h71gqHxcjdsBUX3m2EmSzQwDea7GdHOgv6cFX9sqk
+         GsX1yJdqS/7uCwbzeyHzDVWSXi/P/iH51xr34Jo5EQUpPPRvopWgRlcYH3BQveepNwmn
+         5ynw==
+X-Gm-Message-State: AOJu0YyBuJPL5DTETDBu4jPTVDawxFti9MH+jdATNvnzKPMVAxjMH9E6
+	iM3NSAyy+GQUjywKAFrdBT7w6w==
+X-Google-Smtp-Source: AGHT+IGDCYzqXWzUxXKjMVSmW4MwYuT+8dRIEGxntC/zMVHNGiAZX7h9jOSwoAdpLErOc9Au0X9hgA==
+X-Received: by 2002:ac8:7d52:0:b0:425:4043:96e2 with SMTP id h18-20020ac87d52000000b00425404396e2mr15224897qtb.111.1702573903122;
+        Thu, 14 Dec 2023 09:11:43 -0800 (PST)
+Received: from localhost ([2620:10d:c091:400::5:a0a6])
+        by smtp.gmail.com with ESMTPSA id e7-20020ac845c7000000b00418122186ccsm5911083qto.12.2023.12.14.09.11.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 09:11:42 -0800 (PST)
+Date: Thu, 14 Dec 2023 12:11:37 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Minchan Kim <minchan@kernel.org>
+Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
+	akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com,
+	cerasuolodomenico@gmail.com, yosryahmed@google.com,
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net,
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org,
+	linux-mm@kvack.org, kernel-team@meta.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	david@ixit.cz, Kairui Song <kasong@tencent.com>,
+	Zhongkun He <hezhongkun.hzk@bytedance.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+Message-ID: <20231214171137.GA261942@cmpxchg.org>
+References: <20231207192406.3809579-1-nphamcs@gmail.com>
+ <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+ <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
+ <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
+ <20231209034229.GA1001962@cmpxchg.org>
+ <ZXeTb_ACou7TEVsa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,28 +67,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231214094813.24690-2-quic_luoj@quicinc.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <ZXeTb_ACou7TEVsa@google.com>
 
-On Thu, Dec 14, 2023 at 05:48:00PM +0800, Luo Jie wrote:
-> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+On Mon, Dec 11, 2023 at 02:55:43PM -0800, Minchan Kim wrote:
+> On Fri, Dec 08, 2023 at 10:42:29PM -0500, Johannes Weiner wrote:
+> > On Fri, Dec 08, 2023 at 03:55:59PM -0800, Chris Li wrote:
+> > > I can give you three usage cases right now:
+> > > 1) Google producting kernel uses SSD only swap, it is currently on
+> > > pilot. This is not expressible by the memory.zswap.writeback. You can
+> > > set the memory.zswap.max = 0 and memory.zswap.writeback = 1, then SSD
+> > > backed swapfile. But the whole thing feels very clunky, especially
+> > > what you really want is SSD only swap, you need to do all this zswap
+> > > config dance. Google has an internal memory.swapfile feature
+> > > implemented per cgroup swap file type by "zswap only", "real swap file
+> > > only", "both", "none" (the exact keyword might be different). running
+> > > in the production for almost 10 years. The need for more than zswap
+> > > type of per cgroup control is really there.
+> > 
+> > We use regular swap on SSD without zswap just fine. Of course it's
+> > expressible.
+> > 
+> > On dedicated systems, zswap is disabled in sysfs. On shared hosts
+> > where it's determined based on which workload is scheduled, zswap is
+> > generally enabled through sysfs, and individual cgroup access is
+> > controlled via memory.zswap.max - which is what this knob is for.
+> > 
+> > This is analogous to enabling swap globally, and then opting
+> > individual cgroups in and out with memory.swap.max.
+> > 
+> > So this usecase is very much already supported, and it's expressed in
+> > a way that's pretty natural for how cgroups express access and lack of
+> > access to certain resources.
+> > 
+> > I don't see how memory.swap.type or memory.swap.tiers would improve
+> > this in any way. On the contrary, it would overlap and conflict with
+> > existing controls to manage swap and zswap on a per-cgroup basis.
+> > 
+> > > 2) As indicated by this discussion, Tencent has a usage case for SSD
+> > > and hard disk swap as overflow.
+> > > https://lore.kernel.org/linux-mm/20231119194740.94101-9-ryncsn@gmail.com/
+> > > +Kairui
+> > 
+> > Multiple swap devices for round robin or with different priorities
+> > aren't new, they have been supported for a very, very long time. So
+> > far nobody has proposed to control the exact behavior on a per-cgroup
+> > basis, and I didn't see anybody in this thread asking for it either.
+> > 
+> > So I don't see how this counts as an obvious and automatic usecase for
+> > memory.swap.tiers.
+> > 
+> > > 3) Android has some fancy swap ideas led by those patches.
+> > > https://lore.kernel.org/linux-mm/20230710221659.2473460-1-minchan@kernel.org/
+> > > It got shot down due to removal of frontswap. But the usage case and
+> > > product requirement is there.
+> > > +Minchan
+> > 
+> > This looks like an optimization for zram to bypass the block layer and
+> > hook directly into the swap code. Correct me if I'm wrong, but this
+> > doesn't appear to have anything to do with per-cgroup backend control.
 > 
-> 10G-QXGMII is a MAC-to-PHY interface defined by the USXGMII multiport
-> specification. It uses the same signaling as USXGMII, but it multiplexes
-> 4 ports over the link, resulting in a maximum speed of 2.5G per port.
+> Hi Johannes,
 > 
-> Some in-tree SoCs like the NXP LS1028A use "usxgmii" when they mean
-> either the single-port USXGMII or the quad-port 10G-QXGMII variant, and
-> they could get away just fine with that thus far. But there is a need to
-> distinguish between the 2 as far as SerDes drivers are concerned.
+> I haven't been following the thread closely, but I noticed the discussion
+> about potential use cases for zram with memcg.
 > 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+> One interesting idea I have is to implement a swap controller per cgroup.
+> This would allow us to tailor the zram swap behavior to the specific needs of
+> different groups.
+> 
+> For example, Group A, which is sensitive to swap latency, could use zram swap
+> with a fast compression setting, even if it sacrifices some compression ratio.
+> This would prioritize quick access to swapped data, even if it takes up more space.
+> 
+> On the other hand, Group B, which can tolerate higher swap latency, could benefit
+> from a slower compression setting that achieves a higher compression ratio.
+> This would maximize memory efficiency at the cost of slightly slower data access.
+> 
+> This approach could provide a more nuanced and flexible way to manage swap usage
+> within different cgroups.
 
-Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+That makes sense to me.
 
-Thanks!
+It sounds to me like per-cgroup swapfiles would be the easiest
+solution to this. Then you can create zram devices with different
+configurations and assign them to individual cgroups.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+This would also apply to Kairu's usecase: assign zrams and hdd backups
+as needed on a per-cgroup basis.
+
+In addition, it would naturally solve scalability and isolation
+problems when multiple containers would otherwise be hammering on the
+same swap backends and locks.
+
+It would also only require one, relatively simple new interface, such
+as a cgroup parameter to swapon().
+
+That's highly preferable over a complex configuration file like
+memory.swap.tiers that needs to solve all sorts of visibility and
+namespace issues and duplicate the full configuration interface of
+every backend in some new, custom syntax.
