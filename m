@@ -1,60 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZkSvzWFe"
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46F23112
-	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 08:15:05 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1d351cb8b82so10267975ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 08:15:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702570505; x=1703175305; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z1Ou2BN/NSSGCNvRe4VvolyrUm7oUAf2oh76V3K9T9M=;
-        b=ZkSvzWFe4GfrTmBb8iUOsSMZShHZoC/6pFizlZJfB9ONOgN3UTUwkKgX7kuJyqDJbT
-         kavajsdaTI6rnXuGy85d33h+u8VKloOrALanp91z+RAAw++psw1KGHgu8zFL0gR5oymo
-         S2PjEMBmoHCB52+2P6XENFdmySM51D5bZWxYQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702570505; x=1703175305;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z1Ou2BN/NSSGCNvRe4VvolyrUm7oUAf2oh76V3K9T9M=;
-        b=YNz5pur2BePW5JAtcpd9TlR6XTJL58+xuUT1XQBJSneht5gGCdhsCcrUvNGD6XUB/q
-         ohl3JWFyH7nfcasjB5nOuEk4+ah2K3EK4AnPeU/b4ZoQJnpkj+x3AUm/Ti0dvqXfY+pD
-         /Ib79IS+L1mOgvQ0bPH1JX3193m28VQUVwE10QxUmkJch/qfkXRK8lcF6Y6PQtBTYJLl
-         TcJweEnWKuKljBk6RBFHWGpusZkmvv23ovsJ1fb6qbsIYEGgOdmpaFqYP/HpHisndYPt
-         wqg40UJ/aRF3RCWmuNTMHg4zqcjMfpnHnjWx2eQ7bqy4h9U5XC13z7Hb2QY3y3KNiwA1
-         FKeQ==
-X-Gm-Message-State: AOJu0YyZCabjpyROLpA4xKdZHQwFa2n53RfoNxkEwiDp2XS5qw+mnJHo
-	z4Xkjb0wspgkxt2mSqMvJ+GAhg==
-X-Google-Smtp-Source: AGHT+IH+ytQj5wa72LYKC5YIjqTselzMKodTANBeg8JotZhzXxmhWvXBDTQzTxLBsP0QwKZwCFxenA==
-X-Received: by 2002:a17:902:eb82:b0:1d3:4c35:17a0 with SMTP id q2-20020a170902eb8200b001d34c3517a0mr1926746plg.120.1702570504783;
-        Thu, 14 Dec 2023 08:15:04 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id n6-20020a170902e54600b001d1cd7e4ad2sm12549781plf.125.2023.12.14.08.15.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 08:15:04 -0800 (PST)
-Date: Thu, 14 Dec 2023 08:15:03 -0800
-From: Kees Cook <keescook@chromium.org>
-To: davidgow@google.com
-Cc: Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 3/5] overflow: Replace fake root_device with
- kunit_device
-Message-ID: <202312140814.314B59CD@keescook>
-References: <20231214-kunit_bus-v3-0-7e9a287d3048@google.com>
- <20231214-kunit_bus-v3-3-7e9a287d3048@google.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="roL2mfkd"
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2314511A;
+	Thu, 14 Dec 2023 08:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=fIFfoB7fiP8F9z4MEfp2p7LeH1J7dMGPo+SgIwKTuLg=; b=roL2mfkdCdllhG5ba7BvkgzOJL
+	SLmYEZllRxYjOi5gMKJ2mMPy8ZXP6JQ43ymwuSaUUL4gAM1RBEz3dpcaW+8qwQUTxnKGezR0NSqYU
+	pVSoCWM2SEIr1QE2eS7MawzRCUHMJ02ORvvrq/rC4vFT0Z5iFqOZBnDTqJnLZQHYf5oTXVEeh9vZB
+	4NnoHFeEDs7jzURkZA8m7zMwtJok6ourk+Rv7IL/rgludRqWhXD11XJNtjYmXoY+myDFeK75AOpS9
+	15sDC3tHt3ysJNEN+RwqqrrJsAQN9SkmsRHYdUSmYqv/FvamYF2ROAKNBJT38cbtuEWxhz5YQSvua
+	O7WsnXPw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55304)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rDoxo-0001iC-0z;
+	Thu, 14 Dec 2023 16:53:32 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rDoxo-0002hO-KC; Thu, 14 Dec 2023 16:53:32 +0000
+Date: Thu, 14 Dec 2023 16:53:32 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Luo Jie <quic_luoj@quicinc.com>
+Cc: andrew@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	hkallweit1@gmail.com, corbet@lwn.net, p.zabel@pengutronix.de,
+	f.fainelli@gmail.com, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 01/14] net: phy: introduce core support for phy-mode =
+ "10g-qxgmii"
+Message-ID: <ZXszDKwzB7hJZ8yE@shell.armlinux.org.uk>
+References: <20231214094813.24690-1-quic_luoj@quicinc.com>
+ <20231214094813.24690-2-quic_luoj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,17 +47,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231214-kunit_bus-v3-3-7e9a287d3048@google.com>
+In-Reply-To: <20231214094813.24690-2-quic_luoj@quicinc.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Thu, Dec 14, 2023 at 04:49:17PM +0800, davidgow@google.com wrote:
-> Using struct root_device to create fake devices for tests is something
-> of a hack. The new struct kunit_device is meant for this purpose, so use
-> it instead.
+On Thu, Dec 14, 2023 at 05:48:00PM +0800, Luo Jie wrote:
+> From: Vladimir Oltean <vladimir.oltean@nxp.com>
 > 
-> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> Signed-off-by: David Gow <davidgow@google.com>
+> 10G-QXGMII is a MAC-to-PHY interface defined by the USXGMII multiport
+> specification. It uses the same signaling as USXGMII, but it multiplexes
+> 4 ports over the link, resulting in a maximum speed of 2.5G per port.
+> 
+> Some in-tree SoCs like the NXP LS1028A use "usxgmii" when they mean
+> either the single-port USXGMII or the quad-port 10G-QXGMII variant, and
+> they could get away just fine with that thus far. But there is a need to
+> distinguish between the 2 as far as SerDes drivers are concerned.
+> 
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
 
-Acked-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+
+Thanks!
 
 -- 
-Kees Cook
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
