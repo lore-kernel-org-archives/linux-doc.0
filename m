@@ -1,183 +1,212 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="d5FzzKO8"
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA6E95
-	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 00:52:09 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54744e66d27so9687a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 00:52:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702543928; x=1703148728; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aG+wTH3yOLLZ3eZRtW3lPIiRHsLhkS1VEsetc0cw7Go=;
-        b=d5FzzKO84I2bpTnbGVw3+uA7Cjr9vKegHgdd9tzBGAjcRvdJLnjIrlUZNoMwb44eCS
-         S+ksLyP6jKIrKr4vw2Xg+UNy+WrKuABCfV3gvxj6XfX6cqiCd2IpkUUSuCjGEWXnL0ZN
-         yW+peeKudXSdvEpXqQv0iglo5cEgvgdSXiAHxJhe/lk48mk2G1K3XX7wG0U7kdTUCj2W
-         4+E+4Y7MhOKOTHjRSYCabVWMnu/rWZBdk+D/eo/W0lGs3g1fPySi8yU5vmJ7AjjRuHtO
-         LEVPow4+EcPcPbS8NiMroPywKjA6SfGUz4vVGnCobo0J9LURHbgEjBo/srBKLe5snQEi
-         1g8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702543928; x=1703148728;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aG+wTH3yOLLZ3eZRtW3lPIiRHsLhkS1VEsetc0cw7Go=;
-        b=j3ngT2eyVVuP7eahe7B3ergdtuCF03LlrqmJkULUPQn8nhVmlAGooCBHiFZ6S4B3gc
-         sHT1r/onkUsVBBHwrDbMrEjXnj4mcOecog0r3qVQd74oa6Rhc8FMRrccDDgH+HEBDPA7
-         kunZjqX5Tu9uY4ebO7z8NHLVhzN0LIg0NzVMwgUhKapcX4HsXKuQHvg6hCvcOySCQgPY
-         IfB6oilf4j8hcHDzsmaXcL8bfYwnavAnd4TS5tBTfokzD4M+yboloDk4MxkXkRk/XmXZ
-         WgG1Y8R1DNoz4oWt25tngS0z2bXUbH5PYwAClPD2MW1cQNmSPaYseop3bGmR//b3zNfY
-         rjEA==
-X-Gm-Message-State: AOJu0Yw2ZHsFMkpIxFDHvL25pxJhi8JsUT1hSU5QARoehUJ9zkqkS1TQ
-	XvNWq4+eaA9ODr389TfMy4+t2rQbwLKXaOJNa2o9vQ==
-X-Google-Smtp-Source: AGHT+IGr7SURlrVqQjCd6Nbh6tM7k/YJj+gzxCpSmMn1ZluV7ILkdLH+8yeuqAiwZK1QSvDikUGGHogQ3hlOPDeMG/U=
-X-Received: by 2002:a50:d7ca:0:b0:54a:ee8b:7a8c with SMTP id
- m10-20020a50d7ca000000b0054aee8b7a8cmr598463edj.0.1702543928070; Thu, 14 Dec
- 2023 00:52:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OKnX+WKN"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 441D711A;
+	Thu, 14 Dec 2023 01:48:47 -0800 (PST)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BE5uPrq000888;
+	Thu, 14 Dec 2023 09:48:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	qcppdkim1; bh=xFzkCDqolDHuGop0ghdEPVtTSSDKjiEFcdJpsmCuDfI=; b=OK
+	nX+WKNn9E9GWJRwZ8+SQ0OwpAJH0r1IofwbYfMJEWZPbRIEowDfzr9TS3RYxxqoU
+	Zo+4+5UEq5WbN4jc6SX/I119B/dzYaTHAsg1lcbEffg+2uYoO4Li6VJP3MCFH+X5
+	PPhr3CBUxhkQgDl/iz7nlO+j7QSZ5zmeCjUal/GH52gQbdHMf1qcnw79fN8O8nbM
+	L3VNfsuRduhAWe78yAAfor2BegH6O6ClFfx1QCGRkSleP+DXwYwGuJXOm0e2ylCj
+	hjxI6zA4ZQnEDeeBzFVVZJp1fOJZ2bnMsSnBIh0P8Ax64/t/H2g0QrXKy85Pr9Wn
+	9LCEp8J9S7KPNO63j/7w==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uyq9t0yaf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 14 Dec 2023 09:48:33 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BE9mWxU000756
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 14 Dec 2023 09:48:32 GMT
+Received: from akronite-sh-dev02.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 14 Dec 2023 01:48:27 -0800
+From: Luo Jie <quic_luoj@quicinc.com>
+To: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
+        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>
+CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v7 01/14] net: phy: introduce core support for phy-mode = "10g-qxgmii"
+Date: Thu, 14 Dec 2023 17:48:00 +0800
+Message-ID: <20231214094813.24690-2-quic_luoj@quicinc.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231214094813.24690-1-quic_luoj@quicinc.com>
+References: <20231214094813.24690-1-quic_luoj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208-kunit_bus-v2-0-e95905d9b325@google.com> <7rgeotye4grxdtbxip53fykjm4a3sudochsfzdvkmyqltvj7zv@qekkt42x2j25>
-In-Reply-To: <7rgeotye4grxdtbxip53fykjm4a3sudochsfzdvkmyqltvj7zv@qekkt42x2j25>
-From: David Gow <davidgow@google.com>
-Date: Thu, 14 Dec 2023 16:51:54 +0800
-Message-ID: <CABVgOSmnf8XbS92f4=-ZX8Of6JUwCy7U2wz2-3udvByDKxXABg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] kunit: Add helpers for creating test-managed devices
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000137edd060c7466ed"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: mRC-5l0o1gY7iX8XrLRYTKmeJvyCyIGC
+X-Proofpoint-GUID: mRC-5l0o1gY7iX8XrLRYTKmeJvyCyIGC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
+ mlxlogscore=999 suspectscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 priorityscore=1501 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
+ definitions=main-2312140065
 
---000000000000137edd060c7466ed
-Content-Type: text/plain; charset="UTF-8"
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-On Wed, 13 Dec 2023 at 23:04, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi David,
->
-> On Fri, Dec 08, 2023 at 06:09:28PM +0800, davidgow@google.com wrote:
-> > KUnit tests often need to provide a struct device, and thus far have
-> > mostly been using root_device_register() or platform devices to create
-> > a 'fake device' for use with, e.g., code which uses device-managed
-> > resources. This has several disadvantages, including not being designed
-> > for test use, scattering files in sysfs, and requiring manual teardown
-> > on test exit, which may not always be possible in case of failure.
-> >
-> > Instead, introduce a set of helper functions which allow devices
-> > (internally a struct kunit_device) to be created and managed by KUnit --
-> > i.e., they will be automatically unregistered on test exit. These
-> > helpers can either use a user-provided struct device_driver, or have one
-> > automatically created and managed by KUnit. In both cases, the device
-> > lives on a new kunit_bus.
-> >
-> > This is a follow-up to a previous proposal here:
-> > https://lore.kernel.org/linux-kselftest/20230325043104.3761770-1-davidgow@google.com/
-> >
-> > (The kunit_defer() function in the first patch there has since been
-> > merged as the 'deferred actions' feature.)
-> >
-> > My intention is to take this whole series in via the kselftest/kunit
-> > branch, but I'm equally okay with splitting up the later patches which
-> > use this to go via the various subsystem trees in case there are merge
-> > conflicts.
->
-> Could you take (and apply eventually) that patch as part of your series?
-> https://lore.kernel.org/linux-kselftest/20231205090405.153140-1-mripard@kernel.org/
->
+10G-QXGMII is a MAC-to-PHY interface defined by the USXGMII multiport
+specification. It uses the same signaling as USXGMII, but it multiplexes
+4 ports over the link, resulting in a maximum speed of 2.5G per port.
 
-Thanks -- I've included it in v3 (which fixes a few other issues), and
-will take it along with the rest of the series:
-https://lore.kernel.org/linux-kselftest/20231214-kunit_bus-v3-0-7e9a287d3048@google.com/T/
+Some in-tree SoCs like the NXP LS1028A use "usxgmii" when they mean
+either the single-port USXGMII or the quad-port 10G-QXGMII variant, and
+they could get away just fine with that thus far. But there is a need to
+distinguish between the 2 as far as SerDes drivers are concerned.
 
-Cheers,
--- David
+Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+---
+ Documentation/networking/phy.rst |  6 ++++++
+ drivers/net/phy/phy-core.c       |  1 +
+ drivers/net/phy/phylink.c        | 11 +++++++++--
+ include/linux/phy.h              |  4 ++++
+ include/linux/phylink.h          |  2 ++
+ 5 files changed, 22 insertions(+), 2 deletions(-)
 
---000000000000137edd060c7466ed
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
+index 1283240d7620..f64641417c54 100644
+--- a/Documentation/networking/phy.rst
++++ b/Documentation/networking/phy.rst
+@@ -327,6 +327,12 @@ Some of the interface modes are described below:
+     This is the Penta SGMII mode, it is similar to QSGMII but it combines 5
+     SGMII lines into a single link compared to 4 on QSGMII.
+ 
++``PHY_INTERFACE_MODE_10G_QXGMII``
++    Represents the 10G-QXGMII PHY-MAC interface as defined by the Cisco USXGMII
++    Multiport Copper Interface document. It supports 4 ports over a 10.3125 GHz
++    SerDes lane, each port having speeds of 2.5G / 1G / 100M / 10M achieved
++    through symbol replication. The PCS expects the standard USXGMII code word.
++
+ Pause frames / flow control
+ ===========================
+ 
+diff --git a/drivers/net/phy/phy-core.c b/drivers/net/phy/phy-core.c
+index 966c93cbe616..1cd58723d6d0 100644
+--- a/drivers/net/phy/phy-core.c
++++ b/drivers/net/phy/phy-core.c
+@@ -141,6 +141,7 @@ int phy_interface_num_ports(phy_interface_t interface)
+ 		return 1;
+ 	case PHY_INTERFACE_MODE_QSGMII:
+ 	case PHY_INTERFACE_MODE_QUSGMII:
++	case PHY_INTERFACE_MODE_10G_QXGMII:
+ 		return 4;
+ 	case PHY_INTERFACE_MODE_PSGMII:
+ 		return 5;
+diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+index 48d3bd3e9fc7..938faac14930 100644
+--- a/drivers/net/phy/phylink.c
++++ b/drivers/net/phy/phylink.c
+@@ -231,6 +231,7 @@ static int phylink_interface_max_speed(phy_interface_t interface)
+ 		return SPEED_1000;
+ 
+ 	case PHY_INTERFACE_MODE_2500BASEX:
++	case PHY_INTERFACE_MODE_10G_QXGMII:
+ 		return SPEED_2500;
+ 
+ 	case PHY_INTERFACE_MODE_5GBASER:
+@@ -500,7 +501,11 @@ static unsigned long phylink_get_capabilities(phy_interface_t interface,
+ 
+ 	switch (interface) {
+ 	case PHY_INTERFACE_MODE_USXGMII:
+-		caps |= MAC_10000FD | MAC_5000FD | MAC_2500FD;
++		caps |= MAC_10000FD | MAC_5000FD;
++		fallthrough;
++
++	case PHY_INTERFACE_MODE_10G_QXGMII:
++		caps |= MAC_2500FD;
+ 		fallthrough;
+ 
+ 	case PHY_INTERFACE_MODE_RGMII_TXID:
+@@ -941,6 +946,7 @@ static int phylink_parse_mode(struct phylink *pl,
+ 			phylink_set(pl->supported, 25000baseSR_Full);
+ 			fallthrough;
+ 		case PHY_INTERFACE_MODE_USXGMII:
++		case PHY_INTERFACE_MODE_10G_QXGMII:
+ 		case PHY_INTERFACE_MODE_10GKR:
+ 		case PHY_INTERFACE_MODE_10GBASER:
+ 			phylink_set(pl->supported, 10baseT_Half);
+@@ -1837,7 +1843,8 @@ static int phylink_validate_phy(struct phylink *pl, struct phy_device *phy,
+ 	if (phy->is_c45 && state->rate_matching == RATE_MATCH_NONE &&
+ 	    state->interface != PHY_INTERFACE_MODE_RXAUI &&
+ 	    state->interface != PHY_INTERFACE_MODE_XAUI &&
+-	    state->interface != PHY_INTERFACE_MODE_USXGMII)
++	    state->interface != PHY_INTERFACE_MODE_USXGMII &&
++	    state->interface != PHY_INTERFACE_MODE_10G_QXGMII)
+ 		state->interface = PHY_INTERFACE_MODE_NA;
+ 
+ 	return phylink_validate(pl, supported, state);
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index 6e7ebcc50b85..7697d94ac330 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -125,6 +125,7 @@ extern const int phy_10gbit_features_array[1];
+  * @PHY_INTERFACE_MODE_10GKR: 10GBASE-KR - with Clause 73 AN
+  * @PHY_INTERFACE_MODE_QUSGMII: Quad Universal SGMII
+  * @PHY_INTERFACE_MODE_1000BASEKX: 1000Base-KX - with Clause 73 AN
++ * @PHY_INTERFACE_MODE_10G_QXGMII: 10G-QXGMII - 4 ports over 10G USXGMII
+  * @PHY_INTERFACE_MODE_MAX: Book keeping
+  *
+  * Describes the interface between the MAC and PHY.
+@@ -165,6 +166,7 @@ typedef enum {
+ 	PHY_INTERFACE_MODE_10GKR,
+ 	PHY_INTERFACE_MODE_QUSGMII,
+ 	PHY_INTERFACE_MODE_1000BASEKX,
++	PHY_INTERFACE_MODE_10G_QXGMII,
+ 	PHY_INTERFACE_MODE_MAX,
+ } phy_interface_t;
+ 
+@@ -286,6 +288,8 @@ static inline const char *phy_modes(phy_interface_t interface)
+ 		return "100base-x";
+ 	case PHY_INTERFACE_MODE_QUSGMII:
+ 		return "qusgmii";
++	case PHY_INTERFACE_MODE_10G_QXGMII:
++		return "10g-qxgmii";
+ 	default:
+ 		return "unknown";
+ 	}
+diff --git a/include/linux/phylink.h b/include/linux/phylink.h
+index 875439ab45de..92bd2726cc8a 100644
+--- a/include/linux/phylink.h
++++ b/include/linux/phylink.h
+@@ -128,6 +128,7 @@ static inline unsigned int phylink_pcs_neg_mode(unsigned int mode,
+ 	case PHY_INTERFACE_MODE_QSGMII:
+ 	case PHY_INTERFACE_MODE_QUSGMII:
+ 	case PHY_INTERFACE_MODE_USXGMII:
++	case PHY_INTERFACE_MODE_10G_QXGMII:
+ 		/* These protocols are designed for use with a PHY which
+ 		 * communicates its negotiation result back to the MAC via
+ 		 * inband communication. Note: there exist PHYs that run
+@@ -680,6 +681,7 @@ static inline int phylink_get_link_timer_ns(phy_interface_t interface)
+ 	case PHY_INTERFACE_MODE_SGMII:
+ 	case PHY_INTERFACE_MODE_QSGMII:
+ 	case PHY_INTERFACE_MODE_USXGMII:
++	case PHY_INTERFACE_MODE_10G_QXGMII:
+ 		return 1600000;
+ 
+ 	case PHY_INTERFACE_MODE_1000BASEX:
+-- 
+2.42.0
 
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-ddIn9n5Jt6Z1o79zxraLMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBtHFwIgQZjer5K
-H+4Q+wns10k7qN+4wN2Uf+JsyOYjukaMEgdLErfA1wwtQ9uHkoYQZcWBuVVkQFa5hI+sqI2m1Weq
-riMCFSiU38s1tADdMX12IMfJRN60Nznhrw+nPyDRZqRhUTW24TwnHorkDnFPW8PHo7fAw4FrpI0n
-impZAng7ccvvK09K3ZuhwTIxJMsPXCZYsrXWORTw5sczRAP6XvKbPBJnsJoSTe5dFBPBHOQJOGhU
-qWfEfWnWMJPF3LxSGLpLFQXO3RwQqmxv08avwXfVPouh1xuB3FX7rpDabT8YDhu9JgIZkLEKko7L
-yQt6zWwng7k8YF/jGbiAta6VMYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABzgV+4+mJnUzG7XDy6d2uMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDm
-F4Ic9SffzyaDMQPCLkKQW+taWwYpJm+BECAkfDyJnzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMzEyMTQwODUyMDhaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEARS3tFy1kAs0G8X3o4TWH
-oEKuwTgMnhZ5fz7z9rQ6YlIk+yhp9dnsyqKFp/VpdGCO5av2Yv834BDTZtRjp3hZFvnI8x6ay5rx
-LcSpX/6ebX/U/QLMsyj9+Mx0Vwcu6++9ycv3W2ffL+oRa2kGEIi3bHvi2aLU9ObTJc/pBW6luEVV
-1uXNtvMAmpBarA6NQvo38j5dPt5ypLXSJtoIXnVdNqGXqAnqJq1xYxJBTzooY5mQB04E9NKm4dVT
-OMz4ot55/KLmY14DLuJBF+8FlqKa48uA4p3nLyOJFC9C0A5G7ejA4TwCOPDc6Hj9KZEqbqPCag+q
-ohe82MUWiZzz47sOyA==
---000000000000137edd060c7466ed--
