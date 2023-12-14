@@ -1,99 +1,228 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707ED697A8
-	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 19:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1A36A011;
+	Thu, 14 Dec 2023 19:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="M0gW0TDM"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1fb33059466so5945857fac.2
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 11:19:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1702581566; x=1703186366; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZGqN9VyFA6bGzLMvanbVJ9xu/V9dzBL2qAxRA0SNydY=;
-        b=M0gW0TDMZ1cOi1yrWcw1W4bE11jULEKanC+u1rXJzMgCz8em1s6uFo/o25lvEJ4Hst
-         p2EnRHGV1Bac5AmfplX1dEpCP/DT287CovyVkoH/NT7Y+TV9384LgZb6/mf6n+WGgV2K
-         EtV4k10/hr+ygQ2S844dJMMJK5h0ePSkXTcvwyFygPRu8S8m4nMCSVZnaLm2ubM5e51X
-         ETH0IiTQiDh+z/7z2kJTLVYATE5/P8sLBJqEO9OZK2x3pO9hJRo5pnNPcFIF4mx8pZ4T
-         v6Nf1i4s3v/dTT0QI8wCXtHpVJwrkMb3UOokIW6x4SDQI/6jleRCOaYJX8x0tgPLwGi9
-         nPbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702581566; x=1703186366;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZGqN9VyFA6bGzLMvanbVJ9xu/V9dzBL2qAxRA0SNydY=;
-        b=Bfdf8vFBGApuTxWQC09wLualDY6D6nigxXs7RN4ssbuWGg/d0JNouTLRus5qL8Yovo
-         cftOSgQOUxRX0OYgp8vGNw8WN5gzpX5R7grpRsY4DW5Ew4glrWw0Q63S7vgHRQIsS6AP
-         tw3UL8QYXZTwZCezoXCnsAVjz+x8xJt/phBki4jW/qESLlz4hCTUbiPKBXgtJshZhonk
-         xOTxgSZxZITa9BEsZ5wFTAL1gUx705rVBOzAzelnh+043uNVxYI6KSsLF76vRfKJPTM3
-         fBQfSBEscuq2CV+S3TQ8eCDiTKslxS60thWFaRvY/TGD2kX7G7ho0aeE0yjm8261avYB
-         nwRw==
-X-Gm-Message-State: AOJu0YzeQr3Pf4IpQL/sXv0YeKMro3N9lvxWNwO2GyPB1ruz/ovGD1HZ
-	/D6paP+r+r/mLH4qL7vdxzRq57c4E2nCHa+DwU8bOA==
-X-Google-Smtp-Source: AGHT+IHAnrtenlddaWtCyLx9aBi69QrVuHVWG2rdYXiv2yuQ5vKdApOHPoLr5i+XPih06QNJDodZZT5+m5u6D1Em/48=
-X-Received: by 2002:a05:6871:4099:b0:1ff:805:b3e6 with SMTP id
- kz25-20020a056871409900b001ff0805b3e6mr13641663oab.6.1702581566484; Thu, 14
- Dec 2023 11:19:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCmMDKsp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702582900; x=1734118900;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=JeJEGG5sFogcxVYcE4xCnsdCdmkxF2xsMcIKN/Q4UTw=;
+  b=QCmMDKspDcbAuPeQERIfCMG2hqmqkpPg7vdeqAhsjWoHax743ZQI4SOm
+   TWuVVGRAzfFKmFDljJVV0+T9yWPDD2+p6zcDJlcycH7LwtAjFx30e6hCQ
+   uGJc7U00L7NsDJMPWT0TvyueM1N6a8DOdrKAHA4THnN+UNsg64Z942OzQ
+   YiE0EAInQpmgS6fYtplLfFvnM2R7vzHx8knOOA7yMWoTcwM3Ai+AiRoMC
+   bhe1CgD4vUzFGYEFFsu32SCa+U3fiDIZzmAeB3qL9wiRAZo490uoGYVJO
+   9du9bGxUIbMfifcOCB1PtY/GBur5sKno/7M5lpOvu84OWP/GU6IirX8g0
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="399013871"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
+   d="scan'208";a="399013871"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 11:41:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="750666558"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
+   d="scan'208";a="750666558"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by orsmga006.jf.intel.com with ESMTP; 14 Dec 2023 11:41:32 -0800
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	netdev@vger.kernel.org
+Cc: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
+	anthony.l.nguyen@intel.com,
+	jacob.e.keller@intel.com,
+	vaishnavi.tipireddy@intel.com,
+	horms@kernel.org,
+	leon@kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	rdunlap@infradead.org
+Subject: [PATCH net-next v6 5/5] ice: add documentation for FW logging
+Date: Thu, 14 Dec 2023 11:40:40 -0800
+Message-ID: <20231214194042.2141361-6-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231214194042.2141361-1-anthony.l.nguyen@intel.com>
+References: <20231214194042.2141361-1-anthony.l.nguyen@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
- <20231130201504.2322355-10-pasha.tatashin@soleen.com> <88519685-abfb-e2f8-38b4-d94340b40d1d@google.com>
-In-Reply-To: <88519685-abfb-e2f8-38b4-d94340b40d1d@google.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 14 Dec 2023 14:18:49 -0500
-Message-ID: <CA+CK2bD-phEK4aWQv-xK74_uR_agRN+cmt5Wq-a8YVB1Gm_gVA@mail.gmail.com>
-Subject: Re: [PATCH v2 09/10] iommu: observability of the IOMMU allocations
-To: David Rientjes <rientjes@google.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 14, 2023 at 12:59=E2=80=AFPM David Rientjes <rientjes@google.co=
-m> wrote:
->
-> On Thu, 30 Nov 2023, Pasha Tatashin wrote:
->
-> > Add NR_IOMMU_PAGES into node_stat_item that counts number of pages
-> > that are allocated by the IOMMU subsystem.
-> >
-> > The allocations can be view per-node via:
-> > /sys/devices/system/node/nodeN/vmstat.
-> >
-> > For example:
-> >
-> > $ grep iommu /sys/devices/system/node/node*/vmstat
-> > /sys/devices/system/node/node0/vmstat:nr_iommu_pages 106025
-> > /sys/devices/system/node/node1/vmstat:nr_iommu_pages 3464
-> >
-> > The value is in page-count, therefore, in the above example
-> > the iommu allocations amount to ~428M.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> Acked-by: David Rientjes <rientjes@google.com>
+From: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
 
-Thank you,
-Pasha
+Add documentation for FW logging in
+Documentation/networking/device_drivers/ethernet/intel/ice.rst
+
+Signed-off-by: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
+Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+---
+ .../device_drivers/ethernet/intel/ice.rst     | 141 ++++++++++++++++++
+ 1 file changed, 141 insertions(+)
+
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index e4d065c55ea8..5038e54586af 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -895,6 +895,147 @@ driver writes raw bytes by the GNSS object to the receiver through i2c. Please
+ refer to the hardware GNSS module documentation for configuration details.
+ 
+ 
++Firmware (FW) logging
++---------------------
++The driver supports FW logging via the debugfs interface on PF 0 only. The FW
++running on the NIC must support FW logging; if the FW doesn't support FW logging
++the 'fwlog' file will not get created in the ice debugfs directory.
++
++Module configuration
++~~~~~~~~~~~~~~~~~~~~
++Firmware logging is configured on a per module basis. Each module can be set to
++a value independent of the other modules (unless the module 'all' is specified).
++The modules will be instantiated under the 'fwlog/modules' directory.
++
++The user can set the log level for a module by writing to the module file like
++this::
++
++  # echo <log_level> > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/<module>
++
++where
++
++* log_level is a name as described below. Each level includes the
++  messages from the previous/lower level
++
++      *	none
++      *	error
++      *	warning
++      *	normal
++      *	verbose
++
++* module is a name that represents the module to receive events for. The
++  module names are
++
++      *	general
++      *	ctrl
++      *	link
++      *	link_topo
++      *	dnl
++      *	i2c
++      *	sdp
++      *	mdio
++      *	adminq
++      *	hdma
++      *	lldp
++      *	dcbx
++      *	dcb
++      *	xlr
++      *	nvm
++      *	auth
++      *	vpd
++      *	iosf
++      *	parser
++      *	sw
++      *	scheduler
++      *	txq
++      *	rsvd
++      *	post
++      *	watchdog
++      *	task_dispatch
++      *	mng
++      *	synce
++      *	health
++      *	tsdrv
++      *	pfreg
++      *	mdlver
++      *	all
++
++The name 'all' is special and allows the user to set all of the modules to the
++specified log_level or to read the log_level of all of the modules.
++
++Example usage to configure the modules
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++To set a single module to 'verbose'::
++
++  # echo verbose > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/link
++
++To set multiple modules then issue the command multiple times::
++
++  # echo verbose > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/link
++  # echo warning > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/ctrl
++  # echo none > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/dcb
++
++To set all the modules to the same value::
++
++  # echo normal > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/all
++
++To read the log_level of a specific module (e.g. module 'general')::
++
++  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/general
++
++To read the log_level of all the modules::
++
++  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/modules/all
++
++Enabling FW log
++~~~~~~~~~~~~~~~
++Configuring the modules indicates to the FW that the configured modules should
++generate events that the driver is interested in, but it **does not** send the
++events to the driver until the enable message is sent to the FW. To do this
++the user can write a 1 (enable) or 0 (disable) to 'fwlog/enable'. An example
++is::
++
++  # echo 1 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/enable
++
++Retrieving FW log data
++~~~~~~~~~~~~~~~~~~~~~~
++The FW log data can be retrieved by reading from 'fwlog/data'. The user can
++write any value to 'fwlog/data' to clear the data. The data can only be cleared
++when FW logging is disabled. The FW log data is a binary file that is sent to
++Intel and used to help debug user issues.
++
++An example to read the data is::
++
++  # cat /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data > fwlog.bin
++
++An example to clear the data is::
++
++  # echo 0 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/data
++
++Changing how often the log events are sent to the driver
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++The driver receives FW log data from the Admin Receive Queue (ARQ). The
++frequency that the FW sends the ARQ events can be configured by writing to
++'fwlog/nr_messages'. The range is 1-128 (1 means push every log message, 128
++means push only when the max AQ command buffer is full). The suggested value is
++10. The user can see what the value is configured to by reading
++'fwlog/nr_messages'. An example to set the value is::
++
++  # echo 50 > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/nr_messages
++
++Configuring the amount of memory used to store FW log data
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++The driver stores FW log data within the driver. The default size of the memory
++used to store the data is 1MB. Some use cases may require more or less data so
++the user can change the amount of memory that is allocated for FW log data.
++To change the amount of memory then write to 'fwlog/log_size'. The value must be
++one of: 128K, 256K, 512K, 1M, or 2M. FW logging must be disabled to change the
++value. An example of changing the value is::
++
++  # echo 128K > /sys/kernel/debug/ice/0000\:18\:00.0/fwlog/log_size
++
++
+ Performance Optimization
+ ========================
+ Driver defaults are meant to fit a wide variety of workloads, but if further
+-- 
+2.41.0
+
