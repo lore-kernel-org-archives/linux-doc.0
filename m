@@ -1,150 +1,154 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C+Sq6SrA"
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D0C7124;
-	Thu, 14 Dec 2023 07:15:15 -0800 (PST)
-Received: by mail-oo1-xc2a.google.com with SMTP id 006d021491bc7-58e256505f7so4829782eaf.3;
-        Thu, 14 Dec 2023 07:15:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702566914; x=1703171714; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=YwqrMTuP4+av0DUYudJbNuaomsuhNor3VKoka5BjXGk=;
-        b=C+Sq6SrAgVIafH5UOH5Zo80CnT5UviDlzrATyRlnTdsCYPx/2hT/YlJ7yUdfC79fef
-         Rx3kH9ceCmknehpQsI66DU6DIyJ20RlPHrNhy48d9aQPOKXyBEIetaZGXw9l1mveUCDy
-         EKURWYtD7QuvHf1TTwCQ/BN551nwFGxPqowUbLCIMBhhsZp/rceQUYK6mcLz6POfBmBD
-         gG2kzNyPnOwi8zZwZMvgPznPsiih6PKCSfqiKMyIhj309uC3zmhM//xs1Y4FXQQN2clh
-         2/MOQB2vycFH4eCDVbxLao1IeiKhNUm2UD0+dbbJGrbj7+IOA8+nrmEE50AG9rKGX0QW
-         ZJ5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702566914; x=1703171714;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YwqrMTuP4+av0DUYudJbNuaomsuhNor3VKoka5BjXGk=;
-        b=iaDZ8q/P1PAM5FL/I9Zyv/Ioos6rLH/sVtDpMONFL7Trmi4+EoexY4VVxAXIdPJuoF
-         IVeIvrlY69a4NjPzGv0aZiG9GNlgGgSZK2TYNSRrdrYrNpC7zzdMoxXxnGlRJiF+HRER
-         7TWXj9rjUgtiVIiW6PKr/3WZLK9DRV1bpIJGB0jiVVN6vO5HRtF/HyMIMshFmVBYxO1r
-         YrIEJld7g7KihqG+HZGLzUkqWLMwAT6xBPKaekZMgDYsaPgRFjq0Kk1TnS3pDNYhbn6G
-         DdKN4fU30q4zg6rV3Guuh6JAffqwo7OIlRHln2UIpUL+0DpqZXhLEKcIUqzg68F14zKo
-         aHJQ==
-X-Gm-Message-State: AOJu0YyzfVrgNJR6wbZpXXRSouHtdNVm4TheqkQ2YnreqmvXfBAXmAXX
-	sqZQgrgeI0c3X+z2Aw/t7fM=
-X-Google-Smtp-Source: AGHT+IEQiJQBi/YqFpc4EU+ntI9iJ37/qwslM8KGe+jPlRlEkAGipL5o71IMSKtzDLu63lf+DrB90w==
-X-Received: by 2002:a4a:919c:0:b0:590:946f:55e5 with SMTP id d28-20020a4a919c000000b00590946f55e5mr7453782ooh.2.1702566914454;
-        Thu, 14 Dec 2023 07:15:14 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id v21-20020a4a3155000000b0059069b4442esm3508510oog.5.2023.12.14.07.15.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Dec 2023 07:15:14 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d9ccf7ba-42e6-4ec6-9de9-51802e968de9@roeck-us.net>
-Date: Thu, 14 Dec 2023 07:15:13 -0800
+X-Greylist: delayed 1359 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 14 Dec 2023 07:22:00 PST
+Received: from out03.mta.xmission.com (out03.mta.xmission.com [166.70.13.233])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C3D6120;
+	Thu, 14 Dec 2023 07:22:00 -0800 (PST)
+Received: from in01.mta.xmission.com ([166.70.13.51]:55106)
+	by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1rDnBD-00298x-8O; Thu, 14 Dec 2023 07:59:15 -0700
+Received: from ip68-227-168-167.om.om.cox.net ([68.227.168.167]:48054 helo=email.froward.int.ebiederm.org.xmission.com)
+	by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1rDnBC-009bes-10; Thu, 14 Dec 2023 07:59:14 -0700
+From: "Eric W. Biederman" <ebiederm@xmission.com>
+To: Alexander Graf <graf@amazon.com>
+Cc: <linux-kernel@vger.kernel.org>,  <linux-trace-kernel@vger.kernel.org>,
+  <linux-mm@kvack.org>,  <devicetree@vger.kernel.org>,
+  <linux-arm-kernel@lists.infradead.org>,  <kexec@lists.infradead.org>,
+  <linux-doc@vger.kernel.org>,  <x86@kernel.org>,  "H. Peter Anvin"
+ <hpa@zytor.com>,  Andy Lutomirski <luto@kernel.org>,  Peter Zijlstra
+ <peterz@infradead.org>,  "Rob Herring" <robh+dt@kernel.org>,  Steven
+ Rostedt <rostedt@goodmis.org>,  "Andrew Morton"
+ <akpm@linux-foundation.org>,  Mark Rutland <mark.rutland@arm.com>,  "Tom
+ Lendacky" <thomas.lendacky@amd.com>,  Ashish Kalra <ashish.kalra@amd.com>,
+  James Gowans <jgowans@amazon.com>,  Stanislav Kinsburskii
+ <skinsburskii@linux.microsoft.com>,  <arnd@arndb.de>,
+  <pbonzini@redhat.com>,  <madvenka@linux.microsoft.com>,  Anthony Yznaga
+ <anthony.yznaga@oracle.com>,  Usama Arif <usama.arif@bytedance.com>,
+  David Woodhouse <dwmw@amazon.co.uk>,  Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>
+References: <20231213000452.88295-1-graf@amazon.com>
+Date: Thu, 14 Dec 2023 08:58:49 -0600
+In-Reply-To: <20231213000452.88295-1-graf@amazon.com> (Alexander Graf's
+	message of "Wed, 13 Dec 2023 00:04:37 +0000")
+Message-ID: <87r0jo7rva.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] bindings: hwmon: Add adi,adaq4224_temp as compatible
- string
-Content-Language: en-US
-To: Daniel Matyas <daniel.matyas@analog.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20231214143648.175336-1-daniel.matyas@analog.com>
- <20231214143648.175336-2-daniel.matyas@analog.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20231214143648.175336-2-daniel.matyas@analog.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-XM-SPF: eid=1rDnBC-009bes-10;;;mid=<87r0jo7rva.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.168.167;;;frm=ebiederm@xmission.com;;;spf=pass
+X-XM-AID: U2FsdGVkX1/OhbNhEazZ4D40H/sN4yD6DjQIF1U06u0=
+X-SA-Exim-Connect-IP: 68.227.168.167
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-DCC: XMission; sa04 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: **;Alexander Graf <graf@amazon.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 587 ms - load_scoreonly_sql: 0.05 (0.0%),
+	signal_user_changed: 11 (1.9%), b_tie_ro: 10 (1.6%), parse: 1.07
+	(0.2%), extract_message_metadata: 12 (2.1%), get_uri_detail_list: 2.7
+	(0.5%), tests_pri_-2000: 4.8 (0.8%), tests_pri_-1000: 3.8 (0.6%),
+	tests_pri_-950: 1.19 (0.2%), tests_pri_-900: 1.01 (0.2%),
+	tests_pri_-90: 68 (11.7%), check_bayes: 67 (11.4%), b_tokenize: 12
+	(2.0%), b_tok_get_all: 13 (2.3%), b_comp_prob: 3.8 (0.7%),
+	b_tok_touch_all: 34 (5.8%), b_finish: 0.86 (0.1%), tests_pri_0: 461
+	(78.6%), check_dkim_signature: 0.63 (0.1%), check_dkim_adsp: 2.2
+	(0.4%), poll_dns_idle: 0.70 (0.1%), tests_pri_10: 2.4 (0.4%),
+	tests_pri_500: 16 (2.8%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH 00/15] kexec: Allow preservation of ftrace buffers
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 
-On 12/14/23 06:36, Daniel Matyas wrote:
-> In the device ada4224 the max31827 temperature sensor will be used, so
-> the default values corresponding to adaq4224_temp are the same for
-> max31827.
-> 
+Alexander Graf <graf@amazon.com> writes:
 
-I don't know what that device is, but if the max31827 is used it should
-be instantiated as max31827.
+> Kexec today considers itself purely a boot loader: When we enter the new
+> kernel, any state the previous kernel left behind is irrelevant and the
+> new kernel reinitializes the system.
+>
+> However, there are use cases where this mode of operation is not what we
+> actually want. In virtualization hosts for example, we want to use kexec
+> to update the host kernel while virtual machine memory stays untouched.
+> When we add device assignment to the mix, we also need to ensure that
+> IOMMU and VFIO states are untouched. If we add PCIe peer to peer DMA, we
+> need to do the same for the PCI subsystem. If we want to kexec while an
+> SEV-SNP enabled virtual machine is running, we need to preserve the VM
+> context pages and physical memory. See James' and my Linux Plumbers
+> Conference 2023 presentation for details:
+>
+>   https://lpc.events/event/17/contributions/1485/
+>
+> To start us on the journey to support all the use cases above, this
+> patch implements basic infrastructure to allow hand over of kernel state
+> across kexec (Kexec HandOver, aka KHO). As example target, we use ftrace:
+> With this patch set applied, you can read ftrace records from the
+> pre-kexec environment in your post-kexec one. This creates a very powerful
+> debugging and performance analysis tool for kexec. It's also slightly
+> easier to reason about than full blown VFIO state preservation.
+>
+> == Alternatives ==
+>
+> There are alternative approaches to (parts of) the problems above:
+>
+>   * Memory Pools [1] - preallocated persistent memory region + allocator
+>   * PRMEM [2] - resizable persistent memory regions with fixed metadata
+>                 pointer on the kernel command line + allocator
+>   * Pkernfs [3] - preallocated file system for in-kernel data with fixed
+>                   address location on the kernel command line
+>   * PKRAM [4] - handover of user space pages using a fixed metadata page
+>                 specified via command line
+>
+> All of the approaches above fundamentally have the same problem: They
+> require the administrator to explicitly carve out a physical memory
+> location because they have no mechanism outside of the kernel command
+> line to pass data (including memory reservations) between kexec'ing
+> kernels.
+>
+> KHO provides that base foundation. We will determine later whether we
+> still need any of the approaches above for fast bulk memory handover of for
+> example IOMMU page tables. But IMHO they would all be users of KHO, with
+> KHO providing the foundational primitive to pass metadata and bulk memory
+> reservations as well as provide easy versioning for data.
 
-Guenter
+What you are describe in many ways is the same problem as
+kexec-on-panic.  The goal of leaving devices running absolutely requires
+carving out memory for the new kernel to live in while it is coming up
+so that DMA from a device that was not shutdown down does not stomp the
+kernel coming up.
 
-> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
-> ---
->   Documentation/devicetree/bindings/hwmon/adi,max31827.yaml | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> index f60e06ab7d0a..9f3b0839aa46 100644
-> --- a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> @@ -20,6 +20,7 @@ properties:
->         - const: adi,max31827
->         - items:
->             - enum:
-> +              - adi,adaq4224_temp
->                 - adi,max31828
->                 - adi,max31829
->             - const: adi,max31827
-> @@ -81,7 +82,9 @@ allOf:
->         properties:
->           compatible:
->             contains:
-> -            const: adi,max31827
-> +            enum:
-> +              - adi,max31827
-> +              - adi,adaq4224_temp
->   
->       then:
->         properties:
+If I understand the virtualization case some of those virtual machines
+are going to have virtual NICs that are going to want to DMA memory to
+the host system.  Which if I understand things correctly means that
+among the devices you explicitly want to keep running there is a not
+a way to avoid the chance of DMA coming in while the kernel is being
+changed.
 
+There is also a huge maintenance challenge associated with all of this.
+
+If you go with something that is essentially kexec-on-panic and then
+add a little bit to help find things in the memory of the previous
+kernel while the new kernel is coming up I can see it as a possibility.
+
+As an example I think preserving ftrace data of kexec seems bizarre.
+I don't see how that is an interesting use case at all.  Not in
+the situation of preserving virtual machines, and not in the situation
+of kexec on panic.
+
+If you are doing an orderly shutdown and kernel switch you should be
+able to manually change the memory.  If you are not doing an orderly
+shutdown then I really don't get it.
+
+I don't hate the capability you are trying to build.
+
+I have not read or looked at most of this so I am probably
+missing subtle details.
+
+As you are currently describing things I have the sense you have
+completely misframed the problem and are trying to solve the wrong parts
+of the problem.
+
+Eric
