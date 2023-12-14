@@ -1,121 +1,140 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44ABECF;
-	Thu, 14 Dec 2023 09:34:20 -0800 (PST)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2cc3dd2d897so21397881fa.0;
-        Thu, 14 Dec 2023 09:34:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702575258; x=1703180058;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/I1W7e0WksPQr4B0ossVVfyuwCWdZSDTARqTZ332iVA=;
-        b=CUjRuZsdP0GVflCOjfnGC+WYb4btVNGptBOItvUMAU4UePmZOcczcXjtdzHm2L3H/d
-         Q+k3Y1V/AAs1C+pxIl41XW7NB35N28Lbc7m0S9dPpqbTc4F59Cmunp5/KXpdzAX8sMmz
-         BMO3tfgE+iekoWMQz31HtnCry/89hS7mdaSO9Zo/VmeM2uMPA8NuZ9eT+QGoBSkpfuXV
-         s7hc0TMRKn8ed1GsEog2SBmDUIVhWKV09qqUiC+LLbtLTxjoTMUtAg8+9O+t9EDAgaMp
-         3a1RAUsSpstsowZVepZ+SuTpLtKqM1XZQ+Q7MI2y5R6rJeV5Ht+Bs+zIcwXlwdJ1ck2n
-         YvZQ==
-X-Gm-Message-State: AOJu0YzeZYakRRAtUKLBMqcc2xaB9MphqiD2whTZDlBFLiFkoFnyz0pl
-	CEB6Sb3NZOuyojBHDXLkBQjQJ2Uy3D1CLJVlng==
-X-Google-Smtp-Source: AGHT+IGp30y/H8P//ZOKK0ZSEtOYUDKVBBp+xHmSJODVndRI0if5ppAbKb6uab8A8wMFFgIMHH/LKKVpMRst2iIg9nk=
-X-Received: by 2002:a05:6512:148:b0:50b:f858:f132 with SMTP id
- m8-20020a056512014800b0050bf858f132mr4870323lfo.132.1702575258112; Thu, 14
- Dec 2023 09:34:18 -0800 (PST)
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9318A134;
+	Thu, 14 Dec 2023 09:36:29 -0800 (PST)
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Srfc62XW9z688KN;
+	Fri, 15 Dec 2023 01:34:30 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id CC9911400DB;
+	Fri, 15 Dec 2023 01:36:27 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 14 Dec
+ 2023 17:36:27 +0000
+Date: Thu, 14 Dec 2023 17:36:26 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
+	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
+	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 02/21] ACPI: processor: Add support for
+ processors described as container packages
+Message-ID: <20231214173626.00005062@Huawei.com>
+In-Reply-To: <E1rDOfx-00Dvje-MS@rmk-PC.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+	<E1rDOfx-00Dvje-MS@rmk-PC.armlinux.org.uk>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
- <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
- <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
- <20231209034229.GA1001962@cmpxchg.org> <ZXeTb_ACou7TEVsa@google.com> <20231214171137.GA261942@cmpxchg.org>
-In-Reply-To: <20231214171137.GA261942@cmpxchg.org>
-From: Christopher Li <chrisl@kernel.org>
-Date: Thu, 14 Dec 2023 09:34:06 -0800
-Message-ID: <CANeU7QnR+4Lgt8D9Z+Zo3Ydktx_7n45K0b=kVj+qSOzT=5GGQA@mail.gmail.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Minchan Kim <minchan@kernel.org>, Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, 
-	tj@kernel.org, lizefan.x@bytedance.com, cerasuolodomenico@gmail.com, 
-	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org, 
-	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeelb@google.com, muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, david@ixit.cz, Kairui Song <kasong@tencent.com>, 
-	Zhongkun He <hezhongkun.hzk@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Thu, Dec 14, 2023 at 9:11=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
-> wrote:
+On Wed, 13 Dec 2023 12:49:21 +0000
+Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
 
-> > Hi Johannes,
-> >
-> > I haven't been following the thread closely, but I noticed the discussi=
-on
-> > about potential use cases for zram with memcg.
-> >
-> > One interesting idea I have is to implement a swap controller per cgrou=
-p.
-> > This would allow us to tailor the zram swap behavior to the specific ne=
-eds of
-> > different groups.
-> >
-> > For example, Group A, which is sensitive to swap latency, could use zra=
-m swap
-> > with a fast compression setting, even if it sacrifices some compression=
- ratio.
-> > This would prioritize quick access to swapped data, even if it takes up=
- more space.
-> >
-> > On the other hand, Group B, which can tolerate higher swap latency, cou=
-ld benefit
-> > from a slower compression setting that achieves a higher compression ra=
-tio.
-> > This would maximize memory efficiency at the cost of slightly slower da=
-ta access.
-> >
-> > This approach could provide a more nuanced and flexible way to manage s=
-wap usage
-> > within different cgroups.
->
-> That makes sense to me.
->
-> It sounds to me like per-cgroup swapfiles would be the easiest
-> solution to this. Then you can create zram devices with different
-> configurations and assign them to individual cgroups.
+> From: James Morse <james.morse@arm.com>
+> 
+> ACPI has two ways of describing processors in the DSDT. From ACPI v6.5,
+> 5.2.12:
+> 
+> "Starting with ACPI Specification 6.3, the use of the Processor() object
+> was deprecated. Only legacy systems should continue with this usage. On
+> the Itanium architecture only, a _UID is provided for the Processor()
+> that is a string object. This usage of _UID is also deprecated since it
+> can preclude an OSPM from being able to match a processor to a
+> non-enumerable device, such as those defined in the MADT. From ACPI
+> Specification 6.3 onward, all processor objects for all architectures
+> except Itanium must now use Device() objects with an _HID of ACPI0007,
+> and use only integer _UID values."
+> 
+> Also see https://uefi.org/specs/ACPI/6.5/08_Processor_Configuration_and_Control.html#declaring-processors
+> 
+> Duplicate descriptions are not allowed, the ACPI processor driver already
+> parses the UID from both devices and containers. acpi_processor_get_info()
+> returns an error if the UID exists twice in the DSDT.
+> 
+> The missing probe for CPUs described as packages creates a problem for
+> moving the cpu_register() calls into the acpi_processor driver, as CPUs
+> described like this don't get registered, leading to errors from other
+> subsystems when they try to add new sysfs entries to the CPU node.
+> (e.g. topology_sysfs_init()'s use of topology_add_dev() via cpuhp)
+> 
+> To fix this, parse the processor container and call acpi_processor_add()
+> for each processor that is discovered like this. The processor container
+> handler is added with acpi_scan_add_handler(), so no detach call will
+> arrive.
+> 
+> Qemu TCG describes CPUs using processor devices in a processor container.
+> For more information, see build_cpus_aml() in Qemu hw/acpi/cpu.c and
+> https://uefi.org/specs/ACPI/6.5/08_Processor_Configuration_and_Control.html#processor-container-device
+> 
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+> ---
+> Outstanding comments:
+>  https://lore.kernel.org/r/20230914145353.000072e2@Huawei.com
+Looks like you resolved those (were all patch description things).
 
-Ideally you need zram then following swap file after the zram. That
-would be a list of the swap files rather than just one swapfile per
-cgroup.
+So I'm happy.
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
->
-> This would also apply to Kairu's usecase: assign zrams and hdd backups
-> as needed on a per-cgroup basis.
+Thanks,
 
-Same there, Kairui's request involves ZRAM and at least one extra swap
-file. In other words, you really need a per cgroup swap file list.
+J
+>  https://lore.kernel.org/r/50571c2f-aa3c-baeb-3add-cd59e0eddc02@redhat.com
+> ---
+>  drivers/acpi/acpi_processor.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
+> index 4fe2ef54088c..6a542e0ce396 100644
+> --- a/drivers/acpi/acpi_processor.c
+> +++ b/drivers/acpi/acpi_processor.c
+> @@ -626,9 +626,31 @@ static struct acpi_scan_handler processor_handler = {
+>  	},
+>  };
+>  
+> +static acpi_status acpi_processor_container_walk(acpi_handle handle,
+> +						 u32 lvl,
+> +						 void *context,
+> +						 void **rv)
+> +{
+> +	struct acpi_device *adev;
+> +	acpi_status status;
+> +
+> +	adev = acpi_get_acpi_dev(handle);
+> +	if (!adev)
+> +		return AE_ERROR;
+> +
+> +	status = acpi_processor_add(adev, &processor_device_ids[0]);
+> +	acpi_put_acpi_dev(adev);
+> +
+> +	return status;
+> +}
+> +
+>  static int acpi_processor_container_attach(struct acpi_device *dev,
+>  					   const struct acpi_device_id *id)
+>  {
+> +	acpi_walk_namespace(ACPI_TYPE_PROCESSOR, dev->handle,
+> +			    ACPI_UINT32_MAX, acpi_processor_container_walk,
+> +			    NULL, NULL, NULL);
+> +
+>  	return 1;
+>  }
+>  
 
->
-> In addition, it would naturally solve scalability and isolation
-> problems when multiple containers would otherwise be hammering on the
-> same swap backends and locks.
->
-> It would also only require one, relatively simple new interface, such
-> as a cgroup parameter to swapon().
->
-> That's highly preferable over a complex configuration file like
-> memory.swap.tiers that needs to solve all sorts of visibility and
-> namespace issues and duplicate the full configuration interface of
-> every backend in some new, custom syntax.
-
-If you don't like the syntax of memory.swap.tiers, I am open to
-suggestions of your preferred syntax as well. The essicents of the
-swap.tiers is a per cgroup list of the swap back ends. The names imply
-that. I am not married to any given syntax of how to specify the list.
-Its goal matches the above requirement pretty well.
-
-Chris
