@@ -1,222 +1,213 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jvCqtQbM"
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5193AB7
-	for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 20:03:13 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50be58a751cso8919103e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 Dec 2023 20:03:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZMQOgzOs"
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DC17100;
+	Wed, 13 Dec 2023 20:52:55 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-35f519f3ea9so18671175ab.3;
+        Wed, 13 Dec 2023 20:52:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702526591; x=1703131391; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1BVGmaHHT0VTxNDf7ANoSO4oiQpZnXTGuJuyRV1Z/eI=;
-        b=jvCqtQbMG3RpBNaxZpEVPo1IzbNHlLYO+qotP17gI5Kwr0eaxLiL/3jSKz5PPZYLxq
-         cIWKTF3zlYT5rzPKAWY9G/z1aI90EkhdO4w2EsWRRKiHgxSxMA25hkdVo32k6M5BCrZ3
-         EY01xdCBdR7Msiag9Y5eAPV3gpz+tKsfBw6Bg=
+        d=gmail.com; s=20230601; t=1702529574; x=1703134374; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xBL//dFno50dH3+bnTUnWJiljaw2TEHf89kkza+G3wQ=;
+        b=ZMQOgzOsSp6G7AtgF3psvJYeISeK/zNcXnpVazHgmOUBCWsgO6bq6sT4/SCu11E4Py
+         bMxC7ErJCFfqF+JL4Y9xQBvg+dn9gLf9ew6mZY+eFM7XOIVqV/5VkHq9vh049ikw9TBl
+         kV2mqilzoTvGX/Zx3PVkCTDbMytOUqwiQx9JmCJjcABxusueXLujG4wFdYF6+IVtQDcu
+         M16LGfcn5aVwGPkn2JkX804DlzLEAcG39K2CALNvFFoRKrsCC7gHgsp7f6wg2X6LPAD4
+         ubZYmxzB4aRtSiQoCLNqpamuO0JTG3LvRTj0MmFFm2e6W95pYMWffVrE+8NjwL4xKdCR
+         GB0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702526591; x=1703131391;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1BVGmaHHT0VTxNDf7ANoSO4oiQpZnXTGuJuyRV1Z/eI=;
-        b=dmcBT3+x9tUR7+m9AIkqMwpiX7bqhoQbt94r+PUXCSj40kJvcpwZdXEp4gSIdL5hz0
-         aw2Wh1oR4oAw2obIzVp2T/nrc9tgE1YgnLr7PQwVIPaWEze2QcbQwbOYTPsdvs1fA0Q2
-         7kxOtfg0ukypnVAJAI4J0vkX0LIT7JN8hOayCldlOmlYseswWFjQL5Vdimb2rkMh4R6P
-         1xZkihgJwYzUUqOyQ+0iVIaZD8wf4+A1SB55xRIPMgNtkwiq73EajLXG63H51EpzmZC8
-         BXkEQ/GBaRaVwVjFs89ELUdM1IJQ2ZL6UILZl/CSbSKXLk7dRQCyuBfHzZ1+85Qja7Hy
-         yvww==
-X-Gm-Message-State: AOJu0Ywgfk3r/lweFhZdK3NOwOgmdxwYtojOj77YaqT7av3JZq8v5NZx
-	vszg2x9pn7/GbJUXvRmBYV9GCKNpzEzY+MNp+feWog==
-X-Google-Smtp-Source: AGHT+IGpnoN+ysm9cnTeiQyv3Oa45JaHPkpqumPIr4sCoWU/xTY31KZkmU3OY4UiPx8AToeHKTnCfcuuo2+B3LxIGFs=
-X-Received: by 2002:a05:6512:3053:b0:50d:faa1:acce with SMTP id
- b19-20020a056512305300b0050dfaa1accemr3948920lfb.56.1702526591034; Wed, 13
- Dec 2023 20:03:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702529574; x=1703134374;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xBL//dFno50dH3+bnTUnWJiljaw2TEHf89kkza+G3wQ=;
+        b=H7ks6s0BPOW9IYZh4DPtjRFAeQf0lwTSy75hBQCnPn2SfpBTGeerm4GqQyHe2P/ZTc
+         o485xLJU8K8Q7HbrAe+ZSmgrqjzAsEwlKc+H2qFptk7B64iADRQnPfkdRZTDDwt7f61Q
+         EGJjGcuDxDdIGLdHF+EZiaj8s6cF0IojTKbHYGDcICncpRwEtMHIPaTtt8hqH+A8hKUx
+         oMKL4uLhsLtTRgnyUCg2gYk1E7fH8c3aUWui5KZ3zZ60f+mOW0wPwwHCkyX9T5pscvIU
+         zUL8piuQtLkb60giS0/QBtPQ6glNGbPsZH+K00lFJPFG41YD7rEBO5S4xhPfaN+mnF13
+         7fjQ==
+X-Gm-Message-State: AOJu0YxxfUuBzK6YTcbvpHFxYBP1cJ/Cnwj/uHZTvB9uufTY7Y5hN18E
+	MuotdYVUMGZteM4TCl/s9IM=
+X-Google-Smtp-Source: AGHT+IFKNTXiZ77OTHIhHsmCLF2BFCeJ3mpNOa+2Y9F1F91rG38ptjtc7AO21ayFpO8le1cOzNnUZQ==
+X-Received: by 2002:a05:6e02:1522:b0:35f:77c5:5e6c with SMTP id i2-20020a056e02152200b0035f77c55e6cmr1465999ilu.118.1702529574395;
+        Wed, 13 Dec 2023 20:52:54 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id k189-20020a6324c6000000b005bcea1bf43bsm10483411pgk.12.2023.12.13.20.52.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 20:52:53 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 7A9E7114F75F3; Thu, 14 Dec 2023 11:52:48 +0700 (WIB)
+Date: Thu, 14 Dec 2023 11:52:48 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christian Brauner <brauner@kernel.org>, linux-unionfs@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] overlayfs.rst: use consistent feature names
+Message-ID: <ZXqKIBilWjYj8X93@archie.me>
+References: <20231213123422.344600-1-amir73il@gmail.com>
+ <20231213123422.344600-2-amir73il@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231203153401.GV8402@pendragon.ideasonboard.com> <20231207142723.GA3187877@google.com>
- <20231207143814.GD15521@pendragon.ideasonboard.com> <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
- <20231209152946.GC13421@pendragon.ideasonboard.com> <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 14 Dec 2023 13:02:59 +0900
-Message-ID: <CAGXv+5Est3FL-XcEL-vB-6zVNas0mqb2cNYa==Yb7W2SQU9xVQ@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Simon Glass <sjg@chromium.org>, 
-	linux-arm-kernel@lists.infradead.org, Masahiro Yamada <masahiroy@kernel.org>, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, U-Boot Mailing List <u-boot@lists.denx.de>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="31sZhyVSKfZYntyY"
+Content-Disposition: inline
+In-Reply-To: <20231213123422.344600-2-amir73il@gmail.com>
+
+
+--31sZhyVSKfZYntyY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Dec 10, 2023 at 1:31=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Laurent,
->
-> On Sat, Dec 9, 2023 at 4:29=E2=80=AFPM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Sat, Dec 09, 2023 at 10:13:59PM +0900, Chen-Yu Tsai wrote:
-> > > On Thu, Dec 7, 2023 at 11:38=E2=80=AFPM Laurent Pinchart
-> > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > > On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
-> > > > > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
-> > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > > > > > Add a script which produces a Flat Image Tree (FIT), a single=
- file
-> > > > > > > containing the built kernel and associated devicetree files.
-> > > > > > > Compression defaults to gzip which gives a good balance of si=
-ze and
-> > > > > > > performance.
-> > > > > > >
-> > > > > > > The files compress from about 86MB to 24MB using this approac=
-h.
-> > > > > > >
-> > > > > > > The FIT can be used by bootloaders which support it, such as =
-U-Boot
-> > > > > > > and Linuxboot. It permits automatic selection of the correct
-> > > > > > > devicetree, matching the compatible string of the running boa=
-rd with
-> > > > > > > the closest compatible string in the FIT. There is no need fo=
-r
-> > > > > > > filenames or other workarounds.
-> > > > > > >
-> > > > > > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > > > > > FIT_COMPRESSION to select a different algorithm.
-> > > > > > >
-> > > > > > > The FIT can be examined using 'dumpimage -l'.
-> > > > > > >
-> > > > > > > This features requires pylibfdt (use 'pip install libfdt'). I=
-t also
-> > > > > > > requires compression utilities for the algorithm being used. =
-Supported
-> > > > > > > compression options are the same as the Image.xxx files. For =
-now there
-> > > > > > > is no way to change the compression other than by editing the=
- rule for
-> > > > > > > $(obj)/image.fit
-> > > > > > >
-> > > > > > > While FIT supports a ramdisk / initrd, no attempt is made to =
-support
-> > > > > > > this here, since it must be built separately from the Linux b=
-uild.
-> > > > > >
-> > > > > > FIT images are very useful, so I think this is a very welcome a=
-ddition
-> > > > > > to the kernel build system. It can get tricky though: given the
-> > > > > > versatile nature of FIT images, there can't be any
-> > > > > > one-size-fits-them-all solution to build them, and striking the=
- right
-> > > > > > balance between what makes sense for the kernel and the feature=
-s that
-> > > > > > users may request will probably lead to bikeshedding. As we all=
- love
-> > > > > > bikeshedding, I thought I would start selfishly, with a persona=
-l use
-> > > > > > case :-) This isn't a yak-shaving request though, I don't see a=
-ny reason
-> > > > > > to delay merging this series.
-> > > > > >
-> > > > > > Have you envisioned building FIT images with a subset of DTBs, =
-or adding
-> > > > > > DTBOs ? Both would be fairly trivial extensions to this script =
-by
-> > > > > > extending the supported command line arguments. It would perhap=
-s be more
-> > > > > > difficult to integrate in the kernel build system though. This =
-leads me
-> > > > > > to a second question: would you consider merging extensions to =
-this
-> > > > > > script if they are not used by the kernel build system, but mea=
-nt for
-> > > > > > users who manually invoke the script ? More generally, is the s=
-cript
-> > > > >
-> > > > > We'd also be interested in some customization, though in a differ=
-ent way.
-> > > > > We imagine having a rule file that says X compatible string shoul=
-d map
-> > > > > to A base DTB, plus B and C DTBO for the configuration section. T=
-he base
-> > > > > DTB would carry all common elements of some device, while the DTB=
-Os
-> > > > > carry all the possible second source components, like different d=
-isplay
-> > > > > panels or MIPI cameras for instance. This could drastically reduc=
-e the
-> > > > > size of FIT images in ChromeOS by deduplicating all the common st=
-uff.
-> > > >
-> > > > Do you envision the "mapping" compatible string mapping to a config
-> > > > section in the FIT image, that would bundle the base DTB and the DT=
-BOs ?
-> > >
-> > > That's exactly the idea. The mapping compatible string could be untie=
-d
-> > > from the base board's compatible string if needed (which we probably =
-do).
-> > >
-> > > So something like:
-> > >
-> > > config {
-> > >     config-1 {
-> > >         compatible =3D "google,krane-sku0";
-> > >         fdt =3D "krane-baseboard", "krane-sku0-overlay";
-> > >     };
-> > > };
-> > >
-> > > With "krane-sku0-overlay" being an overlay that holds the differences
-> > > between the SKUs, in this case the display panel and MIPI camera (not
-> > > upstreamed) that applies to SKU0 in particular.
-> >
-> > The kernel DT makefiles already contain information on what overlays to
-> > apply to what base boards, in order to test the overlays and produce
-> > "full" DTBs. Maybe that information could be leveraged to create the
-> > configurations in the FIT image ?
->
-> Although the "full" DTBs created may only be a subset of all possible
-> combinations (I believe Rob just started with creating one "full" DTB
-> for each overlay, cfr. the additions I made in commit a09c3e105a208580
-> ("arm64: dts: renesas: Apply overlays to base dtbs")), that could
-> definitely be a start.
->
-> Now, since the kernel build system already creates "full" DTBs, does
-> that mean that all of the base DTBs, overlays, and "full" DTBs will
-> end up in the FIT image?
+On Wed, Dec 13, 2023 at 02:34:21PM +0200, Amir Goldstein wrote:
+> Use the feature names "metacopy" and "index" consistently throughout
+> the document.
+>=20
+> Covert the numbered list of features "redirect_dir", "index", "xino"
+> to section headings, so that those features could be referenced in the
+> document by their name.
+>=20
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> ---
+>  Documentation/filesystems/overlayfs.rst | 27 ++++++++++++++-----------
+>  1 file changed, 15 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
+systems/overlayfs.rst
+> index 0407f361f32a..926396fdc5eb 100644
+> --- a/Documentation/filesystems/overlayfs.rst
+> +++ b/Documentation/filesystems/overlayfs.rst
+> @@ -39,7 +39,7 @@ objects in the original filesystem.
+>  On 64bit systems, even if all overlay layers are not on the same
+>  underlying filesystem, the same compliant behavior could be achieved
+>  with the "xino" feature.  The "xino" feature composes a unique object
+> -identifier from the real object st_ino and an underlying fsid index.
+> +identifier from the real object st_ino and an underlying fsid number.
+>  The "xino" feature uses the high inode number bits for fsid, because the
+>  underlying filesystems rarely use the high inode number bits.  In case
+>  the underlying inode number does overflow into the high xino bits, overl=
+ay
+> @@ -356,7 +356,7 @@ as an octal characters (\072) when displayed in /proc=
+/self/mountinfo.
+>  Metadata only copy up
+>  ---------------------
+> =20
+> -When metadata only copy up feature is enabled, overlayfs will only copy
+> +When the "metacopy" feature is enabled, overlayfs will only copy
+>  up metadata (as opposed to whole file), when a metadata specific operati=
+on
+>  like chown/chmod is performed. Full file will be copied up later when
+>  file is opened for WRITE operation.
+> @@ -492,27 +492,27 @@ though it will not result in a crash or deadlock.
+> =20
+>  Mounting an overlay using an upper layer path, where the upper layer path
+>  was previously used by another mounted overlay in combination with a
+> -different lower layer path, is allowed, unless the "inodes index" feature
+> -or "metadata only copy up" feature is enabled.
+> +different lower layer path, is allowed, unless the "index" or "metacopy"
+> +features are enabled.
+> =20
+> -With the "inodes index" feature, on the first time mount, an NFS file
+> +With the "index" feature, on the first time mount, an NFS file
+>  handle of the lower layer root directory, along with the UUID of the low=
+er
+>  filesystem, are encoded and stored in the "trusted.overlay.origin" exten=
+ded
+>  attribute on the upper layer root directory.  On subsequent mount attemp=
+ts,
+>  the lower root directory file handle and lower filesystem UUID are compa=
+red
+>  to the stored origin in upper root directory.  On failure to verify the
+>  lower root origin, mount will fail with ESTALE.  An overlayfs mount with
+> -"inodes index" enabled will fail with EOPNOTSUPP if the lower filesystem
+> +"index" enabled will fail with EOPNOTSUPP if the lower filesystem
+>  does not support NFS export, lower filesystem does not have a valid UUID=
+ or
+>  if the upper filesystem does not support extended attributes.
+> =20
+> -For "metadata only copy up" feature there is no verification mechanism at
+> +For the "metacopy" feature, there is no verification mechanism at
+>  mount time. So if same upper is mounted with different set of lower, mou=
+nt
+>  probably will succeed but expect the unexpected later on. So don't do it.
+> =20
+>  It is quite a common practice to copy overlay layers to a different
+>  directory tree on the same or different underlying filesystem, and even
+> -to a different machine.  With the "inodes index" feature, trying to mount
+> +to a different machine.  With the "index" feature, trying to mount
+>  the copied layers will fail the verification of the lower root file hand=
+le.
+> =20
+>  Nesting overlayfs mounts
+> @@ -560,7 +560,8 @@ file for write or truncating the file will not be den=
+ied with ETXTBSY.
+>  The following options allow overlayfs to act more like a standards
+>  compliant filesystem:
+> =20
+> -1) "redirect_dir"
+> +redirect_dir
+> +````````````
+> =20
+>  Enabled with the mount option or module option: "redirect_dir=3Don" or w=
+ith
+>  the kernel config option CONFIG_OVERLAY_FS_REDIRECT_DIR=3Dy.
+> @@ -568,7 +569,8 @@ the kernel config option CONFIG_OVERLAY_FS_REDIRECT_D=
+IR=3Dy.
+>  If this feature is disabled, then rename(2) on a lower or merged directo=
+ry
+>  will fail with EXDEV ("Invalid cross-device link").
+> =20
+> -2) "inode index"
+> +index
+> +`````
+> =20
+>  Enabled with the mount option or module option "index=3Don" or with the
+>  kernel config option CONFIG_OVERLAY_FS_INDEX=3Dy.
+> @@ -577,7 +579,8 @@ If this feature is disabled and a file with multiple =
+hard links is copied
+>  up, then this will "break" the link.  Changes will not be propagated to
+>  other names referring to the same inode.
+> =20
+> -3) "xino"
+> +xino
+> +````
+> =20
+>  Enabled with the mount option "xino=3Dauto" or "xino=3Don", with the mod=
+ule
+>  option "xino_auto=3Don" or with the kernel config option
+> @@ -604,7 +607,7 @@ a crash or deadlock.
+> =20
+>  Offline changes, when the overlay is not mounted, are allowed to the
+>  upper tree.  Offline changes to the lower tree are only allowed if the
+> -"metadata only copy up", "inode index", "xino" and "redirect_dir" featur=
+es
+> +"metacopy", "index", "xino" and "redirect_dir" features
+>  have not been used.  If the lower tree is modified and any of these
+>  features has been used, the behavior of the overlay is undefined,
+>  though it will not result in a crash or deadlock.
 
-I suppose we could add an option to the packing tool to be able to _not_
-add the "full" DTBs if they can also be assembled with a base DTB and
-overlays. Think of it as a firmware compatibility option: if the firmware
-supports overlays, then you almost always want the deconstructed parts,
-not the fully assembled ones. Vice versa.
+LGTM, thanks!
 
-If we don't we could end up with two configurations that have the same
-compatible string?
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
+--=20
+An old man doll... just what I always wanted! - Clara
 
-ChenYu
+--31sZhyVSKfZYntyY
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZXqKGwAKCRD2uYlJVVFO
+o6vSAQC9NznGsTGPcl5y6bO/FAHgDhRXjaK4ie4FAraFodE77AD/bcbiUgzzRiih
+0mCmbI4Pq3PzTLS9asSJwpb9wUujMgQ=
+=efUf
+-----END PGP SIGNATURE-----
+
+--31sZhyVSKfZYntyY--
