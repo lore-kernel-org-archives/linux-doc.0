@@ -1,95 +1,232 @@
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4w7Gxxs"
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DFDF121;
-	Thu, 14 Dec 2023 09:25:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702574737; x=1734110737;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n7sgoh155H8eAHnmAlShMHrMmOd3VKlxViI4CSkmeBM=;
-  b=S4w7GxxsiAyVYsj+gRhoRXIWTz3qNs72S3a+RrKX9t4oxb1688GZHJhg
-   0Al5oXVQmnW+vV77ncyknZK77i9UjG7pK86JQa9iRppJWdHepvw7x7T4P
-   PhqOdnm0XeBByXc2bGCxvkRVfQFOGyhsPH1wdvmxDvC946Do9UnOCnJxf
-   RkKmEm/Gag0gtXB0hRgOQTLo8Rey/wz18HldfovXVcU46jDWa1gnuUmlT
-   Cde7vWbJUOmw4QelxzHCngSnq2MGEzJ+ezr5JcHUb02gquSlkcigVr6y0
-   zGRbL+2T5Hz8HOQid7ZZcLqGQkp0tn2jOlPfP4nS9qMZW5YJ9q6b10EXV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="374662134"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="374662134"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 09:25:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="777963121"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="777963121"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Dec 2023 09:25:30 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDpSQ-000MO6-2P;
-	Thu, 14 Dec 2023 17:25:14 +0000
-Date: Fri, 15 Dec 2023 01:24:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
-	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
-Subject: Re: [PATCH v3 08/11] mm/mempolicy: add set_mempolicy2 syscall
-Message-ID: <202312150125.MYsauj7B-lkp@intel.com>
-References: <20231213224118.1949-9-gregory.price@memverge.com>
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C3FA0;
+	Thu, 14 Dec 2023 09:32:45 -0800 (PST)
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4SrfWp0gHJz67mnJ;
+	Fri, 15 Dec 2023 01:30:46 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 8C9211400CA;
+	Fri, 15 Dec 2023 01:32:43 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 14 Dec
+ 2023 17:32:42 +0000
+Date: Thu, 14 Dec 2023 17:32:41 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
+	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
+	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 01/21] ACPI: Only enumerate enabled (or
+ functional) devices
+Message-ID: <20231214173241.0000260f@Huawei.com>
+In-Reply-To: <E1rDOfs-00DvjY-HQ@rmk-PC.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+	<E1rDOfs-00DvjY-HQ@rmk-PC.armlinux.org.uk>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213224118.1949-9-gregory.price@memverge.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-Hi Gregory,
+On Wed, 13 Dec 2023 12:49:16 +0000
+Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
 
-kernel test robot noticed the following build errors:
+> From: James Morse <james.morse@arm.com>
+> 
+> Today the ACPI enumeration code 'visits' all devices that are present.
+> 
+> This is a problem for arm64, where CPUs are always present, but not
+> always enabled. When a device-check occurs because the firmware-policy
+> has changed and a CPU is now enabled, the following error occurs:
+> | acpi ACPI0007:48: Enumeration failure
+> 
+> This is ultimately because acpi_dev_ready_for_enumeration() returns
+> true for a device that is not enabled. The ACPI Processor driver
+> will not register such CPUs as they are not 'decoding their resources'.
+> 
+> Change acpi_dev_ready_for_enumeration() to also check the enabled bit.
+> ACPI allows a device to be functional instead of maintaining the
+> present and enabled bit. Make this behaviour an explicit check with
+> a reference to the spec, and then check the present and enabled bits.
+> This is needed to avoid enumerating present && functional devices that
+> are not enabled.
+> 
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+> If this change causes problems on deployed hardware, I suggest an
+> arch opt-in: ACPI_IGNORE_STA_ENABLED, that causes
+> acpi_dev_ready_for_enumeration() to only check the present bit.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master v6.7-rc5]
-[cannot apply to geert-m68k/for-next geert-m68k/for-linus tip/x86/asm next-20231214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+My gut feeling (having made ACPI 'fixes' in the past that ran into
+horribly broken firmware and had to be reverted) is reduce the blast
+radius preemptively from the start. I'd love to live in a world were
+that wasn't necessary but I don't trust all the generators of ACPI tables.
+I'll leave it to Rafael and other ACPI experts suggest how narrow we should
+make it though - arch opt in might be narrow enough.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231214-064236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231213224118.1949-9-gregory.price%40memverge.com
-patch subject: [PATCH v3 08/11] mm/mempolicy: add set_mempolicy2 syscall
-config: x86_64-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150125.MYsauj7B-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150125.MYsauj7B-lkp@intel.com/reproduce)
+> 
+> Changes since RFC v2:
+>  * Incorporate comment suggestion by Gavin Shan.
+> Other review comments from Jonathan Cameron not yet addressed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150125.MYsauj7B-lkp@intel.com/
+Looking back, I think this was mainly a suggestion for a minor
+possible optimization by ignoring the case of !present && enabled
+when designing the logic because that's not allowed by the spec.
 
-All errors (new ones prefixed by >>):
+You made that change in v3.
 
->> ld.lld: error: undefined symbol: __x64_sys_set_mempolicy2
-   >>> referenced by syscall_64.c
-   >>>               arch/x86/entry/syscall_64.o:(sys_call_table) in archive vmlinux.a
-   >>> did you mean: __x64_sys_set_mempolicy
-   >>> defined in: vmlinux.a(kernel/sys_ni.o)
+Otherwise, comments were trivial comment clarifications that I'm not
+that worried about.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+One comment typo inline.
+
+With assumption others will comment on when this change should be
+chicken bit'd out.
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+
+> ---
+>  drivers/acpi/device_pm.c    |  2 +-
+>  drivers/acpi/device_sysfs.c |  2 +-
+>  drivers/acpi/internal.h     |  1 -
+>  drivers/acpi/property.c     |  2 +-
+>  drivers/acpi/scan.c         | 24 ++++++++++++++----------
+>  5 files changed, 17 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
+> index 3b4d048c4941..e3c80f3b3b57 100644
+> --- a/drivers/acpi/device_pm.c
+> +++ b/drivers/acpi/device_pm.c
+> @@ -313,7 +313,7 @@ int acpi_bus_init_power(struct acpi_device *device)
+>  		return -EINVAL;
+>  
+>  	device->power.state = ACPI_STATE_UNKNOWN;
+> -	if (!acpi_device_is_present(device)) {
+> +	if (!acpi_dev_ready_for_enumeration(device)) {
+>  		device->flags.initialized = false;
+>  		return -ENXIO;
+>  	}
+> diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
+> index 23373faa35ec..a0256d2493a7 100644
+> --- a/drivers/acpi/device_sysfs.c
+> +++ b/drivers/acpi/device_sysfs.c
+> @@ -141,7 +141,7 @@ static int create_pnp_modalias(const struct acpi_device *acpi_dev, char *modalia
+>  	struct acpi_hardware_id *id;
+>  
+>  	/* Avoid unnecessarily loading modules for non present devices. */
+> -	if (!acpi_device_is_present(acpi_dev))
+> +	if (!acpi_dev_ready_for_enumeration(acpi_dev))
+>  		return 0;
+>  
+>  	/*
+> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
+> index 866c7c4ed233..a1b45e345bcc 100644
+> --- a/drivers/acpi/internal.h
+> +++ b/drivers/acpi/internal.h
+> @@ -107,7 +107,6 @@ int acpi_device_setup_files(struct acpi_device *dev);
+>  void acpi_device_remove_files(struct acpi_device *dev);
+>  void acpi_device_add_finalize(struct acpi_device *device);
+>  void acpi_free_pnp_ids(struct acpi_device_pnp *pnp);
+> -bool acpi_device_is_present(const struct acpi_device *adev);
+>  bool acpi_device_is_battery(struct acpi_device *adev);
+>  bool acpi_device_is_first_physical_node(struct acpi_device *adev,
+>  					const struct device *dev);
+> diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
+> index 6979a3f9f90a..14d6948fd88a 100644
+> --- a/drivers/acpi/property.c
+> +++ b/drivers/acpi/property.c
+> @@ -1420,7 +1420,7 @@ static bool acpi_fwnode_device_is_available(const struct fwnode_handle *fwnode)
+>  	if (!is_acpi_device_node(fwnode))
+>  		return false;
+>  
+> -	return acpi_device_is_present(to_acpi_device_node(fwnode));
+> +	return acpi_dev_ready_for_enumeration(to_acpi_device_node(fwnode));
+>  }
+>  
+>  static const void *
+> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> index 02bb2cce423f..728649a2a251 100644
+> --- a/drivers/acpi/scan.c
+> +++ b/drivers/acpi/scan.c
+> @@ -304,7 +304,7 @@ static int acpi_scan_device_check(struct acpi_device *adev)
+>  	int error;
+>  
+>  	acpi_bus_get_status(adev);
+> -	if (acpi_device_is_present(adev)) {
+> +	if (acpi_dev_ready_for_enumeration(adev)) {
+>  		/*
+>  		 * This function is only called for device objects for which
+>  		 * matching scan handlers exist.  The only situation in which
+> @@ -338,7 +338,7 @@ static int acpi_scan_bus_check(struct acpi_device *adev, void *not_used)
+>  	int error;
+>  
+>  	acpi_bus_get_status(adev);
+> -	if (!acpi_device_is_present(adev)) {
+> +	if (!acpi_dev_ready_for_enumeration(adev)) {
+>  		acpi_scan_device_not_enumerated(adev);
+>  		return 0;
+>  	}
+> @@ -1913,11 +1913,6 @@ static bool acpi_device_should_be_hidden(acpi_handle handle)
+>  	return true;
+>  }
+>  
+> -bool acpi_device_is_present(const struct acpi_device *adev)
+> -{
+> -	return adev->status.present || adev->status.functional;
+> -}
+> -
+>  static bool acpi_scan_handler_matching(struct acpi_scan_handler *handler,
+>  				       const char *idstr,
+>  				       const struct acpi_device_id **matchid)
+> @@ -2381,16 +2376,25 @@ EXPORT_SYMBOL_GPL(acpi_dev_clear_dependencies);
+>   * acpi_dev_ready_for_enumeration - Check if the ACPI device is ready for enumeration
+>   * @device: Pointer to the &struct acpi_device to check
+>   *
+> - * Check if the device is present and has no unmet dependencies.
+> + * Check if the device is functional or enabled and has no unmet dependencies.
+>   *
+> - * Return true if the device is ready for enumeratino. Otherwise, return false.
+> + * Return true if the device is ready for enumeration. Otherwise, return false.
+>   */
+>  bool acpi_dev_ready_for_enumeration(const struct acpi_device *device)
+>  {
+>  	if (device->flags.honor_deps && device->dep_unmet)
+>  		return false;
+>  
+> -	return acpi_device_is_present(device);
+> +	/*
+> +	 * ACPI 6.5's 6.3.7 "_STA (Device Status)" allows firmware to return
+> +	 * (!present && functional) for certain types of devices that should be
+> +	 * enumerated. Note that the enabled bit can't be sert until the present
+
+set until
+
+> +	 * bit is set.
+> +	 */
+> +	if (device->status.present)
+> +		return device->status.enabled;
+> +	else
+> +		return device->status.functional;
+>  }
+>  EXPORT_SYMBOL_GPL(acpi_dev_ready_for_enumeration);
+>  
+
