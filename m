@@ -1,88 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="db3UtXdY"
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65473116
-	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 09:59:59 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1cc79f73e58so3335ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 09:59:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702576799; x=1703181599; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PZ9x6kLcBYiEdBJWGUfxINmlIVM3g2sEltrcooCIdH0=;
-        b=db3UtXdY8aBQieI3huxs2sGIoL44TLlJEKvRJ9MvuvbUxHU3JVbetHrCOko0PxaYDd
-         SQzKmE6QChugPbwUT8s/lxkPf0UkAvt13KrFtZEXZX4rMQQ650K0dr3DZdsC3NRgB36i
-         pBHhOCpCZ3YMqMvG6wGirj87knntUgZv78I8GG5CeRAJcy1ANUplXaVb8+Y5jpz0dz+l
-         xnzL/RKfGWhpmAsEroo7eEdvUqC+IZ2x6mUqhBBS8m17QwES3aBg/C28cZhbTAzVNMwY
-         udJ6WpTCp61nq+q2eb+sqa8Fv5xeOHLW8EmjI0dSzAwryZO613j/HxQP66J/x51yjoM5
-         64oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702576799; x=1703181599;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PZ9x6kLcBYiEdBJWGUfxINmlIVM3g2sEltrcooCIdH0=;
-        b=qKwz851oD2Oyf5C130YYMD56eNi+ws+gGjLHfnui0AOBJUfGS0PVsklzTclUzxDg65
-         ZV0FMyLvdKP5mvcPLE9e3jjF3PyWJia3uigvPMUtnHzpGRBWo3eS8Oq9WzqEPwNS/bwM
-         47UU82VapJflVmlOwHZmgEgJll6De4x67TON1jyLDZVvRtD+r/YmbKJLkqygfKXod1tZ
-         IVG21Basco06xkolkFakSXH7L3utqn0Y3asgmNP/Fw1kMZqOrunGimSj4BDy6I82uK7i
-         twPA8P53mjyxY+u3bNFBAVr6aeKkqw/D4llrJpvB5g7FyFUtYbFjflVCMXd+si/h908u
-         40Gw==
-X-Gm-Message-State: AOJu0YzQ49hdgHGg+UI/FRPw8fLIbSdt3EnDyH/faoT/SjjJVXPaXWq7
-	203yzfv4DzK4sauie/Xz17jdZQ==
-X-Google-Smtp-Source: AGHT+IH5RplbwvbCKQv+ptuR7ZWj127uLmsE7SQkvEwRe0Gbuexa/KME9clMyovQW6MkVTsfPUZxog==
-X-Received: by 2002:a17:902:d2d2:b0:1d3:7d54:be3d with SMTP id n18-20020a170902d2d200b001d37d54be3dmr49997plc.6.1702576798577;
-        Thu, 14 Dec 2023 09:59:58 -0800 (PST)
-Received: from [2620:0:1008:15:740b:4c24:bdb6:a42a] ([2620:0:1008:15:740b:4c24:bdb6:a42a])
-        by smtp.gmail.com with ESMTPSA id y18-20020a170902b49200b001cfc2e0a82fsm12675679plr.26.2023.12.14.09.59.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 09:59:58 -0800 (PST)
-Date: Thu, 14 Dec 2023 09:59:57 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-    asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-    cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-    dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
-    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
-    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
-Subject: Re: [PATCH v2 09/10] iommu: observability of the IOMMU allocations
-In-Reply-To: <20231130201504.2322355-10-pasha.tatashin@soleen.com>
-Message-ID: <88519685-abfb-e2f8-38b4-d94340b40d1d@google.com>
-References: <20231130201504.2322355-1-pasha.tatashin@soleen.com> <20231130201504.2322355-10-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="XwXZ0o7I"
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9560116;
+	Thu, 14 Dec 2023 10:00:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=tE5CHWWuE+HxMB+/tqBONlEy5XeXJ5BfEop9z7IWERE=; b=XwXZ0o7IJVVfgUiXysYinnDf9Q
+	eEz6nEXfIsAs9/3HMaamNzkXdKumuKRYehf9uiaKe+ZrT8l1jRAPGA+MO8EyTVWSkzP7JUEK6OwkW
+	fiULMYnpXLR/I4MszC9nhuI9XMYaLlb/YmX3n7zB6/omyXvsXjZTqyPOy450HXVYx9G/hPdl7BF50
+	pR13Lft/xqH+VjrxZeGXF3yIFnh22YzELQ9ZMjVLsCzrydU6Om176DIp2CPNZ15ZqQ/JOA1AeFXWy
+	vUpxCcSe1A0Ia6LKAvLq5qKEsOeBrhGO4FaAemyVAS2X0FU9NMaryg9JUrSe/eQR/pWnOwqmJVNVz
+	Pjdi5ruQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43838)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rDq0a-0001oi-2X;
+	Thu, 14 Dec 2023 18:00:28 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rDq0c-0002ky-PJ; Thu, 14 Dec 2023 18:00:30 +0000
+Date: Thu, 14 Dec 2023 18:00:30 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
+	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	jianyong.wu@arm.com, justin.he@arm.com,
+	James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 05/21] ACPI: Rename ACPI_HOTPLUG_CPU to include
+ 'present'
+Message-ID: <ZXtCvstY9eWzUhzX@shell.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+ <E1rDOgD-00Dvk2-3h@rmk-PC.armlinux.org.uk>
+ <20231214174107.0000171f@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231214174107.0000171f@Huawei.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+On Thu, Dec 14, 2023 at 05:41:07PM +0000, Jonathan Cameron wrote:
+> > Signed-off-by: James Morse <james.morse@arm.com>
+> > Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Formatting nitpick inline. Either way FWIW:
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-> Add NR_IOMMU_PAGES into node_stat_item that counts number of pages
-> that are allocated by the IOMMU subsystem.
-> 
-> The allocations can be view per-node via:
-> /sys/devices/system/node/nodeN/vmstat.
-> 
-> For example:
-> 
-> $ grep iommu /sys/devices/system/node/node*/vmstat
-> /sys/devices/system/node/node0/vmstat:nr_iommu_pages 106025
-> /sys/devices/system/node/node1/vmstat:nr_iommu_pages 3464
-> 
-> The value is in page-count, therefore, in the above example
-> the iommu allocations amount to ~428M.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+Thanks, but you're absolutely correct about the nitpick, so I've fixed
+that too!
 
-Acked-by: David Rientjes <rientjes@google.com>
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
