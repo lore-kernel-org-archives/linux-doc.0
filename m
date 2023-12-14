@@ -1,164 +1,109 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6056A011
-	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 20:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F8C6A036;
+	Thu, 14 Dec 2023 20:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DcctqYnl"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33621d443a7so4821364f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 12:03:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702584207; x=1703189007; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3t3FbK18GrHFwKE4zIkpGcLL7FiHaNow8xNq3R4/QdI=;
-        b=DcctqYnloBXyzr6/icFJ5nrbeI/fwc45lTK7zT/zDqs/kq2mNANjqfq2WI1CPbOIkl
-         3zpygJURz7qkPfte+tjx80A6gdM+O1FTYI2VvL7SuLYcjzd7H6DpQfdwmDLV9+nXMrPb
-         7dTw0mVB00N20UiuwNWRNzFDHCuBoP+J6TIeAJfZc3sS1MAXMzL9Z0GoRoatm7TLOu8j
-         8ZZNvlX+vs9HJuG2Y82vknoMM3anREwfsFsat4CTGetqMhnBOOAiPMlJfT5NqSfpdkqn
-         3Qd8clBnVZm39r28lU0UGMK8yIuIf8HPnzkmKCt9BujWkP4WutaWkmQdw0Vrw4Oq2nII
-         J76Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702584207; x=1703189007;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3t3FbK18GrHFwKE4zIkpGcLL7FiHaNow8xNq3R4/QdI=;
-        b=Y3EOUahWwEv128AJXQBmzC5QySrVRD5cdZyqg7aX2wu7cvolgjb+dX4sDV8mjUnwPs
-         I/RTywWqQw3ixLHoI0mjObRHD5EarHsVUMIo/Jue9EZKXSZKmF+vO0bREc7lDbZpOrHQ
-         br6SVFex/O526GWbIt2nxDLS/7Qc6JcJ7JdSZaHVK2pHt4dlnsUHzZEwJbgEKxJW0KLw
-         yBCTYpT3gzaFyQYZI3kTOpJHkjqv36+MA2mA/8e/P6oJNG5UZoAmZqNVMBbMdW+Zwwbr
-         beM/2dyFoQLY35AZ+sBM4chMl9VKQlJdrDS1Y0t2/f4cB2ae3eChmi/wzy2o+bECO+YV
-         g/wQ==
-X-Gm-Message-State: AOJu0YyP83YUYmNSiXP2W+Vtb2SBdEchiOBkdYCuSYhMrclOGpT15d0X
-	LYCJerbVhCdgd5vdS29PfvNuRo1m6k8QdR2GCMND6w==
-X-Google-Smtp-Source: AGHT+IFJxGuMnKvxp55N7GC1tz5/h738b4XoM+FeA8fRtBht8xQJ/kBDFL2qAi3ZYkZt7idruFgudyPvdRKWDedOoVg=
-X-Received: by 2002:a05:600c:2313:b0:40c:3e43:4183 with SMTP id
- 19-20020a05600c231300b0040c3e434183mr4682976wmo.5.1702584207011; Thu, 14 Dec
- 2023 12:03:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mbtNiX0h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702584499; x=1734120499;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SEbmdNQI4oR9juNQv5BOktkdGKtVXGwsaSvQNvpGCOs=;
+  b=mbtNiX0hkvqnclP3l+XrN1tylS06G3iMKCIrk1kLpBxAclD7Ykzxn/O7
+   XvLOM9lvlBOOKHEspg45UxGShxLMsyrGNs8/k5Oo+UpXZnFuPxWvRPXD2
+   js3XgLkwv0FgJO+hBKM33pnvocm7v/2KHo12UXXZ40B24jrWRHbm1fE8X
+   6CWfR5DDJQgfsn1hEOu0nzVeakLJGe+FYXLMolR1ZB1o6lNi8gyZFM0yf
+   VP5AxSR0CN1jbvRo4sJKSSgiPeyNMrVePEP8492uYDOjBnSYFg+DOU8gb
+   znbSg3ooBVWSg1M11Zp0TvYkLq0d01X/+sHKGnZ9mHal2rBcxTXs3rlRZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392356776"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
+   d="scan'208";a="392356776"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 12:08:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="918168048"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
+   d="scan'208";a="918168048"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Dec 2023 12:08:12 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDs09-000MZA-1y;
+	Thu, 14 Dec 2023 20:08:09 +0000
+Date: Fri, 15 Dec 2023 04:07:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cosmo Chou <chou.cosmo@gmail.com>, linux@roeck-us.net,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net,
+	broonie@kernel.org, naresh.solanki@9elements.com,
+	vincent@vtremblay.dev, patrick.rudolph@9elements.com,
+	luca.ceresoli@bootlin.com, bhelgaas@google.com, festevam@denx.de,
+	alexander.stein@ew.tq-group.com, heiko@sntech.de,
+	jernej.skrabec@gmail.com, macromorgan@hotmail.com,
+	forbidden405@foxmail.com, sre@kernel.org, linus.walleij@linaro.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	chou.cosmo@gmail.com, cosmo.chou@quantatw.com
+Subject: Re: [PATCH v2 3/3] hwmon: Add driver for Astera Labs PT5161L retimer
+Message-ID: <202312150313.eDD5WEPc-lkp@intel.com>
+References: <20231214060552.2852761-4-chou.cosmo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-9-almasrymina@google.com> <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
- <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
- <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com> <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
- <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
-In-Reply-To: <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 14 Dec 2023 12:03:15 -0800
-Message-ID: <CAHS8izOY9xm=LBEN8sYwEa3aFB4GWDvJVacom3o4mHZPdHzTUg@mail.gmail.com>
-Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231214060552.2852761-4-chou.cosmo@gmail.com>
 
-On Mon, Dec 11, 2023 at 12:37=E2=80=AFPM Pavel Begunkov <asml.silence@gmail=
-.com> wrote:
-...
-> >> If you remove the branch, let it fall into ->release and rely
-> >> on refcounting there, then the callback could also fix up
-> >> release_cnt or ask pp to do it, like in the patch I linked above
-> >>
-> >
-> > Sadly I don't think this is possible due to the reasons I mention in
-> > the commit message of that patch. Prematurely releasing ppiov and not
-> > having them be candidates for recycling shows me a 4-5x degradation in
-> > performance.
->
-> I don't think I follow. The concept is to only recycle a buffer (i.e.
-> make it available for allocation) when its refs drop to zero, which is
-> IMHO the only way it can work, and IIUC what this patchset is doing.
->
-> That's also I suggest to do, but through a slightly different path.
-> Let's say at some moment there are 2 refs (e.g. 1 for an skb and
-> 1 for userspace/xarray).
->
-> Say it first puts the skb:
->
-> napi_pp_put_page()
->    -> page_pool_return_page()
->      -> mp_ops->release_page()
->         -> need_to_free =3D put_buf()
->            // not last ref, need_to_free=3D=3Dfalse,
->            // don't recycle, don't increase release_cnt
->
-> Then you put the last ref:
->
-> page_pool_iov_put_many()
->    -> page_pool_return_page()
->      -> mp_ops->release_page()
->         -> need_to_free =3D put_buf()
->            // last ref, need_to_free=3D=3Dtrue,
->            // recycle and release_cnt++
->
-> And that last put can even be recycled right into the
-> pp / ptr_ring, in which case it doesn't need to touch
-> release_cnt. Does it make sense? I don't see where
-> 4-5x degradation would come from
->
->
+Hi Cosmo,
 
-Sorry for the late reply, I have been working on this locally.
+kernel test robot noticed the following build warnings:
 
-What you're saying makes sense, and I'm no longer sure why I was
-seeing a perf degradation without '[net-next v1 10/16] page_pool:
-don't release iov on elevanted refcount'. However, even though what
-you're saying is technically correct, AFAIU it's actually semantically
-wrong. When a page is released by the page_pool, we should call
-page_pool_clear_pp_info() and completely disconnect the page from the
-pool. If we call release_page() on a page and then the page pool sees
-it again in page_pool_return_page(), I think that is considered a bug.
-In fact I think what you're proposing is as a result of a bug because
-we don't call a page_pool_clear_pp_info() equivalent on releasing
-ppiov.
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next linus/master v6.7-rc5 next-20231214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-However, I'm reasonably confident I figured out the right thing to do
-here. The page_pool uses page->pp_frag_count for its refcounting.
-pp_frag_count is a misnomer, it's being renamed to pp_ref_count in
-Liang's series[1]). In this series I used a get_page/put_page
-equivalent for refcounting. Once I transitioned to using
-pp_[frag|ref]_count for refcounting inside the page_pool, the issue
-went away, and I no longer need the patch 'page_pool: don't release
-iov on elevanted refcount'.
+url:    https://github.com/intel-lab-lkp/linux/commits/Cosmo-Chou/dt-bindings-vendor-prefixes-add-asteralabs/20231214-140823
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20231214060552.2852761-4-chou.cosmo%40gmail.com
+patch subject: [PATCH v2 3/3] hwmon: Add driver for Astera Labs PT5161L retimer
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20231215/202312150313.eDD5WEPc-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150313.eDD5WEPc-lkp@intel.com/reproduce)
 
-There is an additional upside, since pages and ppiovs are both being
-refcounted using pp_[frag|ref]_count, we get some unified handling for
-ppiov and we reduce the checks around ppiov. This should be fixed
-properly in the next series.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150313.eDD5WEPc-lkp@intel.com/
 
-I still need to do some work (~1 week) before I upload the next
-version as there is a new requirement from MM that we transition to a
-new type and not re-use page*, but I uploaded my changes github with
-the refcounting issues resolved in case they're useful to you. Sorry
-for the churn:
+All warnings (new ones prefixed by >>):
 
-https://github.com/mina/linux/commits/tcpdevmem-v1.5/
+>> drivers/hwmon/pt5161l.c:517:36: warning: unused variable 'pt5161l_acpi_match' [-Wunused-const-variable]
+     517 | static const struct acpi_device_id pt5161l_acpi_match[] = {
+         |                                    ^
+   1 warning generated.
 
-[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D809049&st=
-ate=3D*
 
---=20
-Thanks,
-Mina
+vim +/pt5161l_acpi_match +517 drivers/hwmon/pt5161l.c
+
+   516	
+ > 517	static const struct acpi_device_id pt5161l_acpi_match[] = {
+   518		{ "PT5161L", 0 },
+   519		{},
+   520	};
+   521	MODULE_DEVICE_TABLE(acpi, pt5161l_acpi_match);
+   522	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
