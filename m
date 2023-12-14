@@ -1,81 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87FB9642;
-	Thu, 14 Dec 2023 01:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9B7EA3;
+	Thu, 14 Dec 2023 01:15:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lSq1uGLr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6B2C433C8;
-	Thu, 14 Dec 2023 01:11:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ot/Mr1P8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26BC1C433C7;
+	Thu, 14 Dec 2023 01:15:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702516284;
-	bh=XwoFjsJDwQ9a2+DWM4rjeegVkzh/lxFGbWD3rYfyGcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lSq1uGLrFIRUTnVT3AS20PIwVXDWLgO8ozWsfsDZWaPJjk8n3u8l/eWwAv50O0EMd
-	 u8lxxL9Y4sSkGifdgqH3/YI4+EmFlAIdAVSI/mgcQl9karZZTwtudxVBlp5VpjaMxu
-	 SjagbjSDOcAhlUiBn/nkeM13SGJb/wwTwxfblLge9zGFRonPJ2SBordG8cRqdYFNpI
-	 3vAf2yXumJqwsUhu2Qb2L2P3bTvd2tZKU5prXoqDMiIFx8b91cZLKRNAPDnqn2anJK
-	 4lsRsLROKyVu60uG6cdSuihgOfEcCuT+ZirEHhGzdijeXu7TpvPoxov1wnMfqIDbmI
-	 CMP4+mM/C2Qxg==
-Date: Wed, 13 Dec 2023 17:11:21 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>, dm-devel@lists.linux.dev,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, nitheshshetty@gmail.com,
-	anuj1072538@gmail.com, gost.dev@samsung.com, mcgrof@kernel.org,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v18 02/12] Add infrastructure for copy offload in block
- and request layer.
-Message-ID: <ZXpWOaxCRoF7dFis@kbusch-mbp>
-References: <20231206100253.13100-1-joshi.k@samsung.com>
- <CGME20231206101050epcas5p2c8233030bbf74cef0166c7dfc0f41be7@epcas5p2.samsung.com>
- <20231206100253.13100-3-joshi.k@samsung.com>
+	s=k20201202; t=1702516540;
+	bh=t0rU34tq8DhzkLBkFxn7ambC0hASa1O0GjSgzQkryC8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ot/Mr1P8szCrNFm0hJ5f4gZjqkAYiPwfrzCNxDCw9eE3Tj8W7JjdlpUDBDsgugHu/
+	 byFf0jmPC0QT6DYooDZBa7TFhilvS5PqbAxbeveAlzb6IskUdxsdU0qbnALISkxT3E
+	 8LaENIaxborpvBH4Xq6FmVOJ2TqiIIiXx2b45387wfpu6oDF+1d0YaVbkAQ4V9YnY8
+	 JbXgZWzOAf/iAWSoUZw7b6BOBgUV1h4M7EHkiteQthq74DtjeXUr9DjH5DA8Kd8vgN
+	 3hk5WYLKXg9U3ZPPHHf8m2W4H1ZGik9cIDED+aV//wHrF2u7hBFmTsUASIc9VgVjBj
+	 l540ij+i/09FA==
+Date: Wed, 13 Dec 2023 17:15:38 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd
+ Bergmann <arnd@arndb.de>, David Ahern <dsahern@kernel.org>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt
+ <shakeelb@google.com>
+Subject: Re: [net-next v1 03/16] queue_api: define queue api
+Message-ID: <20231213171538.04847459@kernel.org>
+In-Reply-To: <20231208005250.2910004-4-almasrymina@google.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+	<20231208005250.2910004-4-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231206100253.13100-3-joshi.k@samsung.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 06, 2023 at 03:32:34PM +0530, Kanchan Joshi wrote:
->  static inline bool bio_has_data(struct bio *bio)
->  {
-> -	if (bio &&
-> -	    bio->bi_iter.bi_size &&
-> -	    bio_op(bio) != REQ_OP_DISCARD &&
-> -	    bio_op(bio) != REQ_OP_SECURE_ERASE &&
-> -	    bio_op(bio) != REQ_OP_WRITE_ZEROES)
-> +	if (bio && (bio_op(bio) == REQ_OP_READ || bio_op(bio) == REQ_OP_WRITE))
->  		return true;
+On Thu,  7 Dec 2023 16:52:34 -0800 Mina Almasry wrote:
+> This API enables the net stack to reset the queues used for devmem.
 
-There are other ops besides READ and WRITE that have data, but this is
-might be fine by the fact that other ops with data currently don't call
-this function.
-
-> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-> index 7c2316c91cbd..bd821eaa7a02 100644
-> --- a/include/linux/blk_types.h
-> +++ b/include/linux/blk_types.h
-> @@ -393,6 +393,10 @@ enum req_op {
->  	/* reset all the zone present on the device */
->  	REQ_OP_ZONE_RESET_ALL	= (__force blk_opf_t)17,
->  
-> +	/* copy offload dst and src operation */
-> +	REQ_OP_COPY_SRC		= (__force blk_opf_t)19,
-
-Should this be an even numbered OP? The odd ones are for data
-WRITEs.
-
-> +	REQ_OP_COPY_DST		= (__force blk_opf_t)21,
+Nice, thanks for moving this forward. FWIW when I started hacking on it
+the API looked more like:
+https://github.com/kuba-moo/linux/commit/7af8abfa4fdff248e21fc76aecc334004a0f322f
+which passes the config objects to the queue callbacks as an argument.
+Storing in struct netdev_rx_queue makes implementing prepare / swap
+harder. But that's just FYI, we can refactor later. The queue config
+rabbit hole is pretty deep.
