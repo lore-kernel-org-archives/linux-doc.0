@@ -1,232 +1,121 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C3FA0;
-	Thu, 14 Dec 2023 09:32:45 -0800 (PST)
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4SrfWp0gHJz67mnJ;
-	Fri, 15 Dec 2023 01:30:46 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8C9211400CA;
-	Fri, 15 Dec 2023 01:32:43 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 14 Dec
- 2023 17:32:42 +0000
-Date: Thu, 14 Dec 2023 17:32:41 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
-	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
-	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 01/21] ACPI: Only enumerate enabled (or
- functional) devices
-Message-ID: <20231214173241.0000260f@Huawei.com>
-In-Reply-To: <E1rDOfs-00DvjY-HQ@rmk-PC.armlinux.org.uk>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
-	<E1rDOfs-00DvjY-HQ@rmk-PC.armlinux.org.uk>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44ABECF;
+	Thu, 14 Dec 2023 09:34:20 -0800 (PST)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2cc3dd2d897so21397881fa.0;
+        Thu, 14 Dec 2023 09:34:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702575258; x=1703180058;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/I1W7e0WksPQr4B0ossVVfyuwCWdZSDTARqTZ332iVA=;
+        b=CUjRuZsdP0GVflCOjfnGC+WYb4btVNGptBOItvUMAU4UePmZOcczcXjtdzHm2L3H/d
+         Q+k3Y1V/AAs1C+pxIl41XW7NB35N28Lbc7m0S9dPpqbTc4F59Cmunp5/KXpdzAX8sMmz
+         BMO3tfgE+iekoWMQz31HtnCry/89hS7mdaSO9Zo/VmeM2uMPA8NuZ9eT+QGoBSkpfuXV
+         s7hc0TMRKn8ed1GsEog2SBmDUIVhWKV09qqUiC+LLbtLTxjoTMUtAg8+9O+t9EDAgaMp
+         3a1RAUsSpstsowZVepZ+SuTpLtKqM1XZQ+Q7MI2y5R6rJeV5Ht+Bs+zIcwXlwdJ1ck2n
+         YvZQ==
+X-Gm-Message-State: AOJu0YzeZYakRRAtUKLBMqcc2xaB9MphqiD2whTZDlBFLiFkoFnyz0pl
+	CEB6Sb3NZOuyojBHDXLkBQjQJ2Uy3D1CLJVlng==
+X-Google-Smtp-Source: AGHT+IGp30y/H8P//ZOKK0ZSEtOYUDKVBBp+xHmSJODVndRI0if5ppAbKb6uab8A8wMFFgIMHH/LKKVpMRst2iIg9nk=
+X-Received: by 2002:a05:6512:148:b0:50b:f858:f132 with SMTP id
+ m8-20020a056512014800b0050bf858f132mr4870323lfo.132.1702575258112; Thu, 14
+ Dec 2023 09:34:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+ <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
+ <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
+ <20231209034229.GA1001962@cmpxchg.org> <ZXeTb_ACou7TEVsa@google.com> <20231214171137.GA261942@cmpxchg.org>
+In-Reply-To: <20231214171137.GA261942@cmpxchg.org>
+From: Christopher Li <chrisl@kernel.org>
+Date: Thu, 14 Dec 2023 09:34:06 -0800
+Message-ID: <CANeU7QnR+4Lgt8D9Z+Zo3Ydktx_7n45K0b=kVj+qSOzT=5GGQA@mail.gmail.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Minchan Kim <minchan@kernel.org>, Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, 
+	tj@kernel.org, lizefan.x@bytedance.com, cerasuolodomenico@gmail.com, 
+	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org, 
+	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeelb@google.com, muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, david@ixit.cz, Kairui Song <kasong@tencent.com>, 
+	Zhongkun He <hezhongkun.hzk@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 13 Dec 2023 12:49:16 +0000
-Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
+On Thu, Dec 14, 2023 at 9:11=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
+> wrote:
 
-> From: James Morse <james.morse@arm.com>
-> 
-> Today the ACPI enumeration code 'visits' all devices that are present.
-> 
-> This is a problem for arm64, where CPUs are always present, but not
-> always enabled. When a device-check occurs because the firmware-policy
-> has changed and a CPU is now enabled, the following error occurs:
-> | acpi ACPI0007:48: Enumeration failure
-> 
-> This is ultimately because acpi_dev_ready_for_enumeration() returns
-> true for a device that is not enabled. The ACPI Processor driver
-> will not register such CPUs as they are not 'decoding their resources'.
-> 
-> Change acpi_dev_ready_for_enumeration() to also check the enabled bit.
-> ACPI allows a device to be functional instead of maintaining the
-> present and enabled bit. Make this behaviour an explicit check with
-> a reference to the spec, and then check the present and enabled bits.
-> This is needed to avoid enumerating present && functional devices that
-> are not enabled.
-> 
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-> Tested-by: Jianyong Wu <jianyong.wu@arm.com>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> ---
-> If this change causes problems on deployed hardware, I suggest an
-> arch opt-in: ACPI_IGNORE_STA_ENABLED, that causes
-> acpi_dev_ready_for_enumeration() to only check the present bit.
+> > Hi Johannes,
+> >
+> > I haven't been following the thread closely, but I noticed the discussi=
+on
+> > about potential use cases for zram with memcg.
+> >
+> > One interesting idea I have is to implement a swap controller per cgrou=
+p.
+> > This would allow us to tailor the zram swap behavior to the specific ne=
+eds of
+> > different groups.
+> >
+> > For example, Group A, which is sensitive to swap latency, could use zra=
+m swap
+> > with a fast compression setting, even if it sacrifices some compression=
+ ratio.
+> > This would prioritize quick access to swapped data, even if it takes up=
+ more space.
+> >
+> > On the other hand, Group B, which can tolerate higher swap latency, cou=
+ld benefit
+> > from a slower compression setting that achieves a higher compression ra=
+tio.
+> > This would maximize memory efficiency at the cost of slightly slower da=
+ta access.
+> >
+> > This approach could provide a more nuanced and flexible way to manage s=
+wap usage
+> > within different cgroups.
+>
+> That makes sense to me.
+>
+> It sounds to me like per-cgroup swapfiles would be the easiest
+> solution to this. Then you can create zram devices with different
+> configurations and assign them to individual cgroups.
 
-My gut feeling (having made ACPI 'fixes' in the past that ran into
-horribly broken firmware and had to be reverted) is reduce the blast
-radius preemptively from the start. I'd love to live in a world were
-that wasn't necessary but I don't trust all the generators of ACPI tables.
-I'll leave it to Rafael and other ACPI experts suggest how narrow we should
-make it though - arch opt in might be narrow enough.
+Ideally you need zram then following swap file after the zram. That
+would be a list of the swap files rather than just one swapfile per
+cgroup.
 
-> 
-> Changes since RFC v2:
->  * Incorporate comment suggestion by Gavin Shan.
-> Other review comments from Jonathan Cameron not yet addressed.
+>
+> This would also apply to Kairu's usecase: assign zrams and hdd backups
+> as needed on a per-cgroup basis.
 
-Looking back, I think this was mainly a suggestion for a minor
-possible optimization by ignoring the case of !present && enabled
-when designing the logic because that's not allowed by the spec.
+Same there, Kairui's request involves ZRAM and at least one extra swap
+file. In other words, you really need a per cgroup swap file list.
 
-You made that change in v3.
+>
+> In addition, it would naturally solve scalability and isolation
+> problems when multiple containers would otherwise be hammering on the
+> same swap backends and locks.
+>
+> It would also only require one, relatively simple new interface, such
+> as a cgroup parameter to swapon().
+>
+> That's highly preferable over a complex configuration file like
+> memory.swap.tiers that needs to solve all sorts of visibility and
+> namespace issues and duplicate the full configuration interface of
+> every backend in some new, custom syntax.
 
-Otherwise, comments were trivial comment clarifications that I'm not
-that worried about.
+If you don't like the syntax of memory.swap.tiers, I am open to
+suggestions of your preferred syntax as well. The essicents of the
+swap.tiers is a per cgroup list of the swap back ends. The names imply
+that. I am not married to any given syntax of how to specify the list.
+Its goal matches the above requirement pretty well.
 
-One comment typo inline.
-
-With assumption others will comment on when this change should be
-chicken bit'd out.
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-
-> ---
->  drivers/acpi/device_pm.c    |  2 +-
->  drivers/acpi/device_sysfs.c |  2 +-
->  drivers/acpi/internal.h     |  1 -
->  drivers/acpi/property.c     |  2 +-
->  drivers/acpi/scan.c         | 24 ++++++++++++++----------
->  5 files changed, 17 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
-> index 3b4d048c4941..e3c80f3b3b57 100644
-> --- a/drivers/acpi/device_pm.c
-> +++ b/drivers/acpi/device_pm.c
-> @@ -313,7 +313,7 @@ int acpi_bus_init_power(struct acpi_device *device)
->  		return -EINVAL;
->  
->  	device->power.state = ACPI_STATE_UNKNOWN;
-> -	if (!acpi_device_is_present(device)) {
-> +	if (!acpi_dev_ready_for_enumeration(device)) {
->  		device->flags.initialized = false;
->  		return -ENXIO;
->  	}
-> diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
-> index 23373faa35ec..a0256d2493a7 100644
-> --- a/drivers/acpi/device_sysfs.c
-> +++ b/drivers/acpi/device_sysfs.c
-> @@ -141,7 +141,7 @@ static int create_pnp_modalias(const struct acpi_device *acpi_dev, char *modalia
->  	struct acpi_hardware_id *id;
->  
->  	/* Avoid unnecessarily loading modules for non present devices. */
-> -	if (!acpi_device_is_present(acpi_dev))
-> +	if (!acpi_dev_ready_for_enumeration(acpi_dev))
->  		return 0;
->  
->  	/*
-> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
-> index 866c7c4ed233..a1b45e345bcc 100644
-> --- a/drivers/acpi/internal.h
-> +++ b/drivers/acpi/internal.h
-> @@ -107,7 +107,6 @@ int acpi_device_setup_files(struct acpi_device *dev);
->  void acpi_device_remove_files(struct acpi_device *dev);
->  void acpi_device_add_finalize(struct acpi_device *device);
->  void acpi_free_pnp_ids(struct acpi_device_pnp *pnp);
-> -bool acpi_device_is_present(const struct acpi_device *adev);
->  bool acpi_device_is_battery(struct acpi_device *adev);
->  bool acpi_device_is_first_physical_node(struct acpi_device *adev,
->  					const struct device *dev);
-> diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
-> index 6979a3f9f90a..14d6948fd88a 100644
-> --- a/drivers/acpi/property.c
-> +++ b/drivers/acpi/property.c
-> @@ -1420,7 +1420,7 @@ static bool acpi_fwnode_device_is_available(const struct fwnode_handle *fwnode)
->  	if (!is_acpi_device_node(fwnode))
->  		return false;
->  
-> -	return acpi_device_is_present(to_acpi_device_node(fwnode));
-> +	return acpi_dev_ready_for_enumeration(to_acpi_device_node(fwnode));
->  }
->  
->  static const void *
-> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-> index 02bb2cce423f..728649a2a251 100644
-> --- a/drivers/acpi/scan.c
-> +++ b/drivers/acpi/scan.c
-> @@ -304,7 +304,7 @@ static int acpi_scan_device_check(struct acpi_device *adev)
->  	int error;
->  
->  	acpi_bus_get_status(adev);
-> -	if (acpi_device_is_present(adev)) {
-> +	if (acpi_dev_ready_for_enumeration(adev)) {
->  		/*
->  		 * This function is only called for device objects for which
->  		 * matching scan handlers exist.  The only situation in which
-> @@ -338,7 +338,7 @@ static int acpi_scan_bus_check(struct acpi_device *adev, void *not_used)
->  	int error;
->  
->  	acpi_bus_get_status(adev);
-> -	if (!acpi_device_is_present(adev)) {
-> +	if (!acpi_dev_ready_for_enumeration(adev)) {
->  		acpi_scan_device_not_enumerated(adev);
->  		return 0;
->  	}
-> @@ -1913,11 +1913,6 @@ static bool acpi_device_should_be_hidden(acpi_handle handle)
->  	return true;
->  }
->  
-> -bool acpi_device_is_present(const struct acpi_device *adev)
-> -{
-> -	return adev->status.present || adev->status.functional;
-> -}
-> -
->  static bool acpi_scan_handler_matching(struct acpi_scan_handler *handler,
->  				       const char *idstr,
->  				       const struct acpi_device_id **matchid)
-> @@ -2381,16 +2376,25 @@ EXPORT_SYMBOL_GPL(acpi_dev_clear_dependencies);
->   * acpi_dev_ready_for_enumeration - Check if the ACPI device is ready for enumeration
->   * @device: Pointer to the &struct acpi_device to check
->   *
-> - * Check if the device is present and has no unmet dependencies.
-> + * Check if the device is functional or enabled and has no unmet dependencies.
->   *
-> - * Return true if the device is ready for enumeratino. Otherwise, return false.
-> + * Return true if the device is ready for enumeration. Otherwise, return false.
->   */
->  bool acpi_dev_ready_for_enumeration(const struct acpi_device *device)
->  {
->  	if (device->flags.honor_deps && device->dep_unmet)
->  		return false;
->  
-> -	return acpi_device_is_present(device);
-> +	/*
-> +	 * ACPI 6.5's 6.3.7 "_STA (Device Status)" allows firmware to return
-> +	 * (!present && functional) for certain types of devices that should be
-> +	 * enumerated. Note that the enabled bit can't be sert until the present
-
-set until
-
-> +	 * bit is set.
-> +	 */
-> +	if (device->status.present)
-> +		return device->status.enabled;
-> +	else
-> +		return device->status.functional;
->  }
->  EXPORT_SYMBOL_GPL(acpi_dev_ready_for_enumeration);
->  
-
+Chris
