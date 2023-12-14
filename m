@@ -1,54 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFR7f0gg"
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17B01106;
-	Thu, 14 Dec 2023 01:56:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702547801; x=1734083801;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RqiCkuGCEaun1cH6jxYGjDo0sb5DoR/NddNRX5ci++o=;
-  b=YFR7f0ggx7pvKRdxPqfAJWk6muVAmlWTeUeeTcfwXEpqy/LYTgnaE5AG
-   t2qgsAzDrYrvaXFmVI3r9PEIOHZFM2uFK4CxU0WSBAJywcCoAH+d9bTw9
-   E1gxsTDL8zVXy/qJVmUaMk+dewM/Xe7i+0U8n2Hrfd+7VHURfrnWfohUn
-   5BPi/yazk8JyE7oG1m9/IXcPlXUhjSkHJfMhqXoVEJVLzX4+M7wAoey5N
-   7Xi4DOB/x9SKlmUUUkvkazo+1IRE6ZNaSJLPcobbv5BgCfL0INuDFBiUv
-   f049gnR1Ao/rtOVDIkJxmkdqWSc27uNoKTG98sr3+9ZquS488O6c2eAn6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="459419580"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="459419580"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 01:56:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1021452328"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="1021452328"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Dec 2023 01:56:33 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDiSE-000LsP-36;
-	Thu, 14 Dec 2023 09:56:30 +0000
-Date: Thu, 14 Dec 2023 17:56:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org,
-	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
-	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
-Subject: Re: [PATCH v3 01/11] mm/mempolicy: implement the sysfs-based
- weighted_interleave interface
-Message-ID: <202312141733.PALHOosm-lkp@intel.com>
-References: <20231213224118.1949-2-gregory.price@memverge.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="0PaMKcTU"
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8A3F171F;
+	Thu, 14 Dec 2023 02:54:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=i5KEO/4V33LYgutwXb3TRWuNCSS9bJhDrQTPBSGXBKA=; b=0PaMKcTUlPtGE2YpI/zI+HQGYl
+	zUUTm7Np6XGNb0bQ5G4kbazHgJR29LuXV1mRIXb6qWT1KvSDtcd2+RtOsPUvBpAgY2nR3XFRNj+B5
+	19z89pK/uRQ6MvsDJwjQdu+gVArlZ+FaxkEB63WUHEGbTNHZVjZ5AiS1PzWF8JF49434=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rDjM1-002uhO-LT; Thu, 14 Dec 2023 11:54:09 +0100
+Date: Thu, 14 Dec 2023 11:54:09 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Luo Jie <quic_luoj@quicinc.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	hkallweit1@gmail.com, linux@armlinux.org.uk, corbet@lwn.net,
+	p.zabel@pengutronix.de, f.fainelli@gmail.com,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 01/14] net: phy: introduce core support for phy-mode =
+ "10g-qxgmii"
+Message-ID: <9df4335a-5190-4091-8e14-ed9f5d12d50e@lunn.ch>
+References: <20231214094813.24690-1-quic_luoj@quicinc.com>
+ <20231214094813.24690-2-quic_luoj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,97 +37,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231213224118.1949-2-gregory.price@memverge.com>
+In-Reply-To: <20231214094813.24690-2-quic_luoj@quicinc.com>
 
-Hi Gregory,
+On Thu, Dec 14, 2023 at 05:48:00PM +0800, Luo Jie wrote:
+> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+> 
+> 10G-QXGMII is a MAC-to-PHY interface defined by the USXGMII multiport
+> specification. It uses the same signaling as USXGMII, but it multiplexes
+> 4 ports over the link, resulting in a maximum speed of 2.5G per port.
+> 
+> Some in-tree SoCs like the NXP LS1028A use "usxgmii" when they mean
+> either the single-port USXGMII or the quad-port 10G-QXGMII variant, and
+> they could get away just fine with that thus far. But there is a need to
+> distinguish between the 2 as far as SerDes drivers are concerned.
+> 
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
 
-kernel test robot noticed the following build errors:
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on geert-m68k/for-next geert-m68k/for-linus deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master tip/x86/asm v6.7-rc5 next-20231214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231214-064236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231213224118.1949-2-gregory.price%40memverge.com
-patch subject: [PATCH v3 01/11] mm/mempolicy: implement the sysfs-based weighted_interleave interface
-config: x86_64-randconfig-161-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141733.PALHOosm-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141733.PALHOosm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141733.PALHOosm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/kobject.h:20,
-                    from include/linux/energy_model.h:7,
-                    from include/linux/device.h:16,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from include/linux/static_call.h:135,
-                    from include/linux/tracepoint.h:22,
-                    from include/trace/events/tlb.h:9,
-                    from arch/x86/include/asm/mmu_context.h:10,
-                    from include/linux/mmu_context.h:5,
-                    from include/linux/cpuset.h:18,
-                    from mm/mempolicy.c:83:
-   mm/mempolicy.c: In function 'add_weight_node':
->> mm/mempolicy.c:3145:28: error: 'struct iw_node_attr' has no member named 'attr'
-    3145 |  sysfs_attr_init(&node_attr->attr);
-         |                            ^~
-   include/linux/sysfs.h:55:3: note: in definition of macro 'sysfs_attr_init'
-      55 |  (attr)->key = &__key;    \
-         |   ^~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [m]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
-
-
-vim +3145 mm/mempolicy.c
-
-  3129	
-  3130	static int add_weight_node(int nid, struct kobject *wi_kobj)
-  3131	{
-  3132		struct iw_node_attr *node_attr;
-  3133		char *name;
-  3134	
-  3135		node_attr = kzalloc(sizeof(*node_attr), GFP_KERNEL);
-  3136		if (!node_attr)
-  3137			return -ENOMEM;
-  3138	
-  3139		name = kasprintf(GFP_KERNEL, "node%d", nid);
-  3140		if (!name) {
-  3141			kfree(node_attr);
-  3142			return -ENOMEM;
-  3143		}
-  3144	
-> 3145		sysfs_attr_init(&node_attr->attr);
-  3146		node_attr->kobj_attr.attr.name = name;
-  3147		node_attr->kobj_attr.attr.mode = 0644;
-  3148		node_attr->kobj_attr.show = node_show;
-  3149		node_attr->kobj_attr.store = node_store;
-  3150		node_attr->nid = nid;
-  3151	
-  3152		if (sysfs_create_file(wi_kobj, &node_attr->kobj_attr.attr)) {
-  3153			kfree(node_attr->kobj_attr.attr.name);
-  3154			kfree(node_attr);
-  3155			pr_err("failed to add attribute to weighted_interleave\n");
-  3156			return -ENOMEM;
-  3157		}
-  3158	
-  3159		node_attrs[nid] = node_attr;
-  3160		return 0;
-  3161	}
-  3162	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+    Andrew
