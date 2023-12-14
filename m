@@ -1,20 +1,20 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="2gnJCC9T"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="sgeHfjBH"
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0107F1739;
-	Thu, 14 Dec 2023 02:54:33 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 396971A3;
+	Thu, 14 Dec 2023 03:01:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=hL27dSLqUR1fYhgLcHCRK29mJV+B6pX4R0DXWGJrOn0=; b=2gnJCC9T5+jlLMhkqX26eUrO85
-	KLqxuRZRdqOUnpKBZekxZeRlLTtdgC02vjbnujOMcOcgue9OM3oBU+Q6z7wuKxXnFGgpUr8Jd+8eI
-	mcdJtGMysMNRJVCW6IDTeSzMfVP7thsXihG/Xw7NGvBrUb0VdQVj9BEXvq/eJofJi8DE=;
+	bh=Popi+890fZ1lHbXbLEHSlXolpjJo3sDNBxoaukvvxzM=; b=sgeHfjBHWSa4Ai8ohwsLkr9bLX
+	exGWirdgfG0oHmhTbF3/gok3kfORbPiMrVHzOqnkjt7M4Ix3XQTMImnSyqz4idtzHLbs+Ydb+yLyd
+	Y4ECRzgfFoX7137PTSav157ABqjC3u3JaqNHd3GCIaPUaRN/LOYEOujiIYlpnUJlve4c=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1rDjMF-002uic-CV; Thu, 14 Dec 2023 11:54:23 +0100
-Date: Thu, 14 Dec 2023 11:54:23 +0100
+	id 1rDjT4-002ul8-GY; Thu, 14 Dec 2023 12:01:26 +0100
+Date: Thu, 14 Dec 2023 12:01:26 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Luo Jie <quic_luoj@quicinc.com>
 Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
@@ -23,13 +23,12 @@ Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
 	hkallweit1@gmail.com, linux@armlinux.org.uk, corbet@lwn.net,
 	p.zabel@pengutronix.de, f.fainelli@gmail.com,
 	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v7 02/14] dt-bindings: net: ethernet-controller: add
- 10g-qxgmii mode
-Message-ID: <8472a40e-b114-45bf-b990-69c1224df34c@lunn.ch>
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 03/14] net: phy: at803x: add QCA8084 ethernet phy
+ support
+Message-ID: <c05e4756-0b33-4c97-ba88-1e14f459bbe3@lunn.ch>
 References: <20231214094813.24690-1-quic_luoj@quicinc.com>
- <20231214094813.24690-3-quic_luoj@quicinc.com>
+ <20231214094813.24690-4-quic_luoj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,19 +37,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231214094813.24690-3-quic_luoj@quicinc.com>
+In-Reply-To: <20231214094813.24690-4-quic_luoj@quicinc.com>
 
-On Thu, Dec 14, 2023 at 05:48:01PM +0800, Luo Jie wrote:
-> From: Vladimir Oltean <vladimir.oltean@nxp.com>
+On Thu, Dec 14, 2023 at 05:48:02PM +0800, Luo Jie wrote:
+> Add qca8084 PHY support, which is four-port PHY with maximum
+> link capability 2.5G, the features of each port is almost same
+> as QCA8081 and slave seed config is not needed.
 > 
-> Add the new interface mode 10g-qxgmii, which is similar to
-> usxgmii but extend to 4 channels to support maximum of 4
-> ports with the link speed 10M/100M/1G/2.5G.
+> Three kind of interface modes supported by qca8084.
+> PHY_INTERFACE_MODE_10G_QXGMII, PHY_INTERFACE_MODE_2500BASEX and
+> PHY_INTERFACE_MODE_SGMII.
 > 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> The PCS(serdes) and clock are also needed to be configured to
+> bringup qca8084 PHY, which will be added in the pcs driver.
+> 
+> The additional CDT configurations used for qca8084.
+> 
 > Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+>  drivers/net/phy/at803x.c | 49 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+> 
+> diff --git a/drivers/net/phy/at803x.c b/drivers/net/phy/at803x.c
+> index 37fb033e1c29..8dfdf2ff56a5 100644
+> --- a/drivers/net/phy/at803x.c
+> +++ b/drivers/net/phy/at803x.c
+> @@ -176,6 +176,7 @@
+>  #define AT8030_PHY_ID_MASK			0xffffffef
+>  
+>  #define QCA8081_PHY_ID				0x004dd101
+> +#define QCA8084_PHY_ID				0x004dd180
+>  
+>  #define QCA8327_A_PHY_ID			0x004dd033
+>  #define QCA8327_B_PHY_ID			0x004dd034
+> @@ -1760,6 +1761,9 @@ static bool qca808x_is_prefer_master(struct phy_device *phydev)
+>  
+>  static bool qca808x_has_fast_retrain_or_slave_seed(struct phy_device *phydev)
+>  {
+> +	if (phydev_id_compare(phydev, QCA8084_PHY_ID))
+> +		return false;
+> +
+>  	return linkmode_test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->supported);
+>  }
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+It looks like these patches need rebasing on net-next/main. It appears
+you are missing Christians patches.
+
 
     Andrew
+
+---
+pw-bot: cr
