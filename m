@@ -1,139 +1,239 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E272410E;
-	Thu, 14 Dec 2023 10:37:22 -0800 (PST)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6d9db92bd71so1362896a34.1;
-        Thu, 14 Dec 2023 10:37:22 -0800 (PST)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C36692BB
+	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 19:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ZprlJCGr"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4260b657ed5so1300861cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 11:17:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1702581441; x=1703186241; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O2wAVapsX3d4Wu5zcLkO1Y9GXGGh0W89rcgF3jgTa1I=;
+        b=ZprlJCGrVSIpyUiDmp2/IzTG6YFUGMyWp9w+Ix9/Vj2z3UtQz6rlen2BjAWSlirmBy
+         nv79chpSvzOUg+bsKPB0SLk1O5HCCC0KKuwg0wSlyI5ky2A0b3pFl+naX28MxmWx8kYM
+         kcXSOpRLqDe56ncRyS/kqAGl4M/A4ZwjCZfTy/QV8piACkozLHePd0iEY3COnM3+PxOp
+         7v6mcLVGFjGFYNGQW2BK1ZTxwqhciMzzrIvjxAGDoj3sdF6p8zfGjXbfnMdYSv3EpiFy
+         rBF4w2t32Z0cTgi3L1IvRNPcr+ycvFAaMq9vON6sbKX6R6Fh1SX2MO4EU1JHMxtqav4x
+         vvDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702579042; x=1703183842;
+        d=1e100.net; s=20230601; t=1702581441; x=1703186241;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VqDz+iAKQeDij2eq7OD06mj+eeeCJzCcbsR1GzAidN0=;
-        b=XPa67Fu8rCw9+gYXEnw46OvwrzQGu2ZUqMJvgc6Wb/9g8bImHk47f48+MC57wXWGZN
-         5za+OI1931IkcQZjRvhSe0YVXx8bCjIq24aI5uUyuh4hmWHDhPkV8WjdqGrerPI0TEbK
-         Kusub0AQ26qOLEHzeb/ERkZBnB7RjVrZMZqFCTP5LXjvn+yMpJoTiGr+np/Q2HOP3aWZ
-         G48w+kW+acRpW45nHmQC2Lrg5fayElUNHHNK0v/RBfPRoq/RNX9QKr//U6tITHmOaOZf
-         LN1OkqcBUjOOL7eXeNAt/LumEVWso5Vu1wByD43cZYhKP6bw43XD0qgNUN3up1dm/mZ1
-         Smjg==
-X-Gm-Message-State: AOJu0Yw/qDxVDglLonMlcfzGNwjZ1UgzLI464Ws5JAXdfcM8K/8QiG89
-	L+xwhDTHSZ/i5cwX6QylYpRKel4a+n4cQg5BXr0=
-X-Google-Smtp-Source: AGHT+IH8dSvedIux9d+NZsh4BTm5s5Qcmw1364ii+UUrmzx3iZ4v2EO7x7vwseaBvGWSY8WP8bGNCshWcK/LSOMs+p0=
-X-Received: by 2002:a05:6871:2284:b0:1fb:648:5207 with SMTP id
- sd4-20020a056871228400b001fb06485207mr19135855oab.2.1702579042101; Thu, 14
- Dec 2023 10:37:22 -0800 (PST)
+        bh=O2wAVapsX3d4Wu5zcLkO1Y9GXGGh0W89rcgF3jgTa1I=;
+        b=nM9WVbtYuBfbwFg6zxIwsSDgb71n8wPCoU5J+BxJyxMPqDpHVBFzmABdj1gowqg3ep
+         hqITe9GocFCynndxPD6vVohBLbxPE+Xy1f9fkMaNQwfCEIaa/gmBIOvnqrCnTU3h6vGS
+         wQgod01VTQulKgGdy8RGJaRF/M4C2TWMkRPmRy5Z2akz87RFArtFLNGe75CbJzlL2h5S
+         +byb+qTT8YfxYekGzSzc2jN6piixIazJt+HwIIVTNW8LiK1T+RdY1RGhjfzCYM50tKsq
+         MwdfDSsJ/8uGrFBlnfQSdpGSBUIU4RuJhCz5lr83zlWAwV2EgBWjRQ9/QvfvaYgeP3mY
+         Wkvw==
+X-Gm-Message-State: AOJu0YydL/eY6gkSxP2++iK6IGxrIkmJ+LZVkoc5yAlq9BMcPUw8gzJV
+	aQkNgWMFEzpfLODpeashwV1vlXM/fkueQPg9QWHAhw==
+X-Google-Smtp-Source: AGHT+IFzRCB9Md6JcXtZ2Es25f4UOuYMeLP9Itx6hDPrn436g7L6e3bJmetcIjga0ApETmdpPvmDW7XHrih7qp2afIE=
+X-Received: by 2002:a05:622a:452:b0:423:a4f6:9aa2 with SMTP id
+ o18-20020a05622a045200b00423a4f69aa2mr12441941qtx.6.1702581441062; Thu, 14
+ Dec 2023 11:17:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk> <E1rDOfs-00DvjY-HQ@rmk-PC.armlinux.org.uk>
- <20231214173241.0000260f@Huawei.com> <CAJZ5v0jymOtZ0y65K9wE8FJk+ZKwP+FoGm4AKHXcYVfQJL9MVw@mail.gmail.com>
- <ZXtFBYJEX2RrFrwj@shell.armlinux.org.uk> <CAJZ5v0h2Keyb-gFWFuPsKtwqjXvM2snyGpo6MMfFzaXKbfEpgw@mail.gmail.com>
-In-Reply-To: <CAJZ5v0h2Keyb-gFWFuPsKtwqjXvM2snyGpo6MMfFzaXKbfEpgw@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 14 Dec 2023 19:37:10 +0100
-Message-ID: <CAJZ5v0h3WWtvrbxRpaGfq6c756k+L1SzZ1Gv3A14JxXHNcUMKA@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 01/21] ACPI: Only enumerate enabled (or functional) devices
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
-	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
-	James Morse <james.morse@arm.com>
+References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+ <20231130201504.2322355-2-pasha.tatashin@soleen.com> <776e17af-ae25-16a0-f443-66f3972b00c0@google.com>
+In-Reply-To: <776e17af-ae25-16a0-f443-66f3972b00c0@google.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 14 Dec 2023 14:16:44 -0500
+Message-ID: <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/10] iommu/vt-d: add wrapper functions for page allocations
+To: David Rientjes <rientjes@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, alim.akhtar@samsung.com, 
+	alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, 
+	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	will@kernel.org, yu-cheng.yu@intel.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 14, 2023 at 7:16=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.or=
-g> wrote:
+On Thu, Dec 14, 2023 at 12:58=E2=80=AFPM David Rientjes <rientjes@google.co=
+m> wrote:
 >
-> On Thu, Dec 14, 2023 at 7:10=E2=80=AFPM Russell King (Oracle)
-> <linux@armlinux.org.uk> wrote:
-> >
-> > On Thu, Dec 14, 2023 at 06:47:00PM +0100, Rafael J. Wysocki wrote:
-> > > On Thu, Dec 14, 2023 at 6:32=E2=80=AFPM Jonathan Cameron
-> > > <Jonathan.Cameron@huawei.com> wrote:
-> > > >
-> > > > On Wed, 13 Dec 2023 12:49:16 +0000
-> > > > Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
-> > > >
-> > > > > From: James Morse <james.morse@arm.com>
-> > > > >
-> > > > > Today the ACPI enumeration code 'visits' all devices that are pre=
-sent.
-> > > > >
-> > > > > This is a problem for arm64, where CPUs are always present, but n=
-ot
-> > > > > always enabled. When a device-check occurs because the firmware-p=
-olicy
-> > > > > has changed and a CPU is now enabled, the following error occurs:
-> > > > > | acpi ACPI0007:48: Enumeration failure
-> > > > >
-> > > > > This is ultimately because acpi_dev_ready_for_enumeration() retur=
-ns
-> > > > > true for a device that is not enabled. The ACPI Processor driver
-> > > > > will not register such CPUs as they are not 'decoding their resou=
-rces'.
-> > > > >
-> > > > > Change acpi_dev_ready_for_enumeration() to also check the enabled=
- bit.
-> > > > > ACPI allows a device to be functional instead of maintaining the
-> > > > > present and enabled bit. Make this behaviour an explicit check wi=
-th
-> > > > > a reference to the spec, and then check the present and enabled b=
-its.
-> > > > > This is needed to avoid enumerating present && functional devices=
- that
-> > > > > are not enabled.
-> > > > >
-> > > > > Signed-off-by: James Morse <james.morse@arm.com>
-> > > > > Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> > > > > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-> > > > > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
-> > > > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > > > > ---
-> > > > > If this change causes problems on deployed hardware, I suggest an
-> > > > > arch opt-in: ACPI_IGNORE_STA_ENABLED, that causes
-> > > > > acpi_dev_ready_for_enumeration() to only check the present bit.
-> > > >
-> > > > My gut feeling (having made ACPI 'fixes' in the past that ran into
-> > > > horribly broken firmware and had to be reverted) is reduce the blas=
-t
-> > > > radius preemptively from the start. I'd love to live in a world wer=
-e
-> > > > that wasn't necessary but I don't trust all the generators of ACPI =
-tables.
-> > > > I'll leave it to Rafael and other ACPI experts suggest how narrow w=
-e should
-> > > > make it though - arch opt in might be narrow enough.
-> > >
-> > > A chicken bit wouldn't help much IMO, especially in the cases when
-> > > working setups get broken.
-> > >
-> > > I would very much prefer to limit the scope of it, say to processors
-> > > only, in the first place.
-> >
-> > Thanks for the feedback and the idea.
-> >
-> > I guess we need something like:
-> >
-> >         if (device->status.present)
-> >                 return device->device_type !=3D ACPI_BUS_TYPE_PROCESSOR=
- ||
-> >                        device->status.enabled;
-> >         else
-> >                 return device->status.functional;
-> >
-> > so we only check device->status.enabled for processor-type devices?
+> On Thu, 30 Nov 2023, Pasha Tatashin wrote:
 >
-> Yes, something like this.
+> > diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
+> > new file mode 100644
+> > index 000000000000..2332f807d514
+> > --- /dev/null
+> > +++ b/drivers/iommu/iommu-pages.h
+> > @@ -0,0 +1,199 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/*
+> > + * Copyright (c) 2023, Google LLC.
+> > + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> > + */
+> > +
+> > +#ifndef __IOMMU_PAGES_H
+> > +#define __IOMMU_PAGES_H
+> > +
+> > +#include <linux/vmstat.h>
+> > +#include <linux/gfp.h>
+> > +#include <linux/mm.h>
+> > +
+> > +/*
+> > + * All page allocation that are performed in the IOMMU subsystem must =
+use one of
+> > + * the functions below.  This is necessary for the proper accounting a=
+s IOMMU
+> > + * state can be rather large, i.e. multiple gigabytes in size.
+> > + */
+> > +
+> > +/**
+> > + * __iommu_alloc_pages_node - allocate a zeroed page of a given order =
+from
+> > + * specific NUMA node.
+> > + * @nid: memory NUMA node id
+>
+> NUMA_NO_NODE if no locality requirements?
 
-However, that is not sufficient, because there are
-ACPI_BUS_TYPE_DEVICE devices representing processors.
+If no locality is required, there is a better interface:
+__iommu_alloc_pages(). That one will also take a look at the calling
+process policies to determine the proper NUMA node when nothing is
+specified. However, when policies should be ignored, and no locality
+required, NUMA_NO_NODE can be passed.
 
-I'm not sure about a clean way to do it ATM.
+>
+> > + * @gfp: buddy allocator flags
+> > + * @order: page order
+> > + *
+> > + * returns the head struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_pages_node(int nid, gfp_t gfp=
+,
+> > +                                                 int order)
+> > +{
+> > +     struct page *pages;
+>
+> s/pages/page/ here and later in this file.
+
+In this file, where there a page with an "order", I reference it with
+"pages", when no order (i.e. order =3D 0), I reference it with "page"
+
+I.e.: __iommu_alloc_page vs. __iommu_alloc_pages
+
+>
+> > +
+> > +     pages =3D alloc_pages_node(nid, gfp | __GFP_ZERO, order);
+> > +     if (!pages)
+>
+> unlikely()?
+
+Will add it.
+
+>
+> > +             return NULL;
+> > +
+> > +     return pages;
+> > +}
+> > +
+> > +/**
+> > + * __iommu_alloc_pages - allocate a zeroed page of a given order.
+> > + * @gfp: buddy allocator flags
+> > + * @order: page order
+> > + *
+> > + * returns the head struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_pages(gfp_t gfp, int order)
+> > +{
+> > +     struct page *pages;
+> > +
+> > +     pages =3D alloc_pages(gfp | __GFP_ZERO, order);
+> > +     if (!pages)
+> > +             return NULL;
+> > +
+> > +     return pages;
+> > +}
+> > +
+> > +/**
+> > + * __iommu_alloc_page_node - allocate a zeroed page at specific NUMA n=
+ode.
+> > + * @nid: memory NUMA node id
+> > + * @gfp: buddy allocator flags
+> > + *
+> > + * returns the struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_page_node(int nid, gfp_t gfp)
+> > +{
+> > +     return __iommu_alloc_pages_node(nid, gfp, 0);
+> > +}
+> > +
+> > +/**
+> > + * __iommu_alloc_page - allocate a zeroed page
+> > + * @gfp: buddy allocator flags
+> > + *
+> > + * returns the struct page of the allocated page.
+> > + */
+> > +static inline struct page *__iommu_alloc_page(gfp_t gfp)
+> > +{
+> > +     return __iommu_alloc_pages(gfp, 0);
+> > +}
+> > +
+> > +/**
+> > + * __iommu_free_pages - free page of a given order
+> > + * @pages: head struct page of the page
+>
+> I think "pages" implies more than one page, this is just a (potentially
+> compound) page?
+
+Yes, more than one page, basically, when order may be > 0.
+
+> > +/**
+> > + * iommu_free_page - free page
+> > + * @virt: virtual address of the page to be freed.
+> > + */
+> > +static inline void iommu_free_page(void *virt)
+> > +{
+> > +     iommu_free_pages(virt, 0);
+> > +}
+> > +
+> > +/**
+> > + * iommu_free_pages_list - free a list of pages.
+> > + * @pages: the head of the lru list to be freed.
+>
+> Document the locking requirements for this?
+
+Thank you for the review. I will add info about locking requirements,
+in fact they are very relaxed.
+
+These pages are added to the list by unmaps or remaps operation in
+Intel IOMMU implementation. These calls assume that whoever is doing
+those operations has exclusive access to the VA range in the page
+table of that operation. The pages in this freelist only belong to the
+former page-tables from the IOVA range for those operations.
+
+> > + */
+> > +static inline void iommu_free_pages_list(struct list_head *pages)
+> > +{
+> > +     while (!list_empty(pages)) {
+> > +             struct page *p =3D list_entry(pages->prev, struct page, l=
+ru);
+> > +
+> > +             list_del(&p->lru);
+> > +             put_page(p);
+> > +     }
+> > +}
