@@ -1,91 +1,146 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="sgeHfjBH"
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 396971A3;
-	Thu, 14 Dec 2023 03:01:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Popi+890fZ1lHbXbLEHSlXolpjJo3sDNBxoaukvvxzM=; b=sgeHfjBHWSa4Ai8ohwsLkr9bLX
-	exGWirdgfG0oHmhTbF3/gok3kfORbPiMrVHzOqnkjt7M4Ix3XQTMImnSyqz4idtzHLbs+Ydb+yLyd
-	Y4ECRzgfFoX7137PTSav157ABqjC3u3JaqNHd3GCIaPUaRN/LOYEOujiIYlpnUJlve4c=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rDjT4-002ul8-GY; Thu, 14 Dec 2023 12:01:26 +0100
-Date: Thu, 14 Dec 2023 12:01:26 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Luo Jie <quic_luoj@quicinc.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, corbet@lwn.net,
-	p.zabel@pengutronix.de, f.fainelli@gmail.com,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 03/14] net: phy: at803x: add QCA8084 ethernet phy
- support
-Message-ID: <c05e4756-0b33-4c97-ba88-1e14f459bbe3@lunn.ch>
-References: <20231214094813.24690-1-quic_luoj@quicinc.com>
- <20231214094813.24690-4-quic_luoj@quicinc.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="RWUyVnKX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ETvlPeuM";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BhLsZ/xf";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="yGXRGCnz"
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08311BD;
+	Thu, 14 Dec 2023 04:22:52 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F3EAE1F7C9;
+	Thu, 14 Dec 2023 12:22:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1702556570; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=w8JLfHM4wo21BHhrTvjRFJxEdU7atK78kZZyg23UDyk=;
+	b=RWUyVnKXtcoJTmaMtFuHNfOUtvmtc6dwFUf1YpKneeLvoUeRHlikEbvnRZSrLoeObs28od
+	JX6XTmx/ifH0ChrkVdliL6eeCM3LV7yQYGV8hBK/+bePVWtsIhaeG65n0K+JYtQircpzhK
+	GiVqhCyUGapJV0oF8r9yiBikh/8RIMM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1702556570;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=w8JLfHM4wo21BHhrTvjRFJxEdU7atK78kZZyg23UDyk=;
+	b=ETvlPeuMdlyTFdrwMqaM7flSDELrT8RV4kC7/CQytqnlwill6J6h82Q+JpWGCKWI1VVsji
+	NO2Ke3pI/lRJikCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1702556569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=w8JLfHM4wo21BHhrTvjRFJxEdU7atK78kZZyg23UDyk=;
+	b=BhLsZ/xfXDEphwpzXorycjcI8FLhWKHCWnZzr+jH6x63juFYyUE12gUFIkWVTz29Cy1+Sg
+	FfjuYZF0sDgrrI/9Y4pIzGTyztHqCWc5t4iV3Fuytdzrqx6IlOUOt8eKJ+xYNe87Vhf0Eo
+	huUFwp4X+4Qj4WjJkEtSdQoqy+qrWu4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1702556569;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=w8JLfHM4wo21BHhrTvjRFJxEdU7atK78kZZyg23UDyk=;
+	b=yGXRGCnzI18LZdaPeSl8TY0bDgJv4vXyuKExa8vHNhs2eOuvQuU7ApnGb/kh69mfLhRoHS
+	3Yd9AZ4usviNBKCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B2CBC1379A;
+	Thu, 14 Dec 2023 12:22:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kGVWKZnzemUVfQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Thu, 14 Dec 2023 12:22:49 +0000
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Thu, 14 Dec 2023 13:22:52 +0100
+Subject: [PATCH v2] Documentation, mm/unaccepted: document accept_memory
+ kernel parameter
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231214094813.24690-4-quic_luoj@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231214-accept_memory_param-v2-1-f38cd20a0247@suse.cz>
+X-B4-Tracking: v=1; b=H4sIAJvzemUC/23MsQ6CMBCA4VchN1tDjxLBifcwhpzlKh0KzRWJS
+ nh3GycHx2/4/w0Si+cE52ID4dUnP08ZeCjAjjTdWfkhG7DESqM2iqzluPSBwyyvPpJQUOSqtua
+ KcDA15DIKO//8Xi/XbCdzUMsoTL8v/PtatdKK2lKjKfHWNKcuPRIf7Rv2/QMT+8YQrgAAAA==
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Tim Chen <tim.c.chen@linux.intel.com>, 
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, 
+ Vlastimil Babka <vbabka@suse.cz>
+X-Mailer: b4 0.12.4
+X-Spam-Score: -0.74
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.33
+X-Spamd-Result: default: False [-1.33 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-0.03)[56.40%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.997];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Flag: NO
 
-On Thu, Dec 14, 2023 at 05:48:02PM +0800, Luo Jie wrote:
-> Add qca8084 PHY support, which is four-port PHY with maximum
-> link capability 2.5G, the features of each port is almost same
-> as QCA8081 and slave seed config is not needed.
-> 
-> Three kind of interface modes supported by qca8084.
-> PHY_INTERFACE_MODE_10G_QXGMII, PHY_INTERFACE_MODE_2500BASEX and
-> PHY_INTERFACE_MODE_SGMII.
-> 
-> The PCS(serdes) and clock are also needed to be configured to
-> bringup qca8084 PHY, which will be added in the pcs driver.
-> 
-> The additional CDT configurations used for qca8084.
-> 
-> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
-> ---
->  drivers/net/phy/at803x.c | 49 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
-> 
-> diff --git a/drivers/net/phy/at803x.c b/drivers/net/phy/at803x.c
-> index 37fb033e1c29..8dfdf2ff56a5 100644
-> --- a/drivers/net/phy/at803x.c
-> +++ b/drivers/net/phy/at803x.c
-> @@ -176,6 +176,7 @@
->  #define AT8030_PHY_ID_MASK			0xffffffef
->  
->  #define QCA8081_PHY_ID				0x004dd101
-> +#define QCA8084_PHY_ID				0x004dd180
->  
->  #define QCA8327_A_PHY_ID			0x004dd033
->  #define QCA8327_B_PHY_ID			0x004dd034
-> @@ -1760,6 +1761,9 @@ static bool qca808x_is_prefer_master(struct phy_device *phydev)
->  
->  static bool qca808x_has_fast_retrain_or_slave_seed(struct phy_device *phydev)
->  {
-> +	if (phydev_id_compare(phydev, QCA8084_PHY_ID))
-> +		return false;
-> +
->  	return linkmode_test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->supported);
->  }
+The accept_memory kernel parameter was added in commit dcdfdd40fa82
+("mm: Add support for unaccepted memory") but not listed in the
+kernel-parameters doc. Add it there.
 
+Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+changes since v1:
+- use shorter sentences (Tim Chen)
+---
+ Documentation/admin-guide/kernel-parameters.txt | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-It looks like these patches need rebasing on net-next/main. It appears
-you are missing Christians patches.
-
-
-    Andrew
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 65731b060e3f..91bd74b2e203 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1,3 +1,14 @@
++	accept_memory=  [MM]
++			Format: { eager | lazy }
++			default: lazy
++			By default, unaccepted memory is accepted lazily to
++			avoid prolonged boot times. The lazy option will add
++			some runtime overhead until all memory is eventually
++			accepted. In most cases the overhead is negligible.
++			For some workloads or for debugging purposes
++			accept_memory=eager can be used to accept all memory
++			at once during boot.
++
+ 	acpi=		[HW,ACPI,X86,ARM64,RISCV64]
+ 			Advanced Configuration and Power Interface
+ 			Format: { force | on | off | strict | noirq | rsdt |
 
 ---
-pw-bot: cr
+base-commit: a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+change-id: 20231214-accept_memory_param-af395e3a2d45
+
+Best regards,
+-- 
+Vlastimil Babka <vbabka@suse.cz>
+
