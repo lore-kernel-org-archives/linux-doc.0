@@ -1,106 +1,146 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878542C680
-	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 21:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8A967205
+	for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 22:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O7Rt2W2/"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-28b29d1fe6fso123202a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 13:50:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="c9Smu2Ty"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-77f35b70944so3618385a.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 14:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702590606; x=1703195406; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q3uvOl5I1K5LVZjTbvdk6O6AI3UzMwrE4ysaxYUe9kI=;
-        b=O7Rt2W2/umRxANgZyktz+eyA5O6bnAtP2wUk4AJZpw6CiELu3Tz7E0LFpU+JzbyI29
-         YCUwFaF/hC9TOlrRXj8sxTpriwMOi+S8ORMLX3U6ERBiyTSAPLW1HqabHIAoUcO53ugO
-         WgE/tpPMp7D5cKHD9BKc7h6o/ZMSWI2r8YtWA=
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1702591910; x=1703196710; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kjwv3SJYpxnhyyliVohhGYpPw4WBD1Rbfb+MQW+rnxI=;
+        b=c9Smu2TyHybC9NOCYsUKjdGLXnEbUoyxwh7cvwC2fzsAlLYfbsJ8C6qRUQF4BIiX/P
+         Evmq/fB3uvTCTIn/fIGDDnlNi/0JmqBxz7G+IRQo7492DOlzJ1CBUQfFtH8k7cxsjJRK
+         q/gBjrBAt6i12yZoioi4Xr7glzfZcExr0SnI1RM63SB/w588PNc3smcpbTPScVcqObsz
+         2XttILSKIxbR/VAuOBdAwv3p2VUz56VAs9O5lgn2QG+4QOqQwscURgYsVP/qtU6ruqip
+         f6q/0hjsp7rjvN1fCwBLG98zmH8AgS5+SKyw2GkzpPqLXyL2SGiRkTHbOtggiyCJftBM
+         /Xrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702590606; x=1703195406;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q3uvOl5I1K5LVZjTbvdk6O6AI3UzMwrE4ysaxYUe9kI=;
-        b=VN4OeigD2vPaw9Y5SyswWn2E08k5yiLOyRINcWjDjCR0NFNHGyuNzHL/32iOHX3wTV
-         r68K60F+wF7qYulO6id9CPYhHIXUHpKIaaC0XwAX5ftnnN0SPSJEt/A99bbJxkCMg9pQ
-         mPVnV+frHPS3OCYU+nPt1eQSrzMMLEu2p1Zl8sl8X7gbaH1zmhX3HKCmRETOw+ZtgmTb
-         pizBuYrdVRU64alTBWsAUXviygysym0QyFZCV8kzjzkFcigmOs0Hk3+8yI7arRmhMKL8
-         /KeKGfst/ledBmZ2+1C5x/v327FUL4Pvz6QJXSLRhb0DjfzcRX2R/zF5l+LQK0lCT7d3
-         sPpg==
-X-Gm-Message-State: AOJu0YzedH17sS5Musaiovhe75gUMO1g76nGUVKVXKjgniU3Czgg7F/3
-	tJ/NlaXRN4OD3gRhOW5WCf17sQ==
-X-Google-Smtp-Source: AGHT+IH8XIX3Um1NiC6K2GNJEyKljGfB96y9SWgXPf2JeECrD6rGe9/j6ZSa0NVjliiYfaX/MzK2Aw==
-X-Received: by 2002:a17:90a:aa8b:b0:288:76d7:4227 with SMTP id l11-20020a17090aaa8b00b0028876d74227mr4749010pjq.52.1702590606645;
-        Thu, 14 Dec 2023 13:50:06 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id j8-20020a17090a734800b0028ae9cb6ce0sm3740633pjs.6.2023.12.14.13.50.06
+        d=1e100.net; s=20230601; t=1702591910; x=1703196710;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kjwv3SJYpxnhyyliVohhGYpPw4WBD1Rbfb+MQW+rnxI=;
+        b=N4KpONefNGu0sGvgdgWikbv//EFyOdhRztMz8MUGBNwKB0KkqkYImox7wIw7axuoA9
+         IQdl/H3ZFquMdzkSrcn68Q6S1M5IBazR5J/TkHb00slUdUVJa+ANU1hB0EOKrtV/6s9U
+         n8NS+WWdfu4X5VmgUC68gRfv4MmJYDMd02+P3G15B6sTkYjvwp0bA4dYpfX+BDss2fcS
+         3NTyCGE3EE2RH/lgAWUvw1DngzWU69tM7TPO3Tk26Ot16Wgocf6kMLHmLEQArxSuZzdS
+         FYCN91YEehegxrduDCPpeiyqz6MCd2bhhBzsEWuNrVckCD+4WjL9DH8cI8wpcomBQ4Sp
+         9G0Q==
+X-Gm-Message-State: AOJu0YzmvpT/NERtqMR8HNmDhG5rwrEDWlWi8tkDnWVbVBzrD/WDNcU1
+	uI9q+FaKJ71n+2imDYr4DxLx8A==
+X-Google-Smtp-Source: AGHT+IH8MEU6gyt/5zMK0G9MuFTf5ejKeS/GhVs9rnBbhhJ/HrYy6VGWyrA6SqrFUQ2kzJV6LwpxRA==
+X-Received: by 2002:a05:620a:1a91:b0:77f:36a7:1437 with SMTP id bl17-20020a05620a1a9100b0077f36a71437mr15760905qkb.114.1702591910653;
+        Thu, 14 Dec 2023 14:11:50 -0800 (PST)
+Received: from localhost ([2620:10d:c091:400::5:a0a6])
+        by smtp.gmail.com with ESMTPSA id dv8-20020a05620a1b8800b0077dbdc40458sm5660153qkb.1.2023.12.14.14.11.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 13:50:06 -0800 (PST)
-Date: Thu, 14 Dec 2023 13:50:05 -0800
-From: Kees Cook <keescook@chromium.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Peter Oberparleiter <oberpar@linux.ibm.com>,
-	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: kernel/gcov/fs.c:103: warning: Excess struct member 'buffer'
- description in 'gcov_iterator'
-Message-ID: <202312141344.9E41E46584@keescook>
-References: <202312150432.oBngC94A-lkp@intel.com>
+        Thu, 14 Dec 2023 14:11:50 -0800 (PST)
+Date: Thu, 14 Dec 2023 17:11:40 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Christopher Li <chrisl@kernel.org>
+Cc: Minchan Kim <minchan@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
+	akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com,
+	cerasuolodomenico@gmail.com, yosryahmed@google.com,
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net,
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org,
+	linux-mm@kvack.org, kernel-team@meta.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	david@ixit.cz, Kairui Song <kasong@tencent.com>,
+	Zhongkun He <hezhongkun.hzk@bytedance.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+Message-ID: <20231214221140.GA269753@cmpxchg.org>
+References: <20231207192406.3809579-1-nphamcs@gmail.com>
+ <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+ <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
+ <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
+ <20231209034229.GA1001962@cmpxchg.org>
+ <ZXeTb_ACou7TEVsa@google.com>
+ <20231214171137.GA261942@cmpxchg.org>
+ <CANeU7QnR+4Lgt8D9Z+Zo3Ydktx_7n45K0b=kVj+qSOzT=5GGQA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202312150432.oBngC94A-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANeU7QnR+4Lgt8D9Z+Zo3Ydktx_7n45K0b=kVj+qSOzT=5GGQA@mail.gmail.com>
 
-On Fri, Dec 15, 2023 at 04:53:19AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-> commit: fbd126f5a658b92c7f6af986a6d89cf5e5693268 gcov: annotate struct gcov_iterator with __counted_by
-> date:   8 weeks ago
-> config: i386-buildonly-randconfig-001-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150432.oBngC94A-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150432.oBngC94A-lkp@intel.com/reproduce)
+On Thu, Dec 14, 2023 at 09:34:06AM -0800, Christopher Li wrote:
+> On Thu, Dec 14, 2023 at 9:11 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312150432.oBngC94A-lkp@intel.com/
+> > > Hi Johannes,
+> > >
+> > > I haven't been following the thread closely, but I noticed the discussion
+> > > about potential use cases for zram with memcg.
+> > >
+> > > One interesting idea I have is to implement a swap controller per cgroup.
+> > > This would allow us to tailor the zram swap behavior to the specific needs of
+> > > different groups.
+> > >
+> > > For example, Group A, which is sensitive to swap latency, could use zram swap
+> > > with a fast compression setting, even if it sacrifices some compression ratio.
+> > > This would prioritize quick access to swapped data, even if it takes up more space.
+> > >
+> > > On the other hand, Group B, which can tolerate higher swap latency, could benefit
+> > > from a slower compression setting that achieves a higher compression ratio.
+> > > This would maximize memory efficiency at the cost of slightly slower data access.
+> > >
+> > > This approach could provide a more nuanced and flexible way to manage swap usage
+> > > within different cgroups.
+> >
+> > That makes sense to me.
+> >
+> > It sounds to me like per-cgroup swapfiles would be the easiest
+> > solution to this. Then you can create zram devices with different
+> > configurations and assign them to individual cgroups.
 > 
-> All warnings (new ones prefixed by >>):
+> Ideally you need zram then following swap file after the zram. That
+> would be a list of the swap files rather than just one swapfile per
+> cgroup.
+>
+> > This would also apply to Kairu's usecase: assign zrams and hdd backups
+> > as needed on a per-cgroup basis.
 > 
-> >> kernel/gcov/fs.c:103: warning: Excess struct member 'buffer' description in 'gcov_iterator'
-> 
-> 
-> vim +103 kernel/gcov/fs.c
-> 
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   90  
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   91  /**
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   92   * struct gcov_iterator - specifies current file position in logical records
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   93   * @info: associated profiling data
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   94   * @buffer: buffer containing file data
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   95   * @size: size of buffer
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   96   * @pos: current position in file
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   97   */
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   98  struct gcov_iterator {
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   99  	struct gcov_info *info;
-> 7a1d55b987dfcb Johannes Berg 2021-05-06  100  	size_t size;
-> 7a1d55b987dfcb Johannes Berg 2021-05-06  101  	loff_t pos;
-> fbd126f5a658b9 Kees Cook     2023-09-22  102  	char buffer[] __counted_by(size);
-> 7a1d55b987dfcb Johannes Berg 2021-05-06 @103  };
-> 7a1d55b987dfcb Johannes Berg 2021-05-06  104  
+> Same there, Kairui's request involves ZRAM and at least one extra swap
+> file. In other words, you really need a per cgroup swap file list.
 
-It looks like whatever produces that error is not parsing attributes
-correctly. I suspect this is the "htmldocs" target and "__counted_by" is
-missing from Documentation/conf.py. I'll investigate...
+Why is that a problem?
 
--- 
-Kees Cook
+swapon(zram, cgroup=foo)
+swapon(hdd, cgroup=foo)
+
+> > In addition, it would naturally solve scalability and isolation
+> > problems when multiple containers would otherwise be hammering on the
+> > same swap backends and locks.
+> >
+> > It would also only require one, relatively simple new interface, such
+> > as a cgroup parameter to swapon().
+> >
+> > That's highly preferable over a complex configuration file like
+> > memory.swap.tiers that needs to solve all sorts of visibility and
+> > namespace issues and duplicate the full configuration interface of
+> > every backend in some new, custom syntax.
+> 
+> If you don't like the syntax of memory.swap.tiers, I am open to
+> suggestions of your preferred syntax as well. The essicents of the
+> swap.tiers is a per cgroup list of the swap back ends. The names imply
+> that. I am not married to any given syntax of how to specify the list.
+> Its goal matches the above requirement pretty well.
+
+Except Minchan said that he would also like different zram parameters
+depending on the cgroup.
+
+There is no way we'll add a memory.swap.tiers with a new configuration
+language for backend parameters.
