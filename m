@@ -1,260 +1,153 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oVT6c+VE"
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF221BE9;
-	Thu, 14 Dec 2023 01:49:45 -0800 (PST)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BE9TS2r023593;
-	Thu, 14 Dec 2023 09:49:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=AhES8Y7x+ZpiqbfFpeHU+5rxqGlvKWJu/Mp3zVbaca0=; b=oV
-	T6c+VELcBW5dn2GehNL+ov3U8He2zOEx868Wb++REhMB4udMHO29plxxxK9ONaCh
-	j1XmbFGvWNQFjgiRg5iTb66jmgVK0iM6mdK7HhZ57VwfATbH6605w3CJw+XAAv9e
-	Y7s8TrA29yzaM6YvY5su3h+WLcpuiZNronEioEW4ugxAiBU+2HxO7YQZvwpAcW29
-	Eoo4dgaFESc8haqenFChVlxby/YP0tiAFLDUCFN0X+4GlBg0nPJIClRImhI8/r0C
-	JFHiN5OuFPzWeBCgelrWMDHgtG/TBlsZUwGyUon22Fx3hPBWo/7vZH2W1Dj1BhVd
-	JyUkEvk5/Wu954pyNEOw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uysrprq1k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Dec 2023 09:49:31 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BE9nUYf024558
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Dec 2023 09:49:30 GMT
-Received: from akronite-sh-dev02.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 14 Dec 2023 01:49:25 -0800
-From: Luo Jie <quic_luoj@quicinc.com>
-To: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
-        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>
-CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v7 14/14] dt-bindings: net: ar803x: add qca8084 PHY propetry
-Date: Thu, 14 Dec 2023 17:48:13 +0800
-Message-ID: <20231214094813.24690-15-quic_luoj@quicinc.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231214094813.24690-1-quic_luoj@quicinc.com>
-References: <20231214094813.24690-1-quic_luoj@quicinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFR7f0gg"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17B01106;
+	Thu, 14 Dec 2023 01:56:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702547801; x=1734083801;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RqiCkuGCEaun1cH6jxYGjDo0sb5DoR/NddNRX5ci++o=;
+  b=YFR7f0ggx7pvKRdxPqfAJWk6muVAmlWTeUeeTcfwXEpqy/LYTgnaE5AG
+   t2qgsAzDrYrvaXFmVI3r9PEIOHZFM2uFK4CxU0WSBAJywcCoAH+d9bTw9
+   E1gxsTDL8zVXy/qJVmUaMk+dewM/Xe7i+0U8n2Hrfd+7VHURfrnWfohUn
+   5BPi/yazk8JyE7oG1m9/IXcPlXUhjSkHJfMhqXoVEJVLzX4+M7wAoey5N
+   7Xi4DOB/x9SKlmUUUkvkazo+1IRE6ZNaSJLPcobbv5BgCfL0INuDFBiUv
+   f049gnR1Ao/rtOVDIkJxmkdqWSc27uNoKTG98sr3+9ZquS488O6c2eAn6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="459419580"
+X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
+   d="scan'208";a="459419580"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 01:56:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1021452328"
+X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
+   d="scan'208";a="1021452328"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 14 Dec 2023 01:56:33 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDiSE-000LsP-36;
+	Thu, 14 Dec 2023 09:56:30 +0000
+Date: Thu, 14 Dec 2023 17:56:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org,
+	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
+	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
+	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
+	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
+	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
+	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
+Subject: Re: [PATCH v3 01/11] mm/mempolicy: implement the sysfs-based
+ weighted_interleave interface
+Message-ID: <202312141733.PALHOosm-lkp@intel.com>
+References: <20231213224118.1949-2-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: mMfo319Ha1GenamwBq7cOMRZqSIvWQa9
-X-Proofpoint-GUID: mMfo319Ha1GenamwBq7cOMRZqSIvWQa9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- mlxscore=0 bulkscore=0 mlxlogscore=765 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312140065
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231213224118.1949-2-gregory.price@memverge.com>
 
-The following properties are added for qca8084 PHY.
+Hi Gregory,
 
-1. add the compatible string "ethernet-phy-id004d.d180" since
-   the PHY device is not accessible during MDIO bus register.
-2. add property "qcom,phy-addr-fixup" for customizing MDIO address.
-3. add property "qcom,phy-work-mode" for specifying qca8084 PHY
-   work mode.
-4. add the initial clocks and resets.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
----
- .../devicetree/bindings/net/qca,ar803x.yaml   | 158 +++++++++++++++++-
- 1 file changed, 155 insertions(+), 3 deletions(-)
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on geert-m68k/for-next geert-m68k/for-linus deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master tip/x86/asm v6.7-rc5 next-20231214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/Documentation/devicetree/bindings/net/qca,ar803x.yaml b/Documentation/devicetree/bindings/net/qca,ar803x.yaml
-index 3acd09f0da86..febff039a44f 100644
---- a/Documentation/devicetree/bindings/net/qca,ar803x.yaml
-+++ b/Documentation/devicetree/bindings/net/qca,ar803x.yaml
-@@ -14,9 +14,6 @@ maintainers:
- description: |
-   Bindings for Qualcomm Atheros AR803x PHYs
- 
--allOf:
--  - $ref: ethernet-phy.yaml#
--
- properties:
-   qca,clk-out-frequency:
-     description: Clock output frequency in Hertz.
-@@ -85,6 +82,161 @@ properties:
-     $ref: /schemas/regulator/regulator.yaml
-     unevaluatedProperties: false
- 
-+  qcom,phy-addr-fixup:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description:
-+      MDIO address for 4 PHY devices and 3 PCS devices
-+
-+  qcom,phy-work-mode:
-+    description: PHY device work mode.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1, 2, 3]
-+
-+  clocks:
-+    items:
-+      - description: APB bridge clock
-+      - description: AHB clock
-+      - description: Security control clock
-+      - description: TLMM clock
-+      - description: TLMM AHB clock
-+      - description: CNOC AHB clock
-+      - description: MDIO AHB clock
-+      - description: MDIO master AHB clock
-+      - description: PCS0 system clock
-+      - description: PCS1 system clock
-+      - description: EPHY0 system clock
-+      - description: EPHY1 system clock
-+      - description: EPHY2 system clock
-+      - description: EPHY3 system clock
-+    description: PHY initial common clock configs
-+
-+  clock-names:
-+    items:
-+      - const: apb_bridge
-+      - const: ahb
-+      - const: sec_ctrl_ahb
-+      - const: tlmm
-+      - const: tlmm_ahb
-+      - const: cnoc_ahb
-+      - const: mdio_ahb
-+      - const: mdio_master_ahb
-+      - const: srds0_sys
-+      - const: srds1_sys
-+      - const: gephy0_sys
-+      - const: gephy1_sys
-+      - const: gephy2_sys
-+      - const: gephy3_sys
-+
-+  resets:
-+    items:
-+      - description: PCS0 system reset
-+      - description: PCS1 system reset
-+      - description: EPHY0 system reset
-+      - description: EPHY1 system reset
-+      - description: EPHY2 system reset
-+      - description: EPHY3 system reset
-+      - description: EPHY0 software reset
-+      - description: EPHY1 software reset
-+      - description: EPHY2 software reset
-+      - description: EPHY3 software reset
-+      - description: Ethernet DSP reset
-+    description: PHY initial common reset configs
-+
-+  reset-names:
-+    items:
-+      - const: srds0_sys
-+      - const: srds1_sys
-+      - const: gephy0_sys
-+      - const: gephy1_sys
-+      - const: gephy2_sys
-+      - const: gephy3_sys
-+      - const: gephy0_soft
-+      - const: gephy1_soft
-+      - const: gephy2_soft
-+      - const: gephy3_soft
-+      - const: gephy_dsp
-+
-+allOf:
-+  - $ref: ethernet-phy.yaml#
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - ethernet-phy-id004d.d180
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: APB bridge clock
-+            - description: AHB clock
-+            - description: Security control clock
-+            - description: TLMM clock
-+            - description: TLMM AHB clock
-+            - description: CNOC AHB clock
-+            - description: MDIO AHB clock
-+            - description: MDIO master AHB clock
-+            - description: PCS0 system clock
-+            - description: PCS1 system clock
-+            - description: EPHY0 system clock
-+            - description: EPHY1 system clock
-+            - description: EPHY2 system clock
-+            - description: EPHY3 system clock
-+        clock-names:
-+          items:
-+            - const: apb_bridge
-+            - const: ahb
-+            - const: sec_ctrl_ahb
-+            - const: tlmm
-+            - const: tlmm_ahb
-+            - const: cnoc_ahb
-+            - const: mdio_ahb
-+            - const: mdio_master_ahb
-+            - const: srds0_sys
-+            - const: srds1_sys
-+            - const: gephy0_sys
-+            - const: gephy1_sys
-+            - const: gephy2_sys
-+            - const: gephy3_sys
-+        resets:
-+          items:
-+            - description: PCS0 system reset
-+            - description: PCS1 system reset
-+            - description: EPHY0 system reset
-+            - description: EPHY1 system reset
-+            - description: EPHY2 system reset
-+            - description: EPHY3 system reset
-+            - description: EPHY0 software reset
-+            - description: EPHY1 software reset
-+            - description: EPHY2 software reset
-+            - description: EPHY3 software reset
-+            - description: Ethernet DSP reset
-+        reset-names:
-+          items:
-+            - const: srds0_sys
-+            - const: srds1_sys
-+            - const: gephy0_sys
-+            - const: gephy1_sys
-+            - const: gephy2_sys
-+            - const: gephy3_sys
-+            - const: gephy0_soft
-+            - const: gephy1_soft
-+            - const: gephy2_soft
-+            - const: gephy3_soft
-+            - const: gephy_dsp
-+      required:
-+        - qcom,phy-addr-fixup
-+        - qcom,phy-work-mode
-+        - clocks
-+        - clock-names
-+        - resets
-+        - reset-names
-+    else:
-+      properties:
-+        qcom,phy-addr-fixup: false
-+        qcom,phy-work-mode: false
-+
- unevaluatedProperties: false
- 
- examples:
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231214-064236
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231213224118.1949-2-gregory.price%40memverge.com
+patch subject: [PATCH v3 01/11] mm/mempolicy: implement the sysfs-based weighted_interleave interface
+config: x86_64-randconfig-161-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141733.PALHOosm-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141733.PALHOosm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141733.PALHOosm-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/static_call.h:135,
+                    from include/linux/tracepoint.h:22,
+                    from include/trace/events/tlb.h:9,
+                    from arch/x86/include/asm/mmu_context.h:10,
+                    from include/linux/mmu_context.h:5,
+                    from include/linux/cpuset.h:18,
+                    from mm/mempolicy.c:83:
+   mm/mempolicy.c: In function 'add_weight_node':
+>> mm/mempolicy.c:3145:28: error: 'struct iw_node_attr' has no member named 'attr'
+    3145 |  sysfs_attr_init(&node_attr->attr);
+         |                            ^~
+   include/linux/sysfs.h:55:3: note: in definition of macro 'sysfs_attr_init'
+      55 |  (attr)->key = &__key;    \
+         |   ^~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
+   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
+   Selected by [m]:
+   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
+
+
+vim +3145 mm/mempolicy.c
+
+  3129	
+  3130	static int add_weight_node(int nid, struct kobject *wi_kobj)
+  3131	{
+  3132		struct iw_node_attr *node_attr;
+  3133		char *name;
+  3134	
+  3135		node_attr = kzalloc(sizeof(*node_attr), GFP_KERNEL);
+  3136		if (!node_attr)
+  3137			return -ENOMEM;
+  3138	
+  3139		name = kasprintf(GFP_KERNEL, "node%d", nid);
+  3140		if (!name) {
+  3141			kfree(node_attr);
+  3142			return -ENOMEM;
+  3143		}
+  3144	
+> 3145		sysfs_attr_init(&node_attr->attr);
+  3146		node_attr->kobj_attr.attr.name = name;
+  3147		node_attr->kobj_attr.attr.mode = 0644;
+  3148		node_attr->kobj_attr.show = node_show;
+  3149		node_attr->kobj_attr.store = node_store;
+  3150		node_attr->nid = nid;
+  3151	
+  3152		if (sysfs_create_file(wi_kobj, &node_attr->kobj_attr.attr)) {
+  3153			kfree(node_attr->kobj_attr.attr.name);
+  3154			kfree(node_attr);
+  3155			pr_err("failed to add attribute to weighted_interleave\n");
+  3156			return -ENOMEM;
+  3157		}
+  3158	
+  3159		node_attrs[nid] = node_attr;
+  3160		return 0;
+  3161	}
+  3162	
+
 -- 
-2.42.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
