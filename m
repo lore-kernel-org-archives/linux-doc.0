@@ -1,90 +1,81 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87FB9642;
+	Thu, 14 Dec 2023 01:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ZEbblJwa"
-Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com [207.171.190.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CD81DB;
-	Wed, 13 Dec 2023 15:36:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1702510616; x=1734046616;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=uhcOfQRbinzPEwd7PFn+5HZ7ZrYv/GL0E6TNEd2zF1E=;
-  b=ZEbblJwaGxqLUn09tej+FOS0JpRaYNKsLJhkMVp5ABlllF3Xo0P9mayw
-   OEMPMPOoYbEDzdT+ao77aSAkBOjBArMCmrdm2TxZFK6MG1R+WdnBWBeOv
-   nU05nInXPcbZ7cBGMLkby279QDgFSIcKIjwpiM+1GOYyUS1shKGWPzrrQ
-   4=;
-X-IronPort-AV: E=Sophos;i="6.04,274,1695686400"; 
-   d="scan'208";a="317067437"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-pdx-2c-m6i4x-dc7c3f8b.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-33001.sea14.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 23:36:46 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
-	by email-inbound-relay-pdx-2c-m6i4x-dc7c3f8b.us-west-2.amazon.com (Postfix) with ESMTPS id BC6F1A0F68;
-	Wed, 13 Dec 2023 23:36:41 +0000 (UTC)
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.38.20:7953]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.33.64:2525] with esmtp (Farcaster)
- id f9b5748f-49e6-459d-89c3-cedde6930958; Wed, 13 Dec 2023 23:36:41 +0000 (UTC)
-X-Farcaster-Flow-ID: f9b5748f-49e6-459d-89c3-cedde6930958
-Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 13 Dec 2023 23:36:40 +0000
-Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
- (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 13 Dec
- 2023 23:36:34 +0000
-Message-ID: <6748dc7e-534e-4b45-8fa9-052fae591534@amazon.com>
-Date: Thu, 14 Dec 2023 00:36:32 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lSq1uGLr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6B2C433C8;
+	Thu, 14 Dec 2023 01:11:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702516284;
+	bh=XwoFjsJDwQ9a2+DWM4rjeegVkzh/lxFGbWD3rYfyGcc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lSq1uGLrFIRUTnVT3AS20PIwVXDWLgO8ozWsfsDZWaPJjk8n3u8l/eWwAv50O0EMd
+	 u8lxxL9Y4sSkGifdgqH3/YI4+EmFlAIdAVSI/mgcQl9karZZTwtudxVBlp5VpjaMxu
+	 SjagbjSDOcAhlUiBn/nkeM13SGJb/wwTwxfblLge9zGFRonPJ2SBordG8cRqdYFNpI
+	 3vAf2yXumJqwsUhu2Qb2L2P3bTvd2tZKU5prXoqDMiIFx8b91cZLKRNAPDnqn2anJK
+	 4lsRsLROKyVu60uG6cdSuihgOfEcCuT+ZirEHhGzdijeXu7TpvPoxov1wnMfqIDbmI
+	 CMP4+mM/C2Qxg==
+Date: Wed, 13 Dec 2023 17:11:21 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>, dm-devel@lists.linux.dev,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, martin.petersen@oracle.com,
+	linux-scsi@vger.kernel.org, nitheshshetty@gmail.com,
+	anuj1072538@gmail.com, gost.dev@samsung.com, mcgrof@kernel.org,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v18 02/12] Add infrastructure for copy offload in block
+ and request layer.
+Message-ID: <ZXpWOaxCRoF7dFis@kbusch-mbp>
+References: <20231206100253.13100-1-joshi.k@samsung.com>
+ <CGME20231206101050epcas5p2c8233030bbf74cef0166c7dfc0f41be7@epcas5p2.samsung.com>
+ <20231206100253.13100-3-joshi.k@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/15] kexec: Add Kexec HandOver (KHO) generation helpers
-Content-Language: en-US
-To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <kexec@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <x86@kernel.org>, Eric Biederman
-	<ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski
-	<luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Rob Herring
-	<robh+dt@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Andrew Morton
-	<akpm@linux-foundation.org>, Mark Rutland <mark.rutland@arm.com>, "Tom
- Lendacky" <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
-	James Gowans <jgowans@amazon.com>, <arnd@arndb.de>, <pbonzini@redhat.com>,
-	<madvenka@linux.microsoft.com>, Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Usama Arif <usama.arif@bytedance.com>, David Woodhouse <dwmw@amazon.co.uk>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>
-References: <20231213000452.88295-1-graf@amazon.com>
- <20231213000452.88295-4-graf@amazon.com>
- <20231213183614.GA14669@skinsburskii.>
-From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <20231213183614.GA14669@skinsburskii.>
-X-ClientProxiedBy: EX19D044UWA002.ant.amazon.com (10.13.139.11) To
- EX19D020UWC004.ant.amazon.com (10.13.138.149)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231206100253.13100-3-joshi.k@samsung.com>
 
-Ck9uIDEzLjEyLjIzIDE5OjM2LCBTdGFuaXNsYXYgS2luc2J1cnNraWkgd3JvdGU6Cj4gT24gV2Vk
-LCBEZWMgMTMsIDIwMjMgYXQgMTI6MDQ6NDBBTSArMDAwMCwgQWxleGFuZGVyIEdyYWYgd3JvdGU6
-Cj4+ICtpbnQgcmVnaXN0ZXJfa2hvX25vdGlmaWVyKHN0cnVjdCBub3RpZmllcl9ibG9jayAqbmIp
-Cj4+ICt7Cj4+ICsgICAgIHJldHVybiBibG9ja2luZ19ub3RpZmllcl9jaGFpbl9yZWdpc3Rlcigm
-a2hvLmNoYWluX2hlYWQsIG5iKTsKPj4gK30KPj4gK0VYUE9SVF9TWU1CT0xfR1BMKHJlZ2lzdGVy
-X2tob19ub3RpZmllcik7Cj4+ICsKPj4gK2ludCB1bnJlZ2lzdGVyX2tob19ub3RpZmllcihzdHJ1
-Y3Qgbm90aWZpZXJfYmxvY2sgKm5iKQo+PiArewo+PiArICAgICByZXR1cm4gYmxvY2tpbmdfbm90
-aWZpZXJfY2hhaW5fdW5yZWdpc3Rlcigma2hvLmNoYWluX2hlYWQsIG5iKTsKPj4gK30KPj4gK0VY
-UE9SVF9TWU1CT0xfR1BMKHVucmVnaXN0ZXJfa2hvX25vdGlmaWVyKTsKPj4gKwo+PiArYm9vbCBr
-aG9faXNfYWN0aXZlKHZvaWQpCj4+ICt7Cj4+ICsgICAgIHJldHVybiBraG8uYWN0aXZlOwo+PiAr
-fQo+PiArRVhQT1JUX1NZTUJPTF9HUEwoa2hvX2lzX2FjdGl2ZSk7Cj4+ICsKPiBXaHkgc2hvdWxk
-IHRoZXNlIGhlbHBlcnMgYmUgcmVzdHJpY3RlZCB0byBHUEwgY29kZT8KCgpUaGF0J3MgYSBzaW1w
-bGUgb25lOiBFdmVyeXRoaW5nIHNob3VsZCBiZSBFWFBPUlRfU1lNQk9MX0dQTCBieSBkZWZhdWx0
-LiAKWW91IG5lZWQgdG8gaGF2ZSByZWFsbHkgZ29vZCByZWFzb25zIHRvIGV4cG9ydCBhbnl0aGlu
-ZyBmb3Igbm9uLUdQTCAKbW9kdWxlcy4gSSBkb24ndCBoYXZlIGEgZ29vZCByZWFzb24gZm9yIHRo
-ZW0sIHNvIGl0J3MgR1BMIG9ubHkgOikKCgpBbGV4CgoKCgoKQW1hem9uIERldmVsb3BtZW50IENl
-bnRlciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAxMTcgQmVybGluCkdlc2NoYWVmdHNm
-dWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MKRWluZ2V0cmFnZW4g
-YW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3MyBCClNpdHo6IEJl
-cmxpbgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
+On Wed, Dec 06, 2023 at 03:32:34PM +0530, Kanchan Joshi wrote:
+>  static inline bool bio_has_data(struct bio *bio)
+>  {
+> -	if (bio &&
+> -	    bio->bi_iter.bi_size &&
+> -	    bio_op(bio) != REQ_OP_DISCARD &&
+> -	    bio_op(bio) != REQ_OP_SECURE_ERASE &&
+> -	    bio_op(bio) != REQ_OP_WRITE_ZEROES)
+> +	if (bio && (bio_op(bio) == REQ_OP_READ || bio_op(bio) == REQ_OP_WRITE))
+>  		return true;
 
+There are other ops besides READ and WRITE that have data, but this is
+might be fine by the fact that other ops with data currently don't call
+this function.
+
+> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> index 7c2316c91cbd..bd821eaa7a02 100644
+> --- a/include/linux/blk_types.h
+> +++ b/include/linux/blk_types.h
+> @@ -393,6 +393,10 @@ enum req_op {
+>  	/* reset all the zone present on the device */
+>  	REQ_OP_ZONE_RESET_ALL	= (__force blk_opf_t)17,
+>  
+> +	/* copy offload dst and src operation */
+> +	REQ_OP_COPY_SRC		= (__force blk_opf_t)19,
+
+Should this be an even numbered OP? The odd ones are for data
+WRITEs.
+
+> +	REQ_OP_COPY_DST		= (__force blk_opf_t)21,
