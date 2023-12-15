@@ -1,131 +1,77 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804EC3C486;
-	Fri, 15 Dec 2023 19:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D2046531;
+	Fri, 15 Dec 2023 19:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="wYjuLjNN"
-Received: from [IPv6:::1] ([172.56.209.70])
-	(authenticated bits=0)
-	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 3BFJVn1u3759634
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 15 Dec 2023 11:31:51 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 3BFJVn1u3759634
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2023121201; t=1702668714;
-	bh=lEZogfLkuQTBdhS1oT4n+uuFxGNt+Mg/2j/DlYXfmD8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=wYjuLjNNcJXBOhbx8QYqCQ8C8O5S21qbIVm6MJbF1vKzrOW0LoFeyoxetPfmSPUpP
-	 jJP2FGpa3pG2sdDqYCFuF+w/eDXV5va+ZJ+Z0GE7EV+ifShjiZVcobloo6/R1OMYzA
-	 WtTjnox4DWo9OpX5QlB0kpcsCr0FQt9T3vMdlVdSIiA2a5fj5HZDJtRVy7+tvYcYvz
-	 K7Vacy+ulQTvyqZCOaXa4mBr+04KIslDg9V/8eKM+tFtEFLLdgzLJdxMcpk9z2wPUe
-	 kfPGEPoTYKcWKD5vFNo5GIj7fAuBjsS7QKawPD3K9IkCeGxwy+YuTAU2JnGVGhEmuA
-	 A1VfIoJZdSVHQ==
-Date: Fri, 15 Dec 2023 11:31:38 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Chris Koch <chrisko@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-kernel@vger.kernel.org
-CC: Cloud Hsu <cloudhsu@google.com>
-Subject: Re: [PATCH] kexec: allocate kernel above bzImage's pref_address
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20231215190521.3796022-1-chrisko@google.com>
-References: <20231215190521.3796022-1-chrisko@google.com>
-Message-ID: <36486D80-D0AE-4594-B337-71B3A84FC3DD@zytor.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CdG5taBA";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AkWe3gTm"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1702669228;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=py2PeKKW0Gg3Y7O2QlrezYfuYNsNwRB8EFj8qodJKBQ=;
+	b=CdG5taBAB6NTGzrM1rVvHjEwlby6utivd6CtHCQ/SbU/I0bckLsyLiBKkgFxHtVPownMHz
+	5T8olK/qGeNpaRlM7L5jERG1xMONRGfJKovMfz/HsRMtryBgfVSSBp146avw0XqPAvs+hd
+	1VajQ9M8qfvAEi+x7fpa/LbJRNsPoTBneTU2l0pCSv/fG28o4g74Ia0roq11PfKpJym18J
+	2CJ1VF0FxfTwZppVnajmd6+9Q20FqIdDBs9Zk7N2tnUgdmEbq2b4x4ujKF+vDauHDKUNx2
+	ktWw7oS5G8SIUH6h9kxMTknyF6WlsYPA+KTBwbzdtkMoMD0gpOTMeFvPV0swhA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1702669228;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=py2PeKKW0Gg3Y7O2QlrezYfuYNsNwRB8EFj8qodJKBQ=;
+	b=AkWe3gTm8O5beIsABX3PYEheunlmtyOLR3tMy+HnIHu9N4zr8/Q64ZQBWBzRCznskC2rHp
+	BwvqYKEXsjJzgQAQ==
+To: Russell King <rmk+kernel@armlinux.org.uk>, linux-pm@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-acpi@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+ kvmarm@lists.linux.dev, x86@kernel.org,
+ acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org,
+ linux-parisc@vger.kernel.org
+Cc: Salil Mehta <salil.mehta@huawei.com>, Jean-Philippe Brucker
+ <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, James
+ Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 21/21] cpumask: Add enabled cpumask for present
+ CPUs that can be brought online
+In-Reply-To: <E1rDOhX-00Dvlg-Ci@rmk-PC.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+ <E1rDOhX-00Dvlg-Ci@rmk-PC.armlinux.org.uk>
+Date: Fri, 15 Dec 2023 20:40:28 +0100
+Message-ID: <87le9vmez7.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On December 15, 2023 11:05:21 AM PST, Chris Koch <chrisko@google=2Ecom> wro=
-te:
->A relocatable kernel will relocate itself to pref_address if it is
->loaded below pref_address=2E This means a booted kernel may be relocating
->itself to an area with reserved memory on modern systems, potentially
->clobbering arbitrary data that may be important to the system=2E
+On Wed, Dec 13 2023 at 12:50, Russell King (Oracle) wrote:
+> From: James Morse <james.morse@arm.com>
 >
->This is often the case, as the default value of PHYSICAL_START is
->0x1000000 and kernels are typically loaded at 0x100000 or above by
->bootloaders like iPXE or kexec=2E GRUB behaves like this patch does=2E
+> The 'offline' file in sysfs shows all offline CPUs, including those
+> that aren't present. User-space is expected to remove not-present CPUs
+> from this list to learn which CPUs could be brought online.
 >
->Also fixes the documentation around pref_address and PHYSICAL_START to
->be accurate=2E
+> CPUs can be present but not-enabled. These CPUs can't be brought online
+> until the firmware policy changes, which comes with an ACPI notification
+> that will register the CPUs.
 >
->Co-developed-by: Cloud Hsu <cloudhsu@google=2Ecom>
->Signed-off-by: Cloud Hsu <cloudhsu@google=2Ecom>
->Signed-off-by: Chris Koch <chrisko@google=2Ecom>
->---
-> Documentation/arch/x86/boot=2Erst   |  3 ++-
-> arch/x86/Kconfig                  | 10 +++++-----
-> arch/x86/kernel/kexec-bzimage64=2Ec |  5 ++++-
-> 3 files changed, 11 insertions(+), 7 deletions(-)
+> With only the offline and present files, user-space is unable to
+> determine which CPUs it can try to bring online. Add a new CPU mask
+> that shows this based on all the registered CPUs.
 >
->diff --git a/Documentation/arch/x86/boot=2Erst b/Documentation/arch/x86/b=
-oot=2Erst
->index 22cc7a040dae=2E=2E49bea8986620 100644
->--- a/Documentation/arch/x86/boot=2Erst
->+++ b/Documentation/arch/x86/boot=2Erst
->@@ -878,7 +878,8 @@ Protocol:	2=2E10+
->   address if possible=2E
->=20
->   A non-relocatable kernel will unconditionally move itself and to run
->-  at this address=2E
->+  at this address=2E A relocatable kernel will move itself to this addre=
-ss if it
->+  loaded below this address=2E
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D
-> Field name:	init_size
->diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
->index 3762f41bb092=2E=2E1370f43328d7 100644
->--- a/arch/x86/Kconfig
->+++ b/arch/x86/Kconfig
->@@ -2109,11 +2109,11 @@ config PHYSICAL_START
-> 	help
-> 	  This gives the physical address where the kernel is loaded=2E
->=20
->-	  If kernel is a not relocatable (CONFIG_RELOCATABLE=3Dn) then
->-	  bzImage will decompress itself to above physical address and
->-	  run from there=2E Otherwise, bzImage will run from the address where
->-	  it has been loaded by the boot loader and will ignore above physical
->-	  address=2E
->+	  If the kernel is not relocatable (CONFIG_RELOCATABLE=3Dn) then bzImag=
-e
->+	  will decompress itself to above physical address and run from there=
-=2E
->+	  Otherwise, bzImage will run from the address where it has been loaded
->+	  by the boot loader=2E The only exception is if it is loaded below the
->+	  above physical address, in which case it will relocate itself there=
-=2E
->=20
-> 	  In normal kdump cases one does not have to set/change this option
-> 	  as now bzImage can be compiled as a completely relocatable image
->diff --git a/arch/x86/kernel/kexec-bzimage64=2Ec b/arch/x86/kernel/kexec-=
-bzimage64=2Ec
->index a61c12c01270=2E=2E5dcd232d58bf 100644
->--- a/arch/x86/kernel/kexec-bzimage64=2Ec
->+++ b/arch/x86/kernel/kexec-bzimage64=2Ec
->@@ -498,7 +498,10 @@ static void *bzImage64_load(struct kimage *image, ch=
-ar *kernel,
-> 	kbuf=2Ebufsz =3D  kernel_len - kern16_size;
-> 	kbuf=2Ememsz =3D PAGE_ALIGN(header->init_size);
-> 	kbuf=2Ebuf_align =3D header->kernel_alignment;
->-	kbuf=2Ebuf_min =3D MIN_KERNEL_LOAD_ADDR;
->+	if (header->pref_address < MIN_KERNEL_LOAD_ADDR)
->+		kbuf=2Ebuf_min =3D MIN_KERNEL_LOAD_ADDR;
->+	else
->+		kbuf=2Ebuf_min =3D header->pref_address;
-> 	kbuf=2Emem =3D KEXEC_BUF_MEM_UNKNOWN;
-> 	ret =3D kexec_add_buffer(&kbuf);
-> 	if (ret)
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> Tested-by: Jianyong Wu <jianyong.wu@arm.com>
 
-Reviewed-by: H=2E Peter Anvin (Intel) <hpa@zytor=2Ecom>
+Acked-by: Thomas Gleixner <tglx@linutronix.de>
