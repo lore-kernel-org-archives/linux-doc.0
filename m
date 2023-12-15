@@ -1,37 +1,37 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848831BDDC;
-	Fri, 15 Dec 2023 07:41:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809DF15AD2;
+	Fri, 15 Dec 2023 07:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kOfX8EMg"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BF4FYsi012570;
-	Fri, 15 Dec 2023 07:40:53 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LGYpKm3L"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BF6CUGu014168;
+	Fri, 15 Dec 2023 07:41:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=7+uJJsu7r1bUFsYmXKjWyci5NkWtJ9QfDE/bEKYNGi4=; b=kO
-	fX8EMggrnJZSdnX85aXLbmklAI1Ab2vT1OF1TKG4EkJN6/COQm9dIVUBFyACQNFt
-	0gelLMstqeggovyxJ0ThQPZP3JnNGUijBlObgumGMJIa9yJMYczZhhdyOwJeMeZJ
-	WwDiopGtjzl3sR3dVUC+FGVQqyJ7cSe7WtOBCL2N4F8+XDGDKcLfV50MyucqSp13
-	fSRmeNt493ZUCEOi9aYeiF9cLRP2Z2qANo9yicLCZNnd+uvXsLvc/aTI8l5vrUmS
-	bzRXYcrVLdS2k5sJ1hroFr91cnkLElqWfFRHKgnjG9Nx7bmi5HRBN8GroSwSCocW
-	KqC1m/MZFo1AUaWH+69g==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v05jqhhcm-1
+	qcppdkim1; bh=RdEmD3F3bi1zawZ4fZPZaXG3kduxBS2lem2ZYGbtznE=; b=LG
+	YpKm3LUCpHylDySCpBGuqqGGxA1B/9TO89APpKGqJykpZq17bxxY0eaYr31KgHMi
+	kaPM0JP+Z4Gl3XGEuvQdsS4nVQ648yLL8Rzv5nB+pGSd/BMX2eoR7frHrnRS6BjR
+	qs4MKb/GCMActx4kj7IsHz0nE/UbNEeL12iddzkhEglT8y2/M0P5hYuCbQvQx9/g
+	VnimaVI2ekLTLG/3fQLPCeaRGqlZHMNDoQeX4GVgwW353urXx2hlPPXml2lhiQUN
+	0rkzOAyXMIVhDS6OHHCrkf4dHxgqi8m9Mm/uThMNbNKHrsxhpdQCY0eN2kfhYXa4
+	6DIv9+jlZvqUy6hCaRqA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0hb0073r-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 07:40:53 +0000 (GMT)
+	Fri, 15 Dec 2023 07:41:07 +0000 (GMT)
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BF7erYh002820
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BF7f6I1017425
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 07:40:53 GMT
+	Fri, 15 Dec 2023 07:41:06 GMT
 Received: from akronite-sh-dev02.qualcomm.com (10.80.80.8) by
  nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 14 Dec 2023 23:40:48 -0800
+ 15.2.1118.40; Thu, 14 Dec 2023 23:41:02 -0800
 From: Luo Jie <quic_luoj@quicinc.com>
 To: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
         <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
@@ -40,9 +40,9 @@ To: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
         <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>
 CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v8 06/14] net: phy: at803x: add qca8084_link_change_notify
-Date: Fri, 15 Dec 2023 15:39:56 +0800
-Message-ID: <20231215074005.26976-7-quic_luoj@quicinc.com>
+Subject: [PATCH v8 09/14] net: phy: at803x: set MDIO address of qca8084 PHY
+Date: Fri, 15 Dec 2023 15:39:59 +0800
+Message-ID: <20231215074005.26976-10-quic_luoj@quicinc.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231215074005.26976-1-quic_luoj@quicinc.com>
 References: <20231215074005.26976-1-quic_luoj@quicinc.com>
@@ -58,91 +58,129 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: gqoNSi-LJIoA_ez-vGOEIq0HPfvfEzZ9
-X-Proofpoint-GUID: gqoNSi-LJIoA_ez-vGOEIq0HPfvfEzZ9
+X-Proofpoint-ORIG-GUID: sr5AobqIUzm8XPFAzPsebmS0KoR_PxX4
+X-Proofpoint-GUID: sr5AobqIUzm8XPFAzPsebmS0KoR_PxX4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=999 lowpriorityscore=0 adultscore=0 suspectscore=0 spamscore=0
- mlxscore=0 clxscore=1015 impostorscore=0 phishscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 mlxlogscore=999
+ clxscore=1015 lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2312150047
 
-When the link is changed, qca8084 needs to do the fifo reset and
-adjust the IPG level for the qusgmii link speed 1000M.
+Program the MDIO address of qca8084 PHY and PCS device
+in the PHY probe function.
+
+The MDIO address of qca8084 device is configured according
+to the property "qcom,phy-addr-fixup" of phy node, which
+defines the MDIO address for 4 PHYs and 3 PCSes, each MDIO
+address occupies 5 bits in the config register.
+
+The MDIO address of qca8084 should be configured correctly
+before doing the clock initialization in the PHY probe function,
+so the property "reg" can't be used to configure the MDIO address
+of phy device one by one, the clock initialization will be configured
+with all 4 PHY devices in one PHY probe function.
 
 Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
 ---
- drivers/net/phy/at803x.c | 41 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ drivers/net/phy/at803x.c | 61 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
 diff --git a/drivers/net/phy/at803x.c b/drivers/net/phy/at803x.c
-index 252fae4329cc..bb382089ab77 100644
+index 4982bde5a8a5..c8830898ce2e 100644
 --- a/drivers/net/phy/at803x.c
 +++ b/drivers/net/phy/at803x.c
-@@ -289,6 +289,13 @@
- #define QCA8084_MSE_THRESHOLD			0x800a
- #define QCA8084_MSE_THRESHOLD_2P5G_VAL		0x51c6
+@@ -303,6 +303,18 @@
+ #define QCA8084_HIGH_ADDR_PREFIX		0x18
+ #define QCA8084_LOW_ADDR_PREFIX			0x10
  
-+#define QCA8084_FIFO_CONTROL			0x19
-+#define QCA8084_FIFO_MAC_2_PHY			BIT(1)
-+#define QCA8084_FIFO_PHY_2_MAC			BIT(0)
++#define QCA8084_PCS_CFG				0xc90f014
++#define QCA8084_PCS_ADDR0_MASK			GENMASK(4, 0)
++#define QCA8084_PCS_ADDR1_MASK			GENMASK(9, 5)
++#define QCA8084_PCS_ADDR2_MASK			GENMASK(14, 10)
 +
-+#define QCA8084_MMD7_IPG_OP			0x901d
-+#define QCA8084_IPG_10_TO_11_EN			BIT(0)
++#define QCA8084_EPHY_CFG			0xc90f018
++#define QCA8084_EPHY_ADDR0_MASK			GENMASK(4, 0)
++#define QCA8084_EPHY_ADDR1_MASK			GENMASK(9, 5)
++#define QCA8084_EPHY_ADDR2_MASK			GENMASK(14, 10)
++#define QCA8084_EPHY_ADDR3_MASK			GENMASK(19, 15)
++#define QCA8084_EPHY_LDO_EN			GENMASK(21, 20)
 +
  MODULE_DESCRIPTION("Qualcomm Atheros AR803x and QCA808X PHY driver");
  MODULE_AUTHOR("Matus Ujhelyi");
  MODULE_LICENSE("GPL");
-@@ -2192,6 +2199,39 @@ static int qca8084_config_init(struct phy_device *phydev)
- 			     QCA8084_MSE_THRESHOLD_2P5G_VAL);
+@@ -764,6 +776,51 @@ static int at803x_parse_dt(struct phy_device *phydev)
+ 	return 0;
  }
  
-+static void qca8084_link_change_notify(struct phy_device *phydev)
++static int qca8084_parse_and_set_phyaddr(struct phy_device *phydev)
 +{
++	struct device_node *node;
++	u32 addr[7];
 +	int ret;
 +
-+	ret = phy_modify(phydev, QCA8084_FIFO_CONTROL,
-+			 QCA8084_FIFO_MAC_2_PHY | QCA8084_FIFO_PHY_2_MAC,
-+			 0);
-+	if (ret)
-+		return;
++	node = phydev->mdio.dev.of_node;
 +
-+	/* If the PHY works on PHY_INTERFACE_MODE_10G_QXGMII mode, the fifo
-+	 * needs to be kept as reset state in link down status.
++	/* The property "qcom,phy-addr-fixup" is only defined in one
++	 * PHY device tree node.
 +	 */
-+	if (phydev->interface != PHY_INTERFACE_MODE_10G_QXGMII ||
-+	    phydev->link) {
-+		msleep(50);
-+		ret = phy_modify(phydev, QCA8084_FIFO_CONTROL,
-+				 QCA8084_FIFO_MAC_2_PHY |
-+				 QCA8084_FIFO_PHY_2_MAC,
-+				 QCA8084_FIFO_MAC_2_PHY |
-+				 QCA8084_FIFO_PHY_2_MAC);
-+		if (ret)
-+			return;
-+	}
++	ret = of_property_read_u32_array(node, "qcom,phy-addr-fixup",
++					 addr, ARRAY_SIZE(addr));
++	if (ret)
++		return ret == -EINVAL ? 0 : ret;
 +
-+	/* Enable IPG 10 to 11 tuning on link speed 1000M of QUSGMII mode. */
-+	if (phydev->interface == PHY_INTERFACE_MODE_10G_QXGMII)
-+		phy_modify_mmd(phydev, MDIO_MMD_AN, QCA8084_MMD7_IPG_OP,
-+			       QCA8084_IPG_10_TO_11_EN,
-+			       phydev->speed == SPEED_1000 ?
-+			       QCA8084_IPG_10_TO_11_EN : 0);
++	/* There are 4 PHYs and 3 PCSes on qca8084 chip, each device address
++	 * occupies 5 bits of the config register to customize the MDIO address.
++	 */
++	ret = qca8084_mii_modify(phydev, QCA8084_EPHY_CFG,
++				 QCA8084_EPHY_ADDR0_MASK |
++				 QCA8084_EPHY_ADDR1_MASK |
++				 QCA8084_EPHY_ADDR2_MASK |
++				 QCA8084_EPHY_ADDR3_MASK,
++				 FIELD_PREP(QCA8084_EPHY_ADDR0_MASK, addr[0]) |
++				 FIELD_PREP(QCA8084_EPHY_ADDR1_MASK, addr[1]) |
++				 FIELD_PREP(QCA8084_EPHY_ADDR2_MASK, addr[2]) |
++				 FIELD_PREP(QCA8084_EPHY_ADDR3_MASK, addr[3]));
++	if (ret)
++		return ret;
++
++	return qca8084_mii_modify(phydev, QCA8084_PCS_CFG,
++				  QCA8084_PCS_ADDR0_MASK |
++				  QCA8084_PCS_ADDR1_MASK |
++				  QCA8084_PCS_ADDR2_MASK,
++				  FIELD_PREP(QCA8084_PCS_ADDR0_MASK, addr[4]) |
++				  FIELD_PREP(QCA8084_PCS_ADDR1_MASK, addr[5]) |
++				  FIELD_PREP(QCA8084_PCS_ADDR2_MASK, addr[6]));
 +}
 +
- static struct phy_driver at803x_driver[] = {
++static int qca8084_probe(struct phy_device *phydev)
++{
++	return qca8084_parse_and_set_phyaddr(phydev);
++}
++
+ static int at803x_probe(struct phy_device *phydev)
  {
- 	/* Qualcomm Atheros AR8035 */
-@@ -2388,6 +2428,7 @@ static struct phy_driver at803x_driver[] = {
- 	.cable_test_start	= qca808x_cable_test_start,
- 	.cable_test_get_status	= qca808x_cable_test_get_status,
- 	.config_init		= qca8084_config_init,
-+	.link_change_notify	= qca8084_link_change_notify,
- }, };
+ 	struct device *dev = &phydev->mdio.dev;
+@@ -776,6 +833,9 @@ static int at803x_probe(struct phy_device *phydev)
  
- module_phy_driver(at803x_driver);
+ 	phydev->priv = priv;
+ 
++	if (phydev_id_compare(phydev, QCA8084_PHY_ID))
++		return qca8084_probe(phydev);
++
+ 	ret = at803x_parse_dt(phydev);
+ 	if (ret)
+ 		return ret;
+@@ -2510,6 +2570,7 @@ static struct phy_driver at803x_driver[] = {
+ 	PHY_ID_MATCH_MODEL(QCA8084_PHY_ID),
+ 	.name			= "Qualcomm QCA8084",
+ 	.flags			= PHY_POLL_CABLE_TEST,
++	.probe			= at803x_probe,
+ 	.config_intr		= at803x_config_intr,
+ 	.handle_interrupt	= at803x_handle_interrupt,
+ 	.get_tunable		= at803x_get_tunable,
 -- 
 2.42.0
 
