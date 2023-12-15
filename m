@@ -1,313 +1,144 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A762C69A;
-	Fri, 15 Dec 2023 12:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ONBEPTFh"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BFATMxX023232;
-	Fri, 15 Dec 2023 12:37:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=corp-2023-11-20;
- bh=ZUZTXTDUolFqRDCQTLnhgCYqyD/e3Xcfc9NMlG6mxV0=;
- b=ONBEPTFhajW5+Ws3e2oY2vz6fjlQ5JsUwC5tSdlrnCjuLWtwO/lyspgK50sjw/rhhhk4
- ZtOk0jOvVBrK6CJffeHd5WapITjBPA14FCX51mlZcOKgckt4rCdTYJMYCG0GKQB4Rgmf
- ylwXaPsW35/63KL6jgTXn84mbw8780+o1WcjRFQ8XSFPpbSgYPhbNbTb5RFi+bV1X/kA
- JY+xIAQjuyb79+j807usoFwNOcdw05uaosfp3EEtWGBRrNkZn5FxpZx6koTcliVfklxU
- +6FwBTy5EXWGHhb4HgBNnMVtNRB+lB3lfBjoYBJpghACI2M1rUhqnIpQfW8NMY4QGPZr +g== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3uveu2d6ep-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 15 Dec 2023 12:37:13 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BFCL9jk003225;
-	Fri, 15 Dec 2023 12:37:12 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3uvepbrgvm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 15 Dec 2023 12:37:11 +0000
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BFCbBrH022727;
-	Fri, 15 Dec 2023 12:37:11 GMT
-Received: from localhost.localdomain (dhcp-10-175-50-46.vpn.oracle.com [10.175.50.46])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3uvepbrgt9-1;
-	Fri, 15 Dec 2023 12:37:11 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Carlos Bilbao <carlos.bilbao@amd.com>,
-        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res.211@gmail.com>,
-        linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Akira Yokosawa <akiyks@gmail.com>, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v2] docs: translations: add translations links when they exist
-Date: Fri, 15 Dec 2023 13:37:01 +0100
-Message-Id: <20231215123701.2712807-1-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF9502C6A2;
+	Fri, 15 Dec 2023 12:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68394C15;
+	Fri, 15 Dec 2023 04:44:38 -0800 (PST)
+Received: from [192.168.1.3] (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7635C3F738;
+	Fri, 15 Dec 2023 04:43:49 -0800 (PST)
+Message-ID: <732aa152-53cc-1101-4292-0906266a4c01@arm.com>
+Date: Fri, 15 Dec 2023 12:43:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v7 05/11] arm64: perf: Include threshold control fields in
+ PMEVTYPER mask
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Will Deacon <will@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
+ suzuki.poulose@arm.com, mark.rutland@arm.com, anshuman.khandual@arm.com,
+ namhyung@gmail.com, Catalin Marinas <catalin.marinas@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Russell King <linux@armlinux.org.uk>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, Zaid Al-Bassam <zalbassam@google.com>,
+ Raghavendra Rao Ananta <rananta@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20231211161331.1277825-1-james.clark@arm.com>
+ <20231211161331.1277825-6-james.clark@arm.com>
+ <20231215120817.h2f3akgv72zhrtqo@pengutronix.de>
+From: James Clark <james.clark@arm.com>
+In-Reply-To: <20231215120817.h2f3akgv72zhrtqo@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-15_07,2023-12-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 spamscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=999 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312150084
-X-Proofpoint-ORIG-GUID: kDSfvGz57jB4CSFShbkD8bvHQo1gH0f4
-X-Proofpoint-GUID: kDSfvGz57jB4CSFShbkD8bvHQo1gH0f4
 
-Add a new Sphinx extension that knows about the translations of kernel
-documentation and can insert links to the translations at the top of
-the document.
 
-It basically works like this:
 
-1. Register a new node type, LanguagesNode.
+On 15/12/2023 12:08, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Mon, Dec 11, 2023 at 04:13:17PM +0000, James Clark wrote:
+>> FEAT_PMUv3_TH (Armv8.8) adds two new fields to PMEVTYPER, so include
+>> them in the mask. These aren't writable on 32 bit kernels as they are in
+>> the high part of the register, so only include them for arm64.
+>>
+>> It would be difficult to do this statically in the asm header files for
+>> each platform without resulting in circular includes or #ifdefs inline
+>> in the code. For that reason the ARMV8_PMU_EVTYPE_MASK definition has
+>> been removed and the mask is constructed programmatically.
+>>
+>> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+>> Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>> Signed-off-by: James Clark <james.clark@arm.com>
+> 
+> This change is in today's next as commit
+> 3115ee021bfb04efde2e96507bfcc1330261a6a1. this breaks allmodconfig
+> building on ARCH=arm:
+> 
+> 	In file included from include/linux/ratelimit_types.h:5,
+> 			 from include/linux/printk.h:9,
+> 			 from include/asm-generic/bug.h:22,
+> 			 from arch/arm/include/asm/bug.h:60,
+> 			 from include/linux/bug.h:5,
+> 			 from include/linux/mmdebug.h:5,
+> 			 from include/linux/percpu.h:5,
+> 			 from include/asm-generic/irq_regs.h:11,
+> 			 from ./arch/arm/include/generated/asm/irq_regs.h:1,
+> 			 from drivers/perf/arm_pmuv3.c:11:
+> 	drivers/perf/arm_pmuv3.c: In function ‘armv8pmu_write_evtype’:
+> 	include/linux/bits.h:34:29: error: left shift count >= width of type [-Werror=shift-count-overflow]
+> 	   34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+> 	      |                             ^~
+> 	include/linux/bits.h:37:38: note: in expansion of macro ‘__GENMASK’
+> 	   37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+> 	      |                                      ^~~~~~~~~
+> 	include/linux/perf/arm_pmuv3.h:238:33: note: in expansion of macro ‘GENMASK’
+> 	  238 | #define ARMV8_PMU_EVTYPE_TC     GENMASK(63, 61)
+> 	      |                                 ^~~~~~~
+> 	drivers/perf/arm_pmuv3.c:567:25: note: in expansion of macro ‘ARMV8_PMU_EVTYPE_TC’
+> 	  567 |                 mask |= ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_TH;
+> 	      |                         ^~~~~~~~~~~~~~~~~~~
+> 	include/linux/bits.h:35:18: error: right shift count is negative [-Werror=shift-count-negative]
+> 	   35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+> 	      |                  ^~
+> 	include/linux/bits.h:37:38: note: in expansion of macro ‘__GENMASK’
+> 	   37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+> 	      |                                      ^~~~~~~~~
+> 	include/linux/perf/arm_pmuv3.h:238:33: note: in expansion of macro ‘GENMASK’
+> 	  238 | #define ARMV8_PMU_EVTYPE_TC     GENMASK(63, 61)
+> 	      |                                 ^~~~~~~
+> 	drivers/perf/arm_pmuv3.c:567:25: note: in expansion of macro ‘ARMV8_PMU_EVTYPE_TC’
+> 	  567 |                 mask |= ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_TH;
+> 	      |                         ^~~~~~~~~~~~~~~~~~~
+> 	include/linux/bits.h:34:29: error: left shift count >= width of type [-Werror=shift-count-overflow]
+> 	   34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+> 	      |                             ^~
+> 	include/linux/bits.h:37:38: note: in expansion of macro ‘__GENMASK’
+> 	   37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+> 	      |                                      ^~~~~~~~~
+> 	include/linux/perf/arm_pmuv3.h:237:33: note: in expansion of macro ‘GENMASK’
+> 	  237 | #define ARMV8_PMU_EVTYPE_TH     GENMASK(43, 32)
+> 	      |                                 ^~~~~~~
+> 	drivers/perf/arm_pmuv3.c:567:47: note: in expansion of macro ‘ARMV8_PMU_EVTYPE_TH’
+> 	  567 |                 mask |= ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_TH;
+> 	      |                                               ^~~~~~~~~~~~~~~~~~~
+> 	include/linux/bits.h:35:18: error: right shift count is negative [-Werror=shift-count-negative]
+> 	   35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+> 	      |                  ^~
+> 	include/linux/bits.h:37:38: note: in expansion of macro ‘__GENMASK’
+> 	   37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+> 	      |                                      ^~~~~~~~~
+> 	include/linux/perf/arm_pmuv3.h:237:33: note: in expansion of macro ‘GENMASK’
+> 	  237 | #define ARMV8_PMU_EVTYPE_TH     GENMASK(43, 32)
+> 	      |                                 ^~~~~~~
+> 	drivers/perf/arm_pmuv3.c:567:47: note: in expansion of macro ‘ARMV8_PMU_EVTYPE_TH’
+> 	  567 |                 mask |= ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_TH;
+> 	      |                                               ^~~~~~~~~~~~~~~~~~~
+> 
+> I guess that's easy to fix but I didn't look into that.
+> 
+> Best regards
+> Uwe
+> 
 
-2. Register a new transform, TranslationsTransform, that inserts a new
-   LanguageNode at the top of every document. The LanguageNode contains
-   "pending references" to translations of the document. The key here
-   is that these are pending (i.e. unresolved) references that may or
-   may not actually exist.
+Thanks for the report. I see that the build is only broken with GCC and
+is working with LLVM. I will look into a fix.
 
-3. Register a 'doctree-resolved' event that iterates over all the
-   LanguageNode nodes. Any unresolved references are filtered out; the
-   list of resolved references is passed to the 'translations.html'
-   template and rendered as an HTML node (if HTML output is selected).
+Worst case the if can be changed to an #ifdef
 
-Testing: make htmldocs, make latexdocs with Sphinx v4.3.2 and Firefox.
-
-v2:
-- changed bar into a drop-down menu
-- fixed language labels
-- fixed hysteresis reported by Akira Yokosawa
-
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>
-Cc: Yanteng Si <siyanteng@loongson.cn>
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Documentation/conf.py                         |   2 +-
- Documentation/sphinx-static/custom.css        |  53 +++++++++
- .../sphinx/templates/translations.html        |  15 +++
- Documentation/sphinx/translations.py          | 101 ++++++++++++++++++
- 4 files changed, 170 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/sphinx/templates/translations.html
- create mode 100644 Documentation/sphinx/translations.py
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 20bd74edcca9..2edd4891b384 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -55,7 +55,7 @@ needs_sphinx = '1.7'
- extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
-               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
-               'maintainers_include', 'sphinx.ext.autosectionlabel',
--              'kernel_abi', 'kernel_feat']
-+              'kernel_abi', 'kernel_feat', 'translations']
- 
- if major >= 3:
-     if (major > 3) or (minor > 0 or patch >= 2):
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index c992b1946edc..aa66de615253 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -82,3 +82,56 @@ input.kernel-toc-toggle { display: none; }
-     h3.kernel-toc-contents { display: inline; }
-     div.kerneltoc a { color: black; }
- }
-+
-+/* Language selection menu */
-+
-+div.admonition {
-+    /*
-+     * Make sure we don't overlap notes and warnings at the top of the
-+     * document.
-+     */
-+    clear: both;
-+}
-+
-+div.language-selection {
-+    background: #eeeeee;
-+    border: 1px solid #cccccc;
-+    margin-bottom: 1em;
-+    padding: .5em;
-+
-+    position: relative;
-+    float: right;
-+}
-+
-+div.language-selection a {
-+    display: block;
-+    padding: 0.5em;
-+    color: #333333;
-+    text-decoration: none;
-+}
-+
-+div.language-selection ul {
-+    display: none;
-+    position: absolute;
-+
-+    /* Align with the parent div */
-+    top: 100%;
-+    right: 0;
-+    margin: 0;
-+
-+    list-style: none;
-+
-+    background: #fafafa;
-+    border: 1px solid #cccccc;
-+
-+    /* Never break menu item lines */
-+    white-space: nowrap;
-+}
-+
-+div.language-selection:hover ul {
-+    display: block;
-+}
-+
-+div.language-selection ul li:hover {
-+    background: #dddddd;
-+}
-diff --git a/Documentation/sphinx/templates/translations.html b/Documentation/sphinx/templates/translations.html
-new file mode 100644
-index 000000000000..8df5d42d8dcd
---- /dev/null
-+++ b/Documentation/sphinx/templates/translations.html
-@@ -0,0 +1,15 @@
-+<!-- SPDX-License-Identifier: GPL-2.0 -->
-+<!-- Copyright © 2023, Oracle and/or its affiliates. -->
-+
-+{# Create a language menu for translations #}
-+{% if languages|length > 0: %}
-+<div class="language-selection">
-+{{ current_language }}
-+
-+<ul>
-+{% for ref in languages: %}
-+<li><a href="{{ ref.refuri }}">{{ ref.astext() }}</a></li>
-+{% endfor %}
-+</ul>
-+</div>
-+{% endif %}
-diff --git a/Documentation/sphinx/translations.py b/Documentation/sphinx/translations.py
-new file mode 100644
-index 000000000000..47161e6eba99
---- /dev/null
-+++ b/Documentation/sphinx/translations.py
-@@ -0,0 +1,101 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Copyright © 2023, Oracle and/or its affiliates.
-+# Author: Vegard Nossum <vegard.nossum@oracle.com>
-+#
-+# Add translation links to the top of the document.
-+#
-+
-+import os
-+
-+from docutils import nodes
-+from docutils.transforms import Transform
-+
-+import sphinx
-+from sphinx import addnodes
-+from sphinx.errors import NoUri
-+
-+all_languages = {
-+    # English is always first
-+    None: 'English',
-+
-+    # Keep the rest sorted alphabetically
-+    'zh_CN': 'Chinese (Simplified)',
-+    'zh_TW': 'Chinese (Traditional)',
-+    'it_IT': 'Italian',
-+    'ja_JP': 'Japanese',
-+    'ko_KR': 'Korean',
-+    'sp_SP': 'Spanish',
-+}
-+
-+class LanguagesNode(nodes.Element):
-+    def __init__(self, current_language, *args, **kwargs):
-+        super().__init__(*args, **kwargs)
-+
-+        self.current_language = current_language
-+
-+class TranslationsTransform(Transform):
-+    default_priority = 900
-+
-+    def apply(self):
-+        app = self.document.settings.env.app
-+        docname = self.document.settings.env.docname
-+
-+        this_lang_code = None
-+        components = docname.split(os.sep)
-+        if components[0] == 'translations' and len(components) > 2:
-+            this_lang_code = components[1]
-+
-+            # normalize docname to be the untranslated one
-+            docname = os.path.join(*components[2:])
-+
-+        new_nodes = LanguagesNode(all_languages[this_lang_code])
-+
-+        for lang_code, lang_name in all_languages.items():
-+            if lang_code == this_lang_code:
-+                continue
-+
-+            if lang_code is None:
-+                target_name = docname
-+            else:
-+                target_name = os.path.join('translations', lang_code, docname)
-+
-+            pxref = addnodes.pending_xref('', refdomain='std',
-+                reftype='doc', reftarget='/' + target_name, modname=None,
-+                classname=None, refexplicit=True)
-+            pxref += nodes.Text(lang_name)
-+            new_nodes += pxref
-+
-+        self.document.insert(0, new_nodes)
-+
-+def process_languages(app, doctree, docname):
-+    for node in doctree.traverse(LanguagesNode):
-+        if app.builder.format not in ['html']:
-+            node.parent.remove(node)
-+            continue
-+
-+        languages = []
-+
-+        # Iterate over the child nodes; any resolved links will have
-+        # the type 'nodes.reference', while unresolved links will be
-+        # type 'nodes.Text'.
-+        languages = list(filter(lambda xref:
-+            isinstance(xref, nodes.reference), node.children))
-+
-+        html_content = app.builder.templates.render('translations.html',
-+            context={
-+                'current_language': node.current_language,
-+                'languages': languages,
-+            })
-+
-+        node.replace_self(nodes.raw('', html_content, format='html'))
-+
-+def setup(app):
-+    app.add_node(LanguagesNode)
-+    app.add_transform(TranslationsTransform)
-+    app.connect('doctree-resolved', process_languages)
-+
-+    return {
-+        'parallel_read_safe': True,
-+        'parallel_write_safe': True,
-+    }
--- 
-2.34.1
-
+James
