@@ -1,49 +1,39 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AF56AB9
-	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 05:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62249846C;
+	Fri, 15 Dec 2023 06:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="lRG3mKWA"
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3ba14203a34so320713b6e.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 21:50:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1702619404; x=1703224204; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xFKDorqrFC5bosM2lt/mDyJdprik2aA7TxjdYt0y1e4=;
-        b=lRG3mKWA3hLhxbJ++HHf2NQEw8lqXc4lAMsww+H2XM0tm7saisSRA+cLHbbE8/UDme
-         I+pd4IgdOJS51g9TaOsFo9DSUB1r1GPlU01PsitywapE+hKrxLQQL+q3VLcvpdAkp/we
-         v1jCBTl22HwIyhlBAvTLS5nfoCRqbCawuHUwNsOCeTT70UGUS1dl1pzIbeLUbo9iWDeW
-         U+lsTWy8I4z+1tfJYsac0MfM6wVmihVEHvFb6eNNfgqX3V8LymQ86PNGJjQV6KLRHvJS
-         +stmpcKGsrnM7ow/47GQHGZnjCEKU50wCskwqDxRPUIIq96wxE00q46nWVzTl/Nf6jMs
-         eBUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702619404; x=1703224204;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xFKDorqrFC5bosM2lt/mDyJdprik2aA7TxjdYt0y1e4=;
-        b=Q65IJkYaNm4J/6qSlJPZwmZGElSqhgi3KAwuslzDcPdfq/JU4rNEGnmv4aIIO3219R
-         SOT2UNU7J3XkfyIUGZ4Tj2GY9QdRSOdTixGynB2ApSyRMkw/9kjDSERvpcwxSsKLvA6N
-         5UqsZBIjn19hsyRRb3fQYYi+8VVk7rFOM0Yzzh4WIF0W24AgYz5Sb6pD6fDJHv3bwX0n
-         KshkQ82APlVaWHzPZjdOApXr4MRTBqtFkWq7hmdBhZtmSQsBWNP+aDk3v3yv2eX+Ja/z
-         vy4WfNX7xfYaAjX63PiJyIkuvmfNAIVQ0lxpcVAllvV8OjA/LRt5fJyMGLjs9+Dcwm19
-         Kqyw==
-X-Gm-Message-State: AOJu0YxyD3sibQgHZo5q4f6qE3fMRwN0NNrhKcHNeHzudKSaAvC1zUcT
-	ougsBJ0w6hEYH4D8jGecUH66RA==
-X-Google-Smtp-Source: AGHT+IGx2R7EsZiNCgpjAWLFVnSbXZ01T55zLVZoewTO79uTMzNCSJGSk/7hhmSoBW352drVsZLTPg==
-X-Received: by 2002:a05:6808:16a3:b0:3b9:e7e2:f30 with SMTP id bb35-20020a05680816a300b003b9e7e20f30mr13382782oib.7.1702619403985;
-        Thu, 14 Dec 2023 21:50:03 -0800 (PST)
-Received: from [157.82.205.15] ([157.82.205.15])
-        by smtp.gmail.com with ESMTPSA id q5-20020a170902bd8500b001c9d011581dsm13310686pls.164.2023.12.14.21.49.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Dec 2023 21:50:03 -0800 (PST)
-Message-ID: <72b8e198-7058-469a-a1e0-17f48330deca@daynix.com>
-Date: Fri, 15 Dec 2023 14:49:56 +0900
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Tdbx2iqr"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BF3lJrM016521;
+	Fri, 15 Dec 2023 06:30:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=4dgoJSL6fpykBgSPTc+vnHIGdRnJHEe3ikKjD/45brs=; b=Td
+	bx2iqr3yVwMYLRyNhV49MnRHEU7H8fyTv0Ot4pf14Y1ESOMCSxgvK80zkXYg/es4
+	pG2Rwh4V5vm/xLNmwEPsJkgSHt2UJ92Ff/ggrZmrF4d6UFMkj3D227P0eEpntMAR
+	HLox28coARkRUEe0L/VPDhB0WE4ttd8yJuyYXThWaG1nsh75h/yMmOSxq1mjUiY9
+	D3SwwNoo9LL10jCtmksax6Ja8r5oVmBuAB4+mS1v1qmrYnJlHqJi/ZRhVHvJmll3
+	Dfexa4WhQ2/Z76ihIVGQmP3epVw9KwDkkgHmVxSVCIdHwnZI8D2LZZ72tFeb6lGv
+	Ig+87xM1zosMrBqoCSKw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0a37h592-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 06:30:15 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BF6UDCI015491
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 06:30:13 GMT
+Received: from [10.253.13.71] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 14 Dec
+ 2023 22:30:02 -0800
+Message-ID: <c2a8c9e5-b9f0-41ec-b9a7-90f28b17a09c@quicinc.com>
+Date: Fri, 15 Dec 2023 14:29:59 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,240 +41,92 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Should I add BPF kfuncs for userspace apps? And how?
-To: Stephen Hemminger <stephen@networkplumber.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Mykola Lysenko <mykolal@fb.com>,
- Shuah Khan <shuah@kernel.org>, Yuri Benditovich
- <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
- Benjamin Tissoires <bentiss@kernel.org>, bpf <bpf@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, kvm@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- virtualization@lists.linux-foundation.org,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Network Development <netdev@vger.kernel.org>
-References: <2f33be45-fe11-4b69-8e89-4d2824a0bf01@daynix.com>
- <CAO-hwJJhzHtKrUEw0zrjgub3+eapgJG-zsG0HRB=PaPi6BxG+w@mail.gmail.com>
- <e256c6df-0a66-4f86-ae96-bff17920c2fb@daynix.com>
- <CAO-hwJKMrWYRNpuprDj9=k87V0yHtLPEJuQ94bpOF3O81=v0kA@mail.gmail.com>
- <0d68722c-9e29-407b-9ef0-331683c995d2@daynix.com>
- <20231214094042.75f704f6@hermes.local>
+Subject: Re: [PATCH v7 03/14] net: phy: at803x: add QCA8084 ethernet phy
+ support
+To: Andrew Lunn <andrew@lunn.ch>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
+        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231214094813.24690-1-quic_luoj@quicinc.com>
+ <20231214094813.24690-4-quic_luoj@quicinc.com>
+ <c05e4756-0b33-4c97-ba88-1e14f459bbe3@lunn.ch>
 Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20231214094042.75f704f6@hermes.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <c05e4756-0b33-4c97-ba88-1e14f459bbe3@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: T7nOZWFxGJjt3Xo-tT9FfbcX0DJIm-Et
+X-Proofpoint-ORIG-GUID: T7nOZWFxGJjt3Xo-tT9FfbcX0DJIm-Et
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ malwarescore=0 clxscore=1015 bulkscore=0 adultscore=0 mlxlogscore=999
+ spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312150037
 
-On 2023/12/15 2:40, Stephen Hemminger wrote:
-> On Thu, 14 Dec 2023 14:51:12 +0900
-> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
-> 
->> On 2023/12/13 19:22, Benjamin Tissoires wrote:
->>> On Tue, Dec 12, 2023 at 1:41 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>
->>>> On 2023/12/12 19:39, Benjamin Tissoires wrote:
->>>>> Hi,
->>>>>
->>>>> On Tue, Dec 12, 2023 at 9:11 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>
->>>>>> Hi,
->>>>
->>>> Hi,
->>>>
->>>> Thanks for reply.
->>>>   
->>>>>>
->>>>>> It is said eBPF is a safe way to extend kernels and that is very
->>>>>> attarctive, but we need to use kfuncs to add new usage of eBPF and
->>>>>> kfuncs are said as unstable as EXPORT_SYMBOL_GPL. So now I'd like to ask
->>>>>> some questions:
->>>>>>
->>>>>> 1) Which should I choose, BPF kfuncs or ioctl, when adding a new feature
->>>>>> for userspace apps?
->>>>>> 2) How should I use BPF kfuncs from userspace apps if I add them?
->>>>>>
->>>>>> Here, a "userspace app" means something not like a system-wide daemon
->>>>>> like systemd (particularly, I have QEMU in mind). I'll describe the
->>>>>> context more below:
->>>>>
->>>>> I'm probably not the best person in the world to answer your
->>>>> questions, Alexei and others from the BPF core group are, but given
->>>>> that you pointed at a thread I was involved in, I feel I can give you
->>>>> a few pointers.
->>>>>
->>>>> But first and foremost, I encourage you to schedule an agenda item in
->>>>> the BPF office hour[4]. Being able to talk with the core people
->>>>> directly was tremendously helpful to me to understand their point.
->>>>
->>>> I prefer emails because I'm not very fluent when speaking in English and
->>>> may have a difficultly to listen to other people, but I may try it in
->>>> future.
->>>>   
->>>>>
->>>>>   
->>>>>>
->>>>>> ---
->>>>>>
->>>>>> I'm working on a new feature that aids virtio-net implementations using
->>>>>> tuntap virtual network device. You can see [1] for details, but
->>>>>> basically it's to extend BPF_PROG_TYPE_SOCKET_FILTER to report four more
->>>>>> bytes.
->>>>>>
->>>>>> However, with long discussions we have confirmed extending
->>>>>> BPF_PROG_TYPE_SOCKET_FILTER is not going to happen, and adding kfuncs is
->>>>>> the way forward. So I decided how to add kfuncs to the kernel and how to
->>>>>> use it. There are rich documentations for the kernel side, but I found
->>>>>> little about the userspace. The best I could find is a systemd change
->>>>>> proposal that is based on WIP kernel changes[2].
->>>>>
->>>>> Yes, as Alexei already replied, BPF is not adding new stable APIs,
->>>>> only kfuncs. The reason being that once it's marked as stable, you
->>>>> can't really remove it, even if you think it's badly designed and
->>>>> useless.
->>>>>
->>>>> Kfuncs, OTOH are "unstable" by default meaning that the constraints
->>>>> around it are more relaxed.
->>>>>
->>>>> However, "unstable" doesn't mean "unusable". It just means that the
->>>>> kernel might or might not have the function when you load your program
->>>>> in userspace. So you have to take that fact into account from day one,
->>>>> both from the kernel side and the userspace side. The kernel docs have
->>>>> a nice paragraph explaining that situation and makes the distinction
->>>>> between relatively unused kfuncs, and well known established ones.
->>>>>
->>>>> Regarding the systemd discussion you are mentioning ([2]), this is
->>>>> something that I have on my plate for a long time. I think I even
->>>>> mentioned it to Alexei at Kernel Recipes this year, and he frowned his
->>>>> eyebrows when I mentioned it. And looking at the systemd code and the
->>>>> benefits over a plain ioctl, it is clearer that in that case, a plain
->>>>> ioctl is better, mostly because we already know the API and the
->>>>> semantic.
->>>>>
->>>>> A kfunc would be interesting in cases where you are not sure about the
->>>>> overall design, and so you can give a shot at various API solutions
->>>>> without having to keep your bad v1 design forever.
->>>>>   
->>>>>>
->>>>>> So now I'm wondering how I should use BPF kfuncs from userspace apps if
->>>>>> I add them. In the systemd discussion, it is told that Linus said it's
->>>>>> fine to use BPF kfuncs in a private infrastructure big companies own, or
->>>>>> in systemd as those users know well about the system[3]. Indeed, those
->>>>>> users should be able to make more assumptions on the kernel than
->>>>>> "normal" userspace applications can.
->>>>>>
->>>>>> Returning to my proposal, I'm proposing a new feature to be used by QEMU
->>>>>> or other VMM applications. QEMU is more like a normal userspace
->>>>>> application, and usually does not make much assumptions on the kernel it
->>>>>> runs on. For example, it's generally safe to run a Debian container
->>>>>> including QEMU installed with apt on Fedora. BPF kfuncs may work even in
->>>>>> such a situation thanks to CO-RE, but it sounds like *accidentally*
->>>>>> creating UAPIs.
->>>>>>
->>>>>> Considering all above, how can I integrate BPF kfuncs to the application?
->>>>>
->>>>> FWIW, I'm not sure you can rely on BPF calls from a container. There
->>>>> is a high chance the syscall gets disabled by the runtime.
->>>>
->>>> Right. Container runtimes will not pass CAP_BPF by default, but that
->>>> restriction can be lifted and I think that's a valid scenario.
->>>>   
->>>>>   
->>>>>>
->>>>>> If BPF kfuncs are like EXPORT_SYMBOL_GPL, the natural way to handle them
->>>>>> is to think of BPF programs as some sort of kernel modules and
->>>>>> incorporate logic that behaves like modprobe. More concretely, I can put
->>>>>> eBPF binaries to a directory like:
->>>>>> /usr/local/share/qemu/ebpf/$KERNEL_RELEASE
->>>>>
->>>>> I would advise against that (one program per kernel release). Simply
->>>>> because your kfunc may or may not have been backported to kernel
->>>>> release v6.X.Y+1 while it was not there when v6.X.Y was out. So
->>>>> relying on the kernel number is just going to be a headache.
->>>>>
->>>>> As I understand it, the way forward is to rely on the kernel, libbpf
->>>>> and CO-RE: if the function is not available, the program will simply
->>>>> not load, and you'll know that this version of the code is not
->>>>> available (or has changed API).
->>>>>
->>>>> So what I would do if some kfunc API is becoming deprecated, is
->>>>> embedding both code paths in the same BPF unit, but marking them as
->>>>> not loaded by libppf. Then I can load the compilation unit, try v2 of
->>>>> the API, and if it's not available, try v1, and if not, then mention
->>>>> that I can not rely on BPF. Of course, this can also be done with
->>>>> separate compilation units.
->>>>
->>>> Doesn't it mean that the kernel is free to break old versions of QEMU
->>>> including BPF programs? That's something I'd like to avoid.
->>>
->>> Couple of points here:
->>> - when you say "the kernel", it feels like you are talking about an
->>> external actor tampering with your code. But if you submit a kernel
->>> patch with a specific use case and get yourself involved in the
->>> community, why would anybody change your kfunc API without you knowing
->>> it?
->>
->> You are right in the practical aspect.  I can pay efforts to keep kfunc
->> APIs alive and I'm also sure other developers would also try not to
->> break them for good.
->>
->> Nevertheless I'm being careful to evaluate APIs from both of the kernel
->> and userspace (QEMU) viewpoints. If I fail to keep kfuncs stable because
->> I die in an accident, for example, it's a poor excuse for other QEMU
->> developers that I intended to keep them stable with my personal effort.
->>
->>> - the whole warning about "unstable" policy means that the user space
->>> component should not take for granted the capability. So if the kfunc
->>> changes/disappears for good reasons (because it was marked as well
->>> used and deprecated for quite some time), qemu should not *break*, it
->>> should not provide the functionality, or have a secondary plan.
->>>
->>> But even if you are encountering such issues, in case of a change in
->>> the ABI of your kfunc, it should be easy enough to backport the bpf
->>> changes to your old QEMUs and ask users to upgrade the user space if
->>> they upgrade their kernel.
->>>
->>> AFAIU, it is as unstable as you want it to be. It's just that we are
->>> not in the "we don't break user space" contract, because we are
->>> talking about adding a kernel functionality from userspace, which
->>> requires knowing the kernel intrinsics.
->>
->> I must admit I'm still not convinced the proposed BPF program
->> functionality needs to know internals of the kernel.
->>
->> The eBPF program QEMU carries is just to calculate hashes from packets.
->> It doesn't need to know the details of how the kernel handles packets.
->> It only needs to have an access to the packet content.
->>
->> It is exactly what BPF_PROG_TYPE_SOCKET_FILTER does, but it lacks a
->> mechanism to report hash values so I need to extend it or invent a new
->> method. Extending BPF_PROG_TYPE_SOCKET_FILTER is not a way forward since
->> CO-RE is superior to the context rewrite it relies on. But apparently
->> adopting kfuncs and CO-RE also means to lose the "we don't break user
->> space" contract although I have no intention to expose kernel internals
->> to the eBPF program.
-> 
-> An example is how one part of DPDK recomputes RSS over TAP.
-> 
-> https://git.dpdk.org/dpdk/tree/drivers/net/tap/bpf/tap_bpf_program.c
-> 
-> This feature is likely to be removed, because it is not actively used
-> and the changes in BPF program loading broke it on current kernel
-> releases.  Which brings up the point that since the kernel does
-> not have stable API/ABI for BPF program infrastructure, I would
-> avoid it for projects that don't want to deal with that.
 
-It's unfortunate to hear that, but thanks for the information.
-I'll consider more about the option not using BPF (plain ioctl and 
-in-kernel implementation).
+
+On 12/14/2023 7:01 PM, Andrew Lunn wrote:
+> On Thu, Dec 14, 2023 at 05:48:02PM +0800, Luo Jie wrote:
+>> Add qca8084 PHY support, which is four-port PHY with maximum
+>> link capability 2.5G, the features of each port is almost same
+>> as QCA8081 and slave seed config is not needed.
+>>
+>> Three kind of interface modes supported by qca8084.
+>> PHY_INTERFACE_MODE_10G_QXGMII, PHY_INTERFACE_MODE_2500BASEX and
+>> PHY_INTERFACE_MODE_SGMII.
+>>
+>> The PCS(serdes) and clock are also needed to be configured to
+>> bringup qca8084 PHY, which will be added in the pcs driver.
+>>
+>> The additional CDT configurations used for qca8084.
+>>
+>> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+>> ---
+>>   drivers/net/phy/at803x.c | 49 ++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 49 insertions(+)
+>>
+>> diff --git a/drivers/net/phy/at803x.c b/drivers/net/phy/at803x.c
+>> index 37fb033e1c29..8dfdf2ff56a5 100644
+>> --- a/drivers/net/phy/at803x.c
+>> +++ b/drivers/net/phy/at803x.c
+>> @@ -176,6 +176,7 @@
+>>   #define AT8030_PHY_ID_MASK			0xffffffef
+>>   
+>>   #define QCA8081_PHY_ID				0x004dd101
+>> +#define QCA8084_PHY_ID				0x004dd180
+>>   
+>>   #define QCA8327_A_PHY_ID			0x004dd033
+>>   #define QCA8327_B_PHY_ID			0x004dd034
+>> @@ -1760,6 +1761,9 @@ static bool qca808x_is_prefer_master(struct phy_device *phydev)
+>>   
+>>   static bool qca808x_has_fast_retrain_or_slave_seed(struct phy_device *phydev)
+>>   {
+>> +	if (phydev_id_compare(phydev, QCA8084_PHY_ID))
+>> +		return false;
+>> +
+>>   	return linkmode_test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->supported);
+>>   }
+> 
+> 
+> It looks like these patches need rebasing on net-next/main. It appears
+> you are missing Christians patches.
+> 
+> 
+>      Andrew
+> 
+> ---
+> pw-bot: cr
+
+Oh, Yes, i will update the patch set based on the latest code, thanks.
+
