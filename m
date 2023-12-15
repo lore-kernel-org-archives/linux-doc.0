@@ -1,70 +1,90 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1FE1DFCB;
-	Fri, 15 Dec 2023 16:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4SsFK22kSLz6K8mZ;
-	Sat, 16 Dec 2023 00:38:30 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 403DB140133;
-	Sat, 16 Dec 2023 00:40:29 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 15 Dec
- 2023 16:40:28 +0000
-Date: Fri, 15 Dec 2023 16:40:27 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
-	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
-	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 16/21] arm64: psci: Ignore DENIED CPUs
-Message-ID: <20231215164027.00003609@Huawei.com>
-In-Reply-To: <E1rDOh7-00Dvl7-LR@rmk-PC.armlinux.org.uk>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
-	<E1rDOh7-00Dvl7-LR@rmk-PC.armlinux.org.uk>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B5C25546;
+	Fri, 15 Dec 2023 16:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GlwvFBbS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=56+Wae/xX9CIF/Rb17HxT31PTyujjzTbsxy+sp2Y1vA=; b=GlwvFBbSvLeKzj0bgyCL8gJ9SX
+	j6jK5r4uA2qjfS9oos86V7tLq6rmiL7blM7qk+kWqZTWOY3pnE+EqF0o4VN8IaiJxE5shdE9+wPwl
+	YXTort9mUAZBpvow1tPlpX4GXAFt/osQP+BJK1HjLyS6HCpJrpL5dAZUvdGueuOvOlZETt/vwzDwq
+	oS8tHmaWd/7EPyBd6kS1ynzNMV99Yfe5aTY1Y2s61y2Pz43ixo7rEOFT6zliPsFM18UQr2KJF2we5
+	27d1omiYQ8/UgXkhC0Bz/HHWWaHIz6YxCQXAy+mNo7QEccRBVeYfBVLLSbWPX6jnPaD8KITGQwPCq
+	nkZ6Le3A==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rEBNa-003vcV-1c;
+	Fri, 15 Dec 2023 16:49:38 +0000
+Message-ID: <03c0b3bd-5798-4066-964e-a884485fe1d3@infradead.org>
+Date: Fri, 15 Dec 2023 08:49:37 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] kernel-doc: Aling quick help and the code
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+References: <20231215150341.1996720-1-andriy.shevchenko@linux.intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231215150341.1996720-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Wed, 13 Dec 2023 12:50:33 +0000
-Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
 
-> From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+
+On 12/15/23 07:03, Andy Shevchenko wrote:
+> The update to the quick help mentions -Wshort-description, but
+> code never supported for that. Align that with the code by allowing
+> both: -Wshort-description and -Wshort-desc.
 > 
-> When a CPU is marked as disabled, but online capable in the MADT, PSCI
-> applies some firmware policy to control when it can be brought online.
-> PSCI returns DENIED to a CPU_ON request if this is not currently
-> permitted. The OS can learn the current policy from the _STA enabled bit.
+> Fixes: 56b0f453db74 ("kernel-doc: don't let V=1 change outcome")
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+(Note: in Subject, s/Aling/Align/)
+
+> ---
+>  scripts/kernel-doc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Handle the PSCI DENIED return code gracefully instead of printing an
-> error.
-> 
-> See https://developer.arm.com/documentation/den0022/f/?lang=en page 58.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> [ morse: Rewrote commit message ]
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-> Tested-by: Jianyong Wu <jianyong.wu@arm.com>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 0a890fe4d22b..7d7ed3e43946 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -23,7 +23,7 @@ kernel-doc - Print formatted kernel documentation to stdout
+>  
+>  =head1 SYNOPSIS
+>  
+> - kernel-doc [-h] [-v] [-Werror] [-Wall] [-Wreturn] [-Wshort-description] [-Wcontents-before-sections]
+> + kernel-doc [-h] [-v] [-Werror] [-Wall] [-Wreturn] [-Wshort-desc[ription]] [-Wcontents-before-sections]
+>     [ -man |
+>       -rst [-sphinx-version VERSION] [-enable-lineno] |
+>       -none
+> @@ -328,7 +328,7 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+>  	$Werror = 1;
+>      } elsif ($cmd eq "Wreturn") {
+>  	$Wreturn = 1;
+> -    } elsif ($cmd eq "Wshort-desc") {
+> +    } elsif ($cmd eq "Wshort-desc" or $cmd eq "Wshort-description") {
+>  	$Wshort_desc = 1;
+>      } elsif ($cmd eq "Wcontents-before-sections") {
+>  	$Wcontents_before_sections = 1;
+
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
