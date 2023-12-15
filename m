@@ -1,29 +1,29 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96C218EBB;
-	Fri, 15 Dec 2023 23:09:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B8166AB5;
+	Fri, 15 Dec 2023 23:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="h+cEf6MO"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="rmx3YA5t"
 Received: from [127.0.0.1] ([76.133.66.138])
 	(authenticated bits=0)
-	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 3BFN8irZ3824298
+	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 3BFNBwQr3824813
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 15 Dec 2023 15:08:45 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 3BFN8irZ3824298
+	Fri, 15 Dec 2023 15:11:59 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 3BFNBwQr3824813
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2023121201; t=1702681726;
-	bh=zgvkvr2wAC+nbGpkd8sLz2JLpxtG57LppdMk0TZzvCc=;
+	s=2023121201; t=1702681920;
+	bh=+cXHO0Rfxn/vgBJcrqdK1W3/bGHpwCG6TjuMmGG7kLo=;
 	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=h+cEf6MO+kefgcpVJ4+hU4ca07c87QD4KYrjihnFfnA/jzdZ2gpBBuHJNTcSlQyaf
-	 2U4W1hyK6TzffwaTs/2P2B28cIaGzNL0VjRErAO2Omhpmxvs1MEroEwKVsxvdinFDc
-	 KUVykmw58qXoy7JH3DdKSeI2Kzzxqb232zx0DipoqeFGp0ditTSS6GLt2CeCzFrIN1
-	 4iFpN/PxIdGehvz2o9Dcb11WxEAipyCdujXVim0D/tRI+i2FU6/tw2M6LfH1N2mgkf
-	 qz2jCABq6Yz4ZFwsQMZPwEx6VGF2WBkqbH7RAks2iIdzabDiinXTP4+/3UXBeM2KHM
-	 kHUhrXwn803QQ==
-Date: Fri, 15 Dec 2023 15:08:40 -0800
+	b=rmx3YA5tXNNdJ3o6ByrvWBHrXw9btigN8zRwBe41aiDPCzIZrp7YO1mgkvWbTKDU1
+	 Ef5ZOT0FC7RaQtfa3hN3WjbvV52Lk4fKaZQAVrk3OMj9y1thd24zIPPEbpHRv4k/A1
+	 VbPdpYJjew2lmwZYhlqxW27EjStvIuOWo96Qx3GsyfdNeMpxgbMyjumj9s+ZmkNxAj
+	 FIU/mpQ3yBT+UV9MK+2dOR+NEafoBVsYVVHFD4bWsZ0VUbb/yTSL28uVJTVO7Pp/Js
+	 oGTjX9Q9JXi+beu2T17RBHpD5R8e+4n1gzV7/hHOAeAc4rLbeiqIP/Tq2RcuTPTVHY
+	 247LcYleNMsEQ==
+Date: Fri, 15 Dec 2023 15:11:56 -0800
 From: "H. Peter Anvin" <hpa@zytor.com>
 To: Dave Hansen <dave.hansen@intel.com>, Chris Koch <chrisko@google.com>,
         Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
@@ -35,7 +35,7 @@ Subject: Re: [PATCH] kexec: allocate kernel above bzImage's pref_address
 User-Agent: K-9 Mail for Android
 In-Reply-To: <b086fd82-2989-4987-a3f6-021a4ae9bec4@intel.com>
 References: <20231215190521.3796022-1-chrisko@google.com> <b086fd82-2989-4987-a3f6-021a4ae9bec4@intel.com>
-Message-ID: <C4E02B8F-93B3-44AD-870F-5057E1EF1897@zytor.com>
+Message-ID: <F7B5D2B9-9CBF-4BF0-8665-6EF14A416168@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -157,4 +157,5 @@ char *kernel,
 >It isn't clear from this hunk why or how this fixes the bug=2E  How does
 >this manage to avoid clobbering reserved areas?
 
-It is a bug and a bug fix=2E
+Also, this really should go to stable, so please add the appropriate Cc:=
+=2E
