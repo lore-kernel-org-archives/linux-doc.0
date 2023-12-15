@@ -1,60 +1,87 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE2A2C698;
-	Fri, 15 Dec 2023 11:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753DD250E2;
+	Fri, 15 Dec 2023 11:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="tjU2DB2w"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Dw5pweRuSlfkLQEGXeQwxUMxSRNgHjntBvvtfrs4n0U=; b=tjU2DB2wYK/Xi+QtyUhuecMtcx
-	tb8gCMhXf938cdjBSYfDFdhO/eb63JT5oq0x1qXOJxIvjmIh5QVshJrEAvj5SdcBOZv+FjPEfiseu
-	35m8pJlRxXWp4CqtXr90POk7+gRqRS5hppHTFRQa00efsej/eL8C7SUjsrZ4DIiS4WKE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rE6JR-0030zs-KA; Fri, 15 Dec 2023 12:25:01 +0100
-Date: Fri, 15 Dec 2023 12:25:01 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jie Luo <quic_luoj@quicinc.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, corbet@lwn.net,
-	p.zabel@pengutronix.de, f.fainelli@gmail.com,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
- properties
-Message-ID: <4cb2bd57-f3d3-49f9-9c02-a922fd270572@lunn.ch>
-References: <20231215074005.26976-1-quic_luoj@quicinc.com>
- <20231215074005.26976-15-quic_luoj@quicinc.com>
- <bdfba8a7-9197-4aae-a7f9-6075a375f60b@linaro.org>
- <c3391e33-e770-4c61-855e-d90e82b95f75@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mVHfbYka"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-da7ea62e76cso443827276.3;
+        Fri, 15 Dec 2023 03:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702640169; x=1703244969; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xlhIqyJiiodbXf2NuUmZM6lEWf4T2nhAdH/z6iYPn4A=;
+        b=mVHfbYka2hq0LP0dDRwYLAB3F41k4IYyrfI+nxX7U4pehpdZlC8hGwH6CmjCeYlrGT
+         mdX97kxbiE4IKI+C0WRIKVjsl53bdDcnwKqmlTwB6BsPMPbQZVTJ2U2dY1PR8C2+lq+2
+         4klpXs4K9ZaAh2IWsVGoSHUomSija563W5Feqib5XRf3COGF3BeJJbxkKlQB0UlYQElM
+         96I15mpB5+nnw/oxoM1Li+tCo6BmkgPw55m7egdmiO0FdPRFabLtgw1+jYWoNXVWaxRB
+         qqzG2nVgoyFbgogcMJEdnZV1fw0MHo5Sj1DlKDUzp9SrgYS27RdSK/wug7/cuUywguMY
+         54wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702640169; x=1703244969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xlhIqyJiiodbXf2NuUmZM6lEWf4T2nhAdH/z6iYPn4A=;
+        b=LBrHyfxhax0/Q5wO6O0epJ7vxpFVh0FlyJb3H4pdALCPBkAq/nYzQMCy65T1RAu5t6
+         mxjpe1IdmgkBvGvuTVEWmLocAaJqHX+KKuokn7j3OlKxJcRNHYZ2HNvIiRfHwHrzJSTH
+         UPFwqAAdmyaaZYjJnuCEM87qlD5auHt4Zgkq6LZvPee9i+3OTDtljnXnwPlWYWHQUwLG
+         CtmwbreXa4ClipmbMQRfKMlp1g2C6YkLRWpGuw2BGMRNobXxr/SroUTr2J2LPSwvL8Ol
+         3g7BxVoz5isMUQMZ+phGLXs5K3t+NtWOp56UaALg4mimXC7+OyidnCJGjp2mQNKljRTt
+         3lww==
+X-Gm-Message-State: AOJu0YyBNQJtjNekMc8hJMvKDlHA62l0LGFMHn2VXSst49uKXGldLY4E
+	Fpm0AN60w5nSgbhRRHS0/RzznPrImggeiQLN9Vw=
+X-Google-Smtp-Source: AGHT+IF0S+7AxR1L+WVoLZPOJ/H8TXi0q/3n/mvrxFUKfU6+twuyNMD5h7Q7QnK2nOg3hrsYwEH77N0iaKvaBRZsmfs=
+X-Received: by 2002:a25:4212:0:b0:dbc:c446:7632 with SMTP id
+ p18-20020a254212000000b00dbcc4467632mr3763747yba.17.1702640169409; Fri, 15
+ Dec 2023 03:36:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c3391e33-e770-4c61-855e-d90e82b95f75@quicinc.com>
+References: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
+ <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com> <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
+ <20231215064823.ltm55fk4zclsuuwq@vireshk-i7> <a2aca039-7360-476e-a1b1-e950698cd26b@gmail.com>
+In-Reply-To: <a2aca039-7360-476e-a1b1-e950698cd26b@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 15 Dec 2023 12:35:58 +0100
+Message-ID: <CANiq72mT_N0eSkUAR9KYYWvFaVNYYOpFiJLr_whab=FNFcMVhw@mail.gmail.com>
+Subject: Re: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to
+ build directory
+To: Tiago Lam <tiagolam@gmail.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> The "maxItems: 1" of the property resets is defined in ethernet-phy.yaml
-> that is referenced by qca,ar803x.yaml, but i have 11 reset instances
-> used for qca8084 PHY
+On Fri, Dec 15, 2023 at 12:14=E2=80=AFPM Tiago Lam <tiagolam@gmail.com> wro=
+te:
+>
+> I think we can drop the reference to the `--path <buildir>` to avoid
+> giving too much information to the users following the guide. It doesn't
+> seem to bring anything given users should now always go through `make
+> rustupoverride`.
 
-11!?!?? Really? Why?
+Yeah, the idea with the new target was to simplify this, rather than
+have it as an additional way.
 
-I assume the order and timer matters, otherwise why would you need
-11? So the PHY driver needs to handle this, not phylib framework. So
-you will be adding vendor properties to describe all 11 of them. So
-ethernet-phy.yaml does not matter.
+> But if I understood this correctly, the point here is that with the new
+> target we can now abstract both cases behind the `make rustupoverride`
+> target - i.e. we don't need to provide alternatives.
 
-	Andrew
+Exactly.
+
+Cheers,
+Miguel
