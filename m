@@ -1,110 +1,361 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A8124B42;
-	Fri, 15 Dec 2023 10:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002C81A5B0;
+	Fri, 15 Dec 2023 10:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mTIRw6YX"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BF9Mqgk032346;
-	Fri, 15 Dec 2023 10:17:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=Tun7DRNtaaSLQZm0TAzmr2NH9jDXt4w0fbSSJYXmQkY=; b=mT
-	IRw6YXWH74HMQuu+Gz87bBRaA0ugHj3LKQm5JFUwFjJ5OlJZtQmzw6WnBvARAuzr
-	VObYybK4bBBD9U8RyFegpnzJiX4mM1Yq4kPY0Tu8Lv8V2PfvMjm4lptFqqQYNNzG
-	uu6E8PerIWq0TOYaq6MFRMUSIqoVLd1KciD+7ltjUYMoxVFTlpA1yuHHqKou0QgL
-	DKBREb+mUMFmxOMlSk68bFSkxEltJbAaxic+wWl97OFSsaNqLLOEFZszVjM3p5de
-	iO7tjbTRGTFIAFAtQIxtsGlj/LZn3fJQwojBDY1cVljQtUNolbr111wu6uaSbgOK
-	VDFiqoDP2kdNv7uMTbwA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0m46g4gq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 10:17:10 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFAGirw014118
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 10:16:44 GMT
-Received: from [10.253.13.71] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 15 Dec
- 2023 02:16:40 -0800
-Message-ID: <c3391e33-e770-4c61-855e-d90e82b95f75@quicinc.com>
-Date: Fri, 15 Dec 2023 18:16:37 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y9uaEZ5H"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-77f44cd99c6so37563985a.0;
+        Fri, 15 Dec 2023 02:32:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702636368; x=1703241168; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gb/T/oASgtKNv+0xZI+c0KBr6jni4i5H3ET7iArrf4k=;
+        b=Y9uaEZ5Hxo7SD6XcKNmcoCdqvCusvG6qDbFQB67m5pXxLi2T5o78xaSfCfzSGOKvC2
+         MUWgaALOa5BSeyCrHeK7U/4PN8N4LZNW4/AQSn+xvQEStplJULfOlZRoaTQ99+LJK15G
+         vVnrF79UYHmnnDTyCwUPOKnSHz9Sk016Zur/Zm9P8EYBdrpWVbInU4rgq++xyFEW39x/
+         kSkkpETO0dptP4pFSD15No6dG8CLan+jC91Kul74jzaaaKjztERflHAH7HscW04N8mgZ
+         kdNdR8rO3iTv34LiUwDh1jtXQ4A3TTCpDWPlu50U7yTwxbRipiNygfmSyh0YbU7+TduD
+         nmuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702636368; x=1703241168;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gb/T/oASgtKNv+0xZI+c0KBr6jni4i5H3ET7iArrf4k=;
+        b=mg/hXxZ1nDLT5jMKr40B37WUruaQglTP5ld8ZaqjbDgpQOGnXZp74Jcq/byjJLCl6g
+         5nLeGmUmzM0TEcBh8ibuslJmmlkKtCg3VPTedZAuJ1eeGqhTuZKJ7BTEZ04kq9fEAFv4
+         UpPsTwYaGf0OkL6HCU9sypYYLC5XCQGIXrKnEnvK5gciFgT80EmoYLF9Jk8eFrY9h7O+
+         bu4HM2F8h3Yb8AJeVwhFKZxhIe5uPzg4ZnXjP2a36TBxvKd/9xJlZc5KECjsgSONm1kG
+         dNaYEbBiOlxIpvKb6kOXZXco/tDDTw/NYzm64V+D0r4cYjdQfflUKmA5nJ2yFDmQMbA2
+         F8bA==
+X-Gm-Message-State: AOJu0Yyn7IijtX4+i4k2+ZXCJpF8LJ1j6G3pkGt4A+QmiuuY/4Uo9tpK
+	U/SXsF2rWZz82mlGoOW2Qvxm+TVRwRRLwg1RKmdrRKd0
+X-Google-Smtp-Source: AGHT+IG8Ct6WJzJ0E7CAgaD7djI8pdHG3EsYbU7797KHqPA45afy5tK8XwtADVKdXbn0l3c/QKKmZu1MynqEl9lhXpw=
+X-Received: by 2002:a05:620a:31a2:b0:77f:38a:e824 with SMTP id
+ bi34-20020a05620a31a200b0077f038ae824mr19019763qkb.7.1702636367672; Fri, 15
+ Dec 2023 02:32:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
- properties
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, <andrew@lunn.ch>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
-        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>
-CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20231215074005.26976-1-quic_luoj@quicinc.com>
- <20231215074005.26976-15-quic_luoj@quicinc.com>
- <bdfba8a7-9197-4aae-a7f9-6075a375f60b@linaro.org>
-From: Jie Luo <quic_luoj@quicinc.com>
-In-Reply-To: <bdfba8a7-9197-4aae-a7f9-6075a375f60b@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 6BPPAA1eXPd8CZFoyaMl93amoket_0Rb
-X-Proofpoint-ORIG-GUID: 6BPPAA1eXPd8CZFoyaMl93amoket_0Rb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- suspectscore=0 adultscore=0 phishscore=0 mlxscore=0 clxscore=1015
- mlxlogscore=955 impostorscore=0 malwarescore=0 bulkscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312150069
+References: <20231213123422.344600-3-amir73il@gmail.com> <c6c49fd7-2197-48b9-8203-ee5f4634b683@gmail.com>
+ <CAOQ4uxj_ikEdF-d3s_S7OGUDk1duUXzYqvB0BkyzFNgrCXYf=Q@mail.gmail.com> <ffc20839-03a6-4f20-82ae-8707b4b9752b@gmail.com>
+In-Reply-To: <ffc20839-03a6-4f20-82ae-8707b4b9752b@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 15 Dec 2023 12:32:36 +0200
+Message-ID: <CAOQ4uxjT=YGwN1gVDAqRaw0M=q9Gsv7hW2zo9CE9KErqosVx0g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] overlayfs.rst: fix ReST formatting
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: bagasdotme@gmail.com, brauner@kernel.org, linux-doc@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, miklos@szeredi.hu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Dec 15, 2023 at 11:31=E2=80=AFAM Akira Yokosawa <akiyks@gmail.com> =
+wrote:
+>
+> Hi Amir,
+>
+> On 2023/12/15 17:00, Amir Goldstein wrote:
+> > On Fri, Dec 15, 2023 at 4:07=E2=80=AFAM Akira Yokosawa <akiyks@gmail.co=
+m> wrote:
+> >>
+> >> Hi,
+> >>
+> >> On Wed, 13 Dec 2023 14:34:22 +0200, Amir Goldstein wrote:
+> >>> Fix some indentation issues and fix missing newlines in quoted text
+> >>> by converting quoted text to code blocks.
+> >>>
+> >>> Unindent a) b) enumerated list to workaround github displaying it
+> >>> as numbered list.
+> >>
+> >> I don't think we need to work around github's weird behavior around
+> >> enumerated lists.  What matters for us is what Sphinx (+ our own
+> >> extensions) ends up generating.
+> >>
+> >> The corresponding html page rendered by Sphinx is at:
+> >> https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html#perm=
+ission-model
+> >>
+> >> It does not look perfect, but at least it preserves enumeration by
+> >> number and alphabet.
+> >>
+> >
+> > ok.
+> >
+> >> I'd suggest reporting github about the minor breakage of their
+> >> rst renderer.
+> >>
+> >> Further comments below:
+> >>
+> >>>
+> >>> Reported-by: Christian Brauner <brauner@kernel.org>
+> >>> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> >>> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> >>> ---
+> >>>  Documentation/filesystems/overlayfs.rst | 63 +++++++++++++----------=
+--
+> >>>  1 file changed, 32 insertions(+), 31 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/=
+filesystems/overlayfs.rst
+> >>> index 926396fdc5eb..a36f3a2a2d4b 100644
+> >>> --- a/Documentation/filesystems/overlayfs.rst
+> >>> +++ b/Documentation/filesystems/overlayfs.rst
+> >>> @@ -118,7 +118,7 @@ Where both upper and lower objects are directorie=
+s, a merged directory
+> >>>  is formed.
+> >>>
+> >>>  At mount time, the two directories given as mount options "lowerdir"=
+ and
+> >>> -"upperdir" are combined into a merged directory:
+> >>> +"upperdir" are combined into a merged directory::
+> >>>
+> >>>    mount -t overlay overlay -olowerdir=3D/lower,upperdir=3D/upper,\
+> >>>    workdir=3D/work /merged
+> >>> @@ -174,10 +174,10 @@ programs.
+> >>>  seek offsets are assigned sequentially when the directories are read=
+.
+> >>>  Thus if
+> >>>
+> >>> -  - read part of a directory
+> >>> -  - remember an offset, and close the directory
+> >>> -  - re-open the directory some time later
+> >>> -  - seek to the remembered offset
+> >>> +- read part of a directory
+> >>> +- remember an offset, and close the directory
+> >>> +- re-open the directory some time later
+> >>> +- seek to the remembered offset
+> >>
+> >> To my eyes, unindent spoils the readability of this file as pure
+> >> plain text.  Please don't do this.
+> >>
+> >
+> > Ok. I see what you mean.
+> > I restored a single space indent.
+> > I don't see why double space is called for and it is inconsistent
+> > with indentation in the rest of the doc.
+> >
+> >>>
+> >>>  there may be little correlation between the old and new locations in
+> >>>  the list of filenames, particularly if anything has changed in the
+> >>> @@ -285,21 +285,21 @@ Permission model
+> >>>
+> >>>  Permission checking in the overlay filesystem follows these principl=
+es:
+> >>>
+> >>> - 1) permission check SHOULD return the same result before and after =
+copy up
+> >>> +1) permission check SHOULD return the same result before and after c=
+opy up
+> >>>
+> >>> - 2) task creating the overlay mount MUST NOT gain additional privile=
+ges
+> >>> +2) task creating the overlay mount MUST NOT gain additional privileg=
+es
+> >>>
+> >>> - 3) non-mounting task MAY gain additional privileges through the ove=
+rlay,
+> >>> - compared to direct access on underlying lower or upper filesystems
+> >>> +3) non-mounting task MAY gain additional privileges through the over=
+lay,
+> >>> +   compared to direct access on underlying lower or upper filesystem=
+s
+> >>
+> >> All you need to fix is this adjustment of indent.
+> >> Don't do other unindents please
+> >>
+> >
+> > OK. I also fixed the same indents in "Non-standard behavior".
+> >
+> >>>
+> >>> -This is achieved by performing two permission checks on each access
+> >>> +This is achieved by performing two permission checks on each access:
+> >>>
+> >>> - a) check if current task is allowed access based on local DAC (owne=
+r,
+> >>> -    group, mode and posix acl), as well as MAC checks
+> >>> +a) check if current task is allowed access based on local DAC (owner=
+,
+> >>> +group, mode and posix acl), as well as MAC checks
+> >>>
+> >>> - b) check if mounting task would be allowed real operation on lower =
+or
+> >>> -    upper layer based on underlying filesystem permissions, again in=
+cluding
+> >>> -    MAC checks
+> >>> +b) check if mounting task would be allowed real operation on lower o=
+r
+> >>> +upper layer based on underlying filesystem permissions, again includ=
+ing
+> >>> +MAC checks
+> >>
+> >> Your workaround harms the readability very badly.
+> >> Don't break the construct of enumerated (or numbered) list in rst.
+> >>
+> >
+> > ok.
+> >
+> >> For the specification of enumerated list, please see:
+> >>
+> >> https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#enu=
+merated-lists
+> >>
+> >> If there is a rst parser who fails to recognize some of the defined
+> >> list structure, fix such a parser please!
+> >>
+> >>>
+> >>>  Check (a) ensures consistency (1) since owner, group, mode and posix=
+ acls
+> >>>  are copied up.  On the other hand it can result in server enforced
+> >>> @@ -311,11 +311,11 @@ to create setups where the consistency rule (1)=
+ does not hold; normally,
+> >>>  however, the mounting task will have sufficient privileges to perfor=
+m all
+> >>>  operations.
+> >>>
+> >>> -Another way to demonstrate this model is drawing parallels between
+> >>> +Another way to demonstrate this model is drawing parallels between::
+> >>>
+> >>>    mount -t overlay overlay -olowerdir=3D/lower,upperdir=3D/upper,...=
+ /merged
+> >>>
+> >>> -and
+> >>> +and::
+> >>>
+> >>>    cp -a /lower /upper
+> >>>    mount --bind /upper /merged
+> >>> @@ -328,7 +328,7 @@ Multiple lower layers
+> >>>  ---------------------
+> >>>
+> >>>  Multiple lower layers can now be given using the colon (":") as a
+> >>> -separator character between the directory names.  For example:
+> >>> +separator character between the directory names.  For example::
+> >>>
+> >>>    mount -t overlay overlay -olowerdir=3D/lower1:/lower2:/lower3 /mer=
+ged
+> >>>
+> >>> @@ -340,13 +340,13 @@ rightmost one and going left.  In the above exa=
+mple lower1 will be the
+> >>>  top, lower2 the middle and lower3 the bottom layer.
+> >>>
+> >>>  Note: directory names containing colons can be provided as lower lay=
+er by
+> >>> -escaping the colons with a single backslash.  For example:
+> >>> +escaping the colons with a single backslash.  For example::
+> >>>
+> >>>    mount -t overlay overlay -olowerdir=3D/a\:lower\:\:dir /merged
+> >>>
+> >>>  Since kernel version v6.8, directory names containing colons can als=
+o
+> >>>  be configured as lower layer using the "lowerdir+" mount options and=
+ the
+> >>> -fsconfig syscall from new mount api.  For example:
+> >>> +fsconfig syscall from new mount api.  For example::
+> >>>
+> >>>    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/a:lower::dir",=
+ 0);
+> >>>
+> >>> @@ -390,11 +390,11 @@ Data-only lower layers
+> >>>  With "metacopy" feature enabled, an overlayfs regular file may be a =
+composition
+> >>>  of information from up to three different layers:
+> >>>
+> >>> - 1) metadata from a file in the upper layer
+> >>> +1) metadata from a file in the upper layer
+> >>>
+> >>> - 2) st_ino and st_dev object identifier from a file in a lower layer
+> >>> +2) st_ino and st_dev object identifier from a file in a lower layer
+> >>>
+> >>> - 3) data from a file in another lower layer (further below)
+> >>> +3) data from a file in another lower layer (further below)
+> >>
+> >> Ditto.
+> >>
+> >>>
+> >>>  The "lower data" file can be on any lower layer, except from the top=
+ most
+> >>>  lower layer.
+> >>> @@ -405,7 +405,7 @@ A normal lower layer is not allowed to be below a=
+ data-only layer, so single
+> >>>  colon separators are not allowed to the right of double colon ("::")=
+ separators.
+> >>>
+> >>>
+> >>> -For example:
+> >>> +For example::
+> >>>
+> >>>    mount -t overlay overlay -olowerdir=3D/l1:/l2:/l3::/do1::/do2 /mer=
+ged
+> >>>
+> >>> @@ -419,7 +419,7 @@ to the absolute path of the "lower data" file in =
+the "data-only" lower layer.
+> >>>
+> >>>  Since kernel version v6.8, "data-only" lower layers can also be adde=
+d using
+> >>>  the "datadir+" mount options and the fsconfig syscall from new mount=
+ api.
+> >>> -For example:
+> >>> +For example::
+> >>>
+> >>>    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
+> >>>    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
+> >>> @@ -429,7 +429,7 @@ For example:
+> >>>
+> >>>
+> >>>  fs-verity support
+> >>> -----------------------
+> >>> +-----------------
+> >>>
+> >>>  During metadata copy up of a lower file, if the source file has
+> >>>  fs-verity enabled and overlay verity support is enabled, then the
+> >>> @@ -653,9 +653,10 @@ following rules apply:
+> >>>     encode an upper file handle from upper inode
+> >>>
+> >>>  The encoded overlay file handle includes:
+> >>> - - Header including path type information (e.g. lower/upper)
+> >>> - - UUID of the underlying filesystem
+> >>> - - Underlying filesystem encoding of underlying inode
+> >>> +
+> >>> +- Header including path type information (e.g. lower/upper)
+> >>> +- UUID of the underlying filesystem
+> >>> +- Underlying filesystem encoding of underlying inode
+> >>
+> >> Ditto.
+> >>
+> >
+> > ok, but inconsistent indentation between numbered and bullet list is
+> > also not nice:
+> > https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html#nfs-e=
+xport
+>
+> I agree.
+>
+> >
+> > so I kept this indent and I also indented the non-indented numbered lis=
+ts
+> > in this section to conform to the rest of the numbered lists in this do=
+c.
+> >
+> > I've pushed the fixes to overlayfs-next.
+>
+> OK. I'm looking at commit 4552f4b1be08 ("overlayfs.rst: fix ReST formatti=
+ng").
+>
+> It looks reasonable to me.
+> If you'd like, feel free to add
+>
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+>
 
+Done.
 
-On 12/15/2023 4:22 PM, Krzysztof Kozlowski wrote:
-> On 15/12/2023 08:40, Luo Jie wrote:
->> The following properties are added for qca8084 PHY.
->>
->> 1. add the compatible string "ethernet-phy-id004d.d180" since
->>     the PHY device is not accessible during MDIO bus register.
->> 2. add property "qcom,phy-addr-fixup" for customizing MDIO address.
->> 3. add property "qcom,phy-work-mode" for specifying qca8084 PHY
->>     work mode.
->> 4. add the initial clocks and resets.
-> 
-> All my previous comments (sent one minute before this patchset :) )
-> apply. Please respond to them or implement them in v5 (not earlier than
-> after 24h).
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
-Sure, will update the new version after the discussion completed.
-actually i have query about the dt-bindings doc.
-
-The "maxItems: 1" of the property resets is defined in ethernet-phy.yaml
-that is referenced by qca,ar803x.yaml, but i have 11 reset instances
-used for qca8084 PHY, it seems i can't overwrite maxItems of reset
-property to 11 from 1 in qca,ar803x.yaml.
-
-is there any method to overwrite the maxItems value?
-
-Thanks,
-Jie
+Thanks!
+Amir.
