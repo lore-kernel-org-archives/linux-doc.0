@@ -1,69 +1,127 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8E43EA80;
-	Fri, 15 Dec 2023 16:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="m/GBrl5i"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3A20B46A;
-	Fri, 15 Dec 2023 16:32:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3A20B46A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1702657963; bh=KjM0uDHwoedhIhQVgnSasUQJXO8rGVyBZqDNKz1WErA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=m/GBrl5i2R05TWh1mwjks7R8qBSB+XZhb7G4JkGOjRe8NAPT11IcuDBd2hib+SeMz
-	 b6TvYlQiveUH5Tvr9Foikreg5HBivWZFkqf/o1hLwm8++z4RTfp0wUi/B2iHmI94f2
-	 Hl0dCZClKvqk4UjgGVIdhoqzuIL8UipVttkBYN3YcU/PhpdnzbaA8eZd7dSzMUcKd/
-	 YaQWV5hNL8vjkxvHKKBCpu8PhbVh1uFO04m1iu8zRqHgBCx8bspsQkCoW5xNv8gqun
-	 Lwq+9IC9+Yzaaq3klVIR0BLyT5urKtxFux1EBomdKsonlWPXkmhLYM5f3NpGQUanxx
-	 kr2p0nMECY2xw==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Kees Cook <keescook@chromium.org>
-Cc: Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] scripts: kernel-doc: Clarify missing struct member
- description
-In-Reply-To: <20231215001513.work.563-kees@kernel.org>
-References: <20231215001513.work.563-kees@kernel.org>
-Date: Fri, 15 Dec 2023 09:32:42 -0700
-Message-ID: <87sf43pgt1.fsf@meer.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37ADF3FE45;
+	Fri, 15 Dec 2023 16:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4SsF9T2nGtz6J9hQ;
+	Sat, 16 Dec 2023 00:31:57 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 20C23140390;
+	Sat, 16 Dec 2023 00:33:03 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 15 Dec
+ 2023 16:33:02 +0000
+Date: Fri, 15 Dec 2023 16:33:01 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
+	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
+	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 14/21] irqchip/gic-v3: Don't return errors from
+ gic_acpi_match_gicc()
+Message-ID: <20231215163301.0000183a@Huawei.com>
+In-Reply-To: <E1rDOgx-00Dvkv-Bb@rmk-PC.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+	<E1rDOgx-00Dvkv-Bb@rmk-PC.armlinux.org.uk>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-Kees Cook <keescook@chromium.org> writes:
+On Wed, 13 Dec 2023 12:50:23 +0000
+Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
 
-> The output "or member" should be more specific, instead saying "struct
-> member".
->
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> From: James Morse <james.morse@arm.com>
+> 
+> gic_acpi_match_gicc() is only called via gic_acpi_count_gicr_regions().
+> It should only count the number of enabled redistributors, but it
+> also tries to sanity check the GICC entry, currently returning an
+> error if the Enabled bit is set, but the gicr_base_address is zero.
+> 
+> Adding support for the online-capable bit to the sanity check
+> complicates it, for no benefit. The existing check implicitly
+> depends on gic_acpi_count_gicr_regions() previous failing to find
+> any GICR regions (as it is valid to have gicr_base_address of zero if
+> the redistributors are described via a GICR entry).
+> 
+> Instead of complicating the check, remove it. Failures that happen
+> at this point cause the irqchip not to register, meaning no irqs
+> can be requested. The kernel grinds to a panic() pretty quickly.
+> 
+> Without the check, MADT tables that exhibit this problem are still
+> caught by gic_populate_rdist(), which helpfully also prints what
+> went wrong:
+> | CPU4: mpidr 100 has no re-distributor!
+> 
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Reviewed-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 > ---
->  scripts/kernel-doc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 39e730ee1fef..41f838042364 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -1613,7 +1613,7 @@ sub push_parameter($$$$$) {
->  		$parameterdescs{$param} = $undescribed;
+>  drivers/irqchip/irq-gic-v3.c | 18 ++++++------------
+>  1 file changed, 6 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> index 98b0329b7154..ebecd4546830 100644
+> --- a/drivers/irqchip/irq-gic-v3.c
+> +++ b/drivers/irqchip/irq-gic-v3.c
+> @@ -2420,21 +2420,15 @@ static int __init gic_acpi_match_gicc(union acpi_subtable_headers *header,
 >  
->  	        if (show_warnings($type, $declaration_name) && $param !~ /\./) {
-> -			emit_warning("${file}:$.", "Function parameter or member '$param' not described in '$declaration_name'\n");
-> +			emit_warning("${file}:$.", "Function parameter or struct member '$param' not described in '$declaration_name'\n");
->  		}
+>  	/*
+>  	 * If GICC is enabled and has valid gicr base address, then it means
+> -	 * GICR base is presented via GICC
+> +	 * GICR base is presented via GICC. The redistributor is only known to
+> +	 * be accessible if the GICC is marked as enabled. If this bit is not
+> +	 * set, we'd need to add the redistributor at runtime, which isn't
+> +	 * supported.
+>  	 */
+> -	if (acpi_gicc_is_usable(gicc) && gicc->gicr_base_address) {
+> +	if (gicc->flags & ACPI_MADT_ENABLED && gicc->gicr_base_address)
 
-Applied, thanks.
+I was very vague in previous review.  I think the reasons you are switching
+from acpi_gicc_is_useable(gicc) to the gicc->flags & ACPI_MADT_ENABLED
+needs calling out as I'm fairly sure that this point in the series at least
+acpi_gicc_is_usable is same as current upstream:
 
-jon
+static inline bool acpi_gicc_is_usable(struct acpi_madt_generic_interrupt *gicc)
+{
+	return gicc->flags & ACPI_MADT_ENABLED;
+}
+
+>  		acpi_data.enabled_rdists++;
+> -		return 0;
+> -	}
+>  
+> -	/*
+> -	 * It's perfectly valid firmware can pass disabled GICC entry, driver
+> -	 * should not treat as errors, skip the entry instead of probe fail.
+> -	 */
+> -	if (!acpi_gicc_is_usable(gicc))
+> -		return 0;
+> -
+> -	return -ENODEV;
+> +	return 0;
+>  }
+>  
+>  static int __init gic_acpi_count_gicr_regions(void)
+
