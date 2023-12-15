@@ -1,87 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720C8EBC;
-	Fri, 15 Dec 2023 01:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197E736F;
+	Fri, 15 Dec 2023 01:24:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ed0R0PL9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JnLDOlsG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702602639; x=1734138639;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=hGHT2xFDPW1irjXpqDgB580PM8cj5c5cGBO8HS7HH4g=;
-  b=ed0R0PL904eV69rXv1dR/S6WqBnDOgeWLfAiMoscBx9ShRncS3N2wfRp
-   oNW2u6d3iS7kh/J9AtD4KKk+NjiyrfCMvX3NFWDn4Y4hOo41UDH0oK60w
-   KfNdvDhe8t+2lvexnzg8mCLiFnpSjwTt002FFZvMvQLoxH3C9vl8PAC3x
-   mxieHIeoL2u5JhK15Z3J5XzNbrStNLulqHPRplQGNe4VLDYf69nQG2ulh
-   H2bE2RF+48nv/qRSqSwSDUTUSmVcG3HE9t51Cn1fyjSAfpsEy1GtPmLKJ
-   4guwDPnYLfWFJ6miAREO0YUpsr9xiYdhd8h83e6TGIYSU1qusPGDBK4zT
+  t=1702603477; x=1734139477;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=MeLaZ2Bm8PtxXE+ZLY92NDpOOtgHsx0gRcBYsLzrC04=;
+  b=JnLDOlsGF25F6GCqqhWZJC7AeT3H35UsOL8nUJbKRxdeaW1RCAyhdQn5
+   WBgx+Z8Ox1xyBcFS4SB6b2oN+3+tpN9GffFSYK7pwixdVXVUtF2U0Y29e
+   ytNHHf6ukEgMFerVoT1j2Ou6hHWos7y1+HRAp6AtgH9euHXYQiT2AwSZm
+   RmQV8Qnp56cMn6l7MHy2/4rYEK0e0aab+56yqJgBM/AfBqngsOpsjp/8A
+   iwxj5DZpYuwt1gyxq6GEiO6EBGclfSIy7/e5QGI1Hlbsr7FpHRvl3Y/TK
+   Ox5joLRlTqQdgNxeNIgAv7BfJcUWOos/sidAyGiHogTvzUT0+3aGQuXAJ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2302330"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392389723"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="2302330"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 17:10:38 -0800
+   d="scan'208";a="392389723"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 17:24:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="897953816"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="892705368"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="897953816"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Dec 2023 17:10:37 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+   d="scan'208";a="892705368"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Dec 2023 17:24:26 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 14 Dec 2023 17:10:37 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ 15.1.2507.35; Thu, 14 Dec 2023 17:24:25 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 14 Dec 2023 17:10:37 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.35; Thu, 14 Dec 2023 17:24:25 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 14 Dec 2023 17:24:25 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 14 Dec 2023 17:10:37 -0800
+ 15.1.2507.35; Thu, 14 Dec 2023 17:24:24 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GNJbjfn1QldXtGtJ18uydr2lHOdB2+RiOsTYoTaHmNtijJOhjnAYZSoT1+VLi13gEYLMD3JSWSpbAZP7wJsWQtJt7s/nlBDBXU8ZOG6cy54W6Rw3Y0uPaBM8GgZOm0T8mFnF3a8FsSqNilQOUDuZVv6FMjOOLZdmliDKHr+WkVD3ZgP6pT5wptQIfuJQ1Dcdq1besra5518Efc+QDMkaOvDCbMjcL6YQh0IY9fxepjIDyTFcVSIy4aHNN664gJ3ieyu3Nl/F1Mmf2xfYIY7yh8c8jFLZtyOPCe3FWP6odhfTtFLqEpvCCeynJxhXSmygeBMDL8TCn0aTbXsYaHZudQ==
+ b=jNt6Gr82w5ynzacxCsKZmFXyxwkYMyh5GmP5nlAkyVHF0ovk93816bnT6PCF6Vmf1iG58F8xJsGDpqNE0zaOz3JPf4Q9nAX+5wTc42hcSIWXSHTZOZUK7X7mjnC1zSbB/vHEY8ES8SvoMTaCzZ7vItcRGg0PyxY3Qs+Kq2vySVtnr11uIe2Las9lO2v70ML3fJDxXZi0gHaQcdlsp0ElEibUDuZsMSaV0CN97v3evsg8d83NzY3EJxGSnnuTlTo7ZrQ7K6Rn2MONqQt0YOV9F+aEoi+F52CTdqX4xuwpcDTs/ImK+UOwFP9UjUxvosELQpvXcwTGouLh0QEYJTiTBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uMiCaJqOpwBsJ9OvFVNJ3e+QyfG2TRG5c4rkTH6u1yc=;
- b=LKWnii507ZGy3//hA5mVJ0VnZsd1m4J52x3zhSmyfabu8acN/USryfUVNh31xxvX/tS9WQvEMs2l1JzPWdvmvoEKZp1cYJgMc+T8imcOeTKQrrwe7Y/Uc/BEdHSci5K0ea7uRjndQBk+aCCxdKrVnkuvCYOosklF9Tapb+lqvheWbOr13NVaysWZXkBA5gCmLXqRq8q7Fw9UYry58AwXR9CLms4/3t44K+1D+U1Oo23jhrzaFWijj5lYRjoLNDF2WMuTBqfkKv1/Ch8iG7RvBXs/2hFF31odCNqRVmiz7WDMCUDzigx+zC8wy7BpdjZHPf+cDbjj7TG07WBgH2BGjA==
+ bh=AH9i9DuQnAHdFAgNkOIoz9gygHa+nsKMES1NKkog3sw=;
+ b=LzrJv5orff5TO01YUw6JzMgyWdjhGO7o3PtQOtsXmXr8N8IFSzV+Lh4+eaUJrUSjFyPhbsyaIldP+vUSOPwOlkBxj38YjnFLKou3nnhwbNVF1zb6GVZ0C9XQWkjKwi5c1RtOqDHoYxhnyoR7hMIpUdEMusSlJkwcOaL1kum3RD1wFgqedjxwFPVWPHB3WMMF2d5aDKCiex3uW1FEq8aT1Ulq64isvUvj+/wrvXM/RPmB5vGjX5HMYldQqZCBxg4C9om7F8NqueixXxK23HRD0fvm2LZdGF2V9UH4U14JlqEQ8sRiWxbzDZGAZwGn+tleba3LICOyftyrhQursBOsTA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN6PR11MB3006.namprd11.prod.outlook.com (2603:10b6:805:d1::24)
- by DM4PR11MB5343.namprd11.prod.outlook.com (2603:10b6:5:392::16) with
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by LV3PR11MB8694.namprd11.prod.outlook.com (2603:10b6:408:21b::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Fri, 15 Dec
- 2023 01:10:30 +0000
-Received: from SN6PR11MB3006.namprd11.prod.outlook.com
- ([fe80::7f2d:3448:d474:f74e]) by SN6PR11MB3006.namprd11.prod.outlook.com
- ([fe80::7f2d:3448:d474:f74e%5]) with mapi id 15.20.7091.028; Fri, 15 Dec 2023
- 01:10:30 +0000
-Date: Fri, 15 Dec 2023 09:10:21 +0800
-From: Philip Li <philip.li@intel.com>
-To: Kees Cook <keescook@chromium.org>
-CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>, "Gustavo A. R. Silva"
-	<gustavoars@kernel.org>, Peter Oberparleiter <oberpar@linux.ibm.com>,
-	<linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>
-Subject: Re: kernel/gcov/fs.c:103: warning: Excess struct member 'buffer'
- description in 'gcov_iterator'
-Message-ID: <ZXunfWqei+vXUCnp@rli9-mobl>
-References: <202312150432.oBngC94A-lkp@intel.com>
- <202312141344.9E41E46584@keescook>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202312141344.9E41E46584@keescook>
-X-ClientProxiedBy: SG2PR04CA0154.apcprd04.prod.outlook.com (2603:1096:4::16)
- To SN6PR11MB3006.namprd11.prod.outlook.com (2603:10b6:805:d1::24)
+ 2023 01:24:22 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::6710:537d:b74:f1e5%5]) with mapi id 15.20.7091.028; Fri, 15 Dec 2023
+ 01:24:21 +0000
+Message-ID: <d9f3d23d-aba7-4229-bddb-5d6801b22f27@intel.com>
+Date: Thu, 14 Dec 2023 17:24:18 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] x86/resctrl: Remove hard-coded memory bandwidth
+ event configuration
+Content-Language: en-US
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<seanjc@google.com>, <kim.phillips@amd.com>, <jmattson@google.com>,
+	<ilpo.jarvinen@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kan.liang@linux.intel.com>, <nikunj@amd.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<rick.p.edgecombe@intel.com>, <rppt@kernel.org>,
+	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
+	<peternewman@google.com>, <dhagiani@amd.com>
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <170240414535.760665.1609957728181418569.stgit@bmoger-ubuntu>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <170240414535.760665.1609957728181418569.stgit@bmoger-ubuntu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0093.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::8) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,105 +103,227 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3006:EE_|DM4PR11MB5343:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1efa25bb-c372-4a2b-8230-08dbfd0aa147
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|LV3PR11MB8694:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30ac3d5f-25bd-44ba-06d7-08dbfd0c90fd
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KdgjXarX4CD07FyyyKexWQ+65tUGmPH3IO5EOfahTFqED+NsAGDMKBsxgzHwGsLPrNG4bev9pxlCldVYHlOANL5gtB3mOaIxF7DEKd143DSQcfsyq9ANWm2TJwLKrmbIvYFOpWrOWTl/rhp7oKNxicZ13yEaSdJE2sE4WlkHWQFpEmKYNttmwRZLg0fMlBS9ZOIlcsGkE7N+0xsMDGx/6wi16tILMbB578UwubOJQcQ7WGu2HBldflsrN8KLS50mfC9xzeVQBEMHcim1/0QrtWUVrde/Xdonzf4Ex5Ph7lkg2FpE6VvXGnYM9SrbAggvTC7tUy8N0GDM3FQMdZnpaQzCNixs3ZRYKNj9EobV10YuMpBupiuV3zbHffMW0V7lNKS2Mt3gX/A/zZcccZN1mJKFUW1D0ORJxf5EUDU8RY7O28kvzntqNAk9n31YNkeC5HtN5LIADaqqH9ZqxtDXHBWld8w7QLuqIwEF6vugJfhR/US1V6X2CJanHzoVmsn+x+RistsSQK0m9ltyKt1wHdXaxrG6Tg5nfvXYcAY/kWLiiacgTWMzEI7U/qQZMl68qliHB4vMjBDmU3WZZiL139X/Zgc7nwRuKjBp3XVOI/hOlvs9Dxv9gbaMOtxfQNO+Fvvp5N4+n5TmyqtLYGxHoUMdsFgAiu+O46u3/Ud6AW1+wrhX/5wE+xNAfTkQeRGS
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(136003)(39860400002)(366004)(346002)(396003)(230922051799003)(230173577357003)(230273577357003)(1800799012)(186009)(451199024)(64100799003)(86362001)(82960400001)(41300700001)(6666004)(478600001)(6506007)(66946007)(54906003)(6916009)(66556008)(66476007)(26005)(9686003)(6512007)(33716001)(38100700002)(83380400001)(2906002)(966005)(6486002)(316002)(44832011)(5660300002)(8936002)(4326008)(8676002)(67856001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: XGkZ3GzZggTTn4ASBtpyOuLBuPMWuUG+9piVkzaSJjgNZfdvcAmhucWemhQEXMeS0qFWOAcVpNTcoUXpHwiejvoTUNfqCE3RZTgdx3AKI8upCWabHU9oDtu3IURgHJ5XOFX5V0cOscXbXHFi38bXFe7S4igVZgfOhpmA28FzX8MTYI+Pv98Dy/UaGQRltZmPZG3sFVqiCXn9Ia1DIS59P1ONIIU40FSEM1EGkEi+d0LI/wYVt/C5Szndk9k67yPxNJZ1vD7uJUwzHSFOr+dDC74h77JVVj0rzOR1R7g4xlQGHRi9G6L6YyPEg3Po4GPtGddUVvIKwmxHzOepWJ6Ly2xruPrvXRIe4BjBZ/cKIryb1IyW7PsH9IgPUZdG0DcN2pdIqxOhokCwqzyBaH6PmyWmclivG29n8wz8ZriYG/u1zPXaQjtl9MRjVbJFHrN9j3AatLqsiiZbYdByYmSt9+L4G/qbjIVgibH2bEJatNJ+K4JkSbKxSalHbvlaPKeoX6/D8klznir8wDSEX4esW9d0K5QT+/6EYPLLq0itfWiQQDniVaAeoc9KqE+3GPMyjbGiM+LZOoP8ZQIFmyDeYymfhVQuEJLv7PJMQ3i8Y6RJo5hX+bi1KtnksjDW1tFHJAC50fX17GkpQ2zPXaDuAg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(366004)(376002)(346002)(396003)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(53546011)(41300700001)(83380400001)(38100700002)(7416002)(5660300002)(478600001)(44832011)(6512007)(966005)(6506007)(2906002)(6666004)(6486002)(82960400001)(316002)(66476007)(66556008)(66946007)(31686004)(8936002)(4326008)(8676002)(86362001)(26005)(2616005)(31696002)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EdmHb60UR1MBqtdsiXCiZs3h/163beFThmL/aDaGItKDvxgzAWgKGixuNEKb?=
- =?us-ascii?Q?5bTaWxngblW2b+7LORmfHi5Qmlks1zW2yHQwc7Ug5c4qms6fVRcda2vHrIXt?=
- =?us-ascii?Q?ba5kLxQbS3uEaB2Dhixt9CwvKnfGAskTNRPRr7F8t531lKWcI7en0U+pPgVC?=
- =?us-ascii?Q?WFT0ygP1RDzcQ2lbmg2Ee/yWel2Dd4hsLE9Vhy/XdSerixrCLob84ejjYv+M?=
- =?us-ascii?Q?oHP2W0XEYG+HMx4+/EFSDu/0LGMGwgPzz6oD6iBA8Dy4QLdypFTzJvgRogE/?=
- =?us-ascii?Q?t7pA1XHeiLKlXb8qTTLfM8Q94J8IlSQg2XVVKlaJa67DlEc7Y5eitaNZ+frV?=
- =?us-ascii?Q?ofIClG0rr/TnK4UFXkrgDubbYK4B+VvQSflDBvcU6tOUgizdnNmwy0UfQOrS?=
- =?us-ascii?Q?FH1kzPnrivuAzTORfMFOc9O/JTtzbRnL3dHabWa2PtKAJtHSAnGwSCj7UiJM?=
- =?us-ascii?Q?umnuLXvbQb0s0bW/ttILjmYHbDwjZ4Mor42q+gSAkXHitcdOMUtup/5wTcQG?=
- =?us-ascii?Q?ESyehpP36m27RhstqcdwZqcXVsEOWMgaqWyCw00zxdb0PPAK06QRWwJ8r5jY?=
- =?us-ascii?Q?upm5PJga8QJtgQSfWegZa+o4eSqKTG+Ef9J7MLKc64tsT50r1UtSzZHMwEnu?=
- =?us-ascii?Q?vqvYiUpRUQoUZcImCqMu5+VWr5sYbk5CC0NDnxBc/TF4GfuXdpypAjrWvXVl?=
- =?us-ascii?Q?AvxTkKzvGr4e28o78MH7qlCi2mHRS3GES73FXQgnVl+8bwLF8sXkCr92weYP?=
- =?us-ascii?Q?owdQMo4VIWISrqdX/v5hmU3ZRr5oVNQac19W9XwF+5sb+0nibW+BGsKtcOn4?=
- =?us-ascii?Q?BAjHqqyfu7uQiHs9MyEwH8PmsxcJ8xAcs4uD4OARPSp4Qy4NoeKBsYkIjW5E?=
- =?us-ascii?Q?wDjQopvvhD3BaXui/2/aMU9aKlgOdAQLGSXH7LW+x+3kmugRZdjKOU8s6yXY?=
- =?us-ascii?Q?pWdM4GX6WWaBuFXk5cXN9Ihcj5HhgHooD7fbjivVwa4CFIqPpVDhZ+zslEic?=
- =?us-ascii?Q?CLSPvu50uR1h5vRzjfEW8icrZGRdXf7IWVn7U2rMFTY/XRb+hGxHzlwKG5Lp?=
- =?us-ascii?Q?9OZMbaNTrrCoaRpNplUeJyYBn1385+FyHfFRCa8R1Qa2GyJpXA5nPNO1c1hB?=
- =?us-ascii?Q?iEFdis5F2bT7MdmlSFB/GZJRPtiUU8GJ3FFv2PfxnoFHnJZZ2ygX6Axpa22A?=
- =?us-ascii?Q?1kb0m2EiXJgS4JWYj0IUwKt4NXadVID+V0zX38GfB9f6Gk9iq8QWYIJ4peGo?=
- =?us-ascii?Q?gYTEl/orkY5eqp9RdwQn5/R8k513oB9D+vMB/4qFL1ATRNygMZCk7VTxs3Hg?=
- =?us-ascii?Q?iO4xPrilTZm/ng6H0UsIbikYHMz9WbHOoV0RxctU1g4NWel22CrllTCDhMuQ?=
- =?us-ascii?Q?fcsKA4lOK3NbvRtYL4e0dRVsGMUs3zj2Ica1sxj+4MyhNCDHxyuZi+85rSlD?=
- =?us-ascii?Q?Ccn0WGjiuhfnJpeySnv9frsP6J87VcWmcFxblhPf0lbp7kd4oK0zCU5zZfCT?=
- =?us-ascii?Q?/XYAEQOr7Lv/7iqfwk1xzz1boxQ6mtn5BVKgZYODWL5wrvb17SEsA3NyTtZJ?=
- =?us-ascii?Q?l0Wx+nfcHlZmKYprE0wu9stlDECTZdwSGkS4ep2w?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1efa25bb-c372-4a2b-8230-08dbfd0aa147
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3006.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dlArQVpqTTNXU2pkNVVZYmZoQUt3c2I4cHNKeHNaVDY0TVBFMnU0Nm54VE9S?=
+ =?utf-8?B?MU5LdlZDZW1mdGZONkorZlFLbFRmV2RMNDlxWm9ZV1cwWmZSZk9OOWhwNnBq?=
+ =?utf-8?B?TmM2Vzk2eTBqK2FGSndpRDk4MmF1ZU9XdW9zbVJTWEdQTzhSWGZZK2RaVWMy?=
+ =?utf-8?B?OEZMZ0NOWWNZanpWZ25PSFk3N3NkVlhmay9Rc0pQbmhXVEw2SURaYVlhZTJ3?=
+ =?utf-8?B?NmJmcUgrWUg1Q2xib3ExblBld0ZBZGwwSTduVFJwdDN5Zy9ETmhaTVNoanVB?=
+ =?utf-8?B?Qzg1QzZFTTFNTDA0WGRyaHZYSGhENUlqK3Bva0s2WUZFSzE4SnFiV3p0cUN5?=
+ =?utf-8?B?MGFzWElRMGx0c0VVU2VOSzNLUHR3SDFxdGVoNVlPODBLUUV4cDNFVUlyVkEr?=
+ =?utf-8?B?TGppbklaWmpSZ0Z3bDFGWkpqN0djN1JDanJlMk5pYThXQ1hDVjdTRUJEMXZE?=
+ =?utf-8?B?SU8wTVlZMHM3L0hyR0lkWkJFZ3dqNTQxODhMUVN3dXRrV3JkNHRpVXdZY0xw?=
+ =?utf-8?B?OTQ4b05BTWtSb0RHTTU3bGl0TTdjbE9nc3ltUEJQdzhmaU0vL2t6Ym9DdjFV?=
+ =?utf-8?B?TFRXQys5amtrcWhsaEY3UEFqMWxZVVNhZEw3czhGakQyQ2FFWWlLSlNlZmJB?=
+ =?utf-8?B?QWxTN2EzYmdqd3JyQlNjSkpZb01Rb2xKYS9KOGljQTdSVjdtMkR0aUhNK0ta?=
+ =?utf-8?B?Q29rYTNOK1RUMHFGTlA4WWRWMFMyZTRRd3ovVlpXNzNuU2NlUC9DbVdJTlhy?=
+ =?utf-8?B?VGlpZzQ4L0hHaEJTOTBIbC9PMzR4Y2ZLN3B3enRUQ2FUQ0gxVTJ0ejl6R0Rq?=
+ =?utf-8?B?ZXdiL1czWit3LzZaRmsxZUNtTkJlcDBkRVpjcURDUkdQMmhVZFA0WWxwTlBi?=
+ =?utf-8?B?NG5zWkRwZ0pqRmJwWnlYN1luWThHQ0sxWFNSWS9wNVNHNDB1ajFQMnpWb2xn?=
+ =?utf-8?B?SGFPNTZ2SGpGS0p2MlJhSVVsNDhESUc1b0dzRjNrVUN1ZU1aQnRMV1RvVk9s?=
+ =?utf-8?B?T3hOSmdRY2l5VXA5bHVqT1VYL1V6STZ2ZTVvbXdadTJiTHZycHN0c3g3TzM2?=
+ =?utf-8?B?SjJBSVpKeDVmYjJvOE55ajFNWmZzWTRqVDZqbXI2Nk81b2llMHNhZm1maVhv?=
+ =?utf-8?B?Z3J5VGkwWXYzSFpVbTViOHN6cS9LWnZSTVNzakQ0dXlsK1hXSC93V2dBTExM?=
+ =?utf-8?B?MTBQQTJXWlNRQ2FiNzlabU51anRXN0F1Ty96d0hiRnNjYjlyUTcrUGtrcm15?=
+ =?utf-8?B?azY0WGZOVzhianpUdmVjdzFsbm9abEQwQTgzcERSVmMzY2JMZDRnU1Mvc1N0?=
+ =?utf-8?B?UFd2YmwxK1VXelk3N3ErODM0bHJQY1RtZGVWaUdEVmU3NWtwTkJLTUx2UXNI?=
+ =?utf-8?B?RXRtbXlDQmZXS2tLdXdGWGhqUHBKTmg0b2NPaVo2TUlwUXRwOC9mRUlEdWxR?=
+ =?utf-8?B?T0tPKy83VU1kb2Qrak9RU3ZvSkp6dHh5VFM5MFBLRDR1YkdtVERYZnhheGMx?=
+ =?utf-8?B?OVJtNnV3NklHSzcydStDbUFObG9zaEpVVDgzOTJFSTY0bFpuUkdXYjgxMnBa?=
+ =?utf-8?B?WWV4UGhHSnExS2lIUkRObmxiOTV0M1k2b21lSnd5c0d4ZE1lV3ZvZ3phOXR1?=
+ =?utf-8?B?elViQ2Rab0UvcWJQR0VrVTZNNWVROHBKbm1FVXBmb0hGbnY5OWh1UThLeFZr?=
+ =?utf-8?B?eUlKZFNHZ2NQS2UrdEt5aDZ3dXBXd1hjQjRQMU1NS25jSitOL1g3MThyVFdv?=
+ =?utf-8?B?Q1BLVEJWSzQyaXQ4R0FhOW9oZ2kwK1R2WGVtbnYxaHJJZDlaMEwvVndGVFVG?=
+ =?utf-8?B?SjJOTDl5TnViSm5GUnJDa0ZVVDNoY2h0K3JSYk5qanJpdEZlL25KSGpXZENa?=
+ =?utf-8?B?SUhuay9RVS96TnpNcmhsS2M2c1RYWEJ3K2Noc2UxYktjM3BnSTFnd2NpSzFw?=
+ =?utf-8?B?ZmYyeXFsQ0Q0WEFrd1VyZm1UZ0ZSTnltd1NiSnZEY3NFL3dvM0JKaWNJaXlq?=
+ =?utf-8?B?MHZFdlhOVlg4bTN4QzdaRXJXS2JiNjh5blpkYWZ0ODlRL1VPRkx5M3BnZXFH?=
+ =?utf-8?B?OERjcGJTMzg3UVFpU1B1MittQUxjcEJrekJmZjI1UjFXSlN0OFI4Z3NhNWZZ?=
+ =?utf-8?B?Y09ubVNoMVUzZDBUZlFVNTZZamN0U0hpdHJYdGpNZm5VNjR3MDRFOFlwSzQz?=
+ =?utf-8?B?UUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30ac3d5f-25bd-44ba-06d7-08dbfd0c90fd
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2023 01:10:30.3223
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2023 01:24:21.8589
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WYc6EufxFFk8I2laln6E87QUbo9676njXOZeY4IdW32L6PdijXVw+FYmaWG+SW5XPPVxAY0wHCXB9Uhzc8Fl5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5343
+X-MS-Exchange-CrossTenant-UserPrincipalName: CpcL++MwPqk4G7IPOnCniRNbiUQfntcDM5L5ruOTZt/X1bIrLK+HO997FYpO27WRMbS1ZIHlvnxkdcUfMEAFvsHthjcYJTVshrEyLeuWdkY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8694
 X-OriginatorOrg: intel.com
 
-On Thu, Dec 14, 2023 at 01:50:05PM -0800, Kees Cook wrote:
-> On Fri, Dec 15, 2023 at 04:53:19AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-> > commit: fbd126f5a658b92c7f6af986a6d89cf5e5693268 gcov: annotate struct gcov_iterator with __counted_by
-> > date:   8 weeks ago
-> > config: i386-buildonly-randconfig-001-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150432.oBngC94A-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150432.oBngC94A-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202312150432.oBngC94A-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> kernel/gcov/fs.c:103: warning: Excess struct member 'buffer' description in 'gcov_iterator'
-> > 
-> > 
-> > vim +103 kernel/gcov/fs.c
-> > 
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   90  
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   91  /**
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   92   * struct gcov_iterator - specifies current file position in logical records
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   93   * @info: associated profiling data
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   94   * @buffer: buffer containing file data
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   95   * @size: size of buffer
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   96   * @pos: current position in file
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   97   */
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   98  struct gcov_iterator {
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06   99  	struct gcov_info *info;
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06  100  	size_t size;
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06  101  	loff_t pos;
-> > fbd126f5a658b9 Kees Cook     2023-09-22  102  	char buffer[] __counted_by(size);
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06 @103  };
-> > 7a1d55b987dfcb Johannes Berg 2021-05-06  104  
+Hi Babu,
+
+On 12/12/2023 10:02 AM, Babu Moger wrote:
+> If the BMEC (Bandwidth Monitoring Event Configuration) feature is
+> supported, the bandwidth events can be configured. The maximum supported
+> bandwidth bitmask can be determined by following CPUID command.
 > 
-> It looks like whatever produces that error is not parsing attributes
-> correctly. I suspect this is the "htmldocs" target and "__counted_by" is
-> missing from Documentation/conf.py. I'll investigate...
-
-This is triggered by W=1 build
-
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/gcov/
-
-The detail step is at [1], hope it can help reproduce the issue
-
-[1] https://download.01.org/0day-ci/archive/20231215/202312150432.oBngC94A-lkp@intel.com/reproduce
-
+> CPUID_Fn80000020_ECX_x03 [Platform QoS Monitoring Bandwidth Event
+> Configuration] Read-only. Reset: 0000_007Fh.
+> Bits	Description
+> 31:7	Reserved
+>  6:0	Identifies the bandwidth sources that can be tracked.
 > 
-> -- 
-> Kees Cook
+> The bandwidth sources can change with the processor generations.
+> Currently, this information is hard-coded. Remove the hard-coded value
+> and detect using CPUID command. Also print the valid bitmask when the
+> user tries to configure invalid value.
 > 
+> The CPUID details are documentation in the PPR listed below [1].
+> [1] Processor Programming Reference (PPR) Vol 1.1 for AMD Family 19h Model
+> 11h B1 - 55901 Rev 0.25.
+> 
+> Fixes: dc2a3e857981 ("x86/resctrl: Add interface to read mbm_total_bytes_config")
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> 
+> ---
+> v2: Earlier Sent as a part of ABMC feature.
+>     https://lore.kernel.org/lkml/20231201005720.235639-1-babu.moger@amd.com/
+>     But this is not related to ABMC. Sending it separate now.
+>     Removed the global resctrl_max_evt_bitmask. Added event_mask as part of
+>     the resource.
+> ---
+>  arch/x86/kernel/cpu/resctrl/internal.h |    5 ++---
+>  arch/x86/kernel/cpu/resctrl/monitor.c  |    6 ++++++
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   18 ++++++++++--------
+>  3 files changed, 18 insertions(+), 11 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+> index d2979748fae4..3e2f505614d8 100644
+> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> @@ -50,9 +50,6 @@
+>  /* Dirty Victims to All Types of Memory */
+>  #define DIRTY_VICTIMS_TO_ALL_MEM	BIT(6)
+>  
+> -/* Max event bits supported */
+> -#define MAX_EVT_CONFIG_BITS		GENMASK(6, 0)
+> -
+>  struct rdt_fs_context {
+>  	struct kernfs_fs_context	kfc;
+>  	bool				enable_cdpl2;
+> @@ -394,6 +391,7 @@ struct rdt_parse_data {
+>   * @msr_update:		Function pointer to update QOS MSRs
+>   * @mon_scale:		cqm counter * mon_scale = occupancy in bytes
+>   * @mbm_width:		Monitor width, to detect and correct for overflow.
+> + * @event_mask:		Max supported event bitmask.
+
+This is a very generic name and description for this feature. Note that in
+resctrl monitoring an "event" is already clear (see members of enum resctrl_event_id)
+so a generic type of "event_mask" can easily cause confusion with existing
+concept of events. How about "mbm_cfg_mask"? Please also make the description
+more detailed - it could include that this is unique to BMEC. 
+
+>   * @cdp_enabled:	CDP state of this resource
+>   *
+>   * Members of this structure are either private to the architecture
+> @@ -408,6 +406,7 @@ struct rdt_hw_resource {
+>  				 struct rdt_resource *r);
+>  	unsigned int		mon_scale;
+>  	unsigned int		mbm_width;
+> +	unsigned int		event_mask;
+>  	bool			cdp_enabled;
+>  };
+>  
+> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+> index f136ac046851..30bf919edfda 100644
+> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+> @@ -813,6 +813,12 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+>  		return ret;
+>  
+>  	if (rdt_cpu_has(X86_FEATURE_BMEC)) {
+> +		u32 eax, ebx, ecx, edx;
+> +
+> +		/* Detect list of bandwidth sources that can be tracked */
+> +		cpuid_count(0x80000020, 3, &eax, &ebx, &ecx, &edx);
+> +		hw_res->event_mask = ecx;
+> +
+
+This has the same issue as I mentioned in V1. Note that this treats
+reserved bits as valid values. I think this is a risky thing to do. For example
+when this code is run on future hardware the currently reserved bits may have
+values with different meaning than what this code uses it for.
+
+>  		if (rdt_cpu_has(X86_FEATURE_CQM_MBM_TOTAL)) {
+>  			mbm_total_event.configurable = true;
+>  			mbm_config_rftype_init("mbm_total_bytes_config");
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index 69a1de92384a..8a1e9fdab974 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -1537,17 +1537,14 @@ static void mon_event_config_read(void *info)
+>  {
+>  	struct mon_config_info *mon_info = info;
+>  	unsigned int index;
+> -	u64 msrval;
+> +	u32 h;
+>  
+>  	index = mon_event_config_index_get(mon_info->evtid);
+>  	if (index == INVALID_CONFIG_INDEX) {
+>  		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+>  		return;
+>  	}
+> -	rdmsrl(MSR_IA32_EVT_CFG_BASE + index, msrval);
+> -
+> -	/* Report only the valid event configuration bits */
+> -	mon_info->mon_config = msrval & MAX_EVT_CONFIG_BITS;
+> +	rdmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, h);
+
+I do not think this code needed to be changed. We do not want to treat
+reserved bits as valid values. 
+
+>  }
+>  
+>  static void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mon_info)
+> @@ -1557,6 +1554,7 @@ static void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mo
+>  
+>  static int mbm_config_show(struct seq_file *s, struct rdt_resource *r, u32 evtid)
+>  {
+> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+>  	struct mon_config_info mon_info = {0};
+>  	struct rdt_domain *dom;
+>  	bool sep = false;
+> @@ -1571,7 +1569,9 @@ static int mbm_config_show(struct seq_file *s, struct rdt_resource *r, u32 evtid
+>  		mon_info.evtid = evtid;
+>  		mondata_config_read(dom, &mon_info);
+>  
+> -		seq_printf(s, "%d=0x%02x", dom->id, mon_info.mon_config);
+> +		/* Report only the valid event configuration bits */
+> +		seq_printf(s, "%d=0x%02x", dom->id,
+> +			   mon_info.mon_config & hw_res->event_mask);
+>  		sep = true;
+>  	}
+>  	seq_puts(s, "\n");
+> @@ -1617,12 +1617,14 @@ static void mon_event_config_write(void *info)
+>  static int mbm_config_write_domain(struct rdt_resource *r,
+>  				   struct rdt_domain *d, u32 evtid, u32 val)
+>  {
+> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+>  	struct mon_config_info mon_info = {0};
+>  	int ret = 0;
+>  
+>  	/* mon_config cannot be more than the supported set of events */
+> -	if (val > MAX_EVT_CONFIG_BITS) {
+> -		rdt_last_cmd_puts("Invalid event configuration\n");
+> +	if ((val & hw_res->event_mask) != val) {
+> +		rdt_last_cmd_printf("Invalid input: The maximum valid bitmask is 0x%02x\n",
+> +				    hw_res->event_mask);
+>  		return -EINVAL;
+>  	}
+>  
+> 
+> 
+
+Reinette
