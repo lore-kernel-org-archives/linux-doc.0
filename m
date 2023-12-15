@@ -1,49 +1,39 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC082DB7C;
-	Fri, 15 Dec 2023 12:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002CE2C868;
+	Fri, 15 Dec 2023 12:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DmX9l7FB"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c317723a8so6794825e9.3;
-        Fri, 15 Dec 2023 04:19:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702642754; x=1703247554; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=41+GVLZsgV+iwi5QTOwkFDVHQDnIoq3Z4EC1ZUUFgoA=;
-        b=DmX9l7FBqYIr1g/Sk3FVZB0rY35NvaI5zgwebMuUOQxdtXE1homqBRveMG8/ARQs2J
-         rzRdgden3X+yjXRArRkT4s3Ghx9yAD+w/WRabL58v9ZnTlmOlmNcozOxROOdgnar91O+
-         Af4nir0sHpwTpHV4C+LkdMKXepg4rKT2WML6QrnMdvUbM88u+OvtEkaL3LARuS+bxPKN
-         kEmMCHXOIAQGaHaVG5UQTJROGycazCpALcBhPWD6DUNtWm+yGzj7BnB7dQrgz+BIudh5
-         sC00fz/hsCd9F7d0B9EYpwOpPsE72T7NLPsHSvGdvM958lMWiVFP3A5xLCv4u0LUE58Q
-         L8iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702642754; x=1703247554;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=41+GVLZsgV+iwi5QTOwkFDVHQDnIoq3Z4EC1ZUUFgoA=;
-        b=T7BkOW1iehHCOv+YzGxxiOihVcMOcu78p8Qu0RMsMdLyn9yPrgv9xV1NedcK2TZEYG
-         Ux5qt8KRuu+Bu33sfst5NsalKwcrhd9qpxsFtTayR0bor/CQgFsBatgBX+ikkwNdKnz8
-         Z1VBC0zN0Q8hZyH+I7y0xiv4SDDD6cjE6gPi+ODGXylIC9+TgboTycF62vu3iYUz+Chc
-         xZSMe/zraW6Dt3NNpWy6uagWNQ1c5i2RFha4zpUYNnY2uad6NpHhAxGE11C4F+aKt8in
-         9wBExB1dGi8IvL4eJYVX2SLNvK5uTlqK0EWC/tTu0EqmXT/m0JtZp/4QRzpz++y2H4Ff
-         /8bQ==
-X-Gm-Message-State: AOJu0YxIANzsDO99KpdvsWGDlfbHINr5glMhiZD4rIPAqvbiD7kAu6CL
-	EfWSBlnPkdjNcsW8peFvHg==
-X-Google-Smtp-Source: AGHT+IGI2dE69kkG258zfN51SRFpGuftFM9SNvx7L9cnUX/M8VwkIC8vuYnRhGinWblxWJOn6HrtGw==
-X-Received: by 2002:a05:600c:4f02:b0:40b:5e59:c582 with SMTP id l2-20020a05600c4f0200b0040b5e59c582mr6071154wmq.172.1702642753726;
-        Fri, 15 Dec 2023 04:19:13 -0800 (PST)
-Received: from [192.168.1.148] (224.69.114.89.rev.vodafone.pt. [89.114.69.224])
-        by smtp.googlemail.com with ESMTPSA id x15-20020adfec0f000000b00336468b986esm4555704wrn.96.2023.12.15.04.19.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Dec 2023 04:19:13 -0800 (PST)
-Message-ID: <5f16fbbf-e14e-4c26-b2e0-d9cad559f828@gmail.com>
-Date: Fri, 15 Dec 2023 12:19:11 +0000
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kwsZ2WCX"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFCQm8U022578;
+	Fri, 15 Dec 2023 12:33:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=Zem9zj92wvAtdEA8Fe7XFOaOhnvk2FMTdxZ40u2vP6E=; b=kw
+	sZ2WCXvxb0OwWIfAnMVfsBIQieYVruY+aVBoVPYq3oJx9ActuEazE1r+RSSZz0wS
+	54/n8hprq03E5GRFRVHLn4yQuK+TzO3rjI3rGRFoajo/pphnH9TygThVInqtuh1h
+	nnOe84/XQr4rGrCDPJ2qEl4Etzz8TdpFkpakuBdtmmzwCfd8NZLOqyOu4BJsrqO5
+	U3UMEsJJxpiBrINxSwyoPyNizRB4q7omoQG1SUIkzAX5nrh+Hr6nG1k5M5AyiB2e
+	8nUNlGSrouptfkKEZXvjEZtLkucVntkhGaG5AtGrkWlHtt8yPCgzBaj02qiN2YO/
+	2PxKCivnBt8OxxwwFj6A==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0k90rkax-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 12:33:08 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFCX7EN013389
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 12:33:07 GMT
+Received: from [10.253.13.71] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 15 Dec
+ 2023 04:33:03 -0800
+Message-ID: <a65ad12d-b990-4439-b196-903f4a5f096a@quicinc.com>
+Date: Fri, 15 Dec 2023 20:33:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,44 +41,88 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to
- build directory
-Content-Language: en-GB
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
- <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
- <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com>
- <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
- <20231215064823.ltm55fk4zclsuuwq@vireshk-i7>
- <a2aca039-7360-476e-a1b1-e950698cd26b@gmail.com>
- <20231215112418.usky65sibhbiubyx@vireshk-i7>
-From: Tiago Lam <tiagolam@gmail.com>
-In-Reply-To: <20231215112418.usky65sibhbiubyx@vireshk-i7>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
+ properties
+Content-Language: en-US
+To: Andrew Lunn <andrew@lunn.ch>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
+        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231215074005.26976-1-quic_luoj@quicinc.com>
+ <20231215074005.26976-15-quic_luoj@quicinc.com>
+ <60b9081c-76fa-4122-b7ae-5c3dcf7229f9@lunn.ch>
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <60b9081c-76fa-4122-b7ae-5c3dcf7229f9@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 4Uz7d0EgknsiF0Y5kIan2k8PGtrPqcmd
+X-Proofpoint-GUID: 4Uz7d0EgknsiF0Y5kIan2k8PGtrPqcmd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
+ mlxlogscore=990 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312150084
 
-On 15/12/2023 11:24, Viresh Kumar wrote:
 
-[...]
 
-> Will this still work if we are in the build directory ?
+On 12/15/2023 8:12 PM, Andrew Lunn wrote:
+>> +  clocks:
+>> +    items:
+>> +      - description: APB bridge clock
+>> +      - description: AHB clock
+>> +      - description: Security control clock
+>> +      - description: TLMM clock
+>> +      - description: TLMM AHB clock
+>> +      - description: CNOC AHB clock
+>> +      - description: MDIO AHB clock
+>> +      - description: MDIO master AHB clock
+>> +      - description: PCS0 system clock
+>> +      - description: PCS1 system clock
+>> +      - description: EPHY0 system clock
+>> +      - description: EPHY1 system clock
+>> +      - description: EPHY2 system clock
+>> +      - description: EPHY3 system clock
+> 
+> What exactly are you describing here? A PHY, or a PHY package?
+> 
+> The ethernet-phy.yaml describes a PHY. So does each of your 4 PHYs
+> have 14 clocks? The PHY package as a whole has 14*4 clocks?
+> 
+> This seems unlikely. You have some clocks used by the package as a
+> whole, and you have some clocks used by one specific PHY within the
+> package. So you need a hierarchical description of the hardware in DT,
+> to match the actual hierarchical of the hardware.
+> 
+> This is exactly what Christian has been working on, and you have
+> persistently ignored what he is doing. You need to work with him.
+> Nothing is going to be merged until you and Christian have one
+> consistent design for the two PHYs you are working on.
+> 
+> 
+>      Andrew
+> 
+> ---
+> pw-bot: cr
 
-I've tried it and it does work. The build directory that's set up with 
-`O=` ends up with a Makefile with an `include` to the original Makefile 
-in my main linux source:
-	include $MY_WORKSPACE/linux/Makefile
+Hi Andrew,
+These clocks are for the whole PHY package including quad PHYs, since
+these clocks & resets need to be initialized at one point, i put it
+the previous MDIO driver code, these clocks & resets are configured
+after GPIO hardware reset, after these clocks and resets sequences
+configured, each PHY capabilities can be acquired correctly in the PHY
+probe function.
 
-(But see Miguel's reply about dropping the mention to "enter ..." 
-altogether)
+Sorry for missing Christian's patches, i will look his patches and
+update qca8084 PHY driver correspondingly.
 
-Tiago.
