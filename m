@@ -1,361 +1,176 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002C81A5B0;
-	Fri, 15 Dec 2023 10:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFF61C28F
+	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 11:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigma-star.at
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y9uaEZ5H"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-77f44cd99c6so37563985a.0;
-        Fri, 15 Dec 2023 02:32:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b="QpDNtclq"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40c25973988so5693635e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 03:07:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702636368; x=1703241168; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gb/T/oASgtKNv+0xZI+c0KBr6jni4i5H3ET7iArrf4k=;
-        b=Y9uaEZ5Hxo7SD6XcKNmcoCdqvCusvG6qDbFQB67m5pXxLi2T5o78xaSfCfzSGOKvC2
-         MUWgaALOa5BSeyCrHeK7U/4PN8N4LZNW4/AQSn+xvQEStplJULfOlZRoaTQ99+LJK15G
-         vVnrF79UYHmnnDTyCwUPOKnSHz9Sk016Zur/Zm9P8EYBdrpWVbInU4rgq++xyFEW39x/
-         kSkkpETO0dptP4pFSD15No6dG8CLan+jC91Kul74jzaaaKjztERflHAH7HscW04N8mgZ
-         kdNdR8rO3iTv34LiUwDh1jtXQ4A3TTCpDWPlu50U7yTwxbRipiNygfmSyh0YbU7+TduD
-         nmuQ==
+        d=sigma-star.at; s=google; t=1702638425; x=1703243225; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e0mM/JbamBen+sgEh+34qkP0fLUHeVvVfzD3UP7gEeI=;
+        b=QpDNtclq6+f7MgZUkkzizGWtFxw75Ei6kPnCA3XQEbCQ2N4CXzHlmlx14N5ThaE684
+         99hglRjV4/Jc8cTy/mQ8B0XJIvLqu9YcQ3xmnefks0C/BWuvkcSu1Rcg26sGWAH1pIV2
+         ozeq/4i1rvcgA8+2b7BSDiIBml5X7aB5cFsXQ4Z0h6+blX5oyyJHkRW9YJQHEVLLO4nF
+         IA+aG/o+4p1F8Bz8exxBy/egLMMD8gLMlM7RKbO3AXz6emywe3Fz6dqITkzLz3L2KxyG
+         /suNDBF8JNrkYH00UpsvvutZqYCJL8i/WELlCZylNFylCcEKYIphGNOgnRvjsmCmfdvQ
+         KR3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702636368; x=1703241168;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gb/T/oASgtKNv+0xZI+c0KBr6jni4i5H3ET7iArrf4k=;
-        b=mg/hXxZ1nDLT5jMKr40B37WUruaQglTP5ld8ZaqjbDgpQOGnXZp74Jcq/byjJLCl6g
-         5nLeGmUmzM0TEcBh8ibuslJmmlkKtCg3VPTedZAuJ1eeGqhTuZKJ7BTEZ04kq9fEAFv4
-         UpPsTwYaGf0OkL6HCU9sypYYLC5XCQGIXrKnEnvK5gciFgT80EmoYLF9Jk8eFrY9h7O+
-         bu4HM2F8h3Yb8AJeVwhFKZxhIe5uPzg4ZnXjP2a36TBxvKd/9xJlZc5KECjsgSONm1kG
-         dNaYEbBiOlxIpvKb6kOXZXco/tDDTw/NYzm64V+D0r4cYjdQfflUKmA5nJ2yFDmQMbA2
-         F8bA==
-X-Gm-Message-State: AOJu0Yyn7IijtX4+i4k2+ZXCJpF8LJ1j6G3pkGt4A+QmiuuY/4Uo9tpK
-	U/SXsF2rWZz82mlGoOW2Qvxm+TVRwRRLwg1RKmdrRKd0
-X-Google-Smtp-Source: AGHT+IG8Ct6WJzJ0E7CAgaD7djI8pdHG3EsYbU7797KHqPA45afy5tK8XwtADVKdXbn0l3c/QKKmZu1MynqEl9lhXpw=
-X-Received: by 2002:a05:620a:31a2:b0:77f:38a:e824 with SMTP id
- bi34-20020a05620a31a200b0077f038ae824mr19019763qkb.7.1702636367672; Fri, 15
- Dec 2023 02:32:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702638425; x=1703243225;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e0mM/JbamBen+sgEh+34qkP0fLUHeVvVfzD3UP7gEeI=;
+        b=hAr4NHxBnY63lR1L0qeH0UU/OY0YHd7wCd13D96jfxw2sCO3P3EBpkx9Kk8O2x7DkD
+         9hMHhedmZzxiRAemJD2O+ohHab+p646+5bxJvfJD6PcOZxDMSwH+H/ghOyY03mHDttEd
+         jF9MQmjmzySVuNx0AvftEUPXcaWS/iW3UuTvGqYpDhVfaphVQxepJPMkX3olTrAVHTY7
+         +VGkc9W3AWfyzh+/Ap1aVEOcHvusUY78hmBz3PeC9OTncHyqENNg3QbyTsjJtLDqh5YM
+         JMNt19m4L1rphtFOzZaWMJD59CN4Zhc63ototTf+oG/7hHZQs8/vp6RTTma/iY/9U8ys
+         Is5A==
+X-Gm-Message-State: AOJu0YzNuDNr4pcm5Z2kdzGYtz1TeYxmG+A1cTCctlGIN6BplJAyR0Eu
+	3e0x/fViYrf97ZlfgTtGPu9C0Q==
+X-Google-Smtp-Source: AGHT+IHbR4Zh6SV0EbnWC+yJl/BGHx2LAyp4+13UPanH1PfblQjTaoZG8sbbzI1pqLvyJs0TB8XIeQ==
+X-Received: by 2002:a05:600c:1ca3:b0:40b:473d:6b82 with SMTP id k35-20020a05600c1ca300b0040b473d6b82mr5540341wms.12.1702638425073;
+        Fri, 15 Dec 2023 03:07:05 -0800 (PST)
+Received: from localhost (clnet-p106-198.ikbnet.co.at. [83.175.106.198])
+        by smtp.gmail.com with UTF8SMTPSA id p1-20020a05600c1d8100b0040b47c69d08sm30969642wms.18.2023.12.15.03.07.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Dec 2023 03:07:04 -0800 (PST)
+From: David Gstir <david@sigma-star.at>
+To: Mimi Zohar <zohar@linux.ibm.com>,
+	James Bottomley <jejb@linux.ibm.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: David Gstir <david@sigma-star.at>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	sigma star Kernel Team <upstream+dcp@sigma-star.at>,
+	David Howells <dhowells@redhat.com>,
+	Li Yang <leoyang.li@nxp.com>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Tejun Heo <tj@kernel.org>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH v5 0/6] DCP as trusted keys backend
+Date: Fri, 15 Dec 2023 12:06:27 +0100
+Message-ID: <20231215110639.45522-1-david@sigma-star.at>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231213123422.344600-3-amir73il@gmail.com> <c6c49fd7-2197-48b9-8203-ee5f4634b683@gmail.com>
- <CAOQ4uxj_ikEdF-d3s_S7OGUDk1duUXzYqvB0BkyzFNgrCXYf=Q@mail.gmail.com> <ffc20839-03a6-4f20-82ae-8707b4b9752b@gmail.com>
-In-Reply-To: <ffc20839-03a6-4f20-82ae-8707b4b9752b@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 15 Dec 2023 12:32:36 +0200
-Message-ID: <CAOQ4uxjT=YGwN1gVDAqRaw0M=q9Gsv7hW2zo9CE9KErqosVx0g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] overlayfs.rst: fix ReST formatting
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: bagasdotme@gmail.com, brauner@kernel.org, linux-doc@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, miklos@szeredi.hu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 15, 2023 at 11:31=E2=80=AFAM Akira Yokosawa <akiyks@gmail.com> =
-wrote:
->
-> Hi Amir,
->
-> On 2023/12/15 17:00, Amir Goldstein wrote:
-> > On Fri, Dec 15, 2023 at 4:07=E2=80=AFAM Akira Yokosawa <akiyks@gmail.co=
-m> wrote:
-> >>
-> >> Hi,
-> >>
-> >> On Wed, 13 Dec 2023 14:34:22 +0200, Amir Goldstein wrote:
-> >>> Fix some indentation issues and fix missing newlines in quoted text
-> >>> by converting quoted text to code blocks.
-> >>>
-> >>> Unindent a) b) enumerated list to workaround github displaying it
-> >>> as numbered list.
-> >>
-> >> I don't think we need to work around github's weird behavior around
-> >> enumerated lists.  What matters for us is what Sphinx (+ our own
-> >> extensions) ends up generating.
-> >>
-> >> The corresponding html page rendered by Sphinx is at:
-> >> https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html#perm=
-ission-model
-> >>
-> >> It does not look perfect, but at least it preserves enumeration by
-> >> number and alphabet.
-> >>
-> >
-> > ok.
-> >
-> >> I'd suggest reporting github about the minor breakage of their
-> >> rst renderer.
-> >>
-> >> Further comments below:
-> >>
-> >>>
-> >>> Reported-by: Christian Brauner <brauner@kernel.org>
-> >>> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> >>> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> >>> ---
-> >>>  Documentation/filesystems/overlayfs.rst | 63 +++++++++++++----------=
---
-> >>>  1 file changed, 32 insertions(+), 31 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/=
-filesystems/overlayfs.rst
-> >>> index 926396fdc5eb..a36f3a2a2d4b 100644
-> >>> --- a/Documentation/filesystems/overlayfs.rst
-> >>> +++ b/Documentation/filesystems/overlayfs.rst
-> >>> @@ -118,7 +118,7 @@ Where both upper and lower objects are directorie=
-s, a merged directory
-> >>>  is formed.
-> >>>
-> >>>  At mount time, the two directories given as mount options "lowerdir"=
- and
-> >>> -"upperdir" are combined into a merged directory:
-> >>> +"upperdir" are combined into a merged directory::
-> >>>
-> >>>    mount -t overlay overlay -olowerdir=3D/lower,upperdir=3D/upper,\
-> >>>    workdir=3D/work /merged
-> >>> @@ -174,10 +174,10 @@ programs.
-> >>>  seek offsets are assigned sequentially when the directories are read=
-.
-> >>>  Thus if
-> >>>
-> >>> -  - read part of a directory
-> >>> -  - remember an offset, and close the directory
-> >>> -  - re-open the directory some time later
-> >>> -  - seek to the remembered offset
-> >>> +- read part of a directory
-> >>> +- remember an offset, and close the directory
-> >>> +- re-open the directory some time later
-> >>> +- seek to the remembered offset
-> >>
-> >> To my eyes, unindent spoils the readability of this file as pure
-> >> plain text.  Please don't do this.
-> >>
-> >
-> > Ok. I see what you mean.
-> > I restored a single space indent.
-> > I don't see why double space is called for and it is inconsistent
-> > with indentation in the rest of the doc.
-> >
-> >>>
-> >>>  there may be little correlation between the old and new locations in
-> >>>  the list of filenames, particularly if anything has changed in the
-> >>> @@ -285,21 +285,21 @@ Permission model
-> >>>
-> >>>  Permission checking in the overlay filesystem follows these principl=
-es:
-> >>>
-> >>> - 1) permission check SHOULD return the same result before and after =
-copy up
-> >>> +1) permission check SHOULD return the same result before and after c=
-opy up
-> >>>
-> >>> - 2) task creating the overlay mount MUST NOT gain additional privile=
-ges
-> >>> +2) task creating the overlay mount MUST NOT gain additional privileg=
-es
-> >>>
-> >>> - 3) non-mounting task MAY gain additional privileges through the ove=
-rlay,
-> >>> - compared to direct access on underlying lower or upper filesystems
-> >>> +3) non-mounting task MAY gain additional privileges through the over=
-lay,
-> >>> +   compared to direct access on underlying lower or upper filesystem=
-s
-> >>
-> >> All you need to fix is this adjustment of indent.
-> >> Don't do other unindents please
-> >>
-> >
-> > OK. I also fixed the same indents in "Non-standard behavior".
-> >
-> >>>
-> >>> -This is achieved by performing two permission checks on each access
-> >>> +This is achieved by performing two permission checks on each access:
-> >>>
-> >>> - a) check if current task is allowed access based on local DAC (owne=
-r,
-> >>> -    group, mode and posix acl), as well as MAC checks
-> >>> +a) check if current task is allowed access based on local DAC (owner=
-,
-> >>> +group, mode and posix acl), as well as MAC checks
-> >>>
-> >>> - b) check if mounting task would be allowed real operation on lower =
-or
-> >>> -    upper layer based on underlying filesystem permissions, again in=
-cluding
-> >>> -    MAC checks
-> >>> +b) check if mounting task would be allowed real operation on lower o=
-r
-> >>> +upper layer based on underlying filesystem permissions, again includ=
-ing
-> >>> +MAC checks
-> >>
-> >> Your workaround harms the readability very badly.
-> >> Don't break the construct of enumerated (or numbered) list in rst.
-> >>
-> >
-> > ok.
-> >
-> >> For the specification of enumerated list, please see:
-> >>
-> >> https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#enu=
-merated-lists
-> >>
-> >> If there is a rst parser who fails to recognize some of the defined
-> >> list structure, fix such a parser please!
-> >>
-> >>>
-> >>>  Check (a) ensures consistency (1) since owner, group, mode and posix=
- acls
-> >>>  are copied up.  On the other hand it can result in server enforced
-> >>> @@ -311,11 +311,11 @@ to create setups where the consistency rule (1)=
- does not hold; normally,
-> >>>  however, the mounting task will have sufficient privileges to perfor=
-m all
-> >>>  operations.
-> >>>
-> >>> -Another way to demonstrate this model is drawing parallels between
-> >>> +Another way to demonstrate this model is drawing parallels between::
-> >>>
-> >>>    mount -t overlay overlay -olowerdir=3D/lower,upperdir=3D/upper,...=
- /merged
-> >>>
-> >>> -and
-> >>> +and::
-> >>>
-> >>>    cp -a /lower /upper
-> >>>    mount --bind /upper /merged
-> >>> @@ -328,7 +328,7 @@ Multiple lower layers
-> >>>  ---------------------
-> >>>
-> >>>  Multiple lower layers can now be given using the colon (":") as a
-> >>> -separator character between the directory names.  For example:
-> >>> +separator character between the directory names.  For example::
-> >>>
-> >>>    mount -t overlay overlay -olowerdir=3D/lower1:/lower2:/lower3 /mer=
-ged
-> >>>
-> >>> @@ -340,13 +340,13 @@ rightmost one and going left.  In the above exa=
-mple lower1 will be the
-> >>>  top, lower2 the middle and lower3 the bottom layer.
-> >>>
-> >>>  Note: directory names containing colons can be provided as lower lay=
-er by
-> >>> -escaping the colons with a single backslash.  For example:
-> >>> +escaping the colons with a single backslash.  For example::
-> >>>
-> >>>    mount -t overlay overlay -olowerdir=3D/a\:lower\:\:dir /merged
-> >>>
-> >>>  Since kernel version v6.8, directory names containing colons can als=
-o
-> >>>  be configured as lower layer using the "lowerdir+" mount options and=
- the
-> >>> -fsconfig syscall from new mount api.  For example:
-> >>> +fsconfig syscall from new mount api.  For example::
-> >>>
-> >>>    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/a:lower::dir",=
- 0);
-> >>>
-> >>> @@ -390,11 +390,11 @@ Data-only lower layers
-> >>>  With "metacopy" feature enabled, an overlayfs regular file may be a =
-composition
-> >>>  of information from up to three different layers:
-> >>>
-> >>> - 1) metadata from a file in the upper layer
-> >>> +1) metadata from a file in the upper layer
-> >>>
-> >>> - 2) st_ino and st_dev object identifier from a file in a lower layer
-> >>> +2) st_ino and st_dev object identifier from a file in a lower layer
-> >>>
-> >>> - 3) data from a file in another lower layer (further below)
-> >>> +3) data from a file in another lower layer (further below)
-> >>
-> >> Ditto.
-> >>
-> >>>
-> >>>  The "lower data" file can be on any lower layer, except from the top=
- most
-> >>>  lower layer.
-> >>> @@ -405,7 +405,7 @@ A normal lower layer is not allowed to be below a=
- data-only layer, so single
-> >>>  colon separators are not allowed to the right of double colon ("::")=
- separators.
-> >>>
-> >>>
-> >>> -For example:
-> >>> +For example::
-> >>>
-> >>>    mount -t overlay overlay -olowerdir=3D/l1:/l2:/l3::/do1::/do2 /mer=
-ged
-> >>>
-> >>> @@ -419,7 +419,7 @@ to the absolute path of the "lower data" file in =
-the "data-only" lower layer.
-> >>>
-> >>>  Since kernel version v6.8, "data-only" lower layers can also be adde=
-d using
-> >>>  the "datadir+" mount options and the fsconfig syscall from new mount=
- api.
-> >>> -For example:
-> >>> +For example::
-> >>>
-> >>>    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
-> >>>    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
-> >>> @@ -429,7 +429,7 @@ For example:
-> >>>
-> >>>
-> >>>  fs-verity support
-> >>> -----------------------
-> >>> +-----------------
-> >>>
-> >>>  During metadata copy up of a lower file, if the source file has
-> >>>  fs-verity enabled and overlay verity support is enabled, then the
-> >>> @@ -653,9 +653,10 @@ following rules apply:
-> >>>     encode an upper file handle from upper inode
-> >>>
-> >>>  The encoded overlay file handle includes:
-> >>> - - Header including path type information (e.g. lower/upper)
-> >>> - - UUID of the underlying filesystem
-> >>> - - Underlying filesystem encoding of underlying inode
-> >>> +
-> >>> +- Header including path type information (e.g. lower/upper)
-> >>> +- UUID of the underlying filesystem
-> >>> +- Underlying filesystem encoding of underlying inode
-> >>
-> >> Ditto.
-> >>
-> >
-> > ok, but inconsistent indentation between numbered and bullet list is
-> > also not nice:
-> > https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html#nfs-e=
-xport
->
-> I agree.
->
-> >
-> > so I kept this indent and I also indented the non-indented numbered lis=
-ts
-> > in this section to conform to the rest of the numbered lists in this do=
-c.
-> >
-> > I've pushed the fixes to overlayfs-next.
->
-> OK. I'm looking at commit 4552f4b1be08 ("overlayfs.rst: fix ReST formatti=
-ng").
->
-> It looks reasonable to me.
-> If you'd like, feel free to add
->
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
->
+This is a revival of the previous patch set submitted by Richard Weinberger:
+https://lore.kernel.org/linux-integrity/20210614201620.30451-1-richard@nod.at/
 
-Done.
+v4 is here:
+https://lore.kernel.org/keyrings/20231024162024.51260-1-david@sigma-star.at/
 
-Thanks!
-Amir.
+v4 -> v5:
+- Make Kconfig for trust source check scalable as suggested by Jarkko Sakkinen
+- Add Acked-By from Herbert Xu to patch #1 - thanks!
+v3 -> v4:
+- Split changes on MAINTAINERS and documentation into dedicated patches
+- Use more concise wording in commit messages as suggested by Jarkko Sakkinen
+v2 -> v3:
+- Addressed review comments from Jarkko Sakkinen
+v1 -> v2:
+- Revive and rebase to latest version
+- Include review comments from Ahmad Fatoum
+
+The Data CoProcessor (DCP) is an IP core built into many NXP SoCs such
+as i.mx6ull.
+
+Similar to the CAAM engine used in more powerful SoCs, DCP can AES-
+encrypt/decrypt user data using a unique, never-disclosed,
+device-specific key. Unlike CAAM though, it cannot directly wrap and
+unwrap blobs in hardware. As DCP offers only the bare minimum feature
+set and a blob mechanism needs aid from software. A blob in this case
+is a piece of sensitive data (e.g. a key) that is encrypted and
+authenticated using the device-specific key so that unwrapping can only
+be done on the hardware where the blob was wrapped.
+
+This patch series adds a DCP based, trusted-key backend and is similar
+in spirit to the one by Ahmad Fatoum [0] that does the same for CAAM.
+It is of interest for similar use cases as the CAAM patch set, but for
+lower end devices, where CAAM is not available.
+
+Because constructing and parsing the blob has to happen in software,
+we needed to decide on a blob format and chose the following:
+
+struct dcp_blob_fmt {
+	__u8 fmt_version;
+	__u8 blob_key[AES_KEYSIZE_128];
+	__u8 nonce[AES_KEYSIZE_128];
+	__le32 payload_len;
+	__u8 payload[];
+} __packed;
+
+The `fmt_version` is currently 1.
+
+The encrypted key is stored in the payload area. It is AES-128-GCM
+encrypted using `blob_key` and `nonce`, GCM auth tag is attached at
+the end of the payload (`payload_len` does not include the size of
+the auth tag).
+
+The `blob_key` itself is encrypted in AES-128-ECB mode by DCP using
+the OTP or UNIQUE device key. A new `blob_key` and `nonce` are generated
+randomly, when sealing/exporting the DCP blob.
+
+This patchset was tested with dm-crypt on an i.MX6ULL board.
+
+[0] https://lore.kernel.org/keyrings/20220513145705.2080323-1-a.fatoum@pengutronix.de/
+
+David Gstir (6):
+  crypto: mxs-dcp: Add support for hardware-bound keys
+  KEYS: trusted: improve scalability of trust source config
+  KEYS: trusted: Introduce NXP DCP-backed trusted keys
+  MAINTAINERS: add entry for DCP-based trusted keys
+  docs: document DCP-backed trusted keys kernel params
+  docs: trusted-encrypted: add DCP as new trust source
+
+ .../admin-guide/kernel-parameters.txt         |  13 +
+ .../security/keys/trusted-encrypted.rst       |  85 +++++
+ MAINTAINERS                                   |   9 +
+ drivers/crypto/mxs-dcp.c                      | 104 +++++-
+ include/keys/trusted_dcp.h                    |  11 +
+ include/soc/fsl/dcp.h                         |  17 +
+ security/keys/trusted-keys/Kconfig            |  18 +-
+ security/keys/trusted-keys/Makefile           |   2 +
+ security/keys/trusted-keys/trusted_core.c     |   6 +-
+ security/keys/trusted-keys/trusted_dcp.c      | 311 ++++++++++++++++++
+ 10 files changed, 562 insertions(+), 14 deletions(-)
+ create mode 100644 include/keys/trusted_dcp.h
+ create mode 100644 include/soc/fsl/dcp.h
+ create mode 100644 security/keys/trusted-keys/trusted_dcp.c
+
+-- 
+2.35.3
+
