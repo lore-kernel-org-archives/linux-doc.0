@@ -1,82 +1,101 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688D828DA0;
-	Fri, 15 Dec 2023 12:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643C82D791;
+	Fri, 15 Dec 2023 12:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="TS8l8InO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=4SqwIzQ2gFOs3NuS1hhR00by+excYqHOsV2vJcYIZi0=; b=TS8l8InOQHvt5UFmiyoV7lbntE
-	Y8X/nBB9bI+e13UtkyIu7EzSNlnPMxTd94KSen2zrv+JbqY57q7CxqVg3grHED42zCPb6Ao7UhQ15
-	QPMcQIgrK2gsdxgt7k4kRLJZa8OKB8PK9UyENfLEfiqpWbAv+2DbnIk1+F4zZPL1JMAY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rE73J-0031HX-2h; Fri, 15 Dec 2023 13:12:25 +0100
-Date: Fri, 15 Dec 2023 13:12:25 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Luo Jie <quic_luoj@quicinc.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, corbet@lwn.net,
-	p.zabel@pengutronix.de, f.fainelli@gmail.com,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
- properties
-Message-ID: <60b9081c-76fa-4122-b7ae-5c3dcf7229f9@lunn.ch>
-References: <20231215074005.26976-1-quic_luoj@quicinc.com>
- <20231215074005.26976-15-quic_luoj@quicinc.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Gvf7xjmi"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFBCEd3006980;
+	Fri, 15 Dec 2023 12:17:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=SjAc9xSwFEvgxE2XF2soQP8TSLGd94LVavcRIIRlmP4=; b=Gv
+	f7xjmi5EJtNjwvC4i/E3TvF8ZruBPA9bZr1DWd4Bw2TNpVP7j91Hzj2BnaT2IIkU
+	v4RBcgufIs4Z4lhgFmsTFozJsMZkt1dEBlvGAUpWkYc/nAVOo6yyiZWxNkotgte1
+	RgKIVaq1NYlUrZHX2Bv4KHJTgKXDDM8orIc41CqucffWT/zmL+ligmsMqAxcXj/S
+	epTyFjUUGUP/bQouEvZC0U5eGdmtYdDglrFbvhEVuFwsWugjD+s516QOj4BniSSw
+	ndBjUY0XnNHuTFC8W58fxDa98ltWF0vYRKoaYVq3aWVFKUjivihiDQkTYAzmbJeC
+	DtYdfNTFxwM8T9npy86A==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v05jqj821-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 12:17:13 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFCH2mF027677
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 12:17:02 GMT
+Received: from [10.253.13.71] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 15 Dec
+ 2023 04:16:58 -0800
+Message-ID: <ed0dd288-be8a-4161-a19f-2d4d2d17b3ec@quicinc.com>
+Date: Fri, 15 Dec 2023 20:16:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231215074005.26976-15-quic_luoj@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
+ properties
+Content-Language: en-US
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
+        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231215074005.26976-1-quic_luoj@quicinc.com>
+ <20231215074005.26976-15-quic_luoj@quicinc.com>
+ <bdfba8a7-9197-4aae-a7f9-6075a375f60b@linaro.org>
+ <c3391e33-e770-4c61-855e-d90e82b95f75@quicinc.com>
+ <4cb2bd57-f3d3-49f9-9c02-a922fd270572@lunn.ch>
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <4cb2bd57-f3d3-49f9-9c02-a922fd270572@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: rgb4cnH8aUEOEI7Fs_2SOUQ8LW9gJqBD
+X-Proofpoint-GUID: rgb4cnH8aUEOEI7Fs_2SOUQ8LW9gJqBD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ mlxlogscore=958 lowpriorityscore=0 adultscore=0 suspectscore=0 spamscore=0
+ mlxscore=0 clxscore=1015 impostorscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312150082
 
-> +  clocks:
-> +    items:
-> +      - description: APB bridge clock
-> +      - description: AHB clock
-> +      - description: Security control clock
-> +      - description: TLMM clock
-> +      - description: TLMM AHB clock
-> +      - description: CNOC AHB clock
-> +      - description: MDIO AHB clock
-> +      - description: MDIO master AHB clock
-> +      - description: PCS0 system clock
-> +      - description: PCS1 system clock
-> +      - description: EPHY0 system clock
-> +      - description: EPHY1 system clock
-> +      - description: EPHY2 system clock
-> +      - description: EPHY3 system clock
-
-What exactly are you describing here? A PHY, or a PHY package?
-
-The ethernet-phy.yaml describes a PHY. So does each of your 4 PHYs
-have 14 clocks? The PHY package as a whole has 14*4 clocks?
-
-This seems unlikely. You have some clocks used by the package as a
-whole, and you have some clocks used by one specific PHY within the
-package. So you need a hierarchical description of the hardware in DT,
-to match the actual hierarchical of the hardware.
-
-This is exactly what Christian has been working on, and you have
-persistently ignored what he is doing. You need to work with him.
-Nothing is going to be merged until you and Christian have one
-consistent design for the two PHYs you are working on.
 
 
-    Andrew
+On 12/15/2023 7:25 PM, Andrew Lunn wrote:
+>> The "maxItems: 1" of the property resets is defined in ethernet-phy.yaml
+>> that is referenced by qca,ar803x.yaml, but i have 11 reset instances
+>> used for qca8084 PHY
+> 
+> 11!?!?? Really? Why?
+> 
+> I assume the order and timer matters, otherwise why would you need
+> 11? So the PHY driver needs to handle this, not phylib framework. So
+> you will be adding vendor properties to describe all 11 of them. So
+> ethernet-phy.yaml does not matter.
+> 
+> 	Andrew
 
----
-pw-bot: cr
+Since these resets need to be configured in the special sequence, and
+these clocks need to be configured with different clock rate.
+
+But the clock instance get, the property name is fixed to "clock-names"
+according to the function of_parse_clkspec, and the reset property name
+is also fixed to "reset-names" from function __of_reset_control_get.
