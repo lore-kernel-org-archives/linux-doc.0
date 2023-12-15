@@ -1,30 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557851805D
-	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 09:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB7918C09
+	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 09:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cioeWon8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D30F7C433CA
-	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 09:40:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702633245;
-	bh=vVpmxdeUmcOhDj8UvS9uojHcu7m53pDfJgItKw2MeOo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cioeWon8P1+x64FliruKcUjsWKqPLwkzeJRHATBExptMxIGRfA2EWq6EjCrWP0zbt
-	 mqT1tjSKuGWVmUF+LpKied4MCcJkioYamR2skWk/QK8XkkIVoDrO3G4bl/ZgqnbY9d
-	 XtHSPFpbx/wOVNioAripx4OUG09pcS9Ef/hk31ZhAGh84UmwV/bkB0Uj4MevlNC6/5
-	 RtFzWuxsqqXE1s/ASI+Qd18vaw/uqrqPP552yOYGXwtKqwvVHckU+cCcqKMbPx1C3k
-	 GwmcNIiRTlHTvc8bRvt8+T4dV8Ne+ja33qJ4cP/pBOvozS8YPKAUf0BIO8ycbOpk+Q
-	 BemfFaO2vYliQ==
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-35d718382b7so1951155ab.1
-        for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 01:40:45 -0800 (PST)
-X-Gm-Message-State: AOJu0YwPYZi49Yq5Zu5Vsag6GVOMTnwcn0V7yqFR8jO4/o5cAleEWdF9
-	0USk4oWNyhiCtWXQWmcyYyzgIoxLG8XmksSQNv37Ww==
-X-Google-Smtp-Source: AGHT+IGFpMfw5GVwdU1bv9gHE5DcEHMKFKSN1w+PyKECjS7he1nzY4esromMqlEbNOSnmh4B2nwnj3VlCNgz8AtqcNk=
-X-Received: by 2002:a05:6a20:77a9:b0:18f:97c:8256 with SMTP id
- c41-20020a056a2077a900b0018f097c8256mr5200831pzg.96.1702633224789; Fri, 15
- Dec 2023 01:40:24 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eyDQMh3t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1702633839;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2jUFk+kWF85SdiIX9/ky14z9K9zUyz1416eEiXRguD8=;
+	b=eyDQMh3tTlh7mwCLF54iInnRk5FZ+BjFsHqJDMs/JIYkPLRDFnqiOR6RZf6Qyb4PlvWyFf
+	W3chRLBhq6ycN2RZgjc3gjNnKsG2cEmS9MeAQsG11NOhzbVe6vOc5aPSgAttEWLred90L2
+	vLF1sCuYOA6r87S0ovY2nrYsM5UJ/SY=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-80-Vm36C3nwNjSQ-2lQ6nrb4g-1; Fri, 15 Dec 2023 04:50:37 -0500
+X-MC-Unique: Vm36C3nwNjSQ-2lQ6nrb4g-1
+Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-5e3c4d70f71so4733877b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 01:50:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702633837; x=1703238637;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2jUFk+kWF85SdiIX9/ky14z9K9zUyz1416eEiXRguD8=;
+        b=Vj+tACFJXn1Q6n90eAPmGxzkAz2rmgEYC0rXQdlsvL6mAXqxcGPPlvRQ827XF7arqk
+         qAwglnR1e6c6Ye86E+xGW+HkoXWgPC4iGn6haN0B1ATGRNh/yLfTnT/QWAftIGUjjfrC
+         q+12nwHYOCN9Mq1a3AIJPgzHGjfST8e8hfunl7xDub9ymuHRRIpVBFU1jZwoL5lqxodo
+         ZjsN+lmrXPRuujEG2tOVTg+hKh6fwFaon03mZPp9J5UrL6XHzFxAUcK8HGuhWRRguF1P
+         HMwYAauVeBYzFTXnWjCOrQdbLW3pYvnW7q9sUGl4QifKduL3n2t86qOXnhTuqYJg3cdp
+         Qc9Q==
+X-Gm-Message-State: AOJu0YygrLpuflxk7qcp/dRNfDOPuEMs2wRcK+c3iYx9Zdwb1RHk4DTJ
+	R+ajulcefDSESUFa2w43pc5pEIKiM+R9OSyHXJp0jNw46NY9Cj8ZTIW26D+7GqYE792c65yGe9l
+	+S6YqEpyY9NfiStJC5MU6Gy61IaBn4zqPpXod
+X-Received: by 2002:a0d:f842:0:b0:5d7:1940:b377 with SMTP id i63-20020a0df842000000b005d71940b377mr9389526ywf.67.1702633837020;
+        Fri, 15 Dec 2023 01:50:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEj0WCc7h2W06gwb0544zgPnIeghTyp6d8BMs+Gqvk9Yl1q2nTxcxfziVYO7Ty/itdzxF+rd+Jc9exaxn2+BMo=
+X-Received: by 2002:a0d:f842:0:b0:5d7:1940:b377 with SMTP id
+ i63-20020a0df842000000b005d71940b377mr9389520ywf.67.1702633836737; Fri, 15
+ Dec 2023 01:50:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,14 +57,14 @@ References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrY
  <20231209034229.GA1001962@cmpxchg.org> <ZXeTb_ACou7TEVsa@google.com>
  <20231214171137.GA261942@cmpxchg.org> <CAOUHufbvafDiURT9qBjKPpRSNwc60S-bDg2yMH_m4bNSWQcV4g@mail.gmail.com>
  <CA+PVUaR9EtUMke-K8mM0gmJXdOm9equ1JHqBjZ0T5V0tiHVc8Q@mail.gmail.com>
- <CAF8kJuMLDOaP6-Xyz-+hzLbDuYW7gfG9jA06j6t5v7XX2rPOdw@mail.gmail.com> <CA+PVUaRxXdndKCodgPKFcsCUQwO-8mGtU65OkkudoR-8rB=KaA@mail.gmail.com>
-In-Reply-To: <CA+PVUaRxXdndKCodgPKFcsCUQwO-8mGtU65OkkudoR-8rB=KaA@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Fri, 15 Dec 2023 01:40:12 -0800
-X-Gmail-Original-Message-ID: <CAF8kJuMKCu=Bf4K6RryFdGGgC+RhyanwaXc-ZGtURk7Wbckq6Q@mail.gmail.com>
-Message-ID: <CAF8kJuMKCu=Bf4K6RryFdGGgC+RhyanwaXc-ZGtURk7Wbckq6Q@mail.gmail.com>
+ <CAF8kJuMLDOaP6-Xyz-+hzLbDuYW7gfG9jA06j6t5v7XX2rPOdw@mail.gmail.com>
+ <CA+PVUaRxXdndKCodgPKFcsCUQwO-8mGtU65OkkudoR-8rB=KaA@mail.gmail.com> <CAF8kJuMKCu=Bf4K6RryFdGGgC+RhyanwaXc-ZGtURk7Wbckq6Q@mail.gmail.com>
+In-Reply-To: <CAF8kJuMKCu=Bf4K6RryFdGGgC+RhyanwaXc-ZGtURk7Wbckq6Q@mail.gmail.com>
+From: Fabian Deutsch <fdeutsch@redhat.com>
+Date: Fri, 15 Dec 2023 10:50:16 +0100
+Message-ID: <CA+PVUaRnd0vjTNQqdFG-pLYVqaquP46+YOOYWtMpJkNtkF+S6Q@mail.gmail.com>
 Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-To: Fabian Deutsch <fdeutsch@redhat.com>
+To: Chris Li <chrisl@kernel.org>
 Cc: Yu Zhao <yuzhao@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
 	Minchan Kim <minchan@kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
 	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "tj@kernel.org" <tj@kernel.org>, 
@@ -64,41 +84,54 @@ Cc: Yu Zhao <yuzhao@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 14, 2023 at 11:42=E2=80=AFPM Fabian Deutsch <fdeutsch@redhat.co=
-m> wrote:.
+On Fri, Dec 15, 2023 at 10:40=E2=80=AFAM Chris Li <chrisl@kernel.org> wrote=
+:
+>
+> On Thu, Dec 14, 2023 at 11:42=E2=80=AFPM Fabian Deutsch <fdeutsch@redhat.=
+com> wrote:.
+> > >
+> > > Just to clarify, the "node" you mean the "node" in kubernetes sense,
+> > > which is the whole machine. In the Linux kernel MM context, the node
+> > > often refers to the NUMA memory node, that is not what you mean here,
+> > > right?
 > >
-> > Just to clarify, the "node" you mean the "node" in kubernetes sense,
-> > which is the whole machine. In the Linux kernel MM context, the node
-> > often refers to the NUMA memory node, that is not what you mean here,
-> > right?
->
-> Correct, I was referring to a kubernetes node, not numa node.
->
+> > Correct, I was referring to a kubernetes node, not numa node.
 > >
-> >> - With todays node level swap, and setting memory.swap.max=3D0 for all=
- cgroups allows you toachieve a similar behavior (only opt-in cgroups will =
-get swap).
-> >> - the above approach however will still have a shared swap backend for=
- all cgroups.
+> > >
+> > >> - With todays node level swap, and setting memory.swap.max=3D0 for a=
+ll cgroups allows you toachieve a similar behavior (only opt-in cgroups wil=
+l get swap).
+> > >> - the above approach however will still have a shared swap backend f=
+or all cgroups.
+> > >
+> > > Yes, the "memory.swap.tires" idea is trying to allow cgroups to selec=
+t
+> > > a subset of the swap backend in a specific order. It is still in the
+> > > early stage of discussion. If you have any suggestion or feedback in
+> > > that direction, I am looking forward to hearing that.
 > >
-> > Yes, the "memory.swap.tires" idea is trying to allow cgroups to select
-> > a subset of the swap backend in a specific order. It is still in the
-> > early stage of discussion. If you have any suggestion or feedback in
-> > that direction, I am looking forward to hearing that.
+> > Interesting. There have been concerns to leak confidential data acciden=
+tally when it's getting written to a swap device.
 >
-> Interesting. There have been concerns to leak confidential data accidenta=
-lly when it's getting written to a swap device.
+> One common solution is to encrypt the data written to the device. If
+> someone gets hold of the swapped outed device without the key, they
+> can't get to the memory data without the key.
 
-One common solution is to encrypt the data written to the device. If
-someone gets hold of the swapped outed device without the key, they
-can't get to the memory data without the key.
 
-> The other less discussed item was QoS for swap io traffic.
+Yes - I guess like writing it onto a dmcrypt device with some random key.
+Nevertheless, this was one of the topics.
+
 >
-> At a first glance it seems like tires could help with the second use-case=
-.
+>
+> > The other less discussed item was QoS for swap io traffic.
+> >
+> > At a first glance it seems like tires could help with the second use-ca=
+se.
+>
+> The idea is that you can select the swap tiers list for each cgroup.
+> That way  you can assign different swap QoS to different cgroup.
 
-The idea is that you can select the swap tiers list for each cgroup.
-That way  you can assign different swap QoS to different cgroup.
 
-Chris
+Yes, it sounds like a fit.
+What use-cases did you have in mind for the tiers feature?
+
