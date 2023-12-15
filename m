@@ -1,248 +1,137 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C02C2D623
-	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 11:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigma-star.at
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFBE1C292;
+	Fri, 15 Dec 2023 11:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b="pOH/51at"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-32f8441dfb5so421520f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 03:07:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1t+f9oY"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3364a1451c6so273741f8f.3;
+        Fri, 15 Dec 2023 03:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sigma-star.at; s=google; t=1702638439; x=1703243239; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+qntkmutwprS+2oQeQzgmaP97TAaIsTbzLeg5qvDo3I=;
-        b=pOH/51atVr7BH/rvGzASIsdokLdrAh2KwL9LKfemqSGyhegKt84LLc2UQhHeBIXUzr
-         8gBYidiYO3kRkSpcxsP9v4H7JK0VVzhbfOf9CDWg+nsRjP5BV+k/TQmXKUnEFDEeG3X1
-         SRV98hI1ayMXWeSD0Cob33njgMyP4vNEAREaAovbmG3/Nm/RjHkjXvf2ckfgSZIcZf2+
-         Gbj2MR1DgFqd3S07LV4KJ+MOqfxGZQQHmhKdEvCS8W7Sn8bnDlBNn7kFEpJkUDSnQRBD
-         oc58EBbgVcklglvPtrXeEL+F9t7wMxkTN5ZDH0Oxnlfr5ZNc5Lg5O/GfyLgxTS/ByOC1
-         sOfw==
+        d=gmail.com; s=20230601; t=1702638845; x=1703243645; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=k+yoIAvPDl135lIcXlo6qqmeUnqlKdg0n91rabpsyIE=;
+        b=k1t+f9oYRpNxF7LvgN/P8g33Etk+KRRCZKSD8uBIOqpibpLUFzDkYtHI8pitLV2JNL
+         kgg6HFBLZ2rPbi023CR9qMRbqgcptzRd0qa2A7N9ii0FheZQNQAAguQWV188XvTx9tci
+         DEWtAWMxfz/CYB9gMj/dYYaTc7pZqjowA8MK7fUWnTMc9qW/wrrIaY0f3sKsilJK2uGQ
+         RXITRNgw3rOrKyZLaoZQlbkKeB7uvkt0PUI/gS9xUPBYBSw4T9lBzXK4uF6EJj3bcMPl
+         D/BpEqhm2WT1Rijw483cqqcjeEd8MEDy3C8divtzJQth4I2yvu8wZ+os6jhVSNUgyxLW
+         ImFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702638439; x=1703243239;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+qntkmutwprS+2oQeQzgmaP97TAaIsTbzLeg5qvDo3I=;
-        b=dKf7RZNyejhrUvDgS8ZADB4+ZwIbgIJLA204oiinBfn3xdcSwH2NXfCJ3KWSGsvPFM
-         ryKrSp7wEW60SwO8EO+67kirclkFXxxASOJM90lesaMuvdYkmYlXPJ6TyAUk6lw0Likm
-         p4c+Gz6VbaA0azYEeR2dO2+3Pb3ioSmfmThruCQzdRHFSynmE7P73Ps51zC5trQ+nbRf
-         43nYL5xmFnGlOm3Ym30cHcfe+pYpd8pd2LNZ73oa/5YGgovcHhYj69XZe9paz/T/cI63
-         qXuyZqGtLQe33dAAiBnPuHYTsUD//1oFfgYMEQKsSC5NJWhMtJrkMGW2WX427WnION6m
-         P8Cw==
-X-Gm-Message-State: AOJu0YyAnqPqF2feXMzBEmPHj+zcfqD5NUztrtjJkOL90HDnSdn1Gwp+
-	V6EDvkK3jgZx2Fs+OUql6DmCPA==
-X-Google-Smtp-Source: AGHT+IELSxWyakYU5tmDr1VXLpSIS8du+8Ca/Qhvys+9ED2/licpi1Hnfyj3ePT+IUVtn4Xva0PsAw==
-X-Received: by 2002:a5d:4590:0:b0:336:4bac:f9a5 with SMTP id p16-20020a5d4590000000b003364bacf9a5mr978164wrq.64.1702638438773;
-        Fri, 15 Dec 2023 03:07:18 -0800 (PST)
-Received: from localhost (clnet-p106-198.ikbnet.co.at. [83.175.106.198])
-        by smtp.gmail.com with UTF8SMTPSA id e18-20020a056000121200b00333404e9935sm18384464wrx.54.2023.12.15.03.07.17
+        d=1e100.net; s=20230601; t=1702638845; x=1703243645;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k+yoIAvPDl135lIcXlo6qqmeUnqlKdg0n91rabpsyIE=;
+        b=l597KNjbRXCxEJRdZeGUG3W9AjCWNk6OWdD6MQ538E7Jw3IsEtCSaDd7ybUJ+MxLUB
+         03tWJkV66XH/18qW86TWQKxItlVQLdGbV6XYQ9/yOI0+PQkmWyYw6+8buy1iirv/Tfy8
+         KnId5cuw312BBpou+ciD7bSERYEDWQvgHbcmC/ckXIoT0vntTx0xCeM5IxabMtSnwpWb
+         C/MD1zFc4BGlHQ/brxXy6evDFrZpftUMW4daxZELK+Cqq8SLlGqguLUfYoJPMLaPdmv2
+         zV7v7QOYZFAW+JDy5NUTiuPp1vhNme4J8Ib4KO5DJpzaCqNtyA5kHZZWtTYl3kHn2eUc
+         AlFA==
+X-Gm-Message-State: AOJu0YzNhQPLeBKbN8tC6PolQ3nYCpxo3T3Jbn1HMD3RjZDTKCg4TNcI
+	xzsUejgQmT/Kjl49VTcrfA==
+X-Google-Smtp-Source: AGHT+IE/nxncmYRzZ5pQAF1zfOXt47/6t2/dxgcvEOpjZB2yKfMjTzIdLSaOyRKLLS9i9VSekPfbnQ==
+X-Received: by 2002:a5d:6daa:0:b0:336:4aae:811f with SMTP id u10-20020a5d6daa000000b003364aae811fmr1781196wrs.118.1702638844070;
+        Fri, 15 Dec 2023 03:14:04 -0800 (PST)
+Received: from [192.168.1.148] (224.69.114.89.rev.vodafone.pt. [89.114.69.224])
+        by smtp.googlemail.com with ESMTPSA id dd14-20020a0560001e8e00b003364277e714sm5909747wrb.89.2023.12.15.03.14.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Dec 2023 03:07:18 -0800 (PST)
-From: David Gstir <david@sigma-star.at>
-To: Mimi Zohar <zohar@linux.ibm.com>,
-	James Bottomley <jejb@linux.ibm.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>
-Cc: David Gstir <david@sigma-star.at>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	sigma star Kernel Team <upstream+dcp@sigma-star.at>,
-	David Howells <dhowells@redhat.com>,
-	Li Yang <leoyang.li@nxp.com>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Tejun Heo <tj@kernel.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-security-module@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>,
-	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-Subject: [PATCH v5 6/6] docs: trusted-encrypted: add DCP as new trust source
-Date: Fri, 15 Dec 2023 12:06:33 +0100
-Message-ID: <20231215110639.45522-7-david@sigma-star.at>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231215110639.45522-1-david@sigma-star.at>
-References: <20231215110639.45522-1-david@sigma-star.at>
+        Fri, 15 Dec 2023 03:14:03 -0800 (PST)
+Message-ID: <a2aca039-7360-476e-a1b1-e950698cd26b@gmail.com>
+Date: Fri, 15 Dec 2023 11:14:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to
+ build directory
+Content-Language: en-GB
+To: Viresh Kumar <viresh.kumar@linaro.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
+ <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com>
+ <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
+ <20231215064823.ltm55fk4zclsuuwq@vireshk-i7>
+From: Tiago Lam <tiagolam@gmail.com>
+In-Reply-To: <20231215064823.ltm55fk4zclsuuwq@vireshk-i7>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Update the documentation for trusted and encrypted KEYS with DCP as new
-trust source:
+On 15/12/2023 06:48, Viresh Kumar wrote:
+> On 14-12-23, 18:22, Miguel Ojeda wrote:
+>> Something like v1 but a bit simpler, e.g. keeping things as they are,
+>> but with just a sentence after the command like "If you are building
+>> the kernel with `O=`, i.e. specifying an output directory, then you
+>> should append `--path <builddir>`." could work.
+>>
+>> Or we could just provide a `rustupoverride` Make target to do this for
+>> us [1], since we have all the information needed and would be
+>> copy-pasteable by everybody. I can send it as a non-mangled patch and
+>> then Viresh can redo this one on top using it.
+> 
+> How about this ?
+> 
+> diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+> index f382914f4191..367b06f3edc2 100644
+> --- a/Documentation/rust/quick-start.rst
+> +++ b/Documentation/rust/quick-start.rst
+> @@ -39,8 +39,17 @@ If ``rustup`` is being used, enter the checked out source code directory
+>          rustup override set $(scripts/min-tool-version.sh rustc)
+> 
+>   This will configure your working directory to use the correct version of
+> -``rustc`` without affecting your default toolchain. If you are not using
+> -``rustup``, fetch a standalone installer from:
+> +``rustc`` without affecting your default toolchain.
+> +
+> +If you are building the kernel with `O=`, i.e. specifying an output
+> +directory, then you should append `--path <builddir>` to the above
+> +command.
+> +
 
-- Describe security properties of DCP trust source
-- Describe key usage
-- Document blob format
+I think we can drop the reference to the `--path <buildir>` to avoid 
+giving too much information to the users following the guide. It doesn't 
+seem to bring anything given users should now always go through `make 
+rustupoverride`.
 
-Co-developed-by: Richard Weinberger <richard@nod.at>
-Signed-off-by: Richard Weinberger <richard@nod.at>
-Co-developed-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-Signed-off-by: David Gstir <david@sigma-star.at>
----
- .../security/keys/trusted-encrypted.rst       | 85 +++++++++++++++++++
- 1 file changed, 85 insertions(+)
+> +Alternatively, you can use the ``rustupoverride`` Make target::
+> +
+> +       make LLVM=1 O=<builddir> rustupoverride
+> +
 
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 9bc9db8ec651..4452070afbe9 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -42,6 +42,14 @@ safe.
-          randomly generated and fused into each SoC at manufacturing time.
-          Otherwise, a common fixed test key is used instead.
- 
-+     (4) DCP (Data Co-Processor: crypto accelerator of various i.MX SoCs)
-+
-+         Rooted to a one-time programmable key (OTP) that is generally burnt
-+         in the on-chip fuses and is accessible to the DCP encryption engine only.
-+         DCP provides two keys that can be used as root of trust: the OTP key
-+         and the UNIQUE key. Default is to use the UNIQUE key, but selecting
-+         the OTP key can be done via a module parameter (dcp_use_otp_key).
-+
-   *  Execution isolation
- 
-      (1) TPM
-@@ -57,6 +65,12 @@ safe.
- 
-          Fixed set of operations running in isolated execution environment.
- 
-+     (4) DCP
-+
-+         Fixed set of cryptographic operations running in isolated execution
-+         environment. Only basic blob key encryption is executed there.
-+         The actual key sealing/unsealing is done on main processor/kernel space.
-+
-   * Optional binding to platform integrity state
- 
-      (1) TPM
-@@ -79,6 +93,11 @@ safe.
-          Relies on the High Assurance Boot (HAB) mechanism of NXP SoCs
-          for platform integrity.
- 
-+     (4) DCP
-+
-+         Relies on Secure/Trusted boot process (called HAB by vendor) for
-+         platform integrity.
-+
-   *  Interfaces and APIs
- 
-      (1) TPM
-@@ -94,6 +113,11 @@ safe.
- 
-          Interface is specific to silicon vendor.
- 
-+     (4) DCP
-+
-+         Vendor-specific API that is implemented as part of the DCP crypto driver in
-+         ``drivers/crypto/mxs-dcp.c``.
-+
-   *  Threat model
- 
-      The strength and appropriateness of a particular trust source for a given
-@@ -129,6 +153,13 @@ selected trust source:
-      CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure the device
-      is probed.
- 
-+  *  DCP (Data Co-Processor: crypto accelerator of various i.MX SoCs)
-+
-+     The DCP hardware device itself does not provide a dedicated RNG interface,
-+     so the kernel default RNG is used. SoCs with DCP like the i.MX6ULL do have
-+     a dedicated hardware RNG that is independent from DCP which can be enabled
-+     to back the kernel RNG.
-+
- Users may override this by specifying ``trusted.rng=kernel`` on the kernel
- command-line to override the used RNG with the kernel's random number pool.
- 
-@@ -231,6 +262,19 @@ Usage::
- CAAM-specific format.  The key length for new keys is always in bytes.
- Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
- 
-+Trusted Keys usage: DCP
-+-----------------------
-+
-+Usage::
-+
-+    keyctl add trusted name "new keylen" ring
-+    keyctl add trusted name "load hex_blob" ring
-+    keyctl print keyid
-+
-+"keyctl print" returns an ASCII hex copy of the sealed key, which is in format
-+specific to this DCP key-blob implementation.  The key length for new keys is
-+always in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
-+
- Encrypted Keys usage
- --------------------
- 
-@@ -426,3 +470,44 @@ string length.
- privkey is the binary representation of TPM2B_PUBLIC excluding the
- initial TPM2B header which can be reconstructed from the ASN.1 octed
- string length.
-+
-+DCP Blob Format
-+---------------
-+
-+The Data Co-Processor (DCP) provides hardware-bound AES keys using its
-+AES encryption engine only. It does not provide direct key sealing/unsealing.
-+To make DCP hardware encryption keys usable as trust source, we define
-+our own custom format that uses a hardware-bound key to secure the sealing
-+key stored in the key blob.
-+
-+Whenever a new trusted key using DCP is generated, we generate a random 128-bit
-+blob encryption key (BEK) and 128-bit nonce. The BEK and nonce are used to
-+encrypt the trusted key payload using AES-128-GCM.
-+
-+The BEK itself is encrypted using the hardware-bound key using the DCP's AES
-+encryption engine with AES-128-ECB. The encrypted BEK, generated nonce,
-+BEK-encrypted payload and authentication tag make up the blob format together
-+with a version number, payload length and authentication tag::
-+
-+    /*
-+     * struct dcp_blob_fmt - DCP BLOB format.
-+     *
-+     * @fmt_version: Format version, currently being %1
-+     * @blob_key: Random AES 128 key which is used to encrypt @payload,
-+     *            @blob_key itself is encrypted with OTP or UNIQUE device key in
-+     *            AES-128-ECB mode by DCP.
-+     * @nonce: Random nonce used for @payload encryption.
-+     * @payload_len: Length of the plain text @payload.
-+     * @payload: The payload itself, encrypted using AES-128-GCM and @blob_key,
-+     *           GCM auth tag of size AES_BLOCK_SIZE is attached at the end of it.
-+     *
-+     * The total size of a DCP BLOB is sizeof(struct dcp_blob_fmt) + @payload_len +
-+     * AES_BLOCK_SIZE.
-+     */
-+    struct dcp_blob_fmt {
-+            __u8 fmt_version;
-+            __u8 blob_key[AES_KEYSIZE_128];
-+            __u8 nonce[AES_KEYSIZE_128];
-+            __le32 payload_len;
-+            __u8 payload[];
-+    } __packed;
--- 
-2.35.3
+But if I understood this correctly, the point here is that with the new 
+target we can now abstract both cases behind the `make rustupoverride` 
+target - i.e. we don't need to provide alternatives. So, maybe something 
+like the following is clearer:
 
+	If ``rustup`` is being used, enter the checked out source code 
+directory, or your build directory (if you're using the `O=` option to 
+build the kernel), and run::
+
+         	make LLVM=1 rustupoverride
+
+	This will configure your current directory to use the correct version 
+of ``rustc`` without affecting your default toolchain.
+
+	If you are not using ``rustup``, fetch a standalone installer from:
+      	 
+https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
+
+Tiago.
