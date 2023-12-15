@@ -1,73 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0C53BB2E;
-	Fri, 15 Dec 2023 16:24:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BB43DB81;
+	Fri, 15 Dec 2023 16:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1ecKLawn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DA47C433C8;
-	Fri, 15 Dec 2023 16:24:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1702657465;
-	bh=3ivctDNpxY6QN16Fx9iYaWrSP3bP36OnVGA1x0bMy7w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1ecKLawnXRWIdI/i7mKpw840sXuWr4k8MRWaZ3qDBAoNDxF8hp4n/Y/EQqig5ct6M
-	 q3OSxVI3cODnARqGoa06xs6iFe//H657653/uumd4qLZ+YQFrZOffqDlsFmJBcUHQx
-	 U5FChq/bAohwoFx5J3qjTOrzqkAYQaSITTgejdcw=
-Date: Fri, 15 Dec 2023 17:24:22 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: davidgow@google.com
-Cc: Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] kunit: Add APIs for managing devices
-Message-ID: <2023121512-handcuff-unstable-63ed@gregkh>
-References: <20231215-kunit_bus-v4-0-4f5160e2f95e@google.com>
- <20231215-kunit_bus-v4-1-4f5160e2f95e@google.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TnXbcwOI"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id F124346A;
+	Fri, 15 Dec 2023 16:28:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F124346A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1702657737; bh=CgAKQtM1ov3AkxMJyAU3ESVKdSBQLRwSeuZfB5322bY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=TnXbcwOI46VA2bH9AFFM/xw40kwnNlHyql7QzN2kp2pGlr+589CRxYrp7KidE7aOv
+	 ByJtesSe2WmXyt83TiuFtca3ve0maZQikXiFl9ba85Xj06AtGgpc1VGi89QRabNmiW
+	 Cb8HjWTXOjvej70WL78EZo5z5KDwkatBvfiAVuE7IFE0SMRxqvIwETraOL+OuQ8o5C
+	 lWpmNLVq2bf4IQ9OsTQf/X0yheK4XxmJQoKJ2GOD5qywjRyzUnmHiGVXl2tUp/8tDj
+	 B/+yFSHi+UWHr6NeD6TVAJSSEcInr+8YYCOdqfc15oI6H4by+XlMXI50Qdvvbm4dPb
+	 XMy9wjAJ4JfkA==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Mauro Carvalho Chehab
+ <mchehab@s-opensource.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] scripts/kernel-doc: restore warning for Excess
+ struct/union
+In-Reply-To: <20231214070200.24405-1-rdunlap@infradead.org>
+References: <20231214070200.24405-1-rdunlap@infradead.org>
+Date: Fri, 15 Dec 2023 09:28:56 -0700
+Message-ID: <875y0zqvjr.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231215-kunit_bus-v4-1-4f5160e2f95e@google.com>
+Content-Type: text/plain
 
-On Fri, Dec 15, 2023 at 03:39:08PM +0800, davidgow@google.com wrote:
-> Tests for drivers often require a struct device to pass to other
-> functions. While it's possible to create these with
-> root_device_register(), or to use something like a platform device, this
-> is both a misuse of those APIs, and can be difficult to clean up after,
-> for example, a failed assertion.
-> 
-> Add some KUnit-specific functions for registering and unregistering a
-> struct device:
-> - kunit_device_register()
-> - kunit_device_register_with_driver()
-> - kunit_device_unregister()
-> 
-> These helpers allocate a on a 'kunit' bus which will either probe the
-> driver passed in (kunit_device_register_with_driver), or will create a
-> stub driver (kunit_device_register) which is cleaned up on test shutdown.
-> 
-> Devices are automatically unregistered on test shutdown, but can be
-> manually unregistered earlier with kunit_device_unregister() in order
-> to, for example, test device release code.
-> 
-> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: David Gow <davidgow@google.com>
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-Nice work!
+> The warning for Excess struct or union member description was
+> removed when the $nested parameter of check_sections() was removed.
+> This causes some kernel-doc notation warnings to be missed.
+>
+> Recently the kernel test robot somehow reported an Excess member. The
+> code in kernel-doc has not issued that warning since kernel v4.16, so I
+> don't know how the robot did it. (See the Link for the report.)
+>
+>   drivers/net/wireless/intel/iwlwifi/fw/dbg.c:86: warning: Excess struct/union/enum/typedef member 'trans_len' description in 'iwl_fw_dump_ptrs'
+>
+> I patched that warning away even though I could not reproduce the
+> warning from kernel-doc. The warning should be issued for extraneous
+> struct member or union member description, so restore it.
+>
+> Fixes: 1081de2d2f91 ("scripts: kernel-doc: get rid of $nested parameter")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Link: https://lore.kernel.org/all/202312060810.QT9zourt-lkp@intel.com/
+> Cc: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  scripts/kernel-doc |    7 +++++++
+>  1 file changed, 7 insertions(+)
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+*sigh*
+
+This adds nearly 600 new warnings.  Anybody gonna help fix them?
+
+Of course, most of them are duplicates.  Someday it would be really nice
+if we could find a way to only emit each warning once.
+
+Anyway, I've applied it.
+
+Thanks,
+
+jon
