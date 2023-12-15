@@ -1,198 +1,82 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2C719469
-	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 12:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rE6zO-0001Th-VU; Fri, 15 Dec 2023 13:08:22 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rE6zK-00G18H-0I; Fri, 15 Dec 2023 13:08:18 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rE6zJ-003Wy8-ML; Fri, 15 Dec 2023 13:08:17 +0100
-Date: Fri, 15 Dec 2023 13:08:17 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: James Clark <james.clark@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
-	suzuki.poulose@arm.com, will@kernel.org, mark.rutland@arm.com,
-	anshuman.khandual@arm.com, namhyung@gmail.com,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Russell King <linux@armlinux.org.uk>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Shuah Khan <shuah@kernel.org>,
-	Zaid Al-Bassam <zalbassam@google.com>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v7 05/11] arm64: perf: Include threshold control fields
- in PMEVTYPER mask
-Message-ID: <20231215120817.h2f3akgv72zhrtqo@pengutronix.de>
-References: <20231211161331.1277825-1-james.clark@arm.com>
- <20231211161331.1277825-6-james.clark@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688D828DA0;
+	Fri, 15 Dec 2023 12:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="TS8l8InO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=4SqwIzQ2gFOs3NuS1hhR00by+excYqHOsV2vJcYIZi0=; b=TS8l8InOQHvt5UFmiyoV7lbntE
+	Y8X/nBB9bI+e13UtkyIu7EzSNlnPMxTd94KSen2zrv+JbqY57q7CxqVg3grHED42zCPb6Ao7UhQ15
+	QPMcQIgrK2gsdxgt7k4kRLJZa8OKB8PK9UyENfLEfiqpWbAv+2DbnIk1+F4zZPL1JMAY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rE73J-0031HX-2h; Fri, 15 Dec 2023 13:12:25 +0100
+Date: Fri, 15 Dec 2023 13:12:25 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Luo Jie <quic_luoj@quicinc.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	hkallweit1@gmail.com, linux@armlinux.org.uk, corbet@lwn.net,
+	p.zabel@pengutronix.de, f.fainelli@gmail.com,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
+ properties
+Message-ID: <60b9081c-76fa-4122-b7ae-5c3dcf7229f9@lunn.ch>
+References: <20231215074005.26976-1-quic_luoj@quicinc.com>
+ <20231215074005.26976-15-quic_luoj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ngsobzumwfjdiywd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231211161331.1277825-6-james.clark@arm.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <20231215074005.26976-15-quic_luoj@quicinc.com>
+
+> +  clocks:
+> +    items:
+> +      - description: APB bridge clock
+> +      - description: AHB clock
+> +      - description: Security control clock
+> +      - description: TLMM clock
+> +      - description: TLMM AHB clock
+> +      - description: CNOC AHB clock
+> +      - description: MDIO AHB clock
+> +      - description: MDIO master AHB clock
+> +      - description: PCS0 system clock
+> +      - description: PCS1 system clock
+> +      - description: EPHY0 system clock
+> +      - description: EPHY1 system clock
+> +      - description: EPHY2 system clock
+> +      - description: EPHY3 system clock
+
+What exactly are you describing here? A PHY, or a PHY package?
+
+The ethernet-phy.yaml describes a PHY. So does each of your 4 PHYs
+have 14 clocks? The PHY package as a whole has 14*4 clocks?
+
+This seems unlikely. You have some clocks used by the package as a
+whole, and you have some clocks used by one specific PHY within the
+package. So you need a hierarchical description of the hardware in DT,
+to match the actual hierarchical of the hardware.
+
+This is exactly what Christian has been working on, and you have
+persistently ignored what he is doing. You need to work with him.
+Nothing is going to be merged until you and Christian have one
+consistent design for the two PHYs you are working on.
 
 
---ngsobzumwfjdiywd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+    Andrew
 
-Hello,
-
-On Mon, Dec 11, 2023 at 04:13:17PM +0000, James Clark wrote:
-> FEAT_PMUv3_TH (Armv8.8) adds two new fields to PMEVTYPER, so include
-> them in the mask. These aren't writable on 32 bit kernels as they are in
-> the high part of the register, so only include them for arm64.
->=20
-> It would be difficult to do this statically in the asm header files for
-> each platform without resulting in circular includes or #ifdefs inline
-> in the code. For that reason the ARMV8_PMU_EVTYPE_MASK definition has
-> been removed and the mask is constructed programmatically.
->=20
-> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> Signed-off-by: James Clark <james.clark@arm.com>
-
-This change is in today's next as commit
-3115ee021bfb04efde2e96507bfcc1330261a6a1. this breaks allmodconfig
-building on ARCH=3Darm:
-
-	In file included from include/linux/ratelimit_types.h:5,
-			 from include/linux/printk.h:9,
-			 from include/asm-generic/bug.h:22,
-			 from arch/arm/include/asm/bug.h:60,
-			 from include/linux/bug.h:5,
-			 from include/linux/mmdebug.h:5,
-			 from include/linux/percpu.h:5,
-			 from include/asm-generic/irq_regs.h:11,
-			 from ./arch/arm/include/generated/asm/irq_regs.h:1,
-			 from drivers/perf/arm_pmuv3.c:11:
-	drivers/perf/arm_pmuv3.c: In function =E2=80=98armv8pmu_write_evtype=E2=80=
-=99:
-	include/linux/bits.h:34:29: error: left shift count >=3D width of type [-W=
-error=3Dshift-count-overflow]
-	   34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
-	      |                             ^~
-	include/linux/bits.h:37:38: note: in expansion of macro =E2=80=98__GENMASK=
-=E2=80=99
-	   37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-	      |                                      ^~~~~~~~~
-	include/linux/perf/arm_pmuv3.h:238:33: note: in expansion of macro =E2=80=
-=98GENMASK=E2=80=99
-	  238 | #define ARMV8_PMU_EVTYPE_TC     GENMASK(63, 61)
-	      |                                 ^~~~~~~
-	drivers/perf/arm_pmuv3.c:567:25: note: in expansion of macro =E2=80=98ARMV=
-8_PMU_EVTYPE_TC=E2=80=99
-	  567 |                 mask |=3D ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_T=
-H;
-	      |                         ^~~~~~~~~~~~~~~~~~~
-	include/linux/bits.h:35:18: error: right shift count is negative [-Werror=
-=3Dshift-count-negative]
-	   35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-	      |                  ^~
-	include/linux/bits.h:37:38: note: in expansion of macro =E2=80=98__GENMASK=
-=E2=80=99
-	   37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-	      |                                      ^~~~~~~~~
-	include/linux/perf/arm_pmuv3.h:238:33: note: in expansion of macro =E2=80=
-=98GENMASK=E2=80=99
-	  238 | #define ARMV8_PMU_EVTYPE_TC     GENMASK(63, 61)
-	      |                                 ^~~~~~~
-	drivers/perf/arm_pmuv3.c:567:25: note: in expansion of macro =E2=80=98ARMV=
-8_PMU_EVTYPE_TC=E2=80=99
-	  567 |                 mask |=3D ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_T=
-H;
-	      |                         ^~~~~~~~~~~~~~~~~~~
-	include/linux/bits.h:34:29: error: left shift count >=3D width of type [-W=
-error=3Dshift-count-overflow]
-	   34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
-	      |                             ^~
-	include/linux/bits.h:37:38: note: in expansion of macro =E2=80=98__GENMASK=
-=E2=80=99
-	   37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-	      |                                      ^~~~~~~~~
-	include/linux/perf/arm_pmuv3.h:237:33: note: in expansion of macro =E2=80=
-=98GENMASK=E2=80=99
-	  237 | #define ARMV8_PMU_EVTYPE_TH     GENMASK(43, 32)
-	      |                                 ^~~~~~~
-	drivers/perf/arm_pmuv3.c:567:47: note: in expansion of macro =E2=80=98ARMV=
-8_PMU_EVTYPE_TH=E2=80=99
-	  567 |                 mask |=3D ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_T=
-H;
-	      |                                               ^~~~~~~~~~~~~~~~~~~
-	include/linux/bits.h:35:18: error: right shift count is negative [-Werror=
-=3Dshift-count-negative]
-	   35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-	      |                  ^~
-	include/linux/bits.h:37:38: note: in expansion of macro =E2=80=98__GENMASK=
-=E2=80=99
-	   37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-	      |                                      ^~~~~~~~~
-	include/linux/perf/arm_pmuv3.h:237:33: note: in expansion of macro =E2=80=
-=98GENMASK=E2=80=99
-	  237 | #define ARMV8_PMU_EVTYPE_TH     GENMASK(43, 32)
-	      |                                 ^~~~~~~
-	drivers/perf/arm_pmuv3.c:567:47: note: in expansion of macro =E2=80=98ARMV=
-8_PMU_EVTYPE_TH=E2=80=99
-	  567 |                 mask |=3D ARMV8_PMU_EVTYPE_TC | ARMV8_PMU_EVTYPE_T=
-H;
-	      |                                               ^~~~~~~~~~~~~~~~~~~
-
-I guess that's easy to fix but I didn't look into that.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ngsobzumwfjdiywd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV8QbAACgkQj4D7WH0S
-/k7AiQf+P2oUWv7SoB0VqSdzaQDZiVP5cLTAQNAUd2/KvKLHcynNocmMBs36c3pg
-o+x8tw5H8hmrOREyHLMq2dFVFQOzDjUpzVl/UtvewEwJ/wer59fr31E2+O4d3RzB
-HbLD/OuVTL88TWye1hyv+43iSoG4gfff9n9SBsr/423tBmEqnCkIv/A7CMzawZMi
-Nr4oV5P03hNhNXEFy4OxIVfuLmAVxIlK4EtUtMErE/+UHeJL6gs+nhOW38UwNR+c
-+9uau7zzuYGeBWLmiDYGPteZWs0/DB9/WO5xm+U4eA10oQSho6Tjd8DS4ls2katc
-cDqpu8z3U3vqJXktpE5/swkSxSAuWQ==
-=wXB9
------END PGP SIGNATURE-----
-
---ngsobzumwfjdiywd--
+---
+pw-bot: cr
