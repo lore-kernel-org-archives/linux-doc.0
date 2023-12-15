@@ -1,61 +1,77 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EDB3BB27;
-	Fri, 15 Dec 2023 16:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ncyc5Jj4"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6FD052ED;
-	Fri, 15 Dec 2023 16:16:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6FD052ED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1702656988; bh=Fd9BwtYsJaSxP7C02HmDk1eW41KYwWdVsjtC8ySaH30=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Ncyc5Jj4bmtnLHiGKB2bPBb5wuVQ11Bv/oSvQr3rl5nhmolMikr9aIuF530+1g97T
-	 ydbnI6d0QAX/6y8/vaiuE6Fai1VSCuYDnUUk0E/3cgvaTbCwN4feDag2JjAAC7XEVa
-	 zzUEssdaXDDBTHV/+fgn5QdmBRYjQQpjr+cRp+nP9c/3HMrraJwSs/oNW1DJr2ygao
-	 H7oSG7NEw2sJB9FUE+J9qZy/STzQdaN5brDx4dYcvG3BmNs4Pyw7+TEy9FL+qhHDKI
-	 9tIoVgkqOIfMrLhRXMkpcn1DfYhaclLG73qd3eUWOlYXXdtEqj4UyyXmfmXTAy0spK
-	 uotWy/huJjEqQ==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Rex Nie <rex.nie@jaguarmicro.com>
-Cc: rdunlap@infradead.org, gregkh@linuxfoundation.org, jim.cromie@gmail.com,
- mcgrof@kernel.org, rex.nie@jaguarmicro.com, linux@weissschuh.net,
- lists@jade.fyi, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- angus.chen@jaguarmicro.com
-Subject: Re: [PATCH] Documentation: fix typo in examples of
- dynamic-debug-howto.rst
-In-Reply-To: <20231213073735.2850-1-rex.nie@jaguarmicro.com>
-References: <20231213073735.2850-1-rex.nie@jaguarmicro.com>
-Date: Fri, 15 Dec 2023 09:16:27 -0700
-Message-ID: <87a5qbqw4k.fsf@meer.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E50C3DB84;
+	Fri, 15 Dec 2023 16:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4SsDrC5nzSz6JB0q;
+	Sat, 16 Dec 2023 00:16:59 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7FBAC140133;
+	Sat, 16 Dec 2023 00:18:05 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 15 Dec
+ 2023 16:18:04 +0000
+Date: Fri, 15 Dec 2023 16:18:03 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
+	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
+	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 10/21] ACPI: Check _STA present bit before making
+ CPUs not present
+Message-ID: <20231215161803.00002d8c@Huawei.com>
+In-Reply-To: <E1rDOgc-00DvkW-PZ@rmk-PC.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+	<E1rDOgc-00DvkW-PZ@rmk-PC.armlinux.org.uk>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-Rex Nie <rex.nie@jaguarmicro.com> writes:
+On Wed, 13 Dec 2023 12:50:02 +0000
+Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
 
-> Since most examples use ddcmd alias, remove the redundant file names
->
-> Signed-off-by: Rex Nie <rex.nie@jaguarmicro.com>
-> ---
->  Documentation/admin-guide/dynamic-debug-howto.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-
-I've applied the patch, thanks.
-
-I did change the subject line, though, since I don't think this change
-really qualifies as a typo fix:
-
-  Documentation: Remove redundant file names from examples
-
-jon
+> From: James Morse <james.morse@arm.com>
+> 
+> When called acpi_processor_post_eject() unconditionally make a CPU
+> not-present and unregisters it.
+> 
+> To add support for AML events where the CPU has become disabled, but
+> remains present, the _STA method should be checked before calling
+> acpi_processor_remove().
+> 
+> Rename acpi_processor_post_eject() acpi_processor_remove_possible(), and
+> check the _STA before calling.
+> 
+> Adding the function prototype for arch_unregister_cpu() allows the
+> preprocessor guards to be removed.
+> 
+> After this change CPUs will remain registered and visible to
+> user-space as offline if buggy firmware triggers an eject-request,
+> but doesn't clear the corresponding _STA bits after _EJ0 has been
+> called.
+> 
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+LGTM
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
