@@ -1,99 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8536ED2;
-	Fri, 15 Dec 2023 01:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348B3468C;
+	Fri, 15 Dec 2023 01:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XuJluONs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702603859; x=1734139859;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bo4CQbjDhFgPpZxFoaEvDAhRSz9PVVm5QEWsB3l+Hvk=;
-  b=XuJluONsDon84bZ/4wBMxn5QUNTntsBWx4gm1jbxm+wZHrbyY0LB6YkT
-   W73nuNOAj5hzJtHhBuQlriKvImG7sUXGW1UaV5zYtVHSwtc8d78D58g4s
-   MaErkP1PpDGJuhh+pFBRB1bj9DqIQHZInyVclEvLuctD2DSaOkWYYI+kk
-   V+dN5G+i00N64SGZCJB4IUzEJSDipmoYXIZtp2CF8Yte/NJ5jlMLRHikf
-   LGBKy+z0rZ8jG7GZzMBYAF5r4mePqD8Rcc8/2VautMPmCdw+CNKGt1yB3
-   u7ZhNyI4pbuIuiHhLTRFfwrfHcotwlrJwyXOhjSO3P3bGPsCJJdkajq/q
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="399050762"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="399050762"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 17:30:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="897960014"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="897960014"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 14 Dec 2023 17:30:50 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDx2N-000Mwz-31;
-	Fri, 15 Dec 2023 01:30:47 +0000
-Date: Fri, 15 Dec 2023 09:30:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
-	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
-Subject: Re: [PATCH v3 09/11] mm/mempolicy: add get_mempolicy2 syscall
-Message-ID: <202312150958.WYyFWIdr-lkp@intel.com>
-References: <20231213224118.1949-10-gregory.price@memverge.com>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=zytor.com header.i=@zytor.com header.b="Ko9BU3RN"
+Received: from [IPV6:2601:646:8002:4641:eb14:ad94:2806:1c1a] ([IPv6:2601:646:8002:4641:eb14:ad94:2806:1c1a])
+	(authenticated bits=0)
+	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 3BF1p8ju3422931
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 14 Dec 2023 17:51:09 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 3BF1p8ju3422931
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2023121201; t=1702605070;
+	bh=V5+Mh+vAvnbIoWj79wEvhgtTOB599w/6t78stUt4jko=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ko9BU3RN/mr7W5ck/3mbDE4qKSw33iFOYqtP3Bs8t7H7TxLB+/0ExArIn930tFBEi
+	 wWbvQQoYiUA7zMZvjSaeXKgyHzcb9mAkrJ87Z2gsAbhvkmy6EbjDtjTwdW6FMy0FYc
+	 VgdPLrTe3CHOz3Xo7SPARoBWimh+KFFFPdBO7jNfjgY9FJtcSQhWgFJV3jlS5Cz7mo
+	 S/PJcXtZmE6b+S5qI9ETjyCjHpeMTV7pk75QbVPr9Jlmf7SFThEQoF2YVfA6hc4UAS
+	 Kn1skMzQ1FKQeIswTvZJQueASmlEY9ufG5Z+3vml4ygCKhmYWXGplfjznWRxPZLQH2
+	 oP8f2Lo3MSN7Q==
+Message-ID: <c0c7c605-d487-483e-a034-983b76ee1dfa@zytor.com>
+Date: Thu, 14 Dec 2023 17:51:03 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213224118.1949-10-gregory.price@memverge.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 24/35] x86/fred: Add a NMI entry stub for FRED
+Content-Language: en-US
+To: Xin Li <xin3.li@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, luto@kernel.org,
+        pbonzini@redhat.com, seanjc@google.com, peterz@infradead.org,
+        jgross@suse.com, ravi.v.shankar@intel.com, mhiramat@kernel.org,
+        andrew.cooper3@citrix.com, jiangshanlai@gmail.com,
+        nik.borisov@suse.com, shan.kang@intel.com
+References: <20231205105030.8698-1-xin3.li@intel.com>
+ <20231205105030.8698-25-xin3.li@intel.com>
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <20231205105030.8698-25-xin3.li@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Gregory,
+So we have recently discovered an overlooked interaction with VT-x. 
+Immediately before VMENTER and after VMEXIT, CR2 is live with the 
+*guest* CR2. Regardless of if the guest uses FRED or not, this is guest 
+state and SHOULD NOT be corrupted. Furthermore, host state MUST NOT leak 
+into the guest.
 
-kernel test robot noticed the following build errors:
+NMIs are blocked on VMEXIT if the cause was an NMI, but not for other 
+reasons, so a NMI coming in during this window that then #PFs could 
+corrupt the guest CR2.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master v6.7-rc5]
-[cannot apply to geert-m68k/for-next geert-m68k/for-linus tip/x86/asm next-20231214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Intel is exploring ways to close this hole, but for schedule reasons, it 
+will not be available at the same time as the first implementation of 
+FRED. Therefore, as a workaround, it turns out that the FRED NMI stub 
+*will*, unfortunately, have to save and restore CR2 after all when (at 
+least) Intel KVM is in use.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231214-064236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231213224118.1949-10-gregory.price%40memverge.com
-patch subject: [PATCH v3 09/11] mm/mempolicy: add get_mempolicy2 syscall
-config: x86_64-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150958.WYyFWIdr-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150958.WYyFWIdr-lkp@intel.com/reproduce)
+Note that this is airtight: it does add a performance penalty to the NMI 
+path (two read CR2 in the common case of no #PF), but there is no gap 
+during which a bad CR2 value could be introduced in the guest, no matter 
+in which sequence the events happen.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150958.WYyFWIdr-lkp@intel.com/
+In theory the performance penalty could be further reduced by 
+conditionalizing this on the NMI happening in the critical region in the 
+KVM code, but it seems to be pretty far from necessary to me.
 
-All errors (new ones prefixed by >>):
+This obviously was an unfortunate oversight on our part, but the 
+workaround is simple and doesn't affect any non-NMI paths.
 
->> ld.lld: error: undefined symbol: __x64_sys_get_mempolicy2
-   >>> referenced by syscall_64.c
-   >>>               arch/x86/entry/syscall_64.o:(sys_call_table) in archive vmlinux.a
-   >>> did you mean: __x64_sys_get_mempolicy
-   >>> defined in: vmlinux.a(kernel/sys_ni.o)
+	-hpa
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 12/5/23 02:50, Xin Li wrote:
+> +
+> +	if (IS_ENABLED(CONFIG_SMP) && arch_cpu_is_offline(smp_processor_id()))
+> +		return;
+> +
+
+This is cut & paste from elsewhere in the NMI code, but I believe the 
+IS_ENABLED() is unnecessary (not to mention ugly): smp_processor_id() 
+should always return zero on UP, and arch_cpu_is_offline() reduces to 
+!(cpu == 0), so this is a statically true condition on UP.
+
+	-hpa
