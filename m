@@ -1,222 +1,137 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pv50p00im-ztdg10021901.me.com (pv50p00im-ztdg10021901.me.com [17.58.6.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A85EBB
-	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 02:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6833A5382
+	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 03:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=me.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=me.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n49iH/+0"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5c664652339so133846a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 18:50:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702608614; x=1703213414; darn=vger.kernel.org;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=oDvaa/loPXs8QqeKn/dbAir7W2iAEYYDHF7svcomArc=;
-        b=n49iH/+0kxXivgE6iAXzj7+czwvv55cWQL9kTg0UMM4Lx/eMGtHI1DY8iyS8AUEKyc
-         BRyF3R+lr2nr3Vdnna2E+4ITdULkAfxiVVSi1egPPzx9cc9RKKU09AdH3La6VvFIhJLV
-         NztT/Dsg6me6YeSagWmh0YN2ZkfbUtN3yau7YTlkXto/l3MqOlL8Y6vOHLU9SqD1AeJu
-         iV/bo/zfgnAIHCKtzeu+Qa60mcIRlQ8Yjfel6QOpAq0cZInCayks+NuaHEjGfmlRUPyf
-         wCz8iT7/6SnM0/GVqvmyOCKCIc8+f3rZkxydiD808p9jvFdkDQWbXihRSBSYUvQQTd4P
-         wJIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702608614; x=1703213414;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oDvaa/loPXs8QqeKn/dbAir7W2iAEYYDHF7svcomArc=;
-        b=IS9sFW113zOxqmNd+glwMoH30bJn5FtkwxYHtkvLB1xGolnddNbEfJTk7xr5Mdzmvy
-         8iBwxRCvP+j2u50BNCTCSqITEZTI+YmK/VbQDDoyhw/7uOu4FB8Bb03j5XXkv6zzFoqJ
-         zrU6uH1Fe5VKjvSSZ6lebxLyjpiMQ+kt2EfQFDBMmb//FbE0ZwzW6Gi+svD0Z8ctm/g8
-         lh40JXeZYzsJ/WpIqGB/ZssjwXaguV/ftftVrnrUV4zZP5a5ipQkWEYgriAaeDZho1iU
-         QyoSiNUVsE7fJHebpOQ6P1gSEj2BjaZbhtDKzgr6uhuPIxxLUk4yvludExtRV2eZK1P6
-         wgcg==
-X-Gm-Message-State: AOJu0Yx4XI2/jhJi0mEcqgNvMYrc2hJe1BbiRONU4V8to78hYFIaIir/
-	/r3GgYtrRy96nFtoZpVilhuGcA==
-X-Google-Smtp-Source: AGHT+IE99vQkPCzS0fUw2+RGCuARu2aeWphX23kJyqBn5JyJXY6hondFJhuQ9dhnml5rfwoe6hL5lw==
-X-Received: by 2002:a05:6a00:cd0:b0:6cd:e046:f3f0 with SMTP id b16-20020a056a000cd000b006cde046f3f0mr7542035pfv.13.1702608614486;
-        Thu, 14 Dec 2023 18:50:14 -0800 (PST)
-Received: from localhost ([2804:14d:7e39:8470:c901:5e00:3dbe:d1bd])
-        by smtp.gmail.com with ESMTPSA id r25-20020aa78b99000000b006d2738a2510sm384321pfd.146.2023.12.14.18.50.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 18:50:14 -0800 (PST)
-References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
- <20231122-arm64-gcs-v7-34-201c483bd775@kernel.org>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
- <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
- <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
- Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, Oleg
- Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees
- Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, "Rick P.
- Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta
- <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, Szabolcs Nagy
- <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Florian Weimer <fweimer@redhat.com>, Christian
- Brauner <brauner@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v7 34/39] kselftest/arm64: Add a GCS test program built
- with the system libc
-In-reply-to: <20231122-arm64-gcs-v7-34-201c483bd775@kernel.org>
-Date: Thu, 14 Dec 2023 23:50:11 -0300
-Message-ID: <875y1089i4.fsf@linaro.org>
+	dkim=pass (2048-bit key) header.d=me.com header.i=@me.com header.b="fIKiuafG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+	t=1702611749; bh=S8EbHr+1Fb9q+H61h6uyUVAAOWrp1qaooLCgdsiAGJw=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=fIKiuafGj7Dutme++KBjpPcmnqFolayYPwe+a+UpJOML59zgfuptM0bFNpTSm+83m
+	 Hmdk631uh6kBWApqgWSx9TwW8+/UwM61CXKmv2iwZk8C8uMMLQ+mpEgOUvzpPP4QmA
+	 O8xO+jyrpDrrQnCUBXlx0POxag+l1xhvSfRgizDTwm7gJGiS3fObWmYzKmLzRerONj
+	 jKPMBLGj2xg3T0dNZkkZbKf/HcDSrZ9d2iaBsrhP+cIa46CrIsOf63/a6wwLnz+HfK
+	 ZXAUTq1b32EXBdUqVmchZYeroX28IIk6QLhBf9M491Zsd+6SWGK8bukxyyj8xTneGw
+	 Ylu4Ri6XE2r6w==
+Received: from xiongwei.. (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-ztdg10021901.me.com (Postfix) with ESMTPSA id 7E9028147F;
+	Fri, 15 Dec 2023 03:42:23 +0000 (UTC)
+From: sxwjean@me.com
+To: vbabka@suse.cz,
+	42.hyeyoo@gmail.com,
+	cl@linux.com,
+	linux-mm@kvack.org
+Cc: penberg@kernel.org,
+	rientjes@google.com,
+	iamjoonsoo.kim@lge.com,
+	roman.gushchin@linux.dev,
+	corbet@lwn.net,
+	keescook@chromium.org,
+	arnd@arndb.de,
+	akpm@linux-foundation.org,
+	gregkh@linuxfoundation.org,
+	quic_jjohnson@quicinc.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xiongwei Song <xiongwei.song@windriver.com>
+Subject: [PATCH v4 0/4] supplement of slab allocator removal
+Date: Fri, 15 Dec 2023 11:41:46 +0800
+Message-Id: <20231215034150.108783-1-sxwjean@me.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: Hvqg6Vbq3xfWygLtBS5A3hKzFx0w8b3O
+X-Proofpoint-ORIG-GUID: Hvqg6Vbq3xfWygLtBS5A3hKzFx0w8b3O
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-14_17,2023-12-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
+ malwarescore=0 mlxlogscore=999 bulkscore=0 spamscore=0 mlxscore=0
+ phishscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2312150025
 
+From: Xiongwei Song <xiongwei.song@windriver.com>
 
-Mark Brown <broonie@kernel.org> writes:
+Hi,
 
-> +	/* Same thing via process_vm_readv() */
-> +	local_iov.iov_base = &rval;
-> +	local_iov.iov_len = sizeof(rval);
-> +	remote_iov.iov_base = (void *)gcspr;
-> +	remote_iov.iov_len = sizeof(rval);
-> +	ret = process_vm_writev(child, &local_iov, 1, &remote_iov, 1, 0);
-> +	if (ret == -1)
-> +		ksft_print_msg("process_vm_readv() failed: %s (%d)\n",
-> +			       strerror(errno), errno);
+Patch 1 is to remove an unused parameter. It has a longer history, please
+see the change history inside the patch.
 
-The comment and the error message say "process_vm_readv()", but the
-function actually called is process_vm_writev(). Is this intended?
+---
+Patch 2 is to replace slub_$params with slab_$params.
+Vlastimil Babka pointed out we should use "slab_$param" as the primary
+prefix for long-term plan. Please see [1] for more information.
 
-Also, process_vm_writev() is failing when I run on my Arm FVP:
+I did the basic tests with qemu, which passed values by sl[au]b_max_order,
+sl[au]b_min_order, sl[au]b_min_objects and sl[au]b_debug in command line.
+The values looks correct by printing them out before calculating orders.
 
-# #  RUN           global.ptrace_read_write ...
-# # Child: 1150
-# # Child GCSPR 0xffffa210ffd8, flags 1, locked 0
-# # process_vm_readv() failed: Bad address (14)
-# # libc-gcs.c:271:ptrace_read_write:Expected ret (-1) == sizeof(rval) (8)
-# # libc-gcs.c:272:ptrace_read_write:Expected val (281473401005692) == rval (281473402849248)
-# # libc-gcs.c:293:ptrace_read_write:Expected val (281473401005692) == ptrace(PTRACE_PEEKDATA, child, (void *)gcspr, NULL) (0)
-# # ptrace_read_write: Test failed at step #1
-# #          FAIL  global.ptrace_read_write
-# not ok 4 global.ptrace_read_write
+---
+Patch 3 is to replace slub_$params in Documentation/mm/slub.rst based on
+the changes of patch 2.
 
-If I swap process_vm_readv() and process_vm_writev(), then the read
-succeeds but the write fails:
+---
+Patch 4 is original patch 3. It is not related to slab allocator removal.
+It's to correct the description of default value of slab_min_objects in
+Documentation/mm/slub.rst. 
 
-#  RUN           global.ptrace_read_write ...
-# Child: 1996
-# Child GCSPR 0xffffa7fcffd8, flags 1, locked 0
-# process_vm_writev() failed: Bad address (14)
-# libc-gcs.c:291:ptrace_read_write:Expected ret (-1) == sizeof(rval) (8)
-# libc-gcs.c:293:ptrace_read_write:Expected val (281473500358268) == ptrace(PTRACE_PEEKDATA, child, (void *)gcspr, NULL) (0)
-# ptrace_read_write: Test failed at step #1
-#          FAIL  global.ptrace_read_write
-not ok 4 global.ptrace_read_write
+---
+This series is based on [2].
 
-> +/* Put it all together, we can safely switch to and from the stack */
-> +TEST_F(map_gcs, stack_switch)
-> +{
-> +	size_t cap_index;
-> +	cap_index = (variant->stack_size / sizeof(unsigned long));
-> +	unsigned long *orig_gcspr_el0, *pivot_gcspr_el0;
-> +
-> +	/* Skip over the stack terminator and point at the cap */
-> + switch (variant->flags & (SHADOW_STACK_SET_MARKER | SHADOW_STACK_SET_TOKEN)) {
-> +	case SHADOW_STACK_SET_MARKER | SHADOW_STACK_SET_TOKEN:
-> +		cap_index -= 2;
-> +		break;
-> +	case SHADOW_STACK_SET_TOKEN:
-> +		cap_index -= 1;
-> +		break;
-> +	case SHADOW_STACK_SET_MARKER:
-> +	case 0:
-> +		/* No cap, no test */
-> +		return;
-> +	}
-> +	pivot_gcspr_el0 = &self->stack[cap_index];
-> +
-> +	/* Pivot to the new GCS */
-> +	ksft_print_msg("Pivoting to %p from %p, target has value 0x%lx\n",
-> +		       pivot_gcspr_el0, get_gcspr(),
-> +		       *pivot_gcspr_el0);
-> +	gcsss1(pivot_gcspr_el0);
-> +	orig_gcspr_el0 = gcsss2();
-> +	ksft_print_msg("Pivoted to %p from %p, target has value 0x%lx\n",
-> +		       pivot_gcspr_el0, get_gcspr(),
+---
+CHANGES
+V4:
+- patch 1: Clean up typos.
+- patch 4: Make the description of slab_min_objects helpful.
+           Refine the subject.
 
-Not sure about the intent here, but perhaps "get_gcspr()" here should be
-"orig_gcspr_el0" instead? Ditto in the equivalent place at the
-map_gcs.stack_overflow test below.
+V3:
+- patch 1: Collect Reviewed-by tag.
+           Refine the commit message.
+- patch 2: Remove the changes for variables and functions.
+           Resort slab_$params in doc.
+           Refine the commit message.
+           Remove RFC tag.
+- patch 3: Use slab_$params in slub.rst.
+- patch 4: It's original patch 3. Just resorted patch orders, no any other
+           Changes.
 
-Also, it's strange that the tests defined after map_gcs.stack_overflow
-don't run when I execute this test program. I'm doing:
+v2: https://lore.kernel.org/linux-mm/457899ac-baab-e976-44ec-dfdeb23be031@suse.cz/T/#t
+- patch 1: Collect Reviewed-by tag.
+- patch 3: Correct spelling mistakes in commit message.
 
-$ ./run_kselftest.sh -t arm64:libc-gcs
+v1: https://lore.kernel.org/linux-mm/20231201031505.286117-1-sxwjean@me.com/
 
-I.e., these tests aren't being run in my FVP:
+---
+Regards,
+Xiongwei
 
-> +FIXTURE_VARIANT_ADD(map_invalid_gcs, too_small)
-> +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_1)
-> +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_2)
-> +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_3)
-> +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_4)
-> +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_5)
-> +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_6)
-> +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_7)
-> +TEST_F(map_invalid_gcs, do_map)
-> +FIXTURE_VARIANT_ADD(invalid_mprotect, exec)
-> +FIXTURE_VARIANT_ADD(invalid_mprotect, bti)
-> +FIXTURE_VARIANT_ADD(invalid_mprotect, exec_bti)
-> +TEST_F(invalid_mprotect, do_map)
-> +TEST_F(invalid_mprotect, do_map_read)
+[1] https://lore.kernel.org/linux-mm/7512b350-4317-21a0-fab3-4101bc4d8f7a@suse.cz/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/log/?h=slab/for-next
 
-Finally, one last comment:
+Xiongwei Song (4):
+  Documentation: kernel-parameters: remove noaliencache
+  mm/slub: unify all sl[au]b parameters with "slab_$param"
+  mm/slub: replace slub_$params with slab_$params in slub.rst
+  mm/slub: correct the default value of slub_min_objects in doc
 
-> +int main(int argc, char **argv)
-> +{
-> +	unsigned long gcs_mode;
-> +	int ret;
-> +
-> +	if (!(getauxval(AT_HWCAP2) & HWCAP2_GCS))
-> +		ksft_exit_skip("SKIP GCS not supported\n");
-> +
-> +	/* 
-> +	 * Force shadow stacks on, our tests *should* be fine with or
-> +	 * without libc support and with or without this having ended
-> +	 * up tagged for GCS and enabled by the dynamic linker.  We
-> +	 * can't use the libc prctl() function since we can't return
-> +	 * from enabling the stack.  Also lock GCS if not already
-> +	 * locked so we can test behaviour when it's locked.
-
-This is probably a leftover from a previous version: the test doesn't
-lock any GCS flag.
-
-> +	 */
-> +	ret = my_syscall2(__NR_prctl, PR_GET_SHADOW_STACK_STATUS, &gcs_mode);
-> +	if (ret) {
-> +		ksft_print_msg("Failed to read GCS state: %d\n", ret);
-> +		return EXIT_FAILURE;
-> +	}
-> +	
-> +	if (!(gcs_mode & PR_SHADOW_STACK_ENABLE)) {
-> +		gcs_mode = PR_SHADOW_STACK_ENABLE;
-> +		ret = my_syscall2(__NR_prctl, PR_SET_SHADOW_STACK_STATUS,
-> +				  gcs_mode);
-> +		if (ret) {
-> +			ksft_print_msg("Failed to configure GCS: %d\n", ret);
-> +			return EXIT_FAILURE;
-> +		}
-> +	}
-> +
-> +	/* Avoid returning in case libc doesn't understand GCS */
-> +	exit(test_harness_run(argc, argv));
-> +}
-
+ .../admin-guide/kernel-parameters.txt         | 75 ++++++++-----------
+ Documentation/mm/slub.rst                     | 60 +++++++--------
+ drivers/misc/lkdtm/heap.c                     |  2 +-
+ mm/Kconfig.debug                              |  6 +-
+ mm/slab.h                                     |  2 +-
+ mm/slab_common.c                              |  4 +-
+ mm/slub.c                                     | 41 +++++-----
+ 7 files changed, 92 insertions(+), 98 deletions(-)
 
 -- 
-Thiago
+2.34.1
+
