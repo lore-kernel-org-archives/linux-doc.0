@@ -1,295 +1,219 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266BA7E4;
-	Fri, 15 Dec 2023 02:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8357E4;
+	Fri, 15 Dec 2023 02:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UmKut2Ss"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-35f761ef078so1016245ab.2;
-        Thu, 14 Dec 2023 18:07:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTR3jTQQ"
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-35e70495835so1038005ab.3;
+        Thu, 14 Dec 2023 18:19:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702606051; x=1703210851; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7gfFvrmdT+5QSESGMivtyggNS4SZMkK7UjsKRfnxjGM=;
-        b=UmKut2SsZNxId4eebA8ZYatPqUQErLuyUquSDS7cN5EV5IXDkE+px0V967plC1QIly
-         w5SO8HSnehOm4+/NEyAqUvEevt4J9a0DJ4GOx87CCpjyHZ4FJctS5feTg1v7iFPEbB2a
-         7ke0R+rhbFrt8vFER1vBQxB5erJ6tPTqa0ZX8IQQh6J6YPSWQohTpFT9SQZA+TbKevb8
-         M897AvEunKs97wlpttUFEDq151YP7P3vwpG0V/6ol7R7PN9498sqvoMejG/rMQTvFVd8
-         /JLODRaiwC9Tn6f3XsrSNGHppOoh7wqV6wkN9/dlcot3R/sUne42QuCSc8Q54rOIHvmV
-         j5UQ==
+        d=gmail.com; s=20230601; t=1702606757; x=1703211557; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B8gS/q427oPS6HKGW6tQx+fntDpi2+l983j1qfuY/o0=;
+        b=MTR3jTQQT4lhVkbHwfFhbJoN27Ao8Z/7LOQ6f5Vb96BOJTXokcynoJoy0eJowg7aEJ
+         96zflMPz2GNMARgyR/qFHDr/yW7F0KR/Y8RUBWukiQEDa/Fo6q7fuU5VUGA4zc5EK813
+         bq7d0VpoIsf/VybjTO32yemHyDwtK/BTVC++n59dFIbLbiMjRfdlG54fcGwRa8n+9nSe
+         KFYjidigE6+U0XZxS59tb9Daq+ilSLjQ05iQi9KhZc1qNEIBc+VldV44AHHOzHBno5df
+         LwVb0I396GjatvqaJA3kQ151540dvoVzxRkR61VzL0RcGTb6yequV2f787YeV8aArGR8
+         KqRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702606051; x=1703210851;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7gfFvrmdT+5QSESGMivtyggNS4SZMkK7UjsKRfnxjGM=;
-        b=XL9MxLgvCPGiw74PouQq6LKysYGwLRlco9XJwK7e7wrgsJWP3AsKCCFf1Eox+TBs+2
-         oqu+j1uE7CEZiRnqm73sGR/a0aXfftqpz29/SbB7ubRG2J/6/nvQ5KzUvFKRlgVbtlGo
-         VAvI62MwDbJK2ZbXhuri2M8L+2ZTu9oOxGROfJl9WKGVmcq8OksRnlrHDj4teu4yT1XX
-         CCXeYNhurrg1lu9HhegDPkAZrJ/MK+NU3oMQqW4VicDJpwF2hgyJ5Z+6AbYuoybsKcOX
-         h7fe44V3ZQd2jOFwVMsru2MqOkrQ5BF4O66aC6d7h3m75XiAHr864tIndNtY0VbJuouM
-         EBag==
-X-Gm-Message-State: AOJu0YxknayEuc3eP8mI927vTOiajNe/IyOfPu6xPRGjmrpvt0Z6BTVu
-	IdzGLRk5EhIUA2h+OQ5OqU1hrrXrm7M=
-X-Google-Smtp-Source: AGHT+IFnTC74dqsOGN5m/rIAKfuGl8AfaXB4XNoM6RBVoV3q0vdrT9DsWK9grv1Oy9ZLQ/1E20xw3Q==
-X-Received: by 2002:a05:6e02:12e3:b0:35f:847c:1e50 with SMTP id l3-20020a056e0212e300b0035f847c1e50mr1763656iln.60.1702606051004;
-        Thu, 14 Dec 2023 18:07:31 -0800 (PST)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id j4-20020a170902c08400b001d348571ccesm4342905pld.240.2023.12.14.18.07.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Dec 2023 18:07:30 -0800 (PST)
-Message-ID: <c6c49fd7-2197-48b9-8203-ee5f4634b683@gmail.com>
-Date: Fri, 15 Dec 2023 11:07:27 +0900
+        d=1e100.net; s=20230601; t=1702606757; x=1703211557;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B8gS/q427oPS6HKGW6tQx+fntDpi2+l983j1qfuY/o0=;
+        b=e/McUk4BWbBClw9tADUgO9Js7g3zt/h/cSKdZyFrjw9iUDugfx3Vngg7sf4MKJe1Rb
+         oIJQBjk78SS/d7fJLVba24dgOqqfS3quhO2GS+HJ/jCSumGthh97PuWvAWJ8f2ygXSQa
+         OdT8qAebO5Mc82rXqgUUmB70sj5VKGVdG90sDQwGcGPzEtjghXhUivLwwqXssIqJ691a
+         KQQVWr2IQi/8z1ieRoWqq1WoRFz3jCf95Q7sOpeZ7MqSWKC0XY3GbOzkrdWYfB4QoUpd
+         gxzKmAR/4VA5kKTZzqhhs73DBRLzv2WJQYyoHwtrtC11FIPSbPU0gX7psT6oIfUeIKkP
+         XN3Q==
+X-Gm-Message-State: AOJu0Ywn7jIZHJjTZxp5j7T8ln92FNPoqi+GiXVudsQKTb0EXZ/cMFtu
+	wqhPM5zFA+ATv/R86B+yiTGd8glECrPnnDfzQsM=
+X-Google-Smtp-Source: AGHT+IG9KGChwrAb21xlqEK6g1rzWiKGGpdS0P+T0yaZowCVMAnp2upHHz6T9hUDQKZI/B0LedbnBo9mjXgr9ywQV6s=
+X-Received: by 2002:a05:6e02:1a2d:b0:35d:5995:1d5c with SMTP id
+ g13-20020a056e021a2d00b0035d59951d5cmr16322485ile.33.1702606756802; Thu, 14
+ Dec 2023 18:19:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: amir73il@gmail.com
-Cc: bagasdotme@gmail.com, brauner@kernel.org, linux-doc@vger.kernel.org,
- linux-unionfs@vger.kernel.org, miklos@szeredi.hu,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20231213123422.344600-3-amir73il@gmail.com>
-Subject: Re: [PATCH v2 2/2] overlayfs.rst: fix ReST formatting
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20231213123422.344600-3-amir73il@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
+ <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
+ <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
+ <20231209034229.GA1001962@cmpxchg.org> <ZXeTb_ACou7TEVsa@google.com>
+ <20231214171137.GA261942@cmpxchg.org> <CANeU7QnR+4Lgt8D9Z+Zo3Ydktx_7n45K0b=kVj+qSOzT=5GGQA@mail.gmail.com>
+ <20231214221140.GA269753@cmpxchg.org> <CAF8kJuN=6CfU2mXP4VFgCkngRGz6Ni67SSHLps8_A+ZScDckUw@mail.gmail.com>
+In-Reply-To: <CAF8kJuN=6CfU2mXP4VFgCkngRGz6Ni67SSHLps8_A+ZScDckUw@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Thu, 14 Dec 2023 18:19:05 -0800
+Message-ID: <CAKEwX=PLW=oj2DmsgaynXhY_SYb0VOw9i64K=RrZxhGySxdtvQ@mail.gmail.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+To: Chris Li <chrisl@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Minchan Kim <minchan@kernel.org>, akpm@linux-foundation.org, 
+	tj@kernel.org, lizefan.x@bytedance.com, cerasuolodomenico@gmail.com, 
+	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org, 
+	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeelb@google.com, muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
+	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
+	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, david@ixit.cz, Kairui Song <kasong@tencent.com>, 
+	Zhongkun He <hezhongkun.hzk@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Thu, Dec 14, 2023 at 2:55=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
+>
+> On Thu, Dec 14, 2023 at 2:11=E2=80=AFPM Johannes Weiner <hannes@cmpxchg.o=
+rg> wrote:
+> >
+> > On Thu, Dec 14, 2023 at 09:34:06AM -0800, Christopher Li wrote:
+> > > On Thu, Dec 14, 2023 at 9:11=E2=80=AFAM Johannes Weiner <hannes@cmpxc=
+hg.org> wrote:
+> > >
+> > > > > Hi Johannes,
+> > > > >
+> > > > > I haven't been following the thread closely, but I noticed the di=
+scussion
+> > > > > about potential use cases for zram with memcg.
+> > > > >
+> > > > > One interesting idea I have is to implement a swap controller per=
+ cgroup.
+> > > > > This would allow us to tailor the zram swap behavior to the speci=
+fic needs of
+> > > > > different groups.
+> > > > >
+> > > > > For example, Group A, which is sensitive to swap latency, could u=
+se zram swap
+> > > > > with a fast compression setting, even if it sacrifices some compr=
+ession ratio.
+> > > > > This would prioritize quick access to swapped data, even if it ta=
+kes up more space.
+> > > > >
+> > > > > On the other hand, Group B, which can tolerate higher swap latenc=
+y, could benefit
+> > > > > from a slower compression setting that achieves a higher compress=
+ion ratio.
+> > > > > This would maximize memory efficiency at the cost of slightly slo=
+wer data access.
+> > > > >
+> > > > > This approach could provide a more nuanced and flexible way to ma=
+nage swap usage
+> > > > > within different cgroups.
+> > > >
+> > > > That makes sense to me.
+> > > >
+> > > > It sounds to me like per-cgroup swapfiles would be the easiest
+> > > > solution to this. Then you can create zram devices with different
+> > > > configurations and assign them to individual cgroups.
+> > >
+> > > Ideally you need zram then following swap file after the zram. That
+> > > would be a list of the swap files rather than just one swapfile per
+> > > cgroup.
+> > >
+> > > > This would also apply to Kairu's usecase: assign zrams and hdd back=
+ups
+> > > > as needed on a per-cgroup basis.
+> > >
+> > > Same there, Kairui's request involves ZRAM and at least one extra swa=
+p
+> > > file. In other words, you really need a per cgroup swap file list.
+> >
+> > Why is that a problem?
+>
+> It is not a problem. It is the necessary infrastructure to support the
+> requirement. I am merely saying just having one swap file is not
+> enough.
+>
+> >
+> > swapon(zram, cgroup=3Dfoo)
+> > swapon(hdd, cgroup=3Dfoo)
+>
+> Interesting idea. I assume you want to use swapon/swapoff to turn on
+> off a device for a specific cgroup.
+> That seems to implite each cgroup will have a private copy of the swap
+> device list.
+>
+> I have considered the memory.swap.tiers for the same thing, with one
+> minor optimization. The list is system wide maintained with a name.
+> The per cgroup just has a pointer to that named list. There shouldn't
+> be too many such lists of swap back end combinations on the system.
+>
+> We are getting into the weeds. The bottom line is, we need to have per
+> cgroup a swap file list. That is the necessary evil we can't get away
+> with.
 
-On Wed, 13 Dec 2023 14:34:22 +0200, Amir Goldstein wrote:
-> Fix some indentation issues and fix missing newlines in quoted text
-> by converting quoted text to code blocks.
-> 
-> Unindent a) b) enumerated list to workaround github displaying it
-> as numbered list.
+Highly agree. This is getting waaayyyy too deep into the weeds, and
+the conversation has practically spiralled out of the original
+intention of this patch - its purported problem and proposed solution.
 
-I don't think we need to work around github's weird behavior around
-enumerated lists.  What matters for us is what Sphinx (+ our own
-extensions) ends up generating.
+Not to say that none of this is useful, but I sense that we first need
+to do the following:
 
-The corresponding html page rendered by Sphinx is at:
-https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html#permission-model
+a) List out the requirements that the new interface has to support:
+the tiers made available to the cgroup, hierarchical structure (i.e do
+we want a tier list to have more than 1 non-zswap level? Maybe we
+won't need it after all, in which case the swapon solution is perhaps
+sufficient).
+b) Carefully evaluate the proposed candidates. It could be an altered
+memory.swap.tiers, or an extended swapon/swapoff.
 
-It does not look perfect, but at least it preserves enumeration by
-number and alphabet.
+Perhaps we should organize a separate meeting or email thread to
+discuss this in detail, and write out proposed solutions for everyone
+to evaluate. In the meantime, I think that we should merge this new
+knob as-is.
 
-I'd suggest reporting github about the minor breakage of their
-rst renderer.
-
-Further comments below:
-
-> 
-> Reported-by: Christian Brauner <brauner@kernel.org>
-> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
->  Documentation/filesystems/overlayfs.rst | 63 +++++++++++++------------
->  1 file changed, 32 insertions(+), 31 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
-> index 926396fdc5eb..a36f3a2a2d4b 100644
-> --- a/Documentation/filesystems/overlayfs.rst
-> +++ b/Documentation/filesystems/overlayfs.rst
-> @@ -118,7 +118,7 @@ Where both upper and lower objects are directories, a merged directory
->  is formed.
->  
->  At mount time, the two directories given as mount options "lowerdir" and
-> -"upperdir" are combined into a merged directory:
-> +"upperdir" are combined into a merged directory::
->  
->    mount -t overlay overlay -olowerdir=/lower,upperdir=/upper,\
->    workdir=/work /merged
-> @@ -174,10 +174,10 @@ programs.
->  seek offsets are assigned sequentially when the directories are read.
->  Thus if
->  
-> -  - read part of a directory
-> -  - remember an offset, and close the directory
-> -  - re-open the directory some time later
-> -  - seek to the remembered offset
-> +- read part of a directory
-> +- remember an offset, and close the directory
-> +- re-open the directory some time later
-> +- seek to the remembered offset
-
-To my eyes, unindent spoils the readability of this file as pure
-plain text.  Please don't do this.
-
->  
->  there may be little correlation between the old and new locations in
->  the list of filenames, particularly if anything has changed in the
-> @@ -285,21 +285,21 @@ Permission model
->  
->  Permission checking in the overlay filesystem follows these principles:
->  
-> - 1) permission check SHOULD return the same result before and after copy up
-> +1) permission check SHOULD return the same result before and after copy up
->  
-> - 2) task creating the overlay mount MUST NOT gain additional privileges
-> +2) task creating the overlay mount MUST NOT gain additional privileges
->  
-> - 3) non-mounting task MAY gain additional privileges through the overlay,
-> - compared to direct access on underlying lower or upper filesystems
-> +3) non-mounting task MAY gain additional privileges through the overlay,
-> +   compared to direct access on underlying lower or upper filesystems
-
-All you need to fix is this adjustment of indent.
-Don't do other unindents please
-
->  
-> -This is achieved by performing two permission checks on each access
-> +This is achieved by performing two permission checks on each access:
->  
-> - a) check if current task is allowed access based on local DAC (owner,
-> -    group, mode and posix acl), as well as MAC checks
-> +a) check if current task is allowed access based on local DAC (owner,
-> +group, mode and posix acl), as well as MAC checks
->  
-> - b) check if mounting task would be allowed real operation on lower or
-> -    upper layer based on underlying filesystem permissions, again including
-> -    MAC checks
-> +b) check if mounting task would be allowed real operation on lower or
-> +upper layer based on underlying filesystem permissions, again including
-> +MAC checks
-
-Your workaround harms the readability very badly.
-Don't break the construct of enumerated (or numbered) list in rst.
-
-For the specification of enumerated list, please see:
-
-https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#enumerated-lists
-
-If there is a rst parser who fails to recognize some of the defined
-list structure, fix such a parser please!
-
->  
->  Check (a) ensures consistency (1) since owner, group, mode and posix acls
->  are copied up.  On the other hand it can result in server enforced
-> @@ -311,11 +311,11 @@ to create setups where the consistency rule (1) does not hold; normally,
->  however, the mounting task will have sufficient privileges to perform all
->  operations.
->  
-> -Another way to demonstrate this model is drawing parallels between
-> +Another way to demonstrate this model is drawing parallels between::
->  
->    mount -t overlay overlay -olowerdir=/lower,upperdir=/upper,... /merged
->  
-> -and
-> +and::
->  
->    cp -a /lower /upper
->    mount --bind /upper /merged
-> @@ -328,7 +328,7 @@ Multiple lower layers
->  ---------------------
->  
->  Multiple lower layers can now be given using the colon (":") as a
-> -separator character between the directory names.  For example:
-> +separator character between the directory names.  For example::
->  
->    mount -t overlay overlay -olowerdir=/lower1:/lower2:/lower3 /merged
->  
-> @@ -340,13 +340,13 @@ rightmost one and going left.  In the above example lower1 will be the
->  top, lower2 the middle and lower3 the bottom layer.
->  
->  Note: directory names containing colons can be provided as lower layer by
-> -escaping the colons with a single backslash.  For example:
-> +escaping the colons with a single backslash.  For example::
->  
->    mount -t overlay overlay -olowerdir=/a\:lower\:\:dir /merged
->  
->  Since kernel version v6.8, directory names containing colons can also
->  be configured as lower layer using the "lowerdir+" mount options and the
-> -fsconfig syscall from new mount api.  For example:
-> +fsconfig syscall from new mount api.  For example::
->  
->    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/a:lower::dir", 0);
->  
-> @@ -390,11 +390,11 @@ Data-only lower layers
->  With "metacopy" feature enabled, an overlayfs regular file may be a composition
->  of information from up to three different layers:
->  
-> - 1) metadata from a file in the upper layer
-> +1) metadata from a file in the upper layer
->  
-> - 2) st_ino and st_dev object identifier from a file in a lower layer
-> +2) st_ino and st_dev object identifier from a file in a lower layer
->  
-> - 3) data from a file in another lower layer (further below)
-> +3) data from a file in another lower layer (further below)
-
-Ditto.
-
->  
->  The "lower data" file can be on any lower layer, except from the top most
->  lower layer.
-> @@ -405,7 +405,7 @@ A normal lower layer is not allowed to be below a data-only layer, so single
->  colon separators are not allowed to the right of double colon ("::") separators.
->  
->  
-> -For example:
-> +For example::
->  
->    mount -t overlay overlay -olowerdir=/l1:/l2:/l3::/do1::/do2 /merged
->  
-> @@ -419,7 +419,7 @@ to the absolute path of the "lower data" file in the "data-only" lower layer.
->  
->  Since kernel version v6.8, "data-only" lower layers can also be added using
->  the "datadir+" mount options and the fsconfig syscall from new mount api.
-> -For example:
-> +For example::
->  
->    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
->    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
-> @@ -429,7 +429,7 @@ For example:
->  
->  
->  fs-verity support
-> -----------------------
-> +-----------------
->  
->  During metadata copy up of a lower file, if the source file has
->  fs-verity enabled and overlay verity support is enabled, then the
-> @@ -653,9 +653,10 @@ following rules apply:
->     encode an upper file handle from upper inode
->  
->  The encoded overlay file handle includes:
-> - - Header including path type information (e.g. lower/upper)
-> - - UUID of the underlying filesystem
-> - - Underlying filesystem encoding of underlying inode
-> +
-> +- Header including path type information (e.g. lower/upper)
-> +- UUID of the underlying filesystem
-> +- Underlying filesystem encoding of underlying inode
-
-Ditto.
-
->  
->  This encoding format is identical to the encoding format file handles that
->  are stored in extended attribute "trusted.overlay.origin".
-> @@ -773,9 +774,9 @@ Testsuite
->  There's a testsuite originally developed by David Howells and currently
->  maintained by Amir Goldstein at:
->  
-> -  https://github.com/amir73il/unionmount-testsuite.git
-> +https://github.com/amir73il/unionmount-testsuite.git
->  
-> -Run as root:
-> +Run as root::
->  
->    # cd unionmount-testsuite
->    # ./run --ov --verify
-> -- 
-> 2.34.1
-
-BR,
-Akira
-
+>
+> >
+> > > > In addition, it would naturally solve scalability and isolation
+> > > > problems when multiple containers would otherwise be hammering on t=
+he
+> > > > same swap backends and locks.
+> > > >
+> > > > It would also only require one, relatively simple new interface, su=
+ch
+> > > > as a cgroup parameter to swapon().
+> > > >
+> > > > That's highly preferable over a complex configuration file like
+> > > > memory.swap.tiers that needs to solve all sorts of visibility and
+> > > > namespace issues and duplicate the full configuration interface of
+> > > > every backend in some new, custom syntax.
+> > >
+> > > If you don't like the syntax of memory.swap.tiers, I am open to
+> > > suggestions of your preferred syntax as well. The essicents of the
+> > > swap.tiers is a per cgroup list of the swap back ends. The names impl=
+y
+> > > that. I am not married to any given syntax of how to specify the list=
+.
+> > > Its goal matches the above requirement pretty well.
+> >
+> > Except Minchan said that he would also like different zram parameters
+> > depending on the cgroup.
+>
+> Minchan's requirement is new. We will need to expand the original
+> "memory.swap.tiers" to support such usage.
+>
+> > There is no way we'll add a memory.swap.tiers with a new configuration
+> > language for backend parameters.
+> >
+>
+> I agree that we don't want a complicated configuration language for
+> "memory.swap.tiers".
+>
+> Those backend parameters should be configured on the back end side.
+> The "memory.swap.tiers" just reference the already configured object.
+> Just brainstorming:
+> /dev/zram0 has compression algo1 for fast speed low compression ratio.
+> /dev/zram1 has compression algo2 for slow speed high compression ratio.
+>
+> "memory.swap.tiers" point to zram0 or zram1 or a custom list has "zram0 +=
+ hdd"
+>
+> Chris
