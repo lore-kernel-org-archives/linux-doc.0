@@ -1,143 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BB8CA69;
-	Fri, 15 Dec 2023 06:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE7B134A2
+	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 07:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--davidgow.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LnJu75iL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702622989; x=1734158989;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZgBxIrEgIaVOjnCrN46tvM/6g0EOBBd04UFyN1Vvz6U=;
-  b=LnJu75iLMl4aSDsha7qAbAbsHn/k06f5tof3NM9MH4/ddePuKWDOhFDq
-   12KsA0Tg+8iRWq8actMKwvVQJKtrDU12qIroUzyDYlOsQqfCKe3lIkCVF
-   jmrWfVH4BgCNCNrE9/Na4fY66Np3dlPD0t6LNBQBF2405XnMer8rAxFz4
-   hZxAb3Jt8XUvYAM1TJSNqIgmkt/Gsao1OWHu4HoskNwM5HY/FWZicQK/n
-   QVOdknBlgffoFZdMJTh8mN09uxQ091HZqCi4ezqtH+IH0m/JBm4/UVwyI
-   oN+Ur6RDMhTU27xoFrx0rfzKiSLSXmc3RypJISvuLGYxFaH5a2++F2bRd
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="16789423"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="16789423"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 22:49:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="865290401"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="865290401"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Dec 2023 22:49:46 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rE20D-000NCk-2n;
-	Fri, 15 Dec 2023 06:49:03 +0000
-Date: Fri, 15 Dec 2023 14:48:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] scripts/kernel-doc: restore warning for Excess
- struct/union
-Message-ID: <202312151453.AaH01Gw5-lkp@intel.com>
-References: <20231214070200.24405-1-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l/RaSu98"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-d9a541b720aso251648276.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 23:39:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702625953; x=1703230753; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Mp/8hWJv2G3IEKZLrg9ZmDkM8WmGCalwoEjWRw4iU4I=;
+        b=l/RaSu98NWmILQWuM6rpl6zMyxbpbwNz5KIo9kTWfntjLzb2z3FiQlmQAufrErANHT
+         dDzaj3j7hVnfNg5wnniuA4g2980iXazQa/BeoTi4LPn8KYKVDCtyVxqy1UvgE+kKvwq1
+         /QgqK/pi+sODqBCWmYRmR+dIkrPDWf0bHqoYn4pYa6hVNCRevcnmfBHgmSoFJzRVJpKM
+         s0Gq1ICunwOB0rDco4o3b56lRR79dtn0SbQ4BQU4PoJLjSWqMaAdLcSbNyv6JK2gz6NE
+         UixTZ816jrYR73ON6JMT1BJJEVkCt9z2SOE8ypGbKC02wKDvGMOXj22xfW/3hoZ5xKui
+         4Zpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702625953; x=1703230753;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Mp/8hWJv2G3IEKZLrg9ZmDkM8WmGCalwoEjWRw4iU4I=;
+        b=EpL3iMLxEyzWnG3UPN6RWi8XWpG+5vq0j7RyqRLXsm+DkrfQ3850G7QvfZUAjOCK/o
+         egi8n8kew/POTGLsQG3envOIMCZxUh2/XOXeWKLrPYs4cC3dh/cCeMLRkZrERWs3dSAo
+         N8AnwtclrqW6AswwWwSbyyuSR0Y1urMSoM3yxT59+xSluBnXjGpyctWlJYLyT8XNJcwN
+         ZPNvbdungG/D960FOJ1XRfNp7aTCRwU1ir7EpdHGJXRx1EShGpHLzVe+xYQngGT70/84
+         eD/oGzmzZiWnDWcxfvQRLVe5U4cDVBdxer1ErKMtQ74MDY3aAoMHpmejh5QFkQiyH34a
+         i4WQ==
+X-Gm-Message-State: AOJu0Yy0KXgqQ77ruA/fZFgHgOmO1pG44AlyElPYFKrOHTbhbYPntNHN
+	YlDLU2EXdFqWhrT6mqJK0KECvbjiBzGjqQ==
+X-Google-Smtp-Source: AGHT+IGHET7uXEidWHXMGL3nVLfetoQmh9ZEua39AXsgZMYdcjq38i3NEbBG3nl+MkvvMOLIudj38fXqOB+xkA==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a25:a122:0:b0:dbc:35fe:5e81 with SMTP id
+ z31-20020a25a122000000b00dbc35fe5e81mr102923ybh.12.1702625953359; Thu, 14 Dec
+ 2023 23:39:13 -0800 (PST)
+Date: Fri, 15 Dec 2023 15:39:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231214070200.24405-1-rdunlap@infradead.org>
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAJsCfGUC/2XO0Q6CIBTG8VdxXEcDDqh01Xu01hSOyippUqzmf
+ PfQK1qX3xm//5hJwMlhIIdiJhNGF5wf05C7gpihGXukzqZNBBPAKl7T62t0z0v7CrRpuTYSO1l
+ bQ9L7x4Sde2+t0zntwYWnnz5bOvL1ulW4YCqrRE4ZLUExKC20hsOx976/4d74O1kzUeQ0/0AUi aJWmimrWxDqj0JGucwpJFqhbkRdWWCy/qHLsnwBjE6oShkBAAA=
+X-Mailer: b4 0.13-dev-099c9
+Message-ID: <20231215-kunit_bus-v4-0-4f5160e2f95e@google.com>
+Subject: [PATCH v4 0/5] kunit: Add helpers for creating test-managed devices
+From: davidgow@google.com
+To: Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org, 
+	David Gow <davidgow@google.com>, Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 
-Hi Randy,
+KUnit tests often need to provide a struct device, and thus far have
+mostly been using root_device_register() or platform devices to create
+a 'fake device' for use with, e.g., code which uses device-managed
+resources. This has several disadvantages, including not being designed
+for test use, scattering files in sysfs, and requiring manual teardown
+on test exit, which may not always be possible in case of failure.
 
-kernel test robot noticed the following build warnings:
+Instead, introduce a set of helper functions which allow devices
+(internally a struct kunit_device) to be created and managed by KUnit --
+i.e., they will be automatically unregistered on test exit. These
+helpers can either use a user-provided struct device_driver, or have one
+automatically created and managed by KUnit. In both cases, the device
+lives on a new kunit_bus.
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v6.7-rc5 next-20231215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This is a follow-up to a previous proposal here:
+https://lore.kernel.org/linux-kselftest/20230325043104.3761770-1-davidgow@google.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Randy-Dunlap/scripts-kernel-doc-restore-warning-for-Excess-struct-union/20231214-150722
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20231214070200.24405-1-rdunlap%40infradead.org
-patch subject: [PATCH] scripts/kernel-doc: restore warning for Excess struct/union
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231215/202312151453.AaH01Gw5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312151453.AaH01Gw5-lkp@intel.com/reproduce)
+(The kunit_defer() function in the first patch there has since been
+merged as the 'deferred actions' feature.)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312151453.AaH01Gw5-lkp@intel.com/
+My intention is to take this whole series in via the kselftest/kunit
+branch, but I'm equally okay with splitting up the later patches which
+use this to go via the various subsystem trees in case there are merge
+conflicts.
 
-All warnings (new ones prefixed by >>):
+Cheers,
+-- David
 
->> drivers/mailbox/zynqmp-ipi-mailbox.c:92: warning: Excess struct member 'irq' description in 'zynqmp_ipi_mbox'
->> drivers/mailbox/zynqmp-ipi-mailbox.c:112: warning: Excess struct member 'ipi_mboxes' description in 'zynqmp_ipi_pdata'
---
->> drivers/pinctrl/pinctrl-zynqmp.c:60: warning: Excess struct member 'node' description in 'zynqmp_pmux_function'
---
->> drivers/pwm/pwm-mediatek.c:60: warning: Excess struct member 'clk_freq' description in 'pwm_mediatek_chip'
---
->> drivers/net/ipa/ipa_power.c:71: warning: Excess struct member 'interconnect' description in 'ipa_power'
---
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
---
->> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
+Signed-off-by: David Gow <davidgow@google.com>
+---
+Changes in v4:
+- Update tags, fix a missing Signed-off-by.
+- Link to v3: https://lore.kernel.org/r/20231214-kunit_bus-v3-0-7e9a287d3048@google.com
 
+Changes in v3:
+- Port the DRM tests to these new helpers (Thanks, Maxime!)
+- Include the lib/kunit/device-impl.h file, which was missing from the
+  previous revision.
+- Fix a use-after-free bug in kunit_device_driver_test, which resulted
+  in memory corruption on some clang-built UML builds.
+  - The 'test_state' is now allocated with kunit_kzalloc(), not on the
+    stack, as the stack will be gone when cleanup occurs.
+- Link to v2: https://lore.kernel.org/r/20231208-kunit_bus-v2-0-e95905d9b325@google.com
 
-vim +92 drivers/mailbox/zynqmp-ipi-mailbox.c
+Changes in v2:
+- Simplify device/driver/bus matching, removing the no-longer-required
+  kunit_bus_match function. (Thanks, Greg)
+- The return values are both more consistent (kunit_device_register now
+  returns an explicit error pointer, rather than failing the test), and
+  better documented.
+- Add some basic documentation to the implementations as well as the
+  headers. The documentation in the headers is still more complete, and
+  is now properly compiled into the HTML documentation (under
+  dev-tools/kunit/api/resources.html). (Thanks, Matti)
+- Moved the internal-only kunit_bus_init() function to a private header,
+  lib/kunit/device-impl.h to avoid polluting the public headers, and
+  match other internal-only headers. (Thanks, Greg)
+- Alphabetise KUnit includes in other test modules. (Thanks, Amadeusz.)
+- Several code cleanups, particularly around error handling and
+  allocation. (Thanks Greg, Maxime)
+- Several const-correctness and casting improvements. (Thanks, Greg)
+- Added a new test to verify KUnit cleanup triggers device cleanup.
+  (Thanks, Maxime).
+- Improved the user-specified device test to verify that probe/remove
+  hooks are called correctly. (Thanks, Maxime).
+- The overflow test no-longer needlessly calls
+  kunit_device_unregister().
+- Several other minor cleanups and documentation improvements, which
+  hopefully make this a bit clearer and more robust.
+- Link to v1: https://lore.kernel.org/r/20231205-kunit_bus-v1-0-635036d3bc13@google.com
 
-4981b82ba2ff87d Wendy Liang 2019-02-21   74  
-4981b82ba2ff87d Wendy Liang 2019-02-21   75  /**
-4981b82ba2ff87d Wendy Liang 2019-02-21   76   * struct zynqmp_ipi_mbox - Description of a ZynqMP IPI mailbox
-4981b82ba2ff87d Wendy Liang 2019-02-21   77   *                          platform data.
-4981b82ba2ff87d Wendy Liang 2019-02-21   78   * @pdata:		  pointer to the IPI private data
-4981b82ba2ff87d Wendy Liang 2019-02-21   79   * @dev:                  device pointer corresponding to the Xilinx ZynqMP
-4981b82ba2ff87d Wendy Liang 2019-02-21   80   *                        IPI mailbox
-4981b82ba2ff87d Wendy Liang 2019-02-21   81   * @remote_id:            remote IPI agent ID
-4981b82ba2ff87d Wendy Liang 2019-02-21   82   * @mbox:                 mailbox Controller
-4981b82ba2ff87d Wendy Liang 2019-02-21   83   * @mchans:               array for channels, tx channel and rx channel.
-4981b82ba2ff87d Wendy Liang 2019-02-21   84   * @irq:                  IPI agent interrupt ID
-4981b82ba2ff87d Wendy Liang 2019-02-21   85   */
-4981b82ba2ff87d Wendy Liang 2019-02-21   86  struct zynqmp_ipi_mbox {
-4981b82ba2ff87d Wendy Liang 2019-02-21   87  	struct zynqmp_ipi_pdata *pdata;
-4981b82ba2ff87d Wendy Liang 2019-02-21   88  	struct device dev;
-4981b82ba2ff87d Wendy Liang 2019-02-21   89  	u32 remote_id;
-4981b82ba2ff87d Wendy Liang 2019-02-21   90  	struct mbox_controller mbox;
-4981b82ba2ff87d Wendy Liang 2019-02-21   91  	struct zynqmp_ipi_mchan mchans[2];
-4981b82ba2ff87d Wendy Liang 2019-02-21  @92  };
-4981b82ba2ff87d Wendy Liang 2019-02-21   93  
-4981b82ba2ff87d Wendy Liang 2019-02-21   94  /**
-4981b82ba2ff87d Wendy Liang 2019-02-21   95   * struct zynqmp_ipi_pdata - Description of z ZynqMP IPI agent platform data.
-4981b82ba2ff87d Wendy Liang 2019-02-21   96   *
-4981b82ba2ff87d Wendy Liang 2019-02-21   97   * @dev:                  device pointer corresponding to the Xilinx ZynqMP
-4981b82ba2ff87d Wendy Liang 2019-02-21   98   *                        IPI agent
-4981b82ba2ff87d Wendy Liang 2019-02-21   99   * @irq:                  IPI agent interrupt ID
-4981b82ba2ff87d Wendy Liang 2019-02-21  100   * @method:               IPI SMC or HVC is going to be used
-4981b82ba2ff87d Wendy Liang 2019-02-21  101   * @local_id:             local IPI agent ID
-4981b82ba2ff87d Wendy Liang 2019-02-21  102   * @num_mboxes:           number of mailboxes of this IPI agent
-4981b82ba2ff87d Wendy Liang 2019-02-21  103   * @ipi_mboxes:           IPI mailboxes of this IPI agent
-4981b82ba2ff87d Wendy Liang 2019-02-21  104   */
-4981b82ba2ff87d Wendy Liang 2019-02-21  105  struct zynqmp_ipi_pdata {
-4981b82ba2ff87d Wendy Liang 2019-02-21  106  	struct device *dev;
-4981b82ba2ff87d Wendy Liang 2019-02-21  107  	int irq;
-4981b82ba2ff87d Wendy Liang 2019-02-21  108  	unsigned int method;
-4981b82ba2ff87d Wendy Liang 2019-02-21  109  	u32 local_id;
-4981b82ba2ff87d Wendy Liang 2019-02-21  110  	int num_mboxes;
-c5225cd073c65a6 Kees Cook   2023-09-22  111  	struct zynqmp_ipi_mbox ipi_mboxes[] __counted_by(num_mboxes);
-4981b82ba2ff87d Wendy Liang 2019-02-21 @112  };
-4981b82ba2ff87d Wendy Liang 2019-02-21  113  
+---
+David Gow (4):
+      kunit: Add APIs for managing devices
+      fortify: test: Use kunit_device
+      overflow: Replace fake root_device with kunit_device
+      ASoC: topology: Replace fake root_device with kunit_device in tests
 
+Maxime Ripard (1):
+      drm/tests: Switch to kunit devices
+
+ Documentation/dev-tools/kunit/api/resource.rst |   9 ++
+ Documentation/dev-tools/kunit/usage.rst        |  50 +++++++
+ drivers/gpu/drm/tests/drm_kunit_helpers.c      |  66 +--------
+ include/kunit/device.h                         |  80 +++++++++++
+ lib/fortify_kunit.c                            |   5 +-
+ lib/kunit/Makefile                             |   3 +-
+ lib/kunit/device-impl.h                        |  17 +++
+ lib/kunit/device.c                             | 181 +++++++++++++++++++++++++
+ lib/kunit/kunit-test.c                         | 134 +++++++++++++++++-
+ lib/kunit/test.c                               |   3 +
+ lib/overflow_kunit.c                           |   5 +-
+ sound/soc/soc-topology-test.c                  |  10 +-
+ 12 files changed, 485 insertions(+), 78 deletions(-)
+---
+base-commit: b285ba6f8cc1b2bfece0b4350fdb92c8780bc698
+change-id: 20230718-kunit_bus-ab19c4ef48dc
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+David Gow <davidgow@google.com>
+
