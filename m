@@ -1,132 +1,112 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62249846C;
-	Fri, 15 Dec 2023 06:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674F1CA7B
+	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 06:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Tdbx2iqr"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BF3lJrM016521;
-	Fri, 15 Dec 2023 06:30:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=4dgoJSL6fpykBgSPTc+vnHIGdRnJHEe3ikKjD/45brs=; b=Td
-	bx2iqr3yVwMYLRyNhV49MnRHEU7H8fyTv0Ot4pf14Y1ESOMCSxgvK80zkXYg/es4
-	pG2Rwh4V5vm/xLNmwEPsJkgSHt2UJ92Ff/ggrZmrF4d6UFMkj3D227P0eEpntMAR
-	HLox28coARkRUEe0L/VPDhB0WE4ttd8yJuyYXThWaG1nsh75h/yMmOSxq1mjUiY9
-	D3SwwNoo9LL10jCtmksax6Ja8r5oVmBuAB4+mS1v1qmrYnJlHqJi/ZRhVHvJmll3
-	Dfexa4WhQ2/Z76ihIVGQmP3epVw9KwDkkgHmVxSVCIdHwnZI8D2LZZ72tFeb6lGv
-	Ig+87xM1zosMrBqoCSKw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0a37h592-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 06:30:15 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BF6UDCI015491
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 06:30:13 GMT
-Received: from [10.253.13.71] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 14 Dec
- 2023 22:30:02 -0800
-Message-ID: <c2a8c9e5-b9f0-41ec-b9a7-90f28b17a09c@quicinc.com>
-Date: Fri, 15 Dec 2023 14:29:59 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jx5Cc55t"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-20335dcec64so279739fac.3
+        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 22:48:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702622906; x=1703227706; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PmEAkrgNM0PL5WdA7i6ZA6lF8xdUr9x9GVAMkOS4s1w=;
+        b=jx5Cc55tgey7C0NN36E0sZ/RDXcIMkmRyug9GiPrYLi7Z4UYiMT/DHvy1CVx7ZReDM
+         8HZY1Xw5nsHBPTcEmkpoMXEqPCjfjJkx/EhMsyUmx1yQKTsg6863//t4lf1W+T+77Rg2
+         JWI+yO3RXfVD01NN2wIDI5l028tYvt03DTRPxNaasyToxmCJmFVNrp6VaeBi3o7iAfSa
+         oEEl1BN9acYITlb/myjP8UinxkhJINn4oJfVb+4uV5MfbPL49aISWZ7chGrIXg3sh8tE
+         6LCSela14EHc3/YguvWB/dP0CvvGDcMQ+H8wTlUvtmvFUDiVZ5qTFkGozoG5r8SwN/9G
+         O5Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702622906; x=1703227706;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PmEAkrgNM0PL5WdA7i6ZA6lF8xdUr9x9GVAMkOS4s1w=;
+        b=MixLBUbMImWgq3GgT0iZOm5RQhrTHuiF8/v5bEavA5iEpuCD2Jx2HFOutc3nypefC0
+         P41q6PmOwTR1Wn0m0zFuwojQJNsGEJEaZdnTksEfzPW/Q4GXS0CAenJKva04JQF1PJZ1
+         YXMskFl7mitLpwnph4Ox1Gl4R832LhRlP3mbPkweBj5/V89eTCHi2cLCgyJ+y6GKVaxA
+         9HZrvDIGZG0ta94xpEbl7SzvlbsEjvXKfE15DZPGSxfCNgAAGR4eclI11C0Jynf1siOO
+         OY77DtuVLR/c7zt2D7gpOpy32Tb7sMHhtpp03pooOl6JKff9/zWuxSjOxqqGI5HJ7x97
+         fDvw==
+X-Gm-Message-State: AOJu0YztARTlhTZ9dTmzphgshjo7mSw5m/Zy1uC6lH8mxe/e54Nn8DbY
+	GRDgDa/kYAfSiBA/8qT1lUfD/A==
+X-Google-Smtp-Source: AGHT+IFF4pgJFftiq7yKmL80+d1+bU6Ppn8xJ+TEx/o2lA/bgMlgVvDWbdcT34R47MQjZdXWfyNI/A==
+X-Received: by 2002:a05:6870:514c:b0:203:62ca:abb4 with SMTP id z12-20020a056870514c00b0020362caabb4mr1162582oak.51.1702622906411;
+        Thu, 14 Dec 2023 22:48:26 -0800 (PST)
+Received: from localhost ([122.172.82.6])
+        by smtp.gmail.com with ESMTPSA id y65-20020a636444000000b005b18c53d73csm12449556pgb.16.2023.12.14.22.48.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 22:48:25 -0800 (PST)
+Date: Fri, 15 Dec 2023 12:18:23 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Tiago Lam <tiagolam@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to
+ build directory
+Message-ID: <20231215064823.ltm55fk4zclsuuwq@vireshk-i7>
+References: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
+ <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com>
+ <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/14] net: phy: at803x: add QCA8084 ethernet phy
- support
-To: Andrew Lunn <andrew@lunn.ch>
-CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
-        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>,
-        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20231214094813.24690-1-quic_luoj@quicinc.com>
- <20231214094813.24690-4-quic_luoj@quicinc.com>
- <c05e4756-0b33-4c97-ba88-1e14f459bbe3@lunn.ch>
-Content-Language: en-US
-From: Jie Luo <quic_luoj@quicinc.com>
-In-Reply-To: <c05e4756-0b33-4c97-ba88-1e14f459bbe3@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: T7nOZWFxGJjt3Xo-tT9FfbcX0DJIm-Et
-X-Proofpoint-ORIG-GUID: T7nOZWFxGJjt3Xo-tT9FfbcX0DJIm-Et
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- malwarescore=0 clxscore=1015 bulkscore=0 adultscore=0 mlxlogscore=999
- spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312150037
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
 
+On 14-12-23, 18:22, Miguel Ojeda wrote:
+> Something like v1 but a bit simpler, e.g. keeping things as they are,
+> but with just a sentence after the command like "If you are building
+> the kernel with `O=`, i.e. specifying an output directory, then you
+> should append `--path <builddir>`." could work.
+> 
+> Or we could just provide a `rustupoverride` Make target to do this for
+> us [1], since we have all the information needed and would be
+> copy-pasteable by everybody. I can send it as a non-mangled patch and
+> then Viresh can redo this one on top using it.
 
+How about this ?
 
-On 12/14/2023 7:01 PM, Andrew Lunn wrote:
-> On Thu, Dec 14, 2023 at 05:48:02PM +0800, Luo Jie wrote:
->> Add qca8084 PHY support, which is four-port PHY with maximum
->> link capability 2.5G, the features of each port is almost same
->> as QCA8081 and slave seed config is not needed.
->>
->> Three kind of interface modes supported by qca8084.
->> PHY_INTERFACE_MODE_10G_QXGMII, PHY_INTERFACE_MODE_2500BASEX and
->> PHY_INTERFACE_MODE_SGMII.
->>
->> The PCS(serdes) and clock are also needed to be configured to
->> bringup qca8084 PHY, which will be added in the pcs driver.
->>
->> The additional CDT configurations used for qca8084.
->>
->> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
->> ---
->>   drivers/net/phy/at803x.c | 49 ++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 49 insertions(+)
->>
->> diff --git a/drivers/net/phy/at803x.c b/drivers/net/phy/at803x.c
->> index 37fb033e1c29..8dfdf2ff56a5 100644
->> --- a/drivers/net/phy/at803x.c
->> +++ b/drivers/net/phy/at803x.c
->> @@ -176,6 +176,7 @@
->>   #define AT8030_PHY_ID_MASK			0xffffffef
->>   
->>   #define QCA8081_PHY_ID				0x004dd101
->> +#define QCA8084_PHY_ID				0x004dd180
->>   
->>   #define QCA8327_A_PHY_ID			0x004dd033
->>   #define QCA8327_B_PHY_ID			0x004dd034
->> @@ -1760,6 +1761,9 @@ static bool qca808x_is_prefer_master(struct phy_device *phydev)
->>   
->>   static bool qca808x_has_fast_retrain_or_slave_seed(struct phy_device *phydev)
->>   {
->> +	if (phydev_id_compare(phydev, QCA8084_PHY_ID))
->> +		return false;
->> +
->>   	return linkmode_test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->supported);
->>   }
-> 
-> 
-> It looks like these patches need rebasing on net-next/main. It appears
-> you are missing Christians patches.
-> 
-> 
->      Andrew
-> 
-> ---
-> pw-bot: cr
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+index f382914f4191..367b06f3edc2 100644
+--- a/Documentation/rust/quick-start.rst
++++ b/Documentation/rust/quick-start.rst
+@@ -39,8 +39,17 @@ If ``rustup`` is being used, enter the checked out source code directory
+        rustup override set $(scripts/min-tool-version.sh rustc)
 
-Oh, Yes, i will update the patch set based on the latest code, thanks.
+ This will configure your working directory to use the correct version of
+-``rustc`` without affecting your default toolchain. If you are not using
+-``rustup``, fetch a standalone installer from:
++``rustc`` without affecting your default toolchain.
++
++If you are building the kernel with `O=`, i.e. specifying an output
++directory, then you should append `--path <builddir>` to the above
++command.
++
++Alternatively, you can use the ``rustupoverride`` Make target::
++
++       make LLVM=1 O=<builddir> rustupoverride
++
++If you are not using ``rustup``, fetch a standalone installer from:
 
+        https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
+
+-- 
+viresh
