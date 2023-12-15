@@ -1,39 +1,49 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643C82D791;
-	Fri, 15 Dec 2023 12:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC082DB7C;
+	Fri, 15 Dec 2023 12:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Gvf7xjmi"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFBCEd3006980;
-	Fri, 15 Dec 2023 12:17:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=SjAc9xSwFEvgxE2XF2soQP8TSLGd94LVavcRIIRlmP4=; b=Gv
-	f7xjmi5EJtNjwvC4i/E3TvF8ZruBPA9bZr1DWd4Bw2TNpVP7j91Hzj2BnaT2IIkU
-	v4RBcgufIs4Z4lhgFmsTFozJsMZkt1dEBlvGAUpWkYc/nAVOo6yyiZWxNkotgte1
-	RgKIVaq1NYlUrZHX2Bv4KHJTgKXDDM8orIc41CqucffWT/zmL+ligmsMqAxcXj/S
-	epTyFjUUGUP/bQouEvZC0U5eGdmtYdDglrFbvhEVuFwsWugjD+s516QOj4BniSSw
-	ndBjUY0XnNHuTFC8W58fxDa98ltWF0vYRKoaYVq3aWVFKUjivihiDQkTYAzmbJeC
-	DtYdfNTFxwM8T9npy86A==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v05jqj821-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 12:17:13 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFCH2mF027677
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 12:17:02 GMT
-Received: from [10.253.13.71] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 15 Dec
- 2023 04:16:58 -0800
-Message-ID: <ed0dd288-be8a-4161-a19f-2d4d2d17b3ec@quicinc.com>
-Date: Fri, 15 Dec 2023 20:16:53 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DmX9l7FB"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c317723a8so6794825e9.3;
+        Fri, 15 Dec 2023 04:19:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702642754; x=1703247554; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=41+GVLZsgV+iwi5QTOwkFDVHQDnIoq3Z4EC1ZUUFgoA=;
+        b=DmX9l7FBqYIr1g/Sk3FVZB0rY35NvaI5zgwebMuUOQxdtXE1homqBRveMG8/ARQs2J
+         rzRdgden3X+yjXRArRkT4s3Ghx9yAD+w/WRabL58v9ZnTlmOlmNcozOxROOdgnar91O+
+         Af4nir0sHpwTpHV4C+LkdMKXepg4rKT2WML6QrnMdvUbM88u+OvtEkaL3LARuS+bxPKN
+         kEmMCHXOIAQGaHaVG5UQTJROGycazCpALcBhPWD6DUNtWm+yGzj7BnB7dQrgz+BIudh5
+         sC00fz/hsCd9F7d0B9EYpwOpPsE72T7NLPsHSvGdvM958lMWiVFP3A5xLCv4u0LUE58Q
+         L8iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702642754; x=1703247554;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=41+GVLZsgV+iwi5QTOwkFDVHQDnIoq3Z4EC1ZUUFgoA=;
+        b=T7BkOW1iehHCOv+YzGxxiOihVcMOcu78p8Qu0RMsMdLyn9yPrgv9xV1NedcK2TZEYG
+         Ux5qt8KRuu+Bu33sfst5NsalKwcrhd9qpxsFtTayR0bor/CQgFsBatgBX+ikkwNdKnz8
+         Z1VBC0zN0Q8hZyH+I7y0xiv4SDDD6cjE6gPi+ODGXylIC9+TgboTycF62vu3iYUz+Chc
+         xZSMe/zraW6Dt3NNpWy6uagWNQ1c5i2RFha4zpUYNnY2uad6NpHhAxGE11C4F+aKt8in
+         9wBExB1dGi8IvL4eJYVX2SLNvK5uTlqK0EWC/tTu0EqmXT/m0JtZp/4QRzpz++y2H4Ff
+         /8bQ==
+X-Gm-Message-State: AOJu0YxIANzsDO99KpdvsWGDlfbHINr5glMhiZD4rIPAqvbiD7kAu6CL
+	EfWSBlnPkdjNcsW8peFvHg==
+X-Google-Smtp-Source: AGHT+IGI2dE69kkG258zfN51SRFpGuftFM9SNvx7L9cnUX/M8VwkIC8vuYnRhGinWblxWJOn6HrtGw==
+X-Received: by 2002:a05:600c:4f02:b0:40b:5e59:c582 with SMTP id l2-20020a05600c4f0200b0040b5e59c582mr6071154wmq.172.1702642753726;
+        Fri, 15 Dec 2023 04:19:13 -0800 (PST)
+Received: from [192.168.1.148] (224.69.114.89.rev.vodafone.pt. [89.114.69.224])
+        by smtp.googlemail.com with ESMTPSA id x15-20020adfec0f000000b00336468b986esm4555704wrn.96.2023.12.15.04.19.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Dec 2023 04:19:13 -0800 (PST)
+Message-ID: <5f16fbbf-e14e-4c26-b2e0-d9cad559f828@gmail.com>
+Date: Fri, 15 Dec 2023 12:19:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,61 +51,44 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
- properties
-Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
-        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>,
-        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20231215074005.26976-1-quic_luoj@quicinc.com>
- <20231215074005.26976-15-quic_luoj@quicinc.com>
- <bdfba8a7-9197-4aae-a7f9-6075a375f60b@linaro.org>
- <c3391e33-e770-4c61-855e-d90e82b95f75@quicinc.com>
- <4cb2bd57-f3d3-49f9-9c02-a922fd270572@lunn.ch>
-From: Jie Luo <quic_luoj@quicinc.com>
-In-Reply-To: <4cb2bd57-f3d3-49f9-9c02-a922fd270572@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to
+ build directory
+Content-Language: en-GB
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
+ <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com>
+ <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
+ <20231215064823.ltm55fk4zclsuuwq@vireshk-i7>
+ <a2aca039-7360-476e-a1b1-e950698cd26b@gmail.com>
+ <20231215112418.usky65sibhbiubyx@vireshk-i7>
+From: Tiago Lam <tiagolam@gmail.com>
+In-Reply-To: <20231215112418.usky65sibhbiubyx@vireshk-i7>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: rgb4cnH8aUEOEI7Fs_2SOUQ8LW9gJqBD
-X-Proofpoint-GUID: rgb4cnH8aUEOEI7Fs_2SOUQ8LW9gJqBD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=958 lowpriorityscore=0 adultscore=0 suspectscore=0 spamscore=0
- mlxscore=0 clxscore=1015 impostorscore=0 phishscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312150082
 
+On 15/12/2023 11:24, Viresh Kumar wrote:
 
+[...]
 
-On 12/15/2023 7:25 PM, Andrew Lunn wrote:
->> The "maxItems: 1" of the property resets is defined in ethernet-phy.yaml
->> that is referenced by qca,ar803x.yaml, but i have 11 reset instances
->> used for qca8084 PHY
-> 
-> 11!?!?? Really? Why?
-> 
-> I assume the order and timer matters, otherwise why would you need
-> 11? So the PHY driver needs to handle this, not phylib framework. So
-> you will be adding vendor properties to describe all 11 of them. So
-> ethernet-phy.yaml does not matter.
-> 
-> 	Andrew
+> Will this still work if we are in the build directory ?
 
-Since these resets need to be configured in the special sequence, and
-these clocks need to be configured with different clock rate.
+I've tried it and it does work. The build directory that's set up with 
+`O=` ends up with a Makefile with an `include` to the original Makefile 
+in my main linux source:
+	include $MY_WORKSPACE/linux/Makefile
 
-But the clock instance get, the property name is fixed to "clock-names"
-according to the function of_parse_clkspec, and the reset property name
-is also fixed to "reset-names" from function __of_reset_control_get.
+(But see Miguel's reply about dropping the mention to "enter ..." 
+altogether)
+
+Tiago.
