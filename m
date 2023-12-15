@@ -1,199 +1,160 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CD91DDEB
-	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 22:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96C218EBB;
+	Fri, 15 Dec 2023 23:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2x7HTmy/"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c32bea30dso20135e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 14:48:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702680511; x=1703285311; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nbI008FwkAGh6OQKmN5oST6SiRX3AZBUL7LLv+QG9V0=;
-        b=2x7HTmy/Y0wkJsdO8FH2y/FOE6L/xsfTjUTDHTYgcuzoM/fSetZVC4X/FNCHQ/NLaJ
-         sdf3aPoD/jH+nO8zmiuf8dkrsdd8eX7aSO+Cm7iN9eusGEKYW/BCisKFY+OC5tFO+BzN
-         B56nT91cWFgPKDHBnixf1z4bKzoWLhfZHd3EXkOaHIEJA6eQ+6vT8PkCDkg75xVnEoxN
-         rQ/sd0JW4Z6/94Fw1ksF/Nm5NX9QpXO9mQdLzYqymZ6rL1zEiG/SfeHUJ6XhaAd6SuJa
-         kx/2HmN5Krrff9bDE6CRUDkGhFRqoqR9Z7n2Svh+FOJl3qxxPKwDb9JT3R3x5U+7eNsC
-         Tpnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702680511; x=1703285311;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nbI008FwkAGh6OQKmN5oST6SiRX3AZBUL7LLv+QG9V0=;
-        b=NZiuu2pAYsYfqwHrSllujY/K+339+apfeRLyMcQrlWLnfy05YV/+UqiZlcfgWqo3QH
-         D0uWGV50jnhmTeUlrcRJ/GRBLaNdubdWcTDyPdpA1+1G2IS1kXgawSjCpXgcak6Ghzwu
-         Fzgne37hcVXoFBgGh2T1bAfS+UaxwZ4UilnO+E2q7DhmKyY8os9lVF1Aa1/kH3InWzX1
-         aX6fYlRz3wX0Klu5rpeFv+2SuHXwc/+RWmmRfnXRtcNEv8n9HC3OONZ3TMIK1URJaaqb
-         ftiOn2fnrqF7C5Woym9/fcFEOmRUbxjPoDA8hZLMmwE2cypEFAr4PqD+5leyHxaSTXsA
-         pg1Q==
-X-Gm-Message-State: AOJu0YxF6rT83lyoiQHx5myDljZHuDV+C6/gpiPs0AYrLSiatp0gDiwJ
-	y/ulHyBLyH+CJYQRKaIq8hR6dtdVPmhLJbLnyyOXABNtQTx1
-X-Google-Smtp-Source: AGHT+IEH+Qv9RSKhq/9jfnZdW9wTtoZNpMp0oTYJLHBu5gyf33Rz+fOC//89NFuG+KLCZxxYdvGGUhPx3em0gRZM++U=
-X-Received: by 2002:a05:600c:1c28:b0:40a:483f:f828 with SMTP id
- j40-20020a05600c1c2800b0040a483ff828mr46852wms.4.1702680510823; Fri, 15 Dec
- 2023 14:48:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="h+cEf6MO"
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 3BFN8irZ3824298
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Fri, 15 Dec 2023 15:08:45 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 3BFN8irZ3824298
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2023121201; t=1702681726;
+	bh=zgvkvr2wAC+nbGpkd8sLz2JLpxtG57LppdMk0TZzvCc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=h+cEf6MO+kefgcpVJ4+hU4ca07c87QD4KYrjihnFfnA/jzdZ2gpBBuHJNTcSlQyaf
+	 2U4W1hyK6TzffwaTs/2P2B28cIaGzNL0VjRErAO2Omhpmxvs1MEroEwKVsxvdinFDc
+	 KUVykmw58qXoy7JH3DdKSeI2Kzzxqb232zx0DipoqeFGp0ditTSS6GLt2CeCzFrIN1
+	 4iFpN/PxIdGehvz2o9Dcb11WxEAipyCdujXVim0D/tRI+i2FU6/tw2M6LfH1N2mgkf
+	 qz2jCABq6Yz4ZFwsQMZPwEx6VGF2WBkqbH7RAks2iIdzabDiinXTP4+/3UXBeM2KHM
+	 kHUhrXwn803QQ==
+Date: Fri, 15 Dec 2023 15:08:40 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Dave Hansen <dave.hansen@intel.com>, Chris Koch <chrisko@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, linux-doc@vger.kernel.org,
+        x86@kernel.org, linux-kernel@vger.kernel.org
+CC: Cloud Hsu <cloudhsu@google.com>
+Subject: Re: [PATCH] kexec: allocate kernel above bzImage's pref_address
+User-Agent: K-9 Mail for Android
+In-Reply-To: <b086fd82-2989-4987-a3f6-021a4ae9bec4@intel.com>
+References: <20231215190521.3796022-1-chrisko@google.com> <b086fd82-2989-4987-a3f6-021a4ae9bec4@intel.com>
+Message-ID: <C4E02B8F-93B3-44AD-870F-5057E1EF1897@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231215-kunit_bus-v4-0-4f5160e2f95e@google.com> <20231215-kunit_bus-v4-5-4f5160e2f95e@google.com>
-In-Reply-To: <20231215-kunit_bus-v4-5-4f5160e2f95e@google.com>
-From: Rae Moar <rmoar@google.com>
-Date: Fri, 15 Dec 2023 17:48:18 -0500
-Message-ID: <CA+GJov5k35_SLnDXdTOAyrRUStc-fk__u0b6HXshfzLQovOhtQ@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] drm/tests: Switch to kunit devices
-To: davidgow@google.com
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 15, 2023 at 2:39=E2=80=AFAM <davidgow@google.com> wrote:
+On December 15, 2023 1:17:00 PM PST, Dave Hansen <dave=2Ehansen@intel=2Ecom=
+> wrote:
+>On 12/15/23 11:05, Chris Koch wrote:
+>> A relocatable kernel will relocate itself to pref_address if it is
+>> loaded below pref_address=2E This means a booted kernel may be relocati=
+ng
+>> itself to an area with reserved memory on modern systems, potentially
+>> clobbering arbitrary data that may be important to the system=2E
+>>=20
+>> This is often the case, as the default value of PHYSICAL_START is
+>> 0x1000000 and kernels are typically loaded at 0x100000 or above by
+>> bootloaders like iPXE or kexec=2E GRUB behaves like this patch does=2E
+>>=20
+>> Also fixes the documentation around pref_address and PHYSICAL_START to
+>> be accurate=2E
 >
-> From: Maxime Ripard <mripard@kernel.org>
+>Are you reporting a bug and is this a bug fix?  It's not super clear
+>from the changelog=2E
 >
-> Kunit recently gained helpers to create test managed devices. This means
-> that we no longer have to roll our own helpers in KMS and we can reuse
-> them.
+>
+>> diff --git a/Documentation/arch/x86/boot=2Erst b/Documentation/arch/x86=
+/boot=2Erst
+>> index 22cc7a040dae=2E=2E49bea8986620 100644
+>> --- a/Documentation/arch/x86/boot=2Erst
+>> +++ b/Documentation/arch/x86/boot=2Erst
+>> @@ -878,7 +878,8 @@ Protocol:	2=2E10+
+>>    address if possible=2E
+>> =20
+>>    A non-relocatable kernel will unconditionally move itself and to run
+>> -  at this address=2E
+>> +  at this address=2E A relocatable kernel will move itself to this add=
+ress if it
+>> +  loaded below this address=2E
+>
+>I think we should avoid saying the same things over and over again in
+>different spots=2E
+>
+>Here, it doesn't really help to enumerate the different interpretations
+>of 'pref_address'=2E  All that matters is that the bootloader can avoid
+>the overhead of a later copy if it can place the kernel at
+>'pref_address'=2E  The exact reasons that various kernels might decide to
+>relocate are unimportant here=2E
+>
+>>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D
+>>  Field name:	init_size
+>> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+>> index 3762f41bb092=2E=2E1370f43328d7 100644
+>> --- a/arch/x86/Kconfig
+>> +++ b/arch/x86/Kconfig
+>> @@ -2109,11 +2109,11 @@ config PHYSICAL_START
+>>  	help
+>>  	  This gives the physical address where the kernel is loaded=2E
+>> =20
+>> -	  If kernel is a not relocatable (CONFIG_RELOCATABLE=3Dn) then
+>> -	  bzImage will decompress itself to above physical address and
+>> -	  run from there=2E Otherwise, bzImage will run from the address wher=
+e
+>> -	  it has been loaded by the boot loader and will ignore above physica=
+l
+>> -	  address=2E
+>> +	  If the kernel is not relocatable (CONFIG_RELOCATABLE=3Dn) then bzIm=
+age
+>> +	  will decompress itself to above physical address and run from there=
+=2E
+>> +	  Otherwise, bzImage will run from the address where it has been load=
+ed
+>> +	  by the boot loader=2E The only exception is if it is loaded below t=
+he
+>> +	  above physical address, in which case it will relocate itself there=
+=2E
+>
+>I kinda dislike how this is written=2E  It's written almost like code
+>where you're spelling out the conditions=2E  I prefer something much
+>higher-level=2E
+>
+>	This gives a minimum physical address at which the kernel can be
+>	loaded=2E
+>
+>	CONFIG_RELOCATABLE=3Dn kernels will be decompressed to and must
+>	run at PHYSICAL_START exactly=2E
+>
+>	CONFIG_RELOCATABLE=3Dy kernels can run at any address above
+>	PHYSICAL_START=2E  If a kernel is loaded below PHYSICAL_START, it
+>	will relocate itself to PHYSICAL_START=2E
+>
+>>  	  In normal kdump cases one does not have to set/change this option
+>>  	  as now bzImage can be compiled as a completely relocatable image
+>> diff --git a/arch/x86/kernel/kexec-bzimage64=2Ec b/arch/x86/kernel/kexe=
+c-bzimage64=2Ec
+>> index a61c12c01270=2E=2E5dcd232d58bf 100644
+>> --- a/arch/x86/kernel/kexec-bzimage64=2Ec
+>> +++ b/arch/x86/kernel/kexec-bzimage64=2Ec
+>> @@ -498,7 +498,10 @@ static void *bzImage64_load(struct kimage *image, =
+char *kernel,
+>>  	kbuf=2Ebufsz =3D  kernel_len - kern16_size;
+>>  	kbuf=2Ememsz =3D PAGE_ALIGN(header->init_size);
+>>  	kbuf=2Ebuf_align =3D header->kernel_alignment;
+>> -	kbuf=2Ebuf_min =3D MIN_KERNEL_LOAD_ADDR;
+>> +	if (header->pref_address < MIN_KERNEL_LOAD_ADDR)
+>> +		kbuf=2Ebuf_min =3D MIN_KERNEL_LOAD_ADDR;
+>> +	else
+>> +		kbuf=2Ebuf_min =3D header->pref_address;
+>>  	kbuf=2Emem =3D KEXEC_BUF_MEM_UNKNOWN;
+>>  	ret =3D kexec_add_buffer(&kbuf);
+>>  	if (ret)
+>
+>Comment, please=2E
+>
+>It isn't clear from this hunk why or how this fixes the bug=2E  How does
+>this manage to avoid clobbering reserved areas?
 
-Hello!
-
-This looks good to me. Thanks!
-
-Reviewed-by: Rae Moar <rmoar@google.com>
-
--Rae
-
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> Tested-by: David Gow <davidgow@google.com>
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
->  drivers/gpu/drm/tests/drm_kunit_helpers.c | 66 ++-----------------------=
-------
->  1 file changed, 3 insertions(+), 63 deletions(-)
->
-> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/=
-tests/drm_kunit_helpers.c
-> index c251e6b34de0..ca4f8e4c5d5d 100644
-> --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> @@ -5,6 +5,7 @@
->  #include <drm/drm_kunit_helpers.h>
->  #include <drm/drm_managed.h>
->
-> +#include <kunit/device.h>
->  #include <kunit/resource.h>
->
->  #include <linux/device.h>
-> @@ -15,28 +16,6 @@
->  static const struct drm_mode_config_funcs drm_mode_config_funcs =3D {
->  };
->
-> -static int fake_probe(struct platform_device *pdev)
-> -{
-> -       return 0;
-> -}
-> -
-> -static struct platform_driver fake_platform_driver =3D {
-> -       .probe  =3D fake_probe,
-> -       .driver =3D {
-> -               .name   =3D KUNIT_DEVICE_NAME,
-> -       },
-> -};
-> -
-> -KUNIT_DEFINE_ACTION_WRAPPER(kunit_action_platform_driver_unregister,
-> -                           platform_driver_unregister,
-> -                           struct platform_driver *);
-> -KUNIT_DEFINE_ACTION_WRAPPER(kunit_action_platform_device_put,
-> -                           platform_device_put,
-> -                           struct platform_device *);
-> -KUNIT_DEFINE_ACTION_WRAPPER(kunit_action_platform_device_del,
-> -                           platform_device_del,
-> -                           struct platform_device *);
-> -
->  /**
->   * drm_kunit_helper_alloc_device - Allocate a mock device for a KUnit te=
-st
->   * @test: The test context object
-> @@ -54,34 +33,7 @@ KUNIT_DEFINE_ACTION_WRAPPER(kunit_action_platform_devi=
-ce_del,
->   */
->  struct device *drm_kunit_helper_alloc_device(struct kunit *test)
->  {
-> -       struct platform_device *pdev;
-> -       int ret;
-> -
-> -       ret =3D platform_driver_register(&fake_platform_driver);
-> -       KUNIT_ASSERT_EQ(test, ret, 0);
-> -
-> -       ret =3D kunit_add_action_or_reset(test,
-> -                                       kunit_action_platform_driver_unre=
-gister,
-> -                                       &fake_platform_driver);
-> -       KUNIT_ASSERT_EQ(test, ret, 0);
-> -
-> -       pdev =3D platform_device_alloc(KUNIT_DEVICE_NAME, PLATFORM_DEVID_=
-NONE);
-> -       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
-> -
-> -       ret =3D kunit_add_action_or_reset(test,
-> -                                       kunit_action_platform_device_put,
-> -                                       pdev);
-> -       KUNIT_ASSERT_EQ(test, ret, 0);
-> -
-> -       ret =3D platform_device_add(pdev);
-> -       KUNIT_ASSERT_EQ(test, ret, 0);
-> -
-> -       ret =3D kunit_add_action_or_reset(test,
-> -                                       kunit_action_platform_device_del,
-> -                                       pdev);
-> -       KUNIT_ASSERT_EQ(test, ret, 0);
-> -
-> -       return &pdev->dev;
-> +       return kunit_device_register(test, KUNIT_DEVICE_NAME);
->  }
->  EXPORT_SYMBOL_GPL(drm_kunit_helper_alloc_device);
->
-> @@ -94,19 +46,7 @@ EXPORT_SYMBOL_GPL(drm_kunit_helper_alloc_device);
->   */
->  void drm_kunit_helper_free_device(struct kunit *test, struct device *dev=
-)
->  {
-> -       struct platform_device *pdev =3D to_platform_device(dev);
-> -
-> -       kunit_release_action(test,
-> -                            kunit_action_platform_device_del,
-> -                            pdev);
-> -
-> -       kunit_release_action(test,
-> -                            kunit_action_platform_device_put,
-> -                            pdev);
-> -
-> -       kunit_release_action(test,
-> -                            kunit_action_platform_driver_unregister,
-> -                            &fake_platform_driver);
-> +       kunit_device_unregister(test, dev);
->  }
->  EXPORT_SYMBOL_GPL(drm_kunit_helper_free_device);
->
->
-> --
-> 2.43.0.472.g3155946c3a-goog
->
+It is a bug and a bug fix=2E
