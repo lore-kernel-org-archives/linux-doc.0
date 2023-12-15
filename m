@@ -1,40 +1,54 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205CB2DB7E;
-	Fri, 15 Dec 2023 13:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808ED30321;
+	Fri, 15 Dec 2023 13:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="xbHp58+g"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=zcGhs/MR386LURyyPrPAXA8pXRQ9HDSgaEfMslprAcM=; b=xbHp58+graqC9tBpU0Op9Qo4iO
-	tccIY15VinrpgENUDgmioCuVXP+RDvoX/PZ2z4Aq5hpGdb4CGgZQFcsZA2bYg8+ZvMaWGu0BCHbJm
-	mV6xl79t+iVlPSfNX40rJk1Mhf+g6H8fevB7Xt+h7/hkQZg4ApOa6okdiBkx7URoPCmI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rE8HZ-0031fG-0t; Fri, 15 Dec 2023 14:31:13 +0100
-Date: Fri, 15 Dec 2023 14:31:13 +0100
-From: Andrew Lunn <andrew@lunn.ch>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="lG7viCNz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=pv0AaHgjkAy6u95Pj8OOH2/guQb3Aq8ffCZaWiu1IRg=; b=lG7viCNzqAjzgDF7gJwFPmDEJ4
+	LjsCYZjzFLR2bZTBYmuCcgLYwjT2eW9VGwCO+J8AgkzFFivO5Y7jx6u5khrCR4Kkl4tlxWeuARR2b
+	zMIyXm8Iw1VWdmpe0o5eNSF6ZWnuBYXaG/cztXM6PEZZy1ymzgxCUOZO8jZncwaeoMOr4oanxJXn0
+	ll8PMs9VoKw1NBUkvId0gijqpyLdeSttPDx6Hl4oRPmhTqnfP67dt0/H46tVkz+qs4X+J+xnZk4Bs
+	4Ai6ePEieplGWO8h2S/Ebeqd8RRMMEukMDHCztZcjftHBa+R5107awrpcm5Sl6NPywXQdXVA6PY8f
+	/E2uAr8g==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51368)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rE8Sd-0002hd-1H;
+	Fri, 15 Dec 2023 13:42:39 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rE8Sc-0003em-Gu; Fri, 15 Dec 2023 13:42:38 +0000
+Date: Fri, 15 Dec 2023 13:42:38 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
 To: Jie Luo <quic_luoj@quicinc.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+Cc: Andrew Lunn <andrew@lunn.ch>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
 	pabeni@redhat.com, robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, corbet@lwn.net,
-	p.zabel@pengutronix.de, f.fainelli@gmail.com,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+	hkallweit1@gmail.com, corbet@lwn.net, p.zabel@pengutronix.de,
+	f.fainelli@gmail.com, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
 Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
  properties
-Message-ID: <f5c5cbce-c36e-498a-97e2-35f06d927d74@lunn.ch>
+Message-ID: <ZXxXzm8hP68KrXYs@shell.armlinux.org.uk>
 References: <20231215074005.26976-1-quic_luoj@quicinc.com>
  <20231215074005.26976-15-quic_luoj@quicinc.com>
- <60b9081c-76fa-4122-b7ae-5c3dcf7229f9@lunn.ch>
- <a65ad12d-b990-4439-b196-903f4a5f096a@quicinc.com>
+ <bdfba8a7-9197-4aae-a7f9-6075a375f60b@linaro.org>
+ <c3391e33-e770-4c61-855e-d90e82b95f75@quicinc.com>
+ <4cb2bd57-f3d3-49f9-9c02-a922fd270572@lunn.ch>
+ <ed0dd288-be8a-4161-a19f-2d4d2d17b3ec@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,54 +57,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a65ad12d-b990-4439-b196-903f4a5f096a@quicinc.com>
+In-Reply-To: <ed0dd288-be8a-4161-a19f-2d4d2d17b3ec@quicinc.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Fri, Dec 15, 2023 at 08:33:00PM +0800, Jie Luo wrote:
+On Fri, Dec 15, 2023 at 08:16:53PM +0800, Jie Luo wrote:
+> On 12/15/2023 7:25 PM, Andrew Lunn wrote:
+> > > The "maxItems: 1" of the property resets is defined in ethernet-phy.yaml
+> > > that is referenced by qca,ar803x.yaml, but i have 11 reset instances
+> > > used for qca8084 PHY
+> > 
+> > 11!?!?? Really? Why?
+> > 
+> > I assume the order and timer matters, otherwise why would you need
+> > 11? So the PHY driver needs to handle this, not phylib framework. So
+> > you will be adding vendor properties to describe all 11 of them. So
+> > ethernet-phy.yaml does not matter.
+> > 
+> > 	Andrew
 > 
+> Since these resets need to be configured in the special sequence, and
+> these clocks need to be configured with different clock rate.
 > 
-> On 12/15/2023 8:12 PM, Andrew Lunn wrote:
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: APB bridge clock
-> > > +      - description: AHB clock
-> > > +      - description: Security control clock
-> > > +      - description: TLMM clock
-> > > +      - description: TLMM AHB clock
-> > > +      - description: CNOC AHB clock
-> > > +      - description: MDIO AHB clock
-> > > +      - description: MDIO master AHB clock
-> > > +      - description: PCS0 system clock
-> > > +      - description: PCS1 system clock
-> > > +      - description: EPHY0 system clock
-> > > +      - description: EPHY1 system clock
-> > > +      - description: EPHY2 system clock
-> > > +      - description: EPHY3 system clock
+> But the clock instance get, the property name is fixed to "clock-names"
+> according to the function of_parse_clkspec, and the reset property name
+> is also fixed to "reset-names" from function __of_reset_control_get.
 
-> Hi Andrew,
-> These clocks are for the whole PHY package including quad PHYs, since
-> these clocks & resets need to be initialized at one point, i put it
-> the previous MDIO driver code, these clocks & resets are configured
-> after GPIO hardware reset, after these clocks and resets sequences
-> configured, each PHY capabilities can be acquired correctly in the PHY
-> probe function.
+I think you need to give more details about this.
 
-I really expect the hardware is hierarchical. Its unlikely that EPHY0
-is connected to all four PHYs in the package. Its specific to one
-PHY. So it should be in the DT properties for that one specific PHY. I
-expect the resets are the same. It seems there is a soft and hard
-reset per PHY, so i would expect these to be in the node for one PHY.
+Where are these 11 resets located? What is the sequence? Why does the
+PHY driver need to deal with each individual reset?
 
-Do the two PCS instances take up two MDIO address? They can be
-considered devices on the bus, so could have a DT node, and hence you
-can place the PCS clocks on that node?
+IMHO, a PHY driver should _not_ be dealing with the resets outside of
+the PHY device itself, and I find it hard to imagine that qca8084
+would have 11 external resets.
 
-What exactly do the two MDIO clocks do? I assume these are not for the
-MDIO bus master, but the MDIO slave block within the PHY package?
-There is one MDIO slave block shared by the four PHYs. So these are
-package properties and should be in the package node in DT.
+If these are 11 internal resets (to qca8084) then why are you using the
+reset subsystem, and why do you need to describe them in DT? Surely if
+they are internal to the PHY, that can be encapsulated within the PHY
+driver?
 
-Look at all the other clocks and decide, are they package clocks, or
-specific to one block on the MDIO bus? Do the properties go in the
-package node, or the per PHY node?
+This is an example of why it is useful to have an _example_ of the use
+of this binding, because it would answer some of the above questions.
 
-	Andrew
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
