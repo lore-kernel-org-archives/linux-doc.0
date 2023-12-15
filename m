@@ -1,88 +1,144 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AC835884;
-	Fri, 15 Dec 2023 14:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B6235884;
+	Fri, 15 Dec 2023 15:00:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ug3ZjL5M"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Y5+Oppl7Eai1Gazn1zCuzXFdRsqsodfM2YwuFgSvpsg=; b=Ug3ZjL5M6NrwtZt79VjTUklG89
-	p324KBMNXDZ9PyVJL5d9VJQzrpkhVQVjDoPYuBg84iNi5li9ab/Jf8uWuHlKXLSDtNHPWW/61eSe4
-	AG+ddXJDIiYlF83agu24wcF3axsI/tntMA5yMIeT6sJDqV6nLltFlbDLEEfVcQNFPmCIMl1r+Iatd
-	+PnlFxsBbjFN2RzA03CMPm2e/kelhrTuQuFv3wV/5uX5EFXpF2iq3p6UIV30xzQexsNBGx8tcahNa
-	sZE7TnlMcn8x5rc2Z31SeqL7s3LcXHeVHSg/fUmeRdmWC/ytc/ioSHvv/I0y0fkTEsrgZNc2G9MPZ
-	sBCHaH5Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1rE9Ib-000I0J-Tu; Fri, 15 Dec 2023 14:36:22 +0000
-Date: Fri, 15 Dec 2023 14:36:21 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: "Fabio M. De Francesco" <fabio.maria.de.francesco@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Kim Phillips <kim.phillips@amd.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/mm: Describe folios in physical_memory.rst
-Message-ID: <ZXxkZcq4rzlzsiZh@casper.infradead.org>
-References: <20231215120022.2010667-1-fabio.maria.de.francesco@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ThF3UUWw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8CD3C433C8;
+	Fri, 15 Dec 2023 14:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702652405;
+	bh=422PM3fDIpd8XBwXAF/Vr2Tijy2/V6yIm6WwhsorExQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ThF3UUWwGr5c0gG18awOx5DrQRxAPwOOshZh7SWrhMEjGtlJQKezv414UMUQWtogg
+	 HnsI2tu59s1B5g7ry0ZQTMiQwmrK95OYjW9JiQ6MubAahf8tnoIGHG4ZF1g5MM51Ho
+	 Fuyd5f95QOR67Xo2K1+5IQcrm/42yldE3jy4DNl4ppdU048EmnGGuL8meF1yRhb1Vb
+	 LrNl4xg5kA7VxTmTD6d5xMpK4G8SinhZgdQ+byz8MwpizJS6XNp+ezD/RlY5hnqPb5
+	 M/qJhGhNwfiuAs4wEKcr3OTh/1Lt7WuUVP/7vAsp3W1EZLiIXddMPg4h2ayPqcPZD9
+	 deK0um1LZe7kA==
+Date: Fri, 15 Dec 2023 14:59:51 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v7 34/39] kselftest/arm64: Add a GCS test program built
+ with the system libc
+Message-ID: <485b6454-135c-4dd4-b38e-8fb8a02779cd@sirena.org.uk>
+References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
+ <20231122-arm64-gcs-v7-34-201c483bd775@kernel.org>
+ <875y1089i4.fsf@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="M02qk/d68kwsaj1P"
+Content-Disposition: inline
+In-Reply-To: <875y1089i4.fsf@linaro.org>
+X-Cookie: PARDON me, am I speaking ENGLISH?
+
+
+--M02qk/d68kwsaj1P
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231215120022.2010667-1-fabio.maria.de.francesco@linux.intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 15, 2023 at 01:00:12PM +0100, Fabio M. De Francesco wrote:
-> +A folio is a physically, virtually and logically contiguous set of bytes.
-> +It is a power-of-two in size, and it is aligned to that same power-of-two.
-> +It is at least as large as %PAGE_SIZE. If it is in the page cache, it is
-> +at a file offset which is a multiple of that power-of-two. It may be
-> +mapped into userspace at an address which is at an arbitrary page offset,
-> +but its kernel virtual address is aligned to its size.
+On Thu, Dec 14, 2023 at 11:50:11PM -0300, Thiago Jung Bauermann wrote:
+> Mark Brown <broonie@kernel.org> writes:
 
-This text is verbatim from include/linux/mm_types.h.  It seems sad
-to have kernel-doc and then replicate it in an rst file.
+> > +	ret =3D process_vm_writev(child, &local_iov, 1, &remote_iov, 1, 0);
+> > +	if (ret =3D=3D -1)
+> > +		ksft_print_msg("process_vm_readv() failed: %s (%d)\n",
+> > +			       strerror(errno), errno);
 
-> +As Matthew Wilcox explains in his introduction to folios, the need for
+> The comment and the error message say "process_vm_readv()", but the
+> function actually called is process_vm_writev(). Is this intended?
 
-oof, no, don't mention my name.
+No, that's a rebasing issue.
 
-> +`struct folio` arises mostly to address issues with the use of compound
-> +pages. It is often unclear whether a function operates on an individual
-> +page, or an entire compound page.
-> +
-> +"A function which has a `struct page` pointer argument might be
-> +expecting a head or base page and will BUG if given a tail page. It might
-> +work with any kind of page and operate on %PAGE_SIZE bytes. It might work
-> +with any kind of page and operate on page_size() bytes if given a head
-> +page but %PAGE_SIZE bytes if given a base or tail page. It might operate
-> +on page_size() bytes if passed a head or tail page. We have examples of
-> +all of these today.".
-> +
-> +A pointer to folio points to a page that is never a tail page. It
-> +represents an entire compound page. Therefore, there is no need to call
-> +compound_head() to get a pointer to the head. Folios has eliminted the
-> +need to unnecessary calls and has avoided bugs related to the misuse of
-> +pages passed to functions. Furthermore, the inline compound_head() makes
-> +the kernel bigger and slows things down.
-> +
-> +The folio APIs are described in the "Memory Management APIs" document.
+> If I swap process_vm_readv() and process_vm_writev(), then the read
+> succeeds but the write fails:
+>=20
+> #  RUN           global.ptrace_read_write ...
+> # Child: 1996
+> # Child GCSPR 0xffffa7fcffd8, flags 1, locked 0
+> # process_vm_writev() failed: Bad address (14)
+> # libc-gcs.c:291:ptrace_read_write:Expected ret (-1) =3D=3D sizeof(rval) =
+(8)
+> # libc-gcs.c:293:ptrace_read_write:Expected val (281473500358268) =3D=3D =
+ptrace(PTRACE_PEEKDATA, child, (void *)gcspr, NULL) (0)
+> # ptrace_read_write: Test failed at step #1
+> #          FAIL  global.ptrace_read_write
+> not ok 4 global.ptrace_read_write
 
-This was exactly the kind of documentation I was hoping you wouldn't
-write ;-(  It's documentation that makes sense today, but won't in five
-years time.
+Yeah, I did notice something had happened with the writes but didn't
+investigate yet.
 
-We want to say something like,
+> Also, it's strange that the tests defined after map_gcs.stack_overflow
+> don't run when I execute this test program. I'm doing:
 
-A folio represents a single memory allocation.  It may be composed of
-several pages ...
+> $ ./run_kselftest.sh -t arm64:libc-gcs
+
+> I.e., these tests aren't being run in my FVP:
+
+> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, too_small)
+> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_1)
+> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_2)
+> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_3)
+> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_4)
+> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_5)
+> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_6)
+> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_7)
+> > +TEST_F(map_invalid_gcs, do_map)
+> > +FIXTURE_VARIANT_ADD(invalid_mprotect, exec)
+> > +FIXTURE_VARIANT_ADD(invalid_mprotect, bti)
+> > +FIXTURE_VARIANT_ADD(invalid_mprotect, exec_bti)
+> > +TEST_F(invalid_mprotect, do_map)
+> > +TEST_F(invalid_mprotect, do_map_read)
+
+I'm seeing all of those appearing.  I'm not sure what to say there -
+that's all kselftest framework stuff, I'd expect the framework to say
+something about what it's doing if it decides to skip and I can't think
+why it would decide to skip.
+
+--M02qk/d68kwsaj1P
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV8aecACgkQJNaLcl1U
+h9Cx7Qf+NstvmUJDmhKZCiSXybEblR3UfKc2ERXjiJRyMZJYWGE59Aqau43rUxYz
+4oELXv45Jxb9fBX19Ap6W19TxDrGHMHoCW6fuIiqeTu9L1798R0lJi1TuUxnoX2t
+t/s1MqP87pbwKNs60ne9ezvagfQhFFBAYyUepAxrvfPkeUakOwLgsHRwx2bEVsXv
+6SsJJ9hRz7N2FvlP487cWfC5VQkyYjefXQHi/1OrZw1hSkS9a5Hb/Y1vBzacFUbS
+YDYZszJexTXkcRjAngFzHsCBCakK3xpFB1uRPMhrAOj51UDJHHwE4+nX7DUWZaxT
+delEJTYjMd7cGaEpGyDdMnkhQVyM4g==
+=fKsW
+-----END PGP SIGNATURE-----
+
+--M02qk/d68kwsaj1P--
