@@ -1,49 +1,49 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE4C16418
-	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 08:49:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F6116418;
+	Fri, 15 Dec 2023 09:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TIiwaVsV"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-54c7744a93fso465588a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 00:49:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P2U8QJLL"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d336760e72so3505205ad.3;
+        Fri, 15 Dec 2023 01:31:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702630185; x=1703234985; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1702632680; x=1703237480; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WnR1+hD8CRiuBtXrZdhqIxielhfB26flvM64rWZB+bk=;
-        b=TIiwaVsVY0CyJMO2uYuyzs/nqLCjdL2kQshRw9qxg8ETR1FKpO8JPpgNIVB98ykzai
-         ftaYFUnVZHRCjjEHnwBkcoNHo4hAoRCUO1dmIaczoEJz06QadOvHvlam2Jv/sy5sTV0h
-         fixZHARilGD0LAOuK9G6qBcFRor2t2YE2ETIFMAT7FUAn67QMp1+TqwBsR2/o940qCWk
-         Txqk0EZggtWFG7+sOSbAf8pJcItBnGuaqfnp4nk5mklQ8LTpAPdZEeHF3/q0uOOzUJF1
-         zPqq63cl88xvu3tnjy2Fduc6lVXUf7ZxgoGwvM/oOaug1Njz+3Z0JcXKznVvUtwym4tD
-         Avrg==
+        bh=K7iqJF7ogXiJBCw5tuXu9i0pLwH3sdbIqBd0aocB1+s=;
+        b=P2U8QJLLLePTpMV9KQnueD01+3Zui9+7X2Ta6swUQxess4Y2BBQFKJtUq8Lf+xUWTd
+         zjuuO3jM+NelFgpTUnO0fRO17sqpDYqImyLDFUL31sgWQuLqafaRgaS0o1FITp4OpaMS
+         qfRHTaImVmuIhouWAk0Nt7+6jIunSszN2Zhehy4Zn9PGPDv2BoPSQJ4MJ8626uiDoVyV
+         quWYNUkaClTEh1X96/Y/n/RSzc5/JDUpfHxlkaBfd8bW2fJb5R+P5u/7QrSzz7qku9vp
+         W7SJykVSLixEVqZdW65FELAtZ21bpIeWLIwkQY95vas53IZXOBy8nMBrMjXb4Ca8IUNC
+         zFTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702630185; x=1703234985;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1702632680; x=1703237480;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WnR1+hD8CRiuBtXrZdhqIxielhfB26flvM64rWZB+bk=;
-        b=k8z2djzJJ0lx9cJF474FNG1HIRPhpMeWjVSDHJBQ9g78ON4F7vUPlgBz0ebgTkIh4i
-         XdNwjMVMCUahqrEHmts1EbNNUxdrAsmgSTvrNH1XJpjKXuUwyPKzeHw5Vxf5pcZvabTl
-         h+BfioAepMxFwBzeJ7f2n5jku3gf/APczDVnpJf2HLrpXeeQ3FoKZcwW4EYD/1Ph8V7A
-         R1nNWMbYUO7lnSw0TvNEv/+ttv0+HY3s2Cq+gcar0yGrYGp2G1gsYBznzpeSgVjirON/
-         qYURwqGsBrcuh2V0BmqYGxamI/VIVqRb4WqqEAb+dWyzkvQZgZqGze8UE8Dt8I4AQv9z
-         Uc3w==
-X-Gm-Message-State: AOJu0Yw2cdodMruQGt3JP6qnkUGTVKr2YNPk8AkhtubhAF5Pvl0UNf6I
-	5NXNQpk5lfkb0ma+RS8oLANVUA==
-X-Google-Smtp-Source: AGHT+IFleqWwkEcz3GhyaoVFjr7aII6NAHaUYPTS22y4mdbCyVwYHk0TR6crjv+Mih8Rwky5W73ppA==
-X-Received: by 2002:a17:906:1091:b0:a18:bb79:9a0 with SMTP id u17-20020a170906109100b00a18bb7909a0mr4317292eju.58.1702630185160;
-        Fri, 15 Dec 2023 00:49:45 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id tx27-20020a1709078e9b00b00a1c85124b08sm10633350ejc.94.2023.12.15.00.49.43
+        bh=K7iqJF7ogXiJBCw5tuXu9i0pLwH3sdbIqBd0aocB1+s=;
+        b=ht+FX0zuzSKTfdmc6xUlx2GpEK/E+cYqXO+2nv7u4WPqFfC8M7daKt9hLEtGyfQaWL
+         3nS4KU0ZN5LzljVZ3enrTapoDlRf+uqXdmVKhr1DUHqfPsF77K97E7P7RjCiwnNSEZNw
+         pv0KBTbZiJQ10uqp7KyVXa8uY2LRIz5B9iKtxj37i8h+PodgRGlOOHP2WAOt+OlDj9pO
+         9/UKdkd42RI617XUH3ruBrIEmmOGmYWUwVZDs6whaJC8X8E27PQlUjxHMox7yeDC4kwH
+         xitNBQuWKSrO/8dlDhSIafEuz2jzFDi+sSTO0Hev9l+Cger5ToUECZnlb+7LKL7nQRIA
+         wQIQ==
+X-Gm-Message-State: AOJu0YxePgjogFbGuUuL+C/OOIkP713GSXbp/1j57pg2gjqHCfUXwGng
+	IgCS/1COcJ2Wph8QZJ3/rqQ=
+X-Google-Smtp-Source: AGHT+IEZxbAiNkrXoxH0YushmR4Mkme/ry8WkVfrkB59YyIn2OzA8qVJsL9ZsiYSCrzPYA4/EuE6oA==
+X-Received: by 2002:a17:902:654a:b0:1d3:5b35:543a with SMTP id d10-20020a170902654a00b001d35b35543amr3363812pln.109.1702632680375;
+        Fri, 15 Dec 2023 01:31:20 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id w8-20020a170902e88800b001d0ce267eaesm13859572plg.250.2023.12.15.01.31.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Dec 2023 00:49:44 -0800 (PST)
-Message-ID: <43c3f6cb-aeb2-40c8-a79d-c2222414b49c@linaro.org>
-Date: Fri, 15 Dec 2023 09:49:43 +0100
+        Fri, 15 Dec 2023 01:31:20 -0800 (PST)
+Message-ID: <ffc20839-03a6-4f20-82ae-8707b4b9752b@gmail.com>
+Date: Fri, 15 Dec 2023 18:31:18 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,96 +51,273 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] bindings: hwmon: Add adi,adaq4224_temp as compatible
- string
+Subject: Re: [PATCH v2 2/2] overlayfs.rst: fix ReST formatting
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: bagasdotme@gmail.com, brauner@kernel.org, linux-doc@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, miklos@szeredi.hu,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <20231213123422.344600-3-amir73il@gmail.com>
+ <c6c49fd7-2197-48b9-8203-ee5f4634b683@gmail.com>
+ <CAOQ4uxj_ikEdF-d3s_S7OGUDk1duUXzYqvB0BkyzFNgrCXYf=Q@mail.gmail.com>
 Content-Language: en-US
-To: Daniel Matyas <daniel.matyas@analog.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20231214143648.175336-1-daniel.matyas@analog.com>
- <20231214143648.175336-2-daniel.matyas@analog.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231214143648.175336-2-daniel.matyas@analog.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <CAOQ4uxj_ikEdF-d3s_S7OGUDk1duUXzYqvB0BkyzFNgrCXYf=Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 14/12/2023 15:36, Daniel Matyas wrote:
-> In the device ada4224 the max31827 temperature sensor will be used, so
-> the default values corresponding to adaq4224_temp are the same for
-> max31827.
+Hi Amir,
+
+On 2023/12/15 17:00, Amir Goldstein wrote:
+> On Fri, Dec 15, 2023 at 4:07 AM Akira Yokosawa <akiyks@gmail.com> wrote:
+>>
+>> Hi,
+>>
+>> On Wed, 13 Dec 2023 14:34:22 +0200, Amir Goldstein wrote:
+>>> Fix some indentation issues and fix missing newlines in quoted text
+>>> by converting quoted text to code blocks.
+>>>
+>>> Unindent a) b) enumerated list to workaround github displaying it
+>>> as numbered list.
+>>
+>> I don't think we need to work around github's weird behavior around
+>> enumerated lists.  What matters for us is what Sphinx (+ our own
+>> extensions) ends up generating.
+>>
+>> The corresponding html page rendered by Sphinx is at:
+>> https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html#permission-model
+>>
+>> It does not look perfect, but at least it preserves enumeration by
+>> number and alphabet.
+>>
 > 
-> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
-
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching.
-
-> ---
->  Documentation/devicetree/bindings/hwmon/adi,max31827.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> ok.
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> index f60e06ab7d0a..9f3b0839aa46 100644
-> --- a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> @@ -20,6 +20,7 @@ properties:
->        - const: adi,max31827
->        - items:
->            - enum:
-> +              - adi,adaq4224_temp
+>> I'd suggest reporting github about the minor breakage of their
+>> rst renderer.
+>>
+>> Further comments below:
+>>
+>>>
+>>> Reported-by: Christian Brauner <brauner@kernel.org>
+>>> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+>>> ---
+>>>  Documentation/filesystems/overlayfs.rst | 63 +++++++++++++------------
+>>>  1 file changed, 32 insertions(+), 31 deletions(-)
+>>>
+>>> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
+>>> index 926396fdc5eb..a36f3a2a2d4b 100644
+>>> --- a/Documentation/filesystems/overlayfs.rst
+>>> +++ b/Documentation/filesystems/overlayfs.rst
+>>> @@ -118,7 +118,7 @@ Where both upper and lower objects are directories, a merged directory
+>>>  is formed.
+>>>
+>>>  At mount time, the two directories given as mount options "lowerdir" and
+>>> -"upperdir" are combined into a merged directory:
+>>> +"upperdir" are combined into a merged directory::
+>>>
+>>>    mount -t overlay overlay -olowerdir=/lower,upperdir=/upper,\
+>>>    workdir=/work /merged
+>>> @@ -174,10 +174,10 @@ programs.
+>>>  seek offsets are assigned sequentially when the directories are read.
+>>>  Thus if
+>>>
+>>> -  - read part of a directory
+>>> -  - remember an offset, and close the directory
+>>> -  - re-open the directory some time later
+>>> -  - seek to the remembered offset
+>>> +- read part of a directory
+>>> +- remember an offset, and close the directory
+>>> +- re-open the directory some time later
+>>> +- seek to the remembered offset
+>>
+>> To my eyes, unindent spoils the readability of this file as pure
+>> plain text.  Please don't do this.
+>>
+> 
+> Ok. I see what you mean.
+> I restored a single space indent.
+> I don't see why double space is called for and it is inconsistent
+> with indentation in the rest of the doc.
+> 
+>>>
+>>>  there may be little correlation between the old and new locations in
+>>>  the list of filenames, particularly if anything has changed in the
+>>> @@ -285,21 +285,21 @@ Permission model
+>>>
+>>>  Permission checking in the overlay filesystem follows these principles:
+>>>
+>>> - 1) permission check SHOULD return the same result before and after copy up
+>>> +1) permission check SHOULD return the same result before and after copy up
+>>>
+>>> - 2) task creating the overlay mount MUST NOT gain additional privileges
+>>> +2) task creating the overlay mount MUST NOT gain additional privileges
+>>>
+>>> - 3) non-mounting task MAY gain additional privileges through the overlay,
+>>> - compared to direct access on underlying lower or upper filesystems
+>>> +3) non-mounting task MAY gain additional privileges through the overlay,
+>>> +   compared to direct access on underlying lower or upper filesystems
+>>
+>> All you need to fix is this adjustment of indent.
+>> Don't do other unindents please
+>>
+> 
+> OK. I also fixed the same indents in "Non-standard behavior".
+> 
+>>>
+>>> -This is achieved by performing two permission checks on each access
+>>> +This is achieved by performing two permission checks on each access:
+>>>
+>>> - a) check if current task is allowed access based on local DAC (owner,
+>>> -    group, mode and posix acl), as well as MAC checks
+>>> +a) check if current task is allowed access based on local DAC (owner,
+>>> +group, mode and posix acl), as well as MAC checks
+>>>
+>>> - b) check if mounting task would be allowed real operation on lower or
+>>> -    upper layer based on underlying filesystem permissions, again including
+>>> -    MAC checks
+>>> +b) check if mounting task would be allowed real operation on lower or
+>>> +upper layer based on underlying filesystem permissions, again including
+>>> +MAC checks
+>>
+>> Your workaround harms the readability very badly.
+>> Don't break the construct of enumerated (or numbered) list in rst.
+>>
+> 
+> ok.
+> 
+>> For the specification of enumerated list, please see:
+>>
+>> https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#enumerated-lists
+>>
+>> If there is a rst parser who fails to recognize some of the defined
+>> list structure, fix such a parser please!
+>>
+>>>
+>>>  Check (a) ensures consistency (1) since owner, group, mode and posix acls
+>>>  are copied up.  On the other hand it can result in server enforced
+>>> @@ -311,11 +311,11 @@ to create setups where the consistency rule (1) does not hold; normally,
+>>>  however, the mounting task will have sufficient privileges to perform all
+>>>  operations.
+>>>
+>>> -Another way to demonstrate this model is drawing parallels between
+>>> +Another way to demonstrate this model is drawing parallels between::
+>>>
+>>>    mount -t overlay overlay -olowerdir=/lower,upperdir=/upper,... /merged
+>>>
+>>> -and
+>>> +and::
+>>>
+>>>    cp -a /lower /upper
+>>>    mount --bind /upper /merged
+>>> @@ -328,7 +328,7 @@ Multiple lower layers
+>>>  ---------------------
+>>>
+>>>  Multiple lower layers can now be given using the colon (":") as a
+>>> -separator character between the directory names.  For example:
+>>> +separator character between the directory names.  For example::
+>>>
+>>>    mount -t overlay overlay -olowerdir=/lower1:/lower2:/lower3 /merged
+>>>
+>>> @@ -340,13 +340,13 @@ rightmost one and going left.  In the above example lower1 will be the
+>>>  top, lower2 the middle and lower3 the bottom layer.
+>>>
+>>>  Note: directory names containing colons can be provided as lower layer by
+>>> -escaping the colons with a single backslash.  For example:
+>>> +escaping the colons with a single backslash.  For example::
+>>>
+>>>    mount -t overlay overlay -olowerdir=/a\:lower\:\:dir /merged
+>>>
+>>>  Since kernel version v6.8, directory names containing colons can also
+>>>  be configured as lower layer using the "lowerdir+" mount options and the
+>>> -fsconfig syscall from new mount api.  For example:
+>>> +fsconfig syscall from new mount api.  For example::
+>>>
+>>>    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/a:lower::dir", 0);
+>>>
+>>> @@ -390,11 +390,11 @@ Data-only lower layers
+>>>  With "metacopy" feature enabled, an overlayfs regular file may be a composition
+>>>  of information from up to three different layers:
+>>>
+>>> - 1) metadata from a file in the upper layer
+>>> +1) metadata from a file in the upper layer
+>>>
+>>> - 2) st_ino and st_dev object identifier from a file in a lower layer
+>>> +2) st_ino and st_dev object identifier from a file in a lower layer
+>>>
+>>> - 3) data from a file in another lower layer (further below)
+>>> +3) data from a file in another lower layer (further below)
+>>
+>> Ditto.
+>>
+>>>
+>>>  The "lower data" file can be on any lower layer, except from the top most
+>>>  lower layer.
+>>> @@ -405,7 +405,7 @@ A normal lower layer is not allowed to be below a data-only layer, so single
+>>>  colon separators are not allowed to the right of double colon ("::") separators.
+>>>
+>>>
+>>> -For example:
+>>> +For example::
+>>>
+>>>    mount -t overlay overlay -olowerdir=/l1:/l2:/l3::/do1::/do2 /merged
+>>>
+>>> @@ -419,7 +419,7 @@ to the absolute path of the "lower data" file in the "data-only" lower layer.
+>>>
+>>>  Since kernel version v6.8, "data-only" lower layers can also be added using
+>>>  the "datadir+" mount options and the fsconfig syscall from new mount api.
+>>> -For example:
+>>> +For example::
+>>>
+>>>    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l1", 0);
+>>>    fsconfig(fs_fd, FSCONFIG_SET_STRING, "lowerdir+", "/l2", 0);
+>>> @@ -429,7 +429,7 @@ For example:
+>>>
+>>>
+>>>  fs-verity support
+>>> -----------------------
+>>> +-----------------
+>>>
+>>>  During metadata copy up of a lower file, if the source file has
+>>>  fs-verity enabled and overlay verity support is enabled, then the
+>>> @@ -653,9 +653,10 @@ following rules apply:
+>>>     encode an upper file handle from upper inode
+>>>
+>>>  The encoded overlay file handle includes:
+>>> - - Header including path type information (e.g. lower/upper)
+>>> - - UUID of the underlying filesystem
+>>> - - Underlying filesystem encoding of underlying inode
+>>> +
+>>> +- Header including path type information (e.g. lower/upper)
+>>> +- UUID of the underlying filesystem
+>>> +- Underlying filesystem encoding of underlying inode
+>>
+>> Ditto.
+>>
+> 
+> ok, but inconsistent indentation between numbered and bullet list is
+> also not nice:
+> https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html#nfs-export
 
-Underscores are not allowed
+I agree.
 
+> 
+> so I kept this indent and I also indented the non-indented numbered lists
+> in this section to conform to the rest of the numbered lists in this doc.
+> 
+> I've pushed the fixes to overlayfs-next.
 
+OK. I'm looking at commit 4552f4b1be08 ("overlayfs.rst: fix ReST formatting").
 
-Best regards,
-Krzysztof
+It looks reasonable to me.
+If you'd like, feel free to add
 
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+
+    Regards, Akira
+
+> Kept RVB from Bagas, because your comment about the unindent is
+> aligned with Bagas' initial review comment.
+> 
+> Thanks,
+> Amir.
