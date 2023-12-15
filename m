@@ -1,137 +1,110 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB7918C09
-	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 09:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A8124B42;
+	Fri, 15 Dec 2023 10:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eyDQMh3t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702633839;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2jUFk+kWF85SdiIX9/ky14z9K9zUyz1416eEiXRguD8=;
-	b=eyDQMh3tTlh7mwCLF54iInnRk5FZ+BjFsHqJDMs/JIYkPLRDFnqiOR6RZf6Qyb4PlvWyFf
-	W3chRLBhq6ycN2RZgjc3gjNnKsG2cEmS9MeAQsG11NOhzbVe6vOc5aPSgAttEWLred90L2
-	vLF1sCuYOA6r87S0ovY2nrYsM5UJ/SY=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-80-Vm36C3nwNjSQ-2lQ6nrb4g-1; Fri, 15 Dec 2023 04:50:37 -0500
-X-MC-Unique: Vm36C3nwNjSQ-2lQ6nrb4g-1
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-5e3c4d70f71so4733877b3.2
-        for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 01:50:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702633837; x=1703238637;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2jUFk+kWF85SdiIX9/ky14z9K9zUyz1416eEiXRguD8=;
-        b=Vj+tACFJXn1Q6n90eAPmGxzkAz2rmgEYC0rXQdlsvL6mAXqxcGPPlvRQ827XF7arqk
-         qAwglnR1e6c6Ye86E+xGW+HkoXWgPC4iGn6haN0B1ATGRNh/yLfTnT/QWAftIGUjjfrC
-         q+12nwHYOCN9Mq1a3AIJPgzHGjfST8e8hfunl7xDub9ymuHRRIpVBFU1jZwoL5lqxodo
-         ZjsN+lmrXPRuujEG2tOVTg+hKh6fwFaon03mZPp9J5UrL6XHzFxAUcK8HGuhWRRguF1P
-         HMwYAauVeBYzFTXnWjCOrQdbLW3pYvnW7q9sUGl4QifKduL3n2t86qOXnhTuqYJg3cdp
-         Qc9Q==
-X-Gm-Message-State: AOJu0YygrLpuflxk7qcp/dRNfDOPuEMs2wRcK+c3iYx9Zdwb1RHk4DTJ
-	R+ajulcefDSESUFa2w43pc5pEIKiM+R9OSyHXJp0jNw46NY9Cj8ZTIW26D+7GqYE792c65yGe9l
-	+S6YqEpyY9NfiStJC5MU6Gy61IaBn4zqPpXod
-X-Received: by 2002:a0d:f842:0:b0:5d7:1940:b377 with SMTP id i63-20020a0df842000000b005d71940b377mr9389526ywf.67.1702633837020;
-        Fri, 15 Dec 2023 01:50:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEj0WCc7h2W06gwb0544zgPnIeghTyp6d8BMs+Gqvk9Yl1q2nTxcxfziVYO7Ty/itdzxF+rd+Jc9exaxn2+BMo=
-X-Received: by 2002:a0d:f842:0:b0:5d7:1940:b377 with SMTP id
- i63-20020a0df842000000b005d71940b377mr9389520ywf.67.1702633836737; Fri, 15
- Dec 2023 01:50:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mTIRw6YX"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BF9Mqgk032346;
+	Fri, 15 Dec 2023 10:17:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=Tun7DRNtaaSLQZm0TAzmr2NH9jDXt4w0fbSSJYXmQkY=; b=mT
+	IRw6YXWH74HMQuu+Gz87bBRaA0ugHj3LKQm5JFUwFjJ5OlJZtQmzw6WnBvARAuzr
+	VObYybK4bBBD9U8RyFegpnzJiX4mM1Yq4kPY0Tu8Lv8V2PfvMjm4lptFqqQYNNzG
+	uu6E8PerIWq0TOYaq6MFRMUSIqoVLd1KciD+7ltjUYMoxVFTlpA1yuHHqKou0QgL
+	DKBREb+mUMFmxOMlSk68bFSkxEltJbAaxic+wWl97OFSsaNqLLOEFZszVjM3p5de
+	iO7tjbTRGTFIAFAtQIxtsGlj/LZn3fJQwojBDY1cVljQtUNolbr111wu6uaSbgOK
+	VDFiqoDP2kdNv7uMTbwA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0m46g4gq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 10:17:10 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BFAGirw014118
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 10:16:44 GMT
+Received: from [10.253.13.71] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 15 Dec
+ 2023 02:16:40 -0800
+Message-ID: <c3391e33-e770-4c61-855e-d90e82b95f75@quicinc.com>
+Date: Fri, 15 Dec 2023 18:16:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
- <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
- <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
- <20231209034229.GA1001962@cmpxchg.org> <ZXeTb_ACou7TEVsa@google.com>
- <20231214171137.GA261942@cmpxchg.org> <CAOUHufbvafDiURT9qBjKPpRSNwc60S-bDg2yMH_m4bNSWQcV4g@mail.gmail.com>
- <CA+PVUaR9EtUMke-K8mM0gmJXdOm9equ1JHqBjZ0T5V0tiHVc8Q@mail.gmail.com>
- <CAF8kJuMLDOaP6-Xyz-+hzLbDuYW7gfG9jA06j6t5v7XX2rPOdw@mail.gmail.com>
- <CA+PVUaRxXdndKCodgPKFcsCUQwO-8mGtU65OkkudoR-8rB=KaA@mail.gmail.com> <CAF8kJuMKCu=Bf4K6RryFdGGgC+RhyanwaXc-ZGtURk7Wbckq6Q@mail.gmail.com>
-In-Reply-To: <CAF8kJuMKCu=Bf4K6RryFdGGgC+RhyanwaXc-ZGtURk7Wbckq6Q@mail.gmail.com>
-From: Fabian Deutsch <fdeutsch@redhat.com>
-Date: Fri, 15 Dec 2023 10:50:16 +0100
-Message-ID: <CA+PVUaRnd0vjTNQqdFG-pLYVqaquP46+YOOYWtMpJkNtkF+S6Q@mail.gmail.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-To: Chris Li <chrisl@kernel.org>
-Cc: Yu Zhao <yuzhao@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Minchan Kim <minchan@kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "tj@kernel.org" <tj@kernel.org>, 
-	"lizefan.x@bytedance.com" <lizefan.x@bytedance.com>, 
-	"cerasuolodomenico@gmail.com" <cerasuolodomenico@gmail.com>, 
-	"yosryahmed@google.com" <yosryahmed@google.com>, "sjenning@redhat.com" <sjenning@redhat.com>, 
-	"ddstreet@ieee.org" <ddstreet@ieee.org>, "vitaly.wool@konsulko.com" <vitaly.wool@konsulko.com>, 
-	"mhocko@kernel.org" <mhocko@kernel.org>, "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>, 
-	"shakeelb@google.com" <shakeelb@google.com>, "muchun.song@linux.dev" <muchun.song@linux.dev>, 
-	"hughd@google.com" <hughd@google.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"konrad.wilk@oracle.com" <konrad.wilk@oracle.com>, 
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>, "rppt@kernel.org" <rppt@kernel.org>, 
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "kernel-team@meta.com" <kernel-team@meta.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "david@ixit.cz" <david@ixit.cz>, 
-	Kairui Song <kasong@tencent.com>, Zhongkun He <hezhongkun.hzk@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Dec 15, 2023 at 10:40=E2=80=AFAM Chris Li <chrisl@kernel.org> wrote=
-:
->
-> On Thu, Dec 14, 2023 at 11:42=E2=80=AFPM Fabian Deutsch <fdeutsch@redhat.=
-com> wrote:.
-> > >
-> > > Just to clarify, the "node" you mean the "node" in kubernetes sense,
-> > > which is the whole machine. In the Linux kernel MM context, the node
-> > > often refers to the NUMA memory node, that is not what you mean here,
-> > > right?
-> >
-> > Correct, I was referring to a kubernetes node, not numa node.
-> >
-> > >
-> > >> - With todays node level swap, and setting memory.swap.max=3D0 for a=
-ll cgroups allows you toachieve a similar behavior (only opt-in cgroups wil=
-l get swap).
-> > >> - the above approach however will still have a shared swap backend f=
-or all cgroups.
-> > >
-> > > Yes, the "memory.swap.tires" idea is trying to allow cgroups to selec=
-t
-> > > a subset of the swap backend in a specific order. It is still in the
-> > > early stage of discussion. If you have any suggestion or feedback in
-> > > that direction, I am looking forward to hearing that.
-> >
-> > Interesting. There have been concerns to leak confidential data acciden=
-tally when it's getting written to a swap device.
->
-> One common solution is to encrypt the data written to the device. If
-> someone gets hold of the swapped outed device without the key, they
-> can't get to the memory data without the key.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
+ properties
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, <andrew@lunn.ch>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
+        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>
+CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231215074005.26976-1-quic_luoj@quicinc.com>
+ <20231215074005.26976-15-quic_luoj@quicinc.com>
+ <bdfba8a7-9197-4aae-a7f9-6075a375f60b@linaro.org>
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <bdfba8a7-9197-4aae-a7f9-6075a375f60b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 6BPPAA1eXPd8CZFoyaMl93amoket_0Rb
+X-Proofpoint-ORIG-GUID: 6BPPAA1eXPd8CZFoyaMl93amoket_0Rb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ suspectscore=0 adultscore=0 phishscore=0 mlxscore=0 clxscore=1015
+ mlxlogscore=955 impostorscore=0 malwarescore=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312150069
 
 
-Yes - I guess like writing it onto a dmcrypt device with some random key.
-Nevertheless, this was one of the topics.
 
->
->
-> > The other less discussed item was QoS for swap io traffic.
-> >
-> > At a first glance it seems like tires could help with the second use-ca=
-se.
->
-> The idea is that you can select the swap tiers list for each cgroup.
-> That way  you can assign different swap QoS to different cgroup.
+On 12/15/2023 4:22 PM, Krzysztof Kozlowski wrote:
+> On 15/12/2023 08:40, Luo Jie wrote:
+>> The following properties are added for qca8084 PHY.
+>>
+>> 1. add the compatible string "ethernet-phy-id004d.d180" since
+>>     the PHY device is not accessible during MDIO bus register.
+>> 2. add property "qcom,phy-addr-fixup" for customizing MDIO address.
+>> 3. add property "qcom,phy-work-mode" for specifying qca8084 PHY
+>>     work mode.
+>> 4. add the initial clocks and resets.
+> 
+> All my previous comments (sent one minute before this patchset :) )
+> apply. Please respond to them or implement them in v5 (not earlier than
+> after 24h).
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
 
+Sure, will update the new version after the discussion completed.
+actually i have query about the dt-bindings doc.
 
-Yes, it sounds like a fit.
-What use-cases did you have in mind for the tiers feature?
+The "maxItems: 1" of the property resets is defined in ethernet-phy.yaml
+that is referenced by qca,ar803x.yaml, but i have 11 reset instances
+used for qca8084 PHY, it seems i can't overwrite maxItems of reset
+property to 11 from 1 in qca,ar803x.yaml.
 
+is there any method to overwrite the maxItems value?
+
+Thanks,
+Jie
