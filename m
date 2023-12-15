@@ -1,28 +1,49 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56D9107A4;
-	Fri, 15 Dec 2023 05:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AF56AB9
+	for <linux-doc@vger.kernel.org>; Fri, 15 Dec 2023 05:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SQtcW1Tw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8O2wI3h+tlG4jUHDYFtLk05WfU4ggOxt6a77A4Jvvx8=; b=SQtcW1TwI6CtSYQNM9N2Un+zmb
-	pLJJBLisllIsSCijzEj/n3mz5lqqoIv6Av3R3svy3eaGRsEa41OQqcGASc8ivCpLzlRDXCPdBRddt
-	5h8WFo9kdZqon2wnlEsuppp9N92Yevrg0+6DkkQp5+f2iz43Dg7oVceuOq1I/QRXXhrWHK1RhL+Oh
-	xeSiJMAT3aepfmXLj/ULA0CmcuAU24uZQz3esdLDk0o0P0QhRwRWBg1zCyIuGGhxaL8rMJcTgAItS
-	+//FUSYHp+o7aEbumnuiJZDraIPvQWKJzpvDTgTceDP/ebOmQmx3flkpnUzcLPUPofiZAW21OGENZ
-	v0CsV8CA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rE0uD-0025WF-0Y;
-	Fri, 15 Dec 2023 05:38:37 +0000
-Message-ID: <41c2d210-6294-491f-9926-f922fc94c321@infradead.org>
-Date: Thu, 14 Dec 2023 21:38:36 -0800
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="lRG3mKWA"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3ba14203a34so320713b6e.1
+        for <linux-doc@vger.kernel.org>; Thu, 14 Dec 2023 21:50:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1702619404; x=1703224204; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xFKDorqrFC5bosM2lt/mDyJdprik2aA7TxjdYt0y1e4=;
+        b=lRG3mKWA3hLhxbJ++HHf2NQEw8lqXc4lAMsww+H2XM0tm7saisSRA+cLHbbE8/UDme
+         I+pd4IgdOJS51g9TaOsFo9DSUB1r1GPlU01PsitywapE+hKrxLQQL+q3VLcvpdAkp/we
+         v1jCBTl22HwIyhlBAvTLS5nfoCRqbCawuHUwNsOCeTT70UGUS1dl1pzIbeLUbo9iWDeW
+         U+lsTWy8I4z+1tfJYsac0MfM6wVmihVEHvFb6eNNfgqX3V8LymQ86PNGJjQV6KLRHvJS
+         +stmpcKGsrnM7ow/47GQHGZnjCEKU50wCskwqDxRPUIIq96wxE00q46nWVzTl/Nf6jMs
+         eBUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702619404; x=1703224204;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xFKDorqrFC5bosM2lt/mDyJdprik2aA7TxjdYt0y1e4=;
+        b=Q65IJkYaNm4J/6qSlJPZwmZGElSqhgi3KAwuslzDcPdfq/JU4rNEGnmv4aIIO3219R
+         SOT2UNU7J3XkfyIUGZ4Tj2GY9QdRSOdTixGynB2ApSyRMkw/9kjDSERvpcwxSsKLvA6N
+         5UqsZBIjn19hsyRRb3fQYYi+8VVk7rFOM0Yzzh4WIF0W24AgYz5Sb6pD6fDJHv3bwX0n
+         KshkQ82APlVaWHzPZjdOApXr4MRTBqtFkWq7hmdBhZtmSQsBWNP+aDk3v3yv2eX+Ja/z
+         vy4WfNX7xfYaAjX63PiJyIkuvmfNAIVQ0lxpcVAllvV8OjA/LRt5fJyMGLjs9+Dcwm19
+         Kqyw==
+X-Gm-Message-State: AOJu0YxyD3sibQgHZo5q4f6qE3fMRwN0NNrhKcHNeHzudKSaAvC1zUcT
+	ougsBJ0w6hEYH4D8jGecUH66RA==
+X-Google-Smtp-Source: AGHT+IGx2R7EsZiNCgpjAWLFVnSbXZ01T55zLVZoewTO79uTMzNCSJGSk/7hhmSoBW352drVsZLTPg==
+X-Received: by 2002:a05:6808:16a3:b0:3b9:e7e2:f30 with SMTP id bb35-20020a05680816a300b003b9e7e20f30mr13382782oib.7.1702619403985;
+        Thu, 14 Dec 2023 21:50:03 -0800 (PST)
+Received: from [157.82.205.15] ([157.82.205.15])
+        by smtp.gmail.com with ESMTPSA id q5-20020a170902bd8500b001c9d011581dsm13310686pls.164.2023.12.14.21.49.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Dec 2023 21:50:03 -0800 (PST)
+Message-ID: <72b8e198-7058-469a-a1e0-17f48330deca@daynix.com>
+Date: Fri, 15 Dec 2023 14:49:56 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -30,122 +51,240 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts/kernel-doc: restore warning for Excess
- struct/union
+Subject: Re: Should I add BPF kfuncs for userspace apps? And how?
+To: Stephen Hemminger <stephen@networkplumber.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Mykola Lysenko <mykolal@fb.com>,
+ Shuah Khan <shuah@kernel.org>, Yuri Benditovich
+ <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
+ Benjamin Tissoires <bentiss@kernel.org>, bpf <bpf@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, kvm@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ virtualization@lists.linux-foundation.org,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Network Development <netdev@vger.kernel.org>
+References: <2f33be45-fe11-4b69-8e89-4d2824a0bf01@daynix.com>
+ <CAO-hwJJhzHtKrUEw0zrjgub3+eapgJG-zsG0HRB=PaPi6BxG+w@mail.gmail.com>
+ <e256c6df-0a66-4f86-ae96-bff17920c2fb@daynix.com>
+ <CAO-hwJKMrWYRNpuprDj9=k87V0yHtLPEJuQ94bpOF3O81=v0kA@mail.gmail.com>
+ <0d68722c-9e29-407b-9ef0-331683c995d2@daynix.com>
+ <20231214094042.75f704f6@hermes.local>
 Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-media@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20231214070200.24405-1-rdunlap@infradead.org>
- <202312151356.OZmUHKRx-lkp@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202312151356.OZmUHKRx-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20231214094042.75f704f6@hermes.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 2023/12/15 2:40, Stephen Hemminger wrote:
+> On Thu, 14 Dec 2023 14:51:12 +0900
+> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> 
+>> On 2023/12/13 19:22, Benjamin Tissoires wrote:
+>>> On Tue, Dec 12, 2023 at 1:41 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>
+>>>> On 2023/12/12 19:39, Benjamin Tissoires wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Tue, Dec 12, 2023 at 9:11 AM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>>>
+>>>>>> Hi,
+>>>>
+>>>> Hi,
+>>>>
+>>>> Thanks for reply.
+>>>>   
+>>>>>>
+>>>>>> It is said eBPF is a safe way to extend kernels and that is very
+>>>>>> attarctive, but we need to use kfuncs to add new usage of eBPF and
+>>>>>> kfuncs are said as unstable as EXPORT_SYMBOL_GPL. So now I'd like to ask
+>>>>>> some questions:
+>>>>>>
+>>>>>> 1) Which should I choose, BPF kfuncs or ioctl, when adding a new feature
+>>>>>> for userspace apps?
+>>>>>> 2) How should I use BPF kfuncs from userspace apps if I add them?
+>>>>>>
+>>>>>> Here, a "userspace app" means something not like a system-wide daemon
+>>>>>> like systemd (particularly, I have QEMU in mind). I'll describe the
+>>>>>> context more below:
+>>>>>
+>>>>> I'm probably not the best person in the world to answer your
+>>>>> questions, Alexei and others from the BPF core group are, but given
+>>>>> that you pointed at a thread I was involved in, I feel I can give you
+>>>>> a few pointers.
+>>>>>
+>>>>> But first and foremost, I encourage you to schedule an agenda item in
+>>>>> the BPF office hour[4]. Being able to talk with the core people
+>>>>> directly was tremendously helpful to me to understand their point.
+>>>>
+>>>> I prefer emails because I'm not very fluent when speaking in English and
+>>>> may have a difficultly to listen to other people, but I may try it in
+>>>> future.
+>>>>   
+>>>>>
+>>>>>   
+>>>>>>
+>>>>>> ---
+>>>>>>
+>>>>>> I'm working on a new feature that aids virtio-net implementations using
+>>>>>> tuntap virtual network device. You can see [1] for details, but
+>>>>>> basically it's to extend BPF_PROG_TYPE_SOCKET_FILTER to report four more
+>>>>>> bytes.
+>>>>>>
+>>>>>> However, with long discussions we have confirmed extending
+>>>>>> BPF_PROG_TYPE_SOCKET_FILTER is not going to happen, and adding kfuncs is
+>>>>>> the way forward. So I decided how to add kfuncs to the kernel and how to
+>>>>>> use it. There are rich documentations for the kernel side, but I found
+>>>>>> little about the userspace. The best I could find is a systemd change
+>>>>>> proposal that is based on WIP kernel changes[2].
+>>>>>
+>>>>> Yes, as Alexei already replied, BPF is not adding new stable APIs,
+>>>>> only kfuncs. The reason being that once it's marked as stable, you
+>>>>> can't really remove it, even if you think it's badly designed and
+>>>>> useless.
+>>>>>
+>>>>> Kfuncs, OTOH are "unstable" by default meaning that the constraints
+>>>>> around it are more relaxed.
+>>>>>
+>>>>> However, "unstable" doesn't mean "unusable". It just means that the
+>>>>> kernel might or might not have the function when you load your program
+>>>>> in userspace. So you have to take that fact into account from day one,
+>>>>> both from the kernel side and the userspace side. The kernel docs have
+>>>>> a nice paragraph explaining that situation and makes the distinction
+>>>>> between relatively unused kfuncs, and well known established ones.
+>>>>>
+>>>>> Regarding the systemd discussion you are mentioning ([2]), this is
+>>>>> something that I have on my plate for a long time. I think I even
+>>>>> mentioned it to Alexei at Kernel Recipes this year, and he frowned his
+>>>>> eyebrows when I mentioned it. And looking at the systemd code and the
+>>>>> benefits over a plain ioctl, it is clearer that in that case, a plain
+>>>>> ioctl is better, mostly because we already know the API and the
+>>>>> semantic.
+>>>>>
+>>>>> A kfunc would be interesting in cases where you are not sure about the
+>>>>> overall design, and so you can give a shot at various API solutions
+>>>>> without having to keep your bad v1 design forever.
+>>>>>   
+>>>>>>
+>>>>>> So now I'm wondering how I should use BPF kfuncs from userspace apps if
+>>>>>> I add them. In the systemd discussion, it is told that Linus said it's
+>>>>>> fine to use BPF kfuncs in a private infrastructure big companies own, or
+>>>>>> in systemd as those users know well about the system[3]. Indeed, those
+>>>>>> users should be able to make more assumptions on the kernel than
+>>>>>> "normal" userspace applications can.
+>>>>>>
+>>>>>> Returning to my proposal, I'm proposing a new feature to be used by QEMU
+>>>>>> or other VMM applications. QEMU is more like a normal userspace
+>>>>>> application, and usually does not make much assumptions on the kernel it
+>>>>>> runs on. For example, it's generally safe to run a Debian container
+>>>>>> including QEMU installed with apt on Fedora. BPF kfuncs may work even in
+>>>>>> such a situation thanks to CO-RE, but it sounds like *accidentally*
+>>>>>> creating UAPIs.
+>>>>>>
+>>>>>> Considering all above, how can I integrate BPF kfuncs to the application?
+>>>>>
+>>>>> FWIW, I'm not sure you can rely on BPF calls from a container. There
+>>>>> is a high chance the syscall gets disabled by the runtime.
+>>>>
+>>>> Right. Container runtimes will not pass CAP_BPF by default, but that
+>>>> restriction can be lifted and I think that's a valid scenario.
+>>>>   
+>>>>>   
+>>>>>>
+>>>>>> If BPF kfuncs are like EXPORT_SYMBOL_GPL, the natural way to handle them
+>>>>>> is to think of BPF programs as some sort of kernel modules and
+>>>>>> incorporate logic that behaves like modprobe. More concretely, I can put
+>>>>>> eBPF binaries to a directory like:
+>>>>>> /usr/local/share/qemu/ebpf/$KERNEL_RELEASE
+>>>>>
+>>>>> I would advise against that (one program per kernel release). Simply
+>>>>> because your kfunc may or may not have been backported to kernel
+>>>>> release v6.X.Y+1 while it was not there when v6.X.Y was out. So
+>>>>> relying on the kernel number is just going to be a headache.
+>>>>>
+>>>>> As I understand it, the way forward is to rely on the kernel, libbpf
+>>>>> and CO-RE: if the function is not available, the program will simply
+>>>>> not load, and you'll know that this version of the code is not
+>>>>> available (or has changed API).
+>>>>>
+>>>>> So what I would do if some kfunc API is becoming deprecated, is
+>>>>> embedding both code paths in the same BPF unit, but marking them as
+>>>>> not loaded by libppf. Then I can load the compilation unit, try v2 of
+>>>>> the API, and if it's not available, try v1, and if not, then mention
+>>>>> that I can not rely on BPF. Of course, this can also be done with
+>>>>> separate compilation units.
+>>>>
+>>>> Doesn't it mean that the kernel is free to break old versions of QEMU
+>>>> including BPF programs? That's something I'd like to avoid.
+>>>
+>>> Couple of points here:
+>>> - when you say "the kernel", it feels like you are talking about an
+>>> external actor tampering with your code. But if you submit a kernel
+>>> patch with a specific use case and get yourself involved in the
+>>> community, why would anybody change your kfunc API without you knowing
+>>> it?
+>>
+>> You are right in the practical aspect.  I can pay efforts to keep kfunc
+>> APIs alive and I'm also sure other developers would also try not to
+>> break them for good.
+>>
+>> Nevertheless I'm being careful to evaluate APIs from both of the kernel
+>> and userspace (QEMU) viewpoints. If I fail to keep kfuncs stable because
+>> I die in an accident, for example, it's a poor excuse for other QEMU
+>> developers that I intended to keep them stable with my personal effort.
+>>
+>>> - the whole warning about "unstable" policy means that the user space
+>>> component should not take for granted the capability. So if the kfunc
+>>> changes/disappears for good reasons (because it was marked as well
+>>> used and deprecated for quite some time), qemu should not *break*, it
+>>> should not provide the functionality, or have a secondary plan.
+>>>
+>>> But even if you are encountering such issues, in case of a change in
+>>> the ABI of your kfunc, it should be easy enough to backport the bpf
+>>> changes to your old QEMUs and ask users to upgrade the user space if
+>>> they upgrade their kernel.
+>>>
+>>> AFAIU, it is as unstable as you want it to be. It's just that we are
+>>> not in the "we don't break user space" contract, because we are
+>>> talking about adding a kernel functionality from userspace, which
+>>> requires knowing the kernel intrinsics.
+>>
+>> I must admit I'm still not convinced the proposed BPF program
+>> functionality needs to know internals of the kernel.
+>>
+>> The eBPF program QEMU carries is just to calculate hashes from packets.
+>> It doesn't need to know the details of how the kernel handles packets.
+>> It only needs to have an access to the packet content.
+>>
+>> It is exactly what BPF_PROG_TYPE_SOCKET_FILTER does, but it lacks a
+>> mechanism to report hash values so I need to extend it or invent a new
+>> method. Extending BPF_PROG_TYPE_SOCKET_FILTER is not a way forward since
+>> CO-RE is superior to the context rewrite it relies on. But apparently
+>> adopting kfuncs and CO-RE also means to lose the "we don't break user
+>> space" contract although I have no intention to expose kernel internals
+>> to the eBPF program.
+> 
+> An example is how one part of DPDK recomputes RSS over TAP.
+> 
+> https://git.dpdk.org/dpdk/tree/drivers/net/tap/bpf/tap_bpf_program.c
+> 
+> This feature is likely to be removed, because it is not actively used
+> and the changes in BPF program loading broke it on current kernel
+> releases.  Which brings up the point that since the kernel does
+> not have stable API/ABI for BPF program infrastructure, I would
+> avoid it for projects that don't want to deal with that.
 
-
-On 12/14/23 21:35, kernel test robot wrote:
-> Hi Randy,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-
-That's great. Thanks.
-
-> [auto build test WARNING on lwn/docs-next]
-> [also build test WARNING on linus/master v6.7-rc5 next-20231214]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Randy-Dunlap/scripts-kernel-doc-restore-warning-for-Excess-struct-union/20231214-150722
-> base:   git://git.lwn.net/linux.git docs-next
-> patch link:    https://lore.kernel.org/r/20231214070200.24405-1-rdunlap%40infradead.org
-> patch subject: [PATCH] scripts/kernel-doc: restore warning for Excess struct/union
-> config: arm-randconfig-r081-20231214 (https://download.01.org/0day-ci/archive/20231215/202312151356.OZmUHKRx-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312151356.OZmUHKRx-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312151356.OZmUHKRx-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/gpio/gpio-syscon.c:46: warning: Excess struct member 'compatible' description in 'syscon_gpio_data'
-> --
->>> drivers/gpio/gpio-xilinx.c:75: warning: Excess struct member 'irqchip' description in 'xgpio_instance'
-> --
->>> net/tipc/link.c:228: warning: Excess struct member 'media_addr' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'timer' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'refcnt' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'proto_msg' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'pmsg' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'backlog_limit' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'exp_msg_count' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'reset_rcv_checkpt' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'transmitq' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'snt_nxt' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'deferred_queue' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'unacked_window' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'next_out' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'long_msg_seq_no' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'bc_rcvr' description in 'tipc_link'
-> --
->>> net/tipc/node.c:150: warning: Excess struct member 'inputq' description in 'tipc_node'
->>> net/tipc/node.c:150: warning: Excess struct member 'namedq' description in 'tipc_node'
-> --
->>> net/tipc/socket.c:143: warning: Excess struct member 'blocking_link' description in 'tipc_sock'
-> --
->>> drivers/hte/hte.c:90: warning: Excess struct member 'ei' description in 'hte_device'
-> --
->>> drivers/i2c/i2c-atr.c:98: warning: Excess struct member 'adapter' description in 'i2c_atr'
-> --
->>> drivers/leds/leds-lm3697.c:93: warning: Excess struct member 'leds' description in 'lm3697'
-> --
->>> drivers/leds/leds-mlxreg.c:42: warning: Excess struct member 'led_data' description in 'mlxreg_led_data'
-> --
->>> drivers/of/property.c:1240: warning: Excess struct member 'parse_prop.np' description in 'supplier_bindings'
->>> drivers/of/property.c:1240: warning: Excess struct member 'parse_prop.prop_name' description in 'supplier_bindings'
->>> drivers/of/property.c:1240: warning: Excess struct member 'parse_prop.index' description in 'supplier_bindings'
-> --
->>> drivers/reset/core.c:64: warning: Excess struct member 'rstc' description in 'reset_control_array'
-> ..
-> 
-> 
-> vim +46 drivers/gpio/gpio-syscon.c
-> 
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  23  
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  24  /**
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  25   * struct syscon_gpio_data - Configuration for the device.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  26   * @compatible:		SYSCON driver compatible string.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  27   * @flags:		Set of GPIO_SYSCON_FEAT_ flags:
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  28   *			GPIO_SYSCON_FEAT_IN:	GPIOs supports input,
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  29   *			GPIO_SYSCON_FEAT_OUT:	GPIOs supports output,
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  30   *			GPIO_SYSCON_FEAT_DIR:	GPIOs supports switch direction.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  31   * @bit_count:		Number of bits used as GPIOs.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  32   * @dat_bit_offset:	Offset (in bits) to the first GPIO bit.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  33   * @dir_bit_offset:	Optional offset (in bits) to the first bit to switch
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  34   *			GPIO direction (Used with GPIO_SYSCON_FEAT_DIR flag).
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  35   * @set:		HW specific callback to assigns output value
-> 2c341d62eb4b69 Grygorii Strashko 2014-09-03  36   *			for signal "offset"
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  37   */
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  38  
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  39  struct syscon_gpio_data {
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  40  	unsigned int	flags;
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  41  	unsigned int	bit_count;
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  42  	unsigned int	dat_bit_offset;
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  43  	unsigned int	dir_bit_offset;
-> 2c341d62eb4b69 Grygorii Strashko 2014-09-03  44  	void		(*set)(struct gpio_chip *chip,
-> 2c341d62eb4b69 Grygorii Strashko 2014-09-03  45  			       unsigned offset, int value);
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11 @46  };
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  47  
-> 
-
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+It's unfortunate to hear that, but thanks for the information.
+I'll consider more about the option not using BPF (plain ioctl and 
+in-kernel implementation).
