@@ -1,41 +1,40 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED41615C9;
-	Sat, 16 Dec 2023 00:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853E11C38;
+	Sat, 16 Dec 2023 00:21:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hLH7Mx0a"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFNpxf3006043;
-	Sat, 16 Dec 2023 00:21:04 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Qtu6pkZ7"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFNTBdt030894;
+	Sat, 16 Dec 2023 00:21:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:date:subject:mime-version:content-type
 	:content-transfer-encoding:message-id:references:in-reply-to:to
-	:cc; s=qcppdkim1; bh=p214wKRdwlawgp2IxBOVfCkEdPuLMQeowShlXHUSbks
-	=; b=hLH7Mx0a24cTH1hVbY8yHYtBJ9I2uzVV2VsNgehXlY25KorGsvx1KYTwyKk
-	v+Q4+i2bX20gZblTjT0Z1q5fCVO3CDXwDLD5m2iXY+Z7dHfUNhH9ZI34QsRbbmk3
-	VENAmzT/hFarp/BUGR6KFWfh3ETcrmaYKgIy8ZIF1VJdNNp1he5vx1cg8AbeWy/Q
-	BVVoINWoXfQiINQ+KsTDUcETsrnIHsvpnfcmFZSb4dBWGZ2u/j6f+sWQmmbMRoUZ
-	o/8GCp4GDSbkaYZIu4hcLcETmMYZCQ8L+9GX6zyz84EFKkI0gmNmwy0UDgPXf0BR
-	pL0sulNgsS7Kw867Ga+wC5K1rTQ==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0pqvshkv-1
+	:cc; s=qcppdkim1; bh=jJkNpJRL7neQYiQYByTs6pHgdXtbYBZe+qazKy/T5cY
+	=; b=Qtu6pkZ7K9L02b1XhF6cSfa7SGpz8W4JyLCTM06ODBU9+ifB90RJCKImt99
+	wTz4gEj55tr84sK1wav/ZnXeljQHI//IGhMsbpcaO0w53qh6EpHQCY3yJu9uxN1T
+	Dfav75HJxS0DT5lMVjKoApbevGmtQLz1DkZ7EwtcZS0PxaRqy7oAsXlK+9J8de9C
+	VU+T0B3hZ7JJhPF6lQnpbKVGErbf7U20Igmw+fDocWKHmGBeEISN5krbwJrgzmvS
+	Cb1nYLm98PJAjpPtylKqEin7NbBy5I00YZVPgau1QGvszH0PPgnT+4ugEukB4c1t
+	FJgp7ukjv4XsdT2gaIqllUN2TiQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0hb02g6d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 16 Dec 2023 00:21:03 +0000 (GMT)
+	Sat, 16 Dec 2023 00:21:02 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BG0L2Hq016442
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BG0L1p0015403
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 16 Dec 2023 00:21:02 GMT
+	Sat, 16 Dec 2023 00:21:01 GMT
 Received: from [169.254.0.1] (10.49.16.6) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 15 Dec
- 2023 16:21:01 -0800
+ 2023 16:21:00 -0800
 From: Elliot Berman <quic_eberman@quicinc.com>
-Date: Fri, 15 Dec 2023 16:20:44 -0800
-Subject: [PATCH RFC v15 03/30] gunyah: Common types and error codes for
- Gunyah hypercalls
+Date: Fri, 15 Dec 2023 16:20:42 -0800
+Subject: [PATCH RFC v15 01/30] docs: gunyah: Introduce Gunyah Hypervisor
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,7 +43,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20231215-gunyah-v15-3-192a5d872a30@quicinc.com>
+Message-ID: <20231215-gunyah-v15-1-192a5d872a30@quicinc.com>
 References: <20231215-gunyah-v15-0-192a5d872a30@quicinc.com>
 In-Reply-To: <20231215-gunyah-v15-0-192a5d872a30@quicinc.com>
 To: Alex Elder <elder@linaro.org>,
@@ -76,146 +75,255 @@ CC: <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         Elliot Berman
-	<quic_eberman@quicinc.com>
+	<quic_eberman@quicinc.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
 X-Mailer: b4 0.13-dev
 X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: qe_QxpLEkBMV61k9oiroscfWmud7XwMX
-X-Proofpoint-ORIG-GUID: qe_QxpLEkBMV61k9oiroscfWmud7XwMX
+X-Proofpoint-ORIG-GUID: S5I5G5ENmKdxv0-QTcb4uoK6CKOVLNQJ
+X-Proofpoint-GUID: S5I5G5ENmKdxv0-QTcb4uoK6CKOVLNQJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- adultscore=0 suspectscore=0 clxscore=1015 mlxscore=0 mlxlogscore=453
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 mlxlogscore=952
+ clxscore=1015 lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2312160000
 
-Add architecture-independent standard error codes, types, and macros for
-Gunyah hypercalls.
+Gunyah is an open-source Type-1 hypervisor developed by Qualcomm. It
+does not depend on any lower-privileged OS/kernel code for its core
+functionality. This increases its security and can support a smaller
+trusted computing based when compared to Type-2 hypervisors.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Reviewed-by: Alex Elder <elder@linaro.org>
+Add documentation describing the Gunyah hypervisor and the main
+components of the Gunyah hypervisor which are of interest to Linux
+virtualization development.
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- include/linux/gunyah.h | 106 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 106 insertions(+)
+ Documentation/virt/gunyah/index.rst         | 121 ++++++++++++++++++++++++++++
+ Documentation/virt/gunyah/message-queue.rst |  69 ++++++++++++++++
+ Documentation/virt/index.rst                |   1 +
+ 3 files changed, 191 insertions(+)
 
-diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunyah/index.rst
 new file mode 100644
-index 000000000000..e1a716d802ee
+index 000000000000..fe3f4192b836
 --- /dev/null
-+++ b/include/linux/gunyah.h
-@@ -0,0 +1,106 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
++++ b/Documentation/virt/gunyah/index.rst
+@@ -0,0 +1,121 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#ifndef _LINUX_GUNYAH_H
-+#define _LINUX_GUNYAH_H
++=================
++Gunyah Hypervisor
++=================
 +
-+#include <linux/errno.h>
-+#include <linux/interrupt.h>
-+#include <linux/limits.h>
++.. toctree::
++   :maxdepth: 1
 +
-+/* Matches resource manager's resource types for VM_GET_HYP_RESOURCES RPC */
-+enum gunyah_resource_type {
-+	/* clang-format off */
-+	GUNYAH_RESOURCE_TYPE_BELL_TX	= 0,
-+	GUNYAH_RESOURCE_TYPE_BELL_RX	= 1,
-+	GUNYAH_RESOURCE_TYPE_MSGQ_TX	= 2,
-+	GUNYAH_RESOURCE_TYPE_MSGQ_RX	= 3,
-+	GUNYAH_RESOURCE_TYPE_VCPU	= 4,
-+	GUNYAH_RESOURCE_TYPE_MEM_EXTENT	= 9,
-+	GUNYAH_RESOURCE_TYPE_ADDR_SPACE	= 10,
-+	/* clang-format on */
-+};
++   message-queue
 +
-+struct gunyah_resource {
-+	enum gunyah_resource_type type;
-+	u64 capid;
-+	unsigned int irq;
-+};
++Gunyah is a Type-1 hypervisor which is independent of any OS kernel, and runs in
++a higher CPU privilege level. It does not depend on any lower-privileged
++operating system for its core functionality. This increases its security and can
++support a much smaller trusted computing base than a Type-2 hypervisor.
 +
-+/******************************************************************************/
-+/* Common arch-independent definitions for Gunyah hypercalls                  */
-+#define GUNYAH_CAPID_INVAL U64_MAX
-+#define GUNYAH_VMID_ROOT_VM 0xff
++Gunyah is an open source hypervisor. The source repo is available at
++https://github.com/quic/gunyah-hypervisor.
 +
-+enum gunyah_error {
-+	/* clang-format off */
-+	GUNYAH_ERROR_OK				= 0,
-+	GUNYAH_ERROR_UNIMPLEMENTED		= -1,
-+	GUNYAH_ERROR_RETRY			= -2,
++Gunyah provides these following features.
 +
-+	GUNYAH_ERROR_ARG_INVAL			= 1,
-+	GUNYAH_ERROR_ARG_SIZE			= 2,
-+	GUNYAH_ERROR_ARG_ALIGN			= 3,
++- Scheduling:
 +
-+	GUNYAH_ERROR_NOMEM			= 10,
++  A scheduler for virtual CPUs (vCPUs) on physical CPUs enables time-sharing
++  of the CPUs. Gunyah supports two models of scheduling:
 +
-+	GUNYAH_ERROR_ADDR_OVFL			= 20,
-+	GUNYAH_ERROR_ADDR_UNFL			= 21,
-+	GUNYAH_ERROR_ADDR_INVAL			= 22,
++    1. "Behind the back" scheduling in which Gunyah hypervisor schedules vCPUS
++       on its own.
++    2. "Proxy" scheduling in which a delegated VM can donate part of one of its
++       vCPU slice to another VM's vCPU via a hypercall.
 +
-+	GUNYAH_ERROR_DENIED			= 30,
-+	GUNYAH_ERROR_BUSY			= 31,
-+	GUNYAH_ERROR_IDLE			= 32,
++- Memory Management:
 +
-+	GUNYAH_ERROR_IRQ_BOUND			= 40,
-+	GUNYAH_ERROR_IRQ_UNBOUND		= 41,
++  APIs handling memory, abstracted as objects, limiting direct use of physical
++  addresses. Memory ownership and usage tracking of all memory under its control.
++  Memory partitioning between VMs is a fundamental security feature.
 +
-+	GUNYAH_ERROR_CSPACE_CAP_NULL		= 50,
-+	GUNYAH_ERROR_CSPACE_CAP_REVOKED		= 51,
-+	GUNYAH_ERROR_CSPACE_WRONG_OBJ_TYPE	= 52,
-+	GUNYAH_ERROR_CSPACE_INSUF_RIGHTS	= 53,
-+	GUNYAH_ERROR_CSPACE_FULL		= 54,
++- Interrupt Virtualization:
 +
-+	GUNYAH_ERROR_MSGQUEUE_EMPTY		= 60,
-+	GUNYAH_ERROR_MSGQUEUE_FULL		= 61,
-+	/* clang-format on */
-+};
++  Uses CPU hardware interrupt virtualization capabilities. Interrupts are
++   handled in the hypervisor and routed to the assigned VM.
 +
-+/**
-+ * gunyah_error_remap() - Remap Gunyah hypervisor errors into a Linux error code
-+ * @gunyah_error: Gunyah hypercall return value
-+ */
-+static inline int gunyah_error_remap(enum gunyah_error gunyah_error)
-+{
-+	switch (gunyah_error) {
-+	case GUNYAH_ERROR_OK:
-+		return 0;
-+	case GUNYAH_ERROR_NOMEM:
-+		return -ENOMEM;
-+	case GUNYAH_ERROR_DENIED:
-+	case GUNYAH_ERROR_CSPACE_CAP_NULL:
-+	case GUNYAH_ERROR_CSPACE_CAP_REVOKED:
-+	case GUNYAH_ERROR_CSPACE_WRONG_OBJ_TYPE:
-+	case GUNYAH_ERROR_CSPACE_INSUF_RIGHTS:
-+		return -EACCES;
-+	case GUNYAH_ERROR_CSPACE_FULL:
-+	case GUNYAH_ERROR_BUSY:
-+	case GUNYAH_ERROR_IDLE:
-+		return -EBUSY;
-+	case GUNYAH_ERROR_IRQ_BOUND:
-+	case GUNYAH_ERROR_IRQ_UNBOUND:
-+	case GUNYAH_ERROR_MSGQUEUE_FULL:
-+	case GUNYAH_ERROR_MSGQUEUE_EMPTY:
-+		return -EIO;
-+	case GUNYAH_ERROR_UNIMPLEMENTED:
-+		return -EOPNOTSUPP;
-+	case GUNYAH_ERROR_RETRY:
-+		return -EAGAIN;
-+	default:
-+		return -EINVAL;
-+	}
-+}
++- Inter-VM Communication:
 +
-+#endif
++  There are several different mechanisms provided for communicating between VMs.
++
++- Virtual platform:
++
++  Architectural devices such as interrupt controllers and CPU timers are
++  directly provided by the hypervisor as well as core virtual platform devices
++  and system APIs such as ARM PSCI.
++
++- Device Virtualization:
++
++  Para-virtualization of devices is supported using inter-VM communication.
++
++Architectures supported
++=======================
++AArch64 with a GIC
++
++Resources and Capabilities
++==========================
++
++Services/resources provide by the Gunyah hypervisor are described to a
++virtual machine by capability IDs. For instance, inter-VM communication is
++performed with doorbells and message queues. Gunyah allows access to interact
++with that doorbell via the capability ID. These resources are described in Linux
++as a struct gunyah_resource.
++
++High level management of these resources is performed by the resource manager
++VM. RM informs a guest VM about resources it can access through either the
++device tree or via guest-initiated RPC.
++
++Gunyah tracks all resources and selectively makes them available to some VMs via
++VM-specific capability IDs.
++
++Resource Manager
++================
++
++The resource manager (RM) is a privileged application VM supporting the Gunyah
++Hypervisor. It provides policy enforcement aspects of the virtualization system.
++The resource manager can be treated as an extension of the Hypervisor but is
++separated to its own partition to ensure that the hypervisor layer itself
++remains small and secure and to maintain a separation of policy and mechanism in
++the platform. The resource manager runs at arm64 NS-EL1, similar to other
++virtual machines.
++
++Communication with the resource manager from other virtual machines happens with
++message-queue.rst. Details about the specific messages can be found in
++drivers/virt/gunyah/rsc_mgr.c
++
++::
++
++  +-------+   +--------+   +--------+
++  |  RM   |   |  VM_A  |   |  VM_B  |
++  +-.-.-.-+   +---.----+   +---.----+
++    | |           |            |
++  +-.-.-----------.------------.----+
++  | | \==========/             |    |
++  |  \========================/     |
++  |            Gunyah               |
++  +---------------------------------+
++
++The source for the resource manager is available at
++https://github.com/quic/gunyah-resource-manager.
++
++The resource manager provides the following features:
++
++- VM lifecycle management: allocating a VM, starting VMs, destruction of VMs
++- VM access control policy, including memory sharing and lending
++- Interrupt routing configuration
++- Forwarding of system-level events (e.g. VM shutdown) to owner VM
++- Resource (capability) discovery
++
++Resource manager presently requires the guest virtual machines uses a device
++tree to describe its configuration. The resource manager applies an overlay to
++the/hypervisor node. This node lets guests know they are running as a Gunyah
++guest VM, how to communicate with resource manager, and basic description and
++capabilities of this VM. See
++Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml for a
++description of this node.
+diff --git a/Documentation/virt/gunyah/message-queue.rst b/Documentation/virt/gunyah/message-queue.rst
+new file mode 100644
+index 000000000000..bd9947240c2a
+--- /dev/null
++++ b/Documentation/virt/gunyah/message-queue.rst
+@@ -0,0 +1,69 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Message Queues
++==============
++Message queue is a simple low-capacity IPC channel between two virtual machines.
++It is intended for sending small control and configuration messages. Each
++message queue is unidirectional, so a full-duplex IPC channel requires a pair of
++queues.
++
++Messages can be up to 240 bytes in length. Longer messages require a further
++protocol on top of the message queue messages themselves. For instance,
++communication with the resource manager adds a header field for sending longer
++messages via multiple message fragments.
++
++The diagram below shows how message queue works. A typical configuration
++involves 2 message queues. Message queue 1 allows VM_A to send messages to VM_B.
++Message queue 2 allows VM_B to send messages to VM_A.
++
++1. VM_A sends a message of up to 240 bytes in length. It raises a hypercall
++   with the message to inform the hypervisor to add the message to
++   message queue 1's queue. The hypervisor copies memory into the internal
++   message queue representation; the memory doesn't need to be shared between
++   VM_A and VM_B.
++
++2. Gunyah raises the corresponding interrupt for VM_B (Rx vIRQ) when any of
++   these happens:
++
++   a. gunyah_msgq_send() has PUSH flag. This is a typical case.
++   b. Explicility with gunyah_msgq_push command from VM_A.
++   c. Message queue has reached a threshold depth. Typically, this threshold
++      depth is the size of the queue (in other words: when queue is full, Rx
++      vIRQ raised).
++
++3. VM_B calls gunyah_msgq_recv() and Gunyah copies message to requested buffer.
++
++4. Gunyah raises the corresponding interrupt for VM_A (Tx vIRQ) when the message
++   queue falls below a watermark depth. Typically, this is the size of the queue
++   (in other words: when the queue is no longer full, Tx vIRQ raised). Note the
++   watermark depth and the threshold depth for the Rx vIRQ are independent
++   values, although they are both typically the size of the queue.
++   Coincidentally, this signal is conceptually similar to Clear-to-Send.
++
++For VM_B to send a message to VM_A, the process is identical, except that
++hypercalls reference message queue 2's capability ID. Each message queue has its
++own independent vIRQ: two TX message queues will have two vIRQs (and two
++capability IDs).
++
++::
++
++      +---------------+         +-----------------+         +---------------+
++      |      VM_A     |         |Gunyah hypervisor|         |      VM_B     |
++      |               |         |                 |         |               |
++      |               |         |                 |         |               |
++      |               |   Tx    |                 |         |               |
++      |               |-------->|                 | Rx vIRQ |               |
++      |gunyah_msgq_send() | Tx vIRQ |Message queue 1  |-------->|gunyah_msgq_recv() |
++      |               |<------- |                 |         |               |
++      |               |         |                 |         |               |
++      | Message Queue |         |                 |         | Message Queue |
++      | driver        |         |                 |         | driver        |
++      |               |         |                 |         |               |
++      |               |         |                 |         |               |
++      |               |         |                 |   Tx    |               |
++      |               | Rx vIRQ |                 |<--------|               |
++      |gunyah_msgq_recv() |<--------|Message queue 2  | Tx vIRQ |gunyah_msgq_send() |
++      |               |         |                 |-------->|               |
++      |               |         |                 |         |               |
++      |               |         |                 |         |               |
++      +---------------+         +-----------------+         +---------------+
+diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
+index 7fb55ae08598..15869ee059b3 100644
+--- a/Documentation/virt/index.rst
++++ b/Documentation/virt/index.rst
+@@ -16,6 +16,7 @@ Virtualization Support
+    coco/sev-guest
+    coco/tdx-guest
+    hyperv/index
++   gunyah/index
+ 
+ .. only:: html and subproject
+ 
 
 -- 
 2.43.0
