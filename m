@@ -1,161 +1,203 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B8166AB5;
-	Fri, 15 Dec 2023 23:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76703365;
+	Sat, 16 Dec 2023 00:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="rmx3YA5t"
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 3BFNBwQr3824813
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 15 Dec 2023 15:11:59 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 3BFNBwQr3824813
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2023121201; t=1702681920;
-	bh=+cXHO0Rfxn/vgBJcrqdK1W3/bGHpwCG6TjuMmGG7kLo=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=rmx3YA5tXNNdJ3o6ByrvWBHrXw9btigN8zRwBe41aiDPCzIZrp7YO1mgkvWbTKDU1
-	 Ef5ZOT0FC7RaQtfa3hN3WjbvV52Lk4fKaZQAVrk3OMj9y1thd24zIPPEbpHRv4k/A1
-	 VbPdpYJjew2lmwZYhlqxW27EjStvIuOWo96Qx3GsyfdNeMpxgbMyjumj9s+ZmkNxAj
-	 FIU/mpQ3yBT+UV9MK+2dOR+NEafoBVsYVVHFD4bWsZ0VUbb/yTSL28uVJTVO7Pp/Js
-	 oGTjX9Q9JXi+beu2T17RBHpD5R8e+4n1gzV7/hHOAeAc4rLbeiqIP/Tq2RcuTPTVHY
-	 247LcYleNMsEQ==
-Date: Fri, 15 Dec 2023 15:11:56 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Dave Hansen <dave.hansen@intel.com>, Chris Koch <chrisko@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-kernel@vger.kernel.org
-CC: Cloud Hsu <cloudhsu@google.com>
-Subject: Re: [PATCH] kexec: allocate kernel above bzImage's pref_address
-User-Agent: K-9 Mail for Android
-In-Reply-To: <b086fd82-2989-4987-a3f6-021a4ae9bec4@intel.com>
-References: <20231215190521.3796022-1-chrisko@google.com> <b086fd82-2989-4987-a3f6-021a4ae9bec4@intel.com>
-Message-ID: <F7B5D2B9-9CBF-4BF0-8665-6EF14A416168@zytor.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="G5esPZz2"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFMcLZv028677;
+	Sat, 16 Dec 2023 00:21:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:date:subject:mime-version:content-type
+	:content-transfer-encoding:message-id:references:in-reply-to:to
+	:cc; s=qcppdkim1; bh=JkatVcy30T2EwYlk1D954DoSXJ0fv4ntvLv8PCbRndg
+	=; b=G5esPZz2dwmuNSA9RSYIuSJJ0y9ml8NEMTrHwF0HbuB1qXMeUN9N0Z8jNON
+	HajkGvTccgALR5x/32EUJOvAbAvL08qdvj2/SeOgxfeGryqGbkZ4xK5E1B+QkLcr
+	0pvvUbcv1AG0JyW6N1Pj2QFAXi+/scZxiH/Dbv3aWbLMoJmPJDyAgxnpozPm16Tg
+	whtNxcePIOyXv7fRCoGia9FNJsOxSambfASfPHFztcCZQOBFm8qbk37zJW+IHTdL
+	L/vV5/maeU5vJEZXY56zjNB6kwPv4m2Z1yWbUSdGyEjVN6Wikxb5YAMf+VwiV2SD
+	npd4MVbzXrgZQc3c9bk5aY++F/w==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0w198hp7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 16 Dec 2023 00:21:02 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BG0L2fO015448
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 16 Dec 2023 00:21:02 GMT
+Received: from [169.254.0.1] (10.49.16.6) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 15 Dec
+ 2023 16:21:01 -0800
+From: Elliot Berman <quic_eberman@quicinc.com>
+Date: Fri, 15 Dec 2023 16:20:43 -0800
+Subject: [PATCH RFC v15 02/30] dt-bindings: Add binding for gunyah
+ hypervisor
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20231215-gunyah-v15-2-192a5d872a30@quicinc.com>
+References: <20231215-gunyah-v15-0-192a5d872a30@quicinc.com>
+In-Reply-To: <20231215-gunyah-v15-0-192a5d872a30@quicinc.com>
+To: Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Murali Nalajal <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri
+	<quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Philip Derrin <quic_pderrin@quicinc.com>,
+        Prakruthi Deepak Heragu
+	<quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>, Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        "Fuad
+ Tabba" <tabba@google.com>,
+        Sean Christopherson <seanjc@google.com>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Elliot Berman
+	<quic_eberman@quicinc.com>,
+        Rob Herring <robh@kernel.org>
+X-Mailer: b4 0.13-dev
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: txtWmqSTCRvfZ8_OOLCkDkE_13G7yX7b
+X-Proofpoint-ORIG-GUID: txtWmqSTCRvfZ8_OOLCkDkE_13G7yX7b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 mlxlogscore=999 suspectscore=0 mlxscore=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312160001
 
-On December 15, 2023 1:17:00 PM PST, Dave Hansen <dave=2Ehansen@intel=2Ecom=
-> wrote:
->On 12/15/23 11:05, Chris Koch wrote:
->> A relocatable kernel will relocate itself to pref_address if it is
->> loaded below pref_address=2E This means a booted kernel may be relocati=
-ng
->> itself to an area with reserved memory on modern systems, potentially
->> clobbering arbitrary data that may be important to the system=2E
->>=20
->> This is often the case, as the default value of PHYSICAL_START is
->> 0x1000000 and kernels are typically loaded at 0x100000 or above by
->> bootloaders like iPXE or kexec=2E GRUB behaves like this patch does=2E
->>=20
->> Also fixes the documentation around pref_address and PHYSICAL_START to
->> be accurate=2E
->
->Are you reporting a bug and is this a bug fix?  It's not super clear
->from the changelog=2E
->
->
->> diff --git a/Documentation/arch/x86/boot=2Erst b/Documentation/arch/x86=
-/boot=2Erst
->> index 22cc7a040dae=2E=2E49bea8986620 100644
->> --- a/Documentation/arch/x86/boot=2Erst
->> +++ b/Documentation/arch/x86/boot=2Erst
->> @@ -878,7 +878,8 @@ Protocol:	2=2E10+
->>    address if possible=2E
->> =20
->>    A non-relocatable kernel will unconditionally move itself and to run
->> -  at this address=2E
->> +  at this address=2E A relocatable kernel will move itself to this add=
-ress if it
->> +  loaded below this address=2E
->
->I think we should avoid saying the same things over and over again in
->different spots=2E
->
->Here, it doesn't really help to enumerate the different interpretations
->of 'pref_address'=2E  All that matters is that the bootloader can avoid
->the overhead of a later copy if it can place the kernel at
->'pref_address'=2E  The exact reasons that various kernels might decide to
->relocate are unimportant here=2E
->
->>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D
->>  Field name:	init_size
->> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
->> index 3762f41bb092=2E=2E1370f43328d7 100644
->> --- a/arch/x86/Kconfig
->> +++ b/arch/x86/Kconfig
->> @@ -2109,11 +2109,11 @@ config PHYSICAL_START
->>  	help
->>  	  This gives the physical address where the kernel is loaded=2E
->> =20
->> -	  If kernel is a not relocatable (CONFIG_RELOCATABLE=3Dn) then
->> -	  bzImage will decompress itself to above physical address and
->> -	  run from there=2E Otherwise, bzImage will run from the address wher=
-e
->> -	  it has been loaded by the boot loader and will ignore above physica=
-l
->> -	  address=2E
->> +	  If the kernel is not relocatable (CONFIG_RELOCATABLE=3Dn) then bzIm=
-age
->> +	  will decompress itself to above physical address and run from there=
-=2E
->> +	  Otherwise, bzImage will run from the address where it has been load=
-ed
->> +	  by the boot loader=2E The only exception is if it is loaded below t=
-he
->> +	  above physical address, in which case it will relocate itself there=
-=2E
->
->I kinda dislike how this is written=2E  It's written almost like code
->where you're spelling out the conditions=2E  I prefer something much
->higher-level=2E
->
->	This gives a minimum physical address at which the kernel can be
->	loaded=2E
->
->	CONFIG_RELOCATABLE=3Dn kernels will be decompressed to and must
->	run at PHYSICAL_START exactly=2E
->
->	CONFIG_RELOCATABLE=3Dy kernels can run at any address above
->	PHYSICAL_START=2E  If a kernel is loaded below PHYSICAL_START, it
->	will relocate itself to PHYSICAL_START=2E
->
->>  	  In normal kdump cases one does not have to set/change this option
->>  	  as now bzImage can be compiled as a completely relocatable image
->> diff --git a/arch/x86/kernel/kexec-bzimage64=2Ec b/arch/x86/kernel/kexe=
-c-bzimage64=2Ec
->> index a61c12c01270=2E=2E5dcd232d58bf 100644
->> --- a/arch/x86/kernel/kexec-bzimage64=2Ec
->> +++ b/arch/x86/kernel/kexec-bzimage64=2Ec
->> @@ -498,7 +498,10 @@ static void *bzImage64_load(struct kimage *image, =
-char *kernel,
->>  	kbuf=2Ebufsz =3D  kernel_len - kern16_size;
->>  	kbuf=2Ememsz =3D PAGE_ALIGN(header->init_size);
->>  	kbuf=2Ebuf_align =3D header->kernel_alignment;
->> -	kbuf=2Ebuf_min =3D MIN_KERNEL_LOAD_ADDR;
->> +	if (header->pref_address < MIN_KERNEL_LOAD_ADDR)
->> +		kbuf=2Ebuf_min =3D MIN_KERNEL_LOAD_ADDR;
->> +	else
->> +		kbuf=2Ebuf_min =3D header->pref_address;
->>  	kbuf=2Emem =3D KEXEC_BUF_MEM_UNKNOWN;
->>  	ret =3D kexec_add_buffer(&kbuf);
->>  	if (ret)
->
->Comment, please=2E
->
->It isn't clear from this hunk why or how this fixes the bug=2E  How does
->this manage to avoid clobbering reserved areas?
+The Gunyah Resource Manager applies a devicetree overlay describing the
+virtual platform configuration of the guest VM, such as the message
+queue capability IDs for communicating with the Resource Manager. This
+information is not otherwise discoverable by a VM: the Gunyah hypervisor
+core does not provide a direct interface to discover capability IDs nor
+a way to communicate with RM without having already known the
+corresponding message queue capability ID. Add the DT bindings that
+Gunyah adheres for the hypervisor node and message queues.
 
-Also, this really should go to stable, so please add the appropriate Cc:=
-=2E
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+---
+ .../bindings/firmware/gunyah-hypervisor.yaml       | 82 ++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+new file mode 100644
+index 000000000000..cdeb4885a807
+--- /dev/null
++++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+@@ -0,0 +1,82 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Gunyah Hypervisor
++
++maintainers:
++  - Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
++  - Elliot Berman <quic_eberman@quicinc.com>
++
++description: |+
++  Gunyah virtual machines use this information to determine the capability IDs
++  of the message queues used to communicate with the Gunyah Resource Manager.
++  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
++
++properties:
++  compatible:
++    const: gunyah-hypervisor
++
++  "#address-cells":
++    description: Number of cells needed to represent 64-bit capability IDs.
++    const: 2
++
++  "#size-cells":
++    description: must be 0, because capability IDs are not memory address
++                  ranges and do not have a size.
++    const: 0
++
++patternProperties:
++  "^gunyah-resource-mgr(@.*)?":
++    type: object
++    description:
++      Resource Manager node which is required to communicate to Resource
++      Manager VM using Gunyah Message Queues.
++
++    properties:
++      compatible:
++        const: gunyah-resource-manager
++
++      reg:
++        items:
++          - description: Gunyah capability ID of the TX message queue
++          - description: Gunyah capability ID of the RX message queue
++
++      interrupts:
++        items:
++          - description: Interrupt for the TX message queue
++          - description: Interrupt for the RX message queue
++
++    additionalProperties: false
++
++    required:
++      - compatible
++      - reg
++      - interrupts
++
++additionalProperties: false
++
++required:
++  - compatible
++  - "#address-cells"
++  - "#size-cells"
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    hypervisor {
++        #address-cells = <2>;
++        #size-cells = <0>;
++        compatible = "gunyah-hypervisor";
++
++        gunyah-resource-mgr@0 {
++            compatible = "gunyah-resource-manager";
++            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX allowed IRQ */
++                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX requested IRQ */
++            reg = <0x00000000 0x00000000>, /* TX capability ID */
++                  <0x00000000 0x00000001>; /* RX capability ID */
++        };
++    };
+
+-- 
+2.43.0
+
