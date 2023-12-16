@@ -1,53 +1,60 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599111E485;
-	Sat, 16 Dec 2023 19:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7AE36AE6;
+	Sat, 16 Dec 2023 22:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="t5qEeIlc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=OkwSnz/x+hw4c0xXlPnigUYNs6Tn7wFQ/QxZa13dJc8=; b=t5qEeIlc3121z+dSVt4ZCU/PYa
-	Qv/ZbQtLsVP+9NLHkgFXoa9zPwcH8pqycW42DmsjSo5T6LWzQOXBiAh/lACvS1YoAG+IeJ1ixQ10h
-	J8WIYZx5VLPsBXtDExi2XUMs2vk7iNqYL3W3336V1Gor4u4ZakdbwkUIl38IPUA0wagTBD/KUDdVb
-	/IIjz+1bDnr61I6QYO7W/NldqalNLQkBQh8fraM392ixYkPDN9i7WS6PK6SbHB/gGZnA7Dr+Ptb2c
-	tYojilSRddiwys+a6Wpae2W7TAtkmLuA4wzYwH4lBlXzK3iyGgPQEUxBM4ihHo+usVUTGRMEpK/fs
-	Ky5YIWOg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:39248)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rEa1O-0003xs-2R;
-	Sat, 16 Dec 2023 19:08:22 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rEa1O-0004tz-Lr; Sat, 16 Dec 2023 19:08:22 +0000
-Date: Sat, 16 Dec 2023 19:08:22 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jie Luo <quic_luoj@quicinc.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, hkallweit1@gmail.com, corbet@lwn.net,
-	p.zabel@pengutronix.de, f.fainelli@gmail.com,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
- properties
-Message-ID: <ZX31pq4yXM8Fb/rj@shell.armlinux.org.uk>
-References: <20231215074005.26976-1-quic_luoj@quicinc.com>
- <20231215074005.26976-15-quic_luoj@quicinc.com>
- <60b9081c-76fa-4122-b7ae-5c3dcf7229f9@lunn.ch>
- <a65ad12d-b990-4439-b196-903f4a5f096a@quicinc.com>
- <f5c5cbce-c36e-498a-97e2-35f06d927d74@lunn.ch>
- <a9798333-3105-422f-8033-76c0b1d4f439@quicinc.com>
- <15d95222-35dd-4ea1-a1a3-3ad9e4ef0349@lunn.ch>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DqkRTEKL"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-67ee17ab697so16830006d6.0;
+        Sat, 16 Dec 2023 14:07:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702764473; x=1703369273; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jwJtOVzDALEiJLugl6CGKr+41IZkmLCFTtfJq15ISN4=;
+        b=DqkRTEKL4h/rtlHt8Pn94FE1e3ODKansgseDG738nFP1TQbr3aEV/EahzJH3iLIwY2
+         oB07uFa1Md2nZAWlcwMNC3QwJkuTgrUFAo6+wxWUl8wPjPCINNlkE7SIN3Y0O3qeBYCK
+         TnGj1lJqhTz0GNsBZ9kiffOXDBulxjh4lF8PWMDuQBhK4/an5lp2hMxRkei+OGarHVMF
+         gfJtXTUpHTbfwlRnsW8vJ4AZOPGitkjYO/QvzNETwYBHR/WeFMBAP8Rnzk6qp97RcPib
+         33pMpujQOdqSiO8zEgdw98gtYXg2aZpy0RIniBvyOx7avD264JMW38yAU5pLWwbTuasE
+         wLMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702764473; x=1703369273;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jwJtOVzDALEiJLugl6CGKr+41IZkmLCFTtfJq15ISN4=;
+        b=vRscS9VdOLE2NyGjjtO+N/7e93VAf4yj8frLALys7sPTdTejBvDB/2TqkCH8AIl38e
+         VTnFmDWlULP/5sgJv65kpMFE8H5MT3ApZSPRni7JF2zWhlvfzLSmfl0Zk3PtqGtxQGIL
+         eB5pCLjuGwFJguYfOdtx6Hm2rne4X1H0VI1Ab4HgENT93qK7MmpJVJCSh5afK4baTlKc
+         3z9Id2SN9L/MSwtUHoIk1Y1UPHGjDouFY9WkPUBFF5a4iVADU9MZ1Ed16YUd31M9kUkY
+         6ifx/xa1s2mKBbMASonmUVJS2fgL5NehUIb1/jbNQevM8ztbUI85VAjrXahH82jX4dHi
+         Deaw==
+X-Gm-Message-State: AOJu0Ywm870QB3VibPwOOKyYTvXXSHFwC7tA2SBzfjSzGk2lpk+YiUU/
+	lTfpoOCOV2TcukorOn1cIKE=
+X-Google-Smtp-Source: AGHT+IE3+UOgYbTWfDhQYqYlMvxrqc3oL7PkPxf8DD+XLHf9CF2u2jUNttsRs0fbcYgsJ9isAUifTQ==
+X-Received: by 2002:a05:6214:1023:b0:67a:be9a:e9df with SMTP id k3-20020a056214102300b0067abe9ae9dfmr15601156qvr.17.1702764473088;
+        Sat, 16 Dec 2023 14:07:53 -0800 (PST)
+Received: from abdel ([174.95.13.129])
+        by smtp.gmail.com with ESMTPSA id u3-20020a0cf883000000b0067eec0ef4b7sm3122821qvn.66.2023.12.16.14.07.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Dec 2023 14:07:52 -0800 (PST)
+Date: Sat, 16 Dec 2023 17:07:42 -0500
+From: Abdel Alkuor <alkuor@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
+Message-ID: <ZX4frjGqOGb4zMmx@abdel>
+References: <149032e99136a9fe47c3533b57a71092646e497d.1702744180.git.alkuor@gmail.com>
+ <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
+ <aa93010a-7ab0-4b9d-bb5d-25ea15b81120@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,48 +63,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <15d95222-35dd-4ea1-a1a3-3ad9e4ef0349@lunn.ch>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <aa93010a-7ab0-4b9d-bb5d-25ea15b81120@roeck-us.net>
 
-On Sat, Dec 16, 2023 at 06:30:00PM +0100, Andrew Lunn wrote:
-> > The following is the chip package, the chip can work on the switch mode
-> > like the existed upstream code qca8k, where PHY1-PHY4 is connected with
-> > MAC1-MAC4 directly; The chip can also work on the PHY mode, where PHY1-
-> > PHY4 is connected with PCS1 by 10g-qxgmii; Either switch mode or PHY mode,
-> > the PHY4 is optionally connected with PCS0 by SGMII, PCS0 and PCS1
-> > are connected with the SoC(IPQ platform) PCSes.
+On Sat, Dec 16, 2023 at 10:46:53AM -0800, Guenter Roeck wrote:
+> On 12/16/23 08:39, Abdel Alkuor wrote:
+> Please explain why the lm75 driver would not work for this chip.
+> I don't immediately see the problem, especially with TMP112 using almost
+> the same configuration register layout.
 > 
-> I don't really understand. Are you saying the hardware is actually :
-> 
-> 
-> +----------------------------------------------+
-> |          PCS1           PCS0                 |
-> |                                              |
-> |          MAC0           MAC5                 |
-> |           |              |                   |
-> |     +-----+--------------+-------------+     |
-> |     |                                  |     |
-> |     |                Switch            |     |
-> |     |                                  |     |
-> |     +-+---------+---------+---------+--+     |
-> |       |         |         |         |        |
-> |      MAC1      MAC2      MAC3      MAC4      |
-> |                                              |
-> |      PHY1      PHY2      PHY3      PHY4      |
-> +----------------------------------------------+
-> 
-> When in PHY mode, the switch is hard coded to map the 4 PCS1 channels
-> straight to MAC1-MAC4 and all switch functionality is disabled. But
-> then in switch mode, the switch can be controlled as a DSA switch? The
-> 10G PCS1 is then a single 10G port, not 4x 2.5G?
-> 
-> Is there a product brief for this PHY? That might help us understand
-> this hardware?
+Hi Guenter,
 
-Not even digikey give any clues what "QCA8084" is - they list it as
-"unclassified" and give no documentation and no photo. Basically it
-seems to be a super secret device.
+That's a good point, tmp112 is very similar to as6200 except R0/R1 and
+EM bits don't exist in as6200. That being said, the current config for
+tmp112 in lm75 driver can be used for as6200 as the default R0/R1 is
+set to 12bits which is the only resolution supported in as6200.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Should I use tmp112 params for as6200?
+
+Also, can we add support for hwmon_temp_alarm and alert interrupt?
+
+Thanks,
+Abdel
