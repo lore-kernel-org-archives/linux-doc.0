@@ -1,40 +1,41 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A927107A1;
-	Sat, 16 Dec 2023 00:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5383D286;
+	Sat, 16 Dec 2023 00:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LUKP349R"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFMqUoH027173;
-	Sat, 16 Dec 2023 00:21:10 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="B5TWgck2"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BFNVtTc032147;
+	Sat, 16 Dec 2023 00:21:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:date:subject:mime-version:content-type
 	:content-transfer-encoding:message-id:references:in-reply-to:to
-	:cc; s=qcppdkim1; bh=/+Id6UngUNXl0d+rJA071fD+Qr412G4VIuAp81DQV5I
-	=; b=LUKP349RPynWGfGdn4h214nYsasY4jj+1a8uGryPSnj1jTPANSLvPR9QHry
-	Jv50lyTAG3WqsgDyv9tR4w5BbQLlwZcQWRwKAGYHh0WIgl0VHxWlRaALEL4/QfP0
-	FeDpUf1aaFFr0Z3Hv/5T9MXO3LVg1jN+s4GRIeLV/ZeOZ8U/36Nk6idrFVFnIn9p
-	fnMngljLK1Aq1BnuhuS4wtDsDMA+HDAUaDs3vReNV5CFgavJo7rgeG5yjvTrBGMu
-	wQozXGPGvCgR5xr2gEVJQwUxHYUh8ANQKKNFdDuorSpW2MWqZm+Sr77WVVKy520e
-	z1uL7kk1jhtQacGGukFPoGqF6Qg==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0k90t5ee-1
+	:cc; s=qcppdkim1; bh=iTaqAUcOpRnCyYGJ0l3m5/vSDTCcvFGH9tqjh544eL4
+	=; b=B5TWgck2K4jQCXDXIXtpg0n/j8Lmn6aBx9i6XSvu/Ndrr8htpVOatDgU36c
+	SzO86s0LDTgX0Oknj9ZfrfkxDYjFmSMKCAVau4q1WE8xly/pVsb69pWgqSrex48E
+	YMLrG37sHq1Pj+kYbBJeM3MjAqgdv2CTf+00xl9MT/jhHVW9fF3IWh72kEeKt7Ne
+	JxdhvC5hdNj0bExWUQEAfXmH4vsRwoBqjo+iy1a19l/KamOCJtx6oXOUVgdgrkpW
+	04mgx1xFFj8UDHogTprUJOfyGme+1xoFKHe7/2qJVjVLNnNEOfj9GpYMAjCuFg9e
+	vUW4PN6bolhIhCM72I73g15onEA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v0vv9ghj5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 16 Dec 2023 00:21:10 +0000 (GMT)
+	Sat, 16 Dec 2023 00:21:08 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BG0L9j1006332
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BG0L7SM015556
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 16 Dec 2023 00:21:09 GMT
+	Sat, 16 Dec 2023 00:21:07 GMT
 Received: from [169.254.0.1] (10.49.16.6) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 15 Dec
- 2023 16:21:08 -0800
+ 2023 16:21:06 -0800
 From: Elliot Berman <quic_eberman@quicinc.com>
-Date: Fri, 15 Dec 2023 16:20:55 -0800
-Subject: [PATCH RFC v15 14/30] virt: gunyah: Add IO handlers
+Date: Fri, 15 Dec 2023 16:20:52 -0800
+Subject: [PATCH RFC v15 11/30] gunyah: vm_mgr: Add framework for VM
+ Functions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,7 +44,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20231215-gunyah-v15-14-192a5d872a30@quicinc.com>
+Message-ID: <20231215-gunyah-v15-11-192a5d872a30@quicinc.com>
 References: <20231215-gunyah-v15-0-192a5d872a30@quicinc.com>
 In-Reply-To: <20231215-gunyah-v15-0-192a5d872a30@quicinc.com>
 To: Alex Elder <elder@linaro.org>,
@@ -81,223 +82,468 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: viVGif0NYI_o8FMi5l-n1s0_bA6JvWVC
-X-Proofpoint-GUID: viVGif0NYI_o8FMi5l-n1s0_bA6JvWVC
+X-Proofpoint-GUID: 1nT_mBGLws1M_dRKl_RKL4-iwDUKhNXs
+X-Proofpoint-ORIG-GUID: 1nT_mBGLws1M_dRKl_RKL4-iwDUKhNXs
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
- mlxlogscore=936 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312160001
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 adultscore=0 malwarescore=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
+ definitions=main-2312160001
 
-Add framework for VM functions to handle stage-2 write faults from Gunyah
-guest virtual machines. IO handlers have a range of addresses which they
-apply to. Optionally, they may apply to only when the value written
-matches the IO handler's value.
+Introduce a framework for Gunyah userspace to install VM functions. VM
+functions are optional interfaces to the virtual machine. vCPUs,
+ioeventfs, and irqfds are examples of such VM functions and are
+implemented in subsequent patches.
 
-Reviewed-by: Alex Elder <elder@linaro.org>
-Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+A generic framework is implemented instead of individual ioctls to
+create vCPUs, irqfds, etc., in order to simplify the VM manager core
+implementation and allow dynamic loading of VM function modules.
+
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- drivers/virt/gunyah/vm_mgr.c  | 114 ++++++++++++++++++++++++++++++++++++++++++
- drivers/virt/gunyah/vm_mgr.h  |   5 ++
- include/linux/gunyah_vm_mgr.h |  29 +++++++++++
- 3 files changed, 148 insertions(+)
+ drivers/virt/gunyah/vm_mgr.c  | 217 +++++++++++++++++++++++++++++++++++++++++-
+ drivers/virt/gunyah/vm_mgr.h  |   6 ++
+ include/linux/gunyah_vm_mgr.h | 100 +++++++++++++++++++
+ include/uapi/linux/gunyah.h   |  18 ++++
+ 4 files changed, 339 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
-index fb22459b21c8..8feb9302d7d2 100644
+index 1b1b26f568af..81bc73047e1e 100644
 --- a/drivers/virt/gunyah/vm_mgr.c
 +++ b/drivers/virt/gunyah/vm_mgr.c
-@@ -285,6 +285,118 @@ static void gunyah_vm_clean_resources(struct gunyah_vm *ghvm)
- 	mutex_unlock(&ghvm->resources_lock);
- }
+@@ -6,15 +6,185 @@
+ #define pr_fmt(fmt) "gunyah_vm_mgr: " fmt
  
-+static int _gunyah_vm_io_handler_compare(const struct rb_node *node,
-+					 const struct rb_node *parent)
-+{
-+	struct gunyah_vm_io_handler *n =
-+		container_of(node, struct gunyah_vm_io_handler, node);
-+	struct gunyah_vm_io_handler *p =
-+		container_of(parent, struct gunyah_vm_io_handler, node);
+ #include <linux/anon_inodes.h>
++#include <linux/compat.h>
+ #include <linux/file.h>
+ #include <linux/gunyah_rsc_mgr.h>
++#include <linux/gunyah_vm_mgr.h>
+ #include <linux/miscdevice.h>
+ #include <linux/module.h>
++#include <linux/xarray.h>
+ 
+ #include <uapi/linux/gunyah.h>
+ 
+ #include "vm_mgr.h"
+ 
++static DEFINE_XARRAY(gunyah_vm_functions);
 +
-+	if (n->addr < p->addr)
-+		return -1;
-+	if (n->addr > p->addr)
-+		return 1;
-+	if ((n->len && !p->len) || (!n->len && p->len))
-+		return 0;
-+	if (n->len < p->len)
-+		return -1;
-+	if (n->len > p->len)
-+		return 1;
-+	/* one of the io handlers doesn't have datamatch and the other does.
-+	 * For purposes of comparison, that makes them identical since the
-+	 * one that doesn't have datamatch will cover the same handler that
-+	 * does.
-+	 */
-+	if (n->datamatch != p->datamatch)
-+		return 0;
-+	if (n->data < p->data)
-+		return -1;
-+	if (n->data > p->data)
-+		return 1;
-+	return 0;
++static void gunyah_vm_put_function(struct gunyah_vm_function *fn)
++{
++	module_put(fn->mod);
 +}
 +
-+static int gunyah_vm_io_handler_compare(struct rb_node *node,
-+					const struct rb_node *parent)
++static struct gunyah_vm_function *gunyah_vm_get_function(u32 type)
 +{
-+	return _gunyah_vm_io_handler_compare(node, parent);
-+}
++	struct gunyah_vm_function *fn;
 +
-+static int gunyah_vm_io_handler_find(const void *key,
-+				     const struct rb_node *node)
-+{
-+	const struct gunyah_vm_io_handler *k = key;
++	fn = xa_load(&gunyah_vm_functions, type);
++	if (!fn) {
++		request_module("ghfunc:%d", type);
 +
-+	return _gunyah_vm_io_handler_compare(&k->node, node);
-+}
-+
-+static struct gunyah_vm_io_handler *
-+gunyah_vm_mgr_find_io_hdlr(struct gunyah_vm *ghvm, u64 addr, u64 len, u64 data)
-+{
-+	struct gunyah_vm_io_handler key = {
-+		.addr = addr,
-+		.len = len,
-+		.datamatch = true,
-+		.data = data,
-+	};
-+	struct rb_node *node;
-+
-+	node = rb_find(&key, &ghvm->mmio_handler_root,
-+		       gunyah_vm_io_handler_find);
-+	if (!node)
-+		return NULL;
-+
-+	return container_of(node, struct gunyah_vm_io_handler, node);
-+}
-+
-+int gunyah_vm_mmio_write(struct gunyah_vm *ghvm, u64 addr, u32 len, u64 data)
-+{
-+	struct gunyah_vm_io_handler *io_hdlr = NULL;
-+	int ret;
-+
-+	down_read(&ghvm->mmio_handler_lock);
-+	io_hdlr = gunyah_vm_mgr_find_io_hdlr(ghvm, addr, len, data);
-+	if (!io_hdlr || !io_hdlr->ops || !io_hdlr->ops->write) {
-+		ret = -ENOENT;
-+		goto out;
++		fn = xa_load(&gunyah_vm_functions, type);
 +	}
 +
-+	ret = io_hdlr->ops->write(io_hdlr, addr, len, data);
++	if (!fn || !try_module_get(fn->mod))
++		fn = ERR_PTR(-ENOENT);
++
++	return fn;
++}
++
++static void
++gunyah_vm_remove_function_instance(struct gunyah_vm_function_instance *inst)
++	__must_hold(&inst->ghvm->fn_lock)
++{
++	inst->fn->unbind(inst);
++	list_del(&inst->vm_list);
++	gunyah_vm_put_function(inst->fn);
++	kfree(inst->argp);
++	kfree(inst);
++}
++
++static void gunyah_vm_remove_functions(struct gunyah_vm *ghvm)
++{
++	struct gunyah_vm_function_instance *inst, *iiter;
++
++	mutex_lock(&ghvm->fn_lock);
++	list_for_each_entry_safe(inst, iiter, &ghvm->functions, vm_list) {
++		gunyah_vm_remove_function_instance(inst);
++	}
++	mutex_unlock(&ghvm->fn_lock);
++}
++
++static long gunyah_vm_add_function_instance(struct gunyah_vm *ghvm,
++					    struct gunyah_fn_desc *f)
++{
++	struct gunyah_vm_function_instance *inst;
++	void __user *argp;
++	long r = 0;
++
++	if (f->arg_size > GUNYAH_FN_MAX_ARG_SIZE) {
++		dev_err_ratelimited(ghvm->parent, "%s: arg_size > %d\n",
++				    __func__, GUNYAH_FN_MAX_ARG_SIZE);
++		return -EINVAL;
++	}
++
++	inst = kzalloc(sizeof(*inst), GFP_KERNEL);
++	if (!inst)
++		return -ENOMEM;
++
++	inst->arg_size = f->arg_size;
++	if (inst->arg_size) {
++		inst->argp = kzalloc(inst->arg_size, GFP_KERNEL);
++		if (!inst->argp) {
++			r = -ENOMEM;
++			goto free;
++		}
++
++		argp = u64_to_user_ptr(f->arg);
++		if (copy_from_user(inst->argp, argp, f->arg_size)) {
++			r = -EFAULT;
++			goto free_arg;
++		}
++	}
++
++	inst->fn = gunyah_vm_get_function(f->type);
++	if (IS_ERR(inst->fn)) {
++		r = PTR_ERR(inst->fn);
++		goto free_arg;
++	}
++
++	inst->ghvm = ghvm;
++	inst->rm = ghvm->rm;
++
++	mutex_lock(&ghvm->fn_lock);
++	r = inst->fn->bind(inst);
++	if (r < 0) {
++		mutex_unlock(&ghvm->fn_lock);
++		gunyah_vm_put_function(inst->fn);
++		goto free_arg;
++	}
++
++	list_add(&inst->vm_list, &ghvm->functions);
++	mutex_unlock(&ghvm->fn_lock);
++
++	return r;
++free_arg:
++	kfree(inst->argp);
++free:
++	kfree(inst);
++	return r;
++}
++
++static long gunyah_vm_rm_function_instance(struct gunyah_vm *ghvm,
++					   struct gunyah_fn_desc *f)
++{
++	struct gunyah_vm_function_instance *inst, *iter;
++	void __user *user_argp;
++	void *argp;
++	long r = 0;
++
++	r = mutex_lock_interruptible(&ghvm->fn_lock);
++	if (r)
++		return r;
++
++	if (f->arg_size) {
++		argp = kzalloc(f->arg_size, GFP_KERNEL);
++		if (!argp) {
++			r = -ENOMEM;
++			goto out;
++		}
++
++		user_argp = u64_to_user_ptr(f->arg);
++		if (copy_from_user(argp, user_argp, f->arg_size)) {
++			r = -EFAULT;
++			kfree(argp);
++			goto out;
++		}
++
++		r = -ENOENT;
++		list_for_each_entry_safe(inst, iter, &ghvm->functions,
++					 vm_list) {
++			if (inst->fn->type == f->type &&
++			    inst->fn->compare(inst, argp, f->arg_size)) {
++				gunyah_vm_remove_function_instance(inst);
++				r = 0;
++			}
++		}
++
++		kfree(argp);
++	}
 +
 +out:
-+	up_read(&ghvm->mmio_handler_lock);
-+	return ret;
++	mutex_unlock(&ghvm->fn_lock);
++	return r;
 +}
-+EXPORT_SYMBOL_GPL(gunyah_vm_mmio_write);
 +
-+int gunyah_vm_add_io_handler(struct gunyah_vm *ghvm,
-+			     struct gunyah_vm_io_handler *io_hdlr)
++int gunyah_vm_function_register(struct gunyah_vm_function *fn)
 +{
-+	struct rb_node *found;
-+
-+	if (io_hdlr->datamatch &&
-+	    (!io_hdlr->len || io_hdlr->len > sizeof(io_hdlr->data)))
++	if (!fn->bind || !fn->unbind)
 +		return -EINVAL;
 +
-+	down_write(&ghvm->mmio_handler_lock);
-+	found = rb_find_add(&io_hdlr->node, &ghvm->mmio_handler_root,
-+			    gunyah_vm_io_handler_compare);
-+	up_write(&ghvm->mmio_handler_lock);
-+
-+	return found ? -EEXIST : 0;
++	return xa_err(xa_store(&gunyah_vm_functions, fn->type, fn, GFP_KERNEL));
 +}
-+EXPORT_SYMBOL_GPL(gunyah_vm_add_io_handler);
++EXPORT_SYMBOL_GPL(gunyah_vm_function_register);
 +
-+void gunyah_vm_remove_io_handler(struct gunyah_vm *ghvm,
-+				 struct gunyah_vm_io_handler *io_hdlr)
++void gunyah_vm_function_unregister(struct gunyah_vm_function *fn)
 +{
-+	down_write(&ghvm->mmio_handler_lock);
-+	rb_erase(&io_hdlr->node, &ghvm->mmio_handler_root);
-+	up_write(&ghvm->mmio_handler_lock);
++	/* Expecting unregister to only come when unloading a module */
++	WARN_ON(fn->mod && module_refcount(fn->mod));
++	xa_erase(&gunyah_vm_functions, fn->type);
 +}
-+EXPORT_SYMBOL_GPL(gunyah_vm_remove_io_handler);
++EXPORT_SYMBOL_GPL(gunyah_vm_function_unregister);
 +
  static int gunyah_vm_rm_notification_status(struct gunyah_vm *ghvm, void *data)
  {
  	struct gunyah_rm_vm_status_payload *payload = data;
-@@ -366,6 +478,8 @@ static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gunyah_rm *rm)
- 	mutex_init(&ghvm->resources_lock);
- 	INIT_LIST_HEAD(&ghvm->resources);
- 	INIT_LIST_HEAD(&ghvm->resource_tickets);
-+	init_rwsem(&ghvm->mmio_handler_lock);
-+	ghvm->mmio_handler_root = RB_ROOT;
- 	INIT_LIST_HEAD(&ghvm->functions);
- 	mutex_init(&ghvm->fn_lock);
+@@ -91,7 +261,10 @@ static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gunyah_rm *rm)
+ 
+ 	init_rwsem(&ghvm->status_lock);
+ 	init_waitqueue_head(&ghvm->vm_status_wait);
++	kref_init(&ghvm->kref);
+ 	ghvm->vm_status = GUNYAH_RM_VM_STATUS_NO_STATE;
++	INIT_LIST_HEAD(&ghvm->functions);
++	mutex_init(&ghvm->fn_lock);
+ 
+ 	return ghvm;
+ }
+@@ -182,6 +355,7 @@ static long gunyah_vm_ioctl(struct file *filp, unsigned int cmd,
+ 			    unsigned long arg)
+ {
+ 	struct gunyah_vm *ghvm = filp->private_data;
++	void __user *argp = (void __user *)arg;
+ 	long r;
+ 
+ 	switch (cmd) {
+@@ -189,6 +363,24 @@ static long gunyah_vm_ioctl(struct file *filp, unsigned int cmd,
+ 		r = gunyah_vm_ensure_started(ghvm);
+ 		break;
+ 	}
++	case GUNYAH_VM_ADD_FUNCTION: {
++		struct gunyah_fn_desc f;
++
++		if (copy_from_user(&f, argp, sizeof(f)))
++			return -EFAULT;
++
++		r = gunyah_vm_add_function_instance(ghvm, &f);
++		break;
++	}
++	case GUNYAH_VM_REMOVE_FUNCTION: {
++		struct gunyah_fn_desc f;
++
++		if (copy_from_user(&f, argp, sizeof(f)))
++			return -EFAULT;
++
++		r = gunyah_vm_rm_function_instance(ghvm, &f);
++		break;
++	}
+ 	default:
+ 		r = -ENOTTY;
+ 		break;
+@@ -197,14 +389,22 @@ static long gunyah_vm_ioctl(struct file *filp, unsigned int cmd,
+ 	return r;
+ }
+ 
+-static int gunyah_vm_release(struct inode *inode, struct file *filp)
++int __must_check gunyah_vm_get(struct gunyah_vm *ghvm)
+ {
+-	struct gunyah_vm *ghvm = filp->private_data;
++	return kref_get_unless_zero(&ghvm->kref);
++}
++EXPORT_SYMBOL_GPL(gunyah_vm_get);
++
++static void _gunyah_vm_put(struct kref *kref)
++{
++	struct gunyah_vm *ghvm = container_of(kref, struct gunyah_vm, kref);
+ 	int ret;
+ 
+ 	if (ghvm->vm_status == GUNYAH_RM_VM_STATUS_RUNNING)
+ 		gunyah_vm_stop(ghvm);
+ 
++	gunyah_vm_remove_functions(ghvm);
++
+ 	if (ghvm->vm_status != GUNYAH_RM_VM_STATUS_NO_STATE &&
+ 	    ghvm->vm_status != GUNYAH_RM_VM_STATUS_LOAD &&
+ 	    ghvm->vm_status != GUNYAH_RM_VM_STATUS_RESET) {
+@@ -227,6 +427,19 @@ static int gunyah_vm_release(struct inode *inode, struct file *filp)
+ 
+ 	gunyah_rm_put(ghvm->rm);
+ 	kfree(ghvm);
++}
++
++void gunyah_vm_put(struct gunyah_vm *ghvm)
++{
++	kref_put(&ghvm->kref, _gunyah_vm_put);
++}
++EXPORT_SYMBOL_GPL(gunyah_vm_put);
++
++static int gunyah_vm_release(struct inode *inode, struct file *filp)
++{
++	struct gunyah_vm *ghvm = filp->private_data;
++
++	gunyah_vm_put(ghvm);
+ 	return 0;
+ }
  
 diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
-index b94f6d16b787..a26bf81e94fc 100644
+index aa058722c5fe..a9e0eaf212fd 100644
 --- a/drivers/virt/gunyah/vm_mgr.h
 +++ b/drivers/virt/gunyah/vm_mgr.h
-@@ -12,6 +12,7 @@
- #include <linux/list.h>
- #include <linux/mutex.h>
+@@ -9,6 +9,8 @@
+ #include <linux/device.h>
+ #include <linux/gunyah_rsc_mgr.h>
+ #include <linux/kref.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
  #include <linux/notifier.h>
-+#include <linux/rbtree.h>
  #include <linux/rwsem.h>
  #include <linux/wait.h>
- 
-@@ -37,6 +38,10 @@ struct gunyah_vm {
- 	struct mutex resources_lock;
- 	struct list_head resources;
- 	struct list_head resource_tickets;
-+	struct rb_root mmio_handler_root;
-+	struct rw_semaphore mmio_handler_lock;
+@@ -28,6 +30,10 @@ struct gunyah_vm {
+ 	enum gunyah_rm_vm_status vm_status;
+ 	wait_queue_head_t vm_status_wait;
+ 	struct rw_semaphore status_lock;
++
++	struct kref kref;
++	struct mutex fn_lock;
++	struct list_head functions;
  };
  
-+int gunyah_vm_mmio_write(struct gunyah_vm *ghvm, u64 addr, u32 len, u64 data);
-+
  #endif
 diff --git a/include/linux/gunyah_vm_mgr.h b/include/linux/gunyah_vm_mgr.h
-index b02c6e89b207..635adcbcc7d4 100644
---- a/include/linux/gunyah_vm_mgr.h
+new file mode 100644
+index 000000000000..f40e57f32fd8
+--- /dev/null
 +++ b/include/linux/gunyah_vm_mgr.h
-@@ -133,4 +133,33 @@ int gunyah_vm_add_resource_ticket(struct gunyah_vm *ghvm,
- void gunyah_vm_remove_resource_ticket(struct gunyah_vm *ghvm,
- 				      struct gunyah_vm_resource_ticket *ticket);
+@@ -0,0 +1,100 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#ifndef _GUNYAH_VM_MGR_H
++#define _GUNYAH_VM_MGR_H
++
++#include <linux/compiler_types.h>
++#include <linux/gunyah.h>
++#include <linux/gunyah_rsc_mgr.h>
++#include <linux/list.h>
++#include <linux/mod_devicetable.h>
++#include <linux/notifier.h>
++
++#include <uapi/linux/gunyah.h>
++
++struct gunyah_vm;
++
++int __must_check gunyah_vm_get(struct gunyah_vm *ghvm);
++void gunyah_vm_put(struct gunyah_vm *ghvm);
++
++struct gunyah_vm_function_instance;
++/**
++ * struct gunyah_vm_function - Represents a function type
++ * @type: value from &enum gunyah_fn_type
++ * @name: friendly name for debug purposes
++ * @mod: owner of the function type
++ * @bind: Called when a new function of this type has been allocated.
++ * @unbind: Called when the function instance is being destroyed.
++ * @compare: Compare function instance @f's argument to the provided arg.
++ *           Return true if they are equivalent. Used on GUNYAH_VM_REMOVE_FUNCTION.
++ */
++struct gunyah_vm_function {
++	u32 type;
++	const char *name;
++	struct module *mod;
++	long (*bind)(struct gunyah_vm_function_instance *f);
++	void (*unbind)(struct gunyah_vm_function_instance *f);
++	bool (*compare)(const struct gunyah_vm_function_instance *f,
++			const void *arg, size_t size);
++};
++
++/**
++ * struct gunyah_vm_function_instance - Represents one function instance
++ * @arg_size: size of user argument
++ * @argp: pointer to user argument
++ * @ghvm: Pointer to VM instance
++ * @rm: Pointer to resource manager for the VM instance
++ * @fn: The ops for the function
++ * @data: Private data for function
++ * @vm_list: for gunyah_vm's functions list
++ * @fn_list: for gunyah_vm_function's instances list
++ */
++struct gunyah_vm_function_instance {
++	size_t arg_size;
++	void *argp;
++	struct gunyah_vm *ghvm;
++	struct gunyah_rm *rm;
++	struct gunyah_vm_function *fn;
++	void *data;
++	struct list_head vm_list;
++};
++
++int gunyah_vm_function_register(struct gunyah_vm_function *f);
++void gunyah_vm_function_unregister(struct gunyah_vm_function *f);
++
++/* Since the function identifiers were setup in a uapi header as an
++ * enum and we do no want to change that, the user must supply the expanded
++ * constant as well and the compiler checks they are the same.
++ * See also MODULE_ALIAS_RDMA_NETLINK.
++ */
++#define MODULE_ALIAS_GUNYAH_VM_FUNCTION(_type, _idx)        \
++	static inline void __maybe_unused __chk##_idx(void) \
++	{                                                   \
++		BUILD_BUG_ON(_type != _idx);                \
++	}                                                   \
++	MODULE_ALIAS("ghfunc:" __stringify(_idx))
++
++#define DECLARE_GUNYAH_VM_FUNCTION(_name, _type, _bind, _unbind, _compare) \
++	static struct gunyah_vm_function _name = {                         \
++		.type = _type,                                             \
++		.name = __stringify(_name),                                \
++		.mod = THIS_MODULE,                                        \
++		.bind = _bind,                                             \
++		.unbind = _unbind,                                         \
++		.compare = _compare,                                       \
++	}
++
++#define module_gunyah_vm_function(__gf)                  \
++	module_driver(__gf, gunyah_vm_function_register, \
++		      gunyah_vm_function_unregister)
++
++#define DECLARE_GUNYAH_VM_FUNCTION_INIT(_name, _type, _idx, _bind, _unbind, \
++					_compare)                           \
++	DECLARE_GUNYAH_VM_FUNCTION(_name, _type, _bind, _unbind, _compare); \
++	module_gunyah_vm_function(_name);                                   \
++	MODULE_ALIAS_GUNYAH_VM_FUNCTION(_type, _idx)
++
++#endif
+diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+index 31e7f79a6c39..1b7cb5fde70a 100644
+--- a/include/uapi/linux/gunyah.h
++++ b/include/uapi/linux/gunyah.h
+@@ -25,4 +25,22 @@
+  */
+ #define GUNYAH_VM_START		_IO(GUNYAH_IOCTL_TYPE, 0x3)
  
-+/*
-+ * gunyah_vm_io_handler contains the info about an io device and its associated
-+ * addr and the ops associated with the io device.
-+ */
-+struct gunyah_vm_io_handler {
-+	struct rb_node node;
-+	u64 addr;
++#define GUNYAH_FN_MAX_ARG_SIZE		256
 +
-+	bool datamatch;
-+	u8 len;
-+	u64 data;
-+	struct gunyah_vm_io_handler_ops *ops;
++/**
++ * struct gunyah_fn_desc - Arguments to create a VM function
++ * @type: Type of the function. See &enum gunyah_fn_type.
++ * @arg_size: Size of argument to pass to the function. arg_size <= GUNYAH_FN_MAX_ARG_SIZE
++ * @arg: Pointer to argument given to the function. See &enum gunyah_fn_type for expected
++ *       arguments for a function type.
++ */
++struct gunyah_fn_desc {
++	__u32 type;
++	__u32 arg_size;
++	__u64 arg;
 +};
 +
-+/*
-+ * gunyah_vm_io_handler_ops contains function pointers associated with an iodevice.
-+ */
-+struct gunyah_vm_io_handler_ops {
-+	int (*read)(struct gunyah_vm_io_handler *io_dev, u64 addr, u32 len,
-+		    u64 data);
-+	int (*write)(struct gunyah_vm_io_handler *io_dev, u64 addr, u32 len,
-+		     u64 data);
-+};
-+
-+int gunyah_vm_add_io_handler(struct gunyah_vm *ghvm,
-+			     struct gunyah_vm_io_handler *io_dev);
-+void gunyah_vm_remove_io_handler(struct gunyah_vm *ghvm,
-+				 struct gunyah_vm_io_handler *io_dev);
++#define GUNYAH_VM_ADD_FUNCTION	_IOW(GUNYAH_IOCTL_TYPE, 0x4, struct gunyah_fn_desc)
++#define GUNYAH_VM_REMOVE_FUNCTION	_IOW(GUNYAH_IOCTL_TYPE, 0x7, struct gunyah_fn_desc)
 +
  #endif
 
