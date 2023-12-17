@@ -1,141 +1,240 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED311FA1;
-	Sun, 17 Dec 2023 01:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC9510E7
+	for <linux-doc@vger.kernel.org>; Sun, 17 Dec 2023 02:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZAvME+wc"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4257ba1bc5fso19728071cf.0;
-        Sat, 16 Dec 2023 17:40:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T8noADab"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6d9f069e9b0so1709279a34.3
+        for <linux-doc@vger.kernel.org>; Sat, 16 Dec 2023 18:12:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702777238; x=1703382038; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=4tN5Y97P29mxV58V9F0ZwD2RtyCX5TgVyk9VEmyv5MM=;
-        b=ZAvME+wc5ovmqBpH8u8IcmHV4Wf+dcXeoGj2zcG0BObTZCp8GRU2qxxk5sukouns6U
-         3j3SJNwTOgCd2oB52NOzLSabmn+lOhNBKd0i1moyt0E7Kksk8fkeIySMQ2sXnSBtiJfH
-         0p9QSN6HLtt9QQFgt6nTBm3g+xC7pn5PIM2/VsuJQPF9k4A9desiWRPhvlfHGNgx4RKw
-         wKvDfrJ5NZhUMEGmlZld5I3Ze/NexwpA7s9R3/QQ38S/jonVvm+AlAgFDfAn7wlt5CP+
-         DIs5578MCe4sE52vLU7RwNTsI/aXVwMiskoWSTGvvA1rrzdy6xuhJCBiQH4KwsVxHMRy
-         DCrA==
+        d=linaro.org; s=google; t=1702779161; x=1703383961; darn=vger.kernel.org;
+        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZU4udhAe9yRwJhQWBqF+GjdBA5/uiRNgWqIJoHsE7co=;
+        b=T8noADabLzOIjby2jIzTFj5idZTZeSF2wb3H0aqyJSP98ZaQKWd5UgZevEDVEkwTOy
+         8AkrIWQ22gfKAuoi5TT2GASednxTRWs8ZbdpOl1gCJRdyz6qlxHao7fXham60xDWTpWn
+         1gDX9PgBuWaRzzxgUqhiM/+hOlGmSkewIVEecf+UIgxQRhi8AK+NZ4TwsB7QbM2HNSvU
+         1MQ5xEAXIq4YK8+5IG2BfreN5nLmugx876/+u6qrUHlp5jwTiHKYJhYH/Hz3+HpyCotq
+         s4lPeQQed5vGkKRvzCjn8cTVSChEqu/3DP/JttoCpZfPN5xtK2J6JyGL9/40MitlzGia
+         Qw9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702777238; x=1703382038;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4tN5Y97P29mxV58V9F0ZwD2RtyCX5TgVyk9VEmyv5MM=;
-        b=vE+de6RM9o1Ejj+iVJVgb5chyQqoRZGNcWvII1ij+ncHJPsTWf9Lc4KnkfKwdDTS7+
-         xXDMOMxUSF02hZ41y/g9GFbUtuUM3ZNysUfmv12+WUIuD/+rCLKRbiSyFrhuWa5Jpi6R
-         H3LdL4ZVmN42vzVGJLmUBbTYbmKL1EmViDpbm8noNmnUv7/GfamIj2y7gXWzTgIf5rKr
-         PBUMIOu8K9zDQqQ/u1BKNA+QhL1Mu5hpMo5lUCLTIUdbWkOKNdjqvTxGqQJbwNYRXM/w
-         azWsLLvrYb71D57EeOsrlp5ww0GvjGNujSTM29yV09sKoi/gCH/FlV7DUE3XPbyVV32r
-         e6gw==
-X-Gm-Message-State: AOJu0Yzy1r9eGXzFCdiRAuwt3fWx2HeElgu8xv35kVlueJPHUunx9NVd
-	1cRmQBGR62IP1H8I47HzLFdcaJFbFmA=
-X-Google-Smtp-Source: AGHT+IGA0+wWr2pMyO59p4rHpqS9L1oNKEsSUhFEr7XHJul96cTNlE77p8wLmzcOZkIGkZAKqTrDJw==
-X-Received: by 2002:a05:622a:34e:b0:425:4043:96d4 with SMTP id r14-20020a05622a034e00b00425404396d4mr19205550qtw.97.1702777238423;
-        Sat, 16 Dec 2023 17:40:38 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id ee11-20020a056130158b00b007cab0072ffcsm1607927uab.17.2023.12.16.17.40.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 Dec 2023 17:40:37 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c606c40b-8571-4618-827a-555ceab3ae74@roeck-us.net>
-Date: Sat, 16 Dec 2023 17:40:35 -0800
+        d=1e100.net; s=20230601; t=1702779161; x=1703383961;
+        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZU4udhAe9yRwJhQWBqF+GjdBA5/uiRNgWqIJoHsE7co=;
+        b=T1NFSQ0wA1gP8YYfZtTkXM9IeCJYSoISToq3n5l9lI588xKonyGgCeSepQueQcVdqj
+         C2C8tXQYT/VCw1Utngm0mLV0QOPE1h/uk5uM+XTmhonuxy8rfhte/STV6xk3wJy+/LVI
+         9/hO7Q/eVxwAlaTwnLZkuJ5i+/G8BfuoZQw79964r7HMxdLbqNObnhb1TmchT3QgT+BU
+         CrYb1Qn1BbiyaaIwcpQt49N7AT44jd20Jo+Fb5WMvmlMBPX8r8ovuo5wmaA5EQo4opp6
+         pmiIah+BJBTVB+LqTx81IkyjCY+HGlfgwD7PgbKThdo+HdDtNMwiZpnbHkAG5YT5/OWm
+         gsSA==
+X-Gm-Message-State: AOJu0YyBaXMYL2QItlgrD/Y5JEItu3bkBgjSVAEUeAprkz+ejEaipWKz
+	WIW3UA/kvNnpRb+/P/hg2uiflw3nlr9NydrY9bv3ag==
+X-Google-Smtp-Source: AGHT+IF6d0b9WINtfrmG2vZvKrSnvlJEjZ4mHUhu7B/LaY8JjOvAXCc/5DohR5MVIJGhP2NUssRkGA==
+X-Received: by 2002:a05:6808:128b:b0:3b9:dd5e:86f2 with SMTP id a11-20020a056808128b00b003b9dd5e86f2mr19868232oiw.13.1702779160745;
+        Sat, 16 Dec 2023 18:12:40 -0800 (PST)
+Received: from localhost ([2804:14d:7e39:8470:a30f:cc0e:7239:16c3])
+        by smtp.gmail.com with ESMTPSA id f10-20020a170902e98a00b001d39ac5cbf7sm1784886plb.201.2023.12.16.18.12.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Dec 2023 18:12:40 -0800 (PST)
+References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
+ <20231122-arm64-gcs-v7-36-201c483bd775@kernel.org>
+User-agent: mu4e 1.10.8; emacs 29.1
+From: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
+ <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
+ <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
+ <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
+ Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, Oleg
+ Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees
+ Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, "Rick P.
+ Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta
+ <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, Szabolcs Nagy
+ <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Florian Weimer <fweimer@redhat.com>, Christian
+ Brauner <brauner@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v7 36/39] selftests/arm64: Add GCS signal tests
+In-reply-to: <20231122-arm64-gcs-v7-36-201c483bd775@kernel.org>
+Date: Sat, 16 Dec 2023 23:12:37 -0300
+Message-ID: <875y0x7f1m.fsf@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
-Content-Language: en-US
-To: Abdel Alkuor <alkuor@gmail.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <149032e99136a9fe47c3533b57a71092646e497d.1702744180.git.alkuor@gmail.com>
- <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
- <aa93010a-7ab0-4b9d-bb5d-25ea15b81120@roeck-us.net> <ZX4frjGqOGb4zMmx@abdel>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <ZX4frjGqOGb4zMmx@abdel>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 12/16/23 14:07, Abdel Alkuor wrote:
-> On Sat, Dec 16, 2023 at 10:46:53AM -0800, Guenter Roeck wrote:
->> On 12/16/23 08:39, Abdel Alkuor wrote:
->> Please explain why the lm75 driver would not work for this chip.
->> I don't immediately see the problem, especially with TMP112 using almost
->> the same configuration register layout.
->>
-> Hi Guenter,
-> 
-> That's a good point, tmp112 is very similar to as6200 except R0/R1 and
-> EM bits don't exist in as6200. That being said, the current config for
-> tmp112 in lm75 driver can be used for as6200 as the default R0/R1 is
-> set to 12bits which is the only resolution supported in as6200.
-> 
-> Should I use tmp112 params for as6200?
-> 
 
-Sure, or just add a separate entry for as6200.
+Mark Brown <broonie@kernel.org> writes:
 
-> Also, can we add support for hwmon_temp_alarm and alert interrupt?
-> 
-Yes, of course. Just make it conditional on chip types supporting it
-(not necessarily all of them, just the ones you know about).
+> diff --git a/tools/testing/selftests/arm64/signal/testcases/gcs_exception_fault.c b/tools/testing/selftests/arm64/signal/testcases/gcs_exception_fault.c
+> new file mode 100644
+> index 000000000000..532d533592a1
+> --- /dev/null
+> +++ b/tools/testing/selftests/arm64/signal/testcases/gcs_exception_fault.c
+> @@ -0,0 +1,59 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2023 ARM Limited
+> + */
+> +
+> +#include <errno.h>
+> +#include <signal.h>
+> +#include <unistd.h>
+> +
+> +#include <sys/mman.h>
+> +#include <sys/prctl.h>
+> +
+> +#include "test_signals_utils.h"
+> +#include "testcases.h"
+> +
+> +/* This should be includable from some standard header, but which? */
+> +#ifndef SEGV_CPERR
+> +#define SEGV_CPERR 10
+> +#endif
 
-Thanks,
-Guenter
+One suggestion is include/uapi/asm-generic/siginfo.h. It already has
+SEGV_MTEAERR and SEGV_MTESERR, as well as si_codes specific to other
+arches.
 
+From there, it should find its way to glibc's
+sysdeps/unix/sysv/linux/bits/siginfo-consts.h.
+
+> +static int gcs_regs(struct tdescr *td, siginfo_t *si, ucontext_t *uc)
+> +{
+> +	size_t offset;
+> +	struct _aarch64_ctx *head = GET_BUF_RESV_HEAD(context);
+> +	struct gcs_context *gcs;
+> +	unsigned long expected, gcspr;
+> +	int ret;
+> +
+> +	ret = prctl(PR_GET_SHADOW_STACK_STATUS, &expected, 0, 0, 0);
+> +	if (ret != 0) {
+> +		fprintf(stderr, "Unable to query GCS status\n");
+> +		return 1;
+> +	}
+> +
+> +	/* We expect a cap to be added to the GCS in the signal frame */
+> +	gcspr = get_gcspr_el0();
+> +	gcspr -= 8;
+> +	fprintf(stderr, "Expecting GCSPR_EL0 %lx\n", gcspr);
+> +
+> +	if (!get_current_context(td, &context.uc, sizeof(context))) {
+> +		fprintf(stderr, "Failed getting context\n");
+> +		return 1;
+> +	}
+
+At this point, before any function call is made, can the test check that
+*(gcspr + 8) == 0? This would detect the issue I mentioned in
+patch 24 of gcs_restore_signal() not zeroing the location of the cap.
+
+> +	fprintf(stderr, "Got context\n");
+> +
+> +	head = get_header(head, GCS_MAGIC, GET_BUF_RESV_SIZE(context),
+> +			  &offset);
+> +	if (!head) {
+> +		fprintf(stderr, "No GCS context\n");
+> +		return 1;
+> +	}
+> +
+> +	gcs = (struct gcs_context *)head;
+> +
+> +	/* Basic size validation is done in get_current_context() */
+> +
+> +	if (gcs->features_enabled != expected) {
+> +		fprintf(stderr, "Features enabled %llx but expected %lx\n",
+> +			gcs->features_enabled, expected);
+> +		return 1;
+> +	}
+> +
+> +	if (gcs->gcspr != gcspr) {
+> +		fprintf(stderr, "Got GCSPR %llx but expected %lx\n",
+> +			gcs->gcspr, gcspr);
+> +		return 1;
+> +	}
+
+I suggest adding a new check here to ensure that gcs->reserved == 0.
+
+> +	fprintf(stderr, "GCS context validated\n");
+> +	td->pass = 1;
+> +
+> +	return 0;
+> +}
+> +
+> +struct tdescr tde = {
+> +	.name = "GCS basics",
+> +	.descr = "Validate a GCS signal context",
+> +	.feats_required = FEAT_GCS,
+> +	.timeout = 3,
+> +	.run = gcs_regs,
+> +};
+> diff --git a/tools/testing/selftests/arm64/signal/testcases/gcs_write_fault.c b/tools/testing/selftests/arm64/signal/testcases/gcs_write_fault.c
+> new file mode 100644
+> index 000000000000..126b1a294a29
+> --- /dev/null
+> +++ b/tools/testing/selftests/arm64/signal/testcases/gcs_write_fault.c
+> @@ -0,0 +1,67 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2023 ARM Limited
+> + */
+> +
+> +#include <errno.h>
+> +#include <signal.h>
+> +#include <unistd.h>
+> +
+> +#include <sys/mman.h>
+> +#include <sys/prctl.h>
+> +
+> +#include "test_signals_utils.h"
+> +#include "testcases.h"
+> +
+> +static uint64_t *gcs_page;
+> +
+> +#ifndef __NR_map_shadow_stack
+> +#define __NR_map_shadow_stack 452
+> +#endif
+> +
+> +static bool alloc_gcs(struct tdescr *td)
+> +{
+> +	long page_size = sysconf(_SC_PAGE_SIZE);
+> +
+> +	gcs_page = (void *)syscall(__NR_map_shadow_stack, 0,
+> +				   page_size, 0);
+> +	if (gcs_page == MAP_FAILED) {
+> +		fprintf(stderr, "Failed to map %ld byte GCS: %d\n",
+> +			page_size, errno);
+
+This call is failing with EINVAL for me:
+
+# timeout set to 45
+# selftests: arm64/signal: gcs_write_fault
+# # GCS write fault :: Normal writes to a GCS segfault
+# Registered handlers for all signals.
+# Detected MINSTKSIGSZ:4720
+# Required Features: [ GCS ] supported
+# Incompatible Features: [] absent
+# Failed to map 4096 byte GCS: 22
+# FAILED Testcase initialization.
+# ==>> completed. FAIL(0)
+not ok 11 selftests: arm64/signal: gcs_write_fault # exit=1
+
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+
+-- 
+Thiago
