@@ -1,54 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDAD32C63;
-	Sun, 17 Dec 2023 11:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A233C43147;
+	Sun, 17 Dec 2023 13:02:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mm2DBawt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702813811; x=1734349811;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9IDAZ6s+VCoUbUYOgwDqe6kkFvmADMWSOYAij07BnEs=;
-  b=Mm2DBawtn0sbZ7q1MAX1yqHrtIDlnkThxl8HqJByxR3X3qwiv/wJL6aB
-   HMVPZUYwVHIQQXPLbsrjSrYeR6VcK/4lecr3rvVNtvPINdi/hCEerAyKQ
-   zDeX+PmH2WIGDu+2Ox4J0wlsDwPu0C2NmRYg2vOrlju99Ort7GEYSE4To
-   zOSNXAhpWzqTOPQHMVBZGidM1hvSQGCb5fkJa8rxVuhqzRmy7cnj8oZW0
-   OwarEMEBNSUfPgmCOPRWxcqAk1W1XnojmKCNbwvI+RlME2mlwx0c6RGLp
-   8lp25bUMZxIlViJLPaqnA71hgMGP6IGAAr7ZU1no0wCncYRIhaxg5+FCz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="375562901"
-X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="375562901"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 03:50:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="724977812"
-X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="724977812"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 17 Dec 2023 03:50:07 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rEpen-0002zS-0R;
-	Sun, 17 Dec 2023 11:50:05 +0000
-Date: Sun, 17 Dec 2023 19:49:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abdel Alkuor <alkuor@gmail.com>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
-Message-ID: <202312171951.3y47awo9-lkp@intel.com>
-References: <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hIP8vS81"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A4DC433C7;
+	Sun, 17 Dec 2023 13:02:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702818147;
+	bh=totc3bhdIJhST4jH5HrKG/pFIPp32//1T4FxcfKMPPg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hIP8vS81QN8xQGOQeCV0N/GyEHaBWKyERYOmoJe64KTzsjv1E+PpSRvJPJ4/8mrNt
+	 qime86vnW6dQyV6RtIgscW3NhC6hgpEeUiriJxWnBy9zj9SoPso9BNuoLdcCWSSp9C
+	 VzqKYs29YIuknddmfyTfKVIfnvbNLAFdanhnD4Q9Rg8nfvy3D5enzAwBg3PXKixndO
+	 omRCnEfR1cbXWLcxLC+JMvYzD+I1YAq6rtQooiiOSRXgSJf4nerbTpZu2d+dqV53bH
+	 tRdFi+O127uMshEDgLW5hMAXgq9wk1EWVCltY4M5tYNtrAoUm3oKssGpdWqgEOxWWk
+	 2lqQcCTlwC3NQ==
+Date: Sun, 17 Dec 2023 13:02:21 +0000
+From: Simon Horman <horms@kernel.org>
+To: Luo Jie <quic_luoj@quicinc.com>
+Cc: andrew@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	hkallweit1@gmail.com, linux@armlinux.org.uk, corbet@lwn.net,
+	p.zabel@pengutronix.de, f.fainelli@gmail.com,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 13/14] net: phy: at803x: configure qca8084 work mode
+Message-ID: <20231217130221.GZ6288@kernel.org>
+References: <20231215074005.26976-1-quic_luoj@quicinc.com>
+ <20231215074005.26976-14-quic_luoj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,33 +39,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
+In-Reply-To: <20231215074005.26976-14-quic_luoj@quicinc.com>
 
-Hi Abdel,
+On Fri, Dec 15, 2023 at 03:40:03PM +0800, Luo Jie wrote:
 
-kernel test robot noticed the following build warnings:
+...
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on robh/for-next linus/master v6.7-rc5 next-20231215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> @@ -1038,6 +1045,46 @@ static int qca8084_common_clock_init(struct phy_device *phydev)
+>  	return clk_prepare_enable(priv->clk[MDIO_MASTER_AHB_CLK]);
+>  }
+>  
+> +static int qca8084_parse_and_set_work_mode(struct phy_device *phydev)
+> +{
+> +	struct device_node *node;
+> +	struct at803x_priv *priv;
+> +	u32 value, work_mode;
+> +	int ret;
+> +
+> +	node = phydev->mdio.dev.of_node;
+> +	priv = phydev->priv;
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abdel-Alkuor/hwmon-Add-AMS-AS6200-temperature-sensor/20231217-004310
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor%40gmail.com
-patch subject: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
-reproduce: (https://download.01.org/0day-ci/archive/20231217/202312171951.3y47awo9-lkp@intel.com/reproduce)
+Hi Luo Jie,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312171951.3y47awo9-lkp@intel.com/
+a minor nit from my side: priv is set but otherwise unused in this function.
 
-All warnings (new ones prefixed by >>):
+> +
+> +	/* The property "qcom,phy-work-mode" is only defined in one
+> +	 * PHY device tree node.
+> +	 */
+> +	ret = of_property_read_u32(node, "qcom,phy-work-mode", &value);
+> +	if (ret)
+> +		return ret == -EINVAL ? 0 : ret;
+> +
+> +	switch (value) {
+> +	case 0:
+> +		work_mode = QCA8084_WORK_MODE_QXGMII;
+> +		break;
+> +	case 1:
+> +		work_mode = QCA8084_WORK_MODE_QXGMII_PORT4_SGMII;
+> +		break;
+> +	case 2:
+> +		work_mode = QCA8084_WORK_MODE_SWITCH;
+> +		break;
+> +	case 3:
+> +		work_mode = QCA8084_WORK_MODE_SWITCH_PORT4_SGMII;
+> +		break;
+> +	default:
+> +		phydev_err(phydev, "invalid qcom,phy-work-mode %d\n", value);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return qca8084_mii_modify(phydev, QCA8084_WORK_MODE_CFG,
+> +				  QCA8084_WORK_MODE_MASK,
+> +				  FIELD_PREP(QCA8084_WORK_MODE_MASK, work_mode));
+> +}
 
->> Documentation/hwmon/as6200.rst: WARNING: document isn't included in any toctree
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+...
