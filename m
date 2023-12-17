@@ -1,114 +1,158 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD13A47
-	for <linux-doc@vger.kernel.org>; Sun, 17 Dec 2023 02:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E22A40;
+	Sun, 17 Dec 2023 04:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VJFpDkED"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-591553d3835so1446844eaf.3
-        for <linux-doc@vger.kernel.org>; Sat, 16 Dec 2023 18:18:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mi/usC7l"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-77f3159d822so157769485a.2;
+        Sat, 16 Dec 2023 20:59:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702779495; x=1703384295; darn=vger.kernel.org;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=OFl8kjpw91XelbaLp/NqZrQDKjPZSUtARdmSUPQXSX8=;
-        b=VJFpDkEDGw/FR4o/St1bqanokQFV99ffBLRVEy4vwSZWwLafnkkXJAuTJnKac2oPV2
-         OXBcr2dAu0hwlqf2wxz5aLt3UFQIep2NFn1wCmTuxnCtmodjGz/zDewvgsiU4iSXfixU
-         5IVxUaZkOy7gQjYAuxwvMylvIqJJfZYzVtxdZI36NRheHiX2AnPmkUYB3odKBak+ULjN
-         fTdaFgbyOwmFglxoXQ1Zg669yAOCvBj1QUubpLI6NCTEHawkbq6uL9HvFYiM634LjBnh
-         64PUVxjLHjBEHLbM3gfV2plRQ4eK7UueVKhHogwHkhKUBayMnHNoIpCA5jfbhUHPF4sY
-         tzMA==
+        d=gmail.com; s=20230601; t=1702789197; x=1703393997; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1+UltNrsyGWSVcT46lR5ejKknw3QMITEfIA00sFphM4=;
+        b=Mi/usC7lhKQluoYFi9oF63FIbqrEhrIG4c3R/pMFIDTEesgq4+N1haW7usWHbDr9nA
+         MgyNDmObZQlAPtaD16f7os21XtBkVEuVZF47slWHbWbniFiQmvYNkWlcK76HBlBpmphY
+         eMOJ9B4HJJw0QuUSK05nGeIfVdi4S+pbrJbiVpkZlXf7RZ88/q0gLDl+5tUOBRhlSPjd
+         6yJKCCiSOff3Yu9Uo6B6BvxnXhJYa3TqH7qnKIqQS0wp4HrBqHeGp2rxIsWOyS+vVcqr
+         wF1J6fUwpVcdTtxopQsK4YVf+85TdJ/bvMUaOpiYcMfNITzMSMNU8PoH9biRXrJqwZ8r
+         7UJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702779495; x=1703384295;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1702789197; x=1703393997;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OFl8kjpw91XelbaLp/NqZrQDKjPZSUtARdmSUPQXSX8=;
-        b=u+DrlVkLqGfkUPUvQo9283Qd2FY/Y7K+Sj9WrqJ1tIH5PZLjK9qivRbm1KUb8WWX+0
-         wuyEOt2l8tk4jLlJl8GHXMdQqaQgLtiQSx4aJt93HXNirCcqLdLCjMvQGjvZJOWFr0GX
-         CTq9LX/+Qy51XYvFE90wcYLlyLfmV9JNYMv0D4kitbrS1qj7fyEPhRRIUpZiYq2eyrJc
-         Fk3u6+ca8IA0r8S9/YDfz4YemWDc9eQ6dmukEIIb7qA7a5KdqGQuNzDttU9PdC+jhCO4
-         ssAFXGUvTyLOX9nmPfV12lM9yB0cqvOEDWqaDti9B5aSGcUFYPSdAcEZ6cd5acxeKStF
-         e/yQ==
-X-Gm-Message-State: AOJu0YxsySeH6p77qQW09LeSd/OznC8JU5gwdDNaCKLkzm2EH5SJeJxt
-	qYBoYXD2Z9eU/c6Wvq/xxGrldg==
-X-Google-Smtp-Source: AGHT+IF+rykhjl/vJMlMFtG1M64I68Xtmq2p6wjQt8Jp7El542Y7P1lc23SbwSwdEGVtxnixp9/AeQ==
-X-Received: by 2002:a05:6808:3a09:b0:3b9:e828:816 with SMTP id gr9-20020a0568083a0900b003b9e8280816mr20647236oib.48.1702779495498;
-        Sat, 16 Dec 2023 18:18:15 -0800 (PST)
-Received: from localhost ([2804:14d:7e39:8470:a30f:cc0e:7239:16c3])
-        by smtp.gmail.com with ESMTPSA id ja11-20020a170902efcb00b001d39f6edd54sm1453638plb.84.2023.12.16.18.18.14
+        bh=1+UltNrsyGWSVcT46lR5ejKknw3QMITEfIA00sFphM4=;
+        b=uYZbUViZKD3FFQYYZE1CRw8cWDR0n3kOoDndYjD23Yov7BwWiI2LIoXLQJ435syNUq
+         zI79Q43QzB6o9wVAuamBSvxQAxqB879g79KgRuJnIIw+A1K5Ou3U/sz3Z8Xn6EsAh5Bc
+         /vO/ZEjSiICvi2qJzikAFRbZhsnjz6pvLUSwuyqIQ0F13ZLqdUs+X4/7f/0EkMFkzylP
+         0aF7sXePT5kz79YgEUFnOX6GazfKDKZlL5Ylf+eNDE739gu+MQBty7xvPifEiFnXy4uE
+         k4OzOC+kea2EAYzTCbuAA1v5q53Ue97ASO1NCx+zu+bDca0VMeZelypehSpskRXTCtKb
+         /l4w==
+X-Gm-Message-State: AOJu0Yzuium0iBSr0/+nJD5h+T6HesBN7Mw3cq4JNv2ZG3Viuvqq4rhk
+	ntMT/Ne6ypszwExn93ltpISwvLhcq+3OsQ==
+X-Google-Smtp-Source: AGHT+IFKJJbsIK9fuyNGgNZuSaHKM+ohjM8BhwnIAryW0TJHEnQCLhkedKn1UdldO2ou4tQIup8nsw==
+X-Received: by 2002:a05:620a:4591:b0:77e:fba3:58e2 with SMTP id bp17-20020a05620a459100b0077efba358e2mr18292087qkb.115.1702789197601;
+        Sat, 16 Dec 2023 20:59:57 -0800 (PST)
+Received: from abdel ([174.95.13.129])
+        by smtp.gmail.com with ESMTPSA id m1-20020ae9e701000000b007759a81d88esm7217485qka.50.2023.12.16.20.59.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Dec 2023 18:18:14 -0800 (PST)
-References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
- <20231122-arm64-gcs-v7-34-201c483bd775@kernel.org>
- <875y1089i4.fsf@linaro.org>
- <485b6454-135c-4dd4-b38e-8fb8a02779cd@sirena.org.uk>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
- <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
- <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
- Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, Oleg
- Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees
- Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, "Rick P.
- Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta
- <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, Szabolcs Nagy
- <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Florian Weimer <fweimer@redhat.com>, Christian
- Brauner <brauner@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v7 34/39] kselftest/arm64: Add a GCS test program built
- with the system libc
-In-reply-to: <485b6454-135c-4dd4-b38e-8fb8a02779cd@sirena.org.uk>
-Date: Sat, 16 Dec 2023 23:18:13 -0300
-Message-ID: <871qbl7esa.fsf@linaro.org>
+        Sat, 16 Dec 2023 20:59:57 -0800 (PST)
+Date: Sat, 16 Dec 2023 23:59:46 -0500
+From: Abdel Alkuor <alkuor@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
+Message-ID: <ZX6AQg1vz/Zz6JeG@abdel>
+References: <149032e99136a9fe47c3533b57a71092646e497d.1702744180.git.alkuor@gmail.com>
+ <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
+ <aa93010a-7ab0-4b9d-bb5d-25ea15b81120@roeck-us.net>
+ <ZX4frjGqOGb4zMmx@abdel>
+ <c606c40b-8571-4618-827a-555ceab3ae74@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c606c40b-8571-4618-827a-555ceab3ae74@roeck-us.net>
 
-
-Mark Brown <broonie@kernel.org> writes:
-
->> Also, it's strange that the tests defined after map_gcs.stack_overflow
->> don't run when I execute this test program. I'm doing:
+On Sat, Dec 16, 2023 at 05:40:35PM -0800, Guenter Roeck wrote:
+> On 12/16/23 14:07, Abdel Alkuor wrote:
+> > On Sat, Dec 16, 2023 at 10:46:53AM -0800, Guenter Roeck wrote:
+> > > On 12/16/23 08:39, Abdel Alkuor wrote:
+> > Should I use tmp112 params for as6200?
+> > 
+> 
+> Sure, or just add a separate entry for as6200.
 >
->> $ ./run_kselftest.sh -t arm64:libc-gcs
->
->> I.e., these tests aren't being run in my FVP:
->
->> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, too_small)
->> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_1)
->> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_2)
->> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_3)
->> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_4)
->> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_5)
->> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_6)
->> > +FIXTURE_VARIANT_ADD(map_invalid_gcs, unligned_7)
->> > +TEST_F(map_invalid_gcs, do_map)
->> > +FIXTURE_VARIANT_ADD(invalid_mprotect, exec)
->> > +FIXTURE_VARIANT_ADD(invalid_mprotect, bti)
->> > +FIXTURE_VARIANT_ADD(invalid_mprotect, exec_bti)
->> > +TEST_F(invalid_mprotect, do_map)
->> > +TEST_F(invalid_mprotect, do_map_read)
->
-> I'm seeing all of those appearing.  I'm not sure what to say there -
-> that's all kselftest framework stuff, I'd expect the framework to say
-> something about what it's doing if it decides to skip and I can't think
-> why it would decide to skip.
+I think some modifications need to be done regarding setting the default
+configuration for chips with config reg of 16 bits.
 
-Thanks. I'll poke some more to see if I can figure out what's going on.
+Currently, tmp112 set_mask and clr_mask look like this
 
--- 
-Thiago
+   [tmp112] = {
+   	 .set_mask = 3 << 5,	/* 8 samples / second */
+   	 .clr_mask = 1 << 7,	/* no one-shot mode*/
+   	 ...
+   }
+
+and in probe function, we are using i2c_smbus_read_byte_data which
+basically reads byte 1 of tmp112 config reg and in lm75_write_config
+it writes byte 1 of tmp112 config reg. Now based on tmp112 set_mask,
+we want to set the sample rate but we actually setting R0 and R1 instead.
+According to tmp112 datasheet on pg. 16, byte 1 is written first then
+byte 2, where byte 2 has the conversion rate at bit 6 and 7 (CR0/CR1).
+
+tmp112 datasheet: https://www.ti.com/lit/ds/symlink/tmp112.pdf?ts=1702713491401&ref_url=https%253A%252F%252Fwww.google.com%252F
+
+Now, to accommodate 16 bit config register read/write, something along these lines can
+be done:
+- In struct lm75_params,
+  - change set_mask and clr_mask from u8 to u16 
+  - Add config reg two bytes size flag
+- Use the proper function to read the config reg based on config reg size i.e
+  For one byte config reg, use i2c_smbus_read_byte_data, and for 2 bytes
+  config reg, use regmap_read.
+
+  static int lm75_probe(struct i2c_client *client)
+  {
+   	...
+	if (data->params->config_reg_16bits)
+  		status = regmap_read(client, LM75_REG_CONF, &regval);
+		if (status < 0) {
+			dev_dbg(dev, "Can't read config? %d\n", status);
+			return status;
+		}
+		data->orig_conf = regval;
+		data->current_conf = regval;
+	} else {
+  		status = i2c_smbus_read_byte_data(client, LM75_REG_CONF);
+		if (status < 0) {
+			dev_dbg(dev, "Can't read config? %d\n", status);
+			return status;
+		}
+		data->orig_conf = status;
+		data->current_conf = status;
+	}
+	...
+   }
+
+   static int lm75_write_config(struct lm75_data *data, u16 set_mask,
+   			     u16 clr_mask)
+   {
+     
+     if (data->params->config_reg_16bits)
+     	clr_mask |= LM75_SHUTDOWN << 8;
+     else
+     	clr_mask |= LM75_SHUTDOWN;
+     ... 
+     	if (data->params->config_reg_16bits)
+     		err = regmap_write(data->regmap, LM75_REG_CONF, value);
+     	else
+     		err = i2c_smbus_write_byte_data(data->client,
+     			       			LM75_REG_CONF,
+     						value);
+     ...
+   }
+
+Based on that, the new tmp112 set_mask and clr_mask would look like this instead,
+  [tmp112] = {
+  	.set_mask = 3 << 6,	/* 8 samples / second */
+  	.clr_mask = 1 << 15,	/* no one-shot mode*/
+	.config_reg_16bits = 1,
+  	...
+  }
+
+Thanks,
+Abdel
