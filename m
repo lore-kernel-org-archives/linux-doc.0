@@ -1,93 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EEA48CC3;
-	Sun, 17 Dec 2023 21:44:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2750A4B122
+	for <linux-doc@vger.kernel.org>; Sun, 17 Dec 2023 23:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mhTYy3DB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3011FC433C8;
-	Sun, 17 Dec 2023 21:44:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702849484;
-	bh=LU9qYbUuOegUoQ0y3keXt75Qy2ohN0DfQKRqKYnsRAU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mhTYy3DB43PQyqzftTGqTqeZ1Lkau+WzeJ8iQUXZQ7CjIMnDI3fdA5b1VN0vIJMO5
-	 Zc+K7KHWigs6jL5waqcarnnYI4wV0TW5oFFXK5qzoslOJwMOTb+0OCuuqh5BLEJwoO
-	 L+T/5UbiBg6cWaEw0X4OaSUYCvn7UdtwJgXGqZa8915/etyu6I5nmhYZn6pNPvz/w8
-	 q2lO6NYw/0+1nE0ZpyHXzEFlRdTZYXNwXbvrX3RqGvLJu3ktiC2nzWjMXOt5EXf/qq
-	 O32Sv7Gr1gmR23+bGrV9Qk8ISNIO23jsBAfJJjexieOMtdK7qTlsTtN/ywPkIE/1B8
-	 70KksQvOVlFpg==
-Date: Sun, 17 Dec 2023 21:44:39 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Abdel Alkuor <alkuor@gmail.com>, Jean Delvare <jdelvare@suse.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Add AMS AS6200 temperature sensor
-Message-ID: <20231217-disregard-buckshot-772429f0be34@spud>
-References: <149032e99136a9fe47c3533b57a71092646e497d.1702744180.git.alkuor@gmail.com>
- <20231217-enlarged-mule-a594e472d007@spud>
- <fb0973e5-0249-4616-ad8a-0b19d8b73094@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="ZyGWsNXM"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id B0415240027
+	for <linux-doc@vger.kernel.org>; Mon, 18 Dec 2023 00:46:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1702856767; bh=B7Ta4BYxySDCYAL3BF4XbGL4luNo1llUkloFHtXOoVs=;
+	h=MIME-Version:Content-Transfer-Encoding:Date:From:To:Cc:Subject:
+	 Message-ID:From;
+	b=ZyGWsNXMb73ZimzRWC8KpTrQ+30HjjWda/KoDSvKsOQEGCrzdKlLy5m7hW7/8Tm7f
+	 MBtzND3hwMPUo+WkceoPHGyQoN1hiI3OM8rjKoOLaCPVQDQhfM55aMqfX42CcXzKeF
+	 OgpEDPsx9A4u1qlBgBvvCT/vGvvni3yZg1GNH7kq3J6n+pPYlMaQan3c9+xa4uqryP
+	 Kpszl1xMWdPbLmrYfINnc22GmYGpAAQLI7BSFZbR9rzue0vEgQ9oYw4olBYKT9zZpC
+	 KCyZI4jh+FTKNsT509UY0WmVCeR0NtpyCpRv74lZVXv2nFIKIhI0J3d0VTzCxcm7+q
+	 F5kwgKsavWURQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4StfjW0LjSz9rxF;
+	Mon, 18 Dec 2023 00:46:06 +0100 (CET)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qZyeBYZ//6gGoNwQ"
-Content-Disposition: inline
-In-Reply-To: <fb0973e5-0249-4616-ad8a-0b19d8b73094@roeck-us.net>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Sun, 17 Dec 2023 23:46:06 +0000
+From: Yueh-Shun Li <shamrocklee@posteo.net>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Irrelevant documentation recommending the use of
+ "include/linux/kernel.h"
+Message-ID: <bc63acd7ef43bdd8d9609fa48dbf92f9@posteo.net>
 
+Dear Maintainer,
 
---qZyeBYZ//6gGoNwQ
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The section "18) Don't re-invent the kernel macros" in
+"Linux kernel coding style" (Documentation/process/coding-style.rst)
+recommends re-using the macros defined in "include/linux/kernel.h"
+instead of the improvised ones locally.
 
-On Sun, Dec 17, 2023 at 01:39:37PM -0800, Guenter Roeck wrote:
-> On 12/17/23 12:58, Conor Dooley wrote:
-> > On Sat, Dec 16, 2023 at 11:39:29AM -0500, Abdel Alkuor wrote:
-> > > as6200 is a temperature sensor with a range between -40=B0C to
-> > > 125=B0C degrees and an accuracy of =B10.4=B0C degree between 0
-> > > and 65=B0C and =B11=B0C for the other ranges.
-> > >=20
-> > > Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
-> >=20
-> > Is this not v3?
->=20
-> FWIW, I don't recall seeing it.
+However, There's a note in the comment block added by commit 
+40cbf09f060c
+("kernel.h: include a note to discourage people from including it in 
+headers")
+two years ago, saying that there's an in-progress splitting of kernel.h
+and inclusion in headers under include/ is discouraged.
 
-Ah, I think this was originally submitted to iio, went through 2
-iterations and then ended up here on Jonathan's advice.
+Considering that the section was added 17 years ago by commit 
+58637ec90b7c
+("Add a new section to CodingStyle, promoting include/linux/kernel.h"),
+the section about kernel.h in the "Linux kernel coding style" 
+documentation seems outdated.
 
->=20
-> > Either way,
-> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> >=20
->=20
-> As I pointed out in my reply to the other patch, this chip is mostly
-> compatible to lm75 and almost register-compatible to tmp112, the only
-> difference being some configuration register bits.
->=20
-> Bindings for this chip should be added to
-> Documentation/devicetree/bindings/hwmon/lm75.yaml.
+Reproduction steps:
 
-Ah. In that case, I would expect my tag not to be picked up by Abdel.
+```sh
+# cd to the kernel source tree
+cd path/to/source/linux
+# Show the git blame of the documentation section added in 2006
+git blame -L 1051,1071 Documentation/process/coding-style.rst
+# Show the comment note on top of include/linux/kernel.h added in 2022
+git blame -L 2,10 include/linux/kernel.h
+```
 
---qZyeBYZ//6gGoNwQ
-Content-Type: application/pgp-signature; name="signature.asc"
+Should we change
 
------BEGIN PGP SIGNATURE-----
+```
+The header file include/linux/kernel.h
+```
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZX9rxwAKCRB4tDGHoIJi
-0lkBAQCylzdLHvlQOlEDKpH3j1rIuXMkpQGAwcKQXEo8sLT4QQEAtH+juq+C/R+n
-Z+DW2zjHNRN3tGFvYL2FG7g36bK0TQg=
-=O1+C
------END PGP SIGNATURE-----
+to something like
 
---qZyeBYZ//6gGoNwQ--
+```
+The header files under the include/linux/ directory
+```
+
+or a specific header that contains standalone helper macros?
+
+It might be out of scope here,
+but such a header that collects standalone helping macros
+seems non-existent so far.
+It would be great to have one that contains things like
+"STRINGIFY", "CONCATENATE" (or "PASTE"), "UNIQUE_ID"
+and other helper macros without external dependencies.
+There's one called "include/linux/util_macros.h", but it depends on 
+"include/linux/math.h".
+
+It's the first time for me to report an issue in LKML.
+Please kindly point out anything
+that I should fix or could improve.
+
+Best regards,
+
+Shamrock
