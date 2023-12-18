@@ -1,94 +1,186 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E2F3FF4
-	for <linux-doc@vger.kernel.org>; Mon, 18 Dec 2023 03:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C1463A3;
+	Mon, 18 Dec 2023 04:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IgNz2JSl"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d075392ff6so18902045ad.1
-        for <linux-doc@vger.kernel.org>; Sun, 17 Dec 2023 19:40:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702870836; x=1703475636; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rz8IcWFPrYshTIpMuCdGWLpKzFo5rZN3OabmtrFosFs=;
-        b=IgNz2JSllyH7g39D72AVpAQL1dpnj69vxoFoyrDJ4MPXGC12zvSjQJOTj/pstbwegn
-         8Q0e6te6WpxnOlkSsidg1bipoT6rje7CeW7KT096+/DVsdmQqhF4TGVxA0c8JUt3NWJ7
-         4K37Z1mztxrOdo9Sl2xZUEZTCeE4/wvq2WemSArbUFy1v/HE651VypL3VcGgvyXwLN3y
-         VLREUWn16adaN4q16kgo8O9rHlvVhr9FpZguZHi+D2M1mD3698KIe2KhEAE71Mc09BMM
-         lQ3voR1HjYmnJG2/FE5XxD6qb0YtcA9qj/ZTsP9UQCwUqf5pVVZbUnNWIIMknGlCRsz9
-         4b7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702870836; x=1703475636;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Rz8IcWFPrYshTIpMuCdGWLpKzFo5rZN3OabmtrFosFs=;
-        b=soRMrl66+X6/BG0ThpMITcOsT7kR+UOhigwYljaCo4EHF5LmRLbFK+XcUb6QrVSwAF
-         kCIHouI8b43YwcUyVKcihmHN0HSy+Uv0ZW0eftMF181Q20Fqats237z0tehFnDl9LT0P
-         Fkzy+q3ycpg+s3FtX2oX9t8QMAuzVTSfy/+QQ3b3wH3oiodOhEJaxprGgqS0EoYOrCwl
-         rEM+JPwsx4UrpEBqObcrdyFSKG/JYXnd/y1osk6yM0mOxeefx0JqNW42oMq9R9EdLs3y
-         4jHIrdFRvZEE6YDOitJsCn4mAQD0Yg/jWN43WSeVmFmPZDhPUkRNky5SxlLCIxhIrasI
-         32Sg==
-X-Gm-Message-State: AOJu0YyR/LuDPh8ymN35xFE9weLIV3V/+xzVRry+DmcE5gL6KY+BMF79
-	MY7i8pbywtmmBjYJSfVTfg==
-X-Google-Smtp-Source: AGHT+IFahCfvx1/CbJczzX01ofVsrnySeJPh7YvA2dXKNATCrPA4pKLR6p82T8cydA88fmMHdz/nhA==
-X-Received: by 2002:a17:903:32c5:b0:1d0:6ffd:6118 with SMTP id i5-20020a17090332c500b001d06ffd6118mr19113719plr.58.1702870835855;
-        Sun, 17 Dec 2023 19:40:35 -0800 (PST)
-Received: from piliu.users.ipa.redhat.com ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id x5-20020a1709029a4500b001d340c71cc8sm8557804plv.128.2023.12.17.19.40.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 19:40:35 -0800 (PST)
-From: Pingfan Liu <kernelfans@gmail.com>
-To: kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Cc: Pingfan Liu <piliu@redhat.com>,
-	Baoquan He <bhe@redhat.com>,
-	Dave Young <dyoung@redhat.com>
-Subject: [PATCH] Documentation: kdump: Clarify the default size of memory reserved by crashkernel low
-Date: Mon, 18 Dec 2023 11:40:20 +0800
-Message-Id: <20231218034020.15341-1-kernelfans@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oS6cT2dI"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI3puf4023465;
+	Mon, 18 Dec 2023 04:53:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=xeul6s/+w82XEoiq5laE4xHU1pshQdW7eNnWsVjUtQM=; b=oS
+	6cT2dIBpQBHFiNCbzIv0FN9LbKAPhGzF9YMCHkX3p4nK58+R5y6z/eu8nE8dvsRu
+	P6UdIYtb5hx9eJjL1jiy+2Z+Bw7HNQGl4PiUIRH4i5YP8LjYMuxxNXOi9Hq0ZLKx
+	WXSDW+uh7YxkyWp2i12XZGUyhR8LdWubsnOl0dgPuEZDoBlWO4UbLrufSogVor88
+	q+q8PhwF4WdV9giruxVEzIg7rukR2CJtKzqR+xu0olZlpMpyhpoJkUt/g5HTeyWF
+	O07hAhefgjYFvmOvh2Zzk6nZ7fbYczZv0ua247X0Lll3Q/pX6b+nK3c2DWv5rq1t
+	xnZaSgEdK0WaYJRIjwog==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v14yg3bm1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Dec 2023 04:53:13 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BI4rBb5002672
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Dec 2023 04:53:11 GMT
+Received: from [10.253.9.247] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 17 Dec
+ 2023 20:53:07 -0800
+Message-ID: <27ee13e7-5073-413c-8481-52b92d7c3687@quicinc.com>
+Date: Mon, 18 Dec 2023 12:53:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
+ properties
+Content-Language: en-US
+To: Andrew Lunn <andrew@lunn.ch>
+CC: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <corbet@lwn.net>, <p.zabel@pengutronix.de>,
+        <f.fainelli@gmail.com>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20231215074005.26976-1-quic_luoj@quicinc.com>
+ <20231215074005.26976-15-quic_luoj@quicinc.com>
+ <bdfba8a7-9197-4aae-a7f9-6075a375f60b@linaro.org>
+ <c3391e33-e770-4c61-855e-d90e82b95f75@quicinc.com>
+ <4cb2bd57-f3d3-49f9-9c02-a922fd270572@lunn.ch>
+ <ed0dd288-be8a-4161-a19f-2d4d2d17b3ec@quicinc.com>
+ <ZXxXzm8hP68KrXYs@shell.armlinux.org.uk>
+ <3a40570b-40bf-4609-b1f4-a0a6974accea@quicinc.com>
+ <b5ff9f69-e341-4846-bc5a-ebe636b7a71a@lunn.ch>
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <b5ff9f69-e341-4846-bc5a-ebe636b7a71a@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: x0p1f1CJREIpgNTp7HVn7JkKP2_GolAg
+X-Proofpoint-GUID: x0p1f1CJREIpgNTp7HVn7JkKP2_GolAg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=801 suspectscore=0 adultscore=0
+ clxscore=1015 spamscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312180031
 
-From: Pingfan Liu <piliu@redhat.com>
 
-The default size reserved for crashkernel=,low is decided by the macro
-DEFAULT_CRASH_KERNEL_LOW_SIZE, which is based on arch.
 
-Signed-off-by: Pingfan Liu <piliu@redhat.com>
-Cc: Baoquan He <bhe@redhat.com>
-Cc: Dave Young <dyoung@redhat.com>
-To: kexec@lists.infradead.org
-To: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/kdump/kdump.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+On 12/17/2023 1:17 AM, Andrew Lunn wrote:
+>> Yes, Russell, i will add an example in the DT doc in the next patch set.
+>> The following is the device node used for the current qca8084 PHY
+>> code design.
+> 
+> If you look at Christians work, this would be expressed differently:
+> 
+>> mdio: mdio@90000 {
+>>      ethernet-phy-package@1 {
+>>
+>>          compatible = "qca,qca8084-package";
+>>
+>>          qcom,phy-work-mode = <2>;
+>>          clocks = <&qca8k_nsscc NSS_CC_APB_BRIDGE_CLK>,
+>>                 <&qca8k_nsscc NSS_CC_AHB_CLK>,
+>>                 <&qca8k_nsscc NSS_CC_SEC_CTRL_AHB_CLK>,
+>>                 <&qca8k_nsscc NSS_CC_TLMM_CLK>,
+>>                 <&qca8k_nsscc NSS_CC_TLMM_AHB_CLK>,
+>>                 <&qca8k_nsscc NSS_CC_CNOC_AHB_CLK>,
+>>                 <&qca8k_nsscc NSS_CC_MDIO_AHB_CLK>,
+>>                 <&qca8k_nsscc NSS_CC_MDIO_MASTER_AHB_CLK>,
+>>                 <&qca8k_nsscc NSS_CC_SRDS0_SYS_CLK>,
+>>                 <&qca8k_nsscc NSS_CC_SRDS1_SYS_CLK>;
+>>          clock-names = "apb_bridge",
+>>                  "ahb",
+>>                  "sec_ctrl_ahb",
+>>                  "tlmm",
+>>                  "tlmm_ahb",
+>>                  "cnoc_ahb",
+>>                  "mdio_ahb",
+>>                  "mdio_master_ahb",
+>>                  "srds0_sys",
+>>                  "srds1_sys";
+>>          resets = <&qca8k_nsscc NSS_CC_SRDS0_SYS_ARES>,
+>>                 <&qca8k_nsscc NSS_CC_SRDS1_SYS_ARES>,
+>>                 <&qca8k_nsscc NSS_CC_DSP_ARES>;
+>>          reset-names = "srds0_sys",
+>>                        "srds1_sys";
+>>
+> 
+> All the properties above are common to the package as a whole.
+> 
+> Then follow the four individual PHYs, and the properties which are
+> specific to each one.
 
-diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-index 5762e7477a0c..a021ff155012 100644
---- a/Documentation/admin-guide/kdump/kdump.rst
-+++ b/Documentation/admin-guide/kdump/kdump.rst
-@@ -310,8 +310,9 @@ crashkernel syntax
-    region above 4G, low memory under 4G is needed in this case. There are
-    three ways to get low memory:
- 
--      1) Kernel will allocate at least 256M memory below 4G automatically
--         if crashkernel=Y,low is not specified.
-+      1) Kernel will allocate a chunk of default size memory, which is based on
-+         architecture, below 4G automatically if crashkernel=Y,low is not
-+         specified.
-       2) Let user specify low memory size instead.
-       3) Specified value 0 will disable low memory allocation::
- 
--- 
-2.31.1
+Thanks Andrew for the proposal.
+For the pure PHY chip qca8084, there is no driver to parse the package
+level device tree node for common clocks and resets.
 
+For the common clocks and resets above, whether we can add a qca8084
+common device tree node as the child node of MDIO bus node, and then
+parse these common properties in the PHY probe function? since the DSA
+driver is not enabled for the pure PHY chip.
+
+> 
+>>
+>>          ethernet-phy@0 {
+>>              compatible = "ethernet-phy-id004d.d180";
+>>              reg = <0>;
+>>              clocks = <qca8k_nsscc NSS_CC_GEPHY0_SYS_CLK>,
+>>              clock-names = <"gephy_sys">;
+>>              resets = <&qca8k_nsscc NSS_CC_GEPHY0_SYS_ARES>,
+>>                       <&qca8k_nsscc NSS_CC_GEPHY0_ARES>;
+>>              reset-names = "gephy_sys", "gephy_soft";
+>>          };
+>>      
+>>      
+>>          ethernet-phy@1 {
+>>              compatible = "ethernet-phy-id004d.d180";
+>>              reg = <1>;
+>>              clocks = <qca8k_nsscc NSS_CC_GEPHY1_SYS_CLK>,
+>>              clock-names = <"gephy_sys">;
+>>              resets = <&qca8k_nsscc NSS_CC_GEPHY1_SYS_ARES>,
+>>                       <&qca8k_nsscc NSS_CC_GEPHY1_ARES>;
+>>              reset-names = "gephy_sys", "gephy_soft";
+>>      
+>>          };
+>>      
+>>          ethernet-phy@2 {
+>>              compatible = "ethernet-phy-id004d.d180";
+>>              reg = <2>;
+>>              clocks = <qca8k_nsscc NSS_CC_GEPHY2_SYS_CLK>,
+>>              clock-names = <"gephy_sys">;
+>>              resets = <&qca8k_nsscc NSS_CC_GEPHY2_SYS_ARES>,
+>>                       <&qca8k_nsscc NSS_CC_GEPHY2_ARES>;
+>>              reset-names = "gephy_sys", "gephy_soft";
+>>      
+>>          };
+>>      
+>>          ethernet-phy@3 {
+>>              compatible = "ethernet-phy-id004d.d180";
+>>              reg = <3>;
+>>              clocks = <qca8k_nsscc NSS_CC_GEPHY3_SYS_CLK>,
+>>              clock-names = <"gephy_sys">;
+>>              reset-names = "gephy_sys", "gephy_soft";
+>>          };
+>> };
+> 
+> 	Andrew
