@@ -1,54 +1,73 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB944FF7B;
-	Mon, 18 Dec 2023 17:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BA04FF9A;
+	Mon, 18 Dec 2023 17:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KtuS8UGL"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8ADF737C;
-	Mon, 18 Dec 2023 17:01:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8ADF737C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1702918906; bh=nWOl2BY1xyRe8NenSZAbx+ziUsCvyZA9iGWBdQbhSVM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=KtuS8UGLDzho2qAfB3q1nCt2neiQV8leUpSgH2aZhiZi4jtqA99rq7rTNXcErgTyJ
-	 KqSbW63JqGNhllYAcCtg8urPATdYzAIMg80J4BQMZMTZNfIheP9B08WMm4AR55e+15
-	 fIjlv7ntrffdYYiCFGGxr1VOzFga6Sb16F7vn4EWqTN1SUDaXPhekQGfhYiYuFswf1
-	 VTfN5uFdx8X815ht+cF9OvjDOevWzR5OBabKdR3dOxTBxXztsC5QR/+C2JAVvW8gri
-	 K4fBbKyzqba+zQDyqaEFbw65p/P/GIj0oU26Qrlcz+tim0wB6rHZ9ccWkHz1Y4DZFc
-	 KFqFNKarrVo2g==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Carlos Bilbao <carlos.bilbao@amd.com>, Avadhut Naik <avadhut.naik@amd.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, avadnaik@amd.com
-Subject: Re: [PATCH 0/4] Spanish translations and corrections
-In-Reply-To: <3c72323d-b3e1-46a9-a462-c1986667cf7a@amd.com>
-References: <20231211023730.2026204-1-avadhut.naik@amd.com>
- <87il4zqwvv.fsf@meer.lwn.net>
- <3c72323d-b3e1-46a9-a462-c1986667cf7a@amd.com>
-Date: Mon, 18 Dec 2023 10:01:45 -0700
-Message-ID: <87a5q7moli.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="dvw7r8bf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1702919170; x=1703178370;
+	bh=9+oJSvHYfmmWkH0v3Kj/FSy5h0xeDG9NE3IKj0YFeAU=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=dvw7r8bflGnMjCwV15sMdAHT08G5ZCxzOa8HuR48P7KHI1+HiD0Esoc9UUJPXpPJj
+	 9DhQ62QEAc92fg+JcgMDwmYSe9zv+CHig6mAa+94o1SoB2qP30l368kyWxTw1NcHZ/
+	 E0bGHXQ54djCerYJL1PT5t629FkpbutGqYIwGjjab33fLy51p6IEDVROXCz0w5O9Av
+	 fyubdSV2ZTIQC76rF0XdscX5rdZaKZFtGSYl/oFHWPXNJ1xj8Og7WnIyR7O2NDa/yy
+	 sxfRtX5ROH+GmpDlyzsiCcxsa9FF58Z9e1CO8pVZqIJtx9FFjIAsk5fekTPAyCwiFl
+	 6Ib6BFIP57lMA==
+Date: Mon, 18 Dec 2023 17:05:43 +0000
+To: Miguel Ojeda <ojeda@kernel.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] docs: rust: remove `CC=clang` mentions
+Message-ID: <ba93a851-aed0-4208-b720-d74bc52c62e5@proton.me>
+In-Reply-To: <20231215124751.175191-1-ojeda@kernel.org>
+References: <20231215124751.175191-1-ojeda@kernel.org>
+Feedback-ID: 71780778:user:proton
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
+On 12/15/23 13:47, Miguel Ojeda wrote:
+> Nowadays all architectures except s390 recommend using `LLVM=3D1` instead=
+ of
+> `CC=3Dclang`, and since commit a3c6bfba4429 ("Documentation/llvm: refresh
+> docs") the Kbuild LLVM documentation makes `LLVM=3D1` the way to go:
+>=20
+>     We want to encourage the use of ``LLVM=3D1`` rather than just
+>     ``CC=3Dclang``. Make that suggestion "above the fold" and "front and
+>     center" in our docs.
+>=20
+> In particular, that commit removes the examples with `CC=3Dclang`.
+>=20
+> Thus do the same in the Rust Quick Start guide, i.e. remove the `CC=3Dcla=
+ng`
+> mentions, especially since the architectures that have had their Rust
+> support upstreamed (or soon to be upstreamed) are all `LLVM=3D1` ones
+> anyway. And perhaps by the time Rust is supported for s390 (or new
+> architectures), it may have moved to `LLVM=3D1` anyway. Otherwise,
+> this can be added back if needed (or perhaps an extra link to
+> Documentation/kbuild/llvm.rst).
+>=20
+> This should also help avoiding potential confusion around `CC=3Dclang` [1=
+].
+>=20
+> Link: https://lore.kernel.org/rust-for-linux/6df6e8e5-8d5b-4d3d-91b5-bc0e=
+90c424ea@nvidia.com/ [1]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-> Jon, Avadhut has helped me so much this last year. I would like to ask you
-> to review the patch below so we can include him as reviewer of the
-> Spanish translations of documentation. Sending separately too.
+Reviewed-by: Benno Lossin <benno.lossin@proton.me>
 
-Happy to add a reviewer!  Avadhut, if you could send an ack to the
-separate patch adding you, I'll apply it forthwith.
+--=20
+Cheers,
+Benno
 
-Thanks,
-
-jon
