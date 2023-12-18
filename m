@@ -1,101 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-38.ptr.blmpb.com (va-2-38.ptr.blmpb.com [209.127.231.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786BC12B61;
-	Mon, 18 Dec 2023 09:23:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE7211C8E
+	for <linux-doc@vger.kernel.org>; Mon, 18 Dec 2023 09:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dragonos.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dragonos.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJud1fJD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17966C433C8;
-	Mon, 18 Dec 2023 09:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702891407;
-	bh=GHAwRyvzYMoO5t9DJy2L/vZFGZ5Dq9mWQeMLRWVKZx0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RJud1fJDL22h4rushErpJMmUrhO3xcrslPsqJRk6uc2IzcXDtSELA0otvbONR8FTW
-	 L6MBy2qAm1/d885aKTGZ52miElldnk4dux1oGBB7Qwie/Jstp0/xoF4pir4VX06dNl
-	 WBVzRRDgFKNRb1ghAyxl6IzWv7qEoMD3t69caobPE1s/iGljqRMHYLRBOTapLw3KLN
-	 qQ9il4M5nD24gxNHN3ub9/SXuLvIsqeY9z0yA+LkYmcU+y7TMSg6l78d29OVQGPo/H
-	 beQmrNVxT0E83mkzpMD1ZcGj9HNmeZcG2UZcZu57S7oyla7BogUN1qFgJvr6HKhaxE
-	 r6nP6bW7hsUFw==
-Date: Mon, 18 Dec 2023 10:23:18 +0100
-From: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 13/21] ACPICA: Add new MADT GICC flags fields
-Message-ID: <ZYAPhlwPUT/7dN4n@lpieralisi>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
- <E1rDOgs-00Dvko-6t@rmk-PC.armlinux.org.uk>
- <20231215162322.00007391@Huawei.com>
- <ZXyEiHLFBsoUkfNI@shell.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=dragonos-org.20200927.dkim.feishu.cn header.i=@dragonos-org.20200927.dkim.feishu.cn header.b="qXWx2Hgj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=dragonos-org.20200927.dkim.feishu.cn; t=1702891776;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=+uxyKxzxLJ8CNNO/Y08bBRDDLEB9njSHwhyTzxE5Yss=;
+ b=qXWx2HgjqkOldcyYffAGVwUwAWM68mOwyUZbMeJI08Ky0fdA8JXXormuJENaa84r+9StYk
+ pr05bA3sZ7B2XFrKOdsggBsoQ9ygNQ67DamcMOOpPDkgta7b70DOwmyq2BkbSBAn87Gjvb
+ 2xpTlJV1bUf9U8/6w+ekILZU6koo18G2wcq/fPSfaNdrZe3HgDEmcHBtV3fhxAqpkgtqOr
+ n9bqwU3Vpfvehe5AxOTYH25hFTx9n0o4K5i9Yt17M0hpkzDyQBmmS/4WLO047yaYls1M5L
+ G5/9700r89eM9USJTrGa/QKrsbBndYlqOHQmqwpCKfyDodYji+nSrgEI5HP0Dg==
+X-Original-From: longjin <longjin@DragonOS.org>
+Message-Id: <20231218092924.200165-1-longjin@DragonOS.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZXyEiHLFBsoUkfNI@shell.armlinux.org.uk>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1
+From: "longjin" <longjin@dragonos.org>
+Subject: [PATCH V2] Translated the RISC-V architecture boot documentation.
+X-Lms-Return-Path: <lba+2658010ff+7293f5+vger.kernel.org+longjin@dragonos.org>
+Date: Mon, 18 Dec 2023 09:29:24 +0000
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+To: <siyanteng@loongson.cn>, <alexs@kernel.org>
+Cc: <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>, 
+	<linux-kernel@vger.kernel.org>, "longjin" <longjin@DragonOS.org>
+Received: from longjin-server.8.8.8.8 ([116.56.134.73]) by smtp.feishu.cn with ESMTPS; Mon, 18 Dec 2023 17:29:34 +0800
 
-On Fri, Dec 15, 2023 at 04:53:28PM +0000, Russell King (Oracle) wrote:
-> On Fri, Dec 15, 2023 at 04:23:22PM +0000, Jonathan Cameron wrote:
-> > On Wed, 13 Dec 2023 12:50:18 +0000
-> > Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
-> > 
-> > > From: James Morse <james.morse@arm.com>
-> > > 
-> > > Add the new flag field to the MADT's GICC structure.
-> > > 
-> > > 'Online Capable' indicates a disabled CPU can be enabled later. See
-> > > ACPI specification 6.5 Tabel 5.37: GICC CPU Interface Flags.
-> > > 
-> > > Signed-off-by: James Morse <james.morse@arm.com>
-> > > Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> > > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-> > > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
-> > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > 
-> > I see there is an acpica pull request including this bit but with a different name
-> > For reference.
-> > https://github.com/acpica/acpica/pull/914/commits/453a5f67567786522021d5f6913f561f8b3cabf6
-> > 
-> > +CC Lorenzo who submitted that.
-> 
-> > > +#define ACPI_MADT_GICC_CPU_CAPABLE      (1<<3)	/* 03: CPU is online capable */
-> > 
-> > ACPI_MADT_GICC_ONLINE_CAPABLE
-> 
-> It's somewhat disappointing, but no big deal. It's easy enough to change
-> "irqchip/gic-v3: Add support for ACPI's disabled but 'online capable' CPUs"
-> to use Lorenzo's name when that patch hits - and it becomes one less
-> patch in this patch set when Lorenzo's change eventually hits mainline.
-> 
-> Does anyone know how long it may take for Lorenzo's change to get into
-> mainline? Would it be by the 6.8 merge window or the following one?
-
-I wish I knew. I submitted ACPICA changes for the online capable bit
-since I had to add additional flags on top (ie DMA coherent) and it
-would not make sense to submit the latter without the former.
-
-I'd be great if the ACPICA headers can make it into Linux for the upcoming
-merge window, not sure what I can do to fasttrack the process though
-(I shall ping the maintainers).
-
-Lorenzo
-
-> Thanks.
-> 
-> -- 
-> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-> FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+VGhlIHBhdGNoIGFkZHMgYSBuZXcgZmlsZSBib290LnJzdCB0byB0aGUgRG9jdW1lbnRhdGlvbi90
+cmFuc2xhdGlvbnMvemhfQ04vDQphcmNoL3Jpc2N2LyBkaXJlY3RvcnksIGFuZCBhZGRzIGEgcmVm
+ZXJlbmNlIHRvIHRoZSBuZXcgZmlsZSANCmluIHRoZSBpbmRleC5yc3QgZmlsZS4NCg0KU2lnbmVk
+LW9mZi1ieTogbG9uZ2ppbiA8bG9uZ2ppbkBEcmFnb25PUy5vcmc+DQotLS0NCiAuLi4vdHJhbnNs
+YXRpb25zL3poX0NOL2FyY2gvcmlzY3YvYm9vdC5yc3QgICAgfCAxNTUgKysrKysrKysrKysrKysr
+KysrDQogLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9hcmNoL3Jpc2N2L2luZGV4LnJzdCAgIHwgICAx
+ICsNCiAyIGZpbGVzIGNoYW5nZWQsIDE1NiBpbnNlcnRpb25zKCspDQogY3JlYXRlIG1vZGUgMTAw
+NjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FyY2gvcmlzY3YvYm9vdC5yc3QN
+Cg0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FyY2gvcmlz
+Y3YvYm9vdC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hcmNoL3Jpc2N2
+L2Jvb3QucnN0DQpuZXcgZmlsZSBtb2RlIDEwMDY0NA0KaW5kZXggMDAwMDAwMDAwMDAwLi4wYzI2
+MTkwOTU4MTkNCi0tLSAvZGV2L251bGwNCisrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL2FyY2gvcmlzY3YvYm9vdC5yc3QNCkBAIC0wLDAgKzEsMTU1IEBADQorLi4gU1BEWC1M
+aWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCisuLiBpbmNsdWRlOjogLi4vLi4vZGlzY2xhaW1l
+ci16aF9DTi5yc3QNCisNCis6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vYXJjaC9yaXNjdi9ib290
+LnJzdA0KKw0KKzrnv7vor5E6DQorDQorIOm+mei/myBKaW4gTG9uZyA8bG9uZ2ppbkBkcmFnb25v
+cy5vcmc+DQorDQorPT09PT09PT09PT09PT09PT09PT09PT09DQorUklTQy1W5YaF5qC45ZCv5Yqo
+6KaB5rGC5ZKM6ZmQ5Yi2DQorPT09PT09PT09PT09PT09PT09PT09PT09DQorDQorOkF1dGhvcjog
+QWxleGFuZHJlIEdoaXRpIDxhbGV4Z2hpdGlAcml2b3NpbmMuY29tPg0KKzpEYXRlOiAyMyBNYXkg
+MjAyMw0KKw0KK+i/meS7veaWh+aho+aPj+i/sOS6hlJJU0MtVuWGheaguOWvueW8leWvvOWKoOi9
+veeoi+W6j+WSjOWbuuS7tueahOacn+acm++8jOS7peWPiuS7u+S9leW8gOWPkeiAheWcqOaOpein
+pg0KK+aXqeacn+WQr+WKqOi/h+eoi+aXtuW/hemhu+eJouiusOeahOe6puadn+OAguWcqOi/meS7
+veaWh+aho+S4re+8jCBgYOaXqeacn+WQr+WKqOi/h+eoi2BgIOaMh+eahOaYr+WcqOacgA0KK+e7
+iOiZmuaLn+aYoOWwhOiuvue9ruS5i+WJjei/kOihjOeahOS7u+S9leS7o+eggeOAgg0KKw0KK+WG
+heaguOmihOWKoOi9veeahOimgeaxguWSjOmZkOWItg0KKz09PT09PT09PT09PT09PT09PT09PT0N
+CisNCitSSVNDLVblhoXmoLjlr7nlvJXlr7zliqDovb3nqIvluo/lkozlubPlj7Dlm7rku7bmnInk
+u6XkuIvopoHmsYLvvJoNCisNCivlr4TlrZjlmajnirbmgIENCistLS0tLS0tLS0tDQorDQorUklT
+Qy1W5YaF5qC45pyf5pyb77yaDQorDQorICAqIGBgJGEwYGAg5bqU5YyF5ZCr5b2T5YmN5qC45b+D
+55qEaGFydGlk44CCDQorICAqIGBgJGExYGAg5bqU5YyF5ZCr5YaF5a2Y5Lit6K6+5aSH5qCR55qE
+5Zyw5Z2A44CCDQorDQorQ1NSIOWvhOWtmOWZqOeKtuaAgQ0KKy0tLS0tLS0tLS0tLS0tDQorDQor
+UklTQy1W5YaF5qC45pyf5pyb77yaDQorDQorICAqIGBgJHNhdHAgPSAwYGDvvJog5aaC5p6c5a2Y
+5ZyoTU1V77yM5b+F6aG75bCG5YW256aB55So44CCDQorDQor5Li65bi46am75Zu65Lu25L+d55WZ
+55qE5YaF5a2YDQorLS0tLS0tLS0tLS0tLS0tLS0tLS0NCisNCitSSVNDLVblhoXmoLjlnKjnm7Tm
+jqXmmKDlsITkuK3kuI3og73mmKDlsITku7vkvZXluLjpqbvlhoXlrZjmiJbnlKhQTVBz5L+d5oqk
+55qE5YaF5a2Y77yMDQor5Zug5q2k5Zu65Lu25b+F6aG75qC55o2u6K6+5aSH5qCR6KeE6IyDIOWS
+jC/miJYgVUVGSeinhOiMg+ato+ehruagh+iusOi/meS6m+WMuuWfn+OAgg0KKw0KK+WGheaguOea
+hOS9jee9rg0KKy0tLS0tLS0tLS0NCisNCitSSVNDLVblhoXmoLjmnJ/mnJvooqvmlL7nva7lnKhQ
+TUTovrnnlYzvvIjlr7nkuo5ydjY05Li6Mk1C5a+56b2Q77yM5a+55LqOcnYzMuS4ujRNQuWvuem9
+kO+8ieOAgg0KK+ivt+azqOaEj++8jOWmguaenOS4jeaYr+i/meagt++8jEVGSSBzdHViIOWwhumH
+jeWumuS9jeWGheaguOOAgg0KKw0KK+ehrOS7tuaPj+i/sA0KKy0tLS0tLS0tDQorDQor5Zu65Lu2
+5Y+v5Lul5bCG6K6+5aSH5qCR5oiWQUNQSeihqOS8oOmAkue7mVJJU0MtVuWGheaguOOAgg0KKw0K
+K+iuvuWkh+agkeWPr+S7peebtOaOpeS7juWJjeS4gOmYtuautemAmui/hyRhMeWvhOWtmOWZqOS8
+oOmAkue7meWGheaguO+8jOaIluiAheWcqOS9v+eUqFVFRknlkK/liqjml7bvvIwNCivlj6/ku6Xp
+gJrov4dFRknphY3nva7ooajkvKDpgJLjgIINCisNCitBQ1BJ6KGo6YCa6L+HRUZJ6YWN572u6KGo
+5Lyg6YCS57uZ5YaF5qC444CC5Zyo6L+Z56eN5oOF5Ya15LiL77yMRUZJIHN0dWIg5LuN54S25Lya
+5Yib5bu65LiA5LiqDQor5bCP55qE6K6+5aSH5qCR44CC6K+35Y+C6ZiF5LiL6Z2i55qEIkVGSSBz
+dHViIOWSjOiuvuWkh+agkSLpg6jliIbvvIzkuobop6Pov5nkuKrorr7lpIfmoJHnmoTor6bnu4YN
+Civkv6Hmga/jgIINCisNCivlhoXmoLjlhaXlj6MNCistLS0tLS0tLQ0KKw0KK+WcqFNNUOezu+e7
+n+S4re+8jOacieS4pOenjeaWueazleWPr+S7pei/m+WFpeWGheaguO+8mg0KKw0KKy0gYGBSSVND
+Vl9CT09UX1NQSU5XQUlUYGDvvJrlm7rku7blnKjlhoXmoLjkuK3ph4rmlL7miYDmnInnmoRoYXJ0
+77yM5LiA5LiqaGFydOi1og0KKyAg5b6X5oq95aWW5bm25omn6KGM5pep5pyf5ZCv5Yqo5Luj56CB
+77yM6ICM5YW25LuW55qEaGFydOWImeWBnOWcqOmCo+mHjOetieW+heWIneWni+WMluWujOaIkOOA
+gui/meenjQ0KKyAg5pa55rOV5Li76KaB55So5LqO5pSv5oyB5rKh5pyJU0JJIEhTTeaJqeWxleWS
+jE3mqKHlvI9SSVNDLVblhoXmoLjnmoTml6flm7rku7bjgIINCistIGBg5pyJ5bqP5ZCv5YqoYGDv
+vJrlm7rku7blj6rph4rmlL7kuIDkuKrlsIbmiafooYzliJ3lp4vljJbpmLbmrrXnmoRoYXJ077yM
+54S25ZCO5L2/55SoU0JJIEhTTQ0KKyAg5omp5bGV5ZCv5Yqo5omA5pyJ5YW25LuW55qEaGFydOOA
+guacieW6j+WQr+WKqOaWueazleaYr+WQr+WKqFJJU0MtVuWGheaguOeahOmmlumAieWQr+WKqOaW
+ueazle+8jA0KKyAg5Zug5Li65a6D5Y+v5Lul5pSv5oyBQ1BV54Ot5o+S5ouU5ZKMa2V4ZWPjgIIN
+CisNCitVRUZJDQorLS0tLQ0KKw0KK1VFRkkg5YaF5a2Y5pig5bCEDQorfn5+fn5+fn5+fn5+fg0K
+Kw0KK+S9v+eUqFVFRknlkK/liqjml7bvvIxSSVNDLVblhoXmoLjlsIblj6rkvb/nlKhFRknlhoXl
+rZjmmKDlsITmnaXloavlhYXns7vnu5/lhoXlrZjjgIINCisNCitVRUZJ5Zu65Lu25b+F6aG76Kej
+5p6QIGBgL3Jlc2VydmVkLW1lbW9yeWBgIOiuvuWkh+agkeiKgueCueeahOWtkOiKgueCue+8jOW5
+tumBteWuiOiuvuWkhw0KK+agkeinhOiMg++8jOWwhui/meS6m+WtkOiKgueCueeahOWxnuaAp++8
+iCBgYG5vLW1hcGBgIOWSjCBgYHJldXNhYmxlYGAg77yJ6L2s5o2i5Li65YW25q2jDQor56Gu55qE
+RUZJ562J5Lu354mp77yI5Y+C6KeB6K6+5aSH5qCR6KeE6IyDdjAuNC1yYzHnmoQiMy41LjQvcmVz
+ZXJ2ZWQtbWVtb3J55ZKMDQorVUVGSSLpg6jliIbvvInjgIINCisNCitSSVNDVl9FRklfQk9PVF9Q
+Uk9UT0NPTA0KK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQorDQor5L2/55SoVUVGSeWQr+WKqOaX
+tu+8jEVGSSBzdHViIOmcgOimgeW8leWvvGhhcnRpZOS7peS+v+WwhuWFtuS8oOmAkue7mSBgYCRh
+MWBgIOS4reeahA0KK1JJU0MtVuWGheaguOOAgkVGSSBzdHVi5L2/55So5Lul5LiL5pa55rOV5LmL
+5LiA6I635Y+W5byV5a+8aGFydGlk77yaDQorDQorLSBgYFJJU0NWX0VGSV9CT09UX1BST1RPQ09M
+YGAg77yIKirpppbpgIkqKu+8ieOAgg0KKy0gYGBib290LWhhcnRpZGBgIOiuvuWkh+agkeWtkOiK
+gueCue+8iCoq5bey5byD55SoKirvvInjgIINCisNCivku7vkvZXmlrDnmoTlm7rku7bpg73lv4Xp
+obvlrp7njrAgYGBSSVNDVl9FRklfQk9PVF9QUk9UT0NPTGBg77yM5Zug5Li65Z+65LqO6K6+5aSH
+5qCRDQor55qE5pa55rOV546w5bey6KKr5byD55So44CCDQorDQor5pep5pyf5ZCv5Yqo55qE6KaB
+5rGC5ZKM57qm5p2fDQorPT09PT09PT09PT09PT09PT09PT0NCisNCitSSVNDLVblhoXmoLjnmoTm
+l6nmnJ/lkK/liqjov4fnqIvpgbXlvqrku6XkuIvnuqbmnZ/vvJoNCisNCitFRkkgc3R1YiDlkozo
+rr7lpIfmoJENCistLS0tLS0tLS0tLS0tLS0tLQ0KKw0KK+S9v+eUqFVFRknlkK/liqjml7bvvIxF
+Rkkgc3R1YiDkvJrnlKjkuI5hcm02NOebuOWQjOeahOWPguaVsOihpeWFhe+8iOaIluWIm+W7uu+8
+ieiuvuWkh+agke+8jA0KK+i/meS6m+WPguaVsOWcqERvY3VtZW50YXRpb24vYXJjaC9hcm0vdWVm
+aS5yc3TkuK3nmoQNCisiVUVGSSBrZXJuZWwgc3VwcG9ydG9uIEFSTSLmrrXokL3kuK3mnInmj4/o
+v7DjgIINCisNCivomZrmi5/mmKDlsITlronoo4UNCistLS0tLS0tLS0tLS0NCisNCivlnKhSSVND
+LVblhoXmoLjkuK3vvIzomZrmi5/mmKDlsITnmoTlronoo4XliIbkuLrkuKTmraXov5vooYzvvJoN
+CisNCisxLiBgYHNldHVwX3ZtKClgYCDlnKggYGBlYXJseV9wZ19kaXJgYCDkuK3lronoo4XkuIDk
+uKrkuLTml7bnmoTlhoXmoLjmmKDlsITvvIzov5kNCisgICDlhYHorrjlj5HnjrDns7vnu5/lhoXl
+rZjjgIIgICDmraTml7blj6rmnInlhoXmoLjmlofmnKwv5pWw5o2u6KKr5pig5bCE44CC5Zyo5bu6
+56uL6L+Z5Liq5pig5bCE5pe277yMDQorICAg5LiN6IO96L+b6KGM5YiG6YWN77yI5Zug5Li657O7
+57uf5YaF5a2Y6L+Y5pyq55+l77yJ77yM5omA5LulYGBlYXJseV9wZ19kaXJgYOmhteihqOaYr+md
+mQ0KKyAgIOaAgeWIhumFjeeahO+8iOavj+S4que6p+WIq+WPquS9v+eUqOS4gOS4quihqO+8ieOA
+gg0KKw0KKzIuIGBgc2V0dXBfdm1fZmluYWwoKWBgIOWcqCBgYHN3YXBwZXJfcGdfZGlyYGAg5Lit
+5Yib5bu65pyA57uI55qE5YaF5qC45pigDQorICAg5bCE77yM5bm25Yip55So5Y+R546w55qE57O7
+57uf5YaF5a2YICAg5Yib5bu657q/5oCn5pig5bCE44CC5Zyo5bu656uL6L+Z5Liq5pig5bCE5pe2
+77yM5YaF5qC45Y+v5LulDQorICAg5YiG6YWN5YaF5a2Y77yM5L2G5LiN6IO955u05o6l6K6/6Zeu
+5a6D77yI5Zug5Li655u05o6l5pig5bCE6L+Y5LiN5a2Y5Zyo77yJ77yM5omA5Lul5a6D5L2/55So
+Zml4bWFwDQorICAg5Yy65Z+f55qE5Li05pe25pig5bCE5p2l6K6/6Zeu5paw5YiG6YWN55qE6aG1
+6KGo57qn5Yir44CCDQorDQor5Li65LqG6K6pIGBgdmlydF90b19waHlzKClgYCDlkowgYGBwaHlz
+X3RvX3ZpcnQoKWBgIOiDveWkn+ato+ehruWcsOWwhuebtOaOpQ0KK+aYoOWwhOWcsOWdgOi9rOaN
+ouS4uueJqeeQhuWcsOWdgO+8jOWug+S7rOmcgOimgeefpemBk0RSQU3nmoTotbflp4vkvY3nva7j
+gILov5nlj5HnlJ/lnKjmraXpqqQx5LmL5ZCO77yMDQor5bCx5Zyo5q2l6aqkMuWuieijheebtOaO
+peaYoOWwhOS5i+WJje+8iOWPguingWFyY2gvcmlzY3YvbW0vaW5pdC5j5Lit55qEDQorYGBzZXR1
+cF9ib290bWVtKClgYCDlh73mlbDvvInjgILlnKjlronoo4XmnIDnu4jomZrmi5/mmKDlsITkuYvl
+iY3kvb/nlKjov5nkupvlro/ml7blv4XpobsNCivku5Tnu4bmo4Dmn6XjgIINCisNCivpgJrov4dm
+aXhtYXDov5vooYzorr7lpIfmoJHmmKDlsIQNCistLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCisN
+CivnlLHkuo4gYGByZXNlcnZlZF9tZW1gYCDmlbDnu4TmmK/nlKggYGBzZXR1cF92bSgpYGAg5bu6
+56uL55qE6Jma5ouf5Zyw5Z2A5Yid5aeL5YyWDQor55qE77yM5bm25LiU5LiOYGBzZXR1cF92bV9m
+aW5hbCgpYGDlu7rnq4vnmoTmmKDlsITkuIDotbfkvb/nlKjvvIxSSVNDLVblhoXmoLjkvb/nlKgN
+CitmaXhtYXDljLrln5/mnaXmmKDlsITorr7lpIfmoJHjgILov5nnoa7kv53orr7lpIfmoJHlj6/k
+u6XpgJrov4fkuKTnp43omZrmi5/mmKDlsITorr/pl67jgIINCisNCitQcmUtTU1V5omn6KGMDQor
+LS0tLS0tLS0tLS0NCisNCivlnKjlu7rnq4vnrKzkuIDkuKromZrmi5/mmKDlsITkuYvliY3vvIzp
+nIDopoHov5DooYzkuIDkupvku6PnoIHjgILov5nkupvljIXmi6znrKzkuIDkuKromZrmi5/mmKDl
+sITnmoTlronoo4XmnKzouqvvvIwNCivml6nmnJ/mm7/ku6PmlrnmoYjnmoTkv67ooaXvvIzku6Xl
+j4rlhoXmoLjlkb3ku6TooYznmoTml6nmnJ/op6PmnpDjgILov5nkupvku6PnoIHlv4XpobvpnZ7l
+uLjlsI/lv4PlnLDnvJbor5HvvIzlm6DkuLrvvJoNCisNCistIGBgLWZuby1waWVgYO+8mui/meWv
+ueS6juS9v+eUqGBgLWZQSUVgYOeahOWPr+mHjeWumuS9jeWGheaguOaYr+W/hemcgOeahO+8jOWQ
+puWIme+8jOS7u+S9leWvuQ0KKyAg5YWo5bGA56ym5Y+355qE6K6/6Zeu6YO95bCG6YCa6L+HICBH
+T1Tov5vooYzvvIzogIxHT1Tlj6rmmK/omZrmi5/lnLDph43mlrDlrprkvY3jgIINCistIGBgLW1j
+bW9kZWw9bWVkYW55YGDvvJrku7vkvZXlr7nlhajlsYDnrKblj7fnmoTorr/pl67pg73lv4Xpobvm
+mK9QQ+ebuOWvueeahO+8jOS7pemBv+WFjeWcqOiuvg0KKyAg572uTU1V5LmL5YmN5Y+R55Sf5Lu7
+5L2V6YeN5a6a5L2N44CCDQorLSAq5omA5pyJKiDnmoTku6rooajljJblip/og73kuZ/lv4Xpobvo
+oqvnpoHnlKjvvIjljIXmi6xLQVNBTu+8jGZ0cmFjZeWSjOWFtuS7lu+8ieOAgg0KKw0KK+eUseS6
+juS9v+eUqOadpeiHquS4jeWQjOe8luivkeWNleWFg+eahOespuWPt+mcgOimgeeUqOi/meS6m+ag
+h+W/l+e8luivkeivpeWNleWFg++8jOaIkeS7rOW7uuiuruWwveWPr+iDveS4jeimgeS9v+eUqA0K
+K+WklumDqOespuWPt+OAgg0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL2FyY2gvcmlzY3YvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMv
+emhfQ04vYXJjaC9yaXNjdi9pbmRleC5yc3QNCmluZGV4IDNiMDQxYzExNjE2OS4uOTY1NzM0NTkx
+MDVlIDEwMDY0NA0KLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYXJjaC9y
+aXNjdi9pbmRleC5yc3QNCisrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Fy
+Y2gvcmlzY3YvaW5kZXgucnN0DQpAQCAtMTcsNiArMTcsNyBAQCBSSVNDLVYg5L2T57O757uT5p6E
+DQogLi4gdG9jdHJlZTo6DQogICAgIDptYXhkZXB0aDogMQ0KIA0KKyAgICBib290DQogICAgIGJv
+b3QtaW1hZ2UtaGVhZGVyDQogICAgIHZtLWxheW91dA0KICAgICBwYXRjaC1hY2NlcHRhbmNlDQot
+LSANCjIuMzQuMQ==
