@@ -1,131 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B93F1B282;
-	Mon, 18 Dec 2023 12:07:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F7D4F8B0
+	for <linux-doc@vger.kernel.org>; Mon, 18 Dec 2023 12:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LKUJGxHT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C75C433CA;
-	Mon, 18 Dec 2023 12:07:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702901221;
-	bh=DrUER6FrPw2fjC9H9x1urksXUY0gGNG6zMiTe1yGdnU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=LKUJGxHTrZ1gQyvq878M4w4HTVQcb8bbMxwpc19jT0HKCWZyr7ueaR6K9Nmol7qf4
-	 oYBbD8AzPcLS+DHc2TbrwtzMr178ov8zgr2I7Jxfv58m6bGFAVjUojoZJ9MlcEH2Dj
-	 qi69pp+NDQ/8Kav3JL/aUwfcOOOz+27WnDiUwk9SFR/pN6VrS1qJQT6FeRATOupFX9
-	 8POziYZNVql6QVwrqMz0KFFD2lfeRP9FfvzHXTgMaeG5ZlwI17Ags7DaTZSvs9zYnI
-	 9k0lKnHMvyELpUrEMLhHVNbbFTOHJrH01NGe0EUJPgM5MPGsVQQOA8BIlY7WjLg55H
-	 NlcR6Bf/3H/bA==
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1fab887fab8so2526310fac.0;
-        Mon, 18 Dec 2023 04:07:01 -0800 (PST)
-X-Gm-Message-State: AOJu0YyFW6kC53iyOVWpp9ERjqzpi3NmNbENdme5lRRL3i35ULj+PzqF
-	xvFdGbpwCvG3BQ3bo0lmsObtaxFGlGUMs9o6Hjg=
-X-Google-Smtp-Source: AGHT+IHbXzdWjN3WLIrbJWsVdm5g8DLYEIA4IOfNJwqDUwnzQPJ+UKUh+M42CGcq0eJeYmSUPySQg3zPBGdpCR1G9Xc=
-X-Received: by 2002:a05:6870:6b90:b0:203:7e47:3efe with SMTP id
- ms16-20020a0568706b9000b002037e473efemr7533561oab.64.1702901220899; Mon, 18
- Dec 2023 04:07:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W7tw5wnd"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3366af69d4bso404766f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 18 Dec 2023 04:13:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702901625; x=1703506425; darn=vger.kernel.org;
+        h=cc:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MQkXJYJc/Sg6AJczIV0BB5z+pNvPL2oyiY2izXL+Fek=;
+        b=W7tw5wndDZqCAS6M1DJx3MIa1ufYiEoFUJivUQthY5LgZ7IbzJSe4TPqnFDFCIjCAj
+         5dIRquBXp2MfQJo0HOEeg/i4LulukxvM7qhanFrKlfpn7O6pyQs/xnflD7P/G/+hDdd+
+         WvwvgZfP66Y6aAOxPYbyRgXWVX3gaB9cUZ7mluF1KZgVEKV+DrI82nPTU8ui9G8z4PZh
+         g4brLTAcWlbTsNNQb/vC45ASf+jjyXprT5OZxzFtN6Ulh4/ePPEbqPlTIFQWxZzTvLoX
+         oTMuC3SGxy3aiGyNsUA6gXQf3RMgXamNYiObn1n3+5y/PquPeYyjRXCliygjty0f7/wu
+         r3Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702901625; x=1703506425;
+        h=cc:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MQkXJYJc/Sg6AJczIV0BB5z+pNvPL2oyiY2izXL+Fek=;
+        b=GacfLHZ6dMcCLtBTfat3fjCLQqudiCqV4V59KZBGqVs0DIOtP2trQVJnYZWUFMYXhq
+         KKyf7oTYjUMUs9Yjr/beo5mMhtf/smLdH43HnZFyzuypaZidr5dx/HILATGNmJLj88jr
+         /JXqWubl++R7Sr2zK/QfvzQmAGBeezaVACp4VG3gJVnrlC+hqLIqZmKbh/MfEknDQkPp
+         suTb+0dOxb0Vgti/CEER0KMFcFG0IuH/799UnbdAhqMPr1dO2BloQtvbeaL6mtVQ4+bP
+         QW5eCEh1COZbJTgjWnAmhsdS731tfsqRnCpBRyNHJTUAgcyyuSz83StMglWgL85ze/NX
+         YICA==
+X-Gm-Message-State: AOJu0YyPuBRUt5/x9MRmM2TwxRgkfb5t3T3XIV0TeayQdkvRTXTtXxuJ
+	VoI3+rLEAxSXUu8a8rSyyOfgXVRJBLXUOHUSQMkDMa2Jhg==
+X-Received: by 2002:a5d:678c:0:b0:336:6426:4e1f with SMTP id
+ v12-20020a5d678c000000b0033664264e1fmt1089424wru.34.1702901625226; Mon, 18
+ Dec 2023 04:13:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
- <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com> <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
- <20231215064823.ltm55fk4zclsuuwq@vireshk-i7> <a2aca039-7360-476e-a1b1-e950698cd26b@gmail.com>
- <20231215112418.usky65sibhbiubyx@vireshk-i7> <CANiq72nuUpBCHaeyozDXAZrV+YLW_OR-QOUiVHPfTbNGG3RFXA@mail.gmail.com>
-In-Reply-To: <CANiq72nuUpBCHaeyozDXAZrV+YLW_OR-QOUiVHPfTbNGG3RFXA@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 18 Dec 2023 21:06:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS8kaRsWf6Grob5Vuj3eNx2c2=s+JmmshcXXJT2B4ph_Q@mail.gmail.com>
-Message-ID: <CAK7LNAS8kaRsWf6Grob5Vuj3eNx2c2=s+JmmshcXXJT2B4ph_Q@mail.gmail.com>
-Subject: Re: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to
- build directory
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>, Tiago Lam <tiagolam@gmail.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231218114222.283705-1-tomas.mudrunka@gmail.com> <c22997c9-6d99-4e1f-9015-b7f80be2a720@kernel.org>
+In-Reply-To: <c22997c9-6d99-4e1f-9015-b7f80be2a720@kernel.org>
+From: =?UTF-8?B?VG9tw6HFoSBNdWRydcWIa2E=?= <tomas.mudrunka@gmail.com>
+Date: Mon, 18 Dec 2023 13:13:34 +0100
+Message-ID: <CAH2-hcJe40e7LhrmQb5XjGpRfrUEp3RukqWUqn1p8UQSNkpisg@mail.gmail.com>
+Subject: Re: [PATCH] /proc/sysrq-trigger can now pause processing for one second
+Cc: Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 15, 2023 at 8:53=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Fri, Dec 15, 2023 at 12:24=E2=80=AFPM Viresh Kumar <viresh.kumar@linar=
-o.org> wrote:
-> >
-> > I thought people aren't required to enter the build directory now (but
-> > just source code directory) and simply do:
-> >
-> >                 make LLVM=3D1 O=3D<builddir> rustupoverride
->
-> Yeah, that is correct, but we don't need to write the `O=3D` in the
-> commands themselves. The idea is that 1) the commands can be easily
-> copy-pasted, 2) commands look simple (i.e. there are many other
-> variations and options you may pass), 3) newcomers do not need to care
-> about `O=3D` (so it is extra simple for them).
->
-> > Will this still work if we are in the build directory ?
->
-> Both should work (as long as the initial setup in the build folder is
-> done, of course), so I think we can simply remove the mention about
-> "enter ..." now and simply give the command.
->
-> In fact, even if Kbuild did not support that, we could still remove
-> the "enter ...", because then the `make` would need to be run like any
-> other target from the source tree.
+> Bah, what's wrong with:
+>   echo e > /proc/sysrq-trigger
+>   sleep 2
+>   echo i > /proc/sysrq-trigger
+> ?
 
+Your bash, or even ssh session being killed during the first line, not
+getting to the two subsequent lines.
 
-
-FWIW.
-
-Kbuild is designed to be able to initiate 'make' from anywhere,
-even if the build directory is not set up.
-
-In that case, you need to use -f option to point to the top Makefile.
-
-
-
-You can enter a build directory, then do this:
-
-  $ make -f <path/to/source/tree>/Makefile defconfig all
-
-
-
-
-Likewise, both of the following should work.
-
-
-1)  Enter the source directory, and
-
-  $ make O=3D<path-to-build-directory> rustupoverride
-
-
-2)  Enter the build directory, and
-
-
-  $ make -f <path-to-source-directory>/Makefile rustupoverride
-
-
-
-
-
-
-> In other words, regardless of the
-> answer, we could remove it thanks to the new target, unless I am
-> missing something.
->
-> Cheers,
-> Miguel
->
-
-
---
-Best Regards
-Masahiro Yamada
+Tomas
