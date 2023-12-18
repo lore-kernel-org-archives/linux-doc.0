@@ -1,123 +1,178 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492581DDFC;
-	Mon, 18 Dec 2023 19:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OR2h4lEM"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BII7awl009072;
-	Mon, 18 Dec 2023 19:58:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=t0bpCimWvMhWfdI+TsPYGoHOoVAQBV1OEIZbPnpfoak=; b=OR
-	2h4lEM4dBzCsLd+KqD8zxpFrlQcglcplmQPVD6bBdBUEtesGx8DRYqcbadwSyAX5
-	jmEiOQcHKgdSvekkRMgu9/U7x2Li4Pfk0oD+VytunYIV4/Zu9CzuGNsd64EHQGHx
-	0h/KLdwKGOZ1bxSjn740snWNNAyIdoFnB0R0rlP4H309nRNyae940OtHLcoDVNFR
-	9kwAtUEG8ocQ1EmG9hIUXLQc6xsBO0xwZ4lTk7GSRi4anORUkKffrYR7LsalsFhK
-	6kPH+oFrTklJRRu9hpxsGH7MOU+qSRZ48m1HJpCUP9NU3z8d6oyGYbIL8Y4A5DvK
-	9AY1uv0JExp/EJLocjBw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v2mfe1euh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 19:58:09 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BIJw8YC027591
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 19:58:08 GMT
-Received: from [10.110.97.107] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Dec
- 2023 11:58:06 -0800
-Message-ID: <0a3a6277-62f6-2d6c-d36a-46a442c89b67@quicinc.com>
-Date: Mon, 18 Dec 2023 11:58:02 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429C67146E;
+	Mon, 18 Dec 2023 20:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-20394042a45so279477fac.0;
+        Mon, 18 Dec 2023 12:17:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702930666; x=1703535466;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BVggm/k7h51uGokCDrYG9yM8ij6+ByTlCjSSiz9AMHU=;
+        b=j+cpQAhZ5EEyQhYmHr0vMjlkHiWBOE0Q/mGiu/JrTWX3qqoOAf6hORYIKIinCVwTs5
+         yGKbLcrk1gb1WNZXe2/vxOagVXtwV/rS5PCw7qIxss954TuXeTvQTCjQedRKZo6ax/iF
+         ixU/rvy+geguv/CA8mXBpdmLFWJVZX/cyuWXHVxTtvHBtc33H4PCnzO1BQBlVXYs/RyI
+         pWuro8Q0MgyN8tTfY+/BvgDPYnC8Nz2ryFqJa4oluvzZD4bU+OOk3IIF5vWD/rYPJFxE
+         DDx5EvLJEPMuzC7wtX77BRNscywfc+PvfMViCfUK2XIBGgrcvu/tar1LDm9MJboLITK7
+         Qk9Q==
+X-Gm-Message-State: AOJu0YxMLBTv2B7NYmm5chKSElGEU03qGjummiquhPRJIYWOWFm7GmnM
+	WqtLANJtUi/8XlT8a9wv5575rJGDGHpuEsNZY1U=
+X-Google-Smtp-Source: AGHT+IFMjefUSNquEpPstcFy8KIyactI5mxHoAdfHlD4qq0J99AZZDv3tX1Y2M6bLJ1U3Iv5VjAbiMgTsk/u/KcBObU=
+X-Received: by 2002:a05:6870:9591:b0:203:e5bc:154a with SMTP id
+ k17-20020a056870959100b00203e5bc154amr834085oao.2.1702930665760; Mon, 18 Dec
+ 2023 12:17:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v10 18/41] ALSA: usb-audio: qcom: Add USB QMI definitions
-Content-Language: en-US
-To: Jeff Johnson <quic_jjohnson@quicinc.com>, <srinivas.kandagatla@linaro.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <gregkh@linuxfoundation.org>, <lgirdwood@gmail.com>,
-        <andersson@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <konrad.dybcio@linaro.org>, <Thinh.Nguyen@synopsys.com>,
-        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <robh+dt@kernel.org>, <agross@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20231215214955.12110-1-quic_wcheng@quicinc.com>
- <20231215214955.12110-19-quic_wcheng@quicinc.com>
- <80111881-13dd-4b05-876a-a97eb3889726@quicinc.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <80111881-13dd-4b05-876a-a97eb3889726@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: P-tbYw2YI5KNM16_-dyXNk1fYgg76NOe
-X-Proofpoint-GUID: P-tbYw2YI5KNM16_-dyXNk1fYgg76NOe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 suspectscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 phishscore=0 adultscore=0 impostorscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312180148
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk> <E1rDOfx-00Dvje-MS@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1rDOfx-00Dvje-MS@rmk-PC.armlinux.org.uk>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 18 Dec 2023 21:17:34 +0100
+Message-ID: <CAJZ5v0iB0bS6nmjQ++pV1zp5YSGuigbffK5VD3wsX+8bY9MA5w@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 02/21] ACPI: processor: Add support for processors
+ described as container packages
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
+	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
+	James Morse <james.morse@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jeff,
+On Wed, Dec 13, 2023 at 1:49=E2=80=AFPM Russell King <rmk+kernel@armlinux.o=
+rg.uk> wrote:
+>
+> From: James Morse <james.morse@arm.com>
+>
+> ACPI has two ways of describing processors in the DSDT. From ACPI v6.5,
+> 5.2.12:
+>
+> "Starting with ACPI Specification 6.3, the use of the Processor() object
+> was deprecated. Only legacy systems should continue with this usage. On
+> the Itanium architecture only, a _UID is provided for the Processor()
+> that is a string object. This usage of _UID is also deprecated since it
+> can preclude an OSPM from being able to match a processor to a
+> non-enumerable device, such as those defined in the MADT. From ACPI
+> Specification 6.3 onward, all processor objects for all architectures
+> except Itanium must now use Device() objects with an _HID of ACPI0007,
+> and use only integer _UID values."
+>
+> Also see https://uefi.org/specs/ACPI/6.5/08_Processor_Configuration_and_C=
+ontrol.html#declaring-processors
+>
+> Duplicate descriptions are not allowed, the ACPI processor driver already
+> parses the UID from both devices and containers. acpi_processor_get_info(=
+)
+> returns an error if the UID exists twice in the DSDT.
 
-On 12/15/2023 2:38 PM, Jeff Johnson wrote:
-> On 12/15/2023 1:49 PM, Wesley Cheng wrote:
->> The Qualcomm USB audio offload driver utilizes the QMI protocol to
->> communicate with the audio DSP.  Add the necessary QMI header and field
->> definitions, so the QMI interface driver is able to route the QMI packet
->> received to the USB audio offload driver.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>   sound/usb/qcom/usb_audio_qmi_v01.c | 892 +++++++++++++++++++++++++++++
->>   sound/usb/qcom/usb_audio_qmi_v01.h | 162 ++++++
->>   2 files changed, 1054 insertions(+)
->>   create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.c
->>   create mode 100644 sound/usb/qcom/usb_audio_qmi_v01.h
->>
->> diff --git a/sound/usb/qcom/usb_audio_qmi_v01.c b/sound/usb/qcom/usb_audio_qmi_v01.c
->> new file mode 100644
->> index 000000000000..bdfd67d980eb
->> --- /dev/null
->> +++ b/sound/usb/qcom/usb_audio_qmi_v01.c
->> @@ -0,0 +1,892 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
->> + */
->> +
->> +#include <linux/soc/qcom/qmi.h>
->> +
->> +#include "usb_audio_qmi_v01.h"
->> +
->> +static struct qmi_elem_info mem_info_v01_ei[] = {
-> 
-> I believe all of the struct qmi_elem_info arrays can be const.
-> 
-> At least that was the goal of commit ff6d365898d4 ("soc: qcom: qmi: use
-> const for struct qmi_elem_info")
-> 
+I'm not really sure how the above is related to the actual patch.
 
-Thanks for the review.  Will fix this.
+> The missing probe for CPUs described as packages
 
-Thanks
-Wesley Cheng
+It is unclear what exactly is meant by "CPUs described as packages".
+
+From the patch, it looks like those would be Processor() objects
+defined under a processor container device.
+
+> creates a problem for
+> moving the cpu_register() calls into the acpi_processor driver, as CPUs
+> described like this don't get registered, leading to errors from other
+> subsystems when they try to add new sysfs entries to the CPU node.
+> (e.g. topology_sysfs_init()'s use of topology_add_dev() via cpuhp)
+>
+> To fix this, parse the processor container and call acpi_processor_add()
+> for each processor that is discovered like this.
+
+Discovered like what?
+
+> The processor container
+> handler is added with acpi_scan_add_handler(), so no detach call will
+> arrive.
+
+The above requires clarification too.
+
+> Qemu TCG describes CPUs using processor devices in a processor container.
+> For more information, see build_cpus_aml() in Qemu hw/acpi/cpu.c and
+> https://uefi.org/specs/ACPI/6.5/08_Processor_Configuration_and_Control.ht=
+ml#processor-container-device
+>
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+> ---
+> Outstanding comments:
+>  https://lore.kernel.org/r/20230914145353.000072e2@Huawei.com
+>  https://lore.kernel.org/r/50571c2f-aa3c-baeb-3add-cd59e0eddc02@redhat.co=
+m
+> ---
+>  drivers/acpi/acpi_processor.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
+> diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.=
+c
+> index 4fe2ef54088c..6a542e0ce396 100644
+> --- a/drivers/acpi/acpi_processor.c
+> +++ b/drivers/acpi/acpi_processor.c
+> @@ -626,9 +626,31 @@ static struct acpi_scan_handler processor_handler =
+=3D {
+>         },
+>  };
+>
+> +static acpi_status acpi_processor_container_walk(acpi_handle handle,
+> +                                                u32 lvl,
+> +                                                void *context,
+> +                                                void **rv)
+> +{
+> +       struct acpi_device *adev;
+> +       acpi_status status;
+> +
+> +       adev =3D acpi_get_acpi_dev(handle);
+> +       if (!adev)
+> +               return AE_ERROR;
+
+Why is the reference counting needed here?
+
+Wouldn't acpi_fetch_acpi_dev() suffice?
+
+Also, should the walk really be terminated on the first error?
+
+> +
+> +       status =3D acpi_processor_add(adev, &processor_device_ids[0]);
+> +       acpi_put_acpi_dev(adev);
+> +
+> +       return status;
+> +}
+> +
+>  static int acpi_processor_container_attach(struct acpi_device *dev,
+>                                            const struct acpi_device_id *i=
+d)
+>  {
+> +       acpi_walk_namespace(ACPI_TYPE_PROCESSOR, dev->handle,
+> +                           ACPI_UINT32_MAX, acpi_processor_container_wal=
+k,
+> +                           NULL, NULL, NULL);
+
+This covers processor objects only, so why is this not needed for
+processor devices defined under a processor container object?
+
+It is not obvious, so it would be nice to add a comment explaining the
+difference.
+
+> +
+>         return 1;
+>  }
+>
+> --
