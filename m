@@ -1,122 +1,131 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E731B273;
-	Mon, 18 Dec 2023 12:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40c6ea99429so26487915e9.3;
-        Mon, 18 Dec 2023 04:05:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702901114; x=1703505914;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mIMDOkQ+TNeCT37E2xxPaUF6QOli0csoC3BBj7RJ0C0=;
-        b=qK+0wTGRIbkO/TggDgBJleHqDWy2vyRA9b2mg6AmWcK+Y1/C5T1Df28yVh4YOkFWPW
-         TpOB5RePensLM1wSBTwvhsGzjBsNuvZC+T4Z7JGhWJlRmq8pC+wjr8rwYeeaqmpMRhNH
-         mH2ufVFKH4PlKqQ3IX2q97ym786E/kptmmFCCeTWGNo4BFbLBWN9qWvCPEvugmxna66w
-         THgA9aGlEEJjcp8aTWdJdaisWup1G+dGQYy+qBcfhZbg7NKunzZbvOhvxCyQIVLaTN//
-         CeE0E5prQl3n2ZhxuC9FaF3gre7q0fgLPacT62bVBCUSKMpxpap6MlHfMWPiO2WbJ124
-         1i+g==
-X-Gm-Message-State: AOJu0YwQ+VZVipHupq8dXiCsPUkE/mIugDMM2LP8bcL6j1mGbQqaXQ68
-	3hcQ2xdbGu0IiqEu8IkOvPc=
-X-Google-Smtp-Source: AGHT+IFR4JdqLgxpy4SFG94lm70BMiI6UtGCHpYh6QNkbnmdH3hd9gW1ghKLuUeiHOVw+ciAsqHycg==
-X-Received: by 2002:a05:600c:1615:b0:40b:5e59:99f4 with SMTP id m21-20020a05600c161500b0040b5e5999f4mr5834820wmn.276.1702901113854;
-        Mon, 18 Dec 2023 04:05:13 -0800 (PST)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
-        by smtp.gmail.com with ESMTPSA id i9-20020a05600c354900b003fee6e170f9sm41298755wmq.45.2023.12.18.04.05.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Dec 2023 04:05:11 -0800 (PST)
-Message-ID: <c22997c9-6d99-4e1f-9015-b7f80be2a720@kernel.org>
-Date: Mon, 18 Dec 2023 13:05:11 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B93F1B282;
+	Mon, 18 Dec 2023 12:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LKUJGxHT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C75C433CA;
+	Mon, 18 Dec 2023 12:07:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702901221;
+	bh=DrUER6FrPw2fjC9H9x1urksXUY0gGNG6zMiTe1yGdnU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=LKUJGxHTrZ1gQyvq878M4w4HTVQcb8bbMxwpc19jT0HKCWZyr7ueaR6K9Nmol7qf4
+	 oYBbD8AzPcLS+DHc2TbrwtzMr178ov8zgr2I7Jxfv58m6bGFAVjUojoZJ9MlcEH2Dj
+	 qi69pp+NDQ/8Kav3JL/aUwfcOOOz+27WnDiUwk9SFR/pN6VrS1qJQT6FeRATOupFX9
+	 8POziYZNVql6QVwrqMz0KFFD2lfeRP9FfvzHXTgMaeG5ZlwI17Ags7DaTZSvs9zYnI
+	 9k0lKnHMvyELpUrEMLhHVNbbFTOHJrH01NGe0EUJPgM5MPGsVQQOA8BIlY7WjLg55H
+	 NlcR6Bf/3H/bA==
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1fab887fab8so2526310fac.0;
+        Mon, 18 Dec 2023 04:07:01 -0800 (PST)
+X-Gm-Message-State: AOJu0YyFW6kC53iyOVWpp9ERjqzpi3NmNbENdme5lRRL3i35ULj+PzqF
+	xvFdGbpwCvG3BQ3bo0lmsObtaxFGlGUMs9o6Hjg=
+X-Google-Smtp-Source: AGHT+IHbXzdWjN3WLIrbJWsVdm5g8DLYEIA4IOfNJwqDUwnzQPJ+UKUh+M42CGcq0eJeYmSUPySQg3zPBGdpCR1G9Xc=
+X-Received: by 2002:a05:6870:6b90:b0:203:7e47:3efe with SMTP id
+ ms16-20020a0568706b9000b002037e473efemr7533561oab.64.1702901220899; Mon, 18
+ Dec 2023 04:07:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] /proc/sysrq-trigger can now pause processing for one
- second
-To: Tomas Mudrunka <tomas.mudrunka@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org
-References: <20231218114222.283705-1-tomas.mudrunka@gmail.com>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20231218114222.283705-1-tomas.mudrunka@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <e2b943eca92abebbf035447b3569f09a7176c770.1702366951.git.viresh.kumar@linaro.org>
+ <1c03eb18-a6ac-45c8-8fea-46097bb4e132@gmail.com> <CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com>
+ <20231215064823.ltm55fk4zclsuuwq@vireshk-i7> <a2aca039-7360-476e-a1b1-e950698cd26b@gmail.com>
+ <20231215112418.usky65sibhbiubyx@vireshk-i7> <CANiq72nuUpBCHaeyozDXAZrV+YLW_OR-QOUiVHPfTbNGG3RFXA@mail.gmail.com>
+In-Reply-To: <CANiq72nuUpBCHaeyozDXAZrV+YLW_OR-QOUiVHPfTbNGG3RFXA@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 18 Dec 2023 21:06:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS8kaRsWf6Grob5Vuj3eNx2c2=s+JmmshcXXJT2B4ph_Q@mail.gmail.com>
+Message-ID: <CAK7LNAS8kaRsWf6Grob5Vuj3eNx2c2=s+JmmshcXXJT2B4ph_Q@mail.gmail.com>
+Subject: Re: [PATCH V2] docs: rust: Clarify that 'rustup override' applies to
+ build directory
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>, Tiago Lam <tiagolam@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 18. 12. 23, 12:42, Tomas Mudrunka wrote:
-> Writing ',' to /proc/sysrq-trigger now causes processing to
-> pause for one second.
-> 
-> This is useful, because recently accepted patch allows
-> to write multiple keys at once to /proc/sysrq-trigger.
-> But it might be desirable to add slight delay between actions.
-> 
-> Eg. between (e)TERM and (i)KILL it makes sense to put slight delay,
-> so processes have chance to run TERM handlers before being KILLed.
-> 
-> Now we can send TERM, wait for two seconds and KILL like this:
-> 
-> echo _e,,i > /proc/sysrq-trigger
+On Fri, Dec 15, 2023 at 8:53=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Fri, Dec 15, 2023 at 12:24=E2=80=AFPM Viresh Kumar <viresh.kumar@linar=
+o.org> wrote:
+> >
+> > I thought people aren't required to enter the build directory now (but
+> > just source code directory) and simply do:
+> >
+> >                 make LLVM=3D1 O=3D<builddir> rustupoverride
+>
+> Yeah, that is correct, but we don't need to write the `O=3D` in the
+> commands themselves. The idea is that 1) the commands can be easily
+> copy-pasted, 2) commands look simple (i.e. there are many other
+> variations and options you may pass), 3) newcomers do not need to care
+> about `O=3D` (so it is extra simple for them).
+>
+> > Will this still work if we are in the build directory ?
+>
+> Both should work (as long as the initial setup in the build folder is
+> done, of course), so I think we can simply remove the mention about
+> "enter ..." now and simply give the command.
+>
+> In fact, even if Kbuild did not support that, we could still remove
+> the "enter ...", because then the `make` would need to be run like any
+> other target from the source tree.
 
-Bah, what's wrong with:
-  echo e > /proc/sysrq-trigger
-  sleep 2
-  echo i > /proc/sysrq-trigger
-?
 
-thanks,
--- 
-js
-suse labs
 
+FWIW.
+
+Kbuild is designed to be able to initiate 'make' from anywhere,
+even if the build directory is not set up.
+
+In that case, you need to use -f option to point to the top Makefile.
+
+
+
+You can enter a build directory, then do this:
+
+  $ make -f <path/to/source/tree>/Makefile defconfig all
+
+
+
+
+Likewise, both of the following should work.
+
+
+1)  Enter the source directory, and
+
+  $ make O=3D<path-to-build-directory> rustupoverride
+
+
+2)  Enter the build directory, and
+
+
+  $ make -f <path-to-source-directory>/Makefile rustupoverride
+
+
+
+
+
+
+> In other words, regardless of the
+> answer, we could remove it thanks to the new target, unless I am
+> missing something.
+>
+> Cheers,
+> Miguel
+>
+
+
+--
+Best Regards
+Masahiro Yamada
