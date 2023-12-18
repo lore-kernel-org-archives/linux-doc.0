@@ -1,81 +1,156 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A676FC9;
-	Mon, 18 Dec 2023 06:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="inmSrJtp"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3333b46f26aso2126625f8f.1;
-        Sun, 17 Dec 2023 22:47:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702882074; x=1703486874; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H0AT1Mm+ApmzRWU5CE8MDyBwNw96Os0ML2k0Gs4JY74=;
-        b=inmSrJtpWIb2Q+TQob1tmGsXZvpt0c4CBWtL7mkxgnmrK6gfyblzgaoadne5nJm9EA
-         APmUDR/b5QrXr2ACWttBBQ8KVT2fl4saI1KOpZYts0tb5n+G9FXUy9vprJT7nWSd2K8K
-         nfAeqlDk+8MGIv4t0D6hUVounZ/PQXbFW/1TN9otEpp/mC+US2EmZlKc6pvApyZZCWad
-         n14p7gENNuQHbTzx5i/OvBwbTMM6UN09wloH6PYZN81eYSY7yaEYp968wNt+VXXS2cgt
-         M1dNlJ0CG5HEXMhUIqqVUugPODvvqWMUcB9kqiXVf8erFQb55rTT7yPYkzXa7cCb4QN+
-         bEcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702882074; x=1703486874;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H0AT1Mm+ApmzRWU5CE8MDyBwNw96Os0ML2k0Gs4JY74=;
-        b=K3zCEhbH3TaBIhpONKSm4knI0Xb/nZUblsP42JkUpJsasC6BgZMFMx56LlHd5xbc2I
-         2ZNJG8ZVTO3N50cl4rPowdarE91yOs6PnIm1ifb3gHVpQylmXVw2oXJUpvK8tYtrDH/P
-         KEKfG9N735cv33J4suLGHIeq6eE1JxZbQ5M7o3BKaz4UPW7pUZjs/FyYYROytWsLKVoU
-         8u7Nllh/mjzo7/rPqM/J8nhpARXXsHrVKtYfJyH+EUCLXZHi0S2zYfigoN/PbvwCVYO0
-         6CVMY1bfaOUmSjwFq+wKmEmAX3s7m1lP6owDpEHeu0fMMZhRoLDRDqfzijFv+rBoToBq
-         ZEKQ==
-X-Gm-Message-State: AOJu0YwT/UUCt93BCGVjboXeyx+Vp5FbxvciLTf6BbAM4W7VJMcB7mjx
-	ur1EIrRK2avu7nzX/E0Ing==
-X-Google-Smtp-Source: AGHT+IH36newPw8Y1gTzSIPqawOCVHQE+gmfDx3gq8ZGmQUXx737tWV8aafN7TII1gRTZDnF11MVDg==
-X-Received: by 2002:a5d:410a:0:b0:336:6413:682 with SMTP id l10-20020a5d410a000000b0033664130682mr707904wrp.42.1702882073843;
-        Sun, 17 Dec 2023 22:47:53 -0800 (PST)
-Received: from [192.168.1.148] (224.69.114.89.rev.vodafone.pt. [89.114.69.224])
-        by smtp.googlemail.com with ESMTPSA id v17-20020adf8b51000000b003365c8d0756sm6461912wra.96.2023.12.17.22.47.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Dec 2023 22:47:53 -0800 (PST)
-Message-ID: <f891e3b0-c36d-4495-8e80-430723a445e0@gmail.com>
-Date: Mon, 18 Dec 2023 06:47:51 +0000
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17A7F79C7;
+	Mon, 18 Dec 2023 07:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-d85ff70000001748-ef-657fefc8c14b
+From: Hyeongtak Ji <hyeongtak.ji@sk.com>
+To: gourry.memverge@gmail.com
+Cc: Hasan.Maruf@amd.com,
+	Jonathan.Cameron@Huawei.com,
+	akpm@linux-foundation.org,
+	arnd@arndb.de,
+	bp@alien8.de,
+	corbet@lwn.net,
+	dan.j.williams@intel.com,
+	dave.hansen@linux.intel.com,
+	emirakhur@micron.com,
+	fvdl@google.com,
+	gregory.price@memverge.com,
+	hannes@cmpxchg.org,
+	haowang3@fb.com,
+	hasanalmaruf@fb.com,
+	hezhongkun.hzk@bytedance.com,
+	honggyu.kim@sk.com,
+	hpa@zytor.com,
+	hyeongtak.ji@sk.com,
+	jgroves@micron.com,
+	john@jagalactic.com,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	luto@kernel.org,
+	mhocko@kernel.org,
+	mhocko@suse.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	rakie.kim@sk.com,
+	ravis.opensrc@micron.com,
+	seungjun.ha@samsung.com,
+	sthanneeru@micron.com,
+	tglx@linutronix.de,
+	tj@kernel.org,
+	vtavarespetr@micron.com,
+	x86@kernel.org,
+	ying.huang@intel.com,
+	kernel_team@skhynix.com
+Subject: RE: [PATCH v3 00/11] mempolicy2, mbind2, and weighted interleave
+Date: Mon, 18 Dec 2023 16:07:48 +0900
+Message-Id: <20231218070750.2123-1-hyeongtak.ji@sk.com>
+X-Mailer: git-send-email 2.37.3.windows.1
+In-Reply-To: <20231213224118.1949-1-gregory.price@memverge.com>
+References: <20231213224118.1949-1-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3] docs: rust: Document the rustupoverride target
-Content-Language: en-GB
-To: Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
- <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <c22eca4c308b72cdf750087622b61d3839ca40cc.1702878682.git.viresh.kumar@linaro.org>
-From: Tiago Lam <tiagolam@gmail.com>
-In-Reply-To: <c22eca4c308b72cdf750087622b61d3839ca40cc.1702878682.git.viresh.kumar@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf0yMcRzH973ne8/zdByPq803Zc1NozaRtfnYLP3RH4+JWdYfwnLqoZu6
+	cilloyOXOhOi6CruqtGS7jxl0oq78+PKUFKtzWSUyVIpivVDepam/157f97v9+efN0upSuUr
+	WK3umKDXaRLUtAIrBhdb1zUPZwobjJW+UGKrpmE6/zkDP+x/aOhznENwraANQb99lq5/b2fg
+	qcVCQ//UFxkYznzCcEfcAeXPPyIwFtlpeJV9hoZ3Xe8QFN5bDu7xCRqctj1QZe2iofZXDg3W
+	7AoMjU0tGN42lNDQUz0jh9aGu3IYGL9FwYe8MGh3WGTgvuCQwefOBgb6c90yGK75jqBWLKBg
+	4vYzBO6efAZ+23vl0GK+gsP8+V/GPMwb26dpfnIiH/F/mqtp/sm3YYq/nDXE8A/N7xneIqby
+	Z58OyvnaykC+vPGrjK8zjWFerMqleXE0n+GHXr9m+Obrk3iXd7RiS5yQoE0T9OtDDyjis16c
+	xsmdS9NraispAypbZEIeLOFCiKvjKp7nlxeHGIlpbi0pNJRTJsSyXtxK4nq0yoQULMXVM6TA
+	+YaSPJ7cNlI/2MhIHsz5kzFnqiQruU3ElNPEzFUGkEt1JTKJPbitROw6hyRWcaHENvmEnvMv
+	Iy1FfViqobg1xHZDJckU50ey7hdT0lvCtbGky1r8r9ObOCu78SXEmRfEzf/j5gVxC6KqkEqr
+	S0vUaBNCguIzdNr0oNikRBHNjubWyam99Wi0bbcLcSxSL1ZyAZmCSq5JS8lIdCHCUmovZXjZ
+	rKSM02ScEPRJMfrUBCHFhXxYrF6u3Dh+PE7FHdYcE44IQrKgn7/KWI8VBuRzvCJoe++MotU7
+	esThLd8cORmY1BY5nff5ZlxM588Oa0zqwY0WvLqqf4nxgKqwdefjU37KgZng0i0DUbFHp1Rf
+	PGP3Tal7MnI8zWsfiDpSdNthH0wOsbkNi5aER0WMdMc2HdKNJp+//NK/Z31vnehcd74A9uPw
+	dt/sCNkjO12txinxmuBASp+i+QvQzCBrMAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0iTYRiGe/cdNx19TbEPTaJFmUmZUfgUYQZFb0eCiDCKnPmVQzdlS2tR
+	aB5KB5kHTF1TpobJUmdbkYmJTkuNTmquIDqpleaR1Ix5yhFR/y7u5+K+/zwsIcukvFml+qyg
+	USti5LSElJj9gte1jSYKG75XEGC0VNIwm/OEgfGaORr6Gq8iyM97haC/ZoEKxjoZaDGZaOif
+	+SaCpOQeEu5YD0DZk88I0gpraHh+JZmGd453CMa/DhJw4+5SyOibQtD600lDkyUMzCUOGpqL
+	2imwTaXTUHLlFgn1j9pJ6Koz0vChcp6Cl3VVFAz+LCfgY2YodDaaRNB6rVEEdsc3Cr501zHQ
+	n9EqgtHqMQQ2ax4BztuPFxY+5DDwq6aXgnZDLhnqj6fSMkmc1jlL42lnDsJzbZU0bh4aJXB2
+	ygiDHxreM9hkjcepLcMUtlWsxWX1AyJ8Tz9JYqs5g8bWHzkMHnnxgsFtBdPkIZ9jkm2RQowy
+	QdAEhoRLolKeXibjuhefr7ZVEEmo1E2PxCzPbeKfXR9hXExza/gbSWWEHrGsJ+fL2xtW6JGE
+	Jbhahs9r6iBcjge3h68drmdcDsmt4ieb4l2xlAvm9emPmD+V/nzWPaPIxWJuO291XEUulnEh
+	vGW6mf7jL+HbC/tIVw3B+fGWYpkrJrjlfMr9m0QWkhr+swz/LMN/lgkRZuSpVCeoFMqYzeu1
+	0VE6tfL8+lOxKita+JLySzPZtWiia7cdcSySu0s5/0RBRikStDqVHfEsIfeU7ixdiKSRCt0F
+	QRN7UhMfI2jtyIcl5Uule48K4TLujOKsEC0IcYLm71XEir2TUNW5/D065wnJSY+I46UNy/yK
+	vCZkEe76kfQ4SVbq/lOVZHPP3YzDR0aHNr7VzXtJLSqH24nnA7at4tUXNwRt//jJY3pzsep0
+	QENhdODAIh9jb5Vvx7ZU5wqTL3WurPygeMtkeOiDHcJ4dV9uV/DK4/vcM7vDdr0OwOaSN4Gl
+	86fV/nJSG6UIWktotIrfF9TRyCEDAAA=
+X-CFilter-Loop: Reflected
 
-On 18/12/2023 05:52, Viresh Kumar wrote:
-> Document the newly added Make target: rustupoverride.
+Hi Gregory,
+
+Thank you for the v3 patch.
+
+Gregory Price <gourry.memverge@gmail.com> write:
+
+[snip]
+
+> =====================================================================
+> Performance tests - MLC
+> From Ravi Jonnalagadda <ravis.opensrc@micron.com>
 > 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Workload:                               W2
+> Data Signature:                         2:1 read:write
+> DRAM only bandwidth (GBps):             298.8
+> DRAM + CXL (default interleave) (GBps): 113.04
+> DRAM + CXL (weighted interleave)(GBps): 412.5
+> Gain over DRAM only:                    1.38x
+> 
+> Workload:                               W5
+> Data Signature:                         1:1 read:write
+> DRAM only bandwidth (GBps):             273.2
+> DRAM + CXL (default interleave) (GBps): 117.23
+> DRAM + CXL (weighted interleave)(GBps): 382.7
+> Gain over DRAM only:                    1.4x
 
-Reviewed-by: Tiago Lam <tiagolam@gmail.com>
+I've run XSBench based on the v3 patch and got numbers below. I used
+your sample numactl extension from here:
+Link: https://github.com/gmprice/numactl/tree/weighted_interleave_master
+
+Performance tests – XSBench
+NUMA node 0: 56 logical cores, 128 GB memory
+NUMA node 2: 96 GB CXL memory
+
+  1. dram only
+  $ numactl -membind 0 ./XSBench -s XL –p 5000000
+  Threads:     56
+  Runtime:     36.235 seconds
+  Lookups:     170,000,000
+  Lookups/s:   4,691,618
+ 
+  2. default interleave
+  $ numactl –-interleave 0,2 ./XSBench –s XL –p 5000000
+  Threads:     56
+  Runtime:     55.243 seconds
+  Lookups:     170,000,000
+  Lookups/s:   3,077,293
+
+  3. weighted interleave
+  $ numactl --weighted --interleave 0,2 ./XSBench –s XL –p 5000000
+  Threads:     56
+  Runtime:     29.262 seconds
+  Lookups:     170,000,000
+  Lookups/s:   5,809,513
+
+In terms of runtime, weighted-interleaving shows 1.19x improvement
+compared to dram only, and 1.47x compared to default interleave.  I’ve
+repeatedly run XSBench and have not observed any significant variations
+across the runs.
+
+Kind regards,
+Hyeongtak
