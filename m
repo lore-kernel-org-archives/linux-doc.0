@@ -1,39 +1,39 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB4628FA;
-	Mon, 18 Dec 2023 03:01:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97B03C0C;
+	Mon, 18 Dec 2023 03:28:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fqYhvevW"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI2Fr3o019478;
-	Mon, 18 Dec 2023 03:01:11 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="N0qMc3BU"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI3PpHZ014875;
+	Mon, 18 Dec 2023 03:27:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	message-id:date:mime-version:subject:to:cc:references:from
 	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=Ijg50v2NRSyEcWW1uDog7pK7q6uRGdgRLOO5t2TDY5U=; b=fq
-	YhvevW2ldbJfeZZZgTYAL9KHhnR+M729U7FmmQBIAYJ9ei4EMUn3UA6oeVZGIfrr
-	A3+q/b/y2QWgOjxNMY4bPt8B8D+MSGgQnz3yov+z8FpdkY09Et91ptBsAL5TZnbI
-	pUXHx0BuveB7d+sjFBXmECn4mlDbqSw2Am4gHvijM9mobVwTALQ8CmU3Ytyb/3Kq
-	knzmOdJDqGS1Ikdzn7fmFqu8ZyExj/JiVIeGnepPz4+oz8egdN1oXzma44pqX3Z9
-	AaueKvquZyk5oVNcCdgcabqQAltUpFfmTVZTjwCX5XOC4Ovpn0YZc9Y5g9GCvN84
-	wP714JJRcle/iGzBeRuQ==
+	qcppdkim1; bh=gojjaXBEc+kO4oVw4mzTak01G0tZndo2wiSa7LeZHSo=; b=N0
+	qMc3BUjp6/i8PiiLyDRgIA2Tprm2PsYw2mqwdoRUOH5u6Bs1NRKjhwTu8LlAthFm
+	uUDGwAJzA+ycoUZO8U4DdOf6eeSnh0vN2yue17qDPUxHVI1+0OLkUxRHAr/s8feW
+	UxCuDuCc625FOQPhhDq5K9D+2xlVXbBI++4Uq7RTa1iqeVei4KhLl0BoEPnkP4JS
+	rCNgOUru+WFohEGisQAfM6silHx8y4B5nieXNqjXle6vvrZ5Ccl5nefUpFNVjTAK
+	tg3cQueDRLhHvAQ1y0Qw4OO0olVuJb38/+XBkVGF+IgugsuCuoFU+M3Nir+CpKtC
+	dWHFGp7fZV1pUdGFDOjA==
 Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v151fu7f6-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v1536u6yu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 03:01:11 +0000 (GMT)
+	Mon, 18 Dec 2023 03:27:43 +0000 (GMT)
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BI31AAA001558
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BI3Rggp030682
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 03:01:10 GMT
+	Mon, 18 Dec 2023 03:27:42 GMT
 Received: from [10.253.9.247] (10.80.80.8) by nalasex01c.na.qualcomm.com
  (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 17 Dec
- 2023 19:01:05 -0800
-Message-ID: <1bddd434-024c-45ff-9866-92951a3f555f@quicinc.com>
-Date: Mon, 18 Dec 2023 11:01:03 +0800
+ 2023 19:27:37 -0800
+Message-ID: <7638f650-cf8c-4245-a28f-b1a9edf33c38@quicinc.com>
+Date: Mon, 18 Dec 2023 11:27:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,75 +44,132 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
  properties
 Content-Language: en-US
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-CC: Andrew Lunn <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
+To: Andrew Lunn <andrew@lunn.ch>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <corbet@lwn.net>, <p.zabel@pengutronix.de>,
-        <f.fainelli@gmail.com>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, Christian Marangi <ansuelsmth@gmail.com>
+        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
+        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
 References: <20231215074005.26976-1-quic_luoj@quicinc.com>
  <20231215074005.26976-15-quic_luoj@quicinc.com>
  <60b9081c-76fa-4122-b7ae-5c3dcf7229f9@lunn.ch>
  <a65ad12d-b990-4439-b196-903f4a5f096a@quicinc.com>
  <f5c5cbce-c36e-498a-97e2-35f06d927d74@lunn.ch>
  <a9798333-3105-422f-8033-76c0b1d4f439@quicinc.com>
- <7c05b08a-bb6d-4fa1-8cee-c1051badc9d9@lunn.ch>
- <ZX2rU5OFcZFyBmGl@shell.armlinux.org.uk>
- <6abe5d6f-9d00-445f-8c81-9c89b9da3e0a@quicinc.com>
- <ZX3LqN8DSdKXqsYc@shell.armlinux.org.uk>
+ <15d95222-35dd-4ea1-a1a3-3ad9e4ef0349@lunn.ch>
 From: Jie Luo <quic_luoj@quicinc.com>
-In-Reply-To: <ZX3LqN8DSdKXqsYc@shell.armlinux.org.uk>
+In-Reply-To: <15d95222-35dd-4ea1-a1a3-3ad9e4ef0349@lunn.ch>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 51ZW3ugJimD_YNNjYwMWwlsUrfy0Zysl
-X-Proofpoint-ORIG-GUID: 51ZW3ugJimD_YNNjYwMWwlsUrfy0Zysl
+X-Proofpoint-GUID: zFsfc1a37Geumjp2IrytesshiosWIibg
+X-Proofpoint-ORIG-GUID: zFsfc1a37Geumjp2IrytesshiosWIibg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
- adultscore=0 bulkscore=0 impostorscore=0 malwarescore=0 clxscore=1015
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312180021
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=957
+ mlxscore=0 suspectscore=0 spamscore=0 impostorscore=0 phishscore=0
+ priorityscore=1501 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312180022
 
 
 
-On 12/17/2023 12:09 AM, Russell King (Oracle) wrote:
-> On Sat, Dec 16, 2023 at 10:41:28PM +0800, Jie Luo wrote:
->>
->>
->> On 12/16/2023 9:51 PM, Russell King (Oracle) wrote:
->>> On Sat, Dec 16, 2023 at 11:21:53AM +0100, Andrew Lunn wrote:
->>>>> The following is the chip package, the chip can work on the switch mode
->>>>> like the existed upstream code qca8k, where PHY1-PHY4 is connected with
->>>>> MAC1-MAC4 directly;
->>>>
->>>> Ah, that is new information, and has a big effect on the design.
->>>
->>> This QCA8084 that's being proposed in these patches is not a PHY in
->>> itself, but is a SoC. I came across this:
->>>
->>>    https://www.rt-rk.com/android-tv-solution-tv-in-smartphone-pantsstb-based-on-qualcomm-soc-design/
->>
->> The chip mentioned in the link you mentioned is SoC, which is not the
->> chip that the qca8084 driver work for.
+On 12/17/2023 1:30 AM, Andrew Lunn wrote:
+>> The following is the chip package, the chip can work on the switch mode
+>> like the existed upstream code qca8k, where PHY1-PHY4 is connected with
+>> MAC1-MAC4 directly; The chip can also work on the PHY mode, where PHY1-
+>> PHY4 is connected with PCS1 by 10g-qxgmii; Either switch mode or PHY mode,
+>> the PHY4 is optionally connected with PCS0 by SGMII, PCS0 and PCS1
+>> are connected with the SoC(IPQ platform) PCSes.
 > 
-> So there's two chips called QCA8084 both produced by Qualcomm? I find
-> that hard to believe.
+> I don't really understand. Are you saying the hardware is actually :
+> 
+> 
+> +----------------------------------------------+
+> |          PCS1           PCS0                 |
+> |                                              |
+> |          MAC0           MAC5                 |
+> |           |              |                   |
+> |     +-----+--------------+-------------+     |
+> |     |                                  |     |
+> |     |                Switch            |     |
+> |     |                                  |     |
+> |     +-+---------+---------+---------+--+     |
+> |       |         |         |         |        |
+> |      MAC1      MAC2      MAC3      MAC4      |
+> |                                              |
+> |      PHY1      PHY2      PHY3      PHY4      |
+> +----------------------------------------------+
 > 
 
-The SoC mentioned in the link you provided is the APQ8084 that is 
-introduced in the link below:
-https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapdragon-8-series-mobile-platforms/snapdragon-processors-805
+Actually there are two CHIP types, ,let me explain to be more clear.
 
-https://hwbot.org/hardware/processor/snapdragon_805_apq8084_pro__(8084_fusion_4.5)_2700mhz/
+1. The diagram you describe is actually the switch work mode, which has
+the different chip name called qca8386, the DSA driver and PHY driver
+are used, since the general PHY driver can't work for the PHY here.
 
-The driver here is for qca8084, which has the different prefix,
-and qca8084 is the Ethernet CHIP like qca8081, but qca8084 is
-multiple ports(quad-phy).
+  +----------------------------------------------+
+  | +-----+
+  | | GCC |
+  | +-----+  PCS1           PCS0                 |
+  |                                              |
+  |          MAC0           MAC5                 |
+  |           |              |                   |
+  |     +-----+--------------+-------------+     |
+  |     |                                  |     |
+  |     |                Switch            |     |
+  |     |                                  |     |
+  |     +-+---------+---------+---------+--+     |
+  |       |         |         |         |        |
+  |      MAC1      MAC2      MAC3      MAC4      |
+  |                                              |
+  |      PHY1      PHY2      PHY3      PHY4      |
+  +----------------------------------------------+
+
+2. The pure PHY chip called by qca8084 works on the PHY mode 10-qxgmii
+on quad-phy, or the sgmii mode can be configured on PHY4 optionally.
+The qca8084 is below, there is no MAC involved on qca8084.
+
+  +----------------------------------------------+
+  |          PCS1           PCS0                 |
+  |                                              |
+  |   +-----+
+  |   | GCC |
+  |   +-----+
+  |                                              |
+  |      PHY1      PHY2      PHY3      PHY4      |
+  +----------------------------------------------+
+
+On qca8386, the same qca8084 PHY is used, but the qca8084 PHY is
+connected with internal MAC directly same as qca8337(qca8k dsa driver).
+
+On both Ethernet chips qca8386 and qca8084, GCC block is same and
+with the same clock controller driver that provides the clocks and
+resets used by the qca8084 PHY driver and qca8386 DSA driver(leverage
+the existed DSA driver qca8k.c).
+
+> When in PHY mode, the switch is hard coded to map the 4 PCS1 channels
+> straight to MAC1-MAC4 and all switch functionality is disabled. But
+> then in switch mode, the switch can be controlled as a DSA switch? The
+> 10G PCS1 is then a single 10G port, not 4x 2.5G?
+
+For the qca8084 PHY chip, there is no MAC involved, the PHY is connected 
+with the PCS with 10g-qxgmii, PHY4 is optional connected with sgmii.
+
+For the qca8386 switch chip, it is controlled as DSA, the PCS is
+connected with the SOC(such as IPQ5332) PCS.
+> 
+> Is there a product brief for this PHY? That might help us understand
+> this hardware?
+> 
+Sorry, i also searched it on the internet and Qualcomm website, there is
+no Doc found, the CHIP is developed recently 1-2 year before, the Doc is
+not updated to the website.
+
+>      Andrew
