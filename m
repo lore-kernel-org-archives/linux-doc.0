@@ -1,84 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from harvie.cz (harvie.cz [77.87.242.242])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58C9A208B5;
+	Mon, 18 Dec 2023 11:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from anemophobia.amit.cz (unknown [31.30.84.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD1D374D8
-	for <linux-doc@vger.kernel.org>; Mon, 18 Dec 2023 11:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CnfDH9R3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702899515; x=1734435515;
-  h=resent-from:resent-date:resent-message-id:resent-to:date:
-   from:to:cc:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=FLkMw9cjzpgpy8/UTbx16ph3YjmWX79jnmGSQM6+y2U=;
-  b=CnfDH9R3VZ61U04iX2rsTYWLDRRagOev5AbFPSL1eVLSIq4s2CLOS4vP
-   667QHJtIDhacCSfnRmiNUPbfPG1kEc4MDUqk7oDnL+hG6RoazTpJ18VvV
-   p8lVaUAgf9Qc6S7wtV8FKSJEc3drRUk+dRs3cuK0WLm7DFCfpkCoMaabe
-   jg51HgmiUkQCVomkyGnIvfGcckBkjHnXg3zzl1Lantoz6yR1viulhRdw6
-   W6qrJfYZE6PagJsG1BlSKkW/ssCbJMvZ5g/zIv90/pQbLe70vYlmE7FZo
-   gjuqSEYZpKgGP88RHQUtokM/NNXHJtCPc3SesGNt7RzE3v9emyUWHqMbL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2320657"
-X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
-   d="scan'208";a="2320657"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 03:38:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="804498102"
-X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
-   d="scan'208";a="804498102"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 03:38:31 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1rFBx7-00000006ueW-0q6J;
-	Mon, 18 Dec 2023 13:38:29 +0200
-Resent-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-Resent-Date: Mon, 18 Dec 2023 13:38:28 +0200
-Resent-Message-ID: <ZYAvNH-Q92mbSCf7@smile.fi.intel.com>
-Resent-To: rdunlap@infradead.org, corbet@lwn.net, linux-doc@vger.kernel.org
-Date: Fri, 15 Dec 2023 19:27:47 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1 1/1] kernel-doc: Aling quick help and the code
-Message-ID: <ZXyMkk9oV3x40L08@smile.fi.intel.com>
-References: <20231215150341.1996720-1-andriy.shevchenko@linux.intel.com>
- <03c0b3bd-5798-4066-964e-a884485fe1d3@infradead.org>
+	by harvie.cz (Postfix) with ESMTPSA id 18BC01801AE;
+	Mon, 18 Dec 2023 12:42:40 +0100 (CET)
+From: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: Tomas Mudrunka <tomas.mudrunka@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Subject: [PATCH] /proc/sysrq-trigger can now pause processing for one second
+Date: Mon, 18 Dec 2023 12:42:20 +0100
+Message-ID: <20231218114222.283705-1-tomas.mudrunka@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <03c0b3bd-5798-4066-964e-a884485fe1d3@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 15, 2023 at 08:49:37AM -0800, Randy Dunlap wrote:
-> On 12/15/23 07:03, Andy Shevchenko wrote:
-> > The update to the quick help mentions -Wshort-description, but
-> > code never supported for that. Align that with the code by allowing
-> > both: -Wshort-description and -Wshort-desc.
-> > 
-> > Fixes: 56b0f453db74 ("kernel-doc: don't let V=1 change outcome")
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Writing ',' to /proc/sysrq-trigger now causes processing to
+pause for one second.
 
-Thank you!
+This is useful, because recently accepted patch allows
+to write multiple keys at once to /proc/sysrq-trigger.
+But it might be desirable to add slight delay between actions.
 
-> (Note: in Subject, s/Aling/Align/)
+Eg. between (e)TERM and (i)KILL it makes sense to put slight delay,
+so processes have chance to run TERM handlers before being KILLed.
 
-Indeed, Jonathan, can you fix when applying?
+Now we can send TERM, wait for two seconds and KILL like this:
 
+echo _e,,i > /proc/sysrq-trigger
+
+Originaly i've tested doing this as handler registered in
+sysrq_key_table[], but that would cause delay to occur while
+holding sysrq rcu lock in __handle_sysrq(), therefore i've decided
+to implement this in write_sysrq_trigger() instead to allow
+proper use of msleep() instead of mdelay() in locked context.
+
+This means it will only be possible to invoke the delay using
+/proc/sysrq-trigger, but there is little point in doing that
+interactively using keyboard anyway.
+
+Depends-on: /proc/sysrq-trigger: accept multiple keys at once
+
+Signed-off-by: Tomas Mudrunka <tomas.mudrunka@gmail.com>
+---
+ Documentation/admin-guide/sysrq.rst |  2 ++
+ drivers/tty/sysrq.c                 | 16 ++++++++++++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
+index 2f2e5bd44..b798a2695 100644
+--- a/Documentation/admin-guide/sysrq.rst
++++ b/Documentation/admin-guide/sysrq.rst
+@@ -161,6 +161,8 @@ Command	    Function
+             will be printed to your console. (``0``, for example would make
+             it so that only emergency messages like PANICs or OOPSes would
+             make it to your console.)
++
++``,``	    Wait for one second (only for use with /proc/sysrq-trigger batch)
+ =========== ===================================================================
+ 
+ Okay, so what can I use them for?
+diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
+index 02217e3c9..a19ce0865 100644
+--- a/drivers/tty/sysrq.c
++++ b/drivers/tty/sysrq.c
+@@ -51,6 +51,7 @@
+ #include <linux/syscalls.h>
+ #include <linux/of.h>
+ #include <linux/rcupdate.h>
++#include <linux/delay.h>
+ 
+ #include <asm/ptrace.h>
+ #include <asm/irq_regs.h>
+@@ -1166,10 +1167,21 @@ static ssize_t write_sysrq_trigger(struct file *file, const char __user *buf,
+ 		if (get_user(c, buf + i))
+ 			return -EFAULT;
+ 
+-		if (c == '_')
++		switch (c) {
++
++		case '_':
+ 			bulk = true;
+-		else
++			break;
++
++		case ',':
++			msleep(1000);
++			break;
++
++		default:
+ 			__handle_sysrq(c, false);
++			break;
++
++		}
+ 
+ 		if (!bulk)
+ 			break;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
