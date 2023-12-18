@@ -1,78 +1,79 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7691DA29;
-	Mon, 18 Dec 2023 20:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-203223f3299so111013fac.0;
-        Mon, 18 Dec 2023 12:35:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702931727; x=1703536527;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w5muLLdvnEWK5GQ123Z96eJyI+5glad1JcNNdF8H1Jg=;
-        b=QFjCXzQjZLmVr4iO9XA2sgrkBVSpB8/GIMU085B3NW5V+8rluMFDr1vI1KCwliLpTM
-         TBb2jTYT6bR9KtAYwVdPjxwxiPozX015k8UgcEgfVSTc0k/gHFgelSGI58eA7U8SDLw1
-         pBZZt5qY2doVjOnI2y9QVrFSBUSCp9pXOGmTHCOVuQ15o9BxmvgxKUcIwjzfxwwL45ry
-         LzQsblDBGcQgwQiZw+hUKJRiFDDMEQsoTfe94joVIGlM9TQAr6mMxDkz9HWYzVu5gtme
-         MhMCQa/hevzK9U1lLvU8SNBtcdvikQZZfSyjMo3yuRr6fuWGRyLXMleY91eScM8ZixbA
-         xMpg==
-X-Gm-Message-State: AOJu0YyeIJgMFO0elQr12OxlmdapBT8d0yvrHi556SzcPZfQXFCDfnxS
-	A1Op+EXK9gV1bhHf1Z9QUgE9bO3NxwhhOv1LM1s=
-X-Google-Smtp-Source: AGHT+IF1MjB6QbmwWfc3T+5pLabp0AF+8g7RLCoeqeEABS9CAvETyoAN6o6rB15S5OlZOByT2E647igWVuJN9yCJ/4I=
-X-Received: by 2002:a05:6870:71ca:b0:203:e75d:a2c2 with SMTP id
- p10-20020a05687071ca00b00203e75da2c2mr729668oag.1.1702931727130; Mon, 18 Dec
- 2023 12:35:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5451DA29;
+	Mon, 18 Dec 2023 20:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h9hhpH2c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77750C433C7;
+	Mon, 18 Dec 2023 20:46:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702932392;
+	bh=jvF0gWTII0ANTiYstuCAWUHP0Uf1jJzBvMRjSrV6Tzk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=h9hhpH2cglsJpEFN63IIJFQdN3w+pru0ewtIJY3eUwOC60XDhS54gCHzdvz6thtH4
+	 OuleOPVYGVlMzoQ/jI8CNORXglPHae8OqgBG085KTgNw5D/a+UcQUMct3zWVdNUwzB
+	 YOw4vJQZLqpf+D+RUTG/JhsnZyqX8d9vsfVbXIFSsTfZVBYmTrt953VoyX3btnFk6R
+	 7ECdrf2EwBFkI89vtgnCMB6Awr8zQyOVeG+ykvOgqwy2CH7Yh2Qxz3tj+RbfOZjaWx
+	 doiQXxKdfo973nGRbdMUfPikHZaVmult6HBfr9EL4uiFhAPo1Buo6UWs1dWlTxaz6u
+	 UcReUYBavoIXg==
+Received: (nullmailer pid 58052 invoked by uid 1000);
+	Mon, 18 Dec 2023 20:46:24 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk> <E1rDOgD-00Dvk2-3h@rmk-PC.armlinux.org.uk>
-In-Reply-To: <E1rDOgD-00Dvk2-3h@rmk-PC.armlinux.org.uk>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 18 Dec 2023 21:35:16 +0100
-Message-ID: <CAJZ5v0g9nfLrEf9u4Ksw6BOWJQ9iv8Z-O8RsLU6jR5zk0ahxRw@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 05/21] ACPI: Rename ACPI_HOTPLUG_CPU to include 'present'
-To: Russell King <rmk+kernel@armlinux.org.uk>
-Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
-	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
-	James Morse <james.morse@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Rob Herring <robh@kernel.org>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor.dooley@microchip.com>, Guenter Roeck <linux@roeck-us.net>, Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
+In-Reply-To: <20231020-topic-chipcap2-v4-4-7940cfa7613a@gmail.com>
+References: <20231020-topic-chipcap2-v4-0-7940cfa7613a@gmail.com>
+ <20231020-topic-chipcap2-v4-4-7940cfa7613a@gmail.com>
+Message-Id: <170293238435.57999.10131351062410349908.robh@kernel.org>
+Subject: Re: [PATCH v4 4/5] dt-bindings: hwmon: Add Amphenol ChipCap 2
+Date: Mon, 18 Dec 2023 14:46:24 -0600
 
-On Wed, Dec 13, 2023 at 1:49=E2=80=AFPM Russell King <rmk+kernel@armlinux.o=
-rg.uk> wrote:
->
-> From: James Morse <james.morse@arm.com>
->
-> The code behind ACPI_HOTPLUG_CPU allows a not-present CPU to become
-> present.
 
-Right.
+On Mon, 18 Dec 2023 20:10:32 +0100, Javier Carrasco wrote:
+> Add device tree bindings and an example for the ChipCap 2 humidity
+> and temperature sensor.
+> 
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> ---
+>  .../bindings/hwmon/amphenol,chipcap2.yaml          | 77 ++++++++++++++++++++++
+>  1 file changed, 77 insertions(+)
+> 
 
-> This isn't the only use of HOTPLUG_CPU. On arm64 and riscv
-> CPUs can be taken offline as a power saving measure.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-But still there is the case in which a non-present CPU can become
-present, isn't it there?
+yamllint warnings/errors:
 
-> On arm64 an offline CPU may be disabled by firmware, preventing it from
-> being brought back online, but it remains present throughout.
->
-> Adding code to prevent user-space trying to online these disabled CPUs
-> needs some additional terminology.
->
-> Rename the Kconfig symbol CONFIG_ACPI_HOTPLUG_PRESENT_CPU to reflect
-> that it makes possible CPUs present.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.example.dtb: humidity@28: compatible: 'oneOf' conditional failed, one must be fixed:
+	['amphenol,cc2d23s'] is too short
+	'amphenol,cc2d23' was expected
+	from schema $id: http://devicetree.org/schemas/hwmon/amphenol,chipcap2.yaml#
 
-Honestly, I don't think that this change is necessary or even useful.
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231020-topic-chipcap2-v4-4-7940cfa7613a@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
