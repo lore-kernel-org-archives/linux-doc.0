@@ -1,115 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9253D57F;
-	Mon, 18 Dec 2023 16:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8298442392;
+	Mon, 18 Dec 2023 16:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pgPaNxRa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E77EC433C7;
-	Mon, 18 Dec 2023 16:28:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUa8SDEL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F56EC433CA;
+	Mon, 18 Dec 2023 16:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702916941;
-	bh=cuIJ/8s2AYcAKCRZwOwQRNGRaRi9/bICEVQ2fASqZdk=;
+	s=k20201202; t=1702918556;
+	bh=XxYFNWhdg6eNVhPoZXUc3S141TGv0s2xTcNREUNTq7o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pgPaNxRa19QteSUajSmhwIBygIXOwyglTsgblC6uEftO+XTQg6+O3kXAj9XX2OmcC
-	 rQOpqnvB5+xOO/ow7seOv1CdwV13FbembY2BokFhPnwSM4b0DvGeATzzmDK+AEOLHw
-	 6DaCbWimil/lLwi/MxyvK5Y12TLnf9HBPcW++ZT9x3tzMvn7KL4GnLx7Lcu5QvqSQp
-	 eltb1y4JDmA5690dgcONdt9hmYC6CU/Xhok/FJZ/y98obP8l0G4B7kd38/bxCcL5CD
-	 m0hJV4fUjPoN82jbVmU9YShGfagm/C07b9jmlsrqKjpLRJaGDiIiVu6scxMm9bEVQ6
-	 YQAI2eQ+xkSew==
-Date: Mon, 18 Dec 2023 17:28:53 +0100
-From: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 13/21] ACPICA: Add new MADT GICC flags fields
-Message-ID: <ZYBzRWs7v1PsF6qV@lpieralisi>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
- <E1rDOgs-00Dvko-6t@rmk-PC.armlinux.org.uk>
- <20231215162322.00007391@Huawei.com>
- <ZXyEiHLFBsoUkfNI@shell.armlinux.org.uk>
- <ZYAPhlwPUT/7dN4n@lpieralisi>
- <CAJZ5v0hyUqJspPbGTgTMSVHVBe=wHR6swPx-O3UcsH5dXDFpTA@mail.gmail.com>
+	b=YUa8SDEL75yXavrxPAYBpehaZiKrcorHkBA1Wj8WefvK3li6SRC3XDFYV8QlYMW76
+	 tvULE9CwNEEMCIV6xWZvLTW8tfqKlMrPClyWKdzVbtH8goOiTK0Zwc6y4PuYOAabpY
+	 o/EDHdfU4h0GyMMMzpO3Qxcx+tBfLtlasauNZIeTki4FRxoIyLTlpG19dhMX3SmPew
+	 gOTbIlydNrIMoe7742V2XU/zikhBTBNM1GVq4GaCG4eOhExNYD9M7grJuLO5BvRBP9
+	 /flc7yzO1Pv1ru47bpeCszg73rfq0qcks2W58H1adz2cNgC07y73x3ApVDQQ2vsOVT
+	 oNMYBCsdW8WBg==
+Date: Mon, 18 Dec 2023 09:55:52 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH] docs: rust: remove `CC=clang` mentions
+Message-ID: <20231218165552.GA601326@dev-arch.thelio-3990X>
+References: <20231215124751.175191-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0hyUqJspPbGTgTMSVHVBe=wHR6swPx-O3UcsH5dXDFpTA@mail.gmail.com>
+In-Reply-To: <20231215124751.175191-1-ojeda@kernel.org>
 
-On Mon, Dec 18, 2023 at 02:14:30PM +0100, Rafael J. Wysocki wrote:
-> On Mon, Dec 18, 2023 at 10:23 AM Lorenzo Pieralisi
-> <lpieralisi@kernel.org> wrote:
-> >
-> > On Fri, Dec 15, 2023 at 04:53:28PM +0000, Russell King (Oracle) wrote:
-> > > On Fri, Dec 15, 2023 at 04:23:22PM +0000, Jonathan Cameron wrote:
-> > > > On Wed, 13 Dec 2023 12:50:18 +0000
-> > > > Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
-> > > >
-> > > > > From: James Morse <james.morse@arm.com>
-> > > > >
-> > > > > Add the new flag field to the MADT's GICC structure.
-> > > > >
-> > > > > 'Online Capable' indicates a disabled CPU can be enabled later. See
-> > > > > ACPI specification 6.5 Tabel 5.37: GICC CPU Interface Flags.
-> > > > >
-> > > > > Signed-off-by: James Morse <james.morse@arm.com>
-> > > > > Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> > > > > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-> > > > > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
-> > > > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > > >
-> > > > I see there is an acpica pull request including this bit but with a different name
-> > > > For reference.
-> > > > https://github.com/acpica/acpica/pull/914/commits/453a5f67567786522021d5f6913f561f8b3cabf6
-> > > >
-> > > > +CC Lorenzo who submitted that.
-> > >
-> > > > > +#define ACPI_MADT_GICC_CPU_CAPABLE      (1<<3)   /* 03: CPU is online capable */
-> > > >
-> > > > ACPI_MADT_GICC_ONLINE_CAPABLE
-> > >
-> > > It's somewhat disappointing, but no big deal. It's easy enough to change
-> > > "irqchip/gic-v3: Add support for ACPI's disabled but 'online capable' CPUs"
-> > > to use Lorenzo's name when that patch hits - and it becomes one less
-> > > patch in this patch set when Lorenzo's change eventually hits mainline.
-> > >
-> > > Does anyone know how long it may take for Lorenzo's change to get into
-> > > mainline? Would it be by the 6.8 merge window or the following one?
-> >
-> > I wish I knew. I submitted ACPICA changes for the online capable bit
-> > since I had to add additional flags on top (ie DMA coherent) and it
-> > would not make sense to submit the latter without the former.
-> >
-> > I'd be great if the ACPICA headers can make it into Linux for the upcoming
-> > merge window, not sure what I can do to fasttrack the process though
-> > (I shall ping the maintainers).
+On Fri, Dec 15, 2023 at 01:47:51PM +0100, Miguel Ojeda wrote:
+> Nowadays all architectures except s390 recommend using `LLVM=1` instead of
+> `CC=clang`, and since commit a3c6bfba4429 ("Documentation/llvm: refresh
+> docs") the Kbuild LLVM documentation makes `LLVM=1` the way to go:
 > 
-> If your upstream pull request has been merged, I can pick up Linux
-> patches carrying Link: tags pointing to the upstream ACPICA commits in
-> that pull request.
+>     We want to encourage the use of ``LLVM=1`` rather than just
+>     ``CC=clang``. Make that suggestion "above the fold" and "front and
+>     center" in our docs.
+> 
+> In particular, that commit removes the examples with `CC=clang`.
+> 
+> Thus do the same in the Rust Quick Start guide, i.e. remove the `CC=clang`
+> mentions, especially since the architectures that have had their Rust
+> support upstreamed (or soon to be upstreamed) are all `LLVM=1` ones
+> anyway. And perhaps by the time Rust is supported for s390 (or new
+> architectures), it may have moved to `LLVM=1` anyway. Otherwise,
+> this can be added back if needed (or perhaps an extra link to
+> Documentation/kbuild/llvm.rst).
+> 
+> This should also help avoiding potential confusion around `CC=clang` [1].
+> 
+> Link: https://lore.kernel.org/rust-for-linux/6df6e8e5-8d5b-4d3d-91b5-bc0e90c424ea@nvidia.com/ [1]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Thank you, I don't think it has been merged yet (and it requires
-review because I am not that familiar with the ACPICA code base).
+Yes, the fact that no architecture that CONFIG_RUST supports requires
+CC=clang seems reason enough for this to be eliminated from the Rust
+documentation.
 
-Hopefully it should be an extended kernel cycle so it might be
-possible to get these headers in v6.8, if you deem that reasonable
-of course once the PR is merged.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Thanks,
-Lorenzo
+> ---
+>  Documentation/rust/quick-start.rst | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+> index f382914f4191..75faa987079a 100644
+> --- a/Documentation/rust/quick-start.rst
+> +++ b/Documentation/rust/quick-start.rst
+> @@ -76,7 +76,7 @@ libclang
+>  
+>  ``libclang`` (part of LLVM) is used by ``bindgen`` to understand the C code
+>  in the kernel, which means LLVM needs to be installed; like when the kernel
+> -is compiled with ``CC=clang`` or ``LLVM=1``.
+> +is compiled with ``LLVM=1``.
+>  
+>  Linux distributions are likely to have a suitable one available, so it is
+>  best to check that first.
+> @@ -229,10 +229,6 @@ at the moment. That is::
+>  
+>  	make LLVM=1
+>  
+> -For architectures that do not support a full LLVM toolchain, use::
+> -
+> -	make CC=clang
+> -
+>  Using GCC also works for some configurations, but it is very experimental at
+>  the moment.
+>  
+> 
+> base-commit: a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+> -- 
+> 2.43.0
+> 
