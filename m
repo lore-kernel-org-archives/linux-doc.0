@@ -1,396 +1,253 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656DF5671;
-	Mon, 18 Dec 2023 04:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EE46FA2;
+	Mon, 18 Dec 2023 05:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDv/VUDi"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4260ba19a57so30292251cf.3;
-        Sun, 17 Dec 2023 20:53:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702875223; x=1703480023; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bSwu6xy1q8rHEwXEuWcu18fqodsLh+KDPx4QWvbItl8=;
-        b=kDv/VUDi2DwaohdLEjPZEsLK3xIgO+iKuZ8dpZ60hPPxqym4iXwELcUtTq9P5mG56s
-         SGRJGSiO1uJ4ZneXuvY2bWkyDovBbvVAYuTyOg42JC+fnIJsEG0wS9d4bDMVY3KFDT+x
-         24/4WOMrqgETh8nxDZVqX8Nv3uv7F7pGaq1ERtuYLDAvHcUN+0W6ffasXd+CaTWG8rSR
-         j+Lc/OVknz7wLc9mKa98ooZoYeiYS8WPGU6LTNyZIjfX2gPSmzN/tMiEUjPREedgl7hc
-         l+MiipC8uRIcoeLwV3e8TUgJaFkMrLNu2/KJMd/OopIdnI43L8NDOKBa3gKejUS23+SL
-         X5FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702875223; x=1703480023;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bSwu6xy1q8rHEwXEuWcu18fqodsLh+KDPx4QWvbItl8=;
-        b=SlcfRLcOV7pIMvxUNn9+SNV2xq9pXoFz4hWKaj+dtxn5T6f6cvaDeDDLbYmg0BVr9P
-         nMpDZ5habc+AOs7RQ17HxVQR/0CRVKegPTqIJ4E1HYVs/63T9u6WdEEC8AEGLyyRV1es
-         e/4AuELa21SZ6Hq5zxz1Br2GHTdNd8yATDYUS8Mxl1FO2lqRYWrYPvm12Sf3ilS8RRRV
-         ou8AGSCUCQCTbzK9un1c8nf9Ri+8xkc12Oc9uECJFJcI+sSoxOR/zPPTmAoWd4Al8+4g
-         6ICngsze9KP8XTorgUMlsYnSE2FSoOnvv5deSz7vyb7YX7buhjgeAtes0k4TWlwnMG1l
-         9jSg==
-X-Gm-Message-State: AOJu0YxD7141qYdImghTao+O+3+l+/MWRFeAfHRVywaiZSTl5VkkGVGM
-	k5FaWG/2ds6IYlzJUrgQN5g=
-X-Google-Smtp-Source: AGHT+IFgvRF7jhnQjmZXNo/oBGJeAPea00yqhXVceGALYf0iaiwD1Q1/x1VmfmiTTuzpszSy50ugdQ==
-X-Received: by 2002:ac8:5fce:0:b0:425:4043:5f26 with SMTP id k14-20020ac85fce000000b0042540435f26mr22621750qta.100.1702875223109;
-        Sun, 17 Dec 2023 20:53:43 -0800 (PST)
-Received: from localhost.localdomain ([174.95.13.129])
-        by smtp.gmail.com with ESMTPSA id fv5-20020a05622a4a0500b004275e9cdf15sm716571qtb.11.2023.12.17.20.53.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 20:53:42 -0800 (PST)
-From: Abdel Alkuor <alkuor@gmail.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Abdel Alkuor <alkuor@gmail.com>,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 2/2] hwmon: (lm75) Add AMS AS6200 temperature sensor
-Date: Sun, 17 Dec 2023 23:52:28 -0500
-Message-Id: <a71ac5106e022b526bef9fc375bd5d3f547eb19d.1702874115.git.alkuor@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <89fb5eec30df734ee8fc58427cf5d94929076514.1702874115.git.alkuor@gmail.com>
-References: <89fb5eec30df734ee8fc58427cf5d94929076514.1702874115.git.alkuor@gmail.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CDsTWPxM"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI3q33d030701;
+	Mon, 18 Dec 2023 05:22:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=9ORMgxcyoO2xSio7DnrTJI4X6geYouHjOrWCRCI3+F4=; b=CD
+	sTWPxMLV1E7D26QRzWncK/2d4JxUlq3syftMw/zFiaWkI+NfI0X6EDb6OafuWwBS
+	ewDk44UFvQ9JTFXGgrdq5zAYtQl4k0Atyo9Wg/A6TOTmc4BUSYN26o4MAeK+iJy+
+	ZiFJjEETxnzvHFroRrGV4oV+21DE9vig/SUkJwVOtIDyvh0aRuTg1AoQUzPeZFL6
+	2yoq0NDnUtfvcTlx6MhRI9qGme2u1zE2OUWGMiC04/CHb/4ybKPshnKjwO8TS3MG
+	bX/yt8R5McGWQuZDh9bGwd4YAtZyWuIZ2nl8udgGSxXbz0ZVsOpdLmPCbEpuybFh
+	vOYygfiy/A6dflFRJevA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v152w3cqt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Dec 2023 05:22:14 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BI5MDRe020609
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Dec 2023 05:22:13 GMT
+Received: from [10.253.9.247] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 17 Dec
+ 2023 21:22:08 -0800
+Message-ID: <8ffe4a2c-af59-4b18-a614-9be6e41cac85@quicinc.com>
+Date: Mon, 18 Dec 2023 13:22:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
+ properties
+Content-Language: en-US
+To: Christian Marangi <ansuelsmth@gmail.com>
+CC: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Andrew Lunn
+	<andrew@lunn.ch>, <davem@davemloft.net>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <hkallweit1@gmail.com>, <corbet@lwn.net>,
+        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>,
+        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20231215074005.26976-1-quic_luoj@quicinc.com>
+ <20231215074005.26976-15-quic_luoj@quicinc.com>
+ <60b9081c-76fa-4122-b7ae-5c3dcf7229f9@lunn.ch>
+ <a65ad12d-b990-4439-b196-903f4a5f096a@quicinc.com>
+ <f5c5cbce-c36e-498a-97e2-35f06d927d74@lunn.ch>
+ <a9798333-3105-422f-8033-76c0b1d4f439@quicinc.com>
+ <7c05b08a-bb6d-4fa1-8cee-c1051badc9d9@lunn.ch>
+ <ZX2rU5OFcZFyBmGl@shell.armlinux.org.uk>
+ <6abe5d6f-9d00-445f-8c81-9c89b9da3e0a@quicinc.com>
+ <657dc9d4.050a0220.e1913.c983@mx.google.com>
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <657dc9d4.050a0220.e1913.c983@mx.google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: wNBLp9fPJugBP2qeH22LJhCu3JJYdZKH
+X-Proofpoint-GUID: wNBLp9fPJugBP2qeH22LJhCu3JJYdZKH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0
+ spamscore=0 clxscore=1015 adultscore=0 bulkscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312180034
 
-as6200 is a temperature sensor with 0.0625°C resolution and a
-range between -40°C to 125°C.
 
-By default, the driver configures as6200 as following:
-- Converstion rate: 8 Hz
-- Conversion mode: continuous
-- Consecutive fault counts: 4 samples
-- Alert state: high polarity
-- Alert mode: comparator mode
 
-Interrupt is supported for the alert pin.
+On 12/17/2023 12:01 AM, Christian Marangi wrote:
+> On Sat, Dec 16, 2023 at 10:41:28PM +0800, Jie Luo wrote:
+>>
+>>
+>> On 12/16/2023 9:51 PM, Russell King (Oracle) wrote:
+>>> On Sat, Dec 16, 2023 at 11:21:53AM +0100, Andrew Lunn wrote:
+>>>>> The following is the chip package, the chip can work on the switch mode
+>>>>> like the existed upstream code qca8k, where PHY1-PHY4 is connected with
+>>>>> MAC1-MAC4 directly;
+>>>>
+>>>> Ah, that is new information, and has a big effect on the design.
+>>>
+>>> This QCA8084 that's being proposed in these patches is not a PHY in
+>>> itself, but is a SoC. I came across this:
+>>>
+>>>    https://www.rt-rk.com/android-tv-solution-tv-in-smartphone-pantsstb-based-on-qualcomm-soc-design/
+>>
+>> The chip mentioned in the link you mentioned is SoC, which is not the
+>> chip that the qca8084 driver work for.
+>>
+>> qca8084/qca8386 is just the Ethernet CHIP, not SoC, for the switch mode
+>> qca8386, which is most like qca8337 the dsa drive qca8k.c is already in
+>> upstream.
+> 
+> Hi,
+> sorry for stepping in. I guess here there is a massive confusion with
+> naming and using qca8k.
+> 
+> Since it seems the same name is used for PHY and for Switch stuff, I
+> would add PHY and MAC prefix when referring to qca8064.
 
-Datasheet: https://ams.com/documents/20143/36005/AS6200_DS000449_4-00.pdf
-Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
----
-Changes in v2:
-  - Incorporate as6200 into lm75 driver
+Hi Christian,
+Welcome to join the discussion.
 
- Documentation/hwmon/lm75.rst |  10 +++
- drivers/hwmon/lm75.c         | 132 +++++++++++++++++++++++++++++------
- 2 files changed, 122 insertions(+), 20 deletions(-)
+Sorry for the confusion, since the switch and PHY are the different
+chips, the switch chip is named as qca8386, the pure PHY chip is named
+as qca8084, the pure PHY chip qca8084 is connected with the SoC by PCS
+working on 10g-qxgmii, the switch chip qca8386 is connected with SoC by
+PCS working on sgmii.
 
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index 8d0ab4ad5fb5..6adab608dd05 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -133,6 +133,16 @@ Supported chips:
- 
-                https://www.nxp.com/docs/en/data-sheet/PCT2075.pdf
- 
-+  * AMS OSRAM AS6200
-+
-+    Prefix: 'as6200'
-+
-+    Addresses scanned: none
-+
-+    Datasheet: Publicly available at the AMS website
-+
-+               https://ams.com/documents/20143/36005/AS6200_DS000449_4-00.pdf
-+
- Author: Frodo Looijaard <frodol@dds.nl>
- 
- Description
-diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
-index 5b2ea05c951e..2d153f6729e0 100644
---- a/drivers/hwmon/lm75.c
-+++ b/drivers/hwmon/lm75.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/module.h>
- #include <linux/init.h>
-+#include <linux/interrupt.h>
- #include <linux/slab.h>
- #include <linux/jiffies.h>
- #include <linux/i2c.h>
-@@ -25,6 +26,7 @@
- 
- enum lm75_type {		/* keep sorted in alphabetical order */
- 	adt75,
-+	as6200,
- 	at30ts74,
- 	ds1775,
- 	ds75,
-@@ -55,6 +57,7 @@ enum lm75_type {		/* keep sorted in alphabetical order */
- 
- /**
-  * struct lm75_params - lm75 configuration parameters.
-+ * @config_reg_16bits	Configure register size is 2 bytes.
-  * @set_mask:		Bits to set in configuration register when configuring
-  *			the chip.
-  * @clr_mask:		Bits to clear in configuration register when configuring
-@@ -75,17 +78,20 @@ enum lm75_type {		/* keep sorted in alphabetical order */
-  * @sample_times:	All the possible sample times to be set. Mandatory if
-  *			num_sample_times is larger than 1. If set, number of
-  *			entries must match num_sample_times.
-+ * @alarm		Alarm is supported.
-  */
- 
- struct lm75_params {
--	u8			set_mask;
--	u8			clr_mask;
-+	bool			config_reg_16bits;
-+	u16			set_mask;
-+	u16			clr_mask;
- 	u8			default_resolution;
- 	u8			resolution_limits;
- 	const u8		*resolutions;
- 	unsigned int		default_sample_time;
- 	u8			num_sample_times;
- 	const unsigned int	*sample_times;
-+	bool			alarm;
- };
- 
- /* Addresses scanned */
-@@ -104,8 +110,8 @@ struct lm75_data {
- 	struct i2c_client		*client;
- 	struct regmap			*regmap;
- 	struct regulator		*vs;
--	u8				orig_conf;
--	u8				current_conf;
-+	u16				orig_conf;
-+	u16				current_conf;
- 	u8				resolution;	/* In bits, 9 to 16 */
- 	unsigned int			sample_time;	/* In ms */
- 	enum lm75_type			kind;
-@@ -128,6 +134,15 @@ static const struct lm75_params device_params[] = {
- 		.default_resolution = 12,
- 		.default_sample_time = MSEC_PER_SEC / 10,
- 	},
-+	[as6200] = {
-+		.config_reg_16bits = true,
-+		.set_mask = 0x94C0,	/* 8 sample/s, 4 CF, positive polarity */
-+		.default_resolution = 12,
-+		.default_sample_time = 125,
-+		.num_sample_times = 4,
-+		.sample_times = (unsigned int []){ 125, 250, 1000, 4000 },
-+		.alarm = true,
-+	},
- 	[at30ts74] = {
- 		.set_mask = 3 << 5,	/* 12-bit mode*/
- 		.default_resolution = 12,
-@@ -317,20 +332,23 @@ static inline long lm75_reg_to_mc(s16 temp, u8 resolution)
- 	return ((temp >> (16 - resolution)) * 1000) >> (resolution - 8);
- }
- 
--static int lm75_write_config(struct lm75_data *data, u8 set_mask,
--			     u8 clr_mask)
-+static int lm75_write_config(struct lm75_data *data, u16 set_mask,
-+			     u16 clr_mask)
- {
--	u8 value;
-+	unsigned int value;
- 
--	clr_mask |= LM75_SHUTDOWN;
-+	clr_mask |= LM75_SHUTDOWN << (8 * data->params->config_reg_16bits);
- 	value = data->current_conf & ~clr_mask;
- 	value |= set_mask;
- 
- 	if (data->current_conf != value) {
- 		s32 err;
--
--		err = i2c_smbus_write_byte_data(data->client, LM75_REG_CONF,
--						value);
-+		if (data->params->config_reg_16bits)
-+			err = regmap_write(data->regmap, LM75_REG_CONF, value);
-+		else
-+			err = i2c_smbus_write_byte_data(data->client,
-+							LM75_REG_CONF,
-+							value);
- 		if (err)
- 			return err;
- 		data->current_conf = value;
-@@ -338,6 +356,33 @@ static int lm75_write_config(struct lm75_data *data, u8 set_mask,
- 	return 0;
- }
- 
-+static int lm75_read_config(struct lm75_data *data, u16 *config)
-+{
-+	int ret;
-+	unsigned int status;
-+
-+	if (data->params->config_reg_16bits) {
-+		ret = regmap_read(data->regmap, LM75_REG_CONF, &status);
-+	} else {
-+		ret = i2c_smbus_read_byte_data(data->client, LM75_REG_CONF);
-+		status = ret;
-+	}
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	*config = status;
-+	return 0;
-+}
-+
-+static irqreturn_t lm75_alarm_handler(int irq, void *private)
-+{
-+	struct device *hwmon_dev = private;
-+
-+	hwmon_notify_event(hwmon_dev, hwmon_temp, hwmon_temp_alarm, 0);
-+	return IRQ_HANDLED;
-+}
-+
- static int lm75_read(struct device *dev, enum hwmon_sensor_types type,
- 		     u32 attr, int channel, long *val)
- {
-@@ -366,6 +411,9 @@ static int lm75_read(struct device *dev, enum hwmon_sensor_types type,
- 		case hwmon_temp_max_hyst:
- 			reg = LM75_REG_HYST;
- 			break;
-+		case hwmon_temp_alarm:
-+			reg = LM75_REG_CONF;
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
-@@ -373,7 +421,17 @@ static int lm75_read(struct device *dev, enum hwmon_sensor_types type,
- 		if (err < 0)
- 			return err;
- 
--		*val = lm75_reg_to_mc(regval, data->resolution);
-+		if (attr == hwmon_temp_alarm) {
-+			switch (data->kind) {
-+			case as6200:
-+				*val = (regval >> 5) & 0x1;
-+				break;
-+			default:
-+				return -EINVAL;
-+			}
-+		} else {
-+			*val = lm75_reg_to_mc(regval, data->resolution);
-+		}
- 		break;
- 	default:
- 		return -EINVAL;
-@@ -436,6 +494,7 @@ static int lm75_update_interval(struct device *dev, long val)
- 			data->resolution = data->params->resolutions[index];
- 		break;
- 	case tmp112:
-+	case as6200:
- 		err = regmap_read(data->regmap, LM75_REG_CONF, &reg);
- 		if (err < 0)
- 			return err;
-@@ -503,6 +562,9 @@ static umode_t lm75_is_visible(const void *data, enum hwmon_sensor_types type,
- 		case hwmon_temp_max:
- 		case hwmon_temp_max_hyst:
- 			return 0644;
-+		case hwmon_temp_alarm:
-+			if (config_data->params->alarm)
-+				return 0444;
- 		}
- 		break;
- 	default:
-@@ -515,7 +577,8 @@ static const struct hwmon_channel_info * const lm75_info[] = {
- 	HWMON_CHANNEL_INFO(chip,
- 			   HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
- 	HWMON_CHANNEL_INFO(temp,
--			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_HYST),
-+			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_HYST |
-+			   HWMON_T_ALARM),
- 	NULL
- };
- 
-@@ -574,7 +637,7 @@ static int lm75_probe(struct i2c_client *client)
- 	struct device *dev = &client->dev;
- 	struct device *hwmon_dev;
- 	struct lm75_data *data;
--	int status, err;
-+	int err;
- 	enum lm75_type kind;
- 
- 	if (client->dev.of_node)
-@@ -623,13 +686,13 @@ static int lm75_probe(struct i2c_client *client)
- 		return err;
- 
- 	/* Cache original configuration */
--	status = i2c_smbus_read_byte_data(client, LM75_REG_CONF);
--	if (status < 0) {
--		dev_dbg(dev, "Can't read config? %d\n", status);
--		return status;
-+	err = lm75_read_config(data, &data->current_conf);
-+	if (err) {
-+		dev_dbg(dev, "Can't read config? %d\n", err);
-+		return err;
- 	}
--	data->orig_conf = status;
--	data->current_conf = status;
-+
-+	data->orig_conf = data->current_conf;
- 
- 	err = lm75_write_config(data, data->params->set_mask,
- 				data->params->clr_mask);
-@@ -646,6 +709,30 @@ static int lm75_probe(struct i2c_client *client)
- 	if (IS_ERR(hwmon_dev))
- 		return PTR_ERR(hwmon_dev);
- 
-+	if (client->irq) {
-+		if (data->params->alarm) {
-+			err = devm_request_threaded_irq(dev,
-+							client->irq,
-+							NULL,
-+							&lm75_alarm_handler,
-+							IRQF_ONESHOT,
-+							client->name,
-+							hwmon_dev);
-+			if (err)
-+				return err;
-+		} else {
-+			/*
-+			 * Currently, alarm is only supported for chips with
-+			 * alarm bit.
-+			 * In the future, if alarm is needed for chips with
-+			 * no alarm bit, current temp needs to be compared
-+			 * against the max and max hyst values to set/clear
-+			 * the alarm state.
-+			 */
-+			dev_warn(dev, "alarm interrupt is not supported\n");
-+		}
-+	}
-+
- 	dev_info(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev), client->name);
- 
- 	return 0;
-@@ -654,6 +741,7 @@ static int lm75_probe(struct i2c_client *client)
- static const struct i2c_device_id lm75_ids[] = {
- 	{ "adt75", adt75, },
- 	{ "at30ts74", at30ts74, },
-+	{ "as6200", as6200, },
- 	{ "ds1775", ds1775, },
- 	{ "ds75", ds75, },
- 	{ "ds7505", ds7505, },
-@@ -689,6 +777,10 @@ static const struct of_device_id __maybe_unused lm75_of_match[] = {
- 		.compatible = "adi,adt75",
- 		.data = (void *)adt75
- 	},
-+	{
-+		.compatible = "ams,as6200",
-+		.data = (void *)as6200
-+	},
- 	{
- 		.compatible = "atmel,at30ts74",
- 		.data = (void *)at30ts74
--- 
-2.34.1
+> 
+> With the previous message I was a bit confused by the use of qca8k and
+> didn't know you were actually referring to the DSA driver.
+> Interesting... this is for the upcoming WiFi 7 platoform right? (ipq9574)
 
+For qca8386, it is the switch chip and leverages the qca8k DSA driver,
+it is connected on the ipq5332 platform currently.
+
+But for qca8084, it is the pure PHY chip, which works on 10g-qxgmii for
+quad-phy, which is connected on the ipq9574.
+
+> 
+> All these discussion comes for the problem of using this PHY as an
+> integrated PHY in the qca8386 switch and trying to select the mode in
+> the PHY driver.
+
+Yes, for qca8386, the PHY is integrated to switch, since same PHY needs
+to work with qca8386 and qca8084, so the work mode needs to be
+configured to distinguish the different work mode as the patch
+<[PATCH v8 13/14] net: phy: at803x: configure qca8084 work mode>.
+
+> 
+> Considering you would use the same logic of the current DSA qca8k driver
+> with the integrated PHY, the problem doesn't apply or a different
+> implementation should be used (and actually handled later when the
+> actual DSA code will come)
+
+qca8386 has some differences from qca8337(qca8k dsa driver), qca8337
+integrated PHY can work by the general PHY, but the PHY in qca8386 needs
+the extra PHY driver, and the GCC clocks introduced.
+
+> 
+> I would expect in the integrated mode, the switch to handle the PHY (as
+> it's done by qca8337) with the PHY defined in the switch node and qca8k
+> handling the PHY registration. With the following implementation flags
+> can be passed and PHY can be configured to integrated mode. (or virtual
+> PHY ID can be used for such scope with dedicated functions in the PHY
+> driver)
+> 
+Since there is the pure PHY chip qca8084 using the same PHY, which does
+not enable the DSA driver.
+
+So the PHY driver should be standalone, and the common clocks and resets
+is better to put in the PHY driver, since these are the common configs
+for the qca8386 and qca8084.
+
+> With this in mind the entire integrated problem can put on hold and
+> dropped to be later reimplemented when it's time. (assuming that all the
+> prereq are already here and the very same implementation of qca8k will
+> be used)
+
+For the qca8386, it is true very same implementation of qca8k, besides
+the 2.5G capability and GCC clock involved.
+
+> 
+> Anyway, I'm more or less the maintainer of the qca8k.c DSA driver and I
+> would be more than happy to help you guys internally or externally on
+> pushing and make this proceed further. (again assuming this is ipq9574
+> stuff, it would be good to finally have proper DSA driver instead of
+> leaving the thing unusable as it's the current situation with ipq8074)
+
+Yes, the pure PHY chip qca8084 is connected on ipq9574 platform,
+and the switch chip qca8386 is connected on ipq5332 platform.
+
+Many thanks Christian again, will add you when pushing the qca8386 DSA
+patches for upstream review.
+
+> 
+>>
+>> i qca8084 chip package includes 4 PHYs, 2 PCSs and the common chip level
+>> modules such as GCC and security control modules, all these modules are
+>> located in the qca8084 chip package, since qca8084 works on PHY mode, so
+>> the MACs are not used.
+>>
+>> qca8084 is connected with the SoC CHIP such as IPQ platform by PCS1
+>> working on 10g-qxgmii mode and the fourth PHY can also optionally
+>> be connected with the IPQ SoC PCS by sgmii mode, there is no more
+>> interface on qca8084 to connect the external chips.
+>>
+>>> It's sounding like what we have here is some PHY IP that is integrated
+>>> into a larger SoC, and the larger SoC needs to be configured so the
+>>> PHY IP can work correctly.
+>>
+>> qca8084 is not a SoC, it is the Ethernet chip, in this qca8084 package,
+>> there are GCC that is driving the PHY working on the various link speed.
+>> that is the reason we need to do these package level common clocks and
+>> resets initialization before probing PHY correctly.
+>>
+>>>
+>>> Given that this package of four PHYs seems to be rather unique, I think
+>>> we need Jie Luo to provide sufficient information so we can understand:
+>>>
+>>> 1) this package of four PHYs itself
+>>
+>> Yes, this chip package for all 4 PHYs itself, also including the PCSes
+>> and common package level modules such as GCC.
+>>
+>>> 2) how this package is integrated into the SoC
+>>
+>> the qca8084 is connected with SoC by PCSes.
+>>
+>>>
+>>> Specifically, what resets and clocks are controlled from within the
+>>> package's register space, which are external to the package
+>>> register space (and thus are provided by other IPs in the SoC).
+>>
+>> All clocks and resets mentioned for qca8084 drive including package
+>> level and PCS & PHY clocks and resets from the qca8084 internal GCC
+>> modules register space,
+>>
+>>>
+>>> As I've said previously, the lack of DT example doesn't help to further
+>>> our understanding. The lack of details of what the package encompases
+>>> also doesn't help us understand the hardware.
+>>
+>> Indeed, i will add the qca8084 DT example in the next patch set.
+>> BTW, i also replied your earlier comments by providing the DTS defined
+>> for the current qca8084 drive code.
+>>
+>> hope you can have a better understanding with the provided DTS code in
+>> earlier reply of this email thread.
+>>>
+>>> Unless we can gain that understanding, I feel that Jie Luo's patches
+>>> are effectively unreviewable and can't be accepted into mainline.
+>>>
+> 
