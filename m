@@ -1,104 +1,106 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D366FA5;
-	Mon, 18 Dec 2023 05:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B7163D4
+	for <linux-doc@vger.kernel.org>; Mon, 18 Dec 2023 05:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GGNFH4hg"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-425a116f1cdso26551071cf.0;
-        Sun, 17 Dec 2023 21:23:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ObZgNKz/"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3bb53e20a43so46847b6e.1
+        for <linux-doc@vger.kernel.org>; Sun, 17 Dec 2023 21:52:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702877021; x=1703481821; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RXl3wOFqM2CSVNd+66EEJwPvOL1LNVJZxBeNfFMTBSM=;
-        b=GGNFH4hg6BMpQcAjNNoiBNgSInWLULKCsTGC/cEy3jxArCtFyZ7e6dtNwBoNwhqLfY
-         Y31Y42Lw++HpEzIw78kGf4WwG4vcLu5jbm/McN9WlqEl71sDo/79BwgrwmJYMitQs5sh
-         9zJOmnmHWH9IrAtOZT2rBAW6SnkmwT/2Ab8kAfVtxyVC+oYwAwV6/tNgZoaIH1at/VXQ
-         Fqq50EZPEaB7QvQyA0gHi53ERaGaT/G+aAwIzyA41Z4aVup7k5bpVi4CmDHgTx2iLJmN
-         MTXW0KDplns76KTFEeX3KVdnpFfkABOHeCnJqSCimrbtAPc1LiueGxW3pMB+jJKaJ2pr
-         T31w==
+        d=linaro.org; s=google; t=1702878742; x=1703483542; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yvwPqpJZdoxCPgLCCQ91PkXr1gejT72qQ4VC8gFnpTs=;
+        b=ObZgNKz/KunM5NI1SyLCI8fpB66IPjnAWaclin0co5L0JZD0OTsNoCq9ezPsHxHi/L
+         DYtnTtm1VDvRx7snOQPMMoI4ojK/HfBI9CUNhIfROMuYslozdVYxohXSZIyo7jrLYYjG
+         gnKeINiTqU9jj20nuGamiKApUij7SwiY26p8nGeaYHmlfiRcEje1mVGEX3fMxuyBuqQo
+         XqVdBOOjPEWvh4BXd0qDym8YMlo6fOatDdWd8N2naieYU5SLUQgIUiYE+fLnrw7A7e61
+         uLi8R311klXTZIDbxjq1hxsEW/2Uw/uCf8asTT5bAmOaG6a4OPo+q5JAwI1fcCai/9Q2
+         E9zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702877021; x=1703481821;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RXl3wOFqM2CSVNd+66EEJwPvOL1LNVJZxBeNfFMTBSM=;
-        b=K1nH0ExB1vsmxF2xZrgX90AxaVMFKWB1GMTWa0KS4+Sc1d8AKc3WdsjI7tbwPcPnNd
-         amwTckmbsl5mbnQ8J1Vkf+h5wY72T+7fZnDJ7E9HaIGNJIyuqFsDEvJJuEtB10xxziTc
-         5JVIU+vq1SDjvslxQqDJgRQK0p/L/KiKhZ4ITaPS5DAqoTZ98tDoE/0aQojyvYEUbPGJ
-         e06qmvR7Sb4s0jOuNKnLLWvJUo0AFA/y50JMAun7HK6Lj59FoGiTTwQTH2GOvKPiWDCy
-         pZWz9V2JkpEnYbb/Nl/9R6gxFQ+ks0WxA9UOz2d8kKUX8GqD8yTTCXEhMjAI2vGvqumE
-         z8qQ==
-X-Gm-Message-State: AOJu0YyAPbQC1d4qxtuRE0G4x69oDusjdBsVLf90bAMUD4zd8WdYC1ku
-	m3xVNwVePkq2TijmCiaLzWY=
-X-Google-Smtp-Source: AGHT+IHDdUhVaGmO76KoEpbpCO+h9TEe81AmbrDQJPIixHJ3109OZKp+oGo8KSAjVPCayGR5qVjxzg==
-X-Received: by 2002:ac8:5ad1:0:b0:425:823d:2d27 with SMTP id d17-20020ac85ad1000000b00425823d2d27mr24455905qtd.115.1702877021444;
-        Sun, 17 Dec 2023 21:23:41 -0800 (PST)
-Received: from abdel ([174.95.13.129])
-        by smtp.gmail.com with ESMTPSA id m26-20020ac8445a000000b00423e1b606bbsm8928996qtn.69.2023.12.17.21.23.40
+        d=1e100.net; s=20230601; t=1702878743; x=1703483543;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yvwPqpJZdoxCPgLCCQ91PkXr1gejT72qQ4VC8gFnpTs=;
+        b=X085+Pb6Drh+KvD5tA0LZK3fMU/46NPfoQTaQSExwcYV+fEI6ThaNEgTGBAbvP+GSL
+         uhFlVZT0mctPtWhLwg82TbtuqeQ4yyrF7wSO/854VS3T5VEqiP/gy6fSnYJJjxiADOXS
+         mfRdcIyL/u+tTErtPdSCMxtDVR0afUgcfO+bPp9tz84Raavj3ixzDZjnC4ycbU3MXPt2
+         W7dejNjtH5QBTsEDb/jnZIKUHlHEhL04VMiQHwIJyRQXShr/HvUPIGH8dTpsVaI19D18
+         6V+PvhMxZScD4xONLP8kaqHFXhAzikIHjK6u5bDYZu7sqIzmLDlDXBsbrWWZPK6dDw4I
+         QeKQ==
+X-Gm-Message-State: AOJu0YxbhBLH1AExQ7FnN0uVZiplcEThFrBXQ7BjotR1GxHttWPo4Y0m
+	10So6xIv92Ek/k3jQnVHGUcqrg==
+X-Google-Smtp-Source: AGHT+IHWHiyRld+78HNnonHpwfExXg/FXJeL90CmfG3Tsyqw7E5D1sTLDotXmziyEbh9oFThjWFZvA==
+X-Received: by 2002:a05:6808:17a0:b0:3b9:d53f:452a with SMTP id bg32-20020a05680817a000b003b9d53f452amr20483672oib.70.1702878742764;
+        Sun, 17 Dec 2023 21:52:22 -0800 (PST)
+Received: from localhost ([122.172.82.6])
+        by smtp.gmail.com with ESMTPSA id t19-20020a056a0021d300b006ce77ffcc75sm16344940pfj.165.2023.12.17.21.52.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 21:23:40 -0800 (PST)
-Date: Mon, 18 Dec 2023 00:23:30 -0500
-From: Abdel Alkuor <alkuor@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
-Message-ID: <ZX/XUpHl+5ZiAcou@abdel>
-References: <149032e99136a9fe47c3533b57a71092646e497d.1702744180.git.alkuor@gmail.com>
- <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
- <aa93010a-7ab0-4b9d-bb5d-25ea15b81120@roeck-us.net>
- <ZX4frjGqOGb4zMmx@abdel>
- <c606c40b-8571-4618-827a-555ceab3ae74@roeck-us.net>
- <ZX6AQg1vz/Zz6JeG@abdel>
- <fbcceae6-2daf-4855-b8f2-f7a832a53339@roeck-us.net>
+        Sun, 17 Dec 2023 21:52:22 -0800 (PST)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH V3] docs: rust: Document the rustupoverride target
+Date: Mon, 18 Dec 2023 11:22:16 +0530
+Message-Id: <c22eca4c308b72cdf750087622b61d3839ca40cc.1702878682.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fbcceae6-2daf-4855-b8f2-f7a832a53339@roeck-us.net>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Dec 16, 2023 at 10:06:03PM -0800, Guenter Roeck wrote:
-> On 12/16/23 20:59, Abdel Alkuor wrote:
-> > On Sat, Dec 16, 2023 at 05:40:35PM -0800, Guenter Roeck wrote:
-> > > On 12/16/23 14:07, Abdel Alkuor wrote:
-> > > > On Sat, Dec 16, 2023 at 10:46:53AM -0800, Guenter Roeck wrote:
-> > > > > On 12/16/23 08:39, Abdel Alkuor wrote:
-> >       ...
-> >     }
-> > 
-> > Based on that, the new tmp112 set_mask and clr_mask would look like this instead,
-> >    [tmp112] = {
-> >    	.set_mask = 3 << 6,	/* 8 samples / second */
-> >    	.clr_mask = 1 << 15,	/* no one-shot mode*/
-> > 	.config_reg_16bits = 1,
-> >    	...
-> >    }
-> > 
-> 
-> Yes, you are correct, we'll need something like that. lm75_update_interval()
-> tries to solve the problem for tmp112, but that doesn't work with
-> set_mask/clear_mask. We should have a separate function lm75_read_config(),
-> though, to hide the complexity.
->
-I'll fix tmp112 parameters in another patch as as6200 patch 2 in v2
-implements 2bytes read/write for the configure reg.
-https://marc.info/?l=linux-hwmon&m=170287522119545&w=2
+Document the newly added Make target: rustupoverride.
 
-On another note, I checked all the supported chips in lm75 to see
-which ones support an alert bit, only 3 chips support it; tmp112(bit 5 in the second byte),
-tmp100, and tmp101 (bit 7 in the first byte).
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
+V2->V3:
+- Remove the O= part and document rustupoverride target.
 
-Thanks,
-Abdel
+ Documentation/rust/quick-start.rst | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+index f382914f4191..c13e2e479e29 100644
+--- a/Documentation/rust/quick-start.rst
++++ b/Documentation/rust/quick-start.rst
+@@ -33,10 +33,9 @@ A particular version of the Rust compiler is required. Newer versions may or
+ may not work because, for the moment, the kernel depends on some unstable
+ Rust features.
+ 
+-If ``rustup`` is being used, enter the checked out source code directory
+-and run::
++If ``rustup`` is being used, run the following Make target::
+ 
+-	rustup override set $(scripts/min-tool-version.sh rustc)
++	make LLVM=1 rustupoverride
+ 
+ This will configure your working directory to use the correct version of
+ ``rustc`` without affecting your default toolchain. If you are not using
+-- 
+2.31.1.272.g89b43f80a514
+
