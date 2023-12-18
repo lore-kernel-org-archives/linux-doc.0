@@ -1,201 +1,191 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A54101DB;
-	Mon, 18 Dec 2023 15:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BA149888;
+	Mon, 18 Dec 2023 16:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eG51vCU6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JmtBuTw4Sa+pe6c5I9bNHudtyaB8oaTJ3dFe84r78o62Uvpx1WPB9K6Z+zkt9yxxJ/3psaTed5A8nV83E++diNRcz5Xr3sUmeUABjoACuNLMkbnNsHwplLQ2d91SZtkfayJcAjLC42sC+qJzPOnB95fUOJJ28HoKvQVw6OAPwBUUEXJbEZik9F83QBUUh9By+YN6TRbP2PJ/rAe+nqNE7Yg0mtLvfMnW7v5U5hWPKuJmuoh26cEQm+XSdmB3fWzO4p/yVJ0dkVSswu7DAHKAwaDhTzoq4GsJ9giOHxtKQfhNYuOYuUXOVO3ThaZ5nmMkh3rI3dalfWnjV6i5V/eXyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=McnK7Hose1C4Kg07vIt00sTZGIzZZt+HcmUgFnQ4lsY=;
- b=aaxr0ILRL/UUu9OhzhEdEnW02P6rMVvQlzA+MH2n1QbhI489eOo6ged9FBHzbKq2mHrYAWMMkTpJ+Fd5qi3lioWDRn979fstzRhAtRhShMyvt0qY/J0win3xNE6HpQALHmiv4DDstJTZ7UK/sDlVzgxbpLiMvTtAL75WgpGEfpY8N+LXhKtWr9/sXlvq/zTMxRRclPvVXejhcdfcXNHyYpXdPA3mPUMl6WbJtAJtqFiRMOCuPI/ypQoPSATT7V6brv3kc+Nza1v6yjC6Hy9wsYbFZI+sSxmh7K3XNab3z4YzfkxmbQG6j2/ZDK1Hy8uC8xjiPIT8mLOcb1fReJZlow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=McnK7Hose1C4Kg07vIt00sTZGIzZZt+HcmUgFnQ4lsY=;
- b=eG51vCU6uenmbSxfxTVR1Jmq9jk7f14bTvMwQ96LuXZr2T7l9LsOusFWwWem8VVKpMIy+IU+m4lE/us0vUbPalQZH7HPWmn6T5hg8uX2/tRcgj0+Zzts4Wt5OYqzakJJSRh3oYtcUgEToUMJ34nq5Oz01m+hu0rI+q7g5JUf9N0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by SA1PR12MB6919.namprd12.prod.outlook.com (2603:10b6:806:24e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Mon, 18 Dec
- 2023 15:57:11 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::6452:1eb:50fa:311d]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::6452:1eb:50fa:311d%4]) with mapi id 15.20.7091.034; Mon, 18 Dec 2023
- 15:57:10 +0000
-Message-ID: <033f4d7f-2120-4744-a4cc-5def09092c7d@amd.com>
-Date: Mon, 18 Dec 2023 09:57:08 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/1] docs: Include simplified link titles in main page's
- index
-Content-Language: en-US
-To: Jonathan Corbet <corbet@lwn.net>, Carlos Bilbao <bilbao@vt.edu>,
- Miguel Ojeda <ojeda@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
- <aliceryhl@google.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-References: <20231211005442.95457-1-bilbao@vt.edu>
- <87o7erqxhm.fsf@meer.lwn.net>
-From: Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <87o7erqxhm.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7P220CA0019.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:806:123::24) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DMyt6E+6"
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4665fb8a7e9so451301137.2;
+        Mon, 18 Dec 2023 08:18:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702916310; x=1703521110; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HQFk8KSk4ImJwtsGcFEdS5YHLbNQQV6HJ8e8flUomYs=;
+        b=DMyt6E+6uzq3CjV+VKy8ZhywdEbFlft4BQj6jgg+GTgZiOvedttf4E8usDvbGitkkO
+         37fyUg5EahhqhjyZaNxVyaqvdagQ+jVJ734O1xKG/wdAMUCRHMIZt4OCWv2vv/XbDg61
+         97bjK7m+zpfxCBvswCt8nhlZc1v+HbAh8ROsW7AEnWzfGK/5na+IbyFIEJeTicw7WTuF
+         y4mHiw9ltraPbg5dUlzvbZiJPqr/JHS7bwmYIZVzsxDH2Vh0YJ/LlRTm6wU8uuonpWYa
+         AgUZAXYmqkY0ranh27LN/oAXtS9x+rWD+r1FgsOL4GMfYSBoA9Xm/j5DxYONSWwl5/hC
+         m/Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702916310; x=1703521110;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HQFk8KSk4ImJwtsGcFEdS5YHLbNQQV6HJ8e8flUomYs=;
+        b=SJRM7POatPLgMr7N+ZTr1sr4lF/dy4M6uGFhZSK788cS5I+q1yr+ikj8nBSXlKlfli
+         rrd8Wbv1t0St/F+l5LbzHPsiLdf5eGgKSJf6lJC14FI7+Le5MbyA1opkdvT/XclMd5pw
+         k31m2cumyHmuHxE6AyVoc3Cd1tGPYXlgAQJY+8vOZlA6N3N1+MeUtRlshoyqMjvpmF48
+         pn93k1oOlmERZ4i8hx34rY3/KWc/TyrOQZ3WedaG+SzQr18IO/2I7jP+bDqS1/LUZF8a
+         IE33J+jOAtURCJ9DT33eJbzj4VBYAtLMHREdsK1OolefSb0szzuTPygeXp04Eqv/ExP3
+         Ggjg==
+X-Gm-Message-State: AOJu0Yyfts5IdvBO8RQnw5+uRfEgnw3h5DLLiw/qGw2a7Jck/zHo9d97
+	uZQMVFYEsXl/Nm0cLhA5n0I=
+X-Google-Smtp-Source: AGHT+IEBCN+vu2mcLWnHo8dUB9qyeVGDkKSGsVOKOhRcQPSwmAFvWMrLe0ovrF65qWtdn7KsY5JymA==
+X-Received: by 2002:a05:6102:c15:b0:464:4518:ba73 with SMTP id x21-20020a0561020c1500b004644518ba73mr10334637vss.8.1702916310005;
+        Mon, 18 Dec 2023 08:18:30 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id by10-20020a056102504a00b004669c17b944sm84085vsb.11.2023.12.18.08.18.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Dec 2023 08:18:29 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <6732bd18-2157-4ccb-b02c-43f3350e89cb@roeck-us.net>
+Date: Mon, 18 Dec 2023 08:18:26 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|SA1PR12MB6919:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3981eee6-a35a-41b1-b1b0-08dbffe1fe9d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	MFKvDcvHlEikGtRcyUj7mO59IsAli9yjqrAIBZfF/3UmyhVSCLmO59/9sSN1FJn3um2ZFKdH0/Qtk8WGOkhg7+6T54HsrjT7GWwX4LkmkjHlKuIPxih33PVy6SPYdu+PDhvt4zLChvyJyTc9EptV7QOwtz/FtaUQ1FtMuiH1ChJUeAqWCArISigrM9tEjo71ZAUM8z+3dD4baxvb4Pgf9l25tlSpsk6XMz0LKH6T5ivE/A/cDISVA0PYcsUNKuF1tC29p9QYX+sM9indgPsBFdqZDLUbL/QA5z8GFayd7N9OspW/2sADjGeyLrpa5ejj6b6aGl9Vw0PFPVXL49fa1wWqeIUPvMmuLm2pq92WTvlnvjNMWQuDOBMp49p7dc8O/s6wqoZm19wJoT3sUhJy4Rwwqg3ejME9w51Jjs/vtYp0G1BjlKM2RdOVz2j/D6llkFdyEdLVXuiD+/RYqeK7/PlmqN0dZVRdiR3vrkL1CHJc82h2YiYmNTBvEESg54wQJLQQZGUIWk5hMiwptGM+tO1Sbtgw5kdJ4A4gaE0tNaidx1jn/c5S1ZB2gMp4twOgzlifllntbp5k5LDK8upfwJK/cXXjOswepveY5H2ve1M5W2csdx0VyQyTdbiBpCI7
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(39860400002)(366004)(136003)(346002)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(31686004)(7416002)(36756003)(2906002)(5660300002)(83380400001)(6506007)(53546011)(38100700002)(26005)(2616005)(6512007)(478600001)(66476007)(66556008)(66946007)(54906003)(6486002)(966005)(41300700001)(86362001)(4326008)(8676002)(8936002)(110136005)(31696002)(316002)(44832011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cE92RmRYZ0JaTlJndWFUd29ScnBEVW50Rk9PVnBmNlpVQ0hXRlRMTGJSVzB6?=
- =?utf-8?B?Rm5SaXhpRXU3SWYzOUVneFk2NnFYVWpuWHpsU000V1QxeXhnQXRqRkpMVG5p?=
- =?utf-8?B?aEtPWkZZY0p3aUFIaXNISHVaUGFZMU9MUnhGUnMzNGZjTmgrNlJjWk1TSDgr?=
- =?utf-8?B?Vk1kYUdZR09DSFV4MG1MYnkxOHZpU2tEUWhLWU41UnJBaE9HdC91ZXA1TTVC?=
- =?utf-8?B?STNmY3UxRnNKL2lQdXQyWVVtaHBreHFjS3BuVlpXRmxGZVUxSHRpM0pUZHVy?=
- =?utf-8?B?RDQ5N2YvRWloUFQrRmNCcHc5OExUZzZIZFFTOElrS01ncktxVmYzY0d0T1VX?=
- =?utf-8?B?NlJSZjVaYW55Uzcwd1o4TTR2N3Z4M214bGtZbmNxUWNFUnU0MDJtOCtDUHlZ?=
- =?utf-8?B?bnhhbG5Yb0UrUURWVmZFRGEwVmhzZXJkS2d6TCs1YUdnUlhKMmw0cTJ6WURZ?=
- =?utf-8?B?Skg1SlhseWUxYTB1enhLWXFpZnRHSmlnNCtwUTdqUVhsNTNDeGRPaFVncHJt?=
- =?utf-8?B?eTFua2NqYnY5R0dBdmlOVEd3eG8vWG5iRlRoUFhWVm5xU3k2WVN0cjk5ZXRZ?=
- =?utf-8?B?dWJIcmNNcUpyZnJ0UW83UGNrM1Q2YUlBWmZYU2pQdXNkc1NrY1Y4b1NEWUNt?=
- =?utf-8?B?dHE2LzhzbFk1TDRaMm5oaTBGM2JVWnVUbWpjekMrWEIxWXNUQTFhSUJLWVlr?=
- =?utf-8?B?VnEvWTZVeVlML2xNcWt1THlHQ2hMMGw3ZFlwQmJoMGtsYkpFQWkvVDB3eSti?=
- =?utf-8?B?V2tjY0JXWnNVeFlqekczeWM4NU5Xek0vc00xOHhkN0p5S1lXTUJVUUhlbFVR?=
- =?utf-8?B?eXNPdlFwbEhkNUYrUE9raXRZR0pOSEk1WXlkZnRaQUlkbHAzZHlhcGZ4eG53?=
- =?utf-8?B?RkdwenpQZWRlU0tvUmRmZ1lUM3hncjN6RU13T3ZHRUh4K0Q0R0VGQ0VxMFRD?=
- =?utf-8?B?Nkd1MWh1VGtWUnBvakp1WXc4UEQ3SDFmNEpSUGpoSWZtKzRCWjNnbW1VRW03?=
- =?utf-8?B?N2FsVm0vdmdTbEhjOXFYNElETks0c0dGZ0xHSnd2KzNYT0FJQUd3R1F0aFRS?=
- =?utf-8?B?VTVSSXdrZjlRa0xFaHNwenVldndMWFFQckpzaU1aV09FZFVYUG9wUHlKWEFI?=
- =?utf-8?B?b1ByMzlyQzE0eUMrclRaR3hVQkRLTGJwS0ltKzltQzVGZUd0WURMWm9vVTI4?=
- =?utf-8?B?TlZDMjYxSHlJYUFtczFxcVJjczMwRWcyWEU2RFY1M3hFYkZSaEVpTXBNV3o4?=
- =?utf-8?B?aWd6b2NybGZqT0JubGJ2YVZIUDFsYlBxcU53WUVzV1ZFMXNXTDd1d1VKbWdV?=
- =?utf-8?B?NW1vSGpXQUpaY242aXFxVWN5U1d2MkdLak1EcG40SUxIUThEOGZjWDJIK09u?=
- =?utf-8?B?dGxIY0MyTkpOZWxTMzhORlZTV0tNUlpEY1IrMlRPQnJTOFZOOTZKcTJpbmhi?=
- =?utf-8?B?Mm16RTl1RktlOHFSZ3VoNXFOenN0Z0pCTHVMVlE0YVY2ZjNtR2xabGFjelNO?=
- =?utf-8?B?b01oQjJIYkxVQjJ6L0pCTlJkV2pLcTM3MFhpNVVMbnc2YTlUV3NjaDZKQXY3?=
- =?utf-8?B?bmZxU3Z2cEZ0aHJGTDdQMzVTZS9oMysrellSQ2NxTUw1MDRaNkgvN3FXZG1R?=
- =?utf-8?B?UHZuSVVCK1BqOUlHL1Y0bEZJdXBFNlZuMVhVOVBoQTFxNFQxMkp0djA1QnBw?=
- =?utf-8?B?bGdMTUZOK05QL2g1NFNnVUtoTXRFdEZjOTZkK1RzSzBhblRraDhpYjJoMEd0?=
- =?utf-8?B?R21FVkp5K1pDQ2c2SklCcHdmZDFjWnVDdmV6K084eEEyNHV2NlAxQit2Q29E?=
- =?utf-8?B?MExtZVJRRU9yNk1RclMxUFJFalQrYm1MR01TN21TNnk5anN5VlRJYzZBMHIx?=
- =?utf-8?B?c1FXaGUyNkQrRisveUl2eXBBYTFLYSt0OHFPOTRtUVRrQk9RN21UTUFVbEdJ?=
- =?utf-8?B?UURWUkg4ZGh1SGIvbU8xZkIwTjlZVElXODc5TmxSVHhia1pIM0dUdXpLNWNs?=
- =?utf-8?B?Uzg4OVpOaXkzREFXY2J4RVRlVzNONVBCbmV6L09FaTRBZDgvb1RhZmh0Rlls?=
- =?utf-8?B?ejBFVUVXV3NwYVJHcVFFVEVFdC9BZXYzck9zbExnSGFRRjRTRzI4dVIrS1pJ?=
- =?utf-8?Q?6LPRme0I9Sb3+euLjNAsKC/Tr?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3981eee6-a35a-41b1-b1b0-08dbffe1fe9d
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2023 15:57:10.9161
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0I9c9h827gwnFCHnvdKrGhYqMURwZh74kD+Qv1Ud+YdbvIMZAMOtj2DdQpqdEHMKl+KGR1zjeM/L6mLkDRdzZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6919
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] hwmon: max31827: Add PEC support
+Content-Language: en-US
+To: "Matyas, Daniel" <Daniel.Matyas@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20231214143648.175336-1-daniel.matyas@analog.com>
+ <2e0bf1cf-824d-40c6-9450-7ed4740f2f46@roeck-us.net>
+ <PH0PR03MB6771AD7164ABEEB02650CA908993A@PH0PR03MB6771.namprd03.prod.outlook.com>
+ <8b6fc14f-28a5-4caf-80b6-747ff485dcef@roeck-us.net>
+ <SJ0PR03MB6764A464744E3A8CE18C17238990A@SJ0PR03MB6764.namprd03.prod.outlook.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <SJ0PR03MB6764A464744E3A8CE18C17238990A@SJ0PR03MB6764.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 12/15/23 09:47, Jonathan Corbet wrote:
-> Carlos Bilbao <bilbao@vt.edu> writes:
+On 12/18/23 01:12, Matyas, Daniel wrote:
 > 
->> The general consensus is that the documentation's website main entry point
->> and its sidebar leave room for improvement.
+> 
+>> -----Original Message-----
+>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+>> Sent: Saturday, December 16, 2023 3:33 AM
+>> To: Matyas, Daniel <Daniel.Matyas@analog.com>
+>> Cc: Jean Delvare <jdelvare@suse.com>; Rob Herring
+>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
+>> <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>; linux-
+>> hwmon@vger.kernel.org; devicetree@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; linux-doc@vger.kernel.org
+>> Subject: Re: [PATCH 1/3] hwmon: max31827: Add PEC support
 >>
->> Something we can easily fix is that there's too much duplicated text.
+>> [External]
 >>
->> To that point, consider the titles "The Linux kernel user's and
->> administrator's guide" and "The Linux kernel user-space API guide." We get
->> it, it's the Linux kernel. It's assumed that everything listed pertains to
->> the Linux kernel, given the overarching title, "The Linux Kernel
->> documentation." Constant repetition of "Linux" and "kernel" (45 times
->> each), "documentation" (21 times), and "guide" (18 times) are excessive and
->> affect UX.
+>> On 12/15/23 12:28, Matyas, Daniel wrote:
+>>>
+>>>
+>>>> -----Original Message-----
+>>>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter
+>> Roeck
+>>>> Sent: Thursday, December 14, 2023 6:10 PM
+>>>> To: Matyas, Daniel <Daniel.Matyas@analog.com>
+>>>> Cc: Jean Delvare <jdelvare@suse.com>; Rob Herring
+>>>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>>>> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
+>>>> <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>; linux-
+>>>> hwmon@vger.kernel.org; devicetree@vger.kernel.org; linux-
+>>>> kernel@vger.kernel.org; linux-doc@vger.kernel.org
+>>>> Subject: Re: [PATCH 1/3] hwmon: max31827: Add PEC support
+>>>>
+>>>> [External]
+>>>>
+>>>> On 12/14/23 06:36, Daniel Matyas wrote:
+>>>>> Removed regmap and used my functions to read, write and update
+>> bits.
+>>>>> In these functions i2c_smbus_ helper functions are used. These check
+>>>>> if there were any PEC errors during read. In the write function, if
+>>>>> PEC is enabled, I check for PEC Error bit, to see if there were any
+>> errors.
+>>>>>
+>>>>> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+>>>>
+>>>> The "PEC" attribute needs to be attached to the I2C device.
+>>>> See lm90.c or pmbus_core.c for examples.
+>>>>
+>>>
+>>> I added pec_show() and pec_store() functions and created the pec file
+>> within the max31827_groups.
+>>> I did not set the flags, because I want them to be set only in pec_store.
+>> By default the PEC flag should not be set.
+>>>
 >>
->> I propose simplifying without altering actual document titles, the text
->> linking to these documents on the main page ("link titles"). For example,
->> "The Linux kernel user's and administrator's guide" could become "User's
->> and Administrator's Guide," and "A guide to the Kernel Development Process"
->> could be "Development Process". This is what my patch does.
+>> That is not the point. Again,
+>>
+>>   >> The "PEC" attribute needs to be attached to the I2C device.
+>>   >> See lm90.c or pmbus_core.c for examples.
+>>
+>> That is not about regmap, it is about the location of the "pec" attribute.
+>>
 > 
-> So I totally agree that the sidebar can use improvement, and I agree
-> that this patch makes it better.
-> 
-> I'm less convinced about the changes to the page itself, which I
-> consider to be somewhat more important.  There, I think, the more terse
-> titles are likely to be less useful for readers.  (OTOH, I think the
-> result is an improvement for those reading the RST files).
-> 
-> I spent some time a little while back understanding how the sidebar is
-> generated, and feel that we can make it into what we want it to be.  But
-> I don't think we've decided what we really want it to be.  I think there
-> is simply too much stuff there in general; it's never going to be
-> manageable that way.
-> 
-> There was a suggestion at the kernel-summit session to just put the
-> top-level books there:
-> 
-> 	Kernel documentation
->          Development-process guide
->          Core API manual
->          Driver API manual
->          User-space API manual
->          Maintainer guide
->          Documentation guide
-> 
-> Then perhaps add one level for whichever book is open (if any) at the
-> time.
-
-I like this idea; as of today, we have too many duplicated links.
-
-Regarding the addition of concise titles for the link titles, I'd argue
-that the important part is not to lose information. For example, I
-shortened "Submitting patches: the essential guide to getting your code
-into the kernel" to "Submitting patches". But, if I had simply put
-"Patches", it would have made it unclear what the document was actually
-about.
-
-> 
-> I'm sure there are other, better ideas as well.
-> 
-> Meanwhile, I'm pondering on this patch, would like to know what others
-> think.  Carlos nicely put up some comparison images for us:
-> 
->    https://github.com/Zildj1an/linux-kernel-docs-compare/blob/main/comparison.png
-> 
-> ...so it's not necessary to build the docs to see the results.
-> 
-> Thanks,
-> 
-> jon
+> I understand that this is not about regmap. Still, I would argue, that when I am registering the device with groups, the "pec" attribute is attached.
 > 
 
-Thanks,
-Carlos
+Sure. To the hwmon device. I asked you to attach it to the i2c device, as
+implemented all other hwmon drivers supporting this attribute. I am not
+inclined to make an exception for this driver, and I do not see a reason
+to do so.
+
+Guenter
+
