@@ -1,135 +1,94 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19371440A;
-	Mon, 18 Dec 2023 03:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E2F3FF4
+	for <linux-doc@vger.kernel.org>; Mon, 18 Dec 2023 03:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Kuj3DL5X"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI2pK4A010523;
-	Mon, 18 Dec 2023 03:33:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=8QxqtTgZPkn+11BMXB8gGJCnSChYrUFsq+roZCMEQVg=; b=Ku
-	j3DL5XTdR4AarRSjvkOLKq0UI6ViSB/srmdUSYD9O2ulTJ8a39a0wr/PhxJy7i1/
-	pBBElLn+zRuThLuZ7TDmrpPfC9Z7ctGt5+QyjuwDiY+5YzNyqerZomvcNxpsaN4Q
-	n5okXOJ4ypvdJEgP+FJfhoYzFxEOx8VCfCH441IfkP21axISwM8NeIB0PM6dT1WT
-	C/37pyrPKeMpOwczUG99x6Kxg0Lwwha6J4HXKAcqmPFDE/iPCEUAWrX8qzuXJCsk
-	m4IugFm+J+5TaDgzVQntCWzFWPXbLgTG8MtD8+5/45VtCmvf0mt6nTZ3+nooAXMx
-	h6/HezHavRkltR+D+Ecg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v1536u7ad-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 03:33:18 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BI3XHeb005017
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Dec 2023 03:33:17 GMT
-Received: from [10.253.9.247] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 17 Dec
- 2023 19:33:13 -0800
-Message-ID: <a604a08e-def6-427f-b33c-1e62e693bd96@quicinc.com>
-Date: Mon, 18 Dec 2023 11:33:10 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IgNz2JSl"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d075392ff6so18902045ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 17 Dec 2023 19:40:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702870836; x=1703475636; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rz8IcWFPrYshTIpMuCdGWLpKzFo5rZN3OabmtrFosFs=;
+        b=IgNz2JSllyH7g39D72AVpAQL1dpnj69vxoFoyrDJ4MPXGC12zvSjQJOTj/pstbwegn
+         8Q0e6te6WpxnOlkSsidg1bipoT6rje7CeW7KT096+/DVsdmQqhF4TGVxA0c8JUt3NWJ7
+         4K37Z1mztxrOdo9Sl2xZUEZTCeE4/wvq2WemSArbUFy1v/HE651VypL3VcGgvyXwLN3y
+         VLREUWn16adaN4q16kgo8O9rHlvVhr9FpZguZHi+D2M1mD3698KIe2KhEAE71Mc09BMM
+         lQ3voR1HjYmnJG2/FE5XxD6qb0YtcA9qj/ZTsP9UQCwUqf5pVVZbUnNWIIMknGlCRsz9
+         4b7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702870836; x=1703475636;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Rz8IcWFPrYshTIpMuCdGWLpKzFo5rZN3OabmtrFosFs=;
+        b=soRMrl66+X6/BG0ThpMITcOsT7kR+UOhigwYljaCo4EHF5LmRLbFK+XcUb6QrVSwAF
+         kCIHouI8b43YwcUyVKcihmHN0HSy+Uv0ZW0eftMF181Q20Fqats237z0tehFnDl9LT0P
+         Fkzy+q3ycpg+s3FtX2oX9t8QMAuzVTSfy/+QQ3b3wH3oiodOhEJaxprGgqS0EoYOrCwl
+         rEM+JPwsx4UrpEBqObcrdyFSKG/JYXnd/y1osk6yM0mOxeefx0JqNW42oMq9R9EdLs3y
+         4jHIrdFRvZEE6YDOitJsCn4mAQD0Yg/jWN43WSeVmFmPZDhPUkRNky5SxlLCIxhIrasI
+         32Sg==
+X-Gm-Message-State: AOJu0YyR/LuDPh8ymN35xFE9weLIV3V/+xzVRry+DmcE5gL6KY+BMF79
+	MY7i8pbywtmmBjYJSfVTfg==
+X-Google-Smtp-Source: AGHT+IFahCfvx1/CbJczzX01ofVsrnySeJPh7YvA2dXKNATCrPA4pKLR6p82T8cydA88fmMHdz/nhA==
+X-Received: by 2002:a17:903:32c5:b0:1d0:6ffd:6118 with SMTP id i5-20020a17090332c500b001d06ffd6118mr19113719plr.58.1702870835855;
+        Sun, 17 Dec 2023 19:40:35 -0800 (PST)
+Received: from piliu.users.ipa.redhat.com ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id x5-20020a1709029a4500b001d340c71cc8sm8557804plv.128.2023.12.17.19.40.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Dec 2023 19:40:35 -0800 (PST)
+From: Pingfan Liu <kernelfans@gmail.com>
+To: kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Cc: Pingfan Liu <piliu@redhat.com>,
+	Baoquan He <bhe@redhat.com>,
+	Dave Young <dyoung@redhat.com>
+Subject: [PATCH] Documentation: kdump: Clarify the default size of memory reserved by crashkernel low
+Date: Mon, 18 Dec 2023 11:40:20 +0800
+Message-Id: <20231218034020.15341-1-kernelfans@gmail.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 13/14] net: phy: at803x: configure qca8084 work mode
-Content-Language: en-US
-To: Simon Horman <horms@kernel.org>
-CC: <andrew@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-        <kuba@kernel.org>, <pabeni@redhat.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hkallweit1@gmail.com>, <linux@armlinux.org.uk>, <corbet@lwn.net>,
-        <p.zabel@pengutronix.de>, <f.fainelli@gmail.com>,
-        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20231215074005.26976-1-quic_luoj@quicinc.com>
- <20231215074005.26976-14-quic_luoj@quicinc.com>
- <20231217130221.GZ6288@kernel.org>
-From: Jie Luo <quic_luoj@quicinc.com>
-In-Reply-To: <20231217130221.GZ6288@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: o1Kxkwi4UZfHb-KHciI_c9Bzk4b3ICQz
-X-Proofpoint-ORIG-GUID: o1Kxkwi4UZfHb-KHciI_c9Bzk4b3ICQz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=894
- mlxscore=0 suspectscore=0 spamscore=0 impostorscore=0 phishscore=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312180024
+Content-Transfer-Encoding: 8bit
 
+From: Pingfan Liu <piliu@redhat.com>
 
+The default size reserved for crashkernel=,low is decided by the macro
+DEFAULT_CRASH_KERNEL_LOW_SIZE, which is based on arch.
 
-On 12/17/2023 9:02 PM, Simon Horman wrote:
-> On Fri, Dec 15, 2023 at 03:40:03PM +0800, Luo Jie wrote:
-> 
-> ...
-> 
->> @@ -1038,6 +1045,46 @@ static int qca8084_common_clock_init(struct phy_device *phydev)
->>   	return clk_prepare_enable(priv->clk[MDIO_MASTER_AHB_CLK]);
->>   }
->>   
->> +static int qca8084_parse_and_set_work_mode(struct phy_device *phydev)
->> +{
->> +	struct device_node *node;
->> +	struct at803x_priv *priv;
->> +	u32 value, work_mode;
->> +	int ret;
->> +
->> +	node = phydev->mdio.dev.of_node;
->> +	priv = phydev->priv;
-> 
-> Hi Luo Jie,
-> 
-> a minor nit from my side: priv is set but otherwise unused in this function.
+Signed-off-by: Pingfan Liu <piliu@redhat.com>
+Cc: Baoquan He <bhe@redhat.com>
+Cc: Dave Young <dyoung@redhat.com>
+To: kexec@lists.infradead.org
+To: linux-doc@vger.kernel.org
+---
+ Documentation/admin-guide/kdump/kdump.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Thanks Simon, i will update it to remove it.
+diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+index 5762e7477a0c..a021ff155012 100644
+--- a/Documentation/admin-guide/kdump/kdump.rst
++++ b/Documentation/admin-guide/kdump/kdump.rst
+@@ -310,8 +310,9 @@ crashkernel syntax
+    region above 4G, low memory under 4G is needed in this case. There are
+    three ways to get low memory:
+ 
+-      1) Kernel will allocate at least 256M memory below 4G automatically
+-         if crashkernel=Y,low is not specified.
++      1) Kernel will allocate a chunk of default size memory, which is based on
++         architecture, below 4G automatically if crashkernel=Y,low is not
++         specified.
+       2) Let user specify low memory size instead.
+       3) Specified value 0 will disable low memory allocation::
+ 
+-- 
+2.31.1
 
-> 
->> +
->> +	/* The property "qcom,phy-work-mode" is only defined in one
->> +	 * PHY device tree node.
->> +	 */
->> +	ret = of_property_read_u32(node, "qcom,phy-work-mode", &value);
->> +	if (ret)
->> +		return ret == -EINVAL ? 0 : ret;
->> +
->> +	switch (value) {
->> +	case 0:
->> +		work_mode = QCA8084_WORK_MODE_QXGMII;
->> +		break;
->> +	case 1:
->> +		work_mode = QCA8084_WORK_MODE_QXGMII_PORT4_SGMII;
->> +		break;
->> +	case 2:
->> +		work_mode = QCA8084_WORK_MODE_SWITCH;
->> +		break;
->> +	case 3:
->> +		work_mode = QCA8084_WORK_MODE_SWITCH_PORT4_SGMII;
->> +		break;
->> +	default:
->> +		phydev_err(phydev, "invalid qcom,phy-work-mode %d\n", value);
->> +		return -EINVAL;
->> +	}
->> +
->> +	return qca8084_mii_modify(phydev, QCA8084_WORK_MODE_CFG,
->> +				  QCA8084_WORK_MODE_MASK,
->> +				  FIELD_PREP(QCA8084_WORK_MODE_MASK, work_mode));
->> +}
-> 
-> ...
