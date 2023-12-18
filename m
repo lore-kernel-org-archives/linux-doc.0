@@ -1,77 +1,112 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669033789E;
-	Mon, 18 Dec 2023 12:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803F773470;
+	Mon, 18 Dec 2023 12:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AKhGPq3B"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40d190044c5so8785965e9.2;
-        Mon, 18 Dec 2023 04:53:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702904007; x=1703508807; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zk7VwvCkv/REjWb5Mkx7cR0feqBstB82gntTyFAKcZQ=;
-        b=AKhGPq3BcnqHhaAxKRl6Kw+9z/KCj4nm/Y6c3BqWh193sm8InAetKLi61HgKqHqGEc
-         1+VA8pnopJCVhKkf4MWSUYQEwPo98YtVXHYX805j2WpLEqWYfTJTT6/IYu/++GWap572
-         chfF0PsB7DI/GaiU46FD42aDxTwZKHQDE6WNkXYYdd/Gzr2VnLGoJFoTXK3pgww146um
-         POi56FmXwfP9fAC5Xd35LWOLwcszle9f1/zne5liiKXLucHGiKtifcY6G9pQx5OE5WrJ
-         t4Afanc8OZ6Ctw6vDBGVwrIDakJUy9w72+FkmbjWlLynFHsSSi9ykXYIuIPtqNWxflcu
-         XNag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702904007; x=1703508807;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zk7VwvCkv/REjWb5Mkx7cR0feqBstB82gntTyFAKcZQ=;
-        b=ikR0TTLrCjZQBEO5fPHoQNrc7/mi5o76B8xNf5gu4BidOnMGs1a2W/uM04dfdTBBXR
-         4dVr8jRR2+2Y9oowvtzRy/Oj7m3Ys0bK1QfviweuR7I0LdacULKyo886j2sGeljnOhzm
-         vF7D0z5QotiUu891WBBeQwkHVh+nI4pBWFUTTbX5oZ819z4Rwd0yDugXybjIhF9cuMbm
-         9W85y6dJPw9jfqnqmvE2lwxcvq1RkPGGM1odplYkiuol0Plxnu6ESrP7eczJjvOfjOvX
-         b/NDsF3iPdXPke9WHXV/SkGJXYI28rhAkbNJYWhz1DwRVRDAUpNJbUNC+JLpeTr4tH8f
-         peYw==
-X-Gm-Message-State: AOJu0YzOBcpASbapYfsfsBoMg9STt/Wg1U/DSjsEy6SDu3jMA77V5Du5
-	6ELR/fu4fY6dD5hxCpRWhZtDN2HLApZRtWHy3LPXe5IE8A==
-X-Google-Smtp-Source: AGHT+IH4P/pa/XE7Dbmoi0Vq1JMUyCieCQChtYE/NkSc01lbxr3nwZDSMxNt0rxJT1KPgJiHbuKlRPEFALGgf3loX7w=
-X-Received: by 2002:a05:600c:3b8a:b0:40b:35aa:bfdd with SMTP id
- n10-20020a05600c3b8a00b0040b35aabfddmr7444701wms.27.1702904007367; Mon, 18
- Dec 2023 04:53:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Qko+tfQD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=1tKUg55GyHTf08JBzgZtZPRuKz4R//UeiI1dQsdNZgo=; b=Qko+tfQDFH5tQIm1p5IewFoZqc
+	HQbLvnPtulg59EsBQmSHF3TGK/cg1U10PaVJbAPFhiDYDjQYcY0Tb45fv10B/s8amTj40tVQcUCGl
+	orYICCQmfSSDBW1S8Va4xT8hdnzc3DVjCEYJhFpJZ9DM9SR8DgrYn9glT9DanCBbppoRBmAq9mlK6
+	rbEHePJnWqF3fL6nDzAJyixhWe6uU25tQTzDkVtKpDVb93iIiK1+Zr+A+j9xCCo2GohTYU791FOf2
+	YP4h4FqD1dG+3JNgOqZdD1sDv0QdhwyJiZno0EgDX7/vUu1hpnfUN74CEdu2Lk68k/uj0Soxl3/DQ
+	aeSrb43Q==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:50904)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rFDCB-0005MM-0g;
+	Mon, 18 Dec 2023 12:58:07 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rFDCB-0006ii-Ft; Mon, 18 Dec 2023 12:58:07 +0000
+Date: Mon, 18 Dec 2023 12:58:07 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
+	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	jianyong.wu@arm.com, justin.he@arm.com,
+	James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 18/21] ACPI: processor: Only call
+ arch_unregister_cpu() if HOTPLUG_CPU is selected
+Message-ID: <ZYBB32fMWB6of7Jb@shell.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+ <E1rDOhH-00DvlO-UP@rmk-PC.armlinux.org.uk>
+ <20231215165009.000035f2@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231218114222.283705-1-tomas.mudrunka@gmail.com>
- <c22997c9-6d99-4e1f-9015-b7f80be2a720@kernel.org> <CAH2-hcJe40e7LhrmQb5XjGpRfrUEp3RukqWUqn1p8UQSNkpisg@mail.gmail.com>
- <2023121858-aground-consent-cfe3@gregkh> <CAH2-hc+BO=oxt2faSqy4AJS6qPdjC+cAc+ONZrvYnCPJT1H61Q@mail.gmail.com>
- <2023121858-detonator-deepness-0135@gregkh>
-In-Reply-To: <2023121858-detonator-deepness-0135@gregkh>
-From: =?UTF-8?B?VG9tw6HFoSBNdWRydcWIa2E=?= <tomas.mudrunka@gmail.com>
-Date: Mon, 18 Dec 2023 13:53:16 +0100
-Message-ID: <CAH2-hc+OeJw6mZbekqCLF33GPY5wCHRMhS7auGMmR=dFazwG+w@mail.gmail.com>
-Subject: Re: [PATCH] /proc/sysrq-trigger can now pause processing for one second
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231215165009.000035f2@Huawei.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-> Add pauses and soon you will want loops and then it's turing complete :)
->
-> Why not have a bpf script that does this instead?  :)
+On Fri, Dec 15, 2023 at 04:50:09PM +0000, Jonathan Cameron wrote:
+> On Wed, 13 Dec 2023 12:50:43 +0000
+> Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
+> 
+> > From: James Morse <james.morse@arm.com>
+> > 
+> > The kbuild robot points out that configurations without HOTPLUG_CPU
+> > selected can try to build acpi_processor_post_eject() without success
+> > as arch_unregister_cpu() is not defined.
+> > 
+> > Check this explicitly. This will be merged into:
+> > | ACPI: Add post_eject to struct acpi_scan_handler for cpu hotplug
+> > for any subsequent posting.
+> > 
+> > Reported-by: kbuild test robot <lkp@intel.com>
+> > Signed-off-by: James Morse <james.morse@arm.com>
+> > Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+> > ---
+> > This should probably be squashed into an earlier patch.
+> 
+> Agreed. If not
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Funny you mention this. For a moment i've actually thought someone
-would come with this idea sooner or later. :-)
-But i think we will all agree that there are several reasons why this
-would be quite terrible idea...
+I'm not convinced that "ACPI: Add post_eject to struct acpi_scan_handler
+for cpu hotplug" is the correct commit to squash this into.
 
-Anyway for me the sysrq-trigger is about giving kernel linear
-instructions on how to shutdown/reboot ASAP with minimal chance for
-data corruption and least amount of userspace involvement possible. I
-just want to kill everything more or less cleanly and safely reboot
-without having to give control back to userspace script, because there
-might be something wrong with userspace at the time.
+As far as acpi_processor.c is concerned, This commit merely renames
+acpi_processor_remove() to be acpi_processor_post_eject(). The function
+references arch_unregister_cpu() before and after this change, and its
+build is dependent on CONFIG_ACPI_HOTPLUG_PRESENT_CPU being defined.
 
-Tom
+Commit "ACPI: convert acpi_processor_post_eject() to use IS_ENABLED()"
+removed the ifdef CONFIG_ACPI_HOTPLUG_PRESENT_CPU surrounding
+acpi_processor_post_eject, and that symbol depends on
+CONFIG_HOTPLUG_CPU, so I think this commit is also fine.
+
+Commit "ACPI: Check _STA present bit before making CPUs not present"
+rewrites the function - the original body gets called
+acpi_processor_make_not_present() and a new acpi_processor_post_eject()
+is created. At this point, it doesn't reference arch_unregister_cpu().
+
+Commit "ACPI: add support to register CPUs based on the _STA enabled
+bit" adds a reference to arch_unregister_cpu() in this new
+acpi_processor_post_eject() - so I think this is the correct commit
+this change should be merged into.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
