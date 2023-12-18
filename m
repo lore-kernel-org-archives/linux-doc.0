@@ -1,156 +1,101 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17A7F79C7;
-	Mon, 18 Dec 2023 07:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-d85ff70000001748-ef-657fefc8c14b
-From: Hyeongtak Ji <hyeongtak.ji@sk.com>
-To: gourry.memverge@gmail.com
-Cc: Hasan.Maruf@amd.com,
-	Jonathan.Cameron@Huawei.com,
-	akpm@linux-foundation.org,
-	arnd@arndb.de,
-	bp@alien8.de,
-	corbet@lwn.net,
-	dan.j.williams@intel.com,
-	dave.hansen@linux.intel.com,
-	emirakhur@micron.com,
-	fvdl@google.com,
-	gregory.price@memverge.com,
-	hannes@cmpxchg.org,
-	haowang3@fb.com,
-	hasanalmaruf@fb.com,
-	hezhongkun.hzk@bytedance.com,
-	honggyu.kim@sk.com,
-	hpa@zytor.com,
-	hyeongtak.ji@sk.com,
-	jgroves@micron.com,
-	john@jagalactic.com,
-	linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	luto@kernel.org,
-	mhocko@kernel.org,
-	mhocko@suse.com,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	rakie.kim@sk.com,
-	ravis.opensrc@micron.com,
-	seungjun.ha@samsung.com,
-	sthanneeru@micron.com,
-	tglx@linutronix.de,
-	tj@kernel.org,
-	vtavarespetr@micron.com,
-	x86@kernel.org,
-	ying.huang@intel.com,
-	kernel_team@skhynix.com
-Subject: RE: [PATCH v3 00/11] mempolicy2, mbind2, and weighted interleave
-Date: Mon, 18 Dec 2023 16:07:48 +0900
-Message-Id: <20231218070750.2123-1-hyeongtak.ji@sk.com>
-X-Mailer: git-send-email 2.37.3.windows.1
-In-Reply-To: <20231213224118.1949-1-gregory.price@memverge.com>
-References: <20231213224118.1949-1-gregory.price@memverge.com>
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C70111AA;
+	Mon, 18 Dec 2023 09:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="jehA85YU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1702890208; bh=gXF4zwPtrzbsMvzl/OG/KlHSiLQN4XqG8q1rytTusLw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jehA85YU9WcbUoRVBvQQxScipzxMzPY/w9KZfL8dL0jEdc4grQY/dzJ9r6pzDBhaP
+	 T/u++SErVxB09yqNG+QldWap8LSCGZCbualEWsuuFpGrn/6e6Nea+N2aJi5T5iX04o
+	 6htm44WrCVg4cICcuuXCx6Y8i4TiC5JpAcjrLAX4FpYCnji60vittpFlXz6JgV5Owr
+	 kkK3gCWFlr3Ehyt/KTrJ/0f5kfEueBriNTjLCv+RPD05UcMxHoINLL+dPfPVQjyWzs
+	 BY9O6chbSue2t/O7PcPPwvZO4JQuFy7wI0aL8QFnDNyCS6fHfJO3Bd4JvMXIENXXY2
+	 PNjmIQVMKUruQ==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id A984110029E; Mon, 18 Dec 2023 09:03:28 +0000 (GMT)
+Date: Mon, 18 Dec 2023 09:03:28 +0000
+From: Sean Young <sean@mess.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 4/6] pwm: Make it possible to apply PWM changes in
+ atomic context
+Message-ID: <ZYAK4HaWsChgJE12@gofer.mess.org>
+References: <cover.1702369869.git.sean@mess.org>
+ <57f48330eb606356e86be17f85253f0e3d6ab104.1702369869.git.sean@mess.org>
+ <20231212114812.afzgjiunzc6druov@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf0yMcRzH973ne8/zdByPq803Zc1NozaRtfnYLP3RH4+JWdYfwnLqoZu6
-	cilloyOXOhOi6CruqtGS7jxl0oq78+PKUFKtzWSUyVIpivVDepam/157f97v9+efN0upSuUr
-	WK3umKDXaRLUtAIrBhdb1zUPZwobjJW+UGKrpmE6/zkDP+x/aOhznENwraANQb99lq5/b2fg
-	qcVCQ//UFxkYznzCcEfcAeXPPyIwFtlpeJV9hoZ3Xe8QFN5bDu7xCRqctj1QZe2iofZXDg3W
-	7AoMjU0tGN42lNDQUz0jh9aGu3IYGL9FwYe8MGh3WGTgvuCQwefOBgb6c90yGK75jqBWLKBg
-	4vYzBO6efAZ+23vl0GK+gsP8+V/GPMwb26dpfnIiH/F/mqtp/sm3YYq/nDXE8A/N7xneIqby
-	Z58OyvnaykC+vPGrjK8zjWFerMqleXE0n+GHXr9m+Obrk3iXd7RiS5yQoE0T9OtDDyjis16c
-	xsmdS9NraispAypbZEIeLOFCiKvjKp7nlxeHGIlpbi0pNJRTJsSyXtxK4nq0yoQULMXVM6TA
-	+YaSPJ7cNlI/2MhIHsz5kzFnqiQruU3ElNPEzFUGkEt1JTKJPbitROw6hyRWcaHENvmEnvMv
-	Iy1FfViqobg1xHZDJckU50ey7hdT0lvCtbGky1r8r9ObOCu78SXEmRfEzf/j5gVxC6KqkEqr
-	S0vUaBNCguIzdNr0oNikRBHNjubWyam99Wi0bbcLcSxSL1ZyAZmCSq5JS8lIdCHCUmovZXjZ
-	rKSM02ScEPRJMfrUBCHFhXxYrF6u3Dh+PE7FHdYcE44IQrKgn7/KWI8VBuRzvCJoe++MotU7
-	esThLd8cORmY1BY5nff5ZlxM588Oa0zqwY0WvLqqf4nxgKqwdefjU37KgZng0i0DUbFHp1Rf
-	PGP3Tal7MnI8zWsfiDpSdNthH0wOsbkNi5aER0WMdMc2HdKNJp+//NK/Z31vnehcd74A9uPw
-	dt/sCNkjO12txinxmuBASp+i+QvQzCBrMAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0iTYRiGe/cdNx19TbEPTaJFmUmZUfgUYQZFb0eCiDCKnPmVQzdlS2tR
-	aB5KB5kHTF1TpobJUmdbkYmJTkuNTmquIDqpleaR1Ix5yhFR/y7u5+K+/zwsIcukvFml+qyg
-	USti5LSElJj9gte1jSYKG75XEGC0VNIwm/OEgfGaORr6Gq8iyM97haC/ZoEKxjoZaDGZaOif
-	+SaCpOQeEu5YD0DZk88I0gpraHh+JZmGd453CMa/DhJw4+5SyOibQtD600lDkyUMzCUOGpqL
-	2imwTaXTUHLlFgn1j9pJ6Koz0vChcp6Cl3VVFAz+LCfgY2YodDaaRNB6rVEEdsc3Cr501zHQ
-	n9EqgtHqMQQ2ax4BztuPFxY+5DDwq6aXgnZDLhnqj6fSMkmc1jlL42lnDsJzbZU0bh4aJXB2
-	ygiDHxreM9hkjcepLcMUtlWsxWX1AyJ8Tz9JYqs5g8bWHzkMHnnxgsFtBdPkIZ9jkm2RQowy
-	QdAEhoRLolKeXibjuhefr7ZVEEmo1E2PxCzPbeKfXR9hXExza/gbSWWEHrGsJ+fL2xtW6JGE
-	Jbhahs9r6iBcjge3h68drmdcDsmt4ieb4l2xlAvm9emPmD+V/nzWPaPIxWJuO291XEUulnEh
-	vGW6mf7jL+HbC/tIVw3B+fGWYpkrJrjlfMr9m0QWkhr+swz/LMN/lgkRZuSpVCeoFMqYzeu1
-	0VE6tfL8+lOxKita+JLySzPZtWiia7cdcSySu0s5/0RBRikStDqVHfEsIfeU7ixdiKSRCt0F
-	QRN7UhMfI2jtyIcl5Uule48K4TLujOKsEC0IcYLm71XEir2TUNW5/D065wnJSY+I46UNy/yK
-	vCZkEe76kfQ4SVbq/lOVZHPP3YzDR0aHNr7VzXtJLSqH24nnA7at4tUXNwRt//jJY3pzsep0
-	QENhdODAIh9jb5Vvx7ZU5wqTL3WurPygeMtkeOiDHcJ4dV9uV/DK4/vcM7vDdr0OwOaSN4Gl
-	86fV/nJSG6UIWktotIrfF9TRyCEDAAA=
-X-CFilter-Loop: Reflected
+In-Reply-To: <20231212114812.afzgjiunzc6druov@pengutronix.de>
 
-Hi Gregory,
+Hello Uwe,
 
-Thank you for the v3 patch.
-
-Gregory Price <gourry.memverge@gmail.com> write:
-
-[snip]
-
-> =====================================================================
-> Performance tests - MLC
-> From Ravi Jonnalagadda <ravis.opensrc@micron.com>
+On Tue, Dec 12, 2023 at 12:48:12PM +0100, Uwe Kleine-K�nig wrote:
+> On Tue, Dec 12, 2023 at 08:34:03AM +0000, Sean Young wrote:
+> > +/**
+> > + * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
+> > + * Cannot be used in atomic context.
+> > + * @pwm: PWM device
+> > + * @state: new state to apply
+> > + */
+> > +int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
+> > +{
+> > +	int err;
+> > +
+> > +	/*
+> > +	 * Some lowlevel driver's implementations of .apply() make use of
+> > +	 * mutexes, also with some drivers only returning when the new
+> > +	 * configuration is active calling pwm_apply_might_sleep() from atomic context
+> > +	 * is a bad idea. So make it explicit that calling this function might
+> > +	 * sleep.
+> > +	 */
+> > +	might_sleep();
+> > +
+> > +	if (IS_ENABLED(CONFIG_PWM_DEBUG) && pwm->chip->atomic) {
+> > +		/*
+> > +		 * Catch any drivers that have been marked as atomic but
+> > +		 * that will sleep anyway.
+> > +		 */
+> > +		non_block_start();
+> > +		err = pwm_apply_unchecked(pwm, state);
+> > +		non_block_end();
+> > +	} else {
+> > +		err = pwm_apply_unchecked(pwm, state);
+> > +	}
+> > +
+> >  	/*
+> >  	 * only do this after pwm->state was applied as some
+> >  	 * implementations of .get_state depend on this
+> >  	 */
+> > -	pwm_apply_debug(pwm, state);
+> > +	if (!err)
+> > +		pwm_apply_debug(pwm, state);
 > 
-> Workload:                               W2
-> Data Signature:                         2:1 read:write
-> DRAM only bandwidth (GBps):             298.8
-> DRAM + CXL (default interleave) (GBps): 113.04
-> DRAM + CXL (weighted interleave)(GBps): 412.5
-> Gain over DRAM only:                    1.38x
-> 
-> Workload:                               W5
-> Data Signature:                         1:1 read:write
-> DRAM only bandwidth (GBps):             273.2
-> DRAM + CXL (default interleave) (GBps): 117.23
-> DRAM + CXL (weighted interleave)(GBps): 382.7
-> Gain over DRAM only:                    1.4x
+> It's easier to keep that in pwm_apply_unchecked(), isn't it? Then
+> pwm_apply_atomic() also benefits from the checks.
 
-I've run XSBench based on the v3 patch and got numbers below. I used
-your sample numactl extension from here:
-Link: https://github.com/gmprice/numactl/tree/weighted_interleave_master
+Good point.
 
-Performance tests – XSBench
-NUMA node 0: 56 logical cores, 128 GB memory
-NUMA node 2: 96 GB CXL memory
+> I'm not so happy with the function name of pwm_apply_unchecked(), but I
+> don't have a good suggestion either. Probably I'd have chosen
+> __pam_apply(), but that's probably subjective.
 
-  1. dram only
-  $ numactl -membind 0 ./XSBench -s XL –p 5000000
-  Threads:     56
-  Runtime:     36.235 seconds
-  Lookups:     170,000,000
-  Lookups/s:   4,691,618
- 
-  2. default interleave
-  $ numactl –-interleave 0,2 ./XSBench –s XL –p 5000000
-  Threads:     56
-  Runtime:     55.243 seconds
-  Lookups:     170,000,000
-  Lookups/s:   3,077,293
+That is more consistent, fixed in v9.
 
-  3. weighted interleave
-  $ numactl --weighted --interleave 0,2 ./XSBench –s XL –p 5000000
-  Threads:     56
-  Runtime:     29.262 seconds
-  Lookups:     170,000,000
-  Lookups/s:   5,809,513
 
-In terms of runtime, weighted-interleaving shows 1.19x improvement
-compared to dram only, and 1.47x compared to default interleave.  I’ve
-repeatedly run XSBench and have not observed any significant variations
-across the runs.
-
-Kind regards,
-Hyeongtak
+Sean
