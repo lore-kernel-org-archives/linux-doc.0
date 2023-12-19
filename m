@@ -1,82 +1,63 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 558A919BD9;
-	Tue, 19 Dec 2023 12:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [113.200.148.30])
-	by gateway (Coremail) with SMTP id _____8DxCumKkYFl5JwCAA--.13066S3;
-	Tue, 19 Dec 2023 20:50:18 +0800 (CST)
-Received: from linux.localdomain (unknown [113.200.148.30])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxIL+BkYFl+1YAAA--.2309S3;
-	Tue, 19 Dec 2023 20:50:11 +0800 (CST)
-From: Tiezhu Yang <yangtiezhu@loongson.cn>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/5] scripts/checkstack.pl: Remove ia64 support
-Date: Tue, 19 Dec 2023 20:49:57 +0800
-Message-ID: <20231219125008.23007-2-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231219125008.23007-1-yangtiezhu@loongson.cn>
-References: <20231219125008.23007-1-yangtiezhu@loongson.cn>
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B257A1B29A;
+	Tue, 19 Dec 2023 14:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ruAt8R1W"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C91342E5;
+	Tue, 19 Dec 2023 14:43:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C91342E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1702997002; bh=YYkTgLHWZWuJTe23hGQMhCHmoCL30jR2J2fVbYjLk3o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ruAt8R1Wf856UWW2dpU/U8bk4M/FnlB591heDbjGyYUyX43DyElqc8XrViVdg1GX5
+	 /HMuF8JxYE9itcQn53F1GCzS32qu3l2xw014QRrPI56zNEqJS9AsRcqmrchYowCZgF
+	 Eq7skEIa8ju7UNu0IbOEebWPFtaF8TdQWTX1mtkNjxzQHPNmWQHCUEkTzrpH+d0zVR
+	 hV7lZJ0Hips+Zw5hHNFT8Adz0vjhdCmnznoUzmK4zpfNuKwEFasL5kLtrgWq4AVLdV
+	 JbCOKXbpOqV/kg2xnOp0jHhlRlS2h38kYDAVLaS9U3aww0g2YeP2HdpQV7hQnzBnDh
+	 p2ngLGR8Rf3WQ==
+From: Jonathan Corbet <corbet@lwn.net>
+To: "JiaLong.Yang" <jialong.yang@shingroup.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>
+Cc: 2738078698@qq.com, "JiaLong.Yang" <jialong.yang@shingroup.cn>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Docs/zh_CN: Fix the meaning of DEBUG to pr_debug()
+In-Reply-To: <20231219070813.29161-1-jialong.yang@shingroup.cn>
+References: <20231219070813.29161-1-jialong.yang@shingroup.cn>
+Date: Tue, 19 Dec 2023 07:43:21 -0700
+Message-ID: <87wmtai77a.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8AxIL+BkYFl+1YAAA--.2309S3
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxJr4kWr4DJrWkKw45CryUurX_yoW8Gr1DpF
-	1Yg3Wa9340g34kZw1UA3yUta4UWanYyFySgasrWryjyFs8GrsYgrW3ta4kt345Aa4vq3y3
-	W34Fqr9Fqr4DCagCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUk2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
-	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv
-	67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2
-	Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
-	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0x
-	vE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
-	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6x
-	kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUco7KUUUUU
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
-After commit cf8e8658100d ("arch: Remove Itanium (IA-64) architecture"),
-the ia64 port has been removed from the kernel, so also remove the ia64
-specific bits from the checkstack.pl script.
-
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- scripts/checkstack.pl | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/scripts/checkstack.pl b/scripts/checkstack.pl
-index e9d01b999b74..0c99b380cebb 100755
---- a/scripts/checkstack.pl
-+++ b/scripts/checkstack.pl
-@@ -8,7 +8,6 @@
- #	Original idea maybe from Keith Owens
- #	s390 port and big speedup by Arnd Bergmann <arnd@bergmann-dalldorf.de>
- #	Mips port by Juan Quintela <quintela@mandrakesoft.com>
--#	IA64 port via Andreas Dilger
- #	Arm port by Holger Schurig
- #	Random bits by Matt Mackall <mpm@selenic.com>
- #	M68k port by Geert Uytterhoeven and Andreas Schwab
-@@ -69,9 +68,6 @@ my (@stack, $re, $dre, $sub, $x, $xs, $funcre, $min_stack);
- 		#    2f60:    48 81 ec e8 05 00 00       sub    $0x5e8,%rsp
- 		$re = qr/^.*[as][du][db]    \$(0x$x{1,8}),\%(e|r)sp$/o;
- 		$dre = qr/^.*[as][du][db]    (%.*),\%(e|r)sp$/o;
--	} elsif ($arch eq 'ia64') {
--		#e0000000044011fc:       01 0f fc 8c     adds r12=-384,r12
--		$re = qr/.*adds.*r12=-(([0-9]{2}|[3-9])[0-9]{2}),r12/o;
- 	} elsif ($arch eq 'm68k') {
- 		#    2b6c:       4e56 fb70       linkw %fp,#-1168
- 		#  1df770:       defc ffe4       addaw #-28,%sp
--- 
-2.42.0
-
+IkppYUxvbmcuWWFuZyIgPGppYWxvbmcueWFuZ0BzaGluZ3JvdXAuY24+IHdyaXRlczoNCg0KPiBT
+aWduZWQtb2ZmLWJ5OiBKaWFMb25nLllhbmcgPGppYWxvbmcueWFuZ0BzaGluZ3JvdXAuY24+DQo+
+IC0tLQ0KPiAgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvcHJpbnRr
+LWJhc2ljcy5yc3QgfCAyICstDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEg
+ZGVsZXRpb24oLSkNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL2NvcmUtYXBpL3ByaW50ay1iYXNpY3MucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xh
+dGlvbnMvemhfQ04vY29yZS1hcGkvcHJpbnRrLWJhc2ljcy5yc3QNCj4gaW5kZXggNTljNmVmYjNm
+YzQxLi5jYWZhMDFiY2NmZjIgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
+b25zL3poX0NOL2NvcmUtYXBpL3ByaW50ay1iYXNpY3MucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRp
+b24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL3ByaW50ay1iYXNpY3MucnN0DQo+IEBAIC0x
+MDAsNyArMTAwLDcgQEAgcHJpbnRrKCnnmoTnlKjms5XpgJrluLjmmK/ov5nmoLfnmoQ6Og0KPiAg
+DQo+ICDkuLrkuobosIPor5XvvIzov5jmnInkuKTkuKrmnInmnaHku7bnvJbor5HnmoTlro/vvJoN
+Cj4gIHByX2RlYnVnKCnlkoxwcl9kZXZlbCgp77yM6Zmk6Z2e5a6a5LmJ5LqGIGBgREVCVUdgYCAo
+5oiW6ICF5ZyocHJfZGVidWcoKeeahOaDheWGteS4i+WumuS5ieS6hg0KPiAtYGBDT05GSUdfRFlO
+QU1JQ19ERUJVR2BgICnvvIzlkKbliJnlroPku6zkvJrooqvnvJbor5HjgIINCj4gK2BgQ09ORklH
+X0RZTkFNSUNfREVCVUdgYCAp77yM5ZCm5YiZ5a6D5Lus5LiN5Lya6KKr57yW6K+R44CCDQo+ICAN
+Cg0KVGhpcyBwYXRjaCBuZWVkcyBhbiBhY3R1YWwgY2hhbmdlbG9nLiAgQmVpbmcgaWxsaXRlcmF0
+ZSBpbiBDaGluZXNlLCBJDQpjYW4ndCBtYWtlIGFueSBjb25uZWN0aW9uIGJldHdlZW4gdGhlIHN1
+YmplY3QgbGluZSBhbmQgd2hhdCBoYXMgYWN0dWFsbHkNCmJlZW4gZG9uZSBoZXJlLg0KDQpUaGFu
+a3MsDQoNCmpvbg0K
