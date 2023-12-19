@@ -1,94 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6100518E25;
-	Tue, 19 Dec 2023 12:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXHt0E33"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702988746; x=1734524746;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nOywJRc0wAtqCFpYw86gMOujKnRir0lc3ARZNSoc0P0=;
-  b=EXHt0E33Mur7Hm+9MSxKx8PLY2mWHt/CMiUPt5m8YCinSU1PEzdrYxMz
-   TzPvgUZ5oNd+dUI0H8E+JvDdcVm/utHWjFnzFdiP4oW4oGZCIl1ggSDo8
-   86o6vR4xhet9ZlP3AThb/EHcgm0HoDkNMME8mjS9Gya7vUmZUE3f2bkkk
-   uoik5DAP2Sn9GwLWXtE2ZFwSnLc4zCBP7skA7NwDGnf9lnOzOTw5Xvjao
-   L7b/NQOf2rDR7ZescnjATHmUhdOojmO1qgGz5lJUKoYy46IyWLhL5zQpJ
-   N9vP9TQWx+vNannkLSydxaT4tujoVT3tJJ7u2K44up6S5Tt4ltAB01BJq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="2878899"
-X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="2878899"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 04:25:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="17589275"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 19 Dec 2023 04:25:38 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rFZAE-0005Ip-39;
-	Tue, 19 Dec 2023 12:25:34 +0000
-Date: Tue, 19 Dec 2023 20:24:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org,
-	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
-	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
-Subject: Re: [PATCH v4 10/11] mm/mempolicy: add the mbind2 syscall
-Message-ID: <202312192014.47Qm5xxc-lkp@intel.com>
-References: <20231218194631.21667-11-gregory.price@memverge.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C36FB18632;
+	Tue, 19 Dec 2023 12:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8DxE_CDkYFl25wCAA--.13249S3;
+	Tue, 19 Dec 2023 20:50:11 +0800 (CST)
+Received: from linux.localdomain (unknown [113.200.148.30])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxIL+BkYFl+1YAAA--.2309S2;
+	Tue, 19 Dec 2023 20:50:10 +0800 (CST)
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/5] Modify some code about checkstack
+Date: Tue, 19 Dec 2023 20:49:56 +0800
+Message-ID: <20231219125008.23007-1-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231218194631.21667-11-gregory.price@memverge.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8AxIL+BkYFl+1YAAA--.2309S2
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj9xXoW7XF47CryDCr1rur1DJrWDGFX_yoWfZwb_Za
+	92yFyrtwsaqr4DJanYyrs5XrWj93yUZryxAF15uFZ8J34fGrZ5uFWxZ3y3Wr10v3yjgFn8
+	Zr1xX3W8Cr1avosvyTuYvTs0mTUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUb28YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE
+	14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF
+	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7
+	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j0sjUUUUUU=
 
-Hi Gregory,
+This is based on 6.7-rc6 and on top of the following patch:
 
-kernel test robot noticed the following build errors:
+https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/checkstack-add-loongarch-support-for-scripts-checkstackpl.patch
 
-[auto build test ERROR on perf-tools/perf-tools]
-[also build test ERROR on linus/master v6.7-rc6]
-[cannot apply to perf-tools-next/perf-tools-next tip/perf/core acme/perf/core next-20231219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+If it is possible, I think it would be best to keep the series together
+and merge it through the akpm tree.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231219-074837
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools.git perf-tools
-patch link:    https://lore.kernel.org/r/20231218194631.21667-11-gregory.price%40memverge.com
-patch subject: [PATCH v4 10/11] mm/mempolicy: add the mbind2 syscall
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231219/202312192014.47Qm5xxc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312192014.47Qm5xxc-lkp@intel.com/reproduce)
+Tiezhu Yang (5):
+  scripts/checkstack.pl: Remove ia64 support
+  scripts/checkstack.pl: Add min_stack to the usage comment
+  scripts/checkstack.pl: Match all stack sizes for some archs
+  scripts/checkstack.pl: Change min_stack to 512 by default
+  docs: submit-checklist: Remove all of "make namespacecheck"
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312192014.47Qm5xxc-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> aarch64-linux-ld: arch/arm64/kernel/sys32.o:(.rodata+0xe58): undefined reference to `__arm64_sys_get_mbind2'
+ .../translations/ja_JP/SubmitChecklist        |  4 ++--
+ .../zh_CN/process/submit-checklist.rst        |  3 +--
+ .../zh_TW/process/submit-checklist.rst        |  3 +--
+ scripts/checkstack.pl                         | 20 ++++++++-----------
+ 4 files changed, 12 insertions(+), 18 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
