@@ -1,157 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83511C68E;
-	Tue, 19 Dec 2023 15:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912C431744;
+	Tue, 19 Dec 2023 16:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xen.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xen.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VJku28t7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C1A6C433C7;
-	Tue, 19 Dec 2023 15:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702999111;
-	bh=Cg5b/5tI5hGW7/qm/Gvqq5j7ejZo4mNgei7t5YpHVwY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VJku28t75geTgwb87nJfm516qgeb03gxGqykx+Ug53UD5+ZnGpYLpNofyeLcoTdxs
-	 qNT8X5bjaNvrQQRlkb5gGCDkSfeQHtHKINalhLVEMlI7a/WW9UMlQpuAfZ4zoUlY7M
-	 YtB+0wtg4Yozgxokvxy15xmsTcskzZqBpqgW1HqE75D6PRzyRfEHb+cdW0Uuow+z2e
-	 kQUy/27RqwLq6paKhlxh+RU6E+nJaSFK7rZwyneQKqb/AlL8Koky++JKGnlnFwe214
-	 EbJ/cK07hErgkRAf/jW4mxcicLw1NZmZQ3YRhlPvg/R8EDbnWPVzUk+MY7tnyWiGI2
-	 60c5+uH/T51Dw==
-Date: Tue, 19 Dec 2023 15:18:24 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Abdel Alkuor <alkuor@gmail.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: (lm75) Add AMS AS6200
- temperature sensor
-Message-ID: <20231219-mascot-semester-7d2c492b99bc@spud>
-References: <89fb5eec30df734ee8fc58427cf5d94929076514.1702874115.git.alkuor@gmail.com>
+	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="LrRq5o+i"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
+	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:References:
+	In-Reply-To:Message-Id:Date:Subject:To:From;
+	bh=WWVRVO4rk5Tr7MGrSTJbAXSf75JgVNtQ8ev+YYa16zs=; b=LrRq5o+isJm79kkMIUzOc8T8dD
+	gO4K1UkkVx28nEK7+jNFDC7WqCDYlFsRrz5Jt1v6uVk0Q8vHjGvdniB7aHlPB6CAf2F5DGv1dDZ3t
+	fnfB9ktIJjY+pFAPm5aehVH+I66iV1tT4RURciXQnow4TvXW3Xi3iy+eVVDUxdrrFK04=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+	by mail.xenproject.org with esmtp (Exim 4.92)
+	(envelope-from <paul@xen.org>)
+	id 1rFcjs-0005Li-F0; Tue, 19 Dec 2023 16:14:36 +0000
+Received: from 54-240-197-226.amazon.com ([54.240.197.226] helo=REM-PW02S00X.ant.amazon.com)
+	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <paul@xen.org>)
+	id 1rFcjs-0005h9-6F; Tue, 19 Dec 2023 16:14:36 +0000
+From: Paul Durrant <paul@xen.org>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Paul Durrant <paul@xen.org>,
+	Shuah Khan <shuah@kernel.org>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v11 02/19] KVM: pfncache: remove unnecessary exports
+Date: Tue, 19 Dec 2023 16:10:52 +0000
+Message-Id: <20231219161109.1318-3-paul@xen.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231219161109.1318-1-paul@xen.org>
+References: <20231219161109.1318-1-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rMcjOlarOJdLELTJ"
-Content-Disposition: inline
-In-Reply-To: <89fb5eec30df734ee8fc58427cf5d94929076514.1702874115.git.alkuor@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+From: Paul Durrant <pdurrant@amazon.com>
 
---rMcjOlarOJdLELTJ
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There is no need for the existing kvm_gpc_XXX() functions to be exported.
+Clean up now before additional functions are added in subsequent patches.
 
-On Sun, Dec 17, 2023 at 11:52:27PM -0500, Abdel Alkuor wrote:
-> as6200 is a temperature sensor with a range between -40=B0C to
-> 125=B0C degrees and an accuracy of =B10.4=B0C degree between 0
-> and 65=B0C and =B11=B0C for the other ranges.
->=20
-> Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
-> ---
-> Changes in v2:
->   - Incorporate as6200 into lm75 bindings
->=20
->  .../devicetree/bindings/hwmon/lm75.yaml        | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/hwmon/lm75.yaml b/Document=
-ation/devicetree/bindings/hwmon/lm75.yaml
-> index 0b69897f0c63..63b85a83ac18 100644
-> --- a/Documentation/devicetree/bindings/hwmon/lm75.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/lm75.yaml
-> @@ -14,6 +14,7 @@ properties:
->    compatible:
->      enum:
->        - adi,adt75
-> +      - ams,as6200
->        - atmel,at30ts74
->        - dallas,ds1775
->        - dallas,ds75
-> @@ -48,6 +49,9 @@ properties:
->    vs-supply:
->      description: phandle to the regulator that provides the +VS supply
-> =20
-> +  interrupts:
-> +    maxItems: 1
+Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+Cc: Sean Christopherson <seanjc@google.com>
+Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 
-Do the other devices here have interrupts? If not, you just allowed
-interrupts for them. You, at the very least, need to add something like:
+v8:
+ - New in this version.
+---
+ virt/kvm/pfncache.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/hwmon/lm75.yaml b/Documentat=
-ion/devicetree/bindings/hwmon/lm75.yaml
-index 63b85a83ac18..d7ce96606400 100644
---- a/Documentation/devicetree/bindings/hwmon/lm75.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/lm75.yaml
-@@ -56,6 +56,17 @@ required:
-   - compatible
-   - reg
-=20
-+allOf:
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              const: ams,as6200
-+    then:
-+      properties:
-+        interrupts: false
-+
- additionalProperties: false
-=20
- examples:
+diff --git a/virt/kvm/pfncache.c b/virt/kvm/pfncache.c
+index 10842f1eeeae..f3571f44d9af 100644
+--- a/virt/kvm/pfncache.c
++++ b/virt/kvm/pfncache.c
+@@ -94,7 +94,6 @@ bool kvm_gpc_check(struct gfn_to_pfn_cache *gpc, unsigned long len)
+ 
+ 	return true;
+ }
+-EXPORT_SYMBOL_GPL(kvm_gpc_check);
+ 
+ static void *gpc_map(kvm_pfn_t pfn)
+ {
+@@ -346,7 +345,6 @@ int kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, unsigned long len)
+ {
+ 	return __kvm_gpc_refresh(gpc, gpc->gpa, len);
+ }
+-EXPORT_SYMBOL_GPL(kvm_gpc_refresh);
+ 
+ void kvm_gpc_init(struct gfn_to_pfn_cache *gpc, struct kvm *kvm,
+ 		  struct kvm_vcpu *vcpu, enum pfn_cache_usage usage)
+@@ -363,7 +361,6 @@ void kvm_gpc_init(struct gfn_to_pfn_cache *gpc, struct kvm *kvm,
+ 	gpc->pfn = KVM_PFN_ERR_FAULT;
+ 	gpc->uhva = KVM_HVA_ERR_BAD;
+ }
+-EXPORT_SYMBOL_GPL(kvm_gpc_init);
+ 
+ int kvm_gpc_activate(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned long len)
+ {
+@@ -388,7 +385,6 @@ int kvm_gpc_activate(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned long len)
+ 	}
+ 	return __kvm_gpc_refresh(gpc, gpa, len);
+ }
+-EXPORT_SYMBOL_GPL(kvm_gpc_activate);
+ 
+ void kvm_gpc_deactivate(struct gfn_to_pfn_cache *gpc)
+ {
+@@ -426,4 +422,3 @@ void kvm_gpc_deactivate(struct gfn_to_pfn_cache *gpc)
+ 		gpc_unmap(old_pfn, old_khva);
+ 	}
+ }
+-EXPORT_SYMBOL_GPL(kvm_gpc_deactivate);
+-- 
+2.39.2
 
-I had a brief look at the driver though, but I could not immediately
-tell if the interrupt was required on the ams,as6200 or if the driver
-continued on without that functionality. It seemed like an additional
-feature that the interrupt was required for, but if not you should make
-the interrupt required for the as6200.
-
-> +
->  required:
->    - compatible
->    - reg
-> @@ -66,3 +70,17 @@ examples:
->          vs-supply =3D <&vs>;
->        };
->      };
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        temperature-sensor@48 {
-> +            compatible =3D "ams,as6200";
-> +            reg =3D <0x48>;
-> +            vs-supply =3D <&vs>;
-> +            interrupt-parent =3D <&gpio1>;
-> +            interrupts =3D <17 IRQ_TYPE_EDGE_BOTH>;
-> +        };
-> +    };
-
-Can you make the indent here match that in the other example in this
-file please?
-
-Thanks,
-Conor.
-
---rMcjOlarOJdLELTJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZYG0QAAKCRB4tDGHoIJi
-0oE9AP9ycm0+Rys8Qk2t0D9tOjOGpCdtzTvUj/tJa/BAOWIKTgEAwFfN1T6mCAR8
-GYZEQa3F2bPm+e607/CqKVAZitrREAw=
-=JdZv
------END PGP SIGNATURE-----
-
---rMcjOlarOJdLELTJ--
