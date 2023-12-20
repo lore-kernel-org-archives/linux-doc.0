@@ -1,90 +1,175 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96D027472;
-	Wed, 20 Dec 2023 02:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [112.20.110.252])
-	by gateway (Coremail) with SMTP id _____8AxG+ndSoJlv9ACAA--.14206S3;
-	Wed, 20 Dec 2023 10:01:01 +0800 (CST)
-Received: from [192.168.100.8] (unknown [112.20.110.252])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxneTYSoJlRlABAA--.8731S3;
-	Wed, 20 Dec 2023 10:00:57 +0800 (CST)
-Message-ID: <312376bd-b95c-447d-b93e-e42fb5437d06@loongson.cn>
-Date: Wed, 20 Dec 2023 10:00:56 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE278827;
+	Wed, 20 Dec 2023 02:29:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hO2svIY8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703039356; x=1734575356;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=5P8valVma7379oKA2C4O5u8JYMU/WxLyLWS4JRVSF50=;
+  b=hO2svIY8Cqn1Ir3XfrM5pb+m9HJ7Oi4DBmlMNGch9BXTmB9qVXykW4fR
+   cIPShyDvi7OwoXInVlLEoRuzGjr6NMe6RDP6+J/VtkECVmuvULc+Z+ZGL
+   kHwGUT/Fy4MOgUSGtmVU0fGh/wa3QOsGhVLBFRuaYbbO8ZftSOt0eWp6M
+   YkOUXvE7LqnztJAUAs1xzkP1STrb3a0L1vp+S1bIUtSMob9OmDfqyGJGn
+   b0tzqKd1FBOEXKl8oaHTIX8i75vN7KfKZPNuJl4RpeHpslqjR9JsfzsYS
+   dJ34AxdBq9oN3uz/ku0DILZxu6JKv+o0G4BvPs/tH3FGme9/oZ/MP6KDg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="481940572"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
+   d="scan'208";a="481940572"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 18:29:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="949378315"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
+   d="scan'208";a="949378315"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 18:29:06 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
+  <linux-doc@vger.kernel.org>,  <linux-fsdevel@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
+  <x86@kernel.org>,  <akpm@linux-foundation.org>,  <arnd@arndb.de>,
+  <tglx@linutronix.de>,  <luto@kernel.org>,  <mingo@redhat.com>,
+  <bp@alien8.de>,  <dave.hansen@linux.intel.com>,  <hpa@zytor.com>,
+  <mhocko@kernel.org>,  <tj@kernel.org>,  <corbet@lwn.net>,
+  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <honggyu.kim@sk.com>,
+  <vtavarespetr@micron.com>,  <peterz@infradead.org>,
+  <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
+  <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
+  <seungjun.ha@samsung.com>,  Johannes Weiner <hannes@cmpxchg.org>,  Hasan
+ Al Maruf <hasanalmaruf@fb.com>,  Hao Wang <haowang3@fb.com>,  Dan Williams
+ <dan.j.williams@intel.com>,  "Michal Hocko" <mhocko@suse.com>,  Zhongkun
+ He <hezhongkun.hzk@bytedance.com>,  "Frank van der Linden"
+ <fvdl@google.com>,  John Groves <john@jagalactic.com>,  Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v4 00/11] mempolicy2, mbind2, and weighted interleave
+In-Reply-To: <ZYHcPiU2IzHr/tbQ@memverge.com> (Gregory Price's message of "Tue,
+	19 Dec 2023 13:09:02 -0500")
+References: <20231218194631.21667-1-gregory.price@memverge.com>
+	<87wmtanba2.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZYHcPiU2IzHr/tbQ@memverge.com>
+Date: Wed, 20 Dec 2023 10:27:06 +0800
+Message-ID: <87zfy5libp.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Docs/zh_CN: Fix the meaning of DEBUG to pr_debug()
-Content-Language: en-US
-To: Jonathan Corbet <corbet@lwn.net>, "JiaLong.Yang"
- <jialong.yang@shingroup.cn>, Alex Shi <alexs@kernel.org>
-Cc: 2738078698@qq.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231219070813.29161-1-jialong.yang@shingroup.cn>
- <87wmtai77a.fsf@meer.lwn.net>
-From: Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <87wmtai77a.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8BxneTYSoJlRlABAA--.8731S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7CF4DXw1xXw4DAFyUCF15Awc_yoW8Gw17p3
-	sFkr1xGanrCry5C3yxXry29FnYya4xuanrKrWDuw1jqFn5Jr4rAFsrtas09FZxZr92yayY
-	qFs3KF98uayYvFbCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUvKb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
-	6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-	1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_
-	JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
-	CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
-	I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
-	8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU
-	0xZFpf9x07jepB-UUUUU=
+Content-Type: text/plain; charset=ascii
 
-Hi JiaLong,
+Gregory Price <gregory.price@memverge.com> writes:
 
-在 2023/12/19 22:43, Jonathan Corbet 写道:
-> "JiaLong.Yang" <jialong.yang@shingroup.cn> writes:
+> On Tue, Dec 19, 2023 at 11:04:05AM +0800, Huang, Ying wrote:
+>> Gregory Price <gourry.memverge@gmail.com> writes:
+>> 
+>> > This patch set extends the mempolicy interface to enable new
+>> > mempolicies which may require extended data to operate.
+>> >
+>> > MPOL_WEIGHTED_INTERLEAVE is included as an example extension.
+>> 
+>> Per my understanding, it's better to describe why we need this patchset
+>> at the beginning.  Per my understanding, weighted interleave is used to
+>> expand DRAM bandwidth for workloads with real high memory bandwidth
+>> requirements.  Without it, DRAM bandwidth will be saturated, which leads
+>> to poor performance.
+>> 
 >
->> Signed-off-by: JiaLong.Yang <jialong.yang@shingroup.cn>
->> ---
->>   Documentation/translations/zh_CN/core-api/printk-basics.rst | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+> Will add more details, thanks.
+>
+>> > struct mempolicy_args {
+>> >     unsigned short mode;            /* policy mode */
+>> >     unsigned short mode_flags;      /* policy mode flags */
+>> >     int home_node;                  /* mbind: use MPOL_MF_HOME_NODE */
+>> >     nodemask_t *policy_nodes;       /* get/set/mbind */
+>> >     unsigned char *il_weights;      /* for mode MPOL_WEIGHTED_INTERLEAVE */
+>> >     int policy_node;                /* get: policy node information */
+>> > };
+>> 
+>> Because we use more and more parameters to describe the mempolicy, I
+>> think it's a good idea to replace some parameters with struct.  But I
+>> don't think it's a good idea to put unrelated stuff into the struct.
+>> For example,
+>> 
+>> struct mempolicy_param {
+>>     unsigned short mode;            /* policy mode */
+>>     unsigned short mode_flags;      /* policy mode flags */
+>>     int home_node;                  /* mbind: use MPOL_MF_HOME_NODE */
+>>     nodemask_t *policy_nodes;
+>>     unsigned char *il_weights;      /* for mode MPOL_WEIGHTED_INTERLEAVE */
+>> };
+>> 
+>> describe the parameters to create the mempolicy.  It can be used by
+>> set/get_mempolicy() and mbind().  So, I think that it's a good
+>> abstraction.  But "policy_node" has nothing to do with set_mempolicy()
+>> and mbind().  So I think that we shouldn't add it into the struct.  It's
+>> totally OK to use different parameters for different functions.  For
+>> example,
+>> 
+>> long do_set_mempolicy(struct mempolicy_param *mparam);
+>> long do_mbind(unsigned long start, unsigned long len,
+>>                 struct mempolicy_param *mparam, unsigned long flags);
+>> long do_get_task_mempolicy(struct mempolicy_param *mparam, int
+>>                 *policy_node);
+>> 
+>> This isn't the full list.  My point is to use separate parameter for
+>> something specific for some function.
 >>
->> diff --git a/Documentation/translations/zh_CN/core-api/printk-basics.rst b/Documentation/translations/zh_CN/core-api/printk-basics.rst
->> index 59c6efb3fc41..cafa01bccff2 100644
->> --- a/Documentation/translations/zh_CN/core-api/printk-basics.rst
->> +++ b/Documentation/translations/zh_CN/core-api/printk-basics.rst
->> @@ -100,7 +100,7 @@ printk()的用法通常是这样的::
->>   
->>   为了调试，还有两个有条件编译的宏：
->>   pr_debug()和pr_devel()，除非定义了 ``DEBUG`` (或者在pr_debug()的情况下定义了
->> -``CONFIG_DYNAMIC_DEBUG`` )，否则它们会被编译。
->> +``CONFIG_DYNAMIC_DEBUG`` )，否则它们不会被编译。
->>   
-> This patch needs an actual changelog.  Being illiterate in Chinese, I
-> can't make any connection between the subject line and what has actually
-> been done here.
-
-As jon said, could you please write a commit message?
-
-For details see: .../Documentation/translations/zh_CN/process/5.Posting.rst
-
-
-Thanks,
-
-Yanteng
-
 >
-> Thanks,
+> this is the internal structure, but i get the point, we can drop it from
+> the structure and extend the arg list internally.
 >
-> jon
+> I'd originally thought to just remove the policy_node stuff all
+> together from get_mempolicy2().  Do you prefer to have a separate struct
+> for set/get interfaces so that the get interface struct can be extended?
+>
+> All the MPOL_F_NODE "alternate data fetch" mechanisms from
+> get_mempolicy() feel like more of a wart than a feature.  And presently
+> the only data returned in policy_node is the next allocation node for
+> interleave.  That's not even particularly useful, so I'm of a mind to
+> remove it.
+>
+> Assuming we remove policy_node altogether... do we still break up the
+> set/get interface into separate structures to avoid this in the future?
 
+I have no much experience at ABI definition.  So, I want to get guidance
+from more experienced people on this.
+
+Is it good to implement all functionality of get_mempolicy() with
+get_mempolicy2(), so we can deprecate get_mempolicy() and remove it
+finally?  So, users don't need to use 2 similar syscalls?
+
+And, IIUC, we will not get policy_node, addr_node, and policy config at
+the same time, is it better to use a union instead of struct in
+get_mempolicy2()?
+
+>> > struct mpol_args {
+>> >         /* Basic mempolicy settings */
+>> >         __u16 mode;
+>> >         __u16 mode_flags;
+>> >         __s32 home_node;
+>> >         __aligned_u64 pol_nodes;
+>> >         __aligned_u64 *il_weights;      /* of size pol_maxnodes */
+>> >         __u64 pol_maxnodes;
+>> >         __s32 policy_node;
+>> > };
+>> 
+>> Same as my idea above.  I think we shouldn't add policy_node for
+>> set_mempolicy2()/mbind2().  That will make users confusing.  We can use
+>> a different struct for get_mempolicy2().
+>> 
+>
+> See above.
+
+--
+Best Regards,
+Huang, Ying
