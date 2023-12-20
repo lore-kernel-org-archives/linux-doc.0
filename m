@@ -1,44 +1,44 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1844120DC5;
-	Wed, 20 Dec 2023 10:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C46210F6;
+	Wed, 20 Dec 2023 10:22:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Re+mpk6B"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2cc7ba7d12eso22968931fa.3;
-        Wed, 20 Dec 2023 02:21:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CCNyA3Bc"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2cc95f1102eso515821fa.1;
+        Wed, 20 Dec 2023 02:22:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703067706; x=1703672506; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1703067756; x=1703672556; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DjP4BivF3NvMA8KjGdZtlr0xWlFt2nGJ42O2nCWwR7A=;
-        b=Re+mpk6Bn2Ki8ALDmFy7/s3InY7LwBvPSH0ChiZBlIb8BlPIWL9BN++0i8w0JElPdZ
-         RygXUo3JYCXJmHznvejg5PydK5UhFBzk0o6yTWcmeBqrLJRNaUVkvNUxKgsoRXsu1M07
-         6C0O/rVvCo6XH8VV04GjEpseCFU4KmbXPvaMjTJtpSRuOOGQPkLhdm1HQ+njwffr7U/L
-         UFXJ59or1q8A/XgloRGqxPqNiuDHpfH1paoeWSA0KPTIiZNtM2kzvy5t0WBOI8dO0kxv
-         AGuXuHLvguTQItvM4EwdJVu45V4MHIeiYlIEY+FzZvQUzlsaueFuAkKdpaZp57ySeAAj
-         OgrQ==
+        bh=oRmWXSIwM0XGZafsEN4uRYb9SZntd9nJS61bvL/+JvY=;
+        b=CCNyA3BcpcUohdD59/0McAAK1boyzBPoN77VXIX5eRSqE60EXw4jh7JsQIDz0ON06M
+         qL4t2XkchH4vY3a3h9zLBr3fYJeQMVaJ9NRA87cu9Gtb0oUcUu1LuBqW8kYSf+8KjmF9
+         NVVcIMfClTZbKBjnD5Mqz2QoeEGjGXTjJ8/eLYL70RGSnjjUuUhIPhv2SLeh09JH2tDx
+         +WiCDVnC/WczKw0y7GdRFyCHY2LTZgUzL43tV+4oGeGMSa5QXgJMSU1+2mR+Me4+UzU0
+         j4st2DFIkFvkB7NXswKe53ygdpb0fV61nio4695CH1J46LWRYwC/P24GOLC3EpMYP2uc
+         wT7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703067706; x=1703672506;
+        d=1e100.net; s=20230601; t=1703067756; x=1703672556;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DjP4BivF3NvMA8KjGdZtlr0xWlFt2nGJ42O2nCWwR7A=;
-        b=KdolsF/XM3lp4g1ub78GGbE+BStBLr0XkfA2dZyf1SB44dVnhcA/hvtMspv9UY/QoK
-         Z4oZnp2Iqent7U0PaCBRDsUXLSNIwOBEBOh3oxaD0Fz1S+EtIXahmur6ibN+vY5JGZv8
-         C2VsAW1NWF+7dLoRzse+Cu95e+81/4XuOLmh7Z3avobM4B6PHoG0V/0tln1QU8I5N4Qy
-         6C4upG0jgomS9rOOjJ5DNDxPCE0gySVR+IGfahN4fOS+WSuJjj3u1TXzhH3qWKg43yct
-         YAyDXlw+eAG0uWLyj0v58zVCzgzxpGVYMH6H0TU7TYup4R4SNKnL4HoMvD8Ja0zFdNfb
-         hR3w==
-X-Gm-Message-State: AOJu0YwfkrfBtu/gMQ0Iu4zvHzjA/XmDmu1tI382OfS1ZE8hJfxxXSk3
-	hSE+O6EeakUedKnlepI+PmsM9DZkeK+hdjXM0qY=
-X-Google-Smtp-Source: AGHT+IHAeWZiDakq7KAXRyOAa2WwdZ/7tMmIYpc1yJtLL44QdSxo63hpyp7uSyhltJOH/voGvf6b3wES+bo5VcSeCBk=
-X-Received: by 2002:a2e:9ec4:0:b0:2ca:1a1:c286 with SMTP id
- h4-20020a2e9ec4000000b002ca01a1c286mr6138374ljk.74.1703067705684; Wed, 20 Dec
- 2023 02:21:45 -0800 (PST)
+        bh=oRmWXSIwM0XGZafsEN4uRYb9SZntd9nJS61bvL/+JvY=;
+        b=EACEIbF+kXZ6zu6XQ8EYjSv4LRgdHqsoA5rt4DuRsggzaBjaS6kSxAF+2L1wuwEONN
+         HJ3Buc6XljZVzhjqwJ863wfDQZnmGdAiN0u4g3Tj2ldFk0anRyb1bcCaVkJtSwVbNacL
+         /NGr8fhcuKYyTGlvQe7YrQBca2KL7z3if/fTpbZ9LuvHBv/4z6i9thA0Y8D3EYGyTJz8
+         q97rGddrlFxchiZG7QKATJ1IzW1/QTKxk0n8MfLfyFmu/MYdDT5mQ/Ln4as4QsjeIUnG
+         cZQ1iiu3OsNppdaIkMvWnSFKxZ9sYZgFUrZqCI1CLsRDkhycoKwxK2NSMt1syyzq1Hmt
+         p69A==
+X-Gm-Message-State: AOJu0YypJfmKyMCYfecd0h7oA6tH9IQeazD9OtdxIWIkdfyrzniqhQop
+	VFyccw+zA8be2w2ZAEqEMV3G1YRB3Rhiuk26Vb8=
+X-Google-Smtp-Source: AGHT+IFY1slTVVLg/kbuaZtj7R0eekl2SVbWCQXZ6Kx7su0RuehkbtHINgeFQCz4RTm8+g5CORjNhBOlmQuMg07uytE=
+X-Received: by 2002:a2e:9683:0:b0:2cc:68c6:305 with SMTP id
+ q3-20020a2e9683000000b002cc68c60305mr2078790lji.81.1703067755538; Wed, 20 Dec
+ 2023 02:22:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,95 +48,89 @@ MIME-Version: 1.0
 References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAF8kJuPEKWbr_1a-OzqrYKSPmuty==KhC2vbTPAmm9xcJHo4cg@mail.gmail.com>
  <CAKEwX=Oj0Rur8i9Oo7y2Py7svx-g11sEj3GKQfMVL62x=4hvdA@mail.gmail.com>
  <CAF8kJuNpnqTM5x1QmQ7h-FaRWVnHBdNGvGvB3txohSOmZhYA-Q@mail.gmail.com>
- <CAMgjq7AjO=Z4Wa3DYaOJdWA+8aNQ1JHZQYKYOm5-SvvgPPOGKg@mail.gmail.com> <CAF8kJuN=E0RA_JyVnAVraYSyHx5sk=znM2A-JKnAfDc4M2BYGg@mail.gmail.com>
-In-Reply-To: <CAF8kJuN=E0RA_JyVnAVraYSyHx5sk=znM2A-JKnAfDc4M2BYGg@mail.gmail.com>
+ <20231209034229.GA1001962@cmpxchg.org> <ZXeTb_ACou7TEVsa@google.com> <CAF8kJuNzFcBRW=2CbgG=seA=CNgyzD8DNXNY02uy0HUsLbg9JQ@mail.gmail.com>
+In-Reply-To: <CAF8kJuNzFcBRW=2CbgG=seA=CNgyzD8DNXNY02uy0HUsLbg9JQ@mail.gmail.com>
 From: Kairui Song <ryncsn@gmail.com>
-Date: Wed, 20 Dec 2023 18:21:28 +0800
-Message-ID: <CAMgjq7BXXSHKJXijpB_FfNA9N=dh5uWHBJmHrJKoLOShrqvDYA@mail.gmail.com>
+Date: Wed, 20 Dec 2023 18:22:17 +0800
+Message-ID: <CAMgjq7A8MLxvON9EVrKPqurdw2Ozq-JcPnk4c5jB3c5F-vOLvw@mail.gmail.com>
 Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
 To: Chris Li <chrisl@kernel.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
-	lizefan.x@bytedance.com, hannes@cmpxchg.org, cerasuolodomenico@gmail.com, 
-	yosryahmed@google.com, sjenning@redhat.com, ddstreet@ieee.org, 
-	vitaly.wool@konsulko.com, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeelb@google.com, muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
+Cc: Minchan Kim <minchan@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
+	lizefan.x@bytedance.com, cerasuolodomenico@gmail.com, yosryahmed@google.com, 
+	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
+	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
 	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
 	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, david@ixit.cz, Minchan Kim <minchan@google.com>, 
+	linux-doc@vger.kernel.org, david@ixit.cz, 
 	Zhongkun He <hezhongkun.hzk@bytedance.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Chris Li <chrisl@kernel.org> =E4=BA=8E2023=E5=B9=B412=E6=9C=8813=E6=97=A5=
-=E5=91=A8=E4=B8=89 07:39=E5=86=99=E9=81=93=EF=BC=9A
+=E5=91=A8=E4=B8=89 07:58=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Hi Kairui,
+> Hi Minchan,
 >
-> Thanks for sharing the information on how you use swap.
-
-Hi Chris,
-
+> On Mon, Dec 11, 2023 at 2:55=E2=80=AFPM Minchan Kim <minchan@kernel.org> =
+wrote:
 >
-> On Mon, Dec 11, 2023 at 1:31=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wr=
-ote:
-> > > 2) As indicated by this discussion, Tencent has a usage case for SSD
-> > > and hard disk swap as overflow.
-> > > https://lore.kernel.org/linux-mm/20231119194740.94101-9-ryncsn@gmail.=
-com/
-> > > +Kairui
+> > > > 3) Android has some fancy swap ideas led by those patches.
+> > > > https://lore.kernel.org/linux-mm/20230710221659.2473460-1-minchan@k=
+ernel.org/
+> > > > It got shot down due to removal of frontswap. But the usage case an=
+d
+> > > > product requirement is there.
+> > > > +Minchan
+> > >
+> > > This looks like an optimization for zram to bypass the block layer an=
+d
+> > > hook directly into the swap code. Correct me if I'm wrong, but this
+> > > doesn't appear to have anything to do with per-cgroup backend control=
+.
 > >
-> > Yes, we are not using zswap. We are using ZRAM for swap since we have
-> > many different varieties of workload instances, with a very flexible
-> > storage setup. Some of them don't have the ability to set up a
-> > swapfile. So we built a pack of kernel infrastructures based on ZRAM,
-> > which so far worked pretty well.
->
-> This is great. The usage case is actually much more than I expected.
-> For example, I never thought of zram as a swap tier. Now you mention
-> it. I am considering whether it makes sense to add zram to the
-> memory.swap.tiers as well as zswap.
->
+> > Hi Johannes,
 > >
-> > The concern from some teams is that ZRAM (or zswap) can't always free
-> > up memory so they may lead to higher risk of OOM compared to a
-> > physical swap device, and they do have suitable devices for doing swap
-> > on some of their machines. So a secondary swap support is very helpful
-> > in case of memory usage peak.
+> > I haven't been following the thread closely, but I noticed the discussi=
+on
+> > about potential use cases for zram with memcg.
 > >
-> > Besides this, another requirement is that different containers may
-> > have different priority, some containers can tolerate high swap
-> > overhead while some cannot, so swap tiering is useful for us in many
-> > ways.
+> > One interesting idea I have is to implement a swap controller per cgrou=
+p.
+> > This would allow us to tailor the zram swap behavior to the specific ne=
+eds of
+> > different groups.
 > >
-> > And thanks to cloud infrastructure the disk setup could change from
-> > time to time depending on workload requirements, so our requirement is
-> > to support ZRAM (always) + SSD (optional) + HDD (also optional) as
-> > swap backends, while not making things too complex to maintain.
+> > For example, Group A, which is sensitive to swap latency, could use zra=
+m swap
+> > with a fast compression setting, even if it sacrifices some compression=
+ ratio.
+> > This would prioritize quick access to swapped data, even if it takes up=
+ more space.
+> >
+> > On the other hand, Group B, which can tolerate higher swap latency, cou=
+ld benefit
+> > from a slower compression setting that achieves a higher compression ra=
+tio.
+> > This would maximize memory efficiency at the cost of slightly slower da=
+ta access.
 >
-> Just curious, do you use ZRAM + SSD + HDD all enabled? Do you ever
-> consider moving data from ZRAM to SSD, or from SSD to HDD? If you do,
-> I do see the possibility of having more general swap tiers support and
-> sharing the shrinking code between tiers somehow. Granted there are
-> many unanswered questions and a lot of infrastructure is lacking.
-> Gathering requirements, weight in the priority of the quirement is the
-> first step towards a possible solution.
+> That is a very solid usage case. Thanks for sharing this swap backend
+> usage story. It goes beyond my original memory.swap.teires idea as
+> well.
+>
+> We can have some zram specific knobs to control what compression
+> setting is using. Moving data between different compression settings
+> would be an interesting topic. It might fit the swap.tiers usage model
+> as well. I am just thinking it out loud. Maybe define different
+> compression settings as different tiers and then allow the cgroup to
+> enroll into one of the tiers list.
+>
 
-Sorry for the late response. Yes, it's our plan to use ZRAM + SSD +
-HDD all enabled when possible. Alghouth currently only ZRAM + SSD is
-expected.
-
-I see this discussion is still going one so just add some info here...
-
-We have some test environments which have a kernel worker enabled to
-move data from ZRAM to SSD, and from SSD to HDD too, to free up space
-for higher tier swap devices. The kworker is simple, it maintains a
-swap entry LRU for every swap device (maybe worth noting here, there
-is currently no LRU bases writeback for ZRAM, and ZRAM writeback
-require a fixed block device on init, and a swap device level LRU is
-also helpful for migrating entry from SSD to HDD). It walks the page
-table to swap in coldest swap entry then swap out immediately to a
-lower tier, doing this page by page periodically. Overhead and memory
-footprint is minimal with limited moving rate, but the efficiency for
-large scaled data moving is terrible so it only has very limited
-usage. I was trying to come up with a better design but am currently
-not working on it.
+This is very similar to our usage, easy to implement too. Actually,
+now ZRAM already supports multiple compression streams, so if each
+memcg just provides an extra knob to record the compression level
+(1-4), ZRAM can decide which compression stream to use when the page
+reaches ZRAM, just by checking pages memcg. It's limited to 4 levels
+but enough for most cases.
