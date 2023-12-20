@@ -1,57 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0F7F9FB;
-	Wed, 20 Dec 2023 00:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EB7168A4;
+	Wed, 20 Dec 2023 01:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPBvIxB6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EtaezQAv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703033324; x=1734569324;
+  t=1703034954; x=1734570954;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XBIC58myc3ASs9hyCERLWBAimfb3eQYpoSIUk/hXRFI=;
-  b=NPBvIxB6udD+HyUi24EZ3ZHtCXU8L37k+YMRksFFANRIoRgjh78qhBwv
-   qz+xoj49eBQJflp28HDcaSu7hVDC3kpKS6WOZ6u5GtVZuwZ5FlXNZzuGf
-   9NwziIw6bsQUCFfrw/LJt8PHuwuj4guV2WpWjEpY3Xmq4kcHKEQEnBKX0
-   cwQUS9PZwUMAV1GhS8FY9EhJaEnXJcJYm5u1QAPiObEa80j7i7S8YaVOd
-   KePiBhuPZaWtVRpOfRsgF4ulrXuW439sgYwkHcgMFpnaIW2xVspFfj5Fq
-   ruC943DD8EJcqzc88FlZIAjp1mZ+LCebKkbGx1RGkHKDApGNoBxgN1pKE
+  bh=HLyVwqO30briaKAvjBVfYYf6El0zpVQ8PfDWrML2yQc=;
+  b=EtaezQAvR3uiFmKKbTWDWJyQ2GIdPKMyGR9IeNBJm1cTY/AZB/W8ZeEa
+   FMSTTdwDzeZkA/xgEVolEccDVXkO0Eol6MaSkqmlIHd6e9nRpw0VKPZjw
+   86aU2Y6x+Q3wEzzkLNNDoReNxrK0YWCi9Ro4lY6IuOAraCcUmMK4viSV+
+   kBlL18yq9i83JQDiyk7G8LzOmXbZKBeTBAuEizMG1cmwfxlBcBHy89/un
+   jQsJNkPN+P9rebmcl4oSJO9NGjUbHd2tqRPRUTTarBWgoKVs+vOd4f8Y/
+   mzkmLqgTMxjMK0N09rNxsat2P5XJn04vX/499wKtvrOu2wKUeE5QtCTSY
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="2961325"
-X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="2961325"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 16:48:44 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="394628811"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
+   d="scan'208";a="394628811"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 17:15:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="769409417"
-X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="769409417"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 19 Dec 2023 16:48:32 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rFklC-00068l-0C;
-	Wed, 20 Dec 2023 00:48:30 +0000
-Date: Wed, 20 Dec 2023 08:48:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
-	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
-Subject: Re: [PATCH v4 10/11] mm/mempolicy: add the mbind2 syscall
-Message-ID: <202312200802.cGZtboPs-lkp@intel.com>
-References: <20231218194631.21667-11-gregory.price@memverge.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="919798002"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
+   d="scan'208";a="919798002"
+Received: from ihur-mobl1.amr.corp.intel.com (HELO desk) ([10.209.1.244])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 17:15:50 -0800
+Date: Tue, 19 Dec 2023 17:15:35 -0800
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Andrew Cooper <andrew.cooper3@citrix.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alyssa Milburn <alyssa.milburn@intel.com>
+Subject: Re: [PATCH v4 1/6] x86/bugs: Add asm helpers for executing VERW
+Message-ID: <20231220011535.cw3smza3kb5resji@desk>
+References: <20231027-delay-verw-v4-0-9a3622d4bcf7@linux.intel.com>
+ <20231027-delay-verw-v4-1-9a3622d4bcf7@linux.intel.com>
+ <20231201193657.mvzslo4nlcbuv2q4@treble>
+ <c61402de-c61e-4d7f-a2b1-3eaa13e4ef33@citrix.com>
+ <20231201200442.lvyep5uqc6oa7kwj@treble>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,38 +67,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231218194631.21667-11-gregory.price@memverge.com>
+In-Reply-To: <20231201200442.lvyep5uqc6oa7kwj@treble>
 
-Hi Gregory,
+On Fri, Dec 01, 2023 at 12:04:42PM -0800, Josh Poimboeuf wrote:
+> On Fri, Dec 01, 2023 at 07:39:05PM +0000, Andrew Cooper wrote:
+> > On 01/12/2023 7:36 pm, Josh Poimboeuf wrote:
+> > > On Fri, Oct 27, 2023 at 07:38:40AM -0700, Pawan Gupta wrote:
+> > >> +.pushsection .entry.text, "ax"
+> > >> +
+> > >> +.align L1_CACHE_BYTES, 0xcc
+> > >> +SYM_CODE_START_NOALIGN(mds_verw_sel)
+> > >> +	UNWIND_HINT_UNDEFINED
+> > >> +	ANNOTATE_NOENDBR
+> > >> +	.word __KERNEL_DS
+> > >> +.align L1_CACHE_BYTES, 0xcc
+> > >> +SYM_CODE_END(mds_verw_sel);
+> > >> +/* For KVM */
+> > >> +EXPORT_SYMBOL_GPL(mds_verw_sel);
+> > >> +
+> > >> +.popsection
+> > > This is data, so why is it "CODE" in .entry.text?
+> > 
+> > Because KPTI.
+> 
+> Urgh... Pawan please add a comment.
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on perf-tools/perf-tools]
-[also build test ERROR on linus/master v6.7-rc6]
-[cannot apply to perf-tools-next/perf-tools-next tip/perf/core acme/perf/core next-20231219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231219-074837
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools.git perf-tools
-patch link:    https://lore.kernel.org/r/20231218194631.21667-11-gregory.price%40memverge.com
-patch subject: [PATCH v4 10/11] mm/mempolicy: add the mbind2 syscall
-config: arm64-randconfig-003-20231219 (https://download.01.org/0day-ci/archive/20231220/202312200802.cGZtboPs-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 5ac12951b4e9bbfcc5791282d0961ec2b65575e9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312200802.cGZtboPs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312200802.cGZtboPs-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: __arm64_sys_get_mbind2
-   >>> referenced by sys32.c
-   >>>               arch/arm64/kernel/sys32.o:(compat_sys_call_table) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yes, this place needs a comment, will add.
