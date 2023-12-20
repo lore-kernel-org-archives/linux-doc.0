@@ -1,28 +1,16 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84729168C4;
-	Wed, 20 Dec 2023 06:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CpwZpYqj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=CLJcevJg8ePh6WU3ddptLA4N7F3zd833b6TMvJ3Gz4o=; b=CpwZpYqjLJSEUWoJzmtt/m5BTK
-	ZzcaZe9X0HGRtBtlP11C0DiUVPgr2IQ0lXpJ2cbYyBLSJEJuttvlArFm9SvZ2xpwwrhKFhQrTrCRP
-	SAx2xkjsFSZPS/x37e5gI+bDjwNZUXGjHjXZuyn7yyfjLya29GSW7oU7TPlAYi/7m01Bi+KRqGkk9
-	HTvL6ZiCG45+jOTWLBWExjjuIm5hUdyPBLkcLyvMUIjU/0FHofjB/jOym4AxtlWCE/aEyifBYzZqG
-	bkeKuP7afS7OZqRDoEt4pkh2uvlc4+EKoc2H6dcXAe4Bf3wTn0KilgOsqotFyUIpftLhND8ZuUdCN
-	WeSKKtlg==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFqOw-00GKeE-1R;
-	Wed, 20 Dec 2023 06:49:54 +0000
-Message-ID: <ddd30bb6-20d1-4b7f-bcee-6b204d0858fb@infradead.org>
-Date: Tue, 19 Dec 2023 22:49:54 -0800
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 610EC18E3C;
+	Wed, 20 Dec 2023 07:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.110.252])
+	by gateway (Coremail) with SMTP id _____8CxuegXl4JlIN8CAA--.14484S3;
+	Wed, 20 Dec 2023 15:26:15 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.110.252])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx3uQUl4JlpbYBAA--.10622S3;
+	Wed, 20 Dec 2023 15:26:12 +0800 (CST)
+Message-ID: <340cbb78-3e68-4584-8e11-313f7f86fd34@loongson.cn>
+Date: Wed, 20 Dec 2023 15:26:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -30,75 +18,69 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts: kernel-doc: Bug fixed for erroneous warning
+Subject: Re: [PATCH] Docs/zh_CN: Fix the meaning of DEBUG to pr_debug()
 Content-Language: en-US
-To: Muhammad Muzammil <m.muzzammilashraf@gmail.com>
-Cc: corbet@lwn.net, gustavoars@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20231220062446.14511-1-muzammil@dreambigsemi.com>
- <4155c90e-cdb1-4645-8bcc-fed4ea01ac83@infradead.org>
- <CAJHePoabyUCxwS_hTjhR+MEJ+JBm+kr2MdbP4zP_54t_geRqwQ@mail.gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAJHePoabyUCxwS_hTjhR+MEJ+JBm+kr2MdbP4zP_54t_geRqwQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: "JiaLong.Yang" <jialong.yang@shingroup.cn>, Alex Shi <alexs@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: 2738078698@qq.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <202312201105408639401@shingroup.cn>
+ <20231220062822.16168-1-jialong.yang@shingroup.cn>
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20231220062822.16168-1-jialong.yang@shingroup.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8Bx3uQUl4JlpbYBAA--.10622S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj93XoWrKr4fArW8JrWfuFyxGryrZrc_yoW8JF15pw
+	4Ikr1xJan7Cr1UC348WrW2gF15Ka4xuwsrKrWDZw17XFn3Jr48Arsrtas09F93Zr92yayj
+	vFsIgr98ua1jvrbCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9jb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	XVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+	8JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y
+	6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+	AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+	2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+	C2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
+	nUUI43ZEXa7IU8CksDUUUUU==
 
 
+在 2023/12/20 14:28, JiaLong.Yang 写道:
+> We know the macro DEBUG will make pr_debug() save the formatted
+> string into final binary. So the translation is a little wrong.
+>
+> Signed-off-by: JiaLong.Yang <jialong.yang@shingroup.cn>
 
-On 12/19/23 22:35, Muhammad Muzammil wrote:
-> HI,
-> 
-> 1) I already have the below patch but it does not work.
-> https://lore.kernel.org/linux-doc/20231215001347.work.151-kees@kernel.org/
-> 
-> 2) When I applied the below patch. It works.
-> https://lore.kernel.org/linux-doc/87le9rjb4y.fsf@meer.lwn.net/
-
-Thanks!
+Acked-by: Yanteng Si <siyanteng@loongson.cn>
 
 
-> On Wed, Dec 20, 2023 at 11:29 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> Hi,
->>
->> On 12/19/23 22:24, Muhammad Muzammil wrote:
->>> From: Muzammil Ashraf <m.muzzammilashraf@gmail.com>
->>>
->>> kernel-doc: fixed erroneous warning generated by '__counted_by'
->>>
->>> Signed-off-by: Muzammil Ashraf <m.muzzammilashraf@gmail.com>
->>> ---
->>>  scripts/kernel-doc | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
->>> index 1484127db104..ea9688df0e93 100755
->>> --- a/scripts/kernel-doc
->>> +++ b/scripts/kernel-doc
->>> @@ -1661,6 +1661,7 @@ sub check_sections($$$$$) {
->>>                       }
->>>                       elsif (($decl_type eq "struct") or
->>>                              ($decl_type eq "union")) {
->>> +                next if (index("@_", "__counted_by") != -1);
->>>                               emit_warning("${file}:$.",
->>>                                       "Excess $decl_type member " .
->>>                                       "'$sects[$sx]' " .
->>
->> One of both of these patches should be enough. Can you test these
->> instead of your patch, please?
->>
->> https://lore.kernel.org/linux-doc/20231215001347.work.151-kees@kernel.org/
->>
->> https://lore.kernel.org/linux-doc/87le9rjb4y.fsf@meer.lwn.net/
->>
->> Thanks.
->>
->> --
->> #Randy
->> https://people.kernel.org/tglx/notes-about-netiquette
->> https://subspace.kernel.org/etiquette.html
+BTW, you lost Zenghui's Reviewed-by tag. :)
 
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+
+Thanks,
+
+Yanteng
+
+> ---
+>   Documentation/translations/zh_CN/core-api/printk-basics.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/translations/zh_CN/core-api/printk-basics.rst b/Documentation/translations/zh_CN/core-api/printk-basics.rst
+> index 59c6efb3fc41..cafa01bccff2 100644
+> --- a/Documentation/translations/zh_CN/core-api/printk-basics.rst
+> +++ b/Documentation/translations/zh_CN/core-api/printk-basics.rst
+> @@ -100,7 +100,7 @@ printk()的用法通常是这样的::
+>   
+>   为了调试，还有两个有条件编译的宏：
+>   pr_debug()和pr_devel()，除非定义了 ``DEBUG`` (或者在pr_debug()的情况下定义了
+> -``CONFIG_DYNAMIC_DEBUG`` )，否则它们会被编译。
+> +``CONFIG_DYNAMIC_DEBUG`` )，否则它们不会被编译。
+>   
+>   
+>   函数接口
+
