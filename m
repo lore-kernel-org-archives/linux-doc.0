@@ -1,161 +1,74 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197093D3BF
-	for <linux-doc@vger.kernel.org>; Wed, 20 Dec 2023 14:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5AC40BF6;
+	Wed, 20 Dec 2023 15:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="AlUdvvtT"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a2331caab22so497554666b.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 Dec 2023 06:50:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1703083828; x=1703688628; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=z24VtdqHHTiY12h8DIjtzTUlmR3aKpU/E8WkTXbkbWo=;
-        b=AlUdvvtT95EYs0DfyEBAPRYUsfQzHT82b3sBDVAjJqcXcDNjyC/aB99bvq/eY/x2pG
-         D5tD2iJg4l+aNQt1W2l60/TRjiqJrmeWaQobcUXC2xV70zamYcXBooJ2vJc9fso9Leot
-         wSAuEoTx1QXqT05dL49yU1yDHjyMQ5GOH+TyLBt8/zySRRkTb+LpqGzbwQdbhJ4CRJmU
-         B0RqJZ5gewE/umZQYudPl9xt+zwwC4Ngxl7vW2OK/nsK7HJMyw4mBKzUy68o7/HdEs3b
-         mr0yL7TxeWiVbV7HKwU88r34gKmUmaKtxFP785USAJLhA2Y56ZFj1WrnOuevhW+AriAx
-         m0Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703083828; x=1703688628;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z24VtdqHHTiY12h8DIjtzTUlmR3aKpU/E8WkTXbkbWo=;
-        b=f8tQWQQw6mK5msMagwDbmyyrODt3JH8XLLE4dHdcyZYM19l4kqg2zdDVIK9Coa0vRE
-         aBTUZz1dJm7VhgJ1K6yFPP4qce739dfEApKhGG0YWUY5yCMu2COD6kLlz66ha7yJKoZv
-         LcPbl43L0GS1P5LhwJJGNBZDYhdwQxQXIgNL+HjFI5yKcXJzM9LH3xTJ0QJRyujYYYDH
-         YON1HGNOkMQlC027xoPSetjNjkxrrmlSv9X5khEwOj/Yc1qmpmzDgZG2gF3qkSCCUSDc
-         3cCcfze7MI248Xs30S0JVKja0kCtt2nG4n5ahD/0qj0c/Ka+UiZyjvfzzaoJT3LzT9sc
-         Zohg==
-X-Gm-Message-State: AOJu0YyI3QrOJzb+9mumbIb7t90DvnjjIShfH0/PEotLGm1g4C8wYchB
-	pwVL98LUBBCv8uqyflrF5i4oNA==
-X-Google-Smtp-Source: AGHT+IFSd6R4MolrVxLZOeFPXKF/fkA1R3XqYnZaTri+l+ALtA2Sg/P9TVp4FuzHLLl9ftft3R5ibA==
-X-Received: by 2002:a17:906:4cd0:b0:a19:a19a:ea9f with SMTP id q16-20020a1709064cd000b00a19a19aea9fmr8060458ejt.88.1703083828084;
-        Wed, 20 Dec 2023 06:50:28 -0800 (PST)
-Received: from localhost ([2a02:8071:6401:180:f8f5:527f:9670:eba8])
-        by smtp.gmail.com with ESMTPSA id vs6-20020a170907a58600b00a1f99e749dasm13936441ejc.210.2023.12.20.06.50.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 06:50:27 -0800 (PST)
-Date: Wed, 20 Dec 2023 15:50:25 +0100
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org,
-	lizefan.x@bytedance.com, cerasuolodomenico@gmail.com,
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
-	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net,
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org,
-	linux-mm@kvack.org, kernel-team@meta.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	david@ixit.cz, chrisl@kernel.org, Wei Xu <weixugc@google.com>,
-	Yu Zhao <yuzhao@google.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-Message-ID: <20231220145025.GC23822@cmpxchg.org>
-References: <20231207192406.3809579-1-nphamcs@gmail.com>
- <CAJD7tkZXS-UJVAFfvxJ0nNgTzWBiqepPYA4hEozi01_qktkitg@mail.gmail.com>
- <20231218144431.GB19167@cmpxchg.org>
- <CAJD7tkakMjE1sNfexLzooptDyQS4YZf5DmuoywnSFD7JTbh9BA@mail.gmail.com>
- <20231220051523.GB23822@cmpxchg.org>
- <CAJD7tkbzVjYxykracNW729xKTqFdpk5Hw5k94Epc_uSvUP1g=g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Kw1wxf67"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A081E7F5;
+	Wed, 20 Dec 2023 15:30:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A081E7F5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1703086204; bh=YawMH4mnDVp5dlJ1MoqNij8zTvIQj/L8VFRVp62WP78=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Kw1wxf67x71WyVA+qkcLF6GASINccn4wPs592qctDPGgBLTCu7lcUV7Lvdk7pnNXG
+	 4lC8ohk4+CulvBA/7JGMB2yo/otNdj48oCt1bjvBxRkFxvReiIqGYkiIWc5CipoW5F
+	 /7DxBZZ8KHl9yydBo87VBVwozWDNMPeQpMCS7alNVSCp4OGzQYj2OzqtYzx0oVNZjK
+	 s+hq3zbWNm5gHtX46smLuATkM82Q58NY8Ug08OfcIFkfpE67XrTXGRwVhDMaDY5hJq
+	 QTHgZR5EUOyPjx8WUEFP25/QwZZQWW2rsWcms3VuVe6UseQOtvs0id+k0htFmo3VKw
+	 5KRSJP7v0eOuQ==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Muhammad Muzammil <m.muzzammilashraf@gmail.com>, rdunlap@infradead.org,
+ gustavoars@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, Muzammil Ashraf
+ <m.muzzammilashraf@gmail.com>
+Subject: Re: [PATCH] scripts: kernel-doc: Bug fixed for erroneous warning
+In-Reply-To: <20231220062446.14511-1-muzammil@dreambigsemi.com>
+References: <20231220062446.14511-1-muzammil@dreambigsemi.com>
+Date: Wed, 20 Dec 2023 08:30:03 -0700
+Message-ID: <87edfggadg.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJD7tkbzVjYxykracNW729xKTqFdpk5Hw5k94Epc_uSvUP1g=g@mail.gmail.com>
+Content-Type: text/plain
 
-On Wed, Dec 20, 2023 at 12:59:15AM -0800, Yosry Ahmed wrote:
-> On Tue, Dec 19, 2023 at 9:15 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
-> >
-> > On Mon, Dec 18, 2023 at 01:52:23PM -0800, Yosry Ahmed wrote:
-> > > > > Taking a step back from all the memory.swap.tiers vs.
-> > > > > memory.zswap.writeback discussions, I think there may be a more
-> > > > > fundamental problem here. If the zswap store failure is recurrent,
-> > > > > pages can keep going back to the LRUs and then sent back to zswap
-> > > > > eventually, only to be rejected again. For example, this can if zswap
-> > > > > is above the acceptance threshold, but could be even worse if it's the
-> > > > > allocator rejecting the page due to not compressing well enough. In
-> > > > > the latter case, the page can keep going back and forth between zswap
-> > > > > and LRUs indefinitely.
-> > > > >
-> > > > > You probably did not run into this as you're using zsmalloc, but it
-> > > > > can happen with zbud AFAICT. Even with zsmalloc, a less problematic
-> > > > > version can happen if zswap is above its acceptance threshold.
-> > > > >
-> > > > > This can cause thrashing and ineffective reclaim. We have an internal
-> > > > > implementation where we mark incompressible pages and put them on the
-> > > > > unevictable LRU when we don't have a backing swapfile (i.e. ghost
-> > > > > swapfiles), and something similar may work if writeback is disabled.
-> > > > > We need to scan such incompressible pages periodically though to
-> > > > > remove them from the unevictable LRU if they have been dirited.
-> > > >
-> > > > I'm not sure this is an actual problem.
-> > > >
-> > > > When pages get rejected, they rotate to the furthest point from the
-> > > > reclaimer - the head of the active list. We only get to them again
-> > > > after we scanned everything else.
-> > > >
-> > > > If all that's left on the LRU is unzswappable, then you'd assume that
-> > > > remainder isn't very large, and thus not a significant part of overall
-> > > > scan work. Because if it is, then there is a serious problem with the
-> > > > zswap configuration.
-> > > >
-> > > > There might be possible optimizations to determine how permanent a
-> > > > rejection is, but I'm not sure the effort is called for just
-> > > > yet. Rejections are already failure cases that screw up the LRU
-> > > > ordering, and healthy setups shouldn't have a lot of those. I don't
-> > > > think this patch adds any sort of new complications to this picture.
-> > >
-> > > We have workloads where a significant amount (maybe 20%? 30% not sure
-> > > tbh) of the memory is incompressible. Zswap is still a very viable
-> > > option for those workloads once those pages are taken out of the
-> > > picture. If those pages remain on the LRUs, they will introduce a
-> > > regression in reclaim efficiency.
-> > >
-> > > With the upstream code today, those pages go directly to the backing
-> > > store, which isn't ideal in terms of LRU ordering, but this patch
-> > > makes them stay on the LRUs, which can be harmful. I don't think we
-> > > can just assume it is okay. Whether we make those pages unevictable or
-> > > store them uncompressed in zswap, I think taking them out of the LRUs
-> > > (until they are redirtied), is the right thing to do.
-> >
-> > This is how it works with zram as well, though, and it has plenty of
-> > happy users.
-> 
-> I am not sure I understand. Zram does not reject pages that do not
-> compress well, right? IIUC it acts as a block device so it cannot
-> reject pages. I feel like I am missing something.
+Muhammad Muzammil <m.muzzammilashraf@gmail.com> writes:
 
-zram_write_page() can fail for various reasons - compression failure,
-zsmalloc failure, the memory limit. This results in !!bio->bi_status,
-__end_swap_bio_write redirtying the page, and vmscan rotating it.
+> From: Muzammil Ashraf <m.muzzammilashraf@gmail.com>
+>
+> kernel-doc: fixed erroneous warning generated by '__counted_by'
+>
+> Signed-off-by: Muzammil Ashraf <m.muzzammilashraf@gmail.com>
+> ---
+>  scripts/kernel-doc | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 1484127db104..ea9688df0e93 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -1661,6 +1661,7 @@ sub check_sections($$$$$) {
+>  			}
+>  			elsif (($decl_type eq "struct") or
+>  		       	       ($decl_type eq "union")) {
+> +                next if (index("@_", "__counted_by") != -1);
+>  				emit_warning("${file}:$.",
+>  					"Excess $decl_type member " .
+>  					"'$sects[$sx]' " .
 
-The effect is actually more pronounced with zram, because the pages
-don't get activated and thus cycle faster.
+Could you give an example of the warnings that this patch addresses?
+I've not seen any caused by __counted_by since f600c77aeaff was applied
+to docs-next.  What did it miss?
 
-What you're raising doesn't seem to be a dealbreaker in practice.
+Thanks,
 
-> If we already want to support taking pages away from the LRUs when
-> rejected by zswap (e.g. Nhat's proposal earlier), doesn't it make
-> sense to do that first so that this patch can be useful for all
-> workloads?
-
-No.
-
-Why should users who can benefit now wait for a hypothetical future
-optimization that isn't relevant to them? And by the looks of it, is
-only relevant to a small set of specialized cases?
-
-And the optimization - should anybody actually care to write it - can
-be transparently done on top later, so that's no reason to change
-merge order, either.
+jon
