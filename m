@@ -1,125 +1,92 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFC7168C3
-	for <linux-doc@vger.kernel.org>; Wed, 20 Dec 2023 04:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDA6C2C5;
+	Wed, 20 Dec 2023 05:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sqFpniuU"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d307cf18fdso22669365ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 19 Dec 2023 20:13:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703045623; x=1703650423; darn=vger.kernel.org;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=mNVWdMSAqfvpbN5g4IovRqwuhzgdiEbCZgrhc7x2wjc=;
-        b=sqFpniuUv1jPeUcslD9u70BMjvDT3Pn1u4MVKC25xqk7qxT3ogc04/G7AzpnjFN9qP
-         wX0M0o6fDxBVGgdq1KImwVb4xQARFPNes9FjuZOpYBPXl78+YLFexHeH/h/L8Nd46oF7
-         fAtGCV4qqJLJvfql1Hx8OdbBb8T6rgdTXpDhofeX1aN/vUCjzKBiwFQhBDOFceaIVp83
-         2azW/SVeUaLquJ+xCC8bz30l5VXWxfNSJDHiWYyq95ua3xyhNLNWr7xoHg6PfDpmL2BE
-         LE2WARMFquM73UPg09z5t7bXfLsAARBhlaMR76KzetrUdMYZCIaOd5uQcViu/SWCjMdG
-         s+pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703045623; x=1703650423;
-        h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mNVWdMSAqfvpbN5g4IovRqwuhzgdiEbCZgrhc7x2wjc=;
-        b=mA+2fszi3Rs8D/irMJBNT24IrR2bUIxYGuNmoDiOsmO6Vp6jNL2Ok/jXXSsL8kuqzM
-         mbEszOgkmVHIuhauAZ69rk62+t//pTieL40jzJfejeVQAwlRY7tfSwV9hAbcwiGof7co
-         nTyY9ggDTFlF9XExMGsG2UL/SA57QbwQEjhkbGjD9Nxz0rHZixpb7hHX+gJ1/fufRMSQ
-         2Jz3ZeT6jm+kfW+blz5epZ/s3ZVLOqL45Qvjx8bxCooac6HBee2031iOFchqAn8GnNVJ
-         MLTlrN9wFAPTW7r3n+vngkjTcZl75X55jYcd9Zyis+4eNDAsG6aEtKIqFxCi5YYODwhy
-         kzuQ==
-X-Gm-Message-State: AOJu0YzEgjYrxQq0s9kUAscDSX5ZRyie23mQ6Jjlr5KFZYutDULQ8qme
-	r6CtSnd9o6oulCxt8HGUrKCHJg==
-X-Google-Smtp-Source: AGHT+IGTH7Uz/NcmceVfotUGElTRFy6BFXANyvxa2H36ukICplsk22hKc23OStWdWx3+9daWWuC7hQ==
-X-Received: by 2002:a17:903:22c1:b0:1d3:c025:c99e with SMTP id y1-20020a17090322c100b001d3c025c99emr2935918plg.63.1703045623531;
-        Tue, 19 Dec 2023 20:13:43 -0800 (PST)
-Received: from localhost ([2804:14d:7e39:8470:8f60:ee5a:d698:1116])
-        by smtp.gmail.com with ESMTPSA id q14-20020a170902dace00b001d08e08003esm21884208plx.174.2023.12.19.20.13.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 20:13:42 -0800 (PST)
-References: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
- <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
- <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
- Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, Oleg
- Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees
- Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, "Rick P.
- Edgecombe" <rick.p.edgecombe@intel.com>, Deepak Gupta
- <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, Szabolcs Nagy
- <Szabolcs.Nagy@arm.com>, "H.J. Lu" <hjl.tools@gmail.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Florian Weimer <fweimer@redhat.com>, Christian
- Brauner <brauner@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v7 00/39] arm64/gcs: Provide support for GCS in userspace
-In-reply-to: <20231122-arm64-gcs-v7-0-201c483bd775@kernel.org>
-Date: Wed, 20 Dec 2023 01:13:41 -0300
-Message-ID: <874jgdh5oq.fsf@linaro.org>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="AyM1Wu4I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1703048576;
+	bh=aov3XsnKUY3GBBlV2AX+kFD0m3ya0yI+MQWXFBF/bdQ=;
+	h=From:Date:Subject:To:Cc:From;
+	b=AyM1Wu4IwJtbxgxmdweZz3kowBY2HVz+67dutZxTWqunmrHk/nYtPcK+SKrQU7rZG
+	 5wjWOGDTlHIaNjgVwc00hI4mM4O2/sMAOE6Au55CX8DYx2RtCWWRY9bBgbddoCFstE
+	 HSabCEjzTfLCCmYSEQw6++TOyifJfRJRsH83FNxA=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Wed, 20 Dec 2023 06:02:49 +0100
+Subject: [PATCH] Docs: remove mentions of fdformat from util-linux
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20231220-docs-fdformat-v1-1-0d05279e5d83@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAHh1gmUC/x3MQQqAIBBA0avErBN0gqCuEi1MZ2oWaWhEIN49a
+ fkW/xfIlIQyzF2BRI9kiaHB9B24w4adlPhmQI2DQdTKR5cVe47ptLfaDGpNbuKRDbTmSsTy/r9
+ lrfUDSIjJt18AAAA=
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1703048575; l=1799;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=aov3XsnKUY3GBBlV2AX+kFD0m3ya0yI+MQWXFBF/bdQ=;
+ b=s82G8QO86ONdxKq5S9zqasrA/pAkwKu8hQb568diFn2pTUIX6zqjPUh9186htP2vmktT5cmpl
+ 0FUpOwh2XaqBFjI94pMuTfO9Q5M33n786vC7UuPueWi78pfwf3qZ/xu
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
+Since util-linux commit 13b26e3c36d1
+("fdformat: remove command from default build")
+the fdformat tool is not built anymore by default.
+As a result it is not packaged anymore by distributions and therefore
+not usable by users.
 
-Mark Brown <broonie@kernel.org> writes:
+Instead mention the "mount" command as more likely to be present
+alternative.
 
->       arm64/mm: Restructure arch_validate_flags() for extensibility
->       prctl: arch-agnostic prctl for shadow stack
->       mman: Add map_shadow_stack() flags
->       arm64: Document boot requirements for Guarded Control Stacks
->       arm64/gcs: Document the ABI for Guarded Control Stacks
->       arm64/sysreg: Add new system registers for GCS
->       arm64/sysreg: Add definitions for architected GCS caps
->       arm64/gcs: Add manual encodings of GCS instructions
->       arm64/gcs: Provide put_user_gcs()
->       arm64/cpufeature: Runtime detection of Guarded Control Stack (GCS)
->       arm64/mm: Allocate PIE slots for EL0 guarded control stack
->       mm: Define VM_SHADOW_STACK for arm64 when we support GCS
->       arm64/mm: Map pages for guarded control stack
->       KVM: arm64: Manage GCS registers for guests
->       arm64/gcs: Allow GCS usage at EL0 and EL1
->       arm64/idreg: Add overrride for GCS
->       arm64/hwcap: Add hwcap for GCS
->       arm64/traps: Handle GCS exceptions
->       arm64/mm: Handle GCS data aborts
->       arm64/gcs: Context switch GCS state for EL0
->       arm64/gcs: Allocate a new GCS for threads with GCS enabled
->       arm64/gcs: Implement shadow stack prctl() interface
->       arm64/mm: Implement map_shadow_stack()
->       arm64/signal: Set up and restore the GCS context for signal handlers
->       arm64/signal: Expose GCS state in signal frames
->       arm64/ptrace: Expose GCS via ptrace and core files
->       arm64: Add Kconfig for Guarded Control Stack (GCS)
->       kselftest/arm64: Verify the GCS hwcap
->       kselftest/arm64: Add GCS as a detected feature in the signal tests
->       kselftest/arm64: Add framework support for GCS to signal handling tests
->       kselftest/arm64: Allow signals tests to specify an expected si_code
->       kselftest/arm64: Always run signals tests with GCS enabled
->       kselftest/arm64: Add very basic GCS test program
->       kselftest/arm64: Add a GCS test program built with the system libc
->       kselftest/arm64: Add test coverage for GCS mode locking
->       selftests/arm64: Add GCS signal tests
->       kselftest/arm64: Add a GCS stress test
->       kselftest/arm64: Enable GCS for the FP stress tests
->       kselftest/clone3: Enable GCS in the clone3 selftests
+Also drop the reference to fdformat from the list of features of new
+versions of util-linux.
 
-Not sure if this is warranted, so sorry for the potential spam:
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ Documentation/process/changes.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I don't have any comments on the patches I haven't replied to.
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index bb96ca0f774b..a8827b442649 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -39,7 +39,7 @@ binutils               2.25             ld -v
+ flex                   2.5.35           flex --version
+ bison                  2.0              bison --version
+ pahole                 1.16             pahole --version
+-util-linux             2.10o            fdformat --version
++util-linux             2.10o            mount --version
+ kmod                   13               depmod -V
+ e2fsprogs              1.41.4           e2fsck -V
+ jfsutils               1.1.3            fsck.jfs -V
+@@ -213,7 +213,7 @@ Util-linux
+ 
+ New versions of util-linux provide ``fdisk`` support for larger disks,
+ support new options to mount, recognize more supported partition
+-types, have a fdformat which works with 2.4 kernels, and similar goodies.
++types, and similar goodies.
+ You'll probably want to upgrade.
+ 
+ Ksymoops
 
+---
+base-commit: 55cb5f43689d7a9ea5bf35ef050f12334f197347
+change-id: 20231220-docs-fdformat-b1200ec9f6f1
+
+Best regards,
 -- 
-Thiago
+Thomas Weißschuh <linux@weissschuh.net>
+
