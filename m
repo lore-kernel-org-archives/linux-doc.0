@@ -1,74 +1,127 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5AC40BF6;
-	Wed, 20 Dec 2023 15:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8F03FE32;
+	Wed, 20 Dec 2023 15:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Kw1wxf67"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A081E7F5;
-	Wed, 20 Dec 2023 15:30:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A081E7F5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1703086204; bh=YawMH4mnDVp5dlJ1MoqNij8zTvIQj/L8VFRVp62WP78=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Kw1wxf67x71WyVA+qkcLF6GASINccn4wPs592qctDPGgBLTCu7lcUV7Lvdk7pnNXG
-	 4lC8ohk4+CulvBA/7JGMB2yo/otNdj48oCt1bjvBxRkFxvReiIqGYkiIWc5CipoW5F
-	 /7DxBZZ8KHl9yydBo87VBVwozWDNMPeQpMCS7alNVSCp4OGzQYj2OzqtYzx0oVNZjK
-	 s+hq3zbWNm5gHtX46smLuATkM82Q58NY8Ug08OfcIFkfpE67XrTXGRwVhDMaDY5hJq
-	 QTHgZR5EUOyPjx8WUEFP25/QwZZQWW2rsWcms3VuVe6UseQOtvs0id+k0htFmo3VKw
-	 5KRSJP7v0eOuQ==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Muhammad Muzammil <m.muzzammilashraf@gmail.com>, rdunlap@infradead.org,
- gustavoars@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, Muzammil Ashraf
- <m.muzzammilashraf@gmail.com>
-Subject: Re: [PATCH] scripts: kernel-doc: Bug fixed for erroneous warning
-In-Reply-To: <20231220062446.14511-1-muzammil@dreambigsemi.com>
-References: <20231220062446.14511-1-muzammil@dreambigsemi.com>
-Date: Wed, 20 Dec 2023 08:30:03 -0700
-Message-ID: <87edfggadg.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y5mCWkjQ"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6da5d410432so3855625a34.2;
+        Wed, 20 Dec 2023 07:52:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703087528; x=1703692328; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UAcKiHpe6juqfS47pCojmHTEkJCyatRjFVyT2trlCyw=;
+        b=Y5mCWkjQDs3IJAOLdo0NEHE3Cpd7frjRuThavPcsDk9u9UhGM8nVWtSRTL++gAmTPP
+         hbL2yQJE1OuTS/ZBx1vq3eZnWdMzUSW48TeQW/dtAb4KLVB3Cp/5dTYpAKQRWK8KjBNL
+         YIj0cRJEQkkpb1Hb1GUln2K92O2dD9HqOo9xNG+wudFIxw30dxq+GEdE3VUmz7wZuQUH
+         5eLjrvkW7wh95zMprsX5eUDBPMjvEW8qx5TGDs4vWij6Kbi2hSvPcRF5FfHZHO5UC44P
+         x7fnE7TIsU8ecJwenPcZp9h5Oe1CTJahnvEaLn8JC0WUiYZskX0UBuh+WFnMInX46rSI
+         0VqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703087528; x=1703692328;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UAcKiHpe6juqfS47pCojmHTEkJCyatRjFVyT2trlCyw=;
+        b=k+7ISR0H0jGn/FxFsWiC1/dNwzKhgigZaDlUjux1nXi0fDoz39GdZEOvbrYRJu87YY
+         JgeGhWxVRWu3LuHWep5oYexCjh6DMOm9KS6sKkuaP3pfs+8xON4Gd2tZ8Fq12nTD+4vo
+         hUgWrXcCXqWvwKACPXkLA5FWru6GxiFi9CMaHYlDdT7BD/Wye3BKnx1WvMgRrRzoMhNJ
+         HgzqgFVKrrKOAkv767uboYboIly2/HgkBWxhiUWs3gFs7V0Quwz8V1kDCXHYMXeKeWlY
+         A2zsQn/e8RwRpwVqjC5/wnjG7hQtgHRhaHmX7uqxJRjxiLoeh7nDSXXDw2nBL49yOCVM
+         yx7A==
+X-Gm-Message-State: AOJu0YzCJDgvq3/hzIdZfG1h8wMWvRn20PZF/SYy9p1igmiottsGbpvS
+	5nzVegKdd6U1FgQzN2In0EY=
+X-Google-Smtp-Source: AGHT+IFLclNYyqTDtU6o+bSm9uEZVQL+q90o7t8TOZ/DDzP7tOnE73/eZg3wGAGZC6u8LmfCXj0Saw==
+X-Received: by 2002:a9d:73d1:0:b0:6db:abf8:83b3 with SMTP id m17-20020a9d73d1000000b006dbabf883b3mr1158074otk.34.1703087528256;
+        Wed, 20 Dec 2023 07:52:08 -0800 (PST)
+Received: from cosmo-ubuntu-2204.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id y188-20020a6364c5000000b00588e8421fa8sm4840847pgb.84.2023.12.20.07.52.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Dec 2023 07:52:07 -0800 (PST)
+From: Cosmo Chou <chou.cosmo@gmail.com>
+To: linux@roeck-us.net,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	jdelvare@suse.com,
+	corbet@lwn.net,
+	broonie@kernel.org,
+	naresh.solanki@9elements.com,
+	vincent@vtremblay.dev,
+	patrick.rudolph@9elements.com,
+	luca.ceresoli@bootlin.com,
+	bhelgaas@google.com,
+	festevam@denx.de,
+	alexander.stein@ew.tq-group.com,
+	heiko@sntech.de,
+	jernej.skrabec@gmail.com,
+	macromorgan@hotmail.com,
+	forbidden405@foxmail.com,
+	sre@kernel.org,
+	linus.walleij@linaro.org
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	chou.cosmo@gmail.com,
+	cosmo.chou@quantatw.com
+Subject: [PATCH v3 0/3] hwmon: Add driver for Astera Labs PT5161L retimer
+Date: Wed, 20 Dec 2023 23:51:39 +0800
+Message-Id: <20231220155142.3060255-1-chou.cosmo@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Muhammad Muzammil <m.muzzammilashraf@gmail.com> writes:
+This driver implements support for temperature monitoring of Astera Labs
+PT5161L series PCIe retimer chips.
 
-> From: Muzammil Ashraf <m.muzzammilashraf@gmail.com>
->
-> kernel-doc: fixed erroneous warning generated by '__counted_by'
->
-> Signed-off-by: Muzammil Ashraf <m.muzzammilashraf@gmail.com>
-> ---
->  scripts/kernel-doc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 1484127db104..ea9688df0e93 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -1661,6 +1661,7 @@ sub check_sections($$$$$) {
->  			}
->  			elsif (($decl_type eq "struct") or
->  		       	       ($decl_type eq "union")) {
-> +                next if (index("@_", "__counted_by") != -1);
->  				emit_warning("${file}:$.",
->  					"Excess $decl_type member " .
->  					"'$sects[$sx]' " .
+LINK: [v1] https://lore.kernel.org/all/20231205074723.3546295-1-chou.cosmo@gmail.com/
 
-Could you give an example of the warnings that this patch addresses?
-I've not seen any caused by __counted_by since f600c77aeaff was applied
-to docs-next.  What did it miss?
+v3:
+  - Revise pt5161l.rst
+  - Revise the style of comments
+  - Remove unused pec_enable
+  - Add back safe access wide registers
+  - fix build warning
 
-Thanks,
+v2:
+  - Add "asteralabs,pt5161l" to trivial-devices.yaml
+  - Change naming PT516XX/pt516xx to PT5161L/pt5161l
+  - Separated debugfs files for health status
+  - Revise the style of comments
+  - Remove unused defines
+  - Remove including unused header files
+  - Remove unnecessary debugging messages
+  - Revise the data parsing for a big-endian system
+  - Use read_block_data instead of accessing wide registers
+  - Remove the debugfs files when the device is unloaded
+  - Add acpi_match_table
 
-jon
+Cosmo Chou (3):
+  dt-bindings: vendor-prefixes: add asteralabs
+  dt-bindings: trivial-devices: add Astera Labs PT5161L
+  hwmon: Add driver for Astera Labs PT5161L retimer
+
+ .../devicetree/bindings/trivial-devices.yaml  |   2 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/pt5161l.rst               |  42 ++
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/pt5161l.c                       | 670 ++++++++++++++++++
+ 8 files changed, 735 insertions(+)
+ create mode 100644 Documentation/hwmon/pt5161l.rst
+ create mode 100644 drivers/hwmon/pt5161l.c
+
+-- 
+2.34.1
+
