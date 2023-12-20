@@ -1,374 +1,97 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B0C168CE;
-	Wed, 20 Dec 2023 00:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0F7F9FB;
+	Wed, 20 Dec 2023 00:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RqAtc9vO"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3ba2e03e21cso3493929b6e.0;
-        Tue, 19 Dec 2023 16:19:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703031563; x=1703636363; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nCAQR0nSmtHfVDJci0iP7649xX5LmFBxv4LCvGHIT0A=;
-        b=RqAtc9vOW46y+vMDN+aikDO7mNj6gySdY+xmqrZSo83Hqn7LmXLWbKLc+C8Wqx5xVe
-         Oh66lvh3Kj6rG6ynApRLBWXa0TrYfW5Byt/i7G0XhuhHCwRkM+lmMdj9BfXWYrugmJn+
-         4K64rb8Xrn5MELh1oWeppEqk85OHroCQTq+FQrCTYMkr+y5REtXjwn0wl3iCEecAeF3l
-         UCNld3p/Go0NccPI6XcYG1/yumONf3y8/UH3YapvmVDtcmLZISEPugjE5w++vivMEP2s
-         Xm+d6yCXMv66X64kEE1bRRMieMpPXvHBWXp8Ezqi6yEOu30FmdhKZhsIdwlQourpkzyy
-         B2QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703031563; x=1703636363;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nCAQR0nSmtHfVDJci0iP7649xX5LmFBxv4LCvGHIT0A=;
-        b=qebEVxAFju6kSqIGf8rPCJbrTlSUM6GP1dQmkEfw0vufdCSTKEhtgvhNxdQfuEOzba
-         fa5V8jp2G3ighWYpQGRwrrWjFMoTgTxnSKyI0lmoKmyuX8cf+wULKhR+APC5M/AbmSJg
-         BkE9eswNZa4rA1NbplakKEghJEc0CoRyHYzvNYeE2KBEq1Hr8Yll17MV87cnKNvtsO7t
-         B6Om8tXyny0s0H68H/qEI6IqP0LPHxjwXKqp/YsHVX82CPhjSgXvEkWaG2uSWB1ezWvd
-         CnUqU6HHdPWZ8nGcBeoJb1EsjKUVBnroIub34p758VxuFX+WMmo0pQy7L6wGc8FrZ+0F
-         0Ibw==
-X-Gm-Message-State: AOJu0Yx2o5hBRcSTB8kVvQM3+6ppaZ+AO7Pdrmbuf65MTEjr7ALXr6qw
-	dPZw+3dKGlhgVFSWHBqhFpk=
-X-Google-Smtp-Source: AGHT+IGDUHGe9PWnOO/Bb3nEq9SUxMWNn7+jy7XZwI+ovi1VCwkE+pTJlEncOzyFWgHLZcokt6bxfw==
-X-Received: by 2002:a05:6808:1692:b0:3b8:b063:666d with SMTP id bb18-20020a056808169200b003b8b063666dmr17855816oib.100.1703031563447;
-        Tue, 19 Dec 2023 16:19:23 -0800 (PST)
-Received: from localhost.localdomain ([174.95.13.129])
-        by smtp.gmail.com with ESMTPSA id da14-20020a05621408ce00b0067a276fd8d5sm3814094qvb.54.2023.12.19.16.19.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 16:19:23 -0800 (PST)
-From: Abdel Alkuor <alkuor@gmail.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Abdel Alkuor <alkuor@gmail.com>,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3 2/2] hwmon: (lm75) Add AMS AS6200 temperature sensor
-Date: Tue, 19 Dec 2023 19:17:48 -0500
-Message-Id: <d0365d67958ec49f2d3f286047a950316c6d025b.1703030297.git.alkuor@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <af834e980f57dc11d3e821c074c433cdbc6accc3.1703030297.git.alkuor@gmail.com>
-References: <af834e980f57dc11d3e821c074c433cdbc6accc3.1703030297.git.alkuor@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPBvIxB6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703033324; x=1734569324;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XBIC58myc3ASs9hyCERLWBAimfb3eQYpoSIUk/hXRFI=;
+  b=NPBvIxB6udD+HyUi24EZ3ZHtCXU8L37k+YMRksFFANRIoRgjh78qhBwv
+   qz+xoj49eBQJflp28HDcaSu7hVDC3kpKS6WOZ6u5GtVZuwZ5FlXNZzuGf
+   9NwziIw6bsQUCFfrw/LJt8PHuwuj4guV2WpWjEpY3Xmq4kcHKEQEnBKX0
+   cwQUS9PZwUMAV1GhS8FY9EhJaEnXJcJYm5u1QAPiObEa80j7i7S8YaVOd
+   KePiBhuPZaWtVRpOfRsgF4ulrXuW439sgYwkHcgMFpnaIW2xVspFfj5Fq
+   ruC943DD8EJcqzc88FlZIAjp1mZ+LCebKkbGx1RGkHKDApGNoBxgN1pKE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="2961325"
+X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
+   d="scan'208";a="2961325"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 16:48:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="769409417"
+X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
+   d="scan'208";a="769409417"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 19 Dec 2023 16:48:32 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rFklC-00068l-0C;
+	Wed, 20 Dec 2023 00:48:30 +0000
+Date: Wed, 20 Dec 2023 08:48:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
+	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
+	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
+	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
+	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
+	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
+Subject: Re: [PATCH v4 10/11] mm/mempolicy: add the mbind2 syscall
+Message-ID: <202312200802.cGZtboPs-lkp@intel.com>
+References: <20231218194631.21667-11-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231218194631.21667-11-gregory.price@memverge.com>
 
-as6200 is a temperature sensor with 0.0625°C resolution and a
-range between -40°C to 125°C.
+Hi Gregory,
 
-By default, the driver configures as6200 as following:
-- Converstion rate: 8 Hz
-- Conversion mode: continuous
-- Consecutive fault counts: 4 samples
-- Alert state: high polarity
-- Alert mode: comparator mode
+kernel test robot noticed the following build errors:
 
-Interrupt is supported for the alert pin.
+[auto build test ERROR on perf-tools/perf-tools]
+[also build test ERROR on linus/master v6.7-rc6]
+[cannot apply to perf-tools-next/perf-tools-next tip/perf/core acme/perf/core next-20231219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Datasheet: https://ams.com/documents/20143/36005/AS6200_DS000449_4-00.pdf
-Signed-off-by: Abdel Alkuor <alkuor@gmail.com>
----
-Changes in v3:
-  - Fix format for new added lm75 params
-  - Add missing break for hwmon_temp_alarm case in lm75_is_visible
-  - Return combined error code and status from lm75_read_config 
-  - Revert back to the previous configure setting semantics in lm75_probe
-  - When an interrupt is tried to be requested and alarm bit is not supported
-    then log an error instead of a warning. Also, remove the unnecessery
-    suggestion about chips with no alarm bit.
-  - Fix as6200 order in lm75_ids
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231219-074837
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools.git perf-tools
+patch link:    https://lore.kernel.org/r/20231218194631.21667-11-gregory.price%40memverge.com
+patch subject: [PATCH v4 10/11] mm/mempolicy: add the mbind2 syscall
+config: arm64-randconfig-003-20231219 (https://download.01.org/0day-ci/archive/20231220/202312200802.cGZtboPs-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 5ac12951b4e9bbfcc5791282d0961ec2b65575e9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312200802.cGZtboPs-lkp@intel.com/reproduce)
 
-Changes in v2:
-  - Incorporate as6200 into lm75 driver
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312200802.cGZtboPs-lkp@intel.com/
 
- Documentation/hwmon/lm75.rst |  10 ++++
- drivers/hwmon/lm75.c         | 108 ++++++++++++++++++++++++++++++-----
- 2 files changed, 104 insertions(+), 14 deletions(-)
+All errors (new ones prefixed by >>):
 
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index 8d0ab4ad5fb5..6adab608dd05 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -133,6 +133,16 @@ Supported chips:
- 
-                https://www.nxp.com/docs/en/data-sheet/PCT2075.pdf
- 
-+  * AMS OSRAM AS6200
-+
-+    Prefix: 'as6200'
-+
-+    Addresses scanned: none
-+
-+    Datasheet: Publicly available at the AMS website
-+
-+               https://ams.com/documents/20143/36005/AS6200_DS000449_4-00.pdf
-+
- Author: Frodo Looijaard <frodol@dds.nl>
- 
- Description
-diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
-index 5b2ea05c951e..4add2563b199 100644
---- a/drivers/hwmon/lm75.c
-+++ b/drivers/hwmon/lm75.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/module.h>
- #include <linux/init.h>
-+#include <linux/interrupt.h>
- #include <linux/slab.h>
- #include <linux/jiffies.h>
- #include <linux/i2c.h>
-@@ -25,6 +26,7 @@
- 
- enum lm75_type {		/* keep sorted in alphabetical order */
- 	adt75,
-+	as6200,
- 	at30ts74,
- 	ds1775,
- 	ds75,
-@@ -55,6 +57,7 @@ enum lm75_type {		/* keep sorted in alphabetical order */
- 
- /**
-  * struct lm75_params - lm75 configuration parameters.
-+ * @config_reg_16bits:	Configure register size is 2 bytes.
-  * @set_mask:		Bits to set in configuration register when configuring
-  *			the chip.
-  * @clr_mask:		Bits to clear in configuration register when configuring
-@@ -75,17 +78,20 @@ enum lm75_type {		/* keep sorted in alphabetical order */
-  * @sample_times:	All the possible sample times to be set. Mandatory if
-  *			num_sample_times is larger than 1. If set, number of
-  *			entries must match num_sample_times.
-+ * @alarm:		Alarm bit is supported.
-  */
- 
- struct lm75_params {
--	u8			set_mask;
--	u8			clr_mask;
-+	bool			config_reg_16bits;
-+	u16			set_mask;
-+	u16			clr_mask;
- 	u8			default_resolution;
- 	u8			resolution_limits;
- 	const u8		*resolutions;
- 	unsigned int		default_sample_time;
- 	u8			num_sample_times;
- 	const unsigned int	*sample_times;
-+	bool			alarm;
- };
- 
- /* Addresses scanned */
-@@ -104,8 +110,8 @@ struct lm75_data {
- 	struct i2c_client		*client;
- 	struct regmap			*regmap;
- 	struct regulator		*vs;
--	u8				orig_conf;
--	u8				current_conf;
-+	u16				orig_conf;
-+	u16				current_conf;
- 	u8				resolution;	/* In bits, 9 to 16 */
- 	unsigned int			sample_time;	/* In ms */
- 	enum lm75_type			kind;
-@@ -128,6 +134,15 @@ static const struct lm75_params device_params[] = {
- 		.default_resolution = 12,
- 		.default_sample_time = MSEC_PER_SEC / 10,
- 	},
-+	[as6200] = {
-+		.config_reg_16bits = true,
-+		.set_mask = 0x94C0,	/* 8 sample/s, 4 CF, positive polarity */
-+		.default_resolution = 12,
-+		.default_sample_time = 125,
-+		.num_sample_times = 4,
-+		.sample_times = (unsigned int []){ 125, 250, 1000, 4000 },
-+		.alarm = true,
-+	},
- 	[at30ts74] = {
- 		.set_mask = 3 << 5,	/* 12-bit mode*/
- 		.default_resolution = 12,
-@@ -317,20 +332,23 @@ static inline long lm75_reg_to_mc(s16 temp, u8 resolution)
- 	return ((temp >> (16 - resolution)) * 1000) >> (resolution - 8);
- }
- 
--static int lm75_write_config(struct lm75_data *data, u8 set_mask,
--			     u8 clr_mask)
-+static int lm75_write_config(struct lm75_data *data, u16 set_mask,
-+			     u16 clr_mask)
- {
--	u8 value;
-+	unsigned int value;
- 
--	clr_mask |= LM75_SHUTDOWN;
-+	clr_mask |= LM75_SHUTDOWN << (8 * data->params->config_reg_16bits);
- 	value = data->current_conf & ~clr_mask;
- 	value |= set_mask;
- 
- 	if (data->current_conf != value) {
- 		s32 err;
--
--		err = i2c_smbus_write_byte_data(data->client, LM75_REG_CONF,
--						value);
-+		if (data->params->config_reg_16bits)
-+			err = regmap_write(data->regmap, LM75_REG_CONF, value);
-+		else
-+			err = i2c_smbus_write_byte_data(data->client,
-+							LM75_REG_CONF,
-+							value);
- 		if (err)
- 			return err;
- 		data->current_conf = value;
-@@ -338,6 +356,27 @@ static int lm75_write_config(struct lm75_data *data, u8 set_mask,
- 	return 0;
- }
- 
-+static int lm75_read_config(struct lm75_data *data)
-+{
-+	int ret;
-+	unsigned int status;
-+
-+	if (data->params->config_reg_16bits) {
-+		ret = regmap_read(data->regmap, LM75_REG_CONF, &status);
-+		return ret ? ret : status;
-+	}
-+
-+	return i2c_smbus_read_byte_data(data->client, LM75_REG_CONF);
-+}
-+
-+static irqreturn_t lm75_alarm_handler(int irq, void *private)
-+{
-+	struct device *hwmon_dev = private;
-+
-+	hwmon_notify_event(hwmon_dev, hwmon_temp, hwmon_temp_alarm, 0);
-+	return IRQ_HANDLED;
-+}
-+
- static int lm75_read(struct device *dev, enum hwmon_sensor_types type,
- 		     u32 attr, int channel, long *val)
- {
-@@ -366,6 +405,9 @@ static int lm75_read(struct device *dev, enum hwmon_sensor_types type,
- 		case hwmon_temp_max_hyst:
- 			reg = LM75_REG_HYST;
- 			break;
-+		case hwmon_temp_alarm:
-+			reg = LM75_REG_CONF;
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
-@@ -373,7 +415,17 @@ static int lm75_read(struct device *dev, enum hwmon_sensor_types type,
- 		if (err < 0)
- 			return err;
- 
--		*val = lm75_reg_to_mc(regval, data->resolution);
-+		if (attr == hwmon_temp_alarm) {
-+			switch (data->kind) {
-+			case as6200:
-+				*val = (regval >> 5) & 0x1;
-+				break;
-+			default:
-+				return -EINVAL;
-+			}
-+		} else {
-+			*val = lm75_reg_to_mc(regval, data->resolution);
-+		}
- 		break;
- 	default:
- 		return -EINVAL;
-@@ -436,6 +488,7 @@ static int lm75_update_interval(struct device *dev, long val)
- 			data->resolution = data->params->resolutions[index];
- 		break;
- 	case tmp112:
-+	case as6200:
- 		err = regmap_read(data->regmap, LM75_REG_CONF, &reg);
- 		if (err < 0)
- 			return err;
-@@ -503,6 +556,10 @@ static umode_t lm75_is_visible(const void *data, enum hwmon_sensor_types type,
- 		case hwmon_temp_max:
- 		case hwmon_temp_max_hyst:
- 			return 0644;
-+		case hwmon_temp_alarm:
-+			if (config_data->params->alarm)
-+				return 0444;
-+			break;
- 		}
- 		break;
- 	default:
-@@ -515,7 +572,8 @@ static const struct hwmon_channel_info * const lm75_info[] = {
- 	HWMON_CHANNEL_INFO(chip,
- 			   HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
- 	HWMON_CHANNEL_INFO(temp,
--			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_HYST),
-+			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_HYST |
-+			   HWMON_T_ALARM),
- 	NULL
- };
- 
-@@ -623,7 +681,7 @@ static int lm75_probe(struct i2c_client *client)
- 		return err;
- 
- 	/* Cache original configuration */
--	status = i2c_smbus_read_byte_data(client, LM75_REG_CONF);
-+	status = lm75_read_config(data);
- 	if (status < 0) {
- 		dev_dbg(dev, "Can't read config? %d\n", status);
- 		return status;
-@@ -646,6 +704,23 @@ static int lm75_probe(struct i2c_client *client)
- 	if (IS_ERR(hwmon_dev))
- 		return PTR_ERR(hwmon_dev);
- 
-+	if (client->irq) {
-+		if (data->params->alarm) {
-+			err = devm_request_threaded_irq(dev,
-+							client->irq,
-+							NULL,
-+							&lm75_alarm_handler,
-+							IRQF_ONESHOT,
-+							client->name,
-+							hwmon_dev);
-+			if (err)
-+				return err;
-+		} else {
-+			 /* alarm is only supported for chips with alarm bit */
-+			dev_err(dev, "alarm interrupt is not supported\n");
-+		}
-+	}
-+
- 	dev_info(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev), client->name);
- 
- 	return 0;
-@@ -653,6 +728,7 @@ static int lm75_probe(struct i2c_client *client)
- 
- static const struct i2c_device_id lm75_ids[] = {
- 	{ "adt75", adt75, },
-+	{ "as6200", as6200, },
- 	{ "at30ts74", at30ts74, },
- 	{ "ds1775", ds1775, },
- 	{ "ds75", ds75, },
-@@ -689,6 +765,10 @@ static const struct of_device_id __maybe_unused lm75_of_match[] = {
- 		.compatible = "adi,adt75",
- 		.data = (void *)adt75
- 	},
-+	{
-+		.compatible = "ams,as6200",
-+		.data = (void *)as6200
-+	},
- 	{
- 		.compatible = "atmel,at30ts74",
- 		.data = (void *)at30ts74
+>> ld.lld: error: undefined symbol: __arm64_sys_get_mbind2
+   >>> referenced by sys32.c
+   >>>               arch/arm64/kernel/sys32.o:(compat_sys_call_table) in archive vmlinux.a
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
