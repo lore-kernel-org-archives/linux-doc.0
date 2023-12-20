@@ -1,47 +1,47 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDD73F8F5
-	for <linux-doc@vger.kernel.org>; Wed, 20 Dec 2023 15:57:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3CD4176B
+	for <linux-doc@vger.kernel.org>; Wed, 20 Dec 2023 15:57:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="bnh21xvF"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40d19930f03so6650425e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 20 Dec 2023 07:57:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="RoYL/K3r"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40d08be5fdbso10635485e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 20 Dec 2023 07:57:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1703087861; x=1703692661; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1703087862; x=1703692662; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EdmTrlQiysEJ9gRiozTT9JeMo8PxECkQ3IPcbyVimLw=;
-        b=bnh21xvFaTDdR/Fj6UiC+r+Uuaj++HtPKNXaCpId5gSU9PeO08ZUKcfCitiMGLPxGX
-         YnqMCoc9r8TEtRebEu/aPcs5ivmv5RWbiHqb7E56AwxWCbI9GteqtsfzxQ1u54DIRV1f
-         60Gd4gYWxTBpVYXdj2HhfLWCy472/BsuD3d5wdyZfYFDTkTPmzkVhtIJx05MmECj0do0
-         qAVKNi7jtLUCtcHaLN4R1yQ97vGNKWzoJUW49prgEvpqXI4mhBmNypITuCDEJEZrWkD1
-         cTZO3KG5hMYHUcRxmcm8l/dVpDG6l8eA4TCxcLurRRpaz0pMRtHayHQVdnHxxfXirFdo
-         7J0Q==
+        bh=fxiI83AWHviDA1K2goPpANE3T3h3Nt6zkBhZOZxUOr0=;
+        b=RoYL/K3rrFgCrlnZqqBBy1WQKpn8tuoOwu/RMvWGGtEL4YHm4vdP89F6O/X+8lvnp+
+         kD/0IA7Wdx4CDGlQmKC0sIv261QA3AdEADsfkqCvFscesjtW3VxEeh/kZ9m0AHY1GzpJ
+         s9No/LZfVBootxsNxi95SrEliVIGqaER+hK6y97eC7xDh7reraaEjnna3e0eXCzkEPfz
+         Wzk5DbJ66vVDu9bYBan5EZ6F690HQ6+JlkzuKlPrvSvOBJYKa5iIGktBvFGnVFgT32eP
+         gyqIibPfjuemvvJGzb0MiySImjHs8hUxPRdeRQ1H9Ohdyj24KxDpgVJTPoTyfIv0gV1t
+         b8yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703087861; x=1703692661;
+        d=1e100.net; s=20230601; t=1703087862; x=1703692662;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EdmTrlQiysEJ9gRiozTT9JeMo8PxECkQ3IPcbyVimLw=;
-        b=iuVXzEoTspQ0amPKyeR8nYQct6x+lxufPtJ4UkEbZqmaEOBFOFrpLKtXJ/j/dqOOeC
-         1Uij0i39RkVPYhzFPm0AxoOD6qEVRKEBSxxFiz8OvZo8TqDRucj/p7EjB7B4R/KhTC7m
-         gsXGa7bpDUn0dblKHtl7L9pZ9i+tpzSVm+G4NWx7pgrrVim6uOB1s4X7oOLFVRWU6VS1
-         JCHUBMK7miy78pLdOldq3e2AHjyMVRpFymMN4UMHntI3vlKkOjUDFg3xNiinVjrfnfDz
-         JJDH7ZDKRtV3IRgQybqO4QOMcvEYWrBUAoS1M9umnYaCHDG9AKyZCPgSR/2sDXl/Bts6
-         yjdw==
-X-Gm-Message-State: AOJu0YwF6a/Rqa4pfMp+pmC5oJuw7pFWxyznllAZEILj/uZiTba5gThX
-	XSwbdJuabozs3Bg1bbN8AiVw7DXmIfuDEDJkh7p1bA==
-X-Google-Smtp-Source: AGHT+IGomYXGZKW9fTAlUtiRU6C8bTb/3tOYsfSXVcqSVYVqyFBHuEtMtuZ51G/bO3fbDc3LJu//dA==
-X-Received: by 2002:a05:600c:81b:b0:40d:2cb9:42f6 with SMTP id k27-20020a05600c081b00b0040d2cb942f6mr3120863wmp.2.1703087861074;
+        bh=fxiI83AWHviDA1K2goPpANE3T3h3Nt6zkBhZOZxUOr0=;
+        b=jHKym86pl2/uHqr9Z88sa6SgQHegJkqKYrlXFLXU0Pmm5qZyxfDaaBu4yA17HlVlnI
+         UyL8iIcpaYxhNfkH3FedHLu1NpGmiJJEqUX7Xh25o9PpAVKTXrsIVxxy3T7qnm/d1ZOm
+         EgX7vw6mVRE02a1qwYO5bx5R9jdH9MqVnIA6DcMzIEbZ9pTiiVQD9qEbMpWY3YvJmYhx
+         GTYncexW0bNzB6JSBBoZu/KHZN84YvlYCSgL2WjfVKzlBN6MSgmUcCkuMqj9rQDzupwV
+         c517XINOL7Vpz+TQYUFr3pDMYGSErStNkMq0Y/woNnJgceDzQda4eTUK4Ddwqk67A0Wj
+         eHDw==
+X-Gm-Message-State: AOJu0YyQHunGqv8Q2IxcK0uHaGEi9GvPO+6/TV72GT0KwDG/Hd0eqePu
+	bwpmhf4qpA4+Ln0mNNX9YNsi4ITZ+7pqA2HrBdOlqQ==
+X-Google-Smtp-Source: AGHT+IFJbjR0PbYZ8f2Ct75zHWOpr+wt21lqG0IGhwGx4TEjDmQ++1Z336t5tRomVVKE9Pyr/5CpGA==
+X-Received: by 2002:a05:600c:214c:b0:40d:35c9:7b86 with SMTP id v12-20020a05600c214c00b0040d35c97b86mr1498909wml.4.1703087861906;
         Wed, 20 Dec 2023 07:57:41 -0800 (PST)
 Received: from carbon-x1.. ([2a01:e0a:999:a3a0:3eae:b70:f27f:7aa1])
-        by smtp.gmail.com with ESMTPSA id h18-20020adffd52000000b003366af9d611sm7279693wrs.22.2023.12.20.07.57.40
+        by smtp.gmail.com with ESMTPSA id h18-20020adffd52000000b003366af9d611sm7279693wrs.22.2023.12.20.07.57.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 07:57:40 -0800 (PST)
+        Wed, 20 Dec 2023 07:57:41 -0800 (PST)
 From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
 To: linux-doc@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
@@ -57,9 +57,9 @@ Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Robbin Ehn <rehn@rivosinc.com>,
 	Gianluca Guida <gianluca@rivosinc.com>
-Subject: [PATCH v2 1/6] riscv: add ISA extension parsing for Ztso
-Date: Wed, 20 Dec 2023 16:57:17 +0100
-Message-ID: <20231220155723.684081-2-cleger@rivosinc.com>
+Subject: [PATCH v2 2/6] riscv: hwprobe: export Ztso ISA extension
+Date: Wed, 20 Dec 2023 16:57:18 +0100
+Message-ID: <20231220155723.684081-3-cleger@rivosinc.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231220155723.684081-1-cleger@rivosinc.com>
 References: <20231220155723.684081-1-cleger@rivosinc.com>
@@ -72,39 +72,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add support to parse the Ztso string in the riscv,isa string. The
-bindings already supports it but not the ISA parsing code.
+Export the Ztso extension to userspace.
 
 Signed-off-by: Clément Léger <cleger@rivosinc.com>
 ---
- arch/riscv/include/asm/hwcap.h | 1 +
- arch/riscv/kernel/cpufeature.c | 1 +
- 2 files changed, 2 insertions(+)
+ Documentation/arch/riscv/hwprobe.rst  | 4 ++++
+ arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+ arch/riscv/kernel/sys_riscv.c         | 1 +
+ 3 files changed, 6 insertions(+)
 
-diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-index 2438d4685da6..3b31efe2f716 100644
---- a/arch/riscv/include/asm/hwcap.h
-+++ b/arch/riscv/include/asm/hwcap.h
-@@ -84,6 +84,7 @@
- #define RISCV_ISA_EXT_ZVFH		69
- #define RISCV_ISA_EXT_ZVFHMIN		70
- #define RISCV_ISA_EXT_ZFA		71
-+#define RISCV_ISA_EXT_ZTSO		72
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index 41463b932268..10bd7b170118 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -161,6 +161,10 @@ The following keys are defined:
+        defined in the RISC-V ISA manual starting from commit 056b6ff467c7
+        ("Zfa is ratified").
  
- #define RISCV_ISA_EXT_MAX		128
- #define RISCV_ISA_EXT_INVALID		U32_MAX
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index dc0ab3e97cd2..3eb48a0eecb3 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -279,6 +279,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
- 	__RISCV_ISA_EXT_DATA(zkt, RISCV_ISA_EXT_ZKT),
- 	__RISCV_ISA_EXT_DATA(zksed, RISCV_ISA_EXT_ZKSED),
- 	__RISCV_ISA_EXT_DATA(zksh, RISCV_ISA_EXT_ZKSH),
-+	__RISCV_ISA_EXT_DATA(ztso, RISCV_ISA_EXT_ZTSO),
- 	__RISCV_ISA_EXT_SUPERSET(zvbb, RISCV_ISA_EXT_ZVBB, riscv_zvbb_exts),
- 	__RISCV_ISA_EXT_DATA(zvbc, RISCV_ISA_EXT_ZVBC),
- 	__RISCV_ISA_EXT_DATA(zvfh, RISCV_ISA_EXT_ZVFH),
++  * :c:macro:`RISCV_HWPROBE_EXT_ZTSO`: The Ztso extension is supported as
++       defined in the RISC-V ISA manual starting from commit 5618fb5a216b
++       ("Ztso is now ratified.")
++
+ * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
+   information about the selected set of processors.
+ 
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index 91fbe1a7f2e2..01ac3dc196e5 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -56,6 +56,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_EXT_ZVFH		(1 << 30)
+ #define		RISCV_HWPROBE_EXT_ZVFHMIN	(1 << 31)
+ #define		RISCV_HWPROBE_EXT_ZFA		(1ULL << 32)
++#define		RISCV_HWPROBE_EXT_ZTSO		(1ULL << 33)
+ #define RISCV_HWPROBE_KEY_CPUPERF_0	5
+ #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+ #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
+index f0bd7b480b7f..6564fa9e7a7f 100644
+--- a/arch/riscv/kernel/sys_riscv.c
++++ b/arch/riscv/kernel/sys_riscv.c
+@@ -174,6 +174,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+ 		EXT_KEY(ZKSH);
+ 		EXT_KEY(ZKT);
+ 		EXT_KEY(ZIHINTNTL);
++		EXT_KEY(ZTSO);
+ 
+ 		if (has_vector()) {
+ 			EXT_KEY(ZVBB);
 -- 
 2.43.0
 
