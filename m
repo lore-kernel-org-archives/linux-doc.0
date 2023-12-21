@@ -1,115 +1,72 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FB277F1C
-	for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 22:51:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CC478E64
+	for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 22:55:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iwanders.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iwanders.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b="H70j47SG"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-67f47b15fa3so7782786d6.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 14:51:56 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b="UnF8TEXi"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3ba46a19689so1062199b6e.3
+        for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 14:55:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=iwanders.net; s=google; t=1703199115; x=1703803915; darn=vger.kernel.org;
+        d=iwanders.net; s=google; t=1703199325; x=1703804125; darn=vger.kernel.org;
         h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=nRr/sJytJ/lyMmoQqltmQuZwEfSFP9l8D/4B29sx8i8=;
-        b=H70j47SGN5x8H28BTc2BBCQjEdQHsGJhZa6WHRU18+3ciIpQ+Zom8BY+B64dwL1ieT
-         zfSa0bOXKrwK0HQnqwf/cEwwGFtQMuVOiCf5FZ/i1+XF1sUUEAHrDaTag0FNhKHiaRE9
-         m1LW0UeB5DzE7fOiANP8B4KSZmsCd4tm4dIIM=
+        bh=wqXIOVr+zzGcBTuOnYOshrpme+1OoQLq7CD3XZTWNYk=;
+        b=UnF8TEXiS4x9F9YYTnX7J/n5HYzBqrH6eIFSrtNYm/gR1txdNnZP83Wq6Ubqg278Ap
+         zFr31wXp9hf+nAVHB75rBDkx0einNYjcg4Hp1X2HW/J1aFUHIS3Igo1/dIDHvY9lHVaC
+         gQ3IqaLmMXayimQNv2e0Jo0LrKYQ5kXsQEE8k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703199115; x=1703803915;
+        d=1e100.net; s=20230601; t=1703199325; x=1703804125;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nRr/sJytJ/lyMmoQqltmQuZwEfSFP9l8D/4B29sx8i8=;
-        b=K/Jwbf0VetYuY9KBxLS4JDmLF3RghtQDng6D94aC2LSR5QtqSEOO0w91fEGohHLCe4
-         7m+lFWSLanZY5LGNqyo4eSWziQlRlqc61Bf9aCPRvcfbZxR5EO49tyucGWvHdymffqdE
-         xCqJFebz3ifPPrYJ/2uqT3GqQ+rGb52p9Uy3pZaggPFByRTJvoSIl7yNr4qTZMirg63p
-         /Evc2hAGd0cfGgYuuV9d4AT3xDKP1L7BMUKn9kgXHSoYW3DHehWfX1Hgn0uNR6FaEqOK
-         uq5vZoj5LjCGo06myozgxnMFxsLcR5QNLr3MSmS6jh1lL89Vq593ZsG6Fnjl8vVY/a/M
-         T8yA==
-X-Gm-Message-State: AOJu0YySKSfW0vzloPab4CabFtXazw9+Z2rcZh6MU+Rlbmaiq3cR8HP1
-	p5PNH0fj6q5Qs6jLwHGPK1qDLNCAQJwATA==
-X-Google-Smtp-Source: AGHT+IE3eAdqozXayjo0dl6yz5rMb8wGX66JaWar5KgZT8yTQxgUmYjsOhKAdDGDYnhFzf7YQ4pxsw==
-X-Received: by 2002:a05:6214:19cc:b0:67f:5ab:364c with SMTP id j12-20020a05621419cc00b0067f05ab364cmr475903qvc.70.1703199115427;
-        Thu, 21 Dec 2023 14:51:55 -0800 (PST)
+        bh=wqXIOVr+zzGcBTuOnYOshrpme+1OoQLq7CD3XZTWNYk=;
+        b=P9nOgtYk0IzVonGHGjMpwdAjLxIYNkzRks6l4KiqZjtPofJ/ALFftSTJ6RceEVq8uA
+         ZMARqrNYiCTNSbDqRvFzok1Vx9X2s+18eXk9SmJzyeZ8jdktGgR5AfHWKqYB+dPNZ1c2
+         3s2VFgCR1uSsNmEIs45WyNiFaIjxyc2xhWv0YdoKrOK3c+caEo0OfPnCNU6CTizKviIQ
+         tT8N6Rjpu/gWB2+9nDOMu4hCkjnznozGE8QwObZ+UNSR6Ikn/Tco4aaWWIRPEtmoDNQr
+         Dcpu09XRe12byVowsfEsOOEhfuXSxpYutJ5cfdq3uIYBKgD/e4qQXWKFrSdvag3al2D1
+         rEgQ==
+X-Gm-Message-State: AOJu0YzDyxy8Nr25Q8R6iKJTbhug+PJzaxTdUIySfbYMpWNIEIFebwTk
+	zMk/pBsue+3X4HaBEAGUVIlYNJFIrhKxWA==
+X-Google-Smtp-Source: AGHT+IGb5yHPr5yL48MF5WsWm9Y7cxl8mGGDhYBlsAeD26LEAwYhBDQIvfRTLO6USodEGOeVJKAM+g==
+X-Received: by 2002:a05:6808:648d:b0:3bb:8958:363e with SMTP id fh13-20020a056808648d00b003bb8958363emr178887oib.118.1703199325253;
+        Thu, 21 Dec 2023 14:55:25 -0800 (PST)
 Received: from eagle.lan (24-246-30-234.cable.teksavvy.com. [24.246.30.234])
-        by smtp.gmail.com with ESMTPSA id a15-20020a0cefcf000000b0067f812c4a58sm782733qvt.60.2023.12.21.14.51.54
+        by smtp.gmail.com with ESMTPSA id g20-20020ad457b4000000b0067f454b5307sm924400qvx.108.2023.12.21.14.55.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Dec 2023 14:51:54 -0800 (PST)
+        Thu, 21 Dec 2023 14:55:24 -0800 (PST)
 From: Ivor Wanders <ivor@iwanders.net>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Ivor Wanders <ivor@iwanders.net>,
-	linux-hwmon@vger.kernel.org,
+To: linux@roeck-us.net
+Cc: corbet@lwn.net,
+	hdegoede@redhat.com,
+	ivor@iwanders.net,
+	jdelvare@suse.com,
 	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Maximilian Luz <luzmaximilian@gmail.com>
-Subject: [PATCH 1/1] hwmon: clarify intent of fan min/max
-Date: Thu, 21 Dec 2023 17:51:49 -0500
-Message-Id: <20231221225149.11295-2-ivor@iwanders.net>
+	luzmaximilian@gmail.com,
+	markgross@kernel.org
+Subject: Re: [PATCH 1/2] hwmon: add fan speed monitoring driver for Surface devices
+Date: Thu, 21 Dec 2023 17:55:21 -0500
+Message-Id: <20231221225521.11671-1-ivor@iwanders.net>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20231221225149.11295-1-ivor@iwanders.net>
-References: <20231221225149.11295-1-ivor@iwanders.net>
+In-Reply-To: <ab8a1ff3-6d01-4331-ba5d-d677d1ad80b5@roeck-us.net>
+References: <ab8a1ff3-6d01-4331-ba5d-d677d1ad80b5@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 
-This adds a link to the hwmon sysfs attributes in the hwmon patch
-submission bullet points. It also adds an explanation denoting the
-intent of the fan min and max attributes.
+> No, sorry. Limit attributes are supposed to be used to program limits,
+> not to report constant values to userspace
 
-Signed-off-by: Ivor Wanders <ivor@iwanders.net>
----
- Documentation/hwmon/submitting-patches.rst |  4 +++-
- Documentation/hwmon/sysfs-interface.rst    | 12 +++++++++---
- 2 files changed, 12 insertions(+), 4 deletions(-)
+Thank you for this feedback, I've proposed improvements to the
+documentation in [1] that clarify this. I will incorporate this feedback
+and submit a second version.
 
-diff --git a/Documentation/hwmon/submitting-patches.rst b/Documentation/hwmon/submitting-patches.rst
-index 6482c4f13..d634c41d7 100644
---- a/Documentation/hwmon/submitting-patches.rst
-+++ b/Documentation/hwmon/submitting-patches.rst
-@@ -141,7 +141,9 @@ increase the chances of your change being accepted.
- 
- * When deciding which sysfs attributes to support, look at the chip's
-   capabilities. While we do not expect your driver to support everything the
--  chip may offer, it should at least support all limits and alarms.
-+  chip may offer, it should at least support all limits and alarms. Only
-+  add attributes that follow the intent of the attributes, as described in
-+  Documentation/hwmon/sysfs-interface.rst.
- 
- * Last but not least, please check if a driver for your chip already exists
-   before starting to write a new driver. Especially for temperature sensors,
-diff --git a/Documentation/hwmon/sysfs-interface.rst b/Documentation/hwmon/sysfs-interface.rst
-index f76e9f8cc..72dd5e02d 100644
---- a/Documentation/hwmon/sysfs-interface.rst
-+++ b/Documentation/hwmon/sysfs-interface.rst
-@@ -167,13 +167,19 @@ Fans
- ****
- 
- `fan[1-*]_min`
--		Fan minimum value
-+		Fan minimum value, this is intended as a way to specify
-+		the desired minimum speed to the device if the device
-+		supports that. It is not intended for communicating
-+		a constant that denotes the lowest possible fan speed.
- 
- `fan[1-*]_max`
--		Fan maximum value
-+		Fan maximum value, this is intended as a way to specify
-+		the desired maximum speed to the device if the device
-+		supports that. It is not intended for communicating
-+		a constant that denotes the highest possible fan speed.
- 
- `fan[1-*]_input`
--		Fan input value.
-+		Fan input value, this is the fan's current speed.
- 
- `fan[1-*]_div`
- 		Fan divisor.
--- 
-2.17.1
+~Ivor
 
+[1]: https://lore.kernel.org/linux-hwmon/20231221225149.11295-1-ivor@iwanders.net/T/
