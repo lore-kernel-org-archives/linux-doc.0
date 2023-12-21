@@ -1,259 +1,155 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8D36E58C
-	for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 12:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814FA7763A;
+	Thu, 21 Dec 2023 12:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="b2hXv4Fa"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-336897b6bd6so482959f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 04:17:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1703161035; x=1703765835; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wo4F4JANDOClYN3jxQcqNRyTGhNp1nyKO/PKQRBOOYU=;
-        b=b2hXv4FadH3SMVjwstOXXV9hqWfCEQEkIAG9p9uCUHspvvLECNXeI6Shq/25ftaElw
-         LVbMmNxz5DEzQvw2xDVnlb0C+IqOAjlJtiLIVeZxcY6ydOsWqXlFsg3rGBNIqN+9FCfY
-         gdoIq1EXuwZAT8DYfTIMqje087V/5fg3ZbrAADs+rRVxArl/++NI6xJiLW6Q8zXmqGEi
-         dqFqfHydBHvAVdjQsZUg/XmfHaH/tMU1XDBBuoPH1YAI5cQ+jpJMJbsBajj1CzZeBbv8
-         SNVL+OvcIRD8o0M93z3yw6kBzRkIZb8+fO9xZGGJNDxQO25V4q0zWhV0g9K2xBg+W7nu
-         zrww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703161035; x=1703765835;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wo4F4JANDOClYN3jxQcqNRyTGhNp1nyKO/PKQRBOOYU=;
-        b=HyEhC3nApBuLizWmyeX0VZvMIjjbYsHJYlajevzj6tDNdziW0nYVvJF6PMh3Wp4g5Q
-         cJT2/M70q57yMTKWlofeobiAQEsgWwdoHGyL01EjOQDNw9juCs0y11oaSKh8zCktVl5+
-         Gkt4NinNr993cHcA5P/B4W9SAzrGdVTqp70Cqb/7e/wjP2k1saVSRQ8mh7Ysywfu/38E
-         oUw+bhrOlDl2FD+DfQdFnyDlwYGM88g2628rGUCxS1WvX6AaUVWTvC2D384b/UPGimHF
-         AMlON8VR6jwGrFqghKvCNoDq/jkeQCVPotKwj3Ycf8ACC4tsDE8A03Dm3cxn9jKkOv8n
-         2tVQ==
-X-Gm-Message-State: AOJu0YzuWbCOawc3VF4NJVxdHU579bRz+fe7KV3zIR0KhuvBCHPrA+r3
-	ROz/EJKK+56JY8qNrV7L5T/+KA==
-X-Google-Smtp-Source: AGHT+IFihwiQ9oiYKP5ukG9du9pUTnhTefLm+hmzcqxCv27XCcqGJ9+vh83Neir6CDrML5VfrH6irQ==
-X-Received: by 2002:a7b:ce87:0:b0:40d:38df:5802 with SMTP id q7-20020a7bce87000000b0040d38df5802mr705115wmj.165.1703161035199;
-        Thu, 21 Dec 2023 04:17:15 -0800 (PST)
-Received: from ?IPv6:2804:30c:1668:b300:8fcd:588d:fb77:ed04? ([2804:30c:1668:b300:8fcd:588d:fb77:ed04])
-        by smtp.gmail.com with ESMTPSA id l15-20020a5d560f000000b0033609584b9dsm1909827wrv.74.2023.12.21.04.17.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Dec 2023 04:17:14 -0800 (PST)
-Message-ID: <55b717dba239f3bedf0da7e25925e390a63459f5.camel@suse.com>
-Subject: Re: [PATCH RESEND v4 0/3] livepatch: Move modules to selftests and
- add a new test
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Heiko
- Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>,  Sven Schnelle <svens@linux.ibm.com>, Josh
- Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,  Miroslav
- Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, Joe Lawrence
- <joe.lawrence@redhat.com>
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
-	live-patching@vger.kernel.org
-Date: Thu, 21 Dec 2023 09:17:04 -0300
-In-Reply-To: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
-References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nQiyCDRM"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BLCi60q025883;
+	Thu, 21 Dec 2023 12:48:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2023-11-20;
+ bh=phPIN0ZwNDekcG7ylwP4lSj9ayz0wiCzx24MQJkmZl8=;
+ b=nQiyCDRMBuTDl2riVMjrx18xKTTt4mBlBMC/xcP+xzZUTzod3zjyeIXb5B3iVBEnAbXJ
+ bg1Dy0Io9gUIxMDnREgmNfAbl+U41BvBiS6epZVkIb09s3LRhfllYHSJz9W/L79Q4S8+
+ 0wSlrwBqEbqVOxAEIkoymrxm+r88Lgay8y08S5eZY2gmma3EAUvmdEICHUzgL1c4mJam
+ RYHX3q4zsx3HryoQMBIC3Hcf33pqhp/htd6ajzU1raLuRSD+zam8bjKsPhBk4ekgpqOO
+ esdCYJ3Lm9QNxparEWfBrmaPIqtf8FRHl1YzagU5GFiPJDVL+XGfsSJ5f32y9H8CqXbr 8Q== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3v4b4891c4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 Dec 2023 12:48:36 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BLBGxDo039756;
+	Thu, 21 Dec 2023 12:48:35 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3v12bb309r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 Dec 2023 12:48:35 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BLCmSsU039413;
+	Thu, 21 Dec 2023 12:48:34 GMT
+Received: from t460-2.nl.oracle.com (dhcp-10-175-32-150.vpn.oracle.com [10.175.32.150])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3v12bb304w-3;
+	Thu, 21 Dec 2023 12:48:34 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Jonathan Corbet <corbet@lwn.net>, Jaroslav Kysela <perex@perex.cz>,
+        Stuart Hayes <stuart.w.hayes@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH 2/2] Documentation: move driver-api/dcdbas to userspace-api/
+Date: Thu, 21 Dec 2023 13:48:16 +0100
+Message-Id: <20231221124816.2978000-3-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231221124816.2978000-1-vegard.nossum@oracle.com>
+References: <20231221124816.2978000-1-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-21_06,2023-12-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0 mlxscore=0
+ mlxlogscore=999 bulkscore=0 adultscore=0 suspectscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2312210096
+X-Proofpoint-GUID: SIQx0zabCKezwnC4I5jfO04y2dcGYa6A
+X-Proofpoint-ORIG-GUID: SIQx0zabCKezwnC4I5jfO04y2dcGYa6A
 
-On Wed, 2023-12-20 at 13:53 -0300, Marcos Paulo de Souza wrote:
-> Changes in v4:
-> * Documented how to compile the livepatch selftests without running
-> the
-> =C2=A0 tests (Joe)
-> * Removed the mention to lib/livepatch on MAINTAINERS file, reported
-> by
-> =C2=A0 checkpatch.
->=20
+This file documents a sysfs interface that is intended for systems
+management software. It does NOT document any kind of kernel driver
+API. It is also not meant to be used directly by system administrators
+or users.
 
-To clarify: this is not a resend, this is the v4 that people were
-waiting for. I made a mistake with b4 tool, that first I sent the email
-just to myself, for testing, and it bumped the version to v5, but I
-asked it to "resend" the v4, but it ended up adding the "RESEND" to the
-series.
+Cc: Stuart Hayes <stuart.w.hayes@gmail.com>
+Cc: platform-driver-x86@vger.kernel.org
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/driver-api/index.rst                     | 1 -
+ Documentation/{driver-api => userspace-api}/dcdbas.rst | 0
+ Documentation/userspace-api/index.rst                  | 1 +
+ MAINTAINERS                                            | 2 +-
+ drivers/platform/x86/dell/Kconfig                      | 2 +-
+ drivers/platform/x86/dell/dcdbas.c                     | 2 +-
+ 6 files changed, 4 insertions(+), 4 deletions(-)
+ rename Documentation/{driver-api => userspace-api}/dcdbas.rst (100%)
 
-Please review this patchset and ignore the RESEND word.
-
-Thanks to Petr Mladek for spotting my mistake.
-
-	Marcos
-
-> Changes in v3:
-> * Rebased on top of v6.6-rc5
-> * The commits messages were improved (Thanks Petr!)
-> * Created TEST_GEN_MODS_DIR variable to point to a directly that
-> contains kernel
-> =C2=A0 modules, and adapt selftests to build it before running the test.
-> * Moved test_klp-call_getpid out of test_programs, since the gen_tar
-> =C2=A0 would just copy the generated test programs to the livepatches dir=
-,
-> =C2=A0 and so scripts relying on test_programs/test_klp-call_getpid will
-> fail.
-> * Added a module_param for klp_pids, describing it's usage.
-> * Simplified the call_getpid program to ignore the return of getpid
-> syscall,
-> =C2=A0 since we only want to make sure the process transitions correctly
-> to the
-> =C2=A0 patched stated
-> * The test-syscall.sh not prints a log message showing the number of
-> remaining
-> =C2=A0 processes to transition into to livepatched state, and check_outpu=
-t
-> expects it
-> =C2=A0 to be 0.
-> * Added MODULE_AUTHOR and MODULE_DESCRIPTION to test_klp_syscall.c
->=20
-> - Link to v3:
-> https://lore.kernel.org/r/20231031-send-lp-kselftests-v3-0-2b1655c2605f@s=
-use.com
-> - Link to v2:
-> https://lore.kernel.org/linux-kselftest/20220630141226.2802-1-mpdesouza@s=
-use.com/
->=20
-> This patchset moves the current kernel testing livepatch modules from
-> lib/livepatches to tools/testing/selftest/livepatch/test_modules, and
-> compiles
-> them as out-of-tree modules before testing.
->=20
-> There is also a new test being added. This new test exercises
-> multiple processes
-> calling a syscall, while a livepatch patched the syscall.
->=20
-> Why this move is an improvement:
-> * The modules are now compiled as out-of-tree modules against the
-> current
-> =C2=A0 running kernel, making them capable of being tested on different
-> systems with
-> =C2=A0 newer or older kernels.
-> * Such approach now needs kernel-devel package to be installed, since
-> they are
-> =C2=A0 out-of-tree modules. These can be generated by running "make rpm-
-> pkg" in the
-> =C2=A0 kernel source.
->=20
-> What needs to be solved:
-> * Currently gen_tar only packages the resulting binaries of the
-> tests, and not
-> =C2=A0 the sources. For the current approach, the newly added modules
-> would be
-> =C2=A0 compiled and then packaged. It works when testing on a system with
-> the same
-> =C2=A0 kernel version. But it will fail when running on a machine with
-> different kernel
-> =C2=A0 version, since module was compiled against the kernel currently
-> running.
->=20
-> =C2=A0 This is not a new problem, just aligning the expectations. For the
-> current
-> =C2=A0 approach to be truly system agnostic gen_tar would need to include
-> the module
-> =C2=A0 and program sources to be compiled in the target systems.
->=20
-> Thanks in advance!
-> =C2=A0 Marcos
->=20
-> Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
-> ---
-> Marcos Paulo de Souza (3):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kselftests: lib.mk: Add TEST_GEN_MODS_DIR =
-variable
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 livepatch: Move tests from lib/livepatch t=
-o selftests/livepatch
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 selftests: livepatch: Test livepatching a =
-heavily called
-> syscall
->=20
-> =C2=A0Documentation/dev-tools/kselftest.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
-> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 -
-> =C2=A0arch/s390/configs/debug_defconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 1 -
-> =C2=A0arch/s390/configs/defconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 -
-> =C2=A0lib/Kconfig.debug=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 22 ----
-> =C2=A0lib/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 -
-> =C2=A0lib/livepatch/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 14 ---
-> =C2=A0tools/testing/selftests/lib.mk=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 20 +++-
-> =C2=A0tools/testing/selftests/livepatch/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
-> =C2=A0tools/testing/selftests/livepatch/README=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 25 +++--
-> =C2=A0tools/testing/selftests/livepatch/config=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 -
-> =C2=A0tools/testing/selftests/livepatch/functions.sh=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 34 +++---
-> =C2=A0.../testing/selftests/livepatch/test-callbacks.sh=C2=A0 |=C2=A0 50 =
-++++-----
-> =C2=A0tools/testing/selftests/livepatch/test-ftrace.sh=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 6 +-
-> =C2=A0.../testing/selftests/livepatch/test-livepatch.sh=C2=A0 |=C2=A0 10 =
-+-
-> =C2=A0.../selftests/livepatch/test-shadow-vars.sh=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0tools/testing/selftests/livepatch/test-state.sh=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 18 ++--
-> =C2=A0tools/testing/selftests/livepatch/test-syscall.sh=C2=A0 |=C2=A0 53 =
-++++++++++
-> =C2=A0tools/testing/selftests/livepatch/test-sysfs.sh=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 6 +-
-> =C2=A0.../selftests/livepatch/test_klp-call_getpid.c=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 44 ++++++++
-> =C2=A0.../selftests/livepatch/test_modules/Makefile=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 20 ++++
-> =C2=A0.../test_modules}/test_klp_atomic_replace.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
-> =C2=A0.../test_modules}/test_klp_callbacks_busy.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
-> =C2=A0.../test_modules}/test_klp_callbacks_demo.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
-> =C2=A0.../test_modules}/test_klp_callbacks_demo2.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
-> =C2=A0.../test_modules}/test_klp_callbacks_mod.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
-> =C2=A0.../livepatch/test_modules}/test_klp_livepatch.c=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 0
-> =C2=A0.../livepatch/test_modules}/test_klp_shadow_vars.c |=C2=A0=C2=A0 0
-> =C2=A0.../livepatch/test_modules}/test_klp_state.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
-> =C2=A0.../livepatch/test_modules}/test_klp_state2.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 0
-> =C2=A0.../livepatch/test_modules}/test_klp_state3.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 0
-> =C2=A0.../livepatch/test_modules/test_klp_syscall.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 116
-> +++++++++++++++++++++
-> =C2=A032 files changed, 334 insertions(+), 121 deletions(-)
-> ---
-> base-commit: 206ed72d6b33f53b2a8bf043f54ed6734121d26b
-> change-id: 20231031-send-lp-kselftests-4c917dcd4565
->=20
-> Best regards,
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index b1b82ac1063b..b38f81836118 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -78,7 +78,6 @@ available subsections can be seen below.
+    backlight/lp855x-driver.rst
+    connector
+    console
+-   dcdbas
+    eisa
+    isa
+    io-mapping
+diff --git a/Documentation/driver-api/dcdbas.rst b/Documentation/userspace-api/dcdbas.rst
+similarity index 100%
+rename from Documentation/driver-api/dcdbas.rst
+rename to Documentation/userspace-api/dcdbas.rst
+diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+index 277b7a40ca91..74bc0716432e 100644
+--- a/Documentation/userspace-api/index.rst
++++ b/Documentation/userspace-api/index.rst
+@@ -32,6 +32,7 @@ place where this information is gathered.
+    futex2
+    tee
+    isapnp
++   dcdbas
+ 
+ .. only::  subproject and html
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7b6d2dbe4f1d..aa9c4c7ebe71 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5901,7 +5901,7 @@ DELL SYSTEMS MANAGEMENT BASE DRIVER (dcdbas)
+ M:	Stuart Hayes <stuart.w.hayes@gmail.com>
+ L:	platform-driver-x86@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/driver-api/dcdbas.rst
++F:	Documentation/userspace-api/dcdbas.rst
+ F:	drivers/platform/x86/dell/dcdbas.*
+ 
+ DELL WMI DDV DRIVER
+diff --git a/drivers/platform/x86/dell/Kconfig b/drivers/platform/x86/dell/Kconfig
+index bdd78076b1d7..e712df67fa6b 100644
+--- a/drivers/platform/x86/dell/Kconfig
++++ b/drivers/platform/x86/dell/Kconfig
+@@ -37,7 +37,7 @@ config DCDBAS
+ 	  Interrupts (SMIs) and Host Control Actions (system power cycle or
+ 	  power off after OS shutdown) on certain Dell systems.
+ 
+-	  See <file:Documentation/driver-api/dcdbas.rst> for more details on the driver
++	  See <file:Documentation/userspace-api/dcdbas.rst> for more details on the driver
+ 	  and the Dell systems on which Dell systems management software makes
+ 	  use of this driver.
+ 
+diff --git a/drivers/platform/x86/dell/dcdbas.c b/drivers/platform/x86/dell/dcdbas.c
+index 76787369d7fa..a60e35056387 100644
+--- a/drivers/platform/x86/dell/dcdbas.c
++++ b/drivers/platform/x86/dell/dcdbas.c
+@@ -7,7 +7,7 @@
+  *  and Host Control Actions (power cycle or power off after OS shutdown) on
+  *  Dell systems.
+  *
+- *  See Documentation/driver-api/dcdbas.rst for more information.
++ *  See Documentation/userspace-api/dcdbas.rst for more information.
+  *
+  *  Copyright (C) 1995-2006 Dell Inc.
+  */
+-- 
+2.34.1
 
