@@ -1,98 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731D352F67;
-	Thu, 21 Dec 2023 09:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE34697A6;
+	Thu, 21 Dec 2023 11:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2RzLsD9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703151248; x=1734687248;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=L+k5CS5sgC8pMM6kY4u78Belg2iE72BS8zZ13TBDiEs=;
-  b=k2RzLsD9anFS2xOvYcebFfeKXaDfc9nNThRLICBPlg8yiLXXs0+4m4wD
-   TgVO2MZ7XQguFD1ypxgEA6iW0yr0JVsi7nE3NXwAMwmAu7GRvCWFI0Btt
-   NB+WHjERNfoXEWGWxnRAAuOBfXLZv8wwyl+YbeZvVvT2QMoNEU+RR+jSq
-   gzx6tJbpLp2R8t7PTW17uenPfuE+YdoqukP5NGz4Z3S13n6oqDkJw/RGl
-   SIG7lLTbhxHcacvefEGaGZYqESrH6Jr8RA3/5UyTRq+iqG1f8S5Bx7UTm
-   UCClW4zjQJJqsoI6vzPk11chSSJ8sh1ojnTN2q6/n28b0RX2Qgn7bQkr0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="3188687"
-X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
-   d="scan'208";a="3188687"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 01:34:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="810918311"
-X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
-   d="scan'208";a="810918311"
-Received: from inlubt0316.iind.intel.com ([10.191.20.213])
-  by orsmga001.jf.intel.com with ESMTP; 21 Dec 2023 01:34:00 -0800
-From: lakshmi.sowjanya.d@intel.com
-To: tglx@linutronix.de,
-	jstultz@google.com,
-	giometti@enneenne.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com,
-	davem@davemloft.net,
-	alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	anthony.l.nguyen@intel.com,
-	pandith.n@intel.com,
-	mallikarjunappa.sangannavar@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	lakshmi.sowjanya.d@intel.com
-Subject: [RFC PATCH v2 10/10] ABI: pps: Add ABI documentation for Intel TIO
-Date: Thu, 21 Dec 2023 15:02:54 +0530
-Message-Id: <20231221093254.9599-11-lakshmi.sowjanya.d@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20231221093254.9599-1-lakshmi.sowjanya.d@intel.com>
-References: <20231221093254.9599-1-lakshmi.sowjanya.d@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XzDgUtMI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4D01C433C8;
+	Thu, 21 Dec 2023 11:28:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703158138;
+	bh=bn5TsZbZFAMzqugkbLLCAXDLCBCCddsOuTyKJNmW4j0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XzDgUtMIiyHvWufYrnuorriuX6ec0aKd75XvN4bvVRUU8h7RRq//v3hQxVZeIn26t
+	 DUfgKuHgBaG/HJamZr9h39OxZ2rPlqxn7ZQqwV8EbzYwFCvU6c/vR6aRYx1pngrWtm
+	 beBI35fawoXFmrakG6xJcSGxsszgy8mcmHJ2+25ZF+yJ7maIwhGu3MA2UGW3o0nQpm
+	 aLdOCtkcZ/FwpFUOsjWQBplirFA+rE0UXR7Z3lfqSiubbMx7FCsZ+vgu9IiqlwgUST
+	 YXW3Wg0+Xnf+lU3O0oRcaCI6LSrpv75aXN2tKalbPE6Aoxqmo9R9hGBBcGr+Wbymf7
+	 sCwalRVuuimSg==
+Date: Thu, 21 Dec 2023 11:28:41 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Nuno =?UTF-8?B?U8Oh?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>
+Subject: Re: [PATCH v5 1/8] iio: buffer-dma: Get rid of outgoing queue
+Message-ID: <20231221112841.1de85482@jic23-huawei>
+In-Reply-To: <20231219175009.65482-2-paul@crapouillou.net>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+	<20231219175009.65482-2-paul@crapouillou.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+On Tue, 19 Dec 2023 18:50:02 +0100
+Paul Cercueil <paul@crapouillou.net> wrote:
 
-Document sysfs interface for Intel Timed I/O PPS driver
+> The buffer-dma code was using two queues, incoming and outgoing, to
+> manage the state of the blocks in use.
+> 
+> While this totally works, it adds some complexity to the code,
+> especially since the code only manages 2 blocks. It is much easier to
+> just check each block's state manually, and keep a counter for the next
+> block to dequeue.
+> 
+> Since the new DMABUF based API wouldn't use the outgoing queue anyway,
+> getting rid of it now makes the upcoming changes simpler.
+> 
+> With this change, the IIO_BLOCK_STATE_DEQUEUED is now useless, and can
+> be removed.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> 
 
-Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
----
- Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
- 1 file changed, 7 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+I've applied this in interests in reducing the outstanding set of patches
+and because it stands fine as on its own.
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-new file mode 100644
-index 000000000000..d8be3a6d5795
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-@@ -0,0 +1,7 @@
-+What:		/sys/devices/platform/INTCxxxx/enable
-+Date:		January 2024
-+KernelVersion	6.8
-+Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-+Description:
-+		(RW) Enable or disable PPS TIO generator output, read to
-+		see the status of hardware(Enabled/Disabled).
--- 
-2.35.3
+Applied to the togreg branch of iio.git and pushed out as testing.
+Note this is now almost certainly 6.9 material given timing.
 
+Jonathan
