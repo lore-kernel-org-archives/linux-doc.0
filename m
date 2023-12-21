@@ -1,125 +1,82 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.155.80.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A20258C;
-	Thu, 21 Dec 2023 00:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IjizUnwR"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3b9d8bfe845so185842b6e.0;
-        Wed, 20 Dec 2023 16:57:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703120246; x=1703725046; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IsKyRwIIJMh6ypd8eGcHKjusmAjA6ghKRoJtNW0AIPo=;
-        b=IjizUnwRsc3FAcM6NfIMzTqOvRJZIOJ2PKDVyI70ok25QrB3ubpgcZnKbIHvMZBniO
-         YD4dw8FE2jICYKiVEuioXUhJIcYonGtmN8R03Cb1T7uzDoSS4tV2KVqBItS/65kvqI2r
-         wNkzbCj6Ed+UgOSN1uHsubwzX59aq5Wg6ya48X3n8OMT2qXmIu0W/y0ErbV02j9V53SD
-         WJKNezwAEL95zZWIjJZZuaPL1pDak9/wKzya4Vkf0LQspmtvKNLB5o1vj7JNs4X6V05x
-         6gN7qZ7ma/73iq1LbLWLgIGkduqGuPYNy5D6qwDzVYp7NzpBQiqDbiesuHaMYASyBKIV
-         OjTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703120246; x=1703725046;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IsKyRwIIJMh6ypd8eGcHKjusmAjA6ghKRoJtNW0AIPo=;
-        b=wKrJ9vB7ZBOAw1OOayTDVFbWLnnZoXohXfr15t31zfDwvAQayhDAXVUYzCmhVvI3L1
-         YAayH20VmTBGNK2KD9vW6GS5yki04Bs0uhUx+MGbJS2TxJQ5GK9LA6sydSl05U5+nzby
-         9qPuRsUA2wwKlReTK0Q2cxkAH/NGxl1QZznuhGacix3QA80HIKYPL2rKIE/6E2JnYFGj
-         Gd4QoK88DwIedKIivZcJiunZPLIOj3IYoyd2ATBDL6Vlx90PiopHzTYqO6Mht0Uc2Vun
-         DvTsPELGzi8Al6TipJK+LY24jQjA0qJBqO0K+NwWyPrKjoko6tZ6yHtNwB4gv+N/+8qC
-         Sgyw==
-X-Gm-Message-State: AOJu0Yw8oNGwX7XTEuSAacFd3PzQ1oia3SRS+QLl2nMsdFLshUOVT+/2
-	FR1/dvJSYSzRHVPohDZNej0=
-X-Google-Smtp-Source: AGHT+IE2svPs9OIqJz6GQFQGm3iwTc8Gs7lh91C7UHNps90ESUqToUj97RVKlK0QX9L3bsZ5gNHDng==
-X-Received: by 2002:a05:6808:1489:b0:3b9:dddb:2921 with SMTP id e9-20020a056808148900b003b9dddb2921mr26162193oiw.78.1703120246576;
-        Wed, 20 Dec 2023 16:57:26 -0800 (PST)
-Received: from localhost (fwdproxy-prn-020.fbsv.net. [2a03:2880:ff:14::face:b00c])
-        by smtp.gmail.com with ESMTPSA id j20-20020a056a00235400b006d6b6c0b569sm358349pfj.219.2023.12.20.16.57.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 16:57:26 -0800 (PST)
-From: Nhat Pham <nphamcs@gmail.com>
-To: akpm@linux-foundation.org
-Cc: tj@kernel.org,
-	lizefan.x@bytedance.com,
-	hannes@cmpxchg.org,
-	cerasuolodomenico@gmail.com,
-	yosryahmed@google.com,
-	sjenning@redhat.com,
-	ddstreet@ieee.org,
-	vitaly.wool@konsulko.com,
-	mhocko@kernel.org,
-	roman.gushchin@linux.dev,
-	shakeelb@google.com,
-	muchun.song@linux.dev,
-	hughd@google.com,
-	corbet@lwn.net,
-	konrad.wilk@oracle.com,
-	senozhatsky@chromium.org,
-	rppt@kernel.org,
-	linux-mm@kvack.org,
-	kernel-team@meta.com,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F39B641;
+	Thu, 21 Dec 2023 05:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shingroup.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shingroup.cn
+X-QQ-mid: bizesmtp75t1703138317tn34i1sc
+Received: from HX01040022.powercore.com.cn ( [223.112.234.130])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 21 Dec 2023 13:58:35 +0800 (CST)
+X-QQ-SSF: 01400000000000B0B000000A0000000
+X-QQ-FEAT: nA8mzCjPbKhGBn850sgwajtUoZgKOipjl+h8F581A/U2+hRYQkbNcWxNRxow0
+	apbv73toR/zQqt2GGAA5mM21WzAVvDatAK2HNZZD6zJpe/A+Z2Mtpc32+rVpapci+0+wmtL
+	pUz3N6rERb2me6XbELidjMV5/YjqYlZ4D5Bce2WD+zhs6viEBOgqSRkxLlBuvNxv9OqgUJj
+	yQQMxPsNyCEaNPDPx7TaF5OLfOQEyo3sY5eYbzV3/a2isEN+cdKaRoJTQQBbgwuWxFSGB0M
+	GR186SNKaIIBkcC7HVrBBRMpYyJfsWZVux6Mpbu4hmXjj/Tj3eE7xz1gjsfQF9VKHp4KHHB
+	ksnk8nFYpJv7oxTkjlJ8YcBjd4Q2a65btgzbHJMLgJ83M/uZezkrhxRWnpwYENE0B0Ea0KH
+	h91AgqX/qEHn809BUI9HCsLUCyP+arVX
+X-QQ-GoodBg: 2
+X-BIZMAIL-ID: 4987725630253096874
+From: "JiaLong.Yang" <jialong.yang@shingroup.cn>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: shenghui.qu@shingroup.cn,
+	ke.zhao@shingroup.cn,
+	zhijie.ren@shingroup.cn,
+	"JiaLong.Yang" <jialong.yang@shingroup.cn>,
+	Zenghui Yu <zenghui.yu@linux.dev>,
 	linux-doc@vger.kernel.org,
-	david@ixit.cz
-Subject: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling (fix)
-Date: Wed, 20 Dec 2023 16:57:25 -0800
-Message-Id: <20231221005725.3446672-1-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231207192406.3809579-1-nphamcs@gmail.com>
-References: <20231207192406.3809579-1-nphamcs@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH V2] Docs/zh_CN: Fix the meaning of DEBUG to pr_debug()
+Date: Thu, 21 Dec 2023 13:58:32 +0800
+Message-Id: <20231221055832.4374-1-jialong.yang@shingroup.cn>
+In-Reply-To: <340cbb78-3e68-4584-8e11-313f7f86fd34@loongson.cn>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:shingroup.cn:qybglogicsvrgz:qybglogicsvrgz6a-1
 
-Add a caveat about recurring zswap store failures leading to reclaim
-inefficiency.
+We know the macro DEBUG will make pr_debug() save the formatted
+string into final binary. But the translation in chinese gives a
+opposite meaning.
 
-Suggested-by: Yosry Ahmed <yosryahmed@google.com>
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+Signed-off-by: JiaLong.Yang <jialong.yang@shingroup.cn>
+link: https://lore.kernel.org/lkml/a9cbebd8-dd6e-d81c-471f-f40dcc7196ea@linux.dev/
+Reviewed-by: Zenghui Yu <zenghui.yu@linux.dev>
+link: https://lore.kernel.org/lkml/340cbb78-3e68-4584-8e11-313f7f86fd34@loongson.cn/
+Acked-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 5 ++++-
- Documentation/admin-guide/mm/zswap.rst  | 4 ++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 2b4ac43efdc8..5ec7dd753cd1 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1686,7 +1686,10 @@ PAGE_SIZE multiple when read back.
+V2: add commit info.
+Maybe now I have known about the process of patch.
+Sorry for wasting time of yours.
+
+ Documentation/translations/zh_CN/core-api/printk-basics.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/translations/zh_CN/core-api/printk-basics.rst b/Documentation/translations/zh_CN/core-api/printk-basics.rst
+index 59c6efb3fc41..cafa01bccff2 100644
+--- a/Documentation/translations/zh_CN/core-api/printk-basics.rst
++++ b/Documentation/translations/zh_CN/core-api/printk-basics.rst
+@@ -100,7 +100,7 @@ printk()的用法通常是这样的::
  
- 	When this is set to 0, all swapping attempts to swapping devices
- 	are disabled. This included both zswap writebacks, and swapping due
--	to zswap store failure.
-+	to zswap store failures. If the zswap store failures are recurring
-+	(for e.g if the pages are incompressible), users can observe
-+	reclaim inefficiency after disabling writeback (because the same
-+	pages might be rejected again and again).
+ 为了调试，还有两个有条件编译的宏：
+ pr_debug()和pr_devel()，除非定义了 ``DEBUG`` (或者在pr_debug()的情况下定义了
+-``CONFIG_DYNAMIC_DEBUG`` )，否则它们会被编译。
++``CONFIG_DYNAMIC_DEBUG`` )，否则它们不会被编译。
  
- 	Note that this is subtly different from setting memory.swap.max to
- 	0, as it still allows for pages to be written to the zswap pool.
-diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
-index cfa653130346..b42132969e31 100644
---- a/Documentation/admin-guide/mm/zswap.rst
-+++ b/Documentation/admin-guide/mm/zswap.rst
-@@ -159,6 +159,10 @@ zswap itself) on a cgroup-basis as follows:
  
- 	echo 0 > /sys/fs/cgroup/<cgroup-name>/memory.zswap.writeback
- 
-+Note that if the store failures are recurring (for e.g if the pages are
-+incompressible), users can observe reclaim inefficiency after disabling
-+writeback (because the same pages might be rejected again and again).
-+
- When there is a sizable amount of cold memory residing in the zswap pool, it
- can be advantageous to proactively write these cold pages to swap and reclaim
- the memory for other use cases. By default, the zswap shrinker is disabled.
+ 函数接口
 -- 
-2.34.1
+2.25.1
+
