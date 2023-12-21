@@ -1,99 +1,109 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AB953A1C;
-	Thu, 21 Dec 2023 15:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B58162813;
+	Thu, 21 Dec 2023 15:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="X/Xz+CqP"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7DADC1BF20A;
-	Thu, 21 Dec 2023 15:36:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1703172973;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qih4URF6rrbQJOr6/rCfK90mkaE3j03/vJR1RzN9ObQ=;
-	b=X/Xz+CqPOdunaGw7bvYkZ5aRHYFvdVD+OXsd/tSQfSOuFvqesHloinh7kqzKp1E8nrXMtF
-	Muc5f5onNiea/qpkIvsKlQptW/EoZEErHWPtLCBD4pvseQ/V+m2cAaHkqOH44kbOZ0ELEJ
-	MIUnWt3/iUBKSMDJJ6LgUiXQ0SXtHijZUa+41AcIlogzuOBr+duepnfPg2Z0YFkwDWTXt6
-	lBuVt2thCnx/s+TTf8OPy28e3fGKUMLvZqeO+DWZ+oUdiclrF/l+uw3KltprYCQ/X7D0mH
-	yt2uckt4zAbF1Iba9A8SYadiNcrBvEXPjgs8/GIgJ2UXSQVfBRrEvFXGQzNS/A==
-Date: Thu, 21 Dec 2023 16:36:10 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, Dent Project
- <dentproject@linuxfoundation.org>, Liam Girdwood <lgirdwood@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BvPuYSYB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00995C433C8;
+	Thu, 21 Dec 2023 15:43:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703173409;
+	bh=p268v/Z0J/H5DA9xBR1KA840CSsR1hZCKg5Z9xk2s3c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BvPuYSYBl2X/2ntuQY8d5QQk0Ku6zFRvgcG2d7Z79O9T5f1wQKO9o7+gGxgJ6a/a2
+	 mfCYdGFw7CHXl4NAVZpAz3J2YrB8h0NS4C7U2/mjQESTrS4dK37riC8323lwWg1nOb
+	 z5etc72DN2g2y8VehSmx21Yd9vc+VbBL20ljCYhb1sHuD6qnBr8qfx33YoVTH91thr
+	 wuaGC4M4c3Pgst7X9bupkaLDGvaVG4eZLc3/1+bCDoMe32XubgGgptffMXe3dmMAay
+	 N2CgV3x3cyOxo9pnEzoD5Wmv/QIBuUEGZBGlvFNy3EBi8ZWhInb0GC6hbWb0EGLH3p
+	 UT/ivN+mvANFw==
+Date: Thu, 21 Dec 2023 15:43:21 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
 Subject: Re: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
  driver
-Message-ID: <20231221163610.47038996@kmaincent-XPS-13-7390>
-In-Reply-To: <88ed0c94-d052-4564-be0c-79a0f502eda8@sirena.org.uk>
+Message-ID: <ffda1003-b752-402e-8e51-e2e24a840cff@sirena.org.uk>
 References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
-	<20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
-	<20231204225956.GG981228@pengutronix.de>
-	<20231205064527.GJ981228@pengutronix.de>
-	<4b96b8c8-7def-46e5-9c85-d9e925fb9251@sirena.org.uk>
-	<20231205140203.GK981228@pengutronix.de>
-	<88ed0c94-d052-4564-be0c-79a0f502eda8@sirena.org.uk>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ <20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
+ <20231204225956.GG981228@pengutronix.de>
+ <20231205064527.GJ981228@pengutronix.de>
+ <4b96b8c8-7def-46e5-9c85-d9e925fb9251@sirena.org.uk>
+ <20231205140203.GK981228@pengutronix.de>
+ <88ed0c94-d052-4564-be0c-79a0f502eda8@sirena.org.uk>
+ <20231221163610.47038996@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ayY3hi9uzG0eQYAg"
+Content-Disposition: inline
+In-Reply-To: <20231221163610.47038996@kmaincent-XPS-13-7390>
+X-Cookie: Results are not typical.
+
+
+--ayY3hi9uzG0eQYAg
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
 
-On Tue, 5 Dec 2023 15:57:28 +0000
-Mark Brown <broonie@kernel.org> wrote:
+On Thu, Dec 21, 2023 at 04:36:10PM +0100, K=F6ry Maincent wrote:
+> Mark Brown <broonie@kernel.org> wrote:
 
-> On Tue, Dec 05, 2023 at 03:02:03PM +0100, Oleksij Rempel wrote:
-> > On Tue, Dec 05, 2023 at 12:55:18PM +0000, Mark Brown wrote: =20
-> > > On Tue, Dec 05, 2023 at 07:45:27AM +0100, Oleksij Rempel wrote: =20
->=20
-> > > > CC regulator devs here too. =20
->=20
-> > > Again, I'm not sure what if any question there is? =20
->=20
-> > PSE is kind of PMIC for Ethernet ports. I assume, it is good to let you
-> > know at least about existence drivers. =20
->=20
-> OK...  I mean, if they're not using the regulator framework I'm not sure
-> it has much impact - there are plenty of internal regulators in devices
-> already so it wouldn't be *too* unusual other than the fact that AFAICT
-> this is somewhat split between devices within the subsystem?  Neither of
-> the messages was super clear.
+> > OK...  I mean, if they're not using the regulator framework I'm not sure
+> > it has much impact - there are plenty of internal regulators in devices
+> > already so it wouldn't be *too* unusual other than the fact that AFAICT
+> > this is somewhat split between devices within the subsystem?  Neither of
+> > the messages was super clear.
 
-PSE Power Interface (which is kind of the RJ45 in PSE world) have similar
-functionalities as regulators. We wondered if registering a regulator for
-each PSE PI (RJ45 ports) is a good idea. The point is that the PSE controll=
-er
-driver will be its own regulator consumer.
-I can't find any example in Linux with such a case of a driver being a prov=
-ider
-and a consumer of its own regulator. This idea of a regulator biting its own
-tail seems weird to me. Maybe it is better to implement the PSE functionali=
-ties
-even if they are like the regulator functionalities.
+> PSE Power Interface (which is kind of the RJ45 in PSE world) have similar
+> functionalities as regulators. We wondered if registering a regulator for
+> each PSE PI (RJ45 ports) is a good idea. The point is that the PSE contro=
+ller
+> driver will be its own regulator consumer.
+> I can't find any example in Linux with such a case of a driver being a pr=
+ovider
+> and a consumer of its own regulator. This idea of a regulator biting its =
+own
+> tail seems weird to me. Maybe it is better to implement the PSE functiona=
+lities
+> even if they are like the regulator functionalities.
 
-What do you think?
+Is it at all plausible that a system (perhaps an embedded one) might use
+something other than PSE?
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+--ayY3hi9uzG0eQYAg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWEXRkACgkQJNaLcl1U
+h9AWAwf+OP5Q11gZjq9GXb7vPW2rJm2BAFFBY2+mv5PDmeN23hAQZJ3hk7m0AYwr
+5KBzgRuvGPeJ+pPbYmiwxNi8kXh9i8osTopdSP5p+OAzEIdT5DMqaaKJ0uWJlpYX
+zS0gp3FM1eH7Td+BrOAvJFlt0OgQLXr8SADS/SwEB16iIg6mHwEdSrDw8ZI66sA/
+A7ANAodvCQ0WBYAU5OvDHoNwmzuKyNTHu+Z2Wqq/PLP5qsojZTi6QrbL1hNPqiLE
+lCvrWI58JCdfRjyM5f3BoQ05HDPdHTrVs1eTPScpZgHjFrwBk/89TJL87tRsBMi5
+d/MFhEW24jlwrBiUU12PL9nk41zkqw==
+=r7wZ
+-----END PGP SIGNATURE-----
+
+--ayY3hi9uzG0eQYAg--
