@@ -1,192 +1,192 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2108.outbound.protection.outlook.com [40.107.212.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE177609B;
-	Thu, 21 Dec 2023 13:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B46576DDA;
+	Thu, 21 Dec 2023 13:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=Sony.onmicrosoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A1u+yrJn"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1d3cfb1568eso6929655ad.1;
-        Thu, 21 Dec 2023 05:29:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703165391; x=1703770191; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KYWiDqA/xVqURnqXRXqj1df8Wv23bEonDjlL7ZycWBs=;
-        b=A1u+yrJnfkyNq3+pCed94353DWTMDfeIV5OF/83Pk7YzpMCuXIu0sSPApIsc5zs5CB
-         hL4mcdmebYqDh4Nev7gP+i6zMbqjMoMYkplSXDNQHiVQ/OPmDuSVcYwSwxjAFwfUNBea
-         urvrHWsQYbycvWNNAC87SKZhTRcl1UOTxqWWH5rUXQhQBEIJghpK0lKZtD86E/qehJOU
-         hnwxUmIOGDtiT7vUX0E5sCNSHCgPtKw4XI20hH98zXHgozeGCW6zFYRE8EIKTTLe4NKx
-         ltpMnsKbjUxpAUxLEe+0C32/9kKXuC8eYO2/Mps8a4KSwGLc0G3KRxgDjzQlql+k6gmC
-         7Wlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703165391; x=1703770191;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KYWiDqA/xVqURnqXRXqj1df8Wv23bEonDjlL7ZycWBs=;
-        b=XGNngtKy810F5QrPAfFFbRPCPO2xTcDYBGNv+4U+6xA+cVKw8jimH8BXP+nl3AkvLX
-         UQnHK81SdRUsOV+gjWhhJuAkHBIrRSLBT4zK71AdDMcBmO4fR+O4yUktOnNRPErUJ5oN
-         SPVx9PYslsqEP9XmkX75lTaJCtp3NaLwuttI8IFwvqaj/pJkK6YOaYyVHrF28LGI6x1p
-         hz7ivZRtlBCOWd4Jj9MNRV+Qo+NLo176++FnNnR9OgRyqmsqPe0QgPTPQhHfQhIqVU0y
-         bPSj9DJxzAKKTcSXQWRHQZJn67Gun58KO0Em5VMmaEVnl5NfweQc4XdjyyUet6oYZscu
-         OOng==
-X-Gm-Message-State: AOJu0YxclgxisTW3xxYbqRD7OK6voyAGCNDoTqSPDCE6rnDBt/VIOkhZ
-	gzNoJtvl/It2FpImAdq/ekV/unBHHis=
-X-Google-Smtp-Source: AGHT+IFFoM0rhYvpy9+Lbrf0OF4O0nZ9UnuICWHyRxK6jqe62Ztv/naVB+Q23U7A2DwZEymCG5+hcw==
-X-Received: by 2002:a17:903:2347:b0:1d3:c730:f0a2 with SMTP id c7-20020a170903234700b001d3c730f0a2mr7762164plh.118.1703165390748;
-        Thu, 21 Dec 2023 05:29:50 -0800 (PST)
-Received: from ruipeng-ThinkCentre-M730e-N010.company.local (014136220210.static.ctinets.com. [14.136.220.210])
-        by smtp.gmail.com with ESMTPSA id 28-20020a17090a1a1c00b0028b3539cd97sm4372382pjk.20.2023.12.21.05.29.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Dec 2023 05:29:50 -0800 (PST)
-From: Ruipeng Qi <ruipengqi7@gmail.com>
-To: corbet@lwn.net,
-	rafael.j.wysocki@intel.com,
-	gregkh@linuxfoundation.org,
-	bagasdotme@gmail.com,
-	carlos.bilbao@amd.com,
-	vegard.nossum@oracle.com
-Cc: skhan@linuxfoundation.org,
-	srinivas.pandruvada@linux.intel.com,
-	qiruipeng@lixiang.com,
-	linux@leemhuis.info,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 3/7] doc: Add osdump guide
-Date: Thu, 21 Dec 2023 21:29:43 +0800
-Message-Id: <20231221132943.653-1-ruipengqi7@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	dkim=pass (1024-bit key) header.d=Sony.onmicrosoft.com header.i=@Sony.onmicrosoft.com header.b="hTdXKxLp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EGe5GOouJOYOrfJw7oOTO6cPpgN1ULhj0Jw8wlBcvqMlRB02aE6gINqELbAkpY2IZt06/G5Sksm9rIaMT5LBVJ5HcLZXY0sOtv98rtitZcn+NWCjImAyldbKXwyzzKIOzNkNx0B6s2P+WhJsVE2S9YR3vBalz31O8y/OIGIJIWk4YMBDIbIhRjqk1yAbLKyyqqsIa+tGNyjnO+YtN8OOw8qMjase51/YWWNKd3h/qiG8FsCZMP4B37y8PTMpv5Edzp3Keo2MDrNK717pNOW3QUT6ZTfrtjlmI/7YahbXMTQxJbvlgoJpGEGpDihopauwwxoUMsdqdKlnHnntrnyQRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G8XwtCSxGPzTQdHIx5TxffiqY0PWTaS/zWVcjiJ5q8Q=;
+ b=BJ/LXBB4Mn1pVRYRxa91GgSLwvPwNaM7Uh9yrBSJi3BB4gTreVQhiKXMUtoBKRYD1okwzszNmED5iQLmVHpp1DUPM2ciz9dioAeDaID8v26edliJWUUNhR5nEs8elc9tTiqFKWNJj+50tKPmyslc5YOCGh98vg6d/sgRM49qng8AXA/nO1Vf2B5/kplAFZVV4bXQyL9pt2Lx80XJN89yLXtGC3w52K44h8okvjtcbNJrGLD98bTEg92UE40Walp3Phwxl3La7mhTeJxDdEL1soRsouYupcH3glqLDlG2sPnjJYCENHoPqiNcpgvMRU7Xy31NjVfcq95aHM/Ms1xczA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 121.100.38.198) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=mail.sony.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=sony.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Sony.onmicrosoft.com;
+ s=selector2-Sony-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G8XwtCSxGPzTQdHIx5TxffiqY0PWTaS/zWVcjiJ5q8Q=;
+ b=hTdXKxLpBlVBLxWkZmxby3XCiizxaEuxoGDMoQCjtvHwWqrVSItzX2Ybz+2jct9KN0F9WWmwwS5ZufFHQoftKRbsXUmGxAOiq0pLQjcn48+LNXsREwjfk9ZZQbn/n0VGRLDRBDKP832RPIbqQhHqYA4GJdr0/OJANmxNqRW3ZqA=
+Received: from DM6PR02CA0153.namprd02.prod.outlook.com (2603:10b6:5:332::20)
+ by BL0PR13MB4548.namprd13.prod.outlook.com (2603:10b6:208:1cc::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.21; Thu, 21 Dec
+ 2023 13:41:27 +0000
+Received: from DS1PEPF0001708F.namprd03.prod.outlook.com
+ (2603:10b6:5:332:cafe::8) by DM6PR02CA0153.outlook.office365.com
+ (2603:10b6:5:332::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.20 via Frontend
+ Transport; Thu, 21 Dec 2023 13:41:27 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 121.100.38.198)
+ smtp.mailfrom=mail.sony.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=sony.com;
+Received-SPF: Fail (protection.outlook.com: domain of mail.sony.com does not
+ designate 121.100.38.198 as permitted sender)
+ receiver=protection.outlook.com; client-ip=121.100.38.198;
+ helo=gepdcl09.sg.gdce.sony.com.sg;
+Received: from gepdcl09.sg.gdce.sony.com.sg (121.100.38.198) by
+ DS1PEPF0001708F.mail.protection.outlook.com (10.167.17.139) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7113.14 via Frontend Transport; Thu, 21 Dec 2023 13:41:26 +0000
+Received: from gepdcl04.s.gdce.sony.com.sg (SGGDCSE1NS08.sony.com.sg [146.215.123.198])
+	by gepdcl09.sg.gdce.sony.com.sg (8.14.7/8.14.4) with ESMTP id 3BLDeoI5021753;
+	Thu, 21 Dec 2023 21:41:07 +0800
+Received: from mail.sony.com ([43.88.80.246])
+	by gepdcl04.s.gdce.sony.com.sg (8.14.7/8.14.4) with ESMTP id 3BLDeGmO019292;
+	Thu, 21 Dec 2023 21:40:16 +0800
+Received: by mail.sony.com (Postfix, from userid 1000)
+	id 3E87320C224A; Thu, 21 Dec 2023 19:10:06 +0530 (IST)
+From: Sreenath Vijayan <sreenath.vijayan@sony.com>
+To: linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, corbet@lwn.net,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: linux-kernel@vger.kernel.org, anandakumar.balasubramaniam@sony.com,
+        Sreenath Vijayan <sreenath.vijayan@sony.com>,
+        Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>
+Subject: [PATCH] tty/sysrq: Dump kernel ring buffer messages via sysrq
+Date: Thu, 21 Dec 2023 19:09:53 +0530
+Message-ID: <20231221133953.1507021-1-sreenath.vijayan@sony.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0001708F:EE_|BL0PR13MB4548:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: dbc1de9d-2385-4def-2bb5-08dc022a8829
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	PKWX52Dqt9dqXCxEa8S4g2LkHFdiCknGWnIiJ9fqFGzFCIBBc6G1iUXozUAs+fjdNd1u9QIhIvCHtjWZmyuibufPe23u/yfpgXycoAv9jLCSL1cWvQb8weYhk2G67ySWhTDkyit6y8vY/RY5N6h4/c7Nqj9z0PqkDHVVJFKGKjSoXUsQMcpKWYqiC1ZQmWBP0zNmfxMgwpJJm8gxy9YVFAPOgpolXxeadJcTY0VKSBKnPey+KXHQw6UpTEsCMPgYCc4WCCMfeiYMwb9e+na6iMvrSD2q1VRiYZDQYp2ogZxPRUndKQ1DZCtz5KBQZv+kWuu8+01vnhhASLpMDB42T73feZsOnL2fxjDqBIiQFcnD99Lqz+6Ik18kj3rn6BewH/0mUEfe2Yut41mX4dzgWTi5D8BbsBtJJxDkSWS4D91XSCXjm20jtlhxfmR4l+yMdZJoHM48Mre1y7+5ktE31/KH4pLwTl3YfrfngBOYqfn74XPJimfcAv7oeUcNZEI12pylpfNd7TPcuBFH18rkfR0ccHRT8W0xOCSHqg6hs5S3PtYsyhel7eI33H89cU0LmtOh2gxS5Cz8173t9mYS22PU68BAU93MoAiy0AB4AJ7QmFnbc/+FKuBjgyuF5yz1wAvQgyS3Oeo+CW2KxA9NyUxeKbp5YXfj27aRTkKakR/LxTfwk6dh7wXgSMlkzao/2SyL2FmIkdlJCcaszH40uLxDUakpp5pJl0JX/h8QmV+rgNZammuyO2u+lpZXAcH6
+X-Forefront-Antispam-Report:
+	CIP:121.100.38.198;CTRY:SG;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:gepdcl09.sg.gdce.sony.com.sg;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(136003)(346002)(376002)(396003)(230922051799003)(82310400011)(64100799003)(451199024)(1800799012)(46966006)(40480700001)(6266002)(26005)(1076003)(2616005)(336012)(426003)(6666004)(107886003)(36756003)(82740400003)(82960400001)(83170400001)(81166007)(356005)(35950700001)(8936002)(8676002)(4326008)(41300700001)(83380400001)(44832011)(5660300002)(47076005)(54906003)(42186006)(15650500001)(70206006)(70586007)(2906002)(316002)(450100002)(498600001);DIR:OUT;SFP:1102;
+X-OriginatorOrg: sony.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Dec 2023 13:41:26.9174
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbc1de9d-2385-4def-2bb5-08dc022a8829
+X-MS-Exchange-CrossTenant-Id: 66c65d8a-9158-4521-a2d8-664963db48e4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=66c65d8a-9158-4521-a2d8-664963db48e4;Ip=[121.100.38.198];Helo=[gepdcl09.sg.gdce.sony.com.sg]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS1PEPF0001708F.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR13MB4548
 
-From: qiruipeng <qiruipeng@lixiang.com>
+When terminal is unresponsive, one cannot use dmesg to view kernel
+ring buffer messages. Also, syslog services may be disabled,
+to check them after a reboot, especially on embedded systems.
+In this scenario, dump the kernel ring buffer messages via sysrq
+by pressing sysrq+D.
 
-Add osdump guide for the users who try to compile with osdump enabled,
-use, and analysis real system problem.
-
-Signed-off-by: qiruipeng <qiruipeng@lixiang.com>
+Signed-off-by: Sreenath Vijayan <sreenath.vijayan@sony.com>
+Signed-off-by: Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>
 ---
- Documentation/admin-guide/index.rst  |  1 +
- Documentation/admin-guide/osdump.rst | 94 ++++++++++++++++++++++++++++
- 2 files changed, 95 insertions(+)
- create mode 100644 Documentation/admin-guide/osdump.rst
+ Documentation/admin-guide/sysrq.rst |  2 ++
+ drivers/tty/sysrq.c                 | 43 ++++++++++++++++++++++++++++-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 43ea35613dfc..1212ff4d130e 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -116,6 +116,7 @@ configure specific aspects of kernel behavior to your liking.
-    mono
-    namespaces/index
-    numastat
-+   osdump
-    parport
-    perf-security
-    pm/index
-diff --git a/Documentation/admin-guide/osdump.rst b/Documentation/admin-guide/osdump.rst
-new file mode 100644
-index 000000000000..5738b03ff684
---- /dev/null
-+++ b/Documentation/admin-guide/osdump.rst
-@@ -0,0 +1,94 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
+index 2f2e5bd440f9..464c4e138b9d 100644
+--- a/Documentation/admin-guide/sysrq.rst
++++ b/Documentation/admin-guide/sysrq.rst
+@@ -161,6 +161,8 @@ Command	    Function
+             will be printed to your console. (``0``, for example would make
+             it so that only emergency messages like PANICs or OOPSes would
+             make it to your console.)
 +
-+===================================================
-+Documentation for osdump - The Os Minidump Solution
-+===================================================
++``D``	    Dump the kernel ring buffer
+ =========== ===================================================================
+ 
+ Okay, so what can I use them for?
+diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
+index 02217e3c916b..aa43cb40c117 100644
+--- a/drivers/tty/sysrq.c
++++ b/drivers/tty/sysrq.c
+@@ -51,6 +51,8 @@
+ #include <linux/syscalls.h>
+ #include <linux/of.h>
+ #include <linux/rcupdate.h>
++#include <linux/kmsg_dump.h>
++#include <linux/console.h>
+ 
+ #include <asm/ptrace.h>
+ #include <asm/irq_regs.h>
+@@ -450,6 +452,45 @@ static const struct sysrq_key_op sysrq_unrt_op = {
+ 	.enable_mask	= SYSRQ_ENABLE_RTNICE,
+ };
+ 
++static void dmesg_dump_callback(struct work_struct *work)
++{
++	struct kmsg_dump_iter iter;
++	size_t len;
++	char buf[1024];
++	struct console *con;
++	int cookie;
 +
-+Overview
-+========
++	kmsg_dump_rewind(&iter);
++	while (kmsg_dump_get_line(&iter, 1, buf, sizeof(buf), &len)) {
++		/*
++		 * Since using printk() or pr_*() will append the message to the
++		 * kernel ring buffer, they cannot be used to display the retrieved
++		 * message. Hence console_write() of serial drivers is used.
++		 */
++		console_lock();
++		cookie = console_srcu_read_lock();
++		for_each_console_srcu(con) {
++			if ((console_srcu_read_flags(con) & CON_ENABLED) && con->write)
++				con->write(con, buf, len);
++		}
++		console_srcu_read_unlock(cookie);
++		console_unlock();
++	}
++}
 +
-+Osdump is a new crash dumping solution aiming at specific embedded
-+devices within Automotive or Industrial having the following features:
-+ - limited memory.
-+ - require quick reboots after system faults.
++static DECLARE_WORK(sysrq_dmesg_work, dmesg_dump_callback);
 +
-+To minimize the dump file size and maximize the dump process speed,
-+Osdump provides the following features:
-+ - excludes userspace memory, focusing solely on resolving OS-related issues.
-+ - eliminates constant data such as text segments.
-+ - core OS data for dumping, this includes:
-+    - static allocated bss and data segments
-+    - dynamic data such as:
-+       - slub data for small-sized data
-+       - some large-sized data alloced in pages.
-+ - compresses dump data to help reduce dump file size
-+
-+Considering the large volume of non-contiguous data, a binary data format is
-+used directly.
-+
-+By utilizing the dump file and vmlinux, a standard elf format file can be
-+reassembled and parsed using crash tool.
-+
-+Declare
-+========
-+Mainly test on arm64 with 2G DDR, selecting slub as SLAB allocator, 39-bit for
-+address space size.
-+
-+Configure and Build
-+===================
-+
-+Kernel config
-+-------------
-+Disable CRASH_CORE, SLUB_DEBUG, and SLUB_TINY, and then select CONFIG_OS_MINIDUMP.
-+
-+Dts config
-+----------
-+Add one reserved region for osdump. Its size depends DDR size you are using. Here
-+add one 16M reserved region with 2G's DDR.
-+
-+osdump {
-+	compatible = "osdump";
-+	reg = <0 0x64000000 0 0x1000000>;
++static void sysrq_handle_dmesg_dump(u8 key)
++{
++	queue_work(system_unbound_wq, &sysrq_dmesg_work);
++}
++static struct sysrq_key_op sysrq_dmesg_dump_op = {
++	.handler        = sysrq_handle_dmesg_dump,
++	.help_msg       = "dump-dmesg(D)",
++	.action_msg     = "Dump dmesg",
++	.enable_mask    = SYSRQ_ENABLE_DUMP,
 +};
 +
-+Build the image after you have done with configuration.
-+
-+Trigger one panic and analysis it
-+=================================
-+
-+0) Precondition
-+---------------
-+DDR won't poweroff during panic. Its content should not be lose.
-+
-+1) Generate dump file
-+---------------------
-+When a panic occurs, it will dump core data into specific reserved region.
-+
-+echo c > /proc/sysrq-trigger
-+
-+2) Get dump file
-+----------------
-+When system reboot from panic, run the following command to get dump file.
-+
-+cat /proc/osdump > ./osdump
-+
-+Got 13M dump file on my side.
-+
-+3) Run crash tool to generate standard elf file
-+-----------------------------------------------
-+
-+crash --enable_raw_dumpfile ./vmlinux ./osdump  -m vabits_actual=39 --machdep\
-+	kimage_voffset=0xffffffbf8f000000 --machdep phys_offset=0x80000000
-+
-+Add new feature for crash tool that reassemble a standard elf format file with
-+the dump file and vmlinux. Will submit this patch later.
-+
-+4) Analysis with crash tool
-+---------------------------
-+
-+crash ./vmlinux ./osdump_elf
-+
-+
-+Note
-+====
-+disable when select CRASH_CORE, SLUB_DEBUG, or SLUB_TINY.
+ /* Key Operations table and lock */
+ static DEFINE_SPINLOCK(sysrq_key_table_lock);
+ 
+@@ -505,7 +546,7 @@ static const struct sysrq_key_op *sysrq_key_table[62] = {
+ 	NULL,				/* A */
+ 	NULL,				/* B */
+ 	NULL,				/* C */
+-	NULL,				/* D */
++	&sysrq_dmesg_dump_op,		/* D */
+ 	NULL,				/* E */
+ 	NULL,				/* F */
+ 	NULL,				/* G */
 -- 
-2.17.1
+2.42.0
 
