@@ -1,100 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD41627E2;
-	Thu, 21 Dec 2023 18:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1554A6E2A1
+	for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 20:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljigpITK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E661C433C7;
-	Thu, 21 Dec 2023 18:05:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703181935;
-	bh=D5T8wHGhxAKHwrI/lC8X+GMnYbXpN7+mZX5GeytoQ04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ljigpITKWRoXryXYXE7TF2C2rWPXY88P26mNPS/9U7CNNAjF5Zgv7xB2KPUv4brT3
-	 PXS8SzBv56B91NY5jhDj5FMdLD1e2lW8gEtAJh0GRa3CzOWW29o1BubDuLqBcPnKF1
-	 p+rUcxAizfn9zOMvUHawaFn6lITidua0/D9rs6oepNSEDamK1ClDAXQnS1s/fG3n7b
-	 65MR+q0DuQxdlKBgnwGld9sXNpSb6nquEs7dgOjIzxgB1MwHx4Zt+eynFiDDvsfjYB
-	 MTuXW+ZX0eFdIOjOx/6Ork84bt15YpWCDAKWnm7nPvbHDsKeey4pUs6hK+p/uNmzP5
-	 rNzVDH9I/ZriA==
-Date: Thu, 21 Dec 2023 18:05:28 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Subject: Re: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
- driver
-Message-ID: <81f0ddba-5008-43a4-a41c-c7b6ba8e2e3b@sirena.org.uk>
-References: <20231204225956.GG981228@pengutronix.de>
- <20231205064527.GJ981228@pengutronix.de>
- <4b96b8c8-7def-46e5-9c85-d9e925fb9251@sirena.org.uk>
- <20231205140203.GK981228@pengutronix.de>
- <88ed0c94-d052-4564-be0c-79a0f502eda8@sirena.org.uk>
- <20231221163610.47038996@kmaincent-XPS-13-7390>
- <ffda1003-b752-402e-8e51-e2e24a840cff@sirena.org.uk>
- <20231221171000.45310167@kmaincent-XPS-13-7390>
- <501f671d-4e03-490b-a9d6-e1f39bb99115@sirena.org.uk>
- <20231221174246.GI1697233@pengutronix.de>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="htjTw8g8"
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-35fd4856abbso104665ab.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 12:10:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1703189418; x=1703794218; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KuNcu+xSyjheqKIJeQgDsNTkefgj8XV+ZlyaXQLWUtQ=;
+        b=htjTw8g8ZMl5/1bCZWg7QJZ0R2bBW3H0bSln7Nk2PsHatqe4pZT9je6JGPKugqgeMB
+         1p2YJvrhC+ApTKUGcYyREZFb0dq3iVhJFoyCUcYItKd2rxxcfBSJXiUoqSdtgjLYjcnK
+         sadUeqkJ55d8+Dw/4ctRnY7fGXNQr4J59/yeA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703189418; x=1703794218;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KuNcu+xSyjheqKIJeQgDsNTkefgj8XV+ZlyaXQLWUtQ=;
+        b=qU2P64yxf1VkPU33SyRHJ/6DLFd4u0JuwUSbvs+xlhX2sCl6Zv/R8sGxm3ljth+12A
+         58mvnUi/Ipli2mRaK6SjQI2/Jm+H6hBqTQL608cvzieDOhvneAJ02hNmnlb17lPo+Gq9
+         elkiHwbktRhVDQFBCkyubXh0Zyhfrovd6awD79+VrEdDa83dtAyoU0dpbjSBYC695o2r
+         urDPE+GLghVoeQTCw3vLmv349ElcsgP1K9LGCh/d4+8Arbuiwx0gSr33MxS0h5gNpThW
+         1JRAkZxYvAaPqoc7BoQuXw6Qc8TINPlEkUui64K2b2T2D4sEvvXHyE8HMAPWlQDjPARs
+         DDCQ==
+X-Gm-Message-State: AOJu0YyfH/1Qw+7WCHuVVJMfKO59oH4vE0La2T4epnFwrBgt4O5bUrIg
+	Emnx3YD+Qefb9DplEqpeJqdZ1uAnb762IQ==
+X-Google-Smtp-Source: AGHT+IF1UnXSpqilXx5/i0ZEyW2V9x9IQmgHrp0PwIlsARHqqwSbXr2zVL9aQML5DMWwebj2OtVrKg==
+X-Received: by 2002:a05:6e02:1cab:b0:35f:d862:e451 with SMTP id x11-20020a056e021cab00b0035fd862e451mr384657ill.2.1703189418192;
+        Thu, 21 Dec 2023 12:10:18 -0800 (PST)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id f8-20020a056e020b4800b0035fc47d9014sm694293ilu.13.2023.12.21.12.10.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Dec 2023 12:10:17 -0800 (PST)
+Message-ID: <4fb5fac7-fa3a-4988-b5f4-8025864c4d37@linuxfoundation.org>
+Date: Thu, 21 Dec 2023 13:10:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9BoYyAUBuFErv7HY"
-Content-Disposition: inline
-In-Reply-To: <20231221174246.GI1697233@pengutronix.de>
-X-Cookie: Results are not typical.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v4 0/3] livepatch: Move modules to selftests and
+ add a new test
+Content-Language: en-US
+To: Marcos Paulo de Souza <mpdesouza@suse.com>, Shuah Khan
+ <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+ Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ live-patching@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
+ <55b717dba239f3bedf0da7e25925e390a63459f5.camel@suse.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <55b717dba239f3bedf0da7e25925e390a63459f5.camel@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 12/21/23 05:17, Marcos Paulo de Souza wrote:
+> On Wed, 2023-12-20 at 13:53 -0300, Marcos Paulo de Souza wrote:
+>> Changes in v4:
+>> * Documented how to compile the livepatch selftests without running
+>> the
+>>    tests (Joe)
+>> * Removed the mention to lib/livepatch on MAINTAINERS file, reported
+>> by
+>>    checkpatch.
+>>
+> 
+> To clarify: this is not a resend, this is the v4 that people were
+> waiting for. I made a mistake with b4 tool, that first I sent the email
+> just to myself, for testing, and it bumped the version to v5, but I
+> asked it to "resend" the v4, but it ended up adding the "RESEND" to the
+> series.
+> 
+> Please review this patchset and ignore the RESEND word.
+> 
+> Thanks to Petr Mladek for spotting my mistake.
+> 
 
---9BoYyAUBuFErv7HY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thank for the clarification. I was wondering why this is a RESEND :)
+I will wait for reviewers to comment on this before pulling them in
+for Linux 6.8-rc1.
 
-On Thu, Dec 21, 2023 at 06:42:46PM +0100, Oleksij Rempel wrote:
+thanks,
+-- Shuah
 
-> The main question is - how to represent a remote consumer (Powered
-> Device)? It looks for me like having a dummy regulator consumer for each
-> (PSE PI) withing the PSE framework is the simplest thing to do. User
-> should enable this dummy consumer from user space by using already
-> existing interface in case of PoDL - ETHTOOL_A_PODL_PSE_ADMIN_CONTROL
-> or new interface for Clause 33 PSE.
-
-That's not even a dummy consumer - the physical power output from the
-system is a real, physical thing that we can point at just as much as
-any other physical device.  Some kind of library/helper thing that
-connects up with other interfaces for controlling network ports like you
-suggest above does seem like a good fit here.
-
---9BoYyAUBuFErv7HY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWEfmcACgkQJNaLcl1U
-h9Acggf+NDcjJKIBfD5BoXWMfSIkaHsYiitSj17XijQ9AOb+V8MrpL1QbuK2lHzS
-yZv4O/Ed2yk2oLnxJ029R54HnKgXQ25hZKFjdGkLxCHSZS+GhzRPHw7QLIG8KeGO
-Aw4qjs/Lkd5Nv6sNBs4es4wUiOY5+unwiqOEBZn+doFs6amX0i9Sedk8HqTxpA1l
-BjrYbDuacb+WEe2vLU1mTrz1+VF67nSO8R+iyShD7sss5AiiLtxxMwiBlPsZn+ec
-rjFGC5L2bxo71F1HTKDyn108V5E/u0kpfhbRab7jSGr3Z+48TjBczb+QaNfkzegY
-GswtRELPkEY6dOfiXM/49YnnGd+6mw==
-=A5qx
------END PGP SIGNATURE-----
-
---9BoYyAUBuFErv7HY--
