@@ -1,269 +1,194 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55F84B5B5;
-	Wed, 20 Dec 2023 23:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50BA39E
+	for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 00:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IAk3xv5i"
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7b7d65d4eecso9180239f.0;
-        Wed, 20 Dec 2023 15:55:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WHoibLme"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-9fa45e75ed9so22174066b.1
+        for <linux-doc@vger.kernel.org>; Wed, 20 Dec 2023 16:25:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703116516; x=1703721316; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5tNoJUjS2qxiKE/v+m+/kf6Z1ppnJjq/UKAlEiUarNg=;
-        b=IAk3xv5iiiXx33MxyhxtqqzbR1o0TC28Tk3mENjWMEUWKfE9Iu8rDcpa+FllBHwe5n
-         ofzmyv2KvcavYL1ppnRrYFuwU9qCaNUBe5Q+4KR/JTVA1LL9SiAP1WPUAMrqu59O1fga
-         K/Uv2L8axXD9Ky0M6ZlX8GAUKa9s1ag0UB4HLVqbDJdn3M/WhZtT5vJnjXfMC+PKhVaV
-         y5HpIp6mp6k1nLUC1Lng5G7yqpFtTaQn1LnfrV1t9I0/pq6lWxsUakCcAiXmWktvwuuC
-         LaAmzzyyTxNW+vnLHHqtNbQdU/JOt5ajeNq0Xsi/hqCM0SLW4vPfyCBeoi+vkzpIMb86
-         nx/Q==
+        d=google.com; s=20230601; t=1703118299; x=1703723099; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n2A+gj4jHgXnzarDM6KYQd3pZD+FO87csNCByA+KPf0=;
+        b=WHoibLmegBXPC1yS/7fTmFS1FHsKqgtaIGlzrw087IAc7ZYeVSW1QZHawqwYTIPRQh
+         vwWnzYXmnpb02YkszcmfE46qJyCy0rMKIJOCreRmYjQMhSf0ZKD+dd0F7mxgP+Gl/+tL
+         yX99uknj8cUUyPP6PH/tvUVNMYclA18lMuM7xzzZBg33edIIDBBj5Ln4xQezHl11M4dQ
+         qIyTfxrOLNtbIkTpEGyBuXXRLX1+i0QhP6SHcV3K7lCDjIFBDtSu9whn8vlB+8V5a8qv
+         ULlk8abO1akRkeDJufkjgvg9/LDM7EkhsnYIb75aVnCl3p1GutsOIZ9gx0sFlZoYN6rc
+         4NKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703116516; x=1703721316;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1703118299; x=1703723099;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5tNoJUjS2qxiKE/v+m+/kf6Z1ppnJjq/UKAlEiUarNg=;
-        b=G8tL6Cfq44J0RYw8Obp6yaP58rt4nWtuAlAqB/x8ip0DibDOruElxMgDMiDh6Nx4gk
-         DToAvMo7Y3K0m4I4wiX2CsUAR0ATtKWWTHxfzFQ6pqjQVEhT1RcpjQ+l4YU5N/iMw32S
-         CGzxWC1vojqiq3xY30d9EyWWLdIEhyX0zKDGSjUNcFhCIwt1A2SS1RK08LLw/P0SihBr
-         Ph1UvTyrhUsBOV1/NH1z3cnrfaePBLgNYXuqI+/rRvOQWJ0HMgfEHm+7AzG/2wXLlFsw
-         9gHRAux6MuNhJHVh9GhPCJnpVCXiZ0FqbOqZdxvTJll37EVob3B48mqxZFcQIrH/6pgA
-         ZELA==
-X-Gm-Message-State: AOJu0YxqmzhnewVrC2esbd/+wnzbD3Z0SPa7VsPdUzhiQEBpSQHO2IFR
-	+BIdFHhWtT0qZEUyFEZET4Q=
-X-Google-Smtp-Source: AGHT+IHS7mgQPeN0+o/BvAk9Yb3iVwWZMQDE2/qNOBo4zbc9gopCEoybZh4sSUyNsvuiJ5RZNphZhQ==
-X-Received: by 2002:a92:ca4a:0:b0:35f:717e:84c7 with SMTP id q10-20020a92ca4a000000b0035f717e84c7mr20831929ilo.65.1703116515976;
-        Wed, 20 Dec 2023 15:55:15 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 20-20020a170902e9d400b001d3c46900f7sm277658plk.304.2023.12.20.15.55.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 15:55:15 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 20 Dec 2023 15:55:14 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Ivor Wanders <ivor@iwanders.net>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mark Gross <markgross@kernel.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] hwmon: add fan speed monitoring driver for Surface
- devices
-Message-ID: <ab8a1ff3-6d01-4331-ba5d-d677d1ad80b5@roeck-us.net>
-References: <20231220234415.5219-1-ivor@iwanders.net>
- <20231220234415.5219-2-ivor@iwanders.net>
+        bh=n2A+gj4jHgXnzarDM6KYQd3pZD+FO87csNCByA+KPf0=;
+        b=YBxuQsLGKEPp8w+CQdJJFoIKv6krMOeZzQ5YKUcZ3uNPIHahwfYLkLnsjogOXnkRpW
+         xmS7FtTd5P+QsH0Gr71yamrwFUaRK9Y59DxGRcnntVb2SFwk5W4ql3KyhzYjDTHUIZaB
+         zIyG+TicOerDWL8OMGW9mXiHtk8xQhlPyFTJbbZiQmiFJO8jaWywoAXZ1pKV21stJ1jj
+         q9Ejsje7cKVZWvbzyJw7W0equ2VJbtsdrvbnbUVNWPYqr0Wtlf3xZjxxrmrMs0CDc8ln
+         pkzvOj823huum5z8cF3HVqixkt3H/pTEVsYE7zvMdmKH/gHQ6EBoGxC83czx0zw99j5f
+         iTPw==
+X-Gm-Message-State: AOJu0YxQDNgk61QinM+GSMZab2Z1EN32HkADhfO2dsmtHhwCohxnsOWk
+	U5zOey6Y9EXJ80x5v5BUfjtTrhU/588tsTZYzWO3yw==
+X-Google-Smtp-Source: AGHT+IF/q0Cvl7dgpQLrdGEKfgdZRiZpZhKKggUyb19FqDUvKeUfvQ5HG1Q7O7+mO/6HSLVd2kEHYHF6fKE1AeZSODg=
+X-Received: by 2002:a17:906:af0c:b0:a24:20f:d63a with SMTP id
+ lx12-20020a170906af0c00b00a24020fd63amr1874289ejb.97.1703118299064; Wed, 20
+ Dec 2023 16:24:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231220234415.5219-2-ivor@iwanders.net>
+References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAJD7tkZXS-UJVAFfvxJ0nNgTzWBiqepPYA4hEozi01_qktkitg@mail.gmail.com>
+ <20231218144431.GB19167@cmpxchg.org> <CAJD7tkakMjE1sNfexLzooptDyQS4YZf5DmuoywnSFD7JTbh9BA@mail.gmail.com>
+ <20231220051523.GB23822@cmpxchg.org> <CAJD7tkbzVjYxykracNW729xKTqFdpk5Hw5k94Epc_uSvUP1g=g@mail.gmail.com>
+ <20231220145025.GC23822@cmpxchg.org>
+In-Reply-To: <20231220145025.GC23822@cmpxchg.org>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Wed, 20 Dec 2023 16:24:22 -0800
+Message-ID: <CAJD7tkbmWcEvsfF8i+HrRetTVu6v4fKFn2WL0RLsHNheu=5wVw@mail.gmail.com>
+Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
+	lizefan.x@bytedance.com, cerasuolodomenico@gmail.com, sjenning@redhat.com, 
+	ddstreet@ieee.org, vitaly.wool@konsulko.com, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, shakeelb@google.com, muchun.song@linux.dev, 
+	hughd@google.com, corbet@lwn.net, konrad.wilk@oracle.com, 
+	senozhatsky@chromium.org, rppt@kernel.org, linux-mm@kvack.org, 
+	kernel-team@meta.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	david@ixit.cz, chrisl@kernel.org, Wei Xu <weixugc@google.com>, 
+	Yu Zhao <yuzhao@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 20, 2023 at 06:44:14PM -0500, Ivor Wanders wrote:
-> Adds a driver that provides read only access to the fan speed for Microsoft
-> Surface Pro devices. The fan speed is always regulated by the EC and cannot
-> be influenced directly.
-> 
-> Signed-off-by: Ivor Wanders <ivor@iwanders.net>
-> Link: https://github.com/linux-surface/kernel/pull/144
-> ---
->  Documentation/hwmon/index.rst       |   1 +
->  Documentation/hwmon/surface_fan.rst |  27 ++++++
->  MAINTAINERS                         |   8 ++
->  drivers/hwmon/Kconfig               |  13 +++
->  drivers/hwmon/Makefile              |   1 +
->  drivers/hwmon/surface_fan.c         | 125 ++++++++++++++++++++++++++++
->  6 files changed, 175 insertions(+)
->  create mode 100644 Documentation/hwmon/surface_fan.rst
->  create mode 100644 drivers/hwmon/surface_fan.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 042e1cf95..4dfb3b9bd 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -202,6 +202,7 @@ Hardware Monitoring Kernel Drivers
->     smsc47m1
->     sparx5-temp
->     stpddc60
-> +   surface_fan
->     sy7636a-hwmon
->     tc654
->     tc74
-> diff --git a/Documentation/hwmon/surface_fan.rst b/Documentation/hwmon/surface_fan.rst
-> new file mode 100644
-> index 000000000..6e27a6653
-> --- /dev/null
-> +++ b/Documentation/hwmon/surface_fan.rst
-> @@ -0,0 +1,27 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +Kernel driver surface_fan
-> +=========================
-> +
-> +Supported Devices:
-> +
-> +  * Microsoft Surface Pro 9
-> +
-> +Author: Ivor Wanders <ivor@iwanders.net>
-> +
-> +Description
-> +-----------
-> +
-> +This provides monitoring of the fan found in some Microsoft Surface Pro devices,
-> +like the Surface Pro 9. The fan is always controlled by the onboard controller.
-> +
-> +Sysfs interface
-> +---------------
-> +
-> +======================= ======= =========================================
-> +Name                    Perm    Description
-> +======================= ======= =========================================
-> +``fan1_input``          RO      Current fan speed in RPM.
-> +``fan1_max``            RO      Approximate maximum fan speed.
-> +``fan1_min``            RO      Minimum fan speed used by the controller.
-> +======================= ======= =========================================
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 439cf523b..8e7870af3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14078,6 +14078,14 @@ F:	Documentation/driver-api/surface_aggregator/clients/dtx.rst
->  F:	drivers/platform/surface/surface_dtx.c
->  F:	include/uapi/linux/surface_aggregator/dtx.h
->  
-> +MICROSOFT SURFACE SENSOR FAN DRIVER
-> +M:	Maximilian Luz <luzmaximilian@gmail.com>
-> +M:	Ivor Wanders <ivor@iwanders.net>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/hwmon/surface_fan.rst
-> +F:	drivers/hwmon/surface_fan.c
-> +
->  MICROSOFT SURFACE GPE LID SUPPORT DRIVER
->  M:	Maximilian Luz <luzmaximilian@gmail.com>
->  L:	platform-driver-x86@vger.kernel.org
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 307477b8a..4b4d999af 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -1965,6 +1965,19 @@ config SENSORS_SMM665
->  	  This driver can also be built as a module. If so, the module will
->  	  be called smm665.
->  
-> +config SENSORS_SURFACE_FAN
-> +	tristate "Surface Fan Driver"
-> +	depends on SURFACE_AGGREGATOR
-> +	help
-> +	  Driver that provides monitoring of the fan on Surface Pro devices that
-> +	  have a fan, like the Surface Pro 9.
-> +
-> +	  This makes the fan's current speed accessible through the hwmon
-> +	  system. It does not provide control over the fan, the firmware is
-> +	  responsible for that, this driver merely provides monitoring.
-> +
-> +	  Select M or Y here, if you want to be able to read the fan's speed.
-> +
->  config SENSORS_ADC128D818
->  	tristate "Texas Instruments ADC128D818"
->  	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 3f4b0fda0..5ae214c06 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -198,6 +198,7 @@ obj-$(CONFIG_SENSORS_SMSC47M1)	+= smsc47m1.o
->  obj-$(CONFIG_SENSORS_SMSC47M192)+= smsc47m192.o
->  obj-$(CONFIG_SENSORS_SPARX5)	+= sparx5-temp.o
->  obj-$(CONFIG_SENSORS_STTS751)	+= stts751.o
-> +obj-$(CONFIG_SENSORS_SURFACE_FAN)+= surface_fan.o
->  obj-$(CONFIG_SENSORS_SY7636A)	+= sy7636a-hwmon.o
->  obj-$(CONFIG_SENSORS_AMC6821)	+= amc6821.o
->  obj-$(CONFIG_SENSORS_TC74)	+= tc74.o
-> diff --git a/drivers/hwmon/surface_fan.c b/drivers/hwmon/surface_fan.c
-> new file mode 100644
-> index 000000000..7129b25ed
-> --- /dev/null
-> +++ b/drivers/hwmon/surface_fan.c
-> @@ -0,0 +1,125 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Surface Fan driver for Surface System Aggregator Module. It provides access
-> + * to the fan's rpm through the hwmon system.
-> + *
-> + * Copyright (C) 2023 Ivor Wanders <ivor@iwanders.net>
-> + */
-> +
-> +#include <linux/hwmon.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/surface_aggregator/device.h>
-> +#include <linux/types.h>
-> +
-> +// The minimum speed for the fan when turned on by the controller. The onboard
-> +// controller uses this as minimum value before turning the fan on or off.
-> +#define SURFACE_FAN_MIN_SPEED 3000
-> +// The maximum speed, determined by observation and rounding up to the nearest
-> +// multiple of 500 to account for variation between individual fans.
-> +#define SURFACE_FAN_MAX_SPEED 7500
-> +
-> +// SSAM
-> +SSAM_DEFINE_SYNC_REQUEST_CL_R(__ssam_fan_rpm_get, __le16, {
-> +	.target_category = SSAM_SSH_TC_FAN,
-> +	.command_id      = 0x01,
-> +});
-> +
-> +// hwmon
-> +umode_t surface_fan_hwmon_is_visible(const void *drvdata,
-> +				     enum hwmon_sensor_types type, u32 attr,
-> +				     int channel)
-> +{
-> +	if (type != hwmon_fan)
-> +		return 0;
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +	case hwmon_fan_label:
-> +	case hwmon_fan_min:
-> +	case hwmon_fan_max:
-> +		return 0444;
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static int surface_fan_hwmon_read(struct device *dev,
-> +				  enum hwmon_sensor_types type, u32 attr,
-> +				  int channel, long *val)
-> +{
-> +	struct ssam_device *sdev = dev_get_drvdata(dev);
-> +	__le16 value;
-> +	int res;
-> +
-> +	if (type != hwmon_fan)
-> +		return -EOPNOTSUPP;
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		res = __ssam_fan_rpm_get(sdev, &value);
-> +		if (res)
-> +			return -EIO;
-> +		*val = le16_to_cpu(value);
-> +		return 0;
-> +	case hwmon_fan_min:
-> +		*val = SURFACE_FAN_MIN_SPEED;
-> +		return 0;
-> +	case hwmon_fan_max:
-> +		*val = SURFACE_FAN_MAX_SPEED;
-> +		return 0;
+On Wed, Dec 20, 2023 at 6:50=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
+> wrote:
+>
+> On Wed, Dec 20, 2023 at 12:59:15AM -0800, Yosry Ahmed wrote:
+> > On Tue, Dec 19, 2023 at 9:15=E2=80=AFPM Johannes Weiner <hannes@cmpxchg=
+.org> wrote:
+> > >
+> > > On Mon, Dec 18, 2023 at 01:52:23PM -0800, Yosry Ahmed wrote:
+> > > > > > Taking a step back from all the memory.swap.tiers vs.
+> > > > > > memory.zswap.writeback discussions, I think there may be a more
+> > > > > > fundamental problem here. If the zswap store failure is recurre=
+nt,
+> > > > > > pages can keep going back to the LRUs and then sent back to zsw=
+ap
+> > > > > > eventually, only to be rejected again. For example, this can if=
+ zswap
+> > > > > > is above the acceptance threshold, but could be even worse if i=
+t's the
+> > > > > > allocator rejecting the page due to not compressing well enough=
+. In
+> > > > > > the latter case, the page can keep going back and forth between=
+ zswap
+> > > > > > and LRUs indefinitely.
+> > > > > >
+> > > > > > You probably did not run into this as you're using zsmalloc, bu=
+t it
+> > > > > > can happen with zbud AFAICT. Even with zsmalloc, a less problem=
+atic
+> > > > > > version can happen if zswap is above its acceptance threshold.
+> > > > > >
+> > > > > > This can cause thrashing and ineffective reclaim. We have an in=
+ternal
+> > > > > > implementation where we mark incompressible pages and put them =
+on the
+> > > > > > unevictable LRU when we don't have a backing swapfile (i.e. gho=
+st
+> > > > > > swapfiles), and something similar may work if writeback is disa=
+bled.
+> > > > > > We need to scan such incompressible pages periodically though t=
+o
+> > > > > > remove them from the unevictable LRU if they have been dirited.
+> > > > >
+> > > > > I'm not sure this is an actual problem.
+> > > > >
+> > > > > When pages get rejected, they rotate to the furthest point from t=
+he
+> > > > > reclaimer - the head of the active list. We only get to them agai=
+n
+> > > > > after we scanned everything else.
+> > > > >
+> > > > > If all that's left on the LRU is unzswappable, then you'd assume =
+that
+> > > > > remainder isn't very large, and thus not a significant part of ov=
+erall
+> > > > > scan work. Because if it is, then there is a serious problem with=
+ the
+> > > > > zswap configuration.
+> > > > >
+> > > > > There might be possible optimizations to determine how permanent =
+a
+> > > > > rejection is, but I'm not sure the effort is called for just
+> > > > > yet. Rejections are already failure cases that screw up the LRU
+> > > > > ordering, and healthy setups shouldn't have a lot of those. I don=
+'t
+> > > > > think this patch adds any sort of new complications to this pictu=
+re.
+> > > >
+> > > > We have workloads where a significant amount (maybe 20%? 30% not su=
+re
+> > > > tbh) of the memory is incompressible. Zswap is still a very viable
+> > > > option for those workloads once those pages are taken out of the
+> > > > picture. If those pages remain on the LRUs, they will introduce a
+> > > > regression in reclaim efficiency.
+> > > >
+> > > > With the upstream code today, those pages go directly to the backin=
+g
+> > > > store, which isn't ideal in terms of LRU ordering, but this patch
+> > > > makes them stay on the LRUs, which can be harmful. I don't think we
+> > > > can just assume it is okay. Whether we make those pages unevictable=
+ or
+> > > > store them uncompressed in zswap, I think taking them out of the LR=
+Us
+> > > > (until they are redirtied), is the right thing to do.
+> > >
+> > > This is how it works with zram as well, though, and it has plenty of
+> > > happy users.
+> >
+> > I am not sure I understand. Zram does not reject pages that do not
+> > compress well, right? IIUC it acts as a block device so it cannot
+> > reject pages. I feel like I am missing something.
+>
+> zram_write_page() can fail for various reasons - compression failure,
+> zsmalloc failure, the memory limit. This results in !!bio->bi_status,
+> __end_swap_bio_write redirtying the page, and vmscan rotating it.
+>
+> The effect is actually more pronounced with zram, because the pages
+> don't get activated and thus cycle faster.
+>
+> What you're raising doesn't seem to be a dealbreaker in practice.
 
-No, sorry. Limit attributes are supposed to be used to program limits,
-not to report constant values to userspace (and please refrain from
-referring to other drivers doing the same. Two wrongs don't make it right).
+For the workloads using zram, yes, they are exclusively using zsmalloc
+which can store incompressible pages anyway.
 
-Guenter
+>
+> > If we already want to support taking pages away from the LRUs when
+> > rejected by zswap (e.g. Nhat's proposal earlier), doesn't it make
+> > sense to do that first so that this patch can be useful for all
+> > workloads?
+>
+> No.
+>
+> Why should users who can benefit now wait for a hypothetical future
+> optimization that isn't relevant to them? And by the looks of it, is
+> only relevant to a small set of specialized cases?
+>
+> And the optimization - should anybody actually care to write it - can
+> be transparently done on top later, so that's no reason to change
+> merge order, either.
+
+We can agree to disagree here, I am not trying to block this anyway.
+But let's at least document this in the commit message/docs/code
+(wherever it makes sense) -- that recurrent failures (e.g.
+incompressible memory) may keep going back to zswap only to get
+rejected, so workloads prone to this may observe some reclaim
+inefficiency.
