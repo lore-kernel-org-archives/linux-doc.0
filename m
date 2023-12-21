@@ -1,144 +1,166 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F59C15AE7
-	for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 08:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECDD4C3CD;
+	Thu, 21 Dec 2023 09:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MhDPG6GN"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50e55f97606so780091e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 00:20:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703146848; x=1703751648; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r4o29WQBzTF84xFF7dpFsFiRQpl9hdgHiI7WEKT6wg8=;
-        b=MhDPG6GNbDyJnLNDq/Ke6mPPIztQBXU95wcCMWexpQxjJG+BKZxlE+w5pltQQH9oRC
-         htlkViSW8q+Mo+abzUhRpCPhmW5EJydPB3pPozyNvD5Je8wviED2l/7yGg24L73QQQRv
-         c4U3LDs5gH0MNJG7tb98XGluca1yjH5IiPvNQHfMg8Q+xCLwW3DvqSp9E+Dqq6Gpf1iL
-         HPgQ+oeQZxe8CH99T1iCUoUchk6u1fX3PKamhu8Q/BLhsHcTQlVwg3wSybKzf/iZBR9r
-         qGEYNF4I6eZwFTrRqk1oXMlkE9ERrMyQvAyq0Oz5v9Ja2bTQzfb/OrV4/HNZpaW+I3Je
-         8duA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703146848; x=1703751648;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r4o29WQBzTF84xFF7dpFsFiRQpl9hdgHiI7WEKT6wg8=;
-        b=rfsJbd6cTTKlP4GqWmocSJ1i5VcG6tjEdezIFqOUQL3uMrVtnWeKsQMOpBFUNKh5bU
-         fhdJXIJgPXpgauUs7yVs5yM5lY4RAFg3q0oMog9qeQgTiFgHE2FfnUuTwZvH/morX3f9
-         aASGfbEhJZu/m7eRssr8FlDuaNXpWEBozD93GWAs7wHoXE/i+5bvjb50T8lhCftcA09Z
-         TaJn0O97nxD7Y2Hj8WgklbTe0/Vza5NH06/tNzJToNTSqJPuGHDuQw/D8Kz7f88/Ns16
-         ZlFtmMpHA7JzQ39r1rgAsx9mN+BnFa6GdVZysyGnvKShx1DM0UqhIisvAYBn9cdSB7N4
-         U7Fg==
-X-Gm-Message-State: AOJu0YwZD5UyYd2/HQwcuZnrZB0J2ga7wykokWYKiM31xvBAI+RpOg/6
-	xey9sB2uZs0LW0MGOKGJsCeCjw==
-X-Google-Smtp-Source: AGHT+IF6j/xEo+V+emagAgbodcosd6j6iP+7qeDzepO7VvQ7VzZtmrS4tKh4dw+s39fElkjhleZRjA==
-X-Received: by 2002:a05:6512:510:b0:50e:3221:e559 with SMTP id o16-20020a056512051000b0050e3221e559mr3614864lfb.31.1703146848408;
-        Thu, 21 Dec 2023 00:20:48 -0800 (PST)
-Received: from [192.168.0.22] ([78.10.206.178])
-        by smtp.gmail.com with ESMTPSA id n19-20020a170906689300b00a269597d17bsm686650ejr.147.2023.12.21.00.20.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Dec 2023 00:20:48 -0800 (PST)
-Message-ID: <9035aff7-49e6-49cf-a8f8-619d3b53c4a5@linaro.org>
-Date: Thu, 21 Dec 2023 09:20:47 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCFdrBkF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703151182; x=1734687182;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RNfmASP2goLFqQvl0CMtUIBdraEA3ADsaIbtIGPBOE4=;
+  b=kCFdrBkFWkh9rs6uEA4wopi062hNIcV+MXQhYdvipCiV1QwA4IqDings
+   EXoO+oyPsBHlOaxb1x7N4N+BIhews9CcY4WHjhSIRMEHr+NdtQUjyBBVV
+   HDcmNCfLyZlukP+cYOzSABj0nGUQRUougMyPHuA6dBZqP9fOb5hV+rSiP
+   /DKXe/JnQm9HMv8/xVVjuXuK0H2hjZTAUnBB1uXouBLNU61FaLQhkTAGW
+   6I/SGE6PHme/8ZQvsJ45Y/jM0nP8riyMSfqg/ipDuYhBWb5nEpT3rm/TK
+   opHlJT7TOhhtPKsxIKldQgeODhd8MOTRR+G6AKTaFvJJd0U06voQ9cyOe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="3188441"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
+   d="scan'208";a="3188441"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 01:33:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="810918114"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
+   d="scan'208";a="810918114"
+Received: from inlubt0316.iind.intel.com ([10.191.20.213])
+  by orsmga001.jf.intel.com with ESMTP; 21 Dec 2023 01:32:55 -0800
+From: lakshmi.sowjanya.d@intel.com
+To: tglx@linutronix.de,
+	jstultz@google.com,
+	giometti@enneenne.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org
+Cc: x86@kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	andriy.shevchenko@linux.intel.com,
+	eddie.dong@intel.com,
+	christopher.s.hall@intel.com,
+	jesse.brandeburg@intel.com,
+	davem@davemloft.net,
+	alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com,
+	mcoquelin.stm32@gmail.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	anthony.l.nguyen@intel.com,
+	pandith.n@intel.com,
+	mallikarjunappa.sangannavar@intel.com,
+	thejesh.reddy.t.r@intel.com,
+	lakshmi.sowjanya.d@intel.com
+Subject: [RFC PATCH v2 00/10] Add support for Intel PPS Generator
+Date: Thu, 21 Dec 2023 15:02:44 +0530
+Message-Id: <20231221093254.9599-1-lakshmi.sowjanya.d@intel.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: Add NCT7363Y documentation
-Content-Language: en-US
-To: Ban Feng <baneric926@gmail.com>, Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, corbet@lwn.net, kwliu@nuvoton.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, jdelvare@suse.com,
- kcfeng0@nuvoton.com, krzysztof.kozlowski+dt@linaro.org,
- linux-hwmon@vger.kernel.org, openbmc@lists.ozlabs.org, robh+dt@kernel.org,
- Bonnie_Lo@wiwynn.com, conor+dt@kernel.org, DELPHINE_CHIU@wiwynn.com,
- linux@roeck-us.net
-References: <20231219080021.2048889-1-kcfeng0@nuvoton.com>
- <20231219080021.2048889-2-kcfeng0@nuvoton.com>
- <170297774900.1297817.5593278746406765111.robh@kernel.org>
- <CALz278aJ08fOU2XZMZJJ2Ocp+XwovJ0+nHK-=0dWqbXf+522OA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CALz278aJ08fOU2XZMZJJ2Ocp+XwovJ0+nHK-=0dWqbXf+522OA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 21/12/2023 01:44, Ban Feng wrote:
-> Hi Rob,
-> 
-> On Tue, Dec 19, 2023 at 5:22 PM Rob Herring <robh@kernel.org> wrote:
->>
->>
->> On Tue, 19 Dec 2023 16:00:20 +0800, baneric926@gmail.com wrote:
->>> From: Ban Feng <kcfeng0@nuvoton.com>
->>>
->>> Adding bindings for the Nuvoton NCT7363Y Fan Controller
->>>
->>> Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
->>> ---
->>>  .../bindings/hwmon/nuvoton,nct7363.yaml       | 62 +++++++++++++++++++
->>>  MAINTAINERS                                   |  6 ++
->>>  2 files changed, 68 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
->>>
->>
->> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
->> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> Our design is based on [1], and adds fan-common.yaml to
+From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 
-Nothing in the patch or cover letter described the dependency.
+The goal of the PPS(Pulse Per Second) hardware/software is to generate a
+signal from the system on a wire so that some third-party hardware can
+observe that signal and judge how close the system's time is to another
+system or piece of hardware.
 
-Best regards,
-Krzysztof
+Existing methods (like parallel ports) require software to flip a bit at
+just the right time to create a PPS signal. Many things can prevent
+software from doing this precisely. This (Timed I/O) method is better
+because software only "arms" the hardware in advance and then depends on
+the hardware to "fire" and flip the signal at just the right time.
+
+To generate a PPS signal with this new hardware, the kernel wakes up
+twice a second, once for 1->0 edge and other for the 0->1 edge. It does
+this shortly (~10ms) before the actual change in the signal needs to be
+made. It computes the TSC value at which edge will happen, convert to a
+value hardware understands and program this value to Timed I/O hardware.
+The actual edge transition happens without any further action from the
+kernel.
+
+The result here is a signal coming out of the system that is roughly
+1,000 times more accurate than the old methods. If the system is heavily
+loaded, the difference in accuracy is larger in old methods.
+Facebook and Google are the customers that use this feature. 
+
+Application Interface:
+The API to use Timed I/O is very simple. It is enabled and disabled by
+writing a '1' or '0' value to the sysfs enable attribute associated with
+the Timed I/O PPS device. Each Timed I/O pin is represented by a PPS
+device. When enabled, a pulse-per-second(PPS) synchronized with the
+system clock is continuously produced on the Timed I/O pin, otherwise it
+is pulled low.
+
+The Timed I/O signal on the motherboard is enabled in the BIOS setup.
+
+This patchset is dependent on [1]
+
+References:
+https://en.wikipedia.org/wiki/Pulse-per-second_signal
+https://drive.google.com/file/d/1vkBRRDuELmY8I3FlfOZaEBp-DxLW6t_V/view
+https://youtu.be/JLUTT-lrDqw
+
+Patch 1 adds base clock properties in clocksource structure
+Patch 2 adds function to convert realtime to base clock
+Patch 3 - 7 removes reference to convert_art_to_tsc function across
+drivers
+Patch 8 adds the pps(pulse per second) generator tio driver to the pps
+subsystem.
+Patch 9 documentation and usage of the pps tio generator module.
+Patch 10 includes documentation for sysfs interface.
+
+[1] https://lore.kernel.org/netdev/20231215220612.173603-2-peter.hilber@opensynergy.com/T/
+
+Please help to review the changes.
+
+Thanks in advance,
+Sowjanya
+
+Lakshmi Sowjanya D (5):
+  x86/tsc: Add base clock properties in clocksource structure
+  timekeeping: Add function to convert realtime to base clock
+  pps: generators: Add PPS Generator TIO Driver
+  Documentation: driver-api: pps: Add Intel Timed I/O PPS generator
+  ABI: pps: Add ABI documentation for Intel TIO
+
+Thomas Gleixner (5):
+  e10002: remove convert_art_to_tsc()
+  igc: remove convert_art_to_tsc()
+  stmmac: intel: remove convert_art_to_tsc()
+  ALSA: hda: remove convert_art_to_tsc()
+  ice/ptp: remove convert_art_to_tsc()
+
+ .../ABI/testing/sysfs-platform-pps-tio        |   7 +
+ Documentation/driver-api/pps.rst              |  22 ++
+ arch/x86/include/asm/tsc.h                    |   3 -
+ arch/x86/kernel/tsc.c                         |  94 ++-----
+ drivers/net/ethernet/intel/e1000e/ptp.c       |   3 +-
+ drivers/net/ethernet/intel/ice/ice_ptp.c      |   2 +-
+ drivers/net/ethernet/intel/igc/igc_ptp.c      |   6 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-intel.c |   3 +-
+ drivers/pps/generators/Kconfig                |  16 ++
+ drivers/pps/generators/Makefile               |   1 +
+ drivers/pps/generators/pps_gen_tio.c          | 238 ++++++++++++++++++
+ include/linux/clocksource.h                   |  27 ++
+ include/linux/clocksource_ids.h               |   1 +
+ include/linux/timekeeping.h                   |   6 +
+ kernel/time/timekeeping.c                     | 112 ++++++++-
+ sound/pci/hda/hda_controller.c                |   3 +-
+ 16 files changed, 459 insertions(+), 85 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+ create mode 100644 drivers/pps/generators/pps_gen_tio.c
+
+-- 
+2.35.3
 
