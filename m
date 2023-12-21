@@ -1,138 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5B155E43;
-	Thu, 21 Dec 2023 16:15:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7843755E56;
+	Thu, 21 Dec 2023 16:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U7JID0qg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 788CEC433C7;
-	Thu, 21 Dec 2023 16:15:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703175349;
-	bh=RiMSGgzKIJ2hWpvefMIbapvzTJWfetulkf8+NEdqvv4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=U7JID0qgL+Hj7Nm/E+Y4eU354Fh4oIXb7v/E0uzIOq9pP0ONsR+WJVW/CGPCcL0Z6
-	 yQV589B+xZ9CKBs8eJCDvVloyeRwc+uUdeH7VsCz77tFdA318Tzsj057GLEACEbm3I
-	 HUK7fBsCb5gGlEWSot6XE6lNHxGW4PxRJq5f4DLIm0nTLNnPl2My/oi7GLLl780QdJ
-	 AvBjWLy1MoXBy+ivmi7RZSeCpMqwniu5Vh6GApTz+cgboEpaBvtISq3x0dsbekaV/M
-	 lszpzqoIxypfHLbB67/rFKRbuzIrYXjjZrTaWnZ6AU7tDLtDf+0yLfOcR3ULzHGsOG
-	 +vqMx+jZtiuWQ==
-Date: Thu, 21 Dec 2023 16:15:31 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Nuno =?UTF-8?B?U8Oh?=
- <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>
-Subject: Re: [PATCH v5 8/8] Documentation: iio: Document high-speed DMABUF
- based API
-Message-ID: <20231221161531.17fcac72@jic23-huawei>
-In-Reply-To: <20231219175009.65482-9-paul@crapouillou.net>
-References: <20231219175009.65482-1-paul@crapouillou.net>
-	<20231219175009.65482-9-paul@crapouillou.net>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e5modP1d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703175604; x=1734711604;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K6yqbQOo9UVnGtwfPiwWh5xvsQj2AGp4vZ2i4oaQBQI=;
+  b=e5modP1dSMZIqoTkpL6FVM1AodA+O9xuBe+N2nYqXQsacSC6KXHQmufM
+   dqv+6Ziseog2N3Rqrwf+Rdh8O0CvXt4eyCfZ1ZkpLvQU8i8URPKnfNbv4
+   Jv7XQEOBjAUttoAA6zyUd4m5NihjxPrAW7ZGwT6Bd2bujiGy8oExlo4To
+   XKqfrBJG7ArpVeOQuPENLsR6JqdYYaQH8HTcAr/SLfsZH7rrRssgtCXOx
+   Lye3Sc8NGY0cVUquUDtRgRLBIZTYd7xmZQIWZVb+9+LDav8b+huVOverk
+   uZFmySQRFq4BE5gPMoqABT/zu8sMsOVLXOF44LxtkHJWqy1AAN+x/HsFY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="2829579"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
+   d="scan'208";a="2829579"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 08:20:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="805653521"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
+   d="scan'208";a="805653521"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 08:19:56 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rGLm4-00000007tP3-3oVk;
+	Thu, 21 Dec 2023 18:19:52 +0200
+Date: Thu, 21 Dec 2023 18:19:52 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: lakshmi.sowjanya.d@intel.com
+Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
+	corbet@lwn.net, linux-kernel@vger.kernel.org, x86@kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, eddie.dong@intel.com,
+	christopher.s.hall@intel.com, jesse.brandeburg@intel.com,
+	davem@davemloft.net, alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, perex@perex.cz,
+	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
+	pandith.n@intel.com, mallikarjunappa.sangannavar@intel.com,
+	thejesh.reddy.t.r@intel.com
+Subject: Re: [RFC PATCH v2 04/10] igc: remove convert_art_to_tsc()
+Message-ID: <ZYRlqAzwTapf7ZGd@smile.fi.intel.com>
+References: <20231221093254.9599-1-lakshmi.sowjanya.d@intel.com>
+ <20231221093254.9599-5-lakshmi.sowjanya.d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231221093254.9599-5-lakshmi.sowjanya.d@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, 19 Dec 2023 18:50:09 +0100
-Paul Cercueil <paul@crapouillou.net> wrote:
+On Thu, Dec 21, 2023 at 03:02:48PM +0530, lakshmi.sowjanya.d@intel.com wrote:
+> From: Thomas Gleixner <tglx@linutronix.de>
+> 
+> Remove convert_art_to_tsc() function call, Pass system clock cycles and
+> clocksource ID as input to get_device_system_crosststamp().
 
-> Document the new DMABUF based API.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-One minor comment inline.
+...
 
-> 
-> ---
-> v2: - Explicitly state that the new interface is optional and is
->       not implemented by all drivers.
->     - The IOCTLs can now only be called on the buffer FD returned by
->       IIO_BUFFER_GET_FD_IOCTL.
->     - Move the page up a bit in the index since it is core stuff and not
->       driver-specific.
-> 
-> v3: Update the documentation to reflect the new API.
-> 
-> v5: Use description lists for the documentation of the three new IOCTLs
->     instead of abusing subsections.
-> ---
->  Documentation/iio/dmabuf_api.rst | 54 ++++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst      |  2 ++
->  2 files changed, 56 insertions(+)
->  create mode 100644 Documentation/iio/dmabuf_api.rst
-> 
-> diff --git a/Documentation/iio/dmabuf_api.rst b/Documentation/iio/dmabuf_api.rst
-> new file mode 100644
-> index 000000000000..1cd6cd51a582
-> --- /dev/null
-> +++ b/Documentation/iio/dmabuf_api.rst
-> @@ -0,0 +1,54 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===================================
-> +High-speed DMABUF interface for IIO
-> +===================================
-> +
-> +1. Overview
-> +===========
-> +
-> +The Industrial I/O subsystem supports access to buffers through a
-> +file-based interface, with read() and write() access calls through the
-> +IIO device's dev node.
-> +
-> +It additionally supports a DMABUF based interface, where the userspace
-> +can attach DMABUF objects (externally created) to a IIO buffer, and
-> +subsequently use them for data transfers.
-> +
-> +A userspace application can then use this interface to share DMABUF
-> +objects between several interfaces, allowing it to transfer data in a
-> +zero-copy fashion, for instance between IIO and the USB stack.
-> +
-> +The userspace application can also memory-map the DMABUF objects, and
-> +access the sample data directly. The advantage of doing this vs. the
-> +read() interface is that it avoids an extra copy of the data between the
-> +kernel and userspace. This is particularly useful for high-speed devices
-> +which produce several megabytes or even gigabytes of data per second.
-> +It does however increase the userspace-kernelspace synchronization
-> +overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
-> +be used for data integrity.
-> +
-> +2. User API
-> +===========
-> +
-> +As part of this interface, three new IOCTLs have been added. These three
-> +IOCTLs have to be performed on the IIO buffer's file descriptor,
-> +obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+> +	return (struct system_counterval_t) {
+> +		.cs_id    = CSID_X86_ART,
+> +		.cycles    = tstamp,
+> +		.nsecs    = true,
 
-I would call out that they do not work on the main file descriptor (which
-is arguably also a IIO buffer file descriptor).
+Either you should remove the extra spaces before '=' or replace them by TAB(s).
 
-> +
-> +  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
-> +    Attach the DMABUF object, identified by its file descriptor, to the
-> +    IIO buffer. Returns zero on success, and a negative errno value on
-> +    error.
-> +
-> +  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
-> +    Detach the given DMABUF object, identified by its file descriptor,
-> +    from the IIO buffer. Returns zero on success, and a negative errno
-> +    value on error.
-> +
-> +    Note that closing the IIO buffer's file descriptor will
-> +    automatically detach all previously attached DMABUF objects.
-> +
-> +  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
-> +    Enqueue a previously attached DMABUF object to the buffer queue.
-> +    Enqueued DMABUFs will be read from (if output buffer) or written to
-> +    (if input buffer) as long as the buffer is enabled.
+> +	};
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
