@@ -1,87 +1,125 @@
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C567F0;
-	Thu, 21 Dec 2023 00:50:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A20258C;
+	Thu, 21 Dec 2023 00:57:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUbY0xlr"
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-7b7fe0ae57bso11863839f.0;
-        Wed, 20 Dec 2023 16:50:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IjizUnwR"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3b9d8bfe845so185842b6e.0;
+        Wed, 20 Dec 2023 16:57:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703119832; x=1703724632; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1703120246; x=1703725046; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BqxZyPIm5tE52kVQmZ74eT+BOOkp647sWKEQUJpbsZE=;
-        b=fUbY0xlrGTWEW+hG3axxUB+3ciJNdojo6dtVSBR/LEu0cXvWLzq+IgS2YXnpL5NyeL
-         uhOpftaGhwrJ3BnZOMc9D+sywfb8g8xO0SOmXQuoceRX21KRGqN7OoTk+2Bky8nkkdYR
-         zqmFxqUmm7actCOMwjwJFs73IWJAv3866P2h1efbHLExxycPMaohS0UawAicwLcSkLpr
-         qrTTDqaPTxkQ5KRhlO5P7B7EboKP9S5BUprtI7GTwXBhLNGuAeyPA2gMVwu4DuDyUZg+
-         iDJwUO4/+UbGpC58H2hrM/3zbUmHYJ0riSD/QFp5yuXo+1kLpIIpQ/Kk5df2VBlpHm1d
-         IbEQ==
+        bh=IsKyRwIIJMh6ypd8eGcHKjusmAjA6ghKRoJtNW0AIPo=;
+        b=IjizUnwRsc3FAcM6NfIMzTqOvRJZIOJ2PKDVyI70ok25QrB3ubpgcZnKbIHvMZBniO
+         YD4dw8FE2jICYKiVEuioXUhJIcYonGtmN8R03Cb1T7uzDoSS4tV2KVqBItS/65kvqI2r
+         wNkzbCj6Ed+UgOSN1uHsubwzX59aq5Wg6ya48X3n8OMT2qXmIu0W/y0ErbV02j9V53SD
+         WJKNezwAEL95zZWIjJZZuaPL1pDak9/wKzya4Vkf0LQspmtvKNLB5o1vj7JNs4X6V05x
+         6gN7qZ7ma/73iq1LbLWLgIGkduqGuPYNy5D6qwDzVYp7NzpBQiqDbiesuHaMYASyBKIV
+         OjTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703119832; x=1703724632;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1703120246; x=1703725046;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BqxZyPIm5tE52kVQmZ74eT+BOOkp647sWKEQUJpbsZE=;
-        b=as+S8oiJDEH1L89SEbAbdbQLX/SJA6cibd95vbp8ENg9qNPOaMmZsVKFuaO9rZd++2
-         bR6i2sozfEXORYOebRXHdcd4DyJqdyI3Gwci2qkav0B1ffp8FCHdU2Bo1tnwWfPcilY3
-         wi+H1Lx/5SFN909lRISNcepe1pOPGhLhrdztwOQsUuQKTnf9/hhUpLiwbdmP3PIZmccK
-         zx7Ya7IrdIU47okzZKYNre2Ql32ZYzXvlMU+os9JN9igrHoT1u0oi453L1jBxI9WcYxm
-         MsrX8XPSr+hUMxC4QCOM85n9IbUE3q6M0lJGvR7yZ4h6YCqOetobum0Zpjac4oYy76IO
-         NunQ==
-X-Gm-Message-State: AOJu0YynQWqis0C+L3nEZQPpmzXGecmXEi/laYaIRrbC68Ar9wQwfCno
-	+IdsSrqQ0RpyecwadnwbKybSY6iV57Mx0H6SH0w=
-X-Google-Smtp-Source: AGHT+IFvcePCft0/m9LYDHk+AjGrrmPztrI7RSQFfyZ9I6Ws65U3aVgYVG18rGNg03iYgploDuQ5pLbVqNrdXP/xdxU=
-X-Received: by 2002:a5d:97d4:0:b0:7b7:c8cd:7552 with SMTP id
- k20-20020a5d97d4000000b007b7c8cd7552mr9196880ios.36.1703119832306; Wed, 20
- Dec 2023 16:50:32 -0800 (PST)
+        bh=IsKyRwIIJMh6ypd8eGcHKjusmAjA6ghKRoJtNW0AIPo=;
+        b=wKrJ9vB7ZBOAw1OOayTDVFbWLnnZoXohXfr15t31zfDwvAQayhDAXVUYzCmhVvI3L1
+         YAayH20VmTBGNK2KD9vW6GS5yki04Bs0uhUx+MGbJS2TxJQ5GK9LA6sydSl05U5+nzby
+         9qPuRsUA2wwKlReTK0Q2cxkAH/NGxl1QZznuhGacix3QA80HIKYPL2rKIE/6E2JnYFGj
+         Gd4QoK88DwIedKIivZcJiunZPLIOj3IYoyd2ATBDL6Vlx90PiopHzTYqO6Mht0Uc2Vun
+         DvTsPELGzi8Al6TipJK+LY24jQjA0qJBqO0K+NwWyPrKjoko6tZ6yHtNwB4gv+N/+8qC
+         Sgyw==
+X-Gm-Message-State: AOJu0Yw8oNGwX7XTEuSAacFd3PzQ1oia3SRS+QLl2nMsdFLshUOVT+/2
+	FR1/dvJSYSzRHVPohDZNej0=
+X-Google-Smtp-Source: AGHT+IE2svPs9OIqJz6GQFQGm3iwTc8Gs7lh91C7UHNps90ESUqToUj97RVKlK0QX9L3bsZ5gNHDng==
+X-Received: by 2002:a05:6808:1489:b0:3b9:dddb:2921 with SMTP id e9-20020a056808148900b003b9dddb2921mr26162193oiw.78.1703120246576;
+        Wed, 20 Dec 2023 16:57:26 -0800 (PST)
+Received: from localhost (fwdproxy-prn-020.fbsv.net. [2a03:2880:ff:14::face:b00c])
+        by smtp.gmail.com with ESMTPSA id j20-20020a056a00235400b006d6b6c0b569sm358349pfj.219.2023.12.20.16.57.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Dec 2023 16:57:26 -0800 (PST)
+From: Nhat Pham <nphamcs@gmail.com>
+To: akpm@linux-foundation.org
+Cc: tj@kernel.org,
+	lizefan.x@bytedance.com,
+	hannes@cmpxchg.org,
+	cerasuolodomenico@gmail.com,
+	yosryahmed@google.com,
+	sjenning@redhat.com,
+	ddstreet@ieee.org,
+	vitaly.wool@konsulko.com,
+	mhocko@kernel.org,
+	roman.gushchin@linux.dev,
+	shakeelb@google.com,
+	muchun.song@linux.dev,
+	hughd@google.com,
+	corbet@lwn.net,
+	konrad.wilk@oracle.com,
+	senozhatsky@chromium.org,
+	rppt@kernel.org,
+	linux-mm@kvack.org,
+	kernel-team@meta.com,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	david@ixit.cz
+Subject: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling (fix)
+Date: Wed, 20 Dec 2023 16:57:25 -0800
+Message-Id: <20231221005725.3446672-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231207192406.3809579-1-nphamcs@gmail.com>
+References: <20231207192406.3809579-1-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207192406.3809579-1-nphamcs@gmail.com> <CAJD7tkZXS-UJVAFfvxJ0nNgTzWBiqepPYA4hEozi01_qktkitg@mail.gmail.com>
- <20231218144431.GB19167@cmpxchg.org> <CAJD7tkakMjE1sNfexLzooptDyQS4YZf5DmuoywnSFD7JTbh9BA@mail.gmail.com>
- <20231220051523.GB23822@cmpxchg.org> <CAJD7tkbzVjYxykracNW729xKTqFdpk5Hw5k94Epc_uSvUP1g=g@mail.gmail.com>
- <20231220145025.GC23822@cmpxchg.org> <CAJD7tkbmWcEvsfF8i+HrRetTVu6v4fKFn2WL0RLsHNheu=5wVw@mail.gmail.com>
-In-Reply-To: <CAJD7tkbmWcEvsfF8i+HrRetTVu6v4fKFn2WL0RLsHNheu=5wVw@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 20 Dec 2023 16:50:20 -0800
-Message-ID: <CAKEwX=OM0-auqDz9E1=_tC9n=KMFCs7JBYM1OhcZsOiH6cJmHw@mail.gmail.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, akpm@linux-foundation.org, tj@kernel.org, 
-	lizefan.x@bytedance.com, cerasuolodomenico@gmail.com, sjenning@redhat.com, 
-	ddstreet@ieee.org, vitaly.wool@konsulko.com, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, shakeelb@google.com, muchun.song@linux.dev, 
-	hughd@google.com, corbet@lwn.net, konrad.wilk@oracle.com, 
-	senozhatsky@chromium.org, rppt@kernel.org, linux-mm@kvack.org, 
-	kernel-team@meta.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	david@ixit.cz, chrisl@kernel.org, Wei Xu <weixugc@google.com>, 
-	Yu Zhao <yuzhao@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 20, 2023 at 4:24=E2=80=AFPM Yosry Ahmed <yosryahmed@google.com>=
- wrote:
->
-> We can agree to disagree here, I am not trying to block this anyway.
-> But let's at least document this in the commit message/docs/code
-> (wherever it makes sense) -- that recurrent failures (e.g.
-> incompressible memory) may keep going back to zswap only to get
-> rejected, so workloads prone to this may observe some reclaim
-> inefficiency.
+Add a caveat about recurring zswap store failures leading to reclaim
+inefficiency.
 
-I'll add the following caveat:
+Suggested-by: Yosry Ahmed <yosryahmed@google.com>
+Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 5 ++++-
+ Documentation/admin-guide/mm/zswap.rst  | 4 ++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-Note that if the store failures are recurring (for e.g if the pages are
-incompressible), users can observe reclaim inefficiency after disabling
-writeback (because the same pages might be rejected again and again).
-
-to the zswap documentation and the cgroup documentation then? I'll
-repeat this caveat in both places for self-containment purposes.
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 2b4ac43efdc8..5ec7dd753cd1 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1686,7 +1686,10 @@ PAGE_SIZE multiple when read back.
+ 
+ 	When this is set to 0, all swapping attempts to swapping devices
+ 	are disabled. This included both zswap writebacks, and swapping due
+-	to zswap store failure.
++	to zswap store failures. If the zswap store failures are recurring
++	(for e.g if the pages are incompressible), users can observe
++	reclaim inefficiency after disabling writeback (because the same
++	pages might be rejected again and again).
+ 
+ 	Note that this is subtly different from setting memory.swap.max to
+ 	0, as it still allows for pages to be written to the zswap pool.
+diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
+index cfa653130346..b42132969e31 100644
+--- a/Documentation/admin-guide/mm/zswap.rst
++++ b/Documentation/admin-guide/mm/zswap.rst
+@@ -159,6 +159,10 @@ zswap itself) on a cgroup-basis as follows:
+ 
+ 	echo 0 > /sys/fs/cgroup/<cgroup-name>/memory.zswap.writeback
+ 
++Note that if the store failures are recurring (for e.g if the pages are
++incompressible), users can observe reclaim inefficiency after disabling
++writeback (because the same pages might be rejected again and again).
++
+ When there is a sizable amount of cold memory residing in the zswap pool, it
+ can be advantageous to proactively write these cold pages to swap and reclaim
+ the memory for other use cases. By default, the zswap shrinker is disabled.
+-- 
+2.34.1
