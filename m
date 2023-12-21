@@ -1,279 +1,99 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931E2539E6;
-	Thu, 21 Dec 2023 15:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AB953A1C;
+	Thu, 21 Dec 2023 15:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="EPOlLkFY"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BLE52L6014601;
-	Thu, 21 Dec 2023 15:32:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=qcppdkim1; bh=r2eajES
-	iH3ZLCXG80R1YRJE+/6dxGjQt9PsMJiwCzc8=; b=EPOlLkFYE7UCwzDw1KVnS6L
-	MPMXBshaMm1aOvkNRMn4xqWJ/XRLLdo4rm59d0CVeJYfMAohw4f4P6TQ18QpNZh3
-	TBJPQb+0wOEKhTqvWWyKG7tzdhXtejmWgP2gBGFh2mpXVBjI6q9rbiuuxa2aDKJc
-	2uSzBqs33Oe1RmxkL3LRYe5wlcJ4YnvCQjKGeS/rMU8SeE+30Fz7/XAQ+VkGisVc
-	oPr3Dd+kBF6PotdN2FIe1HUaETielmlAqM3nTo3QKTWIdvS+Vrt8tDARCawHnk/O
-	NfrWZJLYJJR+ha55r36tXkQ3OecnpWeLbWKKqigUpmi5jndTLxIZy5A14EnCY6A=
-	=
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v4pte077p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Dec 2023 15:32:29 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BLFWSmL031684
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Dec 2023 15:32:28 GMT
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 21 Dec 2023 07:32:25 -0800
-From: Krishna Kurapati <quic_kriskura@quicinc.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet
-	<corbet@lwn.net>,
-        =?UTF-8?q?Maciej=20=C5=BBenczykowski?= <maze@google.com>,
-        Hardik Gajjar <hgajjar@de.adit-jv.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <quic_ppratap@quicinc.com>,
-        <quic_jackp@quicinc.com>, Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: [PATCH v2] usb: gadget: ncm: Add support to update wMaxSegmentSize via configfs
-Date: Thu, 21 Dec 2023 21:02:16 +0530
-Message-ID: <20231221153216.18657-1-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.42.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="X/Xz+CqP"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7DADC1BF20A;
+	Thu, 21 Dec 2023 15:36:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1703172973;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qih4URF6rrbQJOr6/rCfK90mkaE3j03/vJR1RzN9ObQ=;
+	b=X/Xz+CqPOdunaGw7bvYkZ5aRHYFvdVD+OXsd/tSQfSOuFvqesHloinh7kqzKp1E8nrXMtF
+	Muc5f5onNiea/qpkIvsKlQptW/EoZEErHWPtLCBD4pvseQ/V+m2cAaHkqOH44kbOZ0ELEJ
+	MIUnWt3/iUBKSMDJJ6LgUiXQ0SXtHijZUa+41AcIlogzuOBr+duepnfPg2Z0YFkwDWTXt6
+	lBuVt2thCnx/s+TTf8OPy28e3fGKUMLvZqeO+DWZ+oUdiclrF/l+uw3KltprYCQ/X7D0mH
+	yt2uckt4zAbF1Iba9A8SYadiNcrBvEXPjgs8/GIgJ2UXSQVfBRrEvFXGQzNS/A==
+Date: Thu, 21 Dec 2023 16:36:10 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
+ <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, Dent Project
+ <dentproject@linuxfoundation.org>, Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
+ driver
+Message-ID: <20231221163610.47038996@kmaincent-XPS-13-7390>
+In-Reply-To: <88ed0c94-d052-4564-be0c-79a0f502eda8@sirena.org.uk>
+References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
+	<20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
+	<20231204225956.GG981228@pengutronix.de>
+	<20231205064527.GJ981228@pengutronix.de>
+	<4b96b8c8-7def-46e5-9c85-d9e925fb9251@sirena.org.uk>
+	<20231205140203.GK981228@pengutronix.de>
+	<88ed0c94-d052-4564-be0c-79a0f502eda8@sirena.org.uk>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: OiI5g155Wochpovj5LFAQssmCeM82dGU
-X-Proofpoint-ORIG-GUID: OiI5g155Wochpovj5LFAQssmCeM82dGU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 adultscore=0
- clxscore=1011 priorityscore=1501 malwarescore=0 impostorscore=0
- phishscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312210117
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-The max segment size is currently limited to the ethernet frame length of
-the kernel which happens to be 1514 at this point in time. However the NCM
-specification limits it to 64K for sixtenn bit NTB's. For peer to peer
-connections, increasing the segment size gives better throughput.
+On Tue, 5 Dec 2023 15:57:28 +0000
+Mark Brown <broonie@kernel.org> wrote:
 
-Add support to configure this value before configfs symlink is created.
-Also since the NTB Out/In buffer sizes are fixed at 16384 bytes, limit the
-segment size to an upper cap of 8000 to allow at least a minimum of 2 MTU
-sized datagrams to be aggregated.
+> On Tue, Dec 05, 2023 at 03:02:03PM +0100, Oleksij Rempel wrote:
+> > On Tue, Dec 05, 2023 at 12:55:18PM +0000, Mark Brown wrote: =20
+> > > On Tue, Dec 05, 2023 at 07:45:27AM +0100, Oleksij Rempel wrote: =20
+>=20
+> > > > CC regulator devs here too. =20
+>=20
+> > > Again, I'm not sure what if any question there is? =20
+>=20
+> > PSE is kind of PMIC for Ethernet ports. I assume, it is good to let you
+> > know at least about existence drivers. =20
+>=20
+> OK...  I mean, if they're not using the regulator framework I'm not sure
+> it has much impact - there are plenty of internal regulators in devices
+> already so it wouldn't be *too* unusual other than the fact that AFAICT
+> this is somewhat split between devices within the subsystem?  Neither of
+> the messages was super clear.
 
-Set the default MTU size for the ncm interface during function bind before
-network interface is registered allowing MTU to be set in parity with
-wMaxSegmentSize.
+PSE Power Interface (which is kind of the RJ45 in PSE world) have similar
+functionalities as regulators. We wondered if registering a regulator for
+each PSE PI (RJ45 ports) is a good idea. The point is that the PSE controll=
+er
+driver will be its own regulator consumer.
+I can't find any example in Linux with such a case of a driver being a prov=
+ider
+and a consumer of its own regulator. This idea of a regulator biting its own
+tail seems weird to me. Maybe it is better to implement the PSE functionali=
+ties
+even if they are like the regulator functionalities.
 
-Update gadget documentation describing the new configfs property.
+What do you think?
 
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
----
-Changes in v2:
-Commit text updated as per reviews on v1.
-Documenation and driver code merged into one patch.
-
-Link to v1:
-https://lore.kernel.org/all/20231009142005.21338-1-quic_kriskura@quicinc.com/
-
- Documentation/usb/gadget-testing.rst | 20 ++++----
- drivers/usb/gadget/function/f_ncm.c  | 69 ++++++++++++++++++++++++++--
- drivers/usb/gadget/function/u_ncm.h  |  2 +
- 3 files changed, 79 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index 29072c166d23..8cd62c466d20 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -448,15 +448,17 @@ Function-specific configfs interface
- The function name to use when creating the function directory is "ncm".
- The NCM function provides these attributes in its function directory:
- 
--	=============== ==================================================
--	ifname		network device interface name associated with this
--			function instance
--	qmult		queue length multiplier for high and super speed
--	host_addr	MAC address of host's end of this
--			Ethernet over USB link
--	dev_addr	MAC address of device's end of this
--			Ethernet over USB link
--	=============== ==================================================
-+	===============   ==================================================
-+	ifname		  network device interface name associated with this
-+			  function instance
-+	qmult		  queue length multiplier for high and super speed
-+	host_addr	  MAC address of host's end of this
-+			  Ethernet over USB link
-+	dev_addr	  MAC address of device's end of this
-+			  Ethernet over USB link
-+	max_segment_size  Segment size required for P2P connections. This
-+			  will set MTU to (max_segment_size - 14 bytes)
-+	===============   ==================================================
- 
- and after creating the functions/ncm.<instance name> they contain default
- values: qmult is 5, dev_addr and host_addr are randomly selected.
-diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
-index cc0ed29a4adc..a1575a0ca568 100644
---- a/drivers/usb/gadget/function/f_ncm.c
-+++ b/drivers/usb/gadget/function/f_ncm.c
-@@ -103,6 +103,16 @@ static inline struct f_ncm *func_to_ncm(struct usb_function *f)
- /* Delay for the transmit to wait before sending an unfilled NTB frame. */
- #define TX_TIMEOUT_NSECS	300000
- 
-+/*
-+ * Although max mtu as dictated by u_ether is 15412 bytes, setting
-+ * max_segment_sizeto 15426 would not be efficient. If user chooses segment
-+ * size to be (>= 8192), then we can't aggregate more than one  buffer in each
-+ * NTB (assuming each packet coming from network layer is >= 8192 bytes) as ep
-+ * maxpacket limit is 16384. So let max_segment_size be limited to 8000 to allow
-+ * at least 2 packets to be aggregated reducing wastage of NTB buffer space
-+ */
-+#define MAX_DATAGRAM_SIZE	8000
-+
- #define FORMATS_SUPPORTED	(USB_CDC_NCM_NTB16_SUPPORTED |	\
- 				 USB_CDC_NCM_NTB32_SUPPORTED)
- 
-@@ -179,7 +189,6 @@ static struct usb_cdc_ether_desc ecm_desc = {
- 	/* this descriptor actually adds value, surprise! */
- 	/* .iMACAddress = DYNAMIC */
- 	.bmEthernetStatistics =	cpu_to_le32(0), /* no statistics */
--	.wMaxSegmentSize =	cpu_to_le16(ETH_FRAME_LEN),
- 	.wNumberMCFilters =	cpu_to_le16(0),
- 	.bNumberPowerFilters =	0,
- };
-@@ -1166,11 +1175,15 @@ static int ncm_unwrap_ntb(struct gether *port,
- 	struct sk_buff	*skb2;
- 	int		ret = -EINVAL;
- 	unsigned	ntb_max = le32_to_cpu(ntb_parameters.dwNtbOutMaxSize);
--	unsigned	frame_max = le16_to_cpu(ecm_desc.wMaxSegmentSize);
-+	unsigned	frame_max;
- 	const struct ndp_parser_opts *opts = ncm->parser_opts;
- 	unsigned	crc_len = ncm->is_crc ? sizeof(uint32_t) : 0;
- 	int		dgram_counter;
- 	int		to_process = skb->len;
-+	struct f_ncm_opts *ncm_opts;
-+
-+	ncm_opts = container_of(port->func.fi, struct f_ncm_opts, func_inst);
-+	frame_max = ncm_opts->max_segment_size;
- 
- parse_ntb:
- 	tmp = (__le16 *)ntb_ptr;
-@@ -1430,8 +1443,10 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
- 
- 	mutex_lock(&ncm_opts->lock);
- 	gether_set_gadget(ncm_opts->net, cdev->gadget);
--	if (!ncm_opts->bound)
-+	if (!ncm_opts->bound) {
-+		ncm_opts->net->mtu = (ncm_opts->max_segment_size - ETH_HLEN);
- 		status = gether_register_netdev(ncm_opts->net);
-+	}
- 	mutex_unlock(&ncm_opts->lock);
- 
- 	if (status)
-@@ -1474,6 +1489,8 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
- 	ncm_data_intf.bInterfaceNumber = status;
- 	ncm_union_desc.bSlaveInterface0 = status;
- 
-+	ecm_desc.wMaxSegmentSize = ncm_opts->max_segment_size;
-+
- 	status = -ENODEV;
- 
- 	/* allocate instance-specific endpoints */
-@@ -1576,11 +1593,56 @@ USB_ETHERNET_CONFIGFS_ITEM_ATTR_QMULT(ncm);
- /* f_ncm_opts_ifname */
- USB_ETHERNET_CONFIGFS_ITEM_ATTR_IFNAME(ncm);
- 
-+static ssize_t ncm_opts_max_segment_size_show(struct config_item *item,
-+					      char *page)
-+{
-+	struct f_ncm_opts *opts = to_f_ncm_opts(item);
-+	u16 segment_size;
-+
-+	mutex_lock(&opts->lock);
-+	segment_size = opts->max_segment_size;
-+	mutex_unlock(&opts->lock);
-+
-+	return sysfs_emit(page, "%u\n", segment_size);
-+}
-+
-+static ssize_t ncm_opts_max_segment_size_store(struct config_item *item,
-+					       const char *page, size_t len)
-+{
-+	struct f_ncm_opts *opts = to_f_ncm_opts(item);
-+	u16 segment_size;
-+	int ret;
-+
-+	mutex_lock(&opts->lock);
-+	if (opts->refcnt) {
-+		ret = -EBUSY;
-+		goto out;
-+	}
-+
-+	ret = kstrtou16(page, 0, &segment_size);
-+	if (ret)
-+		goto out;
-+
-+	if (segment_size > MAX_DATAGRAM_SIZE) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	opts->max_segment_size = segment_size;
-+	ret = len;
-+out:
-+	mutex_unlock(&opts->lock);
-+	return ret;
-+}
-+
-+CONFIGFS_ATTR(ncm_opts_, max_segment_size);
-+
- static struct configfs_attribute *ncm_attrs[] = {
- 	&ncm_opts_attr_dev_addr,
- 	&ncm_opts_attr_host_addr,
- 	&ncm_opts_attr_qmult,
- 	&ncm_opts_attr_ifname,
-+	&ncm_opts_attr_max_segment_size,
- 	NULL,
- };
- 
-@@ -1623,6 +1685,7 @@ static struct usb_function_instance *ncm_alloc_inst(void)
- 		kfree(opts);
- 		return ERR_CAST(net);
- 	}
-+	opts->max_segment_size = cpu_to_le16(ETH_FRAME_LEN);
- 	INIT_LIST_HEAD(&opts->ncm_os_desc.ext_prop);
- 
- 	descs[0] = &opts->ncm_os_desc;
-diff --git a/drivers/usb/gadget/function/u_ncm.h b/drivers/usb/gadget/function/u_ncm.h
-index 5408854d8407..49ec095cdb4b 100644
---- a/drivers/usb/gadget/function/u_ncm.h
-+++ b/drivers/usb/gadget/function/u_ncm.h
-@@ -31,6 +31,8 @@ struct f_ncm_opts {
- 	 */
- 	struct mutex			lock;
- 	int				refcnt;
-+
-+	u16				max_segment_size;
- };
- 
- #endif /* U_NCM_H */
--- 
-2.42.0
-
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
