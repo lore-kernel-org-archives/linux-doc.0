@@ -1,391 +1,259 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA946D1BF;
-	Thu, 21 Dec 2023 12:06:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8D36E58C
+	for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 12:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sX6so0f4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86AD5C433C8;
-	Thu, 21 Dec 2023 12:06:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703160402;
-	bh=FYeMNbw8BtytmLK5Ppctl2wRAn1H7cpvJrvgLFOJx2Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sX6so0f4M/3Bs5KwTHM+VMk5in6ZgO5QYdYI0Paa7gQu9qHCci1ZVUdXUxK9oFtRX
-	 9lVHjt8zxqJVwZ+NhER/9c+1+ZfqkBBRMClGjdrOMF1wB2+VRKqLtMFERbfM/Zgyin
-	 ixzCLXoT0WCt8FnzrbjXOWQDZPQnoErnhty2SBw70Da1OQfREssoBJaQfomklAsi6/
-	 U1YLaRMm6STIQPdA2Sx/DOVxFIToUl0tdub6n/AfDSRM+WxefiiTZpa0/0T7xpq1ck
-	 tQWiBG7c1fXD6+Yik/KzgwSrajMEzReB+Qc+VuNbdyUraD3fDRG/F50pYfbMpHjR6F
-	 utzHHz8O2jk/g==
-Date: Thu, 21 Dec 2023 12:06:24 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Nuno =?UTF-8?B?U8Oh?=
- <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>
-Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface
- infrastructure
-Message-ID: <20231221120624.7bcdc302@jic23-huawei>
-In-Reply-To: <20231219175009.65482-6-paul@crapouillou.net>
-References: <20231219175009.65482-1-paul@crapouillou.net>
-	<20231219175009.65482-6-paul@crapouillou.net>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="b2hXv4Fa"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-336897b6bd6so482959f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 21 Dec 2023 04:17:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1703161035; x=1703765835; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wo4F4JANDOClYN3jxQcqNRyTGhNp1nyKO/PKQRBOOYU=;
+        b=b2hXv4FadH3SMVjwstOXXV9hqWfCEQEkIAG9p9uCUHspvvLECNXeI6Shq/25ftaElw
+         LVbMmNxz5DEzQvw2xDVnlb0C+IqOAjlJtiLIVeZxcY6ydOsWqXlFsg3rGBNIqN+9FCfY
+         gdoIq1EXuwZAT8DYfTIMqje087V/5fg3ZbrAADs+rRVxArl/++NI6xJiLW6Q8zXmqGEi
+         dqFqfHydBHvAVdjQsZUg/XmfHaH/tMU1XDBBuoPH1YAI5cQ+jpJMJbsBajj1CzZeBbv8
+         SNVL+OvcIRD8o0M93z3yw6kBzRkIZb8+fO9xZGGJNDxQO25V4q0zWhV0g9K2xBg+W7nu
+         zrww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703161035; x=1703765835;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wo4F4JANDOClYN3jxQcqNRyTGhNp1nyKO/PKQRBOOYU=;
+        b=HyEhC3nApBuLizWmyeX0VZvMIjjbYsHJYlajevzj6tDNdziW0nYVvJF6PMh3Wp4g5Q
+         cJT2/M70q57yMTKWlofeobiAQEsgWwdoHGyL01EjOQDNw9juCs0y11oaSKh8zCktVl5+
+         Gkt4NinNr993cHcA5P/B4W9SAzrGdVTqp70Cqb/7e/wjP2k1saVSRQ8mh7Ysywfu/38E
+         oUw+bhrOlDl2FD+DfQdFnyDlwYGM88g2628rGUCxS1WvX6AaUVWTvC2D384b/UPGimHF
+         AMlON8VR6jwGrFqghKvCNoDq/jkeQCVPotKwj3Ycf8ACC4tsDE8A03Dm3cxn9jKkOv8n
+         2tVQ==
+X-Gm-Message-State: AOJu0YzuWbCOawc3VF4NJVxdHU579bRz+fe7KV3zIR0KhuvBCHPrA+r3
+	ROz/EJKK+56JY8qNrV7L5T/+KA==
+X-Google-Smtp-Source: AGHT+IFihwiQ9oiYKP5ukG9du9pUTnhTefLm+hmzcqxCv27XCcqGJ9+vh83Neir6CDrML5VfrH6irQ==
+X-Received: by 2002:a7b:ce87:0:b0:40d:38df:5802 with SMTP id q7-20020a7bce87000000b0040d38df5802mr705115wmj.165.1703161035199;
+        Thu, 21 Dec 2023 04:17:15 -0800 (PST)
+Received: from ?IPv6:2804:30c:1668:b300:8fcd:588d:fb77:ed04? ([2804:30c:1668:b300:8fcd:588d:fb77:ed04])
+        by smtp.gmail.com with ESMTPSA id l15-20020a5d560f000000b0033609584b9dsm1909827wrv.74.2023.12.21.04.17.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Dec 2023 04:17:14 -0800 (PST)
+Message-ID: <55b717dba239f3bedf0da7e25925e390a63459f5.camel@suse.com>
+Subject: Re: [PATCH RESEND v4 0/3] livepatch: Move modules to selftests and
+ add a new test
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+To: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Heiko
+ Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
+ Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>,  Sven Schnelle <svens@linux.ibm.com>, Josh
+ Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,  Miroslav
+ Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, Joe Lawrence
+ <joe.lawrence@redhat.com>
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
+	live-patching@vger.kernel.org
+Date: Thu, 21 Dec 2023 09:17:04 -0300
+In-Reply-To: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
+References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Tue, 19 Dec 2023 18:50:06 +0100
-Paul Cercueil <paul@crapouillou.net> wrote:
+On Wed, 2023-12-20 at 13:53 -0300, Marcos Paulo de Souza wrote:
+> Changes in v4:
+> * Documented how to compile the livepatch selftests without running
+> the
+> =C2=A0 tests (Joe)
+> * Removed the mention to lib/livepatch on MAINTAINERS file, reported
+> by
+> =C2=A0 checkpatch.
+>=20
 
-> Add the necessary infrastructure to the IIO core to support a new
-> optional DMABUF based interface.
-> 
-> With this new interface, DMABUF objects (externally created) can be
-> attached to a IIO buffer, and subsequently used for data transfer.
-> 
-> A userspace application can then use this interface to share DMABUF
-> objects between several interfaces, allowing it to transfer data in a
-> zero-copy fashion, for instance between IIO and the USB stack.
-> 
-> The userspace application can also memory-map the DMABUF objects, and
-> access the sample data directly. The advantage of doing this vs. the
-> read() interface is that it avoids an extra copy of the data between the
-> kernel and userspace. This is particularly userful for high-speed
-> devices which produce several megabytes or even gigabytes of data per
-> second.
-> 
-> As part of the interface, 3 new IOCTLs have been added:
-> 
-> IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
->  Attach the DMABUF object identified by the given file descriptor to the
->  buffer.
-> 
-> IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
->  Detach the DMABUF object identified by the given file descriptor from
->  the buffer. Note that closing the IIO buffer's file descriptor will
->  automatically detach all previously attached DMABUF objects.
-> 
-> IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
->  Request a data transfer to/from the given DMABUF object. Its file
->  descriptor, as well as the transfer size and flags are provided in the
->  "iio_dmabuf" structure.
-> 
-> These three IOCTLs have to be performed on the IIO buffer's file
-> descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-> 
+To clarify: this is not a resend, this is the v4 that people were
+waiting for. I made a mistake with b4 tool, that first I sent the email
+just to myself, for testing, and it bumped the version to v5, but I
+asked it to "resend" the v4, but it ended up adding the "RESEND" to the
+series.
 
-Fair enough - so they don't apply to the 'legacy' buffer which simplifies
-things but in one place you assume that logic is used (given error return
-values).
+Please review this patchset and ignore the RESEND word.
 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> 
-This is big and complex and I'm out of time for now, so I've made some
-comments but should revisit it.
-I'm also looking for review from those more familiar with dmabuf side
-of things than I am!
+Thanks to Petr Mladek for spotting my mistake.
 
-Jonathan
+	Marcos
 
-
->  
-> +static int iio_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
-> +{
-> +	int ret;
-> +
-> +	ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
-> +	if (ret) {
-> +		if (ret != -EDEADLK)
-> +			goto out;
-> +		if (nonblock) {
-> +			ret = -EBUSY;
-> +			goto out;
-> +		}
-> +
-> +		ret = dma_resv_lock_slow_interruptible(dmabuf->resv, NULL);
-> +	}
-> +
-> +out:
-> +	return ret;
-
-I'm not a fan gotos that do nothing.  Just return in appropriate places above.
-
-> +}
->
-> +static int iio_buffer_detach_dmabuf(struct iio_dev_buffer_pair *ib, int *user_req)
-> +{
-> +	struct dma_buf_attachment *attach;
-> +	struct iio_dmabuf_priv *priv;
-> +	struct dma_buf *dmabuf;
-> +	int dmabuf_fd, ret = 0;
-> +
-> +	if (copy_from_user(&dmabuf_fd, user_req, sizeof(dmabuf_fd)))
-> +		return -EFAULT;
-> +
-> +	dmabuf = dma_buf_get(dmabuf_fd);
-> +	if (IS_ERR(dmabuf))
-> +		return PTR_ERR(dmabuf);
-> +
-> +	attach = iio_buffer_find_attachment(ib->indio_dev, dmabuf);
-> +	if (IS_ERR(attach)) {
-> +		ret = PTR_ERR(attach);
-> +		goto out_dmabuf_put;
-> +	}
-> +
-> +	priv = attach->importer_priv;
-> +	list_del_init(&priv->entry);
-> +
-> +	/*
-> +	 * Unref twice to release the reference obtained with
-> +	 * iio_buffer_find_attachment() above, and the one obtained in
-> +	 * iio_buffer_attach_dmabuf().
-> +	 */
-> +	iio_buffer_dmabuf_put(attach);
-> +	iio_buffer_dmabuf_put(attach);
-> +
-> +out_dmabuf_put:
-> +	dma_buf_put(dmabuf);
-As below. Feels like a __free(dma_buf_put) bit of magic would be a nice to have.
-
-> +
-> +	return ret;
-> +}
-> +
-> +static const char *
-> +iio_buffer_dma_fence_get_driver_name(struct dma_fence *fence)
-> +{
-> +	return "iio";
-> +}
-> +
-> +static void iio_buffer_dma_fence_release(struct dma_fence *fence)
-> +{
-> +	struct iio_dma_fence *iio_fence =
-> +		container_of(fence, struct iio_dma_fence, base);
-> +
-> +	kfree(iio_fence);
-> +}
-> +
-> +static const struct dma_fence_ops iio_buffer_dma_fence_ops = {
-> +	.get_driver_name	= iio_buffer_dma_fence_get_driver_name,
-> +	.get_timeline_name	= iio_buffer_dma_fence_get_driver_name,
-> +	.release		= iio_buffer_dma_fence_release,
-> +};
-> +
-> +static int iio_buffer_enqueue_dmabuf(struct iio_dev_buffer_pair *ib,
-> +				     struct iio_dmabuf __user *iio_dmabuf_req,
-> +				     bool nonblock)
-> +{
-> +	struct iio_dev *indio_dev = ib->indio_dev;
-> +	struct iio_buffer *buffer = ib->buffer;
-> +	struct iio_dmabuf iio_dmabuf;
-> +	struct dma_buf_attachment *attach;
-> +	struct iio_dmabuf_priv *priv;
-> +	enum dma_data_direction dir;
-> +	struct iio_dma_fence *fence;
-> +	struct dma_buf *dmabuf;
-> +	struct sg_table *sgt;
-> +	unsigned long timeout;
-> +	bool dma_to_ram;
-> +	bool cyclic;
-> +	int ret;
-> +
-> +	if (copy_from_user(&iio_dmabuf, iio_dmabuf_req, sizeof(iio_dmabuf)))
-> +		return -EFAULT;
-> +
-> +	if (iio_dmabuf.flags & ~IIO_BUFFER_DMABUF_SUPPORTED_FLAGS)
-> +		return -EINVAL;
-> +
-> +	cyclic = iio_dmabuf.flags & IIO_BUFFER_DMABUF_CYCLIC;
-> +
-> +	/* Cyclic flag is only supported on output buffers */
-> +	if (cyclic && buffer->direction != IIO_BUFFER_DIRECTION_OUT)
-> +		return -EINVAL;
-> +
-> +	dmabuf = dma_buf_get(iio_dmabuf.fd);
-> +	if (IS_ERR(dmabuf))
-> +		return PTR_ERR(dmabuf);
-> +
-> +	if (!iio_dmabuf.bytes_used || iio_dmabuf.bytes_used > dmabuf->size) {
-> +		ret = -EINVAL;
-> +		goto err_dmabuf_put;
-> +	}
-> +
-> +	attach = iio_buffer_find_attachment(indio_dev, dmabuf);
-> +	if (IS_ERR(attach)) {
-> +		ret = PTR_ERR(attach);
-> +		goto err_dmabuf_put;
-
-Might be worth some cleanup.h magic given this put happens in all exit paths.
-
-> +	}
-> +
-> +	priv = attach->importer_priv;
-> +
-> +	dma_to_ram = buffer->direction == IIO_BUFFER_DIRECTION_IN;
-> +	dir = dma_to_ram ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-> +
-> +	sgt = dma_buf_map_attachment(attach, dir);
-> +	if (IS_ERR(sgt)) {
-> +		ret = PTR_ERR(sgt);
-> +		dev_err(&indio_dev->dev, "Unable to map attachment: %d\n", ret);
-> +		goto err_attachment_put;
-> +	}
-> +
-> +	fence = kmalloc(sizeof(*fence), GFP_KERNEL);
-> +	if (!fence) {
-> +		ret = -ENOMEM;
-> +		goto err_unmap_attachment;
-> +	}
-> +
-> +	fence->priv = priv;
-> +	fence->sgt = sgt;
-> +	fence->dir = dir;
-> +	priv->fence = fence;
-> +
-> +	dma_fence_init(&fence->base, &iio_buffer_dma_fence_ops,
-> +		       &priv->lock, priv->context, 0);
-> +
-> +	ret = iio_dma_resv_lock(dmabuf, nonblock);
-> +	if (ret)
-> +		goto err_fence_put;
-> +
-> +	timeout = nonblock ? 0 : msecs_to_jiffies(DMABUF_ENQUEUE_TIMEOUT_MS);
-> +
-> +	/* Make sure we don't have writers */
-> +	ret = (int) dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_WRITE,
-> +					  true, timeout);
-
-I'd handle this and similar cases as long rather than adding the odd looking cast and making
-me think too much about it.
-
-> +	if (ret == 0)
-> +		ret = -EBUSY;
-> +	if (ret < 0)
-> +		goto err_resv_unlock;
-> +
-> +	if (dma_to_ram) {
-> +		/*
-> +		 * If we're writing to the DMABUF, make sure we don't have
-> +		 * readers
-> +		 */
-> +		ret = (int) dma_resv_wait_timeout(dmabuf->resv,
-> +						  DMA_RESV_USAGE_READ, true,
-> +						  timeout);
-> +		if (ret == 0)
-> +			ret = -EBUSY;
-> +		if (ret < 0)
-> +			goto err_resv_unlock;
-> +	}
-> +
-> +	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
-> +	if (ret)
-> +		goto err_resv_unlock;
-> +
-> +	dma_resv_add_fence(dmabuf->resv, &fence->base,
-> +			   dma_resv_usage_rw(dma_to_ram));
-> +	dma_resv_unlock(dmabuf->resv);
-> +
-> +	ret = buffer->access->enqueue_dmabuf(buffer, priv->block, sgt,
-> +					     iio_dmabuf.bytes_used, cyclic);
-> +	if (ret)
-> +		iio_buffer_signal_dmabuf_done(attach, ret);
-
-I'd like a comment on why using the 'successful' path cleanup makes sense in this
-error case.  It's possible to figure it out, but reviewers are lazy and generally
-we like the cleanup to be obvious and local on error paths.
-
-> +
-> +	dma_buf_put(dmabuf);
-> +
-> +	return ret;
-> +
-> +err_resv_unlock:
-> +	dma_resv_unlock(dmabuf->resv);
-> +err_fence_put:
-> +	dma_fence_put(&fence->base);
-> +err_unmap_attachment:
-> +	dma_buf_unmap_attachment(attach, sgt, dir);
-> +err_attachment_put:
-> +	iio_buffer_dmabuf_put(attach);
-> +err_dmabuf_put:
-> +	dma_buf_put(dmabuf);
-> +
-> +	return ret;
-> +}
-> +
-> +void iio_buffer_signal_dmabuf_done(struct dma_buf_attachment *attach, int ret)
-> +{
-> +	struct iio_dmabuf_priv *priv = attach->importer_priv;
-> +	struct iio_dma_fence *fence = priv->fence;
-> +	enum dma_data_direction dir = fence->dir;
-> +	struct sg_table *sgt = fence->sgt;
-> +
-> +	dma_fence_get(&fence->base);
-
-I don't know much about dma_fence, but is it valid to access
-contents of it (sgt, etc) before getting a reference?
-Ultimately dma_fence_put() can result in a kfree_rcu() so seems
-unlikely to be safe and definitely fails the 'obviously correct'
-test.  Given those are I assume trivial accesses just do them 
-down here perhaps?
-
-
-> +	fence->base.error = ret;
-> +	dma_fence_signal(&fence->base);
-> +	dma_fence_put(&fence->base);
-> +
-> +	dma_buf_unmap_attachment(attach, sgt, dir);
-> +	iio_buffer_dmabuf_put(attach);
-> +}
-> +EXPORT_SYMBOL_GPL(iio_buffer_signal_dmabuf_done);
-> +
-
-> +static long iio_buffer_chrdev_ioctl(struct file *filp,
-> +				    unsigned int cmd, unsigned long arg)
-> +{
-> +	struct iio_dev_buffer_pair *ib = filp->private_data;
-> +	void __user *_arg = (void __user *)arg;
-> +
-> +	switch (cmd) {
-> +	case IIO_BUFFER_DMABUF_ATTACH_IOCTL:
-> +		return iio_buffer_attach_dmabuf(ib, _arg);
-> +	case IIO_BUFFER_DMABUF_DETACH_IOCTL:
-> +		return iio_buffer_detach_dmabuf(ib, _arg);
-> +	case IIO_BUFFER_DMABUF_ENQUEUE_IOCTL:
-> +		return iio_buffer_enqueue_dmabuf(ib, _arg,
-> +						 filp->f_flags & O_NONBLOCK);
-> +	default:
-> +		return IIO_IOCTL_UNHANDLED;
-
-Given you aren't using the ioctl handling on the legacy buffer, I think this
-should simply return an error code, not the magic value we use to indicate
-'all fine, but it's not mine'.
-Probably -EINVAL or similar.  Note that the wrapper around the legacy buffer
-ioctls translates this to -ENODEV; rather than returning from the ioctl.
-
-
-
-> +	}
-> +}
-> +
->  static const struct file_operations iio_buffer_chrdev_fileops = {
->  	.owner = THIS_MODULE,
->  	.llseek = noop_llseek,
->  	.read = iio_buffer_read,
->  	.write = iio_buffer_write,
-> +	.unlocked_ioctl = iio_buffer_chrdev_ioctl,
-> +	.compat_ioctl = compat_ptr_ioctl,
->  	.poll = iio_buffer_poll,
->  	.release = iio_buffer_chrdev_release,
->  };
+> Changes in v3:
+> * Rebased on top of v6.6-rc5
+> * The commits messages were improved (Thanks Petr!)
+> * Created TEST_GEN_MODS_DIR variable to point to a directly that
+> contains kernel
+> =C2=A0 modules, and adapt selftests to build it before running the test.
+> * Moved test_klp-call_getpid out of test_programs, since the gen_tar
+> =C2=A0 would just copy the generated test programs to the livepatches dir=
+,
+> =C2=A0 and so scripts relying on test_programs/test_klp-call_getpid will
+> fail.
+> * Added a module_param for klp_pids, describing it's usage.
+> * Simplified the call_getpid program to ignore the return of getpid
+> syscall,
+> =C2=A0 since we only want to make sure the process transitions correctly
+> to the
+> =C2=A0 patched stated
+> * The test-syscall.sh not prints a log message showing the number of
+> remaining
+> =C2=A0 processes to transition into to livepatched state, and check_outpu=
+t
+> expects it
+> =C2=A0 to be 0.
+> * Added MODULE_AUTHOR and MODULE_DESCRIPTION to test_klp_syscall.c
+>=20
+> - Link to v3:
+> https://lore.kernel.org/r/20231031-send-lp-kselftests-v3-0-2b1655c2605f@s=
+use.com
+> - Link to v2:
+> https://lore.kernel.org/linux-kselftest/20220630141226.2802-1-mpdesouza@s=
+use.com/
+>=20
+> This patchset moves the current kernel testing livepatch modules from
+> lib/livepatches to tools/testing/selftest/livepatch/test_modules, and
+> compiles
+> them as out-of-tree modules before testing.
+>=20
+> There is also a new test being added. This new test exercises
+> multiple processes
+> calling a syscall, while a livepatch patched the syscall.
+>=20
+> Why this move is an improvement:
+> * The modules are now compiled as out-of-tree modules against the
+> current
+> =C2=A0 running kernel, making them capable of being tested on different
+> systems with
+> =C2=A0 newer or older kernels.
+> * Such approach now needs kernel-devel package to be installed, since
+> they are
+> =C2=A0 out-of-tree modules. These can be generated by running "make rpm-
+> pkg" in the
+> =C2=A0 kernel source.
+>=20
+> What needs to be solved:
+> * Currently gen_tar only packages the resulting binaries of the
+> tests, and not
+> =C2=A0 the sources. For the current approach, the newly added modules
+> would be
+> =C2=A0 compiled and then packaged. It works when testing on a system with
+> the same
+> =C2=A0 kernel version. But it will fail when running on a machine with
+> different kernel
+> =C2=A0 version, since module was compiled against the kernel currently
+> running.
+>=20
+> =C2=A0 This is not a new problem, just aligning the expectations. For the
+> current
+> =C2=A0 approach to be truly system agnostic gen_tar would need to include
+> the module
+> =C2=A0 and program sources to be compiled in the target systems.
+>=20
+> Thanks in advance!
+> =C2=A0 Marcos
+>=20
+> Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
+> ---
+> Marcos Paulo de Souza (3):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kselftests: lib.mk: Add TEST_GEN_MODS_DIR =
+variable
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 livepatch: Move tests from lib/livepatch t=
+o selftests/livepatch
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 selftests: livepatch: Test livepatching a =
+heavily called
+> syscall
+>=20
+> =C2=A0Documentation/dev-tools/kselftest.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
+> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 -
+> =C2=A0arch/s390/configs/debug_defconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 1 -
+> =C2=A0arch/s390/configs/defconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 -
+> =C2=A0lib/Kconfig.debug=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 22 ----
+> =C2=A0lib/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 -
+> =C2=A0lib/livepatch/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 14 ---
+> =C2=A0tools/testing/selftests/lib.mk=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 20 +++-
+> =C2=A0tools/testing/selftests/livepatch/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
+> =C2=A0tools/testing/selftests/livepatch/README=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 25 +++--
+> =C2=A0tools/testing/selftests/livepatch/config=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 -
+> =C2=A0tools/testing/selftests/livepatch/functions.sh=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 34 +++---
+> =C2=A0.../testing/selftests/livepatch/test-callbacks.sh=C2=A0 |=C2=A0 50 =
+++++-----
+> =C2=A0tools/testing/selftests/livepatch/test-ftrace.sh=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 6 +-
+> =C2=A0.../testing/selftests/livepatch/test-livepatch.sh=C2=A0 |=C2=A0 10 =
++-
+> =C2=A0.../selftests/livepatch/test-shadow-vars.sh=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+> =C2=A0tools/testing/selftests/livepatch/test-state.sh=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 18 ++--
+> =C2=A0tools/testing/selftests/livepatch/test-syscall.sh=C2=A0 |=C2=A0 53 =
+++++++++++
+> =C2=A0tools/testing/selftests/livepatch/test-sysfs.sh=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 6 +-
+> =C2=A0.../selftests/livepatch/test_klp-call_getpid.c=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 44 ++++++++
+> =C2=A0.../selftests/livepatch/test_modules/Makefile=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 20 ++++
+> =C2=A0.../test_modules}/test_klp_atomic_replace.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
+> =C2=A0.../test_modules}/test_klp_callbacks_busy.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
+> =C2=A0.../test_modules}/test_klp_callbacks_demo.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
+> =C2=A0.../test_modules}/test_klp_callbacks_demo2.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
+> =C2=A0.../test_modules}/test_klp_callbacks_mod.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
+> =C2=A0.../livepatch/test_modules}/test_klp_livepatch.c=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 0
+> =C2=A0.../livepatch/test_modules}/test_klp_shadow_vars.c |=C2=A0=C2=A0 0
+> =C2=A0.../livepatch/test_modules}/test_klp_state.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 0
+> =C2=A0.../livepatch/test_modules}/test_klp_state2.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 0
+> =C2=A0.../livepatch/test_modules}/test_klp_state3.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 0
+> =C2=A0.../livepatch/test_modules/test_klp_syscall.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 116
+> +++++++++++++++++++++
+> =C2=A032 files changed, 334 insertions(+), 121 deletions(-)
+> ---
+> base-commit: 206ed72d6b33f53b2a8bf043f54ed6734121d26b
+> change-id: 20231031-send-lp-kselftests-4c917dcd4565
+>=20
+> Best regards,
 
