@@ -1,42 +1,42 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDB4381CC
-	for <linux-doc@vger.kernel.org>; Fri, 22 Dec 2023 23:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9182033CDA
+	for <linux-doc@vger.kernel.org>; Fri, 22 Dec 2023 23:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iwanders.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iwanders.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b="chNSw9k3"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-781251ed685so123675585a.3
-        for <linux-doc@vger.kernel.org>; Fri, 22 Dec 2023 15:17:10 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b="HEk8CCyX"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4259a275fa9so16946821cf.2
+        for <linux-doc@vger.kernel.org>; Fri, 22 Dec 2023 15:20:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=iwanders.net; s=google; t=1703287029; x=1703891829; darn=vger.kernel.org;
+        d=iwanders.net; s=google; t=1703287225; x=1703892025; darn=vger.kernel.org;
         h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=7CpW3HQ3edIB3pC1X9J+ZszFBlQ3pCTa21G/iZStcgk=;
-        b=chNSw9k3tyBBgPYw368jZIK4B/DunMkafbHBcScFFElE9LbZVaHnoY6/WC1411wKc1
-         qKENLCvlnT6EwlBVRhes/VZczfvM++sNQqp4b3Bzi/Y7+XVEEPBdcLOqaN0RqovkQQtC
-         iniERB8qCeQ3xG+6mVjD2hF/2CE5XWsSPWA0g=
+        bh=7Jg7LMcYWmIaO2CCXqAm9eI5kBh+J6fmP6S0jJw0ctc=;
+        b=HEk8CCyXVpRTXfZspfj39SUyS4DU/eQMnZmT1tGeQI1AnYYGZ5io0zrwQIVezuMlsA
+         lFLn2Q6ou44DLBmfg5eS/4ioHHmqTxfW5SlSLUx0z4amDEG8U4BvXQfRp8PyS6X5ytMB
+         XZ88VD0noTiU/PKiTO06Jq/hWTTlU9i4CDu2g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703287029; x=1703891829;
+        d=1e100.net; s=20230601; t=1703287225; x=1703892025;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7CpW3HQ3edIB3pC1X9J+ZszFBlQ3pCTa21G/iZStcgk=;
-        b=I7Ck5hZwlKPIs+fc0l4bHq0mu078VA0M4m1KfmjjrhHnli3/gtVRlGv8XpcdpmID0m
-         e3L1Rvt0AHAebBAGbjiiXC2+s3vKkcf/Wb24V+U47gKrjohX4bLPz0YK4rXpGKGW3ldG
-         wgRvxaI6cRnNqoI0YwXk0/Q+B0r4KObmS4NNQaZWUkCK39LgKjGp2BTIcQ0EB9mM/INW
-         mgBpHFjeM8Yv6re12N+f9AXcXkSjCv45nZVCKQ8rZRGRph4D4rAS1KtOroDD84pHvYWK
-         SUP7makRZaog5IuyyGRMYrm6XP0RDHq8qG4kDVvi0LKGYYwnk8UyU9fXyv5iYuvI7o2+
-         vIsA==
-X-Gm-Message-State: AOJu0YzuGBynj7izpSIztYj2i3hbHg/WzIIlIOYqSa3gHXUIQpfz14B0
-	g3THt4//2wvE3nphsx7ax1y3+C+T7KHjTw==
-X-Google-Smtp-Source: AGHT+IHS2SZicxvBAydDZ0dczVgPVcMjllDPAaqVKpGvtypPcvbU5dRrD+q0Cevn+jgytzUmjAUkXw==
-X-Received: by 2002:ad4:5dc6:0:b0:67f:43ef:c8df with SMTP id m6-20020ad45dc6000000b0067f43efc8dfmr2476193qvh.98.1703287029358;
-        Fri, 22 Dec 2023 15:17:09 -0800 (PST)
+        bh=7Jg7LMcYWmIaO2CCXqAm9eI5kBh+J6fmP6S0jJw0ctc=;
+        b=Spyts1q4ahGKdDSv/z+btx7HMviYdQsoyEUCGw+1VUUrHUMpP80MIQPftXVFVlfOXh
+         5sQuO7qptj1Cc50xY3fezvmc5n5TPlo8UoncLq1zHfXftcVgu6E7GK8/k3HHpck8NHHC
+         YYT8/9jbV6Fzhupv+fEgvA2mQ7P5cYE8rsuAFHtow1nLbF2OjK481f18evLCSqQ4Srdc
+         XXihXkIyeuW4/n1B/6kAwhj8duoeUKjWCdtsPI118OCIJ0p5k7NK0ucE0HzsFRX4MgIa
+         uD7VcblxTIEKnVLzv9K4yvsfx2MuKfDYfCnQdJPwaZK1hgnqGH1mF37bEKuQAwh18zaW
+         sWiw==
+X-Gm-Message-State: AOJu0YzDmYRpqEOG0bfgkCsdSidHy1zSRn8yiIn5WyrrfziYNriqOgtJ
+	PddzRGzcxBnXXgbBP/bvcy0t3GFs50ttzw==
+X-Google-Smtp-Source: AGHT+IExPRV0xYIbsvxIADUup4X9pzFtDEINzww7SWOX1CCloC1or5IhgO/WejPOcQTfeBlzLDDffA==
+X-Received: by 2002:a05:622a:1012:b0:403:a8fa:b4f5 with SMTP id d18-20020a05622a101200b00403a8fab4f5mr2938148qte.4.1703287225620;
+        Fri, 22 Dec 2023 15:20:25 -0800 (PST)
 Received: from eagle.lan (24-246-30-234.cable.teksavvy.com. [24.246.30.234])
-        by smtp.gmail.com with ESMTPSA id gc7-20020a05622a59c700b004260c76e4eesm2221739qtb.27.2023.12.22.15.17.08
+        by smtp.gmail.com with ESMTPSA id df24-20020a05622a0ed800b004275e9cdf15sm2226878qtb.11.2023.12.22.15.20.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 15:17:08 -0800 (PST)
+        Fri, 22 Dec 2023 15:20:25 -0800 (PST)
 From: Ivor Wanders <ivor@iwanders.net>
 To: linux@roeck-us.net
 Cc: corbet@lwn.net,
@@ -45,24 +45,23 @@ Cc: corbet@lwn.net,
 	linux-doc@vger.kernel.org,
 	linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	luzmaximilian@gmail.com
-Subject: Re: [PATCH 0/1] clarify intent of fan min and max attributes
-Date: Fri, 22 Dec 2023 18:17:05 -0500
-Message-Id: <20231222231705.4338-1-ivor@iwanders.net>
+	luzmaximilian@gmail.com,
+	rdunlap@infradead.org
+Subject: Re: [PATCH v2] hwmon: clarify intent of fan min/max
+Date: Fri, 22 Dec 2023 18:20:14 -0500
+Message-Id: <20231222232014.4561-1-ivor@iwanders.net>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <ce60c838-0fad-4bb4-8af4-a94d43092d4d@roeck-us.net>
-References: <ce60c838-0fad-4bb4-8af4-a94d43092d4d@roeck-us.net>
+In-Reply-To: <632bd36b-1652-4c74-9d78-ddea6ce77a00@roeck-us.net>
+References: <632bd36b-1652-4c74-9d78-ddea6ce77a00@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 
-> I do not see the point of clarifying this for individual attributes,
-> especially since that might create the impression that it would possibly
-> not apply to other attributes (for those not reading the above
-> documentation).
+> NACK, because that text would be required for _all_ hwmon sysfs
+> attributes which simply does not make sense to me.
 
-Okay, fair point, I can see that lead to more confusion indeed.
+Fair enough, thank you for your time and comments.
 
 ~Ivor
