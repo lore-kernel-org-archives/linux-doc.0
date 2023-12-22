@@ -1,110 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0F324A09;
-	Fri, 22 Dec 2023 17:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCD12C195
+	for <linux-doc@vger.kernel.org>; Fri, 22 Dec 2023 18:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h1nIouA7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FiQHGzMz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703266853; x=1734802853;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=WZamYqzzs9Xmm1nTXwdiLWmcvR3nl+x/q6EpuUCFBfY=;
-  b=h1nIouA7wnAKu6wUtpQtB6slDa5u9J2EAU1s5xRxxlIS1icUoeQ6I5KC
-   gEYJgLNpkPeYppkePfYQJEU59/k+/KFxuH5/JUWLEirKMNwzXseHUvT6v
-   kxoXJGpvt2QLOqjNv8aUDSz4kjdVh4chLbcAiiDihtYgzuqvNsa0k4pws
-   Edgq6BTEOlMGSI3qKhMkR5gfHr3KHrKlLxi1cQCTLkrqW8llKhVgNw0ft
-   zetzWINGE5oI2vP6geehflSQZlxaSe0fTYZUaA/oA2I3/QPxvIWUWXtBW
-   p3YH3MhXAfxgigNrjwr5ZKFk4UPmrFsdsCaPUHNY11dKxjuxGoI45tjmu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="3382952"
+  t=1703269650; x=1734805650;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pt9b0Hgh0C7Pk9dPUYOu38GqDSdHInoSNZujqodFUsA=;
+  b=FiQHGzMzhP3vnxaMX9cgsIoyp/sYD1N0KeM3WygQ8zSigL4FLumX7raC
+   iGgJuCdOl2OP7GQoeKkPZDaWJdPzx2e1oXwHYAGO61NWlYAAj2g/eAybe
+   3RtVIJd86YqQzCcRVDoEi0k3GvhhwFX8YB7x8XcWVCvY/TbnhSmwtfmMl
+   DUOTL390hTzrVILJc34/BiV1jOJYl2HOSbYHIPxAFXt6aOEPladYWQ8J/
+   Vq15tx5SCHmzDlvihgJzxAQNFfgW382v4ZkwcqZKKy8gijRrSmHr/T1vB
+   3LLXExvtc0ZpA4jRV8V3UcAdqFxFCMVAGe9DWFm77go8fc4AUNufNjgz5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="398925280"
 X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="3382952"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 09:40:52 -0800
+   d="scan'208";a="398925280"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 10:27:29 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="867697922"
 X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="19096588"
-Received: from yspisare-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.50.156])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 09:40:49 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Vegard Nossum <vegard.nossum@oracle.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
- Breno Leitao <leitao@debian.org>, "David S . Miller"
- <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH net-next] Documentation: add pyyaml to requirements.txt
-In-Reply-To: <20231222133628.3010641-1-vegard.nossum@oracle.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231222133628.3010641-1-vegard.nossum@oracle.com>
-Date: Fri, 22 Dec 2023 19:40:46 +0200
-Message-ID: <87a5q2rv8h.fsf@intel.com>
+   d="scan'208";a="867697922"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Dec 2023 10:27:28 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rGkF4-0009kR-2G;
+	Fri, 22 Dec 2023 18:27:26 +0000
+Date: Sat, 23 Dec 2023 02:25:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [dhowells-fs:crypto-krb5 3/21] htmldocs:
+ Documentation/crypto/krb5.rst: WARNING: document isn't included in any
+ toctree
+Message-ID: <202312230235.JDvyYSLu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 22 Dec 2023, Vegard Nossum <vegard.nossum@oracle.com> wrote:
-> Commit f061c9f7d058 ("Documentation: Document each netlink family") added
-> a new Python script that is invoked during 'make htmldocs' and which reads
-> the netlink YAML spec files.
->
-> Using the virtualenv from scripts/sphinx-pre-install, we get this new
-> error wen running 'make htmldocs':
->
->   Traceback (most recent call last):
->     File "./tools/net/ynl/ynl-gen-rst.py", line 26, in <module>
->       import yaml
->   ModuleNotFoundError: No module named 'yaml'
->   make[2]: *** [Documentation/Makefile:112: Documentation/networking/netlink_spec/rt_link.rst] Error 1
->   make[1]: *** [Makefile:1708: htmldocs] Error 2
->
-> Fix this by adding 'pyyaml' to requirements.txt.
->
-> Note: This was somehow present in the original patch submission:
-> <https://lore.kernel.org/all/20231103135622.250314-1-leitao@debian.org/>
-> I'm not sure why the pyyaml requirement disappeared in the meantime.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git crypto-krb5
+head:   ebd44e15422341724b06a3a13590ea80244ebbd6
+commit: 2d17e825b2f65fd09877bdc1e2fa6236726bf57a [3/21] crypto/krb5: Add API Documentation
+reproduce: (https://download.01.org/0day-ci/archive/20231223/202312230235.JDvyYSLu-lkp@intel.com/reproduce)
 
-FWIW, not really specific to the patch at hand, but I'd always prefer
-strictyaml [1] with schemas over plain yaml. You get strict typing and
-validation of the data during parsing. It's pretty nice, maybe worth
-looking into here.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312230235.JDvyYSLu-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
 
-BR,
-Jani.
-
-
-[1] https://hitchdev.com/strictyaml/
-
-
-
->
-> Fixes: f061c9f7d058 ("Documentation: Document each netlink family")
-> Cc: Breno Leitao <leitao@debian.org>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: David S. Miller <davem@davemloft.net>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  Documentation/sphinx/requirements.txt | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
-> index 335b53df35e2..a8a1aff6445e 100644
-> --- a/Documentation/sphinx/requirements.txt
-> +++ b/Documentation/sphinx/requirements.txt
-> @@ -1,3 +1,4 @@
->  # jinja2>=3.1 is not compatible with Sphinx<4.0
->  jinja2<3.1
->  Sphinx==2.4.4
-> +pyyaml
+>> Documentation/crypto/krb5.rst: WARNING: document isn't included in any toctree
 
 -- 
-Jani Nikula, Intel
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
