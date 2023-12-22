@@ -1,117 +1,120 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp-fw-52002.amazon.com (smtp-fw-52002.amazon.com [52.119.213.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529E12E821;
-	Fri, 22 Dec 2023 19:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B682E648;
+	Fri, 22 Dec 2023 19:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qvUfuaMH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=gKd+L66yod8uEFMOkkJsz50fKS7oNh0JqJUaQ5OiA70=; b=qvUfuaMHAQaYqMURVQygCfszfG
-	9QT7QwkPrtisjT+uboyWdYogLKeA6pEQo3JoPX45oIKIVjLOmnnENQS63rKdMoY4Gtzqpx8CjX4yp
-	RYYJQFgtvBzHai73RMxlDyVNDKuiFnYPDo3vp9ttaHrIL1t11F+0A+qZh9AxZSFeQ9GVsO8g3tjkd
-	JCpjmZ5m604zNxb3HgwF3ACgNIkopGDOqIAaiPIVm8jtkLOLt+AT/YNPRiZfUX2LocNmmCsznuxlg
-	dSZ8/86tisux0kY54VR7z4KRr+GhuYMRE/4lOIAFbM63RIzaHG7EHcz6n/Ejfdipx9T1Eb9XbJE75
-	gzf9eHgQ==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGlQf-006kB4-0P;
-	Fri, 22 Dec 2023 19:43:29 +0000
-Message-ID: <a3b15524-8e50-4e50-b3d3-95fd2092ec8d@infradead.org>
-Date: Fri, 22 Dec 2023 11:43:28 -0800
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="AL5kpyVb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1703274720; x=1734810720;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ZLYCMQzZdYknax/wRIALOVvHrvD35sO3OPXkV3K/85M=;
+  b=AL5kpyVbfyvXZ4CECGLaj6aKglqjzdfZwpzBhe5J/mDHeod2xe0tX0Zb
+   nahDch964bPMRQYJE/ePCiy9oC+whH0Mc4gY5Sakhwwfayed+iYq3Rzni
+   BlSfg+3dlXUAzWI/H024/IFcJR9rxu6T10Jq6msu5i1X7Y6DCMadu6ocS
+   I=;
+X-IronPort-AV: E=Sophos;i="6.04,297,1695686400"; 
+   d="scan'208";a="602627198"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1d-m6i4x-d8e96288.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 19:51:58 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan3.iad.amazon.com [10.32.235.38])
+	by email-inbound-relay-iad-1d-m6i4x-d8e96288.us-east-1.amazon.com (Postfix) with ESMTPS id 5710B803B7;
+	Fri, 22 Dec 2023 19:51:51 +0000 (UTC)
+Received: from EX19MTAUWC002.ant.amazon.com [10.0.7.35:35926]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.56.23:2525] with esmtp (Farcaster)
+ id 82a6dd69-7016-4d64-b557-324d614fe9ef; Fri, 22 Dec 2023 19:51:50 +0000 (UTC)
+X-Farcaster-Flow-ID: 82a6dd69-7016-4d64-b557-324d614fe9ef
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 22 Dec 2023 19:51:49 +0000
+Received: from dev-dsk-graf-1a-5ce218e4.eu-west-1.amazon.com (10.253.83.51) by
+ EX19D020UWC004.ant.amazon.com (10.13.138.149) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 22 Dec 2023 19:51:45 +0000
+From: Alexander Graf <graf@amazon.com>
+To: <linux-kernel@vger.kernel.org>
+CC: <linux-trace-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>, <x86@kernel.org>,
+	Eric Biederman <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+	"Rob Herring" <robh+dt@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	"Andrew Morton" <akpm@linux-foundation.org>, Mark Rutland
+	<mark.rutland@arm.com>, "Tom Lendacky" <thomas.lendacky@amd.com>, Ashish
+ Kalra <ashish.kalra@amd.com>, James Gowans <jgowans@amazon.com>, Stanislav
+ Kinsburskii <skinsburskii@linux.microsoft.com>, <arnd@arndb.de>,
+	<pbonzini@redhat.com>, <madvenka@linux.microsoft.com>, Anthony Yznaga
+	<anthony.yznaga@oracle.com>, Usama Arif <usama.arif@bytedance.com>, David
+ Woodhouse <dwmw@amazon.co.uk>, Benjamin Herrenschmidt
+	<benh@kernel.crashing.org>
+Subject: [PATCH v2 06/17] kexec: Add config option for KHO
+Date: Fri, 22 Dec 2023 19:51:33 +0000
+Message-ID: <20231222195144.24532-1-graf@amazon.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231222193607.15474-1-graf@amazon.com>
+References: <20231222193607.15474-1-graf@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tty/sysrq: Dump kernel ring buffer messages via sysrq
-Content-Language: en-US
-To: Sreenath Vijayan <sreenath.vijayan@sony.com>
-Cc: anandakumar.balasubramaniam@sony.com, corbet@lwn.net,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- taichi.shimoyashiki@sony.com
-References: <cc5c5ceb-cb07-4fb3-95f0-c114dd12a755@infradead.org>
- <20231222115732.1683728-3-sreenath.vijayan@sony.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231222115732.1683728-3-sreenath.vijayan@sony.com>
-Content-Type: text/plain; charset=UTF-8
+X-ClientProxiedBy: EX19D032UWA002.ant.amazon.com (10.13.139.81) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
+We have all generic code in place now to support Kexec with KHO. This
+patch adds a config option that depends on architecture support to
+enable KHO support.
 
+Signed-off-by: Alexander Graf <graf@amazon.com>
+---
+ kernel/Kconfig.kexec | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-On 12/22/23 03:44, Sreenath Vijayan wrote:
-> On Thu, Dec 21, 2023 at 03:12:46PM -0800, Randy Dunlap wrote:
->>
->>
->> On 12/21/23 08:52, Greg KH wrote:
->>> On Thu, Dec 21, 2023 at 07:09:53PM +0530, Sreenath Vijayan wrote:
->>>> When terminal is unresponsive, one cannot use dmesg to view kernel
->>>> ring buffer messages. Also, syslog services may be disabled,
->>>> to check them after a reboot, especially on embedded systems.
->>>> In this scenario, dump the kernel ring buffer messages via sysrq
->>>> by pressing sysrq+D.
->>>>
->>>> Signed-off-by: Sreenath Vijayan <sreenath.vijayan@sony.com>
->>>> Signed-off-by: Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>
->>>> ---
->>>>  Documentation/admin-guide/sysrq.rst |  2 ++
->>>>  drivers/tty/sysrq.c                 | 43 ++++++++++++++++++++++++++++-
->>>>  2 files changed, 44 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
->>>> index 2f2e5bd440f9..464c4e138b9d 100644
->>>> --- a/Documentation/admin-guide/sysrq.rst
->>>> +++ b/Documentation/admin-guide/sysrq.rst
->>>> @@ -161,6 +161,8 @@ Command	    Function
->>>>              will be printed to your console. (``0``, for example would make
->>>>              it so that only emergency messages like PANICs or OOPSes would
->>>>              make it to your console.)
->>>> +
->>>> +``D``	    Dump the kernel ring buffer
->>>>  =========== ===================================================================
->>>
->>> Nit, this doesn't line up anymore :(
->>
->> Yes, that will cause a docs build warning.
-> 
-> Thank you for the review comments. When I apply the patch, I don't
-> notice any alignment issues in the document. I tried with multiple
-> editors(vim,emacs) and the combination of tabs and spaces looks to
-> be the same as in the existing lines above the newly added line.
-> Tried "make htmldocs" and no warnings were observed and the html
-> page looks ok. Please suggest the modifications to be done.
-
-You are correct. Sorry for the confusion. It can be messy trying to
-read/review a diff when there is alignment involved.
-
->>
->> Also, can you be more explicit about which ring buffer this patch
->> is referring to, please.
->>
-> 
-> We see the term "kernel ring buffer" used throughout the documents
-> and commit messages, and thought it is the right term. Even dmesg
-> manual page uses it. Would "kernel log buffer" be a more appropriate
-> term? Please share your suggestion.
-
-Documentation/admin-guide/kernel-parameters.txt refers to:
-	ftrace ring buffer
-	printk ring buffer
-	tracing ring buffer
-so saying "kernel ring buffer" is not very specific.
-
-I expect that you are referring to the printk ring buffer, although
-I would prefer to call it something like the console log buffer (FWIW).
-
-thanks.
+diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
+index 2fd510256604..909ab28f1341 100644
+--- a/kernel/Kconfig.kexec
++++ b/kernel/Kconfig.kexec
+@@ -91,6 +91,19 @@ config KEXEC_JUMP
+ 	  Jump between original kernel and kexeced kernel and invoke
+ 	  code in physical address mode via KEXEC
+ 
++config KEXEC_KHO
++	bool "kexec handover"
++	depends on ARCH_SUPPORTS_KEXEC_KHO
++	depends on KEXEC
++	select MEMBLOCK_SCRATCH
++	select LIBFDT
++	select CMA
++	help
++	  Allow kexec to hand over state across kernels by generating and
++	  passing additional metadata to the target kernel. This is useful
++	  to keep data or state alive across the kexec. For this to work,
++	  both source and target kernels need to have this option enabled.
++
+ config CRASH_DUMP
+ 	bool "kernel crash dumps"
+ 	depends on ARCH_SUPPORTS_CRASH_DUMP
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+2.40.1
+
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
+
