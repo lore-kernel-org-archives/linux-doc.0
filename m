@@ -1,28 +1,28 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25032C848;
-	Fri, 22 Dec 2023 19:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18FB2C849;
+	Fri, 22 Dec 2023 19:31:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PkdJdEU9"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4X/EywzY"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=6BLfvoqCIH2qZja4YAiB6MdUAbrnjNHwY87Yc5jCNXQ=; b=PkdJdEU9XGP8kLUPfU1eO1oV6a
-	Jnh/ZpYZCYYstJo4v7tgNER/8V5cMlszx7wXtTltbGMMbTXEvKp+iX4aRYZdcmQ072Y8TMXwqPkZ1
-	LN0/2IY06f2DhFt2XbiCcrxPrvr7XS7ZVsOoA3tq6+PAsDFiwrwSb/ZQvtzYMA5e1mmhmfHJcNNBN
-	YCt18RIPFc8UJ4DmHKhTv6ndNLXttTrnd3hl4oN3wj1SGIT+aayfRq8uMi96Jvw4NSYD/4+81wfAY
-	cAIBDLSVXqX/4c++2aeBtpTd3e5JB875AOuAckmvMPNen0JjuFACaC4XwCu0bbXb1t3CXy/xfgg4D
-	m+BCl7wQ==;
+	bh=sWYsiApgV+m5lCNkzjB01cpSiixDUk4lDKnbY8CE1+w=; b=4X/EywzYiclMcgdyUrIDhDGPic
+	/aSKzz30MMz6XJ09tuvZNc1ebu/FERjt46xoWsDR51OIvNWy9aII9MVhfdBtqGzeWSrfgsDfRJDBh
+	uTETxGNgZnw/XSbLhV9POiDzppFYqtRIIR5hUqPLi383AZOXEzX/zxuECk0pnvUwiyNbbL+quWqR7
+	DdZFuFh6hR4LcClV6VSnkgS3MSf41mk/GmIlEf3WFTccH8OkIBq35sEWhsJV+j6OJZczijmJeAusc
+	HqHgO9urxd/LyKE/FxfM5wJcgqAb4VMYN57Iyn+DVu6d33Cnw5xuPnoYojd9p958sHcKi+pxneOEk
+	MZ87kDNQ==;
 Received: from [50.53.46.231] (helo=[192.168.254.15])
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGkvd-006gN7-2X;
-	Fri, 22 Dec 2023 19:11:25 +0000
-Message-ID: <833d766b-8d95-4348-aac6-09075bda69db@infradead.org>
-Date: Fri, 22 Dec 2023 11:11:24 -0800
+	id 1rGlDx-006haX-2f;
+	Fri, 22 Dec 2023 19:30:21 +0000
+Message-ID: <74c79362-495f-4177-85fc-b348f7ac1c7b@infradead.org>
+Date: Fri, 22 Dec 2023 11:30:21 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -30,46 +30,165 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation: move driver-api/dcdbas to
- userspace-api/
+Subject: Re: [RFC PATCH 3/7] doc: Add osdump guide
 Content-Language: en-US
-To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet
- <corbet@lwn.net>, Jaroslav Kysela <perex@perex.cz>,
- Stuart Hayes <stuart.w.hayes@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org
-References: <20231221124816.2978000-1-vegard.nossum@oracle.com>
- <20231221124816.2978000-3-vegard.nossum@oracle.com>
+To: Ruipeng Qi <ruipengqi7@gmail.com>, corbet@lwn.net,
+ rafael.j.wysocki@intel.com, gregkh@linuxfoundation.org,
+ bagasdotme@gmail.com, carlos.bilbao@amd.com, vegard.nossum@oracle.com
+Cc: skhan@linuxfoundation.org, srinivas.pandruvada@linux.intel.com,
+ qiruipeng@lixiang.com, linux@leemhuis.info, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231221132943.653-1-ruipengqi7@gmail.com>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231221124816.2978000-3-vegard.nossum@oracle.com>
+In-Reply-To: <20231221132943.653-1-ruipengqi7@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 12/21/23 04:48, Vegard Nossum wrote:
-> This file documents a sysfs interface that is intended for systems
-> management software. It does NOT document any kind of kernel driver
-> API. It is also not meant to be used directly by system administrators
-> or users.
+On 12/21/23 05:29, Ruipeng Qi wrote:
+> From: qiruipeng <qiruipeng@lixiang.com>
 > 
-> Cc: Stuart Hayes <stuart.w.hayes@gmail.com>
-> Cc: platform-driver-x86@vger.kernel.org
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
+> Add osdump guide for the users who try to compile with osdump enabled,
+> use, and analysis real system problem.
+> 
+> Signed-off-by: qiruipeng <qiruipeng@lixiang.com>
 > ---
->  Documentation/driver-api/index.rst                     | 1 -
->  Documentation/{driver-api => userspace-api}/dcdbas.rst | 0
->  Documentation/userspace-api/index.rst                  | 1 +
->  MAINTAINERS                                            | 2 +-
->  drivers/platform/x86/dell/Kconfig                      | 2 +-
->  drivers/platform/x86/dell/dcdbas.c                     | 2 +-
->  6 files changed, 4 insertions(+), 4 deletions(-)
->  rename Documentation/{driver-api => userspace-api}/dcdbas.rst (100%)
+>  Documentation/admin-guide/index.rst  |  1 +
+>  Documentation/admin-guide/osdump.rst | 94 ++++++++++++++++++++++++++++
+>  2 files changed, 95 insertions(+)
+>  create mode 100644 Documentation/admin-guide/osdump.rst
 > 
+
+> diff --git a/Documentation/admin-guide/osdump.rst b/Documentation/admin-guide/osdump.rst
+> new file mode 100644
+> index 000000000000..5738b03ff684
+> --- /dev/null
+> +++ b/Documentation/admin-guide/osdump.rst
+> @@ -0,0 +1,94 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===================================================
+> +Documentation for osdump - The Os Minidump Solution
+
+                                  OS ?
+
+> +===================================================
+> +
+> +Overview
+> +========
+> +
+> +Osdump is a new crash dumping solution aiming at specific embedded
+
+                   crash-dumping
+
+> +devices within Automotive or Industrial having the following features:
+> + - limited memory.
+> + - require quick reboots after system faults.
+> +
+> +To minimize the dump file size and maximize the dump process speed,
+> +Osdump provides the following features:
+> + - excludes userspace memory, focusing solely on resolving OS-related issues.
+> + - eliminates constant data such as text segments.
+> + - core OS data for dumping, this includes:
+> +    - static allocated bss and data segments
+> +    - dynamic data such as:
+> +       - slub data for small-sized data
+> +       - some large-sized data alloced in pages.
+
+I prefer                          allocated
+
+> + - compresses dump data to help reduce dump file size
+> +
+> +Considering the large volume of non-contiguous data, a binary data format is
+> +used directly.
+> +
+> +By utilizing the dump file and vmlinux, a standard elf format file can be
+
+                                                      ELF
+
+> +reassembled and parsed using crash tool.
+> +
+> +Declare
+> +========
+> +Mainly test on arm64 with 2G DDR, selecting slub as SLAB allocator, 39-bit for
+> +address space size.
+> +
+> +Configure and Build
+> +===================
+> +
+> +Kernel config
+> +-------------
+> +Disable CRASH_CORE, SLUB_DEBUG, and SLUB_TINY, and then select CONFIG_OS_MINIDUMP.
+> +
+> +Dts config
+> +----------
+> +Add one reserved region for osdump. Its size depends DDR size you are using. Here
+> +add one 16M reserved region with 2G's DDR.
+> +
+> +osdump {
+> +	compatible = "osdump";
+> +	reg = <0 0x64000000 0 0x1000000>;
+> +};
+> +
+> +Build the image after you have done with configuration.
+
+                             are
+or
+                   after you have done configuration.
+
+> +
+> +Trigger one panic and analysis it
+> +=================================
+> +
+> +0) Precondition
+> +---------------
+> +DDR won't poweroff during panic. Its content should not be lose.
+> +
+> +1) Generate dump file
+> +---------------------
+> +When a panic occurs, it will dump core data into specific reserved region.
+> +
+> +echo c > /proc/sysrq-trigger
+> +
+> +2) Get dump file
+> +----------------
+> +When system reboot from panic, run the following command to get dump file.
+> +
+> +cat /proc/osdump > ./osdump
+> +
+> +Got 13M dump file on my side.
+> +
+> +3) Run crash tool to generate standard elf file
+
+                                          ELF
+> +-----------------------------------------------
+> +
+> +crash --enable_raw_dumpfile ./vmlinux ./osdump  -m vabits_actual=39 --machdep\
+> +	kimage_voffset=0xffffffbf8f000000 --machdep phys_offset=0x80000000
+> +
+> +Add new feature for crash tool that reassemble a standard elf format file with
+
+                                       reassembles           ELF
+
+> +the dump file and vmlinux. Will submit this patch later.
+
+but this paragraph shouldn't be here...
+
+> +
+> +4) Analysis with crash tool
+> +---------------------------
+> +
+> +crash ./vmlinux ./osdump_elf
+> +
+> +
+> +Note
+> +====
+> +disable when select CRASH_CORE, SLUB_DEBUG, or SLUB_TINY.
+
+Don't repeat that, please.
+
+Vegard made a lot of good points. I tried not to repeat them.
 
 -- 
 #Randy
