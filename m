@@ -1,182 +1,117 @@
-Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0916831723;
-	Fri, 22 Dec 2023 19:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529E12E821;
+	Fri, 22 Dec 2023 19:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="eAtqzVKd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1703273891; x=1734809891;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=qmhUZjf5F0irRMFPH4YUunFpNZODTBv7SKMl/vOJmCU=;
-  b=eAtqzVKdECYu+n2gePGRkHUjztmVDVHbcPLtf8gb+RFjZtC8+G4Dpfe6
-   YRVmhsqakOEo+kpei26Fh7jKEng1Xf4D3QwFZIXc2nVyWC+QXwDDqjyYa
-   ln91AmDjNGLTNEVTopMPcm1Wr6nAfo0dhJ8M8HM06prJTHCn8y4wHcp5b
-   k=;
-X-IronPort-AV: E=Sophos;i="6.04,297,1695686400"; 
-   d="scan'208";a="692781574"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2a-m6i4x-1197e3af.us-west-2.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 19:38:06 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
-	by email-inbound-relay-pdx-2a-m6i4x-1197e3af.us-west-2.amazon.com (Postfix) with ESMTPS id 2C677100395;
-	Fri, 22 Dec 2023 19:38:04 +0000 (UTC)
-Received: from EX19MTAUWA002.ant.amazon.com [10.0.21.151:8114]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.6.30:2525] with esmtp (Farcaster)
- id 118258fa-6e62-4bd3-8f88-fab34a1b9f0a; Fri, 22 Dec 2023 19:38:03 +0000 (UTC)
-X-Farcaster-Flow-ID: 118258fa-6e62-4bd3-8f88-fab34a1b9f0a
-Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 22 Dec 2023 19:38:02 +0000
-Received: from dev-dsk-graf-1a-5ce218e4.eu-west-1.amazon.com (10.253.83.51) by
- EX19D020UWC004.ant.amazon.com (10.13.138.149) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 22 Dec 2023 19:37:58 +0000
-From: Alexander Graf <graf@amazon.com>
-To: <linux-kernel@vger.kernel.org>
-CC: <linux-trace-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>, <x86@kernel.org>,
-	Eric Biederman <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-	"Rob Herring" <robh+dt@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	"Andrew Morton" <akpm@linux-foundation.org>, Mark Rutland
-	<mark.rutland@arm.com>, "Tom Lendacky" <thomas.lendacky@amd.com>, Ashish
- Kalra <ashish.kalra@amd.com>, James Gowans <jgowans@amazon.com>, Stanislav
- Kinsburskii <skinsburskii@linux.microsoft.com>, <arnd@arndb.de>,
-	<pbonzini@redhat.com>, <madvenka@linux.microsoft.com>, Anthony Yznaga
-	<anthony.yznaga@oracle.com>, Usama Arif <usama.arif@bytedance.com>, David
- Woodhouse <dwmw@amazon.co.uk>, Benjamin Herrenschmidt
-	<benh@kernel.crashing.org>
-Subject: [PATCH v2 11/17] tracing: Introduce kho serialization
-Date: Fri, 22 Dec 2023 19:36:01 +0000
-Message-ID: <20231222193607.15474-12-graf@amazon.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231222193607.15474-1-graf@amazon.com>
-References: <20231222193607.15474-1-graf@amazon.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qvUfuaMH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=gKd+L66yod8uEFMOkkJsz50fKS7oNh0JqJUaQ5OiA70=; b=qvUfuaMHAQaYqMURVQygCfszfG
+	9QT7QwkPrtisjT+uboyWdYogLKeA6pEQo3JoPX45oIKIVjLOmnnENQS63rKdMoY4Gtzqpx8CjX4yp
+	RYYJQFgtvBzHai73RMxlDyVNDKuiFnYPDo3vp9ttaHrIL1t11F+0A+qZh9AxZSFeQ9GVsO8g3tjkd
+	JCpjmZ5m604zNxb3HgwF3ACgNIkopGDOqIAaiPIVm8jtkLOLt+AT/YNPRiZfUX2LocNmmCsznuxlg
+	dSZ8/86tisux0kY54VR7z4KRr+GhuYMRE/4lOIAFbM63RIzaHG7EHcz6n/Ejfdipx9T1Eb9XbJE75
+	gzf9eHgQ==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rGlQf-006kB4-0P;
+	Fri, 22 Dec 2023 19:43:29 +0000
+Message-ID: <a3b15524-8e50-4e50-b3d3-95fd2092ec8d@infradead.org>
+Date: Fri, 22 Dec 2023 11:43:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D041UWA004.ant.amazon.com (10.13.139.9) To
- EX19D020UWC004.ant.amazon.com (10.13.138.149)
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] tty/sysrq: Dump kernel ring buffer messages via sysrq
+Content-Language: en-US
+To: Sreenath Vijayan <sreenath.vijayan@sony.com>
+Cc: anandakumar.balasubramaniam@sony.com, corbet@lwn.net,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ taichi.shimoyashiki@sony.com
+References: <cc5c5ceb-cb07-4fb3-95f0-c114dd12a755@infradead.org>
+ <20231222115732.1683728-3-sreenath.vijayan@sony.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231222115732.1683728-3-sreenath.vijayan@sony.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-We want to be able to transfer ftrace state from one kernel to the next.
-To start off with, let's establish all the boiler plate to get a write
-hook when KHO wants to serialize and fill out basic data.
 
-Follow-up patches will fill in serialization of ring buffers and events.
 
-Signed-off-by: Alexander Graf <graf@amazon.com>
+On 12/22/23 03:44, Sreenath Vijayan wrote:
+> On Thu, Dec 21, 2023 at 03:12:46PM -0800, Randy Dunlap wrote:
+>>
+>>
+>> On 12/21/23 08:52, Greg KH wrote:
+>>> On Thu, Dec 21, 2023 at 07:09:53PM +0530, Sreenath Vijayan wrote:
+>>>> When terminal is unresponsive, one cannot use dmesg to view kernel
+>>>> ring buffer messages. Also, syslog services may be disabled,
+>>>> to check them after a reboot, especially on embedded systems.
+>>>> In this scenario, dump the kernel ring buffer messages via sysrq
+>>>> by pressing sysrq+D.
+>>>>
+>>>> Signed-off-by: Sreenath Vijayan <sreenath.vijayan@sony.com>
+>>>> Signed-off-by: Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>
+>>>> ---
+>>>>  Documentation/admin-guide/sysrq.rst |  2 ++
+>>>>  drivers/tty/sysrq.c                 | 43 ++++++++++++++++++++++++++++-
+>>>>  2 files changed, 44 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
+>>>> index 2f2e5bd440f9..464c4e138b9d 100644
+>>>> --- a/Documentation/admin-guide/sysrq.rst
+>>>> +++ b/Documentation/admin-guide/sysrq.rst
+>>>> @@ -161,6 +161,8 @@ Command	    Function
+>>>>              will be printed to your console. (``0``, for example would make
+>>>>              it so that only emergency messages like PANICs or OOPSes would
+>>>>              make it to your console.)
+>>>> +
+>>>> +``D``	    Dump the kernel ring buffer
+>>>>  =========== ===================================================================
+>>>
+>>> Nit, this doesn't line up anymore :(
+>>
+>> Yes, that will cause a docs build warning.
+> 
+> Thank you for the review comments. When I apply the patch, I don't
+> notice any alignment issues in the document. I tried with multiple
+> editors(vim,emacs) and the combination of tabs and spaces looks to
+> be the same as in the existing lines above the newly added line.
+> Tried "make htmldocs" and no warnings were observed and the html
+> page looks ok. Please suggest the modifications to be done.
 
----
+You are correct. Sorry for the confusion. It can be messy trying to
+read/review a diff when there is alignment involved.
 
-v1 -> v2:
+>>
+>> Also, can you be more explicit about which ring buffer this patch
+>> is referring to, please.
+>>
+> 
+> We see the term "kernel ring buffer" used throughout the documents
+> and commit messages, and thought it is the right term. Even dmesg
+> manual page uses it. Would "kernel log buffer" be a more appropriate
+> term? Please share your suggestion.
 
-  - Remove ifdefs
----
- kernel/trace/trace.c | 47 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+Documentation/admin-guide/kernel-parameters.txt refers to:
+	ftrace ring buffer
+	printk ring buffer
+	tracing ring buffer
+so saying "kernel ring buffer" is not very specific.
 
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index 199df497db07..6ec31879b4eb 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -32,6 +32,7 @@
- #include <linux/percpu.h>
- #include <linux/splice.h>
- #include <linux/kdebug.h>
-+#include <linux/kexec.h>
- #include <linux/string.h>
- #include <linux/mount.h>
- #include <linux/rwsem.h>
-@@ -866,6 +867,8 @@ static struct tracer		*trace_types __read_mostly;
-  */
- DEFINE_MUTEX(trace_types_lock);
- 
-+static bool trace_in_kho;
-+
- /*
-  * serialize the access of the ring buffer
-  *
-@@ -10560,12 +10563,56 @@ void __init early_trace_init(void)
- 	init_events();
- }
- 
-+static int trace_kho_notifier(struct notifier_block *self,
-+			      unsigned long cmd,
-+			      void *v)
-+{
-+	const char compatible[] = "ftrace-v1";
-+	void *fdt = v;
-+	int err = 0;
-+
-+	switch (cmd) {
-+	case KEXEC_KHO_ABORT:
-+		if (trace_in_kho)
-+			mutex_unlock(&trace_types_lock);
-+		trace_in_kho = false;
-+		return NOTIFY_DONE;
-+	case KEXEC_KHO_DUMP:
-+		/* Handled below */
-+		break;
-+	default:
-+		return NOTIFY_BAD;
-+	}
-+
-+	if (unlikely(tracing_disabled))
-+		return NOTIFY_DONE;
-+
-+	err |= fdt_begin_node(fdt, "ftrace");
-+	err |= fdt_property(fdt, "compatible", compatible, sizeof(compatible));
-+	err |= fdt_end_node(fdt);
-+
-+	if (!err) {
-+		/* Hold all future allocations */
-+		mutex_lock(&trace_types_lock);
-+		trace_in_kho = true;
-+	}
-+
-+	return err ? NOTIFY_BAD : NOTIFY_DONE;
-+}
-+
-+static struct notifier_block trace_kho_nb = {
-+	.notifier_call = trace_kho_notifier,
-+};
-+
- void __init trace_init(void)
- {
- 	trace_event_init();
- 
- 	if (boot_instance_index)
- 		enable_instances();
-+
-+	if (IS_ENABLED(CONFIG_FTRACE_KHO))
-+		register_kho_notifier(&trace_kho_nb);
- }
- 
- __init static void clear_boot_tracer(void)
+I expect that you are referring to the printk ring buffer, although
+I would prefer to call it something like the console log buffer (FWIW).
+
+thanks.
 -- 
-2.40.1
-
-
-
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
-
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
