@@ -1,107 +1,85 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A071CAA9;
-	Fri, 22 Dec 2023 13:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59253249E2;
+	Fri, 22 Dec 2023 16:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NeqxTdbq"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BMDaILU032374;
-	Fri, 22 Dec 2023 13:36:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=bky3hG1Jynbv2MF60GqEpZXdaKhDc+ZIc+AoWweCBRc=;
- b=NeqxTdbqAhiAELgaPdsvIDEqPWr+x/n5MrzKZyUGGFh9/O1LO0g4Bwk1msMPUon2d/YU
- 9BmKyi97JPOKz0qr1mNie/aAIckXxOPbD2zG4/d/EHfV/c6sW/bcj5njQBFQM3A/ONnf
- 6nxT0rFln4z6ecxLCiPMShs2xoq9czyaUyn1NjcDLSo7qefeU4zLr6AkMnG1NkUjxxbP
- kwjNi39gJKaP7t3k4+1u16ECYZ9wG7HfayD3RFWSBKIX1HlV6HMftqdMTZ4+t3g/j8E9
- wvUsbrPPeAjOVskZ+LaxeOAYkHhQgNm+MWe/m0kjVBMDWrruXVBLvYRsVqzmxj1vR2+f Wg== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3v12p4dqtc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 22 Dec 2023 13:36:57 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BMDQXLh024975;
-	Fri, 22 Dec 2023 13:36:56 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3v12bksdjn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 22 Dec 2023 13:36:56 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BMDauGU000703;
-	Fri, 22 Dec 2023 13:36:56 GMT
-Received: from localhost.localdomain (dhcp-10-175-57-47.vpn.oracle.com [10.175.57.47])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3v12bksdgb-1;
-	Fri, 22 Dec 2023 13:36:55 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
-        Breno Leitao <leitao@debian.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH net-next] Documentation: add pyyaml to requirements.txt
-Date: Fri, 22 Dec 2023 14:36:28 +0100
-Message-Id: <20231222133628.3010641-1-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GyHlWWvE"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6d099d316a8so1950285b3a.0;
+        Fri, 22 Dec 2023 08:12:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703261572; x=1703866372; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hSRGLKk61Gx7n2iPSV+CfABhLdXJBJYaVEf5Qmgbq2g=;
+        b=GyHlWWvEvksj81874yWgTO7rDnHHvZggLhoko1EcvtkmxuxTxY/HSuyF3Sk0VG9tqm
+         +FL1U4zV4G14+5Sep2U/1sKaGgyBZGb082GeUDBOr2GzqmFOSyJ3rB3H/De+rMTLUcxT
+         ZnEY/EOBMrI9O2PdkSikP12mihpMkOVPo7glOlcZJ5oxtvoJ2qLNolPm9AMlg8iAFZqX
+         RYcqSlgq9LPyzOnUBsRegi0kPg7ExhTjL5CMV0rUHISAQj5GlxJs2dtKrX7Ctfz1TBnN
+         q8PIDyDvVcGrNvdQ/UwZogNWgyUbXLH1ebFZeReNg2Eq5VinqSLuXwz8m5P4WGUV7ZZg
+         IXBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703261572; x=1703866372;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hSRGLKk61Gx7n2iPSV+CfABhLdXJBJYaVEf5Qmgbq2g=;
+        b=TFQBb+cfzbb42JZaxEh5ne7erS5WvqXdQQHRNn4kZ0NihzwETHItJP6cZ7Z+HPvAEp
+         V5nF24WWZAHEQpCLvnd8X6cLzJV0msvBW/cQrkSqHvZO9mF3335ZHlNB+p3bn8GxsLOW
+         QC/kbltgh3AWfuaqqJUhOfxSa4Ydul4UeWw0UHwMIsOY49cg4XzdrgBGZV/qFxcGXIQJ
+         e1W9AuBFm1AwGWjZdFH4tUkUC8Lau995sA6iIHUxRCXeTUhtOgTMCSHz9BxydiAyKSTG
+         c8k/DtywE6R7DmmHO/1+wYcIYtnpI5TxZ3t6EaJMnr+owKPde9xqhBdEWCJ1kJUyGHHW
+         Zv+g==
+X-Gm-Message-State: AOJu0YwiMPSMfwYQIsDCkkVlHHjcki7ipycQvpwmyvt+uFE35t7KfxOw
+	mcZAOe7H6Km6VtW69KE2G2h20BGFylY=
+X-Google-Smtp-Source: AGHT+IFKYhBMdHNX3T5Fp2jfNsCcmTkjMnd2Wl5BOROCq7E9ATKQiX4FxsNq1t+sQZvWeTYIUYgX2Q==
+X-Received: by 2002:a05:6a20:394e:b0:18f:ef63:7839 with SMTP id r14-20020a056a20394e00b0018fef637839mr1756269pzg.100.1703261572571;
+        Fri, 22 Dec 2023 08:12:52 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t20-20020a056a00139400b006c4d128b71esm3703714pfg.98.2023.12.22.08.12.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Dec 2023 08:12:51 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 22 Dec 2023 08:12:50 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ivor Wanders <ivor@iwanders.net>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Maximilian Luz <luzmaximilian@gmail.com>
+Subject: Re: [PATCH 0/1] clarify intent of fan min and max attributes
+Message-ID: <ce60c838-0fad-4bb4-8af4-a94d43092d4d@roeck-us.net>
+References: <20231221225149.11295-1-ivor@iwanders.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-22_08,2023-12-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
- adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312220099
-X-Proofpoint-GUID: ffs6MtFJ0j2KMLTJF7Z6CpvALAI9ZP9r
-X-Proofpoint-ORIG-GUID: ffs6MtFJ0j2KMLTJF7Z6CpvALAI9ZP9r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231221225149.11295-1-ivor@iwanders.net>
 
-Commit f061c9f7d058 ("Documentation: Document each netlink family") added
-a new Python script that is invoked during 'make htmldocs' and which reads
-the netlink YAML spec files.
+On Thu, Dec 21, 2023 at 05:51:48PM -0500, Ivor Wanders wrote:
+> In [1] I got the feedback that fan min and max attributes are intended for
+> writing to the device and not merely providing constants to userspace.
+> This patch clarifies this intent in the documentation such that future
+> contributers don't make incorrect assumptions about them.
+> 
 
-Using the virtualenv from scripts/sphinx-pre-install, we get this new
-error wen running 'make htmldocs':
+Documentation/hwmon/sysfs-interface already states:
 
-  Traceback (most recent call last):
-    File "./tools/net/ynl/ynl-gen-rst.py", line 26, in <module>
-      import yaml
-  ModuleNotFoundError: No module named 'yaml'
-  make[2]: *** [Documentation/Makefile:112: Documentation/networking/netlink_spec/rt_link.rst] Error 1
-  make[1]: *** [Makefile:1708: htmldocs] Error 2
+"
+All entries (except name) are optional, and should only be created in a
+given driver if the chip has the feature.
+"
 
-Fix this by adding 'pyyaml' to requirements.txt.
+I do not see the point of clarifying this for individual attributes,
+especially since that might create the impression that it would possibly
+not apply to other attributes (for those not reading the above
+documentation).
 
-Note: This was somehow present in the original patch submission:
-<https://lore.kernel.org/all/20231103135622.250314-1-leitao@debian.org/>
-I'm not sure why the pyyaml requirement disappeared in the meantime.
-
-Fixes: f061c9f7d058 ("Documentation: Document each netlink family")
-Cc: Breno Leitao <leitao@debian.org>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: David S. Miller <davem@davemloft.net>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Documentation/sphinx/requirements.txt | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
-index 335b53df35e2..a8a1aff6445e 100644
---- a/Documentation/sphinx/requirements.txt
-+++ b/Documentation/sphinx/requirements.txt
-@@ -1,3 +1,4 @@
- # jinja2>=3.1 is not compatible with Sphinx<4.0
- jinja2<3.1
- Sphinx==2.4.4
-+pyyaml
--- 
-2.34.1
-
+Guenter
