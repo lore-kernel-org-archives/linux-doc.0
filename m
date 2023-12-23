@@ -1,89 +1,81 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090F215E96;
-	Sat, 23 Dec 2023 21:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF78171A7;
+	Sat, 23 Dec 2023 21:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fv6YQWgD"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3b9f8c9307dso2696069b6e.0;
-        Sat, 23 Dec 2023 13:08:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQ56CmKR"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6d9aa51571fso329310b3a.3;
+        Sat, 23 Dec 2023 13:33:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703365719; x=1703970519; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KK4sv6eXSGMQXDR34E1Vn5NVCVeb5+OOloFC/hz95jk=;
-        b=fv6YQWgDih3lqZEZoeQD2cZp1MRW3PAuKi87oux4MW+w782zGZtoMmhjTjYJ+VqKE1
-         8QZfsrZBjxJDotYCqnNolcd41+NV8RaTuofPqu+wurPcnvnSeoMzsWqh7sJAI53vG+EZ
-         /bgoBv/x9kD1ICNEfQITgrtqcncZGXmr6ZfMYSZhHXDAhTaqXcY6q9nt8CLNFCgbsE5i
-         U4qgjFST3V/awibQiW8Etg58ZGxresbT/UShYSMoBEilisHiP3TI7mbsa3e1RKrvhjmN
-         I/hVHv5ah7ncfhIt3BLGPP3XyjfzQkZJ5Ijdoctd2V7QwbD0ehkaxDrpaQ0No6p+CTYc
-         CfaQ==
+        d=gmail.com; s=20230601; t=1703367233; x=1703972033; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K70ZFXiuLbOSEF/irteqqsTlGuNTUJTLizy4d5N5cjw=;
+        b=nQ56CmKRgV+RbR2DiqQO1b7uTfsA11BWAplztynQEm8mi/V4S/cnzxf9tBwgUr8muZ
+         s8tdq9AyXpriDGTb/YNUAty6V8mzVTEPH1r18jsjqzbGFBREZQIfbRTCaZ96ycdMhPUi
+         x68V5WvSq6KL9X1wvKeBeCCPI1hffaXz0t6eZ48F37H0yP+Kmzq6qNP5yIKNyj66Dax+
+         +gCbFatj6dMPLNkL/SVhm5ZamfOF3prPC27pKhzHUqSuxCUaJDGp71Q7iCswLz4n4QpB
+         /OQOqkAw6V8EQJfL92uHIrymIm9lHK7jRY9E9JwaT9jbKCTp66xJ16IpGVg5Zl9uImCZ
+         qv/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703365719; x=1703970519;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KK4sv6eXSGMQXDR34E1Vn5NVCVeb5+OOloFC/hz95jk=;
-        b=enHXsVVXZ6msnwgxgJiyYGKrhV/HnAKUvD3V/+b+WsPFnS40MxN9rTgF+sYFHgIJpH
-         Nl4HELduDNYdhls0N0KMvkghsMOftJdHow45bRJRGCAlB9vyJ5teql8dqdz+Nn9n1yqu
-         EeYg5K6ZditWXmz6+ange5IB55T1Y+gAIjdgsRHGlsshrZ0o5t0Pr4qSw7v9ocezgInP
-         mN1bCvifg4ka8wl+A5WaVW6C4lYdijwAxwKKgk2+97CjBoJNlKLPaQXKEC84sI6o+K8e
-         9sYRIvSdDFimQW/EXJ2aDpWakmgk/RiqnnhG/Tob3Uj1cv2rOPEI9Vf1UEuGjm/0Echl
-         9uVA==
-X-Gm-Message-State: AOJu0YzmtnxWpR1eYtL51cPoW8zHz/PSMCpZtDiNuskgqcvYt9aysppp
-	xBc9QoA8+e1RvDqda5rO/V4=
-X-Google-Smtp-Source: AGHT+IHxVrWgu8VONajTCDaqEM+idR34VsDuibANdpRezTOueUFgH1u6wUMkE3oS3xlSBEaRpLCuCw==
-X-Received: by 2002:a05:6808:d47:b0:3b8:b20d:cecd with SMTP id w7-20020a0568080d4700b003b8b20dcecdmr4444603oik.32.1703365718904;
-        Sat, 23 Dec 2023 13:08:38 -0800 (PST)
-Received: from attreyee-HP-Pavilion-Laptop-14-ec0xxx.. ([27.5.150.118])
-        by smtp.gmail.com with ESMTPSA id n15-20020a6563cf000000b005cdf0b46fecsm3270455pgv.81.2023.12.23.13.08.35
+        d=1e100.net; s=20230601; t=1703367233; x=1703972033;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K70ZFXiuLbOSEF/irteqqsTlGuNTUJTLizy4d5N5cjw=;
+        b=RS7vJpailpPozygs0eGkcMVVZMAsVlc5NNoRADAw5CC54Mq1SbG+RcvspcX1adnJJs
+         ngCTJ0JSYHSzR7ix41Y/2CEJqftOfkfplzicIv/Ko+zfOtM9//KIki3TYrj8xbSVALJJ
+         jplyXQ09eP382SzQGWDf6yMZW2B29dLtU9+Em7TrOeSn7UtzTgPXkfB/IgF+Fou4cSpW
+         TvIuO3jbqVx9OvA0lv7NS3vfMxkX6BuNG4G8Y36h3FIs2oBJeAmvYDBWKjz5M4rp5sFm
+         WDnRKpL49mnZIN3Pc5XjwlzQQMcq5lmFzdM2Jr7+xMlY3aYPYnxVAtFqp8LowKfRsPnp
+         ZaHQ==
+X-Gm-Message-State: AOJu0Yxex7/RYbRNiFlO1TrsV3QDZavlsMuY8xphYJ7bp0m4CFbc2xT5
+	RqJzBm3wmDHv+Bro7dcmo44=
+X-Google-Smtp-Source: AGHT+IGG8VXB/eoY8c50bN+CKlbtcOFY85/GeeV3SIhe+BIkWUPFKy+wJN3DD1ynaJqmHRG/xFOzjg==
+X-Received: by 2002:a05:6a21:33a7:b0:195:41d9:1829 with SMTP id yy39-20020a056a2133a700b0019541d91829mr3540346pzb.106.1703367232763;
+        Sat, 23 Dec 2023 13:33:52 -0800 (PST)
+Received: from localhost ([185.169.0.79])
+        by smtp.gmail.com with ESMTPSA id bd33-20020a056a0027a100b006d9a96b7d0dsm1201455pfb.208.2023.12.23.13.33.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Dec 2023 13:08:38 -0800 (PST)
-From: attreyee-muk <tintinm2017@gmail.com>
-To: jpoimboe@kernel.org,
-	jikos@kernel.org,
-	mbenes@suse.cz,
-	pmladek@suse.com,
-	joe.lawrence@redhat.com,
-	corbet@lwn.net
-Cc: attreyee-muk <tintinm2017@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	live-patching@vger.kernel.org
-Subject: [PATCH] Documentation/livepatch: Update terminology in livepatch
-Date: Sun, 24 Dec 2023 02:28:14 +0530
-Message-Id: <20231223205813.32083-1-tintinm2017@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 23 Dec 2023 13:33:51 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Sun, 24 Dec 2023 06:33:48 +0900
+From: Tejun Heo <tj@kernel.org>
+To: attreyee-muk <tintinm2017@gmail.com>
+Cc: jiangshanlai@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/core-api : fix typo in workqueue
+Message-ID: <ZYdSPGWlILYcTIKu@mtj.duckdns.org>
+References: <20231223175316.24951-1-tintinm2017@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231223175316.24951-1-tintinm2017@gmail.com>
 
-Update the sentence in livepatch.rst to: "Functions are there for a reason. Take some input parameters, acquire or release locks, read, process, and write some data in a defined way."
+Hello,
 
-Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
----
- Documentation/livepatch/livepatch.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, Dec 23, 2023 at 11:23:17PM +0530, attreyee-muk wrote:
+> Correct to “boundaries” from “bounaries” in “CPUs are grouped according to NUMA bounaries.”
+> 
+> Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
 
-diff --git a/Documentation/livepatch/livepatch.rst b/Documentation/livepatch/livepatch.rst
-index 68e3651e8af9..acb90164929e 100644
---- a/Documentation/livepatch/livepatch.rst
-+++ b/Documentation/livepatch/livepatch.rst
-@@ -50,7 +50,7 @@ some limitations, see below.
- 3. Consistency model
- ====================
- 
--Functions are there for a reason. They take some input parameters, get or
-+Functions are there for a reason. They take some input parameters, acquire or
- release locks, read, process, and even write some data in a defined way,
- have return values. In other words, each function has a defined semantic.
- 
+Acked-by: Tejun Heo <tj@kernel.org>
+
+Jonathan, would you mind taking this patch through doc tree? I don't have
+any other wq patches queued for 6.8 and it's a bit awkward to just apply
+this one.
+
+Thanks.
+
 -- 
-2.34.1
-
+tejun
