@@ -1,86 +1,89 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5AD14F62;
-	Sat, 23 Dec 2023 19:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090F215E96;
+	Sat, 23 Dec 2023 21:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="upMpbEHs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=e+1d/TmaI5yvT1BI/q8ClqxWJ80HInnyYu9eYV3r8v8=; b=upMpbEHstgkU4RTUMvYfbMHvGk
-	33FsMpbvhYaiyEj/p47oovOBylrS4xz3TGXdFz8A7ozH/gp7s55YGbT5C5d78lgto3OmyCzFQKRZ8
-	uCgVZEyo6c8ixrof0uAEQCcZDkVW0Id8Su7lIq/+dZm72mwnUOD3w44aFVmorHviJq7Y/UE2u7gev
-	D1yc8aQAYY9g2/ZU0B19BI3lFiVErarrpaXLZoOlN2NV8BBlGwmC0slsR8kj4wjh8q6uAkXvgkK24
-	39gWkI46zrJvS0LyoOLb+2XiyQWPBQx0OH9CgGp99t65ox9chIdjM+kVZGEL7iZlw4PTn5lJ7E/qq
-	t35LOqkg==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rH7hW-008O6w-1f;
-	Sat, 23 Dec 2023 19:30:22 +0000
-Message-ID: <f669eb1e-20af-4923-b328-f31bea4f7dbb@infradead.org>
-Date: Sat, 23 Dec 2023 11:30:22 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fv6YQWgD"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3b9f8c9307dso2696069b6e.0;
+        Sat, 23 Dec 2023 13:08:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703365719; x=1703970519; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KK4sv6eXSGMQXDR34E1Vn5NVCVeb5+OOloFC/hz95jk=;
+        b=fv6YQWgDih3lqZEZoeQD2cZp1MRW3PAuKi87oux4MW+w782zGZtoMmhjTjYJ+VqKE1
+         8QZfsrZBjxJDotYCqnNolcd41+NV8RaTuofPqu+wurPcnvnSeoMzsWqh7sJAI53vG+EZ
+         /bgoBv/x9kD1ICNEfQITgrtqcncZGXmr6ZfMYSZhHXDAhTaqXcY6q9nt8CLNFCgbsE5i
+         U4qgjFST3V/awibQiW8Etg58ZGxresbT/UShYSMoBEilisHiP3TI7mbsa3e1RKrvhjmN
+         I/hVHv5ah7ncfhIt3BLGPP3XyjfzQkZJ5Ijdoctd2V7QwbD0ehkaxDrpaQ0No6p+CTYc
+         CfaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703365719; x=1703970519;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KK4sv6eXSGMQXDR34E1Vn5NVCVeb5+OOloFC/hz95jk=;
+        b=enHXsVVXZ6msnwgxgJiyYGKrhV/HnAKUvD3V/+b+WsPFnS40MxN9rTgF+sYFHgIJpH
+         Nl4HELduDNYdhls0N0KMvkghsMOftJdHow45bRJRGCAlB9vyJ5teql8dqdz+Nn9n1yqu
+         EeYg5K6ZditWXmz6+ange5IB55T1Y+gAIjdgsRHGlsshrZ0o5t0Pr4qSw7v9ocezgInP
+         mN1bCvifg4ka8wl+A5WaVW6C4lYdijwAxwKKgk2+97CjBoJNlKLPaQXKEC84sI6o+K8e
+         9sYRIvSdDFimQW/EXJ2aDpWakmgk/RiqnnhG/Tob3Uj1cv2rOPEI9Vf1UEuGjm/0Echl
+         9uVA==
+X-Gm-Message-State: AOJu0YzmtnxWpR1eYtL51cPoW8zHz/PSMCpZtDiNuskgqcvYt9aysppp
+	xBc9QoA8+e1RvDqda5rO/V4=
+X-Google-Smtp-Source: AGHT+IHxVrWgu8VONajTCDaqEM+idR34VsDuibANdpRezTOueUFgH1u6wUMkE3oS3xlSBEaRpLCuCw==
+X-Received: by 2002:a05:6808:d47:b0:3b8:b20d:cecd with SMTP id w7-20020a0568080d4700b003b8b20dcecdmr4444603oik.32.1703365718904;
+        Sat, 23 Dec 2023 13:08:38 -0800 (PST)
+Received: from attreyee-HP-Pavilion-Laptop-14-ec0xxx.. ([27.5.150.118])
+        by smtp.gmail.com with ESMTPSA id n15-20020a6563cf000000b005cdf0b46fecsm3270455pgv.81.2023.12.23.13.08.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Dec 2023 13:08:38 -0800 (PST)
+From: attreyee-muk <tintinm2017@gmail.com>
+To: jpoimboe@kernel.org,
+	jikos@kernel.org,
+	mbenes@suse.cz,
+	pmladek@suse.com,
+	joe.lawrence@redhat.com,
+	corbet@lwn.net
+Cc: attreyee-muk <tintinm2017@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	live-patching@vger.kernel.org
+Subject: [PATCH] Documentation/livepatch: Update terminology in livepatch
+Date: Sun, 24 Dec 2023 02:28:14 +0530
+Message-Id: <20231223205813.32083-1-tintinm2017@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/trace: Fixed typos in the ftrace FLAGS
- section
-Content-Language: en-US
-To: Matthew Cassell <mcassell411@gmail.com>, corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, trivial@kernel.org,
- linux-kernel@vger.kernel.org
-References: <20231223185845.2326-1-mcassell411@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231223185845.2326-1-mcassell411@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Update the sentence in livepatch.rst to: "Functions are there for a reason. Take some input parameters, acquire or release locks, read, process, and write some data in a defined way."
 
+Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
+---
+ Documentation/livepatch/livepatch.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 12/23/23 10:58, Matthew Cassell wrote:
-> Fixed typos in the FTRACE_OPS_FL_RECURSION flag description.
-> 
-> Signed-off-by: Matthew Cassell <mcassell411@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/trace/ftrace-uses.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
-> index f7d98ae5b885..e198854ace79 100644
-> --- a/Documentation/trace/ftrace-uses.rst
-> +++ b/Documentation/trace/ftrace-uses.rst
-> @@ -182,7 +182,7 @@ FTRACE_OPS_FL_SAVE_REGS_IF_SUPPORTED
->  
->  FTRACE_OPS_FL_RECURSION
->  	By default, it is expected that the callback can handle recursion.
-> -	But if the callback is not that worried about overehead, then
-> +	But if the callback is not that worried about overhead, then
->  	setting this bit will add the recursion protection around the
->  	callback by calling a helper function that will do the recursion
->  	protection and only call the callback if it did not recurse.
-> @@ -190,7 +190,7 @@ FTRACE_OPS_FL_RECURSION
->  	Note, if this flag is not set, and recursion does occur, it could
->  	cause the system to crash, and possibly reboot via a triple fault.
->  
-> -	Not, if this flag is set, then the callback will always be called
-> +	Note, if this flag is set, then the callback will always be called
->  	with preemption disabled. If it is not set, then it is possible
->  	(but not guaranteed) that the callback will be called in
->  	preemptable context.
-
+diff --git a/Documentation/livepatch/livepatch.rst b/Documentation/livepatch/livepatch.rst
+index 68e3651e8af9..acb90164929e 100644
+--- a/Documentation/livepatch/livepatch.rst
++++ b/Documentation/livepatch/livepatch.rst
+@@ -50,7 +50,7 @@ some limitations, see below.
+ 3. Consistency model
+ ====================
+ 
+-Functions are there for a reason. They take some input parameters, get or
++Functions are there for a reason. They take some input parameters, acquire or
+ release locks, read, process, and even write some data in a defined way,
+ have return values. In other words, each function has a defined semantic.
+ 
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+2.34.1
+
