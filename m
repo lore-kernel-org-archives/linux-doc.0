@@ -1,93 +1,77 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87AD12E63;
-	Sat, 23 Dec 2023 18:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C377C14F62;
+	Sat, 23 Dec 2023 19:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aagLGRuP"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5e7db780574so30282027b3.1;
-        Sat, 23 Dec 2023 10:58:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703357928; x=1703962728; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IUj8sWVqfVf7l8aOcrRWbZFkCpNTF4lfAPCLY3WuWLM=;
-        b=aagLGRuPTTebgeQOY4NtEib7WDNcN1b3Rib41033vVPFir/L+/XKSVyoL8YfN45FKm
-         /Yyh74S7wGybvXEwSnlcIDqhRVIX+nVPMY1bxxy2a6GCV9Z/2Of/7Bu3oa6KcCu970Zx
-         tmpfOPjNHgvaRtd6kpLqnGyNOsAUwpRx8gdZGRqWjyJWPlw60/zpRPp2W9H2FftPobkX
-         eyEQLdacvdhuRihLFUKI0xp7n02Cq+LeLJNd4WK2Ga8JR/SuT+yggdxgDz2GnhphfbDu
-         nSK5z3gqUTm2gI0xfsxq2nqxcBasraJAhpq4+prvzX3ORRiU9r28NB2hkxI7GCnWOdI4
-         wnWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703357928; x=1703962728;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IUj8sWVqfVf7l8aOcrRWbZFkCpNTF4lfAPCLY3WuWLM=;
-        b=Dt6/XdEN68gvmiBmTX6ls8MDbkvCN1SNK10UHOZd6yhvL0rygsbGBqqNb68TfMEDND
-         pVSykZn7wOsiQsTyYfTGHExBbUnco5JTS1cYJ3/5/Zsra4Vq18kPnkLFrHG6TAOl4SMf
-         UlIz1ETp3mmSR4ReJgEIat0hU46+lfepn1VAFqWYejCCEDxmyA+3CE8MA8ysa+zoeiA6
-         u/OlzehYjYUpOr4DFUH0cPby7ehehfuX7NcuBxUSeXNV4pG9a77waijsTXOI6k0Uhycd
-         GfW1hRJTPlIzkwCxPvj3GBBr4NQxDPo/MYYk5W2PxWOsjzxSYlnna5om+LNcEuE33LGB
-         YdWA==
-X-Gm-Message-State: AOJu0YzuExVcTbm6rgnVXCTB0j69pDxtDRgVwwMB4/BOefRv/plXLYA6
-	bqXsH2miDTTXG2iNpntc5YN04rYzHsaZ8A==
-X-Google-Smtp-Source: AGHT+IEknjk+9HKb0ljqXJeIycLHQGRcHLH8GJUKdaoHAMTN07Km/ZO7YkiPyetWBowghb3intHhEw==
-X-Received: by 2002:a0d:dfd0:0:b0:5e8:5a63:f1e7 with SMTP id i199-20020a0ddfd0000000b005e85a63f1e7mr2362810ywe.27.1703357928593;
-        Sat, 23 Dec 2023 10:58:48 -0800 (PST)
-Received: from localhost.localdomain (024-171-058-032.res.spectrum.com. [24.171.58.32])
-        by smtp.gmail.com with ESMTPSA id x10-20020a81b04a000000b005e96907ab19sm2571839ywk.64.2023.12.23.10.58.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Dec 2023 10:58:48 -0800 (PST)
-From: Matthew Cassell <mcassell411@gmail.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	trivial@kernel.org,
-	linux-kernel@vger.kernel.org,
-	mcassell411@gmail.com
-Subject: [PATCH] Documentation/trace: Fixed typos in the ftrace FLAGS section
-Date: Sat, 23 Dec 2023 18:58:45 +0000
-Message-Id: <20231223185845.2326-1-mcassell411@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="G4FW24Ex"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=bRLpzdTf4eP01ezZZbOp5iMx6vc++e4xQlNDveXlmv4=; b=G4FW24Exlise4J0+5CQMoM+SQu
+	eZoeZu+8GthVNw2JizSGuG4voe7XdcEtG7tOv90Co69UxwPO44c+ZAI7VwLIJmSGR72cqqwYw4e1q
+	MzHtlqjdCqPZiEutX4CNJbw5ighqoF5eLqlRI+j138qvSxjNZpD8qp7JoQx/l3Hs8oDTZk7Lt4ZI4
+	Dq5R9kYASbhyUBQVFFr1ISQ7qAWohTNM0efqX5fIo/9zUdGG8o8HkhS7gq7H8JJIQydtt2LYJE1ON
+	ZPB5Vq4sxZaNIGbXlLpQ4KwksJsrlwZkDM6Fkh0HfMoEnHobqNlabL39Sz/sbRPeVoPl+8jvZE/vX
+	7vS1Wo3A==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rH7cZ-008Njc-38;
+	Sat, 23 Dec 2023 19:25:16 +0000
+Message-ID: <520e15c0-9815-4bd1-b4b9-17a79d49938e@infradead.org>
+Date: Sat, 23 Dec 2023 11:25:15 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/PCI: fix spelling mistake in msi-howto
+Content-Language: en-US
+To: attreyee-muk <tintinm2017@gmail.com>, bhelgaas@google.com, corbet@lwn.net
+Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231223184720.25645-1-tintinm2017@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231223184720.25645-1-tintinm2017@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fixed typos in the FTRACE_OPS_FL_RECURSION flag description.
 
-Signed-off-by: Matthew Cassell <mcassell411@gmail.com>
----
- Documentation/trace/ftrace-uses.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
-index f7d98ae5b885..e198854ace79 100644
---- a/Documentation/trace/ftrace-uses.rst
-+++ b/Documentation/trace/ftrace-uses.rst
-@@ -182,7 +182,7 @@ FTRACE_OPS_FL_SAVE_REGS_IF_SUPPORTED
- 
- FTRACE_OPS_FL_RECURSION
- 	By default, it is expected that the callback can handle recursion.
--	But if the callback is not that worried about overehead, then
-+	But if the callback is not that worried about overhead, then
- 	setting this bit will add the recursion protection around the
- 	callback by calling a helper function that will do the recursion
- 	protection and only call the callback if it did not recurse.
-@@ -190,7 +190,7 @@ FTRACE_OPS_FL_RECURSION
- 	Note, if this flag is not set, and recursion does occur, it could
- 	cause the system to crash, and possibly reboot via a triple fault.
- 
--	Not, if this flag is set, then the callback will always be called
-+	Note, if this flag is set, then the callback will always be called
- 	with preemption disabled. If it is not set, then it is possible
- 	(but not guaranteed) that the callback will be called in
- 	preemptable context.
+On 12/23/23 10:47, attreyee-muk wrote:
+> Correct the spelling of "buses" from "busses" in msi-howto.rst
+> 
+> Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
+
+OK.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/PCI/msi-howto.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/PCI/msi-howto.rst b/Documentation/PCI/msi-howto.rst
+> index c9400f02333b..783d30b7bb42 100644
+> --- a/Documentation/PCI/msi-howto.rst
+> +++ b/Documentation/PCI/msi-howto.rst
+> @@ -236,7 +236,7 @@ including a full 'lspci -v' so we can add the quirks to the kernel.
+>  Disabling MSIs below a bridge
+>  -----------------------------
+>  
+> -Some PCI bridges are not able to route MSIs between busses properly.
+> +Some PCI bridges are not able to route MSIs between buses properly.
+>  In this case, MSIs must be disabled on all devices behind the bridge.
+>  
+>  Some bridges allow you to enable MSIs by changing some bits in their
+
 -- 
-2.34.1
-
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
