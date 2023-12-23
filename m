@@ -1,75 +1,129 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F004A34;
-	Sat, 23 Dec 2023 05:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5809472;
+	Sat, 23 Dec 2023 08:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Jks/bfwF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=UNrI5d+OwOlR9bsEA+kLfKKLgi1B2PVQGG+8MWXSfz8=; b=Jks/bfwFvpRCPEETX4cvjl3DBG
-	WM7g0tH+gittme5QDF7URqwshe9rjnSTGGpkQBFM+8xFCQHTwzWBLVo+XO/Pf5a1oodFVEE0BHqE5
-	bjdjfscqs1SL0+Cq9yW2jN2wnkv08bdBleGPxQrwI2dxDfNdK8hsk6uJCdW/hnJ52ymU3tN0pQ92z
-	DhbZlgoic+nhre1dbDqkErhVuvlV0YB6AHY/EiwM+erncW2cSxVrpSoGbgURvMHOeIWgW7HnT/hhG
-	XQETPqt1wZg1GCeEWa3LOuuPH/Xg9eXr3egNsheJrZDwIlGTqsB9Womnt1eC7ck+0Sv9inHDR+7gM
-	b0v0YxmA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGugP-007QLP-1E;
-	Sat, 23 Dec 2023 05:36:21 +0000
-Message-ID: <9be5f009-9fcb-4299-9d2f-13b1263d83e1@infradead.org>
-Date: Fri, 22 Dec 2023 21:36:20 -0800
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Cv4L7O/o"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BN6QveZ004273;
+	Sat, 23 Dec 2023 08:35:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2023-11-20;
+ bh=xg3V6wzWAJisYwArjIxtY9uqhJBLV2lPERrot98bpKY=;
+ b=Cv4L7O/oLLX8lR5rqzVT/nfeb9jGR/cfDF1c7/hdK0+OXT4vl6sosBHRijlTSYxqmUVV
+ /2o9CXNDql0SdRfcCPuytBv4zma7/is96y+wp9M3vF/kDRBwf1P1A4GFhQvFzeWVByBB
+ hRpLrXL06iieAFW6lcbq5tDMjq7TRi0qL7c/MghnFAkbAjobY0mayC4LsXQoPS7Ezqju
+ 5v3rdoQXNU+m0yWBq1F/x3wAUBAxQQxtLePmlNB2f44Orl693iZHqL57Sh5TlJaXlr16
+ DPjz7o7x0AoJ2WiZ/BHySp31Y2y43NcvCz2QGgUN1E5FkIf6s0r0HBdKRkbblT+0xUda Hw== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3v5pb40c45-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 23 Dec 2023 08:35:18 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BN5lWgA001871;
+	Sat, 23 Dec 2023 08:35:17 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3v5p03mfjf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 23 Dec 2023 08:35:17 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BN8ZDbD003235;
+	Sat, 23 Dec 2023 08:35:17 GMT
+Received: from localhost.localdomain (dhcp-10-175-32-220.vpn.oracle.com [10.175.32.220])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3v5p03mfa0-2;
+	Sat, 23 Dec 2023 08:35:16 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: "David S. Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 2/2] crypto: skcipher - remove excess kerneldoc members
+Date: Sat, 23 Dec 2023 09:34:59 +0100
+Message-Id: <20231223083459.3025561-2-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231223083459.3025561-1-vegard.nossum@oracle.com>
+References: <20231223083459.3025561-1-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: fs/bcachefs/io_write.c:1570: warning: Function parameter or
- struct member 'bch2_write' not described in 'CLOSURE_CALLBACK'
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <202312182040.naGasU5s-lkp@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202312182040.naGasU5s-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-22_15,2023-12-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0 spamscore=0
+ suspectscore=0 adultscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2312230065
+X-Proofpoint-ORIG-GUID: RrAOWwlLqRv5sIX7iqStld5OUIDe4Fm5
+X-Proofpoint-GUID: RrAOWwlLqRv5sIX7iqStld5OUIDe4Fm5
 
+Commit 31865c4c4db2 ("crypto: skcipher - Add lskcipher") moved some
+fields from 'struct skcipher_alg' into SKCIPHER_ALG_COMMON but didn't
+remove the corresponding kerneldoc members, which results in these
+warnings when running 'make htmldocs':
 
+  ./include/crypto/skcipher.h:182: warning: Excess struct member 'min_keysize' description in 'skcipher_alg'
+  ./include/crypto/skcipher.h:182: warning: Excess struct member 'max_keysize' description in 'skcipher_alg'
+  ./include/crypto/skcipher.h:182: warning: Excess struct member 'ivsize' description in 'skcipher_alg'
+  ./include/crypto/skcipher.h:182: warning: Excess struct member 'chunksize' description in 'skcipher_alg'
+  ./include/crypto/skcipher.h:182: warning: Excess struct member 'stat' description in 'skcipher_alg'
+  ./include/crypto/skcipher.h:182: warning: Excess struct member 'base' description in 'skcipher_alg'
 
-On 12/18/23 04:58, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
-> commit: d4e3b928ab487a8aecd1f6a140b40ac365116cfb closures: CLOSURE_CALLBACK() to fix type punning
-> date:   3 weeks ago
-> config: x86_64-buildonly-randconfig-001-20231218 (https://download.01.org/0day-ci/archive/20231218/202312182040.naGasU5s-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312182040.naGasU5s-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312182040.naGasU5s-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> fs/bcachefs/io_write.c:1570: warning: Function parameter or struct member 'bch2_write' not described in 'CLOSURE_CALLBACK'
->    fs/bcachefs/io_write.c:1570: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
-> 
-> 
+SKCIPHER_ALG_COMMON already has the documentation for all these fields.
 
-This needs to be fixed in scripts/kernel-doc AFAIK.
+Fixes: 31865c4c4db2 ("crypto: skcipher - Add lskcipher")
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ include/crypto/skcipher.h | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-Cc:ing linux-doc mailing list.
-
+diff --git a/include/crypto/skcipher.h b/include/crypto/skcipher.h
+index ea18af48346b..8831fcf8f1da 100644
+--- a/include/crypto/skcipher.h
++++ b/include/crypto/skcipher.h
+@@ -108,16 +108,6 @@ struct skcipher_alg_common SKCIPHER_ALG_COMMON;
+ 
+ /**
+  * struct skcipher_alg - symmetric key cipher definition
+- * @min_keysize: Minimum key size supported by the transformation. This is the
+- *		 smallest key length supported by this transformation algorithm.
+- *		 This must be set to one of the pre-defined values as this is
+- *		 not hardware specific. Possible values for this field can be
+- *		 found via git grep "_MIN_KEY_SIZE" include/crypto/
+- * @max_keysize: Maximum key size supported by the transformation. This is the
+- *		 largest key length supported by this transformation algorithm.
+- *		 This must be set to one of the pre-defined values as this is
+- *		 not hardware specific. Possible values for this field can be
+- *		 found via git grep "_MAX_KEY_SIZE" include/crypto/
+  * @setkey: Set key for the transformation. This function is used to either
+  *	    program a supplied key into the hardware or store the key in the
+  *	    transformation context for programming it later. Note that this
+@@ -152,15 +142,9 @@ struct skcipher_alg_common SKCIPHER_ALG_COMMON;
+  * @exit: Deinitialize the cryptographic transformation object. This is a
+  *	  counterpart to @init, used to remove various changes set in
+  *	  @init.
+- * @ivsize: IV size applicable for transformation. The consumer must provide an
+- *	    IV of exactly that size to perform the encrypt or decrypt operation.
+- * @chunksize: Equal to the block size except for stream ciphers such as
+- *	       CTR where it is set to the underlying block size.
+  * @walksize: Equal to the chunk size except in cases where the algorithm is
+  * 	      considerably more efficient if it can operate on multiple chunks
+  * 	      in parallel. Should be a multiple of chunksize.
+- * @stat: Statistics for cipher algorithm
+- * @base: Definition of a generic crypto algorithm.
+  * @co: see struct skcipher_alg_common
+  *
+  * All fields except @ivsize are mandatory and must be filled.
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+2.34.1
+
