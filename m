@@ -1,28 +1,28 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A46D12E63;
-	Sat, 23 Dec 2023 19:28:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5AD14F62;
+	Sat, 23 Dec 2023 19:30:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3MFpejYE"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="upMpbEHs"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=DeP/1AZ/38nN87rEPWPcyw9koEzebHDvVMmn0yr4JU0=; b=3MFpejYEjpRUOjz3unIDK9FLhx
-	FAtS3UVuoBYAU1MjilQSwcOiNdiPeQx5fzeHU2om9yN6IePetYGEd9gJ1jcH9SkoYF9EJd6niLUGg
-	FKD2zpRtRhBb98W+BGOMe7M3N96oWZmmRFyFHJS4ioQlYHO9AU3XggD6MLVqeUlvvpqJzgi8PlAp6
-	TigqilEAzT81ybIwjaV39CMxzHGR8le5tOASQHe8gzhNERh4MsuK4GYe+vvGcXA9WljPG6GWn1rpA
-	PVn9LFJmgCasYhoeIC1/c71TtLFCvikdGnAtD+Z8hO2mZ2zYK865JUhldVGkuepejO1NAh42bXbI2
-	4gJ+RKVw==;
+	bh=e+1d/TmaI5yvT1BI/q8ClqxWJ80HInnyYu9eYV3r8v8=; b=upMpbEHstgkU4RTUMvYfbMHvGk
+	33FsMpbvhYaiyEj/p47oovOBylrS4xz3TGXdFz8A7ozH/gp7s55YGbT5C5d78lgto3OmyCzFQKRZ8
+	uCgVZEyo6c8ixrof0uAEQCcZDkVW0Id8Su7lIq/+dZm72mwnUOD3w44aFVmorHviJq7Y/UE2u7gev
+	D1yc8aQAYY9g2/ZU0B19BI3lFiVErarrpaXLZoOlN2NV8BBlGwmC0slsR8kj4wjh8q6uAkXvgkK24
+	39gWkI46zrJvS0LyoOLb+2XiyQWPBQx0OH9CgGp99t65ox9chIdjM+kVZGEL7iZlw4PTn5lJ7E/qq
+	t35LOqkg==;
 Received: from [50.53.46.231] (helo=[192.168.254.15])
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rH7fR-008O6w-11;
-	Sat, 23 Dec 2023 19:28:13 +0000
-Message-ID: <6026d9b5-dd6f-43f8-acc7-9cc77bdb3df3@infradead.org>
-Date: Sat, 23 Dec 2023 11:28:12 -0800
+	id 1rH7hW-008O6w-1f;
+	Sat, 23 Dec 2023 19:30:22 +0000
+Message-ID: <f669eb1e-20af-4923-b328-f31bea4f7dbb@infradead.org>
+Date: Sat, 23 Dec 2023 11:30:22 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -30,53 +30,55 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/PCI: fix spelling mistake in
- boot-interrupts
+Subject: Re: [PATCH] Documentation/trace: Fixed typos in the ftrace FLAGS
+ section
 Content-Language: en-US
-To: attreyee-muk <tintinm2017@gmail.com>, bhelgaas@google.com, corbet@lwn.net
-Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+To: Matthew Cassell <mcassell411@gmail.com>, corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, trivial@kernel.org,
  linux-kernel@vger.kernel.org
-References: <20231223184412.25598-1-tintinm2017@gmail.com>
+References: <20231223185845.2326-1-mcassell411@gmail.com>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231223184412.25598-1-tintinm2017@gmail.com>
+In-Reply-To: <20231223185845.2326-1-mcassell411@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 12/23/23 10:44, attreyee-muk wrote:
-> Correct to “re-enabled” from “reenabled”.
+
+On 12/23/23 10:58, Matthew Cassell wrote:
+> Fixed typos in the FTRACE_OPS_FL_RECURSION flag description.
 > 
-> Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
+> Signed-off-by: Matthew Cassell <mcassell411@gmail.com>
 
-Is "reenabled" confusing? I don't have a problem with it, but
-one web page [1] says that it's OK to use "re-" if not having
-the hyphen can be confusing.
-
-[1] https://www.grammarbook.com/blog/hyphens/hyphens-with-the-prefix-re/
-
-OTOH, some web sites say the "reenable" is OK, at least as an
-alternative spelling.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
 Thanks.
 
 > ---
->  Documentation/PCI/boot-interrupts.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/trace/ftrace-uses.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/PCI/boot-interrupts.rst b/Documentation/PCI/boot-interrupts.rst
-> index 2ec70121bfca..931077bb0953 100644
-> --- a/Documentation/PCI/boot-interrupts.rst
-> +++ b/Documentation/PCI/boot-interrupts.rst
-> @@ -61,7 +61,7 @@ Conditions
->  ==========
+> diff --git a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
+> index f7d98ae5b885..e198854ace79 100644
+> --- a/Documentation/trace/ftrace-uses.rst
+> +++ b/Documentation/trace/ftrace-uses.rst
+> @@ -182,7 +182,7 @@ FTRACE_OPS_FL_SAVE_REGS_IF_SUPPORTED
 >  
->  The use of threaded interrupts is the most likely condition to trigger
-> -this problem today. Threaded interrupts may not be reenabled after the IRQ
-> +this problem today. Threaded interrupts may not be re-enabled after the IRQ
->  handler wakes. These "one shot" conditions mean that the threaded interrupt
->  needs to keep the interrupt line masked until the threaded handler has run.
->  Especially when dealing with high data rate interrupts, the thread needs to
+>  FTRACE_OPS_FL_RECURSION
+>  	By default, it is expected that the callback can handle recursion.
+> -	But if the callback is not that worried about overehead, then
+> +	But if the callback is not that worried about overhead, then
+>  	setting this bit will add the recursion protection around the
+>  	callback by calling a helper function that will do the recursion
+>  	protection and only call the callback if it did not recurse.
+> @@ -190,7 +190,7 @@ FTRACE_OPS_FL_RECURSION
+>  	Note, if this flag is not set, and recursion does occur, it could
+>  	cause the system to crash, and possibly reboot via a triple fault.
+>  
+> -	Not, if this flag is set, then the callback will always be called
+> +	Note, if this flag is set, then the callback will always be called
+>  	with preemption disabled. If it is not set, then it is possible
+>  	(but not guaranteed) that the callback will be called in
+>  	preemptable context.
 
 -- 
 #Randy
