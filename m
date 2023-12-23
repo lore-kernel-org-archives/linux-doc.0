@@ -1,84 +1,75 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD184D589;
-	Fri, 22 Dec 2023 23:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F004A34;
+	Sat, 23 Dec 2023 05:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OYoimchm"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CE2084E5;
-	Fri, 22 Dec 2023 23:54:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CE2084E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1703289255; bh=XlB1wd1VCQLHKocsK4YSd66HRtHyBkBGlNplbd+BhZU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OYoimchm8ttgASBklYCZCEHNL52ctVdF8aQUfUUQgSsj8lTO+jUbJ1i5Fv3EA9Cqn
-	 jEY2JoDgjU3QqmaxS9bsm6ojUW28lF0ks/PPJRilawgzl/Jv4kVK8C9IxzjSVk8Pjf
-	 k+POtI1yAamEbjIA3VRKZPnQhzsE99QOgBM6qWTm8dfJaA4PqFo3IdXf+izTCqocb4
-	 1uE3jC7RjfaV+uMyz3b7sOpCXfL81v01XBkdTFlT6yTDbMPhyUUFNi1swysn4cD646
-	 27lvQsRF+a78f8BXkSBe5eFlBy4Hs8IZjitr1AIZgAyDOGcfom72g1D95PbMcUPBhN
-	 f4gIB8bZGbeaQ==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, Vegard Nossum
- <vegard.nossum@oracle.com>, linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@s-opensource.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] scripts/kernel-doc: restore warning for Excess
- struct/union
-In-Reply-To: <b9165c65-0cbe-43f0-8634-361308a01972@infradead.org>
-References: <20231214070200.24405-1-rdunlap@infradead.org>
- <875y0zqvjr.fsf@meer.lwn.net>
- <93e1b9fa-c447-4f7d-9dc7-825ebe9e1cde@oracle.com>
- <877cl7a8gh.fsf@meer.lwn.net>
- <b9165c65-0cbe-43f0-8634-361308a01972@infradead.org>
-Date: Fri, 22 Dec 2023 16:54:13 -0700
-Message-ID: <87wmt56bfe.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Jks/bfwF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=UNrI5d+OwOlR9bsEA+kLfKKLgi1B2PVQGG+8MWXSfz8=; b=Jks/bfwFvpRCPEETX4cvjl3DBG
+	WM7g0tH+gittme5QDF7URqwshe9rjnSTGGpkQBFM+8xFCQHTwzWBLVo+XO/Pf5a1oodFVEE0BHqE5
+	bjdjfscqs1SL0+Cq9yW2jN2wnkv08bdBleGPxQrwI2dxDfNdK8hsk6uJCdW/hnJ52ymU3tN0pQ92z
+	DhbZlgoic+nhre1dbDqkErhVuvlV0YB6AHY/EiwM+erncW2cSxVrpSoGbgURvMHOeIWgW7HnT/hhG
+	XQETPqt1wZg1GCeEWa3LOuuPH/Xg9eXr3egNsheJrZDwIlGTqsB9Womnt1eC7ck+0Sv9inHDR+7gM
+	b0v0YxmA==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rGugP-007QLP-1E;
+	Sat, 23 Dec 2023 05:36:21 +0000
+Message-ID: <9be5f009-9fcb-4299-9d2f-13b1263d83e1@infradead.org>
+Date: Fri, 22 Dec 2023 21:36:20 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: fs/bcachefs/io_write.c:1570: warning: Function parameter or
+ struct member 'bch2_write' not described in 'CLOSURE_CALLBACK'
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <202312182040.naGasU5s-lkp@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202312182040.naGasU5s-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Randy Dunlap <rdunlap@infradead.org> writes:
 
-> On 12/21/23 07:20, Jonathan Corbet wrote:
->> Vegard Nossum <vegard.nossum@oracle.com> writes:
->> 
->>> On 15/12/2023 17:28, Jonathan Corbet wrote:
->>>> *sigh*
->>>>
->>>> This adds nearly 600 new warnings.  Anybody gonna help fix them?
->>>
->>> I think in the vast majority of the cases the fix will be to just remove
->>> the offending line from the kerneldoc, so it's not particularly
->>> difficult, mostly just overhead from the patch preparation/submission
->>> process.
->>>
->>> I'd be happy to take a stab at it -- I think we could even script most
->>> of it. Respond here, I guess, if anybody else wants to do some so we can
->>> split it up.
->> 
->> It's mostly done; I've gotten it down to under 200 and sent patches to
->> make the changes.  Randy is working on it too, I know.  It's not always
->> just deletion, but the fixes are usually pretty straightforward.
->> 
->
-> I'm still seeing lots of Excess warnings from
->   include/crypto/hash.h
->   include/crypto/skcipher.h
->   drivers/gpu/drm/*  (several files there have warnings)
->
-> I would be happy to see Vegard's help on this - unless Jon has already
-> addressed those warnings.
 
-Nope, I've not gone there and won't manage it before sometime next week
-at best.  I'd be delighted if somebody waded into those warnings.
+On 12/18/23 04:58, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
+> commit: d4e3b928ab487a8aecd1f6a140b40ac365116cfb closures: CLOSURE_CALLBACK() to fix type punning
+> date:   3 weeks ago
+> config: x86_64-buildonly-randconfig-001-20231218 (https://download.01.org/0day-ci/archive/20231218/202312182040.naGasU5s-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312182040.naGasU5s-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312182040.naGasU5s-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> fs/bcachefs/io_write.c:1570: warning: Function parameter or struct member 'bch2_write' not described in 'CLOSURE_CALLBACK'
+>    fs/bcachefs/io_write.c:1570: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
+> 
+> 
 
-Thanks,
+This needs to be fixed in scripts/kernel-doc AFAIK.
 
-jon
+Cc:ing linux-doc mailing list.
+
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
