@@ -1,56 +1,37 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF78171A7;
-	Sat, 23 Dec 2023 21:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6C3171BE;
+	Sat, 23 Dec 2023 22:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQ56CmKR"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6d9aa51571fso329310b3a.3;
-        Sat, 23 Dec 2023 13:33:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703367233; x=1703972033; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K70ZFXiuLbOSEF/irteqqsTlGuNTUJTLizy4d5N5cjw=;
-        b=nQ56CmKRgV+RbR2DiqQO1b7uTfsA11BWAplztynQEm8mi/V4S/cnzxf9tBwgUr8muZ
-         s8tdq9AyXpriDGTb/YNUAty6V8mzVTEPH1r18jsjqzbGFBREZQIfbRTCaZ96ycdMhPUi
-         x68V5WvSq6KL9X1wvKeBeCCPI1hffaXz0t6eZ48F37H0yP+Kmzq6qNP5yIKNyj66Dax+
-         +gCbFatj6dMPLNkL/SVhm5ZamfOF3prPC27pKhzHUqSuxCUaJDGp71Q7iCswLz4n4QpB
-         /OQOqkAw6V8EQJfL92uHIrymIm9lHK7jRY9E9JwaT9jbKCTp66xJ16IpGVg5Zl9uImCZ
-         qv/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703367233; x=1703972033;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K70ZFXiuLbOSEF/irteqqsTlGuNTUJTLizy4d5N5cjw=;
-        b=RS7vJpailpPozygs0eGkcMVVZMAsVlc5NNoRADAw5CC54Mq1SbG+RcvspcX1adnJJs
-         ngCTJ0JSYHSzR7ix41Y/2CEJqftOfkfplzicIv/Ko+zfOtM9//KIki3TYrj8xbSVALJJ
-         jplyXQ09eP382SzQGWDf6yMZW2B29dLtU9+Em7TrOeSn7UtzTgPXkfB/IgF+Fou4cSpW
-         TvIuO3jbqVx9OvA0lv7NS3vfMxkX6BuNG4G8Y36h3FIs2oBJeAmvYDBWKjz5M4rp5sFm
-         WDnRKpL49mnZIN3Pc5XjwlzQQMcq5lmFzdM2Jr7+xMlY3aYPYnxVAtFqp8LowKfRsPnp
-         ZaHQ==
-X-Gm-Message-State: AOJu0Yxex7/RYbRNiFlO1TrsV3QDZavlsMuY8xphYJ7bp0m4CFbc2xT5
-	RqJzBm3wmDHv+Bro7dcmo44=
-X-Google-Smtp-Source: AGHT+IGG8VXB/eoY8c50bN+CKlbtcOFY85/GeeV3SIhe+BIkWUPFKy+wJN3DD1ynaJqmHRG/xFOzjg==
-X-Received: by 2002:a05:6a21:33a7:b0:195:41d9:1829 with SMTP id yy39-20020a056a2133a700b0019541d91829mr3540346pzb.106.1703367232763;
-        Sat, 23 Dec 2023 13:33:52 -0800 (PST)
-Received: from localhost ([185.169.0.79])
-        by smtp.gmail.com with ESMTPSA id bd33-20020a056a0027a100b006d9a96b7d0dsm1201455pfb.208.2023.12.23.13.33.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Dec 2023 13:33:51 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Sun, 24 Dec 2023 06:33:48 +0900
-From: Tejun Heo <tj@kernel.org>
-To: attreyee-muk <tintinm2017@gmail.com>
-Cc: jiangshanlai@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cKPYNOC5"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9CF6C4E5;
+	Sat, 23 Dec 2023 22:07:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9CF6C4E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1703369256; bh=te8xA7fPnmxgfTKUkD9z2hLe9SkY4Miq3Ty/JOmHS2w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=cKPYNOC5FZSEtVG/gKjdD1Vh5El5UgTeTcU3U5gzMQFZ3/si3C7+mDhVk6u3m3W4a
+	 n+GVPSibyBg5V4/Ji4LAfn9ZGx+lYyrJZ9GiHEe7joDE9x46gG83IAQHh0FktlfXEZ
+	 ypmrfRCpxijlprJcnUKx+DgZYZuqWOc0YdtLJVMJsecvjXJI7etqq8zOpEylBkXuZT
+	 uUZv86yMWgzIVQO2h8D226O3sVI50/2iCVHPL4YCbRujikussXHQx4v+qfn1CqmgXR
+	 WPD9WfSR9RD4+2uybLa9SCrJR/eJJ+xXVePID5/IikujpxIePpFGb+SQcb0kJYXPFt
+	 9x18yG3H38aYA==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Tejun Heo <tj@kernel.org>, attreyee-muk <tintinm2017@gmail.com>
+Cc: jiangshanlai@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation/core-api : fix typo in workqueue
-Message-ID: <ZYdSPGWlILYcTIKu@mtj.duckdns.org>
+In-Reply-To: <ZYdSPGWlILYcTIKu@mtj.duckdns.org>
 References: <20231223175316.24951-1-tintinm2017@gmail.com>
+ <ZYdSPGWlILYcTIKu@mtj.duckdns.org>
+Date: Sat, 23 Dec 2023 15:07:35 -0700
+Message-ID: <87sf3s609k.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,24 +39,24 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231223175316.24951-1-tintinm2017@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Tejun Heo <tj@kernel.org> writes:
 
-On Sat, Dec 23, 2023 at 11:23:17PM +0530, attreyee-muk wrote:
-> Correct to “boundaries” from “bounaries” in “CPUs are grouped according to NUMA bounaries.”
-> 
-> Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
+> Hello,
+>
+> On Sat, Dec 23, 2023 at 11:23:17PM +0530, attreyee-muk wrote:
+>> Correct to =E2=80=9Cboundaries=E2=80=9D from =E2=80=9Cbounaries=E2=80=9D=
+ in =E2=80=9CCPUs are grouped according to NUMA bounaries.=E2=80=9D
+>>=20
+>> Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
+>
+> Acked-by: Tejun Heo <tj@kernel.org>
+>
+> Jonathan, would you mind taking this patch through doc tree? I don't have
+> any other wq patches queued for 6.8 and it's a bit awkward to just apply
+> this one.
 
-Acked-by: Tejun Heo <tj@kernel.org>
+Sure, will do.
 
-Jonathan, would you mind taking this patch through doc tree? I don't have
-any other wq patches queued for 6.8 and it's a bit awkward to just apply
-this one.
-
-Thanks.
-
--- 
-tejun
+jon
