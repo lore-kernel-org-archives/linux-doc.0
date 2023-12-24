@@ -1,130 +1,150 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A62C8C4
-	for <linux-doc@vger.kernel.org>; Sun, 24 Dec 2023 17:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D001EAE8
+	for <linux-doc@vger.kernel.org>; Sun, 24 Dec 2023 21:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nkKo198e"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d4006b251aso27626425ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 24 Dec 2023 09:18:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SRTPNLji"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d42ed4cdc7so135125ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 24 Dec 2023 13:30:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1703438285; x=1704043085; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3hFLSnZfOPa4HbeCcp8WZcEpXNOy9FTVGa6+3rCmbwU=;
-        b=nkKo198ePwmNf8Dz2PjGEjjB/7Pj6LLOxNozL9O88AFRtOOMlPyNBqycQD9Lce29Kx
-         YnsnwguV81kVHHi0LbuKQUFxxr4ixTBlDkk+n9r446r6Izooo3k/Ay10OCPvRJY7vR5v
-         AfRkDdfi95XLoePMuuFcJxfcJlOwIrFSpffbs3Z9KVYZpkEfFJ+Vaep6gVv6JP95AWHS
-         IwlbirQZCwp4UDP5s0xe1Qfx/N04JMozwLjI7FoCtyrhkMvCMDoIRl2LN76isB12GeP5
-         DFSInkOfN1qWZUXfTVZf1Q4lic566PBvFcmA61wJ5xLyEGtQivTZgAWsNnvRK9wy+SSO
-         CGDA==
+        d=google.com; s=20230601; t=1703453452; x=1704058252; darn=vger.kernel.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/MCgJrzTYbobYDGPWMaxVSPHC8aF5GoN3HBnQNC1yE=;
+        b=SRTPNLjideYw9jSGZ8cUkT5/otA6oF+uTtO9hzMRBAtUksp1Ly6esmEEqd8Sz5RQtL
+         u1QMSLwFrNxt0HO0byJUc+V9D2BXDnZrsamcGxitgSwSy0cu3zr4kYL/qLOeGj8kAJYo
+         Vv/04MUWRZUKKQ9yGFHG9S0tL0ViVTHWXHDKuz8QiLHFd3uQ9DwJWh+Uywg6sRgxm5+f
+         +LEE7uJjCSxXJG7VaVqyX/399wQBEHyxhtGEk7cx6ovrYGExu5VRdLOfEkNL1iBHUssj
+         iLC7qVIriSD1e+LbEEvDQegtsmZUTubLjEb+Gs7JCHATC1208JN4rgoEURuG2uu7sDrX
+         igSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703438285; x=1704043085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3hFLSnZfOPa4HbeCcp8WZcEpXNOy9FTVGa6+3rCmbwU=;
-        b=wZWTTIg4L/cNXINnlHrD/YUn/7c9Uff9djSl6IPW+17KdqBWH5cVE+I1xjaXwsTJ8z
-         UIBJHq1PoM1b0d4bzn3YuH4ZuqEwwf0crkjSc2ro4+eYw+aqUNP9eiEidVz8KMuIwYIv
-         pupQ4PTGE4wF0v2FA957Wt918r0+FnOusFIpolOvC1cam0emVW5Yx4l3B9QTdTFBC6kt
-         ACl5oKBpkFfF9eBwGj0T4i9N/T8hzirN3nWIbQBcVvKk2KAAKKjQsGRhgU1J/SCv97IW
-         8Dhn1za+426OaVJElbpmyLajbBQfRSuOQ+5wusVjt384iLHMJSpt2T/JCoxmr/oNzDPC
-         0bcA==
-X-Gm-Message-State: AOJu0YxjYpXXG8s4IhfwfIw3QK8Ufkj20iexarpyMKY774dGchCJHrFC
-	z8iV3ifzxZr006f4hRlTje5qaKLL+mdqe8n1FqDw5tgfjUE2
-X-Google-Smtp-Source: AGHT+IHqdGi+qJAhaciG+1KGIMfLpbW26gbSL9yRw9d1ad7j+3u5CPf+ZOWnMczughCoPqVc0v+t9WY5gzRQbV6uAJg=
-X-Received: by 2002:a17:902:eb83:b0:1d3:efef:d84b with SMTP id
- q3-20020a170902eb8300b001d3efefd84bmr5625964plg.70.1703438285308; Sun, 24 Dec
- 2023 09:18:05 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703453452; x=1704058252;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/MCgJrzTYbobYDGPWMaxVSPHC8aF5GoN3HBnQNC1yE=;
+        b=GjY4IZ5TnbYUC2TtHSQxN15f44VkOz4KysjpBJgBkzdL82MwxK8M53pfPerIyCujb3
+         4rQrm/hJPhZwzJhmwDSPQaFGGZSgtd2cD829DIkiw7ZeYn/kKlxzBMZKVxiV44fGvi9d
+         rmOBHmnO6Fs39Pp1rwMNNcppO37MOThhmrCqzsXqUxHD5aqeWGqsj1RCyUFVVU1SlaKe
+         F4Hjq6RUfp1leX2QDOzFRafmTnAdRCZMT6WqRJnis8BV9ZAVY6VA+YrBH5wturQYRYgj
+         /uBKqoqnTuWAKWynB1dABBDssq6igzoHiVu9003c1iCxm6glsgo7afPGOyLSuitubYPD
+         xyvw==
+X-Gm-Message-State: AOJu0Yy+0k2fO2foAOW+UQcF2PvmgsGn8iyQYt8CkZjV2kPxz2HSYMst
+	TNttktYEM08Vuqx7sjS0KFzEV/FBloLJ
+X-Google-Smtp-Source: AGHT+IGEdm29d6jmw+nANphFK7SbhaR7mM9JSy5/jGKgQinKhgDaZxXLk5PDheL/k90mn9Ft6aU5hg==
+X-Received: by 2002:a17:902:bb84:b0:1d4:55b3:45d9 with SMTP id m4-20020a170902bb8400b001d455b345d9mr28530pls.6.1703453451456;
+        Sun, 24 Dec 2023 13:30:51 -0800 (PST)
+Received: from [2620:0:1008:15:c723:e11e:854b:ac88] ([2620:0:1008:15:c723:e11e:854b:ac88])
+        by smtp.gmail.com with ESMTPSA id b14-20020a170902d50e00b001d3dacffde3sm6890413plg.226.2023.12.24.13.30.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Dec 2023 13:30:50 -0800 (PST)
+Date: Sun, 24 Dec 2023 13:30:50 -0800 (PST)
+From: David Rientjes <rientjes@google.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+cc: Andrew Morton <akpm@linux-foundation.org>, alim.akhtar@samsung.com, 
+    alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+    bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, 
+    david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
+    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
+    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
+Subject: Re: [PATCH v2 01/10] iommu/vt-d: add wrapper functions for page
+ allocations
+In-Reply-To: <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
+Message-ID: <1fd66377-030c-2e48-e658-4669bbf037e9@google.com>
+References: <20231130201504.2322355-1-pasha.tatashin@soleen.com> <20231130201504.2322355-2-pasha.tatashin@soleen.com> <776e17af-ae25-16a0-f443-66f3972b00c0@google.com> <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207192406.3809579-1-nphamcs@gmail.com> <20231221005725.3446672-1-nphamcs@gmail.com>
-In-Reply-To: <20231221005725.3446672-1-nphamcs@gmail.com>
-From: Chris Li <chriscli@google.com>
-Date: Sun, 24 Dec 2023 09:17:54 -0800
-Message-ID: <CAF8kJuMQhbkR2p0UZ61r+tAGg-idiSMoW8Gsf=GcB3Jpa=W9qw@mail.gmail.com>
-Subject: Re: [PATCH v6] zswap: memcontrol: implement zswap writeback disabling (fix)
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, tj@kernel.org, lizefan.x@bytedance.com, 
-	hannes@cmpxchg.org, cerasuolodomenico@gmail.com, yosryahmed@google.com, 
-	sjenning@redhat.com, ddstreet@ieee.org, vitaly.wool@konsulko.com, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com, 
-	muchun.song@linux.dev, hughd@google.com, corbet@lwn.net, 
-	konrad.wilk@oracle.com, senozhatsky@chromium.org, rppt@kernel.org, 
-	linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, david@ixit.cz
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="2003067076-655310594-1703453450=:2163178"
 
-Hi Nhat,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Acked-by: Chris Li <chrisl@kernel.org>
+--2003067076-655310594-1703453450=:2163178
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-I think a follow up step would be having some patches to address it
-rather than document it that oh yes, we have a problem in that
-situation.
+On Thu, 14 Dec 2023, Pasha Tatashin wrote:
 
-Chris
+> On Thu, Dec 14, 2023 at 12:58 PM David Rientjes <rientjes@google.com> wrote:
+> >
+> > On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+> >
+> > > diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
+> > > new file mode 100644
+> > > index 000000000000..2332f807d514
+> > > --- /dev/null
+> > > +++ b/drivers/iommu/iommu-pages.h
+> > > @@ -0,0 +1,199 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > > +/*
+> > > + * Copyright (c) 2023, Google LLC.
+> > > + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > + */
+> > > +
+> > > +#ifndef __IOMMU_PAGES_H
+> > > +#define __IOMMU_PAGES_H
+> > > +
+> > > +#include <linux/vmstat.h>
+> > > +#include <linux/gfp.h>
+> > > +#include <linux/mm.h>
+> > > +
+> > > +/*
+> > > + * All page allocation that are performed in the IOMMU subsystem must use one of
+> > > + * the functions below.  This is necessary for the proper accounting as IOMMU
+> > > + * state can be rather large, i.e. multiple gigabytes in size.
+> > > + */
+> > > +
+> > > +/**
+> > > + * __iommu_alloc_pages_node - allocate a zeroed page of a given order from
+> > > + * specific NUMA node.
+> > > + * @nid: memory NUMA node id
+> >
+> > NUMA_NO_NODE if no locality requirements?
+> 
+> If no locality is required, there is a better interface:
+> __iommu_alloc_pages(). That one will also take a look at the calling
+> process policies to determine the proper NUMA node when nothing is
+> specified. However, when policies should be ignored, and no locality
+> required, NUMA_NO_NODE can be passed.
+> 
 
-On Wed, Dec 20, 2023 at 4:57=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
-:
->
-> Add a caveat about recurring zswap store failures leading to reclaim
-> inefficiency.
->
-> Suggested-by: Yosry Ahmed <yosryahmed@google.com>
-> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 5 ++++-
->  Documentation/admin-guide/mm/zswap.rst  | 4 ++++
->  2 files changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
-n-guide/cgroup-v2.rst
-> index 2b4ac43efdc8..5ec7dd753cd1 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1686,7 +1686,10 @@ PAGE_SIZE multiple when read back.
->
->         When this is set to 0, all swapping attempts to swapping devices
->         are disabled. This included both zswap writebacks, and swapping d=
-ue
-> -       to zswap store failure.
-> +       to zswap store failures. If the zswap store failures are recurrin=
-g
-> +       (for e.g if the pages are incompressible), users can observe
-> +       reclaim inefficiency after disabling writeback (because the same
-> +       pages might be rejected again and again).
->
->         Note that this is subtly different from setting memory.swap.max t=
-o
->         0, as it still allows for pages to be written to the zswap pool.
-> diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin=
--guide/mm/zswap.rst
-> index cfa653130346..b42132969e31 100644
-> --- a/Documentation/admin-guide/mm/zswap.rst
-> +++ b/Documentation/admin-guide/mm/zswap.rst
-> @@ -159,6 +159,10 @@ zswap itself) on a cgroup-basis as follows:
->
->         echo 0 > /sys/fs/cgroup/<cgroup-name>/memory.zswap.writeback
->
-> +Note that if the store failures are recurring (for e.g if the pages are
-> +incompressible), users can observe reclaim inefficiency after disabling
-> +writeback (because the same pages might be rejected again and again).
-> +
->  When there is a sizable amount of cold memory residing in the zswap pool=
-, it
->  can be advantageous to proactively write these cold pages to swap and re=
-claim
->  the memory for other use cases. By default, the zswap shrinker is disabl=
-ed.
-> --
-> 2.34.1
->
+Gotcha, thanks!
+
+> >
+> > > + * @gfp: buddy allocator flags
+> > > + * @order: page order
+> > > + *
+> > > + * returns the head struct page of the allocated page.
+> > > + */
+> > > +static inline struct page *__iommu_alloc_pages_node(int nid, gfp_t gfp,
+> > > +                                                 int order)
+> > > +{
+> > > +     struct page *pages;
+> >
+> > s/pages/page/ here and later in this file.
+> 
+> In this file, where there a page with an "order", I reference it with
+> "pages", when no order (i.e. order = 0), I reference it with "page"
+> 
+> I.e.: __iommu_alloc_page vs. __iommu_alloc_pages
+> 
+
+Eh, the struct page points to a (potentially compound) page, not a set or 
+list of pages.  I won't bikeshed on it, but "struct page *pages" never 
+makes sense unless it's **pages or *pages[] :)
+--2003067076-655310594-1703453450=:2163178--
