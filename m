@@ -1,195 +1,128 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C365E15AF
-	for <linux-doc@vger.kernel.org>; Mon, 25 Dec 2023 06:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA9415AF
+	for <linux-doc@vger.kernel.org>; Mon, 25 Dec 2023 07:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Cjx4i/O3"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BONlFCB031298;
-	Mon, 25 Dec 2023 06:52:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=FQZNYX+urMxp/YMleW1fr576KolT4Mh4EiS0z2ulfVc=;
- b=Cjx4i/O3Ifu/YhhHIs/Y3taoSSIJD4ip9DOHCwQDIxUQ6dxooyGG4cipqpTJitS5SJbw
- btbEw34v56LhbvJRHBWGF7FHmJPHlpw2IhUqVCbVzeWR1VWB0Clo50Kv7fiXYCKb8URx
- T3/o8jhQp0Ti96Iz4o59DxpWRMxUhFniNjGuKT45MOJFFp2SBEWYeIUQxRlzKzpLZP6u
- uP5ffjbLnL6OPcQLQJYbgjUafsQqpbSSgrHIS44AtdWiZMeGKORkazb7nMesLSmmBiZX
- mxaNvcsev8meNV1fi9YjtVNYxSa1E/L8aFuqCrZ7YZKPRxK8eIRiocNb7tgcN44zjFyN Bw== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3v5qeb22qx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 25 Dec 2023 06:52:05 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BP6n5xY005487;
-	Mon, 25 Dec 2023 06:52:05 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3v73a6m1bk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 25 Dec 2023 06:52:05 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BP6q4Md015576;
-	Mon, 25 Dec 2023 06:52:04 GMT
-Received: from localhost.localdomain (dhcp-10-175-53-209.vpn.oracle.com [10.175.53.209])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3v73a6m172-1;
-	Mon, 25 Dec 2023 06:52:04 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-        Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
-Date: Mon, 25 Dec 2023 07:51:45 +0100
-Message-Id: <20231225065145.3060754-1-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YAAmsBdV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=fuas5bPzOn9MZEW/fGo0qm2zTQtEOJAGCSSJzEQDXqU=; b=YAAmsBdVJB16MYQ9rG2ieV8wE6
+	OdNhR8sSgZDbMgBwuNiDmodRQGSvWI72hbz5krTOtOe9hBQ8ZTqHB70h/t4/AnRlMnM+N/bC17TCZ
+	W3ZteqWJC7dA4gB+cF4TR8jfMRf1tzrBtW4iMXMaguUkV9jXHSyrmmcZsdNcDLElQ2miTkVi+bJB+
+	ABCUyIxD8tUWQGY91mmOQZi4lncYQqqVJ877Vx5Mn6+2akIUSsSiJoW49C7b01ZOANWyDsZnC9MwD
+	alpfmRVc+zmfqvAd08OXJOsqIRcl/GzvAXdcKdcFg0XgtF8xvvvcguIGUaZFS9BuZMpb8sgAysn4W
+	E+/NXKjA==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rHfZt-00AM72-13;
+	Mon, 25 Dec 2023 07:40:45 +0000
+Message-ID: <009fcdc4-b10a-4ab9-b368-7cea75bb74e2@infradead.org>
+Date: Sun, 24 Dec 2023 23:40:44 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-25_03,2023-12-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 adultscore=0
- mlxlogscore=999 bulkscore=0 malwarescore=0 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312250049
-X-Proofpoint-GUID: 8Qnq6aKAqnTJiQcG022k2VjpaDP0PE9u
-X-Proofpoint-ORIG-GUID: 8Qnq6aKAqnTJiQcG022k2VjpaDP0PE9u
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
+Content-Language: en-US
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>
+References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231225065145.3060754-1-vegard.nossum@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-As of commit b77fdd6a48e6 ("scripts/kernel-doc: restore warning for
-Excess struct/union"), we see the following warnings when running 'make
-htmldocs':
 
-  ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_MAP' description in 'drm_nouveau_vm_bind_op'
-  ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_UNMAP' description in 'drm_nouveau_vm_bind_op'
-  ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_SPARSE' description in 'drm_nouveau_vm_bind_op'
-  ./include/uapi/drm/nouveau_drm.h:336: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_RUN_ASYNC' description in 'drm_nouveau_vm_bind'
 
-The problem is that these values are #define constants, but had kerneldoc
-comments attached to them as if they were actual struct members.
+On 12/24/23 22:51, Vegard Nossum wrote:
+> As of commit b77fdd6a48e6 ("scripts/kernel-doc: restore warning for
+> Excess struct/union"), we see the following warnings when running 'make
+> htmldocs':
+> 
+>   ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_MAP' description in 'drm_nouveau_vm_bind_op'
+>   ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_UNMAP' description in 'drm_nouveau_vm_bind_op'
+>   ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_SPARSE' description in 'drm_nouveau_vm_bind_op'
+>   ./include/uapi/drm/nouveau_drm.h:336: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_RUN_ASYNC' description in 'drm_nouveau_vm_bind'
+> 
+> The problem is that these values are #define constants, but had kerneldoc
+> comments attached to them as if they were actual struct members.
+> 
+> There are a number of ways we could fix this, but I chose to draw
+> inspiration from include/uapi/drm/i915_drm.h, which pulls them into the
+> corresponding kerneldoc comment for the struct member that they are
+> intended to be used with.
+> 
+> To keep the diff readable, there are a number of things I _didn't_ do in
+> this patch, but which we should also consider:
+> 
+> - This is pretty good documentation, but it ends up in gpu/driver-uapi,
+>   which is part of subsystem-apis/ when it really ought to display under
+>   userspace-api/ (the "Linux kernel user-space API guide" book of the
+>   documentation).
+> 
+> - More generally, we might want a warning if include/uapi/ files are
+>   kerneldoc'd outside userspace-api/.
+> 
+> - I'd consider it cleaner if the #defines appeared between the kerneldoc
+>   for the member and the member itself (which is something other DRM-
+>   related UAPI docs do).
+> 
+> - The %IDENTIFIER kerneldoc syntax is intended for "constants", and is
+>   more appropriate in this context than ``IDENTIFIER`` or &IDENTIFIER.
+>   The DRM docs aren't very consistent on this.
+> 
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 
-There are a number of ways we could fix this, but I chose to draw
-inspiration from include/uapi/drm/i915_drm.h, which pulls them into the
-corresponding kerneldoc comment for the struct member that they are
-intended to be used with.
 
-To keep the diff readable, there are a number of things I _didn't_ do in
-this patch, but which we should also consider:
+This all looks good to me. Thanks for your help.
 
-- This is pretty good documentation, but it ends up in gpu/driver-uapi,
-  which is part of subsystem-apis/ when it really ought to display under
-  userspace-api/ (the "Linux kernel user-space API guide" book of the
-  documentation).
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-- More generally, we might want a warning if include/uapi/ files are
-  kerneldoc'd outside userspace-api/.
+I do see one thing that I don't like in the generated html output.
+It's not a problem with this patch.
+The #defines for DRM_NOUVEAU_VM_BIND_OP_MAP etc. have a ';' at the
+end of each line:
 
-- I'd consider it cleaner if the #defines appeared between the kerneldoc
-  for the member and the member itself (which is something other DRM-
-  related UAPI docs do).
+struct drm_nouveau_vm_bind_op {
+    __u32 op;
+#define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0;
+#define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1;
+    __u32 flags;
+#define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8);
+    __u32 handle;
+    __u32 pad;
+    __u64 addr;
+    __u64 bo_offset;
+    __u64 range;
+};
 
-- The %IDENTIFIER kerneldoc syntax is intended for "constants", and is
-  more appropriate in this context than ``IDENTIFIER`` or &IDENTIFIER.
-  The DRM docs aren't very consistent on this.
+so something else to look into one of these days....
 
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- include/uapi/drm/nouveau_drm.h | 56 ++++++++++++++++------------------
- 1 file changed, 27 insertions(+), 29 deletions(-)
 
-diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
-index 0bade1592f34..c95ef8a4d94a 100644
---- a/include/uapi/drm/nouveau_drm.h
-+++ b/include/uapi/drm/nouveau_drm.h
-@@ -238,34 +238,32 @@ struct drm_nouveau_vm_init {
- struct drm_nouveau_vm_bind_op {
- 	/**
- 	 * @op: the operation type
-+	 *
-+	 * Supported values:
-+	 *
-+	 * %DRM_NOUVEAU_VM_BIND_OP_MAP - Map a GEM object to the GPU's VA
-+	 * space. Optionally, the &DRM_NOUVEAU_VM_BIND_SPARSE flag can be
-+	 * passed to instruct the kernel to create sparse mappings for the
-+	 * given range.
-+	 *
-+	 * %DRM_NOUVEAU_VM_BIND_OP_UNMAP - Unmap an existing mapping in the
-+	 * GPU's VA space. If the region the mapping is located in is a
-+	 * sparse region, new sparse mappings are created where the unmapped
-+	 * (memory backed) mapping was mapped previously. To remove a sparse
-+	 * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
- 	 */
- 	__u32 op;
--/**
-- * @DRM_NOUVEAU_VM_BIND_OP_MAP:
-- *
-- * Map a GEM object to the GPU's VA space. Optionally, the
-- * &DRM_NOUVEAU_VM_BIND_SPARSE flag can be passed to instruct the kernel to
-- * create sparse mappings for the given range.
-- */
- #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0
--/**
-- * @DRM_NOUVEAU_VM_BIND_OP_UNMAP:
-- *
-- * Unmap an existing mapping in the GPU's VA space. If the region the mapping
-- * is located in is a sparse region, new sparse mappings are created where the
-- * unmapped (memory backed) mapping was mapped previously. To remove a sparse
-- * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
-- */
- #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1
- 	/**
- 	 * @flags: the flags for a &drm_nouveau_vm_bind_op
-+	 *
-+	 * Supported values:
-+	 *
-+	 * %DRM_NOUVEAU_VM_BIND_SPARSE - Indicates that an allocated VA
-+	 * space region should be sparse.
- 	 */
- 	__u32 flags;
--/**
-- * @DRM_NOUVEAU_VM_BIND_SPARSE:
-- *
-- * Indicates that an allocated VA space region should be sparse.
-- */
- #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8)
- 	/**
- 	 * @handle: the handle of the DRM GEM object to map
-@@ -301,17 +299,17 @@ struct drm_nouveau_vm_bind {
- 	__u32 op_count;
- 	/**
- 	 * @flags: the flags for a &drm_nouveau_vm_bind ioctl
-+	 *
-+	 * Supported values:
-+	 *
-+	 * %DRM_NOUVEAU_VM_BIND_RUN_ASYNC - Indicates that the given VM_BIND
-+	 * operation should be executed asynchronously by the kernel.
-+	 *
-+	 * If this flag is not supplied the kernel executes the associated
-+	 * operations synchronously and doesn't accept any &drm_nouveau_sync
-+	 * objects.
- 	 */
- 	__u32 flags;
--/**
-- * @DRM_NOUVEAU_VM_BIND_RUN_ASYNC:
-- *
-- * Indicates that the given VM_BIND operation should be executed asynchronously
-- * by the kernel.
-- *
-- * If this flag is not supplied the kernel executes the associated operations
-- * synchronously and doesn't accept any &drm_nouveau_sync objects.
-- */
- #define DRM_NOUVEAU_VM_BIND_RUN_ASYNC 0x1
- 	/**
- 	 * @wait_count: the number of wait &drm_nouveau_syncs
+> ---
+>  include/uapi/drm/nouveau_drm.h | 56 ++++++++++++++++------------------
+>  1 file changed, 27 insertions(+), 29 deletions(-)
+> 
+> diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+> index 0bade1592f34..c95ef8a4d94a 100644
+
+
 -- 
-2.34.1
-
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
