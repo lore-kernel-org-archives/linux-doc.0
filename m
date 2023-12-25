@@ -1,118 +1,101 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C67152F6D
-	for <linux-doc@vger.kernel.org>; Mon, 25 Dec 2023 16:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0294231A66
+	for <linux-doc@vger.kernel.org>; Mon, 25 Dec 2023 17:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D9mqPlfT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1703520585;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VqafsTsLWFL6NUacBRAsGtc9kpoOdr+j/kVqdz2KGps=;
-	b=D9mqPlfTwYuNJi4B6KW9virIn25oAF6KJO1DPRjL3QgxGoYi/aZvQhQ6SxaAucfl1mfkTI
-	2BhAsqnTfOgOxR+qFBkoEO02/lLWZdSG4DtRAMJ7mE1KRUKAFVGeLstdjJ6VVrBdaG+4BT
-	HC6YfH4aB8ZfJIQTKQ076gm3A3IuBSk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-488-z-tIQYLdPvSFMDQfhbH5sQ-1; Mon, 25 Dec 2023 11:09:44 -0500
-X-MC-Unique: z-tIQYLdPvSFMDQfhbH5sQ-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-40d47b001f7so22264915e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 25 Dec 2023 08:09:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703520583; x=1704125383;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VqafsTsLWFL6NUacBRAsGtc9kpoOdr+j/kVqdz2KGps=;
-        b=EsVWQ4ywhhFGVjY4vIfw4XqQlM/280bq2juEEwI9dod2sTcRjXJ1PKJ1v8GQ4qUv2r
-         Ouz6J/+tUTG1CoWDk5qfnkkFEMY2UnP3B9oOd/lSCVXpGP19GRtPWvdqUzXM4kmsHnSw
-         OCC0je7jbEnrHKHfN8lvDhIKgN9ZiFiRGiV+WnYA01Y0vXRXixxxY1BujDOxx88zbTMH
-         67pPYh5bYgPv5IPHNFv8/VAih1Bo7DVJ8G3zqNsy5tWCtzumqW9C0a8sl2/blqMjTgcd
-         nfMe9eEO0bkkHgMMYfJ47onRT1a1qaQCZms3xUwS4us8o6b3k83SgBefq+yGwaUn1Lac
-         ATEw==
-X-Gm-Message-State: AOJu0YzDnVouDFZMpu4bYEcAfzgbOn7MFAje+Myl+Q1DoVDlVq9JaGwh
-	V+lCy28uxon8C7g4bNPf90SVcYSIIPEyhbbkszmFMOmdB+rwUArDwnpwz/4yPhfYvatLbFB9Egf
-	NKBe7q5Fpf7tRwM/ZWaXVy0s6391P
-X-Received: by 2002:a05:600c:4587:b0:40c:33be:d193 with SMTP id r7-20020a05600c458700b0040c33bed193mr4060355wmo.78.1703520582992;
-        Mon, 25 Dec 2023 08:09:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHfGGCax+SlWX/roShT1Wqm6zJg2zHkXbA4PNy8JwUTudzLUljk5TaAwhoH/7jZ8kvUv2pY7Q==
-X-Received: by 2002:a05:600c:4587:b0:40c:33be:d193 with SMTP id r7-20020a05600c458700b0040c33bed193mr4060329wmo.78.1703520582646;
-        Mon, 25 Dec 2023 08:09:42 -0800 (PST)
-Received: from redhat.com ([2a06:c701:73ef:4100:2cf6:9475:f85:181e])
-        by smtp.gmail.com with ESMTPSA id f12-20020a05600c4e8c00b0040d3db8186fsm16769282wmq.5.2023.12.25.08.09.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Dec 2023 08:09:41 -0800 (PST)
-Date: Mon, 25 Dec 2023 11:09:37 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
-	alim.akhtar@samsung.com, alyssa@rosenzweig.io,
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com,
-	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net,
-	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
-	heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
-	jernej.skrabec@gmail.com, jgg@ziepe.ca, jonathanh@nvidia.com,
-	joro@8bytes.org, kevin.tian@intel.com,
-	krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
-	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
-	netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org,
-	robin.murphy@arm.com, samuel@sholland.org,
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev,
-	thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com,
-	vdumpa@nvidia.com, virtualization@lists.linux.dev, wens@csie.org,
-	will@kernel.org, yu-cheng.yu@intel.com
-Subject: Re: [PATCH 15/16] vhost-vdpa: account iommu allocations
-Message-ID: <20231225110930-mutt-send-email-mst@kernel.org>
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-16-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iAp5UAUk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=xFIKp49g9qtmgLHHMQDPljPyQKT4HBMsbNmu6sA9PR8=; b=iAp5UAUk7p6ad0qrzYfv6hy2pn
+	rCpp3wPlDwi5qInqm+10NcE4U/ulDeWFRXxXAWQuVjHu7Gw5S5oIP9XkhBiJ04HI9QqIZ03JRvJWJ
+	4laG5NxSMycfFfTqmiNb+WPgH1n5tF6+5VbTDHqilM1UP96amyC2NiUZpMDjEoq+ZCbesfnfDaccZ
+	DZzq8r2Kv0vzzvmZox2EjgjdedE+NY4KQXl7qfsVSQnAiWihVlhUFW11cLKj2wlSyntnguO8CMOXt
+	KNc5xmUsrRVs9m5IWIfNKkY+IvxIWCzCErqpmlklm0TqToNrfE6uSrmgnK3F7CibH14tZuqnKucWw
+	ZIN1pn4Q==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rHoRC-00B6zo-35;
+	Mon, 25 Dec 2023 17:08:23 +0000
+Message-ID: <df7d110b-a50c-4293-b5d4-45913fa6909e@infradead.org>
+Date: Mon, 25 Dec 2023 09:08:22 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128204938.1453583-16-pasha.tatashin@soleen.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
+Content-Language: en-US
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>
+References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
+ <009fcdc4-b10a-4ab9-b368-7cea75bb74e2@infradead.org>
+ <0f04dd81-1b0f-4408-b4de-63a01895b0a5@oracle.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <0f04dd81-1b0f-4408-b4de-63a01895b0a5@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 28, 2023 at 08:49:37PM +0000, Pasha Tatashin wrote:
-> iommu allocations should be accounted in order to allow admins to
-> monitor and limit the amount of iommu memory.
+
+
+On 12/25/23 00:30, Vegard Nossum wrote:
 > 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-
-> ---
->  drivers/vhost/vdpa.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> On 25/12/2023 08:40, Randy Dunlap wrote:
+>> I do see one thing that I don't like in the generated html output.
+>> It's not a problem with this patch.
+>> The #defines for DRM_NOUVEAU_VM_BIND_OP_MAP etc. have a ';' at the
+>> end of each line:
+>>
+>> struct drm_nouveau_vm_bind_op {
+>>      __u32 op;
+>> #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0;
+>> #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1;
+>>      __u32 flags;
+>> #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8);
+>>      __u32 handle;
+>>      __u32 pad;
+>>      __u64 addr;
+>>      __u64 bo_offset;
+>>      __u64 range;
+>> };
 > 
-> diff --git a/drivers/vhost/vdpa.c b/drivers/vhost/vdpa.c
-> index da7ec77cdaff..a51c69c078d9 100644
-> --- a/drivers/vhost/vdpa.c
-> +++ b/drivers/vhost/vdpa.c
-> @@ -968,7 +968,8 @@ static int vhost_vdpa_map(struct vhost_vdpa *v, struct vhost_iotlb *iotlb,
->  			r = ops->set_map(vdpa, asid, iotlb);
->  	} else {
->  		r = iommu_map(v->domain, iova, pa, size,
-> -			      perm_to_iommu_flags(perm), GFP_KERNEL);
-> +			      perm_to_iommu_flags(perm),
-> +			      GFP_KERNEL_ACCOUNT);
->  	}
->  	if (r) {
->  		vhost_iotlb_del_range(iotlb, iova, iova + size - 1);
-> -- 
-> 2.43.0.rc2.451.g8631bc7472-goog
+> Do we actually ever want preprocessor directives to appear inside
+> definitions in the output? If not, I think this should work:
 
+Not necessarily.
+
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 3cdc7dba37e3..61425fc9645e 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -1259,6 +1259,8 @@ sub dump_struct($$) {
+>                 $clause =~ s/\s+$//;
+>                 $clause =~ s/\s+/ /;
+>                 next if (!$clause);
+> +               # skip preprocessor directives
+> +               next if $clause =~ m/^#/;
+>                 $level-- if ($clause =~ m/(\})/ && $level > 1);
+>                 if (!($clause =~ m/^\s*#/)) {
+>                         $declaration .= "\t" x $level;
+> 
+> 
+
+but that didn't work for me.
+I don't have time to look into it any more today.  :)
+
+Thanks.
+
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
