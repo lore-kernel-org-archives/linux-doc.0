@@ -1,187 +1,195 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3B5101CA
-	for <linux-doc@vger.kernel.org>; Sun, 24 Dec 2023 21:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C365E15AF
+	for <linux-doc@vger.kernel.org>; Mon, 25 Dec 2023 06:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="z9mPQgBL"
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-35ffc781b3bso59995ab.1
-        for <linux-doc@vger.kernel.org>; Sun, 24 Dec 2023 13:49:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1703454581; x=1704059381; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O0HiuPkhATpCWAkLMW05BPxTgagJyPS45hssBqZfyJY=;
-        b=z9mPQgBLpTmNdiIE+lLUIbokt+5Zsl88zuLfix0gYut1VGsyrvZEi4/UsUvsGMj6LT
-         rZAGxqUwMmsrJxrrp7BFPKcNOMyw7lY1ZvGwC0cphM6X5N0AoORQyG9Fd+Dg84e9Iwga
-         f+f74NsFtJm3OS5/pJgslIam6k6PcbhmpMKL1xx8DpiJTRMDcuQbQ7JyUlGzx7z2mGRF
-         57p2VqwBB6VhZ+I2Dsy2FyHN/+sWl3HdzaffuIB6mIEahBtEZhqFgKq5WnlQ4wFeaPGu
-         dmFoHsDQ8k2CQOoo4BwZqvabcJkg5AOM4Fe88Fy3oBpAouzAbkmnv27IbVirpdC9e20Y
-         5ijw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703454581; x=1704059381;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O0HiuPkhATpCWAkLMW05BPxTgagJyPS45hssBqZfyJY=;
-        b=vr9SF5P1SymNFKgJJ9wqw3HgqRq4yXxCMPo8g+MVyZ9Cv82jIDLDb3QZzXvzfbv+Hj
-         lcoe+NDbR8K0Q9oXSCSFw+oqXrSmyrVyLCtD3sIK/3/eZeZr+Rr5WNqnjhhTqMLAdx6N
-         VxDkQN6sze/opPadAoMb78ZvNq+GAgr1YqiJEzCJBOfzudM/1yHPRJkKVi/3j4ufKGsq
-         xTGLYl9AUuljJBGyRxRwLn5eOIxNkrXepHZeaGfeCzzArZl9tZLXBFIeYb7SJy77ZQo2
-         CewUEfiBxoFKk+XYFsCmpF388qLmXMHUNnHlJkPrnrQwo160fcUiar4MNfnNbcH23JnM
-         ltpQ==
-X-Gm-Message-State: AOJu0YwxThUbGUWp16grydPFYi+qHwZ7VFWVZlLzEpDn38wVbvvfc/Se
-	JLAQJvN2W8G8gqk4z7z7JC9pFrpGYkB4
-X-Google-Smtp-Source: AGHT+IHO1o4MpTmRsY4pG5iPw80zAps+6fJHAueY55ciRhpJtDvuIlpvxAKJ08/tY4qG55yyTyBfTQ==
-X-Received: by 2002:a05:6e02:3001:b0:35f:b200:2fb5 with SMTP id bd1-20020a056e02300100b0035fb2002fb5mr495955ilb.11.1703454581205;
-        Sun, 24 Dec 2023 13:49:41 -0800 (PST)
-Received: from [2620:0:1008:15:c723:e11e:854b:ac88] ([2620:0:1008:15:c723:e11e:854b:ac88])
-        by smtp.gmail.com with ESMTPSA id l18-20020a62be12000000b006ce95e37a40sm6824858pff.111.2023.12.24.13.49.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Dec 2023 13:49:40 -0800 (PST)
-Date: Sun, 24 Dec 2023 13:49:39 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-    asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-    cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-    dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
-    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
-    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
-Subject: Re: [PATCH v2 00/10] IOMMU memory observability
-In-Reply-To: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
-Message-ID: <2913539c-68f1-5597-df64-99a884a60e0a@google.com>
-References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Cjx4i/O3"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BONlFCB031298;
+	Mon, 25 Dec 2023 06:52:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=FQZNYX+urMxp/YMleW1fr576KolT4Mh4EiS0z2ulfVc=;
+ b=Cjx4i/O3Ifu/YhhHIs/Y3taoSSIJD4ip9DOHCwQDIxUQ6dxooyGG4cipqpTJitS5SJbw
+ btbEw34v56LhbvJRHBWGF7FHmJPHlpw2IhUqVCbVzeWR1VWB0Clo50Kv7fiXYCKb8URx
+ T3/o8jhQp0Ti96Iz4o59DxpWRMxUhFniNjGuKT45MOJFFp2SBEWYeIUQxRlzKzpLZP6u
+ uP5ffjbLnL6OPcQLQJYbgjUafsQqpbSSgrHIS44AtdWiZMeGKORkazb7nMesLSmmBiZX
+ mxaNvcsev8meNV1fi9YjtVNYxSa1E/L8aFuqCrZ7YZKPRxK8eIRiocNb7tgcN44zjFyN Bw== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3v5qeb22qx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 25 Dec 2023 06:52:05 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BP6n5xY005487;
+	Mon, 25 Dec 2023 06:52:05 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3v73a6m1bk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 25 Dec 2023 06:52:05 +0000
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BP6q4Md015576;
+	Mon, 25 Dec 2023 06:52:04 GMT
+Received: from localhost.localdomain (dhcp-10-175-53-209.vpn.oracle.com [10.175.53.209])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3v73a6m172-1;
+	Mon, 25 Dec 2023 06:52:04 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+        Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
+Date: Mon, 25 Dec 2023 07:51:45 +0100
+Message-Id: <20231225065145.3060754-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-25_03,2023-12-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 adultscore=0
+ mlxlogscore=999 bulkscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2312250049
+X-Proofpoint-GUID: 8Qnq6aKAqnTJiQcG022k2VjpaDP0PE9u
+X-Proofpoint-ORIG-GUID: 8Qnq6aKAqnTJiQcG022k2VjpaDP0PE9u
 
-On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+As of commit b77fdd6a48e6 ("scripts/kernel-doc: restore warning for
+Excess struct/union"), we see the following warnings when running 'make
+htmldocs':
 
-> IOMMU subsystem may contain state that is in gigabytes. Majority of that
-> state is iommu page tables. Yet, there is currently, no way to observe
-> how much memory is actually used by the iommu subsystem.
-> 
-> This patch series solves this problem by adding both observability to
-> all pages that are allocated by IOMMU, and also accountability, so
-> admins can limit the amount if via cgroups.
-> 
-> The system-wide observability is using /proc/meminfo:
-> SecPageTables:    438176 kB
-> 
-> Contains IOMMU and KVM memory.
-> 
-> Per-node observability:
-> /sys/devices/system/node/nodeN/meminfo
-> Node N SecPageTables:    422204 kB
-> 
-> Contains IOMMU and KVM memory memory in the given NUMA node.
-> 
-> Per-node IOMMU only observability:
-> /sys/devices/system/node/nodeN/vmstat
-> nr_iommu_pages 105555
-> 
-> Contains number of pages IOMMU allocated in the given node.
-> 
-> Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
-> 
-> With the change, iova_stress[1] stops as limit is reached:
-> 
-> # ./iova_stress
-> iova space:     0T      free memory:   497G
-> iova space:     1T      free memory:   495G
-> iova space:     2T      free memory:   493G
-> iova space:     3T      free memory:   491G
-> 
-> stops as limit is reached.
-> 
+  ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_MAP' description in 'drm_nouveau_vm_bind_op'
+  ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_UNMAP' description in 'drm_nouveau_vm_bind_op'
+  ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_SPARSE' description in 'drm_nouveau_vm_bind_op'
+  ./include/uapi/drm/nouveau_drm.h:336: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_RUN_ASYNC' description in 'drm_nouveau_vm_bind'
 
-I think this is *very* useful to provide visibility into a significant 
-amount of memory that we currently cannot observe on a host.  It can help 
-to uncover bugs and shed light onto a particularly large amount of memory 
-that would otherwise be mysterious.
+The problem is that these values are #define constants, but had kerneldoc
+comments attached to them as if they were actual struct members.
 
-Joerg, Will, Robin, I think this series would go through the 
-git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tree since it 
-depends on a common framework for all other IOMMU implementations to then 
-use?
+There are a number of ways we could fix this, but I chose to draw
+inspiration from include/uapi/drm/i915_drm.h, which pulls them into the
+corresponding kerneldoc comment for the struct member that they are
+intended to be used with.
 
-Any concerns about this patch series?  It would be very useful for us to 
-create visibility into this memory.
+To keep the diff readable, there are a number of things I _didn't_ do in
+this patch, but which we should also consider:
 
+- This is pretty good documentation, but it ends up in gpu/driver-uapi,
+  which is part of subsystem-apis/ when it really ought to display under
+  userspace-api/ (the "Linux kernel user-space API guide" book of the
+  documentation).
 
-Pasha: any chance of adding a selftest that can be run that will test the 
-value of nr_iommu_pages?  I could imagine in the future that a bug could 
-be introduced where either an allocation or free is done through 
-alloc_pages() directly and its paired alloc/free function now results in a 
-leak or underflow.
+- More generally, we might want a warning if include/uapi/ files are
+  kerneldoc'd outside userspace-api/.
 
-> This series encorporates suggestions that came from the discussion
-> at LPC [2].
-> ----------------------------------------------------------------------
-> [1] https://github.com/soleen/iova_stress
-> [2] https://lpc.events/event/17/contributions/1466
-> ----------------------------------------------------------------------
-> Previous versions
-> v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
-> ----------------------------------------------------------------------
-> 
-> Pasha Tatashin (10):
->   iommu/vt-d: add wrapper functions for page allocations
->   iommu/amd: use page allocation function provided by iommu-pages.h
->   iommu/io-pgtable-arm: use page allocation function provided by
->     iommu-pages.h
->   iommu/io-pgtable-dart: use page allocation function provided by
->     iommu-pages.h
->   iommu/exynos: use page allocation function provided by iommu-pages.h
->   iommu/rockchip: use page allocation function provided by iommu-pages.h
->   iommu/sun50i: use page allocation function provided by iommu-pages.h
->   iommu/tegra-smmu: use page allocation function provided by
->     iommu-pages.h
->   iommu: observability of the IOMMU allocations
->   iommu: account IOMMU allocated memory
-> 
->  Documentation/admin-guide/cgroup-v2.rst |   2 +-
->  Documentation/filesystems/proc.rst      |   4 +-
->  drivers/iommu/amd/amd_iommu.h           |   8 -
->  drivers/iommu/amd/init.c                |  91 +++++-----
->  drivers/iommu/amd/io_pgtable.c          |  13 +-
->  drivers/iommu/amd/io_pgtable_v2.c       |  20 +-
->  drivers/iommu/amd/iommu.c               |  13 +-
->  drivers/iommu/exynos-iommu.c            |  14 +-
->  drivers/iommu/intel/dmar.c              |  10 +-
->  drivers/iommu/intel/iommu.c             |  47 ++---
->  drivers/iommu/intel/iommu.h             |   2 -
->  drivers/iommu/intel/irq_remapping.c     |  10 +-
->  drivers/iommu/intel/pasid.c             |  12 +-
->  drivers/iommu/intel/svm.c               |   7 +-
->  drivers/iommu/io-pgtable-arm.c          |   7 +-
->  drivers/iommu/io-pgtable-dart.c         |  37 ++--
->  drivers/iommu/iommu-pages.h             | 231 ++++++++++++++++++++++++
->  drivers/iommu/rockchip-iommu.c          |  14 +-
->  drivers/iommu/sun50i-iommu.c            |   7 +-
->  drivers/iommu/tegra-smmu.c              |  18 +-
->  include/linux/mmzone.h                  |   5 +-
->  mm/vmstat.c                             |   3 +
->  22 files changed, 390 insertions(+), 185 deletions(-)
->  create mode 100644 drivers/iommu/iommu-pages.h
-> 
-> -- 
-> 2.43.0.rc2.451.g8631bc7472-goog
-> 
-> 
-> 
+- I'd consider it cleaner if the #defines appeared between the kerneldoc
+  for the member and the member itself (which is something other DRM-
+  related UAPI docs do).
+
+- The %IDENTIFIER kerneldoc syntax is intended for "constants", and is
+  more appropriate in this context than ``IDENTIFIER`` or &IDENTIFIER.
+  The DRM docs aren't very consistent on this.
+
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ include/uapi/drm/nouveau_drm.h | 56 ++++++++++++++++------------------
+ 1 file changed, 27 insertions(+), 29 deletions(-)
+
+diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+index 0bade1592f34..c95ef8a4d94a 100644
+--- a/include/uapi/drm/nouveau_drm.h
++++ b/include/uapi/drm/nouveau_drm.h
+@@ -238,34 +238,32 @@ struct drm_nouveau_vm_init {
+ struct drm_nouveau_vm_bind_op {
+ 	/**
+ 	 * @op: the operation type
++	 *
++	 * Supported values:
++	 *
++	 * %DRM_NOUVEAU_VM_BIND_OP_MAP - Map a GEM object to the GPU's VA
++	 * space. Optionally, the &DRM_NOUVEAU_VM_BIND_SPARSE flag can be
++	 * passed to instruct the kernel to create sparse mappings for the
++	 * given range.
++	 *
++	 * %DRM_NOUVEAU_VM_BIND_OP_UNMAP - Unmap an existing mapping in the
++	 * GPU's VA space. If the region the mapping is located in is a
++	 * sparse region, new sparse mappings are created where the unmapped
++	 * (memory backed) mapping was mapped previously. To remove a sparse
++	 * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
+ 	 */
+ 	__u32 op;
+-/**
+- * @DRM_NOUVEAU_VM_BIND_OP_MAP:
+- *
+- * Map a GEM object to the GPU's VA space. Optionally, the
+- * &DRM_NOUVEAU_VM_BIND_SPARSE flag can be passed to instruct the kernel to
+- * create sparse mappings for the given range.
+- */
+ #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0
+-/**
+- * @DRM_NOUVEAU_VM_BIND_OP_UNMAP:
+- *
+- * Unmap an existing mapping in the GPU's VA space. If the region the mapping
+- * is located in is a sparse region, new sparse mappings are created where the
+- * unmapped (memory backed) mapping was mapped previously. To remove a sparse
+- * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
+- */
+ #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1
+ 	/**
+ 	 * @flags: the flags for a &drm_nouveau_vm_bind_op
++	 *
++	 * Supported values:
++	 *
++	 * %DRM_NOUVEAU_VM_BIND_SPARSE - Indicates that an allocated VA
++	 * space region should be sparse.
+ 	 */
+ 	__u32 flags;
+-/**
+- * @DRM_NOUVEAU_VM_BIND_SPARSE:
+- *
+- * Indicates that an allocated VA space region should be sparse.
+- */
+ #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8)
+ 	/**
+ 	 * @handle: the handle of the DRM GEM object to map
+@@ -301,17 +299,17 @@ struct drm_nouveau_vm_bind {
+ 	__u32 op_count;
+ 	/**
+ 	 * @flags: the flags for a &drm_nouveau_vm_bind ioctl
++	 *
++	 * Supported values:
++	 *
++	 * %DRM_NOUVEAU_VM_BIND_RUN_ASYNC - Indicates that the given VM_BIND
++	 * operation should be executed asynchronously by the kernel.
++	 *
++	 * If this flag is not supplied the kernel executes the associated
++	 * operations synchronously and doesn't accept any &drm_nouveau_sync
++	 * objects.
+ 	 */
+ 	__u32 flags;
+-/**
+- * @DRM_NOUVEAU_VM_BIND_RUN_ASYNC:
+- *
+- * Indicates that the given VM_BIND operation should be executed asynchronously
+- * by the kernel.
+- *
+- * If this flag is not supplied the kernel executes the associated operations
+- * synchronously and doesn't accept any &drm_nouveau_sync objects.
+- */
+ #define DRM_NOUVEAU_VM_BIND_RUN_ASYNC 0x1
+ 	/**
+ 	 * @wait_count: the number of wait &drm_nouveau_syncs
+-- 
+2.34.1
+
