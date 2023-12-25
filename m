@@ -1,113 +1,118 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B302524AC;
-	Mon, 25 Dec 2023 13:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C67152F6D
+	for <linux-doc@vger.kernel.org>; Mon, 25 Dec 2023 16:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RevVVwKj"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6d099d316a8so3604420b3a.0;
-        Mon, 25 Dec 2023 05:55:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703512550; x=1704117350; darn=vger.kernel.org;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DQDRirBfKKu4jOrue0tUkAqdRYM+XKPGLgDKcTkbvWA=;
-        b=RevVVwKj6DBQlntZIWTjcNYvlfwlqNwlPLT0GAz5ETfe8gJrWmZLVZiAIOoUhnneai
-         VUt5gIDuvEhTxXLwLfZtIDwmvuJWxLlCT4AmMuZM/ZHnkxxdIbvOrklh/tayBxN25SGA
-         I4yvRJYmDxi7SAVumUFG4Il4fXKlDpekeolCy7JaacP5SR3f/VEvS94A1df7cmTbcN7d
-         NV7qPgA11gkJ2n3aGsLl4p7gckgbyXHjPKZhgxAL+sNSEzI/JTdvAPXSQ0BGGHRi2Vif
-         HYLR1XoiGtIMXToLPcaSAWK60SHlF9Nm4QNQb8NBYfAX8MgzgzqSmFDYWohTUfBbaQRf
-         aWNA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D9mqPlfT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1703520585;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VqafsTsLWFL6NUacBRAsGtc9kpoOdr+j/kVqdz2KGps=;
+	b=D9mqPlfTwYuNJi4B6KW9virIn25oAF6KJO1DPRjL3QgxGoYi/aZvQhQ6SxaAucfl1mfkTI
+	2BhAsqnTfOgOxR+qFBkoEO02/lLWZdSG4DtRAMJ7mE1KRUKAFVGeLstdjJ6VVrBdaG+4BT
+	HC6YfH4aB8ZfJIQTKQ076gm3A3IuBSk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-488-z-tIQYLdPvSFMDQfhbH5sQ-1; Mon, 25 Dec 2023 11:09:44 -0500
+X-MC-Unique: z-tIQYLdPvSFMDQfhbH5sQ-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-40d47b001f7so22264915e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 25 Dec 2023 08:09:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703512550; x=1704117350;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DQDRirBfKKu4jOrue0tUkAqdRYM+XKPGLgDKcTkbvWA=;
-        b=NJfBPOlLDa0PDw71MeyERFeXNal87cpZ7fC7egd4ZwvRR2Bu5uw2JdX0fi8tUAuRMz
-         D2X1lbtFVFQRY0qypiuL3YDHmAq6Zu/gV3ybj4siQ5TlzPex0R1+itcOl5cP7rIbOUQz
-         OenoCCEhMs7E0JFdVBTfK+hpKCTS7yaTRQIadZT+43jpwhaRGXCh2Hs0R5mVGDjmIKjQ
-         2gCqg2CbrIRxB9VH32+JHxa/PZDsYQPJ+dnPm49YXOzIeo4VCrtN3cMYfDTq1m0gBH/Z
-         NHtWouS5TQ6Bwoevc9LWcWTelF2Csf6OPoxLktBb2uvrTBaHJMX8WFh22QtQ/I3oxml6
-         6SPA==
-X-Gm-Message-State: AOJu0Yy+Pz8btCqXChioBW4Dvg3gayyyVA6IC0OmL7MUf2u423IGIALI
-	FKmsW9EK6ab1mijBYaLd7J4=
-X-Google-Smtp-Source: AGHT+IG59G1LSj7Se2+3+49YaCUFtV38BC2bYVSUV4Q/ViyW4rnvflyTan011DTVyVimmqJSzr+AJA==
-X-Received: by 2002:a05:6a00:2383:b0:6d9:c201:676b with SMTP id f3-20020a056a00238300b006d9c201676bmr820525pfc.24.1703512550263;
-        Mon, 25 Dec 2023 05:55:50 -0800 (PST)
-Received: from ruipeng-ThinkCentre-M730e-N010.company.local (014136220210.static.ctinets.com. [14.136.220.210])
-        by smtp.gmail.com with ESMTPSA id e8-20020aa78c48000000b006d9b66f3d07sm2300822pfd.95.2023.12.25.05.55.44
+        d=1e100.net; s=20230601; t=1703520583; x=1704125383;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VqafsTsLWFL6NUacBRAsGtc9kpoOdr+j/kVqdz2KGps=;
+        b=EsVWQ4ywhhFGVjY4vIfw4XqQlM/280bq2juEEwI9dod2sTcRjXJ1PKJ1v8GQ4qUv2r
+         Ouz6J/+tUTG1CoWDk5qfnkkFEMY2UnP3B9oOd/lSCVXpGP19GRtPWvdqUzXM4kmsHnSw
+         OCC0je7jbEnrHKHfN8lvDhIKgN9ZiFiRGiV+WnYA01Y0vXRXixxxY1BujDOxx88zbTMH
+         67pPYh5bYgPv5IPHNFv8/VAih1Bo7DVJ8G3zqNsy5tWCtzumqW9C0a8sl2/blqMjTgcd
+         nfMe9eEO0bkkHgMMYfJ47onRT1a1qaQCZms3xUwS4us8o6b3k83SgBefq+yGwaUn1Lac
+         ATEw==
+X-Gm-Message-State: AOJu0YzDnVouDFZMpu4bYEcAfzgbOn7MFAje+Myl+Q1DoVDlVq9JaGwh
+	V+lCy28uxon8C7g4bNPf90SVcYSIIPEyhbbkszmFMOmdB+rwUArDwnpwz/4yPhfYvatLbFB9Egf
+	NKBe7q5Fpf7tRwM/ZWaXVy0s6391P
+X-Received: by 2002:a05:600c:4587:b0:40c:33be:d193 with SMTP id r7-20020a05600c458700b0040c33bed193mr4060355wmo.78.1703520582992;
+        Mon, 25 Dec 2023 08:09:42 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHfGGCax+SlWX/roShT1Wqm6zJg2zHkXbA4PNy8JwUTudzLUljk5TaAwhoH/7jZ8kvUv2pY7Q==
+X-Received: by 2002:a05:600c:4587:b0:40c:33be:d193 with SMTP id r7-20020a05600c458700b0040c33bed193mr4060329wmo.78.1703520582646;
+        Mon, 25 Dec 2023 08:09:42 -0800 (PST)
+Received: from redhat.com ([2a06:c701:73ef:4100:2cf6:9475:f85:181e])
+        by smtp.gmail.com with ESMTPSA id f12-20020a05600c4e8c00b0040d3db8186fsm16769282wmq.5.2023.12.25.08.09.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Dec 2023 05:55:49 -0800 (PST)
-From: Ruipeng Qi <ruipengqi7@gmail.com>
-To: quic_mojha@quicinc.com
-Cc: agross@kernel.org,
-	alim.akhtar@samsung.com,
-	andersson@kernel.org,
-	bmasney@redhat.com,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	gpiccoli@igalia.com,
-	keescook@chromium.org,
-	kernel@quicinc.com,
-	kgene@kernel.org,
-	konrad.dybcio@linaro.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	mathieu.poirier@linaro.org,
-	matthias.bgg@gmail.com,
-	nm@ti.com,
-	robh+dt@kernel.org,
-	tony.luck@intel.com,
-	vigneshr@ti.com,
-	qiruipeng@lixiang.com
-Subject: RESEND: Re: [Patch v6 03/12] docs: qcom: Add qualcomm minidump guide
-Date: Mon, 25 Dec 2023 21:55:42 +0800
-Message-Id: <20231225135542.1789-1-ruipengqi7@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <1700864395-1479-4-git-send-email-quic_mojha@quicinc.com>
-References: <1700864395-1479-4-git-send-email-quic_mojha@quicinc.com>
+        Mon, 25 Dec 2023 08:09:41 -0800 (PST)
+Date: Mon, 25 Dec 2023 11:09:37 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
+	alim.akhtar@samsung.com, alyssa@rosenzweig.io,
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com,
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net,
+	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
+	heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
+	jernej.skrabec@gmail.com, jgg@ziepe.ca, jonathanh@nvidia.com,
+	joro@8bytes.org, kevin.tian@intel.com,
+	krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org,
+	robin.murphy@arm.com, samuel@sholland.org,
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev,
+	thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com,
+	vdumpa@nvidia.com, virtualization@lists.linux.dev, wens@csie.org,
+	will@kernel.org, yu-cheng.yu@intel.com
+Subject: Re: [PATCH 15/16] vhost-vdpa: account iommu allocations
+Message-ID: <20231225110930-mutt-send-email-mst@kernel.org>
+References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
+ <20231128204938.1453583-16-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231128204938.1453583-16-pasha.tatashin@soleen.com>
 
-<+How a kernel client driver can register region with minidump
-<+------------------------------------------------------------
-<+
-<+Client driver can use ``qcom_minidump_region_register`` API's to register
-<+and ``qcom_minidump_region_unregister`` to unregister their region from
-<+minidump driver.
-<+
-<+Client needs to fill their region by filling ``qcom_minidump_region``
-<+structure object which consists of the region name, region's virtual
-<+and physical address and its size.
+On Tue, Nov 28, 2023 at 08:49:37PM +0000, Pasha Tatashin wrote:
+> iommu allocations should be accounted in order to allow admins to
+> monitor and limit the amount of iommu memory.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-Hi, Mukesh, wish you a good holiday :)
 
-I have the following idea, please help me to assess whether this can be
-implemented or not. As we all know, most of the kernel objects are
-allocated by the slab sub-system.I wonder if we can dump all memory
-keeped by the slab sub-system? If so,  we got most of the kernel objects
-which will be helpful to fix problems when we run with system issues.
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-How can we do this? From the description above, I think we should
-register one region for each slab,  for each slab will have some pages,
-and the memory between each slab is non-continuous. As we all
-know, there are millions of slabs in the system, so if we dump slabs
-in this way, it will introduce a heavy overhead.
 
-I am not very familiar with qualcomm minidump, maybe my thought
-is wrong. Looking forward to your reply!
+> ---
+>  drivers/vhost/vdpa.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/vhost/vdpa.c b/drivers/vhost/vdpa.c
+> index da7ec77cdaff..a51c69c078d9 100644
+> --- a/drivers/vhost/vdpa.c
+> +++ b/drivers/vhost/vdpa.c
+> @@ -968,7 +968,8 @@ static int vhost_vdpa_map(struct vhost_vdpa *v, struct vhost_iotlb *iotlb,
+>  			r = ops->set_map(vdpa, asid, iotlb);
+>  	} else {
+>  		r = iommu_map(v->domain, iova, pa, size,
+> -			      perm_to_iommu_flags(perm), GFP_KERNEL);
+> +			      perm_to_iommu_flags(perm),
+> +			      GFP_KERNEL_ACCOUNT);
+>  	}
+>  	if (r) {
+>  		vhost_iotlb_del_range(iotlb, iova, iova + size - 1);
+> -- 
+> 2.43.0.rc2.451.g8631bc7472-goog
 
-Best Regards
-Ruipeng
