@@ -1,172 +1,224 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02olkn2067.outbound.protection.outlook.com [40.92.44.67])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2067.outbound.protection.outlook.com [40.107.237.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5993D45024;
-	Wed, 27 Dec 2023 12:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF5245945;
+	Wed, 27 Dec 2023 15:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="L0ekbM4a"
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="K+B4/0UV"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U7kYHfcCCCk9NBVSQS7WDEQapeXpSiCpGfgb4RCaEh0xV6/YyqRrenin2hnw06QGKdVJ40fWj8b/Be3hwIj/jf9Xf/QMy2M9piFmre+bla/7ZYtOQkRoHtBkAIVIwCFYyV2rmCX0htHBNehCMVCr2FybjD+nor17bzH831QBTD2kFEdJ8Y3kOipBczFi5bv/33zZwZjhEd91tyeL++CvjQwzy4dDgMB+zkeVh4hDpqPbn5ehpiWX7HR8Kzn3HDSx/7FAeMjSTexKx6lpazt38nf3VzEhpureNFcQiEjxcLDMc6gtpCgp4fkMbD1cooCdEsBtEW3X+IVeBlwPGaDbxA==
+ b=MExrlb4EV1/aSrsXORvZCZGUVjOZyB3us847IyF6TBv4cLpoJe5Y9FvVvlBstTEtGFv5EpF8f0UlMncQ0cIH2foYO9W3KVTr0efacC56U3QsprweWsr/xCDlbe+AFnDAPTB2Bx1Aa2haJYcXhyTWzC5R6ltb8VJV0uRNDR51MflLcgZxT0PIyXxWlGgR5xjGIvYy0mW0p5WZGery2IJE7evubwNK9UdMqCEagm6qqU0VCvyCOx52xreZN+u5K/bdTPDHWN8rXkE3+yZ4Hl7RVJhKuolvtBPOPhLuSeADtilVOPj8F7vP/AIEHwF8pMANDlUueHJW5HL7IuSdK+bTgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8WKmhN3oaum3h6LjZNz9y6Z8Qcj6KEDtaGLhzDG39to=;
- b=oPsrWjk/j1Ewc9eBP13EVwtF/H6b6CppMZ8M5uJYQMVZKJ+fJG7lEvzil7dhrjofugKofTip2AEXsGK5mBTuQ1wzFrhIbxd6O7EHDW3M2MV/nb0vvC4+PVsHvNoRtQOvqTRcDESOm6pKTovngW8OrY37/cKI2m9zsaOyyN+KtVV2uam2YEUAKFc9tj65QHkpR3L6JcX7F0lFrow3sS6s2TqOFJFpGQajxMCVjXTtOfb0b92p4py0oDhbENy6GWEzvJ6AetYEvxruXm71fjbWer2Fcq6TVTDFRl/fILSBTsYp+PFccdbyXrmc/nRr9CMY1tADhEHOAAVvE6qNSc/YcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=6SCie4LiyBmBcd42exlaOWGFfRUnotAoWlMTSp+guEo=;
+ b=UNPNig0AI9iecLTqGI/BPEjrIB/oYz6reR2sOzKwrzDB7mZ/K/rmdQojVlw9DEoDdCTKXbcXwrYAtfHT31qVyBMCpee8dh0zI6q4/6qEn/Il6UTLHdR7XYfDZi9NGYWKVZhPJvdhKNoTnf8aVXhMqG5VWnne0Kbgm7D39fZS49+v9fEHk+qz2YwhlL5WxgzJWPNg5d7hSSRKZLKpML7ycwwWtB2PEa5U5K4sxo8+9mTZVzPK3ebYTS6BCbGz3mODuJMTiyvoEAcnvcgWW98X3b9Wq7/rpeJXM4/cSnx+qyYPQGhaSMhODCR2KTBwKir7ZIAHphsWTpXUK8bStXj7+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8WKmhN3oaum3h6LjZNz9y6Z8Qcj6KEDtaGLhzDG39to=;
- b=L0ekbM4avvAerkWF5nHE9yZ4+ZuyOZZPSDK1JosL0DgtWTsu5CLpx1g/KWqTVR2Ad9cUm3/6GUnrZo0bet5Avekn+/926Os9DTxYLEwNTHrd+++VUwwg7gcuswLfFVHUu05UuE7ZQ8gqMfZC6iICZYbux2fbT26svdyklQGLOOzD6PGyrtf/JijrKufjgu002iZ+MFNrjatcGsfiAHGTQy0eGsFwPz1W0KS3futJa+q+3b7GfrQRmQrfN87eB85njipv0ZBv3KPfAMEnIhSD0EQ4oWmmXlHn/84l+qjGTuv/6aOL+sVsZ61myZwjZfrjyRhFVTZmLqkGheB30Y6THA==
-Received: from MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:303:1e1::10)
- by SJ2PR84MB3537.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:a03:569::12) with
+ bh=6SCie4LiyBmBcd42exlaOWGFfRUnotAoWlMTSp+guEo=;
+ b=K+B4/0UV33XTETHrz3dshvBP+1SRYCTLOtlt+dun+kvmvCvInXDJtOjC91YIGiBZN17Y1ddshuDWYNds0ZCNBwwS9YgUvUjXC7RbIPfYY2q1FYmP9aNCR+9ZiODNaGK2AW+K9cLeLVPRKknuERdxCIPDMNZ6VhsWycU8X4/FKWE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by SJ0PR17MB6548.namprd17.prod.outlook.com (2603:10b6:a03:4e5::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.19; Wed, 27 Dec
- 2023 12:31:39 +0000
-Received: from MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::6761:2623:329a:27d6]) by MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::6761:2623:329a:27d6%4]) with mapi id 15.20.7113.027; Wed, 27 Dec 2023
- 12:31:39 +0000
-From: Youling Tang <youling.tang@outlook.com>
-To: Huacai Chen <chenhuacai@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: WANG Xuerui <kernel@xen0n.name>,
-	Baoquan He <bhe@redhat.com>,
-	loongarch@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Youling Tang <tangyouling@kylinos.cn>
-Subject: [PATCH v2 2/2] docs: kdump: Update the crashkernel description for LoongArch
-Date: Wed, 27 Dec 2023 20:24:53 +0800
-Message-ID:
- <MW4PR84MB31451636462DB3F4FAEA3C8E819FA@MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20231227122453.8108-1-youling.tang@outlook.com>
-References: <20231227122453.8108-1-youling.tang@outlook.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [f0nd0XLLkSjQ3RafDmSuUUnnZ76rGGWvuhAJk5TQJIg=]
-X-ClientProxiedBy: SI2P153CA0001.APCP153.PROD.OUTLOOK.COM (2603:1096:4:140::7)
- To MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:303:1e1::10)
-X-Microsoft-Original-Message-ID:
- <20231227122453.8108-2-youling.tang@outlook.com>
+ 2023 15:29:26 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7113.027; Wed, 27 Dec 2023
+ 15:29:25 +0000
+Date: Tue, 26 Dec 2023 01:48:05 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
+	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
+	tj@kernel.org, corbet@lwn.net, rakie.kim@sk.com,
+	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
+	peterz@infradead.org, jgroves@micron.com, ravis.opensrc@micron.com,
+	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com,
+	seungjun.ha@samsung.com
+Subject: Re: [PATCH v5 01/11] mm/mempolicy: implement the sysfs-based
+ weighted_interleave interface
+Message-ID: <ZYp3JbcCPQc4fUrB@memverge.com>
+References: <20231223181101.1954-1-gregory.price@memverge.com>
+ <20231223181101.1954-2-gregory.price@memverge.com>
+ <877cl0f8oo.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877cl0f8oo.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-ClientProxiedBy: BYAPR04CA0009.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::22) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR84MB3145:EE_|SJ2PR84MB3537:EE_
-X-MS-Office365-Filtering-Correlation-Id: c78d6f71-e142-4c09-3715-08dc06d7c5ce
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SJ0PR17MB6548:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62deed50-ec3c-49fd-7f62-08dc06f09bdb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	yf53k3uOw4szmkcMbX5CFp8Wv9065HJILz8TbbOyCJRvgZIx/n0WK8sv93ZrOHw02xFi7NhoyU10qX6hhZbHiHPBcA2GINZPjMYwFPuCGNgKgXyt2Az+kD29VVNWfiJ8UKAHMUFSV2mqwHDMJK1EgxNn8S6bpN+flba/g5TgDjDtDIIp6dgIOh+oVZklrE3OGWRs7wL+Cs/HN17xrb6+uAZbast5QwPUg005+2nNWvd1lhHU5ay0LMpIKETcuE+zXFKIv8ptvl+stzMdtO635/c8c3TuY2bG32X7sMyifZULGXUYBwTFwVWs6Tc74SbNemEKSMEEsLbt2VyDpGpIk3YeNBPsBNCaGZx9NK+okjNaej/WpPSfJPrnuh+Y5CXnVJQdS+FPEy7yJ/6gePunAERiLXmjflIho4xPDc2ma6ghyZQrNnuHcyXuHdR53Vvm9as9O6eFlzg8KAkv7skC8K15hlHdlMWy8ZRLbu6HI23qblj9dzVR7oPUFEVW6HHTPZDAG3jL2LYUjTEEWDcvnsdbfg5emGwlmWIsOXWm4RyAGPdSG86ha2o3Dl77v5kQ
+	GZlJy2kprro7uWtVtXNjqk+mKO60/u8MjR5Vqk/YWEpOMuCDzcoL9Tp+CGKkKu/Q7SRsMqJiW8ckUxZ0qhnhn2u9xBQl4u2bckhr0vZxeOAmrkCIyTk7gIbLG81HCp3C37Hv9XxpxG0pAicE4Q3JHxOdYYXwsbZZ2A4vhrcA6z0hlCvqqhRZp5TcQjj8ds5dNUKlpsZphEkU69uOP47yVjPg92s4bZZLx8qL1nFQIHXkRiS1r/9VZZHPgAsnehprEKBtZhqp7ABiLUAZTewNmq2niVzApJCye+qQNB+gXU3ycq3mLrs9LlMdUu0F+lXquBOg3KWxMz83Yg7a8a5O5fr1aOcZishqq/1RddFsZ5K/EyyYcU7rHN+fWdq5TwWXTL87fg6HbhF8zZTWQzyTLn3K6qFcBRrqEfi8S8v0MtQYqA4R1zxoUMizap82nKT8uHJBzCjy89qdOXQqbfe7pWp6SjmAgZuoDDoUxfGeHDNj/gge3SOukJEvYneC6LfYr/TndpyPsCmDaOj7gGr7SUQpLWg33pC9jmTfRsfg77EBNZdw5HdxH62x7RFRCM+8frXdUbKC15PTTqzAcNIfpQv6ixqKSjRv1znG+1puOAXgZyp7ZzVQcZyTNVP+U/rsIIzMdNOOJ65TkX9aty4H6dlREc83jnEwSFzwEzvjQOs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(396003)(136003)(39840400004)(376002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(26005)(83380400001)(38100700002)(8676002)(66556008)(66476007)(6916009)(8936002)(316002)(66946007)(5660300002)(2906002)(4326008)(7406005)(7416002)(44832011)(6506007)(6512007)(2616005)(41300700001)(6486002)(6666004)(478600001)(86362001)(36756003)(16393002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?URw4ATaiS0EV2eomLohqho0xpWrsbpUz6FL1aY+Tf/oWQidMOHooW0be2KDK?=
- =?us-ascii?Q?MUhUoc3cvw7UGUGggR8KU4h6WMIO6MiUweA62t+180dn1SfxUOxD0thbgxrZ?=
- =?us-ascii?Q?GdhV5gwxyvSrXNBh+cuDgNZEdpPzbygHzPZ6G9h8K5L48228ZaaM0dqoudPd?=
- =?us-ascii?Q?IW3FuSQeclsVtlpcMO9DXGHY919OdVmTiN+R9vevwTnbXGvus3YGTO3PsSsB?=
- =?us-ascii?Q?P0xIGUQ7kn7ts7BW29UUcI1FLQAt9KlKq39zmwucNCjiQYJX8kEIfHzVC9S+?=
- =?us-ascii?Q?KrGrTprZmcDBJb+H7RShJFCIo9XtVfX0lqZ7AxXY2JwwgP7f4hmLApvicOxI?=
- =?us-ascii?Q?DLQ/oTkDfa5oxeKiCz7cMxyWt3+y3e7OmtfiwbzaL2K0xOjDB4DByILR1K3F?=
- =?us-ascii?Q?iHBGz/LhUJI0ciJ5R7dz7CqCg1MEWrfo6avO5jNgXcOXpOK3UD4BsjomdOg/?=
- =?us-ascii?Q?sNCWFTTygzFJqdPHLrI3PeLAuBk0BemQBujybkaC1OWRSuoBsAStpa5R3dVR?=
- =?us-ascii?Q?hvfU79SuN+0b09N03osksl7z6N/pSjtJaJEvnHOvCAw5vB3vBZZBlXsIRamw?=
- =?us-ascii?Q?Aj5fdRAdoAk0KQJ9c6UPBhcCXRIZxBcmi6lHAUNV2bb0J4KUNuXrE8tdVkYp?=
- =?us-ascii?Q?5cg7jH6syo1fSvqKuHKubPILvlLqkrokN1JA5d2ZvKAYj7gc2bfz0XqXMYRD?=
- =?us-ascii?Q?+4mcXTmig36WWVmnWw+AZuOPwi+q6XSOrGSWig7zbuEqxLkITMWWuhNlkKfm?=
- =?us-ascii?Q?JfHHu2dVz4sFBhlCyh8QnBQiinsMZ2Qzev9xkMOWvDbhvaeSVBpIbQHYWh31?=
- =?us-ascii?Q?T/wsGIAxBT0b97Qio8xRmshNGZMgOAwPQ7qa7ck/g9bjgWBDcNvmt/WDGXa9?=
- =?us-ascii?Q?pvEWMBM1I0O1GYfmdlzG4zT3MoMnD2VZKe1AxCDVniOX0eRo/y/NlCJGIsD4?=
- =?us-ascii?Q?9NiqWQxccogVBILU4Pe18P99t0AZeXro4qM0lOM24FMQOI/bLEBKNvpOff50?=
- =?us-ascii?Q?pwMtt4+Mb1zAYVqppuS+llxHRVv+8hwAfwOGcktO+/lZNKMewDL+ugE4tRkh?=
- =?us-ascii?Q?8uqYbpPvfuI94vX75W5xCWez9OF2RGJrIpvEahQ35/nPf6PfZP0KJYTbYBlL?=
- =?us-ascii?Q?nkapoS/0B0dENR+sx/9y8b+aCkg3RS1N8iQ4HLss5TVqqxhDGZPGeNBv4HUL?=
- =?us-ascii?Q?BRtQfH5mKrvV6LB08Pv8N7I6lu5lDBTAatJyIgp3VA14ILJIj6Psqh0nwrM?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c78d6f71-e142-4c09-3715-08dc06d7c5ce
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM
+	=?us-ascii?Q?OYPdG4aDkf1FTRiD7Nl6AIz3MvE+/I7cc9K+BTOCSvCIODkMhHJ2c5Hkcels?=
+ =?us-ascii?Q?SfSK1YHaEl3tM+s+poxzdMlrUrU7LO4tNV+kA5ou8ZB/p3FOqvMVVVWTO7LD?=
+ =?us-ascii?Q?9FQTbGPb7x4X9rWFv7GBvBjQLfo12QKPS67UhkILvuCVN2I0W6ZqJqx9gSla?=
+ =?us-ascii?Q?zdfvnjejtXiH/6Vl8wrbzSKjmsteaUSsECSNpdKrfetnX8oInfdfrnTGF4Y9?=
+ =?us-ascii?Q?++LtF+mQutQXIQAclFodzQUFQRA/b3YHqKgZqxtmqN7Cx7Ll0HWVOqY67f3I?=
+ =?us-ascii?Q?3mey55dDCMw1WfMb8fzrYfJD/ozsB+z+Ey/eYMtsGt4Cw4SAdStvZs5tRI50?=
+ =?us-ascii?Q?525c4MvqrWf7o/9yrXS3Ibf7DSy+9C6TkSWLP2dghpuawPxXHPwvwfitNXME?=
+ =?us-ascii?Q?1H0xvULMl5K1EYLTaikitFnR9nUvLUJLbJw5ynWsjcr5/zh5xDyr9eWsraQz?=
+ =?us-ascii?Q?aEXgOUS7x2LVoAhpLMT2T5wkzy7jCykwFfBbLQFBx2RtGygTXlicaxFIUW+H?=
+ =?us-ascii?Q?5/tVwSYKooB5HKy9MYQsQeueQ4qyICIlOaw7fnjXsPyNqBEjUS3ddPPFEkX0?=
+ =?us-ascii?Q?f5EYPPMScZTg8N9hfuEIiVDcCev3G3Ng4ZARv9ZPq77mmNbQ0Xs6sz92JxVe?=
+ =?us-ascii?Q?uHPtnc9NvJFVL8aXpww8BOdPjvCV2bsvp5QFiYt0qGCCaNLHo6sarBAu78X2?=
+ =?us-ascii?Q?TcHfrp610TtR2cIhLgtviEpELEdBbtpC01YjcekB3aZPFIRyyoy8C3qHJz5E?=
+ =?us-ascii?Q?CiNWNAUIXnZ7+xSNEyqMUMlEqctF9fBmwJw/HdTVf7qZvhdMawPIkcSFDK7T?=
+ =?us-ascii?Q?5AVjRcVQzL6rqa/mfZvfxWRUrvm9SwDPaObXBRB/LOVM0lIHYNeHxAsSQfBx?=
+ =?us-ascii?Q?Ww7pNPEl0UA3pBK9qhpTBFNPBT1n0dtLOkqF+4gZ0zIif2TUkk9XZmTqUTjc?=
+ =?us-ascii?Q?bmJswCaDus2QtXVAkAgzVTKtMcNZOgrHHshmtbBPuUiv/CsDfcsiy0f1AjHr?=
+ =?us-ascii?Q?TYK3HCw3wRrnRFUZzF3wUIAdet7EKgX4liICBSo2IsXF/otjraXPB0z85FRQ?=
+ =?us-ascii?Q?GhIcObE4rnhJQEcnvSNe+lJ//4oIkjW7HWCCmz8JcDw7f3iO7PeBmoFT4IGI?=
+ =?us-ascii?Q?r4CIftQCcesXN2TtufUNInOvlf+Fgv4SjkBKUA75AF1Crz3rkr5BMhSp9p6s?=
+ =?us-ascii?Q?gXQM6CKPyoxtauc1L8Xqo3wcy/A0H87OQazO5pxvzsLbDXqElqysnINO/tZW?=
+ =?us-ascii?Q?MXmtzSyvLI2EiAZM4D8BlK2HzSJ43+bAd1+7CNvKJ/vKJPf0usO/Z9gT/Tvd?=
+ =?us-ascii?Q?S77kpsy5Mo/jU/ZX85N9nzf6m5/fUy6rmadygOyHCd2jrZH/qXZpgG1ABHUL?=
+ =?us-ascii?Q?wwuH1IIFmoRHBD7XAhaKodMLI1pgehAhlLpZsxmcqc9NX8/QiZ/sj9EelX/q?=
+ =?us-ascii?Q?6ZTrbFrqURBkQiPvJ1wxts0Rr/QCilUNEi+Hfw++xLSXXnfGpoMkNcg4Fau3?=
+ =?us-ascii?Q?isvRTEEiW71Fge2GEDyKMhixuv/NPgbVXFYLGvf7llkJz4azvKutkTUhQqfI?=
+ =?us-ascii?Q?c2d/yvR1lztgzCmpPfGAqbGO9aZpQeNA/j3pcGM95DSd/1MMceUQTVU8Pfze?=
+ =?us-ascii?Q?hQ=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62deed50-ec3c-49fd-7f62-08dc06f09bdb
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 12:31:38.9742
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 15:29:25.7841
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR84MB3537
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 88gQ0xnxDEI7ZLr/uEzGef25HQ3bqlfqEsty13iitzl5SDwqISfXLX0dIRDa1AR2+NeVGTL2ZRszKTrC9hXdrT9sWN+iGFkIvPXRogTrU0Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB6548
 
-From: Youling Tang <tangyouling@kylinos.cn>
+On Wed, Dec 27, 2023 at 02:42:15PM +0800, Huang, Ying wrote:
+> Gregory Price <gourry.memverge@gmail.com> writes:
+> 
+> > +		These weights only affect new allocations, and changes at runtime
+> > +		will not cause migrations on already allocated pages.
+> > +
+> > +		Writing an empty string resets the weight value to 1.
+> 
+> I still think that it's a good idea to provide some better default
+> weight value with HMAT or CDAT if available.  So, better not to make "1"
+> as part of ABI?
+> 
 
-Now "crashkernel=" parameter on LoongArch has been updated to support
-crashkernel=X,[high,low].
+That's the eventual goal, but this is just the initial mechanism.
 
-Here update the parameter description accordingly.
+My current thought is that the CXL driver will apply weights as the
+system iterates through devices and creates numa nodes.  In the
+meantime, you have to give the "possible" nodes a default value to
+prevent nodes onlined after boot from showing up with 0-value.
 
-Signed-off-by: Youling Tang <tangyouling@kylinos.cn>
----
- .../admin-guide/kernel-parameters.txt         | 24 ++++++++++---------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+Not allowing 0-value weights is simply easier in many respects.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 65731b060e3f..f2633dd87a97 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -877,9 +877,9 @@
- 			memory region [offset, offset + size] for that kernel
- 			image. If '@offset' is omitted, then a suitable offset
- 			is selected automatically.
--			[KNL, X86-64, ARM64, RISCV] Select a region under 4G first, and
--			fall back to reserve region above 4G when '@offset'
--			hasn't been specified.
-+			[KNL, X86-64, ARM64, RISCV, LoongArch] Select a region
-+			under 4G first, and fall back to reserve region above
-+			4G when '@offset' hasn't been specified.
- 			See Documentation/admin-guide/kdump/kdump.rst for further details.
- 
- 	crashkernel=range1:size1[,range2:size2,...][@offset]
-@@ -890,25 +890,27 @@
- 			Documentation/admin-guide/kdump/kdump.rst for an example.
- 
- 	crashkernel=size[KMG],high
--			[KNL, X86-64, ARM64, RISCV] range could be above 4G.
-+			[KNL, X86-64, ARM64, RISCV, LoongArch] range could be
-+			above 4G.
- 			Allow kernel to allocate physical memory region from top,
- 			so could be above 4G if system have more than 4G ram
- 			installed. Otherwise memory region will be allocated
- 			below 4G, if available.
- 			It will be ignored if crashkernel=X is specified.
- 	crashkernel=size[KMG],low
--			[KNL, X86-64, ARM64, RISCV] range under 4G. When crashkernel=X,high
--			is passed, kernel could allocate physical memory region
--			above 4G, that cause second kernel crash on system
--			that require some amount of low memory, e.g. swiotlb
--			requires at least 64M+32K low memory, also enough extra
--			low memory is needed to make sure DMA buffers for 32-bit
--			devices won't run out. Kernel would try to allocate
-+			[KNL, X86-64, ARM64, RISCV, LoongArch] range under 4G.
-+			When crashkernel=X,high is passed, kernel could allocate
-+			physical memory region above 4G, that cause second kernel
-+			crash on system that require some amount of low memory,
-+			e.g. swiotlb requires at least 64M+32K low memory, also
-+			enough extra low memory is needed to make sure DMA buffers
-+			for 32-bit devices won't run out. Kernel would try to allocate
- 			default	size of memory below 4G automatically. The default
- 			size is	platform dependent.
- 			  --> x86: max(swiotlb_size_or_default() + 8MiB, 256MiB)
- 			  --> arm64: 128MiB
- 			  --> riscv: 128MiB
-+			  --> loongarch: 128MiB
- 			This one lets the user specify own low range under 4G
- 			for second kernel instead.
- 			0: to disable low allocation.
--- 
-2.40.0
+> > +
+> > +		Minimum weight: 1
+> 
+> Can weight be "0"?  Do we need a way to specify that a node don't want
+> to participate weighted interleave?
+> 
 
+In this code, weight cannot be 0.  My thoguht is that removing the node
+from the nodemask is the way to denote 0.
+
+The problem with 0 is hotplug, migration, and cpusets.mems_allowed.  
+
+Example issue:  Use set local weights to [1,0,1,0] for nodes [0-3],
+and has a cpusets.mems_allowed mask of (0, 2).
+
+Lets say the user migrates the task via cgroups from nodes (0,2) to
+(1,3).
+
+The task will instantly crash as basically OOM because weights of
+[1,0,1,0] will prevent memory from being allocations.
+
+Not allowing nodes weights of 0 is defensive.  Instead, simply removing
+the node from the nodemask and/or mems_allowed is both equivalent to and
+the preferred way to apply a weight of 0.
+
+> > +		Maximum weight: 255
+> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> > index 10a590ee1c89..0e77633b07a5 100644
+> > --- a/mm/mempolicy.c
+> > +++ b/mm/mempolicy.c
+> > @@ -131,6 +131,8 @@ static struct mempolicy default_policy = {
+> >  
+> >  static struct mempolicy preferred_node_policy[MAX_NUMNODES];
+> >  
+> > +static char iw_table[MAX_NUMNODES];
+> > +
+> 
+> It's kind of obscure whether "char" is "signed" or "unsigned".  Given
+> the max weight is 255 above, it's better to use "u8"?
+>
+
+bah, stupid mistake.  I will switch this to u8.
+
+> And, we may need a way to specify whether the weight has been overridden
+> by the user.
+> A special value (such as 255) can be used for that.  If
+> so, the maximum weight should be 254 instead of 255.  As a user space
+> interface, is it better to use 100 as the maximum value?
+> 
+
+There's global weights and local weights.  These are the global weights.
+
+Local weights are stored in task->mempolicy.wil.il_weights.
+
+(policy->mode_flags & MPOL_F_GWEIGHT) denotes the override.
+This is set if (mempolicy_args->il_weights) was provided.
+
+This simplifies the interface.
+
+(note: local weights are not introduced until the last patch 11/11)
+
+> > +
+> > +static void sysfs_mempolicy_release(struct kobject *mempolicy_kobj)
+> > +{
+> > +	int i;
+> > +
+> > +	for (i = 0; i < MAX_NUMNODES; i++)
+> > +		sysfs_wi_node_release(node_attrs[i], mempolicy_kobj);
+> 
+> IIUC, if this is called in error path (such as, in
+> add_weighted_interleave_group()), some node_attrs[] element may be
+> "NULL"?
+> 
+
+The null check is present in sysfs_wi_node_release
+
+if (!node_attr)
+	return;
+
+Is it preferable to pull this out? Seemed more defensive to put it
+inside the function.
+
+~Gregory
