@@ -1,90 +1,100 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBED524DC
-	for <linux-doc@vger.kernel.org>; Tue, 26 Dec 2023 18:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9AD4C67;
+	Tue, 26 Dec 2023 19:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="c1r+qaqy"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-427e55a172bso3594821cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 26 Dec 2023 10:24:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1703615053; x=1704219853; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nbpck61YwtlHFMw5U/Lo3wdHWoHYEKh8KkvQ9gudgQY=;
-        b=c1r+qaqyurG/qhmvIiqVHdz1oSnR58y8/ep/p9Whu9jRw5+k3eJhNB22Xs/8oj4pG/
-         2OBDehnEbI10I8U2bEqaL7JnryezxoBHQ00DcmtN1tv37Pg+ISiq87adHFdQMGsExiHj
-         ll8zFQduifkGaucAKFnhTUm7sWcNwVoAQmc3Ro0Av7Thc1RvbicelFo9odVvzwK+ZNnh
-         OPtsqe+hervrLOpVdfQM3I6EqtLpJchFDggTMQPxbdaBhtpWUsowxbx7T2kq1vCLuMIV
-         bIdidLSjvvq4TNof5HF/rT7tg8Sb3VfvQsvsMixLYLjRs3ubPqfaG38T6MP7R/RkjEmb
-         jftw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703615053; x=1704219853;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nbpck61YwtlHFMw5U/Lo3wdHWoHYEKh8KkvQ9gudgQY=;
-        b=Sgcg6VEfMu648tTuzsHdMUFc1Kk49ZPKAnJ/xjkkDxsIAg0mTz5p3UFzJcEYHzptb2
-         bVMWy03PtKL3OP3FkfhXcw0mzf3LsOrVpTQ8Wnj82zDhodOsurz+Bgl5jRWoS7gqIb53
-         9LoYOLBeECVIE4vPDfEAP+JQpzD0EhjlBowWUT4JAA9x1uMKJgcyEd4CVDQttd43xZX/
-         PNk8mxAi+xh1XkGWofivJjNdM8nAXkcTRjnMw5wb3SKG0C1coOblolSg8vD0OvCNmGLy
-         pLJf0gisnFx3mo4IPkbBumE/4tetUfKbvOBrBNBLxt3A8yHgRF/bqe1B7xg6CMjjyxbk
-         /MgQ==
-X-Gm-Message-State: AOJu0YyakPFxgy0ASoHEi1ImP2eLEkwpGdid7sCl9e4OFN007fwrNGbP
-	SwM2GHRZRp5f/GOGnTIrfeAyq4uJ1xqqhbBFUrelE78/gPm8WA==
-X-Google-Smtp-Source: AGHT+IFWmjNlQw3TJVBvqU22wp4AVqBkS4XAMC4VqHZ635t1MVhw4Y6RPWn1r1oeRtxRwF8xQLfAKRRH1Aun3pHsf+k=
-X-Received: by 2002:a05:622a:307:b0:427:7c4f:9d1a with SMTP id
- q7-20020a05622a030700b004277c4f9d1amr12102912qtw.31.1703615053674; Tue, 26
- Dec 2023 10:24:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ztqRwRly"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=9U5copr9xDoJG160dopatrz4QWoLK4jdJ0iC5TUWcmE=; b=ztqRwRlybhDpub6IodCHbbzPi6
+	qy3cy2/4BA6/kQXhUwl0foKUgdQsutlj/fWmfRjW+GdY6mKD7Jl4ttVHRJnoN2K9lsfmOo2Ga0wfL
+	U3DwCwgEE5VNXSVsEEc4IY9q7+fnnHmBCUbvyR9Wh9TUD8IbtwU1bzK3yGNxOhfZww8Oie1zxlJgv
+	5hWLFX8kSwFo8cTbdNv3F78SjD4D2gGHwnbwDC3GpZOGZy/VC91sl8p9+i7BvVPFuKKkOvRJk0J8O
+	CiGBV0M497hCwIE1o+oVlVWfLLky1Pu+CZghVtuYIElgEczEJ3MsbFVNOj9SrtpYKN+HgPQhyKlaI
+	w7KIhhlw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rIDKK-00DST5-1d;
+	Tue, 26 Dec 2023 19:42:56 +0000
+Message-ID: <92cedbf6-0313-4ff7-96a7-ddd40506b82e@infradead.org>
+Date: Tue, 26 Dec 2023 11:42:54 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-16-pasha.tatashin@soleen.com> <20231225110930-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20231225110930-mutt-send-email-mst@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 26 Dec 2023 13:23:37 -0500
-Message-ID: <CA+CK2bCTVqgW2uuSi7WqwGKkd7GT+QoSad2zkNun74wVV_J0Yw@mail.gmail.com>
-Subject: Re: [PATCH 15/16] vhost-vdpa: account iommu allocations
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: akpm@linux-foundation.org, alex.williamson@redhat.com, 
-	alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
-	baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org, 
-	corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, 
-	heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com, 
-	jernej.skrabec@gmail.com, jgg@ziepe.ca, jonathanh@nvidia.com, joro@8bytes.org, 
-	kevin.tian@intel.com, krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, netdev@vger.kernel.org, 
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com, 
-	samuel@sholland.org, suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
-	thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
-	vdumpa@nvidia.com, virtualization@lists.linux.dev, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ring-buffer/Documentation: Add documentation on
+ buffer_percent file
+Content-Language: en-US
+To: Steven Rostedt <rostedt@goodmis.org>, LKML
+ <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+References: <20231226130149.4685c838@gandalf.local.home>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231226130149.4685c838@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 25, 2023 at 11:09=E2=80=AFAM Michael S. Tsirkin <mst@redhat.com=
-> wrote:
->
-> On Tue, Nov 28, 2023 at 08:49:37PM +0000, Pasha Tatashin wrote:
-> > iommu allocations should be accounted in order to allow admins to
-> > monitor and limit the amount of iommu memory.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->
->
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-Thank you,
-Pasha
+
+On 12/26/23 10:01, Steven Rostedt wrote:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> 
+> When the buffer_percent file was added to the kernel, the documentation
+> should have been updated to document what that file does.
+> 
+> Fixes: 03329f9939781 ("tracing: Add tracefs file buffer_percentage")
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> ---
+> Changes since v1: https://lore.kernel.org/all/20231226123525.71a6d0fb@gandalf.local.home/
+> 
+> - Fixed some grammar issues.
+> 
+>  Documentation/trace/ftrace.rst | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+> index 933e7efb9f1b..84b810a6cf76 100644
+> --- a/Documentation/trace/ftrace.rst
+> +++ b/Documentation/trace/ftrace.rst
+> @@ -180,6 +180,21 @@ of ftrace. Here is a list of some of the key files:
+>  	Only active when the file contains a number greater than 0.
+>  	(in microseconds)
+>  
+> +  buffer_percent:
+> +
+> +	This is the water-mark for how much the ring buffer needs to be filled
+
+                    watermark
+please
+
+> +	before a waiter is woken up. That is, if an application calls a
+> +	blocking read syscall on one of the per_cpu trace_pipe_raw files, it
+> +	will block until the given amount of data specified by buffer_percent
+> +	is in the ring buffer before it wakes the reader up. This also
+> +	controls how the splice system calls are blocked on this file.
+> +
+> +	0   - means to wake up as soon as there is any data in the ring buffer.
+> +	50  - means to wake up when roughly half of the ring buffer sub-buffers
+> +	      are full.
+> +	100 - means to block until the ring buffer is totally full and is
+> +	      about to start overwriting the older data.
+> +
+>    buffer_size_kb:
+>  
+>  	This sets or displays the number of kilobytes each CPU
+
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
