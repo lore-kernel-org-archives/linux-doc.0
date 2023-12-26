@@ -1,71 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1818353E10;
-	Tue, 26 Dec 2023 18:01:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD22C433C7;
-	Tue, 26 Dec 2023 18:01:05 +0000 (UTC)
-Date: Tue, 26 Dec 2023 13:01:49 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Linux
- Trace Kernel <linux-trace-kernel@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>
-Subject: [PATCH v2] ring-buffer/Documentation: Add documentation on
- buffer_percent file
-Message-ID: <20231226130149.4685c838@gandalf.local.home>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A6751C3A
+	for <linux-doc@vger.kernel.org>; Tue, 26 Dec 2023 18:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="WGfkpTYb"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-427d5bfe24cso16566931cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 26 Dec 2023 10:09:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1703614172; x=1704218972; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b7PfHDnomUiobG04nKM0XGBe44UinAFtZn/zdJlhx7E=;
+        b=WGfkpTYbYKwsawLhGVUs88J8E9PpfIAdGL0f4RrzvURO37J5oxa+ojsPFWrNoldhjW
+         AFKJj6/PhbSN8E9EVKYyWKbB0zCoXpyJNN9tPW1sJ5pCL3FanhfJSK4n9tmqcvJkOAh1
+         DJsKERu5uhxFPXh5NEFcgXCmMT3T1nojeLpXGA6RCGxE8n86j3lp8ldFEVOEwcjFtRBo
+         8XmzQXTsgWKBGbCWiwADMKJ3AKqgxu9qr5wesyf+UHufVf3CTZGKQh49yBxKjVOvH6pw
+         Gp+T/9wB6npkP0wZVNtQBzh4Ak5H2vZW1/EqsZkGqHazjN1J3SbSApPpkn6W1PSQeZnO
+         eBoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703614172; x=1704218972;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b7PfHDnomUiobG04nKM0XGBe44UinAFtZn/zdJlhx7E=;
+        b=aQj0d/tvsh7dposOFD6mhFtxAkhFuOuKgoMuIAn4Mvmfc96dIJ5p/UVcNrKkr5FNU8
+         eXxAtf83XA7nb7PcxxB6Szu8P35lQ+L6o/9lvbmE2QZ2Qr9C9bBS3uuioqBeFhz3zByT
+         ZwDXIJxBzNqZHb5u3nDueVg5kGq+ACzYXj3Z+l/ivqohjr/aX0Z3nCfkNWj4iOxGr/xQ
+         6TrwHPTr+HsjTfEkqq9ZjfAOOiLhW7bCYN6b46DJ1ufuQMasxuNKilA8PbP+N64kubtD
+         RuFYb6YSSy3ey7JVp76L+aAPI5wpJbVkHf7RkDZrWzFdSkeR+Ej86yub82G0tgZz66GA
+         EM0A==
+X-Gm-Message-State: AOJu0Yx0kIoPJ3h9/kb99UiAuJkvYzpfYuXeVRdyO7Vl6NB76kB/ldEK
+	f1IVeubZzsfDlhvD4mmXSw0qV2Yv00cH3LVxxVLw/NWTFtCm9g==
+X-Google-Smtp-Source: AGHT+IEtGqiyCZMh5j3F5J6wchinmn9n9fLbR9QT0arAi9kviky2yh3yetb2CEZeXYs1U5tu4B71Z7W+qiWPVjn19sk=
+X-Received: by 2002:ac8:5fcf:0:b0:427:8b8f:823a with SMTP id
+ k15-20020ac85fcf000000b004278b8f823amr12805036qta.116.1703614172543; Tue, 26
+ Dec 2023 10:09:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+ <20231130201504.2322355-5-pasha.tatashin@soleen.com> <0db8fdb5-26ee-5069-30d2-118595516926@google.com>
+In-Reply-To: <0db8fdb5-26ee-5069-30d2-118595516926@google.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 26 Dec 2023 13:08:56 -0500
+Message-ID: <CA+CK2bBYXdbqTxmw4YxDudnb4+1PwtSbimpff98JFWi+GjnT+g@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] iommu/io-pgtable-dart: use page allocation
+ function provided by iommu-pages.h
+To: David Rientjes <rientjes@google.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	will@kernel.org, yu-cheng.yu@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+On Sun, Dec 24, 2023 at 4:36=E2=80=AFPM David Rientjes <rientjes@google.com=
+> wrote:
+>
+> On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+>
+> > Convert iommu/io-pgtable-dart.c to use the new page allocation function=
+s
+> > provided in iommu-pages.h.
+> >
+>
+> ... and remove unnecessary struct io_pgtable_cfg formal to
+> __dart_alloc_pages() while there :)
 
-When the buffer_percent file was added to the kernel, the documentation
-should have been updated to document what that file does.
+Added to the commit log.
 
-Fixes: 03329f9939781 ("tracing: Add tracefs file buffer_percentage")
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
-Changes since v1: https://lore.kernel.org/all/20231226123525.71a6d0fb@gandalf.local.home/
+>
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > Reviewed-by: Janne Grunau <j@jannau.net>
+>
+> Acked-by: David Rientjes <rientjes@google.com>
 
-- Fixed some grammar issues.
-
- Documentation/trace/ftrace.rst | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 933e7efb9f1b..84b810a6cf76 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -180,6 +180,21 @@ of ftrace. Here is a list of some of the key files:
- 	Only active when the file contains a number greater than 0.
- 	(in microseconds)
- 
-+  buffer_percent:
-+
-+	This is the water-mark for how much the ring buffer needs to be filled
-+	before a waiter is woken up. That is, if an application calls a
-+	blocking read syscall on one of the per_cpu trace_pipe_raw files, it
-+	will block until the given amount of data specified by buffer_percent
-+	is in the ring buffer before it wakes the reader up. This also
-+	controls how the splice system calls are blocked on this file.
-+
-+	0   - means to wake up as soon as there is any data in the ring buffer.
-+	50  - means to wake up when roughly half of the ring buffer sub-buffers
-+	      are full.
-+	100 - means to block until the ring buffer is totally full and is
-+	      about to start overwriting the older data.
-+
-   buffer_size_kb:
- 
- 	This sets or displays the number of kilobytes each CPU
--- 
-2.42.0
-
+Thank you,
+Pasha
