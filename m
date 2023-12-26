@@ -1,113 +1,71 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CD24FF63
-	for <linux-doc@vger.kernel.org>; Tue, 26 Dec 2023 17:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Rx/Z4nHR"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4277e7146abso42941831cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 26 Dec 2023 09:58:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1703613482; x=1704218282; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eYH7udRxVOWUuYR1uviT4nzog+O468I+tsZ16QY52lY=;
-        b=Rx/Z4nHRY1rSniKB7ojzBTzchlS2er2VU2zu6k5/FnO7NMhFsGCtuVNSYt48bBzIUK
-         ij4DxspKTtvkJw2rpHMDZyOEonUoz5HeKb+hWX2utOvlr/xPxySA9cMQuIWIHDI13TuF
-         bJqKEtiWP+VYYe4QdfnU8x30DHGrT/bxxwCa726sfWqYWXPxhtRIz/VATzKaxTXXpEuQ
-         +20EeOcvHa6zPq5v/gWGKcf/gLTxOpnnVj3IoUH8Gx8ADZqJugSDmg2CxzCe5gAnNGVD
-         WKUlXr0g3eBOh9Z39Ati6EXzd69lD5HtiDdcW7l17KFZ7iZnn/iQ/pq3AzHVqUmNbJxp
-         7dYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703613482; x=1704218282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eYH7udRxVOWUuYR1uviT4nzog+O468I+tsZ16QY52lY=;
-        b=lDg+0ZEvlM61Nrs13hECoEFwYez03/I6PELuPI/PjNbR1cuhAP8nm+KCEpsFvUuvkj
-         jKtjCRIsOCEx+MWzREubB0sOWoe+qb7ZlwsY0pPXfMT3KHKiyAOD+R0sdiRjk3qBNoqe
-         bCHPktguyHtMwkD8Aqi8F4EoKwjG93IZ8qN4C8amfWtzR8YVFki/IKMfpYD1tWE+adSr
-         JMa3IfnSaHEGDpmgbeOzqj1S+herx563PcHzNoJRkY5b9kOlWLFpcIMOTZSWSxRk8NRz
-         ScCIEqND3lZn0qB/D1YpDmNMvpFcXGdiymAxj3GQXfcgjdmfgi6GODkUxPjCiHGr8GZP
-         39Ow==
-X-Gm-Message-State: AOJu0YyAAbX37gcjJvx5T+UWyBLxbLhYX3DXU2TPu9+lwI3rXMkC+6n9
-	uBKS2oaBbNITRSWmUaTFiBuZZf4miaI40eTrFzmYaJbpKjsXJw==
-X-Google-Smtp-Source: AGHT+IF1mJ8zM3mxpNM9KsLehfwPoH0iCOIzFR/lBXLAAhZkeLDmK9jCB4DCOG5yTSpoP8aUapffGpK3Rjo+EEYkWKw=
-X-Received: by 2002:ac8:5915:0:b0:427:9fad:896a with SMTP id
- 21-20020ac85915000000b004279fad896amr10235427qty.56.1703613481775; Tue, 26
- Dec 2023 09:58:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1818353E10;
+	Tue, 26 Dec 2023 18:01:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD22C433C7;
+	Tue, 26 Dec 2023 18:01:05 +0000 (UTC)
+Date: Tue, 26 Dec 2023 13:01:49 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Linux
+ Trace Kernel <linux-trace-kernel@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>
+Subject: [PATCH v2] ring-buffer/Documentation: Add documentation on
+ buffer_percent file
+Message-ID: <20231226130149.4685c838@gandalf.local.home>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
- <20231130201504.2322355-2-pasha.tatashin@soleen.com> <776e17af-ae25-16a0-f443-66f3972b00c0@google.com>
- <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
- <1fd66377-030c-2e48-e658-4669bbf037e9@google.com> <ZYinEGCdl8mZjmXi@casper.infradead.org>
-In-Reply-To: <ZYinEGCdl8mZjmXi@casper.infradead.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 26 Dec 2023 12:57:25 -0500
-Message-ID: <CA+CK2bDWRN__FBw1N9j9RD3EE+0pca89ASKROA6tK_CGH17gNw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] iommu/vt-d: add wrapper functions for page allocations
-To: Matthew Wilcox <willy@infradead.org>
-Cc: David Rientjes <rientjes@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
-	baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org, 
-	corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, 
-	heiko@sntech.de, iommu@lists.linux.dev, jernej.skrabec@gmail.com, 
-	jonathanh@nvidia.com, joro@8bytes.org, krzysztof.kozlowski@linaro.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, 
-	m.szyprowski@samsung.com, paulmck@kernel.org, rdunlap@infradead.org, 
-	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
-	yu-cheng.yu@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Dec 24, 2023 at 4:48=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
-> wrote:
->
-> On Sun, Dec 24, 2023 at 01:30:50PM -0800, David Rientjes wrote:
-> > > > s/pages/page/ here and later in this file.
-> > >
-> > > In this file, where there a page with an "order", I reference it with
-> > > "pages", when no order (i.e. order =3D 0), I reference it with "page"
-> > >
-> > > I.e.: __iommu_alloc_page vs. __iommu_alloc_pages
-> > >
-> >
-> > Eh, the struct page points to a (potentially compound) page, not a set =
-or
-> > list of pages.  I won't bikeshed on it, but "struct page *pages" never
-> > makes sense unless it's **pages or *pages[] :)
->
-> I'd suggest that 'pages' also makes sense when _not_ using __GFP_COMP,
-> as we do in fact allocate an array of pages in that case.
->
-> That said, we shouldn't encourage the use of non-compound allocations.
-> It would also be good for someone to define a memdesc for iommu memory
-> like we have already for slab.  We'll need it eventually, and it'll work
-> out better if someone who understands iommus (ie not me) does it.
+From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-I was thinking of adding an IOMMU page table memdesc, at least by
-starting with Intel implementation.
+When the buffer_percent file was added to the kernel, the documentation
+should have been updated to document what that file does.
 
-- For efficient freeing on page-unmap we need a counter.
-- We might also need a per-page page table locking (aka PTL type
-lock), if the current approach I am proposing is not scalable enough.
-- Access to debugfs (I am studying this now).
+Fixes: 03329f9939781 ("tracing: Add tracefs file buffer_percentage")
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+---
+Changes since v1: https://lore.kernel.org/all/20231226123525.71a6d0fb@gandalf.local.home/
 
-However, iommu memdesc would really make sense, once all the various
-page table management IOMMU implementations are unified.
+- Fixed some grammar issues.
 
-Pasha
+ Documentation/trace/ftrace.rst | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index 933e7efb9f1b..84b810a6cf76 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -180,6 +180,21 @@ of ftrace. Here is a list of some of the key files:
+ 	Only active when the file contains a number greater than 0.
+ 	(in microseconds)
+ 
++  buffer_percent:
++
++	This is the water-mark for how much the ring buffer needs to be filled
++	before a waiter is woken up. That is, if an application calls a
++	blocking read syscall on one of the per_cpu trace_pipe_raw files, it
++	will block until the given amount of data specified by buffer_percent
++	is in the ring buffer before it wakes the reader up. This also
++	controls how the splice system calls are blocked on this file.
++
++	0   - means to wake up as soon as there is any data in the ring buffer.
++	50  - means to wake up when roughly half of the ring buffer sub-buffers
++	      are full.
++	100 - means to block until the ring buffer is totally full and is
++	      about to start overwriting the older data.
++
+   buffer_size_kb:
+ 
+ 	This sets or displays the number of kilobytes each CPU
+-- 
+2.42.0
+
