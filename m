@@ -1,249 +1,253 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAAC515A8
-	for <linux-doc@vger.kernel.org>; Thu, 28 Dec 2023 01:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3AE1FB9
+	for <linux-doc@vger.kernel.org>; Thu, 28 Dec 2023 05:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="dYxiGMkR"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3bbd11b2f95so106905b6e.0
-        for <linux-doc@vger.kernel.org>; Wed, 27 Dec 2023 17:42:24 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TWH9mAiX"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-552d39ac3ccso11812570a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 27 Dec 2023 21:52:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1703727744; x=1704332544; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1703742733; x=1704347533; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oKGphS+JVbRrpyRYNMXZcp4xlaDyNlE0PfrLYNqYsRU=;
-        b=dYxiGMkR8n7fryIbd7uBY43jviOEm2um6UWd7s+0iy6Z7TDynEFdSxvwFnnpybc+Y9
-         fUJXc74LweXH5Q+/u3YiWvrqBXGlEJrhUOak+MQ8Do0Yc8BKKZnmx9fCgKWa91hlPmcb
-         qNLzP2jTbfW3vqpvjUiXo5yqaLidistyDM7RuVuBvqnWBlk0qa6E3+RUbBKAuFyhRQBe
-         bbpG1YmRgzJwopYLDz1Qmj2NzM27Th4PvyZeVUj09qkcxuOe3ytUY7bQmAHXtAShsuVC
-         83ePFfCc2HVpwtGztpEiY2w0b/xKwoK+xcGKkJLV3mNfpI5woQLdAEeDtAohHrl3ezFr
-         mQLg==
+        bh=f7MLraVP9QwLg0rDVio+i50pdPqXCBSQ9O3dkydmdrY=;
+        b=TWH9mAiX1EgehSnUxHsJvj+FSXKwY6TsfW/B3HCDDKW3GXZeG0ofS8OvYAeF+O/JIO
+         tIaUUymyCZEIM1E6TpmDPCVaN313xnAqDoPoHP86YTYgsI8SZuDmH920urZhjp1kCfPQ
+         YiSUocanBUX9gS0vqyH7z/sLxPeo3TXtxkymU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703727744; x=1704332544;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1703742733; x=1704347533;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oKGphS+JVbRrpyRYNMXZcp4xlaDyNlE0PfrLYNqYsRU=;
-        b=IJEdpPMFPibUp0crugCWUlxTbplOFptM2QCoONICT+Q2f+YgSa3cmNQgJ5F+7PgMI1
-         bJf2lmC6UQznuroqMwASTKRxw47NBGhLP7iZvcnetBh6QvoHiNQaIRAZfcGFFMKLDrLO
-         m3L0ih/4EwrlgYxMhDmoREIClhzKyAd1C6Qg9F0BW8jCR1SoFc3IbnLLwvhhSe2vWAmz
-         tFNMKvu+wpqHWNkwev6e1bKVvrquhZamBv2fYtaCBtOyDBa6ZulxB9KwpEs04iwdgT8w
-         0/RSGzJ7T7g3nMPn/vcJrBcgbl3uCTXuokVnTqwln3fuSES/Qum6o6FuNijn5XRaG9IP
-         Vc3g==
-X-Gm-Message-State: AOJu0Yw90tdokK9nvWVM2RDZj4jHrEyzQVijNIQlMyU/KcRM7zS97RRp
-	AjhzKySFOYXMw6HSSNPh3FOy/3EE9FTyOQ==
-X-Google-Smtp-Source: AGHT+IGR7JzQSXMREJRZ9KqB3ICpiol/e1N/urwMCX7a6QXa17U/0va7BA1tyl2KWzFhPtJJzwuFLA==
-X-Received: by 2002:aca:2413:0:b0:3bb:c658:40f with SMTP id n19-20020aca2413000000b003bbc658040fmr1920457oic.117.1703727743938;
-        Wed, 27 Dec 2023 17:42:23 -0800 (PST)
-Received: from sw06.internal.sifive.com ([4.53.31.132])
-        by smtp.gmail.com with ESMTPSA id g24-20020aa78758000000b006d49ed3effasm7335440pfo.63.2023.12.27.17.42.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Dec 2023 17:42:23 -0800 (PST)
-From: Samuel Holland <samuel.holland@sifive.com>
-To: linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	x86@kernel.org,
-	linux-riscv@lists.infradead.org,
-	Christoph Hellwig <hch@lst.de>
-Cc: loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	linux-arch@vger.kernel.org,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 01/14] arch: Add ARCH_HAS_KERNEL_FPU_SUPPORT
-Date: Wed, 27 Dec 2023 17:41:51 -0800
-Message-ID: <20231228014220.3562640-2-samuel.holland@sifive.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231228014220.3562640-1-samuel.holland@sifive.com>
-References: <20231228014220.3562640-1-samuel.holland@sifive.com>
+        bh=f7MLraVP9QwLg0rDVio+i50pdPqXCBSQ9O3dkydmdrY=;
+        b=FF1haXOs5bFnYscgRBZtQoZSfvdBW90pNawXpF41AISnVco8JY/JNuoFsOHOWj6bH1
+         AIRkB9xwQa/3yddb7E+e5BK/c7Hr7QUfVzx+uOsnl0RYkc9io0Ksuac4k6aQntz4EPjK
+         pmVOsbGxTxrenmoTv5juO3kohNWvr4xMhTIh26J6UQZxUfZcs3xVqIZe7y4C1m9zPiJZ
+         zUWOcdt6ZPNPXfpTS38lzm6AL0RI2b5SQ3VV8W0bRnTZ/PtvXqoQWRvKe+kvYm4+JxLE
+         nc+OJiHCIki97rb4mk+HKm1Wb+zBD5vHqZnXQchYrQ5XzAu08pUBPr/xXXwseoulJNV7
+         A6RQ==
+X-Gm-Message-State: AOJu0Yz5dm9KW5SpXP8mpZAiBrW8VJNSOeoJWSaUma0N4q3z3F9w4fqC
+	F6iWJZkEmXlAZF/GSH77k7jASBqx7bnv+5mLH1gj5ak//a39fx0=
+X-Google-Smtp-Source: AGHT+IFSoS7F1ZUraGW9WJmAtLLRpP92Es3q4+DOQBeJJxy/tIVG7UZeYVxzrhDQbjHzEusMwa939A==
+X-Received: by 2002:a17:906:4ed6:b0:a26:c590:1b4e with SMTP id i22-20020a1709064ed600b00a26c5901b4emr9854771ejv.36.1703742733276;
+        Wed, 27 Dec 2023 21:52:13 -0800 (PST)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
+        by smtp.gmail.com with ESMTPSA id y15-20020a17090668cf00b00a234c5d0834sm7261678ejr.175.2023.12.27.21.52.12
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Dec 2023 21:52:12 -0800 (PST)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40d5b7b8adfso9486515e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 27 Dec 2023 21:52:12 -0800 (PST)
+X-Received: by 2002:a05:600c:a46:b0:40d:604b:4a24 with SMTP id
+ c6-20020a05600c0a4600b0040d604b4a24mr685133wmq.143.1703742732404; Wed, 27 Dec
+ 2023 21:52:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230817012007.131868-1-senozhatsky@chromium.org>
+ <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
+ <20230820024519.GK907732@google.com> <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
+ <20230820072119.GM907732@google.com> <20230820073332.GN907732@google.com>
+ <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
+ <20230822061203.GA610023@google.com> <CAK7LNAS0qEZk+xAq84=7SuJSQz5F3dNBjYKPoeKTd_caq-QMKg@mail.gmail.com>
+ <CAAFQd5DeDEhPUQScXB67v9giiV=G33L-YDdtF4e-+UcmBXG6jA@mail.gmail.com>
+ <CAK7LNATj-jnOLMkgzz=3MfqWgUjKF-MwSKQkr4hW0g7+tEsXUw@mail.gmail.com>
+ <CAAFQd5AhN5m8eaGsrKfh1gHPLiOVd9_3BwoHpr7u6iY92Ft-bg@mail.gmail.com>
+ <CAK7LNAR6o=K=eGzi194Ly787Ji4Twfqq3dcr8NE5m23ayGM3Fg@mail.gmail.com> <CAAFQd5DTNfNDPtvFd-=kkGYY5nduLp3SLjzNmHPgu6QfQO3ypw@mail.gmail.com>
+In-Reply-To: <CAAFQd5DTNfNDPtvFd-=kkGYY5nduLp3SLjzNmHPgu6QfQO3ypw@mail.gmail.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Thu, 28 Dec 2023 14:51:55 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BY+8O-Wj-A5sVF6SWPhpU_fyZ4c7+6XUCy6RD+Gd3Hug@mail.gmail.com>
+Message-ID: <CAAFQd5BY+8O-Wj-A5sVF6SWPhpU_fyZ4c7+6XUCy6RD+Gd3Hug@mail.gmail.com>
+Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, Ying Sun <sunying@nj.iscas.ac.cn>, 
+	Jesse T <mr.bossman075@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Several architectures provide an API to enable the FPU and run
-floating-point SIMD code in kernel space. However, the function names,
-header locations, and semantics are inconsistent across architectures,
-and FPU support may be gated behind other Kconfig options.
+On Mon, Sep 4, 2023 at 2:10=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> wro=
+te:
+>
+> On Fri, Sep 1, 2023 at 12:28=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Thu, Aug 31, 2023 at 11:30=E2=80=AFAM Tomasz Figa <tfiga@chromium.or=
+g> wrote:
+> > >
+> > > On Sat, Aug 26, 2023 at 10:11=E2=80=AFAM Masahiro Yamada <masahiroy@k=
+ernel.org> wrote:
+> > > >
+> > > > On Thu, Aug 24, 2023 at 2:30=E2=80=AFPM Tomasz Figa <tfiga@chromium=
+.org> wrote:
+> > > > >
+> > > > > Hi Masahiro,
+> > > > >
+> > > > > On Thu, Aug 24, 2023 at 10:00=E2=80=AFAM Masahiro Yamada <masahir=
+oy@kernel.org> wrote:
+> > > > > >
+> > > > > > On Tue, Aug 22, 2023 at 4:30=E2=80=AFPM Sergey Senozhatsky
+> > > > > > <senozhatsky@chromium.org> wrote:
+> > > > > > >
+> > > > > > > On (23/08/21 21:27), Masahiro Yamada wrote:
+> > > > > > > >
+> > > > > > > > My (original) hope was to add a single switch, KCONFIG_VERB=
+OSE, to address both:
+> > > > > > > >
+> > > > > > > >   - A CONFIG option is hidden by unmet dependency (Ying Sun=
+'s case)
+> > > > > > > >   - A CONFIG option no longer exists  (your case)
+> > > > > > > >   - Anything else we need to be careful
+> > > > > > >
+> > > > > > > A quick question: is it too late to suggest an alternative na=
+me?
+> > > > > > > Could KCONFIG_SANITY_CHECKS be a little cleaner? Because we b=
+asically
+> > > > > > > run sanity checks on the config.
+> > > > > >
+> > > > > >
+> > > > > > Ying's is not applied yet. So, it is not too late.
+> > > > > >
+> > > > > > But, I started to be a little worried
+> > > > > > because it is unpredictable how many KCONFIG_* env
+> > > > > > variables will increase until people are satisfied.
+> > > > > >
+> > > > >
+> > > > > Is there really a problem with having those? There are a lot of
+> > > > > different env variables affecting different parts of the kernel b=
+uild.
+> > > > > If they are useful, and even better, allow catching issues quickl=
+y,
+> > > > > should we favor less options or usefulness for users?
+> > > >
+> > > >
+> > > >
+> > > > I am considering how to implement it.
+> > > >
+> > > >
+> > > >
+> > > > One way is to add env variables as a new request arises.
+> > > >
+> > > > Sergey is doing two things by one option.
+> > > >
+> > > >
+> > > >    KCONFIG_WARN_UNKNWON_SYMBOL : warn unknown symbol in input .conf=
+ig
+> > > > or defconfig
+> > > >    KCONFIG_WARN_TO_ERROR       : turn warnings into errors
+> > > >
+> > > >
+> > > >
+> > > > Another way is to handle those as command line options.
+> > > >
+> > > >   -Wunknown-symbol
+> > > >   -Werror             (associated with W=3De)
+> > > >   -Wall               (associated with W=3D1)
+> > > >
+> > > >
+> > > >
+> > > >   $ make W=3D1e olddefconfig
+> > > >
+> > > >
+> > > > will work to sanity check.
+> > > >
+> > > >
+> > >
+> > > I see, I think I misunderstood your previous message, sorry. Agreed
+> > > that there could be other approaches than an environment variable and
+> > > a command line option could definitely work as well. I'll leave the
+> > > details to you and Sergey, but ideally we would have something that i=
+s
+> > > simple to use both in scripts (e.g. distro build systems) and in
+> > > manual build for end users
+> > >
+> > > >
+> > > >
+> > > >
+> > > > > > >
+> > > > > > > And one more question: those sanity checks seem very reasonab=
+le.
+> > > > > > > Is there any reason we would not want to keep them ON by defa=
+ult?
+> > > > > > > And those brave souls, that do not wish for the tool to very =
+that
+> > > > > > > the .config is sane and nothing will get downgraded/disabled,=
+ can
+> > > > > > > always set KCONFIG_SANITY_CHECKS to 0.
+> > > > > >
+> > > > > >
+> > > > > > Kconfig is meant to resolve the dependency without causing an e=
+rror.
+> > > > > > If a feature is not available, it is automatically, silently hi=
+dden,
+> > > > > > and that works well.
+> > > > >
+> > > > > How do you come to the conclusion that it works well? I've heard =
+many
+> > > > > people unhappy about the way Kconfig works. How does one know tha=
+t
+> > > > > something is missing (and should maybe be fixed?) if Kconfig sile=
+ntly
+> > > > > hides it?
+> > > >
+> > > >
+> > > > Kconfig has worked like that for a long time, but I do not know
+> > > > how to detect non-existing symbols.
+> > > >
+> > > >
+> > >
+> > > I think a tool to detect symbols present in old config, but missing i=
+n
+> > > new kernel solves the "upgraded config" part of the problem.
+> > >
+> > > The other part ("new config") would probably be solved by some kind o=
+f
+> > > a tool that looks at the currently present hardware and spews a list
+> > > of Kconfig options together with their dependencies, but arguably
+> > > that's not something that would be a part of Kconfig itself.
+> > >
+> > > For the graphical configuration tools like menuconfig I could imagine
+> > > that the options with unmet dependencies could be still displayed but
+> > > greyed out, so at least one can open the help for the item and check
+> > > which dependencies are missing.
+> >
+> >
+> > Yes. That idea exists, and at least for xconfig,
+> > I got a patch to grey out hidden options.
+> >
+> > https://lore.kernel.org/linux-kbuild/20200708133015.12286-1-maxime.chre=
+tien@bootlin.com/
+> >
+> >
+> > I liked the idea, and suggested improvements, but did not receive v2.
+> >
+> > Maybe I could revisit it when I have some time,
+> > but I always have TODOs more than my capacity.
+> >
+>
+> Let me see if I can do something about it. It sounds like a very
+> convenient thing, although I'd definitely prefer menuconfig over
+> xconfig.
 
-Provide a standard way for architectures to declare that kernel space
-FPU support is available. Architectures selecting this option must
-implement what is currently the most common API (kernel_fpu_begin() and
-kernel_fpu_end(), plus a new function kernel_fpu_available()) and
-provide the appropriate CFLAGS for compiling floating-point C code.
+To close the loop, it took me a while to find some time to give it a
+stab, but here is a patch:
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
----
+https://lore.kernel.org/linux-kbuild/20231228054630.3595093-1-tfiga@chromiu=
+m.org/T/#u
 
-Changes in v2:
- - Add documentation explaining the built-time and runtime APIs
- - Add a linux/fpu.h header for generic isolation enforcement
+One thing that may need to be added is a toggle for the new behavior
+if there are people who prefer all the options to look the same (or
+just the dim text is problematic for some reason).
 
- Documentation/core-api/floating-point.rst | 78 +++++++++++++++++++++++
- Documentation/core-api/index.rst          |  1 +
- Makefile                                  |  5 ++
- arch/Kconfig                              |  6 ++
- include/linux/fpu.h                       | 12 ++++
- 5 files changed, 102 insertions(+)
- create mode 100644 Documentation/core-api/floating-point.rst
- create mode 100644 include/linux/fpu.h
-
-diff --git a/Documentation/core-api/floating-point.rst b/Documentation/core-api/floating-point.rst
-new file mode 100644
-index 000000000000..a8d0d4b05052
---- /dev/null
-+++ b/Documentation/core-api/floating-point.rst
-@@ -0,0 +1,78 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+Floating-point API
-+==================
-+
-+Kernel code is normally prohibited from using floating-point (FP) registers or
-+instructions, including the C float and double data types. This rule reduces
-+system call overhead, because the kernel does not need to save and restore the
-+userspace floating-point register state.
-+
-+However, occasionally drivers or library functions may need to include FP code.
-+This is supported by isolating the functions containing FP code to a separate
-+translation unit (a separate source file), and saving/restoring the FP register
-+state around calls to those functions. This creates "critical sections" of
-+floating-point usage.
-+
-+The reason for this isolation is to prevent the compiler from generating code
-+touching the FP registers outside these critical sections. Compilers sometimes
-+use FP registers to optimize inlined ``memcpy`` or variable assignment, as
-+floating-point registers may be wider than general-purpose registers.
-+
-+Usability of floating-point code within the kernel is architecture-specific.
-+Additionally, because a single kernel may be configured to support platforms
-+both with and without a floating-point unit, FPU availability must be checked
-+both at build time and at run time.
-+
-+Several architectures implement the generic kernel floating-point API from
-+``linux/fpu.h``, as described below. Some other architectures implement their
-+own unique APIs, which are documented separately.
-+
-+Build-time API
-+--------------
-+
-+Floating-point code may be built if the option ``ARCH_HAS_KERNEL_FPU_SUPPORT``
-+is enabled. For C code, such code must be placed in a separate file, and that
-+file must have its compilation flags adjusted using the following pattern::
-+
-+    CFLAGS_foo.o += $(CC_FLAGS_FPU)
-+    CFLAGS_REMOVE_foo.o += $(CC_FLAGS_NO_FPU)
-+
-+Architectures are expected to define one or both of these variables in their
-+top-level Makefile as needed. For example::
-+
-+    CC_FLAGS_FPU := -mhard-float
-+
-+or::
-+
-+    CC_FLAGS_NO_FPU := -msoft-float
-+
-+Normal kernel code is assumed to use the equivalent of ``CC_FLAGS_NO_FPU``.
-+
-+Runtime API
-+-----------
-+
-+The runtime API is provided in ``linux/fpu.h``. This header cannot be included
-+from files implementing FP code (those with their compilation flags adjusted as
-+above). Instead, it must be included when defining the FP critical sections.
-+
-+.. c:function:: bool kernel_fpu_available( void )
-+
-+        This function reports if floating-point code can be used on this CPU or
-+        platform. The value returned by this function is not expected to change
-+        at runtime, so it only needs to be called once, not before every
-+        critical section.
-+
-+.. c:function:: void kernel_fpu_begin( void )
-+                void kernel_fpu_end( void )
-+
-+        These functions create a floating-point critical section. It is only
-+        valid to call ``kernel_fpu_begin()`` after a previous call to
-+        ``kernel_fpu_available()`` returned ``true``. These functions are only
-+        guaranteed to be callable from (preemptible or non-preemptible) process
-+        context.
-+
-+        Preemption may be disabled inside critical sections, so their size
-+        should be minimized. They are *not* required to be reentrant. If the
-+        caller expects to nest critical sections, it must implement its own
-+        reference counting.
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 7a3a08d81f11..974beccd671f 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -48,6 +48,7 @@ Library functionality that is used throughout the kernel.
-    errseq
-    wrappers/atomic_t
-    wrappers/atomic_bitops
-+   floating-point
- 
- Low level entry and exit
- ========================
-diff --git a/Makefile b/Makefile
-index ee995fc2b0e5..79c9e0b56ab8 100644
---- a/Makefile
-+++ b/Makefile
-@@ -969,6 +969,11 @@ KBUILD_CFLAGS	+= $(CC_FLAGS_CFI)
- export CC_FLAGS_CFI
- endif
- 
-+# Architectures can define flags to add/remove for floating-point support
-+CC_FLAGS_FPU	+= -D_LINUX_FPU_COMPILATION_UNIT
-+export CC_FLAGS_FPU
-+export CC_FLAGS_NO_FPU
-+
- ifneq ($(CONFIG_FUNCTION_ALIGNMENT),0)
- KBUILD_CFLAGS += -falign-functions=$(CONFIG_FUNCTION_ALIGNMENT)
- endif
-diff --git a/arch/Kconfig b/arch/Kconfig
-index f4b210ab0612..e1c01ce819ed 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -1478,6 +1478,12 @@ config ARCH_HAS_NONLEAF_PMD_YOUNG
- 	  address translations. Page table walkers that clear the accessed bit
- 	  may use this capability to reduce their search space.
- 
-+config ARCH_HAS_KERNEL_FPU_SUPPORT
-+	bool
-+	help
-+	  Architectures that select this option can run floating-point code in
-+	  the kernel, as described in Documentation/core-api/floating-point.rst.
-+
- source "kernel/gcov/Kconfig"
- 
- source "scripts/gcc-plugins/Kconfig"
-diff --git a/include/linux/fpu.h b/include/linux/fpu.h
-new file mode 100644
-index 000000000000..2fb63e22913b
---- /dev/null
-+++ b/include/linux/fpu.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _LINUX_FPU_H
-+#define _LINUX_FPU_H
-+
-+#ifdef _LINUX_FPU_COMPILATION_UNIT
-+#error FP code must be compiled separately. See Documentation/core-api/floating-point.rst.
-+#endif
-+
-+#include <asm/fpu.h>
-+
-+#endif
--- 
-2.42.0
-
+Best,
+Tomasz
