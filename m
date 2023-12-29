@@ -1,75 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CFA12B6B;
-	Fri, 29 Dec 2023 17:23:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D0FC433C8;
-	Fri, 29 Dec 2023 17:23:11 +0000 (UTC)
-Date: Fri, 29 Dec 2023 12:24:02 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3] ring-buffer/Documentation: Add documentation on
- buffer_percent file
-Message-ID: <20231229122402.537eb252@gandalf.local.home>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8E614F61;
+	Fri, 29 Dec 2023 22:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eOJSc5MV"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-33686649b72so7254238f8f.3;
+        Fri, 29 Dec 2023 14:42:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703889736; x=1704494536; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=96Hd5IFgkK/TcrBu0MMVF5Mj+dQO1oOnTc+wyle0UDM=;
+        b=eOJSc5MVPYvFH0VxFK8IyUfeELDWSstJnQINHKxEMFB5Rgob3xAzoLpBP33CRL31BF
+         ihTooz0zXQDQLH2QBTkige45vXI5PZVopjyNCtK9uOk5VMrTeUuEoolgcODNkQenTLTJ
+         7rIu5kcrDgiBRZV/rBuQFhNOR23xJfO0spKt9Z5IJz2oILpYN5GgT7EwTnXobMAfPBk9
+         dLNyQki3GaNoYLDjgetIlLUUDDO7gKQvvIkmruyGHB0G2TmqiaAevqi6bCaSSrbXNfgx
+         7u2npBNFe+HagY+utz6APauLxq7Ehhj5Lhe1W2ktgQ8VeMgdzOuZbwyz8v7cPcF0RtAN
+         LICA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703889736; x=1704494536;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=96Hd5IFgkK/TcrBu0MMVF5Mj+dQO1oOnTc+wyle0UDM=;
+        b=o0i7LwmsgUAaJ3vTJ3ZYb7SVQeVUuuOJRzYgpXIDrBlxtk6JA8lCcj9g4olqqBWD1b
+         wn24R0PI+g+z1kHAeimrTqxPfo3J+1oVDF/AXne5Y45tDbymisiN+x/GNRf6S52xCC32
+         C9sX17q7wPevDbbkQe77rInByGfIBs6p7tRa05P/CYbKa4HFJV7UWNKW1sKgQFl8IQFn
+         RQLY8tZdYAey9ceJyxSpPm/xxD3i1XyTz+rk+z+n77kN+La2kY6D9WGQiKe5WH6iqSQe
+         gCR7MzGSqnsQQnOZEfDKm96lSYaYFtV6H4K9Jf16VWGqdnHEmB+9MjnXpEVrHUjyBQyI
+         vNsw==
+X-Gm-Message-State: AOJu0Yx7NM094T0jHviqNOAI+w2jZliG+FfpHvfuh+i/ophw1KFXD6Gr
+	gA9ZO6SwNr/9DQWENlck+G8=
+X-Google-Smtp-Source: AGHT+IGs2sPUXR2Yzv7R5GGm3bHf8UgL5eF4/tABd1NZieCdZ6DQh+uyjpH/MQ8fIqXw1gkeSnHZGg==
+X-Received: by 2002:adf:d1c8:0:b0:336:f20b:4b45 with SMTP id b8-20020adfd1c8000000b00336f20b4b45mr3829021wrd.40.1703889735597;
+        Fri, 29 Dec 2023 14:42:15 -0800 (PST)
+Received: from ?IPV6:2a02:8071:b783:140:927c:82ba:d32d:99c1? ([2a02:8071:b783:140:927c:82ba:d32d:99c1])
+        by smtp.gmail.com with ESMTPSA id o10-20020adfeaca000000b0033677a4e0d6sm20078775wrn.13.2023.12.29.14.42.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Dec 2023 14:42:15 -0800 (PST)
+Message-ID: <33a556e3-a7ac-47a3-a621-4db12dbac208@gmail.com>
+Date: Fri, 29 Dec 2023 23:42:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] platform/surface: aggregator_registry: add entry
+ for fan speed
+To: Ivor Wanders <ivor@iwanders.net>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+References: <20231228003444.5580-1-ivor@iwanders.net>
+ <20231228003444.5580-3-ivor@iwanders.net>
+Content-Language: en-US
+From: Maximilian Luz <luzmaximilian@gmail.com>
+In-Reply-To: <20231228003444.5580-3-ivor@iwanders.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+On 12/28/23 01:34, Ivor Wanders wrote:
+> Add an entry for the fan speed function.
+> Add this new entry to the Surface Pro 9 group.
+> 
+> Signed-off-by: Ivor Wanders <ivor@iwanders.net>
+> Link: https://github.com/linux-surface/kernel/pull/144
+> ---
+> Changes in v2:
+>    - No changes in this patch.
+> ---
+>   drivers/platform/surface/surface_aggregator_registry.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/platform/surface/surface_aggregator_registry.c b/drivers/platform/surface/surface_aggregator_registry.c
+> index 530db4db7..b0db25886 100644
+> --- a/drivers/platform/surface/surface_aggregator_registry.c
+> +++ b/drivers/platform/surface/surface_aggregator_registry.c
+> @@ -74,6 +74,12 @@ static const struct software_node ssam_node_tmp_pprof = {
+>   	.parent = &ssam_node_root,
+>   };
+>   
+> +/* Fan speed function. */
+> +static const struct software_node ssam_node_fan_speed = {
+> +	.name = "ssam:01:05:01:01:01",
+> +	.parent = &ssam_node_root,
+> +};
 
-When the buffer_percent file was added to the kernel, the documentation
-should have been updated to document what that file does.
+I would prefer if we could keep the subsystem prefix for node names. So
+something like `ssam_node_tmp_fan_speed`.
 
-Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-Fixes: 03329f9939781 ("tracing: Add tracefs file buffer_percentage")
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
-Changes since v2: https://lore.kernel.org/linux-trace-kernel/20231226130149.4685c838@gandalf.local.home
+Otherwise, this looks good to me. With that changed:
 
-- s/watermark/water-mark/ (Randy Dunlap)
+Reviewed-by: Maximilian Luz <luzmaximilian@gmail.com>
 
-- Added '::' and indented the number list so that it has better
-  formatting (kernel test robot)
-
- Documentation/trace/ftrace.rst | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 933e7efb9f1b..917501a2f348 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -180,6 +180,21 @@ of ftrace. Here is a list of some of the key files:
- 	Only active when the file contains a number greater than 0.
- 	(in microseconds)
- 
-+  buffer_percent:
-+
-+	This is the watermark for how much the ring buffer needs to be filled
-+	before a waiter is woken up. That is, if an application calls a
-+	blocking read syscall on one of the per_cpu trace_pipe_raw files, it
-+	will block until the given amount of data specified by buffer_percent
-+	is in the ring buffer before it wakes the reader up. This also
-+	controls how the splice system calls are blocked on this file::
-+
-+	  0   - means to wake up as soon as there is any data in the ring buffer.
-+	  50  - means to wake up when roughly half of the ring buffer sub-buffers
-+	        are full.
-+	  100 - means to block until the ring buffer is totally full and is
-+	        about to start overwriting the older data.
-+
-   buffer_size_kb:
- 
- 	This sets or displays the number of kilobytes each CPU
--- 
-2.42.0
-
+> +
+>   /* Tablet-mode switch via KIP subsystem. */
+>   static const struct software_node ssam_node_kip_tablet_switch = {
+>   	.name = "ssam:01:0e:01:00:01",
+> @@ -319,6 +325,7 @@ static const struct software_node *ssam_node_group_sp9[] = {
+>   	&ssam_node_bat_ac,
+>   	&ssam_node_bat_main,
+>   	&ssam_node_tmp_pprof,
+> +	&ssam_node_fan_speed,
+>   	&ssam_node_pos_tablet_switch,
+>   	&ssam_node_hid_kip_keyboard,
+>   	&ssam_node_hid_kip_penstash,
