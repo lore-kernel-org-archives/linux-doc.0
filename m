@@ -1,49 +1,49 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D33BE49
-	for <linux-doc@vger.kernel.org>; Sat, 30 Dec 2023 14:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BA3C2C5;
+	Sat, 30 Dec 2023 16:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O7CkIRt8"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40d5f40ce04so28907395e9.2
-        for <linux-doc@vger.kernel.org>; Sat, 30 Dec 2023 06:31:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XrVT7byR"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5537114380bso6120977a12.3;
+        Sat, 30 Dec 2023 08:32:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703946701; x=1704551501; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1703953929; x=1704558729; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=b4gk9zeURxSP70R8K7qMMz7OFbYRIjI7BmDBTadm3dU=;
-        b=O7CkIRt86jaQE6ZM3qJSvFDhSCs8PsxYhXnOmL7MDVEgKJNLhX3YENFazbSm23btLP
-         +1eESQlwwXM8pJJcnqya4G2D9210USuT5ApcIRiDp1KgwcsPp3Bp9kJ+4rhhhW+IFDOy
-         SRPe5hZI9zZsanaNGYYuZKHhsBchv1oY1AcevQXsVMsO0EM8Mw4iWylnLSwlY26+I3nH
-         +7yayh5MNbjbbesOTsBv4RcRcBBC9AH6Fy/e5DYXJylMcQ98/fi055oed0lVzDxNa7RV
-         Yc1k/rjBrkp5jpTvyIMWZ8PRpiiXEFBQQF09BbYq5J3a3TwNLMqI7s2ulqgNVagLjLTk
-         yGfg==
+        bh=rZB0c1TeByaHjk+7yG8Kc7dtPWL4o/WvzFcOuBAVwGI=;
+        b=XrVT7byRkAeSaKy13LOYHhT56epZIBWi0Dgehc2nT8SYnJk/8PD6hcZQX1VktOcC6N
+         2EL4MZvq3iWhOQkcNp1waDqySirDXY1G4JSwQscAWWZieMGlqQELZOfb87gzNbdPfkYi
+         xXeDTwNBgTR3yDxTcaBPD1TMIapqxHm9XWifXO+QL1iqR+kXennrlNBvkJZM7xK/Vjcb
+         54nv+CJN2h5K9P4HhwT8gdxN89+KcEa25TaozBVwEiVEFtuZYlPmwCp29+w8cbB7J1zR
+         Z/ViESnHf25wdIKf+v0RTRioH71MxjAoOhd1aMeGetsquKItmd5kd+jT/v2VRvtb+d5F
+         6+KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703946701; x=1704551501;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1703953929; x=1704558729;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b4gk9zeURxSP70R8K7qMMz7OFbYRIjI7BmDBTadm3dU=;
-        b=auaDrwNDABALltLExbxVObugwOG9sJPZFBmTgTZrlrRzklrOoeEEzB/ceYAFUhf7St
-         mN9xoscOf1aHUFx6saN83w+kjKvAVBwqOsdFE4j3pLh9021LmAlifELTg+59ow+mFLDA
-         B1ik+H0vRNvBhykaWHrQ/i80ubXLUHpcgG0VBw31EHggHG3EDJ9IyG7s23oxBcpA7OJB
-         zn6DPpcIN8BdvCZkwyMYASX4adR8oH+DduBlJxV1ZUsD1tSxdkcuTXw/LRt7OM0aKmOA
-         jTMCSDJEAujJHAxPi145zRiom5mlZ5YKtxxcn2pvoLR4EYv6buXKuAOGHBHMgR0d7rPS
-         RrPw==
-X-Gm-Message-State: AOJu0Yy4OqplD5UGe+wvGIDj/rrd7794wAJ/lr2ElAKMnIV5iPuRkGPS
-	m7XC9jvLy30qyup+kSltecOdtLkGGzA/lg==
-X-Google-Smtp-Source: AGHT+IFeqEBjwbxvDCPdwj4hV18VumHO0MGlE/qsisETP462FxGiT8Br8SlMmaXDP/+a8gH7n6ExKw==
-X-Received: by 2002:a1c:7507:0:b0:40d:5821:516b with SMTP id o7-20020a1c7507000000b0040d5821516bmr4280663wmc.54.1703946700730;
-        Sat, 30 Dec 2023 06:31:40 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id iv7-20020a05600c548700b0040d746bb8a0sm6130026wmb.43.2023.12.30.06.31.38
+        bh=rZB0c1TeByaHjk+7yG8Kc7dtPWL4o/WvzFcOuBAVwGI=;
+        b=ZQkka1fhJgwezxDxBRFKQKZ5FYAMH5ds3NLsXBOYqTArmkjhI5MXuXGexbj2QjeltC
+         znQww8RvLIV8NSgQyT/BOqFf0LnEtndqX2KVXeDkk3RyK0qqPczZFJGutoFLUhshWMyC
+         5y8+xNKSs3rXIkFtUqu622kfUh7e7yWvMJnSQe6rVNO9UzOdfCdsf+QGHS91nweIqHXU
+         fsu1sKhZ+lo1ToNknjHLKmTlZEEL0mL9H4lYjnfOg472axyKc166kiM54xqoE7WToj6T
+         Azn4DWxmJDGJ7w3pNQHBJ/+W5/3UMemFMAkEMBnLN07UYWaTLf4ovc9/LF7ymUDknqWr
+         NbLg==
+X-Gm-Message-State: AOJu0YzYERwyJ8/9tuX6tWckLzEBlFOhxFYAhekZnLmDwQ4NWZ0TGr1C
+	hery0YvP0ssVT+WILN/tmxgDkwlWtTY=
+X-Google-Smtp-Source: AGHT+IEkrWf8/u0yuKKsq51NUIrXaVARvOeWx2lti6Y3HCUj9rAcEb1sJKJh1XxDyx1PvzgkK7z/nA==
+X-Received: by 2002:a50:c11a:0:b0:555:6bef:7c3d with SMTP id l26-20020a50c11a000000b005556bef7c3dmr2043720edf.21.1703953929367;
+        Sat, 30 Dec 2023 08:32:09 -0800 (PST)
+Received: from ?IPV6:2a02:8071:b783:140:927c:82ba:d32d:99c1? ([2a02:8071:b783:140:927c:82ba:d32d:99c1])
+        by smtp.gmail.com with ESMTPSA id g6-20020a056402114600b005561ad0368fsm213251edw.12.2023.12.30.08.32.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Dec 2023 06:31:40 -0800 (PST)
-Message-ID: <04403a25-ea88-425d-bbb2-c042d2d0cacb@linaro.org>
-Date: Sat, 30 Dec 2023 15:31:37 +0100
+        Sat, 30 Dec 2023 08:32:08 -0800 (PST)
+Message-ID: <f564b1b4-d8d1-4809-9cc0-b01aa53570a0@gmail.com>
+Date: Sat, 30 Dec 2023 17:32:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,86 +51,160 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: dt-bindings: suggest "reg-names" position in DTS
- Coding Style
+Subject: Re: [PATCH v2 1/2] hwmon: add fan speed monitoring driver for Surface
+ devices
+To: Ivor Wanders <ivor@iwanders.net>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+References: <20231228003444.5580-1-ivor@iwanders.net>
+ <20231228003444.5580-2-ivor@iwanders.net>
 Content-Language: en-US
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Konrad Dybcio <konradybcio@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Andrew Davis <afd@ti.com>, Andrew Lunn <andrew@lunn.ch>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson <andersson@kernel.org>,
- Chen-Yu Tsai <wens@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Matthias Brugger <matthias.bgg@gmail.com>,
- Michal Simek <michal.simek@amd.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Nishanth Menon <nm@ti.com>,
- Olof Johansson <olof@lixom.net>
-References: <20231229054711.17317-1-zajec5@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231229054711.17317-1-zajec5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Maximilian Luz <luzmaximilian@gmail.com>
+In-Reply-To: <20231228003444.5580-2-ivor@iwanders.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 29/12/2023 06:47, Rafał Miłecki wrote:
-> From: Rafał Miłecki <rafal@milecki.pl>
+On 12/28/23 01:34, Ivor Wanders wrote:
+> Adds a driver that provides read only access to the fan speed for Microsoft
+> Surface Pro devices. The fan speed is always regulated by the EC and cannot
+> be influenced directly.
 > 
-> Property "reg-names" is strictly related to "reg" so it should follow it
-> directly instead of falling into "Standard/common properties". This
-> helps reading DTS files.
+> Signed-off-by: Ivor Wanders <ivor@iwanders.net>
+> Link: https://github.com/linux-surface/kernel/pull/144
+> ---
+> Changes in v2:
+>    - Removed all sysfs attributes except fan1_input. Simplified code
+>      and updated documentation accordingly.
+> ---
+>   Documentation/hwmon/index.rst       |   1 +
+>   Documentation/hwmon/surface_fan.rst |  25 +++++++
+>   MAINTAINERS                         |   8 +++
+>   drivers/hwmon/Kconfig               |  13 ++++
+>   drivers/hwmon/Makefile              |   1 +
+>   drivers/hwmon/surface_fan.c         | 105 ++++++++++++++++++++++++++++
+>   6 files changed, 153 insertions(+)
+>   create mode 100644 Documentation/hwmon/surface_fan.rst
+>   create mode 100644 drivers/hwmon/surface_fan.c
+> 
 
-All 'xxx-names' should immediately follow 'xxx'. Instead of this change,
-just add a note at the bottom of this section?
+[...]
 
-Best regards,
-Krzysztof
+> diff --git a/drivers/hwmon/surface_fan.c b/drivers/hwmon/surface_fan.c
+> new file mode 100644
+> index 000000000..0160a585c
+> --- /dev/null
+> +++ b/drivers/hwmon/surface_fan.c
+> @@ -0,0 +1,105 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Surface Fan driver for Surface System Aggregator Module. It provides access
+> + * to the fan's rpm through the hwmon system.
+> + *
+> + * Copyright (C) 2023 Ivor Wanders <ivor@iwanders.net>
+> + */
+> +
+> +#include <linux/hwmon.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
 
+As far as I can see, linux/platform_device.h is not needed.
+
+Regards,
+Max
+
+> +#include <linux/surface_aggregator/device.h>
+> +#include <linux/types.h>
+> +
+> +// SSAM
+> +SSAM_DEFINE_SYNC_REQUEST_CL_R(__ssam_fan_rpm_get, __le16, {
+> +	.target_category = SSAM_SSH_TC_FAN,
+> +	.command_id      = 0x01,
+> +});
+> +
+> +// hwmon
+> +umode_t surface_fan_hwmon_is_visible(const void *drvdata,
+> +				     enum hwmon_sensor_types type, u32 attr,
+> +				     int channel)
+> +{
+> +	if (type != hwmon_fan)
+> +		return 0;
+> +
+> +	if (attr != hwmon_fan_input)
+> +		return 0;
+> +
+> +	return 0444;
+> +}
+> +
+> +static int surface_fan_hwmon_read(struct device *dev,
+> +				  enum hwmon_sensor_types type, u32 attr,
+> +				  int channel, long *val)
+> +{
+> +	struct ssam_device *sdev = dev_get_drvdata(dev);
+> +	__le16 value;
+> +
+> +	if (type != hwmon_fan)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (attr != hwmon_fan_input)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (__ssam_fan_rpm_get(sdev, &value))
+> +		return -EIO;
+> +
+> +	*val = le16_to_cpu(value);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct hwmon_channel_info *const surface_fan_info[] = {
+> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_ops surface_fan_hwmon_ops = {
+> +	.is_visible = surface_fan_hwmon_is_visible,
+> +	.read = surface_fan_hwmon_read,
+> +};
+> +
+> +static const struct hwmon_chip_info surface_fan_chip_info = {
+> +	.ops = &surface_fan_hwmon_ops,
+> +	.info = surface_fan_info,
+> +};
+> +
+> +static int surface_fan_probe(struct ssam_device *sdev)
+> +{
+> +	struct device *hdev;
+> +
+> +	hdev = devm_hwmon_device_register_with_info(&sdev->dev, "fan", sdev,
+> +						    &surface_fan_chip_info,
+> +						    NULL);
+> +	if (IS_ERR(hdev))
+> +		return PTR_ERR(hdev);
+> +
+> +	ssam_device_set_drvdata(sdev, sdev);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct ssam_device_id ssam_fan_match[] = {
+> +	{ SSAM_SDEV(FAN, SAM, 0x01, 0x01) },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(ssam, ssam_fan_match);
+> +
+> +static struct ssam_device_driver surface_fan = {
+> +	.probe = surface_fan_probe,
+> +	.match_table = ssam_fan_match,
+> +	.driver = {
+> +		.name = "surface_fan",
+> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> +	},
+> +};
+> +module_ssam_device_driver(surface_fan);
+> +
+> +MODULE_AUTHOR("Ivor Wanders <ivor@iwanders.net>");
+> +MODULE_DESCRIPTION("Fan Driver for Surface System Aggregator Module");
+> +MODULE_LICENSE("GPL");
