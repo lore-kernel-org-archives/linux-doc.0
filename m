@@ -1,68 +1,106 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DD4E559
-	for <linux-doc@vger.kernel.org>; Sat, 30 Dec 2023 22:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iwanders.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iwanders.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDA6138A;
+	Sun, 31 Dec 2023 04:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b="WzJblL9s"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-680a13af19bso7744386d6.0
-        for <linux-doc@vger.kernel.org>; Sat, 30 Dec 2023 14:46:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=iwanders.net; s=google; t=1703976393; x=1704581193; darn=vger.kernel.org;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fZIH0cllwWP10xEZ7qclYaGxBZpXoISgRGheC+EsW2c=;
-        b=WzJblL9s5WcFHtPruCmD8VKuI5L4zDuOBb3kc/ERqm55ISpz8zQTa3u1SWB+5TcE8P
-         hM/6Fwey6xz7cOzWUax2Z+Bggizf+mmoUH+Qv/zQyFJEQ8boZDfRUMAAkPSy4k5zG+Bz
-         9QPnpgIVcq9X2B2hPyhRMYtMTSrYiIq2eUBfo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703976393; x=1704581193;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fZIH0cllwWP10xEZ7qclYaGxBZpXoISgRGheC+EsW2c=;
-        b=N8H8kMRJzvX4DrZ6ZxyTUh4eoCLVwpKqSMEmrOQ3HpczewHilLVCN4eEDleQHTS32R
-         qZeWGoXKlediL+cgmWRKksaMzLc6knCSRZoO7f0XkPJCregGMvWmExYkazkTQYCrqYO2
-         1F5/TQN5SDXa1iHH2ZmPI4te5QdgXMgNwpP62LCCsV8ICNqRb/e3RClemwt8pic8uAel
-         Dp3YXeE8Qe1jGW/UreShVJzGjBL8J1e//XnTzwCgok0nwVGI15flUkZazHmRS16jSV/E
-         BaAlw2mfc+Vjo3yqPA1VsnrkvyMv4IyPTFHMiF8124YM14dcIfDa6V8RNLXAS+zVBnLN
-         by9g==
-X-Gm-Message-State: AOJu0YyDa36ov3dHjwIdvD7W4rJWKZuYNn6xXWd596gPhqPR7rKav6bq
-	86way0bMG3k+uff7geIspFedokuox65ieA==
-X-Google-Smtp-Source: AGHT+IHJ9upV4SW2nHDVn+pdfd0Dmw6j+xR3o3cnnfx5doXDlyLXLFSm+v3OsxVzMPdKpASOiFCHCg==
-X-Received: by 2002:a05:6214:1110:b0:680:1099:851f with SMTP id e16-20020a056214111000b006801099851fmr11210203qvs.83.1703976393569;
-        Sat, 30 Dec 2023 14:46:33 -0800 (PST)
-Received: from eagle.lan (24-246-30-234.cable.teksavvy.com. [24.246.30.234])
-        by smtp.gmail.com with ESMTPSA id da7-20020a05621408c700b0067f2c03d4adsm8136440qvb.100.2023.12.30.14.46.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Dec 2023 14:46:33 -0800 (PST)
-From: Ivor Wanders <ivor@iwanders.net>
-To: luzmaximilian@gmail.com
-Cc: corbet@lwn.net,
-	hdegoede@redhat.com,
-	ivor@iwanders.net,
-	jdelvare@suse.com,
-	linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	markgross@kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] hwmon: add fan speed monitoring driver for Surface devices
-Date: Sat, 30 Dec 2023 17:46:30 -0500
-Message-Id: <20231230224630.12618-1-ivor@iwanders.net>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <f564b1b4-d8d1-4809-9cc0-b01aa53570a0@gmail.com>
-References: <f564b1b4-d8d1-4809-9cc0-b01aa53570a0@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EEL4F3KZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=IVgiiMZDdOtzhHaKIlJ7lRKAgdbPHW0wrCohBZPxCWA=; b=EEL4F3KZtl41bZZKJ0d3hf/GgY
+	r7VdpYBtVMkLrvW9l/yF8ppEMjk34MvQQKY1X0McrXzr6EK1NUdlOMy1ug3pOevIMgVFDkYnKToF7
+	9B0GK4VmTlhGrReZYbcTOi81JWqFVZjZfXyk2Fk4cQan1fHl1CxQ9YKuzbYWRPRVMKvkuU9cdQKf8
+	aoF/dMkLYxk5W83UmubMnXbFShjk6cySsQZPdbASM30J8uTYPOlm3+MT4gfcN6D8bL3vDVWKNeg2O
+	x+9PeQgWFrw62aJ+JSrfehJYAmAXhWesJI+BtE+2Upjl22eUmqj8Z5awHTmwHHdksfwtDn3DWvk6N
+	6x0l8DFQ==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rJnbZ-003wt9-1b;
+	Sun, 31 Dec 2023 04:39:17 +0000
+Message-ID: <4ad2944b-db65-4877-b388-2bcaa23e88ec@infradead.org>
+Date: Sat, 30 Dec 2023 20:39:16 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] ring-buffer/Documentation: Add documentation on
+ buffer_percent file
+Content-Language: en-US
+To: Steven Rostedt <rostedt@goodmis.org>, LKML
+ <linux-kernel@vger.kernel.org>,
+ Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+References: <20231229122402.537eb252@gandalf.local.home>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231229122402.537eb252@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> As far as I can see, linux/platform_device.h is not needed.
 
-Correct, it's no longer necessary, I've removed it, thanks!
 
-~Ivor
+On 12/29/23 09:24, Steven Rostedt wrote:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> 
+> When the buffer_percent file was added to the kernel, the documentation
+> should have been updated to document what that file does.
+> 
+> Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> Fixes: 03329f9939781 ("tracing: Add tracefs file buffer_percentage")
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+LGTM. Thanks.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+> Changes since v2: https://lore.kernel.org/linux-trace-kernel/20231226130149.4685c838@gandalf.local.home
+> 
+> - s/watermark/water-mark/ (Randy Dunlap)
+
+That comment is backwards. :)
+No new patch needed IMO.
+
+> 
+> - Added '::' and indented the number list so that it has better
+>   formatting (kernel test robot)
+> 
+>  Documentation/trace/ftrace.rst | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+> index 933e7efb9f1b..917501a2f348 100644
+> --- a/Documentation/trace/ftrace.rst
+> +++ b/Documentation/trace/ftrace.rst
+> @@ -180,6 +180,21 @@ of ftrace. Here is a list of some of the key files:
+>  	Only active when the file contains a number greater than 0.
+>  	(in microseconds)
+>  
+> +  buffer_percent:
+> +
+> +	This is the watermark for how much the ring buffer needs to be filled
+> +	before a waiter is woken up. That is, if an application calls a
+> +	blocking read syscall on one of the per_cpu trace_pipe_raw files, it
+> +	will block until the given amount of data specified by buffer_percent
+> +	is in the ring buffer before it wakes the reader up. This also
+> +	controls how the splice system calls are blocked on this file::
+> +
+> +	  0   - means to wake up as soon as there is any data in the ring buffer.
+> +	  50  - means to wake up when roughly half of the ring buffer sub-buffers
+> +	        are full.
+> +	  100 - means to block until the ring buffer is totally full and is
+> +	        about to start overwriting the older data.
+> +
+>    buffer_size_kb:
+>  
+>  	This sets or displays the number of kilobytes each CPU
+
+-- 
+#Randy
