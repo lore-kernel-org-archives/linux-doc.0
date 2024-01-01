@@ -1,216 +1,208 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D721DC8CB
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jan 2024 00:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC02803;
+	Mon,  1 Jan 2024 03:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="mQX35mr/"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BVNvuIh007295;
-	Mon, 1 Jan 2024 00:00:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2023-11-20;
- bh=m+uGDUzwoy19lTleQGJW262YTT5p5oJhsSZFU63+2sA=;
- b=mQX35mr/hJmdY+m8sTn49OOyfZy4H1GrBWrPTgOLZwFT1MTl6sX/YAgUjQGBAA7gLUhd
- +hUd3EsC7QStfzLzVUPXdGZe9uFSCNLYGL9FHvV0zaZOwiv6Oy+m/Qt8x/PAlcdujm/d
- K9igN6fQwzL12FUqE3OhS2gsNaaDJUbPcK0A73oEaXkZ9+rAo1MKn83uWTaa1lfgEXnc
- T2Tqz4WvBL030S4yhdAGbQMjOjzlx8T3vEsbcgCUKEDOdcwwM0p5G8kPEvwDpUzGKCCZ
- TGS3fi3B3nmYrSzt3UKGbQ8aOnhze8+NcBa+i64ebpfGpYX+JkWzQDr1of5aN0nZ6tuk Hw== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vaatu1b9f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 01 Jan 2024 00:00:11 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BVKFL70001883;
-	Mon, 1 Jan 2024 00:00:10 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3va9n4xcqv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 01 Jan 2024 00:00:10 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 401007oX021824;
-	Mon, 1 Jan 2024 00:00:10 GMT
-Received: from localhost.localdomain (dhcp-10-175-57-83.vpn.oracle.com [10.175.57.83])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3va9n4xchr-2;
-	Mon, 01 Jan 2024 00:00:10 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
-        Jani Nikula <jani.nikula@intel.com>
-Subject: [RFC PATCH 2/2] docs: kernel_abi.py: fix command injection
-Date: Mon,  1 Jan 2024 00:59:59 +0100
-Message-Id: <20231231235959.3342928-2-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231231235959.3342928-1-vegard.nossum@oracle.com>
-References: <20231231235959.3342928-1-vegard.nossum@oracle.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a42qvMKy"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2044d093b3fso5536279fac.3;
+        Sun, 31 Dec 2023 19:12:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704078738; x=1704683538; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u7GvQd+qHdmtATzJklO2uLLq2EMXX40HqpmDmkw+3xc=;
+        b=a42qvMKyW+XoKvvIpgdgdZPtfQt26VuYTi9XQjfghrnwfdxP2iSqu04mw6woyQXi/Q
+         0pr4uVDjDgbM6qOnS+5/HiVCbL8+9CuuvUk5JMx0vYum9hfBO/ZsIIzo9tduNyiOHt4n
+         L3TfRGeSSwA+993w6ApDcuTj71YHSdm/mSiaAUNPtCUmXpeOM3KWkogqBR+guKc2pRYp
+         3OVkoAUwSAKgw48xc9A2F+JDfRX5vsKKUXfEVoBeV8DsD7ATiLn4LBj2OLuK2ar2Wlnr
+         dJephnPRtQFOVK6VvkL9Gb9bzw17CURuq4PDTtdNHZn12fbWK0EcQLmAVISdm5bscDXs
+         3fqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704078738; x=1704683538;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u7GvQd+qHdmtATzJklO2uLLq2EMXX40HqpmDmkw+3xc=;
+        b=nw/kNM6DUDCBjWPE9vBf6TeEulEuY4kg0tBb8+KcYwiLxcdzwdPGh8e6G2LVJAzPQk
+         qd6ISr4qx9leADfmpLNohFfxdNGCMg/8H7//hTEbKeEAd2a1UHw+6MUMMC67ONsC6UyP
+         3pNZGyjrmjPqA89rJiGF3wKD/vH6cxG+R3CPkayVvkURDswqT4kWi7zHsuuGpIo0OH3+
+         lJUGmJ8ZOmDLsoqVhXpTC4cToeAiUGumNXwJBkShqXwoRdNXfZYzWhyFhk2k+j0HhwSi
+         3CGyGfN9dQh9nBeSsGnwSwdtYzjlUAf2MtgZvtr/rQF52Uo/jBdeb+SBvN2UTu0YxkDq
+         hPrw==
+X-Gm-Message-State: AOJu0YwO7E0rWJ4rMILdFvrx/cw76hwAgHlZiTShwWOeU53n8/M8Zzoa
+	/Ku2Ay8kbDnwH9GfpXvQlks=
+X-Google-Smtp-Source: AGHT+IHQ+OiL9S5Ow8z8Ds9CB3HJTSLmax8kYcY2mrz/LWBaOfNiMH1YtKidYuTf8kt4QMLxMbVIjA==
+X-Received: by 2002:a05:6871:60e:b0:203:b5ec:ef08 with SMTP id w14-20020a056871060e00b00203b5ecef08mr18560864oan.107.1704078738325;
+        Sun, 31 Dec 2023 19:12:18 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id cb5-20020a056a02070500b005ce170c797bsm10975835pgb.87.2023.12.31.19.12.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Dec 2023 19:12:17 -0800 (PST)
+Message-ID: <4b2d4c62-135d-4d25-8a3a-2fabd996c980@gmail.com>
+Date: Mon, 1 Jan 2024 12:12:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-31_14,2023-12-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 bulkscore=0
- phishscore=0 suspectscore=0 spamscore=0 adultscore=0 mlxlogscore=915
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312310198
-X-Proofpoint-GUID: cYXUiBmEUnhzdCQinFWf2zc6p7KmF9Dt
-X-Proofpoint-ORIG-GUID: cYXUiBmEUnhzdCQinFWf2zc6p7KmF9Dt
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: Raise the minimum Sphinx requirement to 2.4.4
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <874jgs47fq.fsf@meer.lwn.net>
+ <50830030-dca7-4c43-bcc8-449c7cfa9fbb@gmail.com>
+ <87sf43qxzt.fsf@meer.lwn.net>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87sf43qxzt.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The kernel-abi directive passes its argument straight to the shell.
-This is unfortunate and unnecessary.
+Hi,
 
-Let's always use paths relative to $srctree/Documentation/ and use
-subprocess.check_call() instead of subprocess.Popen(shell=True).
+On Fri, 15 Dec 2023 08:36:06 -0700, Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+> 
+>> With this patch applied, I get a confusing looking warning from
+>> "make htmldocs" on a machine where the Sphinx version is 2.4.5:
+>>
+>> --------
+>> Warning: It is recommended at least Sphinx version 3.4.3.
+>> To upgrade Sphinx, use:
+>>
+>> 	/home/akira/sphinx-2.4.5/bin/python3 -m venv sphinx_2.4.4
+>> 	. sphinx_2.4.4/bin/activate
+>> 	pip install -r ./Documentation/sphinx/requirements.txt
+>>
+>>     If you want to exit the virtualenv, you can use:
+>> 	deactivate
+>> --------
+>>
+>> Looks like we need to update requirements.txt as well so that it
+>> installs Sphinx 3.4.3.  Appended below is a fixup patch to that
+>> effect.
+> 
+> So I can apply this, certainly, but it makes me feel like perhaps we
+> need to reconsider our approach a bit.  It's kind of weird that we have
+> a minimum supported version, then a semi-random "recommended" version
+> that is still pretty old.
+> 
+> Is there a reason to suggest to people that they should run something
+> other than current sphinx, especially if they are updating it anyway?
+> So our "recommended version" is really "recommended *minimum* version"?
 
-This also makes the code shorter.
+I picked 3.4.3 just because it is the version of distro Sphinx on
+debian 11 and RHEL 9.  It works just fine and "make htmldocs" should
+not complain it as not-recommended.
 
-Link: https://fosstodon.org/@jani/111676532203641247
-Reported-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Documentation/admin-guide/abi-obsolete.rst |  2 +-
- Documentation/admin-guide/abi-removed.rst  |  2 +-
- Documentation/admin-guide/abi-stable.rst   |  2 +-
- Documentation/admin-guide/abi-testing.rst  |  2 +-
- Documentation/sphinx/kernel_abi.py         | 56 ++++------------------
- 5 files changed, 14 insertions(+), 50 deletions(-)
+In sphinx-pre-install, "recommended version", aka $rec_version, works
+as a criteria to emit upgrade suggestion.
 
-diff --git a/Documentation/admin-guide/abi-obsolete.rst b/Documentation/admin-guide/abi-obsolete.rst
-index d095867899c5..594e697aa1b2 100644
---- a/Documentation/admin-guide/abi-obsolete.rst
-+++ b/Documentation/admin-guide/abi-obsolete.rst
-@@ -7,5 +7,5 @@ marked to be removed at some later point in time.
- The description of the interface will document the reason why it is
- obsolete and when it can be expected to be removed.
- 
--.. kernel-abi:: $srctree/Documentation/ABI/obsolete
-+.. kernel-abi:: ABI/obsolete
-    :rst:
-diff --git a/Documentation/admin-guide/abi-removed.rst b/Documentation/admin-guide/abi-removed.rst
-index f7e9e43023c1..f9e000c81828 100644
---- a/Documentation/admin-guide/abi-removed.rst
-+++ b/Documentation/admin-guide/abi-removed.rst
-@@ -1,5 +1,5 @@
- ABI removed symbols
- ===================
- 
--.. kernel-abi:: $srctree/Documentation/ABI/removed
-+.. kernel-abi:: ABI/removed
-    :rst:
-diff --git a/Documentation/admin-guide/abi-stable.rst b/Documentation/admin-guide/abi-stable.rst
-index 70490736e0d3..fc3361d847b1 100644
---- a/Documentation/admin-guide/abi-stable.rst
-+++ b/Documentation/admin-guide/abi-stable.rst
-@@ -10,5 +10,5 @@ for at least 2 years.
- Most interfaces (like syscalls) are expected to never change and always
- be available.
- 
--.. kernel-abi:: $srctree/Documentation/ABI/stable
-+.. kernel-abi:: ABI/stable
-    :rst:
-diff --git a/Documentation/admin-guide/abi-testing.rst b/Documentation/admin-guide/abi-testing.rst
-index b205b16a72d0..19767926b344 100644
---- a/Documentation/admin-guide/abi-testing.rst
-+++ b/Documentation/admin-guide/abi-testing.rst
-@@ -16,5 +16,5 @@ Programs that use these interfaces are strongly encouraged to add their
- name to the description of these interfaces, so that the kernel
- developers can easily notify them if any changes occur.
- 
--.. kernel-abi:: $srctree/Documentation/ABI/testing
-+.. kernel-abi:: ABI/testing
-    :rst:
-diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-index 49797c55479c..5911bd0d7965 100644
---- a/Documentation/sphinx/kernel_abi.py
-+++ b/Documentation/sphinx/kernel_abi.py
-@@ -39,8 +39,6 @@ import sys
- import re
- import kernellog
- 
--from os import path
--
- from docutils import nodes, statemachine
- from docutils.statemachine import ViewList
- from docutils.parsers.rst import directives, Directive
-@@ -73,60 +71,26 @@ class KernelCmd(Directive):
-     }
- 
-     def run(self):
--
-         doc = self.state.document
-         if not doc.settings.file_insertion_enabled:
-             raise self.warning("docutils: file insertion disabled")
- 
--        env = doc.settings.env
--        cwd = path.dirname(doc.current_source)
--        cmd = "get_abi.pl rest --enable-lineno --dir "
--        cmd += self.arguments[0]
--
--        if 'rst' in self.options:
--            cmd += " --rst-source"
-+        srctree = os.path.abspath(os.environ["srctree"])
- 
--        srctree = path.abspath(os.environ["srctree"])
-+        args = [
-+            os.path.join(srctree, 'scripts/get_abi.pl'),
-+            'rest',
-+            '--enable-lineno',
-+            '--dir', os.path.join(srctree, 'Documentation', self.arguments[0]),
-+        ]
- 
--        fname = cmd
--
--        # extend PATH with $(srctree)/scripts
--        path_env = os.pathsep.join([
--            srctree + os.sep + "scripts",
--            os.environ["PATH"]
--        ])
--        shell_env = os.environ.copy()
--        shell_env["PATH"]    = path_env
--        shell_env["srctree"] = srctree
-+        if 'rst' in self.options:
-+            args.append('--rst-source')
- 
--        lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
-+        lines = subprocess.check_output(args, cwd=os.path.dirname(doc.current_source)).decode('utf-8')
-         nodeList = self.nestedParse(lines, self.arguments[0])
-         return nodeList
- 
--    def runCmd(self, cmd, **kwargs):
--        u"""Run command ``cmd`` and return its stdout as unicode."""
--
--        try:
--            proc = subprocess.Popen(
--                cmd
--                , stdout = subprocess.PIPE
--                , stderr = subprocess.PIPE
--                , **kwargs
--            )
--            out, err = proc.communicate()
--
--            out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
--
--            if proc.returncode != 0:
--                raise self.severe(
--                    u"command '%s' failed with return code %d"
--                    % (cmd, proc.returncode)
--                )
--        except OSError as exc:
--            raise self.severe(u"problems with '%s' directive: %s."
--                              % (self.name, ErrorString(exc)))
--        return out
--
-     def nestedParse(self, lines, fname):
-         env = self.state.document.settings.env
-         content = ViewList()
--- 
-2.34.1
+That said, I think it should be OK if "pip install -r requirements.txt"
+installs a newer version.
+
+>
+> 
+>> ----8<----
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Subject: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx version
+>>
+>> sphinx_pre_install parses the version of Sphinx in requirements.txt
+>> and emits messages based on it.
+>> Update requirements.txt so that it installs Sphinx 3.4.3, as well as
+>> the examples in documentation.
+>>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>> ---
+>>  Documentation/doc-guide/sphinx.rst    | 14 +++++++-------
+>>  Documentation/sphinx/requirements.txt |  4 +++-
+>>  2 files changed, 10 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+>> index 3d125fb4139d..5227a2611026 100644
+>> --- a/Documentation/doc-guide/sphinx.rst
+>> +++ b/Documentation/doc-guide/sphinx.rst
+>> @@ -48,13 +48,13 @@ or ``virtualenv``, depending on how your distribution packaged Python 3.
+>>        on the Sphinx version, it should be installed separately,
+>>        with ``pip install sphinx_rtd_theme``.
+>>  
+>> -In summary, if you want to install Sphinx version 2.4.4, you should do::
+>> +In summary, if you want to install Sphinx version 3.4.3, you should do::
+>>  
+>> -       $ virtualenv sphinx_2.4.4
+>> -       $ . sphinx_2.4.4/bin/activate
+>> -       (sphinx_2.4.4) $ pip install -r Documentation/sphinx/requirements.txt
+>> +       $ virtualenv sphinx_3.4.3
+>> +       $ . sphinx_3.4.3/bin/activate
+>> +       (sphinx_3.4.3) $ pip install -r Documentation/sphinx/requirements.txt
+> 
+> Here we could take version numbers out entirely; otherwise we'll always
+> be updating this.
+
+I thing this should be a verbatim copy of message from sphinx_pre_install
+presented later in sphinx.rst.
+
+> 
+>> -After running ``. sphinx_2.4.4/bin/activate``, the prompt will change,
+>> +After running ``. sphinx_3.4.3/bin/activate``, the prompt will change,
+>>  in order to indicate that you're using the new environment. If you
+>>  open a new shell, you need to rerun this command to enter again at
+>>  the virtual environment before building the documentation.
+>> @@ -118,8 +118,8 @@ command line options for your distro::
+>>  	You should run:
+>>  
+>>  		sudo dnf install -y texlive-luatex85
+>> -		/usr/bin/virtualenv sphinx_2.4.4
+>> -		. sphinx_2.4.4/bin/activate
+>> +		/usr/bin/virtualenv sphinx_3.4.3
+>> +		. sphinx_3.4.3/bin/activate
+>>  		pip install -r Documentation/sphinx/requirements.txt
+>>  
+>>  	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
+>> diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
+>> index 335b53df35e2..89329e67e788 100644
+>> --- a/Documentation/sphinx/requirements.txt
+>> +++ b/Documentation/sphinx/requirements.txt
+>> @@ -1,3 +1,5 @@
+>>  # jinja2>=3.1 is not compatible with Sphinx<4.0
+>>  jinja2<3.1
+>> -Sphinx==2.4.4
+>> +# docutils>=0.18 is not compatible with 3.0 <= Sphinx < 4.0
+>> +docutils<0.18
+>> +Sphinx==3.4.3
+> 
+> I'd forgotten about the docutils fun.  I wonder of our recommended
+> minimum should actually be 4.0, then here we could put simply:
+> 
+>   Sphinx>4.0
+
+I tried it and "make htmldocs" complains:
+
+    Can't get default sphinx version from ./Documentation/sphinx/requirements.txt at ./scripts/sphinx-pre-install line 305.
+    make[2]: *** [Documentation/Makefile:101: htmldocs] Error 255
+    make[1]: *** [/home/akira/git/linux/Makefile:1695: htmldocs] Error 2
+    make: *** [Makefile:234: __sub-make] Error 2
+
+I did try to remedy this, but realized that I was too frustrated in
+deciphering the script to come up with a reasonable update.
+
+I'm giving up on this.
+
+Sorry about that.
+
+Regards,
+Akira
+
+> 
+> ?
+> 
+> Thanks,
+> 
+> jon
 
