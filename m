@@ -1,208 +1,95 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxout013.mail.hostpoint.ch (mxout013.mail.hostpoint.ch [217.26.49.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC02803;
-	Mon,  1 Jan 2024 03:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a42qvMKy"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2044d093b3fso5536279fac.3;
-        Sun, 31 Dec 2023 19:12:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704078738; x=1704683538; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=u7GvQd+qHdmtATzJklO2uLLq2EMXX40HqpmDmkw+3xc=;
-        b=a42qvMKyW+XoKvvIpgdgdZPtfQt26VuYTi9XQjfghrnwfdxP2iSqu04mw6woyQXi/Q
-         0pr4uVDjDgbM6qOnS+5/HiVCbL8+9CuuvUk5JMx0vYum9hfBO/ZsIIzo9tduNyiOHt4n
-         L3TfRGeSSwA+993w6ApDcuTj71YHSdm/mSiaAUNPtCUmXpeOM3KWkogqBR+guKc2pRYp
-         3OVkoAUwSAKgw48xc9A2F+JDfRX5vsKKUXfEVoBeV8DsD7ATiLn4LBj2OLuK2ar2Wlnr
-         dJephnPRtQFOVK6VvkL9Gb9bzw17CURuq4PDTtdNHZn12fbWK0EcQLmAVISdm5bscDXs
-         3fqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704078738; x=1704683538;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u7GvQd+qHdmtATzJklO2uLLq2EMXX40HqpmDmkw+3xc=;
-        b=nw/kNM6DUDCBjWPE9vBf6TeEulEuY4kg0tBb8+KcYwiLxcdzwdPGh8e6G2LVJAzPQk
-         qd6ISr4qx9leADfmpLNohFfxdNGCMg/8H7//hTEbKeEAd2a1UHw+6MUMMC67ONsC6UyP
-         3pNZGyjrmjPqA89rJiGF3wKD/vH6cxG+R3CPkayVvkURDswqT4kWi7zHsuuGpIo0OH3+
-         lJUGmJ8ZOmDLsoqVhXpTC4cToeAiUGumNXwJBkShqXwoRdNXfZYzWhyFhk2k+j0HhwSi
-         3CGyGfN9dQh9nBeSsGnwSwdtYzjlUAf2MtgZvtr/rQF52Uo/jBdeb+SBvN2UTu0YxkDq
-         hPrw==
-X-Gm-Message-State: AOJu0YwO7E0rWJ4rMILdFvrx/cw76hwAgHlZiTShwWOeU53n8/M8Zzoa
-	/Ku2Ay8kbDnwH9GfpXvQlks=
-X-Google-Smtp-Source: AGHT+IHQ+OiL9S5Ow8z8Ds9CB3HJTSLmax8kYcY2mrz/LWBaOfNiMH1YtKidYuTf8kt4QMLxMbVIjA==
-X-Received: by 2002:a05:6871:60e:b0:203:b5ec:ef08 with SMTP id w14-20020a056871060e00b00203b5ecef08mr18560864oan.107.1704078738325;
-        Sun, 31 Dec 2023 19:12:18 -0800 (PST)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id cb5-20020a056a02070500b005ce170c797bsm10975835pgb.87.2023.12.31.19.12.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Dec 2023 19:12:17 -0800 (PST)
-Message-ID: <4b2d4c62-135d-4d25-8a3a-2fabd996c980@gmail.com>
-Date: Mon, 1 Jan 2024 12:12:16 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39706E556;
+	Mon,  1 Jan 2024 22:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stefan-gloor.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stefan-gloor.ch
+Received: from [10.0.2.46] (helo=asmtp013.mail.hostpoint.ch)
+	by mxout013.mail.hostpoint.ch with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2 (FreeBSD))
+	(envelope-from <code@stefan-gloor.ch>)
+	id 1rKQc2-0008Ap-1b;
+	Mon, 01 Jan 2024 23:18:22 +0100
+Received: from 157.20.79.83.dynamic.wline.res.cust.swisscom.ch ([83.79.20.157] helo=thinkpad)
+	by asmtp013.mail.hostpoint.ch with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2 (FreeBSD))
+	(envelope-from <code@stefan-gloor.ch>)
+	id 1rKQc2-000Miy-10;
+	Mon, 01 Jan 2024 23:18:22 +0100
+X-Authenticated-Sender-Id: code@stefan-gloor.ch
+Date: Mon, 1 Jan 2024 23:18:21 +0100
+From: Stefan Gloor <code@stefan-gloor.ch>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] hwmon: (sht3x) read out sensor serial number
+Message-ID: <20240101221448.wtwn23vgeptgs36v@thinkpad>
+References: <20231227190036.20725-1-code@stefan-gloor.ch>
+ <20231227190036.20725-2-code@stefan-gloor.ch>
+ <4389cd48-5d61-49bc-8cb5-b337afe40c23@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: Raise the minimum Sphinx requirement to 2.4.4
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Akira Yokosawa <akiyks@gmail.com>
-References: <874jgs47fq.fsf@meer.lwn.net>
- <50830030-dca7-4c43-bcc8-449c7cfa9fbb@gmail.com>
- <87sf43qxzt.fsf@meer.lwn.net>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87sf43qxzt.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4389cd48-5d61-49bc-8cb5-b337afe40c23@roeck-us.net>
+X-Vs-State: 0
 
-Hi,
-
-On Fri, 15 Dec 2023 08:36:06 -0700, Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
+On Sun, Dec 31, 2023 at 10:32:56AM -0800, Guenter Roeck wrote:
+> This creates i2c<bus>-<address>/serial_number when the device is instantiated.
+> That debugfs entry is not removed when the device is removed, only when the
+> driver is unloaded. This means that de-instantiating the device will leave
+> stray debugfs directories and files behind until the driver is unloaded.
 > 
->> With this patch applied, I get a confusing looking warning from
->> "make htmldocs" on a machine where the Sphinx version is 2.4.5:
->>
->> --------
->> Warning: It is recommended at least Sphinx version 3.4.3.
->> To upgrade Sphinx, use:
->>
->> 	/home/akira/sphinx-2.4.5/bin/python3 -m venv sphinx_2.4.4
->> 	. sphinx_2.4.4/bin/activate
->> 	pip install -r ./Documentation/sphinx/requirements.txt
->>
->>     If you want to exit the virtualenv, you can use:
->> 	deactivate
->> --------
->>
->> Looks like we need to update requirements.txt as well so that it
->> installs Sphinx 3.4.3.  Appended below is a fixup patch to that
->> effect.
+> We had this before, and I understand that you claimed that this doesn't happen.
+> To get me to believe you, you'll have to provide a log of
 > 
-> So I can apply this, certainly, but it makes me feel like perhaps we
-> need to reconsider our approach a bit.  It's kind of weird that we have
-> a minimum supported version, then a semi-random "recommended" version
-> that is still pretty old.
+> - instantiating the driver 
+> - Showing the debufs tree
+> - de-instantiating the driver
+> - Showing the debugfs tree
 > 
-> Is there a reason to suggest to people that they should run something
-> other than current sphinx, especially if they are updating it anyway?
-> So our "recommended version" is really "recommended *minimum* version"?
-
-I picked 3.4.3 just because it is the version of distro Sphinx on
-debian 11 and RHEL 9.  It works just fine and "make htmldocs" should
-not complain it as not-recommended.
-
-In sphinx-pre-install, "recommended version", aka $rec_version, works
-as a criteria to emit upgrade suggestion.
-
-That said, I think it should be OK if "pip install -r requirements.txt"
-installs a newer version.
-
->
+> ... but even then I'll want to be able to test it myself. Not sure if I
+> have an eval board, but either case that will take some time. Frankly,
+> I don't understand why you refuse to remove
+> i2c<bus>-<address>/serial_number on device removal.
 > 
->> ----8<----
->> From: Akira Yokosawa <akiyks@gmail.com>
->> Subject: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx version
->>
->> sphinx_pre_install parses the version of Sphinx in requirements.txt
->> and emits messages based on it.
->> Update requirements.txt so that it installs Sphinx 3.4.3, as well as
->> the examples in documentation.
->>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->> ---
->>  Documentation/doc-guide/sphinx.rst    | 14 +++++++-------
->>  Documentation/sphinx/requirements.txt |  4 +++-
->>  2 files changed, 10 insertions(+), 8 deletions(-)
->>
->> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
->> index 3d125fb4139d..5227a2611026 100644
->> --- a/Documentation/doc-guide/sphinx.rst
->> +++ b/Documentation/doc-guide/sphinx.rst
->> @@ -48,13 +48,13 @@ or ``virtualenv``, depending on how your distribution packaged Python 3.
->>        on the Sphinx version, it should be installed separately,
->>        with ``pip install sphinx_rtd_theme``.
->>  
->> -In summary, if you want to install Sphinx version 2.4.4, you should do::
->> +In summary, if you want to install Sphinx version 3.4.3, you should do::
->>  
->> -       $ virtualenv sphinx_2.4.4
->> -       $ . sphinx_2.4.4/bin/activate
->> -       (sphinx_2.4.4) $ pip install -r Documentation/sphinx/requirements.txt
->> +       $ virtualenv sphinx_3.4.3
->> +       $ . sphinx_3.4.3/bin/activate
->> +       (sphinx_3.4.3) $ pip install -r Documentation/sphinx/requirements.txt
+> Guenter
 > 
-> Here we could take version numbers out entirely; otherwise we'll always
-> be updating this.
 
-I thing this should be a verbatim copy of message from sphinx_pre_install
-presented later in sphinx.rst.
+Hi Guenter,
 
-> 
->> -After running ``. sphinx_2.4.4/bin/activate``, the prompt will change,
->> +After running ``. sphinx_3.4.3/bin/activate``, the prompt will change,
->>  in order to indicate that you're using the new environment. If you
->>  open a new shell, you need to rerun this command to enter again at
->>  the virtual environment before building the documentation.
->> @@ -118,8 +118,8 @@ command line options for your distro::
->>  	You should run:
->>  
->>  		sudo dnf install -y texlive-luatex85
->> -		/usr/bin/virtualenv sphinx_2.4.4
->> -		. sphinx_2.4.4/bin/activate
->> +		/usr/bin/virtualenv sphinx_3.4.3
->> +		. sphinx_3.4.3/bin/activate
->>  		pip install -r Documentation/sphinx/requirements.txt
->>  
->>  	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
->> diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
->> index 335b53df35e2..89329e67e788 100644
->> --- a/Documentation/sphinx/requirements.txt
->> +++ b/Documentation/sphinx/requirements.txt
->> @@ -1,3 +1,5 @@
->>  # jinja2>=3.1 is not compatible with Sphinx<4.0
->>  jinja2<3.1
->> -Sphinx==2.4.4
->> +# docutils>=0.18 is not compatible with 3.0 <= Sphinx < 4.0
->> +docutils<0.18
->> +Sphinx==3.4.3
-> 
-> I'd forgotten about the docutils fun.  I wonder of our recommended
-> minimum should actually be 4.0, then here we could put simply:
-> 
->   Sphinx>4.0
+Thank you for your patience. As this is my first patch set for Linux I still
+need to learn a lot.
 
-I tried it and "make htmldocs" complains:
+You are right. I was confused about driver instantiation and driver
+loading/unloading. The i2cX-XX directory needs to be removed explicitly.
 
-    Can't get default sphinx version from ./Documentation/sphinx/requirements.txt at ./scripts/sphinx-pre-install line 305.
-    make[2]: *** [Documentation/Makefile:101: htmldocs] Error 255
-    make[1]: *** [/home/akira/git/linux/Makefile:1695: htmldocs] Error 2
-    make: *** [Makefile:234: __sub-make] Error 2
+If I understood correctly, the following changes should achieve this:
 
-I did try to remedy this, but realized that I was too frustrated in
-deciphering the script to come up with a reasonable update.
++static void sht3x_remove(struct i2c_client *client)
++{
++	struct sht3x_data *data;
++
++	data = dev_get_drvdata(&client->dev);
++	debugfs_remove_recursive(data->sensor_dir);
++}
++
+ static struct i2c_driver sht3x_i2c_driver = {
+ 	.driver.name = "sht3x",
+ 	.probe       = sht3x_probe,
++	.remove      = sht3x_remove,
+ 	.id_table    = sht3x_ids,
+ };
 
-I'm giving up on this.
+Of course data->sensor_dir needs to be set to the i2X-XX directory when it is
+created.
 
-Sorry about that.
+If there is nothing obviously wrong with it I'll submit v4 shortly.
 
-Regards,
-Akira
-
-> 
-> ?
-> 
-> Thanks,
-> 
-> jon
-
+Best,
+Stefan
