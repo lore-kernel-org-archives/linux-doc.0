@@ -1,237 +1,117 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C9614267;
-	Tue,  2 Jan 2024 14:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4T4Fn71b29z6JB5q;
-	Tue,  2 Jan 2024 22:37:31 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id CBC821400DB;
-	Tue,  2 Jan 2024 22:39:27 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 2 Jan
- 2024 14:39:27 +0000
-Date: Tue, 2 Jan 2024 14:39:25 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-CC: "Russell King (Oracle)" <linux@armlinux.org.uk>, "Rafael J. Wysocki"
-	<rafael@kernel.org>, <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
-	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
-	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 01/21] ACPI: Only enumerate enabled (or
- functional) devices
-Message-ID: <20240102143925.00004361@Huawei.com>
-In-Reply-To: <5760569.DvuYhMxLoT@kreacher>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
-	<ZXxxa+XZjPZtNfJ+@shell.armlinux.org.uk>
-	<20231215161539.00000940@Huawei.com>
-	<5760569.DvuYhMxLoT@kreacher>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8533E14278;
+	Tue,  2 Jan 2024 14:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dbd5b96b12eso6941852276.2;
+        Tue, 02 Jan 2024 06:47:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704206843; x=1704811643;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ekkdo/2BplW5G1QGE0ZikpIwpoAMXqmEuZbikDyIFz0=;
+        b=eEDV/TA+yDi9rzS4d29cEX3zzSXoVNRJNzDoGuysOuxpEJEowFV5cGTWrhRu0xSwW7
+         QmWsoZyMIPschgscJszqoLfeFv4XxDsQ33aYgdPlJTgwqfu/+P9iYiXq9nLvE23SUxjP
+         6+mZklDokedEVLK27xGuVT5AxW9BFLVnTR+WwMsxh6nMFNhhcxyy/OTE2Tdre5Se8lYg
+         eMBCvW4SaKM/FgtRDz9wSMTVLUeyEWS3Sy8oTfK86uJPkK2CqNlwiZ6jMxeWVVlqQPOc
+         UaGQ9f4KBe+mmtAs1xlOxh8Z68/X5u6T4GHo94+9jIEidX7pkyPfVZAQwp6j3Jo5j6J9
+         +f3Q==
+X-Gm-Message-State: AOJu0Yzhr/YDWPmrTX0sCNouEozaAkf4LJCFWStKzeAr5UYUD9pvUhtU
+	ubOspSxvGMPYz8VSy0cSmsHGrHuA3WY+Dg==
+X-Google-Smtp-Source: AGHT+IHPLkt35W4v1MnRFFxzaqNEdOiSs5acLz4CQokv3q6zjgT8/l430U6zonddl1yPA24q8/ZR8Q==
+X-Received: by 2002:a5b:752:0:b0:dbd:bc3e:55e3 with SMTP id s18-20020a5b0752000000b00dbdbc3e55e3mr8097056ybq.69.1704206843323;
+        Tue, 02 Jan 2024 06:47:23 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 204-20020a2501d5000000b00dbdb03e146bsm10210496ybb.51.2024.01.02.06.47.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jan 2024 06:47:23 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5e7bb1e0db8so73378307b3.0;
+        Tue, 02 Jan 2024 06:47:23 -0800 (PST)
+X-Received: by 2002:a0d:f6c2:0:b0:5e2:5d71:56c with SMTP id
+ g185-20020a0df6c2000000b005e25d71056cmr12772287ywf.32.1704206843051; Tue, 02
+ Jan 2024 06:47:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20231223181101.1954-1-gregory.price@memverge.com> <20231223181101.1954-11-gregory.price@memverge.com>
+In-Reply-To: <20231223181101.1954-11-gregory.price@memverge.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 2 Jan 2024 15:47:12 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXgteq4FSM-ugahDtZq_swM_jFMMonB=K4+A1VjTansLA@mail.gmail.com>
+Message-ID: <CAMuHMdXgteq4FSM-ugahDtZq_swM_jFMMonB=K4+A1VjTansLA@mail.gmail.com>
+Subject: Re: [PATCH v5 10/11] mm/mempolicy: add the mbind2 syscall
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, x86@kernel.org, akpm@linux-foundation.org, 
+	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org, 
+	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com, 
+	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com, honggyu.kim@sk.com, 
+	vtavarespetr@micron.com, peterz@infradead.org, jgroves@micron.com, 
+	ravis.opensrc@micron.com, sthanneeru@micron.com, emirakhur@micron.com, 
+	Hasan.Maruf@amd.com, seungjun.ha@samsung.com, Michal Hocko <mhocko@suse.com>, 
+	Frank van der Linden <fvdl@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Fri, 15 Dec 2023 20:47:31 +0100
-"Rafael J. Wysocki" <rjw@rjwysocki.net> wrote:
+On Sat, Dec 23, 2023 at 7:14=E2=80=AFPM Gregory Price <gourry.memverge@gmai=
+l.com> wrote:
+> mbind2 is an extensible mbind interface which allows a user to
+> set the mempolicy for one or more address ranges.
+>
+> Defined as:
+>
+> mbind2(unsigned long addr, unsigned long len, struct mpol_args *args,
+>        size_t size, unsigned long flags)
+>
+> addr:         address of the memory range to operate on
+> len:          length of the memory range
+> flags:        MPOL_MF_HOME_NODE + original mbind() flags
+>
+> Input values include the following fields of mpol_args:
+>
+> mode:         The MPOL_* policy (DEFAULT, INTERLEAVE, etc.)
+> mode_flags:   The MPOL_F_* flags that were previously passed in or'd
+>               into the mode.  This was split to hopefully allow future
+>               extensions additional mode/flag space.
+> home_node:    if (flags & MPOL_MF_HOME_NODE), set home node of policy
+>               to this otherwise it is ignored.
+> pol_maxnodes: The max number of nodes described by pol_nodes
+> pol_nodes:    the nodemask to apply for the memory policy
+>
+> The semantics are otherwise the same as mbind(), except that
+> the home_node can be set.
+>
+> Suggested-by: Michal Hocko <mhocko@suse.com>
+> Suggested-by: Frank van der Linden <fvdl@google.com>
+> Suggested-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
+> Suggested-by: Rakie Kim <rakie.kim@sk.com>
+> Suggested-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
+> Suggested-by: Honggyu Kim <honggyu.kim@sk.com>
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> Co-developed-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
 
-> On Friday, December 15, 2023 5:15:39 PM CET Jonathan Cameron wrote:
-> > On Fri, 15 Dec 2023 15:31:55 +0000
-> > "Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
-> >  =20
-> > > On Thu, Dec 14, 2023 at 07:37:10PM +0100, Rafael J. Wysocki wrote: =20
-> > > > On Thu, Dec 14, 2023 at 7:16=E2=80=AFPM Rafael J. Wysocki <rafael@k=
-ernel.org> wrote:   =20
-> > > > >
-> > > > > On Thu, Dec 14, 2023 at 7:10=E2=80=AFPM Russell King (Oracle)
-> > > > > <linux@armlinux.org.uk> wrote:   =20
-> > > > > > I guess we need something like:
-> > > > > >
-> > > > > >         if (device->status.present)
-> > > > > >                 return device->device_type !=3D ACPI_BUS_TYPE_P=
-ROCESSOR ||
-> > > > > >                        device->status.enabled;
-> > > > > >         else
-> > > > > >                 return device->status.functional;
-> > > > > >
-> > > > > > so we only check device->status.enabled for processor-type devi=
-ces?   =20
-> > > > >
-> > > > > Yes, something like this.   =20
-> > > >=20
-> > > > However, that is not sufficient, because there are
-> > > > ACPI_BUS_TYPE_DEVICE devices representing processors.
-> > > >=20
-> > > > I'm not sure about a clean way to do it ATM.   =20
-> > >=20
-> > > Ok, how about:
-> > >=20
-> > > static bool acpi_dev_is_processor(const struct acpi_device *device)
-> > > {
-> > > 	struct acpi_hardware_id *hwid;
-> > >=20
-> > > 	if (device->device_type =3D=3D ACPI_BUS_TYPE_PROCESSOR)
-> > > 		return true;
-> > >=20
-> > > 	if (device->device_type !=3D ACPI_BUS_TYPE_DEVICE)
-> > > 		return false;
-> > >=20
-> > > 	list_for_each_entry(hwid, &device->pnp.ids, list)
-> > > 		if (!strcmp(ACPI_PROCESSOR_OBJECT_HID, hwid->id) ||
-> > > 		    !strcmp(ACPI_PROCESSOR_DEVICE_HID, hwid->id))
-> > > 			return true;
-> > >=20
-> > > 	return false;
-> > > }
-> > >=20
-> > > and then:
-> > >=20
-> > > 	if (device->status.present)
-> > > 		return !acpi_dev_is_processor(device) || device->status.enabled;
-> > > 	else
-> > > 		return device->status.functional;
-> > >=20
-> > > ?
-> > >  =20
-> > Changing it to CPU only for now makes sense to me and I think this code=
- snippet should do the
-> > job.  Nice and simple. =20
->=20
-> Well, except that it does checks that are done elsewhere slightly
-> differently, which from the maintenance POV is not nice.
->=20
-> Maybe something like the appended patch (untested).
+>  arch/m68k/kernel/syscalls/syscall.tbl         |  1 +
 
-Hi Rafael,
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-As far as I can see that's functionally equivalent, so looks good to me.
-I'm not set up to test this today though, so will defer to Russell on wheth=
-er
-there is anything missing
+Gr{oetje,eeting}s,
 
-Thanks for putting this together.
+                        Geert
 
-Jonathan
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
->=20
-> ---
->  drivers/acpi/acpi_processor.c |   11 +++++++++++
->  drivers/acpi/internal.h       |    3 +++
->  drivers/acpi/scan.c           |   24 +++++++++++++++++++++++-
->  3 files changed, 37 insertions(+), 1 deletion(-)
->=20
-> Index: linux-pm/drivers/acpi/acpi_processor.c
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- linux-pm.orig/drivers/acpi/acpi_processor.c
-> +++ linux-pm/drivers/acpi/acpi_processor.c
-> @@ -644,6 +644,17 @@ static struct acpi_scan_handler processo
->  	},
->  };
-> =20
-> +bool acpi_device_is_processor(const struct acpi_device *adev)
-> +{
-> +	if (adev->device_type =3D=3D ACPI_BUS_TYPE_PROCESSOR)
-> +		return true;
-> +
-> +	if (adev->device_type !=3D ACPI_BUS_TYPE_DEVICE)
-> +		return false;
-> +
-> +	return acpi_scan_check_handler(adev, &processor_handler);
-> +}
-> +
->  static int acpi_processor_container_attach(struct acpi_device *dev,
->  					   const struct acpi_device_id *id)
->  {
-> Index: linux-pm/drivers/acpi/internal.h
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- linux-pm.orig/drivers/acpi/internal.h
-> +++ linux-pm/drivers/acpi/internal.h
-> @@ -62,6 +62,8 @@ void acpi_sysfs_add_hotplug_profile(stru
->  int acpi_scan_add_handler_with_hotplug(struct acpi_scan_handler *handler,
->  				       const char *hotplug_profile_name);
->  void acpi_scan_hotplug_enabled(struct acpi_hotplug_profile *hotplug, boo=
-l val);
-> +bool acpi_scan_check_handler(const struct acpi_device *adev,
-> +			     struct acpi_scan_handler *handler);
-> =20
->  #ifdef CONFIG_DEBUG_FS
->  extern struct dentry *acpi_debugfs_dir;
-> @@ -133,6 +135,7 @@ int acpi_bus_register_early_device(int t
->  const struct acpi_device *acpi_companion_match(const struct device *dev);
->  int __acpi_device_uevent_modalias(const struct acpi_device *adev,
->  				  struct kobj_uevent_env *env);
-> +bool acpi_device_is_processor(const struct acpi_device *adev);
-> =20
->  /* ---------------------------------------------------------------------=
------
->                                    Power Resource
-> Index: linux-pm/drivers/acpi/scan.c
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- linux-pm.orig/drivers/acpi/scan.c
-> +++ linux-pm/drivers/acpi/scan.c
-> @@ -1938,6 +1938,19 @@ static bool acpi_scan_handler_matching(s
->  	return false;
->  }
-> =20
-> +bool acpi_scan_check_handler(const struct acpi_device *adev,
-> +			     struct acpi_scan_handler *handler)
-> +{
-> +	struct acpi_hardware_id *hwid;
-> +
-> +	list_for_each_entry(hwid, &adev->pnp.ids, list) {
-> +		if (acpi_scan_handler_matching(handler, hwid->id, NULL))
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  static struct acpi_scan_handler *acpi_scan_match_handler(const char *ids=
-tr,
->  					const struct acpi_device_id **matchid)
->  {
-> @@ -2410,7 +2423,16 @@ bool acpi_dev_ready_for_enumeration(cons
->  	if (device->flags.honor_deps && device->dep_unmet)
->  		return false;
-> =20
-> -	return acpi_device_is_present(device);
-> +	if (device->status.functional)
-> +		return true;
-> +
-> +	if (!device->status.present)
-> +		return false;
-> +
-> +	if (device->status.enabled)
-> +		return true; /* Fast path. */
-> +
-> +	return !acpi_device_is_processor(device);
->  }
->  EXPORT_SYMBOL_GPL(acpi_dev_ready_for_enumeration);
-> =20
->=20
->=20
->=20
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
