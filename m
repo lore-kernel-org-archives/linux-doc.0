@@ -1,273 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D68113AE9;
-	Tue,  2 Jan 2024 15:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7609B14F60;
+	Tue,  2 Jan 2024 15:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SqEPk9zN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 335A1C433C8;
-	Tue,  2 Jan 2024 15:20:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704208826;
-	bh=28yPedgGByxBs/XllHPUgTPObBuags0avxhjHUIO2lA=;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="d8TtmPOA"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8709340E0171;
+	Tue,  2 Jan 2024 15:34:57 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id E4pJd0VlcEXb; Tue,  2 Jan 2024 15:34:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1704209694; bh=AFlNAs1eTyy0BO95pQ2N7wyFVzTaEas2yI1v/Adat8k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SqEPk9zNaSyGDVA+YezzLsKj3ZNQGZ0SC4yCM9VyBETW2lskULwf3YW1bzCtNQIfP
-	 6uXhHnR+VyjNxAdfsAuGy3PHqdk6b8MxmTW8LYv8wBb4ItzWZw49ksPEkR06n89PFp
-	 2SHwc5dxr4TpgSfLoEJwYJVg/H6eXbQixr64Xmfg+I5UB0X4IH3NAAjmjbwdHFlysM
-	 UpyPsK4q/fnx9eBausPSz+cLglyeXqhW6ZWKNvjm1TKrQumi+l1lHl2hw3OUh/RrfO
-	 moE9dADO9rGte6dRtTv4Lf6g34Xmghec8dAzDY6uXDe6/E/fPOAc7PHu2mFtiS2u5m
-	 S8IIs3i6VEKvg==
-Received: (nullmailer pid 2861879 invoked by uid 1000);
-	Tue, 02 Jan 2024 15:20:23 -0000
-Date: Tue, 2 Jan 2024 08:20:23 -0700
-From: Rob Herring <robh@kernel.org>
-To: Alexander Graf <graf@amazon.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org, linux-doc@vger.kernel.org, x86@kernel.org, Eric Biederman <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@goodmis.org>, Andrew Morton <akpm@linux-foundation.org>, Mark Rutland <mark.rutland@arm.com>, Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, James Gowans <jgowans@amazon.com>, Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>, arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com, Anthony Yznaga <anthony.yznaga@oracle.com>, Usama Arif <usama.arif@bytedance.com>, David Woodhouse <dwmw@amazon.co.uk>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH v2 17/17] devicetree: Add bindings for ftrace KHO
-Message-ID: <20240102152023.GA2821956-robh@kernel.org>
-References: <20231222193607.15474-1-graf@amazon.com>
- <20231222195144.24532-1-graf@amazon.com>
- <20231222195144.24532-12-graf@amazon.com>
+	b=d8TtmPOAiItQ4yR0tJO0GMvu0OoyPQwEUd5BFlrnpX8H7UdXl82/LACGiyqsrOsPP
+	 HG4wHYqNoXUWPAZ02jeYSaysgqwVHotJBk4GL954LxUvMd8aty8Bx0Z18h+mQkFCom
+	 WfqPrMr+rDCFaZjkU3Va3Ig0rdHwEe1FS/C/WURxOJZCnPNqcKeHB510oyqWEY1e1q
+	 DF7uPwIfh8Qb7wnzAaGaWLRCgDetMJKMaeS71XEcFxH9eOwyYNH9XTn1YKCzzHKEVE
+	 gicvKn8vIBGHvBCkU8aQ5IiHWdbSsUBym1NzBrExwAt3xxSi7PUvtP/e1KlMOhfeEg
+	 cGD71cet6qH2D8gjTMdwtK3i29cI71MVQCa2P/F/hKf/KjhG9pYs51oai7RYWAcVLg
+	 Jks2gnt/TFS17V/nUewsNAAbrepP0EZBfAmsoMopLzFQUdxsn6kAsRhb+mUI0rFp2y
+	 T8ioePBl5ZQq0MkZS8KIb6b7acGAMzigjd9xu5x+P1/LCXGnfBS9vnDQBSPpygAWFZ
+	 G8ywQ9Ez+SvCBQcHqYoBE4VxV1yYRd1nJktrtxaVPBpiaOY3p5wNRsi+bo33MuQnJd
+	 VjGqKbCIrCBdsphTPg0PiCGge+AkwjuGqyujKUXD6Mk/1GqTjnUxre6DtuWbmZvusm
+	 b6tfbgHO44zTLM5K+pBI+cvM=
+Received: from zn.tnic (pd9530f8c.dip0.t-ipconnect.de [217.83.15.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 661D840E0191;
+	Tue,  2 Jan 2024 15:34:31 +0000 (UTC)
+Date: Tue, 2 Jan 2024 16:34:26 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Xin Li <xin3.li@intel.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	kvm@vger.kernel.org, xen-devel@lists.xenproject.org,
+	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org, pbonzini@redhat.com,
+	seanjc@google.com, peterz@infradead.org, jgross@suse.com,
+	ravi.v.shankar@intel.com, mhiramat@kernel.org,
+	andrew.cooper3@citrix.com, jiangshanlai@gmail.com,
+	nik.borisov@suse.com, shan.kang@intel.com
+Subject: Re: [PATCH v13 01/35] x86/cpufeatures,opcode,msr: Add the WRMSRNS
+ instruction support
+Message-ID: <20240102153426.GBZZQtAiWSdGAgKoIL@fat_crate.local>
+References: <20231205105030.8698-1-xin3.li@intel.com>
+ <20231205105030.8698-2-xin3.li@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231222195144.24532-12-graf@amazon.com>
+In-Reply-To: <20231205105030.8698-2-xin3.li@intel.com>
 
-On Fri, Dec 22, 2023 at 07:51:44PM +0000, Alexander Graf wrote:
-> With ftrace in KHO, we are creating an ABI between old kernel and new
-> kernel about the state that they transfer. To ensure that we document
-> that state and catch any breaking change, let's add its schema to the
-> common devicetree bindings. This way, we can quickly reason about the
-> state that gets passed.
+On Tue, Dec 05, 2023 at 02:49:50AM -0800, Xin Li wrote:
 
-Why so much data in DT rather than putting all this information into 
-memory in your own data structure and DT just has a single property 
-pointing to that? That's what is done with every other blob of data 
-passed by kexec.
+> Subject: Re: [PATCH v13 01/35] x86/cpufeatures,opcode,msr: Add the WRMSRNS instruction support
 
-> 
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> ---
->  .../bindings/kho/ftrace/ftrace-array.yaml     | 46 +++++++++++++++
->  .../bindings/kho/ftrace/ftrace-cpu.yaml       | 56 +++++++++++++++++++
->  .../bindings/kho/ftrace/ftrace.yaml           | 48 ++++++++++++++++
->  3 files changed, 150 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/kho/ftrace/ftrace-array.yaml
->  create mode 100644 Documentation/devicetree/bindings/kho/ftrace/ftrace-cpu.yaml
->  create mode 100644 Documentation/devicetree/bindings/kho/ftrace/ftrace.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/kho/ftrace/ftrace-array.yaml b/Documentation/devicetree/bindings/kho/ftrace/ftrace-array.yaml
-> new file mode 100644
-> index 000000000000..9960fefc292d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/kho/ftrace/ftrace-array.yaml
-> @@ -0,0 +1,46 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/kho/ftrace/ftrace-array.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Ftrace trace array
-> +
-> +maintainers:
-> +  - Alexander Graf <graf@amazon.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ftrace,array-v1
-> +
-> +  trace_flags:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Bitmap of all the trace flags that were enabled in the trace array at the
-> +      point of serialization.
-> +
-> +# Subnodes will be of type "ftrace,cpu-v1", one each per CPU
+Or simply "x86/fred: Add ... "
 
-This can be expressed as a schema.
+Other than that,
 
-> +additionalProperties: true
-> +
-> +required:
-> +  - compatible
-> +  - trace_flags
-> +
-> +examples:
-> +  - |
-> +    ftrace {
-> +        compatible = "ftrace-v1";
-> +        events = <1 1 2 2 3 3>;
-> +
-> +        global_trace {
-> +          compatible = "ftrace,array-v1";
-> +          trace_flags = < 0x3354601 >;
-> +
-> +          cpu0 {
-> +            compatible = "ftrace,cpu-v1";
-> +            cpu = < 0x00 >;
-> +            mem = < 0x101000000ULL 0x38ULL 0x101000100ULL 0x1000ULL 0x101000038ULL 0x38ULL 0x101002000ULL 0x1000ULL>;
-> +          };
-> +        };
-> +      };
-> diff --git a/Documentation/devicetree/bindings/kho/ftrace/ftrace-cpu.yaml b/Documentation/devicetree/bindings/kho/ftrace/ftrace-cpu.yaml
-> new file mode 100644
-> index 000000000000..58c715e93f37
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/kho/ftrace/ftrace-cpu.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/kho/ftrace/ftrace-cpu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Ftrace per-CPU ring buffer contents
-> +
-> +maintainers:
-> +  - Alexander Graf <graf@amazon.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ftrace,cpu-v1
-> +
-> +  cpu:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
 
-'cpu' is already a defined property of type 'phandle'. While we can have 
-multiple types for a given property name, best practice is to avoid 
-that. The normal way to refer to a CPU would be a phandle to the CPU 
-node, but I can see that might not make sense here.
+-- 
+Regards/Gruss,
+    Boris.
 
-"CPU numbers" on arm64 are 64-bit values as well as they are the 
-CPU's MPIDR value. 
-
-> +    description:
-> +      CPU number of the CPU that this ring buffer belonged to when it was
-> +      serialized.
-> +
-> +  mem:
-
-Too vague. Make the property name indicate what's in the memory.
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description:
-> +      Array of { u64 phys_addr, u64 len } elements that describe a list of ring
-> +      buffer pages. Each page consists of two elements. The first element
-> +      describes the location of the struct buffer_page that contains metadata
-> +      for a given ring buffer page, such as the ring's head indicator. The
-> +      second element points to the ring buffer data page which contains the raw
-> +      trace data.
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - cpu
-> +  - mem
-> +
-> +examples:
-> +  - |
-> +    ftrace {
-> +        compatible = "ftrace-v1";
-> +        events = <1 1 2 2 3 3>;
-> +
-> +        global_trace {
-> +          compatible = "ftrace,array-v1";
-> +          trace_flags = < 0x3354601 >;
-> +
-> +          cpu0 {
-> +            compatible = "ftrace,cpu-v1";
-> +            cpu = < 0x00 >;
-> +            mem = < 0x101000000ULL 0x38ULL 0x101000100ULL 0x1000ULL 0x101000038ULL 0x38ULL 0x101002000ULL 0x1000ULL>;
-> +          };
-> +        };
-> +      };
-> diff --git a/Documentation/devicetree/bindings/kho/ftrace/ftrace.yaml b/Documentation/devicetree/bindings/kho/ftrace/ftrace.yaml
-> new file mode 100644
-> index 000000000000..b87a64843af3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/kho/ftrace/ftrace.yaml
-> @@ -0,0 +1,48 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/kho/ftrace/ftrace.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Ftrace core data
-> +
-> +maintainers:
-> +  - Alexander Graf <graf@amazon.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ftrace-v1
-> +
-> +  events:
-
-Again, too vague.
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description:
-> +      Array of { u32 crc, u32 type } elements. Each element contains a unique
-> +      identifier for an event, followed by the identifier that this event had
-> +      in the previous kernel's trace buffers.
-> +
-> +# Other child nodes will be of type "ftrace,array-v1". Each of which describe
-> +# a trace buffer
-> +additionalProperties: true
-> +
-> +required:
-> +  - compatible
-> +  - events
-> +
-> +examples:
-> +  - |
-> +    ftrace {
-
-This should go under /chosen. Show that here. Start the example with 
-'/{' to do that and not add the usual boilerplate we add when extracting 
-the examples.
-
-Also, we don't need 3 examples. Just do 1 complete example here.
-
-
-> +        compatible = "ftrace-v1";
-> +        events = <1 1 2 2 3 3>;
-> +
-> +        global_trace {
-> +          compatible = "ftrace,array-v1";
-> +          trace_flags = < 0x3354601 >;
-> +
-> +          cpu0 {
-> +            compatible = "ftrace,cpu-v1";
-> +            cpu = < 0x00 >;
-> +            mem = < 0x101000000ULL 0x38ULL 0x101000100ULL 0x1000ULL 0x101000038ULL 0x38ULL 0x101002000ULL 0x1000ULL>;
-> +          };
-> +        };
-> +      };
-> -- 
-> 2.40.1
-> 
-> 
-> 
-> 
-> Amazon Development Center Germany GmbH
-> Krausenstr. 38
-> 10117 Berlin
-> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-> Sitz: Berlin
-> Ust-ID: DE 289 237 879
-> 
-> 
-> 
+https://people.kernel.org/tglx/notes-about-netiquette
