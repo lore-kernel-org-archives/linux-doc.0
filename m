@@ -1,283 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1A2EC8;
-	Tue,  2 Jan 2024 04:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506182583;
+	Tue,  2 Jan 2024 06:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ipuJnKOX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704169791; x=1735705791;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=hqB1jolzeL5g0fOOCpwx+h0oswS2dZ1l57/pHl6LV6w=;
-  b=ipuJnKOXH/d55FxxnePKnOgpQYBzjTUOk/nIeGbdlSR7JfxzuGM1JbIy
-   9K0eAD81mm6F6CtoPFbCA4GWby4oQKw3sMAknAYMCmqpZG54+WNxX9yc/
-   dcjM7jel1BwYSguIIfijKolgB1NeY/sRXyrd3WoMNZiwPWmCFzpV1IdLw
-   VI5Ml0IloM7SC2R5jt8TAPD966b7KWdzptLo9UOTVb02KAmRZS//vjl86
-   4+lHClOy4Mw/OJcltNOn6LVI8HVBzq1eGkSOVajWE+94lcL9YVKfZKjZB
-   WxGgGYITfzL84JTpS96N4jTR5eLCzEsoLfF3v6nqrEid4GvYGaiRoTYP2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="427999332"
-X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="427999332"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 20:29:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="779578844"
-X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="779578844"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 20:29:41 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-doc@vger.kernel.org>,  <linux-fsdevel@vger.kernel.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <x86@kernel.org>,  <akpm@linux-foundation.org>,  <arnd@arndb.de>,
-  <tglx@linutronix.de>,  <luto@kernel.org>,  <mingo@redhat.com>,
-  <bp@alien8.de>,  <dave.hansen@linux.intel.com>,  <hpa@zytor.com>,
-  <mhocko@kernel.org>,  <tj@kernel.org>,  <corbet@lwn.net>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <honggyu.kim@sk.com>,
-  <vtavarespetr@micron.com>,  <peterz@infradead.org>,
-  <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
-  <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  Johannes Weiner <hannes@cmpxchg.org>,  Hasan
- Al Maruf <hasanalmaruf@fb.com>,  Hao Wang <haowang3@fb.com>,  Dan Williams
- <dan.j.williams@intel.com>,  "Michal Hocko" <mhocko@suse.com>,  Zhongkun
- He <hezhongkun.hzk@bytedance.com>,  "Frank van der Linden"
- <fvdl@google.com>,  John Groves <john@jagalactic.com>,  Jonathan Cameron
- <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v5 00/11] mempolicy2, mbind2, and weighted interleave
-In-Reply-To: <ZYqEjsaqseI68EyJ@memverge.com> (Gregory Price's message of "Tue,
-	26 Dec 2023 02:45:18 -0500")
-References: <20231223181101.1954-1-gregory.price@memverge.com>
-	<87frzqg1jp.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZYqEjsaqseI68EyJ@memverge.com>
-Date: Tue, 02 Jan 2024 12:27:42 +0800
-Message-ID: <87le98e4w1.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sO0SmGJI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=YpIRPyFf90I4Z3IJEoDmkRte1e+hElppoVNgHQl0hWA=; b=sO0SmGJIunwG0I7STeC1KWrsQn
+	hyWznpREMw2uAcfZi44vGzWDRwznblH9ldUnCCXRZKpDKEK0hIdUAfzkGMsOGuHl/sS3h2ipnegKP
+	dR4JCxF62Bk9J9tOjsqtz9JtkDFk7tpV83+EIx8u9fEg1wuyUCC/naInDcKuemnYmVYBc2I0eywSJ
+	ZOxonysIIV4+WlqM3WIOLeB49zs/DFPhMih7gaMY38+GTzCvXWGPuHrinx6qY5STHKHr5qEFMNCdI
+	U4MHZOe835i3yvO1Sqh0LckyhKGGkCH3D1htKtT89Qa9YXOeWVXQHm/7IDH/yCxyLMfym4svbxbi0
+	Gm8HLM4Q==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rKY5F-007ALs-1T;
+	Tue, 02 Jan 2024 06:17:01 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	x86@kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [RFC PATCH] kernel-doc: handle X86 DEFINE_IDTENTRY() variants
+Date: Mon,  1 Jan 2024 22:17:00 -0800
+Message-ID: <20240102061700.3807-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Transfer-Encoding: 8bit
 
-Gregory Price <gregory.price@memverge.com> writes:
+Teach scripts/kernel-doc to handle the various DEFINE_IDTENTRY*() flavors.
 
-> On Mon, Dec 25, 2023 at 03:54:18PM +0800, Huang, Ying wrote:
->> Gregory Price <gourry.memverge@gmail.com> writes:
->> 
->> > For example, the stream benchmark demonstrates that default interleave
->> > is actively harmful, where weighted interleave is beneficial.
->> >
->> > Hardware: 1-socket 8 channel DDR5 + 1 CXL expander in PCIe x16
->> > Default interleave : -78% (slower than DRAM)
->> > Global weighting   : -6% to +4% (workload dependant)
->> > Targeted weights   : +2.5% to +4% (consistently better than DRAM)
->> >
->> > If nothing else, this shows how awful round-robin interleave is.
->> 
->> I guess the performance of the default policy, local (fast memory)
->> first, may be even better in some situation?  For example, before the
->> bandwidth of DRAM is saturated?
->> 
->
-> Yes - but it's more complicated than that.
->
-> Global weighting here means we did `numactl -w --interleave ...`, which
-> means *all* memory regions will be interleaved.  Code, stack, heap, etc.
->
-> Targeted weights means we used mbind2() with local weights, which only
-> targted specific heap regions.
->
-> The default policy was better than global weighting likely as a result
-> of things like stack/code being distributed to higher latency memory
-> produced a measurable overhead.
->
-> To provide this, we only applied weights to bandwidth driving regions,
-> and as a result we demonstrated a measurable performance increase.
->
-> So yes, the defautl policy may be better in some situations - but that
-> will be true of any policy.
+This corrects 2 kernel-doc warnings:
 
-Yes.  Some memory area may be more sensitive to memory latency than
-other area.
+arch/x86/entry/common.c:211: warning: expecting prototype for int80_emulation(). Prototype was for DEFINE_IDTENTRY_RAW() instead
 
-Per my understanding, memory latency will increase with the actual
-memory throughput.  And it increases quickly when the memory throughput
-nears the maximum memory bandwidth.  As in the figures in the following
-URL.
+arch/x86/kernel/apic/apic.c:2170: warning: expecting prototype for spurious_interrupt(). Prototype was for DEFINE_IDTENTRY_IRQ() instead
 
-https://mahmoudhatem.wordpress.com/2017/11/07/memory-bandwidth-vs-latency-response-curve/
+The script uses 'uname -m' to determine if it is running on i386 or x86_64
+or something else. It also uses "ARCH=<arch>" in the environment variables
+to allow for overriding the processed ARCH.
 
-If the memory latency of the DRAM will not increase much, it's better to
-place the hot data in DRAM always.  But if the memory throughput nears
-the max memory bandwidth, so that the memory latency of DRAM increases
-greatly, may be even higher than that of CXL memory, it's better to put
-some hot data in CXL memory to reduce the overall memory latency.
+Alternatively, we could remove the "/**" kernel-doc markers from those
+2 functions. There are 60 uses of DEFINE_IDTENTRY*() that I see and
+only 2 of them have kernel-doc comments.
 
-If it's right, I suggest to add something like above in the patch
-description.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: x86@kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ scripts/kernel-doc |   87 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
 
->> I understand that you may want to limit the memory usage of the fast
->> memory too.  But IMHO, that is another requirements.  That should be
->> enforced by something like per-node memory limit.
->> 
->
-> This interface does not limit memory usage of a particular node, it 
-> distributes data according to the requested policy.
->
-> Nuanced distinction, but important.  If nodes become exhausted, tasks
-> are still free to allocate memory from any node in the nodemask, even if
-> it violates the requested mempolicy.
->
-> This is consistent with the existing behavior of mempolicy.
-
-Good.
-
->> > =====================================================================
->> > (Patches 3-6) Refactoring mempolicy for code-reuse
->> >
->> > To avoid multiple paths of mempolicy creation, we should refactor the
->> > existing code to enable the designed extensibility, and refactor
->> > existing users to utilize the new interface (while retaining the
->> > existing userland interface).
->> >
->> > This set of patches introduces a new mempolicy_args structure, which
->> > is used to more fully describe a requested mempolicy - to include
->> > existing and future extensions.
->> >
->> > /*
->> >  * Describes settings of a mempolicy during set/get syscalls and
->> >  * kernel internal calls to do_set_mempolicy()
->> >  */
->> > struct mempolicy_args {
->> >     unsigned short mode;            /* policy mode */
->> >     unsigned short mode_flags;      /* policy mode flags */
->> >     int home_node;                  /* mbind: use MPOL_MF_HOME_NODE */
->> >     nodemask_t *policy_nodes;       /* get/set/mbind */
->> >     unsigned char *il_weights;      /* for mode MPOL_WEIGHTED_INTERLEAVE */
->> > };
->> 
->> According to
->> 
->> https://www.geeksforgeeks.org/difference-between-argument-and-parameter-in-c-c-with-examples/
->> 
->> it appears that "parameter" are better than "argument" for struct name
->> here.  It appears that current kernel source supports this too.
->> 
->> $ grep 'struct[\t ]\+[a-zA-Z0-9]\+_param' -r include/linux | wc -l
->> 411
->> $ grep 'struct[\t ]\+[a-zA-Z0-9]\+_arg' -r include/linux | wc -l
->> 25
->> 
->
-> Will change.
->
->> > This arg structure will eventually be utilized by the following
->> > interfaces:
->> >     mpol_new() - new mempolicy creation
->> >     do_get_mempolicy() - acquiring information about mempolicy
->> >     do_set_mempolicy() - setting the task mempolicy
->> >     do_mbind()         - setting a vma mempolicy
->> >
->> > do_get_mempolicy() is completely refactored to break it out into
->> > separate functionality based on the flags provided by get_mempolicy(2)
->> >     MPOL_F_MEMS_ALLOWED: acquires task->mems_allowed
->> >     MPOL_F_ADDR: acquires information on vma policies
->> >     MPOL_F_NODE: changes the output for the policy arg to node info
->> >
->> > We refactor the get_mempolicy syscall flatten the logic based on these
->> > flags, and aloow for set_mempolicy2() to re-use the underlying logic.
->> >
->> > The result of this refactor, and the new mempolicy_args structure, is
->> > that extensions like 'sys_set_mempolicy_home_node' can now be directly
->> > integrated into the initial call to 'set_mempolicy2', and that more
->> > complete information about a mempolicy can be returned with a single
->> > call to 'get_mempolicy2', rather than multiple calls to 'get_mempolicy'
->> >
->> >
->> > =====================================================================
->> > (Patches 7-10) set_mempolicy2, get_mempolicy2, mbind2
->> >
->> > These interfaces are the 'extended' counterpart to their relatives.
->> > They use the userland 'struct mpol_args' structure to communicate a
->> > complete mempolicy configuration to the kernel.  This structure
->> > looks very much like the kernel-internal 'struct mempolicy_args':
->> >
->> > struct mpol_args {
->> >         /* Basic mempolicy settings */
->> >         __u16 mode;
->> >         __u16 mode_flags;
->> >         __s32 home_node;
->> >         __u64 pol_maxnodes;
->> 
->> I understand that we want to avoid hole in struct.  But I still feel
->> uncomfortable to use __u64 for a small.  But I don't have solution too.
->> Anyone else has some idea?
->>
->
-> maxnode has been an `unsigned long` in every other interface for quite
-> some time.  Seems better to keep this consistent rather than it suddenly
-> become `unsigned long` over here and `unsigned short` over there.
-
-I don't think that it matters.  The actual maximum node number will be
-less than maximum `unsigned short`.
-
->> >         __aligned_u64 pol_nodes;
->> >         __aligned_u64 *il_weights;      /* of size pol_maxnodes */
->> 
->> Typo?  Should be,
->> 
->
-> derp derp
->
->> >
->> > The 'flags' argument for mbind2 is the same as 'mbind', except with
->> > the addition of MPOL_MF_HOME_NODE to denote whether the 'home_node'
->> > field should be utilized.
->> >
->> > The 'flags' argument for get_mempolicy2 allows for MPOL_F_ADDR to
->> > allow operating on VMA policies, but MPOL_F_NODE and MPOL_F_MEMS_ALLOWED
->> > behavior has been omitted, since get_mempolicy() provides this already.
->> 
->> I still think that it's a good idea to make it possible to deprecate
->> get_mempolicy().  How about use a union as follows?
->> 
->> struct mpol_mems_allowed {
->>          __u64 maxnodes;
->>          __aligned_u64 nodemask;
->> };
->> 
->> union mpol_info {
->>         struct mpol_args args;
->>         struct mpol_mems_allowed mems_allowed;
->>         __s32 node;
->> };
->> 
->
-> See my other email.  I've come around to see mems_allowed as a wart that
-> needs to be removed.  The same information is already available via
-> sysfs cpusets.mems and cpusets.mems_effective.
->
-> Additionally, mems_allowed isn't even technically part of the mempolicy,
-> so if we did want an interface to acquire the infomation, you'd prefer
-> to just implement a stand-alone syscall.
->
-> The sysfs interface seems sufficient though.
->
-> `policy_node` is a similar "why does this even exist" type feature,
-> except that it can still be used from get_mempolicy() and if there is an
-> actual reason to extend it to get_mempolicy2() it can be added to
-> mpol_params.
-
-OK.
-
---
-Best Regards,
-Huang, Ying
+diff -- a/scripts/kernel-doc b/scripts/kernel-doc
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -128,6 +128,7 @@ if ($#ARGV == -1) {
+ 
+ my $kernelversion;
+ my ($sphinx_major, $sphinx_minor, $sphinx_patch);
++my ($arch, $arch_is_x86, $arch_x86_64);
+ 
+ my $dohighlight = "";
+ 
+@@ -439,6 +440,31 @@ sub get_kernel_version() {
+     return $version;
+ }
+ 
++# get the environment ARCH and x86 flavor
++sub get_arch() {
++
++	my $uname = `uname -m`;
++	chomp($uname);
++	$uname =~ s/i.86/i386/;
++	if ($uname eq "x86") {
++		$uname = "x86_64";
++	}
++
++	# allow ENV ARCH to override uname -m
++	if (defined($ENV{'ARCH'})) {
++		$arch = $ENV{'ARCH'};
++		if ($arch eq "i386" || $arch eq "x86_64") {
++			# use that
++		} else {
++			$arch = $uname;
++		}
++	} else {
++		$arch = $uname;
++	}
++	$arch_is_x86 = ($arch eq "i386") || ($arch eq "x86_64");
++	$arch_x86_64 = $arch eq "x86_64";
++}
++
+ #
+ sub print_lineno {
+     my $lineno = shift;
+@@ -1867,6 +1893,62 @@ sub tracepoint_munge($) {
+ 	}
+ }
+ 
++# idtentry_munge() is only for x86 and can be different for i386 vs. x86_64.
++sub idtentry_munge($) {
++	my $file = shift;
++	my $idtentryname = "";
++	my $idtentryargs = "void";
++	$prototype =~ s/^\s+|\s+$//g;   # remove both leading and trailing whitespace
++
++	if ($prototype =~ m/DEFINE_IDTENTRY\((.*?)\)/) {
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_ERRORCODE\((.*?)\)/) {
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs, unsigned long error_code";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_RAW\((.*?)\)/) {
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_RAW_ERRORCODE\((.*?)\)/) {
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs, unsigned long error_code";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_IRQ\((.*?)\)/) {
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs, u32 vector";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_SYSVEC\((.*?)\)/) {
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_SYSVEC_SIMPLE\((.*?)\)/) {
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_IST\((.*?)\)/) { # same as _RAW
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_NOIST\((.*?)\)/) { # same as _RAW
++		$idtentryname = "noist_" . $1;
++		$idtentryargs = "struct pt_regs *regs";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_DF\((.*?)\)/) { # same as _RAW_ERRORCODE
++		$idtentryname = $1;
++		$idtentryargs = $arch_x86_64 ? "struct pt_regs *regs, unsigned long error_code"
++			: "struct pt_regs *regs, unsigned long error_code, unsigned long address";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_VC_KERNEL\((.*?)\)/) { # same as _RAW_ERRORCODE
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs, unsigned long error_code";
++	} elsif ($prototype =~ m/DEFINE_IDTENTRY_VC_USER\((.*?)\)/) { # same as _RAW_ERRORCODE
++		$idtentryname = $1;
++		$idtentryargs = "struct pt_regs *regs, unsigned long error_code";
++	}
++
++	$idtentryname =~ s/^\s+//; #strip leading whitespace
++	if ($idtentryname eq "") {
++		emit_warning("${file}:$.", "Unrecognized IDTENTRY macro: \n".
++			     "$prototype\n");
++	} else {
++		$prototype = "void $idtentryname($idtentryargs)";
++		$identifier = "$idtentryname";
++	}
++}
++
+ sub syscall_munge() {
+ 	my $void = 0;
+ 
+@@ -1931,6 +2013,9 @@ sub process_proto_function($$) {
+ 	{
+ 		tracepoint_munge($file);
+ 	}
++	if ($arch_is_x86 && $prototype =~ /DEFINE_IDTENTRY/) {
++		idtentry_munge($file);
++	}
+ 	dump_function($prototype, $file);
+ 	reset_state();
+     }
+@@ -2374,6 +2459,8 @@ if ($output_mode eq "rst") {
+ 
+ $kernelversion = get_kernel_version();
+ 
++get_arch();
++
+ # generate a sequence of code that will splice in highlighting information
+ # using the s// operator.
+ for (my $k = 0; $k < @highlights; $k++) {
