@@ -1,248 +1,161 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDB317722
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jan 2024 22:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD4217986
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jan 2024 23:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O13IW9ne"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704234684;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WxX/DwYRiytQqrsyv6xPbUj6O86YcsayJdMC1Rh079w=;
-	b=O13IW9nevmSFSkSuL4gmLAtqQ+jcgb6xmwKk261EXWhbUbD9KCNEjad+eLla9j5x0bSNt6
-	m45xljZHN3/3jswyxMmTToNjlv2cGGKEnwtpyN0lpz0OiXO8ARDcrKwkFZ/i3S0RDfAU5+
-	r9yo5qsgiuC+4cgR+75MM8gnVgUtLVg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-102-41CIv6mVMvuFpQ2fC74M9w-1; Tue, 02 Jan 2024 17:31:21 -0500
-X-MC-Unique: 41CIv6mVMvuFpQ2fC74M9w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E456D848A64;
-	Tue,  2 Jan 2024 22:31:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.22.9.153])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3ED1040C6EB9;
-	Tue,  2 Jan 2024 22:31:20 +0000 (UTC)
-Date: Tue, 2 Jan 2024 17:31:18 -0500
-From: Joe Lawrence <joe.lawrence@redhat.com>
-To: Marcos Paulo de Souza <mpdesouza@suse.com>
-Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
-	Petr Mladek <pmladek@suse.com>, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-s390@vger.kernel.org, live-patching@vger.kernel.org
-Subject: Re: [PATCH RESEND v4 1/3] kselftests: lib.mk: Add TEST_GEN_MODS_DIR
- variable
-Message-ID: <ZZSOtsbzpy2mvmUC@redhat.com>
-References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
- <20231220-send-lp-kselftests-v4-1-3458ec1b1a38@suse.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Iwsov2jl"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-67f9fac086bso74858546d6.3
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jan 2024 15:46:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704239218; x=1704844018; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IcnI3bjOE/JR4QqtkUBLMh58U0r2t5wK4lAWbaHcRMU=;
+        b=Iwsov2jlHyi/b1Y2+3XLvr4rpFe9FCiBcOlXCybwQPcoigv3odwRKmk5KXGJRk8yhl
+         9YETAq3DJWwuIBktD6ZwqjIHWRAfUYr+94j+eNYTFsG2POWrcLpvUVbFM2JtaiKjhTc4
+         2007jM8wBDBX+Yd/RH1Rrs7vcEyv8bNHpl6V0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704239218; x=1704844018;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IcnI3bjOE/JR4QqtkUBLMh58U0r2t5wK4lAWbaHcRMU=;
+        b=ulcAzf2GnmAlwrCyR8pI6BxCVLkskfcLOCVn+FYmNGoUIf+k51+NyNfzxAEWsyUd1+
+         qVgcBOx+cCYPZobfue+wJE5hWvmIjjy8wCSbRnpVsx5xQG9rJr80G0Q6XdkwTWdzQGJy
+         VIGVjGGo1/HO30C6IFYm/7bWXCOAz0g6DbFfLgoju5hQsKdU0pYcJQfzosK3DhAEzFjr
+         a36zo3hAz0d3I/tATTH/tN736qJ4JEvB0K7GsV64dpLfwY3vcW0NMYPy7OXTbPxurens
+         nLd0/vRi/SYmjmVcQwdE8ciTQIz9f4GJWtHDUEi81IcBwdbCAZrFgYiU4NVisMlB7rCq
+         Nzuw==
+X-Gm-Message-State: AOJu0YxosSLO0+pPMPDp9sswKYIZe77YQgMgxzr99GFEtkGr1WxqBQTf
+	5G+ZtMAXZN5uvIiZeJ9xqV6JSspEGXzDQBpWn95XI1xDz7/X
+X-Google-Smtp-Source: AGHT+IH0M0pBrGr+Sx5B7gKAHkWbx7yYmjWLkviFsxrNY5/tFuUA7GBmbX67T4+ylA4I/2XnnEJd068mD1x3ToVE8wM=
+X-Received: by 2002:a05:6214:e8f:b0:67f:6348:ef8e with SMTP id
+ hf15-20020a0562140e8f00b0067f6348ef8emr30015254qvb.17.1704239218454; Tue, 02
+ Jan 2024 15:46:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231220-send-lp-kselftests-v4-1-3458ec1b1a38@suse.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231213121353.GA31326@willie-the-truck>
+In-Reply-To: <20231213121353.GA31326@willie-the-truck>
+From: Simon Glass <sjg@chromium.org>
+Date: Tue, 2 Jan 2024 16:46:47 -0700
+Message-ID: <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Will Deacon <will@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 20, 2023 at 01:53:12PM -0300, Marcos Paulo de Souza wrote:
-> Add TEST_GEN_MODS_DIR variable for kselftests. It can point to
-> a directory containing kernel modules that will be used by
-> selftest scripts.
-> 
-> The modules are built as external modules for the running kernel.
-> As a result they are always binary compatible and the same tests
-> can be used for older or newer kernels.
-> 
-> The build requires "kernel-devel" package to be installed.
-> For example, in the upstream sources, the rpm devel package
-> is produced by "make rpm-pkg"
-> 
-> The modules can be built independently by
-> 
->   make -C tools/testing/selftests/livepatch/
-> 
-> or they will be automatically built before running the tests via
-> 
->   make -C tools/testing/selftests/livepatch/ run_tests
-> 
-> Note that they are _not_ built when running the standalone
-> tests by calling, for example, ./test-state.sh.
-> 
-> Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
-> ---
->  Documentation/dev-tools/kselftest.rst |  4 ++++
->  tools/testing/selftests/lib.mk        | 20 +++++++++++++++-----
->  2 files changed, 19 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index ab376b316c36..7f3582a67318 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -245,6 +245,10 @@ Contributing new tests (details)
->     TEST_PROGS, TEST_GEN_PROGS mean it is the executable tested by
->     default.
->  
-> +   TEST_GEN_MODS_DIR should be used by tests that require modules to be built
-> +   before the test starts. The variable will contain the name of the directory
-> +   containing the modules.
-> +
->     TEST_CUSTOM_PROGS should be used by tests that require custom build
->     rules and prevent common build rule use.
->  
-> diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
-> index 118e0964bda9..6c7c5a0112cf 100644
-> --- a/tools/testing/selftests/lib.mk
-> +++ b/tools/testing/selftests/lib.mk
-> @@ -70,12 +70,15 @@ KHDR_INCLUDES := -isystem $(KHDR_DIR)
->  # TEST_PROGS are for test shell scripts.
->  # TEST_CUSTOM_PROGS and TEST_PROGS will be run by common run_tests
->  # and install targets. Common clean doesn't touch them.
-> +# TEST_GEN_MODS_DIR is used to specify a directory with modules to be built
-> +# before the test executes. These modules are cleaned on the clean target as well.
->  TEST_GEN_PROGS := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS))
->  TEST_GEN_PROGS_EXTENDED := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS_EXTENDED))
->  TEST_GEN_FILES := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_FILES))
-> +TEST_GEN_MODS_DIR := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_MODS_DIR))
->  
->  all: kernel_header_files $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED) \
-> -     $(TEST_GEN_FILES)
-> +     $(TEST_GEN_FILES) $(if $(TEST_GEN_MODS_DIR),gen_mods_dir)
->  
->  kernel_header_files:
->  	@ls $(KHDR_DIR)/linux/*.h >/dev/null 2>/dev/null;                      \
-> @@ -105,8 +108,8 @@ endef
->  
->  run_tests: all
->  ifdef building_out_of_srctree
-> -	@if [ "X$(TEST_PROGS)$(TEST_PROGS_EXTENDED)$(TEST_FILES)" != "X" ]; then \
-> -		rsync -aq --copy-unsafe-links $(TEST_PROGS) $(TEST_PROGS_EXTENDED) $(TEST_FILES) $(OUTPUT); \
-> +	@if [ "X$(TEST_PROGS)$(TEST_PROGS_EXTENDED)$(TEST_FILES)$(TEST_GEN_MODS_DIR)" != "X" ]; then \
-> +		rsync -aq --copy-unsafe-links $(TEST_PROGS) $(TEST_PROGS_EXTENDED) $(TEST_FILES) $(TEST_GEN_MODS_DIR) $(OUTPUT); \
->  	fi
->  	@if [ "X$(TEST_PROGS)" != "X" ]; then \
->  		$(call RUN_TESTS, $(TEST_GEN_PROGS) $(TEST_CUSTOM_PROGS) \
-> @@ -118,6 +121,12 @@ else
->  	@$(call RUN_TESTS, $(TEST_GEN_PROGS) $(TEST_CUSTOM_PROGS) $(TEST_PROGS))
->  endif
->  
-> +gen_mods_dir:
-> +	$(Q)$(MAKE) -C $(TEST_GEN_MODS_DIR)
-> +
-> +clean_mods_dir:
-> +	$(Q)$(MAKE) -C $(TEST_GEN_MODS_DIR) clean
-> +
->  define INSTALL_SINGLE_RULE
->  	$(if $(INSTALL_LIST),@mkdir -p $(INSTALL_PATH))
->  	$(if $(INSTALL_LIST),rsync -a --copy-unsafe-links $(INSTALL_LIST) $(INSTALL_PATH)/)
-> @@ -131,6 +140,7 @@ define INSTALL_RULE
->  	$(eval INSTALL_LIST = $(TEST_CUSTOM_PROGS)) $(INSTALL_SINGLE_RULE)
->  	$(eval INSTALL_LIST = $(TEST_GEN_PROGS_EXTENDED)) $(INSTALL_SINGLE_RULE)
->  	$(eval INSTALL_LIST = $(TEST_GEN_FILES)) $(INSTALL_SINGLE_RULE)
-> +	$(eval INSTALL_LIST = $(TEST_GEN_MODS_DIR)) $(INSTALL_SINGLE_RULE)
+Hi Masahiro,
 
-Hi Marcos,
+On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.org> wrote=
+:
+>
+> On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > Add a script which produces a Flat Image Tree (FIT), a single file
+> > containing the built kernel and associated devicetree files.
+> > Compression defaults to gzip which gives a good balance of size and
+> > performance.
+> >
+> > The files compress from about 86MB to 24MB using this approach.
+> >
+> > The FIT can be used by bootloaders which support it, such as U-Boot
+> > and Linuxboot. It permits automatic selection of the correct
+> > devicetree, matching the compatible string of the running board with
+> > the closest compatible string in the FIT. There is no need for
+> > filenames or other workarounds.
+> >
+> > Add a 'make image.fit' build target for arm64, as well. Use
+> > FIT_COMPRESSION to select a different algorithm.
+> >
+> > The FIT can be examined using 'dumpimage -l'.
+> >
+> > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > requires compression utilities for the algorithm being used. Supported
+> > compression options are the same as the Image.xxx files. For now there
+> > is no way to change the compression other than by editing the rule for
+> > $(obj)/image.fit
+> >
+> > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > this here, since it must be built separately from the Linux build.
+> >
+> > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > ---
+> >
+> > Changes in v9:
+> > - Move the compression control into Makefile.lib
+> >
+> > Changes in v8:
+> > - Drop compatible string in FDT node
+> > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > - Turn compress part of the make_fit.py comment in to a sentence
+> > - Add two blank lines before parse_args() and setup_fit()
+> > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > - Add 'mkimage' details Documentation/process/changes.rst
+> > - Allow changing the compression used
+> > - Tweak cover letter since there is only one clean-up patch
+> >
+> > Changes in v7:
+> > - Add Image as a dependency of image.fit
+> > - Drop kbuild tag
+> > - Add dependency on dtbs
+> > - Drop unnecessary path separator for dtbs
+> > - Rebase to -next
+> >
+> > Changes in v5:
+> > - Drop patch previously applied
+> > - Correct compression rule which was broken in v4
+> >
+> > Changes in v4:
+> > - Use single quotes for UIMAGE_NAME
+> >
+> > Changes in v3:
+> > - Drop temporary file image.itk
+> > - Drop patch 'Use double quotes for image name'
+> > - Drop double quotes in use of UIMAGE_NAME
+> > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> > - Avoid hard-coding "arm64" for the DT architecture
+> >
+> > Changes in v2:
+> > - Drop patch previously applied
+> > - Add .gitignore file
+> > - Move fit rule to Makefile.lib using an intermediate file
+> > - Drop dependency on CONFIG_EFI_ZBOOT
+> > - Pick up .dtb files separately from the kernel
+> > - Correct pylint too-many-args warning for write_kernel()
+> > - Include the kernel image in the file count
+> > - Add a pointer to the FIT spec and mention of its wide industry usage
+> > - Mention the kernel version in the FIT description
+> >
+> >  Documentation/process/changes.rst |   9 +
+> >  MAINTAINERS                       |   7 +
+> >  arch/arm64/Makefile               |   7 +-
+> >  arch/arm64/boot/.gitignore        |   1 +
+> >  arch/arm64/boot/Makefile          |   6 +-
+> >  scripts/Makefile.lib              |  16 ++
+> >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
+> >  7 files changed, 334 insertions(+), 3 deletions(-)
+> >  create mode 100755 scripts/make_fit.py
+>
+> I'll need Masahiro's Ack on the scripts/ changes before I can take this
+> one.
 
-Sorry for the late reply on this, but I'm reviewing this version by
-trying to retrofit it into our selftest packaging (pre-build the test
-module .ko's and stash those into an rpm rather than building on the
-test host).
+Any thoughts on this request, please?
 
-Since $TEST_GEN_MODS_DIR is treated as a directory, I found that the
-selftest install target copies a bunch of intermediate object and kbuild
-files:
-
-  $ mkdir /tmp/test-install
-  $ make KDIR=$(pwd) INSTALL_PATH=/tmp/test-install TARGETS=livepatch \
-       -C tools/testing/selftests/ install
-
-  [ ... builds livepatch selftests ... ]
-
-the rsync in question:
-
-  rsync -a --copy-unsafe-links /home/jolawren/src/kernel/tools/testing/selftests/livepatch/test_modules /tmp/test-install/livepatch/
-  ...
-
-and then looking at the destination:
-
-  $ tree -a /tmp/test-install/
-  /tmp/test-install/
-  ├── kselftest
-  │   ├── module.sh
-  │   ├── prefix.pl
-  │   └── runner.sh
-  ├── kselftest-list.txt
-  ├── livepatch
-  │   ├── config
-  │   ├── functions.sh
-  │   ├── settings
-  │   ├── test-callbacks.sh
-  │   ├── test-ftrace.sh
-  │   ├── test_klp-call_getpid
-  │   ├── test-livepatch.sh
-  │   ├── test_modules
-  │   │   ├── Makefile
-  │   │   ├── modules.order
-  │   │   ├── .modules.order.cmd
-  │   │   ├── Module.symvers
-  │   │   ├── .Module.symvers.cmd
-  │   │   ├── test_klp_atomic_replace.c
-  │   │   ├── test_klp_atomic_replace.ko
-  │   │   ├── .test_klp_atomic_replace.ko.cmd
-  │   │   ├── test_klp_atomic_replace.mod
-  │   │   ├── test_klp_atomic_replace.mod.c
-  │   │   ├── .test_klp_atomic_replace.mod.cmd
-  │   │   ├── test_klp_atomic_replace.mod.o
-  │   │   ├── .test_klp_atomic_replace.mod.o.cmd
-  │   │   ├── test_klp_atomic_replace.o
-  │   │   ├── .test_klp_atomic_replace.o.cmd
-  ...
-
-On the other hand, variables like $TEST_GEN_FILES specify individual
-files, so only final binaries like test_klp-call_getpid (and not
-test_klp-call_getpid.c) are copied to $INSTALL_PATH.
-
-Since the selftest module builds appear to ignore
-CONFIG_MODULE_COMPRESS_* the smallest tweak I can think of to avoid the
-above scenario is:
-
-  --- a/tools/testing/selftests/lib.mk
-  +++ b/tools/testing/selftests/lib.mk
-  @@ -106,7 +106,7 @@ define INSTALL_RULE
-          $(eval INSTALL_LIST = $(TEST_CUSTOM_PROGS)) $(INSTALL_SINGLE_RULE)
-          $(eval INSTALL_LIST = $(TEST_GEN_PROGS_EXTENDED)) $(INSTALL_SINGLE_RULE)
-          $(eval INSTALL_LIST = $(TEST_GEN_FILES)) $(INSTALL_SINGLE_RULE)
-  -       $(eval INSTALL_LIST = $(TEST_GEN_MODS_DIR)) $(INSTALL_SINGLE_RULE)
-  +       $(eval INSTALL_LIST = $(shell sed 's/.o$$/.ko/' $(TEST_GEN_MODS_DIR)/modules.order)) $(INSTALL_SINGLE_RULE)
-          $(eval INSTALL_LIST = $(wildcard config settings)) $(INSTALL_SINGLE_RULE)
-   endef
-
-However, that will copy .ko's directly into $INSTALL_PATH and out of the
-$TEST_GEN_MODS_DIR subdirectory(s), so maybe not a great solution after
-all.
-
-Anyway, I thought I might mention this in case it runs against the
-spirit of the selftest install target.  I only tripped over it while
-digging into the bowels of our kernel specfile and discovered that it
-invoked this target.
-
---
-Joe
-
+Regards,
+Simon
