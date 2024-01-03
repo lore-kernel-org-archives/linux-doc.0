@@ -1,37 +1,37 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067901D692;
-	Wed,  3 Jan 2024 21:03:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4141D687;
+	Wed,  3 Jan 2024 21:13:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Adts07q7"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="thrsfLlP"
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 45B098E3;
-	Wed,  3 Jan 2024 21:03:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 45B098E3
+	by ms.lwn.net (Postfix) with ESMTPSA id B79B21C33;
+	Wed,  3 Jan 2024 21:13:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B79B21C33
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1704315812; bh=iR0cbg1POh/5swWdt13ITCDKZofHsKJuPDbc9ByDZGU=;
+	t=1704316416; bh=Z9wBUNkIgI1KjeMMPZc6rSKy4oBEXR9BlVUj6OtV9uI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Adts07q7XU3S9G9jGDNTCSvkKeQTRbx87Sw2IYDBMrJr17LRcpiCstNQCEadPr4cv
-	 0FCEsvwrKsLELLi2wm62KWbEgIMY0vJYEpTZC+iVorQzO9nviAPJpvCgPdGLwELCPb
-	 MwbQtjyZiAqo5FsJVPEqkJaIc3BFIDRvQ9IZ69fojmvrTiIAt3Dk+ZFZtsrKOZA9IY
-	 wfMO9prgLzGctDrm7MmgXAYltcEt4RUvk6p/NjIcYXpuIVcoKa9Q3WJP+BBuyYTByp
-	 ZuUrnQQay6tM1v3Felpc+3wt6lOCyAtEiQe5EBeI66A3IZqoaX25jw4QxYLekP/9y/
-	 51dOes4vT6paA==
+	b=thrsfLlP77MOXmB2UFnPrAPvKi8nCbKhM4/jiA2DsSt1OzJWwxacP255IxO3RWr+h
+	 BLeecooI+oUYzgNVAOLDxbVno4j0sTneuB3UJLAxSHrb3tgGQdg/vqNPRzPCz60+iE
+	 PilAJa/NgU3fynrEBLA4496+Khl8sh/FEd+Ao6Uag2TmI53IRVEQBb8BHGGGajNmOb
+	 tHD5ZQKbIC3wv3fDikABq3bRANZ6W+F67hqRxOAj4Whk8scDHDT38btyDIt2Rw10+3
+	 ue68xJFNJmsN6k+bVyN7g1mS4LahLa6Q8Yrh5lgpak74Yf8oi34Drousj30aImLLTb
+	 1L5YZsi+TO2kw==
 From: Jonathan Corbet <corbet@lwn.net>
 To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, Mauro Carvalho
- Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] scripts/get_abi.pl: ignore some temp files
-In-Reply-To: <20231228233113.5218-1-rdunlap@infradead.org>
-References: <20231228233113.5218-1-rdunlap@infradead.org>
-Date: Wed, 03 Jan 2024 14:03:31 -0700
-Message-ID: <87plyi86zg.fsf@meer.lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Jani Nikula
+ <jani.nikula@intel.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: handle a void function without producing a
+ warning
+In-Reply-To: <20231226065219.319-1-rdunlap@infradead.org>
+References: <20231226065219.319-1-rdunlap@infradead.org>
+Date: Wed, 03 Jan 2024 14:13:36 -0700
+Message-ID: <87le9686in.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,41 +42,34 @@ Content-Type: text/plain
 
 Randy Dunlap <rdunlap@infradead.org> writes:
 
-> When there are filenames of the form ".orig" or ".rej" in
-> the Documenatation/ABI/ subdirectories, there can be confusing or
-> erroneous output generated. Example: the file
-> Documenation/ABI/testing/sysfs-bus-papr-pmem.orig causes this
-> warning message:
+> Currently a void function can produce a warning:
+>   main.c:469: warning: contents before sections
 >
-> Documentation/ABI/testing/sysfs-bus-papr-pmem:2: WARNING: unknown document: '/powerpc/papr_hcalls'
+> This one is from arch/x86/kernel/cpu/sgx/main.c (which is not included
+> in any produced kernel documentation output).
 >
-> Prevent this by skipping over filenames that may be created by
-> patch/diff tools etc.
+> Handle this by setting $in_doc_sect to 1 whenever any recognized
+> document section name is processed.
 >
+> Fixes: f624adef3d0b ("kernel-doc: limit the "section header:" detection to a select few")
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jani Nikula <jani.nikula@intel.com>
 > Cc: Jonathan Corbet <corbet@lwn.net>
 > Cc: linux-doc@vger.kernel.org
-> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 > ---
->  scripts/get_abi.pl |    1 +
+>  scripts/kernel-doc |    1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff -- a/scripts/get_abi.pl b/scripts/get_abi.pl
-> --- a/scripts/get_abi.pl
-> +++ b/scripts/get_abi.pl
-> @@ -93,6 +93,7 @@ sub parse_abi {
->  	return if ($mode & S_IFDIR);
->  	return if ($file =~ m,/README,);
->  	return if ($file =~ m,/\.,);
-> +	return if ($file =~ m,\.(rej|org|orig|bak)$,);
+> diff -- a/scripts/kernel-doc b/scripts/kernel-doc
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -2126,6 +2126,7 @@ sub process_body($$) {
+>      }
+>  
+>      if (/$doc_sect/i) { # case insensitive for supported section names
+> +	$in_doc_sect = 1;
+>  	$newsection = $1;
 
 Applied, thanks.
-
-It would have been nice to create all of those files with a .abi
-extension so we didn't have to do this kind of blocklisting, but so be
-it.
-
-Should we exclude emacs-style ~ files too?
 
 jon
