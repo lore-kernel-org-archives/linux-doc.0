@@ -1,59 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78F61DA23;
-	Wed,  3 Jan 2024 21:24:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C96FC433C8;
-	Wed,  3 Jan 2024 21:24:32 +0000 (UTC)
-Date: Wed, 3 Jan 2024 16:25:35 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Linux
- Trace Kernel <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH v2] ring-buffer/Documentation: Add documentation on
- buffer_percent file
-Message-ID: <20240103162535.6de92d55@gandalf.local.home>
-In-Reply-To: <87h6ju86fh.fsf@meer.lwn.net>
-References: <20231226130149.4685c838@gandalf.local.home>
-	<87h6ju86fh.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4650E1DA20;
+	Wed,  3 Jan 2024 21:27:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="F4PN/eEx"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 87AF61C33;
+	Wed,  3 Jan 2024 21:27:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 87AF61C33
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1704317230; bh=3W8UqnHAc/h8Xu2UTTAw555zswzyECYPtDW6YdDGYSc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=F4PN/eExkBrUFEoSL3VOgvTN4dt8OQELYbbbAGHGEP3ij3fYsNJcH3QSI/47Vf78w
+	 3tTqvo1SxGTq3XQGKAMwsFPBVPdbLFsXtHXh+iY4x8UE5oVnBfd2E6GU+WMshWdXFs
+	 sh8uN4ysZqwRaITppw8GQ3lWUBl7YWIiy6RT0mBfHa/RyFMPEXUx5ASBSMGIh2VW46
+	 As03rElxs+AiQ9zmUujKGUuXjt0ENR8+nkCKFvKbq2OKFwAUmQ/GUL3sX2zNW0zt0y
+	 xS9lAjqZw9i1ZNYZ5457iJhhgIuYK/QNesE8Sr56G3+pvsHlBNTVvncAlO+IzXOlEr
+	 oy1uu0FgMlsMQ==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>
+Subject: Re: [PATCH] Docs: remove mentions of fdformat from util-linux
+In-Reply-To: <20231220-docs-fdformat-v1-1-0d05279e5d83@weissschuh.net>
+References: <20231220-docs-fdformat-v1-1-0d05279e5d83@weissschuh.net>
+Date: Wed, 03 Jan 2024 14:27:09 -0700
+Message-ID: <87zfxm6rbm.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 03 Jan 2024 14:15:30 -0700
-Jonathan Corbet <corbet@lwn.net> wrote:
+Thomas Wei=C3=9Fschuh <linux@weissschuh.net> writes:
 
-> Steven Rostedt <rostedt@goodmis.org> writes:
-> 
-> > From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> >
-> > When the buffer_percent file was added to the kernel, the documentation
-> > should have been updated to document what that file does.
-> >
-> > Fixes: 03329f9939781 ("tracing: Add tracefs file buffer_percentage")
-> > Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> > ---
-> > Changes since v1: https://lore.kernel.org/all/20231226123525.71a6d0fb@gandalf.local.home/
-> >
-> > - Fixed some grammar issues.
-> >
-> >  Documentation/trace/ftrace.rst | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)  
-> 
-> Are you planning on shipping this one upstream, or would you like me to
-> pick it up?
+> Since util-linux commit 13b26e3c36d1
+> ("fdformat: remove command from default build")
+> the fdformat tool is not built anymore by default.
+> As a result it is not packaged anymore by distributions and therefore
+> not usable by users.
+>
+> Instead mention the "mount" command as more likely to be present
+> alternative.
+>
+> Also drop the reference to fdformat from the list of features of new
+> versions of util-linux.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+>  Documentation/process/changes.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-I was hoping you can take it, but please take v3.
+Amusingly, my F39 system still has fdformat...but this change makes
+sense, applied, thanks.
 
-  https://lore.kernel.org/all/20231229122402.537eb252@gandalf.local.home/
-
-Thanks!
-
--- Steve
+jon
