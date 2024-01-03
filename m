@@ -1,197 +1,146 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4CE1A72E
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jan 2024 15:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACFF1A730;
+	Wed,  3 Jan 2024 15:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="G9MMxejv"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50e9e5c97e1so2166633e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jan 2024 07:18:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1704295109; x=1704899909; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qOnh6GFoMJIg3Fk5aDwenA5FAvHDGXhGVcW2b/3N3Bc=;
-        b=G9MMxejvLv3D5PRC5DfObCJVUmNe6vKlhaNd6xjL6bsQmcbL3ulgyh3mDZ1wxYED+E
-         0gHoQsKDjb4/6jR5dOqt+MHsH4o9YgLRqkB81HN3aOyb8jwHDdk3gDCugVbUmYCTvIxZ
-         FTWV7lORIqlc3LRKx7/oV6MTt3YvWjfgBOVRl1oMidr2ep7AA4IXGcPmjxSHoJf2Mf3K
-         u7j4zUyfZLyup/WBYx9moOJG3FMmnb008Au0uPZ+Od1FQU7dHAwUJdYwcaTh415hhZBw
-         2cI/jtcZh4dO/hE8fX9K/cmj1CKwKLSXn0LxC9zrF5GpvRmEJdoqnMtciS5DmsiT7JDB
-         PFLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704295109; x=1704899909;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qOnh6GFoMJIg3Fk5aDwenA5FAvHDGXhGVcW2b/3N3Bc=;
-        b=kw9dlHa1O6KHw9Go3134UTKiemp59mEc4P9kuSu8vV9/53OVMWL9nlxeY2A31TJpCJ
-         o/byz7ZsrhSscq6hl0v6qShcmCTTUirhRri1z+vR09S4GA/+DfE5CIVG/aiAOSEErLpM
-         kH5C/bDelxhCi7knuPLL3J4b2VzRu3w+W/bmcNGF0e+0PxyajDW8tJ/6sXuf/yD2u5hE
-         e30ADCChFkKcunGNKJuHaeYmzwUw3aSMyCzISZmJU7CPyf8LNZOv3f3L+GOh1k0h6Spr
-         OgMmrSEVM5rZSKEe0KLg5xeUp4RpJ1Uz9BvSziNoRMtWA2xWDnzedTXfp8EtUQP04zkT
-         IMWw==
-X-Gm-Message-State: AOJu0YzY7pLJgcY8XpkIy4nvVwdSt3UeZsUI4LBC3HbphrSock8cJOyN
-	nKA5CUJ4SI/FtlLJ6IoBSfnBVUU57EDQJg==
-X-Google-Smtp-Source: AGHT+IGmMNSNCa2FS9YbKliIuuRoRIjkZHFFRQauWfc6RzCo+GBWoTZ+VEYuChLYvzI5/3hshuW9bQ==
-X-Received: by 2002:a05:6512:3c8e:b0:50e:7693:7084 with SMTP id h14-20020a0565123c8e00b0050e76937084mr9468630lfv.57.1704295108834;
-        Wed, 03 Jan 2024 07:18:28 -0800 (PST)
-Received: from ?IPV6:2a02:6b6a:b5c7:0:1b12:a705:8eb0:640d? ([2a02:6b6a:b5c7:0:1b12:a705:8eb0:640d])
-        by smtp.gmail.com with ESMTPSA id a5-20020a056512390500b0050e677cb432sm3667596lfu.193.2024.01.03.07.18.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jan 2024 07:18:28 -0800 (PST)
-Message-ID: <a57b9e19-3466-bb73-1c88-c19417ac6822@bytedance.com>
-Date: Wed, 3 Jan 2024 15:18:25 +0000
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BBz2ctHS"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 403DlAVu001467;
+	Wed, 3 Jan 2024 15:27:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=Nu8lunzViOUpOfegZsY+Z05a/poHdYSCSroiiueke/4=; b=BB
+	z2ctHSJD5dquHTYRfOF1AtFzzDiAGhOtvEXPnoGkGSSys0dg3J2a1lkPCqOVLCQ2
+	cpXHWWf9EJEcP7zO7SNQGvCXsFgWJF1xSYmjfV0xhUogTTxrM9VyeyZeC2LSJdwd
+	ZPR/8gnpoDdbEFb03FMC602ms+bbciRyAMd71Tk3NhNEHTvjFIZhoovyx48GL8Ho
+	mnMSZsJ2ieM+nP54aTQMzoCzkkjoq89m9b2gdA0oM9phOslVmEScO0sn3fREyUGo
+	kcYlpiqA4pVUne7jfLzmCm7WaOg6TXhgWe6muJDeaItueS9pNeFlWn9GCTbzhsnP
+	SXlf9BvoRZnzQGxyNDgA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vd8dpr8pe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Jan 2024 15:27:46 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 403FRiTq029569
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 3 Jan 2024 15:27:44 GMT
+Received: from [10.216.8.10] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 3 Jan
+ 2024 07:27:33 -0800
+Message-ID: <520e377d-e990-c185-4a20-07806873e506@quicinc.com>
+Date: Wed, 3 Jan 2024 20:57:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [External] [PATCH v5] x86: intel_epb: Add earlyparam option to
- keep bias at performance
-To: Jack Allister <jalliste@amazon.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
- Paul Durrant <pdurrant@amazon.com>, Jue Wang <juew@amazon.com>,
- Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Paul E. McKenney" <paulmck@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Tejun Heo <tj@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Yan-Jie Wang <yanjiewtw@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <83431857-7182-471a-9ff1-9dac37e5a02f@intel.com>
- <20240103144607.46369-1-jalliste@amazon.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: RESEND: Re: [Patch v6 03/12] docs: qcom: Add qualcomm minidump
+ guide
 Content-Language: en-US
-From: Usama Arif <usama.arif@bytedance.com>
-In-Reply-To: <20240103144607.46369-1-jalliste@amazon.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Ruipeng Qi <ruipengqi7@gmail.com>
+CC: <agross@kernel.org>, <alim.akhtar@samsung.com>, <andersson@kernel.org>,
+        <bmasney@redhat.com>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <gpiccoli@igalia.com>, <keescook@chromium.org>, <kernel@quicinc.com>,
+        <kgene@kernel.org>, <konrad.dybcio@linaro.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-samsung-soc@vger.kernel.org>, <mathieu.poirier@linaro.org>,
+        <matthias.bgg@gmail.com>, <nm@ti.com>, <robh+dt@kernel.org>,
+        <tony.luck@intel.com>, <vigneshr@ti.com>, <qiruipeng@lixiang.com>
+References: <1700864395-1479-4-git-send-email-quic_mojha@quicinc.com>
+ <20231225135542.1789-1-ruipengqi7@gmail.com>
+From: Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <20231225135542.1789-1-ruipengqi7@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Eq10y8K3OI3Kx2Zzds3mwvzzBPYT1-u_
+X-Proofpoint-ORIG-GUID: Eq10y8K3OI3Kx2Zzds3mwvzzBPYT1-u_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 phishscore=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 mlxscore=0 malwarescore=0 mlxlogscore=826 adultscore=0
+ clxscore=1011 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401030127
 
 
 
-On 03/01/2024 14:46, Jack Allister wrote:
-> Buggy BIOSes may not set a sane boot-time Energy Performance Bias (EPB).
-> A result of this may be overheating or excess power usage. The kernel
-> overrides any boot-time EPB "performance" bias to "normal" to avoid this.
+On 12/25/2023 7:25 PM, Ruipeng Qi wrote:
+> <+How a kernel client driver can register region with minidump
+> <+------------------------------------------------------------
+> <+
+> <+Client driver can use ``qcom_minidump_region_register`` API's to register
+> <+and ``qcom_minidump_region_unregister`` to unregister their region from
+> <+minidump driver.
+> <+
+> <+Client needs to fill their region by filling ``qcom_minidump_region``
+> <+structure object which consists of the region name, region's virtual
+> <+and physical address and its size.
 > 
-> When used in data centers it is preferable keep the EPB at "performance"
-> when performing a live-update of the host kernel via a kexec to the new
-> kernel. This is due to boot-time being critical when performing the kexec
-> as running guest VMs will perceieve this as latency or downtime.
-> 
-> On Intel Xeon Ice Lake platforms it has been observed that a combination of
-> EPB being set to "normal" alongside HWP (Intel Hardware P-states) being
-> enabled/configured during or close to the kexec causes an increases the
-> live-update/kexec downtime by 7 times compared to when the EPB is set to
-> "performance".
-> 
-> Introduce a command-line parameter, "intel_epb=preserve", to skip the
-> "performance" -> "normal" override/workaround. This maintains prior
-> functionality when no parameter is set, but adds in the ability to stay at
-> performance for a speedy kexec if a user wishes.
-> 
-> Signed-off-by: Jack Allister <jalliste@amazon.com>
-> Acked-by: Rafael J. Wysocki <rafael@kernel.org>
-> Cc: Paul Durrant <pdurrant@amazon.com>
-> Cc: Jue Wang <juew@amazon.com>
-> Cc: Usama Arif <usama.arif@bytedance.com>
-> ---
->   .../admin-guide/kernel-parameters.txt         | 12 +++++++++++
->   arch/x86/kernel/cpu/intel_epb.c               | 21 +++++++++++++++++--
->   2 files changed, 31 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 65731b060e3f..5602ee213115 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2148,6 +2148,18 @@
->   			0	disables intel_idle and fall back on acpi_idle.
->   			1 to 9	specify maximum depth of C-state.
->   
-> +	intel_epb=	[X86]
-> +			auto
-> +			  Same as not passing a parameter to intel_epb. This will
-> +			  ensure that the intel_epb module will restore the energy
-> +			  performance bias to "normal" at boot-time. This workaround
-> +			  is for buggy BIOSes which may not set this value and cause
-> +			  either overheating or excess power usage.
-Hi,
+> Hi, Mukesh, wish you a good holiday :)
 
-Thanks for the patch. Is auto needed over here? It was pointed in an 
-earlier review that it could be an option, but it doesn't seem to serve 
-a purpose. Its also not how the code works, i.e. intel_epb=abc would be 
-the same as intel_epb=auto. Just could add a print if intel_epb=preserve 
-is not encountered then an unexpected value has been passed in.
+Hope you had the same..:-)
 
-> +			preserve
-> +			  At kernel boot-time if the EPB value is read as "performance"
-> +			  keep it at this value. This prevents the "performance" -> "normal"
-> +			  transition which is a workaround mentioned above.
-> +
->   	intel_pstate=	[X86]
->   			disable
->   			  Do not enable intel_pstate as the default
-> diff --git a/arch/x86/kernel/cpu/intel_epb.c b/arch/x86/kernel/cpu/intel_epb.c
-> index e4c3ba91321c..419e699a43e6 100644
-> --- a/arch/x86/kernel/cpu/intel_epb.c
-> +++ b/arch/x86/kernel/cpu/intel_epb.c
-> @@ -50,7 +50,8 @@
->    * the OS will do that anyway.  That sometimes is problematic, as it may cause
->    * the system battery to drain too fast, for example, so it is better to adjust
->    * it on CPU bring-up and if the initial EPB value for a given CPU is 0, the
-> - * kernel changes it to 6 ('normal').
-> + * kernel changes it to 6 ('normal'). However, if it is desirable to retain the
-> + * original initial EPB value, intel_epb=preserve can be set to enforce it.
->    */
->   
->   static DEFINE_PER_CPU(u8, saved_epb);
-> @@ -75,6 +76,8 @@ static u8 energ_perf_values[] = {
->   	[EPB_INDEX_POWERSAVE] = ENERGY_PERF_BIAS_POWERSAVE,
->   };
->   
-> +static bool intel_epb_no_override __read_mostly;
-> +
->   static int intel_epb_save(void)
->   {
->   	u64 epb;
-> @@ -106,7 +109,7 @@ static void intel_epb_restore(void)
->   		 * ('normal').
->   		 */
->   		val = epb & EPB_MASK;
-> -		if (val == ENERGY_PERF_BIAS_PERFORMANCE) {
-> +		if (!intel_epb_no_override && val == ENERGY_PERF_BIAS_PERFORMANCE) {
->   			val = energ_perf_values[EPB_INDEX_NORMAL];
->   			pr_warn_once("ENERGY_PERF_BIAS: Set to 'normal', was 'performance'\n");
->   		}
-> @@ -213,6 +216,20 @@ static const struct x86_cpu_id intel_epb_normal[] = {
->   	{}
->   };
->   
-> +static __init int parse_intel_epb(char *str)
-> +{
-> +	if (!str)
-> +		return 0;
-> +
-> +	/* "intel_epb=preserve" prevents PERFORMANCE->NORMAL on restore. */
-> +	if (!strcmp(str, "preserve"))
-> +		intel_epb_no_override = true;
-> +
-Maybe add an print in else here to say that unexpected value has been 
-encountered for intel_epb if preserve is not seen.
+> 
+> I have the following idea, please help me to assess whether this can be
+> implemented or not. As we all know, most of the kernel objects are
+> allocated by the slab sub-system.I wonder if we can dump all memory
+> keeped by the slab sub-system? If so,  we got most of the kernel objects
+> which will be helpful to fix problems when we run with system issues.
+> 
+> How can we do this? From the description above, I think we should
+> register one region for each slab,  for each slab will have some pages,
+> and the memory between each slab is non-continuous. As we all
+> know, there are millions of slabs in the system, so if we dump slabs
+> in this way, it will introduce a heavy overhead.
+> 
+> I am not very familiar with qualcomm minidump, maybe my thought
+> is wrong. Looking forward to your reply!
 
-Thanks,
-Usama
-> +	return 0;
-> +}
-> +
-> +early_param("intel_epb", parse_intel_epb);
-> +
->   static __init int intel_epb_init(void)
->   {
->   	const struct x86_cpu_id *id = x86_match_cpu(intel_epb_normal);
+In the current state and in simple terms, Qualcomm Minidump can not do
+this, Minidump is more of a consumer driver so, what ever gets
+registered with it, it can dump. Qualcomm Minidump serves bigger purpose
+to dump content in any kind of crash whether it is kernel or non-kernel
+like NOC errors/XPUs etc and both kernel/non-kernel entity can register 
+to it, so we gets dump in any kind of system crash.
+
+One more thing, kernel part of minidump, we are calling it APSS Minidump
+has limitation of no of entries so it will be difficult to dump 
+non-continuous regions after a certain number of registration ~200. However,
+we do have a solution in downstream kernel for it like to create a big 
+CMA buffer and register this buffer with Minidump so that whatever gets 
+dumped in that buffer gets captured during crash and fill up this buffer 
+and create elf during panic. I think, similar thing you are also doing 
+with your OS-minidump.
+
+I have just glanced into your implementation of OS-minidump, it
+more of relying on basic concept of RAM content preserved
+across boot and later reading it through procfs but this basic
+stuff is common to pstore(ram) as well and pstore has file system 
+support why don't you make your driver as one of pstore record and that 
+way Qualcomm minidump also gets benefited where entire OS-minidump 
+record gets registered with Qualcomm minidump and we get this on panic 
+and you get this via pstorefs.
+
+-Mukesh
+
+> 
+> Best Regards
+> Ruipeng
