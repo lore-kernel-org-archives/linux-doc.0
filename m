@@ -1,240 +1,171 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AA41DDE4
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jan 2024 22:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9822C1DA26;
+	Wed,  3 Jan 2024 22:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NRDjHM81"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-360412acf3fso1653435ab.0
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jan 2024 14:09:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1704319762; x=1704924562; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=te2PH2Kdt4cQrnvMOmJ454BBecoYeY1JOfYpAxEXWxY=;
-        b=NRDjHM81w/sZiM8JrKwggU2qq7U5V4q/crH6ON1yBYTp2vZZhLcgkLmmUv9mGCkTqQ
-         NOAUtvVjPVSJmK3wmDU5BnUXP9dHxDKOlvhhwrLcVk2gmrTFm1HyUj9H/hGEzoOdvyXd
-         zZ7QvoiOd617OtYbSpl8eMXtzaJnS7Xa5Gkaw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704319762; x=1704924562;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=te2PH2Kdt4cQrnvMOmJ454BBecoYeY1JOfYpAxEXWxY=;
-        b=AoyN5gmLDxlgupSywDdLs3gnTZ27S1qMJyLb9ekgJAOkhAUjcBwSCld9G6s5Z+3hkJ
-         qhHxGqOCPJY42igxW1yKZI2EKvE680t6xgD5fIjqYEvFKTBu2itj06h9Z581NWMx8JyF
-         kMy0eZ2WU62a1hEX/JB5o4y/9Juk2v6O57LaSbrHSonJp4OQFdJXQvA9SEjdFJXdDO1z
-         HIDYQ0d2eWWXDFump5BdpqcX6mhzLXNR6oNo1/ZOe5LZJWtLNTNmuMiLFbLCoDqA4Gxn
-         n14kPCF0Acxy5QqH+b76GPiXFvmYJ/q7Y6jIDtmwbTS6dl6bRrLtjD6FDGK10LIe54by
-         K75w==
-X-Gm-Message-State: AOJu0YxtUhix4AEtTpm8SE2LoLHfoE79jVB66lC/PTiZCE9ntHKRALyw
-	Lha2Y5gl30+8u+GuQ4kOsc/FR2OK2RUqQQ==
-X-Google-Smtp-Source: AGHT+IFaaY5Skh+o7ny4ui5W9ZhTFlM4FEgUH0yIGmZMDbedaycTOwiYk25gWja3CQeLGAKe5kxYVg==
-X-Received: by 2002:a05:6602:2190:b0:7ba:a0f9:7660 with SMTP id b16-20020a056602219000b007baa0f97660mr30672565iob.1.1704319762050;
-        Wed, 03 Jan 2024 14:09:22 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id bq11-20020a056638468b00b0046dd22fd24csm1096998jab.87.2024.01.03.14.09.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jan 2024 14:09:21 -0800 (PST)
-Message-ID: <4fb169fd-393c-441e-b0f7-32a3777c1d11@linuxfoundation.org>
-Date: Wed, 3 Jan 2024 15:09:20 -0700
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="e3Ehpu7h"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cZplnyw39cO6N2JI3bs6ssN+a+qrcj6ZqVv3pAqIYHKEyCxJAMaFyP7GGdf1mPdRPMOfe1s2qXBKDti3ePKT7VwzbQvk+eytrLf911ewowhvfWiIOGZvn19wPZ3Ab14z5ZaJSQmByf8bTwtHZX0gvgcKHo/L6SmelzL0z2K084UjMhryr70r7Bn0THatPawMBPPnr7HmKpyyR5GKkmsqlDGZdk7GovbKUjCo5jZyH6d8PvHgP1NDt5AmzF1VqG0h1ZTgWRSs879QRdgjuNSUuUBzT2AHosTfnoilmbgUs09g5NAxqoCKJIvDiXRi2rBkB0XO+S/o0lYv0/dKWo0dfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RUmLsqKpJn0fpO8Na1oIc12LqjLaT0D/w+jHs2mMXs8=;
+ b=Jrv0dvPyPODfpdSd+8OI+TBsl1R8WmcPq6IIjAM1xXX62y2v0exVjsK2nQikEM7cPs4IQB+MW2tCLdeujs1fwftavtne7h62nxEW8pdLvpgBG7Mvj+S0NZY/lnyuDIn0ljcdKnENFLywhiBdJN1EquGJF0/3qx3oW6kDyXFWK/pYyE6Bx0oyfOzG0v8ATl5m7KBFDjDdmq/lDhuzHlXjcnz2KkRm0l5SiP6xy+9o8Wwwn77r/G+ZDnKrlGW2jWtT+Yy81LZF2kJirfdsA0vxEd3JD5f+PcTFOLNjHEqpYxPo4ObWoS+YPH35G/i+kDq7bVi4v/1HVikK4XC6nrgAng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RUmLsqKpJn0fpO8Na1oIc12LqjLaT0D/w+jHs2mMXs8=;
+ b=e3Ehpu7hCp9pH3Y8rfMg1+yu3rCpeHNaXAqZtkcoIPPjDQL8xsNOhpWsj7byrkUqoOnBQX72RFiJcrTQYuEc2lDmBrbA/969KblRPfGX1WNlcJ8ngDwXDiQ8sVoasK7WSuwjfx1x0YbH7LzjkTzyidTTMZFt6FLJfk8R2STyC+Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by PH8PR17MB6786.namprd17.prod.outlook.com (2603:10b6:510:239::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Wed, 3 Jan
+ 2024 22:10:09 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15%4]) with mapi id 15.20.7135.023; Wed, 3 Jan 2024
+ 22:10:09 +0000
+Date: Wed, 3 Jan 2024 17:09:59 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
+	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
+	tj@kernel.org, corbet@lwn.net, rakie.kim@sk.com,
+	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
+	peterz@infradead.org, jgroves@micron.com, ravis.opensrc@micron.com,
+	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com,
+	seungjun.ha@samsung.com,
+	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
+Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
+ MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
+Message-ID: <ZZXbN4+2nVbE/lRe@memverge.com>
+References: <20231223181101.1954-1-gregory.price@memverge.com>
+ <20231223181101.1954-3-gregory.price@memverge.com>
+ <8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <ZYp6ZRLZQVtTHest@memverge.com>
+ <878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <ZZRybDPSoLme8Ldh@memverge.com>
+ <87mstnc6jz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87mstnc6jz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-ClientProxiedBy: BYAPR06CA0013.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::26) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v4 1/3] kselftests: lib.mk: Add TEST_GEN_MODS_DIR
- variable
-Content-Language: en-US
-To: Joe Lawrence <joe.lawrence@redhat.com>,
- Marcos Paulo de Souza <mpdesouza@suse.com>
-Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-s390@vger.kernel.org, live-patching@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
- <20231220-send-lp-kselftests-v4-1-3458ec1b1a38@suse.com>
- <ZZSOtsbzpy2mvmUC@redhat.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <ZZSOtsbzpy2mvmUC@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|PH8PR17MB6786:EE_
+X-MS-Office365-Filtering-Correlation-Id: 04d55387-bc81-4944-03d3-08dc0ca8bfa9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	i4Ln7vGNB+9wqk43QPUPtwVM4iIWI9ae/cZZzVwjjmNQubBNAl4Lwps1er6VBLE8bnarz3SovEfejdrcLcpKwI2Sp6LCPXvddPy6tjlWzavSVw6p3PxJOZh3pmjbLVAPv2Yh/z5Yv0TKlUyWTpz0h0riWguZbftJCEiUEnETCdV6mkW6CG6bKm1CHk4sz+Ur49o8TYeKmAh+26GUV4GOaP2gKYIRCY9QU+aFZXpvQjJkFmfbnN4ZnqKnRFss21xLHCyHwtEAPq40AnNJX4QrijMDNzrVrd19u4/XahEjylu2CcozOVfWoUP3Gvevq47ayTGAbyWhBhcGOf9E+CXz3fMVprPonX1y/C09g58iuV1Gt8VDdloWCW63E2azMxq2Q2ieyFZd6HezYXmhm4kLry+FChwqT05EDfVs9fH3T78UQV0ZVEIB9jInMuDTQLAGwT+wSoPvyfLVj8K3EJZSooXYwA5+osVoJm0QC3sxmav1G8+d10xhkLRJ7ddUprcCWAJzamx6zCg6TQdiPQHodEI1PO50o8ZGvKGqxquZpF3pPexVMTvGMk74O61+DkIjwpYteFyfa0gzzShDoR8gapKXVGxOgswmyUleFf9kO9k=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(366004)(346002)(39840400004)(376002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(26005)(478600001)(2616005)(6512007)(8936002)(8676002)(44832011)(6916009)(2906002)(41300700001)(66946007)(66556008)(7416002)(6486002)(6666004)(54906003)(7406005)(5660300002)(6506007)(66476007)(4326008)(316002)(86362001)(36756003)(38100700002)(16393002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?zL8jtbJxVZBzaUDntqQj2TQ1mCTsdZoeTkdzEoLdP2cxLsPFcZBb2OfWDkqC?=
+ =?us-ascii?Q?/5dsoztCCSn1q+YMlHbf70cGFMa1ZCjVi8AIhwxnULDKcQEMAQfJE7sj4ky4?=
+ =?us-ascii?Q?NDM7pP99PDMetyfXbDr540lXh1xiD5HJtDc6CVS/0xl0ApmDOXh6mmHdSJN8?=
+ =?us-ascii?Q?UWz+PjTyJgY+ooQAw30sXbRC5JzRhR3soShXavVTbAoPBiupbp0lRzvso0pe?=
+ =?us-ascii?Q?7QOOH/eaptYoM2mV+oeebcNAw9WHXOQ7QgVBotb0eOHPKDr939beomYGAafN?=
+ =?us-ascii?Q?93+PEGBQhFvEsi/IRECgV9+tPe4h9kyNMOWAq7viKXp7XF0aIO9n+fuCzU/f?=
+ =?us-ascii?Q?WYOlfOlldfNixiqfvoixhbmI54MAfN9x8QGl38jPmvNultcSfDL54YVnbbPt?=
+ =?us-ascii?Q?36henJSa0ERytLcdT0+apZD5wdMTfN0XNx5zz8aILmP7fIsWbwW2a4PkEVjL?=
+ =?us-ascii?Q?X2TneNHwSB9+L6QKTXktb9B1Cx7vrwiorMZyXLb/CSDmiWPbD3V1y98Gfof5?=
+ =?us-ascii?Q?mNM9XYRyi3ERviBAz9DH40r2mXIgxkEhNMYHESBS3Q0WDjxgUptAu/0SQ32x?=
+ =?us-ascii?Q?030lyJ05VhreccplCIKZWX3GJ1LlRBsfbtsb77PnAbN7MnnEIAdiR/CGhWk7?=
+ =?us-ascii?Q?minXJamTDGIefru5c6dSy3CdxRp+7fKUB5diGB/tAy491MvRNIn5Rr97Lyes?=
+ =?us-ascii?Q?tOYBp4r4ePhKw6gZ1l8qZ3dbzi43yTDnoINdLF5bO5uwsRrPRCzyZJwt2F1e?=
+ =?us-ascii?Q?vRCuYc6bvd+vLrgZIz6o+b5h7KIExKUQNsg79QF/rcIEjc7e/egU00tkZjXG?=
+ =?us-ascii?Q?tL+NLT0naJlswUjYlLIRALLr91vqAEUn0FYDn8UjCSiroTXyNkdqCyh1sVtv?=
+ =?us-ascii?Q?ZfoHIAaQ67MzImNpyS4nmkTHMudpaZVZIvU+jIGSD1LHi8lGBS2HsK9NS7TV?=
+ =?us-ascii?Q?yJZnT/vSCtcoJL/ST4+l29RUZViveIDY0h0CPmh+thycQCAdaS76ay98p9FN?=
+ =?us-ascii?Q?2j3K2Kb7ny9m1e7WY5VhZ8tf//gj0d3eWJE1PebkhYJoi8d2mSNdW7BRNwr/?=
+ =?us-ascii?Q?1Z6eHOSyfo5/Iw8F3yzG79RfCWUD9JcUNIJFyOVpYPtJDIARUQkKkAkOfAhS?=
+ =?us-ascii?Q?y/pbjsNqKb4ZB4/yYfFwx4GnQUoqMS6niZ4ZKPUzUBbZ7pNT6Pwh2KPC33YQ?=
+ =?us-ascii?Q?HuCYVNijoLoAZDqaUHDKFu/FhxhE2BfR/TwpIWw7GPetglzZDe82CqiMuOCg?=
+ =?us-ascii?Q?NM4PcycfF4WLwfdQZeUH5vRG1BlhZq1WEpDb07HrFySeJ7W14n2rOiEhHh8P?=
+ =?us-ascii?Q?9eCgN48DBXLF5vjqNfxlufBZPeKemPEXj6GEU+n4GlnDaI/FOMO3qYpFTvv1?=
+ =?us-ascii?Q?thHcsPFa7dYcwT13H+8MfLH0+gZ+OyAZvh8egVNHJOfJRISaXRT/hSt+eLd+?=
+ =?us-ascii?Q?CXSufqxswfoGNBM5Mr8sM1Xn4l7LEVJMkqe+TlrPXeatvaShnazvpa6txLXM?=
+ =?us-ascii?Q?dN8J8qNgpAxvGimUJSw9xDe5bcwHeA2Ci6NbPIzZX+HOXzxEMbhcAtp21b3I?=
+ =?us-ascii?Q?xCxWyJ8a144zx+l7XKYxDZBftObAnH6E8b77l5reNu+XJY91huQnX69gmEU8?=
+ =?us-ascii?Q?JQ=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04d55387-bc81-4944-03d3-08dc0ca8bfa9
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2024 22:10:09.0564
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uZIVSZ7MvjqjEAL9nQR+KKWsRkzBVgMD4TZU01L1QQJpFP2aNz8PcaV1PU/sY/n506Zzb/sac4nncr/vGn/3uzIBWGUA6TYrhUh49Vc+yGs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR17MB6786
 
-On 1/2/24 15:31, Joe Lawrence wrote:
-> On Wed, Dec 20, 2023 at 01:53:12PM -0300, Marcos Paulo de Souza wrote:
->> Add TEST_GEN_MODS_DIR variable for kselftests. It can point to
->> a directory containing kernel modules that will be used by
->> selftest scripts.
->>
->> The modules are built as external modules for the running kernel.
->> As a result they are always binary compatible and the same tests
->> can be used for older or newer kernels.
->>
->> The build requires "kernel-devel" package to be installed.
->> For example, in the upstream sources, the rpm devel package
->> is produced by "make rpm-pkg"
->>
->> The modules can be built independently by
->>
->>    make -C tools/testing/selftests/livepatch/
->>
->> or they will be automatically built before running the tests via
->>
->>    make -C tools/testing/selftests/livepatch/ run_tests
->>
->> Note that they are _not_ built when running the standalone
->> tests by calling, for example, ./test-state.sh.
->>
->> Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
->> ---
->>   Documentation/dev-tools/kselftest.rst |  4 ++++
->>   tools/testing/selftests/lib.mk        | 20 +++++++++++++++-----
->>   2 files changed, 19 insertions(+), 5 deletions(-)
->>
->> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
->> index ab376b316c36..7f3582a67318 100644
->> --- a/Documentation/dev-tools/kselftest.rst
->> +++ b/Documentation/dev-tools/kselftest.rst
->> @@ -245,6 +245,10 @@ Contributing new tests (details)
->>      TEST_PROGS, TEST_GEN_PROGS mean it is the executable tested by
->>      default.
->>   
->> +   TEST_GEN_MODS_DIR should be used by tests that require modules to be built
->> +   before the test starts. The variable will contain the name of the directory
->> +   containing the modules.
->> +
->>      TEST_CUSTOM_PROGS should be used by tests that require custom build
->>      rules and prevent common build rule use.
->>   
->> diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
->> index 118e0964bda9..6c7c5a0112cf 100644
->> --- a/tools/testing/selftests/lib.mk
->> +++ b/tools/testing/selftests/lib.mk
->> @@ -70,12 +70,15 @@ KHDR_INCLUDES := -isystem $(KHDR_DIR)
->>   # TEST_PROGS are for test shell scripts.
->>   # TEST_CUSTOM_PROGS and TEST_PROGS will be run by common run_tests
->>   # and install targets. Common clean doesn't touch them.
->> +# TEST_GEN_MODS_DIR is used to specify a directory with modules to be built
->> +# before the test executes. These modules are cleaned on the clean target as well.
->>   TEST_GEN_PROGS := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS))
->>   TEST_GEN_PROGS_EXTENDED := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS_EXTENDED))
->>   TEST_GEN_FILES := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_FILES))
->> +TEST_GEN_MODS_DIR := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_MODS_DIR))
->>   
->>   all: kernel_header_files $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED) \
->> -     $(TEST_GEN_FILES)
->> +     $(TEST_GEN_FILES) $(if $(TEST_GEN_MODS_DIR),gen_mods_dir)
->>   
->>   kernel_header_files:
->>   	@ls $(KHDR_DIR)/linux/*.h >/dev/null 2>/dev/null;                      \
->> @@ -105,8 +108,8 @@ endef
->>   
->>   run_tests: all
->>   ifdef building_out_of_srctree
->> -	@if [ "X$(TEST_PROGS)$(TEST_PROGS_EXTENDED)$(TEST_FILES)" != "X" ]; then \
->> -		rsync -aq --copy-unsafe-links $(TEST_PROGS) $(TEST_PROGS_EXTENDED) $(TEST_FILES) $(OUTPUT); \
->> +	@if [ "X$(TEST_PROGS)$(TEST_PROGS_EXTENDED)$(TEST_FILES)$(TEST_GEN_MODS_DIR)" != "X" ]; then \
->> +		rsync -aq --copy-unsafe-links $(TEST_PROGS) $(TEST_PROGS_EXTENDED) $(TEST_FILES) $(TEST_GEN_MODS_DIR) $(OUTPUT); \
->>   	fi
->>   	@if [ "X$(TEST_PROGS)" != "X" ]; then \
->>   		$(call RUN_TESTS, $(TEST_GEN_PROGS) $(TEST_CUSTOM_PROGS) \
->> @@ -118,6 +121,12 @@ else
->>   	@$(call RUN_TESTS, $(TEST_GEN_PROGS) $(TEST_CUSTOM_PROGS) $(TEST_PROGS))
->>   endif
->>   
->> +gen_mods_dir:
->> +	$(Q)$(MAKE) -C $(TEST_GEN_MODS_DIR)
->> +
->> +clean_mods_dir:
->> +	$(Q)$(MAKE) -C $(TEST_GEN_MODS_DIR) clean
->> +
->>   define INSTALL_SINGLE_RULE
->>   	$(if $(INSTALL_LIST),@mkdir -p $(INSTALL_PATH))
->>   	$(if $(INSTALL_LIST),rsync -a --copy-unsafe-links $(INSTALL_LIST) $(INSTALL_PATH)/)
->> @@ -131,6 +140,7 @@ define INSTALL_RULE
->>   	$(eval INSTALL_LIST = $(TEST_CUSTOM_PROGS)) $(INSTALL_SINGLE_RULE)
->>   	$(eval INSTALL_LIST = $(TEST_GEN_PROGS_EXTENDED)) $(INSTALL_SINGLE_RULE)
->>   	$(eval INSTALL_LIST = $(TEST_GEN_FILES)) $(INSTALL_SINGLE_RULE)
->> +	$(eval INSTALL_LIST = $(TEST_GEN_MODS_DIR)) $(INSTALL_SINGLE_RULE)
+On Wed, Jan 03, 2024 at 01:46:56PM +0800, Huang, Ying wrote:
+> Gregory Price <gregory.price@memverge.com> writes:
+> > I'm specifically concerned about:
+> > 	weighted_interleave_nid
+> > 	alloc_pages_bulk_array_weighted_interleave
+> >
+> > I'm unsure whether kmalloc/kfree is safe (and non-offensive) in those
+> > contexts. If kmalloc/kfree is safe fine, this problem is trivial.
+> >
+> > If not, there is no good solution to this without pre-allocating a
+> > scratch area per-task.
 > 
-> Hi Marcos,
+> You need to audit whether it's safe for all callers.  I guess that you
+> need to allocate pages after calling, so you can use the same GFP flags
+> here.
 > 
-> Sorry for the late reply on this, but I'm reviewing this version by
-> trying to retrofit it into our selftest packaging (pre-build the test
-> module .ko's and stash those into an rpm rather than building on the
-> test host).
-> 
-> Since $TEST_GEN_MODS_DIR is treated as a directory, I found that the
-> selftest install target copies a bunch of intermediate object and kbuild
-> files:
-> 
->    $ mkdir /tmp/test-install
->    $ make KDIR=$(pwd) INSTALL_PATH=/tmp/test-install TARGETS=livepatch \
->         -C tools/testing/selftests/ install
-> 
->    [ ... builds livepatch selftests ... ]
-> 
-> the rsync in question:
-> 
->    rsync -a --copy-unsafe-links /home/jolawren/src/kernel/tools/testing/selftests/livepatch/test_modules /tmp/test-install/livepatch/
->    ...
-> 
-> and then looking at the destination:
-> 
->    $ tree -a /tmp/test-install/
->    /tmp/test-install/
->    ├── kselftest
->    │   ├── module.sh
->    │   ├── prefix.pl
->    │   └── runner.sh
->    ├── kselftest-list.txt
->    ├── livepatch
->    │   ├── config
->    │   ├── functions.sh
->    │   ├── settings
->    │   ├── test-callbacks.sh
->    │   ├── test-ftrace.sh
->    │   ├── test_klp-call_getpid
->    │   ├── test-livepatch.sh
->    │   ├── test_modules
->    │   │   ├── Makefile
->    │   │   ├── modules.order
->    │   │   ├── .modules.order.cmd
->    │   │   ├── Module.symvers
->    │   │   ├── .Module.symvers.cmd
->    │   │   ├── test_klp_atomic_replace.c
->    │   │   ├── test_klp_atomic_replace.ko
->    │   │   ├── .test_klp_atomic_replace.ko.cmd
->    │   │   ├── test_klp_atomic_replace.mod
->    │   │   ├── test_klp_atomic_replace.mod.c
->    │   │   ├── .test_klp_atomic_replace.mod.cmd
->    │   │   ├── test_klp_atomic_replace.mod.o
->    │   │   ├── .test_klp_atomic_replace.mod.o.cmd
->    │   │   ├── test_klp_atomic_replace.o
->    │   │   ├── .test_klp_atomic_replace.o.cmd
->    ...
-> 
-> On the other hand, variables like $TEST_GEN_FILES specify individual
-> files, so only final binaries like test_klp-call_getpid (and not
-> test_klp-call_getpid.c) are copied to $INSTALL_PATH.
 
+After picking away i realized that this code is usually going to get
+called during page fault handling - duh.  So kmalloc is almost never
+safe (or can fail), and we it's nasty to try to handle those errors.
 
-Thank you Joe for finding this problem.
+Instead of doing that, I simply chose to implement the scratch space
+in the mempolicy structure
 
-Copying source files and object files doesn't sound right. This isn't
-how the ksleftest installs work. Let's fix this.
+mempolicy->wil.scratch_weights[MAX_NUMNODES].
 
-thanks,
---Shuah
+We eat an extra 1kb of memory in the mempolicy, but it gives us a safe
+scratch space we can use any time the task is allocating memory, and
+prevents the need for any fancy error handling.  That seems like a
+perfectly reasonable tradeoff.
 
+> >
+> > Weights are collected individually onto the stack because we have to sum
+> > them up before we actually apply the weights.
+> >
+> > A stale weight is not offensive.  RCU is not needed and doesn't help.
+> 
+> When you copy weights from iw_table[] to stack, it's possible for
+> compiler to cache its contents in register, or merge, split the memory
+> operations.  At the same time, iw_table[] may be changed simultaneously
+> via sysfs interface.  So, we need a mechanism to guarantee that we read
+> the latest contents consistently.
+> 
+
+Fair enough, I went ahead and added a similar interaction.
+
+~Gregoryg
