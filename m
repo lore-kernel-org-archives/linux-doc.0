@@ -1,161 +1,159 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2061.outbound.protection.outlook.com [40.107.92.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD4217986
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jan 2024 23:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD2246AC;
+	Wed,  3 Jan 2024 02:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Iwsov2jl"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-67f9fac086bso74858546d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jan 2024 15:46:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704239218; x=1704844018; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IcnI3bjOE/JR4QqtkUBLMh58U0r2t5wK4lAWbaHcRMU=;
-        b=Iwsov2jlHyi/b1Y2+3XLvr4rpFe9FCiBcOlXCybwQPcoigv3odwRKmk5KXGJRk8yhl
-         9YETAq3DJWwuIBktD6ZwqjIHWRAfUYr+94j+eNYTFsG2POWrcLpvUVbFM2JtaiKjhTc4
-         2007jM8wBDBX+Yd/RH1Rrs7vcEyv8bNHpl6V0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704239218; x=1704844018;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IcnI3bjOE/JR4QqtkUBLMh58U0r2t5wK4lAWbaHcRMU=;
-        b=ulcAzf2GnmAlwrCyR8pI6BxCVLkskfcLOCVn+FYmNGoUIf+k51+NyNfzxAEWsyUd1+
-         qVgcBOx+cCYPZobfue+wJE5hWvmIjjy8wCSbRnpVsx5xQG9rJr80G0Q6XdkwTWdzQGJy
-         VIGVjGGo1/HO30C6IFYm/7bWXCOAz0g6DbFfLgoju5hQsKdU0pYcJQfzosK3DhAEzFjr
-         a36zo3hAz0d3I/tATTH/tN736qJ4JEvB0K7GsV64dpLfwY3vcW0NMYPy7OXTbPxurens
-         nLd0/vRi/SYmjmVcQwdE8ciTQIz9f4GJWtHDUEi81IcBwdbCAZrFgYiU4NVisMlB7rCq
-         Nzuw==
-X-Gm-Message-State: AOJu0YxosSLO0+pPMPDp9sswKYIZe77YQgMgxzr99GFEtkGr1WxqBQTf
-	5G+ZtMAXZN5uvIiZeJ9xqV6JSspEGXzDQBpWn95XI1xDz7/X
-X-Google-Smtp-Source: AGHT+IH0M0pBrGr+Sx5B7gKAHkWbx7yYmjWLkviFsxrNY5/tFuUA7GBmbX67T4+ylA4I/2XnnEJd068mD1x3ToVE8wM=
-X-Received: by 2002:a05:6214:e8f:b0:67f:6348:ef8e with SMTP id
- hf15-20020a0562140e8f00b0067f6348ef8emr30015254qvb.17.1704239218454; Tue, 02
- Jan 2024 15:46:58 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="GtX79Qgf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ci3GiM676QhWZiOW7/tqb5lNVe0uirR8vSqaEd0zT0Hujv+EFCGZyj733/QIRP8KxcZQ0nCwThYDmcFW8QO0vd+4ZOWK5YHKNxjF/I8fqJHaTlITHgubduEqnP+fglaPxYjM7rgxaGv9NajMq009wO5mqf8NgLP9R0VHmAx73AIqSOQpgYQGkx0p44upO/7uhHOrAVZSIvlIXohGb9gkrpLSecvdGhtp/y2j8bFcGxK5l/aO6ei6MAEls/0gN0l7U8aMtCbcD1Cx2FQ1bNsZVaojJbCLxq+thtzSkk9ZxooJ3jJw4rGTrt8dxpQxTk5MYUnUghlpRxlMGavBUsAa6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=duisZm1qU002mNWUIdgkohJWndIH0l6aVZwBG4Ef+z8=;
+ b=mL/Adn9WaTLEbAycF3f/Y4nN4bBj0638+XQqntcWQPo0Wm4FQsWHB8aZ26f4/A1RyRfWW5XmWENFb5ExDGmp7fACmEktbQlenYbXql8RpUjouj7hg5LgrWtG96UM0BWRKIrDzARuw7Kb9owp4Q6hp1NjNSYi0zSiPLmsSB+cor1BjWWKl4eBzmvECt5j0rXc+vYGKMtxwiTyZar0FRdN4v6py6yV3VejErMwGZOzm6icJN3tc+iuGhzfgDradQcbaz3XAZTpR+Bed7+Yxw5Lp852ZLQ8GFf9vmWjHB/jubjFGSjVn74QNWs+qPoFwy3UXcNYJPct8jstkSlphPFOjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=duisZm1qU002mNWUIdgkohJWndIH0l6aVZwBG4Ef+z8=;
+ b=GtX79Qgfy1WTDnQ2MgqpzFx1D0S0Ss1pw/QpWfyc//eEoyx8zGcRt+Z2Clqn4qdu5r+S8ELKczI6RAYP8sl+0DHO3ScJhyPjusMBT3pNRnk2CUNvn81fkBgBUqyIfPiORfEKIXASnBBO4sVhEhRQ8UZGHdjr0tijgsMYZN6BlkE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by PH7PR17MB6563.namprd17.prod.outlook.com (2603:10b6:510:2b4::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Wed, 3 Jan
+ 2024 02:46:48 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15%4]) with mapi id 15.20.7135.023; Wed, 3 Jan 2024
+ 02:46:48 +0000
+Date: Tue, 2 Jan 2024 21:46:38 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
+	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
+	tj@kernel.org, corbet@lwn.net, rakie.kim@sk.com,
+	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
+	peterz@infradead.org, jgroves@micron.com, ravis.opensrc@micron.com,
+	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com,
+	seungjun.ha@samsung.com
+Subject: Re: [PATCH v5 01/11] mm/mempolicy: implement the sysfs-based
+ weighted_interleave interface
+Message-ID: <ZZTKjn3kngYPYXo0@memverge.com>
+References: <20231223181101.1954-1-gregory.price@memverge.com>
+ <20231223181101.1954-2-gregory.price@memverge.com>
+ <877cl0f8oo.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <ZYp3JbcCPQc4fUrB@memverge.com>
+ <87h6jwdvxn.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87h6jwdvxn.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-ClientProxiedBy: BYAPR02CA0029.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::42) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231213121353.GA31326@willie-the-truck>
-In-Reply-To: <20231213121353.GA31326@willie-the-truck>
-From: Simon Glass <sjg@chromium.org>
-Date: Tue, 2 Jan 2024 16:46:47 -0700
-Message-ID: <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Will Deacon <will@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
-	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|PH7PR17MB6563:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3baadcf-84ab-4071-7f4a-08dc0c063b14
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	9tveMtsGlMFwVqICh/XO+tY6Glh4GPDZg2Uk+5YiFuAY4eyLKnbxQfcqyWFa3QqRQTIx1wWNAXw5O9cKH1ueVENgZ2d0BB0NHNwVNTwHqPUIUQJJLds7mEj5r9Wag+sUBKapatT+QxB2hUTMLxUI5Fjk75Jomay+CRRxV/OkNefzJ+0R5yJn0/HdOMPIBVwzW0sMIWYakbK0OpbAueLXcEjyO0RmSPWCFUKOpCUpF6ZLR3KrNjzIdLdpnQmtVab0ES6YJsuNAUyYyjzHRM1Knl1BaLA6FXmB+rajmp0WDVKloaGlZbxLO9fkqBtDetVc+/SyaO2mwghZeCS2j9VvD2i1MtBtjF2AQg/M9L3ypyTzL1u0oft4FJ4SJud45OvyF09tDaRwauD5RLvFWFhsChiYRs3IP9vsFYJ+Icv+dAjoAoxPJ+0NWZMLfvjqBrC7ZIISPtlcG3cvy5URCCcrd7/RUvypSXZurs/86Rz90V97q7N1e7i2a6wzxm+9puyHDSMe122QK5ni5SLRFzxHL+G7hoWmssD2SYpv0scDrc0hqVMBfwspslqqWeh2UoP+9yXZu+UlQH39f0f7sqBLO5n7LUsnFG1J1wcKb/w4QgrK7ZjY24E/bret0fLnmnd8
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(39850400004)(396003)(366004)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(38100700002)(36756003)(86362001)(66946007)(7416002)(6512007)(26005)(2616005)(6486002)(66556008)(6916009)(2906002)(6506007)(7406005)(6666004)(478600001)(66476007)(5660300002)(316002)(44832011)(8936002)(41300700001)(8676002)(4326008)(16393002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VqogLsjiCk2qnKiB1YtVyxkzuTcEaT8B1pa/JYsGIYG+4ealg6zNu3ibFIuM?=
+ =?us-ascii?Q?FmTPBOpm52Ow4iaac+XI+YXubtCExosqR2CvwE2gat1UMsoF4ED2obmE3rHQ?=
+ =?us-ascii?Q?SWk09i7ARKuMl2SdHvl2W0LXB5rig91HCe0C8I3E2KnVCLtvsmOMaPOox5hC?=
+ =?us-ascii?Q?Y/hOMiz3vlrA6LS4rF0Gc7cgOuqqZyYfhg1R9wQ2APnI17u9svwDFWq8Yptm?=
+ =?us-ascii?Q?iKuWaew/noPy+PAAdklCZjF71Wfpv30NqgM+LXYB0dBAO7cBtLitCLsnuw+w?=
+ =?us-ascii?Q?JRBZjQI9fPG7rkX0kTG8Rw394LIzVFZUoO62LZF9llS4KnhM5px0kvbOtGr7?=
+ =?us-ascii?Q?Y+hsaZEnLbTd3wGab3uy1VYCTAdWaR3bdk8agFSEmAa+wBURzBDuG0YCxC7h?=
+ =?us-ascii?Q?1NXwl6VTKy96TOY0CJlRvi5l3jd7htn5QOxHc1HzD1YFaQiao9OcN+iX8SRJ?=
+ =?us-ascii?Q?JbacBf9RKQ4dcx0awtQq50bdBM/f/ir//V8zOSI2xqWzN/8iuaC0Fhccen7x?=
+ =?us-ascii?Q?p1ZWfCmRWjtO1Xn1LzbIjeqNnQTDp6QDNQG7esSAguYQsmq40vjINAmBPabY?=
+ =?us-ascii?Q?r2uA7ScYzmeLs4sfeLyYm07nxJf7fluPBASaPdhlSV0byGTTEkEUumQdzfXp?=
+ =?us-ascii?Q?2/ONhWsgqRzb48YO9bIWi0GBH13ft8kMD5udkJqNliEn5NbRWe3ojs5TeVdE?=
+ =?us-ascii?Q?y7GshFQ/aqp9so96I5ONPAKCUJLspKaAvG0C3QPaOfAzDKpsiZEBiABg+Kgc?=
+ =?us-ascii?Q?iarka/NTITIj+eVmfXEiFUvNIXD2Bl+77FN9LFSnLVEwDB3ujOxnGVpIf5wc?=
+ =?us-ascii?Q?AigAoC7/+xpIhlNa+Qb1OTlYfB7lLa2LRjPyKFiYmRZm/JnC29VGxSlIYQJg?=
+ =?us-ascii?Q?Daz/tutIZRY9l+f8j4yWaMPYrMz2pFlFgaWIiH4nLWklxvZ5rePtcO1IwcMO?=
+ =?us-ascii?Q?izuweh36UzdDpzyJltcPaDJArMoLOOZ1OEb+2LVRBT6o3r/FWET06ThTZUA3?=
+ =?us-ascii?Q?KiAXKBEKLPE4GhtoUgUxma06C4qP4jCUvSjUJ6dXpnSz2zvUGeIGultU87SL?=
+ =?us-ascii?Q?h/8AX1jSfcfKph0V5jVadxedLfCKjz6fNGBzKpV2I9NwfxWS8FE3mIkP/Unj?=
+ =?us-ascii?Q?k+qOdTgjWH9W4yZzBxzAvd/y2C2G6WYloKp/+3/IDWBWALbXak7T3Gqu2VUj?=
+ =?us-ascii?Q?37Tm1HLwkjY4N1kE8uEGu80uj/TX9PBZsS7n0WAAVLbxmrOt3Uf4pOjhn7Zd?=
+ =?us-ascii?Q?rFJcYB13qD1/im6sVo23iE3b1Pw2qw9zeyqMAPiX4/roS+jlbVXXcOnI/BN0?=
+ =?us-ascii?Q?9dbbBP3kITt6f2QzjVO0wiRgU1c2oQxH6K7UHwhWj8wIeTlDmeRy1ld9gVxH?=
+ =?us-ascii?Q?Q9GlcxwtZxqDgiWCo/oomtqkvu92Oyg7bWM+J7E9peJqBmfwim89qFiLOkAj?=
+ =?us-ascii?Q?MEtA5pUTDgOLdReaEQYLkyqP+intOEKYTiCM5dNNbk+95pKfricw1B1g98uv?=
+ =?us-ascii?Q?LSPFQq/s2V93uoTtyykGi6Y5tywZzXvCtYm8VH8WNNAGw4mnV13yzNlPmfaW?=
+ =?us-ascii?Q?rmChVyVpkfdXl98iYlZDlQbjkRzAHOWx/CFdfCYXVeWQPnFPSS3ugPy+m3TL?=
+ =?us-ascii?Q?Uw=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3baadcf-84ab-4071-7f4a-08dc0c063b14
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2024 02:46:48.2370
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lJQhAfnQRNInSCiB6D3W6Vshr0rHpCA19HGR/I8VUasX1RODI4hW98pt9PK37a+5uJRUBgnCDU3IWRHjGwy1IjnBBEQp8EHXizh15m8t8FE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR17MB6563
 
-Hi Masahiro,
+On Tue, Jan 02, 2024 at 03:41:08PM +0800, Huang, Ying wrote:
+> Think about the default weight value via HMAT/CDAT again.  It may be not
+> a good idea to use "1" as default even for now.
+> 
+> For example,
+> 
+> - The memory bandwidth of DRAM is 100GB, whose default weight is "1".
+> 
+> - We hot-plug CXL.mem A with memory bandwidth 20GB.  So, we change the
+>   weight of DRAM to 5, and use "1" as the weight of CXL.mem A.
+> 
+> - We hot-plug CXL.mem B with memory bandwidth 10GB.  So, we change the
+>   weight of DRAM to 10, the weight of CXL.mem A to 2, and use "1" as the
+>   weight of CXL.mem B.
+> 
+> That is, if we use "1" as default weight, we need to change weights of
+> nodes frequently because we haven't a "base" weight.  The best candidate
+> base weight is the weight of DRAM node.  For example, if we set the
+> default weight of DRAM node to be "16" and use that as the base weight,
+> we don't need to change it in most cases.  The weight of other nodes can
+> be set according to the ratio of its memory bandwidth to that of DRAM.
+> 
+> This makes it easy to set the default weight via HMAT/CDAT too.
+> 
+> What do you think about that?
+> 
 
-On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.org> wrote=
-:
->
-> On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > Add a script which produces a Flat Image Tree (FIT), a single file
-> > containing the built kernel and associated devicetree files.
-> > Compression defaults to gzip which gives a good balance of size and
-> > performance.
-> >
-> > The files compress from about 86MB to 24MB using this approach.
-> >
-> > The FIT can be used by bootloaders which support it, such as U-Boot
-> > and Linuxboot. It permits automatic selection of the correct
-> > devicetree, matching the compatible string of the running board with
-> > the closest compatible string in the FIT. There is no need for
-> > filenames or other workarounds.
-> >
-> > Add a 'make image.fit' build target for arm64, as well. Use
-> > FIT_COMPRESSION to select a different algorithm.
-> >
-> > The FIT can be examined using 'dumpimage -l'.
-> >
-> > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > requires compression utilities for the algorithm being used. Supported
-> > compression options are the same as the Image.xxx files. For now there
-> > is no way to change the compression other than by editing the rule for
-> > $(obj)/image.fit
-> >
-> > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > this here, since it must be built separately from the Linux build.
-> >
-> > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > ---
-> >
-> > Changes in v9:
-> > - Move the compression control into Makefile.lib
-> >
-> > Changes in v8:
-> > - Drop compatible string in FDT node
-> > - Correct sorting of MAINTAINERS to before ARM64 PORT
-> > - Turn compress part of the make_fit.py comment in to a sentence
-> > - Add two blank lines before parse_args() and setup_fit()
-> > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> > - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> > - Add 'mkimage' details Documentation/process/changes.rst
-> > - Allow changing the compression used
-> > - Tweak cover letter since there is only one clean-up patch
-> >
-> > Changes in v7:
-> > - Add Image as a dependency of image.fit
-> > - Drop kbuild tag
-> > - Add dependency on dtbs
-> > - Drop unnecessary path separator for dtbs
-> > - Rebase to -next
-> >
-> > Changes in v5:
-> > - Drop patch previously applied
-> > - Correct compression rule which was broken in v4
-> >
-> > Changes in v4:
-> > - Use single quotes for UIMAGE_NAME
-> >
-> > Changes in v3:
-> > - Drop temporary file image.itk
-> > - Drop patch 'Use double quotes for image name'
-> > - Drop double quotes in use of UIMAGE_NAME
-> > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> > - Avoid hard-coding "arm64" for the DT architecture
-> >
-> > Changes in v2:
-> > - Drop patch previously applied
-> > - Add .gitignore file
-> > - Move fit rule to Makefile.lib using an intermediate file
-> > - Drop dependency on CONFIG_EFI_ZBOOT
-> > - Pick up .dtb files separately from the kernel
-> > - Correct pylint too-many-args warning for write_kernel()
-> > - Include the kernel image in the file count
-> > - Add a pointer to the FIT spec and mention of its wide industry usage
-> > - Mention the kernel version in the FIT description
-> >
-> >  Documentation/process/changes.rst |   9 +
-> >  MAINTAINERS                       |   7 +
-> >  arch/arm64/Makefile               |   7 +-
-> >  arch/arm64/boot/.gitignore        |   1 +
-> >  arch/arm64/boot/Makefile          |   6 +-
-> >  scripts/Makefile.lib              |  16 ++
-> >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
-> >  7 files changed, 334 insertions(+), 3 deletions(-)
-> >  create mode 100755 scripts/make_fit.py
->
-> I'll need Masahiro's Ack on the scripts/ changes before I can take this
-> one.
+Giving this more thought.
 
-Any thoughts on this request, please?
+Hotplug should be an incredibly rare event. I don't think swapping defaults
+"frequently" is a real problem we should handle.
 
-Regards,
-Simon
+It's expected that dynamic capacity devices will not cause a node to
+hotplug, but instead cause a node to grow/shrink.
+
+Seems perfectly fine to rebalance weights in response to rare events.
+
+~Gregory
