@@ -1,37 +1,39 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4141D687;
-	Wed,  3 Jan 2024 21:13:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE0E1D55C;
+	Wed,  3 Jan 2024 21:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="thrsfLlP"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ULuat4Gp"
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B79B21C33;
-	Wed,  3 Jan 2024 21:13:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B79B21C33
+	by ms.lwn.net (Postfix) with ESMTPSA id 314A18E3;
+	Wed,  3 Jan 2024 21:15:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 314A18E3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1704316416; bh=Z9wBUNkIgI1KjeMMPZc6rSKy4oBEXR9BlVUj6OtV9uI=;
+	t=1704316531; bh=iTCY68mAXbyV0VP0uStGQCHSJwzBFZa46A9ytBmXJos=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=thrsfLlP77MOXmB2UFnPrAPvKi8nCbKhM4/jiA2DsSt1OzJWwxacP255IxO3RWr+h
-	 BLeecooI+oUYzgNVAOLDxbVno4j0sTneuB3UJLAxSHrb3tgGQdg/vqNPRzPCz60+iE
-	 PilAJa/NgU3fynrEBLA4496+Khl8sh/FEd+Ao6Uag2TmI53IRVEQBb8BHGGGajNmOb
-	 tHD5ZQKbIC3wv3fDikABq3bRANZ6W+F67hqRxOAj4Whk8scDHDT38btyDIt2Rw10+3
-	 ue68xJFNJmsN6k+bVyN7g1mS4LahLa6Q8Yrh5lgpak74Yf8oi34Drousj30aImLLTb
-	 1L5YZsi+TO2kw==
+	b=ULuat4GpO1Q13PZsUvKJRtqoma7hCUVFZ6eNuHtjCx4xQvBrpNiOqhANe5zqkkO68
+	 AQVj6Z/3qB6+dyocTEv4yrF+5V9n8snj4v7Y40/2XuBsn3zSWPk/PErg0pKkOmhD+r
+	 oHC5sz8U0eNjQHh/C2Kw6apsnvgEXOPQu3FRRqReOPV0kN6KbNnulI/P7EdYdfkm2N
+	 /xBQ88mcKAVsy1y+rWczPwAHlQzcCamexhR3W1YIK8r5e4fUbyYZ86y6LeH+odpll0
+	 bx7gLySn5FdIuUIxtYzEMFuun3QdgnKZRy2toBchTNSCVfifdfUfzJZWl6+QmqA3SK
+	 F+vcrHkq2QRRQ==
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jani Nikula
- <jani.nikula@intel.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: handle a void function without producing a
- warning
-In-Reply-To: <20231226065219.319-1-rdunlap@infradead.org>
-References: <20231226065219.319-1-rdunlap@infradead.org>
-Date: Wed, 03 Jan 2024 14:13:36 -0700
-Message-ID: <87le9686in.fsf@meer.lwn.net>
+To: Steven Rostedt <rostedt@goodmis.org>, LKML
+ <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Linux
+ Trace Kernel <linux-trace-kernel@vger.kernel.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH v2] ring-buffer/Documentation: Add documentation on
+ buffer_percent file
+In-Reply-To: <20231226130149.4685c838@gandalf.local.home>
+References: <20231226130149.4685c838@gandalf.local.home>
+Date: Wed, 03 Jan 2024 14:15:30 -0700
+Message-ID: <87h6ju86fh.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,36 +42,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Steven Rostedt <rostedt@goodmis.org> writes:
 
-> Currently a void function can produce a warning:
->   main.c:469: warning: contents before sections
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 >
-> This one is from arch/x86/kernel/cpu/sgx/main.c (which is not included
-> in any produced kernel documentation output).
+> When the buffer_percent file was added to the kernel, the documentation
+> should have been updated to document what that file does.
 >
-> Handle this by setting $in_doc_sect to 1 whenever any recognized
-> document section name is processed.
->
-> Fixes: f624adef3d0b ("kernel-doc: limit the "section header:" detection to a select few")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+> Fixes: 03329f9939781 ("tracing: Add tracefs file buffer_percentage")
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 > ---
->  scripts/kernel-doc |    1 +
->  1 file changed, 1 insertion(+)
+> Changes since v1: https://lore.kernel.org/all/20231226123525.71a6d0fb@gandalf.local.home/
 >
-> diff -- a/scripts/kernel-doc b/scripts/kernel-doc
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -2126,6 +2126,7 @@ sub process_body($$) {
->      }
->  
->      if (/$doc_sect/i) { # case insensitive for supported section names
-> +	$in_doc_sect = 1;
->  	$newsection = $1;
+> - Fixed some grammar issues.
+>
+>  Documentation/trace/ftrace.rst | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 
-Applied, thanks.
+Are you planning on shipping this one upstream, or would you like me to
+pick it up?
+
+Thanks,
 
 jon
