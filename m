@@ -1,106 +1,164 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2716F18EA2;
-	Wed,  3 Jan 2024 11:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE9718EA5
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jan 2024 11:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="YKx6rgmb"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3C69140E0198;
-	Wed,  3 Jan 2024 11:11:09 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id r8QeUS3cq4S7; Wed,  3 Jan 2024 11:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1704280265; bh=EvFqA3G5zQt9g3fKMcrj1bE1ehqHXcw6mBCV4JtQWIw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YKx6rgmbRhf22e3UsoUMcNKqmDR9RA/CD4yEkGpCYrErsbXxbT093dcqKmHSXdCxP
-	 LkV5RQUGPWUCaejPCF3Kii2sVRFCL6Ife0SQcbk/8riaTljlOgWrHDozGPvhXuMQ2Z
-	 yrL1E2HjpBrhuJW5FL4SxiSpRIYBOe6dJQaJKf6Ey/TH8I8ge5eK0TaF3DTcYUNhDt
-	 oGb9rlDwR0GwE/5PPWN+Os+Yzo7r6DIJhAnt/Sekwu4ny/9UIsed3mK9aY7600geYW
-	 i+seCwzXQuNGD3cYPWTyVS+XXc1d97MVR55ACNC+oaCH3PbfpIMTt+mG4Ijn9mYUnu
-	 VUgjl6O1JRCSGUKJti7cgFoq5U2YRjpSppqv/Osyg6KRB5o2iCzjhDYQgGN7cCiSgZ
-	 8E+iqSF4BwVsT+BC9K+6T9yBaHR1X5L+92QxzXJxMXUpG972F0wzoU58pOCYjAM+Pl
-	 4NS3GqFoyhlzvGRpQld7IsAVbL7dRzLolISmTSe2nb4QprN3lUPKZfn4oQ8e0ArEVN
-	 Z2IAapg2TGR72DOeBBkP3nEIrf13tLIWGJ+k0w6AwCMT+EwZbfpnVHR/ciaBsCsM1C
-	 StHl+kOjaXHS/aeOEPojCmdVHu8iupHgvOTjK3mRe9BVvjET2p1qSAIXIOxXZsKQmK
-	 2dRfDvvHVHlh3jHhVZQrvpkA=
-Received: from zn.tnic (pd9530f8c.dip0.t-ipconnect.de [217.83.15.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5A60640E01C5;
-	Wed,  3 Jan 2024 11:10:42 +0000 (UTC)
-Date: Wed, 3 Jan 2024 12:10:36 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: "Li, Xin3" <xin3.li@intel.com>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"Lutomirski, Andy" <luto@kernel.org>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"jgross@suse.com" <jgross@suse.com>,
-	"Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-	"mhiramat@kernel.org" <mhiramat@kernel.org>,
-	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-	"jiangshanlai@gmail.com" <jiangshanlai@gmail.com>,
-	"nik.borisov@suse.com" <nik.borisov@suse.com>,
-	"Kang, Shan" <shan.kang@intel.com>
-Subject: Re: [PATCH v13 01/35] x86/cpufeatures,opcode,msr: Add the WRMSRNS
- instruction support
-Message-ID: <20240103111036.GCZZVArGsoHdPauDFs@fat_crate.local>
-References: <20231205105030.8698-1-xin3.li@intel.com>
- <20231205105030.8698-2-xin3.li@intel.com>
- <20240102153426.GBZZQtAiWSdGAgKoIL@fat_crate.local>
- <SA1PR11MB67348F79B44BE92FD2C8F12DA861A@SA1PR11MB6734.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Owqi6S63"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a235eb41251so1161308366b.3
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jan 2024 03:16:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1704280584; x=1704885384; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BrSPjHgdnH+nXilbqn4FMcNgLITuz+LIFPl1XscWIj4=;
+        b=Owqi6S63H5T1K+L6BI7Dv7ZwecRAfXL1UsHgQWwjJ6hsyuauuBHqAhTljxSn9Ulz9B
+         XBG8J2e0fE3tUEitcZflTKGL+oA7+oBPj3YAhLSunPKz9JsMoyFVQh7g+5tMdCNZ91cm
+         ZRaXf18HKuL/zNMCYIEkzOKwTqetP64hKbXxavmwdn/GRNIu78cawCg9KV3QVn5DAzC1
+         6cbf/vFxrrqcVlt9niH2YkqSNpgvOszeY0AIhTH//8/XHPirkx95UlQvB5IWSDKBUkfi
+         ZSkrzcjqGRzqTA5ThQTdic4SIXuHPzzYriAdgdDup6VOusf4Q//puPvatV9xN0TkUgYD
+         sdFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704280584; x=1704885384;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BrSPjHgdnH+nXilbqn4FMcNgLITuz+LIFPl1XscWIj4=;
+        b=gP/uQbS2TOOcCZli2V306wZMBNHNrlX/to6cmfYNue3b+1anB6PB6Ee0yvlBAk7BJt
+         ckxHdtQfYe4UY4P/VZzmN3vHw3ITAnP8jOuvMbSS4e1/WjHq/BKC/6ntnoAZWfgUyvLL
+         1Np2u1oBPK9ccaMM4+HYyz92KfGz3NiaLzttarB3MDD3cy5DXRt7+/jAL4KGptU3w3SV
+         1pGs4mfXhz6djYsb3ZQObVYhFDhrCuQrR+OJ2qPoVR5sYe3wgTPuNdU7Z/yZdpEwZNCX
+         3oKQ+J0xmehkP9j+/RVsEYIOIemb+KoMJLC+W2Bw3jkX2e/MOhKrcW0y9j0276g2zs3v
+         LPvA==
+X-Gm-Message-State: AOJu0YxUg4IFoD18puH9XFVgwkk0AK2vugOE6UzhKMOkZE4S/YHXrkqX
+	nJDEKXwR3Oy4Gza1imCjasQCLVaZDAaHeQ==
+X-Google-Smtp-Source: AGHT+IFBs8+CfUnkn5KZED57Ux5CruC7jlDlvcBky02qrjRW+1r7HJfy+cjUpFsYHGo5VhV+D6rBwQ==
+X-Received: by 2002:a17:906:3858:b0:a27:9e2d:a453 with SMTP id w24-20020a170906385800b00a279e2da453mr2449018ejc.108.1704280583894;
+        Wed, 03 Jan 2024 03:16:23 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id fi8-20020a1709073ac800b00a272de16f52sm7268505ejc.112.2024.01.03.03.16.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jan 2024 03:16:23 -0800 (PST)
+Date: Wed, 3 Jan 2024 14:16:20 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Gregory Price <gourry.memverge@gmail.com>,
+	linux-mm@kvack.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org,
+	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
+	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
+	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
+	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
+	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
+	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
+Subject: Re: [PATCH v4 11/11] mm/mempolicy: extend set_mempolicy2 and mbind2
+ to support weighted interleave
+Message-ID: <94405fba-8539-425b-b21a-3016cdd7be91@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SA1PR11MB67348F79B44BE92FD2C8F12DA861A@SA1PR11MB6734.namprd11.prod.outlook.com>
+In-Reply-To: <20231218194631.21667-12-gregory.price@memverge.com>
 
-On Tue, Jan 02, 2024 at 10:06:27PM +0000, Li, Xin3 wrote:
-> Do I need to send an updated patch?
+Hi Gregory,
 
-> Or just leave it to the maintainer who is going to take care of it?
+kernel test robot noticed the following build warnings:
 
-While waiting, please take a look at this:
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-https://kernel.org/doc/html/latest/process/submitting-patches.html#don-t-get-discouraged-or-impatient
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231219-074837
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools.git perf-tools
+patch link:    https://lore.kernel.org/r/20231218194631.21667-12-gregory.price%40memverge.com
+patch subject: [PATCH v4 11/11] mm/mempolicy: extend set_mempolicy2 and mbind2 to support weighted interleave
+config: x86_64-randconfig-161-20231219 (https://download.01.org/0day-ci/archive/20231220/202312200223.7X9rUFgu-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
 
-Might want to read the whole doc too.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312200223.7X9rUFgu-lkp@intel.com/
 
-But to answer your question: you wait a few weeks and collect all
-comments and review feedback that you've received and incorporate them
-into the patchset.
+smatch warnings:
+mm/mempolicy.c:2044 __do_sys_get_mempolicy2() warn: maybe return -EFAULT instead of the bytes remaining?
+mm/mempolicy.c:2044 __do_sys_get_mempolicy2() warn: maybe return -EFAULT instead of the bytes remaining?
 
-Then, after the time passes you send a new revision and explain in the
-0th message what has changed.
+vim +2044 mm/mempolicy.c
 
-Ok?
+a2af87404eb73e Gregory Price     2023-12-18  1992  SYSCALL_DEFINE4(get_mempolicy2, struct mpol_args __user *, uargs, size_t, usize,
+a2af87404eb73e Gregory Price     2023-12-18  1993  		unsigned long, addr, unsigned long, flags)
+a2af87404eb73e Gregory Price     2023-12-18  1994  {
+a2af87404eb73e Gregory Price     2023-12-18  1995  	struct mpol_args kargs;
+a2af87404eb73e Gregory Price     2023-12-18  1996  	struct mempolicy_args margs;
+a2af87404eb73e Gregory Price     2023-12-18  1997  	int err;
+a2af87404eb73e Gregory Price     2023-12-18  1998  	nodemask_t policy_nodemask;
+a2af87404eb73e Gregory Price     2023-12-18  1999  	unsigned long __user *nodes_ptr;
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2000  	unsigned char __user *weights_ptr;
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2001  	unsigned char weights[MAX_NUMNODES];
+a2af87404eb73e Gregory Price     2023-12-18  2002  
+a2af87404eb73e Gregory Price     2023-12-18  2003  	if (flags & ~(MPOL_F_ADDR))
+a2af87404eb73e Gregory Price     2023-12-18  2004  		return -EINVAL;
+a2af87404eb73e Gregory Price     2023-12-18  2005  
+a2af87404eb73e Gregory Price     2023-12-18  2006  	/* initialize any memory liable to be copied to userland */
+a2af87404eb73e Gregory Price     2023-12-18  2007  	memset(&margs, 0, sizeof(margs));
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2008  	memset(weights, 0, sizeof(weights));
+a2af87404eb73e Gregory Price     2023-12-18  2009  
+a2af87404eb73e Gregory Price     2023-12-18  2010  	err = copy_struct_from_user(&kargs, sizeof(kargs), uargs, usize);
+a2af87404eb73e Gregory Price     2023-12-18  2011  	if (err)
+a2af87404eb73e Gregory Price     2023-12-18  2012  		return -EINVAL;
+a2af87404eb73e Gregory Price     2023-12-18  2013  
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2014  	if (kargs.il_weights)
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2015  		margs.il_weights = weights;
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2016  	else
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2017  		margs.il_weights = NULL;
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2018  
+a2af87404eb73e Gregory Price     2023-12-18  2019  	margs.policy_nodes = kargs.pol_nodes ? &policy_nodemask : NULL;
+a2af87404eb73e Gregory Price     2023-12-18  2020  	if (flags & MPOL_F_ADDR)
+a2af87404eb73e Gregory Price     2023-12-18  2021  		err = do_get_vma_mempolicy(untagged_addr(addr), NULL, &margs);
+a2af87404eb73e Gregory Price     2023-12-18  2022  	else
+a2af87404eb73e Gregory Price     2023-12-18  2023  		err = do_get_task_mempolicy(&margs);
+a2af87404eb73e Gregory Price     2023-12-18  2024  
+a2af87404eb73e Gregory Price     2023-12-18  2025  	if (err)
+a2af87404eb73e Gregory Price     2023-12-18  2026  		return err;
+a2af87404eb73e Gregory Price     2023-12-18  2027  
+a2af87404eb73e Gregory Price     2023-12-18  2028  	kargs.mode = margs.mode;
+a2af87404eb73e Gregory Price     2023-12-18  2029  	kargs.mode_flags = margs.mode_flags;
+a2af87404eb73e Gregory Price     2023-12-18  2030  	kargs.policy_node = margs.policy_node;
+a2af87404eb73e Gregory Price     2023-12-18  2031  	kargs.home_node = margs.home_node;
+a2af87404eb73e Gregory Price     2023-12-18  2032  	if (kargs.pol_nodes) {
+a2af87404eb73e Gregory Price     2023-12-18  2033  		nodes_ptr = u64_to_user_ptr(kargs.pol_nodes);
+a2af87404eb73e Gregory Price     2023-12-18  2034  		err = copy_nodes_to_user(nodes_ptr, kargs.pol_maxnodes,
+a2af87404eb73e Gregory Price     2023-12-18  2035  					 margs.policy_nodes);
+a2af87404eb73e Gregory Price     2023-12-18  2036  		if (err)
+a2af87404eb73e Gregory Price     2023-12-18  2037  			return err;
 
-Thx.
+This looks wrong as well.
+
+a2af87404eb73e Gregory Price     2023-12-18  2038  	}
+a2af87404eb73e Gregory Price     2023-12-18  2039  
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2040  	if (kargs.mode == MPOL_WEIGHTED_INTERLEAVE && kargs.il_weights) {
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2041  		weights_ptr = u64_to_user_ptr(kargs.il_weights);
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2042  		err = copy_to_user(weights_ptr, weights, kargs.pol_maxnodes);
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2043  		if (err)
+8bfd7ddc0dd439 Gregory Price     2023-12-18 @2044  			return err;
+
+This should return -EFAULT same as the copy_to_user() on the next line.
+
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2045  	}
+8bfd7ddc0dd439 Gregory Price     2023-12-18  2046  
+a2af87404eb73e Gregory Price     2023-12-18  2047  	return copy_to_user(uargs, &kargs, usize) ? -EFAULT : 0;
+a2af87404eb73e Gregory Price     2023-12-18  2048  }
 
 -- 
-Regards/Gruss,
-    Boris.
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-https://people.kernel.org/tglx/notes-about-netiquette
