@@ -1,167 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4EC1CA8E;
-	Wed,  3 Jan 2024 18:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21901CF90
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jan 2024 20:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QWx1LZ2P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E50E0C433AD;
-	Wed,  3 Jan 2024 18:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704307752;
-	bh=RMZCoyni1dg/u5PWGXOjNR0UmnG/FzeuF8AtWgpE53o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=QWx1LZ2PIbiMG1XZqGmr22SPfJH41Dy22FvwvzfIv4KyUPRrF5q8WzXYnLQd9rs86
-	 yL9ePwqcN1S1rRlB/biKp0ukhEFgmop2NIjmL5EOxem1NomAWFjolJWxrSQqZzWr8x
-	 ELxW+cJ9NFuIupoCwP1JzeF0+Ju7CBhcyieXXWz28QBbjF+H9pFE7wpQi6sKHyGWLo
-	 L2y3ySPb30L7oKKU6Z2zM2pPhlsfPKq1GXfNqbTtfspFz63rKyw/qVLr48k/p6PbfD
-	 eF9JrBEGat+1z6GrQFq5ndH7z1VnyfJDiHgpQPidNftQNKdMLg38oO/rYLRh2LwOOF
-	 4/LJj9oAZ5qwg==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2cceb5f0918so48208721fa.2;
-        Wed, 03 Jan 2024 10:49:12 -0800 (PST)
-X-Gm-Message-State: AOJu0Yxry7RhlAyi3fdK7SDpv6n48GBSCsU4ayGm2xpaF+igwcPDfVUi
-	TX5ZCiYsCQBjcoEl/p0TGZQqRF4zrw9Klh/yVA==
-X-Google-Smtp-Source: AGHT+IFb3zTv3w6i/eFBsPe9r0iuXmmX/2JiP7xGNWZZFBabGYb5yb23iDV40OA8jh6BzQ1/gm/DPrOco/LCOyYOSFg=
-X-Received: by 2002:a05:651c:168f:b0:2cc:6dff:9383 with SMTP id
- bd15-20020a05651c168f00b002cc6dff9383mr5104245ljb.83.1704307750860; Wed, 03
- Jan 2024 10:49:10 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b/v1qQb9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1704312922;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MjXIKqvmrB+NT0qusC8GfWEtJexw+hWCpiVhSPvJDRk=;
+	b=b/v1qQb9LaEf1qpeDhNo4T1WcRATThqh3m7PTzlts7Of+0AYrhfl43Jeh8xZV5NjhDxhmd
+	o54198HcK0aQTB66nQcyoNoHdZEcsVKN3R9k5d5XeWsw4PFJTBJQwLxMyl6RZCMnPFs9nk
+	tGiQAarIhMy7FUeFBkIcYOSITBbHTEM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-347-FH2xjfZfO3OnJBefldRnWA-1; Wed, 03 Jan 2024 15:15:17 -0500
+X-MC-Unique: FH2xjfZfO3OnJBefldRnWA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99AD7185A785;
+	Wed,  3 Jan 2024 20:15:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.9.153])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CD6141121306;
+	Wed,  3 Jan 2024 20:15:15 +0000 (UTC)
+Date: Wed, 3 Jan 2024 15:15:14 -0500
+From: Joe Lawrence <joe.lawrence@redhat.com>
+To: Marcos Paulo de Souza <mpdesouza@suse.com>
+Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+	Petr Mladek <pmladek@suse.com>, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-s390@vger.kernel.org, live-patching@vger.kernel.org
+Subject: Re: [PATCH RESEND v4 0/3] livepatch: Move modules to selftests and
+ add a new test
+Message-ID: <ZZXAUr3uH/iSTb/p@redhat.com>
+References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231222193607.15474-1-graf@amazon.com> <20231222195144.24532-1-graf@amazon.com>
- <20231222195144.24532-2-graf@amazon.com>
-In-Reply-To: <20231222195144.24532-2-graf@amazon.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Wed, 3 Jan 2024 11:48:58 -0700
-X-Gmail-Original-Message-ID: <CAL_JsqJSYgq7BJnSxwKebEX8e9tL-FG74rT+eLJ4e32kKZC30g@mail.gmail.com>
-Message-ID: <CAL_JsqJSYgq7BJnSxwKebEX8e9tL-FG74rT+eLJ4e32kKZC30g@mail.gmail.com>
-Subject: Re: [PATCH v2 07/17] kexec: Add documentation for KHO
-To: Alexander Graf <graf@amazon.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, x86@kernel.org, 
-	Eric Biederman <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, 
-	James Gowans <jgowans@amazon.com>, 
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>, arnd@arndb.de, pbonzini@redhat.com, 
-	madvenka@linux.microsoft.com, Anthony Yznaga <anthony.yznaga@oracle.com>, 
-	Usama Arif <usama.arif@bytedance.com>, David Woodhouse <dwmw@amazon.co.uk>, 
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 
-On Fri, Dec 22, 2023 at 12:52=E2=80=AFPM Alexander Graf <graf@amazon.com> w=
-rote:
->
-> With KHO in place, let's add documentation that describes what it is and
-> how to use it.
->
-> Signed-off-by: Alexander Graf <graf@amazon.com>
+On Wed, Dec 20, 2023 at 01:53:11PM -0300, Marcos Paulo de Souza wrote:
+> Changes in v4:
+> * Documented how to compile the livepatch selftests without running the
+>   tests (Joe)
+> * Removed the mention to lib/livepatch on MAINTAINERS file, reported by
+>   checkpatch.
+> 
+> Changes in v3:
+> * Rebased on top of v6.6-rc5
+> * The commits messages were improved (Thanks Petr!)
+> * Created TEST_GEN_MODS_DIR variable to point to a directly that contains kernel
+>   modules, and adapt selftests to build it before running the test.
+> * Moved test_klp-call_getpid out of test_programs, since the gen_tar
+>   would just copy the generated test programs to the livepatches dir,
+>   and so scripts relying on test_programs/test_klp-call_getpid will fail.
+> * Added a module_param for klp_pids, describing it's usage.
+> * Simplified the call_getpid program to ignore the return of getpid syscall,
+>   since we only want to make sure the process transitions correctly to the
+>   patched stated
+> * The test-syscall.sh not prints a log message showing the number of remaining
+>   processes to transition into to livepatched state, and check_output expects it
+>   to be 0.
+> * Added MODULE_AUTHOR and MODULE_DESCRIPTION to test_klp_syscall.c
+> 
+> - Link to v3: https://lore.kernel.org/r/20231031-send-lp-kselftests-v3-0-2b1655c2605f@suse.com
+> - Link to v2: https://lore.kernel.org/linux-kselftest/20220630141226.2802-1-mpdesouza@suse.com/
+> 
+> This patchset moves the current kernel testing livepatch modules from
+> lib/livepatches to tools/testing/selftest/livepatch/test_modules, and compiles
+> them as out-of-tree modules before testing.
+> 
+> There is also a new test being added. This new test exercises multiple processes
+> calling a syscall, while a livepatch patched the syscall.
+> 
+> Why this move is an improvement:
+> * The modules are now compiled as out-of-tree modules against the current
+>   running kernel, making them capable of being tested on different systems with
+>   newer or older kernels.
+> * Such approach now needs kernel-devel package to be installed, since they are
+>   out-of-tree modules. These can be generated by running "make rpm-pkg" in the
+>   kernel source.
+> 
+> What needs to be solved:
+> * Currently gen_tar only packages the resulting binaries of the tests, and not
+>   the sources. For the current approach, the newly added modules would be
+>   compiled and then packaged. It works when testing on a system with the same
+>   kernel version. But it will fail when running on a machine with different kernel
+>   version, since module was compiled against the kernel currently running.
+> 
+>   This is not a new problem, just aligning the expectations. For the current
+>   approach to be truly system agnostic gen_tar would need to include the module
+>   and program sources to be compiled in the target systems.
+> 
+> Thanks in advance!
+>   Marcos
+> 
+> Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
 > ---
->  Documentation/kho/concepts.rst   | 88 ++++++++++++++++++++++++++++++++
->  Documentation/kho/index.rst      | 19 +++++++
->  Documentation/kho/usage.rst      | 57 +++++++++++++++++++++
->  Documentation/subsystem-apis.rst |  1 +
->  4 files changed, 165 insertions(+)
->  create mode 100644 Documentation/kho/concepts.rst
->  create mode 100644 Documentation/kho/index.rst
->  create mode 100644 Documentation/kho/usage.rst
->
-> diff --git a/Documentation/kho/concepts.rst b/Documentation/kho/concepts.=
-rst
-> new file mode 100644
-> index 000000000000..8e4fe8c57865
-> --- /dev/null
-> +++ b/Documentation/kho/concepts.rst
-> @@ -0,0 +1,88 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Kexec Handover Concepts
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Kexec HandOver (KHO) is a mechanism that allows Linux to preserve state =
--
-> +arbitrary properties as well as memory locations - across kexec.
-> +
-> +It introduces multiple concepts:
-> +
-> +KHO Device Tree
-> +---------------
-> +
-> +Every KHO kexec carries a KHO specific flattened device tree blob that
-> +describes the state of the system. Device drivers can register to KHO to
-> +serialize their state before kexec. After KHO, device drivers can read
-> +the device tree and extract previous state.
+> Marcos Paulo de Souza (3):
+>       kselftests: lib.mk: Add TEST_GEN_MODS_DIR variable
+>       livepatch: Move tests from lib/livepatch to selftests/livepatch
+>       selftests: livepatch: Test livepatching a heavily called syscall
+> 
+>  Documentation/dev-tools/kselftest.rst              |   4 +
+>  MAINTAINERS                                        |   1 -
+>  arch/s390/configs/debug_defconfig                  |   1 -
+>  arch/s390/configs/defconfig                        |   1 -
+>  lib/Kconfig.debug                                  |  22 ----
+>  lib/Makefile                                       |   2 -
+>  lib/livepatch/Makefile                             |  14 ---
+>  tools/testing/selftests/lib.mk                     |  20 +++-
+>  tools/testing/selftests/livepatch/Makefile         |   5 +-
+>  tools/testing/selftests/livepatch/README           |  25 +++--
+>  tools/testing/selftests/livepatch/config           |   1 -
+>  tools/testing/selftests/livepatch/functions.sh     |  34 +++---
+>  .../testing/selftests/livepatch/test-callbacks.sh  |  50 ++++-----
+>  tools/testing/selftests/livepatch/test-ftrace.sh   |   6 +-
+>  .../testing/selftests/livepatch/test-livepatch.sh  |  10 +-
+>  .../selftests/livepatch/test-shadow-vars.sh        |   2 +-
+>  tools/testing/selftests/livepatch/test-state.sh    |  18 ++--
+>  tools/testing/selftests/livepatch/test-syscall.sh  |  53 ++++++++++
+>  tools/testing/selftests/livepatch/test-sysfs.sh    |   6 +-
+>  .../selftests/livepatch/test_klp-call_getpid.c     |  44 ++++++++
+>  .../selftests/livepatch/test_modules/Makefile      |  20 ++++
+>  .../test_modules}/test_klp_atomic_replace.c        |   0
+>  .../test_modules}/test_klp_callbacks_busy.c        |   0
+>  .../test_modules}/test_klp_callbacks_demo.c        |   0
+>  .../test_modules}/test_klp_callbacks_demo2.c       |   0
+>  .../test_modules}/test_klp_callbacks_mod.c         |   0
+>  .../livepatch/test_modules}/test_klp_livepatch.c   |   0
+>  .../livepatch/test_modules}/test_klp_shadow_vars.c |   0
+>  .../livepatch/test_modules}/test_klp_state.c       |   0
+>  .../livepatch/test_modules}/test_klp_state2.c      |   0
+>  .../livepatch/test_modules}/test_klp_state3.c      |   0
+>  .../livepatch/test_modules/test_klp_syscall.c      | 116 +++++++++++++++++++++
+>  32 files changed, 334 insertions(+), 121 deletions(-)
+> ---
+> base-commit: 206ed72d6b33f53b2a8bf043f54ed6734121d26b
+> change-id: 20231031-send-lp-kselftests-4c917dcd4565
+> 
+> Best regards,
+> -- 
+> Marcos Paulo de Souza <mpdesouza@suse.com>
+> 
 
-How does this work with kexec when there is also the FDT for the h/w?
-The h/w FDT has a /chosen property pointing to this FDT blob?
+Hi Marcos,
 
-> +
-> +KHO only uses the fdt container format and libfdt library, but does not
-> +adhere to the same property semantics that normal device trees do: Prope=
-rties
-> +are passed in native endianness and standardized properties like ``regs`=
-` and
-> +``ranges`` do not exist, hence there are no ``#...-cells`` properties.
+I made it through retrofitting [1] to our current packaging scheme on
+top of the patchset, no big surprises found.
 
-I think native endianness is asking for trouble. libfdt would need
-different swap functions here than elsewhere in the kernel for example
-which wouldn't even work. So you are just crossing your fingers that
-you aren't using any libfdt functions that swap. And when I sync
-dtc/libfdt and that changes, I might break you.
+With that, I'm happy to ack this version, unless you want to modify the
+TEST_GEN_MODS_DIR / rsync behavior as I reported in my reply yesterday.
+(Not a show stopper IMHO, but I'll leave that up to kselftest folks.)
 
-Also, if you want to dump the FDT and do a dtc DTB->DTS pass, it is
-not going to be too readable given that outputs swapped 32-bit values
-for anything that's a 4 byte multiple.
+Reviewed-by: Joe Lawrence <joe.lawrence@redhat.com>
 
-> +
-> +KHO introduces a new concept to its device tree: ``mem`` properties. A
-> +``mem`` property can inside any subnode in the device tree. When present=
-,
-> +it contains an array of physical memory ranges that the new kernel must =
-mark
-> +as reserved on boot. It is recommended, but not required, to make these =
-ranges
-> +as physically contiguous as possible to reduce the number of array eleme=
-nts ::
-> +
-> +    struct kho_mem {
-> +            __u64 addr;
-> +            __u64 len;
-> +    };
-> +
-> +After boot, drivers can call the kho subsystem to transfer ownership of =
-memory
-> +that was reserved via a ``mem`` property to themselves to continue using=
- memory
-> +from the previous execution.
-> +
-> +The KHO device tree follows the in-Linux schema requirements. Any elemen=
-t in
-> +the device tree is documented via device tree schema yamls that explain =
-what
-> +data gets transferred.
+[1] https://gitlab.com/cki-project/kernel-ark/-/merge_requests/2844/commits
 
-If this is all separate, then I think the schemas should be too. And
-then from my (DT maintainer) perspective, you can do whatever you want
-here (like FIT images). The dtschema tools are pretty much only geared
-for "normal" DTs. A couple of problems come to mind. You can't exclude
-or change standard properties. The decoding of the DTB to run
-validation assumes big endian. We could probably split things up a
-bit, but you may be better off just using jsonschema directly. I'm not
-even sure running validation here would that valuable. You have 1
-source of code generating the DT and 1 consumer. Yes, there's
-different kernel versions to deal with, but it's not 100s of people
-creating 1000s of DTs with 100s of nodes.
+--
+Joe
 
-You might look at the netlink stuff which is using its own yaml syntax
-to generate code and jsonschema is used to validate the yaml.
-
-Rob
