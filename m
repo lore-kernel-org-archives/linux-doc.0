@@ -1,146 +1,75 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACFF1A730;
-	Wed,  3 Jan 2024 15:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272761B292
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jan 2024 16:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BBz2ctHS"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 403DlAVu001467;
-	Wed, 3 Jan 2024 15:27:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=Nu8lunzViOUpOfegZsY+Z05a/poHdYSCSroiiueke/4=; b=BB
-	z2ctHSJD5dquHTYRfOF1AtFzzDiAGhOtvEXPnoGkGSSys0dg3J2a1lkPCqOVLCQ2
-	cpXHWWf9EJEcP7zO7SNQGvCXsFgWJF1xSYmjfV0xhUogTTxrM9VyeyZeC2LSJdwd
-	ZPR/8gnpoDdbEFb03FMC602ms+bbciRyAMd71Tk3NhNEHTvjFIZhoovyx48GL8Ho
-	mnMSZsJ2ieM+nP54aTQMzoCzkkjoq89m9b2gdA0oM9phOslVmEScO0sn3fREyUGo
-	kcYlpiqA4pVUne7jfLzmCm7WaOg6TXhgWe6muJDeaItueS9pNeFlWn9GCTbzhsnP
-	SXlf9BvoRZnzQGxyNDgA==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vd8dpr8pe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Jan 2024 15:27:46 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 403FRiTq029569
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 3 Jan 2024 15:27:44 GMT
-Received: from [10.216.8.10] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 3 Jan
- 2024 07:27:33 -0800
-Message-ID: <520e377d-e990-c185-4a20-07806873e506@quicinc.com>
-Date: Wed, 3 Jan 2024 20:57:13 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCqXulHS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 685AFC433C8;
+	Wed,  3 Jan 2024 16:09:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704298187;
+	bh=4S8EQvkuWbsMYHMZO0Ynzx5apCcr9we6I8npIg3bGjI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fCqXulHS2x1jwhDJgKOAZ+qnJY9i90HJ/gf0XEae2/O9QhKHO8ZSZU0Q/4pg+d11+
+	 tzxAVGfu19FVDxeV0Ip78G6r7As29equap1wPDbNc25Lv7/Fw6kcTA0g3mRZMWz8mT
+	 0SaEzSYT6XQgSJLrxKEYFddLAdNYHeX24bjzhHfle3+MVoU2/PO3bKw39jIQVhOB4A
+	 c73gFHxog7OHq1sOthmt/FH8Q04aqZ02rPpXsntJ7Po6VAe2CVcAP85I2ulyVZ9uG6
+	 8YKyVWiwmFJ6rtIzvBD0IT/ZBgn1//Za8t13jtp9XbEXhynIWnkqc1J3RPxjJGC04u
+	 0vK5ZE6FbfZrA==
+From: Jakub Kicinski <kuba@kernel.org>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	carlos.bilbao@amd.com,
+	elena.reshetova@intel.com,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH docs] MAINTAINERS: use tabs for indent of CONFIDENTIAL COMPUTING THREAT MODEL
+Date: Wed,  3 Jan 2024 08:09:38 -0800
+Message-ID: <20240103160938.1006517-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: RESEND: Re: [Patch v6 03/12] docs: qcom: Add qualcomm minidump
- guide
-Content-Language: en-US
-To: Ruipeng Qi <ruipengqi7@gmail.com>
-CC: <agross@kernel.org>, <alim.akhtar@samsung.com>, <andersson@kernel.org>,
-        <bmasney@redhat.com>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <gpiccoli@igalia.com>, <keescook@chromium.org>, <kernel@quicinc.com>,
-        <kgene@kernel.org>, <konrad.dybcio@linaro.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-samsung-soc@vger.kernel.org>, <mathieu.poirier@linaro.org>,
-        <matthias.bgg@gmail.com>, <nm@ti.com>, <robh+dt@kernel.org>,
-        <tony.luck@intel.com>, <vigneshr@ti.com>, <qiruipeng@lixiang.com>
-References: <1700864395-1479-4-git-send-email-quic_mojha@quicinc.com>
- <20231225135542.1789-1-ruipengqi7@gmail.com>
-From: Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <20231225135542.1789-1-ruipengqi7@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Eq10y8K3OI3Kx2Zzds3mwvzzBPYT1-u_
-X-Proofpoint-ORIG-GUID: Eq10y8K3OI3Kx2Zzds3mwvzzBPYT1-u_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- priorityscore=1501 phishscore=0 impostorscore=0 spamscore=0
- lowpriorityscore=0 mlxscore=0 malwarescore=0 mlxlogscore=826 adultscore=0
- clxscore=1011 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401030127
+Content-Transfer-Encoding: 8bit
 
+There are two MAINTAINERS entries which snuck in during the previous
+merge window which use spaces instead of tabs for indent. The rest
+of the file uses tabs. Fix CONFIDENTIAL COMPUTING THREAT MODEL FOR
+X86 VIRTUALIZATION (SNP/TDX).
 
+Given the prevalence of using tabs some scripts (AKA my scripts)
+assume tabs when parsing.
 
-On 12/25/2023 7:25 PM, Ruipeng Qi wrote:
-> <+How a kernel client driver can register region with minidump
-> <+------------------------------------------------------------
-> <+
-> <+Client driver can use ``qcom_minidump_region_register`` API's to register
-> <+and ``qcom_minidump_region_unregister`` to unregister their region from
-> <+minidump driver.
-> <+
-> <+Client needs to fill their region by filling ``qcom_minidump_region``
-> <+structure object which consists of the region name, region's virtual
-> <+and physical address and its size.
-> 
-> Hi, Mukesh, wish you a good holiday :)
+The faulty entry was added in commit 1f597b1a6ec2 ("docs: security:
+Confidential computing intro and threat model for x86 virtualization")
 
-Hope you had the same..:-)
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ MAINTAINERS | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> 
-> I have the following idea, please help me to assess whether this can be
-> implemented or not. As we all know, most of the kernel objects are
-> allocated by the slab sub-system.I wonder if we can dump all memory
-> keeped by the slab sub-system? If so,  we got most of the kernel objects
-> which will be helpful to fix problems when we run with system issues.
-> 
-> How can we do this? From the description above, I think we should
-> register one region for each slab,  for each slab will have some pages,
-> and the memory between each slab is non-continuous. As we all
-> know, there are millions of slabs in the system, so if we dump slabs
-> in this way, it will introduce a heavy overhead.
-> 
-> I am not very familiar with qualcomm minidump, maybe my thought
-> is wrong. Looking forward to your reply!
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6a9876df20f8..1ce437992a4d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5313,10 +5313,10 @@ W:	http://accessrunner.sourceforge.net/
+ F:	drivers/usb/atm/cxacru.c
+ 
+ CONFIDENTIAL COMPUTING THREAT MODEL FOR X86 VIRTUALIZATION (SNP/TDX)
+-M:    Elena Reshetova <elena.reshetova@intel.com>
+-M:    Carlos Bilbao <carlos.bilbao@amd.com>
+-S:    Maintained
+-F:    Documentation/security/snp-tdx-threat-model.rst
++M:	Elena Reshetova <elena.reshetova@intel.com>
++M:	Carlos Bilbao <carlos.bilbao@amd.com>
++S:	Maintained
++F:	Documentation/security/snp-tdx-threat-model.rst
+ 
+ CONFIGFS
+ M:	Joel Becker <jlbec@evilplan.org>
+-- 
+2.43.0
 
-In the current state and in simple terms, Qualcomm Minidump can not do
-this, Minidump is more of a consumer driver so, what ever gets
-registered with it, it can dump. Qualcomm Minidump serves bigger purpose
-to dump content in any kind of crash whether it is kernel or non-kernel
-like NOC errors/XPUs etc and both kernel/non-kernel entity can register 
-to it, so we gets dump in any kind of system crash.
-
-One more thing, kernel part of minidump, we are calling it APSS Minidump
-has limitation of no of entries so it will be difficult to dump 
-non-continuous regions after a certain number of registration ~200. However,
-we do have a solution in downstream kernel for it like to create a big 
-CMA buffer and register this buffer with Minidump so that whatever gets 
-dumped in that buffer gets captured during crash and fill up this buffer 
-and create elf during panic. I think, similar thing you are also doing 
-with your OS-minidump.
-
-I have just glanced into your implementation of OS-minidump, it
-more of relying on basic concept of RAM content preserved
-across boot and later reading it through procfs but this basic
-stuff is common to pstore(ram) as well and pstore has file system 
-support why don't you make your driver as one of pstore record and that 
-way Qualcomm minidump also gets benefited where entire OS-minidump 
-record gets registered with Qualcomm minidump and we get this on panic 
-and you get this via pstorefs.
-
--Mukesh
-
-> 
-> Best Regards
-> Ruipeng
