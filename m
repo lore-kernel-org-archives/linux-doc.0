@@ -1,36 +1,37 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5431D681;
-	Wed,  3 Jan 2024 20:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610161D54E
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jan 2024 21:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="j5PHTXdn"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UBvX/vb3"
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 980251C33;
-	Wed,  3 Jan 2024 20:30:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 980251C33
+	by ms.lwn.net (Postfix) with ESMTPSA id 7EF031C33;
+	Wed,  3 Jan 2024 21:02:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7EF031C33
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1704313821; bh=H7TXJw6dQEQvwm1EXNrX3GZKv2TSI8Mhwx5sNEHJLR4=;
+	t=1704315723; bh=UT/YPeY75RW/2Rl3UN8k+7c3AHjrlPMvwQgHmWLuqlk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=j5PHTXdn/jFPsLKcWbOYVlr9Up5jR46UoVj4ua9y4vonIgCq3Nm8B1dnaQSma2k71
-	 5bqE0ERM4uQJHFl6z87L42G53KHAw+XrEZKvrYv+PJRkbfzz7Bf8DQt+wWWMzOjinB
-	 xyGiz7jkuU8I7/igYCT9umlCSLF7FlNhZmRPeFH+rLf1ATCKmsjkWwstu/oDA6VoDL
-	 h7snkKDDQ2Qy924FbRPoeJ6PCwKSo1YH5mFDaKpnlCY34G8Wwd/Sa3ANflo/nRqECV
-	 L+lpRthRpAHpwm6FDHURXjDdtXa75vcFs35J9Uzs+dyW5wn3RyVQ7ebUrDpSXATDDr
-	 c/I930ZzwFdqA==
+	b=UBvX/vb3gjSZn3gCe8O58HzzH+i8T+4fmgTC1xRD5OeWY8JfvthJdF1Lfv8y/daKh
+	 SXZ67SBnI0j/thN6fg3q7abKZSmfvJSu8VzNbj3qrtdOBFPE8HJWRe8UWtAXvuKEVp
+	 7wXK3CRfgLamQ8KEA9h9HrLkwpEswjq0SoMkklZVF+AFYh5tokVSXb6vHscxzmcSzn
+	 8jAG7xNtwWzTZnD9Hh2WmGvIOIrOUnld2fljpfkeU4OziHUe/lIvLWn3C2D7OVIO2T
+	 EBXwnGDzv/X/nHNjza9SevJ+7CmndoHs7WYaDDa1JSrcqwVvGLVb/dK61GxhwKzIOS
+	 fLUTsrxYQPELg==
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Thomas Gleixner
- <tglx@linutronix.de>, x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH] kernel-doc: handle X86 DEFINE_IDTENTRY() variants
-In-Reply-To: <20240102061700.3807-1-rdunlap@infradead.org>
-References: <20240102061700.3807-1-rdunlap@infradead.org>
-Date: Wed, 03 Jan 2024 13:30:20 -0700
-Message-ID: <87il4a9n37.fsf@meer.lwn.net>
+To: Vegard Nossum <vegard.nossum@oracle.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Cc: linux-doc@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [RFC PATCH 1/2] scripts/get_abi: fix source path leak
+In-Reply-To: <20231231235959.3342928-1-vegard.nossum@oracle.com>
+References: <20231231235959.3342928-1-vegard.nossum@oracle.com>
+Date: Wed, 03 Jan 2024 14:02:02 -0700
+Message-ID: <87ttnu871x.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,30 +40,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Vegard Nossum <vegard.nossum@oracle.com> writes:
 
-> Teach scripts/kernel-doc to handle the various DEFINE_IDTENTRY*() flavors.
+> The code currently leaks the absolute path of the ABI files into the
+> rendered documentation.
 >
-> This corrects 2 kernel-doc warnings:
+> There exists code to prevent this, but it is not effective when an
+> absolute path is passed, which it is when $srctree is used.
 >
-> arch/x86/entry/common.c:211: warning: expecting prototype for int80_emulation(). Prototype was for DEFINE_IDTENTRY_RAW() instead
+> I consider this to be a minimal, stop-gap fix; a better fix would strip
+> off the actual prefix instead of hacking it off with a regex.
 >
-> arch/x86/kernel/apic/apic.c:2170: warning: expecting prototype for spurious_interrupt(). Prototype was for DEFINE_IDTENTRY_IRQ() instead
->
-> The script uses 'uname -m' to determine if it is running on i386 or x86_64
-> or something else. It also uses "ARCH=<arch>" in the environment variables
-> to allow for overriding the processed ARCH.
->
-> Alternatively, we could remove the "/**" kernel-doc markers from those
-> 2 functions. There are 60 uses of DEFINE_IDTENTRY*() that I see and
-> only 2 of them have kernel-doc comments.
+> Link: https://mastodon.social/@vegard/111677490643495163
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 
-So I feel like I'm missing something here; the docs build should be the
-same regardless of the architecture it's running on, right?  So why do
-we need architecture checks in kernel-doc?
-
-Honestly, it might be better to just remove the kerneldoc comments
-rather than add this much more complexity.
+This definitely is worth fixing; I'm a bit annoyed that I let these
+problems through.  I've tossed in a Cc: stable as well, backporting them
+can only do good.
 
 Thanks,
 
