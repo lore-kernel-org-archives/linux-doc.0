@@ -1,46 +1,60 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18050200A0;
-	Thu,  4 Jan 2024 07:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2371EA84;
+	Thu,  4 Jan 2024 09:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="siffy2q7"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4047Xdm3063000;
-	Thu, 4 Jan 2024 01:33:39 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1704353619;
-	bh=1YL4NazULIndzcTvOUJLeOSh+6JCTKDvgwntK+e06L8=;
-	h=From:To:CC:Subject:Date;
-	b=siffy2q77BbTdXaUwKd9xiGfAyS0v0FF1SmYGbIzpdwDrvAUFF20QFgoTsgyHzGVL
-	 jcRZX/NKUJ78N1BaW9DQTdzJ+3gPSClr/dXDaegC7W3ZlfqiPj8hmUJljwmx/dU/FN
-	 BjZIWpjvVnXIbxA+pfP093qpjcsucFf5/kDcrBe4=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4047XdaZ082970
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 4 Jan 2024 01:33:39 -0600
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 4
- Jan 2024 01:33:38 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 4 Jan 2024 01:33:38 -0600
-Received: from dhruva.dhcp.ti.com (dhruva.dhcp.ti.com [172.24.227.68])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4047Xatc060915;
-	Thu, 4 Jan 2024 01:33:37 -0600
-From: Dhruva Gole <d-gole@ti.com>
-To: Jonathan Corbet <corbet@lwn.net>
-CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Dhruva Gole
-	<d-gole@ti.com>
-Subject: [PATCH] Documentation: index: Minor re-arrangement and improvements
-Date: Thu, 4 Jan 2024 13:03:17 +0530
-Message-ID: <20240104073317.19709-1-d-gole@ti.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="NJUWkLXt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1704358841; x=1735894841;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=tNlRBzJDdgAtPRThgcKGd66oGqP55+o+uVLu7u78wsw=;
+  b=NJUWkLXtqlqJwoOP1kEODIp9Gh2Fl6ttXI1XsP9ETMRC6sY+BiWRwRba
+   bGM5cZLM34H8bXB9SpsvrQ2W6gsBS9KMAe/tQGI95F/DzNM+T4h3V5y67
+   85sjWrzlRfErUNZlANwiY0Yb12S+EtnW/426+y5DKiUeFqfQhmSkMQcpQ
+   Y=;
+X-IronPort-AV: E=Sophos;i="6.04,330,1695686400"; 
+   d="scan'208";a="694906906"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1a-m6i4x-47cc8a4c.us-east-1.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 09:00:33 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan2.iad.amazon.com [10.32.235.34])
+	by email-inbound-relay-iad-1a-m6i4x-47cc8a4c.us-east-1.amazon.com (Postfix) with ESMTPS id EF266160691;
+	Thu,  4 Jan 2024 09:00:26 +0000 (UTC)
+Received: from EX19MTAUWB001.ant.amazon.com [10.0.21.151:30427]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.29.136:2525] with esmtp (Farcaster)
+ id cbab2357-f29d-4d1f-a64d-f885bb61257b; Thu, 4 Jan 2024 09:00:25 +0000 (UTC)
+X-Farcaster-Flow-ID: cbab2357-f29d-4d1f-a64d-f885bb61257b
+Received: from EX19D037UWC003.ant.amazon.com (10.13.139.231) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 4 Jan 2024 09:00:25 +0000
+Received: from EX19MTAUEC001.ant.amazon.com (10.252.135.222) by
+ EX19D037UWC003.ant.amazon.com (10.13.139.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 4 Jan 2024 09:00:25 +0000
+Received: from dev-dsk-jalliste-1c-e3349c3e.eu-west-1.amazon.com
+ (10.13.244.142) by mail-relay.amazon.com (10.252.135.200) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Thu, 4 Jan 2024 09:00:23 +0000
+From: Jack Allister <jalliste@amazon.com>
+To: <usama.arif@bytedance.com>
+CC: <bp@alien8.de>, <corbet@lwn.net>, <dave.hansen@linux.intel.com>,
+	<hdegoede@redhat.com>, <hpa@zytor.com>, <jalliste@amazon.com>,
+	<juew@amazon.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <mingo@redhat.com>, <paulmck@kernel.org>,
+	<pdurrant@amazon.com>, <peterz@infradead.org>, <rafael@kernel.org>,
+	<rdunlap@infradead.org>, <tglx@linutronix.de>, <tj@kernel.org>,
+	<x86@kernel.org>, <yanjiewtw@gmail.com>
+Subject: Re: [PATCH v5] x86: intel_epb: Add earlyparam option to keep bias at performance
+Date: Thu, 4 Jan 2024 09:00:22 +0000
+Message-ID: <20240104090022.41499-1-jalliste@amazon.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <a57b9e19-3466-bb73-1c88-c19417ac6822@bytedance.com>
+References: <a57b9e19-3466-bb73-1c88-c19417ac6822@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,83 +63,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-* It seems odd that a develper is forced to look at the licensing rules
-  even before they get to the doc or coding guide.
-  This belongs under the "Working with the development community" / "All
-  development docs" page where it does reside even today.
-* Rearrange the section for Internal API manuals to go lower because
-  generally one would want to look at the tools and processes and admin
-  guide pages first and then move onto something deeper like the API
-  manuals.
-* Reword the Dev tools section and title to something a bit more suitable.
+> Thanks for the patch. Is auto needed over here? It was pointed in an 
+> earlier review that it could be an option, but it doesn't seem to serve 
+> a purpose.
 
-Signed-off-by: Dhruva Gole <d-gole@ti.com>
----
- Documentation/index.rst | 34 ++++++++++++++++------------------
- 1 file changed, 16 insertions(+), 18 deletions(-)
+Auto is effectively just the default as if no parameter is passed in here.
+In the reply from Dave for he has mentioned that displaying it like this
+may actually be clearer.
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 36e61783437c..409eba0b9601 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -28,30 +28,14 @@ community and getting your work upstream.
-    maintainer/index
-    All development-process docs <process/index>
- 
--
--Internal API manuals
--====================
--
--Manuals for use by developers working to interface with the rest of the
--kernel.
--
--.. toctree::
--   :maxdepth: 1
--
--   core-api/index
--   driver-api/index
--   subsystem-apis
--   Locking in the kernel <locking/index>
--
--Development tools and processes
-+Development tools and resources
- ===============================
- 
--Various other manuals with useful information for all kernel developers.
-+Various tools and manuals with useful information for all kernel developers.
- 
- .. toctree::
-    :maxdepth: 1
- 
--   process/license-rules
-    doc-guide/index
-    dev-tools/index
-    dev-tools/testing-overview
-@@ -81,6 +65,20 @@ developers seeking information on the kernel's user-space APIs.
- See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_,
- which are kept separately from the kernel's own documentation.
- 
-+Internal API manuals
-+====================
-+
-+Manuals for use by developers working to interface with the rest of the
-+kernel.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   core-api/index
-+   driver-api/index
-+   subsystem-apis
-+   Locking in the kernel <locking/index>
-+
- Firmware-related documentation
- ==============================
- The following holds information on the kernel's expectations regarding the
+```
+	intel_epb=	[X86]
+			
+			auto (default)
+```
 
-base-commit: d0b3c8aa5e37775cd7c3ac07b256218df0fd6678
--- 
-2.34.1
+As we're not implicitly not taking any action for this default case it
+doesn't make too much sense to add in a specific strcmp case for auto,
+however what I can do is add a comment within the code to explicitly show
+that this is effectively a no-op when parsing.
 
+
+> Maybe add an print in else here to say that unexpected value has been 
+> encountered for intel_epb if preserve is not seen.
+
+I'd be hesitant to do this as we already have the pr_warn_once during the
+intel_epb_restore path when defaulting from perf -> normal.
