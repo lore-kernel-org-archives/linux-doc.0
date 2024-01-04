@@ -1,55 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501B836C;
-	Thu,  4 Jan 2024 00:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BfyobkcQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B222AC433C7;
-	Thu,  4 Jan 2024 00:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704327666;
-	bh=s7/tvKYtmRpQ4RGIkj3jplCs9SRygwYMY7woM5z1S2I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BfyobkcQk5LjTWm9KJaE0omEY1pm2n3wQPSSwQOd/xr8E6dqkT9+u3lXET6/7irZf
-	 I0813MoZr/FGZ9q2sD0yyuhsIdBxxIJR5Rph4EfRQSJ2tiyR3oAdMtMLAkznQG2+Yi
-	 Ft/F7C6FiCbSBi6aVke+IdWu8FrvEhLVwkdRdqG7gVQ5eDRcDlgW5huIlMO6HyRjnI
-	 AF5MO3O0aRSsRDR8igy1DJglmFVAjXS0jZEwrLMd5bZLOuuOsIm1vfUxueIwuPYvUS
-	 67wRNA8AeojLBsFW2L1Wb9B1/lJjPqTc/NltRTFZNSP7b6m/PLgLxD1osTV8zhnieo
-	 Gip9FH4wCIdAQ==
-Received: (nullmailer pid 2195519 invoked by uid 1000);
-	Thu, 04 Jan 2024 00:21:03 -0000
-Date: Wed, 3 Jan 2024 17:21:03 -0700
-From: Rob Herring <robh@kernel.org>
-To: baneric926@gmail.com
-Cc: conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, Bonnie_Lo@wiwynn.com, robh+dt@kernel.org, naresh.solanki@9elements.com, billy_tsai@aspeedtech.com, corbet@lwn.net, jdelvare@suse.com, linux-hwmon@vger.kernel.org, openbmc@lists.ozlabs.org, linux@roeck-us.net, linux-doc@vger.kernel.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, DELPHINE_CHIU@wiwynn.com
-Subject: Re: [PATCH v3 2/3] dt-bindings: hwmon: Add NCT7363Y documentation
-Message-ID: <170432766278.2195265.1869197055341324861.robh@kernel.org>
-References: <20231222013352.3873689-1-kcfeng0@nuvoton.com>
- <20231222013352.3873689-3-kcfeng0@nuvoton.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6D6366;
+	Thu,  4 Jan 2024 00:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [192.168.0.224] (ip5f5ae9b7.dynamic.kabel-deutschland.de [95.90.233.183])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 3B49F61E5FE01;
+	Thu,  4 Jan 2024 01:24:37 +0100 (CET)
+Message-ID: <d8dcef7e-3659-4af4-b391-169081343fba@molgen.mpg.de>
+Date: Thu, 4 Jan 2024 01:24:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231222013352.3873689-3-kcfeng0@nuvoton.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-wired-lan] [RFC PATCH v3 11/11] ABI: pps: Add ABI
+ documentation for Intel TIO
+Content-Language: en-US
+To: lakshmi.sowjanya.d@intel.com
+Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, christopher.s.hall@intel.com,
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org, pandith.n@intel.com,
+ x86@kernel.org, eddie.dong@intel.com, jesse.brandeburg@intel.com,
+ linux-sound@vger.kernel.org, alexandre.torgue@foss.st.com,
+ mallikarjunappa.sangannavar@intel.com, joabreu@synopsys.com,
+ intel-wired-lan@lists.osuosl.org, mcoquelin.stm32@gmail.com,
+ thejesh.reddy.t.r@intel.com, perex@perex.cz, anthony.l.nguyen@intel.com,
+ andriy.shevchenko@linux.intel.com, davem@davemloft.net
+References: <20240103115602.19044-1-lakshmi.sowjanya.d@intel.com>
+ <20240103115602.19044-12-lakshmi.sowjanya.d@intel.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20240103115602.19044-12-lakshmi.sowjanya.d@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Dear Lakshmi,
 
 
-On Fri, 22 Dec 2023 09:33:51 +0800, baneric926@gmail.com wrote:
-> From: Ban Feng <kcfeng0@nuvoton.com>
+Thank you for your patch.
+
+Am 03.01.24 um 12:56 schrieb lakshmi.sowjanya.d@intel.com:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 > 
-> Adding bindings for the Nuvoton NCT7363Y Fan Controller
-> 
-> Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
+> Document sysfs interface for Intel Timed I/O PPS driver
+
+I’d add a dot/period at the end.
+
+> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 > ---
->  .../bindings/hwmon/nuvoton,nct7363.yaml       | 63 +++++++++++++++++++
->  MAINTAINERS                                   |  6 ++
->  2 files changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
+>   Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>   create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
 > 
+> diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
+> new file mode 100644
+> index 000000000000..24a2eb591a05
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
+> @@ -0,0 +1,7 @@
+> +What:		/sys/devices/platform/INTCxxxx/enable
+> +Date:		March 2024
+> +KernelVersion	6.9
+> +Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> +Description:
+> +		(RW) Enable or disable PPS TIO generator output, read to
+> +		see the status of hardware(Enabled/Disabled).
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Please add a space before the (.
 
+Wouldn’t it be more intuitive, if it returned true/false?
+
+
+Kind regards,
+
+Paul
