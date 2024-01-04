@@ -1,128 +1,145 @@
-Received: from smtp-fw-52005.amazon.com (smtp-fw-52005.amazon.com [52.119.213.156])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FD62030A;
-	Thu,  4 Jan 2024 09:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB11208B9;
+	Thu,  4 Jan 2024 09:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="SLyewzUv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazon201209; t=1704360169; x=1735896169;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=X05DzwK/q9MkZAmJyZEF2ihoOm61DrnuEUS0sLrHCvI=;
-  b=SLyewzUvRKtmjhDtq+6ur3RP5c6Fe+1Ntg38u7Q147XxkeXAQ+hKqKhP
-   y70WtCrsGbnM4+BVjCiW53v/MT6ZpPQYhREWjBeKPH9elDuXj+wNYwGP4
-   0C58YJudKOmet88xMb+Thx3jpvRTcu2mQfz8lg29goQXoAfyrQcYcdwyZ
-   4=;
-X-IronPort-AV: E=Sophos;i="6.04,330,1695686400"; 
-   d="scan'208";a="625630305"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-pdx-2c-m6i4x-b1c0e1d0.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-52005.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 09:22:44 +0000
-Received: from smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan3.pdx.amazon.com [10.39.38.70])
-	by email-inbound-relay-pdx-2c-m6i4x-b1c0e1d0.us-west-2.amazon.com (Postfix) with ESMTPS id 7F4368A04E;
-	Thu,  4 Jan 2024 09:22:42 +0000 (UTC)
-Received: from EX19MTAEUA001.ant.amazon.com [10.0.10.100:50268]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.37.235:2525] with esmtp (Farcaster)
- id 3c5fd880-9e5d-4151-988b-13075e669f77; Thu, 4 Jan 2024 09:22:41 +0000 (UTC)
-X-Farcaster-Flow-ID: 3c5fd880-9e5d-4151-988b-13075e669f77
-Received: from EX19D033EUC003.ant.amazon.com (10.252.61.134) by
- EX19MTAEUA001.ant.amazon.com (10.252.50.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 4 Jan 2024 09:22:36 +0000
-Received: from EX19D032EUC002.ant.amazon.com (10.252.61.185) by
- EX19D033EUC003.ant.amazon.com (10.252.61.134) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 4 Jan 2024 09:22:36 +0000
-Received: from EX19D032EUC002.ant.amazon.com ([fe80::e696:121c:a227:174]) by
- EX19D032EUC002.ant.amazon.com ([fe80::e696:121c:a227:174%3]) with mapi id
- 15.02.1118.040; Thu, 4 Jan 2024 09:22:36 +0000
-From: "Durrant, Paul" <pdurrant@amazon.co.uk>
-To: "Allister, Jack" <jalliste@amazon.co.uk>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: "Allister, Jack" <jalliste@amazon.co.uk>, "Rafael J . Wysocki"
-	<rafael@kernel.org>, "Wang, Jue" <juew@amazon.com>, Usama Arif
-	<usama.arif@bytedance.com>, Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner
-	<tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
-	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, "Paul E. McKenney"
-	<paulmck@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Tejun Heo
-	<tj@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Yan-Jie Wang
-	<yanjiewtw@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v6] x86: intel_epb: Add earlyparam option to keep bias at
- performance
-Thread-Topic: [PATCH v6] x86: intel_epb: Add earlyparam option to keep bias at
- performance
-Thread-Index: AQHaPu06oUuGY3zUqk+MuinfJmm8L7DJYJiQ
-Date: Thu, 4 Jan 2024 09:22:35 +0000
-Message-ID: <12f10bbcba78463fa274e17fad305894@amazon.co.uk>
-References: <ff3a0382-734d-4f46-bd35-ffa1f53a3ac3@intel.com>
- <20240104090551.46251-1-jalliste@amazon.com>
-In-Reply-To: <20240104090551.46251-1-jalliste@amazon.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="k3udE0bm"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4047mN1S014984;
+	Thu, 4 Jan 2024 09:53:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=IXRZGb3I1tl57Tzisoz/TOJ1kfrS0DgM+Y1DjmEn3BE=; b=k3
+	udE0bm9l7o0p+pZVGDmQAwF4mMr3qMjRk25v7EDR07vtgWZ+OSy6YjCjXbjB3Xa/
+	I5gq5HFZd/WMnDRKsjAROwtwZ1iWR+FWMpMBaCWK7+SBwv5BmiZKK1n5wG6MashR
+	sK8Bg6cilyDw1HFAPk5OWxwraQhyK1jcUycbmGYaKQjelPiwWULXRlca+U3vRQSG
+	cEspQo/eTNLiyOKcGNQH9jqtazaGPrtKc1sS5F+xhZ73WdJ1DjrgKjIuobiYpXcx
+	7BApJszilxp3kwxfnBf9MgnC5kkIu5UjKiMl2LU8KQR8K3H7uHfCsyBdg1uGjgqs
+	RYO/1+gWjymtdMScbw/A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vd8s1jem1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Jan 2024 09:53:19 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4049rInU002993
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 4 Jan 2024 09:53:18 GMT
+Received: from [10.253.72.77] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 4 Jan
+ 2024 01:53:13 -0800
+Message-ID: <c5263daa-b5f4-4b9c-a216-73d68493a802@quicinc.com>
+Date: Thu, 4 Jan 2024 17:53:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
+ properties
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Christian Marangi <ansuelsmth@gmail.com>,
+        "Russell King (Oracle)"
+	<linux@armlinux.org.uk>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <corbet@lwn.net>, <p.zabel@pengutronix.de>,
+        <f.fainelli@gmail.com>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <f5c5cbce-c36e-498a-97e2-35f06d927d74@lunn.ch>
+ <a9798333-3105-422f-8033-76c0b1d4f439@quicinc.com>
+ <7c05b08a-bb6d-4fa1-8cee-c1051badc9d9@lunn.ch>
+ <ZX2rU5OFcZFyBmGl@shell.armlinux.org.uk>
+ <6abe5d6f-9d00-445f-8c81-9c89b9da3e0a@quicinc.com>
+ <ZX3LqN8DSdKXqsYc@shell.armlinux.org.uk>
+ <1bddd434-024c-45ff-9866-92951a3f555f@quicinc.com>
+ <ZZPeHJJU96y1kdlZ@shell.armlinux.org.uk>
+ <6593e0a3.050a0220.5c543.8e12@mx.google.com>
+ <cee9de2c-bfa4-4ca9-9001-725e2041bc25@quicinc.com>
+ <85590a5b-9d5a-40cb-8a0e-a3a3a1c3720a@lunn.ch>
+Content-Language: en-US
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <85590a5b-9d5a-40cb-8a0e-a3a3a1c3720a@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: I7BiBPJKFAxZPLJyuounftiweA9NAazj
+X-Proofpoint-ORIG-GUID: I7BiBPJKFAxZPLJyuounftiweA9NAazj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ impostorscore=0 bulkscore=0 malwarescore=0 mlxlogscore=747 phishscore=0
+ mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401040074
 
-> -----Original Message-----
-> From: Jack Allister <jalliste@amazon.com>
-> Sent: 04 January 2024 09:06
-> Cc: Allister, Jack <jalliste@amazon.co.uk>; Rafael J . Wysocki
-> <rafael@kernel.org>; Durrant, Paul <pdurrant@amazon.co.uk>; Wang, Jue
-> <juew@amazon.com>; Usama Arif <usama.arif@bytedance.com>; Jonathan Corbet
-> <corbet@lwn.net>; Thomas Gleixner <tglx@linutronix.de>; Ingo Molnar
-> <mingo@redhat.com>; Borislav Petkov <bp@alien8.de>; Dave Hansen
-> <dave.hansen@linux.intel.com>; x86@kernel.org; H. Peter Anvin
-> <hpa@zytor.com>; Paul E. McKenney <paulmck@kernel.org>; Randy Dunlap
-> <rdunlap@infradead.org>; Tejun Heo <tj@kernel.org>; Peter Zijlstra
-> <peterz@infradead.org>; Yan-Jie Wang <yanjiewtw@gmail.com>; Hans de Goede
-> <hdegoede@redhat.com>; linux-doc@vger.kernel.org; linux-
-> kernel@vger.kernel.org
-> Subject: [PATCH v6] x86: intel_epb: Add earlyparam option to keep bias at
-> performance
->=20
-> Buggy BIOSes may not set a sane boot-time Energy Performance Bias (EPB).
-> A result of this may be overheating or excess power usage. The kernel
-> overrides any boot-time EPB "performance" bias to "normal" to avoid this.
->=20
-> When used in data centers it is preferable keep the EPB at "performance"
-> when performing a live-update of the host kernel via a kexec to the new
-> kernel. This is due to boot-time being critical when performing the kexec
-> as running guest VMs will perceieve this as latency or downtime.
->=20
-> On Intel Xeon Ice Lake platforms it has been observed that a combination
-> of
-> EPB being set to "normal" alongside HWP (Intel Hardware P-states) being
-> enabled/configured during or close to the kexec causes an increases the
-> live-update/kexec downtime by 7 times compared to when the EPB is set to
-> "performance".
->=20
-> Introduce a command-line parameter, "intel_epb=3Dpreserve", to skip the
-> "performance" -> "normal" override/workaround. This maintains prior
-> functionality when no parameter is set, but adds in the ability to stay a=
-t
-> performance for a speedy kexec if a user wishes.
->=20
-> Signed-off-by: Jack Allister <jalliste@amazon.com>
-> Acked-by: Rafael J. Wysocki <rafael@kernel.org>
-> Cc: Paul Durrant <pdurrant@amazon.com>
-> Cc: Jue Wang <juew@amazon.com>
-> Cc: Usama Arif <usama.arif@bytedance.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  9 ++++++++
->  arch/x86/kernel/cpu/intel_epb.c               | 22 +++++++++++++++++--
->  2 files changed, 29 insertions(+), 2 deletions(-)
->=20
 
-Reviewed-by: Paul Durrant <pdurrant@amazon.com>
+
+On 1/3/2024 10:22 PM, Andrew Lunn wrote:
+>> Yes, APQ8084 is the application SoC.
+>> QCA8084 is the pure PHY chip which has quad-phy.
+> 
+> I think everybody agrees these are terrible names, being so close
+> together but being very different devices.
+> 
+> You have the issues of not giving clear explanations of your
+> hardware. This is resulting in a lot of wasted tome for everybody. S
+> please make your explanations very clear. I personally would avoid
+> using APQ8084 or QCA8084 on there own. Always say the application SoC
+> APQ8084, or the PHY chip QCA8084, or the switch embedded within the
+> application processor APQ8084, or the PHYs embedded within the
+> Application processor etc. This is particularly important when talking
+> about clocks and resets, since the PHYs embedded within the
+> application processor are likely to have different clocks and reset
+> controllers to the PHY chip QCA8084.
+> 
+> 	Andrew
+
+Let me explain it more.
+APQ8084 is the Snapdragon SoC(for smart phone or other applicaiton)
+according to the link below.
+https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapdragon-8-series-mobile-platforms/snapdragon-processors-805.
+which has nothing to do with QCA8084 or IPQ SoC we are discussing here.
+let's remove out the APQ SoC from the discussion here.
+
+1. For IPQ SoC series, there are only ipq4019, ipq5018, ipq6018,
+ipq8074 documented in the current dt-bindings doc qcom,ipq4019-mdio.yaml
+and ipq9574, ipq5332 that are being added by the MDIO patch, and one
+more ipq8064 whose MDIO driver is mdio-ipq8064.c, on more others.
+
+2. For qca8084(pure PHY chip), which is the quad-phy chip, which is just
+    like qca8081 PHY(single port PHY), each port can be linked to maximum
+    speed 2.5G.
+
+    For qca8386(switch chip), which includes the same PHY CHIP as qca8084
+    (4 physical ports and two CPU ports), qca8386 switch can work with
+    the current qca8k.c DSA driver with the supplement patches.
+
+    Both qca8084 and qca8386 includes same network clock controller(let's
+    call it NSSCC, since this clock controller is located in the
+    Ethernet chip qca8084 and qca8386), they have the same clock initial
+    configuration sequence to initialize the Ethernet chip.
+
+   The Ethernet chip qca8084 and qca8386 are only connected with IPQ SoC,
+   Currently qca8084 is connected with IPQ SoC by 10G-QXGMII mode.
+   the 4 PHYs of qca8386 are connected with the internal MAC of qca8386
+   by GMII, the maximum speed is also 2.5G.
+   The port4 of qca8084 or qca8386 is optionally be able to connected
+   with IPQ SoC by sgmii.
+
+
+
+
+
