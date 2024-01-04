@@ -1,146 +1,111 @@
-Received: from TWMBX02.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A9B1D699;
-	Thu,  4 Jan 2024 03:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Jan
- 2024 11:41:21 +0800
-Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 4 Jan 2024 11:41:21 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
-	<corbet@lwn.net>, <thierry.reding@gmail.com>,
-	<u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
-	<billy_tsai@aspeedtech.com>, <naresh.solanki@9elements.com>,
-	<linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-pwm@vger.kernel.org>, <BMC-SW@aspeedtech.com>, <patrick@stwcx.xyz>
-Subject: [PATCH v11 0/3] Support pwm/tach driver for aspeed ast26xx
-Date: Thu, 4 Jan 2024 11:41:17 +0800
-Message-ID: <20240104034120.3516290-1-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D491D68F;
+	Thu,  4 Jan 2024 05:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+1dSZej"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704346896; x=1735882896;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=zU+PrLqJJBCnhHcPG8wQ+xY16mmjmcFQBKH/0T898HU=;
+  b=N+1dSZejAxYbxJJZEYa9eJalXy268cTQyEYhZcS85SE40hWYgb7Olivj
+   xw3EbT8rUJEgvYBJJhryZSQmSqUTtcPv8rGmxO+qMGXfs3i0mtTKjlPaH
+   dUZo6r9BzUNwtmQYFcOE3WcB5cOeB6cd/bKJL/VXJ5pHq79vRMCgcGB7N
+   /tiuhcl8qXiniH+bGsAI2ekH7OwxRdMIFgdy0IkLdyxxws4ZhjOrd/c7l
+   WBdvG3fQQ2fsJGGgikU1JlH4EvyUDoedLo/i5V4eW7b0wZTlTcLavHNW8
+   YDjCy3fdf7iaS5XM8T7KqoibiD2oFOwbewfIFdLPSq5q56vDyzV9p1Hvk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4474409"
+X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; 
+   d="scan'208";a="4474409"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 21:41:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="1111600089"
+X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; 
+   d="scan'208";a="1111600089"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 21:41:28 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
+  <linux-doc@vger.kernel.org>,  <linux-fsdevel@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
+  <x86@kernel.org>,  <akpm@linux-foundation.org>,  <arnd@arndb.de>,
+  <tglx@linutronix.de>,  <luto@kernel.org>,  <mingo@redhat.com>,
+  <bp@alien8.de>,  <dave.hansen@linux.intel.com>,  <hpa@zytor.com>,
+  <mhocko@kernel.org>,  <tj@kernel.org>,  <corbet@lwn.net>,
+  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <honggyu.kim@sk.com>,
+  <vtavarespetr@micron.com>,  <peterz@infradead.org>,
+  <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
+  <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
+  <seungjun.ha@samsung.com>,  Srinivasulu Thanneeru
+ <sthanneeru.opensrc@micron.com>
+Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
+ MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
+In-Reply-To: <ZZXbN4+2nVbE/lRe@memverge.com> (Gregory Price's message of "Wed,
+	3 Jan 2024 17:09:59 -0500")
+References: <20231223181101.1954-1-gregory.price@memverge.com>
+	<20231223181101.1954-3-gregory.price@memverge.com>
+	<8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZYp6ZRLZQVtTHest@memverge.com>
+	<878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZZRybDPSoLme8Ldh@memverge.com>
+	<87mstnc6jz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZZXbN4+2nVbE/lRe@memverge.com>
+Date: Thu, 04 Jan 2024 13:39:31 +0800
+Message-ID: <875y09d5d8.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: Fail (TWMBX02.aspeed.com: domain of billy_tsai@aspeedtech.com
- does not designate 192.168.10.10 as permitted sender)
- receiver=TWMBX02.aspeed.com; client-ip=192.168.10.10;
- helo=twmbx02.aspeed.com;
+Content-Type: text/plain; charset=ascii
 
-Unlike the old design that the register setting of the TACH should based
-on the configure of the PWM. In ast26xx, the dependency between pwm and
-tach controller is eliminated and becomes a separate hardware block. One
-is used to provide pwm output and another is used to monitor the frequency
-of the input. This driver implements them by exposing two kernel
-subsystems: PWM and HWMON. The PWM subsystem can be utilized alongside
-existing drivers for controlling elements such as fans (pwm-fan.c),
-beepers (pwm-beeper.c) and so on. Through the HWMON subsystem, the driver
-provides sysfs interfaces for fan.
+Gregory Price <gregory.price@memverge.com> writes:
 
-Changes since v10:
-Add the enum for the 'fan-driving-mode' properties in the fan-common.yaml.
+> On Wed, Jan 03, 2024 at 01:46:56PM +0800, Huang, Ying wrote:
+>> Gregory Price <gregory.price@memverge.com> writes:
+>> > I'm specifically concerned about:
+>> > 	weighted_interleave_nid
+>> > 	alloc_pages_bulk_array_weighted_interleave
+>> >
+>> > I'm unsure whether kmalloc/kfree is safe (and non-offensive) in those
+>> > contexts. If kmalloc/kfree is safe fine, this problem is trivial.
+>> >
+>> > If not, there is no good solution to this without pre-allocating a
+>> > scratch area per-task.
+>> 
+>> You need to audit whether it's safe for all callers.  I guess that you
+>> need to allocate pages after calling, so you can use the same GFP flags
+>> here.
+>> 
+>
+> After picking away i realized that this code is usually going to get
+> called during page fault handling - duh.  So kmalloc is almost never
+> safe (or can fail), and we it's nasty to try to handle those errors.
 
-Changes since v9:
-Change the type of fan-driving-mode to string
-Fix some typos and formatting issues.
+Why not just OOM for allocation failure?
 
-Changes since v8:
-Fix the fail of fan div register setting. (FIELD_GET -> FIELD_PREP)
-Change the type of tach-ch from uint32_t to uint8-array
-Add additional properties and apply constraints to certain properties.
+> Instead of doing that, I simply chose to implement the scratch space
+> in the mempolicy structure
+>
+> mempolicy->wil.scratch_weights[MAX_NUMNODES].
+>
+> We eat an extra 1kb of memory in the mempolicy, but it gives us a safe
+> scratch space we can use any time the task is allocating memory, and
+> prevents the need for any fancy error handling.  That seems like a
+> perfectly reasonable tradeoff.
 
-Changes since v7:
-Cherry-pick the fan-common.yaml and add the following properties:
-- min-rpm
-- div
-- mode
-- tach-ch
-Fix the warning which is reported by the kernel test robot.
+I don't think that this is a good idea.  The weight array is temporary.
 
-Changes since v6:
-Consolidate the PWM and TACH functionalities into a unified driver.
-
-Changes since v5:
-- pwm/tach:
-  - Remove the utilization of common resources from the parent node.
-  - Change the concept to 16 PWM/TACH controllers, each with one channel,
-  instead of 1 PWM/TACH controller with 16 channels.
-- dt-binding:
-  - Eliminate the usage of simple-mfd.
-
-Changes since v4:
-- pwm:
-  - Fix the return type of get_status function.
-- tach:
-  - read clk source once and re-use it
-  - Remove the constants variables
-  - Allocate tach_channel as array
-  - Use dev->parent
-- dt-binding:
-  - Fix the order of the patches
-  - Add example and description for tach child node
-  - Remove pwm extension property
-
-Changes since v3:
-- pwm:
-  - Remove unnecessary include header
-  - Fix warning Prefer "GPL" over "GPL v2"
-- tach:
-  - Remove the paremeter min_rpm and max_rpm and return the tach value 
-  directly without any polling or delay.
-  - Fix warning Prefer "GPL" over "GPL v2"
-- dt-binding:
-  - Replace underscore in node names with dashes
-  - Split per subsystem
-
-Changes since v2:
-- pwm:
-  - Use devm_* api to simplify the error cleanup
-  - Fix the multi-line alignment problem
-- tach:
-  - Add tach-aspeed-ast2600 to index.rst
-  - Fix the multi-line alignment problem
-  - Remove the tach enable/disable when read the rpm
-  - Fix some coding format issue
-
-Changes since v1:
-- tach:
-  - Add the document tach-aspeed-ast2600.rst
-  - Use devm_* api to simplify the error cleanup.
-  - Change hwmon register api to devm_hwmon_device_register_with_info
-
-
-Billy Tsai (2):
-  dt-bindings: hwmon: Support Aspeed g6 PWM TACH Control
-  hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
-
-Naresh Solanki (1):
-  dt-bindings: hwmon: fan: Add fan binding to schema
-
- .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    |  69 +++
- .../devicetree/bindings/hwmon/fan-common.yaml |  79 +++
- Documentation/hwmon/aspeed-g6-pwm-tach.rst    |  26 +
- Documentation/hwmon/index.rst                 |   1 +
- drivers/hwmon/Kconfig                         |  11 +
- drivers/hwmon/Makefile                        |   1 +
- drivers/hwmon/aspeed-g6-pwm-tach.c            | 539 ++++++++++++++++++
- 7 files changed, 726 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
- create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.yaml
- create mode 100644 Documentation/hwmon/aspeed-g6-pwm-tach.rst
- create mode 100644 drivers/hwmon/aspeed-g6-pwm-tach.c
-
--- 
-2.25.1
-
+--
+Best Regards,
+Huang, Ying
