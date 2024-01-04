@@ -1,60 +1,64 @@
-Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
+Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2371EA84;
-	Thu,  4 Jan 2024 09:00:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A488208AA;
+	Thu,  4 Jan 2024 09:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="NJUWkLXt"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="mmErWhrp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1704358841; x=1735894841;
+  t=1704359169; x=1735895169;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=tNlRBzJDdgAtPRThgcKGd66oGqP55+o+uVLu7u78wsw=;
-  b=NJUWkLXtqlqJwoOP1kEODIp9Gh2Fl6ttXI1XsP9ETMRC6sY+BiWRwRba
-   bGM5cZLM34H8bXB9SpsvrQ2W6gsBS9KMAe/tQGI95F/DzNM+T4h3V5y67
-   85sjWrzlRfErUNZlANwiY0Yb12S+EtnW/426+y5DKiUeFqfQhmSkMQcpQ
-   Y=;
+  bh=PRSjukXkmLIXcwBItHRAGuv5kZcF5d0JPSbYQAMvWf4=;
+  b=mmErWhrpZmT5REosIuhZsTGTHwbcrcyDQMJ8Fz0NruuvacYhnJJI2Bkr
+   Z9uVQ2/t6wCqOG2Jsr3toPEr/XzcD4JELRIedKwFOR2GOkx7r+5c7Bxg5
+   dxPpmPbyxklpKa40pUt7iMIUoQrOz3xbd8KjC94ELMaB1ei6m/tc5GFVP
+   s=;
 X-IronPort-AV: E=Sophos;i="6.04,330,1695686400"; 
-   d="scan'208";a="694906906"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1a-m6i4x-47cc8a4c.us-east-1.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 09:00:33 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan2.iad.amazon.com [10.32.235.34])
-	by email-inbound-relay-iad-1a-m6i4x-47cc8a4c.us-east-1.amazon.com (Postfix) with ESMTPS id EF266160691;
-	Thu,  4 Jan 2024 09:00:26 +0000 (UTC)
-Received: from EX19MTAUWB001.ant.amazon.com [10.0.21.151:30427]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.29.136:2525] with esmtp (Farcaster)
- id cbab2357-f29d-4d1f-a64d-f885bb61257b; Thu, 4 Jan 2024 09:00:25 +0000 (UTC)
-X-Farcaster-Flow-ID: cbab2357-f29d-4d1f-a64d-f885bb61257b
-Received: from EX19D037UWC003.ant.amazon.com (10.13.139.231) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+   d="scan'208";a="380164508"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-6e7a78d7.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 09:06:06 +0000
+Received: from smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan2.iad.amazon.com [10.32.235.34])
+	by email-inbound-relay-iad-1e-m6i4x-6e7a78d7.us-east-1.amazon.com (Postfix) with ESMTPS id 06DCE803F1;
+	Thu,  4 Jan 2024 09:05:57 +0000 (UTC)
+Received: from EX19MTAEUB002.ant.amazon.com [10.0.17.79:49859]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.3.99:2525] with esmtp (Farcaster)
+ id d8b6c571-1e69-4fed-9426-64179444ede8; Thu, 4 Jan 2024 09:05:56 +0000 (UTC)
+X-Farcaster-Flow-ID: d8b6c571-1e69-4fed-9426-64179444ede8
+Received: from EX19D033EUB001.ant.amazon.com (10.252.61.11) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 4 Jan 2024 09:00:25 +0000
+ 15.2.1118.40; Thu, 4 Jan 2024 09:05:56 +0000
 Received: from EX19MTAUEC001.ant.amazon.com (10.252.135.222) by
- EX19D037UWC003.ant.amazon.com (10.13.139.231) with Microsoft SMTP Server
+ EX19D033EUB001.ant.amazon.com (10.252.61.11) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 4 Jan 2024 09:00:25 +0000
+ 15.2.1118.40; Thu, 4 Jan 2024 09:05:55 +0000
 Received: from dev-dsk-jalliste-1c-e3349c3e.eu-west-1.amazon.com
  (10.13.244.142) by mail-relay.amazon.com (10.252.135.200) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Thu, 4 Jan 2024 09:00:23 +0000
+ 15.2.1118.40 via Frontend Transport; Thu, 4 Jan 2024 09:05:54 +0000
 From: Jack Allister <jalliste@amazon.com>
-To: <usama.arif@bytedance.com>
-CC: <bp@alien8.de>, <corbet@lwn.net>, <dave.hansen@linux.intel.com>,
-	<hdegoede@redhat.com>, <hpa@zytor.com>, <jalliste@amazon.com>,
-	<juew@amazon.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <mingo@redhat.com>, <paulmck@kernel.org>,
-	<pdurrant@amazon.com>, <peterz@infradead.org>, <rafael@kernel.org>,
-	<rdunlap@infradead.org>, <tglx@linutronix.de>, <tj@kernel.org>,
-	<x86@kernel.org>, <yanjiewtw@gmail.com>
-Subject: Re: [PATCH v5] x86: intel_epb: Add earlyparam option to keep bias at performance
-Date: Thu, 4 Jan 2024 09:00:22 +0000
-Message-ID: <20240104090022.41499-1-jalliste@amazon.com>
+To:
+CC: Jack Allister <jalliste@amazon.com>, "Rafael J . Wysocki"
+	<rafael@kernel.org>, Paul Durrant <pdurrant@amazon.com>, Jue Wang
+	<juew@amazon.com>, Usama Arif <usama.arif@bytedance.com>, Jonathan Corbet
+	<corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+	<hpa@zytor.com>, "Paul E. McKenney" <paulmck@kernel.org>, Randy Dunlap
+	<rdunlap@infradead.org>, Tejun Heo <tj@kernel.org>, Peter Zijlstra
+	<peterz@infradead.org>, Yan-Jie Wang <yanjiewtw@gmail.com>, Hans de Goede
+	<hdegoede@redhat.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v6] x86: intel_epb: Add earlyparam option to keep bias at performance
+Date: Thu, 4 Jan 2024 09:05:48 +0000
+Message-ID: <20240104090551.46251-1-jalliste@amazon.com>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <a57b9e19-3466-bb73-1c88-c19417ac6822@bytedance.com>
-References: <a57b9e19-3466-bb73-1c88-c19417ac6822@bytedance.com>
+In-Reply-To: <ff3a0382-734d-4f46-bd35-ffa1f53a3ac3@intel.com>
+References: <ff3a0382-734d-4f46-bd35-ffa1f53a3ac3@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,28 +68,110 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-> Thanks for the patch. Is auto needed over here? It was pointed in an 
-> earlier review that it could be an option, but it doesn't seem to serve 
-> a purpose.
+Buggy BIOSes may not set a sane boot-time Energy Performance Bias (EPB).
+A result of this may be overheating or excess power usage. The kernel
+overrides any boot-time EPB "performance" bias to "normal" to avoid this.
 
-Auto is effectively just the default as if no parameter is passed in here.
-In the reply from Dave for he has mentioned that displaying it like this
-may actually be clearer.
+When used in data centers it is preferable keep the EPB at "performance"
+when performing a live-update of the host kernel via a kexec to the new
+kernel. This is due to boot-time being critical when performing the kexec
+as running guest VMs will perceieve this as latency or downtime.
 
-```
-	intel_epb=	[X86]
-			
-			auto (default)
-```
+On Intel Xeon Ice Lake platforms it has been observed that a combination of
+EPB being set to "normal" alongside HWP (Intel Hardware P-states) being
+enabled/configured during or close to the kexec causes an increases the
+live-update/kexec downtime by 7 times compared to when the EPB is set to
+"performance".
 
-As we're not implicitly not taking any action for this default case it
-doesn't make too much sense to add in a specific strcmp case for auto,
-however what I can do is add a comment within the code to explicitly show
-that this is effectively a no-op when parsing.
+Introduce a command-line parameter, "intel_epb=preserve", to skip the
+"performance" -> "normal" override/workaround. This maintains prior
+functionality when no parameter is set, but adds in the ability to stay at
+performance for a speedy kexec if a user wishes.
 
+Signed-off-by: Jack Allister <jalliste@amazon.com>
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+Cc: Paul Durrant <pdurrant@amazon.com>
+Cc: Jue Wang <juew@amazon.com>
+Cc: Usama Arif <usama.arif@bytedance.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  9 ++++++++
+ arch/x86/kernel/cpu/intel_epb.c               | 22 +++++++++++++++++--
+ 2 files changed, 29 insertions(+), 2 deletions(-)
 
-> Maybe add an print in else here to say that unexpected value has been 
-> encountered for intel_epb if preserve is not seen.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 65731b060e3f..d28f2fc41c0c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2148,6 +2148,15 @@
+ 			0	disables intel_idle and fall back on acpi_idle.
+ 			1 to 9	specify maximum depth of C-state.
+ 
++	intel_epb=	[X86]
++			auto (default)
++			  Work around buggy BIOSes to avoid excess power usage
++			  by forcing the performance bias to "normal" at boot-time.
++			preserve
++			  Do not override the existing performance bias setting.
++			  Useful if a previous kernel or bootloader's setting is
++			  more desirable than "normal".
++
+ 	intel_pstate=	[X86]
+ 			disable
+ 			  Do not enable intel_pstate as the default
+diff --git a/arch/x86/kernel/cpu/intel_epb.c b/arch/x86/kernel/cpu/intel_epb.c
+index e4c3ba91321c..01d406177751 100644
+--- a/arch/x86/kernel/cpu/intel_epb.c
++++ b/arch/x86/kernel/cpu/intel_epb.c
+@@ -50,7 +50,8 @@
+  * the OS will do that anyway.  That sometimes is problematic, as it may cause
+  * the system battery to drain too fast, for example, so it is better to adjust
+  * it on CPU bring-up and if the initial EPB value for a given CPU is 0, the
+- * kernel changes it to 6 ('normal').
++ * kernel changes it to 6 ('normal'). However, if it is desirable to retain the
++ * original initial EPB value, intel_epb=preserve can be set to enforce it.
+  */
+ 
+ static DEFINE_PER_CPU(u8, saved_epb);
+@@ -75,6 +76,8 @@ static u8 energ_perf_values[] = {
+ 	[EPB_INDEX_POWERSAVE] = ENERGY_PERF_BIAS_POWERSAVE,
+ };
+ 
++static bool intel_epb_no_override __read_mostly;
++
+ static int intel_epb_save(void)
+ {
+ 	u64 epb;
+@@ -106,7 +109,7 @@ static void intel_epb_restore(void)
+ 		 * ('normal').
+ 		 */
+ 		val = epb & EPB_MASK;
+-		if (val == ENERGY_PERF_BIAS_PERFORMANCE) {
++		if (!intel_epb_no_override && val == ENERGY_PERF_BIAS_PERFORMANCE) {
+ 			val = energ_perf_values[EPB_INDEX_NORMAL];
+ 			pr_warn_once("ENERGY_PERF_BIAS: Set to 'normal', was 'performance'\n");
+ 		}
+@@ -213,6 +216,21 @@ static const struct x86_cpu_id intel_epb_normal[] = {
+ 	{}
+ };
+ 
++static __init int parse_intel_epb(char *str)
++{
++	if (!str)
++		return 0;
++
++	/* "intel_epb=preserve" prevents PERFORMANCE->NORMAL on restore. */
++	if (!strcmp(str, "preserve"))
++		intel_epb_no_override = true;
++
++	/* "intel_epb=auto" not explicitly checked as default behaviour. */
++	return 0;
++}
++
++early_param("intel_epb", parse_intel_epb);
++
+ static __init int intel_epb_init(void)
+ {
+ 	const struct x86_cpu_id *id = x86_match_cpu(intel_epb_normal);
+-- 
+2.40.1
 
-I'd be hesitant to do this as we already have the pr_warn_once during the
-intel_epb_restore path when defaulting from perf -> normal.
