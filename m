@@ -1,103 +1,108 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE27249FF;
-	Thu,  4 Jan 2024 16:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C4525562
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jan 2024 16:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="QRa/5G+p"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 404G9pkI005867;
-	Thu, 4 Jan 2024 16:10:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2023-11-20;
- bh=JD/4ONISF7ZrqbhDjWLXo/5VfSZH4KYuiMdc2ieY2c8=;
- b=QRa/5G+p2szhW8IpGtiUrh2LBpjaumC2dURnEz8En15ZpXbPblxB9iwRuqsWUmeQ60Gh
- x0n39O5IgOMTMUSd3neyJg7LlpKNNh3hjbp7Md6Cp4GJDvZgEJpvB3iVhFHYAJguFEPO
- rpe58ne/FI9rrwwNQWqCj0XNCSAlomZSgmCvFAjtskHLbfNAEa2H2M65pAsVGqusjUBH
- X9dh6EO53OcqJtWfqbb5qsu3x0A0owZicxyKDygSXhqdBbeUpe4yodfS0rS8rUyEvTVL
- tMcgpxzYjcVmI7mW+F+/4+MJhxASzUE7qirL18DgzzHI/nv2M2Yr/R1KJ5GL65/Ph8p1 gg== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vdyxn8081-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Jan 2024 16:10:19 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 404Fj8Y6039285;
-	Thu, 4 Jan 2024 16:10:18 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vdvhudxhv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Jan 2024 16:10:18 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 404GA9gi026902;
-	Thu, 4 Jan 2024 16:10:18 GMT
-Received: from localhost.localdomain (dhcp-10-175-55-141.vpn.oracle.com [10.175.55.141])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3vdvhudwne-5;
-	Thu, 04 Jan 2024 16:10:18 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>, linux-doc@vger.kernel.org,
-        linux-api@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [PATCH 5/5] docs: userspace-api/api: include ABI/README.rst
-Date: Thu,  4 Jan 2024 17:09:46 +0100
-Message-Id: <20240104160946.3450743-5-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240104160946.3450743-1-vegard.nossum@oracle.com>
-References: <20240104160946.3450743-1-vegard.nossum@oracle.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="fdn/14QO"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-427f21ced6aso3410551cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jan 2024 08:30:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1704385819; x=1704990619; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Aj4IIq0tzuh1/OdFywt45Ed5fBVp3SK/t71RwP6JXSw=;
+        b=fdn/14QOew7x0hZlqE8RvMbT+eay+t99WzcP3kxGSeb8OS5ACFhxqkeI7iB+nyafr0
+         rOuV6rmqZYe/l+tOjY/F68nb75dV/6faHMawGvHRB8Ise/ZVn0TUmrjcNnDvPpYSKK2u
+         +QXD6hqZOg+6u0V1BppZ1Urc5RWCALe2KqPFw8J3VQOjtx6mSqe/+OUnn1A9CxqXE2Rh
+         3JFRqVxezB+DuRVhlYCK/igl86QKpIhEethObsm3dCBF1m3uN1ceVfoGd3oqdi0XHpq+
+         P1ABcTzfX+8k++zN/yVvUWt5pjTlmOe+9OyrAy5cz7M2zWHcj6kYn7fmGKwoBPTTXQfY
+         VfCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704385819; x=1704990619;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Aj4IIq0tzuh1/OdFywt45Ed5fBVp3SK/t71RwP6JXSw=;
+        b=DPBskfeTWP2FiOJBurcglkgCinGIL4w3EsIU+5se/HhX4+r0bfkeVVKGoluL35FmvE
+         HJYyhrqm5/FgBy5WqldZQrP9ngDeTtV2GsAELHdzBoXT5X+yyNmmgxnbFrkhfqzec2ta
+         JJYW+TScPgh8Ssjx2n5QFSqjHCuNbmI9U9REL/1Wm/6xK6QzvTzVwyW6TUDvGMCcaMmL
+         SuRA6o0C5DZzI8DI1lewZMr1dz1wvOcOTRufTkK9swyd6fVjS7pfXmQSldBLw0fipm19
+         +KfFVpvgpD8SuaukA+CAHF95BIAwsSGGqB+cufT0OcAWpafDQmRbX/inld/KdTlJKdEx
+         xYrw==
+X-Gm-Message-State: AOJu0YzO2a0fqx2DCnbtRzbsshLmpImV7tx+gLbwW5Fi7DJFISCLyAdb
+	ZzOtStP/cxIw0gm2xbDrS8CTiiLuzSwXzlUqX0X2K1+kwghbtw==
+X-Google-Smtp-Source: AGHT+IHbmPwv6z7KPbpI44YRa4bYQfIXyvmSunk5ru1UyVqC5KptkTXxtDOkWoeYljsAtoXlTJC88ShSxszX3+BvyHo=
+X-Received: by 2002:ac8:5cce:0:b0:428:3602:4ad8 with SMTP id
+ s14-20020ac85cce000000b0042836024ad8mr839527qta.60.1704385819426; Thu, 04 Jan
+ 2024 08:30:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-04_09,2024-01-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 malwarescore=0
- suspectscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2401040127
-X-Proofpoint-GUID: Z14QKnsocPu3jWwLQou1MLhpebvG_7jo
-X-Proofpoint-ORIG-GUID: Z14QKnsocPu3jWwLQou1MLhpebvG_7jo
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com> <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
+In-Reply-To: <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 4 Jan 2024 11:29:43 -0500
+Message-ID: <CA+CK2bBE1bQuqZy3cbWiv8V3vJ8YNJZRayp6Wv-j2_9i37XT4g@mail.gmail.com>
+Subject: Re: [PATCH v3 00/10] IOMMU memory observability
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The rendered ABI documents currently have no introduction or
-explanation, which is a bit jarring.
+On Thu, Jan 4, 2024 at 10:31=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.co=
+m> wrote:
+>
+> Hello.
+>
+> On Tue, Dec 26, 2023 at 08:01:55PM +0000, Pasha Tatashin <pasha.tatashin@=
+soleen.com> wrote:
+> > This patch series solves this problem by adding both observability to
+> > all pages that are allocated by IOMMU, and also accountability, so
+> > admins can limit the amount if via cgroups.
+>
+> Maybe this is a mismatch in vocabulary what you mean by the verb
+> "limit". But I don't see in the patchset that the offending pages would
+> be allocated with GFP_ACCOUNT. So the result is that the pages are
+> accounted (you can view the amount in memory.stat) but they are not
+> subject to memcg limits.
+>
+> Is that what you intend?
 
-Documentation/ABI/README is a pretty good introduction, even if it's
-aimed more at ABI-description producers (rather than consumers) -- we
-can always tweak the language to be clearer about this distinction
-later.
+Hi Michal,
 
-Include it in userspace-api/api.rst.
+Thank you for taking a look at this. The two patches [1] [2] which add
+GFP_KERNEL_ACCOUNT were sent separate from this series at request of
+reviewers:
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Documentation/userspace-api/abi.rst | 3 +++
- 1 file changed, 3 insertions(+)
+Pasha
 
-diff --git a/Documentation/userspace-api/abi.rst b/Documentation/userspace-api/abi.rst
-index bcab3ef2597c..ea615233a405 100644
---- a/Documentation/userspace-api/abi.rst
-+++ b/Documentation/userspace-api/abi.rst
-@@ -2,7 +2,10 @@
- Linux ABI description
- =====================
- 
-+.. include:: ../ABI/README.rst
-+
- .. toctree::
-+   :caption: Directory
-    :maxdepth: 2
- 
-    abi-stable
--- 
-2.34.1
+[1] https://lore.kernel.org/linux-mm/20231226182827.294158-1-pasha.tatashin=
+@soleen.com
+[2] https://lore.kernel.org/linux-mm/20231130200900.2320829-1-pasha.tatashi=
+n@soleen.com
 
+>
+>
+> Regards,
+> Michal
