@@ -1,143 +1,71 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573FE241E4;
-	Thu,  4 Jan 2024 15:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3BE24B2D;
+	Thu,  4 Jan 2024 15:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Pae+nnL8";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="d4W1wAY3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Nqs1ehuW"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CBE9822090;
-	Thu,  4 Jan 2024 15:31:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1704382280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fzC23ESDAqjrYsUUWU3jTenMnuzE0UYEATU9SXb7+hA=;
-	b=Pae+nnL8GFn/90/6MVvjWD52MleXZMEQSfyVMqUsSKCAAx6kTTQ7y/fR66ckCQIKBeUAWK
-	ZfkewmROo/43t3zJCXwA4wYyzrHCpas+/WrNiHncgarksTqf+Lw1E9AYw5YalW31ApoY+p
-	y/Ok7gnLnUEo3mCXBRa4HaaMb+5GVtI=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1704382279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fzC23ESDAqjrYsUUWU3jTenMnuzE0UYEATU9SXb7+hA=;
-	b=d4W1wAY3OJtJtth1XCzoTR7umctbQgU0lYLtet8VnS+QUeM0A3AJQV+WHXCTfVtktmNHnL
-	9d5K3STBwSK115bhRlI9joaJ/AMggRm/BXcBxrrEBrOVb2hmKluJ3nUltLD//+znrx279P
-	D3ebRpFcyuqMyw7qj9a8bYKRWfjXt9Q=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11D3A13722;
-	Thu,  4 Jan 2024 15:31:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cw50A0fPlmUBUAAAD6G6ig
-	(envelope-from <mkoutny@suse.com>); Thu, 04 Jan 2024 15:31:19 +0000
-Date: Thu, 4 Jan 2024 16:31:17 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, 
-	alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
-	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, iommu@lists.linux.dev, 
-	jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org, 
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com, 
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
-	yu-cheng.yu@intel.com, rientjes@google.com
-Subject: Re: [PATCH v3 00/10] IOMMU memory observability
-Message-ID: <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+	by ms.lwn.net (Postfix) with ESMTPSA id 3B7DD736;
+	Thu,  4 Jan 2024 15:57:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3B7DD736
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1704383868; bh=dyA/rPuEEojVPCJ5lWc5tdwj4Jg72ccSzIE9agGaaoY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Nqs1ehuWnpQ7Xz+FM387s8kT0sarIR6g74ZKOjz2gCzGNa+vYiOmb3WY+SOuJq1na
+	 gNM0jNMdXUgaTBDWzqtvpf4sYIq63HeLkjo6yPTElZeKTWpDgEGhvZydHtUFvwvJbX
+	 469sH20cILOmUWHQwSMiekgTtJ2JcNlCKry/oMM/w/jvHpJ5nbZ3KB8L1iL8KkWIjp
+	 y6vb64SilEh/tstQdUN/JfSS3HcTn8iArzoXHAeorbyh6Ft+z0YqRCxJM4mwK89/sf
+	 xA+/6Keb0zm4Oc2MeIuHZtKzPa5e8EGqy/3U8FID2uDJCE+0J4UZH5M8/RTLoKDRyT
+	 vBjvugTr+QCDg==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, Mauro Carvalho
+ Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] scripts/get_abi.pl: ignore some temp files
+In-Reply-To: <871qax6t6k.fsf@meer.lwn.net>
+References: <20231228233113.5218-1-rdunlap@infradead.org>
+ <87plyi86zg.fsf@meer.lwn.net> <87v889z7h3.fsf@intel.com>
+ <871qax6t6k.fsf@meer.lwn.net>
+Date: Thu, 04 Jan 2024 08:57:47 -0700
+Message-ID: <87o7e15bwk.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3miwvahtspdiywqu"
-Content-Disposition: inline
-In-Reply-To: <20231226200205.562565-1-pasha.tatashin@soleen.com>
-X-Spam-Level: 
-X-Spam-Level: 
-X-Spam-Score: -0.42
-X-Rspamd-Queue-Id: CBE9822090
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=d4W1wAY3
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Bar: /
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-0.42 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 URIBL_BLOCKED(0.00)[suse.com:dkim,soleen.com:email];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	 BAYES_HAM(-0.01)[51.19%];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_TWELVE(0.00)[44];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
-	 SIGNED_PGP(-2.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+,1:+,2:~];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[linux-foundation.org,samsung.com,rosenzweig.io,lists.linux.dev,linux.intel.com,google.com,vger.kernel.org,lwn.net,redhat.com,infradead.org,cmpxchg.org,sntech.de,gmail.com,nvidia.com,8bytes.org,linaro.org,kvack.org,lists.infradead.org,bytedance.com,marcan.st,kernel.org,arm.com,sholland.org,amd.com,svenpeter.dev,csie.org,intel.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
+Content-Type: text/plain
 
+Jonathan Corbet <corbet@lwn.net> writes:
 
---3miwvahtspdiywqu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Jani Nikula <jani.nikula@linux.intel.com> writes:
+>
+>> On Wed, 03 Jan 2024, Jonathan Corbet <corbet@lwn.net> wrote:
+>>> It would have been nice to create all of those files with a .abi
+>>> extension so we didn't have to do this kind of blocklisting, but so be
+>>> it.
+>>
+>> Alternatively, we could switch to yaml instead of using another homebrew
+>> format with another homebrew parser, and rename them .yaml.
+>
+> But ... we didn't invent that! :)
+>
+> That is, of course, a better idea.  It would be a good project for
+> somebody.
 
-Hello.
+Thinking about this a bit further ... is there anything other than
+get_abi.pl that parses these files?  If so, that would, of course,
+complicate a switch to YAML.
 
-On Tue, Dec 26, 2023 at 08:01:55PM +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> This patch series solves this problem by adding both observability to
-> all pages that are allocated by IOMMU, and also accountability, so
-> admins can limit the amount if via cgroups.
+If not, though ... and if we're changing the format ... maybe we should
+just turn them into RST and do away with the extra processing step
+entirely?
 
-Maybe this is a mismatch in vocabulary what you mean by the verb
-"limit". But I don't see in the patchset that the offending pages would
-be allocated with GFP_ACCOUNT. So the result is that the pages are
-accounted (you can view the amount in memory.stat) but they are not
-subject to memcg limits.
-
-Is that what you intend?
-
-
-Regards,
-Michal
-
---3miwvahtspdiywqu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQpEWyjXuwGT2dDBqAGvrMr/1gcjgUCZZbPOgAKCRAGvrMr/1gc
-jk4WAQCSVaG9CWTytNlHm4t/CSbpxTWFYWcybzn/jqIJ0y0DDgEA0/XJAjN4NyF+
-F6HbClZ0bzyKHY2eGvX2UwXRtcfFPQM=
-=GWPV
------END PGP SIGNATURE-----
-
---3miwvahtspdiywqu--
+jon
