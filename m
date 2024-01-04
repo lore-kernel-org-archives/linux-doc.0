@@ -1,82 +1,147 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A272D033;
-	Thu,  4 Jan 2024 16:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D88E28699;
+	Thu,  4 Jan 2024 17:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OWV8vsRG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=pxHBfcGZFBAcpsHKOLVI+HuTnhEV5ZNIlJJNDoYE0m8=; b=OWV8vsRGLnY1KSmhLbM7xO+eCA
-	0OLBvsxwFx11AhsOk2njoTnl9f2DpRBUVWqrJ+ixKokE2NJMXQ5jcgfit4pbLVQvPgdUMZiF/lsMV
-	5+YPtH15b6nbSp0xtIY+0srE2HPA+7qyFZ7eipqL1KTAu7N83W1IcJQDwCg+GYDGdvbtyCJ4G/lRA
-	p9Nlk1oYuGRJGEnYPZ63w2m/AOivueSMz3jkJ2ictllQyyrjvuzEBxrAwoNllrWgF/Dl5CvpGqD5N
-	OjSPAh/aN8iE8Fxqm13/K/02fULq6ywnD7OtzPizPvn2OI5MHwC1rNXh84pWFVPo1K4wfTrTzP0Ur
-	mZjomj4w==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1rLQiE-00FY2X-QZ; Thu, 04 Jan 2024 16:36:54 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/5] buffer: Fix __bread() kernel-doc
-Date: Thu,  4 Jan 2024 16:36:51 +0000
-Message-Id: <20240104163652.3705753-5-willy@infradead.org>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20240104163652.3705753-1-willy@infradead.org>
-References: <20240104163652.3705753-1-willy@infradead.org>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="K3Rgv7W7";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="t7RtALx4"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A22F01F821;
+	Thu,  4 Jan 2024 17:04:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1704387859; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ipK/226LRJDTM3FDOd68E2idK7q9JRqvu+4u/g3wH50=;
+	b=K3Rgv7W7sta/rNDtR0eZIZmZNKZUs0KubO9/2GP3vpEH7iAUILQfJvyKtKMy6kd/voBYGU
+	BgK5F8KgWvEAUx4gmMDTSX+gF09v9SZxutGU/aR8dqTee7V8PS/jkZ9U/flaNILNZC0EoL
+	V5CaUtevifWroaAiZir/Abo2a+5JkNk=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1704387857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ipK/226LRJDTM3FDOd68E2idK7q9JRqvu+4u/g3wH50=;
+	b=t7RtALx4OLAwYM1NSnnPIxj9u/urq88xoeMObBg2yBueCWbTplQCDwM9XjKaKTlCZNXWSb
+	8UvcDmIESZxi2Pw4v1s1yqzQRAaW2t4k3Dss65JDw5QjtwUxXXp9gRl3D1T+jt99x7U8C4
+	0fdzJJvtaZzf2609O9HT7+10cFgFQc8=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 726B213722;
+	Thu,  4 Jan 2024 17:04:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MsmyGxHllmWDaAAAD6G6ig
+	(envelope-from <mkoutny@suse.com>); Thu, 04 Jan 2024 17:04:17 +0000
+Date: Thu, 4 Jan 2024 18:04:16 +0100
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, 
+	alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, iommu@lists.linux.dev, 
+	jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org, 
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 00/10] IOMMU memory observability
+Message-ID: <eng4vwaci5hwlicszgcld6uny55vll2bfs3vp2yjbjf3exhamg@zf6yc2uhax7w>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
+ <CA+CK2bBE1bQuqZy3cbWiv8V3vJ8YNJZRayp6Wv-j2_9i37XT4g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="22fntkpk3vilmqk6"
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bBE1bQuqZy3cbWiv8V3vJ8YNJZRayp6Wv-j2_9i37XT4g@mail.gmail.com>
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.43
+X-Spamd-Result: default: False [-1.43 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 URIBL_BLOCKED(0.00)[soleen.com:email];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 BAYES_HAM(-0.03)[55.23%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[44];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[soleen.com:email];
+	 SIGNED_PGP(-2.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+,1:+,2:~];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[linux-foundation.org,samsung.com,rosenzweig.io,lists.linux.dev,linux.intel.com,google.com,vger.kernel.org,lwn.net,redhat.com,infradead.org,cmpxchg.org,sntech.de,gmail.com,nvidia.com,8bytes.org,linaro.org,kvack.org,lists.infradead.org,bytedance.com,marcan.st,kernel.org,arm.com,sholland.org,amd.com,svenpeter.dev,csie.org,intel.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
 
-The extra indentation confused the kernel-doc parser, so remove it.
-Fix some other wording while I'm here, and advise the user they need to
-call brelse() on this buffer.
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- include/linux/buffer_head.h | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+--22fntkpk3vilmqk6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-index d78454a4dd1f..7558cd1d3eb3 100644
---- a/include/linux/buffer_head.h
-+++ b/include/linux/buffer_head.h
-@@ -437,14 +437,17 @@ static inline void bh_readahead_batch(int nr, struct buffer_head *bhs[],
- }
- 
- /**
-- *  __bread() - reads a specified block and returns the bh
-- *  @bdev: the block_device to read from
-- *  @block: number of block
-- *  @size: size (in bytes) to read
-+ * __bread() - Read a block.
-+ * @bdev: The block device to read from.
-+ * @block: Block number in units of block size.
-+ * @size: Block size in bytes.
-  *
-- *  Reads a specified block, and returns buffer head that contains it.
-- *  The page cache is allocated from movable area so that it can be migrated.
-- *  It returns NULL if the block was unreadable.
-+ * Read a specified block, and return the buffer head that refers to it.
-+ * The memory is allocated from the movable area so that it can be
-+ * migrated.  The buffer head has its refcount elevated and the caller
-+ * should call brelse() when it has finished with the buffer.
-+ *
-+ * Return: NULL if the block was unreadable.
-  */
- static inline struct buffer_head *
- __bread(struct block_device *bdev, sector_t block, unsigned size)
--- 
-2.43.0
+On Thu, Jan 04, 2024 at 11:29:43AM -0500, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+> Thank you for taking a look at this. The two patches [1] [2] which add
+> GFP_KERNEL_ACCOUNT were sent separate from this series at request of
+> reviewers:
 
+Ah, I didn't catch that.
+
+Though, I mean the patch 02/10 calls iommu_alloc_pages() with GFP_KERNEL
+(and not a passed gfp from iommu_map).
+Then patch 09/10 accounts all iommu_alloc_pages() under NR_IOMMU_PAGES.
+
+I think there is a difference between what's shown NR_IOMMU_PAGES and
+what will have __GFP_ACCOUNT because of that.
+
+I.e. is it the intention that this difference is not subject to
+limiting?
+
+(Note: I'm not familiar with iommu code and moreover I'm only looking at
+the two patch sets, not the complete code applied. So you may correct my
+reasoning.)
+
+
+Thanks,
+Michal
+
+--22fntkpk3vilmqk6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQpEWyjXuwGT2dDBqAGvrMr/1gcjgUCZZblDgAKCRAGvrMr/1gc
+jiwfAQCSCpFQriEKwkEB8UUxOA9LFBhZfPl+l6lvTbTvghQXmQEAh2ukMdYInk9Z
+KYebGDty+dxGKeNxW6aKFLuxo9UKywg=
+=e+tC
+-----END PGP SIGNATURE-----
+
+--22fntkpk3vilmqk6--
