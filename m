@@ -1,111 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D491D68F;
-	Thu,  4 Jan 2024 05:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18050200A0;
+	Thu,  4 Jan 2024 07:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+1dSZej"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704346896; x=1735882896;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=zU+PrLqJJBCnhHcPG8wQ+xY16mmjmcFQBKH/0T898HU=;
-  b=N+1dSZejAxYbxJJZEYa9eJalXy268cTQyEYhZcS85SE40hWYgb7Olivj
-   xw3EbT8rUJEgvYBJJhryZSQmSqUTtcPv8rGmxO+qMGXfs3i0mtTKjlPaH
-   dUZo6r9BzUNwtmQYFcOE3WcB5cOeB6cd/bKJL/VXJ5pHq79vRMCgcGB7N
-   /tiuhcl8qXiniH+bGsAI2ekH7OwxRdMIFgdy0IkLdyxxws4ZhjOrd/c7l
-   WBdvG3fQQ2fsJGGgikU1JlH4EvyUDoedLo/i5V4eW7b0wZTlTcLavHNW8
-   YDjCy3fdf7iaS5XM8T7KqoibiD2oFOwbewfIFdLPSq5q56vDyzV9p1Hvk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4474409"
-X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; 
-   d="scan'208";a="4474409"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 21:41:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="1111600089"
-X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; 
-   d="scan'208";a="1111600089"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 21:41:28 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-doc@vger.kernel.org>,  <linux-fsdevel@vger.kernel.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <x86@kernel.org>,  <akpm@linux-foundation.org>,  <arnd@arndb.de>,
-  <tglx@linutronix.de>,  <luto@kernel.org>,  <mingo@redhat.com>,
-  <bp@alien8.de>,  <dave.hansen@linux.intel.com>,  <hpa@zytor.com>,
-  <mhocko@kernel.org>,  <tj@kernel.org>,  <corbet@lwn.net>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <honggyu.kim@sk.com>,
-  <vtavarespetr@micron.com>,  <peterz@infradead.org>,
-  <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
-  <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  Srinivasulu Thanneeru
- <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
- MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
-In-Reply-To: <ZZXbN4+2nVbE/lRe@memverge.com> (Gregory Price's message of "Wed,
-	3 Jan 2024 17:09:59 -0500")
-References: <20231223181101.1954-1-gregory.price@memverge.com>
-	<20231223181101.1954-3-gregory.price@memverge.com>
-	<8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZYp6ZRLZQVtTHest@memverge.com>
-	<878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZZRybDPSoLme8Ldh@memverge.com>
-	<87mstnc6jz.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZZXbN4+2nVbE/lRe@memverge.com>
-Date: Thu, 04 Jan 2024 13:39:31 +0800
-Message-ID: <875y09d5d8.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="siffy2q7"
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4047Xdm3063000;
+	Thu, 4 Jan 2024 01:33:39 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1704353619;
+	bh=1YL4NazULIndzcTvOUJLeOSh+6JCTKDvgwntK+e06L8=;
+	h=From:To:CC:Subject:Date;
+	b=siffy2q77BbTdXaUwKd9xiGfAyS0v0FF1SmYGbIzpdwDrvAUFF20QFgoTsgyHzGVL
+	 jcRZX/NKUJ78N1BaW9DQTdzJ+3gPSClr/dXDaegC7W3ZlfqiPj8hmUJljwmx/dU/FN
+	 BjZIWpjvVnXIbxA+pfP093qpjcsucFf5/kDcrBe4=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4047XdaZ082970
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 4 Jan 2024 01:33:39 -0600
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 4
+ Jan 2024 01:33:38 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 4 Jan 2024 01:33:38 -0600
+Received: from dhruva.dhcp.ti.com (dhruva.dhcp.ti.com [172.24.227.68])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4047Xatc060915;
+	Thu, 4 Jan 2024 01:33:37 -0600
+From: Dhruva Gole <d-gole@ti.com>
+To: Jonathan Corbet <corbet@lwn.net>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Dhruva Gole
+	<d-gole@ti.com>
+Subject: [PATCH] Documentation: index: Minor re-arrangement and improvements
+Date: Thu, 4 Jan 2024 13:03:17 +0530
+Message-ID: <20240104073317.19709-1-d-gole@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Gregory Price <gregory.price@memverge.com> writes:
+* It seems odd that a develper is forced to look at the licensing rules
+  even before they get to the doc or coding guide.
+  This belongs under the "Working with the development community" / "All
+  development docs" page where it does reside even today.
+* Rearrange the section for Internal API manuals to go lower because
+  generally one would want to look at the tools and processes and admin
+  guide pages first and then move onto something deeper like the API
+  manuals.
+* Reword the Dev tools section and title to something a bit more suitable.
 
-> On Wed, Jan 03, 2024 at 01:46:56PM +0800, Huang, Ying wrote:
->> Gregory Price <gregory.price@memverge.com> writes:
->> > I'm specifically concerned about:
->> > 	weighted_interleave_nid
->> > 	alloc_pages_bulk_array_weighted_interleave
->> >
->> > I'm unsure whether kmalloc/kfree is safe (and non-offensive) in those
->> > contexts. If kmalloc/kfree is safe fine, this problem is trivial.
->> >
->> > If not, there is no good solution to this without pre-allocating a
->> > scratch area per-task.
->> 
->> You need to audit whether it's safe for all callers.  I guess that you
->> need to allocate pages after calling, so you can use the same GFP flags
->> here.
->> 
->
-> After picking away i realized that this code is usually going to get
-> called during page fault handling - duh.  So kmalloc is almost never
-> safe (or can fail), and we it's nasty to try to handle those errors.
+Signed-off-by: Dhruva Gole <d-gole@ti.com>
+---
+ Documentation/index.rst | 34 ++++++++++++++++------------------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
 
-Why not just OOM for allocation failure?
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 36e61783437c..409eba0b9601 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -28,30 +28,14 @@ community and getting your work upstream.
+    maintainer/index
+    All development-process docs <process/index>
+ 
+-
+-Internal API manuals
+-====================
+-
+-Manuals for use by developers working to interface with the rest of the
+-kernel.
+-
+-.. toctree::
+-   :maxdepth: 1
+-
+-   core-api/index
+-   driver-api/index
+-   subsystem-apis
+-   Locking in the kernel <locking/index>
+-
+-Development tools and processes
++Development tools and resources
+ ===============================
+ 
+-Various other manuals with useful information for all kernel developers.
++Various tools and manuals with useful information for all kernel developers.
+ 
+ .. toctree::
+    :maxdepth: 1
+ 
+-   process/license-rules
+    doc-guide/index
+    dev-tools/index
+    dev-tools/testing-overview
+@@ -81,6 +65,20 @@ developers seeking information on the kernel's user-space APIs.
+ See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_,
+ which are kept separately from the kernel's own documentation.
+ 
++Internal API manuals
++====================
++
++Manuals for use by developers working to interface with the rest of the
++kernel.
++
++.. toctree::
++   :maxdepth: 1
++
++   core-api/index
++   driver-api/index
++   subsystem-apis
++   Locking in the kernel <locking/index>
++
+ Firmware-related documentation
+ ==============================
+ The following holds information on the kernel's expectations regarding the
 
-> Instead of doing that, I simply chose to implement the scratch space
-> in the mempolicy structure
->
-> mempolicy->wil.scratch_weights[MAX_NUMNODES].
->
-> We eat an extra 1kb of memory in the mempolicy, but it gives us a safe
-> scratch space we can use any time the task is allocating memory, and
-> prevents the need for any fancy error handling.  That seems like a
-> perfectly reasonable tradeoff.
+base-commit: d0b3c8aa5e37775cd7c3ac07b256218df0fd6678
+-- 
+2.34.1
 
-I don't think that this is a good idea.  The weight array is temporary.
-
---
-Best Regards,
-Huang, Ying
