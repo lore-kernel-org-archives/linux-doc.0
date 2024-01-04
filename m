@@ -1,82 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from TWMBX03.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA2A111A7;
-	Thu,  4 Jan 2024 02:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UopDqbQ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD0FEC433C7;
-	Thu,  4 Jan 2024 02:59:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704337157;
-	bh=S4RcSiGNRUEo1bLQ+DCAtGqoJ+Ocd7RzusHa9Z6/S3M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UopDqbQ+INwcjQVb6DhX1f1yd5IK10B1nwdKVyu7wN7Pcx9qZ0wLee1g1jnpK4Ve+
-	 oOsfH7hBdzvmPSiZ1+FzFDwO4vwcIuiyJ6OkcuGSN90jX/wQERlretO4ouM3Qi9VeI
-	 Ih/zIY7at3aYnF36joNqyCDS7cnn+8OLxpVx/v5G8mLO7T8k4UhOrVbxWdAOWKh5P2
-	 Aq8JQh7cqwKmM/5gitO5o6iBYe9CfaSgiAwHOtgOsNmdqCtXbVvk3sC+UB0FOoc/MK
-	 OIsdIaUGvwGSgrvEfSDGNynRsGDy2HjAL9xeufZELvk9QHNS5YfNllew/fDMEjPwc7
-	 mQW6WQwwTlVIA==
-Date: Thu, 4 Jan 2024 11:59:13 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- loongarch@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] docs, kprobes: Add loongarch as supported
- architecture
-Message-Id: <20240104115913.2b8839bff660e34e280079aa@kernel.org>
-In-Reply-To: <20231219062330.22813-3-yangtiezhu@loongson.cn>
-References: <20231219062330.22813-1-yangtiezhu@loongson.cn>
-	<20231219062330.22813-3-yangtiezhu@loongson.cn>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B10111A7;
+	Thu,  4 Jan 2024 03:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX03.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Jan
+ 2024 11:41:21 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 4 Jan 2024 11:41:21 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+	<corbet@lwn.net>, <thierry.reding@gmail.com>,
+	<u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+	<billy_tsai@aspeedtech.com>, <naresh.solanki@9elements.com>,
+	<linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-pwm@vger.kernel.org>, <BMC-SW@aspeedtech.com>, <patrick@stwcx.xyz>
+Subject: [PATCH v11 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM TACH Control
+Date: Thu, 4 Jan 2024 11:41:19 +0800
+Message-ID: <20240104034120.3516290-3-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240104034120.3516290-1-billy_tsai@aspeedtech.com>
+References: <20240104034120.3516290-1-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, 19 Dec 2023 14:23:30 +0800
-Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+Document the compatible for aspeed,ast2600-pwm-tach device, which can
+support up to 16 PWM outputs and 16 fan tach input.
 
-> After the following three changes at the beginning of the year:
-> 
->   commit 6d4cc40fb5f5 ("LoongArch: Add kprobes support")
->   commit 3f5536860086 ("LoongArch: Add kretprobes support")
->   commit 09e679c28a4d ("LoongArch: Add kprobes on ftrace support")
-> 
-> it is appropriate to add loongarch as supported architecture in
-> kprobes documentation.
-> 
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+---
+ .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 69 +++++++++++++++++++
+ 1 file changed, 69 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
 
-Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-
-Thanks,
-
-> ---
->  Documentation/trace/kprobes.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/trace/kprobes.rst b/Documentation/trace/kprobes.rst
-> index 968ae080accd..e1636e579c9c 100644
-> --- a/Documentation/trace/kprobes.rst
-> +++ b/Documentation/trace/kprobes.rst
-> @@ -321,6 +321,7 @@ architectures:
->  - mips
->  - s390
->  - parisc
-> +- loongarch
->  
->  Configuring Kprobes
->  ===================
-> -- 
-> 2.42.0
-> 
-
-
+diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+new file mode 100644
+index 000000000000..c615fb10705c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+@@ -0,0 +1,69 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2023 Aspeed, Inc.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ASPEED G6 PWM and Fan Tach controller
++
++maintainers:
++  - Billy Tsai <billy_tsai@aspeedtech.com>
++
++description: |
++  The ASPEED PWM controller can support up to 16 PWM outputs.
++  The ASPEED Fan Tacho controller can support up to 16 fan tach input.
++  They are independent hardware blocks, which are different from the
++  previous version of the ASPEED chip.
++
++properties:
++  compatible:
++    enum:
++      - aspeed,ast2600-pwm-tach
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  "#pwm-cells":
++    const: 3
++
++patternProperties:
++  "^fan-[0-9]+$":
++    $ref: fan-common.yaml#
++    unevaluatedProperties: false
++    required:
++      - tach-ch
++
++required:
++  - reg
++  - clocks
++  - resets
++  - "#pwm-cells"
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/aspeed-clock.h>
++    pwm_tach: pwm-tach-controller@1e610000 {
++      compatible = "aspeed,ast2600-pwm-tach";
++      reg = <0x1e610000 0x100>;
++      clocks = <&syscon ASPEED_CLK_AHB>;
++      resets = <&syscon ASPEED_RESET_PWM>;
++      #pwm-cells = <3>;
++
++      fan-0 {
++        tach-ch = /bits/ 8 <0x0>;
++      };
++
++      fan-1 {
++        tach-ch = /bits/ 8 <0x1 0x2>;
++      };
++    };
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+2.25.1
+
