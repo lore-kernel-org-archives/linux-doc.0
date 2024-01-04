@@ -1,85 +1,129 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32C62C682
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jan 2024 20:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A972C6B6;
+	Thu,  4 Jan 2024 21:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ArNoynBd"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40d899205c7so7477825e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jan 2024 12:02:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1704398540; x=1705003340; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9jDsDfmbTpiQpvGnfOhd0ROcnisF14caf1vpRK9xqg4=;
-        b=ArNoynBdhnj+vTa2/qkzH3091T9PQDnF8kxq5ye/nanLTuq6BfZC3Z3KgCSNg7KsUh
-         Q3ibRBR209om4+k3U2gSSsRPkzcGqjRI3DhE6t5kKRb8jzYY0SpsgM5oK69kwZOpF/J1
-         +BoFAfSi7Apii52MQevqywR4slJAWAJv2/YMI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704398540; x=1705003340;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9jDsDfmbTpiQpvGnfOhd0ROcnisF14caf1vpRK9xqg4=;
-        b=uTEL/1oeNbaawRjQRNQJg/5gz2YMPPAIrqilWNwwdDBFkgZQxDD+ZVRMGTP2KsdxaB
-         hclXACK9+fq2OCDBroMFdFcKdtTNl/0Qn32aRMaX2vyTvHQn0lytabxkMeywirXbgp5n
-         QCCW8lxsSS1HJBaXojAMb02KDQzPKyrAM3Tqbpd7G8FfFFciry8yZM4hN5H/WoQSII8O
-         jZKd05F61+HFSwNsmf+hgjAdZiE2IH2BNuBW0niEbdudGHeNBX1yNQASxiuz7aMZljzg
-         e4o6Hy0rosod+tzZwtwpE6X9c1FfhOVzy6pEJkiW/TZHVOww2jT82E+ddeujnhKTxax1
-         C0Gw==
-X-Gm-Message-State: AOJu0Ywp1OiliUeg56lmP4KTvi+8r4RCbYW9yXELJRgsn3qV8Gao2hIU
-	w80td6J3uDdyOVj3Ep0uJ4bra8M/wQqTfH7fYAYbEj4TGldb+m6W
-X-Google-Smtp-Source: AGHT+IGWnA7bmvCvcQhjfWX0EyXVjsHvyT1sN2FaODN+BaABT24Ruy/ofalLn6PT/QhY6FUsiXGpLg==
-X-Received: by 2002:a05:600c:5115:b0:40d:b191:fd with SMTP id o21-20020a05600c511500b0040db19100fdmr640887wms.13.1704398539745;
-        Thu, 04 Jan 2024 12:02:19 -0800 (PST)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id g13-20020a17090669cd00b00a274f3396a0sm17859ejs.145.2024.01.04.12.02.18
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jan 2024 12:02:19 -0800 (PST)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a27cd5850d6so98247266b.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jan 2024 12:02:18 -0800 (PST)
-X-Received: by 2002:a17:907:360b:b0:a1d:932f:9098 with SMTP id
- bk11-20020a170907360b00b00a1d932f9098mr716728ejc.97.1704398537679; Thu, 04
- Jan 2024 12:02:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sbn5zyJt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=cXLyhOtvZ+uqW+xAdmcmkb7H6C8kaMn0EgnUnAAVSQ0=; b=sbn5zyJtWXapZ7vzZ1mGvsqrxJ
+	Pnkz3PbYnpnNYYpOKUlhcNPoDxiH3vhc258zgOXMe8FTItEt/piPdH3tN9JuzyzRnyNSY3Tw6+1L5
+	CrfuLuCbh2mjgOFOVWIR9bmGBB8im4wdW7ZD4KcrKiP7ZABHaxOqhfMt/f8GgEyQqXYZv167gh696
+	G0PXdO64BtbjkFiniwrZkD2PUwXAth8242vnPlzEcqhnlnmn2ecWqRhOKoAolZIiJIPzRevHTXUYc
+	+8Iyq9Gfl8ruVFRQNVwOyFf/umKCTugBPWLN5Ch5fE/rTh9/Tah0Tq8P9opPWew941j7J1UARCIWU
+	yvMGCNYg==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rLUup-00FETU-19;
+	Thu, 04 Jan 2024 21:06:11 +0000
+Message-ID: <133cd73f-3080-4362-bc3e-ef4cc8880a20@infradead.org>
+Date: Thu, 4 Jan 2024 13:06:10 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240103203246.115732ec@gandalf.local.home> <20240104014837.GO1674809@ZenIV>
- <20240103212506.41432d12@gandalf.local.home> <20240104043945.GQ1674809@ZenIV>
- <20240104100544.593030e0@gandalf.local.home> <20240104182502.GR1674809@ZenIV>
- <20240104141517.0657b9d1@gandalf.local.home> <CAHk-=wgxhmMcVGvyxTxvjeBaenOmG8t_Erahj16-68whbvh-Ug@mail.gmail.com>
-In-Reply-To: <CAHk-=wgxhmMcVGvyxTxvjeBaenOmG8t_Erahj16-68whbvh-Ug@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 4 Jan 2024 12:02:00 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wguvq7yFt3qaLrWoZK5FCK8Joizrb2wu=FN==mYM9PSbg@mail.gmail.com>
-Message-ID: <CAHk-=wguvq7yFt3qaLrWoZK5FCK8Joizrb2wu=FN==mYM9PSbg@mail.gmail.com>
-Subject: Re: [PATCH] tracefs/eventfs: Use root and instance inodes as default ownership
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] buffer: Add kernel-doc for block_dirty_folio()
+Content-Language: en-US
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240104163652.3705753-1-willy@infradead.org>
+ <20240104163652.3705753-3-willy@infradead.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240104163652.3705753-3-willy@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 4 Jan 2024 at 11:35, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->>
-> Which is *NOT* the inode, because the 'struct file' has other things
-> in it (the file position, the permissions that were used at open time
-> etc, close-on-exec state etc etc).
 
-That close-on-exec thing was a particularly bad example of things that
-are in the 'struct file', because it's in fact the only thing that
-*isn't* in 'struct file' and is associated directly with the 'int fd'.
 
-But hopefully the intent was clear despite me picking a particularly
-bad example.
+On 1/4/24 08:36, Matthew Wilcox (Oracle) wrote:
+> Turn the excellent documentation for this function into kernel-doc.
+> Replace 'page' with 'folio' and make a few other minor updates.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+>  fs/buffer.c | 54 +++++++++++++++++++++++++++++------------------------
+>  1 file changed, 30 insertions(+), 24 deletions(-)
+> 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index 5c29850e4781..31e171382e00 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -687,30 +687,36 @@ void mark_buffer_dirty_inode(struct buffer_head *bh, struct inode *inode)
+>  }
+>  EXPORT_SYMBOL(mark_buffer_dirty_inode);
+>  
+> -/*
+> - * Add a page to the dirty page list.
+> - *
+> - * It is a sad fact of life that this function is called from several places
+> - * deeply under spinlocking.  It may not sleep.
+> - *
+> - * If the page has buffers, the uptodate buffers are set dirty, to preserve
+> - * dirty-state coherency between the page and the buffers.  It the page does
+> - * not have buffers then when they are later attached they will all be set
+> - * dirty.
+> - *
+> - * The buffers are dirtied before the page is dirtied.  There's a small race
+> - * window in which a writepage caller may see the page cleanness but not the
+> - * buffer dirtiness.  That's fine.  If this code were to set the page dirty
+> - * before the buffers, a concurrent writepage caller could clear the page dirty
+> - * bit, see a bunch of clean buffers and we'd end up with dirty buffers/clean
+> - * page on the dirty page list.
+> - *
+> - * We use private_lock to lock against try_to_free_buffers while using the
+> - * page's buffer list.  Also use this to protect against clean buffers being
+> - * added to the page after it was set dirty.
+> - *
+> - * FIXME: may need to call ->reservepage here as well.  That's rather up to the
+> - * address_space though.
+> +/**
+> + * block_dirty_folio - Mark a folio as dirty.
+> + * @mapping: The address space containing this folio.
+> + * @folio: The folio to mark dirty.
+> + *
+> + * Filesystems which use buffer_heads can use this function as their
+> + * ->dirty_folio implementation.  Some filesystems need to do a little
+> + * work before calling this function.  Filesystems which do not use
+> + * buffer_heads should call filemap_dirty_folio() instead.
+> + *
+> + * If the folio has buffers, the uptodate buffers are set dirty, to
+> + * preserve dirty-state coherency between the folio and the buffers.
+> + * It the folio does not have buffers then when they are later attached
+> + * they will all be set dirty.
+> + *
+> + * The buffers are dirtied before the folio is dirtied.  There's a small
+> + * race window in which writeback may see the folio cleanness but not the
+> + * buffer dirtiness.  That's fine.  If this code were to set the folio
+> + * dirty before the buffers, writeback could clear the folio dirty flag,
+> + * see a bunch of clean buffers and we'd end up with dirty buffers/clean
+> + * folio on the dirty folio list.
+> + *
+> + * We use private_lock to lock against try_to_free_buffers() while
+> + * using the folio's buffer list.  This also prevents clean buffers
+> + * being added to the folio after it was set dirty.
+> + *
+> + * Context: May only be called from process context.  Does not sleep.
+> + * Caller must ensure that @folio cannot be truncated during this call,
+> + * typically by holding the folio lock or having a page in the folio
+> + * mapped and holding the page table lock.
 
-            Linus
+ * Return: tbd
+
+?
+
+>   */
+>  bool block_dirty_folio(struct address_space *mapping, struct folio *folio)
+>  {
+
+-- 
+#Randy
