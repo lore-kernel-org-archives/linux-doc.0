@@ -1,48 +1,34 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA4F2C69C;
-	Thu,  4 Jan 2024 21:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286642CCAD;
+	Thu,  4 Jan 2024 22:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="p7YAaLYd"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TQZk5Zen"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=VpiHI2Kr32mnTEJdDdX1NMESeAPZ+0Ox204pDtleoeY=; b=p7YAaLYdkiCGU8IWeBN7IrFyoa
-	WrYiuZsm0J2ltUQTu5X/8H0IVewGPaA+hSm/ydSGxKfAVhVz4FXA+ee1cZc2Em0ixJ5CgQ3nl8PQy
-	5caZlCUwRLYTG1D1N66pCTNZrFbEj3lj29JrIRt8Nwp3J8SHDRa7tBjiEmqEQ2LEGXwVTCuYzcfvP
-	NxYRYRJKnjqG6xLqnVHGfpiP3r/QlFttiBdKho0ZNkRRFPTnAiLK9rW+sD8puwdHtuUMUGQsJuaKb
-	LlLZBeOYehxLVBdOmgK2vzAtHDs6iGp7GpVuTtiqx+/BwujaiUtLbT0vZAx8ZzMUtutHOZSu4+/FI
-	s4xvYz4w==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLVGf-002Mut-2j;
-	Thu, 04 Jan 2024 21:28:45 +0000
-Date: Thu, 4 Jan 2024 21:28:45 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] tracefs/eventfs: Use root and instance inodes as default
- ownership
-Message-ID: <20240104212845.GS1674809@ZenIV>
-References: <20240103203246.115732ec@gandalf.local.home>
- <20240104014837.GO1674809@ZenIV>
- <20240103212506.41432d12@gandalf.local.home>
- <20240104043945.GQ1674809@ZenIV>
- <20240104100544.593030e0@gandalf.local.home>
- <20240104182502.GR1674809@ZenIV>
- <20240104141517.0657b9d1@gandalf.local.home>
- <CAHk-=wgxhmMcVGvyxTxvjeBaenOmG8t_Erahj16-68whbvh-Ug@mail.gmail.com>
+	bh=KaEe4j2YqFtbEdXkete4TcSZkc6Zq8WOCZ/Wk+4hPjQ=; b=TQZk5Zen9UZsk8HJmdS/ge2mcZ
+	DKG7C5jljUoCnAxOSxOfi/Dh0EGTGv8yKsIOxzJhI2pobAFPdujqXLrWH5oFQMfUWS+a0ZFsk65bk
+	v5gE8gsUgLoh6F7PCghJzCh9LKCazVcQ1RlRf58TaFlMMdv/WN6NEteTaMokBM9Q3tKiKwIfyKj2M
+	ylOg2P3mS5Ie0SLGptFNgzASbbXJUq0kOzLxSx2bEuTQU5xzIxbIT6Tv0GzgY94rGTnK5ouNWOA+Y
+	xPVdPFBrVYEb70TAMm0o5EAy9psdfwwJclgeJ7GoS2iZMzO4Yj8BgWmz+cCzH9rNlOVrBis+6YMt2
+	lLv4m3zA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1rLWPP-00GCek-RS; Thu, 04 Jan 2024 22:41:51 +0000
+Date: Thu, 4 Jan 2024 22:41:51 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] buffer: Add kernel-doc for block_dirty_folio()
+Message-ID: <ZZc0L9ANGS3z3n7c@casper.infradead.org>
+References: <20240104163652.3705753-1-willy@infradead.org>
+ <20240104163652.3705753-3-willy@infradead.org>
+ <133cd73f-3080-4362-bc3e-ef4cc8880a20@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,38 +37,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgxhmMcVGvyxTxvjeBaenOmG8t_Erahj16-68whbvh-Ug@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <133cd73f-3080-4362-bc3e-ef4cc8880a20@infradead.org>
 
-On Thu, Jan 04, 2024 at 11:35:37AM -0800, Linus Torvalds wrote:
-
-> > "file description" - is how the file is accessed (position in the file and
-> >                         flags associated to how it was opened)
+On Thu, Jan 04, 2024 at 01:06:10PM -0800, Randy Dunlap wrote:
+> > +/**
+> > + * block_dirty_folio - Mark a folio as dirty.
+> > + * @mapping: The address space containing this folio.
+> > + * @folio: The folio to mark dirty.
+> > + *
+> > + * Filesystems which use buffer_heads can use this function as their
+> > + * ->dirty_folio implementation.  Some filesystems need to do a little
+> > + * work before calling this function.  Filesystems which do not use
+> > + * buffer_heads should call filemap_dirty_folio() instead.
+> > + *
+> > + * If the folio has buffers, the uptodate buffers are set dirty, to
+> > + * preserve dirty-state coherency between the folio and the buffers.
+> > + * It the folio does not have buffers then when they are later attached
+> > + * they will all be set dirty.
+> > + *
+> > + * The buffers are dirtied before the folio is dirtied.  There's a small
+> > + * race window in which writeback may see the folio cleanness but not the
+> > + * buffer dirtiness.  That's fine.  If this code were to set the folio
+> > + * dirty before the buffers, writeback could clear the folio dirty flag,
+> > + * see a bunch of clean buffers and we'd end up with dirty buffers/clean
+> > + * folio on the dirty folio list.
+> > + *
+> > + * We use private_lock to lock against try_to_free_buffers() while
+> > + * using the folio's buffer list.  This also prevents clean buffers
+> > + * being added to the folio after it was set dirty.
+> > + *
+> > + * Context: May only be called from process context.  Does not sleep.
+> > + * Caller must ensure that @folio cannot be truncated during this call,
+> > + * typically by holding the folio lock or having a page in the folio
+> > + * mapped and holding the page table lock.
 > 
-> That's a horrible term that shouldn't be used at all. Apparently some
-> people use it for what is our 'struct file *", also known as a "file
-> table entry".  Avoid it.
+>  * Return: tbd
 
-Worse, really.  As far as I can reconstruct what happened it was something
-along the lines of "colloquial expression is 'opened file', but that is
-confusing - sounds like a property+noun, so it might be misparsed as
-a member of subset of files satisfying the property of 'being opened';
-can't have that in a standard, let's come up with something else".
-Except that what they did come up with had been much worse, for obvious
-linguistic reasons.
++ *
++ * Return: True if the folio was dirtied; false if it was already dirtied.
 
-The *ONLY* uses for that expression I can think of are
-	1.  When reading POSIX texts, watch out for that one - if you
-see them talking about a file descriptor in context where it really
-should be about an opened file, check the wording.  If it really says
-"file descriptOR", it's probably a bug in standard or a codified
-bullshit practice.  If it says "file descriptION" instead, replace with
-"opened file" and move on.
-	2.  An outstanding example of the taste of that bunch.
-
-IO channel would be a saner variant, but it's far too late for that.
-
-The 3-way distinction between descriptor/opened file/file as collection of data
-needs to be explained in UNIX 101; it is userland-visible and it has to be
-understood.  Unfortunately, it's often done in a way that leaves students
-seriously confused ;-/
