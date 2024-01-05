@@ -1,268 +1,228 @@
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6364F36080;
-	Fri,  5 Jan 2024 16:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B964135288;
+	Fri,  5 Jan 2024 18:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="Ov/iRB1t"
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx0.riseup.net (Postfix) with ESMTPS id 4T68JR4j03z9vft;
-	Fri,  5 Jan 2024 16:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1704472664; bh=kfiPKlJJAWP0tElgrak34/RRNpo3DWernVsWqOr7jF0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Ov/iRB1trlh1vu6kQdGY07442OHIG1Vh/mgwH5iw45nDWZGvQCzsyyq3MNg02mj2h
-	 l3ALKSvugaKMzwn2PATF1MCcDr2JRUX9LsQl1/+AuO435y6/wZ5JEOb65Q2q1N/cbL
-	 9lsh+TY0hdZdn8HB1fzBHWC6jC2A4czma9c6CPJ4=
-X-Riseup-User-ID: 0B18EFBC03C610BDF7561D6BC8BE9EB10A004B2057E322A35FBD1457606B2F56
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4T68JL2c8BzJntT;
-	Fri,  5 Jan 2024 16:37:38 +0000 (UTC)
-From: Arthur Grillo <arthurgrillo@riseup.net>
-Date: Fri, 05 Jan 2024 13:35:08 -0300
-Subject: [PATCH 7/7] drm/vkms: Create KUnit tests for YUV conversions
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EFkFE+Qp";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Ah0g6xg6"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 405Hxl0Z008067;
+	Fri, 5 Jan 2024 18:12:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=mdW3+s5cUzrk+ZFj5faXJJ6HBpCY7paoST4yu/O9VvI=;
+ b=EFkFE+QpHgTOnndSZkx26tMA8Fnq4CGyenZ7IyHJVwaFmgLv0TyG83u+1dhioK70QKBq
+ 72VsuylUIvfeGjMtzpOTgHUqncKbA+LsCN/v+8y1k7KWqudpnbY8+pMrKW6iOE+i4esI
+ AiUVXCekeooT9SfwiNQJ5dfR453P/kpokqeQnXoxwCk8rA6peG/AUamJye7Aa4d2zzbb
+ jDZTALCnGfq+1mNclMO8/CuuZgJyLzDHcO5CnZseb12jIJsuaUt3Smo8kcEoUDAi+ofc
+ 6IGiQE4uRurcdCwUFkbJIGEfuazeqjaVPDFRYtMtbaaB9vsx40mzEjb2bE8rwK7VSdqx LQ== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vepnh01an-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 05 Jan 2024 18:12:19 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 405HjQuh010808;
+	Fri, 5 Jan 2024 18:12:18 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ve1760uge-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 05 Jan 2024 18:12:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bArG/+GbugAq3R467h/bTIqSZsIrEgZp54XiQ2t3Z2nSCm6RWbyUCpIYFSkVeccDDwDQK+IzLDSfa2JtWb652GrL6Qe9LsDOMbqp9EGMhMPH28hl1g958KL2yWXEPSYpnzEa6R921iBlfqQF5HPiqy7ruRQCz/p+Hk4O6xu1RB2MM5jc57Kzup3BKIbd7Gr6aINALyTLxKQJBoEcdyzY+NzeLn6hodjp57T2OnXMZf63l/QJHzQI0AkBMgZK7mZe0RCxzK+Z5pe/jyl/a+E9uScV4BUrOraKK822ICWstswEyKfxTYxV4kQB7JBqztk4sBsU0QPqRkIl5ZlmP9LGaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mdW3+s5cUzrk+ZFj5faXJJ6HBpCY7paoST4yu/O9VvI=;
+ b=NkUmWSwtqD9biH0eoUM2vHQQ0X2yBEiAwnC1AiGG5ZSFpHX2BfIkbJFlf7THzNnwY7We8wodxe27kYz8GfXrHnDOR6rh8P6aTme+FArBWh5FYdZoEHOy7G6hDrQm8hQT2IOKmBPlJ5EysZCgbrjr0wMHQv9iRUptPZJ5cRuxI5rW6DphXr5Tg57INzj55k5Xa1bESxtg2LxkxvuyFRBZBLiLXCkcSdX6g8Jxatu5znG3y5psUu6BqYUxWE3I7PeWqthjgYZou5l96gH3d/Sb/3TEDH/dZU3Wue+VHXyJerX5yM3FRkQDVMq9OdVzSx8eF9Z8wryf2csrg5VdHkOzaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mdW3+s5cUzrk+ZFj5faXJJ6HBpCY7paoST4yu/O9VvI=;
+ b=Ah0g6xg63kV5pFUj3PoQx1f8iz0F5o+BVsROyxWgzBAiCvCHgD0luD3R6VZplRtofwa5UhtSZnUY5ooUiuqWNF0Et2ikYhS7JhNi0Xq5NUivBfbYa6COhv4xg/oJ2PaZKQAoFO8SJh9SCAzMOwCdx0adA6W6gNzuwjvvRnIySpA=
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
+ by DS0PR10MB7152.namprd10.prod.outlook.com (2603:10b6:8:f1::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7159.13; Fri, 5 Jan 2024 18:12:15 +0000
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::5997:266c:f3fd:6bf4]) by PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::5997:266c:f3fd:6bf4%4]) with mapi id 15.20.7159.015; Fri, 5 Jan 2024
+ 18:12:15 +0000
+Message-ID: <ce59e493-59ba-4875-97b9-17dba71f8302@oracle.com>
+Date: Fri, 5 Jan 2024 19:12:10 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: Adding warning icon to warning admonitions?
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>, Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+References: <ZZgSGFhvT3SOI4fe@archie.me> <87edev3jya.fsf@meer.lwn.net>
+From: Vegard Nossum <vegard.nossum@oracle.com>
+Autocrypt: addr=vegard.nossum@oracle.com; keydata=
+ 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 8A==
+In-Reply-To: <87edev3jya.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PA7P264CA0269.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:375::19) To PH0PR10MB5433.namprd10.prod.outlook.com
+ (2603:10b6:510:e0::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240105-vkms-yuv-v1-7-34c4cd3455e0@riseup.net>
-References: <20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net>
-In-Reply-To: <20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Harry Wentland <harry.wentland@amd.com>, Jonathan Corbet <corbet@lwn.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Arthur Grillo <arthurgrillo@riseup.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5433:EE_|DS0PR10MB7152:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55859bab-690e-4770-6073-08dc0e19d8c4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	NrUT4Nzser1sBNwcQG8IYLk4e+YdleaVC43eLSD2f6qKi+m3IZq2QOmQig6eaLlUgJzsTHC8lVoOJOA3uJDE7Lu5Ihhj+FlFHYEbIC9dSfeLGU8zTAnxK+UMrbtrcv6gz9tfZCuop3E6ep8tTpdUU4HkwniyO8NiljONEIF7b6YrlyYPpVyIuQ7B69F7UWBwx2LeBjbnE8Ul4JYtdN3SrhoHlhqDind+RYVitHL6c7V6w595ly3SDiw9Wcp86pxEu9395k0wJpFO9qd4N0vquX87j1rp4y+zyK8txIQLCB/u7+W3FJ5tLY5wqKQVpHjr6QXHQYzugmz7kJ+1E/Bilb/nsaQQr+ZjsYOyqhah8b6e4fs4Wbh3eUaiYYsmFne91erGk4s1eZNPnySRlztzBKgnR4CTju2y/SAPj+4yhCalUc5CDqSuz4uDk+9voC1dYzBCpGyHExKJLUqup0omHANMesMycL3emvVRTxDBqKc7Sl/TwiUu8Tn7DgiusARm42CNgbJnD/vV0fI4F58OGoBrbiRfrUJS06P27RTPYXBHyHQ/XgohT1Z4r4f3yEWnSU2CZrX7Y3ofQeZ9U/yquccyQX8q6Ix/Bic96YJ7VSwF1aBkTb+FO/AshA/2vopZdHYynoOxTgbM708TpBLykmczHWtvcQNrsFYZOGPS7da2uh65Ishe4wtFUgdqFVrN
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(136003)(396003)(39860400002)(230273577357003)(230173577357003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(6512007)(26005)(2616005)(6666004)(53546011)(6506007)(110136005)(5660300002)(44832011)(8936002)(83380400001)(2906002)(478600001)(66476007)(66946007)(41300700001)(6486002)(4326008)(316002)(8676002)(66556008)(86362001)(31696002)(38100700002)(36756003)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?bnZBY1BlNDd4eU1RSW1xZE80aUdEN01ORW5JVXkydmlhZUxXUmpjMi96VGpu?=
+ =?utf-8?B?bGxzaHlIb0hsVDc4WW9LeUZRbWZhbWs1ZUh6a3BvZ0ZDdXVHNlk0cVoyMEdz?=
+ =?utf-8?B?dGp5Y3VSUFR6ajFqQncrSlZidzZhUVNBdVNETFo1OGx5TnpLcUhpV1BNdVFP?=
+ =?utf-8?B?c1dJSlJkdXZ5UXJKY1JXYjRvMXNma1Z1aE45cTNiTE1CYlFuajBqTzY1cHIz?=
+ =?utf-8?B?d1p4bWhDbElacHFtQ2NzYTNEYVlEUVgrb1VvclZpQkQ0Ny9EVXhydzlOUEt5?=
+ =?utf-8?B?T0kyei8vbis0Q1VpYTJHanp0TE5nQjVPOUZpSEpzZ3BId0ZsMUJzcU1IdFp2?=
+ =?utf-8?B?eGFwVGZ1N2p1M3o5ckVXeW9GZGhNN01mUGczbTZsdTkvWHhXRmlBckxBUnRE?=
+ =?utf-8?B?ME9SenpZUUhoVnBOZUZQZEhLNy9UcDZBazkzS1hJNnNUREltMXFZL2E5N3ZY?=
+ =?utf-8?B?U2Y0Qks2azZnb2ZzYnNrclYxWTlBOStIb0NBR0JUMFdBU3MyUG5XNStuM0JN?=
+ =?utf-8?B?K3BrUW9CTGpBdjRxUytRYmgxakZwcjh1c0xrazQzZm8rWm9pMTQzQ0RPKzFw?=
+ =?utf-8?B?dGE0bmRTQzlDeUpKT1pUdW0zMGlZTFRBRkMxZ0dFZzNPZWtCZTBhQzNRR2Jh?=
+ =?utf-8?B?ZWgycFkwMnd5cGtmNmhaTCsxMnh2T0ZCRDdmamhHeFhyV2lhdUl6a0dHekgr?=
+ =?utf-8?B?K0wzbDVEeWRNbUEyUXI5U01oZERuQmMyTmxoUjdQVkpGK1BkQVB0Q0ZmODRz?=
+ =?utf-8?B?UzJHNnpDS3pLSkMwa3V6M24yZjAzUFAweHZZK1gxaGFDeFFhMDBkbzRJU2d4?=
+ =?utf-8?B?S2FPRjdWYldhdGszTEtQMUNqRUpPbjA5Z0JpMW5vcWNOVlRVWmdpam5qKzY2?=
+ =?utf-8?B?Y1J4bkpjbnZsTVdHaS93ZllkREhWODY0djZQRWovdDlJNUtCYVEzYmkvb0R3?=
+ =?utf-8?B?bllxYytRbmVrV3dZeFpZODliVFMrNzNiQUJPd3BkamZjVzRHUjFBYUFkK2x0?=
+ =?utf-8?B?dlR6SWJQQWpENzJ4K1BnRForRXYxSFFzVU8xRTJpdDExTEVwVUY2S3hoQ0M5?=
+ =?utf-8?B?WmVDdDF4UE9UaWZ1dXRXeWVYYUxaQ2tXUmE4eE9tV2NkMWFMcDgrTmtyMTJQ?=
+ =?utf-8?B?Nys1cUtHT2pCVU82RHpLbWpmcmtVT1hSMXlvYmFXTmd5Wk81OVFvSnhYUWtT?=
+ =?utf-8?B?OFBtR2FEdDFMbzdhWTlpdVFoeFZHSjd2YlVzQ3NZTWJMbzhScTBRZGNzZ2E3?=
+ =?utf-8?B?TGZlcUhBTUJ0ZFA3enMwOEIrMUJscnE1K3hibDZmR2o5U2RPU3ZVWGFra214?=
+ =?utf-8?B?S2x6SFdVRHdrZmxBdi8vMzBDTlI1RlYwcTlxdXdtYUpnTzFQOXVocUZxUkJW?=
+ =?utf-8?B?T2t0YStkM0lFS3ZHUHpwUTc5RTRIZjJFTjIzbG5rb1d3S01zTWxuUG5VTHZx?=
+ =?utf-8?B?amRnc3A5dGFqSjVlYkVKVHlGN2ovOVNkWWlYY3AzN0ZsSmkxSzNxTnJyem5k?=
+ =?utf-8?B?UDdVU2M5U2lHTWljdnhKQzRsYlh2RTN2WE41TTByVFpuYk9JOGpLaExKT1V5?=
+ =?utf-8?B?TElFZ1BtbktRODNBVGhpQW5GaTM4WTM4YjR2NUpJMkVmTjF2UUo5ZC9NRzZW?=
+ =?utf-8?B?dFUreFhtWXJYd0ZrckU3Q2kzaWRpMEpnYkFUMC9CTXd5bU5Xa3FyRzVCeGs4?=
+ =?utf-8?B?TGEvWGxRcnR4Q0xKejRTSTRQVHVsRDhzVi9BOWJCcFl5TVlpV3ZTL2pWeXoz?=
+ =?utf-8?B?bG9aOE1MRTAvN09RbTBjLzk0QzJ1YjlHU2c2UXEvajcwVXMwUlJ1S2FHd21N?=
+ =?utf-8?B?dGJKd3pOaDEwcS9USjc2SHM5b0l0YUxNSjBpYUZIMlhXT3RYbHcvRWVHSVB6?=
+ =?utf-8?B?eHFnTW1EWUNTZ1A2b0MvYmdMaG55Q1hHSnhNSWpNdTRBK2pPaXlCc3NhbjJn?=
+ =?utf-8?B?NFovcHhyd3BjSjJNOThBUkl4SFZsNUF0QjBSMjdPR2hQZFVFSHdjMS8yM2lP?=
+ =?utf-8?B?WEg0SmFGQkErZStleWlBVnc1T0s0UTdReWVlR3lGVE5QOEh5amlKRklrejBM?=
+ =?utf-8?B?TFBzbkRzRzJ4TC9UWTJWQmtpQUtDUy9QOWFzdHNJRi8rcmlKZVlobzBEeThs?=
+ =?utf-8?B?RW9FaDlYVENPR3VGTVRPMWwrQWp0anRXa1BsekhETjY3cU5KQ1M0b0dPeWND?=
+ =?utf-8?B?V1E9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	O3D8PcPlBAqvqxIKJXJRs2dTnPv6IDKZIusBrgYTsGjB9fpNGwvFamX6RHBZiYj+/f6v/EUM+Ey7sYNggGHrATrDG1+pl2c+uLmM3Wgc0SDGgYaDhiclxpdZuNqZvskTSuAuwar+CqTK7NXEALhzsYMN9tfxaed3QWVarTz1YEVhR9adY+HkmjkezZuordX3TdG3cTUzqIwgbIIoHfNPG+rxDbLNC1qsxY5FlDuDfQhbVRobEAFYxgYyw/82mI/3hYG8Zpb3n3hGJ8jmvORSQBJB8UrfPn+cfXDsO0d174xgO7PSLdUMMnbIDXMjdmKAaHMByU7ZHmA87RcPHwl/6TZ5HYz/aNFYsgHxLeLL9X/5522eK+ybzVJU9FZXZd6n+C83/sGphK6sLcXfckhUR73hXmsgCmeGpODUtQfFbLZ8/nWt65bzyJVaOqkCVIk5z/MTa0SMM9HVJ+kCmVfBdpRKhD9XEHlGTl/q1PzrKkH9QXMprDtonjsFskhXgFLkqS8OLSCRJVhzuKBnv0RBWgIHrGeAYx1L1uCQAPU36muMtCSJsdHf5Rhewe77EhZpn6Ywh66KmYiN+XrNdxG+ECdNMlceExJPs0aQpofea8c=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55859bab-690e-4770-6073-08dc0e19d8c4
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2024 18:12:15.7169
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7cJEMuUDUXAX8p0twd46mJFGoFd4tc6pQbfBUmdr2UWx7UoonjyyeoAOoMt6fGuaVVXrYFN2qenk2N/Le8bZv9oXGeNPEjffyLYtD8z4D2g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7152
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-05_08,2024-01-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
+ bulkscore=0 spamscore=0 suspectscore=0 adultscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2401050149
+X-Proofpoint-GUID: -Xw7KpTcnuhDZjRF2vbDjYIXdQgbKSXF
+X-Proofpoint-ORIG-GUID: -Xw7KpTcnuhDZjRF2vbDjYIXdQgbKSXF
 
-Create KUnit tests to test the conversion between YUV and RGB. Test each
-conversion and range combination with some common colors.
 
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
----
- drivers/gpu/drm/vkms/Kconfig                  |  15 +++
- drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
- drivers/gpu/drm/vkms/tests/vkms_format_test.c | 151 ++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_formats.c           |   4 +
- 4 files changed, 174 insertions(+)
+On 05/01/2024 15:59, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> 
+>> For the icon itself, the approach is to use Font Awesome [2] (many other doc
+>> sites that uses Sphinx also do that due to site theme they use but Alabaster
+>> theme don't use the icon, hence this question). I personally prefer regular
+>> icon variant (like in TT), but alas it is in non-free PRO plan (and only
+>> solid variant is free and that is what Sphinx themes using).
+>>
+>> Does adding warning icon like above idea make sense for the kernel docs? And
+>> does it require non-trivial (complex) changes to Alabaster theme?
+> 
+> It can probably be done with a bit of CSS tweaking.  I don't really like
+> the idea of requiring the installation of another font to build the
+> docs, though, and Font Awesome looks like it could bring in licensing
+> issues of its own - that's not clear from the site at all.
 
-diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
-index b9ecdebecb0b..5b0094ad41eb 100644
---- a/drivers/gpu/drm/vkms/Kconfig
-+++ b/drivers/gpu/drm/vkms/Kconfig
-@@ -13,3 +13,18 @@ config DRM_VKMS
- 	  a VKMS.
- 
- 	  If M is selected the module will be called vkms.
-+
-+config DRM_VKMS_KUNIT_TESTS
-+	tristate "Tests for VKMS" if !KUNIT_ALL_TESTS
-+	depends on DRM_VKMS && KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This builds unit tests for VKMS. This option is not useful for
-+	  distributions or general kernels, but only for kernel
-+	  developers working on VKMS.
-+
-+	  For more information on KUnit and unit tests in general,
-+	  please refer to the KUnit documentation in
-+	  Documentation/dev-tools/kunit/.
-+
-+	  If in doubt, say "N".
-diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vkms/tests/.kunitconfig
-new file mode 100644
-index 000000000000..70e378228cbd
---- /dev/null
-+++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
-@@ -0,0 +1,4 @@
-+CONFIG_KUNIT=y
-+CONFIG_DRM=y
-+CONFIG_DRM_VKMS=y
-+CONFIG_DRM_VKMS_KUNIT_TESTS=y
-diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-new file mode 100644
-index 000000000000..c902cdd2d7f2
---- /dev/null
-+++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-@@ -0,0 +1,151 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+#include <kunit/test.h>
-+
-+#include <drm/drm_fixed.h>
-+
-+#include "../../drm_crtc_internal.h"
-+
-+#define TEST_BUFF_SIZE 50
-+
-+struct yuv_u8_to_argb_u16_case {
-+	enum drm_color_encoding encoding;
-+	enum drm_color_range range;
-+	size_t n_colors;
-+	struct format_pair {
-+		char *name;
-+		struct pixel_yuv_u8 yuv;
-+		struct pixel_argb_u16 argb;
-+	} colors[TEST_BUFF_SIZE];
-+};
-+
-+static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT601,
-+		.range = DRM_COLOR_YCBCR_FULL_RANGE,
-+		.n_colors = 6,
-+		.colors = {
-+			{"white", {0xff, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x80, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x00, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x4c, 0x55, 0xff}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0x96, 0x2c, 0x15}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x1d, 0xff, 0x6b}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT601,
-+		.range = DRM_COLOR_YCBCR_LIMITED_RANGE,
-+		.n_colors = 6,
-+		.colors = {
-+			{"white", {0xeb, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x7e, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x10, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x51, 0x5a, 0xf0}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0x91, 0x36, 0x22}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x29, 0xf0, 0x6e}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT709,
-+		.range = DRM_COLOR_YCBCR_FULL_RANGE,
-+		.n_colors = 4,
-+		.colors = {
-+			{"white", {0xff, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x80, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x00, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x35, 0x63, 0xff}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0xb6, 0x1e, 0x0c}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x12, 0xff, 0x74}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT709,
-+		.range = DRM_COLOR_YCBCR_LIMITED_RANGE,
-+		.n_colors = 4,
-+		.colors = {
-+			{"white", {0xeb, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x7e, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x10, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x3f, 0x66, 0xf0}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0xad, 0x2a, 0x1a}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x20, 0xf0, 0x76}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT2020,
-+		.range = DRM_COLOR_YCBCR_FULL_RANGE,
-+		.n_colors = 4,
-+		.colors = {
-+			{"white", {0xff, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x80, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x00, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x43, 0x5c, 0xff}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0xad, 0x24, 0x0b}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x0f, 0xff, 0x76}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT2020,
-+		.range = DRM_COLOR_YCBCR_LIMITED_RANGE,
-+		.n_colors = 4,
-+		.colors = {
-+			{"white", {0xeb, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x7e, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x10, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x4a, 0x61, 0xf0}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0xa4, 0x2f, 0x19}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x1d, 0xf0, 0x77}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+};
-+
-+static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
-+{
-+	const struct yuv_u8_to_argb_u16_case *param = test->param_value;
-+	struct pixel_argb_u16 argb;
-+
-+	for (size_t i = 0; i < param->n_colors; i++) {
-+		const struct format_pair *color = &param->colors[i];
-+
-+		yuv_u8_to_argb_u16(&argb, &color->yuv, param->encoding, param->range);
-+
-+		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.a, color->argb.a), 257,
-+				    "On the A channel of the color %s expected 0x%04x, got 0x%04x",
-+				    color->name, color->argb.a, argb.a);
-+		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.r, color->argb.r), 257,
-+				    "On the R channel of the color %s expected 0x%04x, got 0x%04x",
-+				    color->name, color->argb.r, argb.r);
-+		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.g, color->argb.g), 257,
-+				    "On the G channel of the color %s expected 0x%04x, got 0x%04x",
-+				    color->name, color->argb.g, argb.g);
-+		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.b, color->argb.b), 257,
-+				    "On the B channel of the color %s expected 0x%04x, got 0x%04x",
-+				    color->name, color->argb.b, argb.b);
-+	}
-+}
-+
-+
-+static void vkms_format_test_yuv_u8_to_argb_u16_case_desc(struct yuv_u8_to_argb_u16_case *t,
-+							  char *desc)
-+{
-+	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "%s - %s",
-+		 drm_get_color_encoding_name(t->encoding), drm_get_color_range_name(t->range));
-+}
-+
-+KUNIT_ARRAY_PARAM(yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_cases,
-+		  vkms_format_test_yuv_u8_to_argb_u16_case_desc);
-+
-+static struct kunit_case vkms_format_test_cases[] = {
-+	KUNIT_CASE_PARAM(vkms_format_test_yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_gen_params),
-+	{}
-+};
-+
-+static struct kunit_suite vkms_format_test_suite = {
-+	.name = "vkms-format",
-+	.test_cases = vkms_format_test_cases,
-+};
-+
-+kunit_test_suite(vkms_format_test_suite);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index b654b6661a20..11df990a0fa9 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -440,3 +440,7 @@ void *get_pixel_write_function(u32 format)
- 		return NULL;
- 	}
- }
-+
-+#ifdef CONFIG_DRM_VKMS_KUNIT_TESTS
-+#include "tests/vkms_format_test.c"
-+#endif
+You could use the unicode symbol as a replacement for the graphic by
+adding something like this to custom.css:
 
--- 
-2.43.0
+div.admonition.warning p.admonition-title::before {
+         content: "\26A0";
+         font-weight: bold;
+         font-size: 120%;
+         padding-right: 8px;
+         float: left;
+}
 
+It doesn't look great to me, but maybe with some additional tweaking it
+could (e.g. text-stroke property, sizing, positioning, etc.).
+
+
+Vegard
