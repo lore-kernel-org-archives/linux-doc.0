@@ -1,99 +1,157 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2492D7AD;
-	Fri,  5 Jan 2024 13:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820DB2E651;
+	Fri,  5 Jan 2024 14:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Hb6pTDsO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=xsZkrjSLGS2hapVRqmxgnJelDcefZub/b13sHJ7frcI=; b=Hb6pTDsOIy4wBDb+tkE2theanc
-	ayw7Yf1xwJa4EJsBWXpQ1yiHD/bPva0LkBH2klxeJLo7H/RpAPtnaUjznLE9sz/yIviOB3541TuYi
-	X+/quRAzrkvzTF+4oc4yzu2NmWG6KvYNcvJohq8mCyf93t6QbNpbxWlBEh6DOfHaKndc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rLkNw-004SM2-Dx; Fri, 05 Jan 2024 14:37:16 +0100
-Date: Fri, 5 Jan 2024 14:37:16 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jie Luo <quic_luoj@quicinc.com>
-Cc: Christian Marangi <ansuelsmth@gmail.com>,
-	"Russell King (Oracle)" <linux@armlinux.org.uk>,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	hkallweit1@gmail.com, corbet@lwn.net, p.zabel@pengutronix.de,
-	f.fainelli@gmail.com, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
- properties
-Message-ID: <864b0867-06c0-4c6d-ae71-9b5025c8d93a@lunn.ch>
-References: <6abe5d6f-9d00-445f-8c81-9c89b9da3e0a@quicinc.com>
- <ZX3LqN8DSdKXqsYc@shell.armlinux.org.uk>
- <1bddd434-024c-45ff-9866-92951a3f555f@quicinc.com>
- <ZZPeHJJU96y1kdlZ@shell.armlinux.org.uk>
- <6593e0a3.050a0220.5c543.8e12@mx.google.com>
- <cee9de2c-bfa4-4ca9-9001-725e2041bc25@quicinc.com>
- <85590a5b-9d5a-40cb-8a0e-a3a3a1c3720a@lunn.ch>
- <c5263daa-b5f4-4b9c-a216-73d68493a802@quicinc.com>
- <50252a5a-e4fb-42d3-b838-9ef04faf4c5c@lunn.ch>
- <b427c89a-81a9-439f-905e-2a6632065b78@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dp3+c0Lv"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d4c27cd502so10814835ad.0;
+        Fri, 05 Jan 2024 06:28:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704464926; x=1705069726; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7jOEES3GYf9zuoPp0SeFXr4sAT/cFY1YYwBIMigx8go=;
+        b=Dp3+c0LvH4AEUrQXa9ycMxcV2XiEAL980yz5pQVK1B2JwP4A8E85TLhzFiVdhShu+V
+         B6ouQZx99CQAW+GC/8rG/PLsO0Vqa3y3OvqjLgGGvpMZdx3hozyneq1gmJOQOmTDpfpW
+         euG2HFfkyp6bSBWfIi/wGRftvzPJ09/+EI2QdJz1/Yfv6+k05SuFeI2SorK6NP+byijn
+         30YaCX40ONT70pjcgsvH6hMxQZD2GowMZlb6oaBlhqlN4dtTngWREaiQvVS1KNDdrCNF
+         ripzXwe6/NTENRY0H0zSIDV0Pii/l28nOX4mQhQN/yQRd7gnIHeWph6d42nRa7SpcBOc
+         JvXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704464926; x=1705069726;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7jOEES3GYf9zuoPp0SeFXr4sAT/cFY1YYwBIMigx8go=;
+        b=Km3qwp7VU3CNzY5mEjek/Vv6Dv7DHKjEuV2McmB/ltchvuVSDFMD+YuqpvYtGgDIG7
+         iYGphHONU6bgzgB7VEVj9QO1wHJwKEy6TP7f9HHzxJkmH+fuKYmH42MqxPrh8GMRlia9
+         8M4pz9Inbww74a5X9UwuBBbLn9s9mOVRXBvuesyCMP9L+bpAC9PZzqHKIvkIbBxJAP0R
+         /cMWSTk7E/SXvNwRqKRbSFR49s3AdM8nAHeDy1KXg29148yL2gspcRxPqe9CmngF2ZVk
+         JDWNbX90ioq8JypuiFXOrYecHB3Xc+prBnY5sD0e50ndGh2/XlhckCor6g9EFD8eWDbY
+         oeMQ==
+X-Gm-Message-State: AOJu0YwKU+a0LiR1+JCBvCp/7TrUpm1/pZwBnJdqqNOLkGUi/FozTSFK
+	zms+wbDAIt35F9apY+MOvFw=
+X-Google-Smtp-Source: AGHT+IFbl6+RcE4ntqGpZAnzFGU5yOeB5cgnpeIQNm8xslXigAxyv2OQHJKXqSzdinR8yr9SDG5pdg==
+X-Received: by 2002:a17:902:ea0b:b0:1d4:7628:381c with SMTP id s11-20020a170902ea0b00b001d47628381cmr2152926plg.3.1704464925623;
+        Fri, 05 Jan 2024 06:28:45 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id u10-20020a170902e80a00b001cfca7b8ee7sm1465578plg.99.2024.01.05.06.28.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jan 2024 06:28:45 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 09E92183BE406; Fri,  5 Jan 2024 21:28:40 +0700 (WIB)
+Date: Fri, 5 Jan 2024 21:28:40 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Adding warning icon to warning admonitions?
+Message-ID: <ZZgSGFhvT3SOI4fe@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="T+v1tXslhN0Y+B0/"
 Content-Disposition: inline
-In-Reply-To: <b427c89a-81a9-439f-905e-2a6632065b78@quicinc.com>
 
-> > O.K. Since we are getting nowhere at the moment, lets take just the
-> > pure PHY chip, and ignore the rest for the moment.
-> > 
-> > For any pure PHY, there is generally one clock input, which might be a
-> > crystal, or an actual clock. If you look at other DT bindings for
-> > PHYs, it is only listed if the clock is expected to come from
-> > somewhere else, like a SoC, and it needs to be turned on before the
-> > PHY will work. And generally, a pure PHY has one defined clock
-> > frequency input. If that is true, there is no need to specify the
-> > clock. If multiple clock input frequencies are supported, then you do
-> > need to specify the clock, so its possible to work out what frequency
-> > it is using. How that clock input is then used internally in the PHY
-> > is not described in DT, but the driver can set any dividers, PLLs
-> > needed etc.
-> 
-> Yes, Andrew, there is only one clock input to qca8084(same as qca8386),
-> this input clock rate is 50MHZ, which is from the output clock of CMN
-> PLL block that is configured by the MDIO bus driver patch under review.
 
-Lets concentrate on the pure PHY. All it sees is a clock. It does not
-care where it come from. All you need in the device tree for the pure
-PHY is a clock consumer.
+--T+v1tXslhN0Y+B0/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There is one clock input, so its shared by all four instances in the
-pure PHY package. So you need to use Christians code which extends the
-PHY DT bindings to allow DT properties for a package of PHYs.
+Hi,
 
-What about resets. Is there one reset pin for the pure PHY package, or
-one per PHY?
+On my head, I'm often thinking about adding warning icon (more specifically,
+circle exclamation) to warning admonition blocks. The idea is inspired by
+content safety disclaimers as seen on TikTok (TT) (for example and FYI,
+racing-themed contents there like [1] are more likely to get what I called
+"pro-only" admonition that literally says `The actions in this video are
+performed by professionals or supervised by professionals. Do not attempt.`)
 
-Go find Christians code, understand it, and propose a DT binding for
-the pure PHY. Include the clock provider and the reset
-provider. Forget about the MDIO controller, and the PHY integrated
-into the switch, etc. Baby steps...
+=46rom above inspiration, I'd like to make the warning admonition block from
+currently:
 
-> In qca8084(same as qca8386), there is a clock controller, let's call it
-> as NSSCC, the logic of NSSCC is same as qualcomm GCC(located in SoC),
-> the NSSCC provides the clocks to the quad PHYs, the initial clocks for
-> quad PHYs need to be configured before PHY to work.
+```
++--------------------------------------------------------------------------=
+--+
+|   Warning:                                                               =
+  |
+|                                                                          =
+  |
+|   Function foo() can produce undefined behavior. Either sanitize         =
+  |
+|   arguments being passed, or use the safer abstraction foo_wrapper().    =
+  |
++--------------------------------------------------------------------------=
+--+
+```
 
-You said above, there is one clock input to the qca8084. Here you use
-the word clocks, plural. Is there one clock, or multiple clocks?
+into:
 
-    Andrew
+```
++--------------------------------------------------------------------------=
+--+
+|   (!) Warning:                                                           =
+  |
+|                                                                          =
+  |
+|       Function foo() can produce undefined behaivor. Either sanitize     =
+  |
+|       arguments being passed, or use the safer abstraction foo_wrapper().=
+  |
++--------------------------------------------------------------------------=
+--+
+```
+
+or even to match TT:
+
+```
++--------------------------------------------------------------------------=
+--+
+|   (!) Function foo() can produce undefined behavior. Either sanitize     =
+  |
+|       arguments being passed, or use the safer abstraction foo_wrapper().=
+  |
++--------------------------------------------------------------------------=
+--+
+```
+
+In other words, the admonition text should be indented after the warning ic=
+on.
+
+For the icon itself, the approach is to use Font Awesome [2] (many other doc
+sites that uses Sphinx also do that due to site theme they use but Alabaster
+theme don't use the icon, hence this question). I personally prefer regular
+icon variant (like in TT), but alas it is in non-free PRO plan (and only
+solid variant is free and that is what Sphinx themes using).
+
+Does adding warning icon like above idea make sense for the kernel docs? And
+does it require non-trivial (complex) changes to Alabaster theme?
+
+Thanks.
+
+[1]: https://www.tiktok.com/@supercars/video/7301916055063088392?is_from_we=
+bapp=3D1&sender_device=3Dpc&web_id=3D7320595371066557959
+[2]: https://fontawesome.com/icons/circle-exclamation?f=3Dclassic&s=3Dsolid
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--T+v1tXslhN0Y+B0/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZZgSFQAKCRD2uYlJVVFO
+o9jvAP0TsbAmH3dLPsJGiOxLBYbM6Em8AlIS/vNX+mDxeKRIkgD9FfYnRMMn5Fzc
+Lzz8FPzqSBDaIxpzBJSHxRJC6XbsIAg=
+=Gl9J
+-----END PGP SIGNATURE-----
+
+--T+v1tXslhN0Y+B0/--
