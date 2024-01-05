@@ -1,148 +1,187 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBC022F04;
-	Fri,  5 Jan 2024 09:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65032CCB8;
+	Fri,  5 Jan 2024 10:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="LOl7umdX";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="oXf6BzBU"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C4C9D21F4F;
-	Fri,  5 Jan 2024 09:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1704445339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/Hmj9D9VfyQx+ZfVXhsSYh7Uls173247uQLnYHxXG1M=;
-	b=LOl7umdXMasBBJC+adYeUl4Qi2+31gpUnZx2Dszu/570f6w9mSpa5Zj2pQL35AmskmGqPM
-	bRGrv8eW8BsoW3ia+yEWFtC0eKHgC6MUnRuXnnLFT3B0EOt4qzWhLqyTowMGBaNBPaCyEI
-	ginbt+IEW3mLW7T0tgfzQTVplxmymGQ=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1704445338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/Hmj9D9VfyQx+ZfVXhsSYh7Uls173247uQLnYHxXG1M=;
-	b=oXf6BzBUGOHvQ67mDKNH8+c9QYm0uiGfDeK4Ufa8ynqSMGwJKittfVFmT+4clTun94BiM9
-	zEnRGSQskkF33k+CycmilhUBqsV+8Aw6RSsF4gcF7o1WH7RzsB2jc/9clyNEy65noVfvVK
-	WrhQcDV6UJKqajwr2AxsXuroJXVKJpU=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93371137E8;
-	Fri,  5 Jan 2024 09:02:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zoe2I5rFl2VvRgAAD6G6ig
-	(envelope-from <mkoutny@suse.com>); Fri, 05 Jan 2024 09:02:18 +0000
-Date: Fri, 5 Jan 2024 10:02:17 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, 
-	alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
-	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, iommu@lists.linux.dev, 
-	jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org, 
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com, 
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
-	yu-cheng.yu@intel.com, rientjes@google.com
-Subject: Re: [PATCH v3 00/10] IOMMU memory observability
-Message-ID: <elsuzdcx2qpnazvz2ayzmco4ctms5ci3iet3k7ggbjt3p2pfk2@tvr3plow26oi>
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
- <CA+CK2bBE1bQuqZy3cbWiv8V3vJ8YNJZRayp6Wv-j2_9i37XT4g@mail.gmail.com>
- <eng4vwaci5hwlicszgcld6uny55vll2bfs3vp2yjbjf3exhamg@zf6yc2uhax7w>
- <CA+CK2bCUGepLLA2Hsmq00XEhPzLWPb5CjzY_UPT0qWSKastjAQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FeKeyRfM"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4058CtSL006789;
+	Fri, 5 Jan 2024 10:27:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=EkP5kIkm5I5NQXP6fb85AU2ocIb7I4jlvhR2pOBwxJ0=; b=Fe
+	KeyRfMSUAvuqedJh4yvFULzK3tqltvUsNdey0qBe6wLT9kXbU+LDZ40sZmoTPFyK
+	OLE1kMyIMAmL9NEEXKGkJXRK1JOshOADuGY4v8c1g8uCdZ6GVDfMY/Bau/0B5iBf
+	c0Vbd0yA3Yvm4LX3/1gLBCvlAO9nt4eg3M9YZpZhXxq4c9ktQGn2H3biURuPoCPY
+	edpMnInuPsYN9MdF4DhAK5an6HUxRXnoMm8A+STlihqaVFAux0WjOk3+u6n5nKbV
+	Kz8gy/7NrRSRVetf6MoRVgBSi8wriVVaTkqjo/i6Ysjo4yAAfdynKkLoTHyrepXS
+	+jt6v5C38bVR+/ydliow==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ve98hrrvu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Jan 2024 10:27:25 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 405AR2Qe021417
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 5 Jan 2024 10:27:02 GMT
+Received: from [10.253.39.156] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 5 Jan
+ 2024 02:26:58 -0800
+Message-ID: <b427c89a-81a9-439f-905e-2a6632065b78@quicinc.com>
+Date: Fri, 5 Jan 2024 18:26:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p5ofvbvnu5dmxsky"
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bCUGepLLA2Hsmq00XEhPzLWPb5CjzY_UPT0qWSKastjAQ@mail.gmail.com>
-X-Spam-Level: 
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=oXf6BzBU
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.22 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLn3qdfh3r5akp7hsapswoh51s)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 SIGNED_PGP(-2.00)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+,1:+,2:~];
-	 BAYES_HAM(-0.11)[66.01%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 URIBL_BLOCKED(0.00)[suse.com:dkim,soleen.com:email];
-	 FROM_HAS_DN(0.00)[];
-	 DWL_DNSWL_MED(-2.00)[suse.com:dkim];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 RCPT_COUNT_TWELVE(0.00)[44];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[linux-foundation.org,samsung.com,rosenzweig.io,lists.linux.dev,linux.intel.com,google.com,vger.kernel.org,lwn.net,redhat.com,infradead.org,cmpxchg.org,sntech.de,gmail.com,nvidia.com,8bytes.org,linaro.org,kvack.org,lists.infradead.org,bytedance.com,marcan.st,kernel.org,arm.com,sholland.org,amd.com,svenpeter.dev,csie.org,intel.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:97:from]
-X-Spam-Score: -5.22
-X-Rspamd-Queue-Id: C4C9D21F4F
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
+ properties
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Christian Marangi <ansuelsmth@gmail.com>,
+        "Russell King (Oracle)"
+	<linux@armlinux.org.uk>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <hkallweit1@gmail.com>, <corbet@lwn.net>, <p.zabel@pengutronix.de>,
+        <f.fainelli@gmail.com>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <7c05b08a-bb6d-4fa1-8cee-c1051badc9d9@lunn.ch>
+ <ZX2rU5OFcZFyBmGl@shell.armlinux.org.uk>
+ <6abe5d6f-9d00-445f-8c81-9c89b9da3e0a@quicinc.com>
+ <ZX3LqN8DSdKXqsYc@shell.armlinux.org.uk>
+ <1bddd434-024c-45ff-9866-92951a3f555f@quicinc.com>
+ <ZZPeHJJU96y1kdlZ@shell.armlinux.org.uk>
+ <6593e0a3.050a0220.5c543.8e12@mx.google.com>
+ <cee9de2c-bfa4-4ca9-9001-725e2041bc25@quicinc.com>
+ <85590a5b-9d5a-40cb-8a0e-a3a3a1c3720a@lunn.ch>
+ <c5263daa-b5f4-4b9c-a216-73d68493a802@quicinc.com>
+ <50252a5a-e4fb-42d3-b838-9ef04faf4c5c@lunn.ch>
+Content-Language: en-US
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <50252a5a-e4fb-42d3-b838-9ef04faf4c5c@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: zHj3boj0OggfIBob6oxflhmprqOH5DoK
+X-Proofpoint-GUID: zHj3boj0OggfIBob6oxflhmprqOH5DoK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
+ bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 adultscore=0
+ suspectscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401050089
 
 
---p5ofvbvnu5dmxsky
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Thu, Jan 04, 2024 at 02:12:26PM -0500, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> Yes, we will have a difference between GFP_ACCOUNT and what
-> NR_IOMMU_PAGES shows. GFP_ACCOUNT is set only where it makes sense to
-> charge to user processes, i.e. IOMMU Page Tables, but there more IOMMU
-> shared data that should not really be charged to a specific process.
+On 1/4/2024 9:57 PM, Andrew Lunn wrote:
+>> 1. For IPQ SoC series, there are only ipq4019, ipq5018, ipq6018,
+>> ipq8074 documented in the current dt-bindings doc qcom,ipq4019-mdio.yaml
+>> and ipq9574, ipq5332 that are being added by the MDIO patch, and one
+>> more ipq8064 whose MDIO driver is mdio-ipq8064.c, on more others.
+>>
+>> 2. For qca8084(pure PHY chip), which is the quad-phy chip, which is just
+>>     like qca8081 PHY(single port PHY), each port can be linked to maximum
+>>     speed 2.5G.
+>>
+>>     For qca8386(switch chip), which includes the same PHY CHIP as qca8084
+>>     (4 physical ports and two CPU ports), qca8386 switch can work with
+>>     the current qca8k.c DSA driver with the supplement patches.
+> 
+> Is the qca8386 purely a switch plus integrated PHYs? There is no CPU
+> on it? What is the management path? MDIO?
 
-I see. I'd suggest adding this explanation to commit 10/10 message
-(perhaps with some ballpark numbers of pages). In order to have a
-reference and understadning if someone decided to charge (and limit) all
-in the future.
+Yes, qca8386 is a pure switch plus integrated PHYs(same PHY type as
+qca8084), there is no CPU on qca8386, the management path is MDIO.
+the access of switch register is by the multiple MDIO operations.
 
-Thanks,
-Michal
+> 
+>>
+>>     Both qca8084 and qca8386 includes same network clock controller(let's
+>>     call it NSSCC, since this clock controller is located in the
+>>     Ethernet chip qca8084 and qca8386), they have the same clock initial
+>>     configuration sequence to initialize the Ethernet chip.
+> 
+> You said For "qca8084(pure PHY chip)". Here you just called it an
+> Ethernet chip? To me, and Ethernet chip is a MAC, Intel e1000e etc.
+> Do you now see how your explanations are confusing. Is it s pure PHY,
+> or is it an Ethernet chip?
 
---p5ofvbvnu5dmxsky
-Content-Type: application/pgp-signature; name="signature.asc"
+My bad, sorry for this confusion.
+qca8084 is a pure PHY, there is no MAC in qca8084.
 
------BEGIN PGP SIGNATURE-----
+> 
+> O.K. Since we are getting nowhere at the moment, lets take just the
+> pure PHY chip, and ignore the rest for the moment.
+> 
+> For any pure PHY, there is generally one clock input, which might be a
+> crystal, or an actual clock. If you look at other DT bindings for
+> PHYs, it is only listed if the clock is expected to come from
+> somewhere else, like a SoC, and it needs to be turned on before the
+> PHY will work. And generally, a pure PHY has one defined clock
+> frequency input. If that is true, there is no need to specify the
+> clock. If multiple clock input frequencies are supported, then you do
+> need to specify the clock, so its possible to work out what frequency
+> it is using. How that clock input is then used internally in the PHY
+> is not described in DT, but the driver can set any dividers, PLLs
+> needed etc.
 
-iHUEABYKAB0WIQQpEWyjXuwGT2dDBqAGvrMr/1gcjgUCZZfFiAAKCRAGvrMr/1gc
-jvXNAQC/s1r4INt0DOMzuMTQyF7r+E2pYEbj7Prf+TyU1lbn7QD/bVGBlsIv9kpI
-Hr5Fq+4l1uV/keTc7yErY9BpbizGVQ0=
-=aBiM
------END PGP SIGNATURE-----
+Yes, Andrew, there is only one clock input to qca8084(same as qca8386),
+this input clock rate is 50MHZ, which is from the output clock of CMN
+PLL block that is configured by the MDIO bus driver patch under review.
 
---p5ofvbvnu5dmxsky--
+In qca8084(same as qca8386), there is a clock controller, let's call it
+as NSSCC, the logic of NSSCC is same as qualcomm GCC(located in SoC),
+the NSSCC provides the clocks to the quad PHYs, the initial clocks for
+quad PHYs need to be configured before PHY to work.
+
+These clocks and resets are provided by the NSSCC provider driver,
+i need to define these clocks and resets in DT to use it.
+
+> 
+> So, for the pure PHY chip, what is the pinout? Is there one clock
+> input? Or 4 clock inputs, one per PHY in the quad package? Typically,
+> where does this/these clocks come from? Is the frequency fixed by the
+> design, or are a number of input frequencies supported?
+
+There is one 50M clock input for qca8084(same as qca8386), the input
+clock is generated from the CMN PLL block that is configured by MDIO
+driver patch of mdio-ipq4019.c.
+The frequency of input clock is fixed to 50MHZ.
+
+> 
+>>    The Ethernet chip qca8084 and qca8386 are only connected with IPQ SoC,
+>>    Currently qca8084 is connected with IPQ SoC by 10G-QXGMII mode.
+>>    the 4 PHYs of qca8386 are connected with the internal MAC of qca8386
+>>    by GMII, the maximum speed is also 2.5G.
+>>    The port4 of qca8084 or qca8386 is optionally be able to connected
+>>    with IPQ SoC by sgmii.
+> 
+> To some extent, this does not matter. The DT binding and the driver
+> should not care what the pure PHY is connected to. It has standardised
+> ports, so in theory it could be connected to any vendors MAC.
+
+Yes, it can be connected with any vendors MAC with the interface mode
+supported.
+
+> 
+> Please be very careful with your wording. Because computers
+> instructions should be unambiguous, it does what it is told, we also
+> expect computer scientists to be unambiguous. Wording is very
+> important.
+> 
+>         Andrew
+Got it. Thanks Andrew for the comments and suggestions.
