@@ -1,99 +1,151 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057412E636
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jan 2024 15:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445F831725;
+	Fri,  5 Jan 2024 16:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="EFV5pVvH"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-427d5bfe24cso8421061cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jan 2024 07:34:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1704468855; x=1705073655; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0TY2tK1Et5681qdWkhQWK7TKRb/9setDuVBnoXVgexU=;
-        b=EFV5pVvHiQnqoV9y7BQQq9nRu87mykB2Rai0EIP6qviKgt54hRLI0m9de01VYYt1AX
-         q0UwruXuBCSkrZCZRieqIg7+aevZFSab5kMlO8Jyz2nDpiDlf/Z5Ukub/JzndhhJtuUo
-         8kGZeGqt2vARqYzwIXSAOAVHTNbUBANkLmINPM45sLwhjIxuoA54PLpdUVLS8OMKrfs/
-         qzvQsiIlQ3xMVnvhcKlrxWcl2v9Kgmy7yj69GVJBQLRDbzjkgug6Q4E1c8eG94U3uNhw
-         18Iyqmj1bzy1OkC8j1mxXToPWjmVekiW0bfg8cpp/1/3GgrRhENtdnle6+I78mggTVZE
-         ioaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704468855; x=1705073655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0TY2tK1Et5681qdWkhQWK7TKRb/9setDuVBnoXVgexU=;
-        b=ZMrN8I0VNXUFRTqDKqskccdSEhiMpYQvgx85eK+QjZhu9X7hqw9CoBAWsyNrnDYNlZ
-         waLLu4fZPNjbIN7AjLsYuVsmgBki29cyJ3Xt44ezoqVsb05m195NfDi2MOGIPk1374lS
-         cQPiIPCfR+ObCCMjH5DNbuHqQ6sycFCV4FkcHWIywZWDeqQ4IxUGi7Zxr/DsMDqG+lU8
-         X0qmSMSR7KApAPnYUstfL8wYryYCRVKS/i14T93P/VC44Nt720l93f/bg+lOgdM3MBxK
-         C2wXo+qiuClXdtZz2JHXAffHpBao7Zwuv4lr1DgFnA3VFW7OVN5zvQ0Yf4AlHfYfQY/P
-         C3Sg==
-X-Gm-Message-State: AOJu0YyJ/iyb6SJbyjV4DXPTY/m7CfzEepRpqsxD0TF0FqbgJeT1o6fI
-	Fdd3Kw7do9Bno75TGfjspSTPRHjV/jFDRaMfgWi8W/zgx1HeOw==
-X-Google-Smtp-Source: AGHT+IHfTfqU5MoKE0X4xG8QNmKPONd8jiakcdkHu4vud6eBZ8WvRO+n1CsOMpfQPwUC05tcfTICXquuDV0OuNZPOR0=
-X-Received: by 2002:a05:622a:1349:b0:429:791f:9708 with SMTP id
- w9-20020a05622a134900b00429791f9708mr909674qtk.35.1704468854882; Fri, 05 Jan
- 2024 07:34:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="h6sx14H0"
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4T68Hp3p5QzDr7L;
+	Fri,  5 Jan 2024 16:37:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1704472630; bh=WdyUZpQ25ffr+e9Ip8AN9PwjZX6iYQ51PPZDbMaGoSE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=h6sx14H0cG7ysu048d7ZZwWBlpNoqh+VF0hoAts3QGC2C8k0l4pUBoNH/T4oygCgy
+	 mZftdjTZmd2U4S2TE0MNaOBZnQMeoEeMqDgl0DUCF0CE+cOs9dx1NeA9gIjw3gXxkx
+	 AEEDju/T7rg9DLYlnm+D7VkigfKeLLPk6I3f4pFA=
+X-Riseup-User-ID: C7CFC3C3D145FB6F6D9B3475E593D3844A70EB4BDF8F6C3ADE3552C5DC4519F0
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4T68Hj50fCzJp2K;
+	Fri,  5 Jan 2024 16:37:05 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+Date: Fri, 05 Jan 2024 13:35:02 -0300
+Subject: [PATCH 1/7] drm/vkms: Use drm_frame directly
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
- <CA+CK2bBE1bQuqZy3cbWiv8V3vJ8YNJZRayp6Wv-j2_9i37XT4g@mail.gmail.com>
- <eng4vwaci5hwlicszgcld6uny55vll2bfs3vp2yjbjf3exhamg@zf6yc2uhax7w>
- <CA+CK2bCUGepLLA2Hsmq00XEhPzLWPb5CjzY_UPT0qWSKastjAQ@mail.gmail.com> <elsuzdcx2qpnazvz2ayzmco4ctms5ci3iet3k7ggbjt3p2pfk2@tvr3plow26oi>
-In-Reply-To: <elsuzdcx2qpnazvz2ayzmco4ctms5ci3iet3k7ggbjt3p2pfk2@tvr3plow26oi>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 5 Jan 2024 10:33:38 -0500
-Message-ID: <CA+CK2bD7gPP6TFR_sYPd=4U4yYrYHNu=qMLJdT+kgT_gbz6wBQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] IOMMU memory observability
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240105-vkms-yuv-v1-1-34c4cd3455e0@riseup.net>
+References: <20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net>
+In-Reply-To: <20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Harry Wentland <harry.wentland@amd.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Arthur Grillo <arthurgrillo@riseup.net>
 
-On Fri, Jan 5, 2024 at 4:02=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.com=
-> wrote:
->
-> On Thu, Jan 04, 2024 at 02:12:26PM -0500, Pasha Tatashin <pasha.tatashin@=
-soleen.com> wrote:
-> > Yes, we will have a difference between GFP_ACCOUNT and what
-> > NR_IOMMU_PAGES shows. GFP_ACCOUNT is set only where it makes sense to
-> > charge to user processes, i.e. IOMMU Page Tables, but there more IOMMU
-> > shared data that should not really be charged to a specific process.
->
-> I see. I'd suggest adding this explanation to commit 10/10 message
-> (perhaps with some ballpark numbers of pages). In order to have a
-> reference and understadning if someone decided to charge (and limit) all
-> in the future.
+Remove intermidiary variables and access the variables directly from
+drm_frame. These changes should be noop.
 
-Sure, I will update the commit log in 10/10 with this info if we will have =
-v4.
+Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+---
+ drivers/gpu/drm/vkms/vkms_drv.h       |  3 ---
+ drivers/gpu/drm/vkms/vkms_formats.c   | 12 +++++++-----
+ drivers/gpu/drm/vkms/vkms_plane.c     |  3 ---
+ drivers/gpu/drm/vkms/vkms_writeback.c |  5 -----
+ 4 files changed, 7 insertions(+), 16 deletions(-)
 
-Pasha
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 8f5710debb1e..b4b357447292 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -31,9 +31,6 @@ struct vkms_frame_info {
+ 	struct drm_rect rotated;
+ 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+ 	unsigned int rotation;
+-	unsigned int offset;
+-	unsigned int pitch;
+-	unsigned int cpp;
+ };
+ 
+ struct pixel_argb_u16 {
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index 36046b12f296..172830a3936a 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -11,8 +11,10 @@
+ 
+ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
+ {
+-	return frame_info->offset + (y * frame_info->pitch)
+-				  + (x * frame_info->cpp);
++	struct drm_framebuffer *fb = frame_info->fb;
++
++	return fb->offsets[0] + (y * fb->pitches[0])
++			      + (x * fb->format->cpp[0]);
+ }
+ 
+ /*
+@@ -131,12 +133,12 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
+ 	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+ 	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+ 
+-	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->cpp) {
++	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+ 		int x_pos = get_x_position(frame_info, limit, x);
+ 
+ 		if (drm_rotation_90_or_270(frame_info->rotation))
+ 			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
+-				+ frame_info->cpp * y;
++				+ frame_info->fb->format->cpp[0] * y;
+ 
+ 		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
+ 	}
+@@ -223,7 +225,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+ 	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+ 	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
+ 
+-	for (size_t x = 0; x < x_limit; x++, dst_pixels += frame_info->cpp)
++	for (size_t x = 0; x < x_limit; x++, dst_pixels += frame_info->fb->format->cpp[0])
+ 		wb->pixel_write(dst_pixels, &in_pixels[x]);
+ }
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index e5c625ab8e3e..8f2c6ea419a3 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -125,9 +125,6 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+ 			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+ 
+-	frame_info->offset = fb->offsets[0];
+-	frame_info->pitch = fb->pitches[0];
+-	frame_info->cpp = fb->format->cpp[0];
+ 	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
+ }
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index bc724cbd5e3a..c8582df1f739 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -149,11 +149,6 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 	crtc_state->active_writeback = active_wb;
+ 	crtc_state->wb_pending = true;
+ 	spin_unlock_irq(&output->composer_lock);
+-
+-	wb_frame_info->offset = fb->offsets[0];
+-	wb_frame_info->pitch = fb->pitches[0];
+-	wb_frame_info->cpp = fb->format->cpp[0];
+-
+ 	drm_writeback_queue_job(wb_conn, connector_state);
+ 	active_wb->pixel_write = get_pixel_write_function(wb_format);
+ 	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
 
->
-> Thanks,
-> Michal
+-- 
+2.43.0
+
