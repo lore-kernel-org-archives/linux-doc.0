@@ -1,117 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9E2CCBD;
-	Fri,  5 Jan 2024 11:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2492D7AD;
+	Fri,  5 Jan 2024 13:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JnE0p1n3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704453974; x=1735989974;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EB6yc3eYH0bqf6SvAry+9WDusbCWU03uB068cag5tAg=;
-  b=JnE0p1n3mFmM/VCJ66oNumYFGY3sJ2gNy7+68loovwj3gZECOyMlWHdS
-   G13rxRb8h1kDAZDCsf9HXBf4nAqgUMuCBPAevM6kS/2NW+6QxXM2M4iPY
-   FG/F9Vppjcfso6KgINM1fpyh+bpxZ++HIb35W1h2NHkHYpBGq99Zheakv
-   WYbOEjQh9IjoV00TdgXVaI0TZInpBsFe6ZCfFs9CBNg4AXUoKYjurre7k
-   XadztQDDs8qubrnvUpueF3hh75kyzUmh5TDLsuVzsYafJo62XWIspM7n8
-   VPimxLMtzmP3/hJUQMSGvqcYQhjIrp2xOUrsmpG/SGsxZT0MHLMw0ECIA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="10858342"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="10858342"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 03:26:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="773827811"
-X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
-   d="scan'208";a="773827811"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.246.32.38])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 03:26:06 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-pci@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-	Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-pm@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Alex Deucher <alexdeucher@gmail.com>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v4 1/8] PCI: Protect Link Control 2 Register with RMW locking
-Date: Fri,  5 Jan 2024 13:25:40 +0200
-Message-Id: <20240105112547.7301-2-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240105112547.7301-1-ilpo.jarvinen@linux.intel.com>
-References: <20240105112547.7301-1-ilpo.jarvinen@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Hb6pTDsO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=xsZkrjSLGS2hapVRqmxgnJelDcefZub/b13sHJ7frcI=; b=Hb6pTDsOIy4wBDb+tkE2theanc
+	ayw7Yf1xwJa4EJsBWXpQ1yiHD/bPva0LkBH2klxeJLo7H/RpAPtnaUjznLE9sz/yIviOB3541TuYi
+	X+/quRAzrkvzTF+4oc4yzu2NmWG6KvYNcvJohq8mCyf93t6QbNpbxWlBEh6DOfHaKndc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rLkNw-004SM2-Dx; Fri, 05 Jan 2024 14:37:16 +0100
+Date: Fri, 5 Jan 2024 14:37:16 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jie Luo <quic_luoj@quicinc.com>
+Cc: Christian Marangi <ansuelsmth@gmail.com>,
+	"Russell King (Oracle)" <linux@armlinux.org.uk>,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	hkallweit1@gmail.com, corbet@lwn.net, p.zabel@pengutronix.de,
+	f.fainelli@gmail.com, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 14/14] dt-bindings: net: ar803x: add qca8084 PHY
+ properties
+Message-ID: <864b0867-06c0-4c6d-ae71-9b5025c8d93a@lunn.ch>
+References: <6abe5d6f-9d00-445f-8c81-9c89b9da3e0a@quicinc.com>
+ <ZX3LqN8DSdKXqsYc@shell.armlinux.org.uk>
+ <1bddd434-024c-45ff-9866-92951a3f555f@quicinc.com>
+ <ZZPeHJJU96y1kdlZ@shell.armlinux.org.uk>
+ <6593e0a3.050a0220.5c543.8e12@mx.google.com>
+ <cee9de2c-bfa4-4ca9-9001-725e2041bc25@quicinc.com>
+ <85590a5b-9d5a-40cb-8a0e-a3a3a1c3720a@lunn.ch>
+ <c5263daa-b5f4-4b9c-a216-73d68493a802@quicinc.com>
+ <50252a5a-e4fb-42d3-b838-9ef04faf4c5c@lunn.ch>
+ <b427c89a-81a9-439f-905e-2a6632065b78@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b427c89a-81a9-439f-905e-2a6632065b78@quicinc.com>
 
-PCIe Bandwidth Controller performs RMW accesses the Link Control 2
-Register which can occur concurrently to other sources of Link Control
-2 Register writes. Therefore, add Link Control 2 Register among the PCI
-Express Capability Registers that need RMW locking.
+> > O.K. Since we are getting nowhere at the moment, lets take just the
+> > pure PHY chip, and ignore the rest for the moment.
+> > 
+> > For any pure PHY, there is generally one clock input, which might be a
+> > crystal, or an actual clock. If you look at other DT bindings for
+> > PHYs, it is only listed if the clock is expected to come from
+> > somewhere else, like a SoC, and it needs to be turned on before the
+> > PHY will work. And generally, a pure PHY has one defined clock
+> > frequency input. If that is true, there is no need to specify the
+> > clock. If multiple clock input frequencies are supported, then you do
+> > need to specify the clock, so its possible to work out what frequency
+> > it is using. How that clock input is then used internally in the PHY
+> > is not described in DT, but the driver can set any dividers, PLLs
+> > needed etc.
+> 
+> Yes, Andrew, there is only one clock input to qca8084(same as qca8386),
+> this input clock rate is 50MHZ, which is from the output clock of CMN
+> PLL block that is configured by the MDIO bus driver patch under review.
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Reviewed-by: Lukas Wunner <lukas@wunner.de>
----
- Documentation/PCI/pciebus-howto.rst | 14 +++++++++-----
- include/linux/pci.h                 |  1 +
- 2 files changed, 10 insertions(+), 5 deletions(-)
+Lets concentrate on the pure PHY. All it sees is a clock. It does not
+care where it come from. All you need in the device tree for the pure
+PHY is a clock consumer.
 
-diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
-index a0027e8fb0d0..cd7857dd37aa 100644
---- a/Documentation/PCI/pciebus-howto.rst
-+++ b/Documentation/PCI/pciebus-howto.rst
-@@ -217,8 +217,12 @@ capability structure except the PCI Express capability structure,
- that is shared between many drivers including the service drivers.
- RMW Capability accessors (pcie_capability_clear_and_set_word(),
- pcie_capability_set_word(), and pcie_capability_clear_word()) protect
--a selected set of PCI Express Capability Registers (Link Control
--Register and Root Control Register). Any change to those registers
--should be performed using RMW accessors to avoid problems due to
--concurrent updates. For the up-to-date list of protected registers,
--see pcie_capability_clear_and_set_word().
-+a selected set of PCI Express Capability Registers:
-+
-+* Link Control Register
-+* Root Control Register
-+* Link Control 2 Register
-+
-+Any change to those registers should be performed using RMW accessors to
-+avoid problems due to concurrent updates. For the up-to-date list of
-+protected registers, see pcie_capability_clear_and_set_word().
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 60ca768bc867..345a3d2a3fcd 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -1269,6 +1269,7 @@ static inline int pcie_capability_clear_and_set_word(struct pci_dev *dev,
- {
- 	switch (pos) {
- 	case PCI_EXP_LNKCTL:
-+	case PCI_EXP_LNKCTL2:
- 	case PCI_EXP_RTCTL:
- 		return pcie_capability_clear_and_set_word_locked(dev, pos,
- 								 clear, set);
--- 
-2.39.2
+There is one clock input, so its shared by all four instances in the
+pure PHY package. So you need to use Christians code which extends the
+PHY DT bindings to allow DT properties for a package of PHYs.
 
+What about resets. Is there one reset pin for the pure PHY package, or
+one per PHY?
+
+Go find Christians code, understand it, and propose a DT binding for
+the pure PHY. Include the clock provider and the reset
+provider. Forget about the MDIO controller, and the PHY integrated
+into the switch, etc. Baby steps...
+
+> In qca8084(same as qca8386), there is a clock controller, let's call it
+> as NSSCC, the logic of NSSCC is same as qualcomm GCC(located in SoC),
+> the NSSCC provides the clocks to the quad PHYs, the initial clocks for
+> quad PHYs need to be configured before PHY to work.
+
+You said above, there is one clock input to the qca8084. Here you use
+the word clocks, plural. Is there one clock, or multiple clocks?
+
+    Andrew
