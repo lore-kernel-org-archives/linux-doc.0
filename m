@@ -1,115 +1,164 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC48566A
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jan 2024 05:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574D61CA85;
+	Fri,  5 Jan 2024 06:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YhDTI9kI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=WfYHZN02CLJH0ySpqHd7ao/46+BdoIRfnnU+Dxnoo5Q=; b=YhDTI9kIyHogx9w4rkPWVO6J8o
-	992BEELaSHCa/YTd9ygz5ZVn2I3thTxG04j0ixaWLIDKEerNOSZzB1g+CT1Yh/yMtWVL1PgSryyGs
-	UZkWtg6rJ6+lkPx86Y3YmdHVtNsVf+ww5Bu7Rou+TTjOOPO6PC02WCTuFXRzDUDUBsrZhhS8RM47u
-	TKVA0ipEDn2H6i7ld1iLFiZpV/4d1OEyidHR9QG/rHE6Dn+lDtJ+BkSiHWp+eK8F9Opv1l9t3SUpj
-	Tv+iJnrYbZk7Wee2dui2Jb8h4sjNs7nrF4QwaNab4g2DUSktKK3Hu3V5zf/68kCljAEc3tqb30U5j
-	JRlHvf0w==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLcno-00FzF5-15;
-	Fri, 05 Jan 2024 05:31:28 +0000
-Message-ID: <f19a971d-5d58-4166-ba03-db915eb49fc6@infradead.org>
-Date: Thu, 4 Jan 2024 21:31:26 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyWJmm9l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704437704; x=1735973704;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=itE2hezhzcfYQfYEK/xtymd29CLOFQR5E8uwHsYdpls=;
+  b=AyWJmm9lveejbxjpkpvz5fcj/hXGCiHyHBc5Yx08j9VJIh9wfTFzL7Op
+   u6sX/UZU1b0MJhf6iDPxT9uWmh9YOncPmLg8EIeqj9FADVWlHkvmnpOna
+   aIR036V00vKJkmiMjeyNt5bU608ADuljJBGsnjlC51Npu6rRBAw1Se5rU
+   MsmsHntH565dpazd/J3U5y1qgOFtFdTQ57SGPITb1+SJZD4zwBppH5hom
+   L22lgye2FSb+R38PkwFDCjvx0iLREkKDfPvrpRGicGGBBRGKqMGxXKdvt
+   vF2RZTnK0lzHP48E18SHJ0FuSV29eHx+xCY9Biuam8SCgH3A02U9iH8DS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="10818749"
+X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
+   d="scan'208";a="10818749"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 22:53:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="773768947"
+X-IronPort-AV: E=Sophos;i="6.04,332,1695711600"; 
+   d="scan'208";a="773768947"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 22:53:38 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
+  <linux-doc@vger.kernel.org>,  <linux-fsdevel@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
+  <x86@kernel.org>,  <akpm@linux-foundation.org>,  <arnd@arndb.de>,
+  <tglx@linutronix.de>,  <luto@kernel.org>,  <mingo@redhat.com>,
+  <bp@alien8.de>,  <dave.hansen@linux.intel.com>,  <hpa@zytor.com>,
+  <mhocko@kernel.org>,  <tj@kernel.org>,  <corbet@lwn.net>,
+  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <honggyu.kim@sk.com>,
+  <vtavarespetr@micron.com>,  <peterz@infradead.org>,
+  <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
+  <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
+  <seungjun.ha@samsung.com>,  Srinivasulu Thanneeru
+ <sthanneeru.opensrc@micron.com>
+Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
+ MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
+In-Reply-To: <ZZcAF4zIpsVN3dLd@memverge.com> (Gregory Price's message of "Thu,
+	4 Jan 2024 13:59:35 -0500")
+References: <20231223181101.1954-1-gregory.price@memverge.com>
+	<20231223181101.1954-3-gregory.price@memverge.com>
+	<8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZYp6ZRLZQVtTHest@memverge.com>
+	<878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZZRybDPSoLme8Ldh@memverge.com>
+	<87mstnc6jz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZZXbN4+2nVbE/lRe@memverge.com>
+	<875y09d5d8.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZZcAF4zIpsVN3dLd@memverge.com>
+Date: Fri, 05 Jan 2024 14:51:40 +0800
+Message-ID: <87cyugb7cz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Vegard Nossum <vegard.nossum@oracle.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>
-References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
- <009fcdc4-b10a-4ab9-b368-7cea75bb74e2@infradead.org>
- <0f04dd81-1b0f-4408-b4de-63a01895b0a5@oracle.com>
- <df7d110b-a50c-4293-b5d4-45913fa6909e@infradead.org>
- <70b16de0-b213-464f-a318-d9b96b76b967@infradead.org>
-In-Reply-To: <70b16de0-b213-464f-a318-d9b96b76b967@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ascii
 
+Gregory Price <gregory.price@memverge.com> writes:
 
-
-On 1/2/24 19:10, Randy Dunlap wrote:
-> Hi Vegard,
-> 
-> On 12/25/23 09:08, Randy Dunlap wrote:
+> On Thu, Jan 04, 2024 at 01:39:31PM +0800, Huang, Ying wrote:
+>> Gregory Price <gregory.price@memverge.com> writes:
+>> 
+>> > On Wed, Jan 03, 2024 at 01:46:56PM +0800, Huang, Ying wrote:
+>> >> Gregory Price <gregory.price@memverge.com> writes:
+>> >> > I'm specifically concerned about:
+>> >> > 	weighted_interleave_nid
+>> >> > 	alloc_pages_bulk_array_weighted_interleave
+>> >> >
+>> >> > I'm unsure whether kmalloc/kfree is safe (and non-offensive) in those
+>> >> > contexts. If kmalloc/kfree is safe fine, this problem is trivial.
+>> >> >
+>> >> > If not, there is no good solution to this without pre-allocating a
+>> >> > scratch area per-task.
+>> >> 
+>> >> You need to audit whether it's safe for all callers.  I guess that you
+>> >> need to allocate pages after calling, so you can use the same GFP flags
+>> >> here.
+>> >> 
+>> >
+>> > After picking away i realized that this code is usually going to get
+>> > called during page fault handling - duh.  So kmalloc is almost never
+>> > safe (or can fail), and we it's nasty to try to handle those errors.
+>> 
+>> Why not just OOM for allocation failure?
 >>
->>
->> On 12/25/23 00:30, Vegard Nossum wrote:
->>>
->>> On 25/12/2023 08:40, Randy Dunlap wrote:
->>>> I do see one thing that I don't like in the generated html output.
->>>> It's not a problem with this patch.
->>>> The #defines for DRM_NOUVEAU_VM_BIND_OP_MAP etc. have a ';' at the
->>>> end of each line:
->>>>
->>>> struct drm_nouveau_vm_bind_op {
->>>>      __u32 op;
->>>> #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0;
->>>> #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1;
->>>>      __u32 flags;
->>>> #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8);
->>>>      __u32 handle;
->>>>      __u32 pad;
->>>>      __u64 addr;
->>>>      __u64 bo_offset;
->>>>      __u64 range;
->>>> };
->>>
->>> Do we actually ever want preprocessor directives to appear inside
->>> definitions in the output? If not, I think this should work:
->>
->> Not necessarily.
->>
->>> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
->>> index 3cdc7dba37e3..61425fc9645e 100755
->>> --- a/scripts/kernel-doc
->>> +++ b/scripts/kernel-doc
->>> @@ -1259,6 +1259,8 @@ sub dump_struct($$) {
->>>                 $clause =~ s/\s+$//;
->>>                 $clause =~ s/\s+/ /;
->>>                 next if (!$clause);
->>> +               # skip preprocessor directives
->>> +               next if $clause =~ m/^#/;
->>>                 $level-- if ($clause =~ m/(\})/ && $level > 1);
->>>                 if (!($clause =~ m/^\s*#/)) {
->>>                         $declaration .= "\t" x $level;
->>>
->>>
->>
->> but that didn't work for me.
->> I don't have time to look into it any more today.  :)
-> 
-> I retested this patch. I must have really messed up my testing
-> in the first round. This now LGTM. Thanks.
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+>
+> 2 notes:
+>
+> 1) callers of weighted_interleave_nid do not expect OOM conditions, they
+>    expect a node selection.  On error, we would simply return the local
+>    numa node without indication of failure.
+>
+> 2) callers of alloc_pages_bulk_array_weighted_interleave receive the
+>    total number of pages allocated, and they are expected to detect
+>    pages allocated != pages requested, and then handle whether to
+>    OOM or simply retry (allocation may fail for a variety of reasons).
+>
+> By introducing an allocation into this area, if an allocation failure
+> occurs, we would essentially need to silently squash it and return
+> either local_node (interleave_nid) or return 0 (bulk allocator) and
+> allow the allocation logic to handle any subsequent OOM condition.
+>
+> That felt less desirable than just allocating a scratch space up front
+> in the mempolicy and avoiding the issue altogether.
+>
+>> > Instead of doing that, I simply chose to implement the scratch space
+>> > in the mempolicy structure
+>> >
+>> > mempolicy->wil.scratch_weights[MAX_NUMNODES].
+>> >
+>> > We eat an extra 1kb of memory in the mempolicy, but it gives us a safe
+>> > scratch space we can use any time the task is allocating memory, and
+>> > prevents the need for any fancy error handling.  That seems like a
+>> > perfectly reasonable tradeoff.
+>> 
+>> I don't think that this is a good idea.  The weight array is temporary.
+>> 
+>
+> It's temporary, but it's also only used in the context of the task while
+> the alloc lock is held.
+>
+> If you think it's fine to introduce another potential OOM generating
+> spot, then I'll just go ahead and allocate the memory on the fly.
+>
+> I do want to point out, though, that weighted_interleave_nid is called
+> per allocated page.  So now we're not just collecting weights to
+> calculate the offset, we're doing an allocation (that can fail) per page
+> allocated for that region.
+>
+> The bulk allocator amortizes the cost of this allocation by doing it
+> once while allocating a chunk of pages - but the weighted_interleave_nid
+> function is called per-page.
+>
+> By comparison, the memory cost to just allocate a static scratch area in
+> the mempolicy struct is only incurred by tasks with a mempolicy.
+>
+>
+> So we're talking ~1MB for 1024 threads with mempolicies to avoid error
+> conditions mid-page-allocation and to reduce the cost associated with
+> applying weighted interleave.
 
-Vegard, do you plan to submit this as a kernel-doc patch?
+Think about this again.  Why do we need weights array on stack?  I think
+this is used to keep weights consistent.  If so, we don't need weights
+array on stack.  Just use RCU to access global weights array.
 
-Thanks.
-
--- 
-#Randy
+--
+Best Regards,
+Huang, Ying
