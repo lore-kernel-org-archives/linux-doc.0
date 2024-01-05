@@ -1,123 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C3921A17;
-	Fri,  5 Jan 2024 08:27:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBC022F04;
+	Fri,  5 Jan 2024 09:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lhvb/brI"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 51EA0C433C9;
-	Fri,  5 Jan 2024 08:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704443225;
-	bh=G8eLuVwnsvFwn4kF39vSmn4oX45xzBPrmGlnzDyCVrY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=lhvb/brIwBcIhUY6hJTYMUIz9BRxjoZkiCe4osmeqKEovt4N/1yvHnpZ/muqgJkSY
-	 OPJiUewPw7bk42vS3BiOEMHosaFmoaEB+umU1f+gRyOwkxlprKXLhgXHErbzUeFAUJ
-	 LPXx0NnBkgv3bTuZSHdCGLJ8rjwraZXD+5DWGWijGXPq/hlPw4C/LPtD8x0i7wMwId
-	 IwUx9ubh4M/OsTdtIk2e7JOgAuE+fA/6k0Q7kiCD/JMZaPqrzh2AvO7ZPxJpVxqg9C
-	 fwFG6JLrbVdiAkyUX1YAmUYBOK6JpQWiirIrQPg6qbSSxieoRltLhqf3TukB7wAoFG
-	 AjoZOdwVcDDSQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37030C4707B;
-	Fri,  5 Jan 2024 08:27:05 +0000 (UTC)
-From: Christoph Winklhofer via B4 Relay
- <devnull+cj.winklhofer.gmail.com@kernel.org>
-Date: Fri, 05 Jan 2024 09:26:42 +0100
-Subject: [PATCH v3 1/3] dt-bindings: w1: UART 1-Wire bus
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="LOl7umdX";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="oXf6BzBU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C4C9D21F4F;
+	Fri,  5 Jan 2024 09:02:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1704445339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/Hmj9D9VfyQx+ZfVXhsSYh7Uls173247uQLnYHxXG1M=;
+	b=LOl7umdXMasBBJC+adYeUl4Qi2+31gpUnZx2Dszu/570f6w9mSpa5Zj2pQL35AmskmGqPM
+	bRGrv8eW8BsoW3ia+yEWFtC0eKHgC6MUnRuXnnLFT3B0EOt4qzWhLqyTowMGBaNBPaCyEI
+	ginbt+IEW3mLW7T0tgfzQTVplxmymGQ=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1704445338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/Hmj9D9VfyQx+ZfVXhsSYh7Uls173247uQLnYHxXG1M=;
+	b=oXf6BzBUGOHvQ67mDKNH8+c9QYm0uiGfDeK4Ufa8ynqSMGwJKittfVFmT+4clTun94BiM9
+	zEnRGSQskkF33k+CycmilhUBqsV+8Aw6RSsF4gcF7o1WH7RzsB2jc/9clyNEy65noVfvVK
+	WrhQcDV6UJKqajwr2AxsXuroJXVKJpU=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93371137E8;
+	Fri,  5 Jan 2024 09:02:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zoe2I5rFl2VvRgAAD6G6ig
+	(envelope-from <mkoutny@suse.com>); Fri, 05 Jan 2024 09:02:18 +0000
+Date: Fri, 5 Jan 2024 10:02:17 +0100
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, 
+	alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, iommu@lists.linux.dev, 
+	jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org, 
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 00/10] IOMMU memory observability
+Message-ID: <elsuzdcx2qpnazvz2ayzmco4ctms5ci3iet3k7ggbjt3p2pfk2@tvr3plow26oi>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
+ <CA+CK2bBE1bQuqZy3cbWiv8V3vJ8YNJZRayp6Wv-j2_9i37XT4g@mail.gmail.com>
+ <eng4vwaci5hwlicszgcld6uny55vll2bfs3vp2yjbjf3exhamg@zf6yc2uhax7w>
+ <CA+CK2bCUGepLLA2Hsmq00XEhPzLWPb5CjzY_UPT0qWSKastjAQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240105-w1-uart-v3-1-8687093b2e76@gmail.com>
-References: <20240105-w1-uart-v3-0-8687093b2e76@gmail.com>
-In-Reply-To: <20240105-w1-uart-v3-0-8687093b2e76@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Christoph Winklhofer <cj.winklhofer@gmail.com>, 
- Rob Herring <robh@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1704443222; l=1794;
- i=cj.winklhofer@gmail.com; s=20240104; h=from:subject:message-id;
- bh=mQ67z9MozxmHEO1WDHe54CopgfQx4fCTtQWX0na1aCg=;
- b=YhCSSb9LicuB5pF3Y8aRvjUrvBF+D+7RDn+7/rpIYWGgWQXV0ZCJP8J7JZAQBxe2GaRDaukJT
- sgYnkIn+mVzD/FS0UCXTrBJQa9HuNDU8HweE3rd1VxvxnxdwwBqqAy4
-X-Developer-Key: i=cj.winklhofer@gmail.com; a=ed25519;
- pk=lgjGjOt7hFKJT9UXhgUyrdthxvZ7DJ5F1U/7d9qdAsk=
-X-Endpoint-Received:
- by B4 Relay for cj.winklhofer@gmail.com/20240104 with auth_id=111
-X-Original-From: Christoph Winklhofer <cj.winklhofer@gmail.com>
-Reply-To: <cj.winklhofer@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="p5ofvbvnu5dmxsky"
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bCUGepLLA2Hsmq00XEhPzLWPb5CjzY_UPT0qWSKastjAQ@mail.gmail.com>
+X-Spam-Level: 
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=oXf6BzBU
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-5.22 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 R_RATELIMIT(0.00)[to_ip_from(RLn3qdfh3r5akp7hsapswoh51s)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.com:+];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 SIGNED_PGP(-2.00)[];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+,1:+,2:~];
+	 BAYES_HAM(-0.11)[66.01%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	 URIBL_BLOCKED(0.00)[suse.com:dkim,soleen.com:email];
+	 FROM_HAS_DN(0.00)[];
+	 DWL_DNSWL_MED(-2.00)[suse.com:dkim];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 RCPT_COUNT_TWELVE(0.00)[44];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[linux-foundation.org,samsung.com,rosenzweig.io,lists.linux.dev,linux.intel.com,google.com,vger.kernel.org,lwn.net,redhat.com,infradead.org,cmpxchg.org,sntech.de,gmail.com,nvidia.com,8bytes.org,linaro.org,kvack.org,lists.infradead.org,bytedance.com,marcan.st,kernel.org,arm.com,sholland.org,amd.com,svenpeter.dev,csie.org,intel.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Score: -5.22
+X-Rspamd-Queue-Id: C4C9D21F4F
+X-Spam-Flag: NO
 
-From: Christoph Winklhofer <cj.winklhofer@gmail.com>
 
-Add device tree binding for UART 1-Wire bus.
+--p5ofvbvnu5dmxsky
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Christoph Winklhofer <cj.winklhofer@gmail.com>
----
- Documentation/devicetree/bindings/w1/w1-uart.yaml | 44 +++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+On Thu, Jan 04, 2024 at 02:12:26PM -0500, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+> Yes, we will have a difference between GFP_ACCOUNT and what
+> NR_IOMMU_PAGES shows. GFP_ACCOUNT is set only where it makes sense to
+> charge to user processes, i.e. IOMMU Page Tables, but there more IOMMU
+> shared data that should not really be charged to a specific process.
 
-diff --git a/Documentation/devicetree/bindings/w1/w1-uart.yaml b/Documentation/devicetree/bindings/w1/w1-uart.yaml
-new file mode 100644
-index 000000000000..93d83c42c407
---- /dev/null
-+++ b/Documentation/devicetree/bindings/w1/w1-uart.yaml
-@@ -0,0 +1,44 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/w1/w1-uart.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: UART 1-Wire Bus
-+
-+maintainers:
-+  - Christoph Winklhofer <cj.winklhofer@gmail.com>
-+
-+description: |
-+  UART 1-wire bus. Utilizes the UART interface via the Serial Device Bus
-+  to create the 1-Wire timing patterns.
-+
-+  The UART peripheral must support full-duplex and operate in open-drain
-+  mode. The timing patterns are generated by a specific combination of
-+  baud-rate and transmitted byte, which corresponds to a 1-Wire read bit,
-+  write bit or reset pulse.
-+
-+  The default baud-rate for reset and presence detection is 9600 and for
-+  a 1-Wire read or write operation 115200. In case the actual baud-rate
-+  is different from the requested one, the transmitted byte is adapted
-+  to generate the 1-Wire timing patterns.
-+
-+  https://www.analog.com/en/technical-articles/using-a-uart-to-implement-a-1wire-bus-master.html
-+
-+
-+properties:
-+  compatible:
-+    const: w1-uart
-+
-+required:
-+  - compatible
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    serial {
-+      onewire {
-+        compatible = "w1-uart";
-+      };
-+    };
+I see. I'd suggest adding this explanation to commit 10/10 message
+(perhaps with some ballpark numbers of pages). In order to have a
+reference and understadning if someone decided to charge (and limit) all
+in the future.
 
--- 
-2.43.0
+Thanks,
+Michal
 
+--p5ofvbvnu5dmxsky
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQpEWyjXuwGT2dDBqAGvrMr/1gcjgUCZZfFiAAKCRAGvrMr/1gc
+jvXNAQC/s1r4INt0DOMzuMTQyF7r+E2pYEbj7Prf+TyU1lbn7QD/bVGBlsIv9kpI
+Hr5Fq+4l1uV/keTc7yErY9BpbizGVQ0=
+=aBiM
+-----END PGP SIGNATURE-----
+
+--p5ofvbvnu5dmxsky--
