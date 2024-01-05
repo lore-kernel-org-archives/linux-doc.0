@@ -1,273 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0E820EB;
-	Fri,  5 Jan 2024 02:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC48566A
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jan 2024 05:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tFFuQtN1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D67D9C433CD;
-	Fri,  5 Jan 2024 02:39:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704422389;
-	bh=ENpZuD2THtzGRqEXKNM+3GLOVzxifNZq0/t++tPGpFk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tFFuQtN1Ga8yvlhra26rSdWsrxKuwpSfpvSNZMMlzDICuKQA7+33dfpRrlcgG8MWf
-	 Xiv931JnxT+c/wdjDqGWGx9JNokESQfq4HNzNUbUC7Q3JsMQMVHl1hha2eBwvRg6vU
-	 wdtx2myM9s6kxxflbKpJwIDPGiIlGtBByDrqx7QzVuQaRsnuZCLEbZ9y7dERYAb65w
-	 cC/Tze4HWEQ6V3AghfUB6UKTKBUBsVfauzM7+a0BXbkzdY0qqvth1+hs8u8dUkull4
-	 7ygvnSlQfSX2bSLDynuRkAi894IhNnWQqO0+TRTQFD9nmEBozR0jyLzfz7GMMNVTw5
-	 JdKqanv/7Pfgw==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50e8ca6c76dso1267496e87.3;
-        Thu, 04 Jan 2024 18:39:49 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz8qYMVSyQkJT8khvCQ+6pWTw3g0zdTNIRqtApkCJvMuVvShQxk
-	M8I6du+2Q2w5zB104PP/M9wLnW3811PiHSq3FTA=
-X-Google-Smtp-Source: AGHT+IFcD4P65UGYaE6VJcnT08zP0SMVFlOmMwkkaFekQv6n7Met/6FBGk+F5ewJ0Fqbj8FkC+Bc060sC6ypuOZQ+n0=
-X-Received: by 2002:a05:6512:684:b0:50e:a8ac:8ff9 with SMTP id
- t4-20020a056512068400b0050ea8ac8ff9mr850695lfe.14.1704422388019; Thu, 04 Jan
- 2024 18:39:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YhDTI9kI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=WfYHZN02CLJH0ySpqHd7ao/46+BdoIRfnnU+Dxnoo5Q=; b=YhDTI9kIyHogx9w4rkPWVO6J8o
+	992BEELaSHCa/YTd9ygz5ZVn2I3thTxG04j0ixaWLIDKEerNOSZzB1g+CT1Yh/yMtWVL1PgSryyGs
+	UZkWtg6rJ6+lkPx86Y3YmdHVtNsVf+ww5Bu7Rou+TTjOOPO6PC02WCTuFXRzDUDUBsrZhhS8RM47u
+	TKVA0ipEDn2H6i7ld1iLFiZpV/4d1OEyidHR9QG/rHE6Dn+lDtJ+BkSiHWp+eK8F9Opv1l9t3SUpj
+	Tv+iJnrYbZk7Wee2dui2Jb8h4sjNs7nrF4QwaNab4g2DUSktKK3Hu3V5zf/68kCljAEc3tqb30U5j
+	JRlHvf0w==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rLcno-00FzF5-15;
+	Fri, 05 Jan 2024 05:31:28 +0000
+Message-ID: <f19a971d-5d58-4166-ba03-db915eb49fc6@infradead.org>
+Date: Thu, 4 Jan 2024 21:31:26 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <MW4PR84MB3145344537A6C6629398DF7C819FA@MW4PR84MB3145.NAMPRD84.PROD.OUTLOOK.COM>
- <CAAhV-H7+oCWSLcRi87LeOxJg84DdPe=5pcAvNwwDs-ucTTAm2g@mail.gmail.com>
-In-Reply-To: <CAAhV-H7+oCWSLcRi87LeOxJg84DdPe=5pcAvNwwDs-ucTTAm2g@mail.gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Fri, 5 Jan 2024 10:39:41 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5xO1dYd03cb--LM6Uf+DBq0qaL56ErO6tJg34prsO2QA@mail.gmail.com>
-Message-ID: <CAAhV-H5xO1dYd03cb--LM6Uf+DBq0qaL56ErO6tJg34prsO2QA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] LoongArch: use generic interface to support crashkernel=X,[high,low]
-To: Youling Tang <youling.tang@outlook.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, WANG Xuerui <kernel@xen0n.name>, Baoquan He <bhe@redhat.com>, 
-	loongarch@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Youling Tang <tangyouling@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>
+References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
+ <009fcdc4-b10a-4ab9-b368-7cea75bb74e2@infradead.org>
+ <0f04dd81-1b0f-4408-b4de-63a01895b0a5@oracle.com>
+ <df7d110b-a50c-4293-b5d4-45913fa6909e@infradead.org>
+ <70b16de0-b213-464f-a318-d9b96b76b967@infradead.org>
+In-Reply-To: <70b16de0-b213-464f-a318-d9b96b76b967@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi, Youling,
 
-On Thu, Dec 28, 2023 at 9:24=E2=80=AFAM Huacai Chen <chenhuacai@kernel.org>=
- wrote:
->
-> Hi, Youling,
->
-> I squashed the two patches and applied here:
-> https://github.com/chenhuacai/linux/commits/loongarch-next
->
-> You can verify whether everything works.
-With this patch applied I found there is something wrong in
-/proc/iomem, and I fixed it with [1], could you please help to review
-it?
 
-[1] https://lore.kernel.org/kexec/20231229080213.2622204-1-chenhuacai@loong=
-son.cn/T/#u
+On 1/2/24 19:10, Randy Dunlap wrote:
+> Hi Vegard,
+> 
+> On 12/25/23 09:08, Randy Dunlap wrote:
+>>
+>>
+>> On 12/25/23 00:30, Vegard Nossum wrote:
+>>>
+>>> On 25/12/2023 08:40, Randy Dunlap wrote:
+>>>> I do see one thing that I don't like in the generated html output.
+>>>> It's not a problem with this patch.
+>>>> The #defines for DRM_NOUVEAU_VM_BIND_OP_MAP etc. have a ';' at the
+>>>> end of each line:
+>>>>
+>>>> struct drm_nouveau_vm_bind_op {
+>>>>      __u32 op;
+>>>> #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0;
+>>>> #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1;
+>>>>      __u32 flags;
+>>>> #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8);
+>>>>      __u32 handle;
+>>>>      __u32 pad;
+>>>>      __u64 addr;
+>>>>      __u64 bo_offset;
+>>>>      __u64 range;
+>>>> };
+>>>
+>>> Do we actually ever want preprocessor directives to appear inside
+>>> definitions in the output? If not, I think this should work:
+>>
+>> Not necessarily.
+>>
+>>> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+>>> index 3cdc7dba37e3..61425fc9645e 100755
+>>> --- a/scripts/kernel-doc
+>>> +++ b/scripts/kernel-doc
+>>> @@ -1259,6 +1259,8 @@ sub dump_struct($$) {
+>>>                 $clause =~ s/\s+$//;
+>>>                 $clause =~ s/\s+/ /;
+>>>                 next if (!$clause);
+>>> +               # skip preprocessor directives
+>>> +               next if $clause =~ m/^#/;
+>>>                 $level-- if ($clause =~ m/(\})/ && $level > 1);
+>>>                 if (!($clause =~ m/^\s*#/)) {
+>>>                         $declaration .= "\t" x $level;
+>>>
+>>>
+>>
+>> but that didn't work for me.
+>> I don't have time to look into it any more today.  :)
+> 
+> I retested this patch. I must have really messed up my testing
+> in the first round. This now LGTM. Thanks.
+> 
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-Huacai
+Vegard, do you plan to submit this as a kernel-doc patch?
 
->
-> Huacai
->
-> On Wed, Dec 27, 2023 at 8:31=E2=80=AFPM Youling Tang <youling.tang@outloo=
-k.com> wrote:
-> >
-> > From: Youling Tang <tangyouling@kylinos.cn>
-> >
-> > LoongArch already supports two crashkernel regions in kexec-tools, so w=
-e
-> > can directly use the common interface to support crashkernel=3DX,[hign,=
-low]
-> > after commit 0ab97169aa05("crash_core: add generic function to do reser=
-vation").
-> >
-> > With the help of newly changed function parse_crashkernel() and generic
-> > reserve_crashkernel_generic(), crashkernel reservation can be simplifie=
-d
-> > by steps:
-> >
-> > 1) Add a new header file <asm/crash_core.h>, and define CRASH_ALIGN,
-> >    CRASH_ADDR_LOW_MAX, CRASH_ADDR_HIGH_MAX and
-> >    DEFAULT_CRASH_KERNEL_LOW_SIZE in <asm/crash_core.h>;
-> >
-> > 2) Add arch_reserve_crashkernel() to call parse_crashkernel() and
-> >    reserve_crashkernel_generic();
-> >
-> > 3) Add ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION Kconfig in
-> >    arch/loongarch/Kconfig.
-> >
-> > One can reserve the crash kernel from high memory above DMA zone range
-> > by explicitly passing "crashkernel=3DX,high"; or reserve a memory range
-> > below 4G with "crashkernel=3DX,low". Besides, there are few rules need
-> > to take notice:
-> >
-> > 1) "crashkernel=3DX,[high,low]" will be ignored if "crashkernel=3Dsize"
-> >    is specified.
-> > 2) "crashkernel=3DX,low" is valid only when "crashkernel=3DX,high" is p=
-assed
-> >    and there is enough memory to be allocated under 4G.
-> > 3) When allocating crashkernel above 4G and no "crashkernel=3DX,low" is
-> >    specified, a 128M low memory will be allocated automatically for
-> >    swiotlb bounce buffer.
-> > See Documentation/admin-guide/kernel-parameters.txt for more informatio=
-n.
-> >
-> > Following test cases have been performed as expected:
-> > 1) crashkernel=3D256M                          //low=3D256M
-> > 2) crashkernel=3D1G                            //low=3D1G
-> > 3) crashkernel=3D4G                            //high=3D4G, low=3D128M(=
-default)
-> > 4) crashkernel=3D4G crashkernel=3D256M,high      //high=3D4G, low=3D128=
-M(default), high is ignored
-> > 5) crashkernel=3D4G crashkernel=3D256M,low       //high=3D4G, low=3D128=
-M(default), low is ignored
-> > 6) crashkernel=3D4G,high                       //high=3D4G, low=3D128M(=
-default)
-> > 7) crashkernel=3D256M,low                      //low=3D0M, invalid
-> > 8) crashkernel=3D4G,high crashkernel=3D256M,low  //high=3D4G, low=3D256=
-M
-> > 9) crashkernel=3D4G,high crashkernel=3D4G,low    //high=3D0M, low=3D0M,=
- invalid
-> > 10) crashkernel=3D512M@2560M                   //low=3D512M
-> > 11) crashkernel=3D1G,high crashkernel=3D0M,low   //high=3D1G, low=3D0M
-> >
-> > Recommended usage in general:
-> > 1) In the case of small memory: crashkernel=3D512M
-> > 2) In the case of large memory: crashkernel=3D1024M,high crashkernel=3D=
-128M,low
-> >
-> > Signed-off-by: Youling Tang <tangyouling@kylinos.cn>
-> > ---
-> > v2:
-> > Submit information and format adjustments.
-> >
-> >  arch/loongarch/Kconfig                  |  3 ++
-> >  arch/loongarch/include/asm/crash_core.h | 11 ++++++
-> >  arch/loongarch/kernel/setup.c           | 46 ++++++-------------------
-> >  3 files changed, 25 insertions(+), 35 deletions(-)
-> >  create mode 100644 arch/loongarch/include/asm/crash_core.h
-> >
-> > diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> > index ee123820a476..02060b2ac3f2 100644
-> > --- a/arch/loongarch/Kconfig
-> > +++ b/arch/loongarch/Kconfig
-> > @@ -575,6 +575,9 @@ config ARCH_SELECTS_CRASH_DUMP
-> >         depends on CRASH_DUMP
-> >         select RELOCATABLE
-> >
-> > +config ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
-> > +       def_bool CRASH_CORE
-> > +
-> >  config RELOCATABLE
-> >         bool "Relocatable kernel"
-> >         help
-> > diff --git a/arch/loongarch/include/asm/crash_core.h b/arch/loongarch/i=
-nclude/asm/crash_core.h
-> > new file mode 100644
-> > index 000000000000..1f7040d8ed0f
-> > --- /dev/null
-> > +++ b/arch/loongarch/include/asm/crash_core.h
-> > @@ -0,0 +1,11 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +#ifndef _LOONGARCH_CRASH_CORE_H
-> > +#define _LOONGARCH_CRASH_CORE_H
-> > +
-> > +#define CRASH_ALIGN                    SZ_2M
-> > +
-> > +#define CRASH_ADDR_LOW_MAX             SZ_4G
-> > +#define CRASH_ADDR_HIGH_MAX            memblock_end_of_DRAM()
-> > +
-> > +extern phys_addr_t memblock_end_of_DRAM(void);
-> > +#endif
-> > diff --git a/arch/loongarch/kernel/setup.c b/arch/loongarch/kernel/setu=
-p.c
-> > index d183a745fb85..189cd9575758 100644
-> > --- a/arch/loongarch/kernel/setup.c
-> > +++ b/arch/loongarch/kernel/setup.c
-> > @@ -252,38 +252,23 @@ static void __init arch_reserve_vmcore(void)
-> >  #endif
-> >  }
-> >
-> > -/* 2MB alignment for crash kernel regions */
-> > -#define CRASH_ALIGN    SZ_2M
-> > -#define CRASH_ADDR_MAX SZ_4G
-> > -
-> > -static void __init arch_parse_crashkernel(void)
-> > +static void __init arch_reserve_crashkernel(void)
-> >  {
-> > -#ifdef CONFIG_KEXEC
-> > -       int ret;
-> > -       unsigned long long total_mem;
-> > +       unsigned long long low_size =3D 0;
-> >         unsigned long long crash_base, crash_size;
-> > +       char *cmdline =3D boot_command_line;
-> > +       bool high =3D false;
-> > +       int ret;
-> >
-> > -       total_mem =3D memblock_phys_mem_size();
-> > -       ret =3D parse_crashkernel(boot_command_line, total_mem,
-> > -                               &crash_size, &crash_base,
-> > -                               NULL, NULL);
-> > -       if (ret < 0 || crash_size <=3D 0)
-> > +       if (!IS_ENABLED(CONFIG_KEXEC_CORE))
-> >                 return;
-> >
-> > -       if (crash_base <=3D 0) {
-> > -               crash_base =3D memblock_phys_alloc_range(crash_size, CR=
-ASH_ALIGN, CRASH_ALIGN, CRASH_ADDR_MAX);
-> > -               if (!crash_base) {
-> > -                       pr_warn("crashkernel reservation failed - No su=
-itable area found.\n");
-> > -                       return;
-> > -               }
-> > -       } else if (!memblock_phys_alloc_range(crash_size, CRASH_ALIGN, =
-crash_base, crash_base + crash_size)) {
-> > -               pr_warn("Invalid memory region reserved for crash kerne=
-l\n");
-> > +       ret =3D parse_crashkernel(cmdline, memblock_phys_mem_size(),
-> > +                               &crash_size, &crash_base, &low_size, &h=
-igh);
-> > +       if (ret)
-> >                 return;
-> > -       }
-> >
-> > -       crashk_res.start =3D crash_base;
-> > -       crashk_res.end   =3D crash_base + crash_size - 1;
-> > -#endif
-> > +       reserve_crashkernel_generic(cmdline, crash_size, crash_base, lo=
-w_size, high);
-> >  }
-> >
-> >  static void __init fdt_setup(void)
-> > @@ -357,7 +342,7 @@ static void __init bootcmdline_init(char **cmdline_=
-p)
-> >  void __init platform_init(void)
-> >  {
-> >         arch_reserve_vmcore();
-> > -       arch_parse_crashkernel();
-> > +       arch_reserve_crashkernel();
-> >
-> >  #ifdef CONFIG_ACPI_TABLE_UPGRADE
-> >         acpi_table_upgrade();
-> > @@ -467,15 +452,6 @@ static void __init resource_init(void)
-> >                 request_resource(res, &data_resource);
-> >                 request_resource(res, &bss_resource);
-> >         }
-> > -
-> > -#ifdef CONFIG_KEXEC
-> > -       if (crashk_res.start < crashk_res.end) {
-> > -               insert_resource(&iomem_resource, &crashk_res);
-> > -               pr_info("Reserving %ldMB of memory at %ldMB for crashke=
-rnel\n",
-> > -                       (unsigned long)((crashk_res.end - crashk_res.st=
-art + 1) >> 20),
-> > -                       (unsigned long)(crashk_res.start  >> 20));
-> > -       }
-> > -#endif
-> >  }
-> >
-> >  static int __init add_legacy_isa_io(struct fwnode_handle *fwnode,
-> > --
-> > 2.40.0
-> >
-> >
+Thanks.
+
+-- 
+#Randy
