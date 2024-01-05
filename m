@@ -1,121 +1,178 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C538920B29;
-	Fri,  5 Jan 2024 08:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BE721A14;
+	Fri,  5 Jan 2024 08:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kwNM06PZ"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40d604b4b30so1537015e9.1;
-        Fri, 05 Jan 2024 00:20:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704442828; x=1705047628; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UirpifrpW6YIRosDr0Ki+l8kjsuIejuWaHX21FvuZXo=;
-        b=kwNM06PZJap/F/hq6cDd3/9e4mf8q16HbuxZEfDrYasfWHM1ar3BENGRDj1mbRnnl3
-         F/qugWH8GA8d3jbB9fJ7CkSImbnIGgoPX2awJhAKJVlKf/9Z6ImYfSvFuGvvyDYBfl2k
-         8imbrymeTOCgfYO/1vuzl/QEzU8C+R66JNjt7LLPl7Bv7vX32eApSBgyH07b9TQD3mSw
-         1R5jvZPD4iIFVnKDJ1HPA3lqxoLvCnywOF9ZYGrc5p/UCGRMe8SnjAdJfGJuPuhvilnW
-         dSOaPKQL9m4Dns6yItaMygiZYitM2uwmEGQ9CPZqPs+iYwO+2rgKNK5B7Uv0nsiba6ZF
-         kWkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704442828; x=1705047628;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UirpifrpW6YIRosDr0Ki+l8kjsuIejuWaHX21FvuZXo=;
-        b=hxsl7IgTR8Fxrt+MlQ6WpS0aA3ZmCAN+vBh0fRK07Z7PAaO++WlJjYaltmuzXrobYv
-         kvzVwYUW24YFCiZsZdXItDKK0sEVO2qCjj5xqxY1ipZzL7DAZsIQZDCfPSMZhnP4ZFSW
-         i/dW76/dQng7Jz6iS1aEpuwSNGOWThp+60189kHLhKDDccTkRXRqhxADOlR3x2UHkQhx
-         Wz5eAJzDzO0adYOHaThdZNaU1av6CB+VVoWVJY9IV6/YlwKzHd3RU1KQ7pkeZTe/k91+
-         3S/7aHzZJg58GPe4OKMYZb/jVV1AcmXXVNyn+USxlDqMVvmZRnUxDuw0VrUTQzuY24Vp
-         LmeQ==
-X-Gm-Message-State: AOJu0YzmupXOIr08XptNYHj92un+/DWZNKxFSqYIozxjdI1CLZGVnfcK
-	ivHmsG38hnt3j/T+HjX0SIY=
-X-Google-Smtp-Source: AGHT+IHMgrGKGIkfpqwpUlWkD6o90yPervTOv/x0T4n2N+OmVuREFRfDKOS87FVN6VWMXcJ9sQ/Mcw==
-X-Received: by 2002:a05:600c:5486:b0:40e:3538:a5c0 with SMTP id iv6-20020a05600c548600b0040e3538a5c0mr821797wmb.1.1704442827675;
-        Fri, 05 Jan 2024 00:20:27 -0800 (PST)
-Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id j26-20020a05600c1c1a00b0040e3804ea71sm806474wms.10.2024.01.05.00.20.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 00:20:26 -0800 (PST)
-Date: Fri, 5 Jan 2024 09:20:23 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com, bhelgaas@google.com,
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com, joro@8bytes.org,
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
-	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
-	samuel@sholland.org, suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev, tj@kernel.org, tomas.mudrunka@gmail.com,
-	vdumpa@nvidia.com, wens@csie.org, will@kernel.org,
-	yu-cheng.yu@intel.com, rientjes@google.com
-Subject: Re: [PATCH v3 08/10] iommu/tegra-smmu: use page allocation function
- provided by iommu-pages.h
-Message-ID: <ZZe7x-l3Lxwp-4kq@orome.fritz.box>
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <20231226200205.562565-9-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oD+vhHPI"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3BC9BC433C7;
+	Fri,  5 Jan 2024 08:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704443225;
+	bh=J9zv5oHyamS5PRZOF0tXtJ/G7Rms0rZ2TZXyj5Hx/qE=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=oD+vhHPIbjP4Sa/kR7JKxNwNQhKwb2UFwmxFl+fFiIkk3e3oYQkv9M4cH5gEgjpCt
+	 rhwK3FCVUTelq7NY7Q9qG2VAbf9VVfvNKmOtRJuQjZVSeb4XKk1dns5FEKCKU5afAV
+	 8RDx7skUc5KEYp7R8GIKxXLfQK2ttP/lAGQMZDEGLS9UaJg8zFFOjQsj5On1h/tUta
+	 Eh1w/Os1XI1udn/y2X6ObQmhQ3LE01nBLQWSRKu4zOSaQNQ2/lGXYl/o0160ITnVos
+	 dHoP+hVaUb950FrEjyDvB7oDEf9lJACL/i+myBEvtAOC+dacFBacvjf+Y4YIPH01pr
+	 xYhhRxniqgviw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AFE4C47079;
+	Fri,  5 Jan 2024 08:27:05 +0000 (UTC)
+From: Christoph Winklhofer via B4 Relay
+ <devnull+cj.winklhofer.gmail.com@kernel.org>
+Subject: [PATCH v3 0/3] w1: add UART w1 bus driver
+Date: Fri, 05 Jan 2024 09:26:41 +0100
+Message-Id: <20240105-w1-uart-v3-0-8687093b2e76@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="8IeHlBnAmdcVLGIU"
-Content-Disposition: inline
-In-Reply-To: <20231226200205.562565-9-pasha.tatashin@soleen.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEG9l2UC/zXMwQqDMBAE0F+RPXdlo4lIT/2P0kOwG93WGFltL
+ Yj/3lDoYQ4PZmaHhVV4gXOxg/JbFklTRn0qoBv81DPKPRsqqiwZsrgZfHldkbltWueN844gt2f
+ lIJ/f0/WWHTRFXAdl/9/XpsohstSW1pJr0GD3KDeZnuOQAuulj17GsksRjuML1wHc95oAAAA=
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Christoph Winklhofer <cj.winklhofer@gmail.com>, 
+ Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1704443222; l=4768;
+ i=cj.winklhofer@gmail.com; s=20240104; h=from:subject:message-id;
+ bh=J9zv5oHyamS5PRZOF0tXtJ/G7Rms0rZ2TZXyj5Hx/qE=;
+ b=oJYrb7YMqdI2yRcQld2Z45q1j8586OsLVG+BXbM26rhykV4fUMLxosVq7IokqvcjqsXcuHS86
+ CVS8+U07jxRAG2ripWJ0TPXClw2P21/7f4Mr2RHk/tutkWjmzjI5IuT
+X-Developer-Key: i=cj.winklhofer@gmail.com; a=ed25519;
+ pk=lgjGjOt7hFKJT9UXhgUyrdthxvZ7DJ5F1U/7d9qdAsk=
+X-Endpoint-Received:
+ by B4 Relay for cj.winklhofer@gmail.com/20240104 with auth_id=111
+X-Original-From: Christoph Winklhofer <cj.winklhofer@gmail.com>
+Reply-To: <cj.winklhofer@gmail.com>
 
+Hello!
 
---8IeHlBnAmdcVLGIU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch contains a driver for a 1-Wire bus over UART. The driver
+utilizes the UART interface via the Serial Device Bus to create the
+1-Wire timing patterns.
 
-On Tue, Dec 26, 2023 at 08:02:03PM +0000, Pasha Tatashin wrote:
-> Convert iommu/tegra-smmu.c to use the new page allocation functions
-> provided in iommu-pages.h.
->=20
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Acked-by: David Rientjes <rientjes@google.com>
-> ---
->  drivers/iommu/tegra-smmu.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
+Changes in v3:
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+- improve baud-rate configuration: use specific limits for 1-Wire
+  reset, touch-0 and touch-1 operation, compute in nanoseconds.
+- remove unused header atomic.h
+- use function instead of macro to compute bit-time from baud-rate
+- switch to b4 util to publish patch: missing recipients
 
---8IeHlBnAmdcVLGIU
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes in v2:
 
------BEGIN PGP SIGNATURE-----
+- add documentation for dt-binding
+- allow onewire as serial child node
+- support different baud-rates: The driver requests a baud-rate (9600
+  for reset and 115200 for write/read) and tries to adapt the
+  transmitted byte according to the actual baud-rate returned from
+  serdev.
+- fix locking problem for serdev-receive and w1-master reset/touch: The
+  received byte is now protected with a mutex - instead of the atomic,
+  which was used before due to the concurrent store and load.
+- explicit error in serdev-receive: Receiving more than one byte results
+  in an error, since the w1-uart driver is the only writer, it writes a
+  single-byte and should receive a single byte.
+- fix variable names, errno-returns, wrong define CONFIG_OF
+- fix log flooding
+- fix driver remove (error-path for rxtx-function)
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmWXu8cACgkQ3SOs138+
-s6HXkg//YOz2qzNPS3zbXb9R+gceE/gBdW73WaBVARCvXhhc5PWwWZctFyPH4Hf7
-KDyc0njiNk3tDVY28wbWI3Ex8fbdkb+B8CUlZihhhRxtYaEUiHjkUK7cyR8i81Dq
-pv2Bw67wRrXUthITgzpBOOqdeI+FpB/ch6GKIH0S13F/NpIwmLemg/u5THAgTAyw
-IBi+44VeFWXKky8rT2s/rENv2JAhz5ltYql0CGxFEYhqiIunEb2eqDPgbfr8vLKv
-2mvQmIOZsY04NO86V6eTKTM7+Ue5tzt+jHrMVr0gH/DkHkcmbOoPTn/lBsZ8IFi/
-3nhtBB5ofmX/+80r6w9u/reWpqxUWyvRcJYsE06Nw/AAZN6IZM1ds+6bal1QJ8Zn
-Cw+zagqq5Sqj2ah/tQ/W3rOzbs/XLMD0xLkRl7/kcjjOq+LfZFAzx3zqNyB3Vzlp
-/q+60iAGtwkI04MSGlkKjVkHpIrtSKQFWXbnM79/c5GEevy4r/W2/d7k+phM0y/Y
-GrblcAFFlQfSm4K19PEWARzu0mHOHFqIIcd6vfRONCuGFSAcmtvdB3KOfap5jP4H
-ebZ1R6zDoreUq4hYVBSiRxYxmfDgRUyTQcOTDhEGy/JyteRgvKVhDwgPH+ql3OGS
-wSPkv6/wg5Y8w2lR1QHCG/KXFjZ84iBLdT38/7QZqAR6hfMBGno=
-=MX0T
------END PGP SIGNATURE-----
+Krzysztof, thank your very much for your feedback!
 
---8IeHlBnAmdcVLGIU--
+It was tested on a "Raspberry Pi 3 Model B+" with a DS18B20 and on a
+"Variscite DART-6UL" with a DS18S20 temperature sensor.
+
+Content:
+- Patch 1: device tree binding 1-Wire
+- Patch 2: allow onewire as serial child node
+- Patch 3: driver and documentation
+
+The patch was created against the w1 subsytem tree (branch w1-next):
+  Link: https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-w1.git/
+
+The checkpatch.pl script reported the following error - which I am not
+sure how to fix:
+  WARNING: added, moved or deleted file(s), does MAINTAINERS need
+  updating?
+
+The technical details for 1-Wire over UART are in the document:
+  Link: https://www.analog.com/en/technical-articles/using-a-uart-to-implement-a-1wire-bus-master.html
+
+  In short, the UART peripheral must support full-duplex and operate in
+open-drain mode. The timing patterns are generated by a specific
+combination of baud-rate and transmitted byte, which corresponds to a
+1-Wire read bit, write bit or reset pulse.
+
+For instance the timing pattern for a 1-Wire reset and presence detect
+uses the baud-rate 9600, i.e. 104.2 us per bit. The transmitted byte
+0xf0 over UART (least significant bit first, start-bit low) sets the
+reset low time for 1-Wire to 521 us. A present 1-Wire device changes the
+received byte by pulling the line low, which is used by the driver to
+evaluate the result of the 1-Wire operation.
+
+Similar for a 1-Wire read bit or write bit, which uses the baud-rate
+115200, i.e. 8.7 us per bit. The transmitted byte 0x00 is used for a
+Write-0 operation and the byte 0xff for Read-0, Read-1 and Write-1.
+
+Hope the driver is helpful.
+
+Thanks,
+Christoph
+
+Christoph Winklhofer (3):
+  dt-bindings: w1: UART 1-Wire bus
+  dt-bindings: serial: allow onewire as child node
+  w1: add UART w1 bus driver
+
+ .../devicetree/bindings/serial/serial.yaml    |   2 +-
+ .../devicetree/bindings/w1/w1-uart.yaml       |  44 +++
+ Documentation/w1/masters/index.rst            |   1 +
+ Documentation/w1/masters/w1-uart.rst          |  53 +++
+ drivers/w1/masters/Kconfig                    |  10 +
+ drivers/w1/masters/Makefile                   |   1 +
+ drivers/w1/masters/w1-uart.c                  | 307 ++++++++++++++++++
+ 7 files changed, 417 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/w1/w1-uart.yaml
+ create mode 100644 Documentation/w1/masters/w1-uart.rst
+ create mode 100644 drivers/w1/masters/w1-uart.c
+
+--
+2.43.0
+
+base-commit: efc19c44aa442197ddcbb157c6ca54a56eba8c4e
+---
+Christoph Winklhofer (3):
+      dt-bindings: w1: UART 1-Wire bus
+      dt-bindings: serial: allow onewire as child node
+      w1: add UART w1 bus driver
+
+ .../devicetree/bindings/serial/serial.yaml         |   2 +-
+ Documentation/devicetree/bindings/w1/w1-uart.yaml  |  44 +++
+ Documentation/w1/masters/index.rst                 |   1 +
+ Documentation/w1/masters/w1-uart.rst               |  54 ++++
+ drivers/w1/masters/Kconfig                         |  10 +
+ drivers/w1/masters/Makefile                        |   1 +
+ drivers/w1/masters/w1-uart.c                       | 350 +++++++++++++++++++++
+ 7 files changed, 461 insertions(+), 1 deletion(-)
+---
+base-commit: efc19c44aa442197ddcbb157c6ca54a56eba8c4e
+change-id: 20240104-w1-uart-ee8685a15a50
+
+Best regards,
+-- 
+Christoph Winklhofer <cj.winklhofer@gmail.com>
+
