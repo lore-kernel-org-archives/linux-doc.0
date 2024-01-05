@@ -1,122 +1,74 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BF536096;
-	Fri,  5 Jan 2024 22:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AldvIK7K"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=yMeVG/Fp9FA+UiEjbyTIyLKYgRqI9k4EOU9gvb1YxA4=; b=AldvIK7K5GbQmdvRbtOOisjQUw
-	aQO09FVDccUz/Q5GK6Y4e/j90g2LrQOXK5gb83o75t86u7I+zM6UlRquM7K2+j+9u/r5Khl4YrZWZ
-	Ip+9OI0y6hYkAsOI1jSBZgz/yQ+sNIL252Y70/Vm2itgQxlRYIDFAPUTzt7vOlxCiUAVTAJrPyzyI
-	nYYZYznMuYzIs5pHHygLVmcy78Cg8wsIqUc9ZZ9247oQ3/dcpRcjz6xTheiVqm40FcfFzztc095wC
-	CPZOc6Fu6DJTRDoiCsCMAeun60jdDdgRh0f45Zv3esMwXCi9P2LGIUJ+r1liBGAenWZNwns2uwonS
-	qmk4uDFQ==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLt07-000NKY-0H;
-	Fri, 05 Jan 2024 22:49:15 +0000
-Message-ID: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
-Date: Fri, 5 Jan 2024 14:49:14 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D37360A3;
+	Fri,  5 Jan 2024 23:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-28c075ad8e7so94806a91.2;
+        Fri, 05 Jan 2024 15:12:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704496351; x=1705101151;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dUAhNqUpdKmg+sUIUDMYqgFuBhU5t8vIbGzf07x8V/w=;
+        b=XZHvOfwQfZ3I4/5wHv1X2j/Po6Z50wGyIEVN0kxPmjoDVpd0phlcHehr2+q4fPrr2r
+         aot5S2EBSl03w0GvN6z3oDn23X2/rF71J4n8qqdW8zrYU0JpjCReBZMxiNHG6PitU3CM
+         b+7erP9wsuduVi/zL/DpVOYWjbOmQUSsnt/+2jj77pkyFVeI+hwQHiidk+6cDMny8zjH
+         yk4cXGArHolG1I1bqXLebmkLdd3N+4FGEYS2xhGumcUc7XxMkk6xatQrE5VXZhfmF363
+         6WpXeUXYJXjlstWL4UVjczL3TihNdphdv2iVDGWfSgiSByOOGKBm4gZ41IuEgfs+6E7k
+         Twsg==
+X-Gm-Message-State: AOJu0YxSfZkBCiZDhiHFuWKSp2vtVW7kTDEtQ7KAh1MTtknC5JLuf2Oe
+	rjgOYP2phsZAI+kDbWaURwit2NkZE/YmZAvsw0tLGoBF
+X-Google-Smtp-Source: AGHT+IGGIGElvesePWzf2AKJd00KSRLZdRgA9eddzlMLNrxojV3lc2haH3+m3r9GCnfVb/oyQA4w7HwES29gQ29TXts=
+X-Received: by 2002:a17:90b:4b81:b0:28c:c667:450c with SMTP id
+ lr1-20020a17090b4b8100b0028cc667450cmr170349pjb.66.1704496351484; Fri, 05 Jan
+ 2024 15:12:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Irrelevant documentation recommending the use of
- "include/linux/kernel.h"
-To: Yueh-Shun Li <shamrocklee@posteo.net>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <bc63acd7ef43bdd8d9609fa48dbf92f9@posteo.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <bc63acd7ef43bdd8d9609fa48dbf92f9@posteo.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240102085001.228815-1-leo.yan@linaro.org>
+In-Reply-To: <20240102085001.228815-1-leo.yan@linaro.org>
+From: Namhyung Kim <namhyung@kernel.org>
+Date: Fri, 5 Jan 2024 15:12:20 -0800
+Message-ID: <CAM9d7cg3Qkx240RBGKYegeX-kxgUiQ4-G4R3sJBc=w=o-Msk=Q@mail.gmail.com>
+Subject: Re: [PATCH v8] Documentation: userspace-api: Document perf ring
+ buffer mechanism
+To: Leo Yan <leo.yan@linaro.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Arnaldo Carvalho de Melo <acme@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Thomas Richter <tmricht@linux.ibm.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ingo Molnar <mingo@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Leo,
 
-On 12/17/23 15:46, Yueh-Shun Li wrote:
-> Dear Maintainer,
-> 
-> The section "18) Don't re-invent the kernel macros" in
-> "Linux kernel coding style" (Documentation/process/coding-style.rst)
-> recommends re-using the macros defined in "include/linux/kernel.h"
-> instead of the improvised ones locally.
-> 
-> However, There's a note in the comment block added by commit 40cbf09f060c
-> ("kernel.h: include a note to discourage people from including it in headers")
-> two years ago, saying that there's an in-progress splitting of kernel.h
-> and inclusion in headers under include/ is discouraged.
-> 
-> Considering that the section was added 17 years ago by commit 58637ec90b7c
-> ("Add a new section to CodingStyle, promoting include/linux/kernel.h"),
-> the section about kernel.h in the "Linux kernel coding style" documentation seems outdated.
-> 
+On Tue, Jan 2, 2024 at 12:50=E2=80=AFAM Leo Yan <leo.yan@linaro.org> wrote:
+>
+> In the Linux perf tool, the ring buffer serves not only as a medium for
+> transferring PMU event data but also as a vital mechanism for hardware
+> tracing using technologies like Intel PT and Arm CoreSight, etc.
+>
+> Consequently, the ring buffer mechanism plays a crucial role by ensuring
+> high throughput for data transfer between the kernel and user space
+> while avoiding excessive overhead caused by the ring buffer itself.
+>
+> This commit documents the ring buffer mechanism in detail.  It explains
+> the implementation of both the regular ring buffer and the AUX ring
+> buffer.  Additionally, it covers how these ring buffers support various
+> tracing modes and explains the synchronization with memory barriers.
+>
+> Signed-off-by: Leo Yan <leo.yan@linaro.org>
 
-Yes.
+Thanks a lot for working on this!
 
-> Reproduction steps:
-> 
-> ```sh
-> # cd to the kernel source tree
-> cd path/to/source/linux
-> # Show the git blame of the documentation section added in 2006
-> git blame -L 1051,1071 Documentation/process/coding-style.rst
-> # Show the comment note on top of include/linux/kernel.h added in 2022
-> git blame -L 2,10 include/linux/kernel.h
-> ```
-> 
-> Should we change
-> 
-> ```
-> The header file include/linux/kernel.h
-> ```
-> 
-> to something like
-> 
-> ```
-> The header files under the include/linux/ directory
-> ```
+Reviewed-by: Namhyung Kim <namhyung@kernel.org>
 
-the necessary header files in the include/linux/ directory.
-
-
-> 
-> or a specific header that contains standalone helper macros?
-> 
-
-No. That would just end up as another catchall file that
-gets too large (bloated) and contain many headers that are not
-needed for some or many source files.
-
-> It might be out of scope here,
-> but such a header that collects standalone helping macros
-> seems non-existent so far.
-
-I think that we don't want another one.
-
-> It would be great to have one that contains things like
-> "STRINGIFY", "CONCATENATE" (or "PASTE"), "UNIQUE_ID"
-> and other helper macros without external dependencies.
-> There's one called "include/linux/util_macros.h", but it depends on "include/linux/math.h".
-> 
-> It's the first time for me to report an issue in LKML.
-> Please kindly point out anything
-> that I should fix or could improve.
-> 
-> Best regards,
-> 
-> Shamrock
-> 
-
-Thanks.
--- 
-#Randy
+Thanks,
+Namhyung
