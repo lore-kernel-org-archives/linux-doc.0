@@ -1,145 +1,121 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2066.outbound.protection.outlook.com [40.107.244.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BE51DDD9;
-	Fri,  5 Jan 2024 07:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C538920B29;
+	Fri,  5 Jan 2024 08:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="JETk18fz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VF1lY4oeGr3LBwJk3ZR7MWAeP9SrHHDK8KwoL2RmjCFN8+3vKuYHETzABjdJrU4HU3+hYvtSPUTXFfulW3e1+MjDWEJAhC89Kr3d7rBWGU6OkVs6eO22InnMd5Omad5uRSfTiNz87cV0onIPBLWG+m6bJS34uo8OmegsTaN6MHyMRc5PKB6N7lxCxpxXcqIxh8/nWC3H6rDH+yoU8FjfDHZ4BLbokj+zhxgGdUAsior8jnhen7Mp84vp8ZogTBrf4S0YHT12yyTY7oClg/Fe4kE8CiLKXbonyWqqpV1M1KM5p6k04cq7SFR6ZHS5e7IfzF1YfnOsMmjMPtwR4mC0Yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3a5jw1QyWuTRkjCthL/JXi1g5xzyEK1LTY6GX4CW0F4=;
- b=lVSPzoBXvNu4dnmHSMzrMTgVzXec3KgELkIDUFuDw0hQ1shwqKXAPCAhajQRym8yLwgO7NeMPu8f8r1Hb2Og+37YKIjOx1ta4FRUfbe/RHqCBp3YfNp73vY0sEeyB5sFa4hs0WOpz1eJ8QTDY9t4uulYgEHF8loQEmo/Qn4bfFAgnTcCIp4ELkVsni2gZAbaVDwnAwLiyk5zwbJ7Zh/wRFw4SrNCBt4CPEAOUDXQzWWUEMqEYoc4JuRHQ1VoACpNjfcrvn1onTeej6AAjBjMNaBKpAvTqQt9ckGTELBBcfbNMHhoKDBdgo7n6J1amO+0lPrEtJE4YxyfNHlBi8vKfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3a5jw1QyWuTRkjCthL/JXi1g5xzyEK1LTY6GX4CW0F4=;
- b=JETk18fzq7zTgUcBzjp3EQGNohnVFYk7r/AfARowYdGAFH0jsOX97B0AfgAW01ZKoCK2i5iR/eL2Nhc3vtEa71EFhRddiedxnX4PngF2xnX2LmDisLBfoFkZ2traiDHSKvM3ZOKR+eHyXrSME5H/sUn1ppmqC0Ybg5XCVHwtR88=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from MW4PR17MB5515.namprd17.prod.outlook.com (2603:10b6:303:126::5)
- by IA1PR17MB6051.namprd17.prod.outlook.com (2603:10b6:208:388::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.13; Fri, 5 Jan
- 2024 07:25:41 +0000
-Received: from MW4PR17MB5515.namprd17.prod.outlook.com
- ([fe80::f5ca:336b:991c:167b]) by MW4PR17MB5515.namprd17.prod.outlook.com
- ([fe80::f5ca:336b:991c:167b%4]) with mapi id 15.20.7159.015; Fri, 5 Jan 2024
- 07:25:41 +0000
-Date: Fri, 5 Jan 2024 02:25:28 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: "Huang, Ying" <ying.huang@intel.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
-	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, corbet@lwn.net, rakie.kim@sk.com,
-	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
-	peterz@infradead.org, jgroves@micron.com, ravis.opensrc@micron.com,
-	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com,
-	seungjun.ha@samsung.com,
-	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
- MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
-Message-ID: <ZZeu6DwVt6o0fl14@memverge.com>
-References: <20231223181101.1954-3-gregory.price@memverge.com>
- <8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZYp6ZRLZQVtTHest@memverge.com>
- <878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZZRybDPSoLme8Ldh@memverge.com>
- <87mstnc6jz.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZZXbN4+2nVbE/lRe@memverge.com>
- <875y09d5d8.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZZcAF4zIpsVN3dLd@memverge.com>
- <87cyugb7cz.fsf@yhuang6-desk2.ccr.corp.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87cyugb7cz.fsf@yhuang6-desk2.ccr.corp.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0290.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::25) To MW4PR17MB5515.namprd17.prod.outlook.com
- (2603:10b6:303:126::5)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kwNM06PZ"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40d604b4b30so1537015e9.1;
+        Fri, 05 Jan 2024 00:20:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704442828; x=1705047628; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UirpifrpW6YIRosDr0Ki+l8kjsuIejuWaHX21FvuZXo=;
+        b=kwNM06PZJap/F/hq6cDd3/9e4mf8q16HbuxZEfDrYasfWHM1ar3BENGRDj1mbRnnl3
+         F/qugWH8GA8d3jbB9fJ7CkSImbnIGgoPX2awJhAKJVlKf/9Z6ImYfSvFuGvvyDYBfl2k
+         8imbrymeTOCgfYO/1vuzl/QEzU8C+R66JNjt7LLPl7Bv7vX32eApSBgyH07b9TQD3mSw
+         1R5jvZPD4iIFVnKDJ1HPA3lqxoLvCnywOF9ZYGrc5p/UCGRMe8SnjAdJfGJuPuhvilnW
+         dSOaPKQL9m4Dns6yItaMygiZYitM2uwmEGQ9CPZqPs+iYwO+2rgKNK5B7Uv0nsiba6ZF
+         kWkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704442828; x=1705047628;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UirpifrpW6YIRosDr0Ki+l8kjsuIejuWaHX21FvuZXo=;
+        b=hxsl7IgTR8Fxrt+MlQ6WpS0aA3ZmCAN+vBh0fRK07Z7PAaO++WlJjYaltmuzXrobYv
+         kvzVwYUW24YFCiZsZdXItDKK0sEVO2qCjj5xqxY1ipZzL7DAZsIQZDCfPSMZhnP4ZFSW
+         i/dW76/dQng7Jz6iS1aEpuwSNGOWThp+60189kHLhKDDccTkRXRqhxADOlR3x2UHkQhx
+         Wz5eAJzDzO0adYOHaThdZNaU1av6CB+VVoWVJY9IV6/YlwKzHd3RU1KQ7pkeZTe/k91+
+         3S/7aHzZJg58GPe4OKMYZb/jVV1AcmXXVNyn+USxlDqMVvmZRnUxDuw0VrUTQzuY24Vp
+         LmeQ==
+X-Gm-Message-State: AOJu0YzmupXOIr08XptNYHj92un+/DWZNKxFSqYIozxjdI1CLZGVnfcK
+	ivHmsG38hnt3j/T+HjX0SIY=
+X-Google-Smtp-Source: AGHT+IHMgrGKGIkfpqwpUlWkD6o90yPervTOv/x0T4n2N+OmVuREFRfDKOS87FVN6VWMXcJ9sQ/Mcw==
+X-Received: by 2002:a05:600c:5486:b0:40e:3538:a5c0 with SMTP id iv6-20020a05600c548600b0040e3538a5c0mr821797wmb.1.1704442827675;
+        Fri, 05 Jan 2024 00:20:27 -0800 (PST)
+Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id j26-20020a05600c1c1a00b0040e3804ea71sm806474wms.10.2024.01.05.00.20.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jan 2024 00:20:26 -0800 (PST)
+Date: Fri, 5 Jan 2024 09:20:23 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com, bhelgaas@google.com,
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, tj@kernel.org, tomas.mudrunka@gmail.com,
+	vdumpa@nvidia.com, wens@csie.org, will@kernel.org,
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 08/10] iommu/tegra-smmu: use page allocation function
+ provided by iommu-pages.h
+Message-ID: <ZZe7x-l3Lxwp-4kq@orome.fritz.box>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-9-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR17MB5515:EE_|IA1PR17MB6051:EE_
-X-MS-Office365-Filtering-Correlation-Id: 434657cb-890e-4de2-0fad-08dc0dbf859c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	+YG5GtjxzsjUdbSwdpFawOUDfo09ZjnArb7vqpyVPaOOCZ+C8JdN9DspuYFilOAw7alk46jTktTs7BQsRyXWPCh5BlF4aFzatvcpCTAdvG7P/i2WNXKRkvDIfQFe2VEaG8oILlWiK/yW4ODtOJbqCdZFZ/fP48y24rpQIl+0mqFN7Sq0/BmHAvKJnSp/p58hVSUz63mhcPP7Fl6LSu5u8zSXmEY8aaAcNReXvIy4r8uusMnv0a+2pxENTIpIVideAD/+q+SXCKPiWVPOkzQwMi8Bhodk3AInKHa9qKgag485TcnEJx8QnoZ1kE8gHl8MfGLqzsll4gvCInXK2UedndkJQUpOP/fwXrwdSwXGc/anMYuXCf6WhGMbrtIUp8IN0bMWTyE4PpvfKknQ41baWUmvnh8NIBKD9b6zfdqC/EABhr7wR7aG2Pm49FeGFf5kgxgCPS/PVfiXl7ARypERJxjcB7bNOe7QYv8OpnNgmGOWhFmnMbP18oAblXnScFktduJBbIT1VvNqdn2K2cnKGglbPNyX3qZrhSv9JaMmFWJoLIMekfwP93OelMHX+g9qhJiRLMfWmhF7keOlnFCpliywPDFlrHjCAMSium4MYVY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR17MB5515.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(136003)(366004)(346002)(39840400004)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(2906002)(4744005)(8936002)(7416002)(7406005)(8676002)(4326008)(44832011)(6486002)(36756003)(316002)(86362001)(54906003)(6916009)(66476007)(5660300002)(478600001)(6506007)(41300700001)(6512007)(6666004)(26005)(38100700002)(2616005)(66556008)(66946007)(83380400001)(16393002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?LkNWQ16ILwTN61lgtsVuTnQfB7PTjCEsWW+t17j98K5ZV09kDx70XY/Dz/mb?=
- =?us-ascii?Q?yqTjtud268+QBjNDyupxALlkVzkuJiNkxyZIsE60n8fJlSvM9dJtCsRktU8G?=
- =?us-ascii?Q?CRr5yJtptI5bz8EegWWDVjZqdsj5RvjY2whFLEUo8SIJE3RhMbCS3/h8cj/R?=
- =?us-ascii?Q?Z8kWOwyLmHPVuCWsbUO7e/eape/c2QtCyA9ghod4XHxnDTNBvH1GJ/zv7+q9?=
- =?us-ascii?Q?UBCUTHFWzhyL11FsXLZiS8Y2pgVb6AHAonwRnW7amsBpcr2hyfdBTL+JdvGZ?=
- =?us-ascii?Q?eecBOciWYHFq25GEK5HRLvc2GBetbyTirKIpsyieaPho7uagj3lNNopvnLdb?=
- =?us-ascii?Q?1njYoxK+qLe2vKJbUWMUy/fqugxD+2N4k2Ht3zJ/UIA6TUV/MVjZlbxKIt/i?=
- =?us-ascii?Q?JFevkLic+7ZvRSVxpHgUdRXR7Elp7aYQYZtWVjTtqgUf2DljQHyG5sSSGhoU?=
- =?us-ascii?Q?3k96uWSNgzZhuhnfE7mGv71kScveFahPNwCQLz1Gj3I65Yy/5LlTSR96yq5g?=
- =?us-ascii?Q?+3uf1R3487+YXzzbKR8thXogknUoF2eAI3qaAhO1rEzXwass61gvJHdvPh7l?=
- =?us-ascii?Q?w5gDKbmRBPlo9eBsbaghq17C4ZjH8i7iiwbxBV2zypuSoUMf+6qRsrabhedF?=
- =?us-ascii?Q?PmnmQdul3GCummEiQpVHWLZXlJq6ZNcuhy7MrE9dVWkzUAeJrcdPXqYVzrWg?=
- =?us-ascii?Q?c9+VRh25Cr0oge1wbAeqMzpEnsUSkmmjKMjHS0GqsJifE9jaddqfnFQw22rV?=
- =?us-ascii?Q?wVRpt/jDY3aPUrKQiNU1y32oYT/piIifczDNZSnW/GLISgRwAz7zyLllF5+S?=
- =?us-ascii?Q?xyFsftKAzfu1kIvtFXytzBFGECiEy6znMTbXwZZuRx67z0D6UtfsBBza0dVV?=
- =?us-ascii?Q?IAAXRNQ3KuaAp3JIHQlJ3wwy0OKPZx81X4FwQ+U+p6vekV/7Lx/Cp71Hk6e8?=
- =?us-ascii?Q?L27QYzPewcyRKpidT2IR6YaGjZ51NsM1Q+6IRO+BI+0NrvUH3lhoYsgm6yCp?=
- =?us-ascii?Q?NskRv2qegC3j49WQ+KIZZWjit0N/qUPiHwc/r1rldrNsvScYzFWq9PPsbIJr?=
- =?us-ascii?Q?kQiAl5AySUTKDx6pJuBK1gY9N0Wk/MbQVyn/eDx4dY1hjOX3bOHYeLTMoCsp?=
- =?us-ascii?Q?DhkrlJtw6Bv3fbmddL89V0rkcOL02MvjD/1yocMqoTpPdgji/nDNz9TjCcYZ?=
- =?us-ascii?Q?IDFVM7G3ImftDs9zzff+fcB/m0QQPmwRL5DROyS2YHnLdmQQbHOMKUeGFuL4?=
- =?us-ascii?Q?u7ZMIaxpm6z4giMtVbSpHr3dYwDtXuLsgWgHSFeiMc1YAOEdSO6qRPA4AQNm?=
- =?us-ascii?Q?yUgb3BcUhio0RV300o30Wfp37tEBbO8SwXH545imXiRw+MuY5lbwx9xCOaG+?=
- =?us-ascii?Q?18R816AVYYnJmETslVlUSRkLtT0ioV3Ajya8azj1bRSNdKlifmfCeTtBTR3w?=
- =?us-ascii?Q?hjhEAOZDQXljdK8mCUbtbFvoEHKyGHYoOjd2xmFrjLP4ShpnVi07tkFz/lIo?=
- =?us-ascii?Q?lasuXmBBUkrgcJTi3bercGAH9eCybWLdMk3SvAXthNG2tq7J410TJP4LGiw5?=
- =?us-ascii?Q?auI0xEarP18lwP1KqkIYwJKbyYio5ehVX/1E0fgKAh5fmB0H70A3IDfVzh6T?=
- =?us-ascii?Q?sg=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 434657cb-890e-4de2-0fad-08dc0dbf859c
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR17MB5515.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2024 07:25:41.3405
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zv0wK6pEO8api6d5gA2olJtKnhr3afJ3RWhsm3C0NBbZVncnZJ+vsay9vlYmbQtM3Pj7eji2IPLDfptbuH2Boz5gFzVxJP2js8IqkIkeUNQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR17MB6051
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="8IeHlBnAmdcVLGIU"
+Content-Disposition: inline
+In-Reply-To: <20231226200205.562565-9-pasha.tatashin@soleen.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Fri, Jan 05, 2024 at 02:51:40PM +0800, Huang, Ying wrote:
-> >
-> > So we're talking ~1MB for 1024 threads with mempolicies to avoid error
-> > conditions mid-page-allocation and to reduce the cost associated with
-> > applying weighted interleave.
-> 
-> Think about this again.  Why do we need weights array on stack?  I think
-> this is used to keep weights consistent.  If so, we don't need weights
-> array on stack.  Just use RCU to access global weights array.
-> 
 
-From the bulk allocation code:
+--8IeHlBnAmdcVLGIU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-__alloc_pages_bulk(gfp, node, NULL, node_pages, NULL, page_array);
+On Tue, Dec 26, 2023 at 08:02:03PM +0000, Pasha Tatashin wrote:
+> Convert iommu/tegra-smmu.c to use the new page allocation functions
+> provided in iommu-pages.h.
+>=20
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Acked-by: David Rientjes <rientjes@google.com>
+> ---
+>  drivers/iommu/tegra-smmu.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
 
-This function can block. You cannot block during an RCU read context.
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-~Gregory
+--8IeHlBnAmdcVLGIU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmWXu8cACgkQ3SOs138+
+s6HXkg//YOz2qzNPS3zbXb9R+gceE/gBdW73WaBVARCvXhhc5PWwWZctFyPH4Hf7
+KDyc0njiNk3tDVY28wbWI3Ex8fbdkb+B8CUlZihhhRxtYaEUiHjkUK7cyR8i81Dq
+pv2Bw67wRrXUthITgzpBOOqdeI+FpB/ch6GKIH0S13F/NpIwmLemg/u5THAgTAyw
+IBi+44VeFWXKky8rT2s/rENv2JAhz5ltYql0CGxFEYhqiIunEb2eqDPgbfr8vLKv
+2mvQmIOZsY04NO86V6eTKTM7+Ue5tzt+jHrMVr0gH/DkHkcmbOoPTn/lBsZ8IFi/
+3nhtBB5ofmX/+80r6w9u/reWpqxUWyvRcJYsE06Nw/AAZN6IZM1ds+6bal1QJ8Zn
+Cw+zagqq5Sqj2ah/tQ/W3rOzbs/XLMD0xLkRl7/kcjjOq+LfZFAzx3zqNyB3Vzlp
+/q+60iAGtwkI04MSGlkKjVkHpIrtSKQFWXbnM79/c5GEevy4r/W2/d7k+phM0y/Y
+GrblcAFFlQfSm4K19PEWARzu0mHOHFqIIcd6vfRONCuGFSAcmtvdB3KOfap5jP4H
+ebZ1R6zDoreUq4hYVBSiRxYxmfDgRUyTQcOTDhEGy/JyteRgvKVhDwgPH+ql3OGS
+wSPkv6/wg5Y8w2lR1QHCG/KXFjZ84iBLdT38/7QZqAR6hfMBGno=
+=MX0T
+-----END PGP SIGNATURE-----
+
+--8IeHlBnAmdcVLGIU--
