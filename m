@@ -1,436 +1,247 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D6310F9
-	for <linux-doc@vger.kernel.org>; Sat,  6 Jan 2024 00:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22EA15B1
+	for <linux-doc@vger.kernel.org>; Sat,  6 Jan 2024 02:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atishpatra.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QibGyKyt"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d3ea8d0f9dso29525ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jan 2024 16:38:25 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="cbY/qe/X"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2cd20d9d483so1525671fa.1
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jan 2024 18:52:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1704501505; x=1705106305; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OUD33VKpxR/NM0Z7MpxcwlTlOFQrCymDr6l5Rozswjk=;
-        b=QibGyKytXQf/52ziEP7S001OYKLkgW6EGG3qVXGo8r+9K/ktZUzfw7qfoRthyY1PAp
-         yBA+BDfQdhvyzg5cX0lGEcePg1fne1/KkqXNyltO4gXY1wWIME5f42+2f9M1Xep60I11
-         tp/hZXzv6Tzq4qDD5SQM731M58HK5CS22F4XXc8vZcZ6euVK6pQmAQ6bTi74kRJKaW+s
-         amdKRCctyjfrnmzPHp6Mg0A9DCde54+6HJaN4sI89EKQQBnGvYoIRSqfQpkkdwkXA8XS
-         Em51BBt1IuAi3Z4HhBYcNH89mUh0QaMatfDIiJSz8r5F4k7CVphXNWRdBmnfGs6eyJLk
-         vBHg==
+        d=atishpatra.org; s=google; t=1704509545; x=1705114345; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vKh9BmOj21iuAqSENO/xdERxW3QeKR5djoMlE8KCUEE=;
+        b=cbY/qe/Xj+Dg0MT0WIXQlsmi0I3uDeBzMPP3Ny+/Z2tLReqt7wQiDlXLr7azyGol/v
+         XDTwUXbXmC0IOyksxZwAfCm8O58MGickCt0OP99o0KGI1MWWs38T7taezZcRQFk71AoM
+         yL4K8SZDCW0ItEomvHtM4z8H9xk7j3phGl/D4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704501505; x=1705106305;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OUD33VKpxR/NM0Z7MpxcwlTlOFQrCymDr6l5Rozswjk=;
-        b=d+O2/3H+rMwwWfreB2lMU8h7X/JSEXrf6xBc415PJ6LnfLdoihnfw+CITrXh6T6Hs0
-         VolCUqoEvwWmtZfdI34hZ7pUurnHjfR1MLD6WYuHJH46YVVANTsvSA6Pi5KETUjtk/wx
-         Ddsi3yqpDe3TRghTcT6XFhpOpPwe4uMtpBxWUFiw2QQtlpeSA7sLOqOArmv7ieHbRQ08
-         YPrlB6eUZfKe4QUOi3InUFd6aOywOKXdmPzAR3Mwrqq6cJH0brK6dob+FklSrzI4RnQF
-         7uE7zcYJoY/fgrp6GXz6BoksJS42Z1R2nDPm1gHkv6nqANVzPYjBWSxVygmAAXllX9jO
-         76yw==
-X-Gm-Message-State: AOJu0YwWTbSt67xMKiUKpVznp9ucBeTKeu6zcHtBttsICavbvtZtp51y
-	Hv6hr/jq1CbYJ3YubjDFe72o9mPb41xT
-X-Google-Smtp-Source: AGHT+IGun2AjNpQEhYtpk7UgWnyqdJ861IR+r/6MI2rt0P4xYDuYpCceEhV6u9wK/p76/7UD4gDpLA==
-X-Received: by 2002:a17:903:645:b0:1d3:7db1:388b with SMTP id kh5-20020a170903064500b001d37db1388bmr46427plb.11.1704501504804;
-        Fri, 05 Jan 2024 16:38:24 -0800 (PST)
-Received: from [2620:0:1008:15:e621:8fdd:e5e:628] ([2620:0:1008:15:e621:8fdd:e5e:628])
-        by smtp.gmail.com with ESMTPSA id bb12-20020a170902bc8c00b001d077da4ac4sm1953293plb.212.2024.01.05.16.38.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 16:38:24 -0800 (PST)
-Date: Fri, 5 Jan 2024 16:38:23 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: Sourav Panda <souravpanda@google.com>
-cc: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, 
-    Andrew Morton <akpm@linux-foundation.org>, mike.kravetz@oracle.com, 
-    muchun.song@linux.dev, rppt@kernel.org, david@redhat.com, 
-    rdunlap@infradead.org, chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, 
-    tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
-    pasha.tatashin@soleen.com, yosryahmed@google.com, hannes@cmpxchg.org, 
-    shakeelb@google.com, kirill.shutemov@linux.intel.com, 
-    wangkefeng.wang@huawei.com, adobriyan@gmail.com, 
-    Vlastimil Babka <vbabka@suse.cz>, 
-    "Liam R. Howlett" <Liam.Howlett@oracle.com>, surenb@google.com, 
-    linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-    linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-    Matthew Wilcox <willy@infradead.org>, weixugc@google.com
-Subject: Re: [PATCH v6 1/1] mm: report per-page metadata information
-In-Reply-To: <b425ba6e-50b8-d1a6-7cb1-f94ba9e06c35@google.com>
-Message-ID: <9266a9f9-71a5-dd88-df7b-facc037aaaff@google.com>
-References: <20231205223118.3575485-1-souravpanda@google.com> <20231205223118.3575485-2-souravpanda@google.com> <b425ba6e-50b8-d1a6-7cb1-f94ba9e06c35@google.com>
+        d=1e100.net; s=20230601; t=1704509545; x=1705114345;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vKh9BmOj21iuAqSENO/xdERxW3QeKR5djoMlE8KCUEE=;
+        b=Es8AzlOYjuq3uenvlKnFrO8PTMmxnH5ql3G3bMACgspLXLB7mMnXsG70tiQjQ+iGHk
+         91WubbjJXgG0BsvmjPt1j63j/TdSUVlrxn6rXPt40YW1LTEwVp02YCg548WZhZ9c3TY7
+         z+pu3qf316HNdo3mtUxmE/B7C8nIZNUjuhy7fZhsVgHIm94oZHq+MB+vdJh+LMk9u4CO
+         jrmWfBd7zLJ2Ge6kAcUYQh2NJv9zobV8N4OOLVErW902GTCd/HLKgvJW2ZzWLm9jyKx1
+         2UKWdfBHQHzTueLUO1bqfCLM5PUcfonbYK0D50eq3Pnb6m3KvXbJKDBzbsPz1Qev6d3Q
+         EA1Q==
+X-Gm-Message-State: AOJu0YwCGm2SGB+9bh2ufYSUfD0kkQBdivladvvivD49ZnZ2odQtX5N+
+	l6DAiv0/ZJ+yQ/FZdUqmXFO17NwzdZ0sl7VKsE0NPubn9vWA
+X-Google-Smtp-Source: AGHT+IEmVW5WFkfcPShNUfss77u377U1lwtoz/zN0/cjZUA+a6QTwiua4e01S2bKUn5fKF5veb231gk13iU65HlSsl0=
+X-Received: by 2002:a2e:979a:0:b0:2cd:2c3e:ae09 with SMTP id
+ y26-20020a2e979a000000b002cd2c3eae09mr108950lji.40.1704509544147; Fri, 05 Jan
+ 2024 18:52:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20231213-fencei-v3-0-b75158238eb7@rivosinc.com> <20231213-fencei-v3-2-b75158238eb7@rivosinc.com>
+In-Reply-To: <20231213-fencei-v3-2-b75158238eb7@rivosinc.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Fri, 5 Jan 2024 18:52:12 -0800
+Message-ID: <CAOnJCULhAMmz22bH6A5AXv7aaJpH8SVGBATQyx-bfKAn4eFxsQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX
+ prctl
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, 
+	Conor Dooley <conor.dooley@microchip.com>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 5 Jan 2024, David Rientjes wrote:
+On Wed, Dec 13, 2023 at 2:48=E2=80=AFPM Charlie Jenkins <charlie@rivosinc.c=
+om> wrote:
+>
+> Provide documentation that explains how to properly do CMODX in riscv.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  Documentation/arch/riscv/cmodx.rst | 98 ++++++++++++++++++++++++++++++++=
+++++++
+>  Documentation/arch/riscv/index.rst |  1 +
+>  2 files changed, 99 insertions(+)
+>
+> diff --git a/Documentation/arch/riscv/cmodx.rst b/Documentation/arch/risc=
+v/cmodx.rst
+> new file mode 100644
+> index 000000000000..20f327d85116
+> --- /dev/null
+> +++ b/Documentation/arch/riscv/cmodx.rst
+> @@ -0,0 +1,98 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +Concurrent Modification and Execution of Instructions (CMODX) for RISC-V=
+ Linux
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +CMODX is a programming technique where a program executes instructions t=
+hat were
+> +modified by the program itself. Instruction storage and the instruction =
+cache
+> +(icache) is not guaranteed to be synchronized on RISC-V hardware. Theref=
+ore, the
+> +program must enforce its own synchonization with the unprivileged fence.=
+i/
 
-> On Tue, 5 Dec 2023, Sourav Panda wrote:
-> 
-> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> > index 49ef12df631b..d5901d04e082 100644
-> > --- a/Documentation/filesystems/proc.rst
-> > +++ b/Documentation/filesystems/proc.rst
-> > @@ -993,6 +993,7 @@ Example output. You may not have all of these fields.
-> >      AnonPages:       4654780 kB
-> >      Mapped:           266244 kB
-> >      Shmem:              9976 kB
-> > +    PageMetadata:     513419 kB
-> >      KReclaimable:     517708 kB
-> >      Slab:             660044 kB
-> >      SReclaimable:     517708 kB
-> > @@ -1095,6 +1096,8 @@ Mapped
-> >                files which have been mmapped, such as libraries
-> >  Shmem
-> >                Total memory used by shared memory (shmem) and tmpfs
-> > +PageMetadata
-> > +              Memory used for per-page metadata
-> >  KReclaimable
-> >                Kernel allocations that the kernel will attempt to reclaim
-> >                under memory pressure. Includes SReclaimable (below), and other
-> > diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-> > index 45af9a989d40..f141bb2a550d 100644
-> > --- a/fs/proc/meminfo.c
-> > +++ b/fs/proc/meminfo.c
-> > @@ -39,7 +39,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
-> >  	long available;
-> >  	unsigned long pages[NR_LRU_LISTS];
-> >  	unsigned long sreclaimable, sunreclaim;
-> > +	unsigned long nr_page_metadata;
-> 
-> Initialize it here (if we actually need this variable)?
-> 
-> >  	int lru;
-> > +	int nid;
-> >  
-> >  	si_meminfo(&i);
-> >  	si_swapinfo(&i);
-> > @@ -57,6 +59,10 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
-> >  	sreclaimable = global_node_page_state_pages(NR_SLAB_RECLAIMABLE_B);
-> >  	sunreclaim = global_node_page_state_pages(NR_SLAB_UNRECLAIMABLE_B);
-> >  
-> > +	nr_page_metadata = 0;
-> > +	for_each_online_node(nid)
-> > +		nr_page_metadata += node_page_state(NODE_DATA(nid), NR_PAGE_METADATA);
-> 
-> Is this intended to be different than 
-> global_node_page_state_pages(NR_PAGE_METADATA)?  
-> 
-> If so, any hint as to why we want to discount page metadata on offline 
-> nodes?  We can't make an inference that metadata is always allocated 
-> locally, memoryless nodes need things like struct page allocated on nodes 
-> with memory.
-> 
+/s/synchonization/synchronization
 
-Sorry, meant a node with only ZONE_MOVABLE here so metadata can't be 
-allocated locally.
+> +instruction.
+> +
+> +However, the default Linux ABI prohibits the use of fence.i in userspace
+> +applications. At any point the scheduler may migrate a task onto a new h=
+art. If
+> +migration occurs after the userspace synchronized the icache and instruc=
+tion
+> +storage with fence.i, the icache will no longer be clean. This is due to=
+ the
+> +behavior of fence.i only affecting the hart that it is called on. Thus, =
+the hart
+> +that the task has been migrated to, may not have synchronized instructio=
+n
+> +storage and icache.
+> +
+> +There are two ways to solve this problem: use the riscv_flush_icache() s=
+yscall,
+> +or use the ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` prctl(). The syscall should=
+ be used
+> +when the application very rarely needs to flush the icache. If the icach=
+e will
 
-But would be very interested to learn why this subtlety exists to sum up 
-only online nodes.
+The syscall is a one time operation while prctl is sticky.
+It would be great if we can add a little more context why the syscall
+behaves this way compared to prctl.
 
-> So even if a memoryless node is offline, we'd still be including its 
-> metadata here with the current implementation.
-> 
-> Or maybe I'm missing a subtlety here for why this is not already 
-> global_node_page_state_pages().
-> 
-> > +
-> >  	show_val_kb(m, "MemTotal:       ", i.totalram);
-> >  	show_val_kb(m, "MemFree:        ", i.freeram);
-> >  	show_val_kb(m, "MemAvailable:   ", available);
-> > @@ -104,6 +110,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
-> >  	show_val_kb(m, "Mapped:         ",
-> >  		    global_node_page_state(NR_FILE_MAPPED));
-> >  	show_val_kb(m, "Shmem:          ", i.sharedram);
-> > +	show_val_kb(m, "PageMetadata:   ", nr_page_metadata);
-> >  	show_val_kb(m, "KReclaimable:   ", sreclaimable +
-> >  		    global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE));
-> >  	show_val_kb(m, "Slab:           ", sreclaimable + sunreclaim);
-> > diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> > index 3c25226beeed..ef176152be7c 100644
-> > --- a/include/linux/mmzone.h
-> > +++ b/include/linux/mmzone.h
-> > @@ -207,6 +207,10 @@ enum node_stat_item {
-> >  	PGPROMOTE_SUCCESS,	/* promote successfully */
-> >  	PGPROMOTE_CANDIDATE,	/* candidate pages to promote */
-> >  #endif
-> > +	NR_PAGE_METADATA,	/* Page metadata size (struct page and page_ext)
-> > +				 * in pages
-> > +				 */
-> > +	NR_PAGE_METADATA_BOOT,	/* NR_PAGE_METADATA for bootmem */
-> 
-> So if some vmemmap pages are freed, then MemTotal could be incremented by 
-> a portion of NR_PAGE_METADATA_BOOT and then this stat is decremented?  Is 
-> the goal that the sum of MemTotal + SUM(nr_page_metadata_boot) is always 
-> constant?
-> 
-> >  	NR_VM_NODE_STAT_ITEMS
-> >  };
-> >  
-> > diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
-> > index fed855bae6d8..af096a881f03 100644
-> > --- a/include/linux/vmstat.h
-> > +++ b/include/linux/vmstat.h
-> > @@ -656,4 +656,8 @@ static inline void lruvec_stat_sub_folio(struct folio *folio,
-> >  {
-> >  	lruvec_stat_mod_folio(folio, idx, -folio_nr_pages(folio));
-> >  }
-> > +
-> > +void __init mod_node_early_perpage_metadata(int nid, long delta);
-> > +void __init store_early_perpage_metadata(void);
-> > +
-> >  #endif /* _LINUX_VMSTAT_H */
-> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > index 87818ee7f01d..5b10d8d2b471 100644
-> > --- a/mm/hugetlb_vmemmap.c
-> > +++ b/mm/hugetlb_vmemmap.c
-> > @@ -230,10 +230,14 @@ static int vmemmap_remap_range(unsigned long start, unsigned long end,
-> >   */
-> >  static inline void free_vmemmap_page(struct page *page)
-> >  {
-> > -	if (PageReserved(page))
-> > +	if (PageReserved(page)) {
-> >  		free_bootmem_page(page);
-> > -	else
-> > +		mod_node_page_state(page_pgdat(page), NR_PAGE_METADATA_BOOT,
-> > +				    -1);
-> > +	} else {
-> >  		__free_page(page);
-> > +		mod_node_page_state(page_pgdat(page), NR_PAGE_METADATA, -1);
-> > +	}
-> >  }
-> >  
-> >  /* Free a list of the vmemmap pages */
-> > @@ -389,6 +393,7 @@ static int vmemmap_remap_free(unsigned long start, unsigned long end,
-> >  		copy_page(page_to_virt(walk.reuse_page),
-> >  			  (void *)walk.reuse_addr);
-> >  		list_add(&walk.reuse_page->lru, vmemmap_pages);
-> > +		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, 1);
-> >  	}
-> >  
-> >  	/*
-> > @@ -437,14 +442,20 @@ static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
-> >  	unsigned long nr_pages = (end - start) >> PAGE_SHIFT;
-> >  	int nid = page_to_nid((struct page *)start);
-> >  	struct page *page, *next;
-> > +	int i;
-> >  
-> > -	while (nr_pages--) {
-> > +	for (i = 0; i < nr_pages; i++) {
-> >  		page = alloc_pages_node(nid, gfp_mask, 0);
-> > -		if (!page)
-> > +		if (!page) {
-> > +			mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-> > +					    i);
-> >  			goto out;
-> > +		}
-> >  		list_add(&page->lru, list);
-> >  	}
-> >  
-> > +	mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA, nr_pages);
-> > +
-> >  	return 0;
-> >  out:
-> >  	list_for_each_entry_safe(page, next, list, lru)
-> > diff --git a/mm/mm_init.c b/mm/mm_init.c
-> > index 077bfe393b5e..38f8e1f454a0 100644
-> > --- a/mm/mm_init.c
-> > +++ b/mm/mm_init.c
-> > @@ -26,6 +26,7 @@
-> >  #include <linux/pgtable.h>
-> >  #include <linux/swap.h>
-> >  #include <linux/cma.h>
-> > +#include <linux/vmstat.h>
-> >  #include "internal.h"
-> >  #include "slab.h"
-> >  #include "shuffle.h"
-> > @@ -1656,6 +1657,8 @@ static void __init alloc_node_mem_map(struct pglist_data *pgdat)
-> >  			panic("Failed to allocate %ld bytes for node %d memory map\n",
-> >  			      size, pgdat->node_id);
-> >  		pgdat->node_mem_map = map + offset;
-> > +		mod_node_early_perpage_metadata(pgdat->node_id,
-> > +						DIV_ROUND_UP(size, PAGE_SIZE));
-> >  	}
-> >  	pr_debug("%s: node %d, pgdat %08lx, node_mem_map %08lx\n",
-> >  				__func__, pgdat->node_id, (unsigned long)pgdat,
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index 733732e7e0ba..dd78017105b0 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -5636,6 +5636,7 @@ void __init setup_per_cpu_pageset(void)
-> >  	for_each_online_pgdat(pgdat)
-> >  		pgdat->per_cpu_nodestats =
-> >  			alloc_percpu(struct per_cpu_nodestat);
-> > +	store_early_perpage_metadata();
-> >  }
-> >  
-> >  __meminit void zone_pcp_init(struct zone *zone)
-> > diff --git a/mm/page_ext.c b/mm/page_ext.c
-> > index 4548fcc66d74..4ca9f298f34e 100644
-> > --- a/mm/page_ext.c
-> > +++ b/mm/page_ext.c
-> > @@ -201,6 +201,8 @@ static int __init alloc_node_page_ext(int nid)
-> >  		return -ENOMEM;
-> >  	NODE_DATA(nid)->node_page_ext = base;
-> >  	total_usage += table_size;
-> > +	mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA_BOOT,
-> > +			    DIV_ROUND_UP(table_size, PAGE_SIZE));
-> >  	return 0;
-> >  }
-> >  
-> > @@ -255,12 +257,15 @@ static void *__meminit alloc_page_ext(size_t size, int nid)
-> >  	void *addr = NULL;
-> >  
-> >  	addr = alloc_pages_exact_nid(nid, size, flags);
-> > -	if (addr) {
-> > +	if (addr)
-> >  		kmemleak_alloc(addr, size, 1, flags);
-> > -		return addr;
-> > -	}
-> > +	else
-> > +		addr = vzalloc_node(size, nid);
-> >  
-> > -	addr = vzalloc_node(size, nid);
-> > +	if (addr) {
-> > +		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-> > +				    DIV_ROUND_UP(size, PAGE_SIZE));
-> > +	}
-> >  
-> >  	return addr;
-> >  }
-> > @@ -303,18 +308,27 @@ static int __meminit init_section_page_ext(unsigned long pfn, int nid)
-> >  
-> >  static void free_page_ext(void *addr)
-> >  {
-> > +	size_t table_size;
-> > +	struct page *page;
-> > +	struct pglist_data *pgdat;
-> > +
-> > +	table_size = page_ext_size * PAGES_PER_SECTION;
-> > +
-> >  	if (is_vmalloc_addr(addr)) {
-> > +		page = vmalloc_to_page(addr);
-> > +		pgdat = page_pgdat(page);
-> >  		vfree(addr);
-> >  	} else {
-> > -		struct page *page = virt_to_page(addr);
-> > -		size_t table_size;
-> > -
-> > -		table_size = page_ext_size * PAGES_PER_SECTION;
-> > -
-> > +		page = virt_to_page(addr);
-> > +		pgdat = page_pgdat(page);
-> >  		BUG_ON(PageReserved(page));
-> >  		kmemleak_free(addr);
-> >  		free_pages_exact(addr, table_size);
-> >  	}
-> > +
-> > +	mod_node_page_state(pgdat, NR_PAGE_METADATA,
-> > +			    -1L * (DIV_ROUND_UP(table_size, PAGE_SIZE)));
-> > +
-> >  }
-> >  
-> >  static void __free_page_ext(unsigned long pfn)
-> > diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-> > index a2cbe44c48e1..054b49539843 100644
-> > --- a/mm/sparse-vmemmap.c
-> > +++ b/mm/sparse-vmemmap.c
-> > @@ -469,5 +469,13 @@ struct page * __meminit __populate_section_memmap(unsigned long pfn,
-> >  	if (r < 0)
-> >  		return NULL;
-> >  
-> > +	if (system_state == SYSTEM_BOOTING) {
-> > +		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA_BOOT,
-> > +				    DIV_ROUND_UP(end - start, PAGE_SIZE));
-> > +	} else {
-> > +		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA,
-> > +				    DIV_ROUND_UP(end - start, PAGE_SIZE));
-> > +	}
-> > +
-> >  	return pfn_to_page(pfn);
-> >  }
-> > diff --git a/mm/sparse.c b/mm/sparse.c
-> > index 77d91e565045..0c100ae1cf8b 100644
-> > --- a/mm/sparse.c
-> > +++ b/mm/sparse.c
-> > @@ -14,7 +14,7 @@
-> >  #include <linux/swap.h>
-> >  #include <linux/swapops.h>
-> >  #include <linux/bootmem_info.h>
-> > -
-> > +#include <linux/vmstat.h>
-> >  #include "internal.h"
-> >  #include <asm/dma.h>
-> >  
-> > @@ -465,6 +465,9 @@ static void __init sparse_buffer_init(unsigned long size, int nid)
-> >  	 */
-> >  	sparsemap_buf = memmap_alloc(size, section_map_size(), addr, nid, true);
-> >  	sparsemap_buf_end = sparsemap_buf + size;
-> > +#ifndef CONFIG_SPARSEMEM_VMEMMAP
-> > +	mod_node_early_perpage_metadata(nid, DIV_ROUND_UP(size, PAGE_SIZE));
-> > +#endif
-> >  }
-> >  
-> >  static void __init sparse_buffer_fini(void)
-> > @@ -641,6 +644,8 @@ static void depopulate_section_memmap(unsigned long pfn, unsigned long nr_pages,
-> >  	unsigned long start = (unsigned long) pfn_to_page(pfn);
-> >  	unsigned long end = start + nr_pages * sizeof(struct page);
-> >  
-> > +	mod_node_page_state(page_pgdat(pfn_to_page(pfn)), NR_PAGE_METADATA,
-> > +			    -1L * (DIV_ROUND_UP(end - start, PAGE_SIZE)));
-> >  	vmemmap_free(start, end, altmap);
-> >  }
-> >  static void free_map_bootmem(struct page *memmap)
-> > diff --git a/mm/vmstat.c b/mm/vmstat.c
-> > index 359460deb377..23e88d8c21b7 100644
-> > --- a/mm/vmstat.c
-> > +++ b/mm/vmstat.c
-> > @@ -1249,7 +1249,8 @@ const char * const vmstat_text[] = {
-> >  	"pgpromote_success",
-> >  	"pgpromote_candidate",
-> >  #endif
-> > -
-> > +	"nr_page_metadata",
-> > +	"nr_page_metadata_boot",
-> >  	/* enum writeback_stat_item counters */
-> >  	"nr_dirty_threshold",
-> >  	"nr_dirty_background_threshold",
-> > @@ -2278,4 +2279,27 @@ static int __init extfrag_debug_init(void)
-> >  }
-> >  
-> >  module_init(extfrag_debug_init);
-> > +
-> >  #endif
-> > +
-> > +/*
-> > + * Page metadata size (struct page and page_ext) in pages
-> > + */
-> > +static unsigned long early_perpage_metadata[MAX_NUMNODES] __initdata;
-> > +
-> > +void __init mod_node_early_perpage_metadata(int nid, long delta)
-> > +{
-> > +	early_perpage_metadata[nid] += delta;
-> > +}
-> > +
-> > +void __init store_early_perpage_metadata(void)
-> > +{
-> > +	int nid;
-> > +	struct pglist_data *pgdat;
-> > +
-> > +	for_each_online_pgdat(pgdat) {
-> > +		nid = pgdat->node_id;
-> > +		mod_node_page_state(NODE_DATA(nid), NR_PAGE_METADATA_BOOT,
-> > +				    early_perpage_metadata[nid]);
-> > +	}
-> > +}
-> > -- 
-> > 2.43.0.472.g3155946c3a-goog
-> > 
-> > 
-> > 
-> 
+> +need to be flushed many times in the lifetime of the application, the pr=
+ctl
+> +should be used.
+> +
+> +The prctl informs the kernel that it must emit synchronizing instruction=
+s upon
+> +task migration. The program itself must emit synchonizing instructions w=
+hen
+
+/s/synchonizing/synchronizing
+
+> +necessary as well.
+> +
+> +1.  prctl() Interface
+> +---------------------
+> +
+> +Before the program emits their first icache flushing instruction, the pr=
+ogram
+> +must call this prctl().
+> +
+> +* prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX, unsigned long ctx, unsigned long =
+per_thread)
+> +
+> +       Sets the icache flushing context. If per_thread is 0, context wil=
+l be
+> +       applied per process, otherwise if per_thread is 1 context will be
+> +       per-thread. Any other number will have undefined behavior.
+> +
+> +       * :c:macro:`PR_RISCV_CTX_SW_FENCEI`: Allow fence.i to be called i=
+n
+> +         userspace.
+> +
+> +Example usage:
+> +
+> +The following files are meant to be compiled and linked with each other.=
+ The
+> +modify_instruction() function replaces an add with 0 with an add with on=
+e,
+> +causing the instruction sequence in get_value() to change from returning=
+ a zero
+> +to returning a one.
+> +
+> +cmodx.c::
+> +
+> +       #include <stdio.h>
+> +       #include <sys/prctl.h>
+> +
+> +       extern int get_value();
+> +       extern void modify_instruction();
+> +
+> +       int main()
+> +       {
+> +               int value =3D get_value();
+> +               printf("Value before cmodx: %d\n", value);
+> +
+> +               // Call prctl before first fence.i is called inside modif=
+y_instruction
+> +               prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX, PR_RISCV_CTX_SW_FENC=
+EI, 0);
+> +               modify_instruction();
+> +
+> +               value =3D get_value();
+> +               printf("Value after cmodx: %d\n", value);
+> +               return 0;
+> +       }
+> +
+> +cmodx.S::
+> +
+> +       .option norvc
+> +
+> +       .text
+> +       .global modify_instruction
+> +       modify_instruction:
+> +       lw a0, new_insn
+> +       lui a5,%hi(old_insn)
+> +       sw  a0,%lo(old_insn)(a5)
+> +       fence.i
+> +       ret
+> +
+> +       .section modifiable, "awx"
+> +       .global get_value
+> +       get_value:
+> +       li a0, 0
+> +       old_insn:
+> +       addi a0, a0, 0
+> +       ret
+> +
+> +       .data
+> +       new_insn:
+> +       addi a0, a0, 1
+> diff --git a/Documentation/arch/riscv/index.rst b/Documentation/arch/risc=
+v/index.rst
+> index 4dab0cb4b900..eecf347ce849 100644
+> --- a/Documentation/arch/riscv/index.rst
+> +++ b/Documentation/arch/riscv/index.rst
+> @@ -13,6 +13,7 @@ RISC-V architecture
+>      patch-acceptance
+>      uabi
+>      vector
+> +    cmodx
+>
+>      features
+>
+>
+> --
+> 2.43.0
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+
+
+--=20
+Regards,
+Atish
