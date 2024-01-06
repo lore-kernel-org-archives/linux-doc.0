@@ -1,58 +1,60 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34546FD0;
-	Sat,  6 Jan 2024 12:43:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDC36FB2;
+	Sat,  6 Jan 2024 13:02:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKa7qmvb"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6dc05ddb656so264987a34.1;
-        Sat, 06 Jan 2024 04:43:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HYclDUZE"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6d9ac5bd128so241618b3a.0;
+        Sat, 06 Jan 2024 05:02:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704545029; x=1705149829; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1704546169; x=1705150969; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vBYt17eSTZ21Zqe1EdrV1063sy3OdziEyJXUnnmkLcI=;
-        b=hKa7qmvb9GZOiRWuWYoZ9IYJqvzIqpTLIy01HUm3QJalh6ufo1Sx+FRFfgBhu3M4dt
-         HtXU81EMgpzA0TFqNX2U5u2aByhR8vblgW8g1s+POC4y3R+ECSgUokPckzbqovftllCP
-         n3lFx+z0Mnhllzy6kDZjq+G8gQyXoTVe85Wl9p8TwQ7qh22PJufA0tIeLJplBQ2KEz0t
-         YVncxh9DZdq2ezCAaW+1op0e+zuVB8igO+BHGatbEiOlNTNiw1Utge+XaNdJlLlEWXdv
-         BGJde4oCiXnIwWbaf+JfWeeUmweoMdYAP2qZF8U8et0kmzmda/6I1uf7Er7yLOO19g07
-         n+/g==
+        bh=BQBeH1d+zJfCWRGzF9Oem4ERzxHut3wyC+MBoVxDWQQ=;
+        b=HYclDUZE4lQq4f4h837aDYmwqLuvqcJd9bFWCFFC/eLxj3jyCc8CfvZ1Eg74cacSZI
+         48mMsj6t1acRrrZWeWntHo1a4EY8KtyicNErLZsf36A+gab5Bj9TuXoOCzImQ3ONrIJd
+         U3X/jI3xynsO4Tj6HVS42m8+LSO8M3AWIZIzhXN5eSUO2WGkqloBBJ075+qBLZUOB//J
+         vzp8cP4f9sHBV7v1bpdLqggeub9bXUIX2EY4UmiA3ZqyM3ZFUg12ZgJzO19KDCccQMuc
+         Do2PikBEQDWGh/4OKospEjFxuPrbohrLibFunjUQFwRv/8WDXmwhv1BNV4lv2RxZodAi
+         xE4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704545029; x=1705149829;
+        d=1e100.net; s=20230601; t=1704546169; x=1705150969;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vBYt17eSTZ21Zqe1EdrV1063sy3OdziEyJXUnnmkLcI=;
-        b=XfwrbOF/HFztzrupx7qm8G5QNJSsk6ltWiVoKv/O6jC+znSu+fls8dumfSZZ9clg9K
-         CjSHwDl01x+NqhWwhRAHh2OESpYAMZ3K/rCYohzVfXgXQ+G9usZXVF3N+Y25QPTdjByJ
-         QZqQaR+GgwFIo2Raa6F4kJSBZwqzdGw9aTW6WV4DVQ0cX4YpWdCh/K0PoJF6YlCXwxXY
-         e4LD5+xtnIiOK6+DXYNAS8r0LuXWLVh1q6Ml45HVcCEQxOfKxBhf4OGZARXpPAt+8DUN
-         i64vdLEKfKHe8WIl0ah/BKYy1XOULujmKKvxoaM1FujGRvJAEj0aFsWCUeUNuZvym4c6
-         jH5A==
-X-Gm-Message-State: AOJu0YwYnGssRg1gqh0D2YC6hZUwuzdRgHOrf1ibglOFyIXJRz4JXlyQ
-	xzVz0BN8O7QaO+vztM6wMioOCNCX7IMGSg==
-X-Google-Smtp-Source: AGHT+IHh3j6sU452FOvZV/tmf+udIqdT47jfwFVJ7MBxs/3IRiQ6WQzI+Q0jnhVA/9NLyrW27zl8gg==
-X-Received: by 2002:a9d:5f04:0:b0:6dc:14e5:b212 with SMTP id f4-20020a9d5f04000000b006dc14e5b212mr494715oti.41.1704545029598;
-        Sat, 06 Jan 2024 04:43:49 -0800 (PST)
+        bh=BQBeH1d+zJfCWRGzF9Oem4ERzxHut3wyC+MBoVxDWQQ=;
+        b=Pi65+R7iCcGByAg9dsje6oXw4EMj/F6CHjQHCCbRqWIL9ALoF8oV9CrlhxzLZKy2j9
+         hUcaY4qoFHSKZU+jN134OUjSRt2777rr1hCRo3ECQTAxR+itUZmo8hwMzs5UoQCbnUvP
+         McU8NpPUPbVREhpPLkuZNRuFirY35cjggLvf9MxV0nusxr1UHa5RqU/nrXJjgXRLcatc
+         qJ9J9+hKpWyWhTxlyACFejoSyvqlfiUXDwdaAenHRfRPYtjxdjNv2edcCBjJKYKI+1OD
+         Xz4fW0zbUPfGR2ZklP7SKi/eEE+WN8LBMCKIrOcZAsB/3zINt+FM19GoZUj57ln8Rfu8
+         Jg+w==
+X-Gm-Message-State: AOJu0YyJIm5ai6US9y3f7jNyDfDfA4Unvhy0CpaPvic2sprB783f1F3S
+	QQ6GNnSIfpJYwWzhnA3YNCQ=
+X-Google-Smtp-Source: AGHT+IEdumSoV1x2jgCJt7eZaRq2MSBeQHK5jlL4N1HppUb2XhTcwxeHOpybsXGEZFDAiiOfqO6QBQ==
+X-Received: by 2002:a17:902:6bcc:b0:1d4:4c91:b8a1 with SMTP id m12-20020a1709026bcc00b001d44c91b8a1mr242284plt.129.1704546169105;
+        Sat, 06 Jan 2024 05:02:49 -0800 (PST)
 Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id t185-20020a625fc2000000b006d942f43140sm3115414pfb.34.2024.01.06.04.43.48
+        by smtp.gmail.com with ESMTPSA id m2-20020a170902db0200b001cca8a01e68sm2988805plx.278.2024.01.06.05.02.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jan 2024 04:43:48 -0800 (PST)
+        Sat, 06 Jan 2024 05:02:48 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 6A06B1848A087; Sat,  6 Jan 2024 19:43:44 +0700 (WIB)
-Date: Sat, 6 Jan 2024 19:43:44 +0700
+	id D6FE618360C56; Sat,  6 Jan 2024 20:02:45 +0700 (WIB)
+Date: Sat, 6 Jan 2024 20:02:45 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>
 Cc: Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: Adding warning icon to warning admonitions?
-Message-ID: <ZZlLAOm1g_R01VGj@archie.me>
+Message-ID: <ZZlPdfm3TLuhE10Q@archie.me>
 References: <ZZgSGFhvT3SOI4fe@archie.me>
  <87edev3jya.fsf@meer.lwn.net>
+ <ce59e493-59ba-4875-97b9-17dba71f8302@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,51 +62,68 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p+Y4J1/u4I3DMW0O"
+	protocol="application/pgp-signature"; boundary="iUcTUZ3yJ4DYOHba"
 Content-Disposition: inline
-In-Reply-To: <87edev3jya.fsf@meer.lwn.net>
+In-Reply-To: <ce59e493-59ba-4875-97b9-17dba71f8302@oracle.com>
 
 
---p+Y4J1/u4I3DMW0O
+--iUcTUZ3yJ4DYOHba
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 05, 2024 at 07:59:09AM -0700, Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Fri, Jan 05, 2024 at 07:12:10PM +0100, Vegard Nossum wrote:
 >=20
-> > For the icon itself, the approach is to use Font Awesome [2] (many othe=
-r doc
-> > sites that uses Sphinx also do that due to site theme they use but Alab=
-aster
-> > theme don't use the icon, hence this question). I personally prefer reg=
-ular
-> > icon variant (like in TT), but alas it is in non-free PRO plan (and only
-> > solid variant is free and that is what Sphinx themes using).
-> >
-> > Does adding warning icon like above idea make sense for the kernel docs=
-? And
-> > does it require non-trivial (complex) changes to Alabaster theme?
+> On 05/01/2024 15:59, Jonathan Corbet wrote:
+> > Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> >=20
+> > > For the icon itself, the approach is to use Font Awesome [2] (many ot=
+her doc
+> > > sites that uses Sphinx also do that due to site theme they use but Al=
+abaster
+> > > theme don't use the icon, hence this question). I personally prefer r=
+egular
+> > > icon variant (like in TT), but alas it is in non-free PRO plan (and o=
+nly
+> > > solid variant is free and that is what Sphinx themes using).
+> > >=20
+> > > Does adding warning icon like above idea make sense for the kernel do=
+cs? And
+> > > does it require non-trivial (complex) changes to Alabaster theme?
+> >=20
+> > It can probably be done with a bit of CSS tweaking.  I don't really like
+> > the idea of requiring the installation of another font to build the
+> > docs, though, and Font Awesome looks like it could bring in licensing
+> > issues of its own - that's not clear from the site at all.
 >=20
-> It can probably be done with a bit of CSS tweaking.  I don't really like
-> the idea of requiring the installation of another font to build the
-> docs, though, and Font Awesome looks like it could bring in licensing
-> issues of its own - that's not clear from the site at all.
+> You could use the unicode symbol as a replacement for the graphic by
+> adding something like this to custom.css:
+>=20
+> div.admonition.warning p.admonition-title::before {
+>         content: "\26A0";
+>         font-weight: bold;
+>         font-size: 120%;
+>         padding-right: 8px;
+>         float: left;
+> }
+>=20
+> It doesn't look great to me, but maybe with some additional tweaking it
+> could (e.g. text-stroke property, sizing, positioning, etc.).
 
-OK, thanks!
+Thanks for the tip!
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---p+Y4J1/u4I3DMW0O
+--iUcTUZ3yJ4DYOHba
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZZlK+wAKCRD2uYlJVVFO
-ozv4AQDLKhtm3f3wVzlRJe+V9Qbe29j2gZ9Uf9PSB0MlriG0JwD/ZVJ3HuXLmg8/
-e3LCJN5tl1yFcGDHPwXOHL8Pm1JAOQw=
-=4kjx
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZZlPcgAKCRD2uYlJVVFO
+o9x3AQDpOYH339ql4vuulf2QYL/kSJHNMCsDOh25N+HiAD/3rgD/eH4QGQ3bfAOI
+sDoclp3RZUsgGtR3TNxP+OttHRSkswA=
+=TcPt
 -----END PGP SIGNATURE-----
 
---p+Y4J1/u4I3DMW0O--
+--iUcTUZ3yJ4DYOHba--
