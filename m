@@ -1,71 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513B7C8D2
-	for <linux-doc@vger.kernel.org>; Sat,  6 Jan 2024 18:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C5EF4E4;
+	Sat,  6 Jan 2024 20:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjAHWlNA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704564844; x=1736100844;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dxgbiJJPli18abMINfVIkcbSxwzAv3qc+We1IbGMIIs=;
-  b=OjAHWlNA7Ass5xgVbi3ebXS1vDwtwZWT59KE+AhBwJauG5y/C4BOFvzU
-   FF2qP063Fr9cc4SzhcVPom21qFllAW+anAD25G7uKfVzsclS1CcFBrEpR
-   hPg4JSMr8wkQoXv7JRcOHSDGwPi2CX8ktI3EPg2CriBcm6kFrxe+Ci6B8
-   rkqZmvjEDIk0e63Xm3bKCG8Qe33BEVuEH3ODb3HXUNkw1hFFcpvNEw75Z
-   xEViXWx3l4MA2NF7MTi/bN4TM17+KhLQfYSb22Rgtos1WvJtepJMLnedW
-   Gl1dMmOvHp06fd83BPV+8ACGN/guu/1CaU8oWRrOpzzmh8UbaOgCHVwto
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="388126907"
-X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="388126907"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 10:14:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="851406126"
-X-IronPort-AV: E=Sophos;i="6.04,337,1695711600"; 
-   d="scan'208";a="851406126"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Jan 2024 10:14:02 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMBBI-0002qe-0C;
-	Sat, 06 Jan 2024 18:14:00 +0000
-Date: Sun, 7 Jan 2024 02:13:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-doc@vger.kernel.org
-Subject: [linux-next:master 12610/12662] htmldocs: Warning: file
- Documentation/ABI/testing/sysfs-platform-silicom#20:
-Message-ID: <202401070202.BQvPxgyp-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="A2qBwJ9Y"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=pA1bko8lyTP4VSP1WU3Gn+CtWUsuPvxhSOBVoaYEFOw=; b=A2qBwJ9Y4P2spmD8U5tsDlmMai
+	2YTGlEy/+cUGl1zf4QWj32bWeX5lBZFEAJQVah6O7D6Lg5EXr6fUrJQBTzwzz9DkIXEw8Rp30SxFl
+	8hns/43fmMlzNrRApOC8Yw4+EJTMbcyLAG5OIz0iTJhWfoAoG1mVVQoUtt3UcQ5+133vZQt5vcO3T
+	A2bk3zI58V+TtY2qq7fdwCiDPpXSyXkohMqVsnBTWv3whXpfraE04TBaknA5xgDSIRW6gXdr0lzbn
+	ppJDMFsmUtwFirSWSMYPmG6EFd6jATfw2d62r+LKHrD18vAq4Is4tmyrC6S0m9bhccs78aUEMxp0Q
+	WDnvUDOw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rMCs7-001ots-2c;
+	Sat, 06 Jan 2024 20:02:19 +0000
+Message-ID: <a5988e51-3ab4-43e8-938a-1e3fb84424fe@infradead.org>
+Date: Sat, 6 Jan 2024 12:02:14 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] doc-guide: kernel-doc: tell about object-like macros
+Content-Language: en-US
+To: linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20240106050137.6445-1-rdunlap@infradead.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240106050137.6445-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
-commit: f24945c77ed4c57b602632b9e3cbf5752e202a6f [12610/12662] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
-reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070202.BQvPxgyp-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401070202.BQvPxgyp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+On 1/5/24 21:01, Randy Dunlap wrote:
+> Since 2014 kernel-doc has supported describing object-like macros
+> macros but it is not documented anywhere. I should have required
+> some documentation for it when I merged the patch. :(
+> 
+> There are currently only 3 uses of this (all in DRM headers, in
+> include/drm/*.h). There have recently been a few other attempts
+> at using kernel-doc for object-like macros, but they didn't use the
+> "define" keyword and I mistakenly told them that kernel-doc does
+> not support such documentation.  :( again.
+> 
+> Add object-like kernel-doc documentation now so that more may know
+> about it and use it.
+> 
+> Fixes: cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/doc-guide/kernel-doc.rst |   21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 
->> Warning: file Documentation/ABI/testing/sysfs-platform-silicom#20:
+Jon,
+I'm going to send a v2 of this patch. Please don't merge this one.
 
+Thanks.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+#Randy
