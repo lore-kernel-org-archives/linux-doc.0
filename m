@@ -1,102 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A802136F;
-	Sun,  7 Jan 2024 01:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0757137F;
+	Sun,  7 Jan 2024 01:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G1o1rEaA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704589608; x=1736125608;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BL/G2+DBgzyngkKxm1Okb/HyxO0E8Sb22Xv27tX30GE=;
-  b=G1o1rEaAoiTz68/7FW5P5J7DYZpaV0UgiJ+Rj9kfnj8HAYm1exHQRC95
-   R4LwBQ/XJV7W7nmUg0qIM5Hl9kwLzFc+HpugpNtvhXfDI94H/Q8YGla4Q
-   sCeMvJZDfxgFTPIiKwZz451pJq1J2/FQaLnBJcHrJHZtyynmx5OC5Xv9E
-   Q07sZ0h7fbI3ObEw8TsJjb2jN/dsQtk52OISKFr3Wo1U4Km+v7quytg6y
-   /1qaTH0RfqNnp9NQgQpMZ9V08zCAjetyLYL7+4J5T4XGXQ+TXupUqn8i4
-   BiJQLRd79IubFNY3/EXRRZQ/87/hmbHTIYs/YA9Gg2xoJiGt4WSiU5IgD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="382661489"
-X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="382661489"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2024 17:06:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10945"; a="899999269"
-X-IronPort-AV: E=Sophos;i="6.04,338,1695711600"; 
-   d="scan'208";a="899999269"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Jan 2024 17:06:42 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMHce-0003EK-0f;
-	Sun, 07 Jan 2024 01:06:40 +0000
-Date: Sun, 7 Jan 2024 09:06:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: WANG Rui <wangrui@loongson.cn>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
-	loongson-kernel@lists.loongnix.cn, WANG Rui <wangrui@loongson.cn>
-Subject: Re: [PATCH] LoongArch: Enable initial Rust support
-Message-ID: <202401070815.6tdJWFme-lkp@intel.com>
-References: <20240106065941.180796-1-wangrui@loongson.cn>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yGrCQ/6Y"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=dCyDGSEioYdeunZdzZB63ylJy1g1gtQtPEDXYg17y5k=; b=yGrCQ/6YuI72KR9g8WruJKwNfU
+	nZphzMlcefoLZ3wj56NJM+8tbynOoIvZC+vyyVrNVI5XfYznrZ5YQOtWV7BLhPlbTemIRquQtEpui
+	251EeFXwCTVZ7VTrLknyY6+IadTA8Z28oZHlGiCQ2jz/WN6Zg4VhV7eqr4971ENWWUNztCPz1LxFN
+	F/kPsjl+ma0mb4qmPC14huP1wN3AlnwU1eWrvTmyjoccVjd7TWDHb7ShFfwVnZHvu2M24yX/YJYqD
+	QErk65d2EiXG6MjdFuXi88EMYLPT36oFXmGC0428FIgwFlae27VFQhboPRden9ttXgW1j5oP83VrG
+	DCxux4GA==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rMHtQ-002A6e-2r;
+	Sun, 07 Jan 2024 01:24:00 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2] doc-guide: kernel-doc: tell about object-like macros
+Date: Sat,  6 Jan 2024 17:24:00 -0800
+Message-ID: <20240107012400.32587-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240106065941.180796-1-wangrui@loongson.cn>
+Content-Transfer-Encoding: 8bit
 
-Hi WANG,
+Since 2014 kernel-doc has supported describing object-like macros
+but it is not documented anywhere. I should have required some
+documentation for it when I merged the patch. :(
 
-kernel test robot noticed the following build warnings:
+There are currently only 3 uses of this (all in DRM headers, in
+include/drm/*.h).
 
-[auto build test WARNING on rust/rust-next]
-[also build test WARNING on linus/master v6.7-rc8 next-20240105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Add object-like macro kernel-doc documentation now so that more may
+know about it and use it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/WANG-Rui/LoongArch-Enable-initial-Rust-support/20240106-150902
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20240106065941.180796-1-wangrui%40loongson.cn
-patch subject: [PATCH] LoongArch: Enable initial Rust support
-reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070815.6tdJWFme-lkp@intel.com/reproduce)
+Fixes: cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+v2: Previous attempts to use kernel-doc were for data definitions,
+    not macros, so remove that comment.
+    Remove a duplicate word in the patch description.
+    Add examples.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401070815.6tdJWFme-lkp@intel.com/
+ Documentation/doc-guide/kernel-doc.rst |   45 +++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/rust/arch-support.rst:18: WARNING: Malformed table.
-
-vim +18 Documentation/rust/arch-support.rst
-
-    14	
-    15	============  ================  ==============================================
-    16	Architecture  Level of support  Constraints
-    17	============  ================  ==============================================
-  > 18	``loongarch`` Maintained
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff -- a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -341,6 +341,51 @@ Typedefs with function prototypes can al
+    */
+    typedef void (*type_name)(struct v4l2_ctrl *arg1, void *arg2);
+ 
++Object-like macro documentation
++-------------------------------
++
++Object-like macros are distinct from function-like macros. They are
++differentiated by whether the macro name is immediately followed by a
++left parenthesis ('(') for function-like macros or not followed by one
++for object-like macros.
++
++Function-like macros are handled like functions by ``scripts/kernel-doc``.
++They may have a parameter list. Object-like macros have do not have a
++parameter list.
++
++The general format of an object-like macro kernel-doc comment is::
++
++  /**
++   * define object_name - Brief description.
++   *
++   * Description of the object.
++   */
++
++Example::
++
++  /**
++   * define MAX_ERRNO - maximum errno value that is supported
++   *
++   * Kernel pointers have redundant information, so we can use a
++   * scheme where we can return either an error code or a normal
++   * pointer with the same return value.
++   */
++  #define MAX_ERRNO	4095
++
++Example::
++
++  /**
++   * define DRM_GEM_VRAM_PLANE_HELPER_FUNCS - \
++   *	Initializes struct drm_plane_helper_funcs for VRAM handling
++   *
++   * This macro initializes struct drm_plane_helper_funcs to use the
++   * respective helper functions.
++   */
++  #define DRM_GEM_VRAM_PLANE_HELPER_FUNCS \
++	.prepare_fb = drm_gem_vram_plane_helper_prepare_fb, \
++	.cleanup_fb = drm_gem_vram_plane_helper_cleanup_fb
++
++
+ Highlights and cross-references
+ -------------------------------
+ 
