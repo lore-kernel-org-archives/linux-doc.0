@@ -1,118 +1,108 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0757137F;
-	Sun,  7 Jan 2024 01:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A1010A09;
+	Sun,  7 Jan 2024 02:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yGrCQ/6Y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=dCyDGSEioYdeunZdzZB63ylJy1g1gtQtPEDXYg17y5k=; b=yGrCQ/6YuI72KR9g8WruJKwNfU
-	nZphzMlcefoLZ3wj56NJM+8tbynOoIvZC+vyyVrNVI5XfYznrZ5YQOtWV7BLhPlbTemIRquQtEpui
-	251EeFXwCTVZ7VTrLknyY6+IadTA8Z28oZHlGiCQ2jz/WN6Zg4VhV7eqr4971ENWWUNztCPz1LxFN
-	F/kPsjl+ma0mb4qmPC14huP1wN3AlnwU1eWrvTmyjoccVjd7TWDHb7ShFfwVnZHvu2M24yX/YJYqD
-	QErk65d2EiXG6MjdFuXi88EMYLPT36oFXmGC0428FIgwFlae27VFQhboPRden9ttXgW1j5oP83VrG
-	DCxux4GA==;
-Received: from [50.53.46.231] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rMHtQ-002A6e-2r;
-	Sun, 07 Jan 2024 01:24:00 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2] doc-guide: kernel-doc: tell about object-like macros
-Date: Sat,  6 Jan 2024 17:24:00 -0800
-Message-ID: <20240107012400.32587-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FPIMwMzz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3041EC433D9;
+	Sun,  7 Jan 2024 02:28:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704594515;
+	bh=K7ih9bZtybZqziznyQQD1kMoWldlbUm+9ljRnW2YBy8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=FPIMwMzzJfuChI3Us/lS3S9+TlrQziTgoSb7/8uQp7jeEhqNzUmW3Xw0XOWBgOGkE
+	 hZd4dIsnwL36Glpodhzi1IiDjY1flnZMnNt6DPHWIrCNMh643/QOEXOuEjIaGLfYm7
+	 02cBU8M8MQ+FHcLi+VYcVm24iAoCZ/G3V1mxQQvFnvF0mUYn4trlAwqpdQsqHe/dBP
+	 qRgxWWFyxmwnhsZeVMrIPeYvfcGS/PtITA0DJ+Ei0LKVyVBFxKygklw2g7pTJi3y0W
+	 BJAyPEWhl+PFFBBi4tnoFfVlcjd2fmP+ZIdzoKddGYv0Ns6L5KVSLvnIm9lOF38tQs
+	 LQBaqNaG5flcQ==
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5572a9b3420so3029615a12.1;
+        Sat, 06 Jan 2024 18:28:35 -0800 (PST)
+X-Gm-Message-State: AOJu0YyFqVXdDJvWyJ8oXmZwVk6d5ZIKeqeHTqoQdEWUzvUHHXBEU/Uh
+	b/O8gh/XaSGWgQHo4UKsS08BuzB7CXHjyda9a2w=
+X-Google-Smtp-Source: AGHT+IF43c6rpnnblMV44I9rcuIsU8WPV8s0sRSdlNkOxDUDA7gEuDgzBXjnRWJAeX/Eqg+KQmVaBlE8Nmyseh8LqjA=
+X-Received: by 2002:a17:906:74c3:b0:a27:abac:177f with SMTP id
+ z3-20020a17090674c300b00a27abac177fmr1608415ejl.29.1704594513638; Sat, 06 Jan
+ 2024 18:28:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240106065941.180796-1-wangrui@loongson.cn> <202401070815.6tdJWFme-lkp@intel.com>
+In-Reply-To: <202401070815.6tdJWFme-lkp@intel.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sun, 7 Jan 2024 10:28:26 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5WCHsYi8f6AWVC-3RB3dp+vno0hS+tgkB1pqw48W24_Q@mail.gmail.com>
+Message-ID: <CAAhV-H5WCHsYi8f6AWVC-3RB3dp+vno0hS+tgkB1pqw48W24_Q@mail.gmail.com>
+Subject: Re: [PATCH] LoongArch: Enable initial Rust support
+To: kernel test robot <lkp@intel.com>
+Cc: WANG Rui <wangrui@loongson.cn>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, oe-kbuild-all@lists.linux.dev, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-doc@vger.kernel.org, loongson-kernel@lists.loongnix.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Since 2014 kernel-doc has supported describing object-like macros
-but it is not documented anywhere. I should have required some
-documentation for it when I merged the patch. :(
+On Sun, Jan 7, 2024 at 9:06=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi WANG,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on rust/rust-next]
+> [also build test WARNING on linus/master v6.7-rc8 next-20240105]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/WANG-Rui/LoongArch=
+-Enable-initial-Rust-support/20240106-150902
+> base:   https://github.com/Rust-for-Linux/linux rust-next
+> patch link:    https://lore.kernel.org/r/20240106065941.180796-1-wangrui%=
+40loongson.cn
+> patch subject: [PATCH] LoongArch: Enable initial Rust support
+> reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070815=
+.6tdJWFme-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202401070815.6tdJWFme-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> Documentation/rust/arch-support.rst:18: WARNING: Malformed table.
+>
+> vim +18 Documentation/rust/arch-support.rst
+>
+>     14
+>     15  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+>     16  Architecture  Level of support  Constraints
+>     17  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+>   > 18  ``loongarch`` Maintained
+I think we can put a "none." or just a "-" below "Constraints" to fix
+the warning.
 
-There are currently only 3 uses of this (all in DRM headers, in
-include/drm/*.h).
-
-Add object-like macro kernel-doc documentation now so that more may
-know about it and use it.
-
-Fixes: cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
-v2: Previous attempts to use kernel-doc were for data definitions,
-    not macros, so remove that comment.
-    Remove a duplicate word in the patch description.
-    Add examples.
-
- Documentation/doc-guide/kernel-doc.rst |   45 +++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
-
-diff -- a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -341,6 +341,51 @@ Typedefs with function prototypes can al
-    */
-    typedef void (*type_name)(struct v4l2_ctrl *arg1, void *arg2);
- 
-+Object-like macro documentation
-+-------------------------------
-+
-+Object-like macros are distinct from function-like macros. They are
-+differentiated by whether the macro name is immediately followed by a
-+left parenthesis ('(') for function-like macros or not followed by one
-+for object-like macros.
-+
-+Function-like macros are handled like functions by ``scripts/kernel-doc``.
-+They may have a parameter list. Object-like macros have do not have a
-+parameter list.
-+
-+The general format of an object-like macro kernel-doc comment is::
-+
-+  /**
-+   * define object_name - Brief description.
-+   *
-+   * Description of the object.
-+   */
-+
-+Example::
-+
-+  /**
-+   * define MAX_ERRNO - maximum errno value that is supported
-+   *
-+   * Kernel pointers have redundant information, so we can use a
-+   * scheme where we can return either an error code or a normal
-+   * pointer with the same return value.
-+   */
-+  #define MAX_ERRNO	4095
-+
-+Example::
-+
-+  /**
-+   * define DRM_GEM_VRAM_PLANE_HELPER_FUNCS - \
-+   *	Initializes struct drm_plane_helper_funcs for VRAM handling
-+   *
-+   * This macro initializes struct drm_plane_helper_funcs to use the
-+   * respective helper functions.
-+   */
-+  #define DRM_GEM_VRAM_PLANE_HELPER_FUNCS \
-+	.prepare_fb = drm_gem_vram_plane_helper_prepare_fb, \
-+	.cleanup_fb = drm_gem_vram_plane_helper_cleanup_fb
-+
-+
- Highlights and cross-references
- -------------------------------
- 
+Huacai
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
