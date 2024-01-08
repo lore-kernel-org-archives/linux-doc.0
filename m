@@ -1,43 +1,37 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC2154BC0;
-	Mon,  8 Jan 2024 18:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0F354F86
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 18:39:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gyCpfHha"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Tp5B4RHd"
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 31CC5377;
-	Mon,  8 Jan 2024 18:27:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 31CC5377
+	by ms.lwn.net (Postfix) with ESMTPSA id 05959377;
+	Mon,  8 Jan 2024 18:39:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 05959377
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1704738443; bh=6A53Fmc3sg36fdjFQCDXxbk/Zai3VfsgTloQdrPblU0=;
+	t=1704739156; bh=HD+/ne1QMpQmz/L6L0MVdML8x6htIUriNKQw1QHVv+w=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gyCpfHhaEHCNty4eBaRFlalLNy3XXk1BRuvXBCi6xxtRGX5KwOVyclDy4guaOSw7X
-	 hxIXok/dNoDMJuNKSoxwdhio+8ayHPmNZhr65tB3MQuTHHbwUWT9n3f9sqtR4FggeW
-	 ZvONN6KwAVI/Awylp+0zxcaH7pf87kDzKthJpZnT/wRj8dWCX86u3vMwf5XiNty2A2
-	 3OMeYNKCl7rtqtiz4HiDtG0+XUw7z/AhpfoXSnI5kipWoIVjJ0i2rJwh5UO1kc/HEJ
-	 3hEJKM6lQja22SRObdBIGpnu88ntRCqFryGKE3sR99+jmVfAQC50g3QUZfRULRXLbl
-	 naMYuT7+fdC5w==
+	b=Tp5B4RHd64D5wleT5vqmL4aXvNoJ0PA6swlzc9PaiN3XvBlLwG/0+lCVAVGg+UWqS
+	 5TyGeyv4pDDAQbfS6rQREO0rq9syrSfWcFJJOE6mxtWMLiwFFrgjsqZz/eAOJf6cG1
+	 4gx0IejGRdISL7Nwoc28ZDr1kERRXllm2yH189ZozpjQxZeA3vGqr0JRpGmmCuQ6O7
+	 zgxlr6C1w0tM9C08j1QiYj5DE9ZsraBPIpa61XUhuxMb3A51XLqKV/C5nG7ahXA48i
+	 ++oIZyiANKd6KuFapwHAQmBTm5MKMWGPMzDjAjH1+UR7+22JzcVZGCuKAtXk8zvpjg
+	 veEMLMpyk6eRw==
 From: Jonathan Corbet <corbet@lwn.net>
-To: Yueh-Shun Li <shamrocklee@posteo.net>
-Cc: Hu Haowen <src.res.211@gmail.com>, Alex Shi <alexs@kernel.org>, Yanteng
- Si <siyanteng@loongson.cn>, Randy Dunlap <rdunlap@infradead.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] coding-style: show how reusing macros prevents
- naming collisions
-In-Reply-To: <eecb9fa3e0cd84fce0b2f9e5449888a0@posteo.net>
-References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
- <20240108160746.177421-1-shamrocklee@posteo.net>
- <20240108160746.177421-3-shamrocklee@posteo.net>
- <871qaryel9.fsf@meer.lwn.net>
- <eecb9fa3e0cd84fce0b2f9e5449888a0@posteo.net>
-Date: Mon, 08 Jan 2024 11:27:22 -0700
-Message-ID: <87ederwuid.fsf@meer.lwn.net>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-doc@vger.kernel.org, carlos.bilbao@amd.com,
+ elena.reshetova@intel.com, Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH docs] MAINTAINERS: use tabs for indent of CONFIDENTIAL
+ COMPUTING THREAT MODEL
+In-Reply-To: <20240103160938.1006517-1-kuba@kernel.org>
+References: <20240103160938.1006517-1-kuba@kernel.org>
+Date: Mon, 08 Jan 2024 11:39:15 -0700
+Message-ID: <871qarwtyk.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,41 +40,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Yueh-Shun Li <shamrocklee@posteo.net> writes:
+Jakub Kicinski <kuba@kernel.org> writes:
 
->> So everything we add to our documentation has a cost in terms of reader
->> attention.  We ask people to read through a lot of material now, and
->> should only increase that ask for good reason.
->> 
->> With that context, I have to wonder whether we really need to tell our
->> readers, who are supposed to be capable developers, that reuse can help
->> to avoid name collisions?
->> 
+> There are two MAINTAINERS entries which snuck in during the previous
+> merge window which use spaces instead of tabs for indent. The rest
+> of the file uses tabs. Fix CONFIDENTIAL COMPUTING THREAT MODEL FOR
+> X86 VIRTUALIZATION (SNP/TDX).
 >
-> The motivation comes from existing inconsistency of the "__stringify()" 
-> macro
-> definition between e.g. "samples/bpf/tracex5.bpf.c" and other files.
+> Given the prevalence of using tabs some scripts (AKA my scripts)
+> assume tabs when parsing.
 >
-> I agree that increasing the length of the documentation without
-> substantial benefits would not be helpful for the readers, and
-> doubling the length of a section is too much for its purpose.
+> The faulty entry was added in commit 1f597b1a6ec2 ("docs: security:
+> Confidential computing intro and threat model for x86 virtualization")
 >
-> Should I shorten it into one sentence, like
->
-> ```
-> On the other hand, locally-defined variants, such as ``#define 
-> __stringify(x) #x``,
-> could lead to naming collisions that break otherwise functioning 
-> facilities.
-> ```
->
-> or just omit it in the next version of patches?
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  MAINTAINERS | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
-My own feeling (others may well disagree) is that this isn't worth
-mentioning in the coding-style document.  What you *could* do is to fix
-the redefinitions (if that hasn't happened yet) and make sure that the
-macros in question are covered in our kernel documentation.
-
-Thanks,
+I've applied this, thanks.
 
 jon
