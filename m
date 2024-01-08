@@ -1,83 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D97913ACF;
-	Mon,  8 Jan 2024 10:15:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52F424B44;
+	Mon,  8 Jan 2024 12:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7OS9Q6v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EB47C433C7;
-	Mon,  8 Jan 2024 10:15:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704708932;
-	bh=Kf/qCr4Qci8o35dgE+0WQtM/PNggO9XZmnL3OFyD1p4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h7OS9Q6vfGOss9TTQ24Jm6unqxb6WgKnOVxwjxO0z2C6gOAuuahgC7asS+zh5KDPs
-	 ZYJXs9J1SHAawdLcyUGmByrnTy/yuCUTxRVC9k29jGF98a1UA/s2g1YJythdBgDo5i
-	 ezF920k4/H4fxAJtmlGMIo7xCB3mYOz9T298h4NKCYdN7Be25DmPSwHI0ccjxiz5YI
-	 +cAtKLbRsYBqB2OeRh/crdACtO/cOBikxUCmhhfTKmqp6THM0PHuhkGd6mg8AFycGq
-	 Giwi/GhkL0z/6kJTawsWmk33vcFh4/hhx+t6j6mK/8I28LMffcgAru1wU3YbRy+fr+
-	 4YghGB4Y0PLrw==
-Date: Mon, 8 Jan 2024 11:15:29 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	Haneen Mohammed <hamohammed.sa@gmail.com>, Harry Wentland <harry.wentland@amd.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, Melissa Wen <melissa.srw@gmail.com>, 
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 7/7] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <5z66ivuhfrzrnuzt6lwjfm5fuozxlgqsco3qb5rfzyf6mil5ms@2svqtlcncyjj>
-References: <20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net>
- <20240105-vkms-yuv-v1-7-34c4cd3455e0@riseup.net>
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="EJknILA/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1704715263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SqXbfp61fzBHWNEqVrElLd46cr7HG/1wYVIvKKSn5jY=;
+	b=EJknILA/HcKeDAL+7bQrURFIu+gP9lVq+/v4qUkcgDZvksaoRrwtu5A38lq0FNq3QBtxEV
+	ompQuhN94wCW3HbKR7KvZuWRG9E0cifTT1ZcaZPQIyVvV3DELCVMJqbc3VobOa9OzmVcFB
+	MNsdzO4yEXjkqXxXizWm6M6a92ciaLg=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v3 1/4] usb: gadget: Support already-mapped DMA SGs
+Date: Mon,  8 Jan 2024 13:00:53 +0100
+Message-ID: <20240108120056.22165-2-paul@crapouillou.net>
+In-Reply-To: <20240108120056.22165-1-paul@crapouillou.net>
+References: <20240108120056.22165-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6dpvlnf5scujd26i"
-Content-Disposition: inline
-In-Reply-To: <20240105-vkms-yuv-v1-7-34c4cd3455e0@riseup.net>
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 
+Add a new 'sg_was_mapped' field to the struct usb_request. This field
+can be used to indicate that the scatterlist associated to the USB
+transfer has already been mapped into the DMA space, and it does not
+have to be done internally.
 
---6dpvlnf5scujd26i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/usb/gadget/udc/core.c | 7 ++++++-
+ include/linux/usb/gadget.h    | 2 ++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-Hi Arthur,
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index d59f94464b87..9d4150124fdb 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -903,6 +903,11 @@ int usb_gadget_map_request_by_dev(struct device *dev,
+ 	if (req->length == 0)
+ 		return 0;
+ 
++	if (req->sg_was_mapped) {
++		req->num_mapped_sgs = req->num_sgs;
++		return 0;
++	}
++
+ 	if (req->num_sgs) {
+ 		int     mapped;
+ 
+@@ -948,7 +953,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
+ void usb_gadget_unmap_request_by_dev(struct device *dev,
+ 		struct usb_request *req, int is_in)
+ {
+-	if (req->length == 0)
++	if (req->length == 0 || req->sg_was_mapped)
+ 		return;
+ 
+ 	if (req->num_mapped_sgs) {
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index a771ccc038ac..c529e4e06997 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -52,6 +52,7 @@ struct usb_ep;
+  * @short_not_ok: When reading data, makes short packets be
+  *     treated as errors (queue stops advancing till cleanup).
+  * @dma_mapped: Indicates if request has been mapped to DMA (internal)
++ * @sg_was_mapped: Set if the scatterlist has been mapped before the request
+  * @complete: Function called when request completes, so this request and
+  *	its buffer may be re-used.  The function will always be called with
+  *	interrupts disabled, and it must not sleep.
+@@ -111,6 +112,7 @@ struct usb_request {
+ 	unsigned		zero:1;
+ 	unsigned		short_not_ok:1;
+ 	unsigned		dma_mapped:1;
++	unsigned		sg_was_mapped:1;
+ 
+ 	void			(*complete)(struct usb_ep *ep,
+ 					struct usb_request *req);
+-- 
+2.43.0
 
-On Fri, Jan 05, 2024 at 01:35:08PM -0300, Arthur Grillo wrote:
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index b654b6661a20..11df990a0fa9 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -440,3 +440,7 @@ void *get_pixel_write_function(u32 format)
->  		return NULL;
->  	}
->  }
-> +
-> +#ifdef CONFIG_DRM_VKMS_KUNIT_TESTS
-> +#include "tests/vkms_format_test.c"
-> +#endif
-
-I assume this is due to testing a static function?
-
-If so, the preferred way nowadays is to use EXPORT_SYMBOL_IF_KUNIT or
-EXPORT_SYMBOL_FOR_TESTS_ONLY if it's DRM/KMS only.
-
-Maxime
-
---6dpvlnf5scujd26i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZZvLQQAKCRDj7w1vZxhR
-xbrTAP40M9aPjegihpQi0Im0Y+t3vvZIDGnzyfpW1jnSv6xx1wD+Ky1UTLcjzx9S
-p6LaI6fOs9AqPeduZ4J+cWOl3mJ2PgI=
-=ZL3g
------END PGP SIGNATURE-----
-
---6dpvlnf5scujd26i--
