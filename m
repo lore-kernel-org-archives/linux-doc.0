@@ -1,87 +1,89 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3781D524A7;
-	Mon,  8 Jan 2024 16:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D075524BE
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 16:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LdiwUq8j"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/cpDn+ySfxlQPGGDlxhV/W8mRwKw5N/zUe55+TIbUnE=; b=LdiwUq8jg92CpSX4y/k9CaNugO
-	yx6B6exjW4bG8lcy4suuh/Utl4Ok17Ge/anthY3W/oW4KHwfmM5a8CjkH2l9aiZwMzIR4aIw6V6lc
-	cmJrNB0Cfp/UrA5zbGfBqVF25RCtXG376Xy9Y5ujJ6uhI4uzfRmibr4UmTz6xH7w9wK6Y+tqI1F3N
-	42naVNnlxKEmKYVk4ePc2PNn9haTssNderpOo669QCACjHnrH1Q1P6HlxlCYR/x/YXVtm69AhflFr
-	V3Fi3at6PsJ4VbKST5GC3ACVDDPAui13407SXDjwjilmgXtehyntF7rPIeUV3zBAPwJC2qboFyUeF
-	TinYbfAg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1rMsBR-007rZC-Vk; Mon, 08 Jan 2024 16:09:02 +0000
-Date: Mon, 8 Jan 2024 16:09:01 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] buffer: Fix __bread() kernel-doc
-Message-ID: <ZZweHfmMWnlBFKdV@casper.infradead.org>
-References: <20240104163652.3705753-1-willy@infradead.org>
- <20240104163652.3705753-5-willy@infradead.org>
- <20240108145808.2k4rob3ntdknrkp3@localhost>
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="q3QHvqdK"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 6E276240028
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 17:15:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1704730537; bh=Ts/rOOm0/Jq58HYvOJXottonXceweiTE91bQUrYjFqc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=q3QHvqdKJhTn1p6fiWYdee57zvhifiCR2vUxYtlkYlDApvZHCc1yrdS3w760e27Vv
+	 r8Osz2cuC41ts3vtM6YZ2XfIfv/JHwACVG69zZnLS6PHixmT5Ar1aw7l+w5j+BttZr
+	 jpm2qrf+rXg0W9JN/B8aV2tn5TEJ5Vp17TwdHkr8ZYW5ol/0guxFfkhnhRF0GtBEHD
+	 i1zyJ0IQWpJMRMfvnvUXLsA0CMhh06p/yjW4hNderRJhD1Ww3YQLla8elGXxD0L5C0
+	 E0ZAcN0BRLwN+T33PMT2EHuKVt114vZp2dtikmU6/rC/gYARk3XT/o1K9b3cahFIrf
+	 ZsJXYQekFFYkg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4T7zgR3Q0kz9rxF;
+	Mon,  8 Jan 2024 17:15:30 +0100 (CET)
+From: Yueh-Shun Li <shamrocklee@posteo.net>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Hu Haowen <src.res.211@gmail.com>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Yueh-Shun Li <shamrocklee@posteo.net>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] coding-style: recommend reusing macros from split headers instead of kernel.h
+Date: Mon,  8 Jan 2024 16:03:21 +0000
+Message-ID: <20240108160746.177421-1-shamrocklee@posteo.net>
+In-Reply-To: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
+References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240108145808.2k4rob3ntdknrkp3@localhost>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 08, 2024 at 03:58:08PM +0100, Pankaj Raghav (Samsung) wrote:
-> On Thu, Jan 04, 2024 at 04:36:51PM +0000, Matthew Wilcox (Oracle) wrote:
-> > The extra indentation confused the kernel-doc parser, so remove it.
-> > Fix some other wording while I'm here, and advise the user they need to
-> > call brelse() on this buffer.
-> > 
-> It looks like __bread_gfp has the same problem:
+Dear Maintainers,
 
-I'm happy to incorporate this patch, but I'll need your S-o-B on it.
+This series of patches targets the "Linux kernel coding style"
+documentation and recommend reusing macros inside the include/linux
+directory instead of the obsolete header "include/linux/kernel.h".
 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index 967f34b70aa8..cfdf45cc290a 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -1446,16 +1446,18 @@ void __breadahead(struct block_device *bdev, sector_t block, unsigned size)
->  EXPORT_SYMBOL(__breadahead);
->  
->  /**
-> - *  __bread_gfp() - reads a specified block and returns the bh
-> - *  @bdev: the block_device to read from
-> - *  @block: number of block
-> - *  @size: size (in bytes) to read
-> - *  @gfp: page allocation flag
-> + * __bread_gfp() - Read a block.
-> + * @bdev: The block device to read from.
-> + * @block: Block number in units of block size.
-> + * @size: Block size in bytes.
->   *
-> - *  Reads a specified block, and returns buffer head that contains it.
-> - *  The page cache can be allocated from non-movable area
-> - *  not to prevent page migration if you set gfp to zero.
-> - *  It returns NULL if the block was unreadable.
-> + * Read a specified block, and return the buffer head that refers to it.
-> + * The memory can be allocated from a non-movable area to not to prevent
-> + * page migration if you set gfp to zero. The buffer head has its
-> + * refcount elevated and the caller should call brelse() when it has
-> + * finished with the buffer.
-> + *
-> + * Return: NULL if the block was unreadable.
->   */
->  struct buffer_head *
->  __bread_gfp(struct block_device *bdev, sector_t block,
-> (END)
-> 
-> Another option is to just change this in __bread_gfp() and add a See
-> __bread_gfp() in __bread()?
+This addresses the issue 'Irrelevant documentation recommending the use
+of "include/linux/kernel.h"'[1][2] and help deprecating "kernel.h".
+
+If applied, developers will no longer be confused by the contradiction
+between "Linux kernel style guide" suggestions and the deprecation
+notice on top of "kernel.h".
+
+There's also a patch that adds an example to show how reusing macro
+definition from shared headers help prevent naming collisions.
+
+This series contains the update to the zh_TW and zh_CN translation of
+the corresponding documentation changes.
+
+Best regards,
+
+Shamrock
+
+[1]: https://lore.kernel.org/linux-doc/bc63acd7ef43bdd8d9609fa48dbf92f9@posteo.net/
+[2]: https://lore.kernel.org/linux-doc/107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org/
+
+Yueh-Shun Li (4):
+  coding-style: recommend split headers instead of kernel.h
+  coding-style: show how reusing macros prevents naming collisions
+  doc/zh_TW: coding-style: update content for section 18
+  doc/zh_CN: coding-style: update content of section 18
+
+ Documentation/process/coding-style.rst        | 41 +++++++++++++++----
+ .../zh_CN/process/coding-style.rst            | 39 ++++++++++++++----
+ .../zh_TW/process/coding-style.rst            | 39 ++++++++++++++----
+ 3 files changed, 95 insertions(+), 24 deletions(-)
+
+-- 
+2.42.0
+
