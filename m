@@ -1,362 +1,348 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3209254659
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 17:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BEA254671;
+	Mon,  8 Jan 2024 17:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OYb1jAD4"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a27cd5850d6so214484966b.1
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jan 2024 09:13:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WlTf6uWi"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d3aa0321b5so19038815ad.2;
+        Mon, 08 Jan 2024 09:42:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1704734024; x=1705338824; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=72yIapf26W3MTkOxkgeYpNT24vmOx9hCDSp11cnRh3s=;
-        b=OYb1jAD4fm4WbmGYD+hTMiaFLJfHqjWk0jy0NJbejKwfOui6rN7Qc/GbhdDYo8hCir
-         8Yu5ygaUADiWDNqTiIExrtu5pzGD6+t+DdpJ0XZDEjW7JlQRuy8KHQH3W+zciFiWRjeT
-         jYC1g18HnpBZ95uYoi+L4TUpKkpOMeRwynqhlAajxlxuWZvl3cHroRhyHdDIXB+Yor4/
-         RiU3sAwG+ct8IFqCHEQYmZX0UiW8FavhNsjjB7B5gSIifVab/2x5LSJPkZ+gDfSQAXBG
-         a3Bkek3ty2pLdo2KTTIGKc7/p6f0EJVd8clSLHxfEhByCd7Kh30hJ0RBwGQeSc7gSY6A
-         SV/g==
+        d=gmail.com; s=20230601; t=1704735731; x=1705340531; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=QmWcaqQ4y7tVmIj1lLdwXzgA+MvStgf4qEsTho+ne5Q=;
+        b=WlTf6uWioDRJnC00+S9RruOmQY+JCt4P4r2EJXWRkz2Iw1cT2fmeh5XvH2ENAsmgVS
+         h5Frx7YOb+HJNxAwCOHmc+1blfy4309f4Yy0LCiLpeo3Ou6pSQCLY7Wud+RuEBEGWhtl
+         WbAm5KL/N76D74CcRGCruXd0ufcHDVteWJgGCZj3D1fZ1c7hkecFsA9TwT7oD5MNiSVH
+         TrkWjtLESWf91lcpf4gBcUX3bgMhyWukVwukscrtD8E3BnHSskr+kN7/beGXJtJ5Itc/
+         IFdOJ7HPGTqRuCVK073Ni1bN8CW6KFvxpwujIxOIpa1p8M0AQtWFw6k552vo9uhMS4R7
+         JHyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704734024; x=1705338824;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=72yIapf26W3MTkOxkgeYpNT24vmOx9hCDSp11cnRh3s=;
-        b=lrexcpckp/+1lRDkE/giUzKbR1OL82DPkZrQw3FCsAFO5lqOlIr+GOBofjv9dOa0ig
-         2j5tpyEJI4DzCRWoot5MKWiXaTbTEeUthg6CxXi+ADHO6pzTy+/Ez/KyhNIfPvYsJeRf
-         qo1MxQRpqMXS/7/V3KAqoYBtybqbG0cMppM2OFISgtJ2be5xbRA5gfrr0TpGy7h1YCLy
-         9jHl6E2GJpJs44uoArIrq4Lon4Bfv79BMpGMCcrhA+Av60SnNxox8/t8XYr+TQ1vU7TQ
-         sI/WueqyXFxAD5YI4WjRtvhw3snNu5Vu7qcXTnZOEiipoAAGWEx4e4hPYqUv8/aVB7bP
-         UYcA==
-X-Gm-Message-State: AOJu0YxksKHA93+e3bOtEPiu0C1x0Oe4TbmrY+o9IsK9mhG1UyaPAfhU
-	FHZ0YmNc1vNFkb+KB1ex/AOFTI0267hBHQ==
-X-Google-Smtp-Source: AGHT+IH3cJA9S6q1KPJzco1BqKJ4kBMUC//wsZrUlu+DcpJtcQRDkqowbqPMEs8Y0NjueYWPNrObiQ==
-X-Received: by 2002:a17:906:158f:b0:a23:482:ee74 with SMTP id k15-20020a170906158f00b00a230482ee74mr2177935ejd.28.1704734024389;
-        Mon, 08 Jan 2024 09:13:44 -0800 (PST)
-Received: from ?IPv6:2804:30c:1668:b300:8fcd:588d:fb77:ed04? ([2804:30c:1668:b300:8fcd:588d:fb77:ed04])
-        by smtp.gmail.com with ESMTPSA id t7-20020a02ab87000000b00466754ca2fesm70249jan.68.2024.01.08.09.13.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 09:13:43 -0800 (PST)
-Message-ID: <11c112df801008f6bc4b7813645d505388894e29.camel@suse.com>
-Subject: Re: [PATCH RESEND v4 1/3] kselftests: lib.mk: Add TEST_GEN_MODS_DIR
- variable
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Shuah Khan <skhan@linuxfoundation.org>, Joe Lawrence
-	 <joe.lawrence@redhat.com>
-Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Heiko
- Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>,  Sven Schnelle <svens@linux.ibm.com>, Josh
- Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,  Miroslav
- Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
- live-patching@vger.kernel.org
-Date: Mon, 08 Jan 2024 14:13:37 -0300
-In-Reply-To: <4fb169fd-393c-441e-b0f7-32a3777c1d11@linuxfoundation.org>
-References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
-	 <20231220-send-lp-kselftests-v4-1-3458ec1b1a38@suse.com>
-	 <ZZSOtsbzpy2mvmUC@redhat.com>
-	 <4fb169fd-393c-441e-b0f7-32a3777c1d11@linuxfoundation.org>
-Content-Type: multipart/mixed; boundary="=-Q9sYUJ/r34p0y6Es/xCH"
-User-Agent: Evolution 3.50.1 
+        d=1e100.net; s=20230601; t=1704735731; x=1705340531;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QmWcaqQ4y7tVmIj1lLdwXzgA+MvStgf4qEsTho+ne5Q=;
+        b=AZP5yzSmCkJMNp2hTZHtpJN2dI4hqpPi1othus//BANnQ62XhecDmddWl49utBO0Gs
+         AKTuPI1hqM1FgQGVvpYCBS/+D8sbZuuMxyDR75aVVrWPBhd+ONHH+BbZmyFWt4vT1SiP
+         YBaQwKoBacKwGgLEprvmadEMiki9H7ybwnysgoQNWk4xEaw5rGb3+VsIkBW9246+Y58z
+         fFybqSJTOq9foRPG9m72ENruC+qg19sGQ0YVPxMaMyFP9GdCNy8nl3sXEP8XW6DZ+qKM
+         5VLdhdf6PEvbpfquemcNvnHMWNNoTDhvbG8H+/sgjiSuiuWZuFWel3GlYDhMVJiVyZNL
+         E6IQ==
+X-Gm-Message-State: AOJu0YwSpCAPLc4yR9BoAPsyyLagMMNeCcsy40DnzkAQL04DswBcQuWl
+	y+SuoC+mEC6iSSlmZaJG6c7b+ZysB34=
+X-Google-Smtp-Source: AGHT+IG5tvs4cjGjrURDVIGbBpOM92tDZBhNn5M2K5KPu2JO6HTn8XpwCMc/WZrPjWuUtjActEdtAg==
+X-Received: by 2002:a17:902:684d:b0:1d4:73ab:8d49 with SMTP id f13-20020a170902684d00b001d473ab8d49mr4279353pln.63.1704735731150;
+        Mon, 08 Jan 2024 09:42:11 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id iw17-20020a170903045100b001d486882d79sm166868plb.179.2024.01.08.09.42.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jan 2024 09:42:10 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <4e79b5ac-9fd0-4589-9ca4-e43b42148154@roeck-us.net>
+Date: Mon, 8 Jan 2024 09:42:08 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] hwmon: max31827: Add PEC support
+Content-Language: en-US
+To: "Matyas, Daniel" <Daniel.Matyas@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>
+References: <20231214143648.175336-1-daniel.matyas@analog.com>
+ <2e0bf1cf-824d-40c6-9450-7ed4740f2f46@roeck-us.net>
+ <PH0PR03MB6771B89E4D3291BA0B1B5ABF8990A@PH0PR03MB6771.namprd03.prod.outlook.com>
+ <5baa93fe-bd08-4f11-9c5c-42060e89930c@roeck-us.net>
+ <PH0PR03MB6771CF6A95CB576E534C225F8990A@PH0PR03MB6771.namprd03.prod.outlook.com>
+ <7f470259-89c9-4a4c-90d8-0997a706f7dd@roeck-us.net>
+ <PH0PR03MB677186C968350C7ABD0B3DA58996A@PH0PR03MB6771.namprd03.prod.outlook.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <PH0PR03MB677186C968350C7ABD0B3DA58996A@PH0PR03MB6771.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---=-Q9sYUJ/r34p0y6Es/xCH
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 12/19/23 17:49, Matyas, Daniel wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+>> Sent: Monday, December 18, 2023 9:01 PM
+>> To: Matyas, Daniel <Daniel.Matyas@analog.com>
+>> Cc: Jean Delvare <jdelvare@suse.com>; Rob Herring
+>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
+>> <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>; linux-
+>> hwmon@vger.kernel.org; devicetree@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; linux-doc@vger.kernel.org
+>> Subject: Re: [PATCH 1/3] hwmon: max31827: Add PEC support
+>>
+>> [External]
+>>
+>> On 12/18/23 09:59, Matyas, Daniel wrote:
+>>>
+>>>
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------------------------------------------------------------------
+>>> ----------
+>>> *Von:* Guenter Roeck <groeck7@gmail.com> im Auftrag von Guenter
+>> Roeck
+>>> <linux@roeck-us.net>
+>>> *Gesendet:* Montag, Dezember 18, 2023 6:26:57 nachm.
+>>> *An:* Matyas, Daniel <Daniel.Matyas@analog.com>
+>>> *Cc:* Jean Delvare <jdelvare@suse.com>; Rob Herring
+>>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>>> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
+>>> <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>;
+>>> linux-hwmon@vger.kernel.org <linux-hwmon@vger.kernel.org>;
+>>> devicetree@vger.kernel.org <devicetree@vger.kernel.org>;
+>>> linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>;
+>>> linux-doc@vger.kernel.org <linux-doc@vger.kernel.org>
+>>> *Betreff:* Re: [PATCH 1/3] hwmon: max31827: Add PEC support
+>>>
+>>> [External]
+>>>
+>>> On 12/18/23 06:55, Matyas, Daniel wrote:
+>>> [ ... ]
+>>>>> On top of that, it is not clear why regmap can't be used in the first
+>> place.
+>>>>> It seems that the major change is that one needs to read the
+>>>>> configuration register after a write to see if there was a PEC
+>>>>> error. It is not immediately obvious why that additional read (if
+>>>>> indeed necessary) would require regmap support to be dropped.
+>>>>>
+>>>>
+>>>> I tried out writing and and reading with regmap, but it is not working
+>> properly. Even if I modify the client flag, I still receive only 2 bytes of data
+>> (a word). I should be receiving 2+1 bytes = data + CRC-8.
+>>>>
+>>>> With i2c_smbus reads and writes, when I set the flag, I receive the 2+1
+>> bytes, as expected.
+>>>>
+>>>
+>>> The SMBus code in drivers/i2c/i2c-core-smbus.c is supposed to check if
+>>> the received PEC is correct for SMBus transfers. Are you saying that
+>>> this doesn't work, or that regmap doesn't use SMBus functions to
+>>> communicate with the chip ?
+>>>
+>>> Thanks,
+>>> Guenter
+>>>
+>>>
+>>> I am 70% sure, that the regmap does not use SMBus functions.
+>>>
+>>
+>> It should.
+>>
+>> $ git grep smbus drivers/base/regmap/regmap-i2c.c
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_smbus_byte_reg_read(void *context, unsigned int reg,
+>> drivers/base/regmap/regmap-i2c.c:       ret =
+>> i2c_smbus_read_byte_data(i2c, reg);
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_smbus_byte_reg_write(void *context, unsigned int reg,
+>> drivers/base/regmap/regmap-i2c.c:       return
+>> i2c_smbus_write_byte_data(i2c, reg, val);
+>> drivers/base/regmap/regmap-i2c.c:static const struct regmap_bus
+>> regmap_smbus_byte = {
+>> drivers/base/regmap/regmap-i2c.c:       .reg_write =
+>> regmap_smbus_byte_reg_write,
+>> drivers/base/regmap/regmap-i2c.c:       .reg_read =
+>> regmap_smbus_byte_reg_read,
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_smbus_word_reg_read(void *context, unsigned int reg,
+>> drivers/base/regmap/regmap-i2c.c:       ret =
+>> i2c_smbus_read_word_data(i2c, reg);
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_smbus_word_reg_write(void *context, unsigned int reg,
+>> drivers/base/regmap/regmap-i2c.c:       return
+>> i2c_smbus_write_word_data(i2c, reg, val);
+>> drivers/base/regmap/regmap-i2c.c:static const struct regmap_bus
+>> regmap_smbus_word = {
+>> drivers/base/regmap/regmap-i2c.c:       .reg_write =
+>> regmap_smbus_word_reg_write,
+>> drivers/base/regmap/regmap-i2c.c:       .reg_read =
+>> regmap_smbus_word_reg_read,
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_smbus_word_read_swapped(void *context, unsigned int reg,
+>> drivers/base/regmap/regmap-i2c.c:       ret =
+>> i2c_smbus_read_word_swapped(i2c, reg);
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_smbus_word_write_swapped(void *context, unsigned int reg,
+>> drivers/base/regmap/regmap-i2c.c:       return
+>> i2c_smbus_write_word_swapped(i2c, reg, val);
+>> drivers/base/regmap/regmap-i2c.c:static const struct regmap_bus
+>> regmap_smbus_word_swapped = {
+>> drivers/base/regmap/regmap-i2c.c:       .reg_write =
+>> regmap_smbus_word_write_swapped,
+>> drivers/base/regmap/regmap-i2c.c:       .reg_read =
+>> regmap_smbus_word_read_swapped,
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_i2c_smbus_i2c_write(void *context, const void *data,
+>> drivers/base/regmap/regmap-i2c.c:       return
+>> i2c_smbus_write_i2c_block_data(i2c, ((u8 *)data)[0], count,
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_i2c_smbus_i2c_read(void *context, const void *reg,
+>> drivers/base/regmap/regmap-i2c.c:       ret =
+>> i2c_smbus_read_i2c_block_data(i2c, ((u8 *)reg)[0], val_size, val);
+>> drivers/base/regmap/regmap-i2c.c:static const struct regmap_bus
+>> regmap_i2c_smbus_i2c_block = {
+>> drivers/base/regmap/regmap-i2c.c:       .write =
+>> regmap_i2c_smbus_i2c_write,
+>> drivers/base/regmap/regmap-i2c.c:       .read =
+>> regmap_i2c_smbus_i2c_read,
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_i2c_smbus_i2c_write_reg16(void *context, const void *data,
+>> drivers/base/regmap/regmap-i2c.c:       return
+>> i2c_smbus_write_i2c_block_data(i2c, ((u8 *)data)[0], count,
+>> drivers/base/regmap/regmap-i2c.c:static int
+>> regmap_i2c_smbus_i2c_read_reg16(void *context, const void *reg,
+>> drivers/base/regmap/regmap-i2c.c:       ret =
+>> i2c_smbus_write_byte_data(i2c, ((u16 *)reg)[0] & 0xff,
+>> drivers/base/regmap/regmap-i2c.c:               ret =
+>> i2c_smbus_read_byte(i2c);
+>> drivers/base/regmap/regmap-i2c.c:static const struct regmap_bus
+>> regmap_i2c_smbus_i2c_block_reg16 = {
+>> drivers/base/regmap/regmap-i2c.c:       .write =
+>> regmap_i2c_smbus_i2c_write_reg16,
+>> drivers/base/regmap/regmap-i2c.c:       .read =
+>> regmap_i2c_smbus_i2c_read_reg16,
+>> drivers/base/regmap/regmap-i2c.c:               bus =
+>> &regmap_i2c_smbus_i2c_block;
+>> drivers/base/regmap/regmap-i2c.c:               bus =
+>> &regmap_i2c_smbus_i2c_block_reg16;
+>> drivers/base/regmap/regmap-i2c.c:                       bus =
+>> &regmap_smbus_word;
+>> drivers/base/regmap/regmap-i2c.c:                       bus =
+>> &regmap_smbus_word_swapped;
+>> drivers/base/regmap/regmap-i2c.c:               bus = &regmap_smbus_byte;
+>>
+>> If that doesn't work for some reason, I'd rather figure out why instead of
+>> starting to drop regmap support.
+>>
+>> Guenter
+> 
+> I tried to figure it out and this is what I came up with. The code snippet below is from drivers/base/regmap/regmap-i2c.c:
+> 
+> static const struct regmap_bus *regmap_get_i2c_bus(struct i2c_client *i2c,
+> 					const struct regmap_config *config)
+> {
+> 	const struct i2c_adapter_quirks *quirks;
+> 	const struct regmap_bus *bus = NULL;
+> 	struct regmap_bus *ret_bus;
+> 	u16 max_read = 0, max_write = 0;
+> 
+> 	if (i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C))
+> 		bus = &regmap_i2c;
+> 	else if (config->val_bits == 8 && config->reg_bits == 8 &&
+> 		 i2c_check_functionality(i2c->adapter,
+> 					 I2C_FUNC_SMBUS_I2C_BLOCK))
+> 		bus = &regmap_i2c_smbus_i2c_block;
+> 	else if (config->val_bits == 8 && config->reg_bits == 16 &&
+> 		i2c_check_functionality(i2c->adapter,
+> 					I2C_FUNC_SMBUS_I2C_BLOCK))
+> 		bus = &regmap_i2c_smbus_i2c_block_reg16;
+> 	else if (config->val_bits == 16 && config->reg_bits == 8 &&
+> 		 i2c_check_functionality(i2c->adapter,
+> 					 I2C_FUNC_SMBUS_WORD_DATA))
+> 		switch (regmap_get_val_endian(&i2c->dev, NULL, config)) {
+> 		case REGMAP_ENDIAN_LITTLE:
+> 			bus = &regmap_smbus_word;
+> 			break;
+> 		case REGMAP_ENDIAN_BIG:
+> 			bus = &regmap_smbus_word_swapped;
+> 			break;
+> 		default:		/* everything else is not supported */
+> 			break;
+> 		}
+> 
+> This is executed when regmap is initialized. My adapter has the I2C_FUNC_I2C functionality (I use a raspberry pi 4), so it seems to me like regmap_i2c is loaded as the bus. This uses i2c_transfer internally to read and write.
+> 
+> For PEC I need regmap_smbus_word. This uses i2c_smbus_xfer internally. Unlike i2c_transfer, i2c_smbus_xfer can be used to send and receive PEC byte.
+> 
+> What should I do?
+> 
 
-On Wed, 2024-01-03 at 15:09 -0700, Shuah Khan wrote:
-> On 1/2/24 15:31, Joe Lawrence wrote:
-> > On Wed, Dec 20, 2023 at 01:53:12PM -0300, Marcos Paulo de Souza
-> > wrote:
-> > > Add TEST_GEN_MODS_DIR variable for kselftests. It can point to
-> > > a directory containing kernel modules that will be used by
-> > > selftest scripts.
-> > >=20
-> > > The modules are built as external modules for the running kernel.
-> > > As a result they are always binary compatible and the same tests
-> > > can be used for older or newer kernels.
-> > >=20
-> > > The build requires "kernel-devel" package to be installed.
-> > > For example, in the upstream sources, the rpm devel package
-> > > is produced by "make rpm-pkg"
-> > >=20
-> > > The modules can be built independently by
-> > >=20
-> > > =C2=A0=C2=A0 make -C tools/testing/selftests/livepatch/
-> > >=20
-> > > or they will be automatically built before running the tests via
-> > >=20
-> > > =C2=A0=C2=A0 make -C tools/testing/selftests/livepatch/ run_tests
-> > >=20
-> > > Note that they are _not_ built when running the standalone
-> > > tests by calling, for example, ./test-state.sh.
-> > >=20
-> > > Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
-> > > ---
-> > > =C2=A0 Documentation/dev-tools/kselftest.rst |=C2=A0 4 ++++
-> > > =C2=A0 tools/testing/selftests/lib.mk=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 20 +++++++++++++++-----
-> > > =C2=A0 2 files changed, 19 insertions(+), 5 deletions(-)
-> > >=20
-> > > diff --git a/Documentation/dev-tools/kselftest.rst
-> > > b/Documentation/dev-tools/kselftest.rst
-> > > index ab376b316c36..7f3582a67318 100644
-> > > --- a/Documentation/dev-tools/kselftest.rst
-> > > +++ b/Documentation/dev-tools/kselftest.rst
-> > > @@ -245,6 +245,10 @@ Contributing new tests (details)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 TEST_PROGS, TEST_GEN_PROGS mean it is the ex=
-ecutable tested
-> > > by
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 default.
-> > > =C2=A0=20
-> > > +=C2=A0=C2=A0 TEST_GEN_MODS_DIR should be used by tests that require
-> > > modules to be built
-> > > +=C2=A0=C2=A0 before the test starts. The variable will contain the n=
-ame of
-> > > the directory
-> > > +=C2=A0=C2=A0 containing the modules.
-> > > +
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 TEST_CUSTOM_PROGS should be used by tests th=
-at require
-> > > custom build
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 rules and prevent common build rule use.
-> > > =C2=A0=20
-> > > diff --git a/tools/testing/selftests/lib.mk
-> > > b/tools/testing/selftests/lib.mk
-> > > index 118e0964bda9..6c7c5a0112cf 100644
-> > > --- a/tools/testing/selftests/lib.mk
-> > > +++ b/tools/testing/selftests/lib.mk
-> > > @@ -70,12 +70,15 @@ KHDR_INCLUDES :=3D -isystem $(KHDR_DIR)
-> > > =C2=A0 # TEST_PROGS are for test shell scripts.
-> > > =C2=A0 # TEST_CUSTOM_PROGS and TEST_PROGS will be run by common
-> > > run_tests
-> > > =C2=A0 # and install targets. Common clean doesn't touch them.
-> > > +# TEST_GEN_MODS_DIR is used to specify a directory with modules
-> > > to be built
-> > > +# before the test executes. These modules are cleaned on the
-> > > clean target as well.
-> > > =C2=A0 TEST_GEN_PROGS :=3D $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS)=
-)
-> > > =C2=A0 TEST_GEN_PROGS_EXTENDED :=3D $(patsubst
-> > > %,$(OUTPUT)/%,$(TEST_GEN_PROGS_EXTENDED))
-> > > =C2=A0 TEST_GEN_FILES :=3D $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_FILES)=
-)
-> > > +TEST_GEN_MODS_DIR :=3D $(patsubst
-> > > %,$(OUTPUT)/%,$(TEST_GEN_MODS_DIR))
-> > > =C2=A0=20
-> > > =C2=A0 all: kernel_header_files $(TEST_GEN_PROGS)
-> > > $(TEST_GEN_PROGS_EXTENDED) \
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0 $(TEST_GEN_FILES)
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0 $(TEST_GEN_FILES) $(if $(TEST_GEN_MODS_DIR)=
-,gen_mods_dir)
-> > > =C2=A0=20
-> > > =C2=A0 kernel_header_files:
-> > > =C2=A0=C2=A0	@ls $(KHDR_DIR)/linux/*.h >/dev/null
-> > > 2>/dev/null;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
-> > > @@ -105,8 +108,8 @@ endef
-> > > =C2=A0=20
-> > > =C2=A0 run_tests: all
-> > > =C2=A0 ifdef building_out_of_srctree
-> > > -	@if [
-> > > "X$(TEST_PROGS)$(TEST_PROGS_EXTENDED)$(TEST_FILES)" !=3D "X" ];
-> > > then \
-> > > -		rsync -aq --copy-unsafe-links $(TEST_PROGS)
-> > > $(TEST_PROGS_EXTENDED) $(TEST_FILES) $(OUTPUT); \
-> > > +	@if [
-> > > "X$(TEST_PROGS)$(TEST_PROGS_EXTENDED)$(TEST_FILES)$(TEST_GEN_MODS
-> > > _DIR)" !=3D "X" ]; then \
-> > > +		rsync -aq --copy-unsafe-links $(TEST_PROGS)
-> > > $(TEST_PROGS_EXTENDED) $(TEST_FILES) $(TEST_GEN_MODS_DIR)
-> > > $(OUTPUT); \
-> > > =C2=A0=C2=A0	fi
-> > > =C2=A0=C2=A0	@if [ "X$(TEST_PROGS)" !=3D "X" ]; then \
-> > > =C2=A0=C2=A0		$(call RUN_TESTS, $(TEST_GEN_PROGS)
-> > > $(TEST_CUSTOM_PROGS) \
-> > > @@ -118,6 +121,12 @@ else
-> > > =C2=A0=C2=A0	@$(call RUN_TESTS, $(TEST_GEN_PROGS)
-> > > $(TEST_CUSTOM_PROGS) $(TEST_PROGS))
-> > > =C2=A0 endif
-> > > =C2=A0=20
-> > > +gen_mods_dir:
-> > > +	$(Q)$(MAKE) -C $(TEST_GEN_MODS_DIR)
-> > > +
-> > > +clean_mods_dir:
-> > > +	$(Q)$(MAKE) -C $(TEST_GEN_MODS_DIR) clean
-> > > +
-> > > =C2=A0 define INSTALL_SINGLE_RULE
-> > > =C2=A0=C2=A0	$(if $(INSTALL_LIST),@mkdir -p $(INSTALL_PATH))
-> > > =C2=A0=C2=A0	$(if $(INSTALL_LIST),rsync -a --copy-unsafe-links
-> > > $(INSTALL_LIST) $(INSTALL_PATH)/)
-> > > @@ -131,6 +140,7 @@ define INSTALL_RULE
-> > > =C2=A0=C2=A0	$(eval INSTALL_LIST =3D $(TEST_CUSTOM_PROGS))
-> > > $(INSTALL_SINGLE_RULE)
-> > > =C2=A0=C2=A0	$(eval INSTALL_LIST =3D $(TEST_GEN_PROGS_EXTENDED))
-> > > $(INSTALL_SINGLE_RULE)
-> > > =C2=A0=C2=A0	$(eval INSTALL_LIST =3D $(TEST_GEN_FILES))
-> > > $(INSTALL_SINGLE_RULE)
-> > > +	$(eval INSTALL_LIST =3D $(TEST_GEN_MODS_DIR))
-> > > $(INSTALL_SINGLE_RULE)
-> >=20
-> > Hi Marcos,
-> >=20
-> > Sorry for the late reply on this, but I'm reviewing this version by
-> > trying to retrofit it into our selftest packaging (pre-build the
-> > test
-> > module .ko's and stash those into an rpm rather than building on
-> > the
-> > test host).
-> >=20
-> > Since $TEST_GEN_MODS_DIR is treated as a directory, I found that
-> > the
-> > selftest install target copies a bunch of intermediate object and
-> > kbuild
-> > files:
-> >=20
-> > =C2=A0=C2=A0 $ mkdir /tmp/test-install
-> > =C2=A0=C2=A0 $ make KDIR=3D$(pwd) INSTALL_PATH=3D/tmp/test-install
-> > TARGETS=3Dlivepatch \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -C tools/testing/selftests/ =
-install
-> >=20
-> > =C2=A0=C2=A0 [ ... builds livepatch selftests ... ]
-> >=20
-> > the rsync in question:
-> >=20
-> > =C2=A0=C2=A0 rsync -a --copy-unsafe-links
-> > /home/jolawren/src/kernel/tools/testing/selftests/livepatch/test_mo
-> > dules /tmp/test-install/livepatch/
-> > =C2=A0=C2=A0 ...
-> >=20
-> > and then looking at the destination:
-> >=20
-> > =C2=A0=C2=A0 $ tree -a /tmp/test-install/
-> > =C2=A0=C2=A0 /tmp/test-install/
-> > =C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 kselftest
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 module.s=
-h
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 prefix.p=
-l
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 runner.s=
-h
-> > =C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 kselftest-list.txt
-> > =C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 livepatch
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 config
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 function=
-s.sh
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 settings
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test-cal=
-lbacks.sh
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test-ftr=
-ace.sh
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test_klp=
--call_getpid
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test-liv=
-epatch.sh
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test_mod=
-ules
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 Makefile
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 modules.order
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 .modules.order.cmd
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 Module.symvers
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 .Module.symvers.cmd
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 test_klp_atomic_replace.c
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 test_klp_atomic_replace.ko
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 .test_klp_atomic_replace.ko.cmd
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 test_klp_atomic_replace.mod
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 test_klp_atomic_replace.mod.c
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 .test_klp_atomic_replace.mod.cmd
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 test_klp_atomic_replace.mod.o
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 .test_klp_atomic_replace.mod.o.cmd
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 test_klp_atomic_replace.o
-> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
-=94=80=E2=94=80 .test_klp_atomic_replace.o.cmd
-> > =C2=A0=C2=A0 ...
-> >=20
-> > On the other hand, variables like $TEST_GEN_FILES specify
-> > individual
-> > files, so only final binaries like test_klp-call_getpid (and not
-> > test_klp-call_getpid.c) are copied to $INSTALL_PATH.
+It seems to me that regmap should not use functions not supporting PEC if
+I2C_CLIENT_PEC is enabled on an i2c device. Of course, that is tricky if
+not impossible to implement because the flag can be set at runtime but
+the bus function assignment in regmap is static.
 
-Hi Joe,
+The only alternative I can think of is to define driver specific regmap
+access functions to re-implement the regmap_smbus_word access functions.
+That is less than perfect but better than to drop regmap access entirely.
 
-thanks for catching this issue. I crafted the attached patch and it
-fixes the issue for me, copying only the resulting .ko objects as
-expected. Can you please check if this fixes the issue for you?
+Copying Mark Brown for additional input.
 
->=20
->=20
-> Thank you Joe for finding this problem.
->=20
-> Copying source files and object files doesn't sound right. This isn't
-> how the ksleftest installs work. Let's fix this.
+Thanks,
+Guenter
 
-Hi Shuah,
-
-what do you think about the proposed solution? Could you please amend
-the fix into the first patch if you think it's the right approach?
-
-Thanks in advance!
-  Marcos
-
->=20
-> thanks,
-> --Shuah
->=20
-
-
---=-Q9sYUJ/r34p0y6Es/xCH
-Content-Type: text/x-patch; name="fix.patch"; charset="UTF-8"
-Content-Description: 
-Content-Disposition: inline; filename="fix.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2xpYi5tayBiL3Rvb2xzL3Rlc3Rp
-bmcvc2VsZnRlc3RzL2xpYi5tawppbmRleCA2YzdjNWEwMTEyY2YuLmQ3N2RkYTU5ZjZhMiAxMDA2
-NDQKLS0tIGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbGliLm1rCisrKyBiL3Rvb2xzL3Rlc3Rp
-bmcvc2VsZnRlc3RzL2xpYi5tawpAQCAtMTMyLDYgKzEzMiwxMSBAQCBkZWZpbmUgSU5TVEFMTF9T
-SU5HTEVfUlVMRQogCSQoaWYgJChJTlNUQUxMX0xJU1QpLHJzeW5jIC1hIC0tY29weS11bnNhZmUt
-bGlua3MgJChJTlNUQUxMX0xJU1QpICQoSU5TVEFMTF9QQVRIKS8pCiBlbmRlZgogCitkZWZpbmUg
-SU5TVEFMTF9NT0RTX1JVTEUKKwkkKGlmICQoSU5TVEFMTF9MSVNUKSxAbWtkaXIgLXAgJChJTlNU
-QUxMX1BBVEgpLyQoSU5TVEFMTF9MSVNUKSkKKwkkKGlmICQoSU5TVEFMTF9MSVNUKSxyc3luYyAt
-YSAtLWNvcHktdW5zYWZlLWxpbmtzICQoSU5TVEFMTF9MSVNUKS8qLmtvICQoSU5TVEFMTF9QQVRI
-KS8kKElOU1RBTExfTElTVCkpCitlbmRlZgorCiBkZWZpbmUgSU5TVEFMTF9SVUxFCiAJJChldmFs
-IElOU1RBTExfTElTVCA9ICQoVEVTVF9QUk9HUykpICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKIAkk
-KGV2YWwgSU5TVEFMTF9MSVNUID0gJChURVNUX1BST0dTX0VYVEVOREVEKSkgJChJTlNUQUxMX1NJ
-TkdMRV9SVUxFKQpAQCAtMTQwLDcgKzE0NSw3IEBAIGRlZmluZSBJTlNUQUxMX1JVTEUKIAkkKGV2
-YWwgSU5TVEFMTF9MSVNUID0gJChURVNUX0NVU1RPTV9QUk9HUykpICQoSU5TVEFMTF9TSU5HTEVf
-UlVMRSkKIAkkKGV2YWwgSU5TVEFMTF9MSVNUID0gJChURVNUX0dFTl9QUk9HU19FWFRFTkRFRCkp
-ICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKIAkkKGV2YWwgSU5TVEFMTF9MSVNUID0gJChURVNUX0dF
-Tl9GSUxFUykpICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKLQkkKGV2YWwgSU5TVEFMTF9MSVNUID0g
-JChURVNUX0dFTl9NT0RTX0RJUikpICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKKwkkKGV2YWwgSU5T
-VEFMTF9MSVNUID0gJChub3RkaXIgJChURVNUX0dFTl9NT0RTX0RJUikpKSAkKElOU1RBTExfTU9E
-U19SVUxFKQogCSQoZXZhbCBJTlNUQUxMX0xJU1QgPSAkKHdpbGRjYXJkIGNvbmZpZyBzZXR0aW5n
-cykpICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKIGVuZGVmCiAK
-
-
---=-Q9sYUJ/r34p0y6Es/xCH--
