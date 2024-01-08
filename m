@@ -1,87 +1,169 @@
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A206954F85;
-	Mon,  8 Jan 2024 19:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C4355793
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 19:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="infJdD5p"
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx0.riseup.net (Postfix) with ESMTPS id 4T83ZB0qJ2z9wqT;
-	Mon,  8 Jan 2024 19:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1704741074; bh=BcZ3KVI53mstXqau6zectZz4RnmhY47xgMYJZN+ZIaQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=infJdD5p34mA9gKPvJptIjOzdbIfe9Hujjif438x1zRpCeP2wBWmtoAcqAHAmtZRD
-	 9w7Xqc0zwSdpzlxCEYwJiFccWwGGOCclyO+ECrxq5anWS21fevSpvMz4Z/uAOFq2ul
-	 7NNQLRs3Jt4dioKbYJv71J5E6QFXSAsWijtNImf4=
-X-Riseup-User-ID: 7573B3426939D883A3225FA69B0B75C911D2C11A815A2296FDD774F32314207C
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4T83Z46ZlrzFrsD;
-	Mon,  8 Jan 2024 19:11:08 +0000 (UTC)
-Message-ID: <2737e91a-27dd-4c43-a678-47e041c42559@riseup.net>
-Date: Mon, 8 Jan 2024 16:11:05 -0300
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="YFcx1vSV"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50e6c0c0c6bso371414e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jan 2024 11:19:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1704741568; x=1705346368; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
+        b=YFcx1vSVOGbIvCJfYVZEgJsYKAHOD4M4FFjb+40kd6e81VEW+wFnI/nUS4f1+lkW+6
+         YkTv0jRH92QYuw1e3J41rlB7BGa7Yy3mGodwU/V7Drq9tsOQ4X86W8/HaZJYodKR+cAS
+         3WFPyuxP7IKiT7ofrSP8lyo1/ExVV//GoPjnk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704741568; x=1705346368;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
+        b=QUrm6QKTsRirbRWAQZZM3M+rWxB2+LvchNn1x1Mp5ZDXc8MXGodQwPMpfcUuJbFmjn
+         Wc5ZjLbGw9bXKzNP+ZJrJ+qv6SL2eKqUXawTWcyj1zDF+Z4hJi0sVzoHYW0/WwsNHfoS
+         i93u4+1QSr9SqdlNb/7RZF0Ai7yxsHhihI/y1roT9OBVuJS/ju2t5n4kF5Td4Xg0KR0/
+         cXSzE4BxUHpOiOj6f1bwnKUtKGGxhBQ10nNbVwJYR6/YN77EriJtGdLPf6/jNK+aElc0
+         Nkq2fMkBdLq42lDzHxcODwHK3F8AB2eyS86Fvue9yb2NdniDoMNnRab9+2pAhA1hPcwn
+         kHfQ==
+X-Gm-Message-State: AOJu0Yx8stPQoq3lKwrAzGu8/pbulJvPhl4Bm2RfCBdyxkRENojN5Ia+
+	zacm5xnorNjRyuTC27k0Ux9gVjCjSkDeHQ==
+X-Google-Smtp-Source: AGHT+IE/x3yLDZZ6n/5O2iCOUHnc0Ya5TLPSdiVuLb4m5g8sI5sQyD6iWnZm6A7Hd4Q/GNClgkhmrQ==
+X-Received: by 2002:a05:6512:3ba1:b0:50e:b2ba:15d with SMTP id g33-20020a0565123ba100b0050eb2ba015dmr4109768lfv.1.1704741567605;
+        Mon, 08 Jan 2024 11:19:27 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id p7-20020a05600c468700b0040d30af488asm12097912wmo.40.2024.01.08.11.19.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 11:19:27 -0800 (PST)
+Date: Mon, 8 Jan 2024 20:19:25 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+Message-ID: <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+References: <20240108120056.22165-1-paul@crapouillou.net>
+ <20240108120056.22165-4-paul@crapouillou.net>
+ <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+ <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
+ <ZZwU827NMHbx7bsO@phenom.ffwll.local>
+ <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 7/7] drm/vkms: Create KUnit tests for YUV conversions
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>,
- Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net>
- <20240105-vkms-yuv-v1-7-34c4cd3455e0@riseup.net>
- <5z66ivuhfrzrnuzt6lwjfm5fuozxlgqsco3qb5rfzyf6mil5ms@2svqtlcncyjj>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <5z66ivuhfrzrnuzt6lwjfm5fuozxlgqsco3qb5rfzyf6mil5ms@2svqtlcncyjj>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 
-
-
-On 08/01/24 07:15, Maxime Ripard wrote:
-> Hi Arthur,
+On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
+> Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a écrit :
+> > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil wrote:
+> > > Hi Daniel (Sima?),
+> > > 
+> > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter a écrit :
+> > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil wrote:
+> > > > > +static void ffs_dmabuf_signal_done(struct ffs_dma_fence
+> > > > > *dma_fence, int ret)
+> > > > > +{
+> > > > > +	struct ffs_dmabuf_priv *priv = dma_fence->priv;
+> > > > > +	struct dma_fence *fence = &dma_fence->base;
+> > > > > +
+> > > > > +	dma_fence_get(fence);
+> > > > > +	fence->error = ret;
+> > > > > +	dma_fence_signal(fence);
+> > > > > +
+> > > > > +	dma_buf_unmap_attachment(priv->attach, dma_fence->sgt,
+> > > > > dma_fence->dir);
+> > > > > +	dma_fence_put(fence);
+> > > > > +	ffs_dmabuf_put(priv->attach);
+> > > > 
+> > > > So this can in theory take the dma_resv lock, and if the usb
+> > > > completion
+> > > > isn't an unlimited worker this could hold up completion of future
+> > > > dma_fence, resulting in a deadlock.
+> > > > 
+> > > > Needs to be checked how usb works, and if stalling indefinitely
+> > > > in
+> > > > the
+> > > > io_complete callback can hold up the usb stack you need to:
+> > > > 
+> > > > - drop a dma_fence_begin/end_signalling annotations in here
+> > > > - pull out the unref stuff into a separate preallocated worker
+> > > > (or at
+> > > >   least the final unrefs for ffs_dma_buf).
+> > > 
+> > > Only ffs_dmabuf_put() can attempt to take the dma_resv and would
+> > > have
+> > > to be in a worker, right? Everything else would be inside the
+> > > dma_fence_begin/end_signalling() annotations?
+> > 
+> > Yup. Also I noticed that unlike the iio patches you don't have the
+> > dma_buf_unmap here in the completion path (or I'm blind?), which
+> > helps a
+> > lot with avoiding trouble.
 > 
-> On Fri, Jan 05, 2024 at 01:35:08PM -0300, Arthur Grillo wrote:
->> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
->> index b654b6661a20..11df990a0fa9 100644
->> --- a/drivers/gpu/drm/vkms/vkms_formats.c
->> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
->> @@ -440,3 +440,7 @@ void *get_pixel_write_function(u32 format)
->>  		return NULL;
->>  	}
->>  }
->> +
->> +#ifdef CONFIG_DRM_VKMS_KUNIT_TESTS
->> +#include "tests/vkms_format_test.c"
->> +#endif
-> 
-> I assume this is due to testing a static function?
+> They both call dma_buf_unmap_attachment() in the "signal done"
+> callback, the only difference I see is that it is called after the
+> dma_fence_put() in the iio patches, while it's called before
+> dma_fence_put() here.
 
-Yeah, you're right.
+I was indeed blind ...
 
-> 
-> If so, the preferred way nowadays is to use EXPORT_SYMBOL_IF_KUNIT or
-> EXPORT_SYMBOL_FOR_TESTS_ONLY if it's DRM/KMS only.
+So the trouble is this wont work because:
+- dma_buf_unmap_attachment() requires dma_resv_lock. This is a somewhat
+  recent-ish change from 47e982d5195d ("dma-buf: Move
+  dma_buf_map_attachment() to dynamic locking specification"), so maybe
+  old kernel or you don't have full lockdep enabled to get the right
+  splat.
 
-Oh, I didn't know about that. I think I will use EXPORT_SYMBOL_IF_KUNIT
-as you can use VISIBLE_IF_KUNIT to maintain the function static if the
-test is not used.
+- dma_fence critical section forbids dma_resv_lock
 
-~Arthur Grillo
-> 
-> Maxime
+Which means you need to move this out, but then there's the potential
+cache management issue. Which current gpu drivers just kinda ignore
+because it doesn't matter for current use-case, they all cache the mapping
+for about as long as the attachment exists. You might want to do the same,
+unless that somehow breaks a use-case you have, I have no idea about that.
+If something breaks with unmap_attachment moved out of the fence handling
+then I guess it's high time to add separate cache-management only to
+dma_buf (and that's probably going to be quite some wiring up, not sure
+even how easy that would be to do nor what exactly the interface should
+look like).
+
+Cheers, Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
