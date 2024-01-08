@@ -1,169 +1,141 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C4355793
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 19:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF72537F3
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 19:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="YFcx1vSV"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50e6c0c0c6bso371414e87.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jan 2024 11:19:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="boh5onHu"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5571e662b93so1855640a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jan 2024 11:30:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1704741568; x=1705346368; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
-        b=YFcx1vSVOGbIvCJfYVZEgJsYKAHOD4M4FFjb+40kd6e81VEW+wFnI/nUS4f1+lkW+6
-         YkTv0jRH92QYuw1e3J41rlB7BGa7Yy3mGodwU/V7Drq9tsOQ4X86W8/HaZJYodKR+cAS
-         3WFPyuxP7IKiT7ofrSP8lyo1/ExVV//GoPjnk=
+        d=linaro.org; s=google; t=1704742199; x=1705346999; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fQIGvC3B84QK5cy6jpGTUHpfklayyMVGJTSNMpLqXZU=;
+        b=boh5onHu4tQDLYH3f7Z2hFYQX4G/njtR0zBB7iVYd2gZDuAWKZ3D7epRmnya9sdFGr
+         OFO2sIn9pecuwSkSOdmdGDJywaw+gvDfkLCgbcv/6vX/NDtzMT4KqRXrrERNUw6neQO5
+         lEBW0IS/BA+8M9Rg1SmourwTV4nMO8OSakjZHrFi9DED5GyYd8BtCIDtuVIQTjklmeWT
+         q7Vku0LmqHKNo+T+pe8tH4hOcMptt+nNWkHpQAkfcusMTpiJ8tCSgXjNxLic3oZ/zr5g
+         qPwbVvO53Ik9vkm8dAs+gptZgOWQqySLZ3jkukJtlaQWwUatIPqiHv+YCW4Zgv1gexej
+         8eOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704741568; x=1705346368;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EJ2fxcKwoH+j3zf8yKo3Vu+cgAPiKaowc7Mo1YkN7dA=;
-        b=QUrm6QKTsRirbRWAQZZM3M+rWxB2+LvchNn1x1Mp5ZDXc8MXGodQwPMpfcUuJbFmjn
-         Wc5ZjLbGw9bXKzNP+ZJrJ+qv6SL2eKqUXawTWcyj1zDF+Z4hJi0sVzoHYW0/WwsNHfoS
-         i93u4+1QSr9SqdlNb/7RZF0Ai7yxsHhihI/y1roT9OBVuJS/ju2t5n4kF5Td4Xg0KR0/
-         cXSzE4BxUHpOiOj6f1bwnKUtKGGxhBQ10nNbVwJYR6/YN77EriJtGdLPf6/jNK+aElc0
-         Nkq2fMkBdLq42lDzHxcODwHK3F8AB2eyS86Fvue9yb2NdniDoMNnRab9+2pAhA1hPcwn
-         kHfQ==
-X-Gm-Message-State: AOJu0Yx8stPQoq3lKwrAzGu8/pbulJvPhl4Bm2RfCBdyxkRENojN5Ia+
-	zacm5xnorNjRyuTC27k0Ux9gVjCjSkDeHQ==
-X-Google-Smtp-Source: AGHT+IE/x3yLDZZ6n/5O2iCOUHnc0Ya5TLPSdiVuLb4m5g8sI5sQyD6iWnZm6A7Hd4Q/GNClgkhmrQ==
-X-Received: by 2002:a05:6512:3ba1:b0:50e:b2ba:15d with SMTP id g33-20020a0565123ba100b0050eb2ba015dmr4109768lfv.1.1704741567605;
-        Mon, 08 Jan 2024 11:19:27 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05600c468700b0040d30af488asm12097912wmo.40.2024.01.08.11.19.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 11:19:27 -0800 (PST)
-Date: Mon, 8 Jan 2024 20:19:25 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-Message-ID: <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-References: <20240108120056.22165-1-paul@crapouillou.net>
- <20240108120056.22165-4-paul@crapouillou.net>
- <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
- <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
- <ZZwU827NMHbx7bsO@phenom.ffwll.local>
- <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+        d=1e100.net; s=20230601; t=1704742199; x=1705346999;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fQIGvC3B84QK5cy6jpGTUHpfklayyMVGJTSNMpLqXZU=;
+        b=h5lClo2nVSN1yEwqD6Ydb2//EfiprqqJQ8PURTWa/GVT6TDwXApiKM8Xk6WphHvlU6
+         q6GLTZb8GcQDoNh8vi5+A77pWej4IYDUMlbUeXRPAuJJKPYMx93MDLStQbnrtR71F1je
+         nI6NwMtJDkNkvc7XY+wAoVelMIRqmhovZzu/S9eX5tCmwBXTqHTJcm2yI9ezqMuau7YB
+         /WapfWwWnK8xuvn+o5HbCOq9uMuYyqAZmkyXtfZWhwKxpVbXgN1JHH24USB/tcPywAnD
+         zc1/aYuYiOFcW4mspOk3gO34rTXVp+UKDPPPt3h7tUXjx6KvS8Wmk/6w46+rDnq2L19d
+         pjFw==
+X-Gm-Message-State: AOJu0YwHzqiG535//tGPuDLtzDF0Pn6jotl48LeqelZ77wczrT+Qg0qS
+	wULCARVj9uEooxAXCQdW26mmRGe7KoKQng==
+X-Google-Smtp-Source: AGHT+IFtYHpiHrDCzL3b/pxXTojRttl/1NKDVZalEwcDBEluD0lppIhmhbQA9MVn5L1T46+2HjV5eQ==
+X-Received: by 2002:a50:d59a:0:b0:554:5ab4:85a0 with SMTP id v26-20020a50d59a000000b005545ab485a0mr2715915edi.81.1704742199074;
+        Mon, 08 Jan 2024 11:29:59 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.112])
+        by smtp.gmail.com with ESMTPSA id e11-20020a056402104b00b0055534d5e75csm148417edu.6.2024.01.08.11.29.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jan 2024 11:29:58 -0800 (PST)
+Message-ID: <069b44ce-5d95-4d39-91f0-5167a5d941b1@linaro.org>
+Date: Mon, 8 Jan 2024 20:29:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] w1: add UART w1 bus driver
+Content-Language: en-US
+To: Christoph Winklhofer <cj.winklhofer@gmail.com>,
+ Jiri Slaby <jirislaby@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20240106-w1-uart-v4-0-7fe1378a8b3e@gmail.com>
+ <20240106-w1-uart-v4-3-7fe1378a8b3e@gmail.com>
+ <5ff1d706-9f06-4eb6-bc86-75f933e54118@kernel.org>
+ <ZZw46ZQ5JoxlWflG@cjw-notebook>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <ZZw46ZQ5JoxlWflG@cjw-notebook>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
-> Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a écrit :
-> > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil wrote:
-> > > Hi Daniel (Sima?),
-> > > 
-> > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter a écrit :
-> > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil wrote:
-> > > > > +static void ffs_dmabuf_signal_done(struct ffs_dma_fence
-> > > > > *dma_fence, int ret)
-> > > > > +{
-> > > > > +	struct ffs_dmabuf_priv *priv = dma_fence->priv;
-> > > > > +	struct dma_fence *fence = &dma_fence->base;
-> > > > > +
-> > > > > +	dma_fence_get(fence);
-> > > > > +	fence->error = ret;
-> > > > > +	dma_fence_signal(fence);
-> > > > > +
-> > > > > +	dma_buf_unmap_attachment(priv->attach, dma_fence->sgt,
-> > > > > dma_fence->dir);
-> > > > > +	dma_fence_put(fence);
-> > > > > +	ffs_dmabuf_put(priv->attach);
-> > > > 
-> > > > So this can in theory take the dma_resv lock, and if the usb
-> > > > completion
-> > > > isn't an unlimited worker this could hold up completion of future
-> > > > dma_fence, resulting in a deadlock.
-> > > > 
-> > > > Needs to be checked how usb works, and if stalling indefinitely
-> > > > in
-> > > > the
-> > > > io_complete callback can hold up the usb stack you need to:
-> > > > 
-> > > > - drop a dma_fence_begin/end_signalling annotations in here
-> > > > - pull out the unref stuff into a separate preallocated worker
-> > > > (or at
-> > > >   least the final unrefs for ffs_dma_buf).
-> > > 
-> > > Only ffs_dmabuf_put() can attempt to take the dma_resv and would
-> > > have
-> > > to be in a worker, right? Everything else would be inside the
-> > > dma_fence_begin/end_signalling() annotations?
-> > 
-> > Yup. Also I noticed that unlike the iio patches you don't have the
-> > dma_buf_unmap here in the completion path (or I'm blind?), which
-> > helps a
-> > lot with avoiding trouble.
-> 
-> They both call dma_buf_unmap_attachment() in the "signal done"
-> callback, the only difference I see is that it is called after the
-> dma_fence_put() in the iio patches, while it's called before
-> dma_fence_put() here.
+On 08/01/2024 19:03, Christoph Winklhofer wrote:
+> ...
+>>> +static int w1_uart_serdev_receive_buf(struct serdev_device *serdev,
+>>> +				      const unsigned char *buf, size_t count)
+>>
+>> serdev already uses u8 * here. You are basing on the top of some old tree.
 
-I was indeed blind ...
+Old? Your change came for v6.8 and this was sent when all trees were
+based on v6.7-rc1. What newer tree could have this been?
 
-So the trouble is this wont work because:
-- dma_buf_unmap_attachment() requires dma_resv_lock. This is a somewhat
-  recent-ish change from 47e982d5195d ("dma-buf: Move
-  dma_buf_map_attachment() to dynamic locking specification"), so maybe
-  old kernel or you don't have full lockdep enabled to get the right
-  splat.
+> Yes, this patch is based on the w1-next branch of
+>   git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-w1.git
+> was not sure from where to start. I guess that this change is probably in
+> the w1-tree after the next stable release.
 
-- dma_fence critical section forbids dma_resv_lock
+That's a timing issue. For that particular case, where this was
+targeting next-next cycle, you should have based this on linux-next. In
+other cases this would require cross-tree merging due to dependencies
+which none of us were aware, so no harm.
 
-Which means you need to move this out, but then there's the potential
-cache management issue. Which current gpu drivers just kinda ignore
-because it doesn't matter for current use-case, they all cache the mapping
-for about as long as the attachment exists. You might want to do the same,
-unless that somehow breaks a use-case you have, I have no idea about that.
-If something breaks with unmap_attachment moved out of the fence handling
-then I guess it's high time to add separate cache-management only to
-dma_buf (and that's probably going to be quite some wiring up, not sure
-even how easy that would be to do nor what exactly the interface should
-look like).
 
-Cheers, Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+Krzysztof
+
