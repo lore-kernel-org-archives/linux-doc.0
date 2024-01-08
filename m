@@ -1,71 +1,61 @@
-Received: from mail.tkos.co.il (guitar.tkos.co.il [84.110.109.230])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B7441760;
-	Mon,  8 Jan 2024 13:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tkos.co.il
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tkos.co.il
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809AB44C76;
+	Mon,  8 Jan 2024 13:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pankajraghav.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tkos.co.il header.i=@tkos.co.il header.b="tjuaJArO"
-Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="u+FNpHsS"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.tkos.co.il (Postfix) with ESMTPS id B733B440865;
-	Mon,  8 Jan 2024 15:19:43 +0200 (IST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
-	s=default; t=1704719983;
-	bh=wtHqN07myRERCtZ6Zo+lMUD/6DQu1zA0N6GC+nEqKds=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tjuaJArOWz79fcZaB7H0nq9ku/btGvbHZjDZLukcaLFX/BKCR6mv2NJGO+ngbeVpD
-	 vny+TDxRtMZcZDk2Gx0dAUhL7Z9criSqC7wJ+SfOgmJUpgH5YTVceUsU6OMwTlCBuJ
-	 BRxW9ACD0wVkDmZL/ej67/1CwP0saylZD63W/bCYkDyNk9C/a5oEgHn5eddi7fEZVm
-	 +krwazkBF5ycNvsVxg9ky9gB9i2mdfqHVTiNUZwnjpD7H20IWfMr/2P7ZQY8dmOXV8
-	 eNh+6yofCth1CXjAMEXFilK5HIEvWx2Ueh5iUsNOKoqjBkYW923JJgFZaVq/evlB81
-	 dly4G+sRwFY9Q==
-From: Baruch Siach <baruch@tkos.co.il>
-To: Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Cc: linux-crypto@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Baruch Siach <baruch@tkos.co.il>
-Subject: [PATCH] docs: admin-guide: hw_random: update rng-tools website
-Date: Mon,  8 Jan 2024 15:21:45 +0200
-Message-ID: <ef52ace5008fa934084442149f64f5f9ddbba465.1704720105.git.baruch@tkos.co.il>
-X-Mailer: git-send-email 2.43.0
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4T7w204wbbz9sZJ;
+	Mon,  8 Jan 2024 14:31:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
+	s=MBO0001; t=1704720680;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5oRIFaBZBSyp5TDSxL6kowSEyWtZ3AkKsLMCOdArOrI=;
+	b=u+FNpHsSlpUobWJrXYPlQcnKCMDfaVvKm4Bqg2uW1rLn3gFruFCwISezLS1FEnUMFayGf9
+	sHIMr0Wy4F52sNYpx2XMugxv0u69pQqnlmbbYC5ilDYJQdj1vrRiqB42u8yupuhfvIuoni
+	9hQtlZ90FHvml3K3EZsVCezVCep+kSWnMaIqWJROnhpCyjBvyc1y/oyx/3hDmUXu2gAmK9
+	e9AX49PMbvtLAt6I0liCoE5xGka4koGG7piLGtfBQFMR3kW7RxOTQhxwmnn6CpQbdRI6GI
+	vpc9jWDrHbFwMQtArdaXK+nBWr9X9Lu+Gz8ZoD17O7xam9Ho5G0edYwJJp9wlw==
+Date: Mon, 8 Jan 2024 14:31:17 +0100
+From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] buffer: Add kernel-doc for block_dirty_folio()
+Message-ID: <20240108133117.xtkbzeiqq6dtesm5@localhost>
+References: <20240104163652.3705753-1-willy@infradead.org>
+ <20240104163652.3705753-3-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240104163652.3705753-3-willy@infradead.org>
+X-Rspamd-Queue-Id: 4T7w204wbbz9sZJ
 
-rng-tools upstream moved to github. New upstream does not appear to
-consider itself official website for hw_random. Drop that part.
+> + * If the folio has buffers, the uptodate buffers are set dirty, to
+> + * preserve dirty-state coherency between the folio and the buffers.
+> + * It the folio does not have buffers then when they are later attached
 
-Signed-off-by: Baruch Siach <baruch@tkos.co.il>
----
- Documentation/admin-guide/hw_random.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+s/It the folio/If the folio
+> + * they will all be set dirty.
+Is it better to rephrase it slightly as follows:
 
-diff --git a/Documentation/admin-guide/hw_random.rst b/Documentation/admin-guide/hw_random.rst
-index d494601717f1..bfc39f1cf470 100644
---- a/Documentation/admin-guide/hw_random.rst
-+++ b/Documentation/admin-guide/hw_random.rst
-@@ -14,10 +14,9 @@ into that core.
- 
- To make the most effective use of these mechanisms, you
- should download the support software as well.  Download the
--latest version of the "rng-tools" package from the
--hw_random driver's official Web site:
-+latest version of the "rng-tools" package from:
- 
--	http://sourceforge.net/projects/gkernel/
-+	https://github.com/nhorman/rng-tools
- 
- Those tools use /dev/hwrng to fill the kernel entropy pool,
- which is used internally and exported by the /dev/urandom and
--- 
-2.43.0
+If the folio does not have buffers, they will all be set dirty when they
+are later attached.
 
+> + *
+> + * The buffers are dirtied before the folio is dirtied.  There's a small
+> + * race window in which writeback may see the folio cleanness but not the
+> + * buffer dirtiness.  That's fine.  If this code were to set the folio
