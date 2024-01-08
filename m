@@ -1,115 +1,100 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A0755787
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 20:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9675577D;
+	Mon,  8 Jan 2024 20:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="f+mLiayT"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 725AC24002B
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 21:22:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1704745375; bh=QdXdfx57ZJPNwppUDVSfjTZfO7rtid5cQ8dOF8J1p8o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=f+mLiayTkIkdCQsqNYeLNTSKdh8rsjRSg6AeDgKXVYiI1APjpptqojbY+foZ0Slb2
-	 nwx3XVXY4HOc9dPKRQwSMmWDUlW02MLw6DtSQLdI31ZP1ajx+Nl7vwPlqnFceTsRLS
-	 MkHp91rftJvk7PK9P0KZVJOoqd3E1/uHfVFHYEvfu0Hc2bbmRsmY5vwAuxj/9NHmzF
-	 hvxAeshXsxW0hJ4pVxkl3BvjTb4GYfWGSh9tBHdVHNyqBJy3Ls3tv3Lrp80TpkHZ3N
-	 P2wV20OUPUzW5bjd3FiU2fuaMSgWFE4RwWS3wCnhLeUcRdD1jPEcEyNrkNZZKdh5IG
-	 C7zflfrmmtZMg==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4T858k6p49z6tyS;
-	Mon,  8 Jan 2024 21:22:46 +0100 (CET)
-From: Yueh-Shun Li <shamrocklee@posteo.net>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Yueh-Shun Li <shamrocklee@posteo.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Hu Haowen <src.res.211@gmail.com>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/1] coding-style: recommend split headers instead of kernel.h
-Date: Mon,  8 Jan 2024 20:22:08 +0000
-Message-ID: <20240108202217.191839-1-shamrocklee@posteo.net>
-In-Reply-To: <20240108201851.191604-1-shamrocklee@posteo.net>
-References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org> <20240108201851.191604-1-shamrocklee@posteo.net>
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="EI0uCo4W"
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx0.riseup.net (Postfix) with ESMTPS id 4T85C45Xtcz9tmc;
+	Mon,  8 Jan 2024 20:24:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1704745489; bh=yWYgR2g5/NR7onl+pGnMt+zTaf83mLrm74A0GDCyAIg=;
+	h=From:Date:Subject:To:Cc:From;
+	b=EI0uCo4W/R9lOerDcFovfE17khByuxUf+RqXtGyNyRGTh+z7LXgT5MHjfN+kEyp+D
+	 LKQsj+XlcLk/QxXlFx08cz/YERVkL/t3C9Bl7hu5EStFaBNgL/KUgXziq9Lb3oZstw
+	 bk8BXAkpHuMenrgwzchU8eBPCR7zfOtpR/gyQS+g=
+X-Riseup-User-ID: 8B28C812D41CCC59E7EBB9A6A5B3D75B2DA2F39207C1ECE892CDC6DD37E81E94
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4T85By1zZKzFs05;
+	Mon,  8 Jan 2024 20:24:41 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+Date: Mon, 08 Jan 2024 17:24:33 -0300
+Subject: [PATCH v2] Documentation: KUnit: Update the instructions on how to
+ test static functions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240108-kunit-doc-export-v2-1-8f2dd3395fed@riseup.net>
+X-B4-Tracking: v=1; b=H4sIAABanGUC/32NQQrDIBRErxL+uha1xcauco+SRarf5lPQoEZSg
+ nevzQHKrN7AvNkhYSRMcO92iFgoUfAN5KkDM0/+hYxsY5BcXrngPXuvnjKzwTDclhAzQzTCacG
+ np7pBmy0RHW2H8jE2ninlED/HQxG/9o+sCNYi9EX11nGr1RAp4bqcPWYYa61fclWsELEAAAA=
+To: Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Arthur Grillo <arthurgrillo@riseup.net>
 
-In section "18) Don't re-invent the kernel macros" in "Linux kernel
-coding style":
+Now that we have the VISIBLE_IF_KUNIT and EXPORT_SYMBOL_IF_KUNIT macros,
+update the instructions to stop recommending including .c files.
 
-Recommend reusing macros from headers inside include/linux, instead of
-the obsolete include/linux/kernel.h
-
-Change wording
-
-- "The header file contains macros" -> "the header files provide macros"
-  Some macros are intended to use inside the header file only, or are
-  considered the implementation detail of other facilities. Developers
-  are expected to determine if a macro is meant to be used outside the
-  header file.
-
-Signed-off-by: Yueh-Shun Li <shamrocklee@posteo.net>
+Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
- Documentation/process/coding-style.rst | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+Changes in v2:
+- Fix #if condition
+- Link to v1: https://lore.kernel.org/r/20240108-kunit-doc-export-v1-1-119368df0d96@riseup.net
+---
+ Documentation/dev-tools/kunit/usage.rst | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 6db37a46d305..2a5c4f4c568c 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -1048,27 +1048,29 @@ readable alternative if the call-sites have naked true/false constants.
- Otherwise limited use of bool in structures and arguments can improve
- readability.
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index c27e1646ecd9..f095c6bb76ff 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -671,19 +671,22 @@ Testing Static Functions
+ ------------------------
  
-+
- 18) Don't re-invent the kernel macros
- -------------------------------------
- 
--The header file include/linux/kernel.h contains a number of macros that
--you should use, rather than explicitly coding some variant of them yourself.
-+The header files in the ``include/linux`` directory provide a number of macros
-+that you should use, rather than explicitly coding some variant of them
-+yourself.
-+
- For example, if you need to calculate the length of an array, take advantage
--of the macro
-+of the macro ``ARRAY_SIZE()`` from ``include/linux/array_size.h`` by
+ If we do not want to expose functions or variables for testing, one option is to
+-conditionally ``#include`` the test file at the end of your .c file. For
+-example:
++conditionally export the used symbol.
  
  .. code-block:: c
  
--	#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-+	#include <linux/array_size.h>
-+	ARRAY_SIZE(x) // The size of array x
+ 	/* In my_file.c */
  
- Similarly, if you need to calculate the size of some structure member, use
-+``sizeof_field()`` from ``include/linux/stddef.h``.
+-	static int do_interesting_thing();
++	VISIBLE_IF_KUNIT int do_interesting_thing();
++	EXPORT_SYMBOL_IF_KUNIT(do_interesting_thing);
  
--.. code-block:: c
--
--	#define sizeof_field(t, f) (sizeof(((t*)0)->f))
--
--There are also min() and max() macros that do strict type checking if you
--need them.  Feel free to peruse that header file to see what else is already
--defined that you shouldn't reproduce in your code.
-+There are also ``min()`` and ``max()`` macros in ``include/linux/minmax.h``
-+that do strict type checking if you need them. Feel free to search across and
-+peruse the header files to see what else is already defined that you shouldn't
-+reproduce in your code.
+-	#ifdef CONFIG_MY_KUNIT_TEST
+-	#include "my_kunit_test.c"
++	/* In my_file.h */
++
++	#if IS_ENABLED(CONFIG_KUNIT)
++		int do_interesting_thing(void);
+ 	#endif
  
++
+ Injecting Test-Only Code
+ ------------------------
  
- 19) Editor modelines and other cruft
+
+---
+base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
+change-id: 20240108-kunit-doc-export-eec1f910ab67
+
+Best regards,
 -- 
-2.42.0
+Arthur Grillo <arthurgrillo@riseup.net>
 
