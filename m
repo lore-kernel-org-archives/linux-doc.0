@@ -1,194 +1,100 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2BC46525
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 13:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903E14653E;
+	Mon,  8 Jan 2024 14:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="chVFedUY"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40e461c1f5bso11207065e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jan 2024 05:48:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PthVjibB"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a2ac304e526so73298066b.0;
+        Mon, 08 Jan 2024 06:09:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704721736; x=1705326536; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1704722939; x=1705327739; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q6tS/zmA8jTmUGQmD7ZGbI7KJfpIZIi+8GuPTUd/kRc=;
-        b=chVFedUYM36NKkGOYXAqT/Lo0iBTj1e+0nxYmADVdc4KsN5scXoT0CuAvi6rAnMiGO
-         HLCZE58JC3b1z466Y5LJVfzwHlLnyrzqHmj6XHxgSmbfGZk2oyaROYDB5P00e2UkVsRF
-         xdVh6hYmm09TILJy1DjghxcxUH5w1tiqr2ab9x92uXoSbqmX5r92texj6dk4JvjFBKGx
-         3Qw8E2vXOxvt7vPwjOXy4v3pgVJGlBWQzjZm+e5uul1p6roosO8FQ7mMhPCazTHoc62D
-         hNgjf8NXSooYAl4OEMOaqW+5hkfe8x1hzG5gh5Fi0BI/7egl7tUBsKc0DNPlXvWJaWXC
-         73og==
+        bh=r2EOn2knNw0bvrkSkgIL62dU49cbdZaKI+b3bXf9BYw=;
+        b=PthVjibBjlBHhoB8FFEHlQcLstjrHxTPmCzdBP4w5O4Xv9f2kdRAQoPaFubY7hdql7
+         YzW74dq7+v9Mj5BRpwH23vD7zV9Fp3WofmbeexsT+V25SbCuap8A97eRLX7R+tB6sOJj
+         d5UDOmDUfoU+/PScUjDTBmhlsAdk7AyBptrJTeWPthmTEWd7edXsM2l9qOQbnNHzXqGg
+         qbL7N4A+ri8AmU7GeRZNxl8455nzymDmqEph+Fm24UyKSSfT5bGtVN1ujdNTkAdfcoAS
+         T9cygCxWhEZQaV9pljifW/E9PBofysfw49NKcCDS51LuJ1CPDShID5GpwtiKGRIc9JHe
+         sVRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704721736; x=1705326536;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1704722939; x=1705327739;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q6tS/zmA8jTmUGQmD7ZGbI7KJfpIZIi+8GuPTUd/kRc=;
-        b=r8I+y94g4PLgrVq3uuFutt1/++yL07ISsIFhclr8GWcEm3vK/2PP7LeKhEe750PXSW
-         Widd0Ui07Ej9IZ/9nWbiPfaudkqyjLecNYhktsea0Z6BvhdTl/Il1OzgwC+W5a5fHT03
-         PZACeN6vi1bsauWZsn6pPLMM2Y0zjJtK57P24G7bAx/3ZmBD/PQt+iB2RCoaNeKs5nr5
-         SgK7rqXXLbLji99TNTmn/7V35wGj2U+ptJvsK9GKUkT/cBLDblEnstIi78Hn2oqh37qa
-         cSWlMZAhLvT2AuqOOsbK1JW+ch3lgvZ+YBRLhhb0oKb6nuncJarmQNLvV5UigeWDmVjF
-         5CJQ==
-X-Gm-Message-State: AOJu0Yxl1bbMGpUQzDU0UemiqSHjQIjfSHbAHfIOmHIMMFvYqj3dj9fd
-	IWl2rF5Jbh6/nIJt/uRmQhRI30tejDK58w==
-X-Google-Smtp-Source: AGHT+IExBXWbVBsi6lW0nbPs92Y11blHgXhSiv0yCc/BePGdHEv57ZAi/RZ/fcIrf0iFuASaoWVAHA==
-X-Received: by 2002:a05:600c:5403:b0:40e:4b6d:c9fa with SMTP id he3-20020a05600c540300b0040e4b6dc9famr30807wmb.147.1704721736518;
-        Mon, 08 Jan 2024 05:48:56 -0800 (PST)
-Received: from vingu-book.. ([2a01:e0a:f:6020:53aa:59bc:34ea:bb2c])
-        by smtp.gmail.com with ESMTPSA id n34-20020a05600c3ba200b0040d5b984668sm11165003wms.9.2024.01.08.05.48.52
+        bh=r2EOn2knNw0bvrkSkgIL62dU49cbdZaKI+b3bXf9BYw=;
+        b=DSAZGSZBodxBJro4HJusTzk1hVudbN6WDGEeM8OtX0MOzLPfgZPtePONGlTat1Wtv/
+         0nwAFeufroj201qq3kenp4oSPM0Inu+VsXFo+w6vO9L+EUIjZM1YgXGY+DHS29XkVaen
+         iTtNdlobcXmMRISS0o9tLGeT6kNmH6naGCNn3hSHKgEOGNBORS21hRjuSCgLBawO1UJ0
+         PCBbMWE1X7Rl9mKKl3efRK3gj8/HT7tJpzMVYjMLJ/DlxNMB+6sYjpHRFWz5iK1ZEYN5
+         y6yRjFP/HbuupEdXqky286uLg6PXUfNMfzSv8gxmEGaqd42439srd2wevMW8p9YaNSLb
+         ZAiw==
+X-Gm-Message-State: AOJu0Yw7V98iTIR6Hn2nLF7d6sQGPlssvXZTZo0wXxC33iAM1Azm7azl
+	ttodAJAbRfFB2Do7KuUD1M3/eh24JIc=
+X-Google-Smtp-Source: AGHT+IEJ0xyBDc+Nf83Pegqe0DpclFanViMkyAJ9aQ6k42VsEMBxK0zYXWPWFbGYmXy1Z78vtqXv0A==
+X-Received: by 2002:a17:906:b045:b0:a27:a99a:a5e3 with SMTP id bj5-20020a170906b04500b00a27a99aa5e3mr1398130ejb.138.1704722938417;
+        Mon, 08 Jan 2024 06:08:58 -0800 (PST)
+Received: from felia.fritz.box ([2a02:810d:7e40:14b0:a060:7056:782e:5e26])
+        by smtp.gmail.com with ESMTPSA id ad21-20020a170907259500b00a29beb20353sm2858834ejc.192.2024.01.08.06.08.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 05:48:55 -0800 (PST)
-From: Vincent Guittot <vincent.guittot@linaro.org>
-To: linux@armlinux.org.uk,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	sudeep.holla@arm.com,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org,
-	agross@kernel.org,
-	andersson@kernel.org,
-	konrad.dybcio@linaro.org,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	bristot@redhat.com,
-	vschneid@redhat.com,
-	lukasz.luba@arm.com,
-	rui.zhang@intel.com,
-	mhiramat@kernel.org,
-	daniel.lezcano@linaro.org,
-	amit.kachhap@gmail.com,
-	corbet@lwn.net,
-	gregkh@linuxfoundation.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
+        Mon, 08 Jan 2024 06:08:58 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Elena Reshetova <elena.reshetova@intel.com>,
+	Carlos Bilbao <carlos.bilbao@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org
-Cc: qyousef@layalina.io,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Subject: [PATCH v3 5/5] sched/pelt: Remove shift of thermal clock
-Date: Mon,  8 Jan 2024 14:48:43 +0100
-Message-Id: <20240108134843.429769-6-vincent.guittot@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240108134843.429769-1-vincent.guittot@linaro.org>
-References: <20240108134843.429769-1-vincent.guittot@linaro.org>
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: use tabs in CONFIDENTIAL COMPUTING THREAT MODEL section
+Date: Mon,  8 Jan 2024 15:08:52 +0100
+Message-Id: <20240108140852.20533-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The optional shift of the clock used by thermal/hw load avg has been
-introduced to handle case where the signal was not always a high frequency
-hw signal. Now that cpufreq provides a signal for firmware and
-SW pressure, we can remove this exception and always keep this PELT signal
-aligned with other signals.
-Mark deprecated sched_thermal_decay_shift boot parameter.
+Commit 1f597b1a6ec2 ("docs: security: Confidential computing intro and
+threat model for x86 virtualization") adds new documentation and a
+corresponding MAINTAINERS section. It however uses spaces instead of a
+single tab for all the entries in that MAINTAINERS section.
 
-Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
+Although, the get_maintainer.pl script handles spaces instead of tabs
+silently, the MAINTAINERS will quickly get into a messy state with
+different indentations throughout the file. So, the checkpatch.pl script
+complains when spaces instead of a single tab are used.
+
+Fix this recently added section using tabs instead of spaces.
+
+Fixes: 1f597b1a6ec2 ("docs: security: Confidential computing intro and threat model for x86 virtualization")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- .../admin-guide/kernel-parameters.txt          |  1 +
- kernel/sched/core.c                            |  2 +-
- kernel/sched/fair.c                            | 10 ++--------
- kernel/sched/sched.h                           | 18 ------------------
- 4 files changed, 4 insertions(+), 27 deletions(-)
+ MAINTAINERS | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 65731b060e3f..2ee15522b15d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5722,6 +5722,7 @@
- 			but is useful for debugging and performance tuning.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fa67e2624723..c76884e40434 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5296,10 +5296,10 @@ W:	http://accessrunner.sourceforge.net/
+ F:	drivers/usb/atm/cxacru.c
  
- 	sched_thermal_decay_shift=
-+			[Deprecated]
- 			[KNL, SMP] Set a decay shift for scheduler thermal
- 			pressure signal. Thermal pressure signal follows the
- 			default decay period of other scheduler pelt
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index a6f084bdf1c5..c68e47bfd5ae 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -5670,7 +5670,7 @@ void scheduler_tick(void)
+ CONFIDENTIAL COMPUTING THREAT MODEL FOR X86 VIRTUALIZATION (SNP/TDX)
+-M:    Elena Reshetova <elena.reshetova@intel.com>
+-M:    Carlos Bilbao <carlos.bilbao@amd.com>
+-S:    Maintained
+-F:    Documentation/security/snp-tdx-threat-model.rst
++M:	Elena Reshetova <elena.reshetova@intel.com>
++M:	Carlos Bilbao <carlos.bilbao@amd.com>
++S:	Maintained
++F:	Documentation/security/snp-tdx-threat-model.rst
  
- 	update_rq_clock(rq);
- 	hw_pressure = arch_scale_hw_pressure(cpu_of(rq));
--	update_hw_load_avg(rq_clock_hw(rq), rq, hw_pressure);
-+	update_hw_load_avg(rq_clock_task(rq), rq, hw_pressure);
- 	curr->sched_class->task_tick(rq, curr, 0);
- 	if (sched_feat(LATENCY_WARN))
- 		resched_latency = cpu_resched_latency(rq);
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index f1c3d600d6d6..d5ba6cdb141c 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -78,15 +78,9 @@ static unsigned int normalized_sysctl_sched_base_slice	= 750000ULL;
- 
- const_debug unsigned int sysctl_sched_migration_cost	= 500000UL;
- 
--int sched_hw_decay_shift;
- static int __init setup_sched_thermal_decay_shift(char *str)
- {
--	int _shift = 0;
--
--	if (kstrtoint(str, 0, &_shift))
--		pr_warn("Unable to set scheduler thermal pressure decay shift parameter\n");
--
--	sched_hw_decay_shift = clamp(_shift, 0, 10);
-+	pr_warn("Ignoring the deprecated sched_thermal_decay_shift= option\n");
- 	return 1;
- }
- __setup("sched_thermal_decay_shift=", setup_sched_thermal_decay_shift);
-@@ -9247,7 +9241,7 @@ static bool __update_blocked_others(struct rq *rq, bool *done)
- 
- 	decayed = update_rt_rq_load_avg(now, rq, curr_class == &rt_sched_class) |
- 		  update_dl_rq_load_avg(now, rq, curr_class == &dl_sched_class) |
--		  update_hw_load_avg(rq_clock_hw(rq), rq, hw_pressure) |
-+		  update_hw_load_avg(now, rq, hw_pressure) |
- 		  update_irq_load_avg(rq, 0);
- 
- 	if (others_have_blocked(rq))
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 677d24202eec..6fc6718a1060 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -1520,24 +1520,6 @@ static inline u64 rq_clock_task(struct rq *rq)
- 	return rq->clock_task;
- }
- 
--/**
-- * By default the decay is the default pelt decay period.
-- * The decay shift can change the decay period in
-- * multiples of 32.
-- *  Decay shift		Decay period(ms)
-- *	0			32
-- *	1			64
-- *	2			128
-- *	3			256
-- *	4			512
-- */
--extern int sched_hw_decay_shift;
--
--static inline u64 rq_clock_hw(struct rq *rq)
--{
--	return rq_clock_task(rq) >> sched_hw_decay_shift;
--}
--
- static inline void rq_clock_skip_update(struct rq *rq)
- {
- 	lockdep_assert_rq_held(rq);
+ CONFIGFS
+ M:	Joel Becker <jlbec@evilplan.org>
 -- 
-2.34.1
+2.17.1
 
