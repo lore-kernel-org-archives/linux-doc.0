@@ -1,106 +1,67 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBF253E16;
-	Mon,  8 Jan 2024 16:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0A25466D;
+	Mon,  8 Jan 2024 16:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MdS1b4ha"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4ECBC377;
-	Mon,  8 Jan 2024 16:28:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4ECBC377
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1704731299; bh=wq9SjBGaG0x7BK6duWay1nTcX9VdeS5D83MxyhQYxH8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MdS1b4haLNtmbhmLT7JQZh+oO6+6oYPvKiSi/216/qZqR9FBZKRiIjXGDEUoSv/2g
-	 mgwv13z4PKIUyupKtNmzwQgxiIy/KXfARS1OHCNib6jhFDnCW2m/yz0Mz125LOqWBS
-	 9iApfqzUv519ZkGoEhIWT4Yrr/10qrp88v4qI2p6uLh0ohVY1O6BMdp21GY+r2HN4D
-	 crPUi0KOC56A42/3Bf4Dq5U63qh6uDNMSnvT3sKWj8yfSUiVpCnC3rDroNBrWS59El
-	 k04jHh3ntAEiHhL39g8M2RswQ4aK8NuPQsGxXClskWlUUHXGjLRrSHB20x2vaMHp3t
-	 jeoBAvshlQmFw==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Yueh-Shun Li <shamrocklee@posteo.net>
-Cc: Yueh-Shun Li <shamrocklee@posteo.net>, Hu Haowen
- <src.res.211@gmail.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <siyanteng@loongson.cn>, Randy Dunlap <rdunlap@infradead.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] coding-style: show how reusing macros prevents
- naming collisions
-In-Reply-To: <20240108160746.177421-3-shamrocklee@posteo.net>
-References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
- <20240108160746.177421-1-shamrocklee@posteo.net>
- <20240108160746.177421-3-shamrocklee@posteo.net>
-Date: Mon, 08 Jan 2024 09:28:18 -0700
-Message-ID: <871qaryel9.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RtFdrbVX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=aGfWPygYz1nY4CFtjZVcFLlWi0jjSyqwOOjAgk37qSo=; b=RtFdrbVXxcyEv3Hw9AHE0pdasJ
+	4WhVXtzJvIWEFYjoeympRZfE5lYi7ZtVduMCb+7HdE17lkgyKM5WReBxM3oSM8yYYz1PWnrhpCpu/
+	wH73XqXpfw0QcN6p0TaRiEj6FAHxFg/C+GVdSJaWzt+KuMHvejOKOTHv+4JwpQX9MNk4Sbb3ZGOjA
+	q39rqdwUOKpasQcL2SXBetHUSn7JTfIJMUg2laV1hq8UDsKcRR7QHHKhvtJC5DxfooM9sY+jlYxwb
+	SxuGDhncR20IJ6xVBg0BzzjVPhi9lXUXfOUWzkeul0FsgAeQGhbnya3H23byM41PYsfC/OB3tYTbv
+	JoQiomQg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1rMsY1-007uNT-LX; Mon, 08 Jan 2024 16:32:21 +0000
+Date: Mon, 8 Jan 2024 16:32:21 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] buffer: Add kernel-doc for block_dirty_folio()
+Message-ID: <ZZwjlYY+LxuWINHm@casper.infradead.org>
+References: <20240104163652.3705753-1-willy@infradead.org>
+ <20240104163652.3705753-3-willy@infradead.org>
+ <20240108133117.xtkbzeiqq6dtesm5@localhost>
+ <ZZv6Dgsmjnr48BMQ@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZZv6Dgsmjnr48BMQ@casper.infradead.org>
 
-Yueh-Shun Li <shamrocklee@posteo.net> writes:
+On Mon, Jan 08, 2024 at 01:35:10PM +0000, Matthew Wilcox wrote:
+> On Mon, Jan 08, 2024 at 02:31:17PM +0100, Pankaj Raghav (Samsung) wrote:
+> > > + * If the folio has buffers, the uptodate buffers are set dirty, to
+> > > + * preserve dirty-state coherency between the folio and the buffers.
+> > > + * It the folio does not have buffers then when they are later attached
+> > 
+> > s/It the folio/If the folio
+> > > + * they will all be set dirty.
+> > Is it better to rephrase it slightly as follows:
+> > 
+> > If the folio does not have buffers, they will all be set dirty when they
+> > are later attached.
+> 
+> Yes, I like that better.
 
-> In section "18) Don't re-invent the kernel macros" in "Linux kernel
-> coding style":
->
-> Show how reusing macros from shared headers prevents naming collisions
-> using "stringify", the one of the most widely reinvented macro, as an
-> example.
->
-> This patch aims to provide a stronger reason to reuse shared macros,
-> by showing the risk of improvised macro variants.
->
-> Signed-off-by: Yueh-Shun Li <shamrocklee@posteo.net>
-> ---
->  Documentation/process/coding-style.rst | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 2504cb00a961..1e79aba4b346 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -1070,6 +1070,28 @@ Similarly, if you need to calculate the size of some structure member, use
->  There are also ``min()`` and ``max()`` macros in ``include/linux/minmax.h``
->  that do strict type checking if you need them.
->  
-> +Using existing macros provided by the shared headers also prevents naming
-> +collisions. For example, if one developer define in ``foo.h``
-> +
-> +.. code-block:: c
-> +
-> +	#define __stringify(x) __stringify_1(x)
-> +	#define __stringify_1(x) #x
-> +
-> +and another define in ``bar.h``
-> +
-> +.. code-block:: c
-> +
-> +	#define stringify(x) __stringify(x)
-> +	#define __stringify(x) #x
-> +
-> +When both headers are ``#include``-d into the same file, the facilities provided
-> +by ``foo.h`` might be broken by ``bar.h``.
-> +
-> +If both ``foo.h`` and ``bar.h``  use the macro ``__stringify()`` provided by
-> +``include/linux/stringify.h``, they wouldn't have stepped onto each other's
-> +toes.
-> +
+Actually, how about:
 
-So everything we add to our documentation has a cost in terms of reader
-attention.  We ask people to read through a lot of material now, and
-should only increase that ask for good reason.
+ * If the folio has buffers, the uptodate buffers are set dirty, to
+ * preserve dirty-state coherency between the folio and the buffers.
+ * Buffers added to a dirty folio are created dirty.
 
-With that context, I have to wonder whether we really need to tell our
-readers, who are supposed to be capable developers, that reuse can help
-to avoid name collisions?
-
-Thanks,
-
-jon
+I considered deleting the sentence entirely as it's not actually related
+to what the function does; it's just a note about how the buffer cache
+behaves.  That said, information about how buffer heds work is scant
+enough that I don't want to delete it.
