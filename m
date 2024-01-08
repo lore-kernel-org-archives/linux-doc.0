@@ -1,151 +1,362 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B09153E21
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 16:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3209254659
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 17:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pUP2rOtW"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5ce74ea4bf2so1265590a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jan 2024 08:46:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OYb1jAD4"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a27cd5850d6so214484966b.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jan 2024 09:13:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704732388; x=1705337188; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hcP4oDQ3eDslDSaUDkl9PzQaFEemmBlUGTQnZjWidg4=;
-        b=pUP2rOtW6Xehw5sbW4Db42S3eXL6pYW2eYllWr4cE/Q9bnNaTfOfy1cM8mYZWubd9Z
-         rtaVNOTe6OcOY2YwRAL7wh8FCjGxp1gPQdbTndHCfQVcrb2fnYGthuBXnuvWndwMB5/E
-         2SC+BM68cnEV6IAyTN7QlvKr1PseDLFkKykt8A/Q+PvGFZgxoOqLxXv4v6y01OFc+cBX
-         QdDNQGb8nDrRVQvknzMAT0J5bLR4YE2W5LAh1Hens3v2sqAkmvsfDFsrXhpYrAYJLNpS
-         5Zq65cRlis0A16Zg0lkKvJJhcPLNnWPq4TKem4OH7mmUlATYiu51ulayh596kejad5HF
-         6vQg==
+        d=suse.com; s=google; t=1704734024; x=1705338824; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=72yIapf26W3MTkOxkgeYpNT24vmOx9hCDSp11cnRh3s=;
+        b=OYb1jAD4fm4WbmGYD+hTMiaFLJfHqjWk0jy0NJbejKwfOui6rN7Qc/GbhdDYo8hCir
+         8Yu5ygaUADiWDNqTiIExrtu5pzGD6+t+DdpJ0XZDEjW7JlQRuy8KHQH3W+zciFiWRjeT
+         jYC1g18HnpBZ95uYoi+L4TUpKkpOMeRwynqhlAajxlxuWZvl3cHroRhyHdDIXB+Yor4/
+         RiU3sAwG+ct8IFqCHEQYmZX0UiW8FavhNsjjB7B5gSIifVab/2x5LSJPkZ+gDfSQAXBG
+         a3Bkek3ty2pLdo2KTTIGKc7/p6f0EJVd8clSLHxfEhByCd7Kh30hJ0RBwGQeSc7gSY6A
+         SV/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704732388; x=1705337188;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hcP4oDQ3eDslDSaUDkl9PzQaFEemmBlUGTQnZjWidg4=;
-        b=jmlSI2w2y+EVhFnde9/iMV15cuZm7l9b6yG89jMylFtx5FOIYJA4Zbv9g4N8d0O/m5
-         LT5M2KAxNfxnRbcEotfgLc24IaINm9nMfTTcoYPeCCkYvWBKZK48gCGo+bbDXXBMAJ/n
-         u+kDDH4If2gOPBfVHlKidw2tzP+vtGWY+Ib5wxHqvTqnu/NaJiTy+aysVv4l0R9Uc7iS
-         ZhCSpacSIcSKX4cdIzEGiK0pA8PGB+Sr1xbLLeb7KI/IfFpuuBNhfPqud+bjJPBaYkPj
-         dLfLvyhksL90iLfwJZsWHofgSY4p7H1TAGXdxFlwmbr3du9+X0XW2hHqwEjF8ilw+8HK
-         W2bg==
-X-Gm-Message-State: AOJu0Yy2VZPN7U3WzR2pbHr8QlTqAe2TGr5eSu/9B03RonFuuGpGNRWH
-	zMGXrpsUuSuCOyrIU45G4Cmhz5jQmEVIBo8We5ue7qgrX5V2fA==
-X-Google-Smtp-Source: AGHT+IFw0ZW5iYobNEFWZzdpYvN80E//t7DHgMsA/jih0qwTCCuMrTnc/u3iq7XAKVneW1gI6Fz2Ad2vEIHHTTaIGds=
-X-Received: by 2002:a05:6a20:1b22:b0:199:995d:e88c with SMTP id
- ch34-20020a056a201b2200b00199995de88cmr5854pzb.24.1704732388407; Mon, 08 Jan
- 2024 08:46:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704734024; x=1705338824;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=72yIapf26W3MTkOxkgeYpNT24vmOx9hCDSp11cnRh3s=;
+        b=lrexcpckp/+1lRDkE/giUzKbR1OL82DPkZrQw3FCsAFO5lqOlIr+GOBofjv9dOa0ig
+         2j5tpyEJI4DzCRWoot5MKWiXaTbTEeUthg6CxXi+ADHO6pzTy+/Ez/KyhNIfPvYsJeRf
+         qo1MxQRpqMXS/7/V3KAqoYBtybqbG0cMppM2OFISgtJ2be5xbRA5gfrr0TpGy7h1YCLy
+         9jHl6E2GJpJs44uoArIrq4Lon4Bfv79BMpGMCcrhA+Av60SnNxox8/t8XYr+TQ1vU7TQ
+         sI/WueqyXFxAD5YI4WjRtvhw3snNu5Vu7qcXTnZOEiipoAAGWEx4e4hPYqUv8/aVB7bP
+         UYcA==
+X-Gm-Message-State: AOJu0YxksKHA93+e3bOtEPiu0C1x0Oe4TbmrY+o9IsK9mhG1UyaPAfhU
+	FHZ0YmNc1vNFkb+KB1ex/AOFTI0267hBHQ==
+X-Google-Smtp-Source: AGHT+IH3cJA9S6q1KPJzco1BqKJ4kBMUC//wsZrUlu+DcpJtcQRDkqowbqPMEs8Y0NjueYWPNrObiQ==
+X-Received: by 2002:a17:906:158f:b0:a23:482:ee74 with SMTP id k15-20020a170906158f00b00a230482ee74mr2177935ejd.28.1704734024389;
+        Mon, 08 Jan 2024 09:13:44 -0800 (PST)
+Received: from ?IPv6:2804:30c:1668:b300:8fcd:588d:fb77:ed04? ([2804:30c:1668:b300:8fcd:588d:fb77:ed04])
+        by smtp.gmail.com with ESMTPSA id t7-20020a02ab87000000b00466754ca2fesm70249jan.68.2024.01.08.09.13.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 09:13:43 -0800 (PST)
+Message-ID: <11c112df801008f6bc4b7813645d505388894e29.camel@suse.com>
+Subject: Re: [PATCH RESEND v4 1/3] kselftests: lib.mk: Add TEST_GEN_MODS_DIR
+ variable
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+To: Shuah Khan <skhan@linuxfoundation.org>, Joe Lawrence
+	 <joe.lawrence@redhat.com>
+Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Heiko
+ Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
+ Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>,  Sven Schnelle <svens@linux.ibm.com>, Josh
+ Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,  Miroslav
+ Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, 
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
+ live-patching@vger.kernel.org
+Date: Mon, 08 Jan 2024 14:13:37 -0300
+In-Reply-To: <4fb169fd-393c-441e-b0f7-32a3777c1d11@linuxfoundation.org>
+References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
+	 <20231220-send-lp-kselftests-v4-1-3458ec1b1a38@suse.com>
+	 <ZZSOtsbzpy2mvmUC@redhat.com>
+	 <4fb169fd-393c-441e-b0f7-32a3777c1d11@linuxfoundation.org>
+Content-Type: multipart/mixed; boundary="=-Q9sYUJ/r34p0y6Es/xCH"
+User-Agent: Evolution 3.50.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240108134843.429769-1-vincent.guittot@linaro.org>
- <20240108134843.429769-2-vincent.guittot@linaro.org> <158a8c60-cb54-43c1-8232-6a0a46cc6d42@arm.com>
-In-Reply-To: <158a8c60-cb54-43c1-8232-6a0a46cc6d42@arm.com>
-From: Vincent Guittot <vincent.guittot@linaro.org>
-Date: Mon, 8 Jan 2024 17:46:16 +0100
-Message-ID: <CAKfTPtC7sM1ZeW4iGN6fzvF9bR0juYePycX3GeWzYQwRBR7XkA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] cpufreq: Add a cpufreq pressure feedback for the scheduler
-To: Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc: linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
-	sudeep.holla@arm.com, rafael@kernel.org, viresh.kumar@linaro.org, 
-	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org, 
-	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, bristot@redhat.com, 
-	vschneid@redhat.com, lukasz.luba@arm.com, rui.zhang@intel.com, 
-	mhiramat@kernel.org, daniel.lezcano@linaro.org, amit.kachhap@gmail.com, 
-	corbet@lwn.net, gregkh@linuxfoundation.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	qyousef@layalina.io
+
+--=-Q9sYUJ/r34p0y6Es/xCH
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 8 Jan 2024 at 17:35, Dietmar Eggemann <dietmar.eggemann@arm.com> wrote:
->
-> On 08/01/2024 14:48, Vincent Guittot wrote:
-> > Provide to the scheduler a feedback about the temporary max available
-> > capacity. Unlike arch_update_thermal_pressure, this doesn't need to be
-> > filtered as the pressure will happen for dozens ms or more.
->
-> Is this then related to the 'medium pace system pressure' you mentioned
-> in your OSPM '23 talk?
->
-> >
-> > Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
-> > ---
-> >  drivers/cpufreq/cpufreq.c | 36 ++++++++++++++++++++++++++++++++++++
-> >  include/linux/cpufreq.h   | 10 ++++++++++
-> >  2 files changed, 46 insertions(+)
-> >
-> > diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> > index 44db4f59c4cc..fa2e2ea26f7f 100644
-> > --- a/drivers/cpufreq/cpufreq.c
-> > +++ b/drivers/cpufreq/cpufreq.c
-> > @@ -2563,6 +2563,40 @@ int cpufreq_get_policy(struct cpufreq_policy *policy, unsigned int cpu)
-> >  }
-> >  EXPORT_SYMBOL(cpufreq_get_policy);
-> >
-> > +DEFINE_PER_CPU(unsigned long, cpufreq_pressure);
-> > +
-> > +/**
-> > + * cpufreq_update_pressure() - Update cpufreq pressure for CPUs
-> > + * @policy: cpufreq policy of the CPUs.
-> > + *
-> > + * Update the value of cpufreq pressure for all @cpus in the policy.
-> > + */
-> > +static void cpufreq_update_pressure(struct cpufreq_policy *policy)
-> > +{
-> > +     unsigned long max_capacity, capped_freq, pressure;
-> > +     u32 max_freq;
-> > +     int cpu;
-> > +
-> > +     /*
-> > +      * Handle properly the boost frequencies, which should simply clean
-> > +      * the thermal pressure value.
->                ^^^^^^^
-> IMHO, this is a copy & paste error from topology_update_thermal_pressure()?
->
-> > +      */
-> > +     if (max_freq <= capped_freq) {
->
-> max_freq seems to be uninitialized.
+On Wed, 2024-01-03 at 15:09 -0700, Shuah Khan wrote:
+> On 1/2/24 15:31, Joe Lawrence wrote:
+> > On Wed, Dec 20, 2023 at 01:53:12PM -0300, Marcos Paulo de Souza
+> > wrote:
+> > > Add TEST_GEN_MODS_DIR variable for kselftests. It can point to
+> > > a directory containing kernel modules that will be used by
+> > > selftest scripts.
+> > >=20
+> > > The modules are built as external modules for the running kernel.
+> > > As a result they are always binary compatible and the same tests
+> > > can be used for older or newer kernels.
+> > >=20
+> > > The build requires "kernel-devel" package to be installed.
+> > > For example, in the upstream sources, the rpm devel package
+> > > is produced by "make rpm-pkg"
+> > >=20
+> > > The modules can be built independently by
+> > >=20
+> > > =C2=A0=C2=A0 make -C tools/testing/selftests/livepatch/
+> > >=20
+> > > or they will be automatically built before running the tests via
+> > >=20
+> > > =C2=A0=C2=A0 make -C tools/testing/selftests/livepatch/ run_tests
+> > >=20
+> > > Note that they are _not_ built when running the standalone
+> > > tests by calling, for example, ./test-state.sh.
+> > >=20
+> > > Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
+> > > ---
+> > > =C2=A0 Documentation/dev-tools/kselftest.rst |=C2=A0 4 ++++
+> > > =C2=A0 tools/testing/selftests/lib.mk=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 20 +++++++++++++++-----
+> > > =C2=A0 2 files changed, 19 insertions(+), 5 deletions(-)
+> > >=20
+> > > diff --git a/Documentation/dev-tools/kselftest.rst
+> > > b/Documentation/dev-tools/kselftest.rst
+> > > index ab376b316c36..7f3582a67318 100644
+> > > --- a/Documentation/dev-tools/kselftest.rst
+> > > +++ b/Documentation/dev-tools/kselftest.rst
+> > > @@ -245,6 +245,10 @@ Contributing new tests (details)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 TEST_PROGS, TEST_GEN_PROGS mean it is the ex=
+ecutable tested
+> > > by
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 default.
+> > > =C2=A0=20
+> > > +=C2=A0=C2=A0 TEST_GEN_MODS_DIR should be used by tests that require
+> > > modules to be built
+> > > +=C2=A0=C2=A0 before the test starts. The variable will contain the n=
+ame of
+> > > the directory
+> > > +=C2=A0=C2=A0 containing the modules.
+> > > +
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 TEST_CUSTOM_PROGS should be used by tests th=
+at require
+> > > custom build
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 rules and prevent common build rule use.
+> > > =C2=A0=20
+> > > diff --git a/tools/testing/selftests/lib.mk
+> > > b/tools/testing/selftests/lib.mk
+> > > index 118e0964bda9..6c7c5a0112cf 100644
+> > > --- a/tools/testing/selftests/lib.mk
+> > > +++ b/tools/testing/selftests/lib.mk
+> > > @@ -70,12 +70,15 @@ KHDR_INCLUDES :=3D -isystem $(KHDR_DIR)
+> > > =C2=A0 # TEST_PROGS are for test shell scripts.
+> > > =C2=A0 # TEST_CUSTOM_PROGS and TEST_PROGS will be run by common
+> > > run_tests
+> > > =C2=A0 # and install targets. Common clean doesn't touch them.
+> > > +# TEST_GEN_MODS_DIR is used to specify a directory with modules
+> > > to be built
+> > > +# before the test executes. These modules are cleaned on the
+> > > clean target as well.
+> > > =C2=A0 TEST_GEN_PROGS :=3D $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS)=
+)
+> > > =C2=A0 TEST_GEN_PROGS_EXTENDED :=3D $(patsubst
+> > > %,$(OUTPUT)/%,$(TEST_GEN_PROGS_EXTENDED))
+> > > =C2=A0 TEST_GEN_FILES :=3D $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_FILES)=
+)
+> > > +TEST_GEN_MODS_DIR :=3D $(patsubst
+> > > %,$(OUTPUT)/%,$(TEST_GEN_MODS_DIR))
+> > > =C2=A0=20
+> > > =C2=A0 all: kernel_header_files $(TEST_GEN_PROGS)
+> > > $(TEST_GEN_PROGS_EXTENDED) \
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0 $(TEST_GEN_FILES)
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0 $(TEST_GEN_FILES) $(if $(TEST_GEN_MODS_DIR)=
+,gen_mods_dir)
+> > > =C2=A0=20
+> > > =C2=A0 kernel_header_files:
+> > > =C2=A0=C2=A0	@ls $(KHDR_DIR)/linux/*.h >/dev/null
+> > > 2>/dev/null;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+> > > @@ -105,8 +108,8 @@ endef
+> > > =C2=A0=20
+> > > =C2=A0 run_tests: all
+> > > =C2=A0 ifdef building_out_of_srctree
+> > > -	@if [
+> > > "X$(TEST_PROGS)$(TEST_PROGS_EXTENDED)$(TEST_FILES)" !=3D "X" ];
+> > > then \
+> > > -		rsync -aq --copy-unsafe-links $(TEST_PROGS)
+> > > $(TEST_PROGS_EXTENDED) $(TEST_FILES) $(OUTPUT); \
+> > > +	@if [
+> > > "X$(TEST_PROGS)$(TEST_PROGS_EXTENDED)$(TEST_FILES)$(TEST_GEN_MODS
+> > > _DIR)" !=3D "X" ]; then \
+> > > +		rsync -aq --copy-unsafe-links $(TEST_PROGS)
+> > > $(TEST_PROGS_EXTENDED) $(TEST_FILES) $(TEST_GEN_MODS_DIR)
+> > > $(OUTPUT); \
+> > > =C2=A0=C2=A0	fi
+> > > =C2=A0=C2=A0	@if [ "X$(TEST_PROGS)" !=3D "X" ]; then \
+> > > =C2=A0=C2=A0		$(call RUN_TESTS, $(TEST_GEN_PROGS)
+> > > $(TEST_CUSTOM_PROGS) \
+> > > @@ -118,6 +121,12 @@ else
+> > > =C2=A0=C2=A0	@$(call RUN_TESTS, $(TEST_GEN_PROGS)
+> > > $(TEST_CUSTOM_PROGS) $(TEST_PROGS))
+> > > =C2=A0 endif
+> > > =C2=A0=20
+> > > +gen_mods_dir:
+> > > +	$(Q)$(MAKE) -C $(TEST_GEN_MODS_DIR)
+> > > +
+> > > +clean_mods_dir:
+> > > +	$(Q)$(MAKE) -C $(TEST_GEN_MODS_DIR) clean
+> > > +
+> > > =C2=A0 define INSTALL_SINGLE_RULE
+> > > =C2=A0=C2=A0	$(if $(INSTALL_LIST),@mkdir -p $(INSTALL_PATH))
+> > > =C2=A0=C2=A0	$(if $(INSTALL_LIST),rsync -a --copy-unsafe-links
+> > > $(INSTALL_LIST) $(INSTALL_PATH)/)
+> > > @@ -131,6 +140,7 @@ define INSTALL_RULE
+> > > =C2=A0=C2=A0	$(eval INSTALL_LIST =3D $(TEST_CUSTOM_PROGS))
+> > > $(INSTALL_SINGLE_RULE)
+> > > =C2=A0=C2=A0	$(eval INSTALL_LIST =3D $(TEST_GEN_PROGS_EXTENDED))
+> > > $(INSTALL_SINGLE_RULE)
+> > > =C2=A0=C2=A0	$(eval INSTALL_LIST =3D $(TEST_GEN_FILES))
+> > > $(INSTALL_SINGLE_RULE)
+> > > +	$(eval INSTALL_LIST =3D $(TEST_GEN_MODS_DIR))
+> > > $(INSTALL_SINGLE_RULE)
+> >=20
+> > Hi Marcos,
+> >=20
+> > Sorry for the late reply on this, but I'm reviewing this version by
+> > trying to retrofit it into our selftest packaging (pre-build the
+> > test
+> > module .ko's and stash those into an rpm rather than building on
+> > the
+> > test host).
+> >=20
+> > Since $TEST_GEN_MODS_DIR is treated as a directory, I found that
+> > the
+> > selftest install target copies a bunch of intermediate object and
+> > kbuild
+> > files:
+> >=20
+> > =C2=A0=C2=A0 $ mkdir /tmp/test-install
+> > =C2=A0=C2=A0 $ make KDIR=3D$(pwd) INSTALL_PATH=3D/tmp/test-install
+> > TARGETS=3Dlivepatch \
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -C tools/testing/selftests/ =
+install
+> >=20
+> > =C2=A0=C2=A0 [ ... builds livepatch selftests ... ]
+> >=20
+> > the rsync in question:
+> >=20
+> > =C2=A0=C2=A0 rsync -a --copy-unsafe-links
+> > /home/jolawren/src/kernel/tools/testing/selftests/livepatch/test_mo
+> > dules /tmp/test-install/livepatch/
+> > =C2=A0=C2=A0 ...
+> >=20
+> > and then looking at the destination:
+> >=20
+> > =C2=A0=C2=A0 $ tree -a /tmp/test-install/
+> > =C2=A0=C2=A0 /tmp/test-install/
+> > =C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 kselftest
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 module.s=
+h
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 prefix.p=
+l
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 runner.s=
+h
+> > =C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 kselftest-list.txt
+> > =C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 livepatch
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 config
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 function=
+s.sh
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 settings
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test-cal=
+lbacks.sh
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test-ftr=
+ace.sh
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test_klp=
+-call_getpid
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test-liv=
+epatch.sh
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 test_mod=
+ules
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 Makefile
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 modules.order
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 .modules.order.cmd
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 Module.symvers
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 .Module.symvers.cmd
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 test_klp_atomic_replace.c
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 test_klp_atomic_replace.ko
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 .test_klp_atomic_replace.ko.cmd
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 test_klp_atomic_replace.mod
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 test_klp_atomic_replace.mod.c
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 .test_klp_atomic_replace.mod.cmd
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 test_klp_atomic_replace.mod.o
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 .test_klp_atomic_replace.mod.o.cmd
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 test_klp_atomic_replace.o
+> > =C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=
+=94=80=E2=94=80 .test_klp_atomic_replace.o.cmd
+> > =C2=A0=C2=A0 ...
+> >=20
+> > On the other hand, variables like $TEST_GEN_FILES specify
+> > individual
+> > files, so only final binaries like test_klp-call_getpid (and not
+> > test_klp-call_getpid.c) are copied to $INSTALL_PATH.
 
-argh yes, I made crap while cleaning up
-both max_freq and capped_freq are uninitialized
+Hi Joe,
 
->
-> > +             pressure = 0;
->
-> Is this x86 (turbo boost) specific? IMHO at arm we follow this max freq
-> (including boost) relates to 1024 in capacity? Or haven't we made this
-> discussion yet?
+thanks for catching this issue. I crafted the attached patch and it
+fixes the issue for me, copying only the resulting .ko objects as
+expected. Can you please check if this fixes the issue for you?
 
-This is not x86 specific. We can have capped_freq > max_freq on Arm too
+>=20
+>=20
+> Thank you Joe for finding this problem.
+>=20
+> Copying source files and object files doesn't sound right. This isn't
+> how the ksleftest installs work. Let's fix this.
 
-Also this bypass all calculation below when max_freq == capped_freq
-which is the most common case
+Hi Shuah,
 
->
-> > +     } else {
-> > +             cpu = cpumask_first(policy->related_cpus);
-> > +             max_capacity = arch_scale_cpu_capacity(cpu);
-> > +             capped_freq = policy->max;
-> > +             max_freq = arch_scale_freq_ref(cpu);
-> > +
-> > +             pressure = max_capacity -
-> > +                        mult_frac(max_capacity, capped_freq, max_freq);
-> > +     }
-> > +
-> > +     for_each_cpu(cpu, policy->related_cpus)
-> > +             WRITE_ONCE(per_cpu(cpufreq_pressure, cpu), pressure);
-> > +}
-> > +
->
-> [...]
->
+what do you think about the proposed solution? Could you please amend
+the fix into the first patch if you think it's the right approach?
+
+Thanks in advance!
+  Marcos
+
+>=20
+> thanks,
+> --Shuah
+>=20
+
+
+--=-Q9sYUJ/r34p0y6Es/xCH
+Content-Type: text/x-patch; name="fix.patch"; charset="UTF-8"
+Content-Description: 
+Content-Disposition: inline; filename="fix.patch"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2xpYi5tayBiL3Rvb2xzL3Rlc3Rp
+bmcvc2VsZnRlc3RzL2xpYi5tawppbmRleCA2YzdjNWEwMTEyY2YuLmQ3N2RkYTU5ZjZhMiAxMDA2
+NDQKLS0tIGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbGliLm1rCisrKyBiL3Rvb2xzL3Rlc3Rp
+bmcvc2VsZnRlc3RzL2xpYi5tawpAQCAtMTMyLDYgKzEzMiwxMSBAQCBkZWZpbmUgSU5TVEFMTF9T
+SU5HTEVfUlVMRQogCSQoaWYgJChJTlNUQUxMX0xJU1QpLHJzeW5jIC1hIC0tY29weS11bnNhZmUt
+bGlua3MgJChJTlNUQUxMX0xJU1QpICQoSU5TVEFMTF9QQVRIKS8pCiBlbmRlZgogCitkZWZpbmUg
+SU5TVEFMTF9NT0RTX1JVTEUKKwkkKGlmICQoSU5TVEFMTF9MSVNUKSxAbWtkaXIgLXAgJChJTlNU
+QUxMX1BBVEgpLyQoSU5TVEFMTF9MSVNUKSkKKwkkKGlmICQoSU5TVEFMTF9MSVNUKSxyc3luYyAt
+YSAtLWNvcHktdW5zYWZlLWxpbmtzICQoSU5TVEFMTF9MSVNUKS8qLmtvICQoSU5TVEFMTF9QQVRI
+KS8kKElOU1RBTExfTElTVCkpCitlbmRlZgorCiBkZWZpbmUgSU5TVEFMTF9SVUxFCiAJJChldmFs
+IElOU1RBTExfTElTVCA9ICQoVEVTVF9QUk9HUykpICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKIAkk
+KGV2YWwgSU5TVEFMTF9MSVNUID0gJChURVNUX1BST0dTX0VYVEVOREVEKSkgJChJTlNUQUxMX1NJ
+TkdMRV9SVUxFKQpAQCAtMTQwLDcgKzE0NSw3IEBAIGRlZmluZSBJTlNUQUxMX1JVTEUKIAkkKGV2
+YWwgSU5TVEFMTF9MSVNUID0gJChURVNUX0NVU1RPTV9QUk9HUykpICQoSU5TVEFMTF9TSU5HTEVf
+UlVMRSkKIAkkKGV2YWwgSU5TVEFMTF9MSVNUID0gJChURVNUX0dFTl9QUk9HU19FWFRFTkRFRCkp
+ICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKIAkkKGV2YWwgSU5TVEFMTF9MSVNUID0gJChURVNUX0dF
+Tl9GSUxFUykpICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKLQkkKGV2YWwgSU5TVEFMTF9MSVNUID0g
+JChURVNUX0dFTl9NT0RTX0RJUikpICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKKwkkKGV2YWwgSU5T
+VEFMTF9MSVNUID0gJChub3RkaXIgJChURVNUX0dFTl9NT0RTX0RJUikpKSAkKElOU1RBTExfTU9E
+U19SVUxFKQogCSQoZXZhbCBJTlNUQUxMX0xJU1QgPSAkKHdpbGRjYXJkIGNvbmZpZyBzZXR0aW5n
+cykpICQoSU5TVEFMTF9TSU5HTEVfUlVMRSkKIGVuZGVmCiAK
+
+
+--=-Q9sYUJ/r34p0y6Es/xCH--
