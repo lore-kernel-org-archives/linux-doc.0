@@ -1,101 +1,213 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B994E38FB7;
-	Tue,  9 Jan 2024 14:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27E739851;
+	Tue,  9 Jan 2024 14:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eFqpjVcQ"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6d9bd63ec7fso1411555b3a.2;
-        Tue, 09 Jan 2024 06:01:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704808908; x=1705413708; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FC/8g7ZpWpj5XGSBITdvk8s0jNFEaS2+hXn9GTWkyls=;
-        b=eFqpjVcQc5nMDh1ei/DndWYaBYETtrbr4oYBhhImyay+qf7aBBC5efYEiOFPQuWqnP
-         hUtZiR1C50aKiwGhjMgYWn6k5rh2/9oMXRRVbusM5vr4Ix8roufWhj9kL9nepPwEoS5l
-         VWWsNsl9TpvxUu0lC9MTMBtWowUPPP2U6h/bWqZllZQPomHa4S7kD2ImGcWsu4N0Kxas
-         7fr6Kx3Pax8U8dtpy3oUQAqb1HyfDkdNEJbGIVUGju3z+5Nhtq/+aYAzgGS1wpF4lHs0
-         JM2ay59QLhOyvqW3b6RoyVEeEay2D9Qzi4z7lgYkFozAiMJ7CDEVSIGF/bQ/0FKgWPor
-         SpaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704808908; x=1705413708;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FC/8g7ZpWpj5XGSBITdvk8s0jNFEaS2+hXn9GTWkyls=;
-        b=P26wPCsSF9I4OUdcoY1APmjr94HYVn1YOnKKJGz3di4NuCt7/oLus67Qk+lzFFGh4Y
-         A11gBEOvt8SV7Wq5RXF44OLlVM2mFhmwRoFBo7qA3LnqiMlzVzzqzfvbXAD7Mfh6548v
-         kD5Z1AU+UH0kTAUfXb0Mr0MMdzpLznoTpSeu6YW9aPtZV5pQu+RKsqi4S5v1cPO6FOXg
-         7aH6HYPDYPcz0++R27lhLExvBluc0u6UdrG56FSokTHFfEyK/jE3MmhNlT1At0hC5oNm
-         PaMFoink9r/rU1YcOIjytMEUfVcwhQViHzBUp6DtJu7p+wh0Ggqc4LMoCWqDJtah9aWw
-         Ak1A==
-X-Gm-Message-State: AOJu0YxoJzhNG8kF5K3A4QLJyqp9N4rfLTCSW7majKPWnNDJgKZRnstg
-	i76Lv+JW9EZFfX2Fc2xRCw5CDCajzHre8g==
-X-Google-Smtp-Source: AGHT+IEVssHtiESKXpR+knixhH3RM0dJ0WL/8knFJz8d2Ip0hq7H0EzMPLcgxXq5uGv49Ep0Qp4+pg==
-X-Received: by 2002:a05:6a21:1f25:b0:194:d82d:83cc with SMTP id ry37-20020a056a211f2500b00194d82d83ccmr2326988pzb.108.1704808907555;
-        Tue, 09 Jan 2024 06:01:47 -0800 (PST)
-Received: from rigel.home.arpa (60-241-235-125.tpgi.com.au. [60.241.235.125])
-        by smtp.gmail.com with ESMTPSA id m2-20020a62f202000000b006d9accac5c4sm1673697pfh.35.2024.01.09.06.01.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 06:01:47 -0800 (PST)
-From: Kent Gibson <warthog618@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	brgl@bgdev.pl,
-	linus.walleij@linaro.org,
-	andy@kernel.org,
-	corbet@lwn.net
-Cc: Kent Gibson <warthog618@gmail.com>
-Subject: [PATCH 7/7] Documentation: gpio: move gpio-mockup into deprecated section
-Date: Tue,  9 Jan 2024 21:59:52 +0800
-Message-Id: <20240109135952.77458-8-warthog618@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240109135952.77458-1-warthog618@gmail.com>
-References: <20240109135952.77458-1-warthog618@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSiKu9sm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11CA0C43390;
+	Tue,  9 Jan 2024 14:02:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704808939;
+	bh=ySGWGM6KAkW2Wvf68TJ4tX2XgT/a98DZvuxdIxEnpFg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QSiKu9smlPJRTZ5t2XfwSf201qynpyqIXrjx2VivuJqP+AxM9kA3+HMzIAv6H0Q7S
+	 kkSsSg4uq+IzBGkq1BkauN/kmxjau2SUxLmvu91qLuxLpD9AY2NLpAbxSVuDtGtozt
+	 DlxXZ92Qt/+2uafPOuXWTEYN95m3Bd6uRwCdBE206GrgqNHUuG5ex74X/tQlavj6nG
+	 m1qGsGL0SVmX5Z+adZKVfi16ZfqA2hn847LFRPnU3GW5pNSe+7/+BOxbwv5QWrJvwJ
+	 V4+LU3C2eKnRE9fZhQ1HV7SHD7Pf+pJFrEe9XOk04NocNe9bEaxXDvhTHw2FJTtzPs
+	 z6PeZsLKUdp/A==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-204dfd7a89aso1387101fac.1;
+        Tue, 09 Jan 2024 06:02:19 -0800 (PST)
+X-Gm-Message-State: AOJu0YzFqwlDRlComlDnvKZSiBcBrLNJdW5EunJ6qGnyFtkKJHiEan7X
+	iDmRUxmD51Bx/GOPHXDJWJkOYsXn5VJecRxJnHQ=
+X-Google-Smtp-Source: AGHT+IFlTnlM5PnQAacW9Sy3tlgTzLI2sRSd9sbzVX2G3fIH3OgI3KNJpyEpr0ABbrCkSjtQP8yf/hVfXgpGMPs7EdA=
+X-Received: by 2002:a05:6870:170e:b0:203:bb46:fb67 with SMTP id
+ h14-20020a056870170e00b00203bb46fb67mr305930oae.43.1704808938423; Tue, 09 Jan
+ 2024 06:02:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
+In-Reply-To: <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 9 Jan 2024 23:01:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
+Message-ID: <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Simon Glass <sjg@chromium.org>
+Cc: Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, U-Boot Mailing List <u-boot@lists.denx.de>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The gpio-mockup has been obsoleted by the gpio-sim, so relocate its
-documentation into the deprecated section of the admin-guide book.
+Hi Simon,
 
-Signed-off-by: Kent Gibson <warthog618@gmail.com>
----
- Documentation/admin-guide/gpio/deprecated.rst | 1 +
- Documentation/admin-guide/gpio/index.rst      | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/gpio/deprecated.rst b/Documentation/admin-guide/gpio/deprecated.rst
-index 683d7d23e62a..8503ea2f54d5 100644
---- a/Documentation/admin-guide/gpio/deprecated.rst
-+++ b/Documentation/admin-guide/gpio/deprecated.rst
-@@ -9,4 +9,5 @@ Deprecated GPIO APIs
- 
-     Character Device Userspace API (v1) <../../userspace-api/gpio/chardev_v1>
-     Sysfs Interface <../../userspace-api/gpio/sysfs>
-+    Mockup Testing Module <gpio-mockup>
- 
-diff --git a/Documentation/admin-guide/gpio/index.rst b/Documentation/admin-guide/gpio/index.rst
-index 8489b8a3991f..573682212a56 100644
---- a/Documentation/admin-guide/gpio/index.rst
-+++ b/Documentation/admin-guide/gpio/index.rst
-@@ -9,7 +9,6 @@ GPIO
- 
-     Character Device Userspace API <../../userspace-api/gpio/chardev>
-     gpio-aggregator
--    gpio-mockup
-     gpio-sim
-     Deprecated APIs <deprecated>
- 
--- 
-2.39.2
+On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromium.org> wrote=
+:
+>
+> Hi Masahiro,
+>
+> On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.org> wro=
+te:
+> >
+> > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > > Add a script which produces a Flat Image Tree (FIT), a single file
+> > > containing the built kernel and associated devicetree files.
+> > > Compression defaults to gzip which gives a good balance of size and
+> > > performance.
+> > >
+> > > The files compress from about 86MB to 24MB using this approach.
+> > >
+> > > The FIT can be used by bootloaders which support it, such as U-Boot
+> > > and Linuxboot. It permits automatic selection of the correct
+> > > devicetree, matching the compatible string of the running board with
+> > > the closest compatible string in the FIT. There is no need for
+> > > filenames or other workarounds.
+> > >
+> > > Add a 'make image.fit' build target for arm64, as well. Use
+> > > FIT_COMPRESSION to select a different algorithm.
+> > >
+> > > The FIT can be examined using 'dumpimage -l'.
+> > >
+> > > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > > requires compression utilities for the algorithm being used. Supporte=
+d
+> > > compression options are the same as the Image.xxx files. For now ther=
+e
+> > > is no way to change the compression other than by editing the rule fo=
+r
+> > > $(obj)/image.fit
+> > >
+> > > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > > this here, since it must be built separately from the Linux build.
+> > >
+> > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > ---
+> > >
+> > > Changes in v9:
+> > > - Move the compression control into Makefile.lib
+> > >
+> > > Changes in v8:
+> > > - Drop compatible string in FDT node
+> > > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > > - Turn compress part of the make_fit.py comment in to a sentence
+> > > - Add two blank lines before parse_args() and setup_fit()
+> > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > > - Add 'mkimage' details Documentation/process/changes.rst
+> > > - Allow changing the compression used
+> > > - Tweak cover letter since there is only one clean-up patch
+> > >
+> > > Changes in v7:
+> > > - Add Image as a dependency of image.fit
+> > > - Drop kbuild tag
+> > > - Add dependency on dtbs
+> > > - Drop unnecessary path separator for dtbs
+> > > - Rebase to -next
+> > >
+> > > Changes in v5:
+> > > - Drop patch previously applied
+> > > - Correct compression rule which was broken in v4
+> > >
+> > > Changes in v4:
+> > > - Use single quotes for UIMAGE_NAME
+> > >
+> > > Changes in v3:
+> > > - Drop temporary file image.itk
+> > > - Drop patch 'Use double quotes for image name'
+> > > - Drop double quotes in use of UIMAGE_NAME
+> > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> > > - Avoid hard-coding "arm64" for the DT architecture
+> > >
+> > > Changes in v2:
+> > > - Drop patch previously applied
+> > > - Add .gitignore file
+> > > - Move fit rule to Makefile.lib using an intermediate file
+> > > - Drop dependency on CONFIG_EFI_ZBOOT
+> > > - Pick up .dtb files separately from the kernel
+> > > - Correct pylint too-many-args warning for write_kernel()
+> > > - Include the kernel image in the file count
+> > > - Add a pointer to the FIT spec and mention of its wide industry usag=
+e
+> > > - Mention the kernel version in the FIT description
+> > >
+> > >  Documentation/process/changes.rst |   9 +
+> > >  MAINTAINERS                       |   7 +
+> > >  arch/arm64/Makefile               |   7 +-
+> > >  arch/arm64/boot/.gitignore        |   1 +
+> > >  arch/arm64/boot/Makefile          |   6 +-
+> > >  scripts/Makefile.lib              |  16 ++
+> > >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++=
+++
+> > >  7 files changed, 334 insertions(+), 3 deletions(-)
+> > >  create mode 100755 scripts/make_fit.py
+> >
+> > I'll need Masahiro's Ack on the scripts/ changes before I can take this
+> > one.
+>
+> Any thoughts on this request, please?
+>
+> Regards,
+> Simon
+>
 
+
+
+As I mentioned before, I am concerned with having
+the same "compatible" entries, with different contents,
+as you use the "compatible" string as an ID to selecting
+the target config node, right?
+
+
+
+
+
+$ fdtdump  arch/arm64/boot/image.fit
+
+        ...
+
+        conf-10 {
+            compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+"tq,am642-tqma6442l", "ti,am642";
+            description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier b=
+oard";
+            fdt =3D "fdt-10";
+            kernel =3D "kernel";
+        };
+
+        ...
+
+        conf-25 {
+            compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+"tq,am642-tqma6442l", "ti,am642";
+            description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier b=
+oard";
+            fdt =3D "fdt-25";
+            kernel =3D "kernel";
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
