@@ -1,118 +1,127 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498863A8C8;
-	Tue,  9 Jan 2024 15:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D84A3A8E1;
+	Tue,  9 Jan 2024 15:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FzZ/FmJq"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 409D9CUU018828;
-	Tue, 9 Jan 2024 15:49:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=aS6EMqOjnuywpra94CwxUYtjZZkevwG1w1EtemlEeVo=; b=Fz
-	Z/FmJqsMEP4gb24vMeQHSxELuOrnsSPrkH/JEEXrPAIJF5OIv+xEXUhBzEKCRHL1
-	2UIjDqpFgXdYHpQGVEIEp6t9EnTATWWUAuGPf2sVuKy06OFdvc0xLw7pIr9MlaUE
-	R2ACkUbPJw5OqzSY2HRm9xQNYkxwsAZKj/W/MT2RndWsdyWsKdjh9Olzw2Gq8Eos
-	7th6vpFDp/njvDp7iLJiavaHw4tuZ3c1YGp9ZMX1MMJjWL1OtWdHvfR5biElG/aJ
-	0TNoFf2Gg/Sx0EZ08TE/QfqYnjCf8GDaFdVe+kMvY2zL7Ua+/8ifu1acyW51mFLg
-	umCTSAmtpgHYcIbW5o9w==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vh3me0nvw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jan 2024 15:49:06 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 409Fn6Eq014936
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 9 Jan 2024 15:49:06 GMT
-Received: from hu-mojha-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 9 Jan 2024 07:49:01 -0800
-From: Mukesh Ojha <quic_mojha@quicinc.com>
-To: <corbet@lwn.net>, <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>, <vigneshr@ti.com>,
-        <nm@ti.com>, <matthias.bgg@gmail.com>, <kgene@kernel.org>,
-        <alim.akhtar@samsung.com>, <bmasney@redhat.com>
-CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Mukesh Ojha
-	<quic_mojha@quicinc.com>
-Subject: [PATCH v7 05/12] init: export linux_banner data variable
-Date: Tue, 9 Jan 2024 21:01:53 +0530
-Message-ID: <20240109153200.12848-6-quic_mojha@quicinc.com>
-X-Mailer: git-send-email 2.43.0.254.ga26002b62827
-In-Reply-To: <20240109153200.12848-1-quic_mojha@quicinc.com>
-References: <20240109153200.12848-1-quic_mojha@quicinc.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="nN/okoV4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=tZu+pKrUWqvj1u7XXOZ361qKXLT14yOTmWAUg/xb9K8=; b=nN/okoV4vFIiLWpy1C8jbd7tdw
+	Qv36Z2Gb+2ode/mlOC9FGuq844QXK7cH1QtvswvkKjPFNn3crE3ejxFH+peDwTmHOW4G/GWbH6Jpn
+	0qzKOvO75N3PC9BVsubbFulOPfcPT9peor+qGDaJvLE1hDNNoKtb0pRiolyX60ZvDTRC5WW3imUyZ
+	1xyVORTa/XshnAfR1BtvDgMDdHcKzUMxaBI9H8XnwA0OUVxFBs03HPJwS8ZWzD+a9pTAz9kjYXkvu
+	D81k2SVTALrUMdf78FrSRpsd/686oC+ZFg2iPb8F+4cDR8NoTEmsESKvjPSBSJuSGwKrJgRpTa/j3
+	34Jq5IPg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53760)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rNELt-0004Hq-18;
+	Tue, 09 Jan 2024 15:49:17 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rNELr-0004Of-RO; Tue, 09 Jan 2024 15:49:15 +0000
+Date: Tue, 9 Jan 2024 15:49:15 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
+	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	jianyong.wu@arm.com, justin.he@arm.com,
+	James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 02/21] ACPI: processor: Add support for processors
+ described as container packages
+Message-ID: <ZZ1q+7GXqnMMwKNR@shell.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+ <E1rDOfx-00Dvje-MS@rmk-PC.armlinux.org.uk>
+ <CAJZ5v0iB0bS6nmjQ++pV1zp5YSGuigbffK5VD3wsX+8bY9MA5w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: FOnrTxNT32hWHdVH3BUjIki5V-tzzJbX
-X-Proofpoint-GUID: FOnrTxNT32hWHdVH3BUjIki5V-tzzJbX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 mlxscore=0
- suspectscore=0 impostorscore=0 clxscore=1015 adultscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401090128
+In-Reply-To: <CAJZ5v0iB0bS6nmjQ++pV1zp5YSGuigbffK5VD3wsX+8bY9MA5w@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Some debug loadable module like minidump is interested in knowing
-the kernel version against which it is being build. Let's export
-linux_banner.
+On Mon, Dec 18, 2023 at 09:17:34PM +0100, Rafael J. Wysocki wrote:
+> On Wed, Dec 13, 2023 at 1:49 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
+> >
+> > From: James Morse <james.morse@arm.com>
+> >
+> > ACPI has two ways of describing processors in the DSDT. From ACPI v6.5,
+> > 5.2.12:
+> >
+> > "Starting with ACPI Specification 6.3, the use of the Processor() object
+> > was deprecated. Only legacy systems should continue with this usage. On
+> > the Itanium architecture only, a _UID is provided for the Processor()
+> > that is a string object. This usage of _UID is also deprecated since it
+> > can preclude an OSPM from being able to match a processor to a
+> > non-enumerable device, such as those defined in the MADT. From ACPI
+> > Specification 6.3 onward, all processor objects for all architectures
+> > except Itanium must now use Device() objects with an _HID of ACPI0007,
+> > and use only integer _UID values."
+> >
+> > Also see https://uefi.org/specs/ACPI/6.5/08_Processor_Configuration_and_Control.html#declaring-processors
+> >
+> > Duplicate descriptions are not allowed, the ACPI processor driver already
+> > parses the UID from both devices and containers. acpi_processor_get_info()
+> > returns an error if the UID exists twice in the DSDT.
+> 
+> I'm not really sure how the above is related to the actual patch.
+> 
+> > The missing probe for CPUs described as packages
+> 
+> It is unclear what exactly is meant by "CPUs described as packages".
+> 
+> From the patch, it looks like those would be Processor() objects
+> defined under a processor container device.
+> 
+> > creates a problem for
+> > moving the cpu_register() calls into the acpi_processor driver, as CPUs
+> > described like this don't get registered, leading to errors from other
+> > subsystems when they try to add new sysfs entries to the CPU node.
+> > (e.g. topology_sysfs_init()'s use of topology_add_dev() via cpuhp)
+> >
+> > To fix this, parse the processor container and call acpi_processor_add()
+> > for each processor that is discovered like this.
+> 
+> Discovered like what?
+> 
+> > The processor container
+> > handler is added with acpi_scan_add_handler(), so no detach call will
+> > arrive.
+> 
+> The above requires clarification too.
 
-Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
----
- include/linux/init.h     | 3 +++
- init/version-timestamp.c | 3 +++
- 2 files changed, 6 insertions(+)
+The above comments... yea. As I didn't write the commit description, but
+James did, and James has basically vanished, I don't think these can be
+answered, short of rewriting the entire commit message, with me spending
+a lot of time with the ACPI specification trying to get the terminology
+right - because at lot of the above on the face of it seems to be things
+to do with wrong terminology being used.
 
-diff --git a/include/linux/init.h b/include/linux/init.h
-index 3fa3f6241350..023e7f08d26a 100644
---- a/include/linux/init.h
-+++ b/include/linux/init.h
-@@ -145,6 +145,9 @@ extern char *saved_command_line;
- extern unsigned int saved_command_line_len;
- extern unsigned int reset_devices;
- 
-+/* Defined in init/version-timestamp.c */
-+extern const char linux_banner[];
-+
- /* used by init/main.c */
- void setup_arch(char **);
- void prepare_namespace(void);
-diff --git a/init/version-timestamp.c b/init/version-timestamp.c
-index 043cbf80a766..a48f2c19e5d7 100644
---- a/init/version-timestamp.c
-+++ b/init/version-timestamp.c
-@@ -6,6 +6,7 @@
- #include <linux/refcount.h>
- #include <linux/uts.h>
- #include <linux/utsname.h>
-+#include <linux/init.h>
- 
- struct uts_namespace init_uts_ns = {
- 	.ns.count = REFCOUNT_INIT(2),
-@@ -28,3 +29,5 @@ struct uts_namespace init_uts_ns = {
- const char linux_banner[] =
- 	"Linux version " UTS_RELEASE " (" LINUX_COMPILE_BY "@"
- 	LINUX_COMPILE_HOST ") (" LINUX_COMPILER ") " UTS_VERSION "\n";
-+
-+EXPORT_SYMBOL_GPL(linux_banner);
+I wasn't expecting this level of issues with this patch set, and I now
+feel completely out of my depth with this series. I'm wondering whether
+I should even continue with it, since I don't have the ACPI knowledge
+to address a lot of these comments.
+
 -- 
-2.43.0.254.ga26002b62827
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
