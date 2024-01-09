@@ -1,90 +1,130 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F976D6FC;
-	Tue,  9 Jan 2024 18:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AC83C482
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 18:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="EuKKB38E"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7104240E01B0;
-	Tue,  9 Jan 2024 18:37:04 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id b7yVKaHzlFZI; Tue,  9 Jan 2024 18:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1704825422; bh=3GnnfT61nG0MgA4KLPPPfjplcJ6wV6Zbmw1e3o0+qUk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EuKKB38EOmDmgXRgfjQIhkWZOOy7vA6jvLaAqqtKkdkPYY14htlpjS7BHK6U8O/P5
-	 xvvVdyAyV8GiTog2P5YYJSO24CErBZO6VgnWIA8jjqx2cPp7/AOP4Lv9S8tEwnOfPv
-	 +lgzudzbCe+wkvl9Bd+uuzcY3+iW6xwao4w80LfOz4yzJFlJl5ueLu4UpwGXNM9kRO
-	 AETEnyZrDIAQcO/b3GCPkB0yMxZWrq6theK2u8LBwXTjgDyU53ikOT4qtJ3+ZBSxKC
-	 sfuJy5o4TXiMbqqVzEZ10VeauMwlghqE4dBAzlLPBh9zK8wkBW27xm4liAUo/jMMnq
-	 zvM9bFRvaxz/WTfNjMGroFY9lPtYzJVeWDysw5LoLXggzunm67M8wbILK5wxa3Wo1J
-	 Q4ApQ0o/ms48movkl3mhKzkuCEKvhNeKsSi2S1N0CpBfutXS2viqCP6LlDfFJcAQNi
-	 tBOk6dHuYQc8dHFcLna4F6HRMCKfmiGmNsbYBrh+rl5jmdGvMB0zwaD5ifx3xD1yGz
-	 pXU14X6LS2/cP1MYqtH30t/Fxacae2HNMZl+IWWHCc9H0PDKSKMza1AktIjK74sAWU
-	 U9A9dJbCXj0aE9vfWQlJSo8HTU2svyHpGKywH4eZeznp2NxTAVIVMATV2adQLkIk6a
-	 nnQpUJlFQ5Gs9RhnzPp9DRjo=
-Received: from zn.tnic (pd9530f8c.dip0.t-ipconnect.de [217.83.15.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 30B0640E0196;
-	Tue,  9 Jan 2024 18:36:54 +0000 (UTC)
-Date: Tue, 9 Jan 2024 19:36:46 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Tony Luck <tony.luck@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>,
-	Muralidhara M K <muralimk@amd.com>, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Muralidhara M K <muralidhara.mk@amd.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Begin a RAS section
-Message-ID: <20240109183646.GAZZ2SPiMZv83J3f0a@fat_crate.local>
-References: <20231102114225.2006878-1-muralimk@amd.com>
- <20231102114225.2006878-2-muralimk@amd.com>
- <20231128142049.GTZWX3QQTSaQk/+u53@fat_crate.local>
- <87a5pes8jy.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="eGZTpIqT"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2064cc6cc51so679260fac.3
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jan 2024 10:43:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1704825808; x=1705430608; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w8tIh5/SJkOUUlCOBe2SBZ/CeVYcs+QLRLt1HCIE+Zg=;
+        b=eGZTpIqTC3OdpV4DsMftIlv+OQAF2OyycmtkbbqJgAy3+8LIn2yJVWHmtMtI6IZCm3
+         gnM3b+r0aD+PiQio25cviJloaDTwJpQb0oFOg5pOcR51yd8NXt547GAARt6uk4YN1aP2
+         B0Kup1Pm3zumfJQuMSS/5LSL/5VNmO/G5e5HjTyRqT6qhay9oEeA53DscZ97mwDvy6Zc
+         q5Tm2/qYubRccmeQWz3skgVjy/FNX5yt3mrq+GBMwPxq1KRLS0O1lAQoqbCQ3FdId3YS
+         AVqyMvKTFM+Vujn/D9ip/NCtel8O8liwxLyBOkAEyWgwiGSuz0cvlTJL0FqDpNZ1LDiA
+         4h7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704825808; x=1705430608;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w8tIh5/SJkOUUlCOBe2SBZ/CeVYcs+QLRLt1HCIE+Zg=;
+        b=ZSucCuaS2J8/49EXpch6m0XaOF1qHuMbQg1rABFqwsGEhyqGMoEeanIMctvyU08dZn
+         hbzw7vY2wxWLcML3jJlvLTEKGTakyQhiLQBOlF8UoYbw+KX4CBpV7YAKI5F7z8k2ZSf5
+         9OjWH1QNBRibO8YuIzsuhYPcfDyAWM1/UaacCIgJ5Mjojhue0jP1nPzbzNs7B26qLc4B
+         MspAS+VYd0xzG7dh95ZB1Djk5nNtBzVKb4zmcHj27dAoJSrdnCn+F6UInAGa8Mh+hBz4
+         n9zeV1pz4YWC2gIoc8HY0PyBFFAFoEZrg55t4TWH8wplk5RTRP9yqayRMWASKjKjtVvH
+         f5Hg==
+X-Gm-Message-State: AOJu0YwUUhChWgVKMjnC0A8sDC43SWUa3DAAHVXmybflcDSufciRcWjh
+	JlvsWXZH7ZhtLrAfEX1J8itdeb4yrnGQeg==
+X-Google-Smtp-Source: AGHT+IFcxswKi7F7pE1xwoT7t0vdbShn5ks82furi63XCAnlNWziga0jcShQ7a72MoVw6ae19zgnhA==
+X-Received: by 2002:a05:6870:d14b:b0:206:d54:7b2a with SMTP id f11-20020a056870d14b00b002060d547b2amr4357731oac.116.1704825807883;
+        Tue, 09 Jan 2024 10:43:27 -0800 (PST)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id j2-20020a9d7682000000b006ce2c31dd9bsm450423otl.20.2024.01.09.10.43.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 10:43:27 -0800 (PST)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v6 0/2] riscv: Create and document
+ PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+Date: Tue, 09 Jan 2024 10:43:24 -0800
+Message-Id: <20240109-fencei-v6-0-04116e51445c@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87a5pes8jy.fsf@meer.lwn.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMyTnWUC/23PTW7DIBAF4KtErEvEDGBIV7lH1AU/Q8OidgURS
+ hX57sVR40SVl2/E94a5sUolU2Xvuxsr1HLN09jD8LZj4ezGT+I59sxQoAQAwxONgTJPhzSIaKx
+ KTrD++LtQytd70emj53Oul6n83HsbLNO/CsRHRQMuuKcgLEDwCHgsuU01j2Efpi+2tDR8kVKsE
+ rvE4AeUzoOHtCHlUyLIVcplp9GgLUpL3mxI9ZBKgFgPbqrLqELC5A9CR7kh9au0q9RdOgekIRp
+ E/P/beZ5/AdWDF6iHAQAA
+To: Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, 
+ Atish Patra <atishp@atishpatra.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>, 
+ Atish Patra <atishp@rivosinc.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1704825806; l=1943;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=fXFUftloV5jzL0u4aeVUYxoLDAW2ZraqE9n+Yoo2iUk=;
+ b=NAtn7SuloNiPreSBIIN21r9pJE15rERzjhOZSODLLXEdLhVRFRC8siAHMji5UtZHKbUt+hl9p
+ Ho5wmA+uqyvCZcZ+W2SeQp3SK39CsEpKGvR1kOj5ba0MSK+R4hNMYAb
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-On Tue, Jan 09, 2024 at 10:47:29AM -0700, Jonathan Corbet wrote:
-> I wish I'd been copied on this ... 
+Improve the performance of icache flushing by creating a new prctl flag
+PR_RISCV_SET_ICACHE_FLUSH_CTX. The interface is left generic to allow
+for future expansions such as with the proposed J extension [1].
 
-linux-doc was CCed:
+Documentation is also provided to explain the use case.
 
-https://lore.kernel.org/all/20231128142049.GTZWX3QQTSaQk%2F+u53@fat_crate.local/
+[1] https://github.com/riscv/riscv-j-extension
 
-Or did you prefer you directly?
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+---
+Changes in v6:
+- Fixup documentation formatting
+- Link to v5: https://lore.kernel.org/r/20240108-fencei-v5-0-aa1e51d7222f@rivosinc.com
 
-I've been working to get a handle on
-> the top-level Documentation/ directories for a while, and would rather
-> not see a new one added for this.  Offhand, based on this first
-> document, it looks like material that belongs under
-> Documentation/admin-guide; can we move it there, please?
+Changes in v5:
+- Minor documentation changes (Randy)
+- Link to v4: https://lore.kernel.org/r/20240107-fencei-v4-0-d4cf2fb905d3@rivosinc.com
 
-Not really an admin guide thing - yes, based on the current content but
-actually, the aim for this is to document all things RAS, so it is more
-likely a subsystem thing. And all the subsystems are directories under
-Documentation/.
+Changes in v4:
+- Add OFF flag to disallow fence.i in userspace (Atish)
+- Fix documentation issues (Atish)
+- Link to v3: https://lore.kernel.org/r/20231213-fencei-v3-0-b75158238eb7@rivosinc.com
 
-So where do you want me to put it?
+Changes in v3:
+- Check if value force_icache_flush set on thread, rather than in mm
+  twice (Clément)
+- Link to v2: https://lore.kernel.org/r/20231130-fencei-v2-0-2cb623ab1b1f@rivosinc.com
 
-Thx.
+Changes in v2:
+- Fix kernel-doc comment (Conor)
+- Link to v1: https://lore.kernel.org/r/20231122-fencei-v1-0-bec0811cb212@rivosinc.com
 
+---
+Charlie Jenkins (2):
+      riscv: Include riscv_set_icache_flush_ctx prctl
+      documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+
+ Documentation/arch/riscv/cmodx.rst | 88 ++++++++++++++++++++++++++++++++++++++
+ Documentation/arch/riscv/index.rst |  1 +
+ arch/riscv/include/asm/mmu.h       |  2 +
+ arch/riscv/include/asm/processor.h |  6 +++
+ arch/riscv/mm/cacheflush.c         | 58 +++++++++++++++++++++++++
+ arch/riscv/mm/context.c            |  8 ++--
+ include/uapi/linux/prctl.h         |  4 ++
+ kernel/sys.c                       |  6 +++
+ 8 files changed, 170 insertions(+), 3 deletions(-)
+---
+base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+change-id: 20231117-fencei-f9f60d784fa0
 -- 
-Regards/Gruss,
-    Boris.
+- Charlie
 
-https://people.kernel.org/tglx/notes-about-netiquette
