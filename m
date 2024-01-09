@@ -1,174 +1,230 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B6015A4
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 05:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA84E29A2;
+	Tue,  9 Jan 2024 06:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qn9Sx8jc"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5534180f0e9so4695a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jan 2024 21:44:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1704779077; x=1705383877; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gNp8btyQPmwjvYioZnnwdbMyvcXOru7LW47SHiaFKaI=;
-        b=qn9Sx8jcdyLWV250DnTxJsexhP1oWqAZJTm+tEV9hHJKt4tqgkJnQdMRs2veE4c9PR
-         zBEP8Us5vZ8CkYr0YlAwJwiCH+vvC2Vtv7SCPoLq74P7FbhijLtSem+f/KkACKu4ofSG
-         2HJNBYJ6JyiRYf27FrJag5DpKquP5xar+6BdACqwp8aYE/M8pgSUa3DXmZQMnYMo4MKF
-         1dZw1AcngFkD/zNL4itmWWPXQJoQlpL+Vts3yjuiCYATDZ+D6eIA7sBgO20dEUPbRXX/
-         E80R7AIsOicNJVKyx5W8QPFBvhPyqu4a/VhMX8lphq4Yr6KpH4oIVozD816Vepzry96D
-         NGDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704779077; x=1705383877;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gNp8btyQPmwjvYioZnnwdbMyvcXOru7LW47SHiaFKaI=;
-        b=xLyOdu4c303ezr4rjsL4Xa+cq1DbFs6xscJS6xAytw0fR4UnFN58dx6HBEGDmx5eNU
-         +gS+6Kp5huZw61rz+1yRZ0BuJAUZfestbrqtI6J5fOTaKMMTYT92rZZv2/8M4GJr85f3
-         QBRc9Coxly1Ne49tsZde2J4kSKSwCNfnOGQjsfZKjkJ+bW/9ptUSwzWMkLz7D4xXj9q7
-         zGifiZ5EcRZ9We9z22rm9nZW4+wMdAZkV6f//+jhJO5O1dLAzMPVPKnAx0bNrdJCFwZk
-         IvvtqVW/ah3AyjzIrhruGzakp7samLLDg6k9tMd/m8mognn4wsFV5KjCmL899xMuEhoS
-         /Fzw==
-X-Gm-Message-State: AOJu0Ywiq+c6C8y7JeTRHpHHJJu9U1VjXnTV6/PyMUbCmys+dX++SyQ5
-	In8W6EUhN5r/z6IdJuUpW7PybUTpiAl1nFuViBbaNhM10V1m
-X-Google-Smtp-Source: AGHT+IG52RrTHmVyHogeNrR6RCsCQbadstzbVrtXMfEq9BoPzypR2MiAzheo8cR+UivMW8JPqdWPazZg3RMfcIZfSpk=
-X-Received: by 2002:a50:9305:0:b0:557:bb6b:a36f with SMTP id
- m5-20020a509305000000b00557bb6ba36fmr27339eda.2.1704779076887; Mon, 08 Jan
- 2024 21:44:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfMesNEL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704781902; x=1736317902;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=/pwsT3XzHADy5DIVDMcjwQR1jvA1Vagl9ti3wdbwxpY=;
+  b=MfMesNELY0ycy/QcZXzWUumQuBQ2PD0ATGxdIRQzY/qZiISrzpf2NuAa
+   OW0rGOmYwDLq20E7uF5JaQxZ4diufHg9P+ziem8JYdBa073nss+WIYq+y
+   07tiD/KKIcoUJ+cEBUwBj/f6eKlQZlCqI67WiVVbvl9U3+6e9ahl2VZHV
+   1e2Yuk4XlzHkytXvF7UigLsHAcYqLC+nD78VYHRGGuDSdrUvPvklx9yY7
+   W7CvQ7ZEXEEYxpMHkq5QDbz1z1OPurQCpPW7RKeuYmSLoGsx3l7PAcfiy
+   nVfpgpya0RaAIv9yz2Ju25/kRK4bfrl2y4imK+NraoVdx2rZtaMLPFmEf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="19597812"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
+   d="scan'208";a="19597812"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 22:31:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="757882196"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
+   d="scan'208";a="757882196"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Jan 2024 22:31:39 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 8 Jan 2024 22:31:39 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 8 Jan 2024 22:31:39 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 8 Jan 2024 22:31:39 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jywtm1lGJz/+QGHu77s55iZApoTocSEWc9jXZIHd3dABOg20IpxeHB5PNQd1SOGLoMuW4zTp5PXsU5UMzdvhNSsq1fgrCiWfhtLGNtbhrgOR/FlPmptxPgfWa1+DC70yw84bU9w16aGHsMiQ3+R6JwV47gVkUUY+wf6IjcB2EtRbBZqG/dZD/CF7NzyySrMt5/a+jph2sjP7S3N3H2fu4zSRb+v72d82KIpt+AwRs9+ec3RyjefDM1Lu5tc7ezt6dhfN/uXITe1m2n1RB0N/yepsxPvCT9RV7r2sONEo+20V6eRrlrJYiMx9jg7DyWpjsJlk7SVWlBurYj4c0nyIrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/pwsT3XzHADy5DIVDMcjwQR1jvA1Vagl9ti3wdbwxpY=;
+ b=nn60R0Ovmmo4zjoNr8AaLn+QsruO3k9Va+aRGsrVMtJkYntcp2mJDQfXNRMZwoBgTv84crSnXQuVCOh4has1nNc+ELhhACaLMn91L3440amkIGPstbfy1GxoWiPUs6SBLVGiLsNrrsAYQ0echVfoBiwRKp0ol+ZB9UTQXZ4r/0jb/2mDxTR33NrKDKp40NGtIWU8ddLCMHF+YS909OHZMuPxeVhGMRumUC19s3o5PINAmJAM3Bc+iTZ6xu4fXe54pOHBgc3Yt+QsdOhZRa17ajuffskWGVKHboB4uWClNrgBG/S+UMBF9HzrsfkAS5Hm1BuwCWH0510CrwcHQyEG3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY8PR11MB7364.namprd11.prod.outlook.com (2603:10b6:930:87::14)
+ by CH0PR11MB5473.namprd11.prod.outlook.com (2603:10b6:610:d4::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Tue, 9 Jan
+ 2024 06:31:32 +0000
+Received: from CY8PR11MB7364.namprd11.prod.outlook.com
+ ([fe80::aa4a:f2aa:f6cf:367b]) by CY8PR11MB7364.namprd11.prod.outlook.com
+ ([fe80::aa4a:f2aa:f6cf:367b%7]) with mapi id 15.20.7159.020; Tue, 9 Jan 2024
+ 06:31:32 +0000
+From: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: "tglx@linutronix.de" <tglx@linutronix.de>, "jstultz@google.com"
+	<jstultz@google.com>, "giometti@enneenne.com" <giometti@enneenne.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, "Dong,
+ Eddie" <eddie.dong@intel.com>, "Hall, Christopher S"
+	<christopher.s.hall@intel.com>, "Brandeburg, Jesse"
+	<jesse.brandeburg@intel.com>, "davem@davemloft.net" <davem@davemloft.net>,
+	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+	"joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
+	<mcoquelin.stm32@gmail.com>, "perex@perex.cz" <perex@perex.cz>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "Nguyen, Anthony
+ L" <anthony.l.nguyen@intel.com>, "N, Pandith" <pandith.n@intel.com>,
+	"Sangannavar, Mallikarjunappa" <mallikarjunappa.sangannavar@intel.com>, "T R,
+ Thejesh Reddy" <thejesh.reddy.t.r@intel.com>, Peter Hilber
+	<peter.hilber@opensynergy.com>
+Subject: RE: [RFC PATCH v3 00/11] Add support for Intel PPS Generator
+Thread-Topic: [RFC PATCH v3 00/11] Add support for Intel PPS Generator
+Thread-Index: AQHaPjvbeo56FQye9EuoBkh8cNhPW7DM6zQAgAQhyxA=
+Date: Tue, 9 Jan 2024 06:31:32 +0000
+Message-ID: <CY8PR11MB7364D6EDCCBCCDBF9DCB0BE5C46A2@CY8PR11MB7364.namprd11.prod.outlook.com>
+References: <20240103115602.19044-1-lakshmi.sowjanya.d@intel.com>
+ <ZZlvqvYQQuse_P4E@smile.fi.intel.com>
+In-Reply-To: <ZZlvqvYQQuse_P4E@smile.fi.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY8PR11MB7364:EE_|CH0PR11MB5473:EE_
+x-ms-office365-filtering-correlation-id: b52126b1-e890-4459-4776-08dc10dc9eea
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bNKkxFR+XtuKeuabOoGgXf+3EWO55PMOSRk5HtD3121/seBxYEWllu1AnSD9atQD2VV3bV5MNZQi0by40+G8nvG/3Zx1u81fPIsBF14PVRf/EN6QvE8RJMjWVeLrpxxirzV+z/LPqj1f+mVoX9u5/egYq0XcX4RmO5GSYAnoRfoJziwTRHv3a2tA6mEIefPz8/hma2kO3OnTrqrvolNr2dC3kpBC2xL0UvtfatqMDPuI8I2/dbHm86klApgUFDRlZ0u6lsAU/JXw64tLJnXgZDUbWmZiw3yYg7ZlAwQC5HFWL8KijeIUWebRHI7oc1l1LzbxJ8ZjfIj1cgNBGS4L4jPAsOdaHSScAuclKizfvgiNHVNfqJZyOy/P5H+Qrbn4xr/8/hCb40/odeEr0FcaGXQ31TavJ5p/dCBpVsI+kRYHRwo3tNJ+//Q0r7WaBHp+I5XGIWdrWEnccRZSdS0M8FnB3rW+TVM7mNL39r7Bxutxa7WrVtkAvJSBmMjEUNj8prSpeKlK6u8X+N/+Lpq7gPmO/RExhsOc358U6WEa1Ev1QWkmdp3zeCg9UsZXf8TpTyWoUqTKR6jh1pOTduf6oQglPadBuH7YIMIRv8w3DuU=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7364.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(376002)(346002)(39860400002)(136003)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(2906002)(38100700002)(7416002)(5660300002)(38070700009)(82960400001)(86362001)(122000001)(41300700001)(316002)(54906003)(8676002)(8936002)(9686003)(55016003)(66946007)(76116006)(66556008)(26005)(66476007)(6916009)(64756008)(66446008)(966005)(478600001)(83380400001)(7696005)(6506007)(71200400001)(53546011)(33656002)(52536014)(4326008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lrLOdcvhJ8K1xZr0jLyIkPITBZIl6r1eumH93cSEE83/f7CHsnomLpsEhMYb?=
+ =?us-ascii?Q?Thi+rUqqhBEs80Lmql9+IblvQ64eYZ3S+aFxNvEoVpThSq1msbTpwiBfMmCW?=
+ =?us-ascii?Q?UKPn7Hl6kQvZAUPtGLR3qzpQvLVugNIk9vuBdQqXzr/G0W2XiHXINk2u0zk+?=
+ =?us-ascii?Q?WHirjb8kzoae7GRQqWtBe7B6ESL88hFNO42p/FrtvYd1FX9rTMNJZrrZzDM7?=
+ =?us-ascii?Q?IirISdGUmYjkqLASpZesKsB4tAgtlKqEjSY7MXr2ZgiHAx8nyTSujgYJXOY+?=
+ =?us-ascii?Q?rMG8vho+ejfoyoSWm6eTU7FQkvmia/8eHw7gvsRqKiHvYNFsA1Y6WlsNcwsu?=
+ =?us-ascii?Q?pPdNIvWBN9+L91uID890+NHGS4QHbcYsqzIHxGWmje8kHU/gHI5R/hKHCcHc?=
+ =?us-ascii?Q?72eY2MfNICi0Eb/dRJzM7nHR7iD1iNLA0iPYhYAVC9zwDpaZrRxJ1PlzdVmW?=
+ =?us-ascii?Q?dAD6T/V2NhYXtTZMHg9RbafUHJjpcG59NWN7SvykqsJurtoPc7UE9LFjHFOl?=
+ =?us-ascii?Q?PxVI/kZWh1O3GBlhxkVGesuztK2q+5MECAtPRhkQmMouLHrhkXVJ/7s+tgsa?=
+ =?us-ascii?Q?Qu4H98Yvzq/ImLQWQKQPO9hPCsU+O3BJVgQ4NY/xzKf6XTSqrVRqocwwmTdQ?=
+ =?us-ascii?Q?WNHg9nHgpGya7XRuxWo7ApkkeJTl3v7d2r73SL4y45MwAVfNbDPsZteWzq1E?=
+ =?us-ascii?Q?br9btYfGrTeFh45RuaSrdQAog8GIkcDE2dbPKarPSNzs2pU2k52H3C5nbqAR?=
+ =?us-ascii?Q?hXixHiDpjSK3Ty0YYjpq0grP7LMtv5tHDRYQZ6zouRHC5uLUC1aKEaWIwM2/?=
+ =?us-ascii?Q?69BiaFRghWcMBDpH8oHrkOzaJ9QPGNBPVewWI3gKVBkJy4RuUdgCLViJRimC?=
+ =?us-ascii?Q?U8ZXiq74a3UqZ7l0UcMOLmhkdyHRe4lXPOsARWLp4b/YiTeJAJ4kEqIMJuci?=
+ =?us-ascii?Q?QdPJ7M/moBjOSj+1GAEuGAKT+2+IsNz6pCN+ACT1RuYsegUb/HaJT8eUtvkE?=
+ =?us-ascii?Q?5np9A8ol3Hn/6wIqSzpL0WxO1tkzzfkQH3if8HhmH+TVmnQjzT+BiGN0jSbm?=
+ =?us-ascii?Q?mk2M8ocAOyIIkUJ7B6R1HgKm872+SDh7eCK9Oc50ZqdEJ9krCUetDKX5Tfh1?=
+ =?us-ascii?Q?sVsbJMiOSaJPLjhbIeBfnbiGhDfbc7RrfUQMqBUM1uuU+46W8JRhfYllwmTN?=
+ =?us-ascii?Q?5ZQEwgAGLyYgCXVDypmjzkJKOSr5j8LI4PU0KB3QMBimL/ZaIwezItXDq+2w?=
+ =?us-ascii?Q?Spkfsrvr+VWMoVxL7g/7OAAzYV7nlmCA9H20g5Q9xjp5NrZZe0LnwGM9NebC?=
+ =?us-ascii?Q?i4TrdSqMuCBP7/N1XVqgs5DHEUenPh0vD6KE8hZ+rQXIK604gb/32NdoRMU+?=
+ =?us-ascii?Q?X8ZZK98jW4axvEUAxpkQIHcxat77kjt5rHTTUuIk0M6RaKPhHdHZlohGPe7t?=
+ =?us-ascii?Q?PyNLxFQU8hIyk66bb7Cw/0+nBVxChhiUv+k+Z2kN6cT9lp3shabpNuBVVDAu?=
+ =?us-ascii?Q?3wZ59H/nyuSwqbJlwz3oGt4ckXxzTTbYWnBd6M6eEnq4//9fC7D2A5EmlsX8?=
+ =?us-ascii?Q?18dpa0tWb7rKWuvSeZkLbSoTlG+T7Xm/0quhUzF4DJ5wC+Fnk17q2aoR++G7?=
+ =?us-ascii?Q?9g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240108-kunit-doc-export-v2-1-8f2dd3395fed@riseup.net>
-In-Reply-To: <20240108-kunit-doc-export-v2-1-8f2dd3395fed@riseup.net>
-From: David Gow <davidgow@google.com>
-Date: Tue, 9 Jan 2024 13:44:24 +0800
-Message-ID: <CABVgOSn=Wjwy6efMjNSWGVFDfSftRnYPXE5WdsBOzeaFM2FSEQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: KUnit: Update the instructions on how
- to test static functions
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000521c00060e7ccf06"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7364.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b52126b1-e890-4459-4776-08dc10dc9eea
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2024 06:31:32.4280
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aeGk/qg6jWHRtj4kiHSXLFmdojeblcUkD4WdiERMGJsSwbJO6Ji3Iuzcsljz7GNusI8CjYkN+oZeeiUEVdJKB+1u9JkqRgSGefXFV5agacw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5473
+X-OriginatorOrg: intel.com
 
---000000000000521c00060e7ccf06
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 9 Jan 2024 at 04:24, Arthur Grillo <arthurgrillo@riseup.net> wrote:
->
-> Now that we have the VISIBLE_IF_KUNIT and EXPORT_SYMBOL_IF_KUNIT macros,
-> update the instructions to stop recommending including .c files.
->
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
-> Changes in v2:
-> - Fix #if condition
-> - Link to v1: https://lore.kernel.org/r/20240108-kunit-doc-export-v1-1-11=
-9368df0d96@riseup.net
-> ---
 
-Thanks very much: I think we definitely should be recommending
-VISIBLE_IF_KUNIT and EXPORT_SYMBOL_IF_KUNIT more.
+> -----Original Message-----
+> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Sent: Saturday, January 6, 2024 8:50 PM
+> To: D, Lakshmi Sowjanya <lakshmi.sowjanya.d@intel.com>
+> Cc: tglx@linutronix.de; jstultz@google.com; giometti@enneenne.com;
+> corbet@lwn.net; linux-kernel@vger.kernel.org; x86@kernel.org;
+> netdev@vger.kernel.org; linux-doc@vger.kernel.org; intel-wired-
+> lan@lists.osuosl.org; Dong, Eddie <eddie.dong@intel.com>; Hall, Christoph=
+er S
+> <christopher.s.hall@intel.com>; Brandeburg, Jesse
+> <jesse.brandeburg@intel.com>; davem@davemloft.net;
+> alexandre.torgue@foss.st.com; joabreu@synopsys.com;
+> mcoquelin.stm32@gmail.com; perex@perex.cz; linux-sound@vger.kernel.org;
+> Nguyen, Anthony L <anthony.l.nguyen@intel.com>; N, Pandith
+> <pandith.n@intel.com>; Sangannavar, Mallikarjunappa
+> <mallikarjunappa.sangannavar@intel.com>; T R, Thejesh Reddy
+> <thejesh.reddy.t.r@intel.com>
+> Subject: Re: [RFC PATCH v3 00/11] Add support for Intel PPS Generator
+>=20
+> On Wed, Jan 03, 2024 at 05:25:51PM +0530, lakshmi.sowjanya.d@intel.com
+> wrote:
+> > From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> >
+> > The goal of the PPS(Pulse Per Second) hardware/software is to generate
+> > a signal from the system on a wire so that some third-party hardware
+> > can observe that signal and judge how close the system's time is to
+> > another system or piece of hardware.
+> >
+> > Existing methods (like parallel ports) require software to flip a bit
+> > at just the right time to create a PPS signal. Many things can prevent
+> > software from doing this precisely. This (Timed I/O) method is better
+> > because software only "arms" the hardware in advance and then depends
+> > on the hardware to "fire" and flip the signal at just the right time.
+> >
+> > To generate a PPS signal with this new hardware, the kernel wakes up
+> > twice a second, once for 1->0 edge and other for the 0->1 edge. It
+> > does this shortly (~10ms) before the actual change in the signal needs
+> > to be made. It computes the TSC value at which edge will happen,
+> > convert to a value hardware understands and program this value to Timed=
+ I/O
+> hardware.
+> > The actual edge transition happens without any further action from the
+> > kernel.
+> >
+> > The result here is a signal coming out of the system that is roughly
+> > 1,000 times more accurate than the old methods. If the system is
+> > heavily loaded, the difference in accuracy is larger in old methods.
+> > Facebook and Google are the customers that use this feature.
+> >
+> > Application Interface:
+> > The API to use Timed I/O is very simple. It is enabled and disabled by
+> > writing a '1' or '0' value to the sysfs enable attribute associated
+> > with the Timed I/O PPS device. Each Timed I/O pin is represented by a
+> > PPS device. When enabled, a pulse-per-second(PPS) synchronized with
+> > the system clock is continuously produced on the Timed I/O pin,
+> > otherwise it is pulled low.
+> >
+> > The Timed I/O signal on the motherboard is enabled in the BIOS setup.
+>=20
+> At some point you should announce v1 of the series. RFC is usually being
+> neglected by many (busy) maintainers.
 
-I do wonder, though, whether we should also keep the conditional
-``#include`` example. There are some tests already using it, and it
-can be more convenient than exporting lots of symbols in some cases. I
-still think we should encourage the
-VISIBLE_IF_KUNIT/EXPORT_SYMBOL_IF_KUNIT features more, but maybe we
-leave the existing documentation there underneath. (e.g.
-"Alternatively, we can conditionally=E2=80=A6")
+This patch series is dependent on https://lore.kernel.org/netdev/2023121522=
+0612.173603-2-peter.hilber@opensynergy.com/T/ which is RFC.
 
-Otherwise, this looks good, and if people think that we should avoid
-recommending the conditional-#include method (which _is_ ugly), then
-I'm happy to accept this as-is.
+Regards,
+Sowjanya
+>=20
+> --
+> With Best Regards,
+> Andy Shevchenko
+>=20
 
-Thoughts?
-
--- David
-
---000000000000521c00060e7ccf06
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPqgYJKoZIhvcNAQcCoIIPmzCCD5cCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-gg0EMIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-7xDrOPfX3COqq162RFg/MFcGA1UdIARQME4wCQYHZ4EMAQUBATBBBgkrBgEEAaAyASgwNDAyBggr
-BgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wDAYDVR0TAQH/
-BAIwADCBmgYIKwYBBQUHAQEEgY0wgYowPgYIKwYBBQUHMAGGMmh0dHA6Ly9vY3NwLmdsb2JhbHNp
-Z24uY29tL2NhL2dzYXRsYXNyM3NtaW1lY2EyMDIwMEgGCCsGAQUFBzAChjxodHRwOi8vc2VjdXJl
-Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2F0bGFzcjNzbWltZWNhMjAyMC5jcnQwHwYDVR0jBBgw
-FoAUfMwKaNei6x4schvRzV2Vb4378mMwRgYDVR0fBD8wPTA7oDmgN4Y1aHR0cDovL2NybC5nbG9i
-YWxzaWduLmNvbS9jYS9nc2F0bGFzcjNzbWltZWNhMjAyMC5jcmwwDQYJKoZIhvcNAQELBQADggEB
-AK0lDd6/eSh3qHmXaw1YUfIFy07B25BEcTvWgOdla99gF1O7sOsdYaTz/DFkZI5ghjgaPJCovgla
-mRMfNcxZCfoBtsB7mAS6iOYjuwFOZxi9cv6jhfiON6b89QWdMaPeDddg/F2Q0bxZ9Z2ZEBxyT34G
-wlDp+1p6RAqlDpHifQJW16h5jWIIwYisvm5QyfxQEVc+XH1lt+taSzCfiBT0ZLgjB9Sg+zAo8ys6
-5PHxFaT2a5Td/fj5yJ5hRSrqy/nj/hjT14w3/ZdX5uWg+cus6VjiiR/5qGSZRjHt8JoApD6t6/tg
-ITv8ZEy6ByumbU23nkHTMOzzQSxczHkT+0q10/MxggJqMIICZgIBATBoMFQxCzAJBgNVBAYTAkJF
-MRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFzIFIz
-IFNNSU1FIENBIDIwMjACEAHS+TgZvH/tCq5FcDC0n9IwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZI
-hvcNAQkEMSIEIDW9yM0kYOXGrimRXYlZYMxDLpeTUOHMCwYgj2slwUsKMBgGCSqGSIb3DQEJAzEL
-BgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MDEwOTA1NDQzN1owaQYJKoZIhvcNAQkPMVww
-WjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkq
-hkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQA0DDdA
-Vr97Gd/9peBGBJ+ZUBe7TjXf/B92u59J8ap09YqlWx+7hKqrKz+VRDm1phRUGji0jsID/lVeTfBD
-iVeY6Tlc7QjOQiHR36BA2+YlJYdmCLm3p4emdFsyatT42ZTDKZpH0Dz4H1PQ17i5m+GkvjDMESjS
-nWbG187wnzuYo6TMQKAXPIoDccr2FOdCxVysbR6QASTgUfHVK/P3QEBsDelKt0iz65jRZkityhFN
-EEHzHkQQfvWEQpwr87qr6NV6wYhwTLa/yV9fwomD7Ej6Qx6CGvm4q617V9nwiCliTu5GoqmkKfrs
-npoiyt5gd+7tRlgMtDKZsR51a4HA9xDG
---000000000000521c00060e7ccf06--
