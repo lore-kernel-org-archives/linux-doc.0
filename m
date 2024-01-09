@@ -1,79 +1,287 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAEC2904
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jan 2024 23:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F3C28F1
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 01:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atishpatra.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J14avLce"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704755234; x=1736291234;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WdZaaapAQB5k0DxEZLJICyCT46sbrzeiuTN8udRLK8Q=;
-  b=J14avLcezThKPqWD61j+suBucbCCaKubM6PW03hJBeUJFzHquGO9ULG1
-   vKP2ESKipHNNSl8KWrSCNrzBxKCalxpYJyDGjZSiJXN9f23Bp8O5tgz9s
-   fQdOJIlW6VhgA80/SgbViEWN90fMaWIQ4Kn20bhYJ/0iE12l0971BN8h/
-   liKkT8g/tNykbcon9FTIGywyRVLSy9TYCtT3QWOyXLEC+S7JokwuLd2Do
-   jaff2ucE7j4HII67IEgDo7I5bTZxx9rD25KKOkKgm67GYA9QFnJ4xIB6W
-   1SRcHe+qvJ83tNFRl0CzK9lfgmIbJohAIagEPnNf4IyPEFVTYY5MFxsDV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="388467283"
-X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="388467283"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2024 15:07:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="781575428"
-X-IronPort-AV: E=Sophos;i="6.04,181,1695711600"; 
-   d="scan'208";a="781575428"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 08 Jan 2024 15:07:12 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rMyi6-0005DG-24;
-	Mon, 08 Jan 2024 23:07:10 +0000
-Date: Tue, 9 Jan 2024 07:06:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-doc@vger.kernel.org
-Subject: [linux-next:master 12569/12662] htmldocs: Warning:
- /sys/devices/.../hwmon/hwmon<i>/curr1_crit is defined 2 times:
-  Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:52
-  Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:35
-Message-ID: <202401090705.Qv0jlX5x-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="L+8HPM0D"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cd17a979bcso26137071fa.0
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jan 2024 17:20:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=atishpatra.org; s=google; t=1704763226; x=1705368026; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FRNThla9dE7okdHgbc/oADJzrO50EI9cuBd5igULT7w=;
+        b=L+8HPM0DEPYnXSHr4FTp1BCOTM1cU/EKwAK9qKOJskbXb+LJfgKJKiaJnu0HmHuNqu
+         AndP+HEdFwLRQUkl8AM+oA1ULcDYeeLQuiDv1SZgR8EbYVboxLSLNfgToPD+rJK5riMG
+         75Zib60nLjKlWRUI9qOQfCDbhQ23XuXtWIRCU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704763226; x=1705368026;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FRNThla9dE7okdHgbc/oADJzrO50EI9cuBd5igULT7w=;
+        b=u2j0BoXpIGhtaLgnajT3AcOKjLYF+v2yub2FDOormFIW/ffvqNDEbbIISEAplN9hBo
+         qvSlknl82HqJARmkSgedQY7igDGdOCFSSb7LVDR+XfUgseEOlye5ddPd0UUuZ8DBJjwg
+         Hq0SM70ny6PvTem1RhoGwPaYoH0Ul/ClDh6r8Zq05uIeS78Ag+ZIXKJEUxO84Jho7Wx8
+         pM8CgQLkFNNx6uu/vTd5iN3mp0sLff0gEhQzXojNH5FX09wCq4ob5ocXGADtwktTLRUe
+         kQiGZv2IZSRkvRB6i7oqpuUlgs0njLYRHTmxbawn78ytjXh9ZpZkvjD32YCP1EX9MgR8
+         Svgg==
+X-Gm-Message-State: AOJu0YxCktpxF5NDTDbmAFWS/T6gPMfPRqIApJTTIQ7dK3GYOutQR04W
+	Xmas6n7SGLb+VUmeFFb5GC1Qo9oDR68xu9rdTk4Jd5mOye0d
+X-Google-Smtp-Source: AGHT+IHQb+aVi+doGRwAzvkU45dgBN2rDom8PDmrFWmOye5QUxxmfgzgt3hbnTOF1OiApo7QKDAwqXd0ppWTSD5W7/A=
+X-Received: by 2002:a2e:87c4:0:b0:2cd:db4:e438 with SMTP id
+ v4-20020a2e87c4000000b002cd0db4e438mr909560ljj.76.1704763225826; Mon, 08 Jan
+ 2024 17:20:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240108-fencei-v5-0-aa1e51d7222f@rivosinc.com> <20240108-fencei-v5-1-aa1e51d7222f@rivosinc.com>
+In-Reply-To: <20240108-fencei-v5-1-aa1e51d7222f@rivosinc.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Mon, 8 Jan 2024 17:20:14 -0800
+Message-ID: <CAOnJCUL=Q6xkxJRehJzzE5roxx7PyupzDKVw8Q7UuY1RF=HgcQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] riscv: Include riscv_set_icache_flush_ctx prctl
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, 
+	Conor Dooley <conor.dooley@microchip.com>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bffdfd2e7e63175ae261131a620f809d946cf9a7
-commit: 8b99c14dc078149cb2708b03c28ce668ec33b8e1 [12569/12662] Merge branch 'drm-next' of git://git.freedesktop.org/git/drm/drm.git
-reproduce: (https://download.01.org/0day-ci/archive/20240109/202401090705.Qv0jlX5x-lkp@intel.com/reproduce)
+On Mon, Jan 8, 2024 at 10:42=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.c=
+om> wrote:
+>
+> Support new prctl with key PR_RISCV_SET_ICACHE_FLUSH_CTX to enable
+> optimization of cross modifying code. This prctl enables userspace code
+> to use icache flushing instructions such as fence.i with the guarantee
+> that the icache will continue to be clean after thread migration.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/mmu.h       |  2 ++
+>  arch/riscv/include/asm/processor.h |  6 ++++
+>  arch/riscv/mm/cacheflush.c         | 56 ++++++++++++++++++++++++++++++++=
+++++++
+>  arch/riscv/mm/context.c            |  8 ++++--
+>  include/uapi/linux/prctl.h         |  4 +++
+>  kernel/sys.c                       |  6 ++++
+>  6 files changed, 79 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
+> index 355504b37f8e..60be458e94da 100644
+> --- a/arch/riscv/include/asm/mmu.h
+> +++ b/arch/riscv/include/asm/mmu.h
+> @@ -19,6 +19,8 @@ typedef struct {
+>  #ifdef CONFIG_SMP
+>         /* A local icache flush is needed before user execution can resum=
+e. */
+>         cpumask_t icache_stale_mask;
+> +       /* Force local icache flush on all migrations. */
+> +       bool force_icache_flush;
+>  #endif
+>  #ifdef CONFIG_BINFMT_ELF_FDPIC
+>         unsigned long exec_fdpic_loadmap;
+> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/=
+processor.h
+> index f19f861cda54..7eda6c75e0f2 100644
+> --- a/arch/riscv/include/asm/processor.h
+> +++ b/arch/riscv/include/asm/processor.h
+> @@ -84,6 +84,9 @@ struct thread_struct {
+>         unsigned long vstate_ctrl;
+>         struct __riscv_v_ext_state vstate;
+>         unsigned long align_ctl;
+> +#ifdef CONFIG_SMP
+> +       bool force_icache_flush;
+> +#endif
+>  };
+>
+>  /* Whitelist the fstate from the task_struct for hardened usercopy */
+> @@ -145,6 +148,9 @@ extern int set_unalign_ctl(struct task_struct *tsk, u=
+nsigned int val);
+>  #define GET_UNALIGN_CTL(tsk, addr)     get_unalign_ctl((tsk), (addr))
+>  #define SET_UNALIGN_CTL(tsk, val)      set_unalign_ctl((tsk), (val))
+>
+> +#define RISCV_SET_ICACHE_FLUSH_CTX(arg1, arg2) riscv_set_icache_flush_ct=
+x(arg1, arg2)
+> +extern int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long p=
+er_thread);
+> +
+>  #endif /* __ASSEMBLY__ */
+>
+>  #endif /* _ASM_RISCV_PROCESSOR_H */
+> diff --git a/arch/riscv/mm/cacheflush.c b/arch/riscv/mm/cacheflush.c
+> index 55a34f2020a8..a647b8abbe37 100644
+> --- a/arch/riscv/mm/cacheflush.c
+> +++ b/arch/riscv/mm/cacheflush.c
+> @@ -5,6 +5,7 @@
+>
+>  #include <linux/acpi.h>
+>  #include <linux/of.h>
+> +#include <linux/prctl.h>
+>  #include <asm/acpi.h>
+>  #include <asm/cacheflush.h>
+>
+> @@ -152,3 +153,58 @@ void __init riscv_init_cbo_blocksizes(void)
+>         if (cboz_block_size)
+>                 riscv_cboz_block_size =3D cboz_block_size;
+>  }
+> +
+> +/**
+> + * riscv_set_icache_flush_ctx() - Enable/disable icache flushing instruc=
+tions in userspace.
+> + * @ctx: Set the type of icache flushing instructions permitted/prohibit=
+ed.
+> + *
+> + * * %PR_RISCV_CTX_SW_FENCEI_ON: Allow fence.i in userspace.
+> + *
+> + * * %PR_RISCV_CTX_SW_FENCEI_OFF: Disallow fence.i in userspace. When
+> + *   ``per_thread =3D=3D 0``, this will effect all threads in a process.=
+ Therefore,
+> + *   caution must be taken -- only use this flag when you can guarantee =
+that no
+> + *   thread in the process will emit fence.i from this point onward.
+> + *
+> + * @per_thread: When set to 0, will perform operation on process migrati=
+on. When
+> + *  set to 1, will perform operation on thread migration.
+> + *
+> + * When ``per_thread =3D=3D 0``, all threads in the process are permitte=
+d to emit
+> + * icache flushing instructions. Whenever any thread in the process is m=
+igrated,
+> + * the corresponding hart's icache will be guaranteed to be consistent w=
+ith
+> + * instruction storage. Note this does not enforce any guarantees outsid=
+e of
+> + * migration. If a thread modifies an instruction that another thread ma=
+y
+> + * attempt to execute, the other thread must still emit an icache flushi=
+ng
+> + * instruction before attempting to execute the potentially modified
+> + * instruction. This must be performed by the userspace program.
+> + *
+> + * In per-thread context (eg. ``per_thread =3D=3D 1``), only the thread =
+calling this
+> + * function is permitted to emit icache flushing instructions. When the =
+thread
+> + * is migrated, the corresponding hart's icache will be guaranteed to be
+> + * consistent with instruction storage.
+> + *
+> + * On kernels configured without SMP, this function is a nop as migratio=
+ns
+> + * across harts will not occur.
+> + */
+> +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thre=
+ad)
+> +{
+> +#ifdef CONFIG_SMP
+> +       switch (ctx) {
+> +       case PR_RISCV_CTX_SW_FENCEI_ON:
+> +               if (per_thread)
+> +                       current->thread.force_icache_flush =3D true;
+> +               else
+> +                       current->mm->context.force_icache_flush =3D true;
+> +               break;
+> +       case PR_RISCV_CTX_SW_FENCEI_OFF:
+> +               if (per_thread)
+> +                       current->thread.force_icache_flush =3D false;
+> +               else
+> +                       current->mm->context.force_icache_flush =3D false=
+;
+> +               break;
+> +
+> +       default:
+> +               break;
+> +       }
+> +#endif
+> +       return 0;
+> +}
+> diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
+> index 217fd4de6134..0146c61be0ab 100644
+> --- a/arch/riscv/mm/context.c
+> +++ b/arch/riscv/mm/context.c
+> @@ -297,12 +297,14 @@ static inline void set_mm(struct mm_struct *prev,
+>   *
+>   * The "cpu" argument must be the current local CPU number.
+>   */
+> -static inline void flush_icache_deferred(struct mm_struct *mm, unsigned =
+int cpu)
+> +static inline void flush_icache_deferred(struct mm_struct *mm, unsigned =
+int cpu,
+> +                                        struct task_struct *task)
+>  {
+>  #ifdef CONFIG_SMP
+>         cpumask_t *mask =3D &mm->context.icache_stale_mask;
+>
+> -       if (cpumask_test_cpu(cpu, mask)) {
+> +       if (cpumask_test_cpu(cpu, mask) || mm->context.force_icache_flush=
+ ||
+> +           (task && task->thread.force_icache_flush)) {
+>                 cpumask_clear_cpu(cpu, mask);
+>                 /*
+>                  * Ensure the remote hart's writes are visible to this ha=
+rt.
+> @@ -332,5 +334,5 @@ void switch_mm(struct mm_struct *prev, struct mm_stru=
+ct *next,
+>
+>         set_mm(prev, next, cpu);
+>
+> -       flush_icache_deferred(next, cpu);
+> +       flush_icache_deferred(next, cpu, task);
+>  }
+> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> index 370ed14b1ae0..ec731dda5b8e 100644
+> --- a/include/uapi/linux/prctl.h
+> +++ b/include/uapi/linux/prctl.h
+> @@ -306,4 +306,8 @@ struct prctl_mm_map {
+>  # define PR_RISCV_V_VSTATE_CTRL_NEXT_MASK      0xc
+>  # define PR_RISCV_V_VSTATE_CTRL_MASK           0x1f
+>
+> +#define PR_RISCV_SET_ICACHE_FLUSH_CTX  71
+> +# define PR_RISCV_CTX_SW_FENCEI_ON     0
+> +# define PR_RISCV_CTX_SW_FENCEI_OFF    1
+> +
+>  #endif /* _LINUX_PRCTL_H */
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index 420d9cb9cc8e..e806a8a67c36 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -146,6 +146,9 @@
+>  #ifndef RISCV_V_GET_CONTROL
+>  # define RISCV_V_GET_CONTROL()         (-EINVAL)
+>  #endif
+> +#ifndef RISCV_SET_ICACHE_FLUSH_CTX
+> +# define RISCV_SET_ICACHE_FLUSH_CTX(a, b)      (-EINVAL)
+> +#endif
+>
+>  /*
+>   * this is where the system-wide overflow UID and GID are defined, for
+> @@ -2739,6 +2742,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, =
+arg2, unsigned long, arg3,
+>         case PR_RISCV_V_GET_CONTROL:
+>                 error =3D RISCV_V_GET_CONTROL();
+>                 break;
+> +       case PR_RISCV_SET_ICACHE_FLUSH_CTX:
+> +               error =3D RISCV_SET_ICACHE_FLUSH_CTX(arg2, arg3);
+> +               break;
+>         default:
+>                 error =3D -EINVAL;
+>                 break;
+>
+> --
+> 2.43.0
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401090705.Qv0jlX5x-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: /sys/devices/.../hwmon/hwmon<i>/curr1_crit is defined 2 times:  Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:52  Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:35
->> Warning: /sys/devices/.../hwmon/hwmon<i>/energy1_input is defined 2 times:  Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:65  Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:54
->> Warning: /sys/devices/.../hwmon/hwmon<i>/in0_input is defined 2 times:  Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:0  Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:46
->> Warning: /sys/devices/.../hwmon/hwmon<i>/power1_crit is defined 2 times:  Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:39  Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:22
->> Warning: /sys/devices/.../hwmon/hwmon<i>/power1_max is defined 2 times:  Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:8  Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:0
->> Warning: /sys/devices/.../hwmon/hwmon<i>/power1_max_interval is defined 2 times:  Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:30  Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:62
->> Warning: /sys/devices/.../hwmon/hwmon<i>/power1_rated_max is defined 2 times:  Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:22  Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:14
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
+--=20
+Regards,
+Atish
