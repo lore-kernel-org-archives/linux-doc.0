@@ -1,28 +1,28 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40E93C471;
-	Tue,  9 Jan 2024 22:33:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2196C3D553;
+	Tue,  9 Jan 2024 23:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gPM9J3td"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MFsa/ZBZ"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=g8AInbn27PK/qmmN0ungmXN+ZObkjDg3tOsWh8gDQaw=; b=gPM9J3tdDBH+7H4NT9yFSSQZ5y
-	UsL7UJKUCL6/PAUtbH5oMMArEBvAQbkZfbm9hP4x7mHHwXwaxHk66Gf1ube6uMTFMC0IWUPiutyHU
-	IzRZJX4YGrXhnoh+ytnTqj4/uoC6Ryppgh8yXCgPYAZnzUZ4N8CwwuRp1LVY2D8s5npJrHaVgTbuS
-	fGgzqe8HchnLaqY3l4wacXcD8rlH84KT9l5zCD+C8KiBhxaUgxpqBgtCH4vNitb9Y6dYOHCk7bUex
-	5negT2B7Yg10L/WUDRyR/qmuoyJwp1sWYyIZ03FPQZPVmlCwVXt1OGPYb0iqcCzuXApt5jC0u8aLC
-	rqidvqpg==;
+	bh=nigpUfVa2mUkzqljgO+KeSAqnJRyVTsXj/vLragc/Ak=; b=MFsa/ZBZDhYIlYvLVLWkNk4zWD
+	eHNFpkvAgh0CEyn9Hkm60/1OI5QJmyUAqyB8HyW+LjjfVNOOg/64b7Z2PWd5TIePcWppnt5cMiorN
+	fkGbeNq8CIBDpBnpQ2EHQKWuFoRj2WaT4AtiFbeKG7Lvy8VLYsdfedivVPaIhzgvN0ltBP3lEcq8Y
+	IzFWRuQiA8sdciifcbhWiTUG1Y5q6sEbuRwM2oTbRo7gymb5fb43rrzdXrAOrkLKNK8Yn/auTndh2
+	WimNXLeYSCFwUOs919tTl4Lb92XzQCX63LfcqXJWZiezYVxmO5esiLTmUbte3dkxZAyNyde3RXj1Y
+	12MUo2cA==;
 Received: from [50.53.46.231] (helo=[192.168.254.15])
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNKer-009jQb-2M;
-	Tue, 09 Jan 2024 22:33:17 +0000
-Message-ID: <e48c1e84-b27e-4109-b80d-084ba8a399ff@infradead.org>
-Date: Tue, 9 Jan 2024 14:33:16 -0800
+	id 1rNLZK-009qvy-08;
+	Tue, 09 Jan 2024 23:31:38 +0000
+Message-ID: <d5b041d9-1691-4259-a76c-176c5b3d8be3@infradead.org>
+Date: Tue, 9 Jan 2024 15:31:36 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -30,205 +30,307 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 08/12] pstore/ram: Add dynamic ramoops region support
- through commandline
+Subject: Re: [PATCH v16 01/34] docs: gunyah: Introduce Gunyah Hypervisor
 Content-Language: en-US
-To: Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
- andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
- mathieu.poirier@linaro.org, vigneshr@ti.com, nm@ti.com,
- matthias.bgg@gmail.com, kgene@kernel.org, alim.akhtar@samsung.com,
- bmasney@redhat.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240109153200.12848-1-quic_mojha@quicinc.com>
- <20240109153200.12848-9-quic_mojha@quicinc.com>
+To: Elliot Berman <quic_eberman@quicinc.com>, Alex Elder <elder@linaro.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Murali Nalajal <quic_mnalajal@quicinc.com>,
+ Trilok Soni <quic_tsoni@quicinc.com>,
+ Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+ Carl van Schaik <quic_cvanscha@quicinc.com>,
+ Philip Derrin <quic_pderrin@quicinc.com>,
+ Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+ Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Fuad Tabba
+ <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+References: <20240109-gunyah-v16-0-634904bf4ce9@quicinc.com>
+ <20240109-gunyah-v16-1-634904bf4ce9@quicinc.com>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240109153200.12848-9-quic_mojha@quicinc.com>
+In-Reply-To: <20240109-gunyah-v16-1-634904bf4ce9@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 1/9/24 07:31, Mukesh Ojha wrote:
-> The reserved memory region for ramoops is assumed to be at a fixed
-> and known location when read from the devicetree. This may not be
-> required for something like Qualcomm's minidump which is interested
-> in knowing addresses of ramoops region but it does not put hard
-> requirement of address being fixed as most of it's SoC does not
-
-                                                its
-
-> support warm reset and does not use pstorefs at all instead it has
-> firmware way of collecting ramoops region if it gets to know the
-> address and register it with apss minidump table which is sitting
-> in shared memory region in DDR and firmware will have access to
-> these table during reset and collects it on crash of SoC.
+On 1/9/24 11:37, Elliot Berman wrote:
+> Gunyah is an open-source Type-1 hypervisor developed by Qualcomm. It
+> does not depend on any lower-privileged OS/kernel code for its core
+> functionality. This increases its security and can support a smaller
+> trusted computing based when compared to Type-2 hypervisors.
 > 
-> So, add the support of reserving ramoops region to be dynamically
-> allocated early during boot if it is request through command line
-> via 'dyn_ramoops_size=<size>' and fill up reserved resource structure
-> and export the structure, so that it can be read by ramoops driver.
+> Add documentation describing the Gunyah hypervisor and the main
+> components of the Gunyah hypervisor which are of interest to Linux
+> virtualization development.
 > 
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > ---
->  Documentation/admin-guide/ramoops.rst | 23 +++++++++-
->  fs/pstore/Kconfig                     | 15 ++++++
->  fs/pstore/ram.c                       | 66 +++++++++++++++++++++++++--
->  include/linux/pstore_ram.h            |  5 ++
->  init/main.c                           |  2 +
->  5 files changed, 107 insertions(+), 4 deletions(-)
+>  Documentation/virt/gunyah/index.rst         | 134 ++++++++++++++++++++++++++++
+>  Documentation/virt/gunyah/message-queue.rst |  68 ++++++++++++++
+>  Documentation/virt/index.rst                |   1 +
+>  3 files changed, 203 insertions(+)
 > 
-> diff --git a/Documentation/admin-guide/ramoops.rst b/Documentation/admin-guide/ramoops.rst
-> index e9f85142182d..517b00981e99 100644
-> --- a/Documentation/admin-guide/ramoops.rst
-> +++ b/Documentation/admin-guide/ramoops.rst
-> @@ -33,6 +33,13 @@ memory are implementation defined, and won't work on many ARMs such as omaps.
->  Setting ``mem_type=2`` attempts to treat the memory region as normal memory,
->  which enables full cache on it. This can improve the performance.
->  
-> +Ramoops supports its memory to be allocated dynamically during early boot
-> +for plaforms that does not have support for warm boot i.e., no assurance
-
-       platforms that do not have
-
-
-> +of Ram content will be preserved across boot and for these platform
-
-   that RAM content                             and for these platforms
-
-> +giving static Ramoops memory is not necessary as it has separate backend
-> +mechanism to retrieve ramoops content on system failure. More about
-> +how to enable Dynamic ramoops in ``Setting the parameters`` A.b section.
+> diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunyah/index.rst
+> new file mode 100644
+> index 000000000000..da8e5e4b9cac
+> --- /dev/null
+> +++ b/Documentation/virt/gunyah/index.rst
+> @@ -0,0 +1,134 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
->  The memory area is divided into ``record_size`` chunks (also rounded down to
->  power of two) and each kmesg dump writes a ``record_size`` chunk of
->  information.
-> @@ -59,7 +66,7 @@ Setting the parameters
->  
->  Setting the ramoops parameters can be done in several different manners:
->  
-> - A. Use the module parameters (which have the names of the variables described
-> + A.a  Use the module parameters (which have the names of the variables described
->   as before). For quick debugging, you can also reserve parts of memory during
->   boot and then use the reserved memory for ramoops. For example, assuming a
->   machine with > 128 MB of memory, the following kernel command line will tell
-> @@ -68,6 +75,20 @@ Setting the ramoops parameters can be done in several different manners:
->  
->  	mem=128M ramoops.mem_address=0x8000000 ramoops.ecc=1
->  
-> + A.b  Ramoops memory can be also be dynamically reserve by Kernel and in such
-
-                                                   reserved
-
-> + scenario ``mem_address`` i.e, Ramoops base address can be anywhere in the RAM
-
-                             i.e.,
-
-> + instead of being fixed and predefined. A separate command line option
-> + ``dyn_ramoops_size=<size>`` and kernel config CONFIG_PSTORE_DYNAMIC_RAMOOPS
-> + is provided to facilitate Dynamic Ramoops memory reservation during early boot.
-
-    are provided
-
-> + The command line option and the config should only be used in the presence of
-> + separate backend which knows how to recover Dynamic Ramoops region otherwise
-> + regular ramoops functionality will be impacted.
-> + ``mem_size`` should not be used if Dynamic Ramoops support is requested and if
-> + both are given ``mem_size`` value is overwritten with ``dyn_ramoops_size`` value
-> + i.e, Dynamic Ramoops takes precedence::
-
-    i.e.,
-
+> +=================
+> +Gunyah Hypervisor
+> +=================
 > +
-> +	dyn_ramoops_size=2M ramoops.console_size=2097152
+> +.. toctree::
+> +   :maxdepth: 1
 > +
->   B. Use Device Tree bindings, as described in
->   ``Documentation/devicetree/bindings/reserved-memory/ramoops.yaml``.
->   For example::
-> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-> index 3acc38600cd1..2f2bb483fd85 100644
-> --- a/fs/pstore/Kconfig
-> +++ b/fs/pstore/Kconfig
-> @@ -81,6 +81,21 @@ config PSTORE_RAM
+> +   message-queue
+> +
+> +Gunyah is a Type-1 hypervisor which is independent of any OS kernel, and runs in
+> +a higher CPU privilege level. It does not depend on any lower-privileged
+
+Is this the usual meaning of higher and lower? Seems backwards to me.
+
+> +operating system for its core functionality. This increases its security and can
+> +support a much smaller trusted computing base than a Type-2 hypervisor.
+> +
+> +Gunyah is an open source hypervisor. The source repo is available at
+
+s/repo/repository/
+
+> +https://github.com/quic/gunyah-hypervisor.
+> +
+> +Gunyah provides these following features.
+> +
+> +- Scheduling:
+> +
+> +  A scheduler for virtual CPUs (vCPUs) on physical CPUs enables time-sharing
+> +  of the CPUs. Gunyah supports two models of scheduling which can co-exist on
+
+s/co-exist/coexist/
+
+> +  a running system:
+> +
+> +    1. Hypervisor vCPU scheduling in which Gunyah hypervisor schedules vCPUS on
+> +       its own. The default is a real-time priority with round-robin scheduler.
+> +    2. "Proxy" scheduling in which an owner-VM can donate the remainder of its
+> +       own vCPU's time slice to an owned-VM's vCPU via a hypercall.
+> +
+> +- Memory Management:
+> +
+> +  APIs handling memory, abstracted as objects, limiting direct use of physical
+> +  addresses. Memory ownership and usage tracking of all memory under its control.
+> +  Memory partitioning between VMs is a fundamental security feature.
+> +
+> +- Interrupt Virtualization:
+> +
+> +  Interrupt ownership is tracked and interrupt delivery is directly to the
+> +  assigned VM. Gunyah makes use of hardware interrupt virtualization where
+> +  possible.
+> +
+> +- Inter-VM Communication:
+> +
+> +  There are several different mechanisms provided for communicating between VMs.
+> +
+> +    1. Message queues
+> +    2. Doorbells
+> +    3. Virtio MMIO transport
+> +    4. Shared memory
+> +
+> +- Virtual platform:
+> +
+> +  Architectural devices such as interrupt controllers and CPU timers are
+> +  directly provided by the hypervisor as well as core virtual platform devices
+> +  and system APIs such as ARM PSCI.
+> +
+> +- Device Virtualization:
+> +
+> +  Para-virtualization of devices is supported using inter-VM communication and
+> +  virtio transport support. Select stage 2 faults by virtual machines that use
+> +  proxy-scheduled vCPUs can be handled directly by Linux to provide Type-2
+> +  hypervisor style on-demand paging and/or device emulation.
+> +
+> +Architectures supported
+> +=======================
+> +AArch64 with a GICv3 or GICv4.1
+> +
+> +Resources and Capabilities
+> +==========================
+> +
+> +Services/resources provided by the Gunyah hypervisor are accessible to a
+> +virtual machine through capabilities. A capability is an access control
+> +token granting the holder a set of permissions to operate on a specific
+> +hypervisor object (conceptually similar to a file-descriptor).
+> +For example, inter-VM communication using Gunyah doorbells and message queues
+> +is performed using hypercalls taking Capability ID arguments for the required
+> +IPC objects. These resources are described in Linux as a struct gunyah_resource.
+> +
+> +Unlike UNIX file descriptors, there is no path-based or similar lookup of
+> +an object to create a new Capability, meaning simpler security analysis.
+> +Creation of a new Capability requires the holding of a set of privileged
+> +Capabilities which are typically never given out by the Resource Manager (RM).
+> +
+> +Gunyah itself provides no APIs for Capability ID discovery. Enumeration of
+> +Capability IDs is provided by RM as a higher level service to VMs.
+> +
+> +Resource Manager
+> +================
+> +
+> +The Gunyah Resource Manager (RM) is a privileged application VM supporting the
+> +Gunyah Hypervisor. It provides policy enforcement aspects of the virtualization
+> +system. The resource manager can be treated as an extension of the Hypervisor
+> +but is separated to its own partition to ensure that the hypervisor layer itself
+> +remains small and secure and to maintain a separation of policy and mechanism in
+> +the platform. The resource manager runs at arm64 NS-EL1, similar to other
+> +virtual machines.
+> +
+> +Communication with the resource manager from other virtual machines happens with
+
+                                                                       happens as
+   described in  ...
+?
+
+> +message-queue.rst. Details about the specific messages can be found in
+> +drivers/virt/gunyah/rsc_mgr.c
+> +
+> +::
+> +
+> +  +-------+   +--------+   +--------+
+> +  |  RM   |   |  VM_A  |   |  VM_B  |
+> +  +-.-.-.-+   +---.----+   +---.----+
+> +    | |           |            |
+> +  +-.-.-----------.------------.----+
+> +  | | \==========/             |    |
+> +  |  \========================/     |
+> +  |            Gunyah               |
+> +  +---------------------------------+
+> +
+> +The source for the resource manager is available at
+> +https://github.com/quic/gunyah-resource-manager.
+> +
+> +The resource manager provides the following features:
+> +
+> +- VM lifecycle management: allocating a VM, starting VMs, destruction of VMs
+> +- VM access control policy, including memory sharing and lending
+> +- Interrupt routing configuration
+> +- Forwarding of system-level events (e.g. VM shutdown) to owner VM
+> +- Resource (capability) discovery
+> +
+> +A VM requires boot configuration to establish communication with the resource
+> +manager. This is provided to VMs via a 'hypervisor' device tree node which is
+> +overlayed to the VMs DT by the RM. This node lets guests know they are running
+
+It seems that "overlaid" is preferred, both according to the internet and to
+git grep -i overlaid | wc
+54
+vs
+git grep -i overlayed | wc
+12
+
+> +as a Gunyah guest VM, how to communicate with resource manager, and basic
+> +description and capabilities of this VM. See
+> +Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml for a
+> +description of this node.
+
+> diff --git a/Documentation/virt/gunyah/message-queue.rst b/Documentation/virt/gunyah/message-queue.rst
+> new file mode 100644
+> index 000000000000..cd94710e381a
+> --- /dev/null
+> +++ b/Documentation/virt/gunyah/message-queue.rst
+> @@ -0,0 +1,68 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Message Queues
+> +==============
+> +Message queue is a simple low-capacity IPC channel between two virtual machines.
+> +It is intended for sending small control and configuration messages. Each
+> +message queue is unidirectional and buffered in the hypervisor. A full-duplex
+> +IPC channel requires a pair of queues.
+> +
+> +The size of the queue and the maximum size of the message that can be passed is
+> +fixed at creation of the message queue. Resource manager is presently the only
+> +use case for message queues, and creates messages queues between itself and VMs
+> +with a fixed maximum message size of 240 bytes. Longer messages require a
+> +further protocol on top of the message queue messages themselves. For instance,
+> +communication with the resource manager adds a header field for sending longer
+> +messages which are split into smaller fragments.
+> +
+> +The diagram below shows how message queue works. A typical configuration
+> +involves 2 message queues. Message queue 1 allows VM_A to send messages to VM_B.
+> +Message queue 2 allows VM_B to send messages to VM_A.
+> +
+> +1. VM_A sends a message of up to 240 bytes in length. It makes a hypercall
+> +   with the message to request the hypervisor to add the message to
+> +   message queue 1's queue. The hypervisor copies memory into the internal
+> +   message queue buffer; the memory doesn't need to be shared between
+> +   VM_A and VM_B.
+> +
+> +2. Gunyah raises the corresponding interrupt for VM_B (Rx vIRQ) when any of
+> +   these happens:
+> +
+> +   a. gunyah_msgq_send() has PUSH flag. This is a typical case when the message
+> +      queue is being used to implement an RPC-like interface.
+> +   b. Explicility with gunyah_msgq_push hypercall from VM_A.
+
+         Explicitly
+
+> +   c. Message queue has reached a threshold depth. Typically, this threshold
+> +      depth is the size of the queue (in other words: when queue is full, Rx
+> +      vIRQ is raised).
+> +
+> +3. VM_B calls gunyah_msgq_recv() and Gunyah copies message to requested buffer.
+> +
+> +4. Gunyah raises the corresponding interrupt for VM_A (Tx vIRQ) when the message
+> +   queue falls below a watermark depth. Typically, this is when the queue is
+> +   drained. Note the watermark depth and the threshold depth for the Rx vIRQ are
+> +   independent values. Coincidentally, this signal is conceptually similar to
+> +   Clear-to-Send.
+> +
+> +For VM_B to send a message to VM_A, the process is identical, except that
+> +hypercalls reference message queue 2's capability ID. The IRQ will be different
+> +for the second message queue.
+> +
+> +::
+> +
+> +      +-------------------+         +-----------------+         +-------------------+
+> +      |        VM_A       |         |Gunyah hypervisor|         |        VM_B       |
+> +      |                   |         |                 |         |                   |
+> +      |                   |         |                 |         |                   |
+> +      |                   |   Tx    |                 |         |                   |
+> +      |                   |-------->|                 | Rx vIRQ |                   |
+> +      |gunyah_msgq_send() | Tx vIRQ |Message queue 1  |-------->|gunyah_msgq_recv() |
+> +      |                   |<------- |                 |         |                   |
+> +      |                   |         |                 |         |                   |
+> +      |                   |         |                 |         |                   |
+> +      |                   |         |                 |   Tx    |                   |
+> +      |                   | Rx vIRQ |                 |<--------|                   |
+> +      |gunyah_msgq_recv() |<--------|Message queue 2  | Tx vIRQ |gunyah_msgq_send() |
+> +      |                   |         |                 |-------->|                   |
+> +      |                   |         |                 |         |                   |
+> +      |                   |         |                 |         |                   |
+> +      +-------------------+         +-----------------+         +---------------+
+> diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
+> index 7fb55ae08598..15869ee059b3 100644
+> --- a/Documentation/virt/index.rst
+> +++ b/Documentation/virt/index.rst
+> @@ -16,6 +16,7 @@ Virtualization Support
+>     coco/sev-guest
+>     coco/tdx-guest
+>     hyperv/index
+> +   gunyah/index
 >  
->  	  For more information, see Documentation/admin-guide/ramoops.rst.
+>  .. only:: html and subproject
 >  
-> +config PSTORE_DYNAMIC_RAMOOPS
-> +	bool "Reserve ramoops region dynamically"
-> +	select PSTORE_RAM
-> +	help
-> +	  This enables the dynamic reservation of ramoops region for a special case
-> +	  where there is no requirement to access the logs from pstorefs on next boot
-
-	                                                                         boot;
-
-> +	  instead there is separate backend mechanism like minidump present which has
-> +	  awareness about the dynamic ramoops region and can recover the logs. This is
-> +	  enabled via command line parameter dyn_ramoops_size=<size> and should not be
-> +	  used in absence of separate backend which knows how to recover this dynamic
-> +	  region.
-> +
-> +	  Note whenever this config is selected ramoops driver will be build statically
-
-	                                                               built
-
-> +	  into kernel.
-> +
->  config PSTORE_ZONE
->  	tristate
->  	depends on PSTORE
-> diff --git a/fs/pstore/ram.c b/fs/pstore/ram.c
-> index 88b34fdbf759..795a8300631e 100644
-> --- a/fs/pstore/ram.c
-> +++ b/fs/pstore/ram.c
-> @@ -20,6 +20,7 @@
->  #include <linux/compiler.h>
->  #include <linux/of.h>
->  #include <linux/of_address.h>
-> +#include <linux/memblock.h>
->  #include <linux/mm.h>
->  
->  #include "internal.h"
-> @@ -103,6 +104,59 @@ struct ramoops_context {
->  };
->  
->  static struct platform_device *dummy;
-> +static struct resource dyn_ramoops_res = {
-> +	.name  = "ramoops",
-> +	.start = 0,
-> +	.end   = 0,
-> +	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
-> +	.desc  = IORES_DESC_NONE,
-> +};
-> +static int dyn_ramoops_size;
-> +
-> +#ifdef CONFIG_PSTORE_DYNAMIC_RAMOOPS
-> +static int __init parse_dyn_ramoops_size(char *p)
-> +{
-> +	char *tmp;
-> +
-> +	dyn_ramoops_size = memparse(p, &tmp);
-> +	if (p == tmp) {
-> +		pr_err("ramoops: memory size expected\n");
-> +		dyn_ramoops_size = 0;
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +early_param("dyn_ramoops_size", parse_dyn_ramoops_size);
-> +
-> +/*
-> + * setup_dynamic_ramoops() - reserves memory for dynamic ramoops
-> + *
-> + * This enable dynamic reserve memory support for ramoops through
-
-           enables
-
-> + * command line.
-> + */
-
+> 
 
 -- 
 #Randy
