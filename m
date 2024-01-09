@@ -1,101 +1,130 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D52D3D3B8
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 19:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97F43D0CA;
+	Tue,  9 Jan 2024 19:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cQOLlmca"
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7bee9f626caso7750739f.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jan 2024 11:31:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gyvsiZVO"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7831c3ec0b4so198853485a.0;
+        Tue, 09 Jan 2024 11:35:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1704828716; x=1705433516; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BX6WX/X3x+sI97fYVnBXml21yMAcf1vyq5kAEe0Em5I=;
-        b=cQOLlmcaqUhwLAlPb+YoK3cpqG/tM8PhBonRBnB5rSFHDbv9gltx+ferLiG2ju6r9G
-         iMPRslGBbDavGiQMV8dbOmz3cYbsLyFAhy/ICM4Y6nmP4tZmKAxZ8lRnwQQypWQ8XnlM
-         7d3Mi6ANWHBF7ByciB6j+Aeu8Lig//xPys6BE=
+        d=gmail.com; s=20230601; t=1704828917; x=1705433717; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NzW64ptRfrCAo122Yc/n1SHQGIxOss557ihMga016To=;
+        b=gyvsiZVOlE0MxNCgiG3ycf66/gIQQaZb2DwcgjYMETl0Yl8f3sgmMeFoUPOtI5xdVl
+         2lTWO7zHrxvMm9BLLZQDIFSOcN8EMymMlpvuYluzuZJ+tLQvybr0g2eZG9W85TXq80JN
+         Ld3+71lKJbXsLZEt4YlFoBfIp2vHjql7B5B49Y3SQdMySYJ/K8eL2XzhENNig4+WgjaI
+         RUqY6+KrVBK+DfSZMtHHPoiaj6EPgLRRTHyPEfOKS8IejbrM665yqYvhXsJUSA9uLLP5
+         hC4RnJCWMuNJni80MEV27BphUuOhHzbggvgnl4mlLcsMYD7i3Nl65v5RyIJugBy0uty9
+         dpYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704828716; x=1705433516;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BX6WX/X3x+sI97fYVnBXml21yMAcf1vyq5kAEe0Em5I=;
-        b=Vg0KWYAvfAr1ch8gXlFKMeiUo4QERCx9v8a59SrSWz5RNBhj+ejbrORmQZUT8of9xr
-         aVlI9TsnyuUCwjEpqmRTGD8F5HaLe3u9mW94d1HFt0YDf+fXXx65giPIMz5CTBLzcFmT
-         BPTMMOakD7lGteY9ySX4kRHkJLurLTJAQyLye83k2TFTkWfV7K5GSTenuYns7w3+CDMN
-         /rEzGOAVr2TfQ++nWOsDTywOy1y/diU0pSjydhcCQjgumkFyQeI1oLN6u2Fn+QdZV+Cm
-         53rVKyE62UO/2gUWknT8Ng75xWW/51ffmK6iIZvo90HYu8bbMQjaHpPnoy7Mdi4o6FT8
-         Cqog==
-X-Gm-Message-State: AOJu0YyAXU8xAwVR94qKj5iWGo17C3tLEaWPqIb5E/FUdQM0Uqo7Rl6c
-	5DqGEhc+YimGzxhzqJenq63R60F6ArOh7A==
-X-Google-Smtp-Source: AGHT+IF17YouLb8dLiAWKBE/dIFNs+76nEgViYUyT37MYA3oOcuaMwflJbAwRKNo9bXNPVTnggdieA==
-X-Received: by 2002:a5d:804a:0:b0:7bc:207d:5178 with SMTP id b10-20020a5d804a000000b007bc207d5178mr10285797ior.2.1704828715769;
-        Tue, 09 Jan 2024 11:31:55 -0800 (PST)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id dq33-20020a0566384d2100b0046dd0db4a14sm800066jab.99.2024.01.09.11.31.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jan 2024 11:31:55 -0800 (PST)
-Message-ID: <87b55a25-4288-4add-b2b3-0038ed41b08e@linuxfoundation.org>
-Date: Tue, 9 Jan 2024 12:31:53 -0700
+        d=1e100.net; s=20230601; t=1704828917; x=1705433717;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NzW64ptRfrCAo122Yc/n1SHQGIxOss557ihMga016To=;
+        b=JUIXfWWVDt73AfNIX0oBwIH1gpaYZWeOND9X7D/S44T6TMN3WNYW09wlLa0hAcICBP
+         NslqCEkJ9UuqSnnCpLMaMuf8CBSd8My6kmwoPN79om2XJKGGbTifMlu4VyoiDkZAJeQ9
+         LW4icUeAUqP6jfeOwNSONoIbX1qqStUbhuoWUKaGNJrChyiIdfnIfM1g9Hw3FYIUarXs
+         iHMW6TOvsMb5SkSyHdYgayvOzCC3vZzjsEGwcv6YzaBFkYNbnT+F94EWVyx7nKnv6zKj
+         p82No6Ry84RetS0UlyaZbok1ko4Fp0cR7pUG+XVDI0AfqDZvcH5LaPeS0s8nt9dMVW6x
+         bsDA==
+X-Gm-Message-State: AOJu0YwR6gjj8K3nQMxk88/OStwJa7FrexU6THX/qLRgUFKdSXFiped3
+	bz6krx9OQP/7gD0TezqJU7c=
+X-Google-Smtp-Source: AGHT+IHT/9NQ1s8O8QwK4Ls/ZHKIo/F//1voo5RQVDE/mg/Jc8M+RXEXFTR9a3LeHTD8TBpigcXbOA==
+X-Received: by 2002:ad4:5ecd:0:b0:680:d2f7:7e7 with SMTP id jm13-20020ad45ecd000000b00680d2f707e7mr1625826qvb.45.1704828917575;
+        Tue, 09 Jan 2024 11:35:17 -0800 (PST)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id z8-20020a0cfec8000000b00681092cb7b4sm1117903qvs.103.2024.01.09.11.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 11:35:17 -0800 (PST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailauth.nyi.internal (Postfix) with ESMTP id 68CB527C005A;
+	Tue,  9 Jan 2024 14:35:16 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 09 Jan 2024 14:35:16 -0500
+X-ME-Sender: <xms:8p-dZZj3VYVagPcrppDVY1hAVttcz-brGmQ2tQRu_m8SUb9zmYPrww>
+    <xme:8p-dZeAXI1oGECXctymTpshMs7pHhDKsYA3gWtzgp43dzRsVZa4P-9vQ_fyFP9j_U
+    7zqc89-N3c3V3x3cg>
+X-ME-Received: <xmr:8p-dZZHCRCK4tJUQ7k5byjHDt4aOdNTa5llSW3d9sLzGU7DaR4l575IIfFZplw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdehledguddvhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhq
+    uhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrf
+    grthhtvghrnhephfetvdfgtdeukedvkeeiteeiteejieehvdetheduudejvdektdekfeeg
+    vddvhedtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhht
+    hhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquh
+    hnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:8p-dZeSJpL5T1SOUIGIK_S-Mjm8Wm0pyvMh4s0omKjUAQmaUth1fiQ>
+    <xmx:8p-dZWxSZRKp-DMUofkOGNoaVZcAVoquwMebc9HEeZeJZUnHU3F4hg>
+    <xmx:8p-dZU68pwGlVA9rgiJFWsZ-oU9HHuzLENgZAQ5ce128ZKBSU2tL5A>
+    <xmx:9J-dZbhN9d3_srFTUJD-NfI-Yki5kCc-V2CWaC9v9ohqQXrCWG6OjA>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 9 Jan 2024 14:35:13 -0500 (EST)
+Date: Tue, 9 Jan 2024 11:33:51 -0800
+From: Boqun Feng <boqun.feng@gmail.com>
+To: WANG Rui <wangrui@loongson.cn>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+	loongson-kernel@lists.loongnix.cn
+Subject: Re: [PATCH v1 0/2] Rust enablement for LoongArch
+Message-ID: <ZZ2fn0scbDKBXWe5@boqun-archlinux>
+References: <20240108032117.215171-1-wangrui@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v4 1/3] kselftests: lib.mk: Add TEST_GEN_MODS_DIR
- variable
-Content-Language: en-US
-To: Marcos Paulo de Souza <mpdesouza@suse.com>,
- Joe Lawrence <joe.lawrence@redhat.com>
-Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-s390@vger.kernel.org, live-patching@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20231220-send-lp-kselftests-v4-0-3458ec1b1a38@suse.com>
- <20231220-send-lp-kselftests-v4-1-3458ec1b1a38@suse.com>
- <ZZSOtsbzpy2mvmUC@redhat.com>
- <4fb169fd-393c-441e-b0f7-32a3777c1d11@linuxfoundation.org>
- <11c112df801008f6bc4b7813645d505388894e29.camel@suse.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <11c112df801008f6bc4b7813645d505388894e29.camel@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240108032117.215171-1-wangrui@loongson.cn>
 
-On 1/8/24 10:13, Marcos Paulo de Souza wrote:
-> On Wed, 2024-01-03 at 15:09 -0700, Shuah Khan wrote:
+Hi,
 
->>
->> Copying source files and object files doesn't sound right. This isn't
->> how the ksleftest installs work. Let's fix this.
-> 
-> Hi Shuah,
-> 
-> what do you think about the proposed solution? Could you please amend
-> the fix into the first patch if you think it's the right approach?
+Thanks for the patch.
+
+On Mon, Jan 08, 2024 at 11:21:15AM +0800, WANG Rui wrote:
+> Enable Rust support for the LoongArch architecture.
 > 
 
-I would like to see a new revision of the patch series with the fix to
-the problem. I will pull this into a separate test branch for us all
-to test different scenarios. I would like to make sure the repo will
-stay clean after install in the case of when out of tree builds.
+Could you share how you build and test? For example, I wonder the clang
+or gcc version you used and bindgen version you used. Thanks.
 
-Sorry I can't amend the patch as this isn't a trivial merge change.
-This change requires more testing.
+Regards,
+Boqun
 
-thanks,
--- Shuah
-
-
-
+> Previous versions:
+> v0: https://lore.kernel.org/loongarch/20240106065941.180796-1-wangrui@loongson.cn/
+> 
+> Changes in v1:
+>  - Address htmldocs warning.
+> 
+> WANG Rui (2):
+>   Documentation: rust: Add a character to the first column
+>   LoongArch: Enable initial Rust support
+> 
+>  Documentation/rust/arch-support.rst | 13 +++++++------
+>  arch/loongarch/Kconfig              |  1 +
+>  arch/loongarch/Makefile             |  3 +++
+>  scripts/generate_rust_target.rs     | 10 ++++++++++
+>  4 files changed, 21 insertions(+), 6 deletions(-)
+> 
+> -- 
+> 2.43.0
+> 
