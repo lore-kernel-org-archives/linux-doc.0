@@ -1,40 +1,40 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057D03D3A0;
-	Tue,  9 Jan 2024 19:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662A83EA60;
+	Tue,  9 Jan 2024 19:38:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mS13sR+J"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 409JU9kp019882;
-	Tue, 9 Jan 2024 19:37:59 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bnceqlAr"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 409IeRwr005755;
+	Tue, 9 Jan 2024 19:37:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:date:subject:mime-version:content-type
 	:content-transfer-encoding:message-id:references:in-reply-to:to
-	:cc; s=qcppdkim1; bh=jqaSvaTcT+GljjucYsOF+tmQD3YLMOiGYv13cJ7TCoM
-	=; b=mS13sR+JttsNvcp6XncL1NE4Z+aQTzx6gyas4nrjZDP95B/RvilY/8oaI0a
-	IrEFyq+I6d0z8BKLwxl3DtNx3WVo2ZWPnsKnFYc0CP4DshreW7BEz6vQs3q3lxlg
-	6+IDUH+nEnX0cfstiddGgIw5G49XiWy2l8URmkJQmtT9q5Mylwbq2jp89fH3eMYM
-	b2U14+nPwo4LyvTYRvFk9tvi3ipqBeDobOq/3IT6qEgDUYhj2YNQKyV0/VooQmho
-	53BQBW0/kLx2EDzS2jpzQnaxOjKBhGGW2QRvTgGdW1/3M+NQ/WJUqgeh/5rRoea/
-	CxKdIO+ybREZ1IUjN7LtUB8sdvA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vgxxbhtdx-1
+	:cc; s=qcppdkim1; bh=4qiqaM4jJd8zGHPZYjmgu0l1JblGJ6sPIsRdN2U0BMc
+	=; b=bnceqlAru+3cNJwcaW3SUuwQZe81XenMVLM7ojxK3lszLcFa1xlkT9yQg6f
+	wg/5uHBN6NJspj68vcNUgNeKW//jAVUQOh9ca6OTkR3M6ESp2mixPzDovwar7YXE
+	3I5jV+1sRTXyFL8Hv0Nx4DV+yVmo6IIeg3eTEub2W5RZQnJ0pv6rEbCmP4Pj8+1I
+	DoiPWetPG+dUQUnTmi4CgMuepnHvjOTjvhkcAdo26tZUg1B9DoRikGB2Mig9C8Cb
+	ln4fpxDbwd9cg/8Em4p19BmwLo7tOJz346lmRnWzdFIZGNEiXmDTS+2VyXhxTfBq
+	zCyOppkUcOSdqKVdIloy47IzoDw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vh98m8hqt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jan 2024 19:37:59 +0000 (GMT)
+	Tue, 09 Jan 2024 19:37:58 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 409JbwSp011941
+	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 409Jbv3C030413
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 9 Jan 2024 19:37:58 GMT
+	Tue, 9 Jan 2024 19:37:57 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 9 Jan 2024 11:37:57 -0800
+ 15.2.1118.40; Tue, 9 Jan 2024 11:37:56 -0800
 From: Elliot Berman <quic_eberman@quicinc.com>
-Date: Tue, 9 Jan 2024 11:37:52 -0800
-Subject: [PATCH v16 14/34] virt: gunyah: Add hypercalls for running a vCPU
+Date: Tue, 9 Jan 2024 11:37:50 -0800
+Subject: [PATCH v16 12/34] virt: gunyah: Add resource tickets
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,7 +43,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240109-gunyah-v16-14-634904bf4ce9@quicinc.com>
+Message-ID: <20240109-gunyah-v16-12-634904bf4ce9@quicinc.com>
 References: <20240109-gunyah-v16-0-634904bf4ce9@quicinc.com>
 In-Reply-To: <20240109-gunyah-v16-0-634904bf4ce9@quicinc.com>
 To: Alex Elder <elder@linaro.org>,
@@ -83,123 +83,294 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: wCModZ2NGEmXJVf9EloG8vARBtmLpUR5
-X-Proofpoint-GUID: wCModZ2NGEmXJVf9EloG8vARBtmLpUR5
+X-Proofpoint-ORIG-GUID: -_URcr59O8AG3f6gWqPnDYkWBNleK7zF
+X-Proofpoint-GUID: -_URcr59O8AG3f6gWqPnDYkWBNleK7zF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=446
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 phishscore=0 spamscore=0
- clxscore=1015 mlxscore=0 adultscore=0 impostorscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 mlxscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 mlxlogscore=999 suspectscore=0 clxscore=1015 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2401090158
 
-Add hypercall to donate CPU time to a vCPU.
+Some VM functions need to acquire Gunyah resources. For instance, Gunyah
+vCPUs are exposed to the host as a resource. The Gunyah vCPU function
+will register a resource ticket and be able to interact with the
+hypervisor once the resource ticket is filled.
 
+Resource tickets are the mechanism for functions to acquire ownership of
+Gunyah resources. Gunyah functions can be created before the VM's
+resources are created and made available to Linux. A resource ticket
+identifies a type of resource and a label of a resource which the ticket
+holder is interested in.
+
+Resources are created by Gunyah as configured in the VM's devicetree
+configuration. Gunyah doesn't process the label and that makes it
+possible for userspace to create multiple resources with the same label.
+Resource ticket owners need to be prepared for populate to be called
+multiple times if userspace created multiple resources with the same
+label.
+
+Reviewed-by: Alex Elder <elder@linaro.org>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- arch/arm64/gunyah/gunyah_hypercall.c | 37 ++++++++++++++++++++++++++++++++++++
- include/linux/gunyah.h               | 35 ++++++++++++++++++++++++++++++++++
- 2 files changed, 72 insertions(+)
+ drivers/virt/gunyah/vm_mgr.c | 128 ++++++++++++++++++++++++++++++++++++++++++-
+ drivers/virt/gunyah/vm_mgr.h |   7 +++
+ include/linux/gunyah.h       |  39 +++++++++++++
+ 3 files changed, 173 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/gunyah/gunyah_hypercall.c b/arch/arm64/gunyah/gunyah_hypercall.c
-index 1302e128be6e..fee21df42c17 100644
---- a/arch/arm64/gunyah/gunyah_hypercall.c
-+++ b/arch/arm64/gunyah/gunyah_hypercall.c
-@@ -39,6 +39,7 @@ EXPORT_SYMBOL_GPL(arch_is_gunyah_guest);
- #define GUNYAH_HYPERCALL_HYP_IDENTIFY		GUNYAH_HYPERCALL(0x8000)
- #define GUNYAH_HYPERCALL_MSGQ_SEND		GUNYAH_HYPERCALL(0x801B)
- #define GUNYAH_HYPERCALL_MSGQ_RECV		GUNYAH_HYPERCALL(0x801C)
-+#define GUNYAH_HYPERCALL_VCPU_RUN		GUNYAH_HYPERCALL(0x8065)
- /* clang-format on */
+diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+index f6e6b5669aae..65badcf6357b 100644
+--- a/drivers/virt/gunyah/vm_mgr.c
++++ b/drivers/virt/gunyah/vm_mgr.c
+@@ -15,6 +15,106 @@
+ #include "rsc_mgr.h"
+ #include "vm_mgr.h"
  
- /**
-@@ -113,5 +114,41 @@ enum gunyah_error gunyah_hypercall_msgq_recv(u64 capid, void *buff, size_t size,
- }
- EXPORT_SYMBOL_GPL(gunyah_hypercall_msgq_recv);
- 
-+/**
-+ * gunyah_hypercall_vcpu_run() - Donate CPU time to a vcpu
-+ * @capid: capability ID of the vCPU to run
-+ * @resume_data: Array of 3 state-specific resume data
-+ * @resp: Filled reason why vCPU exited when return value is GUNYAH_ERROR_OK
-+ *
-+ * See also:
-+ * https://github.com/quic/gunyah-hypervisor/blob/develop/docs/api/gunyah_api.md#run-a-proxy-scheduled-vcpu-thread
-+ */
-+enum gunyah_error
-+gunyah_hypercall_vcpu_run(u64 capid, unsigned long *resume_data,
-+			  struct gunyah_hypercall_vcpu_run_resp *resp)
++int gunyah_vm_add_resource_ticket(struct gunyah_vm *ghvm,
++				  struct gunyah_vm_resource_ticket *ticket)
 +{
-+	struct arm_smccc_1_2_regs args = {
-+		.a0 = GUNYAH_HYPERCALL_VCPU_RUN,
-+		.a1 = capid,
-+		.a2 = resume_data[0],
-+		.a3 = resume_data[1],
-+		.a4 = resume_data[2],
-+		/* C language says this will be implictly zero. Gunyah requires 0, so be explicit */
-+		.a5 = 0,
-+	};
-+	struct arm_smccc_1_2_regs res;
++	struct gunyah_vm_resource_ticket *iter;
++	struct gunyah_resource *ghrsc, *rsc_iter;
++	int ret = 0;
 +
-+	arm_smccc_1_2_hvc(&args, &res);
-+	if (res.a0 == GUNYAH_ERROR_OK) {
-+		resp->sized_state = res.a1;
-+		resp->state_data[0] = res.a2;
-+		resp->state_data[1] = res.a3;
-+		resp->state_data[2] = res.a4;
++	mutex_lock(&ghvm->resources_lock);
++	list_for_each_entry(iter, &ghvm->resource_tickets, vm_list) {
++		if (iter->resource_type == ticket->resource_type &&
++		    iter->label == ticket->label) {
++			ret = -EEXIST;
++			goto out;
++		}
 +	}
 +
-+	return res.a0;
-+}
-+EXPORT_SYMBOL_GPL(gunyah_hypercall_vcpu_run);
++	if (!try_module_get(ticket->owner)) {
++		ret = -ENODEV;
++		goto out;
++	}
 +
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("Gunyah Hypervisor Hypercalls");
++	list_add(&ticket->vm_list, &ghvm->resource_tickets);
++	INIT_LIST_HEAD(&ticket->resources);
++
++	list_for_each_entry_safe(ghrsc, rsc_iter, &ghvm->resources, list) {
++		if (ghrsc->type == ticket->resource_type &&
++		    ghrsc->rm_label == ticket->label) {
++			if (ticket->populate(ticket, ghrsc))
++				list_move(&ghrsc->list, &ticket->resources);
++		}
++	}
++out:
++	mutex_unlock(&ghvm->resources_lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gunyah_vm_add_resource_ticket);
++
++void gunyah_vm_remove_resource_ticket(struct gunyah_vm *ghvm,
++				      struct gunyah_vm_resource_ticket *ticket)
++{
++	struct gunyah_resource *ghrsc, *iter;
++
++	mutex_lock(&ghvm->resources_lock);
++	list_for_each_entry_safe(ghrsc, iter, &ticket->resources, list) {
++		ticket->unpopulate(ticket, ghrsc);
++		list_move(&ghrsc->list, &ghvm->resources);
++	}
++
++	module_put(ticket->owner);
++	list_del(&ticket->vm_list);
++	mutex_unlock(&ghvm->resources_lock);
++}
++EXPORT_SYMBOL_GPL(gunyah_vm_remove_resource_ticket);
++
++static void gunyah_vm_add_resource(struct gunyah_vm *ghvm,
++				   struct gunyah_resource *ghrsc)
++{
++	struct gunyah_vm_resource_ticket *ticket;
++
++	mutex_lock(&ghvm->resources_lock);
++	list_for_each_entry(ticket, &ghvm->resource_tickets, vm_list) {
++		if (ghrsc->type == ticket->resource_type &&
++		    ghrsc->rm_label == ticket->label) {
++			if (ticket->populate(ticket, ghrsc))
++				list_add(&ghrsc->list, &ticket->resources);
++			else
++				list_add(&ghrsc->list, &ghvm->resources);
++			/* unconditonal -- we prevent multiple identical
++			 * resource tickets so there will not be some other
++			 * ticket elsewhere in the list if populate() failed.
++			 */
++			goto found;
++		}
++	}
++	list_add(&ghrsc->list, &ghvm->resources);
++found:
++	mutex_unlock(&ghvm->resources_lock);
++}
++
++static void gunyah_vm_clean_resources(struct gunyah_vm *ghvm)
++{
++	struct gunyah_vm_resource_ticket *ticket, *titer;
++	struct gunyah_resource *ghrsc, *riter;
++
++	mutex_lock(&ghvm->resources_lock);
++	if (!list_empty(&ghvm->resource_tickets)) {
++		dev_warn(ghvm->parent, "Dangling resource tickets:\n");
++		list_for_each_entry_safe(ticket, titer, &ghvm->resource_tickets,
++					 vm_list) {
++			dev_warn(ghvm->parent, "  %pS\n", ticket->populate);
++			gunyah_vm_remove_resource_ticket(ghvm, ticket);
++		}
++	}
++
++	list_for_each_entry_safe(ghrsc, riter, &ghvm->resources, list) {
++		gunyah_rm_free_resource(ghrsc);
++	}
++	mutex_unlock(&ghvm->resources_lock);
++}
++
+ static int gunyah_vm_rm_notification_status(struct gunyah_vm *ghvm, void *data)
+ {
+ 	struct gunyah_rm_vm_status_payload *payload = data;
+@@ -92,13 +192,18 @@ static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gunyah_rm *rm)
+ 	init_rwsem(&ghvm->status_lock);
+ 	init_waitqueue_head(&ghvm->vm_status_wait);
+ 	ghvm->vm_status = GUNYAH_RM_VM_STATUS_NO_STATE;
++	mutex_init(&ghvm->resources_lock);
++	INIT_LIST_HEAD(&ghvm->resources);
++	INIT_LIST_HEAD(&ghvm->resource_tickets);
+ 
+ 	return ghvm;
+ }
+ 
+ static int gunyah_vm_start(struct gunyah_vm *ghvm)
+ {
+-	int ret;
++	struct gunyah_rm_hyp_resources *resources;
++	struct gunyah_resource *ghrsc;
++	int ret, i, n;
+ 
+ 	down_write(&ghvm->status_lock);
+ 	if (ghvm->vm_status != GUNYAH_RM_VM_STATUS_NO_STATE) {
+@@ -134,6 +239,25 @@ static int gunyah_vm_start(struct gunyah_vm *ghvm)
+ 	}
+ 	ghvm->vm_status = GUNYAH_RM_VM_STATUS_READY;
+ 
++	ret = gunyah_rm_get_hyp_resources(ghvm->rm, ghvm->vmid, &resources);
++	if (ret) {
++		dev_warn(ghvm->parent,
++			 "Failed to get hypervisor resources for VM: %d\n",
++			 ret);
++		goto err;
++	}
++
++	for (i = 0, n = le32_to_cpu(resources->n_entries); i < n; i++) {
++		ghrsc = gunyah_rm_alloc_resource(ghvm->rm,
++						 &resources->entries[i]);
++		if (!ghrsc) {
++			ret = -ENOMEM;
++			goto err;
++		}
++
++		gunyah_vm_add_resource(ghvm, ghrsc);
++	}
++
+ 	ret = gunyah_rm_vm_start(ghvm->rm, ghvm->vmid);
+ 	if (ret) {
+ 		dev_warn(ghvm->parent, "Failed to start VM: %d\n", ret);
+@@ -209,6 +333,8 @@ static int gunyah_vm_release(struct inode *inode, struct file *filp)
+ 	if (ghvm->vm_status == GUNYAH_RM_VM_STATUS_RUNNING)
+ 		gunyah_vm_stop(ghvm);
+ 
++	gunyah_vm_clean_resources(ghvm);
++
+ 	if (ghvm->vm_status != GUNYAH_RM_VM_STATUS_NO_STATE &&
+ 	    ghvm->vm_status != GUNYAH_RM_VM_STATUS_LOAD &&
+ 	    ghvm->vm_status != GUNYAH_RM_VM_STATUS_RESET) {
+diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+index e6cc9aead0b6..0d291f722885 100644
+--- a/drivers/virt/gunyah/vm_mgr.h
++++ b/drivers/virt/gunyah/vm_mgr.h
+@@ -26,6 +26,9 @@ long gunyah_dev_vm_mgr_ioctl(struct gunyah_rm *rm, unsigned int cmd,
+  * @vm_status: Current state of the VM, as last reported by RM
+  * @vm_status_wait: Wait queue for status @vm_status changes
+  * @status_lock: Serializing state transitions
++ * @resource_lock: Serializing addition of resources and resource tickets
++ * @resources: List of &struct gunyah_resource that are associated with this VM
++ * @resource_tickets: List of &struct gunyah_vm_resource_ticket
+  * @auth: Authentication mechanism to be used by resource manager when
+  *        launching the VM
+  *
+@@ -39,9 +42,13 @@ struct gunyah_vm {
+ 	enum gunyah_rm_vm_status vm_status;
+ 	wait_queue_head_t vm_status_wait;
+ 	struct rw_semaphore status_lock;
++	struct mutex resources_lock;
++	struct list_head resources;
++	struct list_head resource_tickets;
+ 
+ 	struct device *parent;
+ 	enum gunyah_rm_vm_auth_mechanism auth;
++
+ };
+ 
+ #endif
 diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-index 359cd63b4938..8405b2faf774 100644
+index ede8abb1b276..001769100260 100644
 --- a/include/linux/gunyah.h
 +++ b/include/linux/gunyah.h
-@@ -274,4 +274,39 @@ enum gunyah_error gunyah_hypercall_msgq_send(u64 capid, size_t size, void *buff,
- enum gunyah_error gunyah_hypercall_msgq_recv(u64 capid, void *buff, size_t size,
- 					     size_t *recv_size, bool *ready);
+@@ -10,6 +10,7 @@
+ #include <linux/errno.h>
+ #include <linux/interrupt.h>
+ #include <linux/limits.h>
++#include <linux/list.h>
+ #include <linux/types.h>
  
-+struct gunyah_hypercall_vcpu_run_resp {
-+	union {
-+		enum {
-+			/* clang-format off */
-+			/* VCPU is ready to run */
-+			GUNYAH_VCPU_STATE_READY			= 0,
-+			/* VCPU is sleeping until an interrupt arrives */
-+			GUNYAH_VCPU_STATE_EXPECTS_WAKEUP	= 1,
-+			/* VCPU is powered off */
-+			GUNYAH_VCPU_STATE_POWERED_OFF		= 2,
-+			/* VCPU is blocked in EL2 for unspecified reason */
-+			GUNYAH_VCPU_STATE_BLOCKED		= 3,
-+			/* VCPU has returned for MMIO READ */
-+			GUNYAH_VCPU_ADDRSPACE_VMMIO_READ	= 4,
-+			/* VCPU has returned for MMIO WRITE */
-+			GUNYAH_VCPU_ADDRSPACE_VMMIO_WRITE	= 5,
-+			/* VCPU blocked on fault where we can demand page */
-+			GUNYAH_VCPU_ADDRSPACE_PAGE_FAULT	= 7,
-+			/* clang-format on */
-+		} state;
-+		u64 sized_state;
-+	};
-+	u64 state_data[3];
+ /* Matches resource manager's resource types for VM_GET_HYP_RESOURCES RPC */
+@@ -34,6 +35,44 @@ struct gunyah_resource {
+ 	u32 rm_label;
+ };
+ 
++struct gunyah_vm;
++
++/**
++ * struct gunyah_vm_resource_ticket - Represents a ticket to reserve access to VM resource(s)
++ * @vm_list: for @gunyah_vm->resource_tickets
++ * @resources: List of resource(s) associated with this ticket
++ *             (members are from @gunyah_resource->list)
++ * @resource_type: Type of resource this ticket reserves
++ * @label: Label of the resource from resource manager this ticket reserves.
++ * @owner: owner of the ticket
++ * @populate: callback provided by the ticket owner and called when a resource is found that
++ *            matches @resource_type and @label. Note that this callback could be called
++ *            multiple times if userspace created mutliple resources with the same type/label.
++ *            This callback may also have significant delay after gunyah_vm_add_resource_ticket()
++ *            since gunyah_vm_add_resource_ticket() could be called before the VM starts.
++ * @unpopulate: callback provided by the ticket owner and called when the ticket owner should no
++ *              longer use the resource provided in the argument. When unpopulate() returns,
++ *              the ticket owner should not be able to use the resource any more as the resource
++ *              might being freed.
++ */
++struct gunyah_vm_resource_ticket {
++	struct list_head vm_list;
++	struct list_head resources;
++	enum gunyah_resource_type resource_type;
++	u32 label;
++
++	struct module *owner;
++	bool (*populate)(struct gunyah_vm_resource_ticket *ticket,
++			 struct gunyah_resource *ghrsc);
++	void (*unpopulate)(struct gunyah_vm_resource_ticket *ticket,
++			   struct gunyah_resource *ghrsc);
 +};
 +
-+enum {
-+	GUNYAH_ADDRSPACE_VMMIO_ACTION_EMULATE = 0,
-+	GUNYAH_ADDRSPACE_VMMIO_ACTION_RETRY = 1,
-+	GUNYAH_ADDRSPACE_VMMIO_ACTION_FAULT = 2,
-+};
++int gunyah_vm_add_resource_ticket(struct gunyah_vm *ghvm,
++				  struct gunyah_vm_resource_ticket *ticket);
++void gunyah_vm_remove_resource_ticket(struct gunyah_vm *ghvm,
++				      struct gunyah_vm_resource_ticket *ticket);
 +
-+enum gunyah_error
-+gunyah_hypercall_vcpu_run(u64 capid, unsigned long *resume_data,
-+			  struct gunyah_hypercall_vcpu_run_resp *resp);
-+
- #endif
+ /******************************************************************************/
+ /* Common arch-independent definitions for Gunyah hypercalls                  */
+ #define GUNYAH_CAPID_INVAL U64_MAX
 
 -- 
 2.34.1
