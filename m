@@ -1,101 +1,90 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43393BB4C;
-	Tue,  9 Jan 2024 17:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F976D6FC;
+	Tue,  9 Jan 2024 18:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AX6XZXx3"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e43e48a16so28598095e9.2;
-        Tue, 09 Jan 2024 09:58:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704823098; x=1705427898; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jpUtuzXOnCEqHGuFl9LL4Al2mrUJlNSjgLnKSAf1Ws0=;
-        b=AX6XZXx3cFGDVjyLiWXk8oT9oSecKCEIH3u3ZEdW/F6gQrooS/PFVRPByGOBSXR6Ry
-         4ov2unT2T4jNQeX3pXVFPyYZ4Uij1n/iThTp5JoZgaaQo+PbhCf2nb1yo9T557rb0DPW
-         2g/AMPjE4hITqzBbEVgxnWkFc+ndBieH9ZxK8EJs5cZHe0944FZwyCWuuDI9QMOXq541
-         VCTvS8eM6gpsD5YV1Ei8woRvG4fzlgecAF2QOoTMC6MGdRj+JB/eJCQWP1aO8WsJfffo
-         KalvAIZtihBVXQeRZI/id3759No19ifjsEBe9/oH1z7TjE0edyBf/bAeqGqn1j4CgFCc
-         94PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704823098; x=1705427898;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jpUtuzXOnCEqHGuFl9LL4Al2mrUJlNSjgLnKSAf1Ws0=;
-        b=Ti4O3tbL0WRecEkZ2g+dqm3Ri3wXfF080IFu8BilvyQKyfmiQXRI1FyvP0fWWO3JwT
-         zlsI7kKSq23WG8cDbFzCidjVhT33TFI78j99hq/dsfYTEUtxZY9palRzzWs6OPdYhEOm
-         aELtPwSsL2CfcCsbkCsZjExKllU4NV7ynidcf5tw+iCy8QhdcZP44mMxOZmHpL26jY9b
-         fepkfoffZEmfzlaSVHB0VcGMvKzyE+FDwBC1v7sSk5Eoa0pytwIBJqoJHDgz1tVO5+kl
-         /32inACeR76E1CtzrvJmz7kDCnrPkicO0oO1i4dBUwW7v7avudcDdDCVyjnF7eBtzMQk
-         iVEA==
-X-Gm-Message-State: AOJu0Yz8RVG40xJz8F5EpwiS8XkHVP1ZVJUVTgiZdRWtMH+EhZO8Adyc
-	XXGgRqje0VZEqQK5aHojQBf9WbUtG5s=
-X-Google-Smtp-Source: AGHT+IHKcG3xLgIZvkIf6WXKaw2viLsbGnjXdHGB+gUG0ScLL60G2Y8/mqRCqsevl+1FE7O5XIddlw==
-X-Received: by 2002:a05:600c:a05:b0:40d:9237:dada with SMTP id z5-20020a05600c0a0500b0040d9237dadamr2958932wmp.103.1704823097807;
-        Tue, 09 Jan 2024 09:58:17 -0800 (PST)
-Received: from macminim1.retailmedia.com ([2a01:e0a:b14:c1f0:617b:c61e:d65f:861e])
-        by smtp.googlemail.com with ESMTPSA id iv14-20020a05600c548e00b0040e3733a32bsm15777075wmb.41.2024.01.09.09.58.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 09:58:17 -0800 (PST)
-From: Erwan Velu <erwanaliasr1@gmail.com>
-X-Google-Original-From: Erwan Velu <e.velu@criteo.com>
-To: 
-Cc: Erwan Velu <e.velu@criteo.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Huang Rui <ray.huang@amd.com>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="EuKKB38E"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7104240E01B0;
+	Tue,  9 Jan 2024 18:37:04 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id b7yVKaHzlFZI; Tue,  9 Jan 2024 18:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1704825422; bh=3GnnfT61nG0MgA4KLPPPfjplcJ6wV6Zbmw1e3o0+qUk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EuKKB38EOmDmgXRgfjQIhkWZOOy7vA6jvLaAqqtKkdkPYY14htlpjS7BHK6U8O/P5
+	 xvvVdyAyV8GiTog2P5YYJSO24CErBZO6VgnWIA8jjqx2cPp7/AOP4Lv9S8tEwnOfPv
+	 +lgzudzbCe+wkvl9Bd+uuzcY3+iW6xwao4w80LfOz4yzJFlJl5ueLu4UpwGXNM9kRO
+	 AETEnyZrDIAQcO/b3GCPkB0yMxZWrq6theK2u8LBwXTjgDyU53ikOT4qtJ3+ZBSxKC
+	 sfuJy5o4TXiMbqqVzEZ10VeauMwlghqE4dBAzlLPBh9zK8wkBW27xm4liAUo/jMMnq
+	 zvM9bFRvaxz/WTfNjMGroFY9lPtYzJVeWDysw5LoLXggzunm67M8wbILK5wxa3Wo1J
+	 Q4ApQ0o/ms48movkl3mhKzkuCEKvhNeKsSi2S1N0CpBfutXS2viqCP6LlDfFJcAQNi
+	 tBOk6dHuYQc8dHFcLna4F6HRMCKfmiGmNsbYBrh+rl5jmdGvMB0zwaD5ifx3xD1yGz
+	 pXU14X6LS2/cP1MYqtH30t/Fxacae2HNMZl+IWWHCc9H0PDKSKMza1AktIjK74sAWU
+	 U9A9dJbCXj0aE9vfWQlJSo8HTU2svyHpGKywH4eZeznp2NxTAVIVMATV2adQLkIk6a
+	 nnQpUJlFQ5Gs9RhnzPp9DRjo=
+Received: from zn.tnic (pd9530f8c.dip0.t-ipconnect.de [217.83.15.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 30B0640E0196;
+	Tue,  9 Jan 2024 18:36:54 +0000 (UTC)
+Date: Tue, 9 Jan 2024 19:36:46 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Tony Luck <tony.luck@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>,
+	Muralidhara M K <muralimk@amd.com>, linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH 1/2] admin-guide: Fixing typos
-Date: Tue,  9 Jan 2024 18:57:53 +0100
-Message-ID: <20240109175801.447943-1-e.velu@criteo.com>
-X-Mailer: git-send-email 2.43.0
+	Muralidhara M K <muralidhara.mk@amd.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Begin a RAS section
+Message-ID: <20240109183646.GAZZ2SPiMZv83J3f0a@fat_crate.local>
+References: <20231102114225.2006878-1-muralimk@amd.com>
+ <20231102114225.2006878-2-muralimk@amd.com>
+ <20231128142049.GTZWX3QQTSaQk/+u53@fat_crate.local>
+ <87a5pes8jy.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87a5pes8jy.fsf@meer.lwn.net>
 
-This commit fixes two typos in the admin-guide.
+On Tue, Jan 09, 2024 at 10:47:29AM -0700, Jonathan Corbet wrote:
+> I wish I'd been copied on this ... 
 
-- a missing e in "reference_perf".
-- the amd_pstate sysfs path uses a dash instead of an underscore.
+linux-doc was CCed:
 
-Signed-off-by: Erwan Velu <e.velu@criteo.com>
----
- Documentation/admin-guide/acpi/cppc_sysfs.rst | 2 +-
- Documentation/admin-guide/pm/amd-pstate.rst   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+https://lore.kernel.org/all/20231128142049.GTZWX3QQTSaQk%2F+u53@fat_crate.local/
 
-diff --git a/Documentation/admin-guide/acpi/cppc_sysfs.rst b/Documentation/admin-guide/acpi/cppc_sysfs.rst
-index e53d76365aa7..36981c667823 100644
---- a/Documentation/admin-guide/acpi/cppc_sysfs.rst
-+++ b/Documentation/admin-guide/acpi/cppc_sysfs.rst
-@@ -75,4 +75,4 @@ taking two different snapshots of feedback counters at time T1 and T2.
-   delivered_counter_delta = fbc_t2[del] - fbc_t1[del]
-   reference_counter_delta = fbc_t2[ref] - fbc_t1[ref]
- 
--  delivered_perf = (refernce_perf x delivered_counter_delta) / reference_counter_delta
-+  delivered_perf = (reference_perf x delivered_counter_delta) / reference_counter_delta
-diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-index 1cf40f69278c..9eb26014d34b 100644
---- a/Documentation/admin-guide/pm/amd-pstate.rst
-+++ b/Documentation/admin-guide/pm/amd-pstate.rst
-@@ -361,7 +361,7 @@ Global Attributes
- 
- ``amd-pstate`` exposes several global attributes (files) in ``sysfs`` to
- control its functionality at the system level.  They are located in the
--``/sys/devices/system/cpu/amd-pstate/`` directory and affect all CPUs.
-+``/sys/devices/system/cpu/amd_pstate/`` directory and affect all CPUs.
- 
- ``status``
- 	Operation mode of the driver: "active", "passive" or "disable".
+Or did you prefer you directly?
+
+I've been working to get a handle on
+> the top-level Documentation/ directories for a while, and would rather
+> not see a new one added for this.  Offhand, based on this first
+> document, it looks like material that belongs under
+> Documentation/admin-guide; can we move it there, please?
+
+Not really an admin guide thing - yes, based on the current content but
+actually, the aim for this is to document all things RAS, so it is more
+likely a subsystem thing. And all the subsystems are directories under
+Documentation/.
+
+So where do you want me to put it?
+
+Thx.
+
 -- 
-2.43.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
