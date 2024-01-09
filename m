@@ -1,263 +1,101 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41033C465
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 17:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atishpatra.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43393BB4C;
+	Tue,  9 Jan 2024 17:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="Qvus/sT/"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2cd0db24e03so36017091fa.3
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jan 2024 09:54:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AX6XZXx3"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e43e48a16so28598095e9.2;
+        Tue, 09 Jan 2024 09:58:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1704822853; x=1705427653; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CeM+hho/qwbP9Z55ZVvdC0wwc1f1sWXXK1EVcgFxsIo=;
-        b=Qvus/sT/+nA2q0woVUrPGBWCFUKZL1B6aNU9v5fLikXcsQwJo1KYrMQbMRW5+x8FTh
-         FJSweKrqHATBfo/S2KhJQadbhKb4MTTPxmVrXfQqLDDA3gKaJvrToCnpZtlgYz+eKrxn
-         Wi7GytCXvj1sgHIjJiKHmUS9njp7n85HNz6Sg=
+        d=gmail.com; s=20230601; t=1704823098; x=1705427898; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jpUtuzXOnCEqHGuFl9LL4Al2mrUJlNSjgLnKSAf1Ws0=;
+        b=AX6XZXx3cFGDVjyLiWXk8oT9oSecKCEIH3u3ZEdW/F6gQrooS/PFVRPByGOBSXR6Ry
+         4ov2unT2T4jNQeX3pXVFPyYZ4Uij1n/iThTp5JoZgaaQo+PbhCf2nb1yo9T557rb0DPW
+         2g/AMPjE4hITqzBbEVgxnWkFc+ndBieH9ZxK8EJs5cZHe0944FZwyCWuuDI9QMOXq541
+         VCTvS8eM6gpsD5YV1Ei8woRvG4fzlgecAF2QOoTMC6MGdRj+JB/eJCQWP1aO8WsJfffo
+         KalvAIZtihBVXQeRZI/id3759No19ifjsEBe9/oH1z7TjE0edyBf/bAeqGqn1j4CgFCc
+         94PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704822853; x=1705427653;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CeM+hho/qwbP9Z55ZVvdC0wwc1f1sWXXK1EVcgFxsIo=;
-        b=DgSDHCsgJRshTNMJsJDxO+s324vUb4H9Wgcw0G0iyLkUQNdB4EC3XSyakcBEoZwYMH
-         c/rahcmnGOIoCzXUKIBjB5u2pNniq2+qRVso+O97OjWZGJ2IFG9bGTyUqaLMNci+hwVg
-         YMklVUeDOPi4vskx2psUlxpPsWIKpcLkGCnxqr38hIb9Wqv8FsZolu2BOPO1cmy66Zmw
-         TO7E9YF6MRnXNzA2619/J7cDWKYvkKNpezp1hU0deoLCI6fW0TZpix8WW6QXbdMfkfg6
-         aHIyFlrcE0iJpk8nrd9oY521mWtK2ttwRyGE1fVtFJjnNNzoUp6q/euaKXBYJNDXNR1f
-         8CNw==
-X-Gm-Message-State: AOJu0YwSxJSZPJMZCL/y9QUtAjirKsy+ZupD+26Ob8/0vV5trj2UOXQu
-	0nAGx886n0UZd0TLvphbcN+aaQ/U+O51SI1kJvHg3aG5jBQi
-X-Google-Smtp-Source: AGHT+IH3m0+wbSzkJ3HS0+ZxHNhvZU64C2KWl2ZLlE00HvrrjpKMtf0cf5i3Ja1KwC83KNs3w46QjXNSKdQtgEFskAs=
-X-Received: by 2002:a05:651c:2208:b0:2cd:52fd:9bb with SMTP id
- y8-20020a05651c220800b002cd52fd09bbmr1112283ljq.30.1704822852166; Tue, 09 Jan
- 2024 09:54:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704823098; x=1705427898;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jpUtuzXOnCEqHGuFl9LL4Al2mrUJlNSjgLnKSAf1Ws0=;
+        b=Ti4O3tbL0WRecEkZ2g+dqm3Ri3wXfF080IFu8BilvyQKyfmiQXRI1FyvP0fWWO3JwT
+         zlsI7kKSq23WG8cDbFzCidjVhT33TFI78j99hq/dsfYTEUtxZY9palRzzWs6OPdYhEOm
+         aELtPwSsL2CfcCsbkCsZjExKllU4NV7ynidcf5tw+iCy8QhdcZP44mMxOZmHpL26jY9b
+         fepkfoffZEmfzlaSVHB0VcGMvKzyE+FDwBC1v7sSk5Eoa0pytwIBJqoJHDgz1tVO5+kl
+         /32inACeR76E1CtzrvJmz7kDCnrPkicO0oO1i4dBUwW7v7avudcDdDCVyjnF7eBtzMQk
+         iVEA==
+X-Gm-Message-State: AOJu0Yz8RVG40xJz8F5EpwiS8XkHVP1ZVJUVTgiZdRWtMH+EhZO8Adyc
+	XXGgRqje0VZEqQK5aHojQBf9WbUtG5s=
+X-Google-Smtp-Source: AGHT+IHKcG3xLgIZvkIf6WXKaw2viLsbGnjXdHGB+gUG0ScLL60G2Y8/mqRCqsevl+1FE7O5XIddlw==
+X-Received: by 2002:a05:600c:a05:b0:40d:9237:dada with SMTP id z5-20020a05600c0a0500b0040d9237dadamr2958932wmp.103.1704823097807;
+        Tue, 09 Jan 2024 09:58:17 -0800 (PST)
+Received: from macminim1.retailmedia.com ([2a01:e0a:b14:c1f0:617b:c61e:d65f:861e])
+        by smtp.googlemail.com with ESMTPSA id iv14-20020a05600c548e00b0040e3733a32bsm15777075wmb.41.2024.01.09.09.58.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 09:58:17 -0800 (PST)
+From: Erwan Velu <erwanaliasr1@gmail.com>
+X-Google-Original-From: Erwan Velu <e.velu@criteo.com>
+To: 
+Cc: Erwan Velu <e.velu@criteo.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Huang Rui <ray.huang@amd.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: [PATCH 1/2] admin-guide: Fixing typos
+Date: Tue,  9 Jan 2024 18:57:53 +0100
+Message-ID: <20240109175801.447943-1-e.velu@criteo.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240108-fencei-v5-0-aa1e51d7222f@rivosinc.com>
- <20240108-fencei-v5-2-aa1e51d7222f@rivosinc.com> <CAOnJCUJQ-M1bVC_VhogMLo47mRyk3Pzq-GFH5P7ADn70BN9ObA@mail.gmail.com>
- <ZZyth6Ijtsmy5D84@ghost> <CAOnJCUL60H16edo6icR-1bzTVk0Tdr+hRf3izharUEEvxCrwhA@mail.gmail.com>
-In-Reply-To: <CAOnJCUL60H16edo6icR-1bzTVk0Tdr+hRf3izharUEEvxCrwhA@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Tue, 9 Jan 2024 09:54:00 -0800
-Message-ID: <CAOnJCU+FonOS4N_WiHPij4ZWv=qAdHo4WY9_+kzLT738CqhM1w@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX
- prctl
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, 
-	Conor Dooley <conor.dooley@microchip.com>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 8, 2024 at 11:51=E2=80=AFPM Atish Patra <atishp@atishpatra.org>=
- wrote:
->
-> On Mon, Jan 8, 2024 at 6:20=E2=80=AFPM Charlie Jenkins <charlie@rivosinc.=
-com> wrote:
-> >
-> > On Mon, Jan 08, 2024 at 05:24:47PM -0800, Atish Patra wrote:
-> > > On Mon, Jan 8, 2024 at 10:42=E2=80=AFAM Charlie Jenkins <charlie@rivo=
-sinc.com> wrote:
-> > > >
-> > > > Provide documentation that explains how to properly do CMODX in ris=
-cv.
-> > > >
-> > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > > ---
-> > > >  Documentation/arch/riscv/cmodx.rst | 88 ++++++++++++++++++++++++++=
-++++++++++++
-> > > >  Documentation/arch/riscv/index.rst |  1 +
-> > > >  2 files changed, 89 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/arch/riscv/cmodx.rst b/Documentation/arc=
-h/riscv/cmodx.rst
-> > > > new file mode 100644
-> > > > index 000000000000..afd7086c222c
-> > > > --- /dev/null
-> > > > +++ b/Documentation/arch/riscv/cmodx.rst
-> > > > @@ -0,0 +1,88 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> > > > +Concurrent Modification and Execution of Instructions (CMODX) for =
-RISC-V Linux
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> > > > +
-> > > > +CMODX is a programming technique where a program executes instruct=
-ions that were
-> > > > +modified by the program itself. Instruction storage and the instru=
-ction cache
-> > > > +(icache) are not guaranteed to be synchronized on RISC-V hardware.=
- Therefore, the
-> > > > +program must enforce its own synchronization with the unprivileged=
- fence.i
-> > > > +instruction.
-> > > > +
-> > > > +However, the default Linux ABI prohibits the use of fence.i in use=
-rspace
-> > > > +applications. At any point the scheduler may migrate a task onto a=
- new hart. If
-> > > > +migration occurs after the userspace synchronized the icache and i=
-nstruction
-> > > > +storage with fence.i, the icache will no longer be clean. This is =
-due to the
-> > > > +behavior of fence.i only affecting the hart that it is called on. =
-Thus, the hart
-> > > > +that the task has been migrated to may not have synchronized instr=
-uction storage
-> > > > +and icache.
-> > > > +
-> > > > +There are two ways to solve this problem: use the riscv_flush_icac=
-he() syscall,
-> > > > +or use the ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` prctl() and emit fenc=
-e.i in
-> > > > +userspace. The syscall performs a one-off icache flushing operatio=
-n. The prctl
-> > > > +changes the Linux ABI to allow userspace to emit icache flushing o=
-perations.
-> > > > +
-> > > > +prctl() Interface
-> > > > +---------------------
-> > > > +
-> > > > +Call prctl() with ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` as the first a=
-rgument. The
-> > > > +remaining arguments will be delegated to the riscv_set_icache_flus=
-h_ctx
-> > > > +function detailed below.
-> > > > +
-> > > > +.. kernel-doc:: arch/riscv/mm/cacheflush.c
-> > > > +       :identifiers: riscv_set_icache_flush_ctx
-> > > > +
-> > >
-> > > Document the arguments of the prctl as well ?
-> >
-> > Do you mean to include the ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` key in the
-> > comment of riscv_set_icache_flush_ctx? The args to
-> > riscv_set_icache_flush_ctx are the args to the prctl except for the key=
-.
-> >
->
-> No, I mean describe the argument2(ctx) and argument3(per_thread) as well.
-> Since this is a documentation of the new prctl, we should document all
-> args so that an user
-> can use it without grepping through the kernel sources.
->
+This commit fixes two typos in the admin-guide.
 
-Never mind. I missed the identifiers tag for kernel doc. Thanks for
-the reminder.
-The patch looks good to me.
+- a missing e in "reference_perf".
+- the amd_pstate sysfs path uses a dash instead of an underscore.
 
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
+Signed-off-by: Erwan Velu <e.velu@criteo.com>
+---
+ Documentation/admin-guide/acpi/cppc_sysfs.rst | 2 +-
+ Documentation/admin-guide/pm/amd-pstate.rst   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> > - Charlie
-> >
-> > >
-> > > > +Example usage:
-> > > > +
-> > > > +The following files are meant to be compiled and linked with each =
-other. The
-> > > > +modify_instruction() function replaces an add with 0 with an add w=
-ith one,
-> > > > +causing the instruction sequence in get_value() to change from ret=
-urning a zero
-> > > > +to returning a one.
-> > > > +
-> > > > +cmodx.c::
-> > > > +
-> > > > +       #include <stdio.h>
-> > > > +       #include <sys/prctl.h>
-> > > > +
-> > > > +       extern int get_value();
-> > > > +       extern void modify_instruction();
-> > > > +
-> > > > +       int main()
-> > > > +       {
-> > > > +               int value =3D get_value();
-> > > > +               printf("Value before cmodx: %d\n", value);
-> > > > +
-> > > > +               // Call prctl before first fence.i is called inside=
- modify_instruction
-> > > > +               prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX_ON, PR_RISCV_CT=
-X_SW_FENCEI, 0);
-> > > > +               modify_instruction();
-> > > > +
-> > > > +               value =3D get_value();
-> > > > +               printf("Value after cmodx: %d\n", value);
-> > > > +               return 0;
-> > > > +       }
-> > > > +
-> > > > +cmodx.S::
-> > > > +
-> > > > +       .option norvc
-> > > > +
-> > > > +       .text
-> > > > +       .global modify_instruction
-> > > > +       modify_instruction:
-> > > > +       lw a0, new_insn
-> > > > +       lui a5,%hi(old_insn)
-> > > > +       sw  a0,%lo(old_insn)(a5)
-> > > > +       fence.i
-> > > > +       ret
-> > > > +
-> > > > +       .section modifiable, "awx"
-> > > > +       .global get_value
-> > > > +       get_value:
-> > > > +       li a0, 0
-> > > > +       old_insn:
-> > > > +       addi a0, a0, 0
-> > > > +       ret
-> > > > +
-> > > > +       .data
-> > > > +       new_insn:
-> > > > +       addi a0, a0, 1
-> > > > diff --git a/Documentation/arch/riscv/index.rst b/Documentation/arc=
-h/riscv/index.rst
-> > > > index 4dab0cb4b900..eecf347ce849 100644
-> > > > --- a/Documentation/arch/riscv/index.rst
-> > > > +++ b/Documentation/arch/riscv/index.rst
-> > > > @@ -13,6 +13,7 @@ RISC-V architecture
-> > > >      patch-acceptance
-> > > >      uabi
-> > > >      vector
-> > > > +    cmodx
-> > > >
-> > > >      features
-> > > >
-> > > >
-> > > > --
-> > > > 2.43.0
-> > > >
-> > >
-> > >
-> > > --
-> > > Regards,
-> > > Atish
->
->
->
-> --
-> Regards,
-> Atish
+diff --git a/Documentation/admin-guide/acpi/cppc_sysfs.rst b/Documentation/admin-guide/acpi/cppc_sysfs.rst
+index e53d76365aa7..36981c667823 100644
+--- a/Documentation/admin-guide/acpi/cppc_sysfs.rst
++++ b/Documentation/admin-guide/acpi/cppc_sysfs.rst
+@@ -75,4 +75,4 @@ taking two different snapshots of feedback counters at time T1 and T2.
+   delivered_counter_delta = fbc_t2[del] - fbc_t1[del]
+   reference_counter_delta = fbc_t2[ref] - fbc_t1[ref]
+ 
+-  delivered_perf = (refernce_perf x delivered_counter_delta) / reference_counter_delta
++  delivered_perf = (reference_perf x delivered_counter_delta) / reference_counter_delta
+diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+index 1cf40f69278c..9eb26014d34b 100644
+--- a/Documentation/admin-guide/pm/amd-pstate.rst
++++ b/Documentation/admin-guide/pm/amd-pstate.rst
+@@ -361,7 +361,7 @@ Global Attributes
+ 
+ ``amd-pstate`` exposes several global attributes (files) in ``sysfs`` to
+ control its functionality at the system level.  They are located in the
+-``/sys/devices/system/cpu/amd-pstate/`` directory and affect all CPUs.
++``/sys/devices/system/cpu/amd_pstate/`` directory and affect all CPUs.
+ 
+ ``status``
+ 	Operation mode of the driver: "active", "passive" or "disable".
+-- 
+2.43.0
 
-
-
---=20
-Regards,
-Atish
