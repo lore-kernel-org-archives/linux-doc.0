@@ -1,465 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716A138FA8;
-	Tue,  9 Jan 2024 13:47:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A33D39843;
+	Tue,  9 Jan 2024 14:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NFdVuI4h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D5CC433B1;
-	Tue,  9 Jan 2024 13:47:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704808059;
-	bh=yAuhIw8iyfmsp2rAHPIKCPS0DxitB9PWBR/LnYnXL0w=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=NFdVuI4h51aLHYOv/ay26Q30SN2F+jddyXZGe05dFyw+dyJCOSxyAkYrKa046pjLz
-	 P3i8hzmgkbd/pTf4lRW36DEnVERf8QHaZyDSf8AwrQO+tKcAzcV2feNYUFp4E6nw5r
-	 wgfAyi9rhXhp24GZ2GV/w5pZaIW2A05dpssn+6cxyepl8Myny2niNnMNZCS3t2l1+B
-	 CLCei9NnLPaEnbCAS+XMoRk5DNeDuCS2EzcRjtKjFd+LJH+duBWf5YROgF/1gcqoOU
-	 JYwj5uL+ydpdDGigz0bO4U+fHAaqbAEs4uWIhmayyH3MuvleJ8iRpbzyxaZVC/KJLY
-	 MrvkPb1ACbRQg==
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3bba50cd318so3346160b6e.0;
-        Tue, 09 Jan 2024 05:47:38 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz0gymc4ToZ7lkR1prxkLt3wkwhuB5UB0Ik0zfZXkmF4kYXSaXj
-	Gm3Xg0iLp06ma59aIEr8Ere0g4NVBGhkazBDcAA=
-X-Google-Smtp-Source: AGHT+IHPFMQToMBZl65bUdb2AEiLqf2HQZEwC+LLihppXThZR4ikmus7o22LZPQB2X9m58YFiYyXpC71ur9f22QuXUI=
-X-Received: by 2002:a05:6870:d0c4:b0:205:dd93:45a5 with SMTP id
- k4-20020a056870d0c400b00205dd9345a5mr7865532oaa.70.1704808058291; Tue, 09 Jan
- 2024 05:47:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E3vbjFF3"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6d9344f30caso2073205b3a.1;
+        Tue, 09 Jan 2024 06:00:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704808813; x=1705413613; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cdNOUjhcUm61EnvzTbmFie9LkXLSVC7UX8qXNfNPVYQ=;
+        b=E3vbjFF3LIJsp2H6v5P99Y7nXG6nDkfQHYfufRVVB7nAlOH7l4jz/StGSdgO4kg6pl
+         VylL/XVHG8eVCK21sLjBMoPYT64DJwbO7v0KTUjU0AhVci8h1B4snwbyZCy+fK1peNb+
+         OQhD3SQXBnGZDwczw8Yui3YSm+U81bJ2odEPP2zYfju7WlC9zU22Dy1J2Vzzbz0w6Vxr
+         VxxsRLLE3tTxhxwlhoI8OV+0QIOxo3zNVX1CWGrvaI+DY+Z44NnKqYQMNBRD+knZyLa7
+         G8kjIbBNop1WsjKCgjvAFDo7vNOlDwy3TGCgc5IC+utGJJ9hUhDtKsMAV75zSZtul01N
+         iqWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704808813; x=1705413613;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cdNOUjhcUm61EnvzTbmFie9LkXLSVC7UX8qXNfNPVYQ=;
+        b=qWVaiYDRZg7EP6CGNFgMUkB+Y8u8WogVtdzqdaerNJXrQOxhuuks8MR8Re8ThT80AY
+         jeDmGdeEh633ZngxwoFgaYR9VvQxHGS2Ro9KN29f8L+7KcBsSI99H+DZR9GXnqMIA8yy
+         ldLjHF209a2+x5XY63dJtmSMr4u3pMvr13EzJdY9KswCi9ETem/UB5V1paKF7F9emdo6
+         Mc7TnSByFx58UpV1nfzF7Dc4Bdl1p91rrkrMSewqXuq/t/BlGBkHPUxXuj/cHBdBSf8A
+         HWc6LK4oYU/e0YhGbywGFduM8l6ZVGkA+sMl7gnQqU7KtG+WlQ9R0E2nOarqU7lZqnad
+         +j6g==
+X-Gm-Message-State: AOJu0Yy+HJxoo3zrXGhax8TbHUgU4dyIkbcrLbD9Vy7wJYSK7tlK2E3N
+	RQPEUqZgmcg5+QwBCrHJMHM9rAd3Yy3mDQ==
+X-Google-Smtp-Source: AGHT+IHWFPHuyzlrV9Ll7F3SUYjrYc91iqGY6MboY+X+eSfmsqVWZmpj81pBYAsAXG7j+HDRiyvE3A==
+X-Received: by 2002:a05:6a00:2401:b0:6d9:c0a4:67eb with SMTP id z1-20020a056a00240100b006d9c0a467ebmr760230pfh.35.1704808812612;
+        Tue, 09 Jan 2024 06:00:12 -0800 (PST)
+Received: from rigel.home.arpa (60-241-235-125.tpgi.com.au. [60.241.235.125])
+        by smtp.gmail.com with ESMTPSA id m2-20020a62f202000000b006d9accac5c4sm1673697pfh.35.2024.01.09.06.00.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 06:00:11 -0800 (PST)
+From: Kent Gibson <warthog618@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	brgl@bgdev.pl,
+	linus.walleij@linaro.org,
+	andy@kernel.org,
+	corbet@lwn.net
+Cc: Kent Gibson <warthog618@gmail.com>
+Subject: [PATCH 0/7] Documentation: gpio: add character device userspace API documentation
+Date: Tue,  9 Jan 2024 21:59:45 +0800
+Message-Id: <20240109135952.77458-1-warthog618@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231203153401.GV8402@pendragon.ideasonboard.com> <20231207142723.GA3187877@google.com>
- <20231207143814.GD15521@pendragon.ideasonboard.com> <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
- <20231209152946.GC13421@pendragon.ideasonboard.com> <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
- <CAGXv+5Est3FL-XcEL-vB-6zVNas0mqb2cNYa==Yb7W2SQU9xVQ@mail.gmail.com>
- <CAK7LNATyD-PeNbaLTjJmU9=koqqE+V6QvFe09c2VrXopWvjpcw@mail.gmail.com>
- <CAK7LNAR7Fm-1yaZmyH78vG5yNbbW2Avjj5F63u+aST6JQoMd5A@mail.gmail.com> <CAFLszTjfN8dzBNpr6+EVQiwen5BPoYtu8LJM3dCcd-sMP3=Nvw@mail.gmail.com>
-In-Reply-To: <CAFLszTjfN8dzBNpr6+EVQiwen5BPoYtu8LJM3dCcd-sMP3=Nvw@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 9 Jan 2024 22:47:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT8GWNNaMcBN+WZfzRQDmRjGC8Ek5u=E7r1iaTHMY70iw@mail.gmail.com>
-Message-ID: <CAK7LNAT8GWNNaMcBN+WZfzRQDmRjGC8Ek5u=E7r1iaTHMY70iw@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Simon Glass <sjg@chromium.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, U-Boot Mailing List <u-boot@lists.denx.de>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 29, 2023 at 3:39=E2=80=AFPM Simon Glass <sjg@chromium.org> wrot=
-e:
->
-> Hi Masahiro,
->
-> On Thu, Dec 14, 2023 at 7:34=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > On Thu, Dec 14, 2023 at 3:12=E2=80=AFPM Masahiro Yamada <masahiroy@kern=
-el.org> wrote:
-> > >
-> > > On Thu, Dec 14, 2023 at 1:03=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.=
-org> wrote:
-> > > >
-> > > > On Sun, Dec 10, 2023 at 1:31=E2=80=AFAM Geert Uytterhoeven <geert@l=
-inux-m68k.org> wrote:
-> > > > >
-> > > > > Hi Laurent,
-> > > > >
-> > > > > On Sat, Dec 9, 2023 at 4:29=E2=80=AFPM Laurent Pinchart
-> > > > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > > > > On Sat, Dec 09, 2023 at 10:13:59PM +0900, Chen-Yu Tsai wrote:
-> > > > > > > On Thu, Dec 7, 2023 at 11:38=E2=80=AFPM Laurent Pinchart
-> > > > > > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > > > > > > On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrot=
-e:
-> > > > > > > > > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchar=
-t wrote:
-> > > > > > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass w=
-rote:
-> > > > > > > > > > > Add a script which produces a Flat Image Tree (FIT), =
-a single file
-> > > > > > > > > > > containing the built kernel and associated devicetree=
- files.
-> > > > > > > > > > > Compression defaults to gzip which gives a good balan=
-ce of size and
-> > > > > > > > > > > performance.
-> > > > > > > > > > >
-> > > > > > > > > > > The files compress from about 86MB to 24MB using this=
- approach.
-> > > > > > > > > > >
-> > > > > > > > > > > The FIT can be used by bootloaders which support it, =
-such as U-Boot
-> > > > > > > > > > > and Linuxboot. It permits automatic selection of the =
-correct
-> > > > > > > > > > > devicetree, matching the compatible string of the run=
-ning board with
-> > > > > > > > > > > the closest compatible string in the FIT. There is no=
- need for
-> > > > > > > > > > > filenames or other workarounds.
-> > > > > > > > > > >
-> > > > > > > > > > > Add a 'make image.fit' build target for arm64, as wel=
-l. Use
-> > > > > > > > > > > FIT_COMPRESSION to select a different algorithm.
-> > > > > > > > > > >
-> > > > > > > > > > > The FIT can be examined using 'dumpimage -l'.
-> > > > > > > > > > >
-> > > > > > > > > > > This features requires pylibfdt (use 'pip install lib=
-fdt'). It also
-> > > > > > > > > > > requires compression utilities for the algorithm bein=
-g used. Supported
-> > > > > > > > > > > compression options are the same as the Image.xxx fil=
-es. For now there
-> > > > > > > > > > > is no way to change the compression other than by edi=
-ting the rule for
-> > > > > > > > > > > $(obj)/image.fit
-> > > > > > > > > > >
-> > > > > > > > > > > While FIT supports a ramdisk / initrd, no attempt is =
-made to support
-> > > > > > > > > > > this here, since it must be built separately from the=
- Linux build.
-> > > > > > > > > >
-> > > > > > > > > > FIT images are very useful, so I think this is a very w=
-elcome addition
-> > > > > > > > > > to the kernel build system. It can get tricky though: g=
-iven the
-> > > > > > > > > > versatile nature of FIT images, there can't be any
-> > > > > > > > > > one-size-fits-them-all solution to build them, and stri=
-king the right
-> > > > > > > > > > balance between what makes sense for the kernel and the=
- features that
-> > > > > > > > > > users may request will probably lead to bikeshedding. A=
-s we all love
-> > > > > > > > > > bikeshedding, I thought I would start selfishly, with a=
- personal use
-> > > > > > > > > > case :-) This isn't a yak-shaving request though, I don=
-'t see any reason
-> > > > > > > > > > to delay merging this series.
-> > > > > > > > > >
-> > > > > > > > > > Have you envisioned building FIT images with a subset o=
-f DTBs, or adding
-> > > > > > > > > > DTBOs ? Both would be fairly trivial extensions to this=
- script by
-> > > > > > > > > > extending the supported command line arguments. It woul=
-d perhaps be more
-> > > > > > > > > > difficult to integrate in the kernel build system thoug=
-h. This leads me
-> > > > > > > > > > to a second question: would you consider merging extens=
-ions to this
-> > > > > > > > > > script if they are not used by the kernel build system,=
- but meant for
-> > > > > > > > > > users who manually invoke the script ? More generally, =
-is the script
-> > > > > > > > >
-> > > > > > > > > We'd also be interested in some customization, though in =
-a different way.
-> > > > > > > > > We imagine having a rule file that says X compatible stri=
-ng should map
-> > > > > > > > > to A base DTB, plus B and C DTBO for the configuration se=
-ction. The base
-> > > > > > > > > DTB would carry all common elements of some device, while=
- the DTBOs
-> > > > > > > > > carry all the possible second source components, like dif=
-ferent display
-> > > > > > > > > panels or MIPI cameras for instance. This could drastical=
-ly reduce the
-> > > > > > > > > size of FIT images in ChromeOS by deduplicating all the c=
-ommon stuff.
-> > > > > > > >
-> > > > > > > > Do you envision the "mapping" compatible string mapping to =
-a config
-> > > > > > > > section in the FIT image, that would bundle the base DTB an=
-d the DTBOs ?
-> > > > > > >
-> > > > > > > That's exactly the idea. The mapping compatible string could =
-be untied
-> > > > > > > from the base board's compatible string if needed (which we p=
-robably do).
-> > > > > > >
-> > > > > > > So something like:
-> > > > > > >
-> > > > > > > config {
-> > > > > > >     config-1 {
-> > > > > > >         compatible =3D "google,krane-sku0";
-> > > > > > >         fdt =3D "krane-baseboard", "krane-sku0-overlay";
-> > > > > > >     };
-> > > > > > > };
-> > > > > > >
-> > > > > > > With "krane-sku0-overlay" being an overlay that holds the dif=
-ferences
-> > > > > > > between the SKUs, in this case the display panel and MIPI cam=
-era (not
-> > > > > > > upstreamed) that applies to SKU0 in particular.
-> > > > > >
-> > > > > > The kernel DT makefiles already contain information on what ove=
-rlays to
-> > > > > > apply to what base boards, in order to test the overlays and pr=
-oduce
-> > > > > > "full" DTBs. Maybe that information could be leveraged to creat=
-e the
-> > > > > > configurations in the FIT image ?
-> > > > >
-> > > > > Although the "full" DTBs created may only be a subset of all poss=
-ible
-> > > > > combinations (I believe Rob just started with creating one "full"=
- DTB
-> > > > > for each overlay, cfr. the additions I made in commit a09c3e105a2=
-08580
-> > > > > ("arm64: dts: renesas: Apply overlays to base dtbs")), that could
-> > > > > definitely be a start.
-> > > > >
-> > > > > Now, since the kernel build system already creates "full" DTBs, d=
-oes
-> > > > > that mean that all of the base DTBs, overlays, and "full" DTBs wi=
-ll
-> > > > > end up in the FIT image?
-> > > >
-> > > > I suppose we could add an option to the packing tool to be able to =
-_not_
-> > > > add the "full" DTBs if they can also be assembled with a base DTB a=
-nd
-> > > > overlays. Think of it as a firmware compatibility option: if the fi=
-rmware
-> > > > supports overlays, then you almost always want the deconstructed pa=
-rts,
-> > > > not the fully assembled ones. Vice versa.
-> > > >
-> > > > If we don't we could end up with two configurations that have the s=
-ame
-> > > > compatible string?
-> > >
-> > >
-> > > Right.
-> > >
-> > > We would end up with such situations because applying
-> > > an overlay does not change the compatible string.
-> > >
-> > >
-> > >
-> > > With this code in arch/arm64/boot/dts/ti/Makefile:
-> > >
-> > > k3-am642-tqma64xxl-mbax4xxl-sdcard-dtbs :=3D \
-> > >       k3-am642-tqma64xxl-mbax4xxl.dtb k3-am64-tqma64xxl-mbax4xxl-sdca=
-rd.dtbo
-> > > k3-am642-tqma64xxl-mbax4xxl-wlan-dtbs :=3D \
-> > >       k3-am642-tqma64xxl-mbax4xxl.dtb k3-am64-tqma64xxl-mbax4xxl-wlan=
-.dtbo
-> > >
-> > >
-> > >
-> > >
-> > > $ fdtdump  arch/arm64/boot/dts/ti/k3-am642-tqma64xxl-mbax4xxl-sdcard.=
-dtb
-> > > 2>/dev/null| head -n15 | tail -n2
-> > >     model =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier board";
-> > >     compatible =3D "tq,am642-tqma6442l-mbax4xxl", "tq,am642-tqma6442l=
-",
-> > > "ti,am642";
-> > >
-> > >
-> > > $ fdtdump  arch/arm64/boot/dts/ti/k3-am642-tqma64xxl-mbax4xxl-wlan.dt=
-b
-> > > 2>/dev/null| head -n15 | tail -n2
-> > >     model =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier board";
-> > >     compatible =3D "tq,am642-tqma6442l-mbax4xxl", "tq,am642-tqma6442l=
-",
-> > > "ti,am642";
-> > >
-> > >
-> > >
-> > >
-> > >
-> > > These two go into image.fit, but one of them is completely dead
-> > > since there is no way to distinguish them.
-> > >
-> > >
-> > > $ fdtdump  arch/arm64/boot/image.fit
-> > >
-> > >         ...
-> > >
-> > >         conf-10 {
-> > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > > "tq,am642-tqma6442l", "ti,am642";
-> > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL car=
-rier board";
-> > >             fdt =3D "fdt-10";
-> > >             kernel =3D "kernel";
-> > >         };
-> > >
-> > >         ...
-> > >
-> > >         conf-25 {
-> > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > > "tq,am642-tqma6442l", "ti,am642";
-> > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL car=
-rier board";
-> > >             fdt =3D "fdt-25";
-> > >             kernel =3D "kernel";
-> > >         };
-> > >
-> > >
-> > >
-> > >
-> > >
-> > > I agree with Chen-Yu.
-> > >
-> > > FIT should not include full DTBs.
-> > >
-> > > Bootloaders should assemble the final DTB
-> > > from base and overlays on-the-fly.
-> > >
-> > >
-> > > The FIT spec allows the "fdt" property to list
-> > > multiple image nodes.
-> > >
-> > >
-> > > o config-1
-> > >  |- description =3D "configuration description"
-> > >  |- kernel =3D "kernel sub-node unit name"
-> > >  |- fdt =3D "fdt sub-node unit-name" [, "fdt overlay sub-node unit-na=
-me", ...]
-> > >  |- loadables =3D "loadables sub-node unit-name"
-> > >  |- script =3D "
-> > >  |- compatible =3D "vendor
-> >
-> >
-> >
-> >
-> >
-> > This is a question for U-Boot (and barebox).
-> >
-> >
-> >
-> >
-> >    images {
-> >           base {
-> >                 ...
-> >           };
-> >
-> >           addon1 {
-> >                 ...
-> >           };
-> >
-> >           addon2 {
-> >                 ...
-> >           };
-> >     };
-> >
-> >     configurations {
-> >           ...
-> >           fdt =3D "base", "addon1", "addon2";
-> >     };
-> >
-> >
-> >
-> >
-> > Is U-Boot's "bootm" command able to dynamically construct
-> > the full DTB from "base" + "addon1" + "addon2"
-> > and pass to the kernel?
-> >
-> >
-> >
-> > When I used overlay from U-Boot command line last time,
-> > I typed complicated commands, following this manual:
-> > https://docs.u-boot.org/en/latest/usage/fdt_overlays.html
-> >
-> >
->
-> So far this is not possible with bootm, no. But if we can add
-> extensions to the FIT spec, then it should be possible to implement
-> this.
->
-> Is it (or will it be) possible to get Linux to build the DT + overlay
-> combinations?
+My new year's resolution was to improve the documentation of the
+character device API and gpio in general, so here we are.
 
+Wrt the formatting and file breakdown, I've taken inspiration from
+the userspace-api/media documentation.
 
-As Chen-Yu replied, dtb files specified in the -dtbs syntax in Makefiles
-are assembled at build time using fdtoverlay.
+Patch 1 adds documentation for the current chardev uAPI. I've added
+it to the userspace-api book, as that is the most obvious place a
+reader would look for it, but have also provided links from the
+admin-guide book where the gpio docs currently reside.
 
-Once they are built, you will never know how they are built
-unless you parse Makefiles.
+I realise MAINTAINERS should be updated with
+Documentation/userspace-api/gpio/, but the split out of GPIO UAPI
+hasn't made it into gpio/for-next yet, so I was unsure of how to
+handle that.
 
-Your script simply picks up *.dtb files found under arch/*/boot/dts/.
-There are three possibilities in *.dtb files:
+Patch 2 relocates the sysfs API doc to stress its deprecation by
+moving it to a new deprecated section, again in userspace-api but
+with a similar section in the admin-guide. The deprecated section
+also provides a placeholder for subsequent changes.
 
-[1] *.dtb assembled from other base and overlays
-[2] *.dtb directly compiled from a single *.dts
-[3] *.dtb meant to be used as a base of overlay,
-     but not meant for direct use.
+Patch 3 updates the sysfs API doc to reference the chardev
+documentation rather than gpio.h.
 
+Patch 4 adds documentation for the deprecated v1 version of the
+chardev uAPI.  It is deprecated, but still useful to have, if
+nothing else to help identify the differences between v1 and v2.
 
-It would be challenging to include only appropriate *.dtb
-(and *.dtbo) files into the FIT image.
+Patch 5 capitalizes the title of the admin-guide/gpio to match
+the other subsystems and the userspace-api book.
 
+Patch 6 adds a deprecation note to the gpio-mockup, as it is
+obsoleted by the gpio-sim.
 
+Patch 7 moves the gpio-mockup doc into the deprecated section.
 
-I wrote the following patch set, which might be useful
-to address this issue.
+I've got some minor updates for the kernel doc in gpio.h as well,
+but they make sense on their own so I'll send those separately
+keep the cross-posting to a minimum.
 
-https://lore.kernel.org/linux-kbuild/20240109120738.346061-1-masahiroy@kern=
-el.org/T/#t
+I realise the only thing less exciting than writing documentation
+is reviewing it, so my apologies and thanks in advance if you
+have the fortitude to attempt such a scintillating endeavour.
 
+Cheers,
+Kent.
 
+Kent Gibson (7):
+  Documentation: gpio: add chardev userspace API documentation
+  Documentation: gpio: move sysfs into a deprecated section
+  Documentation: gpio: update sysfs documentation to reference new
+    chardev doc
+  Documentation: gpio: add chardev v1 userspace API documentation
+  Documentation: gpio: capitalize GPIO in index title
+  Documentation: gpio: document gpio-mockup as obsoleted by gpio-sim
+  Documentation: gpio: move gpio-mockup into deprecated section
 
->
-> >
-> >
-> > One more question to confirm if I can use this
-> > for my practical use-cases.
-> >
-> > Is U-Boot able to handle FIT (includes kernel + DTs)
-> > and a separate initrd?
-> >
-> >   # bootm  <fit-address>:<conf-name>  <ramdisk-address>
-> >
-> >
-> > Presumably, it would be difficult to inject initramdisk
-> > into image.fit later, so I am hoping bootm would work like that,
-> > but I did not delve into U-Boot code.
-> >
-> >
->
-> The ramdisk is handled by the FIT configuration. I suppose it would be
-> possible to add a way to bypass the logic in select_ramdisk(), but I
-> wonder what is the use case for this?
+ Documentation/admin-guide/gpio/deprecated.rst |  13 ++
+ .../admin-guide/gpio/gpio-mockup.rst          |   8 ++
+ Documentation/admin-guide/gpio/index.rst      |   6 +-
+ Documentation/userspace-api/gpio/chardev.rst  | 114 ++++++++++++++++
+ .../userspace-api/gpio/chardev_v1.rst         | 129 ++++++++++++++++++
+ .../userspace-api/gpio/deprecated.rst         |  11 ++
+ .../userspace-api/gpio/error-codes.rst        |  78 +++++++++++
+ .../gpio/gpio-get-chipinfo-ioctl.rst          |  41 ++++++
+ .../gpio/gpio-get-lineevent-ioctl.rst         |  76 +++++++++++
+ .../gpio/gpio-get-linehandle-ioctl.rst        |  84 ++++++++++++
+ .../gpio/gpio-get-lineinfo-ioctl.rst          |  54 ++++++++
+ .../gpio/gpio-get-lineinfo-unwatch-ioctl.rst  |  47 +++++++
+ .../gpio/gpio-get-lineinfo-watch-ioctl.rst    |  72 ++++++++++
+ .../gpio-handle-get-line-values-ioctl.rst     |  56 ++++++++
+ .../gpio/gpio-handle-set-config-ioctl.rst     |  60 ++++++++
+ .../gpio-handle-set-line-values-ioctl.rst     |  48 +++++++
+ .../gpio/gpio-lineevent-data-read.rst         |  84 ++++++++++++
+ .../gpio/gpio-lineinfo-changed-read.rst       |  85 ++++++++++++
+ .../gpio/gpio-v2-get-line-ioctl.rst           |  99 ++++++++++++++
+ .../gpio/gpio-v2-get-lineinfo-ioctl.rst       |  50 +++++++
+ .../gpio/gpio-v2-get-lineinfo-watch-ioctl.rst |  67 +++++++++
+ .../gpio/gpio-v2-line-event-read.rst          |  83 +++++++++++
+ .../gpio/gpio-v2-line-get-values-ioctl.rst    |  51 +++++++
+ .../gpio/gpio-v2-line-set-config-ioctl.rst    |  57 ++++++++
+ .../gpio/gpio-v2-line-set-values-ioctl.rst    |  47 +++++++
+ .../gpio/gpio-v2-lineinfo-changed-read.rst    |  81 +++++++++++
+ Documentation/userspace-api/gpio/index.rst    |  18 +++
+ .../gpio/sysfs.rst                            |  10 +-
+ Documentation/userspace-api/index.rst         |   1 +
+ 29 files changed, 1621 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/deprecated.rst
+ create mode 100644 Documentation/userspace-api/gpio/chardev.rst
+ create mode 100644 Documentation/userspace-api/gpio/chardev_v1.rst
+ create mode 100644 Documentation/userspace-api/gpio/deprecated.rst
+ create mode 100644 Documentation/userspace-api/gpio/error-codes.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-get-chipinfo-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-get-lineevent-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-get-linehandle-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-get-lineinfo-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-get-lineinfo-unwatch-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-get-lineinfo-watch-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-handle-get-line-values-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-handle-set-config-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-handle-set-line-values-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-lineevent-data-read.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-lineinfo-changed-read.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-v2-get-line-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-v2-get-lineinfo-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-v2-get-lineinfo-watch-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-v2-line-event-read.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-v2-line-get-values-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-v2-line-set-config-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-v2-line-set-values-ioctl.rst
+ create mode 100644 Documentation/userspace-api/gpio/gpio-v2-lineinfo-changed-read.rst
+ create mode 100644 Documentation/userspace-api/gpio/index.rst
+ rename Documentation/{admin-guide => userspace-api}/gpio/sysfs.rst (94%)
 
+-- 
+2.39.2
 
-I believe ramdisk is likely used to boot the arm64 Linux system.
-
-Since the FIT image generated by this lacks ramdisk,
-it looks useless to me unless there is a way to pass a ramdisk somehow.
-
-
-Barebox is good because it already supports FIT + separate ramdisk.
-
-I usually use U-Boot for my work, so I need to inject a ramdisk
-if I want to use this patch.
-
-
-
-
-> >
-> > If it works, is it possible to verify the integrity of initrd?
-> > The kernel and DTs inside FIT will be verified, but not sure
-> > if it is possible for ramdisk.
->
-> I do have thoughts about a possible new FIT feature to allow external
-> files, which could perhaps include an initrd.
->
-> Regards,
-> Simon
->
-
-
---=20
-Best Regards
-Masahiro Yamada
