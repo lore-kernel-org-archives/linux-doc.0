@@ -1,213 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27E739851;
-	Tue,  9 Jan 2024 14:02:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7717436B0D
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 14:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSiKu9sm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11CA0C43390;
-	Tue,  9 Jan 2024 14:02:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704808939;
-	bh=ySGWGM6KAkW2Wvf68TJ4tX2XgT/a98DZvuxdIxEnpFg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=QSiKu9smlPJRTZ5t2XfwSf201qynpyqIXrjx2VivuJqP+AxM9kA3+HMzIAv6H0Q7S
-	 kkSsSg4uq+IzBGkq1BkauN/kmxjau2SUxLmvu91qLuxLpD9AY2NLpAbxSVuDtGtozt
-	 DlxXZ92Qt/+2uafPOuXWTEYN95m3Bd6uRwCdBE206GrgqNHUuG5ex74X/tQlavj6nG
-	 m1qGsGL0SVmX5Z+adZKVfi16ZfqA2hn847LFRPnU3GW5pNSe+7/+BOxbwv5QWrJvwJ
-	 V4+LU3C2eKnRE9fZhQ1HV7SHD7Pf+pJFrEe9XOk04NocNe9bEaxXDvhTHw2FJTtzPs
-	 z6PeZsLKUdp/A==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-204dfd7a89aso1387101fac.1;
-        Tue, 09 Jan 2024 06:02:19 -0800 (PST)
-X-Gm-Message-State: AOJu0YzFqwlDRlComlDnvKZSiBcBrLNJdW5EunJ6qGnyFtkKJHiEan7X
-	iDmRUxmD51Bx/GOPHXDJWJkOYsXn5VJecRxJnHQ=
-X-Google-Smtp-Source: AGHT+IFlTnlM5PnQAacW9Sy3tlgTzLI2sRSd9sbzVX2G3fIH3OgI3KNJpyEpr0ABbrCkSjtQP8yf/hVfXgpGMPs7EdA=
-X-Received: by 2002:a05:6870:170e:b0:203:bb46:fb67 with SMTP id
- h14-20020a056870170e00b00203bb46fb67mr305930oae.43.1704808938423; Tue, 09 Jan
- 2024 06:02:18 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="Uj2ZY9TA"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5573c79aac5so604959a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jan 2024 06:09:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1704809364; x=1705414164; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vfBxqDS9hHlXmsmRF9XL3tSKxrM0B3suizklfFVNCPU=;
+        b=Uj2ZY9TA6GFg1CkGdvuthSLcaB+62PRymZtizDPe2vATZmurnhpryKzjHbioMIE0g8
+         vHEGXmxGnELPKrKMyKZacIX0u0sXa/efvWLwKcLNTLOjgCz2eqz6/LanHPL21jIlGg/o
+         W9Ao7AvREwIkEDeZOMEn0RRf58zKU6bcw3xO4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704809364; x=1705414164;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vfBxqDS9hHlXmsmRF9XL3tSKxrM0B3suizklfFVNCPU=;
+        b=YFMMQ5lakoFsD86yns7Zoh1g2AzLUq0HOaemw22i0q4BPp5yQMUQex+i/JmCGk1XTl
+         tkA7wuOkiagHOPlO6HIsKRSHFEllcpJqQAWvNXfo6Gx4+x6Z+Qw2Jxxmb4wDG0oz8le6
+         sLTV6CICY00uv5xYxxyPgXuz8xvRCD1Yugs9qX13LQxeYaYxSCJe6Mki6p9jfzfuxhOc
+         J8U36VIJBDruJLEhHoG4lDev/UKDGLmu7kJJW4bwCaOppd8LVLP7r+wear99+COd4jTj
+         KlVCqyrqf4/CRe30JDB7wou5qWE8dSWt6DfcNGSPPrRXvJZpRQwxTDNvgC83oL52H7WR
+         moQA==
+X-Gm-Message-State: AOJu0YygJxtqiZ+eKds7F86VkxQ925A5AvoCyMxwR8fvBODAlWuZdB/E
+	gKSnU9jsHc8vbK/bZEG5awj3Uq17I2ns7Q==
+X-Google-Smtp-Source: AGHT+IFy0E+eIQjrX/iymTN4VUkB9dTkTMY4EJTa9tSrFbeWJr42iW8bPR9nUN+pr7lUJKLaWkgU2Q==
+X-Received: by 2002:a50:cdc5:0:b0:557:4249:44 with SMTP id h5-20020a50cdc5000000b0055742490044mr6444656edj.1.1704809363734;
+        Tue, 09 Jan 2024 06:09:23 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id el10-20020a056402360a00b00557f54cceb6sm907262edb.4.2024.01.09.06.09.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 06:09:23 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH] kernel-doc: document object-like preprocessor macros
+Date: Tue,  9 Jan 2024 15:03:45 +0100
+Message-ID: <20240109140345.3344094-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
-In-Reply-To: <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 9 Jan 2024 23:01:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
-Message-ID: <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Simon Glass <sjg@chromium.org>
-Cc: Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, U-Boot Mailing List <u-boot@lists.denx.de>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Simon,
+I had no idea this exists, but Randy pointed out it's been added quite
+a long time ago in cbb4d3e6510b ("scripts/kernel-doc: handle
+object-like macros"). Definitely way before I started to write all the
+drm docs sadly, so there's a few things where I skipped writing
+kernel-doc since I didn't know it was possible.
 
+Fix this asap by documenting the two possible kernel-doc flavours for
+preprocessor definitions.
 
-On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromium.org> wrote=
-:
->
-> Hi Masahiro,
->
-> On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.org> wro=
-te:
-> >
-> > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > Add a script which produces a Flat Image Tree (FIT), a single file
-> > > containing the built kernel and associated devicetree files.
-> > > Compression defaults to gzip which gives a good balance of size and
-> > > performance.
-> > >
-> > > The files compress from about 86MB to 24MB using this approach.
-> > >
-> > > The FIT can be used by bootloaders which support it, such as U-Boot
-> > > and Linuxboot. It permits automatic selection of the correct
-> > > devicetree, matching the compatible string of the running board with
-> > > the closest compatible string in the FIT. There is no need for
-> > > filenames or other workarounds.
-> > >
-> > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > FIT_COMPRESSION to select a different algorithm.
-> > >
-> > > The FIT can be examined using 'dumpimage -l'.
-> > >
-> > > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > > requires compression utilities for the algorithm being used. Supporte=
-d
-> > > compression options are the same as the Image.xxx files. For now ther=
-e
-> > > is no way to change the compression other than by editing the rule fo=
-r
-> > > $(obj)/image.fit
-> > >
-> > > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > > this here, since it must be built separately from the Linux build.
-> > >
-> > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > > ---
-> > >
-> > > Changes in v9:
-> > > - Move the compression control into Makefile.lib
-> > >
-> > > Changes in v8:
-> > > - Drop compatible string in FDT node
-> > > - Correct sorting of MAINTAINERS to before ARM64 PORT
-> > > - Turn compress part of the make_fit.py comment in to a sentence
-> > > - Add two blank lines before parse_args() and setup_fit()
-> > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> > > - Add 'mkimage' details Documentation/process/changes.rst
-> > > - Allow changing the compression used
-> > > - Tweak cover letter since there is only one clean-up patch
-> > >
-> > > Changes in v7:
-> > > - Add Image as a dependency of image.fit
-> > > - Drop kbuild tag
-> > > - Add dependency on dtbs
-> > > - Drop unnecessary path separator for dtbs
-> > > - Rebase to -next
-> > >
-> > > Changes in v5:
-> > > - Drop patch previously applied
-> > > - Correct compression rule which was broken in v4
-> > >
-> > > Changes in v4:
-> > > - Use single quotes for UIMAGE_NAME
-> > >
-> > > Changes in v3:
-> > > - Drop temporary file image.itk
-> > > - Drop patch 'Use double quotes for image name'
-> > > - Drop double quotes in use of UIMAGE_NAME
-> > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> > > - Avoid hard-coding "arm64" for the DT architecture
-> > >
-> > > Changes in v2:
-> > > - Drop patch previously applied
-> > > - Add .gitignore file
-> > > - Move fit rule to Makefile.lib using an intermediate file
-> > > - Drop dependency on CONFIG_EFI_ZBOOT
-> > > - Pick up .dtb files separately from the kernel
-> > > - Correct pylint too-many-args warning for write_kernel()
-> > > - Include the kernel image in the file count
-> > > - Add a pointer to the FIT spec and mention of its wide industry usag=
-e
-> > > - Mention the kernel version in the FIT description
-> > >
-> > >  Documentation/process/changes.rst |   9 +
-> > >  MAINTAINERS                       |   7 +
-> > >  arch/arm64/Makefile               |   7 +-
-> > >  arch/arm64/boot/.gitignore        |   1 +
-> > >  arch/arm64/boot/Makefile          |   6 +-
-> > >  scripts/Makefile.lib              |  16 ++
-> > >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++=
-++
-> > >  7 files changed, 334 insertions(+), 3 deletions(-)
-> > >  create mode 100755 scripts/make_fit.py
-> >
-> > I'll need Masahiro's Ack on the scripts/ changes before I can take this
-> > one.
->
-> Any thoughts on this request, please?
->
-> Regards,
-> Simon
->
+References: https://lore.kernel.org/dri-devel/dd917333-9ae8-4e76-991d-39b6229ba8ce@infradead.org/
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ Documentation/doc-guide/kernel-doc.rst | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 6ad72ac6861b..a966f1fd5c30 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -341,6 +341,32 @@ Typedefs with function prototypes can also be documented::
+    */
+    typedef void (*type_name)(struct v4l2_ctrl *arg1, void *arg2);
+ 
++Preprocessor defines documentation
++----------------------------------
++
++There are two ways to document preprocessor defines. The first works more or
++less like kernel-doc for functions, including parameters::
++
++  /**
++   * FUNC_NAME() - Brief description
++   * @arg1: description of arg1
++   * @arg2: description of arg2
++   *
++   * Description of the preprocessor function, may have multiple paragraphs.
++   */
++  #define FUNC_NAME(arg1, arg2)
++
++The second type is different and for object-like preprocessor macros without any
++parameters::
++
++  /**
++   * define MACRO - Brief description
++   *
++   * Description of the object-like preprocessor macro, may have multiple
++   * paragraphs.
++   */
++   #define MACRO
++
+ Highlights and cross-references
+ -------------------------------
+ 
+-- 
+2.43.0
 
-
-As I mentioned before, I am concerned with having
-the same "compatible" entries, with different contents,
-as you use the "compatible" string as an ID to selecting
-the target config node, right?
-
-
-
-
-
-$ fdtdump  arch/arm64/boot/image.fit
-
-        ...
-
-        conf-10 {
-            compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-"tq,am642-tqma6442l", "ti,am642";
-            description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier b=
-oard";
-            fdt =3D "fdt-10";
-            kernel =3D "kernel";
-        };
-
-        ...
-
-        conf-25 {
-            compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-"tq,am642-tqma6442l", "ti,am642";
-            description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier b=
-oard";
-            fdt =3D "fdt-25";
-            kernel =3D "kernel";
-        };
-
-
-
-
-
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
