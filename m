@@ -1,126 +1,96 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BC63D551;
-	Tue,  9 Jan 2024 20:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EC43D553;
+	Tue,  9 Jan 2024 20:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hw51Pz6r"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-67f95d69115so25189636d6.1;
-        Tue, 09 Jan 2024 12:01:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704830463; x=1705435263; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kXac4/81ga5dfpeZFySVL6do3EP7yaaUkmtReOLudXU=;
-        b=hw51Pz6rh0nYoJPLm4oAtPs2+w19h8L1LzNRvtrUS0UJ09HlI8FTIb+aakM4JxP1lu
-         UqQNN1uQanHSDns+XjN2AOaouA5RyRxW2FLlw5c+Hg3S7vynq7ZhVYzGMkpXl8i0slYb
-         oCzLhJreaC4PQ4vpopom9wiBU1XPRmxo7nCPoNUaxZ6ra18fRHt6P2R/TZUhH1/qYxTV
-         dsYHEJq1lr0l972+YYnFgBWMVMPOFbRqHngE0UzABHtT5OIyxqEUPypRpXZ+dPv7QJO0
-         l0gN2arzTW01CvDkpMGmMSFr9CJ03UR2e0f7T/toRUfCO0O1h0V80LD75eTKeg8UoJN3
-         gB6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704830463; x=1705435263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kXac4/81ga5dfpeZFySVL6do3EP7yaaUkmtReOLudXU=;
-        b=hF7nqGa9VgdXgWY09sy3YUXj1uEwx0UGyb6xWokLtxSAEYwRtjw5eRz0TV2wekxG2c
-         6WhfU7BvFLK36RcXd3Dz2EdgOtHC5RropxPlmKdtsficRdZqMHNh31cCULfr17qy8IDk
-         6F5P8tfH4f14oEJ/t1oGNHDCxgTGU7cCDL0ePYQYuior6bRjOquWAugiG8XlUyHsWwtv
-         ijeM5GJzRRJTEKcdnSTskHEUC0RCuFb8BJzNQds5Gt2yfhoFqS55xti+qUqeAWqNvxbN
-         NvcPbLCUpae6m/CC17JR1VnZE5sHUFvkYK+hDo4USCgvuw24oEI5bV9Uq22satsg68nv
-         qfDA==
-X-Gm-Message-State: AOJu0YzW05KMZdQXgzD9a9St/TEkkdJxd7hTIsbRWlcL3n80xXyGSe7o
-	FaEDmR3Sg5iyDuvGojAN2YJj+1U/paLXZwrVgmE=
-X-Google-Smtp-Source: AGHT+IEzXITr4/CoEu3IVJU+4WJtAV85gLT2EYcXcWdHlmubwIf3EZDf/6e6aVBfKpGtOvNjNtEQdDpPhlKUkECWt1s=
-X-Received: by 2002:a05:6214:1304:b0:67f:4926:60c0 with SMTP id
- pn4-20020a056214130400b0067f492660c0mr39853qvb.1.1704830462923; Tue, 09 Jan
- 2024 12:01:02 -0800 (PST)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="jRDFwKkX"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DEB9540E016C;
+	Tue,  9 Jan 2024 20:04:49 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id NiYoeZQQalKc; Tue,  9 Jan 2024 20:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1704830687; bh=myWkA513SB++du6rtg253t0uQ7b+BjB5yRYgGmBmizI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jRDFwKkXwbGGoD+MXs3OvMjNvwwQ9+CgDrEGogr4gtth8jcaqGA8nzkG6phHrHdiw
+	 8ugfNNYWrUrEjXOAuS7WmAVEc6Y4KIY8DxF9XSwUt9/FsYqf3a1Hamp+z/8pqKTZXR
+	 vxF759udYi/x+hWjxVmhoRYBoXlnI0F3rxwra4MNrw7ykwLZqxN1fCsbKQi0JGJU6E
+	 4UqhwVYJsprHSek0/xQUfGtb1DLdycaE60aYKDt0TKzEm8l1ArGPczjygFuQN5qxCm
+	 svHe9DvPmA9s/xj3vir7igBmlPzYsp0V8ghadpKNLDqBm49MbyPk6iVTZK8j7DW9nd
+	 9mf1Nxo/tdGpx+otoEPf46qdRbI4oijuNAqW2lYw553J5+baptZe/KXrr6zYOqtxJG
+	 0XYW9abUMNjA1b4j8k07YZ7TYcVMxRGRUOt0CArFdP5nGaKX/+qHlmEIUD4oKXHsEa
+	 22w8Sygby3jq0bPFUFnqkSZ/cU/7Ip3h0dWZyjmknv55YL/CprPIE+v1AA2OM0GFXN
+	 DRuIn5lu3UmZ6RQ1D2KwB0UoCnQGw5UJXsACuo/hU92ngguf2Y0hQQGxoyXVhxH3cZ
+	 tGehj+8PwCjVI3ktug0TE2g8tqg2Kjx6G+koOtkF5L0CEzTj+5nfWogJufXG0pmPHQ
+	 tbGUBMauPQB+Ejg4fQpSfNnY=
+Received: from zn.tnic (pd9530f8c.dip0.t-ipconnect.de [217.83.15.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 52EFA40E01B2;
+	Tue,  9 Jan 2024 20:04:39 +0000 (UTC)
+Date: Tue, 9 Jan 2024 21:04:34 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Tony Luck <tony.luck@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>,
+	Muralidhara M K <muralimk@amd.com>, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Muralidhara M K <muralidhara.mk@amd.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Begin a RAS section
+Message-ID: <20240109200434.GBZZ2m0vWjm9v795YX@fat_crate.local>
+References: <20231102114225.2006878-1-muralimk@amd.com>
+ <20231102114225.2006878-2-muralimk@amd.com>
+ <20231128142049.GTZWX3QQTSaQk/+u53@fat_crate.local>
+ <87a5pes8jy.fsf@meer.lwn.net>
+ <20240109183646.GAZZ2SPiMZv83J3f0a@fat_crate.local>
+ <87wmsiqok6.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240109135952.77458-1-warthog618@gmail.com>
-In-Reply-To: <20240109135952.77458-1-warthog618@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 9 Jan 2024 22:00:26 +0200
-Message-ID: <CAHp75Ve05bAK-ehZZ7XSci5VqR18cCb=hgnbFKXwy2QPkxo=pw@mail.gmail.com>
-Subject: Re: [PATCH 0/7] Documentation: gpio: add character device userspace
- API documentation
-To: Kent Gibson <warthog618@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, brgl@bgdev.pl, linus.walleij@linaro.org, 
-	andy@kernel.org, corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87wmsiqok6.fsf@meer.lwn.net>
 
-On Tue, Jan 9, 2024 at 4:00=E2=80=AFPM Kent Gibson <warthog618@gmail.com> w=
-rote:
->
-> My new year's resolution was to improve the documentation of the
-> character device API and gpio in general, so here we are.
->
-> Wrt the formatting and file breakdown, I've taken inspiration from
-> the userspace-api/media documentation.
->
-> Patch 1 adds documentation for the current chardev uAPI. I've added
-> it to the userspace-api book, as that is the most obvious place a
-> reader would look for it, but have also provided links from the
-> admin-guide book where the gpio docs currently reside.
->
-> I realise MAINTAINERS should be updated with
-> Documentation/userspace-api/gpio/, but the split out of GPIO UAPI
-> hasn't made it into gpio/for-next yet, so I was unsure of how to
-> handle that.
->
-> Patch 2 relocates the sysfs API doc to stress its deprecation by
-> moving it to a new deprecated section, again in userspace-api but
-> with a similar section in the admin-guide. The deprecated section
-> also provides a placeholder for subsequent changes.
->
-> Patch 3 updates the sysfs API doc to reference the chardev
-> documentation rather than gpio.h.
->
-> Patch 4 adds documentation for the deprecated v1 version of the
-> chardev uAPI.  It is deprecated, but still useful to have, if
-> nothing else to help identify the differences between v1 and v2.
->
-> Patch 5 capitalizes the title of the admin-guide/gpio to match
-> the other subsystems and the userspace-api book.
->
-> Patch 6 adds a deprecation note to the gpio-mockup, as it is
-> obsoleted by the gpio-sim.
->
-> Patch 7 moves the gpio-mockup doc into the deprecated section.
->
-> I've got some minor updates for the kernel doc in gpio.h as well,
-> but they make sense on their own so I'll send those separately
-> keep the cross-posting to a minimum.
->
-> I realise the only thing less exciting than writing documentation
-> is reviewing it, so my apologies and thanks in advance if you
-> have the fortitude to attempt such a scintillating endeavour.
+On Tue, Jan 09, 2024 at 12:44:41PM -0700, Jonathan Corbet wrote:
+> Of course, I miss things in my own email too...you know the drill...
 
-Thanks a lot for doing this!
+Yeah, tell me about it.
 
-...
+My train of thought with CCing maintainers in such cases usually is: I'd
+CC the mailing list as I don't want to bother the maintainer - she/he gets
+too much email anyway and this is an FYI thing anyway so she/he'll find
+it in the archives eventually.
 
->  Documentation/userspace-api/gpio/chardev.rst  | 114 ++++++++++++++++
->  .../userspace-api/gpio/chardev_v1.rst         | 129 ++++++++++++++++++
+> Yes, there is a lot of existing documentation that still doesn't live up
+> to this idea, but we can try to follow it for new stuff while the rest
+> is (slowly) fixed up.
 
-Shouldn't it be better to have chardev_v2.rst along with chardev.rst
-to be a link to it?
+The problem I see here is that not all of the RAS stuff will be
+"admin-guide" stuff but some design decisions we've made. I mean, if it
+is a really curious admin, it'll fit her/his alley but it won't be
+purely administrative tasks' descriptions.
 
-...
+In the end of the day, I don't really care where it is as long as it is
+in one place and we can point people to it and say, here, that's why we
+did it the way we did it and what you can do about it.
 
-May we actually state in the documentation that sysfs is subject to
-remove at some point?
+So I'm fine with admin-guide too - just pointing out a potential issue
+I see.
 
---=20
-With Best Regards,
-Andy Shevchenko
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
