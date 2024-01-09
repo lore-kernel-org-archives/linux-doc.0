@@ -1,63 +1,71 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B0B6364A4;
-	Tue,  9 Jan 2024 11:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 209FFC15;
-	Tue,  9 Jan 2024 03:57:01 -0800 (PST)
-Received: from [192.168.178.6] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 94ED23F64C;
-	Tue,  9 Jan 2024 03:56:10 -0800 (PST)
-Message-ID: <0a64731f-f6fa-4382-a5cb-a29061eff2d6@arm.com>
-Date: Tue, 9 Jan 2024 12:56:09 +0100
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EE0381A2;
+	Tue,  9 Jan 2024 12:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kectSwra"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A902AC433F1;
+	Tue,  9 Jan 2024 12:07:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704802067;
+	bh=Qxfrp9zAMsEhbKE3Ymgg87kkMOomQyLS0vfWL4J0F+M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kectSwrav1yP+2Vo5B7n6YkqnAOY1bAeskbI2G2sd3FVqZCWElsyoWKI6nToelpfC
+	 34l4cUwgzh77kQKAc2+2g/z2gE4tfrTUgBdirDlcCwEUw3T+fH1fwhVMDxXuCr9MHo
+	 bRDbs6zRRDtcfH8Xzm9MugQhM+3NCZh8LC1TEsrxnrTvJMOFWGQ/tduCa60Yhuzowi
+	 jgqJcnSGpbks0R1MsEDbB+iI0yc8vTTsKdVvUeACBomRNHQjWM4HfPEscVdSpk0IGe
+	 p/gdMuMDKS1HHsweC3K0mnk/HEai/Q6gD+u84hRxlZlCFnPQGkhrTUkCAL9xznh/X5
+	 rNDDRjaYKFWNw==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+	Rob Herring <robh+dt@kernel.org>,
+	Simon Glass <sjg@chromium.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] kbuild: create a list of DTBs and allow to install base dtb and overlays
+Date: Tue,  9 Jan 2024 21:07:33 +0900
+Message-Id: <20240109120738.346061-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/5] sched: Rename arch_update_thermal_pressure into
- arch_update_hw_pressure
-Content-Language: en-US
-To: Vincent Guittot <vincent.guittot@linaro.org>, linux@armlinux.org.uk,
- catalin.marinas@arm.com, will@kernel.org, sudeep.holla@arm.com,
- rafael@kernel.org, viresh.kumar@linaro.org, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org, mingo@redhat.com,
- peterz@infradead.org, juri.lelli@redhat.com, rostedt@goodmis.org,
- bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
- vschneid@redhat.com, lukasz.luba@arm.com, rui.zhang@intel.com,
- mhiramat@kernel.org, daniel.lezcano@linaro.org, amit.kachhap@gmail.com,
- corbet@lwn.net, gregkh@linuxfoundation.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: qyousef@layalina.io
-References: <20240108134843.429769-1-vincent.guittot@linaro.org>
- <20240108134843.429769-5-vincent.guittot@linaro.org>
-From: Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20240108134843.429769-5-vincent.guittot@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 08/01/2024 14:48, Vincent Guittot wrote:
-> Now that cpufreq provides a pressure value to the scheduler, rename
+1/4 and 2/4 are less controvertial refactoring. This will be useful
+for future cleanups.
 
-I.e. that thermal (e.g. IPA governor) switches from average
-(rq->avg_(thermal/hw).load_avg) (1) to instantenous (cpu_pressure) (2).
-I rememeber a related dicussion during LPC 2018 :-)
+3/4 and 4/4 address the current dtbs_install limitation; when the
+generic -dtbs syntax is used in Makefiles, only the final assembled
+dtbs are installed. We need to manually copy base dtbs and overlays
+if necessary. It would be sometimes useful to install such base
+componennts.
 
-> arch_update_thermal_pressure into HW pressure to reflect that it returns
-> a pressure applied by HW (i.e. with a high frequency change) and not
-> always related to thermal mitigation but also generated by max current
-> limitation as an example. Such high frequency signal needs filtering to be
-> smoothed and provide an value that reflects the average available capacity
-> into the scheduler time scale.
 
-So 'drivers/cpufreq/qcom-cpufreq-hw.c' is the only user of (1) right
-now. Are we expecting more users here? If this stays the only user,
-maybe it can do the averages by itself and we can completely switch to (2)?
+Masahiro Yamada (4):
+  kbuild: create a list of all built DTB files
+  kbuild: simplify dtbs_install by reading the list of compiled DTBs
+  kbuild: create a list of base and overlays for each DTB
+  kbuild: allow 'make dtbs_install' to install primitive DTBs
 
-[...]
+ .gitignore                      |  2 ++
+ Documentation/kbuild/kbuild.rst |  6 ++++++
+ Makefile                        |  6 +++---
+ scripts/Kbuild.include          |  6 ------
+ scripts/Makefile.build          | 26 +++++++++++++++-------
+ scripts/Makefile.dtbinst        | 38 +++++++++++++++++++++------------
+ scripts/Makefile.lib            |  8 +++++++
+ 7 files changed, 61 insertions(+), 31 deletions(-)
+
+-- 
+2.40.1
 
