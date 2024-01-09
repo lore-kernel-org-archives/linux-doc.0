@@ -1,66 +1,83 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A7E3C08A
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 12:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705F338F84
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 13:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="VKt5oT3W"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5578cb9645bso783430a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jan 2024 04:59:17 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="d8hEYxMp"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a2b27a67b7fso33310166b.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jan 2024 05:02:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1704805155; x=1705409955; darn=vger.kernel.org;
+        d=ffwll.ch; s=google; t=1704805323; x=1705410123; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:mail-followup-to:message-id:subject:cc:to
          :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ajGb4247KZo9KXfE9A+LGftI6qScHSAY4EbVlCZxC6s=;
-        b=VKt5oT3WoqRwa1/1uzCt/kEqheUAL9ZbLIGAY5gMKLStruIqP/5OoD96CBvNpc+LQZ
-         bgbDtYSEoGWkc+9NgDV5t8bylT2ezozVYcFTGcltJjhfk66yA1zaVzNdjSG64iBgp8Oa
-         qP8d5pa1nhqgPv+LwpbbJZ3r48anBQiLUYsHI=
+        bh=tgjWq+GNDqJ5m/X5ry3BHL3SU/PqMtpMN091r7LGUoA=;
+        b=d8hEYxMpzBR+8QlOEeIGhic/bKWnS+H+eT9e+INslkMW7LjVe+eknOYIUXPBdi4pQZ
+         UZNXmXJVgY50yApwicHHWLjCdeOtHYiALWrvB+iyaqJeNe+TaSOyCElQYD6+cYN3sxvI
+         JpofjVfa8QpTVORQ+qWDUPTt5VX4pchmsiySQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704805155; x=1705409955;
+        d=1e100.net; s=20230601; t=1704805323; x=1705410123;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:mail-followup-to:message-id:subject:cc:to
          :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ajGb4247KZo9KXfE9A+LGftI6qScHSAY4EbVlCZxC6s=;
-        b=tg2TM2o/AcZSSEBd9/EK2oe+Ncjpbpq1sSdUY1OlV9ksYq8RaiObqdObWvBJjjPU2/
-         my+LKnCZf7Kv5MsnPxrvrVO+gJKiJQFk2pGa/vCEgL5nyeaINeZ4RcNWP6+WUNb/8/4E
-         lyajn7F8Okwjd43SYfFTCJPoXppvmdQwpSYFfqid3nM9duu3/YcDkSB95HvSOqtM6Mtc
-         WYMbBbNfFq6T/zuGgkAniZyIWhhc2TK7xqwoYVOTV6l6U8ayilJMSWK5gYB3PMap30qI
-         bUgUYlC8HHzlitCj4cc4jodoyfdXmv+duSiX1D7u1DGfFU788ZEevMu1kYBVNsBYa2u9
-         fUUw==
-X-Gm-Message-State: AOJu0YzeGP6OsR4777BK468+RGEFcf06TUvy7eUa6Oqxex+fP5DwKYbH
-	HxMqwaXv3U46KIZ4U/57qsGbOqASYxGZRg==
-X-Google-Smtp-Source: AGHT+IEiNvJtidM6AfcfTl6aPABFX/Lddd3jmaxaqV9/ccBNBWaa06ww2Vw6qpTZsv2fGb9xghRo+Q==
-X-Received: by 2002:a17:906:6c86:b0:a2b:1e1a:ac4c with SMTP id s6-20020a1709066c8600b00a2b1e1aac4cmr1481053ejr.6.1704805155545;
-        Tue, 09 Jan 2024 04:59:15 -0800 (PST)
+        bh=tgjWq+GNDqJ5m/X5ry3BHL3SU/PqMtpMN091r7LGUoA=;
+        b=eMnHjq+4MFob4ZcfFUW9htzzt7zpPVm9jJE8Et2ZduBAFqLfxjSinWR565JUNqoV/P
+         rjEg3DHV67Ot57NeRnyRe8/OByKKzDNDRkZzVFxRdEKA6bDtoPPt8Gh33w4B/ybhdG1R
+         L4IUZEc/C2W/uHF1AT6zCAlEOAcZsp5L0F/7YHlUWIGogo/9m0DfBCropOJZHQ32bkBd
+         lQRtkVV+ELjyQi1klruG8oShNSi+iyzyXuDvRnk2Qr+UVemaP6cuox+tvxHAAhcfue6z
+         /jkaWmMeaLYJNNgYs8HAHt9yIT369EgUtVuHW/XOUAc5Xu7RQ5dI6B+GTQBd5Ui1n3jT
+         DcGw==
+X-Gm-Message-State: AOJu0YwEbA13Cex50QkA5ttZwb46t8lmYTiVQVQBUm3kiPZ+PqgyL9NI
+	SCvUzDu76qGUMn70yRM6sj1GhK5FyMC69g==
+X-Google-Smtp-Source: AGHT+IGjVfkl4K5438EgxZNYkdIb8UWsXUs419kNzc6Ewo2f7z4uJ8gnFTH0tvWgAwZexzBu/d17zw==
+X-Received: by 2002:a17:906:fe47:b0:a28:34e5:b609 with SMTP id wz7-20020a170906fe4700b00a2834e5b609mr5343630ejb.6.1704805322530;
+        Tue, 09 Jan 2024 05:02:02 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id la8-20020a170906ad8800b00a2af8872e9bsm1042408ejb.14.2024.01.09.04.59.14
+        by smtp.gmail.com with ESMTPSA id x12-20020a170906710c00b00a29430458efsm1031296ejj.65.2024.01.09.05.02.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 04:59:14 -0800 (PST)
-Date: Tue, 9 Jan 2024 13:59:12 +0100
+        Tue, 09 Jan 2024 05:02:01 -0800 (PST)
+Date: Tue, 9 Jan 2024 14:01:59 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2] drm/vram-helper: fix kernel-doc warnings
-Message-ID: <ZZ1DIDjGlHP-tmAi@phenom.ffwll.local>
-Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>
-References: <20240106032957.1195-1-rdunlap@infradead.org>
- <944ca2e6-23d9-44a2-a58c-4380e9ee575f@suse.de>
- <dd917333-9ae8-4e76-991d-39b6229ba8ce@infradead.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+Message-ID: <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+References: <20240108120056.22165-1-paul@crapouillou.net>
+ <20240108120056.22165-4-paul@crapouillou.net>
+ <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+ <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
+ <ZZwU827NMHbx7bsO@phenom.ffwll.local>
+ <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+ <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
+ <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,70 +87,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <dd917333-9ae8-4e76-991d-39b6229ba8ce@infradead.org>
+In-Reply-To: <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
 X-Operating-System: Linux phenom 6.5.0-4-amd64 
 
-On Mon, Jan 08, 2024 at 01:10:12PM -0800, Randy Dunlap wrote:
-> Hi Thomas,
+On Tue, Jan 09, 2024 at 12:06:58PM +0100, Paul Cercueil wrote:
+> Hi Daniel / Sima,
 > 
-> On 1/8/24 00:57, Thomas Zimmermann wrote:
-> > Hi,
+> Le lundi 08 janvier 2024 à 20:19 +0100, Daniel Vetter a écrit :
+> > On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
+> > > Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a écrit :
+> > > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil wrote:
+> > > > > Hi Daniel (Sima?),
+> > > > > 
+> > > > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter a écrit :
+> > > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil
+> > > > > > wrote:
+> > > > > > > +static void ffs_dmabuf_signal_done(struct ffs_dma_fence
+> > > > > > > *dma_fence, int ret)
+> > > > > > > +{
+> > > > > > > +	struct ffs_dmabuf_priv *priv = dma_fence->priv;
+> > > > > > > +	struct dma_fence *fence = &dma_fence->base;
+> > > > > > > +
+> > > > > > > +	dma_fence_get(fence);
+> > > > > > > +	fence->error = ret;
+> > > > > > > +	dma_fence_signal(fence);
+> > > > > > > +
+> > > > > > > +	dma_buf_unmap_attachment(priv->attach, dma_fence-
+> > > > > > > >sgt,
+> > > > > > > dma_fence->dir);
+> > > > > > > +	dma_fence_put(fence);
+> > > > > > > +	ffs_dmabuf_put(priv->attach);
+> > > > > > 
+> > > > > > So this can in theory take the dma_resv lock, and if the usb
+> > > > > > completion
+> > > > > > isn't an unlimited worker this could hold up completion of
+> > > > > > future
+> > > > > > dma_fence, resulting in a deadlock.
+> > > > > > 
+> > > > > > Needs to be checked how usb works, and if stalling
+> > > > > > indefinitely
+> > > > > > in
+> > > > > > the
+> > > > > > io_complete callback can hold up the usb stack you need to:
+> > > > > > 
+> > > > > > - drop a dma_fence_begin/end_signalling annotations in here
+> > > > > > - pull out the unref stuff into a separate preallocated
+> > > > > > worker
+> > > > > > (or at
+> > > > > >   least the final unrefs for ffs_dma_buf).
+> > > > > 
+> > > > > Only ffs_dmabuf_put() can attempt to take the dma_resv and
+> > > > > would
+> > > > > have
+> > > > > to be in a worker, right? Everything else would be inside the
+> > > > > dma_fence_begin/end_signalling() annotations?
+> > > > 
+> > > > Yup. Also I noticed that unlike the iio patches you don't have
+> > > > the
+> > > > dma_buf_unmap here in the completion path (or I'm blind?), which
+> > > > helps a
+> > > > lot with avoiding trouble.
+> > > 
+> > > They both call dma_buf_unmap_attachment() in the "signal done"
+> > > callback, the only difference I see is that it is called after the
+> > > dma_fence_put() in the iio patches, while it's called before
+> > > dma_fence_put() here.
 > > 
-> > thanks for the fix.
+> > I was indeed blind ...
 > > 
-> > Am 06.01.24 um 04:29 schrieb Randy Dunlap:
-> >> Remove the @funcs entry from struct drm_vram_mm to quieten the kernel-doc
-> >> warning.
-> >>
-> >> Use the "define" kernel-doc keyword and an '\' line continuation
-> >> to fix another kernel-doc warning.
-> >>
-> >> drm_gem_vram_helper.h:129: warning: missing initial short description on line:
-> >>   * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
-> >> drm_gem_vram_helper.h:185: warning: Excess struct member 'funcs' description in 'drm_vram_mm'
-> >>
-> >> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> >> Cc: David Airlie <airlied@gmail.com>
-> >> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >> Cc: dri-devel@lists.freedesktop.org
-> >> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >> Cc: Maxime Ripard <mripard@kernel.org>
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >> ---
-> >> v2: Add commit description
-> >>
-> >> base-commit: 610a9b8f49fbcf1100716370d3b5f6f884a2835a
-> >>
-> >>   include/drm/drm_gem_vram_helper.h |    3 +--
-> >>   1 file changed, 1 insertion(+), 2 deletions(-)
-> >>
-> >> diff -- a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-> >> --- a/include/drm/drm_gem_vram_helper.h
-> >> +++ b/include/drm/drm_gem_vram_helper.h
-> >> @@ -126,7 +126,7 @@ drm_gem_vram_plane_helper_cleanup_fb(str
-> >>                        struct drm_plane_state *old_state);
-> >>     /**
-> >> - * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
-> >> + * define DRM_GEM_VRAM_PLANE_HELPER_FUNCS - \
+> > So the trouble is this wont work because:
+> > - dma_buf_unmap_attachment() requires dma_resv_lock. This is a
+> > somewhat
+> >   recent-ish change from 47e982d5195d ("dma-buf: Move
+> >   dma_buf_map_attachment() to dynamic locking specification"), so
+> > maybe
+> >   old kernel or you don't have full lockdep enabled to get the right
+> >   splat.
 > > 
-> > Did something change wrt. doc syntax? I think this used to work without warnings. About this 'define': we don't use is in another docs. Can we leave it out here or is this the new syntax?
+> > - dma_fence critical section forbids dma_resv_lock
 > > 
+> > Which means you need to move this out, but then there's the potential
+> > cache management issue. Which current gpu drivers just kinda ignore
+> > because it doesn't matter for current use-case, they all cache the
+> > mapping
+> > for about as long as the attachment exists. You might want to do the
+> > same,
+> > unless that somehow breaks a use-case you have, I have no idea about
+> > that.
+> > If something breaks with unmap_attachment moved out of the fence
+> > handling
+> > then I guess it's high time to add separate cache-management only to
+> > dma_buf (and that's probably going to be quite some wiring up, not
+> > sure
+> > even how easy that would be to do nor what exactly the interface
+> > should
+> > look like).
 > 
-> There are no doc syntax changes that I know of. This is not
-> new syntax. It has been around since 2014:
->   cbb4d3e6510b ("scripts/kernel-doc: handle object-like macros")
+> Ok. Then I'll just cache the mapping for now, I think.
 
-I had no idea this exists, thanks a lot for this TIL :-)
-
-I guess the issue here is that this exists, yay, but it's not documented
-with the other here:
-
-https://dri.freedesktop.org/docs/drm/doc-guide/kernel-doc.html#structure-union-and-enumeration-documentation
-
-I guess a patch to kernel-doc.rst would be great. Adding some kernel-doc
-folks.
-
-Cheers, Sima
+Yeah I think that's simplest. I did ponder a bit and I don't think it'd be
+too much pain to add the cache-management functions for device
+attachments/mappings. But it would be quite some typing ...
+-Sima
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
