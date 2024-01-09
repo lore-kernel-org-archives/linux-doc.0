@@ -1,198 +1,175 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2061.outbound.protection.outlook.com [40.107.95.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1728336AF1
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 15:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A26939FD7;
+	Tue,  9 Jan 2024 15:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WZqIkWSp"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40e52ebd5c2so2640185e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jan 2024 07:17:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704813452; x=1705418252; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q+t2MvDTifDUi046AjiTt/a3s6JOV3dbN3004LwRA8c=;
-        b=WZqIkWSpQtw2fQoXD7iCA0qkfWlrsH9OoVzLk3PQCxh9rorYyYxlDC1o0/vGD8pDQj
-         QtzrNo0J1Bz4+Lvv/Klq70fGzoJnmNEnssguGW/L71rZzkvlJTmduP+ec3x0i6wetrz0
-         QvSN0EPTZuWn5Td6rIg2iD8Nmhgrw84KpaqIAV3y/bsnv3vGeBJZQ9IrfZ2NJ7J6g/wy
-         GfenAXgXkWxt5KYjuquLITNntwVN0JALbJvowwig+Sz5dNCwBEpRA5L0I31L0bty5Twe
-         /e9jvc8U2wmpyDC96cPO2LamiHMlS0TRfqRaEXszC8kSdTKdtx+16FT8Zz4sOPUFQOMs
-         rnLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704813452; x=1705418252;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q+t2MvDTifDUi046AjiTt/a3s6JOV3dbN3004LwRA8c=;
-        b=tmPsKB2E7VqT0id5Gets94uI81wsGi4GJFRZ92aP+FklWhwH5I8dsBjeFSfq2qTKs1
-         gM5gN8+7eM6CzNaYBtXE7owYTQPlfrLt/UvHK7i5pmyquvrZeArHPoVAxuFd+Js0R+qa
-         X/L9ix7OnxcRFeH/tOzkf/dU8krQTYVKUugY2Q5l6E0b8ywtuguLc8/3/ifTG6L1taP0
-         eha4eGPhlS2nvbBkd5Q27Ij6CWc0tXkR3VX1burHKWjQcvn08t+Kyo/9juttb94KMUn3
-         WzaYmJcRUNy2NBivgbxtxydYAP+Vyupp8RnyXBwRFYzQSGA0DWqoGag45iSEx0DF8KbE
-         a+uA==
-X-Gm-Message-State: AOJu0YzwKmEuTBxukOCjMNbEW7CBPyNoCe2D6U+4C9vz+bwePXTMFb04
-	h0nZ0jxuNDv2/iaQvvutPJIMnyTf/E/Xqw==
-X-Google-Smtp-Source: AGHT+IGf1g6r6RaoAkMuA3L3zOCJfcDNTT0RrTZbyuKfaEXIFqaTEcsV1rItOBV02ReIYQYFNCviMg==
-X-Received: by 2002:a5d:6243:0:b0:337:5a22:ee0a with SMTP id m3-20020a5d6243000000b003375a22ee0amr725967wrv.71.1704813452414;
-        Tue, 09 Jan 2024 07:17:32 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id h16-20020a05600004d000b003367ff4aadasm2653977wri.31.2024.01.09.07.17.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jan 2024 07:17:31 -0800 (PST)
-Message-ID: <4024d6c8-503f-42da-928a-589f2025188f@linaro.org>
-Date: Tue, 9 Jan 2024 16:17:30 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZBtt0KCj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GW/v+2wNlYboIBdhdJ9+ceVIZlrCwnVslwRiesLa9h+/FNm4I6Vq53OQtF7DLHgDF9XD8ZOiuog7/SUaRkSyDtyV7lsCFu3y3xtEPE4jEI/JxvhMCw5ARXucxy9htjaHFlV7APiJtXQyRKnLmJGSr9JIIHzv2qgcY0IFB+DfegXXzgdbeB7DUVcciJrPSBiaG6LmR5Z82jrPcUiiJz2wREkKlRvjNJtpmOMkmAtsAGcE92Z+K5P/7M961DQbDmdHQD0rHwTGUKCNymDptx/JxbRH9Dkr6+HJsmVFKnb8sQFkGbKUjFdfbRZDqRI1oM9lf4dMaFTCQJp/GxJZsU6e3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JfsaY1YQhPxcKLLdmfn/Rt+dTHJNhVqt+jnKuwNyOEw=;
+ b=Awj1FHiZzDLkHZVHsYFyemvL8cxdSoXcEtp+NFiLh6D+DwHDpBL8RhCJu8bbdYssad2hOOiREkIZXO7WwSUvA2zGQlqnTVqGzbAJUP154c8Lel6KM+JTOtW9FvCvrA7M63A5TrQL+kNVjVioxfHHEIcJUYNYAQwXG3YrvYWIZpSGqX3DWmu16PzdF+uOBlp2mBhzNMMHJggTcSaGYoQAxIFChEtS6V5dqjqL+9B+d+GVFGT7W9Om0OHd7bGQHcD2bNFbheen3sI4fjp2LRDdnBY6r+WgKUxqgopu34wxCgA9e+rvPYK9jXiginkdqscd1UsY7O/nYV2CjoCXTz51JA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JfsaY1YQhPxcKLLdmfn/Rt+dTHJNhVqt+jnKuwNyOEw=;
+ b=ZBtt0KCjPgdXYkhr9/NRNOyRGbcdZmGys6TfGEbprJ/NLCvPBBE6pVli5+JRXzwsZ6se4kMlRe2sCc07LSGiWtuA02E9m5iXLlm6JVZVxSZtb+IA0J01Y43b9Do0B7WXpouge37jM/xDIANFSFjHBp4hcZk9BkxQyk6ufS7qH8I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by MN0PR12MB6002.namprd12.prod.outlook.com (2603:10b6:208:37e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Tue, 9 Jan
+ 2024 15:21:52 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::6452:1eb:50fa:311d]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::6452:1eb:50fa:311d%4]) with mapi id 15.20.7159.020; Tue, 9 Jan 2024
+ 15:21:52 +0000
+Message-ID: <01f5686d-2fcc-49e5-8e78-7b4048c8be7b@amd.com>
+Date: Tue, 9 Jan 2024 09:21:49 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/1] docs: Include simplified link titles in main page's
+ index
+Content-Language: en-US
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>,
+ Carlos Bilbao <bilbao@vt.edu>, Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+References: <20231211005442.95457-1-bilbao@vt.edu>
+ <87o7erqxhm.fsf@meer.lwn.net>
+ <b55dc12b-0cd3-4f56-803e-4b26f1117c91@oracle.com>
+ <aa2ddfcc-8f2e-42c7-a81d-651a281eb6a3@infradead.org>
+From: Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <aa2ddfcc-8f2e-42c7-a81d-651a281eb6a3@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN6PR04CA0076.namprd04.prod.outlook.com
+ (2603:10b6:805:f2::17) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/3] Add support for LTC4282
-Content-Language: en-US
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Nuno Sa <nuno.sa@analog.com>, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-References: <20231218-b4-ltc4282-support-v4-0-4fc51f7d04f0@analog.com>
- <09d0ecb0460aafb3f45d3d17b1b40605d7d28b2a.camel@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <09d0ecb0460aafb3f45d3d17b1b40605d7d28b2a.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|MN0PR12MB6002:EE_
+X-MS-Office365-Filtering-Correlation-Id: 233d7cec-bc7e-483f-08cc-08dc1126b4e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	qwIclbL6lSoMv23M9oHYjFiC7KApZByXi2+AzpCjqDNU8EJ3ulfDLvwiXRM6NKPfAnlpL5arkNgeEik1M4HJTXJNhb9Qcoxahz+CYB7gS8J7QgEBo6I2g/Pva5tM9cFKug2js1I6wAK7NBB6McvmMZxGMr5Yq+1AIt5TH1RjatM4AQZO/0m1Ae1ay1jaF5D+vWOA6aNYockyiPZ5TX0HoVeaMfmaGxXf5b/EjULnKwTfs0IMCB3nZQbjyZ8P952cFOHPmx6a2vCAv4KZ1iZlo1xNXZBsFY/X7RiYjmMWFAeIIA/S7XXzPUJVHn5bdc+OLlja7Zn4vSvGhTNSiqApRwmaQwiW2NSd/J86c/8X4Y/vdjKj3Eq7AvkkzuukNAw66Td3OwD6KbDbQCrUJNAUjWAEaVdaMMsDAcEzkQQgSO1kWgiKHYNmQQvPqEgyzJvAJe+ZR5+UuVZGWmDA1kQBMg7C4yKyXpcUxXZdVv6vke7BxjxAoJKd/JtgOWa5m0/uYgtgDjGr8Lkn9YImU9JOAVge99UrZD03E3jwyKzemQxemnh2oO6kB51glm9FZj6jrk4j1TiyxV7ggHBXVxJQA5eIFP2SKQTJt13u2Tfcojl1pcq4P9/i/EAVVHpGFt+HTm7a3l4OOq6Gfd2QmAkcvQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(39860400002)(346002)(376002)(366004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(31686004)(66946007)(41300700001)(36756003)(86362001)(31696002)(38100700002)(26005)(2616005)(6512007)(53546011)(6506007)(966005)(6486002)(2906002)(66556008)(66476007)(110136005)(6666004)(316002)(54906003)(478600001)(8676002)(4326008)(8936002)(7416002)(44832011)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Tkd6ZFZDNnJ0bTdZTnJrcG1PaHBUUWpVOFhTTmpib29QNjRJbU1WTWZFVzF6?=
+ =?utf-8?B?a2hhbTFQWlphaXJpZEdiamk0REVTUFZPbnVzNUZVOTlOZU9FMCtlWXY4QVdR?=
+ =?utf-8?B?czlna3lqZ1hxUGxnU3VsSDVlR0RMMHBaTHo1ZDJFZmpIWFFaRkh2Z3RTVmpz?=
+ =?utf-8?B?Skl3M1ZTWmtJM3c4NlZuUDRTcnVvMHdjeThtRmcrWHJDcVlhT0JybXlxbVY4?=
+ =?utf-8?B?cXo3OXZFZ2NYMGUwQ0MvZkoyVnhtZ0VVbXZvM0ZkUVl4dS96UGdqY014aDNT?=
+ =?utf-8?B?MHFlZWllK3ZXRSs2STRNaG01MEhPZXRtOW5USTRUVnZGcU5LWkpxL2dDZmkx?=
+ =?utf-8?B?aFJ0RENFT0xibndQRUgyV012MGcvbEcxOTFRcUlkNVNvQ0pTN2xtQ1hRRjJQ?=
+ =?utf-8?B?ZUFHcTZDTFBSNkkwNHp4UUY2eEVlNDVaR25ZQUNObDg2OGxUMTkyenlXejhn?=
+ =?utf-8?B?L3M1bExBWUhmZlp5amhzeTNqM2Q2UnVDOXh5SDRzS3hzSUVYbnEzUzR6RWRG?=
+ =?utf-8?B?WXBYamdXaVB6U1F5SCtpMWlpcVF4b01kSnlsN2MxSTJTWDRzdjZsSFMxT3Az?=
+ =?utf-8?B?Q3o4enI3MllzZnhhQzFUYmdWZFZRdHNYSFhKQm5aaDRadnNtMUh5bDYzUzJz?=
+ =?utf-8?B?YXJlOFBtV0xxNFlWSTl1TDRqMkFDTCtLRUJCREVHMGpzTmRhS1pIVkVJTmZa?=
+ =?utf-8?B?Z0E1MzlvY3VoQmd3RXNnTDRkNHRwN3V2dGY2WFhqS1hGd0RlWVI5OEt1WGs1?=
+ =?utf-8?B?eXoza0ZXcG9hU1F6V09kb1BTVStCeFZWY3hYbmZOQUxuNHZmQnRuTWt6bER6?=
+ =?utf-8?B?dzFORGVaY0VtWFJjVzFCZ3NpZ2llQ0JaTXUzb3lnUEFVZXVNRWFOSGtmSkFH?=
+ =?utf-8?B?L1BwUkFIalZKMWkyV2JEa2hBamh0OG10bXNyVDZtM3ZIZXNKanpFczZBcktv?=
+ =?utf-8?B?ZGJHN3ZuakJYQzRXb0V5eE8xdFN2NURDQWdZR0NHMHQ2YjNSRkRLTndnOS95?=
+ =?utf-8?B?MVBkSFJxS1hDYU5adDFLUnlSSlNhaXhtelRpU1NUWjZRa0tEUE1tOWtqMGFO?=
+ =?utf-8?B?WnFUdUtJeDZsNmh1ODluVlFZQUxzRi84SnpKcVhoY3NlODh1Sk1sTWppaE9V?=
+ =?utf-8?B?eEdaSTFyZFZ2MDNsSXczODhWVUgvZkhjQ3JnZ2pmcEpXWVZ5Tzg1YjRhd0NK?=
+ =?utf-8?B?U1NVcnBlODF0QmVXYzdhVWlRRTg0NVlUanY4clo5VU5zUFBoZTBtOWdCYk42?=
+ =?utf-8?B?S1pSR1YvalpuOFpLQ0l5YW9MUy85YjZoN0tMTUhYTC8rVDhZWkRoTlVZc1cr?=
+ =?utf-8?B?WEhJd2duMk9JNHlrU3RaaFNVQitVSmt1RzBINFVqTmRaWCtMTTVNcXZtejlk?=
+ =?utf-8?B?MTVsR2E4Ukx2MEJZZEhpVXlDVDhqRWZtZXMzTkI0cWcxUW9FU3BNOGZ2ZDZQ?=
+ =?utf-8?B?eFNFUlhCZStMWDNROGZodWlwSUwrQmVXTUpwcFBwOE1zb09aWlFGdjh2WHBx?=
+ =?utf-8?B?cm5xbXRKTXBWbWZJNGJIRGZuQmxxNFYycmlKUTliN0tad3FPZFAxRnMvd3J1?=
+ =?utf-8?B?dGc5bXlyTXNkc2o4clFiVlUrdEU5YVlWTHBOUklKNDR1UnZPeC9LeEZUUnM2?=
+ =?utf-8?B?VVRNM2R1NUREWWh5S1dFdXNYMmF1dVp3REVVT2VJcGloSVkwYzBsOXVmNytX?=
+ =?utf-8?B?VVhwcHFWYXhaeGk4WTdHeEtHRnNQM0tRaTR5aHVDOTZlZHZXVE1rUmRzVzJV?=
+ =?utf-8?B?VDdtOTVGWXp2bE84WHhQaVAxaUFaemM2K0U3WFk5MGVBNnVscUk1SmR4TFNp?=
+ =?utf-8?B?R3MvWnJ2N1Y0THpDNFRFVEE4K0FsZ21LWFJ3MmRrMldDM2IrZGxoM2NPK2ZU?=
+ =?utf-8?B?c0tBL0dMa29ZLzRpb3h4cmU1RVFzWjd6WUExdklBclBtMGEwMEt4a2VnN0xm?=
+ =?utf-8?B?dW5lc25yRnVhaGwwU0htZGY3aS8yWDZkcXBWbU9GcHdtV2wrSlBVbDRJN1hr?=
+ =?utf-8?B?dlhVWjduMzdkK01zN2NiQmxpZW5BU3lwQktLRlBxMTBpaUNYWkdoeGhYRmtQ?=
+ =?utf-8?B?UXl0UTdXU2E0aWJGODJVWG9oZkc3ZTRTc01NT3hqbXRVYXFyM1AyT2VseVhv?=
+ =?utf-8?Q?V2dC7gf09Sjc9WdtObPiGHQhi?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 233d7cec-bc7e-483f-08cc-08dc1126b4e3
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2024 15:21:52.2651
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A0MIqH9JJO25zJekT6udKxzLdqcDBMsDqrf2xsBV1eoPvJ50n349bLQ5MRXOc4Pdc+cwvAzfdP1gJe7AmumVBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6002
 
-On 09/01/2024 13:19, Nuno Sá wrote:
-> On Mon, 2023-12-18 at 17:29 +0100, Nuno Sa wrote:
->> v1:
->>  *
->> https://lore.kernel.org/linux-hwmon/20231110151905.1659873-1-nuno.sa@analog.com/
->>
->> v2:
->>  *
->> https://lore.kernel.org/linux-hwmon/20231124-ltc4282-support-v2-0-952bf926f83c@analog.com
->>
->> v3:
->>  *
->> https://lore.kernel.org/r/20231205-ltc4282-support-v3-0-e0877b281bc2@analog.com
->>
->> Changes in v4:
->> - Patch 1:
->>  * New patch. Support fault attributes in voltage channels.
->> - Patch 2:
->>  * Add default values for gpios and divider properties;
->>  * Add adi,gpio3-monitor-enable property.
->> - Patch 3:
->>  - Docs:
->>   * Document that fault logs are also cleared when writing in reset_history
->>     attributes;
->>   * Document debugfs entries;
->>   * Add new in0_fault attributes and remove dropped ones.
->>  - Driver:
->>   * Add hwmon_in_fault attribute to report FET failures in VSOURCE;
->>   * Clear fault logs in reset_history;
->>   * Constify 'ltc4282_out_rates';
->>   * Add missing error check in ltc4282_cache_history();
->>   * Removed unused functions;
->>   * Renamed clk provider name so it's unique per device;
->>   * Support new adi,gpio3-monitor-enable property;
->>   * Dropped power1_good, fet_bad_fault, fet_short_fault, fault_logs_reset
->>     custom attributes. Note that only power1_good was really dropped.
->>     The other ones are supported in standard ABI.
->>   * Renamed debugfs directory for ltc4282-hwmonX;
->>   * Added in0 prefix to FET fault logs so it's clear they affect VSOURCE;
->>   * Fix in_range() condition (false means error);
->>   * Fix reset_history attributes. We should not write 0 in the lowest
->>     value. Write the theoretical max value in there. For vsource/vdd,
->>     also do it during device setup (or we would end up with 0).
->>   * Directly store the chip vdd instead of vin_mode in our device
->>     structure. Easier to handle reset_history;
->>   * Moved the vin_mode enum to reduce it's scope.
->>
->> As mentioned in v3 discussion, clearing the power bad fault log has no
->> effect but I'm still doing it for consistency and because we also allow
->> to read it in debugfs (so better allow to clear it as well)
->>
->> ---
->> Nuno Sa (3):
->>       dt-bindings: hwmon: Add LTC4282 bindings
->>       hwmon: add fault attribute for voltage channels
->>       hwmon: ltc4282: add support for the LTC4282 chip
->>
->>  Documentation/ABI/testing/sysfs-class-hwmon        |    9 +
->>  .../devicetree/bindings/hwmon/adi,ltc4282.yaml     |  159 ++
->>  Documentation/hwmon/index.rst                      |    1 +
->>  Documentation/hwmon/ltc4282.rst                    |  133 ++
->>  MAINTAINERS                                        |    8 +
->>  drivers/hwmon/Kconfig                              |   11 +
->>  drivers/hwmon/Makefile                             |    1 +
->>  drivers/hwmon/hwmon.c                              |    1 +
->>  drivers/hwmon/ltc4282.c                            | 1784
->> ++++++++++++++++++++
->>  include/linux/hwmon.h                              |    2 +
->>  10 files changed, 2109 insertions(+)
->>
->> Thanks!
->> - Nuno Sá
->>
+On 12/21/23 00:11, Randy Dunlap wrote:
 > 
-> Hi Guenter,
 > 
-> Just pinging this one. Not sure if you missed this one or just low priority in
-> your queue :)
+> On 12/20/23 21:59, Vegard Nossum wrote:
+>> On 15/12/2023 16:47, Jonathan Corbet wrote:
+>>> Carlos Bilbao <bilbao@vt.edu> writes:
+>>>
+>>>> The general consensus is that the documentation's website main entry point
+>>>> and its sidebar leave room for improvement.
+>> [...]
+>>> Meanwhile, I'm pondering on this patch, would like to know what others
+>>> think.  Carlos nicely put up some comparison images for us:
+>>>
+>>>     https://github.com/Zildj1an/linux-kernel-docs-compare/blob/main/comparison.png
+>>
+>> FWIW, I like it, but I would suggest these changes:
+>>
+>> Driver implementation API -> Driver APIs
+>> Testing -> Testing guide
+>> Hacking -> Hacking guides
+>> User-space tools -> Userspace tools
+>> User-space API -> Userspace APIs
+>> CPU Architectures -> CPU architectures
+>>
+>> I know "user space" is technically two words, but the one-word form is
+>> MUCH more prevalent in the kernel, for example if you check the mainline
+>> log you'll see something like:
+>>
+>> $ git log --grep 'user.*space' | grep -o 'user.*space' | sort | uniq -c | sort -g | tail -n 3
+>>     3135 user-space
+>>     7835 user space
+>>    26917 userspace
+>>
+>> I think it makes sense to pluralize API -> APIs in most places, so e.g.
+>> "Core APIs", "Driver APIs", "Userspace APIs". Just to emphasize that
+>> these are really collections of disparate APIs (e.g. workqueues is one
+>> API, linked lists is another, etc.).
+> 
+> +1 for all suggestions.
 
-Merge window is open. Is it a critical fix? Does not look like, so don't
-ping, it's pointless and only adds unnecessary traffic.
+These are good suggestions, sending v2.
 
-Best regards,
-Krzysztof
+> 
+> Thanks.
 
+Thanks,
+Carlos
