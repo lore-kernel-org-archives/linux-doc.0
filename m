@@ -1,205 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CA3364A2
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 10:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEA1364DF;
+	Tue,  9 Jan 2024 11:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ieR/QY3n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704795020; x=1736331020;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=ldm5WxS6kpLPSDpnf1qqA4H1af3L/INN+aDvbII5ms0=;
-  b=ieR/QY3n+YQZVvtfeCTpX/nHpUi1YmKbSFaRHxY1xicmLsPIw87upwm6
-   pKdL7HW4+QeADcQVe6hmu4yuLWzAOyqWTPW+rT6ouf44Be0dXLqFwUaMt
-   VNI7wkFP2hSzQCRwk+pgq2OcCnXSFzFKYwmKCJTbVcu7eYV5aP5l71OP7
-   oVTDZa8rAzmcaa2BLMMxvObdnxw/zksHabXniuqeJRhdT0l2I5H3vEd9A
-   aBms0G4fLDxEkx6pl3tvDLFdTy54ZftnryNkDq4a8h4XWNA67XI6iSRf4
-   q4vG3mdHod6PATMac4uwIAmwzNtTVHMPB/VWYLe5TDZTBImRtH/VPVnP5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="464549256"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="464549256"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 02:10:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="954963988"
-X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
-   d="scan'208";a="954963988"
-Received: from aakinrin-mobl2.amr.corp.intel.com (HELO localhost) ([10.252.36.188])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 02:10:16 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, Vegard Nossum
- <vegard.nossum@oracle.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, Jonathan
- Corbet <corbet@lwn.net>, Karol Herbst <kherbst@redhat.com>, Lyude Paul
- <lyude@redhat.com>
-Subject: Re: [PATCH -next] drm/nouveau: uapi: fix kerneldoc warnings
-In-Reply-To: <724fdfaf-0e38-408b-a2d6-e3f39f28743d@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231225065145.3060754-1-vegard.nossum@oracle.com>
- <724fdfaf-0e38-408b-a2d6-e3f39f28743d@redhat.com>
-Date: Tue, 09 Jan 2024 12:10:13 +0200
-Message-ID: <87r0iqx1fe.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="ozRW/dUl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1704798420;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=maPpi5pmUERxsgHdYN5Es/kkWeI0IWDyPa8TG0tWmAY=;
+	b=ozRW/dUls20TeIDbAFZQAcNeK5YMmXnYU/JGcPaHKHXpcKEv1EWitSfDamlyeWr5T20L5O
+	w0lsQuvK43q8ByVCo2FnUyLX73HApccAv22vd8MF078D5KlULSsUO9aJxws/CRQR2Bx0EB
+	Hc4OTHXRJXEERk4EDxFUbNMPX0EZ5NU=
+Message-ID: <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
+Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
+ interface
+From: Paul Cercueil <paul@crapouillou.net>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Andrzej Pietrasiewicz
+ <andrzej.p@collabora.com>,  linaro-mm-sig@lists.linaro.org, Nuno
+ =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>, Jonathan Cameron
+ <jic23@kernel.org>,  linux-media@vger.kernel.org
+Date: Tue, 09 Jan 2024 12:06:58 +0100
+In-Reply-To: <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
+References: <20240108120056.22165-1-paul@crapouillou.net>
+	 <20240108120056.22165-4-paul@crapouillou.net>
+	 <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
+	 <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
+	 <ZZwU827NMHbx7bsO@phenom.ffwll.local>
+	 <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
+	 <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
 
-On Mon, 08 Jan 2024, Danilo Krummrich <dakr@redhat.com> wrote:
-> On 12/25/23 07:51, Vegard Nossum wrote:
->> As of commit b77fdd6a48e6 ("scripts/kernel-doc: restore warning for
->> Excess struct/union"), we see the following warnings when running 'make
->> htmldocs':
->> 
->>    ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_MAP' description in 'drm_nouveau_vm_bind_op'
->>    ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_OP_UNMAP' description in 'drm_nouveau_vm_bind_op'
->>    ./include/uapi/drm/nouveau_drm.h:292: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_SPARSE' description in 'drm_nouveau_vm_bind_op'
->>    ./include/uapi/drm/nouveau_drm.h:336: warning: Excess struct member 'DRM_NOUVEAU_VM_BIND_RUN_ASYNC' description in 'drm_nouveau_vm_bind'
->> 
->> The problem is that these values are #define constants, but had kerneldoc
->> comments attached to them as if they were actual struct members.
->> 
->> There are a number of ways we could fix this, but I chose to draw
->> inspiration from include/uapi/drm/i915_drm.h, which pulls them into the
->> corresponding kerneldoc comment for the struct member that they are
->> intended to be used with.
->> 
->> To keep the diff readable, there are a number of things I _didn't_ do in
->> this patch, but which we should also consider:
->> 
->> - This is pretty good documentation, but it ends up in gpu/driver-uapi,
->>    which is part of subsystem-apis/ when it really ought to display under
->>    userspace-api/ (the "Linux kernel user-space API guide" book of the
->>    documentation).
->
-> I agree, it indeed looks like this would make sense, same goes for
-> gpu/drm-uapi.rst.
->
-> @Jani, Sima: Was this intentional? Or can we change it?
+Hi Daniel / Sima,
 
-I have no recollection of this, but overall I'd say do what makes sense,
-and where things are easiest to find.
+Le lundi 08 janvier 2024 =C3=A0 20:19 +0100, Daniel Vetter a =C3=A9crit=C2=
+=A0:
+> On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
+> > Le lundi 08 janvier 2024 =C3=A0 16:29 +0100, Daniel Vetter a =C3=A9crit=
+=C2=A0:
+> > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil wrote:
+> > > > Hi Daniel (Sima?),
+> > > >=20
+> > > > Le lundi 08 janvier 2024 =C3=A0 13:39 +0100, Daniel Vetter a =C3=A9=
+crit=C2=A0:
+> > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil
+> > > > > wrote:
+> > > > > > +static void ffs_dmabuf_signal_done(struct ffs_dma_fence
+> > > > > > *dma_fence, int ret)
+> > > > > > +{
+> > > > > > +	struct ffs_dmabuf_priv *priv =3D dma_fence->priv;
+> > > > > > +	struct dma_fence *fence =3D &dma_fence->base;
+> > > > > > +
+> > > > > > +	dma_fence_get(fence);
+> > > > > > +	fence->error =3D ret;
+> > > > > > +	dma_fence_signal(fence);
+> > > > > > +
+> > > > > > +	dma_buf_unmap_attachment(priv->attach, dma_fence-
+> > > > > > >sgt,
+> > > > > > dma_fence->dir);
+> > > > > > +	dma_fence_put(fence);
+> > > > > > +	ffs_dmabuf_put(priv->attach);
+> > > > >=20
+> > > > > So this can in theory take the dma_resv lock, and if the usb
+> > > > > completion
+> > > > > isn't an unlimited worker this could hold up completion of
+> > > > > future
+> > > > > dma_fence, resulting in a deadlock.
+> > > > >=20
+> > > > > Needs to be checked how usb works, and if stalling
+> > > > > indefinitely
+> > > > > in
+> > > > > the
+> > > > > io_complete callback can hold up the usb stack you need to:
+> > > > >=20
+> > > > > - drop a dma_fence_begin/end_signalling annotations in here
+> > > > > - pull out the unref stuff into a separate preallocated
+> > > > > worker
+> > > > > (or at
+> > > > > =C2=A0 least the final unrefs for ffs_dma_buf).
+> > > >=20
+> > > > Only ffs_dmabuf_put() can attempt to take the dma_resv and
+> > > > would
+> > > > have
+> > > > to be in a worker, right? Everything else would be inside the
+> > > > dma_fence_begin/end_signalling() annotations?
+> > >=20
+> > > Yup. Also I noticed that unlike the iio patches you don't have
+> > > the
+> > > dma_buf_unmap here in the completion path (or I'm blind?), which
+> > > helps a
+> > > lot with avoiding trouble.
+> >=20
+> > They both call dma_buf_unmap_attachment() in the "signal done"
+> > callback, the only difference I see is that it is called after the
+> > dma_fence_put() in the iio patches, while it's called before
+> > dma_fence_put() here.
+>=20
+> I was indeed blind ...
+>=20
+> So the trouble is this wont work because:
+> - dma_buf_unmap_attachment() requires dma_resv_lock. This is a
+> somewhat
+> =C2=A0 recent-ish change from 47e982d5195d ("dma-buf: Move
+> =C2=A0 dma_buf_map_attachment() to dynamic locking specification"), so
+> maybe
+> =C2=A0 old kernel or you don't have full lockdep enabled to get the right
+> =C2=A0 splat.
+>=20
+> - dma_fence critical section forbids dma_resv_lock
+>=20
+> Which means you need to move this out, but then there's the potential
+> cache management issue. Which current gpu drivers just kinda ignore
+> because it doesn't matter for current use-case, they all cache the
+> mapping
+> for about as long as the attachment exists. You might want to do the
+> same,
+> unless that somehow breaks a use-case you have, I have no idea about
+> that.
+> If something breaks with unmap_attachment moved out of the fence
+> handling
+> then I guess it's high time to add separate cache-management only to
+> dma_buf (and that's probably going to be quite some wiring up, not
+> sure
+> even how easy that would be to do nor what exactly the interface
+> should
+> look like).
 
-BR,
-Jani.
+Ok. Then I'll just cache the mapping for now, I think.
 
+> Cheers, Sima
 
->
->> 
->> - More generally, we might want a warning if include/uapi/ files are
->>    kerneldoc'd outside userspace-api/.
->> 
->> - I'd consider it cleaner if the #defines appeared between the kerneldoc
->>    for the member and the member itself (which is something other DRM-
->>    related UAPI docs do).
->> 
->> - The %IDENTIFIER kerneldoc syntax is intended for "constants", and is
->>    more appropriate in this context than ``IDENTIFIER`` or &IDENTIFIER.
->>    The DRM docs aren't very consistent on this.
->> 
->> Cc: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
->
-> Applied to drm-misc-next, thanks!
->
->> ---
->>   include/uapi/drm/nouveau_drm.h | 56 ++++++++++++++++------------------
->>   1 file changed, 27 insertions(+), 29 deletions(-)
->> 
->> diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
->> index 0bade1592f34..c95ef8a4d94a 100644
->> --- a/include/uapi/drm/nouveau_drm.h
->> +++ b/include/uapi/drm/nouveau_drm.h
->> @@ -238,34 +238,32 @@ struct drm_nouveau_vm_init {
->>   struct drm_nouveau_vm_bind_op {
->>   	/**
->>   	 * @op: the operation type
->> +	 *
->> +	 * Supported values:
->> +	 *
->> +	 * %DRM_NOUVEAU_VM_BIND_OP_MAP - Map a GEM object to the GPU's VA
->> +	 * space. Optionally, the &DRM_NOUVEAU_VM_BIND_SPARSE flag can be
->> +	 * passed to instruct the kernel to create sparse mappings for the
->> +	 * given range.
->> +	 *
->> +	 * %DRM_NOUVEAU_VM_BIND_OP_UNMAP - Unmap an existing mapping in the
->> +	 * GPU's VA space. If the region the mapping is located in is a
->> +	 * sparse region, new sparse mappings are created where the unmapped
->> +	 * (memory backed) mapping was mapped previously. To remove a sparse
->> +	 * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
->>   	 */
->>   	__u32 op;
->> -/**
->> - * @DRM_NOUVEAU_VM_BIND_OP_MAP:
->> - *
->> - * Map a GEM object to the GPU's VA space. Optionally, the
->> - * &DRM_NOUVEAU_VM_BIND_SPARSE flag can be passed to instruct the kernel to
->> - * create sparse mappings for the given range.
->> - */
->>   #define DRM_NOUVEAU_VM_BIND_OP_MAP 0x0
->> -/**
->> - * @DRM_NOUVEAU_VM_BIND_OP_UNMAP:
->> - *
->> - * Unmap an existing mapping in the GPU's VA space. If the region the mapping
->> - * is located in is a sparse region, new sparse mappings are created where the
->> - * unmapped (memory backed) mapping was mapped previously. To remove a sparse
->> - * region the &DRM_NOUVEAU_VM_BIND_SPARSE must be set.
->> - */
->>   #define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x1
->>   	/**
->>   	 * @flags: the flags for a &drm_nouveau_vm_bind_op
->> +	 *
->> +	 * Supported values:
->> +	 *
->> +	 * %DRM_NOUVEAU_VM_BIND_SPARSE - Indicates that an allocated VA
->> +	 * space region should be sparse.
->>   	 */
->>   	__u32 flags;
->> -/**
->> - * @DRM_NOUVEAU_VM_BIND_SPARSE:
->> - *
->> - * Indicates that an allocated VA space region should be sparse.
->> - */
->>   #define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8)
->>   	/**
->>   	 * @handle: the handle of the DRM GEM object to map
->> @@ -301,17 +299,17 @@ struct drm_nouveau_vm_bind {
->>   	__u32 op_count;
->>   	/**
->>   	 * @flags: the flags for a &drm_nouveau_vm_bind ioctl
->> +	 *
->> +	 * Supported values:
->> +	 *
->> +	 * %DRM_NOUVEAU_VM_BIND_RUN_ASYNC - Indicates that the given VM_BIND
->> +	 * operation should be executed asynchronously by the kernel.
->> +	 *
->> +	 * If this flag is not supplied the kernel executes the associated
->> +	 * operations synchronously and doesn't accept any &drm_nouveau_sync
->> +	 * objects.
->>   	 */
->>   	__u32 flags;
->> -/**
->> - * @DRM_NOUVEAU_VM_BIND_RUN_ASYNC:
->> - *
->> - * Indicates that the given VM_BIND operation should be executed asynchronously
->> - * by the kernel.
->> - *
->> - * If this flag is not supplied the kernel executes the associated operations
->> - * synchronously and doesn't accept any &drm_nouveau_sync objects.
->> - */
->>   #define DRM_NOUVEAU_VM_BIND_RUN_ASYNC 0x1
->>   	/**
->>   	 * @wait_count: the number of wait &drm_nouveau_syncs
->
-
--- 
-Jani Nikula, Intel
+Cheers,
+-Paul
