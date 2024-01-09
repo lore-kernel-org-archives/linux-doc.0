@@ -1,82 +1,104 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D87E37164
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jan 2024 11:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pqP4Q7qr"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-58e256505f7so1622906eaf.3
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jan 2024 03:24:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704799462; x=1705404262; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=S4SDTApmECBjOzEfaLEaZeXHNRvaFB8n31mQspM0kzI=;
-        b=pqP4Q7qrtH13LVzQQIbkrFcZWOdvC1Nr4902rbwIxXZ+X2JUqI5XEJVMrke+xCFYRi
-         BVDyRjp8sn98Ac20qQyNK1rp5kirGRPn4381TYVG/XtRTuxwfvr3XLVzus/zsqOTk/MM
-         pUUFV/VLpK3SZhB3tWJstw8S3GxYZukPyouWgj3LTIPKpAtGPEbhSng+20CRVWbn2Us2
-         HBaETC/cxP0n7VMVyfMdy+UN5raCKUzYJJtUGgAbFV7T+p12mAEZPP0VtwHxjyootKgC
-         WD6mpH7Mtkp41RpSFGDGh5Er/UkMXLl9My1yPiBUyW4vv7L5ZVyp5dbE2FQ+VRWbPyAP
-         D8sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704799462; x=1705404262;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S4SDTApmECBjOzEfaLEaZeXHNRvaFB8n31mQspM0kzI=;
-        b=l/l78ZeqpJknGIouD1bxLmcNwMNdVcgGrcmLUAWm660onL4L7NBrmCgJJwKYsLCGNA
-         KiILk5b0cm97pkFM2IjtMYaDP3vdwYQ8eDTSGCll52v7RZhypoYLUmheo4K7ttlsP/7H
-         FUGv+Z1pXxJQ/qW4a/ZVWhOojssfjzNi9BEdGlSKzfWvX8G+yqj39oUZnBX+JLvCrWdR
-         ogkPWQhAvi1JviL5WCsNsbBynE/vqC6LM952101BZeNJ8nTaZ/Ogw8GsTLTv/raT41oR
-         gvBJgtoDebpPv0/XA6QNmw0i+pxGkBKk3zKYckYItHDIOMpSZHtXVRPUxk0lUY5jTwwe
-         SXRw==
-X-Gm-Message-State: AOJu0YxDNKrJ8/8+BZgEGB/1GuW2XDRe8P5YSPb258bHxyUtojdFmg3o
-	5X+ctOCYPA1hhiCWAluckpAkUN3wQNXCKFHjrsfiDPg4w0KucQ==
-X-Google-Smtp-Source: AGHT+IHCLgsnZU5IHiP8NOccH6UwDy+IAfkge3Z3hsXsWEacGqaX4OClBqm4E9R659NzB4EBGfLT1yi7Zncj2QY5gMo=
-X-Received: by 2002:a05:6358:2928:b0:172:d2ac:1e with SMTP id
- y40-20020a056358292800b00172d2ac001emr3729385rwb.5.1704799462214; Tue, 09 Jan
- 2024 03:24:22 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 135EE29CE3;
+	Tue,  9 Jan 2024 11:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1A3BC15;
+	Tue,  9 Jan 2024 03:34:50 -0800 (PST)
+Received: from [192.168.178.6] (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A59B3F73F;
+	Tue,  9 Jan 2024 03:34:00 -0800 (PST)
+Message-ID: <d37e3d06-d9fc-4fc3-ad92-e7031489660a@arm.com>
+Date: Tue, 9 Jan 2024 12:33:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] Rework system pressure interface to the scheduler
+Content-Language: en-US
+To: Vincent Guittot <vincent.guittot@linaro.org>, linux@armlinux.org.uk,
+ catalin.marinas@arm.com, will@kernel.org, sudeep.holla@arm.com,
+ rafael@kernel.org, viresh.kumar@linaro.org, agross@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org, mingo@redhat.com,
+ peterz@infradead.org, juri.lelli@redhat.com, rostedt@goodmis.org,
+ bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+ vschneid@redhat.com, lukasz.luba@arm.com, rui.zhang@intel.com,
+ mhiramat@kernel.org, daniel.lezcano@linaro.org, amit.kachhap@gmail.com,
+ corbet@lwn.net, gregkh@linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: qyousef@layalina.io
 References: <20240108134843.429769-1-vincent.guittot@linaro.org>
- <20240108134843.429769-2-vincent.guittot@linaro.org> <158a8c60-cb54-43c1-8232-6a0a46cc6d42@arm.com>
-In-Reply-To: <158a8c60-cb54-43c1-8232-6a0a46cc6d42@arm.com>
-From: Vincent Guittot <vincent.guittot@linaro.org>
-Date: Tue, 9 Jan 2024 12:24:11 +0100
-Message-ID: <CAKfTPtBv5=Td2o_fEcq0E7JumyH6XW705kkKR=sPf+_YzB0aPQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] cpufreq: Add a cpufreq pressure feedback for the scheduler
-To: Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc: linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
-	sudeep.holla@arm.com, rafael@kernel.org, viresh.kumar@linaro.org, 
-	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org, 
-	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, bristot@redhat.com, 
-	vschneid@redhat.com, lukasz.luba@arm.com, rui.zhang@intel.com, 
-	mhiramat@kernel.org, daniel.lezcano@linaro.org, amit.kachhap@gmail.com, 
-	corbet@lwn.net, gregkh@linuxfoundation.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	qyousef@layalina.io
-Content-Type: text/plain; charset="UTF-8"
+From: Dietmar Eggemann <dietmar.eggemann@arm.com>
+In-Reply-To: <20240108134843.429769-1-vincent.guittot@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 8 Jan 2024 at 17:35, Dietmar Eggemann <dietmar.eggemann@arm.com> wrote:
->
-> On 08/01/2024 14:48, Vincent Guittot wrote:
-> > Provide to the scheduler a feedback about the temporary max available
-> > capacity. Unlike arch_update_thermal_pressure, this doesn't need to be
-> > filtered as the pressure will happen for dozens ms or more.
->
-> Is this then related to the 'medium pace system pressure' you mentioned
-> in your OSPM '23 talk?
+On 08/01/2024 14:48, Vincent Guittot wrote:
+> Following the consolidation and cleanup of CPU capacity in [1], this serie
+> reworks how the scheduler gets the pressures on CPUs. We need to take into
+> account all pressures applied by cpufreq on the compute capacity of a CPU
+> for dozens of ms or more and not only cpufreq cooling device or HW
+> mitigiations. we split the pressure applied on CPU's capacity in 2 parts:
+> - one from cpufreq and freq_qos
+> - one from HW high freq mitigiation.
+> 
+> The next step will be to add a dedicated interface for long standing
+> capping of the CPU capacity (i.e. for seconds or more) like the
+> scaling_max_freq of cpufreq sysfs. The latter is already taken into
+> account by this serie but as a temporary pressure which is not always the
+> best choice when we know that it will happen for seconds or more.
 
-Sorry I forgot to answer this question. Yes this is the medium pace
-system pressure that I mentioned at OSPM'23
->
-> >
+I guess this is related to the 'user space system pressure' (*) slide of
+your OSPM '23 talk.
+
+Where do you draw the line when it comes to time between (*) and the
+'medium pace system pressure' (e.g. thermal and FREQ_QOS).
+
+IIRC, with (*) you want to rebuild the sched domains etc.
+
+> 
+> [1] https://lore.kernel.org/lkml/20231211104855.558096-1-vincent.guittot@linaro.org/
+> 
+> Change since v1:
+> - Rework cpufreq_update_pressure()
+> 
+> Change since v1:
+> - Use struct cpufreq_policy as parameter of cpufreq_update_pressure()
+> - Fix typos and comments
+> - Make sched_thermal_decay_shift boot param as deprecated
+> 
+> Vincent Guittot (5):
+>   cpufreq: Add a cpufreq pressure feedback for the scheduler
+>   sched: Take cpufreq feedback into account
+>   thermal/cpufreq: Remove arch_update_thermal_pressure()
+>   sched: Rename arch_update_thermal_pressure into
+>     arch_update_hw_pressure
+>   sched/pelt: Remove shift of thermal clock
+> 
+>  .../admin-guide/kernel-parameters.txt         |  1 +
+>  arch/arm/include/asm/topology.h               |  6 +-
+>  arch/arm64/include/asm/topology.h             |  6 +-
+>  drivers/base/arch_topology.c                  | 26 ++++----
+>  drivers/cpufreq/cpufreq.c                     | 36 +++++++++++
+>  drivers/cpufreq/qcom-cpufreq-hw.c             |  4 +-
+>  drivers/thermal/cpufreq_cooling.c             |  3 -
+>  include/linux/arch_topology.h                 |  8 +--
+>  include/linux/cpufreq.h                       | 10 +++
+>  include/linux/sched/topology.h                |  8 +--
+>  .../{thermal_pressure.h => hw_pressure.h}     | 14 ++---
+>  include/trace/events/sched.h                  |  2 +-
+>  init/Kconfig                                  | 12 ++--
+>  kernel/sched/core.c                           |  8 +--
+>  kernel/sched/fair.c                           | 63 +++++++++----------
+>  kernel/sched/pelt.c                           | 18 +++---
+>  kernel/sched/pelt.h                           | 16 ++---
+>  kernel/sched/sched.h                          | 22 +------
+>  18 files changed, 144 insertions(+), 119 deletions(-)
+>  rename include/trace/events/{thermal_pressure.h => hw_pressure.h} (55%)
+
