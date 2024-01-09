@@ -1,102 +1,87 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADF8250F5;
-	Tue,  9 Jan 2024 09:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F4E36084;
+	Tue,  9 Jan 2024 09:54:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pqy49XeX"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-36082f3cb05so10168865ab.0;
-        Tue, 09 Jan 2024 01:00:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704790828; x=1705395628; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KgMEw0q4WwV2JumGUYsCtc6USbd39YZOyTk5WPojixQ=;
-        b=Pqy49XeXom17JEkH7V1h7k3tO5sj9DSZD07mLb31iU5byzR/XIyekctk45nXRnKFBZ
-         7G5yKlBfpapQg8YgmSbHl+finkBNFA5qSuchDafxTkDrBZCsK6SIYBkQdZbqC/w4s6hd
-         IlkUhGKWnx30edqIe+GoQGp2+vYQvrbhAvDdPCX7PJEWKiFIS+i0n2Q4aDxYZSow2wrK
-         VgCOtfTtlrhOY9vN/esDE+SElovUEwlb7mUlBBKxOT/eVhuyFCiXmcwN2OsTfMFjprwa
-         jGiHxwFIIZy6L2X1ByV2HfbdSa3gnEeIlze1qVv1EPQ5EkBXZ3KWZpobKq+Uv8rNp8PK
-         RxAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704790828; x=1705395628;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KgMEw0q4WwV2JumGUYsCtc6USbd39YZOyTk5WPojixQ=;
-        b=ioaWL3CwbydN3dnJEVV/DQAe4aq19dl8SLTZwvmOXtkoSqOj4bSIQmDxtFpucBccI5
-         L1lyh2/Bqu3hzg6RHvm4DMYmd1PrLeSJUnUsIlDJJMpMyrShHedhPDOwc6/YaivCvA6l
-         tazmmbxk48lLadpK35/ui4LtLTxvlwvZ4QmABhd4A7cEfGAEPQMehIokiaRgJIdpE7mW
-         heYok9aZ++Kyo7nz+v1AMvOrWyXr5Aee9D3WVcIfveipcoCBn5/wMpzfFdN+rHIZDvli
-         Kdbtj6FoR3VGzIGAbZGxd0zYBkzdsE9hfN1VqYZ6ZkAxE2+LvaRfhHQ67Kz6jioQzqy/
-         ZrfA==
-X-Gm-Message-State: AOJu0YxEnm1S4/IfHDU9v08Kg7Gpx2iT2bHWN/b6o1xCRUkbnsTsGMZt
-	JJI/3bqXFHnG/yFW3uXiQStePWSOaJBZjsUtGqk=
-X-Google-Smtp-Source: AGHT+IG9rmegvlzOUYbFciwQULzLSP/qGqK+RLbjVXhQgCS8VFINLPoQ1fOr7bSQCaGxxHgwQbLcmpm6+YCoDXmC/5w=
-X-Received: by 2002:a05:6e02:2387:b0:360:7403:3cca with SMTP id
- bq7-20020a056e02238700b0036074033ccamr6766345ilb.51.1704790827874; Tue, 09
- Jan 2024 01:00:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FY/IpNaR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78E2EC43399;
+	Tue,  9 Jan 2024 09:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704794075;
+	bh=nUyCPiAyC900yjLJBF6FBZMNZjPj9Z7ekOmNLj96sgo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=FY/IpNaRzfxBGF2r5e7bvVmvFEqGVQfKKkzLjdnlIsB8Y70JU/QWm6862DFrkD4Bu
+	 +A927GtZwHQk9M2e9a6zsJYQPQHpncrkSxFjrY+SPEoa9YZzog46jBdJ4sVc9vzT6f
+	 DX5tdeemQ7pzuKbje5CcRIcOKmF5YuGv5S2qpA/gsDRGHXjAYHaSKSVLJLu8x4g1Jn
+	 a95k9c4+BXrNRM3qFcO9wVYDctiRPYwHJWl2nFTd+j+zgqJMKQjY1c56qRBaBxsnp1
+	 VrTw2xHX0wCiZ5n2hGRISQUWivpQfqx7EmB4ee97TsbqhZn/DcUWj81u2KAEo2PeYS
+	 oM8+jCK5VuqPA==
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a28b0207c1dso214293466b.3;
+        Tue, 09 Jan 2024 01:54:35 -0800 (PST)
+X-Gm-Message-State: AOJu0YzxhUMmIQXRva2It4QGbZ6YQ0vkuC1tmipw0iRdGq2imoYBmYKe
+	2IAeOFw442WIlGLjUnMVbsSdk+kS6f60mLCCzhQ=
+X-Google-Smtp-Source: AGHT+IEvDGvLc6D4bw2e+BJBgBwS2p8x5UT6WM8XEfurhQgq9Bh61t9DsvH6nkZtagTYGgq74PHclQ23T+XHEalQxf8=
+X-Received: by 2002:a17:906:225c:b0:a28:fdc0:e704 with SMTP id
+ 28-20020a170906225c00b00a28fdc0e704mr422802ejr.53.1704794073913; Tue, 09 Jan
+ 2024 01:54:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231222013352.3873689-1-kcfeng0@nuvoton.com> <20231222013352.3873689-2-kcfeng0@nuvoton.com>
- <20240104001552.GA2096243-robh@kernel.org>
-In-Reply-To: <20240104001552.GA2096243-robh@kernel.org>
-From: Ban Feng <baneric926@gmail.com>
-Date: Tue, 9 Jan 2024 17:00:17 +0800
-Message-ID: <CALz278bzoQEUS+NMP=Xt9+4n4NovBR6bCucbvQp_FhHuMP0bnA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: hwmon: fan: Add fan binding to schema
-To: Rob Herring <robh@kernel.org>
-Cc: jdelvare@suse.com, linux@roeck-us.net, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, corbet@lwn.net, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org, kwliu@nuvoton.com, 
-	kcfeng0@nuvoton.com, DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com, 
-	naresh.solanki@9elements.com, billy_tsai@aspeedtech.com
+References: <20240108032117.215171-1-wangrui@loongson.cn> <CAAhV-H7qGSiXZFybw20p4inLVphtucUgcvw4H=JkSAfCRoe-sA@mail.gmail.com>
+In-Reply-To: <CAAhV-H7qGSiXZFybw20p4inLVphtucUgcvw4H=JkSAfCRoe-sA@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Tue, 9 Jan 2024 17:54:21 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4fUbpvTgFFHnndDk=2-eZbNX=9PxJYV6SWON3barRjiQ@mail.gmail.com>
+Message-ID: <CAAhV-H4fUbpvTgFFHnndDk=2-eZbNX=9PxJYV6SWON3barRjiQ@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] Rust enablement for LoongArch
+To: WANG Rui <wangrui@loongson.cn>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-doc@vger.kernel.org, loongson-kernel@lists.loongnix.cn
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 4, 2024 at 8:15=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
->
-> On Fri, Dec 22, 2023 at 09:33:50AM +0800, baneric926@gmail.com wrote:
-> > From: Naresh Solanki <naresh.solanki@9elements.com>
-> >
-> > Add common fan properties bindings to a schema.
-> >
-> > Bindings for fan controllers can reference the common schema for the
-> > fan
-> >
-> > child nodes:
-> >
-> >   patternProperties:
-> >     "^fan@[0-2]":
-> >       type: object
-> >       $ref: fan-common.yaml#
-> >       unevaluatedProperties: false
-> >
-> > Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
-> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> > Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
-> > ---
-> >  .../devicetree/bindings/hwmon/fan-common.yaml | 76 +++++++++++++++++++
-> >  1 file changed, 76 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.=
-yaml
->
-> Please implement my comments on v10.
->
+Squashed and applied, thanks.
 
-Hi Rob,
+Huacai
 
-I saw Aspeed Billy has already added enum to below patch:
-https://patchwork.kernel.org/project/linux-hwmon/patch/20240108074348.73501=
-4-2-billy_tsai@aspeedtech.com/
-
-Thanks,
-Ban
+On Mon, Jan 8, 2024 at 12:23=E2=80=AFPM Huacai Chen <chenhuacai@kernel.org>=
+ wrote:
+>
+> No need to split patches.
+>
+> Huacai
+>
+> On Mon, Jan 8, 2024 at 11:21=E2=80=AFAM WANG Rui <wangrui@loongson.cn> wr=
+ote:
+> >
+> > Enable Rust support for the LoongArch architecture.
+> >
+> > Previous versions:
+> > v0: https://lore.kernel.org/loongarch/20240106065941.180796-1-wangrui@l=
+oongson.cn/
+> >
+> > Changes in v1:
+> >  - Address htmldocs warning.
+> >
+> > WANG Rui (2):
+> >   Documentation: rust: Add a character to the first column
+> >   LoongArch: Enable initial Rust support
+> >
+> >  Documentation/rust/arch-support.rst | 13 +++++++------
+> >  arch/loongarch/Kconfig              |  1 +
+> >  arch/loongarch/Makefile             |  3 +++
+> >  scripts/generate_rust_target.rs     | 10 ++++++++++
+> >  4 files changed, 21 insertions(+), 6 deletions(-)
+> >
+> > --
+> > 2.43.0
+> >
