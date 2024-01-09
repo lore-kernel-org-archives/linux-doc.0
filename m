@@ -1,40 +1,41 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673F34437F;
-	Tue,  9 Jan 2024 19:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40381446D0;
+	Tue,  9 Jan 2024 19:38:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="V6m8c9Mx"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 409GCAMK032177;
-	Tue, 9 Jan 2024 19:38:08 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JsCn3DAO"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 409Gxr33016339;
+	Tue, 9 Jan 2024 19:38:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:date:subject:mime-version:content-type
 	:content-transfer-encoding:message-id:references:in-reply-to:to
-	:cc; s=qcppdkim1; bh=mISjbqlRqJVm6RisqWAuRaAGWyV18zAgZkFAhzyIWvs
-	=; b=V6m8c9Mx2eyhux4dK8665TNsA6fyLrEUnpaGhJjGuHQgzO7Lm3gMbmtsEvB
-	p1+f/99M2SM60MlmAYF2aIwBieGY9fCV4fq8/7k1qFfgMHti6yXBaQ4i11l1jbqf
-	/11POm1l8TiBS18saLUGLiLpx4HfPlfA00X6tjJ+BeeOtSvOwbTxfaUAHd9KDj+j
-	n2sn/MhCcsMTHrnwmRhNxP4V74e56MMiud81kqYLVqnqPAmjuruwEC5WRVdTjPpy
-	5JIpj9TCPATFZQdrclnLzGsyRbbvtv3mRO60GNmLZ3U2UHZLYngVlpeC6M2ZeFjy
-	TuRx2FGqJIBSRny8G6ObJLaUlgA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vh9evrfhy-1
+	:cc; s=qcppdkim1; bh=+Qmhckol3LBZQwJot12EAf5bVy2Rf/uHyT+4To7C3J0
+	=; b=JsCn3DAOL5dGuQbg9AbPFtybTs8AbU3IU2fM3psZaVJd0bp4eXfrdU2bh5F
+	lxw5tC2mrLFKnWXpebotu98uqHEyO28xAVT9DcwzD1HByxVeCsTcn158gnjTsqPI
+	fO/kAuTTIY0qLBYlspE2V740EKQb8L9O4Z+Ln1iP35goGy0SAPdXxBc3a+Zgkndi
+	8Nd1mk0nUBzI0bpD4aZ2OFndYd5KgxMeV0Q/orT+c35hx31z/eYBDxi3Sp0kejxy
+	lWsY9Xcr5DXWB39cvJg+5T91iDLwf9SSTcV1SWGNUrdb9Si5PYM2xfgRt+GOeoLW
+	32vY+VLeVYgS3dzO5Z0vR5rmJNA==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vh85t0pnu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jan 2024 19:38:08 +0000 (GMT)
+	Tue, 09 Jan 2024 19:38:06 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 409Jc72b012055
+	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 409Jc5Co030549
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 9 Jan 2024 19:38:07 GMT
+	Tue, 9 Jan 2024 19:38:05 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 9 Jan 2024 11:38:06 -0800
+ 15.2.1118.40; Tue, 9 Jan 2024 11:38:04 -0800
 From: Elliot Berman <quic_eberman@quicinc.com>
-Date: Tue, 9 Jan 2024 11:38:06 -0800
-Subject: [PATCH v16 28/34] gunyah: rsc_mgr: Add RPC to set VM boot context
+Date: Tue, 9 Jan 2024 11:38:02 -0800
+Subject: [PATCH v16 24/34] virt: gunyah: Share guest VM dtb configuration
+ to Gunyah
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,7 +44,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240109-gunyah-v16-28-634904bf4ce9@quicinc.com>
+Message-ID: <20240109-gunyah-v16-24-634904bf4ce9@quicinc.com>
 References: <20240109-gunyah-v16-0-634904bf4ce9@quicinc.com>
 In-Reply-To: <20240109-gunyah-v16-0-634904bf4ce9@quicinc.com>
 To: Alex Elder <elder@linaro.org>,
@@ -83,96 +84,168 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: eLF8qTS-lSW6WCS6nT_JzEqTWuhHD0yL
-X-Proofpoint-ORIG-GUID: eLF8qTS-lSW6WCS6nT_JzEqTWuhHD0yL
+X-Proofpoint-ORIG-GUID: vUg_t-T6NwaXapDllJE2l2cgFSriSpBt
+X-Proofpoint-GUID: vUg_t-T6NwaXapDllJE2l2cgFSriSpBt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- mlxlogscore=999 lowpriorityscore=0 mlxscore=0 priorityscore=1501
- adultscore=0 suspectscore=0 clxscore=1015 spamscore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 clxscore=1015
+ priorityscore=1501 adultscore=0 impostorscore=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2401090158
 
-The initial context of a the primary vCPU can be initialized by
-performing RM RPC calls.
+Gunyah Resource Manager sets up a virtual machine based on a device tree
+which lives in guest memory. Resource manager requires this memory to be
+provided as a memory parcel for it to read and manipulate. Construct a
+memory parcel, lend it to the virtual machine, and inform resource
+manager about the device tree location (the memory parcel ID and offset
+into the memory parcel).
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- drivers/virt/gunyah/rsc_mgr.h     |  2 ++
- drivers/virt/gunyah/rsc_mgr_rpc.c | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
+ drivers/virt/gunyah/vm_mgr.c | 49 ++++++++++++++++++++++++++++++++++++++++++--
+ drivers/virt/gunyah/vm_mgr.h | 13 +++++++++++-
+ include/uapi/linux/gunyah.h  | 14 +++++++++++++
+ 3 files changed, 73 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
-index 99c2db18579c..2acaf8dff365 100644
---- a/drivers/virt/gunyah/rsc_mgr.h
-+++ b/drivers/virt/gunyah/rsc_mgr.h
-@@ -84,6 +84,8 @@ int gunyah_rm_vm_configure(struct gunyah_rm *rm, u16 vmid,
- 			   u32 mem_handle, u64 image_offset, u64 image_size,
- 			   u64 dtb_offset, u64 dtb_size);
- int gunyah_rm_vm_init(struct gunyah_rm *rm, u16 vmid);
-+int gunyah_rm_vm_set_boot_context(struct gunyah_rm *rm, u16 vmid, u8 reg_set,
-+				  u8 reg_index, u64 value);
+diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+index be2061aa0a06..4379b5ba151e 100644
+--- a/drivers/virt/gunyah/vm_mgr.c
++++ b/drivers/virt/gunyah/vm_mgr.c
+@@ -445,8 +445,27 @@ static int gunyah_vm_start(struct gunyah_vm *ghvm)
+ 	ghvm->vmid = ret;
+ 	ghvm->vm_status = GUNYAH_RM_VM_STATUS_LOAD;
  
- struct gunyah_rm_hyp_resource {
- 	u8 type;
-diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
-index f4e396fd0d47..bbdae0b05cd4 100644
---- a/drivers/virt/gunyah/rsc_mgr_rpc.c
-+++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
-@@ -20,6 +20,7 @@
- #define GUNYAH_RM_RPC_VM_RESET			0x56000006
- #define GUNYAH_RM_RPC_VM_CONFIG_IMAGE		0x56000009
- #define GUNYAH_RM_RPC_VM_INIT			0x5600000B
-+#define GUNYAH_RM_RPC_VM_SET_BOOT_CONTEXT	0x5600000C
- #define GUNYAH_RM_RPC_VM_GET_HYP_RESOURCES	0x56000020
- #define GUNYAH_RM_RPC_VM_GET_VMID		0x56000024
- #define GUNYAH_RM_RPC_VM_SET_DEMAND_PAGING	0x56000033
-@@ -102,6 +103,15 @@ struct gunyah_rm_vm_config_image_req {
- 	__le64 dtb_size;
- } __packed;
- 
-+/* Call: VM_SET_BOOT_CONTEXT */
-+struct gunyah_rm_vm_set_boot_context_req {
-+	__le16 vmid;
-+	u8 reg_set;
-+	u8 reg_index;
-+	__le32 _padding;
-+	__le64 value;
-+} __packed;
+-	ret = gunyah_rm_vm_configure(ghvm->rm, ghvm->vmid, ghvm->auth, 0, 0, 0,
+-				     0, 0);
++	ghvm->dtb.parcel_start = ghvm->dtb.config.guest_phys_addr >> PAGE_SHIFT;
++	ghvm->dtb.parcel_pages = ghvm->dtb.config.size >> PAGE_SHIFT;
++	/* RM requires the DTB parcel to be lent to guard against malicious
++	 * modifications while starting VM. Force it so.
++	 */
++	ghvm->dtb.parcel.n_acl_entries = 1;
++	ret = gunyah_gmem_share_parcel(ghvm, &ghvm->dtb.parcel,
++				       &ghvm->dtb.parcel_start,
++				       &ghvm->dtb.parcel_pages);
++	if (ret) {
++		dev_warn(ghvm->parent,
++			 "Failed to allocate parcel for DTB: %d\n", ret);
++		goto err;
++	}
 +
- /* Call: VM_SET_DEMAND_PAGING */
- struct gunyah_rm_vm_set_demand_paging_req {
- 	__le16 vmid;
-@@ -435,6 +445,28 @@ int gunyah_rm_vm_init(struct gunyah_rm *rm, u16 vmid)
- 	return gunyah_rm_common_vmid_call(rm, GUNYAH_RM_RPC_VM_INIT, vmid);
- }
++	ret = gunyah_rm_vm_configure(ghvm->rm, ghvm->vmid, ghvm->auth,
++				     ghvm->dtb.parcel.mem_handle, 0, 0,
++				     ghvm->dtb.config.guest_phys_addr -
++					     (ghvm->dtb.parcel_start
++					      << PAGE_SHIFT),
++				     ghvm->dtb.config.size);
+ 	if (ret) {
+ 		dev_warn(ghvm->parent, "Failed to configure VM: %d\n", ret);
+ 		goto err;
+@@ -485,6 +504,8 @@ static int gunyah_vm_start(struct gunyah_vm *ghvm)
+ 		goto err;
+ 	}
  
++	WARN_ON(gunyah_vm_parcel_to_paged(ghvm, &ghvm->dtb.parcel, ghvm->dtb.parcel_start, ghvm->dtb.parcel_pages));
++
+ 	ghvm->vm_status = GUNYAH_RM_VM_STATUS_RUNNING;
+ 	up_write(&ghvm->status_lock);
+ 	return ret;
+@@ -531,6 +552,21 @@ static long gunyah_vm_ioctl(struct file *filp, unsigned int cmd,
+ 	long r;
+ 
+ 	switch (cmd) {
++	case GUNYAH_VM_SET_DTB_CONFIG: {
++		struct gunyah_vm_dtb_config dtb_config;
++
++		if (copy_from_user(&dtb_config, argp, sizeof(dtb_config)))
++			return -EFAULT;
++
++		if (overflows_type(dtb_config.guest_phys_addr + dtb_config.size,
++				   u64))
++			return -EOVERFLOW;
++
++		ghvm->dtb.config = dtb_config;
++
++		r = 0;
++		break;
++	}
+ 	case GUNYAH_VM_START: {
+ 		r = gunyah_vm_ensure_started(ghvm);
+ 		break;
+@@ -589,6 +625,15 @@ static void _gunyah_vm_put(struct kref *kref)
+ 	if (ghvm->vm_status == GUNYAH_RM_VM_STATUS_RUNNING)
+ 		gunyah_vm_stop(ghvm);
+ 
++	if (ghvm->vm_status == GUNYAH_RM_VM_STATUS_LOAD) {
++		ret = gunyah_gmem_reclaim_parcel(ghvm, &ghvm->dtb.parcel,
++						 ghvm->dtb.parcel_start,
++						 ghvm->dtb.parcel_pages);
++		if (ret)
++			dev_err(ghvm->parent,
++				"Failed to reclaim DTB parcel: %d\n", ret);
++	}
++
+ 	gunyah_vm_remove_functions(ghvm);
+ 
+ 	down_write(&ghvm->bindings_lock);
+diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+index a79c11f1c3a5..b2ab2f1bda3a 100644
+--- a/drivers/virt/gunyah/vm_mgr.h
++++ b/drivers/virt/gunyah/vm_mgr.h
+@@ -72,6 +72,13 @@ long gunyah_dev_vm_mgr_ioctl(struct gunyah_rm *rm, unsigned int cmd,
+  * @resource_tickets: List of &struct gunyah_vm_resource_ticket
+  * @auth: Authentication mechanism to be used by resource manager when
+  *        launching the VM
++ * @dtb: For tracking dtb configuration when launching the VM
++ * @dtb.config: Location of the DTB in the guest memory
++ * @dtb.parcel_start: Guest frame number where the memory parcel that we lent to
++ *                    VM (DTB could start in middle of folio; we lend entire
++ *                    folio; parcel_start is start of the folio)
++ * @dtb.parcel_pages: Number of pages lent for the memory parcel
++ * @dtb.parcel: Data for resource manager to lend the parcel
+  *
+  * Members are grouped by hot path.
+  */
+@@ -101,7 +108,11 @@ struct gunyah_vm {
+ 
+ 	struct device *parent;
+ 	enum gunyah_rm_vm_auth_mechanism auth;
+-
++	struct {
++		struct gunyah_vm_dtb_config config;
++		u64 parcel_start, parcel_pages;
++		struct gunyah_rm_mem_parcel parcel;
++	} dtb;
+ };
+ 
+ int gunyah_vm_parcel_to_paged(struct gunyah_vm *ghvm,
+diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+index 1af4c5ae6bc3..a89d9bedf3e5 100644
+--- a/include/uapi/linux/gunyah.h
++++ b/include/uapi/linux/gunyah.h
+@@ -42,6 +42,20 @@ struct gunyah_create_mem_args {
+ /*
+  * ioctls for gunyah-vm fds (returned by GUNYAH_CREATE_VM)
+  */
++
 +/**
-+ * gunyah_rm_vm_set_boot_context() - set the initial boot context of the primary vCPU
-+ * @rm: Handle to a Gunyah resource manager
-+ * @vmid: VM identifier
-+ * @reg_set: See &enum gunyah_vm_boot_context_reg
-+ * @reg_index: Which register to set; must be 0 for REG_SET_PC
-+ * @value: Value to set in the register
++ * struct gunyah_vm_dtb_config - Set the location of the VM's devicetree blob
++ * @guest_phys_addr: Address of the VM's devicetree in guest memory.
++ * @size: Maximum size of the devicetree including space for overlays.
++ *        Resource manager applies an overlay to the DTB and dtb_size should
++ *        include room for the overlay. A page of memory is typicaly plenty.
 + */
-+int gunyah_rm_vm_set_boot_context(struct gunyah_rm *rm, u16 vmid, u8 reg_set,
-+				  u8 reg_index, u64 value)
-+{
-+	struct gunyah_rm_vm_set_boot_context_req req_payload = {
-+		.vmid = cpu_to_le16(vmid),
-+		.reg_set = reg_set,
-+		.reg_index = reg_index,
-+		.value = cpu_to_le64(value),
-+	};
++struct gunyah_vm_dtb_config {
++	__u64 guest_phys_addr;
++	__u64 size;
++};
++#define GUNYAH_VM_SET_DTB_CONFIG	_IOW(GUNYAH_IOCTL_TYPE, 0x2, struct gunyah_vm_dtb_config)
 +
-+	return gunyah_rm_call(rm, GUNYAH_RM_RPC_VM_SET_BOOT_CONTEXT,
-+			      &req_payload, sizeof(req_payload), NULL, NULL);
-+}
-+
+ #define GUNYAH_VM_START		_IO(GUNYAH_IOCTL_TYPE, 0x3)
+ 
  /**
-  * gunyah_rm_get_hyp_resources() - Retrieve hypervisor resources (capabilities) associated with a VM
-  * @rm: Handle to a Gunyah resource manager
 
 -- 
 2.34.1
