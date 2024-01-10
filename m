@@ -1,68 +1,105 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12BF17C9;
-	Wed, 10 Jan 2024 14:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pankajraghav.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D2D4BA80;
+	Wed, 10 Jan 2024 14:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="fW14vjtT"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4T99Ft3qTGz9srN;
-	Wed, 10 Jan 2024 15:30:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
-	s=MBO0001; t=1704897058;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u+is9lVWUyd2B8sJ46D7VtCubhSyJxqMiGf3TjCy1Mc=;
-	b=fW14vjtTnjTSTg/rRqZ9p+pNE12JckicMl8pHUj1MOnGM614S4392nAqHapU6Hhvq5zwxk
-	TUlcHdHj4kYuRaKtH3wI+wF9cT+o6s1aOhFq79Ci384/8si+dpe+hNigyP00fJYcGMl1nf
-	5aBE9BDLRgyzU9VCwJL4GqtI4ZPrdjWEAFGL/obRnzjEhHJlfryOwEBUR/ZE1/uGQAWDBg
-	vrlF8rDZhtuWd7MMiWZWi2y87I+DGbhbw4xCVUOrAMAQzfv6bVe+YzEp4kioV1Au90oPHm
-	uYfc4nfivJQLqzBVcPIvwmGt4WiJ9ER1disqYXK84v2+PvyBTg9cxCHL8NJT6Q==
-Date: Wed, 10 Jan 2024 15:30:54 +0100
-From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	p.raghav@samsung.com
-Subject: Re: [PATCH v2 5/8] buffer: Add kernel-doc for brelse() and __brelse()
-Message-ID: <20240110143054.lc5t6vewsezwbcyv@localhost>
-References: <20240109143357.2375046-1-willy@infradead.org>
- <20240109143357.2375046-6-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aVyAMoLU"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6dac225bf42so2099138b3a.0;
+        Wed, 10 Jan 2024 06:34:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704897275; x=1705502075; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OLSXUeHHdbGB54dJbMp+HtxPkk5bxitC1akHZcc8oAI=;
+        b=aVyAMoLUvinISDxvBqv984KZ7sEHOQcbX+vxZpuzZjbxgtNJKypJzd22aLv8ByCCwz
+         TUz52EC4dgQyD7UYPKFjJRzJGEAME8Y9eeqlL/JgonIrhyLAL9kf2+OyGh8nuTMzQh04
+         8hXK4XqFlc/WXC5jbhs+s7VdZtxSE/Rn8tmi2zrJ/y66qimt+MOqsp6gctedepAAjcpL
+         UlMfyMgBNWJUZKN2MLBEbSnNpfyXYqPkRP02q8HeVjQHaamGc7gFUEPy9JypcUVlmaWs
+         9QJ5rpzWdzgLaMq/5smsyZcMyAhAryRllPyHc+tGopDnbMJUk0EYte0isc5ULFEqXKhz
+         r/XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704897275; x=1705502075;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OLSXUeHHdbGB54dJbMp+HtxPkk5bxitC1akHZcc8oAI=;
+        b=HQdm1Igy+bn3a2j91M1vq+zYoRN6UaWCoI/mjKmExJuA/zlOOSkRIkTqKRfGb04ka7
+         lqZGFHDs4IACzlzBoz2OBsp/4I8F+w5p3iw4+UJNybHhzs5fgefUI+z2cVxSLrO3tc8F
+         QWQu/2dId1r6zZ1xUfMqxHAFUdvJxizobC3KLoAoe5cxZXIZRftHiH6rjX/9Z+MRkEI5
+         /x550tLhYQc2ZqX1wyl77l4srNEULlwqWrQ6pfQdKsSguboIvtCZ3SmKoMSoG06u9dpp
+         WBfQIzPs96KKwsFE9XOR/v/9Ads0jupgvoL/BJobm69TbyqOIyKs/vaIzQniOZbgbQUZ
+         ej5w==
+X-Gm-Message-State: AOJu0Yz5jKa7E5UBTQ35gLTrrXD02YVjmiuNHDsjwuVYDj6QiYrdwkAV
+	E0hp1iGhGsmWTKW6vcaJg28=
+X-Google-Smtp-Source: AGHT+IH/Z8GrTZZI/D8kRzf5K8QuLLbXOltYoq27idbxz/Z8mJYGyqttDo2JTOhDH+KezBNmwh9WyQ==
+X-Received: by 2002:a17:90a:c78a:b0:28d:70b5:fafb with SMTP id gn10-20020a17090ac78a00b0028d70b5fafbmr691179pjb.32.1704897275361;
+        Wed, 10 Jan 2024 06:34:35 -0800 (PST)
+Received: from rigel (60-241-235-125.tpgi.com.au. [60.241.235.125])
+        by smtp.gmail.com with ESMTPSA id ds16-20020a17090b08d000b0028dadd8b688sm1622878pjb.52.2024.01.10.06.34.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 06:34:34 -0800 (PST)
+Date: Wed, 10 Jan 2024 22:34:28 +0800
+From: Kent Gibson <warthog618@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Phil Howard <phil@gadgetoid.com>, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+	brgl@bgdev.pl, andy@kernel.org, corbet@lwn.net
+Subject: Re: [PATCH 1/7] Documentation: gpio: add chardev userspace API
+ documentation
+Message-ID: <20240110143428.GA47193@rigel>
+References: <20240109135952.77458-1-warthog618@gmail.com>
+ <20240109135952.77458-2-warthog618@gmail.com>
+ <CA+kSVo_347gS+w_7ZXFDi9qDtT1aw15qoWRJZAVSkfbHShz7kQ@mail.gmail.com>
+ <20240110130158.GA28045@rigel>
+ <CACRpkdY9yXknHVQMq09Ep_y_Hk6iOkNqDS8icAKFW+fLDdwi-Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240109143357.2375046-6-willy@infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdY9yXknHVQMq09Ep_y_Hk6iOkNqDS8icAKFW+fLDdwi-Q@mail.gmail.com>
 
-> + * If all buffers on a folio have zero reference count, are clean
-> + * and unlocked, and if the folio is clean and unlocked then
+On Wed, Jan 10, 2024 at 03:27:50PM +0100, Linus Walleij wrote:
+> On Wed, Jan 10, 2024 at 2:02 PM Kent Gibson <warthog618@gmail.com> wrote:
+> > On Wed, Jan 10, 2024 at 11:40:34AM +0000, Phil Howard wrote:
+>
+> > > You catch more flies with honey than with vinegar, so I'd probably soften to:
+> > >
+> > > Before abusing userspace APIs to bitbash drivers for your hardware you should
+> > > read Documentation/driver-api/gpio/drivers-on-gpio.rst to see if your device has
+> > > an existing kernel driver. If not, please consider contributing one.
+> > >
+> >
+> > The note is is a rewording of a section of the existing sysfs documentation:
+> >
+> >     DO NOT ABUSE SYSFS TO CONTROL HARDWARE THAT HAS PROPER KERNEL DRIVERS.
+> >     PLEASE READ THE DOCUMENT AT Subsystem drivers using GPIO TO AVOID REINVENTING
+> >     KERNEL WHEELS IN USERSPACE. I MEAN IT. REALLY.
+> >
+> > So I've already toned down the vineger.
+>
+> I wrote that and I recognized the strong wording.
+>
+> I have come with great regret to the conclusion that it is better to
+> shout like this,
+> note that the sentence is not directed to any specific person and that means
+> it is more OK to be harsh. It is not feedback to anyone, it is black-and-yellow
+> warning tape to not go into this dangerous area.
+>
+> I like the current wording.
+>
 
-IIUC from your [PATCH 3/8], folio only needs to be unlocked to free the
-buffers as try_to_free_buffers() will remove the dirty flag and "clean"
-the folio?
-So:
-s/if folio is clean and unlocked/if folio is unlocked
+Can you clarify which current wording?
+Are you ok with the proposed chardev wording, or should I be more
+closely following the sysfs?
 
-> + * try_to_free_buffers() may strip the buffers from the folio in
-> + * preparation for freeing it (sometimes, rarely, buffers are removed
-> + * from a folio but it ends up not being freed, and buffers may later
-> + * be reattached).
-> + *
-> + * Context: Any context.
-> + */
->  static inline void brelse(struct buffer_head *bh)
->  {
->  	if (bh)
-> -- 
-> 2.43.0
-> 
+Cheers,
+Kent.
