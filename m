@@ -1,84 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2CA4F881;
-	Wed, 10 Jan 2024 21:39:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136B750242;
+	Wed, 10 Jan 2024 22:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S7yBG0E2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B2EC433C7;
-	Wed, 10 Jan 2024 21:39:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b88GyTBR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09EEEC433C7;
+	Wed, 10 Jan 2024 22:24:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704922770;
-	bh=+Wf7dFM17PCABnP3QlI61RztpXdJ/Fz/yzIT4/4Spug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S7yBG0E2a1Sz84oeUwEKBr44W50AjEf9pnpurhmA0TqQQSArk8VhOFEvVw0sISm26
-	 en2s3k6O57umIjEYLVCs3nbA1594KwVL5a8EnHth9ZEZNvudeE/G6/V9kK3g/+ymcG
-	 7bhnNVlWYHnhWwQbZrej1shbDauFtUPmJM93tKND5qjt8KYxEnxswddIbjLT+y8aDU
-	 iKttw+UBKMjKjrrWV/26ecB6TrBBU+zIleL6TbLovs67UyBUgN1O/yd+vCCl0tz5wl
-	 Sfa0S1Et5VR8RdzAXWFANC8hh/Mn030iP7G3JGALDfrSw6Fns3hJjuL3HLnwpkSNUI
-	 oNSgBf//GQNkw==
-Date: Wed, 10 Jan 2024 21:39:23 +0000
-From: Mark Brown <broonie@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>, linux-spi@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>
-Subject: Re: [PATCH 05/13] spi: axi-spi-engine: add SPI offload support
-Message-ID: <a94d7aae-3d5c-4204-83f6-5374c3166f58@sirena.org.uk>
-References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
- <20240109-axi-spi-engine-series-3-v1-5-e42c6a986580@baylibre.com>
+	s=k20201202; t=1704925470;
+	bh=AoQukHVcIbmk0qSi1i/n2ripa6DEo4EtqV+Fsg0EiLo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=b88GyTBR19+wvSfALyqT9ZOU+D8F7q/RzFN/2ZDwFNEmzFg1uFbOu78QHWfCR7Wf8
+	 PQ4S8QOraaWZ30Ok6UM1Ip+dGYaFpN0YDaHr1kF24sc3jqPoS+p9W8Cu8xU95SpG8O
+	 LcJpF836kf+paYwZBvE4hgtvjlF57TuXbpQa8GYL7DWo9BJeoAFDI/It7e817rL/1E
+	 ZeCywLE55Ds+lFCQygYvV3xr7fvo2VlvRx03e9qF6RGxLUSYgPtDj3+wAY7HS52ikn
+	 EYyeKITstDwkMW3mHObAi+F3XMhxOT73IXQqlxkpohel9EImhm2p2Xxz8+YD2ODubr
+	 M8q9+z+kGORRA==
+Date: Wed, 10 Jan 2024 14:24:28 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Luo Jie <quic_luoj@quicinc.com>
+Cc: <agross@kernel.org>, <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+ <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
+ <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <conor+dt@kernel.org>, <corbet@lwn.net>, <catalin.marinas@arm.com>,
+ <will@kernel.org>, <p.zabel@pengutronix.de>, <linux@armlinux.org.uk>,
+ <shannon.nelson@amd.com>, <anthony.l.nguyen@intel.com>,
+ <jasowang@redhat.com>, <brett.creeley@amd.com>, <rrameshbabu@nvidia.com>,
+ <joshua.a.hay@intel.com>, <arnd@arndb.de>, <geert+renesas@glider.be>,
+ <neil.armstrong@linaro.org>, <dmitry.baryshkov@linaro.org>,
+ <nfraprado@collabora.com>, <m.szyprowski@samsung.com>, <u-kumar1@ti.com>,
+ <jacob.e.keller@intel.com>, <andrew@lunn.ch>, <netdev@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <ryazanov.s.a@gmail.com>,
+ <ansuelsmth@gmail.com>, <quic_kkumarcs@quicinc.com>,
+ <quic_suruchia@quicinc.com>, <quic_soni@quicinc.com>,
+ <quic_pavir@quicinc.com>, <quic_souravp@quicinc.com>,
+ <quic_linchen@quicinc.com>, <quic_leiwei@quicinc.com>
+Subject: Re: [PATCH net-next 00/20] net: ethernet: Add qcom PPE driver
+Message-ID: <20240110142428.52026d9e@kernel.org>
+In-Reply-To: <20240110114033.32575-1-quic_luoj@quicinc.com>
+References: <20240110114033.32575-1-quic_luoj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vA0E8xm0iXmuRqc+"
-Content-Disposition: inline
-In-Reply-To: <20240109-axi-spi-engine-series-3-v1-5-e42c6a986580@baylibre.com>
-X-Cookie: Do you have lysdexia?
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Wed, 10 Jan 2024 19:40:12 +0800 Luo Jie wrote:
+> The PPE(packet process engine) hardware block is available in Qualcomm
+> IPQ chipsets that support PPE architecture, such as IPQ9574 and IPQ5332.
 
---vA0E8xm0iXmuRqc+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What's the relationship between this driver and QCA8084?
 
-On Wed, Jan 10, 2024 at 01:49:46PM -0600, David Lechner wrote:
-> This adds an implementation of the SPI offload_ops to the AXI SPI Engine
-> driver to provide offload support.
->=20
-> Offload lookup is done by device property lookup. SPI Engine commands
-> and tx data  are recorded by writing to offload-specific FIFOs in the
-> SPI Engine hardware.
+In the last month I see separate changes from you for mdio-ipq4019.c,
+phy/at803x.c and now this driver (none of which got merged, AFAICT.)
+Are you actually the author of this code, or are you just trying 
+to upstream bunch of vendor code?
 
-Glancing through here I'm not seeing anything here that handles DMA
-mapping, given that the controller will clearly be doing DMA here that
-seems surprising.
+Now you're dumping another 10kLoC on the list, and even though this is
+hardly your first posting you're apparently not aware of our most basic
+posting rules:
+https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#tl-dr
 
---vA0E8xm0iXmuRqc+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWfDooACgkQJNaLcl1U
-h9CJ8wf+IdN87MPrgtB1OLZ7i6VO0ejFYyduotqQrFiECH4HDV73++1TiR9FGcG/
-hqgtxpVCkSyWFqpqDhkdBaOFRZp4YNbTlaOkjkFGXmNQSnBqJwQHbQW0Ipi57mB+
-jm+GbuJTZODou/WIWxWBiYF0C4nVQz9XtwU5aOJVuo+2kNTZjcCK+SN8uZIZEw3j
-SbyxkVUA/6thCgvZK38hpPPuP8P12Hkdpb1lrA3AdyP3TYQXYOpxmzFciCGk5OM3
-DS0wx7m1Cgvq+Dj8XfdxBgpTaBAw9IGfDdEU5ArSKBv9Wrg0tqXkxEsZ4oPD47dQ
-uvru/KvjQwUFC4S6UVreNedMuupfKw==
-=Wfhe
------END PGP SIGNATURE-----
-
---vA0E8xm0iXmuRqc+--
+The reviewers are getting frustrated. Please, help us help you.
+Stop throwing code at the list and work out a plan with Andrew
+and others on how to get something merged...
+-- 
+pv-bot: 15cnt
+pw-bot: cr
