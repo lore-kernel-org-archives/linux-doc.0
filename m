@@ -1,330 +1,390 @@
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EBF4EB37;
-	Wed, 10 Jan 2024 17:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DE14D100
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 17:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="Jza+ksYm"
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx1.riseup.net (Postfix) with ESMTPS id 4T9FYT3nS6zDqw4;
-	Wed, 10 Jan 2024 17:44:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1704908696; bh=9z+r23Xwz4qJJ+AfJgGnIlXWBhGsIf8hm3cRV4dV0p8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Jza+ksYmUk/mTGp7MHExyHkOpl2kb+WHmke5KAG6a9iAnYJtqNa/fVUqdCDmb+ic1
-	 Ujh2/N31BpzH1jyqw++03Ufp6rzodj+TdtukXv1u/7R0WvLZjlUEnEbLZ0BmS68+5a
-	 v5iwjoiDXa8C/34JvJUp+K+nsrdVLWVKg10EPWuY=
-X-Riseup-User-ID: 812207DC097E4A86F5EEAC1389160C306716332C8583F7D6FB65CD63A397DA3A
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4T9FYP2xMWzJp9q;
-	Wed, 10 Jan 2024 17:44:41 +0000 (UTC)
-From: Arthur Grillo <arthurgrillo@riseup.net>
-Date: Wed, 10 Jan 2024 14:44:07 -0300
-Subject: [PATCH v2 7/7] drm/vkms: Create KUnit tests for YUV conversions
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="N5mrD3rX"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40AHl350023222;
+	Wed, 10 Jan 2024 17:48:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=ID43UcPG+hgI+WZn/OgoYw4kd4mAE8E00X4v9pQ4JKs=;
+ b=N5mrD3rX8yCGFgnP67eFW92fWTATT6NrV9w2raJrZYlqVnUW17Viz5Tr0p+bPaimszHn
+ VCDXh1B8EKTH8UqzQ4dH5qI1jAyFhTwPW4OEUL5cKDviWFgv1X8ihRLj969tUGeh0JRq
+ H4UdbKEquvAffTm5es6JO1D2w3EPWrwwg7Oa3+knMnaBK4TJ5a9+HRlLepZsmGANWdax
+ Zp+fpdYkpd3zQ8BJ0M5PQk4fZmo5vX5DT1rjYhvQA/FGCbACST4/XQo+qUNRJvhb6sFe
+ gELdnp3E4ZkSUH0V75Xot02Z96L34xCsluHIgh8aQvNIAbwdHCdoHyRNulw7vOM2pBGg jg== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vhvgm8kt6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 10 Jan 2024 17:48:08 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40AHScnU035025;
+	Wed, 10 Jan 2024 17:48:07 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vfuu6erxm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 10 Jan 2024 17:48:07 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40AHm6wd004017;
+	Wed, 10 Jan 2024 17:48:06 GMT
+Received: from localhost.localdomain (dhcp-10-175-34-62.vpn.oracle.com [10.175.34.62])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3vfuu6erwn-1;
+	Wed, 10 Jan 2024 17:48:06 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
+        Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH] docs: kernel_feat.py: fix command injection
+Date: Wed, 10 Jan 2024 18:47:58 +0100
+Message-Id: <20240110174758.3680506-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240110-vkms-yuv-v2-7-952fcaa5a193@riseup.net>
-References: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
-In-Reply-To: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Harry Wentland <harry.wentland@amd.com>, Jonathan Corbet <corbet@lwn.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Arthur Grillo <arthurgrillo@riseup.net>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-10_08,2024-01-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 bulkscore=0
+ mlxscore=0 mlxlogscore=999 adultscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401100143
+X-Proofpoint-GUID: HHE7sXw1qPDbVctfzikjXB3RxgGfJr8z
+X-Proofpoint-ORIG-GUID: HHE7sXw1qPDbVctfzikjXB3RxgGfJr8z
 
-Create KUnit tests to test the conversion between YUV and RGB. Test each
-conversion and range combination with some common colors.
+The kernel-feat directive passes its argument straight to the shell.
+This is unfortunate and unnecessary.
 
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+Let's always use paths relative to $srctree/Documentation/ and use
+subprocess.check_call() instead of subprocess.Popen(shell=True).
+
+This also makes the code shorter.
+
+This is analogous to commit 3231dd586277 ("docs: kernel_abi.py: fix
+command injection") where we did exactly the same thing for
+kernel_abi.py, somehow I completely missed this one.
+
+Link: https://fosstodon.org/@jani/111676532203641247
+Reported-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- drivers/gpu/drm/vkms/Kconfig                  |  15 +++
- drivers/gpu/drm/vkms/Makefile                 |   1 +
- drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
- drivers/gpu/drm/vkms/tests/Makefile           |   3 +
- drivers/gpu/drm/vkms/tests/vkms_format_test.c | 156 ++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_formats.c           |   9 +-
- drivers/gpu/drm/vkms/vkms_formats.h           |   5 +
- 7 files changed, 191 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/features.rst        |  2 +-
+ Documentation/arch/arc/features.rst           |  2 +-
+ Documentation/arch/arm/features.rst           |  2 +-
+ Documentation/arch/arm64/features.rst         |  2 +-
+ Documentation/arch/loongarch/features.rst     |  2 +-
+ Documentation/arch/m68k/features.rst          |  2 +-
+ Documentation/arch/mips/features.rst          |  2 +-
+ Documentation/arch/nios2/features.rst         |  2 +-
+ Documentation/arch/openrisc/features.rst      |  2 +-
+ Documentation/arch/parisc/features.rst        |  2 +-
+ Documentation/arch/powerpc/features.rst       |  2 +-
+ Documentation/arch/riscv/features.rst         |  2 +-
+ Documentation/arch/s390/features.rst          |  2 +-
+ Documentation/arch/sh/features.rst            |  2 +-
+ Documentation/arch/sparc/features.rst         |  2 +-
+ Documentation/arch/x86/features.rst           |  2 +-
+ Documentation/arch/xtensa/features.rst        |  2 +-
+ Documentation/sphinx/kernel_feat.py           | 55 ++++---------------
+ .../zh_CN/arch/loongarch/features.rst         |  2 +-
+ .../translations/zh_CN/arch/mips/features.rst |  2 +-
+ .../zh_TW/arch/loongarch/features.rst         |  2 +-
+ .../translations/zh_TW/arch/mips/features.rst |  2 +-
+ 22 files changed, 32 insertions(+), 65 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/Kconfig b/drivers/gpu/drm/vkms/Kconfig
-index b9ecdebecb0b..5b0094ad41eb 100644
---- a/drivers/gpu/drm/vkms/Kconfig
-+++ b/drivers/gpu/drm/vkms/Kconfig
-@@ -13,3 +13,18 @@ config DRM_VKMS
- 	  a VKMS.
+diff --git a/Documentation/admin-guide/features.rst b/Documentation/admin-guide/features.rst
+index 8c167082a84f..7651eca38227 100644
+--- a/Documentation/admin-guide/features.rst
++++ b/Documentation/admin-guide/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
- 	  If M is selected the module will be called vkms.
-+
-+config DRM_VKMS_KUNIT_TESTS
-+	tristate "Tests for VKMS" if !KUNIT_ALL_TESTS
-+	depends on DRM_VKMS && KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This builds unit tests for VKMS. This option is not useful for
-+	  distributions or general kernels, but only for kernel
-+	  developers working on VKMS.
-+
-+	  For more information on KUnit and unit tests in general,
-+	  please refer to the KUnit documentation in
-+	  Documentation/dev-tools/kunit/.
-+
-+	  If in doubt, say "N".
-diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-index 1b28a6a32948..8d3e46dde635 100644
---- a/drivers/gpu/drm/vkms/Makefile
-+++ b/drivers/gpu/drm/vkms/Makefile
-@@ -9,3 +9,4 @@ vkms-y := \
- 	vkms_writeback.o
+-.. kernel-feat:: $srctree/Documentation/features
++.. kernel-feat:: features
+diff --git a/Documentation/arch/arc/features.rst b/Documentation/arch/arc/features.rst
+index b793583d688a..49ff446ff744 100644
+--- a/Documentation/arch/arc/features.rst
++++ b/Documentation/arch/arc/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
- obj-$(CONFIG_DRM_VKMS) += vkms.o
-+obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += tests/
-diff --git a/drivers/gpu/drm/vkms/tests/.kunitconfig b/drivers/gpu/drm/vkms/tests/.kunitconfig
-new file mode 100644
-index 000000000000..70e378228cbd
---- /dev/null
-+++ b/drivers/gpu/drm/vkms/tests/.kunitconfig
-@@ -0,0 +1,4 @@
-+CONFIG_KUNIT=y
-+CONFIG_DRM=y
-+CONFIG_DRM_VKMS=y
-+CONFIG_DRM_VKMS_KUNIT_TESTS=y
-diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
-new file mode 100644
-index 000000000000..2d1df668569e
---- /dev/null
-+++ b/drivers/gpu/drm/vkms/tests/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_DRM_VKMS_KUNIT_TESTS) += vkms_format_test.o
-diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-new file mode 100644
-index 000000000000..f04b8169d5a2
---- /dev/null
-+++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
-@@ -0,0 +1,156 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+#include <kunit/test.h>
-+
-+#include <drm/drm_fixed.h>
-+#include <drm/drm_fourcc.h>
-+#include <drm/drm_print.h>
-+
-+#include "../../drm_crtc_internal.h"
-+
-+#include "../vkms_drv.h"
-+#include "../vkms_formats.h"
-+
-+#define TEST_BUFF_SIZE 50
-+
-+struct yuv_u8_to_argb_u16_case {
-+	enum drm_color_encoding encoding;
-+	enum drm_color_range range;
-+	size_t n_colors;
-+	struct format_pair {
-+		char *name;
-+		struct pixel_yuv_u8 yuv;
-+		struct pixel_argb_u16 argb;
-+	} colors[TEST_BUFF_SIZE];
-+};
-+
-+static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT601,
-+		.range = DRM_COLOR_YCBCR_FULL_RANGE,
-+		.n_colors = 6,
-+		.colors = {
-+			{"white", {0xff, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x80, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x00, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x4c, 0x55, 0xff}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0x96, 0x2c, 0x15}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x1d, 0xff, 0x6b}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT601,
-+		.range = DRM_COLOR_YCBCR_LIMITED_RANGE,
-+		.n_colors = 6,
-+		.colors = {
-+			{"white", {0xeb, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x7e, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x10, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x51, 0x5a, 0xf0}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0x91, 0x36, 0x22}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x29, 0xf0, 0x6e}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT709,
-+		.range = DRM_COLOR_YCBCR_FULL_RANGE,
-+		.n_colors = 4,
-+		.colors = {
-+			{"white", {0xff, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x80, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x00, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x35, 0x63, 0xff}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0xb6, 0x1e, 0x0c}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x12, 0xff, 0x74}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT709,
-+		.range = DRM_COLOR_YCBCR_LIMITED_RANGE,
-+		.n_colors = 4,
-+		.colors = {
-+			{"white", {0xeb, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x7e, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x10, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x3f, 0x66, 0xf0}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0xad, 0x2a, 0x1a}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x20, 0xf0, 0x76}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT2020,
-+		.range = DRM_COLOR_YCBCR_FULL_RANGE,
-+		.n_colors = 4,
-+		.colors = {
-+			{"white", {0xff, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x80, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x00, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x43, 0x5c, 0xff}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0xad, 0x24, 0x0b}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x0f, 0xff, 0x76}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+	{
-+		.encoding = DRM_COLOR_YCBCR_BT2020,
-+		.range = DRM_COLOR_YCBCR_LIMITED_RANGE,
-+		.n_colors = 4,
-+		.colors = {
-+			{"white", {0xeb, 0x80, 0x80}, {0x0000, 0xffff, 0xffff, 0xffff}},
-+			{"gray",  {0x7e, 0x80, 0x80}, {0x0000, 0x8000, 0x8000, 0x8000}},
-+			{"black", {0x10, 0x80, 0x80}, {0x0000, 0x0000, 0x0000, 0x0000}},
-+			{"red",   {0x4a, 0x61, 0xf0}, {0x0000, 0xffff, 0x0000, 0x0000}},
-+			{"green", {0xa4, 0x2f, 0x19}, {0x0000, 0x0000, 0xffff, 0x0000}},
-+			{"blue",  {0x1d, 0xf0, 0x77}, {0x0000, 0x0000, 0x0000, 0xffff}},
-+		},
-+	},
-+};
-+
-+static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
-+{
-+	const struct yuv_u8_to_argb_u16_case *param = test->param_value;
-+	struct pixel_argb_u16 argb;
-+
-+	for (size_t i = 0; i < param->n_colors; i++) {
-+		const struct format_pair *color = &param->colors[i];
-+
-+		yuv_u8_to_argb_u16(&argb, &color->yuv, param->encoding, param->range);
-+
-+		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.a, color->argb.a), 257,
-+				    "On the A channel of the color %s expected 0x%04x, got 0x%04x",
-+				    color->name, color->argb.a, argb.a);
-+		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.r, color->argb.r), 257,
-+				    "On the R channel of the color %s expected 0x%04x, got 0x%04x",
-+				    color->name, color->argb.r, argb.r);
-+		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.g, color->argb.g), 257,
-+				    "On the G channel of the color %s expected 0x%04x, got 0x%04x",
-+				    color->name, color->argb.g, argb.g);
-+		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.b, color->argb.b), 257,
-+				    "On the B channel of the color %s expected 0x%04x, got 0x%04x",
-+				    color->name, color->argb.b, argb.b);
-+	}
-+}
-+
-+
-+static void vkms_format_test_yuv_u8_to_argb_u16_case_desc(struct yuv_u8_to_argb_u16_case *t,
-+							  char *desc)
-+{
-+	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "%s - %s",
-+		 drm_get_color_encoding_name(t->encoding), drm_get_color_range_name(t->range));
-+}
-+
-+KUNIT_ARRAY_PARAM(yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_cases,
-+		  vkms_format_test_yuv_u8_to_argb_u16_case_desc);
-+
-+static struct kunit_case vkms_format_test_cases[] = {
-+	KUNIT_CASE_PARAM(vkms_format_test_yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_gen_params),
-+	{}
-+};
-+
-+static struct kunit_suite vkms_format_test_suite = {
-+	.name = "vkms-format",
-+	.test_cases = vkms_format_test_cases,
-+};
-+
-+kunit_test_suite(vkms_format_test_suite);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 7c1a0ca322d9..e06bbd7c0a67 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -7,6 +7,8 @@
- #include <drm/drm_rect.h>
- #include <drm/drm_fixed.h>
+-.. kernel-feat:: $srctree/Documentation/features arc
++.. kernel-feat:: features arc
+diff --git a/Documentation/arch/arm/features.rst b/Documentation/arch/arm/features.rst
+index 7414ec03dd15..0e76aaf68eca 100644
+--- a/Documentation/arch/arm/features.rst
++++ b/Documentation/arch/arm/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
-+#include <kunit/visibility.h>
-+
- #include "vkms_formats.h"
+-.. kernel-feat:: $srctree/Documentation/features arm
++.. kernel-feat:: features arm
+diff --git a/Documentation/arch/arm64/features.rst b/Documentation/arch/arm64/features.rst
+index dfa4cb3cd3ef..03321f4309d0 100644
+--- a/Documentation/arch/arm64/features.rst
++++ b/Documentation/arch/arm64/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
- static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y, size_t index)
-@@ -137,8 +139,10 @@ static void ycbcr2rgb(const s16 m[3][3], u8 y, u8 cb, u8 cr, u8 y_offset, u8 *r,
- 	*b = clamp(b_16, 0, 0xffff) >> 8;
- }
+-.. kernel-feat:: $srctree/Documentation/features arm64
++.. kernel-feat:: features arm64
+diff --git a/Documentation/arch/loongarch/features.rst b/Documentation/arch/loongarch/features.rst
+index ebacade3ea45..009f44c7951f 100644
+--- a/Documentation/arch/loongarch/features.rst
++++ b/Documentation/arch/loongarch/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
--static void yuv_u8_to_argb_u16(struct pixel_argb_u16 *argb_u16, const struct pixel_yuv_u8 *yuv_u8,
--			       enum drm_color_encoding encoding, enum drm_color_range range)
-+VISIBLE_IF_KUNIT void yuv_u8_to_argb_u16(struct pixel_argb_u16 *argb_u16,
-+					 const struct pixel_yuv_u8 *yuv_u8,
-+					 enum drm_color_encoding encoding,
-+					 enum drm_color_range range)
- {
- 	static const s16 bt601_full[3][3] = {
- 		{256,   0,  359},
-@@ -199,6 +203,7 @@ static void yuv_u8_to_argb_u16(struct pixel_argb_u16 *argb_u16, const struct pix
- 	argb_u16->g = g * 257;
- 	argb_u16->b = b * 257;
- }
-+EXPORT_SYMBOL_IF_KUNIT(yuv_u8_to_argb_u16);
+-.. kernel-feat:: $srctree/Documentation/features loongarch
++.. kernel-feat:: features loongarch
+diff --git a/Documentation/arch/m68k/features.rst b/Documentation/arch/m68k/features.rst
+index 5107a2119472..de7f0ccf7fc8 100644
+--- a/Documentation/arch/m68k/features.rst
++++ b/Documentation/arch/m68k/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
- static void semi_planar_yuv_to_argb_u16(u8 **src_pixels, struct pixel_argb_u16 *out_pixel,
- 					enum drm_color_encoding encoding,
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
-index a8b2f92bdcb5..0cf835292cec 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.h
-+++ b/drivers/gpu/drm/vkms/vkms_formats.h
-@@ -13,4 +13,9 @@ struct pixel_yuv_u8 {
- 	u8 y, u, v;
- };
+-.. kernel-feat:: $srctree/Documentation/features m68k
++.. kernel-feat:: features m68k
+diff --git a/Documentation/arch/mips/features.rst b/Documentation/arch/mips/features.rst
+index 1973d729b29a..6e0ffe3e7354 100644
+--- a/Documentation/arch/mips/features.rst
++++ b/Documentation/arch/mips/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
-+#if IS_ENABLED(CONFIG_KUNIT)
-+void yuv_u8_to_argb_u16(struct pixel_argb_u16 *argb_u16, const struct pixel_yuv_u8 *yuv_u8,
-+			       enum drm_color_encoding encoding, enum drm_color_range range);
-+#endif
-+
- #endif /* _VKMS_FORMATS_H_ */
-
+-.. kernel-feat:: $srctree/Documentation/features mips
++.. kernel-feat:: features mips
+diff --git a/Documentation/arch/nios2/features.rst b/Documentation/arch/nios2/features.rst
+index 8449e63f69b2..89913810ccb5 100644
+--- a/Documentation/arch/nios2/features.rst
++++ b/Documentation/arch/nios2/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features nios2
++.. kernel-feat:: features nios2
+diff --git a/Documentation/arch/openrisc/features.rst b/Documentation/arch/openrisc/features.rst
+index 3f7c40d219f2..bae2e25adfd6 100644
+--- a/Documentation/arch/openrisc/features.rst
++++ b/Documentation/arch/openrisc/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features openrisc
++.. kernel-feat:: features openrisc
+diff --git a/Documentation/arch/parisc/features.rst b/Documentation/arch/parisc/features.rst
+index 501d7c450037..b3aa4d243b93 100644
+--- a/Documentation/arch/parisc/features.rst
++++ b/Documentation/arch/parisc/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features parisc
++.. kernel-feat:: features parisc
+diff --git a/Documentation/arch/powerpc/features.rst b/Documentation/arch/powerpc/features.rst
+index aeae73df86b0..ee4b95e04202 100644
+--- a/Documentation/arch/powerpc/features.rst
++++ b/Documentation/arch/powerpc/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features powerpc
++.. kernel-feat:: features powerpc
+diff --git a/Documentation/arch/riscv/features.rst b/Documentation/arch/riscv/features.rst
+index c70ef6ac2368..36e90144adab 100644
+--- a/Documentation/arch/riscv/features.rst
++++ b/Documentation/arch/riscv/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features riscv
++.. kernel-feat:: features riscv
+diff --git a/Documentation/arch/s390/features.rst b/Documentation/arch/s390/features.rst
+index 57c296a9d8f3..2883dc950681 100644
+--- a/Documentation/arch/s390/features.rst
++++ b/Documentation/arch/s390/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features s390
++.. kernel-feat:: features s390
+diff --git a/Documentation/arch/sh/features.rst b/Documentation/arch/sh/features.rst
+index f722af3b6c99..fae48fe81e9b 100644
+--- a/Documentation/arch/sh/features.rst
++++ b/Documentation/arch/sh/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features sh
++.. kernel-feat:: features sh
+diff --git a/Documentation/arch/sparc/features.rst b/Documentation/arch/sparc/features.rst
+index c0c92468b0fe..96835b6d598a 100644
+--- a/Documentation/arch/sparc/features.rst
++++ b/Documentation/arch/sparc/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features sparc
++.. kernel-feat:: features sparc
+diff --git a/Documentation/arch/x86/features.rst b/Documentation/arch/x86/features.rst
+index b663f15053ce..a33616346a38 100644
+--- a/Documentation/arch/x86/features.rst
++++ b/Documentation/arch/x86/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features x86
++.. kernel-feat:: features x86
+diff --git a/Documentation/arch/xtensa/features.rst b/Documentation/arch/xtensa/features.rst
+index 6b92c7bfa19d..28dcce1759be 100644
+--- a/Documentation/arch/xtensa/features.rst
++++ b/Documentation/arch/xtensa/features.rst
+@@ -1,3 +1,3 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. kernel-feat:: $srctree/Documentation/features xtensa
++.. kernel-feat:: features xtensa
+diff --git a/Documentation/sphinx/kernel_feat.py b/Documentation/sphinx/kernel_feat.py
+index b5fa2f0542a5..b9df61eb4501 100644
+--- a/Documentation/sphinx/kernel_feat.py
++++ b/Documentation/sphinx/kernel_feat.py
+@@ -37,8 +37,6 @@ import re
+ import subprocess
+ import sys
+ 
+-from os import path
+-
+ from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+@@ -76,33 +74,26 @@ class KernelFeat(Directive):
+         self.state.document.settings.env.app.warn(message, prefix="")
+ 
+     def run(self):
+-
+         doc = self.state.document
+         if not doc.settings.file_insertion_enabled:
+             raise self.warning("docutils: file insertion disabled")
+ 
+         env = doc.settings.env
+-        cwd = path.dirname(doc.current_source)
+-        cmd = "get_feat.pl rest --enable-fname --dir "
+-        cmd += self.arguments[0]
+-
+-        if len(self.arguments) > 1:
+-            cmd += " --arch " + self.arguments[1]
+ 
+-        srctree = path.abspath(os.environ["srctree"])
++        srctree = os.path.abspath(os.environ["srctree"])
+ 
+-        fname = cmd
++        args = [
++            os.path.join(srctree, 'scripts/get_feat.pl'),
++            'rest',
++            '--enable-fname',
++            '--dir',
++            os.path.join(srctree, 'Documentation', self.arguments[0]),
++        ]
+ 
+-        # extend PATH with $(srctree)/scripts
+-        path_env = os.pathsep.join([
+-            srctree + os.sep + "scripts",
+-            os.environ["PATH"]
+-        ])
+-        shell_env = os.environ.copy()
+-        shell_env["PATH"]    = path_env
+-        shell_env["srctree"] = srctree
++        if len(self.arguments) > 1:
++            args.extend(['--arch', self.arguments[1]])
+ 
+-        lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
++        lines = subprocess.check_output(args, cwd=os.path.dirname(doc.current_source)).decode('utf-8')
+ 
+         line_regex = re.compile(r"^\.\. FILE (\S+)$")
+ 
+@@ -121,30 +112,6 @@ class KernelFeat(Directive):
+         nodeList = self.nestedParse(out_lines, fname)
+         return nodeList
+ 
+-    def runCmd(self, cmd, **kwargs):
+-        u"""Run command ``cmd`` and return its stdout as unicode."""
+-
+-        try:
+-            proc = subprocess.Popen(
+-                cmd
+-                , stdout = subprocess.PIPE
+-                , stderr = subprocess.PIPE
+-                , **kwargs
+-            )
+-            out, err = proc.communicate()
+-
+-            out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
+-
+-            if proc.returncode != 0:
+-                raise self.severe(
+-                    u"command '%s' failed with return code %d"
+-                    % (cmd, proc.returncode)
+-                )
+-        except OSError as exc:
+-            raise self.severe(u"problems with '%s' directive: %s."
+-                              % (self.name, ErrorString(exc)))
+-        return out
+-
+     def nestedParse(self, lines, fname):
+         content = ViewList()
+         node    = nodes.section()
+diff --git a/Documentation/translations/zh_CN/arch/loongarch/features.rst b/Documentation/translations/zh_CN/arch/loongarch/features.rst
+index 82bfac180bdc..cec38dda8298 100644
+--- a/Documentation/translations/zh_CN/arch/loongarch/features.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/features.rst
+@@ -5,4 +5,4 @@
+ :Original: Documentation/arch/loongarch/features.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+-.. kernel-feat:: $srctree/Documentation/features loongarch
++.. kernel-feat:: features loongarch
+diff --git a/Documentation/translations/zh_CN/arch/mips/features.rst b/Documentation/translations/zh_CN/arch/mips/features.rst
+index da1b956e4a40..0d6df97db069 100644
+--- a/Documentation/translations/zh_CN/arch/mips/features.rst
++++ b/Documentation/translations/zh_CN/arch/mips/features.rst
+@@ -10,4 +10,4 @@
+ 
+ .. _cn_features:
+ 
+-.. kernel-feat:: $srctree/Documentation/features mips
++.. kernel-feat:: features mips
+diff --git a/Documentation/translations/zh_TW/arch/loongarch/features.rst b/Documentation/translations/zh_TW/arch/loongarch/features.rst
+index b64e430f55ae..c2175fd32b54 100644
+--- a/Documentation/translations/zh_TW/arch/loongarch/features.rst
++++ b/Documentation/translations/zh_TW/arch/loongarch/features.rst
+@@ -5,5 +5,5 @@
+ :Original: Documentation/arch/loongarch/features.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+-.. kernel-feat:: $srctree/Documentation/features loongarch
++.. kernel-feat:: features loongarch
+ 
+diff --git a/Documentation/translations/zh_TW/arch/mips/features.rst b/Documentation/translations/zh_TW/arch/mips/features.rst
+index f69410420035..3d3906c4d08e 100644
+--- a/Documentation/translations/zh_TW/arch/mips/features.rst
++++ b/Documentation/translations/zh_TW/arch/mips/features.rst
+@@ -10,5 +10,5 @@
+ 
+ .. _tw_features:
+ 
+-.. kernel-feat:: $srctree/Documentation/features mips
++.. kernel-feat:: features mips
+ 
 -- 
-2.43.0
+2.34.1
 
