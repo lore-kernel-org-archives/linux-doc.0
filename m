@@ -1,64 +1,82 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFF14E1CA;
-	Wed, 10 Jan 2024 20:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pankajraghav.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED15E4F1E0;
+	Wed, 10 Jan 2024 20:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="ignPQt+v"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4T9JnV3Cmtz9srQ;
-	Wed, 10 Jan 2024 21:10:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
-	s=MBO0001; t=1704917422;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VJ2kCA8YCwYpXpZJNP0ssP+4NJQXe95ZM95bicTX6po=;
-	b=ignPQt+v9oJPex7kdcjnzAMGI+5KEmpVf4PYzJwEgoelMJNzpBYxvHPT3EPUuUFnTLI4dN
-	JM86hWbKTAW5un+Q5IC2xNoy/Ag9i6YmBHL/DgpJBCrnNoZkJqRw8FwA1qkhiEh9ItWQWz
-	DEEXCTnz8sroyiher4k/qCHanWMO//bD/uiTlJsRuNf4kxLEpApWcVoyoIMRLMLSB095KA
-	TdpZ7jQ5OTPSkRn77xMyLmL5NArdxZH9S9UPcTuviX9Ipl6MTqqMg60NsMjD/OLkX+T8DE
-	i0uHcn0qcCehDnQxBHTWYSfvcQnPvJSErILaWfrQlZGXjUIs38rmNrK5hR4XuQ==
-Date: Wed, 10 Jan 2024 21:10:19 +0100
-From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	p.raghav@samsung.com
-Subject: Re: [PATCH v2 5/8] buffer: Add kernel-doc for brelse() and __brelse()
-Message-ID: <20240110201019.mrmrdelyndweempw@localhost>
-References: <20240109143357.2375046-1-willy@infradead.org>
- <20240109143357.2375046-6-willy@infradead.org>
- <20240110143054.lc5t6vewsezwbcyv@localhost>
- <ZZ7TX/f5/+svtB6i@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KkKoyZuV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=hm+GOWLWZMlQYiUykVPkXxcZsaeHx3xTaM9h8zPhfMw=; b=KkKoyZuVd8JKHa4QJxJwkcS1Cd
+	D91R5tFWaNIAGiKYHzg+9pVyjQVzgJCabMfF8DCgfXbKu+/N8XHWp/4NW4jZVObdlqF4i2c3ql/ux
+	p47R6bEUjYDJRDmCThWASEIJki0SDf1h2jswBDHHBqwli352TajDPYHZESc8Avymv0lR915IehkMB
+	b5HYXqmFgn8MIizRPfuMpfz4y7q87nSGTxThWYLQUXGSuW3O381uGBIDAEApeBAKu9B1kGvQtGdM3
+	t3aDcmfpEuQdVNiGTLlKEB6y5FXn/WYELDOOSYA4M0m6OtaE43WAC5ZeqU2IvaVHyK86iiYBioPJq
+	na9jppQg==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rNfIt-00E13W-1W;
+	Wed, 10 Jan 2024 20:35:59 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Krishna Kurapati <quic_kriskura@quicinc.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] usb: gadget: fix max_segment_size malformed table
+Date: Wed, 10 Jan 2024 12:35:58 -0800
+Message-ID: <20240110203558.2638-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZZ7TX/f5/+svtB6i@casper.infradead.org>
-X-Rspamd-Queue-Id: 4T9JnV3Cmtz9srQ
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 10, 2024 at 05:26:55PM +0000, Matthew Wilcox wrote:
-> On Wed, Jan 10, 2024 at 03:30:54PM +0100, Pankaj Raghav (Samsung) wrote:
-> > > + * If all buffers on a folio have zero reference count, are clean
-> > > + * and unlocked, and if the folio is clean and unlocked then
-> > 
-> > IIUC from your [PATCH 3/8], folio only needs to be unlocked to free the
-> > buffers as try_to_free_buffers() will remove the dirty flag and "clean"
-> > the folio?
-> > So:
-> > s/if folio is clean and unlocked/if folio is unlocked
-> 
-> That's a good point.  Perhaps "unlocked and not under writeback"
-> would be better wording, since that would be true.
+Sphinx reports a malformed table due to the table begin/end line
+segments being too short for the word "max_segment_size", so
+extend them by one more '=' character to prevent to error.
 
-Yeah. That sounds good to me!
+Documentation/usb/gadget-testing.rst:459: ERROR: Malformed table.
+Text in column margin in table line 9.
+
+Fixes: 1900daeefd3e ("usb: gadget: ncm: Add support to update wMaxSegmentSize via configfs")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Krishna Kurapati <quic_kriskura@quicinc.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/usb/gadget-testing.rst |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff -- a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
+--- a/Documentation/usb/gadget-testing.rst
++++ b/Documentation/usb/gadget-testing.rst
+@@ -448,7 +448,7 @@ Function-specific configfs interface
+ The function name to use when creating the function directory is "ncm".
+ The NCM function provides these attributes in its function directory:
+ 
+-	===============   ==================================================
++	================  ==================================================
+ 	ifname		  network device interface name associated with this
+ 			  function instance
+ 	qmult		  queue length multiplier for high and super speed
+@@ -458,7 +458,7 @@ The NCM function provides these attribut
+ 			  Ethernet over USB link
+ 	max_segment_size  Segment size required for P2P connections. This
+ 			  will set MTU to (max_segment_size - 14 bytes)
+-	===============   ==================================================
++	================  ==================================================
+ 
+ and after creating the functions/ncm.<instance name> they contain default
+ values: qmult is 5, dev_addr and host_addr are randomly selected.
