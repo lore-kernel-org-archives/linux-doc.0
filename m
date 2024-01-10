@@ -1,108 +1,87 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7304CB5F
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 18:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C62B4D599;
+	Wed, 10 Jan 2024 19:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Jg+Cez0O"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a28f66dc7ffso986080366b.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 10:51:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXFMXL2t"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d3e6c86868so38741845ad.1;
+        Wed, 10 Jan 2024 11:02:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1704912706; x=1705517506; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=SUi+vVjnlXvuMiah1i251N0KCiLVzvP6N7O0UZtD65o=;
-        b=Jg+Cez0OsoADfYSEjMo7zNEnDOQfu95tEapunyPFcfYxd7t2yy5vw2BbuqTHL9wi2H
-         nozEpiJwpX0xQmavLg+j7IyY+lQDJXYUOV8CtilXqfESpEntsBKyejAU+t8YbxfFOVx7
-         +Bqra0qO9HOCVFbCXji5nr3gYqeP/6QEX6qacLOa95IDs2p6k3Pu9b4dgJZtgL21sYlc
-         BP/QhrIGIb0aqOdFSMWeZhFEDuc+QeUFoRTdLGvr/mhKBmhdwtp5m0JOpr5lWCkAu/RR
-         PzLRzAG8m17+UYeRYvylYNnz1SKQA2kXzcX4U5CityUQCV2Zb9QaTkbBhR4m1PPRzNNO
-         eMNw==
+        d=gmail.com; s=20230601; t=1704913338; x=1705518138; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LDh1aB+UHwW4H+s9+zktm3TXhncAsGceGXjkcALz3Vw=;
+        b=SXFMXL2tatK0mTpch4ViS7WMnxXDKpgipRtMfJUG76xwD9xUcqryzSxaSYe0PMCgdo
+         li4IabjBm3QbxqHXI+ikV3sPVVWXLkfKAAsZmXLgU05FghD8xGnB3GEiTKs2q3yVrDk9
+         Eifmd2/ZKKwuYCv1/eys4S4SHtEHXm79M9vKg2m3fk62loojeIlXuMKoEtu+9hZMl8Qt
+         i5AhjauwPSCYoMmtQoUkMdupkjWyzCi+T+2Tm92pwF5LqG68S4am4lpjCBpKavxFDV4h
+         SmOzlydeVbnBylXvSRDwAtyhqEYk5lr7dvnUwk9VKUNbcJtlNRT7aug8wtSXrMlNIv7d
+         Z1Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704912706; x=1705517506;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SUi+vVjnlXvuMiah1i251N0KCiLVzvP6N7O0UZtD65o=;
-        b=HI2awj5kgwTWoI96XCyMHCmCzMnIuclt5m6XMqHla/4Oh2WQG0O9lJwIirZiFLI84c
-         6q87ObiBJQdGHrxe849OL6Zvbjcu9HRCFarUm4tTvwbNtHjcFrYmE6o5gusaCRfsTONH
-         KOkMAyLrjRFI5Ln2yBYM4RwAhO3cZWbCZ5OI0OwQtmeOwEIyHoomWhqDEaFF2DjiuQfW
-         US1SItrXL19mIS9mImL+4f56+jlMu3d+IYS6c7azakP8LJ5KCVWjBObkmPRXmmwCo3q6
-         ahe0lw6q+sC2zNy8XKVXMqy2AaC7e5CypqWm/tfi274KYoQmU67L4kNyZMTqFDh72HO8
-         Y3uw==
-X-Gm-Message-State: AOJu0YzsvDRpPvYv0rF4f517xRjnwXUH8CTkMry0nJFQJncgrF/GS2UE
-	RRpt4icj9a2ToWRGp5niIWWJ4yDaTaRdUQ==
-X-Google-Smtp-Source: AGHT+IFIr7fU1mieZ/hu3Aq23BdynryneyJZb4/Z7tb05MemWRgr1IqJ5Tw04abHCb3B4mcLOIOUzA==
-X-Received: by 2002:a17:907:868b:b0:a29:b898:93cc with SMTP id qa11-20020a170907868b00b00a29b89893ccmr617682ejc.28.1704912705877;
-        Wed, 10 Jan 2024 10:51:45 -0800 (PST)
-Received: from ?IPv6:2804:30c:1668:b300:8fcd:588d:fb77:ed04? ([2804:30c:1668:b300:8fcd:588d:fb77:ed04])
-        by smtp.gmail.com with ESMTPSA id z12-20020a170902ee0c00b001d536a910fasm4002413plb.77.2024.01.10.10.51.42
+        d=1e100.net; s=20230601; t=1704913338; x=1705518138;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LDh1aB+UHwW4H+s9+zktm3TXhncAsGceGXjkcALz3Vw=;
+        b=QweZWZegYq7WRpW8PCwQFbPtvROZxPrVmVPCHFHhu8AV5SSsyiUoduo+pXCjku1ItT
+         i2gNKUyBE/aLbcyiqXtah4wLRmsM0u+c/+XDj4UlFadgikTuUrvKKEiJXuN/ZBPbA+P6
+         OGP6RYgoRxUhoy+6uCJ3HDYzSNNygVHFlharQbEvsA2tbtuw3Uhg2/inq6CU7aIWoQuV
+         VoVFL/y7z0ruIAgOGerSUhM6HoBYHxl0hBjepPr1163K+hSaC10Crd5T+52B09kmhg+n
+         h4S4SamMKqJJfRW9dItw5YNUCUmhOZOFg9mpAJRtBi/PVyetnizMFcWBAzC5WXYfaMKC
+         OwBw==
+X-Gm-Message-State: AOJu0Yzij+01IOiL7MSSGCeoBoBzbsXC7Kz+rXsQag8d+2jnyG0QvAin
+	S4A0sgHQUgyVb6No9K1QKMJBocFENML0rQ==
+X-Google-Smtp-Source: AGHT+IGuRalagriDoSGPZRcq3UiIV0VPioi2Fb6aJ2yvDOwd4E9jL2vE0mYtGDkJNLKL/rRWMyuITA==
+X-Received: by 2002:a17:902:a385:b0:1d4:e234:2a20 with SMTP id x5-20020a170902a38500b001d4e2342a20mr1405017pla.67.1704913338478;
+        Wed, 10 Jan 2024 11:02:18 -0800 (PST)
+Received: from attreyee-HP-Pavilion-Laptop-14-ec0xxx.. ([2405:201:1f:60c9:2c28:b5eb:7eb8:74da])
+        by smtp.gmail.com with ESMTPSA id s18-20020a170902989200b001d508715f5csm3954368plp.197.2024.01.10.11.02.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 10:51:45 -0800 (PST)
-Message-ID: <49cfdce3094fcc37ecf01bb358509c64ee8feed9.camel@suse.com>
-Subject: Re: [PATCH] Documentation/livepatch: Update terminology in livepatch
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Jonathan Corbet <corbet@lwn.net>, Attreyee M <tintinm2017@gmail.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: jpoimboe@kernel.org, jikos@kernel.org, mbenes@suse.cz, pmladek@suse.com,
-  joe.lawrence@redhat.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org,  live-patching@vger.kernel.org
-Date: Wed, 10 Jan 2024 15:51:40 -0300
-In-Reply-To: <87jzohoy02.fsf@meer.lwn.net>
-References: <20231223205813.32083-1-tintinm2017@gmail.com>
-	 <87o7eg607d.fsf@meer.lwn.net> <ZYpb6Woh45ZnEvCP@archie.me>
-	 <CAJjsb4reD_TVWRFonp90xXD4Ye2OOfOd894PzmfMKaP3qFkbYg@mail.gmail.com>
-	 <87jzohoy02.fsf@meer.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
+        Wed, 10 Jan 2024 11:02:18 -0800 (PST)
+From: attreyee-muk <tintinm2017@gmail.com>
+To: tj@kernel.org,
+	jiangshanlai@gmail.com,
+	corbet@lwn.net
+Cc: attreyee-muk <tintinm2017@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation/core-api: fix spelling mistake in workqueue
+Date: Thu, 11 Jan 2024 00:27:47 +0530
+Message-Id: <20240110185746.24974-1-tintinm2017@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2024-01-10 at 11:15 -0700, Jonathan Corbet wrote:
-> Attreyee M <tintinm2017@gmail.com> writes:
->=20
-> > Hello maintainers,=20
-> >=20
-> > I wanted to ask if this patch of mine is accepted as of now.=20
->=20
-> You never responded to the question that is still quoted in your
-> (unfortunately top-posted) email:
->=20
-> > So this is a classic example of saying what you have done, but not
-> > why.
-> > What makes this a change that we want?
->=20
-> So no, not accepted.=C2=A0 Even with a proper changelog, though, I'm not
-> sure
-> I see the value in that particular change.
+Correct to "following" from "followings" in the sentence "The followings
+are the read bandwidths and CPU utilizations depending on different affinity
+scope settings on ``kcryptd`` measured over five runs."
 
-From time to time I see people complaining about the lack of new people
-coming to kernel development, and that Documentation would be a good
-start for some of them to learn how to send patches by email (which by
-itself is difficult...).
+Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
+---
+ Documentation/core-api/workqueue.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As Documentation patches aren't backported, why not accept this patch?
-
-Jon, I understand your reasoning, but I agree with Attreyee here. The
-term "acquire" fits better when in conjunction with "released" than
-"get".
-
-Can you show an example of a good commit message to Attreyee so he can
-adjust and resend? I'm sure the next time he'll consider remember the
-suggestion given and the next patch will have a better commit message.
-
-Thanks,
-  Marcos
-
->=20
-> jon
->=20
+diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
+index 0046af06531a..8c325a640862 100644
+--- a/Documentation/core-api/workqueue.rst
++++ b/Documentation/core-api/workqueue.rst
+@@ -446,7 +446,7 @@ The command used: ::
+ 
+ There are 24 issuers, each issuing 64 IOs concurrently. ``--verify=sha512``
+ makes ``fio`` generate and read back the content each time which makes
+-execution locality matter between the issuer and ``kcryptd``. The followings
++execution locality matter between the issuer and ``kcryptd``. The following
+ are the read bandwidths and CPU utilizations depending on different affinity
+ scope settings on ``kcryptd`` measured over five runs. Bandwidths are in
+ MiBps, and CPU util in percents.
+-- 
+2.34.1
 
