@@ -1,86 +1,79 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806E73FB33;
-	Wed, 10 Jan 2024 19:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458DE4E1DD;
+	Wed, 10 Jan 2024 19:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XpOTEBKk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=AhrsHTa+ABmANvCwYnlTgj7bU1iI/SJ2QKWl7MaF2eI=; b=XpOTEBKk50dvdKPplMoujqdzBj
-	Gy2Xi3ahaSODc+/m9ivpaIFd+h2cLDGb69vJ4P3/XfLUbTvG+aeDK2vPfN1eYRmOxbyhi1og7nZ6I
-	SmnrrmVoIl1iM9RDLzh8opWCklNvlOfId5uMR4ic79lysP82Nn2s6cSgtnjA+PM8z7kSaxfPwj3oc
-	wCXkj/bhCCn4hK2OzAEOgMNOl/IqbPC/kbum0iQFjeoEtRP+Ypp9NoVVfVtMrDPU5SGvJcd0VHMh+
-	vrrsQNaQeOWQvm4BRf34PmUZBWxPnw3nJI+ByeBhImcfW4NZQKmCHSLkKbn11dpUtqt2FjMPv7peM
-	RFzLl2PA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNdwE-00Dbl8-10;
-	Wed, 10 Jan 2024 19:08:30 +0000
-Message-ID: <a759c808-a14c-4370-b47a-7db908fa3127@infradead.org>
-Date: Wed, 10 Jan 2024 11:08:29 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WL8MLbSs"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50ea9e189ebso4828643e87.3;
+        Wed, 10 Jan 2024 11:19:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704914367; x=1705519167; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=t5cVSTgOAWnoOzaFpiCIURaVM+zGpRmlLYF3NdjWZwk=;
+        b=WL8MLbSsCEw2gnjjZyQGWXfjHXxTLczLT/pGc1ygAhkY5vc7QA35+PWSJS9RUNkmr4
+         odKHdL8xqPosZ15DhvdQMIClie3RMCqFb9k26Y1ZWUlk+dl1fOB8I/JeMlhJYur/N1yR
+         kH0YSlk2pYflkwtw0YGkCqYQ/YzvRbDcPGEuIv9ng8nFHJr44UVi/iDU+rGpZhhC9F8q
+         f/x9HIc+bMfjpX/ZCbxyXD7V5+owf5WU7eNyz5beubAF3hIgf5aNWWHxMLJ32ORFcAIp
+         Mj0JaGr4h9WdEmaWaSB0Q0fDpEYZoc7IY4AFnep3CI6GyIEKMdOPq36HsJSe2U1vVTOp
+         yslw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704914367; x=1705519167;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t5cVSTgOAWnoOzaFpiCIURaVM+zGpRmlLYF3NdjWZwk=;
+        b=u8TWdR67Ass09v+XJbhHWVS7o+gcETAczR/HVQgxCsQVlleTbqo2RA2pZa7jBj+aPT
+         rC8bxqcvbv+jiTn6D/JwhOjllWo4+0pCEOLvbnDXbJhobKLdnlXquL1FOMEYniEJ51G2
+         3xxkFyH5+HupY6q3AmNrlUr1eV8Vn6wFO4Dsd2UVuEppz7k1zwnmoUnsK5HMimrhuGxu
+         83SrmIdc21pHT8LKrMkoPOAdENjv+XArmwBnEYqG5uzjJHBSc1d48853XxTay+PYwM1n
+         PGSLeKMuLhx5p1e9NJtXyZBaLZM09cSFI08u3Yd4esRioZB7MaLAYl6MNFmNvWBxxV9F
+         Ftig==
+X-Gm-Message-State: AOJu0YyhoS8WCMsaXbatUHP2zxOOclH6doM7QIkINPJKaCoFpfvat58L
+	LmMwHV7+UVhzk18+zMf4JcU=
+X-Google-Smtp-Source: AGHT+IEpPIA3bQflt6grfxy3W8FpVlnhz6kj9XieH8DbDol9R5vip+tGCp6qYJ+pIwTKQ47N+8X4vg==
+X-Received: by 2002:a19:ae04:0:b0:50e:d3dc:264f with SMTP id f4-20020a19ae04000000b0050ed3dc264fmr545169lfc.87.1704914366968;
+        Wed, 10 Jan 2024 11:19:26 -0800 (PST)
+Received: from andrea ([31.189.29.12])
+        by smtp.gmail.com with ESMTPSA id gl16-20020a170906e0d000b00a28bf7969cdsm2360182ejb.180.2024.01.10.11.19.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 11:19:26 -0800 (PST)
+Date: Wed, 10 Jan 2024 20:19:21 +0100
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	mathieu.desnoyers@efficios.com, paulmck@kernel.org, corbet@lwn.net,
+	mmaas@google.com, hboehm@google.com, striker@us.ibm.com,
+	charlie@rivosinc.com, rehn@rivosinc.com,
+	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] membarrier: Create
+ Documentation/scheduler/membarrier.rst
+Message-ID: <ZZ7tud+yKHgptGos@andrea>
+References: <20240110145533.60234-1-parri.andrea@gmail.com>
+ <20240110145533.60234-3-parri.andrea@gmail.com>
+ <63046420-264a-4e7c-b45c-17f0486ba4d9@infradead.org>
+ <ZZ7qiIDFDEMEfNiS@andrea>
+ <a759c808-a14c-4370-b47a-7db908fa3127@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] membarrier: Create
- Documentation/scheduler/membarrier.rst
-Content-Language: en-US
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- mathieu.desnoyers@efficios.com, paulmck@kernel.org, corbet@lwn.net,
- mmaas@google.com, hboehm@google.com, striker@us.ibm.com,
- charlie@rivosinc.com, rehn@rivosinc.com, linux-riscv@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240110145533.60234-1-parri.andrea@gmail.com>
- <20240110145533.60234-3-parri.andrea@gmail.com>
- <63046420-264a-4e7c-b45c-17f0486ba4d9@infradead.org>
- <ZZ7qiIDFDEMEfNiS@andrea>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZZ7qiIDFDEMEfNiS@andrea>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a759c808-a14c-4370-b47a-7db908fa3127@infradead.org>
 
+> > Mmh, unless I get a better idea, I'll expand those occurrences to:
+> > 
+> >   "The commands MEMBARRIER_CMD_PRIVATE_EXPEDITED and MEMBARRIER_CMD_GLOBAL_EXPEDIDED
+> >    require [...]"
+>                                                                             _EXPEDITED
 
+Oops. :-|  Thanks.
 
-On 1/10/24 11:05, Andrea Parri wrote:
-> Hi Randy,
-> 
->>> +MEMBARRIER_CMD_{PRIVATE,GLOBAL}_EXPEDITED - Architecture requirements
->>> +=====================================================================
->>> +
->>> +Memory barriers before updating rq->curr
->>> +----------------------------------------
->>> +
->>> +The command requires each architecture to have a full memory barrier after
->>> +coming from user-space, before updating rq->curr.  This barrier is implied
->>> +by the sequence rq_lock(); smp_mb__after_spinlock() in __schedule().  The
->>> +barrier matches a full barrier in the proximity of the membarrier system
->>> +call exit, cf. membarrier_{private,global}_expedited().
->>> +
->>
->> What does "The command" refer to above and below, please?
-> 
-> The term was meant to refer to any of MEMBARRIER_CMD_PRIVATE_EXPEDITED and
-> MEMBARRIER_CMD_GLOBAL_EXPEDITED (from the section title); FWIW, this seems
-> to align with the terminology adopted in MEMBARRIER(2) for example.
-
-I see.
-
-> Mmh, unless I get a better idea, I'll expand those occurrences to:
-> 
->   "The commands MEMBARRIER_CMD_PRIVATE_EXPEDITED and MEMBARRIER_CMD_GLOBAL_EXPEDIDED
->    require [...]"
-                                                                            _EXPEDITED
-
-OK, that's better IMO. Thanks.
-
--- 
-#Randy
+  Andrea
