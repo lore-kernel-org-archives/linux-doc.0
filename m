@@ -1,54 +1,93 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F3F4A9AB;
-	Wed, 10 Jan 2024 14:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pankajraghav.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="mCCUeypz"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4T98s770n7z9t3w;
-	Wed, 10 Jan 2024 15:12:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
-	s=MBO0001; t=1704895980;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ECG5e9wIUmeNqRsln6dF7Mycb34NtIxoMGw5Bg5bw8Q=;
-	b=mCCUeypz7TL2I1fenTBBweZdNqxJbQbqKKY5Ygg9lfN60IRIy06tcCR5rVxDGH1OJWrGlB
-	TCB4hhfefJDYp1ZY1yWXUMjUfsdYdb1qz9xx5JoSBepOJoSuVL40MgxP8daVcg14IHEG03
-	R+yhgd1pcFcbjbNHXdtnFGjVU5OhoH2bvclC8k08eGJneSy2waD7cKXOfn40YLUy2NjqYk
-	YWVDvTGnrh9gAEDY40JGme/0k8N+mPt9cQliOC09nDRizh1hloBaI/4g9lQ2kUreaoKl7E
-	afrEU18lIDWlRU//+/w4C/TSnLL+llTKtVz1i2sKZPj4Xi0hpOtOpOcnIMbxCg==
-Date: Wed, 10 Jan 2024 15:12:56 +0100
-From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	p.raghav@samsung.com
-Subject: Re: [PATCH v2 2/8] buffer: Add kernel-doc for block_dirty_folio()
-Message-ID: <20240110141256.yx4cwtvv5fa7uxbp@localhost>
-References: <20240109143357.2375046-1-willy@infradead.org>
- <20240109143357.2375046-3-willy@infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5054B5C5;
+	Wed, 10 Jan 2024 14:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-59584f41f1eso427128eaf.1;
+        Wed, 10 Jan 2024 06:13:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704896019; x=1705500819;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VB6UqhNETBqYunxJJvMUA9SmS3r4uwslMpuYoOasyy0=;
+        b=W2Bs3zPU4UhyDtzPpnCAZKKf6JRPW5IyfUa0kiCcFFaYA08zVBCDKLMWeM139eMnJM
+         AZrnxbCr+FuER59afpqbSstI4y/HRXW8atgo0F1LknhAhoBBh8w0mLhwKiiVFGRSz8kM
+         T/WTUG3+HJZX6+q8KrSZnfL/PIQ6xQCY+LXzj8PEKA8ulWayd6U4IdqrtHsH3+DnwE7C
+         6YL2/qqolU4GSyDDeI7DubGZDAvCC3deDxVMz512k/1dkpCtbesu28JPE6lrMSvU3SD6
+         XOAss9vzXVpE9NYh6zVB/60+qNm4B8t8UwKDEp7bTxIE4VImLwj4kjD2AUa4Yf3C9Pkz
+         9ETg==
+X-Gm-Message-State: AOJu0YzDPD3egE3CFIvHOC0LQq2AMJoJKUWa4sqq+asuMajZttthdhcW
+	RWsCpzWT69s9q+FJNOq3o2xgTV0cswlO/Lwq/v5TQTw8
+X-Google-Smtp-Source: AGHT+IEJF3AmfXmuebgf2YmkFzAhusVLGBp57WDhxGwNT5Z2T4O/RqPhLLmQY2XCPzCrIvOcj51DRKeoKiLMsEu7g0Y=
+X-Received: by 2002:a4a:bb8d:0:b0:598:75ed:c5c6 with SMTP id
+ h13-20020a4abb8d000000b0059875edc5c6mr2108775oop.0.1704896019116; Wed, 10 Jan
+ 2024 06:13:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240109143357.2375046-3-willy@infradead.org>
+References: <20240109175801.447943-1-e.velu@criteo.com>
+In-Reply-To: <20240109175801.447943-1-e.velu@criteo.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 10 Jan 2024 15:13:27 +0100
+Message-ID: <CAJZ5v0juCOaLQGD_5nAtW-Ov5k5Gh+=e51NhdWy4bf-XDtvvQg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] admin-guide: Fixing typos
+To: Erwan Velu <erwanaliasr1@gmail.com>
+Cc: Erwan Velu <e.velu@criteo.com>, Jonathan Corbet <corbet@lwn.net>, Huang Rui <ray.huang@amd.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 09, 2024 at 02:33:51PM +0000, Matthew Wilcox (Oracle) wrote:
-> Turn the excellent documentation for this function into kernel-doc.
-> Replace 'page' with 'folio' and make a few other minor updates.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+On Tue, Jan 9, 2024 at 6:58=E2=80=AFPM Erwan Velu <erwanaliasr1@gmail.com> =
+wrote:
+>
+> This commit fixes two typos in the admin-guide.
+>
+> - a missing e in "reference_perf".
+> - the amd_pstate sysfs path uses a dash instead of an underscore.
+>
+> Signed-off-by: Erwan Velu <e.velu@criteo.com>
+> ---
+>  Documentation/admin-guide/acpi/cppc_sysfs.rst | 2 +-
+>  Documentation/admin-guide/pm/amd-pstate.rst   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/acpi/cppc_sysfs.rst b/Documentatio=
+n/admin-guide/acpi/cppc_sysfs.rst
+> index e53d76365aa7..36981c667823 100644
+> --- a/Documentation/admin-guide/acpi/cppc_sysfs.rst
+> +++ b/Documentation/admin-guide/acpi/cppc_sysfs.rst
+> @@ -75,4 +75,4 @@ taking two different snapshots of feedback counters at =
+time T1 and T2.
+>    delivered_counter_delta =3D fbc_t2[del] - fbc_t1[del]
+>    reference_counter_delta =3D fbc_t2[ref] - fbc_t1[ref]
+>
+> -  delivered_perf =3D (refernce_perf x delivered_counter_delta) / referen=
+ce_counter_delta
+> +  delivered_perf =3D (reference_perf x delivered_counter_delta) / refere=
+nce_counter_delta
+> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/=
+admin-guide/pm/amd-pstate.rst
+> index 1cf40f69278c..9eb26014d34b 100644
+> --- a/Documentation/admin-guide/pm/amd-pstate.rst
+> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
+> @@ -361,7 +361,7 @@ Global Attributes
+>
+>  ``amd-pstate`` exposes several global attributes (files) in ``sysfs`` to
+>  control its functionality at the system level.  They are located in the
+> -``/sys/devices/system/cpu/amd-pstate/`` directory and affect all CPUs.
+> +``/sys/devices/system/cpu/amd_pstate/`` directory and affect all CPUs.
+>
+>  ``status``
+>         Operation mode of the driver: "active", "passive" or "disable".
+> --
 
-Looks good,
-Reviewed-by: Pankaj Raghav <p.raghav@samsung.com>
+Applied as 6.8-rc1 material with some edits in the subject and changelog.
+
+Thanks!
