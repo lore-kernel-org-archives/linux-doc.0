@@ -1,151 +1,95 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7844C3A0;
-	Wed, 10 Jan 2024 15:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C894BAAB
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 15:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZJ90PBHG";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VwEz0ob6";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZJ90PBHG";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VwEz0ob6"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Kh3yM69u"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 43E651F8B4;
-	Wed, 10 Jan 2024 15:12:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1704899547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ngam/HRyYzoj85sv8uX/jXHAXpXjri79QCqTP+n6cIU=;
-	b=ZJ90PBHG2SobtAgLaK2ekYY2cTkWTef+Id1mAMw1d7bZt1vEAMkh+IUS0ASL/n7eJsTzKn
-	5fMqC9R1dXCXt0LRe6//lR4xTUjsFygsy9nzcMLf863HLsUY/RDY9tCHP7XAhpqR/4tPLd
-	ccExpOj9K1gpmmtyOAhWMm0cZWlNGLI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1704899547;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ngam/HRyYzoj85sv8uX/jXHAXpXjri79QCqTP+n6cIU=;
-	b=VwEz0ob6BjJr8e5GUUgPWXs8sIeORJfBMw2XAqoIDrzvj6+EBCqDGVxfiKHjLB3O8lOEst
-	YYYlF91pNhO8IgDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1704899547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ngam/HRyYzoj85sv8uX/jXHAXpXjri79QCqTP+n6cIU=;
-	b=ZJ90PBHG2SobtAgLaK2ekYY2cTkWTef+Id1mAMw1d7bZt1vEAMkh+IUS0ASL/n7eJsTzKn
-	5fMqC9R1dXCXt0LRe6//lR4xTUjsFygsy9nzcMLf863HLsUY/RDY9tCHP7XAhpqR/4tPLd
-	ccExpOj9K1gpmmtyOAhWMm0cZWlNGLI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1704899547;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ngam/HRyYzoj85sv8uX/jXHAXpXjri79QCqTP+n6cIU=;
-	b=VwEz0ob6BjJr8e5GUUgPWXs8sIeORJfBMw2XAqoIDrzvj6+EBCqDGVxfiKHjLB3O8lOEst
-	YYYlF91pNhO8IgDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D79713786;
-	Wed, 10 Jan 2024 15:12:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /6fKBtuznmVEUgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 10 Jan 2024 15:12:27 +0000
-Message-ID: <3f9e3cfa-c86d-4770-b531-87138803156f@suse.cz>
-Date: Wed, 10 Jan 2024 16:12:26 +0100
+	by ms.lwn.net (Postfix) with ESMTPSA id 9B068377;
+	Wed, 10 Jan 2024 15:24:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9B068377
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1704900272; bh=m/2WV1pnL9cWBYAOG0ypY+H5UtkkZCjYXKO97e9PFlk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Kh3yM69u7+QNE1bInKmrEiNT3rJxbGUGeJx9kFnOnWkww7DxIH2z/Z42t821wJpgE
+	 32SPNpG7nE6YmrgBk45P4ZLPJxv8pWCmn/W9rT1gYpK5WdNEDMPY8HrnTBk/eU5T6/
+	 cNFJBSaAn7zzd9A2PohuSSjgks3KMmp5ykeUmkV56zUPMyylWqTgm0Ul2gOuCTZSII
+	 G05cKEXem5kn9+FvKaS9YGmWeDAsuLfUmVbgeuKO2YcWtM+pKf9rSs73F2zELObAqs
+	 cmxGHB3Q6BUMseGqpQBGrunoRkKkvEGd+N2EUQZ0t5KztvIBkjCofEzEaWsHelzVwp
+	 K6gZbf9+HgqZg==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Vegard Nossum <vegard.nossum@oracle.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Cc: linux-doc@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
+Subject: Re: [PATCH] Documentation: constrain alabaster package to older
+ versions
+In-Reply-To: <87a5pdqlkt.fsf@meer.lwn.net>
+References: <20240110104646.3647600-1-vegard.nossum@oracle.com>
+ <87a5pdqlkt.fsf@meer.lwn.net>
+Date: Wed, 10 Jan 2024 08:24:31 -0700
+Message-ID: <875y01qki8.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/4] supplement of slab allocator removal
-Content-Language: en-US
-To: sxwjean@me.com, 42.hyeyoo@gmail.com, cl@linux.com, linux-mm@kvack.org
-Cc: penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
- roman.gushchin@linux.dev, corbet@lwn.net, keescook@chromium.org,
- arnd@arndb.de, akpm@linux-foundation.org, gregkh@linuxfoundation.org,
- quic_jjohnson@quicinc.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xiongwei Song <xiongwei.song@windriver.com>
-References: <20231215034150.108783-1-sxwjean@me.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20231215034150.108783-1-sxwjean@me.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: 0.16
-X-Spamd-Result: default: False [0.16 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,me.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RL8m16cxuawb3bjqy6gedmikd6)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 BAYES_HAM(-0.05)[60.61%];
-	 RCPT_COUNT_TWELVE(0.00)[17];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:email,me.com:email];
-	 FREEMAIL_TO(0.00)[me.com,gmail.com,linux.com,kvack.org];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 12/15/23 04:41, sxwjean@me.com wrote:
-> From: Xiongwei Song <xiongwei.song@windriver.com>
-> 
-> Hi,
-> 
-> Patch 1 is to remove an unused parameter. It has a longer history, please
-> see the change history inside the patch.
-> 
-> ---
-> Patch 2 is to replace slub_$params with slab_$params.
-> Vlastimil Babka pointed out we should use "slab_$param" as the primary
-> prefix for long-term plan. Please see [1] for more information.
-> 
-> I did the basic tests with qemu, which passed values by sl[au]b_max_order,
-> sl[au]b_min_order, sl[au]b_min_objects and sl[au]b_debug in command line.
-> The values looks correct by printing them out before calculating orders.
-> 
-> ---
-> Patch 3 is to replace slub_$params in Documentation/mm/slub.rst based on
-> the changes of patch 2.
-> 
-> ---
-> Patch 4 is original patch 3. It is not related to slab allocator removal.
-> It's to correct the description of default value of slab_min_objects in
-> Documentation/mm/slub.rst. 
-> 
-> ---
-> This series is based on [2].
+Jonathan Corbet <corbet@lwn.net> writes:
 
-I will queue this for 6.9 after the merge window. But since the changes are
-mostly in Documentation, maybe Jon would prefer his tree, then we would
-split away the code comments changes in patch 2 to go through slab tree.
+> Vegard Nossum <vegard.nossum@oracle.com> writes:
+>
+>> The 'alabaster' theme dropped support for Sphinx < v3.4:
+>>
+>>     0.7.14 =E2=80=93 2024-01-08
+>>
+>>     * Dropped support for Python 3.8 and earlier.
+>>     * Dropped support for Sphinx 3.3 and earlier.
+>>     [...]
+>>
+>> (Source: https://alabaster.readthedocs.io/en/latest/changelog.html)
+>>
+>> This manifests as an error when running 'make htmldocs' in a virtualenv
+>> constructed from Documentation/sphinx/requirements.txt:
+>>
+>>     Sphinx version error:
+>>     The alabaster extension used by this project needs at least Sphinx v=
+3.4; it therefore cannot be built with this version.
+>>
+>> Raising the Sphinx version is not really a good option at this point,
+>> since 3.x through 6.x have horrible performance regressions (7.x still
+>> does, but not quite as bad).
+>>
+>> Instead, constrain the 'alabaster' package to versions that still support
+>> Sphinx 2.4.4.
+>>
+>> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+>> ---
+>>  Documentation/sphinx/requirements.txt | 2 ++
+>>  1 file changed, 2 insertions(+)
+>
+> So this is a little strange, actually.  Alabaster is bundled with
+> Sphinx, so there should always be a version that works; I'm not sure why
+> we have it separately in the requirements.txt file (which is
+> discouraging, given that I probably put it there).
+>
+> I'll try to look at this (but not right away); do you have any sense for
+> whether things work properly if that line is just taken out?
 
-Vlastimil
+OK, sorry, I've read a bit more closely now.  I'll look into this, but I
+really don't think it should be necessary to specify alabaster
+explicitly.
+
+If it *is*, then perhaps we should revisit (again) the discussion of
+which version of sphinx we're suggesting that people install.
+
+Thanks,
+
+jon
