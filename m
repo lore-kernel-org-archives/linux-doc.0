@@ -1,87 +1,95 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C62B4D599;
-	Wed, 10 Jan 2024 19:02:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E0A4E1BC;
+	Wed, 10 Jan 2024 19:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXFMXL2t"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d3e6c86868so38741845ad.1;
-        Wed, 10 Jan 2024 11:02:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZOQqFpxi"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a2c179aa5c4so58884766b.0;
+        Wed, 10 Jan 2024 11:05:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704913338; x=1705518138; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LDh1aB+UHwW4H+s9+zktm3TXhncAsGceGXjkcALz3Vw=;
-        b=SXFMXL2tatK0mTpch4ViS7WMnxXDKpgipRtMfJUG76xwD9xUcqryzSxaSYe0PMCgdo
-         li4IabjBm3QbxqHXI+ikV3sPVVWXLkfKAAsZmXLgU05FghD8xGnB3GEiTKs2q3yVrDk9
-         Eifmd2/ZKKwuYCv1/eys4S4SHtEHXm79M9vKg2m3fk62loojeIlXuMKoEtu+9hZMl8Qt
-         i5AhjauwPSCYoMmtQoUkMdupkjWyzCi+T+2Tm92pwF5LqG68S4am4lpjCBpKavxFDV4h
-         SmOzlydeVbnBylXvSRDwAtyhqEYk5lr7dvnUwk9VKUNbcJtlNRT7aug8wtSXrMlNIv7d
-         Z1Lg==
+        d=gmail.com; s=20230601; t=1704913550; x=1705518350; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XZpsZsIRN+bzHamFqhhdXU99QlmdJsaeUiZLcX/1HHw=;
+        b=ZOQqFpxijoRV4KCOZn1ZMa9JM9bZ99FZaliEOw1cqwZPXGjYHKx1fCqfE5MREOlH4e
+         XIavvv0vFiV/zv9rrcnMAYqQrNuOoC5WyiiHejCaYtC+X63gPSrGwWjuCBvEaI/2FK9o
+         t/Z2PV86WXcrzVf/rsI6r2K2CItbxKs3t2bvK4cqQR9lj0RzS50/1KPFFBSPdlF/jGJZ
+         AIdK9eiPWxJfHjKRYNY4apvJ3Wn2F+z4yw1i1xSrlhYTXUJLPAU7ev2ze+lSN+zHeVHb
+         TL1MGFmrYHk+6W4bgH6gny6piSFpUnwmLWgKtAEJ21jad7S36jkGfc9E1kpj9AZ5ljMr
+         MeSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704913338; x=1705518138;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LDh1aB+UHwW4H+s9+zktm3TXhncAsGceGXjkcALz3Vw=;
-        b=QweZWZegYq7WRpW8PCwQFbPtvROZxPrVmVPCHFHhu8AV5SSsyiUoduo+pXCjku1ItT
-         i2gNKUyBE/aLbcyiqXtah4wLRmsM0u+c/+XDj4UlFadgikTuUrvKKEiJXuN/ZBPbA+P6
-         OGP6RYgoRxUhoy+6uCJ3HDYzSNNygVHFlharQbEvsA2tbtuw3Uhg2/inq6CU7aIWoQuV
-         VoVFL/y7z0ruIAgOGerSUhM6HoBYHxl0hBjepPr1163K+hSaC10Crd5T+52B09kmhg+n
-         h4S4SamMKqJJfRW9dItw5YNUCUmhOZOFg9mpAJRtBi/PVyetnizMFcWBAzC5WXYfaMKC
-         OwBw==
-X-Gm-Message-State: AOJu0Yzij+01IOiL7MSSGCeoBoBzbsXC7Kz+rXsQag8d+2jnyG0QvAin
-	S4A0sgHQUgyVb6No9K1QKMJBocFENML0rQ==
-X-Google-Smtp-Source: AGHT+IGuRalagriDoSGPZRcq3UiIV0VPioi2Fb6aJ2yvDOwd4E9jL2vE0mYtGDkJNLKL/rRWMyuITA==
-X-Received: by 2002:a17:902:a385:b0:1d4:e234:2a20 with SMTP id x5-20020a170902a38500b001d4e2342a20mr1405017pla.67.1704913338478;
-        Wed, 10 Jan 2024 11:02:18 -0800 (PST)
-Received: from attreyee-HP-Pavilion-Laptop-14-ec0xxx.. ([2405:201:1f:60c9:2c28:b5eb:7eb8:74da])
-        by smtp.gmail.com with ESMTPSA id s18-20020a170902989200b001d508715f5csm3954368plp.197.2024.01.10.11.02.16
+        d=1e100.net; s=20230601; t=1704913550; x=1705518350;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XZpsZsIRN+bzHamFqhhdXU99QlmdJsaeUiZLcX/1HHw=;
+        b=DggMrXg86w+hTQFTu+mBm5EwGISkq+R0gcs1+ReGDyDDIdNWXA/Dwo7FKfunW8LUOJ
+         rflW6NmGK7wj7rVBqafhdLaPDkj8bd7BsjafjNHWcogkeu19/beIJuYUjtfKvz4GFmiS
+         l5N8sHUxS6f6c+ly8YimkwgLgFa9v5SLwiNwHA6Js34YFEY8d7Q1vHOgcAOX3YhWrqUT
+         JQJFe8v1l90SA3h6eB1DYShBVcyyqD2PqDfVU7EurKkZVLa3EWATvN+HaIWxK9WqhH7G
+         nnpNnQSQ8zD07P9w5LvuUBEg92kKO/DiDl2zJdLVsk9JrsUcQOoblIfLBJZ2L1rr5XgS
+         hAYQ==
+X-Gm-Message-State: AOJu0Ywom7cDDWHvNEKjQfQn+IiQ4xw/PRFoOC37pkW4a5HMp4Wi//ku
+	7Y9hj4Kzgz5y4qxYJeEa9b4=
+X-Google-Smtp-Source: AGHT+IGIJTfwmJqtwq2wBgoYLHTva5azTT7ETKZwtCsbHP8vya/7GCSPS1LSo6tEkI1WcsBOstlQMg==
+X-Received: by 2002:a17:906:250e:b0:a29:445f:a1 with SMTP id i14-20020a170906250e00b00a29445f00a1mr817039ejb.140.1704913550038;
+        Wed, 10 Jan 2024 11:05:50 -0800 (PST)
+Received: from andrea ([31.189.29.12])
+        by smtp.gmail.com with ESMTPSA id ko1-20020a170907986100b00a2714f1ba8asm2334847ejc.160.2024.01.10.11.05.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 11:02:18 -0800 (PST)
-From: attreyee-muk <tintinm2017@gmail.com>
-To: tj@kernel.org,
-	jiangshanlai@gmail.com,
-	corbet@lwn.net
-Cc: attreyee-muk <tintinm2017@gmail.com>,
-	linux-doc@vger.kernel.org,
+        Wed, 10 Jan 2024 11:05:49 -0800 (PST)
+Date: Wed, 10 Jan 2024 20:05:44 +0100
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	mathieu.desnoyers@efficios.com, paulmck@kernel.org, corbet@lwn.net,
+	mmaas@google.com, hboehm@google.com, striker@us.ibm.com,
+	charlie@rivosinc.com, rehn@rivosinc.com,
+	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation/core-api: fix spelling mistake in workqueue
-Date: Thu, 11 Jan 2024 00:27:47 +0530
-Message-Id: <20240110185746.24974-1-tintinm2017@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH v3 2/4] membarrier: Create
+ Documentation/scheduler/membarrier.rst
+Message-ID: <ZZ7qiIDFDEMEfNiS@andrea>
+References: <20240110145533.60234-1-parri.andrea@gmail.com>
+ <20240110145533.60234-3-parri.andrea@gmail.com>
+ <63046420-264a-4e7c-b45c-17f0486ba4d9@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <63046420-264a-4e7c-b45c-17f0486ba4d9@infradead.org>
 
-Correct to "following" from "followings" in the sentence "The followings
-are the read bandwidths and CPU utilizations depending on different affinity
-scope settings on ``kcryptd`` measured over five runs."
+Hi Randy,
 
-Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
----
- Documentation/core-api/workqueue.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +MEMBARRIER_CMD_{PRIVATE,GLOBAL}_EXPEDITED - Architecture requirements
+> > +=====================================================================
+> > +
+> > +Memory barriers before updating rq->curr
+> > +----------------------------------------
+> > +
+> > +The command requires each architecture to have a full memory barrier after
+> > +coming from user-space, before updating rq->curr.  This barrier is implied
+> > +by the sequence rq_lock(); smp_mb__after_spinlock() in __schedule().  The
+> > +barrier matches a full barrier in the proximity of the membarrier system
+> > +call exit, cf. membarrier_{private,global}_expedited().
+> > +
+> 
+> What does "The command" refer to above and below, please?
 
-diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
-index 0046af06531a..8c325a640862 100644
---- a/Documentation/core-api/workqueue.rst
-+++ b/Documentation/core-api/workqueue.rst
-@@ -446,7 +446,7 @@ The command used: ::
- 
- There are 24 issuers, each issuing 64 IOs concurrently. ``--verify=sha512``
- makes ``fio`` generate and read back the content each time which makes
--execution locality matter between the issuer and ``kcryptd``. The followings
-+execution locality matter between the issuer and ``kcryptd``. The following
- are the read bandwidths and CPU utilizations depending on different affinity
- scope settings on ``kcryptd`` measured over five runs. Bandwidths are in
- MiBps, and CPU util in percents.
--- 
-2.34.1
+The term was meant to refer to any of MEMBARRIER_CMD_PRIVATE_EXPEDITED and
+MEMBARRIER_CMD_GLOBAL_EXPEDITED (from the section title); FWIW, this seems
+to align with the terminology adopted in MEMBARRIER(2) for example.
 
+Mmh, unless I get a better idea, I'll expand those occurrences to:
+
+  "The commands MEMBARRIER_CMD_PRIVATE_EXPEDITED and MEMBARRIER_CMD_GLOBAL_EXPEDIDED
+   require [...]"
+
+  Andrea
