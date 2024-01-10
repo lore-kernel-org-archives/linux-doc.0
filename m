@@ -1,47 +1,47 @@
 Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23F24F202
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 19:51:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3E0D51C
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 19:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Y3XOe08z"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-595aa5b1fe0so2793695eaf.2
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 11:51:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="t5cFwVVr"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-59879d7a655so1103404eaf.3
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 11:51:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1704916275; x=1705521075; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1704916277; x=1705521077; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UVV1rLtkyln7lfj7tpHcJX2VNB5e7ezkKOUrM/UkYLc=;
-        b=Y3XOe08zJIN6pC3VWbJnk6shnya36LvTiwlT1mpPDBn7HF6W7lf55XtJoLyT01z4Ni
-         kLDrI640BFKYOJV+twIgmxSRyCcIlvgFHw3W3UXoSvqpVwqCdKSP0SodzMi2Nvvr1zk+
-         UZJWRTofD9NbokV1MbC5UAnqAKovP7bc5l8DlzzMdk/vyEoBCwylfHHCh4vUnt8c8CeY
-         3NDrgUiZf6ry3YQaYkeQRQ8KDaW6gnD1blzmY8a6btcB2xN0pez+Ab+s/g29MFhVAVmx
-         koGztaKC54dA6BdPzUJdMwSL1ONMegSuZ13H4StO3j800zWjP90Lc0AWtwnxZHUJ/zme
-         CJcA==
+        bh=Y7PWqKKUmIJfOHhEo7bhsOSHT+T28MHjs59pcUd3qYA=;
+        b=t5cFwVVrDBIe40U3IAx7Z1O+47Lx54RlcTqA3y0fMFCB64JCJhuuZpRxk00nUy1m7h
+         KfKCp9HBFNuikxuFJ4nyxFfQEZNvZn+V8lsornUMDLTtrxya/FWDNToWAt55IcK3w4AF
+         WBI+oMOCWY7OKRuKaRecyMQONOop4mfIenpX34EUFWprGnUrml0Gw3x42DtrDjy0wvGE
+         zLuvtEiWo3ctyWLpkMd4zwjnBaO9TuxBTKRXbDPnMgyfVcCXJ4LLd+664kIGTKYxcsfc
+         in/BI5UiCACx+64qcV4ID97rqUzxl3BBFR1E/DuO6xQTeX7xU9nzOH5pmekUBjxZ/f5b
+         Izpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704916275; x=1705521075;
+        d=1e100.net; s=20230601; t=1704916277; x=1705521077;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UVV1rLtkyln7lfj7tpHcJX2VNB5e7ezkKOUrM/UkYLc=;
-        b=lGSTtqCecwB2euEN5126cm4cbnHa8HfLbie7W0HNGE7Uzz/mHaLXtlprzf8mdBIIiY
-         2RfK/44RYBXZ4PMrZwdRTeAdr03Q23Uyg0Q+6gNlrTXdu/GxAqMExw4a61bxAPdK5doa
-         Z+RoxeJ+ext6whYQAKHjociJJ4vEHzeB5C9n3Kp4svmuQdqc2timmsTxPnpEdF1Sw9l9
-         IgHX7JAtR58iWKXushQkgu/u6o6j49UZW46gUFVD1YfQcmhOoIyLaL6SwdYPF+mGS/xb
-         Ff3y1fNBGtzAOc7OEUng46MrOc1iEtMW+jPysSt5XMKRx04DcaxrSttjnCr2mPRQFypA
-         P5sg==
-X-Gm-Message-State: AOJu0YzvH1+u0E2LhLUNW/ch+w0rowPDrfT9gfiuGqZXQ8NJQJtCruWI
-	8bs6HvmACq8NH/JgOeHRLohNhQgRvxNpJg==
-X-Google-Smtp-Source: AGHT+IGunDU9MSgs9fgHQVRozSUhKU17YNl+rYChXl6jqrO/GSOVN5G2k4xbC6HDR6Xk6s49R7pFjg==
-X-Received: by 2002:a05:6820:1c89:b0:594:6b95:4218 with SMTP id ct9-20020a0568201c8900b005946b954218mr145662oob.1.1704916274825;
-        Wed, 10 Jan 2024 11:51:14 -0800 (PST)
+        bh=Y7PWqKKUmIJfOHhEo7bhsOSHT+T28MHjs59pcUd3qYA=;
+        b=AePuZ7PKvB+gbTSqXGxHqWJZ047Cj/JWrMMjsI1OrQws23kmdTZxnL+gq/3nZEptwj
+         PKgVKITqhHQy6Py/2IKVB387HgJ9q1UM3mzr6oCesfRJcerZ/2N7S4hXwl7e9VHrvpMk
+         euSGq+Qa8HXB1IOV+lZHCL9MRql3Xz9UwpeuODCAPPpAq5P0wMWOA0KS63QZ0YndYi35
+         ZcjogHssCqrU2zUgVSKjpcxX6xlfFvPnxVT4qHHt1lHNJBmcfEGUID5YSP5SRXTMjsyU
+         raTGqps80viT36RU0EsNWG1T8/kAhu8YDlaZ64c9e+Mo7XbTBEpk5BqorOFP2wcZiBsV
+         KEMQ==
+X-Gm-Message-State: AOJu0Ywd4R3Teg4hnJG/lqje/fVdSVuYP8MVSAv7/QIeo5qWe0KFTtZw
+	nM9Ek8Ynhag6V2oeEqkX0FPa61zw/GLkxA==
+X-Google-Smtp-Source: AGHT+IG/pQstA269+Q9le7ThaVf0owpqSI3RhN8sLNCjdHTp/Q1xvhsyx76vcyZGXAyczFLDe5FZbA==
+X-Received: by 2002:a4a:9b17:0:b0:591:c16b:eb29 with SMTP id a23-20020a4a9b17000000b00591c16beb29mr92673ook.13.1704916276715;
+        Wed, 10 Jan 2024 11:51:16 -0800 (PST)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 187-20020a4a0dc4000000b00595b35927a3sm938513oob.39.2024.01.10.11.51.13
+        by smtp.gmail.com with ESMTPSA id 187-20020a4a0dc4000000b00595b35927a3sm938513oob.39.2024.01.10.11.51.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 11:51:14 -0800 (PST)
+        Wed, 10 Jan 2024 11:51:16 -0800 (PST)
 From: David Lechner <dlechner@baylibre.com>
 To: Mark Brown <broonie@kernel.org>,
 	Jonathan Cameron <jic23@kernel.org>,
@@ -61,9 +61,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-doc@vger.kernel.org,
 	linux-pwm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 06/13] iio: buffer: add hardware triggered buffer support
-Date: Wed, 10 Jan 2024 13:49:47 -0600
-Message-ID: <20240109-axi-spi-engine-series-3-v1-6-e42c6a986580@baylibre.com>
+Subject: [PATCH 08/13] iio: buffer: add new hardware triggered buffer driver
+Date: Wed, 10 Jan 2024 13:49:49 -0600
+Message-ID: <20240109-axi-spi-engine-series-3-v1-8-e42c6a986580@baylibre.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
 References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
@@ -77,147 +77,216 @@ Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.12.4
 Content-Transfer-Encoding: 8bit
 
-This adds a new mode INDIO_HW_BUFFER_TRIGGERED to the IIO subsystem.
+This adds a new hardware triggered buffer driver for the IIO subsystem.
+This driver is intended to be used by IIO device drivers that have
+a hardware buffer that is triggered by a hardware signal.
 
-This mode is essentially the hardware version of INDIO_BUFFER_TRIGGERED
-where the trigger has the semantics of INDIO_HARDWARE_TRIGGERED and the
-buffer has the semantics of INDIO_BUFFER_HARDWARE.
-
-So basically INDIO_HW_BUFFER_TRIGGERED is the same as
-INDIO_BUFFER_HARDWARE except that it also enables the trigger when the
-buffer is enabled.
+It is expected that components such as those providing a backend via the
+IIO backend framework will provide the actual implementation of this
+functionality by registering a matching device on the auxiliary bus.
+The auxiliary bus was chosen since it allows us to make use of existing
+kernel infrastructure instead of implementing our own registration and
+lookup system.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/iio/industrialio-buffer.c | 43 ++++++++++++++++++++++++++++++++++++---
- include/linux/iio/iio.h           | 16 ++++++++++++---
- 2 files changed, 53 insertions(+), 6 deletions(-)
+ Documentation/driver-api/driver-model/devres.rst   |   1 +
+ drivers/iio/buffer/Kconfig                         |   7 ++
+ drivers/iio/buffer/Makefile                        |   1 +
+ .../iio/buffer/industrialio-hw-triggered-buffer.c  | 104 +++++++++++++++++++++
+ include/linux/iio/hw_triggered_buffer.h            |  14 +++
+ include/linux/iio/hw_triggered_buffer_impl.h       |  16 ++++
+ 6 files changed, 143 insertions(+)
 
-diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio-buffer.c
-index 176d31d9f9d8..ffee3043c65a 100644
---- a/drivers/iio/industrialio-buffer.c
-+++ b/drivers/iio/industrialio-buffer.c
-@@ -27,6 +27,7 @@
- #include <linux/iio/sysfs.h>
- #include <linux/iio/buffer.h>
- #include <linux/iio/buffer_impl.h>
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index c5f99d834ec5..b23d4a2b68a6 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -296,6 +296,7 @@ IIO
+   devm_iio_channel_get()
+   devm_iio_channel_get_all()
+   devm_iio_hw_consumer_alloc()
++  devm_iio_hw_triggered_buffer_setup()
+   devm_fwnode_iio_channel_get_by_name()
+ 
+ INPUT
+diff --git a/drivers/iio/buffer/Kconfig b/drivers/iio/buffer/Kconfig
+index 047b931591a9..925c5bf074bc 100644
+--- a/drivers/iio/buffer/Kconfig
++++ b/drivers/iio/buffer/Kconfig
+@@ -53,3 +53,10 @@ config IIO_TRIGGERED_BUFFER
+ 	select IIO_KFIFO_BUF
+ 	help
+ 	  Provides helper functions for setting up triggered buffers.
++
++config IIO_HW_TRIGGERED_BUFFER
++	tristate "Industrial I/O hardware triggered buffer support"
++	select AUXILIARY_BUS
++	select IIO_TRIGGER
++	help
++	  Provides helper functions for setting up hardware triggered buffers.
+diff --git a/drivers/iio/buffer/Makefile b/drivers/iio/buffer/Makefile
+index 1403eb2f9409..d1142bb20f61 100644
+--- a/drivers/iio/buffer/Makefile
++++ b/drivers/iio/buffer/Makefile
+@@ -9,4 +9,5 @@ obj-$(CONFIG_IIO_BUFFER_DMA) += industrialio-buffer-dma.o
+ obj-$(CONFIG_IIO_BUFFER_DMAENGINE) += industrialio-buffer-dmaengine.o
+ obj-$(CONFIG_IIO_BUFFER_HW_CONSUMER) += industrialio-hw-consumer.o
+ obj-$(CONFIG_IIO_TRIGGERED_BUFFER) += industrialio-triggered-buffer.o
++obj-$(CONFIG_IIO_HW_TRIGGERED_BUFFER) += industrialio-hw-triggered-buffer.o
+ obj-$(CONFIG_IIO_KFIFO_BUF) += kfifo_buf.o
+diff --git a/drivers/iio/buffer/industrialio-hw-triggered-buffer.c b/drivers/iio/buffer/industrialio-hw-triggered-buffer.c
+new file mode 100644
+index 000000000000..7a8a71066b0e
+--- /dev/null
++++ b/drivers/iio/buffer/industrialio-hw-triggered-buffer.c
+@@ -0,0 +1,104 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2024 Analog Devices, Inc.
++ * Copyright (c) 2024 BayLibre, SAS
++ */
++
++#include <linux/auxiliary_bus.h>
++#include <linux/container_of.h>
++#include <linux/export.h>
++#include <linux/module.h>
++#include <linux/iio/hw_triggered_buffer_impl.h>
++#include <linux/iio/iio.h>
++#include <linux/iio/buffer.h>
 +#include <linux/iio/trigger.h>
- 
- static const char * const iio_endian_prefix[] = {
- 	[IIO_BE] = "be",
-@@ -867,8 +868,17 @@ static int iio_verify_update(struct iio_dev *indio_dev,
- 					insert_buffer->watermark);
- 	}
- 
--	/* Definitely possible for devices to support both of these. */
--	if ((modes & INDIO_BUFFER_TRIGGERED) && indio_dev->trig) {
-+	/* Definitely possible for devices to support all of these. */
-+	if (modes & INDIO_HW_BUFFER_TRIGGERED) {
-+		/*
-+		 * Keep things simple for now and only allow a single buffer to
-+		 * be connected in hardware mode.
-+		 */
-+		if (insert_buffer && !list_empty(&iio_dev_opaque->buffer_list))
-+			return -EINVAL;
-+		config->mode = INDIO_HW_BUFFER_TRIGGERED;
-+		strict_scanmask = true;
-+	} else if ((modes & INDIO_BUFFER_TRIGGERED) && indio_dev->trig) {
- 		config->mode = INDIO_BUFFER_TRIGGERED;
- 	} else if (modes & INDIO_BUFFER_HARDWARE) {
- 		/*
-@@ -1107,11 +1117,21 @@ static int iio_enable_buffers(struct iio_dev *indio_dev,
- 		}
- 	}
- 
-+	if (iio_dev_opaque->currentmode == INDIO_HW_BUFFER_TRIGGERED) {
-+		struct iio_trigger *trig = indio_dev->trig;
 +
-+		if (trig->ops && trig->ops->set_trigger_state) {
-+			ret = trig->ops->set_trigger_state(trig, true);
-+			if (ret)
-+				goto err_disable_buffers;
-+		}
-+	}
++static int iio_hw_triggered_buffer_match(struct device *dev, const void *match)
++{
++	return dev->parent == match;
++}
 +
- 	if (iio_dev_opaque->currentmode == INDIO_BUFFER_TRIGGERED) {
- 		ret = iio_trigger_attach_poll_func(indio_dev->trig,
- 						   indio_dev->pollfunc);
- 		if (ret)
--			goto err_disable_buffers;
-+			goto err_disable_hw_trigger;
- 	}
- 
- 	if (indio_dev->setup_ops->postenable) {
-@@ -1130,6 +1150,16 @@ static int iio_enable_buffers(struct iio_dev *indio_dev,
- 		iio_trigger_detach_poll_func(indio_dev->trig,
- 					     indio_dev->pollfunc);
- 	}
-+err_disable_hw_trigger:
-+	if (iio_dev_opaque->currentmode == INDIO_HW_BUFFER_TRIGGERED) {
-+		struct iio_trigger *trig = indio_dev->trig;
++static struct iio_hw_triggered_buffer_device
++*iio_hw_trigger_buffer_get(struct device *match)
++{
++	struct auxiliary_device *adev;
 +
-+		if (trig->ops && trig->ops->set_trigger_state) {
-+			ret = trig->ops->set_trigger_state(trig, false);
-+			if (ret)
-+				return ret;
-+		}
-+	}
- err_disable_buffers:
- 	buffer = list_prepare_entry(tmp, &iio_dev_opaque->buffer_list, buffer_list);
- 	list_for_each_entry_continue_reverse(buffer, &iio_dev_opaque->buffer_list,
-@@ -1174,6 +1204,13 @@ static int iio_disable_buffers(struct iio_dev *indio_dev)
- 					     indio_dev->pollfunc);
- 	}
- 
-+	if (iio_dev_opaque->currentmode == INDIO_HW_BUFFER_TRIGGERED) {
-+		struct iio_trigger *trig = indio_dev->trig;
++	adev = auxiliary_find_device(NULL, match, iio_hw_triggered_buffer_match);
++	if (!adev)
++		return ERR_PTR(-ENOENT);
 +
-+		if (trig->ops && trig->ops->set_trigger_state)
-+			trig->ops->set_trigger_state(trig, false);
-+	}
++	return container_of(adev, struct iio_hw_triggered_buffer_device, adev);
++}
 +
- 	list_for_each_entry(buffer, &iio_dev_opaque->buffer_list, buffer_list) {
- 		ret2 = iio_buffer_disable(buffer, indio_dev);
- 		if (ret2 && !ret)
-diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-index d0ce3b71106a..16f62bd38041 100644
---- a/include/linux/iio/iio.h
-+++ b/include/linux/iio/iio.h
-@@ -366,6 +366,11 @@ s64 iio_get_time_ns(const struct iio_dev *indio_dev);
-  * they must be managed by the core, but without the entire interrupts/poll
-  * functions burden. Interrupts are irrelevant as the data flow is hardware
-  * mediated and distributed.
-+ * @INDIO_HW_BUFFER_TRIGGERED: Very unusual mode.
-+ * This is similar to INDIO_BUFFER_TRIGGERED but everything is done in hardware
-+ * therefore there are no poll functions attached. It also implies the semantics
-+ * of both INDIO_HARDWARE_TRIGGERED for the trigger and INDIO_BUFFER_HARDWARE
-+ * for the buffer.
-  */
- #define INDIO_DIRECT_MODE		0x01
- #define INDIO_BUFFER_TRIGGERED		0x02
-@@ -373,14 +378,19 @@ s64 iio_get_time_ns(const struct iio_dev *indio_dev);
- #define INDIO_BUFFER_HARDWARE		0x08
- #define INDIO_EVENT_TRIGGERED		0x10
- #define INDIO_HARDWARE_TRIGGERED	0x20
-+#define INDIO_HW_BUFFER_TRIGGERED	0x40
- 
--#define INDIO_ALL_BUFFER_MODES					\
--	(INDIO_BUFFER_TRIGGERED | INDIO_BUFFER_HARDWARE | INDIO_BUFFER_SOFTWARE)
-+#define INDIO_ALL_BUFFER_MODES		\
-+	(INDIO_BUFFER_TRIGGERED		\
-+	 | INDIO_BUFFER_HARDWARE	\
-+	 | INDIO_BUFFER_SOFTWARE	\
-+	 | INDIO_HW_BUFFER_TRIGGERED)
- 
- #define INDIO_ALL_TRIGGERED_MODES	\
- 	(INDIO_BUFFER_TRIGGERED		\
- 	 | INDIO_EVENT_TRIGGERED	\
--	 | INDIO_HARDWARE_TRIGGERED)
-+	 | INDIO_HARDWARE_TRIGGERED	\
-+	 | INDIO_HW_BUFFER_TRIGGERED)
- 
- #define INDIO_MAX_RAW_ELEMENTS		4
- 
++static void iio_hw_trigger_buffer_put(void *dev)
++{
++	put_device(dev);
++}
++
++/**
++ * devm_iio_hw_triggered_buffer_setup - Setup a hardware triggered buffer
++ * @dev:	Device for devm management
++ * @indio_dev:	An unconfigured/partially configured IIO device struct
++ * @match:	Device for matching the auxiliary bus device that provides the
++ *		interface to the hardware triggered buffer
++ * @ops:	Buffer setup functions to use for this IIO device
++ *
++ * Return: 0 on success, negative error code on failure.
++ *
++ * This function will search all registered hardware triggered buffers for one
++ * that matches the given indio_dev. If found, it will be used to setup both
++ * the trigger and the buffer on the indio_dev.
++ */
++int devm_iio_hw_triggered_buffer_setup(struct device *dev,
++				       struct iio_dev *indio_dev,
++				       struct device *match,
++				       const struct iio_buffer_setup_ops *ops)
++{
++	struct iio_hw_triggered_buffer_device *hw;
++	int ret;
++
++	hw = iio_hw_trigger_buffer_get(match);
++	if (IS_ERR(hw))
++		return PTR_ERR(hw);
++
++	ret = devm_add_action_or_reset(dev, iio_hw_trigger_buffer_put, &hw->adev.dev);
++	if (ret)
++		return ret;
++
++	indio_dev->modes |= INDIO_HW_BUFFER_TRIGGERED;
++	indio_dev->trig = iio_trigger_get(hw->trig);
++	indio_dev->setup_ops = ops;
++
++	return iio_device_attach_buffer(indio_dev, hw->buffer);
++}
++EXPORT_SYMBOL_GPL(devm_iio_hw_triggered_buffer_setup);
++
++static int iio_hw_trigger_buffer_probe(struct auxiliary_device *adev,
++				       const struct auxiliary_device_id *id)
++{
++	struct iio_hw_triggered_buffer_device *hw =
++		container_of(adev, struct iio_hw_triggered_buffer_device, adev);
++
++	if (!hw->buffer || !hw->trig)
++		return -EINVAL;
++
++	return 0;
++}
++
++static const struct auxiliary_device_id iio_hw_trigger_buffer_id_table[] = {
++	{ }
++};
++MODULE_DEVICE_TABLE(auxiliary, iio_hw_trigger_buffer_id_table);
++
++static struct auxiliary_driver iio_hw_trigger_buffer_driver = {
++	.driver = {
++		.name = "iio-hw-triggered-buffer",
++	},
++	.probe = iio_hw_trigger_buffer_probe,
++	.id_table = iio_hw_trigger_buffer_id_table,
++};
++module_auxiliary_driver(iio_hw_trigger_buffer_driver);
++
++MODULE_AUTHOR("David Lechner <dlechner@baylibre.com>");
++MODULE_DESCRIPTION("IIO helper functions for setting up hardware triggered buffers");
++MODULE_LICENSE("GPL");
+diff --git a/include/linux/iio/hw_triggered_buffer.h b/include/linux/iio/hw_triggered_buffer.h
+new file mode 100644
+index 000000000000..6bd8035f1b92
+--- /dev/null
++++ b/include/linux/iio/hw_triggered_buffer.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _LINUX_IIO_HW_TRIGGEREDED_BUFFER_H_
++#define _LINUX_IIO_HW_TRIGGEREDED_BUFFER_H_
++
++struct device;
++struct iio_dev;
++struct iio_buffer_setup_ops;
++
++int devm_iio_hw_triggered_buffer_setup(struct device *dev,
++				       struct iio_dev *indio_dev,
++				       struct device *match,
++				       const struct iio_buffer_setup_ops *ops);
++
++#endif /* _LINUX_IIO_HW_TRIGGEREDED_BUFFER_H_ */
+diff --git a/include/linux/iio/hw_triggered_buffer_impl.h b/include/linux/iio/hw_triggered_buffer_impl.h
+new file mode 100644
+index 000000000000..d9a3ad2c8c24
+--- /dev/null
++++ b/include/linux/iio/hw_triggered_buffer_impl.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _LINUX_IIO_HW_TRIGGEREDED_BUFFER_IMPL_H_
++#define _LINUX_IIO_HW_TRIGGEREDED_BUFFER_IMPL_H_
++
++#include <linux/auxiliary_bus.h>
++
++struct iio_buffer;
++struct iio_trigger;
++
++struct iio_hw_triggered_buffer_device {
++	struct auxiliary_device adev;
++	struct iio_buffer *buffer;
++	struct iio_trigger *trig;
++};
++
++#endif /* _LINUX_IIO_HW_TRIGGEREDED_BUFFER_IMPL_H_ */
 
 -- 
 2.43.0
