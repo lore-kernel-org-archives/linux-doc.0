@@ -1,112 +1,126 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243AFDF57;
-	Thu, 11 Jan 2024 18:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372B458116
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jan 2024 20:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="QdyXNbVg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=sG0vta/K25cX+m3KWmJQGIOyHDu76/qWE53sJiW1pFo=; b=QdyXNbVgAPkw53YLTW5MFLAwGd
-	JSmyBJYT187WJ9+lEgwFU4PhK1dNACRkVKJfr68Vrl3dvWbrfDcajsyxvDC+L+X9FlhxRdzkHifJ7
-	Nyxxyw4E6rhW4a9StvHd/8k0K7cZ2ejK8wWeAxlnWB3EXAqRbexHDSm2Ym+JznIMwLMETkZI1EOBF
-	aFTVH+8Oirspf3X8ccXVNUEcwyl/yFabJZJG4kbTOUGr9HGQnWzceum2L980kdwneZgFV/2GpF9u7
-	+ZMQvD6P6lp8CqjbYvw2rm5IOxMyXQjXa+F/gD8ocRGtER1nVEgTt8Q6I3eYKL9yLoSjoGENQ2Kyy
-	yStOVlHw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:54562)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rO04n-0006t8-0R;
-	Thu, 11 Jan 2024 18:46:49 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rO04l-0006ah-8R; Thu, 11 Jan 2024 18:46:47 +0000
-Date: Thu, 11 Jan 2024 18:46:47 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 02/21] ACPI: processor: Add support for processors
- described as container packages
-Message-ID: <ZaA3l4yjgCXxSiVg@shell.armlinux.org.uk>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
- <E1rDOfx-00Dvje-MS@rmk-PC.armlinux.org.uk>
- <CAJZ5v0iB0bS6nmjQ++pV1zp5YSGuigbffK5VD3wsX+8bY9MA5w@mail.gmail.com>
- <20240111175908.00002f46@Huawei.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tOE4yu9j"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-50e766937ddso6774540e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jan 2024 12:54:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1705006460; x=1705611260; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ylEjVhaN7U3+Tq2GKvOYEoSFBqgDAhHQ3vUsYifSnC4=;
+        b=tOE4yu9j+QLc7Wfki9AdGF44qj/iBWUFqM5ZJFsNQWpL1WpJ9+s3K7Ri5MlTd3Y6jq
+         +cACdkIVhIkWTYuKL8gGHNSyya5Ri38og5XVz5o5nZVsACpNXrh2QqPen/5QpAW9rEIs
+         EHDeFMfGkMS1UCCp2iMQF/l4IHdn1FlrBmWNOJIJdFcnmeG9VOflgBSEUOfffReeITWN
+         YHSd569no6sBeGMpzPFdD4PE+ur3iK44dU82ArHwN2UxAFsfX9NnPcc83DmlhL21q+pV
+         CkTazHLJTSaR49NTfSI8RzukrT7pIQuFMd17mLouR5e85ev1Jlj9O2JzRm3CIyOQV/Yb
+         kV6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705006460; x=1705611260;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ylEjVhaN7U3+Tq2GKvOYEoSFBqgDAhHQ3vUsYifSnC4=;
+        b=IewQvZ6R83oK5gQPE1O60B3vzfvM4XPPoGzPddO+bV0E3v02leaCQU/6tmQekCcNTZ
+         21cxVWsPjHrkpBvj9wYiqQu43gfPmV33IiOPBSBmsHPUQ7Zc4aCqfH//ihgAMixg4nVL
+         l4tUuqLE/GQ1VoMnZkxLLebchn76M6zWnEDpxZJT1u0SjD46aEutQ1abrK+aClqfY8iC
+         kvgOJkJR2TZeuyOgjmVx+nYfHcyD7+XoP1/DYJ+GoyAHXDO8sDZPAgf9ZuD0aWUhpc73
+         ln0vae4o1JUSeysKTb/KkKoUfj+qT+tLqE4OO98zS1pPMXsgnwGwZW3miFgw4KqDD6ea
+         QAOg==
+X-Gm-Message-State: AOJu0YyZ3NdsMZ87Z3u3BJ/25OY16+HW3TqDnLLeGFlThAVki9da58cP
+	0PaPsbEn8NwwgJOPpunFlfqHXctP+m/WlhlJSjsi52yGPEinmg==
+X-Google-Smtp-Source: AGHT+IEWzwr/tc2fYB85wLIF4FNfK9wFIyN4eyOO2fYyS4zfclc3IVSwHz7GtBfcfd6NENCzsVQn8Z5BmbvtojGy7fo=
+X-Received: by 2002:a05:6512:3f04:b0:50e:dc80:d560 with SMTP id
+ y4-20020a0565123f0400b0050edc80d560mr156153lfa.45.1705006460198; Thu, 11 Jan
+ 2024 12:54:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240111175908.00002f46@Huawei.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
+ <20240109-axi-spi-engine-series-3-v1-1-e42c6a986580@baylibre.com> <2c74aad9-3cb9-4222-8072-e72120c2658e@sirena.org.uk>
+In-Reply-To: <2c74aad9-3cb9-4222-8072-e72120c2658e@sirena.org.uk>
+From: David Lechner <dlechner@baylibre.com>
+Date: Thu, 11 Jan 2024 14:54:09 -0600
+Message-ID: <CAMknhBGMRed9vDrDAuPJ5DnEe6MyHzd0VBebp5OaLX2Q+AyhMQ@mail.gmail.com>
+Subject: Re: [PATCH 01/13] spi: add core support for controllers with offload capabilities
+To: Mark Brown <broonie@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Frank Rowand <frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-spi@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	David Jander <david@protonic.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 11, 2024 at 05:59:08PM +0000, Jonathan Cameron wrote:
-> On Mon, 18 Dec 2023 21:17:34 +0100
-> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> 
-> > On Wed, Dec 13, 2023 at 1:49 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
-> > >
-> > > From: James Morse <james.morse@arm.com>
-> 
-> Done some digging + machine faking.  This is mid stage results at best.
-> 
-> Summary: I don't think this patch is necessary.  If anyone happens to be in
-> the mood for testing on various platforms, can you drop this patch and
-> see if everything still works.
-> 
-> With this patch in place, and a processor container containing
-> Processor() objects acpi_process_add is called twice - once via
-> the path added here and once via acpi_bus_attach etc.
-> 
-> Maybe it's a left over from earlier approaches to some of this?
+On Wed, Jan 10, 2024 at 3:36=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Wed, Jan 10, 2024 at 01:49:42PM -0600, David Lechner wrote:
+> > This adds a feature for specialized SPI controllers that can record
+> > a series of SPI transfers, including tx data, cs assertions, delays,
+> > etc. and then play them back using a hardware trigger without CPU
+> > intervention.
+>
+> > The intended use case for this is with the AXI SPI Engine to capture
+> > data from ADCs at high rates (MSPS) with a stable sample period.
+>
+> > Most of the implementation is controller-specific and will be handled b=
+y
+> > drivers that implement the offload_ops callbacks. The API follows a
+> > prepare/enable pattern that should be familiar to users of the clk
+> > subsystem.
+>
+> This is a lot to do in one go, and I think it's a bit too off on the
+> side and unintegrated with the core.  There's two very high level bits
+> here, there's the pre-cooking a message for offloading to be executed by
+> a hardware engine and there's the bit where that's triggered by some
+> hardwar event rather than by software.
+>
+> There was a bunch of discussion of the former case with David Jander
 
-From what you're saying, it seems that way. It would be really good to
-get a reply from James to see whether he agrees - or at least get the
-reason why this patch is in the series... but I suspect that will never
-come.
+I found [1] which appears to be the conversation you are referring to.
+Is that all or is there more that I missed?
 
-> Both cases are covered by the existing handling without this.
-> 
-> I'm far from clear on why we need this patch.  Presumably
-> it's the reference in the description on it breaking for
-> Processor Package containing Processor() objects that matters
-> after a move... I'm struggling to find that move though!
+[1]: https://lore.kernel.org/linux-spi/20220512163445.6dcca126@erd992/
 
-I do know that James did a lot of testing, so maybe he found some
-corner case somewhere which made this necessary - but without input
-from James, we can't know that.
+> (CCed) a while back when he was doing all the work he did on optimising
+> the core for uncontended uses, the thinking there was to have a
+> spi_prepare_message() (or similar) API that drivers could call and then
+> reuse the same transfer repeatedly, and even without any interface for
+> client drivers it's likely that we'd be able to take advantage of it in
+> the core for multi-transfer messages.  I'd be surprised if there weren't
+> wins when the message goes over the DMA copybreak size.  A much wider
+> range of hardware would be able to do this bit, for example David's case
+> was a Raspberry Pi using the DMA controller to write into the SPI
+> controller control registers in order to program it for multiple
+> transfers, bounce chip select and so on.  You could also use the
+> microcontroller cores that many embedded SoCs have, and even with zero
+> hardware support for offloading anything there's savings in the message
+> validation and DMA mapping.
+>
 
-So, maybe the right way forward on this is to re-test the series
-with this patch dropped, and see whether there's any ill effects.
-It should be possible to resurect the patch if it does turn out to
-be necessary.
+I can see how such a spi_prepare_message() API could be useful in
+general and would be a good first step towards what we are wanting to
+accomplish too.
 
-Does that sound like a good way forward?
+For example, in the IIO subsystem, it is a common pattern when using a
+triggered buffer to prepare some spi xfer structs in the buffer setup
+phase that get reused multiple times. So this could, as you said, at
+least save the overhead of validating/mapping the same xfers over and
+over.
 
-Thanks.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+I will look into this first and then we can come back to the second
+part about hardware triggers once that is done.
