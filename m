@@ -1,99 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BB01775B;
-	Thu, 11 Jan 2024 13:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303D018033
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jan 2024 13:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vAKS2I68"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAD1FC433F1;
-	Thu, 11 Jan 2024 13:33:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704979990;
-	bh=EmGMiLyuF8McNaUk0A0meCoizVF29JUoSFDudOh+384=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vAKS2I68D2Sywf9Up0nX2OS+frd2mQKF+NZhSTyYbSAkeUsHJgC1v2Z3O9LRnA5rP
-	 NywmcrehgOdG56cF6YvStXcz6b2UMebmcH9qy3Peq8QFtDdEAUgHTGZVlC4YjA+xnp
-	 y+X1Yo8GDpm946G9D2hWbAYqLHlE3EIn/QsnFuCnL0OLnGIUuer/ch2UG5eMpXwcbI
-	 ZwwEVQrO9/v13SyXP6iqgEQN6WqHDYxt1iwybwqHBnw3Dhi1Mlh33ZLTJozOzFNaJI
-	 jGFY0pG3k947J9c1Kma4Q30dc5DQ2/HAnmTp5fIGJEn4Vezd06/Z1TOlqFeujbpeMk
-	 XU2XiElvVSvtw==
-Date: Thu, 11 Jan 2024 13:33:03 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>, linux-spi@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/13] spi: add core support for controllers with offload
- capabilities
-Message-ID: <aae36622-4e05-4f16-9460-d7614fd599aa@sirena.org.uk>
-References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
- <20240109-axi-spi-engine-series-3-v1-1-e42c6a986580@baylibre.com>
- <0c0b1954825dc174cab48060e96ddadadc18aefd.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ZOCZCaqp"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a2bdc3a3c84so188210566b.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jan 2024 05:36:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1704980218; x=1705585018; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jZJk/zGzcW9P8tv4ZwjNAa3xZGwDose/eLLHnMc+PRQ=;
+        b=ZOCZCaqpvYZ3bBY5TBOaLdxkjUu0Y1M4qGDH2C54y64OKSEa8QfUguYNkfgPVtJro0
+         db/17QZmRTuwebhcRRnaTbj5InvAOEypdWtkCeWZkR3+vQRlu5UoOFFToqq/eDoZ4XGj
+         BrNEHry11dHIIh3S5LQUjyG+XDf+zJApF7Q9Z6AZ0+z00sbPlJOkuqgZaMhCUvnq1hEa
+         VKdqMYvzFVJnOsw7jiTm2JD3ke+pooTpjpG9yI4NYfe+p4nDy55RCopow29acp6vyVY1
+         Ik2fBVHId/o752TjMiKIZRHNYMw/ashOTOzN2dgKaWmy0vgx7Q4ST0AsH4stfnOcUf8F
+         B7hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704980218; x=1705585018;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jZJk/zGzcW9P8tv4ZwjNAa3xZGwDose/eLLHnMc+PRQ=;
+        b=LXBeqsMTa4V0RCe/GOpuztwkoGNSvXshxDaTQSOOWUurjniVdKXbdb5Clvtb+Mgywq
+         6+MwM4FTHMqX2Mpg8LRQCtxiKpjUoeTK6rdm/zQoWecain3MQ3CKIblEaF7E6vNhBZe7
+         11j8EfAsW6pubTXHEu/l47snjGu3vmTEaMU29VA6thJWwjcJq8gvrvl4Z08b26GAOwLd
+         jc+C/7iBdObHBUgX+5h4A/2plkhU2TBkbz4x5l5KXhhZoaI2mKgH67nnUQ0tg5ebZQmK
+         M5ciU3voYUsBnzihnbhhcW09Du0qvhEq0RubTqmnf/6fUhlB/uWnDKkebqhE56E1JWvJ
+         mahg==
+X-Gm-Message-State: AOJu0YwZIVKr8QdS+fcREvOlo76J5xbYX13OrmfbMQoSo6qIRGgRBJrs
+	Jz98iqOidosjSj+T5BfNXZOxg8Wp2jZDlw==
+X-Google-Smtp-Source: AGHT+IGEU7aZg/2yhXR+7vRPuvW+00xt0POJADrekQintDzFcawk6SkTP6e5ed5ccxxZAhl88qmNuA==
+X-Received: by 2002:a17:906:71d4:b0:a28:e67e:9b36 with SMTP id i20-20020a17090671d400b00a28e67e9b36mr624635ejk.102.1704980218518;
+        Thu, 11 Jan 2024 05:36:58 -0800 (PST)
+Received: from alley ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id c6-20020a17090603c600b00a2a4a6e1bc5sm583798eja.204.2024.01.11.05.36.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 05:36:58 -0800 (PST)
+Date: Thu, 11 Jan 2024 14:36:56 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Marcos Paulo de Souza <mpdesouza@suse.com>
+Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+	Joe Lawrence <joe.lawrence@redhat.com>,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+	live-patching@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] selftests: livepatch: Test livepatching a heavily
+ called syscall
+Message-ID: <ZZ_u-ChoLo2AW_DE@alley>
+References: <20240109-send-lp-kselftests-v5-0-364d59a69f12@suse.com>
+ <20240109-send-lp-kselftests-v5-3-364d59a69f12@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="F30ei0E0aX6bxcQF"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0c0b1954825dc174cab48060e96ddadadc18aefd.camel@gmail.com>
-X-Cookie: Does the name Pavlov ring a bell?
+In-Reply-To: <20240109-send-lp-kselftests-v5-3-364d59a69f12@suse.com>
 
+On Tue 2024-01-09 21:24:56, Marcos Paulo de Souza wrote:
+> The test proves that a syscall can be livepatched. It is interesting
+> because syscalls are called a tricky way. Also the process gets
+> livepatched either when sleeping in the userspace or when entering
+> or leaving the kernel space.
+> 
+> The livepatch is a bit tricky:
+>   1. The syscall function name is architecture specific. Also
+>      ARCH_HAS_SYSCALL_WRAPPER must be taken in account.
+> 
+>   2. The syscall must stay working the same way for other processes
+>      on the system. It is solved by decrementing a counter only
+>      for PIDs of the test processes. It means that the test processes
+>      has to call the livepatched syscall at least once.
+> 
+> The test creates one userspace process per online cpu. The processes
+> are calling getpid in a busy loop. The intention is to create random
+> locations when the livepatch gets enabled. Nothing is guarantted.
+> The magic is in the randomness.
+> 
+> Reviewed-by: Joe Lawrence <joe.lawrence@redhat.com>
+> Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
 
---F30ei0E0aX6bxcQF
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-On Thu, Jan 11, 2024 at 09:49:08AM +0100, Nuno S=E1 wrote:
-> On Wed, 2024-01-10 at 13:49 -0600, David Lechner wrote:
-
-> > =A0=A0=A0 /* in probe() */
-> > =A0=A0=A0 offload =3D spi_offload_get(spi, 0);
-
-> On top of what Mark already stated, and as we already discussed offline, I
-> personally don't like this provider - consumer interface for the offload.=
- The
-> first thing is that this is taking into account the possibility of having
-> multiple offload cores. While the FGPA core was designed with that in min=
-d, we
-> don't really have any design using multiple offloads in one spi engine (a=
-lways
-> one). Hence this is all pretty much untested.
-
-I tend to agree that we shouldn't be exposing this to SPI device drivers
-however we will want to keep track of if the unit is busy, and designing
-it to cope with multiple offloads does seem like sensible future
-proofing.  There's also the possibility that one engine might be able to
-cope with multiple scripts being active at once (eg, triggering a
-different action depending on the trigger).
-
---F30ei0E0aX6bxcQF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWf7g4ACgkQJNaLcl1U
-h9CpZAf/Tlp3sl12nfPE/B+KPrvvSbOwgr6rp8IbKgLqDiflBuVfRC7hUNK8eeVk
-O8hS/4cYUSZzi/UKEIS1n36hrWz8pVFsmMGnaY1oceEISrS6pQNl7KKxhtHzbv6I
-xAWftKist6PFor7KiWJk8XRn7ClDn4OWOl9KRzsQuov9tWC1iEthAfXtzsF8vwjO
-LHfGOfe0d4RGXW/UJqZ89NYlLv4ndfhmXpVt6+KI6L99xNDfqu7+zmhRuxiCZDIA
-t9jbE9gQoPPQAZqr3rPyF3Lgry+a3M/yJksJCzMmbwg6RV7oTw2suHFy3euOjMKx
-4qZHFLGZYXHnsO6k3idEnYTN2EAEFA==
-=qyXJ
------END PGP SIGNATURE-----
-
---F30ei0E0aX6bxcQF--
+Best Regards,
+Petr
