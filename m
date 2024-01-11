@@ -1,89 +1,126 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5710F15D5
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jan 2024 03:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [209.85.219.177])
-	by gateway (Coremail) with SMTP id _____8AxCuqeXZ9lICAEAA--.8316S3;
-	Thu, 11 Jan 2024 11:16:47 +0800 (CST)
-Received: from mail-yb1-f177.google.com (unknown [209.85.219.177])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8DxjNybXZ9lYD0OAA--.37335S3;
-	Thu, 11 Jan 2024 11:16:45 +0800 (CST)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dbeff495c16so3483101276.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 19:16:45 -0800 (PST)
-X-Gm-Message-State: AOJu0Yzv475RSkAGHfUurMLgL9HHny1VjalHBqWg5id0YDdncYCkuCw0
-	NvHJra9qBSTpADIDHYJdGfkY1u9KoQ7BnazcOXrT8BqvxgABXw==
-X-Google-Smtp-Source: AGHT+IE0jL+bvqrnpNSoLgCBevWtqVOaR8GEN8q+0+2xHB17kVQZvWuMgDwBezaXS10AurEkDRQMW6cTOsUlvENQfZQ=
-X-Received: by 2002:a25:83c9:0:b0:dbd:b599:19a1 with SMTP id
- v9-20020a2583c9000000b00dbdb59919a1mr582736ybm.73.1704943002704; Wed, 10 Jan
- 2024 19:16:42 -0800 (PST)
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C74415A1;
+	Thu, 11 Jan 2024 03:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MWF2Dpq7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=k1Ho/05+osX5yBSt3dsuOnnijSKuAo5CebqXC420Q7U=; b=MWF2Dpq7Y6wltSXPDDINajcI5z
+	GhKGOIHtn/iLM+LJ31ocb50G/zGRv9WgoBOdPN1TOs8JykLCj8Gl9i6djrIYjtQqas8MjVYXPV0Aq
+	GV3HqHmZZEknI5KXH+mzG2SSyiJ8KsqyI7C03URgKjcGhZ9XT7UpQkKhJKP00wIP9cqBM4sbORtNc
+	xpXLLhh7oo2SJfj8gMZuYuCq47n0a8Hbj7Dcsg1AkLcRT4fFe9YZYapYiTpSWeIhmSs226DK/EE4K
+	DThCQgo5w0AKIpDk9oU4dL36zaeM2RIC3A+ZmqRgriedyiHl+T7jCwTkruDtW9jHj1Oif59TTPvUp
+	9u/kWvSQ==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rNleL-00FbcJ-1o;
+	Thu, 11 Jan 2024 03:22:33 +0000
+Message-ID: <55680bae-966a-4a31-85f9-9ca516b80145@infradead.org>
+Date: Wed, 10 Jan 2024 19:22:33 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240108032117.215171-1-wangrui@loongson.cn> <ZZ2fn0scbDKBXWe5@boqun-archlinux>
- <CAHirt9iox8FGV2wrMyxwFRjab2avfOcyLKvBc9K=AqiHxqHXKg@mail.gmail.com>
- <ZZ38XMQw18mw2sTA@Boquns-Mac-mini.home> <CAHirt9jQSVvBF=1wc=sT9FxngeSP30P4FDpu8m0JH_0fOPSO-w@mail.gmail.com>
- <CANiq72=X3cggAn0HLMi7jVFAfypBhog=ZkPB57yfaX4ZUzT-HA@mail.gmail.com>
-In-Reply-To: <CANiq72=X3cggAn0HLMi7jVFAfypBhog=ZkPB57yfaX4ZUzT-HA@mail.gmail.com>
-From: WANG Rui <wangrui@loongson.cn>
-Date: Thu, 11 Jan 2024 11:16:31 +0800
-X-Gmail-Original-Message-ID: <CAHirt9hdtGSsEofxDb0FCtcFeAw9n9LKJALz23Qdqh4n2=Ua5A@mail.gmail.com>
-Message-ID: <CAHirt9hdtGSsEofxDb0FCtcFeAw9n9LKJALz23Qdqh4n2=Ua5A@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] Rust enablement for LoongArch
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-doc@vger.kernel.org, loongson-kernel@lists.loongnix.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID:AQAAf8DxjNybXZ9lYD0OAA--.37335S3
-X-CM-SenderInfo: pzdqw2txl6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
-	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
-	BjDU0xBIdaVrnRJUUUBCb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
-	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
-	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxV
-	AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
-	67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
-	ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E
-	87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2
-	Ij64vIr41l4c8EcI0En4kS14v26r126r1DMxAqzxv26xkF7I0En4kS14v26r126r1DMxC2
-	0s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr
-	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
-	W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
-	cVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/8] buffer: Add kernel-doc for try_to_free_buffers()
+Content-Language: en-US
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240109143357.2375046-1-willy@infradead.org>
+ <20240109143357.2375046-4-willy@infradead.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240109143357.2375046-4-willy@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 10, 2024 at 6:50=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Wed, Jan 10, 2024 at 3:49=E2=80=AFAM WANG Rui <wangrui@loongson.cn> wr=
-ote:
-> >
-> > LLVM 17 doesn't work. The minimum LLVM version required for LoongArch
-> > is 18.0.0. This is the reason why we have updated the
-> > scripts/min-tool-version.sh. [1]
-> >
-> > [1] https://lore.kernel.org/loongarch/20240108033138.217032-1-wangrui@l=
-oongson.cn/
->
-> Thanks! Is this targeted at 6.9?
+Hi,
 
-6.8
+On 1/9/24 06:33, Matthew Wilcox (Oracle) wrote:
+> The documentation for this function has become separated from it over
+> time; move it to the right place and turn it into kernel-doc.  Mild
+> editing of the content to make it more about what the function does, and
+> less about how it does it.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+>  fs/buffer.c | 44 ++++++++++++++++++++++++--------------------
+>  1 file changed, 24 insertions(+), 20 deletions(-)
+> 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index 071f01b28c90..25861241657f 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -2864,26 +2864,6 @@ int sync_dirty_buffer(struct buffer_head *bh)
+>  }
+>  EXPORT_SYMBOL(sync_dirty_buffer);
+>  
+> -/*
+> - * try_to_free_buffers() checks if all the buffers on this particular folio
+> - * are unused, and releases them if so.
+> - *
+> - * Exclusion against try_to_free_buffers may be obtained by either
+> - * locking the folio or by holding its mapping's i_private_lock.
+> - *
+> - * If the folio is dirty but all the buffers are clean then we need to
+> - * be sure to mark the folio clean as well.  This is because the folio
+> - * may be against a block device, and a later reattachment of buffers
+> - * to a dirty folio will set *all* buffers dirty.  Which would corrupt
+> - * filesystem data on the same device.
+> - *
+> - * The same applies to regular filesystem folios: if all the buffers are
+> - * clean then we set the folio clean and proceed.  To do that, we require
+> - * total exclusion from block_dirty_folio().  That is obtained with
+> - * i_private_lock.
+> - *
+> - * try_to_free_buffers() is non-blocking.
+> - */
+>  static inline int buffer_busy(struct buffer_head *bh)
+>  {
+>  	return atomic_read(&bh->b_count) |
+> @@ -2917,6 +2897,30 @@ drop_buffers(struct folio *folio, struct buffer_head **buffers_to_free)
+>  	return false;
+>  }
+>  
+> +/**
+> + * try_to_free_buffers: Release buffers attached to this folio.
 
-Regards,
-Rui
+preferably s/_buffers: /_buffers - /
 
->
-> Cheers,
-> Miguel
->
+> + * @folio: The folio.
+> + *
+> + * If any buffers are in use (dirty, under writeback, elevated refcount),
+> + * no buffers will be freed.
+> + *
+> + * If the folio is dirty but all the buffers are clean then we need to
+> + * be sure to mark the folio clean as well.  This is because the folio
+> + * may be against a block device, and a later reattachment of buffers
+> + * to a dirty folio will set *all* buffers dirty.  Which would corrupt
+> + * filesystem data on the same device.
+> + *
+> + * The same applies to regular filesystem folios: if all the buffers are
+> + * clean then we set the folio clean and proceed.  To do that, we require
+> + * total exclusion from block_dirty_folio().  That is obtained with
+> + * i_private_lock.
+> + *
+> + * Exclusion against try_to_free_buffers may be obtained by either
+> + * locking the folio or by holding its mapping's i_private_lock.
+> + *
+> + * Context: Process context.  @folio must be locked.  Will not sleep.
+> + * Return: true if all buffers attached to this folio were freed.
+> + */
+>  bool try_to_free_buffers(struct folio *folio)
+>  {
+>  	struct address_space * const mapping = folio->mapping;
 
+-- 
+#Randy
