@@ -1,90 +1,129 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 681F8EC0
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jan 2024 03:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [209.85.219.171])
-	by gateway (Coremail) with SMTP id _____8CxKOq7ZJ9l5iEEAA--.4199S3;
-	Thu, 11 Jan 2024 11:47:08 +0800 (CST)
-Received: from mail-yb1-f171.google.com (unknown [209.85.219.171])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxC965ZJ9lo1sOAA--.37968S3;
-	Thu, 11 Jan 2024 11:47:06 +0800 (CST)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dbed4b03b48so3800429276.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jan 2024 19:47:06 -0800 (PST)
-X-Gm-Message-State: AOJu0Ywav1qJJ317oEmDZ4G9fhKQlMJ1Z77X0sQh/a4H/YxDnovBaA3O
-	QLYlCFzeeM9R6f2rOFjI4QJuB+zDm0gQz6zXnE4xZeMbgodyjw==
-X-Google-Smtp-Source: AGHT+IHpSM/8N7+rGcy92dZLNMFLoixFy6IEJVvgwPI+z5PwBP9sjyoT/Y36ExtZ7DIfK/4FNN0TteYtrQWLIRHMQSQ=
-X-Received: by 2002:a05:6902:2511:b0:dbf:e0a:c642 with SMTP id
- dt17-20020a056902251100b00dbf0e0ac642mr686949ybb.112.1704943080724; Wed, 10
- Jan 2024 19:18:00 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FF211C8C;
+	Thu, 11 Jan 2024 08:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQpE2h0o"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40e61ff3e37so422645e9.1;
+        Thu, 11 Jan 2024 00:45:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704962757; x=1705567557; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XnXGwZ90m0aaWtoshE1c+60rdXXd9xE4R+DPUoXirhg=;
+        b=bQpE2h0oOho6RSJJGBJPdo04CCZe45nqNgK8oN+UczucLqK8AJ07HFKt2+IKipXx8R
+         vDX0rzjXzRQXq2bHwacUt2Y7aYCbdKeB5cgTTpYF0K8GwgByAwoCVpYwfDVtxeK0Wbsv
+         rvM92oUnh+A8g6QBUHW8HCgHO0sYGWBBO774qlkBZWY0qdhSspZC5AwndM0cSOymRYff
+         vPUh1sR8iDaeAksE5gpQYbN/3SMpUo5NG/Fs2OjHFRW73F84/9Vgw0Z9+U5WNl8+LDla
+         9wB28AFQ/IJRqgUtND2xihtP4Ozjkbt1Exp3fdsdOznpndmRYCLkgsZCV+aVHf/TLVPn
+         dmSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704962757; x=1705567557;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XnXGwZ90m0aaWtoshE1c+60rdXXd9xE4R+DPUoXirhg=;
+        b=h3qTHl2UCyp3U9edeRUPcdSKPB4jFAytMO8F1RDKU3ySqJh5bPR5hnQsjyZo1c9I4D
+         UGplPy76d5+58iCP8L691AC1INO/CwX7zP5wE7GEKhOdm+SQqkzdyVRg1W5QZdRCl6tE
+         JDxxKKu5EeGa4IAkCz+SlNFhT5koRVD7nOBSDCb9raGkKiX7GSw68C//u6P2ZH3LKMvb
+         9Qxqxo80euySgGEGobjneTFOH0OZise/CnPjca3VOaSLYCUTbaHTaVQDw9GStwO9f9cc
+         FJgn4n1qzibANb/CivgOXwW2RF1kbXVFaufzQKiao50re5Rd/OBgs9fbK68WHupoP7fu
+         NGJA==
+X-Gm-Message-State: AOJu0YxJxl3OYedl2qC/AGkyrUgmRCkk7ZbKN2+5rzsaPBh2IdYe0M7A
+	Py/jChAT+FjpmEpMSNSFhjY=
+X-Google-Smtp-Source: AGHT+IHWay0LKAaf6f5AsLsJfQGOlRBcT0TnnnSJL09Q2WvM12Zsgwn+NZHu8+7z/vzkPhYyU0+OlQ==
+X-Received: by 2002:a7b:c414:0:b0:40e:5be9:2ac3 with SMTP id k20-20020a7bc414000000b0040e5be92ac3mr207183wmi.137.1704962756651;
+        Thu, 11 Jan 2024 00:45:56 -0800 (PST)
+Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47? (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
+        by smtp.gmail.com with ESMTPSA id l22-20020a05600c4f1600b0040d6b91efd9sm4930135wmq.44.2024.01.11.00.45.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 00:45:56 -0800 (PST)
+Message-ID: <0c0b1954825dc174cab48060e96ddadadc18aefd.camel@gmail.com>
+Subject: Re: [PATCH 01/13] spi: add core support for controllers with
+ offload capabilities
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: David Lechner <dlechner@baylibre.com>, Mark Brown <broonie@kernel.org>, 
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>,  Michael Hennerich <michael.hennerich@analog.com>,
+ Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Frank Rowand
+ <frowand.list@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Jonathan
+ Corbet <corbet@lwn.net>,  linux-spi@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Thu, 11 Jan 2024 09:49:08 +0100
+In-Reply-To: <20240109-axi-spi-engine-series-3-v1-1-e42c6a986580@baylibre.com>
+References: 
+	<20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
+	 <20240109-axi-spi-engine-series-3-v1-1-e42c6a986580@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240106065941.180796-1-wangrui@loongson.cn> <CANiq72=M5TrUL+9Z0nqKKcD=KHwyDA79fNYHgU2EJ+7u6Ct8qw@mail.gmail.com>
- <CAHirt9hd4W25p1kVNYXbEXrLj6NgT5r=EPWsoOmHZzS1qGR-yA@mail.gmail.com> <CANiq72nw2UHd3Kek-Fmvk_3zE=z56wYJVQJq_syYagru5+wo8g@mail.gmail.com>
-In-Reply-To: <CANiq72nw2UHd3Kek-Fmvk_3zE=z56wYJVQJq_syYagru5+wo8g@mail.gmail.com>
-From: WANG Rui <wangrui@loongson.cn>
-Date: Thu, 11 Jan 2024 11:17:50 +0800
-X-Gmail-Original-Message-ID: <CAHirt9hD-yYhA4moQemOPizSGrgdkBgT08UuuZai41gsbGdMog@mail.gmail.com>
-Message-ID: <CAHirt9hD-yYhA4moQemOPizSGrgdkBgT08UuuZai41gsbGdMog@mail.gmail.com>
-Subject: Re: [PATCH] LoongArch: Enable initial Rust support
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-doc@vger.kernel.org, loongson-kernel@lists.loongnix.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID:AQAAf8CxC965ZJ9lo1sOAA--.37968S3
-X-CM-SenderInfo: pzdqw2txl6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBj9xXoW7Xr1rurW3AFWDXr18AF4xGrX_yoW3Xrb_ua
-	1DAr97ArW8GFsrA3sIqa1UJFyfWaykGry5u3ykXayvyw1ftan8WrykCFykJwsrCayxGr9a
-	9r90ya4093W3ZosvyTuYvTs0mTUanT9S1TB71UUUU17qnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUbfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
-	6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-	1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
-	Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
-	AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
-	cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
-	8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v2
-	6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4L0eDUUUU
 
-On Wed, Jan 10, 2024 at 7:21=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Mon, Jan 8, 2024 at 4:22=E2=80=AFAM WANG Rui <wangrui@loongson.cn> wro=
-te:
-> >
-> > Thanks for your comments. I noticed that the refactoring of the build
-> > system to support the use of Rust built-in targets is still ongoing.
-> > Could this take some time? In the meantime, let's proceed with the
-> > generation method.
->
-> My pleasure! If you mean the first patch of the arm64 series I linked,
-> we have been waiting for a while for that to get merged (hopefully
-> 6.9?). So, yeah, as you say, it is probably best to continue with this
-> and then you can change it later after the arm64 series lands. Thanks!
+Hi David,
 
-Thanks. I'll do it.
 
-Regards,
-Rui
+On Wed, 2024-01-10 at 13:49 -0600, David Lechner wrote:
+> This adds a feature for specialized SPI controllers that can record
+> a series of SPI transfers, including tx data, cs assertions, delays,
+> etc. and then play them back using a hardware trigger without CPU
+> intervention.
+>=20
+> The intended use case for this is with the AXI SPI Engine to capture
+> data from ADCs at high rates (MSPS) with a stable sample period.
+>=20
+> Most of the implementation is controller-specific and will be handled by
+> drivers that implement the offload_ops callbacks. The API follows a
+> prepare/enable pattern that should be familiar to users of the clk
+> subsystem.
+>=20
+> Consumers of this API will make calls similar to this:
+>=20
+> =C2=A0=C2=A0=C2=A0 /* in probe() */
+> =C2=A0=C2=A0=C2=A0 offload =3D spi_offload_get(spi, 0);
+> =C2=A0=C2=A0=C2=A0 ...
+>=20
+On top of what Mark already stated, and as we already discussed offline, I
+personally don't like this provider - consumer interface for the offload. T=
+he
+first thing is that this is taking into account the possibility of having
+multiple offload cores. While the FGPA core was designed with that in mind,=
+ we
+don't really have any design using multiple offloads in one spi engine (alw=
+ays
+one). Hence this is all pretty much untested.
 
->
-> Cheers,
-> Miguel
->
+If we want to already have this support, my feeling is that we should have =
+a
+simple integer dt property for the peripheral devices (similar to cs). When=
+ a
+device is being created/added, the spi core would parse this property and g=
+et
+it's offload index. The point is that this would all be transparent for spi
+devices drivers that would only have to call the SPI API's and the core wou=
+ld
+make sure the right index is passed to the controller.
+
+But honestly, IMO, I would just keep things simple for now and assume one c=
+ore
+per engine.
+
+I would probably also prefer to see all the new interfaces part of the
+spi_controller struct directly...
+
+- Nuno S=C3=A1
+
 
