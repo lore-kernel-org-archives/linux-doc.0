@@ -1,118 +1,79 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0FE3B187;
-	Thu, 11 Jan 2024 14:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30ED5495D5;
+	Thu, 11 Jan 2024 14:50:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+oqQ9qM"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a29a4f610b1so579799966b.3;
-        Thu, 11 Jan 2024 06:08:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704982101; x=1705586901; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=WoJC8tdnDZuFg5WsFgtASovnc1Tl99lnT/+ICbRlVwA=;
-        b=G+oqQ9qMsSnvIG2xsqqlMDBNGN7bdvOXAudCaiFcF3RpwRSoxNq57VZbT679SZpcwR
-         mQv+YkKVIUqDbVaE8jtHv9n/4PHgC41jMsf0wCoGVMeo2ct2W0n2vjr9EM009tMmnIwx
-         +h+Z9FEu4BTwuGnUfHtsNPL+ZED5QhH+44yoTObj9tw2ypKQnAS5upt0OInlEbqwPEqP
-         GE3NR1H8yVgVwcw0MCG+XlPOGHD6FyenNZe91OPM9dWIXA6nkf+rSTAd6VuSu2y+ntjG
-         W98YktW1L4PcwcX0nk0Afl/n8IShAeeR2RHALiMAKMnCS0vsFTHCRIooIgSzN+xcLwf+
-         gsVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704982101; x=1705586901;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WoJC8tdnDZuFg5WsFgtASovnc1Tl99lnT/+ICbRlVwA=;
-        b=Kqjem/diqyHz2gSf7TRvAoAgbs4eJ7uNtxqT0l9oNpFXtppZe+VlRAoDc1r9iVAgRw
-         gpm95X8PPacIUTN87MwhVOS/fo/9qTFrM1BAbePd9YRw5j7ECZXujNVJim2nDLh5EN/G
-         BSwsTXQ/qOVCFJK319bAq4IasgGki+kQrmeB2GjPhPlLzQ79zelNwHt3dWNLACDzTK9y
-         dJ07MHiRHWlwZ4kCWSRX87BR4nnglBG5V+a4JecAAN+U5R5WBnmNF0L+OPptiuA/lioy
-         T5Bt5k4BQcMay9I8c8aVV+EFYdA+Yy++swWnSx7b4P0+VkioXRSaK/TVjXGygIMuBsZ+
-         89Uw==
-X-Gm-Message-State: AOJu0Yyq8Y0FQmdpv6HcL7dVxzS1aC39CnmABkeykkLUzB3QA4IeAmvf
-	u1Z260p8U4dnZ6m/7hwbpb0=
-X-Google-Smtp-Source: AGHT+IEFa0SyyLPtJIEyD1MDs+PWNcn+s3GPOMBXhDIA1k2L4TV8ak6uzCy/6bBxHMPtd2QnR9l+OQ==
-X-Received: by 2002:a17:906:c08c:b0:a28:bf58:756d with SMTP id f12-20020a170906c08c00b00a28bf58756dmr554052ejz.128.1704982101155;
-        Thu, 11 Jan 2024 06:08:21 -0800 (PST)
-Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47? (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
-        by smtp.gmail.com with ESMTPSA id ov18-20020a170906fc1200b00a2a184687dasm618425ejb.31.2024.01.11.06.08.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 06:08:20 -0800 (PST)
-Message-ID: <5b62d742fa789e9860781b6f5f1fda4f583b0e5b.camel@gmail.com>
-Subject: Re: [PATCH 01/13] spi: add core support for controllers with
- offload capabilities
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, Jonathan Cameron
- <jic23@kernel.org>,  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Michael Hennerich <michael.hennerich@analog.com>,  Nuno
- =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Frank Rowand
- <frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Jonathan
- Corbet <corbet@lwn.net>,  linux-spi@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Date: Thu, 11 Jan 2024 15:11:32 +0100
-In-Reply-To: <aae36622-4e05-4f16-9460-d7614fd599aa@sirena.org.uk>
-References: 
-	<20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
-	 <20240109-axi-spi-engine-series-3-v1-1-e42c6a986580@baylibre.com>
-	 <0c0b1954825dc174cab48060e96ddadadc18aefd.camel@gmail.com>
-	 <aae36622-4e05-4f16-9460-d7614fd599aa@sirena.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aq36s6XH"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C7DA3C433B2;
+	Thu, 11 Jan 2024 14:50:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704984637;
+	bh=gdgtNpyL3iGYpN5fWGoWRuJ8Tt8QZwxXPQpw0xnUJ6g=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Aq36s6XHWAapk7vNTgj1jWLUkf2EPJwSCz2dwnb24J+GQlMIe0827n+P+ELynHfdU
+	 O5NtyLaHcUK8fP5GsyOU73TJNwxr8DChoQRYNi8NS1lgcnqmORtXclWor8WWvzi0kR
+	 gLasGPPMysgi02WkD4SYV6Vy0+SePqrcaszLe94uoPhoZCtcRqWtsNs+w47NeKeDAG
+	 cPAnFYoNOTSZjNK93f6YYamQ82/wwmz8GKNIsDr4Ds2RgfQvdMjvI5N1aBNmyMPVix
+	 DFUIGwwxhtsr6Z6LX0J7IQbINGUA3FPplzFUFnxuf/sfMfPPrtDQUW44oua91/eI4Q
+	 nk8CURcV3E/Wg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B20BFD8C96C;
+	Thu, 11 Jan 2024 14:50:37 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 0/6] riscv: hwprobe: add Zicond, Zacas and Ztso support
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <170498463772.20080.16524587804054627963.git-patchwork-notify@kernel.org>
+Date: Thu, 11 Jan 2024 14:50:37 +0000
+References: <20231220155723.684081-1-cleger@rivosinc.com>
+In-Reply-To: <20231220155723.684081-1-cleger@rivosinc.com>
+To: =?utf-8?b?Q2zDqW1lbnQgTMOpZ2VyIDxjbGVnZXJAcml2b3NpbmMuY29tPg==?=@ci.codeaurora.org
+Cc: linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, corbet@lwn.net,
+ paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ conor@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ rehn@rivosinc.com, gianluca@rivosinc.com
 
-On Thu, 2024-01-11 at 13:33 +0000, Mark Brown wrote:
-> On Thu, Jan 11, 2024 at 09:49:08AM +0100, Nuno S=C3=A1 wrote:
-> > On Wed, 2024-01-10 at 13:49 -0600, David Lechner wrote:
->=20
-> > > =C2=A0=C2=A0=C2=A0 /* in probe() */
-> > > =C2=A0=C2=A0=C2=A0 offload =3D spi_offload_get(spi, 0);
->=20
-> > On top of what Mark already stated, and as we already discussed offline=
-, I
-> > personally don't like this provider - consumer interface for the offloa=
-d.
-> > The
-> > first thing is that this is taking into account the possibility of havi=
-ng
-> > multiple offload cores. While the FGPA core was designed with that in m=
-ind,
-> > we
-> > don't really have any design using multiple offloads in one spi engine
-> > (always
-> > one). Hence this is all pretty much untested.
->=20
-> I tend to agree that we shouldn't be exposing this to SPI device drivers
-> however we will want to keep track of if the unit is busy, and designing
-> it to cope with multiple offloads does seem like sensible future
-> proofing.=C2=A0 There's also the possibility that one engine might be abl=
-e to
+Hello:
 
-Fair enough. But wouldn't a simple DT integer property (handled by the spi =
-core)
-to identify the offload index be easier for SPI device drivers? We could st=
-ill
-have dedicated interfaces for checking if the unit is busy or not... The po=
-int
-is that we would not need an explicit get() from SPI drivers.
+This series was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-I'm of course assuming that one spi device can only be connected to one eng=
-ine
-which seems reasonable to me.
+On Wed, 20 Dec 2023 16:57:16 +0100 you wrote:
+> This series add support for a few more extensions that are present in
+> the RVA22U64/RVA23U64 (either mandatory or optional) and that are useful
+> for userspace:
+> - Zicond
+> - Zacas
+> - Ztso
+> 
+> [...]
 
-- Nuno S=C3=A1
+Here is the summary with links:
+  - [v2,1/6] riscv: add ISA extension parsing for Ztso
+    https://git.kernel.org/riscv/c/1ec9f381e848
+  - [v2,2/6] riscv: hwprobe: export Ztso ISA extension
+    https://git.kernel.org/riscv/c/5b4d64a819c0
+  - [v2,3/6] dt-bindings: riscv: add Zacas ISA extension description
+    https://git.kernel.org/riscv/c/cd7be4d02f41
+  - [v2,4/6] riscv: add ISA extension parsing for Zacas
+    https://git.kernel.org/riscv/c/188a2122c827
+  - [v2,5/6] riscv: hwprobe: export Zacas ISA extension
+    https://git.kernel.org/riscv/c/154a37061229
+  - [v2,6/6] riscv: hwprobe: export Zicond extension
+    https://git.kernel.org/riscv/c/3359866b40a9
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
