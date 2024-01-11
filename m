@@ -1,147 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44747FBFA;
-	Thu, 11 Jan 2024 08:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DC414A9C;
+	Thu, 11 Jan 2024 09:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDSj3YIs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704963418; x=1736499418;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UUWlIy1VxeScjKQ6UmhSu9xVQRv3RDvrQHXl6p2NOP0=;
-  b=PDSj3YIscoybxYQTFyj6cCLIm1/V92LXdVhNyscGV+swhxytjswRqkT/
-   IldtAGVivK7vYAddyNx3PCnAinONfgcs6/anBo4bjdZqCUkzWp2ECv2pG
-   Pc0mq1PCYdnMdTY4Zmaac1nzThCqfoTq6m9nZLrGMAAs5sD3dhCntCubf
-   KL2/FWXWHcotSaZ5AbYyDp7XFBaOcXMr795JQkEtlPO8bEdfWHM0jlhX2
-   4kiKG1h9i8iqbt2RFVnFNYB9Knsecvo9NOZx0cMrtkSO1T/MzercEJJQU
-   FNMYuUSj4OkeIikbFq61nf8c2xW5tk2h0WOHGofFz1gKnHkchmhORRFwf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="429967807"
-X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="429967807"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 00:56:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="785916920"
-X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
-   d="scan'208";a="785916920"
-Received: from ericwong-mobl2.amr.corp.intel.com (HELO desk) ([10.209.43.169])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 00:56:55 -0800
-Date: Thu, 11 Jan 2024 00:56:55 -0800
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Subject: [PATCH  v5 6/6] KVM: VMX: Move VERW closer to VMentry for MDS
- mitigation
-Message-ID: <20240111-delay-verw-v5-6-a3b234933ea6@linux.intel.com>
-X-Mailer: b4 0.12.3
-References: <20240111-delay-verw-v5-0-a3b234933ea6@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dMzdJDz4"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-55818b733f7so3075876a12.3;
+        Thu, 11 Jan 2024 01:04:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704963867; x=1705568667; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nKYfbtGZSuWol92QjWEdUhJKfrs3o8tz2BQxPjW/QIM=;
+        b=dMzdJDz4WB1CeTHby1ByA00cUGc90h7htVkqNdzl9x7FwsqDbxzVn5y3tNRf/5l4E1
+         JKakH6WAi4VNiQObUGEwH++8WVN9IwIx9cgyqqFJaRP6+ZbBB4rUaYMNkGwHstrWfgFR
+         9NbmOvsrzJF2lTyExHyy70sxsEq4iwfiIz9yIsm4D6R+97i0detMqV+PZva5bKVqP5Gm
+         4mHoF32FiInHksplJoTWtyLI/ZGpG6cwGhiANxSukdyEsJp04z6ogHdn46MCPlykD5QR
+         ThBRjflLfnB2qbunON8XAlRra8qwUq5RwtN7kBRXrL65WC7zprcIGMhgQx6yE7EJpRmq
+         hQtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704963867; x=1705568667;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nKYfbtGZSuWol92QjWEdUhJKfrs3o8tz2BQxPjW/QIM=;
+        b=qKbF3RJNHvhgnYl7OH75Gie8pP4TFxFrPewBk4ucQKwuErw6CjNVAPUhO+pCiHqxxc
+         IbhAdmkceOL/+TZKJBYkT54Cr3JoRnufUA+HXoME9kLZCjW9kgq1uCCwEK/GDGXgPQHy
+         mDMytWd1XamKg2K7jnJLuf5FTN7yDbkqFIIhZsAkAKHlSyc6nl0U49vLEZ34eq9lhZWq
+         XkJ6slIJFaLBE+k2lLuSrYXRa3iEpgtAyljge4jmw4h6pjgRdvm6/OBFyrs88Sicqrk5
+         U2Vqabo9JumEsBNEg+vvYl1uQB6aEjtJid665OzOVklDbaLbw0DFyW2n3ZQuS9ohm/e7
+         w6Kw==
+X-Gm-Message-State: AOJu0YzH67KYhIV/qyJLfiBxNr45FaIh5tS+OzpWv2HS0CjhUsCOgRvq
+	aIv4YHR82sbVIwb33ETX2m8=
+X-Google-Smtp-Source: AGHT+IGNchkmZ4xR/1cEDGA6uaCwadY4fTil39N89Fv7dqdCC2nauGrYBDo4A90POu6tgiDlQ9c9uA==
+X-Received: by 2002:a17:906:4557:b0:a28:a409:aeeb with SMTP id s23-20020a170906455700b00a28a409aeebmr424289ejq.61.1704963867146;
+        Thu, 11 Jan 2024 01:04:27 -0800 (PST)
+Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47? (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
+        by smtp.gmail.com with ESMTPSA id v7-20020a1709063bc700b00a29bd8f9edbsm326112ejf.72.2024.01.11.01.04.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 01:04:26 -0800 (PST)
+Message-ID: <501bb280c6bd7dcb49929e7dbd242807b828e7de.camel@gmail.com>
+Subject: Re: [PATCH 04/13] spi: dt-bindings: adi,axi-spi-engine: add offload
+ bindings
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Rob Herring <robh@kernel.org>, David Lechner <dlechner@baylibre.com>
+Cc: Mark Brown <broonie@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Michael Hennerich <michael.hennerich@analog.com>,
+ Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,  Frank Rowand
+ <frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Jonathan
+ Corbet <corbet@lwn.net>,  linux-spi@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Thu, 11 Jan 2024 10:07:38 +0100
+In-Reply-To: <20240110231456.GB2854345-robh@kernel.org>
+References: 
+	<20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
+	 <20240109-axi-spi-engine-series-3-v1-4-e42c6a986580@baylibre.com>
+	 <20240110231456.GB2854345-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240111-delay-verw-v5-0-a3b234933ea6@linux.intel.com>
 
-During VMentry VERW is executed to mitigate MDS. After VERW, any memory
-access like register push onto stack may put host data in MDS affected
-CPU buffers. A guest can then use MDS to sample host data.
+On Wed, 2024-01-10 at 17:14 -0600, Rob Herring wrote:
+> On Wed, Jan 10, 2024 at 01:49:45PM -0600, David Lechner wrote:
+> > The ADI AXI SPI Engine driver supports offloading SPI transfers to
+> > hardware. This is essentially a feature that allows recording an
+> > arbitrary sequence of SPI transfers and then playing them back with
+> > no CPU intervention via a hardware trigger.
+> >=20
+> > This adds the bindings for this feature. Each SPI Engine instance
+> > can have from 0 to 32 offload instances. Each offload instance has a
+> > trigger input and a data stream output. As an example, this could be
+> > used with an ADC SPI peripheral. In this case the trigger is connected
+> > to a PWM/clock to determine the sampling rate for the ADC and the outpu=
+t
+> > stream is connected to a DMA channel to pipe the sample data to memory.
+> >=20
+> > SPI peripherals act as consumers of the offload instances. Typically,
+> > one SPI peripheral will be connected to one offload instance. But to
+> > make the bindings future-proof, the property is an array.
+>=20
+> Is there some sort of arbitration between multiple offload engines on=20
+> the same chip select? If not, I don't see how it would work.
+>=20
+> I think this whole thing could be simplified down to just 3=20
+> SPI controller properties: pwms, dmas, and adi,offload-cs-map. Each=20
+> property is has entries equal the number of offload engines. The last=20
+> one maps an offload engine to a SPI chip-select.
+>=20
 
-Although likelihood of secrets surviving in registers at current VERW
-callsite is less, but it can't be ruled out. Harden the MDS mitigation
-by moving the VERW mitigation late in VMentry path.
+I think the whole reason why the offload is being treated as a node + platf=
+orm
+device is to have these properties (or other possible properties depending =
+on
+the trigger and data capture being used) in it and so respect the HW
+configuration.
 
-Note that VERW for MMIO Stale Data mitigation is unchanged because of
-the complexity of per-guest conditional VERW which is not easy to handle
-that late in asm with no GPRs available. If the CPU is also affected by
-MDS, VERW is unconditionally executed late in asm regardless of guest
-having MMIO access.
+While that is conceptually correct I feel that this is bringing a lot of ex=
+tra
+complexity. The end consumer of the offload core (which is a property/featu=
+re of
+the spi cotroller) are obviously the peripheral devices that in our usecase=
+s are
+converters and hence IIO devices. So those are the ones consuming all the d=
+ata.
+I saw Mark already giving some pointers and speaking about having a way to
+support the triggers (being it pwm, clock, gpio, etc...) directly in the sp=
+i
+framework and I think that would be nice. For the dmas, I think it would be=
+ more
+complicated. While we can setup the dma transfer directly in the spi contro=
+ller,
+we would need a mechanism to transfer each block of data (periodically) as =
+soon
+as we have it to the peripheral device. In case of IIO, that would then hav=
+e to
+connect to IIO DMA buffers so the data can be consumed in userspace and tha=
+t
+would be the tricky part I believe.
 
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
----
- arch/x86/kvm/vmx/vmenter.S |  3 +++
- arch/x86/kvm/vmx/vmx.c     | 20 +++++++++++++++++---
- 2 files changed, 20 insertions(+), 3 deletions(-)
+What we have been doing out of tree is to control the trigger and dmas in t=
+he
+peripheral device even if that does not really directly respect the HW setu=
+p (as
+these are properties of the offload core). Hence, we can just allocate an I=
+IO
+DMA buffer, enable the offload message with the messages we want and data c=
+an be
+directly transferred to userspace (without any intervention of the peripher=
+al
+driver) using the IIO interfaces for it.
 
-diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
-index b3b13ec04bac..139960deb736 100644
---- a/arch/x86/kvm/vmx/vmenter.S
-+++ b/arch/x86/kvm/vmx/vmenter.S
-@@ -161,6 +161,9 @@ SYM_FUNC_START(__vmx_vcpu_run)
- 	/* Load guest RAX.  This kills the @regs pointer! */
- 	mov VCPU_RAX(%_ASM_AX), %_ASM_AX
- 
-+	/* Clobbers EFLAGS.ZF */
-+	CLEAR_CPU_BUFFERS
-+
- 	/* Check EFLAGS.CF from the VMX_RUN_VMRESUME bit test above. */
- 	jnc .Lvmlaunch
- 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index bdcf2c041e0c..8defba8e417b 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -387,6 +387,17 @@ static __always_inline void vmx_enable_fb_clear(struct vcpu_vmx *vmx)
- 
- static void vmx_update_fb_clear_dis(struct kvm_vcpu *vcpu, struct vcpu_vmx *vmx)
- {
-+	/*
-+	 * FB_CLEAR_CTRL is to optimize VERW latency in guests when host is
-+	 * affected by MMIO Stale Data, but not by MDS/TAA. When
-+	 * X86_FEATURE_CLEAR_CPU_BUF is enabled, system is likely affected by
-+	 * MDS/TAA. Skip the optimization for such a case.
-+	 */
-+	if (cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF)) {
-+		vmx->disable_fb_clear = false;
-+		return;
-+	}
-+
- 	vmx->disable_fb_clear = (host_arch_capabilities & ARCH_CAP_FB_CLEAR_CTRL) &&
- 				!boot_cpu_has_bug(X86_BUG_MDS) &&
- 				!boot_cpu_has_bug(X86_BUG_TAA);
-@@ -7226,11 +7237,14 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
- 
- 	guest_state_enter_irqoff();
- 
--	/* L1D Flush includes CPU buffer clear to mitigate MDS */
-+	/*
-+	 * L1D Flush includes CPU buffer clear to mitigate MDS, but VERW
-+	 * mitigation for MDS is done late in VMentry and is still
-+	 * executed in spite of L1D Flush. This is because an extra VERW
-+	 * should not matter much after the big hammer L1D Flush.
-+	 */
- 	if (static_branch_unlikely(&vmx_l1d_should_flush))
- 		vmx_l1d_flush(vcpu);
--	else if (cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF))
--		mds_clear_cpu_buffers();
- 	else if (static_branch_unlikely(&mmio_stale_data_clear) &&
- 		 kvm_arch_has_assigned_device(vcpu->kvm))
- 		mds_clear_cpu_buffers();
+To sum it up, I think having the trigger being handled by the spi framework=
+ or
+even have it as an IIO generic trigger would be simple. To have the dma
+transfers in the spi controller would be more complex but anything is possi=
+ble,
+I guess :).
 
--- 
-2.34.1
-
-
+- Nuno S=C3=A1
+>=20
+>=20
