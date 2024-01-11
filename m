@@ -1,95 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A495E5820D;
-	Thu, 11 Jan 2024 22:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0225A0E9
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jan 2024 23:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qQETrqDh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DFF0C43399;
-	Thu, 11 Jan 2024 22:03:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705010619;
-	bh=jN9g+MnTl+CuJ+/RvoYQJ0TAQWXECkq+Sx15c1NcM4c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qQETrqDh5M/ns6SFVKQSqUS42/kaxrvLrN8y2KF4vmyBIt1pOK66I2YZUfAYK80P8
-	 4Ri50DkUoL/qQqqxRtTxh//fxrXSmxd6IeORDZTRpD+5lOl30hO4EOa1CuXOdJkvQN
-	 Uq195P7kItZ4h6nIyqPHGLxZeeXqeJ2JaIyouph2k3r5XEpWduk873MXI5NoTpcEnu
-	 CJm4XunD/djKIX/nD2nOWLWQWO+OsS9Re8qxJq6b+dL8gwEgOylQ70EF4eIf0FmIO7
-	 ixNZdO550n/YmEFVIUR9uMIXHi0KeodQGv+tmV2UhkgiM4KlpAk36iUBaSaKp1qMzG
-	 cJ1WiUt/sMT8w==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cd5b467209so52432941fa.3;
-        Thu, 11 Jan 2024 14:03:39 -0800 (PST)
-X-Gm-Message-State: AOJu0YwOZI+pKy/8XYCpN0XHjHhQKZL0tobFaDe/TeeUQIVFhtzbDBgS
-	TaAzzC/7tVv21dDuVVgq772QTuUv0CN3DTNDqg==
-X-Google-Smtp-Source: AGHT+IGqQEJRlx5vqZKnSFNrc+k4aJn7Nwqxw+vCHtTG57ACO6acRmhTsCZusCpdLBlZG73fSAeQv2CiH9ue0nIZVs4=
-X-Received: by 2002:a2e:9e97:0:b0:2cc:610d:ca6 with SMTP id
- f23-20020a2e9e97000000b002cc610d0ca6mr198479ljk.81.1705010617334; Thu, 11 Jan
- 2024 14:03:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fItaAYuk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=4iND/Bk03fPA0N7XwRSZdKJCtGYBKJlkhWN0FdiOAfI=; b=fItaAYukW+QV+nadDh8cxA7GzX
+	FLaX9Sdwhcz8L0d54FatNl+LbsRva/+gSI3xgNAtmhcMsz62aljHU0dOFmf/MWvoiHtfb0LAWlu6L
+	NGkA5hdxLl0+7t36M0zNJZHdfMyFmBUOBP9f3VWYCKojvig2rjx212luxlPmq1hOmppql/qYtL6QZ
+	VlJIhiJXxaINkrs2kiUhtuEojDvBYPdyKB9gWm0x+njuTLzmwFiW/Mm60yPSAx4jX8YtCLETmtqvh
+	GES0eXuAkWNJy47bP9cxFrUY0mDEoXkOQfyKNT32NwsVDFYDa+bHoG9Fm10b3puGPsgIgola/c9To
+	y4r+Vogw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rO4TU-001RFC-1H;
+	Thu, 11 Jan 2024 23:28:36 +0000
+Message-ID: <2149384e-8c90-4309-8f51-cd82973f52f3@infradead.org>
+Date: Thu, 11 Jan 2024 15:28:36 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com> <20240109-axi-spi-engine-series-3-v1-2-e42c6a986580@baylibre.com>
-In-Reply-To: <20240109-axi-spi-engine-series-3-v1-2-e42c6a986580@baylibre.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Thu, 11 Jan 2024 16:03:24 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJPRwDbQDAg0nqb2VRT3K3qWPWhQo_jsu20f7RcgSgdsg@mail.gmail.com>
-Message-ID: <CAL_JsqJPRwDbQDAg0nqb2VRT3K3qWPWhQo_jsu20f7RcgSgdsg@mail.gmail.com>
-Subject: Re: [PATCH 02/13] scripts: dtc: checks: don't warn on SPI
- non-peripheral child nodes
-To: David Lechner <dlechner@baylibre.com>
-Cc: Mark Brown <broonie@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Frank Rowand <frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-spi@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] docs: add blurb about target audience to
+ maintainer-profile
+Content-Language: en-US
+To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+References: <20240111094838.3695697-1-vegard.nossum@oracle.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240111094838.3695697-1-vegard.nossum@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 10, 2024 at 1:51=E2=80=AFPM David Lechner <dlechner@baylibre.co=
-m> wrote:
->
-> According to the spi-controller.yaml bindings, SPI peripheral child
-> nodes match the pattern "^.*@[0-9a-f]+$".
->
-> A SPI controller binding may require a child object node that is not a
-> peripheral. For example, the adi,axi-spi-engine binding requires an
-> "offloads" child node that is not a peripheral but rather a part of the
-> controller itself.
->
-> By checking for '@' in the node name, we can avoids a warnings like:
->
->     Warning (spi_bus_reg): /example-0/spi@44a00000/offloads: missing or e=
-mpty reg property
->
-> for a binding like:
->
->     spi {
->         ...
->
->         offloads {
->             offload@0 {
->                 ...
->             };
->             ...
->         };
->
->         peripheral@0 {
->             ...
->         };
->     };
->
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
+
+
+On 1/11/24 01:48, Vegard Nossum wrote:
+> It's good to be clear about who the intended target audience for any
+> given piece of documentation is, as this will help us put new text in
+> the correct place. Let's encourage submitters to state it explicitly
+> rather than relying on where they placed it in the directory hierarchy
+> as there isn't necessarily a one-to-one correspondence between them.
+> 
+> Target audience: documentation contributors and reviewers.
+> 
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
 > ---
->  scripts/dtc/checks.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  Documentation/doc-guide/maintainer-profile.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/doc-guide/maintainer-profile.rst b/Documentation/doc-guide/maintainer-profile.rst
+> index 755d39f0d407..db3636d0d71d 100644
+> --- a/Documentation/doc-guide/maintainer-profile.rst
+> +++ b/Documentation/doc-guide/maintainer-profile.rst
+> @@ -27,6 +27,13 @@ documentation and ensure that no new errors or warnings have been
+>  introduced.  Generating HTML documents and looking at the result will help
+>  to avoid unsightly misunderstandings about how things will be rendered.
+>  
+> +All new documentation (including additions to existing documents) should
+> +ideally justify who the intended target audience is somewhere in the
+> +changelog; this way, we ensure that the documentation ends up in the correct
+> +place.  Some possible categories are: kernel developers (experts or
+> +beginners), userspace programmers, end users and/or system administrators,
+> +and distributors.
+> +
+>  Key cycle dates
+>  ---------------
+>  
 
-Check the commit history. We don't take changes to kernel's dtc copy.
-They must go upstream first.
-
-Rob
+-- 
+#Randy
