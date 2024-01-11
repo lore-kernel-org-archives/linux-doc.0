@@ -1,36 +1,37 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AF050248;
-	Thu, 11 Jan 2024 16:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2914EB28;
+	Thu, 11 Jan 2024 16:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EWbtMVFK"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="M+1hxecl"
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E9521357;
-	Thu, 11 Jan 2024 16:34:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E9521357
+	by ms.lwn.net (Postfix) with ESMTPSA id 5DDDF5CC;
+	Thu, 11 Jan 2024 16:35:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5DDDF5CC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1704990843; bh=8C8ez5oKZ6aDXYV7FW+bq0jKaWn7WFD2LYB/fho2mZo=;
+	t=1704990932; bh=lxbMwgaCj5UW1Y/FCB9H2dwcciiTULw8Q9ix+lEkNWU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EWbtMVFKYL2VL7NBvB9IBWGY9NuzDr1teQ8Kg3XTGAf6/p9YV7zy3P3Ac9Phk2SQ4
-	 961OYlQ9eDIGZYiZdaxA8nEUrdJ4pk3bXlKea6omGpZRwgARpXBIk9mm4COqKh4bu2
-	 eDu3wkZKPw15B6WEKV7q9KIQb55kywZst1PjWoH35VLpLaOQAtOVAiHjTxAzaXmlVS
-	 Vd92QbaqXYfNwm9yveI7xuXQLJ2jLBGL59eyspKRmGetdpixRfkJssUwbBFA11cJPa
-	 at2AzYhtnVS/w+tBvRQm4JLdcDk/qBnCKB+WTkPWL1+uodvvZaKoWDr1e+cjIjaKZ2
-	 k1fM+jsO3ey9w==
+	b=M+1hxecl7+TX+LPT0Z9uLpMngKCfvyA9Vek4D0wR8CNCZwKf0IDHq/oucYrB1HVON
+	 xia15KL6dbRzy6szG3nr6Lb2oM1/e+1DMxcaC/ctnEgE/voj1Lw0KY9rhLa0zLACBA
+	 zPmBjs6twVEWbAOX5kV5r9/BcgapR7KM9BWxmefo0Bf6qOZbDtDqYsXIOSMlBHRmGr
+	 /FgmTsDGgFMrRnKoVgzZ7fGxI45BfPrHwCeRoM1oIUdruCQaCyJxpInEyjd1gvdXyi
+	 0q/BtjdRGhrGe9J6Jn3ZQKYWhLbEJPmqPGL3JwvCz31SAF7rj0XQACxitiyummi5e/
+	 CQcCEuRoc+7LA==
 From: Jonathan Corbet <corbet@lwn.net>
-To: attreyee-muk <tintinm2017@gmail.com>, tj@kernel.org, jiangshanlai@gmail.com
-Cc: attreyee-muk <tintinm2017@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/core-api: fix spelling mistake in workqueue
-In-Reply-To: <20240110185746.24974-1-tintinm2017@gmail.com>
-References: <20240110185746.24974-1-tintinm2017@gmail.com>
-Date: Thu, 11 Jan 2024 09:34:02 -0700
-Message-ID: <877ckfn81x.fsf@meer.lwn.net>
+To: Baruch Siach <baruch@tkos.co.il>, Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>
+Cc: linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, Baruch Siach
+ <baruch@tkos.co.il>
+Subject: Re: [PATCH] docs: admin-guide: hw_random: update rng-tools website
+In-Reply-To: <ef52ace5008fa934084442149f64f5f9ddbba465.1704720105.git.baruch@tkos.co.il>
+References: <ef52ace5008fa934084442149f64f5f9ddbba465.1704720105.git.baruch@tkos.co.il>
+Date: Thu, 11 Jan 2024 09:35:31 -0700
+Message-ID: <8734v3n7zg.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,29 +40,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-attreyee-muk <tintinm2017@gmail.com> writes:
+Baruch Siach <baruch@tkos.co.il> writes:
 
-> Correct to "following" from "followings" in the sentence "The followings
-> are the read bandwidths and CPU utilizations depending on different affinity
-> scope settings on ``kcryptd`` measured over five runs."
+> rng-tools upstream moved to github. New upstream does not appear to
+> consider itself official website for hw_random. Drop that part.
 >
-> Signed-off-by: Attreyee Mukherjee <tintinm2017@gmail.com>
+> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
 > ---
->  Documentation/core-api/workqueue.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/admin-guide/hw_random.rst | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
-> diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
-> index 0046af06531a..8c325a640862 100644
-> --- a/Documentation/core-api/workqueue.rst
-> +++ b/Documentation/core-api/workqueue.rst
-> @@ -446,7 +446,7 @@ The command used: ::
+> diff --git a/Documentation/admin-guide/hw_random.rst b/Documentation/admin-guide/hw_random.rst
+> index d494601717f1..bfc39f1cf470 100644
+> --- a/Documentation/admin-guide/hw_random.rst
+> +++ b/Documentation/admin-guide/hw_random.rst
+> @@ -14,10 +14,9 @@ into that core.
 >  
->  There are 24 issuers, each issuing 64 IOs concurrently. ``--verify=sha512``
->  makes ``fio`` generate and read back the content each time which makes
-> -execution locality matter between the issuer and ``kcryptd``. The followings
-> +execution locality matter between the issuer and ``kcryptd``. The following
->  are the read bandwidths and CPU utilizations depending on different affinity
->  scope settings on ``kcryptd`` measured over five runs. Bandwidths are in
+>  To make the most effective use of these mechanisms, you
+>  should download the support software as well.  Download the
+> -latest version of the "rng-tools" package from the
+> -hw_random driver's official Web site:
+> +latest version of the "rng-tools" package from:
+>  
+> -	http://sourceforge.net/projects/gkernel/
+> +	https://github.com/nhorman/rng-tools
+>  
 
 Applied, thanks.
 
