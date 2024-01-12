@@ -1,338 +1,571 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D510D41C67;
-	Fri, 12 Jan 2024 12:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TBLvT4cC1z6K9Bt;
-	Fri, 12 Jan 2024 20:49:09 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5D8A21408FF;
-	Fri, 12 Jan 2024 20:51:48 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 12 Jan
- 2024 12:51:47 +0000
-Date: Fri, 12 Jan 2024 12:51:46 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-CC: David Lechner <dlechner@baylibre.com>, Mark Brown <broonie@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Michael Hennerich <michael.hennerich@analog.com>, Nuno
- =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Frank Rowand
-	<frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, "Jonathan
- Corbet" <corbet@lwn.net>, <linux-spi@vger.kernel.org>,
-	<linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 12/13] iio: offload: add new PWM triggered DMA buffer
- driver
-Message-ID: <20240112125146.00000b68@Huawei.com>
-In-Reply-To: <0e6f38002d83a6a61fa5424499c7c3f2f6d6f3de.camel@gmail.com>
-References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
-	<20240109-axi-spi-engine-series-3-v1-12-e42c6a986580@baylibre.com>
-	<0e6f38002d83a6a61fa5424499c7c3f2f6d6f3de.camel@gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D236BB22;
+	Fri, 12 Jan 2024 12:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="P6zaFcfn"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40CCGNXU006498;
+	Fri, 12 Jan 2024 12:58:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=ZGRVnEkK8aRECIBpGpnRzCqVytd2jHuIiwgd5giJKEI=;
+ b=P6zaFcfn0gCnqNH0jFqyAIIWX/P+o9JPeGUBiEJvmfs1cd3HRiDb93hpg6VI4Jn6vBHK
+ 7rAFr+xTXDFuM0wJuQog7ZiU2TqXawZYIDSU+FF7iFuHf8ieXPTgnKEOGlNARXOWSnHW
+ Fv7adLh5CHrLNV46hvGxWYqKEXBc5dc6habzxrgaPUxsPLIh261QdnG6QtSjem+1VJLV
+ Fg3sJoReWa6XJWqRgZD3XDI3Ezm4aIDdkiXFla9xHHVfqEDM03N8EBmcC8S0n28jlTav
+ p8UDfEE/pqMIrp5TxxE0rigl8U5c62V70hAAgPi3ZSJ2U3vj7JUu+T674fs+mlDlAH9k OA== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vk1ds8jyj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 12 Jan 2024 12:58:41 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40CAcIZH006986;
+	Fri, 12 Jan 2024 12:58:40 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vfur8g2rr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 12 Jan 2024 12:58:40 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40CCwdh1002210;
+	Fri, 12 Jan 2024 12:58:39 GMT
+Received: from localhost.localdomain (dhcp-10-175-37-84.vpn.oracle.com [10.175.37.84])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3vfur8g2qc-1;
+	Fri, 12 Jan 2024 12:58:39 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH] docs: kbuild/kconfig: reformat/cleanup
+Date: Fri, 12 Jan 2024 13:58:30 +0100
+Message-Id: <20240112125830.3753464-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-12_05,2024-01-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 spamscore=0
+ adultscore=0 mlxlogscore=999 phishscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401120101
+X-Proofpoint-ORIG-GUID: 8OYrnNaDsO1kzva0EkelBXkG2BMJauj6
+X-Proofpoint-GUID: 8OYrnNaDsO1kzva0EkelBXkG2BMJauj6
 
-On Thu, 11 Jan 2024 15:59:02 +0100
-Nuno S=E1 <noname.nuno@gmail.com> wrote:
+This document was using headings in an odd way, causing the sidebar to be
+quite messy. I've adding new headings and turned some of the old headings
+into description lists.
 
-> On Wed, 2024-01-10 at 13:49 -0600, David Lechner wrote:
-> > This adds a new driver for handling SPI offloading using a PWM as the
-> > trigger and DMA for the received data. This will be used by ADCs in
-> > conjunction with SPI controllers with offloading support to be able
-> > to sample at high rates without CPU intervention.
-> >=20
-> > Signed-off-by: David Lechner <dlechner@baylibre.com>
-> > ---
-> > =A0drivers/iio/Kconfig=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0 1 +
-> > =A0drivers/iio/Makefile=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0 1 +
-> > =A0.../iio/buffer/industrialio-hw-triggered-buffer.c=A0 |=A0=A0 1 +
-> > =A0drivers/iio/offload/Kconfig=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0 21 ++
-> > =A0drivers/iio/offload/Makefile=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0 2 +
-> > =A0drivers/iio/offload/iio-pwm-triggered-dma-buffer.c | 212
-> > +++++++++++++++++++++
-> > =A06 files changed, 238 insertions(+)
-> >=20
-> > diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-> > index 52eb46ef84c1..56738282d82f 100644
-> > --- a/drivers/iio/Kconfig
-> > +++ b/drivers/iio/Kconfig
-> > @@ -90,6 +90,7 @@ source "drivers/iio/imu/Kconfig"
-> > =A0source "drivers/iio/light/Kconfig"
-> > =A0source "drivers/iio/magnetometer/Kconfig"
-> > =A0source "drivers/iio/multiplexer/Kconfig"
-> > +source "drivers/iio/offload/Kconfig"
-> > =A0source "drivers/iio/orientation/Kconfig"
-> > =A0source "drivers/iio/test/Kconfig"
-> > =A0if IIO_TRIGGER
-> > diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
-> > index 9622347a1c1b..20acf5e1a4a7 100644
-> > --- a/drivers/iio/Makefile
-> > +++ b/drivers/iio/Makefile
-> > @@ -34,6 +34,7 @@ obj-y +=3D imu/
-> > =A0obj-y +=3D light/
-> > =A0obj-y +=3D magnetometer/
-> > =A0obj-y +=3D multiplexer/
-> > +obj-y +=3D offload/
-> > =A0obj-y +=3D orientation/
-> > =A0obj-y +=3D position/
-> > =A0obj-y +=3D potentiometer/
-> > diff --git a/drivers/iio/buffer/industrialio-hw-triggered-buffer.c
-> > b/drivers/iio/buffer/industrialio-hw-triggered-buffer.c
-> > index 7a8a71066b0e..a2fae6059616 100644
-> > --- a/drivers/iio/buffer/industrialio-hw-triggered-buffer.c
-> > +++ b/drivers/iio/buffer/industrialio-hw-triggered-buffer.c
-> > @@ -86,6 +86,7 @@ static int iio_hw_trigger_buffer_probe(struct
-> > auxiliary_device *adev,
-> > =A0}
-> > =A0
-> > =A0static const struct auxiliary_device_id iio_hw_trigger_buffer_id_tab=
-le[] =3D {
-> > +	{ .name =3D "pwm-triggered-dma-buffer.triggered-buffer" },
-> > =A0	{ }
-> > =A0};
-> > =A0MODULE_DEVICE_TABLE(auxiliary, iio_hw_trigger_buffer_id_table);
-> > diff --git a/drivers/iio/offload/Kconfig b/drivers/iio/offload/Kconfig
-> > new file mode 100644
-> > index 000000000000..760c0cfe0e9c
-> > --- /dev/null
-> > +++ b/drivers/iio/offload/Kconfig
-> > @@ -0,0 +1,21 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +#
-> > +# SPI offload handlers for Industrial I/O
-> > +#
-> > +# When adding new entries keep the list in alphabetical order
-> > +
-> > +menu "SPI offload handlers"
-> > +
-> > +config IIO_PWM_TRIGGERED_DMA_BUFFER
-> > +	tristate "PWM trigger and DMA buffer connected to SPI offload"
-> > +	select AUXILIARY_BUS
-> > +	select IIO_BUFFER_DMAENGINE
-> > +	help
-> > +	=A0 Provides a periodic hardware trigger via a PWM connected to the
-> > +	=A0 trigger input of a SPI offload and a hardware buffer implemented
-> > +	=A0 via DMA connected to the data output stream the a SPI offload.
-> > +
-> > +	=A0 To compile this driver as a module, choose M here: the
-> > +	=A0 module will be called "iio-pwm-triggered-dma-buffer".
-> > +
-> > +endmenu
-> > diff --git a/drivers/iio/offload/Makefile b/drivers/iio/offload/Makefile
-> > new file mode 100644
-> > index 000000000000..7300ce82f066
-> > --- /dev/null
-> > +++ b/drivers/iio/offload/Makefile
-> > @@ -0,0 +1,2 @@
-> > +
-> > +obj-$(CONFIG_IIO_PWM_TRIGGERED_DMA_BUFFER) :=3D iio-pwm-triggered-dma-=
-buffer.o
-> > diff --git a/drivers/iio/offload/iio-pwm-triggered-dma-buffer.c
-> > b/drivers/iio/offload/iio-pwm-triggered-dma-buffer.c
-> > new file mode 100644
-> > index 000000000000..970ea82316f6
-> > --- /dev/null
-> > +++ b/drivers/iio/offload/iio-pwm-triggered-dma-buffer.c
-> > @@ -0,0 +1,212 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Platform driver for a PWM trigger and DMA buffer connected to a SPI
-> > + * controller offload instance implementing the iio-hw-triggered-buffer
-> > + * interface.
-> > + *
-> > + * Copyright (C) 2023 Analog Devices, Inc.
-> > + * Copyright (C) 2023 BayLibre, SAS
-> > + */
-> > +
-> > +#include <linux/auxiliary_bus.h>
-> > +#include <linux/pwm.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mod_devicetable.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/iio/buffer.h>
-> > +#include <linux/iio/hw_triggered_buffer_impl.h>
-> > +#include <linux/iio/iio.h>
-> > +#include <linux/iio/trigger.h>
-> > +#include <linux/iio/sysfs.h>
-> > +#include <linux/iio/buffer-dmaengine.h>
-> > +#include <linux/sysfs.h>
-> > +
-> > +struct iio_pwm_triggered_dma_buffer {
-> > +	struct iio_hw_triggered_buffer_device hw;
-> > +	struct pwm_device *pwm;
-> > +};
-> > +
-> > +static const struct iio_trigger_ops iio_pwm_triggered_dma_buffer_ops;
-> > +
-> > +static int iio_pwm_triggered_dma_buffer_set_state(struct iio_trigger *=
-trig,
-> > bool state)
-> > +{
-> > +	struct iio_pwm_triggered_dma_buffer *st =3D
-> > iio_trigger_get_drvdata(trig);
-> > +
-> > +	if (state)
-> > +		return pwm_enable(st->pwm);
-> > +
-> > +	pwm_disable(st->pwm);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int iio_pwm_triggered_dma_buffer_validate_device(struct iio_tri=
-gger
-> > *trig,
-> > +							struct iio_dev
-> > *indio_dev)
-> > +{
-> > +	/* Don't allow assigning trigger via sysfs. */
-> > +	return -EINVAL;
-> > +}
-> > +
-> > +static const struct iio_trigger_ops iio_pwm_triggered_dma_buffer_ops =
-=3D {
-> > +	.set_trigger_state =3D iio_pwm_triggered_dma_buffer_set_state,
-> > +	.validate_device =3D iio_pwm_triggered_dma_buffer_validate_device,
-> > +};
-> > +
-> > +static u32 axi_spi_engine_offload_pwm_trigger_get_rate(struct iio_trig=
-ger
-> > *trig)
-> > +{
-> > +	struct iio_pwm_triggered_dma_buffer *st =3D
-> > iio_trigger_get_drvdata(trig);
-> > +	u64 period_ns =3D pwm_get_period(st->pwm);
-> > +
-> > +	if (period_ns)
-> > +		return DIV_ROUND_CLOSEST_ULL(NSEC_PER_SEC, period_ns);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int
-> > +axi_spi_engine_offload_set_samp_freq(struct iio_pwm_triggered_dma_buff=
-er *st,
-> > +				=A0=A0=A0=A0 u32 requested_hz)
-> > +{
-> > +	int period_ns;
-> > +
-> > +	if (requested_hz =3D=3D 0)
-> > +		return -EINVAL;
-> > +
-> > +	period_ns =3D DIV_ROUND_UP(NSEC_PER_SEC, requested_hz);
-> > +
-> > +	/*
-> > +	 * FIXME: We really just need a clock, not a PWM. The current duty
-> > cycle
-> > +	 * value is a hack to work around the edge vs. level offload trigger
-> > +	 * issue in the ADI AXI SPI Engine firmware.
-> > +	 */
-> > +	return pwm_config(st->pwm, 10, period_ns);
-> > +}
-> > +
-> > +static ssize_t sampling_frequency_show(struct device *dev,
-> > +				=A0=A0=A0=A0=A0=A0 struct device_attribute *attr, char
-> > *buf)
-> > +{
-> > +	struct iio_trigger *trig =3D to_iio_trigger(dev);
-> > +
-> > +	return sysfs_emit(buf, "%u\n",
-> > +			=A0 axi_spi_engine_offload_pwm_trigger_get_rate(trig));
-> > +}
-> > +
-> > +static ssize_t sampling_frequency_store(struct device *dev,
-> > +					struct device_attribute *attr,
-> > +					const char *buf, size_t len)
-> > +{
-> > +	struct iio_trigger *trig =3D to_iio_trigger(dev);
-> > +	struct iio_pwm_triggered_dma_buffer *st =3D
-> > iio_trigger_get_drvdata(trig);
-> > +	int ret;
-> > +	u32 val;
-> > +
-> > +	ret =3D kstrtou32(buf, 10, &val);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D axi_spi_engine_offload_set_samp_freq(st, val);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return len;
-> > +}
-> > + =20
->=20
-> This is also something that made me wonder... In the end of the day, the
-> frequency at which we want to sample the data depends on the converter de=
-vice.
-> This completely detached interface makes it more easy for the user to scr=
-ew up
-> things, right?
-It's easy to do that anyway :) If you think of a normal SPI attached device=
- that
-has it's own internal clocking then it's usually easy to set the device to =
-grab
-data faster than than the spi bus can drain it.  We drop samples.
+The indentation was a mix of spaces and tabs; I've turned them all into
+4 spaces so it always reads correctly regardless of tab settings.
 
-Here it might make sense to add some bounds I guess as it's all in hardware
-- either have the ADC provide them or push it to DT,
+Also use ``...`` instead of `...`; the difference is that `` is meant
+for "inline literals" (and renders in a monospace font) while ` is for
+"interpreted text" (and renders with italics).
 
->=20
-> Things might even become more complicated in usecases where we have an
-> additional pwm (on top of the data fetch trigger one) for triggering conv=
-ersions
-> in the converter and we might need to properly control the phase between =
-those
-> two signals. So, how would we handle it in the current form? We have one =
-pwm
-> belonging to the offload engine and one belonging to the converter but th=
-ey need
-> to cope together...
+Also changed the title of the document to be more descriptive.
 
-Groan loudly?=20
-If someone wants careful sync between a trigger for the ADC and the read ba=
-ck triggering
-they should do it in hardware. Sure we can do it if the pwm is sophisticate=
-d enough
-but the mess of layering etc needed to make it work is just nasty.
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/kbuild/kconfig.rst | 363 ++++++++++++++-----------------
+ 1 file changed, 166 insertions(+), 197 deletions(-)
 
-I guess you make a custom trigger that bakes in your requirements.
-
->=20
-> I'm aware you have some alternative ideas for not using pwms but the seri=
-es is
-> using pwms... And the above usecase is real and it's sitting out of tree =
-waiting
-> for the offload stuff to get merged so I can upstream that driver :)
-
-Gah.  So much for hoping you were conjecturing something unusual.
-
-Jonathan
-
->=20
-> - Nuno S=E1
->=20
->=20
->=20
+diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
+index c946eb44bd13..fc4e845bc249 100644
+--- a/Documentation/kbuild/kconfig.rst
++++ b/Documentation/kbuild/kconfig.rst
+@@ -1,10 +1,10 @@
+-===================
+-Kconfig make config
+-===================
++=================================
++Configuration targets and editors
++=================================
+ 
+-This file contains some assistance for using `make *config`.
++This file contains some assistance for using ``make *config``.
+ 
+-Use "make help" to list all of the possible configuration targets.
++Use ``make help`` to list all of the possible configuration targets.
+ 
+ The xconfig ('qconf'), menuconfig ('mconf'), and nconfig ('nconf')
+ programs also have embedded help text.  Be sure to check that for
+@@ -12,8 +12,9 @@ navigation, search, and other general help text.
+ 
+ The gconfig ('gconf') program has limited help text.
+ 
++
+ General
+--------
++=======
+ 
+ New kernel releases often introduce new config symbols.  Often more
+ important, new kernel releases may rename config symbols.  When
+@@ -24,118 +25,102 @@ symbols have been introduced.
+ 
+ To see a list of new config symbols, use::
+ 
+-	cp user/some/old.config .config
+-	make listnewconfig
++    cp user/some/old.config .config
++    make listnewconfig
+ 
+ and the config program will list any new symbols, one per line.
+ 
+ Alternatively, you can use the brute force method::
+ 
+-	make oldconfig
+-	scripts/diffconfig .config.old .config | less
+-
+-----------------------------------------------------------------------
+-
+-Environment variables for `*config`
++    make oldconfig
++    scripts/diffconfig .config.old .config | less
+ 
+-KCONFIG_CONFIG
+---------------
+-This environment variable can be used to specify a default kernel config
+-file name to override the default name of ".config".
+ 
+-KCONFIG_DEFCONFIG_LIST
+-----------------------
++Environment variables
++=====================
+ 
+-This environment variable specifies a list of config files which can be used
+-as a base configuration in case the .config does not exist yet. Entries in
+-the list are separated with whitespaces to each other, and the first one
+-that exists is used.
++Environment variables for ``*config``:
+ 
+-KCONFIG_OVERWRITECONFIG
+------------------------
+-If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
+-break symlinks when .config is a symlink to somewhere else.
++``KCONFIG_CONFIG``
++    This environment variable can be used to specify a default kernel config
++    file name to override the default name of ".config".
+ 
+-KCONFIG_WARN_UNKNOWN_SYMBOLS
+-----------------------------
+-This environment variable makes Kconfig warn about all unrecognized
+-symbols in the config input.
++``KCONFIG_DEFCONFIG_LIST``
++    This environment variable specifies a list of config files which can be
++    used as a base configuration in case the .config does not exist yet.
++    Entries in the list are separated with whitespaces to each other, and
++    the first one that exists is used.
+ 
+-KCONFIG_WERROR
+---------------
+-If set, Kconfig treats warnings as errors.
++``KCONFIG_OVERWRITECONFIG``
++    If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
++    break symlinks when .config is a symlink to somewhere else.
+ 
+-`CONFIG_`
+----------
+-If you set `CONFIG_` in the environment, Kconfig will prefix all symbols
+-with its value when saving the configuration, instead of using the default,
+-`CONFIG_`.
++``KCONFIG_WARN_UNKNOWN_SYMBOLS``
++    This environment variable makes Kconfig warn about all unrecognized
++    symbols in the config input.
+ 
+-----------------------------------------------------------------------
++``KCONFIG_WERROR``
++    If set, Kconfig treats warnings as errors.
+ 
+-Environment variables for '{allyes/allmod/allno/rand}config'
++``CONFIG_``
++    If you set ``CONFIG_`` in the environment, Kconfig will prefix all symbols
++    with its value when saving the configuration, instead of using the
++    default, ``CONFIG_``.
+ 
+-KCONFIG_ALLCONFIG
+------------------
+-(partially based on lkml email from/by Rob Landley, re: miniconfig)
++Environment variables for ``{allyes/allmod/allno/rand}config``:
+ 
+---------------------------------------------------
++``KCONFIG_ALLCONFIG``
++    The allyesconfig/allmodconfig/allnoconfig/randconfig variants can also
++    use the environment variable KCONFIG_ALLCONFIG as a flag or a filename
++    that contains config symbols that the user requires to be set to a
++    specific value.  If KCONFIG_ALLCONFIG is used without a filename where
++    KCONFIG_ALLCONFIG == "" or KCONFIG_ALLCONFIG == "1", ``make *config``
++    checks for a file named "all{yes/mod/no/def/random}.config"
++    (corresponding to the ``*config`` command that was used) for symbol values
++    that are to be forced.  If this file is not found, it checks for a
++    file named "all.config" to contain forced values.
+ 
+-The allyesconfig/allmodconfig/allnoconfig/randconfig variants can also
+-use the environment variable KCONFIG_ALLCONFIG as a flag or a filename
+-that contains config symbols that the user requires to be set to a
+-specific value.  If KCONFIG_ALLCONFIG is used without a filename where
+-KCONFIG_ALLCONFIG == "" or KCONFIG_ALLCONFIG == "1", `make *config`
+-checks for a file named "all{yes/mod/no/def/random}.config"
+-(corresponding to the `*config` command that was used) for symbol values
+-that are to be forced.  If this file is not found, it checks for a
+-file named "all.config" to contain forced values.
++    This enables you to create "miniature" config (miniconfig) or custom
++    config files containing just the config symbols that you are interested
++    in.  Then the kernel config system generates the full .config file,
++    including symbols of your miniconfig file.
+ 
+-This enables you to create "miniature" config (miniconfig) or custom
+-config files containing just the config symbols that you are interested
+-in.  Then the kernel config system generates the full .config file,
+-including symbols of your miniconfig file.
+-
+-This 'KCONFIG_ALLCONFIG' file is a config file which contains
+-(usually a subset of all) preset config symbols.  These variable
+-settings are still subject to normal dependency checks.
+-
+-Examples::
++    This ``KCONFIG_ALLCONFIG`` file is a config file which contains
++    (usually a subset of all) preset config symbols.  These variable
++    settings are still subject to normal dependency checks.
+ 
+-	KCONFIG_ALLCONFIG=custom-notebook.config make allnoconfig
++    Examples::
+ 
+-or::
++        KCONFIG_ALLCONFIG=custom-notebook.config make allnoconfig
+ 
+-	KCONFIG_ALLCONFIG=mini.config make allnoconfig
++    or::
+ 
+-or::
++        KCONFIG_ALLCONFIG=mini.config make allnoconfig
+ 
+-	make KCONFIG_ALLCONFIG=mini.config allnoconfig
++    or::
+ 
+-These examples will disable most options (allnoconfig) but enable or
+-disable the options that are explicitly listed in the specified
+-mini-config files.
++        make KCONFIG_ALLCONFIG=mini.config allnoconfig
+ 
+-----------------------------------------------------------------------
++    These examples will disable most options (allnoconfig) but enable or
++    disable the options that are explicitly listed in the specified
++    mini-config files.
+ 
+-Environment variables for 'randconfig'
++Environment variables for ``randconfig``:
+ 
+-KCONFIG_SEED
+-------------
+-You can set this to the integer value used to seed the RNG, if you want
+-to somehow debug the behaviour of the kconfig parser/frontends.
+-If not set, the current time will be used.
++``KCONFIG_SEED``
++    You can set this to the integer value used to seed the RNG, if you want
++    to somehow debug the behaviour of the kconfig parser/frontends.
++    If not set, the current time will be used.
+ 
+-KCONFIG_PROBABILITY
+--------------------
+-This variable can be used to skew the probabilities. This variable can
+-be unset or empty, or set to three different formats:
++``KCONFIG_PROBABILITY``
++    This variable can be used to skew the probabilities. This variable can
++    be unset or empty, or set to three different formats:
+ 
+     =======================     ==================  =====================
+-	KCONFIG_PROBABILITY     y:n split           y:m:n split
++    KCONFIG_PROBABILITY         y:n split           y:m:n split
+     =======================     ==================  =====================
+-	unset or empty          50  : 50            33  : 33  : 34
+-	N                        N  : 100-N         N/2 : N/2 : 100-N
++    unset or empty              50  : 50            33  : 33  : 34
++    N                            N  : 100-N         N/2 : N/2 : 100-N
+     [1] N:M                     N+M : 100-(N+M)      N  :  M  : 100-(N+M)
+     [2] N:M:L                    N  : 100-N          M  :  L  : 100-(M+L)
+     =======================     ==================  =====================
+@@ -149,112 +134,98 @@ that:
+ 
+ Examples::
+ 
+-	KCONFIG_PROBABILITY=10
+-		10% of booleans will be set to 'y', 90% to 'n'
+-		5% of tristates will be set to 'y', 5% to 'm', 90% to 'n'
+-	KCONFIG_PROBABILITY=15:25
+-		40% of booleans will be set to 'y', 60% to 'n'
+-		15% of tristates will be set to 'y', 25% to 'm', 60% to 'n'
+-	KCONFIG_PROBABILITY=10:15:15
+-		10% of booleans will be set to 'y', 90% to 'n'
+-		15% of tristates will be set to 'y', 15% to 'm', 70% to 'n'
++    KCONFIG_PROBABILITY=10
++        10% of booleans will be set to 'y', 90% to 'n'
++        5% of tristates will be set to 'y', 5% to 'm', 90% to 'n'
++    KCONFIG_PROBABILITY=15:25
++        40% of booleans will be set to 'y', 60% to 'n'
++        15% of tristates will be set to 'y', 25% to 'm', 60% to 'n'
++    KCONFIG_PROBABILITY=10:15:15
++        10% of booleans will be set to 'y', 90% to 'n'
++        15% of tristates will be set to 'y', 15% to 'm', 70% to 'n'
+ 
+-----------------------------------------------------------------------
++Environment variables for ``syncconfig``:
+ 
+-Environment variables for 'syncconfig'
++``KCONFIG_NOSILENTUPDATE``
++    If this variable has a non-blank value, it prevents silent kernel
++    config updates (requires explicit updates).
+ 
+-KCONFIG_NOSILENTUPDATE
+-----------------------
+-If this variable has a non-blank value, it prevents silent kernel
+-config updates (requires explicit updates).
++``KCONFIG_AUTOCONFIG``
++    This environment variable can be set to specify the path & name of the
++    "auto.conf" file.  Its default value is "include/config/auto.conf".
+ 
+-KCONFIG_AUTOCONFIG
+-------------------
+-This environment variable can be set to specify the path & name of the
+-"auto.conf" file.  Its default value is "include/config/auto.conf".
++``KCONFIG_AUTOHEADER``
++    This environment variable can be set to specify the path & name of the
++    "autoconf.h" (header) file.
++    Its default value is "include/generated/autoconf.h".
+ 
+-KCONFIG_AUTOHEADER
+-------------------
+-This environment variable can be set to specify the path & name of the
+-"autoconf.h" (header) file.
+-Its default value is "include/generated/autoconf.h".
+-
+-
+-----------------------------------------------------------------------
+ 
+ menuconfig
+-----------
+-
+-SEARCHING for CONFIG symbols
++==========
+ 
+ Searching in menuconfig:
+ 
+-	The Search function searches for kernel configuration symbol
+-	names, so you have to know something close to what you are
+-	looking for.
++    The Search function searches for kernel configuration symbol
++    names, so you have to know something close to what you are
++    looking for.
+ 
+-	Example::
++    Example::
+ 
+-		/hotplug
+-		This lists all config symbols that contain "hotplug",
+-		e.g., HOTPLUG_CPU, MEMORY_HOTPLUG.
++        /hotplug
++        This lists all config symbols that contain "hotplug",
++        e.g., HOTPLUG_CPU, MEMORY_HOTPLUG.
+ 
+-	For search help, enter / followed by TAB-TAB (to highlight
+-	<Help>) and Enter.  This will tell you that you can also use
+-	regular expressions (regexes) in the search string, so if you
+-	are not interested in MEMORY_HOTPLUG, you could try::
++    For search help, enter / followed by TAB-TAB (to highlight
++    <Help>) and Enter.  This will tell you that you can also use
++    regular expressions (regexes) in the search string, so if you
++    are not interested in MEMORY_HOTPLUG, you could try::
+ 
+-		/^hotplug
++        /^hotplug
+ 
+-	When searching, symbols are sorted thus:
++    When searching, symbols are sorted thus:
+ 
+-	  - first, exact matches, sorted alphabetically (an exact match
+-	    is when the search matches the complete symbol name);
+-	  - then, other matches, sorted alphabetically.
++    - first, exact matches, sorted alphabetically (an exact match
++      is when the search matches the complete symbol name);
++    - then, other matches, sorted alphabetically.
+ 
+-	For example: ^ATH.K matches:
++    For example, ^ATH.K matches:
+ 
+-	    ATH5K ATH9K ATH5K_AHB ATH5K_DEBUG [...] ATH6KL ATH6KL_DEBUG
+-	    [...] ATH9K_AHB ATH9K_BTCOEX_SUPPORT ATH9K_COMMON [...]
++        ATH5K ATH9K ATH5K_AHB ATH5K_DEBUG [...] ATH6KL ATH6KL_DEBUG
++        [...] ATH9K_AHB ATH9K_BTCOEX_SUPPORT ATH9K_COMMON [...]
+ 
+-	of which only ATH5K and ATH9K match exactly and so are sorted
+-	first (and in alphabetical order), then come all other symbols,
+-	sorted in alphabetical order.
++    of which only ATH5K and ATH9K match exactly and so are sorted
++    first (and in alphabetical order), then come all other symbols,
++    sorted in alphabetical order.
+ 
+-	In this menu, pressing the key in the (#) prefix will jump
+-	directly to that location. You will be returned to the current
+-	search results after exiting this new menu.
++    In this menu, pressing the key in the (#) prefix will jump
++    directly to that location. You will be returned to the current
++    search results after exiting this new menu.
+ 
+-----------------------------------------------------------------------
++User interface options for 'menuconfig':
+ 
+-User interface options for 'menuconfig'
++``MENUCONFIG_COLOR``
++    It is possible to select different color themes using the variable
++    MENUCONFIG_COLOR.  To select a theme use::
+ 
+-MENUCONFIG_COLOR
+-----------------
+-It is possible to select different color themes using the variable
+-MENUCONFIG_COLOR.  To select a theme use::
++        make MENUCONFIG_COLOR=<theme> menuconfig
+ 
+-	make MENUCONFIG_COLOR=<theme> menuconfig
++    Available themes are::
+ 
+-Available themes are::
++      - mono       => selects colors suitable for monochrome displays
++      - blackbg    => selects a color scheme with black background
++      - classic    => theme with blue background. The classic look
++      - bluetitle  => a LCD friendly version of classic. (default)
+ 
+-  - mono       => selects colors suitable for monochrome displays
+-  - blackbg    => selects a color scheme with black background
+-  - classic    => theme with blue background. The classic look
+-  - bluetitle  => a LCD friendly version of classic. (default)
++``MENUCONFIG_MODE``
++    This mode shows all sub-menus in one large tree.
+ 
+-MENUCONFIG_MODE
+----------------
+-This mode shows all sub-menus in one large tree.
++    Example::
+ 
+-Example::
++        make MENUCONFIG_MODE=single_menu menuconfig
+ 
+-	make MENUCONFIG_MODE=single_menu menuconfig
+-
+-----------------------------------------------------------------------
+ 
+ nconfig
+--------
++=======
+ 
+ nconfig is an alternate text-based configurator.  It lists function
+ keys across the bottom of the terminal (window) that execute commands.
+@@ -266,61 +237,59 @@ Use F1 for Global help or F3 for the Short help menu.
+ 
+ Searching in nconfig:
+ 
+-	You can search either in the menu entry "prompt" strings
+-	or in the configuration symbols.
++    You can search either in the menu entry "prompt" strings
++    or in the configuration symbols.
++
++    Use / to begin a search through the menu entries.  This does
++    not support regular expressions.  Use <Down> or <Up> for
++    Next hit and Previous hit, respectively.  Use <Esc> to
++    terminate the search mode.
+ 
+-	Use / to begin a search through the menu entries.  This does
+-	not support regular expressions.  Use <Down> or <Up> for
+-	Next hit and Previous hit, respectively.  Use <Esc> to
+-	terminate the search mode.
++    F8 (SymSearch) searches the configuration symbols for the
++    given string or regular expression (regex).
+ 
+-	F8 (SymSearch) searches the configuration symbols for the
+-	given string or regular expression (regex).
++    In the SymSearch, pressing the key in the (#) prefix will
++    jump directly to that location. You will be returned to the
++    current search results after exiting this new menu.
+ 
+-	In the SymSearch, pressing the key in the (#) prefix will
+-	jump directly to that location. You will be returned to the
+-	current search results after exiting this new menu.
++Environment variables:
+ 
+-NCONFIG_MODE
+-------------
+-This mode shows all sub-menus in one large tree.
++``NCONFIG_MODE``
++    This mode shows all sub-menus in one large tree.
+ 
+-Example::
++    Example::
+ 
+-	make NCONFIG_MODE=single_menu nconfig
++        make NCONFIG_MODE=single_menu nconfig
+ 
+-----------------------------------------------------------------------
+ 
+ xconfig
+--------
++=======
+ 
+ Searching in xconfig:
+ 
+-	The Search function searches for kernel configuration symbol
+-	names, so you have to know something close to what you are
+-	looking for.
+-
+-	Example::
++    The Search function searches for kernel configuration symbol
++    names, so you have to know something close to what you are
++    looking for.
+ 
+-		Ctrl-F hotplug
++    Example::
+ 
+-	or::
++        Ctrl-F hotplug
+ 
+-		Menu: File, Search, hotplug
++    or::
+ 
+-	lists all config symbol entries that contain "hotplug" in
+-	the symbol name.  In this Search dialog, you may change the
+-	config setting for any of the entries that are not grayed out.
+-	You can also enter a different search string without having
+-	to return to the main menu.
++        Menu: File, Search, hotplug
+ 
++    lists all config symbol entries that contain "hotplug" in
++    the symbol name.  In this Search dialog, you may change the
++    config setting for any of the entries that are not grayed out.
++    You can also enter a different search string without having
++    to return to the main menu.
+ 
+-----------------------------------------------------------------------
+ 
+ gconfig
+--------
++=======
+ 
+ Searching in gconfig:
+ 
+-	There is no search command in gconfig.  However, gconfig does
+-	have several different viewing choices, modes, and options.
++    There is no search command in gconfig.  However, gconfig does
++    have several different viewing choices, modes, and options.
+-- 
+2.34.1
 
