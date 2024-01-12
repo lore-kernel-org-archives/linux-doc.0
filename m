@@ -1,90 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2DC6BB40;
-	Fri, 12 Jan 2024 13:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8A16DD05;
+	Fri, 12 Jan 2024 14:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GtVdOY5/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 128A9C43390;
-	Fri, 12 Jan 2024 13:59:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705067947;
-	bh=oMZ81G+ISx28UspkijwH23mXsSLB67wCS+jmcXwB6yY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GtVdOY5/OXfe3N1BykNwp68hEIs60DIJYDyl+AlX0nCj9eJxFKR5OiAS5jEmtiai7
-	 Lh5w0lq3TuoU/0QWJcTlMBDth5cQc4SoeFJDSX0C2hMy34NA6bN0e+zQOVxHqu2mrU
-	 gkS7MFmC0XPxQ0PWhdoksLauX9kABC5Tujy2/8RWZ/uwbnusqCBH/mlViwVJmNO3X7
-	 /BCC/5yZTFcUJhuCGADzM8KoVYAH3Lt6XgnvyGwV3XGEAj/POqc2S9bd+Y2kmOgl7i
-	 H0F2Zo4xgYbBckgUw41Ctigvb4MImw8NBqvdZBO/qk7zPZaEn3Sg+iuAshdqiTOdkm
-	 eLurRwbq/0TRQ==
-Date: Fri, 12 Jan 2024 14:59:04 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <337mubsn42zlpuoqqvqmsjtdww4kg3x6lo6brdos5o6xgwjdwo@cxfad2pk2so2>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <CAPY8ntCs9EAYsxwjkscms3kqoC0N8+CcTHoyrG+gFMc0Mh=cwg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="elt5CBpF"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7A78535D;
+	Fri, 12 Jan 2024 14:43:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7A78535D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1705070621; bh=hX2vbYDKK5fM8nBKji8rXauO2R5qVnHvz5B0AYqatCo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=elt5CBpFjtYsAvyw4vgFwDM0o1ohPPsVFWC83y3wfOfqVncJ4yq7C+WJZ6WdE4jX3
+	 b7XuulidUFWzg9xItc+C/LyroLB+tzIWzZarFc8yIZ8rmV/kdBdshEtqFb3BrHyTtz
+	 mHamxvGmOrMd/4g78fYvTAfrKgKuvwteiGzGWdJ3bdpA/AGmntkqIC407f4XCl8prd
+	 N6rFTo6kp+Ksv2BA2ivqkNPKXh/ze5JhOWMdhEEhcOxhj0IDqNmWNdvQRS809kVexh
+	 LI5EFNUp4pe/QUE1T3a4Rf2l9rgM3C0R5cpoIggyaDYS27m1rOuRZ5rP6y6otf4Wtl
+	 9cnMWWu7nzssg==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [GIT PULL] Documentation for 6.8
+In-Reply-To: <CAHk-=whtqOvx4_GL8MX+bGroS5hfueP+Arch_qVYwQDJVvFCKg@mail.gmail.com>
+References: <87sf37vegj.fsf@meer.lwn.net>
+ <CAHk-=whtqOvx4_GL8MX+bGroS5hfueP+Arch_qVYwQDJVvFCKg@mail.gmail.com>
+Date: Fri, 12 Jan 2024 07:43:39 -0700
+Message-ID: <87v87yk3xg.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qktymaok2b34jnq7"
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntCs9EAYsxwjkscms3kqoC0N8+CcTHoyrG+gFMc0Mh=cwg@mail.gmail.com>
+Content-Type: text/plain
 
+[Adding Akira]
 
---qktymaok2b34jnq7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Linus Torvalds <torvalds@linuxfoundation.org> writes:
 
-Hi Dave,
+> On Mon, 8 Jan 2024 at 10:59, Jonathan Corbet <corbet@lwn.net> wrote:
+>>
+>> - The minimum Sphinx requirement has been raised to 2.4.4, following a
+>>   warning that was added in 6.2.
+>
+> Well, speaking of warnings, github now has this "dependabot" thing
+> that warns about bad minimum requirements due to tooling that has
+> security issues.
+>
+> And it warns about our "jinja2 < 3.1" requirement, because apparently
+> that can cause issues:
+>
+>   "The xmlattr filter in affected versions of Jinja accepts keys
+> containing spaces. XML/HTML attributes cannot contain spaces, as each
+> would then be interpreted as a separate attribute. If an application
+> accepts keys (as opposed to only values) as user input, and renders
+> these in pages that other users see as well, an attacker could use
+> this to inject other attributes and perform XSS. Note that accepting
+> keys as user input is not common or a particularly intended use case
+> of the xmlattr filter, and an application doing so should already be
+> verifying what keys are provided regardless of this fix"
+>
+> with affected versions being marked as < 3.1.3 and fixed in Jinja2 3.1.3
+>
+> I'm ignoring this github dependabit warning since the issue seems to
+> be rather irrelevant for our doc use, but I thought I'd mention it.
 
-On Thu, Dec 14, 2023 at 02:43:37PM +0000, Dave Stevenson wrote:
-> On Thu, 7 Dec 2023 at 15:50, Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > The i915 driver has a property to force the RGB range of an HDMI output.
-> > The vc4 driver then implemented the same property with the same
-> > semantics. KWin has support for it, and a PR for mutter is also there to
-> > support it.
-> >
-> > Both drivers implementing the same property with the same semantics,
-> > plus the userspace having support for it, is proof enough that it's
-> > pretty much a de-facto standard now and we can provide helpers for it.
-> >
-> > Let's plumb it into the newly created HDMI connector.
->=20
-> To have such a significant proportion of the patch being kunit tests
-> when there was no reference to such in the commit text was slightly
-> unexpected.
+I suppose it is worth looking into this, just in case a hostile docs
+patch that nobody catches might somehow cause an exploit to show up on
+docs.kernel.org.  Seems unlikely but it would be good to be sure.
 
-Thanks for your review. Does that mean that you would prefer the tests
-to be in a separate patch?
+Akira (CC'd) noted, in adding that requirement, that newer jinja2 breaks
+Sphinx prior to 4.8.  I've been thinking that supporting 2.x is going to
+prove increasingly unsustainable, but raising our minimum to 4.8 would
+surely make some people unhappy.
 
-Maxime
+I like the Python ecosystem for a lot of things, but its approach to API
+compatibility is ... not great.
 
---qktymaok2b34jnq7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaFFqAAKCRDj7w1vZxhR
-xaVsAQCQvfIMIrKA7nqrSHokMD20be4Xcm2T84v3PW9kS4jdiAD/Qli9xSKrx6Q9
-1g/aGgxA2VDLSgq0Ag5FVT+HFhvA9gE=
-=hMit
------END PGP SIGNATURE-----
-
---qktymaok2b34jnq7--
+jon
