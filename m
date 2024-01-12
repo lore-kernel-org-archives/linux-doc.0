@@ -1,136 +1,146 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4806E2CA
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jan 2024 14:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="neAeT8Xs"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cd64022164so64514711fa.3
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jan 2024 06:55:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1705071325; x=1705676125; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+L9xJDVEsE7V3csU6sYKZtbMRfUFtdtCzJGzvU7993M=;
-        b=neAeT8XsY2KdELItdqx8vka/T7u8iZ1br+YyzJ66sp++PsaSwbcpzQBbafe7kn4Yup
-         ob/fgH1cbZ54UfcRoXIcwbwIUuEK8cbNxm/y/BAFdWYhGVJ3BPdFwNmGmelgLiylWH6x
-         5euzjlgFG8peaiL1Yju9cW5Jtnkq9SMTtrUAkkQXjSa1p0A4rUEpOxw3+sZZCgZsYhKG
-         D7U64C3EKTZ1n1p+WGVNduEy2gZHvIlj2/495fUKi/T2zkcJGxDjIvBqS7DclZRZoF3c
-         Vn87/dvtQd6g/ZQZj7yJGLnuF+DFXSqPVvA+lYX847xapKRI0JcVyZsW108ekSQEA+zJ
-         Ya2Q==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0B26E2AB;
+	Fri, 12 Jan 2024 15:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5958b9cda7aso498204eaf.0;
+        Fri, 12 Jan 2024 07:01:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705071325; x=1705676125;
+        d=1e100.net; s=20230601; t=1705071714; x=1705676514;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+L9xJDVEsE7V3csU6sYKZtbMRfUFtdtCzJGzvU7993M=;
-        b=G5342OvzyhB7oHKTxPkS4aUIU4y0RExabywDJ/RAb61nf4+JhQ5pqI/sXYMkGTQL2Q
-         ss0oGMga2AShMdl0y2fQAvaYD1i/KIG17y+fD8gp0Jsx1X+4/05ULM++sMq+2y9kZFcy
-         7uSDEL6KycC7p/z0QmAtOb4bAPmRrzaoJ0nDjUJ7ZBNtAjwFV1PFHjYrVYwNj+AJ0U9z
-         F1xsHEzhIdHoRbvzePrXfrF9CbqugtU6mN8Ci2zMU3vHvEE7bKc4knoBEEKBsHr1P3K2
-         9u5v9Aw0gk+NDAgZWJiQk+uX3yySvWE1lQCCIw3yGi0IfgRdGB8ZNMfIASSFqbiOazKI
-         /aRA==
-X-Gm-Message-State: AOJu0Yyh/C9DQ/vncSP9RLKiII1GhtoN+vdhx1iiHdPS4DMQhzJ8/xl9
-	FwppxcCQjX5OfomP04/9xgsHV0aB4eW2B3HuJUwbtK4Et+z4kw==
-X-Google-Smtp-Source: AGHT+IHOBCkkSmKcJgoDfFQ2qfKU3lRx2F8RaRRCwSuhk/vh9byUp+s06T/ssB1/fybT50ECpPe/HwOtDD/JTDQsV8Q=
-X-Received: by 2002:a2e:b0d9:0:b0:2cc:f31b:56ea with SMTP id
- g25-20020a2eb0d9000000b002ccf31b56eamr844666ljl.92.1705071324606; Fri, 12 Jan
- 2024 06:55:24 -0800 (PST)
+        bh=GkosH+fDx4uydKCIfas+gX+lZQ+YATp8/cxPr7LCjXQ=;
+        b=hnVS9mcCzAsJ8JyEg2cqexDzAd/DNLAWAdzVysV4WxYJLUbAvn6SxWCrLHQwWZ8MaI
+         bd4hFXIcRPhU2GLwLU6OdOBmDO1i+nI7oWf3NS1AJkScJ9OyR3Sg6PLK16bsI9numdnT
+         Cla2L2zmk3u2sGSoXX8vzdhjZQwfnVMCr2XnTRibHE10z4lZs0fRD0y+7nnyi3L8CZ/o
+         06anvIrHFsLhCBdTLh9srYlNupwFoFvXZwb6rioeH4rppu7Z3xNhrnq+xxh+6Ln55tZq
+         Bul97I5P/7wc6W6uVk0d+AypSadHvFYaEq6nbwW4IbTlYDOxNpzPjYPSrFpt+a4+uiwO
+         cZsg==
+X-Gm-Message-State: AOJu0YxUOfwiQcVUXxNfjz4s7CY+ePQFbcJatLe2c/nxEMaYDgugqFNO
+	7B9nIgjrh+h9xQ7QbM6iv27ibxF4kgOxgl66Sto=
+X-Google-Smtp-Source: AGHT+IERQpK6tU+v/yvWRcm25F/amqoeR5fMDTcAHWek3SJqIecgzoDoVF8A5t7OAIKhoJcTR5teFvLzHtkulu/Qeec=
+X-Received: by 2002:a05:6820:510:b0:598:c118:30d1 with SMTP id
+ m16-20020a056820051000b00598c11830d1mr2644001ooj.0.1705071713471; Fri, 12 Jan
+ 2024 07:01:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
- <20240109-axi-spi-engine-series-3-v1-10-e42c6a986580@baylibre.com> <20240112123759.00007440@Huawei.com>
-In-Reply-To: <20240112123759.00007440@Huawei.com>
-From: David Lechner <dlechner@baylibre.com>
-Date: Fri, 12 Jan 2024 08:55:13 -0600
-Message-ID: <CAMknhBHOEQ7vs9S=SFPxDPsKFWdoWe4EtxU_8+M=h7gDH83Afw@mail.gmail.com>
-Subject: Re: [PATCH 10/13] iio: buffer: dmaengine: export devm_iio_dmaengine_buffer_alloc()
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk> <E1rDOfx-00Dvje-MS@rmk-PC.armlinux.org.uk>
+ <CAJZ5v0iB0bS6nmjQ++pV1zp5YSGuigbffK5VD3wsX+8bY9MA5w@mail.gmail.com>
+ <20240111175908.00002f46@Huawei.com> <ZaA3l4yjgCXxSiVg@shell.armlinux.org.uk> <20240112092520.00001278@Huawei.com>
+In-Reply-To: <20240112092520.00001278@Huawei.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 12 Jan 2024 16:01:40 +0100
+Message-ID: <CAJZ5v0g2CFPrSfNzHKBz_Spwt304QEQtR6w57VR11i5APPrD8Q@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 02/21] ACPI: processor: Add support for processors
+ described as container packages
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Mark Brown <broonie@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Frank Rowand <frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-spi@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, "Rafael J. Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-acpi@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	kvmarm@lists.linux.dev, x86@kernel.org, 
+	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
+	James Morse <james.morse@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 12, 2024 at 6:38=E2=80=AFAM Jonathan Cameron
+On Fri, Jan 12, 2024 at 10:25=E2=80=AFAM Jonathan Cameron
 <Jonathan.Cameron@huawei.com> wrote:
 >
-> On Wed, 10 Jan 2024 13:49:51 -0600
-> David Lechner <dlechner@baylibre.com> wrote:
+> On Thu, 11 Jan 2024 18:46:47 +0000
+> "Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
 >
-> > This changes devm_iio_dmaengine_buffer_alloc() to an exported symbol.
-> > This will be used by drivers that need to allocate a DMA buffer without
-> > attaching it to an IIO device.
+> > On Thu, Jan 11, 2024 at 05:59:08PM +0000, Jonathan Cameron wrote:
+> > > On Mon, 18 Dec 2023 21:17:34 +0100
+> > > "Rafael J. Wysocki" <rafael@kernel.org> wrote:
+> > >
+> > > > On Wed, Dec 13, 2023 at 1:49=E2=80=AFPM Russell King <rmk+kernel@ar=
+mlinux.org.uk> wrote:
+> > > > >
+> > > > > From: James Morse <james.morse@arm.com>
+> > >
+> > > Done some digging + machine faking.  This is mid stage results at bes=
+t.
+> > >
+> > > Summary: I don't think this patch is necessary.  If anyone happens to=
+ be in
+> > > the mood for testing on various platforms, can you drop this patch an=
+d
+> > > see if everything still works.
+> > >
+> > > With this patch in place, and a processor container containing
+> > > Processor() objects acpi_process_add is called twice - once via
+> > > the path added here and once via acpi_bus_attach etc.
+> > >
+> > > Maybe it's a left over from earlier approaches to some of this?
 > >
-> > Signed-off-by: David Lechner <dlechner@baylibre.com>
-> > ---
-> >  Documentation/driver-api/driver-model/devres.rst   |  1 +
-> >  drivers/iio/buffer/Kconfig                         | 14 +++++++-------
-> >  drivers/iio/buffer/industrialio-buffer-dmaengine.c |  3 ++-
-> >  include/linux/iio/buffer-dmaengine.h               |  2 ++
-> >  4 files changed, 12 insertions(+), 8 deletions(-)
+> > From what you're saying, it seems that way. It would be really good to
+> > get a reply from James to see whether he agrees - or at least get the
+> > reason why this patch is in the series... but I suspect that will never
+> > come.
 > >
-> > diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documen=
-tation/driver-api/driver-model/devres.rst
-> > index b23d4a2b68a6..60e4b7ba38e5 100644
-> > --- a/Documentation/driver-api/driver-model/devres.rst
-> > +++ b/Documentation/driver-api/driver-model/devres.rst
-> > @@ -285,6 +285,7 @@ I2C
-> >  IIO
-> >    devm_iio_device_alloc()
-> >    devm_iio_device_register()
-> > +  devm_iio_dmaengine_buffer_alloc()
-> >    devm_iio_dmaengine_buffer_setup()
-> >    devm_iio_kfifo_buffer_setup()
-> >    devm_iio_kfifo_buffer_setup_ext()
-> > diff --git a/drivers/iio/buffer/Kconfig b/drivers/iio/buffer/Kconfig
-> > index 925c5bf074bc..27d82fb4bc4d 100644
-> > --- a/drivers/iio/buffer/Kconfig
-> > +++ b/drivers/iio/buffer/Kconfig
-> > @@ -40,6 +40,13 @@ config IIO_BUFFER_HW_CONSUMER
-> >         Should be selected by drivers that want to use the generic Hw c=
-onsumer
-> >         interface.
+> > > Both cases are covered by the existing handling without this.
+> > >
+> > > I'm far from clear on why we need this patch.  Presumably
+> > > it's the reference in the description on it breaking for
+> > > Processor Package containing Processor() objects that matters
+> > > after a move... I'm struggling to find that move though!
 > >
-> > +config IIO_HW_TRIGGERED_BUFFER
-> > +     tristate "Industrial I/O hardware triggered buffer support"
-> > +     select AUXILIARY_BUS
-> > +     select IIO_TRIGGER
-> > +     help
-> > +       Provides helper functions for setting up hardware triggered buf=
-fers.
-> > +
-> >  config IIO_KFIFO_BUF
-> >       tristate "Industrial I/O buffering based on kfifo"
-> >       help
-> > @@ -53,10 +60,3 @@ config IIO_TRIGGERED_BUFFER
-> >       select IIO_KFIFO_BUF
-> >       help
-> >         Provides helper functions for setting up triggered buffers.
-> > -
-> > -config IIO_HW_TRIGGERED_BUFFER
-> > -     tristate "Industrial I/O hardware triggered buffer support"
-> > -     select AUXILIARY_BUS
-> > -     select IIO_TRIGGER
-> > -     help
-> > -       Provides helper functions for setting up hardware triggered buf=
-fers.
+> > I do know that James did a lot of testing, so maybe he found some
+> > corner case somewhere which made this necessary - but without input
+> > from James, we can't know that.
+> >
+> > So, maybe the right way forward on this is to re-test the series
+> > with this patch dropped, and see whether there's any ill effects.
+> > It should be possible to resurect the patch if it does turn out to
+> > be necessary.
+> >
+> > Does that sound like a good way forward?
+> >
+> > Thanks.
+> >
 >
-> Why move this?
+> Yes that sounds like the best plan. Note this patch can only make a
+> difference on non arm64 arches because it's a firmware bug to combine
+> Processor() with a GICC entry in APIC/MADT.  To even test on ARM64
+> you have to skip the bug check.
 >
+> https://elixir.bootlin.com/linux/latest/source/drivers/acpi/processor_cor=
+e.c#L101
+>
+>         /* device_declaration means Device object in DSDT, in the
+>          * GIC interrupt model, logical processors are required to
+>          * have a Processor Device object in the DSDT, so we should
+>          * check device_declaration here
+>          */
+> //      if (device_declaration && (gicc->uid =3D=3D acpi_id)) {
+>         if (gicc->uid =3D=3D acpi_id) {
+>                 *mpidr =3D gicc->arm_mpidr;
+>                 return 0;
+>         }
+>
+> Only alternative is probably to go history diving and try and
+> find another change that would have required this and is now gone.
+>
+> The ACPI scanning code has had a lot of changes whilst this work has
+> been underway.  More than possible that this was papering over some
+> issue that has long since been fixed. I can't find any deliberate
+> functional changes, but there is some code generalization that 'might'
+> have side effects in this area. Rafael, any expectation that anything
+> changed in how scanning processor containers works?
 
-Oops, this shouldn't be here. Looks like an artifact from a botched
-rebase. The intention was to put it in alphabetical order.
+There have been changes, but I can't recall when exactly without some
+git history research.
+
+In any case, it is always better to work on top of the current
+mainline code IMO.
