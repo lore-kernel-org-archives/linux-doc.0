@@ -1,195 +1,553 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8863614F72;
-	Fri, 12 Jan 2024 19:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF1C15AC9;
+	Fri, 12 Jan 2024 19:43:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EZpW1Fn8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705086185; x=1736622185;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=JG02LSAWGgXJbaiCiat4WdO+NGn0CHtuxYaS3LMLOs8=;
-  b=EZpW1Fn8YI0YaH+r33WPgQrLOKY1DjwYCwQCSBBRp0AfAwEQ0bBYXTcl
-   p/luxOQTXdP8mLwY27zOoI23FnZ6x2cTrkxIQlUCLzdYLZc6597LGRUyl
-   d/wha7gbkKFTg+nAFhkwkVeP16cHHbziEX0i7GNv/f1nlY5nVbHEOTkUU
-   f+SAlCwe4qRREt5Q33PdojYRPIObweGXwNX31bMv11eduyU31IXJKZq/c
-   WIco+LYSO5p85JlNkM/I4DY5bP50BxM7AxEkRgl+SXRcHCzQIzGKPHgmO
-   YdwveelSrSDiQRR7k5PfcMXDAKcvBZ0PqzTKnI7p7tRz9/wHFQEoMnabm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10951"; a="398936865"
-X-IronPort-AV: E=Sophos;i="6.04,190,1695711600"; 
-   d="scan'208";a="398936865"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2024 11:03:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,190,1695711600"; 
-   d="scan'208";a="25086670"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Jan 2024 11:03:03 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 12 Jan 2024 11:03:03 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 12 Jan 2024 11:03:03 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 12 Jan 2024 11:03:03 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 12 Jan 2024 11:03:03 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TOhYyZoFqYttrV5COqTAn8f3d1ScmLttIqaCKsyYRcZp53b6EyGwm6DOY2Y3eAik9oau7ecrJNFXoFURIEkd1GpwCHxwDB4bIzQjG5eKQUVtXNVR1CE+FaubMLU9bgY+xc/RyWiybPIkmFYYMOk9gmxvydCfkVM2yWvNRkpNxHjKNmaSkHB47zdwTrbUDCzuBJUTw6FqEoLuXPDHRlhRRgh/rbXFyfCujAKoxyQHGiSbe7/LJEd1TFbfRASMQ7npsPZXR73Hrg+o0MEWCe76Wes8zSXF53ay0+692cvKpPDpGITOx7BNY7I+h6p4/fkXtG6p8u7UBFwtPrN1Y3BGrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eB4dswXgTlvC8SvcWICl+Fjo0Eqt5hOCY+4ntEywYYI=;
- b=KO7rhHssMO4STRkz/v66ra0EcGCH0sVCEBVLImZ1PZBMR9NlVL3HU0WycDoxI2Bn4ZJF6OP/nV0jxZ1PG0cS+FVWZrV0cum/G+ZkFjFPi0z4D7C3Q0RtreRQrak9UyCE3Borxwp8ZoHCXEl8SOcIRwse7yqMiKD4GiuQHqugjinxo5d0k85FP2TVQJsfNmPg96Kz12+p773MQP514bdkr1uvCp6vPdXSYdctklgSFa/AFX5edjXZH0PzC+Av7FVaeInZGx8dQ3lRp7l5IEaUCphZhcL3zZbJlo6QbmRvrjN3PKvX6LysW+6SUr8fmS5SznPMtawiKz4fWzuouWv+Pw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DM4PR11MB7181.namprd11.prod.outlook.com (2603:10b6:8:113::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.24; Fri, 12 Jan
- 2024 19:03:00 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::c903:6ee5:ed69:f4fa]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::c903:6ee5:ed69:f4fa%7]) with mapi id 15.20.7181.018; Fri, 12 Jan 2024
- 19:03:00 +0000
-Message-ID: <4c5bb5ac-1e84-4021-845d-cafea5a1fbde@intel.com>
-Date: Fri, 12 Jan 2024 11:02:56 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] x86/resctrl: Read supported bandwidth sources
- using CPUID command
-Content-Language: en-US
-To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<seanjc@google.com>, <kim.phillips@amd.com>, <jmattson@google.com>,
-	<ilpo.jarvinen@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kan.liang@linux.intel.com>, <nikunj@amd.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<rick.p.edgecombe@intel.com>, <rppt@kernel.org>,
-	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
-	<peternewman@google.com>, <dhagiani@amd.com>
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <ba1305bf2a29ce2667d01cf997718126a7ea607b.1705009003.git.babu.moger@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <ba1305bf2a29ce2667d01cf997718126a7ea607b.1705009003.git.babu.moger@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0045.namprd04.prod.outlook.com
- (2603:10b6:303:6a::20) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0JOEAA5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99EB3C43390;
+	Fri, 12 Jan 2024 19:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705088606;
+	bh=+/sKBl2UsP9bXPWs3EwoHTK4eUTdqKRg1MEFTGvgPcc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A0JOEAA5rXELyi60uwOC/Zn+Wli0DD/lXa1RMLIw/HfA9CzEepzmuPP6JdXiBEly9
+	 2WMC7Zj5tnzbmhO/I5BUcUU5G6UV7tUra32hrwaaDvvJD3EH6rQIoiwzMRTvxTsh7g
+	 5DDrjGClwRQHfGPlLc+yX0Mj8atWrfzOv8fjytowOargdOOfmGuoxe3ldfjltcHfcc
+	 A3YoJE8FYAsDDm+uEXDroYQ3USc4odNIu0uqbn5D8zRxE7usJAcVGhT4gdyoiP9LLC
+	 czHTe+4fADGe9W2pd4dfPryH2Pf01smHhq155lzfDQWIJ2WXXk+WzqANaKHubC05iL
+	 KbcKiudwW0t5w==
+Date: Fri, 12 Jan 2024 12:43:23 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: kbuild/kconfig: reformat/cleanup
+Message-ID: <20240112194323.GA3703896@dev-arch.thelio-3990X>
+References: <20240112125830.3753464-1-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DM4PR11MB7181:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbc45abe-1196-442f-e2ba-08dc13a11845
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qB5kzEQtHePhcKuH/dq+8GT4it6rM/RakCCTTGY7KMNf7BbGm3M0220Fx+OlvLBtDpPb8VikrT5/JZzZkBJhvMO6JL21NkmMSynv0a7GbqQ92X9d8/Hk5u4B23I0oAsc+i79yL1VDmJF73ThsqRW1RmDJ19BjOaT9tMKQWT+6Ai16eX/BQqATQ//b18PrCO/5qzUwUQS2yC9ZlSvby6hjwEerswZvWOUg3XK/yEw7QJmnQWE1WbJzZS0Ab2CXWrjPLiRMTVwt/D6p9eBLXt4QR2j8+EB9aUm1C2Imw6dPedpOeIo94kZT1aNm6T08iiYmcPujhWn+A5cv730R4wRP5MI5lSejsmcv6ReZoExOSrOpa/mJWpFqAMtCrPHDtK25Q1fny2Jk5nm+tbpBMFBf5dNDj4Emi8SOrpqK1QCBwM47GFykQthQmEXYGNsrVRHN7Ih0I0NyIdpjYRO5JegGq/zwMBA/0BBNqu8xvBiS8io/MtlSYgQ6apNkW/NRw4OS+zQ/kbwyjpRRj5C59+22GNcOUI5kNgU6YK4NkGEt9aClYBR55ehOpRp8oEVwTJHFbAIRBHRJZ43MaYVLZ731daacYX8wLX6yj/TT+F+hqrdDPylPcyW0lSmBwba/RF+C122nJv406M1az1NZqhuxA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(346002)(39860400002)(376002)(396003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(36756003)(83380400001)(6512007)(316002)(26005)(2616005)(53546011)(6486002)(38100700002)(8676002)(4326008)(8936002)(66556008)(7416002)(5660300002)(966005)(6666004)(6506007)(478600001)(66476007)(2906002)(44832011)(66946007)(41300700001)(82960400001)(86362001)(31696002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0JuTFpNYjd3a1VGaGtNMllqeElJRWtzVkNaaHZqWG53WUJEUlRPRklQNGI2?=
- =?utf-8?B?dk9RdjBjTWVFY1NtZkVjcG1LbXZLTzBDM1JieUJyYUJZeUI2Si9GRThPYkp5?=
- =?utf-8?B?NWJSY2dQUjRCWWhoY0RZWnd2dGEzQld2bW42bmJGZ0RpRExEaU1jK0dWRGNH?=
- =?utf-8?B?bWE0OTgwYVpIMXFoRnRKVklWai9LOXg0UXVGcFI1OEZjbmxnazFmMDUwdHNi?=
- =?utf-8?B?ZTZ0NU5RWGo3YkdGOStXUXF2Wk1MYmZ6Y3dyQW1aeGt2S05EY0ExL2tpTmxW?=
- =?utf-8?B?N2tzYUdDNjhob21uQ2dNSnk4RnY0TERZeTdNbDFET2Y4WFlBMWxBSlVONXJu?=
- =?utf-8?B?bkIrOWRlZHpnbTNneVVkQXdlalFyY0NQVDBTeFJiV1ByL0V4dVRQWUprTmx2?=
- =?utf-8?B?WU1nd0x1c2VEcTZxNmozL2xpYmJEdGMxMngvbWlmR3VDODU5eTVXOEZENm5s?=
- =?utf-8?B?YU5QZjE1Zmh0eVVCL1NSTmZsOUp1U1QzZi8vak80RCtyWmpRMyswQ0lKdzNY?=
- =?utf-8?B?Z2lrYVNwQ1h0ZDZYdnFtTHJ0NTh3MjVOS3BZdzBCWXNzOTZTSDVRUEd6b1BR?=
- =?utf-8?B?S1dVb0M1ZmpiRDg2YW1QNTRtUUFDenp1K0N0VVAyZWxscGZDTkdlSnJtQUhN?=
- =?utf-8?B?ZzZDaHcwMXFwcEpqQXJhZUMycXdobWVqRXhHQnBLci9qbFJNK0xLSVFvc2pm?=
- =?utf-8?B?MUFFYStxUEJSM0tWTXVQSnZ3czQ2NWEwYWRtNlJUL1NETGJ6MkJUYmFFK2lu?=
- =?utf-8?B?S0FsVVI3MjdWWGhPSmdMZXZjbDdJc0N2OTBwM3hDTGJWU3ExKzNCL0MxWU8x?=
- =?utf-8?B?WWtDditkcnVYZFVIUlB3c3EzZEFxWlBrb2g2VE9FMVdMTGVvTFY5WUg5VEow?=
- =?utf-8?B?My9PeWJLWTJQNG52U2x2L0l6WmNmU3lyZk5LTURJK0R3a21xL1pQY0dZNi9N?=
- =?utf-8?B?RHdyTk8wNGxsVnE5OWphMFlpVEZ4c2ZCQ0l3R3BiQjRqTDljbENCbDdGNy8r?=
- =?utf-8?B?QkJDT3Y2MGhocjdVUkt5Sk1PbWNNWHRFWVJtUEsyYlBPOWcxUFhYdWhpM2xr?=
- =?utf-8?B?MENoa281alFUc2lSZzNINm9IcS9wa1FXanBMdFlaeElLZ0kwS3dDR01pUmdv?=
- =?utf-8?B?bFRCWUVRQnU1WTFKTTQ3YUkzKyt4bjFyS08vM2JTbkd1Uy9YN05QVFRITDRH?=
- =?utf-8?B?NWU5ZldpejY4ZEhsZjRzZkx3NTc2bjd1L3U3RWJZeUs0cDVKTXpKOGxja0ly?=
- =?utf-8?B?ZFA0MjUrL1FjU2RvUi9ESkVqSVE2eFFDVW8za2VnV2pnekZPQWFLQWM2Qm82?=
- =?utf-8?B?ZHRsVkdDWGRub1RaczBNdmJ3U2pQRFQ4NTZvODNwNHVxbVRFV080NTlCSVRI?=
- =?utf-8?B?SmdEN0J1OWZKNXBnNU1vWXMvR3I3cjlmQklSMWNZaHBJQUJWbitWTWQyVlFV?=
- =?utf-8?B?NGtyODc4QWxteVhRQTFKR1g4dTA1b2VwNWxJMmdTck9oeUJiNVQyb20yUEdm?=
- =?utf-8?B?eU55Rjk1YXUzdDdCMG5vS1VDd1pYT2ZwSXR4RVJBVUtTVWZzaFRsOFpsNlNJ?=
- =?utf-8?B?UjRTNjFhT0xidTNtK2UwOHhiWEk4bjJnRmtnQ0RZbkJDMTlmUFJwSkMzNE5N?=
- =?utf-8?B?V0MvRXNULzEwYitFbC9sL1daZDRnSXdpOE81MG9nT0owWHNHcVU4WnJKSEZt?=
- =?utf-8?B?aVoxTXRDT20rTnkzM2Fra3JzUU1mcGpUcnZnZEY0QnYwSk1xQWdDb1VUTW5m?=
- =?utf-8?B?RURuMlA1NFZvdzFrUm8yL2NpVFdWVkJmN3pla2Rac1RiSmFnbytyeUxDL1Mx?=
- =?utf-8?B?UVJKSktSUzF2cHBQVm40L2hpWXZkSGdWTW5lNWZlNllDb0hGY3AycHh5UlNC?=
- =?utf-8?B?SHF0TWw1U2t3cE9jNzZITFRaQUxQaXh2RkszTHRSaC9IMEcyS1BvdlFIQ1Rz?=
- =?utf-8?B?K29yeGdZMmRFdkdwcFpXTWVQOW8rbDNKTWFhUTdqaVYzZU13RjJWLzlMcWV0?=
- =?utf-8?B?M1EzVFQ3NlgrVW5VVTFwNFgyRitPUkRIVGxGeE1MK2E5ZERMVHFQOVQzdTAy?=
- =?utf-8?B?NWxzWkt5WVJBSjl6UXFVNGc1aTU4OTd4d3VkT1JXeXNHT3NBVjNmS2JqL1VL?=
- =?utf-8?B?M1JqLzNlS2tPZ3ptcEZGWmRSYUhwcGRYZEY2bmFQM1J5N042azZEbGlkbE55?=
- =?utf-8?B?dnc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbc45abe-1196-442f-e2ba-08dc13a11845
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2024 19:02:59.9747
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hEB5LsTknklMke20lnFozvPicV8wf04cMgGGDhncQoOVZ+AMnHd1aYCPqSMajjTtiancKIYEu77uUKgFJDbN/gdeElqIqDuE4j8rdFEckzA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7181
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240112125830.3753464-1-vegard.nossum@oracle.com>
 
-Hi Babu,
+On Fri, Jan 12, 2024 at 01:58:30PM +0100, Vegard Nossum wrote:
+> This document was using headings in an odd way, causing the sidebar to be
+> quite messy. I've adding new headings and turned some of the old headings
+> into description lists.
+> 
+> The indentation was a mix of spaces and tabs; I've turned them all into
+> 4 spaces so it always reads correctly regardless of tab settings.
+> 
+> Also use ``...`` instead of `...`; the difference is that `` is meant
+> for "inline literals" (and renders in a monospace font) while ` is for
+> "interpreted text" (and renders with italics).
+> 
+> Also changed the title of the document to be more descriptive.
+> 
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 
-On 1/11/2024 1:36 PM, Babu Moger wrote:
+The output seems reasonable to me.
 
-> @@ -1686,6 +1681,13 @@ static int mon_config_write(struct rdt_resource *r, char *tok, u32 evtid)
->  		return -EINVAL;
->  	}
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+
+> ---
+>  Documentation/kbuild/kconfig.rst | 363 ++++++++++++++-----------------
+>  1 file changed, 166 insertions(+), 197 deletions(-)
+> 
+> diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
+> index c946eb44bd13..fc4e845bc249 100644
+> --- a/Documentation/kbuild/kconfig.rst
+> +++ b/Documentation/kbuild/kconfig.rst
+> @@ -1,10 +1,10 @@
+> -===================
+> -Kconfig make config
+> -===================
+> +=================================
+> +Configuration targets and editors
+> +=================================
 >  
-> +	/* mon_config cannot be more than the supported set of events */
-
-copy&paste error? There is no mon_config in this function. 
-
-(copy&paste difficulties reminds me of [1])
-
-> +	if ((val & hw_res->mbm_cfg_mask) != val) {
-> +		rdt_last_cmd_printf("Invalid event configuration: The maximum valid "
-> +				    "bitmask is 0x%02x\n", hw_res->mbm_cfg_mask);
-
-checkpatch.pl should have warned about this split of text across two lines.
-Logging functions and single strings are allowed to exceed the max line length.
-If you just merge the two lines then checkpatch.pl may still warn for resctrl strings
-but that is because it does not recognize rdt_last_cmd_printf() as a logging function.
-
-You can also just shorten the string so this patch passes the checkpatch.pl check.
-For example,
-"Invalid event configuration: maximum valid mask is 0x%02x\n"
-or
-"Invalid event configuration: maximum is 0x%02x\n"
-or ?
-
-Reinette
-
-[1] https://lore.kernel.org/lkml/cc273d98-d73c-49bd-8799-b119966e226c@amd.com/
+> -This file contains some assistance for using `make *config`.
+> +This file contains some assistance for using ``make *config``.
+>  
+> -Use "make help" to list all of the possible configuration targets.
+> +Use ``make help`` to list all of the possible configuration targets.
+>  
+>  The xconfig ('qconf'), menuconfig ('mconf'), and nconfig ('nconf')
+>  programs also have embedded help text.  Be sure to check that for
+> @@ -12,8 +12,9 @@ navigation, search, and other general help text.
+>  
+>  The gconfig ('gconf') program has limited help text.
+>  
+> +
+>  General
+> --------
+> +=======
+>  
+>  New kernel releases often introduce new config symbols.  Often more
+>  important, new kernel releases may rename config symbols.  When
+> @@ -24,118 +25,102 @@ symbols have been introduced.
+>  
+>  To see a list of new config symbols, use::
+>  
+> -	cp user/some/old.config .config
+> -	make listnewconfig
+> +    cp user/some/old.config .config
+> +    make listnewconfig
+>  
+>  and the config program will list any new symbols, one per line.
+>  
+>  Alternatively, you can use the brute force method::
+>  
+> -	make oldconfig
+> -	scripts/diffconfig .config.old .config | less
+> -
+> -----------------------------------------------------------------------
+> -
+> -Environment variables for `*config`
+> +    make oldconfig
+> +    scripts/diffconfig .config.old .config | less
+>  
+> -KCONFIG_CONFIG
+> ---------------
+> -This environment variable can be used to specify a default kernel config
+> -file name to override the default name of ".config".
+>  
+> -KCONFIG_DEFCONFIG_LIST
+> -----------------------
+> +Environment variables
+> +=====================
+>  
+> -This environment variable specifies a list of config files which can be used
+> -as a base configuration in case the .config does not exist yet. Entries in
+> -the list are separated with whitespaces to each other, and the first one
+> -that exists is used.
+> +Environment variables for ``*config``:
+>  
+> -KCONFIG_OVERWRITECONFIG
+> ------------------------
+> -If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
+> -break symlinks when .config is a symlink to somewhere else.
+> +``KCONFIG_CONFIG``
+> +    This environment variable can be used to specify a default kernel config
+> +    file name to override the default name of ".config".
+>  
+> -KCONFIG_WARN_UNKNOWN_SYMBOLS
+> -----------------------------
+> -This environment variable makes Kconfig warn about all unrecognized
+> -symbols in the config input.
+> +``KCONFIG_DEFCONFIG_LIST``
+> +    This environment variable specifies a list of config files which can be
+> +    used as a base configuration in case the .config does not exist yet.
+> +    Entries in the list are separated with whitespaces to each other, and
+> +    the first one that exists is used.
+>  
+> -KCONFIG_WERROR
+> ---------------
+> -If set, Kconfig treats warnings as errors.
+> +``KCONFIG_OVERWRITECONFIG``
+> +    If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
+> +    break symlinks when .config is a symlink to somewhere else.
+>  
+> -`CONFIG_`
+> ----------
+> -If you set `CONFIG_` in the environment, Kconfig will prefix all symbols
+> -with its value when saving the configuration, instead of using the default,
+> -`CONFIG_`.
+> +``KCONFIG_WARN_UNKNOWN_SYMBOLS``
+> +    This environment variable makes Kconfig warn about all unrecognized
+> +    symbols in the config input.
+>  
+> -----------------------------------------------------------------------
+> +``KCONFIG_WERROR``
+> +    If set, Kconfig treats warnings as errors.
+>  
+> -Environment variables for '{allyes/allmod/allno/rand}config'
+> +``CONFIG_``
+> +    If you set ``CONFIG_`` in the environment, Kconfig will prefix all symbols
+> +    with its value when saving the configuration, instead of using the
+> +    default, ``CONFIG_``.
+>  
+> -KCONFIG_ALLCONFIG
+> ------------------
+> -(partially based on lkml email from/by Rob Landley, re: miniconfig)
+> +Environment variables for ``{allyes/allmod/allno/rand}config``:
+>  
+> ---------------------------------------------------
+> +``KCONFIG_ALLCONFIG``
+> +    The allyesconfig/allmodconfig/allnoconfig/randconfig variants can also
+> +    use the environment variable KCONFIG_ALLCONFIG as a flag or a filename
+> +    that contains config symbols that the user requires to be set to a
+> +    specific value.  If KCONFIG_ALLCONFIG is used without a filename where
+> +    KCONFIG_ALLCONFIG == "" or KCONFIG_ALLCONFIG == "1", ``make *config``
+> +    checks for a file named "all{yes/mod/no/def/random}.config"
+> +    (corresponding to the ``*config`` command that was used) for symbol values
+> +    that are to be forced.  If this file is not found, it checks for a
+> +    file named "all.config" to contain forced values.
+>  
+> -The allyesconfig/allmodconfig/allnoconfig/randconfig variants can also
+> -use the environment variable KCONFIG_ALLCONFIG as a flag or a filename
+> -that contains config symbols that the user requires to be set to a
+> -specific value.  If KCONFIG_ALLCONFIG is used without a filename where
+> -KCONFIG_ALLCONFIG == "" or KCONFIG_ALLCONFIG == "1", `make *config`
+> -checks for a file named "all{yes/mod/no/def/random}.config"
+> -(corresponding to the `*config` command that was used) for symbol values
+> -that are to be forced.  If this file is not found, it checks for a
+> -file named "all.config" to contain forced values.
+> +    This enables you to create "miniature" config (miniconfig) or custom
+> +    config files containing just the config symbols that you are interested
+> +    in.  Then the kernel config system generates the full .config file,
+> +    including symbols of your miniconfig file.
+>  
+> -This enables you to create "miniature" config (miniconfig) or custom
+> -config files containing just the config symbols that you are interested
+> -in.  Then the kernel config system generates the full .config file,
+> -including symbols of your miniconfig file.
+> -
+> -This 'KCONFIG_ALLCONFIG' file is a config file which contains
+> -(usually a subset of all) preset config symbols.  These variable
+> -settings are still subject to normal dependency checks.
+> -
+> -Examples::
+> +    This ``KCONFIG_ALLCONFIG`` file is a config file which contains
+> +    (usually a subset of all) preset config symbols.  These variable
+> +    settings are still subject to normal dependency checks.
+>  
+> -	KCONFIG_ALLCONFIG=custom-notebook.config make allnoconfig
+> +    Examples::
+>  
+> -or::
+> +        KCONFIG_ALLCONFIG=custom-notebook.config make allnoconfig
+>  
+> -	KCONFIG_ALLCONFIG=mini.config make allnoconfig
+> +    or::
+>  
+> -or::
+> +        KCONFIG_ALLCONFIG=mini.config make allnoconfig
+>  
+> -	make KCONFIG_ALLCONFIG=mini.config allnoconfig
+> +    or::
+>  
+> -These examples will disable most options (allnoconfig) but enable or
+> -disable the options that are explicitly listed in the specified
+> -mini-config files.
+> +        make KCONFIG_ALLCONFIG=mini.config allnoconfig
+>  
+> -----------------------------------------------------------------------
+> +    These examples will disable most options (allnoconfig) but enable or
+> +    disable the options that are explicitly listed in the specified
+> +    mini-config files.
+>  
+> -Environment variables for 'randconfig'
+> +Environment variables for ``randconfig``:
+>  
+> -KCONFIG_SEED
+> -------------
+> -You can set this to the integer value used to seed the RNG, if you want
+> -to somehow debug the behaviour of the kconfig parser/frontends.
+> -If not set, the current time will be used.
+> +``KCONFIG_SEED``
+> +    You can set this to the integer value used to seed the RNG, if you want
+> +    to somehow debug the behaviour of the kconfig parser/frontends.
+> +    If not set, the current time will be used.
+>  
+> -KCONFIG_PROBABILITY
+> --------------------
+> -This variable can be used to skew the probabilities. This variable can
+> -be unset or empty, or set to three different formats:
+> +``KCONFIG_PROBABILITY``
+> +    This variable can be used to skew the probabilities. This variable can
+> +    be unset or empty, or set to three different formats:
+>  
+>      =======================     ==================  =====================
+> -	KCONFIG_PROBABILITY     y:n split           y:m:n split
+> +    KCONFIG_PROBABILITY         y:n split           y:m:n split
+>      =======================     ==================  =====================
+> -	unset or empty          50  : 50            33  : 33  : 34
+> -	N                        N  : 100-N         N/2 : N/2 : 100-N
+> +    unset or empty              50  : 50            33  : 33  : 34
+> +    N                            N  : 100-N         N/2 : N/2 : 100-N
+>      [1] N:M                     N+M : 100-(N+M)      N  :  M  : 100-(N+M)
+>      [2] N:M:L                    N  : 100-N          M  :  L  : 100-(M+L)
+>      =======================     ==================  =====================
+> @@ -149,112 +134,98 @@ that:
+>  
+>  Examples::
+>  
+> -	KCONFIG_PROBABILITY=10
+> -		10% of booleans will be set to 'y', 90% to 'n'
+> -		5% of tristates will be set to 'y', 5% to 'm', 90% to 'n'
+> -	KCONFIG_PROBABILITY=15:25
+> -		40% of booleans will be set to 'y', 60% to 'n'
+> -		15% of tristates will be set to 'y', 25% to 'm', 60% to 'n'
+> -	KCONFIG_PROBABILITY=10:15:15
+> -		10% of booleans will be set to 'y', 90% to 'n'
+> -		15% of tristates will be set to 'y', 15% to 'm', 70% to 'n'
+> +    KCONFIG_PROBABILITY=10
+> +        10% of booleans will be set to 'y', 90% to 'n'
+> +        5% of tristates will be set to 'y', 5% to 'm', 90% to 'n'
+> +    KCONFIG_PROBABILITY=15:25
+> +        40% of booleans will be set to 'y', 60% to 'n'
+> +        15% of tristates will be set to 'y', 25% to 'm', 60% to 'n'
+> +    KCONFIG_PROBABILITY=10:15:15
+> +        10% of booleans will be set to 'y', 90% to 'n'
+> +        15% of tristates will be set to 'y', 15% to 'm', 70% to 'n'
+>  
+> -----------------------------------------------------------------------
+> +Environment variables for ``syncconfig``:
+>  
+> -Environment variables for 'syncconfig'
+> +``KCONFIG_NOSILENTUPDATE``
+> +    If this variable has a non-blank value, it prevents silent kernel
+> +    config updates (requires explicit updates).
+>  
+> -KCONFIG_NOSILENTUPDATE
+> -----------------------
+> -If this variable has a non-blank value, it prevents silent kernel
+> -config updates (requires explicit updates).
+> +``KCONFIG_AUTOCONFIG``
+> +    This environment variable can be set to specify the path & name of the
+> +    "auto.conf" file.  Its default value is "include/config/auto.conf".
+>  
+> -KCONFIG_AUTOCONFIG
+> -------------------
+> -This environment variable can be set to specify the path & name of the
+> -"auto.conf" file.  Its default value is "include/config/auto.conf".
+> +``KCONFIG_AUTOHEADER``
+> +    This environment variable can be set to specify the path & name of the
+> +    "autoconf.h" (header) file.
+> +    Its default value is "include/generated/autoconf.h".
+>  
+> -KCONFIG_AUTOHEADER
+> -------------------
+> -This environment variable can be set to specify the path & name of the
+> -"autoconf.h" (header) file.
+> -Its default value is "include/generated/autoconf.h".
+> -
+> -
+> -----------------------------------------------------------------------
+>  
+>  menuconfig
+> -----------
+> -
+> -SEARCHING for CONFIG symbols
+> +==========
+>  
+>  Searching in menuconfig:
+>  
+> -	The Search function searches for kernel configuration symbol
+> -	names, so you have to know something close to what you are
+> -	looking for.
+> +    The Search function searches for kernel configuration symbol
+> +    names, so you have to know something close to what you are
+> +    looking for.
+>  
+> -	Example::
+> +    Example::
+>  
+> -		/hotplug
+> -		This lists all config symbols that contain "hotplug",
+> -		e.g., HOTPLUG_CPU, MEMORY_HOTPLUG.
+> +        /hotplug
+> +        This lists all config symbols that contain "hotplug",
+> +        e.g., HOTPLUG_CPU, MEMORY_HOTPLUG.
+>  
+> -	For search help, enter / followed by TAB-TAB (to highlight
+> -	<Help>) and Enter.  This will tell you that you can also use
+> -	regular expressions (regexes) in the search string, so if you
+> -	are not interested in MEMORY_HOTPLUG, you could try::
+> +    For search help, enter / followed by TAB-TAB (to highlight
+> +    <Help>) and Enter.  This will tell you that you can also use
+> +    regular expressions (regexes) in the search string, so if you
+> +    are not interested in MEMORY_HOTPLUG, you could try::
+>  
+> -		/^hotplug
+> +        /^hotplug
+>  
+> -	When searching, symbols are sorted thus:
+> +    When searching, symbols are sorted thus:
+>  
+> -	  - first, exact matches, sorted alphabetically (an exact match
+> -	    is when the search matches the complete symbol name);
+> -	  - then, other matches, sorted alphabetically.
+> +    - first, exact matches, sorted alphabetically (an exact match
+> +      is when the search matches the complete symbol name);
+> +    - then, other matches, sorted alphabetically.
+>  
+> -	For example: ^ATH.K matches:
+> +    For example, ^ATH.K matches:
+>  
+> -	    ATH5K ATH9K ATH5K_AHB ATH5K_DEBUG [...] ATH6KL ATH6KL_DEBUG
+> -	    [...] ATH9K_AHB ATH9K_BTCOEX_SUPPORT ATH9K_COMMON [...]
+> +        ATH5K ATH9K ATH5K_AHB ATH5K_DEBUG [...] ATH6KL ATH6KL_DEBUG
+> +        [...] ATH9K_AHB ATH9K_BTCOEX_SUPPORT ATH9K_COMMON [...]
+>  
+> -	of which only ATH5K and ATH9K match exactly and so are sorted
+> -	first (and in alphabetical order), then come all other symbols,
+> -	sorted in alphabetical order.
+> +    of which only ATH5K and ATH9K match exactly and so are sorted
+> +    first (and in alphabetical order), then come all other symbols,
+> +    sorted in alphabetical order.
+>  
+> -	In this menu, pressing the key in the (#) prefix will jump
+> -	directly to that location. You will be returned to the current
+> -	search results after exiting this new menu.
+> +    In this menu, pressing the key in the (#) prefix will jump
+> +    directly to that location. You will be returned to the current
+> +    search results after exiting this new menu.
+>  
+> -----------------------------------------------------------------------
+> +User interface options for 'menuconfig':
+>  
+> -User interface options for 'menuconfig'
+> +``MENUCONFIG_COLOR``
+> +    It is possible to select different color themes using the variable
+> +    MENUCONFIG_COLOR.  To select a theme use::
+>  
+> -MENUCONFIG_COLOR
+> -----------------
+> -It is possible to select different color themes using the variable
+> -MENUCONFIG_COLOR.  To select a theme use::
+> +        make MENUCONFIG_COLOR=<theme> menuconfig
+>  
+> -	make MENUCONFIG_COLOR=<theme> menuconfig
+> +    Available themes are::
+>  
+> -Available themes are::
+> +      - mono       => selects colors suitable for monochrome displays
+> +      - blackbg    => selects a color scheme with black background
+> +      - classic    => theme with blue background. The classic look
+> +      - bluetitle  => a LCD friendly version of classic. (default)
+>  
+> -  - mono       => selects colors suitable for monochrome displays
+> -  - blackbg    => selects a color scheme with black background
+> -  - classic    => theme with blue background. The classic look
+> -  - bluetitle  => a LCD friendly version of classic. (default)
+> +``MENUCONFIG_MODE``
+> +    This mode shows all sub-menus in one large tree.
+>  
+> -MENUCONFIG_MODE
+> ----------------
+> -This mode shows all sub-menus in one large tree.
+> +    Example::
+>  
+> -Example::
+> +        make MENUCONFIG_MODE=single_menu menuconfig
+>  
+> -	make MENUCONFIG_MODE=single_menu menuconfig
+> -
+> -----------------------------------------------------------------------
+>  
+>  nconfig
+> --------
+> +=======
+>  
+>  nconfig is an alternate text-based configurator.  It lists function
+>  keys across the bottom of the terminal (window) that execute commands.
+> @@ -266,61 +237,59 @@ Use F1 for Global help or F3 for the Short help menu.
+>  
+>  Searching in nconfig:
+>  
+> -	You can search either in the menu entry "prompt" strings
+> -	or in the configuration symbols.
+> +    You can search either in the menu entry "prompt" strings
+> +    or in the configuration symbols.
+> +
+> +    Use / to begin a search through the menu entries.  This does
+> +    not support regular expressions.  Use <Down> or <Up> for
+> +    Next hit and Previous hit, respectively.  Use <Esc> to
+> +    terminate the search mode.
+>  
+> -	Use / to begin a search through the menu entries.  This does
+> -	not support regular expressions.  Use <Down> or <Up> for
+> -	Next hit and Previous hit, respectively.  Use <Esc> to
+> -	terminate the search mode.
+> +    F8 (SymSearch) searches the configuration symbols for the
+> +    given string or regular expression (regex).
+>  
+> -	F8 (SymSearch) searches the configuration symbols for the
+> -	given string or regular expression (regex).
+> +    In the SymSearch, pressing the key in the (#) prefix will
+> +    jump directly to that location. You will be returned to the
+> +    current search results after exiting this new menu.
+>  
+> -	In the SymSearch, pressing the key in the (#) prefix will
+> -	jump directly to that location. You will be returned to the
+> -	current search results after exiting this new menu.
+> +Environment variables:
+>  
+> -NCONFIG_MODE
+> -------------
+> -This mode shows all sub-menus in one large tree.
+> +``NCONFIG_MODE``
+> +    This mode shows all sub-menus in one large tree.
+>  
+> -Example::
+> +    Example::
+>  
+> -	make NCONFIG_MODE=single_menu nconfig
+> +        make NCONFIG_MODE=single_menu nconfig
+>  
+> -----------------------------------------------------------------------
+>  
+>  xconfig
+> --------
+> +=======
+>  
+>  Searching in xconfig:
+>  
+> -	The Search function searches for kernel configuration symbol
+> -	names, so you have to know something close to what you are
+> -	looking for.
+> -
+> -	Example::
+> +    The Search function searches for kernel configuration symbol
+> +    names, so you have to know something close to what you are
+> +    looking for.
+>  
+> -		Ctrl-F hotplug
+> +    Example::
+>  
+> -	or::
+> +        Ctrl-F hotplug
+>  
+> -		Menu: File, Search, hotplug
+> +    or::
+>  
+> -	lists all config symbol entries that contain "hotplug" in
+> -	the symbol name.  In this Search dialog, you may change the
+> -	config setting for any of the entries that are not grayed out.
+> -	You can also enter a different search string without having
+> -	to return to the main menu.
+> +        Menu: File, Search, hotplug
+>  
+> +    lists all config symbol entries that contain "hotplug" in
+> +    the symbol name.  In this Search dialog, you may change the
+> +    config setting for any of the entries that are not grayed out.
+> +    You can also enter a different search string without having
+> +    to return to the main menu.
+>  
+> -----------------------------------------------------------------------
+>  
+>  gconfig
+> --------
+> +=======
+>  
+>  Searching in gconfig:
+>  
+> -	There is no search command in gconfig.  However, gconfig does
+> -	have several different viewing choices, modes, and options.
+> +    There is no search command in gconfig.  However, gconfig does
+> +    have several different viewing choices, modes, and options.
+> -- 
+> 2.34.1
+> 
