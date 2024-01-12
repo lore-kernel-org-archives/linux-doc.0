@@ -1,139 +1,185 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2063.outbound.protection.outlook.com [40.107.223.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4705168CB
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jan 2024 20:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BF5168CC;
+	Fri, 12 Jan 2024 20:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1pgyGpfI"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cd0f4f306fso81240351fa.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jan 2024 12:09:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1705090163; x=1705694963; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KODDiTlCYJz8VsTSh5FfV19+LAJgiCFhCmKp66prebs=;
-        b=1pgyGpfIAUmtnVrgG2GiS1Bcof5zE5Ypo1c3vuQAugjD8jxG2OHBuff3dtj+ym2LH0
-         FyP5ZZQlcse7lt4saVLhFZJnH20xpgYueXwZRK49kgnypWa8l+DNsKR8rLntNZWmtm50
-         1vCV7vhpCi6J2vBeOIV5HevYJ7O6yLbLpUBa4QHyOaCFwZqjOHMOEd/xH5TtvwKBYdyy
-         5chv0NuZ2RvA/o7RxNiyUpRS33VLb5WRuWqAZJgmkrdVYWta5/d1v27v7KGJsTdZ50Tn
-         t43+45eMxxreA8nIsx+tkvVAER788TIkVyNrz5pvRncAJXBlH1e7znPk9fzwTwt+BVCh
-         zMog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705090163; x=1705694963;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KODDiTlCYJz8VsTSh5FfV19+LAJgiCFhCmKp66prebs=;
-        b=exTLjCEWS+tpjPbN4PSffvdI2nkIMIutIHT6U+rqz/Kx2NHONzUasb+whNmaUL9kok
-         INuInLVJAc8klnpd/OQlE4cftO4KVP13whTfZ7+PMMDPA4bhAIu2R/kNFUFVg4nRXssy
-         6Y58ILha+d6nzMs0aEPpGLMk8mP/guSjn5Wt4OEmO/7tHcvfM3LVzJ+itaXzslzBe25/
-         DWlWyjWYffla5mrliGixVWPa++s9dgj+WQ3kbXXbXKLhB6MYOs3cxbAHzZ5EIdRVisLc
-         8EV/i1twkfecDGpUkkwEFlofkc1Ij7+XNXyMgQlN9TOlKfWf1yg+ykGNOOYb0v8klS+V
-         Wk+Q==
-X-Gm-Message-State: AOJu0YwU1ZFeypEx7fnqM2QR8/Y88EHsyKT1gcXIBz0CFUZj0OtyPNj0
-	q0/7/QJmz/dAUjDM1aWLRz4cBhlpED73xMl9jlQTl9KxzuPz8w==
-X-Google-Smtp-Source: AGHT+IGEuMOKDSkYS95xvat9jZtpVVIWQ7N5qewHjvbrG746DxH65fTxGieC8qJkBQ+ThV+voOiRxrp6c9DBjmLGD8c=
-X-Received: by 2002:a2e:7813:0:b0:2cd:85b9:5815 with SMTP id
- t19-20020a2e7813000000b002cd85b95815mr890369ljc.42.1705090162684; Fri, 12 Jan
- 2024 12:09:22 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="RHiEW1FA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i2xNGFAU0UBAG2H6nQoBoiR8fJBsA8TRgfsYGXNzdtElfN1TbFZtOwAbif+629c6hrWZ90Rd12HgUCZ2Op/mWDny8TJm6F6fWyBdYPd7m79mmGnKYUcNVpi0QVFes9BM7QefszyfY6aqyMt/vnAvvV/X+yyxcXun03IY+hksOe1vQT9eeiENuIAmcHxj0O6D2473cJB0p2sM6+oJlqV78GKqWYpEUJfRaXYgzroqGXFLqZvMlv4bt5BHgzRxu45cKcHpR2X2PDW5JnMc2E0UGvjIbx+/0xW5JiPEIVwn2506rKHIXFi/4Zr5IrTh5QlnX2COrzM2d2h0+csOIH1NEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tOyc7CG0rhRV5kMQpUgr+WYQqD83C4DKg3DTMgJLmbc=;
+ b=MV5SeE6p2FUtcz96iar0B+7LFvcgvRUvlSXR1cs+RaXcaahMJyk9BzU1m3haGFdOFOBVlLdWTZjJ75dTWRVimTfdZMSdQ+kbbYYkY2+zWu8wEP/or0ihgkoqoZ8sZF46eohdhnqjdsN6pU02ThC8vdoKJ3ZFXI+VyuT7uxcr2mnI6GMoGtWcXPezFoA3GBR07984sXzfcD8psSELEtymOj+T1CD6Qq9XNoq+jUK5zOrfy44p3wWFnvD8y9s7TG36E0fJwyL/NpPqykLVwH9ZrKirDy1sSMa0mUfpzPN2tgk+/CTywYYtxVPUmscrc4I4wXQ4+e/4ak63flCl1E8fWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tOyc7CG0rhRV5kMQpUgr+WYQqD83C4DKg3DTMgJLmbc=;
+ b=RHiEW1FAEum5BV4cz7P84h7SitI+pKWOYC/SPrDuh596JX2nM6kZJphldNHTsdEKXPJ8YXpJmtQ1u3yGhbNJLt4a3vQ0yZpCYxFGkAfHn8tfEPTHlIe7F8Dj1Ps5yPneB4UVODRfLrakb7188xXzm8T6f2s3eveH9LLj0oW1Qlo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by MW3PR12MB4460.namprd12.prod.outlook.com (2603:10b6:303:2f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.21; Fri, 12 Jan
+ 2024 20:38:30 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::f1ae:6833:99e2:9dd4]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::f1ae:6833:99e2:9dd4%6]) with mapi id 15.20.7181.020; Fri, 12 Jan 2024
+ 20:38:27 +0000
+Message-ID: <3bd2a660-82fd-51fe-f7cd-492908d90ca7@amd.com>
+Date: Fri, 12 Jan 2024 14:38:22 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v4 2/2] x86/resctrl: Read supported bandwidth sources
+ using CPUID command
+Content-Language: en-US
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, seanjc@google.com,
+ kim.phillips@amd.com, jmattson@google.com, ilpo.jarvinen@linux.intel.com,
+ jithu.joseph@intel.com, kan.liang@linux.intel.com, nikunj@amd.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
+ rick.p.edgecombe@intel.com, rppt@kernel.org,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, peternewman@google.com,
+ dhagiani@amd.com
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <ba1305bf2a29ce2667d01cf997718126a7ea607b.1705009003.git.babu.moger@amd.com>
+ <4c5bb5ac-1e84-4021-845d-cafea5a1fbde@intel.com>
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <4c5bb5ac-1e84-4021-845d-cafea5a1fbde@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN7PR04CA0113.namprd04.prod.outlook.com
+ (2603:10b6:806:122::28) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
- <20240109-axi-spi-engine-series-3-v1-1-e42c6a986580@baylibre.com>
- <2c74aad9-3cb9-4222-8072-e72120c2658e@sirena.org.uk> <CAMknhBGMRed9vDrDAuPJ5DnEe6MyHzd0VBebp5OaLX2Q+AyhMQ@mail.gmail.com>
- <CAMknhBE-1Khe9J-n5WQnH=mFnN0ukiq7=F-SEOU6J-2_u-R0bw@mail.gmail.com>
-In-Reply-To: <CAMknhBE-1Khe9J-n5WQnH=mFnN0ukiq7=F-SEOU6J-2_u-R0bw@mail.gmail.com>
-From: David Lechner <dlechner@baylibre.com>
-Date: Fri, 12 Jan 2024 14:09:11 -0600
-Message-ID: <CAMknhBGzOFnMnpt7B8iHd9VwWA-_zFVdiswDUAheovrHXyAv=Q@mail.gmail.com>
-Subject: Re: [PATCH 01/13] spi: add core support for controllers with offload capabilities
-To: Mark Brown <broonie@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Frank Rowand <frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-spi@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Jander <david@protonic.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MW3PR12MB4460:EE_
+X-MS-Office365-Filtering-Correlation-Id: faf8bb09-4fea-4279-b9c8-08dc13ae6e4c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	qnB+7b/6Zkkgg/zaotQWjduE/M9/RPF1Y1QS3NJNtRlmwRAdYNYjFE0rf8ATSrEX/JlEcvR20EcxfaRbxuJJEfJp0lPiXhL2DoPM/f174/SmiBzhCnaGlInXmK4QZLKQqQI9Ox5R51B3g0U7thnC++2ZeJz42cTefjjIquKJ0aNgvrwaeTCSSXHkUiy3r0tAtF3yYw1PQQscUIRSqHJTbWlvQkcF7xHVaTYg8B1wnfNwf/dgsT4huPD4/vDHiwIfVy7rGUH00VlKPtegus7tOcIDMG16jmZjq85TY4BUnLtux7F63dzn4Z4qsV4Qrz9N4dJK7oD95UnuOK1ks1giGOAAbsj8TD75LocnAZ+W3tCkjLF/QMAvpbn+dsjGWvvAG1L5icSuYACqnrwLS3q7WMUfv5L++8H1nt9DePnDmvFhZntT7EZ6iWffqgpIl+vyZ0rJFAM+ahNjqPrumVy+w73iTpb3TmVJ2RjcyaBcYn4tvADUIMmQJPBD43NNoRuruhQcARy8DnyQOpXf5ZHPhNpCljRIQTM90YoLWcQAmUVs0mZv5+pUkf31DnL2uz6gW21s8XtmbXBKoF2Lp+Kxaoig1+58c0gHGFLKr15Oh9Y/vIegODw3NwRpEhCnOJBKI5tgRcDtl7alfU6UmM+GPg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(396003)(366004)(39860400002)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(83380400001)(53546011)(2616005)(38100700002)(26005)(6512007)(6666004)(4326008)(5660300002)(8676002)(8936002)(66556008)(41300700001)(7416002)(2906002)(478600001)(966005)(6486002)(6506007)(66476007)(316002)(66946007)(110136005)(36756003)(31696002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?N3BNODAzdHNVMzIrbnJQc2JIQjZoeTRnTXNoMnd2QUJUOXU5Nk5HSVk3eDJp?=
+ =?utf-8?B?aHBST1o5QkV6eVNBeU8wN3Bway9HVWNQYUNrUHplZnpCeWxHMHhVQ0xyRGtw?=
+ =?utf-8?B?WUZwb0FRclJ3d2lMYkU5RVd2UjRXQWNWS01oZFM5RUVabU83eVByU3dEQ1du?=
+ =?utf-8?B?WWdSZ2dWMG5PNFFvZnIzak5USmZ5QTg4SVFVNWNHa1FldS9SaVJnZXBnUjB6?=
+ =?utf-8?B?Q0RGelZLZ3Q4aEl3MlhsYUFsbUdleVovQ0JJcndkODk5aWhVbXRtb1dGS3JV?=
+ =?utf-8?B?YmhTaVNJelE2dS9TUkxFOW1jd0FiRnAwQythd2ZNNk9VN2Y2Ymo5UFRoT1F2?=
+ =?utf-8?B?dHc4Q0FWL1F0bkVZVzBnbnFtMFBiakFWMmhUS21Wc3V3d0p5YzBaTStqYk5r?=
+ =?utf-8?B?clU3elliUVNQNXJsK0F2L3N6cWdnUmo3SWsyNHAwMkRDZzdHdmJuUTl6ZzJ4?=
+ =?utf-8?B?NTNwUTEvWEZCaVhMU1hjWTc4YVhFS0Y2VThlNEVEOElOK0hnN0hkQ2tQMkUv?=
+ =?utf-8?B?ckxGMXJ2Z2dVVjV2ZGNwalJST0FwVm9EMjdsOTBxeGhzeHJldWRRSVpXd1VP?=
+ =?utf-8?B?SU9lNjZlUVlaVUJHelFxNFdTNU15WWllbnZ4RWhEbHVwOWpsMkppTXRtWm9q?=
+ =?utf-8?B?Z0poakt6amcyYlBMZmJ1MFhmanFiQ25oZzVlenNYU0tyYmZCalBreFhrbWkz?=
+ =?utf-8?B?RFJUaVFYNmp4NXJNL0NlRkRIWkJRSVEybC8rUVBZOVBueHpPVlJicGJVdUZS?=
+ =?utf-8?B?TDB4c3MvZmVqcXA3RVJCUFpzMmdiMTFzanl2cjdOL3A2OFhkS3BkeWJYRGVD?=
+ =?utf-8?B?TVNoejZLNCtCT3I2a0N4QVAvcmMrcEVkZVFxVzBJOTJpTkxOSUZPVEU4RDBL?=
+ =?utf-8?B?WTBYVTgxbjM3V3JGMW84d3BLK3YxNDJaZVBGRXhNclI0RStLZHFwNFVOMEcz?=
+ =?utf-8?B?blUyY3dJeEY3bWVUeVRheWVtNmJ6V0lVYVNLL1dZSFNrdS9Bb0NLdEg3KzhO?=
+ =?utf-8?B?Qng1UmxGRFcrTVh2NzEydCt4WWNHM0tWUlZoVkpmbXg5cDFwSWlibzVYR1JJ?=
+ =?utf-8?B?bk0wMTAzNWVrMW14U2xLdUgvWGVEeEJUN1Q5U2tWUFBSWk1peFRMRzROY2lk?=
+ =?utf-8?B?M2VVNFgzM1UyREhBYi9uUXpnTlpUajY3TEsxV1M5MXl3QzQ2SFJFZ0MrQXhT?=
+ =?utf-8?B?dmlRSzQwWEx4a1ZRQWg5S3BSMFBEVUpZSUVNcDhpNHVGc2tLek1DQkFpTGZX?=
+ =?utf-8?B?ZmRKdU5oSzhlZ01yQ2VHckRyd1FEdHNmRjEwNVZQUjRXYnhGby9HYnlsTFlF?=
+ =?utf-8?B?VXhRZ3pEVU1qSWF0WVZxdkdUL0RhbGg5Nkl2Zjhkc0hWL3BSZmp5S3orUGRz?=
+ =?utf-8?B?d00zdnBMT2h5ZERKL01uL09tRWNOeHZLRGRsQ2lDRlNHUnEzOUdlN2dlZDBv?=
+ =?utf-8?B?V25sZzdvdkxpN0c4ajNEbW9DMDdPVkJNN0xTQWpwMGRpVGtEdTJzd2ZQNzdz?=
+ =?utf-8?B?VlZ2WUFMR1Avb2xsZi9MTjJ2VXhya2dZUkY2ZWpQTjBYL04wVW1QdTVWOGNy?=
+ =?utf-8?B?UVE2NFFVc1ZlNU5lcnFnZFl1MUdialRScEtxTkVTZWZsMEUrLytZbWZTcTNl?=
+ =?utf-8?B?SmJjWDFyekwxeXAybkhFS3BFU25JelgzWS9UdC9ZdXJkeTNsTnRwMkZWcEVm?=
+ =?utf-8?B?SzZiUzF4c0wrMHZqQzEzRnZPTis5emRsdkFnc3pWZnlmOWpCdmowZC92MktO?=
+ =?utf-8?B?ZGNnajFTRDZmc1I5U2JVMmtFM1J0bWxqWjVBVXB6LzhTaUpVSG83RnBySHZq?=
+ =?utf-8?B?Q1U3MGRtclkrdlIrVmRFS1Y1UHFlNWVMeHlnMkN0NjBvc2RxcUVjczYvQWgx?=
+ =?utf-8?B?WVo4emtDOWdtenVoWGEwalIyNFZOMUpBZVhYdHRWdU84empNVjN2SDdub01K?=
+ =?utf-8?B?OWJSbTNnVzJVWllSUEQ5cDREUmlKU2FEbEtsN2RremdoL3p4TzFYcThoYmZ3?=
+ =?utf-8?B?S0lpeFh3eVIxMmVCUUFYZUxCU3BiSElkejFGcS95K2Y3VTViTkQ4OW41TE0z?=
+ =?utf-8?B?QnZQMWp0U2ZqdmpPTzlTRERiMTF2dVJGaGtBRW9yNVNwNnRrVnNSRHNQZ054?=
+ =?utf-8?Q?g/kUWZ5A7G5R61jVogQj3nLmx?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: faf8bb09-4fea-4279-b9c8-08dc13ae6e4c
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2024 20:38:27.6826
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: s3xeYlf8is9SbYM6rabzJygRx/4Am+xgXmvcQYQFC4hv/t8iH9nm9ELPRjLR/ds0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4460
 
-On Thu, Jan 11, 2024 at 3:32=E2=80=AFPM David Lechner <dlechner@baylibre.co=
-m> wrote:
->
-> On Thu, Jan 11, 2024 at 2:54=E2=80=AFPM David Lechner <dlechner@baylibre.=
-com> wrote:
-> >
-> > On Wed, Jan 10, 2024 at 3:36=E2=80=AFPM Mark Brown <broonie@kernel.org>=
- wrote:
-> > >
-> > > On Wed, Jan 10, 2024 at 01:49:42PM -0600, David Lechner wrote:
-> > > > This adds a feature for specialized SPI controllers that can record
-> > > > a series of SPI transfers, including tx data, cs assertions, delays=
-,
-> > > > etc. and then play them back using a hardware trigger without CPU
-> > > > intervention.
-> > >
-> > > > The intended use case for this is with the AXI SPI Engine to captur=
-e
-> > > > data from ADCs at high rates (MSPS) with a stable sample period.
-> > >
-> > > > Most of the implementation is controller-specific and will be handl=
-ed by
-> > > > drivers that implement the offload_ops callbacks. The API follows a
-> > > > prepare/enable pattern that should be familiar to users of the clk
-> > > > subsystem.
-> > >
-> > > This is a lot to do in one go, and I think it's a bit too off on the
-> > > side and unintegrated with the core.  There's two very high level bit=
-s
-> > > here, there's the pre-cooking a message for offloading to be executed=
- by
-> > > a hardware engine and there's the bit where that's triggered by some
-> > > hardwar event rather than by software.
-> > >
-> > > There was a bunch of discussion of the former case with David Jander
-> >
-> > I found [1] which appears to be the conversation you are referring to.
-> > Is that all or is there more that I missed?
-> >
-> > [1]: https://lore.kernel.org/linux-spi/20220512163445.6dcca126@erd992/
-> >
-> > > (CCed) a while back when he was doing all the work he did on optimisi=
-ng
-> > > the core for uncontended uses, the thinking there was to have a
-> > > spi_prepare_message() (or similar) API that drivers could call and th=
-en
-> > > reuse the same transfer repeatedly, and even without any interface fo=
-r
-> > > client drivers it's likely that we'd be able to take advantage of it =
-in
-> > > the core for multi-transfer messages.  I'd be surprised if there were=
-n't
-> > > wins when the message goes over the DMA copybreak size.  A much wider
-> > > range of hardware would be able to do this bit, for example David's c=
-ase
-> > > was a Raspberry Pi using the DMA controller to write into the SPI
->
-> For those, following along, it looks like the RPi business was
-> actually a 2013 discussion with Martin Sperl [2]. Both this and [1]
-> discuss proposed spi_prepare_message() APIs.
->
-> [2]: https://lore.kernel.org/linux-spi/CACRpkdb4mn_Hxg=3D3tuBu89n6eyJ082E=
-ETkwtNbzZDFZYTHbVVg@mail.gmail.com/T/#u
+Hi  Reinette,
 
-I found one more. A patch from Martin with the basic proposed API but
-not much in the way of implementation. It looks like this is where the
-idea fizzled out.
+On 1/12/2024 1:02 PM, Reinette Chatre wrote:
+> Hi Babu,
+>
+> On 1/11/2024 1:36 PM, Babu Moger wrote:
+>
+>> @@ -1686,6 +1681,13 @@ static int mon_config_write(struct rdt_resource *r, char *tok, u32 evtid)
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> +	/* mon_config cannot be more than the supported set of events */
+> copy&paste error? There is no mon_config in this function.
+Yea. it should be mbm_cfg_mask.  Will fix it.
+>
+> (copy&paste difficulties reminds me of [1])
+>
+>> +	if ((val & hw_res->mbm_cfg_mask) != val) {
+>> +		rdt_last_cmd_printf("Invalid event configuration: The maximum valid "
+>> +				    "bitmask is 0x%02x\n", hw_res->mbm_cfg_mask);
+> checkpatch.pl should have warned about this split of text across two lines.
+> Logging functions and single strings are allowed to exceed the max line length.
+> If you just merge the two lines then checkpatch.pl may still warn for resctrl strings
+> but that is because it does not recognize rdt_last_cmd_printf() as a logging function.
+>
+> You can also just shorten the string so this patch passes the checkpatch.pl check.
+> For example,
+> "Invalid event configuration: maximum valid mask is 0x%02x\n"
+> or
+> "Invalid event configuration: maximum is 0x%02x\n"
+> or ?
 
-https://lore.kernel.org/linux-spi/0C7D5B1E-E561-4F52-BEA8-572EB0CA26A6@mart=
-in.sperl.org/
+Yes. Checkpatch reported error when I split the text.
+
+How about this?. Checkpatch is happy.
+
+rdt_last_cmd_printf("Invalid event configuration: max valid mask is 
+0x%02x\n",
++                                   hw_res->mbm_cfg_mask);
+
+>
+> Reinette
+>
+> [1] https://lore.kernel.org/lkml/cc273d98-d73c-49bd-8799-b119966e226c@amd.com/
+
+We spent quite a bit of time on this earlier. Yea. It did not go the way 
+I wanted it. Now, I needed to get back to higher priority tasks.  Will 
+pick it up once, I am done with current priorities.
+
+Thanks
+
+Babu
+
+
