@@ -1,133 +1,86 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5425FA3F;
-	Fri, 12 Jan 2024 01:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6671A139F;
+	Fri, 12 Jan 2024 02:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ru6YBIHM"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d4a2526a7eso36039675ad.3;
-        Thu, 11 Jan 2024 17:03:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705021394; x=1705626194; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=j3XdDa+qFVErTyo59RgwEE3EAEc/YkpJSsj4wu519lQ=;
-        b=Ru6YBIHMoDsVVICzEcoGXLAbRh7sg8/c+cP0l4Cv+9MJOWe5d/gBv+FVkcYWWCAzz+
-         xyMDfKVE8hIaXGx8tjsC6Jw1zxZrd82ryzj4VaFp8pDvjozR8SSry3y8xhZspVG+GAaz
-         5cPJzjbLS+KH3vBNRqn66c9cj11jXnNINxbsOav1Ov6sST5A+xE+4uOgIBY+F/PN9kUW
-         r1xvsDusyCJmgfngnHhhFXidkvMjp32Z3jNiE+EVYcIC6dWNjrL2ITPICRtr4j3EoShC
-         jtl3G0U4DEyZrLGcB4ElJyRym+swDkurBNzxY1UGHGk64CQW84UgMQzQosiI5SSNJHGk
-         ZERQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705021394; x=1705626194;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j3XdDa+qFVErTyo59RgwEE3EAEc/YkpJSsj4wu519lQ=;
-        b=HlsjwD7p9J9aXNX5+voR4F2eJQgJmrVoUDKrcpomUuG8yMvDEs70yXR1k3P6ES+C2T
-         AiDO2fk2JhPYPWvLJvPdcrCYwGYAs2l8qwm26RQTIaxD8LOSlja78mOcjyQbKb0JYizg
-         M3EvVuoWeR6qqX9MJbxhb87GsD3ZAxkkeu3NCJGw6W7tugSVjB+rPcj4SM1Q9XG7X6wR
-         sh9faE1KjkUfiYmR4Ahm+PLZuGHTCXRofnmMyfNodqXllQTJM+WWz9czZnoeV8i/B3uJ
-         t94CmgFQMnVn8yAn4V/lzvOeIbNM6T8f7CHKUTMWUhmgoHKBkh4VOCuMqZ6nkGXF6MnI
-         Qypg==
-X-Gm-Message-State: AOJu0YxmSHQSTvJYhVCcuuFeY9/8NGIlGIVkwbYBk9A5ZSNOCAMdKe+i
-	HiqRoIcqddCBKYupfgLM56w=
-X-Google-Smtp-Source: AGHT+IEVufCYK4XkGA+x0XxKaYdgBgJ1EHmTgS+OCBtj5Sb48/s3juO/VS4mnC9bLigBvtWJ5O3uEw==
-X-Received: by 2002:a17:902:f814:b0:1d4:35ad:41cd with SMTP id ix20-20020a170902f81400b001d435ad41cdmr137992plb.108.1705021393591;
-        Thu, 11 Jan 2024 17:03:13 -0800 (PST)
-Received: from rigel (60-241-235-125.tpgi.com.au. [60.241.235.125])
-        by smtp.gmail.com with ESMTPSA id kz15-20020a170902f9cf00b001d4bcf6cc43sm1825060plb.81.2024.01.11.17.03.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 17:03:13 -0800 (PST)
-Date: Fri, 12 Jan 2024 09:03:07 +0800
-From: Kent Gibson <warthog618@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-	brgl@bgdev.pl, linus.walleij@linaro.org, andy@kernel.org,
-	corbet@lwn.net
-Subject: Re: [PATCH 0/7] Documentation: gpio: add character device userspace
- API documentation
-Message-ID: <20240112010307.GA9794@rigel>
-References: <20240109135952.77458-1-warthog618@gmail.com>
- <CAHp75Ve05bAK-ehZZ7XSci5VqR18cCb=hgnbFKXwy2QPkxo=pw@mail.gmail.com>
- <20240109234518.GA7839@rigel>
- <9e33f7dc-deee-4165-bc10-ad77f38b270a@oracle.com>
- <CAHp75Vc8UN2kyxGtV0tCF+xcRLAxg0qijTvHWXXtdTA9nY-h3w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wn33nrLr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705026022; x=1736562022;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vduSvG1spMcM8XC+Oa8IuX9EfaEq9mz0+QWjIzSSm30=;
+  b=Wn33nrLrwlrtr9EfRWTIE2+MRRW+HpmqtEpbnrl0xgE/XQTL3iHDxalb
+   vEshEMt3NNOeLaq3BQaqHNVk/AR1FFxmaBeG/bUZbiEE3S3ov2G+Bcbek
+   IbKaZMIhOfHZv6P9tKnTVTvwbD4cR8ZLJl+zcWq/myKmaogzUc1Vj3x7R
+   W1OOtMWC8rqU04RfzYeMph1eX9CnCiIhYHjROh7I7RrzVGgEHOfZYZrur
+   6y0iRe2c0C027rZsB8gLokZ2A+wTJD4Qu7oaIX+Gwi7B134+1vWTlZ4ty
+   7Uz9KzopjOx1DAgcZMJ7Nbth3IEFaSDpG3Pm3/2gs8DNHrKeiCp2eCmap
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10950"; a="20529852"
+X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
+   d="scan'208";a="20529852"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2024 18:20:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,188,1695711600"; 
+   d="scan'208";a="31226295"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 11 Jan 2024 18:20:19 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rO79a-0008x0-0L;
+	Fri, 12 Jan 2024 02:20:14 +0000
+Date: Fri, 12 Jan 2024 10:20:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luca Coelho <luciano.coelho@intel.com>, linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING:
+ Unknown directive type "c:namespace-push".
+Message-ID: <202401121027.s5YQjxIq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75Vc8UN2kyxGtV0tCF+xcRLAxg0qijTvHWXXtdTA9nY-h3w@mail.gmail.com>
 
-On Wed, Jan 10, 2024 at 01:10:51PM +0200, Andy Shevchenko wrote:
-> On Wed, Jan 10, 2024 at 10:16 AM Vegard Nossum <vegard.nossum@oracle.com> wrote:
-> > On 10/01/2024 00:45, Kent Gibson wrote:
-> > > On Tue, Jan 09, 2024 at 10:00:26PM +0200, Andy Shevchenko wrote:
-> > >> On Tue, Jan 9, 2024 at 4:00 PM Kent Gibson <warthog618@gmail.com> wrote:
-> > >>
-> > >> May we actually state in the documentation that sysfs is subject to
-> > >> remove at some point?
-> > >
-> > > So formally define what "deprecated" means?
-> > > Is that covered in the higher level documentation somewhere?
-> > > If so I'm more than happy to provide a reference.
-> >
-> > We have a few files that may be relevant here, that I'm aware of:
-> >
-> > 1) https://docs.kernel.org/admin-guide/sysfs-rules.html
-> >
-> > documents some general assumptions that userspace can make about the
-> > stability of sysfs and its files
-> >
-> > 2) https://docs.kernel.org/admin-guide/abi.html
-> >
-> > This is the public-facing, somewhat machine-readable repository of what
-> > is supposed to be the kernel's ABI/API, including "obsolete" and
-> > "removed" interfaces.
-> >
-> > 3) Documentation/ABI/README
-> >
-> > describes the process of deprecating an interface
->
-> Yes and GPIO currently is under obsolete section with also this:
->
-> "This ABI is deprecated and will be removed after 2020. It is replaced
-> with the GPIO character device."
->
-> https://docs.kernel.org/admin-guide/abi-obsolete.html#symbols-under-sys-class
->
-> So, proposed cleanup series should probably rely on this documentation
-> among other existing descriptions of sysfs GPIO.
->
+Hi Jani,
 
-The sysfs doc already references the doc (sysfs-gpio) that generates the
-HTML that link points to, so not sure what to change.
-I can't include a direct reference to the HTML, AFAICT, as that HTML is
-generated using kernel-abi makefile magic so the usual doc path
-cross-references don't work - you just get the path as plain text.
+FYI, the error/warning still remains.
 
-If there is some way to provide a cross-reference that generates to that
-link then I'll change it, but I don't know how.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   22d29f1112c85c1ad519a8c0403f7f7289cf060c
+commit: f6757dfcfde722fdeaee371b66f63d7eb61dd7e4 drm/doc: fix duplicate declaration warning
+date:   7 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20240112/202401121027.s5YQjxIq-lkp@intel.com/reproduce)
 
->>> +    -  -  ``EFAULT``
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401121027.s5YQjxIq-lkp@intel.com/
 
-> Wondering if these constants can be referenced via % and if it makes sense.
+All warnings (new ones prefixed by >>):
 
-That would be great and I do want to do that, particularly for the
-uAPI v1 docs that use a lot of consts rather than enums, but, AFAICT, you
-can't create cross-references for consts, you can only add formatting[1].
-And the % formatting only works in kernel-doc, in rst you have to add it
-explicitly yourself, hence the ``EFAULT`` .
+>> Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING: Unknown directive type "c:namespace-push".
+>> Documentation/gpu/rfc/i915_scheduler.rst:143: WARNING: Unknown directive type "c:namespace-pop".
 
-Cheers,
-Kent.
-[1] https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#highlights-and-cross-references
+vim +138 Documentation/gpu/rfc/i915_scheduler.rst
+
+   137	
+ > 138	.. c:namespace-push:: rfc
+   139	
+   140	.. kernel-doc:: include/uapi/drm/i915_drm.h
+   141	        :functions: i915_context_engines_parallel_submit
+   142	
+ > 143	.. c:namespace-pop::
+   144	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
