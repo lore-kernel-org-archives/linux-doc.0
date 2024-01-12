@@ -1,133 +1,71 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C5B2628C;
-	Fri, 12 Jan 2024 12:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XM6uPadc"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40CC6fOQ003010;
-	Fri, 12 Jan 2024 12:09:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=66LdFZreVqMtSudFje/nZyapLdRBndBormF4G6m3pEs=;
- b=XM6uPadcEn0BRrH7oJaN/iiho5r0UC/XPtERRSe+joLCEERz1iWQOhRfhJljRUiNvDmO
- 6QSxa4fO3v1l2FP08ensTp0dybLrUAF6+o52rXo0RTeDuRqWUv77oS+efEXg2kgmN7Gk
- /jl7+pOG06YLOUk5NAcIUQF6pYe6elY6cmFQpNvOMn5yqztVFrznVtPIiQK3hvHv/Lhi
- ytq5xM2o1WsAdXW5+fxJD7SxoT3pdkhjHnhhU2kYVyM/PTUEHqkj97UctgdRsRL/3q8E
- WyuyikO6eEY3FZ1zHdZLUWE9p/YoIF4yQ+85w2V7drTU2j5JMQ6IlxUCqydQrTRv7/aO OQ== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vk54xr04b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 12 Jan 2024 12:09:22 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40CC8aQq006761;
-	Fri, 12 Jan 2024 12:09:17 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vfur8eqtn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 12 Jan 2024 12:09:17 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40CC9GBu022549;
-	Fri, 12 Jan 2024 12:09:16 GMT
-Received: from localhost.localdomain (dhcp-10-175-45-196.vpn.oracle.com [10.175.45.196])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3vfur8eqsr-1;
-	Fri, 12 Jan 2024 12:09:16 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] docs: media: rename gen_rst -> cmd_parse_headers
-Date: Fri, 12 Jan 2024 13:09:10 +0100
-Message-Id: <20240112120910.3751062-1-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8573059B41;
+	Fri, 12 Jan 2024 12:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TBLZv46Pnz6D8wx;
+	Fri, 12 Jan 2024 20:34:47 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id EE9DE140B2F;
+	Fri, 12 Jan 2024 20:37:12 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 12 Jan
+ 2024 12:37:12 +0000
+Date: Fri, 12 Jan 2024 12:37:11 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: David Lechner <dlechner@baylibre.com>
+CC: Mark Brown <broonie@kernel.org>, Jonathan Cameron <jic23@kernel.org>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>, Nuno =?ISO-8859-1?Q?S?=
+ =?ISO-8859-1?Q?=E1?= <nuno.sa@analog.com>, Frank Rowand
+	<frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, "Jonathan
+ Corbet" <corbet@lwn.net>, <linux-spi@vger.kernel.org>,
+	<linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 06/13] iio: buffer: add hardware triggered buffer
+ support
+Message-ID: <20240112123711.0000422a@Huawei.com>
+In-Reply-To: <20240109-axi-spi-engine-series-3-v1-6-e42c6a986580@baylibre.com>
+References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
+	<20240109-axi-spi-engine-series-3-v1-6-e42c6a986580@baylibre.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-12_04,2024-01-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 spamscore=0
- adultscore=0 mlxlogscore=999 phishscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2401120095
-X-Proofpoint-GUID: y8sSyB0j_Klh2XoXp6Ofm70SAXwcLbTW
-X-Proofpoint-ORIG-GUID: y8sSyB0j_Klh2XoXp6Ofm70SAXwcLbTW
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-All other commands in the kernel use the format "cmd_" followed by some
-variation of the program name. This is also the format documented in
-Documentation/kbuild/makefiles.rst.
+On Wed, 10 Jan 2024 13:49:47 -0600
+David Lechner <dlechner@baylibre.com> wrote:
 
-Therefore, rename "gen_rst" to "cmd_parse_headers".
+> This adds a new mode INDIO_HW_BUFFER_TRIGGERED to the IIO subsystem.
+> 
+> This mode is essentially the hardware version of INDIO_BUFFER_TRIGGERED
+> where the trigger has the semantics of INDIO_HARDWARE_TRIGGERED and the
+> buffer has the semantics of INDIO_BUFFER_HARDWARE.
+> 
+> So basically INDIO_HW_BUFFER_TRIGGERED is the same as
+> INDIO_BUFFER_HARDWARE except that it also enables the trigger when the
+> buffer is enabled.
 
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Documentation/userspace-api/media/Makefile | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+If the trigger isn't routeable to multiple devices we normally don't
+make it visible at all.
 
-diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
-index 3d8aaf5c253b..bfb90fa2b3fc 100644
---- a/Documentation/userspace-api/media/Makefile
-+++ b/Documentation/userspace-api/media/Makefile
-@@ -12,38 +12,38 @@ FILES = ca.h.rst dmx.h.rst frontend.h.rst net.h.rst \
- 
- TARGETS := $(addprefix $(BUILDDIR)/, $(FILES))
- 
--gen_rst = \
-+cmd_parse_headers = \
- 	echo ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions; \
- 	${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
- 
--quiet_gen_rst = echo '  PARSE   $(patsubst $(srctree)/%,%,$<)'; \
-+quiet_cmd_parse_headers = echo '  PARSE   $(patsubst $(srctree)/%,%,$<)'; \
- 	${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
- 
--silent_gen_rst = ${gen_rst}
-+silent_cmd_parse_headers = ${cmd_parse_headers}
- 
- $(BUILDDIR)/ca.h.rst: ${UAPI}/dvb/ca.h ${PARSER} $(SRC_DIR)/ca.h.rst.exceptions
--	@$($(quiet)gen_rst)
-+	@$($(quiet)cmd_parse_headers)
- 
- $(BUILDDIR)/dmx.h.rst: ${UAPI}/dvb/dmx.h ${PARSER} $(SRC_DIR)/dmx.h.rst.exceptions
--	@$($(quiet)gen_rst)
-+	@$($(quiet)cmd_parse_headers)
- 
- $(BUILDDIR)/frontend.h.rst: ${UAPI}/dvb/frontend.h ${PARSER} $(SRC_DIR)/frontend.h.rst.exceptions
--	@$($(quiet)gen_rst)
-+	@$($(quiet)cmd_parse_headers)
- 
- $(BUILDDIR)/net.h.rst: ${UAPI}/dvb/net.h ${PARSER} $(SRC_DIR)/net.h.rst.exceptions
--	@$($(quiet)gen_rst)
-+	@$($(quiet)cmd_parse_headers)
- 
- $(BUILDDIR)/videodev2.h.rst: ${UAPI}/videodev2.h ${PARSER} $(SRC_DIR)/videodev2.h.rst.exceptions
--	@$($(quiet)gen_rst)
-+	@$($(quiet)cmd_parse_headers)
- 
- $(BUILDDIR)/media.h.rst: ${UAPI}/media.h ${PARSER} $(SRC_DIR)/media.h.rst.exceptions
--	@$($(quiet)gen_rst)
-+	@$($(quiet)cmd_parse_headers)
- 
- $(BUILDDIR)/cec.h.rst: ${UAPI}/cec.h ${PARSER} $(SRC_DIR)/cec.h.rst.exceptions
--	@$($(quiet)gen_rst)
-+	@$($(quiet)cmd_parse_headers)
- 
- $(BUILDDIR)/lirc.h.rst: ${UAPI}/lirc.h ${PARSER} $(SRC_DIR)/lirc.h.rst.exceptions
--	@$($(quiet)gen_rst)
-+	@$($(quiet)cmd_parse_headers)
- 
- # Media build rules
- 
--- 
-2.34.1
+I'm not yet understanding what a trigger actually means in this case.
+Why do you need it to be userspace configurable?
+
+J
 
