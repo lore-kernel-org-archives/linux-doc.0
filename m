@@ -1,100 +1,60 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F616EB74
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jan 2024 15:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2155373164;
+	Fri, 12 Jan 2024 16:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Sc+oUxFE"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dbd029beef4so6006176276.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jan 2024 07:59:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1705075163; x=1705679963; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OOjkY6qLcUDJ6pAB2XOnTphDRYpUaH4ZDZBnldaqt/Y=;
-        b=Sc+oUxFEciCOQuRfnIBX3GJ5LrAnNGXl43YU7QlCK0pTzz5b1KfFVmsxrLO9pWeZ0v
-         /kRgBumkheClcn4+OFHy5BZYCMXtZUzPTVpKObIG1AKG94/l0lTGncHqDl2ZnItwyfZb
-         lAOZraLzsEiQ6Xsx++z/488vxPftWrt0m+6nvs4+HdjfpQbxLM+mSEUEkGYJ2tB/4Zci
-         2KMvkD5xhSlvmbrtWf0LkVAW8WZ1BljFuet7o9ICCnBgfSZeREWnuLO7kZED718wvcAn
-         A+Tv+p3ULm5usZS6iKoai7gOzgxI2ZHrGCVRWjBTLiwap86KjAlk/Hob75LMi2y9IujJ
-         qFMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705075163; x=1705679963;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OOjkY6qLcUDJ6pAB2XOnTphDRYpUaH4ZDZBnldaqt/Y=;
-        b=doLXJUdPcaILA66fEH6+sbvccwsiW7cGAxCOle4CyHq7qmC2vg8Yeri5XvUlzyO+wN
-         bgg34H2p2ZtVvDM6v6yqhgax3vRPR6aZIsA7M0yaxQoESgTvuXLtd4ZnXELOlVWsaBu5
-         CUdaNZ/SLtIxdFx9OeGlwo1Vslecc9HFmUHkN0ZmFSeq9QK3gXC81N90zK406uSPGJpx
-         NHLPZi5LBQjaLLAi46wkEMHxl/4NDXTrW7smnv22e7liZCNL2Eniu4/EAqEuxlrQ2wun
-         xOH4rNs/YXC4T03FjrqbuyyatczEgHn0ew/c8rMkP0ek2iqpFcb7edNks0IZ4sC5D+lw
-         O8kw==
-X-Gm-Message-State: AOJu0Yx60wniHJE076VIB7lhciBFfThnpeIj+MYl/ILVptYovS8USJiI
-	l+TYODkVwm47uHdMUr7EZ0RI5DTDG3sAUJYVs7giakYo1Z3+iQ==
-X-Google-Smtp-Source: AGHT+IHr3UudPwurXaz4S+dT72h2sVx6HX8ltwQ55glZrlvIRFVV+m1zueg0vrLt+5IAqr6Wt0L8KbJCDVH/13I+Tbw=
-X-Received: by 2002:a25:8106:0:b0:dbf:3d61:8d03 with SMTP id
- o6-20020a258106000000b00dbf3d618d03mr551130ybk.28.1705075163182; Fri, 12 Jan
- 2024 07:59:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OxYg5XEA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=e+tJ5kJoCnbfdWjA6W10nryDlvSS14xOBq3EZoL+cnM=; b=OxYg5XEAXsuevPP0WSgv8y45tQ
+	c25jgvQv4lkzefRq04BeleHtIa+G3asPf5XNu1qCmoGsArrPfS+TVjJTcrg5Nj4JsiYm4TvIjqw+E
+	F0YgNitJXpXlnWvKmp1ZHufBvRDS4MRg1hsZFsjzo52qRquwu0NIO+ZxjCBo1oIP0y251+U2UdWSU
+	HO+TuIDvaQiA8P+l6/CdKDwJIG0wRjxvMzRpy46jlkN5gamZRRzliWukkevMJ3cjVt2KvTgJqKBNW
+	3xClg1P1/k22efUaCPNFFQBvdJEwZwgj9GmhtyF3OfskfxWTEcxZg8VHtg8ersbO+gJUBxF0AHckF
+	jOvDj5Sg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1rOK5p-0006uj-Av; Fri, 12 Jan 2024 16:09:13 +0000
+Date: Fri, 12 Jan 2024 16:09:13 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Linus Torvalds <torvalds@linuxfoundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [GIT PULL] Documentation for 6.8
+Message-ID: <ZaFkKdFyThJNLDcm@casper.infradead.org>
+References: <87sf37vegj.fsf@meer.lwn.net>
+ <CAHk-=whtqOvx4_GL8MX+bGroS5hfueP+Arch_qVYwQDJVvFCKg@mail.gmail.com>
+ <87v87yk3xg.fsf@meer.lwn.net>
+ <a445d391-4cc9-4d6d-85ad-02d23aa57ebb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <CAPY8ntCs9EAYsxwjkscms3kqoC0N8+CcTHoyrG+gFMc0Mh=cwg@mail.gmail.com> <337mubsn42zlpuoqqvqmsjtdww4kg3x6lo6brdos5o6xgwjdwo@cxfad2pk2so2>
-In-Reply-To: <337mubsn42zlpuoqqvqmsjtdww4kg3x6lo6brdos5o6xgwjdwo@cxfad2pk2so2>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 12 Jan 2024 15:59:06 +0000
-Message-ID: <CAPY8ntDbM=j6YP3A5TNHoK73eTj0uUvnbAS0cZtxHgVoeuOFrg@mail.gmail.com>
-Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a445d391-4cc9-4d6d-85ad-02d23aa57ebb@gmail.com>
 
-Hi Maxime
+On Sat, Jan 13, 2024 at 12:28:44AM +0900, Akira Yokosawa wrote:
+> Official python 3.10 support was new to Sphinx 4.3.
+> So, I guess reasonable version for recommending is Sphinx>=4.3.
+> 
+> But at the same time, The latest Sphinx 7.2.6 works only with
+> python>=3.9.  If your base python3 is 3.8 (e.g. ubuntu 20.04),
+> you can't have the latest one.
 
-On Fri, 12 Jan 2024 at 13:59, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi Dave,
->
-> On Thu, Dec 14, 2023 at 02:43:37PM +0000, Dave Stevenson wrote:
-> > On Thu, 7 Dec 2023 at 15:50, Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > The i915 driver has a property to force the RGB range of an HDMI output.
-> > > The vc4 driver then implemented the same property with the same
-> > > semantics. KWin has support for it, and a PR for mutter is also there to
-> > > support it.
-> > >
-> > > Both drivers implementing the same property with the same semantics,
-> > > plus the userspace having support for it, is proof enough that it's
-> > > pretty much a de-facto standard now and we can provide helpers for it.
-> > >
-> > > Let's plumb it into the newly created HDMI connector.
-> >
-> > To have such a significant proportion of the patch being kunit tests
-> > when there was no reference to such in the commit text was slightly
-> > unexpected.
->
-> Thanks for your review. Does that mean that you would prefer the tests
-> to be in a separate patch?
+I don't know that I care about Ubuntu 20.04; that's almost 4 years old and
+probably isn't being used by anyone who's building kernel documentation.
 
-If there was a need for a respin, then I think ideally yes, or at
-least a mention in the commit text ("Let's plumb it into the newly
-created HDMI connector*, and add appropriate unit tests*").
-Overall I'm not that fussed though.
+Oracle Linux 9 (2022) ships Python 3.9.14.  It also appears to ship python
+3.11.2 as an optional install.  It doesn't seem to ship sphinx at all.
+At least not that I can find from a quick rummage in the repositories.
+The recommendation I'm finding is to use pip to install sphinx if you
+need it.
 
-  Dave
