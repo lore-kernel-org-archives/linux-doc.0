@@ -1,167 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F8D1A29C;
-	Sat, 13 Jan 2024 07:12:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7185663;
+	Sat, 13 Jan 2024 17:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFNCJpby"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0783CC43394;
-	Sat, 13 Jan 2024 07:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705129937;
-	bh=rFvVei4t/+C8XZuuE9/e6kJP7xx3vyRVtZCphMPagVw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DFNCJpbyoUZiYq+997Is3j9DIObTphY6egbUlh8Tpt/OpyD6B3ADY9h2H62e/JDj/
-	 j7b8okVx0Bfg3ICxp4z9NXx3IR23TY5LDcnIQinnJu5NJuBNAnhz+3tEvjIBtxZx5x
-	 hupNwEUyZ2IkCwj1TL856+vEypJG78o1g/1OhmVYOTSc1dQG6gfeEUHU0KAu/wM7YH
-	 Fp3NiZMIFKckxHcB+KxbhTnI5JceUgOwA9Kge8PhdUuwYFo4HM4jYY3yC9ujVwBGCR
-	 0rxU5nUM+xzjonloLRHhCP/BHb5XfrnuMToCAfQlwC6EiUpL9Crq10GULlT7D7ckXD
-	 MxNca09mxbQsQ==
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-20451bc39b1so4377810fac.1;
-        Fri, 12 Jan 2024 23:12:16 -0800 (PST)
-X-Gm-Message-State: AOJu0YyxQw8B5OdyTyJmSAa/4TKzWQgMZxD5r2zhnvN1CREIcduTP7Do
-	jauMDg//7w7GNeqIdnOVfVcVZ+FwT1BkkgzmPu0=
-X-Google-Smtp-Source: AGHT+IGoMj0EJb3VpuPKwjRgjXjlS4/7aWkNkLdlaFJqOTadaeP+55slSxK97AeSwdAMrlv5InPDTOi3mm4AQ4UL6fg=
-X-Received: by 2002:a05:6870:c352:b0:205:f549:9aac with SMTP id
- e18-20020a056870c35200b00205f5499aacmr3162178oak.115.1705129936387; Fri, 12
- Jan 2024 23:12:16 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ukzssRAC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1705166867; bh=9n72WKKKGYhqMdswP9Jj7VEaJwHs3IyzRS4xEll9rYI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ukzssRACnz3BFOQ4m0PrtOBC+c3ULmzJzKNt2HiTP2zC7dzmPLW+FHncUgy76IUE4
+	 bBSFdgBVxfqt3ilig5ltgbGZKNlqBnwvrADPa0YP4lfB4HrJGDn5rUl3BbiJvb9e3P
+	 f5Md6MBUvXZU9MQybaI0l9rZ76Crk8hUiMtlUkkE=
+Received: from cyy-pc.lan ([218.70.255.58])
+	by newxmesmtplogicsvrszc5-1.qq.com (NewEsmtp) with SMTP
+	id 6B9BD474; Sun, 14 Jan 2024 01:26:57 +0800
+X-QQ-mid: xmsmtpt1705166817tpw8s6zxo
+Message-ID: <tencent_F9568C6D8872E30EDFAF20ADF686A31D6E06@qq.com>
+X-QQ-XMAILINFO: MpYZqmNm/7vMFQChzuZcNMPEZCicAYxwA3bgPt5oBo3Izruh5SDSD1/vjfZIJe
+	 7IBevBAJJvXhgU9B+SMnjtsigosK99wXz45XosSRmglerB4jvY07z2ypp/fWsmUwQLZ3rc4lgw08
+	 0I7c4e9ssoe0Ldzh7aDfnOwg3ItEwflH/BF3rnY12bJD7xRo/M9ZSFqZABHgOKsvejN9E8BhUm2D
+	 boo2oTfkaKEQcLeunqTCbSyoFYN07nmPJtRl8ODOOCFEIFDrcTWZHY0wX7tuAYx6PuS1SJSjXYS2
+	 bOEVhUBovGWI01NTW0yrPLyhFe33CdafAdJAf1SrjfgmRNyBqHdsDLZz7UlH9vHjFxvMrmU3dy5N
+	 45B3OLgeNOTV6WEfUAL3IRazwMFr8aKB9LH+gkUjByXzXtwcrFHxXmMsjpssUiAlF1duH66p4Avr
+	 84W1XexcvjfBXHBgXn5BFW2+ogGmclzTetljdN04BAku6PGLStHt7Vs8LRhxh82ARYq6o+Md+kgL
+	 NJxin6UVnpDBzYjg39bVX6PvJK3U699wPbe+uQtu79mMUgZ8WzO3iGxiOmirlrq0y8rVSXD7t5iM
+	 GYsxJ8FGK+3+d6K/ILCMvSeHJKdwbCtWTtAdunvZubJwOzaynOeC1geHeMxH34ZZztsMnz79vLpe
+	 YGChZ7mLTbp5fUDptY+VCdcdL4Fy7KWDgIBg7MTpy9RLjNazovEqG5960r71+VO+2pza3/A/dviG
+	 n0++0sT/QAFpxAF7w8YGMItABROQoWSr+xES2srhGGf311gs4BzoOgOKZhvP5I3hexb4JG++/Bt2
+	 OrIfwjVtIS7Tr5jYRQvXT+uKYpMsexCp3J8Xip53EB0io7BHq+H8zipn5FRMnuzONGJrAQAd9WC+
+	 I81SztmB19m/xMFkY6qEQ5yrj6ENCd3r8gON2zNjMQDmvw7Tdjfni3yzimGkBOehL2PYtcjs/KFk
+	 RJDRSTS7yAifSWQWUnc3KxIF9qzMRd
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+From: Yangyu Chen <cyy@cyyself.name>
+To: charlie@rivosinc.com
+Cc: alexghiti@rivosinc.com,
+	anup@brainfault.org,
+	aou@eecs.berkeley.edu,
+	conor@kernel.org,
+	jrtc27@jrtc27.com,
+	konstantin@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org,
+	mick@ics.forth.gr,
+	palmer@rivosinc.com,
+	paul.walmsley@sifive.com,
+	rdunlap@infradead.org
+Subject: Re: [PATCH v10 0/4] RISC-V: mm: Make SV48 the default address space
+Date: Sun, 14 Jan 2024 01:26:57 +0800
+X-OQ-MSGID: <20240113172657.997104-1-cyy@cyyself.name>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20230809232218.849726-1-charlie@rivosinc.com>
+References: <20230809232218.849726-1-charlie@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240112120910.3751062-1-vegard.nossum@oracle.com>
-In-Reply-To: <20240112120910.3751062-1-vegard.nossum@oracle.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 13 Jan 2024 16:11:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQwXwWJE240Z7jvprkNs-cYDE5N_640w0r6u85_Cs2tBg@mail.gmail.com>
-Message-ID: <CAK7LNAQwXwWJE240Z7jvprkNs-cYDE5N_640w0r6u85_Cs2tBg@mail.gmail.com>
-Subject: Re: [PATCH] docs: media: rename gen_rst -> cmd_parse_headers
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 12, 2024 at 9:09=E2=80=AFPM Vegard Nossum <vegard.nossum@oracle=
-.com> wrote:
->
-> All other commands in the kernel use the format "cmd_" followed by some
-> variation of the program name. This is also the format documented in
-> Documentation/kbuild/makefiles.rst.
+Hi, Charlie
 
+Although this patchset has been merged I still have some questions about
+this patchset. Because it breaks regular mmap if address >= 38 bits on
+sv48 / sv57 capable systems like qemu. For example, If a userspace program
+wants to mmap an anonymous page to addr=(1<<45) on an sv48 capable system,
+it will fail and kernel will mmaped to another sv39 address since it does
+not meet the requirement to use sv48 as you wrote:
 
-This rule is only applicable to Makefiles that follow Kbuild.
+>	else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) \
+>		mmap_end = VA_USER_SV48;			\
+>	else							\
+>		mmap_end = VA_USER_SV39;			\
 
+Then, How can a userspace program create a mmap with a hint if the address
+>= (1<<38) after your patch without MAP_FIXED? The only way to do this is
+to pass a hint >= (1<<47) on mmap syscall then kernel will return a random
+address in sv48 address space but the hint address gets lost. I think this
+violate the principle of mmap syscall as kernel should take the hint and
+attempt to create the mapping there.
 
-The doc subsystem maintainers ignored Kbuild and
-started whatever they wanted.
-Presumably it is an unfortunate thing.
+I don't think patching in this way is right. However, if we only revert
+this patch, some programs relying on mmap to return address with effective
+bits <= 48 will still be an issue and it might expand to other ISAs if
+they implement larger virtual address space like RISC-V sv57. A better way
+to solve this might be adding a MAP_48BIT flag to mmap like MAP_32BIT has
+been introduced for decades.
 
+Thanks,
+Yangyu Chen
 
-
-
-
->
-> Therefore, rename "gen_rst" to "cmd_parse_headers".
-
-
-Just renaming is meaningless.
-
-
-The reason for "cmd_" prefixing is to
-use the macros in scripts/Kbuild.include
-
-
-In Kbuild, the rule looks like
-$(call cmd,parse_headers)
-
-
-
-
-
-
-
-
->
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  Documentation/userspace-api/media/Makefile | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/u=
-serspace-api/media/Makefile
-> index 3d8aaf5c253b..bfb90fa2b3fc 100644
-> --- a/Documentation/userspace-api/media/Makefile
-> +++ b/Documentation/userspace-api/media/Makefile
-> @@ -12,38 +12,38 @@ FILES =3D ca.h.rst dmx.h.rst frontend.h.rst net.h.rst=
- \
->
->  TARGETS :=3D $(addprefix $(BUILDDIR)/, $(FILES))
->
-> -gen_rst =3D \
-> +cmd_parse_headers =3D \
->         echo ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions; \
->         ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
->
-> -quiet_gen_rst =3D echo '  PARSE   $(patsubst $(srctree)/%,%,$<)'; \
-> +quiet_cmd_parse_headers =3D echo '  PARSE   $(patsubst $(srctree)/%,%,$<=
-)'; \
->         ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
->
-> -silent_gen_rst =3D ${gen_rst}
-> +silent_cmd_parse_headers =3D ${cmd_parse_headers}
->
->  $(BUILDDIR)/ca.h.rst: ${UAPI}/dvb/ca.h ${PARSER} $(SRC_DIR)/ca.h.rst.exc=
-eptions
-> -       @$($(quiet)gen_rst)
-> +       @$($(quiet)cmd_parse_headers)
->
->  $(BUILDDIR)/dmx.h.rst: ${UAPI}/dvb/dmx.h ${PARSER} $(SRC_DIR)/dmx.h.rst.=
-exceptions
-> -       @$($(quiet)gen_rst)
-> +       @$($(quiet)cmd_parse_headers)
->
->  $(BUILDDIR)/frontend.h.rst: ${UAPI}/dvb/frontend.h ${PARSER} $(SRC_DIR)/=
-frontend.h.rst.exceptions
-> -       @$($(quiet)gen_rst)
-> +       @$($(quiet)cmd_parse_headers)
->
->  $(BUILDDIR)/net.h.rst: ${UAPI}/dvb/net.h ${PARSER} $(SRC_DIR)/net.h.rst.=
-exceptions
-> -       @$($(quiet)gen_rst)
-> +       @$($(quiet)cmd_parse_headers)
->
->  $(BUILDDIR)/videodev2.h.rst: ${UAPI}/videodev2.h ${PARSER} $(SRC_DIR)/vi=
-deodev2.h.rst.exceptions
-> -       @$($(quiet)gen_rst)
-> +       @$($(quiet)cmd_parse_headers)
->
->  $(BUILDDIR)/media.h.rst: ${UAPI}/media.h ${PARSER} $(SRC_DIR)/media.h.rs=
-t.exceptions
-> -       @$($(quiet)gen_rst)
-> +       @$($(quiet)cmd_parse_headers)
->
->  $(BUILDDIR)/cec.h.rst: ${UAPI}/cec.h ${PARSER} $(SRC_DIR)/cec.h.rst.exce=
-ptions
-> -       @$($(quiet)gen_rst)
-> +       @$($(quiet)cmd_parse_headers)
->
->  $(BUILDDIR)/lirc.h.rst: ${UAPI}/lirc.h ${PARSER} $(SRC_DIR)/lirc.h.rst.e=
-xceptions
-> -       @$($(quiet)gen_rst)
-> +       @$($(quiet)cmd_parse_headers)
->
->  # Media build rules
->
-> --
-> 2.34.1
->
-
-
---
-Best Regards
-Masahiro Yamada
