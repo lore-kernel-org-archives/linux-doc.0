@@ -1,135 +1,167 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702381097D;
-	Sat, 13 Jan 2024 01:55:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F8D1A29C;
+	Sat, 13 Jan 2024 07:12:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HqvQYNpC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C371EC433F1;
-	Sat, 13 Jan 2024 01:55:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFNCJpby"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0783CC43394;
+	Sat, 13 Jan 2024 07:12:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705110959;
-	bh=tD8IG8K67wmGBd7W0V7EQk7phCaD6jkAx+XmJvURp+E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HqvQYNpC/lV84vyyd0xN0jSWmbHYqGKRe8KYTT81o6nVm0v90wwES24ZOMfXDvJxD
-	 vkspXPaPXWEDj7cA/P/uQCcZKBd66x+v6Fv1+khUA4YIeIhusKJlFBt70ezSZ/RF4d
-	 oRCKn7KQvW1PaInf2G7H//eqUUqNkP7OZL/SJf7JM+Lzti0Q4bJWwne3Do/HSMv72A
-	 SUyo/k8ULEU426n3z5JLXv4T6wLyZ4o0rh21/McYvNaf+u8sFbZclreKx6VPlLpukt
-	 p4X1kwWb7KDf6jyFMIjbB2oqW+605siQJR7BdJNHsxsvNzCncNUyES63zxFpsq8o9L
-	 kiBbRRsuXIiJQ==
-Date: Fri, 12 Jan 2024 19:55:56 -0600
-From: Rob Herring <robh@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: jdelvare@suse.com, linux@roeck-us.net,
-	krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
-	corbet@lwn.net, thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de,
-	naresh.solanki@9elements.com, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-	BMC-SW@aspeedtech.com, patrick@stwcx.xyz
-Subject: Re: [PATCH v12 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM TACH
- Control
-Message-ID: <20240113015556.GA3829553-robh@kernel.org>
-References: <20240108074348.735014-1-billy_tsai@aspeedtech.com>
- <20240108074348.735014-3-billy_tsai@aspeedtech.com>
+	s=k20201202; t=1705129937;
+	bh=rFvVei4t/+C8XZuuE9/e6kJP7xx3vyRVtZCphMPagVw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=DFNCJpbyoUZiYq+997Is3j9DIObTphY6egbUlh8Tpt/OpyD6B3ADY9h2H62e/JDj/
+	 j7b8okVx0Bfg3ICxp4z9NXx3IR23TY5LDcnIQinnJu5NJuBNAnhz+3tEvjIBtxZx5x
+	 hupNwEUyZ2IkCwj1TL856+vEypJG78o1g/1OhmVYOTSc1dQG6gfeEUHU0KAu/wM7YH
+	 Fp3NiZMIFKckxHcB+KxbhTnI5JceUgOwA9Kge8PhdUuwYFo4HM4jYY3yC9ujVwBGCR
+	 0rxU5nUM+xzjonloLRHhCP/BHb5XfrnuMToCAfQlwC6EiUpL9Crq10GULlT7D7ckXD
+	 MxNca09mxbQsQ==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-20451bc39b1so4377810fac.1;
+        Fri, 12 Jan 2024 23:12:16 -0800 (PST)
+X-Gm-Message-State: AOJu0YyxQw8B5OdyTyJmSAa/4TKzWQgMZxD5r2zhnvN1CREIcduTP7Do
+	jauMDg//7w7GNeqIdnOVfVcVZ+FwT1BkkgzmPu0=
+X-Google-Smtp-Source: AGHT+IGoMj0EJb3VpuPKwjRgjXjlS4/7aWkNkLdlaFJqOTadaeP+55slSxK97AeSwdAMrlv5InPDTOi3mm4AQ4UL6fg=
+X-Received: by 2002:a05:6870:c352:b0:205:f549:9aac with SMTP id
+ e18-20020a056870c35200b00205f5499aacmr3162178oak.115.1705129936387; Fri, 12
+ Jan 2024 23:12:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240108074348.735014-3-billy_tsai@aspeedtech.com>
+References: <20240112120910.3751062-1-vegard.nossum@oracle.com>
+In-Reply-To: <20240112120910.3751062-1-vegard.nossum@oracle.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 13 Jan 2024 16:11:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQwXwWJE240Z7jvprkNs-cYDE5N_640w0r6u85_Cs2tBg@mail.gmail.com>
+Message-ID: <CAK7LNAQwXwWJE240Z7jvprkNs-cYDE5N_640w0r6u85_Cs2tBg@mail.gmail.com>
+Subject: Re: [PATCH] docs: media: rename gen_rst -> cmd_parse_headers
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 08, 2024 at 03:43:47PM +0800, Billy Tsai wrote:
-> Document the compatible for aspeed,ast2600-pwm-tach device, which can
-> support up to 16 PWM outputs and 16 fan tach input.
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+On Fri, Jan 12, 2024 at 9:09=E2=80=AFPM Vegard Nossum <vegard.nossum@oracle=
+.com> wrote:
+>
+> All other commands in the kernel use the format "cmd_" followed by some
+> variation of the program name. This is also the format documented in
+> Documentation/kbuild/makefiles.rst.
+
+
+This rule is only applicable to Makefiles that follow Kbuild.
+
+
+The doc subsystem maintainers ignored Kbuild and
+started whatever they wanted.
+Presumably it is an unfortunate thing.
+
+
+
+
+
+>
+> Therefore, rename "gen_rst" to "cmd_parse_headers".
+
+
+Just renaming is meaningless.
+
+
+The reason for "cmd_" prefixing is to
+use the macros in scripts/Kbuild.include
+
+
+In Kbuild, the rule looks like
+$(call cmd,parse_headers)
+
+
+
+
+
+
+
+
+>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 > ---
->  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 69 +++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
-> new file mode 100644
-> index 000000000000..c615fb10705c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2023 Aspeed, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ASPEED G6 PWM and Fan Tach controller
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +description: |
-> +  The ASPEED PWM controller can support up to 16 PWM outputs.
-> +  The ASPEED Fan Tacho controller can support up to 16 fan tach input.
-> +  They are independent hardware blocks, which are different from the
-> +  previous version of the ASPEED chip.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-pwm-tach
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  "#pwm-cells":
-> +    const: 3
-> +
-> +patternProperties:
-> +  "^fan-[0-9]+$":
-> +    $ref: fan-common.yaml#
-> +    unevaluatedProperties: false
-> +    required:
-> +      - tach-ch
-> +
-> +required:
-> +  - reg
-> +  - clocks
-> +  - resets
-> +  - "#pwm-cells"
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/aspeed-clock.h>
-> +    pwm_tach: pwm-tach-controller@1e610000 {
-> +      compatible = "aspeed,ast2600-pwm-tach";
-> +      reg = <0x1e610000 0x100>;
-> +      clocks = <&syscon ASPEED_CLK_AHB>;
-> +      resets = <&syscon ASPEED_RESET_PWM>;
-> +      #pwm-cells = <3>;
-> +
-> +      fan-0 {
-> +        tach-ch = /bits/ 8 <0x0>;
-> +      };
-> +
-> +      fan-1 {
-> +        tach-ch = /bits/ 8 <0x1 0x2>;
-> +      };
+>  Documentation/userspace-api/media/Makefile | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/u=
+serspace-api/media/Makefile
+> index 3d8aaf5c253b..bfb90fa2b3fc 100644
+> --- a/Documentation/userspace-api/media/Makefile
+> +++ b/Documentation/userspace-api/media/Makefile
+> @@ -12,38 +12,38 @@ FILES =3D ca.h.rst dmx.h.rst frontend.h.rst net.h.rst=
+ \
+>
+>  TARGETS :=3D $(addprefix $(BUILDDIR)/, $(FILES))
+>
+> -gen_rst =3D \
+> +cmd_parse_headers =3D \
+>         echo ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions; \
+>         ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
+>
+> -quiet_gen_rst =3D echo '  PARSE   $(patsubst $(srctree)/%,%,$<)'; \
+> +quiet_cmd_parse_headers =3D echo '  PARSE   $(patsubst $(srctree)/%,%,$<=
+)'; \
+>         ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
+>
+> -silent_gen_rst =3D ${gen_rst}
+> +silent_cmd_parse_headers =3D ${cmd_parse_headers}
+>
+>  $(BUILDDIR)/ca.h.rst: ${UAPI}/dvb/ca.h ${PARSER} $(SRC_DIR)/ca.h.rst.exc=
+eptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
+>
+>  $(BUILDDIR)/dmx.h.rst: ${UAPI}/dvb/dmx.h ${PARSER} $(SRC_DIR)/dmx.h.rst.=
+exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
+>
+>  $(BUILDDIR)/frontend.h.rst: ${UAPI}/dvb/frontend.h ${PARSER} $(SRC_DIR)/=
+frontend.h.rst.exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
+>
+>  $(BUILDDIR)/net.h.rst: ${UAPI}/dvb/net.h ${PARSER} $(SRC_DIR)/net.h.rst.=
+exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
+>
+>  $(BUILDDIR)/videodev2.h.rst: ${UAPI}/videodev2.h ${PARSER} $(SRC_DIR)/vi=
+deodev2.h.rst.exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
+>
+>  $(BUILDDIR)/media.h.rst: ${UAPI}/media.h ${PARSER} $(SRC_DIR)/media.h.rs=
+t.exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
+>
+>  $(BUILDDIR)/cec.h.rst: ${UAPI}/cec.h ${PARSER} $(SRC_DIR)/cec.h.rst.exce=
+ptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
+>
+>  $(BUILDDIR)/lirc.h.rst: ${UAPI}/lirc.h ${PARSER} $(SRC_DIR)/lirc.h.rst.e=
+xceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
+>
+>  # Media build rules
+>
+> --
+> 2.34.1
+>
 
-NAK on this based on how you are using pwm-fan in v10 discussion. See my 
-comments there.
 
-Rob
+--
+Best Regards
+Masahiro Yamada
