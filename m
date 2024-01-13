@@ -1,97 +1,172 @@
-Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7185663;
-	Sat, 13 Jan 2024 17:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99D15257;
+	Sat, 13 Jan 2024 18:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ukzssRAC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1705166867; bh=9n72WKKKGYhqMdswP9Jj7VEaJwHs3IyzRS4xEll9rYI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ukzssRACnz3BFOQ4m0PrtOBC+c3ULmzJzKNt2HiTP2zC7dzmPLW+FHncUgy76IUE4
-	 bBSFdgBVxfqt3ilig5ltgbGZKNlqBnwvrADPa0YP4lfB4HrJGDn5rUl3BbiJvb9e3P
-	 f5Md6MBUvXZU9MQybaI0l9rZ76Crk8hUiMtlUkkE=
-Received: from cyy-pc.lan ([218.70.255.58])
-	by newxmesmtplogicsvrszc5-1.qq.com (NewEsmtp) with SMTP
-	id 6B9BD474; Sun, 14 Jan 2024 01:26:57 +0800
-X-QQ-mid: xmsmtpt1705166817tpw8s6zxo
-Message-ID: <tencent_F9568C6D8872E30EDFAF20ADF686A31D6E06@qq.com>
-X-QQ-XMAILINFO: MpYZqmNm/7vMFQChzuZcNMPEZCicAYxwA3bgPt5oBo3Izruh5SDSD1/vjfZIJe
-	 7IBevBAJJvXhgU9B+SMnjtsigosK99wXz45XosSRmglerB4jvY07z2ypp/fWsmUwQLZ3rc4lgw08
-	 0I7c4e9ssoe0Ldzh7aDfnOwg3ItEwflH/BF3rnY12bJD7xRo/M9ZSFqZABHgOKsvejN9E8BhUm2D
-	 boo2oTfkaKEQcLeunqTCbSyoFYN07nmPJtRl8ODOOCFEIFDrcTWZHY0wX7tuAYx6PuS1SJSjXYS2
-	 bOEVhUBovGWI01NTW0yrPLyhFe33CdafAdJAf1SrjfgmRNyBqHdsDLZz7UlH9vHjFxvMrmU3dy5N
-	 45B3OLgeNOTV6WEfUAL3IRazwMFr8aKB9LH+gkUjByXzXtwcrFHxXmMsjpssUiAlF1duH66p4Avr
-	 84W1XexcvjfBXHBgXn5BFW2+ogGmclzTetljdN04BAku6PGLStHt7Vs8LRhxh82ARYq6o+Md+kgL
-	 NJxin6UVnpDBzYjg39bVX6PvJK3U699wPbe+uQtu79mMUgZ8WzO3iGxiOmirlrq0y8rVSXD7t5iM
-	 GYsxJ8FGK+3+d6K/ILCMvSeHJKdwbCtWTtAdunvZubJwOzaynOeC1geHeMxH34ZZztsMnz79vLpe
-	 YGChZ7mLTbp5fUDptY+VCdcdL4Fy7KWDgIBg7MTpy9RLjNazovEqG5960r71+VO+2pza3/A/dviG
-	 n0++0sT/QAFpxAF7w8YGMItABROQoWSr+xES2srhGGf311gs4BzoOgOKZhvP5I3hexb4JG++/Bt2
-	 OrIfwjVtIS7Tr5jYRQvXT+uKYpMsexCp3J8Xip53EB0io7BHq+H8zipn5FRMnuzONGJrAQAd9WC+
-	 I81SztmB19m/xMFkY6qEQ5yrj6ENCd3r8gON2zNjMQDmvw7Tdjfni3yzimGkBOehL2PYtcjs/KFk
-	 RJDRSTS7yAifSWQWUnc3KxIF9qzMRd
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-From: Yangyu Chen <cyy@cyyself.name>
-To: charlie@rivosinc.com
-Cc: alexghiti@rivosinc.com,
-	anup@brainfault.org,
-	aou@eecs.berkeley.edu,
-	conor@kernel.org,
-	jrtc27@jrtc27.com,
-	konstantin@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org,
-	mick@ics.forth.gr,
-	palmer@rivosinc.com,
-	paul.walmsley@sifive.com,
-	rdunlap@infradead.org
-Subject: Re: [PATCH v10 0/4] RISC-V: mm: Make SV48 the default address space
-Date: Sun, 14 Jan 2024 01:26:57 +0800
-X-OQ-MSGID: <20240113172657.997104-1-cyy@cyyself.name>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20230809232218.849726-1-charlie@rivosinc.com>
-References: <20230809232218.849726-1-charlie@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ekhCaxae"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-557c188f313so11181635a12.1;
+        Sat, 13 Jan 2024 10:04:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705169096; x=1705773896; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AhKW9vV6IhRimImnuy7kTVRnEpSaiNSa1m/etVcloMg=;
+        b=ekhCaxaeAh+q7qxATxpe4JNJm61autuL7phtumqqPIFTiofIXcxG/Vj9c7Y4VarIZW
+         dTmZSjOJnhXWBzN4h/Qf4DwhyvoNJKhnfzAzrxbqnbO7OulruWMYWwc8z2y+j4b9joU7
+         ihHnndG+yYmK6st229DQBtCBdibvcIr8W5V/b0bDxJ7RNgPtETOpcNyshwJvPnKoSVdk
+         RgBxr5COAT2dMKmpk3UeBDcXwMTl/Ua7UG4kTl5D+opI8MMhJYYtgS2PRegqG00cV87b
+         NCVA4eqpn95KzSUCd9Q8/G33zJJx7kx0wy3lCUBZ3QlwMNHNwR3JZhgBUuLcdudHLAib
+         C9Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705169096; x=1705773896;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AhKW9vV6IhRimImnuy7kTVRnEpSaiNSa1m/etVcloMg=;
+        b=udBEpzmN4i4jQh7rQEr7SzWN/aHvpNwc3yANzZ1vWsEWw4f64TgmnN+/EFMtsVvWQm
+         jvh02O9Mlo6vlKIls5CzsGlqseAZPKYd6l3FPP8fJ2Ws0lJ4iJN6jtjaN7TrYVELpZKX
+         6Q74nVGbljftUyWCekr1dNcqb8IVqRK821FPsiKKmWKv+Oi10E/Xwwc7mMSb41nfRa+v
+         wlRtyV+C/txKG0FY48iL5R+n/p7WaNNb0Gyfy7bHf35CcI7RWjF2/OS0JFys5HYJr4bQ
+         L2cXnOb2ZwMAa3SJDeiUqIMPRxrPYJS8MQRmK7yTZ2FHxCQlmJ4vMmQuXZUMMiw/2/hW
+         RaqA==
+X-Gm-Message-State: AOJu0YykJzH0GdrsOzpw1bSYUh/Zbxgo7RLqk+fa8o7JUmD3iO30oKXw
+	6nva7BxE4tUxJkxQX2PnT7xXDy6vtuo=
+X-Google-Smtp-Source: AGHT+IFJrtj8W8dev25IrMHGcj/DImhmwZ5y8Lb28rX0zHq3TV8Xvw+tyZcvRGB1Oc5HAyCoZ+yBog==
+X-Received: by 2002:a05:6402:1ca8:b0:558:81d8:ccd7 with SMTP id cz8-20020a0564021ca800b0055881d8ccd7mr2834099edb.31.1705169095651;
+        Sat, 13 Jan 2024 10:04:55 -0800 (PST)
+Received: from cjw-notebook (2a02-8388-0502-f480-6c32-186a-368b-d6a9.cable.dynamic.v6.surfer.at. [2a02:8388:502:f480:6c32:186a:368b:d6a9])
+        by smtp.gmail.com with ESMTPSA id et6-20020a056402378600b0055410f0d709sm3133388edb.19.2024.01.13.10.04.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jan 2024 10:04:55 -0800 (PST)
+Date: Sat, 13 Jan 2024 19:04:52 +0100
+From: Christoph Winklhofer <cj.winklhofer@gmail.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] dt-bindings: w1: UART 1-Wire bus
+Message-ID: <ZaLQxGjjmA_iKOv2@cjw-notebook>
+References: <20240106-w1-uart-v4-0-7fe1378a8b3e@gmail.com>
+ <20240106-w1-uart-v4-1-7fe1378a8b3e@gmail.com>
+ <20240113013917.GA3795949-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240113013917.GA3795949-robh@kernel.org>
 
-Hi, Charlie
+On Fri, Jan 12, 2024 at 07:39:17PM -0600, Rob Herring wrote:
+> On Sat, Jan 06, 2024 at 05:02:24PM +0100, Christoph Winklhofer wrote:
+> > Add device tree binding for UART 1-Wire bus.
+> > 
+> > Signed-off-by: Christoph Winklhofer <cj.winklhofer@gmail.com>
+> > ---
+> >  Documentation/devicetree/bindings/w1/w1-uart.yaml | 62 +++++++++++++++++++++++
+> >  1 file changed, 62 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/w1/w1-uart.yaml b/Documentation/devicetree/bindings/w1/w1-uart.yaml
+> > new file mode 100644
+> > index 000000000000..6b90693b2ca0
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/w1/w1-uart.yaml
+> > @@ -0,0 +1,62 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/w1/w1-uart.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+...
+> > +properties:
+> > +  compatible:
+> > +    const: w1-uart
+> > +
+> > +  reset-speed:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    default: 9600
+> > +    description: |
+> 
+> Don't need '|' if no formatting
+> 
 
-Although this patchset has been merged I still have some questions about
-this patchset. Because it breaks regular mmap if address >= 38 bits on
-sv48 / sv57 capable systems like qemu. For example, If a userspace program
-wants to mmap an anonymous page to addr=(1<<45) on an sv48 capable system,
-it will fail and kernel will mmaped to another sv39 address since it does
-not meet the requirement to use sv48 as you wrote:
+Ok.
 
->	else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) \
->		mmap_end = VA_USER_SV48;			\
->	else							\
->		mmap_end = VA_USER_SV39;			\
+> > +      The baud rate for the 1-Wire reset and presence detect.
+> > +
+> > +  touch_0-speed:
+> 
+> Don't use '_' in property names.
+> 
+> I'm somewhat familar with 1-wire, but I don't get what 'touch' means 
+> here. I assume these are low and high times which are a function of the 
+> baudrate.
+> 
 
-Then, How can a userspace program create a mmap with a hint if the address
->= (1<<38) after your patch without MAP_FIXED? The only way to do this is
-to pass a hint >= (1<<47) on mmap syscall then kernel will return a random
-address in sv48 address space but the hint address gets lost. I think this
-violate the principle of mmap syscall as kernel should take the hint and
-attempt to create the mapping there.
+I change the name to 'write-0-speed' and 'write-1-speed'. The function
+in the w1-framework is named 'touch_bit' - therefore the previous
+naming. 
 
-I don't think patching in this way is right. However, if we only revert
-this patch, some programs relying on mmap to return address with effective
-bits <= 48 will still be an issue and it might expand to other ISAs if
-they implement larger virtual address space like RISC-V sv57. A better way
-to solve this might be adding a MAP_48BIT flag to mmap like MAP_32BIT has
-been introduced for decades.
+It is the baud-rate used in the 1-Wire cycle to write a 0-Bit
+(write-0-speed) and to perform a 1-Wire cycle that writes a 1-Bit and
+reads a 0-Bit or 1-Bit (write-1-speed).
 
-Thanks,
-Yangyu Chen
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    default: 115200
+> > +    description: |
+> > +      The baud rate for the 1-Wire write-0 cycle (touch bit 0).
+> > +
+> > +  touch_1-speed:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    default: 115200
+> > +    description: |
+> > +      The baud rate for the 1-Wire write-1 and read cycle (touch bit 1).
+> > +
+> > +required:
+> > +  - compatible
+> > +
+> > +additionalProperties: false
+> 
+> w1.txt says there can be a child node for the 1-wire device. You need 
+> 'type: object'. Or w1.txt needs to be converted to schema and referenced 
+> here (along with using unevaluatedProperties here instead).
+> 
+> Rob
 
+Will change it to type object. However, I also tried to convert w1.txt
+to w1.yaml - I am not quite sure, so I add an excerpt of my attempt.
+The example in w1.txt builds fine. Is oneOf allowed as a top-level
+property, the documentation only mentions allOf?
+Only one child should be allowed, but I did not find a way to restrict
+this.
+
+# w1-uart.yaml:
+unevaluatedProperties:
+  $ref: w1.yaml
+
+# w1.yaml:
+properties:
+  compatible:
+    enum:
+      - maxim,ds2760
+
+oneOf:
+  - $ref: /schemas/power/supply/maxim,ds2760.yaml
+
+unevaluatedProperties: false
+#
+
+Thank you for the review!
+
+Kind regards,
+Christoph
