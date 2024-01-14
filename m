@@ -1,55 +1,48 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6455B1841;
-	Sun, 14 Jan 2024 02:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D6A1841
+	for <linux-doc@vger.kernel.org>; Sun, 14 Jan 2024 03:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MYQ9wy7Z"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-28cf491b197so4030858a91.1;
-        Sat, 13 Jan 2024 18:47:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705200450; x=1705805250; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=acrPW8OvbjUOMzGnpFcr76/YgfSNPscL/aqWaQEyhVY=;
-        b=MYQ9wy7ZIH5kA3hkm7EID/05nOyuIOtJSYx3ZQI1KBthvLMAYtpsg//WSiVnfdTIfS
-         JUs0s2a1REHp6cirB8b0vPjLtWkHzkWCh/Jr1sv6ZH0LCq1HDdpqMUAyX8jN4iXJpXyQ
-         kfgeREEhyihzblbJC0dO3HXJ6VYlB1RMZCKT2I1abWIgRSFBSVpYBXyT70dKK5N36PH0
-         kdUV6Ji27KHmRg6sVy5jW42G7N9f32R/BdfddYKXhibJ4b+txbR06u/88NH5TNpSF7xW
-         8VcqfuUUrnGbPJEveOhG0AHSVfSwg2KgYuPk6j3ltTIyteo4PW9tTKtWS8cUyhGpE4Os
-         gsxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705200450; x=1705805250;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=acrPW8OvbjUOMzGnpFcr76/YgfSNPscL/aqWaQEyhVY=;
-        b=psfmpwQLeBwudCKLXHsLkWMs8NPjaKe0Q6NVDR5zLsgCUZp6EE+glI/VEh/EUHb5/L
-         8eJg9zWetb1PWRggTaVb+5zs7BRPpkssCQ/AwgNv6qM4I60qQPljYljCpLtzX/LA3RWO
-         Bo6BIrDoayA8P4UxPHL1nrLW+pHxx9oMwDi1wsYcpimhw0shbPJrcVfX40YZrZlkdH5A
-         wj5+WiwkAOX6NJh8lzh0TdhI+6Gkgbf/yDEXxd86gG2SI91zJSY5GHcvLhrCuG5+45bv
-         qrXKFBG6LD+ufHcLqDZpbQZCu9oRYZ2ISQL9cQHyMsMogIvuzXd8gAKPqWLzXd3sAS/x
-         0ZdQ==
-X-Gm-Message-State: AOJu0YyTRMDfz7heVDj5o2NW7MMWCzowjpw3SEAvm8wfejGHH+8i25Hn
-	/hPHiGwHDP2nH02h8oIskkqUvchqlOpdMw==
-X-Google-Smtp-Source: AGHT+IG30UwpcVT1o4w9oGoIDDwLMHS3PA2qlDIRg9kXw2x0c3NQ61x2xfY5d8GDmOCmfd6myZdhpQ==
-X-Received: by 2002:a17:902:e5ce:b0:1d5:b948:8e4e with SMTP id u14-20020a170902e5ce00b001d5b9488e4emr276142plf.91.1705200450083;
-        Sat, 13 Jan 2024 18:47:30 -0800 (PST)
-Received: from rigel (60-241-235-125.tpgi.com.au. [60.241.235.125])
-        by smtp.gmail.com with ESMTPSA id u9-20020a17090341c900b001d3ecbccb52sm5400163ple.213.2024.01.13.18.47.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jan 2024 18:47:29 -0800 (PST)
-Date: Sun, 14 Jan 2024 10:47:24 +0800
-From: Kent Gibson <warthog618@gmail.com>
-To: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, brgl@bgdev.pl, linus.walleij@linaro.org,
-	andy@kernel.org, corbet@lwn.net
-Subject: Re: [PATCH 0/7] Documentation: gpio: add character device userspace
- API documentation
-Message-ID: <20240114024724.GA20870@rigel>
-References: <20240109135952.77458-1-warthog618@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTU/9gDH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705202491; x=1736738491;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dXDD8oPvjiwGvhH7U/KlYHnlAJDHV4588ItGjtMOvag=;
+  b=JTU/9gDH1/WUy4um0Jeu3kUNxy5x/TtvLyjCnf5VXDvHKyO/mjKL5Es+
+   N1agAeTcGL+nAvCG+nTNNf86ZN5dS1MtVm1g0SUJPVDAQXTdL5lSXWcu3
+   ksskQF6y5PnloS5QYB6JYWP+nUeFv7hF+X5jG/wlRP099RyO/OA3pk+t2
+   Tez2wL/L3BHMTepgHi3AucMDrh5YsmRtalXp2GhSQbzxrgQIiGZQcZ8Sv
+   qdRgyBoL3Awo1h+C9xoSLW/W6Hl0vH4baao1jEekvqqwREfJUqpKHtb24
+   iW8nsAFRKatZygs+Bme7hFg48FF0l86mOUYcNUxXzSfV5tQ6a6gaOUIxK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="6795799"
+X-IronPort-AV: E=Sophos;i="6.04,193,1695711600"; 
+   d="scan'208";a="6795799"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2024 19:21:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10952"; a="956484270"
+X-IronPort-AV: E=Sophos;i="6.04,193,1695711600"; 
+   d="scan'208";a="956484270"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 13 Jan 2024 19:21:28 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rOr3u-000B9I-1R;
+	Sun, 14 Jan 2024 03:21:26 +0000
+Date: Sun, 14 Jan 2024 11:20:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Steve Jeong <how2soft@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Dongjin Kim <tobetter@gmail.com>, linux-doc@vger.kernel.org
+Subject: [tobetter:odroid-6.1.y 1/84] drivers/char/rk3568-gpiomem.c:2:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202401141148.UUGFAYJe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,27 +51,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240109135952.77458-1-warthog618@gmail.com>
 
-On Tue, Jan 09, 2024 at 09:59:45PM +0800, Kent Gibson wrote:
-> My new year's resolution was to improve the documentation of the
-> character device API and gpio in general, so here we are.
->
+Hi Steve,
 
->
-> Patch 2 relocates the sysfs API doc to stress its deprecation by
-> moving it to a new deprecated section, again in userspace-api but
-> with a similar section in the admin-guide. The deprecated section
-> also provides a placeholder for subsequent changes.
->
+FYI, the error/warning still remains.
 
-While preparing the v2 version of this series, I'm now wondering
-if this should be changed to "obsolete" rather than "deprecated", to
-better fit with the interface lifecycle, to indicate there is an
-alternative, and to emphasise that it is scheduled for removal.
-i.e. from a userspace perspective "obsolete" is the clearer term.
+tree:   https://github.com/tobetter/linux odroid-6.1.y
+head:   b0ba08f75cf1fc43c19f57ea6930f3358bd2e196
+commit: 161dee9509736facbf1906dd1005e70e240389fa [1/84] ODROID-M1: Add /dev/gpiomem device
+config: arm-randconfig-004-20240114 (https://download.01.org/0day-ci/archive/20240114/202401141148.UUGFAYJe-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 9bde5becb44ea071f5e1fa1f5d4071dc8788b18c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240114/202401141148.UUGFAYJe-lkp@intel.com/reproduce)
 
-Is that a change worth making?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401141148.UUGFAYJe-lkp@intel.com/
 
-Cheers,
-Kent.
+All warnings (new ones prefixed by >>):
+
+>> drivers/char/rk3568-gpiomem.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * GPIO memory device driver
+
+
+vim +2 drivers/char/rk3568-gpiomem.c
+
+   > 2	 * GPIO memory device driver
+     3	 *
+     4	 * Creates a chardev /dev/gpiomem which will provide user access to
+     5	 * the rk3568's GPIO registers when it is mmap()'d.
+     6	 * No longer need root for user GPIO access, but without relaxing permissions
+     7	 * on /dev/mem.
+     8	 *
+     9	 * Written by Luke Wren <luke@raspberrypi.org>
+    10	 * Copyright (c) 2015, Raspberry Pi (Trading) Ltd.
+    11	 *
+    12	 * Redistribution and use in source and binary forms, with or without
+    13	 * modification, are permitted provided that the following conditions
+    14	 * are met:
+    15	 * 1. Redistributions of source code must retain the above copyright
+    16	 *    notice, this list of conditions, and the following disclaimer,
+    17	 *    without modification.
+    18	 * 2. Redistributions in binary form must reproduce the above copyright
+    19	 *    notice, this list of conditions and the following disclaimer in the
+    20	 *    documentation and/or other materials provided with the distribution.
+    21	 * 3. The names of the above-listed copyright holders may not be used
+    22	 *    to endorse or promote products derived from this software without
+    23	 *    specific prior written permission.
+    24	 *
+    25	 * ALTERNATIVELY, this software may be distributed under the terms of the
+    26	 * GNU General Public License ("GPL") version 2, as published by the Free
+    27	 * Software Foundation.
+    28	 *
+    29	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+    30	 * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+    31	 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+    32	 * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+    33	 * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+    34	 * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    35	 * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+    36	 * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+    37	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    38	 * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    39	 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    40	 */
+    41	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
