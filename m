@@ -1,91 +1,91 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC2020EE;
-	Sun, 14 Jan 2024 12:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090F12100;
+	Sun, 14 Jan 2024 13:21:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FcFUiW5z"
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7bf2a89c273so65744839f.3;
-        Sun, 14 Jan 2024 04:55:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UflK5n/g"
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-40e78238db9so964145e9.3;
+        Sun, 14 Jan 2024 05:21:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705236924; x=1705841724; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=BxXhDrDTWUWugV/3PD/CLnM+3ZJaWXO6/qqmveyyw2s=;
-        b=FcFUiW5zccsjxUI3rXkeUg/GI0Ir5sRHxTCDN6/V1py1FHfDyPGJUAo+Y4oV4Ltt85
-         BWoQ/X0XqJ9NYdypaHKxSHnXu8A+ZlBFDZ8kz+qnhgkwI78kLAhjxRlcmD68HRBLE1fO
-         x45PeSKsEuRVkIG7y0qPAccUGqnhzJU6xHVcC+H0s4qerDvNDilAM8syJUhtLNTq/pPc
-         VMYguCWNlvJ9y7KSMyI9CNdirC5QLt396lmyXpbe7o3LjB9ND2q6pj4y/Q5qavjC7SLH
-         UKktZ6af890HelFJNiIXRohFlJBg0q82p9Hmk9KR0fvEPgdXrHzqqWKg/wBJSvkDortM
-         ILDA==
+        d=gmail.com; s=20230601; t=1705238497; x=1705843297; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GomAbZrLbBtM8vyboZCJURUxBp78Y509pQ6wuZF3DIE=;
+        b=UflK5n/geVxiNVCb4d5p0PzInLi2g50XB384VxOFQOI9etPvWECOoS6iYtIVpuF45m
+         3vYGl1JJnb+jDF53MYicDBqDM/WRmStS7fZk494qa2JxXPdodKkYm44K3cneDt9ik1pa
+         mrbnwU+nhtir8+DBtxYZEzPnHsOtBvktZ3M/dfHZM5xi7i4E0/5yyQFi0Bdv0i3yNWB/
+         mnup9l3RNCd3OlYs4GHyodFsYRo7vq8UYTBZh40o5m6WFyyAG6a8K53YNMhNDZI7h9xk
+         YvIKn8FiB+Gc+yH7PkcDy+/pPhHAa1XN9wzjYSirN04ynMGhY7NzyhLd/h0WOnBjhPTt
+         MHsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705236924; x=1705841724;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1705238497; x=1705843297;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BxXhDrDTWUWugV/3PD/CLnM+3ZJaWXO6/qqmveyyw2s=;
-        b=fkAHreBaRYdbWK/UGScCuJ9SZtG7Ebsh44GLokkLB7+V253c5XGiyKA4EfEo5Lu0s0
-         l29yTx7fAFaEnqNx1J3vgwZgpwqgpRyZePP39JW11pqIkguEnPkJxceFlejiTjq5PbD/
-         PLlp2sCgMSquqTR7xY6mSqOvIeImkrlFxy9Jns4l4bV4OqyUVSWTNywIv81HCMvFXtbV
-         85yWQLmAPPomOrhc5SgcDdPQfWmCx1cl6t1or/u326yoF+ZO43JOQldrX7Lhvhw7sTVS
-         +11xl3RrMVNaqUbMiAUyy8x5q2mD1WSqa2+KTHNSu43BQQW+sMNUx53s62706ORcG7Cv
-         O19A==
-X-Gm-Message-State: AOJu0YxIS1A3E3CfoSrO/FpUKrRZz3liJjCGXyUowM9VfORnYo84wvJ9
-	Tc/BizLlyZ3qvDubq8zqhVg=
-X-Google-Smtp-Source: AGHT+IEqA+EUhfPIJP6O62E5SzB1wSRXCemRkOGSmfdzDTcwYj6XTg/mhHVe2+m8V2ZtTJT0RHz9Fw==
-X-Received: by 2002:a6b:720d:0:b0:7be:e321:764 with SMTP id n13-20020a6b720d000000b007bee3210764mr6032344ioc.24.1705236924601;
-        Sun, 14 Jan 2024 04:55:24 -0800 (PST)
-Received: from rigel (60-241-235-125.tpgi.com.au. [60.241.235.125])
-        by smtp.gmail.com with ESMTPSA id z3-20020a170903018300b001c61073b076sm5985845plg.144.2024.01.14.04.55.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jan 2024 04:55:24 -0800 (PST)
-Date: Sun, 14 Jan 2024 20:55:18 +0800
-From: Kent Gibson <warthog618@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, brgl@bgdev.pl, linus.walleij@linaro.org,
-	andy@kernel.org, corbet@lwn.net
-Subject: Re: [PATCH 0/7] Documentation: gpio: add character device userspace
- API documentation
-Message-ID: <20240114125518.GA84351@rigel>
-References: <20240109135952.77458-1-warthog618@gmail.com>
- <20240114024724.GA20870@rigel>
- <CAHp75VeN25Q+7nTM0f3MWnU99Y0MZJjxBLfMxJJhAyWcBq8W7w@mail.gmail.com>
+        bh=GomAbZrLbBtM8vyboZCJURUxBp78Y509pQ6wuZF3DIE=;
+        b=S/IT+NtHHK1hHsjfRG6mNGJL9H+jnE6Fn81mGB/9WJoYAHgXklrWBno+zXAyceLK1K
+         t/yD3Pc5NxgY1VjdDnU2mWVOEY16iOrSUTjMB9FJ8aKpAoyh6DsHP4S4IzTYs0u1CvEp
+         tHVqNctFzJScPDIhnSLCCJtXbS4XgmhLeVp97g0N77IjtrKGs/dpIK+0nImYHAm8nrsV
+         hItFR+//c3uQF4ivI1Qw5raqS7tC3BGymKuqm0VIrKTDSgR4w/6qXahNZ/kI3bWCgNAN
+         ZxNZgswpiML2E6k9kC/E23tKZUQ/9b+/QM3ACg7LMlnW5zXanqe5xD2wSjoqWDc3QQGu
+         C6MA==
+X-Gm-Message-State: AOJu0Yw2iVnFagsDbb57/Urs2AyQM4bTmc4FSdTJQKDpPmMwKBoTVAfy
+	Ej5XnAXPr26kpQrRjHOIrus=
+X-Google-Smtp-Source: AGHT+IHBKURrr+5ry2mYvwjRbWYEy0Fmj759JdqVweE4ix+TWDYp2mcDhJYO17mxIWWPnnvbZ+9b/A==
+X-Received: by 2002:a7b:cbc7:0:b0:40e:6707:b758 with SMTP id n7-20020a7bcbc7000000b0040e6707b758mr1596211wmi.178.1705238496862;
+        Sun, 14 Jan 2024 05:21:36 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:81:c881:98da:8231:7230:735c? ([2a04:ee41:81:c881:98da:8231:7230:735c])
+        by smtp.gmail.com with ESMTPSA id m27-20020a1709060d9b00b00a2c7d34157asm3770152eji.180.2024.01.14.05.21.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 Jan 2024 05:21:36 -0800 (PST)
+Message-ID: <a02e8fbb-8579-4cce-9868-73c8bbac4720@gmail.com>
+Date: Sun, 14 Jan 2024 14:21:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VeN25Q+7nTM0f3MWnU99Y0MZJjxBLfMxJJhAyWcBq8W7w@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] can: bcm: add recvmsg flags for own, local and remote
+ traffic
+To: Oliver Hartkopp <socketcan@hartkopp.net>, mkl@pengutronix.de,
+ linux-can@vger.kernel.org
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1cf96afe-6a27-4fd5-975e-96122f72df2e@gmail.com>
+ <14e86ea6-e038-4702-957a-39af27bfc280@hartkopp.net>
+Content-Language: en-US
+From: Nicolas Maier <nicolas.maier.dev@gmail.com>
+In-Reply-To: <14e86ea6-e038-4702-957a-39af27bfc280@hartkopp.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jan 14, 2024 at 02:01:29PM +0200, Andy Shevchenko wrote:
-> On Sun, Jan 14, 2024 at 4:47 AM Kent Gibson <warthog618@gmail.com> wrote:
-> > On Tue, Jan 09, 2024 at 09:59:45PM +0800, Kent Gibson wrote:
-> > > My new year's resolution was to improve the documentation of the
-> > > character device API and gpio in general, so here we are.
->
-> ...
->
-> > While preparing the v2 version of this series, I'm now wondering
-> > if this should be changed to "obsolete" rather than "deprecated", to
-> > better fit with the interface lifecycle, to indicate there is an
-> > alternative, and to emphasise that it is scheduled for removal.
-> > i.e. from a userspace perspective "obsolete" is the clearer term.
-> >
-> > Is that a change worth making?
->
-> From my p.o.v. yes, as it makes it consistent with what we already
-> have in the sysfs/obsolete.
->
+Hello,
 
-Ok then, I'll incorporate it into v2.
+Thanks a lot for the feedback!
 
-Cheers,
-Kent.
+On 08/01/2024 19:57, Oliver Hartkopp wrote:
+
+> But in the first place I'm interested to know what the use-case for this 
+> extension is.
+
+My goal with this extension is to be able to implement a reliable
+'CAN send' function in userspace which would check that the message has
+been correctly transmitted, or retry if no confirmation was received
+after a timeout (I am using a device which empties some TX buffer when
+recovering from the Bus-Off state, therefore some messages will be lost,
+which is why the reliability needs to be handled elsewhere). For this
+purpose, knowing the origin of a received message is needed.
+
+This was already possible with RAW sockets, and the goal here is to
+provide the same information when using BCM sockets.
+
+Best regards,
+Nicolas
+
