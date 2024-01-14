@@ -1,329 +1,202 @@
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73F120EB;
-	Sun, 14 Jan 2024 14:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD277E;
+	Sun, 14 Jan 2024 14:47:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3pwl/yx"
-Received: by mail-ed1-f68.google.com with SMTP id 4fb4d7f45d1cf-5534dcfdd61so14024214a12.0;
-        Sun, 14 Jan 2024 06:08:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nDgeIL6Z"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-557e76e1bd6so7421150a12.1;
+        Sun, 14 Jan 2024 06:47:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705241292; x=1705846092; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j4yDjR1SKUvH8EHTh9P5DMl/5y4Y79qGtVURgPZy4fo=;
-        b=X3pwl/yxXuLrDLzJxJKkOaqOweXr9TcN1XMOecxpilAormWfAjyQZ0kupAlInzu+sx
-         tfuDdPnQ9qfYl4j7lsUKv97rVRTMwaDDjWgGCC0n0O99Vf4LB8QZAg3VcYnWHXJrcQPV
-         EgGvD8ohsoan/6xRa9irUl4tINNJ6hjuwUFDOlaSnpL2Dpsm1IG/4hOTJ4A/Lgdc2Ar6
-         Q6Lo2osdw3mEdyuhtXY34bPRzDFW0lcJ5bP8wqPd89gtoD5uM9lc6gx0Z8zX62y4Jy6L
-         XCuJemzXy9DFeNJDKUFvklc3gcnCXs16Ngh4aW5LVZwf7/XQpOQBUZ8b6sNW0pDffZs2
-         irew==
+        d=gmail.com; s=20230601; t=1705243662; x=1705848462; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1RfostFqAU3snM+2/TDPgHKNO1Hh0ApprqGF2zbs6XU=;
+        b=nDgeIL6ZPFRH/dZivnrIppXtvjaNObADdO7r4Fy9W7SK8BsE0BbOCIS7YK/0x+LTBw
+         feY6xSP91vyBATYy5Z3Rj/TkQQWGxLH9bEF9kabsTvUsgTWt2/kwKrfYDHfBD9iiHxjr
+         4RB3ELyy2QH/q2u0+26yeVtIctyIXuMJjGh5NdNbRwMjrjXXmmXmpQ8LEbWD5QG9BUKp
+         AmowEQQfFNcUakYjOXJgcpB+QQ47UE7d195fJXi8u6tPHh1fhpJX2c2ScIyMUYPP1bh8
+         ciYjzlhTZDgyynC+rxQ2bhTkjfWma4VWfb222rN9mlPHDAdmMr6lHb6JOgBzTMGXwmvQ
+         BcGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705241292; x=1705846092;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=j4yDjR1SKUvH8EHTh9P5DMl/5y4Y79qGtVURgPZy4fo=;
-        b=gl9Iz863Jt/x7nuptxdg8G+dQHUsqBmBJRNemW/ryhCBRfjCtWuLBd0QCq+Yu5QF8o
-         ECveAezSruYFjRCDm2pJMHGWzx659pXljt7jFnjE4VwMZnNPpLzmVV0GuTi1A+UOIpKP
-         y4QLI94r90GQ8O5yo3WONqfeZGULEot0vUkk20O1x9GzxI8qU4rN87SHbgQ99VV0Z82u
-         oQ7xdFijskvIitprg/1bqwoGpl99fslBevPZEBnVrvVtdZoLuy+cpjftZPanFILZIGrp
-         NOVNPB08ogowTwCMeYoLNOu6EZaPtzZxqhApNGg2KAmoDg4VzHpvUFgEYIp5ItQeCtBq
-         4T7g==
-X-Gm-Message-State: AOJu0Yyg63cF5KUBxAxMvqiN4/EkPGsb4LGRh07ax3lDI9JLm0pPsp6Z
-	rQiiTyFsHPJpOxBxBcGdbUQ=
-X-Google-Smtp-Source: AGHT+IE2owUaDz7v70BvnlPw2u8iTbzNWJL3M5ehmpIQC/t/8vAkqTHgBPbal7OLub4f/wd/kIeUng==
-X-Received: by 2002:a05:6402:64c:b0:559:1ff3:d05e with SMTP id u12-20020a056402064c00b005591ff3d05emr1042062edx.10.1705241291732;
-        Sun, 14 Jan 2024 06:08:11 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:81:c881:98da:8231:7230:735c? ([2a04:ee41:81:c881:98da:8231:7230:735c])
-        by smtp.gmail.com with ESMTPSA id g19-20020a056402321300b00558cc87e582sm3216566eda.52.2024.01.14.06.08.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Jan 2024 06:08:11 -0800 (PST)
-Message-ID: <4f433c14-94d5-493d-96b1-8a0180026ad5@gmail.com>
-Date: Sun, 14 Jan 2024 15:08:09 +0100
+        d=1e100.net; s=20230601; t=1705243662; x=1705848462;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1RfostFqAU3snM+2/TDPgHKNO1Hh0ApprqGF2zbs6XU=;
+        b=vCEC0jtmZIjl5tLRdmRtByoEqDIT2AKr23LHYj7k7l63h+7h7cxLtsuJm+0xttqqQL
+         VbyV0a/4XJYLdfR6hZ+kq+fO4E8Jm/QGffWYnxTK6TycEPnxkWHEOWqA4zllU3ETzF/k
+         VqBjvc5IiDJUBCbwVu2Zev8PcL1au685Hy1vDf+KH2tIz+khtTcvQoT6qnkzU7kcOc2I
+         ofxJ5rkHglPHkYjU3GemV5b/MFWNtb+0/h8VWTHaEWBo6tLci08S0qN0Tc8QM1ywMgWC
+         owkcUejZPNaEO3CfoGQDNUcmMjGQJlMZTu2BBLc1WLT4PBShU7LC45kmCZMQ0KqmADxH
+         oWQQ==
+X-Gm-Message-State: AOJu0YzuuQHlFnjpDzyy0GbwYIqsj5af16ARHorrqx0nemw1rMm0aGFC
+	gyMAG0nYHoBZoACVspQK8Ro=
+X-Google-Smtp-Source: AGHT+IH9UZ1+n5ZCs7ReOFk6TPU1hUkEpzbyghVF9cxiQkRcSiFP9zDO3FJCuATydcDAsoHDhv4a7A==
+X-Received: by 2002:a05:6402:40c3:b0:558:ce1e:f5f1 with SMTP id z3-20020a05640240c300b00558ce1ef5f1mr2330271edb.71.1705243661734;
+        Sun, 14 Jan 2024 06:47:41 -0800 (PST)
+Received: from cjw-notebook (2a02-8388-0502-f480-6c32-186a-368b-d6a9.cable.dynamic.v6.surfer.at. [2a02:8388:502:f480:6c32:186a:368b:d6a9])
+        by smtp.gmail.com with ESMTPSA id eo9-20020a056402530900b00557b0f8d906sm4261982edb.70.2024.01.14.06.47.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jan 2024 06:47:41 -0800 (PST)
+Date: Sun, 14 Jan 2024 15:47:38 +0100
+From: Christoph Winklhofer <cj.winklhofer@gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] dt-bindings: w1: UART 1-Wire bus
+Message-ID: <ZaP0CoCYLQxrT3VD@cjw-notebook>
+References: <20240106-w1-uart-v4-0-7fe1378a8b3e@gmail.com>
+ <20240106-w1-uart-v4-1-7fe1378a8b3e@gmail.com>
+ <20240113013917.GA3795949-robh@kernel.org>
+ <ZaLQxGjjmA_iKOv2@cjw-notebook>
+ <81c79939-56cc-4d78-9552-56568999df09@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Oliver Hartkopp <socketcan@hartkopp.net>,
- Marc Kleine-Budde <mkl@pengutronix.de>, linux-can@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-From: Nicolas Maier <nicolas.maier.dev@gmail.com>
-Subject: [PATCH v2] can: bcm: add recvmsg flags for own, local and remote
- traffic
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <81c79939-56cc-4d78-9552-56568999df09@linaro.org>
 
-CAN RAW sockets allow userspace to tell if a received CAN frame comes
-from the same socket, another socket on the same host, or another host.
-See commit 1e55659ce6dd ("can-raw: add msg_flags to distinguish local
-traffic"). However, this feature is missing in CAN BCM sockets.
+On Sun, Jan 14, 2024 at 11:54:48AM +0100, Krzysztof Kozlowski wrote:
+> On 13/01/2024 19:04, Christoph Winklhofer wrote:
+> > On Fri, Jan 12, 2024 at 07:39:17PM -0600, Rob Herring wrote:
+> >> On Sat, Jan 06, 2024 at 05:02:24PM +0100, Christoph Winklhofer wrote:
+> >>> Add device tree binding for UART 1-Wire bus.
+> >>>
+> >>> Signed-off-by: Christoph Winklhofer <cj.winklhofer@gmail.com>
+> >>> ---
+> >>>  Documentation/devicetree/bindings/w1/w1-uart.yaml | 62 +++++++++++++++++++++++
+> >>>  1 file changed, 62 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/w1/w1-uart.yaml b/Documentation/devicetree/bindings/w1/w1-uart.yaml
+> >>> new file mode 100644
+> >>> index 000000000000..6b90693b2ca0
+> >>> --- /dev/null
+> >>> +++ b/Documentation/devicetree/bindings/w1/w1-uart.yaml
+> >>> @@ -0,0 +1,62 @@
+> >>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> >>> +%YAML 1.2
+> >>> +---
+> >>> +$id: http://devicetree.org/schemas/w1/w1-uart.yaml#
+> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > ...
+> >>> +properties:
+> >>> +  compatible:
+> >>> +    const: w1-uart
+> >>> +
+> >>> +  reset-speed:
+> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >>> +    default: 9600
+> >>> +    description: |
+> >>
+> >> Don't need '|' if no formatting
+> >>
+> > 
+> > Ok.
+> > 
+> >>> +      The baud rate for the 1-Wire reset and presence detect.
+> >>> +
+> >>> +  touch_0-speed:
+> >>
+> >> Don't use '_' in property names.
+> >>
+> >> I'm somewhat familar with 1-wire, but I don't get what 'touch' means 
+> >> here. I assume these are low and high times which are a function of the 
+> >> baudrate.
+> >>
+> > 
+> > I change the name to 'write-0-speed' and 'write-1-speed'. The function
+> > in the w1-framework is named 'touch_bit' - therefore the previous
+> > naming. 
+> > 
+> > It is the baud-rate used in the 1-Wire cycle to write a 0-Bit
+> > (write-0-speed) and to perform a 1-Wire cycle that writes a 1-Bit and
+> > reads a 0-Bit or 1-Bit (write-1-speed).
+> 
+> 
+> Then probably -bps:
+> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
 
-Add the same feature to CAN BCM sockets. When reading a received frame
-(opcode RX_CHANGED) using recvmsg, two flags in msg->msg_flags may be
-set following the previous convention (from CAN RAW), to distinguish
-between 'own', 'local' and 'remote' CAN traffic.
+The serial.yaml uses prefix -speed for the baud rate but I can change it
+to -bps.
 
-Update the documentation to reflect this change.
+> 
+> > 
+> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >>> +    default: 115200
+> >>> +    description: |
+> >>> +      The baud rate for the 1-Wire write-0 cycle (touch bit 0).
+> >>> +
+> >>> +  touch_1-speed:
+> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >>> +    default: 115200
+> >>> +    description: |
+> >>> +      The baud rate for the 1-Wire write-1 and read cycle (touch bit 1).
+> >>> +
+> >>> +required:
+> >>> +  - compatible
+> >>> +
+> >>> +additionalProperties: false
+> >>
+> >> w1.txt says there can be a child node for the 1-wire device. You need 
+> >> 'type: object'. Or w1.txt needs to be converted to schema and referenced 
+> >> here (along with using unevaluatedProperties here instead).
+> >>
+> >> Rob
+> > 
+> > Will change it to type object. However, I also tried to convert w1.txt
+> > to w1.yaml - I am not quite sure, so I add an excerpt of my attempt.
+> > The example in w1.txt builds fine. Is oneOf allowed as a top-level
+> > property, the documentation only mentions allOf?
+> > Only one child should be allowed, but I did not find a way to restrict
+> > this.
+> > 
+> > # w1-uart.yaml:
+> > unevaluatedProperties:
+> >   $ref: w1.yaml
+> > 
+> > # w1.yaml:
+> > properties:
+> >   compatible:
+> >     enum:
+> >       - maxim,ds2760
+> 
+> w1 describes entire class of the devices, so it should not have
+> compatibles. Look how other buses do it.
 
-Signed-off-by: Nicolas Maier <nicolas.maier.dev@gmail.com>
----
+Thanks for the hint, looked at serial.yaml and usb.yaml. Hence w1.yaml
+should describe the properties common to all w1 bus controllers
+(property for child device) and w1-uart.yaml references it in allOf,
+like:
 
-v2:
-* add 'traffic_flags' parameter to bcm_rx_update_and_send and
-  bcm_rx_cmp_to_index, to put the flags in the can frame after its data
-  has been copied
+# w1.yaml
+patternProperties:
+  ".*":
+    if:
+      type: object
+    then:
+      description: Devices are listed...
+      properties:
+	compatible:
+      required:
+	- compatible
+additionalProperties: true
 
- Documentation/networking/can.rst | 34 +++++++++--------
- net/can/bcm.c                    | 65 ++++++++++++++++++++++++++------
- 2 files changed, 72 insertions(+), 27 deletions(-)
+# w1-uart.yaml
+allOf:
+ - $ref: w1.yaml#
+unevaluatedProperties: false
 
-diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
-index d7e1ada905b2..62519d38c58b 100644
---- a/Documentation/networking/can.rst
-+++ b/Documentation/networking/can.rst
-@@ -444,6 +444,24 @@ definitions are specified for CAN specific MTUs in include/linux/can.h:
-   #define CANFD_MTU (sizeof(struct canfd_frame)) == 72  => CAN FD frame
- 
- 
-+Returned Message Flags
-+----------------------
-+
-+When using the system call recvmsg(2) on a RAW or a BCM socket, the
-+msg->msg_flags field may contain the following flags:
-+
-+MSG_DONTROUTE:
-+	set when the received frame was created on the local host.
-+
-+MSG_CONFIRM:
-+	set when the frame was sent via the socket it is received on.
-+	This flag can be interpreted as a 'transmission confirmation' when the
-+	CAN driver supports the echo of frames on driver level, see
-+	:ref:`socketcan-local-loopback1` and :ref:`socketcan-local-loopback2`.
-+	(Note: In order to receive such messages on a RAW socket,
-+	CAN_RAW_RECV_OWN_MSGS must be set.)
-+
-+
- .. _socketcan-raw-sockets:
- 
- RAW Protocol Sockets with can_filters (SOCK_RAW)
-@@ -693,22 +711,6 @@ where the CAN_INV_FILTER flag is set in order to notch single CAN IDs or
- CAN ID ranges from the incoming traffic.
- 
- 
--RAW Socket Returned Message Flags
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--When using recvmsg() call, the msg->msg_flags may contain following flags:
--
--MSG_DONTROUTE:
--	set when the received frame was created on the local host.
--
--MSG_CONFIRM:
--	set when the frame was sent via the socket it is received on.
--	This flag can be interpreted as a 'transmission confirmation' when the
--	CAN driver supports the echo of frames on driver level, see
--	:ref:`socketcan-local-loopback1` and :ref:`socketcan-local-loopback2`.
--	In order to receive such messages, CAN_RAW_RECV_OWN_MSGS must be set.
--
--
- Broadcast Manager Protocol Sockets (SOCK_DGRAM)
- -----------------------------------------------
- 
-diff --git a/net/can/bcm.c b/net/can/bcm.c
-index 9168114fc87f..8c0468823911 100644
---- a/net/can/bcm.c
-+++ b/net/can/bcm.c
-@@ -72,9 +72,11 @@
- #define BCM_TIMER_SEC_MAX (400 * 24 * 60 * 60)
- 
- /* use of last_frames[index].flags */
-+#define RX_LOCAL   0x10 /* frame was created on the local host */
-+#define RX_OWN     0x20 /* frame was sent via the socket it was received on */
- #define RX_RECV    0x40 /* received data for this element */
- #define RX_THR     0x80 /* element not been sent due to throttle feature */
--#define BCM_CAN_FLAGS_MASK 0x3F /* to clean private flags after usage */
-+#define BCM_CAN_FLAGS_MASK 0x0F /* to clean private flags after usage */
- 
- /* get best masking value for can_rx_register() for a given single can_id */
- #define REGMASK(id) ((id & CAN_EFF_FLAG) ? \
-@@ -138,6 +140,19 @@ static LIST_HEAD(bcm_notifier_list);
- static DEFINE_SPINLOCK(bcm_notifier_lock);
- static struct bcm_sock *bcm_busy_notifier;
- 
-+/* Return pointer to store the extra msg flags for bcm_recvmsg().
-+ * We use the space of one unsigned int beyond the 'struct sockaddr_can'
-+ * in skb->cb.
-+ */
-+static inline unsigned int *bcm_flags(struct sk_buff *skb)
-+{
-+	sock_skb_cb_check_size(sizeof(struct sockaddr_can) +
-+			       sizeof(unsigned int));
-+
-+	/* return pointer after struct sockaddr_can */
-+	return (unsigned int *)(&((struct sockaddr_can *)skb->cb)[1]);
-+}
-+
- static inline struct bcm_sock *bcm_sk(const struct sock *sk)
- {
- 	return (struct bcm_sock *)sk;
-@@ -325,6 +340,7 @@ static void bcm_send_to_user(struct bcm_op *op, struct bcm_msg_head *head,
- 	struct sock *sk = op->sk;
- 	unsigned int datalen = head->nframes * op->cfsiz;
- 	int err;
-+	unsigned int *pflags;
- 
- 	skb = alloc_skb(sizeof(*head) + datalen, gfp_any());
- 	if (!skb)
-@@ -344,8 +360,16 @@ static void bcm_send_to_user(struct bcm_op *op, struct bcm_msg_head *head,
- 		 * relevant for updates that are generated by the
- 		 * BCM, where nframes is 1
- 		 */
--		if (head->nframes == 1)
-+		if (head->nframes == 1) {
-+			pflags = bcm_flags(skb);
-+			*pflags = 0;
-+			if (firstframe->flags & RX_LOCAL)
-+				*pflags |= MSG_DONTROUTE;
-+			if (firstframe->flags & RX_OWN)
-+				*pflags |= MSG_CONFIRM;
-+
- 			firstframe->flags &= BCM_CAN_FLAGS_MASK;
-+		}
- 	}
- 
- 	if (has_timestamp) {
-@@ -444,7 +468,7 @@ static void bcm_rx_changed(struct bcm_op *op, struct canfd_frame *data)
- 		op->frames_filtered = op->frames_abs = 0;
- 
- 	/* this element is not throttled anymore */
--	data->flags &= (BCM_CAN_FLAGS_MASK|RX_RECV);
-+	data->flags &= ~RX_THR;
- 
- 	memset(&head, 0, sizeof(head));
- 	head.opcode  = RX_CHANGED;
-@@ -465,13 +489,17 @@ static void bcm_rx_changed(struct bcm_op *op, struct canfd_frame *data)
-  */
- static void bcm_rx_update_and_send(struct bcm_op *op,
- 				   struct canfd_frame *lastdata,
--				   const struct canfd_frame *rxdata)
-+				   const struct canfd_frame *rxdata,
-+				   unsigned char traffic_flags)
- {
- 	memcpy(lastdata, rxdata, op->cfsiz);
- 
- 	/* mark as used and throttled by default */
- 	lastdata->flags |= (RX_RECV|RX_THR);
- 
-+	/* add own/local/remote traffic flags */
-+	lastdata->flags |= traffic_flags;
-+
- 	/* throttling mode inactive ? */
- 	if (!op->kt_ival2) {
- 		/* send RX_CHANGED to the user immediately */
-@@ -508,7 +536,8 @@ static void bcm_rx_update_and_send(struct bcm_op *op,
-  *                       received data stored in op->last_frames[]
-  */
- static void bcm_rx_cmp_to_index(struct bcm_op *op, unsigned int index,
--				const struct canfd_frame *rxdata)
-+				const struct canfd_frame *rxdata,
-+				unsigned char traffic_flags)
- {
- 	struct canfd_frame *cf = op->frames + op->cfsiz * index;
- 	struct canfd_frame *lcf = op->last_frames + op->cfsiz * index;
-@@ -521,7 +550,7 @@ static void bcm_rx_cmp_to_index(struct bcm_op *op, unsigned int index,
- 
- 	if (!(lcf->flags & RX_RECV)) {
- 		/* received data for the first time => send update to user */
--		bcm_rx_update_and_send(op, lcf, rxdata);
-+		bcm_rx_update_and_send(op, lcf, rxdata, traffic_flags);
- 		return;
- 	}
- 
-@@ -529,7 +558,7 @@ static void bcm_rx_cmp_to_index(struct bcm_op *op, unsigned int index,
- 	for (i = 0; i < rxdata->len; i += 8) {
- 		if ((get_u64(cf, i) & get_u64(rxdata, i)) !=
- 		    (get_u64(cf, i) & get_u64(lcf, i))) {
--			bcm_rx_update_and_send(op, lcf, rxdata);
-+			bcm_rx_update_and_send(op, lcf, rxdata, traffic_flags);
- 			return;
- 		}
- 	}
-@@ -537,7 +566,7 @@ static void bcm_rx_cmp_to_index(struct bcm_op *op, unsigned int index,
- 	if (op->flags & RX_CHECK_DLC) {
- 		/* do a real check in CAN frame length */
- 		if (rxdata->len != lcf->len) {
--			bcm_rx_update_and_send(op, lcf, rxdata);
-+			bcm_rx_update_and_send(op, lcf, rxdata, traffic_flags);
- 			return;
- 		}
- 	}
-@@ -644,6 +673,7 @@ static void bcm_rx_handler(struct sk_buff *skb, void *data)
- 	struct bcm_op *op = (struct bcm_op *)data;
- 	const struct canfd_frame *rxframe = (struct canfd_frame *)skb->data;
- 	unsigned int i;
-+	unsigned char traffic_flags;
- 
- 	if (op->can_id != rxframe->can_id)
- 		return;
-@@ -673,15 +703,24 @@ static void bcm_rx_handler(struct sk_buff *skb, void *data)
- 		return;
- 	}
- 
-+	/* compute flags to distinguish between own/local/remote CAN traffic */
-+	traffic_flags = 0;
-+	if (skb->sk) {
-+		traffic_flags |= RX_LOCAL;
-+		if (skb->sk == op->sk)
-+			traffic_flags |= RX_OWN;
-+	}
-+
- 	if (op->flags & RX_FILTER_ID) {
- 		/* the easiest case */
--		bcm_rx_update_and_send(op, op->last_frames, rxframe);
-+		bcm_rx_update_and_send(op, op->last_frames, rxframe,
-+				       traffic_flags);
- 		goto rx_starttimer;
- 	}
- 
- 	if (op->nframes == 1) {
- 		/* simple compare with index 0 */
--		bcm_rx_cmp_to_index(op, 0, rxframe);
-+		bcm_rx_cmp_to_index(op, 0, rxframe, traffic_flags);
- 		goto rx_starttimer;
- 	}
- 
-@@ -698,7 +737,8 @@ static void bcm_rx_handler(struct sk_buff *skb, void *data)
- 			if ((get_u64(op->frames, 0) & get_u64(rxframe, 0)) ==
- 			    (get_u64(op->frames, 0) &
- 			     get_u64(op->frames + op->cfsiz * i, 0))) {
--				bcm_rx_cmp_to_index(op, i, rxframe);
-+				bcm_rx_cmp_to_index(op, i, rxframe,
-+						    traffic_flags);
- 				break;
- 			}
- 		}
-@@ -1675,6 +1715,9 @@ static int bcm_recvmsg(struct socket *sock, struct msghdr *msg, size_t size,
- 		memcpy(msg->msg_name, skb->cb, msg->msg_namelen);
- 	}
- 
-+	/* assign the flags that have been recorded in bcm_send_to_user() */
-+	msg->msg_flags |= *(bcm_flags(skb));
-+
- 	skb_free_datagram(sk, skb);
- 
- 	return size;
--- 
-2.34.1
-
+Kind regards,
+Christoph
