@@ -1,85 +1,215 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189BF1754E
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 12:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1721F175AB;
+	Mon, 15 Jan 2024 12:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xen.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xen.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F3WP9Eql"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705323306;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OdOY5TfnFDP96uyidwJURkq+KNPlInJLGTZ9BVgWgNg=;
-	b=F3WP9Eqli1L0+uBaM6LLzxSYi5d2LODNZ2Nepy1p3RziOG8a492ZlYMvrUztIRfVjT3Xp4
-	bFmfS0kyvy1ECTncY8XCpFrFZ2ZH3ybvM9n5TGX5dg4017D8kvphglbQiHzGZC5luP+COr
-	3m1NbmZ6njmoCXB5L4m5Phk0q1JuRMQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-624-Tz1tScTmMeiIHB2ZwgbUVA-1; Mon, 15 Jan 2024 07:54:59 -0500
-X-MC-Unique: Tz1tScTmMeiIHB2ZwgbUVA-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-337550cbe8cso5232529f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 04:54:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705323298; x=1705928098;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OdOY5TfnFDP96uyidwJURkq+KNPlInJLGTZ9BVgWgNg=;
-        b=lSvSaKHgPL3MegoXDGTCLkzHfeaNrS66cWe9Y57Lw28Xdvk1HLiOCCUQucfETqfWYm
-         tySNlVtOyQfCmLWrfS0G4EBXy+s/jtfh1rjtueH4iDJS099FkZWLyLcpsTNVIlXY2MJe
-         jNQZ0XDMUforMNCObjy663l1lXhfK/Cq2LlejtcXkakGIPrnjec9WT5gTwViJvaws0ln
-         ZE6TwoTj3P94epQAYhajvUAneZZnFAuL9NtsMpQ45A9grXmpc8WLdVlNMgfHx4lCAfTX
-         6k2R3sEtRwP4nPWLoHYq/S6dBbh6G/qapFXBFqQRgO3SkFSLoB44jk0hpWNExBookksM
-         e3jg==
-X-Gm-Message-State: AOJu0Yx4/faVnDUGAsmkU02HKQNj0562STzyNFDsLc9/TeUjL+fnyo/b
-	AhHKzmlpuwIeQ7SegYID4BVDHk2Wmp91JxNYe/NO3oR5elebq+Pf0c2msmkC8aIZKvBhYmsNVs9
-	1ez/1bat+r6PX9sOyUdqOsHxu0ceTPl+MnBfn
-X-Received: by 2002:a05:600c:211a:b0:40e:6ba4:e052 with SMTP id u26-20020a05600c211a00b0040e6ba4e052mr1896487wml.25.1705323298088;
-        Mon, 15 Jan 2024 04:54:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFzg0bntWWAcXtuHZuGROwZXvYdlmFhuKVULfmHMeQ1PrfepcSckBb2THm+UeIHVJ5SngMEHg==
-X-Received: by 2002:a05:600c:211a:b0:40e:6ba4:e052 with SMTP id u26-20020a05600c211a00b0040e6ba4e052mr1896482wml.25.1705323297800;
-        Mon, 15 Jan 2024 04:54:57 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id g6-20020a05600c4ec600b0040e6b0a1bc1sm9160488wmq.12.2024.01.15.04.54.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 04:54:57 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, corbet@lwn.net
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/gpu: Reference articles on Linux graphics
- stack
-In-Reply-To: <20240115113908.25897-1-tzimmermann@suse.de>
-References: <20240115113908.25897-1-tzimmermann@suse.de>
-Date: Mon, 15 Jan 2024 13:54:56 +0100
-Message-ID: <87zfx6oixr.fsf@minerva.mail-host-address-is-not-set>
+	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="dpMcEDtG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
+	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:References:
+	In-Reply-To:Message-Id:Date:Subject:To:From;
+	bh=JUiDe6hOaIy+4uee/fAnBCB3ywCyITQC8m671brMaTc=; b=dpMcEDtG7nb+ErCgJ/rncMoljY
+	vuxrqgCEb9Dy5nunHKYECPU7jeMoUDFKmt88j4f0OqytKqIk2G/4EW7EQA+7OCsw3O7e8tfhzbgN6
+	xTgopbE+lD4IiKDnYJpbay7lgK7qNVwJoqizFhkpfvSMX3bdIgSTLy6F4/rmu3Cs9dkU=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+	by mail.xenproject.org with esmtp (Exim 4.92)
+	(envelope-from <paul@xen.org>)
+	id 1rPMXI-0002kY-Np; Mon, 15 Jan 2024 12:57:52 +0000
+Received: from 54-240-197-231.amazon.com ([54.240.197.231] helo=REM-PW02S00X.ant.amazon.com)
+	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <paul@xen.org>)
+	id 1rPMXI-0002kM-Et; Mon, 15 Jan 2024 12:57:52 +0000
+From: Paul Durrant <paul@xen.org>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Paul Durrant <paul@xen.org>,
+	Shuah Khan <shuah@kernel.org>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v12 08/20] KVM: pfncache: allow a cache to be activated with a fixed (userspace) HVA
+Date: Mon, 15 Jan 2024 12:56:55 +0000
+Message-Id: <20240115125707.1183-9-paul@xen.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240115125707.1183-1-paul@xen.org>
+References: <20240115125707.1183-1-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+From: Paul Durrant <pdurrant@amazon.com>
 
-> Add two articles on LWN about the Linux graphics stack to DRM's
-> list of external references. The articles document the graphics
-> output as a whole, including the kernel side.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Some pfncache pages may actually be overlays on guest memory that have a
+fixed HVA within the VMM. It's pointless to invalidate such cached
+mappings if the overlay is moved so allow a cache to be activated directly
+with the HVA to cater for such cases. A subsequent patch will make use
+of this facility.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+Cc: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: David Woodhouse <dwmw2@infradead.org>
 
+v11:
+ - Fixed kvm_gpc_check() to ignore memslot generation if the cache is not
+   activated with a GPA. (This breakage occured during the re-work for v8).
+
+v9:
+ - Pass both GPA and HVA into __kvm_gpc_refresh() rather than overloading
+   the address paraneter and using a bool flag to indicated what it is.
+
+v8:
+ - Re-worked to avoid messing with struct gfn_to_pfn_cache.
+---
+ include/linux/kvm_host.h | 20 +++++++++++++++++++-
+ virt/kvm/pfncache.c      | 40 +++++++++++++++++++++++++++++++---------
+ 2 files changed, 50 insertions(+), 10 deletions(-)
+
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index f2354f808d04..7994c4d16783 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -1344,6 +1344,22 @@ void kvm_gpc_init(struct gfn_to_pfn_cache *gpc, struct kvm *kvm);
+  */
+ int kvm_gpc_activate(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned long len);
+ 
++/**
++ * kvm_gpc_activate_hva - prepare a cached kernel mapping and HPA for a given HVA.
++ *
++ * @gpc:          struct gfn_to_pfn_cache object.
++ * @hva:          userspace virtual address to map.
++ * @len:          sanity check; the range being access must fit a single page.
++ *
++ * @return:       0 for success.
++ *                -EINVAL for a mapping which would cross a page boundary.
++ *                -EFAULT for an untranslatable guest physical address.
++ *
++ * The semantics of this function are the same as those of kvm_gpc_activate(). It
++ * merely bypasses a layer of address translation.
++ */
++int kvm_gpc_activate_hva(struct gfn_to_pfn_cache *gpc, unsigned long hva, unsigned long len);
++
+ /**
+  * kvm_gpc_check - check validity of a gfn_to_pfn_cache.
+  *
+@@ -1398,7 +1414,9 @@ void kvm_gpc_deactivate(struct gfn_to_pfn_cache *gpc);
+ static inline void kvm_gpc_mark_dirty(struct gfn_to_pfn_cache *gpc)
+ {
+ 	lockdep_assert_held(&gpc->lock);
+-	mark_page_dirty_in_slot(gpc->kvm, gpc->memslot, gpc->gpa >> PAGE_SHIFT);
++
++	if (gpc->gpa != KVM_XEN_INVALID_GPA)
++		mark_page_dirty_in_slot(gpc->kvm, gpc->memslot, gpc->gpa >> PAGE_SHIFT);
+ }
+ 
+ void kvm_sigset_activate(struct kvm_vcpu *vcpu);
+diff --git a/virt/kvm/pfncache.c b/virt/kvm/pfncache.c
+index 97eec8ee3449..ae822bff812f 100644
+--- a/virt/kvm/pfncache.c
++++ b/virt/kvm/pfncache.c
+@@ -48,7 +48,10 @@ bool kvm_gpc_check(struct gfn_to_pfn_cache *gpc, unsigned long len)
+ 	if (!gpc->active)
+ 		return false;
+ 
+-	if (gpc->generation != slots->generation || kvm_is_error_hva(gpc->uhva))
++	if (gpc->gpa != KVM_XEN_INVALID_GPA && gpc->generation != slots->generation)
++		return false;
++
++	if (kvm_is_error_hva(gpc->uhva))
+ 		return false;
+ 
+ 	if (offset_in_page(gpc->uhva) + len > PAGE_SIZE)
+@@ -209,11 +212,13 @@ static kvm_pfn_t hva_to_pfn_retry(struct gfn_to_pfn_cache *gpc)
+ 	return -EFAULT;
+ }
+ 
+-static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa,
++static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned long uhva,
+ 			     unsigned long len)
+ {
+ 	struct kvm_memslots *slots = kvm_memslots(gpc->kvm);
+-	unsigned long page_offset = offset_in_page(gpa);
++	unsigned long page_offset = (gpa != KVM_XEN_INVALID_GPA) ?
++		offset_in_page(gpa) :
++		offset_in_page(uhva);
+ 	bool unmap_old = false;
+ 	unsigned long old_uhva;
+ 	kvm_pfn_t old_pfn;
+@@ -246,9 +251,15 @@ static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa,
+ 	old_khva = (void *)PAGE_ALIGN_DOWN((uintptr_t)gpc->khva);
+ 	old_uhva = PAGE_ALIGN_DOWN(gpc->uhva);
+ 
+-	/* Refresh the userspace HVA if necessary */
+-	if (gpc->gpa != gpa || gpc->generation != slots->generation ||
+-	    kvm_is_error_hva(gpc->uhva)) {
++	if (gpa == KVM_XEN_INVALID_GPA) {
++		gpc->gpa = KVM_XEN_INVALID_GPA;
++		gpc->uhva = PAGE_ALIGN_DOWN(uhva);
++
++		if (gpc->uhva != old_uhva)
++			hva_change = true;
++	} else if (gpc->gpa != gpa ||
++		   gpc->generation != slots->generation ||
++		   kvm_is_error_hva(gpc->uhva)) {
+ 		gfn_t gfn = gpa_to_gfn(gpa);
+ 
+ 		gpc->gpa = gpa;
+@@ -319,7 +330,7 @@ static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa,
+ 
+ int kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, unsigned long len)
+ {
+-	return __kvm_gpc_refresh(gpc, gpc->gpa, len);
++	return __kvm_gpc_refresh(gpc, gpc->gpa, gpc->uhva, len);
+ }
+ 
+ void kvm_gpc_init(struct gfn_to_pfn_cache *gpc, struct kvm *kvm)
+@@ -332,7 +343,8 @@ void kvm_gpc_init(struct gfn_to_pfn_cache *gpc, struct kvm *kvm)
+ 	gpc->uhva = KVM_HVA_ERR_BAD;
+ }
+ 
+-int kvm_gpc_activate(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned long len)
++static int __kvm_gpc_activate(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned long uhva,
++			      unsigned long len)
+ {
+ 	struct kvm *kvm = gpc->kvm;
+ 
+@@ -353,7 +365,17 @@ int kvm_gpc_activate(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned long len)
+ 		gpc->active = true;
+ 		write_unlock_irq(&gpc->lock);
+ 	}
+-	return __kvm_gpc_refresh(gpc, gpa, len);
++	return __kvm_gpc_refresh(gpc, gpa, uhva, len);
++}
++
++int kvm_gpc_activate(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned long len)
++{
++	return __kvm_gpc_activate(gpc, gpa, KVM_HVA_ERR_BAD, len);
++}
++
++int kvm_gpc_activate_hva(struct gfn_to_pfn_cache *gpc, unsigned long uhva, unsigned long len)
++{
++	return __kvm_gpc_activate(gpc, KVM_XEN_INVALID_GPA, uhva, len);
+ }
+ 
+ void kvm_gpc_deactivate(struct gfn_to_pfn_cache *gpc)
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.39.2
 
