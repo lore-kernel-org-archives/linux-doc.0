@@ -1,179 +1,302 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18E51775C
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 15:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13391773A;
+	Mon, 15 Jan 2024 15:25:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PRr1I5KI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705331168;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J6KAw5sRd/rBCtYAadIrUr1C0nBvKZvSQmMmvlANPe0=;
-	b=PRr1I5KI7TW9O0CT3CN+oUz6m+GIXDXgwVk0uyXA+KLIV1cRiDoXr+ctCETelxd1CSpPbO
-	UEjydgVCZLrlt+lyegyXJHigCqUi9U78WXWy5pEgHiUFHJYNyBen1ctTKDhrKlNBZGzv0A
-	Tdnj98xbBNwPvIBATwoweTIRsM3YXMA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-262-Y-S3NaRdPb-uTuaL2gv68w-1; Mon, 15 Jan 2024 10:06:07 -0500
-X-MC-Unique: Y-S3NaRdPb-uTuaL2gv68w-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-33689c90957so5557882f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 07:06:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705331166; x=1705935966;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J6KAw5sRd/rBCtYAadIrUr1C0nBvKZvSQmMmvlANPe0=;
-        b=sUHw3JK/Q7uxSKo1q9Hfrv8JwlXb7toE6h9FSM6Y2Z0T7OdFgZ0e9tMb/o23jsyjPv
-         qAkeCH1TqauvrklKYAohouf0Ec2wRMA4ECb/8CsySojlHUVStdTE2uqYc3HSr7JIg2dZ
-         4eBaz3SOC9ujYN9Ge3aBnKmuBcSjzJyhFcQuPZULh3LvMC8syB7EtMUFipDieKKHmMJr
-         WY+2pcLOaZ0YBYCNHrgPOktHYfGtSKbAWYOv6jgChpjdLMKqQreLItl30HkP3IQo4qbZ
-         7osJHDauJje7iFMlz0MZV/J2s7btbGLYfS+b1MEHCqmsLQmxZF00X8k9cF7I1z1PUxby
-         gHug==
-X-Gm-Message-State: AOJu0YyLutaHW7BkBZjP7ThevVpBn18CKM0kAxNlM8wdCLN+psTah7K9
-	4f9gcRHB55f7QTldQB6rQ6ScT2gaWbwn3sazN7OaoZqtKXiiuV1RUixV27//mbBs2yXBTnMo5rG
-	fH7ymPV7MBDmeCA3xztQL9mOvJx31
-X-Received: by 2002:a5d:4d47:0:b0:337:61aa:9682 with SMTP id a7-20020a5d4d47000000b0033761aa9682mr2972947wru.110.1705331165993;
-        Mon, 15 Jan 2024 07:06:05 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFUUbGFoHl37nmlBps1shDre7Yn9gKUXHYUdoSEBRHHdGC4aQD0Ng5BPuhKqCteY6MZ7Iq1Bg==
-X-Received: by 2002:a5d:4d47:0:b0:337:61aa:9682 with SMTP id a7-20020a5d4d47000000b0033761aa9682mr2972874wru.110.1705331162657;
-        Mon, 15 Jan 2024 07:06:02 -0800 (PST)
-Received: from toolbox ([2001:9e8:8996:a800:5fa3:a411:5e47:8fe5])
-        by smtp.gmail.com with ESMTPSA id e19-20020a5d5953000000b0033609b71825sm12088386wri.35.2024.01.15.07.06.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 07:06:02 -0800 (PST)
-Date: Mon, 15 Jan 2024 16:06:00 +0100
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] Add YUV formats to VKMS
-Message-ID: <20240115150600.GC160656@toolbox>
-References: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euQlCMkL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB19C433C7;
+	Mon, 15 Jan 2024 15:25:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705332344;
+	bh=F+KShPyxC2iWhYtXbRbIEplYrB9q6J1tUU6JHTlPDX8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=euQlCMkLJcL2D4vkC4R75T4/MgQt/FWOdjmTNjrXW4LWTF5fO3uKIJgoyQbjAjJw8
+	 yOw0BRyBdyTB8uEyoeBz2SwjbRkeJkkXg0NVYq9Be0KYlNPjNIawRM0z0JgQ1/8OG4
+	 dt9O64QiNHoyhyJbInor9qAWkq/0P+1Ifvd1qPNdA+K+fGD27Gm/yh5J7pBalsPt7e
+	 5rYpN3eiJcY86z1aWyN+75ZKXeahea2OgZcr/YVbZbadEbA3aKzjteTvvAbXlD7rS4
+	 j6HRMuiNpSOYk42xBoikwMHecf3dD9SVE+ChIiIChjfpD3XLERLKr19YPRz6djluow
+	 P/19UNpHxSYRA==
+Date: Mon, 15 Jan 2024 16:25:41 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <jpcov2bvhpabws36ueywr4xjfnbmwjsd42b4tpcicyi66qkjs2@3xn5mdl4zyus>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yd3mop6hvuqz5nhz"
 Content-Disposition: inline
-In-Reply-To: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
+In-Reply-To: <20240115143308.GA159345@toolbox>
 
-On Wed, Jan 10, 2024 at 02:44:00PM -0300, Arthur Grillo wrote:
-> This patchset aims to add support for additional buffer YUV formats.
-> More specifically, it adds support to:
-> 
-> Semi-planar formats:
-> 
-> - NV12
-> - NV16
-> - NV24
-> - NV21
-> - NV61
-> - NV42
-> 
-> Planar formats:
-> 
-> - YUV440
-> - YUV422
-> - YUV444
-> - YVU440
-> - YVU422
-> - YVU444
-> 
-> These formats have more than one plane, and most have chroma
-> subsampling. These properties don't have support on VKMS, so I had to
-> work on this before.
-> 
-> To ensure that the conversions from YUV to RGB are working, I wrote a
-> KUnit test. As the work from Harry on creating KUnit tests on VKMS[1] is
-> not yet merged, I took the setup part (Kconfig entry and .kunitfile)
-> from it.
-> 
-> Furthermore, I couldn't find any sources with the conversion matrices,
-> so I had to work out the values myself based on the ITU papers[2][3][4].
-> So, I'm not 100% sure if the values are accurate. I'd appreciate some
-> input if anyone has more knowledge in this area.
 
-H.273 CICP [1] has concise descriptions of the required values for most
-widely used formats and the colour python framework [2] also can be used
-to quickly get to the desired information most of the time.
+--yd3mop6hvuqz5nhz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1]: https://www.itu.int/rec/T-REC-H.273
-[2]: https://www.colour-science.org/
+On Mon, Jan 15, 2024 at 03:33:08PM +0100, Sebastian Wick wrote:
+> On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
+> > The i915 driver has a property to force the RGB range of an HDMI output.
+> > The vc4 driver then implemented the same property with the same
+> > semantics. KWin has support for it, and a PR for mutter is also there to
+> > support it.
+> >=20
+> > Both drivers implementing the same property with the same semantics,
+> > plus the userspace having support for it, is proof enough that it's
+> > pretty much a de-facto standard now and we can provide helpers for it.
+> >=20
+> > Let's plumb it into the newly created HDMI connector.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  Documentation/gpu/kms-properties.csv               |   1 -
+> >  drivers/gpu/drm/drm_atomic.c                       |   5 +
+> >  drivers/gpu/drm/drm_atomic_state_helper.c          |  17 +
+> >  drivers/gpu/drm/drm_atomic_uapi.c                  |   4 +
+> >  drivers/gpu/drm/drm_connector.c                    |  76 +++++
+> >  drivers/gpu/drm/tests/Makefile                     |   1 +
+> >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 376 +++++++++++++=
+++++++++
+> >  drivers/gpu/drm/tests/drm_connector_test.c         | 117 ++++++-
+> >  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 ++++++
+> >  include/drm/drm_connector.h                        |  36 ++
+> >  10 files changed, 737 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/k=
+ms-properties.csv
+> > index 0f9590834829..caef14c532d4 100644
+> > --- a/Documentation/gpu/kms-properties.csv
+> > +++ b/Documentation/gpu/kms-properties.csv
+> > @@ -17,7 +17,6 @@ Owner Module/Drivers,Group,Property Name,Type,Propert=
+y Values,Object attached,De
+> >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xfff=
+fffff",Connector,property to suggest an X offset for a connector
+> >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Conn=
+ector,property to suggest an Y offset for a connector
+> >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Co=
+nnector,TDB
+> > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Li=
+mited 16:235"" }",Connector,"When this property is set to Limited 16:235 an=
+d CTM is set, the hardware will be programmed with the result of the multip=
+lication of CTM by the limited range matrix to ensure the pixels normally i=
+n the range 0..1.0 are remapped to the range 16/255..235/255."
+> >  ,,=E2=80=9Caudio=E2=80=9D,ENUM,"{ ""force-dvi"", ""off"", ""auto"", ""=
+on"" }",Connector,TBD
+> >  ,SDVO-TV,=E2=80=9Cmode=E2=80=9D,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NTSC=
+_443"", ""PAL_B"" } etc.",Connector,TBD
+> >  ,,"""left_margin""",RANGE,"Min=3D0, Max=3D SDVO dependent",Connector,T=
+BD
+> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> > index c31fc0b48c31..1465a7f09a0b 100644
+> > --- a/drivers/gpu/drm/drm_atomic.c
+> > +++ b/drivers/gpu/drm/drm_atomic.c
+> > @@ -1142,6 +1142,11 @@ static void drm_atomic_connector_print_state(str=
+uct drm_printer *p,
+> >  	drm_printf(p, "\tmax_requested_bpc=3D%d\n", state->max_requested_bpc);
+> >  	drm_printf(p, "\tcolorspace=3D%s\n", drm_get_colorspace_name(state->c=
+olorspace));
+> > =20
+> > +	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> > +	    connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB)
+> > +		drm_printf(p, "\tbroadcast_rgb=3D%s\n",
+> > +			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_=
+rgb));
+> > +
+> >  	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_WRITEBACK)
+> >  		if (state->writeback_job && state->writeback_job->fb)
+> >  			drm_printf(p, "\tfb=3D%d\n", state->writeback_job->fb->base.id);
+> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/dr=
+m/drm_atomic_state_helper.c
+> > index e69c0cc1c6da..10d98620a358 100644
+> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > @@ -583,6 +583,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
+> >  void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *co=
+nnector,
+> >  					      struct drm_connector_state *new_state)
+> >  {
+> > +	new_state->hdmi.broadcast_rgb =3D DRM_HDMI_BROADCAST_RGB_AUTO;
+> >  }
+> >  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
+> > =20
+> > @@ -650,6 +651,22 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_check=
+);
+> >  int drm_atomic_helper_connector_hdmi_check(struct drm_connector *conne=
+ctor,
+> >  					   struct drm_atomic_state *state)
+> >  {
+> > +	struct drm_connector_state *old_state =3D
+> > +		drm_atomic_get_old_connector_state(state, connector);
+> > +	struct drm_connector_state *new_state =3D
+> > +		drm_atomic_get_new_connector_state(state, connector);
+> > +
+> > +	if (old_state->hdmi.broadcast_rgb !=3D new_state->hdmi.broadcast_rgb)=
+ {
+> > +		struct drm_crtc *crtc =3D new_state->crtc;
+> > +		struct drm_crtc_state *crtc_state;
+> > +
+> > +		crtc_state =3D drm_atomic_get_crtc_state(state, crtc);
+> > +		if (IS_ERR(crtc_state))
+> > +			return PTR_ERR(crtc_state);
+> > +
+> > +		crtc_state->mode_changed =3D true;
+> > +	}
+> > +
+> >  	return 0;
+> >  }
+> >  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
+> > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_at=
+omic_uapi.c
+> > index aee4a65d4959..3eb4f4bc8b71 100644
+> > --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> > @@ -818,6 +818,8 @@ static int drm_atomic_connector_set_property(struct=
+ drm_connector *connector,
+> >  		state->max_requested_bpc =3D val;
+> >  	} else if (property =3D=3D connector->privacy_screen_sw_state_propert=
+y) {
+> >  		state->privacy_screen_sw_state =3D val;
+> > +	} else if (property =3D=3D connector->broadcast_rgb_property) {
+> > +		state->hdmi.broadcast_rgb =3D val;
+> >  	} else if (connector->funcs->atomic_set_property) {
+> >  		return connector->funcs->atomic_set_property(connector,
+> >  				state, property, val);
+> > @@ -901,6 +903,8 @@ drm_atomic_connector_get_property(struct drm_connec=
+tor *connector,
+> >  		*val =3D state->max_requested_bpc;
+> >  	} else if (property =3D=3D connector->privacy_screen_sw_state_propert=
+y) {
+> >  		*val =3D state->privacy_screen_sw_state;
+> > +	} else if (property =3D=3D connector->broadcast_rgb_property) {
+> > +		*val =3D state->hdmi.broadcast_rgb;
+> >  	} else if (connector->funcs->atomic_get_property) {
+> >  		return connector->funcs->atomic_get_property(connector,
+> >  				state, property, val);
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> > index d9961cce8245..929b0a911f62 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -1183,6 +1183,29 @@ static const u32 dp_colorspaces =3D
+> >  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
+> >  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
+> > =20
+> > +static const struct drm_prop_enum_list broadcast_rgb_names[] =3D {
+> > +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
+> > +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
+> > +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
+> > +};
+> > +
+> > +/*
+> > + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDM=
+I connector RGB broadcast selection
+> > + * @broadcast_rgb: Broadcast RGB selection to compute name of
+> > + *
+> > + * Returns: the name of the Broadcast RGB selection, or NULL if the ty=
+pe
+> > + * is not valid.
+> > + */
+> > +const char *
+> > +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb =
+broadcast_rgb)
+> > +{
+> > +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
+> > +		return NULL;
+> > +
+> > +	return broadcast_rgb_names[broadcast_rgb].name;
+> > +}
+> > +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
+> > +
+> >  /**
+> >   * DOC: standard connector properties
+> >   *
+> > @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnect=
+or_property);
+> >  /**
+> >   * DOC: HDMI connector properties
+> >   *
+> > + * Broadcast RGB
+> > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > + *      Infoframes will be generated according to that value.
+> > + *
+> > + *      The value of this property can be one of the following:
+> > + *
+> > + *      Automatic:
+> > + *              RGB Range is selected automatically based on the mode
+> > + *              according to the HDMI specifications.
+> > + *
+> > + *      Full:
+> > + *              Full RGB Range is forced.
+> > + *
+> > + *      Limited 16:235:
+> > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > + *              this works for any number of bits-per-component.
+> > + *
+> > + *      Drivers can set up this property by calling
+> > + *      drm_connector_attach_broadcast_rgb_property().
+> > + *
+>=20
+> This is a good time to document this in more detail.
 
-> Also, I used two IGT tests to check if the formats were having a correct
-> conversion (all with the --extended flag):
-> 
-> - kms_plane@pixel_format
-> - kms_plane@pixel_format_source_clamping.
-> 
-> The nonsubsampled formats don't have support on IGT, so I sent a patch
-> fixing this[5].
-> 
-> Currently, this patchset does not add those formats to the writeback, as
-> it would require a rewrite of how the conversions are done (similar to
-> what was done on a previous patch[6]). So, I would like to review this
-> patchset before I start the work on this other part.
-> 
-> [1]: https://lore.kernel.org/all/20231108163647.106853-5-harry.wentland@amd.com/
-> [2]: https://www.itu.int/rec/R-REC-BT.601-7-201103-I/en
-> [3]: https://www.itu.int/rec/R-REC-BT.709-6-201506-I/en
-> [4]: https://www.itu.int/rec/R-REC-BT.2020-2-201510-I/en
-> [5]: https://lists.freedesktop.org/archives/igt-dev/2024-January/066937.html
-> [6]: https://lore.kernel.org/dri-devel/20230414135151.75975-2-mcanal@igalia.com/
-> 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
-> Changes in v2:
-> - Use EXPORT_SYMBOL_IF_KUNIT instead of including the .c test
->   file (Maxime)
-> - Link to v1: https://lore.kernel.org/r/20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net
-> 
-> ---
-> Arthur Grillo (7):
->       drm/vkms: Use drm_frame directly
->       drm/vkms: Add support for multy-planar framebuffers
->       drm/vkms: Add range and encoding properties to pixel_read function
->       drm/vkms: Add chroma subsampling
->       drm/vkms: Add YUV support
->       drm/vkms: Drop YUV formats TODO
->       drm/vkms: Create KUnit tests for YUV conversions
-> 
->  Documentation/gpu/vkms.rst                    |   3 +-
->  drivers/gpu/drm/vkms/Kconfig                  |  15 ++
->  drivers/gpu/drm/vkms/Makefile                 |   1 +
->  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
->  drivers/gpu/drm/vkms/tests/Makefile           |   3 +
->  drivers/gpu/drm/vkms/tests/vkms_format_test.c | 156 ++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
->  drivers/gpu/drm/vkms/vkms_formats.c           | 247 ++++++++++++++++++++++----
->  drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
->  drivers/gpu/drm/vkms/vkms_plane.c             |  26 ++-
->  drivers/gpu/drm/vkms/vkms_writeback.c         |   5 -
->  11 files changed, 426 insertions(+), 49 deletions(-)
-> ---
-> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
-> change-id: 20231226-vkms-yuv-6f7859f32df8
-> 
-> Best regards,
-> -- 
-> Arthur Grillo <arthurgrillo@riseup.net>
-> 
+I have the feeling that it already is documented in more detail. But
+anyway, last time we discussed it the answer was basically to not bother
+and just merge the thing. So I'm getting some mixed signals here.
 
+> There might be two different things being affected:
+>=20
+> 1. The signalling (InfoFrame/SDP/...)
+> 2. The color pipeline processing
+>=20
+> All values of Broadcast RGB always affect the color pipeline processing
+> such that a full-range input to the CRTC is converted to either full- or
+> limited-range, depending on what the monitor is supposed to accept.
+>=20
+> When automatic is selected, does that mean that there is no signalling,
+> or that the signalling matches what the monitor is supposed to accept
+> according to the spec?
+
+The doc states that "Infoframes will be generated according to that
+value". Is it ambiguous?
+
+> Also, is this really HDMI specific?
+
+Probably not, but it can easily be expanded to other connector types
+when needs be.
+
+> When full or limited is selected and the monitor doesn't support the
+> signalling, what happens?
+
+I would expect colors to be off
+
+Maxime
+
+--yd3mop6hvuqz5nhz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaVOdAAKCRDj7w1vZxhR
+xVZ6AQCBIsao3/wYmeGvcP81lWBqUDOqug3y4nijDxhLDsn2gQEAjbAujKqIXO3q
+T2U8XyzbANX2DfajXGwDY+9QrqnI/QY=
+=i+f4
+-----END PGP SIGNATURE-----
+
+--yd3mop6hvuqz5nhz--
