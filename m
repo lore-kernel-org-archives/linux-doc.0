@@ -1,146 +1,132 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C43628DD1;
-	Mon, 15 Jan 2024 11:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BE12C683;
+	Mon, 15 Jan 2024 11:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="If4u5sBw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=B8snCTk6m/S/IySGz0MUr7RGvF9ztHAy1wNv3isU/8A=; b=If4u5sBwSs6B37nBXDgiTbTUGN
-	lDo8qxPOFMMLR9tdUyLFo9NhxhiAei6ak3C/e+2MynMriUcITyfJLZRCR7Ly9EwLVRyTpXgvcUB3V
-	dwGg8WGAGKz7K/mPA9CiHN8UfYztvfbPPXOI0b0S+WLTsoNs8EV0O1R9IOUUphih0SDSGEtoXqkyc
-	uB4sWSh8b+qMXC/2xsfM+PilLtcS9vlGpghLJvk9GXVZXiWY3hrSNwUQ65+M5e30MzDBuRHWV1QU/
-	jXo3DcbVxcVsJSrnfHOPq2fWintWikuBFLjvQHJE8GaX60F8EKAbY9S+jDwY+ZggmQThypOLb+Xcb
-	DtnjfwcQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60190)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rPKnW-0002Kh-1U;
-	Mon, 15 Jan 2024 11:06:30 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rPKnV-0002tb-9h; Mon, 15 Jan 2024 11:06:29 +0000
-Date: Mon, 15 Jan 2024 11:06:29 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 03/21] ACPI: processor: Register CPUs that are
- online, but not described in the DSDT
-Message-ID: <ZaURtUvWQyjYfiiO@shell.armlinux.org.uk>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
- <E1rDOg2-00Dvjk-RI@rmk-PC.armlinux.org.uk>
- <CAJZ5v0ju1JHgpjuFLHZVs4NZiARG6iBZN_wza6c2e0kDhZjK0w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kUkQAJWq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9e48tRs7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kUkQAJWq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9e48tRs7"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7ABB921EC1;
+	Mon, 15 Jan 2024 11:39:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705318750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=reKi60GeV2cDg85KFEbh5WtqFVNyQEjqCjmIiyDbrms=;
+	b=kUkQAJWqAcnbYXSSQx6gtRn9kyfmkfL5bYzNE79J2BWmGyi9TdB2O8pH9Y/23Ht7BQ7cak
+	rsR5D0TSPSW/6dlck38WRUxJFawqCQtiNdLij8s8gp1y60JeZWGAyE9KU8jHkvPaxrqcH7
+	M4tQoF0VTlTAHii/eml0cqQE+ABeDxk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705318750;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=reKi60GeV2cDg85KFEbh5WtqFVNyQEjqCjmIiyDbrms=;
+	b=9e48tRs7uPKGm0/ku/RTN6O+C8R8vcMNBBAoqx5y73a6hom01RhivqHxS+rycggAEMd+jz
+	viDfAV+4Gf4QHuCg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705318750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=reKi60GeV2cDg85KFEbh5WtqFVNyQEjqCjmIiyDbrms=;
+	b=kUkQAJWqAcnbYXSSQx6gtRn9kyfmkfL5bYzNE79J2BWmGyi9TdB2O8pH9Y/23Ht7BQ7cak
+	rsR5D0TSPSW/6dlck38WRUxJFawqCQtiNdLij8s8gp1y60JeZWGAyE9KU8jHkvPaxrqcH7
+	M4tQoF0VTlTAHii/eml0cqQE+ABeDxk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705318750;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=reKi60GeV2cDg85KFEbh5WtqFVNyQEjqCjmIiyDbrms=;
+	b=9e48tRs7uPKGm0/ku/RTN6O+C8R8vcMNBBAoqx5y73a6hom01RhivqHxS+rycggAEMd+jz
+	viDfAV+4Gf4QHuCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F39213712;
+	Mon, 15 Jan 2024 11:39:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WQlSEl4ZpWWYPwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 15 Jan 2024 11:39:10 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch,
+	airlied@gmail.com,
+	corbet@lwn.net
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] Documentation/gpu: Reference articles on Linux graphics stack
+Date: Mon, 15 Jan 2024 12:38:56 +0100
+Message-ID: <20240115113908.25897-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0ju1JHgpjuFLHZVs4NZiARG6iBZN_wza6c2e0kDhZjK0w@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -0.35
+X-Spamd-Result: default: False [-0.35 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,suse.de:email];
+	 FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,lwn.net];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.05)[59.58%]
+X-Spam-Flag: NO
 
-On Mon, Dec 18, 2023 at 09:22:03PM +0100, Rafael J. Wysocki wrote:
-> On Wed, Dec 13, 2023 at 1:49 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
-> >
-> > From: James Morse <james.morse@arm.com>
-> >
-> > ACPI has two descriptions of CPUs, one in the MADT/APIC table, the other
-> > in the DSDT. Both are required. (ACPI 6.5's 8.4 "Declaring Processors"
-> > says "Each processor in the system must be declared in the ACPI
-> > namespace"). Having two descriptions allows firmware authors to get
-> > this wrong.
-> >
-> > If CPUs are described in the MADT/APIC, they will be brought online
-> > early during boot. Once the register_cpu() calls are moved to ACPI,
-> > they will be based on the DSDT description of the CPUs. When CPUs are
-> > missing from the DSDT description, they will end up online, but not
-> > registered.
-> >
-> > Add a helper that runs after acpi_init() has completed to register
-> > CPUs that are online, but weren't found in the DSDT. Any CPU that
-> > is registered by this code triggers a firmware-bug warning and kernel
-> > taint.
-> >
-> > Qemu TCG only describes the first CPU in the DSDT, unless cpu-hotplug
-> > is configured.
-> 
-> So why is this a kernel problem?
+Add two articles on LWN about the Linux graphics stack to DRM's
+list of external references. The articles document the graphics
+output as a whole, including the kernel side.
 
-So what are you proposing should be the behaviour here? What this
-statement seems to be saying is that QEMU as it exists today only
-describes the first CPU in DSDT.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ Documentation/gpu/introduction.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-As this patch series changes when arch_register_cpu() gets called (as
-described in the paragraph above) we obviously need to preserve the
-_existing_ behaviour to avoid causing regressions. So, if changing the
-kernel causes user visible regressions (e.g. sysfs entries to
-disappear) then it obviously _is_ a kernel problem that needs to be
-solved.
-
-We can't say "well fix QEMU then" without invoking the wrath of Linus.
-
-> > Signed-off-by: James Morse <james.morse@arm.com>
-> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Reviewed-by: Gavin Shan <gshan@redhat.com>
-> > Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-> > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
-> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > ---
-> >  drivers/acpi/acpi_processor.c | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> >
-> > diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
-> > index 6a542e0ce396..0511f2bc10bc 100644
-> > --- a/drivers/acpi/acpi_processor.c
-> > +++ b/drivers/acpi/acpi_processor.c
-> > @@ -791,6 +791,25 @@ void __init acpi_processor_init(void)
-> >         acpi_pcc_cpufreq_init();
-> >  }
-> >
-> > +static int __init acpi_processor_register_missing_cpus(void)
-> > +{
-> > +       int cpu;
-> > +
-> > +       if (acpi_disabled)
-> > +               return 0;
-> > +
-> > +       for_each_online_cpu(cpu) {
-> > +               if (!get_cpu_device(cpu)) {
-> > +                       pr_err_once(FW_BUG "CPU %u has no ACPI namespace description!\n", cpu);
-> > +                       add_taint(TAINT_FIRMWARE_WORKAROUND, LOCKDEP_STILL_OK);
-> > +                       arch_register_cpu(cpu);
-> 
-> Which part of this code is related to ACPI?
-
-That's a good question, and I suspect it would be more suited to being
-placed in drivers/base/cpu.c except for the problem that the error
-message refers to ACPI.
-
-As long as we keep the acpi_disabled test, I guess that's fine.
-cpu_dev_register_generic() there already tests acpi_disabled.
-
+diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
+index f05eccd2c07c..b7c0baf97dbe 100644
+--- a/Documentation/gpu/introduction.rst
++++ b/Documentation/gpu/introduction.rst
+@@ -164,6 +164,8 @@ Conference talks
+ Slides and articles
+ -------------------
+ 
++* `The Linux graphics stack in a nutshell, part 1 <https://lwn.net/Articles/955376/>`_ - Thomas Zimmermann (2023)
++* `The Linux graphics stack in a nutshell, part 2 <https://lwn.net/Articles/955708/>`_ - Thomas Zimmermann (2023)
+ * `Understanding the Linux Graphics Stack <https://bootlin.com/doc/training/graphics/graphics-slides.pdf>`_ - Bootlin (2022)
+ * `DRM KMS overview <https://wiki.st.com/stm32mpu/wiki/DRM_KMS_overview>`_ - STMicroelectronics (2021)
+ * `Linux graphic stack <https://studiopixl.com/2017-05-13/linux-graphic-stack-an-overview>`_ - Nathan Gauër (2017)
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.43.0
+
