@@ -1,136 +1,171 @@
-Received: from smtp-fw-9105.amazon.com (smtp-fw-9105.amazon.com [207.171.188.204])
+Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEF6168DE;
-	Mon, 15 Jan 2024 13:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331FB171B8;
+	Mon, 15 Jan 2024 13:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xen.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xen.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="p0Alr4oY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1705325281; x=1736861281;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=CRE66M5NAo6zqtyZQM3AWAf6gOvFh/lPcxTLxUzKJu0=;
-  b=p0Alr4oY/WE/6zqqOWFg7Z3U/IC92V2UVasniiWWKeSy9aC9xZIhh9oa
-   tDZ2gvXgjw7DDKATFNaTnEdxr3Hd7lejDwMP9f4UVhbT3liyVCGObcKm0
-   I0cisZ7x6wgiKs5OJDFx6aVhL0qN33BfWwKKLF4rt5k79GExlnLgi04pD
-   0=;
-X-IronPort-AV: E=Sophos;i="6.04,196,1695686400"; 
-   d="scan'208";a="697876050"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1d-m6i4x-00fceed5.us-east-1.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-9105.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 13:27:52 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan3.iad.amazon.com [10.32.235.38])
-	by email-inbound-relay-iad-1d-m6i4x-00fceed5.us-east-1.amazon.com (Postfix) with ESMTPS id 18BD5A0A25;
-	Mon, 15 Jan 2024 13:27:44 +0000 (UTC)
-Received: from EX19MTAUWC002.ant.amazon.com [10.0.7.35:24915]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.61.210:2525] with esmtp (Farcaster)
- id 00e71d69-8a91-48a6-b14b-66e164da46e8; Mon, 15 Jan 2024 13:27:44 +0000 (UTC)
-X-Farcaster-Flow-ID: 00e71d69-8a91-48a6-b14b-66e164da46e8
-Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 15 Jan 2024 13:27:43 +0000
-Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
- (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 15 Jan
- 2024 13:27:34 +0000
-Message-ID: <64047065-41a1-4235-b600-bf3530c76722@amazon.com>
-Date: Mon, 15 Jan 2024 14:27:30 +0100
+	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="Q0GJuEWs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
+	s=20200302mail; h=Content-Transfer-Encoding:MIME-Version:References:
+	In-Reply-To:Message-Id:Date:Subject:To:From;
+	bh=DVmkuHvAJAn35Oz9caMUxenePj8iuuNulYJyd17+sk4=; b=Q0GJuEWs9gcLYqoaDSK1kijaJv
+	WmRAaosg/yOXk40AYS+qImaVTYdPkbtwu+a63NAXWGb8o5D+0d+Rdl/dM5DWcZJ3ctfyvlH0DhUuJ
+	Ce8tK9x/MEDGrdQiho0AFHCQFIcH+ujnM4Twq3UH3+Mb8Xp2a8nwjrnzhW5CD4FCaCkI=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+	by mail.xenproject.org with esmtp (Exim 4.92)
+	(envelope-from <paul@xen.org>)
+	id 1rPMX2-0002iw-Cn; Mon, 15 Jan 2024 12:57:36 +0000
+Received: from 54-240-197-231.amazon.com ([54.240.197.231] helo=REM-PW02S00X.ant.amazon.com)
+	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <paul@xen.org>)
+	id 1rPMX2-0002kM-3R; Mon, 15 Jan 2024 12:57:36 +0000
+From: Paul Durrant <paul@xen.org>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Paul Durrant <paul@xen.org>,
+	Shuah Khan <shuah@kernel.org>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v12 01/20] KVM: pfncache: Add a map helper function
+Date: Mon, 15 Jan 2024 12:56:48 +0000
+Message-Id: <20240115125707.1183-2-paul@xen.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240115125707.1183-1-paul@xen.org>
+References: <20240115125707.1183-1-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/17] kexec: Add KHO parsing support
-Content-Language: en-US
-To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <kexec@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <x86@kernel.org>, Eric Biederman
-	<ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski
-	<luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Rob Herring
-	<robh+dt@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Andrew Morton
-	<akpm@linux-foundation.org>, Mark Rutland <mark.rutland@arm.com>, "Tom
- Lendacky" <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
-	James Gowans <jgowans@amazon.com>, <arnd@arndb.de>, <pbonzini@redhat.com>,
-	<madvenka@linux.microsoft.com>, Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Usama Arif <usama.arif@bytedance.com>, David Woodhouse <dwmw@amazon.co.uk>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>
-References: <20231222193607.15474-1-graf@amazon.com>
- <20231222193607.15474-5-graf@amazon.com> <20240101033301.GA765@skinsburskii.>
-From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <20240101033301.GA765@skinsburskii.>
-X-ClientProxiedBy: EX19D041UWB004.ant.amazon.com (10.13.139.143) To
- EX19D020UWC004.ant.amazon.com (10.13.138.149)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-Ck9uIDAxLjAxLjI0IDA0OjMzLCBTdGFuaXNsYXYgS2luc2J1cnNraWkgd3JvdGU6Cj4gT24gRnJp
-LCBEZWMgMjIsIDIwMjMgYXQgMDc6MzU6NTRQTSArMDAwMCwgQWxleGFuZGVyIEdyYWYgd3JvdGU6
-Cj4+ICsvKioKPj4gKyAqIGtob19yZXNlcnZlX3ByZXZpb3VzX21lbSAtIEFkZHMgYWxsIG1lbW9y
-eSByZXNlcnZhdGlvbnMgaW50byBtZW1ibG9ja3MKPj4gKyAqIGFuZCBtb3ZlcyB1cyBvdXQgb2Yg
-dGhlIHNjcmF0Y2ggb25seSBwaGFzZS4gTXVzdCBiZSBjYWxsZWQgYWZ0ZXIgcGFnZSB0YWJsZXMK
-Pj4gKyAqIGFyZSBpbml0aWFsaXplZCBhbmQgbWVtYmxvY2tfYWxsb3dfcmVzaXplKCkuCj4+ICsg
-Ki8KPj4gK3ZvaWQgX19pbml0IGtob19yZXNlcnZlX3ByZXZpb3VzX21lbSh2b2lkKQo+PiArewo+
-PiArICAgICB2b2lkICptZW1fdmlydCA9IF9fdmEobWVtX3BoeXMpOwo+PiArICAgICBpbnQgb2Zm
-LCBlcnI7Cj4+ICsKPj4gKyAgICAgaWYgKCFoYW5kb3Zlcl9waHlzIHx8ICFtZW1fcGh5cykKPj4g
-KyAgICAgICAgICAgICByZXR1cm47Cj4+ICsKPj4gKyAgICAgLyoKPj4gKyAgICAgICogV2UgcmVh
-Y2hlZCBoZXJlIGJlY2F1c2Ugd2UgYXJlIHJ1bm5pbmcgaW5zaWRlIGEgd29ya2luZyBsaW5lYXIg
-bWFwCj4+ICsgICAgICAqIHRoYXQgYWxsb3dzIHVzIHRvIHJlc2l6ZSBtZW1ibG9ja3MgZHluYW1p
-Y2FsbHkuIFVzZSB0aGUgY2hhbmNlIGFuZAo+PiArICAgICAgKiBwb3B1bGF0ZSB0aGUgZ2xvYmFs
-IGZkdCBwb2ludGVyCj4+ICsgICAgICAqLwo+PiArICAgICBmZHQgPSBfX3ZhKGhhbmRvdmVyX3Bo
-eXMpOwo+PiArCj4+ICsgICAgIG9mZiA9IGZkdF9wYXRoX29mZnNldChmZHQsICIvIik7Cj4+ICsg
-ICAgIGlmIChvZmYgPCAwKSB7Cj4+ICsgICAgICAgICAgICAgZmR0ID0gTlVMTDsKPj4gKyAgICAg
-ICAgICAgICByZXR1cm47Cj4+ICsgICAgIH0KPj4gKwo+PiArICAgICBlcnIgPSBmZHRfbm9kZV9j
-aGVja19jb21wYXRpYmxlKGZkdCwgb2ZmLCAia2hvLXYxIik7Cj4+ICsgICAgIGlmIChlcnIpIHsK
-Pj4gKyAgICAgICAgICAgICBwcl93YXJuKCJLSE8gaGFzIGludmFsaWQgY29tcGF0aWJsZSwgZGlz
-YWJsaW5nLiIpOwo+IEl0IGxvb2tzIGxpa2UgS0hPIHByZXNlcnZlZCByZWdpb25zIHdvbid0IGJl
-IHJlc2VydmVkIGluIHRoaXMgY2FzZS4KPiBTaG91bGQgS0hPIERUIHN0YXRlIGJlIGRlc3Ryb3ll
-ZCBoZXJlIHRvIHByZXZlbnQgS0hPIG1lbW9yeSByZWdpb25zCj4gcmV1c2UgdXBvbiByb2xsYmFj
-az8KCgpHb29kIGNhdGNoLiBJJ2xsIHNldCBmZHQgdG8gTlVMTCBpbiB0aGF0IGNhc2UgaW4gdjMu
-CgoKPgo+PiArCj4+ICt2b2lkIF9faW5pdCBraG9fcG9wdWxhdGUocGh5c19hZGRyX3QgaGFuZG92
-ZXJfZHRfcGh5cywgcGh5c19hZGRyX3Qgc2NyYXRjaF9waHlzLAo+PiArICAgICAgICAgICAgICAg
-ICAgICAgIHU2NCBzY3JhdGNoX2xlbiwgcGh5c19hZGRyX3QgbWVtX2NhY2hlX3BoeXMsCj4+ICsg
-ICAgICAgICAgICAgICAgICAgICAgdTY0IG1lbV9jYWNoZV9sZW4pCj4+ICt7Cj4+ICsgICAgIHZv
-aWQgKmhhbmRvdmVyX2R0Owo+PiArCj4+ICsgICAgIC8qIERldGVybWluZSB0aGUgcmVhbCBzaXpl
-IG9mIHRoZSBEVCAqLwo+PiArICAgICBoYW5kb3Zlcl9kdCA9IGVhcmx5X21lbXJlbWFwKGhhbmRv
-dmVyX2R0X3BoeXMsIHNpemVvZihzdHJ1Y3QgZmR0X2hlYWRlcikpOwo+PiArICAgICBpZiAoIWhh
-bmRvdmVyX2R0KSB7Cj4+ICsgICAgICAgICAgICAgcHJfd2Fybigic2V0dXA6IGZhaWxlZCB0byBt
-ZW1yZW1hcCBrZXhlYyBGRFQgKDB4JWxseClcbiIsIGhhbmRvdmVyX2R0X3BoeXMpOwo+PiArICAg
-ICAgICAgICAgIHJldHVybjsKPj4gKyAgICAgfQo+PiArCj4+ICsgICAgIGlmIChmZHRfY2hlY2tf
-aGVhZGVyKGhhbmRvdmVyX2R0KSkgewo+PiArICAgICAgICAgICAgIHByX3dhcm4oInNldHVwOiBr
-ZXhlYyBoYW5kb3ZlciBGRFQgaXMgaW52YWxpZCAoMHglbGx4KVxuIiwgaGFuZG92ZXJfZHRfcGh5
-cyk7Cj4+ICsgICAgICAgICAgICAgZWFybHlfbWVtdW5tYXAoaGFuZG92ZXJfZHQsIFBBR0VfU0la
-RSk7Cj4+ICsgICAgICAgICAgICAgcmV0dXJuOwo+PiArICAgICB9Cj4+ICsKPj4gKyAgICAgaGFu
-ZG92ZXJfbGVuID0gZmR0X3RvdGFsc2l6ZShoYW5kb3Zlcl9kdCk7Cj4+ICsgICAgIGhhbmRvdmVy
-X3BoeXMgPSBoYW5kb3Zlcl9kdF9waHlzOwo+PiArCj4+ICsgICAgIC8qIFJlc2VydmUgdGhlIERU
-IHNvIHdlIGNhbiBzdGlsbCBhY2Nlc3MgaXQgaW4gbGF0ZSBib290ICovCj4+ICsgICAgIG1lbWJs
-b2NrX3Jlc2VydmUoaGFuZG92ZXJfcGh5cywgaGFuZG92ZXJfbGVuKTsKPj4gKwo+PiArICAgICAv
-KiBSZXNlcnZlIHRoZSBtZW0gY2FjaGUgc28gd2UgY2FuIHN0aWxsIGFjY2VzcyBpdCBsYXRlciAq
-Lwo+PiArICAgICBtZW1ibG9ja19yZXNlcnZlKG1lbV9jYWNoZV9waHlzLCBtZW1fY2FjaGVfbGVu
-KTsKPj4gKwo+PiArICAgICAvKgo+PiArICAgICAgKiBXZSBwYXNzIGEgc2FmZSBjb250aWd1b3Vz
-IGJsb2NrIG9mIG1lbW9yeSB0byB1c2UgZm9yIGVhcmx5IGJvb3QgcHVycG9yc2VzIGZyb20KPj4g
-KyAgICAgICogdGhlIHByZXZpb3VzIGtlcm5lbCBzbyB0aGF0IHdlIGNhbiByZXNpemUgdGhlIG1l
-bWJsb2NrIGFycmF5IGFzIG5lZWRlZC4KPj4gKyAgICAgICovCj4+ICsgICAgIG1lbWJsb2NrX2Fk
-ZChzY3JhdGNoX3BoeXMsIHNjcmF0Y2hfbGVuKTsKPj4gKwo+PiArICAgICBpZiAoV0FSTl9PTiht
-ZW1ibG9ja19tYXJrX3NjcmF0Y2goc2NyYXRjaF9waHlzLCBzY3JhdGNoX2xlbikpKSB7Cj4+ICsg
-ICAgICAgICAgICAgcHJfZXJyKCJLZXhlYyBmYWlsZWQgdG8gbWFyayB0aGUgc2NyYXRjaCByZWdp
-b24uIERpc2FibGluZyBLSE8uIik7Cj4+ICsgICAgICAgICAgICAgaGFuZG92ZXJfbGVuID0gMDsK
-Pj4gKyAgICAgICAgICAgICBoYW5kb3Zlcl9waHlzID0gMDsKPiBTYW1lIHF1ZXN0aW9uIGhlcmU6
-IGRvZXNuJ3QgYWxsIHRoZSBLSE8gc3RhdGUgZ2V0cyBpbnZhbGlkIGluIGNhc2Ugb2YgYW55Cj4g
-cmVzdG9yYXRpb24gZXJyb3I/CgoKSXQgZG9lcywgd2hpY2ggaXMgd2hhdCB0aGUgZXJyb3IgY2Fz
-ZSBoZXJlIGRvZXMsIG5vPyBPciBhcmUgeW91IApyZWZlcnJpbmcgdG8gdGhlIGZhY3QgdGhhdCB3
-ZSdyZSBub3QgdW5yb2xsaW5nIHRoZSBtZW1ibG9jayAKcmVzZXJ2YXRpb25zPyBJZiB3ZSBjYW4n
-dCBtYXJrIHRoZSBzY3JhdGNoIHJlZ2lvbiwgSSdkIHJhdGhlciBsZWF2ZSAKZXZlcnl0aGluZyBl
-bHNlIGFsb25lLiBJdCBtZWFucyB0aGUgc2NyYXRjaCByZWdpb24gaXMgaW4gYSBob2xlLCB3aGlj
-aCAKc2hvdWxkIG5ldmVyIGhhcHBlbi4KCgpBbGV4CgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2Vu
-dGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1
-ZWhydW5nOiBDaHJpc3RpYW4gU2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBh
-bSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVy
-bGluClVzdC1JRDogREUgMjg5IDIzNyA4NzkKCgo=
+From: Paul Durrant <pdurrant@amazon.com>
+
+There is a pfncache unmap helper but mapping is open-coded. Arguably this
+is fine because mapping is done in only one place, hva_to_pfn_retry(), but
+adding the helper does make that function more readable.
+
+No functional change intended.
+
+Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+Cc: Sean Christopherson <seanjc@google.com>
+Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+
+v8:
+ - Re-work commit comment.
+ - Fix CONFIG_HAS_IOMEM=n build.
+---
+ virt/kvm/pfncache.c | 47 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 29 insertions(+), 18 deletions(-)
+
+diff --git a/virt/kvm/pfncache.c b/virt/kvm/pfncache.c
+index 2d6aba677830..10842f1eeeae 100644
+--- a/virt/kvm/pfncache.c
++++ b/virt/kvm/pfncache.c
+@@ -96,17 +96,32 @@ bool kvm_gpc_check(struct gfn_to_pfn_cache *gpc, unsigned long len)
+ }
+ EXPORT_SYMBOL_GPL(kvm_gpc_check);
+ 
+-static void gpc_unmap_khva(kvm_pfn_t pfn, void *khva)
++static void *gpc_map(kvm_pfn_t pfn)
+ {
+-	/* Unmap the old pfn/page if it was mapped before. */
+-	if (!is_error_noslot_pfn(pfn) && khva) {
+-		if (pfn_valid(pfn))
+-			kunmap(pfn_to_page(pfn));
++	if (pfn_valid(pfn))
++		return kmap(pfn_to_page(pfn));
++
+ #ifdef CONFIG_HAS_IOMEM
+-		else
+-			memunmap(khva);
++	return memremap(pfn_to_hpa(pfn), PAGE_SIZE, MEMREMAP_WB);
++#else
++	return NULL;
+ #endif
++}
++
++static void gpc_unmap(kvm_pfn_t pfn, void *khva)
++{
++	/* Unmap the old pfn/page if it was mapped before. */
++	if (is_error_noslot_pfn(pfn) || !khva)
++		return;
++
++	if (pfn_valid(pfn)) {
++		kunmap(pfn_to_page(pfn));
++		return;
+ 	}
++
++#ifdef CONFIG_HAS_IOMEM
++	memunmap(khva);
++#endif
+ }
+ 
+ static inline bool mmu_notifier_retry_cache(struct kvm *kvm, unsigned long mmu_seq)
+@@ -175,7 +190,7 @@ static kvm_pfn_t hva_to_pfn_retry(struct gfn_to_pfn_cache *gpc)
+ 			 * the existing mapping and didn't create a new one.
+ 			 */
+ 			if (new_khva != old_khva)
+-				gpc_unmap_khva(new_pfn, new_khva);
++				gpc_unmap(new_pfn, new_khva);
+ 
+ 			kvm_release_pfn_clean(new_pfn);
+ 
+@@ -193,15 +208,11 @@ static kvm_pfn_t hva_to_pfn_retry(struct gfn_to_pfn_cache *gpc)
+ 		 * too must be done outside of gpc->lock!
+ 		 */
+ 		if (gpc->usage & KVM_HOST_USES_PFN) {
+-			if (new_pfn == gpc->pfn) {
++			if (new_pfn == gpc->pfn)
+ 				new_khva = old_khva;
+-			} else if (pfn_valid(new_pfn)) {
+-				new_khva = kmap(pfn_to_page(new_pfn));
+-#ifdef CONFIG_HAS_IOMEM
+-			} else {
+-				new_khva = memremap(pfn_to_hpa(new_pfn), PAGE_SIZE, MEMREMAP_WB);
+-#endif
+-			}
++			else
++				new_khva = gpc_map(new_pfn);
++
+ 			if (!new_khva) {
+ 				kvm_release_pfn_clean(new_pfn);
+ 				goto out_error;
+@@ -326,7 +337,7 @@ static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa,
+ 	mutex_unlock(&gpc->refresh_lock);
+ 
+ 	if (unmap_old)
+-		gpc_unmap_khva(old_pfn, old_khva);
++		gpc_unmap(old_pfn, old_khva);
+ 
+ 	return ret;
+ }
+@@ -412,7 +423,7 @@ void kvm_gpc_deactivate(struct gfn_to_pfn_cache *gpc)
+ 		list_del(&gpc->list);
+ 		spin_unlock(&kvm->gpc_lock);
+ 
+-		gpc_unmap_khva(old_pfn, old_khva);
++		gpc_unmap(old_pfn, old_khva);
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(kvm_gpc_deactivate);
+-- 
+2.39.2
 
