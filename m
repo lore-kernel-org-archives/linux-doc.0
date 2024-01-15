@@ -1,108 +1,92 @@
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDD01774C
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 15:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-459-QAkLZRVbNMynMU_EIsS2Bw-1; Mon,
- 15 Jan 2024 10:47:15 -0500
-X-MC-Unique: QAkLZRVbNMynMU_EIsS2Bw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6458C3830084;
-	Mon, 15 Jan 2024 15:47:14 +0000 (UTC)
-Received: from localhost.redhat.com (unknown [10.45.226.182])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id EFF293C25;
-	Mon, 15 Jan 2024 15:47:12 +0000 (UTC)
-From: Alexey Gladkov <legion@kernel.org>
-To: LKML <linux-kernel@vger.kernel.org>,
-	Linux Containers <containers@lists.linux.dev>,
-	linux-doc@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	Joel Granados <joel.granados@gmail.com>,
-	Kees Cook <keescook@chromium.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>
-Subject: [RESEND PATCH v3 2/3] docs: Add information about ipc sysctls limitations
-Date: Mon, 15 Jan 2024 15:46:42 +0000
-Message-ID: <09e99911071766958af488beb4e8a728a4f12135.1705333426.git.legion@kernel.org>
-In-Reply-To: <cover.1705333426.git.legion@kernel.org>
-References: <cover.1663756794.git.legion@kernel.org> <cover.1705333426.git.legion@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7609C17BA1;
+	Mon, 15 Jan 2024 16:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D9h72/n8"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dbed179f0faso6849497276.1;
+        Mon, 15 Jan 2024 08:08:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705334903; x=1705939703; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O3v5EekwNwbyCQhxBwrr1k0zzHga5tdMVcMO2ueic0Y=;
+        b=D9h72/n8JrI3hQ1zVRKLHfGf6yrkWCu/F0U3If/K9PIRGlxJXqBU4dMtX95awEm1a1
+         p/pw8tKRTmQ3gHsx5tOgyicRa3z6GPp6GbcnxoizaK0W853c/gPLCkOiXTORSf7qopW1
+         xXkGrGGKFii3pi1DJ631mnwZTn1m6G9+onZwBsyZpDG5JbQcMeWu1VjZtpCOkSN6dI3m
+         6+SqMN38suNyZCEoEvIIYFLsCwCQH+3TS9k6hgprTxxhpDjJE3U2lDib3AtuvpABgHmk
+         9FcybBv8MzHfrIY4IpFr8rPnyakVKcKnER8HRs3jxLVqCDDK5m5q/QE11kOyryUsFERt
+         1uvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705334903; x=1705939703;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O3v5EekwNwbyCQhxBwrr1k0zzHga5tdMVcMO2ueic0Y=;
+        b=j3wV44dwxlVB/zByJYnBs7kcYJjJk0GsKuivZN2hmCt03wMucxij30+qxY3KhAMrOl
+         DPRTS67vmOoWOJpQ216RCLZW9h1aG06KJoSXPu0oHMt+XzOZc6pNd2lzr5Va+l9Q9s9B
+         TxYajByPmIgBt9W74ditNBM758l0rDIeKtguSBgDF9u1mx5E1GCWgcnC7RFMRYOMzJ9D
+         5XEwA1OE6fdpkOby5e/MORnYjRxY3MtcYQTwJFH/TaileSulF+qa9r2ypEM+j8+z3Lk5
+         snmVojSbN3Ha8VvFinvR0dkF8YhnFpTu60ZxmFZkMMGl/DaKMT3o+8yTIQx0a8W2yqjr
+         NVcQ==
+X-Gm-Message-State: AOJu0YwjjL5GWOSe4i7feKq7eFmjsYnaUrJcjhU4vF9bt50E/m+slhNr
+	8EAruTQSkQ3D5yZZmJV7EcYaElB0TYpaleVxdLY=
+X-Google-Smtp-Source: AGHT+IF5lVpaG5zhAB2+/ap5mK0eaqQRLUd+krj5DSXQ0aQKe1cRVSF2/UbAjhQs8dzHm5uDLMc+f90KsJb3hDLIbKg=
+X-Received: by 2002:a05:6902:2185:b0:dbe:3a98:5977 with SMTP id
+ dl5-20020a056902218500b00dbe3a985977mr3216881ybb.62.1705334903452; Mon, 15
+ Jan 2024 08:08:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+References: <20240108032117.215171-1-wangrui@loongson.cn> <ZZ2fn0scbDKBXWe5@boqun-archlinux>
+ <CAHirt9iox8FGV2wrMyxwFRjab2avfOcyLKvBc9K=AqiHxqHXKg@mail.gmail.com>
+ <ZZ38XMQw18mw2sTA@Boquns-Mac-mini.home> <CAHirt9jQSVvBF=1wc=sT9FxngeSP30P4FDpu8m0JH_0fOPSO-w@mail.gmail.com>
+ <CANiq72=X3cggAn0HLMi7jVFAfypBhog=ZkPB57yfaX4ZUzT-HA@mail.gmail.com>
+ <CAHirt9hdtGSsEofxDb0FCtcFeAw9n9LKJALz23Qdqh4n2=Ua5A@mail.gmail.com>
+ <CANiq72n7K8LcKrs+beF2sbt1XLdr4zEhEw4xcy3yh4wgTrvYeg@mail.gmail.com> <CAAhV-H72Hbfy7n6+AFSFFOzizo0GtpzA074sgo48-W-Dt0VR+w@mail.gmail.com>
+In-Reply-To: <CAAhV-H72Hbfy7n6+AFSFFOzizo0GtpzA074sgo48-W-Dt0VR+w@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 15 Jan 2024 17:08:11 +0100
+Message-ID: <CANiq72mEPnB7yEZvtUXAM5w0GgYmzdrM9OhioLGb_LzbAJKNOA@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] Rust enablement for LoongArch
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: WANG Rui <wangrui@loongson.cn>, Boqun Feng <boqun.feng@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-doc@vger.kernel.org, loongson-kernel@lists.loongnix.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-After 25b21cb2f6d6 ("[PATCH] IPC namespace core") and 4e9823111bdc
-("[PATCH] IPC namespace - shm") the shared memory page count stopped
-being global and started counting per ipc namespace. The documentation
-and shmget(2) still says that shmall is a global option.
+On Mon, Jan 15, 2024 at 4:23=E2=80=AFAM Huacai Chen <chenhuacai@kernel.org>=
+ wrote:
+>
+> Thank you for your suggestion, but since this will be replaced by the
+> built-in target soon, and I don't want to change the tag to make Linus
+> unhappy. Let's leave it as is.
 
-shmget(2):
+The issue is not a big deal and I appreciate that you made the effort
+to enable Rust for your architecture. However, please note that we do
+our best to maintain a clean formatting state for Rust code (i.e.
+`rustfmt` should be run) and that people may see this in tests/CIs
+that use the Make target.
 
-SHMALL System-wide limit on the total amount of shared memory, measured
-in units of the system page size. On Linux, this limit can be read and
-modified via /proc/sys/kernel/shmall.
+I don't think Linus would mind too much, and you could point him to
+this email if you want (or you could put the fix on top); but if you
+really want to keep the tag as-is, then we should consider it as a fix
+for this cycle, i.e. we should not wait for e.g. the next cycle for
+the built-in target. Could you please send it through your tree as
+soon as possible?
 
-I think the changes made in 2006 should be documented.
-
-Signed-off-by: Alexey Gladkov <legion@kernel.org>
-Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
-Link: https://lkml.kernel.org/r/ede20ddf7be48b93e8084c3be2e920841ee1a641.1663756794.git.legion@kernel.org
-Signed-off-by: Eric W. Biederman <ebiederm@xmission.com>
----
- Documentation/admin-guide/sysctl/kernel.rst | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 6584a1f9bfe3..bc578663619d 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -594,6 +594,9 @@ default (``MSGMNB``).
- ``msgmni`` is the maximum number of IPC queues. 32000 by default
- (``MSGMNI``).
- 
-+All of these parameters are set per ipc namespace. The maximum number of bytes
-+in POSIX message queues is limited by ``RLIMIT_MSGQUEUE``. This limit is
-+respected hierarchically in the each user namespace.
- 
- msg_next_id, sem_next_id, and shm_next_id (System V IPC)
- ========================================================
-@@ -1274,15 +1277,20 @@ are doing anyway :)
- shmall
- ======
- 
--This parameter sets the total amount of shared memory pages that
--can be used system wide. Hence, ``shmall`` should always be at least
--``ceil(shmmax/PAGE_SIZE)``.
-+This parameter sets the total amount of shared memory pages that can be used
-+inside ipc namespace. The shared memory pages counting occurs for each ipc
-+namespace separately and is not inherited. Hence, ``shmall`` should always be at
-+least ``ceil(shmmax/PAGE_SIZE)``.
- 
- If you are not sure what the default ``PAGE_SIZE`` is on your Linux
- system, you can run the following command::
- 
- 	# getconf PAGE_SIZE
- 
-+To reduce or disable the ability to allocate shared memory, you must create a
-+new ipc namespace, set this parameter to the required value and prohibit the
-+creation of a new ipc namespace in the current user namespace or cgroups can
-+be used.
- 
- shmmax
- ======
--- 
-2.43.0
-
+Cheers,
+Miguel
