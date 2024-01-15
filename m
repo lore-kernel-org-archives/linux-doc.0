@@ -1,147 +1,179 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADCE1863F
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 14:47:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18E51775C
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 15:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OvsBgFDH"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PRr1I5KI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705330058;
+	s=mimecast20190719; t=1705331168;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jIzHvpzkkigfxw83x1LWeciN350K4+qfOeyYElcXkdQ=;
-	b=OvsBgFDHBCmsVrBMYQEvJrJ4nR3+j1Kze2Z282eczrlZuNoULV4+QgGwChLoHlCSQMx3lI
-	abH4ZXhk4evOY8XQ6PjHb9GlUefEmjZp9IFYvIHE0qVVgIGVPusNXmRlVvtJ9+VeBtAKFQ
-	zZyFDPKa1lB/u1dMbU6eIxUBPSV+cRI=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=J6KAw5sRd/rBCtYAadIrUr1C0nBvKZvSQmMmvlANPe0=;
+	b=PRr1I5KI7TW9O0CT3CN+oUz6m+GIXDXgwVk0uyXA+KLIV1cRiDoXr+ctCETelxd1CSpPbO
+	UEjydgVCZLrlt+lyegyXJHigCqUi9U78WXWy5pEgHiUFHJYNyBen1ctTKDhrKlNBZGzv0A
+	Tdnj98xbBNwPvIBATwoweTIRsM3YXMA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-158-ktCB3-9POUm7lqR8F9fNXw-1; Mon, 15 Jan 2024 09:47:37 -0500
-X-MC-Unique: ktCB3-9POUm7lqR8F9fNXw-1
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-594cafcc66aso1838908eaf.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 06:47:37 -0800 (PST)
+ us-mta-262-Y-S3NaRdPb-uTuaL2gv68w-1; Mon, 15 Jan 2024 10:06:07 -0500
+X-MC-Unique: Y-S3NaRdPb-uTuaL2gv68w-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-33689c90957so5557882f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 07:06:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705330056; x=1705934856;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jIzHvpzkkigfxw83x1LWeciN350K4+qfOeyYElcXkdQ=;
-        b=Lt8TczTvUYE6L4BwHkuXzW4fYsJj7cWzDcJbi4cAJChiDCLx6aWc1/jkbDhpupnHEX
-         m5dIFSpGqIZwvGXaFSCLMdaYknDG73aBgxtCkRtwiwzjLjTVtdQfnpMzz/k+l0Oooics
-         XtW7sN0P9FM4AXChnaAPi6edcm0TW6eqL5Sg5VS1iBgFfzIySlWBZVKjyEdVH4JcZmKC
-         vHHyt0QSWKiYO2KGjz0ytEiLdRR5Oa0LBt0lVVAr2YnVspybnUWZZXq4JDYHivTxYfiy
-         AIA9U2zPjwPpuwQu65uRrO9MKkNQvRGdUi92qq/iPCdiHrAXsla7eMXf087Akz9aOt8Q
-         /mhw==
-X-Gm-Message-State: AOJu0YxjD+xGXxlvtorZAB56sF64MMbvIak3ZRzO2QscBrnvURiOTSIX
-	Pvh2SlmhkocPqzcI3bn9eA3yV6d4rkNeIiNYxmZ4npQFpkQoaxf+/735M/CeHRtTJZ6Z22mZigO
-	4wAo5OP6xOqc7Os4R6wze6xAkLg/Q
-X-Received: by 2002:a4a:dd8f:0:b0:598:b2d7:2499 with SMTP id h15-20020a4add8f000000b00598b2d72499mr7707352oov.0.1705330056435;
-        Mon, 15 Jan 2024 06:47:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHi7+XsSK011xhs3AvyU5Z7vMLQIc2V6iqOiH+OrjwaSbXs/XiSSr4Ft9JY9kxXHF9woE1zRQ==
-X-Received: by 2002:a4a:dd8f:0:b0:598:b2d7:2499 with SMTP id h15-20020a4add8f000000b00598b2d72499mr7707328oov.0.1705330056145;
-        Mon, 15 Jan 2024 06:47:36 -0800 (PST)
-Received: from pstanner-thinkpadt14sgen1.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id ne13-20020a056214424d00b006815cf9a644sm1020720qvb.55.2024.01.15.06.47.33
+        d=1e100.net; s=20230601; t=1705331166; x=1705935966;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J6KAw5sRd/rBCtYAadIrUr1C0nBvKZvSQmMmvlANPe0=;
+        b=sUHw3JK/Q7uxSKo1q9Hfrv8JwlXb7toE6h9FSM6Y2Z0T7OdFgZ0e9tMb/o23jsyjPv
+         qAkeCH1TqauvrklKYAohouf0Ec2wRMA4ECb/8CsySojlHUVStdTE2uqYc3HSr7JIg2dZ
+         4eBaz3SOC9ujYN9Ge3aBnKmuBcSjzJyhFcQuPZULh3LvMC8syB7EtMUFipDieKKHmMJr
+         WY+2pcLOaZ0YBYCNHrgPOktHYfGtSKbAWYOv6jgChpjdLMKqQreLItl30HkP3IQo4qbZ
+         7osJHDauJje7iFMlz0MZV/J2s7btbGLYfS+b1MEHCqmsLQmxZF00X8k9cF7I1z1PUxby
+         gHug==
+X-Gm-Message-State: AOJu0YyLutaHW7BkBZjP7ThevVpBn18CKM0kAxNlM8wdCLN+psTah7K9
+	4f9gcRHB55f7QTldQB6rQ6ScT2gaWbwn3sazN7OaoZqtKXiiuV1RUixV27//mbBs2yXBTnMo5rG
+	fH7ymPV7MBDmeCA3xztQL9mOvJx31
+X-Received: by 2002:a5d:4d47:0:b0:337:61aa:9682 with SMTP id a7-20020a5d4d47000000b0033761aa9682mr2972947wru.110.1705331165993;
+        Mon, 15 Jan 2024 07:06:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFUUbGFoHl37nmlBps1shDre7Yn9gKUXHYUdoSEBRHHdGC4aQD0Ng5BPuhKqCteY6MZ7Iq1Bg==
+X-Received: by 2002:a5d:4d47:0:b0:337:61aa:9682 with SMTP id a7-20020a5d4d47000000b0033761aa9682mr2972874wru.110.1705331162657;
+        Mon, 15 Jan 2024 07:06:02 -0800 (PST)
+Received: from toolbox ([2001:9e8:8996:a800:5fa3:a411:5e47:8fe5])
+        by smtp.gmail.com with ESMTPSA id e19-20020a5d5953000000b0033609b71825sm12088386wri.35.2024.01.15.07.06.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 06:47:35 -0800 (PST)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Hans de Goede <hdegoede@redhat.com>,
+        Mon, 15 Jan 2024 07:06:02 -0800 (PST)
+Date: Mon, 15 Jan 2024 16:06:00 +0100
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Philipp Stanner <pstanner@redhat.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	dakr@redhat.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-pci@vger.kernel.org,
-	stable@kernel.vger.org
-Subject: [PATCH 10/10] drm/vboxvideo: fix mapping leaks
-Date: Mon, 15 Jan 2024 15:46:21 +0100
-Message-ID: <20240115144655.32046-12-pstanner@redhat.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240115144655.32046-2-pstanner@redhat.com>
-References: <20240115144655.32046-2-pstanner@redhat.com>
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] Add YUV formats to VKMS
+Message-ID: <20240115150600.GC160656@toolbox>
+References: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
 
-When the managed PCI-API was introduced to this driver, it was falsly
-assumed that initializing the device with pcim_enable_device() instead
-of pci_enable_device() will make all PCI functions managed.
+On Wed, Jan 10, 2024 at 02:44:00PM -0300, Arthur Grillo wrote:
+> This patchset aims to add support for additional buffer YUV formats.
+> More specifically, it adds support to:
+> 
+> Semi-planar formats:
+> 
+> - NV12
+> - NV16
+> - NV24
+> - NV21
+> - NV61
+> - NV42
+> 
+> Planar formats:
+> 
+> - YUV440
+> - YUV422
+> - YUV444
+> - YVU440
+> - YVU422
+> - YVU444
+> 
+> These formats have more than one plane, and most have chroma
+> subsampling. These properties don't have support on VKMS, so I had to
+> work on this before.
+> 
+> To ensure that the conversions from YUV to RGB are working, I wrote a
+> KUnit test. As the work from Harry on creating KUnit tests on VKMS[1] is
+> not yet merged, I took the setup part (Kconfig entry and .kunitfile)
+> from it.
+> 
+> Furthermore, I couldn't find any sources with the conversion matrices,
+> so I had to work out the values myself based on the ITU papers[2][3][4].
+> So, I'm not 100% sure if the values are accurate. I'd appreciate some
+> input if anyone has more knowledge in this area.
 
-This is wrong and was caused by the quite confusing devres API for PCI:
-The function pci_iomap_range() is never managed.
+H.273 CICP [1] has concise descriptions of the required values for most
+widely used formats and the colour python framework [2] also can be used
+to quickly get to the desired information most of the time.
 
-Replace pci_iomap_range() with the actually managed function
-pcim_iomap_range().
+[1]: https://www.itu.int/rec/T-REC-H.273
+[2]: https://www.colour-science.org/
 
-Additionally, add a call to pcim_request_region() to ensure exclusive
-access to BAR 0.
-
-CC: <stable@kernel.vger.org> # v5.10+
-Fixes: 8558de401b5f ("drm/vboxvideo: use managed pci functions")
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/vboxvideo/vbox_main.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
-index 42c2d8a99509..7f686a0190e6 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_main.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
-@@ -42,12 +42,11 @@ static int vbox_accel_init(struct vbox_private *vbox)
- 	/* Take a command buffer for each screen from the end of usable VRAM. */
- 	vbox->available_vram_size -= vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE;
- 
--	vbox->vbva_buffers = pci_iomap_range(pdev, 0,
--					     vbox->available_vram_size,
--					     vbox->num_crtcs *
--					     VBVA_MIN_BUFFER_SIZE);
--	if (!vbox->vbva_buffers)
--		return -ENOMEM;
-+	vbox->vbva_buffers = pcim_iomap_range(
-+			pdev, 0, vbox->available_vram_size,
-+			vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE);
-+	if (IS_ERR(vbox->vbva_buffers))
-+		return PTR_ERR(vbox->vbva_buffers);
- 
- 	for (i = 0; i < vbox->num_crtcs; ++i) {
- 		vbva_setup_buffer_context(&vbox->vbva_info[i],
-@@ -115,12 +114,15 @@ int vbox_hw_init(struct vbox_private *vbox)
- 
- 	DRM_INFO("VRAM %08x\n", vbox->full_vram_size);
- 
-+	ret = pcim_request_region(pdev, 0, "vboxvideo");
-+	if (ret)
-+		return ret;
-+
- 	/* Map guest-heap at end of vram */
--	vbox->guest_heap =
--	    pci_iomap_range(pdev, 0, GUEST_HEAP_OFFSET(vbox),
--			    GUEST_HEAP_SIZE);
--	if (!vbox->guest_heap)
--		return -ENOMEM;
-+	vbox->guest_heap = pcim_iomap_range(pdev, 0,
-+			GUEST_HEAP_OFFSET(vbox), GUEST_HEAP_SIZE);
-+	if (IS_ERR(vbox->guest_heap))
-+		return PTR_ERR(vbox->guest_heap);
- 
- 	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
- 	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
--- 
-2.43.0
+> Also, I used two IGT tests to check if the formats were having a correct
+> conversion (all with the --extended flag):
+> 
+> - kms_plane@pixel_format
+> - kms_plane@pixel_format_source_clamping.
+> 
+> The nonsubsampled formats don't have support on IGT, so I sent a patch
+> fixing this[5].
+> 
+> Currently, this patchset does not add those formats to the writeback, as
+> it would require a rewrite of how the conversions are done (similar to
+> what was done on a previous patch[6]). So, I would like to review this
+> patchset before I start the work on this other part.
+> 
+> [1]: https://lore.kernel.org/all/20231108163647.106853-5-harry.wentland@amd.com/
+> [2]: https://www.itu.int/rec/R-REC-BT.601-7-201103-I/en
+> [3]: https://www.itu.int/rec/R-REC-BT.709-6-201506-I/en
+> [4]: https://www.itu.int/rec/R-REC-BT.2020-2-201510-I/en
+> [5]: https://lists.freedesktop.org/archives/igt-dev/2024-January/066937.html
+> [6]: https://lore.kernel.org/dri-devel/20230414135151.75975-2-mcanal@igalia.com/
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+> Changes in v2:
+> - Use EXPORT_SYMBOL_IF_KUNIT instead of including the .c test
+>   file (Maxime)
+> - Link to v1: https://lore.kernel.org/r/20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net
+> 
+> ---
+> Arthur Grillo (7):
+>       drm/vkms: Use drm_frame directly
+>       drm/vkms: Add support for multy-planar framebuffers
+>       drm/vkms: Add range and encoding properties to pixel_read function
+>       drm/vkms: Add chroma subsampling
+>       drm/vkms: Add YUV support
+>       drm/vkms: Drop YUV formats TODO
+>       drm/vkms: Create KUnit tests for YUV conversions
+> 
+>  Documentation/gpu/vkms.rst                    |   3 +-
+>  drivers/gpu/drm/vkms/Kconfig                  |  15 ++
+>  drivers/gpu/drm/vkms/Makefile                 |   1 +
+>  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+>  drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+>  drivers/gpu/drm/vkms/tests/vkms_format_test.c | 156 ++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
+>  drivers/gpu/drm/vkms/vkms_formats.c           | 247 ++++++++++++++++++++++----
+>  drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
+>  drivers/gpu/drm/vkms/vkms_plane.c             |  26 ++-
+>  drivers/gpu/drm/vkms/vkms_writeback.c         |   5 -
+>  11 files changed, 426 insertions(+), 49 deletions(-)
+> ---
+> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
+> change-id: 20231226-vkms-yuv-6f7859f32df8
+> 
+> Best regards,
+> -- 
+> Arthur Grillo <arthurgrillo@riseup.net>
+> 
 
