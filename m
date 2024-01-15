@@ -1,35 +1,34 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8BF18636
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 18:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814A418B06
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 19:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2Ud1DMvz";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BisbFPUd"
-From: Anna-Maria Behnsen <anna-maria@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1705343806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=LBvhS+xDnVDgpkHH62qGJNvIZNF0SYbfguY9Ri2oBZM=;
-	b=2Ud1DMvzC4XxhDFoYs+6xc6EFqpHOfZgPaxJMRAbLGAuk2IfeEskCH0a/KnF+GXhwrCeHX
-	882XlujbiXyKqaWczdvHnVsgRqIKnwCsjgoaTwWokjCb3JB2K9ZrNPJpZN3YcxEYjsQvzE
-	u4C02UKAp3oSCbTgKEN2us4yxPtzuRVeTprIRvN6vlXrR2lPkK0CJXdQ5C3rb9/DPINRcl
-	XBmFlQurfrSvuAB2gS55uB26nZF5Hh+8lNTIv+XRSSFVLCFoT4pF8Zn8WXOi10VgvRXGq5
-	9PYHGM8HS/eYUOWFUDZ2xkSMogbIexTq4bYJUMxw2qhTC6kaei+dSqEw6Tk3Pg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1705343806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=LBvhS+xDnVDgpkHH62qGJNvIZNF0SYbfguY9Ri2oBZM=;
-	b=BisbFPUdGl2GP1O+wEbIU1ggfVycI+I0rPVGoalzaa1avNloYUoTFTUBjz3k9YfUrtcV2G
-	f75/N1KPJ6lyvcCg==
-To: linux-doc@vger.kernel.org
-Subject: Help required - kernel-doc, code block and backslash
-Date: Mon, 15 Jan 2024 19:36:46 +0100
-Message-ID: <87y1cqbg01.fsf@somnus>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gzatjZp8"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0F07F79CB;
+	Mon, 15 Jan 2024 19:38:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0F07F79CB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1705347519; bh=PqRDC2FNxWQCztUMekqzxlfzWWEiX8GbI4/0lkxHvjU=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=gzatjZp8jJrwlbRdOj5y5xFehi1zRHfrC1+mVCq3nP4XmGemv9+kVE4jTedX7KwHj
+	 +GIcKP0PxYKXEqNY/9CekEyXo9VkOXr8X7UgWA68Y9IHljmbw75eUeFxlLxbSxKT2h
+	 36ceGQOIrJPFF/xjSlMnLwjgmXSMaB0NZsMMSoo0GDBYD2I4Esa1cUKKOEtouuKc+q
+	 q1sFtI1vpBKychmDvwSa5vph9jcQClTA67AGURVxIq5mDQYdlUCJIPNHVb8pR3LJ4n
+	 qbsT2XTtUckyWGyjOnygBTfVZaA+mefqmRtSUaj2Jadg0E6d1H/7QH/zj0OH3ofeXL
+	 lwWgkbxYtvcMw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>, linux-doc@vger.kernel.org
+Subject: Re: Help required - kernel-doc, code block and backslash
+In-Reply-To: <87y1cqbg01.fsf@somnus>
+References: <87y1cqbg01.fsf@somnus>
+Date: Mon, 15 Jan 2024 12:38:38 -0700
+Message-ID: <87ttnee69t.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,44 +37,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Hi,
+Anna-Maria Behnsen <anna-maria@linutronix.de> writes:
 
-I'll try to integrate some documentation which is already written in
-code comments into the kernel documentation.
+> Hi,
+>
+> I'll try to integrate some documentation which is already written in
+> code comments into the kernel documentation.
+>
+> There I face the problem with a backslash at the end of a line in a
+> 'code block' and this ends up in removing the newline.
 
-There I face the problem with a backslash at the end of a line in a
-'code block' and this ends up in removing the newline.
+Yes, kernel-doc does that...looking at the history, that behavior was
+added in 2012 (commit 65478428443) because otherwise multi-line macros
+are not handled properly.
 
-So I have this comment in code and I simply want to use the kernel-doc
-'doc' option to integrate it into documentation:
+Fixing this properly is not going to be all that easy; the code reading
+the source file is well before any sort of parsing, so it has no idea of
+whether it's in a comment or not.
 
-/**
- * DOC: example
- *
- * This should illustrate a hierarchy as a code block::
- *
- *                    Top Level
- *                /               \
- *        Parent A                 Parent B
- *       /        \               /        \
- *  Child A      Child B       Child C   Child D
- *
- */
+A really ugly workaround... put something relatively inconspicuous, like
+"     .", after the backslash, and at least your formatting won't be
+mangled.
 
-And the code block looks like this after using the make target
-'htmldocs':
+> Another question: Is there an linux-doc irc channel to ask simple
+> questions?
 
-             Top Level
-         /                *        parent A                 parent B
-/        \               /         *  Child A      Child B       Child C   Child D
+I don't really do IRC, just don't have the spare attention span for it.
+Feel free to email me anytime though.
 
-
-I wonder, if there is something broken (as the * of the c comment is in
-there again)?
-
-Another question: Is there an linux-doc irc channel to ask simple
-questions?
-
-Thanks,
-	Anna-Maria
-
+jon
