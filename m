@@ -1,302 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD8C1773B;
-	Mon, 15 Jan 2024 15:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sUtZFwP0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3DE1C433C7;
-	Mon, 15 Jan 2024 15:30:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705332603;
-	bh=i+sAHaV32j73dmSDaQjMq2fN84j/W7BDfu4abhHoLbk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sUtZFwP01BkBBU0Ca9vIuI9QMS/5i1oK1OOnh7h+jlN2UJ9Ela1VNwJUGvZRFar+0
-	 QmjUGv+4rJ5Ky5xARxZU9KcKe7y4xwngcvnX15RhfCxtMd3glJjPEIJXQq2Q5bNcGF
-	 TM3BFn4GdJ6OJJ48zZgplCln0DD/y8bRiTgVMP1uhBWcBbRrmSzQlG949j+DRRA1Ui
-	 5c6xWkWGJ/fUuRPecxx47WKwqFMbAY/7Ceu60WLh1o+/iyNVj9Q2fOinnlR+o7hQjy
-	 G3OJERz6abgtNEsGX/4JH/yQiV1mfpt/U4yZ63uiM8JY/OywW+jaMSE4K5/jIW51hA
-	 GcH6qVdU7q0CA==
-Date: Mon, 15 Jan 2024 16:30:00 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <igshliibofml3bkkchamqo7xyrnzrf6efkfuok5lprcfg5h3ug@phfvvy6fra35>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDD01774C
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 15:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-459-QAkLZRVbNMynMU_EIsS2Bw-1; Mon,
+ 15 Jan 2024 10:47:15 -0500
+X-MC-Unique: QAkLZRVbNMynMU_EIsS2Bw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6458C3830084;
+	Mon, 15 Jan 2024 15:47:14 +0000 (UTC)
+Received: from localhost.redhat.com (unknown [10.45.226.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EFF293C25;
+	Mon, 15 Jan 2024 15:47:12 +0000 (UTC)
+From: Alexey Gladkov <legion@kernel.org>
+To: LKML <linux-kernel@vger.kernel.org>,
+	Linux Containers <containers@lists.linux.dev>,
+	linux-doc@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	Joel Granados <joel.granados@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Manfred Spraul <manfred@colorfullife.com>
+Subject: [RESEND PATCH v3 2/3] docs: Add information about ipc sysctls limitations
+Date: Mon, 15 Jan 2024 15:46:42 +0000
+Message-ID: <09e99911071766958af488beb4e8a728a4f12135.1705333426.git.legion@kernel.org>
+In-Reply-To: <cover.1705333426.git.legion@kernel.org>
+References: <cover.1663756794.git.legion@kernel.org> <cover.1705333426.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lgtwqetat5bqpk6j"
-Content-Disposition: inline
-In-Reply-To: <20240115143720.GA160656@toolbox>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 
+After 25b21cb2f6d6 ("[PATCH] IPC namespace core") and 4e9823111bdc
+("[PATCH] IPC namespace - shm") the shared memory page count stopped
+being global and started counting per ipc namespace. The documentation
+and shmget(2) still says that shmall is a global option.
 
---lgtwqetat5bqpk6j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+shmget(2):
 
-On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> On Mon, Jan 15, 2024 at 03:33:08PM +0100, Sebastian Wick wrote:
-> > On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
-> > > The i915 driver has a property to force the RGB range of an HDMI outp=
-ut.
-> > > The vc4 driver then implemented the same property with the same
-> > > semantics. KWin has support for it, and a PR for mutter is also there=
- to
-> > > support it.
-> > >=20
-> > > Both drivers implementing the same property with the same semantics,
-> > > plus the userspace having support for it, is proof enough that it's
-> > > pretty much a de-facto standard now and we can provide helpers for it.
-> > >=20
-> > > Let's plumb it into the newly created HDMI connector.
-> > >=20
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  Documentation/gpu/kms-properties.csv               |   1 -
-> > >  drivers/gpu/drm/drm_atomic.c                       |   5 +
-> > >  drivers/gpu/drm/drm_atomic_state_helper.c          |  17 +
-> > >  drivers/gpu/drm/drm_atomic_uapi.c                  |   4 +
-> > >  drivers/gpu/drm/drm_connector.c                    |  76 +++++
-> > >  drivers/gpu/drm/tests/Makefile                     |   1 +
-> > >  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 376 +++++++++++=
-++++++++++
-> > >  drivers/gpu/drm/tests/drm_connector_test.c         | 117 ++++++-
-> > >  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 ++++++
-> > >  include/drm/drm_connector.h                        |  36 ++
-> > >  10 files changed, 737 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu=
-/kms-properties.csv
-> > > index 0f9590834829..caef14c532d4 100644
-> > > --- a/Documentation/gpu/kms-properties.csv
-> > > +++ b/Documentation/gpu/kms-properties.csv
-> > > @@ -17,7 +17,6 @@ Owner Module/Drivers,Group,Property Name,Type,Prope=
-rty Values,Object attached,De
-> > >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xf=
-fffffff",Connector,property to suggest an X offset for a connector
-> > >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Co=
-nnector,property to suggest an Y offset for a connector
-> > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",=
-Connector,TDB
-> > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""=
-Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 =
-and CTM is set, the hardware will be programmed with the result of the mult=
-iplication of CTM by the limited range matrix to ensure the pixels normally=
- in the range 0..1.0 are remapped to the range 16/255..235/255."
-> > >  ,,=E2=80=9Caudio=E2=80=9D,ENUM,"{ ""force-dvi"", ""off"", ""auto"", =
-""on"" }",Connector,TBD
-> > >  ,SDVO-TV,=E2=80=9Cmode=E2=80=9D,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NT=
-SC_443"", ""PAL_B"" } etc.",Connector,TBD
-> > >  ,,"""left_margin""",RANGE,"Min=3D0, Max=3D SDVO dependent",Connector=
-,TBD
-> > > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomi=
-c.c
-> > > index c31fc0b48c31..1465a7f09a0b 100644
-> > > --- a/drivers/gpu/drm/drm_atomic.c
-> > > +++ b/drivers/gpu/drm/drm_atomic.c
-> > > @@ -1142,6 +1142,11 @@ static void drm_atomic_connector_print_state(s=
-truct drm_printer *p,
-> > >  	drm_printf(p, "\tmax_requested_bpc=3D%d\n", state->max_requested_bp=
-c);
-> > >  	drm_printf(p, "\tcolorspace=3D%s\n", drm_get_colorspace_name(state-=
->colorspace));
-> > > =20
-> > > +	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
-> > > +	    connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB)
-> > > +		drm_printf(p, "\tbroadcast_rgb=3D%s\n",
-> > > +			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcas=
-t_rgb));
-> > > +
-> > >  	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_WRITEBACK)
-> > >  		if (state->writeback_job && state->writeback_job->fb)
-> > >  			drm_printf(p, "\tfb=3D%d\n", state->writeback_job->fb->base.id);
-> > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/=
-drm/drm_atomic_state_helper.c
-> > > index e69c0cc1c6da..10d98620a358 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > @@ -583,6 +583,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_rese=
-t);
-> > >  void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *=
-connector,
-> > >  					      struct drm_connector_state *new_state)
-> > >  {
-> > > +	new_state->hdmi.broadcast_rgb =3D DRM_HDMI_BROADCAST_RGB_AUTO;
-> > >  }
-> > >  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
-> > > =20
-> > > @@ -650,6 +651,22 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_che=
-ck);
-> > >  int drm_atomic_helper_connector_hdmi_check(struct drm_connector *con=
-nector,
-> > >  					   struct drm_atomic_state *state)
-> > >  {
-> > > +	struct drm_connector_state *old_state =3D
-> > > +		drm_atomic_get_old_connector_state(state, connector);
-> > > +	struct drm_connector_state *new_state =3D
-> > > +		drm_atomic_get_new_connector_state(state, connector);
-> > > +
-> > > +	if (old_state->hdmi.broadcast_rgb !=3D new_state->hdmi.broadcast_rg=
-b) {
-> > > +		struct drm_crtc *crtc =3D new_state->crtc;
-> > > +		struct drm_crtc_state *crtc_state;
-> > > +
-> > > +		crtc_state =3D drm_atomic_get_crtc_state(state, crtc);
-> > > +		if (IS_ERR(crtc_state))
-> > > +			return PTR_ERR(crtc_state);
-> > > +
-> > > +		crtc_state->mode_changed =3D true;
-> > > +	}
-> > > +
-> > >  	return 0;
-> > >  }
-> > >  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
-> > > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_=
-atomic_uapi.c
-> > > index aee4a65d4959..3eb4f4bc8b71 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> > > @@ -818,6 +818,8 @@ static int drm_atomic_connector_set_property(stru=
-ct drm_connector *connector,
-> > >  		state->max_requested_bpc =3D val;
-> > >  	} else if (property =3D=3D connector->privacy_screen_sw_state_prope=
-rty) {
-> > >  		state->privacy_screen_sw_state =3D val;
-> > > +	} else if (property =3D=3D connector->broadcast_rgb_property) {
-> > > +		state->hdmi.broadcast_rgb =3D val;
-> > >  	} else if (connector->funcs->atomic_set_property) {
-> > >  		return connector->funcs->atomic_set_property(connector,
-> > >  				state, property, val);
-> > > @@ -901,6 +903,8 @@ drm_atomic_connector_get_property(struct drm_conn=
-ector *connector,
-> > >  		*val =3D state->max_requested_bpc;
-> > >  	} else if (property =3D=3D connector->privacy_screen_sw_state_prope=
-rty) {
-> > >  		*val =3D state->privacy_screen_sw_state;
-> > > +	} else if (property =3D=3D connector->broadcast_rgb_property) {
-> > > +		*val =3D state->hdmi.broadcast_rgb;
-> > >  	} else if (connector->funcs->atomic_get_property) {
-> > >  		return connector->funcs->atomic_get_property(connector,
-> > >  				state, property, val);
-> > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_co=
-nnector.c
-> > > index d9961cce8245..929b0a911f62 100644
-> > > --- a/drivers/gpu/drm/drm_connector.c
-> > > +++ b/drivers/gpu/drm/drm_connector.c
-> > > @@ -1183,6 +1183,29 @@ static const u32 dp_colorspaces =3D
-> > >  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
-> > >  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
-> > > =20
-> > > +static const struct drm_prop_enum_list broadcast_rgb_names[] =3D {
-> > > +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
-> > > +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
-> > > +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
-> > > +};
-> > > +
-> > > +/*
-> > > + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for H=
-DMI connector RGB broadcast selection
-> > > + * @broadcast_rgb: Broadcast RGB selection to compute name of
-> > > + *
-> > > + * Returns: the name of the Broadcast RGB selection, or NULL if the =
-type
-> > > + * is not valid.
-> > > + */
-> > > +const char *
-> > > +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rg=
-b broadcast_rgb)
-> > > +{
-> > > +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED)
-> > > +		return NULL;
-> > > +
-> > > +	return broadcast_rgb_names[broadcast_rgb].name;
-> > > +}
-> > > +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
-> > > +
-> > >  /**
-> > >   * DOC: standard connector properties
-> > >   *
-> > > @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconne=
-ctor_property);
-> > >  /**
-> > >   * DOC: HDMI connector properties
-> > >   *
-> > > + * Broadcast RGB
-> > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > + *      Infoframes will be generated according to that value.
-> > > + *
-> > > + *      The value of this property can be one of the following:
-> > > + *
-> > > + *      Automatic:
-> > > + *              RGB Range is selected automatically based on the mode
-> > > + *              according to the HDMI specifications.
-> > > + *
-> > > + *      Full:
-> > > + *              Full RGB Range is forced.
-> > > + *
-> > > + *      Limited 16:235:
-> > > + *              Limited RGB Range is forced. Unlike the name suggest=
-s,
-> > > + *              this works for any number of bits-per-component.
-> > > + *
-> > > + *      Drivers can set up this property by calling
-> > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > + *
-> >=20
-> > This is a good time to document this in more detail. There might be two
-> > different things being affected:
-> >=20
-> > 1. The signalling (InfoFrame/SDP/...)
-> > 2. The color pipeline processing
-> >=20
-> > All values of Broadcast RGB always affect the color pipeline processing
-> > such that a full-range input to the CRTC is converted to either full- or
-> > limited-range, depending on what the monitor is supposed to accept.
-> >=20
-> > When automatic is selected, does that mean that there is no signalling,
-> > or that the signalling matches what the monitor is supposed to accept
-> > according to the spec? Also, is this really HDMI specific?
-> >=20
-> > When full or limited is selected and the monitor doesn't support the
-> > signalling, what happens?
->=20
-> Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> the cable, so is this only affecting RGB? If not, how does it affect
-> YCbCr?
-i915 only supports it for RGB indeed:
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/display=
-/intel_hdmi.c#L2150
+SHMALL System-wide limit on the total amount of shared memory, measured
+in units of the system page size. On Linux, this limit can be read and
+modified via /proc/sys/kernel/shmall.
 
-Maxime
+I think the changes made in 2006 should be documented.
 
---lgtwqetat5bqpk6j
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Alexey Gladkov <legion@kernel.org>
+Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+Link: https://lkml.kernel.org/r/ede20ddf7be48b93e8084c3be2e920841ee1a641.1663756794.git.legion@kernel.org
+Signed-off-by: Eric W. Biederman <ebiederm@xmission.com>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 6584a1f9bfe3..bc578663619d 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -594,6 +594,9 @@ default (``MSGMNB``).
+ ``msgmni`` is the maximum number of IPC queues. 32000 by default
+ (``MSGMNI``).
+ 
++All of these parameters are set per ipc namespace. The maximum number of bytes
++in POSIX message queues is limited by ``RLIMIT_MSGQUEUE``. This limit is
++respected hierarchically in the each user namespace.
+ 
+ msg_next_id, sem_next_id, and shm_next_id (System V IPC)
+ ========================================================
+@@ -1274,15 +1277,20 @@ are doing anyway :)
+ shmall
+ ======
+ 
+-This parameter sets the total amount of shared memory pages that
+-can be used system wide. Hence, ``shmall`` should always be at least
+-``ceil(shmmax/PAGE_SIZE)``.
++This parameter sets the total amount of shared memory pages that can be used
++inside ipc namespace. The shared memory pages counting occurs for each ipc
++namespace separately and is not inherited. Hence, ``shmall`` should always be at
++least ``ceil(shmmax/PAGE_SIZE)``.
+ 
+ If you are not sure what the default ``PAGE_SIZE`` is on your Linux
+ system, you can run the following command::
+ 
+ 	# getconf PAGE_SIZE
+ 
++To reduce or disable the ability to allocate shared memory, you must create a
++new ipc namespace, set this parameter to the required value and prohibit the
++creation of a new ipc namespace in the current user namespace or cgroups can
++be used.
+ 
+ shmmax
+ ======
+-- 
+2.43.0
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZaVPeAAKCRDj7w1vZxhR
-xUqfAP42KmlQNAjS8Gd15wm3o/xPVLwxKq3Mj9o3uDndMr8fFQEAwaAUHG90t28G
-n7PjI68jJ9C8mdG1vseKHs+IcWYeWwU=
-=KfLJ
------END PGP SIGNATURE-----
-
---lgtwqetat5bqpk6j--
