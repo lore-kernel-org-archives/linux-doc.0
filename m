@@ -1,77 +1,143 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F3218E10
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 20:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BpxeiBqQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=tVxJxTtN/iaE9EgHzT4x1YMr9SF5sMcaeuSfEKou7wk=; b=BpxeiBqQ5JwcLNQ5tH1D4B80HH
-	nGDoYuGjywIQow4BfJNuFG/FrC6K1ccTQhcuMvreDxnGY4VyL9ocn/48IRqxTtOu/LnmImUQ01JQF
-	b918oxpPElPS2QSq/SArcw74eVBrTUNwJWUpcDzZdVwpWxdrqdBw4GJATdXDTkQG7Yuxw/zFDCgB2
-	LXef6aeamuRQXalOxFOw5gWrI+lLp0yVwkm6THmv+2wfa0ZciUO9NPfGyh6PRdRK4v4pAAz+kC0/2
-	xb4s+6uCsxdtqtUF4iOwak+BzD/rAJRlQ9nn7CR0nAOYZB5DsfrW8FYZPYBOjwDqJZ1RRCF8tQCrV
-	MrllpdGQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1rPTNa-00AicV-By; Mon, 15 Jan 2024 20:16:18 +0000
-Date: Mon, 15 Jan 2024 20:16:18 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E03F199A9
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jan 2024 20:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rPTSK-000556-N4; Mon, 15 Jan 2024 21:21:12 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rPTSJ-0005hx-Gy; Mon, 15 Jan 2024 21:21:11 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rPTSJ-000N9H-1R;
+	Mon, 15 Jan 2024 21:21:11 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-spi@vger.kernel.org,
+	kernel@pengutronix.de,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	James Clark <james.clark@arm.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
 	linux-doc@vger.kernel.org
-Subject: Re: Help required - kernel-doc, code block and backslash
-Message-ID: <ZaWSkvm8qsXgBVEP@casper.infradead.org>
-References: <87y1cqbg01.fsf@somnus>
- <87ttnee69t.fsf@meer.lwn.net>
+Subject: [PATCH 32/33] spi: Drop compat layer from renaming "master" to "controller"
+Date: Mon, 15 Jan 2024 21:13:18 +0100
+Message-ID:  <e5bb84a234e7b0bdde2542c891ebf0cd76c12749.1705348270.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ttnee69t.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3719; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=yu7xNIM8JxCKE+AFbgKgMhwZWwewLVSSPd3EFE9Z4og=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlpZHlTIqjOQiL5IfSzR7cFf3nQ1grO+FG40ndx H335N0mSOeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZaWR5QAKCRCPgPtYfRL+ TnqfCAC54cxG0jYVsuWroHZdwRu6KGmBnmdbMhcuKWte62YXYilTL8cGZz0Oy8R8ZrO3qhmrpaR UXUFFSzWlipFOl2CMzDv3gXzrpbBXwUL53FFEGwiFwHa87/raRLz5mJYVP7u2ijcR774qBKAaLG KGlJMma1+gEnp06eCscXukWPNSBC6XkFsVwjgZDb9LDj6/yOkri/iwUkslFZ94+LNHw+CFhkRZn r6QHYf2NREyA7SWtpbrXL6an+Jp2bLJrb9WoJ1nTwRa1/5klmwfWQyBFbadNiRvJV4A9kqeT8LW uRvraO4eEPGGMEbKO/ia1KJCia+T2sOVyiF97aKuwzqnCild
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Mon, Jan 15, 2024 at 12:38:38PM -0700, Jonathan Corbet wrote:
-> Anna-Maria Behnsen <anna-maria@linutronix.de> writes:
-> 
-> > Hi,
-> >
-> > I'll try to integrate some documentation which is already written in
-> > code comments into the kernel documentation.
-> >
-> > There I face the problem with a backslash at the end of a line in a
-> > 'code block' and this ends up in removing the newline.
-> 
-> Yes, kernel-doc does that...looking at the history, that behavior was
-> added in 2012 (commit 65478428443) because otherwise multi-line macros
-> are not handled properly.
-> 
-> Fixing this properly is not going to be all that easy; the code reading
-> the source file is well before any sort of parsing, so it has no idea of
-> whether it's in a comment or not.
-> 
-> A really ugly workaround... put something relatively inconspicuous, like
-> "     .", after the backslash, and at least your formatting won't be
-> mangled.
+Now that all in-tree users followed the rename, the compat stuff can go
+away.  This completes the renaming started with commit 8caab75fd2c2
+("spi: Generalize SPI "master" to "controller"")
 
-Well ... if we're into "ugly workaround" territory, we could use '^ *'
-as a marker for "we're in a comment, ignore the backslash".  My skills
-in this area are terrible, so would something like this work?
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ .../driver-api/driver-model/devres.rst        |  2 +-
+ drivers/spi/spi.c                             |  2 +-
+ include/linux/spi/spi.h                       | 20 +------------------
+ 3 files changed, 3 insertions(+), 21 deletions(-)
 
-while (!/^ \*/ && s/\\\s*$//) {
-
-I would try it myself, but Something Changed, and even without it,
-I've just started getting:
-
-Sphinx parallel build error:
-AssertionError
-
-when I run make htmldocs.
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index c5f99d834ec5..49c6fd82cd5d 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -462,7 +462,7 @@ SLAVE DMA ENGINE
+ SPI
+   devm_spi_alloc_master()
+   devm_spi_alloc_slave()
+-  devm_spi_register_master()
++  devm_spi_register_controller()
+ 
+ WATCHDOG
+   devm_watchdog_register_device()
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index 7477a11e12be..2d7393045384 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -584,7 +584,7 @@ struct spi_device *spi_alloc_device(struct spi_controller *ctlr)
+ 		return NULL;
+ 	}
+ 
+-	spi->master = spi->controller = ctlr;
++	spi->controller = ctlr;
+ 	spi->dev.parent = &ctlr->dev;
+ 	spi->dev.bus = &spi_bus_type;
+ 	spi->dev.release = spidev_release;
+diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
+index 471fe2ff9066..6a4f8cbba5ef 100644
+--- a/include/linux/spi/spi.h
++++ b/include/linux/spi/spi.h
+@@ -131,7 +131,6 @@ extern void spi_transfer_cs_change_delay_exec(struct spi_message *msg,
+  * struct spi_device - Controller side proxy for an SPI slave device
+  * @dev: Driver model representation of the device.
+  * @controller: SPI controller used with the device.
+- * @master: Copy of controller, for backwards compatibility.
+  * @max_speed_hz: Maximum clock rate to be used with this chip
+  *	(on this board); may be changed by the device's driver.
+  *	The spi_transfer.speed_hz can override this for each transfer.
+@@ -185,7 +184,6 @@ extern void spi_transfer_cs_change_delay_exec(struct spi_message *msg,
+ struct spi_device {
+ 	struct device		dev;
+ 	struct spi_controller	*controller;
+-	struct spi_controller	*master;	/* Compatibility layer */
+ 	u32			max_speed_hz;
+ 	u8			chip_select[SPI_CS_CNT_MAX];
+ 	u8			bits_per_word;
+@@ -1298,7 +1296,7 @@ spi_max_transfer_size(struct spi_device *spi)
+  */
+ static inline bool spi_is_bpw_supported(struct spi_device *spi, u32 bpw)
+ {
+-	u32 bpw_mask = spi->master->bits_per_word_mask;
++	u32 bpw_mask = spi->controller->bits_per_word_mask;
+ 
+ 	if (bpw == 8 || (bpw <= 32 && bpw_mask & SPI_BPW_MASK(bpw)))
+ 		return true;
+@@ -1670,20 +1668,4 @@ spi_transfer_is_last(struct spi_controller *ctlr, struct spi_transfer *xfer)
+ 	return list_is_last(&xfer->transfer_list, &ctlr->cur_msg->transfers);
+ }
+ 
+-/* Compatibility layer */
+-#define spi_master			spi_controller
+-
+-#define spi_master_get_devdata(_ctlr)	spi_controller_get_devdata(_ctlr)
+-#define spi_master_set_devdata(_ctlr, _data)	\
+-	spi_controller_set_devdata(_ctlr, _data)
+-#define spi_master_get(_ctlr)		spi_controller_get(_ctlr)
+-#define spi_master_put(_ctlr)		spi_controller_put(_ctlr)
+-#define spi_master_suspend(_ctlr)	spi_controller_suspend(_ctlr)
+-#define spi_master_resume(_ctlr)	spi_controller_resume(_ctlr)
+-
+-#define spi_register_master(_ctlr)	spi_register_controller(_ctlr)
+-#define devm_spi_register_master(_dev, _ctlr) \
+-	devm_spi_register_controller(_dev, _ctlr)
+-#define spi_unregister_master(_ctlr)	spi_unregister_controller(_ctlr)
+-
+ #endif /* __LINUX_SPI_H */
+-- 
+2.43.0
 
