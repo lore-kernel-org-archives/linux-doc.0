@@ -1,78 +1,80 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693351CD2A
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jan 2024 18:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8461D53F;
+	Tue, 16 Jan 2024 18:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705429733; cv=none; b=uAAnae4BqmUfqu1Fz7lg4X3gBjK19YId1izdqaiFBo2CL9ysshwsEV1U92IbkQDBUoO+y8tODIS3fc/c7C7Vpr6/YkwI79d3Z4HCoikLUe90mzs13nu6i4vRIsmRNmu/kjfEOazM4scZMmMpeFhmn7+AacretqgsaFbqUpH2UjU=
+	t=1705429785; cv=none; b=mQnJKpWiUhmeN/ODm5Tk8q86JKgDOIkAqoqvZ+kIxAqvD1VBVV0G/Yzn//udtilmBpYBRJVDUjxcNTnvcOl1eyC8dZFlh/j8W962LSJCR37rgAmpuFqLftwnBIa2ykBO61L+/ZdmFGU62T1kPhQd+thyKdHrtSpKirf4KvDZiEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705429733; c=relaxed/simple;
-	bh=GygNfJAcz287WzdCvcBqvug1sLNSLaV1gwq53oFpFrU=;
-	h=Received:DKIM-Filter:DKIM-Signature:From:To:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type; b=a68DxdwZtNY0smZonUKYg3c4U9s4c93z6KWtbRcyJrx+nMrGC/C/g2UD+XgDHqqCKi3d0LuLvTIB4Z49rmFqNsIelLkIUcj/sI09GrRdtYTzaXhCl9B+alWve9Cs1wxDurr0ByhWCd0DRmoGLFrenpoJWP6ivQYwkQY0YDlAajA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZpMIyIZ5; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1705429785; c=relaxed/simple;
+	bh=QyGcrPCsH5mWKeg5veqXTGBrCMU5whrzG0xwiht42Ho=;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To; b=EH8zXlkN93qOuUUW8aVR8w0WZrQUCgrd8ec9uk5OlOrmSo2KHgzoWnQoF2hxXy+QB8VL8YkVzvuZyu9PIfuOoagwzHaH2JUa1hFi2YZ35kIWKHDDcWbPOV+nqfyucJwpUFO1N3T7z9WTORgKkgsAOfKs8bDh3q44RL81DUO00Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tFoyXt9k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZpMIyIZ5"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3DF447A14;
-	Tue, 16 Jan 2024 18:28:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DF447A14
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1705429731; bh=jC8kmSzYgkFOdXyDB/nbELNtkGsSheueRysmuS3p12g=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=ZpMIyIZ53K13wYnj7vC5nZ6/H79VlyTnaqIRmcLF+0FW6V5DIBRkLWRwlU6F3GNKO
-	 Yxx7PR6yKoE3co/k9LxIchRfLghKIaAJsjO19WXL1CAinv0hWM1RHr3eRTeEpRXjGg
-	 66zRXhOk5Ey4c4QrbBGxd1wclx93XSI4+18Hj2/XDcxEW6/SXwRyVYzh9SSJFLsmaj
-	 0cWXqdhelGqLkudcINrZQXy+BI5ITaD+fWSC4p+T8RtiP4UNZK/6GACJBt1C3ayrio
-	 H1NyNc/cVZ6Zz5ho5plQxQj9fD16oFB2TGON6tPcnhCM8mkqrjv6Osf0nemfA6B9uk
-	 MrFoJ2UF8GDaw==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>, linux-doc@vger.kernel.org
-Subject: Re: Help required - kernel-doc, code block and backslash
-In-Reply-To: <878r4pxlnw.fsf@somnus>
-References: <87y1cqbg01.fsf@somnus> <87ttnee69t.fsf@meer.lwn.net>
- <878r4pxlnw.fsf@somnus>
-Date: Tue, 16 Jan 2024 11:28:50 -0700
-Message-ID: <87jzo9b09p.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tFoyXt9k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FB2FC433F1;
+	Tue, 16 Jan 2024 18:29:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705429785;
+	bh=QyGcrPCsH5mWKeg5veqXTGBrCMU5whrzG0xwiht42Ho=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=tFoyXt9kT1rTsYtkOnwMFL1QYGCE/KuqoqnKJWZHglwRNZHtacgndtF8KDNZi9VTp
+	 mmVJzQUf3ZPZ5QUJ/F8imfU84MNAE5cC3JtaOJYDnYotRRJNILzhBjZ8rzqZ6ydORc
+	 aspbtRFkOtBBt6cZdyAdF5ixsMVOpItx3R6/UtubYM5GLLFAbafL0I0jJ0TtuwnKn5
+	 jNG2mSJBHe8FqVmOAJiwpYkiuK9bZyu4SMncNDE3SpMj0iuJQZ4ooov5mbITZp3CBt
+	 bAuaVoQdsAi1Ie5Ycpyiu3o7r2v2wnjwpl7saN3YQ0rP4z3bVgfYh1+vM+/XFZ4weo
+	 Rz//p/WpwIpbg==
+Date: Tue, 16 Jan 2024 12:29:43 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 00/10] Make PCI's devres API more consistent
+Message-ID: <20240116182943.GA101377@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240115144655.32046-2-pstanner@redhat.com>
 
-Anna-Maria Behnsen <anna-maria@linutronix.de> writes:
+On Mon, Jan 15, 2024 at 03:46:11PM +0100, Philipp Stanner wrote:
+> ...
 
-> Hi Jon,
->
-> Jonathan Corbet <corbet@lwn.net> writes:
->
->> Anna-Maria Behnsen <anna-maria@linutronix.de> writes:
->
->>> Another question: Is there an linux-doc irc channel to ask simple
->>> questions?
->>
->> I don't really do IRC, just don't have the spare attention span for it.
->> Feel free to email me anytime though.
->
-> Thank you very much! So I directly use this to ask another questions :)
->
-> When using the kernel-doc 'identifiers' option, is there a way to use
-> wildcards or a easy way to enable wildcards? Something like this:
->
-> .. kernel-doc:: include/linux/jiffies.h
->    :identifiers: time_*
+>   pci: add new set of devres functions
+>   pci: deprecate iomap-table functions
+>   pci: warn users about complicated devres nature
+>   pci: devres: make devres region requests consistent
+>   pci: move enabled status bit to pci_dev struct
+>   pci: move pinned status bit to pci_dev struct
+>   pci: devres: give mwi its own callback
+>   pci: devres: give pci(m)_intx its own callback
+>   pci: devres: remove legacy pcim_release()
+>   drm/vboxvideo: fix mapping leaks
 
-Not currently.  That would be useful, though, and easy enough to add.
-We just need to decide whether we want filename-glob matching, or proper
-regexes...
+If/when you update these, take a look at the drivers/pci/ subject line
+history and capitalize these to match.
 
-Thanks,
+We haven't really used the "devres" prefix in drivers/pci.
 
-jon
+The de facto convention is:
+
+  - "PCI/AER:" for major features defined by the PCIe base spec (AER,
+    DPC, VGA, ASPM, PM, etc).
+
+  - "PCI: iproc:" for controller drivers (iproc, dwc, qcom, mvebu,
+    etc).
+
+  - "PCI:" for everything else
