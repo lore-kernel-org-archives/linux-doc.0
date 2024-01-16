@@ -1,295 +1,225 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060E41CD33
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jan 2024 18:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705430766; cv=none; b=faWa9EpdjWjizqo+K/Lrmd5Up7mA/dLCjco5jUTqmkBqu2vbStyZxqMARF9gGIiFep0ZTXSip2bFRy7DbJB8R1GQ7YwRhnO1gZms8XTrRlZzr5+WWu6auK8b1cXHgeZ6LHoZIje1rK2SO+wQwtV7emk9SpyZmgF6WI9AM/aTA7s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705430766; c=relaxed/simple;
-	bh=EBCFvdpGUjiCDYw0UGK+EtkN5tfcMm8xs/4bkbDLJqU=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=tHj/NP2m3VQyy1sx0agVYt7/9fofUOAK7VtmBlEiantf+4K6SgIJ+4TchMc+tvLlfdqBO1s/G6zosbgp5hzLxeo/xlI+ItwJ4d1gpx9uTB9AWTGZgvU3dx2aQ3ICkBXFXUUBPbC6fDRnNA9x4m9SUA2Nk6OMZ8Uu5YNtceumYQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=SZZ5HXZw; arc=none smtp.client-ip=209.85.161.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2756D1D6A6;
+	Tue, 16 Jan 2024 19:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705434262; cv=fail; b=MI/g+59VyqIMMyziLCSqN89wgZFcxpzeSb14jBmBNMCyLYghYYye42buYFQeRwAfr3ryJggI5fvA+6dvvaWbsBd2rJ/ga1k4bSzBEDcKPzbaU2xTTzqf8aJ6WWqh9mBXECzME0KCXpT5y8cI2PGIJrM+4sbXxOrdc3Me4edmp/g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705434262; c=relaxed/simple;
+	bh=BeCkwqnHB1UsLBFGhLVgEHX8nQ3Klalvu1QHcBqI4sY=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:Received:Received:Received:Received:Received:
+	 ARC-Message-Signature:ARC-Authentication-Results:Received:Received:
+	 Message-ID:Date:User-Agent:Subject:Content-Language:To:CC:
+	 References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-LD-Processed:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	b=r6IWDphOHJqy8Lb08sQNv3yWVhGRH+55FYZ0i7sMGwftoywgIwdloK++vnXUsPSmOUx/oeXsF3lHqCkWGkuQ8Ok3eky7N0rkfz/x83f119jjzqTJelN3Wz3bPObztP//BxEMewyl/+PipPI4Tj5OFmqOj8DonqDlaOeP0aLT67E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rh1CccZG; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="SZZ5HXZw"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-598b8dd877dso2421351eaf.3
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jan 2024 10:46:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1705430762; x=1706035562; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=X7+iPjvVCly4VO5Mo6fUS2dWNQKiaqTW6P9ssk9rj8w=;
-        b=SZZ5HXZwEzFhWPFnVjBK5Cv2MpmPQG6cVbQHuoW67VkFcPAzLseEkYeuoGsbJJe2h8
-         VxW9uEgZ2KH3bum4bvbHM/QqU26hts5OYqhWtSIL+O4PyHPbxYgZBbbyPGyPQ9Bsh1Rb
-         1/qh+3fmMX43FrJa+lMx0Hv8RTPBL/dYcfWN3NjeujMdva+/9rT+yD5vDAPFdgwgJVU6
-         SrnTxAcWyK3Hdj1H66XjGugDChJuB9s03ydDbItyqZFf09CNwMuPDQNQf1W1Tjhd6onT
-         YHjNLky1qUtuqyCDcNydWe97O2ko0DS/w/aJCW/lwbgVG/EwZZnZjUyasA2estolRWW3
-         SQuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705430762; x=1706035562;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X7+iPjvVCly4VO5Mo6fUS2dWNQKiaqTW6P9ssk9rj8w=;
-        b=e0U4z9hwaJPl+1Q3BiBUCB0+X9sqyV55eVvLMAhUKtKusTvZsTcBMwYX9X1WJ09dfX
-         BX5Yr0OuTqXIVLkDuUdqNubXY09muHOBaYtJ6ohzgJrqr0IdTbJb3THLQAlOzVPth4oC
-         f2OEjMmN/EnfYXg9rMebEXdWDEH+6LA7mwBJkrfTGDaMuo8XEIvH4tdvi0elt+ewyp+u
-         rJe+TRwQleoBxwiNHEmry9hbDQs11o6nGRFIPKm95fkzSqhY3sK8kkpfdtbuWBz7v07W
-         qiCny6DqYJHcCTJF+77tiZLKf1FFe+6/TkAyjD7lE+z+uDyrn0kkzKGoVDETA8C5wFli
-         Dt/A==
-X-Gm-Message-State: AOJu0YwQuB0U2sJyR122kyVuoy/gj2ikG167NWrqCGzpCmdU8VkHLqym
-	uwIC6UluM9T8uy5awWjxcz+3rZFOdqE1UQ==
-X-Google-Smtp-Source: AGHT+IG8iwkfIcUByGe/mng68dHcuTCvhprse2hGqd6d0WOzy/Oe4zQZuEtALdDWOdpDACmx9Cd2Ag==
-X-Received: by 2002:a05:6358:c305:b0:175:5d72:5f7c with SMTP id fk5-20020a056358c30500b001755d725f7cmr4939338rwb.50.1705430761918;
-        Tue, 16 Jan 2024 10:46:01 -0800 (PST)
-Received: from ghost ([2601:647:5700:6860:60b9:65a4:6399:f8f3])
-        by smtp.gmail.com with ESMTPSA id j190-20020a6380c7000000b005b529d633b7sm10243898pgd.14.2024.01.16.10.46.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jan 2024 10:46:01 -0800 (PST)
-Date: Tue, 16 Jan 2024 10:45:59 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Atish Patra <atishp@atishpatra.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH v7 1/2] riscv: Include riscv_set_icache_flush_ctx prctl
-Message-ID: <ZabO51bYS8fkXRMu@ghost>
-References: <20240112-fencei-v7-0-78f0614e1db0@rivosinc.com>
- <20240112-fencei-v7-1-78f0614e1db0@rivosinc.com>
- <a75ed906-7dd5-44aa-8809-f1758de188e4@ghiti.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rh1CccZG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705434261; x=1736970261;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=BeCkwqnHB1UsLBFGhLVgEHX8nQ3Klalvu1QHcBqI4sY=;
+  b=Rh1CccZGyVLkucutth2rOdIFfvYDTiLGUMlgon5JcwyKyVcy/1VhQd1s
+   9ox3GfrN/kO99ZopB5bkwIVwZp5d5ZsJ3oPbpdiegCGo50NmeUZQVpeS5
+   VaLAiCC18eY/t7c0Z91JtenHotBweZ7id9TB7/mMcGlW2A1LrfebCJAS6
+   cQb8mqT+t3uUClkRCae6oNqA+idEyJZTnHlbBalrzaQWoQT6a3H9GzpFS
+   lwAeeo6YBTZxrjzaT0tQUrghAprhYZrK19NNoqOl2OOCPP1aoggsaWxs8
+   VYSpR1OwuybjtZtpT7VsZua8ZYpWoaL0hLGcYkBr79o53rjWWjk/dAAGD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="7355907"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="7355907"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 11:44:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="18574716"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Jan 2024 11:44:18 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 16 Jan 2024 11:44:17 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 16 Jan 2024 11:44:17 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 16 Jan 2024 11:44:17 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 16 Jan 2024 11:44:17 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SPJdHMZFksSFZonrxWXLCT9neDXt/bY7AXb+t4sQmQ324ZhiBt+lCIC/oAlRiVRZZ3Y4VZZFmd/+0o+zFJg47s69cHlh7k1dlhzIAJ7BW1QimvdIj04oC6zaLyQOs3xse9zjLA/LkWnNd8DB5VQ7zFjW65y3RkWcxkJ/zHm+/VpHFjdFeUlt78qjPFU8yHWnVEUFaXWCTBWrkEL2FrU9YcLpYGzDNw6QOs9tHpOxljMAbb2Udy9gFcsDljkxYtdo2pfwwmOZGTijOKluSxSRwph6I5LUcfYUtLuOG2iZeaieqpbpUtMZ2XahFbQyDt8bAp2gwJYW6UelSt4d5jMQoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xnF60W2nkIGU0CtNhBPl3sxW6gE1cZ1QdIDf8Inl3V4=;
+ b=g0/7rtFlMCv+seToZMjMv6lEE0aFKbt1MwL6dxTa8/zkhSn2fWh7l6/IceEYBZSdJjohyRMgt+iLlH/UdWrvGhcwOR9dXgAjlYNykZfDzOrskmDfgusRW3cWy/vsPwdUFCu1aT3ENHlmt8xYU0DLY9Y4CsTC/6aVwQD2Fr/KknU/0pP42Ohu6kf9ps2acBRffslZn0jRer7u4Thhgo4Gt3S3hk/yWispvxvssQU5GCEh56C1FMTSlxgM2wOb1pI+d6oMV/XZD5S8RVYxeZbqwiV5BMujZVA2onZQ5OI73VzZ8PsLyYDb6LfNoJfbCFe8l9PSMD3sP1r1m0CtlNuKWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by CH0PR11MB5281.namprd11.prod.outlook.com (2603:10b6:610:bc::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.26; Tue, 16 Jan
+ 2024 19:44:15 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::c903:6ee5:ed69:f4fa]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::c903:6ee5:ed69:f4fa%7]) with mapi id 15.20.7181.018; Tue, 16 Jan 2024
+ 19:44:15 +0000
+Message-ID: <e89278a8-cd40-4e73-ae39-800c29dae385@intel.com>
+Date: Tue, 16 Jan 2024 11:44:12 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/2] x86/resctrl: Read supported bandwidth sources
+ using CPUID command
+Content-Language: en-US
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<seanjc@google.com>, <kim.phillips@amd.com>, <jmattson@google.com>,
+	<ilpo.jarvinen@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kan.liang@linux.intel.com>, <nikunj@amd.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<rick.p.edgecombe@intel.com>, <rppt@kernel.org>,
+	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
+	<peternewman@google.com>, <dhagiani@amd.com>
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <669896fa512c7451319fa5ca2fdb6f7e015b5635.1705359148.git.babu.moger@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <669896fa512c7451319fa5ca2fdb6f7e015b5635.1705359148.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0119.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::34) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a75ed906-7dd5-44aa-8809-f1758de188e4@ghiti.fr>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CH0PR11MB5281:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2bf2eea-bbc3-4be5-a7e4-08dc16cb8554
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tf4CyCCPhYutm4LwO8xl5fuIoREIOqlgSwbcFQCxArbsTCInvFPzzTRCItFrtIuwiqHjJpklDTJ6ZmvEJxscHgGuE5xpgjGIZv2txxLKuReyHk/aBjVZpet64P+TvZ/KV2g9GKhahd5ovtrYxhTVs7FAeo5r9oQOeceh1fuMUbvPKCowE4oVWA/9WIi28tV6P7HcTKVBF+v29TXz0CgNEAIM8ROE/P/g3MLcojEdBbGPA2g4nyFQua1WVC6AzQ5FVoqDWDFURvUwbCUpFDHmfLceIWuzKvQ+oQelNITWPaOinRrZ4N3GisvXhwG9OnP7qYrCjHhL3ILNXIofj5gHKx853Qq/VWB2jF7ISOTbpQfB/uGTVhINKkVgVjEqeyP7ZyCJWJrA3pTr3KZ2iCIe8LQyGy8xDrLHli08+uBRcOj/FS5U+VIwWzmT1H43wMqsBYu9p8H4J87SGjGK8TdIT16D0KCklY23hfWsF6QsG2F/LmjL5hacIMBCH2jZwoEuAuMbXu90dWihT6LCfDxPiOJkDwCAmV1WJmlkzNVzMTmt+AsZehoJzLJYLwK3LGsiCApTG3Hejgx84Bfe/yGcr2WPELtMHJo2y2hcaZSlWKl/j8DJtIfRx/5ddLXMKQPH/Torr0fprxo6JWw5u3s0Pg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(346002)(136003)(396003)(376002)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(38100700002)(6666004)(2616005)(26005)(6512007)(6506007)(53546011)(5660300002)(8936002)(7416002)(4326008)(44832011)(2906002)(966005)(6486002)(41300700001)(66946007)(66476007)(478600001)(316002)(66556008)(8676002)(82960400001)(36756003)(86362001)(31696002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXZDOXBKVDNVQnAwWWRSamkxSC9HMU5RV1E0UEhodEZiNjVxY0VTSDVWZWJh?=
+ =?utf-8?B?V3pvV0F4QnhCQlY1M1BWakpKNGVnb1FEYjdZRzkwK0kzeXZFdkFYUGRLYjNQ?=
+ =?utf-8?B?RFFYRjA1TW96UFR1SWtwditab2ZmMTdBVWhIYTZQazRSOU00MExZeXNiODMy?=
+ =?utf-8?B?MEhPMTRBY0ttZHM5TVR0dHhFaHExczRsNmxYaWpkU2lTZXJtdjNOMnpTRmN6?=
+ =?utf-8?B?dnprYjlmRjR1UGhGdE1zek1rNGthbkZKbjYyWWRQRFlUdkNEQjQwMkhDcSt4?=
+ =?utf-8?B?aHRjbnh6bXRyd3hRY0dHRUhRV0c2cERaelhjaWFZbzVDYVNnU28rSnQ1ZUky?=
+ =?utf-8?B?QTRudC81V1BUS3ZMWDEyeDd2K28xVzFOckJNSTc5ajQwQjFtRkUvakpCZVNM?=
+ =?utf-8?B?Z1Z2dDFFKzhpSE5Cdk9FOEpkUjMzNWd3TWk0aENYdFJ0R2pVOW11TS9xRHhl?=
+ =?utf-8?B?aHRURTVlcjR4dW5TTjZjMlFxQmZwZ0xZRVpnMFRPWk9QRmkwZWo2K2lLSU85?=
+ =?utf-8?B?Z3RyWXJLSUJKSHFBTkg4SE1vYnUyeUs4LzVWWUtSMkZGa1k0aEd6TjJERzdi?=
+ =?utf-8?B?ZmRqNzQxU1FFZDZseGFqYU9MeGVLVndibE52WDVwOGQwbFdOMktadnZXM1Mv?=
+ =?utf-8?B?RXN2S0ZMZVlodTc4aUR2YnBvTy8xL21wZWMvRmQ5dVdpcE9CU05sdVpNdVhL?=
+ =?utf-8?B?MElQV2k3VlV4Um9rR2lMUWlwQk9acGFuYkJod1NTSkpSVFBVZWpuYmhORm9u?=
+ =?utf-8?B?cE01RDk1d3AwMFFzL2M1a1hZL2VVWVk1WVQ2cFgzVGJMeHBLRTE2SmM2Kzk0?=
+ =?utf-8?B?YmRVTDc4M3VRd1JoRE1qT2R0Y1M5YWxqYWQ0cUF6RXRnRm1tRFRXekpJdUdR?=
+ =?utf-8?B?eWRDTXlPTWdOYjh3cC9Ka09aUjB2bC9lT1RkN0NMU3FIYkZpcjVwelNGbFVU?=
+ =?utf-8?B?ak1DV0lJWDhVelZ3ZTBJMmVNVklpbTA3Y0xrNlBvRkdoMEZPZGFpbFhGaUx1?=
+ =?utf-8?B?UzcwcjYxU3ZWQmlodXlEelNIQll4TkJVcHpHa0lKQmRvRzRCR2E4VXFIWVBC?=
+ =?utf-8?B?Y2lSV2kzOUtJSGFFQ0lrdDhJZnpxQmI2N09vWjdyRkRUQXRBUS9BTm50RFFl?=
+ =?utf-8?B?UkZQOFhobC9YMFY2M2laNXFic2p0ams0Z3pPMlVhYzYxcXQzdFk1c1I3cGVK?=
+ =?utf-8?B?U0VRbzdEMVR2VllPWmZpNkNYNThBcWRUbEduVzM3eW1ocXRENjRtREIyZjNG?=
+ =?utf-8?B?RGtMUk1NS1JXWWdZelRoMjFsSkppU3pVWnRsMHc5bjR6ejJCd3pzclNYa2Zy?=
+ =?utf-8?B?bmtMSkQ5Qm94WitrbHQvNFhBb1BrZnFKMHcrSWFEdHFDNHJYOU8xWCtqVEZw?=
+ =?utf-8?B?UnNJRHFKRlFnalg0VGJCd0lTSXJGV3FBREZZY0ZrUlE4S2h2ZUhSbk11b2dV?=
+ =?utf-8?B?WEJDRnkydjRSVjRaZnJaQVFrUkMzUVg3VWp6amIvUHpIejdGbWpDN2JCS0tj?=
+ =?utf-8?B?MzF5WkN2blZEL1JTWk82cnJyUWNzTGlkZUtPSFZFNnFqc3RWZkU5NFpMakUv?=
+ =?utf-8?B?OEMvVEZ2eEZac3VLV01nMmdKUGRRM3lzUC9Xb1BoeVFNeCtNZDZYdFpvYXBh?=
+ =?utf-8?B?dkRNeWxvellZd2NSSlFjakJQQWprRlk1WDJ4ZDZleFE2VWs2U0JBM3RVQ2ow?=
+ =?utf-8?B?UFhXMmN0S055blYvLzRaSnMxcytqb0pYcXE0cmk0Ymg3Yy9KdVhNOTB1YjBI?=
+ =?utf-8?B?eTdHOEdZT3kvZmJXYkxnZHhMSlpUTU9yc1JoSjN4K2k1K0REU01OcFVCbGFW?=
+ =?utf-8?B?YWRGTVZ1alFEK29NeHp5ZWRlWkFHeG0yUHY3a1Z5VGd1S2RVbnB1b2FCTHJw?=
+ =?utf-8?B?VDM3b0s0cy9sZkZhOXdOMmVVcmZPSXl2VTBZejU4VGxNSXFSZ2Y0a3hqdE5u?=
+ =?utf-8?B?czhXSWpTMGQ3TkY1TFh0Y2RVWHpMSUVxbUcvT1JYa0FabzV4QWFsUXgzUFJs?=
+ =?utf-8?B?MVU0clhWNWdKMGtVMGN5Z2g0TzlCK0NnazNaRjVmSndJb2ZSV1VCSnhGSlg5?=
+ =?utf-8?B?N2dvaTBNMnRQSjl4MWJ4TzMrQzVaMjBjcDJaOG5vS1lxczdPZGxROHIzMXNv?=
+ =?utf-8?B?cktyRTBuMngreXk3RmJCZTlGTndYYytwZGJmK1RhUllPOW9vZ3QzdmlONklK?=
+ =?utf-8?B?RUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2bf2eea-bbc3-4be5-a7e4-08dc16cb8554
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2024 19:44:15.2850
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WcSQySJZEjiQWrnKLlTyX06MUhKmy/7tzaWP91r00Oq2kMGrJb5glX7yyiFSYHPcqjBfIo7hG2BYYCJ3XaN4UPBozWAzqPWLUvmqb6Kwikk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5281
+X-OriginatorOrg: intel.com
 
-On Sun, Jan 14, 2024 at 05:05:20PM +0100, Alexandre Ghiti wrote:
-> Hi Charlie,
-> 
-> On 13/01/2024 00:56, Charlie Jenkins wrote:
-> > Support new prctl with key PR_RISCV_SET_ICACHE_FLUSH_CTX to enable
-> > optimization of cross modifying code. This prctl enables userspace code
-> > to use icache flushing instructions such as fence.i with the guarantee
-> > that the icache will continue to be clean after thread migration.
-> > 
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > Reviewed-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >   arch/riscv/include/asm/mmu.h       |  2 ++
-> >   arch/riscv/include/asm/processor.h |  6 ++++
-> >   arch/riscv/mm/cacheflush.c         | 67 ++++++++++++++++++++++++++++++++++++++
-> >   arch/riscv/mm/context.c            |  8 +++--
-> >   include/uapi/linux/prctl.h         |  6 ++++
-> >   kernel/sys.c                       |  6 ++++
-> >   6 files changed, 92 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
-> > index 355504b37f8e..60be458e94da 100644
-> > --- a/arch/riscv/include/asm/mmu.h
-> > +++ b/arch/riscv/include/asm/mmu.h
-> > @@ -19,6 +19,8 @@ typedef struct {
-> >   #ifdef CONFIG_SMP
-> >   	/* A local icache flush is needed before user execution can resume. */
-> >   	cpumask_t icache_stale_mask;
-> > +	/* Force local icache flush on all migrations. */
-> > +	bool force_icache_flush;
-> >   #endif
-> >   #ifdef CONFIG_BINFMT_ELF_FDPIC
-> >   	unsigned long exec_fdpic_loadmap;
-> > diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-> > index f19f861cda54..7eda6c75e0f2 100644
-> > --- a/arch/riscv/include/asm/processor.h
-> > +++ b/arch/riscv/include/asm/processor.h
-> > @@ -84,6 +84,9 @@ struct thread_struct {
-> >   	unsigned long vstate_ctrl;
-> >   	struct __riscv_v_ext_state vstate;
-> >   	unsigned long align_ctl;
-> > +#ifdef CONFIG_SMP
-> > +	bool force_icache_flush;
-> > +#endif
-> >   };
-> >   /* Whitelist the fstate from the task_struct for hardened usercopy */
-> > @@ -145,6 +148,9 @@ extern int set_unalign_ctl(struct task_struct *tsk, unsigned int val);
-> >   #define GET_UNALIGN_CTL(tsk, addr)	get_unalign_ctl((tsk), (addr))
-> >   #define SET_UNALIGN_CTL(tsk, val)	set_unalign_ctl((tsk), (val))
-> > +#define RISCV_SET_ICACHE_FLUSH_CTX(arg1, arg2)	riscv_set_icache_flush_ctx(arg1, arg2)
-> > +extern int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread);
-> > +
-> >   #endif /* __ASSEMBLY__ */
-> >   #endif /* _ASM_RISCV_PROCESSOR_H */
-> > diff --git a/arch/riscv/mm/cacheflush.c b/arch/riscv/mm/cacheflush.c
-> > index 55a34f2020a8..ff545f19f07a 100644
-> > --- a/arch/riscv/mm/cacheflush.c
-> > +++ b/arch/riscv/mm/cacheflush.c
-> > @@ -5,6 +5,7 @@
-> >   #include <linux/acpi.h>
-> >   #include <linux/of.h>
-> > +#include <linux/prctl.h>
-> >   #include <asm/acpi.h>
-> >   #include <asm/cacheflush.h>
-> > @@ -152,3 +153,69 @@ void __init riscv_init_cbo_blocksizes(void)
-> >   	if (cboz_block_size)
-> >   		riscv_cboz_block_size = cboz_block_size;
-> >   }
-> > +
-> > +/**
-> > + * riscv_set_icache_flush_ctx() - Enable/disable icache flushing instructions in
-> > + * userspace.
-> > + * @ctx: Set the type of icache flushing instructions permitted/prohibited in
-> > + *	 userspace. Supported values described below.
-> > + *
-> > + * Supported values for ctx:
-> > + *
-> > + * * %PR_RISCV_CTX_SW_FENCEI_ON: Allow fence.i in userspace.
-> > + *
-> > + * * %PR_RISCV_CTX_SW_FENCEI_OFF: Disallow fence.i in userspace. When ``scope ==
-> > + *   PR_RISCV_SCOPE_PER_PROCESS``, this will effect all threads in a process.
-> > + *   Therefore, caution must be taken -- only use this flag when you can
-> > + *   guarantee that no thread in the process will emit fence.i from this point
-> > + *   onward.
-> > + *
-> > + * @scope: Set scope of where icache flushing instructions are allowed to be
-> > + *	   emitted. Supported values described below.
-> > + *
-> > + * Supported values for scope:
-> > + *
-> > + * * PR_RISCV_SCOPE_PER_PROCESS: Ensure the icache of any thread in this process
-> > + *                               is coherent with instruction storage upon
-> > + *                               migration.
-> > + *
-> > + * * PR_RISCV_SCOPE_PER_THREAD: Ensure the icache of the current thread is
-> > + *                              coherent with instruction storage upon
-> > + *                              migration.
-> > + *
-> > + * When ``scope == PR_RISCV_SCOPE_PER_PROCESS``, all threads in the process are
-> > + * permitted to emit icache flushing instructions. Whenever any thread in the
-> > + * process is migrated, the corresponding hart's icache will be guaranteed to be
-> > + * consistent with instruction storage. Note this does not enforce any
-> > + * guarantees outside of migration. If a thread modifies an instruction that
-> > + * another thread may attempt to execute, the other thread must still emit an
-> > + * icache flushing instruction before attempting to execute the potentially
-> > + * modified instruction. This must be performed by the userspace program.
-> > + *
-> > + * In per-thread context (eg. ``scope == PR_RISCV_SCOPE_PER_THREAD``), only the
-> > + * thread calling this function is permitted to emit icache flushing
-> > + * instructions. When the thread is migrated, the corresponding hart's icache
-> > + * will be guaranteed to be consistent with instruction storage.
-> > + *
-> > + * On kernels configured without SMP, this function is a nop as migrations
-> > + * across harts will not occur.
-> > + */
-> > +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long scope)
-> > +{
-> > +#ifdef CONFIG_SMP
-> > +	switch (ctx) {
-> > +	case PR_RISCV_CTX_SW_FENCEI_ON:
-> > +		switch (scope) {
-> > +		case PR_RISCV_SCOPE_PER_PROCESS:
-> > +			current->mm->context.force_icache_flush = true;
-> > +			break;
-> > +		case PR_RISCV_SCOPE_PER_THREAD:
-> > +			current->thread.force_icache_flush = true;
-> > +			break;
-> > +		default:
-> > +			return -EINVAL;
-> > +		}
-> > +	}
-> > +#endif
-> > +	return 0;
-> > +}
-> > diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
-> > index 217fd4de6134..0146c61be0ab 100644
-> > --- a/arch/riscv/mm/context.c
-> > +++ b/arch/riscv/mm/context.c
-> > @@ -297,12 +297,14 @@ static inline void set_mm(struct mm_struct *prev,
-> >    *
-> >    * The "cpu" argument must be the current local CPU number.
-> >    */
-> > -static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu)
-> > +static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu,
-> > +					 struct task_struct *task)
-> >   {
-> >   #ifdef CONFIG_SMP
-> >   	cpumask_t *mask = &mm->context.icache_stale_mask;
-> > -	if (cpumask_test_cpu(cpu, mask)) {
-> > +	if (cpumask_test_cpu(cpu, mask) || mm->context.force_icache_flush ||
-> > +	    (task && task->thread.force_icache_flush)) {
-> 
-> 
-> IIUC, if a process/thread enables force_icache_flush, at every context
-> switch, the process/thread will flush the local icache but, as you said,
-> that's actually only needed in case of a migration. So we should check that
-> there has been a migration before flushing the icache. Maybe by storing the
-> last cpu the process/thread executed on and checking when it is scheduled
-> back if the current cpu if different from the last cpu, WDYT?
+Hi Babu,
 
-Yes that does make sense. I will send an update.
+On 1/15/2024 2:52 PM, Babu Moger wrote:
+> If the BMEC (Bandwidth Monitoring Event Configuration) feature is
+> supported, the bandwidth events can be configured. The maximum supported
+> bandwidth bitmask can be determined by following CPUID command.
+> 
+> CPUID_Fn80000020_ECX_x03 [Platform QoS Monitoring Bandwidth Event
+> Configuration] Read-only. Reset: 0000_007Fh.
+> Bits    Description
+> 31:7    Reserved
+>  6:0    Identifies the bandwidth sources that can be tracked.
+> 
+> The bandwidth sources can change with the processor generations.
+> Read the supported bandwidth sources using the CPUID command.
+> 
+> While at it, move the mask checking to mon_config_write() before
+> iterating over all the domains. Also, print the valid bitmask when
+> the user tries to configure invalid event configuration value.
+> 
+> The CPUID details are documented in the PPR listed below [1].
+> [1] Processor Programming Reference (PPR) Vol 1.1 for AMD Family 19h Model
+> 11h B1 - 55901 Rev 0.25.
+> 
+> Fixes: dc2a3e857981 ("x86/resctrl: Add interface to read mbm_total_bytes_config")
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> ---
 
-> 
-> Thanks,
-> 
-> Alex
-> 
-> 
-> >   		cpumask_clear_cpu(cpu, mask);
-> >   		/*
-> >   		 * Ensure the remote hart's writes are visible to this hart.
-> > @@ -332,5 +334,5 @@ void switch_mm(struct mm_struct *prev, struct mm_struct *next,
-> >   	set_mm(prev, next, cpu);
-> > -	flush_icache_deferred(next, cpu);
-> > +	flush_icache_deferred(next, cpu, task);
-> >   }
-> > diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> > index 370ed14b1ae0..524d546d697b 100644
-> > --- a/include/uapi/linux/prctl.h
-> > +++ b/include/uapi/linux/prctl.h
-> > @@ -306,4 +306,10 @@ struct prctl_mm_map {
-> >   # define PR_RISCV_V_VSTATE_CTRL_NEXT_MASK	0xc
-> >   # define PR_RISCV_V_VSTATE_CTRL_MASK		0x1f
-> > +#define PR_RISCV_SET_ICACHE_FLUSH_CTX	71
-> > +# define PR_RISCV_CTX_SW_FENCEI_ON	0
-> > +# define PR_RISCV_CTX_SW_FENCEI_OFF	1
-> > +# define PR_RISCV_SCOPE_PER_PROCESS	0
-> > +# define PR_RISCV_SCOPE_PER_THREAD	1
-> > +
-> >   #endif /* _LINUX_PRCTL_H */
-> > diff --git a/kernel/sys.c b/kernel/sys.c
-> > index 420d9cb9cc8e..e806a8a67c36 100644
-> > --- a/kernel/sys.c
-> > +++ b/kernel/sys.c
-> > @@ -146,6 +146,9 @@
-> >   #ifndef RISCV_V_GET_CONTROL
-> >   # define RISCV_V_GET_CONTROL()		(-EINVAL)
-> >   #endif
-> > +#ifndef RISCV_SET_ICACHE_FLUSH_CTX
-> > +# define RISCV_SET_ICACHE_FLUSH_CTX(a, b)	(-EINVAL)
-> > +#endif
-> >   /*
-> >    * this is where the system-wide overflow UID and GID are defined, for
-> > @@ -2739,6 +2742,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
-> >   	case PR_RISCV_V_GET_CONTROL:
-> >   		error = RISCV_V_GET_CONTROL();
-> >   		break;
-> > +	case PR_RISCV_SET_ICACHE_FLUSH_CTX:
-> > +		error = RISCV_SET_ICACHE_FLUSH_CTX(arg2, arg3);
-> > +		break;
-> >   	default:
-> >   		error = -EINVAL;
-> >   		break;
-> > 
+Thank you.
+
+Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+
+Reinette
+
