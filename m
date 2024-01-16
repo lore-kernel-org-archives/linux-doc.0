@@ -1,176 +1,116 @@
-Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr [80.12.242.21])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 140832E653;
-	Tue, 16 Jan 2024 21:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.21
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD502EAEA;
+	Tue, 16 Jan 2024 21:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705440120; cv=none; b=ogOzK1eQeKkD5QfYJejfgPefpgaEnTfpih/XTBG608oMuu9rQwofpDji0mKE93v1aBA51J+7+2crUpfoXGlRwdeD7ZXuSqIovnzTAy4+GHSFZc3ZcmLsoHs96W91NLWEFOtwXYBWifP11Fb7qYsBl1lrDc/W5aPfW9u6Z/aqAu4=
+	t=1705440457; cv=none; b=aF55CiQqrSPfIfGlWiX9pjHu8dbRRom7QhDfva+pbBCOxFml4+B0Baoj3YVF2LTPuFaPYDbZPkNv5VVGSVoFjTRh1VNWCL4643TcvR09mZcuI7XTWkPFHCHvgD1dUg8cgm6nxzNJ1E4NgRYdLdOadMqe5Q69FKuxxNrDpLnQr1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705440120; c=relaxed/simple;
-	bh=U3x4ONFy9Ei70OFyJFkS3iOitDj71QgI6j6TOl7h2vo=;
-	h=Received:DKIM-Signature:X-ME-Helo:X-ME-Auth:X-ME-Date:X-ME-IP:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:Content-Language:
-	 To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding; b=AfygbzSzOKH7Dbs34TkPjCtLyAdHm/RAFA9kr7m3QfQUC9MQYhbto/1h68k0YVPnRZ33oqQLyRD7OwkLTYKPoI1n8Cu7VKJxgVcUz8p23qZSv0Xqgdd4u5QthQFCTnQz9ZugOrL+aAGhMM7MfkNEHqzlRzIadbko0NVYsHCKpw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=GaBM+qsL; arc=none smtp.client-ip=80.12.242.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1705440457; c=relaxed/simple;
+	bh=SLPMdKVtmRbSltsx06ZScUJ6qCa6a3f0g1WFofzyiDI=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=gIMD6lJ7oPWKqcasBjvVoCiB7BgvaTMi+CX/SR7mfu/NM8T2sNbOsD6pe8RYdHdO/9c3yHz+GY/T3QuDg6yAD/pXo5q60tkqCh575rJJJzcc+OqV0wzq6ZqNFDxdHto8+bQK/4iQl6TNQ3YqmygKw1er5jbZuZsewF2jQdReErk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I+IRHN1S; arc=none smtp.client-ip=192.55.52.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="GaBM+qsL"
-Received: from [192.168.1.18] ([92.140.202.140])
-	by smtp.orange.fr with ESMTPA
-	id Pql9rceCI6FTdPqlBrC9ak; Tue, 16 Jan 2024 22:14:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1705439658;
-	bh=wS8NzOHKk5phyyBMwvuAnpbVzPwUbfEIN5JtjGlJSK4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GaBM+qsLiFrpekYiaNN0jSJ1W0trwHwP5lRr1FwXjar/CcXCr5uiGbqgt42sVpPl2
-	 410dXKMWYXfBn15nVxKkWu2LMhEWwwDccADPFlhPKxL7i7OEn4Z74VGLjzvDgBYtc7
-	 9be/a0NZebkt2fhTQ1u8DU4vMxHgJsZB7BqQyizjR4wLED9wG9TbQVoK9On/UVwGZ7
-	 /YHvJ6B7ztLptm2TLilg6RFexTnEIXLSNdY4qgZIh/slb9feL7OLWpdYTaLsZZZdBX
-	 nc2vOWeovSzexpKdzCrJJ2YIycGvk6S23k2tcHGIzaot7XD9XdCR/M4Ac6Avfn9bYz
-	 pSdi+hyvh7Ktg==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 16 Jan 2024 22:14:18 +0100
-X-ME-IP: 92.140.202.140
-Message-ID: <de0bd3d3-bb7b-4f94-aae2-0d9323b273fb@wanadoo.fr>
-Date: Tue, 16 Jan 2024 22:14:10 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+IRHN1S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705440455; x=1736976455;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SLPMdKVtmRbSltsx06ZScUJ6qCa6a3f0g1WFofzyiDI=;
+  b=I+IRHN1SbNHNeeZYg+ZA9avzmBMse9xsTHHOtRDja20uQnff9WzRmON1
+   NTWWrkScnHMLi++LF3SIaIwPGJlSKk0qyeGKnCBdQSQVjG1cj41q9mraC
+   ESW0su8Nu42vvLc5pztFq9VGImtGenqEL1DBMzKdIb7U8yA3ASkRg2fZR
+   xRfga8IsTRbUTAySVy0zw2abd9Ht3kbsEIV1MyPBOEGfDliM4j4lRBcAd
+   FyAOFBhknlxaCkorVjibnkiB5tTIlLFeLhZ80U67IIk6pkgL3hch4IvSp
+   CO1VC7+cYtlPH7pCAoIS0Zsx5LzUM+zHCNLxlTa1HzmSP07xDGn4UhsWY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="486149264"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="486149264"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 13:27:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="787585732"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="787585732"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 16 Jan 2024 13:27:31 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rPqy1-0001G8-07;
+	Tue, 16 Jan 2024 21:27:29 +0000
+Date: Wed, 17 Jan 2024 05:26:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Subramanya Swamy <subramanya.swamy.linux@gmail.com>, corbet@lwn.net,
+	axboe@kernel.dk, asml.silence@gmail.com, ribalda@chromium.org,
+	rostedt@goodmis.org, bhe@redhat.com, akpm@linux-foundation.org,
+	matteorizzo@google.com, ardb@kernel.org, alexghiti@rivosinc.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	io-uring@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] iouring:added boundary value check for io_uring_group
+ systl
+Message-ID: <202401170507.IOhrswHN-lkp@intel.com>
+References: <20240115124925.1735-1-subramanya.swamy.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] usb: gadget: function: 9pfs
-Content-Language: en-MW
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
- Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
- <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- kernel@pengutronix.de
-References: <20240116-ml-topic-u9p-v1-0-ad8c306f9a4e@pengutronix.de>
- <20240116-ml-topic-u9p-v1-1-ad8c306f9a4e@pengutronix.de>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240116-ml-topic-u9p-v1-1-ad8c306f9a4e@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240115124925.1735-1-subramanya.swamy.linux@gmail.com>
 
-Le 16/01/2024 à 02:49, Michael Grzeschik a écrit :
-> Add the new gadget function for 9pfs transport. This function is
-> defining an simple 9pfs transport interface that consists of one in and
-> one out endpoint. The endpoints transmit and receive the 9pfs protocol
-> payload when mounting a 9p filesystem over usb.
-> 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> ---
->   Documentation/filesystems/9p.rst     |  12 +
->   drivers/usb/gadget/Kconfig           |  11 +
->   drivers/usb/gadget/function/Makefile |   2 +
->   drivers/usb/gadget/function/f_9pfs.c | 849 +++++++++++++++++++++++++++++++++++
->   4 files changed, 874 insertions(+)
+Hi Subramanya,
 
-...
+kernel test robot noticed the following build warnings:
 
-> +static int alloc_requests(struct usb_composite_dev *cdev,
-> +			  struct f_usb9pfs *usb9pfs)
-> +{
-> +	int result = 0;
-> +
-> +	usb9pfs->in_req = usb_ep_alloc_request(usb9pfs->in_ep, GFP_ATOMIC);
-> +	if (!usb9pfs->in_req)
-> +		goto fail;
-> +
-> +	usb9pfs->out_req = usb9pfs_alloc_ep_req(usb9pfs->out_ep, usb9pfs->buflen);
-> +	if (!usb9pfs->out_req)
-> +		goto fail_in;
-> +
-> +	usb9pfs->in_req->complete = usb9pfs_tx_complete;
-> +	usb9pfs->out_req->complete = usb9pfs_rx_complete;
-> +
-> +	/* length will be set in complete routine */
-> +	usb9pfs->in_req->context = usb9pfs->out_req->context = usb9pfs;
-> +
-> +	return 0;
-> +
-> +fail_in:
-> +	usb_ep_free_request(usb9pfs->in_ep, usb9pfs->in_req);
-> +fail:
-> +	return result;
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.7 next-20240112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-'result' is never overwritten, so we always return 0.
-Is it on purpose?
+url:    https://github.com/intel-lab-lkp/linux/commits/Subramanya-Swamy/iouring-added-boundary-value-check-for-io_uring_group-systl/20240115-205112
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240115124925.1735-1-subramanya.swamy.linux%40gmail.com
+patch subject: [PATCH] iouring:added boundary value check for io_uring_group systl
+config: sparc-randconfig-r122-20240116 (https://download.01.org/0day-ci/archive/20240117/202401170507.IOhrswHN-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240117/202401170507.IOhrswHN-lkp@intel.com/reproduce)
 
-> +}
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401170507.IOhrswHN-lkp@intel.com/
 
-...
+All warnings (new ones prefixed by >>):
 
-> +static struct usb_function *usb9pfs_alloc(struct usb_function_instance *fi)
-> +{
-> +	struct f_usb9pfs_opts *usb9pfs_opts;
-> +	struct f_usb9pfs *usb9pfs;
-> +
-> +	usb9pfs = kzalloc(sizeof(*usb9pfs), GFP_KERNEL);
-> +	if (!usb9pfs)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	usb9pfs_opts = container_of(fi, struct f_usb9pfs_opts, func_inst);
-> +
-> +	mutex_lock(&usb9pfs_opts->lock);
-> +	usb9pfs_opts->refcnt++;
-> +	mutex_unlock(&usb9pfs_opts->lock);
-> +
-> +	usb9pfs->buflen = usb9pfs_opts->buflen;
-> +
-> +	usb9pfs->function.name = "usb9pfs";
-> +	usb9pfs->function.bind = usb9pfs_func_bind;
-> +	usb9pfs->function.set_alt = usb9pfs_set_alt;
-> +	usb9pfs->function.disable = usb9pfs_disable;
-> +	usb9pfs->function.strings = usb9pfs_strings;
-> +
-> +	usb9pfs->function.free_func = usb9pfs_free_func;
-> +
-> +	mutex_lock(&usb9pfs_ida_lock);
-> +
-> +	usb9pfs->index = ida_simple_get(&usb9pfs_ida, 0, 100, GFP_KERNEL);
-
-This API will soon be removed.
-Please use ida_alloc_max() instead.
-
-Also, there is no corresponding ida_free()? (or isa_simple_remove())
-
-> +	if (usb9pfs->index < 0) {
-> +		struct usb_function *ret = ERR_PTR(usb9pfs->index);
-> +
-> +		kfree(usb9pfs);
-> +		mutex_unlock(&usb9pfs_ida_lock);
-> +		return ret;
-> +	}
-> +
-> +	mutex_unlock(&usb9pfs_ida_lock);
-> +
-> +	usb9pfs->tag = kasprintf(GFP_KERNEL, "%s%d", usb9pfs->function.name,
-> +				 usb9pfs->index);
-
-Same here, it seems to be freed nowhere?
-I think that both should be added in usb9pfs_free_func().
-
-CJ
-
-> +
-> +	INIT_LIST_HEAD(&usb9pfs->function_list);
-> +
-> +	mutex_lock(&usb9pfs_lock);
-> +	list_add_tail(&usb9pfs->function_list, &usbg_function_list);
-> +	mutex_unlock(&usb9pfs_lock);
-> +
-> +	return &usb9pfs->function;
-> +}
-
-...
+>> io_uring/io_uring.c:158:21: warning: 'max_gid' defined but not used [-Wunused-variable]
+     158 | static unsigned int max_gid  = 4294967294;  /*4294967294 is the max guid*/
+         |                     ^~~~~~~
+>> io_uring/io_uring.c:157:21: warning: 'min_gid' defined but not used [-Wunused-variable]
+     157 | static unsigned int min_gid;
+         |                     ^~~~~~~
 
 
+vim +/max_gid +158 io_uring/io_uring.c
+
+   154	
+   155	static int __read_mostly sysctl_io_uring_disabled;
+   156	static unsigned int __read_mostly sysctl_io_uring_group;
+ > 157	static unsigned int min_gid;
+ > 158	static unsigned int max_gid  = 4294967294;  /*4294967294 is the max guid*/
+   159	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
