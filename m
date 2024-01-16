@@ -1,105 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1749131745;
-	Tue, 16 Jan 2024 19:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94AC51D541
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jan 2024 20:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705434694; cv=none; b=atnRxaW+SCJ/sVVoMdPwYv/PhIeJqeVh5lpNmup7oj4WkYqtA/ynUYyciXi0aMLcGkRYDyU3rY7p6eCzCXM9bqeGvDTaqWZqWuwldrYFugVkRx60PKypCtFZpKg2f9nAx4CvfjfWmJ6Nd6Aqamp6Qp8hNHpNWw/Zsv/DwC7413A=
+	t=1705436513; cv=none; b=FteO38AteEizdCpovl9eEtFi+im/i5k6lRTUUfcSw7s/QwOP+gwMqSoNOVtkULZLnnntS35NQQh07L9DerJSQHDPFp/Yd7jIgfSaB5e/94uStKEeMkTRtO+Y71NRklZAPQTD53lDhdY7tD/EFCJb/lRhHc7e8KQrqC8DYddVG4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705434694; c=relaxed/simple;
-	bh=LYFKZ7TRuYk1pl41vPfkzt1g9GP165KZ2d+LPbo5cvk=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=rzp7GM1z/1QoZm8wN9K8ZU7Ku4muncPBl4JJYW3pC3EkWtHm7DvvqBSXh/9Zxnxhsvcz+IC4AJdx4AYdvHTYGCj9ax24NC0LoNMMgIyQiiDpTxtOgL2ydYGwz5RuYxZ5QQe8pjzkDFAvJvvOOQSDQGz75Rzg7W/RsbtRHdSULa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbmnggF/; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705436513; c=relaxed/simple;
+	bh=kC+iPZLjYfSjTMY/S2xakLwXf6QWu6TlBlmnyEa+KMI=;
+	h=Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	b=qM8l4Oh7u3KKxw/hknErANhqpTnqYhMbR5sKOVrl3x+jVd+80QnXTTGew0RajY35N+BWmRUB76hfqJNiFyKm+cSmQk3RNmDTIPfYYJv/qb/WAh+3d8nO7LZPLPz31YvNIy604UdE+3zYPLpYcoEelcM5ZLa5ccwLeH6grwYwnU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sk39+T4f; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbmnggF/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705434693; x=1736970693;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LYFKZ7TRuYk1pl41vPfkzt1g9GP165KZ2d+LPbo5cvk=;
-  b=RbmnggF/qb4euGFspfd8dksFx7iB6jZlhwTgWHYoaw5z7Ytk2jiXrHLL
-   ADYyOL7qK7GibbMkeQzhGdD0rFQgfMITiVdlOaS9ENdLEMzZ3LIN26HbU
-   TIthaAzpacSclhdAPbn9fqoq43X4ZhXTs32yQgofEIgWWqTW0ZiZppAkP
-   YK+uH3WQkbzpLk/dkTRXzLKzrt2vxAqSZU8SFLU4mQG1KxjD03mIyjst8
-   MHv54LrUwCorB261Zcv8AM/HZsnNheVzkONyieMrYCniyhlDQD9R5vTII
-   2Q+PbBZ4hFOnfR/pmLANz9dVQ/RhdEJH+bvLoizUzKofpJ69WWLnH/ga4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="18562463"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="18562463"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 11:51:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="907479092"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="907479092"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 16 Jan 2024 11:51:28 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPpT4-0001AK-0z;
-	Tue, 16 Jan 2024 19:51:26 +0000
-Date: Wed, 17 Jan 2024 03:51:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, kernel@pengutronix.de,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: Re: [PATCH 1/3] usb: gadget: function: 9pfs
-Message-ID: <202401170342.VrKVlN1a-lkp@intel.com>
-References: <20240116-ml-topic-u9p-v1-1-ad8c306f9a4e@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sk39+T4f"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C84757A19;
+	Tue, 16 Jan 2024 20:21:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C84757A19
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1705436511; bh=mjUubSc+Pk1IY1zeLVlXrpbRyinX0rbAJdSd89eJBEE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=sk39+T4fKsdw7FgG8zI97E3iCg/V/ekNT9LZ6RP/htVrBbTjLFCgNwFfxnlBeO5NK
+	 JXYSIlGFh552bwhTpL8NAowEmFzWmwUiQYyrrfgQTd9jh7Yn+yjH5iwZGgPwuBF9bR
+	 Lfv0+qFPg2qfXGun09rXFKD28QAeGZDuxYKFXxqw9bT3Df+vutz2Xi6/95whx2Z7Gd
+	 xJkmrw9bzm7u0DYoqfDh8SGu3VQyB2oJWDHTWuM8tOsk6rxlzVrpxpMt/Tt+f3J+W8
+	 yO8JhCckignuWVssK2YOslD7ycvCa1eBp8dgH3Jvd0r1dbkFwcqOd1sBwSSGUL6gPW
+	 gFoMsoqP5GMlA==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>, linux-doc@vger.kernel.org
+Cc: Matthew Wilcox <willy@infradead.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Anna-Maria Behnsen
+ <anna-maria@linutronix.de>
+Subject: Re: [RFC PATCH 0/2] kernel-doc: Do not pre-process comments
+In-Reply-To: <20240116151456.48238-1-anna-maria@linutronix.de>
+References: <20240116151456.48238-1-anna-maria@linutronix.de>
+Date: Tue, 16 Jan 2024 13:21:50 -0700
+Message-ID: <87ttnd9ggx.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240116-ml-topic-u9p-v1-1-ad8c306f9a4e@pengutronix.de>
+Content-Type: text/plain
 
-Hi Michael,
+Anna-Maria Behnsen <anna-maria@linutronix.de> writes:
 
-kernel test robot noticed the following build warnings:
+> this is a RFC as I'm not quite sure if this change has some subtle side
+> effect.
 
-[auto build test WARNING on 052d534373b7ed33712a63d5e17b2b6cdbce84fd]
+Turns out it does, unfortunately.  Consider a hunk like this:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Grzeschik/usb-gadget-function-9pfs/20240116-095914
-base:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
-patch link:    https://lore.kernel.org/r/20240116-ml-topic-u9p-v1-1-ad8c306f9a4e%40pengutronix.de
-patch subject: [PATCH 1/3] usb: gadget: function: 9pfs
-config: alpha-kismet-CONFIG_NET_9P-CONFIG_USB_F_9PFS-0-0 (https://download.01.org/0day-ci/archive/20240117/202401170342.VrKVlN1a-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240117/202401170342.VrKVlN1a-lkp@intel.com/reproduce)
+> /**
+> - * drm_gem_vram_fill_create_dumb() - \
+> -	Helper for implementing &struct drm_driver.dumb_create
+> + * drm_gem_vram_fill_create_dumb() - Helper for implementing
+> + *				     &struct drm_driver.dumb_create
+> + *
+>   * @file:		the DRM file
+>   * @dev:		the DRM device
+>   * @pg_align:		the buffer's alignment in multiples of the page size
+>   * @pitch_align:	the scanline's alignment in powers of 2
+> - * @args:		the arguments as provided to \
+> -				&struct drm_driver.dumb_create
+> + * @args:		the arguments as provided to
+> + *			&struct drm_driver.dumb_create
+>   *
+>   * This helper function fills &struct drm_mode_create_dumb, which is used
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170342.VrKVlN1a-lkp@intel.com/
+The change to the description line is fine, it handles that.  But the
+same is not true within the arguments; kernel-doc seems to simply drop
+the continuation lines entirely, for some strange reason.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for NET_9P when selected by USB_F_9PFS
-   
-   WARNING: unmet direct dependencies detected for NET_9P
-     Depends on [n]: NET [=n]
-     Selected by [y]:
-     - USB_F_9PFS [=y] && USB_SUPPORT [=y] && USB_GADGET [=y]
+I think it's fair to call that a bug, and it shouldn't be *that* hard to
+fix.  But it involves wading fairly deep into the Perl swamp, I may not
+get there right away.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+
+jon
