@@ -1,104 +1,96 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8B81C282
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jan 2024 15:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0836C1BC4C;
+	Tue, 16 Jan 2024 15:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1RiMxnjJ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="48CYpeUL"
-From: Anna-Maria Behnsen <anna-maria@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1705418108;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cSSZhWNo8uGfD/dxK4hfGhRRqDZCVVwEoayqmi+IK+U=;
-	b=1RiMxnjJ2PsXp6/DCiYWYq5jNs/zICj3VRUJC/zp3iTmJ4EWFKPQEjXgO2bOR7zkaWlEL2
-	CVOo+HW1L2R1DI1r43zPfsiYg6XoFfSAoznd0RI5BPjn2vWbJWBWA15l0X0+E+6eojf6mx
-	vz7bq5HF7vaK2qD4MzjaTDOUT5fez+A9owPVOnf2sNrGzaf/EovZ0FfNpPe7eoYTGYIuSa
-	4J94kL5fwcqvVO0mCt56MZL9p+Zhpj4HFKHhApx6VrLapX+YSkA/7qev4xnOBMclXHwqTM
-	68QTnCso+P8cC1oCu/iz7rfBnglTPobPFag53Ln9MGbUcFIEuGsiNcYY2VrnyA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1705418108;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cSSZhWNo8uGfD/dxK4hfGhRRqDZCVVwEoayqmi+IK+U=;
-	b=48CYpeUL3RDp46Dte5KUd6EWpMczRKvQ98ikh8F858Jq36NZwNHob9DEHEwBTfbjtF6Yuw
-	iy1SfwAoUptm9lBg==
-To: linux-doc@vger.kernel.org
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>
-Subject: [RFC PATCH 2/2] scripts/kernel-doc: Do not process backslash lines in comments
-Date: Tue, 16 Jan 2024 16:14:56 +0100
-Message-Id: <20240116151456.48238-3-anna-maria@linutronix.de>
-In-Reply-To: <20240116151456.48238-1-anna-maria@linutronix.de>
-References: <20240116151456.48238-1-anna-maria@linutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EHO5N9XK"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5edfcba97e3so105148617b3.2;
+        Tue, 16 Jan 2024 07:16:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705418166; x=1706022966; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DSN/1a15f7oyeGM9Lrw3hF9g8ErJxL7cfBh+TgaPZGs=;
+        b=EHO5N9XKOM+G3S3nVSSim1x18LMuaLobkrDvonb5uELgH9BYiLh9GIrfIa3pnq4I3y
+         +xdOPUvhCm756VbSuL3B1p39zzdev3JqnJmvSoq29nlAnO1r3x7i21oCOIJMDBKdwyPA
+         NYmZAF5RAL4wX35mQ6E8J42nVgkOlK92GLIKa5sxlI8oCLv77G6l/kGXLScla9P0n9nL
+         Quzpv9YQjHFIkSRq4FHlHb54/fCJZcx27Nj6nrZiMQ2pkpZqt6y/w4hLW2Z85yw14DCH
+         /1NpSxVv25sJKdycPq0p15szR50MQqsoO8FercnCkAB/HLROGNyktvmNLsznsrR4Ia7G
+         80VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705418166; x=1706022966;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DSN/1a15f7oyeGM9Lrw3hF9g8ErJxL7cfBh+TgaPZGs=;
+        b=KBk5JDbXjT9H9+3rFl465aUTJkLf8kJJOat+UP0Q7cp2HqB+Xax4NaWOaK5nTrevzW
+         cSupixeYxauPMhvZ6glqm/kw4ckKD3SzbPxfoZd8evwLcVIcuMwUjXXQFCnRj9756XOI
+         dIiGV/E8igudBGR9maXbsdZA6o7uQWTeUHiMqmI/f38dasAaHbLKTq/hmRJA7Kro38bV
+         DPmSwpejnOvO0a33Ez3uwGVRmwiQryKGrpA7M/B2uv1msy6/T3flL9P5NdEcPKZ7Kvv5
+         PrP5J86Ukz2VWlNMpo0fc/fGsmtc/j69WpLI7PY0voKUfiaJmxX+F32wXiVcsQU9b5yS
+         eKMA==
+X-Gm-Message-State: AOJu0YxUyUQ4QRko1QgGeDGyaF4RLHbjGw+CLcuG6V0Bt69JFsNVmsxn
+	S0HKL4bAQaB4ISE+hy0d9ywTb9vipl8+C5bz8jM=
+X-Google-Smtp-Source: AGHT+IGe9k13knvJv7mVIsQ9hgvppAFWfLivsE0iE7Akp5hdY4KqCSIXZVDX/dYBWRUzIqzqlKYkQegSb/NhYu+r1uQ=
+X-Received: by 2002:a81:830c:0:b0:5ff:5beb:d570 with SMTP id
+ t12-20020a81830c000000b005ff5bebd570mr486554ywf.43.1705418165912; Tue, 16 Jan
+ 2024 07:16:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240108032117.215171-1-wangrui@loongson.cn> <ZZ2fn0scbDKBXWe5@boqun-archlinux>
+ <CAHirt9iox8FGV2wrMyxwFRjab2avfOcyLKvBc9K=AqiHxqHXKg@mail.gmail.com>
+ <ZZ38XMQw18mw2sTA@Boquns-Mac-mini.home> <CAHirt9jQSVvBF=1wc=sT9FxngeSP30P4FDpu8m0JH_0fOPSO-w@mail.gmail.com>
+ <CANiq72=X3cggAn0HLMi7jVFAfypBhog=ZkPB57yfaX4ZUzT-HA@mail.gmail.com>
+ <CAHirt9hdtGSsEofxDb0FCtcFeAw9n9LKJALz23Qdqh4n2=Ua5A@mail.gmail.com>
+ <CANiq72n7K8LcKrs+beF2sbt1XLdr4zEhEw4xcy3yh4wgTrvYeg@mail.gmail.com>
+ <CAAhV-H72Hbfy7n6+AFSFFOzizo0GtpzA074sgo48-W-Dt0VR+w@mail.gmail.com>
+ <CANiq72mEPnB7yEZvtUXAM5w0GgYmzdrM9OhioLGb_LzbAJKNOA@mail.gmail.com> <CAAhV-H6BFkgN-KzEexXk9zdnOGNCdBesCEEaczEvEp8x2K2YHw@mail.gmail.com>
+In-Reply-To: <CAAhV-H6BFkgN-KzEexXk9zdnOGNCdBesCEEaczEvEp8x2K2YHw@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 16 Jan 2024 16:15:54 +0100
+Message-ID: <CANiq72nv3Uw8GLNqbdGBC3b+viF+o8BeppS9KWhpzBFvjqZLUg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] Rust enablement for LoongArch
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: WANG Rui <wangrui@loongson.cn>, Boqun Feng <boqun.feng@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-doc@vger.kernel.org, loongson-kernel@lists.loongnix.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 654784284430 ("kernel-doc: bugfix - multi-line macros") introduces
-pre-processing of backslashes at the end of a line to not break multi-line
-macros. This pre-processing is done independently if it is inside code or
-inside a comment.
+On Tue, Jan 16, 2024 at 10:31=E2=80=AFAM Huacai Chen <chenhuacai@kernel.org=
+> wrote:
+>
+> OK, since Linus said the merge window is paused now, I rebase and
+> retag my tree and the Rust commit is like this, I think this is
+> perfect now?
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson=
+.git/commit/?h=3Dloongarch-next&id=3D706f9e1ab7c7a58d80ef2c87d8720131253a22=
+56
 
-This illustation of a hierarchy as a code block inside a kernel-doc comment
-has a backslash at the end of the line:
+Thanks a lot! That works, yeah.
 
----8<---
-/**
- * DOC: hierarchy
- *
- *                    Top Level
- *                /               \
- *         Child A                 Child B
- */
----8<---
+I also took the chance to build LLVM and QEMU and I tested the tag --
+it seems to work: I see the samples (built-in) printing in the kernel
+log :)
 
-It will be displayed as:
+So in case you end up rebasing for another reason and want to add it,
+even if it is a simple check I did:
 
----8<---
-	     Top Level
-	 /                *        Child A                 Child B
----8<---
+Tested-by: Miguel Ojeda <ojeda@kernel.org>
 
-To prevent this, do the pre-processing only for lines which are no
-comments, e.g. do not start with ' *'.
-
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
----
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index e8aefd258a29..4277af79de86 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -2331,7 +2331,7 @@ sub process_file($) {
- 
-     $section_counter = 0;
-     while (<IN_FILE>) {
--	while (s/\\\s*$//) {
-+	while (!/^ \*/ && s/\\\s*$//) {
- 	    $_ .= <IN_FILE>;
- 	}
- 	# Replace tabs by spaces
--- 
-2.39.2
-
+Cheers,
+Miguel
