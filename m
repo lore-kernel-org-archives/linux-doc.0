@@ -1,55 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CED1B971;
-	Tue, 16 Jan 2024 12:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040D31BC47;
+	Tue, 16 Jan 2024 13:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VdUFHjEW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705406709; x=1736942709;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ObtUgAvWgI8p0FDfghm9eenqCcQ4fSvkALWKCuchi5Y=;
-  b=VdUFHjEWw79wK9MXFr2aEx4KZQfh9n3r9yrZ7YXrm/hNc2ka4bL4rMHi
-   MAT+UJyIUGN6x3jIU183LjTycUc3BcbjNvh0Iq/Q1J+sYyVfLzLjkxdav
-   a95MaO9hEU/3zChDKhrK11VkzwgcfomktvLK2IbAreIbgkiLSDdI6hsL7
-   GC2t/TQEKA77RnhQdTbIUHkmN2ZBvSRgduLUWtFKG3gwl7IV4T3Df6Tld
-   755VMcFHMZxglGKxamGeUc/PnyPQK7Blr6pQ6bAV4ZuAv1VaVxpPTzCru
-   2aXd64MrYl2Xx2GpJVqf0NJJd5occqy2e71nOMCDnw0JLuBwpwbUHAuSX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="21316649"
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="21316649"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 04:05:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,199,1701158400"; 
-   d="scan'208";a="32433354"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Jan 2024 04:05:04 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPiBi-0000f2-0A;
-	Tue, 16 Jan 2024 12:05:02 +0000
-Date: Tue, 16 Jan 2024 20:04:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="m8HblPnD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=ej944qWFIi9COYJbBb09o9QKP8cZyiOYwsc2orhfIt4=; b=m8HblPnDO5qXLUMnufSJwanb4X
+	F3UWBnF9h5JHQPP6F2CVRMfVGd1oUv+3UTePhOAYP6ijcN/Ososc7qvjsV96EJyuybBb41vV4RN/W
+	YTsYGrpry9JlBgTaTzCcGdl9oYsjsebtXRIcsqCtq6b61DufTx9LVzNB+id/fg2RFOug=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rPjKO-005JiB-Id; Tue, 16 Jan 2024 14:18:04 +0100
+Date: Tue, 16 Jan 2024 14:18:04 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, kernel@pengutronix.de,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: Re: [PATCH 1/3] usb: gadget: function: 9pfs
-Message-ID: <202401161948.no61pNtO-lkp@intel.com>
-References: <20240116-ml-topic-u9p-v1-1-ad8c306f9a4e@pengutronix.de>
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
+ driver
+Message-ID: <64f30166-58cc-409d-ba5b-9ea3fb8ead88@lunn.ch>
+References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
+ <20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
+ <639c5222-043f-4e27-9efa-ce2a1d73eaba@lunn.ch>
+ <20240116104949.12708cd5@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,172 +52,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240116-ml-topic-u9p-v1-1-ad8c306f9a4e@pengutronix.de>
+In-Reply-To: <20240116104949.12708cd5@kmaincent-XPS-13-7390>
 
-Hi Michael,
+> 
+> > > +static int pd692x0_fw_get_next_line(const u8 *data,
+> > > +				    char *line, size_t size)
+> > > +{
+> > > +	size_t line_size;
+> > > +	int i;
+> > > +
+> > > +	line_size = min_t(size_t, size, (size_t)PD692X0_FW_LINE_MAX_SZ);
+> > > +
+> > > +	memset(line, 0, PD692X0_FW_LINE_MAX_SZ);
+> > > +	for (i = 0; i < line_size - 1; i++) {
+> > > +		if (*data == '\r' && *(data + 1) == '\n') {
+> > > +			line[i] = '\r';
+> > > +			line[i + 1] = '\n';
+> > > +			return i + 2;
+> > > +		}  
+> > 
+> > Does the Vendor Documentation indicate Windoze line endings will
+> > always be used? Motorola SREC allow both Windows or rest of the world
+> > line endings to be used. 
+> 
+> All the firmware lines end with "\r\n" but indeed it is not specifically
+> written that the firmware content would follow this. IMHO it is implicit that
+> it would be the case as all i2c messages use this line termination.
+> Do you prefer that I add support to the world line endings possibility? 
 
-kernel test robot noticed the following build warnings:
+No need, just hack an SREC file, and test the parser does not explode
+with an opps, and you get an sensible error message about the firmware
+being corrupt. I would not be too surprised if there are some mail
+systems still out there which might convert the line ending.
 
-[auto build test WARNING on 052d534373b7ed33712a63d5e17b2b6cdbce84fd]
+> > > +static enum fw_upload_err pd692x0_fw_poll_complete(struct fw_upload *fwl)
+> > > +{
+> > > +	struct pd692x0_priv *priv = fwl->dd_handle;
+> > > +	const struct i2c_client *client = priv->client;
+> > > +	struct pd692x0_msg_ver ver;
+> > > +	int ret;
+> > > +
+> > > +	priv->fw_state = PD692X0_FW_COMPLETE;
+> > > +
+> > > +	ret = pd692x0_fw_reset(client);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ver = pd692x0_get_sw_version(priv);
+> > > +	if (ver.maj_sw_ver != PD692X0_FW_MAJ_VER) {  
+> > 
+> > That is probably too strong a condition. You need to allow firmware
+> > upgrades, etc. Does it need to be an exact match, or would < be
+> > enough?
+> 
+> The major version is not compatible with the last one, the i2c messages
+> content changed. I supposed a change in major version would imply a change in
+> the i2c messages content and would need a driver update that's why I used this
+> strong condition.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Grzeschik/usb-gadget-function-9pfs/20240116-095914
-base:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
-patch link:    https://lore.kernel.org/r/20240116-ml-topic-u9p-v1-1-ad8c306f9a4e%40pengutronix.de
-patch subject: [PATCH 1/3] usb: gadget: function: 9pfs
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20240116/202401161948.no61pNtO-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240116/202401161948.no61pNtO-lkp@intel.com/reproduce)
+Do you know the next major version will change the message contents?
+Is this documented somewhere? If so add a comment. Otherwise, i would
+allow higher major versions. When the vendor breaks backwards
+compatibility, its going to need code changes anyway, and at that
+point the test can be made more strict.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401161948.no61pNtO-lkp@intel.com/
+We try to make vendors not make firmware ABI breaking changes, and we
+have pushed back against a number of vendors who do. So i think its
+best we assume they won't break the ABI.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/usb/gadget/function/f_9pfs.c:21:
-   drivers/usb/gadget/function/f_9pfs.c: In function 'usb9pfs_rx_header':
->> drivers/usb/gadget/function/f_9pfs.c:196:34: warning: format '%u' expects argument of type 'unsigned int', but argument 5 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
-     196 |         p9_debug(P9_DEBUG_TRANS, "mux %p got %u bytes\n", usb9pfs,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~
-     197 |                  rc.capacity - rc.offset);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~
-         |                              |
-         |                              size_t {aka long unsigned int}
-   include/net/9p/9p.h:55:36: note: in definition of macro 'p9_debug'
-      55 |         _p9_debug(level, __func__, fmt, ##__VA_ARGS__)
-         |                                    ^~~
-   drivers/usb/gadget/function/f_9pfs.c:196:47: note: format string is defined here
-     196 |         p9_debug(P9_DEBUG_TRANS, "mux %p got %u bytes\n", usb9pfs,
-         |                                              ~^
-         |                                               |
-         |                                               unsigned int
-         |                                              %lu
-   drivers/usb/gadget/function/f_9pfs.c: At top level:
->> drivers/usb/gadget/function/f_9pfs.c:286:6: warning: no previous prototype for 'disable_endpoints' [-Wmissing-prototypes]
-     286 | void disable_endpoints(struct usb_composite_dev *cdev,
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/usb/gadget/function/f_9pfs.c:825:12: warning: no previous prototype for 'usb9pfs_modinit' [-Wmissing-prototypes]
-     825 | int __init usb9pfs_modinit(void)
-         |            ^~~~~~~~~~~~~~~
->> drivers/usb/gadget/function/f_9pfs.c:838:13: warning: no previous prototype for 'usb9pfs_modexit' [-Wmissing-prototypes]
-     838 | void __exit usb9pfs_modexit(void)
-         |             ^~~~~~~~~~~~~~~
-
-
-vim +196 drivers/usb/gadget/function/f_9pfs.c
-
-   184	
-   185	static struct p9_req_t *usb9pfs_rx_header(struct f_usb9pfs *usb9pfs, struct usb_request *req)
-   186	{
-   187		struct p9_req_t *p9_rx_req;
-   188		struct p9_fcall	rc;
-   189		int ret;
-   190	
-   191		/* start by reading header */
-   192		rc.sdata = req->buf;
-   193		rc.offset = 0;
-   194		rc.capacity = rc.size = P9_HDRSZ;
-   195	
- > 196		p9_debug(P9_DEBUG_TRANS, "mux %p got %u bytes\n", usb9pfs,
-   197			 rc.capacity - rc.offset);
-   198	
-   199		ret = p9_parse_header(&rc, &rc.size, NULL, NULL, 0);
-   200		if (ret) {
-   201			p9_debug(P9_DEBUG_ERROR,
-   202				 "error parsing header: %d\n", ret);
-   203			return NULL;
-   204		}
-   205	
-   206		p9_debug(P9_DEBUG_TRANS,
-   207			 "mux %p pkt: size: %d bytes tag: %d\n",
-   208			 usb9pfs, rc.size, rc.tag);
-   209	
-   210		p9_rx_req = p9_tag_lookup(usb9pfs->client, rc.tag);
-   211		if (!p9_rx_req || (p9_rx_req->status != REQ_STATUS_SENT)) {
-   212			p9_debug(P9_DEBUG_ERROR, "Unexpected packet tag %d\n", rc.tag);
-   213			return NULL;
-   214		}
-   215	
-   216		if (rc.size > p9_rx_req->rc.capacity) {
-   217			p9_debug(P9_DEBUG_ERROR,
-   218				 "requested packet size too big: %d for tag %d with capacity %zd\n",
-   219				 rc.size, rc.tag, p9_rx_req->rc.capacity);
-   220			return NULL;
-   221		}
-   222	
-   223		if (!p9_rx_req->rc.sdata) {
-   224			p9_debug(P9_DEBUG_ERROR,
-   225				 "No recv fcall for tag %d (req %p), disconnecting!\n",
-   226				 rc.tag, p9_rx_req);
-   227			p9_req_put(usb9pfs->client, p9_rx_req);
-   228			return NULL;
-   229		}
-   230	
-   231		return p9_rx_req;
-   232	}
-   233	
-   234	static void usb9pfs_rx_complete(struct usb_ep *ep, struct usb_request *req)
-   235	{
-   236		struct f_usb9pfs *usb9pfs = ep->driver_data;
-   237		struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
-   238		struct p9_req_t *p9_rx_req;
-   239		unsigned long flags;
-   240	
-   241		switch (req->status) {
-   242		case 0:				/* normal completion? */
-   243			spin_lock_irqsave(&usb9pfs->req_lock, flags);
-   244			p9_rx_req = usb9pfs_rx_header(usb9pfs, req);
-   245			if (!p9_rx_req) {
-   246				spin_unlock_irqrestore(&usb9pfs->req_lock, flags);
-   247				goto free_req;
-   248			}
-   249	
-   250			memcpy(p9_rx_req->rc.sdata, req->buf, req->actual);
-   251			p9_rx_req->rc.size = req->actual;
-   252	
-   253			p9_client_cb(usb9pfs->client, p9_rx_req, REQ_STATUS_RCVD);
-   254			p9_req_put(usb9pfs->client, p9_rx_req);
-   255	
-   256			usb9pfs->p9_tx_req = NULL;
-   257	
-   258			usb9pfs_transmit(usb9pfs);
-   259	
-   260			spin_unlock_irqrestore(&usb9pfs->req_lock, flags);
-   261	
-   262			return;
-   263	free_req:
-   264		default:
-   265			dev_err(&cdev->gadget->dev, "%s usb9pfs complete --> %d, %d/%d\n",
-   266				ep->name, req->status, req->actual, req->length);
-   267			usb_ep_free_request(ep == usb9pfs->in_ep ?
-   268					    usb9pfs->out_ep : usb9pfs->in_ep,
-   269					    req->context);
-   270			free_ep_req(ep, req);
-   271			return;
-   272		}
-   273	
-   274		p9_client_cb(usb9pfs->client, p9_rx_req, REQ_STATUS_ERROR);
-   275	}
-   276	
-   277	static void disable_ep(struct usb_composite_dev *cdev, struct usb_ep *ep)
-   278	{
-   279		int value;
-   280	
-   281		value = usb_ep_disable(ep);
-   282		if (value < 0)
-   283			dev_info(&cdev->gadget->dev, "disable %s --> %d\n", ep->name, value);
-   284	}
-   285	
- > 286	void disable_endpoints(struct usb_composite_dev *cdev,
-   287			struct usb_ep *in, struct usb_ep *out,
-   288			struct usb_ep *iso_in, struct usb_ep *iso_out)
-   289	{
-   290		disable_ep(cdev, in);
-   291		disable_ep(cdev, out);
-   292	}
-   293	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      Andrew
