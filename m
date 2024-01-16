@@ -1,94 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B5E12B7A;
-	Tue, 16 Jan 2024 09:31:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E57A134A1;
+	Tue, 16 Jan 2024 09:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="unN+9lmG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2899BC43142;
-	Tue, 16 Jan 2024 09:31:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705397510;
-	bh=VLP6UgFM96N7y+o2qdkKbSUFQq0ljlGSoU8LbFEeobY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=unN+9lmG5I30QesWUCKaoL5o3AgVB4FIkuK8XMYneyhX0DMYpe83oEel57kmTBsEa
-	 xK3QGZ4w1ZK/GnZK11fDsFiYZH06ibO4QbvbYzZxKAqoS6g0oO92nYHITmghW4335n
-	 fy5/TRlxNh3MEUCYwzPngBRjMZYAr11P1qaj978i7W2tlO/wYL3tJtRAzXiuD07P1V
-	 +SIYOWetQHxWKthhhmy9O18POg2x8PhrmYJ0H9KaOkoorK4ftAXUty3uVWhJjVCkUq
-	 jTywdSrT+YH0Xy11sL0DE2m5B++HHf/HOGIgNj4NT+BE4IAN/+0jAKCJK9axnT6vo5
-	 xsbSgdKQY8x8w==
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-559afecee33so276202a12.1;
-        Tue, 16 Jan 2024 01:31:50 -0800 (PST)
-X-Gm-Message-State: AOJu0YwUtASq3ft5DM+ezkVG7Ve2CLMjmV4ebqY2ud6LucSEPVimt1qf
-	+EAYLlKiHniXYSt1hsJUIOmNwM3XeR21kjzTVfI=
-X-Google-Smtp-Source: AGHT+IGCUpSuIQgXHJTAuQmb/QACibD64SWuIXhc3fCqJpxMZRy6D1FcLP/Vc55ljvPLouJWBYUz2y+IU1A8msEcz6I=
-X-Received: by 2002:a17:907:d38a:b0:a2c:b31f:f076 with SMTP id
- vh10-20020a170907d38a00b00a2cb31ff076mr4347078ejc.124.1705397508471; Tue, 16
- Jan 2024 01:31:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jj8uWuf3"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8298960008;
+	Tue, 16 Jan 2024 09:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1705398592;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DNLdp9OGT7c+u1pDg4x54qzMqUrUFue68oAXfluzQf8=;
+	b=jj8uWuf3K5Xess1XfSDF0tFuHfWoDK9MVLNU8+7NpsL4xMJCjG5w0z9GRxsz65rEnvnJCL
+	iebfqOgabeh0/fxq5jjO831LiWI+XaXAtxZNd/iLDUsC3MuDUlOZC5/hTcfNRUZyhXi8h6
+	C3ERJoUPzPHXKbvTWGhNA7MterclVbej9jrhqFI12rfbWoYqOJQL9q6Va0v4yiuvrpikY+
+	RhkkiWZp71gkItHSgd7OfIMUKBTPKrc6G770jOHDSVyHIZxtlwC+KnBi76bPIFafJvRjBT
+	sGkpn92LHh/3Q/MMGlsRDhh51PnCgKWciErinnXMYldLJLVJCRTdmkp3FY84Cg==
+Date: Tue, 16 Jan 2024 10:49:49 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
+ driver
+Message-ID: <20240116104949.12708cd5@kmaincent-XPS-13-7390>
+In-Reply-To: <639c5222-043f-4e27-9efa-ce2a1d73eaba@lunn.ch>
+References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
+	<20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
+	<639c5222-043f-4e27-9efa-ce2a1d73eaba@lunn.ch>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240108032117.215171-1-wangrui@loongson.cn> <ZZ2fn0scbDKBXWe5@boqun-archlinux>
- <CAHirt9iox8FGV2wrMyxwFRjab2avfOcyLKvBc9K=AqiHxqHXKg@mail.gmail.com>
- <ZZ38XMQw18mw2sTA@Boquns-Mac-mini.home> <CAHirt9jQSVvBF=1wc=sT9FxngeSP30P4FDpu8m0JH_0fOPSO-w@mail.gmail.com>
- <CANiq72=X3cggAn0HLMi7jVFAfypBhog=ZkPB57yfaX4ZUzT-HA@mail.gmail.com>
- <CAHirt9hdtGSsEofxDb0FCtcFeAw9n9LKJALz23Qdqh4n2=Ua5A@mail.gmail.com>
- <CANiq72n7K8LcKrs+beF2sbt1XLdr4zEhEw4xcy3yh4wgTrvYeg@mail.gmail.com>
- <CAAhV-H72Hbfy7n6+AFSFFOzizo0GtpzA074sgo48-W-Dt0VR+w@mail.gmail.com> <CANiq72mEPnB7yEZvtUXAM5w0GgYmzdrM9OhioLGb_LzbAJKNOA@mail.gmail.com>
-In-Reply-To: <CANiq72mEPnB7yEZvtUXAM5w0GgYmzdrM9OhioLGb_LzbAJKNOA@mail.gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 16 Jan 2024 17:31:36 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6BFkgN-KzEexXk9zdnOGNCdBesCEEaczEvEp8x2K2YHw@mail.gmail.com>
-Message-ID: <CAAhV-H6BFkgN-KzEexXk9zdnOGNCdBesCEEaczEvEp8x2K2YHw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] Rust enablement for LoongArch
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: WANG Rui <wangrui@loongson.cn>, Boqun Feng <boqun.feng@gmail.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-doc@vger.kernel.org, loongson-kernel@lists.loongnix.cn
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi, Miguel,
+Hell Andrew,
 
-On Tue, Jan 16, 2024 at 12:08=E2=80=AFAM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Mon, Jan 15, 2024 at 4:23=E2=80=AFAM Huacai Chen <chenhuacai@kernel.or=
-g> wrote:
-> >
-> > Thank you for your suggestion, but since this will be replaced by the
-> > built-in target soon, and I don't want to change the tag to make Linus
-> > unhappy. Let's leave it as is.
->
-> The issue is not a big deal and I appreciate that you made the effort
-> to enable Rust for your architecture. However, please note that we do
-> our best to maintain a clean formatting state for Rust code (i.e.
-> `rustfmt` should be run) and that people may see this in tests/CIs
-> that use the Make target.
->
-> I don't think Linus would mind too much, and you could point him to
-> this email if you want (or you could put the fix on top); but if you
-> really want to keep the tag as-is, then we should consider it as a fix
-> for this cycle, i.e. we should not wait for e.g. the next cycle for
-> the built-in target. Could you please send it through your tree as
-> soon as possible?
-OK, since Linus said the merge window is paused now, I rebase and
-retag my tree and the Rust commit is like this, I think this is
-perfect now?
+Thanks for your reviews and sorry for replying so late, I was working on the
+core to fit the new bindings and requirements lifted by Oleksij.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.g=
-it/commit/?h=3Dloongarch-next&id=3D706f9e1ab7c7a58d80ef2c87d8720131253a2256
+On Sun, 3 Dec 2023 20:34:54 +0100
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-Huacai
+> > +static int pd692x0_try_recv_msg(const struct i2c_client *client,
+> > +				struct pd692x0_msg *msg,
+> > +				struct pd692x0_msg *buf)
+> > +{
+> > +	msleep(30);
+> > +
+> > +	memset(buf, 0, sizeof(*buf));
+> > +	i2c_master_recv(client, (u8 *)buf, sizeof(*buf));
+> > +	if (buf->key)
+> > +		return 1;
+> > +
+> > +	msleep(100);
+> > +
+> > +	memset(buf, 0, sizeof(*buf));
+> > +	i2c_master_recv(client, (u8 *)buf, sizeof(*buf));
+> > +	if (buf->key)
+> > +		return 1;
+> > +
+> > +	return 0; =20
+>=20
+> Maybe make this function return a bool? Or 0 on success, -EIO on
+> error?
 
->
-> Cheers,
-> Miguel
+Indeed, I will move on to bool.
+
+> > +static int pd692x0_update_matrix(struct pd692x0_priv *priv)
+> > +{
+> > +	struct matrix port_matrix[PD692X0_MAX_LOGICAL_PORTS];
+> > +	struct device *dev =3D &priv->client->dev;
+> > +	int ret;
+> > +
+> > +	ret =3D pd692x0_get_of_matrix(dev, port_matrix);
+> > +	if (ret < 0) {
+> > +		dev_warn(dev,
+> > +			 "Unable to parse port-matrix, saved matrix will
+> > be used\n");
+> > +		return 0;
+> > +	}
+> > +
+> > +	ret =3D pd692x0_set_ports_matrix(priv, port_matrix);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +#define PD692X0_FW_LINE_MAX_SZ 0xff =20
+>=20
+> That probably works. Most linkers producing SREC output do limit
+> themselves to lines of 80 charactors max. But the SREC format actually
+> allows longer lines.
+
+I set it to SREC limit but indeed the firmware lines does not exceed 80
+characters except the comments. 0xff line size limit won't break anything
+though.
+
+> > +static int pd692x0_fw_get_next_line(const u8 *data,
+> > +				    char *line, size_t size)
+> > +{
+> > +	size_t line_size;
+> > +	int i;
+> > +
+> > +	line_size =3D min_t(size_t, size, (size_t)PD692X0_FW_LINE_MAX_SZ);
+> > +
+> > +	memset(line, 0, PD692X0_FW_LINE_MAX_SZ);
+> > +	for (i =3D 0; i < line_size - 1; i++) {
+> > +		if (*data =3D=3D '\r' && *(data + 1) =3D=3D '\n') {
+> > +			line[i] =3D '\r';
+> > +			line[i + 1] =3D '\n';
+> > +			return i + 2;
+> > +		} =20
+>=20
+> Does the Vendor Documentation indicate Windoze line endings will
+> always be used? Motorola SREC allow both Windows or rest of the world
+> line endings to be used.=20
+
+All the firmware lines end with "\r\n" but indeed it is not specifically
+written that the firmware content would follow this. IMHO it is implicit th=
+at
+it would be the case as all i2c messages use this line termination.
+Do you prefer that I add support to the world line endings possibility?=20
+
+> > +static enum fw_upload_err pd692x0_fw_poll_complete(struct fw_upload *f=
+wl)
+> > +{
+> > +	struct pd692x0_priv *priv =3D fwl->dd_handle;
+> > +	const struct i2c_client *client =3D priv->client;
+> > +	struct pd692x0_msg_ver ver;
+> > +	int ret;
+> > +
+> > +	priv->fw_state =3D PD692X0_FW_COMPLETE;
+> > +
+> > +	ret =3D pd692x0_fw_reset(client);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ver =3D pd692x0_get_sw_version(priv);
+> > +	if (ver.maj_sw_ver !=3D PD692X0_FW_MAJ_VER) { =20
+>=20
+> That is probably too strong a condition. You need to allow firmware
+> upgrades, etc. Does it need to be an exact match, or would < be
+> enough?
+
+The major version is not compatible with the last one, the i2c messages
+content changed. I supposed a change in major version would imply a change =
+in
+the i2c messages content and would need a driver update that's why I used t=
+his
+strong condition.
+
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
