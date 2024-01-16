@@ -1,141 +1,146 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B80C1BF21;
-	Tue, 16 Jan 2024 14:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433D01BF2A;
+	Tue, 16 Jan 2024 14:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="O0314XBI"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6D4541C0004;
-	Tue, 16 Jan 2024 14:12:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1705414328;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SOCRlvdGfX4al4ZItqxCkVlf8liyb3/Akd8IILM1iBU=;
-	b=O0314XBIHPKlYZCptjyxPtClQlYhlBjMrlKqvbvkLIqSXfBWlc/M/SUmSsuLJnS0wf781u
-	uQT9P3sltuloK12tsj9AuKraoap9M2QzgnSVLLvLX/39QZ/4H49tClOd0XW4/xIMk9K1b2
-	sGf2CQvGfYRIfncJmMmBhpOYJl5wsbOH8qQggABfKwVu8y7IN5/oo8+BTATQLc9BzOcpDd
-	mP3xEnUXqbV+WCv5xZT+Dpk9O8gEz/43oYNxRx0zNhmNTTVe7kQaJmFQ9oYH5Xl8g/ut1z
-	oJpzPclUUTR3wbuIV9cNJiN1txMz8sy3RXxznix2s2naB7NIFH81ipunwd0rSQ==
-Date: Tue, 16 Jan 2024 15:12:05 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v2 8/8] net: pse-pd: Add PD692x0 PSE controller
- driver
-Message-ID: <20240116151205.0bf44181@kmaincent-XPS-13-7390>
-In-Reply-To: <64f30166-58cc-409d-ba5b-9ea3fb8ead88@lunn.ch>
-References: <20231201-feature_poe-v2-0-56d8cac607fa@bootlin.com>
-	<20231201-feature_poe-v2-8-56d8cac607fa@bootlin.com>
-	<639c5222-043f-4e27-9efa-ce2a1d73eaba@lunn.ch>
-	<20240116104949.12708cd5@kmaincent-XPS-13-7390>
-	<64f30166-58cc-409d-ba5b-9ea3fb8ead88@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoW8PYM2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82385C433F1;
+	Tue, 16 Jan 2024 14:40:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705416062;
+	bh=pi9f5n7aCz4k4GcDtHhDD5lv5OgeZ4ucYdJWw/uz8rU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eoW8PYM2MfAuIBhKaoTZlWZwOEH64nrarWgh8smz385NHA2AvWbxhu44TZid6guIO
+	 ztdPcokve4KGk/P0r48xP9LXjdlp+nfRggeFVeFp1EKUfQh1HSmalAz393OHzBH8yx
+	 HITZr7gQr/eVgLSaMXJ0zK/Hypf/9tgOSbSJiXzjxDaUW1d3OgO9S7G4+/H4mw666+
+	 L5PksNx2fvrD/Q9/Cn2uOjt9fv52HRvN58krYPnsggJ/tW1Mam7cV3tInWEBTcjzIV
+	 QhTlg/jUO4g8ofnL8rKCTYV2n5vBGWNCAEmw7Luoyo7bgDS5dKI4oEy8rewQcDvB/c
+	 CCz+OFltnyGUA==
+Date: Tue, 16 Jan 2024 14:40:39 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-spi@vger.kernel.org,
+	kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>,
+	Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org,
+	Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rayyan Ansari <rayyan@ansari.sh>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Sergey Kozlov <serjk@netup.ru>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+	Rob Herring <robh@kernel.org>, linux-mtd@lists.infradead.org,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Ronald Wahl <ronald.wahl@raritan.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Michal Simek <michal.simek@amd.com>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-arm-msm@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, Rui Miguel Silva <rmfrfs@gmail.com>,
+	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+	linux-integrity@vger.kernel.org,
+	Herve Codina <herve.codina@bootlin.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
+	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 00/33] spi: get rid of some legacy macros
+Message-ID: <3404c9af-6c11-45d7-9ba4-a120e21e407e@sirena.org.uk>
+References: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="c8yli56mmI+gJGEV"
+Content-Disposition: inline
+In-Reply-To: <cover.1705348269.git.u.kleine-koenig@pengutronix.de>
+X-Cookie: Programmers do it bit by bit.
+
+
+--c8yli56mmI+gJGEV
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
 
-On Tue, 16 Jan 2024 14:18:04 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
+On Mon, Jan 15, 2024 at 09:12:46PM +0100, Uwe Kleine-K=F6nig wrote:
 
-> >  =20
-> > > > +static int pd692x0_fw_get_next_line(const u8 *data,
-> > > > +				    char *line, size_t size)
-> > > > +{
-> > > > +	size_t line_size;
-> > > > +	int i;
-> > > > +
-> > > > +	line_size =3D min_t(size_t, size,
-> > > > (size_t)PD692X0_FW_LINE_MAX_SZ); +
-> > > > +	memset(line, 0, PD692X0_FW_LINE_MAX_SZ);
-> > > > +	for (i =3D 0; i < line_size - 1; i++) {
-> > > > +		if (*data =3D=3D '\r' && *(data + 1) =3D=3D '\n') {
-> > > > +			line[i] =3D '\r';
-> > > > +			line[i + 1] =3D '\n';
-> > > > +			return i + 2;
-> > > > +		}   =20
-> > >=20
-> > > Does the Vendor Documentation indicate Windoze line endings will
-> > > always be used? Motorola SREC allow both Windows or rest of the world
-> > > line endings to be used.  =20
-> >=20
-> > All the firmware lines end with "\r\n" but indeed it is not specifically
-> > written that the firmware content would follow this. IMHO it is implicit
-> > that it would be the case as all i2c messages use this line termination.
-> > Do you prefer that I add support to the world line endings possibility?=
-  =20
->=20
-> No need, just hack an SREC file, and test the parser does not explode
-> with an opps, and you get an sensible error message about the firmware
-> being corrupt. I would not be too surprised if there are some mail
-> systems still out there which might convert the line ending.
+> In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
+> some functions were renamed. Further some compat defines were introduced
+> to map the old names to the new ones.
 
-Ok I will do so.
+> Patch #18 and #19 touch the same driver, otherwise the patches #1 - #31
+> are pairwise independent and could be applied by their respective
+> maintainers. The alternative is to let all patches go via the spi tree.
+> Mark, what's your preference here?
 
->=20
-> > > > +static enum fw_upload_err pd692x0_fw_poll_complete(struct fw_upload
-> > > > *fwl) +{
-> > > > +	struct pd692x0_priv *priv =3D fwl->dd_handle;
-> > > > +	const struct i2c_client *client =3D priv->client;
-> > > > +	struct pd692x0_msg_ver ver;
-> > > > +	int ret;
-> > > > +
-> > > > +	priv->fw_state =3D PD692X0_FW_COMPLETE;
-> > > > +
-> > > > +	ret =3D pd692x0_fw_reset(client);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	ver =3D pd692x0_get_sw_version(priv);
-> > > > +	if (ver.maj_sw_ver !=3D PD692X0_FW_MAJ_VER) {   =20
-> > >=20
-> > > That is probably too strong a condition. You need to allow firmware
-> > > upgrades, etc. Does it need to be an exact match, or would < be
-> > > enough? =20
-> >=20
-> > The major version is not compatible with the last one, the i2c messages
-> > content changed. I supposed a change in major version would imply a cha=
-nge
-> > in the i2c messages content and would need a driver update that's why I
-> > used this strong condition. =20
->=20
-> Do you know the next major version will change the message contents?
+I don't have a strong preference here, I'm happy to take all the patches
+if the maintainers for the other subsystem are OK with that - ideally
+I'd apply things at -rc1 but the timeline is a bit tight there.  I think
+my plan here unless anyone objects (or I notice something myself) will
+be to queue things at -rc3, please shout if that doesn't seem
+reasonable.
 
-No.
+--c8yli56mmI+gJGEV
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Is this documented somewhere? If so add a comment. Otherwise, i would
-> allow higher major versions. When the vendor breaks backwards
-> compatibility, its going to need code changes anyway, and at that
-> point the test can be made more strict.
->=20
-> We try to make vendors not make firmware ABI breaking changes, and we
-> have pushed back against a number of vendors who do. So i think its
-> best we assume they won't break the ABI.
+-----BEGIN PGP SIGNATURE-----
 
-Alright, thanks!
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWmlVwACgkQJNaLcl1U
+h9AImgf/YhrOsj57KBdfXCGkJi2n+rTwU/YN3Vvfy2fP+4gmJoFGfjk1o+luXQwi
+q3+RNetq9JicN07DE0eggUdY7EqvLtghmHnQWYraw+gEPT7PwkiFuKZgDEy79tmH
+pNpJuEKTeDipvLkXCVMzD0T+NrW2BXshkACyxLpBrh+ewGJpmmgJEH8LEo52dxrk
+uLfK3YjSYco5zXw8Dzak8Ea9Hb57dnySjT6aQf8GRXZMjNYAPqMC27Pzd5pWHnD1
+am4raQY/1ji5yjiVs38+2RB0EnWlFJyj0VvC9vL5PEhkz0XiW3OTTedLKcxKKoYv
+H+d+5ZwIRVx3bl+qcRRzH8EMyJW7pA==
+=Umm1
+-----END PGP SIGNATURE-----
 
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+--c8yli56mmI+gJGEV--
