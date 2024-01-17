@@ -1,139 +1,71 @@
-Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC5B2233E;
-	Wed, 17 Jan 2024 14:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D6D219F1
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 15:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705503014; cv=none; b=GsMI7zn00Dxoffnqh+WS0NB/e4pWzDJLzDSXChqEWlf74CgsZUi11QEvDIN6bMAdy9caFRIuaOW/7TPKx1OZy9QdxmhqfNfdTg3fCYv8WDH7pCIJCY7eIY+iYxq2rao4bTYQ7dSb4GomcsGol7Rn+VJvw03s9MBibJheFure8MA=
+	t=1705504950; cv=none; b=cMIkFMFuZ4gGG4ianXOZIw3yiK9VKJT6Mhr2mzipMOCwvvYiyKX2nwWQImDlQH6TXsYQPJS+Y2fZHBlwtToqQZXucVQMUUEA8D63rOA+xDKkiAyK18CBtfsO7AUmKysRbv5QvrmcgLwwsdbE+aiaW1dPu2Lzvvebr/hMnAUqqT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705503014; c=relaxed/simple;
-	bh=UUfJqxwzaJfKgat15q/d3JONEvY5L8ZpIJR57kcne6I=;
-	h=DKIM-Signature:X-IronPort-AV:Received:Received:Received:
-	 X-Farcaster-Flow-ID:Received:Received:From:To:CC:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 X-Originating-IP:X-ClientProxiedBy:Content-Type:
-	 Content-Transfer-Encoding; b=BJHvZqRhnG07OAsiFa+gPPSrhdWH6IVpqHbtbop8t94nsVh9EzCfwaY7b9YN4tqnGDyQgC3vQQg8zP3JKAns7grNGTf9g4kcmn2iJxuFf0NQtItdku2gHk/ImoJiC6DYcpqfNWdfykijpetUFO7RXqxjliBvcMI6NE+lZCU+TgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=SY/xaT2i; arc=none smtp.client-ip=207.171.188.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1705504950; c=relaxed/simple;
+	bh=IiMaPOqpUzn1pJI+Dgu8m7VuIzEgUtD8Pt2lbXXzmlI=;
+	h=Received:DKIM-Filter:DKIM-Signature:From:To:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type; b=KVJxlkKoZFlzzcR8nJiJpdubryQZkp7JnO0iSR3JbgTj//JXGW2JadN7wQmUvCsAlA0/l30iKZV7wjRDe4UK7GqRUHMDml3vDy6kHIOYw4eWusKUwXx9yxVEG5GSEmYM0lXLCWlDJzObYzUJzqczWL9wE/l5Rin8a/GmnyvURWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pQBu0e8R; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="SY/xaT2i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1705503013; x=1737039013;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=K22H13Upw8ZJvq6V1e5pgkkFku3zAKlZ1ZPbskJJqpo=;
-  b=SY/xaT2i20T4hrpzetlE1V0HFVckm5+tLUPrJfEIJk19tXYpiYqwI0iG
-   Pfq16mALcaNfH6/ZbPe3RRQkqp+lZpzreg/O9xXNPwyT+Sdx7IJzwVX33
-   KxKnXwlXj3bPZPUgR06plYhZ/u1axC+vHRPYYWde5yKuSVUQ7EL09ivoq
-   g=;
-X-IronPort-AV: E=Sophos;i="6.05,200,1701129600"; 
-   d="scan'208";a="697789089"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2a-m6i4x-1197e3af.us-west-2.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 14:50:12 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
-	by email-inbound-relay-pdx-2a-m6i4x-1197e3af.us-west-2.amazon.com (Postfix) with ESMTPS id B58F8100FC5;
-	Wed, 17 Jan 2024 14:50:03 +0000 (UTC)
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.21.151:29526]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.41.57:2525] with esmtp (Farcaster)
- id bc9be742-cddd-4430-a2bc-c8966b4ce96c; Wed, 17 Jan 2024 14:50:03 +0000 (UTC)
-X-Farcaster-Flow-ID: bc9be742-cddd-4430-a2bc-c8966b4ce96c
-Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 17 Jan 2024 14:50:02 +0000
-Received: from dev-dsk-graf-1a-5ce218e4.eu-west-1.amazon.com (10.253.83.51) by
- EX19D020UWC004.ant.amazon.com (10.13.138.149) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 17 Jan 2024 14:49:58 +0000
-From: Alexander Graf <graf@amazon.com>
-To: <linux-kernel@vger.kernel.org>
-CC: <linux-trace-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>, <x86@kernel.org>,
-	Eric Biederman <ebiederm@xmission.com>, "H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Andrew Morton
-	<akpm@linux-foundation.org>, Mark Rutland <mark.rutland@arm.com>, "Tom
- Lendacky" <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
-	James Gowans <jgowans@amazon.com>, Stanislav Kinsburskii
-	<skinsburskii@linux.microsoft.com>, <arnd@arndb.de>, <pbonzini@redhat.com>,
-	<madvenka@linux.microsoft.com>, Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Usama Arif <usama.arif@bytedance.com>, David Woodhouse <dwmw@amazon.co.uk>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v3 16/17] tracing: Add config option for kexec handover
-Date: Wed, 17 Jan 2024 14:47:03 +0000
-Message-ID: <20240117144704.602-17-graf@amazon.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240117144704.602-1-graf@amazon.com>
-References: <20240117144704.602-1-graf@amazon.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pQBu0e8R"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 36F0079C0;
+	Wed, 17 Jan 2024 15:22:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 36F0079C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1705504947; bh=yjKec3Ad63HOwUz/a2RJqXwD/ORuXY+Ut49R6doCb5U=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=pQBu0e8RyAxtfQOtUUVp3+QsdnJ9Gs6YPYGnxNifFhB3AugxgHEgOg2oeYkPEViYM
+	 6nSDZYh3FhP0z9bfoRD+wFJFexSk8dbrfGum/pliNtHx76hftbgonAhong0P7y5/F7
+	 cl6Lv09ZpXtvfKWHYylktjm5AojMRKY/J7GNs0z86ZtVVhz9ocPsb1fnwyDDL4nyee
+	 9dlslvAOvHTGVGsCnDQVzs/GTtWVkTLC+cyWeHDVHSlAGoCsqQVw5f/CNQ8sNXxRcV
+	 C/FOflYipAmshnhTTr3vjP52GDa/t/kU1dc+K/gWAhR43pNaMr9BWQIu3exsSWxl8O
+	 IqF8onTM5OHpw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>, linux-doc@vger.kernel.org
+Subject: Re: Help required - kernel-doc, code block and backslash
+In-Reply-To: <871qagb41s.fsf@somnus>
+References: <87y1cqbg01.fsf@somnus> <87ttnee69t.fsf@meer.lwn.net>
+ <878r4pxlnw.fsf@somnus> <87jzo9b09p.fsf@meer.lwn.net>
+ <871qagb41s.fsf@somnus>
+Date: Wed, 17 Jan 2024 08:22:26 -0700
+Message-ID: <87v87s56j1.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D041UWB004.ant.amazon.com (10.13.139.143) To
- EX19D020UWC004.ant.amazon.com (10.13.138.149)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Now that all bits are in place to allow ftrace to pass its trace data
-into the next kernel on kexec, let's give users a kconfig option to
-enable the functionality.
+Anna-Maria Behnsen <anna-maria@linutronix.de> writes:
 
-Signed-off-by: Alexander Graf <graf@amazon.com>
+> Maybe I'm on the wrong track (definitely possible as I am a
+> scripting/tooling amateur), but I thought identifiers option takes a
+> list of functions or types and not filenames?
 
----
+No, you're right.  I was talking about the type of matching desired.
 
-v1 -> v2:
+> In case the filename-glob matching is this what I would call wildcard
+> matching, then I would propose to enable this for the existing
+> option. In case regexes are required as well, maybe another option like
+> '[no-]identifiers-regex' could be introduced.
 
-  - Select crc32
----
- kernel/trace/Kconfig | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Given that we've gotten by with no matching support until now, I don't
+think that we need to add two types :)  Basic globbing it is, though I
+can't promise to get it done right away.  That will have to be done on
+the Perl side, and I get really slow in that world...
 
-diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
-index 61c541c36596..418a5ae11aac 100644
---- a/kernel/trace/Kconfig
-+++ b/kernel/trace/Kconfig
-@@ -1169,6 +1169,20 @@ config HIST_TRIGGERS_DEBUG
- 
-           If unsure, say N.
- 
-+config FTRACE_KHO
-+	bool "Ftrace Kexec handover support"
-+	depends on KEXEC_KHO
-+	select CRC32
-+	help
-+          Enable support for ftrace to pass metadata across kexec so the new
-+	  kernel continues to use the previous kernel's trace buffers.
-+
-+	  This can be useful when debugging kexec performance or correctness
-+	  issues: The new kernel can dump the old kernel's trace buffer which
-+	  contains all events until reboot.
-+
-+	  If unsure, say N.
-+
- source "kernel/trace/rv/Kconfig"
- 
- endif # FTRACE
--- 
-2.40.1
+Thanks,
 
-
-
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
-
+jon
