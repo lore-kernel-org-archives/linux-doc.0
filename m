@@ -1,287 +1,262 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4A8134A1
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADD913AEE
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705481652; cv=none; b=q1f5XCfOwVnWD+qtWB6C6gLay4tMQTJ5Zd+Q7YtzIW9G1zJwHKuwDAUZ+MmxZx+EL1zs0W7lVS2P3t2Dv4w/OvdSCnQ3lQ5IeB1U0vgcpeCzaocJktQe7qcyja6f7LnXtfSXsIUEZ/kGNirG0CMpUwl3uOv8fpd8vYt3ChhL0Fc=
+	t=1705481695; cv=none; b=qV3VRB9ipKASeeYYAorvnSQY7ml/tjJMChntec7+l2T54bb4Ixer/kn7zAuYGWyWhEw7mmnYqGT7l9q2ZlZ3rRywiE0ktTtikCu+lt9jvXIaobmiaB3xkX5eP4zZjnKGHAEMZkkwYkHmm+GcY0jVufWkLsAXRy6kIay5jCSvWo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705481652; c=relaxed/simple;
-	bh=S1lLI/ztJYdjj6PsWhpVTtwvz+9pT4BkDUg59AhiWSo=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
-	 To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding; b=QulsfMIpW7rv7dJ9FRt4hx7kGClskejp3aZ3B3UiCX5xDIGStZFIDo9M5PbV4pjbEf/BWJJ8mMDePH4vdln5m9qDQMaIvVDonEz93kTXTW9SuLDMgRb5chvWmF8gyF/dTsdvczy4G2tGKgV90Gtol1ogDH7cwhyX5rKERUh5c54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=jTpE56Jx; arc=none smtp.client-ip=209.85.166.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1705481695; c=relaxed/simple;
+	bh=YbhqHgZ8qrRwRRdHssnLB+nFCjalZT7Y0BQbw4Hg2cQ=;
+	h=DKIM-Signature:Received:X-MC-Unique:Received:
+	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
+	 X-Google-Smtp-Source:X-Received:Received:Message-ID:Subject:From:
+	 To:Cc:Date:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version; b=cafKP2gDTdjQz9nyzwOr+KUgedBvIoLP1sdel3gphwbTtMH2q23iwV+6vnyCNinYvaL3KuEnhu2tFvRrzDFIl4oYVLXM66Z13/JvGPZgNg4MqrgQhRWWgl2yBLKiRUp2omaH8fwG+MjYyJm2udl635U6CtvFOW7LQJU86MVCvoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A4SNebiV; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="jTpE56Jx"
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3606e69ec67so70555265ab.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:54:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1705481649; x=1706086449; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ALncf7kJo8QfjKbVIvsc5Tt/XL2Ujc9rBHAZjdtPv8=;
-        b=jTpE56Jx2txHSoen8J83EPTiHwnNkXpcaJULd/MW17SNpDVbbh/HFjMBmK3Cavm/Ur
-         1avZSKqiMzu4thymhFmLeXABOA8JGGcx2nXLIZZupG+URBw+jLkL30/OJpp4D0oIB9NN
-         ZtY1J0tXQIEPnnMGv2H1V2KJS8WmHxPIuADrV358swWLGY8ApgBVJqAF6d4hFLdPC9lK
-         qdZk9E4+z6nAcZEc0KZaRgxkOSjOAWImg4D0b+5cQy2G63k8daaTqdduIf6c/+mwDdYu
-         2XcY3kt6Xc1FS/MjSq8ZUkEUNHq7D7+89tDoFq6AY+UAGxJ2OOcwrXyoosmETjZwAfIk
-         Gfng==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A4SNebiV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705481692;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D00hU3PzeJuPDTbACxnMMgiUCTQ91p211OWtV23tV44=;
+	b=A4SNebiV+WI0csUla7zNRisE0lhY/CmPVFhVO5p3fiwP4pXQuD/GyevMlOUjVKmoxqHp88
+	3vMV/u8xVLz0HpmgS6f/IcyuwaJnShzDtxK8MOdxbWuXsIfgMiwdK/gRW6FbVEtk0VMDhi
+	AT+nxBcsBUoJ4CEoJjvWQUOKtgSE0BY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-638-dm1xePh-M1uLiB2DLkUpbQ-1; Wed, 17 Jan 2024 03:54:51 -0500
+X-MC-Unique: dm1xePh-M1uLiB2DLkUpbQ-1
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7830635331bso203159285a.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:54:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705481649; x=1706086449;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9ALncf7kJo8QfjKbVIvsc5Tt/XL2Ujc9rBHAZjdtPv8=;
-        b=IIy9JsPTu1Q1/qR03F1QEchACpq6aQTQDHUER+GLJP2qK3i+47fNg6xA7RZnl12DIX
-         LELg+b9wNp3AJokKN+2ErnBcMUeFAkbpPePXcsgp5aD3LeZHuLKmzYUFlJBIkkKL46qM
-         3CTcI3809zK1U5hPLRdag/AK3ggXf71zsw6iY87Ev76KyGITbBthkDEEGWymm0KLDucU
-         A1tNOT2nfRwN7EbCfZScJBfXSQ33AAtlPStJZozlodeZ5qAYcB1FDgyVH4edaZt8fqzq
-         inJmrU2ZM1pwq22Z/hm4hGgvkq0TyXaee6eIwxuPa3wvbZtkr9h/hSco1ttqtazgUQEX
-         hO2Q==
-X-Gm-Message-State: AOJu0Yx9cShFTjuC++3glBPSiZ5jY3+dFcxWzPp72TVLpcx90qmZ5duU
-	5zvJC6Uz+6vllLkNTKte/wnn8P21kmiqkg==
-X-Google-Smtp-Source: AGHT+IHosYF8IINX9J3hSOQYlOm60XH3NlHno2eo3spwY+po/eFsYkU7ojzG4viOCNHEFh2jikkSEA==
-X-Received: by 2002:a92:d412:0:b0:361:953d:42fd with SMTP id q18-20020a92d412000000b00361953d42fdmr758816ilm.92.1705481648896;
-        Wed, 17 Jan 2024 00:54:08 -0800 (PST)
-Received: from C02G87K0MD6R.bytedance.net ([203.208.167.154])
-        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.54.05
+        d=1e100.net; s=20230601; t=1705481691; x=1706086491;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=D00hU3PzeJuPDTbACxnMMgiUCTQ91p211OWtV23tV44=;
+        b=Ids4Cn035e+TMnfj+Ex0zi5Nmi70zzzQSV5N+qjDBeWRxOVYGdLM5D9ASHXs3wGKyg
+         U/sE8Mv1YNd7iLr/EAuhq8Lfi/A077tIN2PWsyYJRtWhjGc5Y9tToeHjfahSiaXBD9b9
+         aoRM+l37oH+HUvKEpDoC1z31o9BljPXXAmt5H3Lg+iTKK3vVMpqHPm9BnmiFWBCNOubr
+         lLx7dBGnjgO8nqSEhKoBNdPpWofYNxAniw/t7DXgubuaHuryUglmU33YCE4vcC8BKh4+
+         RDRo7JUYtmby7OwqBl1M2aYuGa2UBRmWfi6QouLc8iKn9Lz5uX+CaUd4K7pPcsZNh9iq
+         9ZIA==
+X-Gm-Message-State: AOJu0YxTka1slo/OeqwwTETWeLp//MDGy0J08prykU6Y/kHqZgW8T4EW
+	Qid9Acb+aK62Ldngx2IUqp7UqpvFCOuZV5uq8SnRbcMm5Wu3Evz+NPRzLxB/htfHZW57dxuZ5x+
+	IutY3Rf/nkYQQE6qooQu8nixT2Fl3
+X-Received: by 2002:a05:620a:8019:b0:783:68ab:9ade with SMTP id ee25-20020a05620a801900b0078368ab9ademr1389359qkb.7.1705481690792;
+        Wed, 17 Jan 2024 00:54:50 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH/PfPCNwITnjUQYv8Uu8hwD3Ulky89OHnA+85OkcfyY06xXLEGkkaNflyvHvodm12ON4wvqw==
+X-Received: by 2002:a05:620a:8019:b0:783:68ab:9ade with SMTP id ee25-20020a05620a801900b0078368ab9ademr1389343qkb.7.1705481690454;
+        Wed, 17 Jan 2024 00:54:50 -0800 (PST)
+Received: from pstanner-thinkpadt14sgen1.remote.csb (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id vr28-20020a05620a55bc00b0078199077d0asm4355821qkn.125.2024.01.17.00.54.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 00:54:08 -0800 (PST)
-From: Hao Jia <jiahao.os@bytedance.com>
-To: mark.rutland@arm.com,
-	rmk+kernel@armlinux.org.uk,
-	catalin.marinas@arm.com,
-	corbet@lwn.net,
-	will@kernel.org,
-	willy@infradead.org
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	root <root@n144-101-220.byted.org>
-Subject: [PATCH v3 00/19] arm64 kernel text replication
-Date: Wed, 17 Jan 2024 16:53:38 +0800
-Message-Id: <20240117085357.31693-1-jiahao.os@bytedance.com>
-X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+        Wed, 17 Jan 2024 00:54:50 -0800 (PST)
+Message-ID: <1983517bf5d0c98894a7d40fbec353ad75160cb4.camel@redhat.com>
+Subject: Re: [PATCH 01/10] pci: add new set of devres functions
+From: Philipp Stanner <pstanner@redhat.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas
+ <bhelgaas@google.com>, Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
+ linux-pci@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linux-doc@vger.kernel.org
+Date: Wed, 17 Jan 2024 09:54:47 +0100
+In-Reply-To: <20240116184436.GA101781@bhelgaas>
+References: <20240116184436.GA101781@bhelgaas>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: root <root@n144-101-220.byted.org>
+On Tue, 2024-01-16 at 12:44 -0600, Bjorn Helgaas wrote:
+> On Mon, Jan 15, 2024 at 03:46:12PM +0100, Philipp Stanner wrote:
+> > PCI's devres API is not extensible to ranged mappings and has
+> > bug-provoking features. Improve that by providing better
+> > alternatives.
+>=20
+> I guess "ranged mappings" means a mapping that doesn't cover an
+> entire
+> BAR?=C2=A0 Maybe there's a way to clarify?
 
-Many thanks to Russell King for his previous work on
-arm64 kernel text replication.
-https://lore.kernel.org/all/ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk
+That's what it's supposed to mean, yes.
+We could give it the longer title "mappings smaller than the whole BAR"
+or something, I guess.
 
-After applying these patches, we tested that our business performance
-increased by more than 5% and the NUMA node memory bandwidth was more
-balanced.
-I've recently been trying to make it work with different numbers of
-page tables/page sizes, so updated this patch set to V3.
 
-Patch overview:
+>=20
+> > When the original devres API for PCI was implemented, priority was
+> > given
+> > to the creation of a set of "pural functions" such as
+> > pcim_request_regions(). These functions have bit masks as
+> > parameters to
+> > specify which BARs shall get mapped. Most users, however, only use
+> > those
+> > to mapp 1-3 BARs.
+> > A complete set of "singular functions" does not exist.
+>=20
+> s/mapp/map/
+>=20
+> Rewrap to fill 75 columns or add blank lines between paragraphs.=C2=A0
+> Also
+> below.
+>=20
+> > As functions mapping / requesting multiple BARs at once have
+> > (almost) no
+> > mechanism in C to return the resources to the caller of the plural
+> > function, the devres API utilizes the iomap-table administrated by
+> > the
+> > function pcim_iomap_table().
+> >=20
+> > The entire PCI devres implementation was strongly tied to that
+> > table
+> > which only allows for mapping whole, complete BARs, as the BAR's
+> > index
+> > is used as table index. Consequently, it's not possible to, e.g.,
+> > have a
+> > pcim_iomap_range() function with that mechanism.
+> >=20
+> > An additional problem is that pci-devres has been ipmlemented in a
+> > sort
+> > of "hybrid-mode": Some unmanaged functions have managed
+> > counterparts
+> > (e.g.: pci_iomap() <-> pcim_iomap()), making their managed nature
+> > obvious to the programmer. However, the region-request functions in
+> > pci.c, prefixed with pci_, behave either managed or unmanaged,
+> > depending
+> > on whether pci_enable_device() or pcim_enable_device() has been
+> > called
+> > in advance.
+>=20
+> s/ipmlemented/implemented/
+>=20
+> > This hybrid API is confusing and should be more cleanly separated
+> > by
+> > providing always-managed functions prefixed with pcim_.
+> >=20
+> > Thus, the existing devres API is not desirable because:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0a) The vast majority of=
+ the users of the plural functions
+> > only
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ever sets =
+a single bit in the bit mask, consequently
+> > making
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 them singu=
+lar functions anyways.
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0b) There is no mechanis=
+m to request / iomap only part of a
+> > BAR.
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0c) The iomap-table mech=
+anism is over-engineered,
+> > complicated and
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 can by def=
+inition not perform bounds checks, thus,
+> > provoking
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memory fau=
+lts: pcim_iomap_table(pdev)[42]
+>=20
+> Not sure what "pcim_iomap_table(pdev)[42]" means.
 
-Patch 1-16 is a patch set based on Russell King's previous arm64
-kernel text replication, rebased on commit 052d534373b7.
+That function currently is implemented with this prototype:
+void __iomem * const *pcim_iomap_table(struct pci_dev *pdev);
 
-The following three patches are new in v3:
-patch 17 fixes compilation warning
+And apparently, it's intended to index directly over the function. And
+that's how at least part of the users use it indeed.
 
-patch 18 adapts arm64 kernel text replication to support more
-page tables/page sizes, in addition to 16K page size and
-4-level page tables.
+Here in drivers/crypto/inside-secure/safexcel.c, L.1919 for example:
 
-patch 19 fixes the abnormal startup problem caused by module_alloc()
-which may allocate an address larger than KIMAGE_VADDR when kernel text
-replication is enabled.
+	priv->base =3D pcim_iomap_table(pdev)[0];
 
-[v2] https://lore.kernel.org/all/ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk
-[RFC] https://lore.kernel.org/all/ZHYCUVa8fzmB4XZV@shell.armlinux.org.uk
+I've never seen something that wonderful in C ever before, so it's not
+surprising that you weren't sure what I mean....
 
-Please correct me if I've made a mistake, thank you very much!
+pcim_iomap_table() can not and does not perform any bounds check. If
+you do
 
-Original message below.
+void __iomem *mappy_map_mapface =3D pcim_iomap_table(pdev)[42];
 
-Problem
--------
+then it will just return random garbage, or it faults. No -EINVAL or
+anything. You won't even get NULL.
 
-NUMA systems have greater latency when accessing data and instructions
-across nodes, which can lead to a reduction in performance on CPU cores
-that mainly perform accesses beyond their local node.
+That's why this function must die.
 
-Normally when an ARM64 system boots, the kernel will end up placed in
-memory, and each CPU core will have to fetch instructions and data from
-which ever NUMA node the kernel has been placed. This means that while
-executing kernel code, CPUs local to that node will run faster than
-CPUs in remote nodes.
 
-The higher the latency to access remote NUMA node memory, the more the
-kernel performance suffers on those nodes.
+>=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0d) region-request funct=
+ions being sometimes managed and
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sometimes =
+not is bug-provoking.
+>=20
+> Indent with spaces (not tabs) so it still looks good when "git log"
+> adds spaces to indent.
+>=20
+> > + * Legacy struct storing addresses to whole mapped bars.
+>=20
+> s/bar/BAR/ (several places).
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* A region spaning an entir=
+e bar. */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0PCIM_ADDR_DEVRES_TYPE_REGION=
+,
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* A region spaning an entir=
+e bar, and a mapping for that
+> > whole bar. */
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0PCIM_ADDR_DEVRES_TYPE_REGION=
+_MAPPING,
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * A mapping within a bar, e=
+ither spaning the whole bar or
+> > just a range.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Without a requested regio=
+n.
+>=20
+> s/spaning/spanning/ (several places).
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (start =3D=3D 0 || len =
+=3D=3D 0) /* that's an unused BAR. */
+>=20
+> s/that/That/
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Ranged mappings don't get=
+ added to the legacy-table,
+> > since the table
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * only ever keeps track of =
+whole BARs.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > +
+>=20
+> Spurious blank line.
 
-If there is a local copy of the kernel text in each node's RAM, and
-each node runs the kernel using its local copy of the kernel text,
-then it stands to reason that the kernel will run faster due to fewer
-stalls while instructions are fetched from remote memory.
 
-The question then arises how to achieve this.
+I'll take care of the grammar and spelling stuff in v2.
 
-Background
-----------
+Thanks,
+P.
 
-An important issue to contend with is what happens when a thread
-migrates between nodes. Essentially, the thread's state (including
-instruction pointer) is saved to memory, and the scheduler on that CPU
-loads some other thread's state and that CPU resumes executing that
-new thread.
-
-The CPU gaining the migrating thread loads the saved state, again
-including the instruction pointer, and the gaining CPU resumes fetching
-instructions at the virtual address where the original CPU left off.
-
-The key point is that the virtual address is what matters here, and
-this gives us a way to implement kernel text replication fairly easily.
-At a practical level, all we need to do is to ensure that the virtual
-addresses which contain the kernel text point to a local copy of the
-that text.
-
-This is exactly how this proposal of kernel text replication achieves
-the replication. We can go a little bit further and include most of
-the read-only data in this replication, as that will never be written
-to by the kernel (and thus remains constant.)
-
-Solution
---------
-
-So, what we need to achieve is:
-
-1. multiple identical copies of the kernel text (and read-only data)
-2. point the virtual mappings to the appropriate copy of kernel text
-   for the NUMA node.
-
-(1) is fairly easy to achieve - we just need to allocate some memory
-in the appropriate node and copy the parts of the kernel we want to
-replicate. However, we also need to deal with ARM64's kernel patching.
-There are two functions that patch the kernel text,
-__apply_alternatives() and aarch64_insn_patch_text_nosync(). Both of
-these need to to be modified to update all copies of the kernel text.
-
-(2) is slightly harder.
-
-Firstly, the aarch64 architecture has a very useful feature here - the
-kernel page tables are entirely separate from the user page tables.
-The hardware contains two page table pointers, one is used for user
-mappings, the other is used for kernel mappings.
-
-Therefore, we only have one page table to be concerned with: the table
-which maps kernel space. We do not need to be concerned with each
-user processes page table.
-
-The approach taken here is to ensure that the kernel is located in an
-area of kernel virtual address space covered by a level-0 page table
-entry which is not shared with any other user. We can then maintain
-separate per-node level-0 page tables for kernel space where the only
-difference between them is this level-0 page table entry.
-
-This gives a couple of benefits. Firstly, when updates to the level-0
-page table happen (e.g. when establishing new mappings) these updates
-can simply be copied to the other level-0 page tables provided it isn't
-for the kernel image. Secondly, we don't need complexity at lower
-levels of the page table code to figure out whether a level-1 or lower
-update needs to be propagated to other nodes.
-
-The level-0 page table entry for the kernel can then be used to point
-at a node-unique set of level 1..N page tables to make the appropriate
-copy of the kernel text (and read-only data) into kernel space, while
-keeping the kernel read-write data shared between nodes.
-
-Performance Analysis
---------------------
-
-Needless to say, the performance results from kernel text replication
-are workload specific, but appear to show a gain of between 6% and
-17% for database-centric like workloads. When combined with userspace
-awareness of NUMA, this can result in a gain of over 50%.
-
-Problems
---------
-
-There are a few areas that are a problem for kernel text replication:
-1) As this series changes the kernel space virtual address space
-   layout, it breaks KASAN - and I've zero knowledge of KASAN so I
-   have no idea how to fix it. I would be grateful for input from
-   KASAN folk for suggestions how to fix this.
-
-2) KASLR can not be used with kernel text replication, since we need
-   to place the kernel in its own L0 page table entry, not in vmalloc
-   space. KASLR is disabled when support for kernel text replication
-   is enabled.
-
-3) Changing the kernel virtual address space layout also means that
-   kaslr_offset() and kaslr_enabled() need to become macros rather
-   than inline functions due to the use of PGDIR_SIZE in the
-   calculation of KIMAGE_VADDR. Since asm/pgtable.h defines this
-   constant, but asm/memory.h is included by asm/pgtable.h, having
-   this symbol available would produce a circular include
-   dependency, so I don't think there is any choice here.
-
-4) read-only protection for replicated kernel images is not yet
-   implemented.
-
-Hao Jia (3):
-  arm64: text replication: fix compilation warning
-  arm64: text replication: support more page sizes and levels
-  arm64: text replication: keep modules inside module region when
-    REPLICATE_KTEXT is enabled
-
-Russell King (Oracle) (16):
-  arm64: provide cpu_replace_ttbr1_phys()
-  arm64: make clean_dcache_range_nopatch() visible
-  arm64: place kernel in its own L0 page table entry
-  arm64: text replication: add init function
-  arm64: text replication: add sanity checks
-  arm64: text replication: copy initial kernel text
-  arm64: text replication: add node text patching
-  arm64: text replication: add node 0 page table definitions
-  arm64: text replication: add swapper page directory helpers
-  arm64: text replication: create per-node kernel page tables
-  arm64: text replication: boot secondary CPUs with appropriate TTBR1
-  arm64: text replication: update cnp support
-  arm64: text replication: setup page tables for copied kernel
-  arm64: text replication: include most of read-only data as well
-  arm64: text replication: early kernel option to enable replication
-  arm64: text replication: add Kconfig
-
- .../admin-guide/kernel-parameters.txt         |   5 +
- arch/arm64/Kconfig                            |  10 +-
- arch/arm64/include/asm/cacheflush.h           |   2 +
- arch/arm64/include/asm/ktext.h                |  45 ++++
- arch/arm64/include/asm/memory.h               |  36 ++-
- arch/arm64/include/asm/mmu_context.h          |  11 +-
- arch/arm64/include/asm/pgtable.h              |  31 ++-
- arch/arm64/include/asm/smp.h                  |   1 +
- arch/arm64/kernel/alternative.c               |   4 +-
- arch/arm64/kernel/asm-offsets.c               |   1 +
- arch/arm64/kernel/head.S                      |   3 +-
- arch/arm64/kernel/hibernate.c                 |   2 +-
- arch/arm64/kernel/kaslr.c                     |   1 +
- arch/arm64/kernel/module.c                    |  20 +-
- arch/arm64/kernel/patching.c                  |   7 +-
- arch/arm64/kernel/smp.c                       |   3 +
- arch/arm64/mm/Makefile                        |   2 +
- arch/arm64/mm/init.c                          |   3 +
- arch/arm64/mm/ktext.c                         | 213 ++++++++++++++++++
- arch/arm64/mm/mmu.c                           |  73 +++++-
- 20 files changed, 446 insertions(+), 27 deletions(-)
- create mode 100644 arch/arm64/include/asm/ktext.h
- create mode 100644 arch/arm64/mm/ktext.c
-
--- 
-2.20.1
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0devres_add(&pdev->dev, res);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return mapping;
+> > +}
+> > +EXPORT_SYMBOL(pcim_iomap_range);
+>=20
+> Bjorn
+>=20
 
