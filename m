@@ -1,58 +1,58 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E601C1401D
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A94A1DA39
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705481735; cv=none; b=lwVMug6NqVuIL+85daAXMYmeag8Hc08kixWShq6oesoCo/YbsBwgyd6f9SJqBAaqV9QysP1TrTYJEHHF8M0EPr95UZWR1Srns+7SuxlDB2bHcTebChX72hdGi86QzMst1x6oKb3+kvoh2YfptAPphEdcG3DvPyCGhIeG/Alymds=
+	t=1705481740; cv=none; b=WpEccWTD+ItPLeRXah9lxeQXNAmmb7pRU+hsIXZ16EB3a6JtYzq92Jek+ZiHu5+6IOVqOLOc6qN17OUu3Vw4zHO8UPpDFiG/0e/BPeroU0JTGD9nzq3J7y5foWLUOBgYLDV5P5LBqmKn8w9KT6c9eZKryzIAEFthQNYizrGxWKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705481735; c=relaxed/simple;
-	bh=r0GkatFnQtqQ2CLsqVGoh7rUojE1M922+i3h0ofwdeo=;
+	s=arc-20240116; t=1705481740; c=relaxed/simple;
+	bh=MX/Cax97B3CWeCZEhvJh5spMIZZJUCFEiRHSqWR/dGc=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
 	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding; b=FUVOnKXTlS5l++EsY063WgGFIC5IfEbAsEpweEzJxTkjkn1qTaPnOawiMC3GS92axJ8a7/k6evqyP9qHnbkVmTnG2vZDIbTVpGq96TJLj+FItr1RnuOY67CPC3fTwv3vw+Q1nhq3ySowApHZw25eDv1t5WpnD+FHtvVWD4KAb2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=PnGNzhLm; arc=none smtp.client-ip=209.85.161.48
+	 MIME-Version:Content-Transfer-Encoding; b=H9u3NVOjQxjiC+wKwnJfl9/r+rHQFOhnhA400QzBUOm3K4k4gI8KVfBkU9+fy8yhpol16PxVaRjHBuLpG0H9HucAWzBkX4UK78F+wchIFGTEH4JRAadzD04kvqcVZ1huKUiR4rIASEuZGC46w4DsmXL/5I1sBqkq3Qpe6PtRSh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Vblq6693; arc=none smtp.client-ip=209.85.210.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="PnGNzhLm"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5990de0ea91so1133161eaf.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:55:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Vblq6693"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6dddfdc3244so5813171a34.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:55:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1705481733; x=1706086533; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1705481738; x=1706086538; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QpLzHU/FPMwc2coNCQArs4Vt7Z1xdwNe6GEamHPph2Q=;
-        b=PnGNzhLml9UBG1m22U6Ocnxk0Bb1qWLIEmby+SFa4eQtgSX/aD7EzvthG6CIuWOyLB
-         29WHn9BbdgWIhl1bh9dhDKOh1YPAsbKwywJN1kYQgnnzKE5qAPXq5+OS6hvV9pWwxn2u
-         hjyjncgmA1ivx3DI+46ACqityUPSDDtYM+RpJNTQIOZDnZltk3dOTm4aGzwYfdCrMK1S
-         rVxtWW07QILGC/jtZNRTvwUPN19d1Tsf7C+onjNc7tqFE+X0IY8e+COP9AoVTaphJzBy
-         XfX7mHRaySEgLhLilbCTkgRLf/cxr7ATyHPUlMBc+nb0/UH1NHA9IGSlEggdbU7z62Vk
-         NkZw==
+        bh=jlS/ErW64O8rlfcikPIcEnfz+fQIBdeJzDvD+fksMoc=;
+        b=Vblq6693CdUXk/nLsu3HpzHvgCehPFnEMpe45M4lihmUqz8M09rj9MmhrF/6H6FVET
+         /8lUgA7HNP7qB6K2Aw9au95R/bgd3ijALgrQSjHvjNrB3kgdg6xRv7u9bgEoUKr+fASu
+         6uKwm5TuIUAcm7EDzdOdQ7Ykzg2EI1+8Bir2SKEn9NZ5VCqdVuCN3q/DTSBBgHiLORcr
+         ZeBVdAFUJfX6fIdMRMmaHjuPCGtZ+r0MQasy/bEuJa0W68Tu8CwTQMzTV7xLGxoVAEAo
+         rTnKxYKv1LrrOX6jhn4bgLKOMolznZcZUsS/72zdLvXhjT/PCT/cJgMjIa3v0VrVAeD3
+         pw3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705481733; x=1706086533;
+        d=1e100.net; s=20230601; t=1705481738; x=1706086538;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QpLzHU/FPMwc2coNCQArs4Vt7Z1xdwNe6GEamHPph2Q=;
-        b=BLrrWF8mzW3AHvATQ1wUmKEZB8BdUba1mjKKDg7eDDLMNo0XhNguJqcXe1Mia66Vdh
-         A+3F32WjcJnmuECWT3z3UOXbEFYBK5+jdu6MKLnylXMF7l7VWcdsFUU/iKoXPPaU/tMv
-         NbKfIi8vcX+waAlhIjN1Hvpvjp7IKXTYbNqldW1tKKjZ5fR9IrVZXn0jJvHJHF8INjlW
-         z7Fy/1HfSLAg3oO4iI88SfQ08X5ZIpJtObO9uReJLouWFrZxnJKAn5w6vrp5EnRapiif
-         B0WbV5KASSJizb6xerWeT+C/W5WpwTyHA2h8pu132fqFqMKWWPF24oczT/CgMB83trhS
-         D3NQ==
-X-Gm-Message-State: AOJu0YzPCdGcoc97vPHtXhzimmv3tbwkZf4Th/HIQH+BJ6MoEGtaj6hS
-	RjcS2G2HyzD4w/PMziHHxw6zKWvPzK61gA==
-X-Google-Smtp-Source: AGHT+IHZlogy0omHCU/ZV5pUspGhVjNOY2z5ki0mnRp15ChHjoBBCt4C3boVzTVUdfU4Bzwz/37+Jg==
-X-Received: by 2002:a05:6358:89f:b0:176:29b:280e with SMTP id m31-20020a056358089f00b00176029b280emr1920911rwj.20.1705481732959;
-        Wed, 17 Jan 2024 00:55:32 -0800 (PST)
+        bh=jlS/ErW64O8rlfcikPIcEnfz+fQIBdeJzDvD+fksMoc=;
+        b=TZ3S8K2gFub6D03nyqdRyhuWpV9yTmKO+SBVZEroG+5kP94zHlnL5rt3tv4UVW+mhe
+         bZej2fBwOI+8N3NEcthMPk1waei1osE+T1HyQ5M/WWikGjmCBi8rjtQU3M/VffkXSJuG
+         F3jm+CsK+PCiKbRsBTOYpH9I4EfXEkT93oBjGhkgJpWTLbJq7tgCi4eNqkqTCPo9ydFT
+         Q2bdUtXwK152UVUW/ip2/Lh9JrAxcN32Ilu8qZ/PpkI6n49mR5mJ24hvtatmOAWFfzlx
+         sm4p08EBvfkhs+pbZq3nSsxHW29UuRPYlgJ85gjkcSkvOeznRCVk/BzrpxI/Fwr2n5fl
+         9IOg==
+X-Gm-Message-State: AOJu0Yyjz+RU2HzkI3zZskO8qOqh1XQsxIQz+IhcQiszX9rVib+Uc9Py
+	GWp06hx2jO5kdNlcnZMDbWM57B4Qs15fHg==
+X-Google-Smtp-Source: AGHT+IFyzsKaNa91NeSWFBPh64v7gPI1Wj4zagxqyfcn0vRpProv5P4v2NVNP7QMvE4Il64OYRqD8g==
+X-Received: by 2002:a05:6870:2e04:b0:206:75b4:f60a with SMTP id oi4-20020a0568702e0400b0020675b4f60amr11990182oab.94.1705481737992;
+        Wed, 17 Jan 2024 00:55:37 -0800 (PST)
 Received: from C02G87K0MD6R.bytedance.net ([203.208.167.154])
-        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.55.29
+        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.55.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 00:55:32 -0800 (PST)
+        Wed, 17 Jan 2024 00:55:37 -0800 (PST)
 From: Hao Jia <jiahao.os@bytedance.com>
 To: mark.rutland@arm.com,
 	rmk+kernel@armlinux.org.uk,
@@ -62,9 +62,9 @@ To: mark.rutland@arm.com,
 	willy@infradead.org
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v3 05/19] arm64: text replication: add sanity checks
-Date: Wed, 17 Jan 2024 16:53:43 +0800
-Message-Id: <20240117085357.31693-6-jiahao.os@bytedance.com>
+Subject: [PATCH v3 06/19] arm64: text replication: copy initial kernel text
+Date: Wed, 17 Jan 2024 16:53:44 +0800
+Message-Id: <20240117085357.31693-7-jiahao.os@bytedance.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 In-Reply-To: <20240117085357.31693-1-jiahao.os@bytedance.com>
 References: <20240117085357.31693-1-jiahao.os@bytedance.com>
@@ -78,7 +78,10 @@ Content-Transfer-Encoding: 8bit
 
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-The kernel text and modules must be in separate L0 page table entries.
+Allocate memory on the appropriate node for the per-node copies of the
+kernel text, and copy the kernel text to that memory. Clean and
+invalidate the caches to the point of unification so that the copied
+text is correctly visible to the target node.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
@@ -86,35 +89,48 @@ Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
  1 file changed, 21 insertions(+)
 
 diff --git a/arch/arm64/mm/ktext.c b/arch/arm64/mm/ktext.c
-index 3a8d37c9abc4..901f159c65e6 100644
+index 901f159c65e6..4c803b89fcfe 100644
 --- a/arch/arm64/mm/ktext.c
 +++ b/arch/arm64/mm/ktext.c
-@@ -3,6 +3,27 @@
-  * Copyright (C) 2022, Oracle and/or its affiliates.
+@@ -4,14 +4,23 @@
   */
  
-+#include <linux/kernel.h>
-+#include <linux/pgtable.h>
+ #include <linux/kernel.h>
++#include <linux/memblock.h>
++#include <linux/numa.h>
+ #include <linux/pgtable.h>
++#include <linux/string.h>
+ 
++#include <asm/cacheflush.h>
+ #include <asm/ktext.h>
+ #include <asm/memory.h>
+ 
++static void *kernel_texts[MAX_NUMNODES];
 +
-+#include <asm/ktext.h>
-+#include <asm/memory.h>
-+
++/* Allocate memory for the replicated kernel texts. */
  void __init ktext_replication_init(void)
  {
-+	int kidx = pgd_index((phys_addr_t)KERNEL_START);
++	size_t size = _etext - _stext;
+ 	int kidx = pgd_index((phys_addr_t)KERNEL_START);
++	int nid;
+ 
+ 	/*
+ 	 * If we've messed up and the kernel shares a L0 entry with the
+@@ -26,4 +35,16 @@ void __init ktext_replication_init(void)
+ 		pr_warn("Kernel is located in the same L0 index as vmalloc - text replication disabled\n");
+ 		return;
+ 	}
 +
-+	/*
-+	 * If we've messed up and the kernel shares a L0 entry with the
-+	 * module or vmalloc area, then don't even attempt to use text
-+	 * replication.
-+	 */
-+	if (pgd_index(MODULES_VADDR) == kidx) {
-+		pr_warn("Kernel is located in the same L0 index as modules - text replication disabled\n");
-+		return;
-+	}
-+	if (pgd_index(VMALLOC_START) == kidx) {
-+		pr_warn("Kernel is located in the same L0 index as vmalloc - text replication disabled\n");
-+		return;
++	for_each_node(nid) {
++		/* Nothing to do for node 0 */
++		if (!nid)
++			continue;
++
++		/* Allocate and copy initial kernel text for this node */
++		kernel_texts[nid] = memblock_alloc_node(size, PAGE_SIZE, nid);
++		memcpy(kernel_texts[nid], _stext, size);
++		caches_clean_inval_pou((u64)kernel_texts[nid],
++				       (u64)kernel_texts[nid] + size);
 +	}
  }
 -- 
