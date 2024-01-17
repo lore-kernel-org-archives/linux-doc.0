@@ -1,261 +1,287 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691371426D
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4A8134A1
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705481283; cv=none; b=ZdIPKlHSxKxGTrgVg37vA29CmUGBdTboCJp7Z2y6NwvahF1fAcYKiM5NCj6WeoPNk7Yh+epsHTUmFvgDbSTB7WOYAEvgzyvCYcNKGnzanTdngYpBae4oFOLyCfTIgnlM3/tihBtvoBm+XGlYh5FFY9+1nQplH59n/hX6wM+w4YM=
+	t=1705481652; cv=none; b=q1f5XCfOwVnWD+qtWB6C6gLay4tMQTJ5Zd+Q7YtzIW9G1zJwHKuwDAUZ+MmxZx+EL1zs0W7lVS2P3t2Dv4w/OvdSCnQ3lQ5IeB1U0vgcpeCzaocJktQe7qcyja6f7LnXtfSXsIUEZ/kGNirG0CMpUwl3uOv8fpd8vYt3ChhL0Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705481283; c=relaxed/simple;
-	bh=0z4mu48nKm5Teb9yykqkFa896y2Ec3rfNH9510cwIK4=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 In-Reply-To:Organization:References:Date:Message-ID:MIME-Version:
-	 Content-Type; b=WtS+3LI0VFQbpeOZfmLPx5RKwr25+7BW5Acv2EoqdFmrgpTNBMG3hwvzYWo3agB6g3zrNLOI4wXEQ9qlGXo6cbxlLeZy0kqns0xVcErElYDGWG2jggrVqmvGU8KFj+iSokHEyh6aBzNPd6+qCbS+/YHe6r7hggHx8OmkPRLG+So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IKTs3/UO; arc=none smtp.client-ip=192.55.52.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705481652; c=relaxed/simple;
+	bh=S1lLI/ztJYdjj6PsWhpVTtwvz+9pT4BkDUg59AhiWSo=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
+	 To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding; b=QulsfMIpW7rv7dJ9FRt4hx7kGClskejp3aZ3B3UiCX5xDIGStZFIDo9M5PbV4pjbEf/BWJJ8mMDePH4vdln5m9qDQMaIvVDonEz93kTXTW9SuLDMgRb5chvWmF8gyF/dTsdvczy4G2tGKgV90Gtol1ogDH7cwhyX5rKERUh5c54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=jTpE56Jx; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKTs3/UO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705481281; x=1737017281;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=0z4mu48nKm5Teb9yykqkFa896y2Ec3rfNH9510cwIK4=;
-  b=IKTs3/UOsr0YTY+8GFcsmUsPPi2HHaIKkwY4zx3EYx5mbYyGARkYIO8u
-   VqwhQBZlJeOlgCOeZMgmvCs2qSBjxIjHDx8iyxwXOcrNsdgH0oqZ75eFb
-   ULcOJglUqrVs7/irlJmwchgajErxHnWXjQahFkBEGLkqL94NPRL1aT8nS
-   zPNSniC+qDrkW/uzjPge9pxJhl5SA73CAdpybcL33R+CU28Z3qeKuVsOt
-   oZz0fKFOAUGWEJF8AtfA+OPPphpnb3SABlne+d6aCJAmaTqDc2YVMV5RL
-   VPOwzYytHS5ySYXvaTD2PeJ2OCgC9fxrB1iUCGYCelKKnUA0Cxfh3xR/9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="398982835"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="398982835"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 00:47:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="760495150"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="760495150"
-Received: from msznigir-mobl.ger.corp.intel.com (HELO localhost) ([10.252.38.230])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 00:47:53 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>, linux-doc@vger.kernel.org
-Cc: Matthew Wilcox <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Anna-Maria
- Behnsen <anna-maria@linutronix.de>
-Subject: Re: [RFC PATCH 1/2] drm/vram-helper: Fix 'multi-line' kernel-doc
- comments
-In-Reply-To: <20240116151456.48238-2-anna-maria@linutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240116151456.48238-1-anna-maria@linutronix.de>
- <20240116151456.48238-2-anna-maria@linutronix.de>
-Date: Wed, 17 Jan 2024 10:47:51 +0200
-Message-ID: <87frywqrbc.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="jTpE56Jx"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3606e69ec67so70555265ab.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:54:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1705481649; x=1706086449; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ALncf7kJo8QfjKbVIvsc5Tt/XL2Ujc9rBHAZjdtPv8=;
+        b=jTpE56Jx2txHSoen8J83EPTiHwnNkXpcaJULd/MW17SNpDVbbh/HFjMBmK3Cavm/Ur
+         1avZSKqiMzu4thymhFmLeXABOA8JGGcx2nXLIZZupG+URBw+jLkL30/OJpp4D0oIB9NN
+         ZtY1J0tXQIEPnnMGv2H1V2KJS8WmHxPIuADrV358swWLGY8ApgBVJqAF6d4hFLdPC9lK
+         qdZk9E4+z6nAcZEc0KZaRgxkOSjOAWImg4D0b+5cQy2G63k8daaTqdduIf6c/+mwDdYu
+         2XcY3kt6Xc1FS/MjSq8ZUkEUNHq7D7+89tDoFq6AY+UAGxJ2OOcwrXyoosmETjZwAfIk
+         Gfng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705481649; x=1706086449;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9ALncf7kJo8QfjKbVIvsc5Tt/XL2Ujc9rBHAZjdtPv8=;
+        b=IIy9JsPTu1Q1/qR03F1QEchACpq6aQTQDHUER+GLJP2qK3i+47fNg6xA7RZnl12DIX
+         LELg+b9wNp3AJokKN+2ErnBcMUeFAkbpPePXcsgp5aD3LeZHuLKmzYUFlJBIkkKL46qM
+         3CTcI3809zK1U5hPLRdag/AK3ggXf71zsw6iY87Ev76KyGITbBthkDEEGWymm0KLDucU
+         A1tNOT2nfRwN7EbCfZScJBfXSQ33AAtlPStJZozlodeZ5qAYcB1FDgyVH4edaZt8fqzq
+         inJmrU2ZM1pwq22Z/hm4hGgvkq0TyXaee6eIwxuPa3wvbZtkr9h/hSco1ttqtazgUQEX
+         hO2Q==
+X-Gm-Message-State: AOJu0Yx9cShFTjuC++3glBPSiZ5jY3+dFcxWzPp72TVLpcx90qmZ5duU
+	5zvJC6Uz+6vllLkNTKte/wnn8P21kmiqkg==
+X-Google-Smtp-Source: AGHT+IHosYF8IINX9J3hSOQYlOm60XH3NlHno2eo3spwY+po/eFsYkU7ojzG4viOCNHEFh2jikkSEA==
+X-Received: by 2002:a92:d412:0:b0:361:953d:42fd with SMTP id q18-20020a92d412000000b00361953d42fdmr758816ilm.92.1705481648896;
+        Wed, 17 Jan 2024 00:54:08 -0800 (PST)
+Received: from C02G87K0MD6R.bytedance.net ([203.208.167.154])
+        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.54.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 00:54:08 -0800 (PST)
+From: Hao Jia <jiahao.os@bytedance.com>
+To: mark.rutland@arm.com,
+	rmk+kernel@armlinux.org.uk,
+	catalin.marinas@arm.com,
+	corbet@lwn.net,
+	will@kernel.org,
+	willy@infradead.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	root <root@n144-101-220.byted.org>
+Subject: [PATCH v3 00/19] arm64 kernel text replication
+Date: Wed, 17 Jan 2024 16:53:38 +0800
+Message-Id: <20240117085357.31693-1-jiahao.os@bytedance.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Tue, 16 Jan 2024, Anna-Maria Behnsen <anna-maria@linutronix.de> wrote:
-> Reformat lines in kernel-doc comments, which make use of the backslash at
-> the end to suggest it is a multi-line comment. kernel-doc is able to
-> process e.g. the short description of a function properly, even if it is
-> across two lines.
->
-> No functional change.
->
-> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
+From: root <root@n144-101-220.byted.org>
 
-Should be sent to dri-devel.
+Many thanks to Russell King for his previous work on
+arm64 kernel text replication.
+https://lore.kernel.org/all/ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+After applying these patches, we tested that our business performance
+increased by more than 5% and the NUMA node memory bandwidth was more
+balanced.
+I've recently been trying to make it work with different numbers of
+page tables/page sizes, so updated this patch set to V3.
 
-> ---
->  drivers/gpu/drm/drm_gem_vram_helper.c | 44 ++++++++++++---------------
->  include/drm/drm_gem_vram_helper.h     | 16 +++++-----
->  2 files changed, 28 insertions(+), 32 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index b67eafa55715..b7d42210fccc 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -260,8 +260,7 @@ static u64 drm_gem_vram_pg_offset(struct drm_gem_vram_object *gbo)
->  }
->  
->  /**
-> - * drm_gem_vram_offset() - \
-> -	Returns a GEM VRAM object's offset in video memory
-> + * drm_gem_vram_offset() - Returns a GEM VRAM object's offset in video memory
->   * @gbo:	the GEM VRAM object
->   *
->   * This function returns the buffer object's offset in the device's video
-> @@ -470,14 +469,15 @@ void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo,
->  EXPORT_SYMBOL(drm_gem_vram_vunmap);
->  
->  /**
-> - * drm_gem_vram_fill_create_dumb() - \
-> -	Helper for implementing &struct drm_driver.dumb_create
-> + * drm_gem_vram_fill_create_dumb() - Helper for implementing
-> + *				     &struct drm_driver.dumb_create
-> + *
->   * @file:		the DRM file
->   * @dev:		the DRM device
->   * @pg_align:		the buffer's alignment in multiples of the page size
->   * @pitch_align:	the scanline's alignment in powers of 2
-> - * @args:		the arguments as provided to \
-> -				&struct drm_driver.dumb_create
-> + * @args:		the arguments as provided to
-> + *			&struct drm_driver.dumb_create
->   *
->   * This helper function fills &struct drm_mode_create_dumb, which is used
->   * by &struct drm_driver.dumb_create. Implementations of this interface
-> @@ -575,8 +575,7 @@ static int drm_gem_vram_bo_driver_move(struct drm_gem_vram_object *gbo,
->   */
->  
->  /**
-> - * drm_gem_vram_object_free() - \
-> -	Implements &struct drm_gem_object_funcs.free
-> + * drm_gem_vram_object_free() - Implements &struct drm_gem_object_funcs.free
->   * @gem:       GEM object. Refers to &struct drm_gem_vram_object.gem
->   */
->  static void drm_gem_vram_object_free(struct drm_gem_object *gem)
-> @@ -591,12 +590,11 @@ static void drm_gem_vram_object_free(struct drm_gem_object *gem)
->   */
->  
->  /**
-> - * drm_gem_vram_driver_dumb_create() - \
-> -	Implements &struct drm_driver.dumb_create
-> + * drm_gem_vram_driver_dumb_create() - Implements &struct drm_driver.dumb_create
->   * @file:		the DRM file
->   * @dev:		the DRM device
-> - * @args:		the arguments as provided to \
-> -				&struct drm_driver.dumb_create
-> + * @args:		the arguments as provided to
-> + *			&struct drm_driver.dumb_create
->   *
->   * This function requires the driver to use @drm_device.vram_mm for its
->   * instance of VRAM MM.
-> @@ -639,8 +637,8 @@ static void __drm_gem_vram_plane_helper_cleanup_fb(struct drm_plane *plane,
->  }
->  
->  /**
-> - * drm_gem_vram_plane_helper_prepare_fb() - \
-> - *	Implements &struct drm_plane_helper_funcs.prepare_fb
-> + * drm_gem_vram_plane_helper_prepare_fb() - Implements &struct
-> + *					    drm_plane_helper_funcs.prepare_fb
->   * @plane:	a DRM plane
->   * @new_state:	the plane's new state
->   *
-> @@ -690,8 +688,8 @@ drm_gem_vram_plane_helper_prepare_fb(struct drm_plane *plane,
->  EXPORT_SYMBOL(drm_gem_vram_plane_helper_prepare_fb);
->  
->  /**
-> - * drm_gem_vram_plane_helper_cleanup_fb() - \
-> - *	Implements &struct drm_plane_helper_funcs.cleanup_fb
-> + * drm_gem_vram_plane_helper_cleanup_fb() - Implements &struct
-> + *					    drm_plane_helper_funcs.cleanup_fb
->   * @plane:	a DRM plane
->   * @old_state:	the plane's old state
->   *
-> @@ -717,8 +715,8 @@ EXPORT_SYMBOL(drm_gem_vram_plane_helper_cleanup_fb);
->   */
->  
->  /**
-> - * drm_gem_vram_simple_display_pipe_prepare_fb() - \
-> - *	Implements &struct drm_simple_display_pipe_funcs.prepare_fb
-> + * drm_gem_vram_simple_display_pipe_prepare_fb() - Implements &struct
-> + *				   drm_simple_display_pipe_funcs.prepare_fb
->   * @pipe:	a simple display pipe
->   * @new_state:	the plane's new state
->   *
-> @@ -739,8 +737,8 @@ int drm_gem_vram_simple_display_pipe_prepare_fb(
->  EXPORT_SYMBOL(drm_gem_vram_simple_display_pipe_prepare_fb);
->  
->  /**
-> - * drm_gem_vram_simple_display_pipe_cleanup_fb() - \
-> - *	Implements &struct drm_simple_display_pipe_funcs.cleanup_fb
-> + * drm_gem_vram_simple_display_pipe_cleanup_fb() - Implements &struct
-> + *						   drm_simple_display_pipe_funcs.cleanup_fb
->   * @pipe:	a simple display pipe
->   * @old_state:	the plane's old state
->   *
-> @@ -761,8 +759,7 @@ EXPORT_SYMBOL(drm_gem_vram_simple_display_pipe_cleanup_fb);
->   */
->  
->  /**
-> - * drm_gem_vram_object_pin() - \
-> -	Implements &struct drm_gem_object_funcs.pin
-> + * drm_gem_vram_object_pin() - Implements &struct drm_gem_object_funcs.pin
->   * @gem:	The GEM object to pin
->   *
->   * Returns:
-> @@ -785,8 +782,7 @@ static int drm_gem_vram_object_pin(struct drm_gem_object *gem)
->  }
->  
->  /**
-> - * drm_gem_vram_object_unpin() - \
-> -	Implements &struct drm_gem_object_funcs.unpin
-> + * drm_gem_vram_object_unpin() - Implements &struct drm_gem_object_funcs.unpin
->   * @gem:	The GEM object to unpin
->   */
->  static void drm_gem_vram_object_unpin(struct drm_gem_object *gem)
-> diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-> index e18429f09e53..2938ba80750d 100644
-> --- a/include/drm/drm_gem_vram_helper.h
-> +++ b/include/drm/drm_gem_vram_helper.h
-> @@ -33,8 +33,8 @@ struct vm_area_struct;
->   * struct drm_gem_vram_object - GEM object backed by VRAM
->   * @bo:		TTM buffer object
->   * @map:	Mapping information for @bo
-> - * @placement:	TTM placement information. Supported placements are \
-> -	%TTM_PL_VRAM and %TTM_PL_SYSTEM
-> + * @placement:	TTM placement information. Supported placements are %TTM_PL_VRAM
-> + *		and %TTM_PL_SYSTEM
->   * @placements:	TTM placement information.
->   *
->   * The type struct drm_gem_vram_object represents a GEM object that is
-> @@ -126,8 +126,8 @@ drm_gem_vram_plane_helper_cleanup_fb(struct drm_plane *plane,
->  				     struct drm_plane_state *old_state);
->  
->  /**
-> - * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
-> - *	Initializes struct drm_plane_helper_funcs for VRAM handling
-> + * DRM_GEM_VRAM_PLANE_HELPER_FUNCS - Initializes struct drm_plane_helper_funcs
-> + *				     for VRAM handling
->   *
->   * Drivers may use GEM BOs as VRAM helpers for the framebuffer memory. This
->   * macro initializes struct drm_plane_helper_funcs to use the respective helper
-> @@ -150,8 +150,8 @@ void drm_gem_vram_simple_display_pipe_cleanup_fb(
->  	struct drm_plane_state *old_state);
->  
->  /**
-> - * define DRM_GEM_VRAM_DRIVER - default callback functions for \
-> -	&struct drm_driver
-> + * define DRM_GEM_VRAM_DRIVER - default callback functions for
-> + *				&struct drm_driver
->   *
->   * Drivers that use VRAM MM and GEM VRAM can use this macro to initialize
->   * &struct drm_driver with default functions.
-> @@ -185,8 +185,8 @@ struct drm_vram_mm {
->  };
->  
->  /**
-> - * drm_vram_mm_of_bdev() - \
-> -	Returns the container of type &struct ttm_device for field bdev.
-> + * drm_vram_mm_of_bdev() - Returns the container of type &struct ttm_device for
-> + *			   field bdev.
->   * @bdev:	the TTM BO device
->   *
->   * Returns:
+Patch overview:
+
+Patch 1-16 is a patch set based on Russell King's previous arm64
+kernel text replication, rebased on commit 052d534373b7.
+
+The following three patches are new in v3:
+patch 17 fixes compilation warning
+
+patch 18 adapts arm64 kernel text replication to support more
+page tables/page sizes, in addition to 16K page size and
+4-level page tables.
+
+patch 19 fixes the abnormal startup problem caused by module_alloc()
+which may allocate an address larger than KIMAGE_VADDR when kernel text
+replication is enabled.
+
+[v2] https://lore.kernel.org/all/ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk
+[RFC] https://lore.kernel.org/all/ZHYCUVa8fzmB4XZV@shell.armlinux.org.uk
+
+Please correct me if I've made a mistake, thank you very much!
+
+Original message below.
+
+Problem
+-------
+
+NUMA systems have greater latency when accessing data and instructions
+across nodes, which can lead to a reduction in performance on CPU cores
+that mainly perform accesses beyond their local node.
+
+Normally when an ARM64 system boots, the kernel will end up placed in
+memory, and each CPU core will have to fetch instructions and data from
+which ever NUMA node the kernel has been placed. This means that while
+executing kernel code, CPUs local to that node will run faster than
+CPUs in remote nodes.
+
+The higher the latency to access remote NUMA node memory, the more the
+kernel performance suffers on those nodes.
+
+If there is a local copy of the kernel text in each node's RAM, and
+each node runs the kernel using its local copy of the kernel text,
+then it stands to reason that the kernel will run faster due to fewer
+stalls while instructions are fetched from remote memory.
+
+The question then arises how to achieve this.
+
+Background
+----------
+
+An important issue to contend with is what happens when a thread
+migrates between nodes. Essentially, the thread's state (including
+instruction pointer) is saved to memory, and the scheduler on that CPU
+loads some other thread's state and that CPU resumes executing that
+new thread.
+
+The CPU gaining the migrating thread loads the saved state, again
+including the instruction pointer, and the gaining CPU resumes fetching
+instructions at the virtual address where the original CPU left off.
+
+The key point is that the virtual address is what matters here, and
+this gives us a way to implement kernel text replication fairly easily.
+At a practical level, all we need to do is to ensure that the virtual
+addresses which contain the kernel text point to a local copy of the
+that text.
+
+This is exactly how this proposal of kernel text replication achieves
+the replication. We can go a little bit further and include most of
+the read-only data in this replication, as that will never be written
+to by the kernel (and thus remains constant.)
+
+Solution
+--------
+
+So, what we need to achieve is:
+
+1. multiple identical copies of the kernel text (and read-only data)
+2. point the virtual mappings to the appropriate copy of kernel text
+   for the NUMA node.
+
+(1) is fairly easy to achieve - we just need to allocate some memory
+in the appropriate node and copy the parts of the kernel we want to
+replicate. However, we also need to deal with ARM64's kernel patching.
+There are two functions that patch the kernel text,
+__apply_alternatives() and aarch64_insn_patch_text_nosync(). Both of
+these need to to be modified to update all copies of the kernel text.
+
+(2) is slightly harder.
+
+Firstly, the aarch64 architecture has a very useful feature here - the
+kernel page tables are entirely separate from the user page tables.
+The hardware contains two page table pointers, one is used for user
+mappings, the other is used for kernel mappings.
+
+Therefore, we only have one page table to be concerned with: the table
+which maps kernel space. We do not need to be concerned with each
+user processes page table.
+
+The approach taken here is to ensure that the kernel is located in an
+area of kernel virtual address space covered by a level-0 page table
+entry which is not shared with any other user. We can then maintain
+separate per-node level-0 page tables for kernel space where the only
+difference between them is this level-0 page table entry.
+
+This gives a couple of benefits. Firstly, when updates to the level-0
+page table happen (e.g. when establishing new mappings) these updates
+can simply be copied to the other level-0 page tables provided it isn't
+for the kernel image. Secondly, we don't need complexity at lower
+levels of the page table code to figure out whether a level-1 or lower
+update needs to be propagated to other nodes.
+
+The level-0 page table entry for the kernel can then be used to point
+at a node-unique set of level 1..N page tables to make the appropriate
+copy of the kernel text (and read-only data) into kernel space, while
+keeping the kernel read-write data shared between nodes.
+
+Performance Analysis
+--------------------
+
+Needless to say, the performance results from kernel text replication
+are workload specific, but appear to show a gain of between 6% and
+17% for database-centric like workloads. When combined with userspace
+awareness of NUMA, this can result in a gain of over 50%.
+
+Problems
+--------
+
+There are a few areas that are a problem for kernel text replication:
+1) As this series changes the kernel space virtual address space
+   layout, it breaks KASAN - and I've zero knowledge of KASAN so I
+   have no idea how to fix it. I would be grateful for input from
+   KASAN folk for suggestions how to fix this.
+
+2) KASLR can not be used with kernel text replication, since we need
+   to place the kernel in its own L0 page table entry, not in vmalloc
+   space. KASLR is disabled when support for kernel text replication
+   is enabled.
+
+3) Changing the kernel virtual address space layout also means that
+   kaslr_offset() and kaslr_enabled() need to become macros rather
+   than inline functions due to the use of PGDIR_SIZE in the
+   calculation of KIMAGE_VADDR. Since asm/pgtable.h defines this
+   constant, but asm/memory.h is included by asm/pgtable.h, having
+   this symbol available would produce a circular include
+   dependency, so I don't think there is any choice here.
+
+4) read-only protection for replicated kernel images is not yet
+   implemented.
+
+Hao Jia (3):
+  arm64: text replication: fix compilation warning
+  arm64: text replication: support more page sizes and levels
+  arm64: text replication: keep modules inside module region when
+    REPLICATE_KTEXT is enabled
+
+Russell King (Oracle) (16):
+  arm64: provide cpu_replace_ttbr1_phys()
+  arm64: make clean_dcache_range_nopatch() visible
+  arm64: place kernel in its own L0 page table entry
+  arm64: text replication: add init function
+  arm64: text replication: add sanity checks
+  arm64: text replication: copy initial kernel text
+  arm64: text replication: add node text patching
+  arm64: text replication: add node 0 page table definitions
+  arm64: text replication: add swapper page directory helpers
+  arm64: text replication: create per-node kernel page tables
+  arm64: text replication: boot secondary CPUs with appropriate TTBR1
+  arm64: text replication: update cnp support
+  arm64: text replication: setup page tables for copied kernel
+  arm64: text replication: include most of read-only data as well
+  arm64: text replication: early kernel option to enable replication
+  arm64: text replication: add Kconfig
+
+ .../admin-guide/kernel-parameters.txt         |   5 +
+ arch/arm64/Kconfig                            |  10 +-
+ arch/arm64/include/asm/cacheflush.h           |   2 +
+ arch/arm64/include/asm/ktext.h                |  45 ++++
+ arch/arm64/include/asm/memory.h               |  36 ++-
+ arch/arm64/include/asm/mmu_context.h          |  11 +-
+ arch/arm64/include/asm/pgtable.h              |  31 ++-
+ arch/arm64/include/asm/smp.h                  |   1 +
+ arch/arm64/kernel/alternative.c               |   4 +-
+ arch/arm64/kernel/asm-offsets.c               |   1 +
+ arch/arm64/kernel/head.S                      |   3 +-
+ arch/arm64/kernel/hibernate.c                 |   2 +-
+ arch/arm64/kernel/kaslr.c                     |   1 +
+ arch/arm64/kernel/module.c                    |  20 +-
+ arch/arm64/kernel/patching.c                  |   7 +-
+ arch/arm64/kernel/smp.c                       |   3 +
+ arch/arm64/mm/Makefile                        |   2 +
+ arch/arm64/mm/init.c                          |   3 +
+ arch/arm64/mm/ktext.c                         | 213 ++++++++++++++++++
+ arch/arm64/mm/mmu.c                           |  73 +++++-
+ 20 files changed, 446 insertions(+), 27 deletions(-)
+ create mode 100644 arch/arm64/include/asm/ktext.h
+ create mode 100644 arch/arm64/mm/ktext.c
 
 -- 
-Jani Nikula, Intel
+2.20.1
+
