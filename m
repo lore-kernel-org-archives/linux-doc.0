@@ -1,235 +1,106 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3A514016
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 09:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391F113FF9
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 09:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705484466; cv=none; b=hk4ozN8VbCqI2krr6qwzRbwOrd9zFRNmf9/TTW1pvAoKe+1bXtoMg58A193wHmIgfHLEmFVoP3xl+MyFb2dvhTLl+qHDkBPnUNafV40rdNAnHoF1A2mPgfcEjZbU3k3NX+TgzKwyIiK1F++biaheArNwPZlvrdQy9lggqFy1cjE=
+	t=1705484541; cv=none; b=a0WvfpZohDdT/nRGRgmpDjr/SBibP0A2syDngen3DGqbW70OgH/QhR3Qh2k3RGX86U2eT/Xw5a1YJNZxvq29pie4mGbGH29nOWNlzeysXitVgzTlOKJdP3W2oXMktzj1oripziyQAWPH4C1fun2MexfH2KB0qfbVhfxdC3AbdG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705484466; c=relaxed/simple;
-	bh=W/D/pZeqqsxP8H9l0pJrnSEhraUeuiHOzf98SdpebhY=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:
-	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
-	 X-Google-Smtp-Source:X-Received:Received:Message-ID:Subject:From:
-	 To:Cc:Date:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version; b=MIvsZOTb7obynymLVYOLsh4p/KXunx7TGP7dS0DJJP/ORKAhjHmTGABkHtCvVOp44iZaULwa2YbVUB8kUizvtmmyw2kNIiOYOcI0lEMsv5AA6GALPjqiofAaNV9/ODAO40GzT9RZPrK8i77AZnek33o/mHAjeAlk+f3ttU9ac9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f6xiPET7; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1705484541; c=relaxed/simple;
+	bh=x4fY/wxyDIcPHn5r9HOMBTEiwZQ5upkgfRn4PdrdZ3Y=;
+	h=DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Sender; b=SzFbObMyquJ88gQDed+lIesW3cPwi6K/CdxwZJ4USp70B0fNxxBYcnOIputJwhq3ufZ3vQNXHdTLJeegyqlytg6l0WQj2fSITozDkBEsJYGC+0YohjsuUE3sFS2X/ijaaRpUiJAbJ505sMWvw4YlMvaMdVZTnLauFD7O+Grzkv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=NUiP+zlU; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f6xiPET7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705484463;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W/D/pZeqqsxP8H9l0pJrnSEhraUeuiHOzf98SdpebhY=;
-	b=f6xiPET7pZ60WGGsV1IoVQZbxfgsgkLcdbp7Oe4fpCTX9Zjsl8yQK8S73bilG1Rqc1Dqjx
-	9ZWuYGDiDY42N3fjDk2KO4nAqQYdvPA72/EAEOvMUb+o2+Ug/HcsS1y8yxtekm+0vhJBs7
-	79SOPGHOdBJztlorj7fM4/BBH0njAp4=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-614-EWUz_P_TP0absfIHvRFEXw-1; Wed, 17 Jan 2024 04:41:01 -0500
-X-MC-Unique: EWUz_P_TP0absfIHvRFEXw-1
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7830635331bso204015085a.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 01:41:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705484461; x=1706089261;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W/D/pZeqqsxP8H9l0pJrnSEhraUeuiHOzf98SdpebhY=;
-        b=kYaJ3eJQL9Gtcg3NOxktNuSpdc6/BnEdp9bwe5NRKlpbEA3q/P66wxCuP3f4pJvmz5
-         6x4gpS/7FpRvxDBBIosILRc2121zlqGRIxPmwj7BFpIEw9460Tcxz90PEtHhFg1ieU8F
-         Ike8+X7Pz33vqMJnuhiddXGeOXx7T003m5cDqpNyCZuM5xwPm/B397yZNL16iLDJxhZ/
-         dcLqyR5ind7DCxMfcKMbBTTiscBKEFPZQgySbv9oya0gAhXfCdsD7lKwZ/AtJC++5yX+
-         4yacyIR/XmYskHc17XxIjDfTiX4rRqZPvLeZDLtnPZBGtqwCeXYtc8HWYPsgoKcyeULG
-         FS8A==
-X-Gm-Message-State: AOJu0YyVQm6rojS5oiUF56ATslbW70FLJPb3S2Lp7pzNqCNidndbzqFR
-	iBJcd2HtnqGciXUT7I2i9u/OqoFV+Ul5yL28M6vIfvM+HUc2jdpctvZf0vsa6yMW6YbWNmpZjlX
-	qDDDFhHd/NqyJd5UeaifboZcvlndx
-X-Received: by 2002:a05:6214:21a9:b0:681:5548:6c07 with SMTP id t9-20020a05621421a900b0068155486c07mr1646262qvc.0.1705484460899;
-        Wed, 17 Jan 2024 01:41:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH4icJIWxf14eXtLu3zd0r+IhVh9S4EO3MJqvgtOBEY031S308MEsb2e3IjtN8yem9xKk4/uQ==
-X-Received: by 2002:a05:6214:21a9:b0:681:5548:6c07 with SMTP id t9-20020a05621421a900b0068155486c07mr1646241qvc.0.1705484460609;
-        Wed, 17 Jan 2024 01:41:00 -0800 (PST)
-Received: from pstanner-thinkpadt14sgen1.remote.csb (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id mh10-20020a056214564a00b006816857ae79sm1672357qvb.67.2024.01.17.01.40.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 01:41:00 -0800 (PST)
-Message-ID: <8e00f5c6312c2329db8a6873970c8fdae8bb5952.camel@redhat.com>
-Subject: Re: [PATCH 02/10] pci: deprecate iomap-table functions
-From: Philipp Stanner <pstanner@redhat.com>
-To: andy.shevchenko@gmail.com
-Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas
- <bhelgaas@google.com>, Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linux-pci@vger.kernel.org
-Date: Wed, 17 Jan 2024 10:40:57 +0100
-In-Reply-To: <Zab02RyfvP-IZTl4@surfacebook.localdomain>
-References: <20240115144655.32046-2-pstanner@redhat.com>
-	 <20240115144655.32046-4-pstanner@redhat.com>
-	 <Zab02RyfvP-IZTl4@surfacebook.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="NUiP+zlU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=0GcailXVX8bScB3XQ4DwyyM/w3Xe2yfasUDf2pmHVyI=; b=NUiP+zlUdCqI9vW37szSMPp6rA
+	tmjv06xetGCbb2DgiGxmgMGOPlE3/a5kP5PxHi2jh6+tSENmd8lkepDLUnWvk2BYC1wT12CWDKKIi
+	OrD7Z2fYWfm3eMY/Q8w6LQ6aHpqyyEvA2lxoygF1zKG7XnKRt1xzAeSLDpm8JhW/L1eRHvP3nGgrE
+	Bm18N2kjBqK/9RJyjN+sVnOMISnPCwui6nkdCMElh81r+iFMvicnLSvK5eGOzAJbsV3sZ1QHFt9MY
+	WHtQnmd45bqc57d34KFGyTfJao6H0SEespH8nZuQRflOd97pY3ZIGpRDyee07mdjU86EuHC/xVuWH
+	8+9EC6Uw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:54068)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rQ2Qr-0004WL-0H;
+	Wed, 17 Jan 2024 09:42:01 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rQ2Qk-0004gU-M3; Wed, 17 Jan 2024 09:41:54 +0000
+Date: Wed, 17 Jan 2024 09:41:54 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Hao Jia <jiahao.os@bytedance.com>
+Cc: mark.rutland@arm.com, catalin.marinas@arm.com, corbet@lwn.net,
+	will@kernel.org, willy@infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	root <root@n144-101-220.byted.org>
+Subject: Re: [PATCH v3 00/19] arm64 kernel text replication
+Message-ID: <Zaeg4jw3TFBUBL8m@shell.armlinux.org.uk>
+References: <20240117085357.31693-1-jiahao.os@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240117085357.31693-1-jiahao.os@bytedance.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-T24gVHVlLCAyMDI0LTAxLTE2IGF0IDIzOjI3ICswMjAwLCBhbmR5LnNoZXZjaGVua29AZ21haWwu
-Y29tIHdyb3RlOgo+IE1vbiwgSmFuIDE1LCAyMDI0IGF0IDAzOjQ2OjEzUE0gKzAxMDAsIFBoaWxp
-cHAgU3Rhbm5lciBraXJqb2l0dGk6Cj4gPiBUaGUgb2xkIHBsdXJhbCBkZXZyZXMgZnVuY3Rpb25z
-IHRpZSBQQ0kncyBkZXZyZXMgaW1wbGVtZW50YXRpb24gdG8KPiA+IHRoZQo+ID4gaW9tYXAtdGFi
-bGUgbWVjaGFuaXNtIHdoaWNoIHVuZm9ydHVuYXRlbHkgaXMgbm90IGV4dGVuc2libGUuCj4gPiAK
-PiA+IEFzIHRoZSBwdXJsYWwgZnVuY3Rpb25zIGFyZSBhbG1vc3QgbmV2ZXIgdXNlZCB3aXRoIG1v
-cmUgdGhhbiBvbmUKPiA+IGJpdCBzZXQKPiA+IGluIHRoZWlyIGJpdC1tYXNrLCBkZXByZWNhdGlu
-ZyB0aGVtIGFuZCBlbmNvdXJhZ2luZyB1c2VycyB0byB1c2UKPiA+IHRoZSBuZXcKPiA+IHNpbmd1
-bGFyIGZ1bmN0aW9ucyBpbnN0ZWFkIGlzIHJlYXNvbmFibGUuCj4gPiAKPiA+IEZ1cnRoZXJtb3Jl
-LCB0byBtYWtlIHRoZSBpbXBsZW1lbnRhdGlvbiBtb3JlIGNvbnNpc3RlbnQgYW5kCj4gPiBleHRl
-bnNpYmxlLAo+ID4gdGhlIHBsdXJhbCBmdW5jdGlvbnMgc2hvdWxkIHVzZSB0aGUgc2luZ3VsYXIg
-ZnVuY3Rpb25zLgo+ID4gCj4gPiBBZGQgbmV3IHdyYXBwZXIgdG8gcmVxdWVzdCAvIHJlbGVhc2Ug
-YWxsIEJBUnMuCj4gPiBNYWtlIHRoZSBwbHVyYWwgZnVuY3Rpb25zIGNhbGwgaW50byB0aGUgc2lu
-Z3VsYXIgZnVuY3Rpb25zLgo+ID4gTWFyayB0aGUgcGx1cmFsIGZ1bmN0aW9ucyBhcyBkZXByZWNh
-dGVkLgo+ID4gUmVtb3ZlIGFzIG11Y2ggb2YgdGhlIGlvbWFwLXRhYmxlLW1lY2hhbmlzbSBhcyBw
-b3NzaWJsZS4KPiA+IEFkZCBjb21tZW50cyBkZXNjcmliaW5nIHRoZSBwYXRoIHRvd2FyZHMgYSBj
-bGVhbmVkLXVwIEFQSS4KPiAKPiAuLi4KPiAKPiA+IMKgc3RhdGljIHZvaWQgcGNpbV9pb21hcF9y
-ZWxlYXNlKHN0cnVjdCBkZXZpY2UgKmdlbmRldiwgdm9pZCAqcmVzKQo+ID4gwqB7Cj4gPiAtwqDC
-oMKgwqDCoMKgwqBzdHJ1Y3QgcGNpX2RldiAqZGV2ID0gdG9fcGNpX2RldihnZW5kZXYpOwo+ID4g
-LcKgwqDCoMKgwqDCoMKgc3RydWN0IHBjaW1faW9tYXBfZGV2cmVzICp0aGlzID0gcmVzOwo+ID4g
-LcKgwqDCoMKgwqDCoMKgaW50IGk7Cj4gPiAtCj4gPiAtwqDCoMKgwqDCoMKgwqBmb3IgKGkgPSAw
-OyBpIDwgUENJTV9JT01BUF9NQVg7IGkrKykKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqBpZiAodGhpcy0+dGFibGVbaV0pCj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoHBjaV9pb3VubWFwKGRldiwgdGhpcy0+dGFibGVbaV0pOwo+ID4g
-K8KgwqDCoMKgwqDCoMKgLyoKPiA+ICvCoMKgwqDCoMKgwqDCoCAqIERvIG5vdGhpbmcuIFRoaXMg
-aXMgbGVnYWN5IGNvZGUuCj4gPiArwqDCoMKgwqDCoMKgwqAgKgo+ID4gK8KgwqDCoMKgwqDCoMKg
-ICogQ2xlYW51cCBvZiB0aGUgbWFwcGluZ3MgaXMgbm93IGRvbmUgZGlyZWN0bHkgdGhyb3VnaCB0
-aGUKPiA+IGNhbGxiYWNrcwo+ID4gK8KgwqDCoMKgwqDCoMKgICogcmVnaXN0ZXJlZCB3aGVuIGNy
-ZWF0aW5nIHRoZW0uCj4gPiArwqDCoMKgwqDCoMKgwqAgKi8KPiA+IMKgfQo+IAo+IEhvdyBtYW55
-IHVzZXJzIHdlIGhhdmU/IENhbid0IHdlIHNpbXBseSBraWxsIGl0IGZvciBnb29kPwo+IAo+IC4u
-LgoKVGhlcmUgYXJlIDEyNiB1c2VycyBpbiB0aGUga2VybmVsLgoKV2hlbiBJIGJlZ2FuIHdpdGgg
-YWxsIG9mIHRoaXMgSSBpbmRlZWQgY2hlY2tlZCB3aGV0aGVyIHdlIG1pZ2h0IGJ1cm4gaXQKY29t
-cGxldGVseS4KSW5kZWVkIHRoZSBtYWpvcml0eSBvZiBkcml2ZXIgdXNlcnMgYXJlIHdpc2UgZW5v
-dWdoIHRvIGRvIHNvbWV0aGluZwpsaWtlCgpkcml2ZXItPm1hcDAgPSBwY2ltX2lvbWFwX3RhYmxl
-KHBkZXYpWzBdOwpkcml2ZXItPm1hcDEgPSBwY2ltX2lvbWFwX3RhYmxlKHBkZXYpWzFdOwoKU28g
-d2UgY291bGQganVzdCBlYXNpbHkgcmVwbGFjZSBpdCB3aXRoCgorIGRyaXZlcnMtPm1hcDAgPSBw
-Y2ltX2lvbWFwX3JlZ2lvbihwZGV2LCAwLCAiZHJpdmVyIik7CisgaWYgKElTX0VSUihkcml2ZXJz
-LT5tYXAwKSkKCgpCdXV1dXV1dXV1dXQuLiBjZXJ0YWluIHBlb3BsZSwgc3VjaCBhcyB0aGUgY3J5
-cHRvIGZvbGtzLCBkbyBpbmRlZWQgbm90CnN0b3JlIHRoZSBtYXBwaW5nLWFkZHJlc3MgaW4gdGhl
-aXIgb3duIGRyaXZlci1zdHJ1Y3QgYnV0IGNhbGwKcGNpbV9pb21hcF90YWJsZSgpIHRvIGdldCB0
-aGUgYWRkcmVzcyB3aGVuZXZlciB0aGV5IG5lZWQgaXQuCgoKVGhhdCdzIHdoZXJlIEkgZ2F2ZSB1
-cC4gSXQncyB0b28gbXVjaCB3b3JrIGZvciBhbmQgd291bGQgdGFrZSBmb3JldmVyLApldmVuIGlm
-IHRoZSBjb2RlIHdlcmUgc2FuZSwgdW50aWwgeW91IGdldCBpdCBhbGwgbWVyZ2VkLgpXZSB3YW50
-IHRoYXQgbmV3IEFQSSBmb3IgRFJNLCB0aGF0J3Mgd2h5IEknbSB3b3JraW5nIG9uIGl0IGluIHRo
-ZSBmaXJzdApwbGFjZS4KClRoYXQncyB3aHkgdGhpcyBBUEkgc2hvdWxkIGhhdmUgbmV2ZXIgYmVl
-biBtZXJnZWQgYmFjayBpbiAyMDA2LzcuIEJ1dApubyBvbmUgZGFyZWQgdG8gdG91Y2ggaXQgZm9y
-IDE2IHllYXJzLCBzbyBoZXJlIHdlIGFyZS4KCj4gCj4gPiArICogVGhpcyBmdW5jdGlvbiBpcyBE
-RVBSRUNBVEVELiBEbyBub3QgdXNlIGl0IGluIG5ldyBjb2RlLgo+IAo+IFdlIGhhdmUgX19kZXBy
-ZWNhdGVkIElJUkMsIGNhbiBpdCBiZSB1c2VkPwoKSXQgc2VlbXMgdGhlIEJvc3MgaGFzIGRlcHJl
-Y2F0ZWQgX19kZXByZWNhdGVkIGEgZmV3IHllYXJzIGFnbyA6RAoKLyoKICogRG9uJ3QuIEp1c3Qg
-ZG9uJ3QuIFNlZSBjb21taXQgNzcxYzAzNTM3MmEwICgiZGVwcmVjYXRlIHRoZSAnX19kZXByZWNh
-dGVkJwogKiBhdHRyaWJ1dGUgd2FybmluZ3MgZW50aXJlbHkgYW5kIGZvciBnb29kIikgZm9yIG1v
-cmUgaW5mb3JtYXRpb24uCiAqCiAqICAgZ2NjOiBodHRwczovL2djYy5nbnUub3JnL29ubGluZWRv
-Y3MvZ2NjL0NvbW1vbi1GdW5jdGlvbi1BdHRyaWJ1dGVzLmh0bWwjaW5kZXgtZGVwcmVjYXRlZC1m
-dW5jdGlvbi1hdHRyaWJ1dGUKICogICBnY2M6IGh0dHBzOi8vZ2NjLmdudS5vcmcvb25saW5lZG9j
-cy9nY2MvQ29tbW9uLVR5cGUtQXR0cmlidXRlcy5odG1sI2luZGV4LWRlcHJlY2F0ZWQtdHlwZS1h
-dHRyaWJ1dGUKICogICBnY2M6IGh0dHBzOi8vZ2NjLmdudS5vcmcvb25saW5lZG9jcy9nY2MvQ29t
-bW9uLVZhcmlhYmxlLUF0dHJpYnV0ZXMuaHRtbCNpbmRleC1kZXByZWNhdGVkLXZhcmlhYmxlLWF0
-dHJpYnV0ZQogKiAgIGdjYzogaHR0cHM6Ly9nY2MuZ251Lm9yZy9vbmxpbmVkb2NzL2djYy9FbnVt
-ZXJhdG9yLUF0dHJpYnV0ZXMuaHRtbCNpbmRleC1kZXByZWNhdGVkLWVudW1lcmF0b3ItYXR0cmli
-dXRlCiAqIGNsYW5nOiBodHRwczovL2NsYW5nLmxsdm0ub3JnL2RvY3MvQXR0cmlidXRlUmVmZXJl
-bmNlLmh0bWwjZGVwcmVjYXRlZAogKi8KI2RlZmluZSBfX2RlcHJlY2F0ZWQKCgo+IAo+IC4uLgo+
-IAo+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKHBjaW1fYWRkX21hcHBpbmdfdG9fbGVnYWN5X3RhYmxl
-KHBkZXYsIG1hcHBpbmcsIGJhcikgIT0KPiA+IDApCj4gCj4gUmVkdW5kYW50ICcgIT0gMCcgcGFy
-dC4KPiAKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGVycl90YWJsZTsK
-PiAKPiAuLi4KPiAKPiA+ICtzdGF0aWMgaW5saW5lIGJvb2wgbWFza19jb250YWluc19iYXIoaW50
-IG1hc2ssIGludCBiYXIpCj4gPiArewo+ID4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIG1hc2sgJiAo
-MSA8PCBiYXIpOwo+IAo+IEJJVCgpID8KCllvLCB3ZSBjb3VsZCB1c2UgaXQKCj4gCj4gPiArfQo+
-IAo+IEJ1dCBJIGJlbGlldmUgdGhpcyBmdW5jdGlvbiBpcyBub3QgbmVlZGVkIChzZWUgYmVsb3cp
-Lgo+IAo+IC4uLgo+IAo+ID4gwqAvKioKPiA+IC0gKiBwY2ltX2lvbWFwX3JlZ2lvbnMgLSBSZXF1
-ZXN0IGFuZCBpb21hcCBQQ0kgQkFScwo+ID4gKyAqIHBjaW1faW9tYXBfcmVnaW9ucyAtIFJlcXVl
-c3QgYW5kIGlvbWFwIFBDSSBCQVJzIChERVBSRUNBVEVEKQo+ID4gwqAgKiBAcGRldjogUENJIGRl
-dmljZSB0byBtYXAgSU8gcmVzb3VyY2VzIGZvcgo+ID4gwqAgKiBAbWFzazogTWFzayBvZiBCQVJz
-IHRvIHJlcXVlc3QgYW5kIGlvbWFwCj4gPiDCoCAqIEBuYW1lOiBOYW1lIGFzc29jaWF0ZWQgd2l0
-aCB0aGUgcmVxdWVzdHMKPiA+IMKgICoKPiA+ICsgKiBSZXR1cm5zIDAgb24gc3VjY2VzcywgbmVn
-YXRpdmUgZXJyb3IgY29kZSBvbiBmYWlsdXJlLgo+IAo+IFZhbGlkYXRlIHRoZSBrZXJuZWwtZG9j
-Lgo+IAo+ID4gwqAgKiBSZXF1ZXN0IGFuZCBpb21hcCByZWdpb25zIHNwZWNpZmllZCBieSBAbWFz
-ay4KPiA+ICsgKgo+ID4gKyAqIFRoaXMgZnVuY3Rpb24gaXMgREVQUkVDQVRFRC4gRG9uJ3QgdXNl
-IGl0IGluIG5ldyBjb2RlLgo+ID4gKyAqIFVzZSBwY2ltX2lvbWFwX3JlZ2lvbigpIGluc3RlYWQu
-Cj4gPiDCoCAqLwo+IAo+IC4uLgo+IAo+ID4gK8KgwqDCoMKgwqDCoMKgZm9yIChiYXIgPSAwOyBi
-YXIgPCBERVZJQ0VfQ09VTlRfUkVTT1VSQ0U7IGJhcisrKSB7Cj4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgaWYgKCFtYXNrX2NvbnRhaW5zX2JhcihtYXNrLCBiYXIpKQo+ID4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjb250aW51ZTsKPiAK
-PiBOSUggZm9yX2VhY2hfc2V0X2JpdCgpLgoKQnV0IHdvdWxkbid0IHRoYXQgaXRlcmF0ZSB0b28g
-ZnJlcXVlbnRseT8KSXQgd291bGQgY2hlY2sgYWxsIGJpdHMsIHdoZXJlYXMgdGhpcyBmb3ItbG9v
-cCAodGhhdCBJIGluaGVyaXRlZCBmcm9tCnRoZSBleGlzdGluZyBpbXBsZW1lbnRhdGlvbiwgSSBq
-dXN0IHRyaWVkIHRvIGtlZXAgdGhlIGZ1bmN0aW9uYWxpdHkKaWRlbnRpY2FsKSBsb29wcyB1bnRp
-bCBERVZJQ0VfQ09VTlRfUkVTT1VSQ0UsIHdoaWNoIG1pZ2h0IGJlICE9CnNpemVvZihpbnQpLgoK
-PiAKPiAuLi4KPiAKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXQgPSBwY2lt
-X2FkZF9tYXBwaW5nX3RvX2xlZ2FjeV90YWJsZShwZGV2LAo+ID4gbWFwcGluZywgYmFyKTsKPiA+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocmV0ICE9IDApCj4gCj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocmV0KQo+IAo+ID4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGVycjsKPiA+ICvCoMKgwqDCoMKg
-wqDCoH0KPiAKPiAuLi4KPiAKPiA+ICsgZXJyOgo+IAo+IEJldHRlciB0byBuYW1lIGl0IGxpa2UK
-PiAKPiBlcnJfdW5tYXBfYW5kX3JlbW92ZToKPiAKPiA+ICvCoMKgwqDCoMKgwqDCoHdoaWxlICgt
-LWJhciA+PSAwKSB7Cj4gCj4gwqDCoMKgwqDCoMKgwqDCoHdoaWxlIChiYXItLSkKPiAKPiBpcyBl
-YXNpZXIgdG8gcmVhZC4KCkkgd29uJ3QgZGllIG9uIHRoaXMgaGlsbCwgYnV0IGRvIG5vdCByZWFs
-bHkgYWdyZWUuCgo+IAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHBjaW1faW91
-bm1hcF9yZWdpb24ocGRldiwgYmFyKTsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBwY2ltX3JlbW92ZV9iYXJfZnJvbV9sZWdhY3lfdGFibGUocGRldiwgYmFyKTsKPiA+ICvCoMKg
-wqDCoMKgwqDCoH0KPiAKPiAuLi4KPiAKPiA+ICsvKioKPiA+ICsgKiBwY2ltX3JlcXVlc3RfYWxs
-X3JlZ2lvbnMgLSBSZXF1ZXN0IGFsbCByZWdpb25zCj4gPiArICogQHBkZXY6IFBDSSBkZXZpY2Ug
-dG8gbWFwIElPIHJlc291cmNlcyBmb3IKPiA+ICsgKiBAbmFtZTogbmFtZSBhc3NvY2lhdGVkIHdp
-dGggdGhlIHJlcXVlc3QKPiA+ICsgKgo+ID4gKyAqIFJlcXVlc3RlZCByZWdpb25zIHdpbGwgYXV0
-b21hdGljYWxseSBiZSByZWxlYXNlZCBhdCBkcml2ZXIKPiA+IGRldGFjaC4gSWYgZGVzaXJlZCwK
-PiA+ICsgKiByZWxlYXNlIGluZGl2aWR1YWwgcmVnaW9ucyB3aXRoIHBjaW1fcmVsZWFzZV9yZWdp
-b24oKSBvciBhbGwgb2YKPiA+IHRoZW0gYXQgb25jZQo+ID4gKyAqIHdpdGggcGNpbV9yZWxlYXNl
-X2FsbF9yZWdpb25zKCkuCj4gPiArICovCj4gCj4gVmFsaWRhdGUga2VybmVsLWRvYy4KPiAKPiAu
-Li4KPiAKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXQgPSBwY2ltX3JlcXVl
-c3RfcmVnaW9uKHBkZXYsIGJhciwgbmFtZSk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgaWYgKHJldCAhPSAwKQo+IAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-aWYgKHJldCkKPiAKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgZ290byBlcnI7Cj4gCj4gCj4gLi4uCj4gCj4gPiArwqDCoMKgwqDCoMKgwqBzaG9ydCBi
-YXI7Cj4gCj4gV2h5IHNpZ25lZD8KCk5vIHJlYXNvbi4gVGhlIG1heCBiYXIgbnVtYmVyIGluIFBD
-SSBpcyA2LgpXZSBjYW4gdW4tc2lnbiBpdAoKPiAKPiA+ICvCoMKgwqDCoMKgwqDCoGludCByZXQg
-PSAtMTsKPiAKPiBPeSB2ZWkhCj4gCj4gLi4uCj4gCj4gPiArwqDCoMKgwqDCoMKgwqByZXQgPSBw
-Y2ltX3JlcXVlc3RfYWxsX3JlZ2lvbnMocGRldiwgbmFtZSk7Cj4gPiArwqDCoMKgwqDCoMKgwqBp
-ZiAocmV0ICE9IDApCj4gCj4gSGVyZSBhbmQgaW4gcGxlbnR5IG90aGVyIHBsYWNlcwo+IAo+IMKg
-wqDCoMKgwqDCoMKgwqBpZiAocmV0KQo+IAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoHJldHVybiByZXQ7Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqBmb3IgKGJhciA9IDA7IGJhciA8
-IFBDSV9TVERfTlVNX0JBUlM7IGJhcisrKSB7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgaWYgKCFtYXNrX2NvbnRhaW5zX2JhcihtYXNrLCBiYXIpKQo+ID4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjb250aW51ZTsKPiAKPiBOSUggZm9y
-X2VhY2hfc2V0X2JpdCgpCj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYg
-KCFwY2ltX2lvbWFwKHBkZXYsIGJhciwgMCkpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdvdG8gZXJyOwo+ID4gK8KgwqDCoMKgwqDCoMKgfQo+IAo+
-IC4uLgo+IAo+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKCFsZWdhY3lfaW9tYXBfdGFibGUpCj4gCj4g
-V2hhdCdzIHdyb25nIHdpdGggcG9zaXRpdmUgY2hlY2s/Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgcmV0ID0gLUVOT01FTTsKPiA+ICvCoMKgwqDCoMKgwqDCoGVsc2UKPiA+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXQgPSAtRUlOVkFMOwo+IAo+IENhbiBi
-ZSBldmVuIG9uZSBsaW5lcgo+IAo+IAo+IFdoYXQncyB3cm9uZyB3aXRoIHBvc2l0aXZlIGNoZWNr
-Pwo+IAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0ID0gbGVnYWN5X2lvbWFw
-X3RhYmxlID8gLUVJTlZBTCA6IC1FTk9NRU07CgpZbywgY2FuIGRvIHRoYXQKCgpQLgoKPiAKPiAu
-Li4KPiAKPiA+ICvCoMKgwqDCoMKgwqDCoHdoaWxlICgtLWJhciA+PSAwKQo+IAo+IMKgwqDCoMKg
-wqDCoMKgwqB3aGlsZSAoYmFyLS0pCj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgcGNpbV9pb3VubWFwKHBkZXYsIGxlZ2FjeV9pb21hcF90YWJsZVtiYXJdKTsKPiAKPiAuLi4K
-PiAKPiA+ICvCoMKgwqDCoMKgwqDCoGZvciAoYmFyID0gMDsgYmFyIDwgUENJX1NURF9OVU1fQkFS
-UzsgYmFyKyspIHsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIW1hc2tf
-Y29udGFpbnNfYmFyKG1hc2ssIGJhcikpCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqBjb250aW51ZTsKPiAKPiBOSUggZm9yX2VhY2hfc2V0X2JpdCgp
-Cj4gCj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcGNpbV9pb3VubWFwKHBkZXYs
-IGlvbWFwW2ldKTsKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwY2lfcmVsZWFz
-ZV9yZWdpb24ocGRldiwgaSk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcGNp
-bV9pb3VubWFwX3JlZ2lvbihwZGV2LCBiYXIpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoHBjaW1fcmVtb3ZlX2Jhcl9mcm9tX2xlZ2FjeV90YWJsZShwZGV2LCBiYXIpOwo+ID4g
-wqDCoMKgwqDCoMKgwqDCoH0KPiAKCg==
+On Wed, Jan 17, 2024 at 04:53:38PM +0800, Hao Jia wrote:
+> From: root <root@n144-101-220.byted.org>
+> 
+> Many thanks to Russell King for his previous work on
+> arm64 kernel text replication.
+> https://lore.kernel.org/all/ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk
+> 
+> After applying these patches, we tested that our business performance
+> increased by more than 5% and the NUMA node memory bandwidth was more
+> balanced.
+> I've recently been trying to make it work with different numbers of
+> page tables/page sizes, so updated this patch set to V3.
+> 
+> Patch overview:
+> 
+> Patch 1-16 is a patch set based on Russell King's previous arm64
+> kernel text replication, rebased on commit 052d534373b7.
+> 
+> The following three patches are new in v3:
+> patch 17 fixes compilation warning
+> 
+> patch 18 adapts arm64 kernel text replication to support more
+> page tables/page sizes, in addition to 16K page size and
+> 4-level page tables.
+> 
+> patch 19 fixes the abnormal startup problem caused by module_alloc()
+> which may allocate an address larger than KIMAGE_VADDR when kernel text
+> replication is enabled.
+> 
+> [v2] https://lore.kernel.org/all/ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk
+> [RFC] https://lore.kernel.org/all/ZHYCUVa8fzmB4XZV@shell.armlinux.org.uk
+> 
+> Please correct me if I've made a mistake, thank you very much!
 
+Note that, even though I haven't posted an update (I see it as mostly
+pointless because *noone* commented on the previous posting) I do
+maintain these patches:
+
+  git://git.armlinux.org.uk/~rmk/linux-arm.git aarch64/ktext/head
+
+currently has them against v6.7
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
