@@ -1,167 +1,169 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2109.outbound.protection.outlook.com [40.107.95.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F4E14274
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 09:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705485577; cv=none; b=mr047oiPX+6jwbGMBXx0Lr4zuN7p+TBVDBjL8nb4xeWhC/71JTQQe4wO3i+q5dg29Yj0oXq4fxHxjPzGQbkfyXO/8oE0ROGzouCujuWKi6fBUxiGdC7vIdLss8pPI5CUvlXmxelXlkcMRp2yprVJZzcf9mDGi+gODoIoA2fS/Uo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705485577; c=relaxed/simple;
-	bh=BXWuaM6cUVSlh8BuiMCFX+aJ/lumUdUFLhol1mX3ptg=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:
-	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
-	 X-Google-Smtp-Source:X-Received:Received:Message-ID:Subject:From:
-	 To:Cc:Date:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version; b=WRM6Vr+MNc51GXqngUuSSoA9F7czIdlz7+e7Wj39HJhmTGiDXSXT2R7REEkdU9t5Xot4AvDzhMAmUWgitvc9LNVJeZOO5Ke88HrcaNYhe4n0D8cv/sHvnhBWQO208ELhXxnwYJz2Gzjq+t8ra+tocUPZFRbQmhNPHytl3vbDxTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BbnyZAoH; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A811514277;
+	Wed, 17 Jan 2024 10:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.109
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705486839; cv=fail; b=eA76yoTNOES89jpQcc6joodfqjll0qchcxSHyhH5EKaVJOCoYW3qXm/Rsv+GcxRwt5PVswE5aiOvLwugHIZFMLrL0ZTqbKwypFp0glt9r5rwbptC2NuGMulXh4z7q9mxowFGIeqyP4UHv7qYJFNAexKUzhNe2FtGY72nfxqaQX0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705486839; c=relaxed/simple;
+	bh=ZO1FTeXElU2ol5fqIdN4uJZMgdCT61GvVkPrvOcqnU4=;
+	h=ARC-Message-Signature:ARC-Authentication-Results:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:
+	 Received-SPF:Received:Received:Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:Content-Type:
+	 X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped; b=SVtFSPhoL+Sx32EcRCBZaCVL2tKxI9AkqSfm9SFBYxuf4l0ZLhm4kuvrVxww0EZzd+Nbom88eKlCXwcpN5bPY950/HvjVprjyqR09+uwzFHBwaCfGtCrcdorcIVoBhcbWFAna2TdlmRAiUor65gi22weA7yKbVhkufxRFxtksB4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=Sony.onmicrosoft.com; dkim=pass (1024-bit key) header.d=Sony.onmicrosoft.com header.i=@Sony.onmicrosoft.com header.b=sUvW3FQy; arc=fail smtp.client-ip=40.107.95.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=Sony.onmicrosoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BbnyZAoH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705485574;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BXWuaM6cUVSlh8BuiMCFX+aJ/lumUdUFLhol1mX3ptg=;
-	b=BbnyZAoH62b58IPXKoIkpMV9SVK+sTZkVFeiWSWOkSFH9Fy+e9rLwUKGRux3drUYy+kWUi
-	f3TENXbuMn6f2vTaAvgIIpGA65RISF6/Uh6Ez5SZBKweALQwXFQLc8/9uczT/j7JTZlBwo
-	jHFfgJi9dcjnOVYbtLoJrolOxfMD+Q4=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-375-h9ETq1NqODyVxeAJj8lOow-1; Wed, 17 Jan 2024 04:59:33 -0500
-X-MC-Unique: h9ETq1NqODyVxeAJj8lOow-1
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7830635331bso204330585a.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 01:59:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705485572; x=1706090372;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BXWuaM6cUVSlh8BuiMCFX+aJ/lumUdUFLhol1mX3ptg=;
-        b=deoRZVJqzSTzEYL3kx7rj9OFKri8rl8R03kd+EOlTAsAlgNAkOI7R1/uTiR6oAuWyD
-         k/TJCBpUZPipqqe9lekZiWz412gZ62xBE2m5sk7WhMi744Zg8pPJ0N1QTWSyT5abz/rk
-         Hwy9BSp5+9/Fg7nOi36xiJzEYmsWikbvdtW55T+dxvo03mjHyFS9/G6LcB7OiU/eQOtK
-         LEwGdnAvyN7sUUKJY1I6KhjFr9GKAMerCIpgaDuag5noqRr/GhWPNaDK4UV3tBwZMSvl
-         4T+0q73N/Xa32VkmIE1u9izz3+nyIjQdum4wllk+gTEPULkZ30P4rAf5Z9MO1MxcZUf/
-         B9dQ==
-X-Gm-Message-State: AOJu0YwLrSt9NmWi4IW2oLJTDBqLDM/dxaHsfbbNKZ7RpRnJZoouU5ky
-	Rcw3s0izxd2J9HUVTWDq9jhnZokwWjYU0C2FV7LSRFqiSBKvr+ITAiQUpcxlJGUKkFH5obv8jTt
-	+7KRQRunlY400MrN4ZCAFBMlqBHjx
-X-Received: by 2002:a05:620a:2712:b0:783:54f7:87e3 with SMTP id b18-20020a05620a271200b0078354f787e3mr1912710qkp.3.1705485572524;
-        Wed, 17 Jan 2024 01:59:32 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFSqiqfszMpvjq99qT6Qsh4E31ne0xTg2kSjDD+8OcYXlRuSFlLMN+j9bbV0ag4d0WislsuJQ==
-X-Received: by 2002:a05:620a:2712:b0:783:54f7:87e3 with SMTP id b18-20020a05620a271200b0078354f787e3mr1912700qkp.3.1705485572147;
-        Wed, 17 Jan 2024 01:59:32 -0800 (PST)
-Received: from pstanner-thinkpadt14sgen1.remote.csb (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id w9-20020a05620a148900b0078322355fb7sm4380924qkj.20.2024.01.17.01.59.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 01:59:31 -0800 (PST)
-Message-ID: <5e760f104c75efe37100cee5a26b7ee3581f03b4.camel@redhat.com>
-Subject: Re: [PATCH 00/10] Make PCI's devres API more consistent
-From: Philipp Stanner <pstanner@redhat.com>
-To: andy.shevchenko@gmail.com
-Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas
- <bhelgaas@google.com>, Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linux-pci@vger.kernel.org
-Date: Wed, 17 Jan 2024 10:59:29 +0100
-In-Reply-To: <ZabyY3csP0y-p7lb@surfacebook.localdomain>
-References: <20240115144655.32046-2-pstanner@redhat.com>
-	 <ZabyY3csP0y-p7lb@surfacebook.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	dkim=pass (1024-bit key) header.d=Sony.onmicrosoft.com header.i=@Sony.onmicrosoft.com header.b="sUvW3FQy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XS0KCMZJZKeQXDNac2ICTq1mjN3Ntdrn0KbMQI30fRjx5Gd4oWwjbuChE3dvNj3d2fjUxarMXzaMEbajWNNGt9j5rLQ9m4Zrqdz7QALnKTefaaV09+UejLZuTCrqHCARje/difd8iwP5WweSz6zXusdYUqVyMVH7TWEdvXIJNqv8Z9zbAIiL0ABZM3vSkjXemC0KEsY/MIYSNyxdcgtwYjNljU8SE2FEdoGTPKUsIUfCfr/K4PobMEjaRnUvdpORwiY/RF84SPTG7dmbk2uYok4oBgARM7UELTdjXDDU+lYReJtdXmDdowQuLs6fkFsGgNLjkFnTxO5lB7MxeH6/dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5NZPgxJJ0zMuZrzMyjoQsDTd66g9dkfB8y8E7ne2rXk=;
+ b=MlRXzhthHavD7HRzZbq3o899TDIsAVp12izAm2vjNp5hkhJ2UL9B5SO7FlW4JeH1KhezrfGzFKIOthGpYy7s0bsWKXuNyBIyjddPo3txnzT931EHbDYvOlYCjrSRHRJy9wRjmSmLq+W79Syb3QuB1g+bX3tJq9Q5pMD/Qs7YbiwgXT2DlHABChqNdeH55C1KI1D4cPKlCZWqany4qOe3CWmwCN2oVPCytMkEyvkKsZsjFisYikDgdey1Rcrl052NA3xi+gkyYIaT4cuMMnvTp2BtP6JE+ZJWxKjVoHw4AbAoidTvPUY2AnuB8wX8brZHrPWaq2sSjbNzCo/RwaeGOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 121.100.38.196) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=mail.sony.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=sony.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Sony.onmicrosoft.com;
+ s=selector2-Sony-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5NZPgxJJ0zMuZrzMyjoQsDTd66g9dkfB8y8E7ne2rXk=;
+ b=sUvW3FQyV4QLJZiM8QvuhO98qWQMeURnFpRSAMHcn3IYZmMkZSV7oaLf3yk1Y0ulrrdsgan6OfGfTE1aLkfC5GWpZyois16rRjvRXyl2o22D/bT3cZHPWa+gob+U1nO8LYf1AkLh7xqNQ+qVTwNO80jEw7PiW6L+YZ0FMHim5yo=
+Received: from SA0PR12CA0001.namprd12.prod.outlook.com (2603:10b6:806:6f::6)
+ by CH2PR13MB4458.namprd13.prod.outlook.com (2603:10b6:610:6c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23; Wed, 17 Jan
+ 2024 10:20:34 +0000
+Received: from SN1PEPF0002636C.namprd02.prod.outlook.com
+ (2603:10b6:806:6f:cafe::d1) by SA0PR12CA0001.outlook.office365.com
+ (2603:10b6:806:6f::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23 via Frontend
+ Transport; Wed, 17 Jan 2024 10:20:34 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 121.100.38.196)
+ smtp.mailfrom=mail.sony.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=sony.com;
+Received-SPF: Fail (protection.outlook.com: domain of mail.sony.com does not
+ designate 121.100.38.196 as permitted sender)
+ receiver=protection.outlook.com; client-ip=121.100.38.196;
+ helo=gepdcl07.sg.gdce.sony.com.sg;
+Received: from gepdcl07.sg.gdce.sony.com.sg (121.100.38.196) by
+ SN1PEPF0002636C.mail.protection.outlook.com (10.167.241.137) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7202.16 via Frontend Transport; Wed, 17 Jan 2024 10:20:33 +0000
+Received: from gepdcl02.s.gdce.sony.com.sg (SGGDCSE1NS07.sony.com.sg [146.215.123.196])
+	by gepdcl07.sg.gdce.sony.com.sg (8.14.7/8.14.4) with ESMTP id 40HAKFSa007071
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 17 Jan 2024 18:20:15 +0800
+Received: from mail.sony.com ([43.88.80.246])
+	by gepdcl02.s.gdce.sony.com.sg (8.14.7/8.14.4) with ESMTP id 40HAEv8O028952;
+	Wed, 17 Jan 2024 18:14:57 +0800
+Received: by mail.sony.com (Postfix, from userid 1000)
+	id 9768920C0300; Wed, 17 Jan 2024 15:43:16 +0530 (IST)
+From: Sreenath Vijayan <sreenath.vijayan@sony.com>
+To: john.ogness@linutronix.de, corbet@lwn.net, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, rdunlap@infradead.org, pmladek@suse.com
+Cc: rostedt@goodmis.org, senozhatsky@chromium.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        taichi.shimoyashiki@sony.com, daniel.palmer@sony.com,
+        anandakumar.balasubramaniam@sony.com, sreenath.vijayan@sony.com
+Subject: [PATCH v3 0/2] Add support to dump printk buffer to console via sysrq
+Date: Wed, 17 Jan 2024 15:42:18 +0530
+Message-ID: <cover.1705331453.git.sreenath.vijayan@sony.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002636C:EE_|CH2PR13MB4458:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 215908f2-2468-4479-7eb6-08dc1745f10c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	LHKX8ce1yPfvGhnLQtTH1ptrj+z1EU3P4yjt5eg+zyfdtaRXEbZHzDoellX2XiJP6N4FGL5NpzVpwZMxa0NZ/Z8rjUzwF5T3OEofzw2u2+SbcI+2ziWvIW0aqEANXeGdwzcyG6Tt1aTyQiIOe8VsV17oELTQTPTM+1DtlF4Ogxy0BhTTeEUF+GbqdOsxMw6hnyuKyNbTJ0j+FOkvAOtW3ghx+XSF3Y2v0pTpTk/q0m8bF5Qd1pIOr7Ha305gmBOP2lvssuZ4Z0C9Yp7SyciHMbYCTxD+klVkIMrotkeZPstZlaCPEdi2FQZhD4rLVCA9Y9tbqaU2OjwJiVD+Q6Xby1CWeb+oZjWptDwg0J0g2anyCJv8OgV1d451TPLNX3FDqhv2mWDD52nn42vAOUVlyJj2rfQbZgs8VLnXqrZDhkvHraUoJA0gadih941DFChlLTaRbwRNARmoVQkrbXMlSp84zcZcqj5c4jroEMKaycCn5zNIrvHZL3Xb/v8WMHbKowQmHPPQNgTNQqF9+r2ngUncu7/VAtGZ52JEwJ4wcNHUPqmW8hvXxMJjJH9yMru5fyqMJLop2sE2JlncCqbOYRjHqjfAefWxxzvH3zzBYQsfi0VrsO9sC1X70yLHv8h/P/cLNTaZXSRiD5lRZd5mSY9nwGmjgzg0eJcbjK0GqwTJj09zheanvTGLMwpnDRddzYAtxdi757eGpVO533mYIRH8i3RisfyAb2qXt3RK3hfJqODqYK76lgKal0rFPw2L3EfYWVMooN4pmmBvHvb9zA==
+X-Forefront-Antispam-Report:
+	CIP:121.100.38.196;CTRY:SG;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:gepdcl07.sg.gdce.sony.com.sg;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(376002)(39860400002)(396003)(230173577357003)(230922051799003)(230273577357003)(1800799012)(64100799003)(451199024)(82310400011)(40470700004)(46966006)(35950700001)(81166007)(82960400001)(356005)(41300700001)(47076005)(40480700001)(40460700003)(36756003)(8676002)(450100002)(316002)(42186006)(8936002)(70206006)(70586007)(26005)(107886003)(4326008)(82740400003)(83170400001)(498600001)(966005)(5660300002)(44832011)(2616005)(336012)(6266002)(426003)(83380400001)(2906002);DIR:OUT;SFP:1102;
+X-OriginatorOrg: sony.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2024 10:20:33.3296
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 215908f2-2468-4479-7eb6-08dc1745f10c
+X-MS-Exchange-CrossTenant-Id: 66c65d8a-9158-4521-a2d8-664963db48e4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=66c65d8a-9158-4521-a2d8-664963db48e4;Ip=[121.100.38.196];Helo=[gepdcl07.sg.gdce.sony.com.sg]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF0002636C.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR13MB4458
 
-On Tue, 2024-01-16 at 23:17 +0200, andy.shevchenko@gmail.com wrote:
-> Mon, Jan 15, 2024 at 03:46:11PM +0100, Philipp Stanner kirjoitti:
-> > =C2=A1Hola!
->=20
-> i? Vim user? :-)
+Hi,
 
-The Dark Side of the Force is the path to many abilities, that some
-consider to be... unnatural
-https://www.neo-layout.org/
+This patch series does two things:
 
->=20
-> > PCI's devres API suffers several weaknesses:
-> >=20
-> > 1. There are functions prefixed with pcim_. Those are always
-> > managed
-> > =C2=A0=C2=A0 counterparts to never-managed functions prefixed with pci_=
- =E2=80=93 or
-> > so one
-> > =C2=A0=C2=A0 would like to think. There are some apparently unmanaged
-> > functions
-> > =C2=A0=C2=A0 (all region-request / release functions, and pci_intx()) w=
-hich
-> > =C2=A0=C2=A0 suddenly become managed once the user has initialized the =
-device
-> > with
-> > =C2=A0=C2=A0 pcim_enable_device() instead of pci_enable_device(). This
-> > "sometimes
-> > =C2=A0=C2=A0 yes, sometimes no" nature of those functions is confusing =
-and
-> > =C2=A0=C2=A0 therefore bug-provoking. In fact, it has already caused a =
-bug in
-> > DRM.
-> > =C2=A0=C2=A0 The last patch in this series fixes that bug.
-> > 2. iomappings: Instead of giving each mapping its own callback, the
-> > =C2=A0=C2=A0 existing API uses a statically allocated struct tracking o=
-ne
-> > mapping
-> > =C2=A0=C2=A0 per bar. This is not extensible. Especially, you can't cre=
-ate
-> > =C2=A0=C2=A0 _ranged_ managed mappings that way, which many drivers wan=
-t.
-> > 3. Managed request functions only exist as "plural versions" with a
-> > =C2=A0=C2=A0 bit-mask as a parameter. That's quite over-engineered
-> > considering
-> > =C2=A0=C2=A0 that each user only ever mapps one, maybe two bars.
-> >=20
-> > This series:
-> > - add a set of new "singular" devres functions that use devres the
-> > way
-> > =C2=A0 its intended, with one callback per resource.
-> > - deprecates the existing iomap-table mechanism.
-> > - deprecates the hybrid nature of pci_ functions.
-> > - preserves backwards compatibility so that drivers using the
-> > existing
-> > =C2=A0 API won't notice any changes.
-> > - adds documentation, especially some warning users about the
-> > =C2=A0 complicated nature of PCI's devres.
->=20
-> Instead of adding pcim_intx(), please provide proper one for
-> pci_alloc_irq_vectors(). Ideally it would be nice to deprecate
-> old IRQ management functions in PCI core and delete them in the
-> future.
->=20
+1) Add function to dump the printk buffer messages directly to
+consoles. To do this properly, access to printk private items
+like PRINTK_MESSAGE_MAX is required. So, the function is
+implemented in printk.c as suggested by John Ogness. This
+function may sleep as it needs console related locks.
 
-In order to deprecate the intermingling with half-managed hyprid devres
-in pci.c, you need to have pci_intx() be backwards compatible. Unless
-you can remove it at once.
-And the least broken way to do that I thought would be pcim_intx(),
-because that's consistent with how I make pci_request_region() & Co.
-call into their managed counterparts.
+2) Add code in sysrq.c to call the above mentioned function
+when sysrq+D is pressed. As the above function may sleep,
+it cannot be called from interrupt context. A work is queued
+in the system unbound workqueue to call the function when
+the key is pressed.
 
-There are 25 users of pci_intx().
-We'd have to look how many of them call pcim_enable_device() and how
-easy they would be to port to... pci_alloc_irq_vectors() you say? I
-haven't used that before. Would have to look into it and see how we
-could do that.
+Link to previous discussion:
+- https://lore.kernel.org/linux-serial/20231221133953.1507021-1-sreenath.vijayan@sony.com/
 
+Changelog:
+V2 -> V3:
+- split the implementation into two commits
+- added function in printk.c to dump printk buffer to consoles
+- added Suggested-by tag
+- removed code to dump printk buffer from sysrq.c and called
+  new function
 
-P.
+V1 -> V2:
+- modified kernel ring buffer to printk ring buffer
+- allocated buf dynamically to prevent stack frame size warnings
+- used buf of size 2048 to match PRINTK_MESSAGE_MAX and added comment
+
+-- Sreenath
+
+Sreenath Vijayan (2):
+  printk: Add function to dump printk buffer directly to consoles
+  tty/sysrq: Dump printk ring buffer messages via sysrq
+
+ Documentation/admin-guide/sysrq.rst |  2 ++
+ drivers/tty/sysrq.c                 | 20 ++++++++++++++++-
+ include/linux/printk.h              |  4 ++++
+ kernel/printk/printk.c              | 33 +++++++++++++++++++++++++++++
+ 4 files changed, 58 insertions(+), 1 deletion(-)
+
+-- 
+2.43.0
 
