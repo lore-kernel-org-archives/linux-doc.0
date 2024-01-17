@@ -1,106 +1,167 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391F113FF9
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 09:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F4E14274
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 09:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705484541; cv=none; b=a0WvfpZohDdT/nRGRgmpDjr/SBibP0A2syDngen3DGqbW70OgH/QhR3Qh2k3RGX86U2eT/Xw5a1YJNZxvq29pie4mGbGH29nOWNlzeysXitVgzTlOKJdP3W2oXMktzj1oripziyQAWPH4C1fun2MexfH2KB0qfbVhfxdC3AbdG8=
+	t=1705485577; cv=none; b=mr047oiPX+6jwbGMBXx0Lr4zuN7p+TBVDBjL8nb4xeWhC/71JTQQe4wO3i+q5dg29Yj0oXq4fxHxjPzGQbkfyXO/8oE0ROGzouCujuWKi6fBUxiGdC7vIdLss8pPI5CUvlXmxelXlkcMRp2yprVJZzcf9mDGi+gODoIoA2fS/Uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705484541; c=relaxed/simple;
-	bh=x4fY/wxyDIcPHn5r9HOMBTEiwZQ5upkgfRn4PdrdZ3Y=;
-	h=DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Sender; b=SzFbObMyquJ88gQDed+lIesW3cPwi6K/CdxwZJ4USp70B0fNxxBYcnOIputJwhq3ufZ3vQNXHdTLJeegyqlytg6l0WQj2fSITozDkBEsJYGC+0YohjsuUE3sFS2X/ijaaRpUiJAbJ505sMWvw4YlMvaMdVZTnLauFD7O+Grzkv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=NUiP+zlU; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1705485577; c=relaxed/simple;
+	bh=BXWuaM6cUVSlh8BuiMCFX+aJ/lumUdUFLhol1mX3ptg=;
+	h=DKIM-Signature:Received:X-MC-Unique:Received:
+	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
+	 X-Google-Smtp-Source:X-Received:Received:Message-ID:Subject:From:
+	 To:Cc:Date:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version; b=WRM6Vr+MNc51GXqngUuSSoA9F7czIdlz7+e7Wj39HJhmTGiDXSXT2R7REEkdU9t5Xot4AvDzhMAmUWgitvc9LNVJeZOO5Ke88HrcaNYhe4n0D8cv/sHvnhBWQO208ELhXxnwYJz2Gzjq+t8ra+tocUPZFRbQmhNPHytl3vbDxTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BbnyZAoH; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="NUiP+zlU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=0GcailXVX8bScB3XQ4DwyyM/w3Xe2yfasUDf2pmHVyI=; b=NUiP+zlUdCqI9vW37szSMPp6rA
-	tmjv06xetGCbb2DgiGxmgMGOPlE3/a5kP5PxHi2jh6+tSENmd8lkepDLUnWvk2BYC1wT12CWDKKIi
-	OrD7Z2fYWfm3eMY/Q8w6LQ6aHpqyyEvA2lxoygF1zKG7XnKRt1xzAeSLDpm8JhW/L1eRHvP3nGgrE
-	Bm18N2kjBqK/9RJyjN+sVnOMISnPCwui6nkdCMElh81r+iFMvicnLSvK5eGOzAJbsV3sZ1QHFt9MY
-	WHtQnmd45bqc57d34KFGyTfJao6H0SEespH8nZuQRflOd97pY3ZIGpRDyee07mdjU86EuHC/xVuWH
-	8+9EC6Uw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:54068)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rQ2Qr-0004WL-0H;
-	Wed, 17 Jan 2024 09:42:01 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rQ2Qk-0004gU-M3; Wed, 17 Jan 2024 09:41:54 +0000
-Date: Wed, 17 Jan 2024 09:41:54 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Hao Jia <jiahao.os@bytedance.com>
-Cc: mark.rutland@arm.com, catalin.marinas@arm.com, corbet@lwn.net,
-	will@kernel.org, willy@infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	root <root@n144-101-220.byted.org>
-Subject: Re: [PATCH v3 00/19] arm64 kernel text replication
-Message-ID: <Zaeg4jw3TFBUBL8m@shell.armlinux.org.uk>
-References: <20240117085357.31693-1-jiahao.os@bytedance.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BbnyZAoH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705485574;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BXWuaM6cUVSlh8BuiMCFX+aJ/lumUdUFLhol1mX3ptg=;
+	b=BbnyZAoH62b58IPXKoIkpMV9SVK+sTZkVFeiWSWOkSFH9Fy+e9rLwUKGRux3drUYy+kWUi
+	f3TENXbuMn6f2vTaAvgIIpGA65RISF6/Uh6Ez5SZBKweALQwXFQLc8/9uczT/j7JTZlBwo
+	jHFfgJi9dcjnOVYbtLoJrolOxfMD+Q4=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-375-h9ETq1NqODyVxeAJj8lOow-1; Wed, 17 Jan 2024 04:59:33 -0500
+X-MC-Unique: h9ETq1NqODyVxeAJj8lOow-1
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7830635331bso204330585a.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 01:59:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705485572; x=1706090372;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BXWuaM6cUVSlh8BuiMCFX+aJ/lumUdUFLhol1mX3ptg=;
+        b=deoRZVJqzSTzEYL3kx7rj9OFKri8rl8R03kd+EOlTAsAlgNAkOI7R1/uTiR6oAuWyD
+         k/TJCBpUZPipqqe9lekZiWz412gZ62xBE2m5sk7WhMi744Zg8pPJ0N1QTWSyT5abz/rk
+         Hwy9BSp5+9/Fg7nOi36xiJzEYmsWikbvdtW55T+dxvo03mjHyFS9/G6LcB7OiU/eQOtK
+         LEwGdnAvyN7sUUKJY1I6KhjFr9GKAMerCIpgaDuag5noqRr/GhWPNaDK4UV3tBwZMSvl
+         4T+0q73N/Xa32VkmIE1u9izz3+nyIjQdum4wllk+gTEPULkZ30P4rAf5Z9MO1MxcZUf/
+         B9dQ==
+X-Gm-Message-State: AOJu0YwLrSt9NmWi4IW2oLJTDBqLDM/dxaHsfbbNKZ7RpRnJZoouU5ky
+	Rcw3s0izxd2J9HUVTWDq9jhnZokwWjYU0C2FV7LSRFqiSBKvr+ITAiQUpcxlJGUKkFH5obv8jTt
+	+7KRQRunlY400MrN4ZCAFBMlqBHjx
+X-Received: by 2002:a05:620a:2712:b0:783:54f7:87e3 with SMTP id b18-20020a05620a271200b0078354f787e3mr1912710qkp.3.1705485572524;
+        Wed, 17 Jan 2024 01:59:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFSqiqfszMpvjq99qT6Qsh4E31ne0xTg2kSjDD+8OcYXlRuSFlLMN+j9bbV0ag4d0WislsuJQ==
+X-Received: by 2002:a05:620a:2712:b0:783:54f7:87e3 with SMTP id b18-20020a05620a271200b0078354f787e3mr1912700qkp.3.1705485572147;
+        Wed, 17 Jan 2024 01:59:32 -0800 (PST)
+Received: from pstanner-thinkpadt14sgen1.remote.csb (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id w9-20020a05620a148900b0078322355fb7sm4380924qkj.20.2024.01.17.01.59.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 01:59:31 -0800 (PST)
+Message-ID: <5e760f104c75efe37100cee5a26b7ee3581f03b4.camel@redhat.com>
+Subject: Re: [PATCH 00/10] Make PCI's devres API more consistent
+From: Philipp Stanner <pstanner@redhat.com>
+To: andy.shevchenko@gmail.com
+Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas
+ <bhelgaas@google.com>, Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
+ linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linux-pci@vger.kernel.org
+Date: Wed, 17 Jan 2024 10:59:29 +0100
+In-Reply-To: <ZabyY3csP0y-p7lb@surfacebook.localdomain>
+References: <20240115144655.32046-2-pstanner@redhat.com>
+	 <ZabyY3csP0y-p7lb@surfacebook.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240117085357.31693-1-jiahao.os@bytedance.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Wed, Jan 17, 2024 at 04:53:38PM +0800, Hao Jia wrote:
-> From: root <root@n144-101-220.byted.org>
-> 
-> Many thanks to Russell King for his previous work on
-> arm64 kernel text replication.
-> https://lore.kernel.org/all/ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk
-> 
-> After applying these patches, we tested that our business performance
-> increased by more than 5% and the NUMA node memory bandwidth was more
-> balanced.
-> I've recently been trying to make it work with different numbers of
-> page tables/page sizes, so updated this patch set to V3.
-> 
-> Patch overview:
-> 
-> Patch 1-16 is a patch set based on Russell King's previous arm64
-> kernel text replication, rebased on commit 052d534373b7.
-> 
-> The following three patches are new in v3:
-> patch 17 fixes compilation warning
-> 
-> patch 18 adapts arm64 kernel text replication to support more
-> page tables/page sizes, in addition to 16K page size and
-> 4-level page tables.
-> 
-> patch 19 fixes the abnormal startup problem caused by module_alloc()
-> which may allocate an address larger than KIMAGE_VADDR when kernel text
-> replication is enabled.
-> 
-> [v2] https://lore.kernel.org/all/ZMKNYEkM7YnrDtOt@shell.armlinux.org.uk
-> [RFC] https://lore.kernel.org/all/ZHYCUVa8fzmB4XZV@shell.armlinux.org.uk
-> 
-> Please correct me if I've made a mistake, thank you very much!
+On Tue, 2024-01-16 at 23:17 +0200, andy.shevchenko@gmail.com wrote:
+> Mon, Jan 15, 2024 at 03:46:11PM +0100, Philipp Stanner kirjoitti:
+> > =C2=A1Hola!
+>=20
+> i? Vim user? :-)
 
-Note that, even though I haven't posted an update (I see it as mostly
-pointless because *noone* commented on the previous posting) I do
-maintain these patches:
+The Dark Side of the Force is the path to many abilities, that some
+consider to be... unnatural
+https://www.neo-layout.org/
 
-  git://git.armlinux.org.uk/~rmk/linux-arm.git aarch64/ktext/head
+>=20
+> > PCI's devres API suffers several weaknesses:
+> >=20
+> > 1. There are functions prefixed with pcim_. Those are always
+> > managed
+> > =C2=A0=C2=A0 counterparts to never-managed functions prefixed with pci_=
+ =E2=80=93 or
+> > so one
+> > =C2=A0=C2=A0 would like to think. There are some apparently unmanaged
+> > functions
+> > =C2=A0=C2=A0 (all region-request / release functions, and pci_intx()) w=
+hich
+> > =C2=A0=C2=A0 suddenly become managed once the user has initialized the =
+device
+> > with
+> > =C2=A0=C2=A0 pcim_enable_device() instead of pci_enable_device(). This
+> > "sometimes
+> > =C2=A0=C2=A0 yes, sometimes no" nature of those functions is confusing =
+and
+> > =C2=A0=C2=A0 therefore bug-provoking. In fact, it has already caused a =
+bug in
+> > DRM.
+> > =C2=A0=C2=A0 The last patch in this series fixes that bug.
+> > 2. iomappings: Instead of giving each mapping its own callback, the
+> > =C2=A0=C2=A0 existing API uses a statically allocated struct tracking o=
+ne
+> > mapping
+> > =C2=A0=C2=A0 per bar. This is not extensible. Especially, you can't cre=
+ate
+> > =C2=A0=C2=A0 _ranged_ managed mappings that way, which many drivers wan=
+t.
+> > 3. Managed request functions only exist as "plural versions" with a
+> > =C2=A0=C2=A0 bit-mask as a parameter. That's quite over-engineered
+> > considering
+> > =C2=A0=C2=A0 that each user only ever mapps one, maybe two bars.
+> >=20
+> > This series:
+> > - add a set of new "singular" devres functions that use devres the
+> > way
+> > =C2=A0 its intended, with one callback per resource.
+> > - deprecates the existing iomap-table mechanism.
+> > - deprecates the hybrid nature of pci_ functions.
+> > - preserves backwards compatibility so that drivers using the
+> > existing
+> > =C2=A0 API won't notice any changes.
+> > - adds documentation, especially some warning users about the
+> > =C2=A0 complicated nature of PCI's devres.
+>=20
+> Instead of adding pcim_intx(), please provide proper one for
+> pci_alloc_irq_vectors(). Ideally it would be nice to deprecate
+> old IRQ management functions in PCI core and delete them in the
+> future.
+>=20
 
-currently has them against v6.7
+In order to deprecate the intermingling with half-managed hyprid devres
+in pci.c, you need to have pci_intx() be backwards compatible. Unless
+you can remove it at once.
+And the least broken way to do that I thought would be pcim_intx(),
+because that's consistent with how I make pci_request_region() & Co.
+call into their managed counterparts.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+There are 25 users of pci_intx().
+We'd have to look how many of them call pcim_enable_device() and how
+easy they would be to port to... pci_alloc_irq_vectors() you say? I
+haven't used that before. Would have to look into it and see how we
+could do that.
+
+
+P.
+
