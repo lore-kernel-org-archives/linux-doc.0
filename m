@@ -1,58 +1,58 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10DE12B6F
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F9512B87
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705481781; cv=none; b=RioZUmLKYi5wPgeCwC9jKsWVIk7v8YofDPyzpaRAqQFL7mDebLnepW7p4f4zLdbBV7ftQx93l4sMPaNHpfe9i60BdY/+e0FTAV2veA1h/4fvpAm6xfQtFfHrqoBj4DBuhXi1YI72XrBNhLoE144SpINzE6QopbGBTrJSlyT+I3Y=
+	t=1705481785; cv=none; b=XYXnGm4tvJJkzXTIZwZW5ZTN+YBJYRKk6/ViFcL7n566XRoTKuqwgEncCf6I8msQe/rT0polNnpmpZ3FX6NxsPUoEYJaKGKp5IQ/EjjIRZjZ556VvLq673csO1dkgdmN6yY9TyVgMjvbmQVymqlBj0W2K3juOQe2sWa1GUkJQeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705481781; c=relaxed/simple;
-	bh=8gtmmJwg+/jsTtuZtqQy80cge8wyZUrlws98MiySy2o=;
+	s=arc-20240116; t=1705481785; c=relaxed/simple;
+	bh=J6Aw22munGkbl9KO8vMyFUNjJ3/2quptcKmO5CShMAo=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
 	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding; b=ftC2IwyooOcc4VpG9wz4mF28zT6g7vGoOsJAAdxhTJc9eynCIPkgNftsCTbqpjbc1UbV6e76jguSg04gICQuopQ7TWF6dXQOv2GZr1VO6LO31XUHYQANZx+ltETh63BRMYlIAhJXu4rvMFad9E+l0NYplL890KG9lKpt8F4Nsj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=PmMgV+NX; arc=none smtp.client-ip=209.85.210.50
+	 MIME-Version:Content-Transfer-Encoding; b=uazIav3mVNC/ur3eQ+s108YHXD1U7Zaj/G71cX1Fh2/Hi9BXgg9Dzu6rx0o905iN5g56/AtqUppKLkREcfpyjdihlpRrzILIJPqEdI8/hLdfTLfQMGLg3LNyggo/ugdgI6KUNeDtSvXcp07DX64BsHLyOB9SmpNk0ciDBDpkbg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=lM8n3bWv; arc=none smtp.client-ip=209.85.161.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="PmMgV+NX"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6ddee0aa208so5147254a34.3
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:56:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="lM8n3bWv"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5957ede4deaso6232678eaf.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:56:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1705481779; x=1706086579; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1705481783; x=1706086583; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p92HaOoAM2zaHZmiFbyj7p/d4cfHWue2zO9NzywtZ/E=;
-        b=PmMgV+NXyU2dKQE/AWkbhPxoPETNXm6mx2De6YHfnypP8IU9YIFc73kj2QE66CnRvu
-         RnY+zdQNCgwbsO8GYsO0hXjUpYRjICjY8DrAAYeFCaIlCJmaAeyZwdfXc8b35Jtxi9G2
-         DOrplKsjyBKeYQ2aN4uWz4RK3HO9W26uhDD+4S6wKPFd+kDUOH7Nh2kdFcm/oQKytN19
-         +p72/6xQ7mBK31q7yep4gQvJC59KpY+GN7TaFLzO2PqqpCD0AZvbVuh+NVl0D1aQ/zin
-         pKpKj3EJHnka8pURI5zwvyFsMHGyGaW4CQRZbPKj+Evk3o434w3dpFPEV3ijmAS8Qspy
-         u48A==
+        bh=qQdK6UN4Sbkg821n0RzgtdTqevsqeZ0NPVjMH2nTkPo=;
+        b=lM8n3bWviz9xrf4z48i05KX6FfpmKJWHre2/8mOP2PmH8CdecYNwo9FBziLuBomRu0
+         wfF10EpAsyvblBBf/wtEK6TjTMcr9eBmokvCcgjaYdnxV9VbXMgj1x83CxrShXIKGEa9
+         2Svc82rnwvOQ1zRD0PACwDxbLCxwDzT2SWAT5I2dksNXwIPtU9ydNyrTnF3FyDnpEzDS
+         1FMeZS4XTQOgb7ybrSJlVsokDKRJC8o+nnXFSHPxXEfw37VbnhUYGnIgJAxPu5QQeusv
+         XD/JGuEeLBtCn12sfYy1prDWStl0ZFN9Mlr1EINbCNS8XFNDChYq6ngLckHfpho6o/Zi
+         oq2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705481779; x=1706086579;
+        d=1e100.net; s=20230601; t=1705481783; x=1706086583;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p92HaOoAM2zaHZmiFbyj7p/d4cfHWue2zO9NzywtZ/E=;
-        b=cLN0fFkyadh0M/xBNYzsB0prCcKiOVV82at9O6DAiEoaEYJkWT2b1la7g9A7ZR8E2w
-         DBUzlLE1oPXgTLtbEJmrsZFK8Y4xV/wd+JhkQPFVMfCSt6RRVErLF+13vcZLxCaN0AKe
-         dapN7bH/w/lg2l4mE50pL9uvbB3Ydn8lSHRcE7h5o5ShuSFm2N8wWhlqIdkaIpwLrZWf
-         JSA+bxSF6qZf15hXxHuKNhY7yWRbUqFTZS2fjasEodre27riBjRRKoETKK5Fujh1kTFC
-         ARRrDPCb4WwOcwsnBRykR9QJ8CiuDyudNy8XoPXfzP8eaUtDk0DiMv3oWR8eWqc3BEFt
-         uZ8Q==
-X-Gm-Message-State: AOJu0YylSye6eId6HGrVp1sG7ZctHHE/bIwCJ+f/n5EDOMc+1SUPvgTT
-	EcjgEe+O8boVoqdOdx4JiRTqFSPciddajQ==
-X-Google-Smtp-Source: AGHT+IFu+SeEJw9n2AbRiPBp4K++9he5wPts9eCmdnzeT17fAUQ3fZ3HG6qv9UaHx727Ck5dPdrcfQ==
-X-Received: by 2002:a9d:66ce:0:b0:6e0:c98f:b170 with SMTP id t14-20020a9d66ce000000b006e0c98fb170mr1986605otm.50.1705481778825;
-        Wed, 17 Jan 2024 00:56:18 -0800 (PST)
+        bh=qQdK6UN4Sbkg821n0RzgtdTqevsqeZ0NPVjMH2nTkPo=;
+        b=KeUMKazwQyDsO+xxO8JG0G41w8nRUQkKN213B52mDViVSlrdJrJ5krNuwrA/aiMv98
+         NsEj54s1+LyxGZAQ7UbhIbhmSXLNhuT3EN9suqFFHoOA3uteUzWNVS/iFm9BnFdNnkAz
+         N+x0kMQCj98rqDDrBQ8E4EejrL0B4VS67oWwppl3ugD5iC8YhcR5B2ye8XRBClB9rD0S
+         w4Ed0Lm9zVo+Rq8eZwZakXiSHSfZUQLQKfED+x2EfTVBZsq8OGAFpDMbSLsUTPKWND25
+         ZrL1onD/YTgRjc9f3KyzZwlRxnH+HBPxD3Ce35dStr4cyl/2p652kK8XDWfUeLZFbznC
+         r74g==
+X-Gm-Message-State: AOJu0YwJUMSdd0slUiannrjCKHgkcwOIEGa5gwIWB7S2lHC0qftEOfB7
+	1gZv2oCxjTYCoyHH8J+Nhgm3Oqe3VAJ0Sw==
+X-Google-Smtp-Source: AGHT+IF/HMTMNB8W0qcQb37SKY14Aembgv/YlibRIm+GjzwykgS8GBYt+tPLDr1xX+XPrtF34hq/yQ==
+X-Received: by 2002:a05:6358:5e93:b0:175:c1be:dd0f with SMTP id z19-20020a0563585e9300b00175c1bedd0fmr9912740rwn.50.1705481783152;
+        Wed, 17 Jan 2024 00:56:23 -0800 (PST)
 Received: from C02G87K0MD6R.bytedance.net ([203.208.167.154])
-        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.56.15
+        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.56.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 00:56:18 -0800 (PST)
+        Wed, 17 Jan 2024 00:56:22 -0800 (PST)
 From: Hao Jia <jiahao.os@bytedance.com>
 To: mark.rutland@arm.com,
 	rmk+kernel@armlinux.org.uk,
@@ -62,9 +62,9 @@ To: mark.rutland@arm.com,
 	willy@infradead.org
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v3 15/19] arm64: text replication: early kernel option to enable replication
-Date: Wed, 17 Jan 2024 16:53:53 +0800
-Message-Id: <20240117085357.31693-16-jiahao.os@bytedance.com>
+Subject: [PATCH v3 16/19] arm64: text replication: add Kconfig
+Date: Wed, 17 Jan 2024 16:53:54 +0800
+Message-Id: <20240117085357.31693-17-jiahao.os@bytedance.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 In-Reply-To: <20240117085357.31693-1-jiahao.os@bytedance.com>
 References: <20240117085357.31693-1-jiahao.os@bytedance.com>
@@ -78,73 +78,55 @@ Content-Transfer-Encoding: 8bit
 
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Provide an early kernel option "ktext=" which allows the kernel text
-replication to be enabled. This takes a boolean argument.
+Add the Kconfig symbol for kernel text replication. This unfortunately
+requires KASAN and kernel text randomisation options to be disabled at
+the moment.
 
-The way this has been implemented means that we take all the same paths
-through the kernel at runtime whether kernel text replication has been
-enabled or not; this allows the performance effects of the code changes
-to be evaluated separately from the act of running with replicating the
-kernel text.
+Currently, we do not support CONFIG_ARM64_16K_PAGES and
+CONFIG_PGTABLE_LEVLS=4, because PGDIR_SIZE is 128T,
+which is too large to allow the kernel text to
+exclusively occupy an L0 page table entry.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- .../admin-guide/kernel-parameters.txt          |  5 +++++
- arch/arm64/mm/ktext.c                          | 18 ++++++++++++++++++
- 2 files changed, 23 insertions(+)
+ arch/arm64/Kconfig | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6ee0f9a5da70..bace7bd404d3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2544,6 +2544,11 @@
- 			0: force disabled
- 			1: force enabled
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 8f6cf1221b6a..a9dfe6e0006a 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -163,7 +163,7 @@ config ARM64
+ 	select HAVE_ARCH_HUGE_VMAP
+ 	select HAVE_ARCH_JUMP_LABEL
+ 	select HAVE_ARCH_JUMP_LABEL_RELATIVE
+-	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
++	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48 && !REPLICATE_KTEXT)
+ 	select HAVE_ARCH_KASAN_VMALLOC if HAVE_ARCH_KASAN
+ 	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
+ 	select HAVE_ARCH_KASAN_HW_TAGS if (HAVE_ARCH_KASAN && ARM64_MTE)
+@@ -1443,6 +1443,13 @@ config NODES_SHIFT
+ 	  Specify the maximum number of NUMA Nodes available on the target
+ 	  system.  Increases memory reserved to accommodate various tables.
  
-+	ktext=		[ARM64] Control kernel text replication on NUMA
-+			machines. Default: disabled.
-+			0: disable kernel text replication
-+			1: enable kernel text replication
++config REPLICATE_KTEXT
++	bool "Replicate kernel text across numa nodes"
++	depends on NUMA && !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
++	help
++	  Say Y here to enable replicating the kernel text across multiple
++	  nodes in a NUMA cluster.  This trades memory for speed.
 +
- 	kunit.enable=	[KUNIT] Enable executing KUnit tests. Requires
- 			CONFIG_KUNIT to be set to be fully enabled. The
- 			default value can be overridden via
-diff --git a/arch/arm64/mm/ktext.c b/arch/arm64/mm/ktext.c
-index 6265a2db449b..3dde6e1d99d7 100644
---- a/arch/arm64/mm/ktext.c
-+++ b/arch/arm64/mm/ktext.c
-@@ -98,6 +98,21 @@ void ktext_replication_patch_alternative(__le32 *src, int nr_inst)
- 	}
- }
+ source "kernel/Kconfig.hz"
  
-+static bool ktext_enabled;
-+
-+static int __init parse_ktext(char *str)
-+{
-+	bool enabled;
-+	int ret = kstrtobool(str, &enabled);
-+
-+	if (ret)
-+		return ret;
-+
-+	ktext_enabled = enabled;
-+	return 0;
-+}
-+early_param("ktext", parse_ktext);
-+
- /* Allocate page tables and memory for the replicated kernel texts. */
- void __init ktext_replication_init(void)
- {
-@@ -119,6 +134,9 @@ void __init ktext_replication_init(void)
- 		return;
- 	}
+ config ARCH_SPARSEMEM_ENABLE
+@@ -2161,6 +2168,7 @@ config RELOCATABLE
  
-+	if (!ktext_enabled)
-+		return;
-+
- 	for_each_node(nid) {
- 		/* Nothing to do for node 0 */
- 		if (!nid)
+ config RANDOMIZE_BASE
+ 	bool "Randomize the address of the kernel image"
++	depends on !REPLICATE_KTEXT
+ 	select RELOCATABLE
+ 	help
+ 	  Randomizes the virtual address at which the kernel image is
 -- 
 2.20.1
 
