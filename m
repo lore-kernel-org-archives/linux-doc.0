@@ -1,262 +1,125 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADD913AEE
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067A012B98
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:54:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705481695; cv=none; b=qV3VRB9ipKASeeYYAorvnSQY7ml/tjJMChntec7+l2T54bb4Ixer/kn7zAuYGWyWhEw7mmnYqGT7l9q2ZlZ3rRywiE0ktTtikCu+lt9jvXIaobmiaB3xkX5eP4zZjnKGHAEMZkkwYkHmm+GcY0jVufWkLsAXRy6kIay5jCSvWo8=
+	t=1705481698; cv=none; b=tTfZ9soRdYM/wYJpHS9Bmc1M5sLscjTrk3RFvKQr2HmQvSe0CzOf24eEDv4izO0PCnXUsjvsNbB/RGik4EBcRs08gJ5B6V5TIiRXx8hjsyDf20FZFKOiirDaLuJKovsl0Xj+XJ2CEIZkldF93PqJGWnD7/3c0/AbP0Dns2nUfeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705481695; c=relaxed/simple;
-	bh=YbhqHgZ8qrRwRRdHssnLB+nFCjalZT7Y0BQbw4Hg2cQ=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:
-	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
-	 X-Google-Smtp-Source:X-Received:Received:Message-ID:Subject:From:
-	 To:Cc:Date:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version; b=cafKP2gDTdjQz9nyzwOr+KUgedBvIoLP1sdel3gphwbTtMH2q23iwV+6vnyCNinYvaL3KuEnhu2tFvRrzDFIl4oYVLXM66Z13/JvGPZgNg4MqrgQhRWWgl2yBLKiRUp2omaH8fwG+MjYyJm2udl635U6CtvFOW7LQJU86MVCvoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A4SNebiV; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1705481698; c=relaxed/simple;
+	bh=mnfgREsVwr1go6r7hwxzFMbQSv7AIS5GqJffah50uhQ=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
+	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding; b=MXWHbtBw0lw6lqsoSY2OYGob9EQpo7sNHTUAOHpbfxLvtQ/rBPnouTpdQSPFaGNhuF1VDyEnzdmkMxDoZon7SY7BTFr8xbgFw6xOMmIqHlC3M0D8N1VHqJctNvhTZKhoot1NmOoIL3zf09SG6T/LW3+nJqmlw38kRq6Dj0zmyFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=lUDKCTNC; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A4SNebiV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705481692;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D00hU3PzeJuPDTbACxnMMgiUCTQ91p211OWtV23tV44=;
-	b=A4SNebiV+WI0csUla7zNRisE0lhY/CmPVFhVO5p3fiwP4pXQuD/GyevMlOUjVKmoxqHp88
-	3vMV/u8xVLz0HpmgS6f/IcyuwaJnShzDtxK8MOdxbWuXsIfgMiwdK/gRW6FbVEtk0VMDhi
-	AT+nxBcsBUoJ4CEoJjvWQUOKtgSE0BY=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-638-dm1xePh-M1uLiB2DLkUpbQ-1; Wed, 17 Jan 2024 03:54:51 -0500
-X-MC-Unique: dm1xePh-M1uLiB2DLkUpbQ-1
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7830635331bso203159285a.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:54:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="lUDKCTNC"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6dad22e13dcso6784337b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1705481696; x=1706086496; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C0YnrwPSql1GKAZEKcOXCTYFdFroQe84JOBLT0y5oKY=;
+        b=lUDKCTNCsff+PDq8y0kDF1b85bmKwfeOTaon0Px6MbipbzUtFy4FGPaurZcW/L0Pv0
+         q2pTqvSF+zyARnIsKZNL8Y9B5H8yxQUSfi6qKrP30Js785Siji9oyl1JKCPzzEsAM8Zo
+         2AMyWW21Oflz1K1w1RcecsdcsZViGkUhYIAeb1tJr+lRJTSyajW8p8wifJ1ros07cg4Q
+         HwWTvPuj8AEVJiyQ3x4jMOO0m/rbOLoEkvhl3twk/MB8oqn7eleLV4gz1vB3vJi323OE
+         ev2XsUQFwAzKYyb/3OsG58ypfGTbDyI8UcrTNeYuf8cJjTTJvbTtD241FtxxRHUNKQLf
+         G5BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705481691; x=1706086491;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D00hU3PzeJuPDTbACxnMMgiUCTQ91p211OWtV23tV44=;
-        b=Ids4Cn035e+TMnfj+Ex0zi5Nmi70zzzQSV5N+qjDBeWRxOVYGdLM5D9ASHXs3wGKyg
-         U/sE8Mv1YNd7iLr/EAuhq8Lfi/A077tIN2PWsyYJRtWhjGc5Y9tToeHjfahSiaXBD9b9
-         aoRM+l37oH+HUvKEpDoC1z31o9BljPXXAmt5H3Lg+iTKK3vVMpqHPm9BnmiFWBCNOubr
-         lLx7dBGnjgO8nqSEhKoBNdPpWofYNxAniw/t7DXgubuaHuryUglmU33YCE4vcC8BKh4+
-         RDRo7JUYtmby7OwqBl1M2aYuGa2UBRmWfi6QouLc8iKn9Lz5uX+CaUd4K7pPcsZNh9iq
-         9ZIA==
-X-Gm-Message-State: AOJu0YxTka1slo/OeqwwTETWeLp//MDGy0J08prykU6Y/kHqZgW8T4EW
-	Qid9Acb+aK62Ldngx2IUqp7UqpvFCOuZV5uq8SnRbcMm5Wu3Evz+NPRzLxB/htfHZW57dxuZ5x+
-	IutY3Rf/nkYQQE6qooQu8nixT2Fl3
-X-Received: by 2002:a05:620a:8019:b0:783:68ab:9ade with SMTP id ee25-20020a05620a801900b0078368ab9ademr1389359qkb.7.1705481690792;
-        Wed, 17 Jan 2024 00:54:50 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH/PfPCNwITnjUQYv8Uu8hwD3Ulky89OHnA+85OkcfyY06xXLEGkkaNflyvHvodm12ON4wvqw==
-X-Received: by 2002:a05:620a:8019:b0:783:68ab:9ade with SMTP id ee25-20020a05620a801900b0078368ab9ademr1389343qkb.7.1705481690454;
-        Wed, 17 Jan 2024 00:54:50 -0800 (PST)
-Received: from pstanner-thinkpadt14sgen1.remote.csb (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id vr28-20020a05620a55bc00b0078199077d0asm4355821qkn.125.2024.01.17.00.54.48
+        d=1e100.net; s=20230601; t=1705481696; x=1706086496;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C0YnrwPSql1GKAZEKcOXCTYFdFroQe84JOBLT0y5oKY=;
+        b=Zzk4q0ssUsTYvkon2yy8+Uq6/dkjV3VvaLmC5C++Jh1e5t0uKtIHODOdwssN4V/FmI
+         SM6s3SsMoC/2KrdkLzkC/8dbzIJLVNhbdtjbZXfWubA8rArbbPOyE+wre7fu2RG2I2g7
+         ub8KoeUb2Z4GEukicCgm+k8kGBurF7kN9jAJbzx8s9W0857rBBew6BXQyxiqxOODpB41
+         vxFG5eOOaYgEhIkf1HJ18yU2awreyMCHcpb693akprBo5Yd3/Otz/sP/zw5s2xU5J2Xb
+         czs8y9L6YmpWhwlap+IvIUr/55ttoTUfK/x85DPyu2f1SEHzqNgL0E0I+Cj5Ggp/dv3Z
+         G/Qw==
+X-Gm-Message-State: AOJu0YxnwvoHrobjvrc5plWiHQUcginHGCd/i8Es/p/no0LIqq9Fr9Sk
+	XaX3mFfmox1EPE2hlHmL/8ruDPmciRVAzA==
+X-Google-Smtp-Source: AGHT+IHmwRHuXI6O8J3adudCI7NFjlL6JoU2MdHCSfsQaz+G5M+OeCSK/lNDZKGMnOd+N31liyzFRg==
+X-Received: by 2002:a05:6a00:170a:b0:6d9:d3a7:be4c with SMTP id h10-20020a056a00170a00b006d9d3a7be4cmr5709736pfc.52.1705481696271;
+        Wed, 17 Jan 2024 00:54:56 -0800 (PST)
+Received: from C02G87K0MD6R.bytedance.net ([203.208.167.154])
+        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.54.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 00:54:50 -0800 (PST)
-Message-ID: <1983517bf5d0c98894a7d40fbec353ad75160cb4.camel@redhat.com>
-Subject: Re: [PATCH 01/10] pci: add new set of devres functions
-From: Philipp Stanner <pstanner@redhat.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas
- <bhelgaas@google.com>, Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
- linux-pci@vger.kernel.org,  linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linux-doc@vger.kernel.org
-Date: Wed, 17 Jan 2024 09:54:47 +0100
-In-Reply-To: <20240116184436.GA101781@bhelgaas>
-References: <20240116184436.GA101781@bhelgaas>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Wed, 17 Jan 2024 00:54:55 -0800 (PST)
+From: Hao Jia <jiahao.os@bytedance.com>
+To: mark.rutland@arm.com,
+	rmk+kernel@armlinux.org.uk,
+	catalin.marinas@arm.com,
+	corbet@lwn.net,
+	will@kernel.org,
+	willy@infradead.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 01/19] arm64: provide cpu_replace_ttbr1_phys()
+Date: Wed, 17 Jan 2024 16:53:39 +0800
+Message-Id: <20240117085357.31693-2-jiahao.os@bytedance.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+In-Reply-To: <20240117085357.31693-1-jiahao.os@bytedance.com>
+References: <20240117085357.31693-1-jiahao.os@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2024-01-16 at 12:44 -0600, Bjorn Helgaas wrote:
-> On Mon, Jan 15, 2024 at 03:46:12PM +0100, Philipp Stanner wrote:
-> > PCI's devres API is not extensible to ranged mappings and has
-> > bug-provoking features. Improve that by providing better
-> > alternatives.
->=20
-> I guess "ranged mappings" means a mapping that doesn't cover an
-> entire
-> BAR?=C2=A0 Maybe there's a way to clarify?
+From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-That's what it's supposed to mean, yes.
-We could give it the longer title "mappings smaller than the whole BAR"
-or something, I guess.
+Provide a version of cpu_replace_ttbr1_phys() which operates using a
+physical address rather than the virtual address of the page tables.
 
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+---
+ arch/arm64/include/asm/mmu_context.h | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
->=20
-> > When the original devres API for PCI was implemented, priority was
-> > given
-> > to the creation of a set of "pural functions" such as
-> > pcim_request_regions(). These functions have bit masks as
-> > parameters to
-> > specify which BARs shall get mapped. Most users, however, only use
-> > those
-> > to mapp 1-3 BARs.
-> > A complete set of "singular functions" does not exist.
->=20
-> s/mapp/map/
->=20
-> Rewrap to fill 75 columns or add blank lines between paragraphs.=C2=A0
-> Also
-> below.
->=20
-> > As functions mapping / requesting multiple BARs at once have
-> > (almost) no
-> > mechanism in C to return the resources to the caller of the plural
-> > function, the devres API utilizes the iomap-table administrated by
-> > the
-> > function pcim_iomap_table().
-> >=20
-> > The entire PCI devres implementation was strongly tied to that
-> > table
-> > which only allows for mapping whole, complete BARs, as the BAR's
-> > index
-> > is used as table index. Consequently, it's not possible to, e.g.,
-> > have a
-> > pcim_iomap_range() function with that mechanism.
-> >=20
-> > An additional problem is that pci-devres has been ipmlemented in a
-> > sort
-> > of "hybrid-mode": Some unmanaged functions have managed
-> > counterparts
-> > (e.g.: pci_iomap() <-> pcim_iomap()), making their managed nature
-> > obvious to the programmer. However, the region-request functions in
-> > pci.c, prefixed with pci_, behave either managed or unmanaged,
-> > depending
-> > on whether pci_enable_device() or pcim_enable_device() has been
-> > called
-> > in advance.
->=20
-> s/ipmlemented/implemented/
->=20
-> > This hybrid API is confusing and should be more cleanly separated
-> > by
-> > providing always-managed functions prefixed with pcim_.
-> >=20
-> > Thus, the existing devres API is not desirable because:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0a) The vast majority of=
- the users of the plural functions
-> > only
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ever sets =
-a single bit in the bit mask, consequently
-> > making
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 them singu=
-lar functions anyways.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0b) There is no mechanis=
-m to request / iomap only part of a
-> > BAR.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0c) The iomap-table mech=
-anism is over-engineered,
-> > complicated and
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 can by def=
-inition not perform bounds checks, thus,
-> > provoking
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memory fau=
-lts: pcim_iomap_table(pdev)[42]
->=20
-> Not sure what "pcim_iomap_table(pdev)[42]" means.
-
-That function currently is implemented with this prototype:
-void __iomem * const *pcim_iomap_table(struct pci_dev *pdev);
-
-And apparently, it's intended to index directly over the function. And
-that's how at least part of the users use it indeed.
-
-Here in drivers/crypto/inside-secure/safexcel.c, L.1919 for example:
-
-	priv->base =3D pcim_iomap_table(pdev)[0];
-
-I've never seen something that wonderful in C ever before, so it's not
-surprising that you weren't sure what I mean....
-
-pcim_iomap_table() can not and does not perform any bounds check. If
-you do
-
-void __iomem *mappy_map_mapface =3D pcim_iomap_table(pdev)[42];
-
-then it will just return random garbage, or it faults. No -EINVAL or
-anything. You won't even get NULL.
-
-That's why this function must die.
-
-
->=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0d) region-request funct=
-ions being sometimes managed and
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sometimes =
-not is bug-provoking.
->=20
-> Indent with spaces (not tabs) so it still looks good when "git log"
-> adds spaces to indent.
->=20
-> > + * Legacy struct storing addresses to whole mapped bars.
->=20
-> s/bar/BAR/ (several places).
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* A region spaning an entir=
-e bar. */
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0PCIM_ADDR_DEVRES_TYPE_REGION=
-,
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* A region spaning an entir=
-e bar, and a mapping for that
-> > whole bar. */
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0PCIM_ADDR_DEVRES_TYPE_REGION=
-_MAPPING,
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * A mapping within a bar, e=
-ither spaning the whole bar or
-> > just a range.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Without a requested regio=
-n.
->=20
-> s/spaning/spanning/ (several places).
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (start =3D=3D 0 || len =
-=3D=3D 0) /* that's an unused BAR. */
->=20
-> s/that/That/
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Ranged mappings don't get=
- added to the legacy-table,
-> > since the table
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * only ever keeps track of =
-whole BARs.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > +
->=20
-> Spurious blank line.
-
-
-I'll take care of the grammar and spelling stuff in v2.
-
-Thanks,
-P.
-
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0devres_add(&pdev->dev, res);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return mapping;
-> > +}
-> > +EXPORT_SYMBOL(pcim_iomap_range);
->=20
-> Bjorn
->=20
+diff --git a/arch/arm64/include/asm/mmu_context.h b/arch/arm64/include/asm/mmu_context.h
+index 9ce4200508b1..466797dcb5fc 100644
+--- a/arch/arm64/include/asm/mmu_context.h
++++ b/arch/arm64/include/asm/mmu_context.h
+@@ -152,7 +152,7 @@ static inline void cpu_install_ttbr0(phys_addr_t ttbr0, unsigned long t0sz)
+  * Atomically replaces the active TTBR1_EL1 PGD with a new VA-compatible PGD,
+  * avoiding the possibility of conflicting TLB entries being allocated.
+  */
+-static inline void __cpu_replace_ttbr1(pgd_t *pgdp, pgd_t *idmap, bool cnp)
++static inline void __cpu_replace_ttbr1_phys(phys_addr_t pgd_phys, pgd_t *idmap, bool cnp)
+ {
+ 	typedef void (ttbr_replace_func)(phys_addr_t);
+ 	extern ttbr_replace_func idmap_cpu_replace_ttbr1;
+@@ -160,7 +160,7 @@ static inline void __cpu_replace_ttbr1(pgd_t *pgdp, pgd_t *idmap, bool cnp)
+ 	unsigned long daif;
+ 
+ 	/* phys_to_ttbr() zeros lower 2 bits of ttbr with 52-bit PA */
+-	phys_addr_t ttbr1 = phys_to_ttbr(virt_to_phys(pgdp));
++	phys_addr_t ttbr1 = phys_to_ttbr(pgd_phys);
+ 
+ 	if (cnp)
+ 		ttbr1 |= TTBR_CNP_BIT;
+@@ -180,6 +180,11 @@ static inline void __cpu_replace_ttbr1(pgd_t *pgdp, pgd_t *idmap, bool cnp)
+ 	cpu_uninstall_idmap();
+ }
+ 
++static inline void __nocfi __cpu_replace_ttbr1(pgd_t *pgdp, pgd_t *idmap, bool cnp)
++{
++	__cpu_replace_ttbr1_phys(virt_to_phys(pgdp), idmap, cnp);
++}
++
+ static inline void cpu_enable_swapper_cnp(void)
+ {
+ 	__cpu_replace_ttbr1(lm_alias(swapper_pg_dir), idmap_pg_dir, true);
+-- 
+2.20.1
 
