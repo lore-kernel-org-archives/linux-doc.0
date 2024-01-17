@@ -1,171 +1,104 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C68219F1;
-	Wed, 17 Jan 2024 15:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894CD1E4AD;
+	Wed, 17 Jan 2024 15:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705505199; cv=none; b=dcGezV75UKZVOndlE/gdUJ/zu0Eg1RNEyue+j/0yK0rOQ/wQvRWHDnBaDW3ho4ndn7rx1gVlZb5HSkyGSsIdH81lrPhfEuwioiKyMi96VSfSfk/fbOUl6CttXciDODMOg5tXeBhgBijQa74LvZDWQkQJ/yPeUb59l/82LCv20wg=
+	t=1705505831; cv=none; b=Y20lxr2h+UMh8qnaUga/NJL/DXldH2M/ODb6IQbjbX6vhMk+ZSZIGzto0LuHyo0xRZbh4moo3/YN9QfxcHISPPhHUFlKZrFLXOhRmQhZwGdkfCQnZtWMYmNABodpLbFUH2BXuX6Mb74U2QOIEVab+rS2iN1H/3OU12+qkXdf3Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705505199; c=relaxed/simple;
-	bh=xAKMrhuiOukQEKS5pJ7/xw71Z9SHcT0YAv7W09qM11Q=;
-	h=Received:DKIM-Signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:From:Subject:To:CC:References:
-	 Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy:
-	 X-QCInternal:X-Proofpoint-Virus-Version:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details; b=AQO4cTMKOBalrqL6jWvR5MGTlT51kmciqevtUEbgdZEH4gPZ8h+hrL3mTkjlyHbdAWH28JyEqLE/iKlq0bvmcaSMiA+OT6/ocTZA3eBEyFFCqRGBwUlSvEASxvdjajAkCYPB/RvYq/Cu5nlT81sXx3Yqtos2ZyAVD9qB7raKp9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aXHsUFqu; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1705505831; c=relaxed/simple;
+	bh=gvbgR1lPS4RRalskIGSwmmOuBLyvCrQvi5HwxvEJbmk=;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To; b=lIYVsjUOCjpaZGdB6UcsjEh6ONJvBr4XlMn7/lfF2UYr/kA5jdn1y9rdzvq4hDN0mGi4+iVp7qQu2lUhcHJIDGzHD3OoGFFTjqnS2+8lVxTFGfSKrEYrjkCbZSUStuhlgQPw0AW9WpdRiyomNY2/sG8bO95OJ9Yi8jryrq8LSu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=axyrveud; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aXHsUFqu"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40H8m6Yw010290;
-	Wed, 17 Jan 2024 15:25:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:from:subject:to:cc:references
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=lqcZoRCRAGlCFSFZQ18HYf55C6lUN1QWW7BD4CzZ8SA=; b=aX
-	HsUFquQ7zWim5EAjjnief79OxjVFjrnAbErXMVPMst4Vspq7dZVjFvi3ny7HvNRL
-	YS1dIviKZqwzNGI7bUM+QkR3QVGDBSz673dJMP4ojMhXyudDy6hzMexflckWA7Ab
-	laOnAzB1WFbOg26vG29g13O5cRmAh4Lta4tuxcMouACqQJ1bLbKaVxCgrFV5cHqh
-	je6NDNBfVDwaeb01k5XhGzsfWwEoLfVMuZUlBAxo+MAJPTcMl3F9jfK1IZQOb3XA
-	aG4nZiQ6l2RJ8wWk+Bm2FA9iiY02ymvMBJF29of78DsHM/eyF7r8Izv58PK1xk2N
-	vGgr5MawQGDkGAKO4K4A==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vp6qxhdeg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jan 2024 15:25:53 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40HFPqss004679
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jan 2024 15:25:52 GMT
-Received: from [10.253.79.191] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 17 Jan
- 2024 07:25:41 -0800
-Message-ID: <a7356a9b-fc55-4efc-9266-0cef21730d97@quicinc.com>
-Date: Wed, 17 Jan 2024 23:25:38 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="axyrveud"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A865C433F1;
+	Wed, 17 Jan 2024 15:37:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705505830;
+	bh=gvbgR1lPS4RRalskIGSwmmOuBLyvCrQvi5HwxvEJbmk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=axyrveudFjsNGFULZQ5BS2xEBkCCBwOEPKf+K6g3I/4oqWzn40woNA7iKoDhXkgNr
+	 B7x1z3LLIvaREzIbvC5LPn/wk8dMCzj0ZFDKT9o5cAmrbVssazfViJqVZjpLI7ZiW8
+	 5DpBZXq6EVb22P/SVDT2iefUdY51YO4YMIzj6RplDZ3cnB/wSg/UzGglfgNWMRHQsk
+	 pp5HKp73YutVD2J5ZDdmR9RkCOD+Pstab6uUv2cb7u74vl04kZnoozGKBmqVlyck9r
+	 pIa8gxd8UfXfgY2LU6U/sLWt8XNnS98T+JMS0e5uDZIpRA4u4mLvHHK0xktw/r8mXx
+	 TMiJgqNPMe7fQ==
+Date: Wed, 17 Jan 2024 09:37:08 -0600
+From: Rob Herring <robh@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, devicetree@vger.kernel.org,
+	Simon Glass <sjg@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] kbuild: allow 'make dtbs_install' to install
+ primitive DTBs
+Message-ID: <20240117153708.GB2296118-robh@kernel.org>
+References: <20240109120738.346061-1-masahiroy@kernel.org>
+ <20240109120738.346061-5-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Jie Luo <quic_luoj@quicinc.com>
-Subject: Re: [PATCH net-next 00/20] net: ethernet: Add qcom PPE driver
-To: Christian Marangi <ansuelsmth@gmail.com>
-CC: Jakub Kicinski <kuba@kernel.org>, <agross@kernel.org>,
-        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <corbet@lwn.net>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <p.zabel@pengutronix.de>, <linux@armlinux.org.uk>,
-        <shannon.nelson@amd.com>, <anthony.l.nguyen@intel.com>,
-        <jasowang@redhat.com>, <brett.creeley@amd.com>,
-        <rrameshbabu@nvidia.com>, <joshua.a.hay@intel.com>, <arnd@arndb.de>,
-        <geert+renesas@glider.be>, <neil.armstrong@linaro.org>,
-        <dmitry.baryshkov@linaro.org>, <nfraprado@collabora.com>,
-        <m.szyprowski@samsung.com>, <u-kumar1@ti.com>,
-        <jacob.e.keller@intel.com>, <andrew@lunn.ch>, <netdev@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <ryazanov.s.a@gmail.com>,
-        <quic_kkumarcs@quicinc.com>, <quic_suruchia@quicinc.com>,
-        <quic_soni@quicinc.com>, <quic_pavir@quicinc.com>,
-        <quic_souravp@quicinc.com>, <quic_linchen@quicinc.com>,
-        <quic_leiwei@quicinc.com>
-References: <20240110114033.32575-1-quic_luoj@quicinc.com>
- <20240110142428.52026d9e@kernel.org>
- <5ec26378-a5ff-4de3-b69e-806e36907db6@quicinc.com>
- <65a17d68.050a0220.cf6ea.e78b@mx.google.com>
-Content-Language: en-US
-In-Reply-To: <65a17d68.050a0220.cf6ea.e78b@mx.google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 2qgt36U1wFrD4gIUJ3HcrKsz2ZtWJbOK
-X-Proofpoint-ORIG-GUID: 2qgt36U1wFrD4gIUJ3HcrKsz2ZtWJbOK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-17_09,2024-01-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=715
- adultscore=0 impostorscore=0 suspectscore=0 phishscore=0 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401170111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240109120738.346061-5-masahiroy@kernel.org>
 
-
-
-On 1/13/2024 1:56 AM, Christian Marangi wrote:
-> On Thu, Jan 11, 2024 at 11:49:53PM +0800, Jie Luo wrote:
->>
->>
->> On 1/11/2024 6:24 AM, Jakub Kicinski wrote:
->>> On Wed, 10 Jan 2024 19:40:12 +0800 Luo Jie wrote:
->>>> The PPE(packet process engine) hardware block is available in Qualcomm
->>>> IPQ chipsets that support PPE architecture, such as IPQ9574 and IPQ5332.
->>>
->>> What's the relationship between this driver and QCA8084?
->>
->> The PPE (packet processing engine) is the network processing hardware block
->> in QCOM IPQ SoC. It includes the ethernet MAC and UNIPHY(PCS). This driver
->> is the base PPE driver which brings up the PPE and handles MAC/UNIPHY
->> operations. QCA8084 is the external 2.5Gbps 4-port PHY device, which can be
->> connected with PPE integrated MAC by UNIPHY(PCS).
->>
->> Here is the relationship.
->> PPE integrated MAC --- PPE integrated UNIPHY(PCS) --- (PCS)QCA8084.
->>
->>>
->>> In the last month I see separate changes from you for mdio-ipq4019.c,
->>> phy/at803x.c and now this driver (none of which got merged, AFAICT.)
->>> Are you actually the author of this code, or are you just trying
->>> to upstream bunch of vendor code?
->>
->> Yes, Jakub, there are two authors in these patch series, Lei Wei and me.
->> The patches are already ready for some time, the code has been verified
->> on the Qualcomm reference design board. These are not downstream drivers
->> but drivers re-written for upstream.
->>
->>>
->>> Now you're dumping another 10kLoC on the list, and even though this is
->>> hardly your first posting you're apparently not aware of our most basic
->>> posting rules:
->>> https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#tl-dr
->>>
->>> The reviewers are getting frustrated. Please, help us help you.
->>> Stop throwing code at the list and work out a plan with Andrew
->>> and others on how to get something merged...
->>
->> Sorry for trouble caused, will learn about the guidance provided by
->> the review comments, and follow up on the guidance and have the full
->> internal review of the patch updates before pushing the patch series.
+On Tue, Jan 09, 2024 at 09:07:37PM +0900, Masahiro Yamada wrote:
+> Commit 15d16d6dadf6 ("kbuild: Add generic rule to apply fdtoverlay")
+> introduced the -dtbs syntax to apply overlays during the build process.
 > 
-> I renew my will of helping in any kind of manner in this, I love the
-> intention for EDMAv2 to have an upstream driver instead of SSDK, hoping
-> in the future to also have the same treatement for EDMAv1 (it's really a
-> pitty to have a support hole with ipq807x not supported)
-> 
-> Feel free to send an email or anything, considering this is massive, an
-> extra eye before sending might make things better than reaching (I can
-> already see this) a massive series with at least 20 revision given the
-> complexity of this thing.
-> 
+> However, scripts/Makefile.dtbinst is not aware of the -dtbs syntax,
+> so 'make dtbs_install' installs the files directly added to dtb-y.
+> (Presumably, it was intentional.)
 
-Thanks Christian for the help. Yes, the EDMAV2 driver will be posted 
-some time after net-next is reopen and after this PPE driver patch 
-series resumes. The EDMAv2 driver will be posted as separate driver 
-series, which depends on this PPE driver. Currently we plan to post the 
-EDMAv2 driver support for IPQ5332 and IPQ9574 firstly. For IPQ807x, it 
-is a driver for an older architecture as you can see, but we will 
-consider this for the future.
+Yes. The intent was the Makefile should define what's installed or not. 
+There's 2 reasons to apply overlays in the build. The first is so a DTB 
+can be refactored into a base plus overlay(s) and we keep the original 
+full DTB. The second is to test that overlays actually apply because 
+testing that at boot time in bootloader is a poor experience and we 
+don't want overlays which don't apply to upstream DTs.
 
-We will certainly review it internally before publishing it later for 
-upstream review.
+Whatever targets you want installed put in dtb-y. Whatever targets are 
+just for testing, put in dtb-. The latter are then enabled with 
+CONFIG_OF_ALL_DTBS.
+
+> For example, consider this case:
+> 
+>     foo1-dtbs := foo_base.dtb foo_overlay1.dtbo
+>     foo2-dtbs := foo_base.dtb foo_overlay2.dtbo
+>     dtb-y := foo1.dtb foo2.dtb
+> 
+> 'make dtbs_install' only installs foo1.dtb and foo2.dtb. It is suitable
+> when the boot image supports a single hardware configuration, or when
+> the boot loader in use does not support applying overlays.
+> 
+> However, when creating a boot image with multiple board supports, it
+> wastes storage space, as foo1.dtb and foo2.dtb have foo_base.dtb in
+> common.
+> 
+> From a space perspective, a more optimal solution is to install
+> foo_base.dtb, foo_overlay1.dtbo, and foo_overlay2.dtbo, then assemble
+> the final dtb (either foo1.dtb or foo2.dtb) on the boot loader.
+> 
+> This commit adds a new flag, INSTALL_DTBS_PRIMITIVE.
+> 
+> With INSTALL_DTBS_PRIMITIVE=1, 'make dtbs_install' will install primitive
+> files (such as foo_base.dtb, foo_overlay1.dtbo, and foo_overlay2.dtbo in
+> this case).
+
+And not install foo1.dtb and foo2.dtb, right? What if one wants to 
+install everything? Seems like this needs to be a 3-way option.
+
+I'm not really convinced we need this in the first place though.
+
+> 
+> Without INSTALL_DTBS_PRIMITIVE, the current behavior is maintained
+> (foo1.dtb and foo2.dtb will be installed in this case).
