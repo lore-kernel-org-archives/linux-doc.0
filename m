@@ -1,110 +1,197 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2082.outbound.protection.outlook.com [40.107.223.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36BC225D7
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 17:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705511718; cv=none; b=oaEQgKg8ZnES1Ise2mIE3x9fBYkDRsrGT2+mjsrf5awEi4EwRgkwSBgNd2vcAMglfLYbw0p8iR6+EEJ2WtpY69DQlgbszlCQifbowx1uuyFBnRCEzu2wGFecWf3Lx70jrdyAmia030aDiDZNB+eEv7fce/Dcz1koEkwDdCHnejw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705511718; c=relaxed/simple;
-	bh=T7IslF0lI3yblMUodVhB9tJHIl2XHIH3degOHlEEIZ4=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:Content-Language:To:Cc:
-	 References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Scanned-By; b=nHUXeo4eJG23tCw02lRlgLvWMUse6wnpMrM3ilmBh9HOtgp9MYibWjbYRk141vH56XSNQd1cmiUk0wdVVYuLElkrHtxA9zoL92gl1zggmIdrKd585gHcnY6xSsjBaFhe6k8sl2Nd8zp4TOkjDNiuPUrcvJF3Xd6ULKeHAgs+YWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OMwJq7qQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F51225D9;
+	Wed, 17 Jan 2024 17:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.82
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705513578; cv=fail; b=QYXD6MbgHRyhSo0eEYkj28ESfFHZedCBqvlk8ecZkJadhoiFQDM5qneGgukEG1wYy8Pyn3HeYYRafd0p/i/cW7xcaWbn6lKBb+sZGq9tamBmEPF/FSu/qrTbYrSovqLmaU+vUT2Bb1u0TR4TcRcD7xTWvbWAQKNWMtx5q4STvQg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705513578; c=relaxed/simple;
+	bh=3PCe4rKGV9GAbI9m/DvJ8P7IR6KZb9qJ9FfYKSwmpqU=;
+	h=ARC-Message-Signature:ARC-Authentication-Results:DKIM-Signature:
+	 Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 Content-Type:Content-Disposition:In-Reply-To:X-ClientProxiedBy:
+	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped; b=PSUhWlIgc3lNCkkuvSgmFCu+TWSyGOaDEmEveHNdQH6mZ70lFz4KXzwueghoxrrr/0fNtOjdLO4C0btuNIaG9MsembaD/weG+cvPKuUTXoE1jh8KcX6AE/83uj8CvEBHHcB8zDu1Pb7KBWFJoVHaNRlYavYP+WIu9GlxgxPT610=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com; spf=pass smtp.mailfrom=memverge.com; dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b=PWTnAMar; arc=fail smtp.client-ip=40.107.223.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OMwJq7qQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705511716;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gGm/eLi1COg3Vpc3apSqmPNHHb4PLdH7xLSc6T9224c=;
-	b=OMwJq7qQNYswkJFMixz61wgUAQpFA16gjciNoqiOi9NMG/t4KHovf1cavQbQMJMnepdv8W
-	xyT94yu8JFkYm31OiYfqb7Oc1IQloj0INja/Q1uD6ipougX2DS4zIJVvT0vJnVDtpfInYY
-	cBWz4xWSvISFF0/3Q1xasvxuiOHU35M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-7Yv0cQF3P-OKvQw7cQLm-g-1; Wed, 17 Jan 2024 12:15:11 -0500
-X-MC-Unique: 7Yv0cQF3P-OKvQw7cQLm-g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0782885CBA5;
-	Wed, 17 Jan 2024 17:15:10 +0000 (UTC)
-Received: from [10.22.16.147] (unknown [10.22.16.147])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C7E4F2026D6F;
-	Wed, 17 Jan 2024 17:15:07 +0000 (UTC)
-Message-ID: <5ee5bf79-6cdc-4d1b-a19f-f0d5165a5f16@redhat.com>
-Date: Wed, 17 Jan 2024 12:15:07 -0500
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="PWTnAMar"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FEgqqTv9v5Q6PpUcJqJKGUKffS+aIAfR4eWRh3IY2U/zNwFtyyBeV3AYRcG9MS4jvu1ECktEPufPnvmU9t1/J9LXhgoaiQJchfrUK3yBtFjHVnE8gSoto8Jmt1oCiqOrEAycR+m7YwAPmSR5HCZJ97mh2CW7UIrNO2ak2fu/KdaDNbA9AngFGU60OOS8QjYIPVCOWclLcw74cVxZAuHdyHpTsSWz+sr8yTCeVOy+TTNLTkEy8YJdkyTtQf+lacJXu/xCDhwkhouO2cLjfYACrC9nfNGipc68EzK6jfl/iDFREFa33SeSQ+Vc/BMK5L2Ltf0m3TBQgWdorkzhfA3qhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JSZZORtYz4RmGXqeJrrchaVb5t8o+R8JsKdCxgpbMGc=;
+ b=RXloIi53fpLOlSLCwxDzB17DCNrJKpz7aY/LAl/OBjrPyP1u36LbOhUYLu3UTJ6dqHIZnpqjlqmATmV1d2tp8ClAk+AKSkx+M5AyYSQwTdMzxT3cS1SL9AMB0Zt8HtiTdlYs79MG71+C0kvrRNI0WErALbYXpvbQGjnTcQGAnUcT4AUlAF2X6sBfoVjBmVBWC7lS6VNXty4zrl1eUVrE8Ua03XhZ8VsllhLr416wj45utCTjOiusCCNIt0YYwghw9ACk02bnzHfJdGHNfbxZjHFN/ukvDR82vS6cMiJPl5b+2iaOgGdYsOEL6tp8QAQj/3521vnc61cm4kG9JOqCQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JSZZORtYz4RmGXqeJrrchaVb5t8o+R8JsKdCxgpbMGc=;
+ b=PWTnAMarKuMXB4qWQaT1H6cnaeCV8kqFXq7ctM0jKoyGwF3V1yfEd/LnLM+gY2p732VNXgfSvx3tPkMYLIsYz0sMwPSD9ZnbS2AM18nSIvMHXO5GJo0jF+WyOU86tVDVqLRM+NMJh18mA2FryeLSFTmeawD4r1ZEApZOH7WNUQU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from MW4PR17MB5515.namprd17.prod.outlook.com (2603:10b6:303:126::5)
+ by DS0PR17MB6890.namprd17.prod.outlook.com (2603:10b6:8:12b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.19; Wed, 17 Jan
+ 2024 17:46:13 +0000
+Received: from MW4PR17MB5515.namprd17.prod.outlook.com
+ ([fe80::f5ca:336b:991c:167b]) by MW4PR17MB5515.namprd17.prod.outlook.com
+ ([fe80::f5ca:336b:991c:167b%4]) with mapi id 15.20.7181.029; Wed, 17 Jan 2024
+ 17:46:13 +0000
+Date: Wed, 17 Jan 2024 12:46:03 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	corbet@lwn.net, akpm@linux-foundation.org, honggyu.kim@sk.com,
+	rakie.kim@sk.com, hyeongtak.ji@sk.com, mhocko@kernel.org,
+	vtavarespetr@micron.com, jgroves@micron.com,
+	ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com,
+	hannes@cmpxchg.org, dan.j.williams@intel.com
+Subject: Re: [PATCH 1/3] mm/mempolicy: implement the sysfs-based
+ weighted_interleave interface
+Message-ID: <ZagSW5TXzZeKErlW@memverge.com>
+References: <20240112210834.8035-1-gregory.price@memverge.com>
+ <20240112210834.8035-2-gregory.price@memverge.com>
+ <87le8r1dzr.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <ZadkmWj3Rd483f68@memverge.com>
+ <87o7dkzbsv.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o7dkzbsv.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0112.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::27) To MW4PR17MB5515.namprd17.prod.outlook.com
+ (2603:10b6:303:126::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/8] cgroup/cpuset: Support RCU_NOCB on isolated
- partitions
-Content-Language: en-US
-To: Tejun Heo <tj@kernel.org>
-Cc: Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Frederic Weisbecker <frederic@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <quic_neeraju@quicinc.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Shuah Khan <shuah@kernel.org>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
- Ryan Phillips <rphillips@redhat.com>, Brent Rowsell <browsell@redhat.com>,
- Peter Hunt <pehunt@redhat.com>, Cestmir Kalina <ckalina@redhat.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Alex Gladkov <agladkov@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Phil Auld <pauld@redhat.com>, Paul Gortmaker <paul.gortmaker@windriver.com>,
- Daniel Bristot de Oliveira <bristot@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Costa Shulyupin <cshulyup@redhat.com>
-References: <20240117163511.88173-1-longman@redhat.com>
- <ZagJPoEsLZ6Dg-NG@mtj.duckdns.org>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <ZagJPoEsLZ6Dg-NG@mtj.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR17MB5515:EE_|DS0PR17MB6890:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fd1f319-69f4-4600-b5ec-08dc17843250
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	N5zpcdKnO1oJJFMUuqBr9/fQfyAvarPM/FZkflc82TEGzDdWCKvI3a5YCJKMG+StDybWo26sFO/UE2JsU7UKljy7hs3PH88E1o7EUhFVu10/ofR+mdFmfKzJfDmQ05kIO+zd6/lHjm4PcT3/9nTeAWHvOxGKzvzdspIjEhGDws3JO5o0jUB+L5OLbHjKpLal3KuvgyKU8bXDCBkre4YmGatm1VVj76mdVTrqz9HnNtK/z/uYg+to5cQfr67hoH1rXecn1+Xp2OG1eOYtbicTNt/5i6252MWtJz6HgwV36WsY+dxPudUlyulRv+J01FaFmf/qPZN3gGZyZHpuWTKcLuS1Un4mi9z3kHzrsZ+2YTKBzS0jX5danlRJtYjrvAH00CvUhej+H4vC6+BBtTHlvc+xoikIVprUXNnRFXQCyV97VkNcK/k/f/Ea0oLarPtwiD+nUZwGef9ajZlvJ+yhM+E6CwO/Lf4ueKoLfmz+rQPN4teT3cTyL3jHhSgWgKGJJfHJELT6dGgIcKKB86+qsLZ00FuyL1/bAoU2ULnK+38Z1zcAxDE7wetGxsPTIY0FK/jJU7COfDuZi1rfDUvNImhV9lRHhdCwZju/MmIZW/1Yk2UbnoRdxiTY92PGhUkX
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR17MB5515.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(396003)(346002)(39850400004)(376002)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(2616005)(26005)(6666004)(6506007)(6512007)(2906002)(83380400001)(7416002)(8676002)(478600001)(66556008)(5660300002)(6486002)(66946007)(4326008)(6916009)(66476007)(8936002)(44832011)(41300700001)(316002)(38100700002)(36756003)(86362001)(16393002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?j0cmSXBYdpFL0l1eBzxGyr1XropQu3o1m44KoyQCRKxJhXCqEERpBz2Lf2zF?=
+ =?us-ascii?Q?zzVobL/l8p+O5J6UZurGDDfQx2bWdnofF1ZYn+InMCMjJaWkiAmAItzhk7OD?=
+ =?us-ascii?Q?6CI0CsdsOAyXJz30MI/xJCAPg903LfBOGcL/Kvu+vhQvGQjekAHdwZg+cKr8?=
+ =?us-ascii?Q?lQMrsXv/STxlU8Sz6Zd8KAKFfQIYGNwi6G6WKl2cDXzI7ZXJX8QfKrhGHFjZ?=
+ =?us-ascii?Q?ore/+K0cQjNHXJeQIexb9jFuAWQplAgwgHS4+59hwQvRkzUaFfKlLEvSc9yf?=
+ =?us-ascii?Q?7wVVj0jFMfyxn16FBx5KuxXdvv+g7Ip+ENkx5H3YP6FKqVULz4qA0eK2LacA?=
+ =?us-ascii?Q?NuAugLI18u1b3tkZ22nWb8Qt1PdrdEkXt10FW+uzBB28IfAMSXlP68gZIzHA?=
+ =?us-ascii?Q?y3bZ71kaM3wk51l8VX6k49KLUwgCM49eliuYI+GslvDAs/RoAhWakPcseLHM?=
+ =?us-ascii?Q?kLTWDFqvb6dc3KQW56f3HbWTy3OYA3PWXszj/RsDvgYbXiONXWHKckQyUwAA?=
+ =?us-ascii?Q?tdS/puKeYrKwdHAvsrKI53+djsAwxkho4Q9iFwnAJmLwxJ5hkUgr+5Q5U/j9?=
+ =?us-ascii?Q?bwp1Yoqip25KWNjoIuGqVlyJ+uq4NhrxZRdidfdOXan6Tt9HiMCDc/Q7Zfbo?=
+ =?us-ascii?Q?X/JELV7OFLSXNPkuuzmjTW019pTngEAtm+HT7ZBOfOBkxqKpSavYP3tkniOL?=
+ =?us-ascii?Q?87EIJLrP94nleV7IjVaNVGmoyxRO+n07ezwujft0ZQLCaOikNDuQkw1lqVPm?=
+ =?us-ascii?Q?x+DYcDoAwfdnGSt1pS+8LvjpMIIgPteDgC7a07e4wpRzFkNBK+Jo1KjbsgJe?=
+ =?us-ascii?Q?+SUC4641n1CTj2BiVX+kWfrCu/T9iJ84Qd+8rKEcPCe/SdzCa4N2miWzyh54?=
+ =?us-ascii?Q?YvduN7/CM+37alsEV4UHHuLx5/FA8wscBvaLSVq7q5WCdsq9PolUGKCINWzN?=
+ =?us-ascii?Q?UWX05t3Vl/gdjeSc1SrhDxAD1d+9qcvN0w01IDFcXXrJpjZvuWz3sG4LU3vB?=
+ =?us-ascii?Q?CyP0TVr8ELGmdkyrAfi033LJFq0ItmxFpnDKqy9XHroRkSlDPf7tO3wozAVU?=
+ =?us-ascii?Q?6KM4/cwT18r4uW+9Ox0cyp2Z+RvVrrUJ/GM7BlXrWCJHaqdpPmtzOKFgEVQh?=
+ =?us-ascii?Q?v1KxkaCE7eLjfMQJw8l+8zggVIUfr0BFcsHdogyKIRJeWOdcV45oJfuZiiGT?=
+ =?us-ascii?Q?4NPu15zS3jlrTquQGg3q90tlDFsQoLDwPzRfOx4zlqzAoOTrP7tkVbQJ2meL?=
+ =?us-ascii?Q?o9KCXqpetQxOHFpt93JJ09j3yLB/RlDDAWBnXDDEFCX9JUCerzzvfu04YQ1S?=
+ =?us-ascii?Q?v5MfQfpC+oX0zecm+R7mu1FD2dLp0te/DZpOCw6xcOL/LI45/5l0FJghoLIq?=
+ =?us-ascii?Q?Umoh5wkXV1+YgcJST2g0yqH7MaYkEqe+j6B99hqrjxiKtos4CPFIxCPZUCwj?=
+ =?us-ascii?Q?XvMqjUmoS8qDqjjUL0FM7r2m00mOB7TB9H4selbHq87x2/LIA1wRZdcLFBI3?=
+ =?us-ascii?Q?TZ9nLovvauyB8th8l+/vVJZpGXtEHFj/vXla7CT1oGvqWz/PRckyi1wuUFY1?=
+ =?us-ascii?Q?E6vTcPKlxoxN0+ccLj/wYv+Rcdu1ek09qvnF0ldEoFAMot0I4kehWOXKzBLf?=
+ =?us-ascii?Q?ug=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fd1f319-69f4-4600-b5ec-08dc17843250
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR17MB5515.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2024 17:46:12.9083
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U91Xgsj2DB2IO3ZT8ALfEpxRlsvOjNkJGn90KIv2hVqcX8henYzCaeSLpTTZT9q9exnXNWejLbtb3wppMHAmYVF4Y3M7hIjO9CiW01VpTFc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR17MB6890
 
+On Wed, Jan 17, 2024 at 02:58:08PM +0800, Huang, Ying wrote:
+> Gregory Price <gregory.price@memverge.com> writes:
+> 
+> > We haven't had the discussion on how/when this should happen yet,
+> > though, and there's some research to be done.  (i.e. when should DRAM
+> > weights be set? should the entire table be reweighted on hotplug? etc)
+> 
+> Before that, I'm OK to remove default_iw_table and use hard coded "1" as
+> default weight for now.
+> 
 
-On 1/17/24 12:07, Tejun Heo wrote:
-> Hello,
+Can't quite do that. default_iw_table is a static structure because we
+need a reliable default structure not subject to module initialization
+failure.  Otherwise we can end up in a situation where iw_table is NULL
+during some allocation path if the sysfs structure fails to setup fully.
+
+There's no good reason to fail allocations just because sysfs failed to
+initialization for some reason.  I'll leave default_iw_table with a size
+of MAX_NUMNODES for now (nr_node_ids is set up at runtime per your
+reference to `setup_nr_node_ids` below, so we can't use it for this).
+
+> >
+> >> u8 __rcu *iw_table;
+> >> 
+> >> Then, we only need to allocate nr_node_ids elements now.
+> >> 
+> >
+> > We need nr_possible_nodes to handle hotplug correctly.
+> 
+> nr_node_ids >= num_possible_nodes().  It's larger than any possible node
+> ID.
 >
-> On Wed, Jan 17, 2024 at 11:35:03AM -0500, Waiman Long wrote:
->> The first 2 patches are adopted from Federic with minor twists to fix
->> merge conflicts and compilation issue. The rests are for implementing
->> the new cpuset.cpus.isolation_full interface which is essentially a flag
->> to globally enable or disable full CPU isolation on isolated partitions.
-> I think the interface is a bit premature. The cpuset partition feature is
-> already pretty restrictive and makes it really clear that it's to isolate
-> the CPUs. I think it'd be better to just enable all the isolation features
-> by default. If there are valid use cases which can't be served without
-> disabling some isolation features, we can worry about adding the interface
-> at that point.
 
-My current thought is to make isolated partitions act like 
-isolcpus=domain, additional CPU isolation capabilities are optional and 
-can be turned on using isolation_full. However, I am fine with making 
-all these turned on by default if it is the consensus.
+nr_node_ids gets setup at runtime, while the default_iw_table needs
+to be a static structure (see above).  I can make default_iw_table
+MAX_NUMNODES and subsequent allocations of iw_table be nr_node_ids,
+but that makes iw_table a different size at any given time.
 
-Cheers,
-Longman
+This *will* break if "true hotplug" ever shows up and possible_nodes !=
+MAX_NUMNODES. But I can write it up if it's a sticking point for you.
 
+Ultimately we're squabbling over, at most, about ~3kb of memory, just
+keep that in mind. (I guess if you spawn 3000 threads and each tries a
+concurrent write to sysfs/node1, you'd eat 3MB view briefly, but that
+is a truly degenerate case and I can think of more denegerate things).
+
+> 
+> When "true node hotplug" becomes reality, we can make nr_node_ids ==
+> MAX_NUMNODES.  So, it's safe to use it.  Please take a look at
+> setup_nr_node_ids().
+> 
+
+~Gregory
