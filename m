@@ -1,129 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4384D200CB
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 13:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0B320305
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 13:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705499364; cv=none; b=Wwcjwi058yAiKVIPxuEQ10SbvKJGhZ54/LowvGXg7iFYG79L4zVfeUAZbsvpdaGTdejaFwxjkJ4Hg6dTRGbziWc1K32SQcpMQn39r61TSkplNXsIN1cHpmS0GFYcMdIZbIDkkc21BHPbeMjtj8eztkSi0O4F1ejBS/F+wYPDgBQ=
+	t=1705499654; cv=none; b=TZt5Pnca9bhPSFhhKi2NPi2RRVR9qZV/8QIFSbfDfkapjWmlClNAa1nn449g5BwbgEqAGlxbuCjSLbhgSStzbTf+Vj0P5tr3FFpKG58BuBuTiKbbeWTTW47voQESBAgQXe85Hq7v6E6OXoignJuje3ubrEVJ+dSTbeUFMhHId/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705499364; c=relaxed/simple;
-	bh=9tfLMF8D9oKQokbMf8xX4/RpiMIC9oK/PN7AWqeaVyY=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:
-	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
-	 X-Google-Smtp-Source:X-Received:Received:Message-ID:Subject:From:
-	 To:Cc:Date:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version; b=e16Y9myG4kEz2EBZZCetzX+RtvOd+X7mAH+nf7MWOn9Cx4QGgfuVgpRHTdVE2MUthIMSbotrha4kS6eK/JTZDm2OJdUtNyLWZPByq6urpmhfsi9YSU6dp/AByQpqJdFyOoadHe2y0wDOjfQZMUJKrW1NCsI3I6fMgnHKqBYCI/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EWVwH7gv; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1705499654; c=relaxed/simple;
+	bh=DZkTto3XdxT0Ma2+igjjGiju5MmWmdSjnbjTGD/KNk4=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition; b=BSND7vwmQHJgxlgD5BgxiQXTAtB3XaAk5ZlJ21forh0D9UTbrRuaPamHwQTWBYKU+2BpLpcLblP+MYnEHdQsJmwC5rbHc5JRlDjCICVOrUVS/jQum3Hf1ZE1Vs17STNUGrGLPnlf8jf/jkL+1edXt1Qvsny3uruT/pZB9R3SeOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SeDQBKXh; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EWVwH7gv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705499362;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9tfLMF8D9oKQokbMf8xX4/RpiMIC9oK/PN7AWqeaVyY=;
-	b=EWVwH7gvHDAlA8PbWoHoSYARXdTS3Dt5Fr00YRU8F0gpKK2oWH5bCvKgBvJj6OHByy7Dtg
-	Q9jSVe4GApYcUBOT+aqH298cbBXEcAWd3dBryOpYa2ew/mHVRz0ErI6ei8cpTGMEQtjDaX
-	t19pWarC4nEU8PJicd3IeqzYGux0nik=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-651-IgznnOpoOnq9VPhh4zkmeQ-1; Wed, 17 Jan 2024 08:49:21 -0500
-X-MC-Unique: IgznnOpoOnq9VPhh4zkmeQ-1
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-5ff7b6f88e8so202937b3.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 05:49:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705499360; x=1706104160;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9tfLMF8D9oKQokbMf8xX4/RpiMIC9oK/PN7AWqeaVyY=;
-        b=ZUjOmFUs6USdAyfxXcLYNrR9bpn8JSFhBlLRzaSEMKco2riwo62EvsMOtv2QJt93DS
-         4DyJnNymenwyFUGDz5fYnBDccsJt9l+1dyTJtSVIgSmV3YIP62ezrY0QFeVd6lqG3N+H
-         kRj3ghQ+OdB/AbC57IVZbtutvP2IHwG2Sp4iMmI/1gp3hCHQwAn9ZTQTci9lHQFJrwqa
-         sufhYBFgSIJmZ5jdEsdhi8BavZb74Gzu5+SIYF3CgwznBG4Oz19E1d5DtY1+V/Z/7pG2
-         c7XFmfcp7Vl8sHPhUM6aLs7S05kj4Z9Jm2qplk9Hqyscfdj8YlVFAdC1IvqPp9nzKSaw
-         ZdBQ==
-X-Gm-Message-State: AOJu0YzwGuFOkRUSE06NJZ0qOFqqURAO3fX1NCpBFr8Kgeu04MBq3znw
-	O+OAD7DUBSLxf7JFnsih1Rd/q7sHXNWQZWiH5uwONT2nze6bY0MeQnPtCV/fHxiqjQumh5vjp0W
-	X0Xr8QsqsJI9x28BLKaYzlfx21aw/
-X-Received: by 2002:a25:8148:0:b0:dbc:d44e:4ba5 with SMTP id j8-20020a258148000000b00dbcd44e4ba5mr8480322ybm.3.1705499360508;
-        Wed, 17 Jan 2024 05:49:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGkrBjM+COoqsF6GAkOv/uc9j2UsNiTaqG5gnxQZ8JGCa3W1u6QSyFkx6IypdKek1QXtq7gPA==
-X-Received: by 2002:a25:8148:0:b0:dbc:d44e:4ba5 with SMTP id j8-20020a258148000000b00dbcd44e4ba5mr8480312ybm.3.1705499360234;
-        Wed, 17 Jan 2024 05:49:20 -0800 (PST)
-Received: from pstanner-thinkpadt14sgen1.remote.csb (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id f9-20020a0cf7c9000000b00680c49f8650sm5015703qvo.112.2024.01.17.05.49.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 05:49:19 -0800 (PST)
-Message-ID: <33b7c1a458df27bfb36ea4f53ef1cc7abc2a4897.camel@redhat.com>
-Subject: Re: [PATCH 09/10] pci: devres: remove legacy pcim_release()
-From: Philipp Stanner <pstanner@redhat.com>
-To: andy.shevchenko@gmail.com
-Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas
- <bhelgaas@google.com>, Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linux-pci@vger.kernel.org
-Date: Wed, 17 Jan 2024 14:49:16 +0100
-In-Reply-To: <Zab3yr6J1S-2ujT9@surfacebook.localdomain>
-References: <20240115144655.32046-2-pstanner@redhat.com>
-	 <20240115144655.32046-11-pstanner@redhat.com>
-	 <Zab3yr6J1S-2ujT9@surfacebook.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SeDQBKXh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705499653; x=1737035653;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DZkTto3XdxT0Ma2+igjjGiju5MmWmdSjnbjTGD/KNk4=;
+  b=SeDQBKXhnSJ+GZWqFw/P+KNv0fK0WxVqYWYrg+UNkZZtocFXxtXX05IA
+   fOTcl9GcVjHskm1nBqrfRNcElfxSEWZrP04D8koJBJd1NcvalZg6OMYyk
+   ja+nGf+x6r3eOKmB3JorCq0cq4l/WeF7wGRk+pJkInPCED7pdecIVZnVT
+   Pxhyj8pQDtUHv9woBqiUultuMCLUOPOBgLQ1JEmWZzhxIrFakTQaP2isO
+   eSlBCXa6T07Lmo/XVjnpYxyi8M8CcRXOngoFqzTtJREDWmbBmv4orltwb
+   HNjJcYwh1/YfJ2WP1jNrYReq8v9zzKAL5DWW4JPYssuzgr+3/avSxfkJ1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6874039"
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="6874039"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 05:54:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
+   d="scan'208";a="26493559"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 17 Jan 2024 05:54:05 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rQ6Ml-00023i-1V;
+	Wed, 17 Jan 2024 13:54:03 +0000
+Date: Wed, 17 Jan 2024 21:53:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tom Chung <chiahsuan.chung@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Sun peng Li <sunpeng.li@amd.com>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 13367/13716]
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:100:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202401172119.Fc2Ic3l9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2024-01-16 at 23:40 +0200, andy.shevchenko@gmail.com wrote:
-> Mon, Jan 15, 2024 at 03:46:20PM +0100, Philipp Stanner kirjoitti:
-> > Thanks to preceding cleanup steps, pcim_release() is now not needed
-> > anymore and can be replaced by pcim_disable_device(), which is the
-> > exact
-> > counterpart to pcim_enable_device().
-> > This permits removing further parts of the old devres API.
-> >=20
-> > Replace pcim_release() with pcim_disable_device().
-> > Remove the now surplus get_dr() function.
->=20
-> ...
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0devm_add_action(&pdev->dev, =
-pcim_disable_device, pdev);
->=20
-> No error check?
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return pci_enable_device(pde=
-v);
->=20
-> Maybe
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D pci_enable_device=
-(...);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0return ret;
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return devm_add_action_or=
-_reset(...)?
->=20
-> I could think of side effects of this, so perhaps the commit message
-> and/or
-> code needs a comment on why the above proposal can _not_ be used?
->=20
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   943b9f0ab2cfbaea148dd6ac279957eb08b96904
+commit: 5950efe25ee02df4983864b3bc1f460ad5c8d862 [13367/13716] drm/amd/display: Enable Panel Replay for static screen use case
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240117/202401172119.Fc2Ic3l9-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240117/202401172119.Fc2Ic3l9-lkp@intel.com/reproduce)
 
-That proposal can be used, so this was simply a bug.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401172119.Fc2Ic3l9-lkp@intel.com/
 
-P.
+All warnings (new ones prefixed by >>):
 
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:100: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * The DRM vblank counter enable/disable action is used as the trigger to enable
+
+
+vim +100 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c
+
+    98	
+    99	/**
+ > 100	 * The DRM vblank counter enable/disable action is used as the trigger to enable
+   101	 * or disable various panel self-refresh features:
+   102	 *
+   103	 * Panel Replay and PSR SU
+   104	 * - Enable when:
+   105	 *      - vblank counter is disabled
+   106	 *      - entry is allowed: usermode demonstrates an adequate number of fast
+   107	 *        commits)
+   108	 *     - CRC capture window isn't active
+   109	 * - Keep enabled even when vblank counter gets enabled
+   110	 *
+   111	 * PSR1
+   112	 * - Enable condition same as above
+   113	 * - Disable when vblank counter is enabled
+   114	 */
+   115	static void amdgpu_dm_crtc_set_panel_sr_feature(
+   116		struct vblank_control_work *vblank_work,
+   117		bool vblank_enabled, bool allow_sr_entry)
+   118	{
+   119		struct dc_link *link = vblank_work->stream->link;
+   120		bool is_sr_active = (link->replay_settings.replay_allow_active ||
+   121					 link->psr_settings.psr_allow_active);
+   122		bool is_crc_window_active = false;
+   123	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
