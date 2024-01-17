@@ -1,58 +1,58 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3DD1E893
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C411EB24
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705481772; cv=none; b=EYSUgkRyJbkOvUGnOnIhAR4C/Ru5qhmP54AtgSIHYTASJDNcYlaz2j2yWqX3kHjSxyIGM4ZyTmLTl7eMrh6XSg1e0reF0DWBxqfuYIJFQ2WV+bDQ5j11CPA7Hzl56scslBcOwg2xU5Sk+vrxrsXuqi06oFXaWf9N3ej8ZiGUo8E=
+	t=1705481776; cv=none; b=jDUXAHq5b37n/qHT3VFE/U2uG3SXYJP6ih43rQE27lTPFIc3US+3mNWQYhLzgI0ozF+Oh91stz4+RUiwDRXIZNFY4jYsHAw1/y1PRE0Bc11hOcyM3KPyA9HAH6BthfMW1FeYdWBbStY/xbb1lBkkNFz0srq+9DAE5uYa66aTbW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705481772; c=relaxed/simple;
-	bh=D5VgWC/LkWlhhFQ3nb9pLHCjF2BV0mjcJ6cSvSw8UuU=;
+	s=arc-20240116; t=1705481776; c=relaxed/simple;
+	bh=+sU2L91PzORZqj3b9pD85TN1AcK0aSoOmDSILqOINFs=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
 	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding; b=up+hYho2euOfCkBwXkoOZTBygYzqr2OZkcM/tzIX0F6j+GDGVltleCyeVxhpufFeeuSo1D3jwrCKnp42xepfVRYmA4K4G08iQ4h0PkwBkyHcfiRGixAYUi+NUytMacmrFP3PfhiEt9qX/5OjXB3Leen3brYoTAxyeVgJZL5o5H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=J/WVPWr/; arc=none smtp.client-ip=209.85.210.46
+	 MIME-Version:Content-Transfer-Encoding; b=aPcCov+Mb56g2NU4rwNFzHmol3zS3JsDztBNuIN9yLikiMNsk2qTBoCQPyhO70kMrdWXDMWq+940hK9U9lcOxgngIaUljdpc2ctZGLQ0FlfibtR6Q4X7eiWeqg0frGzsflu+xN5tPP8uv9njmyUKFDmmiO1HO73KgFoeir37wdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=bzmrEdcM; arc=none smtp.client-ip=209.85.160.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="J/WVPWr/"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6dde290d09eso5245626a34.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:56:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="bzmrEdcM"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-20400d5b54eso7617023fac.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:56:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1705481770; x=1706086570; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1705481774; x=1706086574; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qKsgEv/kzIHJgzrrOvKf84e1/JzOzrzZCZjXHAU2DdQ=;
-        b=J/WVPWr/O2MlZtLGViFRL2e7n3OnLSqTuvafal+b0wgx8H+hFXb6SAq4OdKk2nDH7p
-         yy668Srsq2Z+v1cD6XcWcS9uaL/NMFiF4IRjY6d13qZDM/bnZpBz7W9D0CPBxQa1TO+D
-         4uQYqHu/ZGiN+110eSITJI7vw7gpRyW7kfJwrN2aqQ9rdMIBzT1MvK5GCxKv9sxRJ85L
-         HXz0SFHPls0L1LKQi5YKiZES+9bKy6hID7838N0bVg8dZKjWfbigokFg1x4+PSB29QC5
-         PJWYQoF8TYIcRijRU3yqnxuuaxocv/oVIyfzZTL6QhIhv7f0+72ZtK7N8cU+XOS25DO3
-         Yziw==
+        bh=0mxo/wJwfQ8In7qlAEKBYxIAqeDEb1P+gse306v00r4=;
+        b=bzmrEdcMKKi7bSY8lomk7GibC8Q5NqYLu1d2fAbDj/fTGlHAIIeH5xZw0/npQPtunG
+         heqX1hDkPT+kI0V9KF5Au2Z8Se7Sywgg97Ww5Cz0uFjqcgOznVbjTc62rR63yfzVU85N
+         aujRLPc+avzxSNDfIIZadsrV+M/iev7KDk2XpGuvmnKHMnQgXsezA6KW2Qyvdh41FJxn
+         rPSvyQ1xg5dBuXs+OYql/3ORINoVsb7XYgWLVdiEBejYbw0ysvRoWoW4gJvdlSmTc/0J
+         LAqNoI2YGXoj+KLIMdWe/qtj17Sr7mZN3LDt414gDT0S8/8rL4grR2sT2+QHrE5pOSsQ
+         sm4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705481770; x=1706086570;
+        d=1e100.net; s=20230601; t=1705481774; x=1706086574;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qKsgEv/kzIHJgzrrOvKf84e1/JzOzrzZCZjXHAU2DdQ=;
-        b=lBS1w8s/IjoIXIlK+yJTwqSwIb+cUot9Azx7oTIKhwTJ3xWXEyzBXVqutV5Ke+MN7u
-         WtuT3S1w74fnnCkx1EAMCXaweZNxQXDpwcVO0duAz23taiKdj4aLDRCaxtGHHkvMe5hN
-         SoIsA9HvEliQL8t5arX6CW0c9g3xQQr8dM+a34pvamywhPUmX2tyNQx3mM18ISi3nuan
-         o8Yrwd7Us5LZCzsY8NsPncxSRXXtGHCOrVzqb1p9yQDOHDrYENT7VHtQSXtYdaNRAgC2
-         Ffu41vOYtxI8emhIw2toltAYMud3qe0wQ9Xo5uC6K+86rYVppu9PhPFvqYtHZXr1AIE0
-         y6qw==
-X-Gm-Message-State: AOJu0YxZGC2A2ryvJyXeYBsgE7kTALadXGvdWieQDuTNIWRof+BoJgFX
-	NuuDfXAG7tIyOtbtqPOqenWL03ItfsK9+Q==
-X-Google-Smtp-Source: AGHT+IEvdt19Hm4szN0FuTv8pBAaeMLyqs22w3CrmVV//8yYsZWCydXtC1PMH6jLDXN8RgGrX2F0HQ==
-X-Received: by 2002:a9d:69d5:0:b0:6e0:ac77:bb47 with SMTP id v21-20020a9d69d5000000b006e0ac77bb47mr6631272oto.28.1705481769947;
-        Wed, 17 Jan 2024 00:56:09 -0800 (PST)
+        bh=0mxo/wJwfQ8In7qlAEKBYxIAqeDEb1P+gse306v00r4=;
+        b=QI1gWIfZlLRJ5Oog4uilQ4iAArD0+smhzzCI455tK2hx2pFn3Dhw2wW+HkvPEN/+wE
+         7IPw0BAx6RkNWVdkrobO/LVoC7JpxHQWIeu3sXaye0zky12+0FDLZNMzVblIJKCR5TT0
+         unOgM1CaqGx7IQ8t2lthFi7MHqjJQ/yEdaG275dzfhMot7jztUFCAtg3b6+wqwoAxjaL
+         VwnqzM/+W1DA6CbGWbLZYdt4PfHlW6Cy2l8vT00McIvYmFTrdDX/n9qG40scd4afyh3C
+         W+CGMK1DTnCLlJ7Sphk2E8h0aDzudBQwte/7DAqOo4IX2vLsLBcpJcfaWM9aITFdXdhO
+         +ddQ==
+X-Gm-Message-State: AOJu0YyUNI/3QlkgrBdBhvOVLccyOZxwCH645SkAYQqEmQCePh8GdKdz
+	C1ry2ywUTEOlGPnHKN7n55WnksvJAz+0hQ==
+X-Google-Smtp-Source: AGHT+IGKYXIXFlEpLpscwt2FQUgZRmkjQR1P66N6uPow96k+b3Jz6xJec6kFpgVqy3ujNkpyvYImJg==
+X-Received: by 2002:a05:6870:11d6:b0:203:c5ca:5333 with SMTP id 22-20020a05687011d600b00203c5ca5333mr9204314oav.41.1705481774401;
+        Wed, 17 Jan 2024 00:56:14 -0800 (PST)
 Received: from C02G87K0MD6R.bytedance.net ([203.208.167.154])
-        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.56.06
+        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.56.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 00:56:09 -0800 (PST)
+        Wed, 17 Jan 2024 00:56:14 -0800 (PST)
 From: Hao Jia <jiahao.os@bytedance.com>
 To: mark.rutland@arm.com,
 	rmk+kernel@armlinux.org.uk,
@@ -62,9 +62,9 @@ To: mark.rutland@arm.com,
 	willy@infradead.org
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v3 13/19] arm64: text replication: setup page tables for copied kernel
-Date: Wed, 17 Jan 2024 16:53:51 +0800
-Message-Id: <20240117085357.31693-14-jiahao.os@bytedance.com>
+Subject: [PATCH v3 14/19] arm64: text replication: include most of read-only data as well
+Date: Wed, 17 Jan 2024 16:53:52 +0800
+Message-Id: <20240117085357.31693-15-jiahao.os@bytedance.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 In-Reply-To: <20240117085357.31693-1-jiahao.os@bytedance.com>
 References: <20240117085357.31693-1-jiahao.os@bytedance.com>
@@ -78,134 +78,72 @@ Content-Transfer-Encoding: 8bit
 
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Setup page table entries in each non-boot NUMA node page table to
-point at each node's own copy of the kernel text. This switches
-each node to use its own unique copy of the kernel text.
+Include as much of the read-only data in the replication as we can
+without needing to move away from the generic RO_DATA() macro in
+the linker script.
+
+Unfortunately, the read-only data section is immedaitely followed
+by the read-only after init data with no page alignment, which
+means we can't have separate mappings for the read-only data
+section and everything else. Changing that would mean replacing
+the generic RO_DATA() macro which increases the maintenance burden.
+
+however, this is likely not worth the effort as the majority of
+read-only data will be covered.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- arch/arm64/include/asm/ktext.h |  1 +
- arch/arm64/mm/ktext.c          |  8 +++++
- arch/arm64/mm/mmu.c            | 53 ++++++++++++++++++++++++++++------
- 3 files changed, 53 insertions(+), 9 deletions(-)
+ arch/arm64/mm/ktext.c |  2 +-
+ arch/arm64/mm/mmu.c   | 21 ++++++++++++++++++---
+ 2 files changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/include/asm/ktext.h b/arch/arm64/include/asm/ktext.h
-index 386f9812d3c1..6ece59ca90a2 100644
---- a/arch/arm64/include/asm/ktext.h
-+++ b/arch/arm64/include/asm/ktext.h
-@@ -16,6 +16,7 @@ void __kprobes ktext_replication_patch(u32 *tp,  __le32 insn);
- void ktext_replication_patch_alternative(__le32 *src, int nr_inst);
- void ktext_replication_set_swapper_pgd(pgd_t *pgdp, pgd_t pgd);
- void ktext_replication_init_tramp(void);
-+void create_kernel_nid_map(pgd_t *pgdp, void *ktext);
- 
- #else
- 
 diff --git a/arch/arm64/mm/ktext.c b/arch/arm64/mm/ktext.c
-index 9efd21eb3308..6692759e78a8 100644
+index 6692759e78a8..6265a2db449b 100644
 --- a/arch/arm64/mm/ktext.c
 +++ b/arch/arm64/mm/ktext.c
-@@ -136,6 +136,14 @@ void __init ktext_replication_init(void)
- 
- 		/* Copy initial swapper page directory */
- 		memcpy(pgtables[nid]->swapper_pg_dir, swapper_pg_dir, PGD_SIZE);
-+
-+		/* Clear the kernel mapping */
-+		memset(&pgtables[nid]->swapper_pg_dir[kidx], 0,
-+		       sizeof(pgtables[nid]->swapper_pg_dir[kidx]));
-+
-+		/* Create kernel mapping pointing at our local copy */
-+		create_kernel_nid_map(pgtables[nid]->swapper_pg_dir,
-+				      kernel_texts[nid]);
- 	}
- }
+@@ -101,7 +101,7 @@ void ktext_replication_patch_alternative(__le32 *src, int nr_inst)
+ /* Allocate page tables and memory for the replicated kernel texts. */
+ void __init ktext_replication_init(void)
+ {
+-	size_t size = _etext - _stext;
++	size_t size = __end_rodata - _stext;
+ 	int kidx = pgd_index((phys_addr_t)KERNEL_START);
+ 	int nid;
  
 diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index f3ec38d9e232..181d5339dd05 100644
+index 181d5339dd05..a4efc5015bee 100644
 --- a/arch/arm64/mm/mmu.c
 +++ b/arch/arm64/mm/mmu.c
-@@ -638,6 +638,16 @@ void mark_rodata_ro(void)
- 	debug_checkwx();
- }
- 
-+static void __init create_kernel_mapping(pgd_t *pgdp, phys_addr_t pa_start,
-+					 void *va_start, void *va_end,
-+					 pgprot_t prot, int flags)
-+{
-+	size_t size = va_end - va_start;
-+
-+	__create_pgd_mapping(pgdp, pa_start, (unsigned long)va_start, size,
-+			     prot, early_pgtable_alloc, flags);
-+}
-+
- static void __init map_kernel_segment(pgd_t *pgdp, void *va_start, void *va_end,
- 				      pgprot_t prot, struct vm_struct *vma,
- 				      int flags, unsigned long vm_flags)
-@@ -648,8 +658,7 @@ static void __init map_kernel_segment(pgd_t *pgdp, void *va_start, void *va_end,
- 	BUG_ON(!PAGE_ALIGNED(pa_start));
- 	BUG_ON(!PAGE_ALIGNED(size));
- 
--	__create_pgd_mapping(pgdp, pa_start, (unsigned long)va_start, size, prot,
--			     early_pgtable_alloc, flags);
-+	create_kernel_mapping(pgdp, pa_start, va_start, va_end, prot, flags);
- 
- 	if (!(vm_flags & VM_NO_GUARD))
- 		size += PAGE_SIZE;
-@@ -721,14 +730,8 @@ static bool arm64_early_this_cpu_has_bti(void)
- 						    ID_AA64PFR1_EL1_BT_SHIFT);
- }
- 
--/*
-- * Create fine-grained mappings for the kernel.
-- */
--static void __init map_kernel(pgd_t *pgdp)
-+static pgprot_t __init kernel_text_pgprot(void)
+@@ -753,11 +753,26 @@ static pgprot_t __init kernel_text_pgprot(void)
+ #ifdef CONFIG_REPLICATE_KTEXT
+ void __init create_kernel_nid_map(pgd_t *pgdp, void *ktext)
  {
--	static struct vm_struct vmlinux_text, vmlinux_rodata, vmlinux_inittext,
--				vmlinux_initdata, vmlinux_data;
--
- 	/*
- 	 * External debuggers may need to write directly to the text
- 	 * mapping to install SW breakpoints. Allow this (only) when
-@@ -744,6 +747,38 @@ static void __init map_kernel(pgd_t *pgdp)
- 	if (arm64_early_this_cpu_has_bti())
- 		text_prot = __pgprot_modify(text_prot, PTE_GP, PTE_GP);
++	phys_addr_t pa_ktext;
++	size_t ro_offset;
++	void *ro_end;
+ 	pgprot_t text_prot = kernel_text_pgprot();
  
-+	return text_prot;
-+}
+-	create_kernel_mapping(pgdp, __pa(ktext), _stext, _etext, text_prot, 0);
+-	create_kernel_mapping(pgdp, __pa_symbol(__start_rodata),
+-			      __start_rodata, __inittext_begin,
++	pa_ktext = __pa(ktext);
++	ro_offset = __pa_symbol(__start_rodata) - __pa_symbol(_stext);
++	/*
++	 * We must not cover the read-only data after init, since this
++	 * is written to during boot, and thus must be shared between
++	 * the NUMA nodes.
++	 */
++	ro_end = PTR_ALIGN_DOWN((void *)__start_ro_after_init, PAGE_SIZE);
 +
-+#ifdef CONFIG_REPLICATE_KTEXT
-+void __init create_kernel_nid_map(pgd_t *pgdp, void *ktext)
-+{
-+	pgprot_t text_prot = kernel_text_pgprot();
-+
-+	create_kernel_mapping(pgdp, __pa(ktext), _stext, _etext, text_prot, 0);
-+	create_kernel_mapping(pgdp, __pa_symbol(__start_rodata),
-+			      __start_rodata, __inittext_begin,
++	create_kernel_mapping(pgdp, pa_ktext, _stext, _etext, text_prot, 0);
++	create_kernel_mapping(pgdp, pa_ktext + ro_offset,
++			      __start_rodata, ro_end,
 +			      PAGE_KERNEL, NO_CONT_MAPPINGS);
-+	create_kernel_mapping(pgdp, __pa_symbol(__inittext_begin),
-+			      __inittext_begin, __inittext_end,
-+			      text_prot, 0);
-+	create_kernel_mapping(pgdp, __pa_symbol(__initdata_begin),
-+			      __initdata_begin, __initdata_end,
-+			      PAGE_KERNEL, 0);
-+	create_kernel_mapping(pgdp, __pa_symbol(_data), _data, _end,
-+			      PAGE_KERNEL, 0);
-+}
-+#endif
-+
-+/*
-+ * Create fine-grained mappings for the kernel.
-+ */
-+static void __init map_kernel(pgd_t *pgdp)
-+{
-+	static struct vm_struct vmlinux_text, vmlinux_rodata, vmlinux_inittext,
-+				vmlinux_initdata, vmlinux_data;
-+	pgprot_t text_prot = kernel_text_pgprot();
-+
- 	/*
- 	 * Only rodata will be remapped with different permissions later on,
- 	 * all other segments are allowed to use contiguous mappings.
++	create_kernel_mapping(pgdp, __pa_symbol(ro_end),
++			      ro_end, __inittext_begin,
+ 			      PAGE_KERNEL, NO_CONT_MAPPINGS);
+ 	create_kernel_mapping(pgdp, __pa_symbol(__inittext_begin),
+ 			      __inittext_begin, __inittext_end,
 -- 
 2.20.1
 
