@@ -1,178 +1,318 @@
-Received: from smtp-fw-52005.amazon.com (smtp-fw-52005.amazon.com [52.119.213.156])
+Received: from smtp-fw-9102.amazon.com (smtp-fw-9102.amazon.com [207.171.184.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E93B200C9;
-	Wed, 17 Jan 2024 14:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4B0208B8;
+	Wed, 17 Jan 2024 14:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.184.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705500131; cv=none; b=nGDByBAw5vlxEslL756Ql5GeZ64pFGuT+9tdbxJ5lrBsWL2J59nDOHVUu2cZOeRRdNoP0Ukkyuts/zpILEtfFKHaC1GJpX7YGoHm/qDXG8BJTRTUFlDdg854VNJNsNzFjBIA9dK0IpFai0KT5aWt9ep4HOq8PxY9iOM24taZ23w=
+	t=1705502841; cv=none; b=plPoRL64H//ITbIIfvMgj02+x0WGMLpZMGFHQlm1wRC2pCJmx8YqMxffhrSPaAFUqL0bo5K6UYROA9cWRL57Sj5C+bfG4nFZKHjhsetFmciHZk43eu2XlX5HEiBzcC2JYfazVwodkDhvwDuARPivZNezfboBHg81pzs72EjSoVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705500131; c=relaxed/simple;
-	bh=R+N96ZQEAfDbhmqKJeIs5t/qX5hk250eLM+kCzB/5uc=;
+	s=arc-20240116; t=1705502841; c=relaxed/simple;
+	bh=cpEI0Ww67VBbt/n52kzUfLGKWmPgfI3+/lMsitcFDMI=;
 	h=DKIM-Signature:X-IronPort-AV:Received:Received:Received:
-	 X-Farcaster-Flow-ID:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:Content-Language:To:CC:References:From:
-	 In-Reply-To:X-Originating-IP:X-ClientProxiedBy:Content-Type:
-	 Content-Transfer-Encoding; b=ePIWMg92TyWC+sJwEkV/OAcgBIKt4zJ9kD0b8l5WUbTGr0mUu8kBEUimhT8VyCkMd+OvEL/ZfEHM3uI3QfJnJ7BvGWENgGYQSbFVArOTYLNQmZPSriOkdGnrr5slBwRf2DtDmAhRF8/JCr9yybJDEwMrsL2s3oN9y+mkl4J73Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=ngg0ERDa; arc=none smtp.client-ip=52.119.213.156
+	 X-Farcaster-Flow-ID:Received:Received:From:To:CC:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:X-Originating-IP:
+	 X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding; b=r0ZBIjCqnd9g1AVqGXmrbbo2p9hUDAKq/j8C8FIy7bHlR+KduvngkcWeKD+eoHRLz2NuD3d2MuLy3J4suS5phPFlkg1YZ4B1ClA89v9/UydLyRr8wPNbCZHgz/Sff+6xWyH43+9qRoaLLUIG3nIZCSkixYPVKNLHbOc1sxoDJjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=YYozJE33; arc=none smtp.client-ip=207.171.184.29
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="ngg0ERDa"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="YYozJE33"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1705500130; x=1737036130;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=R+N96ZQEAfDbhmqKJeIs5t/qX5hk250eLM+kCzB/5uc=;
-  b=ngg0ERDacrxyeq9DqzaSjO5gGkJyhaXM7MoZHLdekPWpCMMFgCIXRBCN
-   mLObZHAKGT2xnC2eBpEjvMEk7NgOktZptiFPSuug75QODcQIRbXKkX6Gm
-   0vbyF2GKGwNcz6ud8v3+gTwYAN2NUOXhvP8p01NeeaA1YhZ0E0fdPZOzG
-   g=;
+  t=1705502839; x=1737038839;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KI36AyxTHNxAyrC2/E2CPscnAMWQcpsDDCviRMf/ptM=;
+  b=YYozJE33uBcXPCu7g/hLAq10YvEidZyWf3FvQRMlbVDbdh+BBIV+wgQQ
+   JvRyV8kDmqKBqmJ2/oi+++hvl5BaJgfyt2+pZjzR9a/MH6+lXucoFtnpj
+   6tGN1Agu+zSxFIBWihoGYcB4WvLzaKelmcjPDNfoD5XzQx/QmrLz7XQ1O
+   Q=;
 X-IronPort-AV: E=Sophos;i="6.05,200,1701129600"; 
-   d="scan'208";a="628159042"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-6e7a78d7.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-52005.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 14:02:08 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan2.iad.amazon.com [10.32.235.34])
-	by email-inbound-relay-iad-1e-m6i4x-6e7a78d7.us-east-1.amazon.com (Postfix) with ESMTPS id 6DBC280774;
-	Wed, 17 Jan 2024 14:02:00 +0000 (UTC)
-Received: from EX19MTAUWC002.ant.amazon.com [10.0.7.35:42529]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.41.57:2525] with esmtp (Farcaster)
- id e65f03f2-b86e-47d1-8655-6702971ecda1; Wed, 17 Jan 2024 14:01:59 +0000 (UTC)
-X-Farcaster-Flow-ID: e65f03f2-b86e-47d1-8655-6702971ecda1
+   d="scan'208";a="390420952"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-pdx-2c-m6i4x-dc7c3f8b.us-west-2.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 14:47:13 +0000
+Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
+	by email-inbound-relay-pdx-2c-m6i4x-dc7c3f8b.us-west-2.amazon.com (Postfix) with ESMTPS id 305C8A096F;
+	Wed, 17 Jan 2024 14:47:11 +0000 (UTC)
+Received: from EX19MTAUWA001.ant.amazon.com [10.0.21.151:35085]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.23.111:2525] with esmtp (Farcaster)
+ id 8f49e889-7c05-4767-8fa7-e8d859bd377f; Wed, 17 Jan 2024 14:47:10 +0000 (UTC)
+X-Farcaster-Flow-ID: 8f49e889-7c05-4767-8fa7-e8d859bd377f
 Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 17 Jan 2024 14:01:59 +0000
-Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
- (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 17 Jan
- 2024 14:01:53 +0000
-Message-ID: <c96203ba-a5b2-4765-9d30-0f4e66c82cd7@amazon.com>
-Date: Wed, 17 Jan 2024 15:01:51 +0100
+ 15.2.1118.40; Wed, 17 Jan 2024 14:47:10 +0000
+Received: from dev-dsk-graf-1a-5ce218e4.eu-west-1.amazon.com (10.253.83.51) by
+ EX19D020UWC004.ant.amazon.com (10.13.138.149) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 17 Jan 2024 14:47:06 +0000
+From: Alexander Graf <graf@amazon.com>
+To: <linux-kernel@vger.kernel.org>
+CC: <linux-trace-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>, <x86@kernel.org>,
+	Eric Biederman <ebiederm@xmission.com>, "H . Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Andrew Morton
+	<akpm@linux-foundation.org>, Mark Rutland <mark.rutland@arm.com>, "Tom
+ Lendacky" <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+	James Gowans <jgowans@amazon.com>, Stanislav Kinsburskii
+	<skinsburskii@linux.microsoft.com>, <arnd@arndb.de>, <pbonzini@redhat.com>,
+	<madvenka@linux.microsoft.com>, Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Usama Arif <usama.arif@bytedance.com>, David Woodhouse <dwmw@amazon.co.uk>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v3 00/17] kexec: Allow preservation of ftrace buffers
+Date: Wed, 17 Jan 2024 14:46:47 +0000
+Message-ID: <20240117144704.602-1-graf@amazon.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/17] kexec: Add documentation for KHO
-Content-Language: en-US
-To: Rob Herring <robh+dt@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <kexec@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <x86@kernel.org>, Eric Biederman
-	<ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski
-	<luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Steven Rostedt
-	<rostedt@goodmis.org>, Andrew Morton <akpm@linux-foundation.org>, "Mark
- Rutland" <mark.rutland@arm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>, James Gowans <jgowans@amazon.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>, <arnd@arndb.de>,
-	<pbonzini@redhat.com>, <madvenka@linux.microsoft.com>, Anthony Yznaga
-	<anthony.yznaga@oracle.com>, Usama Arif <usama.arif@bytedance.com>, "David
- Woodhouse" <dwmw@amazon.co.uk>, Benjamin Herrenschmidt
-	<benh@kernel.crashing.org>
-References: <20231222193607.15474-1-graf@amazon.com>
- <20231222195144.24532-1-graf@amazon.com>
- <20231222195144.24532-2-graf@amazon.com>
- <CAL_JsqJSYgq7BJnSxwKebEX8e9tL-FG74rT+eLJ4e32kKZC30g@mail.gmail.com>
-From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <CAL_JsqJSYgq7BJnSxwKebEX8e9tL-FG74rT+eLJ4e32kKZC30g@mail.gmail.com>
-X-ClientProxiedBy: EX19D035UWB001.ant.amazon.com (10.13.138.33) To
+X-ClientProxiedBy: EX19D046UWA001.ant.amazon.com (10.13.139.112) To
  EX19D020UWC004.ant.amazon.com (10.13.138.149)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Ck9uIDAzLjAxLjI0IDE5OjQ4LCBSb2IgSGVycmluZyB3cm90ZToKPgo+IE9uIEZyaSwgRGVjIDIy
-LCAyMDIzIGF0IDEyOjUy4oCvUE0gQWxleGFuZGVyIEdyYWYgPGdyYWZAYW1hem9uLmNvbT4gd3Jv
-dGU6Cj4+IFdpdGggS0hPIGluIHBsYWNlLCBsZXQncyBhZGQgZG9jdW1lbnRhdGlvbiB0aGF0IGRl
-c2NyaWJlcyB3aGF0IGl0IGlzIGFuZAo+PiBob3cgdG8gdXNlIGl0Lgo+Pgo+PiBTaWduZWQtb2Zm
-LWJ5OiBBbGV4YW5kZXIgR3JhZiA8Z3JhZkBhbWF6b24uY29tPgo+PiAtLS0KPj4gICBEb2N1bWVu
-dGF0aW9uL2toby9jb25jZXB0cy5yc3QgICB8IDg4ICsrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrCj4+ICAgRG9jdW1lbnRhdGlvbi9raG8vaW5kZXgucnN0ICAgICAgfCAxOSArKysrKysr
-Cj4+ICAgRG9jdW1lbnRhdGlvbi9raG8vdXNhZ2UucnN0ICAgICAgfCA1NyArKysrKysrKysrKysr
-KysrKysrKysKPj4gICBEb2N1bWVudGF0aW9uL3N1YnN5c3RlbS1hcGlzLnJzdCB8ICAxICsKPj4g
-ICA0IGZpbGVzIGNoYW5nZWQsIDE2NSBpbnNlcnRpb25zKCspCj4+ICAgY3JlYXRlIG1vZGUgMTAw
-NjQ0IERvY3VtZW50YXRpb24va2hvL2NvbmNlcHRzLnJzdAo+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBEb2N1bWVudGF0aW9uL2toby9pbmRleC5yc3QKPj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9j
-dW1lbnRhdGlvbi9raG8vdXNhZ2UucnN0Cj4+Cj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9u
-L2toby9jb25jZXB0cy5yc3QgYi9Eb2N1bWVudGF0aW9uL2toby9jb25jZXB0cy5yc3QKPj4gbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKPj4gaW5kZXggMDAwMDAwMDAwMDAwLi44ZTRmZThjNTc4NjUKPj4g
-LS0tIC9kZXYvbnVsbAo+PiArKysgYi9Eb2N1bWVudGF0aW9uL2toby9jb25jZXB0cy5yc3QKPj4g
-QEAgLTAsMCArMSw4OCBAQAo+PiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAt
-b3ItbGF0ZXIKPj4gKwo+PiArPT09PT09PT09PT09PT09PT09PT09PT0KPj4gK0tleGVjIEhhbmRv
-dmVyIENvbmNlcHRzCj4+ICs9PT09PT09PT09PT09PT09PT09PT09PQo+PiArCj4+ICtLZXhlYyBI
-YW5kT3ZlciAoS0hPKSBpcyBhIG1lY2hhbmlzbSB0aGF0IGFsbG93cyBMaW51eCB0byBwcmVzZXJ2
-ZSBzdGF0ZSAtCj4+ICthcmJpdHJhcnkgcHJvcGVydGllcyBhcyB3ZWxsIGFzIG1lbW9yeSBsb2Nh
-dGlvbnMgLSBhY3Jvc3Mga2V4ZWMuCj4+ICsKPj4gK0l0IGludHJvZHVjZXMgbXVsdGlwbGUgY29u
-Y2VwdHM6Cj4+ICsKPj4gK0tITyBEZXZpY2UgVHJlZQo+PiArLS0tLS0tLS0tLS0tLS0tCj4+ICsK
-Pj4gK0V2ZXJ5IEtITyBrZXhlYyBjYXJyaWVzIGEgS0hPIHNwZWNpZmljIGZsYXR0ZW5lZCBkZXZp
-Y2UgdHJlZSBibG9iIHRoYXQKPj4gK2Rlc2NyaWJlcyB0aGUgc3RhdGUgb2YgdGhlIHN5c3RlbS4g
-RGV2aWNlIGRyaXZlcnMgY2FuIHJlZ2lzdGVyIHRvIEtITyB0bwo+PiArc2VyaWFsaXplIHRoZWly
-IHN0YXRlIGJlZm9yZSBrZXhlYy4gQWZ0ZXIgS0hPLCBkZXZpY2UgZHJpdmVycyBjYW4gcmVhZAo+
-PiArdGhlIGRldmljZSB0cmVlIGFuZCBleHRyYWN0IHByZXZpb3VzIHN0YXRlLgo+IEhvdyBkb2Vz
-IHRoaXMgd29yayB3aXRoIGtleGVjIHdoZW4gdGhlcmUgaXMgYWxzbyB0aGUgRkRUIGZvciB0aGUg
-aC93Pwo+IFRoZSBoL3cgRkRUIGhhcyBhIC9jaG9zZW4gcHJvcGVydHkgcG9pbnRpbmcgdG8gdGhp
-cyBGRFQgYmxvYj8KCgpZZXAsIGV4YWN0bHkuCgoKPgo+PiArCj4+ICtLSE8gb25seSB1c2VzIHRo
-ZSBmZHQgY29udGFpbmVyIGZvcm1hdCBhbmQgbGliZmR0IGxpYnJhcnksIGJ1dCBkb2VzIG5vdAo+
-PiArYWRoZXJlIHRvIHRoZSBzYW1lIHByb3BlcnR5IHNlbWFudGljcyB0aGF0IG5vcm1hbCBkZXZp
-Y2UgdHJlZXMgZG86IFByb3BlcnRpZXMKPj4gK2FyZSBwYXNzZWQgaW4gbmF0aXZlIGVuZGlhbm5l
-c3MgYW5kIHN0YW5kYXJkaXplZCBwcm9wZXJ0aWVzIGxpa2UgYGByZWdzYGAgYW5kCj4+ICtgYHJh
-bmdlc2BgIGRvIG5vdCBleGlzdCwgaGVuY2UgdGhlcmUgYXJlIG5vIGBgIy4uLi1jZWxsc2BgIHBy
-b3BlcnRpZXMuCj4gSSB0aGluayBuYXRpdmUgZW5kaWFubmVzcyBpcyBhc2tpbmcgZm9yIHRyb3Vi
-bGUuIGxpYmZkdCB3b3VsZCBuZWVkCj4gZGlmZmVyZW50IHN3YXAgZnVuY3Rpb25zIGhlcmUgdGhh
-biBlbHNld2hlcmUgaW4gdGhlIGtlcm5lbCBmb3IgZXhhbXBsZQo+IHdoaWNoIHdvdWxkbid0IGV2
-ZW4gd29yay4gU28geW91IGFyZSBqdXN0IGNyb3NzaW5nIHlvdXIgZmluZ2VycyB0aGF0Cj4geW91
-IGFyZW4ndCB1c2luZyBhbnkgbGliZmR0IGZ1bmN0aW9ucyB0aGF0IHN3YXAuIEFuZCB3aGVuIEkg
-c3luYwo+IGR0Yy9saWJmZHQgYW5kIHRoYXQgY2hhbmdlcywgSSBtaWdodCBicmVhayB5b3UuCj4K
-PiBBbHNvLCBpZiB5b3Ugd2FudCB0byBkdW1wIHRoZSBGRFQgYW5kIGRvIGEgZHRjIERUQi0+RFRT
-IHBhc3MsIGl0IGlzCj4gbm90IGdvaW5nIHRvIGJlIHRvbyByZWFkYWJsZSBnaXZlbiB0aGF0IG91
-dHB1dHMgc3dhcHBlZCAzMi1iaXQgdmFsdWVzCj4gZm9yIGFueXRoaW5nIHRoYXQncyBhIDQgYnl0
-ZSBtdWx0aXBsZS4KCgpZZWFoLCBidXQgYmlnIGVuZGlhbiB0aGVzZSBkYXlzIGlzIGp1c3QgYSBj
-b21wbGV0ZSB3YXN0ZSBvZiBicmFpbiBhbmQgCmNwdSBjeWNsZXMgOikuIEFuZCB5ZXMsIEkgZG9u
-J3QgcmVhbGx5IHdhbnQgdG8gdXNlIGFueSBsaWJmZHQgaGVscGVyIApmdW5jdGlvbnMgdG8gcmVh
-ZCBkYXRhLiBJIHVzZSBpdCBvbmx5IHRvIGdpdmUgbWUgdGhlIHJhdyBkYXRhIGFuZCB0YWtlIApp
-dCBmcm9tIHRoZXJlLgoKCj4KPj4gKwo+PiArS0hPIGludHJvZHVjZXMgYSBuZXcgY29uY2VwdCB0
-byBpdHMgZGV2aWNlIHRyZWU6IGBgbWVtYGAgcHJvcGVydGllcy4gQQo+PiArYGBtZW1gYCBwcm9w
-ZXJ0eSBjYW4gaW5zaWRlIGFueSBzdWJub2RlIGluIHRoZSBkZXZpY2UgdHJlZS4gV2hlbiBwcmVz
-ZW50LAo+PiAraXQgY29udGFpbnMgYW4gYXJyYXkgb2YgcGh5c2ljYWwgbWVtb3J5IHJhbmdlcyB0
-aGF0IHRoZSBuZXcga2VybmVsIG11c3QgbWFyawo+PiArYXMgcmVzZXJ2ZWQgb24gYm9vdC4gSXQg
-aXMgcmVjb21tZW5kZWQsIGJ1dCBub3QgcmVxdWlyZWQsIHRvIG1ha2UgdGhlc2UgcmFuZ2VzCj4+
-ICthcyBwaHlzaWNhbGx5IGNvbnRpZ3VvdXMgYXMgcG9zc2libGUgdG8gcmVkdWNlIHRoZSBudW1i
-ZXIgb2YgYXJyYXkgZWxlbWVudHMgOjoKPj4gKwo+PiArICAgIHN0cnVjdCBraG9fbWVtIHsKPj4g
-KyAgICAgICAgICAgIF9fdTY0IGFkZHI7Cj4+ICsgICAgICAgICAgICBfX3U2NCBsZW47Cj4+ICsg
-ICAgfTsKPj4gKwo+PiArQWZ0ZXIgYm9vdCwgZHJpdmVycyBjYW4gY2FsbCB0aGUga2hvIHN1YnN5
-c3RlbSB0byB0cmFuc2ZlciBvd25lcnNoaXAgb2YgbWVtb3J5Cj4+ICt0aGF0IHdhcyByZXNlcnZl
-ZCB2aWEgYSBgYG1lbWBgIHByb3BlcnR5IHRvIHRoZW1zZWx2ZXMgdG8gY29udGludWUgdXNpbmcg
-bWVtb3J5Cj4+ICtmcm9tIHRoZSBwcmV2aW91cyBleGVjdXRpb24uCj4+ICsKPj4gK1RoZSBLSE8g
-ZGV2aWNlIHRyZWUgZm9sbG93cyB0aGUgaW4tTGludXggc2NoZW1hIHJlcXVpcmVtZW50cy4gQW55
-IGVsZW1lbnQgaW4KPj4gK3RoZSBkZXZpY2UgdHJlZSBpcyBkb2N1bWVudGVkIHZpYSBkZXZpY2Ug
-dHJlZSBzY2hlbWEgeWFtbHMgdGhhdCBleHBsYWluIHdoYXQKPj4gK2RhdGEgZ2V0cyB0cmFuc2Zl
-cnJlZC4KPiBJZiB0aGlzIGlzIGFsbCBzZXBhcmF0ZSwgdGhlbiBJIHRoaW5rIHRoZSBzY2hlbWFz
-IHNob3VsZCBiZSB0b28uIEFuZAo+IHRoZW4gZnJvbSBteSAoRFQgbWFpbnRhaW5lcikgcGVyc3Bl
-Y3RpdmUsIHlvdSBjYW4gZG8gd2hhdGV2ZXIgeW91IHdhbnQKPiBoZXJlIChsaWtlIEZJVCBpbWFn
-ZXMpLiBUaGUgZHRzY2hlbWEgdG9vbHMgYXJlIHByZXR0eSBtdWNoIG9ubHkgZ2VhcmVkCj4gZm9y
-ICJub3JtYWwiIERUcy4gQSBjb3VwbGUgb2YgcHJvYmxlbXMgY29tZSB0byBtaW5kLiBZb3UgY2Fu
-J3QgZXhjbHVkZQo+IG9yIGNoYW5nZSBzdGFuZGFyZCBwcm9wZXJ0aWVzLiBUaGUgZGVjb2Rpbmcg
-b2YgdGhlIERUQiB0byBydW4KPiB2YWxpZGF0aW9uIGFzc3VtZXMgYmlnIGVuZGlhbi4gV2UgY291
-bGQgcHJvYmFibHkgc3BsaXQgdGhpbmdzIHVwIGEKPiBiaXQsIGJ1dCB5b3UgbWF5IGJlIGJldHRl
-ciBvZmYganVzdCB1c2luZyBqc29uc2NoZW1hIGRpcmVjdGx5LiBJJ20gbm90Cj4gZXZlbiBzdXJl
-IHJ1bm5pbmcgdmFsaWRhdGlvbiBoZXJlIHdvdWxkIHRoYXQgdmFsdWFibGUuIFlvdSBoYXZlIDEK
-PiBzb3VyY2Ugb2YgY29kZSBnZW5lcmF0aW5nIHRoZSBEVCBhbmQgMSBjb25zdW1lci4gWWVzLCB0
-aGVyZSdzCj4gZGlmZmVyZW50IGtlcm5lbCB2ZXJzaW9ucyB0byBkZWFsIHdpdGgsIGJ1dCBpdCdz
-IG5vdCAxMDBzIG9mIHBlb3BsZQo+IGNyZWF0aW5nIDEwMDBzIG9mIERUcyB3aXRoIDEwMHMgb2Yg
-bm9kZXMuCj4KPiBZb3UgbWlnaHQgbG9vayBhdCB0aGUgbmV0bGluayBzdHVmZiB3aGljaCBpcyB1
-c2luZyBpdHMgb3duIHlhbWwgc3ludGF4Cj4gdG8gZ2VuZXJhdGUgY29kZSBhbmQganNvbnNjaGVt
-YSBpcyB1c2VkIHRvIHZhbGlkYXRlIHRoZSB5YW1sLgoKCkknbSBjdXJyZW50bHkgYSBsb3QgbW9y
-ZSBpbnRlcmVzdGVkIGluIHRoZSBkb2N1bWVudGF0aW9uIGFzcGVjdCB0aGFuIGluIAp0aGUgdmFs
-aWRhdGlvbiwgeWVhaC4gU28gSSB0aGluayBmb3IgdjMsIEknbGwganVzdCB0aHJvdyB0aGUgc2No
-ZW1hcyAKaW50byB0aGUgRG9jdW1lbnRhdGlvbi9raG8gZGlyZWN0b3J5IHdpdGhvdXQgYW55IHZh
-bGlkYXRpb24uIFdlIGNhbiAKd29ycnkgYWJvdXQgdGhhdCBsYXRlciA6KQoKVGhhbmtzIGEgbG90
-IGFnYWluIGZvciB0aGUgcmV2aWV3IQoKCkFsZXgKCgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2Vu
-dGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1
-ZWhydW5nOiBDaHJpc3RpYW4gU2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBh
-bSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVy
-bGluClVzdC1JRDogREUgMjg5IDIzNyA4NzkKCgo=
+Kexec today considers itself purely a boot loader: When we enter the new
+kernel, any state the previous kernel left behind is irrelevant and the
+new kernel reinitializes the system.
+
+However, there are use cases where this mode of operation is not what we
+actually want. In virtualization hosts for example, we want to use kexec
+to update the host kernel while virtual machine memory stays untouched.
+When we add device assignment to the mix, we also need to ensure that
+IOMMU and VFIO states are untouched. If we add PCIe peer to peer DMA, we
+need to do the same for the PCI subsystem. If we want to kexec while an
+SEV-SNP enabled virtual machine is running, we need to preserve the VM
+context pages and physical memory. See James' and my Linux Plumbers
+Conference 2023 presentation for details:
+
+  https://lpc.events/event/17/contributions/1485/
+
+To start us on the journey to support all the use cases above, this
+patch implements basic infrastructure to allow hand over of kernel state
+across kexec (Kexec HandOver, aka KHO). As example target, we use ftrace:
+With this patch set applied, you can read ftrace records from the
+pre-kexec environment in your post-kexec one. This creates a very powerful
+debugging and performance analysis tool for kexec. It's also slightly
+easier to reason about than full blown VFIO state preservation.
+
+== Alternatives ==
+
+There are alternative approaches to (parts of) the problems above:
+
+  * Memory Pools [1] - preallocated persistent memory region + allocator
+  * PRMEM [2] - resizable persistent memory regions with fixed metadata
+                pointer on the kernel command line + allocator
+  * Pkernfs [3] - preallocated file system for in-kernel data with fixed
+                  address location on the kernel command line
+  * PKRAM [4] - handover of user space pages using a fixed metadata page
+                specified via command line
+
+All of the approaches above fundamentally have the same problem: They
+require the administrator to explicitly carve out a physical memory
+location because they have no mechanism outside of the kernel command
+line to pass data (including memory reservations) between kexec'ing
+kernels.
+
+KHO provides that base foundation. We will determine later whether we
+still need any of the approaches above for fast bulk memory handover of for
+example IOMMU page tables. But IMHO they would all be users of KHO, with
+KHO providing the foundational primitive to pass metadata and bulk memory
+reservations as well as provide easy versioning for data.
+
+== Overview ==
+
+We introduce a metadata file that the kernels pass between each other. How
+they pass it is architecture specific. The file's format is a Flattened
+Device Tree (fdt) which has a generator and parser already included in
+Linux. When the root user enables KHO through /sys/kernel/kho/active, the
+kernel invokes callbacks to every driver that supports KHO to serialize
+its state. When the actual kexec happens, the fdt is part of the image
+set that we boot into. In addition, we keep a "scratch region" available
+for kexec: A physically contiguous memory region that is guaranteed to
+not have any memory that KHO would preserve.  The new kernel bootstraps
+itself using the scratch region and sets all handed over memory as in use.
+When drivers initialize that support KHO, they introspect the fdt and
+recover their state from it. This includes memory reservations, where the
+driver can either discard or claim reservations.
+
+== Limitations ==
+
+I currently only implemented file based kexec. The kernel interfaces
+in the patch set are already in place to support user space kexec as well,
+but I have not implemented it yet inside kexec tools.
+
+== How to Use ==
+
+To use the code, please boot the kernel with the "kho_scratch=" command
+line parameter set: "kho_scratch=512M". KHO requires a scratch region.
+
+Make sure to fill ftrace with contents that you want to observe after
+kexec.  Then, before you invoke file based "kexec -l", activate KHO:
+
+  # echo 1 > /sys/kernel/kho/active
+  # kexec -l Image --initrd=initrd -s
+  # kexec -e
+
+The new kernel will boot up and contain the previous kernel's trace
+buffers in /sys/kernel/debug/tracing/trace.
+
+== Changelog ==
+
+v1 -> v2:
+  - Removed: tracing: Introduce names for ring buffers
+  - Removed: tracing: Introduce names for events
+  - New: kexec: Add config option for KHO
+  - New: kexec: Add documentation for KHO
+  - New: tracing: Initialize fields before registering
+  - New: devicetree: Add bindings for ftrace KHO
+  - test bot warning fixes
+  - Change kconfig option to ARCH_SUPPORTS_KEXEC_KHO
+  - s/kho_reserve_mem/kho_reserve_previous_mem/g
+  - s/kho_reserve/kho_reserve_scratch/g
+  - Remove / reduce ifdefs
+  - Select crc32
+  - Leave anything that requires a name in trace.c to keep buffers
+    unnamed entities
+  - Put events as array into a property, use fingerprint instead of
+    names to identify them
+  - Reduce footprint without CONFIG_FTRACE_KHO
+  - s/kho_reserve_mem/kho_reserve_previous_mem/g
+  - make kho_get_fdt() const
+  - Add stubs for return_mem and claim_mem
+  - make kho_get_fdt() const
+  - Get events as array from a property, use fingerprint instead of
+    names to identify events
+  - Change kconfig option to ARCH_SUPPORTS_KEXEC_KHO
+  - s/kho_reserve_mem/kho_reserve_previous_mem/g
+  - s/kho_reserve/kho_reserve_scratch/g
+  - Leave the node generation code that needs to know the name in
+    trace.c so that ring buffers can stay anonymous
+  - s/kho_reserve/kho_reserve_scratch/g
+  - Move kho enums out of ifdef
+  - Move from names to fdt offsets. That way, trace.c can find the trace
+    array offset and then the ring buffer code only needs to read out
+    its per-CPU data. That way it can stay oblivient to its name.
+  - Make kho_get_fdt() const
+
+v2 -> v3:
+
+  - Fix make dt_binding_check
+  - Add descriptions for each object
+  - s/trace_flags/trace-flags/
+  - s/global_trace/global-trace/
+  - Make all additionalProperties false
+  - Change subject to reflect subsysten (dt-bindings)
+  - Fix indentation
+  - Remove superfluous examples
+  - Convert to 64bit syntax
+  - Move to kho directory
+  - s/"global_trace"/"global-trace"/
+  - s/"global_trace"/"global-trace"/
+  - s/"trace_flags"/"trace-flags"/
+  - Fix wording
+  - Add Documentation to MAINTAINERS file
+  - Remove kho reference on read error
+  - Move handover_dt unmap up
+  - s/reserve_scratch_mem/mark_phys_as_cma/
+  - Remove ifdeffery
+  - Remove superfluous comment
+
+Alexander Graf (17):
+  mm,memblock: Add support for scratch memory
+  memblock: Declare scratch memory as CMA
+  kexec: Add Kexec HandOver (KHO) generation helpers
+  kexec: Add KHO parsing support
+  kexec: Add KHO support to kexec file loads
+  kexec: Add config option for KHO
+  kexec: Add documentation for KHO
+  arm64: Add KHO support
+  x86: Add KHO support
+  tracing: Initialize fields before registering
+  tracing: Introduce kho serialization
+  tracing: Add kho serialization of trace buffers
+  tracing: Recover trace buffers from kexec handover
+  tracing: Add kho serialization of trace events
+  tracing: Recover trace events from kexec handover
+  tracing: Add config option for kexec handover
+  Documentation: KHO: Add ftrace bindings
+
+ Documentation/ABI/testing/sysfs-firmware-kho  |   9 +
+ Documentation/ABI/testing/sysfs-kernel-kho    |  53 ++
+ .../admin-guide/kernel-parameters.txt         |  10 +
+ .../kho/bindings/ftrace/ftrace-array.yaml     |  38 ++
+ .../kho/bindings/ftrace/ftrace-cpu.yaml       |  43 ++
+ Documentation/kho/bindings/ftrace/ftrace.yaml |  62 +++
+ Documentation/kho/concepts.rst                |  88 +++
+ Documentation/kho/index.rst                   |  19 +
+ Documentation/kho/usage.rst                   |  57 ++
+ Documentation/subsystem-apis.rst              |   1 +
+ MAINTAINERS                                   |   3 +
+ arch/arm64/Kconfig                            |   3 +
+ arch/arm64/kernel/setup.c                     |   2 +
+ arch/arm64/mm/init.c                          |   8 +
+ arch/x86/Kconfig                              |   3 +
+ arch/x86/boot/compressed/kaslr.c              |  55 ++
+ arch/x86/include/uapi/asm/bootparam.h         |  15 +-
+ arch/x86/kernel/e820.c                        |   9 +
+ arch/x86/kernel/kexec-bzimage64.c             |  39 ++
+ arch/x86/kernel/setup.c                       |  46 ++
+ arch/x86/mm/init_32.c                         |   7 +
+ arch/x86/mm/init_64.c                         |   7 +
+ drivers/of/fdt.c                              |  39 ++
+ drivers/of/kexec.c                            |  54 ++
+ include/linux/kexec.h                         |  58 ++
+ include/linux/memblock.h                      |  19 +
+ include/linux/ring_buffer.h                   |  17 +-
+ include/linux/trace_events.h                  |   1 +
+ include/uapi/linux/kexec.h                    |   6 +
+ kernel/Kconfig.kexec                          |  13 +
+ kernel/Makefile                               |   2 +
+ kernel/kexec_file.c                           |  41 ++
+ kernel/kexec_kho_in.c                         | 298 ++++++++++
+ kernel/kexec_kho_out.c                        | 526 ++++++++++++++++++
+ kernel/trace/Kconfig                          |  14 +
+ kernel/trace/ring_buffer.c                    | 243 +++++++-
+ kernel/trace/trace.c                          |  96 +++-
+ kernel/trace/trace_events.c                   |  14 +-
+ kernel/trace/trace_events_synth.c             |  14 +-
+ kernel/trace/trace_events_user.c              |   4 +
+ kernel/trace/trace_output.c                   | 247 +++++++-
+ kernel/trace/trace_output.h                   |   5 +
+ kernel/trace/trace_probe.c                    |   4 +
+ mm/Kconfig                                    |   4 +
+ mm/memblock.c                                 |  79 ++-
+ 45 files changed, 2351 insertions(+), 24 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-firmware-kho
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-kho
+ create mode 100644 Documentation/kho/bindings/ftrace/ftrace-array.yaml
+ create mode 100644 Documentation/kho/bindings/ftrace/ftrace-cpu.yaml
+ create mode 100644 Documentation/kho/bindings/ftrace/ftrace.yaml
+ create mode 100644 Documentation/kho/concepts.rst
+ create mode 100644 Documentation/kho/index.rst
+ create mode 100644 Documentation/kho/usage.rst
+ create mode 100644 kernel/kexec_kho_in.c
+ create mode 100644 kernel/kexec_kho_out.c
+
+-- 
+2.40.1
+
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
 
