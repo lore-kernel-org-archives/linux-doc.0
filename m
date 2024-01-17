@@ -1,58 +1,58 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C411EB24
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10DE12B6F
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705481776; cv=none; b=jDUXAHq5b37n/qHT3VFE/U2uG3SXYJP6ih43rQE27lTPFIc3US+3mNWQYhLzgI0ozF+Oh91stz4+RUiwDRXIZNFY4jYsHAw1/y1PRE0Bc11hOcyM3KPyA9HAH6BthfMW1FeYdWBbStY/xbb1lBkkNFz0srq+9DAE5uYa66aTbW4=
+	t=1705481781; cv=none; b=RioZUmLKYi5wPgeCwC9jKsWVIk7v8YofDPyzpaRAqQFL7mDebLnepW7p4f4zLdbBV7ftQx93l4sMPaNHpfe9i60BdY/+e0FTAV2veA1h/4fvpAm6xfQtFfHrqoBj4DBuhXi1YI72XrBNhLoE144SpINzE6QopbGBTrJSlyT+I3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705481776; c=relaxed/simple;
-	bh=+sU2L91PzORZqj3b9pD85TN1AcK0aSoOmDSILqOINFs=;
+	s=arc-20240116; t=1705481781; c=relaxed/simple;
+	bh=8gtmmJwg+/jsTtuZtqQy80cge8wyZUrlws98MiySy2o=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
 	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding; b=aPcCov+Mb56g2NU4rwNFzHmol3zS3JsDztBNuIN9yLikiMNsk2qTBoCQPyhO70kMrdWXDMWq+940hK9U9lcOxgngIaUljdpc2ctZGLQ0FlfibtR6Q4X7eiWeqg0frGzsflu+xN5tPP8uv9njmyUKFDmmiO1HO73KgFoeir37wdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=bzmrEdcM; arc=none smtp.client-ip=209.85.160.54
+	 MIME-Version:Content-Transfer-Encoding; b=ftC2IwyooOcc4VpG9wz4mF28zT6g7vGoOsJAAdxhTJc9eynCIPkgNftsCTbqpjbc1UbV6e76jguSg04gICQuopQ7TWF6dXQOv2GZr1VO6LO31XUHYQANZx+ltETh63BRMYlIAhJXu4rvMFad9E+l0NYplL890KG9lKpt8F4Nsj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=PmMgV+NX; arc=none smtp.client-ip=209.85.210.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="bzmrEdcM"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-20400d5b54eso7617023fac.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:56:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="PmMgV+NX"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6ddee0aa208so5147254a34.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:56:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1705481774; x=1706086574; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1705481779; x=1706086579; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0mxo/wJwfQ8In7qlAEKBYxIAqeDEb1P+gse306v00r4=;
-        b=bzmrEdcMKKi7bSY8lomk7GibC8Q5NqYLu1d2fAbDj/fTGlHAIIeH5xZw0/npQPtunG
-         heqX1hDkPT+kI0V9KF5Au2Z8Se7Sywgg97Ww5Cz0uFjqcgOznVbjTc62rR63yfzVU85N
-         aujRLPc+avzxSNDfIIZadsrV+M/iev7KDk2XpGuvmnKHMnQgXsezA6KW2Qyvdh41FJxn
-         rPSvyQ1xg5dBuXs+OYql/3ORINoVsb7XYgWLVdiEBejYbw0ysvRoWoW4gJvdlSmTc/0J
-         LAqNoI2YGXoj+KLIMdWe/qtj17Sr7mZN3LDt414gDT0S8/8rL4grR2sT2+QHrE5pOSsQ
-         sm4A==
+        bh=p92HaOoAM2zaHZmiFbyj7p/d4cfHWue2zO9NzywtZ/E=;
+        b=PmMgV+NXyU2dKQE/AWkbhPxoPETNXm6mx2De6YHfnypP8IU9YIFc73kj2QE66CnRvu
+         RnY+zdQNCgwbsO8GYsO0hXjUpYRjICjY8DrAAYeFCaIlCJmaAeyZwdfXc8b35Jtxi9G2
+         DOrplKsjyBKeYQ2aN4uWz4RK3HO9W26uhDD+4S6wKPFd+kDUOH7Nh2kdFcm/oQKytN19
+         +p72/6xQ7mBK31q7yep4gQvJC59KpY+GN7TaFLzO2PqqpCD0AZvbVuh+NVl0D1aQ/zin
+         pKpKj3EJHnka8pURI5zwvyFsMHGyGaW4CQRZbPKj+Evk3o434w3dpFPEV3ijmAS8Qspy
+         u48A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705481774; x=1706086574;
+        d=1e100.net; s=20230601; t=1705481779; x=1706086579;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0mxo/wJwfQ8In7qlAEKBYxIAqeDEb1P+gse306v00r4=;
-        b=QI1gWIfZlLRJ5Oog4uilQ4iAArD0+smhzzCI455tK2hx2pFn3Dhw2wW+HkvPEN/+wE
-         7IPw0BAx6RkNWVdkrobO/LVoC7JpxHQWIeu3sXaye0zky12+0FDLZNMzVblIJKCR5TT0
-         unOgM1CaqGx7IQ8t2lthFi7MHqjJQ/yEdaG275dzfhMot7jztUFCAtg3b6+wqwoAxjaL
-         VwnqzM/+W1DA6CbGWbLZYdt4PfHlW6Cy2l8vT00McIvYmFTrdDX/n9qG40scd4afyh3C
-         W+CGMK1DTnCLlJ7Sphk2E8h0aDzudBQwte/7DAqOo4IX2vLsLBcpJcfaWM9aITFdXdhO
-         +ddQ==
-X-Gm-Message-State: AOJu0YyUNI/3QlkgrBdBhvOVLccyOZxwCH645SkAYQqEmQCePh8GdKdz
-	C1ry2ywUTEOlGPnHKN7n55WnksvJAz+0hQ==
-X-Google-Smtp-Source: AGHT+IGKYXIXFlEpLpscwt2FQUgZRmkjQR1P66N6uPow96k+b3Jz6xJec6kFpgVqy3ujNkpyvYImJg==
-X-Received: by 2002:a05:6870:11d6:b0:203:c5ca:5333 with SMTP id 22-20020a05687011d600b00203c5ca5333mr9204314oav.41.1705481774401;
-        Wed, 17 Jan 2024 00:56:14 -0800 (PST)
+        bh=p92HaOoAM2zaHZmiFbyj7p/d4cfHWue2zO9NzywtZ/E=;
+        b=cLN0fFkyadh0M/xBNYzsB0prCcKiOVV82at9O6DAiEoaEYJkWT2b1la7g9A7ZR8E2w
+         DBUzlLE1oPXgTLtbEJmrsZFK8Y4xV/wd+JhkQPFVMfCSt6RRVErLF+13vcZLxCaN0AKe
+         dapN7bH/w/lg2l4mE50pL9uvbB3Ydn8lSHRcE7h5o5ShuSFm2N8wWhlqIdkaIpwLrZWf
+         JSA+bxSF6qZf15hXxHuKNhY7yWRbUqFTZS2fjasEodre27riBjRRKoETKK5Fujh1kTFC
+         ARRrDPCb4WwOcwsnBRykR9QJ8CiuDyudNy8XoPXfzP8eaUtDk0DiMv3oWR8eWqc3BEFt
+         uZ8Q==
+X-Gm-Message-State: AOJu0YylSye6eId6HGrVp1sG7ZctHHE/bIwCJ+f/n5EDOMc+1SUPvgTT
+	EcjgEe+O8boVoqdOdx4JiRTqFSPciddajQ==
+X-Google-Smtp-Source: AGHT+IFu+SeEJw9n2AbRiPBp4K++9he5wPts9eCmdnzeT17fAUQ3fZ3HG6qv9UaHx727Ck5dPdrcfQ==
+X-Received: by 2002:a9d:66ce:0:b0:6e0:c98f:b170 with SMTP id t14-20020a9d66ce000000b006e0c98fb170mr1986605otm.50.1705481778825;
+        Wed, 17 Jan 2024 00:56:18 -0800 (PST)
 Received: from C02G87K0MD6R.bytedance.net ([203.208.167.154])
-        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.56.11
+        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.56.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 00:56:14 -0800 (PST)
+        Wed, 17 Jan 2024 00:56:18 -0800 (PST)
 From: Hao Jia <jiahao.os@bytedance.com>
 To: mark.rutland@arm.com,
 	rmk+kernel@armlinux.org.uk,
@@ -62,9 +62,9 @@ To: mark.rutland@arm.com,
 	willy@infradead.org
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v3 14/19] arm64: text replication: include most of read-only data as well
-Date: Wed, 17 Jan 2024 16:53:52 +0800
-Message-Id: <20240117085357.31693-15-jiahao.os@bytedance.com>
+Subject: [PATCH v3 15/19] arm64: text replication: early kernel option to enable replication
+Date: Wed, 17 Jan 2024 16:53:53 +0800
+Message-Id: <20240117085357.31693-16-jiahao.os@bytedance.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 In-Reply-To: <20240117085357.31693-1-jiahao.os@bytedance.com>
 References: <20240117085357.31693-1-jiahao.os@bytedance.com>
@@ -78,72 +78,73 @@ Content-Transfer-Encoding: 8bit
 
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Include as much of the read-only data in the replication as we can
-without needing to move away from the generic RO_DATA() macro in
-the linker script.
+Provide an early kernel option "ktext=" which allows the kernel text
+replication to be enabled. This takes a boolean argument.
 
-Unfortunately, the read-only data section is immedaitely followed
-by the read-only after init data with no page alignment, which
-means we can't have separate mappings for the read-only data
-section and everything else. Changing that would mean replacing
-the generic RO_DATA() macro which increases the maintenance burden.
-
-however, this is likely not worth the effort as the majority of
-read-only data will be covered.
+The way this has been implemented means that we take all the same paths
+through the kernel at runtime whether kernel text replication has been
+enabled or not; this allows the performance effects of the code changes
+to be evaluated separately from the act of running with replicating the
+kernel text.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- arch/arm64/mm/ktext.c |  2 +-
- arch/arm64/mm/mmu.c   | 21 ++++++++++++++++++---
- 2 files changed, 19 insertions(+), 4 deletions(-)
+ .../admin-guide/kernel-parameters.txt          |  5 +++++
+ arch/arm64/mm/ktext.c                          | 18 ++++++++++++++++++
+ 2 files changed, 23 insertions(+)
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6ee0f9a5da70..bace7bd404d3 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2544,6 +2544,11 @@
+ 			0: force disabled
+ 			1: force enabled
+ 
++	ktext=		[ARM64] Control kernel text replication on NUMA
++			machines. Default: disabled.
++			0: disable kernel text replication
++			1: enable kernel text replication
++
+ 	kunit.enable=	[KUNIT] Enable executing KUnit tests. Requires
+ 			CONFIG_KUNIT to be set to be fully enabled. The
+ 			default value can be overridden via
 diff --git a/arch/arm64/mm/ktext.c b/arch/arm64/mm/ktext.c
-index 6692759e78a8..6265a2db449b 100644
+index 6265a2db449b..3dde6e1d99d7 100644
 --- a/arch/arm64/mm/ktext.c
 +++ b/arch/arm64/mm/ktext.c
-@@ -101,7 +101,7 @@ void ktext_replication_patch_alternative(__le32 *src, int nr_inst)
+@@ -98,6 +98,21 @@ void ktext_replication_patch_alternative(__le32 *src, int nr_inst)
+ 	}
+ }
+ 
++static bool ktext_enabled;
++
++static int __init parse_ktext(char *str)
++{
++	bool enabled;
++	int ret = kstrtobool(str, &enabled);
++
++	if (ret)
++		return ret;
++
++	ktext_enabled = enabled;
++	return 0;
++}
++early_param("ktext", parse_ktext);
++
  /* Allocate page tables and memory for the replicated kernel texts. */
  void __init ktext_replication_init(void)
  {
--	size_t size = _etext - _stext;
-+	size_t size = __end_rodata - _stext;
- 	int kidx = pgd_index((phys_addr_t)KERNEL_START);
- 	int nid;
+@@ -119,6 +134,9 @@ void __init ktext_replication_init(void)
+ 		return;
+ 	}
  
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index 181d5339dd05..a4efc5015bee 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -753,11 +753,26 @@ static pgprot_t __init kernel_text_pgprot(void)
- #ifdef CONFIG_REPLICATE_KTEXT
- void __init create_kernel_nid_map(pgd_t *pgdp, void *ktext)
- {
-+	phys_addr_t pa_ktext;
-+	size_t ro_offset;
-+	void *ro_end;
- 	pgprot_t text_prot = kernel_text_pgprot();
- 
--	create_kernel_mapping(pgdp, __pa(ktext), _stext, _etext, text_prot, 0);
--	create_kernel_mapping(pgdp, __pa_symbol(__start_rodata),
--			      __start_rodata, __inittext_begin,
-+	pa_ktext = __pa(ktext);
-+	ro_offset = __pa_symbol(__start_rodata) - __pa_symbol(_stext);
-+	/*
-+	 * We must not cover the read-only data after init, since this
-+	 * is written to during boot, and thus must be shared between
-+	 * the NUMA nodes.
-+	 */
-+	ro_end = PTR_ALIGN_DOWN((void *)__start_ro_after_init, PAGE_SIZE);
++	if (!ktext_enabled)
++		return;
 +
-+	create_kernel_mapping(pgdp, pa_ktext, _stext, _etext, text_prot, 0);
-+	create_kernel_mapping(pgdp, pa_ktext + ro_offset,
-+			      __start_rodata, ro_end,
-+			      PAGE_KERNEL, NO_CONT_MAPPINGS);
-+	create_kernel_mapping(pgdp, __pa_symbol(ro_end),
-+			      ro_end, __inittext_begin,
- 			      PAGE_KERNEL, NO_CONT_MAPPINGS);
- 	create_kernel_mapping(pgdp, __pa_symbol(__inittext_begin),
- 			      __inittext_begin, __inittext_end,
+ 	for_each_node(nid) {
+ 		/* Nothing to do for node 0 */
+ 		if (!nid)
 -- 
 2.20.1
 
