@@ -1,71 +1,171 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D6D219F1
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 15:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C68219F1;
+	Wed, 17 Jan 2024 15:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705504950; cv=none; b=cMIkFMFuZ4gGG4ianXOZIw3yiK9VKJT6Mhr2mzipMOCwvvYiyKX2nwWQImDlQH6TXsYQPJS+Y2fZHBlwtToqQZXucVQMUUEA8D63rOA+xDKkiAyK18CBtfsO7AUmKysRbv5QvrmcgLwwsdbE+aiaW1dPu2Lzvvebr/hMnAUqqT4=
+	t=1705505199; cv=none; b=dcGezV75UKZVOndlE/gdUJ/zu0Eg1RNEyue+j/0yK0rOQ/wQvRWHDnBaDW3ho4ndn7rx1gVlZb5HSkyGSsIdH81lrPhfEuwioiKyMi96VSfSfk/fbOUl6CttXciDODMOg5tXeBhgBijQa74LvZDWQkQJ/yPeUb59l/82LCv20wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705504950; c=relaxed/simple;
-	bh=IiMaPOqpUzn1pJI+Dgu8m7VuIzEgUtD8Pt2lbXXzmlI=;
-	h=Received:DKIM-Filter:DKIM-Signature:From:To:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type; b=KVJxlkKoZFlzzcR8nJiJpdubryQZkp7JnO0iSR3JbgTj//JXGW2JadN7wQmUvCsAlA0/l30iKZV7wjRDe4UK7GqRUHMDml3vDy6kHIOYw4eWusKUwXx9yxVEG5GSEmYM0lXLCWlDJzObYzUJzqczWL9wE/l5Rin8a/GmnyvURWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pQBu0e8R; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1705505199; c=relaxed/simple;
+	bh=xAKMrhuiOukQEKS5pJ7/xw71Z9SHcT0YAv7W09qM11Q=;
+	h=Received:DKIM-Signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:From:Subject:To:CC:References:
+	 Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy:
+	 X-QCInternal:X-Proofpoint-Virus-Version:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details; b=AQO4cTMKOBalrqL6jWvR5MGTlT51kmciqevtUEbgdZEH4gPZ8h+hrL3mTkjlyHbdAWH28JyEqLE/iKlq0bvmcaSMiA+OT6/ocTZA3eBEyFFCqRGBwUlSvEASxvdjajAkCYPB/RvYq/Cu5nlT81sXx3Yqtos2ZyAVD9qB7raKp9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aXHsUFqu; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pQBu0e8R"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 36F0079C0;
-	Wed, 17 Jan 2024 15:22:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 36F0079C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1705504947; bh=yjKec3Ad63HOwUz/a2RJqXwD/ORuXY+Ut49R6doCb5U=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=pQBu0e8RyAxtfQOtUUVp3+QsdnJ9Gs6YPYGnxNifFhB3AugxgHEgOg2oeYkPEViYM
-	 6nSDZYh3FhP0z9bfoRD+wFJFexSk8dbrfGum/pliNtHx76hftbgonAhong0P7y5/F7
-	 cl6Lv09ZpXtvfKWHYylktjm5AojMRKY/J7GNs0z86ZtVVhz9ocPsb1fnwyDDL4nyee
-	 9dlslvAOvHTGVGsCnDQVzs/GTtWVkTLC+cyWeHDVHSlAGoCsqQVw5f/CNQ8sNXxRcV
-	 C/FOflYipAmshnhTTr3vjP52GDa/t/kU1dc+K/gWAhR43pNaMr9BWQIu3exsSWxl8O
-	 IqF8onTM5OHpw==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>, linux-doc@vger.kernel.org
-Subject: Re: Help required - kernel-doc, code block and backslash
-In-Reply-To: <871qagb41s.fsf@somnus>
-References: <87y1cqbg01.fsf@somnus> <87ttnee69t.fsf@meer.lwn.net>
- <878r4pxlnw.fsf@somnus> <87jzo9b09p.fsf@meer.lwn.net>
- <871qagb41s.fsf@somnus>
-Date: Wed, 17 Jan 2024 08:22:26 -0700
-Message-ID: <87v87s56j1.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aXHsUFqu"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40H8m6Yw010290;
+	Wed, 17 Jan 2024 15:25:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:from:subject:to:cc:references
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=lqcZoRCRAGlCFSFZQ18HYf55C6lUN1QWW7BD4CzZ8SA=; b=aX
+	HsUFquQ7zWim5EAjjnief79OxjVFjrnAbErXMVPMst4Vspq7dZVjFvi3ny7HvNRL
+	YS1dIviKZqwzNGI7bUM+QkR3QVGDBSz673dJMP4ojMhXyudDy6hzMexflckWA7Ab
+	laOnAzB1WFbOg26vG29g13O5cRmAh4Lta4tuxcMouACqQJ1bLbKaVxCgrFV5cHqh
+	je6NDNBfVDwaeb01k5XhGzsfWwEoLfVMuZUlBAxo+MAJPTcMl3F9jfK1IZQOb3XA
+	aG4nZiQ6l2RJ8wWk+Bm2FA9iiY02ymvMBJF29of78DsHM/eyF7r8Izv58PK1xk2N
+	vGgr5MawQGDkGAKO4K4A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vp6qxhdeg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Jan 2024 15:25:53 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40HFPqss004679
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Jan 2024 15:25:52 GMT
+Received: from [10.253.79.191] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 17 Jan
+ 2024 07:25:41 -0800
+Message-ID: <a7356a9b-fc55-4efc-9266-0cef21730d97@quicinc.com>
+Date: Wed, 17 Jan 2024 23:25:38 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Jie Luo <quic_luoj@quicinc.com>
+Subject: Re: [PATCH net-next 00/20] net: ethernet: Add qcom PPE driver
+To: Christian Marangi <ansuelsmth@gmail.com>
+CC: Jakub Kicinski <kuba@kernel.org>, <agross@kernel.org>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <corbet@lwn.net>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <p.zabel@pengutronix.de>, <linux@armlinux.org.uk>,
+        <shannon.nelson@amd.com>, <anthony.l.nguyen@intel.com>,
+        <jasowang@redhat.com>, <brett.creeley@amd.com>,
+        <rrameshbabu@nvidia.com>, <joshua.a.hay@intel.com>, <arnd@arndb.de>,
+        <geert+renesas@glider.be>, <neil.armstrong@linaro.org>,
+        <dmitry.baryshkov@linaro.org>, <nfraprado@collabora.com>,
+        <m.szyprowski@samsung.com>, <u-kumar1@ti.com>,
+        <jacob.e.keller@intel.com>, <andrew@lunn.ch>, <netdev@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <ryazanov.s.a@gmail.com>,
+        <quic_kkumarcs@quicinc.com>, <quic_suruchia@quicinc.com>,
+        <quic_soni@quicinc.com>, <quic_pavir@quicinc.com>,
+        <quic_souravp@quicinc.com>, <quic_linchen@quicinc.com>,
+        <quic_leiwei@quicinc.com>
+References: <20240110114033.32575-1-quic_luoj@quicinc.com>
+ <20240110142428.52026d9e@kernel.org>
+ <5ec26378-a5ff-4de3-b69e-806e36907db6@quicinc.com>
+ <65a17d68.050a0220.cf6ea.e78b@mx.google.com>
+Content-Language: en-US
+In-Reply-To: <65a17d68.050a0220.cf6ea.e78b@mx.google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 2qgt36U1wFrD4gIUJ3HcrKsz2ZtWJbOK
+X-Proofpoint-ORIG-GUID: 2qgt36U1wFrD4gIUJ3HcrKsz2ZtWJbOK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-17_09,2024-01-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
+ malwarescore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=715
+ adultscore=0 impostorscore=0 suspectscore=0 phishscore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401170111
 
-Anna-Maria Behnsen <anna-maria@linutronix.de> writes:
 
-> Maybe I'm on the wrong track (definitely possible as I am a
-> scripting/tooling amateur), but I thought identifiers option takes a
-> list of functions or types and not filenames?
 
-No, you're right.  I was talking about the type of matching desired.
+On 1/13/2024 1:56 AM, Christian Marangi wrote:
+> On Thu, Jan 11, 2024 at 11:49:53PM +0800, Jie Luo wrote:
+>>
+>>
+>> On 1/11/2024 6:24 AM, Jakub Kicinski wrote:
+>>> On Wed, 10 Jan 2024 19:40:12 +0800 Luo Jie wrote:
+>>>> The PPE(packet process engine) hardware block is available in Qualcomm
+>>>> IPQ chipsets that support PPE architecture, such as IPQ9574 and IPQ5332.
+>>>
+>>> What's the relationship between this driver and QCA8084?
+>>
+>> The PPE (packet processing engine) is the network processing hardware block
+>> in QCOM IPQ SoC. It includes the ethernet MAC and UNIPHY(PCS). This driver
+>> is the base PPE driver which brings up the PPE and handles MAC/UNIPHY
+>> operations. QCA8084 is the external 2.5Gbps 4-port PHY device, which can be
+>> connected with PPE integrated MAC by UNIPHY(PCS).
+>>
+>> Here is the relationship.
+>> PPE integrated MAC --- PPE integrated UNIPHY(PCS) --- (PCS)QCA8084.
+>>
+>>>
+>>> In the last month I see separate changes from you for mdio-ipq4019.c,
+>>> phy/at803x.c and now this driver (none of which got merged, AFAICT.)
+>>> Are you actually the author of this code, or are you just trying
+>>> to upstream bunch of vendor code?
+>>
+>> Yes, Jakub, there are two authors in these patch series, Lei Wei and me.
+>> The patches are already ready for some time, the code has been verified
+>> on the Qualcomm reference design board. These are not downstream drivers
+>> but drivers re-written for upstream.
+>>
+>>>
+>>> Now you're dumping another 10kLoC on the list, and even though this is
+>>> hardly your first posting you're apparently not aware of our most basic
+>>> posting rules:
+>>> https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#tl-dr
+>>>
+>>> The reviewers are getting frustrated. Please, help us help you.
+>>> Stop throwing code at the list and work out a plan with Andrew
+>>> and others on how to get something merged...
+>>
+>> Sorry for trouble caused, will learn about the guidance provided by
+>> the review comments, and follow up on the guidance and have the full
+>> internal review of the patch updates before pushing the patch series.
+> 
+> I renew my will of helping in any kind of manner in this, I love the
+> intention for EDMAv2 to have an upstream driver instead of SSDK, hoping
+> in the future to also have the same treatement for EDMAv1 (it's really a
+> pitty to have a support hole with ipq807x not supported)
+> 
+> Feel free to send an email or anything, considering this is massive, an
+> extra eye before sending might make things better than reaching (I can
+> already see this) a massive series with at least 20 revision given the
+> complexity of this thing.
+> 
 
-> In case the filename-glob matching is this what I would call wildcard
-> matching, then I would propose to enable this for the existing
-> option. In case regexes are required as well, maybe another option like
-> '[no-]identifiers-regex' could be introduced.
+Thanks Christian for the help. Yes, the EDMAV2 driver will be posted 
+some time after net-next is reopen and after this PPE driver patch 
+series resumes. The EDMAv2 driver will be posted as separate driver 
+series, which depends on this PPE driver. Currently we plan to post the 
+EDMAv2 driver support for IPQ5332 and IPQ9574 firstly. For IPQ807x, it 
+is a driver for an older architecture as you can see, but we will 
+consider this for the future.
 
-Given that we've gotten by with no matching support until now, I don't
-think that we need to add two types :)  Basic globbing it is, though I
-can't promise to get it done right away.  That will have to be done on
-the Perl side, and I get really slow in that world...
-
-Thanks,
-
-jon
+We will certainly review it internally before publishing it later for 
+upstream review.
