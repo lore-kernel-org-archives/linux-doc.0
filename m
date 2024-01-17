@@ -1,123 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B695610F7;
-	Wed, 17 Jan 2024 00:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1712EBE
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 02:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705449766; cv=none; b=T9Giux722Vus3l50BThnfa3U92XcP1Ba61cyqSuJfcRr2mlARWqxSTK8Qxu7k42viqP/AinUITkYvNir+PzePKRx0Xx7lBr5gT2nHyO3SSc/NKRxZsDa4uRozD3/biK43pw2LMOJgnT7gZHC241QqrssmMm0YlluAmhNAhPfcOs=
+	t=1705460076; cv=none; b=UbAsyMbBJgYSO+EE+AwIGb7j7AbrbzBgDU3TJimXu2aZcsgC5b+a0JDF+Fg4n4wkqZ215Po7o5sRt3+X2sVVSAVDotF7p8zUXD0xBlNsyVIZ2443fsGPwrQ1GZZ6inq/0/Uo9zSbt392ybJiN36BCPFbLP2eNz8gX2xn/GbE4oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705449766; c=relaxed/simple;
-	bh=aePeyFduRfjV06agsTSgcBO9WyTyujZeq0WIAUBMi3I=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=k/ybBIi9hWDG8bUFiHl7LjfnWEoJKl3CV/gmHcJ+nH0qC0+I5QmEeTVK17vtkFWRlXTM1LUQQtH4NrGGmOjZ6fcg0SEIkVBN145w70zgKaibx8V5XhnPTW8FxAcGwhaXil4qo8CU1kCZDPFghn+nPqUW66lZ0w3RMfcZZFtnWTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CL0HZHXA; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705460076; c=relaxed/simple;
+	bh=Pat7RCigSa5r0JFjA0wxBgqZn7nz7o/oQLmsEgnHH2c=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
+	 Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key; b=EgP9dxF1zD7kOhZ8Qwh/17IcrT11xTdx7Yru0QLg82pxkK8ekpRM3q7gn5WqeK15cCFK1Jx1U8hzK6UrroYw7LptHVHx7q+AbOUeXBXvsdIK91dJEGt2tFnAtb8/sFTAu5w6QjUKIxXxLuiZbbGzB3Ii1wu4flpfDS05BpQHUDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=yKvYnJ8a; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CL0HZHXA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705449765; x=1736985765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aePeyFduRfjV06agsTSgcBO9WyTyujZeq0WIAUBMi3I=;
-  b=CL0HZHXA1eABc1acOnM6dthnsy2TGcXkgHf3C/EsfLk5IeuhsPy/tQjq
-   FcrHydWEe56TsJjBK89Sch122WOlgUTUYA1MX6cSaf51YrzezUrkHbTpp
-   AgQc3KSzTuqezLlfCfxz5Vipn75KthsWJKsovFhvEpgFsAbKkDSqWFnkJ
-   TZ3gRBtw/bXt2vAqTNCX26Ib/6k5dFsS847ObfJSydEAAl6D5ZtaxbWsd
-   Fo5HVhQCWH6fSYFZuSi3YYVGez0s43GskYpQA73ktq795/b0qBKsEDn7/
-   uYHAwsKUMgL+3DMRfuvrTsvbu5IslAYeRV4rDIH0IH+8sQxglkEAsFiJy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6732073"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="6732073"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 16:02:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="818331734"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="818331734"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 16 Jan 2024 16:02:36 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rPtO5-0001Ne-2l;
-	Wed, 17 Jan 2024 00:02:33 +0000
-Date: Wed, 17 Jan 2024 08:02:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, kernel@pengutronix.de,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>
-Subject: Re: [PATCH 1/3] usb: gadget: function: 9pfs
-Message-ID: <202401170734.7rHBG2LF-lkp@intel.com>
-References: <20240116-ml-topic-u9p-v1-1-ad8c306f9a4e@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="yKvYnJ8a"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5cf87cdc4c5so1188054a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jan 2024 18:54:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1705460073; x=1706064873; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WW6+IaUJP6Uf9B7rnL7Xu6F/dmlNlrgMHD5+y/WRt7o=;
+        b=yKvYnJ8aI609cZCreVFkhEQu0vBFx6utv9z3d232owe9qK5Rz175M+WbI3O3N+hiw5
+         ncHJkNuK7kW7a86WkwrjHu516lhX1CNN+fo73rsmCEIf1rUDOCMHbazdlQIXhmB24kJO
+         aQJSjKT9CkOg0hz/XInJFoC4T+TDKNPz1Wis8UrKvmVuLAyfdLo+MyNVPBHs9Dn2T+zw
+         63STa772b2gELCat20kgZxykzOPQ6zvMcQT7NT/kb1NsB6DuBkMI/IEkV59zPcYjkpFV
+         QIWv/gXXLbD16D3PdMr3Ymc0FvUj+ZE19vfo8iDZh50GGNuYgVT6xlRYycZQLge1fRfM
+         JdFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705460073; x=1706064873;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WW6+IaUJP6Uf9B7rnL7Xu6F/dmlNlrgMHD5+y/WRt7o=;
+        b=I4oyUM6SJHyLMyb6M1U6+weBns7uDDrPJf4MeJOfYBi+W4yypnRMlNA/LoTl0TVs9z
+         3E4PSjmVJoMH2C3SAlwJWIm8GSX3PjJVGqHw9pz7vDcFWBMLZSAZB9nxilH8+C5jQXd2
+         nvVionZ9VJn9w8zXFfw6/MrH9s2qkKXJB8cboLBvPYr+GqLY3EFVmDnSoxL87Si/ShiE
+         FcrkPGJl/rAnEhXlSA7WsYF+unhab5lekM7XUjZz+H5VaTmzfg3JS0fOgL73A0B+oGKR
+         Arp5JqwdP2KER04U1IkfOxUs+z4IsDyTz3kecFjaHqT2+oE7b/dFvyWYHdGJPe0HrDq3
+         vOMA==
+X-Gm-Message-State: AOJu0Yy9JgotOkD9l46P7pdl1pElhIC41so8PtCm2/Pv1Der62g1CD4n
+	U0EkdQO3HDrPER0S4OW6H0ZhZMCSIiPbAw==
+X-Google-Smtp-Source: AGHT+IG2975QL4XvS61VVnkh+DY0sUA6kjqqd1RbHkJA8u5avvluT1b66g4NZGqLNlnulLdSXj2jng==
+X-Received: by 2002:a17:90a:7087:b0:28f:fbf7:c3f8 with SMTP id g7-20020a17090a708700b0028ffbf7c3f8mr99106pjk.80.1705460073270;
+        Tue, 16 Jan 2024 18:54:33 -0800 (PST)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id rs3-20020a17090b2b8300b0028ceafb9124sm12553531pjb.51.2024.01.16.18.54.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jan 2024 18:54:32 -0800 (PST)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v8 0/2] riscv: Create and document
+ PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+Date: Tue, 16 Jan 2024 18:54:27 -0800
+Message-Id: <20240116-fencei-v8-0-43a42134f021@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240116-ml-topic-u9p-v1-1-ad8c306f9a4e@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAGNBp2UC/23QTU7DMBAF4KtUXhM0M/4NK+6BWMT2mHpBUjnIA
+ lW5O05F0whl+Sx/bzy+iplL5lm8nK6icM1znsYW3NNJhPMwfnCXY8uCgCQi2i7xGDh3qU8GonU
+ qDSDa5UvhlL9vRW/vLZ/z/DWVn1tvxfX0r4LoXlGxg85zAIcYPCG9llynOY/hOUyfYm2ptJMSN
+ klNUvCG5ODRYzqQ8iEJ5SblOtNq1I6kY28PpLpLBQjbwlU1GVVIlHwPOsoDqffSbVI3OQzIGqM
+ loqPXmr3sN2maBIVomlVKhwNpdxIff2ubtC6BQcUYPfyTy7L8AiWfKZ37AQAA
+To: Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, 
+ Atish Patra <atishp@atishpatra.org>, Randy Dunlap <rdunlap@infradead.org>, 
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>, 
+ Atish Patra <atishp@rivosinc.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1705460071; l=2486;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=Pat7RCigSa5r0JFjA0wxBgqZn7nz7o/oQLmsEgnHH2c=;
+ b=j+zlsJvLP6gWKyP33srwPabTq27bJGfwwrXSeGvgu7PyZtodOZyZclbdcb5Xf0rPgpm+Ku3Fd
+ e3QfmvR1XObDnJcLkrWu3JZD090iqBz1sSMQcYDA6RcR13e0Wu+Jq5v
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-Hi Michael,
+Improve the performance of icache flushing by creating a new prctl flag
+PR_RISCV_SET_ICACHE_FLUSH_CTX. The interface is left generic to allow
+for future expansions such as with the proposed J extension [1].
 
-kernel test robot noticed the following build warnings:
+Documentation is also provided to explain the use case.
 
-[auto build test WARNING on 052d534373b7ed33712a63d5e17b2b6cdbce84fd]
+[1] https://github.com/riscv/riscv-j-extension
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Grzeschik/usb-gadget-function-9pfs/20240116-095914
-base:   052d534373b7ed33712a63d5e17b2b6cdbce84fd
-patch link:    https://lore.kernel.org/r/20240116-ml-topic-u9p-v1-1-ad8c306f9a4e%40pengutronix.de
-patch subject: [PATCH 1/3] usb: gadget: function: 9pfs
-config: microblaze-randconfig-r132-20240117 (https://download.01.org/0day-ci/archive/20240117/202401170734.7rHBG2LF-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240117/202401170734.7rHBG2LF-lkp@intel.com/reproduce)
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+---
+Changes in v8:
+- Only flush icache if migrated to different cpu (Alex)
+- Move flushing to switch_to to catch per-thread flushing properly
+- Link to v7: https://lore.kernel.org/r/20240112-fencei-v7-0-78f0614e1db0@rivosinc.com
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401170734.7rHBG2LF-lkp@intel.com/
+Changes in v7:
+- Change "per_thread" parameter to "scope" and provide constants for the
+  parameter.
+- Link to v6: https://lore.kernel.org/r/20240109-fencei-v6-0-04116e51445c@rivosinc.com
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/gadget/function/f_9pfs.c:825:12: sparse: sparse: symbol 'usb9pfs_modinit' was not declared. Should it be static?
->> drivers/usb/gadget/function/f_9pfs.c:838:13: sparse: sparse: symbol 'usb9pfs_modexit' was not declared. Should it be static?
+Changes in v6:
+- Fixup documentation formatting
+- Link to v5: https://lore.kernel.org/r/20240108-fencei-v5-0-aa1e51d7222f@rivosinc.com
 
-vim +/usb9pfs_modinit +825 drivers/usb/gadget/function/f_9pfs.c
+Changes in v5:
+- Minor documentation changes (Randy)
+- Link to v4: https://lore.kernel.org/r/20240107-fencei-v4-0-d4cf2fb905d3@rivosinc.com
 
-   824	
- > 825	int __init usb9pfs_modinit(void)
-   826	{
-   827		int ret;
-   828	
-   829		INIT_LIST_HEAD(&usbg_function_list);
-   830	
-   831		ret = usb_function_register(&usb9pfsusb_func);
-   832		if (!ret)
-   833			v9fs_register_trans(&p9_usbg_trans);
-   834	
-   835		return ret;
-   836	}
-   837	
- > 838	void __exit usb9pfs_modexit(void)
-   839	{
-   840		usb_function_unregister(&usb9pfsusb_func);
-   841		v9fs_unregister_trans(&p9_usbg_trans);
-   842	}
-   843	
+Changes in v4:
+- Add OFF flag to disallow fence.i in userspace (Atish)
+- Fix documentation issues (Atish)
+- Link to v3: https://lore.kernel.org/r/20231213-fencei-v3-0-b75158238eb7@rivosinc.com
 
+Changes in v3:
+- Check if value force_icache_flush set on thread, rather than in mm
+  twice (Clément)
+- Link to v2: https://lore.kernel.org/r/20231130-fencei-v2-0-2cb623ab1b1f@rivosinc.com
+
+Changes in v2:
+- Fix kernel-doc comment (Conor)
+- Link to v1: https://lore.kernel.org/r/20231122-fencei-v1-0-bec0811cb212@rivosinc.com
+
+---
+Charlie Jenkins (2):
+      riscv: Include riscv_set_icache_flush_ctx prctl
+      documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+
+ Documentation/arch/riscv/cmodx.rst   | 96 ++++++++++++++++++++++++++++++++++++
+ Documentation/arch/riscv/index.rst   |  1 +
+ arch/riscv/include/asm/mmu.h         |  4 ++
+ arch/riscv/include/asm/mmu_context.h |  3 ++
+ arch/riscv/include/asm/processor.h   |  7 +++
+ arch/riscv/include/asm/switch_to.h   | 17 +++++++
+ arch/riscv/mm/cacheflush.c           | 67 +++++++++++++++++++++++++
+ arch/riscv/mm/context.c              | 14 ++++--
+ include/uapi/linux/prctl.h           |  6 +++
+ kernel/sys.c                         |  6 +++
+ 10 files changed, 218 insertions(+), 3 deletions(-)
+---
+base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+change-id: 20231117-fencei-f9f60d784fa0
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+- Charlie
+
