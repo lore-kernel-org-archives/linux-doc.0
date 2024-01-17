@@ -1,216 +1,106 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E0279EF
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 02:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B602A67C72;
+	Wed, 17 Jan 2024 04:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705460078; cv=none; b=aqEtalE5bH36WjOo9qaFLb4snD2SgI4IFyu9AAo+w/tzkez7BaR85MsEmlODOhLicyfUZNVczVgMPInbKRbuBaHxBN8Nlp9goLh0oQMnhNoSC9dOm+gyMwYjPKoggR2dpOFNYQsT8Db68TCNAjIVNGoeO4zTBzkd7A2KVggh3rE=
+	t=1705466082; cv=none; b=SjIg62XmAes+/eqmHH6RER1rA7D13bRjtHkj9HMnriChMJya+7+aWu4izog9UCBiXXovJ2acmEaA1eaJv+fm9KsKWj+yt93NiiMZ7/6ZgjqgghuwMUaV6SSORFmroYZpheYV4St2y8a8l/3URT+eA8XEn3ixP85xTMk7Dhh2f4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705460078; c=relaxed/simple;
-	bh=W93XdAKoPAXGIl+AWcM9T4XvazvSTl8o1IPN58ULAuE=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
-	 Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key; b=EAcrouEQPwI34RhTHD3w8DVLUPVOoNjKqx8c43rW0FBteuCr+W69ijkX1arDnrkOV0LFO+ZvtvFCswQcYCWBWGHlxmk+IwlAnmEj0bmvoer4ht8wYV8YtLLIVtZdbVcjQbSOr00ZRtwPcYP30GL8SbqqOgW+JMc/fVaHbEjmrng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=LXOm7Z0t; arc=none smtp.client-ip=209.85.210.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1705466082; c=relaxed/simple;
+	bh=M0lHeEIbJSP8UEtQ7BzZHEeSSX3emAVPVhi6TmOdTmw=;
+	h=Received:DKIM-Signature:Received:X-Gm-Message-State:
+	 X-Google-Smtp-Source:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding; b=l5t3G4u9sTzvtWMmZpKMB4r3CPU6CfjL6qvE5giOu9zwME+nomxtDSc4y4dmxOBxvPc/IQWaqbd975pcCCuQYKePxUToOJOwXcrcj4jIxLI8GNdSwEahIZ2+EAMdlYj4a81pmWkfyt71CawJGZI/Cau/FslhL9mkYhbp1XEj67k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CXDf1qJb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="LXOm7Z0t"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6ddeb7b4366so4770839a34.2
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jan 2024 18:54:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1705460076; x=1706064876; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NPwaFGwJVXA165SJk4N6+fNaFaLuOX6/L3PIB61yMHc=;
-        b=LXOm7Z0tm+Jt2WS4DDA9O7y+SfP8ur4ys/EsMnxSuzon13GEQgchxcStAkScen9YQJ
-         dv2jATU0Xr1g004MzgwdukDRH+RAUCU2QwvLC+YfyeyJ+7y5rBy2l4TAlNHpUhKLsKQP
-         Rqpaib9mcJRH3Ytn24/6pPvoy2hZE7re1Fe/cHcBFdBebelPVowZbFgAsarrbEvHv2J2
-         11ypi7lx2tJOhnH9a252PRX8Is7kydvV1a0BhEJib3+gfjYPnqlnAZE3DuVqfRUGlFZg
-         guLuS/DUlk5cuX9Zgvx31VEEz5v19qUE3csSMJwxyFveQQqb39PMbKDMpAw65maqAkWV
-         HdyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705460076; x=1706064876;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NPwaFGwJVXA165SJk4N6+fNaFaLuOX6/L3PIB61yMHc=;
-        b=T/S4Ja7C9+KxwGMJCxaaSbjqyMisdF/dcTV9fXr0sx81IKa5fzDsOpF8digBv2Vps1
-         SS2kFV7I1RWmrcwn6hpsn2IkIXp4u0pVFuwNBUXcpLhNBxkxa0nbO+eHct5tEzqvZ8j2
-         SQaToo0rrwTW5uxnvZVp+FHGpUaEUcsr9sSxEm5vyDzSGV7ORMnZv2DHb0udEAcdW1Qh
-         8dR8yN/X+oxecenuskeaVrL55AxL4+8ZIubnf7uZahdFKLnA3D8YvuohUHRkOJihDnR0
-         MV3uaAczAcoGTkYUA+BLzgvlNG8ax9PRgTdTUndVdl0PKoETGcvO4bVWSVjNN4104me+
-         h3rQ==
-X-Gm-Message-State: AOJu0Yy/9qGy3RdEDtsbtn0urjmzSWNwe2nmEDLIPbzmfzZbESo0H7bJ
-	I6KSiFmZXiyxVzM7+70ZueQ1yg3bnNymAQ/8fPFWcrauNcA=
-X-Google-Smtp-Source: AGHT+IG2W5nPmvH97IYcBVmrar6/f8At+4QvMr2HN81HHi6oDtpjNgquXeD30yYSxkgGR4doQp09Mg==
-X-Received: by 2002:a05:6358:6f97:b0:175:c1b8:1e93 with SMTP id s23-20020a0563586f9700b00175c1b81e93mr5383301rwn.65.1705460075911;
-        Tue, 16 Jan 2024 18:54:35 -0800 (PST)
-Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id rs3-20020a17090b2b8300b0028ceafb9124sm12553531pjb.51.2024.01.16.18.54.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jan 2024 18:54:35 -0800 (PST)
-From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Tue, 16 Jan 2024 18:54:29 -0800
-Subject: [PATCH v8 2/2] documentation: Document
- PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CXDf1qJb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35F65C433B2;
+	Wed, 17 Jan 2024 04:34:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705466082;
+	bh=M0lHeEIbJSP8UEtQ7BzZHEeSSX3emAVPVhi6TmOdTmw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=CXDf1qJbqvdXoXU8dg7DU5ubXNQ7WNA9aX1ilbJscd7JrxbkXjjJ/HkYslSojP7d1
+	 SZty9DEOw32ezbbNxF1uFPxjBzR/Wk3CVNwrHoczaPtWfKBvj0P1kMS5myspvnTFjf
+	 WvtyjclcPMdCfaiHDMBhhyvKGwUYf6S1WjXYQvdTiC6XQASQ3KPr06lNk6qZdOYGYm
+	 qEQIjWXFHn9Ra+7yDAzNkgQYljtNGaH9N7vuTmBRwFS0aJtgKsazR6yryDu0/AUPlB
+	 7xL51I82l02yVMBLdlqOYJIFbcFTVuS10ISG39hTPjNxGTEJwtwma608nNzZ901cT2
+	 Z16Gv4+XL9t8g==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50ec948ad31so10564127e87.2;
+        Tue, 16 Jan 2024 20:34:42 -0800 (PST)
+X-Gm-Message-State: AOJu0YwEfLEHZK77U+xtLhg/iQc2HVX1EQ2HVY0/zSjLN0dGl7TvijM5
+	Mra1rJ7ayNQRt8vnlPM/Uj0vBbcTBxtC0i2gDtE=
+X-Google-Smtp-Source: AGHT+IFBqnMfUgM4CRX5wiiomwTy15C6kBIJjo72WKWNLc+dQEyC4hkYoiqfUivkJJafe+zfYxjuMnrYThXWHtq4MnY=
+X-Received: by 2002:a05:6512:3a86:b0:50e:7d6b:b5b2 with SMTP id
+ q6-20020a0565123a8600b0050e7d6bb5b2mr4765644lfu.6.1705466080318; Tue, 16 Jan
+ 2024 20:34:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240116-fencei-v8-2-43a42134f021@rivosinc.com>
-References: <20240116-fencei-v8-0-43a42134f021@rivosinc.com>
-In-Reply-To: <20240116-fencei-v8-0-43a42134f021@rivosinc.com>
-To: Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>, 
- =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, 
- Atish Patra <atishp@atishpatra.org>, Randy Dunlap <rdunlap@infradead.org>, 
- Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>, 
- Atish Patra <atishp@rivosinc.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1705460071; l=4373;
- i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
- bh=W93XdAKoPAXGIl+AWcM9T4XvazvSTl8o1IPN58ULAuE=;
- b=mbioW8hvb+fc9oAM1jsn3rFvzBIpUD5yFkmi25h07vFpa3+q1T19t+fxT6l+efMBjrYBI1ITp
- tzlAD9RklowD4E8uQqqmi0BM0GIZPSycHn6ejOQ4/T4iiEDD5FG76Ug
-X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
- pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
+References: <20240108032117.215171-1-wangrui@loongson.cn> <ZZ2fn0scbDKBXWe5@boqun-archlinux>
+ <CAHirt9iox8FGV2wrMyxwFRjab2avfOcyLKvBc9K=AqiHxqHXKg@mail.gmail.com>
+ <ZZ38XMQw18mw2sTA@Boquns-Mac-mini.home> <CAHirt9jQSVvBF=1wc=sT9FxngeSP30P4FDpu8m0JH_0fOPSO-w@mail.gmail.com>
+ <CANiq72=X3cggAn0HLMi7jVFAfypBhog=ZkPB57yfaX4ZUzT-HA@mail.gmail.com>
+ <CAHirt9hdtGSsEofxDb0FCtcFeAw9n9LKJALz23Qdqh4n2=Ua5A@mail.gmail.com>
+ <CANiq72n7K8LcKrs+beF2sbt1XLdr4zEhEw4xcy3yh4wgTrvYeg@mail.gmail.com>
+ <CAAhV-H72Hbfy7n6+AFSFFOzizo0GtpzA074sgo48-W-Dt0VR+w@mail.gmail.com>
+ <CANiq72mEPnB7yEZvtUXAM5w0GgYmzdrM9OhioLGb_LzbAJKNOA@mail.gmail.com>
+ <CAAhV-H6BFkgN-KzEexXk9zdnOGNCdBesCEEaczEvEp8x2K2YHw@mail.gmail.com> <CANiq72nv3Uw8GLNqbdGBC3b+viF+o8BeppS9KWhpzBFvjqZLUg@mail.gmail.com>
+In-Reply-To: <CANiq72nv3Uw8GLNqbdGBC3b+viF+o8BeppS9KWhpzBFvjqZLUg@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Wed, 17 Jan 2024 12:34:29 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4-dfBN3icg6kczRiZ67DOX66M-vXXCrz7Me0iunp8kRA@mail.gmail.com>
+Message-ID: <CAAhV-H4-dfBN3icg6kczRiZ67DOX66M-vXXCrz7Me0iunp8kRA@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] Rust enablement for LoongArch
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: WANG Rui <wangrui@loongson.cn>, Boqun Feng <boqun.feng@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-doc@vger.kernel.org, loongson-kernel@lists.loongnix.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Provide documentation that explains how to properly do CMODX in riscv.
+Hi, Miguel,
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
----
- Documentation/arch/riscv/cmodx.rst | 96 ++++++++++++++++++++++++++++++++++++++
- Documentation/arch/riscv/index.rst |  1 +
- 2 files changed, 97 insertions(+)
+On Tue, Jan 16, 2024 at 11:16=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Tue, Jan 16, 2024 at 10:31=E2=80=AFAM Huacai Chen <chenhuacai@kernel.o=
+rg> wrote:
+> >
+> > OK, since Linus said the merge window is paused now, I rebase and
+> > retag my tree and the Rust commit is like this, I think this is
+> > perfect now?
+> >
+> > https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongs=
+on.git/commit/?h=3Dloongarch-next&id=3D706f9e1ab7c7a58d80ef2c87d8720131253a=
+2256
+>
+> Thanks a lot! That works, yeah.
+>
+> I also took the chance to build LLVM and QEMU and I tested the tag --
+> it seems to work: I see the samples (built-in) printing in the kernel
+> log :)
+>
+> So in case you end up rebasing for another reason and want to add it,
+> even if it is a simple check I did:
+>
+> Tested-by: Miguel Ojeda <ojeda@kernel.org>
+OK, if Xuerui updates this patch, then I will rebase again.
+https://lore.kernel.org/loongarch/CAAhV-H7KteJvRVpj3Hz-Ui9VnmijcJq5D1Tb-KJv=
+qTO_+jjp2Q@mail.gmail.com/T/#t
 
-diff --git a/Documentation/arch/riscv/cmodx.rst b/Documentation/arch/riscv/cmodx.rst
-new file mode 100644
-index 000000000000..2ad46129d812
---- /dev/null
-+++ b/Documentation/arch/riscv/cmodx.rst
-@@ -0,0 +1,96 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================================================================
-+Concurrent Modification and Execution of Instructions (CMODX) for RISC-V Linux
-+==============================================================================
-+
-+CMODX is a programming technique where a program executes instructions that were
-+modified by the program itself. Instruction storage and the instruction cache
-+(icache) are not guaranteed to be synchronized on RISC-V hardware. Therefore, the
-+program must enforce its own synchronization with the unprivileged fence.i
-+instruction.
-+
-+However, the default Linux ABI prohibits the use of fence.i in userspace
-+applications. At any point the scheduler may migrate a task onto a new hart. If
-+migration occurs after the userspace synchronized the icache and instruction
-+storage with fence.i, the icache will no longer be clean. This is due to the
-+behavior of fence.i only affecting the hart that it is called on. Thus, the hart
-+that the task has been migrated to may not have synchronized instruction storage
-+and icache.
-+
-+There are two ways to solve this problem: use the riscv_flush_icache() syscall,
-+or use the ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` prctl() and emit fence.i in
-+userspace. The syscall performs a one-off icache flushing operation. The prctl
-+changes the Linux ABI to allow userspace to emit icache flushing operations.
-+
-+As an aside, "deferred" icache flushes can sometimes be triggered in the kernel.
-+At the time of writing, this only occurs during the riscv_flush_icache() syscall
-+and when the kernel uses copy_to_user_page(). These deferred flushes happen only
-+when the memory map being used by a hart changes. If the prctl() context caused
-+an icache flush, this deferred icache flush will be skipped as it is redundant.
-+Therefore, there will be no additional flush when using the riscv_flush_icache()
-+syscall inside of the prctl() context.
-+
-+prctl() Interface
-+---------------------
-+
-+Call prctl() with ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` as the first argument. The
-+remaining arguments will be delegated to the riscv_set_icache_flush_ctx
-+function detailed below.
-+
-+.. kernel-doc:: arch/riscv/mm/cacheflush.c
-+	:identifiers: riscv_set_icache_flush_ctx
-+
-+Example usage:
-+
-+The following files are meant to be compiled and linked with each other. The
-+modify_instruction() function replaces an add with 0 with an add with one,
-+causing the instruction sequence in get_value() to change from returning a zero
-+to returning a one.
-+
-+cmodx.c::
-+
-+	#include <stdio.h>
-+	#include <sys/prctl.h>
-+
-+	extern int get_value();
-+	extern void modify_instruction();
-+
-+	int main()
-+	{
-+		int value = get_value();
-+		printf("Value before cmodx: %d\n", value);
-+
-+		// Call prctl before first fence.i is called inside modify_instruction
-+		prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX_ON, PR_RISCV_CTX_SW_FENCEI, PR_RISCV_SCOPE_PER_PROCESS);
-+		modify_instruction();
-+
-+		value = get_value();
-+		printf("Value after cmodx: %d\n", value);
-+		return 0;
-+	}
-+
-+cmodx.S::
-+
-+	.option norvc
-+
-+	.text
-+	.global modify_instruction
-+	modify_instruction:
-+	lw a0, new_insn
-+	lui a5,%hi(old_insn)
-+	sw  a0,%lo(old_insn)(a5)
-+	fence.i
-+	ret
-+
-+	.section modifiable, "awx"
-+	.global get_value
-+	get_value:
-+	li a0, 0
-+	old_insn:
-+	addi a0, a0, 0
-+	ret
-+
-+	.data
-+	new_insn:
-+	addi a0, a0, 1
-diff --git a/Documentation/arch/riscv/index.rst b/Documentation/arch/riscv/index.rst
-index 4dab0cb4b900..eecf347ce849 100644
---- a/Documentation/arch/riscv/index.rst
-+++ b/Documentation/arch/riscv/index.rst
-@@ -13,6 +13,7 @@ RISC-V architecture
-     patch-acceptance
-     uabi
-     vector
-+    cmodx
- 
-     features
- 
+Huacai
 
--- 
-2.34.1
-
+>
+> Cheers,
+> Miguel
