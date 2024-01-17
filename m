@@ -1,123 +1,149 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3840200D9;
-	Wed, 17 Jan 2024 12:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E86B6FBD;
+	Wed, 17 Jan 2024 12:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705494449; cv=none; b=cvVJnvPyIggL1ePe1Dxm2Ck/sL93g/J417S3ZfHBqgMTkvWIL/kI9B9xVzWIo+G/A29yT9Dbmca2oVye22aERJ4n6aOqOmfp6Ohd6Kbo1NyX8v4JnGVKrCJInHyxBrVOZpE99qf1JwZLkqUfTevrZBLQFmwD+dTNWaKv4TkefsE=
+	t=1705495013; cv=none; b=FkQ9g5kVqF8VPE1FFPbPGOh5YSN9enwi2hvZGQu02rRrvxKf40Ba7zv+UPPHKvZFRo/315lVjCqk+mF8ZDfZrpHdZs/Kvp51DAsVP1ArvP0KpbWHt7btUeDsxtOnfy1QPdzx+q/LtPyso30pcdb7chpdFKZeatkCG8RhZ4xwe2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705494449; c=relaxed/simple;
-	bh=cJbgWol1KPqWfYEC1f0fo3P+Gvr3uUpwLWEV8WXaueM=;
-	h=DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:X-Spam; b=Gb3mn5ZWsD6UqqZGxUScc/DmdAmA9YoXPLYs/PsTIcI2ZGevJzK5JdxwhQb4Jpy+vd2OZjMhxLbTtzfukJRZVIcqrZ44A8hmAeZ2hNoIAe5XnPQVMIlyKM7/sGBEmMdTP5YimDEI11tw4n7jeQKcM3ZYutGQOijOUzxU+VNP2zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=r779x7mk; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	s=arc-20240116; t=1705495013; c=relaxed/simple;
+	bh=fhujXRioKysw0DqUGzrr93/167EZIM/mT33JCqKZRyE=;
+	h=Received:DKIM-Signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy:
+	 X-QCInternal:X-Proofpoint-Virus-Version:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details; b=ByN0h2g8YwTN46XaFPg9WM9XoE0USy8yfFgSYdtsawbGqePv4jAyvzAcvArIxVAkDkz7j7iKn7PjEEXsAcZSmmoCW3TeXeig945Igm1gOonQYrbqJghUduHc4wv5Rccg7bV8CbDzQb70si/hRAQhf8zG/hC+2XorgUBhyZiULJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=X9rOO0Dw; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="r779x7mk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1705494415;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zL3Tp6j0FI2WH0LNy5N+K5/yV+yjLiDhRH8Apc3kyR0=;
-	b=r779x7mkgifHJMN6ShIX7jeNnvVGK0qxFXSIORj1ezPRQH3QT8H7kkaH2RvoSB3uULlm4u
-	3jbtB/thCBhngkDbpQM6jMgmXDO7BGFfxMPUGf0jX/gTjCDgcj+CXtfNgfwc7Vigz8aFuE
-	OofQGjqzjXAa2mfCrHjY5ykmLYedP+c=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v4 4/4] Documentation: usb: Document FunctionFS DMABUF API
-Date: Wed, 17 Jan 2024 13:26:46 +0100
-Message-ID: <20240117122646.41616-5-paul@crapouillou.net>
-In-Reply-To: <20240117122646.41616-1-paul@crapouillou.net>
-References: <20240117122646.41616-1-paul@crapouillou.net>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="X9rOO0Dw"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40HBjLgr022448;
+	Wed, 17 Jan 2024 12:36:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=Z9yeJS2H66rNJ6UbZFMylMLt8iLZni9SyT4hwIrN224=; b=X9
+	rOO0DwQjLaT5HcLZvuJ2+Tj6FE5i1V9oXy23Wbsmaj1qAyihhhWzHIF5xyL3JvDz
+	gkY7Y9T9Xrd00XA+wVlUI7juunfaFcXTEkxJrxChG5V0FKcI2FIPT0nXKO4Ves2f
+	OF1X3AajiLeEMn3dPmUtpOESrJkF/DmL9zLoS4+9g2kHN5aHfrgGSCAZ10YIeG3T
+	coFnKxJpJ+1Tvfu8T753drZo1eh91vm+XKs4pv6EBswlSkJbhItxTq/XK6NHXU9c
+	5/JtTe0rJO9FLMZdF9FK1fcjmJSsT+CzwKSDMnQoRfYV3qae/ByLq1f8juy4V2R4
+	wAR7bScZFv+9UxrI5Ybw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vp83frvcs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Jan 2024 12:36:18 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40HCaHBq001881
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Jan 2024 12:36:17 GMT
+Received: from [10.216.41.142] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 17 Jan
+ 2024 04:36:09 -0800
+Message-ID: <510441c7-5a64-aaee-cafc-69bef2570da5@quicinc.com>
+Date: Wed, 17 Jan 2024 18:05:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam: Yes
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v7 06/12] soc: qcom: Add Qualcomm APSS minidump kernel
+ driver
+To: Randy Dunlap <rdunlap@infradead.org>, <corbet@lwn.net>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>, <vigneshr@ti.com>,
+        <nm@ti.com>, <matthias.bgg@gmail.com>, <kgene@kernel.org>,
+        <alim.akhtar@samsung.com>, <bmasney@redhat.com>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240109153200.12848-1-quic_mojha@quicinc.com>
+ <20240109153200.12848-7-quic_mojha@quicinc.com>
+ <63d9d1b9-6c2a-4d8a-9bf6-9973d76ae97d@infradead.org>
+Content-Language: en-US
+From: Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <63d9d1b9-6c2a-4d8a-9bf6-9973d76ae97d@infradead.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: khuxKn-8GGQFX7vV8u7c7ahHqsaWoCTA
+X-Proofpoint-GUID: khuxKn-8GGQFX7vV8u7c7ahHqsaWoCTA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-17_06,2024-01-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=999 clxscore=1015 malwarescore=0 bulkscore=0 adultscore=0
+ spamscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401170089
 
-Add documentation for the three ioctls used to attach or detach
-externally-created DMABUFs, and to request transfers from/to previously
-attached DMABUFs.
+Thanks for review.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+On 1/10/2024 3:48 AM, Randy Dunlap wrote:
+> Hi--
+> 
+> On 1/9/24 07:31, Mukesh Ojha wrote:
+>> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
+>> index 1f81746131fc..56bc0c8a19f9 100644
+>> --- a/drivers/soc/qcom/Kconfig
+>> +++ b/drivers/soc/qcom/Kconfig
+>> @@ -278,4 +278,17 @@ config QCOM_RPROC_MINIDUMP
+>>   	  query predefined minidump segments associated with the remote processor
+>>   	  and check its validity and end up collecting the dump on remote processor
+>>   	  crash during its recovery.
+>> +
+>> +config QCOM_MINIDUMP
+>> +	tristate "QCOM APSS Minidump driver"
+>> +	depends on ARCH_QCOM || COMPILE_TEST
+>> +	depends on QCOM_SMEM
+>> +	help
+>> +	  This config enables linux core infrastructure for Application
+> 
+> 	                      Linux
+> same as 2 lines below.
+> 
+>> +	  processor subsystem (APSS) minidump collection i.e, it enables
+> 
+> 	                                      collection, i.e., it enables
+> 
+>> +	  Linux clients drivers to register their internal data structures
+> 
+> 	        client drivers
+> 
+>> +	  and debug messages as part of the apss minidump table and when
+> 
+> 	                                    APSS
+> as above and in Subject.
+> 
+>> +	  the SoC is crashed, these selective regions will be dumped
+> 
+> 	          has
+> 
+>> +	  instead of the entire DDR dump. This saves significant amount
+> 
+> 	                                  This saves a significant amount
+> 
+> Does it have to be DDR?
 
----
-v3: New patch
----
- Documentation/usb/functionfs.rst | 36 ++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+Noted, all the above points, Yes DDR, I should perhaps use RAM like i
+did it in the Doc.
 
-diff --git a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
-index a3054bea38f3..d05a775bc45b 100644
---- a/Documentation/usb/functionfs.rst
-+++ b/Documentation/usb/functionfs.rst
-@@ -2,6 +2,9 @@
- How FunctionFS works
- ====================
- 
-+Overview
-+========
-+
- From kernel point of view it is just a composite function with some
- unique behaviour.  It may be added to an USB configuration only after
- the user space driver has registered by writing descriptors and
-@@ -66,3 +69,36 @@ have been written to their ep0's.
- 
- Conversely, the gadget is unregistered after the first USB function
- closes its endpoints.
-+
-+DMABUF interface
-+================
-+
-+FunctionFS additionally supports a DMABUF based interface, where the
-+userspace can attach DMABUF objects (externally created) to an endpoint,
-+and subsequently use them for data transfers.
-+
-+A userspace application can then use this interface to share DMABUF
-+objects between several interfaces, allowing it to transfer data in a
-+zero-copy fashion, for instance between IIO and the USB stack.
-+
-+As part of this interface, three new IOCTLs have been added. These three
-+IOCTLs have to be performed on a data endpoint (ie. not ep0). They are:
-+
-+  ``FUNCTIONFS_DMABUF_ATTACH(int)``
-+    Attach the DMABUF object, identified by its file descriptor, to the
-+    data endpoint. Returns zero on success, and a negative errno value
-+    on error.
-+
-+  ``FUNCTIONFS_DMABUF_DETACH(int)``
-+    Detach the given DMABUF object, identified by its file descriptor,
-+    from the data endpoint. Returns zero on success, and a negative
-+    errno value on error. Note that closing the endpoint's file
-+    descriptor will automatically detach all attached DMABUFs.
-+
-+  ``FUNCTIONFS_DMABUF_TRANSFER(struct usb_ffs_dmabuf_transfer_req *)``
-+    Enqueue the previously attached DMABUF to the transfer queue.
-+    The argument is a structure that packs the DMABUF's file descriptor,
-+    the size in bytes to transfer (which should generally correspond to
-+    the size of the DMABUF), and a 'flags' field which is unused
-+    for now. Returns zero on success, and a negative errno value on
-+    error.
--- 
-2.43.0
+-Mukesh
 
+> 
+> 
+>> +	  of time and/or storage space.
+>>   endmenu
+> 
