@@ -1,58 +1,58 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A94A1DA39
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7550D1DA35
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705481740; cv=none; b=WpEccWTD+ItPLeRXah9lxeQXNAmmb7pRU+hsIXZ16EB3a6JtYzq92Jek+ZiHu5+6IOVqOLOc6qN17OUu3Vw4zHO8UPpDFiG/0e/BPeroU0JTGD9nzq3J7y5foWLUOBgYLDV5P5LBqmKn8w9KT6c9eZKryzIAEFthQNYizrGxWKA=
+	t=1705481745; cv=none; b=Zeqeb91p4QWvSR+L5EnncMPUf1ZZmrbqGfvDe43I0HHLXE2NCh6Q7CXTKisNAXV1GGIQkUmurfsM250RLCsuB9A/FvSo//zVQ2rO9JAEkGybhyyUtRAn5P5G67UroAfRHnkAk7qAo62HbfvXq2wzFFnmsxFOJQ8Nq+bxPz1QHRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705481740; c=relaxed/simple;
-	bh=MX/Cax97B3CWeCZEhvJh5spMIZZJUCFEiRHSqWR/dGc=;
+	s=arc-20240116; t=1705481745; c=relaxed/simple;
+	bh=S5o4RKNBG/vpvA15QbuIqDr3LD0OyzmHQNOlvqoBd2I=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
 	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding; b=H9u3NVOjQxjiC+wKwnJfl9/r+rHQFOhnhA400QzBUOm3K4k4gI8KVfBkU9+fy8yhpol16PxVaRjHBuLpG0H9HucAWzBkX4UK78F+wchIFGTEH4JRAadzD04kvqcVZ1huKUiR4rIASEuZGC46w4DsmXL/5I1sBqkq3Qpe6PtRSh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Vblq6693; arc=none smtp.client-ip=209.85.210.44
+	 MIME-Version:Content-Transfer-Encoding; b=WlWmARELPzkwywAbX951C/raKoC4A3q8qme+ro/Pa+XCZVMIy4vHvKVoWwQhOcWOaASIs7rPKSt+RF7iQX3+ah0LYJyr6YPfCwslgOCTfaziOg7RvmU3HjrC/qF+/9OwiP38PUEFaden1Okogz8tAIZAhuLCfz3FggYx59We5EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=BgZweipy; arc=none smtp.client-ip=209.85.161.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Vblq6693"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6dddfdc3244so5813171a34.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:55:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="BgZweipy"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5990d6ade7eso1033314eaf.0
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:55:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1705481738; x=1706086538; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1705481742; x=1706086542; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jlS/ErW64O8rlfcikPIcEnfz+fQIBdeJzDvD+fksMoc=;
-        b=Vblq6693CdUXk/nLsu3HpzHvgCehPFnEMpe45M4lihmUqz8M09rj9MmhrF/6H6FVET
-         /8lUgA7HNP7qB6K2Aw9au95R/bgd3ijALgrQSjHvjNrB3kgdg6xRv7u9bgEoUKr+fASu
-         6uKwm5TuIUAcm7EDzdOdQ7Ykzg2EI1+8Bir2SKEn9NZ5VCqdVuCN3q/DTSBBgHiLORcr
-         ZeBVdAFUJfX6fIdMRMmaHjuPCGtZ+r0MQasy/bEuJa0W68Tu8CwTQMzTV7xLGxoVAEAo
-         rTnKxYKv1LrrOX6jhn4bgLKOMolznZcZUsS/72zdLvXhjT/PCT/cJgMjIa3v0VrVAeD3
-         pw3w==
+        bh=TQNP2RBAOiN2WNJ2pt+0D4jsMt+q3mGtcVBnp8dGOZs=;
+        b=BgZweipyg/JtpYhW06htepAqaqu+2gXoZqecn5Pha1RsIcHDEfQe31Se3kjbXgTice
+         g4aB8Q91nJ84q+vZuNCe7HPuU9VdHxIw9eyhSkiS+2MbTBoFrp9DSZtxHL8HbowD0tT8
+         S9xVrAAB6/FUK8GUfG0r7CkQtkFMliEH/UiFb4F+rRNBMwKtuFf6pEJSIF5sDNKB7y4Z
+         SEku7if9Lrs+rSC9Hj68S8ft88OlMtxXjcbD43nahp6td67Yl1fhaCpQefCdraQ5jXRV
+         7sOz2Dn1Hc4P31KU1UnHw3hYwLW24QLKmzt3aUXbNDg41UVaaz6y7Tz0ps5KFL6KjLgi
+         IRpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705481738; x=1706086538;
+        d=1e100.net; s=20230601; t=1705481742; x=1706086542;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jlS/ErW64O8rlfcikPIcEnfz+fQIBdeJzDvD+fksMoc=;
-        b=TZ3S8K2gFub6D03nyqdRyhuWpV9yTmKO+SBVZEroG+5kP94zHlnL5rt3tv4UVW+mhe
-         bZej2fBwOI+8N3NEcthMPk1waei1osE+T1HyQ5M/WWikGjmCBi8rjtQU3M/VffkXSJuG
-         F3jm+CsK+PCiKbRsBTOYpH9I4EfXEkT93oBjGhkgJpWTLbJq7tgCi4eNqkqTCPo9ydFT
-         Q2bdUtXwK152UVUW/ip2/Lh9JrAxcN32Ilu8qZ/PpkI6n49mR5mJ24hvtatmOAWFfzlx
-         sm4p08EBvfkhs+pbZq3nSsxHW29UuRPYlgJ85gjkcSkvOeznRCVk/BzrpxI/Fwr2n5fl
-         9IOg==
-X-Gm-Message-State: AOJu0Yyjz+RU2HzkI3zZskO8qOqh1XQsxIQz+IhcQiszX9rVib+Uc9Py
-	GWp06hx2jO5kdNlcnZMDbWM57B4Qs15fHg==
-X-Google-Smtp-Source: AGHT+IFyzsKaNa91NeSWFBPh64v7gPI1Wj4zagxqyfcn0vRpProv5P4v2NVNP7QMvE4Il64OYRqD8g==
-X-Received: by 2002:a05:6870:2e04:b0:206:75b4:f60a with SMTP id oi4-20020a0568702e0400b0020675b4f60amr11990182oab.94.1705481737992;
-        Wed, 17 Jan 2024 00:55:37 -0800 (PST)
+        bh=TQNP2RBAOiN2WNJ2pt+0D4jsMt+q3mGtcVBnp8dGOZs=;
+        b=sxVhGZcvr8aqtgJzUNaJJxVZhM5jsJoYuIh9IzjiCfv/RpvcxX5o5WQAzxKHTcG1zl
+         d7tlMVceguYSfcjRmvG9cjFe+eoTUrZ12CI/X3TRRwWl60yWMOPWIjS6VAOTYSwTNaLa
+         3cKuJp/k7E5W4/3jlZAj2nrOBdRfyIT84eIzb45DTYs+ykMaN4/xv94U2SfiN7h4Trdk
+         XH1QcjdVUJjAoFTzbIt9cY5eWl3HvFCc9ES+MEwTLMub+fZx97+JU86sM1LY+DW8k8ow
+         qrQ3edKG962pn8Nqw/f27yFgYDlkRF/KofOzV7rMfb+DLOxxuMhQNId6Q98HXB55hphK
+         tlAw==
+X-Gm-Message-State: AOJu0Yxi4bZwG2sxZ0lsg1XOrQdALrquw/ttlR3gMQkf248q9vnZoUIs
+	XWzVYLOswERrbLHD8gnlwjBTpra5IPiruQ==
+X-Google-Smtp-Source: AGHT+IF7PwgwTvNXiq1RR+dGpbVxnPLpvOn7QI+F6vtWbkx3k9iDmyEAyFdOWfn5INGaLAnJaO5z0Q==
+X-Received: by 2002:a4a:9d14:0:b0:598:7aec:474e with SMTP id w20-20020a4a9d14000000b005987aec474emr4373501ooj.19.1705481742541;
+        Wed, 17 Jan 2024 00:55:42 -0800 (PST)
 Received: from C02G87K0MD6R.bytedance.net ([203.208.167.154])
-        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.55.34
+        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.55.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 00:55:37 -0800 (PST)
+        Wed, 17 Jan 2024 00:55:42 -0800 (PST)
 From: Hao Jia <jiahao.os@bytedance.com>
 To: mark.rutland@arm.com,
 	rmk+kernel@armlinux.org.uk,
@@ -62,9 +62,9 @@ To: mark.rutland@arm.com,
 	willy@infradead.org
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v3 06/19] arm64: text replication: copy initial kernel text
-Date: Wed, 17 Jan 2024 16:53:44 +0800
-Message-Id: <20240117085357.31693-7-jiahao.os@bytedance.com>
+Subject: [PATCH v3 07/19] arm64: text replication: add node text patching
+Date: Wed, 17 Jan 2024 16:53:45 +0800
+Message-Id: <20240117085357.31693-8-jiahao.os@bytedance.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 In-Reply-To: <20240117085357.31693-1-jiahao.os@bytedance.com>
 References: <20240117085357.31693-1-jiahao.os@bytedance.com>
@@ -78,61 +78,174 @@ Content-Transfer-Encoding: 8bit
 
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Allocate memory on the appropriate node for the per-node copies of the
-kernel text, and copy the kernel text to that memory. Clean and
-invalidate the caches to the point of unification so that the copied
-text is correctly visible to the target node.
+Add support for text patching on our replicated texts.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- arch/arm64/mm/ktext.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ arch/arm64/include/asm/ktext.h  | 12 +++++++
+ arch/arm64/kernel/alternative.c |  2 ++
+ arch/arm64/kernel/patching.c    |  7 +++-
+ arch/arm64/mm/ktext.c           | 58 +++++++++++++++++++++++++++++++++
+ 4 files changed, 78 insertions(+), 1 deletion(-)
 
+diff --git a/arch/arm64/include/asm/ktext.h b/arch/arm64/include/asm/ktext.h
+index 1a5f7452a3bf..289e11289c06 100644
+--- a/arch/arm64/include/asm/ktext.h
++++ b/arch/arm64/include/asm/ktext.h
+@@ -5,9 +5,13 @@
+ #ifndef ASM_KTEXT_H
+ #define ASM_KTEXT_H
+ 
++#include <linux/kprobes.h>
++
+ #ifdef CONFIG_REPLICATE_KTEXT
+ 
+ void ktext_replication_init(void);
++void __kprobes ktext_replication_patch(u32 *tp,  __le32 insn);
++void ktext_replication_patch_alternative(__le32 *src, int nr_inst);
+ 
+ #else
+ 
+@@ -15,6 +19,14 @@ static inline void ktext_replication_init(void)
+ {
+ }
+ 
++static inline void __kprobes ktext_replication_patch(u32 *tp,  __le32 insn)
++{
++}
++
++static inline void ktext_replication_patch_alternative(__le32 *src, int nr_inst)
++{
++}
++
+ #endif
+ 
+ #endif
+diff --git a/arch/arm64/kernel/alternative.c b/arch/arm64/kernel/alternative.c
+index ea3f4104771d..6f17e2b4e1c3 100644
+--- a/arch/arm64/kernel/alternative.c
++++ b/arch/arm64/kernel/alternative.c
+@@ -15,6 +15,7 @@
+ #include <asm/alternative.h>
+ #include <asm/cpufeature.h>
+ #include <asm/insn.h>
++#include <asm/ktext.h>
+ #include <asm/module.h>
+ #include <asm/sections.h>
+ #include <asm/vdso.h>
+@@ -174,6 +175,7 @@ static void __apply_alternatives(const struct alt_region *region,
+ 		alt_cb(alt, origptr, updptr, nr_inst);
+ 
+ 		if (!is_module) {
++			ktext_replication_patch_alternative(updptr, nr_inst);
+ 			clean_dcache_range_nopatch((u64)origptr,
+ 						   (u64)(origptr + nr_inst));
+ 		}
+diff --git a/arch/arm64/kernel/patching.c b/arch/arm64/kernel/patching.c
+index b4835f6d594b..627fff6ddda2 100644
+--- a/arch/arm64/kernel/patching.c
++++ b/arch/arm64/kernel/patching.c
+@@ -10,6 +10,7 @@
+ #include <asm/fixmap.h>
+ #include <asm/insn.h>
+ #include <asm/kprobes.h>
++#include <asm/ktext.h>
+ #include <asm/patching.h>
+ #include <asm/sections.h>
+ 
+@@ -115,9 +116,13 @@ int __kprobes aarch64_insn_patch_text_nosync(void *addr, u32 insn)
+ 		return -EINVAL;
+ 
+ 	ret = aarch64_insn_write(tp, insn);
+-	if (ret == 0)
++	if (ret == 0) {
++		/* Also patch the other nodes */
++		ktext_replication_patch(tp, cpu_to_le32(insn));
++
+ 		caches_clean_inval_pou((uintptr_t)tp,
+ 				     (uintptr_t)tp + AARCH64_INSN_SIZE);
++	}
+ 
+ 	return ret;
+ }
 diff --git a/arch/arm64/mm/ktext.c b/arch/arm64/mm/ktext.c
-index 901f159c65e6..4c803b89fcfe 100644
+index 4c803b89fcfe..04b5ceddae4e 100644
 --- a/arch/arm64/mm/ktext.c
 +++ b/arch/arm64/mm/ktext.c
-@@ -4,14 +4,23 @@
+@@ -3,8 +3,10 @@
+  * Copyright (C) 2022, Oracle and/or its affiliates.
   */
  
++#include <linux/kallsyms.h>
  #include <linux/kernel.h>
-+#include <linux/memblock.h>
-+#include <linux/numa.h>
+ #include <linux/memblock.h>
++#include <linux/mm.h>
+ #include <linux/numa.h>
  #include <linux/pgtable.h>
-+#include <linux/string.h>
+ #include <linux/string.h>
+@@ -15,6 +17,62 @@
  
-+#include <asm/cacheflush.h>
- #include <asm/ktext.h>
- #include <asm/memory.h>
+ static void *kernel_texts[MAX_NUMNODES];
  
-+static void *kernel_texts[MAX_NUMNODES];
++void __kprobes ktext_replication_patch(u32 *tp, __le32 insn)
++{
++	unsigned long offset;
++	int nid, this_nid;
++	__le32 *p;
 +
-+/* Allocate memory for the replicated kernel texts. */
- void __init ktext_replication_init(void)
- {
-+	size_t size = _etext - _stext;
- 	int kidx = pgd_index((phys_addr_t)KERNEL_START);
-+	int nid;
- 
- 	/*
- 	 * If we've messed up and the kernel shares a L0 entry with the
-@@ -26,4 +35,16 @@ void __init ktext_replication_init(void)
- 		pr_warn("Kernel is located in the same L0 index as vmalloc - text replication disabled\n");
- 		return;
- 	}
++	if (!is_kernel_text((unsigned long)tp))
++		return;
++
++	offset = (unsigned long)tp - (unsigned long)_stext;
++
++	this_nid = numa_node_id();
++	if (this_nid) {
++		/* The cache maintenance by aarch64_insn_patch_text_nosync()
++		 * will occur on this node. We need it to occur on node 0.
++		 */
++		p = (void *)lm_alias(_stext) + offset;
++		caches_clean_inval_pou((u64)p, (u64)p + AARCH64_INSN_SIZE);
++	}
 +
 +	for_each_node(nid) {
-+		/* Nothing to do for node 0 */
-+		if (!nid)
++		if (!kernel_texts[nid])
 +			continue;
 +
-+		/* Allocate and copy initial kernel text for this node */
-+		kernel_texts[nid] = memblock_alloc_node(size, PAGE_SIZE, nid);
-+		memcpy(kernel_texts[nid], _stext, size);
-+		caches_clean_inval_pou((u64)kernel_texts[nid],
-+				       (u64)kernel_texts[nid] + size);
++		p = kernel_texts[nid] + offset;
++		WRITE_ONCE(*p, insn);
++		caches_clean_inval_pou((u64)p, (u64)p + AARCH64_INSN_SIZE);
 +	}
- }
++}
++
++/* Copy the patched alternative from the node0 image to the other
++ * modes. src is the node 0 linear-mapping address.
++ */
++void ktext_replication_patch_alternative(__le32 *src, int nr_inst)
++{
++	unsigned long offset;
++	size_t size;
++	int nid;
++	__le32 *p;
++
++	offset = (unsigned long)src - (unsigned long)lm_alias(_stext);
++	if (offset >= _etext - _stext)
++		return;
++
++	size = AARCH64_INSN_SIZE * nr_inst;
++
++	for_each_node(nid) {
++		if (!kernel_texts[nid])
++			continue;
++
++		p = kernel_texts[nid] + offset;
++		memcpy(p, src, size);
++		clean_dcache_range_nopatch((u64)p, (u64)p + size);
++	}
++}
++
+ /* Allocate memory for the replicated kernel texts. */
+ void __init ktext_replication_init(void)
+ {
 -- 
 2.20.1
 
