@@ -1,280 +1,247 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13AE11BDFF;
-	Wed, 17 Jan 2024 12:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3A21F5F7
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 13:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705495110; cv=none; b=UKuhM5QwCtNk254BYmgY6yv8jNju8BIloWnuJl7n0o2/yJQiU2zdni7gHhdzq7Yzwf1CI8aW6yPB2t6E41pF9j5NgYud4GyEhcEGV78HG8vfcxxapZb6i25UJZHcOBooMpwuwile1QUOwF1oavcNpGxRY9kcyt4vCBAYfPK3W2M=
+	t=1705497253; cv=none; b=L1j9XLc5R3sXQS8L5ix88bOrgM64zQfzvcqpu4JVSowVw8gGHx3uBOYNsuyZ63vClugtnE6/ro1cd0NYiMoCA6atjeJqBbN58JKSLkkLBmqZF4CASkMKh7vq9lXTdHUmib9nvfocsq08m/cd66fQq7/X/6JT4w8oFwtrTPZCa1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705495110; c=relaxed/simple;
-	bh=2FIO2o8hG/hMWQ2hz4cmYEoZO1ZdvYv7c3poyLa+E0w=;
-	h=Received:DKIM-Signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:Content-Language:To:CC:
-	 References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Originating-IP:X-ClientProxiedBy:X-QCInternal:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details; b=Abe1zyvCdmUVg4ObRWcUXOGmfX5JB/WXyj83GruFhZaCcuyoeDFn62Mrguajyl9GOtxPeZWUsSo9e9xrGd026BmWgt0trrhh6YOcpML7gEKbaE8xoOjr96sY0wmDXUNp28W5Wyr2BY/EVji97j6ArA8v8/cwvGKs2srUdTUmKVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=I6T1Wbui; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1705497253; c=relaxed/simple;
+	bh=0kKkVZAmxxgCK2b83Eet+1tmuc7YCI0svgRbIjAjzRM=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding; b=uSOapSuw7iw4qpjozeN0/UFDndch1sg5NN4OOp02JXcOb1rLqVfrX4kg2lZc3qXR19IXW5h33gViSUbsyhPuZQ/k+FTE39sYvjBe+QX9FhzmQC4X6SeoSo75Mm9NTAVIEVfkK4i6kSCVgfF/legfeGrJOkBjGfb80Vx//xJI0M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hvUgxsp7; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="I6T1Wbui"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40HC3ie4024293;
-	Wed, 17 Jan 2024 12:38:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=Ss9xAIxbEeXnQeBjjduwMj7ruvLLHItecP2OUi0UCec=; b=I6
-	T1WbuiwnWvViaUtiZpdCx66OT4s2dkGNpBuKbg1OeNymvXzobjwaiEhl5GtkQS2H
-	Bxk4jeKEomAs0Mg2rWASxnEsYbRDqPqjYsUP7OPUXAB/CvErY/c2o7FJD75u/1kn
-	zgxmBhaRaCMrAxjcGu5yBW175F8Omq3tVNqZk57NDN6J/9eu+W0KbpLctRh7jlTP
-	dKs2dKdxnKLLsOURTwoVMDTnpjBAys3oO7WDWRlumx/KiVdjKJag58pvAIJaHCBE
-	P5wz5uKAdvqx/IZNTdOtrg4ABAtrJKv2jDTLSP0idWeSxLltGmI07eTOt2HCQkTI
-	Ue/Dtcd1lRxmvsgtKQDQ==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vpejp02k9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jan 2024 12:38:01 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40HCc0FR004088
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Jan 2024 12:38:00 GMT
-Received: from [10.216.41.142] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 17 Jan
- 2024 04:37:51 -0800
-Message-ID: <6cb0b6bb-9ef9-a7c9-0f59-fbd760aac644@quicinc.com>
-Date: Wed, 17 Jan 2024 18:07:46 +0530
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hvUgxsp7"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-680fdf7d52fso70878866d6.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 05:14:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1705497251; x=1706102051; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GqSxYa4Ll/q/inJUy6LY/8bl4uTjezprMbcgXXP+xfI=;
+        b=hvUgxsp7Qkndh0gtb2tthCiT/p/xffZ7d2edjGj7Q5BMX6YY6uSbDa5n5z0cUbfrzD
+         wY+VjpzMmNxa8dy6n46Kj8NEkNQ6tMZjirIJPzbAQB9lD6a9fIipdDF/ifc58hrzhgrB
+         0Eqqm5gdJNigyyjdz+/ASt7TrAk3WIP1ybnJc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705497251; x=1706102051;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GqSxYa4Ll/q/inJUy6LY/8bl4uTjezprMbcgXXP+xfI=;
+        b=PHGKBw9akvbrTDDp8Q8KwtB4SFBqOyqjLF0UUoLp7UCKTzWEr5rt6Ry0W01RGqF79s
+         8KrBOsEu4aAUH2mnOGoLTtB+v1glp5a13MiCr1QJXfGI54CPLE+u/BzW/za7m32fITF7
+         FLuXRka4KnXhx9hOxi8bbq8MFobLjLgR9UfbqWcOtGQ0JSxNXMs8ge4bk1CzfL3+28D+
+         vTCp/KkwGgrSStMlMf1GUm61GrOMITg+1jHiw3507/Sf9YwzCejudiYrCjEpajZfDGfe
+         G+HOmOC+CYvxxyrOr+fVg5SQwmj7J1gVJze7GKx4EQjHs2fYgRSNPdn68jcdywT5XhSP
+         EYlg==
+X-Gm-Message-State: AOJu0YxVP4GNUvMhlDgArI0EiAdDIplBNbpeZ4hTzayC8PmIcUEbs+Mv
+	0QJLqghJ3hqmtNtsfJuTdLzu7GqKLEcm52IVLrzGpMtoTS7W
+X-Google-Smtp-Source: AGHT+IF5UeVjK1iCRz3f126prxB2GJY2vd/O20pQBwj8NFheAR2YZBo4js3SPuZv3m7nAhRSa3fTwnO1FiELw6mo/2Y=
+X-Received: by 2002:a05:6214:ace:b0:681:1481:e2c4 with SMTP id
+ g14-20020a0562140ace00b006811481e2c4mr9974321qvi.93.1705497250768; Wed, 17
+ Jan 2024 05:14:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v7 08/12] pstore/ram: Add dynamic ramoops region support
- through commandline
-Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>, <corbet@lwn.net>,
-        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>, <vigneshr@ti.com>,
-        <nm@ti.com>, <matthias.bgg@gmail.com>, <kgene@kernel.org>,
-        <alim.akhtar@samsung.com>, <bmasney@redhat.com>
-CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240109153200.12848-1-quic_mojha@quicinc.com>
- <20240109153200.12848-9-quic_mojha@quicinc.com>
- <e48c1e84-b27e-4109-b80d-084ba8a399ff@infradead.org>
-From: Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <e48c1e84-b27e-4109-b80d-084ba8a399ff@infradead.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: yjUgOLl4neUNeF3oMjtISgrfh9yuFEnL
-X-Proofpoint-GUID: yjUgOLl4neUNeF3oMjtISgrfh9yuFEnL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-17_06,2024-01-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- suspectscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
- impostorscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2311290000 definitions=main-2401170090
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
+ <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com> <20240109143349.GR1610741@bill-the-cat>
+In-Reply-To: <20240109143349.GR1610741@bill-the-cat>
+From: Simon Glass <sjg@chromium.org>
+Date: Wed, 17 Jan 2024 06:14:00 -0700
+Message-ID: <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Tom Rini <trini@konsulko.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Will Deacon <will@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org, Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Masahiro, Tom,
 
+On Tue, 9 Jan 2024 at 07:33, Tom Rini <trini@konsulko.com> wrote:
+>
+> On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wrote:
+> > Hi Simon,
+> >
+> >
+> > On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromium.org> w=
+rote:
+> > >
+> > > Hi Masahiro,
+> > >
+> > > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.org>=
+ wrote:
+> > > >
+> > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > > > > Add a script which produces a Flat Image Tree (FIT), a single fil=
+e
+> > > > > containing the built kernel and associated devicetree files.
+> > > > > Compression defaults to gzip which gives a good balance of size a=
+nd
+> > > > > performance.
+> > > > >
+> > > > > The files compress from about 86MB to 24MB using this approach.
+> > > > >
+> > > > > The FIT can be used by bootloaders which support it, such as U-Bo=
+ot
+> > > > > and Linuxboot. It permits automatic selection of the correct
+> > > > > devicetree, matching the compatible string of the running board w=
+ith
+> > > > > the closest compatible string in the FIT. There is no need for
+> > > > > filenames or other workarounds.
+> > > > >
+> > > > > Add a 'make image.fit' build target for arm64, as well. Use
+> > > > > FIT_COMPRESSION to select a different algorithm.
+> > > > >
+> > > > > The FIT can be examined using 'dumpimage -l'.
+> > > > >
+> > > > > This features requires pylibfdt (use 'pip install libfdt'). It al=
+so
+> > > > > requires compression utilities for the algorithm being used. Supp=
+orted
+> > > > > compression options are the same as the Image.xxx files. For now =
+there
+> > > > > is no way to change the compression other than by editing the rul=
+e for
+> > > > > $(obj)/image.fit
+> > > > >
+> > > > > While FIT supports a ramdisk / initrd, no attempt is made to supp=
+ort
+> > > > > this here, since it must be built separately from the Linux build=
+.
+> > > > >
+> > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > > > ---
+> > > > >
+> > > > > Changes in v9:
+> > > > > - Move the compression control into Makefile.lib
+> > > > >
+> > > > > Changes in v8:
+> > > > > - Drop compatible string in FDT node
+> > > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > > > > - Turn compress part of the make_fit.py comment in to a sentence
+> > > > > - Add two blank lines before parse_args() and setup_fit()
+> > > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > > > > - Add 'mkimage' details Documentation/process/changes.rst
+> > > > > - Allow changing the compression used
+> > > > > - Tweak cover letter since there is only one clean-up patch
+> > > > >
+> > > > > Changes in v7:
+> > > > > - Add Image as a dependency of image.fit
+> > > > > - Drop kbuild tag
+> > > > > - Add dependency on dtbs
+> > > > > - Drop unnecessary path separator for dtbs
+> > > > > - Rebase to -next
+> > > > >
+> > > > > Changes in v5:
+> > > > > - Drop patch previously applied
+> > > > > - Correct compression rule which was broken in v4
+> > > > >
+> > > > > Changes in v4:
+> > > > > - Use single quotes for UIMAGE_NAME
+> > > > >
+> > > > > Changes in v3:
+> > > > > - Drop temporary file image.itk
+> > > > > - Drop patch 'Use double quotes for image name'
+> > > > > - Drop double quotes in use of UIMAGE_NAME
+> > > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> > > > > - Avoid hard-coding "arm64" for the DT architecture
+> > > > >
+> > > > > Changes in v2:
+> > > > > - Drop patch previously applied
+> > > > > - Add .gitignore file
+> > > > > - Move fit rule to Makefile.lib using an intermediate file
+> > > > > - Drop dependency on CONFIG_EFI_ZBOOT
+> > > > > - Pick up .dtb files separately from the kernel
+> > > > > - Correct pylint too-many-args warning for write_kernel()
+> > > > > - Include the kernel image in the file count
+> > > > > - Add a pointer to the FIT spec and mention of its wide industry =
+usage
+> > > > > - Mention the kernel version in the FIT description
+> > > > >
+> > > > >  Documentation/process/changes.rst |   9 +
+> > > > >  MAINTAINERS                       |   7 +
+> > > > >  arch/arm64/Makefile               |   7 +-
+> > > > >  arch/arm64/boot/.gitignore        |   1 +
+> > > > >  arch/arm64/boot/Makefile          |   6 +-
+> > > > >  scripts/Makefile.lib              |  16 ++
+> > > > >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++=
+++++++
+> > > > >  7 files changed, 334 insertions(+), 3 deletions(-)
+> > > > >  create mode 100755 scripts/make_fit.py
+> > > >
+> > > > I'll need Masahiro's Ack on the scripts/ changes before I can take =
+this
+> > > > one.
+> > >
+> > > Any thoughts on this request, please?
+> > >
+> > > Regards,
+> > > Simon
+> > >
+> >
+> >
+> >
+> > As I mentioned before, I am concerned with having
+> > the same "compatible" entries, with different contents,
+> > as you use the "compatible" string as an ID to selecting
+> > the target config node, right?
+> >
+> >
+> >
+> >
+> >
+> > $ fdtdump  arch/arm64/boot/image.fit
+> >
+> >         ...
+> >
+> >         conf-10 {
+> >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > "tq,am642-tqma6442l", "ti,am642";
+> >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carri=
+er board";
+> >             fdt =3D "fdt-10";
+> >             kernel =3D "kernel";
+> >         };
+> >
+> >         ...
+> >
+> >         conf-25 {
+> >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > "tq,am642-tqma6442l", "ti,am642";
+> >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carri=
+er board";
+> >             fdt =3D "fdt-25";
+> >             kernel =3D "kernel";
+> >         };
+>
+> I had asked Rob a while ago about if having the same compatible for two
+> functionally different machines is a feature, or a bug, and I don't
+> think either of us fully agreed either way. I'd be leaning towards
+> saying the above example is a bug in the dts files, it's just not been a
+> bug people have worried about before due to (sadly) how little the
+> top-level compatible has been used.
 
-On 1/10/2024 4:03 AM, Randy Dunlap wrote:
-> 
-> 
-> On 1/9/24 07:31, Mukesh Ojha wrote:
->> The reserved memory region for ramoops is assumed to be at a fixed
->> and known location when read from the devicetree. This may not be
->> required for something like Qualcomm's minidump which is interested
->> in knowing addresses of ramoops region but it does not put hard
->> requirement of address being fixed as most of it's SoC does not
-> 
->                                                  its
-> 
->> support warm reset and does not use pstorefs at all instead it has
->> firmware way of collecting ramoops region if it gets to know the
->> address and register it with apss minidump table which is sitting
->> in shared memory region in DDR and firmware will have access to
->> these table during reset and collects it on crash of SoC.
->>
->> So, add the support of reserving ramoops region to be dynamically
->> allocated early during boot if it is request through command line
->> via 'dyn_ramoops_size=<size>' and fill up reserved resource structure
->> and export the structure, so that it can be read by ramoops driver.
->>
->> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
->> ---
->>   Documentation/admin-guide/ramoops.rst | 23 +++++++++-
->>   fs/pstore/Kconfig                     | 15 ++++++
->>   fs/pstore/ram.c                       | 66 +++++++++++++++++++++++++--
->>   include/linux/pstore_ram.h            |  5 ++
->>   init/main.c                           |  2 +
->>   5 files changed, 107 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/ramoops.rst b/Documentation/admin-guide/ramoops.rst
->> index e9f85142182d..517b00981e99 100644
->> --- a/Documentation/admin-guide/ramoops.rst
->> +++ b/Documentation/admin-guide/ramoops.rst
->> @@ -33,6 +33,13 @@ memory are implementation defined, and won't work on many ARMs such as omaps.
->>   Setting ``mem_type=2`` attempts to treat the memory region as normal memory,
->>   which enables full cache on it. This can improve the performance.
->>   
->> +Ramoops supports its memory to be allocated dynamically during early boot
->> +for plaforms that does not have support for warm boot i.e., no assurance
-> 
->         platforms that do not have
-> 
-> 
->> +of Ram content will be preserved across boot and for these platform
-> 
->     that RAM content                             and for these platforms
-> 
->> +giving static Ramoops memory is not necessary as it has separate backend
->> +mechanism to retrieve ramoops content on system failure. More about
->> +how to enable Dynamic ramoops in ``Setting the parameters`` A.b section.
->> +
->>   The memory area is divided into ``record_size`` chunks (also rounded down to
->>   power of two) and each kmesg dump writes a ``record_size`` chunk of
->>   information.
->> @@ -59,7 +66,7 @@ Setting the parameters
->>   
->>   Setting the ramoops parameters can be done in several different manners:
->>   
->> - A. Use the module parameters (which have the names of the variables described
->> + A.a  Use the module parameters (which have the names of the variables described
->>    as before). For quick debugging, you can also reserve parts of memory during
->>    boot and then use the reserved memory for ramoops. For example, assuming a
->>    machine with > 128 MB of memory, the following kernel command line will tell
->> @@ -68,6 +75,20 @@ Setting the ramoops parameters can be done in several different manners:
->>   
->>   	mem=128M ramoops.mem_address=0x8000000 ramoops.ecc=1
->>   
->> + A.b  Ramoops memory can be also be dynamically reserve by Kernel and in such
-> 
->                                                     reserved
-> 
->> + scenario ``mem_address`` i.e, Ramoops base address can be anywhere in the RAM
-> 
->                               i.e.,
-> 
->> + instead of being fixed and predefined. A separate command line option
->> + ``dyn_ramoops_size=<size>`` and kernel config CONFIG_PSTORE_DYNAMIC_RAMOOPS
->> + is provided to facilitate Dynamic Ramoops memory reservation during early boot.
-> 
->      are provided
-> 
->> + The command line option and the config should only be used in the presence of
->> + separate backend which knows how to recover Dynamic Ramoops region otherwise
->> + regular ramoops functionality will be impacted.
->> + ``mem_size`` should not be used if Dynamic Ramoops support is requested and if
->> + both are given ``mem_size`` value is overwritten with ``dyn_ramoops_size`` value
->> + i.e, Dynamic Ramoops takes precedence::
-> 
->      i.e.,
-> 
->> +
->> +	dyn_ramoops_size=2M ramoops.console_size=2097152
->> +
->>    B. Use Device Tree bindings, as described in
->>    ``Documentation/devicetree/bindings/reserved-memory/ramoops.yaml``.
->>    For example::
->> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
->> index 3acc38600cd1..2f2bb483fd85 100644
->> --- a/fs/pstore/Kconfig
->> +++ b/fs/pstore/Kconfig
->> @@ -81,6 +81,21 @@ config PSTORE_RAM
->>   
->>   	  For more information, see Documentation/admin-guide/ramoops.rst.
->>   
->> +config PSTORE_DYNAMIC_RAMOOPS
->> +	bool "Reserve ramoops region dynamically"
->> +	select PSTORE_RAM
->> +	help
->> +	  This enables the dynamic reservation of ramoops region for a special case
->> +	  where there is no requirement to access the logs from pstorefs on next boot
-> 
-> 	                                                                         boot;
-> 
->> +	  instead there is separate backend mechanism like minidump present which has
->> +	  awareness about the dynamic ramoops region and can recover the logs. This is
->> +	  enabled via command line parameter dyn_ramoops_size=<size> and should not be
->> +	  used in absence of separate backend which knows how to recover this dynamic
->> +	  region.
->> +
->> +	  Note whenever this config is selected ramoops driver will be build statically
-> 
-> 	                                                               built
-> 
->> +	  into kernel.
->> +
->>   config PSTORE_ZONE
->>   	tristate
->>   	depends on PSTORE
->> diff --git a/fs/pstore/ram.c b/fs/pstore/ram.c
->> index 88b34fdbf759..795a8300631e 100644
->> --- a/fs/pstore/ram.c
->> +++ b/fs/pstore/ram.c
->> @@ -20,6 +20,7 @@
->>   #include <linux/compiler.h>
->>   #include <linux/of.h>
->>   #include <linux/of_address.h>
->> +#include <linux/memblock.h>
->>   #include <linux/mm.h>
->>   
->>   #include "internal.h"
->> @@ -103,6 +104,59 @@ struct ramoops_context {
->>   };
->>   
->>   static struct platform_device *dummy;
->> +static struct resource dyn_ramoops_res = {
->> +	.name  = "ramoops",
->> +	.start = 0,
->> +	.end   = 0,
->> +	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
->> +	.desc  = IORES_DESC_NONE,
->> +};
->> +static int dyn_ramoops_size;
->> +
->> +#ifdef CONFIG_PSTORE_DYNAMIC_RAMOOPS
->> +static int __init parse_dyn_ramoops_size(char *p)
->> +{
->> +	char *tmp;
->> +
->> +	dyn_ramoops_size = memparse(p, &tmp);
->> +	if (p == tmp) {
->> +		pr_err("ramoops: memory size expected\n");
->> +		dyn_ramoops_size = 0;
->> +		return -EINVAL;
->> +	}
->> +
->> +	return 0;
->> +}
->> +early_param("dyn_ramoops_size", parse_dyn_ramoops_size);
->> +
->> +/*
->> + * setup_dynamic_ramoops() - reserves memory for dynamic ramoops
->> + *
->> + * This enable dynamic reserve memory support for ramoops through
-> 
->             enables
+Yes I believe this is a bug in the files.
 
-Thanks for the review, Noted all the points for the next version.
+What should the script do in this case? Print a warning, perhaps?
 
--Mukesh
-> 
->> + * command line.
->> + */
-> 
-> 
+Regards,
+Simon
