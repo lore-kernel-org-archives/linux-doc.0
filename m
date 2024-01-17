@@ -1,161 +1,195 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3482420C
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 16:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9961F1E536;
+	Wed, 17 Jan 2024 16:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705509386; cv=none; b=nokIGOqkRYZtRVhFDklfPG382ILGZYAqyzzgMZZF9JGpJoTxrsY118DpxOB0LH5YxBzGNZrL3wcDPSCbyJhmAHIZXJDL0J1j7d+fc7kb6EGocCQsdEQZJp6nuiOkyoYxpg9d81XJh5cmks7PFRFykHA9EDOKlGJLM0S1zsjvARI=
+	t=1705510498; cv=none; b=OrAEoYLUZLCe6siX+IyFiBHB69UR/6GZlU+FYHviBYNrXv2J68y4LLOgtm6iKJPPUdbz29RFcdZsv/1iHNIRe1EzT+THc7MpGvgc+Untyu6zEpNWYTV+nIvq8Dfrm8IqqAQsAxmMWjxfGgpTZMaDATZShAASP1lUf4SnUkyQOgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705509386; c=relaxed/simple;
-	bh=BaKtGrLRrsyMl7efMCkHzm2H6pXTqNSWhWDk1P/kMOg=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:Received:From:To:Cc:
-	 Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Scanned-By; b=mEjr0f0y6Ewnrz+YJxqdfEMdZ34ZwOcEkf/TXyis22wApYZ6/z2XqyYxwogtZXFUrni8808XpEh9dI++qomROtfT5WtNzXkT/4CoIALclzW7N5MgQ4ntX6yyqncaKbqiYWeLIZHMQhgLK2Xaz5+vGvgmVuZ3zzJ6h/wARBws9gA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NV8TsvJa; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1705510498; c=relaxed/simple;
+	bh=icda5nsBxvN2zQNuUU8kfCVX7lRfPCzR7ERj2A/6N3o=;
+	h=Received:DKIM-Signature:Received:X-Gm-Message-State:
+	 X-Google-Smtp-Source:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding; b=vDgAB+PuiWbsRINQpaX/ttIQCOO1pCQ9dZUJjdDdZ8a1rkP5aKoj9MCJaTzUoxK+MTYcfphRL785ps6H7OqHpP4yP24Rg/+UDUNghdy8+qrkVeG5bHltY5UZK5rXDvHla2ZFDDT5DWFnhNH9EiBr8A9ZQfsBtREzh2RFCyLeECI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ng0rHk/F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NV8TsvJa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705509383;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=55mOiYryAKVg43LXJjjfXDXa8cEy1gWQGp1PtwK9/yc=;
-	b=NV8TsvJayFqIJM2E7mAuqtGUgvR4M3UdZn3tENoWXvifXZtZ+xOTTFj7LKLK8LtRXdEqdD
-	0OcvThKIOlr5UTqgLY19dFDpSiez3icvhDcEQUwyyd0jtFtgCKMpcCJ4xX+IV4/+OwNFb2
-	ea/y1NSs17bCqakiaxk+jOJBFDZ4z8Y=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-685-XuKyGuYONhafxTxTf8BZKg-1; Wed,
- 17 Jan 2024 11:36:19 -0500
-X-MC-Unique: XuKyGuYONhafxTxTf8BZKg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3138C2813007;
-	Wed, 17 Jan 2024 16:36:18 +0000 (UTC)
-Received: from llong.com (unknown [10.22.16.147])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 915741121312;
-	Wed, 17 Jan 2024 16:36:16 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Shuah Khan <shuah@kernel.org>
-Cc: cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Mrunal Patel <mpatel@redhat.com>,
-	Ryan Phillips <rphillips@redhat.com>,
-	Brent Rowsell <browsell@redhat.com>,
-	Peter Hunt <pehunt@redhat.com>,
-	Cestmir Kalina <ckalina@redhat.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Alex Gladkov <agladkov@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Phil Auld <pauld@redhat.com>,
-	Paul Gortmaker <paul.gortmaker@windriver.com>,
-	Daniel Bristot de Oliveira <bristot@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Costa Shulyupin <cshulyup@redhat.com>,
-	Waiman Long <longman@redhat.com>
-Subject: [RFC PATCH 8/8] cgroup/cpuset: Update test_cpuset_prs.sh to handle cpuset.cpus.isolation_full
-Date: Wed, 17 Jan 2024 11:35:11 -0500
-Message-Id: <20240117163511.88173-9-longman@redhat.com>
-In-Reply-To: <20240117163511.88173-1-longman@redhat.com>
-References: <20240117163511.88173-1-longman@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ng0rHk/F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0907AC4166C;
+	Wed, 17 Jan 2024 16:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705510498;
+	bh=icda5nsBxvN2zQNuUU8kfCVX7lRfPCzR7ERj2A/6N3o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Ng0rHk/FO9y+GoC5HfzKWt5ufHH/DLDxWrPoHpgAcFWF5/iCRTSZt7xVQQWZasRus
+	 GulmTUc+i93vLU+74N8grdUut/GsGniGLuH4yj4Xtn5l2fy6MvoxHoYXCANZ8Cy5TS
+	 gpawaK9ILPMzdk3X6RVNmH4l5N3Oqv7oB6jFgSC8igtYAaem5xpUAXN31CBti6N9Xb
+	 7Yvdi7dRY7U3F+vTq4iEHmvdLybn88m0xyP6zPCpsDZUNqeo97/JJrPw+3rYXW1/Z3
+	 Nx8hfx/yWVXTpvKTXkfF8/KczEpmZdcYAqjwnE8lvXNx3w/ES2MQ5MYAvo9uCt/DLO
+	 /TnXFUzGsus8w==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2cd1232a2c7so141483601fa.0;
+        Wed, 17 Jan 2024 08:54:57 -0800 (PST)
+X-Gm-Message-State: AOJu0YwrE5SQz3todD/Uaxsk86m0zAZonQIFfXF1lHZA3zRzpQhhXz3P
+	MErzvuAQhGsWirefjFPbNGTbMp+5HM5Wpei26A==
+X-Google-Smtp-Source: AGHT+IE1jgfkJTBfpZ+F4Qzd8uKAwaxoFhnJYLyCjbq9zXmhEnH+sTN071x2CqqdMwDg1wusyGKF4SkodcMKgVdt/Us=
+X-Received: by 2002:a2e:bd02:0:b0:2cc:d864:1260 with SMTP id
+ n2-20020a2ebd02000000b002ccd8641260mr5936076ljq.62.1705510496033; Wed, 17 Jan
+ 2024 08:54:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+References: <20231222193607.15474-1-graf@amazon.com> <20231222195144.24532-1-graf@amazon.com>
+ <20231222195144.24532-2-graf@amazon.com> <CAL_JsqJSYgq7BJnSxwKebEX8e9tL-FG74rT+eLJ4e32kKZC30g@mail.gmail.com>
+ <c96203ba-a5b2-4765-9d30-0f4e66c82cd7@amazon.com>
+In-Reply-To: <c96203ba-a5b2-4765-9d30-0f4e66c82cd7@amazon.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 17 Jan 2024 10:54:43 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK2WaH+vWd-hcrCSzycMGTztX4i2p1wpECseD_M3EY0tA@mail.gmail.com>
+Message-ID: <CAL_JsqK2WaH+vWd-hcrCSzycMGTztX4i2p1wpECseD_M3EY0tA@mail.gmail.com>
+Subject: Re: [PATCH v2 07/17] kexec: Add documentation for KHO
+To: Alexander Graf <graf@amazon.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, x86@kernel.org, 
+	Eric Biederman <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, 
+	James Gowans <jgowans@amazon.com>, 
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>, arnd@arndb.de, pbonzini@redhat.com, 
+	madvenka@linux.microsoft.com, Anthony Yznaga <anthony.yznaga@oracle.com>, 
+	Usama Arif <usama.arif@bytedance.com>, David Woodhouse <dwmw@amazon.co.uk>, 
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a new "-F" option to cpuset.cpus.isolation_full to enable
-cpuset.cpus.isolation_full for trying out the effect of enabling
-full CPU isolation.
+On Wed, Jan 17, 2024 at 8:02=E2=80=AFAM Alexander Graf <graf@amazon.com> wr=
+ote:
+>
+>
+> On 03.01.24 19:48, Rob Herring wrote:
+> >
+> > On Fri, Dec 22, 2023 at 12:52=E2=80=AFPM Alexander Graf <graf@amazon.co=
+m> wrote:
+> >> With KHO in place, let's add documentation that describes what it is a=
+nd
+> >> how to use it.
+> >>
+> >> Signed-off-by: Alexander Graf <graf@amazon.com>
+> >> ---
+> >>   Documentation/kho/concepts.rst   | 88 ++++++++++++++++++++++++++++++=
+++
+> >>   Documentation/kho/index.rst      | 19 +++++++
+> >>   Documentation/kho/usage.rst      | 57 +++++++++++++++++++++
+> >>   Documentation/subsystem-apis.rst |  1 +
+> >>   4 files changed, 165 insertions(+)
+> >>   create mode 100644 Documentation/kho/concepts.rst
+> >>   create mode 100644 Documentation/kho/index.rst
+> >>   create mode 100644 Documentation/kho/usage.rst
+> >>
+> >> diff --git a/Documentation/kho/concepts.rst b/Documentation/kho/concep=
+ts.rst
+> >> new file mode 100644
+> >> index 000000000000..8e4fe8c57865
+> >> --- /dev/null
+> >> +++ b/Documentation/kho/concepts.rst
+> >> @@ -0,0 +1,88 @@
+> >> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> >> +
+> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> +Kexec Handover Concepts
+> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> +
+> >> +Kexec HandOver (KHO) is a mechanism that allows Linux to preserve sta=
+te -
+> >> +arbitrary properties as well as memory locations - across kexec.
+> >> +
+> >> +It introduces multiple concepts:
+> >> +
+> >> +KHO Device Tree
+> >> +---------------
+> >> +
+> >> +Every KHO kexec carries a KHO specific flattened device tree blob tha=
+t
+> >> +describes the state of the system. Device drivers can register to KHO=
+ to
+> >> +serialize their state before kexec. After KHO, device drivers can rea=
+d
+> >> +the device tree and extract previous state.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- .../selftests/cgroup/test_cpuset_prs.sh       | 23 ++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+Can you avoid calling anything "device tree" as much as possible. We
+can't avoid the format is FDT/DTB, but otherwise none of this is
+Devicetree as most folks know it. Sure, there can be trees of devices
+which are not Devicetree, but this is neither. You could have used
+BSON or any hierarchical key-value pair serialization format just as
+easily (if we already had a parser in the kernel).
 
-diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-index b5eb1be2248c..2a8f0cb8d252 100755
---- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-+++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-@@ -32,6 +32,7 @@ NR_CPUS=$(lscpu | grep "^CPU(s):" | sed -e "s/.*:[[:space:]]*//")
- PROG=$1
- VERBOSE=0
- DELAY_FACTOR=1
-+ISOLATION_FULL=
- SCHED_DEBUG=
- while [[ "$1" = -* ]]
- do
-@@ -44,7 +45,10 @@ do
- 		-d) DELAY_FACTOR=$2
- 		    shift
- 		    ;;
--		*)  echo "Usage: $PROG [-v] [-d <delay-factor>"
-+		-F) ISOLATION_FULL=1
-+		    shift
-+		    ;;
-+		*)  echo "Usage: $PROG [-v] [-d <delay-factor>] [-F]"
- 		    exit
- 		    ;;
- 	esac
-@@ -108,6 +112,22 @@ console_msg()
- 	pause 0.01
- }
- 
-+setup_isolation_full()
-+{
-+	ISOL_FULL=${CGROUP2}/cpuset.cpus.isolation_full
-+	if [[ -n "$ISOLATION_FULL" ]]
-+	then
-+		echo 1 > $ISOL_FULL
-+		set -- $(cat $ISOL_FULL)
-+		ISOLATION_FLAGS=$2
-+		[[ $VERBOSE -gt 0 ]] && {
-+			echo "Full CPU isolation flags: $ISOLATION_FLAGS"
-+		}
-+	else
-+		echo 0 > $ISOL_FULL
-+	fi
-+}
-+
- test_partition()
- {
- 	EXPECTED_VAL=$1
-@@ -930,6 +950,7 @@ test_inotify()
- }
- 
- trap cleanup 0 2 3 6
-+setup_isolation_full
- run_state_test TEST_MATRIX
- test_isolated
- test_inotify
--- 
-2.39.3
+> > How does this work with kexec when there is also the FDT for the h/w?
+> > The h/w FDT has a /chosen property pointing to this FDT blob?
+>
+>
+> Yep, exactly.
 
+Those properties need to be documented here[1].
+
+[...]
+
+> >> +KHO introduces a new concept to its device tree: ``mem`` properties. =
+A
+> >> +``mem`` property can inside any subnode in the device tree. When pres=
+ent,
+> >> +it contains an array of physical memory ranges that the new kernel mu=
+st mark
+> >> +as reserved on boot. It is recommended, but not required, to make the=
+se ranges
+> >> +as physically contiguous as possible to reduce the number of array el=
+ements ::
+> >> +
+> >> +    struct kho_mem {
+> >> +            __u64 addr;
+> >> +            __u64 len;
+> >> +    };
+> >> +
+> >> +After boot, drivers can call the kho subsystem to transfer ownership =
+of memory
+> >> +that was reserved via a ``mem`` property to themselves to continue us=
+ing memory
+> >> +from the previous execution.
+> >> +
+> >> +The KHO device tree follows the in-Linux schema requirements. Any ele=
+ment in
+> >> +the device tree is documented via device tree schema yamls that expla=
+in what
+> >> +data gets transferred.
+> > If this is all separate, then I think the schemas should be too. And
+> > then from my (DT maintainer) perspective, you can do whatever you want
+> > here (like FIT images). The dtschema tools are pretty much only geared
+> > for "normal" DTs. A couple of problems come to mind. You can't exclude
+> > or change standard properties. The decoding of the DTB to run
+> > validation assumes big endian. We could probably split things up a
+> > bit, but you may be better off just using jsonschema directly. I'm not
+> > even sure running validation here would that valuable. You have 1
+> > source of code generating the DT and 1 consumer. Yes, there's
+> > different kernel versions to deal with, but it's not 100s of people
+> > creating 1000s of DTs with 100s of nodes.
+> >
+> > You might look at the netlink stuff which is using its own yaml syntax
+> > to generate code and jsonschema is used to validate the yaml.
+>
+>
+> I'm currently a lot more interested in the documentation aspect than in
+> the validation, yeah. So I think for v3, I'll just throw the schemas
+> into the Documentation/kho directory without any validation. We can
+> worry about that later :)
+
+I'll regret that when I get patches fixing them, but okay.
+
+Rob
+
+[1] https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/=
+chosen.yaml
