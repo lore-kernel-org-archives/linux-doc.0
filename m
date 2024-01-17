@@ -1,58 +1,58 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066341DDE1
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756FE1DFD3
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 08:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705481764; cv=none; b=rLajRxxNIbWAhQy4RxgpW5FhfOKBBbTQx/VARmq52MzkZ1To1plRipuQUQ4WH+v1WUWeHvsMropPKd7szYoNl/IcSg/mYpvfPyy3TLV/jo4jZDfBGauMmunOGVwPEcgeOYh1dN33+bVGHx2wLE419FSnBqn0Vmt7UJ5a4MPJZew=
+	t=1705481767; cv=none; b=ls7RCaD3frpen3Lm6i7Ovmuj+ufjQ12bX1zBiLAJpVuL+wfIex1vlEXNEbwxA9gHLf+8A/qZSi/8bwm5Q28EDvXFw+iWgnK7+nChqP9nvxQSpvtV2YuPBzftujXgZP/ds61NZulqSYtnTetT0W4MELCymGnyBI3xLSQLVS7SmTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705481764; c=relaxed/simple;
-	bh=n8qUDdxeHPgrAmH3WfFEcTjvpsmZnP8wwO9TRYFaAdU=;
+	s=arc-20240116; t=1705481767; c=relaxed/simple;
+	bh=hLtypGQuZuzhxPFC45SkZR80pmIlD1p/km6knUfZ+4Q=;
 	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:From:
 	 To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding; b=RBeZ2vkXpzVy8oc/pAq/jnuJ3Stak60bVXiOYDxWgL97maME1payNayaxwzjA9R9adqP67WMAIxAJ88uDHCWk7UCfClKyZEiSzbL3aLPMgh6UavoneEkvcqhdAs8AQHKVADIwG0vWgnLaLiWyBwOvE+gMeO1xGGOJ2TltCIcNJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=B8QtLLfL; arc=none smtp.client-ip=209.85.219.177
+	 MIME-Version:Content-Transfer-Encoding; b=XN/R3xxMcPt0vDx52T/HxXm4tvsXw2u+SPyNbao2xcg9stmPsYVsAZDI+I+Ay3sz/xC2E5MQdkzIzdccmfxj/jZ13MFV6bcR1eKugB+C6XMesXI2ChN98khUDlL95SBPb0gDK2iInJ3S4WcI1NrX3m7QAi8cWs0Op4U16yCvF/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=AmGMTCZv; arc=none smtp.client-ip=209.85.210.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="B8QtLLfL"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dc23bf7e5aaso413936276.0
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:56:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="AmGMTCZv"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6ddef319fabso4956703a34.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 00:56:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1705481761; x=1706086561; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1705481765; x=1706086565; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+adH9hgaHp+sBlsR3+gAITXNjLgIIuJMkoKTlM/Hjjg=;
-        b=B8QtLLfL0cyqH4bmYKazxS5BTa5gz3eJV3ZyfSsh/+ZLQakFf3BNYZ/oyiKEA3MdER
-         pMD050vmT3JYhcUxuZkFNVzrrgEQLKtYb6VAHRDTLjaD9z/hBRItLk7u7+Xw8OYDTQd+
-         ixeSWieYv4UPtA61Fwhc5Ch71nqY233xIJY45vWfFBn9pSghTofDt3huqJ/I7yFfkoNc
-         423NwqllLUMXhktvk/6sTEMREL23YJyhNRclT4CDXdvKoMobamuPf95YHJLlYTmvhaOY
-         O+HEmKswO46E7ARAU6tegJvjByk/6Cio4KUPv7hCfGzxkWavqc8o52nLLOx9J5bG/AmD
-         lP9A==
+        bh=nDcQ2wMEqISQ3O2/7HCyONaRVJxi+XzC8dor4RFlGaI=;
+        b=AmGMTCZv5s1TmwlqAgR21v36ksetPQ2voMo2eVCaqZr0HfOc2KVqRDG2qaQB4KP5yZ
+         9djKGUKsMiD5pDnhHd8ZN77VwjO86Q4zWaz1gTaP7+teS4+MhgxyQlnRJLEfRl/cif8H
+         YCbgthgft5dRPTdjj8VJ15dQ6Wd+6bgQ0QWxtgPozuoKCLuOWYAAV2r3HfD9IWWE2QwZ
+         GMEDpK53k0BEQ8Xs+GxHYOXeBUzeBB1wAKUuw2rt7Lae2/OwfTYWtt1kr5r/2gWXiC/d
+         V+w/iI1+D1Nkcj2PPTMDese6QnBH4+qboFNHHIGRgG8hXfyesCchMTHfe/GkZ0ZqLNrj
+         XX7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705481761; x=1706086561;
+        d=1e100.net; s=20230601; t=1705481765; x=1706086565;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+adH9hgaHp+sBlsR3+gAITXNjLgIIuJMkoKTlM/Hjjg=;
-        b=V9YYoUFtpowES709azgNhboADmV8IN1UtQrAlE8g4iltvQTI5i9aVefN/Kmaii+jRo
-         OADMV7tVfVCDmIpHE+qZTrWnormPKqH7JsADc18GODQLAaOvq+DOxHBZAbbt7SvAdKyZ
-         WBr68K7KERaEQ6ZYLq3+JhjXNtRq7qDVVQ0KbQY6PXopyZc7cEvUBuwJuuoRyvLhQ/wM
-         b31HDh0MHXgu0gURC6gSdU+jGbxkohBnyfMYKMGsuC1Ch/2gTHY8LGFVdJfprtUQavTw
-         T0Me9TTPJn6OxEs6zcfRt+jsxjP/kfPWcKGHLt42B83eSJJYbAxkjKmyyWNP7Z8XyqKn
-         EDdA==
-X-Gm-Message-State: AOJu0YxcYzu/hucqB83ypKWIMzR6zn93vARwPP0gmcQgWZsqMLMp9/Gb
-	8zmV5hF4rD/Qx0WfLa8flAeGC5bPU4vF3A==
-X-Google-Smtp-Source: AGHT+IFYJld0b0WSvvfje8juPP6NnmJOEUpOa3HfMUJdkbeTXHWZQdhtV9EfPrUayVwWT6sEWVvqhQ==
-X-Received: by 2002:a25:bcce:0:b0:dc2:2d59:512f with SMTP id l14-20020a25bcce000000b00dc22d59512fmr1634077ybm.20.1705481760996;
-        Wed, 17 Jan 2024 00:56:00 -0800 (PST)
+        bh=nDcQ2wMEqISQ3O2/7HCyONaRVJxi+XzC8dor4RFlGaI=;
+        b=ud7GfrCL0XM+k5Ds3Ph1uXF1/jvxD1minrYsx0rdhyxdrcANBmF/P5z3KqQE4OpPcc
+         8tKIVXNq1KZfV/l5BaKFzC3Sy0B6JtzoeYTnls0pf74YnHy4bDKm0WaCj5SIofFX5VIV
+         G9XlaweTGtynSyjVDb897yPW4nyerCuifb4tVdZD0f5XsOHtVGB3XdJCwsHj4U0oA/+H
+         yNEqKcPMooa/6fAAM+XiT7c4as7v9Ntsrwgo8FxQCUwDeSloFP3gggMZMrqq3DCBWvhf
+         TH9p+vjSIumYVAY7BPm8oAIxIzu6yjn9V6A6BkB0Idx1HeQ0elcbkoQeFst01E1X/EGV
+         oVYQ==
+X-Gm-Message-State: AOJu0YxYFvhnVQ3T7sLNfqS7KG4TGzBi6xFMZ4IFSGQ/2wVddsmGlzyj
+	WUrOYoG6ct1Fy6BZ/zlYBZvv+P8g7V1Keg==
+X-Google-Smtp-Source: AGHT+IFRYpmA9gFAAzLoQZR7B2zc+Ac7EmYytIabcXYyy1NAihYINsXjuwvbwSCNrwHr7XONHRrD+A==
+X-Received: by 2002:a05:6871:2881:b0:204:1fb4:2896 with SMTP id bq1-20020a056871288100b002041fb42896mr9207821oac.116.1705481765531;
+        Wed, 17 Jan 2024 00:56:05 -0800 (PST)
 Received: from C02G87K0MD6R.bytedance.net ([203.208.167.154])
-        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.55.57
+        by smtp.gmail.com with ESMTPSA id cb19-20020a056a02071300b005cdbebd61d8sm10006224pgb.9.2024.01.17.00.56.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 00:56:00 -0800 (PST)
+        Wed, 17 Jan 2024 00:56:05 -0800 (PST)
 From: Hao Jia <jiahao.os@bytedance.com>
 To: mark.rutland@arm.com,
 	rmk+kernel@armlinux.org.uk,
@@ -62,9 +62,9 @@ To: mark.rutland@arm.com,
 	willy@infradead.org
 Cc: linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v3 11/19] arm64: text replication: boot secondary CPUs with appropriate TTBR1
-Date: Wed, 17 Jan 2024 16:53:49 +0800
-Message-Id: <20240117085357.31693-12-jiahao.os@bytedance.com>
+Subject: [PATCH v3 12/19] arm64: text replication: update cnp support
+Date: Wed, 17 Jan 2024 16:53:50 +0800
+Message-Id: <20240117085357.31693-13-jiahao.os@bytedance.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 In-Reply-To: <20240117085357.31693-1-jiahao.os@bytedance.com>
 References: <20240117085357.31693-1-jiahao.os@bytedance.com>
@@ -78,70 +78,30 @@ Content-Transfer-Encoding: 8bit
 
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Arrange for secondary CPUs to boot with TTBR1 pointing at the
-appropriate per-node copy of the kernel page tables for the CPUs NUMA
-node.
+Add changes for CNP (Common Not Private) support of kernel text
+replication. Although text replication has only been tested on
+dual-socket Ampere A1 systems, provided the different NUMA nodes
+are not part of the same inner shareable domain, CNP should not
+be a problem.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- arch/arm64/include/asm/smp.h    | 1 +
- arch/arm64/kernel/asm-offsets.c | 1 +
- arch/arm64/kernel/head.S        | 3 ++-
- arch/arm64/kernel/smp.c         | 3 +++
- 4 files changed, 7 insertions(+), 1 deletion(-)
+ arch/arm64/include/asm/mmu_context.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/include/asm/smp.h b/arch/arm64/include/asm/smp.h
-index efb13112b408..a095616999a9 100644
---- a/arch/arm64/include/asm/smp.h
-+++ b/arch/arm64/include/asm/smp.h
-@@ -79,6 +79,7 @@ asmlinkage void secondary_start_kernel(void);
- struct secondary_data {
- 	struct task_struct *task;
- 	long status;
-+	phys_addr_t ttbr1;
- };
+diff --git a/arch/arm64/include/asm/mmu_context.h b/arch/arm64/include/asm/mmu_context.h
+index 466797dcb5fc..4f78f4db5df4 100644
+--- a/arch/arm64/include/asm/mmu_context.h
++++ b/arch/arm64/include/asm/mmu_context.h
+@@ -187,7 +187,7 @@ static inline void __nocfi __cpu_replace_ttbr1(pgd_t *pgdp, pgd_t *idmap, bool c
  
- extern struct secondary_data secondary_data;
-diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offsets.c
-index 5ff1942b04fc..ce9d265bc099 100644
---- a/arch/arm64/kernel/asm-offsets.c
-+++ b/arch/arm64/kernel/asm-offsets.c
-@@ -121,6 +121,7 @@ int main(void)
-   DEFINE(IRQ_CPUSTAT_SOFTIRQ_PENDING, offsetof(irq_cpustat_t, __softirq_pending));
-   BLANK();
-   DEFINE(CPU_BOOT_TASK,		offsetof(struct secondary_data, task));
-+  DEFINE(CPU_BOOT_TTBR1,	offsetof(struct secondary_data, ttbr1));
-   BLANK();
-   DEFINE(FTR_OVR_VAL_OFFSET,	offsetof(struct arm64_ftr_override, val));
-   DEFINE(FTR_OVR_MASK_OFFSET,	offsetof(struct arm64_ftr_override, mask));
-diff --git a/arch/arm64/kernel/head.S b/arch/arm64/kernel/head.S
-index cab7f91949d8..c21746685cdd 100644
---- a/arch/arm64/kernel/head.S
-+++ b/arch/arm64/kernel/head.S
-@@ -648,7 +648,8 @@ SYM_FUNC_START_LOCAL(secondary_startup)
- 	ldr_l	x0, vabits_actual
- #endif
- 	bl	__cpu_setup			// initialise processor
--	adrp	x1, swapper_pg_dir
-+	adr_l	x1, secondary_data
-+	ldr	x1, [x1, #CPU_BOOT_TTBR1]
- 	adrp	x2, idmap_pg_dir
- 	bl	__enable_mmu
- 	ldr	x8, =__secondary_switched
-diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
-index 4ced34f62dab..80a8e55e79b2 100644
---- a/arch/arm64/kernel/smp.c
-+++ b/arch/arm64/kernel/smp.c
-@@ -127,6 +127,9 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
- 	 * page tables.
- 	 */
- 	secondary_data.task = idle;
-+	secondary_data.ttbr1 = __swapper_pg_dir_node_phys(cpu_to_node(cpu));
-+	dcache_clean_poc((uintptr_t)&secondary_data,
-+			 (uintptr_t)&secondary_data + sizeof(secondary_data));
- 	update_cpu_boot_status(CPU_MMU_OFF);
+ static inline void cpu_enable_swapper_cnp(void)
+ {
+-	__cpu_replace_ttbr1(lm_alias(swapper_pg_dir), idmap_pg_dir, true);
++	__cpu_replace_ttbr1_phys(swapper_pg_dir_node_phys(), idmap_pg_dir, true);
+ }
  
- 	/* Now bring the CPU into our world */
+ static inline void cpu_replace_ttbr1(pgd_t *pgdp, pgd_t *idmap)
 -- 
 2.20.1
 
