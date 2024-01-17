@@ -1,106 +1,262 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2060.outbound.protection.outlook.com [40.107.101.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B602A67C72;
-	Wed, 17 Jan 2024 04:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705466082; cv=none; b=SjIg62XmAes+/eqmHH6RER1rA7D13bRjtHkj9HMnriChMJya+7+aWu4izog9UCBiXXovJ2acmEaA1eaJv+fm9KsKWj+yt93NiiMZ7/6ZgjqgghuwMUaV6SSORFmroYZpheYV4St2y8a8l/3URT+eA8XEn3ixP85xTMk7Dhh2f4M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705466082; c=relaxed/simple;
-	bh=M0lHeEIbJSP8UEtQ7BzZHEeSSX3emAVPVhi6TmOdTmw=;
-	h=Received:DKIM-Signature:Received:X-Gm-Message-State:
-	 X-Google-Smtp-Source:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding; b=l5t3G4u9sTzvtWMmZpKMB4r3CPU6CfjL6qvE5giOu9zwME+nomxtDSc4y4dmxOBxvPc/IQWaqbd975pcCCuQYKePxUToOJOwXcrcj4jIxLI8GNdSwEahIZ2+EAMdlYj4a81pmWkfyt71CawJGZI/Cau/FslhL9mkYhbp1XEj67k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CXDf1qJb; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B741463A1;
+	Wed, 17 Jan 2024 05:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705469095; cv=fail; b=g2cDCU/6c4XyEMRlPHEAhrYSFxAQZdkIOM/V4RiPN1EVqNXula+7vvXviyEUtN4ePmb1vG7nmw73QjuySaYsmCVrzxvynR283yeHf23C93G7RP5fKjozvh3G4M4NoaAPiDVHcYRaZHlvyVxxhea4OqkMTOYIJRLHW42tQC4+YE8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705469095; c=relaxed/simple;
+	bh=KJwCEMZWna0IR1BeDvQoiGS1SoCm6YKzcTIZ5dUoTfg=;
+	h=ARC-Message-Signature:ARC-Authentication-Results:DKIM-Signature:
+	 Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 Content-Type:Content-Disposition:In-Reply-To:X-ClientProxiedBy:
+	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped; b=dLQzxE6V6ndSRr/JLv9DWiUu53JIkflYPSDItofytez1gV1LEXo+EhMgjHRQqupJFWLrdUB0l2ptccBux1j99F0hSoD8drOuDK/Tq2CFSs08WxoyFsXm6Ed5AgHnG1Awss9Bm5oUmLZnARYTpfQWF/GaA3UYkVN08DFENSHZRO8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com; spf=pass smtp.mailfrom=memverge.com; dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b=mOuof8l3; arc=fail smtp.client-ip=40.107.101.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CXDf1qJb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35F65C433B2;
-	Wed, 17 Jan 2024 04:34:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705466082;
-	bh=M0lHeEIbJSP8UEtQ7BzZHEeSSX3emAVPVhi6TmOdTmw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=CXDf1qJbqvdXoXU8dg7DU5ubXNQ7WNA9aX1ilbJscd7JrxbkXjjJ/HkYslSojP7d1
-	 SZty9DEOw32ezbbNxF1uFPxjBzR/Wk3CVNwrHoczaPtWfKBvj0P1kMS5myspvnTFjf
-	 WvtyjclcPMdCfaiHDMBhhyvKGwUYf6S1WjXYQvdTiC6XQASQ3KPr06lNk6qZdOYGYm
-	 qEQIjWXFHn9Ra+7yDAzNkgQYljtNGaH9N7vuTmBRwFS0aJtgKsazR6yryDu0/AUPlB
-	 7xL51I82l02yVMBLdlqOYJIFbcFTVuS10ISG39hTPjNxGTEJwtwma608nNzZ901cT2
-	 Z16Gv4+XL9t8g==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50ec948ad31so10564127e87.2;
-        Tue, 16 Jan 2024 20:34:42 -0800 (PST)
-X-Gm-Message-State: AOJu0YwEfLEHZK77U+xtLhg/iQc2HVX1EQ2HVY0/zSjLN0dGl7TvijM5
-	Mra1rJ7ayNQRt8vnlPM/Uj0vBbcTBxtC0i2gDtE=
-X-Google-Smtp-Source: AGHT+IFBqnMfUgM4CRX5wiiomwTy15C6kBIJjo72WKWNLc+dQEyC4hkYoiqfUivkJJafe+zfYxjuMnrYThXWHtq4MnY=
-X-Received: by 2002:a05:6512:3a86:b0:50e:7d6b:b5b2 with SMTP id
- q6-20020a0565123a8600b0050e7d6bb5b2mr4765644lfu.6.1705466080318; Tue, 16 Jan
- 2024 20:34:40 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="mOuof8l3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZDnP1Uv/W36cD9O8Zx4jkKi57P7j+/dZ5KTVorkOWAR2SDwVrYH5jIppxLvecZHqXoi+/h9x4n9PF5yUKdt7cDApNEIwLF6ufnOX/cbgbwn56oK3IFd5riRn4uNA1JQecm7F61hMx47buQI59a9Jqrwk2FpksgBVyZpJYisg9LswM2AzulBSnmZ1Utk16nn4jcRSDNBAkOOV+tMsikTVAZbWT4puyAWlqr7BL2zDhscLTUsAUir7WCVuMMsbr9vJ9X0QSVuEkearrA8PW17lzRyx08JR2bNIH3pTartvLPvh8OnxWI8MdwgfTmktEgZOa29UoP2faeYVvNEvYFj5Zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bZ2nYC+1HNKPI4LD2c1bHGCWFXE7sBgGLFsG+sRvMio=;
+ b=YD45LX3fm+eMzfSvmJc7MJCaWOr7VLzAjw5CMeRJ/vGDUAAJ8QISoYYFmjwzj7P3gLblznoScl8BteoM0aAmvneLDSJi87HsoYahijiN3gMvrET68yEFgyqU1Y7s425aYm2Uaodrbf0ZH3xAGuNdYwJp7PW6iRewn5/aStn294axAiMUIUQVQWUbkDDPOPSWeq3FhCfDC36HEWwLEfLM+ORyiOvmjRzp+2USIoTPnX4urx829u8KmksvXkIjCYsfIJqm/4MB+oktoydRTrXDE4itDEJU1t4a/YdIml8rNgmaw+VytyfGoSlT4dFSfIOmtVvxENojuqjeROjwo+WGIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bZ2nYC+1HNKPI4LD2c1bHGCWFXE7sBgGLFsG+sRvMio=;
+ b=mOuof8l36nSo2aE4bXgBshhZp6KUr7Tnk8daTvyLNkRdlicT6JcLEzX/ylAaY6mOyjIUXVxeFZh7T6QBU9yU2CyavC3Sb3cr8+wl16KXve6UmJV+y18gI8HitoNvPDJcavJoqm7DrwyeXnnWd0gUygTGD1iyeO8W0uF4cspxAR0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by SN7PR17MB6514.namprd17.prod.outlook.com (2603:10b6:806:323::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.30; Wed, 17 Jan
+ 2024 05:24:50 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15%5]) with mapi id 15.20.7181.027; Wed, 17 Jan 2024
+ 05:24:50 +0000
+Date: Wed, 17 Jan 2024 00:24:41 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	corbet@lwn.net, akpm@linux-foundation.org, honggyu.kim@sk.com,
+	rakie.kim@sk.com, hyeongtak.ji@sk.com, mhocko@kernel.org,
+	vtavarespetr@micron.com, jgroves@micron.com,
+	ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com,
+	hannes@cmpxchg.org, dan.j.williams@intel.com
+Subject: Re: [PATCH 1/3] mm/mempolicy: implement the sysfs-based
+ weighted_interleave interface
+Message-ID: <ZadkmWj3Rd483f68@memverge.com>
+References: <20240112210834.8035-1-gregory.price@memverge.com>
+ <20240112210834.8035-2-gregory.price@memverge.com>
+ <87le8r1dzr.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87le8r1dzr.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-ClientProxiedBy: PH7PR10CA0016.namprd10.prod.outlook.com
+ (2603:10b6:510:23d::8) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240108032117.215171-1-wangrui@loongson.cn> <ZZ2fn0scbDKBXWe5@boqun-archlinux>
- <CAHirt9iox8FGV2wrMyxwFRjab2avfOcyLKvBc9K=AqiHxqHXKg@mail.gmail.com>
- <ZZ38XMQw18mw2sTA@Boquns-Mac-mini.home> <CAHirt9jQSVvBF=1wc=sT9FxngeSP30P4FDpu8m0JH_0fOPSO-w@mail.gmail.com>
- <CANiq72=X3cggAn0HLMi7jVFAfypBhog=ZkPB57yfaX4ZUzT-HA@mail.gmail.com>
- <CAHirt9hdtGSsEofxDb0FCtcFeAw9n9LKJALz23Qdqh4n2=Ua5A@mail.gmail.com>
- <CANiq72n7K8LcKrs+beF2sbt1XLdr4zEhEw4xcy3yh4wgTrvYeg@mail.gmail.com>
- <CAAhV-H72Hbfy7n6+AFSFFOzizo0GtpzA074sgo48-W-Dt0VR+w@mail.gmail.com>
- <CANiq72mEPnB7yEZvtUXAM5w0GgYmzdrM9OhioLGb_LzbAJKNOA@mail.gmail.com>
- <CAAhV-H6BFkgN-KzEexXk9zdnOGNCdBesCEEaczEvEp8x2K2YHw@mail.gmail.com> <CANiq72nv3Uw8GLNqbdGBC3b+viF+o8BeppS9KWhpzBFvjqZLUg@mail.gmail.com>
-In-Reply-To: <CANiq72nv3Uw8GLNqbdGBC3b+viF+o8BeppS9KWhpzBFvjqZLUg@mail.gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 17 Jan 2024 12:34:29 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4-dfBN3icg6kczRiZ67DOX66M-vXXCrz7Me0iunp8kRA@mail.gmail.com>
-Message-ID: <CAAhV-H4-dfBN3icg6kczRiZ67DOX66M-vXXCrz7Me0iunp8kRA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] Rust enablement for LoongArch
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: WANG Rui <wangrui@loongson.cn>, Boqun Feng <boqun.feng@gmail.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, WANG Xuerui <kernel@xen0n.name>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-doc@vger.kernel.org, loongson-kernel@lists.loongnix.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SN7PR17MB6514:EE_
+X-MS-Office365-Filtering-Correlation-Id: fad66eec-3654-4b87-bbb9-08dc171ca09e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	oiUv5/8lkI9Z8OoTTWTCVcKJ9D1fe7nW55GlsuCfZbPEB32kj3i/L/cGZFF/Aod7UWT1IN2qZzRcjDVbLhOqbUXfkXPaPysVjpo3atspNxHV9BZwQzWPrrVkkceSNuB854A3Ke6FF5BEl8mHXzvHNcvSFxvgtbNuMKlj32IyD+bQtxG/XzRm8H46SP8/9/twNcvAxTXHJR8xMBPlUlj5SUa7KH9vlpJODgMX5kOYVvDttBoQHyvQbyEN0HxOwVanozPkj1uPpWwt4VAb9Nekce+w+7tscZmEQF99e8WJeXY6c/935xmlI84xZ5Zi4/Adg64g1BVlCs6BuK382xHP2sILojkv66vqTqHvCYLFBD/Glccd9n5RrY6BUM7/4O4uADybPDOuufumBPZeA//LvIPF4W3UFBtybv10SFxx5y/dM0xF7w9H2TzNGpLFcwNX7rczAgmHO58tOdrSlSEGqisRmnir+VTgi9Y7c0/zE+7wLDLLvqxLvmsj0hi/qqkJwBJEgZurVF+x/Wo+Y428rA9aJGqYzvpA2ZSloH1QT/BKCVJ/pJS/WPLZU5IiDfghGZzXNf1snPMZVfktGdwymExgM+iNqZfdWvCltsrZ3cc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(376002)(136003)(39840400004)(366004)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(4326008)(8936002)(8676002)(7416002)(66476007)(5660300002)(66556008)(2906002)(6486002)(26005)(2616005)(36756003)(86362001)(6916009)(66946007)(316002)(44832011)(478600001)(6666004)(6506007)(6512007)(41300700001)(38100700002)(83380400001)(16393002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?BQDbqw2BvFnX90OuMt0wZhakFUnNeQ2+OqAgtwkM3lCsU2VlKaIG/0QSUV3E?=
+ =?us-ascii?Q?nqBku8CeV/dasfTzugXrIdtLT2UpDJ4iIVALx7SjjJ6hHdzD6eVqjAOMYbXI?=
+ =?us-ascii?Q?athLR0tk1HO4wogA/LRoIcbHhGuyZQSMuINCr/n1aJlMVMnpW5ks1P6FxG1A?=
+ =?us-ascii?Q?6dXaDRHuZCnEIl7E6PBpgNlSdIwiXe4rVYFq0vWXuMIsJeAU6GQfXBzdv26G?=
+ =?us-ascii?Q?WCHPJLStNLB9x6OhRh82CDpu2mI48c6bC/hg16Oic9xkhgrsY+pQN6tQjvP5?=
+ =?us-ascii?Q?hUEWRQ4iCktubhPdjDQskjCnCmkKeAdBXckPUhfyi3o2w8+eoHIt/kfnGIGR?=
+ =?us-ascii?Q?cWJYawSQScO0Jl1R5z21NixNrMnqC26iSmObq9R1Y4ykKqrJ1SnuhRXgDnnb?=
+ =?us-ascii?Q?ETT4cYWctHk3seg3kqZO7c7GbttqTq+kfBHaXeBxRUAjkwHzcz9ZqKn1PCHE?=
+ =?us-ascii?Q?5bz0QuMv6mzUh22v6oDxgz+cKt77JZTw8XrcsqgCKfmuS53/H3dV1VqYB9Fn?=
+ =?us-ascii?Q?Yc6OhlT3v7DxtmwqFcsAxFa4QTKc0W45Bumw4tQJ8VXvnJ3hkdb+Fl3qNN2e?=
+ =?us-ascii?Q?p0IHqfoGE1lFfdDz5Hl35R/8d19owfVi9jp0zSkDMo6yPKH/dAuLWZ565w5m?=
+ =?us-ascii?Q?TbhBzLEZB34jJJh+y7bl9pnIBxk54MjGwbSE5QqoL96JmJTUz0J4qQ30m7wV?=
+ =?us-ascii?Q?rtMTYNWbWkHfI0BUlq79i073pWcbrYD0ElnMJEHB7brZJ/1n5bKyaFk0JH8b?=
+ =?us-ascii?Q?lVv+adTiqF4jz5RXDXIlbGr4QORhbufzD906Wj038YfesM8bR5Dlxge1PZ/c?=
+ =?us-ascii?Q?SlBfchJveFXKLOM44MYvnSYZq6hcyfkw0xoLrbPzyPWMpI+lYhS4imQ0EX9y?=
+ =?us-ascii?Q?eOt/8bZmlVQ+u3rG+/DG5bgZt0l3ZGQZ/xHgSj0Wpiuqn2bxa/ZUImjHTBJt?=
+ =?us-ascii?Q?bDoD2cYTCUcinMju+/Kgs5Ohq6EFBJNnOBfVMjN6NIqrBWYM0RITsPStH4tT?=
+ =?us-ascii?Q?KsgZGfyjcHEQ7O97O3oEOz5OCCoZ3ZHNKdclC3Ky9fuFQfyvVjP6irQUWaEg?=
+ =?us-ascii?Q?nc0pm2dPC3gx0+faGlWP1gdNU4tl2KsXX+LsYUPlvSms/SQH/3q1ABbQSSG1?=
+ =?us-ascii?Q?7L0M8GheDUFFWXiplWY5gc5nFglyHd/79GU8HZwYBjqrdp7RwBThLMxgzva5?=
+ =?us-ascii?Q?c2HqTlMEVjromU5lmDQeifo7MUGaEOWtu5/Km9sZSoAyR1INbz8PUi7/WxT6?=
+ =?us-ascii?Q?1DXmmWrufonMAXRthnqOHj1KGeqZ5uZ8XoVoNsYwVn6Pp9WsQjIDBpXy2aaE?=
+ =?us-ascii?Q?dY4Z1TUZN8R8583rjYhytsHgu3W1V2iTQLFKi6y3cEdCmAP23lG/O3tCMlxv?=
+ =?us-ascii?Q?o8QMQ+g9gBQ1g8cTHT5djTnUwytkjArSc1wwEqxtMtrzFLHsBP1tyeB77O30?=
+ =?us-ascii?Q?EhnCMh9c+/PSAGmuM+FWfAuXNsqoF5d05iREWBJDN/Kfz9WnTtHhm+WIl0Qn?=
+ =?us-ascii?Q?2Qm0Pgw/PfWb2LckrNOSupye+nTnUOdDXwECYv4BzXVoCUaAexnZsS/EVbPF?=
+ =?us-ascii?Q?pV0YVM1KEGoZfIwI84+Jm6fz1Sj467y5WvKKO32tMh1FlHlIB8+jC54Nkn2q?=
+ =?us-ascii?Q?NQ=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fad66eec-3654-4b87-bbb9-08dc171ca09e
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2024 05:24:50.2015
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NxtQDhuYmxARNWVJvKcwNpakCZRS6axH2jq0VIauLj7omHVoiz4lQ7xZSjvo4z2gOC01Wioz8wsiSAFStDi7IwsxiLBi0sSCNc591sL/+ps=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR17MB6514
 
-Hi, Miguel,
+On Mon, Jan 15, 2024 at 11:18:00AM +0800, Huang, Ying wrote:
+> Gregory Price <gourry.memverge@gmail.com> writes:
+> 
+> > +static struct iw_table default_iw_table;
+> > +/*
+> > + * iw_table is the sysfs-set interleave weight table, a value of 0
+> > + * denotes that the default_iw_table value should be used.
+> > + *
+> > + * iw_table is RCU protected
+> > + */
+> > +static struct iw_table __rcu *iw_table;
+> > +static DEFINE_MUTEX(iw_table_mtx);
+> 
+> I greped "mtx" in kernel/*.c and mm/*.c and found nothing.  To following
+> the existing coding convention, better to name this as iw_table_mutex or
+> iw_table_lock?
+> 
 
-On Tue, Jan 16, 2024 at 11:16=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Tue, Jan 16, 2024 at 10:31=E2=80=AFAM Huacai Chen <chenhuacai@kernel.o=
-rg> wrote:
-> >
-> > OK, since Linus said the merge window is paused now, I rebase and
-> > retag my tree and the Rust commit is like this, I think this is
-> > perfect now?
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongs=
-on.git/commit/?h=3Dloongarch-next&id=3D706f9e1ab7c7a58d80ef2c87d8720131253a=
-2256
->
-> Thanks a lot! That works, yeah.
->
-> I also took the chance to build LLVM and QEMU and I tested the tag --
-> it seems to work: I see the samples (built-in) printing in the kernel
-> log :)
->
-> So in case you end up rebasing for another reason and want to add it,
-> even if it is a simple check I did:
->
-> Tested-by: Miguel Ojeda <ojeda@kernel.org>
-OK, if Xuerui updates this patch, then I will rebase again.
-https://lore.kernel.org/loongarch/CAAhV-H7KteJvRVpj3Hz-Ui9VnmijcJq5D1Tb-KJv=
-qTO_+jjp2Q@mail.gmail.com/T/#t
+ack.
 
-Huacai
+> And, I think this is used to protect both iw_table and default_iw_table?
+> If so, it deserves some comments.
+> 
 
+Right now default_iw_table cannot be updated, and so it is neither
+protected nor requires protection.
+
+I planned to add the protection comment in the next patch series, which
+would implement the kernel-side interface for updating the default
+weights during boot/hotplug.
+
+We haven't had the discussion on how/when this should happen yet,
+though, and there's some research to be done.  (i.e. when should DRAM
+weights be set? should the entire table be reweighted on hotplug? etc)
+
+> > +static ssize_t node_store(struct kobject *kobj, struct kobj_attribute *attr,
+> > +			  const char *buf, size_t count)
+> > +{
+> > +	struct iw_node_attr *node_attr;
+> > +	struct iw_table __rcu *new;
+> > +	struct iw_table __rcu *old;
+> > +	u8 weight = 0;
+> > +
+> > +	node_attr = container_of(attr, struct iw_node_attr, kobj_attr);
+> > +	if (count == 0 || sysfs_streq(buf, ""))
+> > +		weight = 0;
+> > +	else if (kstrtou8(buf, 0, &weight))
+> > +		return -EINVAL;
+> > +
+> > +	new = kmalloc(sizeof(*new), GFP_KERNEL);
+> > +	if (!new)
+> > +		return -ENOMEM;
+> > +
+> > +	mutex_lock(&iw_table_mtx);
+> > +	old = rcu_dereference_protected(iw_table,
+> > +					lockdep_is_held(&iw_table_mtx));
+> > +	/* If value is 0, revert to default weight */
+> > +	weight = weight ? weight : default_iw_table.weights[node_attr->nid];
+> 
+> If we change the default weight in default_iw_table.weights[], how do we
+> identify whether the weight has been customized by users via sysfs?  So,
+> I suggest to use 0 in iw_table for not-customized weight.
+> 
+> And if so, we need to use RCU to access default_iw_table too.
 >
-> Cheers,
-> Miguel
+
+Dumb simplification on my part, I'll walk this back and add the 
+
+if (!weight) weight = default_iw_table[node]
+
+logic back into the allocator paths accordinly.
+
+> > +	memcpy(&new->weights, &old->weights, sizeof(new->weights));
+> > +	new->weights[node_attr->nid] = weight;
+> > +	rcu_assign_pointer(iw_table, new);
+> > +	mutex_unlock(&iw_table_mtx);
+> > +	kfree_rcu(old, rcu);
+> 
+> synchronize_rcu() should be OK here.  It's fast enough in this cold
+> path.  This make it good to define iw_table as
+> 
+I'll take a look.
+
+> u8 __rcu *iw_table;
+> 
+> Then, we only need to allocate nr_node_ids elements now.
+> 
+
+We need nr_possible_nodes to handle hotplug correctly.
+
+I decided to simplify this down to MAX_NUMNODES *juuuuuust in case*
+"true node hotplug" ever becomes a reality.  If that happens, then
+only allocating space for possible nodes creates a much bigger
+headache on hotplug.
+
+For the sake of that simplification, it seemed better to just eat the
+1KB.  If you really want me to do that, I will, but the MAX_NUMNODES
+choice was an explicitly defensive choice.
+
+> > +static int __init mempolicy_sysfs_init(void)
+> > +{
+> > +	/*
+> > +	 * if sysfs is not enabled MPOL_WEIGHTED_INTERLEAVE defaults to
+> > +	 * MPOL_INTERLEAVE behavior, but is still defined separately to
+> > +	 * allow task-local weighted interleave and system-defaults to
+> > +	 * operate as intended.
+> > +	 *
+> > +	 * In this scenario iw_table cannot (presently) change, so
+> > +	 * there's no need to set up RCU / cleanup code.
+> > +	 */
+> > +	memset(&default_iw_table.weights, 1, sizeof(default_iw_table));
+> 
+> This depends on sizeof(default_iw_table.weights[0]) == 1, I think it's
+> better to use explicit loop here to make the code more robust a little.
+> 
+
+oh hm, you're right.  rookie mistake on my part.
+
+Thanks,
+Gregory
