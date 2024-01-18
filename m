@@ -1,123 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DFD2554A;
-	Thu, 18 Jan 2024 15:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F4F2C18D
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 16:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705592968; cv=none; b=SsCfAYVWNfvVTcOtIZRHSMc31CW9c63So+Z9TRbuy1p5snGdy/aCUWFMOF96SrCO8DXd/n/W16ScZnPqU/biWTY0JNqE2dDom82euX3uoJ6Fd4q0AgsDH0Wt9vpe4XUYi35pn3Vjkm+Y5dmnMvSz3vNmcmlI1CX9wMcPODQ0ZiI=
+	t=1705593807; cv=none; b=BRXRvOaGAhGu8TLjL2oGcbuz14zRPlyWNiT7ILTeIAHQPudcD7e5bwtpYgTKWF8FatX9XWj/leuoCOhXuWZw8YrfhYw/UHnI5j5abW5uf5PnjK+3YT9x7q5MuvtNLVgrDmyFjybImvqQsEMqRwJgZXObiZwCpHMxAva856BiH2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705592968; c=relaxed/simple;
-	bh=nJVOqOIFQLFIG1XFDqf8IhmlkhMFmW/3etJVOY+0M+A=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=kK4wPg49hUSHlZg9zlv9vfrsEmSOZQ6XIr7tpc0TMog1s+2jwUerR5DpcpaSmcJ4rINDgVxF14bdHwCNggHk5v3s1u4QTW0OJbb1VEvIANG2o0a+0EQb7cu9zPkToQ5zXcm8ULrvWHvlen6rLZzaJlOXXS9ncx+fvBI1ItntC/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OpYiSM7L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705593807; c=relaxed/simple;
+	bh=tad7KSaWSssymKMcK4Np9WAxHngWFRCzo3BeUGMCQyg=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:Content-Language:
+	 To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding; b=IvsffQZI50rntNIPh+XOyzDj+Ud0PoVwj/Che18Wy1bRpEEg4I6fe4wtCQCwJ6BxxwVcU+PnO/XXHRf/m2XdzCohrmaXRt2Ew4UjP3vZ8qGRe1AAOf9mpZ/DFdC1zPxnXF1y4hYi7bYBPq26aBcYeVNGyd9I9iDyUE5V+/es4hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TAdxgqI0; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OpYiSM7L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0B6BC433C7;
-	Thu, 18 Jan 2024 15:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705592967;
-	bh=nJVOqOIFQLFIG1XFDqf8IhmlkhMFmW/3etJVOY+0M+A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OpYiSM7LnbMKYZ/xM2ne4yN+OEp8lDymBAwogZ7ixHmybIOElFhzSpUX5lhLUvR/E
-	 NLbrsils21ig9zfMqUG9ywCY5AQwzGfql41mIgM+VSOOC2E4LRsTWdNVgJwK1SRu5+
-	 h+vfxeq6WSYafLE5mkl7x4dyemtD6oEQ8jT6ik3VQ/9IQ75i2M+O2Z7ppIkmSZq4rN
-	 EgOqabg0RbdDbfJlfDUVc3UWdbv29UJvLiJtvVIwHaXGLDdocM8VvvVLxKy3RCfE0Y
-	 tiO/NrwnDsCDsLRE7yLXR03aUetujexIMJUP/4b7tL4YbY/APwCsTrewHNLQ4rR5f+
-	 M2t7k0VaQfW1Q==
-Date: Thu, 18 Jan 2024 15:49:21 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	linux-riscv@lists.infradead.org, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
-Message-ID: <20240118-implode-delirium-eefdd86e170e@spud>
-References: <20230307102441.94417-1-conor.dooley@microchip.com>
- <20230608-dispatch-sneer-aa09bd7b2eb8@wendy>
- <CANiq72nnph7LS1fLRtHz8NJ91PWXPaUnm0EuoV3wrbvK398AnA@mail.gmail.com>
- <20230608-spiritism-gonad-5f5aff4c3a24@wendy>
- <20240117-swiftly-parasail-618d62972d6e@spud>
- <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TAdxgqI0"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40e884ac5c8so23014865e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 08:03:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1705593804; x=1706198604; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BRc0fgTAZGl2rH9Uf+/qKB45sFanF47iVVLj8nSeOu4=;
+        b=TAdxgqI0Hs+W9wTRbIiHjyQyB0o2HMw52OaOonN87B5KKR+J8/5Y+v0gHoDPfQz6bk
+         CUmD/t6ww9w61NV5tEioqcv40IhYorMwZ0qPG7uUvn508jwpXUmezaZXZwRdGD8yIBef
+         9Irt30XD4L1osK22EHo5uMknhQ456GC5qMg6lDc5qwipWLGFO6FQKvzEzkKGlQOvy0Pa
+         cDDS+lV4tiZCOcwAQ02aqqx2W8ByX+kMqIQ2qsDX9jxKJfmP/0uz7Xw/HkxgphgYPGaY
+         Si1Pph35FqLtt69eRM6zgXI7Ibf9NnRrRwuLO6aasX5ngUG8KleJzpqGKTcudFCjQ2Jo
+         G3fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705593804; x=1706198604;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BRc0fgTAZGl2rH9Uf+/qKB45sFanF47iVVLj8nSeOu4=;
+        b=fKRn3lDux707u6LoOeG1yJpbMr93I3IGrSpiuOkHJZGJjsNVB/qTwIjJX8001ANPOX
+         u8D8VXDB/ZXYGDl+jKIgsXKuI6lui4qWye06q8Dgo8hyRqNyPHh43bjzkjDTMSrJ3v+I
+         SPl6Gmf3DXM3VFiTGoUPJy1/fuRad24EmC8qc0fTW2RvyFJrHw6JuAoJeW7GgEsdi6dx
+         GBA/UMvHFy2zRRWoqsfyTyHBIcSKG7zVKR0UPm7PP1catQ6ON79q34N8ftOp1kacGb8C
+         esZFnG0RGe99HQ+uvNYHzJpyg9HYInz9Bu3Dbd6s/M/vfpoli5QvPw5Bs81LFsewLWeN
+         Njbg==
+X-Gm-Message-State: AOJu0YzxvzWhhOS7pcZ1+yBrTBchQqFD8cP35JmMuhXppzBsIJzJx3Xg
+	zUDuoP8RzndSdnUvVEJqgTFKoq6F1Mmn4tuQyptKHH1FyRxsADdlnxk63aIt//I=
+X-Google-Smtp-Source: AGHT+IFL3Z3Y/XXACyndemduovXLBOu7uGqTJfo1YFml5sKDr1q7/dRA/7GzWbRPBNrESwGGULon2A==
+X-Received: by 2002:a05:600c:2058:b0:40e:7065:c885 with SMTP id p24-20020a05600c205800b0040e7065c885mr359964wmg.344.1705593803815;
+        Thu, 18 Jan 2024 08:03:23 -0800 (PST)
+Received: from ?IPV6:2a10:bac0:b000:7588:7285:c2ff:fedd:7e3a? ([2a10:bac0:b000:7588:7285:c2ff:fedd:7e3a])
+        by smtp.gmail.com with ESMTPSA id p16-20020a05600c469000b0040e39cbf2a4sm30504122wmo.42.2024.01.18.08.03.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jan 2024 08:03:23 -0800 (PST)
+Message-ID: <dd0e864d-295a-4edc-bfd7-ad5de88d7a0c@suse.com>
+Date: Thu, 18 Jan 2024 18:03:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1HW3FZOlVDIsEuAs"
-Content-Disposition: inline
-In-Reply-To: <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Remove reference to syscall trampoline in PTI
+Content-Language: en-US
+To: corbet@lwn.net
+Cc: tglx@linutronix.de, bp@alien8.de, x86@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231102130204.41043-1-nik.borisov@suse.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
+In-Reply-To: <20231102130204.41043-1-nik.borisov@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---1HW3FZOlVDIsEuAs
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 17, 2024 at 07:23:17PM +0100, Miguel Ojeda wrote:
-> On Wed, Jan 17, 2024 at 12:31=E2=80=AFPM Conor Dooley <conor@kernel.org> =
-wrote:
-> >
-> > 6.6 came and went, and I have been busy dealing with the other
-> > responsibilities I mentioned and have not had a chance to look here.
-> > I rebased this today and things still work as they did when I submitted
-> > this version, but things have gotten muddier on the LLVM side of things,
-> > as more recent versions have added yet more extension support.
->=20
-> Sounds fun :)
->=20
-> > My inclination at this point is to engage in a bit of LARPing as an
-> > ostrich, and sorta ignore these concerns initially. Specifically, I'd
-> > like to drop the idea of having the gcc support, and restrict to LLVM=
-=3D1.
->=20
-> Yeah, if `LLVM=3D1` works, then I would suggest going ahead with that.
->=20
-> (Now that `rustc_codegen_gcc` is here, we will move to that and forget
-> about mixed compiler builds, but we still have to handle `bindgen`
-> flags until we have an alternative for that)
+On 2.11.23 г. 15:02 ч., Nikolay Borisov wrote:
+> Commit bf904d2762ee ("x86/pti/64: Remove the SYSCALL64 entry trampoline")
+> removed the syscall trampoline and instead opted to enable using the
+> default syscall64 entry point by mapping the percpu TSS. Unfortunately
+> the PTI documentation wasn't updated when the respective changes were
+> made, so let's bring the doc up to speed.
+> 
+> Signed-off-by: Nikolay Borisov <nik.borisov@suse.com>
 
-The bit that worries me most is bindgen, and in particular detecting the
-version of libclang used. I mentioned to Nathan or Nick about needing a
-buildtime test for the version of LIBCLANG being used.
-I'm less worried about this for LLVM=3D1 builds, since while I think it is
-possible to provide a LIBCLANG path to the build system, I suspect that
-for LLVM=3D1 builds it's almost always going to match the LLVM toolchain
-in use.
-
-> > When it comes to asymmetrical extension support between the C and Rust
-> > toolchains, I'm think we deal with that as we do for the C toolchains,
-> > sort issues out as-and-when they arrive rather than punt this again.
->=20
-> Sounds good, thanks a lot!
-
-I'll do another rebase and resend after the merge window closes I
-suppose :)
-
---1HW3FZOlVDIsEuAs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZalIgQAKCRB4tDGHoIJi
-0h8eAQDfKI2cOYM7xH8dDl7IUQsHvHxvlTx+Fc/ul6I5u85oZwEA3NdLO8SEdOI/
-0oVhy3L0n3OWLZBkAkoN6rTjPQhddgQ=
-=atSn
------END PGP SIGNATURE-----
-
---1HW3FZOlVDIsEuAs--
+Ping
