@@ -1,72 +1,90 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A714728E0B;
-	Thu, 18 Jan 2024 16:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9A51E494;
+	Thu, 18 Jan 2024 16:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705594310; cv=none; b=vED4mcPDvviUPX/XJAwGfuajGyOjBwbIlXMv/tQSoQmZoDdTmTRWivEkLAipRdvCiKw8h6FbsnzNSM3YK4mw0z2LHHPQ1uujbR41qETzSlIkbifWpPSo+6rXh/44iRBn3ziW8h8CmP6n2PVaA7l+BQ8S0yfROmllGmzpJ4iyZaw=
+	t=1705595781; cv=none; b=EomoY+PBcjaYB9VgwUBxTxYjKFiBiuCh6elyiVauCAvy5gM+bUbRqfAwVXyr8ag9VK7DsCpeY6Ib68mPDdcvYxyc6S2czb0IVnVcmdIa9D7HIzYz3qZaxscYC1S4YbFe/HSqlJewQ23SIgEgiK/0iSINd7oPqghUyy31kLlXb3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705594310; c=relaxed/simple;
-	bh=+amD+bxZBryr3MMtjAsPlP/HGDcam0tceeZ5dyFYnZo=;
-	h=Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding; b=qGsp5YCF4LQQnJ6a92asLJfBn/U8hYFQDJPxzz3xec56aakkmG7jEgyMV0Di57+8VGia6zwJ/aS6HYuKjCtZkmkQC13eB3DIMpXhUEND4co7FM4xM2Zn7e7ahyEMItluuNr2VGaQwIbsD0OJYGeicfo4jjp/bW3LLxBb471285k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Lzr3rovx; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1705595781; c=relaxed/simple;
+	bh=wcbZ7v76tRyhBtRUKZXECR/2Po0l+UcB5uxgbPcmCS0=;
+	h=Received:X-Virus-Scanned:Received:DKIM-Signature:Received:From:To:
+	 Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding; b=njfyIqVAAxVHXqCVAwS9r7RkMUJcWJIDnjI+jk3UAAPwURvw6VBnmPEivxpNuce0Mnxs+o7dy/aCcNbKD2p1eCRgkKFg+/IVIEW5ynOV7aua1qePaFPScl5krs7aBst0ok8/LgsUBAYqZjL3npkC6uvgj6Pi2Jzi+NvrNK6k62M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=DitAwJ3b reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Lzr3rovx"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="DitAwJ3b"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 23F6F40E0177;
+	Thu, 18 Jan 2024 16:36:16 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 5XjpfSoLKVy9; Thu, 18 Jan 2024 16:36:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1705595772; bh=+tZQFnI6rl5JS9Eyh8uFIPriD1WGVARI0bN0k+Y1Xw4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DitAwJ3bHB/rItyAzqmTeNCxUQY0DuVN3sk8Srlgbsa9+yiC8CNv+vc5TUXDGe5Kj
+	 kwqQRh9oMQuGemGmInUSP8UwYWq4gVt7b5pWzdECn0Cix5bQkJpj3ePyvHPni7X2PJ
+	 ejTMtBJ/fdhPKinXAia/55GvzPMrv47ikgCSa6nJAIclkcVQby9aNsxt45EH1xdi5T
+	 CZt1bx42dQfKsI3/t3MywNU9UAKvLTIjxpiRs0imbjI/XZDnZFT24NABjXWQls2iyx
+	 ZnS/Lygo4hMyYS7qSRV/cKNbg4qyHIlxBozrtkd9GNbnssdoTTjzgLRKl8jbMKZHJB
+	 eTeuX2UTjlctdtQbH0ZIXGzPnvHighWUg9aKeQkArzZI+UDOAB0HC410OCdrreZQk6
+	 ByRdZ/sPpKQJei2gcqpkEArS0F/bhw3GoiC2aveAVvBTU5gsWZ0K2QpbxKIY5/fUwU
+	 bwUdBSdxqTqJ1Ixf909JOAgzwMwXOxmzmLhlpkX1RKzYiCtJc+cxlIN88Joyl7JOk/
+	 xz8jTDMk8AazhUOW9PRikHFtdVelJZu+rIMnSv5j6wHmUFddCm4qRZXuuqUIxr4eZZ
+	 PPNov3I9eWN2zTqd2m7l6dD3+GZRwjL5ija/pkgB+Xmk/GIuisqH0ixIWF+hhQux2O
+	 LyyzgFdWkBcjlVkDdjYy+KCc=
+Received: from zn.tnic (pd9530f8c.dip0.t-ipconnect.de [217.83.15.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 73EE47A21;
-	Thu, 18 Jan 2024 16:11:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 73EE47A21
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1705594302; bh=3HRi5GF1TAeVY+4xKMDRwDNwSXAhBkYztTTb+LS76kQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Lzr3rovxmvJUfX+bMePUILHF7PgF8v3kiBM5p+bLyZ4I1cZpbR+lL+Yq3sfn5IYVi
-	 KURA+k9GC589XVm4nGvW9PUQUf2cL1PnXElx/Isdl6NCxCiJdMEvPNoRG6l8fip/Wu
-	 Yclt2QELWVIZWq7E3o4kTlEt77ZEsaGALRZ+NeK6nniAiQg8dgB5ZYLWs2sn8JS0bS
-	 /A8boPr0v6/z1r3+wlwr6XsTL3PXLedgYLB+whbvwlU5C1lse1xJIVG88Yce6K1hTS
-	 cCX2Zn2yHBfvT/SfC4sbdR6rSzUxti3RlTsa8Evlm15i4kghta4yvZuvogfRujyRq6
-	 ZoS8tRy5bCVsg==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Nikolay Borisov <nik.borisov@suse.com>
-Cc: tglx@linutronix.de, bp@alien8.de, x86@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Remove reference to syscall trampoline in PTI
-In-Reply-To: <dd0e864d-295a-4edc-bfd7-ad5de88d7a0c@suse.com>
-References: <20231102130204.41043-1-nik.borisov@suse.com>
- <dd0e864d-295a-4edc-bfd7-ad5de88d7a0c@suse.com>
-Date: Thu, 18 Jan 2024 09:11:41 -0700
-Message-ID: <87edee1v0i.fsf@meer.lwn.net>
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E9C9B40E01BB;
+	Thu, 18 Jan 2024 16:36:07 +0000 (UTC)
+From: Borislav Petkov <bp@alien8.de>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	X86 ML <x86@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation/kernel-parameters: Add spec_rstack_overflow to mitigations=off
+Date: Thu, 18 Jan 2024 17:36:00 +0100
+Message-ID: <20240118163600.17857-1-bp@alien8.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Nikolay Borisov <nik.borisov@suse.com> writes:
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
 
-> On 2.11.23 =D0=B3. 15:02 =D1=87., Nikolay Borisov wrote:
->> Commit bf904d2762ee ("x86/pti/64: Remove the SYSCALL64 entry trampoline")
->> removed the syscall trampoline and instead opted to enable using the
->> default syscall64 entry point by mapping the percpu TSS. Unfortunately
->> the PTI documentation wasn't updated when the respective changes were
->> made, so let's bring the doc up to speed.
->>=20
->> Signed-off-by: Nikolay Borisov <nik.borisov@suse.com>
->
-> Ping
+mitigations=3Doff disables the SRSO mitigation too. Add it to the list.
 
-Hmm...this has indeed languished for a while.  I was waiting for an ack
-from x86land, but I guess I'll just apply it unless somebody screams.
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+index a36cf8cc582c..65b47c23d55a 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3397,6 +3397,7 @@
+ 					       nospectre_v1 [X86,PPC]
+ 					       nospectre_v2 [X86,PPC,S390,ARM64]
+ 					       retbleed=3Doff [X86]
++					       spec_rstack_overflow=3Doff [X86]
+ 					       spec_store_bypass_disable=3Doff [X86,PPC]
+ 					       spectre_v2_user=3Doff [X86]
+ 					       srbds=3Doff [X86,INTEL]
+--=20
+2.43.0
 
-jon
