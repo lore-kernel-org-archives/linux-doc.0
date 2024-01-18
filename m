@@ -1,142 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC416184C;
-	Thu, 18 Jan 2024 01:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6606E20F2
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 01:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705541453; cv=none; b=h+Mhk+BesyIVo0jZz8myLbJOFMeKlMjYmavn4XuO9m2dPlU0gyP3/rhz8FvpIB4WlTzr6mjofUQ+y39pKZzV6aWM41iX3XnSW8LweEji5IYhkpZCoN4Ay4rgxLp9A9sYtnOx3MFTz9qzFwSGIiySWWEcI+xXdx1p2jT+e1DPVIU=
+	t=1705542782; cv=none; b=Eu95yOsTfATbYpaIvJNqKhLhWVpYML0PrfiEjr4VkwnlmjV/rkuKOPiNG/ngUOSkXcaPvNv8FfKv3/eyTnYtj2UE07fywchNuHWU0IXqboEHguSFnnqLEGtNKYoWeSRN8cRkrQnTmkNnWKSJeWajJOqvDMVKiw1KhJ5XYXf0t0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705541453; c=relaxed/simple;
-	bh=D229WF9ZvcRgm1yTACUcXfbL9j+/sJR8sCIdjdqxFcU=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:Received:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:User-Agent:MIME-Version:Content-Type; b=SImT3ZVTVvTEJ8BTRrmQynbopaQvGm7JmniukGnPK+3G7/FasxOXSYBBEtiWwH8HoktfStUR4YZS36bhrc0ciS+gKAAWCo7OMiMlQXn66I0Np5rfRNTmb6EXgjPnzEvmvfkNorp2BFhMAaG+mb5cUAqEH3oRpLr3tWqH9RsKs1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cMuIYTId; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705542782; c=relaxed/simple;
+	bh=TbGKo9XwnaWFRnDaGJQYGEDB3n+mODCRkk1sjg7BuRA=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version; b=TKuKIcNaIjx+36ZdudoMoSpChwewqnR8gwhAzBY2lbIO0Dr3+1xxkgl4BOaEoe1kqR5th9JYTD/BETBxUFlg5noeqDTLZMfiw6bdWihLPRH77M1Sv8Gn3ifJEG6ez4VDJIpKT+UYZCN49J+Pn3JkUVUuqC3N4nGhELJ3tc3idhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=W3m259+Y; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cMuIYTId"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705541452; x=1737077452;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=D229WF9ZvcRgm1yTACUcXfbL9j+/sJR8sCIdjdqxFcU=;
-  b=cMuIYTIdO8ojwgDt+sm+VnOyPtBz5SaFAGgH5Jovn5keIGxak9rODqbj
-   59ftpfXz1MvSAxSBffMoZMUapYHtjfe1LximiMVXdc1u6+4yTHmmJU5Hx
-   zsWUTLxvfIo31HgSs3ksrbzhORldiROBwkvWjzd2c7nSA5B7VHUg5MiaV
-   Uxn2n0oCFvbB4C07iv75g2/6SxBPd90ZjAI/MFc0S+SW1VS5RACDtj1yf
-   CxBrIWoXFLvOeSXmzaslteAfawQncG7Kzf80TQuPWF4cbBSJQFJzYPxZY
-   yr4XJReZGHVQMpTt35JNPq0h/R10D1Lhg2cxrjJEc7VjGU6RGTY/0or+N
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7078968"
-X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="7078968"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 17:30:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,201,1701158400"; 
-   d="scan'208";a="180492"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2024 17:30:47 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
-  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
-  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
-  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
-  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
-  <dan.j.williams@intel.com>,  Srinivasulu Thanneeru
- <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH 3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
- for weighted interleaving
-In-Reply-To: <Zadm5r/23tonKeXB@memverge.com> (Gregory Price's message of "Wed,
-	17 Jan 2024 00:34:30 -0500")
-References: <20240112210834.8035-1-gregory.price@memverge.com>
-	<20240112210834.8035-4-gregory.price@memverge.com>
-	<87bk9n172k.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<Zadm5r/23tonKeXB@memverge.com>
-Date: Thu, 18 Jan 2024 09:28:49 +0800
-Message-ID: <87jzo7zay6.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="W3m259+Y"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cd880ceaf2so79867291fa.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jan 2024 17:53:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1705542778; x=1706147578; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=taCIpUJqzL+JyTaiMa3v4bP+c2WFVuuQ9gZ9COs9zu8=;
+        b=W3m259+YmlnMuOAK6XKKmaoxzp5GGgx3fAtvpII5LF5lLztUFbWKPSw4hN78NgVby3
+         kT5w/VsyaCVOv4qT5OnPO8r0Gevcgxl91/k89Z9nY9E0r9Qfj/23hwnb+577gamTuwiY
+         4fpYgw+oVNniaB63cN/ZK8SclF6Ph3RZBkLdrn/AGFDwUj2cOuzkoxrNnpHBfhSUKrUc
+         jgnK75bXS2guTzpXzDVKqgDemgPEnQ/jYPT6EuoF9/FdybTtSmzis6tdW7Joia7XjPJo
+         F7e2HN73aiFt8eMRng1P5FYZfsj3wvMhWbiKfY4nqnbkw8bgI+reT1IVF9Nx4AjxkBN8
+         WWvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705542778; x=1706147578;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=taCIpUJqzL+JyTaiMa3v4bP+c2WFVuuQ9gZ9COs9zu8=;
+        b=v5N18Ub2pEtlpPfaQmcomkN2ucY7Sq8ej6AuwmSjo9ZapTQAM/iHUUHoIH8vWIiOiz
+         unkI1s4agIhMqmuIUieoOJYdvXYEqpsLY/6kpYEXRCCkTzI+xJyp+pDRAz6EBfOr9JsD
+         JjbeBT1XFLLeN3313X8NvGDy7AcbrGKytEeGKIS9og8HiCfwCEXhNnQQzQha82dTZd/u
+         g5WwBHdDF1AnokqbA5FTIN08qbG4oQauO0La8u69bnPtNbX0JuKLhLi/VGeF6dtkm/RC
+         VV9IZtUTzBFgga/uNWchUw8S7D8BiDj4Pw/DNeLEnU+modJDiesHmgw7r4RQQVCWESIN
+         sQJQ==
+X-Gm-Message-State: AOJu0Yw1xiuRFqcS6MT1sS4xgR/Zxbz3h9PdCqRHo8tHX1g3LSemLNB3
+	JohOnQURJe78rRlfQAn2yqh3d+RHH6nXHyc3uQ+XF/mclpcA/83D69whZp8FsCw=
+X-Google-Smtp-Source: AGHT+IGvzTuyC7iVwlQOSofeR6dJpAULy5A1d7eEifJUQAx27DALwNdCqveNkTX/dJSr0C9xl0HxDg==
+X-Received: by 2002:a2e:9050:0:b0:2cc:a7b9:2fa0 with SMTP id n16-20020a2e9050000000b002cca7b92fa0mr66494ljg.12.1705542778479;
+        Wed, 17 Jan 2024 17:52:58 -0800 (PST)
+Received: from ?IPv6:2804:30c:974:ac00:1b02:e2fd:23be:79bc? ([2804:30c:974:ac00:1b02:e2fd:23be:79bc])
+        by smtp.gmail.com with ESMTPSA id y2-20020a63e242000000b005cd78f13608sm338946pgj.13.2024.01.17.17.52.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 17:52:58 -0800 (PST)
+Message-ID: <4aaa05fb405e921f25c907ca09ea29976ca0707c.camel@suse.com>
+Subject: Re: [PATCH v6 2/3] livepatch: Move tests from lib/livepatch to
+ selftests/livepatch
+From: mpdesouza@suse.com
+To: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Heiko
+ Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
+ <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina
+ <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,  Petr Mladek
+ <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
+ linux-kselftest@vger.kernel.org,  linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-s390@vger.kernel.org,
+ live-patching@vger.kernel.org
+Date: Wed, 17 Jan 2024 22:52:51 -0300
+In-Reply-To: <Zaf08hx8fBj6TW5/@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+References: <20240112-send-lp-kselftests-v6-0-79f3e9a46717@suse.com>
+	 <20240112-send-lp-kselftests-v6-2-79f3e9a46717@suse.com>
+	 <Zaf08hx8fBj6TW5/@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
 
-Gregory Price <gregory.price@memverge.com> writes:
+On Wed, 2024-01-17 at 16:40 +0100, Alexander Gordeev wrote:
+> On Fri, Jan 12, 2024 at 02:43:51PM -0300, Marcos Paulo de Souza
+> wrote:
+>=20
+> Hi Marcos!
 
-> On Mon, Jan 15, 2024 at 01:47:31PM +0800, Huang, Ying wrote:
->> Gregory Price <gourry.memverge@gmail.com> writes:
->> 
->> > +	/* Continue allocating from most recent node and adjust the nr_pages */
->> > +	if (pol->wil.cur_weight) {
->> > +		node = next_node_in(me->il_prev, nodes);
->> > +		node_pages = pol->wil.cur_weight;
->> > +		if (node_pages > rem_pages)
->> > +			node_pages = rem_pages;
->> > +		nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
->> > +						  NULL, page_array);
-> ... snip ...
->> > +			if (delta > weight) {
->> > +				node_pages += weight;
->> > +				delta -= weight;
->> > +			} else {
->> > +				node_pages += delta;
->> > +				delta = 0;
->> > +			}
->> > +		}
->> > +		nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
->> > +						  NULL, page_array);
->> 
->> Should we check nr_allocated here?  Allocation may fail anyway.
->> 
->
-> I thought about this briefly in both situations.
->
-> If you look at alloc_pages_bulk_array_interleave(), it does not fail if
-> __alloc_pages_bulk() fails, instead it continues and attempts to
-> allocate from the remaining nodes.
->
-> Presumably, this is because the caller of the bulk allocator can accept
-> a partial-failure and will go ahead and allocate the remaining pages on
-> an extra slow path.
->
-> Since alloc_pages_bulk_array_interleave() appears to be capable of
-> failing in the exact same way, I considered this safe.
+Hello!
 
-You are right.  We should proceed with next node here.
+>=20
+> > Having the modules being built as out-of-modules requires changing
+> > the
+> > currently used 'modprobe' by 'insmod' and adapt the test scripts
+> > that
+> > check for the kernel message buffer.
+>=20
+> Please, correct me if I am wrong, but with this change one would
+> require a configured build environment and kernel tree that matches
+> running kernel in order to run tests. Is that correct?
 
---
-Best Regards,
-Huang, Ying
+You don't need a kernel tree in order to run the tests, you can build
+the modules and use gen_tar to pack them, setting KDIR to the currently
+built kernel:
+		make KDIR=3D$(pwd) TARGETS=3Dlivepatch -C
+tools/testing/selftests
 
->> > +	if (pol->mode == MPOL_WEIGHTED_INTERLEAVE)
->> > +		return alloc_pages_bulk_array_weighted_interleave(gfp, pol,
->> > +								  nr_pages,
->> > +								  page_array);
->> > +
->> 
->> Just nit-pick, may be better to be 
->> 
->> 		return alloc_pages_bulk_array_weighted_interleave(
->>                                 gfp, pol, nr_pages, page_array);
->>
->
-> Wasn't sure on style when names get this long lol, will make the change
-> :]
->
->
->
-> Probably v2 thursday or friday
->
-> Regards
-> ~Gregory
+This can be used when packaging the tests, like Joe showed when
+reviewing the v4:
+
+	mkdir /tmp/test-install
+	make KDIR=3D$(pwd) INSTALL_PATH=3D/tmp/test-install
+TARGETS=3Dlivepatch -C tools/testing/selftests install
+
+In this case /tmp/test-install will contain the scripts and the modules
+compiled targeting the same kernel version from the kernel built from
+the kernel tree.
+
+You can also run the tests from the kernel tree but targeting your
+currently running system.
+Using this approach you can run the tests on machines without kernel
+tree and without build environment.
+
+You can also pick the kernel source and run
+	make kselftest TARGETS=3Dlivepatch
+
+As KDIR wasn't set it builds the livepatch test modules targeting
+/lib/modules/<current kernel version/build, and so you can run the
+tests against your currently running kernel. This would require kernel-
+devel package and gcc.
+
+I hope this answer your question, and provides some info about how to
+run the tests on different environments!
+
+Thanks,
+  Marcos
+
+>=20
+> Thanks!
+
