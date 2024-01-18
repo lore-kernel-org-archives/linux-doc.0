@@ -1,74 +1,71 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D0720B01;
-	Thu, 18 Jan 2024 10:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4163C24217
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 12:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705572899; cv=none; b=qthGXFc7mAum8KuWrzxpu3vHss9kLQccuDchEni1H1Alf/F9Pb+teMmFxh+CTMMF8HMgMlhLG0tdCuZjH/M8vLQc8px8uq+0/l/aS8rMthhLrBPiL/a2m8py8fcHnJTM6uPmEsdeM7Cw4xkqEJj1ejKVqoumcQP/65H2k9MmYtY=
+	t=1705579361; cv=none; b=r+NOdguJyWtQLGMI+NCEGOJk14FASkQ+T6XBJ+fi7bWfvtnshrMOUI8scUt2BLuYo3Uu+/2jnqba1NDHzVH6lUibjp/vu+T7s6SfD/pUEzfVHJHfIO3/FV9c99+bhR4h0YapeeoeIDauczZbYKh/yOBjEaynvR78CZjy62DUbFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705572899; c=relaxed/simple;
-	bh=khhLqmve9Id0BgYdRyMNy+0ycxyLazuWpvl/uJGui2g=;
-	h=From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type; b=lXHqzDSTDHYCWL7K1MqxBVfdaJFKq5BAEwresor8mArEmJe4mnu0cIpbeRpNTAdXysTVGkQkZCe0DeCDZSZpZsWsOtHdH5VM/du4aQBMi2cwWxoHryYKiCGyHcloKMegXfwx0b5LTw178wCdRt0Z2k4U+CExrlIIAqi8PE1h3oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=00BPwWzh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OhyBShu3; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1705579361; c=relaxed/simple;
+	bh=DBdxiXz741NQpJAeLNerDWeeCXGbOJChL7ENwM8D8w8=;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-Id:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding; b=VeiRNXsQycz3G0hjK+9rIv+QkoDUJTp25vuT7LkFRBhBr2gnGeZ/CJgzcQZEpR8H3JE+sHddF7PDMEV+lKB9BVFGZIUO3U6uDOuD012G8mSdMD2YzOd/AUcMqjByEn5myOJpmWwmRUBhOE8Bf1nEW7TN6ELAk9Fb7yUaZAMHE6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EbluZaUv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="00BPwWzh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OhyBShu3"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1705572895;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JzaKwCLLcrV0lAUYdlCr9JKsNWWBaBuoPxIK1F3gv1E=;
-	b=00BPwWzhkm3L0MmROW6y6HEAbXbRET4sA0iC4Ai+lQv/jzdbl6G34U8dq8Pn3jZs273ZCv
-	jRfhj0P6znPdKYDQrSt5Zif98zDwD9BrD9lXcwdg339ojVdSCOb59sbOlq06APX/HVDr60
-	kZ8easq3iyu0BHyPy+ap7CceMr/hLd5ZhgWTb4s9M99CECwPoYgCVPNoe2CICOeUuMtnOR
-	l5MBvzUU0UNhDcO1sw5VNYvczARNX7wfenFF+zfmJzH1RKD1GhDahNZp+Q2OYSbM9b+l6h
-	enBYTToQzEtWNsNxJegZOXJaUhuaJ1bghnjr9dhUTMfz9F2gfMnnzHwKC5LDlQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1705572895;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JzaKwCLLcrV0lAUYdlCr9JKsNWWBaBuoPxIK1F3gv1E=;
-	b=OhyBShu3/6Q8I7chxynESX5SoYFTFP7rL4vBWYHnn8kw6OFW3gCs8YvDfD25+ChfzGY85O
-	AQlsAppiMfXfY+Bw==
-To: Sreenath Vijayan <sreenath.vijayan@sony.com>, corbet@lwn.net,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, rdunlap@infradead.org,
- pmladek@suse.com
-Cc: rostedt@goodmis.org, senozhatsky@chromium.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org, taichi.shimoyashiki@sony.com,
- daniel.palmer@sony.com, anandakumar.balasubramaniam@sony.com,
- sreenath.vijayan@sony.com
-Subject: Re: [PATCH v3 1/2] printk: Add function to dump printk buffer
- directly to consoles
-In-Reply-To: <87le8nas4f.fsf@jogness.linutronix.de>
-References: <cover.1705331453.git.sreenath.vijayan@sony.com>
- <402f0cbc3a573503c7cc794113aa5137ed7f276c.1705331453.git.sreenath.vijayan@sony.com>
- <87le8nas4f.fsf@jogness.linutronix.de>
-Date: Thu, 18 Jan 2024 11:20:54 +0106
-Message-ID: <87fryvaqxt.fsf@jogness.linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EbluZaUv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91F2DC433F1;
+	Thu, 18 Jan 2024 12:02:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705579361;
+	bh=DBdxiXz741NQpJAeLNerDWeeCXGbOJChL7ENwM8D8w8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=EbluZaUvN6+NUj77ZRphhFQJ3MEB7KJH0PNji23vRNYg2aInMHRQlcuysdg9h1r8B
+	 79qeVvsj4myUc0pMM8TC/09ohk8bs4FKytToii00zkiR1pSXG0qOW214E1MzFrFQ70
+	 eWSdIokSXA9bTiE3+KXU2BBm1FgkRLtLaWq4vkz4Rg2unIE1haHD0V0TzJAUc2ueAr
+	 KUzPtsNdV7eepe5aJkZ5+YYYH5+sQ9Ff3V1Xsnz9rAunczjZLdc9V5uS9FyrxwkZnQ
+	 wIBfTTVDxB/rVVmIVb6yBA8drna9n9yJgFEo4vHTgioOCvA7noQ9BEACXy/blAD0Y/
+	 Uisir2EkQVvQQ==
+From: Will Deacon <will@kernel.org>
+To: catalin.marinas@arm.com,
+	corbet@lwn.net,
+	Robin Murphy <robin.murphy@arm.com>
+Cc: kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] arm64: Fix silcon-errata.rst formatting
+Date: Thu, 18 Jan 2024 12:02:27 +0000
+Message-Id: <170557654375.3203146.7467582557187082198.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <b6637654eda761e224f828a44a7bbc1eadf2ef88.1705511145.git.robin.murphy@arm.com>
+References: <b6637654eda761e224f828a44a7bbc1eadf2ef88.1705511145.git.robin.murphy@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Oops, for the current mainline code it is actually even simpler because
-the console_unlock() will perform the flushing:
+On Wed, 17 Jan 2024 17:05:45 +0000, Robin Murphy wrote:
+> Remove the errant blank lines to make the desired empty row separators
+> around the Fujitsu and ASR entries in the main table, rather than them
+> being their own separate tables which then look odd in the HTML view.
+> 
+> 
 
-void dump_printk_buffer(void)
-{
- 	console_lock();
- 	console_rewind_all();
- 	console_unlock();
-}
+Applied to arm64 (for-next/core), thanks!
 
-John
+[1/1] arm64: Fix silcon-errata.rst formatting
+      https://git.kernel.org/arm64/c/1b20d0486a60
+
+Cheers,
+-- 
+Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
