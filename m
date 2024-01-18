@@ -1,130 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C77C358A0;
-	Thu, 18 Jan 2024 07:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC68EEA5
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 08:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705564780; cv=none; b=VMeZGwhTA8u+22x1HntJ28wIU00a2/eKjdbu4++ZouvWrsfg0Cg3dYbaAwB924cWrCYJLskFsHtGjLiz9oBHD31qeLz12UKsPiDl12c2xUNtJDgqyPS1LxBb9IYzkWhztJ5GWjZu5KGCDq1+gzzoPnnlrIadE3l4SG5geAb1YFY=
+	t=1705567699; cv=none; b=jFhN8SB5Ot0b7TIwZyPU155Wnmg8DffH1LpGb5JmjZ4RXShZpFm7dabau5HzOk6VPMmL01RsAUT9we+qSAGI9jeAsqOdd3dwuIviOincnC6WSmdMAsYaUopBpMV7GCCX3fFaoEoJkDV5duGqr9R0B4GF8fzbaKJ1JbsPb1IVhj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705564780; c=relaxed/simple;
-	bh=PNbtJZXcgSDfB9xk9l5CL+n1+oj48eBhvhkVHBH+k0w=;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding; b=D3fEU6V5v2RPWytUGQTCm16VjfKWmuQzk0tvSq+9OJtP7o1FD2T3AnqTrErscmt0ylwwFkZXT7+VkJRhRnM228sg5/rtwhlDayOQShRyc8DcfnwE9y8ZeLgHksIniZac22+td8uAZ6w4VCTOhQBjwDeuCz7TUCA/3TXLRUe1Bks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DanHzPYn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705567699; c=relaxed/simple;
+	bh=ltIaIxUBro6oL2eI0AXfMlFTo1Ldlp+RYBlQ9XGXzE0=;
+	h=DKIM-Signature:Received:X-MC-Unique:Received:
+	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Received:
+	 X-Google-Smtp-Source:X-Received:Received:Message-ID:Subject:From:
+	 To:Cc:Date:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version; b=C4tCM8tDOAOgxi1eUXwvKm309bV4p5uGnlRKHdsuK2bwXW9vE8hi+KxEPb7HaOclTQceDB8IYRnKyDwfqEAFxVpjx1qBLJSQuUP9Xtu+VxTTgenj743Ob78mvFUHU7FB9k8H2WikNNKDGhM+FabqfW4tKihnzpDvpvdb1B6bLPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QgkTSAyU; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DanHzPYn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 871CEC433C7;
-	Thu, 18 Jan 2024 07:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705564780;
-	bh=PNbtJZXcgSDfB9xk9l5CL+n1+oj48eBhvhkVHBH+k0w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DanHzPYnIPIyQKEaHce5925mI7xmyI4w5GjY06iMLwUrzL+BCQhU7THrVf2eljd2i
-	 6s6YB+0EFr0/2fOVyv/haEaEyF+40kDkIKwVi6EKjUu25qvqSj0Bs7eHSF3olOpAKo
-	 OYc/eI1UJql7ge2e2KgXK+hYrPMG4c+AT3Lugkb3LR25e7C0Qtj7Okvm1I9wuuHzK6
-	 RgFfZbWKgC3ZtvBzSi+MsrWru+4XRfieILTvqA2ihYl6OUDwd4tzuJEdZF8JmT9NfA
-	 SlCRr9af/BbyZPBfweNnMFZlbU651rLGAsj/0Do0H7GyNAFFfbyh1ny2MFkxXglt9H
-	 9KosFpDlE0aig==
-From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 45/45] Documentation: add console.rst
-Date: Thu, 18 Jan 2024 08:57:56 +0100
-Message-ID: <20240118075756.10541-46-jirislaby@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240118075756.10541-1-jirislaby@kernel.org>
-References: <20240118075756.10541-1-jirislaby@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QgkTSAyU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705567696;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ltIaIxUBro6oL2eI0AXfMlFTo1Ldlp+RYBlQ9XGXzE0=;
+	b=QgkTSAyUtZEuUpP6OR7y5khYLViR+gREc3CT3/+25W3bPRiXfz3avM1LypqnCHF3Vr38rh
+	l8SptYLHsVrboN5Ug31/6hP8MGb3hQ1RKveM3el19m/wTh3xYKloj/cvE7uzot9cVFGIyp
+	EnvsGV7jxWKjRO7h6OZV91+zVO7epYQ=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-650-oNaJTmHzMmSVrOsFNE6vTg-1; Thu, 18 Jan 2024 03:48:15 -0500
+X-MC-Unique: oNaJTmHzMmSVrOsFNE6vTg-1
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-429b32b01c7so19313401cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 00:48:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705567695; x=1706172495;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ltIaIxUBro6oL2eI0AXfMlFTo1Ldlp+RYBlQ9XGXzE0=;
+        b=VPNlUtxpntzrSceFrZhDVgm4D7GFINzRD1T2uAuA6ZuIheR3S/i93lULaecxTQjl31
+         BCee1gH1ZS+HEbN8D5nfRq7JCguqjk6J5w1h8rRe2FQkEo+sUy7iPSy/LtRXaQPznDY/
+         hvP85iaQ0GqGJ91lR/OkkWR/sJKC71BPvVDX6QtJs54FDLtZMdHExUbR+LUM0lvMqIeW
+         fwpD6+fOVD6bMFbth2dsmrki5awSmhOS12LAIH+PEngDn57ZA0pbVO1CbWuRjM37+ls3
+         d17k2EUoejYgKxjvue9sf8t+ia1+OyuJN+3YNHNyNiyd4945Blrs9M/qwt5sur/WrgHq
+         al3w==
+X-Gm-Message-State: AOJu0YwHlfo2SFS1cUi66kR4ldDZtjLww/JnXyrXgrfuPHfo2tZ3lUUB
+	70agw22CKUGPFma3LQiDrWUb5K2h4T7bsQz751WkVWvuj/nLwYkKzHYGbyNENc1QDCEXDJB/kA6
+	aWC0QOqIz9Lea3AwBIhVn2aPUDnx+JJqShp30P07hphNdyz11rh44P+E0AA==
+X-Received: by 2002:a05:6214:1d06:b0:681:770f:c4af with SMTP id e6-20020a0562141d0600b00681770fc4afmr817246qvd.4.1705567695161;
+        Thu, 18 Jan 2024 00:48:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGwYyFKI5f9OpMo2g4V3YbVYvUl96cU/lr7eBalkvPGWVo3fCzvHHWQMyUh2sMkj4110Mx35g==
+X-Received: by 2002:a05:6214:1d06:b0:681:770f:c4af with SMTP id e6-20020a0562141d0600b00681770fc4afmr817230qvd.4.1705567694827;
+        Thu, 18 Jan 2024 00:48:14 -0800 (PST)
+Received: from pstanner-thinkpadt14sgen1.remote.csb (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id nc2-20020a0562142dc200b0068187c4b5d2sm739366qvb.111.2024.01.18.00.48.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 00:48:14 -0800 (PST)
+Message-ID: <96f355a41bf42c6a604aec37449d35246395d929.camel@redhat.com>
+Subject: Re: [PATCH 00/10] Make PCI's devres API more consistent
+From: Philipp Stanner <pstanner@redhat.com>
+To: andy.shevchenko@gmail.com
+Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas
+ <bhelgaas@google.com>, Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com,
+ linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linux-pci@vger.kernel.org
+Date: Thu, 18 Jan 2024 09:48:11 +0100
+In-Reply-To: <5e760f104c75efe37100cee5a26b7ee3581f03b4.camel@redhat.com>
+References: <20240115144655.32046-2-pstanner@redhat.com>
+	 <ZabyY3csP0y-p7lb@surfacebook.localdomain>
+	 <5e760f104c75efe37100cee5a26b7ee3581f03b4.camel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Now, that the console kernel-doc is in better shape, include it in the
-tty/ docs.
+On Wed, 2024-01-17 at 10:59 +0100, Philipp Stanner wrote:
+> On Tue, 2024-01-16 at 23:17 +0200, andy.shevchenko@gmail.com=C2=A0wrote:
+> > Mon, Jan 15, 2024 at 03:46:11PM +0100, Philipp Stanner kirjoitti:
 
-It's not supernice, but it is what it is. At least for the beginning.
+[...]
 
-Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/driver-api/tty/console.rst | 45 ++++++++++++++++++++++++
- Documentation/driver-api/tty/index.rst   |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 Documentation/driver-api/tty/console.rst
+> >=20
+> >=20
+> > > PCI's devres API suffers several weaknesses:
+> > >=20
+> > > 1. There are functions prefixed with pcim_. Those are always
+> > > managed
+> > > =C2=A0=C2=A0 counterparts to never-managed functions prefixed with pc=
+i_ =E2=80=93
+> > > or
+> > > so one
+> > > =C2=A0=C2=A0 would like to think. There are some apparently unmanaged
+> > > functions
+> > > =C2=A0=C2=A0 (all region-request / release functions, and pci_intx())=
+ which
+> > > =C2=A0=C2=A0 suddenly become managed once the user has initialized th=
+e
+> > > device
+> > > with
+> > > =C2=A0=C2=A0 pcim_enable_device() instead of pci_enable_device(). Thi=
+s
+> > > "sometimes
+> > > =C2=A0=C2=A0 yes, sometimes no" nature of those functions is confusin=
+g and
+> > > =C2=A0=C2=A0 therefore bug-provoking. In fact, it has already caused =
+a bug
+> > > in
+> > > DRM.
+> > > =C2=A0=C2=A0 The last patch in this series fixes that bug.
+> > > 2. iomappings: Instead of giving each mapping its own callback,
+> > > the
+> > > =C2=A0=C2=A0 existing API uses a statically allocated struct tracking=
+ one
+> > > mapping
+> > > =C2=A0=C2=A0 per bar. This is not extensible. Especially, you can't c=
+reate
+> > > =C2=A0=C2=A0 _ranged_ managed mappings that way, which many drivers w=
+ant.
+> > > 3. Managed request functions only exist as "plural versions" with
+> > > a
+> > > =C2=A0=C2=A0 bit-mask as a parameter. That's quite over-engineered
+> > > considering
+> > > =C2=A0=C2=A0 that each user only ever mapps one, maybe two bars.
+> > >=20
+> > > This series:
+> > > - add a set of new "singular" devres functions that use devres
+> > > the
+> > > way
+> > > =C2=A0 its intended, with one callback per resource.
+> > > - deprecates the existing iomap-table mechanism.
+> > > - deprecates the hybrid nature of pci_ functions.
+> > > - preserves backwards compatibility so that drivers using the
+> > > existing
+> > > =C2=A0 API won't notice any changes.
+> > > - adds documentation, especially some warning users about the
+> > > =C2=A0 complicated nature of PCI's devres.
+> >=20
+> > Instead of adding pcim_intx(), please provide proper one for
+> > pci_alloc_irq_vectors(). Ideally it would be nice to deprecate
+> > old IRQ management functions in PCI core and delete them in the
+> > future.
+> >=20
+>=20
+> In order to deprecate the intermingling with half-managed hyprid
+> devres
+> in pci.c, you need to have pci_intx() be backwards compatible. Unless
+> you can remove it at once.
+> And the least broken way to do that I thought would be pcim_intx(),
+> because that's consistent with how I make pci_request_region() & Co.
+> call into their managed counterparts.
+>=20
+> There are 25 users of pci_intx().
+> We'd have to look how many of them call pcim_enable_device() and how
+> easy they would be to port to... pci_alloc_irq_vectors() you say? I
+> haven't used that before. Would have to look into it and see how we
+> could do that.
 
-diff --git a/Documentation/driver-api/tty/console.rst b/Documentation/driver-api/tty/console.rst
-new file mode 100644
-index 000000000000..4348e36cd33b
---- /dev/null
-+++ b/Documentation/driver-api/tty/console.rst
-@@ -0,0 +1,45 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======
-+Console
-+=======
-+
-+.. contents:: :local:
-+
-+Struct Console
-+==============
-+
-+.. kernel-doc:: include/linux/console.h
-+   :identifiers: console cons_flags
-+
-+Internals
-+---------
-+
-+.. kernel-doc:: include/linux/console.h
-+   :identifiers: nbcon_state nbcon_prio nbcon_context nbcon_write_context
-+
-+Struct Consw
-+============
-+
-+.. kernel-doc:: include/linux/console.h
-+   :identifiers: consw
-+
-+Console functions
-+=================
-+
-+.. kernel-doc:: include/linux/console.h
-+   :identifiers: console_srcu_read_flags console_srcu_write_flags
-+        console_is_registered for_each_console_srcu for_each_console
-+
-+.. kernel-doc:: drivers/tty/vt/selection.c
-+   :export:
-+.. kernel-doc:: drivers/tty/vt/vt.c
-+   :export:
-+
-+Internals
-+---------
-+
-+.. kernel-doc:: drivers/tty/vt/selection.c
-+   :internal:
-+.. kernel-doc:: drivers/tty/vt/vt.c
-+   :internal:
-diff --git a/Documentation/driver-api/tty/index.rst b/Documentation/driver-api/tty/index.rst
-index b490da11f257..c1ffe3d1ec46 100644
---- a/Documentation/driver-api/tty/index.rst
-+++ b/Documentation/driver-api/tty/index.rst
-@@ -38,6 +38,7 @@ In-detail description of the named TTY structures is in separate documents:
-    tty_buffer
-    tty_ioctl
-    tty_internals
-+   console
- 
- Writing TTY Driver
- ==================
--- 
-2.43.0
+Alright, so I thought about that a bit.
+
+So pci_intx() is the old way to do it and you would like to deprecate
+it for good. Understood, makes sense
+
+This series, however, is about deprecating PCI's broken devres
+implementation =E2=80=93 not about deprecating outdated PCI features in
+general.
+
+So I wouldn't like to touch anything here unless cleaning up devres
+demands it.
+Now the question would be: how can we solve this?
+
+My suggestion would be:
+Let's implement pcim_intx(), but only make it visible through
+drivers/pci/pci.h. So we won't make it usable for other drivers, don't
+EXPORT_SYMBOL() it and basically only have it as a tool to move the
+devres-part clearly and cleanly from pci.c to devres.c
+
+Further deprecating old PCI stuff could then be done in a separate
+series.
+
+ACK?
+
+P.
+
+
+
+>=20
+>=20
+> P.
 
