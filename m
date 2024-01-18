@@ -1,142 +1,123 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D88E2575C;
-	Thu, 18 Jan 2024 15:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DFD2554A;
+	Thu, 18 Jan 2024 15:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705591842; cv=none; b=TcbYWxv4LnviAI5zXYAzaf/H8Vn/6oaFi34b1WLyinU/0CcTBMyyCl1j7qAvhCNSumuf8IWIhyn+HCDwqNq+mrx1+x/XPJBpXugSRyuh+G9U0MnDHR6gCKkXZn9FYSB2v0fnU6jxO6qD02RafE8UW+Q3tjLNzSLOnIpbUtsvW/4=
+	t=1705592968; cv=none; b=SsCfAYVWNfvVTcOtIZRHSMc31CW9c63So+Z9TRbuy1p5snGdy/aCUWFMOF96SrCO8DXd/n/W16ScZnPqU/biWTY0JNqE2dDom82euX3uoJ6Fd4q0AgsDH0Wt9vpe4XUYi35pn3Vjkm+Y5dmnMvSz3vNmcmlI1CX9wMcPODQ0ZiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705591842; c=relaxed/simple;
-	bh=i97GKmF7/horliTQA8nhUjf5fXwkyeIk9RiV/fzEVYg=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:Content-Language:
-	 To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding; b=L1IFrpIXOLvCumCyPZ+0h1YQY4bViwQHtgjxGRZ3gaFLAUV2S6CRjoVHFF0hT5mVPXdmzuLANFyMo9XgMJZOlIurt3BkCgjKvMIDk0avjCZItlosvmm9Wv2g14iFRk3gXheR1r9q56rBccaKI1SuGbmULza0GecjjKBAI5sWv/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WF7BofNa; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705592968; c=relaxed/simple;
+	bh=nJVOqOIFQLFIG1XFDqf8IhmlkhMFmW/3etJVOY+0M+A=;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To; b=kK4wPg49hUSHlZg9zlv9vfrsEmSOZQ6XIr7tpc0TMog1s+2jwUerR5DpcpaSmcJ4rINDgVxF14bdHwCNggHk5v3s1u4QTW0OJbb1VEvIANG2o0a+0EQb7cu9zPkToQ5zXcm8ULrvWHvlen6rLZzaJlOXXS9ncx+fvBI1ItntC/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OpYiSM7L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WF7BofNa"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a2d04888d3dso705840566b.2;
-        Thu, 18 Jan 2024 07:30:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705591839; x=1706196639; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mU10kHzO5fudgGdcQQxn+WV1T9c5UCunJG3bnqaN414=;
-        b=WF7BofNaEY+/mCVmE3ZH7DBo9fTWZCZnv+plCCYVDI0EWp2cAgvjSoL9xA3UJaMwN3
-         Myxf51dw8renBouPfaVAUo63k0FnyTW+Z51vMPLJEq07LQtBKRY8pzNa30MLtH7gbKJl
-         MYxBKhkv2m5y+V2M5ncaZfYVNmqVYkCeXnMw7h0q3FPBHXcdxs/QHcGjxEBcmliyIP0f
-         CgHxVKEIqbUVlQvL/5uxHEgjDX6MavcKMH4BT5OcGOg+bYTmGNrkFBX7PdlVLvYnhnny
-         b8zX4q57bIdeJtoE49zO4xXSk2l8UepPxvSzfFBoZS7b5FAaYQ6GMVjbvfjQD9Mca1V2
-         Np6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705591839; x=1706196639;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mU10kHzO5fudgGdcQQxn+WV1T9c5UCunJG3bnqaN414=;
-        b=XQhOskBdXilsq+P4C3pvjhsMNqaw6ciRRDBYpxBchhK1Eqf6wWkxnb9ZQ/8Hjygga6
-         DSrjhmCrUb1kpcHybXlrNsZmEvPKfq+hrbbEj42kXmzN1+kJSJwplxR9HcTpyEypSv9b
-         vpChSKoHhVbDpLi73BJCxP12KFkNws4YUZWbXA0bs4NodWd6C8CVtMKQzquHNZDG+yxJ
-         3XghqppFB4qC9mDQeYkp11CcHxE9EoxvZQGpJeKXZhwNb1yCu3ukTPhwf1zwezg3mhBX
-         wxIJhrifGSAjB6Llu8oP8a+SaDQx+gUUQiI0gDjxPYADzA5PKn04F5FC/K0M58N1Licz
-         obRg==
-X-Gm-Message-State: AOJu0Yxf/avJx1ayzXG12EDRVFn4278B/nZRJWmGm3DRhH6R4oK3xrJC
-	kuwvOcOU1huX6JtRXqsWjkSncF4wfOLsayLXg9ETZifFBv8htWpt
-X-Google-Smtp-Source: AGHT+IEsRPFWhJZnfqCAmHFQB7Hyek8BcDEJ+ctwHCncmPszdoXFn6upJJR0k14cLPpVD85r89H8jg==
-X-Received: by 2002:a17:906:e1a:b0:a2c:f3a:b196 with SMTP id l26-20020a1709060e1a00b00a2c0f3ab196mr608382eji.118.1705591839314;
-        Thu, 18 Jan 2024 07:30:39 -0800 (PST)
-Received: from [192.168.100.74] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id tl15-20020a170907c30f00b00a2e7b7fab35sm3401485ejc.14.2024.01.18.07.30.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jan 2024 07:30:38 -0800 (PST)
-Message-ID: <30b9ab0c-f3cb-4b5a-a726-de9f7c61769b@gmail.com>
-Date: Thu, 18 Jan 2024 16:30:37 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OpYiSM7L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0B6BC433C7;
+	Thu, 18 Jan 2024 15:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705592967;
+	bh=nJVOqOIFQLFIG1XFDqf8IhmlkhMFmW/3etJVOY+0M+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OpYiSM7LnbMKYZ/xM2ne4yN+OEp8lDymBAwogZ7ixHmybIOElFhzSpUX5lhLUvR/E
+	 NLbrsils21ig9zfMqUG9ywCY5AQwzGfql41mIgM+VSOOC2E4LRsTWdNVgJwK1SRu5+
+	 h+vfxeq6WSYafLE5mkl7x4dyemtD6oEQ8jT6ik3VQ/9IQ75i2M+O2Z7ppIkmSZq4rN
+	 EgOqabg0RbdDbfJlfDUVc3UWdbv29UJvLiJtvVIwHaXGLDdocM8VvvVLxKy3RCfE0Y
+	 tiO/NrwnDsCDsLRE7yLXR03aUetujexIMJUP/4b7tL4YbY/APwCsTrewHNLQ4rR5f+
+	 M2t7k0VaQfW1Q==
+Date: Thu, 18 Jan 2024 15:49:21 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	linux-riscv@lists.infradead.org, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
+Message-ID: <20240118-implode-delirium-eefdd86e170e@spud>
+References: <20230307102441.94417-1-conor.dooley@microchip.com>
+ <20230608-dispatch-sneer-aa09bd7b2eb8@wendy>
+ <CANiq72nnph7LS1fLRtHz8NJ91PWXPaUnm0EuoV3wrbvK398AnA@mail.gmail.com>
+ <20230608-spiritism-gonad-5f5aff4c3a24@wendy>
+ <20240117-swiftly-parasail-618d62972d6e@spud>
+ <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/5] hwmon: Add support for Amphenol ChipCap 2
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20240115-topic-chipcap2-v5-0-0cc7a15aeece@gmail.com>
- <20240115-topic-chipcap2-v5-5-0cc7a15aeece@gmail.com>
- <226d3abd-e372-4c66-b2b0-cc86e6a4bb27@sirena.org.uk>
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <226d3abd-e372-4c66-b2b0-cc86e6a4bb27@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="1HW3FZOlVDIsEuAs"
+Content-Disposition: inline
+In-Reply-To: <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
 
-Hello Mark,
 
-On 18.01.24 14:49, Mark Brown wrote:
-> On Mon, Jan 15, 2024 at 09:02:25PM +0100, Javier Carrasco wrote:
-> 
->> +static int cc2_enable(struct cc2_data *data)
->> +{
->> +	int ret;
->> +
->> +	if (regulator_is_enabled(data->regulator))
->> +		return 0;
-> 
-> This is generally a sign that the regulator API usage is not good, the
-> driver should not rely on references to the regulator held by anything
-> else since whatever else is holding the regulator on could turn it off
-> at any time.  If the driver did the enable itself then it should know
-> that it did so and not need to query.
-> 
+--1HW3FZOlVDIsEuAs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The driver handles a dedicated regulator, but I wanted to account for
-the cases where the attempts to enable and disable the regulator fail
-and keep parity. If the disabling attempt fails, will the regulator not
-stay enabled? In that case, an additional call to regulator_enable would
-not be required, right?
-That is the only reason I am using regulator_is_enabled(), but maybe
-things don't work like that.
+On Wed, Jan 17, 2024 at 07:23:17PM +0100, Miguel Ojeda wrote:
+> On Wed, Jan 17, 2024 at 12:31=E2=80=AFPM Conor Dooley <conor@kernel.org> =
+wrote:
+> >
+> > 6.6 came and went, and I have been busy dealing with the other
+> > responsibilities I mentioned and have not had a chance to look here.
+> > I rebased this today and things still work as they did when I submitted
+> > this version, but things have gotten muddier on the LLVM side of things,
+> > as more recent versions have added yet more extension support.
+>=20
+> Sounds fun :)
+>=20
+> > My inclination at this point is to engage in a bit of LARPing as an
+> > ostrich, and sorta ignore these concerns initially. Specifically, I'd
+> > like to drop the idea of having the gcc support, and restrict to LLVM=
+=3D1.
+>=20
+> Yeah, if `LLVM=3D1` works, then I would suggest going ahead with that.
+>=20
+> (Now that `rustc_codegen_gcc` is here, we will move to that and forget
+> about mixed compiler builds, but we still have to handle `bindgen`
+> flags until we have an alternative for that)
 
->> +	ret = regulator_enable(data->regulator);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	/*
->> +	 * TODO: the startup-delay-us property of the regulator might be
->> +	 * added to the delay (if provided).
->> +	 * Currently there is no interface to read its value apart from
->> +	 * a direct access to regulator->rdev->constraints->enable_time,
->> +	 * which is discouraged like any direct access to the regulator_dev
->> +	 * structure. This would be relevant in cases where the startup delay
->> +	 * is in the range of milliseconds.
->> +	 */
->> +	usleep_range(CC2_STARTUP_TIME_US, CC2_STARTUP_TIME_US + 125);
-> 
-> Note that the regulator startup delay is the time taken for the
-> regulator to power up so if the device needs additional delay then that
-> will always need to be in addition to whatever the regulator is doing.
+The bit that worries me most is bindgen, and in particular detecting the
+version of libclang used. I mentioned to Nathan or Nick about needing a
+buildtime test for the version of LIBCLANG being used.
+I'm less worried about this for LLVM=3D1 builds, since while I think it is
+possible to provide a LIBCLANG path to the build system, I suspect that
+for LLVM=3D1 builds it's almost always going to match the LLVM toolchain
+in use.
 
-What I mean by that is that the device cannot be ready until the
-regulator powers it up (obvious) plus the start up time of the device
-itself once it gets powered up. So if a regulator takes for example 1 ms
-to power up, the sleep function could (and should) wait for 1 ms longer.
+> > When it comes to asymmetrical extension support between the C and Rust
+> > toolchains, I'm think we deal with that as we do for the C toolchains,
+> > sort issues out as-and-when they arrive rather than punt this again.
+>=20
+> Sounds good, thanks a lot!
 
-I could define a longer start up time to account for "slow" regulators
-while still staying in the command window range. Retries have already
-been taken into account for longer sleeps.
+I'll do another rebase and resend after the merge window closes I
+suppose :)
 
-Thank you for your feedback.
+--1HW3FZOlVDIsEuAs
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
-Javier Carrasco
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZalIgQAKCRB4tDGHoIJi
+0h8eAQDfKI2cOYM7xH8dDl7IUQsHvHxvlTx+Fc/ul6I5u85oZwEA3NdLO8SEdOI/
+0oVhy3L0n3OWLZBkAkoN6rTjPQhddgQ=
+=atSn
+-----END PGP SIGNATURE-----
+
+--1HW3FZOlVDIsEuAs--
