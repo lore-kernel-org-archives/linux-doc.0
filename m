@@ -1,86 +1,96 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4443424202;
-	Thu, 18 Jan 2024 16:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012F12D021
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 16:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705596082; cv=none; b=cC/klr3Zxdws/IDBXSSOxXEW4YFgR6/PGDf2BiDKZJrdtW6Wsy3fd0kdT/xC+MhG58H+peaDgevbwtifzk8tOoYFXVrhRMwu/PfPCw2P69lNn6R24SEZr8KDM4ElPgQVVUEPaqH7JLtmtYVeIzpEGddmYUfYydlWrttQYauH2jc=
+	t=1705596754; cv=none; b=dGddWY127Bk/n/ocpVC1slZHmEWRxtHuhS0zrzdUxV7b3mIJZAHA5Lu6dcMtfeD01AXRIjeP1956ZtSuj65teYOUqXyZSpuf125Or6V4mmqIlN1dYK+C+mMZU31cYQWyavU91YEoL+wEV559ZyMtODjeqjEZhT87/quKDyTtIRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705596082; c=relaxed/simple;
-	bh=P1MeR1zFOZw1B/OR+J0If6ovz3/5tWaRhOuUFOQAhFU=;
-	h=Received:X-Virus-Scanned:Received:DKIM-Signature:Received:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=qJs73KZWTCWVA9F223q42lvMGleUW09Yz1g0vewDP+nyqzHpQsS5P09/6wIj9Ya3+csO5ld5C8zdsuPHeeryGsN7IMVF+m1bhUapNn4prlX6K6oUbbU5Qof2cY0Wfhx9YSjWrvlkXlNs7g0mf5sV8ZBodjLqxhA5ZtGIEwy+/fE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=aXW1HrGT; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1705596754; c=relaxed/simple;
+	bh=Tib9qmRhyTIuOuk9z3JFvHx/L/hQYWeGELswdZbwgaM=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:Content-Language:
+	 To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding; b=A7vJgQLxDK2sGSlSZ4f0ob6bvElRyL13xJyXo9bTC+z+RlRc8WlHunrcV3Y2qF4GApQSph9lsE0X2KMbv0tnBXL1KBoSidp8FSIxWSUn7G2UeCfvhC9U9iRA6ClMvptQr59nmi12GLz90oL8aahrBg75mZVGqidFMR0tNt8wYMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YE+59htC; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="aXW1HrGT"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D319240E01B2;
-	Thu, 18 Jan 2024 16:41:17 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id dByASFGmiBxo; Thu, 18 Jan 2024 16:41:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1705596075; bh=ciR9F994n9Q/PzxRRfbN8xsWLVQEiqRt05MkXbtgAAY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aXW1HrGTtqSlJiNn5eGJ01DHJa8sQWJqMhIqv9jSAJMF5RJF/6TL0SxctSNC6FP+b
-	 yvdIIns3rxC+ERstAoh6lnknTr542L02xLtt9KVoFZaPpDVLWZ/mnX6wQMxTavaigZ
-	 +F20yp8QHGMRFJ3cRK7Mie5GFYGkdN9iXi9pdxkxCo8UNkqzmLV0Gl35hzBi6EduhK
-	 x4egfZ78RidHuQ+PM75V3IkgAfdZeQHkssV33EJN5ikTaIfyvBeToPAQdVc5Sw8Vi6
-	 xGUvgZc/EpBkV6xEdfm3SqTGgTxAjxNn9fn2Pr2IY+1Q4rYJXU5SNUQZU0uM6g3KVH
-	 5Tgb31igCiG2gFhoQG53nat2B37ONpaDYoR2A19McKeCH9HCL9woiBSc9OXIMexE/2
-	 G0Fu1jaaN5//MUS91hLN6ESBda0m5ETF+L7zPESrRWAJneiCnfixIphXz2qjkLb+QD
-	 vlxS6SI+JNBLwuzXipia0K8wDU1RI5MBoG+O39atV9k2ZEcKHLwQLHZZPwQazA79O9
-	 q5wqqn/jn0Nwo5h9ApvmHEL6guCf1GRxFr/uP40p9xz8auzt6L9QwSWQ3BhqRdT3d8
-	 RMwsIHW1WNxpS06BOzBcUFQ67H5sSYbPbRbRa9PPVUcRdsDgpXoyulAlUkHxpM0QBP
-	 mMaJz42/Z3xgrtwL36f3vvtc=
-Received: from zn.tnic (pd9530f8c.dip0.t-ipconnect.de [217.83.15.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E250F40E0196;
-	Thu, 18 Jan 2024 16:41:08 +0000 (UTC)
-Date: Thu, 18 Jan 2024 17:41:08 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Nikolay Borisov <nik.borisov@suse.com>, tglx@linutronix.de,
-	x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Remove reference to syscall trampoline in PTI
-Message-ID: <20240118164108.GIZalUpEnj2HT-9ix6@fat_crate.local>
-References: <20231102130204.41043-1-nik.borisov@suse.com>
- <dd0e864d-295a-4edc-bfd7-ad5de88d7a0c@suse.com>
- <87edee1v0i.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YE+59htC"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-337b8da1f49so2735433f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 08:52:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1705596751; x=1706201551; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pBTbJBhUXoCD9RPj5M/LGF6UDaJgZ8Ej94kU5beb7Pc=;
+        b=YE+59htCkZ0+IMj/qqg4rfWmSYOH9kSUyy0VQmPbfskbybfmqs2Rk14Ry93IjJvyuJ
+         MxcHsa8k2NdzYecVXlTHCrsBWO4+T0ICiV3GitgkIqvaYtalEujGrG/0tkNmlfvMS21q
+         A2Vg2kvxovrllhBTNaWCrBwjOTJjYBe5PcoGq7O8T2Inbi8I12UP3y15F1jHLbJxNxWN
+         48OzQmcWVc5dKEgrjtl9IIAKLnrQR4vZ7zaP0jbDr4aZfAgwilcDt7AgLWi1f4IC2u2C
+         l7q6dHzObdiVVShfA4FOujNPjeQc4GH8843HhSZNVaihIJZHZz34q26oePJsAoa6sX/U
+         EEZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705596751; x=1706201551;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pBTbJBhUXoCD9RPj5M/LGF6UDaJgZ8Ej94kU5beb7Pc=;
+        b=jQs+DhOAVc6ryrMjw3ZLhcbhK5VoLE4jedo8o8T1LlsczM/oTw7619zGOwTWzT8fde
+         ypG52X9EjgH0FAhFx+rMDeSYlWn6joWDIsVXxJYcl3VoTUqdyfK+3Se6eiL3r07qZfis
+         SpoDfMzx4qxvZT7RxnY62KHjKJbkZG1+aJYL6WcF9wa3oar7n/l3WBERmtpYqJL5vmGp
+         56Bkqc+LtH2P5+x/+oKPCGPmcMGsm4dgoykgJdPsY3axM7ItXo/RC0z1qIgeALDqjfFk
+         y+wdiQaWBQ4iJvJleMnPQVKADhFeRMPJROjnjs/J2Ajo4C477aF6tf0J0EHFMv3QreJy
+         M7jQ==
+X-Gm-Message-State: AOJu0Yw6/sXT/0wgkO9gpgZmUuj/8XHLdSHmy6tVfkEcTlvhmIS4KEgz
+	FNeJn4LLj06XxXN6mFHfL8w6geTxwoNd6MHfSeWsOaGqiEsLMfLUssRE6wHdYm4=
+X-Google-Smtp-Source: AGHT+IGh5ZvDe3gCVOWGIfyMG1xq3HdpeekqSJAyaIEgwsHWK1sTT8bEBej/MEPqeVRYsSh1YjMfJg==
+X-Received: by 2002:a05:600c:32a7:b0:40e:48aa:c444 with SMTP id t39-20020a05600c32a700b0040e48aac444mr421547wmp.213.1705596751156;
+        Thu, 18 Jan 2024 08:52:31 -0800 (PST)
+Received: from ?IPV6:2a10:bac0:b000:7588:7285:c2ff:fedd:7e3a? ([2a10:bac0:b000:7588:7285:c2ff:fedd:7e3a])
+        by smtp.gmail.com with ESMTPSA id cn25-20020a0564020cb900b00559c8520f6bsm2905588edb.75.2024.01.18.08.52.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jan 2024 08:52:30 -0800 (PST)
+Message-ID: <52fab554-b23e-49b7-b0d7-2340784b8732@suse.com>
+Date: Thu, 18 Jan 2024 18:52:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87edee1v0i.fsf@meer.lwn.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Remove reference to syscall trampoline in PTI
+Content-Language: en-US
+To: Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>
+Cc: tglx@linutronix.de, x86@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231102130204.41043-1-nik.borisov@suse.com>
+ <dd0e864d-295a-4edc-bfd7-ad5de88d7a0c@suse.com> <87edee1v0i.fsf@meer.lwn.net>
+ <20240118164108.GIZalUpEnj2HT-9ix6@fat_crate.local>
+From: Nikolay Borisov <nik.borisov@suse.com>
+In-Reply-To: <20240118164108.GIZalUpEnj2HT-9ix6@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 18, 2024 at 09:11:41AM -0700, Jonathan Corbet wrote:
-> > Ping
+
+
+On 18.01.24 г. 18:41 ч., Borislav Petkov wrote:
+> On Thu, Jan 18, 2024 at 09:11:41AM -0700, Jonathan Corbet wrote:
+>>> Ping
+>>
+>> Hmm...this has indeed languished for a while.  I was waiting for an ack
+>> from x86land, but I guess I'll just apply it unless somebody screams.
 > 
-> Hmm...this has indeed languished for a while.  I was waiting for an ack
-> from x86land, but I guess I'll just apply it unless somebody screams.
+> https://lore.kernel.org/all/170238995160.398.1051285467012003027.tip-bot2@tip-bot2
+> 
+> Jon wasn't CCed but Nik was.
+> 
+> Nik, you missed that tip-bot2 mail or you don't have it?
+> 
 
-https://lore.kernel.org/all/170238995160.398.1051285467012003027.tip-bot2@tip-bot2
 
-Jon wasn't CCed but Nik was.
-
-Nik, you missed that tip-bot2 mail or you don't have it?
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Ah, I must have missed it. Sorry for the noise...
