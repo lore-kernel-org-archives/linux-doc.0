@@ -1,279 +1,201 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BA125618
-	for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 13:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163AF1E87D;
+	Thu, 18 Jan 2024 15:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705586348; cv=none; b=Xn70tD2H0+sWmlxo+8fMm8/gdG68dmmHvd/I4yrdTgHHsiwkMqJ/piqHGSBZ4FooqlB+6ZGo5Xhl9r55ygMlCL5tbGFrxU3cWvNyJYK6oKfry5XsvzRUW0uSEK45A7JbbxVe4vyfx33pt8iU022TvfAeiJWbxVlOmn6aQEsmy8Y=
+	t=1705591050; cv=none; b=Hi5X0BvpgUxWLZFP3RJAXNUJOwlaMWpt2o8q6oFUiApXZ3KWKeIEYjwJe/g1RqYkEAKeUCuh4ALa+6NTdZywgCTdQMm/AeTl8xVkCLgfRWEF4bUeCH5oK3wYucGQV5xbtsBDrz/ot3RfYeIJsBByGoZx2Kmd2o0fry4Kn3HH1S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705586348; c=relaxed/simple;
-	bh=pj6efnGMFMsTwQBnJjUn/DtgXWlfinL+HAvFA6iW4gk=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:Received:Date:
-	 From:To:Subject:Message-ID:Mail-Followup-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Operating-System; b=UHrz3fNfwq2g43U80K2E9WPmlHY/zlPMHQ2AXoQTEoSd8QTJfd9CftSO0Gk+nDOTEfAolWZYFBsWp8hU5OjaRTRyKD5I1DxF/HbiiliL/9NXbO8P5yjwRIvwqA6u7Is/zEpWT92X0O8uGoExPqDVAMoms9bAUhiPoKEsbLMfrfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=jtLy3EIg; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	s=arc-20240116; t=1705591050; c=relaxed/simple;
+	bh=+kFrRhjHpv40nvSzG/vyhe0ms38QkgFWWNV2IL9QDBA=;
+	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
+	 X-IronPort-AV:X-IronPort-AV:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=IzWuvo6+PQhTlEdpgqRzBdFGY7orbO/GjY9Y8TQ2cEtyQ7aA6zziSMwsOYBl68q0ZCZdRY8eo586wEVLNDnIT7rnoNiSuxRdzKMIRs+XxgAl8VZxpjv4K9r1Tz5v7yLLTxN8aHeIdHVQZDW1qeG16khPG6jY4dgwoVdXNKIqX00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hb+bApsU; arc=none smtp.client-ip=134.134.136.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="jtLy3EIg"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-55760f84177so2636538a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Jan 2024 05:59:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1705586345; x=1706191145; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjibwC0Pm0aKsecVEm1CI9Jop+u2Qm2VSXFGfFyZIo8=;
-        b=jtLy3EIg1uTplsxw+UWYJ1tGhoginBbrolTaL3SF4LSR0BIZVWsm/mtY/eZ5To+pwf
-         UCwk77sfrrjmEEvY9VoZ0S/qt4c+g6W1a/ZlTjEPXAios61QhnrjiHQm+za6wfwCh/12
-         KL37c2YKW9dYwwfS3cIjlZJulzZb9zoLVv4Jk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705586345; x=1706191145;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjibwC0Pm0aKsecVEm1CI9Jop+u2Qm2VSXFGfFyZIo8=;
-        b=lidE7ZBWi/upV03ewljwzJs78uvmgN6mHY36gOo/T1VrwQ00fdRQBn8DfwIB1uboeU
-         7hAK5sGp4MlAjW6bpzlTMFknPyVrbNltHKC2Rcif5wqYiHaPFxLEy/65mxVlXSPP3Oec
-         FYjRYL/BgmlSYWsUgCHrALh5IJqGma1l+lMLZVHwFx10M+t9BVYuSjdmHu7sFzyGvPBa
-         BKo6Gspx2JzJaOp5gkL6rpzYP+PnM4AMZG15GXoyWfYJWjPeqAHQ3EpCbj78P+WBAZnS
-         kscrAg5L9/ReX/LHCyY0x/LEl1w1Ag7mffILC+lyUodJPXm1kbgLCpUtX0e+QB5Ve0Pd
-         XNNQ==
-X-Gm-Message-State: AOJu0Yx6WXb/wgKDRh/uFL//oQURyd6saHU/cwSnFEISv60JfgghTDqq
-	/A+O6GstCnAU46RZlQT0XNb4AXAvSQiskTA/jH4vWH7RxdWy3JzUDYEbgIOIF2k=
-X-Google-Smtp-Source: AGHT+IFY8Kxs594jsuK2rUy7WAVPHDnGECZOoMzsVJ25pNzJ9447ocIjSe/xC5v5/5dl598y8kCJ6A==
-X-Received: by 2002:a17:906:c352:b0:a28:ab63:db33 with SMTP id ci18-20020a170906c35200b00a28ab63db33mr1195735ejb.7.1705586345068;
-        Thu, 18 Jan 2024 05:59:05 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id t3-20020a170906608300b00a2c8dfa5c25sm8554918ejj.123.2024.01.18.05.59.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 05:59:04 -0800 (PST)
-Date: Thu, 18 Jan 2024 14:59:02 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-Message-ID: <Zakupp1GCZMk5aDT@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-References: <20240108120056.22165-4-paul@crapouillou.net>
- <ZZvtEXL8DLPPdtPs@phenom.ffwll.local>
- <a44aca93adc60ce56a64c50797a029631900172e.camel@crapouillou.net>
- <ZZwU827NMHbx7bsO@phenom.ffwll.local>
- <2c0d4ef1b657c56ea2290fe16d757ce563a3e71b.camel@crapouillou.net>
- <ZZxKvR9gjH8D5qxj@phenom.ffwll.local>
- <31e56028b4d865c60b7c01b2a305b3dd8a21ff7a.camel@crapouillou.net>
- <ZZ1Dx1Jqbi61_Afb@phenom.ffwll.local>
- <c100b5f75b12de4a331dd36de3573483dbde915f.camel@crapouillou.net>
- <ZakuD-ns-5UJmrRi@phenom.ffwll.local>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hb+bApsU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705591049; x=1737127049;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+kFrRhjHpv40nvSzG/vyhe0ms38QkgFWWNV2IL9QDBA=;
+  b=hb+bApsU7OftD90cqpsJZF2UNQTy53rMGGPzd0Rjx0c2C7c4GRxaufOY
+   nVFJw0lhJSP3U0p99r9muSDFSBFnF0RA8hKKCxH6Paqo4mddcgqpprnBq
+   wawDuAjSA5etnDj7we/fj/obtzKM7/doVd07E/jY61IckV1Vdn8vvJ21l
+   JZs/PxBEpfk4jayI8rbUdiWicGagZLUS3SW8s3/awF2h9Op0YRhuxkqLu
+   H62NiGZIGjONrTjgKL0jU0toz2vtJJqi1d5XWaq351m5GVUtTU9KvUW+g
+   hpXsjlx2HBaqY2DDpyLx8medeWvZtAGQBvnCyJnvALawYISuj2Yq/NTtk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="466852643"
+X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
+   d="scan'208";a="466852643"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2024 07:17:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="784826988"
+X-IronPort-AV: E=Sophos;i="6.05,203,1701158400"; 
+   d="scan'208";a="784826988"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2024 07:17:20 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rQU8r-000356-1C;
+	Thu, 18 Jan 2024 15:17:17 +0000
+Date: Thu, 18 Jan 2024 23:16:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	linux-mm@kvack.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, x86@kernel.org,
+	Eric Biederman <ebiederm@xmission.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	James Gowans <jgowans@amazon.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 13/17] tracing: Recover trace buffers from kexec
+ handover
+Message-ID: <202401182318.vEGddOt1-lkp@intel.com>
+References: <20240117144704.602-14-graf@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZakuD-ns-5UJmrRi@phenom.ffwll.local>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
+In-Reply-To: <20240117144704.602-14-graf@amazon.com>
 
-On Thu, Jan 18, 2024 at 02:56:31PM +0100, Daniel Vetter wrote:
-> On Mon, Jan 15, 2024 at 01:54:27PM +0100, Paul Cercueil wrote:
-> > Hi Daniel / Sima,
-> > 
-> > Le mardi 09 janvier 2024 à 14:01 +0100, Daniel Vetter a écrit :
-> > > On Tue, Jan 09, 2024 at 12:06:58PM +0100, Paul Cercueil wrote:
-> > > > Hi Daniel / Sima,
-> > > > 
-> > > > Le lundi 08 janvier 2024 à 20:19 +0100, Daniel Vetter a écrit :
-> > > > > On Mon, Jan 08, 2024 at 05:27:33PM +0100, Paul Cercueil wrote:
-> > > > > > Le lundi 08 janvier 2024 à 16:29 +0100, Daniel Vetter a écrit :
-> > > > > > > On Mon, Jan 08, 2024 at 03:21:21PM +0100, Paul Cercueil
-> > > > > > > wrote:
-> > > > > > > > Hi Daniel (Sima?),
-> > > > > > > > 
-> > > > > > > > Le lundi 08 janvier 2024 à 13:39 +0100, Daniel Vetter a
-> > > > > > > > écrit :
-> > > > > > > > > On Mon, Jan 08, 2024 at 01:00:55PM +0100, Paul Cercueil
-> > > > > > > > > wrote:
-> > > > > > > > > > +static void ffs_dmabuf_signal_done(struct
-> > > > > > > > > > ffs_dma_fence
-> > > > > > > > > > *dma_fence, int ret)
-> > > > > > > > > > +{
-> > > > > > > > > > +	struct ffs_dmabuf_priv *priv = dma_fence-
-> > > > > > > > > > >priv;
-> > > > > > > > > > +	struct dma_fence *fence = &dma_fence->base;
-> > > > > > > > > > +
-> > > > > > > > > > +	dma_fence_get(fence);
-> > > > > > > > > > +	fence->error = ret;
-> > > > > > > > > > +	dma_fence_signal(fence);
-> > > > > > > > > > +
-> > > > > > > > > > +	dma_buf_unmap_attachment(priv->attach,
-> > > > > > > > > > dma_fence-
-> > > > > > > > > > > sgt,
-> > > > > > > > > > dma_fence->dir);
-> > > > > > > > > > +	dma_fence_put(fence);
-> > > > > > > > > > +	ffs_dmabuf_put(priv->attach);
-> > > > > > > > > 
-> > > > > > > > > So this can in theory take the dma_resv lock, and if the
-> > > > > > > > > usb
-> > > > > > > > > completion
-> > > > > > > > > isn't an unlimited worker this could hold up completion
-> > > > > > > > > of
-> > > > > > > > > future
-> > > > > > > > > dma_fence, resulting in a deadlock.
-> > > > > > > > > 
-> > > > > > > > > Needs to be checked how usb works, and if stalling
-> > > > > > > > > indefinitely
-> > > > > > > > > in
-> > > > > > > > > the
-> > > > > > > > > io_complete callback can hold up the usb stack you need
-> > > > > > > > > to:
-> > > > > > > > > 
-> > > > > > > > > - drop a dma_fence_begin/end_signalling annotations in
-> > > > > > > > > here
-> > > > > > > > > - pull out the unref stuff into a separate preallocated
-> > > > > > > > > worker
-> > > > > > > > > (or at
-> > > > > > > > >   least the final unrefs for ffs_dma_buf).
-> > > > > > > > 
-> > > > > > > > Only ffs_dmabuf_put() can attempt to take the dma_resv and
-> > > > > > > > would
-> > > > > > > > have
-> > > > > > > > to be in a worker, right? Everything else would be inside
-> > > > > > > > the
-> > > > > > > > dma_fence_begin/end_signalling() annotations?
-> > > > > > > 
-> > > > > > > Yup. Also I noticed that unlike the iio patches you don't
-> > > > > > > have
-> > > > > > > the
-> > > > > > > dma_buf_unmap here in the completion path (or I'm blind?),
-> > > > > > > which
-> > > > > > > helps a
-> > > > > > > lot with avoiding trouble.
-> > > > > > 
-> > > > > > They both call dma_buf_unmap_attachment() in the "signal done"
-> > > > > > callback, the only difference I see is that it is called after
-> > > > > > the
-> > > > > > dma_fence_put() in the iio patches, while it's called before
-> > > > > > dma_fence_put() here.
-> > > > > 
-> > > > > I was indeed blind ...
-> > > > > 
-> > > > > So the trouble is this wont work because:
-> > > > > - dma_buf_unmap_attachment() requires dma_resv_lock. This is a
-> > > > > somewhat
-> > > > >   recent-ish change from 47e982d5195d ("dma-buf: Move
-> > > > >   dma_buf_map_attachment() to dynamic locking specification"), so
-> > > > > maybe
-> > > > >   old kernel or you don't have full lockdep enabled to get the
-> > > > > right
-> > > > >   splat.
-> > > > > 
-> > > > > - dma_fence critical section forbids dma_resv_lock
-> > > > > 
-> > > > > Which means you need to move this out, but then there's the
-> > > > > potential
-> > > > > cache management issue. Which current gpu drivers just kinda
-> > > > > ignore
-> > > > > because it doesn't matter for current use-case, they all cache
-> > > > > the
-> > > > > mapping
-> > > > > for about as long as the attachment exists. You might want to do
-> > > > > the
-> > > > > same,
-> > > > > unless that somehow breaks a use-case you have, I have no idea
-> > > > > about
-> > > > > that.
-> > > > > If something breaks with unmap_attachment moved out of the fence
-> > > > > handling
-> > > > > then I guess it's high time to add separate cache-management only
-> > > > > to
-> > > > > dma_buf (and that's probably going to be quite some wiring up,
-> > > > > not
-> > > > > sure
-> > > > > even how easy that would be to do nor what exactly the interface
-> > > > > should
-> > > > > look like).
-> > > > 
-> > > > Ok. Then I'll just cache the mapping for now, I think.
-> > > 
-> > > Yeah I think that's simplest. I did ponder a bit and I don't think
-> > > it'd be
-> > > too much pain to add the cache-management functions for device
-> > > attachments/mappings. But it would be quite some typing ...
-> > > -Sima
-> > 
-> > It looks like I actually do have some hardware which requires the cache
-> > management. If I cache the mappings in both my IIO and USB code, it
-> > works fine on my ZedBoard, but it doesn't work on my ZCU102.
-> > 
-> > (Or maybe it's something else? What I get from USB in that case is a
-> > stream of zeros, I'd expect it to be more like a stream of
-> > garbage/stale data).
-> > 
-> > So, change of plans; I will now unmap the attachment in the cleanup
-> > worker after the fence is signalled, and add a warning comment before
-> > the end of the fence critical section about the need to do cache
-> > management before the signal.
-> > 
-> > Does that work for you?
-> 
-> The trouble is, I'm not sure this works for you. If you rely on the
-> fences, and you have to do cache management in between dma operations,
-> then doing the unmap somewhen later will only mostly paper over the issue,
-> but not consistently.
-> 
-> I think that's really bad because the bugs this will cause are very hard
-> to track down and with the current infrastructure impossible to fix.
-> 
-> Imo cache the mappings, and then fix the cache management bug properly.
-> 
-> If you want an interim solution that isn't blocked on the dma-buf cache
-> management api addition, the only thing that works is doing the operations
-> synchronously in the ioctl call. Then you don't need fences, and you can
-> guarantee that the unmap has finished before userspace proceeds.
-> 
-> With the dma_fences you can't guarantee that, it's just pure luck.
+Hi Alexander,
 
-Maybe a follow up: Double check you really need the cache management
-between the dma operations from 2 different devices, and not for the cpu
-access that you then probably do to check the result.
+kernel test robot noticed the following build warnings:
 
-Because if the issue is just cpu access, then protecting the cpu access
-needs to use the begin/end_cpu_access dma-functions (or the corresponding
-ioctl if you use mmap from userspace) anyway, and that should sort out any
-issues you have for cpu access.
+[auto build test WARNING on linus/master]
+[cannot apply to tip/x86/core arm64/for-next/core akpm-mm/mm-everything v6.7 next-20240118]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Just to make sure we're not needlessly trying to fix something that isn't
-actually the problem.
--Sima
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20240117-225136
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240117144704.602-14-graf%40amazon.com
+patch subject: [PATCH v3 13/17] tracing: Recover trace buffers from kexec handover
+config: i386-randconfig-061-20240118 (https://download.01.org/0day-ci/archive/20240118/202401182318.vEGddOt1-lkp@intel.com/config)
+compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240118/202401182318.vEGddOt1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401182318.vEGddOt1-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/ring_buffer.c:1105:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   kernel/trace/ring_buffer.c:1105:32: sparse:     expected restricted __poll_t
+   kernel/trace/ring_buffer.c:1105:32: sparse:     got int
+   kernel/trace/ring_buffer.c:4955:9: sparse: sparse: context imbalance in 'ring_buffer_peek' - different lock contexts for basic block
+   kernel/trace/ring_buffer.c:5041:9: sparse: sparse: context imbalance in 'ring_buffer_consume' - different lock contexts for basic block
+   kernel/trace/ring_buffer.c:5421:17: sparse: sparse: context imbalance in 'ring_buffer_empty' - different lock contexts for basic block
+   kernel/trace/ring_buffer.c:5451:9: sparse: sparse: context imbalance in 'ring_buffer_empty_cpu' - different lock contexts for basic block
+>> kernel/trace/ring_buffer.c:5937:82: sparse: sparse: non size-preserving integer to pointer cast
+   kernel/trace/ring_buffer.c:5939:84: sparse: sparse: non size-preserving integer to pointer cast
+
+vim +5937 kernel/trace/ring_buffer.c
+
+  5896	
+  5897	static int rb_kho_replace_buffers(struct ring_buffer_per_cpu *cpu_buffer,
+  5898					     struct rb_kho_cpu *kho)
+  5899	{
+  5900		bool first_loop = true;
+  5901		struct list_head *tmp;
+  5902		int err = 0;
+  5903		int i = 0;
+  5904	
+  5905		if (!IS_ENABLED(CONFIG_FTRACE_KHO))
+  5906			return -EINVAL;
+  5907	
+  5908		if (kho->nr_mems != cpu_buffer->nr_pages * 2)
+  5909			return -EINVAL;
+  5910	
+  5911		for (tmp = rb_list_head(cpu_buffer->pages);
+  5912		     tmp != rb_list_head(cpu_buffer->pages) || first_loop;
+  5913		     tmp = rb_list_head(tmp->next), first_loop = false) {
+  5914			struct buffer_page *bpage = (struct buffer_page *)tmp;
+  5915			const struct kho_mem *mem_bpage = &kho->mem[i++];
+  5916			const struct kho_mem *mem_page = &kho->mem[i++];
+  5917			const uint64_t rb_page_head = 1;
+  5918			struct buffer_page *old_bpage;
+  5919			void *old_page;
+  5920	
+  5921			old_bpage = __va(mem_bpage->addr);
+  5922			if (!bpage)
+  5923				goto out;
+  5924	
+  5925			if ((ulong)old_bpage->list.next & rb_page_head) {
+  5926				struct list_head *new_lhead;
+  5927				struct buffer_page *new_head;
+  5928	
+  5929				new_lhead = rb_list_head(bpage->list.next);
+  5930				new_head = (struct buffer_page *)new_lhead;
+  5931	
+  5932				/* Assume the buffer is completely full */
+  5933				cpu_buffer->tail_page = bpage;
+  5934				cpu_buffer->commit_page = bpage;
+  5935				/* Set the head pointers to what they were before */
+  5936				cpu_buffer->head_page->list.prev->next = (struct list_head *)
+> 5937					((ulong)cpu_buffer->head_page->list.prev->next & ~rb_page_head);
+  5938				cpu_buffer->head_page = new_head;
+  5939				bpage->list.next = (struct list_head *)((ulong)new_lhead | rb_page_head);
+  5940			}
+  5941	
+  5942			if (rb_page_entries(old_bpage) || rb_page_write(old_bpage)) {
+  5943				/*
+  5944				 * We want to recycle the pre-kho page, it contains
+  5945				 * trace data. To do so, we unreserve it and swap the
+  5946				 * current data page with the pre-kho one
+  5947				 */
+  5948				old_page = kho_claim_mem(mem_page);
+  5949	
+  5950				/* Recycle the old page, it contains data */
+  5951				free_page((ulong)bpage->page);
+  5952				bpage->page = old_page;
+  5953	
+  5954				bpage->write = old_bpage->write;
+  5955				bpage->entries = old_bpage->entries;
+  5956				bpage->real_end = old_bpage->real_end;
+  5957	
+  5958				local_inc(&cpu_buffer->pages_touched);
+  5959			} else {
+  5960				kho_return_mem(mem_page);
+  5961			}
+  5962	
+  5963			kho_return_mem(mem_bpage);
+  5964		}
+  5965	
+  5966	out:
+  5967		return err;
+  5968	}
+  5969	
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
