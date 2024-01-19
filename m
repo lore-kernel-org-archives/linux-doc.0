@@ -1,141 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2C94EB30;
-	Fri, 19 Jan 2024 14:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1758255784;
+	Fri, 19 Jan 2024 16:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705674377; cv=none; b=eXXYpkwtv+k/Z3QXOKnC85mOjWxRliRu+KHols/CcGO0kWs6R2Wy4ea61XPsoeP4AeFXhGTyfblxsn7ENLadc7IFcdC9jj0PA0MqO8O6WbXSxFYzgfzd+fhO+Im4vUNjG+uSi9Zw/FL7szDsMhtvw0xMrYxmEA5isCQozccJNSQ=
+	t=1705683307; cv=none; b=HtiaZJmkG9ApnPLFs2kzGy3DKKGX5Pf44FiTjpXv+WhCQUopJRM7SWPJd3FjAZ55Bd32QnNo6/aAbz1TcK3krbEjUW2Iej+4rP1j30p2vsErqwsWqgK1PDmMGefCDU65iwqFapjXuIUqO7g78QaeRGWA247p+RiHKI84p5pwFsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705674377; c=relaxed/simple;
-	bh=6ZyFttJi9Pj6gtg9DPLGs15qvrUf2pvBuDiSTNdqKfw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JlstOQpqFPCVG5DqPmZgFE1IQ8GGxbaZ+ZlUOjo1dfXih/BGfjOU6Ev+tuknkjFK/IJg6MyJkdBnwWyHgtTI2OfU/AINJ8v2cd0Yo1MqTFLYg/lhQjdYMSN6U6UyucAIGwNxMO2Rr0fUDJHO9dpHh4aK69CJ8TH69VyCSHUyGzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMmj7QBa; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMmj7QBa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705674375; x=1737210375;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6ZyFttJi9Pj6gtg9DPLGs15qvrUf2pvBuDiSTNdqKfw=;
-  b=OMmj7QBanQO0Joo5tOziK/xwUtyKVg7GUFOhm71kTo/i6RzIfNnXAthk
-   YPb23w7swWFLK2E/mtburyS/AACm1oaB2Mn/Xbp866r1Bw2YpxAbC6TXG
-   4G2X8bbRJfs39jVEvQSB+LTIriSOhZp4OYKS9ohSoiNpfEJgyw8HZOdZ8
-   AKZ/fnaMSXsA2nTs1VosLJ7BKb9MqY9DZzsxK90aOlfnU7bv8y81D9y6V
-   GLsqJtcBePQfwIf8PKE0w2ArQoNC/SONTqqpXbR0bfDVKt51LNYHxkHyv
-   QT9eu5AAPIufKF/NmWA7GIgghR44VwRFtyxKYt26uLz1TNeBCGAFGxCBr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="7513058"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="7513058"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2024 06:26:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10956"; a="778000589"
-X-IronPort-AV: E=Sophos;i="6.05,204,1701158400"; 
-   d="scan'208";a="778000589"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 Jan 2024 06:26:04 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rQpon-000492-2J;
-	Fri, 19 Jan 2024 14:26:01 +0000
-Date: Fri, 19 Jan 2024 22:25:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Cercueil <paul@crapouillou.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import
- interface
-Message-ID: <202401192234.0uzq25ka-lkp@intel.com>
-References: <20240117122646.41616-4-paul@crapouillou.net>
+	s=arc-20240116; t=1705683307; c=relaxed/simple;
+	bh=su/Rz+5699sb7UQeTkajOvLoS6GIiWIG1/7YwxHT1uw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ad1h3bH5UnKZSqF8KlfA4C/Qm0HnQGv8ZSWW04PxnZ1TXO6HX9Rv8KpwXV3VFRg/cNea9mGm8x1JRZZvTiNUr7m6xoj7pEzhgAzfhbv2Ddtm9Bddk8PW8b37rZiK+TRArRVjTzSflLuPKF7uUCudd/yz7zXnOP7gPun5M/Z2z20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41FBEC433F1;
+	Fri, 19 Jan 2024 16:55:04 +0000 (UTC)
+Date: Fri, 19 Jan 2024 11:56:25 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Huang Yiwei <quic_hyiwei@quicinc.com>
+Cc: <mhiramat@kernel.org>, <mark.rutland@arm.com>, <mcgrof@kernel.org>,
+ <keescook@chromium.org>, <j.granados@samsung.com>,
+ <mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
+ <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <quic_bjorande@quicinc.com>, <quic_tsoni@quicinc.com>,
+ <quic_satyap@quicinc.com>, <quic_aiquny@quicinc.com>, <kernel@quicinc.com>,
+ Ross Zwisler <zwisler@google.com>, Joel Fernandes <joel@joelfernandes.org>
+Subject: Re: [PATCH v3] tracing: Support to dump instance traces by
+ ftrace_dump_on_oops
+Message-ID: <20240119115625.603188d1@gandalf.local.home>
+In-Reply-To: <20240119080824.907101-1-quic_hyiwei@quicinc.com>
+References: <20240119080824.907101-1-quic_hyiwei@quicinc.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240117122646.41616-4-paul@crapouillou.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+On Fri, 19 Jan 2024 16:08:24 +0800
+Huang Yiwei <quic_hyiwei@quicinc.com> wrote:
 
-kernel test robot noticed the following build errors:
+> -	ftrace_dump_on_oops[=orig_cpu]
+> +	ftrace_dump_on_oops[=orig_cpu | =<instance>]
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus lwn/docs-next linus/master v6.7 next-20240119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I wonder if we should have it be:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20240117-203111
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240117122646.41616-4-paul%40crapouillou.net
-patch subject: [PATCH v4 3/4] usb: gadget: functionfs: Add DMABUF import interface
-config: sh-randconfig-r052-20240119 (https://download.01.org/0day-ci/archive/20240119/202401192234.0uzq25ka-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240119/202401192234.0uzq25ka-lkp@intel.com/reproduce)
+	ftrace_dump_on_oops[=orig_cpu | =<instance> | =<instance>:orig_cpu ]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401192234.0uzq25ka-lkp@intel.com/
+Then last would be to only print out a specific CPU trace of the given instance.
 
-All errors (new ones prefixed by >>):
+And if we really want to be fancy!
 
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_dmabuf_signal_done':
->> f_fs.c:(.text+0x254c): undefined reference to `dma_fence_begin_signalling'
->> sh4-linux-ld: f_fs.c:(.text+0x2560): undefined reference to `dma_fence_signal'
->> sh4-linux-ld: f_fs.c:(.text+0x2564): undefined reference to `dma_fence_end_signalling'
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_epfile_release':
->> f_fs.c:(.text+0x28a0): undefined reference to `dma_buf_detach'
->> sh4-linux-ld: f_fs.c:(.text+0x28a4): undefined reference to `dma_buf_put'
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_dmabuf_unmap_work':
->> f_fs.c:(.text+0x2c6c): undefined reference to `dma_buf_unmap_attachment'
->> sh4-linux-ld: f_fs.c:(.text+0x2c70): undefined reference to `dma_resv_reset_max_fences'
->> sh4-linux-ld: f_fs.c:(.text+0x2c84): undefined reference to `dma_buf_detach'
-   sh4-linux-ld: f_fs.c:(.text+0x2c88): undefined reference to `dma_buf_put'
->> sh4-linux-ld: f_fs.c:(.text+0x2c94): undefined reference to `dma_fence_release'
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_dmabuf_transfer':
->> f_fs.c:(.text+0x2e30): undefined reference to `dma_buf_get'
-   sh4-linux-ld: f_fs.c:(.text+0x2e3c): undefined reference to `dma_buf_put'
->> sh4-linux-ld: f_fs.c:(.text+0x2ef4): undefined reference to `dma_resv_test_signaled'
->> sh4-linux-ld: f_fs.c:(.text+0x2efc): undefined reference to `dma_buf_map_attachment'
->> sh4-linux-ld: f_fs.c:(.text+0x3098): undefined reference to `dma_resv_reserve_fences'
->> sh4-linux-ld: f_fs.c:(.text+0x30bc): undefined reference to `dma_fence_init'
->> sh4-linux-ld: f_fs.c:(.text+0x30c0): undefined reference to `dma_resv_add_fence'
-   sh4-linux-ld: f_fs.c:(.text+0x30c4): undefined reference to `dma_resv_reset_max_fences'
->> sh4-linux-ld: f_fs.c:(.text+0x30d4): undefined reference to `dma_fence_begin_signalling'
-   sh4-linux-ld: f_fs.c:(.text+0x30e0): undefined reference to `dma_fence_end_signalling'
-   sh4-linux-ld: f_fs.c:(.text+0x30f0): undefined reference to `dma_buf_put'
-   sh4-linux-ld: f_fs.c:(.text+0x321c): undefined reference to `dma_fence_release'
->> sh4-linux-ld: f_fs.c:(.text+0x3224): undefined reference to `dma_buf_unmap_attachment'
-   sh4-linux-ld: f_fs.c:(.text+0x3228): undefined reference to `dma_resv_reset_max_fences'
-   sh4-linux-ld: f_fs.c:(.text+0x3230): undefined reference to `dma_buf_detach'
-   sh4-linux-ld: f_fs.c:(.text+0x3234): undefined reference to `dma_buf_put'
-   sh4-linux-ld: drivers/usb/gadget/function/f_fs.o: in function `ffs_epfile_ioctl':
-   f_fs.c:(.text+0x41f0): undefined reference to `dma_buf_get'
->> sh4-linux-ld: f_fs.c:(.text+0x41f4): undefined reference to `dma_buf_attach'
-   sh4-linux-ld: f_fs.c:(.text+0x4200): undefined reference to `dma_buf_detach'
->> sh4-linux-ld: f_fs.c:(.text+0x4210): undefined reference to `dma_fence_context_alloc'
-   sh4-linux-ld: f_fs.c:(.text+0x4220): undefined reference to `dma_buf_put'
-   sh4-linux-ld: f_fs.c:(.text+0x43b0): undefined reference to `dma_buf_detach'
-   sh4-linux-ld: f_fs.c:(.text+0x43b4): undefined reference to `dma_buf_put'
+	ftrace_dump_on_opps[=orig_cpu | =<instance> | =orig_cpu:<instance> ][,<instance> | ,<instance>:orig_cpu]
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That would allow dumping more than one instance.
+
+If you want to dump the main buffer and an instance foo:
+
+	ftrace_dump_on_opps,foo
+
+Where the ',' says to dump the top instance as well as the foo instance.
+
+-- Steve
+
+
+>  			[FTRACE] will dump the trace buffers on oops.
+> -			If no parameter is passed, ftrace will dump
+> -			buffers of all CPUs, but if you pass orig_cpu, it will
+> +			If no parameter is passed, ftrace will dump global
+> +			buffers of all CPUs, if you pass orig_cpu, it will
+>  			dump only the buffer of the CPU that triggered the
+> -			oops.
+> +			oops, or specific instance will be dumped if instance
+> +			name is passed.
+>  
