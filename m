@@ -1,106 +1,133 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E704F1E6;
-	Fri, 19 Jan 2024 13:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BC01E48F;
+	Fri, 19 Jan 2024 14:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705670394; cv=none; b=R6L163ncTPxpTudOhKoj2ZySJZLzU1VTc4cg29kwqtNaQmFPQWk+sqcAuEUlekKac6GFe9ne3wevAxitmuYjUEvdvRkTe6nTWWX4JDYAZOWxj+fEkXJcZg1OMuXzTYw9ji54voEKVquv63LpGDUe9c5eMmEfWS4alqaw8INhyak=
+	t=1705673655; cv=none; b=WYAuDDYJrEQYYnJeWKXLDpx2sZcwkE7Ee/IxsKv+3ILyRuAeKtJC4SECpCVhVWuHuzhDK00ESgHKu+NoLiZH6K98rvL6t4hWZzYOnHL0zFYZN4kwUZgrZrWMqnVyHkt2afGX/jWHgTungSgeQIEGEOFh3YGWYHkuUsHCP13LhHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705670394; c=relaxed/simple;
-	bh=dJgYMSNA/LU7JWwce+WL2E1J0qhV5ha58/4r5V6HnYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fOtMdTLeRCOHGkJGC5cBRGDG+x9M2rd5BBkCZpf811OojlhEIzQIwQlNvGHLEx8maw9ZevFWGIqbYRLe6mZjHNErZDUhMXK2qHVsQwUXAk+WpvRDxRNGsVtkWf6Eg17gmuGu+sw0R9k8112wXgRYQ4AAaGTih6pQDuHZJADPGJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=BXjmABxR; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1705673655; c=relaxed/simple;
+	bh=YxMO7K0SAFW1fxIxiyYDZizLbqPwVgtTZ5V/DA1a3aA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=n70C0PheOY4aZm+w+F+XeUlHH4WSs+IHr1EYWLJl72c2xaPx/9uuAl0mYPtjmcaKQMVxSx9kNoq1Ev79SAD1GRchZsWUJFUIPj+2W2LDrp68iKCYoQ09nTWrcc6CfjdRrGfqUShxzNiteuAqBHxKGifMCNPx8r5TzmUS2uDTktI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=AZOYG5ed; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="BXjmABxR"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40JCqqq8014644;
-	Fri, 19 Jan 2024 13:19:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=Qvu2UtNYQDPQTnD9i9bszivXKf7tCMpnBb8vcZMonug=;
- b=BXjmABxRmEVa3dgZzvIgAapAMi7y1mCh/C/jsvGDaZ27DVy08dDepFOXimGTmz6vkILN
- 3swZJ8UmYzfQDEEWbYIWHf8w47KSY8d/FBf47l8PGUui+yUlXEWpSLt7t+84Ba1vrADT
- vEexTjSIvZKxZi1sT3/nRpLMDzOfZfe6W3CuaOTABNHfy8IW7Iik4tF/umAFRgSZqtmh
- OB33RVaHerE4+XVW+b/sy0gtecNeNo4JtMN/1HbFblOBq3XcWjxaeMNMMze44pI2lOIM
- sKSGO7RNGZzxFUSdFGEzTM35ntoa0UmsjKJQ6I8tMTZfi6GXnOf1dCA8UpJV1Q5xqJg+ HA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vqsfcgp2n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 Jan 2024 13:19:43 +0000
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40JCxs0L030790;
-	Fri, 19 Jan 2024 13:19:43 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vqsfcgp26-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 Jan 2024 13:19:43 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 40JB0F4r030427;
-	Fri, 19 Jan 2024 13:19:42 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3vm72khbn2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 Jan 2024 13:19:41 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 40JDJdrG22020654
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 19 Jan 2024 13:19:39 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 307EA20040;
-	Fri, 19 Jan 2024 13:19:39 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 02EFA20043;
-	Fri, 19 Jan 2024 13:19:38 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.171.85.177])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri, 19 Jan 2024 13:19:37 +0000 (GMT)
-Date: Fri, 19 Jan 2024 14:19:36 +0100
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Marcos Paulo de Souza <mpdesouza@suse.com>
-Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH v6 2/3] livepatch: Move tests from lib/livepatch to
- selftests/livepatch
-Message-ID: <Zap26MINbbxREt4c@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-References: <20240112-send-lp-kselftests-v6-0-79f3e9a46717@suse.com>
- <20240112-send-lp-kselftests-v6-2-79f3e9a46717@suse.com>
- <Zap04ddls7ZvbL/U@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="AZOYG5ed"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1705673650;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FX6y2yjuW0nuJFiEqsV4ftraJscIV4V40Vy+XAQTjhI=;
+	b=AZOYG5edVZIWA1BlCrUR1yaolBTzcIodYuTj1R0BojE/dH4mDiXy2R/lk6N0eIGpYjQRnM
+	moRjihZ1MzvjxwroPPnCYYSyUbr+Q/3G8gPUFgTrqIdY8BEH1tinjcH5f3aUwn3o497Y5W
+	cxzgdFEi3srEEHMggkSKv9wlfR3+Gjo=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v5 0/6] usb: gadget: functionfs: DMABUF import interface
+Date: Fri, 19 Jan 2024 15:13:56 +0100
+Message-ID: <20240119141402.44262-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zap04ddls7ZvbL/U@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DrA398G5w-678hUFOYdvtmSK8cLVFn6c
-X-Proofpoint-ORIG-GUID: Y9Lss7BHjSHspnm5KUirWOZ-K54LSjfL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-19_07,2024-01-19_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=513 suspectscore=0
- spamscore=0 phishscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2401190069
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 19, 2024 at 02:11:01PM +0100, Alexander Gordeev wrote:
-> FWIW, for s390 part:
-> 
-> Alexander Gordeev <agordeev@linux.ibm.com>
+Hi,
 
-Acked-by: Alexander Gordeev <agordeev@linux.ibm.com>
+This is the v5 of my patchset that adds a new DMABUF import interface to
+FunctionFS.
+
+Daniel / Sima suggested that I should cache the dma_buf_attachment while
+the DMABUF is attached to the interface, instead of mapping/unmapping
+the DMABUF for every transfer (also because unmapping is not possible in
+the dma_fence's critical section). This meant having to add new
+dma_buf_begin_access() / dma_buf_end_access() functions that the driver
+can call to ensure cache coherency. These two functions are provided by
+the new patch [1/6], and an implementation for udmabuf was added in
+[2/6] - see the changelog below.
+
+This patchset was successfully tested with CONFIG_LOCKDEP, no errors
+were reported in dmesg while using the interface.
+
+This interface is being used at Analog Devices, to transfer data from
+high-speed transceivers to USB in a zero-copy fashion, using also the
+DMABUF import interface to the IIO subsystem which is being upstreamed
+in parallel [1]. The two are used by the Libiio software [2].
+
+On a ZCU102 board with a FMComms3 daughter board, using the combination
+of these two new interfaces yields a drastic improvement of the
+throughput, from about 127 MiB/s using IIO's buffer read/write interface
++ read/write to the FunctionFS endpoints, to about 274 MiB/s when
+passing around DMABUFs, for a lower CPU usage (0.85 load avg. before,
+vs. 0.65 after).
+
+Right now, *technically* there are no users of this interface, as
+Analog Devices wants to wait until both interfaces are accepted upstream
+to merge the DMABUF code in Libiio into the main branch, and Jonathan
+wants to wait and see if this patchset is accepted to greenlight the
+DMABUF interface in IIO as well. I think this isn't really a problem;
+once everybody is happy with its part of the cake, we can merge them all
+at once.
+
+This is obviously for 5.9, and based on next-20240119.
+
+Changelog:
+
+- [1/6]: New patch
+- [2/6]: New patch
+- [5/6]:
+  - Cache the dma_buf_attachment while the DMABUF is attached.
+  - Use dma_buf_begin/end_access() to ensure that the DMABUF data will be
+    coherent to the hardware.
+  - Remove comment about cache-management and dma_buf_unmap_attachment(),
+    since we now use dma_buf_begin/end_access().
+  - Select DMA_SHARED_BUFFER in Kconfig entry
+  - Add Christian's ACK
+
+Cheers,
+-Paul
+
+[1] https://lore.kernel.org/linux-iio/219abc43b4fdd4a13b307ed2efaa0e6869e68e3f.camel@gmail.com/T/
+[2] https://github.com/analogdevicesinc/libiio/tree/pcercuei/dev-new-dmabuf-api
+
+Paul Cercueil (6):
+  dma-buf: Add dma_buf_{begin,end}_access()
+  dma-buf: udmabuf: Implement .{begin,end}_access
+  usb: gadget: Support already-mapped DMA SGs
+  usb: gadget: functionfs: Factorize wait-for-endpoint code
+  usb: gadget: functionfs: Add DMABUF import interface
+  Documentation: usb: Document FunctionFS DMABUF API
+
+ Documentation/usb/functionfs.rst    |  36 ++
+ drivers/dma-buf/dma-buf.c           |  66 ++++
+ drivers/dma-buf/udmabuf.c           |  27 ++
+ drivers/usb/gadget/Kconfig          |   1 +
+ drivers/usb/gadget/function/f_fs.c  | 502 ++++++++++++++++++++++++++--
+ drivers/usb/gadget/udc/core.c       |   7 +-
+ include/linux/dma-buf.h             |  37 ++
+ include/linux/usb/gadget.h          |   2 +
+ include/uapi/linux/usb/functionfs.h |  41 +++
+ 9 files changed, 698 insertions(+), 21 deletions(-)
+
+-- 
+2.43.0
+
