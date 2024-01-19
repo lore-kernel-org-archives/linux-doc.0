@@ -1,365 +1,367 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00850D52B;
-	Fri, 19 Jan 2024 08:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A2ED53E;
+	Fri, 19 Jan 2024 08:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705651521; cv=none; b=ag1oPKaFiiG2JQHnX/Q4aKReu+XNC9vWJn7EAoSNyuS0BYyad6ZH/RNfX0yAer6h6Q6AB8+uzdhloyfdZb/dxynatl48uFG5pA7vKCan2aVHeorDxtnw9O3ue1/50z3Q/4xt+xgIXqbhQIc+n0Y/onnXfYr8ZdZOHSdS/kn9YNQ=
+	t=1705651749; cv=none; b=npC9QR4i6plQqsbpAz85B0Ul5G6f7SNVisUJW7oQFeYVwiwq1xqtQPM18urwyUvqd0LdKLAPrgtCFUqfnQ63uw4IGSS9y61cywjM+FCyg7w447nhHtKBm+n7/eEOk+iBAJ+9a9CN++AwSV1IxUooHDI2LQqgkgw2YxvBSVbB8/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705651521; c=relaxed/simple;
-	bh=leiwWfJwVuSH6AhK4TamCaravv3a3FKCEyKKAL38dKI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PaTNgDr3Zo2TL3E1/ESlbH4Ukl9FZeD2axgc6CrFY4l+bFCzW4Z8wZUeCDfjxShcZ3yQStX/VMDREzZJtXOqnMcJ3efsF7LzeBAbkdhIj46fN2jibTcRzCWmtreKtGZLEymcpPqCtEZ4vu3bkPZpIAYh64a/WQ7eP/4L985CvFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 69DBB240009;
-	Fri, 19 Jan 2024 08:05:13 +0000 (UTC)
-Message-ID: <069ac01f-9d41-45fc-b26f-38f2d8cec787@ghiti.fr>
-Date: Fri, 19 Jan 2024 09:05:12 +0100
+	s=arc-20240116; t=1705651749; c=relaxed/simple;
+	bh=qd+BTb6rH9NIO5HR/wKbO4iEQrU+TISoT2pw6lZuSJI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PVujti2lE+ybYCIB7XRmRruYRW6Cn8aRNHANx3rwd1juF0dMD+TmiyZu9BNLlMx66+2vEil1NjeqTWrqIgNleeHlIGTwpqpgIae/FKs/95r7mNTfCzFMGmlKj6yxrKJ4CrAyT33TM5yi4mapU5eqjgLes7fFFPePQ7kQ4YT6abE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dMES4aKi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dMES4aKi"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40J7DNDm011457;
+	Fri, 19 Jan 2024 08:08:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=kvg0ufm
+	g1LH0ci+iHAQyCkwG18EJIWxbtdxWL6idM00=; b=dMES4aKiTDFrd+kU2LVdhxQ
+	vrA93N0i3WIX8PChK2HejR+1YwCrdo87e44nm85ocE5w5By6iNR4eST3sSaBfWXJ
+	qI/16cZ5v2rF56B/btMJpR3OS6c/vC3Wug4y0EcHWF17j7E2f22YxS9uHrswQ9lm
+	KyvQm4p554HyeueiQPqAXMT6Ed1CGUIQGE/bdxQNW/0aC+iOeJ7ADoIGDBm4qL0B
+	KUbcIaww/DeRhNK8B3WPG16Htwwf0erWC+9QDaLO6Df7PJaak4/m4msSLiBMpIi3
+	XkpMabeoXmKWJcu5rYUJVwv5vRkv3tS0JZm6SryEhLbqUjp4LPG1tdhT42d4cZQ=
+	=
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vqmgd8345-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jan 2024 08:08:47 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40J88lX9019216
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jan 2024 08:08:47 GMT
+Received: from hyiwei-gv.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 19 Jan 2024 00:08:38 -0800
+From: Huang Yiwei <quic_hyiwei@quicinc.com>
+To: <rostedt@goodmis.org>, <mhiramat@kernel.org>, <mark.rutland@arm.com>,
+        <mcgrof@kernel.org>, <keescook@chromium.org>, <j.granados@samsung.com>,
+        <mathieu.desnoyers@efficios.com>, <corbet@lwn.net>
+CC: <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <quic_bjorande@quicinc.com>, <quic_tsoni@quicinc.com>,
+        <quic_satyap@quicinc.com>, <quic_aiquny@quicinc.com>,
+        <kernel@quicinc.com>, Huang Yiwei <quic_hyiwei@quicinc.com>,
+        Ross Zwisler <zwisler@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>
+Subject: [PATCH v3] tracing: Support to dump instance traces by ftrace_dump_on_oops
+Date: Fri, 19 Jan 2024 16:08:24 +0800
+Message-ID: <20240119080824.907101-1-quic_hyiwei@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] riscv: Include riscv_set_icache_flush_ctx prctl
-Content-Language: en-US
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>,
- =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Atish Patra <atishp@atishpatra.org>, Randy Dunlap <rdunlap@infradead.org>,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>
-References: <20240116-fencei-v8-0-43a42134f021@rivosinc.com>
- <20240116-fencei-v8-1-43a42134f021@rivosinc.com>
- <bb0e976d-7475-4c42-b87e-bf1af389ba5f@ghiti.fr> <Zamxac0S7JnPmJdD@ghost>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <Zamxac0S7JnPmJdD@ghost>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: alex@ghiti.fr
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: d1sf6dGn5_q50si8XE02nqKgfoVetdDB
+X-Proofpoint-GUID: d1sf6dGn5_q50si8XE02nqKgfoVetdDB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-19_04,2024-01-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ phishscore=0 clxscore=1011 priorityscore=1501 mlxscore=0 malwarescore=0
+ suspectscore=0 bulkscore=0 mlxlogscore=999 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401190029
 
-On 19/01/2024 00:16, Charlie Jenkins wrote:
-> On Wed, Jan 17, 2024 at 09:42:43AM +0100, Alexandre Ghiti wrote:
->> Hi Charlie,
->>
->> On 17/01/2024 03:54, Charlie Jenkins wrote:
->>> Support new prctl with key PR_RISCV_SET_ICACHE_FLUSH_CTX to enable
->>> optimization of cross modifying code. This prctl enables userspace code
->>> to use icache flushing instructions such as fence.i with the guarantee
->>> that the icache will continue to be clean after thread migration.
->>>
->>> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
->>> Reviewed-by: Atish Patra <atishp@rivosinc.com>
->>> ---
->>>    arch/riscv/include/asm/mmu.h         |  4 +++
->>>    arch/riscv/include/asm/mmu_context.h |  3 ++
->>>    arch/riscv/include/asm/processor.h   |  7 ++++
->>>    arch/riscv/include/asm/switch_to.h   | 17 +++++++++
->>>    arch/riscv/mm/cacheflush.c           | 67 ++++++++++++++++++++++++++++++++++++
->>>    arch/riscv/mm/context.c              | 14 ++++++--
->>>    include/uapi/linux/prctl.h           |  6 ++++
->>>    kernel/sys.c                         |  6 ++++
->>>    8 files changed, 121 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
->>> index 355504b37f8e..f437b9a7f5b3 100644
->>> --- a/arch/riscv/include/asm/mmu.h
->>> +++ b/arch/riscv/include/asm/mmu.h
->>> @@ -19,6 +19,10 @@ typedef struct {
->>>    #ifdef CONFIG_SMP
->>>    	/* A local icache flush is needed before user execution can resume. */
->>>    	cpumask_t icache_stale_mask;
->>> +	/* Force local icache flush on all migrations. */
->>> +	bool force_icache_flush;
->>> +	/* The most recent cpu a thread in this mm has been migrated to. */
->>> +	unsigned int prev_cpu;
->>
->> Why would we need a prev_cpu on mm? Why don't we only need to have a
->> prev_cpu per thread, i.e. per task_struct? It makes little sense to me to
->> have that on mm since it's shared by multiple threads (by definition), so
->> the prev_cpu on mm could be anything.
->>
-> Yes you are correct, I will remove that.
->
->>>    #endif
->>>    #ifdef CONFIG_BINFMT_ELF_FDPIC
->>>    	unsigned long exec_fdpic_loadmap;
->>> diff --git a/arch/riscv/include/asm/mmu_context.h b/arch/riscv/include/asm/mmu_context.h
->>> index 7030837adc1a..195a2e90f3f9 100644
->>> --- a/arch/riscv/include/asm/mmu_context.h
->>> +++ b/arch/riscv/include/asm/mmu_context.h
->>> @@ -29,6 +29,9 @@ static inline int init_new_context(struct task_struct *tsk,
->>>    {
->>>    #ifdef CONFIG_MMU
->>>    	atomic_long_set(&mm->context.id, 0);
->>> +#endif
->>> +#ifdef CONFIG_SMP
->>> +	mm->context.prev_cpu = tsk->thread.prev_cpu;
->>>    #endif
->>>    	return 0;
->>>    }
->>> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
->>> index f19f861cda54..1cad05f579ad 100644
->>> --- a/arch/riscv/include/asm/processor.h
->>> +++ b/arch/riscv/include/asm/processor.h
->>> @@ -84,6 +84,10 @@ struct thread_struct {
->>>    	unsigned long vstate_ctrl;
->>>    	struct __riscv_v_ext_state vstate;
->>>    	unsigned long align_ctl;
->>> +#ifdef CONFIG_SMP
->>> +	bool force_icache_flush;
->>> +	unsigned int prev_cpu;
->>> +#endif
->>>    };
->>>    /* Whitelist the fstate from the task_struct for hardened usercopy */
->>> @@ -145,6 +149,9 @@ extern int set_unalign_ctl(struct task_struct *tsk, unsigned int val);
->>>    #define GET_UNALIGN_CTL(tsk, addr)	get_unalign_ctl((tsk), (addr))
->>>    #define SET_UNALIGN_CTL(tsk, val)	set_unalign_ctl((tsk), (val))
->>> +#define RISCV_SET_ICACHE_FLUSH_CTX(arg1, arg2)	riscv_set_icache_flush_ctx(arg1, arg2)
->>> +extern int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread);
->>> +
->>>    #endif /* __ASSEMBLY__ */
->>>    #endif /* _ASM_RISCV_PROCESSOR_H */
->>> diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/switch_to.h
->>> index f90d8e42f3c7..6a94431dc193 100644
->>> --- a/arch/riscv/include/asm/switch_to.h
->>> +++ b/arch/riscv/include/asm/switch_to.h
->>> @@ -8,6 +8,7 @@
->>>    #include <linux/jump_label.h>
->>>    #include <linux/sched/task_stack.h>
->>> +#include <linux/mm_types.h>
->>>    #include <asm/vector.h>
->>>    #include <asm/cpufeature.h>
->>>    #include <asm/processor.h>
->>> @@ -73,6 +74,17 @@ static __always_inline bool has_fpu(void) { return false; }
->>>    extern struct task_struct *__switch_to(struct task_struct *,
->>>    				       struct task_struct *);
->>> +static inline bool switch_to_should_flush_icache(struct task_struct *task)
->>> +{
->>> +	unsigned int cpu = smp_processor_id();
->>> +	bool stale_mm = task->mm && (task->mm->context.force_icache_flush &&
->>> +				     (cpu != task->mm->context.prev_cpu));
->>> +	bool stale_thread = task->thread.force_icache_flush &&
->>> +			    (cpu != task->thread.prev_cpu);
->>> +
->>> +	return stale_mm || stale_thread;
->>
->> Here the test would become:
->>
->> return ((task->mm && task->mm->context.force_icache_flush) ||
->> task->thread.force_icache_flush) && (cpu != task->thread.prev_cpu);
->>
->> And do we really need to check task->mm is not null?
-> mm can be null if the task is associated with a kernel thread. So the
-> check is necessary.
+Currently ftrace only dumps the global trace buffer on an OOPs. For
+debugging a production usecase, instance trace will be helpful to
+check specific problems since global trace buffer may be used for
+other purposes.
 
+This patch extend the ftrace_dump_on_oops parameter to dump a specific
+trace instance:
 
-Yes, you're right, thanks
+  - ftrace_dump_on_oops=0: as before -- don't dump
+  - ftrace_dump_on_oops[=1]: as before -- dump the global trace buffer
+  on all CPUs
+  - ftrace_dump_on_oops=2 or =orig_cpu: as before -- dump the global
+  trace buffer on CPU that triggered the oops
+  - ftrace_dump_on_oops=<instance_name>: new behavior -- dump the
+  tracing instance matching <instance_name>
 
+Also, the sysctl node can handle the input accordingly.
 
->>
->>> +}
->>> +
->>>    #define switch_to(prev, next, last)			\
->>>    do {							\
->>>    	struct task_struct *__prev = (prev);		\
->>> @@ -81,7 +93,12 @@ do {							\
->>>    		__switch_to_fpu(__prev, __next);	\
->>>    	if (has_vector())					\
->>>    		__switch_to_vector(__prev, __next);	\
->>> +	if (switch_to_should_flush_icache(__next))	\
->>> +		local_flush_icache_all();		\
->>>    	((last) = __switch_to(__prev, __next));		\
->>> +	__next->thread.prev_cpu = smp_processor_id();	\
->>> +	if (__next->mm)					\
->>> +		__next->mm->context.prev_cpu = smp_processor_id();	\
->>>    } while (0)
->>
->> And just to make sure I understand this: you moved the test in switch_to()
->> because 2 threads with the same mm could be scheduled one after the other on
->> the same cpu and then switch_mm() would not be called?
->>
-> Yes exactly.
+Cc: Ross Zwisler <zwisler@google.com>
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Signed-off-by: Huang Yiwei <quic_hyiwei@quicinc.com>
+---
+Link: https://lore.kernel.org/linux-trace-kernel/20221209125310.450aee97@gandalf.local.home/
 
+ .../admin-guide/kernel-parameters.txt         |  9 +--
+ Documentation/admin-guide/sysctl/kernel.rst   | 11 ++--
+ include/linux/ftrace.h                        |  4 +-
+ include/linux/kernel.h                        |  1 +
+ kernel/sysctl.c                               |  4 +-
+ kernel/trace/trace.c                          | 64 ++++++++++++++-----
+ kernel/trace/trace_selftest.c                 |  2 +-
+ 7 files changed, 65 insertions(+), 30 deletions(-)
 
-Very good catch then!
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a36cf8cc582c..b3aa533253f1 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1559,12 +1559,13 @@
+ 			The above will cause the "foo" tracing instance to trigger
+ 			a snapshot at the end of boot up.
+ 
+-	ftrace_dump_on_oops[=orig_cpu]
++	ftrace_dump_on_oops[=orig_cpu | =<instance>]
+ 			[FTRACE] will dump the trace buffers on oops.
+-			If no parameter is passed, ftrace will dump
+-			buffers of all CPUs, but if you pass orig_cpu, it will
++			If no parameter is passed, ftrace will dump global
++			buffers of all CPUs, if you pass orig_cpu, it will
+ 			dump only the buffer of the CPU that triggered the
+-			oops.
++			oops, or specific instance will be dumped if instance
++			name is passed.
+ 
+ 	ftrace_filter=[function-list]
+ 			[FTRACE] Limit the functions traced by the function
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 6584a1f9bfe3..ecf036b63c48 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -296,11 +296,12 @@ kernel panic). This will output the contents of the ftrace buffers to
+ the console.  This is very useful for capturing traces that lead to
+ crashes and outputting them to a serial console.
+ 
+-= ===================================================
+-0 Disabled (default).
+-1 Dump buffers of all CPUs.
+-2 Dump the buffer of the CPU that triggered the oops.
+-= ===================================================
++=========== ===================================================
++0           Disabled (default).
++1           Dump buffers of all CPUs.
++2(orig_cpu) Dump the buffer of the CPU that triggered the oops.
++<instance>  Dump the specific instance buffer.
++=========== ===================================================
+ 
+ 
+ ftrace_enabled, stack_tracer_enabled
+diff --git a/include/linux/ftrace.h b/include/linux/ftrace.h
+index e8921871ef9a..f20de4621ec1 100644
+--- a/include/linux/ftrace.h
++++ b/include/linux/ftrace.h
+@@ -1151,7 +1151,9 @@ static inline void unpause_graph_tracing(void) { }
+ #ifdef CONFIG_TRACING
+ enum ftrace_dump_mode;
+ 
+-extern enum ftrace_dump_mode ftrace_dump_on_oops;
++#define MAX_TRACER_SIZE		100
++extern char ftrace_dump_on_oops[];
++extern enum ftrace_dump_mode get_ftrace_dump_mode(void);
+ extern int tracepoint_printk;
+ 
+ extern void disable_trace_on_warning(void);
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index d9ad21058eed..de4a76036372 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -255,6 +255,7 @@ enum ftrace_dump_mode {
+ 	DUMP_NONE,
+ 	DUMP_ALL,
+ 	DUMP_ORIG,
++	DUMP_INSTANCE,
+ };
+ 
+ #ifdef CONFIG_TRACING
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index 157f7ce2942d..81cc974913bb 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1710,9 +1710,9 @@ static struct ctl_table kern_table[] = {
+ 	{
+ 		.procname	= "ftrace_dump_on_oops",
+ 		.data		= &ftrace_dump_on_oops,
+-		.maxlen		= sizeof(int),
++		.maxlen		= MAX_TRACER_SIZE,
+ 		.mode		= 0644,
+-		.proc_handler	= proc_dointvec,
++		.proc_handler	= proc_dostring,
+ 	},
+ 	{
+ 		.procname	= "traceoff_on_warning",
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index a0defe156b57..9a76a278e5c3 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -130,9 +130,10 @@ cpumask_var_t __read_mostly	tracing_buffer_mask;
+  * /proc/sys/kernel/ftrace_dump_on_oops
+  * Set 1 if you want to dump buffers of all CPUs
+  * Set 2 if you want to dump the buffer of the CPU that triggered oops
++ * Set instance name if you want to dump the specific trace instance
+  */
+-
+-enum ftrace_dump_mode ftrace_dump_on_oops;
++/* Set to string format zero to disable by default */
++char ftrace_dump_on_oops[MAX_TRACER_SIZE] = "0";
+ 
+ /* When set, tracing will stop when a WARN*() is hit */
+ int __disable_trace_on_warning;
+@@ -178,7 +179,6 @@ static void ftrace_trace_userstack(struct trace_array *tr,
+ 				   struct trace_buffer *buffer,
+ 				   unsigned int trace_ctx);
+ 
+-#define MAX_TRACER_SIZE		100
+ static char bootup_tracer_buf[MAX_TRACER_SIZE] __initdata;
+ static char *default_bootup_tracer;
+ 
+@@ -201,19 +201,32 @@ static int __init set_cmdline_ftrace(char *str)
+ }
+ __setup("ftrace=", set_cmdline_ftrace);
+ 
++enum ftrace_dump_mode get_ftrace_dump_mode(void)
++{
++	if (!strcmp("0", ftrace_dump_on_oops))
++		return DUMP_NONE;
++	else if (!strcmp("1", ftrace_dump_on_oops))
++		return DUMP_ALL;
++	else if (!strcmp("orig_cpu", ftrace_dump_on_oops) ||
++			!strcmp("2", ftrace_dump_on_oops))
++		return DUMP_ORIG;
++	else
++		return DUMP_INSTANCE;
++}
++
+ static int __init set_ftrace_dump_on_oops(char *str)
+ {
+-	if (*str++ != '=' || !*str || !strcmp("1", str)) {
+-		ftrace_dump_on_oops = DUMP_ALL;
++	if (!*str) {
++		strscpy(ftrace_dump_on_oops, "1", MAX_TRACER_SIZE);
+ 		return 1;
+ 	}
+ 
+-	if (!strcmp("orig_cpu", str) || !strcmp("2", str)) {
+-		ftrace_dump_on_oops = DUMP_ORIG;
+-                return 1;
+-        }
++	if (*str++ == '=') {
++		strscpy(ftrace_dump_on_oops, str, MAX_TRACER_SIZE);
++		return 1;
++	}
+ 
+-        return 0;
++	return 0;
+ }
+ __setup("ftrace_dump_on_oops", set_ftrace_dump_on_oops);
+ 
+@@ -10085,14 +10098,16 @@ static struct notifier_block trace_die_notifier = {
+ static int trace_die_panic_handler(struct notifier_block *self,
+ 				unsigned long ev, void *unused)
+ {
+-	if (!ftrace_dump_on_oops)
++	enum ftrace_dump_mode dump_mode = get_ftrace_dump_mode();
++
++	if (!dump_mode)
+ 		return NOTIFY_DONE;
+ 
+ 	/* The die notifier requires DIE_OOPS to trigger */
+ 	if (self == &trace_die_notifier && ev != DIE_OOPS)
+ 		return NOTIFY_DONE;
+ 
+-	ftrace_dump(ftrace_dump_on_oops);
++	ftrace_dump(dump_mode);
+ 
+ 	return NOTIFY_DONE;
+ }
+@@ -10133,12 +10148,12 @@ trace_printk_seq(struct trace_seq *s)
+ 	trace_seq_init(s);
+ }
+ 
+-void trace_init_global_iter(struct trace_iterator *iter)
++static void trace_init_iter(struct trace_iterator *iter, struct trace_array *tr)
+ {
+-	iter->tr = &global_trace;
++	iter->tr = tr;
+ 	iter->trace = iter->tr->current_trace;
+ 	iter->cpu_file = RING_BUFFER_ALL_CPUS;
+-	iter->array_buffer = &global_trace.array_buffer;
++	iter->array_buffer = &tr->array_buffer;
+ 
+ 	if (iter->trace && iter->trace->open)
+ 		iter->trace->open(iter);
+@@ -10158,6 +10173,11 @@ void trace_init_global_iter(struct trace_iterator *iter)
+ 	iter->fmt_size = STATIC_FMT_BUF_SIZE;
+ }
+ 
++void trace_init_global_iter(struct trace_iterator *iter)
++{
++	trace_init_iter(iter, &global_trace);
++}
++
+ void ftrace_dump(enum ftrace_dump_mode oops_dump_mode)
+ {
+ 	/* use static because iter can be a bit big for the stack */
+@@ -10168,6 +10188,15 @@ void ftrace_dump(enum ftrace_dump_mode oops_dump_mode)
+ 	unsigned long flags;
+ 	int cnt = 0, cpu;
+ 
++	if (oops_dump_mode == DUMP_INSTANCE) {
++		tr = trace_array_find(ftrace_dump_on_oops);
++		if (!tr) {
++			printk(KERN_TRACE "Instance %s not found\n",
++				ftrace_dump_on_oops);
++			return;
++		}
++	}
++
+ 	/* Only allow one dump user at a time. */
+ 	if (atomic_inc_return(&dump_running) != 1) {
+ 		atomic_dec(&dump_running);
+@@ -10182,12 +10211,12 @@ void ftrace_dump(enum ftrace_dump_mode oops_dump_mode)
+ 	 * If the user does a sysrq-z, then they can re-enable
+ 	 * tracing with echo 1 > tracing_on.
+ 	 */
+-	tracing_off();
++	tracer_tracing_off(tr);
+ 
+ 	local_irq_save(flags);
+ 
+ 	/* Simulate the iterator */
+-	trace_init_global_iter(&iter);
++	trace_init_iter(&iter, tr);
+ 
+ 	for_each_tracing_cpu(cpu) {
+ 		atomic_inc(&per_cpu_ptr(iter.array_buffer->data, cpu)->disabled);
+@@ -10200,6 +10229,7 @@ void ftrace_dump(enum ftrace_dump_mode oops_dump_mode)
+ 
+ 	switch (oops_dump_mode) {
+ 	case DUMP_ALL:
++	case DUMP_INSTANCE:
+ 		iter.cpu_file = RING_BUFFER_ALL_CPUS;
+ 		break;
+ 	case DUMP_ORIG:
+diff --git a/kernel/trace/trace_selftest.c b/kernel/trace/trace_selftest.c
+index 529590499b1f..a9750a680324 100644
+--- a/kernel/trace/trace_selftest.c
++++ b/kernel/trace/trace_selftest.c
+@@ -768,7 +768,7 @@ static int trace_graph_entry_watchdog(struct ftrace_graph_ent *trace)
+ 	if (unlikely(++graph_hang_thresh > GRAPH_MAX_FUNC_TEST)) {
+ 		ftrace_graph_stop();
+ 		printk(KERN_WARNING "BUG: Function graph tracer hang!\n");
+-		if (ftrace_dump_on_oops) {
++		if (get_ftrace_dump_mode()) {
+ 			ftrace_dump(DUMP_ALL);
+ 			/* ftrace_dump() disables tracing */
+ 			tracing_on();
+-- 
+2.25.1
 
-Thanks,
-
-Alex
-
-
->
-> - Charlie
->
->>>    #endif /* _ASM_RISCV_SWITCH_TO_H */
->>> diff --git a/arch/riscv/mm/cacheflush.c b/arch/riscv/mm/cacheflush.c
->>> index 55a34f2020a8..ff545f19f07a 100644
->>> --- a/arch/riscv/mm/cacheflush.c
->>> +++ b/arch/riscv/mm/cacheflush.c
->>> @@ -5,6 +5,7 @@
->>>    #include <linux/acpi.h>
->>>    #include <linux/of.h>
->>> +#include <linux/prctl.h>
->>>    #include <asm/acpi.h>
->>>    #include <asm/cacheflush.h>
->>> @@ -152,3 +153,69 @@ void __init riscv_init_cbo_blocksizes(void)
->>>    	if (cboz_block_size)
->>>    		riscv_cboz_block_size = cboz_block_size;
->>>    }
->>> +
->>> +/**
->>> + * riscv_set_icache_flush_ctx() - Enable/disable icache flushing instructions in
->>> + * userspace.
->>> + * @ctx: Set the type of icache flushing instructions permitted/prohibited in
->>> + *	 userspace. Supported values described below.
->>> + *
->>> + * Supported values for ctx:
->>> + *
->>> + * * %PR_RISCV_CTX_SW_FENCEI_ON: Allow fence.i in userspace.
->>> + *
->>> + * * %PR_RISCV_CTX_SW_FENCEI_OFF: Disallow fence.i in userspace. When ``scope ==
->>> + *   PR_RISCV_SCOPE_PER_PROCESS``, this will effect all threads in a process.
->>> + *   Therefore, caution must be taken -- only use this flag when you can
->>> + *   guarantee that no thread in the process will emit fence.i from this point
->>> + *   onward.
->>> + *
->>> + * @scope: Set scope of where icache flushing instructions are allowed to be
->>> + *	   emitted. Supported values described below.
->>> + *
->>> + * Supported values for scope:
->>> + *
->>> + * * PR_RISCV_SCOPE_PER_PROCESS: Ensure the icache of any thread in this process
->>> + *                               is coherent with instruction storage upon
->>> + *                               migration.
->>> + *
->>> + * * PR_RISCV_SCOPE_PER_THREAD: Ensure the icache of the current thread is
->>> + *                              coherent with instruction storage upon
->>> + *                              migration.
->>> + *
->>> + * When ``scope == PR_RISCV_SCOPE_PER_PROCESS``, all threads in the process are
->>> + * permitted to emit icache flushing instructions. Whenever any thread in the
->>> + * process is migrated, the corresponding hart's icache will be guaranteed to be
->>> + * consistent with instruction storage. Note this does not enforce any
->>> + * guarantees outside of migration. If a thread modifies an instruction that
->>> + * another thread may attempt to execute, the other thread must still emit an
->>> + * icache flushing instruction before attempting to execute the potentially
->>> + * modified instruction. This must be performed by the userspace program.
->>> + *
->>> + * In per-thread context (eg. ``scope == PR_RISCV_SCOPE_PER_THREAD``), only the
->>> + * thread calling this function is permitted to emit icache flushing
->>> + * instructions. When the thread is migrated, the corresponding hart's icache
->>> + * will be guaranteed to be consistent with instruction storage.
->>> + *
->>> + * On kernels configured without SMP, this function is a nop as migrations
->>> + * across harts will not occur.
->>> + */
->>> +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long scope)
->>> +{
->>> +#ifdef CONFIG_SMP
->>> +	switch (ctx) {
->>> +	case PR_RISCV_CTX_SW_FENCEI_ON:
->>> +		switch (scope) {
->>> +		case PR_RISCV_SCOPE_PER_PROCESS:
->>> +			current->mm->context.force_icache_flush = true;
->>> +			break;
->>> +		case PR_RISCV_SCOPE_PER_THREAD:
->>> +			current->thread.force_icache_flush = true;
->>> +			break;
->>> +		default:
->>> +			return -EINVAL;
->>> +		}
->>> +	}
->>> +#endif
->>> +	return 0;
->>> +}
->>> diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
->>> index 217fd4de6134..b059dc0fae91 100644
->>> --- a/arch/riscv/mm/context.c
->>> +++ b/arch/riscv/mm/context.c
->>> @@ -15,6 +15,7 @@
->>>    #include <asm/tlbflush.h>
->>>    #include <asm/cacheflush.h>
->>>    #include <asm/mmu_context.h>
->>> +#include <asm/switch_to.h>
->>>    #ifdef CONFIG_MMU
->>> @@ -297,19 +298,26 @@ static inline void set_mm(struct mm_struct *prev,
->>>     *
->>>     * The "cpu" argument must be the current local CPU number.
->>>     */
->>> -static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu)
->>> +static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu,
->>> +					 struct task_struct *task)
->>>    {
->>>    #ifdef CONFIG_SMP
->>>    	cpumask_t *mask = &mm->context.icache_stale_mask;
->>>    	if (cpumask_test_cpu(cpu, mask)) {
->>>    		cpumask_clear_cpu(cpu, mask);
->>> +
->>>    		/*
->>>    		 * Ensure the remote hart's writes are visible to this hart.
->>>    		 * This pairs with a barrier in flush_icache_mm.
->>>    		 */
->>>    		smp_mb();
->>> -		local_flush_icache_all();
->>> +
->>> +		/*
->>> +		 * If cache will be flushed in switch_to, no need to flush here.
->>> +		 */
->>> +		if (!(task && switch_to_should_flush_icache(task)))
->>> +			local_flush_icache_all();
->>>    	}
->>>    #endif
->>> @@ -332,5 +340,5 @@ void switch_mm(struct mm_struct *prev, struct mm_struct *next,
->>>    	set_mm(prev, next, cpu);
->>> -	flush_icache_deferred(next, cpu);
->>> +	flush_icache_deferred(next, cpu, task);
->>>    }
->>> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
->>> index 370ed14b1ae0..524d546d697b 100644
->>> --- a/include/uapi/linux/prctl.h
->>> +++ b/include/uapi/linux/prctl.h
->>> @@ -306,4 +306,10 @@ struct prctl_mm_map {
->>>    # define PR_RISCV_V_VSTATE_CTRL_NEXT_MASK	0xc
->>>    # define PR_RISCV_V_VSTATE_CTRL_MASK		0x1f
->>> +#define PR_RISCV_SET_ICACHE_FLUSH_CTX	71
->>> +# define PR_RISCV_CTX_SW_FENCEI_ON	0
->>> +# define PR_RISCV_CTX_SW_FENCEI_OFF	1
->>> +# define PR_RISCV_SCOPE_PER_PROCESS	0
->>> +# define PR_RISCV_SCOPE_PER_THREAD	1
->>> +
->>>    #endif /* _LINUX_PRCTL_H */
->>> diff --git a/kernel/sys.c b/kernel/sys.c
->>> index 420d9cb9cc8e..e806a8a67c36 100644
->>> --- a/kernel/sys.c
->>> +++ b/kernel/sys.c
->>> @@ -146,6 +146,9 @@
->>>    #ifndef RISCV_V_GET_CONTROL
->>>    # define RISCV_V_GET_CONTROL()		(-EINVAL)
->>>    #endif
->>> +#ifndef RISCV_SET_ICACHE_FLUSH_CTX
->>> +# define RISCV_SET_ICACHE_FLUSH_CTX(a, b)	(-EINVAL)
->>> +#endif
->>>    /*
->>>     * this is where the system-wide overflow UID and GID are defined, for
->>> @@ -2739,6 +2742,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->>>    	case PR_RISCV_V_GET_CONTROL:
->>>    		error = RISCV_V_GET_CONTROL();
->>>    		break;
->>> +	case PR_RISCV_SET_ICACHE_FLUSH_CTX:
->>> +		error = RISCV_SET_ICACHE_FLUSH_CTX(arg2, arg3);
->>> +		break;
->>>    	default:
->>>    		error = -EINVAL;
->>>    		break;
->>>
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
