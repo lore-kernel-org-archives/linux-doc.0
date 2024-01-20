@@ -1,145 +1,138 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B15170;
-	Sat, 20 Jan 2024 00:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBCC10E8
+	for <linux-doc@vger.kernel.org>; Sat, 20 Jan 2024 01:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705709704; cv=none; b=hvbJLZQhZrZNDpP9jBhcsm/eeSEsP4Y2OuPyWuFaXBx3wUuVkiial0zC5K/NiLeZtVdYXq/6TAuUVSLFK9ZRy4l5fRuCEGHkXoEALfkXPiAkGKvXVKjz8ZhFcHudSsAJL88hUee5gAx96IROx9efyDPsutAeW8SnRKAvGWHPgjQ=
+	t=1705714476; cv=none; b=t2gC1yUuX2Z5YPLe0kLI+FbE3GqRwvmvBNSzA8GeBQSZkYIM2bt5J4XRqRdKQ12aZ5j7IapQQUVvAObhvQTSJ8lNhneMM4Zsxf90h7PO427oM/7GYevO7D0z+p369MoUf8T0F5C1VUQbqRk9QYxN+8KSQKEe8+H6i701lr8tuIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705709704; c=relaxed/simple;
-	bh=W7OnWjDgrb5ZNuxFpvFGDTPEYhVuCP6OSB6O3x5tm3Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ktus0gD9mvJpeDSd1KfyWUaQSRFqveZLDhWAwaVumMFphV5zjFlIbozVVv7h9TQ7YauGYeDcdt8JuZEDlpcbHWfWeDNl7R1KnCwv2ELCOhv7p6NQlSFKGVBkpW8EIuuV2BGrNor3n76yrEc9Ic4MWSNmVH8jx4Y3clCvT49Cukw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=JA265L43; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	s=arc-20240116; t=1705714476; c=relaxed/simple;
+	bh=26huEc5Mwf9rHtDTIB9WAm8Uc/lRlNkBs+RET7bxIJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FIoPp5oi/LZ4FykqKc27DseWqL7DTajR5ZD+L34Ym4F82xFt8zXhMEUr9VKZ+qJ3opWYoO2rszs2zygC9AFKKpgPKauoC5tx8PH1jo1G3j3gzRtTJVkKfdyk6Nr0+4KOTb7VNOkjzO21J0UrQL4OX7GyDUDH1hGY7FUR2je97Og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=UCp7uzu2; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="JA265L43"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1705709694;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uTRM9d6bvlbWT4CTU/U4qeImT68CpFKTYfre+yx+3OQ=;
-	b=JA265L43X+KVrNQQpKTeItKpNrS74hBHSilZLefH+GSdoIa6uDIXf4ZrMKJYw2cM106Vp6
-	BQC7TTWrnq9Vj+5LxaM33VHNWqeReEPckoCVSemlDGNc/QfOnOhmwjrJbAGucqHWZWf0ra
-	vjxOzGBKes+Jac25P3fz9YBWxAGp9Tk=
-Message-ID: <59799a40d8cc425dc5a847a0c8e25730db4fc5c8.camel@crapouillou.net>
-Subject: Re: [PATCH v4 1/4] usb: gadget: Support already-mapped DMA SGs
-From: Paul Cercueil <paul@crapouillou.net>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
- <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jonathan Cameron
- <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Date: Sat, 20 Jan 2024 01:14:52 +0100
-In-Reply-To: <ZaruU5BpQF8SeZZS@lizhi-Precision-Tower-5810>
-References: <20240117122646.41616-1-paul@crapouillou.net>
-	 <20240117122646.41616-2-paul@crapouillou.net>
-	 <ZaruU5BpQF8SeZZS@lizhi-Precision-Tower-5810>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="UCp7uzu2"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6d9a79a1ad4so1214751b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jan 2024 17:34:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1705714474; x=1706319274; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1ESr1s1LQuOTutaWHm69OFuVr1y+EY8ccPvGNNNRU7c=;
+        b=UCp7uzu2SrCb+R9eaVctu2pPOqoDuEKPKwXpHR7XkhnHNkbRA3W+8E6RQb/J23CxWC
+         RAL5FkWrxUT1EU6Djq4IiFvT/uWQg2s15zio4t8pyN7OSoPkW/oO5oSh0158ilgdUh6N
+         dMd+oRMs9CqL8nlJGoi9JzSJCCTTaB7K9TztSsFvt0IkQVObSLRTkXrcLIB+YEbLuJ+t
+         JZoKjWH1T3vPRP30Tt+he4KvTS4SnuoqpZoqH+8IuwN5izgYWB89ubnxoGXAw6NkdDiE
+         mlVnBFYjOfqws2vOOy3XIE7c3faHIV7OIxavzWvRuROh9EPdL7BZO2vr1VM0d0XDYhyF
+         ++jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705714474; x=1706319274;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1ESr1s1LQuOTutaWHm69OFuVr1y+EY8ccPvGNNNRU7c=;
+        b=U6IMAOBo0+A2VDHOecQFt5JwngixRDKhdQZBY5SpJks9Xe2HBEM2OnMHhtGYmwL7ox
+         2grUSvaEZcv7x8/IWaj+t6CFSkfwMbSEGJhABNrvBsDeVA/Pc1gYozAosDDtFZhUDT9O
+         +ZCCgjcAnbV+LuGRoTQ4a11BfaX+NuJLqDFCdehZCKPam8TbkIc5zirZmLCLJpj+oOSG
+         h2r8Iv+6dj3d4JYvOTFi9mUyaZer4xo5CYRnFn2uM6fPpRHUQJ2f/BLWLgeUF1WMsO5q
+         8JEog6l46VobihW4iUUsHvkbfbcfwIb9iz6Wc4KZVBJfO2yjGUUlTqjRRWW+ENOXlKdB
+         +vxA==
+X-Gm-Message-State: AOJu0YxSVy4AXUpOLa13DUrwfque3XDfKr1aP1HbJ0MdZWRueAQ/hZUm
+	3Y7+hJ8W9ZoN8Z4Rg2x9g77WVdYsvjQhxhh0fbsKK78v2VQ3vv96+n8z4KIXTNSV8vm6rTsN6oA
+	lFDU=
+X-Google-Smtp-Source: AGHT+IFpTaljaK+IhzjIUgqr3GVQ3I9VycDOb1FWOAfJMZG3m5Pa9z8B24GyjvedFp0KN3e6hXYsKA==
+X-Received: by 2002:a05:6a21:185:b0:19a:6830:2334 with SMTP id le5-20020a056a21018500b0019a68302334mr757399pzb.46.1705714474654;
+        Fri, 19 Jan 2024 17:34:34 -0800 (PST)
+Received: from ghost ([12.44.203.122])
+        by smtp.gmail.com with ESMTPSA id r9-20020a170903410900b001d71c89fb32sm1961666pld.269.2024.01.19.17.34.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jan 2024 17:34:34 -0800 (PST)
+Date: Fri, 19 Jan 2024 17:34:31 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Yangyu Chen <cyy@cyyself.name>
+Cc: alexghiti@rivosinc.com, anup@brainfault.org, aou@eecs.berkeley.edu,
+	conor@kernel.org, jrtc27@jrtc27.com, konstantin@linuxfoundation.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, mick@ics.forth.gr,
+	palmer@rivosinc.com, paul.walmsley@sifive.com,
+	rdunlap@infradead.org
+Subject: Re: [PATCH v10 0/4] RISC-V: mm: Make SV48 the default address space
+Message-ID: <ZasjJ3HPUVuxr2oG@ghost>
+References: <20230809232218.849726-1-charlie@rivosinc.com>
+ <tencent_F9568C6D8872E30EDFAF20ADF686A31D6E06@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_F9568C6D8872E30EDFAF20ADF686A31D6E06@qq.com>
 
-Hi Frank,
+On Sun, Jan 14, 2024 at 01:26:57AM +0800, Yangyu Chen wrote:
+> Hi, Charlie
+> 
+> Although this patchset has been merged I still have some questions about
+> this patchset. Because it breaks regular mmap if address >= 38 bits on
+> sv48 / sv57 capable systems like qemu. For example, If a userspace program
+> wants to mmap an anonymous page to addr=(1<<45) on an sv48 capable system,
+> it will fail and kernel will mmaped to another sv39 address since it does
 
-Le vendredi 19 janvier 2024 =C3=A0 16:49 -0500, Frank Li a =C3=A9crit=C2=A0=
-:
-> On Wed, Jan 17, 2024 at 01:26:43PM +0100, Paul Cercueil wrote:
-> > Add a new 'sg_was_mapped' field to the struct usb_request. This
-> > field
-> > can be used to indicate that the scatterlist associated to the USB
-> > transfer has already been mapped into the DMA space, and it does
-> > not
-> > have to be done internally.
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > ---
-> > =C2=A0drivers/usb/gadget/udc/core.c | 7 ++++++-
-> > =C2=A0include/linux/usb/gadget.h=C2=A0=C2=A0=C2=A0 | 2 ++
-> > =C2=A02 files changed, 8 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/usb/gadget/udc/core.c
-> > b/drivers/usb/gadget/udc/core.c
-> > index d59f94464b87..9d4150124fdb 100644
-> > --- a/drivers/usb/gadget/udc/core.c
-> > +++ b/drivers/usb/gadget/udc/core.c
-> > @@ -903,6 +903,11 @@ int usb_gadget_map_request_by_dev(struct
-> > device *dev,
-> > =C2=A0	if (req->length =3D=3D 0)
-> > =C2=A0		return 0;
-> > =C2=A0
-> > +	if (req->sg_was_mapped) {
-> > +		req->num_mapped_sgs =3D req->num_sgs;
-> > +		return 0;
-> > +	}
-> > +
-> > =C2=A0	if (req->num_sgs) {
-> > =C2=A0		int=C2=A0=C2=A0=C2=A0=C2=A0 mapped;
-> > =C2=A0
-> > @@ -948,7 +953,7 @@ EXPORT_SYMBOL_GPL(usb_gadget_map_request);
-> > =C2=A0void usb_gadget_unmap_request_by_dev(struct device *dev,
-> > =C2=A0		struct usb_request *req, int is_in)
-> > =C2=A0{
-> > -	if (req->length =3D=3D 0)
-> > +	if (req->length =3D=3D 0 || req->sg_was_mapped)
-> > =C2=A0		return;
-> > =C2=A0
-> > =C2=A0	if (req->num_mapped_sgs) {
-> > diff --git a/include/linux/usb/gadget.h
-> > b/include/linux/usb/gadget.h
-> > index a771ccc038ac..c529e4e06997 100644
-> > --- a/include/linux/usb/gadget.h
-> > +++ b/include/linux/usb/gadget.h
-> > @@ -52,6 +52,7 @@ struct usb_ep;
-> > =C2=A0 * @short_not_ok: When reading data, makes short packets be
-> > =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 treated as errors (queue stops advanci=
-ng till cleanup).
-> > =C2=A0 * @dma_mapped: Indicates if request has been mapped to DMA
-> > (internal)
-> > + * @sg_was_mapped: Set if the scatterlist has been mapped before
-> > the request
-> > =C2=A0 * @complete: Function called when request completes, so this
-> > request and
-> > =C2=A0 *	its buffer may be re-used.=C2=A0 The function will always be
-> > called with
-> > =C2=A0 *	interrupts disabled, and it must not sleep.
-> > @@ -111,6 +112,7 @@ struct usb_request {
-> > =C2=A0	unsigned		zero:1;
-> > =C2=A0	unsigned		short_not_ok:1;
-> > =C2=A0	unsigned		dma_mapped:1;
-> > +	unsigned		sg_was_mapped:1;
->=20
-> why not use dma_mapped direclty?
+Thank you for raising this concern. To make sure I am understanding
+correctly, you are passing a hint address of (1<<45) and expecting mmap
+to return 1<<45 and if it returns a different address you are describing
+mmap as failing? If you want an address that is in the sv48 space you
+can pass in an address that is greater than 1<<47.
 
-Because of the unmap case. We want to know whether we should unmap or
-not.
+> not meet the requirement to use sv48 as you wrote:
+> 
+> >	else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) \
+> >		mmap_end = VA_USER_SV48;			\
+> >	else							\
+> >		mmap_end = VA_USER_SV39;			\
+> 
+> Then, How can a userspace program create a mmap with a hint if the address
+> >= (1<<38) after your patch without MAP_FIXED? The only way to do this is
+> to pass a hint >= (1<<47) on mmap syscall then kernel will return a random
+> address in sv48 address space but the hint address gets lost. I think this
 
->=20
-> Frank
+In order to force mmap to return the address provided you must use
+MAP_FIXED. Otherwise, the address is a "hint" and has no guarantees. The
+hint address on riscv is used to mean "don't give me an address that
+uses more bits than this". This behavior is not unique to riscv, arm64
+and powerpc use a similar scheme. In arch/arm64/include/asm/processor.h
+there is the following code:
 
-Cheers,
--Paul
+#define arch_get_mmap_base(addr, base) ((addr > DEFAULT_MAP_WINDOW) ? \
+					base + TASK_SIZE - DEFAULT_MAP_WINDOW :\
+					base)
 
->=20
-> > =C2=A0
-> > =C2=A0	void			(*complete)(struct usb_ep *ep,
-> > =C2=A0					struct usb_request *req);
-> > --=20
-> > 2.43.0
-> >=20
+arm64/powerpc are only concerned with a single boundary so the code is simpler.
+
+> violate the principle of mmap syscall as kernel should take the hint and
+> attempt to create the mapping there.
+
+Although the man page for mmap does say "on Linux, the kernel will pick
+a nearby page boundary" it is still a hint address so there is no strict
+requirement (and the precedent has already been set by arm64/powerpc).
+
+> 
+> I don't think patching in this way is right. However, if we only revert
+> this patch, some programs relying on mmap to return address with effective
+> bits <= 48 will still be an issue and it might expand to other ISAs if
+> they implement larger virtual address space like RISC-V sv57. A better way
+> to solve this might be adding a MAP_48BIT flag to mmap like MAP_32BIT has
+> been introduced for decades.
+> 
+> Thanks,
+> Yangyu Chen
+> 
+
+- Charlie
 
