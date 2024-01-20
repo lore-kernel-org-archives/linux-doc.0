@@ -1,93 +1,105 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A97D815;
-	Sat, 20 Jan 2024 15:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779AA14A86
+	for <linux-doc@vger.kernel.org>; Sat, 20 Jan 2024 17:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705765091; cv=none; b=QVnOaET80z3yRcIoQ7rqm4+3tBXHxD/9jHexaNZP4qgW5NblP+7M9czEOWyHH4CVmzQKSI3F+9Sgs9u+300kjjoOO5wKICA8Bt80ELTB3k8OWHD98kA4Jv67AOYyKgeg35GXddtW4X1IkJuNCk4ks/3RoesKCYCwAMkNAWBMg+I=
+	t=1705770117; cv=none; b=R1lChV8gwI2C5dFYB9OC+/OEePTRXEGu/0JwnqWtTG3q75DrKd+JnaDAoabbVbdjB6vkEoIQkq3rUNe/EMAKwzQ3x8c6jqxWke0thjp35f9hViDAvhqpOQtd1asE0WCzAbWPTlU3xhaAZjC0P4QlmXoc5Q+zBtacOlmO7mj0IPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705765091; c=relaxed/simple;
-	bh=+7JxOe39CRONjhHqKrzwmZc/MrbEySCQI0hhkyXStG0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=iB13y57OjnFDXpWXKdTWhq9tOiW86i38xdMGoBHfG2HN/8D9Lvx3aCmiHvl+SBzp/daLMc6Z05kxN/IT2/XsXjitBz3hKSB/YOPu+hQ+Zku6iw36vQFLvUHaW7TCBufA268/lxJR+Tq0kbaFvUKWSdfSAReUbf1Yk0205NXb8dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gYRcVsdm; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1705770117; c=relaxed/simple;
+	bh=M0N3JvZSRxhre+AHdg2DAWF69SvD6OJuhG0bltmzIpM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=FDLOu+zSZfzJNxqc/iLgcrhfxzOeItBLYbKIllUmrWatodVBu7ukuCswIBIEGzij4/AH9MqdsW7CRltA8+5YG2sCpBeplRQ4Fs94aXvlF5sjyFk7pUM5iwsqW3bGZNXuUdE2inAA3ftpMIZKNSrJQkf/4Dow+4O3uvGVULURX8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=lU0cjhKv; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gYRcVsdm"
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AE6292E5;
-	Sat, 20 Jan 2024 15:38:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AE6292E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1705765080; bh=wLcEhQw1Jjvzq1l7OVP1geKXt6JOGfTdP5+FiDy1DZM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gYRcVsdmgQzJyo0RJRaYNzgjiCxu65oUfBLpjzWTgE9xzAH1UPQlaEkJvD3WeHU5i
-	 vNsxCgDjHZ8bWBrAWhewo0nvxiZFVEZC0+RL+NjrW9trhfrED+0KJ6eSpHuvTVLHyV
-	 qQ8ZcTh+9bBEwxKP7DXk0OOVj7VXyDP+l4AGsqi+xsns+lD/xD8r6NSjl+qrW7GQ83
-	 tp9oWgO15NBfOFoNAtdsPdfmCCS9jWvGeNr1IQwCJnYd7s5hlatJ0dIqusLGrmaIwx
-	 4N9K7HT0D+PMA7yzpPIfZoowgEt9acsGbsMAPnmC2Y7M2ylt79eeTGXerxkF7OsyDg
-	 hp52wrG7ElXzQ==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Erick Archer <erick.archer@gmx.com>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>
-Cc: Erick Archer <erick.archer@gmx.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN/power: Use kcalloc() instead of kzalloc()
-In-Reply-To: <20240120122204.4287-1-erick.archer@gmx.com>
-References: <20240120122204.4287-1-erick.archer@gmx.com>
-Date: Sat, 20 Jan 2024 08:38:00 -0700
-Message-ID: <87a5p0rp5z.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="lU0cjhKv"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5cdbc42f5efso182858a12.0
+        for <linux-doc@vger.kernel.org>; Sat, 20 Jan 2024 09:01:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1705770113; x=1706374913; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=b8tEllDNlsEDP/jUaFTWEigyTJb7YjOR8aztDaSFSnA=;
+        b=lU0cjhKviuPCNkyum783IabQBtofZGKZr9rytS6YlD6Qie33jroR872HS56OwoFQe7
+         ETOPbCjdumfrZ4upqI/j/CN19AJ50ZzkEQwjCd2aExRekSqs0EVcEiqitqNbd0/aYobD
+         hHE9zPJzTFvQAVklNWEDsLLM1ETke9QDRwNo49I5ntUGvJgxGOi7lUG0qn6ExAW9OlvI
+         2ISj5dC1T7dfVRUcbuGtn857/1nqUNst835oRQgCTxZ2X7uhMeeI8Ww0rx8kpqDk7vNu
+         y+zAd0MYNKMRdeDg6zOq8avVAj45kE4TgTm9V0T9jivEF0TCYIL5H0xt7tBelmhw1xlM
+         IT1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705770113; x=1706374913;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b8tEllDNlsEDP/jUaFTWEigyTJb7YjOR8aztDaSFSnA=;
+        b=uZX6T4jf8rfuAoc0CmwALNEDfBN+UnL0Hx91qtBsEoJzHuXmpzX3B0KpZDw8efcIib
+         nB0tpUlvdpRbo4Su9B3MlQ4d0yUyzIv1eNceS+tp3jjX2EbbfpFgEw3tT2CDxMA6S12j
+         iZNTEQYVMEHCvmsI+AKfgSZV77z/Y1TymRQxncrOKpJIjzbQGfP3lSHk6/z0fjTBtn/5
+         2Hh1tcKU4BaizoLdu90GOuB+awwPs6uTa5tNIvObZnOJ2kUL4JFhLuhXK3Y35/7aCuZE
+         KhkFF8+BfuHl+C8J8xUjQo3tnMPwSfSQ2UQBFo/+Itp8JjxM/2h6Wi68uZD6tLjJxevQ
+         F5UA==
+X-Gm-Message-State: AOJu0YyF3akcZ8LcetAeddUI/BnfsX973Gp+tmeiOYqKU9DB7nDmSExR
+	LVjFiFj9MDPTtp29jbuzTrDGA9DvJmErPeCnSmrX/+YdZZplqBX3TmVjUTFap7k=
+X-Google-Smtp-Source: AGHT+IFXh+gFqOHeoivxhaztHJcWCZc+b5GjJRb1wA9/OfMKsXYHRO7zmpHOEmQ1l+QFte51U8RP3Q==
+X-Received: by 2002:a05:6a21:398f:b0:19b:20e9:90da with SMTP id ad15-20020a056a21398f00b0019b20e990damr5256618pzc.5.1705770113640;
+        Sat, 20 Jan 2024 09:01:53 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.194])
+        by smtp.gmail.com with ESMTPSA id fi33-20020a056a0039a100b006d9aa6592d0sm6969907pfb.82.2024.01.20.09.01.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Jan 2024 09:01:53 -0800 (PST)
+Message-ID: <f48e47b5-0572-4f84-b165-5a9e91788c57@kernel.dk>
+Date: Sat, 20 Jan 2024 10:01:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] iouring:added boundary value check for io_uring_group
+ systl
+Content-Language: en-US
+To: Subramanya Swamy <subramanya.swamy.linux@gmail.com>, corbet@lwn.net,
+ jmoyer@redhat.com, asml.silence@gmail.com, akpm@linux-foundation.org,
+ bhe@redhat.com, ribalda@chromium.org, rostedt@goodmis.org,
+ sshegde@linux.vnet.ibm.com, alexghiti@rivosinc.com, matteorizzo@google.com,
+ ardb@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ io-uring@vger.kernel.org
+References: <20240120144411.2564-1-subramanya.swamy.linux@gmail.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20240120144411.2564-1-subramanya.swamy.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Erick Archer <erick.archer@gmx.com> writes:
+On 1/20/24 7:44 AM, Subramanya Swamy wrote:
+> /proc/sys/kernel/io_uring_group takes gid as input
+> added boundary value check to accept gid in range of
+> 0<=gid<=4294967294 & Documentation is updated for same
 
-> As noted in the "Deprecated Interfaces, Language Features, Attributes,
-> and Conventions" documentation [1], size calculations (especially
-> multiplication) should not be performed in memory allocator (or similar)
-> function arguments due to the risk of them overflowing. This could lead
-> to values wrapping around and a smaller allocation being made than the
-> caller was expecting. Using those allocations could lead to linear
-> overflows of heap memory and other misbehaviors.
->
-> So, in the example code use the purpose specific kcalloc() function
-> instead of the argument size * count in the kzalloc() function.
->
-> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-c=
-oded-arithmetic-in-allocator-arguments [1]
-> Link: https://github.com/KSPP/linux/issues/162
-> Signed-off-by: Erick Archer <erick.archer@gmx.com>
-> ---
->  Documentation/translations/zh_CN/power/opp.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/translations/zh_CN/power/opp.rst b/Documentati=
-on/translations/zh_CN/power/opp.rst
-> index 8d6e3f6f6202..7470fa2d4c43 100644
-> --- a/Documentation/translations/zh_CN/power/opp.rst
-> +++ b/Documentation/translations/zh_CN/power/opp.rst
-> @@ -274,7 +274,7 @@ dev_pm_opp_get_opp_count
->  	 {
->  		/* =E5=81=9A=E4=B8=80=E4=BA=9B=E4=BA=8B=E6=83=85 */
->  		num_available =3D dev_pm_opp_get_opp_count(dev);
-> -		speeds =3D kzalloc(sizeof(u32) * num_available, GFP_KERNEL);
-> +		speeds =3D kcalloc(num_available, sizeof(u32), GFP_KERNEL);
+This should have:
 
-Without addressing the validity of this change, as Hu says, we should
-never change the translations without fixing the original as well -
-otherwise they aren't really translations anymore.
+Fixes: 76d3ccecfa18 ("io_uring: add a sysctl to disable io_uring system-wide")
 
-Thanks,
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 6584a1f9bfe3..a8b61ab3e118 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -470,10 +470,8 @@ io_uring_group
+>  ==============
+>  
+>  When io_uring_disabled is set to 1, a process must either be
+> -privileged (CAP_SYS_ADMIN) or be in the io_uring_group group in order
+> -to create an io_uring instance.  If io_uring_group is set to -1 (the
+> -default), only processes with the CAP_SYS_ADMIN capability may create
+> -io_uring instances.
+> +privledged (CAP_SYS_ADMIN) or be in the io_uring_group group in order
 
-jon
+privileged.
+
+-- 
+Jens Axboe
+
