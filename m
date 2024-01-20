@@ -1,137 +1,175 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDB312E6A;
-	Sat, 20 Jan 2024 18:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDE2125CB;
+	Sat, 20 Jan 2024 20:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705774774; cv=none; b=CErEvBlM8a9Cg/dc7V5547fVe0vwp0uNO+G6JuO5wWDa+J2oQPmD0+NmnRqalq3X/E+LP/l1QeRnv3xzbAgyYPSsvWZmfl++6KgE2zLz2b7Hi0kZl57mnbRRpZadjTKhYXdIMcJNuk37r7XaPFv2F2nqJt2RDFFRHYo5eaTlKzs=
+	t=1705782059; cv=none; b=Oe+GCzSXeMcEajl6AGw2/YIFZdG8HiqTpEB824Pbydzd+GJdCPnb+DzL2SjfIiaGEHBKbAt96vI9DZygEw4HBOHlppgoubJHqZMc7k8wAIoq1AWn6DHbC4K8FoQEPrcOSlXFs+D34dLf9FC2Jg7uZ1MlPvo145YMFKE/eezfur8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705774774; c=relaxed/simple;
-	bh=U3XAi1Ve5Pl2g7OLbKI9EKf33X80ddsBcG06qkgZVZk=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=CxqZtrJAQm4hEdt8Oz6+efwajwOqsCRI0svQ0UpbIGxsbqhrsF75dpNy7+fxi+BON0ysqpGkWRmjDzUQ0ItwP4EUXAYcVi7pSoa34Q3x+igNdbGVQCMmMd4qkrCxUfw9NO7e4lxgKWIshaUsKL7JPUtycvvQf1KT2+c6HF7mybc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m358RrbW; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705782059; c=relaxed/simple;
+	bh=U78daOtSkrFdUaUQZUr/tYdCEiTmvCOAjx1R2N9s7GE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EsvuTGC8sZCu+XQcZ3wrcD189dWhE6Ey8JOopPlP/oymBy/r4Fz/AwSk0EABjRElpJq8IaJ94C88OZjtesb7laeJdEZZMM3vHRV4aO7FBqdowDZeWU8goNbsrb/0SjBhV63NKr+WP6L10Vw2+H3pWztbx8cE31W3m1AoT3vdp6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJEmstC8; arc=none smtp.client-ip=192.55.52.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m358RrbW"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6d9cdd0a5e6so1174018b3a.3;
-        Sat, 20 Jan 2024 10:19:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705774772; x=1706379572; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=whe5Iq2BHDs/3IsPCikOFkd0eNlnX9L6osSee0Rh/bs=;
-        b=m358RrbWM36tT4/WPuUcplNvza2W74GwTBVGZ/nLbaXEWrVNHI4cHj/F1tfLwnTZBn
-         uXaxnNjqS6sLOG8fhZGylZ9RQoO3oWGCCKWGCPdOel7ydJ1ST7U7lz7Ob6ScCOIO8ggt
-         ISjiUwRgkhgu7eThAC1sPs1olMqk6DCLl0KixwgpM+cdcq+M5GuCNy+AbtZzRDe9smn3
-         Yqg+RsPmfyuvKTVm3UZfcDhJbKGY2egEekr2dlQ8zf37d3h5xeX73gZfzBzFUWKjB6LX
-         bSmK1RswG+by/sVSs0Ni9a6LszvV+f6/gYc/2kGDqw3O0FPkgDOyFfgG2kLKm1sHdxA5
-         BJWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705774772; x=1706379572;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=whe5Iq2BHDs/3IsPCikOFkd0eNlnX9L6osSee0Rh/bs=;
-        b=wkkZSFCeRJ0h5T0hq/t+6JF/FUe+G8rxXYjs0WKzodKp4DyK0UpHoShME2ojvrFkHI
-         b1Fc2cvIuldxxrZoyjxyfmcHOUMVFOsDEKdscwrQMlq1Fb8YOlpj68QqtxkR3chtjyxu
-         S7UYQJwyK4QNrgxU95v5RIoIY9c+yDZ04+CUxtaaUfMKCaK7v+lhvEhrsxe+MkmW9M94
-         BeZeIqp55DOxEXsMMYzrFRwQ6PVN3PEajU0rsKTR0PNVgyP+4KVTjINF15SGeDAU6XVs
-         MDEeY/UnS41MHnCawuKukkdmEZIeqeO+sCMLWARmhuKOMp9XC6iDHppZqDTJqBQKtksT
-         hLBQ==
-X-Gm-Message-State: AOJu0YzBT7Ww1wFZZV9JLZAkJF8j37mltbbJuUjp8yzlijMAZMaqI2I1
-	uu2Rfk98sMNl/D+/MutF5Mkx7cVkwnPA1aauX1SWqrtqHDpeAjQu
-X-Google-Smtp-Source: AGHT+IGvLbYDu6RYfC9WnOgM0oratNd5JHV8jcjYGL2ljS++jr9nEJ8CBACsM9EodmnnOwarIjLCYw==
-X-Received: by 2002:a05:6a20:12d5:b0:19a:6166:cb09 with SMTP id v21-20020a056a2012d500b0019a6166cb09mr821672pzg.15.1705774772499;
-        Sat, 20 Jan 2024 10:19:32 -0800 (PST)
-Received: from user.. ([106.51.184.63])
-        by smtp.gmail.com with ESMTPSA id q13-20020a170902c74d00b001d71df4bbf4sm3076504plq.125.2024.01.20.10.19.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jan 2024 10:19:32 -0800 (PST)
-From: Subramanya Swamy <subramanya.swamy.linux@gmail.com>
-To: corbet@lwn.net,
-	jmoyer@redhat.com,
-	axboe@kernel.dk,
-	asml.silence@gmail.com,
-	akpm@linux-foundation.org,
-	bhe@redhat.com,
-	ribalda@chromium.org,
-	rostedt@goodmis.org,
-	subramanya.swamy.linux@gmail.com,
-	sshegde@linux.vnet.ibm.com,
-	alexghiti@rivosinc.com,
-	matteorizzo@google.com,
-	ardb@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	io-uring@vger.kernel.org
-Subject: [PATCH v3] iouring:added boundary value check for io_uring_group systl
-Date: Sat, 20 Jan 2024 18:19:25 +0000
-Message-Id: <20240120181925.1959-1-subramanya.swamy.linux@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJEmstC8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705782058; x=1737318058;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U78daOtSkrFdUaUQZUr/tYdCEiTmvCOAjx1R2N9s7GE=;
+  b=eJEmstC8MlnS0zC2fq/9QyJI1/ySJPZGQOyiFaYiStuuqtfWGB7f9sgi
+   KuE13LMYr7l4dlxZDE0acrHd2L5jUL4oYyH4BDoED2pSrUOOYkUN+yVh1
+   sJ029VooUpGsddhBku0EjsBEFxnUWgFyd9gz9LNMBusFNMLpVeDONKapV
+   sZRI+l2o8Wlx/ApKdjXED01Jj8wzTMJ7ihprGQrbjtc7j2I0MoSSEWc4F
+   MX08uRN5X1BgPDpIyTnx7OschAHzMwInonGOxXjulfeX0f9S6C34jrs0F
+   NtApy50SNzVToGAwKXnHqHqyFMgVJ5rCVGSPMUpKXNstrpybwL0hacLvN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="487111252"
+X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
+   d="scan'208";a="487111252"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 12:20:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
+   d="scan'208";a="941461"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 20 Jan 2024 12:20:53 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rRHpi-0005Pv-0Y;
+	Sat, 20 Jan 2024 20:20:50 +0000
+Date: Sun, 21 Jan 2024 04:20:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Paul Cercueil <paul@crapouillou.net>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 1/6] dma-buf: Add dma_buf_{begin,end}_access()
+Message-ID: <202401210406.YYgVcAC1-lkp@intel.com>
+References: <20240119141402.44262-2-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240119141402.44262-2-paul@crapouillou.net>
 
-/proc/sys/kernel/io_uring_group takes gid as input
-added boundary value check to accept gid in range of
-0<=gid<=4294967294 & Documentation is updated for same
+Hi Paul,
 
-Fixes: 76d3ccecfa18 ("io_uring: add a sysctl to disable io_uring system-wide")
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Subramanya Swamy <subramanya.swamy.linux@gmail.com>
----
- Documentation/admin-guide/sysctl/kernel.rst | 4 +---
- io_uring/io_uring.c                         | 8 ++++++--
- 2 files changed, 7 insertions(+), 5 deletions(-)
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus drm-misc/drm-misc-next lwn/docs-next linus/master v6.7 next-20240119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 6584a1f9bfe3..262d92f51fa5 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -471,9 +471,7 @@ io_uring_group
- 
- When io_uring_disabled is set to 1, a process must either be
- privileged (CAP_SYS_ADMIN) or be in the io_uring_group group in order
--to create an io_uring instance.  If io_uring_group is set to -1 (the
--default), only processes with the CAP_SYS_ADMIN capability may create
--io_uring instances.
-+to create an io_uring instance.
- 
- 
- kexec_load_disabled
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index cd9a137ad6ce..bd6cc0391efa 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -154,9 +154,11 @@ static void io_queue_sqe(struct io_kiocb *req);
- struct kmem_cache *req_cachep;
- 
- static int __read_mostly sysctl_io_uring_disabled;
--static int __read_mostly sysctl_io_uring_group = -1;
-+static unsigned int __read_mostly sysctl_io_uring_group;
- 
- #ifdef CONFIG_SYSCTL
-+static unsigned int max_gid  = ((gid_t) ~0U) - 1; /*4294967294 is the max guid*/
-+
- static struct ctl_table kernel_io_uring_disabled_table[] = {
- 	{
- 		.procname	= "io_uring_disabled",
-@@ -172,7 +174,9 @@ static struct ctl_table kernel_io_uring_disabled_table[] = {
- 		.data		= &sysctl_io_uring_group,
- 		.maxlen		= sizeof(gid_t),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
-+		.proc_handler	= proc_douintvec_minmax,
-+		.extra1         = SYSCTL_ZERO,
-+		.extra2         = &max_gid,
- 	},
- 	{},
- };
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dma-buf-Add-dma_buf_-begin-end-_access/20240119-221604
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240119141402.44262-2-paul%40crapouillou.net
+patch subject: [PATCH v5 1/6] dma-buf: Add dma_buf_{begin,end}_access()
+config: arm-randconfig-001-20240120 (https://download.01.org/0day-ci/archive/20240121/202401210406.YYgVcAC1-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d92ce344bf641e6bb025b41b3f1a77dd25e2b3e9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240121/202401210406.YYgVcAC1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401210406.YYgVcAC1-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/dma-buf/dma-buf.c:1608: warning: Cannot understand  * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
+    on line 1608 - I thought it was a doc line
+>> drivers/dma-buf/dma-buf.c:1640: warning: Cannot understand  * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
+    on line 1640 - I thought it was a doc line
+
+
+vim +1608 drivers/dma-buf/dma-buf.c
+
+  1606	
+  1607	/**
+> 1608	 * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
+  1609	 * @attach:	[in]	attachment used for hardware access
+  1610	 * @sg_table:	[in]	scatterlist used for the DMA transfer
+  1611	 * @direction:  [in]    direction of DMA transfer
+  1612	 */
+  1613	int dma_buf_begin_access(struct dma_buf_attachment *attach,
+  1614				 struct sg_table *sgt, enum dma_data_direction dir)
+  1615	{
+  1616		struct dma_buf *dmabuf;
+  1617		bool cookie;
+  1618		int ret;
+  1619	
+  1620		if (WARN_ON(!attach))
+  1621			return -EINVAL;
+  1622	
+  1623		dmabuf = attach->dmabuf;
+  1624	
+  1625		if (!dmabuf->ops->begin_access)
+  1626			return 0;
+  1627	
+  1628		cookie = dma_fence_begin_signalling();
+  1629		ret = dmabuf->ops->begin_access(attach, sgt, dir);
+  1630		dma_fence_end_signalling(cookie);
+  1631	
+  1632		if (WARN_ON_ONCE(ret))
+  1633			return ret;
+  1634	
+  1635		return 0;
+  1636	}
+  1637	EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
+  1638	
+  1639	/**
+> 1640	 * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
+  1641	 * @attach:	[in]	attachment used for hardware access
+  1642	 * @sg_table:	[in]	scatterlist used for the DMA transfer
+  1643	 * @direction:  [in]    direction of DMA transfer
+  1644	 */
+  1645	int dma_buf_end_access(struct dma_buf_attachment *attach,
+  1646			       struct sg_table *sgt, enum dma_data_direction dir)
+  1647	{
+  1648		struct dma_buf *dmabuf;
+  1649		bool cookie;
+  1650		int ret;
+  1651	
+  1652		if (WARN_ON(!attach))
+  1653			return -EINVAL;
+  1654	
+  1655		dmabuf = attach->dmabuf;
+  1656	
+  1657		if (!dmabuf->ops->end_access)
+  1658			return 0;
+  1659	
+  1660		cookie = dma_fence_begin_signalling();
+  1661		ret = dmabuf->ops->end_access(attach, sgt, dir);
+  1662		dma_fence_end_signalling(cookie);
+  1663	
+  1664		if (WARN_ON_ONCE(ret))
+  1665			return ret;
+  1666	
+  1667		return 0;
+  1668	}
+  1669	EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
+  1670	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
