@@ -1,175 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from out203-205-221-221.mail.qq.com (out203-205-221-221.mail.qq.com [203.205.221.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDE2125CB;
-	Sat, 20 Jan 2024 20:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C875213AC5;
+	Sat, 20 Jan 2024 21:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705782059; cv=none; b=Oe+GCzSXeMcEajl6AGw2/YIFZdG8HiqTpEB824Pbydzd+GJdCPnb+DzL2SjfIiaGEHBKbAt96vI9DZygEw4HBOHlppgoubJHqZMc7k8wAIoq1AWn6DHbC4K8FoQEPrcOSlXFs+D34dLf9FC2Jg7uZ1MlPvo145YMFKE/eezfur8=
+	t=1705787323; cv=none; b=HM8+c2ha+7iAPZJzXPYVEkLZqf9K019qUimMtRgqQ+LRiSFsLJuCID497zABDg5+sYE6Y+WjcgNeFQiZlOqU/AM/wSJTWTKorY2ZCkppu/+axXshDCcS1I846UW6VrG3R9mHHzVXXiLdogCOoJ1wig3x+1w9xwzAp30q0yeLhtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705782059; c=relaxed/simple;
-	bh=U78daOtSkrFdUaUQZUr/tYdCEiTmvCOAjx1R2N9s7GE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EsvuTGC8sZCu+XQcZ3wrcD189dWhE6Ey8JOopPlP/oymBy/r4Fz/AwSk0EABjRElpJq8IaJ94C88OZjtesb7laeJdEZZMM3vHRV4aO7FBqdowDZeWU8goNbsrb/0SjBhV63NKr+WP6L10Vw2+H3pWztbx8cE31W3m1AoT3vdp6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJEmstC8; arc=none smtp.client-ip=192.55.52.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705787323; c=relaxed/simple;
+	bh=UTapdXJqd6/GeU/aS6pjbktBrgPfIjkTYoVhQTZ/yQ4=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=eba+WrKPP9YYSkxtlrGmE70vUejaDIYpn2BVCF+j64DAbnSwGW2awTb0M+x6WS9Ilc6+jVLC3dfpKtge61Xy7yRnPk26XLZs4q6E3kjzRaHpQkfxgMRhmxxcNvkRMfgz9j6493Oie5vzUBo3ndXLjZ7ZUsiqXoPCNKi7VULudl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Zf7leXdT; arc=none smtp.client-ip=203.205.221.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJEmstC8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705782058; x=1737318058;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U78daOtSkrFdUaUQZUr/tYdCEiTmvCOAjx1R2N9s7GE=;
-  b=eJEmstC8MlnS0zC2fq/9QyJI1/ySJPZGQOyiFaYiStuuqtfWGB7f9sgi
-   KuE13LMYr7l4dlxZDE0acrHd2L5jUL4oYyH4BDoED2pSrUOOYkUN+yVh1
-   sJ029VooUpGsddhBku0EjsBEFxnUWgFyd9gz9LNMBusFNMLpVeDONKapV
-   sZRI+l2o8Wlx/ApKdjXED01Jj8wzTMJ7ihprGQrbjtc7j2I0MoSSEWc4F
-   MX08uRN5X1BgPDpIyTnx7OschAHzMwInonGOxXjulfeX0f9S6C34jrs0F
-   NtApy50SNzVToGAwKXnHqHqyFMgVJ5rCVGSPMUpKXNstrpybwL0hacLvN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="487111252"
-X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="487111252"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2024 12:20:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,208,1701158400"; 
-   d="scan'208";a="941461"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 Jan 2024 12:20:53 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rRHpi-0005Pv-0Y;
-	Sat, 20 Jan 2024 20:20:50 +0000
-Date: Sun, 21 Jan 2024 04:20:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Paul Cercueil <paul@crapouillou.net>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 1/6] dma-buf: Add dma_buf_{begin,end}_access()
-Message-ID: <202401210406.YYgVcAC1-lkp@intel.com>
-References: <20240119141402.44262-2-paul@crapouillou.net>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Zf7leXdT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1705787311; bh=6U2V9PznT/aHdEhNbmRHZ0xAzvTGSoyQ3tiDTQLv01Y=;
+	h=From:To:Cc:Subject:Date;
+	b=Zf7leXdTRyLHolgwRVNO0JJ8ybL0fo9iCJs/yNoslTvyIEBp+ApMzeOrrcXP6b0rw
+	 0TgoXaq3tj1XNufDdvewTdoAmg2X7MA3OyZrnPYp0b1djY/kXam3si91Jc+wYFQfrk
+	 +qRngseMtYaGWQOYADym1gg+0dspVpY/M2SYr4ro=
+Received: from cyy-pc.lan ([240e:379:2240:ed00:c92f:86c3:e615:ca18])
+	by newxmesmtplogicsvrszc5-1.qq.com (NewEsmtp) with SMTP
+	id C1339C79; Sun, 21 Jan 2024 05:48:19 +0800
+X-QQ-mid: xmsmtpt1705787299tg307jjo8
+Message-ID: <tencent_B2D0435BC011135736262764B511994F4805@qq.com>
+X-QQ-XMAILINFO: N4/evVE7TFO8CtGPtkNoc+aCCKSp85D26BgfmLO7AQ7zZB5kLxc7ZMOak6XQMh
+	 N5crBuRjsO3x8ZFs1oAsBFekPmMPmz5nYhzCQe2TZX/zw50nA7EeP4w3UwHjygsqGl3Zcp9+fhxa
+	 SHX/6J7KCCW2k1Fr8m4VKyxaupTvvRr19cK5JchF1wFI5gQ8mbHaG1KXLSZ9nCGqA81fw3zU6SkZ
+	 sHSmF7pvwdhR5wPwY+tD4XlXykSivnmZKcKD0sElYvZozC9hro7OdVe7G2V+YJokSMbnYSlu04G8
+	 Xf5ooaLq20OxkDho23odc0UNvp+ThlKCSpw3e5KnWaw1v0LFS2Xp0Wloos63E0sBj6cPhtSvwPH6
+	 bXcR5izmnxPBYeafsfPK7DmliQBEENA7ToITc8DrKU2QonDdwVAPbm1FXAzOVoUNckRq6XhdAa9g
+	 Z7DrlxNkZ2KLUuJm65wvTPZx3bXOyY9o1ZIsKmvDF9X3f/mUyYnrI28d6D3B/cmjXDvDtVOI3E1A
+	 U3xhYVnNAfq1ZMPVAQLltcaQ1JUMosqAmCJY1UQOwLiw22/bZAfefrfulDX8vYnPxh3O9DxtZk8+
+	 oSS/KOv1OQ7fT+JfM7qwox9X22hJCntmqBGfKebcVNjHb5OLXhgsDZyPtIqzO+I+3Rf5iNljK79y
+	 EvxKjR09vGb0NUaMqRs61TBZC3mbbMfRgANe7RL0v9a5JmqLf77KCa/oMiadaiWEtcbx3y4DNP0J
+	 rJOul4O5L9qHT25wZGWSShJ6AKEY3GqMsqA7/16wrF0DlRRJOBITjFYEEp4mdMzltp/eT5bf17YO
+	 8kf7HgBf+HlFF5QIXRRwYryYpbCTy8zCxriOaPsZvku6g4Wht26Lg+CtJ5w0LPsddGmFLiYkstt7
+	 mWEPXxtU/r2QsM09bXb9EIJkLbQhJEvetUdBqt2dnmBFcb0RUKvW3T2+gMftgHjEGGPG3hUrVCO+
+	 kjq2pQVcAI9D3NRADA9Z97NIxn/QbpTx6YDghJW48nB18HxzjF9g1NXIcSpgck
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+From: Yangyu Chen <cyy@cyyself.name>
+To: linux-riscv@lists.infradead.org
+Cc: Charlie Jenkins <charlie@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Guo Ren <guoren@kernel.org>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Jisheng Zhang <jszhang@kernel.org>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yangyu Chen <cyy@cyyself.name>
+Subject: [PATCH v2 0/3] RISC-V: mm: do not treat hint addr on mmap as the upper bound to search
+Date: Sun, 21 Jan 2024 05:48:09 +0800
+X-OQ-MSGID: <20240120214809.291094-1-cyy@cyyself.name>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240119141402.44262-2-paul@crapouillou.net>
+Content-Transfer-Encoding: 8bit
 
-Hi Paul,
+Previous patch series[1] changes a mmap behavior that treats the hint
+address as the upper bound of the mmap address range. The motivation of the
+previous patch series is that some user space software may assume 48-bit
+address space and use higher bits to encode some information, which may
+collide with large virtual address space mmap may return. However, to make
+sv48 by default, we don't need to change the meaning of the hint address on
+mmap as the upper bound of the mmap address range, especially when this
+behavior only shows up on the RISC-V. This behavior also breaks some user
+space software which assumes mmap should try to create mapping on the hint
+address if possible.  As the mmap manpage said: 
 
-kernel test robot noticed the following build warnings:
+> If addr is not NULL, then the kernel takes it as a hint about where to
+> place the mapping; on Linux, the kernel will pick a nearby page boundary
+> (but always above or equal to the value  specified by 
+> /proc/sys/vm/mmap_min_addr) and attempt to create the mapping there.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus drm-misc/drm-misc-next lwn/docs-next linus/master v6.7 next-20240119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Unfortunately, what mmap said is not true on RISC-V since kernel v6.6.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dma-buf-Add-dma_buf_-begin-end-_access/20240119-221604
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240119141402.44262-2-paul%40crapouillou.net
-patch subject: [PATCH v5 1/6] dma-buf: Add dma_buf_{begin,end}_access()
-config: arm-randconfig-001-20240120 (https://download.01.org/0day-ci/archive/20240121/202401210406.YYgVcAC1-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d92ce344bf641e6bb025b41b3f1a77dd25e2b3e9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240121/202401210406.YYgVcAC1-lkp@intel.com/reproduce)
+Other ISAs with larger than 48-bit virtual address space like x86, arm64,
+and powerpc do not have this special mmap behavior on hint address. They
+all just make 48-bit / 47-bit virtual address space by default, and if a
+user space software wants to large virtual address space, it only need to
+specify a hint address larger than 48-bit / 47-bit.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401210406.YYgVcAC1-lkp@intel.com/
+Thus, this patch series keeps the change of mmap to use sv48 by default but
+does not treat the hint address as the upper bound of the mmap address
+range. After this patch, the behavior of mmap will align with existing
+behavior on other ISAs with larger than 48-bit virtual address space like
+x86, arm64, and powerpc. The user space software will no longer need to
+rewrite their code to fit with this special mmap behavior only on RISC-V.
 
-All warnings (new ones prefixed by >>):
+My concern is that the change of mmap behavior on the hint address is
+already in the upstream kernel since v6.6, and it might be hard to revert
+it although it already brings some regression on some user space software.
+And it will be harder than adding it since v6.6 because mmap not creating
+mapping on the hint address is very common, especially when running on a
+machine without sv57 / sv48. However, if some user space software already
+adopted this special mmap behavior on RISC-V, we should not return a mmap
+address larger than the hint if the address is larger than BIT(38). My
+opinion is that revert this change on the next kernel release might be a
+good choice as only a few of hardware support sv57 / sv48 now, these
+changes will have no impact on sv39 systems.
 
->> drivers/dma-buf/dma-buf.c:1608: warning: Cannot understand  * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
-    on line 1608 - I thought it was a doc line
->> drivers/dma-buf/dma-buf.c:1640: warning: Cannot understand  * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
-    on line 1640 - I thought it was a doc line
+Moreover, previous patch series said it make sv48 by default, which is
+in the cover letter, kernel documentation and MMAP_VA_BITS defination.
+However, the code on arch_get_mmap_end and arch_get_mmap_base marco still
+use sv39 by default, which makes me confused, and I still use sv48 by
+default in this patch series including arch_get_mmap_end and
+arch_get_mmap_base.
 
+Changes in v2:
+- correct arch_get_mmap_end and arch_get_mmap_base
+- Add description in documentation about mmap behavior on kernel v6.6-6.7.
+- Improve commit message and cover letter
+- Rebase to newest riscv/for-next branch
+- Link to v1: https://lore.kernel.org/linux-riscv/tencent_F3B3B5AB1C9D704763CA423E1A41F8BE0509@qq.com/
 
-vim +1608 drivers/dma-buf/dma-buf.c
+[1]. https://lore.kernel.org/linux-riscv/20230809232218.849726-1-charlie@rivosinc.com/
 
-  1606	
-  1607	/**
-> 1608	 * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
-  1609	 * @attach:	[in]	attachment used for hardware access
-  1610	 * @sg_table:	[in]	scatterlist used for the DMA transfer
-  1611	 * @direction:  [in]    direction of DMA transfer
-  1612	 */
-  1613	int dma_buf_begin_access(struct dma_buf_attachment *attach,
-  1614				 struct sg_table *sgt, enum dma_data_direction dir)
-  1615	{
-  1616		struct dma_buf *dmabuf;
-  1617		bool cookie;
-  1618		int ret;
-  1619	
-  1620		if (WARN_ON(!attach))
-  1621			return -EINVAL;
-  1622	
-  1623		dmabuf = attach->dmabuf;
-  1624	
-  1625		if (!dmabuf->ops->begin_access)
-  1626			return 0;
-  1627	
-  1628		cookie = dma_fence_begin_signalling();
-  1629		ret = dmabuf->ops->begin_access(attach, sgt, dir);
-  1630		dma_fence_end_signalling(cookie);
-  1631	
-  1632		if (WARN_ON_ONCE(ret))
-  1633			return ret;
-  1634	
-  1635		return 0;
-  1636	}
-  1637	EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
-  1638	
-  1639	/**
-> 1640	 * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
-  1641	 * @attach:	[in]	attachment used for hardware access
-  1642	 * @sg_table:	[in]	scatterlist used for the DMA transfer
-  1643	 * @direction:  [in]    direction of DMA transfer
-  1644	 */
-  1645	int dma_buf_end_access(struct dma_buf_attachment *attach,
-  1646			       struct sg_table *sgt, enum dma_data_direction dir)
-  1647	{
-  1648		struct dma_buf *dmabuf;
-  1649		bool cookie;
-  1650		int ret;
-  1651	
-  1652		if (WARN_ON(!attach))
-  1653			return -EINVAL;
-  1654	
-  1655		dmabuf = attach->dmabuf;
-  1656	
-  1657		if (!dmabuf->ops->end_access)
-  1658			return 0;
-  1659	
-  1660		cookie = dma_fence_begin_signalling();
-  1661		ret = dmabuf->ops->end_access(attach, sgt, dir);
-  1662		dma_fence_end_signalling(cookie);
-  1663	
-  1664		if (WARN_ON_ONCE(ret))
-  1665			return ret;
-  1666	
-  1667		return 0;
-  1668	}
-  1669	EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
-  1670	
+Yangyu Chen (3):
+  RISC-V: mm: do not treat hint addr on mmap as the upper bound to
+    search
+  RISC-V: mm: only test mmap without hint
+  Documentation: riscv: correct sv57 kernel behavior
+
+ Documentation/arch/riscv/vm-layout.rst        | 54 ++++++++++++-------
+ arch/riscv/include/asm/processor.h            | 38 +++----------
+ .../selftests/riscv/mm/mmap_bottomup.c        | 12 -----
+ .../testing/selftests/riscv/mm/mmap_default.c | 12 -----
+ tools/testing/selftests/riscv/mm/mmap_test.h  | 30 -----------
+ 5 files changed, 41 insertions(+), 105 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
