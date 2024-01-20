@@ -1,69 +1,84 @@
-Received: from out203-205-221-233.mail.qq.com (out203-205-221-233.mail.qq.com [203.205.221.233])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CED14ABF;
-	Sat, 20 Jan 2024 21:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A860314A98;
+	Sat, 20 Jan 2024 23:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705787419; cv=none; b=Wc0l9HshJF0l6l6xMVpv5cGq8L3SFn8aJsb69iVrIEyKltiEDLCM7B+pPLR0MdviBQvc2QVPYzVopI0L2oV9YizblZTiUVuhPsP/S+e9OGlyXbFYLyMPEdcBtPdaleQ2LX08+flQDkeBKULv9Dn9h6IOF2vlTwQ5zBirBcs3xfA=
+	t=1705793399; cv=none; b=XMoJPyYRQAm184jHhIctI1Y3LDMfbaeZ8HXDD8zWp+o9Szbe164hPhl/aknS1l/1HrUlkyPykcQWBGFKR0ywIJrR328Ihw8X7csW6xx+mL7mnLpkrOBimT/4qHrfg6AH/wkO+EBNb61dqXbJdv2Gc4OLE0z6y/Joxl8XASJXSKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705787419; c=relaxed/simple;
-	bh=LCZfqnDvDiqcBcxjsUDk3aBxKUjNBfGl18P1CLD+f+w=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=anwLt/cIm4O0OL6dSoU6xA8t89Fu/3vbbzK2fnH2tFzW3T3gtz5NzuHDfMt7S7QL3tXMgxKxn5cUwoYIAqITb3as6N5SEh0J7W/Nw9J2CYES96VFDlyIUrNiydQa/fp5AP0Mk0aqIvbaPE/Y0nsXG0WiJRRVr6oQfYR0nFAtBno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=NuCknl05; arc=none smtp.client-ip=203.205.221.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
+	s=arc-20240116; t=1705793399; c=relaxed/simple;
+	bh=gYxQpuVqxVWQkJvr3V8GaYIGnpPdH4JHwRwYm+3Culs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HLhmJwNGRqW4XDU/12pQBjiCgrik17dEdeKUcR4rLXT2+ydgBRSdiFnAQMLuIK6G4eiUUA4cqvcrjHtPrWEEXGzGFTB3IrkoUNzvdKFNMLwKytmkiUWrrK9l6ZpuxJKIR/HiA6E6lTBE0ZtllsoSguf0l9OoA2E4Rwpn3EdSiww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=cf2HrC8m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LZjagTr0; arc=none smtp.client-ip=64.147.123.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="NuCknl05"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1705787409; bh=SbEh5VB4GzFFImDZ98RQo/aVP6rIyZlESD+33dGh2Zg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NuCknl05Y9BtPtHq3TniUiL8depkg9vZKlYCkx+8ht7fkZvZLox6tld6yr4tMCcfK
-	 p2RNjRj9IEN4CFZmKeJ5S14KG4DLVdXaAaYvwDrEax6SUk1nxG4igG2PiqON5T2GOi
-	 TarUkkMa/8+8hJ/D2CuYy/uex17L5WBZDQk5IlS8=
-Received: from cyy-pc.lan ([240e:379:2240:ed00:c92f:86c3:e615:ca18])
-	by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
-	id C832D4DD; Sun, 21 Jan 2024 05:50:03 +0800
-X-QQ-mid: xmsmtpt1705787406tbsozqm54
-Message-ID: <tencent_1A8C66C86EE30ADF9160AC36B46314AE5306@qq.com>
-X-QQ-XMAILINFO: MRMtjO3A6C9XdO4Vg7r72bh7nPfnPN7h7nnFbDIZFVbwGB1EPTLF5c6L4O17kK
-	 okydMi0HSUFb3ygdby52DFLVNzPj6QYxpuKP/VYfWtXuvjyJWsNtwxSP5HGM1zjpBOgCdTLngkQM
-	 arhxCEz+4wmwvCZ6Pz8BstxjVpsrfxUnHbAKBlnwf710ssPN3bFjgFa6RlvLsTlU4KOfmtNjfbet
-	 W1qX99HU3HRJTYqpG2w71qPx0mD91MIvs47SunOsARj5c1c+j6eC29HI+tDRi42NvlWJGMcV8vFy
-	 vno5buf4nACHogJIGezz6ZDGlx+Md+mdT2P2hBlpqhBEWLtCMsS5xDLSa84Q9z7dR2hBn7GcLgDU
-	 OQgJN+cX9ihAqO5O1aNfAEtQ2R2NGpTosfTd/dSYiFwTSHQUnTpAk2csxacyg54NKtQwYl5Cv/g3
-	 DdIZ1R2V803HtjTwvm2HQ6dkgG2Z5O7S3JWmJRoQ7j+ldZgVGvuvmbkPO7C9P5UttbIYZ6YM6b/R
-	 ufXJ17oaFOwmRkcrlQzukx3v6dJZm91qAOkAfqRZ2WH5Q6W/a1NPndCZwB9NOXsEh6dvZnC3/aLw
-	 9RY/JTGFTLFsUvfanbMupBuTUlT9f7eHLh4gCM16c4RYb9gJHg0sxYFnsSOT9hLlIf6MvqtuHdSC
-	 zko3RiXHGhVf7HidLg9OVbjVbYZC+qn5ixDPtkI89rEG9sNSB0NbUfp6rW7IgwNHEPZi6flnV7z1
-	 08eGSe5ow5R4aqwZnhPV9fNG0L8ESzn6mEiwxkTojUSAWqCbQFvYUHYgyNvoPZwwNr+UxAn1YftN
-	 tl47WLcn4IZn3LvtUJpA4qDQsAM3rULwsfLBYiVaPjglnNgZdgTnj7KW6nSuACUEM9d/ywH+XqeY
-	 2bAXEeXvY9PaMVfR2ONG2i88yEh3h/cFq6HSCVY6UHhNSBz1uGQ4cPcsDlDbtUeV/GM1GjVXGG8O
-	 CzFRgV6aJwKNeVr+EctVVgKBxZ5za8xhjzLPo/ljYPJSGoQwrJQEd+nl/ShJyabAc9uCYCHE+dkD
-	 US+Bylb9/aetiTdVGmNmb0p6jQhaQ=
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-From: Yangyu Chen <cyy@cyyself.name>
-To: linux-riscv@lists.infradead.org
-Cc: Charlie Jenkins <charlie@rivosinc.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Guo Ren <guoren@kernel.org>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="cf2HrC8m";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LZjagTr0"
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailout.west.internal (Postfix) with ESMTP id 0DF373200A40;
+	Sat, 20 Jan 2024 18:29:54 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Sat, 20 Jan 2024 18:29:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1705793394; x=
+	1705879794; bh=WGvMaEsDltLoKXJgl9GSQOJtstKvutWc7SjgzovOw38=; b=c
+	f2HrC8mjhLbVIlK7oWYepvY5TStNV+Vh73y2tN6QkizI8WvEprMpH+pc8mGMpPlB
+	Dcvh0pV2AtyO6bRGf9EA4qXmfSJxHT+s0mkhgqJLe/0zX1l2qtEBRIj+UvLYQR8Y
+	qtRV4vjtO7rySI6IZkM75W0mGJvOgwbx/oyyI77OALx9GQHAx8fAYv6ScH4r+114
+	B1mAbgzpLPCRm0hfk+YoQ80j3EQhJh34QkCq29xTRLcRCJEOZjK79UIsUupI3ul7
+	YF3B1a/yvLPA07fXz+cHNXEpHkI408bf7gwg3enE9R8F5WP0b7l5G1AHr7zz2FAZ
+	u7ZFU1M+XSu9R3e+xpRnA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1705793394; x=
+	1705879794; bh=WGvMaEsDltLoKXJgl9GSQOJtstKvutWc7SjgzovOw38=; b=L
+	ZjagTr0ocJCNOojS+rhJfy8k9ExRIJ33lirPciH4g64kQ4XrdB2DwR5huqTMQD0a
+	pSc9XZfKSBHdcFv27Wkvj8WkSDwXZ+n0imOillo/FfwtnDLKyVXO8/XF8XzWsypt
+	4V1qZkx/fjf9roAZ/SEeA0z97dKOsKccynGL/uLo+ug7MMDGcnK1kb/Cn8IeYFK6
+	QS8PwJeJUqQ11lgTW3+M5VfwdKdy4cQYieK8i7CjgleBqxRYZ1yGKzLmJKADWl+N
+	feW1LbIGLZQHU5xvHpYG4L/Zur9ojlLu7H4cnzpIM27ibL+c+8mv+lGIw9hO92RX
+	RFVuW7BQGE9SwDnMGPauA==
+X-ME-Sender: <xms:clesZWByInibY4FYPxqB1nGu_XlV39At9fKpylIkPbVt704MGDqPKg>
+    <xme:clesZQgP4xH3SoUxxqPL55zF6YZwVK7hiT77IWUs6PiPW6OT3KREvCaIJacNFZc0p
+    A-zoCnfT-v7jcv5o20>
+X-ME-Received: <xmr:clesZZnu7l-2isMRlta_J9VzXKLK0-BafE_o1CUc4GlLIW3JpoLKN8ULdFQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekfedgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucgoteeftdduqddtudculdduhedmnecujfgurhephf
+    fvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrrhhkucfrvggrrhhs
+    ohhnuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrgeqnecuggftrf
+    grthhtvghrnhepfedtvdejfeelffevhffgjeejheduteetieeguefgkefhhfegjeduueet
+    hefgvdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrg
+X-ME-Proxy: <xmx:clesZUx5CGtBy5uUKOVPsx2pIns8lSfnITagzKjQR5US4dD9JefnxA>
+    <xmx:clesZbSx6SVUs_9Mqoq7gr2A_mo0LQnwR-hsTtavQVJSx9kTtdQVlA>
+    <xmx:clesZfb9_oQO58FfShN_i3H-ZbsxtvCtf1oQZmDtYRVB4qCgSoz2Yw>
+    <xmx:clesZcJoZIElVQsRwi7G3FQUrVKDadFgzB8t1ry1RD6kAbrqHg1PIA>
+Feedback-ID: ibe194615:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 20 Jan 2024 18:29:53 -0500 (EST)
+From: Mark Pearson <mpearson-lenovo@squebb.ca>
+To: mpearson-lenovo@squebb.ca
+Cc: corbet@lwn.net,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yangyu Chen <cyy@cyyself.name>
-Subject: [PATCH v2 2/3] RISC-V: mm: only test mmap without hint
-Date: Sun, 21 Jan 2024 05:49:59 +0800
-X-OQ-MSGID: <20240120215000.291877-2-cyy@cyyself.name>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: Support for mode FN key
+Date: Sat, 20 Jan 2024 18:29:34 -0500
+Message-ID: <20240120232949.317337-1-mpearson-lenovo@squebb.ca>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <tencent_B2D0435BC011135736262764B511994F4805@qq.com>
-References: <tencent_B2D0435BC011135736262764B511994F4805@qq.com>
+In-Reply-To: <mpearson-lenovo@squebb.ca>
+References: <mpearson-lenovo@squebb.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,122 +87,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The original test from the previous patchset[1] assumes the hint address
-on mmap is treated as the upper bound of the return address. As we
-reverted this special behavior, this test should be updated to reflect the
-change.
+New Thinkpads have added a 'Mode' Function key that on Windows allows
+you to choose the active profile (low-power, balanced, performance)
 
-[1]. https://lore.kernel.org/linux-riscv/20230809232218.849726-1-charlie@rivosinc.com/
+Added suppoort for this hotkey (F8), and have it cycle through the
+options available.
 
-Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+Tested on X1 Carbon G12.
+
+Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 ---
- .../selftests/riscv/mm/mmap_bottomup.c        | 12 --------
- .../testing/selftests/riscv/mm/mmap_default.c | 12 --------
- tools/testing/selftests/riscv/mm/mmap_test.h  | 30 -------------------
- 3 files changed, 54 deletions(-)
+ .../admin-guide/laptops/thinkpad-acpi.rst     |  7 ++++++-
+ drivers/platform/x86/thinkpad_acpi.c          | 20 ++++++++++++++++++-
+ 2 files changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/riscv/mm/mmap_bottomup.c b/tools/testing/selftests/riscv/mm/mmap_bottomup.c
-index 1757d19ca89b..1ba703d3f552 100644
---- a/tools/testing/selftests/riscv/mm/mmap_bottomup.c
-+++ b/tools/testing/selftests/riscv/mm/mmap_bottomup.c
-@@ -15,20 +15,8 @@ TEST(infinite_rlimit)
- 	do_mmaps(&mmap_addresses);
+diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+index 98d304010170..7f674a6cfa8a 100644
+--- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
++++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+@@ -444,7 +444,9 @@ event	code	Key		Notes
  
- 	EXPECT_NE(MAP_FAILED, mmap_addresses.no_hint);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_37_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_38_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_46_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_47_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_55_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_56_addr);
+ 0x1008	0x07	FN+F8		IBM: toggle screen expand
+ 				Lenovo: configure UltraNav,
+-				or toggle screen expand
++				or toggle screen expand.
++				On newer platforms (2024+)
++				replaced by 0x131f (see below)
  
- 	EXPECT_GT(1UL << 47, (unsigned long)mmap_addresses.no_hint);
--	EXPECT_GT(1UL << 38, (unsigned long)mmap_addresses.on_37_addr);
--	EXPECT_GT(1UL << 38, (unsigned long)mmap_addresses.on_38_addr);
--	EXPECT_GT(1UL << 38, (unsigned long)mmap_addresses.on_46_addr);
--	EXPECT_GT(1UL << 47, (unsigned long)mmap_addresses.on_47_addr);
--	EXPECT_GT(1UL << 47, (unsigned long)mmap_addresses.on_55_addr);
--	EXPECT_GT(1UL << 56, (unsigned long)mmap_addresses.on_56_addr);
- #endif
- }
+ 0x1009	0x08	FN+F9		-
  
-diff --git a/tools/testing/selftests/riscv/mm/mmap_default.c b/tools/testing/selftests/riscv/mm/mmap_default.c
-index c63c60b9397e..f1ac860dcf04 100644
---- a/tools/testing/selftests/riscv/mm/mmap_default.c
-+++ b/tools/testing/selftests/riscv/mm/mmap_default.c
-@@ -15,20 +15,8 @@ TEST(default_rlimit)
- 	do_mmaps(&mmap_addresses);
+@@ -504,6 +506,9 @@ event	code	Key		Notes
  
- 	EXPECT_NE(MAP_FAILED, mmap_addresses.no_hint);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_37_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_38_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_46_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_47_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_55_addr);
--	EXPECT_NE(MAP_FAILED, mmap_addresses.on_56_addr);
+ 0x1019	0x18	unknown
  
- 	EXPECT_GT(1UL << 47, (unsigned long)mmap_addresses.no_hint);
--	EXPECT_GT(1UL << 38, (unsigned long)mmap_addresses.on_37_addr);
--	EXPECT_GT(1UL << 38, (unsigned long)mmap_addresses.on_38_addr);
--	EXPECT_GT(1UL << 38, (unsigned long)mmap_addresses.on_46_addr);
--	EXPECT_GT(1UL << 47, (unsigned long)mmap_addresses.on_47_addr);
--	EXPECT_GT(1UL << 47, (unsigned long)mmap_addresses.on_55_addr);
--	EXPECT_GT(1UL << 56, (unsigned long)mmap_addresses.on_56_addr);
- #endif
- }
++0x131f	...	FN+F8	        Platform Mode change.
++				Implemented in driver.
++
+ ...	...	...
  
-diff --git a/tools/testing/selftests/riscv/mm/mmap_test.h b/tools/testing/selftests/riscv/mm/mmap_test.h
-index 2e0db9c5be6c..d2271426288f 100644
---- a/tools/testing/selftests/riscv/mm/mmap_test.h
-+++ b/tools/testing/selftests/riscv/mm/mmap_test.h
-@@ -10,47 +10,17 @@
+ 0x1020	0x1F	unknown
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index c4895e9bc714..ceb22f8d8442 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -166,6 +166,7 @@ enum tpacpi_hkey_event_t {
+ 	TP_HKEY_EV_VOL_MUTE		= 0x1017, /* Mixer output mute */
+ 	TP_HKEY_EV_PRIVACYGUARD_TOGGLE	= 0x130f, /* Toggle priv.guard on/off */
+ 	TP_HKEY_EV_AMT_TOGGLE		= 0x131a, /* Toggle AMT on/off */
++	TP_HKEY_EV_PROFILE_TOGGLE	= 0x131f, /* Toggle platform profile */
  
- struct addresses {
- 	int *no_hint;
--	int *on_37_addr;
--	int *on_38_addr;
--	int *on_46_addr;
--	int *on_47_addr;
--	int *on_55_addr;
--	int *on_56_addr;
- };
- 
- // Only works on 64 bit
- #if __riscv_xlen == 64
- static inline void do_mmaps(struct addresses *mmap_addresses)
- {
--	/*
--	 * Place all of the hint addresses on the boundaries of mmap
--	 * sv39, sv48, sv57
--	 * User addresses end at 1<<38, 1<<47, 1<<56 respectively
--	 */
--	void *on_37_bits = (void *)(1UL << 37);
--	void *on_38_bits = (void *)(1UL << 38);
--	void *on_46_bits = (void *)(1UL << 46);
--	void *on_47_bits = (void *)(1UL << 47);
--	void *on_55_bits = (void *)(1UL << 55);
--	void *on_56_bits = (void *)(1UL << 56);
+ 	/* Reasons for waking up from S3/S4 */
+ 	TP_HKEY_EV_WKUP_S3_UNDOCK	= 0x2304, /* undock requested, S3 */
+@@ -3731,6 +3732,7 @@ static bool hotkey_notify_extended_hotkey(const u32 hkey)
+ 	switch (hkey) {
+ 	case TP_HKEY_EV_PRIVACYGUARD_TOGGLE:
+ 	case TP_HKEY_EV_AMT_TOGGLE:
++	case TP_HKEY_EV_PROFILE_TOGGLE:
+ 		tpacpi_driver_event(hkey);
+ 		return true;
+ 	}
+@@ -11118,7 +11120,23 @@ static void tpacpi_driver_event(const unsigned int hkey_event)
+ 		else
+ 			dytc_control_amt(!dytc_amt_active);
+ 	}
 -
- 	int prot = PROT_READ | PROT_WRITE;
- 	int flags = MAP_PRIVATE | MAP_ANONYMOUS;
- 
- 	mmap_addresses->no_hint =
- 		mmap(NULL, 5 * sizeof(int), prot, flags, 0, 0);
--	mmap_addresses->on_37_addr =
--		mmap(on_37_bits, 5 * sizeof(int), prot, flags, 0, 0);
--	mmap_addresses->on_38_addr =
--		mmap(on_38_bits, 5 * sizeof(int), prot, flags, 0, 0);
--	mmap_addresses->on_46_addr =
--		mmap(on_46_bits, 5 * sizeof(int), prot, flags, 0, 0);
--	mmap_addresses->on_47_addr =
--		mmap(on_47_bits, 5 * sizeof(int), prot, flags, 0, 0);
--	mmap_addresses->on_55_addr =
--		mmap(on_55_bits, 5 * sizeof(int), prot, flags, 0, 0);
--	mmap_addresses->on_56_addr =
--		mmap(on_56_bits, 5 * sizeof(int), prot, flags, 0, 0);
++	if (hkey_event == TP_HKEY_EV_PROFILE_TOGGLE) {
++		switch (dytc_current_profile) {
++		case PLATFORM_PROFILE_LOW_POWER:
++			dytc_profile_set(NULL, PLATFORM_PROFILE_BALANCED);
++			break;
++		case PLATFORM_PROFILE_BALANCED:
++			dytc_profile_set(NULL, PLATFORM_PROFILE_PERFORMANCE);
++			break;
++		case PLATFORM_PROFILE_PERFORMANCE:
++			dytc_profile_set(NULL, PLATFORM_PROFILE_LOW_POWER);
++			break;
++		default:
++			pr_warn("Profile HKEY unexpected profile %d", dytc_current_profile);
++		}
++		/* Notify user space the profile changed */
++		platform_profile_notify();
++	}
  }
- #endif /* __riscv_xlen == 64 */
  
+ static void hotkey_driver_event(const unsigned int scancode)
 -- 
 2.43.0
 
