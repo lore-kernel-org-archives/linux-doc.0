@@ -1,137 +1,93 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB33FBEB;
-	Sat, 20 Jan 2024 14:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A97D815;
+	Sat, 20 Jan 2024 15:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705761861; cv=none; b=JQGKRiVNGpjI7ZmLACfJy+1BzsWqDMqA2UWC4b8VfLyUdwpJ3zSjH7PIren1ZGlIwe99shCRrwV9lw5mH3w9hB8gART6xJalgOezTwJP0frIhQo0lh4omaLSrRAQLWbHWSxOf4oo8mOTbWD7E7FNh0D6BYOHSOEVH8y/ocwuLn0=
+	t=1705765091; cv=none; b=QVnOaET80z3yRcIoQ7rqm4+3tBXHxD/9jHexaNZP4qgW5NblP+7M9czEOWyHH4CVmzQKSI3F+9Sgs9u+300kjjoOO5wKICA8Bt80ELTB3k8OWHD98kA4Jv67AOYyKgeg35GXddtW4X1IkJuNCk4ks/3RoesKCYCwAMkNAWBMg+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705761861; c=relaxed/simple;
-	bh=HPmQ0al3jf48A0014h/f2dPpfRLn6G7iqgyVLg+H2Fo=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=rhdQZbI11hc2tKuJSl6qmG7Pj8vgBDL9IrKqxtYnGdR02tSwrcvPnItp70YA7S/haOviFvYu2y4Wkkt/3KCNcFgFN4c/voicwHXYfCxJuzfuRLUFwO7mrTcHubscxufUdnos34MdddLeNBAYJMTriLWJ36J6l5e2m5+2brRVhl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lG26gPJK; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1705765091; c=relaxed/simple;
+	bh=+7JxOe39CRONjhHqKrzwmZc/MrbEySCQI0hhkyXStG0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iB13y57OjnFDXpWXKdTWhq9tOiW86i38xdMGoBHfG2HN/8D9Lvx3aCmiHvl+SBzp/daLMc6Z05kxN/IT2/XsXjitBz3hKSB/YOPu+hQ+Zku6iw36vQFLvUHaW7TCBufA268/lxJR+Tq0kbaFvUKWSdfSAReUbf1Yk0205NXb8dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gYRcVsdm; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lG26gPJK"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-210a73a5932so1185032fac.3;
-        Sat, 20 Jan 2024 06:44:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705761859; x=1706366659; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IfBwVEpfexQbIPSgBww/5k3Cr6Ag1bm9WDe5/2EYrlU=;
-        b=lG26gPJKXyKMBgPk+7cVh+B0MrH/OUGF7AKU1rmmvB7qAw85F7bRAmBFfwD3bvZnsq
-         yrtd4LnxBar4uCOblzHhDm4RsSdF3uIBoofR/iGd5pgN0xsyWDovVqi8abLswSTlzjbj
-         ZMzbQaCf9FMChJjxGe9hdnXv0eYjWry2pfOkI0iXKZfYSggBGneWOb0Io4YqXTqu7SDx
-         OEa3Dstu47cJgCsBd+wLvmwqcy36AEE6GSCz44Bj/Ne1x4H8Bv6mFeDvWvr4Mgvjyx9w
-         0uQ/depTaRWOd3MT+v4HzRKQOvTjj7mnih6pAZGEqs4VjdusI1bY3SPGv+D8pHX3XImG
-         i9Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705761859; x=1706366659;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IfBwVEpfexQbIPSgBww/5k3Cr6Ag1bm9WDe5/2EYrlU=;
-        b=QUywdipKP+/RkxEzmzYTlUVsrjILQECVF3aisOWhIO+m8lbSTVPfrk4+8cV9HMy5CQ
-         s7QrFCiqgUzcjZW6kE1Prr7PcEuk/GM4YgyXXSpYvWdneexWrONjrLNbp8BqIu846aHG
-         xGIDYf6kFKDT1ld3jZgVXUNc5QTMjD+dBxEdjuad47mk6HdJ3GQfT+ACuNbIEnTu4UmJ
-         ie8hMHvqOhvCfVHHvNdST+wu9dAR49S44eMhW2yzS21eXsqLp8pFxtn8PBD9/to2ZwSr
-         anyhdnmOqfO53xFy/EWRWayerfLcuRv8Uktf+MxGUwrWeYWOxIjfuIy5UFOIJFHhDsxs
-         /1/A==
-X-Gm-Message-State: AOJu0YxynpztCj6cyJnafuWeLstn+g69K2g3pTg70KAh9s76y0RCj0G3
-	bhKgbvBtKDkr0Py8JvxB8lOnGELciNPlaClc2tbADN25KuU2bTUx
-X-Google-Smtp-Source: AGHT+IGDQLZFG/7k7xzDA1DiSebrrV+gTIdvhMQqGug98bRrvWDlEtU0Tk70r8YverpOmatw4Ll9WA==
-X-Received: by 2002:a05:6870:41d4:b0:214:2d23:f68b with SMTP id z20-20020a05687041d400b002142d23f68bmr1306732oac.5.1705761859601;
-        Sat, 20 Jan 2024 06:44:19 -0800 (PST)
-Received: from user.. ([106.51.184.167])
-        by smtp.gmail.com with ESMTPSA id h8-20020a654808000000b005ca0ae17983sm4649637pgs.8.2024.01.20.06.44.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jan 2024 06:44:19 -0800 (PST)
-From: Subramanya Swamy <subramanya.swamy.linux@gmail.com>
-To: corbet@lwn.net,
-	jmoyer@redhat.com,
-	axboe@kernel.dk,
-	asml.silence@gmail.com,
-	akpm@linux-foundation.org,
-	bhe@redhat.com,
-	ribalda@chromium.org,
-	rostedt@goodmis.org,
-	subramanya.swamy.linux@gmail.com,
-	sshegde@linux.vnet.ibm.com,
-	alexghiti@rivosinc.com,
-	matteorizzo@google.com,
-	ardb@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	io-uring@vger.kernel.org
-Subject: [PATCH v2] iouring:added boundary value check for io_uring_group systl
-Date: Sat, 20 Jan 2024 14:44:11 +0000
-Message-Id: <20240120144411.2564-1-subramanya.swamy.linux@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gYRcVsdm"
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id AE6292E5;
+	Sat, 20 Jan 2024 15:38:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AE6292E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1705765080; bh=wLcEhQw1Jjvzq1l7OVP1geKXt6JOGfTdP5+FiDy1DZM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=gYRcVsdmgQzJyo0RJRaYNzgjiCxu65oUfBLpjzWTgE9xzAH1UPQlaEkJvD3WeHU5i
+	 vNsxCgDjHZ8bWBrAWhewo0nvxiZFVEZC0+RL+NjrW9trhfrED+0KJ6eSpHuvTVLHyV
+	 qQ8ZcTh+9bBEwxKP7DXk0OOVj7VXyDP+l4AGsqi+xsns+lD/xD8r6NSjl+qrW7GQ83
+	 tp9oWgO15NBfOFoNAtdsPdfmCCS9jWvGeNr1IQwCJnYd7s5hlatJ0dIqusLGrmaIwx
+	 4N9K7HT0D+PMA7yzpPIfZoowgEt9acsGbsMAPnmC2Y7M2ylt79eeTGXerxkF7OsyDg
+	 hp52wrG7ElXzQ==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Erick Archer <erick.archer@gmx.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>
+Cc: Erick Archer <erick.archer@gmx.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN/power: Use kcalloc() instead of kzalloc()
+In-Reply-To: <20240120122204.4287-1-erick.archer@gmx.com>
+References: <20240120122204.4287-1-erick.archer@gmx.com>
+Date: Sat, 20 Jan 2024 08:38:00 -0700
+Message-ID: <87a5p0rp5z.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-/proc/sys/kernel/io_uring_group takes gid as input
-added boundary value check to accept gid in range of
-0<=gid<=4294967294 & Documentation is updated for same
+Erick Archer <erick.archer@gmx.com> writes:
 
-Signed-off-by: Subramanya Swamy <subramanya.swamy.linux@gmail.com>
----
- Documentation/admin-guide/sysctl/kernel.rst | 6 ++----
- io_uring/io_uring.c                         | 8 ++++++--
- 2 files changed, 8 insertions(+), 6 deletions(-)
+> As noted in the "Deprecated Interfaces, Language Features, Attributes,
+> and Conventions" documentation [1], size calculations (especially
+> multiplication) should not be performed in memory allocator (or similar)
+> function arguments due to the risk of them overflowing. This could lead
+> to values wrapping around and a smaller allocation being made than the
+> caller was expecting. Using those allocations could lead to linear
+> overflows of heap memory and other misbehaviors.
+>
+> So, in the example code use the purpose specific kcalloc() function
+> instead of the argument size * count in the kzalloc() function.
+>
+> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-c=
+oded-arithmetic-in-allocator-arguments [1]
+> Link: https://github.com/KSPP/linux/issues/162
+> Signed-off-by: Erick Archer <erick.archer@gmx.com>
+> ---
+>  Documentation/translations/zh_CN/power/opp.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/translations/zh_CN/power/opp.rst b/Documentati=
+on/translations/zh_CN/power/opp.rst
+> index 8d6e3f6f6202..7470fa2d4c43 100644
+> --- a/Documentation/translations/zh_CN/power/opp.rst
+> +++ b/Documentation/translations/zh_CN/power/opp.rst
+> @@ -274,7 +274,7 @@ dev_pm_opp_get_opp_count
+>  	 {
+>  		/* =E5=81=9A=E4=B8=80=E4=BA=9B=E4=BA=8B=E6=83=85 */
+>  		num_available =3D dev_pm_opp_get_opp_count(dev);
+> -		speeds =3D kzalloc(sizeof(u32) * num_available, GFP_KERNEL);
+> +		speeds =3D kcalloc(num_available, sizeof(u32), GFP_KERNEL);
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 6584a1f9bfe3..a8b61ab3e118 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -470,10 +470,8 @@ io_uring_group
- ==============
- 
- When io_uring_disabled is set to 1, a process must either be
--privileged (CAP_SYS_ADMIN) or be in the io_uring_group group in order
--to create an io_uring instance.  If io_uring_group is set to -1 (the
--default), only processes with the CAP_SYS_ADMIN capability may create
--io_uring instances.
-+privledged (CAP_SYS_ADMIN) or be in the io_uring_group group in order
-+to create an io_uring instance.
- 
- 
- kexec_load_disabled
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index cd9a137ad6ce..bd6cc0391efa 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -154,9 +154,11 @@ static void io_queue_sqe(struct io_kiocb *req);
- struct kmem_cache *req_cachep;
- 
- static int __read_mostly sysctl_io_uring_disabled;
--static int __read_mostly sysctl_io_uring_group = -1;
-+static unsigned int __read_mostly sysctl_io_uring_group;
- 
- #ifdef CONFIG_SYSCTL
-+static unsigned int max_gid  = ((gid_t) ~0U) - 1; /*4294967294 is the max guid*/
-+
- static struct ctl_table kernel_io_uring_disabled_table[] = {
- 	{
- 		.procname	= "io_uring_disabled",
-@@ -172,7 +174,9 @@ static struct ctl_table kernel_io_uring_disabled_table[] = {
- 		.data		= &sysctl_io_uring_group,
- 		.maxlen		= sizeof(gid_t),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
-+		.proc_handler	= proc_douintvec_minmax,
-+		.extra1         = SYSCTL_ZERO,
-+		.extra2         = &max_gid,
- 	},
- 	{},
- };
--- 
-2.34.1
+Without addressing the validity of this change, as Hu says, we should
+never change the translations without fixing the original as well -
+otherwise they aren't really translations anymore.
 
+Thanks,
+
+jon
