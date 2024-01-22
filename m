@@ -1,143 +1,181 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAAB679FD
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 17:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA05F47A6D;
+	Mon, 22 Jan 2024 17:44:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705945136; cv=none; b=sBX/6bWltMHNkPreXVlGcPa5IztvgpjIQixjL3L9I5D1mFUNhp2cJ/ldoIw2MkUylnLDbD/57ZnV2FZnF9ARkh1nbutT2RtPUYzsG+FI+WwFu3L6rNTbMmC55g+TaakkRUME+25wdNgx+4ijA8rsZYukyTv2A0lln4TNVpmFZBc=
+	t=1705945497; cv=none; b=N/2i96pxdMTPnXr2LA8oD2oR700u8WWurtt5lBwFUVJtzKKugApZFmH7IDhhWWRSIKf7jJGxexH67AN+k/TARvBxS4O6fiK178dXT+xlVS6jXO7W3Pj8U6XJvOFlL8bS41dLPu+842uj21ANMSTARgyr7AFo/XNMOyZMs65zhx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705945136; c=relaxed/simple;
-	bh=1agfQj91jKPuM03IvQvPn7FRroTkYhBE3Eyvb0JlhPs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ng13ur6tDg9/BuHVgK5bhU0Oh+QIo7DxwcWCI/utJIqKkLZ9NnHx9CQpadm5UFQzMut5nm9jBwgZh89EwlXpDgWUMUCm12ViAAhqjBW3apcsWpIqhlKIHEVJeQK7xWjvX9UvsfvOByyuMUtUlwbK72eR2rAvYL7/Y8/Ia/yCGpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZBoQERao; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZBoQERao"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5cdf90e5cdeso510054a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 09:38:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1705945133; x=1706549933; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XtjcrQsxe6bJ8QdGg7J5xA0F4dr3vWlDQohelUrXlB4=;
-        b=ZBoQERaoSnk/Z9mTyIkwFGcoQwwGQQF1Fq7Yu4Ojofn9iy0XPuMROQqBdAfCGayqwV
-         x85KBP5HVzHzFN85Feevls5DNb2lnpiWCPPP6ixSNfXozvgXUXfRwxjDNLPBpxvMfxH4
-         EJI24VFRApsGmcb5zZrx0FtgJMQTMJFEN/R0E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705945133; x=1706549933;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XtjcrQsxe6bJ8QdGg7J5xA0F4dr3vWlDQohelUrXlB4=;
-        b=r5zlee5GOMRycy+VYwpB+V+PabVqrJyIbNi+sd07gQk/AjGMrazXMEWySD+vf66ADo
-         yRCoW8VBiZU81whREyJqNR6oFAo+SoZv4g+k6oktjiCQ1+8rhVL+cIp2F6f14IVdDg5b
-         QyKKC/mLFVqJ4s5qz0yl9xe8tn2xWe/8sxRo7gPgk3H7v1wmeDvdjpavdPZ0l+9jVL66
-         IL4NTMLSvks4f2SY0TUH7bDykYtGIq6hz5NnfNizGg7B3q9hUa9+IbWqvzU2w6sKKcXp
-         QbyMaQQdQskT1sP3FaGCgqmaMNcdiXBCFFbotM4VWWUV+rm8QDOGjxZexVH+11LqkTbo
-         qEzw==
-X-Gm-Message-State: AOJu0YxjWwtVSB8JeshqfBy1ujTIuW+Bn3WQfx0mRwU3hw5yRTCn6/Wx
-	KqR2e+fq2jrpCQhK1i6E3gemCG2AU/K0Z5nxOH09zu687Kjw4uOawpkxRsxUCPE=
-X-Google-Smtp-Source: AGHT+IGKsyRXEY3tO1H9OuYiUwsfj+vq0ROdCS8ekfKfxcvrR4RqapGfHOijT8aFHG7x9DfCyz47wA==
-X-Received: by 2002:a05:6a20:439f:b0:19a:efad:f1c3 with SMTP id i31-20020a056a20439f00b0019aefadf1c3mr12427542pzl.4.1705945132828;
-        Mon, 22 Jan 2024 09:38:52 -0800 (PST)
-Received: from [128.240.1.152] ([206.170.126.10])
-        by smtp.gmail.com with ESMTPSA id kq9-20020a056a004b0900b006db85b12036sm9837515pfb.137.2024.01.22.09.38.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 09:38:52 -0800 (PST)
-Message-ID: <c03a1cdb-43fb-4f5f-8498-c45b7501e1bf@linuxfoundation.org>
-Date: Mon, 22 Jan 2024 10:38:49 -0700
+	s=arc-20240116; t=1705945497; c=relaxed/simple;
+	bh=1uo9SR5jLKvSqbQJuOZ/gWcBzY/vu6zvyq0QbExF35o=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qBE+AJHGZ+FPMfO2d+VDyqhuhgT/cfxS1OAU6WLqM04BnLa+RZybO73JN2e31BxRDVQ1Sd0NF6D1RjA3+RRPmFEcwRS1yQHRAQ/qvlT5meengAPpPkyv48VGY1a5k7QVu30vcWHwYGnJCkgL6kRSbL6WtACXQZ/zlDorwiaf9E4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TJcwh1ZKDz6JBTC;
+	Tue, 23 Jan 2024 01:41:56 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 11383140A86;
+	Tue, 23 Jan 2024 01:44:51 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 22 Jan
+ 2024 17:44:50 +0000
+Date: Mon, 22 Jan 2024 17:44:49 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+CC: Russell King <rmk+kernel@armlinux.org.uk>, <linux-pm@vger.kernel.org>,
+	<loongarch@lists.linux.dev>, <linux-acpi@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-riscv@lists.infradead.org>,
+	<kvmarm@lists.linux.dev>, <x86@kernel.org>,
+	<acpica-devel@lists.linuxfoundation.org>, <linux-csky@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, <jianyong.wu@arm.com>,
+	<justin.he@arm.com>, James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 04/21] ACPI: processor: Register all CPUs from
+ acpi_processor_get_info()
+Message-ID: <20240122174449.00002f78@Huawei.com>
+In-Reply-To: <CAJZ5v0je=-oVnSumZs=dzcyVuVUeVeTgO7yOnjGg1igyrS7EHQ@mail.gmail.com>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+	<E1rDOg7-00Dvjq-VZ@rmk-PC.armlinux.org.uk>
+	<CAJZ5v0je=-oVnSumZs=dzcyVuVUeVeTgO7yOnjGg1igyrS7EHQ@mail.gmail.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/3] kselftests: lib.mk: Add TEST_GEN_MODS_DIR variable
-Content-Language: en-US
-To: Marcos Paulo de Souza <mpdesouza@suse.com>, Shuah Khan
- <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
- live-patching@vger.kernel.org
-References: <20240112-send-lp-kselftests-v6-0-79f3e9a46717@suse.com>
- <20240112-send-lp-kselftests-v6-1-79f3e9a46717@suse.com>
- <5aceb855-2862-4d53-b27b-50e2956e099b@linuxfoundation.org>
- <dfcf46def7a4b27e30bed0e832fbf24fd7b36310.camel@suse.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <dfcf46def7a4b27e30bed0e832fbf24fd7b36310.camel@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On 1/22/24 10:37, Marcos Paulo de Souza wrote:
-> On Mon, 2024-01-22 at 10:15 -0700, Shuah Khan wrote:
->> On 1/12/24 10:43, Marcos Paulo de Souza wrote:
->>> Add TEST_GEN_MODS_DIR variable for kselftests. It can point to
->>> a directory containing kernel modules that will be used by
->>> selftest scripts.
->>>
->>> The modules are built as external modules for the running kernel.
->>> As a result they are always binary compatible and the same tests
->>> can be used for older or newer kernels.
->>>
->>> The build requires "kernel-devel" package to be installed.
->>> For example, in the upstream sources, the rpm devel package
->>> is produced by "make rpm-pkg"
->>>
->>> The modules can be built independently by
->>>
->>>     make -C tools/testing/selftests/livepatch/
->>>
->>> or they will be automatically built before running the tests via
->>>
->>>     make -C tools/testing/selftests/livepatch/ run_tests
->>>
->>> Note that they are _not_ built when running the standalone
->>> tests by calling, for example, ./test-state.sh.
->>>
->>> Along with TEST_GEN_MODS_DIR, it was necessary to create a new
->>> install
->>> rule. INSTALL_MODS_RULE is needed because INSTALL_SINGLE_RULE would
->>> copy the entire TEST_GEN_MODS_DIR directory to the destination,
->>> even
->>> the files created by Kbuild to compile the modules. The new install
->>> rule copies only the .ko files, as we would expect the gen_tar to
->>> work.
->>>
->>> Reviewed-by: Joe Lawrence <joe.lawrence@redhat.com>
->>> Reviewed-by: Petr Mladek <pmladek@suse.com>
->>> Signed-off-by: Marcos Paulo de Souza <mpdesouza@suse.com>
->>> ---
->>>    Documentation/dev-tools/kselftest.rst |  4 ++++
->>>    tools/testing/selftests/lib.mk        | 26 +++++++++++++++++++++-
->>> ----
->>
->>
->> Hi Marcos,
->>
->> I would like the doc patch and lib.mk patch separate. If lib.mk needs
->> changes
->> we don't have to touch the doc patch.
-> 
-> Hi Shuah,
-> on patch 2/3 you also said that you would like to have the
-> documentation changes split in the future, and that you picked the
-> changes into a testing branch. Does it also applies to this patch?
-> 
+On Mon, 18 Dec 2023 21:30:50 +0100
+"Rafael J. Wysocki" <rafael@kernel.org> wrote:
 
-No need to do anything now. I just applied the series to linux-kselftest next
+> On Wed, Dec 13, 2023 at 1:49=E2=80=AFPM Russell King <rmk+kernel@armlinux=
+.org.uk> wrote:
+> >
+> > From: James Morse <james.morse@arm.com>
+> >
+> > To allow ACPI to skip the call to arch_register_cpu() when the _STA
+> > value indicates the CPU can't be brought online right now, move the
+> > arch_register_cpu() call into acpi_processor_get_info(). =20
+>=20
+> This kind of looks backwards to me and has a potential to become
+> super-confusing.
+>=20
+> I would instead add a way for the generic code to ask the platform
+> firmware whether or not the given CPU is enabled and so it can be
+> registered.
 
-thanks,
--- Shuah
+Hi Rafael,
+
+The ACPI interpreter isn't up at this stage so we'd need to pull that
+forwards. I'm not sure if we can pull the interpreter init early enough.
+
+Perhaps pushing the registration back in all cases is the way to go?
+Given the acpi interpretter is initialized via subsys_initcall() it would
+need to be after that - I tried pushing cpu_dev_register_generic()
+immediately after acpi_bus_init() and that seems fine.
+We can't leave the rest of cpu_dev_init() that late because a bunch
+of other stuff relies on it (CPU freq blows up first as a core_init()
+on my setup).
+
+So to make this work we need it to always move the registration later
+than the necessary infrastructure, perhaps to subsys_initcall_sync()
+as is done for missing CPUs (we'd need to combine the two given that
+needs to run after this, or potentially just stop checking for acpi_disabled
+and don't taint the kernel!).  I think this is probably the most consistent
+option on basis it at least moves the registration to the same point
+whatever is going on and can easily use the arch callback you suggest
+to hide away the logic on deciding if a CPU is there or not.
+
+What do you think is the best way to do this?
+
+
+>=20
+> > Systems can still be booted with 'acpi=3Doff', or not include ano
+> > ACPI description at all. For these, the CPUs continue to be
+> > registered by cpu_dev_register_generic().
+> >
+> > This moves the CPU register logic back to a subsys_initcall(),
+> > while the memory nodes will have been registered earlier. =20
+>=20
+> Isn't this somewhat risky?
+>=20
+> > Signed-off-by: James Morse <james.morse@arm.com>
+> > Reviewed-by: Gavin Shan <gshan@redhat.com>
+> > Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> > ---
+> > Changes since RFC v2:
+> >  * Fixup comment in acpi_processor_get_info() (Gavin Shan)
+> >  * Add comment in cpu_dev_register_generic() (Gavin Shan)
+> > ---
+> >  drivers/acpi/acpi_processor.c | 12 ++++++++++++
+> >  drivers/base/cpu.c            |  6 +++++-
+> >  2 files changed, 17 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processo=
+r.c
+> > index 0511f2bc10bc..e7ed4730cbbe 100644
+> > --- a/drivers/acpi/acpi_processor.c
+> > +++ b/drivers/acpi/acpi_processor.c
+> > @@ -314,6 +314,18 @@ static int acpi_processor_get_info(struct acpi_dev=
+ice *device)
+> >                         cpufreq_add_device("acpi-cpufreq");
+> >         }
+> >
+> > +       /*
+> > +        * Register CPUs that are present. get_cpu_device() is used to =
+skip
+> > +        * duplicate CPU descriptions from firmware.
+> > +        */
+> > +       if (!invalid_logical_cpuid(pr->id) && cpu_present(pr->id) &&
+> > +           !get_cpu_device(pr->id)) {
+> > +               int ret =3D arch_register_cpu(pr->id);
+> > +
+> > +               if (ret)
+> > +                       return ret;
+> > +       }
+> > +
+> >         /*
+> >          *  Extra Processor objects may be enumerated on MP systems with
+> >          *  less than the max # of CPUs. They should be ignored _iff
+> > diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+> > index 47de0f140ba6..13d052bf13f4 100644
+> > --- a/drivers/base/cpu.c
+> > +++ b/drivers/base/cpu.c
+> > @@ -553,7 +553,11 @@ static void __init cpu_dev_register_generic(void)
+> >  {
+> >         int i, ret;
+> >
+> > -       if (!IS_ENABLED(CONFIG_GENERIC_CPU_DEVICES))
+> > +       /*
+> > +        * When ACPI is enabled, CPUs are registered via
+> > +        * acpi_processor_get_info().
+> > +        */
+> > +       if (!IS_ENABLED(CONFIG_GENERIC_CPU_DEVICES) || !acpi_disabled)
+> >                 return;
+> >
+> >         for_each_present_cpu(i) {
+> > --
+> > 2.30.2
+> >
+> > =20
+>=20
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
