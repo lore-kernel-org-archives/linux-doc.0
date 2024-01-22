@@ -1,106 +1,139 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A84A612C2
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 17:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1A764CF3;
+	Mon, 22 Jan 2024 17:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705944179; cv=none; b=I3r7EjBn1ZsNhj1avHDm0eyBNwDTw8DQqkZTusOtnCLhzdsoCy3MhxuPRqd39I1ZEBA08TFe+ul+Xc2pmjOHmZdOkgFXo1rmVNbKX3z1XkYW7/PTgwcA3OROqV38yBsVJDql1Ol2MlvHGTTuJPYQth54e2cdU2NZbnM2RXdvQAw=
+	t=1705944475; cv=none; b=IiW1my2hweiB/7c0OKC2aUOMJGQ/GYSNHXiDdBVUlf3iw7KonByRFJUx7aRskv7UgguqV8OGNFi/hCVWAmnhzSjsJqY80/eFx1458TqE6cx7n3Y7DPF3U2xaRIAlVORopNQ0wzx3gg3lKKww+g1iUxEBvcR1Sks/reBszJFcQhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705944179; c=relaxed/simple;
-	bh=bEHwRRHZEZ5muODAZZTChjTXAGcN8GLNJSdSobXIA0I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bb2LZIzEGJI6pFlqCL9ShIumPS6I0vLwkLOUedUy3A+wVB4ZptkkxDLRErXvclsimGGsECtG90NxMQKjIqG1KrmQu9UH0R6fD1NO7cAaHgLxM0yRYdgrsvqxGUYxESsFrjVvrujQCljB35EuUgBKBlEGtkI2hzmKemjzfjb9++c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NCIqAD7c; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1705944475; c=relaxed/simple;
+	bh=HxKy5Bibhf+2B00lsgPRKpJNJzyu7ueJfD16Tr2+GJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XoYYi6D/A7GiGaMGZ+UxyabrgoMSI+fmrWjLGFwcHxcqep4+h3gzbe8zsCrhEMsO965JdyK7eZlAl8Xl2X9oJ/FldO9D6RGqXkHsumA+qGN9WF2cJ6O1iSo/U3NWpWcQYo6+3/1UZ1ATjalxnl1pHnmGsrO/BFMYL366XRJLSh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=k2RTabvp; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NCIqAD7c"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6d9b760610bso794326b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 09:22:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1705944177; x=1706548977; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3cKBLusi5odBbefyu3q7+UJ6/M6hhfLrmEnRO/AYdSg=;
-        b=NCIqAD7cPTDcHzPOjo+YrAdQhZRnfiXAizEgkmFr/YbQQIzPn5dYBRVoS31a+ULPw8
-         /R5CcIGj6Mm8eLJg3DZK7ZCJPQpjgbfXu8Q11j91CGCoGCU8BY1JBVY6JepkTDzF5D1c
-         axZaTBWHcjXBZ4ya9oqXJyJ/HDv68Y293Vi/M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705944177; x=1706548977;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3cKBLusi5odBbefyu3q7+UJ6/M6hhfLrmEnRO/AYdSg=;
-        b=FAd15ac6FzI/VQOqyjCkaUmMSnskNCxpMhC+nex+Z+ak+6/158tCIiTj2uOHT6l5Zx
-         17eoEiRc7wtVY9LrYpv5tJhdQhSHlO95HHaSDCqUYavj19ohaL0eIvygOCi79xIFXoGn
-         zVmKE/O0gzO81giPEvLj9bfOSvq/0nxw+ZVBdzzWHP3M5qJpXdpzLrTMRzpgmoGyO5NY
-         5vXDAdAc3TNCI+N3HbhM5AiCessLvAoXJgMkK1f7GvszYvNrbaE7hDAijYMPALJLPQ3l
-         6nL8tCGYcET5VX8skCmJcoR21ormdZvY9WBj//zBXY0RBuaAz07qFaX0hqJZDB0hZQuO
-         0XDw==
-X-Gm-Message-State: AOJu0YxK05sDKk8ip/CydXflLviiHBJ3lvgr2Qlod71RSM46Bk6AIIpW
-	wt2TNs8tQyCgKHVowK1vFeEN4kuhvPMR/ziXcDK44wQ0kroK8ZI8VJ+YNxLjvhQ=
-X-Google-Smtp-Source: AGHT+IGjgFJLDdAfyqDNErB5PR6R2A+VDqHcrvgpf1rrqIFIthJVkNUJsACPjPjML0hqNb41Xog8zQ==
-X-Received: by 2002:a62:6204:0:b0:6d9:383b:d91a with SMTP id w4-20020a626204000000b006d9383bd91amr8897256pfb.1.1705944176719;
-        Mon, 22 Jan 2024 09:22:56 -0800 (PST)
-Received: from [128.240.1.152] ([206.170.126.10])
-        by smtp.gmail.com with ESMTPSA id y74-20020a62ce4d000000b006d9a48882f7sm10245573pfg.118.2024.01.22.09.22.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 09:22:56 -0800 (PST)
-Message-ID: <f3ba4181-ab38-4779-987f-9bda47f003be@linuxfoundation.org>
-Date: Mon, 22 Jan 2024 10:22:54 -0700
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="k2RTabvp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=4s5ASXue467nLReommt3Qb/xh4/CleRrf7HABCgDhAc=; b=k2RTabvplP91YS/X8q/zqV21/0
+	qq9DgaiMgmZJiqO3jB55Q9chgwQ35eB1+eA7x7jhEHzaKdet6hSaC52CWHQUgwvG7gkDXSgFaHYat
+	F0fK7xJGkii9k+DKttPiUF0xErSZBLXj7z3pTPWSb7ke6hMhA8Q1+WfuHcA4kdmfF4+MTDeWJqrHn
+	DKxdjxQtMmdbZ+GjpYGGO2++xFou5Tg1sahLJn3m0tXgnSlLLVFyRoEFSuaMmiAwqWqCQ62AkNjs/
+	r8m/fC/O5qBwbiu03pbM8QcCyTyuegbDsHWC+bqv2hZ/QYcKy7OJpQoabZft8xMDIEc6qarES6VyY
+	n51mtm7A==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60388)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rRy5I-0001Gc-2T;
+	Mon, 22 Jan 2024 17:27:44 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rRy5D-0001Bz-Ok; Mon, 22 Jan 2024 17:27:39 +0000
+Date: Mon, 22 Jan 2024 17:27:39 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
+	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	jianyong.wu@arm.com, justin.he@arm.com,
+	James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 03/21] ACPI: processor: Register CPUs that are
+ online, but not described in the DSDT
+Message-ID: <Za6li4NhfvL6x6Vl@shell.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+ <E1rDOg2-00Dvjk-RI@rmk-PC.armlinux.org.uk>
+ <CAJZ5v0ju1JHgpjuFLHZVs4NZiARG6iBZN_wza6c2e0kDhZjK0w@mail.gmail.com>
+ <ZaURtUvWQyjYfiiO@shell.armlinux.org.uk>
+ <20240122160227.00002d83@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/3] livepatch: Move tests from lib/livepatch to
- selftests/livepatch
-Content-Language: en-US
-To: Marcos Paulo de Souza <mpdesouza@suse.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
- live-patching@vger.kernel.org, skhan@linuxfoundation.org
-References: <20240112-send-lp-kselftests-v6-0-79f3e9a46717@suse.com>
- <20240112-send-lp-kselftests-v6-2-79f3e9a46717@suse.com>
- <Zap04ddls7ZvbL/U@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
- <Zap26MINbbxREt4c@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
- <53cf93b2efadc0f42712eb92436bd575b5622664.camel@suse.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <53cf93b2efadc0f42712eb92436bd575b5622664.camel@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240122160227.00002d83@Huawei.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 1/22/24 05:55, Marcos Paulo de Souza wrote:
-> On Fri, 2024-01-19 at 14:19 +0100, Alexander Gordeev wrote:
->> On Fri, Jan 19, 2024 at 02:11:01PM +0100, Alexander Gordeev wrote:
->>> FWIW, for s390 part:
->>>
->>> Alexander Gordeev <agordeev@linux.ibm.com>
->>
->> Acked-by: Alexander Gordeev <agordeev@linux.ibm.com>
+On Mon, Jan 22, 2024 at 04:02:27PM +0000, Jonathan Cameron wrote:
+> On Mon, 15 Jan 2024 11:06:29 +0000
+> "Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
 > 
-> Thanks Alexandre and Joe for testing and supporting the change.
+> > On Mon, Dec 18, 2023 at 09:22:03PM +0100, Rafael J. Wysocki wrote:
+> > > On Wed, Dec 13, 2023 at 1:49 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:  
+> > > >
+> > > > From: James Morse <james.morse@arm.com>
+> > > >
+> > > > ACPI has two descriptions of CPUs, one in the MADT/APIC table, the other
+> > > > in the DSDT. Both are required. (ACPI 6.5's 8.4 "Declaring Processors"
+> > > > says "Each processor in the system must be declared in the ACPI
+> > > > namespace"). Having two descriptions allows firmware authors to get
+> > > > this wrong.
+> > > >
+> > > > If CPUs are described in the MADT/APIC, they will be brought online
+> > > > early during boot. Once the register_cpu() calls are moved to ACPI,
+> > > > they will be based on the DSDT description of the CPUs. When CPUs are
+> > > > missing from the DSDT description, they will end up online, but not
+> > > > registered.
+> > > >
+> > > > Add a helper that runs after acpi_init() has completed to register
+> > > > CPUs that are online, but weren't found in the DSDT. Any CPU that
+> > > > is registered by this code triggers a firmware-bug warning and kernel
+> > > > taint.
+> > > >
+> > > > Qemu TCG only describes the first CPU in the DSDT, unless cpu-hotplug
+> > > > is configured.  
+> > > 
+> > > So why is this a kernel problem?  
+> > 
+> > So what are you proposing should be the behaviour here? What this
+> > statement seems to be saying is that QEMU as it exists today only
+> > describes the first CPU in DSDT.
 > 
-> Shuah, now that the issue found by that Joe was fixed, do you think the
-> change is ready to be merged? The patches were reviewed by three
-> different people already, and I don't know what else can be missing at
-> this point.
+> This confuses me somewhat, because I'm far from sure which machines this
+> is true for in QEMU.  I'm guessing it's a legacy thing with
+> some old distro version of QEMU - so we'll have to paper over it anyway
+> but for current QEMU I'm not sure it's true.
 > 
+> Helpfully there are a bunch of ACPI table tests so I've been checking
+> through all the multi CPU cases.
+> 
+> CPU hotplug not enabled.
+> pc/DSDT.dimmpxm  - 4x Processor entries.  -smp 4
+> pc/DSDT.acpihmat - 2x Processor entries.  -smp 2
+> q35/DSDT.acpihmat - 2x Processor entries. -smp 2
+> virt/DSDT.acpihmatvirt - 4x ACPI0007 entries -smp 4
+> q35/DSDT.acpihmat-noinitiator - 4 x Processor () entries -smp 4 
+> virt/DSDT.topology - 8x ACPI0007 entries
+> 
+> I've also looked at the code and we have various types of
+> CPU hotplug on x86 but they all build appropriate numbers of
+> Processor() entries in DSDT.
+> Arm likewise seems to build the right number of ACPI0007 entries
+> (and doesn't yet have CPU HP support).
+> 
+> If anyone can add a reference on why this is needed that would be very
+> helpful.
 
-I would have liked doc patch and lib.mk separate. However, I am pulling this
-now to get testing done. In the future please keep them separate.
+Maybe Salil can shed some light on this?
 
-thanks,
--- Shuah
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
