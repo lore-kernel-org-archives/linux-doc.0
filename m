@@ -1,123 +1,153 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8163155769;
-	Mon, 22 Jan 2024 18:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4D462A02
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 18:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705946633; cv=none; b=m0KmqlLQghRNEXDewsogkOIUMCFgHCBnXSM6ia7mJDb6mtcaxnjSdqym3OU+oBoFT7P/0g8oB4zN5nlwevKMuTOD6oU6JRWEuEu8E8I40x3deC59gCIWuaE7mPS/CJBOU20bHkEgXNCtfDKNWXFqbta092g6hXjYqRySriResLE=
+	t=1705946920; cv=none; b=ZJ5Nr1TgqO7eq/FA2eodsgzl2C6ulYNEzPqxUGNltYw26djh6Mssp1w8QlCRERng3+wATQnSr2EuQC61YZ7XCwczwMv+iBkqin2H0csASVEvtvh9sgsjyyofMyfDuJT+nmOM28mPUMrrXD2f0iyLsnb6b129KzPNrHEiNSQ5VcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705946633; c=relaxed/simple;
-	bh=Fh6Mfh+ZfjN747uqw1yJY2/Biltz7BVQb6iuhi4PHr8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rtYADGuDh0NnJf/KSD0EaVAZwzDP+83qmyrNq3aJbF6eaaL4zEHzuUOBidWZEHKK/FuussvfY1sMjZQQKETkS0R1RqfmQcrhQuE5xbQOiXUxVnM7a2pwlIxiP6UVOI/rPJbviGnkIq1v5O8BuInAHhnRzcnulglq3Jv0xPHmU1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-68197b99138so219246d6.1;
-        Mon, 22 Jan 2024 10:03:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705946631; x=1706551431;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s26G0NnkppbXguh7peNPWPJ5jelauHZoMn0Xk4NSQUw=;
-        b=f9sj8dapz8X8s4X3rV7CprJ4yVeGEoaicBNlidoCaSjayweKFDw/PcvRUBrg/YCxmi
-         a+rpuUJYG3ww7Tx71XUdvnDc+IHZ1UIltCJM38MJzu6ACo1VbbFBz3hQUPvoXJgRVtdm
-         +Duv+eDNfM9T1ILJmxw3/p/26plcEi8Ums4q43FDoD/YPhnW1+La3M2la2iSAHWfUres
-         BGz/iiWlr4lGOQwwjbBwLrLIsvNyr5Ysj+qQYg86jmvBmIxsBOp0clHXDDB3mH1iaWDz
-         SmcR4vaTtgHc/S8updpLDKvE0HmyemNypUaJewLmInX+1YNwdh8irNp9j0fQHwUn0hVw
-         hizw==
-X-Gm-Message-State: AOJu0YzpKSZgMLO8owwP/NzVyChGP+JCTvPwJk7rJh7QVSnjZaC68sV5
-	Ofp8gX/ZrAQWnZ27ua6C5rk3IOTIQfe9P70ZQsBG8GnWKFwqkZezKhpIcwIiF8bqUoCYGSSdJ+y
-	F/qM9B7On8XvDtCou/+FbN1VApeiPS5Zjyos=
-X-Google-Smtp-Source: AGHT+IHydxkoIcTGgPnithAm3ZZ3Lbs6GLo4uCDeUNHWYMYJDcQ7kkQEBWJsEM9NkDfdwTNwYrCyeGF8yf+5uFu9gbc=
-X-Received: by 2002:a4a:cb87:0:b0:599:9e03:68da with SMTP id
- y7-20020a4acb87000000b005999e0368damr789760ooq.0.1705946610762; Mon, 22 Jan
- 2024 10:03:30 -0800 (PST)
+	s=arc-20240116; t=1705946920; c=relaxed/simple;
+	bh=yu7xNIM8JxCKE+AFbgKgMhwZWwewLVSSPd3EFE9Z4og=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pD5AEtMYy9fDasE0gH7/dL79gEUeGfD+S+PgxviL1TXoT3qsAX8N93yeCY44lx/caaV1qgB+3tzNNfZruj2bsOyoFXuF+yIJH3aZvZJUtOfiXim6WnEYebeaR1zyXbs6xeLbV5rnAEJ7aCLjYdcpxkklP8blxKhELURaNpwQj3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rRyia-000293-71; Mon, 22 Jan 2024 19:08:20 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rRyiZ-001eRE-83; Mon, 22 Jan 2024 19:08:19 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rRyiZ-005Zyx-0W;
+	Mon, 22 Jan 2024 19:08:19 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: kernel@pengutronix.de,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	James Clark <james.clark@arm.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org
+Subject: [PATCH v2 32/33] spi: Drop compat layer from renaming "master" to "controller"
+Date: Mon, 22 Jan 2024 19:07:27 +0100
+Message-ID:  <0107400bb6616ac78c01215320a6bbe6a0d10e7c.1705944943.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk> <E1rDOg7-00Dvjq-VZ@rmk-PC.armlinux.org.uk>
- <CAJZ5v0je=-oVnSumZs=dzcyVuVUeVeTgO7yOnjGg1igyrS7EHQ@mail.gmail.com> <20240122174449.00002f78@Huawei.com>
-In-Reply-To: <20240122174449.00002f78@Huawei.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 22 Jan 2024 19:03:19 +0100
-Message-ID: <CAJZ5v0gePAsbRecOXDZ+q-Ds+nsoSBq6VU89ikuQoxds7TeQ3g@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 04/21] ACPI: processor: Register all CPUs from acpi_processor_get_info()
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Russell King <rmk+kernel@armlinux.org.uk>, 
-	linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
-	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
-	James Morse <james.morse@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3719; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=yu7xNIM8JxCKE+AFbgKgMhwZWwewLVSSPd3EFE9Z4og=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlrq7os4dGrOBFnhGPj4Fn83pUK0AmUqwZwnlbl LI4Yy83kg2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZa6u6AAKCRCPgPtYfRL+ Tt31CACR9UgCXZ45LhmjKUsgXa+SuEnJYJRWWhSw3fkuVpJnoJ1UJmZwxSvtycT1iektwMC6o16 F/aj7neEXIPe6bdhMswnHJ0idJFDn2DFFW3SPtwPwWIajB/r/BoQSPJKGQJ9i/Z4jSsU8/oywuf QvfT8S/1JF4GcibRnxAQHHoGVxejrvnTNNs2UDEZWvBXljxQ4Y5aYMj3WKZ4WB39WmTRkxzmzrR lcC+LaPH7LMteiam3Ipiz0i0DbYcf2JIG+osJ/3K9L6qkTtqsDlkvlwocyF+BcKv6TyaZ/WkbSs 4yAO/DrV8aOI+zE5D8tHtbvQ1imLkr6hYSAt4w5zeicAZugI
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Mon, Jan 22, 2024 at 6:44=E2=80=AFPM Jonathan Cameron
-<Jonathan.Cameron@huawei.com> wrote:
->
-> On Mon, 18 Dec 2023 21:30:50 +0100
-> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
->
-> > On Wed, Dec 13, 2023 at 1:49=E2=80=AFPM Russell King <rmk+kernel@armlin=
-ux.org.uk> wrote:
-> > >
-> > > From: James Morse <james.morse@arm.com>
-> > >
-> > > To allow ACPI to skip the call to arch_register_cpu() when the _STA
-> > > value indicates the CPU can't be brought online right now, move the
-> > > arch_register_cpu() call into acpi_processor_get_info().
-> >
-> > This kind of looks backwards to me and has a potential to become
-> > super-confusing.
-> >
-> > I would instead add a way for the generic code to ask the platform
-> > firmware whether or not the given CPU is enabled and so it can be
-> > registered.
->
-> Hi Rafael,
->
-> The ACPI interpreter isn't up at this stage so we'd need to pull that
-> forwards. I'm not sure if we can pull the interpreter init early enough.
+Now that all in-tree users followed the rename, the compat stuff can go
+away.  This completes the renaming started with commit 8caab75fd2c2
+("spi: Generalize SPI "master" to "controller"")
 
-Well, this patch effectively defers the AP registration to the time
-when acpi_processor_get_info() runs and the interpreter is up and
-running then.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ .../driver-api/driver-model/devres.rst        |  2 +-
+ drivers/spi/spi.c                             |  2 +-
+ include/linux/spi/spi.h                       | 20 +------------------
+ 3 files changed, 3 insertions(+), 21 deletions(-)
 
-For consistency, it would be better to defer the AP registration in
-general to that point.
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index c5f99d834ec5..49c6fd82cd5d 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -462,7 +462,7 @@ SLAVE DMA ENGINE
+ SPI
+   devm_spi_alloc_master()
+   devm_spi_alloc_slave()
+-  devm_spi_register_master()
++  devm_spi_register_controller()
+ 
+ WATCHDOG
+   devm_watchdog_register_device()
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index 7477a11e12be..2d7393045384 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -584,7 +584,7 @@ struct spi_device *spi_alloc_device(struct spi_controller *ctlr)
+ 		return NULL;
+ 	}
+ 
+-	spi->master = spi->controller = ctlr;
++	spi->controller = ctlr;
+ 	spi->dev.parent = &ctlr->dev;
+ 	spi->dev.bus = &spi_bus_type;
+ 	spi->dev.release = spidev_release;
+diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
+index 471fe2ff9066..6a4f8cbba5ef 100644
+--- a/include/linux/spi/spi.h
++++ b/include/linux/spi/spi.h
+@@ -131,7 +131,6 @@ extern void spi_transfer_cs_change_delay_exec(struct spi_message *msg,
+  * struct spi_device - Controller side proxy for an SPI slave device
+  * @dev: Driver model representation of the device.
+  * @controller: SPI controller used with the device.
+- * @master: Copy of controller, for backwards compatibility.
+  * @max_speed_hz: Maximum clock rate to be used with this chip
+  *	(on this board); may be changed by the device's driver.
+  *	The spi_transfer.speed_hz can override this for each transfer.
+@@ -185,7 +184,6 @@ extern void spi_transfer_cs_change_delay_exec(struct spi_message *msg,
+ struct spi_device {
+ 	struct device		dev;
+ 	struct spi_controller	*controller;
+-	struct spi_controller	*master;	/* Compatibility layer */
+ 	u32			max_speed_hz;
+ 	u8			chip_select[SPI_CS_CNT_MAX];
+ 	u8			bits_per_word;
+@@ -1298,7 +1296,7 @@ spi_max_transfer_size(struct spi_device *spi)
+  */
+ static inline bool spi_is_bpw_supported(struct spi_device *spi, u32 bpw)
+ {
+-	u32 bpw_mask = spi->master->bits_per_word_mask;
++	u32 bpw_mask = spi->controller->bits_per_word_mask;
+ 
+ 	if (bpw == 8 || (bpw <= 32 && bpw_mask & SPI_BPW_MASK(bpw)))
+ 		return true;
+@@ -1670,20 +1668,4 @@ spi_transfer_is_last(struct spi_controller *ctlr, struct spi_transfer *xfer)
+ 	return list_is_last(&xfer->transfer_list, &ctlr->cur_msg->transfers);
+ }
+ 
+-/* Compatibility layer */
+-#define spi_master			spi_controller
+-
+-#define spi_master_get_devdata(_ctlr)	spi_controller_get_devdata(_ctlr)
+-#define spi_master_set_devdata(_ctlr, _data)	\
+-	spi_controller_set_devdata(_ctlr, _data)
+-#define spi_master_get(_ctlr)		spi_controller_get(_ctlr)
+-#define spi_master_put(_ctlr)		spi_controller_put(_ctlr)
+-#define spi_master_suspend(_ctlr)	spi_controller_suspend(_ctlr)
+-#define spi_master_resume(_ctlr)	spi_controller_resume(_ctlr)
+-
+-#define spi_register_master(_ctlr)	spi_register_controller(_ctlr)
+-#define devm_spi_register_master(_dev, _ctlr) \
+-	devm_spi_register_controller(_dev, _ctlr)
+-#define spi_unregister_master(_ctlr)	spi_unregister_controller(_ctlr)
+-
+ #endif /* __LINUX_SPI_H */
+-- 
+2.43.0
 
-> Perhaps pushing the registration back in all cases is the way to go?
-> Given the acpi interpretter is initialized via subsys_initcall() it would
-> need to be after that - I tried pushing cpu_dev_register_generic()
-> immediately after acpi_bus_init() and that seems fine.
-
-Sounds promising.
-
-> We can't leave the rest of cpu_dev_init() that late because a bunch
-> of other stuff relies on it (CPU freq blows up first as a core_init()
-> on my setup).
-
-I see.
-
-> So to make this work we need it to always move the registration later
-> than the necessary infrastructure, perhaps to subsys_initcall_sync()
-> as is done for missing CPUs (we'd need to combine the two given that
-> needs to run after this, or potentially just stop checking for acpi_disab=
-led
-> and don't taint the kernel!).  I think this is probably the most consiste=
-nt
-> option on basis it at least moves the registration to the same point
-> whatever is going on and can easily use the arch callback you suggest
-> to hide away the logic on deciding if a CPU is there or not.
-
-I agree.
