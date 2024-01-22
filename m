@@ -1,237 +1,243 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05821DFF3;
-	Mon, 22 Jan 2024 10:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120B8374F1;
+	Mon, 22 Jan 2024 10:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705919468; cv=none; b=O9gSOp8Bpxl56woXLbsBUV+Oh0zvsjnZGk0eqClIXy9T/KL8NYV+p2rJuAJuQ/Lg1AWEVLFMw6F5Exbj6ASOavF2VwjrDqQW+coKwQhTbPQlRHjtqLkXkDg5iKD17AnKE0Ssydhg5XCI7eZQsihk/zV9rJBYbiD8XRcNK/BT5tY=
+	t=1705919707; cv=none; b=Wt5whbQ3cqVrkcBA1N6Ep25N2z0Ue685evK1/AG2Gj2W04J7cMW73dusyRtQYhj+EF4yZ/W9SGk46kHzGEQ1/6u6D7+cPuJgtXfFQ++yd6kJwZEwLQtsjNaesORNaCFqF2mCwP1IP1x55440rfbqY/+h1H0xHAMLbYAyCxKDWs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705919468; c=relaxed/simple;
-	bh=Adk4o/syB8kwb6hMdHdd8CxVfC3VENFja8OPDajgNt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hMW/rcA1rWoxzNrt1smP4YO5GJu7aMmVEdoFjeykTygwCLT0sLMus8Ibu5pdwmeR7hDuzD1QUz2aFmdUdvNnNkRYVbkuDeNA254tQyXNQHurI811NnEZKJRepV+aVxGBtq/fO3Gw12oKjHzcCG697W5vDeJ+K+IaibCZj5ph1ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXYiQi5z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705919707; c=relaxed/simple;
+	bh=pPWGPf9n2O0H4oOsB6zd/ZUH2JpfRiHcPMPlucfBH/8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kfyBMVyAx89nhS4O/h6q5Gl42kwpa7YRmWV+wouR8uG0ndjQ/KqVTPKgtxkGu2SVeEOpqTS5bdKLQiPOxxAwg/OFnVzh9OuKp652hsrsowMNHGa67nwrrAIEtdBPJJlsI8pnwk+/eaomWPHDkfGo4dM9pFtk4OTbR5dmDqh58TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eKtOjMbB; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXYiQi5z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F258C43390;
-	Mon, 22 Jan 2024 10:31:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705919468;
-	bh=Adk4o/syB8kwb6hMdHdd8CxVfC3VENFja8OPDajgNt8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VXYiQi5zdrm6D/arV+leoLROlbr7Rb91J3KkdLkhJFacvol55XCXpGBRHkReoQ+wS
-	 MkW8a9h0UGD2duiJuDVOIRQc078qQhCdjKiWa7YZ0JajQZT3g7KahEljOb9k9u4+L0
-	 SarFw28EbOctK+w9oDuislDN8TCphzc4XCNBhJM2xZHh4GJsXbOdYpiurVhYnFUbSZ
-	 hDzRTkr8ZuZ39SzKyQg1H82b1R5/uANddhFrvfCs4Uxxn1eX18NofmN0nwOXZi936R
-	 6fNa0KMEOiAcpeAHyHYvOfNhPE6/J+R7WSebFfcC47s9rnezA6PZInjFYR6EvpMXUq
-	 c/Nbd7OHGXp9g==
-Date: Mon, 22 Jan 2024 10:31:00 +0000
-From: Simon Horman <horms@kernel.org>
-To: Danielle Ratson <danieller@nvidia.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-	linux@armlinux.org.uk, sdf@google.com, kory.maincent@bootlin.com,
-	maxime.chevallier@bootlin.com, vladimir.oltean@nxp.com,
-	przemyslaw.kitszel@intel.com, ahmed.zaki@intel.com,
-	richardcochran@gmail.com, shayagr@amazon.com,
-	paul.greenwalt@intel.com, jiri@resnulli.us,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mlxsw@nvidia.com, petrm@nvidia.com, idosch@nvidia.com
-Subject: Re: [RFC PATCH net-next 7/9] ethtool: cmis_cdb: Add a layer for
- supporting CDB commands
-Message-ID: <20240122103100.GA126470@kernel.org>
-References: <20240122084530.32451-1-danieller@nvidia.com>
- <20240122084530.32451-8-danieller@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eKtOjMbB"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40eac352733so10127555e9.0;
+        Mon, 22 Jan 2024 02:35:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705919704; x=1706524504; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wUaBjTF8ze7TJQKlKI0DO8wsNhCqTacpbxQmnNsDib0=;
+        b=eKtOjMbBMub3fdlJeAOu3dBol94W8SU2eRjVTXYitsy+Gnv0ngwy5BbChBDTLp3PPr
+         JksMoPCC1BapKJ5b9AAA6jH3LlycR70FQSEUCAkJQnCCQl2PdJ/zLTfkPs8Dq9jyrODy
+         kekkJ6JKRAwULkYtIwl5Sjbm22rl9WR9lBlXfnzwBtdkioVCFZHxHFlU/idNeGacqD6I
+         p1lcT7YNQ5+0y2BsMrmIzi2g67j2Gr8/yVmevNfAHRhSb7yJ9HWGbMY+LtQ/PH8ebUJ4
+         EMPqthEHub8TPdxJcK2vxayLygmUhFj55BDBdKRR4ncSOecgsQ8b/RzBqpAVpjTnAeNh
+         WNVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705919704; x=1706524504;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wUaBjTF8ze7TJQKlKI0DO8wsNhCqTacpbxQmnNsDib0=;
+        b=es2PT0+Vmwn6U1QgQjOfT1m9aCJsyH/dyu/lIA4kPBNU5uvaX8caIApBHjfkMAu0R9
+         VFrTUCS/KFZag0G5bsWHay2XND8eV02QNATI6kJEyqjrRjl7Wifd69xfgeN6fcD0WAi1
+         h3Mfm6kAFktBQ30vHGqSzqAwdnH+iiptAARN55K49SmYs5tzV87XrW0xpvuEPnL9oksj
+         o6jg3ezqr2MQCkEmPgea5VMz8pL7ZcLnnXY7yzMaykt3FAq3eDmBndChvYls1qupOHWp
+         MwoZSytCkSYRX5nXWDbECxhcnX2SShnMx1lCnJjxvQonMzOCg2DjQAPLtp18GHhZtJte
+         /OzQ==
+X-Gm-Message-State: AOJu0YwxpUu0z9EZJABV4HECu2I4xf6zaniX+vWqVZjbtZmtRhD0yoVY
+	eNr7rDzyJnb3DS6wG1cF8ZrihYallMr4C2Fm8ejkqLQR1NA3+bIS
+X-Google-Smtp-Source: AGHT+IEBg93W5Ic2cq8LVxb2U2hPd7pLRG/nN6Z0J3Udrdl4B95BIKuujofcMkdi+IpBnJPrzbr9Pg==
+X-Received: by 2002:a05:600c:548e:b0:40e:615f:32cc with SMTP id iv14-20020a05600c548e00b0040e615f32ccmr2257718wmb.185.1705919703859;
+        Mon, 22 Jan 2024 02:35:03 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id ay2-20020a05600c1e0200b0040ead97f70dsm3088330wmb.24.2024.01.22.02.35.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jan 2024 02:35:03 -0800 (PST)
+Message-ID: <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+Date: Mon, 22 Jan 2024 11:35:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240122084530.32451-8-danieller@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240119141402.44262-1-paul@crapouillou.net>
+ <20240119141402.44262-2-paul@crapouillou.net>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20240119141402.44262-2-paul@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 22, 2024 at 10:45:28AM +0200, Danielle Ratson wrote:
+Am 19.01.24 um 15:13 schrieb Paul Cercueil:
+> These functions should be used by device drivers when they start and
+> stop accessing the data of DMABUF. It allows DMABUF importers to cache
+> the dma_buf_attachment while ensuring that the data they want to access
+> is available for their device when the DMA transfers take place.
 
-...
+As Daniel already noted as well this is a complete no-go from the 
+DMA-buf design point of view.
 
+Regards,
+Christian.
+
+>
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>
+> ---
+> v5: New patch
+> ---
+>   drivers/dma-buf/dma-buf.c | 66 +++++++++++++++++++++++++++++++++++++++
+>   include/linux/dma-buf.h   | 37 ++++++++++++++++++++++
+>   2 files changed, 103 insertions(+)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 8fe5aa67b167..a8bab6c18fcd 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -830,6 +830,8 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+>    *     - dma_buf_mmap()
+>    *     - dma_buf_begin_cpu_access()
+>    *     - dma_buf_end_cpu_access()
+> + *     - dma_buf_begin_access()
+> + *     - dma_buf_end_access()
+>    *     - dma_buf_map_attachment_unlocked()
+>    *     - dma_buf_unmap_attachment_unlocked()
+>    *     - dma_buf_vmap_unlocked()
+> @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
+>   }
+>   EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
+>   
 > +/**
-> + * struct ethtool_cmis_cdb_request - CDB commands request fields as decribed in
-> + *				the CMIS standard
-> + * @id: Command ID.
-> + * @epl_len: EPL memory length.
-> + * @lpl_len: LPL memory length.
-> + * @chk_code: Check code for the previous field and the payload.
-> + * @resv1: Added to match the CMIS standard request continuity.
-> + * @resv2: Added to match the CMIS standard request continuity.
-> + * @payload: Payload for the CDB commands.
+> + * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
+> + * @attach:	[in]	attachment used for hardware access
+> + * @sg_table:	[in]	scatterlist used for the DMA transfer
+> + * @direction:  [in]    direction of DMA transfer
 > + */
-> +struct ethtool_cmis_cdb_request {
-> +	__be16 id;
-> +	struct_group(body,
-> +		u16 epl_len;
-> +		u8 lpl_len;
-> +		u8 chk_code;
-> +		u8 resv1;
-> +		u8 resv2;
-> +		u8 payload[ETHTOOL_CMIS_CDB_LPL_MAX_PL_LENGTH];
-> +	);
-> +};
-> +
-> +#define CDB_F_COMPLETION_VALID		BIT(0)
-> +#define CDB_F_STATUS_VALID		BIT(1)
-> +
-> +/**
-> + * struct ethtool_cmis_cdb_cmd_args - CDB commands execution arguments
-> + * @req: CDB command fields as described in the CMIS standard.
-> + * @max_duration: Maximum duration time for command completion in msec.
-> + * @read_write_len_ext: Allowable additional number of byte octets to the LPL
-> + *			in a READ or a WRITE commands.
-> + * @rpl_exp_len: Expected reply length in bytes.
-> + * @flags: Validation flags for CDB commands.
-> + */
-> +struct ethtool_cmis_cdb_cmd_args {
-> +	struct ethtool_cmis_cdb_request req;
-> +	u16				max_duration;
-> +	u8				read_write_len_ext;
-> +	u8                              rpl_exp_len;
-> +	u8				flags;
-> +};
-
-...
-
-> +int ethtool_cmis_page_init(struct ethtool_module_eeprom *page_data,
-> +			   u8 page, u32 offset, u32 length)
+> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+> +			 struct sg_table *sgt, enum dma_data_direction dir)
 > +{
-> +	page_data->page = page;
-> +	page_data->offset = offset;
-> +	page_data->length = length;
-> +	page_data->i2c_address = ETHTOOL_CMIS_CDB_PAGE_I2C_ADDR;
-> +	page_data->data = kmalloc(page_data->length, GFP_KERNEL);
-> +	if (!page_data->data)
-> +		return -ENOMEM;
+> +	struct dma_buf *dmabuf;
+> +	bool cookie;
+> +	int ret;
+> +
+> +	if (WARN_ON(!attach))
+> +		return -EINVAL;
+> +
+> +	dmabuf = attach->dmabuf;
+> +
+> +	if (!dmabuf->ops->begin_access)
+> +		return 0;
+> +
+> +	cookie = dma_fence_begin_signalling();
+> +	ret = dmabuf->ops->begin_access(attach, sgt, dir);
+> +	dma_fence_end_signalling(cookie);
+> +
+> +	if (WARN_ON_ONCE(ret))
+> +		return ret;
 > +
 > +	return 0;
 > +}
-
-...
-
-> +static int
-> +__ethtool_cmis_cdb_execute_cmd(struct net_device *dev,
-> +			       struct ethtool_module_eeprom *page_data,
-> +			       u32 offset, u32 length, void *data)
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
+> +
+> +/**
+> + * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
+> + * @attach:	[in]	attachment used for hardware access
+> + * @sg_table:	[in]	scatterlist used for the DMA transfer
+> + * @direction:  [in]    direction of DMA transfer
+> + */
+> +int dma_buf_end_access(struct dma_buf_attachment *attach,
+> +		       struct sg_table *sgt, enum dma_data_direction dir)
 > +{
-> +	const struct ethtool_ops *ops = dev->ethtool_ops;
-> +	struct netlink_ext_ack extack = {};
-> +	int err;
+> +	struct dma_buf *dmabuf;
+> +	bool cookie;
+> +	int ret;
 > +
-> +	page_data->offset = offset;
-> +	page_data->length = length;
-> +
-> +	memset(page_data->data, 0, ETHTOOL_CMIS_CDB_LPL_MAX_PL_LENGTH);
-> +	memcpy(page_data->data, data, page_data->length);
-> +
-> +	err = ops->set_module_eeprom_by_page(dev, page_data, &extack);
-> +	if (err < 0) {
-> +		if (extack._msg)
-> +			netdev_err(dev, "%s\n", extack._msg);
-> +	}
-> +
-> +	return err;
-> +}
-
-...
-
-> +int ethtool_cmis_cdb_execute_cmd(struct net_device *dev,
-> +				 struct ethtool_cmis_cdb_cmd_args *args)
-> +{
-> +	struct ethtool_module_eeprom page_data = {};
-> +	u32 offset;
-> +	int err;
-> +
-> +	args->req.chk_code =
-> +		cmis_cdb_calc_checksum(&args->req, sizeof(args->req));
-> +
-> +	if (args->req.lpl_len > args->read_write_len_ext) {
-> +		ethnl_module_fw_flash_ntf_err(dev,
-> +					      "LPL length is longer than CDB read write length extension allows");
+> +	if (WARN_ON(!attach))
 > +		return -EINVAL;
-> +	}
 > +
-> +	err = ethtool_cmis_page_init(&page_data, ETHTOOL_CMIS_CDB_CMD_PAGE, 0,
-> +				     ETHTOOL_CMIS_CDB_LPL_MAX_PL_LENGTH);
-
-ETHTOOL_CMIS_CDB_LPL_MAX_PL_LENGTH is passed as the length argument
-of ethtool_cmis_page_init, which will allocate that many
-bytes for page_data->data.
-
-> +	if (err < 0)
-> +		return err;
+> +	dmabuf = attach->dmabuf;
 > +
-> +	/* According to the CMIS standard, there are two options to trigger the
-> +	 * CDB commands. The default option is triggering the command by writing
-> +	 * the CMDID bytes. Therefore, the command will be split to 2 calls:
-> +	 * First, with everything except the CMDID field and then the CMDID
-> +	 * field.
-> +	 */
-> +	offset = CMIS_CDB_CMD_ID_OFFSET +
-> +		offsetof(struct ethtool_cmis_cdb_request, body);
-> +	err = __ethtool_cmis_cdb_execute_cmd(dev, &page_data, offset,
-> +					     sizeof(args->req.body),
-> +					     &args->req.body);
-
-Hi Danielle,
-
-However, here sizeof(args->req.body) is passed as the length
-argument of __ethtool_cmis_cdb_execute_cmd() which will:
-
-1. Zero ETHTOOL_CMIS_CDB_LPL_MAX_PL_LENGTH bytes of page_data->data
-2. Copy sizeof(args->req.body) bytes into page_data->data
-
-args->req.body includes several fields, one of which is
-ETHTOOL_CMIS_CDB_LPL_MAX_PL_LENGTH bytes long. So,
-args->req.body > ETHTOOL_CMIS_CDB_LPL_MAX_PL_LENGTH
-and it seems that step 2 above causes a buffer overrun.
-
-Flagged by clang-17 W=1 build
-
- In file included from net/ethtool/cmis_cdb.c:3:
- In file included from ./include/linux/ethtool.h:16:
- In file included from ./include/linux/bitmap.h:12:
- In file included from ./include/linux/string.h:295:
- ./include/linux/fortify-string.h:579:4: error: call to '__write_overflow_field' declared with 'warning' attribute: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror,-Wattribute-warning]
-   579 |                         __write_overflow_field(p_size_field, size);
-       |                         ^
- ./include/linux/fortify-string.h:579:4: error: call to '__write_overflow_field' declared with 'warning' attribute: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror,-Wattribute-warning]
- ./include/linux/fortify-string.h:579:4: error: call to '__write_overflow_field' declared with 'warning' attribute: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror,-Wattribute-warning]
-
-
-> +	if (err < 0)
-> +		goto out;
+> +	if (!dmabuf->ops->end_access)
+> +		return 0;
 > +
-> +	offset = CMIS_CDB_CMD_ID_OFFSET +
-> +		offsetof(struct ethtool_cmis_cdb_request, id);
-> +	err = __ethtool_cmis_cdb_execute_cmd(dev, &page_data, offset,
-> +					     sizeof(args->req.id),
-> +					     &args->req.id);
-> +	if (err < 0)
-> +		goto out;
+> +	cookie = dma_fence_begin_signalling();
+> +	ret = dmabuf->ops->end_access(attach, sgt, dir);
+> +	dma_fence_end_signalling(cookie);
 > +
-> +	err = cmis_cdb_wait_for_completion(dev, args);
-> +	if (err < 0)
-> +		goto out;
+> +	if (WARN_ON_ONCE(ret))
+> +		return ret;
 > +
-> +	err = cmis_cdb_wait_for_status(dev, args);
-> +	if (err < 0)
-> +		goto out;
-> +
-> +	err = cmis_cdb_process_reply(dev, &page_data, args);
-> +
-> +out:
-> +	ethtool_cmis_page_fini(&page_data);
-> +	return err;
+> +	return 0;
 > +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
+> +
+>   #ifdef CONFIG_DEBUG_FS
+>   static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>   {
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 8ff4add71f88..8ba612c7cc16 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -246,6 +246,38 @@ struct dma_buf_ops {
+>   	 */
+>   	int (*end_cpu_access)(struct dma_buf *, enum dma_data_direction);
+>   
+> +	/**
+> +	 * @begin_access:
+> +	 *
+> +	 * This is called from dma_buf_begin_access() when a device driver
+> +	 * wants to access the data of the DMABUF. The exporter can use this
+> +	 * to flush/sync the caches if needed.
+> +	 *
+> +	 * This callback is optional.
+> +	 *
+> +	 * Returns:
+> +	 *
+> +	 * 0 on success or a negative error code on failure.
+> +	 */
+> +	int (*begin_access)(struct dma_buf_attachment *, struct sg_table *,
+> +			    enum dma_data_direction);
+> +
+> +	/**
+> +	 * @end_access:
+> +	 *
+> +	 * This is called from dma_buf_end_access() when a device driver is
+> +	 * done accessing the data of the DMABUF. The exporter can use this
+> +	 * to flush/sync the caches if needed.
+> +	 *
+> +	 * This callback is optional.
+> +	 *
+> +	 * Returns:
+> +	 *
+> +	 * 0 on success or a negative error code on failure.
+> +	 */
+> +	int (*end_access)(struct dma_buf_attachment *, struct sg_table *,
+> +			  enum dma_data_direction);
+> +
+>   	/**
+>   	 * @mmap:
+>   	 *
+> @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf *dmabuf,
+>   int dma_buf_pin(struct dma_buf_attachment *attach);
+>   void dma_buf_unpin(struct dma_buf_attachment *attach);
+>   
+> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+> +			 struct sg_table *sgt, enum dma_data_direction dir);
+> +int dma_buf_end_access(struct dma_buf_attachment *attach,
+> +		       struct sg_table *sgt, enum dma_data_direction dir);
+> +
+>   struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info);
+>   
+>   int dma_buf_fd(struct dma_buf *dmabuf, int flags);
 
-...
