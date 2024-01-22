@@ -1,279 +1,174 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2084.outbound.protection.outlook.com [40.107.237.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE9448CC0;
-	Mon, 22 Jan 2024 22:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705961964; cv=none; b=n8djckjB6o8nGQs8/F/9hhWvNShgffsJikkHiKLwS7tueR+e/yHU22zZtNwH66vcyAuAUvPSvxqa7F3R02xaqI5CeLjX2Bdt0wYJVNU5WOVC6QNmvS/jy4B5kvNNd28qrxImD/oaRNiEpbeY8Sj4fBLLq3FVA2VcdcnlG6zy16E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705961964; c=relaxed/simple;
-	bh=6QqaJa+R0eSslqaIYUHG9G5MoLVCrBrGnAwX9i1pi1A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=p0twrqWf2sAjrFiqixNexrqA522AdbbHiwfJAUV6hdvoQozfUKLJllKT4g59DIrEmMs77WiSzddYVXi89suwrqUbLb9vPAKl9gA7MwQ+aBku+eK/QQ2hEieGeAfvjnsoOD0zSVkJVqrl52qxsdy17ueEUJx2bBPSmJVwUNXE/Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=oDBZ8SaT; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8184810A15
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 22:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.84
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705963700; cv=fail; b=u/erthrJArwlGCaFnkXk0Tv3du/nLA0SM/m8WDIbm71yikcZgBtk6Do4U4z/V1iyiUQODpsp/x9u6Mof2pj21jVhrDQI+J3ZmtfphxerKolMS5j74T2fGjktTTcAiDXMHg1/QuqxwyLB1TQHo0KzYnNFcR3hLaWlcQfRovcnEKI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705963700; c=relaxed/simple;
+	bh=575MWSLtGMbiRNMJ+uXvmuvvVwiLBnv3rlefn2TrGwA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=p6wlmFd33UJFXoCPhWSwgPpFVj5pU1m8ftQO/VKJYEaq1q5VY9rnBpcBbaBhevta4Q4w9oEKduoj7Gc/NAtwLEdaVN51S2AOLyfo4bahRTe3wgQf5s6qN6eHIUTXW5eZMfX5AujzgNhJcDOwhL7n8Hv3Jrr3dVZNtYU2ZhV00p8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ec8rt6rF; arc=fail smtp.client-ip=40.107.237.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="oDBZ8SaT"
-Received: from localhost (c-98-53-138-11.hsd1.co.comcast.net [98.53.138.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A02407AE7;
-	Mon, 22 Jan 2024 22:19:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A02407AE7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1705961959; bh=UCaHks5kiefiwx5cbHtEd3yYdX3zSyQmcLrd8ZN1uXw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oDBZ8SaTHJstT/aJhJbbXDVz4nSDbt4ocPtKBvsfYCGl3tq0q4zQcyVyoZV/8skAI
-	 +cfRiN+nDAcqgDsk1v12o6l2ocFB6SUUjQvYDyWUBLc5pwVED4tSDk79VeMXitUsey
-	 r5mbeHXGAK6ArhfiC8KKfZOWr0fIp59B5FoA8At2UVb2OHF4rDubk85yQvSpelELOp
-	 /xARVKqnwLA1PPBoSO6L9FrTMh0NkuUl+6DmNIe8973uI1YnCUUyAWmhW/Ycg8cOw7
-	 0cClROXo8iF13udpdWAA0Szw//hRtRQjuvW3Jdz8BsPyxO6zXrwnjwCOfnmI3TqDPF
-	 5KaW+mBw0xpGw==
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: rework the driver-api top-level page
-Date: Mon, 22 Jan 2024 15:19:19 -0700
-Message-ID: <87plxtm2oo.fsf@meer.lwn.net>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ec8rt6rF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eEb743SBykM+opUF0xB4rzRJeY1PPrxuFRXymdpULqZKxbKOf0qaUNY7HckMbEzx4AnxQVZIQEkldm5k+ZEqNThpkW8ZJ/L/XHIcRaJQ8AJZbwe8tcXaM86hTAnBqzqTEZOJt2CVQmEAjvS9AInQ56TaO+A8rndwP1Z1EQvwXegpCFPibTgWBjoz29fw1LFHkNKrXJMbpPp/tfqgPUQkfyUJVPYGHndCVQ6OC50kqHMFcqNzpHfieVVSGvcOeca/IDEY1xaL4V8/WGQgZW+1mfHhNy5TsVXiHIBbp+9unY4BIT7nrDuWKwOOy00xhXq3EgKCfKBaYwctksC9L0iTqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+Wk8JNyZgpjHog7QaqCweMCWxa9lEYcxayG7Dm0MyP4=;
+ b=RGj5MPKdf3D39gIgAOsVWISwNGj0HIgR8VEjS3UU7Q4R98bfhWEfJSba7GELpd7ddeDs+njh2QOvn4EfgMa1R4zgs6ry9cw6ipn1hYEnUX02MB85HjCtotylLX+hca6ZImeg/ruyJftloKY98ovEFE6dS2pOHLUfFMsYoddzb1T+hWbubHxaUhGETuniIq6tjgiVCFsRHPiFZjZCfAnvzchNBNTv3chi3BaYQBE3YPqbIQqcSh00dEaQ0O5yjhLTfq7HAJe281B3yFuzsbhsIZLrAfJ6sQXsWr13mZFYSE7zAJZpKIHaWejdRn39WzVoTHPLq6JTZwPGmPRhxmUBmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+Wk8JNyZgpjHog7QaqCweMCWxa9lEYcxayG7Dm0MyP4=;
+ b=Ec8rt6rF8S/nRajrKVBVoWvM6ZFHl+TaXbS+x4pQYpQixdN9QJNxT8gaJBfh15b4CAbZMo1SR+ByGQDOESxxYipRcAeSPWlP15JvwpWLyP2SjwllYLWqy01bkWGeA8lnbTYd8vvLCOewp3i6kWAIohIssRSnaU14amgr96Ay/D4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by PH7PR12MB7211.namprd12.prod.outlook.com (2603:10b6:510:206::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.32; Mon, 22 Jan
+ 2024 22:48:15 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::ce8d:7121:cb06:91ba]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::ce8d:7121:cb06:91ba%4]) with mapi id 15.20.7202.034; Mon, 22 Jan 2024
+ 22:48:15 +0000
+Message-ID: <16f381bf-6ae1-4642-aac2-04920ad573cd@amd.com>
+Date: Mon, 22 Jan 2024 16:48:12 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] Expand and improve AMDGPU documentation
+Content-Language: en-US
+To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Cc: linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org
+References: <20240122212719.647008-1-Rodrigo.Siqueira@amd.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20240122212719.647008-1-Rodrigo.Siqueira@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DM6PR17CA0030.namprd17.prod.outlook.com
+ (2603:10b6:5:1b3::43) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|PH7PR12MB7211:EE_
+X-MS-Office365-Filtering-Correlation-Id: 899fda73-4697-477f-227b-08dc1b9c3803
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	V61YQ1m2fSl1HD583d4B6DLyuCU13f2XCv0E1LQDvthdZpLJHy3/ZrKp0sKRire3bdE0nDXDPWkiP4HLtMt1seX5ubXwlQ5100ZfOC3h6oy7e+8kaTsuR6SznKPRvfyOI0+b6jgmksnuYnPJLntHwGsDeWJ869tG50O80GG+AfDu3KZfx/JSAOZfQRFuWyRUb9M6lnXmKJRPpzHU2SIirLyrzl+bIlMXaan0XX6fnDZLas+6UM7MeYW/di3/A8dACh06FlNj4jGea4IjpcByshErX8m40akGLdk9wLOYkQG2O+2AzUf3UX4R8iRslCkJHdcLUx+YHyd0F/Q61cguj1ElRRnP5890e0t9qwFiKpMinPXPDh3zri0yXTmYgSTIY8Vz3MGUniP+vkSxmzFsobuXhqKJ9+E4JMgivVm/dLVEr/Vu1KLXN90hSkMxffHlye6qmRziM0z+OIW5FSrzWaD7UgPqmaxsE8Xr1/M9hDSqxrn33W1RlvbIlF1xel27QkRqNtePVCaMfoJlv8zrjRyvhbdwrYPO/39TtXO/cfhPE9UlepXnLqwR+9MejNaj3ttiGCkGH/O8nVIJll5VG/LX+YRx6yuVJ9Y3HLEZX8UDj/FB5IDXgq4/L876pj2nZpAN9Xq8Y3Hb3FoiRGfFsQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(376002)(39860400002)(396003)(366004)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(26005)(6506007)(2616005)(6666004)(53546011)(6512007)(83380400001)(5660300002)(2906002)(44832011)(41300700001)(478600001)(4326008)(6486002)(66556008)(8676002)(66946007)(8936002)(66476007)(316002)(110136005)(36756003)(31696002)(86362001)(38100700002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?c3ZLZ0xyN2lscml3Nml5Y3ZvVDE5RWplNDhUUGtDVFp0TnMxYlZxTC9uUUpM?=
+ =?utf-8?B?WHdQZWNZNTNhSGFvbEF6SThPejFpYWVXNFVHNTVZN0szWTZBamErZThxZ2pT?=
+ =?utf-8?B?Z1NCejJkT0ZKSkNpMmJqVTR1M0c5MmdWZG53dXNHY3N0Ky95dmZ1SG9seUhv?=
+ =?utf-8?B?QXZjT1llM0JhMUJZeXo1dlg0SWxGVmo0UVFvWUtadWpSWDdaYkw3eHJyM2tk?=
+ =?utf-8?B?Y0VmRTNQbFp0eldxSWZQQldqZEJjRmFlcGpzejlLS0JydkI1Z3JBWEduWEpU?=
+ =?utf-8?B?MkI0ODJGQmhkcWxkd2FGTG5uNDZDV0xjd01lSHBtRUNGYUxHN1dmNGcxQ2l5?=
+ =?utf-8?B?NDg0cnMza1VDSUZnS1JtUHN6bDB4aWhUS3lTbHN2Q3dPYzM5aXRNOFZhR21k?=
+ =?utf-8?B?THFwSmtTS0h0dmVkcStVVjZaQ29UWjBmdmczam13VVQzY3pqSnJ6RlU4TURK?=
+ =?utf-8?B?RVZkOVlUek5xWjQwVzczR0xTV3BGajAwSHJEOUxiU0lidWhDYUJKL0lrYytR?=
+ =?utf-8?B?MzlEYnJDUUhJdGZ3L1JzUUQxZHNOMEYwUExab2NGVzZyeEhlQnBhemtIL1hu?=
+ =?utf-8?B?MDJqL1ZiVHdSbWFpN2tmNjc0ZFN2WWtGNS9Ib0FyL0Njempmd2RGcWdZNFcz?=
+ =?utf-8?B?SExUYW5sUGZqd1prY0l0SGN3bXV4ZHkwTjlnL3Qxd05nTEJ5NDEvcEJZWmd5?=
+ =?utf-8?B?bGY0cS9sSEVlUElqSThCbHFCa0d5YlhqUXI1b01DWTRCVDRXR1R2blBha1Zv?=
+ =?utf-8?B?bURNNyt1OGdQb2lHdEpLZHZqSVV2NlNZdDQrdWhPbTNyeGoxY1JJekVBcnFt?=
+ =?utf-8?B?eDNDUFhjK253WWlXdGpXaDhRbmVtZmcrZkxUWHlwdkpLMmtZbVljbG1NY1lm?=
+ =?utf-8?B?NjdtSG41THJZREtMcC9OeGdnR0I2K3E4MENtYy9LbzN2cjdvcFI0MmxybTVz?=
+ =?utf-8?B?c0FJeXNLV2ZwZXlCdWJsMEFENGJITXMvVzZZVG13cjNXSFJta0YxMDJKdlow?=
+ =?utf-8?B?a1lGSjB4QVg3UjNhTXVCTExzRnE3dVk1RFRuelphOVh4WkoxMzRvdzU5M3pG?=
+ =?utf-8?B?eDUxWnVLaEdpZDJvdmFkWk5JSHh3OHluVDdEVHRLVk1GMFppWlI0R0pYQmp6?=
+ =?utf-8?B?NjA1WmxNaHFFZERHV29tY1I5aWljUDE2Vi9UMkZRL0ZGVVNJbkRVb0tTNWho?=
+ =?utf-8?B?cE9ZYk9OU1l5ZUpSeTk4amxkTUhrcnE5UmVEdkd1RjM0cXR1QkN2VGYvSnlp?=
+ =?utf-8?B?Tm9MZW1IbUpxaW9nUmgxdjlhZmNGTUJRL1dIdlA2NW9JaGJEUEUrLzFBQjJk?=
+ =?utf-8?B?WndXYU5MNzFFVUZrZzRvL2dIakh1bnh5Nk9Qb3lTZlV1N0VHMTNoeGpxL3hn?=
+ =?utf-8?B?aDE2VHBna3hEWWdOZzZ4VThIejVrMVM2YmlSc2pzaWcwWS9zOUwvL1hSY01h?=
+ =?utf-8?B?VmJQR2JLWlY0ZGZiRDBHZG92NW9TRG40SXc3Yi93K0cycGFTZW1mbUFueGxv?=
+ =?utf-8?B?KzY0KzkwTFpnMzYwZ0p6T0pRNVBZWFhlMndEcFl2NU93V3lwMkR2NUNZYjZs?=
+ =?utf-8?B?RVRYb3Qrck8rQ0JtczNxT1YxQzdTZlM3dVVWQTl3VDhPUjMrcWZEYjFBTU40?=
+ =?utf-8?B?eUtmOU5TRitOTVVKZVNMS3NTY0xyd0NCUUljTWl6ZlBic1RSNlVYRkxXQTYz?=
+ =?utf-8?B?RUZJRkgweGJESE90bzFLb0JkV3lVbFpoSFF5V1ZmS0k4TG1CRUdHdG02bTNt?=
+ =?utf-8?B?SlBtbDNPZTRCUkVtamwwb0UzbmZ3dmIvZzhCbUhWYTNqQTFxQmh5b3hSamZF?=
+ =?utf-8?B?NEJEZ2NBVWxjYk5vY3dqWU5qMG1hSzI3czV6Z0U1K0orbXo5TWovb3Q2U2F3?=
+ =?utf-8?B?WmovUWJsVlBRU1p2ZzdsL1QxTUVuQXRVRjllY3dTczRja1MzMTJ5ekx1Y1VG?=
+ =?utf-8?B?ZXppU21NajdVNjdIdmQzLy9MUTZxaFlxSzNyZng1U2VTYjhNcUMvMDdaSVoz?=
+ =?utf-8?B?d2k4UnQ5c1FzQlhObXkxQ2ppQXJwTjVOa3lBam5kZGp4b2dSekh1OEpwVzBl?=
+ =?utf-8?B?emdsbEVWVElrdHF5UkVzRmk3VDlzV1BvYkROZ2dTWmhEOEtYSm56ZWZ1bVlI?=
+ =?utf-8?Q?HNEIyfAfbxbpD26gu7J5P8qkA?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 899fda73-4697-477f-227b-08dc1b9c3803
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2024 22:48:15.0175
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vJv7CDc6YPxZ6O9nD7SS/E8zhqFiUAXJIMBrcpveyO30fcOgXvF5GpKVTxpy1i1mwZ+SDn6PazYSNHkzP2Xpyw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7211
 
-Add subsections in an attempt to bring a bit order to this page; also sort
-most subsections into alphabetical order.  With luck all this will help to
-prevent merge conflicts on this page due to everybody adding entries at the
-end.
+On 1/22/2024 15:24, Rodrigo Siqueira wrote:
+> This patchset improves how the AMDGPU display documentation is
+> organized, expands the kernel-doc to extract information from the
+> source, and adds more context about DC workflow. Finally, at the end of
+> this series, we also introduce a contribution section for those
+> interested in contributing to the display code.
+> 
+> Changes since V1:
+> - Remove unprecise information about the DC process.
+> - Expand the contribution list.
+> - Rebase.
+> 
+> Thanks
+> Siqueira
+> 
+> Rodrigo Siqueira (8):
+>    Documentation/gpu: Add basic page for HUBP
+>    Documentation/gpu: Add simple doc page for DCHUBBUB
+>    Documentation/gpu: Add kernel doc entry for DPP
+>    Documentation/gpu: Add kernel doc entry for MPC
+>    Documentation/gpu: Add entry for OPP in the kernel doc
+>    Documentation/gpu: Add entry for the DIO component
+>    Documentation/gpu: Add an explanation about the DC weekly patches
+>    Documentation/gpu: Introduce a simple contribution list for display
+>      code
+> 
+>   .../gpu/amdgpu/display/dcn-blocks.rst         |  78 ++++++
+>   .../amdgpu/display/display-contributing.rst   | 168 ++++++++++++
+>   .../gpu/amdgpu/display/display-manager.rst    |   3 -
+>   Documentation/gpu/amdgpu/display/index.rst    |  78 +++++-
+>   drivers/gpu/drm/amd/display/TODO              | 110 --------
+>   .../gpu/drm/amd/display/dc/inc/hw/dchubbub.h  |   6 +
+>   drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h   |  26 ++
+>   drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h  |  13 +-
+>   drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h   | 250 ++++++++++++------
+>   drivers/gpu/drm/amd/display/dc/inc/hw/opp.h   |  16 ++
+>   .../amd/display/dc/link/hwss/link_hwss_dio.h  |  10 +
+>   11 files changed, 560 insertions(+), 198 deletions(-)
+>   create mode 100644 Documentation/gpu/amdgpu/display/dcn-blocks.rst
+>   create mode 100644 Documentation/gpu/amdgpu/display/display-contributing.rst
+>   delete mode 100644 drivers/gpu/drm/amd/display/TODO
+> 
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/driver-api/index.rst | 169 +++++++++++++++++------------
- 1 file changed, 100 insertions(+), 69 deletions(-)
-
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/=
-index.rst
-index eba851605388..f10decc2c14b 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -9,110 +9,141 @@ of device drivers.  This document is an only somewhat o=
-rganized collection
- of some of those interfaces =E2=80=94 it will hopefully get better over ti=
-me!  The
- available subsections can be seen below.
-=20
-+
-+General information for driver authors
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+This section contains documentation that should, at some point or other, be
-+of interest to most developers working on device drivers.
-+
- .. toctree::
--   :caption: Table of contents
--   :maxdepth: 2
-+   :maxdepth: 1
-=20
--   driver-model/index
-    basics
-+   driver-model/index
-+   device_link
-    infrastructure
-    ioctl
--   early-userspace/index
-    pm/index
--   clk
-+
-+Useful support libraries
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+This section contains documentation that should, at some point or other, be
-+of interest to most developers working on device drivers.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   early-userspace/index
-+   connector
-    device-io
-+   devfreq
-    dma-buf
--   device_link
-    component
--   message-based
--   infiniband
--   aperture
--   frame-buffer
--   regulator
--   reset
--   iio/index
--   input
--   usb/index
--   firewire
--   pci/index
-+   io-mapping
-+   io_ordering
-+   uio-howto
-+   vfio-mediated-device
-+   vfio
-+   vfio-pci-device-specific-driver-acceptance
-+
-+Bus-level documentation
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   auxiliary_bus
-    cxl/index
--   spi
--   i2c
--   ipmb
--   ipmi
-+   eisa
-+   firewire
-    i3c/index
--   interconnect
--   devfreq
--   hsi
--   edac
--   scsi
--   libata
--   target
--   mailbox
--   mtdnand
--   miscellaneous
--   mei/index
--   mtd/index
--   mmc/index
--   nvdimm/index
--   w1
-+   isa
-+   men-chameleon-bus
-+   pci/index
-    rapidio/index
--   s390-drivers
-+   slimbus
-+   usb/index
-+   virtio/index
-    vme
-+   w1
-+   xillybus
-+
-+
-+Subsystem-specific APIs
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-    80211/index
--   uio-howto
-+   acpi/index
-+   backlight/lp855x-driver.rst
-+   clk
-+   console
-+   crypto/index
-+   dmaengine/index
-+   dpll
-+   edac
-    firmware/index
--   pin-control
-+   fpga/index
-+   frame-buffer
-+   aperture
-+   generic-counter
-    gpio/index
-+   hsi
-+   hte/index
-+   i2c
-+   iio/index
-+   infiniband
-+   input
-+   interconnect
-+   ipmb
-+   ipmi
-+   libata
-+   mailbox
-    md/index
-    media/index
-+   mei/index
-+   memory-devices/index
-+   message-based
-    misc_devices
-+   miscellaneous
-+   mmc/index
-+   mtd/index
-+   mtdnand
-    nfc/index
--   dmaengine/index
--   slimbus
--   soundwire/index
--   thermal/index
--   fpga/index
--   acpi/index
--   auxiliary_bus
--   backlight/lp855x-driver.rst
--   connector
--   console
--   eisa
--   isa
--   io-mapping
--   io_ordering
--   generic-counter
--   memory-devices/index
--   men-chameleon-bus
-    ntb
-+   nvdimm/index
-    nvmem
-    parport-lowlevel
-+   phy/index
-+   pin-control
-+   pldmfw/index
-    pps
-    ptp
--   phy/index
-    pwm
--   pldmfw/index
-+   regulator
-+   reset
-    rfkill
-+   s390-drivers
-+   scsi
-    serial/index
-    sm501
-+   soundwire/index
-+   spi
-    surface_aggregator/index
-    switchtec
-    sync_file
-+   target
-+   tee
-+   thermal/index
-    tty/index
--   vfio-mediated-device
--   vfio
--   vfio-pci-device-specific-driver-acceptance
--   virtio/index
-+   wbrf
-+   wmi
-    xilinx/index
--   xillybus
-    zorro
--   hte/index
--   wmi
--   dpll
--   wbrf
--   crypto/index
--   tee
-=20
- .. only::  subproject and html
-=20
---=20
-2.43.0
-
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
