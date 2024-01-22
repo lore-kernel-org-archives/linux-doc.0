@@ -1,119 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DA350272;
-	Mon, 22 Jan 2024 17:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A84A612C2
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 17:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705944089; cv=none; b=ap1EZ3EBf6IQR7Gn8tXlfBqMbPnUgjxLXt8eDpQr9XzosMr/LNGdAFtCc0dlaAmtmHPE3rweA0IYOaFHIL2cN8nJCDPidubhKzrHUDoaE2Z2Bg+V3vcLM+mHcxGSXiliVHj1Cq2SLQByBBz1R8IihUyZbvUykk+PIB45tCKPx3A=
+	t=1705944179; cv=none; b=I3r7EjBn1ZsNhj1avHDm0eyBNwDTw8DQqkZTusOtnCLhzdsoCy3MhxuPRqd39I1ZEBA08TFe+ul+Xc2pmjOHmZdOkgFXo1rmVNbKX3z1XkYW7/PTgwcA3OROqV38yBsVJDql1Ol2MlvHGTTuJPYQth54e2cdU2NZbnM2RXdvQAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705944089; c=relaxed/simple;
-	bh=kWQHfwN1yi0ttF4juKCo2E5MXvh0hWGgjbREXz8PJQ8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=TxgTSzhuLQ8ctf80W4stJKwFKf8WY+OWOanK1zctt5Lnppewm23L2dDan/PW5mYASNOKq5PdZYU70DHxL7h6famGlS4Yw/saFtCaruecqVPtCL8N2NbL85aN5lHTyCMgSCnbxAHdrtPV6fv6wUgg3Yo6KFOVA+Mb+1dWEsnGK3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RsFeWbUb; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1705944179; c=relaxed/simple;
+	bh=bEHwRRHZEZ5muODAZZTChjTXAGcN8GLNJSdSobXIA0I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bb2LZIzEGJI6pFlqCL9ShIumPS6I0vLwkLOUedUy3A+wVB4ZptkkxDLRErXvclsimGGsECtG90NxMQKjIqG1KrmQu9UH0R6fD1NO7cAaHgLxM0yRYdgrsvqxGUYxESsFrjVvrujQCljB35EuUgBKBlEGtkI2hzmKemjzfjb9++c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NCIqAD7c; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RsFeWbUb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705944088; x=1737480088;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=kWQHfwN1yi0ttF4juKCo2E5MXvh0hWGgjbREXz8PJQ8=;
-  b=RsFeWbUbhNB3At/N0BbsiOWjU6K+2pd0UHKJb/64yWe9qdCm2lkdDbcy
-   ex0ZsBwUetpSl6CNzIznNmjRI1Y03FdDT+P6BhrA83ulHZaw1dsGue/u/
-   Cn4Zof/T9QR1enh+Hnnn46VCe5ofGetfNLOIMPaJM+Q70ET39sVQzsO6C
-   A1jtHNpVe1AqMZB4GoNFuaGoVTrpllNRx+UpMxvZzoyHGi1ce4j1rg0IC
-   gqbfsU/HDnle1gh+63fnWl+VGhNdZ8nqJM3JOlXvTHvrYtctZLC5Tzk6o
-   dWICnaeWtBHb/UBBK5093pcTj0JEPOLqhmZtQp4iwMWJ7DeXQHI9oPHzb
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="22750046"
-X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="22750046"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 09:21:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,211,1701158400"; 
-   d="scan'208";a="27723905"
-Received: from mshelego-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.40.242])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 09:21:22 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux DRI Development
- <dri-devel@lists.freedesktop.org>, Linux Intel Graphics
- <intel-gfx@lists.freedesktop.org>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Lyude
- Paul <lyude@redhat.com>, Imre Deak <imre.deak@intel.com>, Wayne Lin
- <Wayne.Lin@amd.com>, Maxime Ripard <mripard@kernel.org>, Ville
- =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] drm/dp_mst: Separate @failing_port list in
- drm_dp_mst_atomic_check_mgr() comment
-In-Reply-To: <20231114081033.27343-1-bagasdotme@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231114081033.27343-1-bagasdotme@gmail.com>
-Date: Mon, 22 Jan 2024 19:21:19 +0200
-Message-ID: <87r0i9nv1s.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NCIqAD7c"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6d9b760610bso794326b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 09:22:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1705944177; x=1706548977; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3cKBLusi5odBbefyu3q7+UJ6/M6hhfLrmEnRO/AYdSg=;
+        b=NCIqAD7cPTDcHzPOjo+YrAdQhZRnfiXAizEgkmFr/YbQQIzPn5dYBRVoS31a+ULPw8
+         /R5CcIGj6Mm8eLJg3DZK7ZCJPQpjgbfXu8Q11j91CGCoGCU8BY1JBVY6JepkTDzF5D1c
+         axZaTBWHcjXBZ4ya9oqXJyJ/HDv68Y293Vi/M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705944177; x=1706548977;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3cKBLusi5odBbefyu3q7+UJ6/M6hhfLrmEnRO/AYdSg=;
+        b=FAd15ac6FzI/VQOqyjCkaUmMSnskNCxpMhC+nex+Z+ak+6/158tCIiTj2uOHT6l5Zx
+         17eoEiRc7wtVY9LrYpv5tJhdQhSHlO95HHaSDCqUYavj19ohaL0eIvygOCi79xIFXoGn
+         zVmKE/O0gzO81giPEvLj9bfOSvq/0nxw+ZVBdzzWHP3M5qJpXdpzLrTMRzpgmoGyO5NY
+         5vXDAdAc3TNCI+N3HbhM5AiCessLvAoXJgMkK1f7GvszYvNrbaE7hDAijYMPALJLPQ3l
+         6nL8tCGYcET5VX8skCmJcoR21ormdZvY9WBj//zBXY0RBuaAz07qFaX0hqJZDB0hZQuO
+         0XDw==
+X-Gm-Message-State: AOJu0YxK05sDKk8ip/CydXflLviiHBJ3lvgr2Qlod71RSM46Bk6AIIpW
+	wt2TNs8tQyCgKHVowK1vFeEN4kuhvPMR/ziXcDK44wQ0kroK8ZI8VJ+YNxLjvhQ=
+X-Google-Smtp-Source: AGHT+IGjgFJLDdAfyqDNErB5PR6R2A+VDqHcrvgpf1rrqIFIthJVkNUJsACPjPjML0hqNb41Xog8zQ==
+X-Received: by 2002:a62:6204:0:b0:6d9:383b:d91a with SMTP id w4-20020a626204000000b006d9383bd91amr8897256pfb.1.1705944176719;
+        Mon, 22 Jan 2024 09:22:56 -0800 (PST)
+Received: from [128.240.1.152] ([206.170.126.10])
+        by smtp.gmail.com with ESMTPSA id y74-20020a62ce4d000000b006d9a48882f7sm10245573pfg.118.2024.01.22.09.22.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jan 2024 09:22:56 -0800 (PST)
+Message-ID: <f3ba4181-ab38-4779-987f-9bda47f003be@linuxfoundation.org>
+Date: Mon, 22 Jan 2024 10:22:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/3] livepatch: Move tests from lib/livepatch to
+ selftests/livepatch
+Content-Language: en-US
+To: Marcos Paulo de Souza <mpdesouza@suse.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+ Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ live-patching@vger.kernel.org, skhan@linuxfoundation.org
+References: <20240112-send-lp-kselftests-v6-0-79f3e9a46717@suse.com>
+ <20240112-send-lp-kselftests-v6-2-79f3e9a46717@suse.com>
+ <Zap04ddls7ZvbL/U@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+ <Zap26MINbbxREt4c@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+ <53cf93b2efadc0f42712eb92436bd575b5622664.camel@suse.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <53cf93b2efadc0f42712eb92436bd575b5622664.camel@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 14 Nov 2023, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> Stephen Rothwell reported htmldocs warnings when merging drm-intel
-> tree:
->
-> Documentation/gpu/drm-kms-helpers:296: drivers/gpu/drm/display/drm_dp_mst_topology.c:5484: ERROR: Unexpected indentation.
-> Documentation/gpu/drm-kms-helpers:296: drivers/gpu/drm/display/drm_dp_mst_topology.c:5488: WARNING: Block quote ends without a blank line; unexpected unindent.
->
-> Separate @failing_port return value list by surrounding it with a
-> blank line to fix above warnings.
->
-> Fixes: 1cd0a5ea427931 ("drm/dp_mst: Factor out a helper to check the atomic state of a topology manager")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20231114141715.6f435118@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+On 1/22/24 05:55, Marcos Paulo de Souza wrote:
+> On Fri, 2024-01-19 at 14:19 +0100, Alexander Gordeev wrote:
+>> On Fri, Jan 19, 2024 at 02:11:01PM +0100, Alexander Gordeev wrote:
+>>> FWIW, for s390 part:
+>>>
+>>> Alexander Gordeev <agordeev@linux.ibm.com>
+>>
+>> Acked-by: Alexander Gordeev <agordeev@linux.ibm.com>
+> 
+> Thanks Alexandre and Joe for testing and supporting the change.
+> 
+> Shuah, now that the issue found by that Joe was fixed, do you think the
+> change is ready to be merged? The patches were reviewed by three
+> different people already, and I don't know what else can be missing at
+> this point.
+> 
 
-Thanks, pushed to drm-misc-fixes.
+I would have liked doc patch and lib.mk separate. However, I am pulling this
+now to get testing done. In the future please keep them separate.
 
-BR,
-Jani.
+thanks,
+-- Shuah
 
-> ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 0854fe428f173a..b9a98587fbef7f 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -5479,6 +5479,7 @@ EXPORT_SYMBOL(drm_dp_mst_atomic_enable_dsc);
->   *   - 0 if the new state is valid
->   *   - %-ENOSPC, if the new state is invalid, because of BW limitation
->   *         @failing_port is set to:
-> + *
->   *         - The non-root port where a BW limit check failed
->   *           with all the ports downstream of @failing_port passing
->   *           the BW limit check.
-> @@ -5487,6 +5488,7 @@ EXPORT_SYMBOL(drm_dp_mst_atomic_enable_dsc);
->   *         - %NULL if the BW limit check failed at the root port
->   *           with all the ports downstream of the root port passing
->   *           the BW limit check.
-> + *
->   *   - %-EINVAL, if the new state is invalid, because the root port has
->   *     too many payloads.
->   */
->
-> base-commit: 59be90248b422f2924872de0be2867652214096a
-
--- 
-Jani Nikula, Intel
