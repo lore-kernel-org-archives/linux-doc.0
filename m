@@ -1,103 +1,171 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5271A3CF40;
-	Mon, 22 Jan 2024 13:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AF53D0A0;
+	Mon, 22 Jan 2024 13:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705928956; cv=none; b=pR2vDwoPTZzclHNQF1zaGJeL08jUuKbZrnz3zE4hhjnvEnwuXw+0IdlsFCcRoDHb9colVTw1RSKRjSKkA8MfnCAJKhRAQhVLcBcG8y1DkgAK6qrqaxxtwlaq99+tOUFcunGZISYV//tcOym+CUg/f0GXTGNJLJtp1Ed88/6Hf8E=
+	t=1705929393; cv=none; b=XC7Xbp7p7ja7RRKF5RPzVHITSIc/zXFBlVDLwx+Zoh5IgkAMr7+gyp/NZjSe5oayvJ2ANgeCRatUis3XCszAzG5XIluFx4HTTAhmTRdjqbHTSUTbl3PPp3lbJEVdm4gHVSV729OMShJejmKoKPumcnKoTjUAfWHmjNidXhOhIgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705928956; c=relaxed/simple;
-	bh=nBX1nAzCypBFAArWSdJUpcpURFil3TuK0uaA2ujkDzM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rc8PwpMnmqvnyqwk6Gg9P++YiE4ygSAUrSWsvk6YqjLOMQw1s87GHnw8kavkwu8j/QeM85GS45FeMjEpFDXNQsOgwFvdK9ayhRFmK2f8q2zD/aehO9sFJMBb0KI0zGUSRXBpTbjWXvu8IRjoACoXF4SMcWW5iCat6AfCSOv8t8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=e6wfFtqi; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1705929393; c=relaxed/simple;
+	bh=Q1m7h0F6DzQ/vkJJU6RqqEh9DBk1bEKm9OrtdMCbdAQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rGnnYKFIekdh+73ewxmkkKfW0a3cBzOQpAnPcE5r8ptgQUN2Z24oApJV+yJjjy9IgQR0FsemscOskBcDPwGFRfZoXzaqyvwfpohp3vb0qUyW0V0BKCE9yrMSGH91D3KUSW9+T4DFXl2g+RcqRd88FwanDWrIUTUH6XINDXNAV28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=i8HXBNEM; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="e6wfFtqi"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 85FBE40E01BB;
-	Mon, 22 Jan 2024 13:09:03 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id eLLUWNaX3eQF; Mon, 22 Jan 2024 13:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1705928940; bh=eTf0G+nsoYXpQyGDiFAXKjszCHpf9NvYJlgyMa5r3LQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e6wfFtqitOlRYEO36RZo5CKnIlncNgICpDDk58+bdJ+2vSZnopKKWVngmLzJPdvnd
-	 PgVERWwlK9f15OX3gI7Q6CwH5TS2+DzskSmgzVCtKyoqgIVR53JxG4Doxit35vgBcr
-	 cR9pb5s0l4t4aPPss1i7RMMXhKlYDbiKqB1Cs502753r9tSXlOM4KHSCWHv3Xm9M/x
-	 KYo3qhCRyXTZIapgX63a3gIXI8awEZRwlWBWkty3jIaZ40Cc6jb7ioHwcMcXIOsHvc
-	 SQGPOqdsWAzItp/P/V3rJi0gK8hybmypxw9iVR84Y2yv1uizcVN7EgfiKI6etPN27k
-	 1B4q7qm3z+GNqfnBkyMPgffLc4vE3v358b0pdMKddE//bw0gKugu7SYS+yKq98aWqv
-	 yc9eH2BQXULkjmI7940CALRu1OCsdCgD1aa8hASVyUxAaWwuP6ntdCKI7wxMwsZmFW
-	 9/XXTkzpq0w0uNGDxzqLEpDMJ4zQ3pGlsafEWidbF6ooCpgbCD2kZxeyt11sjdb1CP
-	 92WMKyBt3wOHiiiw8ia1DZaLo3qAYFzONvwIkiF9KbhVRYldEPxcq0aqx5p7pfczAr
-	 O/iRhs84IdZOa0vbNQ4DUcEnAodPN3pzCKYdJqookoTLJQXIM1PFfvLH6ppQAZqjGl
-	 0kltp+3VBkgXFIvUP6z1Dh3o=
-Received: from zn.tnic (pd953099d.dip0.t-ipconnect.de [217.83.9.157])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1EFF040E0196;
-	Mon, 22 Jan 2024 13:08:37 +0000 (UTC)
-Date: Mon, 22 Jan 2024 14:08:27 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Xin Li <xin3.li@intel.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	kvm@vger.kernel.org, xen-devel@lists.xenproject.org,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, luto@kernel.org, pbonzini@redhat.com,
-	seanjc@google.com, peterz@infradead.org, jgross@suse.com,
-	ravi.v.shankar@intel.com, mhiramat@kernel.org,
-	andrew.cooper3@citrix.com, jiangshanlai@gmail.com,
-	nik.borisov@suse.com, shan.kang@intel.com
-Subject: Re: [PATCH v13 07/35] x86/fred: Disable FRED support if
- CONFIG_X86_FRED is disabled
-Message-ID: <20240122130827.GQZa5oy4OZHRFEqbsr@fat_crate.local>
-References: <20231205105030.8698-1-xin3.li@intel.com>
- <20231205105030.8698-8-xin3.li@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="i8HXBNEM"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40MCYFRe028209;
+	Mon, 22 Jan 2024 13:16:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version:content-type; s=
+	qcppdkim1; bh=ZtkcX/MfE5owMEhrjCNwUtd6yGeRWH2ZVRmmOAfHJIc=; b=i8
+	HXBNEM5evjmD9D1yTuwc1JCzeggkgV1/69+qP5eWtopUhHmyd/Mo1TiD0YekgweI
+	ljR13zdCQKrWbGt2oWEADy/2wYzGe0u7oDZN6GezoYUeWm04HjdHw0HXm57Gd3Us
+	8dYe0yla0mqA5Ox3E5KALmNxfscH0H/jfswLoawMbBs3vHWsI+1tSdn/Z3ZLh3d1
+	a/k7tssgqHpRydBose5dam9DnYtAlUCBT39f6b6UgSsDD6Qg4xxAsAyMJDOu3kzK
+	SHdD7YRhW82PV37yqaeO+xip4WdvUFFQsxroRRxdtDAzAAEzlCeoMhSreWiQFo0+
+	RjGt8ulwQZ2YVRdRJbTQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vspw8rf98-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 22 Jan 2024 13:16:07 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40MDG6E4013327
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 22 Jan 2024 13:16:06 GMT
+Received: from hu-nprakash-blr.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 22 Jan 2024 05:16:00 -0800
+From: Nikhil V <quic_nprakash@quicinc.com>
+To: Len Brown <len.brown@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>
+CC: Nikhil V <quic_nprakash@quicinc.com>, Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney"
+	<paulmck@kernel.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        "Tejun
+ Heo" <tj@kernel.org>, Yan-Jie Wang <yanjiewtw@gmail.com>,
+        Randy Dunlap
+	<rdunlap@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <quic_pkondeti@quicinc.com>, <quic_kprasan@quicinc.com>,
+        <quic_mpilaniy@quicinc.com>, <quic_shrekk@quicinc.com>,
+        <mpleshivenkov@google.com>, <ericyin@google.com>
+Subject: [PATCH v3 0/4] PM: hibernate: LZ4 compression support
+Date: Mon, 22 Jan 2024 18:45:24 +0530
+Message-ID: <cover.1705927916.git.quic_nprakash@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231205105030.8698-8-xin3.li@intel.com>
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: w1dCeyiSx-DKrRBH32VbOBwxbjoNW5-Y
+X-Proofpoint-ORIG-GUID: w1dCeyiSx-DKrRBH32VbOBwxbjoNW5-Y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-22_02,2024-01-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ adultscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
+ clxscore=1011 suspectscore=0 impostorscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401220093
 
-On Tue, Dec 05, 2023 at 02:49:56AM -0800, Xin Li wrote:
-> From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
-> 
-> Add CONFIG_X86_FRED to <asm/disabled-features.h> to make
-> cpu_feature_enabled() work correctly with FRED.
-> 
-> Originally-by: Megha Dey <megha.dey@intel.com>
-> Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-> Tested-by: Shan Kang <shan.kang@intel.com>
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-> ---
-> 
-> Changes since v10:
-> * FRED feature is defined in cpuid word 12, not 13 (Nikolay Borisov).
-> ---
->  arch/x86/include/asm/disabled-features.h       | 8 +++++++-
->  tools/arch/x86/include/asm/disabled-features.h | 8 +++++++-
->  2 files changed, 14 insertions(+), 2 deletions(-)
+This patch series covers the following:
+1. Renaming lzo* to generic names, except for lzo_xxx() APIs. This is
+used in the next patch where we move to crypto based APIs for
+compression. There are no functional changes introduced by this
+approach.
 
-Whoever applies this: this one and the previous one can be merged into
-one patch.
 
-Thx.
+2. Replace LZO library calls with crypto generic APIs
 
+Currently for hibernation, LZO is the only compression algorithm
+available and uses the existing LZO library calls. However, there
+is no flexibility to switch to other algorithms which provides better
+results. The main idea is that different compression algorithms have
+different characteristics and hibernation may benefit when it uses
+alternate algorithms.
+
+By moving to crypto based APIs, it lays a foundation to use other
+compression algorithms for hibernation.
+
+
+3. LZ4 compression
+
+Extend the support for LZ4 compression to be used with hibernation.
+The main idea is that different compression algorithms have different
+characteristics and hibernation may benefit when it uses any of these
+algorithms: a default algorithm, having higher compression rate but is
+slower(compression/decompression) and a secondary algorithm, that is
+faster(compression/decompression) but has lower compression rate.
+
+LZ4 algorithm has better decompression speeds over LZO. This reduces
+the hibernation image restore time.
+As per test results:
+                                    LZO             LZ4
+Size before Compression(bytes)   682696704       682393600
+Size after Compression(bytes)    146502402       155993547
+Decompression Rate               335.02 MB/s     501.05 MB/s
+Restore time                       4.4s             3.8s
+
+LZO is the default compression algorithm used for hibernation. Enable
+CONFIG_HIBERNATION_DEF_COMP_LZ4 to set the default compressor as LZ4.
+
+Compression Benchmarks: https://github.com/lz4/lz4
+
+
+4. Support to select compression algorithm
+
+Currently the default compression algorithm is selected based on
+Kconfig. Introduce a kernel command line parameter "hib_compression" to
+override this behaviour.
+
+Users can set "hib_compression" command line parameter to specify
+the algorithm.
+Usage:
+    LZO: hib_compression=lzo
+    LZ4: hib_compression=lz4
+LZO is the default compression algorithm used with hibernation.
+
+
+Changes in v3:
+ - Rebased to v6.8-rc1 after resolving the minor conflicts.
+ - Link to v2:
+ https://lore.kernel.org/all/cover.1700048610.git.quic_nprakash@quicinc.com/
+
+Changes in v2:
+ - Fixed build issues reported by kernel test robot for ARCH=sh, [1].
+ [1] https://lore.kernel.org/oe-kbuild-all/202310171226.pLUPeuC7-lkp@intel.com/
+ - Link to v1:
+ https://lore.kernel.org/all/cover.1696410298.git.quic_nprakash@quicinc.com/
+
+Nikhil V (4):
+  PM: hibernate: Rename lzo* to make it generic
+  PM: hibernate: Move to crypto APIs for LZO compression
+  PM: hibernate: Add support for LZ4 compression for hibernation
+  PM: hibernate: Support to select compression algorithm
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ kernel/power/Kconfig                          |  26 ++-
+ kernel/power/hibernate.c                      |  85 +++++++-
+ kernel/power/power.h                          |  19 ++
+ kernel/power/swap.c                           | 189 +++++++++++-------
+ 5 files changed, 251 insertions(+), 74 deletions(-)
+
+
+base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
 -- 
-Regards/Gruss,
-    Boris.
+2.17.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
