@@ -1,254 +1,130 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D179C39ACC
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 09:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC04139FC8
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 09:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705915950; cv=none; b=qF5pWwriwi1WVVtgqaVV7hedeXOagpJReEo0du5MOFBFkA+qWnYdiGBQcdv6p1kD+AOxIZP7ccY4o3Spw3/ZjRegxTsmVpin3EHjvbOmpa/bx+T6I+ZmCXnBbrSmRIvGEUBSjLcnc/rWNGIsLbcHqZ/znQ/IvQbI1XegZG71Re0=
+	t=1705917015; cv=none; b=rTbxTinAhbvXsB0F9UL9a+3nQHEDTZIyy6nJ3/3XUYQbWRYr4m3H9tME/ni8B3IX+EQrlN/n6NvFq0AApi5+LQqTBSI6zvg1KIj1B3dsui3pECAjE0ZxEFVhzSLRb0yUPru8tnTeMZ08Tj102Kdm6Q50Ed+TZZ9I/BIVJ01wXbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705915950; c=relaxed/simple;
-	bh=orUBy2ThRG+quPFIcuiNi0Lw3inksbXqbuGLMegrTlI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ji9hXIQonGycIeK4aW4nyc4WUrd5x0FWCZtxeM2KYvytXP4kwrqTj/TqiGVgKMBVZBykrIB4L0Vk2752Bb1UgGJ08af3NXP5u+me584N/H688kklZTBmqNIM10XgAq/4rbuYbZAtYPM41NXl+UQ+FNmF34sAR9lWQYbaU/Bhh0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0VpXK0Eg; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FESh+kIH; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1705917015; c=relaxed/simple;
+	bh=ZXlG0hrIQ9hV/XH8uPY9MP151/A3X5mK2x42WSdRHuw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eETWyi/JXkzR/u9YCZ7qX8puqClpQoT/pldvoIWn6fUjLbo/JyCmV1m+My9TF1y3s0WrEn+1V9U8XdQCHupJrSezaaEcuwLFQBONMDL6AyAg1dxrtG+z3fWPYhJsZNVqm7fsdmhk+7HopkCKD9Ftep1dR6rjxandL8BcoAS5Lx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=V4mrcj1d; arc=none smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0VpXK0Eg";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FESh+kIH"
-From: Anna-Maria Behnsen <anna-maria@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1705915946;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S3Q++ZZVIT73Oqt8Lzm/5pR9Oqo7gGEAVkbQKMjR/cI=;
-	b=0VpXK0Egn/l4x9K+YDdO/JxPyOgzmPYRMCkGooAMQiMgEAzwYafssFczFUOy34b/CIttM8
-	b/zZ3J1MZS01i+LMydpouJ/caQ/LnjmwDgwymypj4E72D9CRkwIcMTMBKbzNAW4qhlxwqj
-	SC6ZJSDIHOT5HSfi6ZyDDk+dRQqNt0gJBSYs6YLAUhsICTj5okYBK7e2WrylF3BhkaX9su
-	SwM8CvU5XOO2BiYlWBNEwrZUVvUnwYABIjbqVvqJ/Fy+pI6h0B6CurcQ6ZAq8dUSSaPbTx
-	TUQyg3Iagx2i+QTaQe+2C+BJctPT9bzBSE83I0J0wcnV+sAe4kcikKGFRSo+zA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1705915946;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S3Q++ZZVIT73Oqt8Lzm/5pR9Oqo7gGEAVkbQKMjR/cI=;
-	b=FESh+kIH0l1GaienKJ9rB2q5s8Oc/8Gi/VhXgKQcMeiDUbJcopn4YjIC93s0eMqstpteyZ
-	B0+JdXKrtFxp1gDQ==
-To: linux-doc@vger.kernel.org
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	dri-devel@lists.freedesktop.org,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH 1/2] drm/vram-helper: Fix 'multi-line' kernel-doc comments
-Date: Mon, 22 Jan 2024 10:31:51 +0100
-Message-Id: <20240122093152.22536-2-anna-maria@linutronix.de>
-In-Reply-To: <20240122093152.22536-1-anna-maria@linutronix.de>
-References: <20240122093152.22536-1-anna-maria@linutronix.de>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="V4mrcj1d"
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-466fb179334so496634137.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 01:50:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1705917013; x=1706521813; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d3NX2zTIiUHCv4VYTn24Y9a1KjUPwQyHtr/3ARaL0OE=;
+        b=V4mrcj1duGGbnD8yyCHjqBxawhHlqf0DThEhVTzU4w/qf8+Im4xpK0jFJmeW2r7v0+
+         v39OuE2EHWkRU8DAmtdzQrXcmJdDho34bZQ5Oui79CyjTaAMoPencdAM0fGG4m7CdZ+I
+         Xg5a5P6BmeW6B3RzVlw0mPHr8bimBIM/T1U9KbgWV2UYrmCAuL37nJxIeEgcKZUrJ+0W
+         4v8CrS3VaqdBE0UvKA5CA7/nZvN+TwBJ0h8ebjq0wue2sOs5xojbviThZs39DOQg5mTj
+         szzerbrXlf2tYspYS5rW8knto3bTazLP6TVyY1nRo1UwIPKNkvbMBo1m7VcqMws0lx8z
+         MWcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705917013; x=1706521813;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=d3NX2zTIiUHCv4VYTn24Y9a1KjUPwQyHtr/3ARaL0OE=;
+        b=LHvS+o2DuhtVpPjDwVdB0tmgpQkeKCxZCOJ57xzk9t3yj1DfdmPd9Mi5cksV6tCVx0
+         o19sGBrDiGmhSuSFdyULGwtBuuSmFznCC21GWUG/xLoWDxh57vEYm+4en18by/jiONDG
+         SNH5huAlKbvjGutQjEnp7A8DNHeivYkbuDMuD5KrRZFiVHGXyhOs0e3Bk0xiOYH5mv8q
+         xAHBp+n/CqugviQIQVHlvphuCacdbA7CA6oyrx5L4NH4uC2DJkbc2MQT2eXfDepbAyR8
+         aZDDuIGfFMYaoG1lPggiy5p+c402CUhuGWxXhqp5qtbTRyG90JVHmccbgYxJFlyWLBYW
+         VSnw==
+X-Gm-Message-State: AOJu0Yw8hYsWdqV7SmiOfBRZy9u1wgthZRqw6YSBQOoG037m6teYh6x3
+	lNC71nnyXCDffSwInJk4Hd3xNQp4JH8N72oIbu3LVLshCA1Rsq+BxC1n6XLO6hSRLjgEUqKbsOy
+	oQyTfVYnBKmUE/ZynujHhQKESIZnVqWEuzL/pvw==
+X-Google-Smtp-Source: AGHT+IHpqZg5YhvrFh5zdUl7ZObsv+cwpbu3YnlaZCIpBqJhgApmOJP++5AUaPSc/c0rKJF2M5hCXuolsqSWC7YKpUs=
+X-Received: by 2002:a67:fdce:0:b0:467:f13f:79f2 with SMTP id
+ l14-20020a67fdce000000b00467f13f79f2mr1484297vsq.13.1705917012766; Mon, 22
+ Jan 2024 01:50:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240115004847.22369-1-warthog618@gmail.com>
+In-Reply-To: <20240115004847.22369-1-warthog618@gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 22 Jan 2024 10:50:02 +0100
+Message-ID: <CAMRc=MegMkgyBmanxTAvQwcGJ1_doNdqUAhCu-MECePZ=-_KrA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] Documentation: gpio: add character device
+ userspace API documentation
+To: Kent Gibson <warthog618@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linus.walleij@linaro.org, andy@kernel.org, 
+	corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reformat lines in kernel-doc comments, which make use of the backslash at
-the end to suggest it is a multi-line comment. kernel-doc is able to
-process e.g. the short description of a function properly, even if it is
-across two lines.
+On Mon, Jan 15, 2024 at 1:49=E2=80=AFAM Kent Gibson <warthog618@gmail.com> =
+wrote:
+>
+> My new year's resolution was to improve the documentation of the
+> character device API and gpio in general, so here we are.
+>
+> Wrt the formatting and file breakdown, I've taken inspiration from
+> the userspace-api/media documentation.
+>
+> Patch 1 adds documentation for the current chardev uAPI. I've added
+> it to the userspace-api book, as that is the most obvious place a
+> reader would look for it, but have also provided links from the
+> admin-guide book where the gpio docs currently reside.
+>
+> I realise MAINTAINERS should be updated with
+> Documentation/userspace-api/gpio/, but the split out of GPIO UAPI
+> hasn't made it into gpio/for-next yet, so I was unsure of how to
+> handle that.
+>
+> Patch 2 updates the gpio-cdev ABI documentation to reference the
+> chardev documentation as well as gpio.h.
+>
+> Patch 3 updates the sysfs-gpio ABI documentation to reference the
+> gpio-cdev ABI that obsoletes it.
+>
+> Patch 4 relocates the sysfs API doc to stress its deprecation by
+> moving it to a new obsolete section, again in userspace-api but
+> with a similar section in the admin-guide. The obsolete section
+> also serves as a placeholder for subsequent changes.
+>
+> Patch 5 updates the sysfs API doc to reference the chardev
+> documentation rather than gpio.h and make use of reST formatting.
+>
+> Patch 6 adds documentation for the obsolete v1 version of the
+> chardev uAPI.  It is obsolete, but still useful to have, if
+> nothing else to help identify the differences between v1 and v2.
+>
+> Patch 7 capitalizes the title of the admin-guide/gpio to match
+> the other subsystems and the userspace-api book.
+>
+> Patch 8 adds an obsolescence note to the gpio-mockup, as it is
+> obsoleted by the gpio-sim.
+>
+> Patch 9 moves the gpio-mockup doc into the obsolete section.
+>
+> I've got some minor updates for the kernel doc in gpio.h as well,
+> but they make sense on their own so I've sent those separately
+> to keep the cross-posting to a minimum.
+>
+> I realise the only thing less exciting than writing documentation
+> is reviewing it, so my apologies and thanks in advance if you
+> have the fortitude to attempt such a scintillating endeavour.
+>
 
-No functional change.
+Not all heroes wear capes. Thanks for doing this Kent!
 
-Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_gem_vram_helper.c | 44 ++++++++++++---------------
- include/drm/drm_gem_vram_helper.h     | 16 +++++-----
- 2 files changed, 28 insertions(+), 32 deletions(-)
+Queued the series for v6.9.
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index b67eafa55715..b7d42210fccc 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -260,8 +260,7 @@ static u64 drm_gem_vram_pg_offset(struct drm_gem_vram_object *gbo)
- }
- 
- /**
-- * drm_gem_vram_offset() - \
--	Returns a GEM VRAM object's offset in video memory
-+ * drm_gem_vram_offset() - Returns a GEM VRAM object's offset in video memory
-  * @gbo:	the GEM VRAM object
-  *
-  * This function returns the buffer object's offset in the device's video
-@@ -470,14 +469,15 @@ void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo,
- EXPORT_SYMBOL(drm_gem_vram_vunmap);
- 
- /**
-- * drm_gem_vram_fill_create_dumb() - \
--	Helper for implementing &struct drm_driver.dumb_create
-+ * drm_gem_vram_fill_create_dumb() - Helper for implementing
-+ *				     &struct drm_driver.dumb_create
-+ *
-  * @file:		the DRM file
-  * @dev:		the DRM device
-  * @pg_align:		the buffer's alignment in multiples of the page size
-  * @pitch_align:	the scanline's alignment in powers of 2
-- * @args:		the arguments as provided to \
--				&struct drm_driver.dumb_create
-+ * @args:		the arguments as provided to
-+ *			&struct drm_driver.dumb_create
-  *
-  * This helper function fills &struct drm_mode_create_dumb, which is used
-  * by &struct drm_driver.dumb_create. Implementations of this interface
-@@ -575,8 +575,7 @@ static int drm_gem_vram_bo_driver_move(struct drm_gem_vram_object *gbo,
-  */
- 
- /**
-- * drm_gem_vram_object_free() - \
--	Implements &struct drm_gem_object_funcs.free
-+ * drm_gem_vram_object_free() - Implements &struct drm_gem_object_funcs.free
-  * @gem:       GEM object. Refers to &struct drm_gem_vram_object.gem
-  */
- static void drm_gem_vram_object_free(struct drm_gem_object *gem)
-@@ -591,12 +590,11 @@ static void drm_gem_vram_object_free(struct drm_gem_object *gem)
-  */
- 
- /**
-- * drm_gem_vram_driver_dumb_create() - \
--	Implements &struct drm_driver.dumb_create
-+ * drm_gem_vram_driver_dumb_create() - Implements &struct drm_driver.dumb_create
-  * @file:		the DRM file
-  * @dev:		the DRM device
-- * @args:		the arguments as provided to \
--				&struct drm_driver.dumb_create
-+ * @args:		the arguments as provided to
-+ *			&struct drm_driver.dumb_create
-  *
-  * This function requires the driver to use @drm_device.vram_mm for its
-  * instance of VRAM MM.
-@@ -639,8 +637,8 @@ static void __drm_gem_vram_plane_helper_cleanup_fb(struct drm_plane *plane,
- }
- 
- /**
-- * drm_gem_vram_plane_helper_prepare_fb() - \
-- *	Implements &struct drm_plane_helper_funcs.prepare_fb
-+ * drm_gem_vram_plane_helper_prepare_fb() - Implements &struct
-+ *					    drm_plane_helper_funcs.prepare_fb
-  * @plane:	a DRM plane
-  * @new_state:	the plane's new state
-  *
-@@ -690,8 +688,8 @@ drm_gem_vram_plane_helper_prepare_fb(struct drm_plane *plane,
- EXPORT_SYMBOL(drm_gem_vram_plane_helper_prepare_fb);
- 
- /**
-- * drm_gem_vram_plane_helper_cleanup_fb() - \
-- *	Implements &struct drm_plane_helper_funcs.cleanup_fb
-+ * drm_gem_vram_plane_helper_cleanup_fb() - Implements &struct
-+ *					    drm_plane_helper_funcs.cleanup_fb
-  * @plane:	a DRM plane
-  * @old_state:	the plane's old state
-  *
-@@ -717,8 +715,8 @@ EXPORT_SYMBOL(drm_gem_vram_plane_helper_cleanup_fb);
-  */
- 
- /**
-- * drm_gem_vram_simple_display_pipe_prepare_fb() - \
-- *	Implements &struct drm_simple_display_pipe_funcs.prepare_fb
-+ * drm_gem_vram_simple_display_pipe_prepare_fb() - Implements &struct
-+ *				   drm_simple_display_pipe_funcs.prepare_fb
-  * @pipe:	a simple display pipe
-  * @new_state:	the plane's new state
-  *
-@@ -739,8 +737,8 @@ int drm_gem_vram_simple_display_pipe_prepare_fb(
- EXPORT_SYMBOL(drm_gem_vram_simple_display_pipe_prepare_fb);
- 
- /**
-- * drm_gem_vram_simple_display_pipe_cleanup_fb() - \
-- *	Implements &struct drm_simple_display_pipe_funcs.cleanup_fb
-+ * drm_gem_vram_simple_display_pipe_cleanup_fb() - Implements &struct
-+ *						   drm_simple_display_pipe_funcs.cleanup_fb
-  * @pipe:	a simple display pipe
-  * @old_state:	the plane's old state
-  *
-@@ -761,8 +759,7 @@ EXPORT_SYMBOL(drm_gem_vram_simple_display_pipe_cleanup_fb);
-  */
- 
- /**
-- * drm_gem_vram_object_pin() - \
--	Implements &struct drm_gem_object_funcs.pin
-+ * drm_gem_vram_object_pin() - Implements &struct drm_gem_object_funcs.pin
-  * @gem:	The GEM object to pin
-  *
-  * Returns:
-@@ -785,8 +782,7 @@ static int drm_gem_vram_object_pin(struct drm_gem_object *gem)
- }
- 
- /**
-- * drm_gem_vram_object_unpin() - \
--	Implements &struct drm_gem_object_funcs.unpin
-+ * drm_gem_vram_object_unpin() - Implements &struct drm_gem_object_funcs.unpin
-  * @gem:	The GEM object to unpin
-  */
- static void drm_gem_vram_object_unpin(struct drm_gem_object *gem)
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index e18429f09e53..2938ba80750d 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -33,8 +33,8 @@ struct vm_area_struct;
-  * struct drm_gem_vram_object - GEM object backed by VRAM
-  * @bo:		TTM buffer object
-  * @map:	Mapping information for @bo
-- * @placement:	TTM placement information. Supported placements are \
--	%TTM_PL_VRAM and %TTM_PL_SYSTEM
-+ * @placement:	TTM placement information. Supported placements are %TTM_PL_VRAM
-+ *		and %TTM_PL_SYSTEM
-  * @placements:	TTM placement information.
-  *
-  * The type struct drm_gem_vram_object represents a GEM object that is
-@@ -126,8 +126,8 @@ drm_gem_vram_plane_helper_cleanup_fb(struct drm_plane *plane,
- 				     struct drm_plane_state *old_state);
- 
- /**
-- * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
-- *	Initializes struct drm_plane_helper_funcs for VRAM handling
-+ * DRM_GEM_VRAM_PLANE_HELPER_FUNCS - Initializes struct drm_plane_helper_funcs
-+ *				     for VRAM handling
-  *
-  * Drivers may use GEM BOs as VRAM helpers for the framebuffer memory. This
-  * macro initializes struct drm_plane_helper_funcs to use the respective helper
-@@ -150,8 +150,8 @@ void drm_gem_vram_simple_display_pipe_cleanup_fb(
- 	struct drm_plane_state *old_state);
- 
- /**
-- * define DRM_GEM_VRAM_DRIVER - default callback functions for \
--	&struct drm_driver
-+ * define DRM_GEM_VRAM_DRIVER - default callback functions for
-+ *				&struct drm_driver
-  *
-  * Drivers that use VRAM MM and GEM VRAM can use this macro to initialize
-  * &struct drm_driver with default functions.
-@@ -185,8 +185,8 @@ struct drm_vram_mm {
- };
- 
- /**
-- * drm_vram_mm_of_bdev() - \
--	Returns the container of type &struct ttm_device for field bdev.
-+ * drm_vram_mm_of_bdev() - Returns the container of type &struct ttm_device for
-+ *			   field bdev.
-  * @bdev:	the TTM BO device
-  *
-  * Returns:
--- 
-2.39.2
-
+[snip]
