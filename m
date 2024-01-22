@@ -1,216 +1,232 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A063FE44
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 19:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF523B790;
+	Mon, 22 Jan 2024 20:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705953398; cv=none; b=KadqFr1y92qB2uFdicaqf6pIRCW+oBXx2Hb5cOTVJIZmzOqu22kR469cODJo6QKoZr/z8DE6ZZMquhrSHD6TsKcEq5JK5LXehrMM2NjIAf4Tpmk67IzdJEJoEWSOYc6HvsAC2AKIBTObkWeoXFdlWgrsHidD00Brf2Li948Yxt0=
+	t=1705953692; cv=none; b=LDGEjxQVCAE0UBlE2WUsGaKQoQcafU7mrOboVbfE9Ds0E5Pu6h2MeQy6TN82KZ/l/1UEWg13cjNi5T2OjF4mZCBOMKqeCi3Qtpq/EXgueWdekhh7vPgfdbDyrDTy0wFW4biOCKCo8PjCsnwYT0/2kUO+51OBnRgpMQuZuh/y96o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705953398; c=relaxed/simple;
-	bh=LxSgvig4j5z8INM0/P+yyg1wqb61ux+RUaUaiS5yrbA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EccFekw+hqMbCjB92GqU9YklPd9hTHL29mUIHraMVUy3FzSSgNHyKKq/lEMMgF8fjSy/d/N5sG6zhBxjlsDrK+qYkBP+M7Y11Gz7yQNLIEr4rcvXzR7G02DIxYWrm2x1kzBInPO0dF8HzwOmr4PGHwCN2H5C5OyKcAKPnl7Bx28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Mf2QUJ7A; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1705953692; c=relaxed/simple;
+	bh=dNelk4kBrgBCghijjRjoFYY9rvEodTp1XYkmBPmw944=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nsNTXAKf6XRnp7FP6czi+rGNmyzSRUOw8ZCLinUYEVsbXTL5x8hV4BsZvkx8NLy5HzGlodpPFmlOMFFP75g+IWfX4MF2XRZ5wOEKTyRlicQ54s5TmM/nBDzjEabLg+68SEuecQvjKMjFatXwu5QYY0znQI9P2pU1HhRsjpKfSeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b=Roldsi+e; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Mf2QUJ7A"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso2649306a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 11:56:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1705953395; x=1706558195; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UH3ZxhToA5oQfyXBCJ4srePY/ACWm4Ai6nHOFGyU640=;
-        b=Mf2QUJ7A7My6pmxBHVVz+j+cLo1wBziUWxZPdg2r1JxYnf+5yP/2UdVhy7zRvX0gDg
-         yRRbJiWrUrFEd34yNbueGPLiTfjbYta3oukAO8xLMR3GVJJ1lyrQZmZf3e3OesWaJXCD
-         BxFOOYMUZbEkKX+kYg7wC0ORBVJeglpoKLtCOjHS5PEi/kPdEWt5igQOtcirqDkOppOt
-         z265G6u2f1ZRlLTAq6TMrnANUVO8MqA+NpmNi5d84Yof7UvqNKOFOCoIzToriL/FrU4r
-         N+vj4bAyFbI74g4QClzJLy/yXrnKGtEDtMtNWR1GOrVSedvQ3tddTgXrdRDfnOZkxVWm
-         aREA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705953395; x=1706558195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UH3ZxhToA5oQfyXBCJ4srePY/ACWm4Ai6nHOFGyU640=;
-        b=SCl8ZWXc++FN8R+TU4qHDZZqv+6V/MxtG7q3WXC+kIpEv3b4RbjCTS8aavjkiI9mBd
-         8oWXvlHO0KRSPm391U42df3KUP/BtbqjgEpNmYmwcgkYYowHnQXiEeQLTEYEPUB/awcw
-         nTRGSekeDRyGXo4Q9v38UwbWpLDG2qfAtaue37mMsAmfoBmnK2thVYnaRicF5+AOlpMM
-         TUt6eOYGEwl4GG24BOvRBTnuD4Q+YCxd3wpQUkepHu8cHpbg0172Sd/kNtTia5MCRY1T
-         +FUSGp146rjWd/hShk557lRp9o1K0RL3KR5+q4BSd5wbVBzEUTtNnRWlBO4N+vFR//Ns
-         gY+g==
-X-Gm-Message-State: AOJu0YxYXTI89PFDmQdJEjQCXj4cyqywk3SXl3/HxNEcnQ7n1BOTR+J0
-	Cx3Sa2dbE3I+JRm1nUtkfl89FLCZ8ATdmklt/Zgi88Fra6JyTtR2PaTULayYDf4=
-X-Google-Smtp-Source: AGHT+IELosIoqFP0xlW9ykmXuQHjrS4lU/5p79wfCOzfjuOQzfpaOXw8gaBbyXJ6ZQFkAIC9bM85zQ==
-X-Received: by 2002:a17:90a:fe0a:b0:290:6e71:7cec with SMTP id ck10-20020a17090afe0a00b002906e717cecmr1580074pjb.75.1705953395560;
-        Mon, 22 Jan 2024 11:56:35 -0800 (PST)
-Received: from ghost ([12.44.203.122])
-        by smtp.gmail.com with ESMTPSA id qa1-20020a17090b4fc100b00290c9b195e9sm214833pjb.28.2024.01.22.11.56.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 11:56:35 -0800 (PST)
-Date: Mon, 22 Jan 2024 11:56:32 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: alexghiti@rivosinc.com, anup@brainfault.org, aou@eecs.berkeley.edu,
-	conor@kernel.org, jrtc27@jrtc27.com, konstantin@linuxfoundation.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org, mick@ics.forth.gr,
-	palmer@rivosinc.com, paul.walmsley@sifive.com,
-	rdunlap@infradead.org
-Subject: Re: [PATCH v10 0/4] RISC-V: mm: Make SV48 the default address space
-Message-ID: <Za7IcJg6hv3OBBch@ghost>
-References: <20230809232218.849726-1-charlie@rivosinc.com>
- <tencent_F9568C6D8872E30EDFAF20ADF686A31D6E06@qq.com>
- <ZasjJ3HPUVuxr2oG@ghost>
- <tencent_FE461EBE274178ED6047005CCF98D710B807@qq.com>
- <Zats/W/oiaphdWTv@ghost>
- <tencent_A80D5721462124BDB19CAF4E10473BD55105@qq.com>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="Roldsi+e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1705953660; x=1706558460; i=deller@gmx.de;
+	bh=dNelk4kBrgBCghijjRjoFYY9rvEodTp1XYkmBPmw944=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=Roldsi+e/ixsw0Rufo0TEKAUHwJ964vRlLwtamHVpZ1xrEG7UaEczqqFz4sDeIRS
+	 ic0L8UckEsHeeywccp9evzE4PnUSo4EnXD1rhJETkLPpdbOxdNHOEpJP6Kmv1faQW
+	 MYb0m35MDfLSjtlbbPukc6mmMnB0hOSjkyVTIqClVl/MhfbxNABvktXjaiMw1T9Zh
+	 +C9wUuoa0ePtyS052o7yTMwRKZIBcHdyQq35dINaac6bPPQVtPxZ/QAMVMRWfedFy
+	 YVJ73IupSgKAjZOSd8JYcUP8z1/bUsSVkAouGd8xAd2h1x+W0vDKY+EYNlLj4wkzK
+	 Sm4PA/vmBmYnGU9Mng==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([94.134.156.47]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MuDc7-1r7Ahd0JdF-00uZaX; Mon, 22
+ Jan 2024 21:01:00 +0100
+Message-ID: <00232392-dc40-4790-9278-91df30e50a04@gmx.de>
+Date: Mon, 22 Jan 2024 21:00:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_A80D5721462124BDB19CAF4E10473BD55105@qq.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/47] tty: vt: cleanup and documentation
+Content-Language: en-US
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, gregkh@linuxfoundation.org
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ Martin Hostettler <textshell@uchuujin.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20240122110401.7289-1-jirislaby@kernel.org>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20240122110401.7289-1-jirislaby@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+gm3ywaYDIj1z5b8uKNnsDEONVgpeLMuXadHkrhEOpzr6RnNRc7
+ MKGXdTFk8i7+n/hahB3Z1Qd8HY06s3puVkp07+cNPf46oh5IMvd3h1bWGRq80KU0k0bugu9
+ YObXAsna5CKxrH/v31pd/DN7EvKZxpRVxMGu7Rdl0bJ4eQ/OqbHLZeQ2hFs9tdPdBMSD0qR
+ aJAfV/luWPLKrCuWbAFLQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:5N8g+roOATs=;p5v/fSt9MlMDLMws6IHxxqdF0j/
+ 9qrDa48mvx+g132niFtZYy4NuzSIoKKuc4JHILs9PXpMu7h3gdSmcDlbkO1H3qTlKIF+FBZBh
+ AFG5SD5BhbkjSCLY3hsw/v8IKys0SySa8kiNOGGVZAQoPEhd6OASbF8fgw7hNfDN2okRrZsp0
+ eNk38aYHyot3S/jaa6eQYzVuzm/alVU4Vy88eWqnv5fTppyB4NKOaXs9EdaUil7KaH5tlW7dq
+ wtYiWTpdOmY9V21fnDsnCuHUyIJm12VVibs+c4BwD3b3nwrru93Q57BpY1RC6dyMtwgXJQKSb
+ /vkRuVPj8K0pQae3n+p9i4l5alAZkqkjEbv6Nq3KdgiPTu2Rs9hoceBHQhebrFt8EuR+2x0EK
+ HjAM+WDMvo+JrgU6a+3BmoqBcX/gVdaRBOA1sdI5TFjBTn8QMVyGa+/gsiEmYATe/p6zRva+H
+ W5TzpfZYuuKOCH2S71kRL0xbL8DewQ9j0J02f4FC2Cw0V3B+z7C5rX4PQtwI5MQoc4vI8TH9/
+ cc2iFQRmPYXx/28uwAUKo7K4zZN/0tMhG0rbfTuKC0AOfokwwM7JSaVV0wXVigbNf+O9s0bNc
+ 60KVPXtnVwsk+VywgROWfrpPyIuaVTDjiQULY9cNF4RtMTncR1nkDqLY9rlTidwMNHbSUxN2b
+ mqz7QbZmPTQWoxWhGERqPJbA1HG8dqPXVq1yDuHa2BtBM175z61NSo2/eWltWau0Elh9EYLo0
+ Tn2VF7lX8DIm8fQNGS35Sdiyto/XVfh6OC2In7nex24Wf+qJMc92WRnFp5WgPUffwVlTQQxld
+ 5TF1+oRDWqkJWbNoywlACASXzSPMAvAAMGqVGCvtIbo1DZ1UUmhKPLnDLU5XYnZ+ksJ3gUFvB
+ LNS64cTPvYnLF0Ydp7l2Y4hdKsCUBTtYg56Vus4plpOwR0zYQPV+I+WHi12KyNMPHp96XBeFJ
+ QbQOzA==
 
-On Sat, Jan 20, 2024 at 03:09:51PM +0800, Yangyu Chen wrote:
-> 
-> 
-> On 1/20/24 14:49, Charlie Jenkins wrote:
-> > On Sat, Jan 20, 2024 at 02:13:14PM +0800, Yangyu Chen wrote:
-> > > Thanks for your reply.
-> > > 
-> > > On 1/20/24 09:34, Charlie Jenkins wrote:
-> > > > On Sun, Jan 14, 2024 at 01:26:57AM +0800, Yangyu Chen wrote:
-> > > > > Hi, Charlie
-> > > > > 
-> > > > > Although this patchset has been merged I still have some questions about
-> > > > > this patchset. Because it breaks regular mmap if address >= 38 bits on
-> > > > > sv48 / sv57 capable systems like qemu. For example, If a userspace program
-> > > > > wants to mmap an anonymous page to addr=(1<<45) on an sv48 capable system,
-> > > > > it will fail and kernel will mmaped to another sv39 address since it does
-> > > > 
-> > > > Thank you for raising this concern. To make sure I am understanding
-> > > > correctly, you are passing a hint address of (1<<45) and expecting mmap
-> > > > to return 1<<45 and if it returns a different address you are describing
-> > > > mmap as failing? If you want an address that is in the sv48 space you
-> > > > can pass in an address that is greater than 1<<47.
-> > > > 
-> > > > > not meet the requirement to use sv48 as you wrote:
-> > > > > 
-> > > > > > 	else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) \
-> > > > > > 		mmap_end = VA_USER_SV48;			\
-> > > > > > 	else							\
-> > > > > > 		mmap_end = VA_USER_SV39;			\
-> > > > > 
-> > > > > Then, How can a userspace program create a mmap with a hint if the address
-> > > > > > = (1<<38) after your patch without MAP_FIXED? The only way to do this is
-> > > > > to pass a hint >= (1<<47) on mmap syscall then kernel will return a random
-> > > > > address in sv48 address space but the hint address gets lost. I think this
-> > > > 
-> > > > In order to force mmap to return the address provided you must use
-> > > > MAP_FIXED. Otherwise, the address is a "hint" and has no guarantees. The
-> > > > hint address on riscv is used to mean "don't give me an address that
-> > > > uses more bits than this". This behavior is not unique to riscv, arm64
-> > > > and powerpc use a similar scheme. In arch/arm64/include/asm/processor.h
-> > > > there is the following code:
-> > > > 
-> > > > #define arch_get_mmap_base(addr, base) ((addr > DEFAULT_MAP_WINDOW) ? \
-> > > > 					base + TASK_SIZE - DEFAULT_MAP_WINDOW :\
-> > > > 					base)
-> > > > 
-> > > > arm64/powerpc are only concerned with a single boundary so the code is simpler.
-> > > > 
-> > > 
-> > > As you say, this code in arm64/powerpc will not meet the issue I address.
-> > > For example, If the addr here is (1<<50) on arm64, the arch_get_mmap_base
-> > > will return base+TASK_SIZE-DEFAULT_MAP_WINDOW which is (1<<vabits_actual).
-> > > And this behavior on arm64/powerpc/x86 does not break anything since we will
-> > > use a larger address space if the hint address is specified on the address >
-> > > DEFAULT_MAP_WINDOW. The corresponding behavior on RISC-V should be if the
-> > > hint address > BIT(47) then use Sv57 address space and use Sv48 when the
-> > > hint address > BIT(38) if we want Sv39 by default.
-> > > 
-> > > However, your patch needs the address >= BIT(47) rather than BIT(38) to use
-> > > Sv48 and address >= BIT(56) to use Sv57, thus breaking existing userspace
-> > > software to create mapping on the hint address without MAP_FIXED set.
-> > 
-> > Code that needs mmap to provide a specific address must use MAP_FIXED.
-> > On riscv, it was decided that the address returned from mmap cannot be
-> > greater than the hint address. This is currently implemented by using
-> > the largest address space that can fit into the hint address. It may be
-> > possible that this range can be extended to use all of the addresses
-> > that are less than or equal to the hint address.
-> > 
-> 
-> So this decision might be wrong. It requires some userspace software to
-> modify their mmap flags to fit with this. For example, a binary translate
-> JIT compiler already probes this platform is capable with Sv48, then want to
-> create mapping on some address specified on the mmap hint to align with
-> foreign binary native address but also provide a fallback path with
-> performance overhead. Your patch here will always let userspace software use
+On 1/22/24 12:03, Jiri Slaby (SUSE) wrote:
+> Push the console code (vt.c, vt.h, console.h, ...) into a bit more
+> maintainable state. Especially all around consw structure and document
+> it.
+>
+> CSI parser is also a bit cleaned up. More to follow some time in the
+> next round.
 
-I do not follow. This mechanism allows a program to always know how many
-bits will be available in the virtual address provided by mmap,
-regardless of the size of the underlying virtual address space.
+I've not yet looked through all of those patches, but I
+tried to boot up a machine with the STI console driver
+and I've not seen any issues yet.
+So far:
 
-The phrasing "align with foreign binary native address" seems like the
-program requires a specific address, which is never guaranteed by mmap
-without MAP_FIXED. If the program is relying on mmap to provide the
-address without MAP_FIXED, the program is relying on behavior that
-cannot be expected to remain constant across Linux releases.
+Tested-by: Helge Deller <deller@gmx.de> # parisc STI console
 
-> a fallback path with performance overhead until the userspace software
-> changes its syscall to use MAP_FIXED. But it is not required in x86, arm64,
-> powerpc.
-> 
-> >  From reading the code even on arm64 if you pass an address that is
-> > greater than DEFAULT_MAP_WINDOW it is not guaranteed that mmap will
-> > return an address that is greater than DEFAULT_MAP_WINDOW. It may still
-> > be provide an address that is less than DEFAULT_MAP_WINDOW if it fails
-> > to find an address above. This seems like this would also break your use
-> > case.
-> > 
-> 
-> Yeah. As I said before, this patch will always let userspace software use a
-> fallback path and this only happens in RISC-V. Make default sv48 is right,
-> but RISC-V implementation for this and changing the hint address behavior
-> might be wrong. And x86, arm64, powerpc already use
-> 48-bit address space by default but do not change the meaning of hint
-> address on mmap.
-> 
-> > > 
-> > > > > violate the principle of mmap syscall as kernel should take the hint and
-> > > > > attempt to create the mapping there.
-> > > > 
-> > > > Although the man page for mmap does say "on Linux, the kernel will pick
-> > > > a nearby page boundary" it is still a hint address so there is no strict
-> > > > requirement (and the precedent has already been set by arm64/powerpc).
-> > > > 
-> > > 
-> > > Yeah. There is no strict requirement. But currently x86/arm64/powerpc works
-> > > in this situation well. The hint address on these ISAs is not used as the
-> > > upper bound to allocating the address. However, on RISC-V, you treat this as
-> > > the upper bound.
-> > > 
-> > > > > 
-> > > > > I don't think patching in this way is right. However, if we only revert
-> > > > > this patch, some programs relying on mmap to return address with effective
-> > > > > bits <= 48 will still be an issue and it might expand to other ISAs if
-> > > > > they implement larger virtual address space like RISC-V sv57. A better way
-> > > > > to solve this might be adding a MAP_48BIT flag to mmap like MAP_32BIT has
-> > > > > been introduced for decades.
-> > > > > 
-> > > > > Thanks,
-> > > > > Yangyu Chen
-> > > > > 
-> > > > 
-> > > > - Charlie
-> > > > 
-> > > 
-> 
+Helge
+
+> [v2] See respective patches for changes. The major changes:
+>   * vesa.h introduced
+>   * parameters of csi*() simplified
+>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-parisc@vger.kernel.org
+> Cc: Martin Hostettler <textshell@uchuujin.de>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> Jiri Slaby (SUSE) (47):
+>
+>    vgacon: inline vc_scrolldelta_helper() into vgacon_scrolldelta()
+>    fbcon: make display_desc a static array in fbcon_startup()
+>    tty: vt: fix 20 vs 0x20 typo in EScsiignore
+>    tty: vt: expect valid vc when in tty ops
+>    tty: vt: pass proper pointers from tioclinux()
+>    tty: vt: push console lock from tioclinux() down to 2 functions
+>    tty: vt: pass vc_resize_user as a parameter
+>    tty: vt: make vc_is_sel()'s vc const
+>    tty: vt: define an enum for CSI+m codes
+>    tty: vt: use case ranges for CSI+m fg/bg colors
+>    tty: vt: define an enum for CSI+J codes
+>    tty: vt: reflow csi_J()
+>    use clamp() for counts in csi_?() handlers
+>    don't pass vc->vc_par[0] to csi_?() handlers
+>    tty: vt: define an enum for CSI+K codes
+>    tty: vt: reflow csi_K()
+>    tty: vt: define an enum for ascii characters
+>    tty: vt: remove extern from functions in selection.h
+>    tty: vt: make consw::con_debug_*() return void
+>    tty: vt: make init parameter of consw::con_init() a bool
+>    tty: vt: sanitize arguments of consw::con_clear()
+>    tty: vt: remove checks for count in consw::con_clear() implementation=
+s
+>    tty: vt: add con_putc() helper
+>    tty: vt: eliminate unneeded consw::con_putc() implementations
+>    tty: vt: sanitize consw::con_putc() parameters
+>    tty: vt: sanitize consw::con_putcs() parameters
+>    consoles: use if instead of switch-case in consw::con_cursor()
+>    fbdev/core: simplify cursor_state setting in fbcon_ops::cursor()
+>    tty: vt: remove CM_* constants
+>    tty: vt: make consw::con_switch() return a bool
+>    tty: vt: stop using -1 for blank mode in consw::con_blank()
+>    tty: vt: define a common enum for VESA blanking constants
+>    tty: vt: use VESA blanking constants
+>    tty: vt: use enum constants for VESA blanking modes
+>    tty: vt: make types around consw::con_blank() bool
+>    tty: vt: make font of consw::con_font_set() const
+>    tty: vt: make consw::con_font_default()'s name const
+>    tty: vt: change consw::con_set_origin() return type
+>    fbcon: remove consw::con_screen_pos()
+>    tty: vt: remove consw::con_screen_pos()
+>    tty: vt: make types of screenpos() more consistent
+>    fbcon: remove fbcon_getxy()
+>    tty: vt: remove consw::con_getxy()
+>    tty: vt: remove unused consw::con_flush_scrollback()
+>    tty: vt: document the rest of struct consw
+>    tty: vt: fix up kernel-doc
+>    Documentation: add console.rst
+>
+>   Documentation/driver-api/tty/console.rst |  45 ++
+>   Documentation/driver-api/tty/index.rst   |   1 +
+>   drivers/tty/vt/selection.c               |  43 +-
+>   drivers/tty/vt/vt.c                      | 645 +++++++++++------------
+>   drivers/tty/vt/vt_ioctl.c                |   6 +-
+>   drivers/video/console/dummycon.c         |  38 +-
+>   drivers/video/console/mdacon.c           |  43 +-
+>   drivers/video/console/newport_con.c      |  69 +--
+>   drivers/video/console/sticon.c           |  79 ++-
+>   drivers/video/console/vgacon.c           | 152 +++---
+>   drivers/video/fbdev/core/bitblit.c       |  13 +-
+>   drivers/video/fbdev/core/fbcon.c         | 123 ++---
+>   drivers/video/fbdev/core/fbcon.h         |   4 +-
+>   drivers/video/fbdev/core/fbcon_ccw.c     |  13 +-
+>   drivers/video/fbdev/core/fbcon_cw.c      |  13 +-
+>   drivers/video/fbdev/core/fbcon_ud.c      |  13 +-
+>   drivers/video/fbdev/core/tileblit.c      |   4 +-
+>   include/linux/console.h                  | 124 +++--
+>   include/linux/console_struct.h           |   1 -
+>   include/linux/selection.h                |  56 +-
+>   include/linux/vt_kern.h                  |  12 +-
+>   include/uapi/linux/fb.h                  |   8 +-
+>   include/uapi/linux/vesa.h                |  18 +
+>   23 files changed, 755 insertions(+), 768 deletions(-)
+>   create mode 100644 Documentation/driver-api/tty/console.rst
+>   create mode 100644 include/uapi/linux/vesa.h
+>
+
