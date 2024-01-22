@@ -1,49 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A653A8C0;
-	Mon, 22 Jan 2024 11:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67FE48CED;
+	Mon, 22 Jan 2024 11:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705921448; cv=none; b=m1HWafvl2kke2E1HImwzgQvB08zkf7ep46yz5EgkR33b4PgO4rpk2mIBPPVEuAji1VlA++gjhiQHxptMY6v8lo6cscURE++keKWfnbH8G0+YGGR98l/KpDZ3gTEX3i2CLySIxNAzKrkdl9Lj6GIZyzqlLDrGw5b9n9TFYtYZgzQ=
+	t=1705921542; cv=none; b=NXhbMbv3+drrQXcO8okgPRNYnQa1vMzPLPY98XCIrl/Xqg2gTImwbmd2Qs/SWtuf7ROjnCdVWJayhJI7WhfPq0UngHAhUg7HZ+WDmTwH3pDf23KgolrVJv/Sh/afhWY6xAqWSPijuY9zzlIDYjmQP3kIGIkZoxB79nur9fNJo00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705921448; c=relaxed/simple;
-	bh=6WGGhf/BTgLnnKlxdbNPCXyuwYCekxPpegnJq4vX000=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jkGE9vmFaBeFO9sQxtrB7c8K2JxA3AJIGpnc3HfSjbmA7KF6ih3ZNmFQT6NTjZ94ExnQtSexu6s1GzMJuKiPVu9sKF9mkkm/8exDPVYlF281KD06eSrdXXcNh/JCJaI66UT0EOYN3j2ETaNE0XAQyoFoX+VbqPcEeVxMnPoF5SQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WuV6cvDj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1705921542; c=relaxed/simple;
+	bh=PNbtJZXcgSDfB9xk9l5CL+n1+oj48eBhvhkVHBH+k0w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iPsLMcPaywCsi2xXo3hUhmJTpCCkSGYDClib3jRgvmPv/KEMP6Ong2QizBUA61InMwkaann6PUo8stCuWofuxcTkmI95aWJhwwyVER8TOUxw/9NxncsX7JwMXY1aTzZKo+g472Z607uhDL3KiL9tFPn2W5HcHbhuUAA1HC1RK08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TEVDK4S3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WuV6cvDj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC00C433F1;
-	Mon, 22 Jan 2024 11:04:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TEVDK4S3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29F34C43394;
+	Mon, 22 Jan 2024 11:05:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705921447;
-	bh=6WGGhf/BTgLnnKlxdbNPCXyuwYCekxPpegnJq4vX000=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WuV6cvDj37O15oSjTHGuaol6bCLP78ejj/Qqj1SW7SBKckvvka5v+47PF1FXP7ypE
-	 z8bPKsEWzCACA0JC2QjeWs5bx4hHkyPxxpf2/rOeSXpfpDwA4EToI+diq8ckf2NpRQ
-	 gT3IDlQYVaCkI8ue4DJEhWrjdt4UClq0ZCqZv34eAaDCNgBrnhDszRFT/ajus6C8Pq
-	 IXAl0s6zN0bR928g3H2mCH46U7WbujMk9bSlgl97yrRcnon3yzPubDbl8y8xv7/78B
-	 DzHXQS7rE/VOJKvdmiuPb+5XWlbzGPmKIB/MRaftvwXs3cqCHcSMTXn4tikwKLJlvP
-	 LUNtsz4+7e+QA==
+	s=k20201202; t=1705921542;
+	bh=PNbtJZXcgSDfB9xk9l5CL+n1+oj48eBhvhkVHBH+k0w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=TEVDK4S3pi9aHh2qIUZ8YthAxfDTy1qpxHhBe04Mu9HGxtpePJsIRZ71LlgJraCdb
+	 PPi55hzg59GxoAhBAvQ7mfIv4w2ML59x2/ZLpM8bnS1L/ur/FI3v8KlkIpSaScRrVg
+	 N8CvndJ3hxW7VGPRivNSHiNUj9ITCULL8uZQ4kBL5mox2uNkBo6tbw13L2Bsj6S2oE
+	 YejjWEJ+vZXvc6EU+wmpIDl1VOvkEjYJpk2U/nbbUSj7wYysCXLLzeGMB10RcubNK6
+	 J9GCryGA01Q6m2iGNjoZ2OfsCM5B0uwzMj657ick0Sd4CqE+f8QCotcLXhaaF7k5lw
+	 4Yeg2733bQCeA==
 From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 To: gregkh@linuxfoundation.org
 Cc: linux-serial@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	dri-devel@lists.freedesktop.org,
-	Helge Deller <deller@gmx.de>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	Martin Hostettler <textshell@uchuujin.de>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 00/47] tty: vt: cleanup and documentation
-Date: Mon, 22 Jan 2024 12:03:14 +0100
-Message-ID: <20240122110401.7289-1-jirislaby@kernel.org>
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 47/47] Documentation: add console.rst
+Date: Mon, 22 Jan 2024 12:04:01 +0100
+Message-ID: <20240122110401.7289-48-jirislaby@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240122110401.7289-1-jirislaby@kernel.org>
+References: <20240122110401.7289-1-jirislaby@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,105 +47,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Push the console code (vt.c, vt.h, console.h, ...) into a bit more
-maintainable state. Especially all around consw structure and document
-it.
+Now, that the console kernel-doc is in better shape, include it in the
+tty/ docs.
 
-CSI parser is also a bit cleaned up. More to follow some time in the
-next round.
+It's not supernice, but it is what it is. At least for the beginning.
 
-[v2] See respective patches for changes. The major changes:
- * vesa.h introduced
- * parameters of csi*() simplified
-
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Helge Deller <deller@gmx.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: linux-parisc@vger.kernel.org
-Cc: Martin Hostettler <textshell@uchuujin.de>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-
-Jiri Slaby (SUSE) (47):
-
-  vgacon: inline vc_scrolldelta_helper() into vgacon_scrolldelta()
-  fbcon: make display_desc a static array in fbcon_startup()
-  tty: vt: fix 20 vs 0x20 typo in EScsiignore
-  tty: vt: expect valid vc when in tty ops
-  tty: vt: pass proper pointers from tioclinux()
-  tty: vt: push console lock from tioclinux() down to 2 functions
-  tty: vt: pass vc_resize_user as a parameter
-  tty: vt: make vc_is_sel()'s vc const
-  tty: vt: define an enum for CSI+m codes
-  tty: vt: use case ranges for CSI+m fg/bg colors
-  tty: vt: define an enum for CSI+J codes
-  tty: vt: reflow csi_J()
-  use clamp() for counts in csi_?() handlers
-  don't pass vc->vc_par[0] to csi_?() handlers
-  tty: vt: define an enum for CSI+K codes
-  tty: vt: reflow csi_K()
-  tty: vt: define an enum for ascii characters
-  tty: vt: remove extern from functions in selection.h
-  tty: vt: make consw::con_debug_*() return void
-  tty: vt: make init parameter of consw::con_init() a bool
-  tty: vt: sanitize arguments of consw::con_clear()
-  tty: vt: remove checks for count in consw::con_clear() implementations
-  tty: vt: add con_putc() helper
-  tty: vt: eliminate unneeded consw::con_putc() implementations
-  tty: vt: sanitize consw::con_putc() parameters
-  tty: vt: sanitize consw::con_putcs() parameters
-  consoles: use if instead of switch-case in consw::con_cursor()
-  fbdev/core: simplify cursor_state setting in fbcon_ops::cursor()
-  tty: vt: remove CM_* constants
-  tty: vt: make consw::con_switch() return a bool
-  tty: vt: stop using -1 for blank mode in consw::con_blank()
-  tty: vt: define a common enum for VESA blanking constants
-  tty: vt: use VESA blanking constants
-  tty: vt: use enum constants for VESA blanking modes
-  tty: vt: make types around consw::con_blank() bool
-  tty: vt: make font of consw::con_font_set() const
-  tty: vt: make consw::con_font_default()'s name const
-  tty: vt: change consw::con_set_origin() return type
-  fbcon: remove consw::con_screen_pos()
-  tty: vt: remove consw::con_screen_pos()
-  tty: vt: make types of screenpos() more consistent
-  fbcon: remove fbcon_getxy()
-  tty: vt: remove consw::con_getxy()
-  tty: vt: remove unused consw::con_flush_scrollback()
-  tty: vt: document the rest of struct consw
-  tty: vt: fix up kernel-doc
-  Documentation: add console.rst
-
- Documentation/driver-api/tty/console.rst |  45 ++
- Documentation/driver-api/tty/index.rst   |   1 +
- drivers/tty/vt/selection.c               |  43 +-
- drivers/tty/vt/vt.c                      | 645 +++++++++++------------
- drivers/tty/vt/vt_ioctl.c                |   6 +-
- drivers/video/console/dummycon.c         |  38 +-
- drivers/video/console/mdacon.c           |  43 +-
- drivers/video/console/newport_con.c      |  69 +--
- drivers/video/console/sticon.c           |  79 ++-
- drivers/video/console/vgacon.c           | 152 +++---
- drivers/video/fbdev/core/bitblit.c       |  13 +-
- drivers/video/fbdev/core/fbcon.c         | 123 ++---
- drivers/video/fbdev/core/fbcon.h         |   4 +-
- drivers/video/fbdev/core/fbcon_ccw.c     |  13 +-
- drivers/video/fbdev/core/fbcon_cw.c      |  13 +-
- drivers/video/fbdev/core/fbcon_ud.c      |  13 +-
- drivers/video/fbdev/core/tileblit.c      |   4 +-
- include/linux/console.h                  | 124 +++--
- include/linux/console_struct.h           |   1 -
- include/linux/selection.h                |  56 +-
- include/linux/vt_kern.h                  |  12 +-
- include/uapi/linux/fb.h                  |   8 +-
- include/uapi/linux/vesa.h                |  18 +
- 23 files changed, 755 insertions(+), 768 deletions(-)
+---
+ Documentation/driver-api/tty/console.rst | 45 ++++++++++++++++++++++++
+ Documentation/driver-api/tty/index.rst   |  1 +
+ 2 files changed, 46 insertions(+)
  create mode 100644 Documentation/driver-api/tty/console.rst
- create mode 100644 include/uapi/linux/vesa.h
 
+diff --git a/Documentation/driver-api/tty/console.rst b/Documentation/driver-api/tty/console.rst
+new file mode 100644
+index 000000000000..4348e36cd33b
+--- /dev/null
++++ b/Documentation/driver-api/tty/console.rst
+@@ -0,0 +1,45 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======
++Console
++=======
++
++.. contents:: :local:
++
++Struct Console
++==============
++
++.. kernel-doc:: include/linux/console.h
++   :identifiers: console cons_flags
++
++Internals
++---------
++
++.. kernel-doc:: include/linux/console.h
++   :identifiers: nbcon_state nbcon_prio nbcon_context nbcon_write_context
++
++Struct Consw
++============
++
++.. kernel-doc:: include/linux/console.h
++   :identifiers: consw
++
++Console functions
++=================
++
++.. kernel-doc:: include/linux/console.h
++   :identifiers: console_srcu_read_flags console_srcu_write_flags
++        console_is_registered for_each_console_srcu for_each_console
++
++.. kernel-doc:: drivers/tty/vt/selection.c
++   :export:
++.. kernel-doc:: drivers/tty/vt/vt.c
++   :export:
++
++Internals
++---------
++
++.. kernel-doc:: drivers/tty/vt/selection.c
++   :internal:
++.. kernel-doc:: drivers/tty/vt/vt.c
++   :internal:
+diff --git a/Documentation/driver-api/tty/index.rst b/Documentation/driver-api/tty/index.rst
+index b490da11f257..c1ffe3d1ec46 100644
+--- a/Documentation/driver-api/tty/index.rst
++++ b/Documentation/driver-api/tty/index.rst
+@@ -38,6 +38,7 @@ In-detail description of the named TTY structures is in separate documents:
+    tty_buffer
+    tty_ioctl
+    tty_internals
++   console
+ 
+ Writing TTY Driver
+ ==================
 -- 
 2.43.0
 
