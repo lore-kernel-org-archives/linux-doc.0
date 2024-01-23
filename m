@@ -1,236 +1,108 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1657F7E3;
-	Tue, 23 Jan 2024 18:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD5E81AAA;
+	Tue, 23 Jan 2024 18:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706034432; cv=none; b=uo46nIU6QCapnq/CESjBhndF/t2hTeQvdQDI//6b1jSrmJnXmQ115lpprk2+3qYpRh/wC7VxYPyLhMHl2FS1PtT8YaGpvI7H/J6uEgkomvtIvk068Lo65p7OumdHmwkCXDInP2btKrjc704dFsnMxV2ntQET2reI+McdbYymERM=
+	t=1706035328; cv=none; b=Kg0X1Lgms7A/Qfv9pMR3RPZ4aLBhvkzdXW0kLVqZaHcb4WLmLKefDNWR/l3ZYQt24uzkmN3sylOzzrjuAf/H9uXPYugAZH7MFziE4foOwJRnApYHyA1yHfjVN6HbcOLdAFoTkchFDbPvGyGs/AvQgrRu94IZ9mJG3w3zgeRtRmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706034432; c=relaxed/simple;
-	bh=5pvDJYcRtetTzfHaic5vo3ay4ls20L2R06x3nu6LJ2I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TdcfS2HnfTXbAiSSldtaupFU2TR06CktI+FIkOHFGXZtDBIpvOgUeu2Kw5R17Got82hIQmQl2K/BbQr+IHfopyHQ30NjTOyekRrLG8ipw+XQKzfJrhVm8hvwM2jOkPWv4PgNLABNb20U9G3+Wg02yJiLx2jpBIEJz3GpCpNAtTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5997edc27ccso275681eaf.0;
-        Tue, 23 Jan 2024 10:27:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706034430; x=1706639230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VJNpL6fDX95XFM2IQD2CwpFM/p5iqYY4kcX2rdX/p6A=;
-        b=mu+IjAuLMKgf5yam8bwlIVVc+fd7FHqsTzi+4K+blVaf1SwClzxiGJo/HAN2qjhA9+
-         BgKiFNv3v12fjNEhK5w76CxUMknwYACtuvf5Tk3WB+wm9YN6ehpUM/othYuCd7k1Go6q
-         NlH+TMG0ntIcAnID1tPj9GRHVJ0lQ+u3WIJFd9+zkohBOk2l1rlz4wL+dDAwUtD+BBko
-         g7s+4GdgKU0bTyCNsCNDYuaQKS8c32+VXYQhhjHjq2uVOF2CEG/sY8jWyllIMnePV62p
-         686qZFavcfWIMD0sATui31NCBliMf9THKvKRvBfZ3i1iqhgObmPOP/EHLkfj9f1B5sJe
-         UUfw==
-X-Gm-Message-State: AOJu0YzQ+LxWJN/ZrfvLvgkx7aXCbNF7udor7zOPIu9e9r1k96/uACwW
-	ABp9Vhn/GrmFlu1PQwKs+SXmwLowD8+pDgZS7WYtLhWHsE0UJGEct1JEC9SP8eGT2GZvP0V3wWr
-	5XWecEIACKvTVdopLI4e+nOq2wXw=
-X-Google-Smtp-Source: AGHT+IHDXgFkCwvdHOL5crsKDTQT8IRZgGzfM2BUZEO+K2++Rlkm+PAg5r5ue46EVuT8a12HUrJARg9aPq33v7AITd4=
-X-Received: by 2002:a4a:cb86:0:b0:599:a116:6ca with SMTP id
- y6-20020a4acb86000000b00599a11606camr104811ooq.0.1706034429766; Tue, 23 Jan
- 2024 10:27:09 -0800 (PST)
+	s=arc-20240116; t=1706035328; c=relaxed/simple;
+	bh=KuOlsJlAeHgM/ZAB95KCioMPSwl13wrRH6nU16aaT5o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nfuFzRaQNNix5IsU8CZxIsCyii7bBLInxmMgSCcnJykiSyQQe9PM4xWir7ff44s8fRaGjabGxot4sYDI7kVBCLzwYXO5+mqOPf2hUgZC6Dk3OI1hLreGk4moV3luOIG3UFx6KsKwJ3VAG1HtNFZwP/yoQuLz5xlJn1SD/kLw+rY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E3CgYeNt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E3CgYeNt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72502C433F1;
+	Tue, 23 Jan 2024 18:42:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706035328;
+	bh=KuOlsJlAeHgM/ZAB95KCioMPSwl13wrRH6nU16aaT5o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E3CgYeNt1ol1Cm2hp5xZ8LQhi5spVR9ci1E4sX9qcE09r+8YEFdrgKTub37hZEho0
+	 4mgJy89CIfXvyopnJzosk8xZRE/Ddv1I7ZiFStnAowSKZUDAgfslhIS0zbnKSZWfBU
+	 0BdhiYsjqjiWV4/u+MhyXAZX6YrH28qLa8gLm6o2MVK67KcImfdottO+YSMYz3P7tD
+	 0UtXqfiXfS9Fd7uiOcR5BHwLfUM1k1nqBC8iKVLrB2/aEUTIqojJCxubmfopFeIorC
+	 vbDJLK8+Vq/mJJlZnJaQigV6l3gvHZNVY2E/D2Je665mwwRf8kWGE5J+JyLk4+kIms
+	 sMy30evQFvn0g==
+Date: Tue, 23 Jan 2024 18:42:03 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Dave Martin <Dave.Martin@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
+Subject: Re: [PATCH 3/4] arm64/fp: Clarify effect of setting an unsupported
+ system VL
+Message-ID: <46571fac-28bf-4c6e-a5a4-38b1182b93a0@sirena.org.uk>
+References: <20240122-arm64-sve-sme-doc-v1-0-3d492e45265b@kernel.org>
+ <20240122-arm64-sve-sme-doc-v1-3-3d492e45265b@kernel.org>
+ <Za/gB3oCNAyiPPnu@e133380.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk> <E1rDOgD-00Dvk2-3h@rmk-PC.armlinux.org.uk>
- <CAJZ5v0g9nfLrEf9u4Ksw6BOWJQ9iv8Z-O8RsLU6jR5zk0ahxRw@mail.gmail.com>
- <20240122180013.000016d5@Huawei.com> <Za++/11n5KA1VS3p@shell.armlinux.org.uk>
- <CAJZ5v0h7wsLt8d3ZoLXsK1=crAx66T42WDKNoHcg8CiHpAjS8g@mail.gmail.com>
- <Za/q9jivG4OdZM0f@shell.armlinux.org.uk> <CAJZ5v0gwe02uzAQoX0QDHo35OTEozpbnqC6vukjM3aE6HMq9WQ@mail.gmail.com>
- <ZbADTBLDEFtdglho@shell.armlinux.org.uk>
-In-Reply-To: <ZbADTBLDEFtdglho@shell.armlinux.org.uk>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 23 Jan 2024 19:26:57 +0100
-Message-ID: <CAJZ5v0jh-EdrnjkJep++UDo+Uv4hmR7VV4KYVdF4CK2K+5XLtg@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 05/21] ACPI: Rename ACPI_HOTPLUG_CPU to include 'present'
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
-	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
-	James Morse <james.morse@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Wi8C1+Ocdx9GTbVa"
+Content-Disposition: inline
+In-Reply-To: <Za/gB3oCNAyiPPnu@e133380.arm.com>
+X-Cookie: Stay together, drag each other down.
+
+
+--Wi8C1+Ocdx9GTbVa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 23, 2024 at 7:20=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
->
-> On Tue, Jan 23, 2024 at 06:43:59PM +0100, Rafael J. Wysocki wrote:
-> > On Tue, Jan 23, 2024 at 5:36=E2=80=AFPM Russell King (Oracle)
-> > <linux@armlinux.org.uk> wrote:
-> > >
-> > > On Tue, Jan 23, 2024 at 05:15:54PM +0100, Rafael J. Wysocki wrote:
-> > > > On Tue, Jan 23, 2024 at 2:28=E2=80=AFPM Russell King (Oracle)
-> > > > <linux@armlinux.org.uk> wrote:
-> > > > >
-> > > > > On Mon, Jan 22, 2024 at 06:00:13PM +0000, Jonathan Cameron wrote:
-> > > > > > On Mon, 18 Dec 2023 21:35:16 +0100
-> > > > > > "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> > > > > >
-> > > > > > > On Wed, Dec 13, 2023 at 1:49=E2=80=AFPM Russell King <rmk+ker=
-nel@armlinux.org.uk> wrote:
-> > > > > > > >
-> > > > > > > > From: James Morse <james.morse@arm.com>
-> > > > > > > >
-> > > > > > > > The code behind ACPI_HOTPLUG_CPU allows a not-present CPU t=
-o become
-> > > > > > > > present.
-> > > > > > >
-> > > > > > > Right.
-> > > > > > >
-> > > > > > > > This isn't the only use of HOTPLUG_CPU. On arm64 and riscv
-> > > > > > > > CPUs can be taken offline as a power saving measure.
-> > > > > > >
-> > > > > > > But still there is the case in which a non-present CPU can be=
-come
-> > > > > > > present, isn't it there?
-> > > > > >
-> > > > > > Not yet defined by the architectures (and I'm assuming it proba=
-bly never will be).
-> > > > > >
-> > > > > > The original proposal we took to ARM was to do exactly that - t=
-hey pushed
-> > > > > > back hard on the basis there was no architecturally safe way to=
- implement it.
-> > > > > > Too much of the ARM arch has to exist from the start of time.
-> > > > > >
-> > > > > > https://lore.kernel.org/linux-arm-kernel/cbaa6d68-6143-e010-5f3=
-c-ec62f879ad95@arm.com/
-> > > > > > is one of the relevant threads of the kernel side of that discu=
-ssion.
-> > > > > >
-> > > > > > Not to put specific words into the ARM architects mouths, but t=
-he
-> > > > > > short description is that there is currently no demand for work=
-ing
-> > > > > > out how to make physical CPU hotplug possible, as such they wil=
-l not
-> > > > > > provide an architecturally compliant way to do it for virtual C=
-PU hotplug and
-> > > > > > another means is needed (which is why this series doesn't use t=
-he present bit
-> > > > > > for that purpose and we have the Online capable bit in MADT/GIC=
-C)
-> > > > > >
-> > > > > > It was a 'fun' dance of several years to get to that clarificat=
-ion.
-> > > > > > As another fun fact, the same is defined for x86, but I don't t=
-hink
-> > > > > > anyone has used it yet (GICC for ARM has an online capable bit =
-in the flags to
-> > > > > > enable this, which was remarkably similar to the online capable=
- bit in the
-> > > > > > flags of the Local APIC entries as added fairly recently).
-> > > > > >
-> > > > > > >
-> > > > > > > > On arm64 an offline CPU may be disabled by firmware, preven=
-ting it from
-> > > > > > > > being brought back online, but it remains present throughou=
-t.
-> > > > > > > >
-> > > > > > > > Adding code to prevent user-space trying to online these di=
-sabled CPUs
-> > > > > > > > needs some additional terminology.
-> > > > > > > >
-> > > > > > > > Rename the Kconfig symbol CONFIG_ACPI_HOTPLUG_PRESENT_CPU t=
-o reflect
-> > > > > > > > that it makes possible CPUs present.
-> > > > > > >
-> > > > > > > Honestly, I don't think that this change is necessary or even=
- useful.
-> > > > > >
-> > > > > > Whilst it's an attempt to avoid future confusion, the rename is
-> > > > > > not something I really care about so my advice to Russell is dr=
-op
-> > > > > > it unless you are attached to it!
-> > > > >
-> > > > > While I agree that it isn't a necessity, I don't fully agree that=
- it
-> > > > > isn't useful.
-> > > > >
-> > > > > One of the issues will be that while Arm64 will support hotplug v=
-CPU,
-> > > > > it won't be setting ACPI_HOTPLUG_CPU because it doesn't support
-> > > > > the present bit changing. So I can see why James decided to renam=
-e
-> > > > > it - because with Arm64's hotplug vCPU, the idea that ACPI_HOTPLU=
-G_CPU
-> > > > > somehow enables hotplug CPU support is now no longer true.
-> > > > >
-> > > > > Keeping it as ACPI_HOTPLUG_CPU makes the code less obvious, becau=
-se it
-> > > > > leads one to assume that it ought to be enabled for Arm64's
-> > > > > implementatinon, and that could well cause issues in the future i=
-f
-> > > > > people make the assumption that "ACPI_HOTPLUG_CPU" means hotplug =
-CPU
-> > > > > is supported in ACPI. It doesn't anymore.
-> > > >
-> > > > On x86 there is no confusion AFAICS.  It's always meant "as long as
-> > > > the platform supports it".
-> > >
-> > > That's x86, which supports physical CPU hotplug. We're introducing
-> > > support for Arm64 here which doesn't support physical CPU hotplug.
-> > >
-> > >                                                 ACPI-based      Physi=
-cal        Virtual
-> > > Arch    HOTPLUG_CPU     ACPI_HOTPLUG_CPU        Hotplug         Hotpl=
-ug         Hotplug
-> > > Arm64   Y               N                       Y               N    =
-           Y
-> > > x86     Y               Y                       Y               Y    =
-           Y
-> > >
-> > > So ACPI_HOTPLUG_CPU becomes totally misnamed with the introduction
-> > > of hotplug on Arm64.
-> > >
-> > > If we want to just look at stuff from an x86 perspective, then yes,
-> > > it remains correct to call it ACPI_HOTPLUG_CPU. It isn't correct as
-> > > soon as we add Arm64, as I already said.
-> >
-> > And if you rename it, it becomes less confusing for ARM64, but more
-> > confusing for x86, which basically is my point.
-> >
-> > IMO "hotplug" covers both cases well enough and "hotplug present" is
-> > only accurate for one of them.
-> >
-> > > And honestly, a two line quip to my reasoned argument is not IMHO
-> > > an acceptable reply.
-> >
-> > Well, I'm not even sure how to respond to this ...
->
-> The above explanation you give would have been useful...
->
-> I don't see how "hotplug" covers both cases. As I've tried to point
-> out many times now, ACPI_HOTPLUG_CPU is N for Arm64, yet it supports
-> ACPI based hotplug. How does ACPI_HOTPLUG_CPU cover Arm64 if it's
-> N there?
+On Tue, Jan 23, 2024 at 03:49:27PM +0000, Dave Martin wrote:
+> On Mon, Jan 22, 2024 at 08:41:53PM +0000, Mark Brown wrote:
 
-But IIUC this change is preliminary for changing it (or equivalent
-option with a different name) to Y, isn't it?
+> >  /proc/sys/abi/sme_default_vector_length
+> > =20
+> >      Writing the text representation of an integer to this file sets th=
+e system
+> > -    default vector length to the specified value, unless the value is =
+greater
+> > -    than the maximum vector length supported by the system in which ca=
+se the
+> > -    default vector length is set to that maximum.
+> > +    default vector length to the specified value rounded to a supporte=
+d value
+> > +    using the same rules as for setting vector length via prctl().
 
-> IMHO it totally doesn't, and moreover, it goes against what
-> one would logically expect - and this is why I have a problem with
-> your effective NAK for this change. I believe you are basically
-> wrong on this for the reasons I've given - that ACPI_HOTPLUG_CPU
-> will be N for Arm64 despite it supporting ACPI-based CPU hotplug.
+> Do parallel changes need to be made in sve.rst?
 
-So I still have to understand how renaming it for all architectures
-(including x86) is supposed to help.
+They are, in this very patch?
 
-It will still be the same option under a different name.  How does
-that change things technically?
+> (There seems to be so much duplication and copy-paste between these
+> files that I wonder whether it would make sense to merge them...  but
+> that's probably a separate discussion.)
+
+Indeed, thanks for volunteering.  Note that there are differences
+resulting from specification differences.
+
+> Nit: is it better to name the prctl here than just to say prctl()?
+> That would be easier for the reader to cross-reference.
+
+I guess, though it doesn't seem entirely idiomatic.
+
+--Wi8C1+Ocdx9GTbVa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWwCHoACgkQJNaLcl1U
+h9D0Ywf+IsH2g0If00Q6Xk+sM/N4fUnp2hK2AfnBw8nxWQ5Odt/OYSj8MHbBtvSO
+1yDO0dHZ9PvXpJNJG3mrrsxZhVg2SEHvoQ6O28G1GGQPciM4/3Qm02F5KNeu0ak9
+iJxeljkaWSxQOLKnbnxF2z36xZ/DmdY0mLF2ns8lTijWS14OFy/rsjVY4rVnK742
+CDEmB+OyW6oiMrpwOVURKa1gD9pUiHa56ju7qN0E3mNydfNv9SeXljc3Kqsr+Qic
+Yt5CFfrUqvBlq50CfErsPZcCjH4GgDDzFTCRmkclu5E14fohiftWeENBEx6yhXYm
+9Bu11n7PyA5yEQSgS5GB7V8qQ60eiw==
+=apO6
+-----END PGP SIGNATURE-----
+
+--Wi8C1+Ocdx9GTbVa--
