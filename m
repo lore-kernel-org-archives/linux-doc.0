@@ -1,86 +1,156 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2041.outbound.protection.outlook.com [40.107.223.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BDA1848
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 04:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705983248; cv=none; b=Gf4Zz11L7/IufN9eyUb1CJHjgp3/7nxEOKo0E0mwUvuxpsyqcBxQmykxwNx+Nwhka71dv6DLiye6IXajE3xPx9HgfqxDhMht0PsyY0HILy3iViP/uX/XK8BS4942qQ7fTS6Pkc3zjMSWo9lLejPIxDxT082cCPCi3UTiC1IkomU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705983248; c=relaxed/simple;
-	bh=58JM+UR8Aha6HZL221xIWdqpuUieCN8R/qJeUi9pUM4=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=s3/BzQy/+CXM6vHY2bqTL/RilXLP8r2veJj4tkJhQ+Z9gsz3CWPwoTCt5rdI3bT7myEGKUzQY01D3M2OWrY6p3RIzhu7QzXSmemM4DRxP9QDLc0rSPDfs40a1jQt03ZqNO1iSJK+sfhE+8780IFzjoAqQS+2BL8QPujVAThE/7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iw2qdbyT; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520001851;
+	Tue, 23 Jan 2024 04:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705983347; cv=fail; b=ajsxRbsUQ05qpDWrYubcW4cBwTtVFmVnf7fKZdo2P/HSoTuq5qJQ7hyiRbX+3PtG+QGgnyO2DOBrE9IM+omtPnHOE+EHjdbuNm3VejQjTBQk1N2rDb/RrwccocPqz9eaPBz+IwjrHrvgznEhWUJTK3KJ27RjnVcknZm32FL3TnU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705983347; c=relaxed/simple;
+	bh=31lhhI293ehkn19lDWSnDHr/axDpsZ/VwaDUq8EmYH0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P/YdmTutQ+P7qT6Jdrayy4l35CMySwMYudpq0opoORPK2ZaL1WI0JsEv7H8UaI2fkHzwva85Jxrn5j1qWikiV2AImfhScFlVJVKeMPx0KXN6UQLp0v8l6WyU2JyrTuqiZH4YZTgNcZa+xVWd2xJV5xzVPtsFQv2QPvK0GXbPFts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ezwNYi7S; arc=fail smtp.client-ip=40.107.223.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iw2qdbyT"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d70b0e521eso28062435ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 20:14:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705983246; x=1706588046; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2ihh37Z1JE+OCfeEhbgad9pTN9F6du7nBAkag4ZYIOc=;
-        b=Iw2qdbyTLQHs2Z2CZOhuQYhJsjylNoBqwoG1Mk1hVMdbi44oNm/ArFz+nES1rHa0J5
-         A3rpnkPWAC4YrM+9ps16Y8RXY04VtUK8yqsUauRLYO8SIUdo5iPn30RgTfoAR3GjENrK
-         XhIpiofk6O/CT92hAMvhcy7sm7RPZE8qwvXx5K6ar49tJDgtOIYHhfSshM2xmkc1qlFH
-         vZD/fExKxBfMXg4MQpnabMmpSDQlltf6U0Tmv2kdvUdxpW6z0iSh4pP+szMyIBxGbKNP
-         1DFICIpIzNmdXLcnF0Sbu44v+6Mn5FHb1r8bsIC6xit0WHJ37G3+QU1fdrMh9K9+CVTF
-         5s3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705983246; x=1706588046;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2ihh37Z1JE+OCfeEhbgad9pTN9F6du7nBAkag4ZYIOc=;
-        b=CWlFB3tBBiJThGuU1yFPK1dwRb9ImgNvoluutYLIPq5VgzoDLh06qU39/q3dN9IBOe
-         +20Di13hGCGmxWGnG85Frm/FSbO15SpQzU2jwnyLEfNcGNQQ0O9A2N7cwHZSh0N3xySq
-         cWyS2edTfPK/uojCbtF53Ta/U+E/XQDzz3W9ZAdDPNBVueLRYl91az2/WiYZu+Ipe8ek
-         I6fyqtNchchndSMrDMoO/OBzvDS+OJTUDCvVo/ivZBrvxeJDPgaH7ydvSRSRVyc44GvI
-         0QAYeJronEzcJiWEzvoqUDSuggn3G9OYVD8DJmYtq3lQY0cfE6DHhgbDEWqUaZgvUJJg
-         MqUA==
-X-Gm-Message-State: AOJu0YyBZAgylOyXRhbLs3904oeFunEBU4FaspH9gyJiiZ3h534mW5Mt
-	u5TfM6qeAFT2/n6KeLb9P2vt63PFSdpn+uB0q+O3c7ULfU3pbIZf
-X-Google-Smtp-Source: AGHT+IFvFA2Mw8/I3ZedxvTx+FnlXw4LnU7XUY57ITorLjxqYDMWrU/DxEl9CcFjtk/hYxVccRs0nw==
-X-Received: by 2002:a17:902:b718:b0:1d7:3f26:5368 with SMTP id d24-20020a170902b71800b001d73f265368mr3735456pls.96.1705983246517;
-        Mon, 22 Jan 2024 20:14:06 -0800 (PST)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id f5-20020a170902860500b001d7623fc8a5sm1221529plo.143.2024.01.22.20.14.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 20:14:06 -0800 (PST)
-Message-ID: <cb72b3d6-de7a-4c8a-a99c-72d58a23f89c@gmail.com>
-Date: Tue, 23 Jan 2024 13:14:02 +0900
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ezwNYi7S"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dasgu6lJBHNJ1qOn87AReDGz5YEQ6O8XOp6jGtbnMlP6jbQkGQxAvZrfPGZk8hvy2LCLsnz7fvOtFpXHg61MoU8qPhqns7AsvBNU7qCauVfJiMvAnk7BtB6Uw/oL8bivQsfR0PdhS13TG3YRx8uXv2Jmh49JHfxEBz5nms2j10sRf1anvaMeV7MnH9780OkhN6VhBTkNnLgTBaFO9loCjCW9Lftjrr2/ORp/E4Rf8jLSvijPwnLxzTsmLQtP1Mw/y3rDNXZdg7/LK7UeQ8TCpX6hTAyE4i2kwNQgQ2dGMDyU+mR3PFO2E8A9Dac6ZEydwonN2WSVCPuy1t5Jcyp5zQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9aezIl+bDvGPCz0CSokz9uDlyq3PfzUyZ6jdReLfXdg=;
+ b=RwZ3PSbyMDjmd6G+q4HHnBgbgrw18rPgF3hDV9jnLPqytcu8JqW4r/ZyiCSte3cSrZ+oZBbetlescJ6LDxcZ6BpjkF9KkftMpPirG2uYnl3VBPpIHwWT3eXYs6UDe7ya//SLf/vfJlEN53G/hNvcU5zJXr5zeGOvQCDeSbIvv52xXHmjuBJ+wITkhhEbXHMwNXujFIJ3hxQSOwW+gsqbtCwe5ZEUQpTUWiKmeUokwKcpfUJrtbCpuM2NYR4DstXa1TdBGwTF9ZgTGq43/T/dLvfkQVyjF0DLgLPLuL/EWiZqLk6adlqncPhGtxFt3hC48ZF8lUBKEXeQu+M8j+r1HQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9aezIl+bDvGPCz0CSokz9uDlyq3PfzUyZ6jdReLfXdg=;
+ b=ezwNYi7S1wV1QiLmdr8Ia/vPa1gPTkhUiLQnVzKmz7S6UZE1CGs10/udt0sCSYqtOQXo3ZlnxLR8Qmd3Il0auYrke32X6ezB5GJgr9a2wGQl4Ruuv7inl9dbE/+bbQJlZDS3ItGhtbM2lPW7TjQW/6vc1qwIy6/UCwrDFhCfx/E=
+Received: from BYAPR02CA0063.namprd02.prod.outlook.com (2603:10b6:a03:54::40)
+ by DS7PR12MB6358.namprd12.prod.outlook.com (2603:10b6:8:95::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.32; Tue, 23 Jan
+ 2024 04:15:41 +0000
+Received: from CO1PEPF000044F3.namprd05.prod.outlook.com
+ (2603:10b6:a03:54:cafe::cd) by BYAPR02CA0063.outlook.office365.com
+ (2603:10b6:a03:54::40) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.34 via Frontend
+ Transport; Tue, 23 Jan 2024 04:15:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000044F3.mail.protection.outlook.com (10.167.241.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7202.16 via Frontend Transport; Tue, 23 Jan 2024 04:15:39 +0000
+Received: from quartz-7b1chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Mon, 22 Jan
+ 2024 22:15:38 -0600
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: <bp@alien8.de>, <linux-edac@vger.kernel.org>, <tony.luck@intel.com>
+CC: <linux-kernel@vger.kernel.org>, <avadhut.naik@amd.com>,
+	<john.allen@amd.com>, <muralidhara.mk@amd.com>, <william.roche@oracle.com>,
+	<corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+	<christophe.jaillet@wanadoo.fr>, Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: [PATCH v5 0/3] AMD Address Translation Library
+Date: Mon, 22 Jan 2024 22:13:58 -0600
+Message-ID: <20240123041401.79812-1-yazen.ghannam@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Jonathan Corbet <corbet@lwn.net>, Vegard Nossum <vegard.nossum@oracle.com>
-Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Akira Yokosawa <akiyks@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: docs: requirements.txt has stopped working again
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F3:EE_|DS7PR12MB6358:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3b734bd-f536-471d-aa5b-08dc1bc9f55d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	eKaTKJeoFNwE4ZJPGk152zvWCL7mHw7cQqAStuDSTieZ1QoFeP7lcixXM2eODlcPDCjt0/MqquSxtvEY0hFEcjUh05jSgUvemapaCJi3AKPbp0cbb6fk///Ua2Fs89EGgZruzeYGLDyYVhAbmVH6Y7SOxG1rzuOI/RUZzWzNRSTllK4aXSMhdJHuRVhLn8s0fsG7J1SaVu1+oQq5xgnptMIP4tcCste+leiz44SYAqZ1BxTAFpvqoqfAj/Vm8w7kJZ6kgfxBPiqPsucvpPITUlVxwnv7qI8gZGoiiv6WNj2cRx7zUM7Cu+mqcvgJXNE0/+GozXIDeIjBro9GpI7sukEP/Gs2nkxt44127YkfYGa5EpzLeymjCHzkEm9bVAuha4Z7wn7PZpUSlRPodFbGgivoVuFHogI/M4ogTVR6P+XCyD2EzIunw1q4fxZb8sIzL4UfzHLh2WaKdSDxrP1ROk2zIBjlocDs6slaGsCerJOiDGgRU5yuyQodWyZ7cEIso5RVoJ16k6KRujrdO2MFtTwDR0XCpqULq0DO5fqwnGosH3pLBAZYcpvQxgrYA2RgkkHlz2kKdlJt6mPtoUQIwgl7plzupcoVw3R/HFVEE+3KjFxXmWBiXEEf8+L0L+2H2/5WwOBQWB0sjkQ+HFqZE8/j8yFxX3ih4r3J25jtOtFN7hX+VGC9BC7J8B2JryysdvK2El9QyAps+lylVZDyCWJ/TE5GACAl3mppgbzR8rAHGASD0LTvFq1L775VEGCUZEQuKxn0+eo8vI9gO60RXg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(136003)(376002)(346002)(39860400002)(230922051799003)(64100799003)(451199024)(82310400011)(1800799012)(186009)(40470700004)(46966006)(36840700001)(16526019)(47076005)(36860700001)(36756003)(41300700001)(86362001)(82740400003)(81166007)(356005)(83380400001)(478600001)(8676002)(6666004)(7696005)(8936002)(4326008)(316002)(70586007)(70206006)(5660300002)(110136005)(54906003)(2906002)(26005)(2616005)(336012)(44832011)(1076003)(426003)(40460700003)(40480700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 04:15:39.7294
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3b734bd-f536-471d-aa5b-08dc1bc9f55d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000044F3.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6358
 
 Hi all,
 
-Annoyingly, installing Sphinx 2.4.4 using requirements.txt of v6.8-rc1
-ends up in a run-time error which looks similar to the one Vegard
-reported in commit f4cac0f74658 ("Documentation: constrain alabaster
-package to older versions").
+This revision includes a few minor fixups from Boris, Christophe, and
+John.
 
-The new error is from sphinxcontrib.applehelp which reads:
+Also, it includes the definition and use of a new "struct atl_err" in
+order to avoid build dependencies on x86 MCE.
 
-    Sphinx version error:
-    The sphinxcontrib.applehelp extension used by this project needs
-    at least Sphinx v5.0; it therefore cannot be built with this version.
+Thanks,
+Yazen
 
-Do we want to continue whack-a-mole update for Sphinx 2.4.4?
+Yazen Ghannam (3):
+  RAS: Introduce AMD Address Translation Library
+  EDAC/amd64: Use new AMD Address Translation Library
+  Documentation: RAS: Add index and address translation section
 
-        Thanks, Akira
+ Documentation/RAS/address-translation.rst     |  24 +
+ .../RAS/{ras.rst => error-decoding.rst}       |  11 +-
+ Documentation/RAS/index.rst                   |  14 +
+ Documentation/index.rst                       |   2 +-
+ MAINTAINERS                                   |   7 +
+ drivers/edac/Kconfig                          |   1 +
+ drivers/edac/amd64_edac.c                     | 287 +-------
+ drivers/ras/Kconfig                           |   1 +
+ drivers/ras/Makefile                          |   2 +
+ drivers/ras/amd/atl/Kconfig                   |  20 +
+ drivers/ras/amd/atl/Makefile                  |  18 +
+ drivers/ras/amd/atl/access.c                  | 106 +++
+ drivers/ras/amd/atl/core.c                    | 225 ++++++
+ drivers/ras/amd/atl/dehash.c                  | 407 +++++++++++
+ drivers/ras/amd/atl/denormalize.c             | 617 ++++++++++++++++
+ drivers/ras/amd/atl/internal.h                | 297 ++++++++
+ drivers/ras/amd/atl/map.c                     | 665 ++++++++++++++++++
+ drivers/ras/amd/atl/reg_fields.h              | 603 ++++++++++++++++
+ drivers/ras/amd/atl/system.c                  | 281 ++++++++
+ drivers/ras/amd/atl/umc.c                     |  41 ++
+ drivers/ras/ras.c                             |  31 +
+ include/linux/ras.h                           |  16 +
+ 22 files changed, 3390 insertions(+), 286 deletions(-)
+ create mode 100644 Documentation/RAS/address-translation.rst
+ rename Documentation/RAS/{ras.rst => error-decoding.rst} (73%)
+ create mode 100644 Documentation/RAS/index.rst
+ create mode 100644 drivers/ras/amd/atl/Kconfig
+ create mode 100644 drivers/ras/amd/atl/Makefile
+ create mode 100644 drivers/ras/amd/atl/access.c
+ create mode 100644 drivers/ras/amd/atl/core.c
+ create mode 100644 drivers/ras/amd/atl/dehash.c
+ create mode 100644 drivers/ras/amd/atl/denormalize.c
+ create mode 100644 drivers/ras/amd/atl/internal.h
+ create mode 100644 drivers/ras/amd/atl/map.c
+ create mode 100644 drivers/ras/amd/atl/reg_fields.h
+ create mode 100644 drivers/ras/amd/atl/system.c
+ create mode 100644 drivers/ras/amd/atl/umc.c
+
+-- 
+2.34.1
+
