@@ -1,177 +1,136 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BF3481C7;
-	Tue, 23 Jan 2024 16:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22C081AD0;
+	Tue, 23 Jan 2024 16:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706027779; cv=none; b=AXg/hzX82jAoYMNfaWKNGs/lB3o5cEP/D041eIdf6HaZX5qAb3mzxUUdSl+TdCc5qCvFOm+sooHGZ1ve3jc3BzeMO/7fifj/770hQuIXCDpK7XKA5B2lrqArgYSOduywl/yJ1+NJUZm2e0LJ7pxBPZCwxb7wZ45D6WHA1U3tpCo=
+	t=1706028439; cv=none; b=S/Rl3TLqRSOPd/rVOnHlL30iueYEbmvZOEcizCW6LvQaBbrcPwqDF3xcNlJBgnQ7GNrr/wK2APKX/AC5e6esxvbFEiZ/kvX41s0CcB9hrxe2qwuX/GAAudUfwB2t0NBgU2biOkVaqQkg9yxhonKArXoS/q5MHBrPLgYEDzh5Vq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706027779; c=relaxed/simple;
-	bh=mg1lFDQ2Cc93Q00sMStqVpL8+TpnAXOykvzRqppkaQY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A0Scfbg1Z/gzHRuWrJjoA+z5/Ebm6hwAPcegNSscf7HLuQfnKrHblKIAcPuWODreYeaxEX+Y5fv0DfzEt3TxV5Kr8KjQ8vhpqkbvFWm1zt0oFaccUDwboWd7/raOch78pqWLT59LpiCdstos6824CI2Tu9Oxm81VmzbZQsv+yCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=aI5GPVMb; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1706028439; c=relaxed/simple;
+	bh=ABB1vlQxv/0V2+G9TW5mFcBYo1D2QEKJLsH+lva718Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YnZqM4wQTN8iJinmPtXMODqzjr7fBcy3uJH7q5yjXGthixax3W1Ctrxq1hEkSgxUdZ/8jpCuAr5tTuzKApgwpeOWk5j5gjUjj2JDd/hSIwjDTmE5z2sxcU3VUs25NMfmlySLwcgKpTUGUcPWG4CGkj9eqITBXZOTCzEDKE8sggs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BjTq9gpE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Cee1Fhzz; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="aI5GPVMb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=l/85CMUwYvGkFstcoi4Kb56LZAx3H/rR4TH74ZR+ABU=; b=aI5GPVMbgrAMQLi/sxpdR2JIEB
-	lD7i+cyhbu5o25Cq3bZOXaKDk8cy0Gmn/iCiM5grQc/Lgv5UbI2usWWgflQ0WEMXvX/i374t61Sp8
-	JXyHiJfmV1B9tBrrumUkhF4+2QzxPqvR5LjPfK1GpAcTrn3pSCZ87oSUkCMmgZSbzgtfIgXTUbGZP
-	B5aJXDK7/UCVmXh2ORo8l0dcCzSBAvDFBXvN+X/ZZMVGJlp1VT7uYvVFvsMO6r3OCSG3dac52Kz7r
-	dhMY/wsZf7J+sYDfDey0TJCtGdPZSb8do/Sgu6OnmJ1nLj94n0+uoVuMExEsGDtLPU++QWS5/6er8
-	75aVPHTQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33630)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rSJkv-0002kH-2j;
-	Tue, 23 Jan 2024 16:36:09 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rSJks-00025O-9V; Tue, 23 Jan 2024 16:36:06 +0000
-Date: Tue, 23 Jan 2024 16:36:06 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 05/21] ACPI: Rename ACPI_HOTPLUG_CPU to include
- 'present'
-Message-ID: <Za/q9jivG4OdZM0f@shell.armlinux.org.uk>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
- <E1rDOgD-00Dvk2-3h@rmk-PC.armlinux.org.uk>
- <CAJZ5v0g9nfLrEf9u4Ksw6BOWJQ9iv8Z-O8RsLU6jR5zk0ahxRw@mail.gmail.com>
- <20240122180013.000016d5@Huawei.com>
- <Za++/11n5KA1VS3p@shell.armlinux.org.uk>
- <CAJZ5v0h7wsLt8d3ZoLXsK1=crAx66T42WDKNoHcg8CiHpAjS8g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BjTq9gpE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Cee1Fhzz"
+From: Anna-Maria Behnsen <anna-maria@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1706028435;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=92l9Ny1uPwtTpjOT9VYGZX+1CebFF3Ee9CkJCelMiYk=;
+	b=BjTq9gpE6K+bqH9UgYcdfG0zBNSnLk7U8rkNPaZX0hdhFrsb+bNBxv0j6I+1dAtMCUKIkz
+	6e59WIhJJdqV3H1KYBDyp85spM9LbPJuHIQz89uP9TQAgn0yls2a7Aqcbm7PAa2/CN3Tb/
+	/AJbkRrK2YURWpWq/wxcB7K84J1Vb4ifam8srBIHK0VDNxUs8UOGZ2kkz57vc4vFdtPIrA
+	Cyu+jnSReTVSdNdZc0YoXO0FUlw5f5tGunPP4IzSamucW1FvTwll0l8Fto/PukM3ig1xpJ
+	A4e9v34GkDjuLmqYesVpjauB1Gu+iFZT9dbfZXz9Af3xlEVK4BOS52JoKJLyqg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1706028435;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=92l9Ny1uPwtTpjOT9VYGZX+1CebFF3Ee9CkJCelMiYk=;
+	b=Cee1FhzzonzVFWpipJGa1On/BqCneWof1t6vle79sTWaUbhLIRxSd1+VwvYmmY/Df1/3lw
+	VsX+NGM9Zr0yM9DA==
+To: linux-kernel@vger.kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	John Stultz <jstultz@google.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	linux-doc@vger.kernel.org,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>
+Subject: [PATCH 0/8] timers and Documentation: Cleanup
+Date: Tue, 23 Jan 2024 17:46:54 +0100
+Message-Id: <20240123164702.55612-1-anna-maria@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0h7wsLt8d3ZoLXsK1=crAx66T42WDKNoHcg8CiHpAjS8g@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Tue, Jan 23, 2024 at 05:15:54PM +0100, Rafael J. Wysocki wrote:
-> On Tue, Jan 23, 2024 at 2:28 PM Russell King (Oracle)
-> <linux@armlinux.org.uk> wrote:
-> >
-> > On Mon, Jan 22, 2024 at 06:00:13PM +0000, Jonathan Cameron wrote:
-> > > On Mon, 18 Dec 2023 21:35:16 +0100
-> > > "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> > >
-> > > > On Wed, Dec 13, 2023 at 1:49 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
-> > > > >
-> > > > > From: James Morse <james.morse@arm.com>
-> > > > >
-> > > > > The code behind ACPI_HOTPLUG_CPU allows a not-present CPU to become
-> > > > > present.
-> > > >
-> > > > Right.
-> > > >
-> > > > > This isn't the only use of HOTPLUG_CPU. On arm64 and riscv
-> > > > > CPUs can be taken offline as a power saving measure.
-> > > >
-> > > > But still there is the case in which a non-present CPU can become
-> > > > present, isn't it there?
-> > >
-> > > Not yet defined by the architectures (and I'm assuming it probably never will be).
-> > >
-> > > The original proposal we took to ARM was to do exactly that - they pushed
-> > > back hard on the basis there was no architecturally safe way to implement it.
-> > > Too much of the ARM arch has to exist from the start of time.
-> > >
-> > > https://lore.kernel.org/linux-arm-kernel/cbaa6d68-6143-e010-5f3c-ec62f879ad95@arm.com/
-> > > is one of the relevant threads of the kernel side of that discussion.
-> > >
-> > > Not to put specific words into the ARM architects mouths, but the
-> > > short description is that there is currently no demand for working
-> > > out how to make physical CPU hotplug possible, as such they will not
-> > > provide an architecturally compliant way to do it for virtual CPU hotplug and
-> > > another means is needed (which is why this series doesn't use the present bit
-> > > for that purpose and we have the Online capable bit in MADT/GICC)
-> > >
-> > > It was a 'fun' dance of several years to get to that clarification.
-> > > As another fun fact, the same is defined for x86, but I don't think
-> > > anyone has used it yet (GICC for ARM has an online capable bit in the flags to
-> > > enable this, which was remarkably similar to the online capable bit in the
-> > > flags of the Local APIC entries as added fairly recently).
-> > >
-> > > >
-> > > > > On arm64 an offline CPU may be disabled by firmware, preventing it from
-> > > > > being brought back online, but it remains present throughout.
-> > > > >
-> > > > > Adding code to prevent user-space trying to online these disabled CPUs
-> > > > > needs some additional terminology.
-> > > > >
-> > > > > Rename the Kconfig symbol CONFIG_ACPI_HOTPLUG_PRESENT_CPU to reflect
-> > > > > that it makes possible CPUs present.
-> > > >
-> > > > Honestly, I don't think that this change is necessary or even useful.
-> > >
-> > > Whilst it's an attempt to avoid future confusion, the rename is
-> > > not something I really care about so my advice to Russell is drop
-> > > it unless you are attached to it!
-> >
-> > While I agree that it isn't a necessity, I don't fully agree that it
-> > isn't useful.
-> >
-> > One of the issues will be that while Arm64 will support hotplug vCPU,
-> > it won't be setting ACPI_HOTPLUG_CPU because it doesn't support
-> > the present bit changing. So I can see why James decided to rename
-> > it - because with Arm64's hotplug vCPU, the idea that ACPI_HOTPLUG_CPU
-> > somehow enables hotplug CPU support is now no longer true.
-> >
-> > Keeping it as ACPI_HOTPLUG_CPU makes the code less obvious, because it
-> > leads one to assume that it ought to be enabled for Arm64's
-> > implementatinon, and that could well cause issues in the future if
-> > people make the assumption that "ACPI_HOTPLUG_CPU" means hotplug CPU
-> > is supported in ACPI. It doesn't anymore.
-> 
-> On x86 there is no confusion AFAICS.  It's always meant "as long as
-> the platform supports it".
+Hi,
 
-That's x86, which supports physical CPU hotplug. We're introducing
-support for Arm64 here which doesn't support physical CPU hotplug.
+initially the plan was to simply transform already existing comments in
+timer code into kernel-doc DOC blocks, and reference them inside a *.rst
+file. After trying to get familiar with the kernel documentation by reading
+Documentation/doc-guide/* and have a look at the existing timer related
+kernel documentation (which is below Documentation/timers and also below
+Documentation/driver-api), the list what should/could be improved started
+to grow.
 
-						ACPI-based	Physical	Virtual
-Arch	HOTPLUG_CPU	ACPI_HOTPLUG_CPU	Hotplug		Hotplug		Hotplug
-Arm64	Y		N			Y		N		Y
-x86	Y		Y			Y		Y		Y
+So the aim of the queue is to do the first step for moving the timer
+related stuff into the 'core-api book'. It contains the following changes:
 
-So ACPI_HOTPLUG_CPU becomes totally misnamed with the introduction
-of hotplug on Arm64.
+- Do not expose internal hrtimer documentation (to prevent people of
+  thinking they should use it somehow directly)
 
-If we want to just look at stuff from an x86 perspective, then yes,
-it remains correct to call it ACPI_HOTPLUG_CPU. It isn't correct as
-soon as we add Arm64, as I already said.
+- Add missing documentation and update existing ones to be compatible with
+  kernel-doc/rst
 
-And honestly, a two line quip to my reasoned argument is not IMHO
-an acceptable reply.
+- Create a subfolder in core-api to make this the final destination of
+  up-to-date timer documentation. Add banner to already existing timer
+  related documentation to make sure they are really up to date before they
+  are moved to the final destination.
 
-... getting close to throwing the rag in over this.
+- Move timer API from driver-api to core-api
+
+- Add two files which make (in code hidden) timer documentation accessible
+  via kernel documentation
+
+Thanks,
+
+	Anna-Maria
+
+
+Anna-Maria Behnsen (8):
+  include/hrtimers: Move hrtimer base related definitions into
+    hrtimer_defs
+  hrtimers: Update formatting of documentation
+  tick/sched: Add function description for tick_nohz_next_event()
+  timers: Add struct member description for timer_base
+  jiffies: Transform comment about time_* functions into DOC block
+  Documentation: Create a new folder for all timer internals
+  Documentation: Move "core core" api into a separate file
+  timers: Add timer wheel documentation
+
+ Documentation/core-api/core-api.rst           |  14 ++
+ Documentation/core-api/index.rst              |   5 +-
+ Documentation/core-api/kernel-api.rst         |  12 +-
+ Documentation/core-api/timers/api.rst         |  63 ++++++
+ Documentation/core-api/timers/index.rst       |  32 +++
+ .../core-api/timers/timer-list-timers.rst     |  13 ++
+ Documentation/core-api/timers/timer-wheel.rst |  38 ++++
+ Documentation/driver-api/basics.rst           |  24 ---
+ Documentation/timers/highres.rst              |   5 +
+ Documentation/timers/hpet.rst                 |   5 +
+ Documentation/timers/hrtimers.rst             |   5 +
+ Documentation/timers/index.rst                |   5 +
+ Documentation/timers/no_hz.rst                |   4 +
+ Documentation/timers/timekeeping.rst          |   5 +
+ Documentation/timers/timers-howto.rst         |   5 +
+ include/linux/hrtimer.h                       | 117 +----------
+ include/linux/hrtimer_defs.h                  | 102 ++++++++++
+ include/linux/jiffies.h                       |  15 +-
+ include/linux/timer.h                         |  15 +-
+ kernel/time/hrtimer.c                         |  18 +-
+ kernel/time/tick-sched.c                      |  10 +
+ kernel/time/timer.c                           | 184 ++++++++++++------
+ 22 files changed, 471 insertions(+), 225 deletions(-)
+ create mode 100644 Documentation/core-api/core-api.rst
+ create mode 100644 Documentation/core-api/timers/api.rst
+ create mode 100644 Documentation/core-api/timers/index.rst
+ create mode 100644 Documentation/core-api/timers/timer-list-timers.rst
+ create mode 100644 Documentation/core-api/timers/timer-wheel.rst
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.39.2
+
