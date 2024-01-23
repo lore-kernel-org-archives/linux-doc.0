@@ -1,43 +1,43 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B6A612EA;
-	Tue, 23 Jan 2024 17:03:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315A27FBDE;
+	Tue, 23 Jan 2024 17:09:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706029414; cv=none; b=fpiIF5NJ02VNM4axULYwR/HF011k9AMc+3ia+OpVUOAEkaG0K24hrcTHQtfZmIhN02hIwaHFZhBegQOBLH2M8eY+FySS+IBfNuNn82wpnWq4kiSp+dRti1A4RpLvQ1w2TB0MDk2okJRodKLwLdKnYY29f73MIssU7bWFH5+i0Os=
+	t=1706029785; cv=none; b=W/DxjJEPu8x58FE9b7Qp300bMdhWKyN2hMPS5htjTL7hYpl2aPIuMgXX6TOqkQAOQ/aX8q8npaZfdQ0/DgOxaQC2TsAuhQcZQlc0TA/O4mlOImAk5ud3egWEqF6G1EyZannBrc1Z3X+uFtpPE+neJm3oWMnWvaRBswBGWYwvKKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706029414; c=relaxed/simple;
-	bh=dhaOXh2GARZDksXJshb21yrfg6+IcvSAugnOcnHVtsw=;
+	s=arc-20240116; t=1706029785; c=relaxed/simple;
+	bh=f9UIkkGmIWiROu5ZoBTFMAujbrRQ5tAje4pYEsO7wuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f+uykh5dg0yslRK1Rgeg6vTqc5G81UhfqqPS77WtHRmfDz++U75B8OHFcZIgRJJpamu+KZa4izOaZeJg4Yb/6moM7J22QMiA+GtIBclLy2ylOxwSpOeZr2HtdgjPuc82UgwZ+x6qDRUridLR1QqzJfbzhP2B/WKk/5jnB694j3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=kbHw1rxN; arc=none smtp.client-ip=78.32.30.218
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7FN0Wp7BlDsPbE0TPKQfuwryEEJug//8ODLdPugJHZz49bbi34vVutiSlYprQ5JsDxN/aJCad+5rswxTvmuULhxR2tJKbfsl/igJjH+GULjZZwjBvvqtotN0+/84rYcfg8k7X0WBj1F3T7n1TiWsVhhfKGH6y2YqkgvDRoHRHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=wgYAY9fY; arc=none smtp.client-ip=78.32.30.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="kbHw1rxN"
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="wgYAY9fY"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
 	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=1SkQg56/BLG4/1gwWBP97+wWCTrDFDMYyBkjnUU6eAM=; b=kbHw1rxNwZD0RUbN1KLduWBFOH
-	QfRT+1+QLjl7qiXmjE8EWQV5U9//1aT5fTd9Aeun5lKEXRhLzIZkukxJwfrLtdzRG2YNbQxqGbbnc
-	OL9e74QhywozebmNd60jF7+iTMRHoFtyX+/kCaHSF/cZFTQRDdroBVVWRk6uAKusvT0giAvYdc3ZK
-	2piRoSVSWzZuJTZINc7kHjc9Y5QWceDBVinR9YITIXvQltSJ72k+oRPUeyDvSXdYmtofsZG0LAoDM
-	1JE8d6NhZwEKAepZVlf5393+S90bWL1P1Z0FyKmM/fwB7PKPtZRbed8/wnTHR3Tvv0TmVdSb3HUXK
-	2fBz7clw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53244)
+	bh=KxYGaRQ9BTEt7m6CX0rx1QWJ078+bbqv0JtUBpFz0ig=; b=wgYAY9fYZRzWZTuR5+OGw7/HWR
+	ikAmCEJlHMmc0SOXFTJFa9IS8b8kxgOf3yVf8xu/9wkqqKX+tBWhx6i2SK7tSBqgZL68TC21N3KC4
+	8Hp6L2orv96i+AAzQhuiZ87ayTkvpNGWhnUBt7R/uxbYSNIUUy/XI3P0zDeUyDx5cyjOhzQaKh4v1
+	rpMUIxWG1CsvUH62fWfoU8/E19SaNa9ra2R5NtcueELM28nGsA2W306KCpCMPPrHhFF4ErfNPfGN6
+	fHlpjSJZV58KpbVB4tAEBltD4oc8bP3o0u83nSXl/E/Gyn0W3gwap5FPdCmTiKxLIInnPAoZj9URf
+	fFjqdeqw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55506)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <linux@armlinux.org.uk>)
-	id 1rSKBD-0002nw-0t;
-	Tue, 23 Jan 2024 17:03:19 +0000
+	id 1rSKHJ-0002op-1F;
+	Tue, 23 Jan 2024 17:09:37 +0000
 Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
 	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rSKBA-00026M-Ao; Tue, 23 Jan 2024 17:03:16 +0000
-Date: Tue, 23 Jan 2024 17:03:16 +0000
+	id 1rSKHI-00027L-2P; Tue, 23 Jan 2024 17:09:36 +0000
+Date: Tue, 23 Jan 2024 17:09:35 +0000
 From: "Russell King (Oracle)" <linux@armlinux.org.uk>
 To: Danielle Ratson <danieller@nvidia.com>
 Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
@@ -48,11 +48,11 @@ Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
 	paul.greenwalt@intel.com, jiri@resnulli.us,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	mlxsw@nvidia.com, petrm@nvidia.com, idosch@nvidia.com
-Subject: Re: [RFC PATCH net-next 1/9] ethtool: Add ethtool operation to write
- to a transceiver module EEPROM
-Message-ID: <Za/xVHkfF0fV84ax@shell.armlinux.org.uk>
+Subject: Re: [RFC PATCH net-next 6/9] net: sfp: Add more extended compliance
+ codes
+Message-ID: <Za/yz7xcZORpZnuY@shell.armlinux.org.uk>
 References: <20240122084530.32451-1-danieller@nvidia.com>
- <20240122084530.32451-2-danieller@nvidia.com>
+ <20240122084530.32451-7-danieller@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,42 +61,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240122084530.32451-2-danieller@nvidia.com>
+In-Reply-To: <20240122084530.32451-7-danieller@nvidia.com>
 Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Mon, Jan 22, 2024 at 10:45:22AM +0200, Danielle Ratson wrote:
->  /**
-> - * struct ethtool_module_eeprom - EEPROM dump from specified page
-> - * @offset: Offset within the specified EEPROM page to begin read, in bytes.
-> - * @length: Number of bytes to read.
-> - * @page: Page number to read from.
-> - * @bank: Page bank number to read from, if applicable by EEPROM spec.
-> + * struct ethtool_module_eeprom - plug-in module EEPROM read / write parameters
-> + * @offset: Offset within the specified page, in bytes.
-> + * @length: Number of bytes to read / write.
-> + * @page: Page number.
-> + * @bank: Bank number, if supported by EEPROM spec.
+On Mon, Jan 22, 2024 at 10:45:27AM +0200, Danielle Ratson wrote:
+> SFF-8024 is used to define various constants re-used in several SFF
+> SFP-related specifications.
+> 
+> Add SFF-8024 extended compliance code definitions for CMIS compliant
+> modules and use them in the next patch to determine the firmware flashing
+> work.
+> 
+> Signed-off-by: Danielle Ratson <danieller@nvidia.com>
+> Reviewed-by: Petr Machata <petrm@nvidia.com>
 
-I suppose I should have reviewed the addition of this (I can't recall
-whether I got the original or not.)
+Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-If one looks at SFF-8472, then the first 128 bytes of the EEPROM at
-0x50 (0xA0 on the wire) are not paged. Whereas bytes 128..255 are the
-paged bytes. Therefore, "offset within the specified page" can sensibly
-be interpreted as referring to the EEPROM at 0x50, at an offset of
-128 + offset.
-
-Meanwhile, the actual implementation doesn't do that - the offset is
-the offset from the beginning of the EEPROM, and offsets >= 128 access
-the paged area.
-
-What this means is that the parameter description here is basically
-wrong, both before and after your change.
-
-This really ought to be fixed so that we describe things correctly
-rather than misleading people who read documentation. Otherwise, it's
-a recipe for broken implementations... and it's also completely
-pointless documenting it if the documentation is wrong.
+Thanks!
 
 -- 
 RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
