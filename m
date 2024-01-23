@@ -1,106 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B7F60DCB;
-	Tue, 23 Jan 2024 15:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B335C5FF07;
+	Tue, 23 Jan 2024 15:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706024260; cv=none; b=uDls7Pv0zWVb4SYRXBuB0hn0zbOr7rz68yqm467cRu0QkzWYzutXzhw/sBXqiLP0hh84kb5fRU3SpUGMvyzwYBGV5d9WutGjafycWrFX9bsosJ5SvwKb3+WCrQBtje8z7kfBAX9sSfoBNd6n4yolvnqtu5A0VnpdetjYN7uooX8=
+	t=1706024672; cv=none; b=ZXQ84dO1Ia2jcgGhYOuSZGl/igBobDiuVlMHfK6utD/aWvqRyaoy34bc4WzUyfvifi/u7jX1SqVhEzi5+Cq0BjAIeneKoBG56cH6VXG8TvFFyFBE4yihW9CavAJuW1UqGZk4+lbhLmqpiVR2gItgltu5vTOM31fBPIvg17MyaGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706024260; c=relaxed/simple;
-	bh=MLAhwwGHU/3Yecw28oC/pA0NXAJpTVerqjiXcGUDpXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NTVwZ1LX1vf6py0WfqR4AM7LIVWdnKisfv3Wyl+yXpQduFh4flfhJnYWeHMRm8GWjaF009N1hpzhDEtmOgvrS3VEG68hutZiGoVIea+a+tJpACglAFlO6MWkuNb0XKBlSQ+L6ir5FFt5e/DZl6FwSyNiJzEsrOk9dUN+Yh0VZZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2365EC43394;
-	Tue, 23 Jan 2024 15:37:37 +0000 (UTC)
-Date: Tue, 23 Jan 2024 10:39:07 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Huang Yiwei <quic_hyiwei@quicinc.com>
-Cc: <mhiramat@kernel.org>, <mark.rutland@arm.com>, <mcgrof@kernel.org>,
- <keescook@chromium.org>, <j.granados@samsung.com>,
- <mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
- <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <quic_bjorande@quicinc.com>, <quic_tsoni@quicinc.com>,
- <quic_satyap@quicinc.com>, <quic_aiquny@quicinc.com>, <kernel@quicinc.com>,
- Ross Zwisler <zwisler@google.com>, Joel Fernandes <joel@joelfernandes.org>
-Subject: Re: [PATCH v3] tracing: Support to dump instance traces by
- ftrace_dump_on_oops
-Message-ID: <20240123103907.636c1840@gandalf.local.home>
-In-Reply-To: <20240123094900.6f96572c@gandalf.local.home>
-References: <20240119080824.907101-1-quic_hyiwei@quicinc.com>
-	<20240119115625.603188d1@gandalf.local.home>
-	<0279a4cb-ced0-447a-a06f-37c38650ed5b@quicinc.com>
-	<20240123094900.6f96572c@gandalf.local.home>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1706024672; c=relaxed/simple;
+	bh=+UBMBwqjM4LUVFP6+vP3hZIWmeh/+RFBlTBKRI4wpMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ii/HgVgFQwn9JzHVmOGDqZzJYvbFtkdWLowQ+Co2A8l6w0teJhcXS95ZmcoAKC5rjV++O1Kmfprjoq7AI7XxC3acvnLtNDxV7yL2r5zOJiyyZ/MDNHtg5num2DNkbH3W+xLA/Qm8HqyuGNJ1cqjRe+5nup4xrAuby7qGjtEHpgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 178871FB;
+	Tue, 23 Jan 2024 07:45:12 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.58])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC65E3F5A1;
+	Tue, 23 Jan 2024 07:44:25 -0800 (PST)
+Date: Tue, 23 Jan 2024 15:44:23 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
+Subject: Re: [PATCH 1/4] arm64/sve: Remove bitrotted comment about syscall
+ behaviour
+Message-ID: <Za/e15zUOEaa1b7d@e133380.arm.com>
+References: <20240122-arm64-sve-sme-doc-v1-0-3d492e45265b@kernel.org>
+ <20240122-arm64-sve-sme-doc-v1-1-3d492e45265b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240122-arm64-sve-sme-doc-v1-1-3d492e45265b@kernel.org>
 
-On Tue, 23 Jan 2024 09:49:00 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On Mon, Jan 22, 2024 at 08:41:51PM +0000, Mark Brown wrote:
+> When we documented that we always clear state not shared with FPSIMD we
 
-> On Tue, 23 Jan 2024 18:23:58 +0800
-> Huang Yiwei <quic_hyiwei@quicinc.com> wrote:
-> 
-> > > And if we really want to be fancy!
-> > > 
-> > > 	ftrace_dump_on_opps[=orig_cpu | =<instance> | =orig_cpu:<instance> ][,<instance> | ,<instance>:orig_cpu]
-> > >     
-> > Yeah, I agree to make the parameter more flexible.
-> > 
-> > "=orig_cpu:<instance>" means to dump global and another instance?  
-> 
-> No, I added a comma for that:
-> 
->   =,orig_cpu:<instance>
-> 
-> Would mean to dump all of global and just the origin CPU of the instance.
-> 
-> > 
-> > I'm thinking of the following format:
-> > 
-> > ftrace_dump_on_opps[=orig_cpu | =<instance>][,<instance> | 
-> > ,<instance>=orig_cpu]
-> > 
-> > Here list some possible situations:
-> > 
-> > 1. Dump global on orig_cpu:
-> > ftrace_dump_on_oops=orig_cpu
-> > 
-> > 2. Dump global and instance1 on all cpu, instance2 on orig_cpu:
-> > ftrace_dump_on_opps,<instance1>,<instance2>=orig_cpu
-> > 
-> > 3. Dump global and instance1 on orig_cpu, instance2 on all cpu:
-> > ftrace_dump_on_opps=orig_cpu,<instance1>=orig_cpu,<instance2>
-> > 
-> > 4. Dump instance1 on all cpu, instance2 on orig_cpu:
-> > ftrace_dump_on_opps=<instance1>,<instance2>=orig_cpu
-> > 
-> > 5. Dump instance1 and instance2 on orig_cpu:
-> > ftrace_dump_on_opps=<instance1>=orig_cpu,<instance2>=orig_cpu
-> > 
-> > This makes orig_cpu dump for global same as instance, the parameter may 
-> > seems more unified and users don't need to remember another markers to 
-> > request orig_cpu dump.
-> > 
-> > But one problem here is if there's an instance named "orig_cpu", then we 
-> > may not dump it correctly.  
-> 
-> I would put that under:
-> 
->    Patient: Doctor it hurts me when I do this
->    Doctor:  Then don't do that
-> 
-> ;-)
+Where / when?
 
-Oh, and I'm fine with what you proposed above.
+> didn't catch all of the places that mentioned that state might not be
+> cleared, remove a lingering reference.
+> 
+> Reported-by: Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  Documentation/arch/arm64/sve.rst | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/Documentation/arch/arm64/sve.rst b/Documentation/arch/arm64/sve.rst
+> index 0d9a426e9f85..b45a2da19bf1 100644
+> --- a/Documentation/arch/arm64/sve.rst
+> +++ b/Documentation/arch/arm64/sve.rst
+> @@ -117,11 +117,6 @@ the SVE instruction set architecture.
+>  * The SVE registers are not used to pass arguments to or receive results from
+>    any syscall.
+>  
+> -* In practice the affected registers/bits will be preserved or will be replaced
+> -  with zeros on return from a syscall, but userspace should not make
+> -  assumptions about this.  The kernel behaviour may vary on a case-by-case
+> -  basis.
+> -
 
--- Steve
+This was originally an intentionally conservative statement, to allow
+the kernel the flexibility to relax the register zeroing behaviour in
+the future.  It would have permitted not always disabling a task's SVE
+across a syscall, for example.  There were some concerns about security
+and testability that meant that we didn't use this flexibility to begin
+with.
 
+If we are making an irrevocable commitment not to use this flexibility
+ever, then this comment can go, but if we're not totally sure then I
+think it would be harmless to keep it (?)
+
+(Feel free to point me to the relevant past discussion that I may have
+missed.)
+
+[...]
+
+Cheers
+---Dave
