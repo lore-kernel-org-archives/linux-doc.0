@@ -1,298 +1,185 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2087.outbound.protection.outlook.com [40.107.94.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849422C1A7;
-	Tue, 23 Jan 2024 21:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706044378; cv=none; b=WVre5vNC6dqw+kjwY2ZbUSeRl5ekrB1JxFeykWwG9Vgripi45jouaUJm3U9/alwSLDyJAa3NFpqmsltyzUWZ42pKcpRzQ1e1AtqzPBUHUtscsi8VvTTq1uIEJKDIybWDP/7OSISTb9H8LMrMhk/S3dvWzx77YTuT1BE7iJuyTAQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706044378; c=relaxed/simple;
-	bh=y2tVhOoHqbkrgoEwdopUBYrq/O3nTt8UTKN6fH85W78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b47DgCbvjNGRBE3Ebg5V7gh7K+Sc2Bc/JxfMIDG4/pEXp972M30NWoNcTy/KS/EPzf+9SH3JXPLNGbiN35ibrSOLKJqZyJUONQIr0OY/9WwT4N2DN9k1sdSgSqf33PX1tc8H5JWGt4z8tqLaOLFFV3DsETJdC9AShM4i/jWzfYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=khPcMMPP; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8AE53AB;
+	Tue, 23 Jan 2024 21:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.87
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706045270; cv=fail; b=a1tsSgrUJBnfJJ0XRy/36Sso1s/SGZ+GPmoLwJR/bb5ZzkfkppnuFS6ewNvYd5cUVvVfRMDhrHSjmeMKH9JmXkMD+HcAkSGcbxsz/VWdcPfsbHY3hZ/vnegN7T3M+iI7g7GVbrHQmNBoDPBAsAcRpXCOTZ7dPzBp4uEpqVHgdWI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706045270; c=relaxed/simple;
+	bh=5Il5MnLnNBOSnK6cz3YR7ynIM3PfFg4KqZu0/Y/uTuc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=r/CXEsEJxGq5ydIcOR0X9Bhw48kgLL48QbxyclEucnFKsMLZ4NPM6Ozsw1rA2RqwAyU7bGrRCa0vcDatRanerrZccrfgwcv5stL8oW7C2ggI/OG1T2+qW1vg21tazkEXUTXRmij0ARSKVsJ9RlBVmP1y5Xcq9H6Am5e2IrF67d0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com; spf=pass smtp.mailfrom=memverge.com; dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b=kV4svIQG; arc=fail smtp.client-ip=40.107.94.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="khPcMMPP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=SHg3OZ8rSfuStuI/t9nj9uzIE/yE48Lbl7/EYKvNYzQ=; b=khPcMMPPOS3B4SHAZHQpR7RIZd
-	z0s3275zIx+WRubbX4rCLVwWchIc3qCgsHQ3SwLBSBDibxOjWpdZE7n17u5PeYPR8bEUixN8TdGnV
-	tUzdOJ3cH38ZGg96a3RPK0Le/3lPA3HHqYnWBDe2Rr1Qq0ALcz2XOY+hOSS7f6wFs59Dvxa1eMwF+
-	fUimAV6KLbZbkzTlDfLDOyXIbY1cevpyffkEOj8oZWaSIA7Shw/Bpk6kPVR6XctAKYol+IABzZfTt
-	UA0Q4XsCOoepZOTZ96m6rptCs2EJNYKdmVTmM6SbZdtMydRWeBJQChp3Fz2W54mOdTUEaQh5PNI9s
-	x197biww==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56660)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rSO4f-00036p-05;
-	Tue, 23 Jan 2024 21:12:49 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rSO4b-0002Gq-Oh; Tue, 23 Jan 2024 21:12:45 +0000
-Date: Tue, 23 Jan 2024 21:12:45 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 05/21] ACPI: Rename ACPI_HOTPLUG_CPU to include
- 'present'
-Message-ID: <ZbArzbC19L1YxLHi@shell.armlinux.org.uk>
-References: <CAJZ5v0h7wsLt8d3ZoLXsK1=crAx66T42WDKNoHcg8CiHpAjS8g@mail.gmail.com>
- <Za/q9jivG4OdZM0f@shell.armlinux.org.uk>
- <CAJZ5v0gwe02uzAQoX0QDHo35OTEozpbnqC6vukjM3aE6HMq9WQ@mail.gmail.com>
- <ZbADTBLDEFtdglho@shell.armlinux.org.uk>
- <CAJZ5v0jh-EdrnjkJep++UDo+Uv4hmR7VV4KYVdF4CK2K+5XLtg@mail.gmail.com>
- <ZbAMjZoybVfiAGcT@shell.armlinux.org.uk>
- <CAJZ5v0gt=MR1JGsPZnZG_AqudA-KMmb4BOa_A6H9B6+Rhe_+JQ@mail.gmail.com>
- <ZbAdAdqqfXRuY3Xj@shell.armlinux.org.uk>
- <CAJZ5v0gsqbeJc4qX-AefOqu53=rDme2XzFXacWz_0zbVBoaXjw@mail.gmail.com>
- <ZbAoJO8f66Dg0lGF@shell.armlinux.org.uk>
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="kV4svIQG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O5bnl28pQbwDk5ae4FoMvZ+xkiKLh7XKD6U3kioM9UTBz63uu4phsIWkah/xixL98qgpwo5aUt7t5kNAO5mH7JvOmoVoOYY/wsD6HD7eXQWK1WwERhoLgbyoYa9SCqrKaKUkRHmvEnoUBky+wLBHzm5oAmIJEPMmX2wmcCicp2NHvKEsBsopjo13uIvYvoQv+iwfI8ee+7i/rKnjAacFFiiEjARz3F4I5mcnJBp7tHmGB2snfv9FiBpjkhKRRdGIh59kP6J4iziZrp07AF1Ov1ZV9WYwRTLarToOLLlUNp6BJXbRBG8CQ+2k0pv4FVGwAc73XoR86PjIOowylhooyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+uXAFGAn15May1pEX86LSoUj9Hyv7thC8GPpKvWgC3g=;
+ b=QevWbTw13R0MGBMGM0biLYFJsqaLORS7A86aCgfk9J64o9ddJHel89p3JBA5Fe6V65qdUJUjFG1kkGpWeQ/2vS01Vl4+NQfHBH4XOKdryXUy7paQJh7N9ntNEprUsh5ZMK0oMaf1i2hEwlWTGZgzsTbMIonRfjS8Yuw+qbBnzu6GqgyfpCLdniilN6sWi0m8a2v/zSG5Fh3BhAUu5JQhDze5y/DN+7CSCjqYiBE9z3ViVk2OoVoyDk19DKZF3fhgbetK8ORjipcHeOu4OpNKdAJ+EntMBEaeBMkXeWhD3UcBD4+XRMlpguuh6Xl+kuBQ7idnlypn9jdSAPxRblGUtg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+uXAFGAn15May1pEX86LSoUj9Hyv7thC8GPpKvWgC3g=;
+ b=kV4svIQGC37SjUBMtESne5cG3GGHWAtzbEMEPkb1V6qVwwdefcZ79Ce5cKYnh1fV+8agjui/JN07zXikTLYM3XGsoj/QHYe7til4fxJ4TH+tF9LrmBLgBKUlBq/HTrI4XMiCy6YVE0SdJkq4bEq0hn/q/eBpsMK30qvkJVNoL2M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by PH0PR17MB4374.namprd17.prod.outlook.com (2603:10b6:510:1d::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Tue, 23 Jan
+ 2024 21:27:44 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15%5]) with mapi id 15.20.7202.034; Tue, 23 Jan 2024
+ 21:27:44 +0000
+Date: Tue, 23 Jan 2024 16:27:35 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	corbet@lwn.net, akpm@linux-foundation.org, honggyu.kim@sk.com,
+	rakie.kim@sk.com, hyeongtak.ji@sk.com, mhocko@kernel.org,
+	vtavarespetr@micron.com, jgroves@micron.com,
+	ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com,
+	hannes@cmpxchg.org, dan.j.williams@intel.com,
+	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
+Subject: Re: [PATCH v2 3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
+ for weighted interleaving
+Message-ID: <ZbAvR+U+tyLvsh8R@memverge.com>
+References: <20240119175730.15484-1-gregory.price@memverge.com>
+ <20240119175730.15484-4-gregory.price@memverge.com>
+ <87jzo0vjkk.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <Za9GiqsZtcfKXc5m@memverge.com>
+ <Za9LnN59SBWwdFdW@memverge.com>
+ <87a5owv454.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a5owv454.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0023.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::28) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZbAoJO8f66Dg0lGF@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|PH0PR17MB4374:EE_
+X-MS-Office365-Filtering-Correlation-Id: de1dc1d1-f7af-4aec-e6e6-08dc1c5a22ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	AAAaxjHUfWiiKCz+X4zRhd6F6idczRjmGEcrJd6oWgRe9Prw08fbMDY0jnDBHLykvh/jqTcbTrsbu0XZdWfYzH+8Kd+L1FJHxGJGFg0qbbLyMXFzj8g8zhkKJb48DrSwAMiIfRX+3vIuvuolD8vo4ngxPJLRhNXwXXVGLVKN0MwJoFsC3+8RpA6Qnccu1bf04zw9zUvWNayNhGAFH15UHDvnncWksn8K/Gps8ytWRSShx+S22z/eErp989923FYRNWSvCGKraSQZOsA9y63wP4iqWzgcZRdX/7/PqgbHazxHmut9YoeRj7koMLWlfFiWRz7ZQAD+UdkN+V5WN5jv+H1uK7VWw7QyUO+kVK/2o0ZpO5a9+VGJtlmxWiBB3OHrxP4mO2DCFLLo/niQ1lsWjtsKdof/IEP/N3Hr02ddCGzdBTuJKyUy6ZZVTXeF6PgzeCCbktkJkqHGAsxj9gBK5aOdZ69y3JDvPN8Ep50nskQKG+1Dfok/ynwW5ZP/IG8yUv+dXf8v83u0bj3WzhSTQeigYU0Ak4mJQ+K2IyIPgcZhsM5CNVpYYh7F87L9Vn4V6516nwCSiAz+cNYti40M1IEJ2QS/4vkZBDdskbmUUS0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39840400004)(366004)(396003)(136003)(346002)(376002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(2906002)(7416002)(5660300002)(44832011)(316002)(6916009)(66556008)(66476007)(54906003)(66946007)(4326008)(8676002)(8936002)(6486002)(6666004)(478600001)(36756003)(38100700002)(86362001)(26005)(6512007)(41300700001)(2616005)(6506007)(16393002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?9osMhT33FDTSV7W1injJrk7wydqL2ha16DL7sq6V5Bkda5C65V6Hu4z2YQuq?=
+ =?us-ascii?Q?/cWctv26+Xk0amJETwQ4t4CP0CfJqQyKF4z4Ov+jlTuNvtAFxVq+5rl6ve0w?=
+ =?us-ascii?Q?ruUPQc/XbLxPirEuiBHvSvnuCT6PFzf7E46wULvgJMyqA3huikTK0gwKHV6p?=
+ =?us-ascii?Q?A6u5EF8itTHvddgJmgFKKhw7hZMu7kHipKnrY1qoPP3Z/0wH8nszn65Pkom2?=
+ =?us-ascii?Q?ym/VOBOCrFb8y+vzqioXeaifAJIFWY4zVHhqwar9fEqJXUjTbPu+KQ8vZnue?=
+ =?us-ascii?Q?GbCvv7ET00l2xsoriBT2oRRpuyggwAbxsbPlQePL1R8/Wn/RBGFQCbD8hxnr?=
+ =?us-ascii?Q?DvOAPLwy8BjJ6NrBhIC6APYJ2adYnYFMCSmZp77tBtfpqs7Zo61rP2A7wi6O?=
+ =?us-ascii?Q?bT1rBo+74tfBW3HmO2kk9oCZESInYiZfLnqR72GY4tdsqtd3J8fya2IGyD/y?=
+ =?us-ascii?Q?2j+Lz5PlYEghH9QGaQ5KumW47+zUWAQKZGEKPTyp8KtOpgkhH+MmBZ6+bKXa?=
+ =?us-ascii?Q?0YnfDdoFhJPBTgFIokJrCG3QaZ+WToYQCXUgmb6sts6Iv5b9O2y4oQNKbueO?=
+ =?us-ascii?Q?q5lipnzfAiWOoggBnRhlQi+q+bZIZPMOnt3VMIPVtyir4Djx/Kd79dtZ3zVL?=
+ =?us-ascii?Q?SboXFXS9ynEf72pWeOhxuGdk+kZwDtNhedL4P7WFPeDQltqXdin2XbSZUpYj?=
+ =?us-ascii?Q?s2yXWOTNil18KfF1bmbuIwZvK2tMxfw1R4oQ+0rerNi3kl04lL+7p4YjpV2Y?=
+ =?us-ascii?Q?bnwWzBlLklHrX3o+gZmbrTcsnih9p8Rsfpa5nkXv6LpH/lxg03+kqkCFwFy3?=
+ =?us-ascii?Q?m0DZtsYMq7hPSs0Px3IzEH2ETvMcZ1faGoVs24lqlQTaLHXPTU27/rjCF+Y7?=
+ =?us-ascii?Q?0lgk74VW4wkr1HiGeFeNWfsaDKoP3pNsPcIAX6wbqff0/Gm+OEsmQrMdf6WV?=
+ =?us-ascii?Q?p4q+23mEWOfilNeeNwWO1fvhfrBt57cO5jukN57fg438xQ8H+ZcU8xn1AB8k?=
+ =?us-ascii?Q?qnet48SjS7M7F5Uh67q9HRedLOxdsNTK4mXQUg3HD7oXtFFcgu7ryPt/rXOr?=
+ =?us-ascii?Q?rPzIjpqEU7sH773sWUKMgH8xOiCUpuh4eN7fDhkwEFwax6W7dYNmaRzsQ6cw?=
+ =?us-ascii?Q?nc9OS/T6Z6r86A6YCdC73Ci0GrStPmxZxeyjEt/kSI7xsxdWaWpZ98+UA+Jj?=
+ =?us-ascii?Q?QPbYeFXKqWq3jZ0ojH/dLBFxWeRPwEbgNvupsbfgQhLNk3HpEkBZWiLLXvi+?=
+ =?us-ascii?Q?9r295ou8IBzo6/54jWmUqZKKrUC1FdiEgzT4eED0qI8O8T57C7rqENzmC1rV?=
+ =?us-ascii?Q?wdEbK5gfcBKdl5JWbQ4yrS7YKJ/4/OGccwPa8YCMMKWEGyS3yJBPDaPiRotQ?=
+ =?us-ascii?Q?FqujcnllVTsuVUIC4qoIzWkoT2jziN8/Lbf7mzYcgC8nAQ/nJ4LM9NPxGuG0?=
+ =?us-ascii?Q?ZUVu3loctVIb6WdAaHdtRk6eS89b56aQ93ynmEW1W18uSjrA6wNFe65ywQTt?=
+ =?us-ascii?Q?sMJR4X7TUCCDv636coW26QaMIX4y+TCbY7yZrqH1j3gK8OHpAerUZNoVwN5I?=
+ =?us-ascii?Q?ztCPpsGUENXne++qXqopmd5gKnhDR+oip5oJolGKHWW1xaK5+Ppq2v2G0qSk?=
+ =?us-ascii?Q?ZQ=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de1dc1d1-f7af-4aec-e6e6-08dc1c5a22ea
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 21:27:43.9741
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HJXAQFCME7akKKtGG+e4MkTWxTJFff70lYwI9qBx352jtMFvcgtKOfZQUOI5BhoGd29DfJpm8d9KfSVGI5ne3OHVexPQEpYuk7jsuMZGvc8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR17MB4374
 
-On Tue, Jan 23, 2024 at 08:57:08PM +0000, Russell King (Oracle) wrote:
-> On Tue, Jan 23, 2024 at 09:17:18PM +0100, Rafael J. Wysocki wrote:
-> > On Tue, Jan 23, 2024 at 9:09 PM Russell King (Oracle)
-> > <linux@armlinux.org.uk> wrote:
-> > >
-> > > On Tue, Jan 23, 2024 at 08:27:05PM +0100, Rafael J. Wysocki wrote:
-> > > > On Tue, Jan 23, 2024 at 7:59 PM Russell King (Oracle)
-> > > > <linux@armlinux.org.uk> wrote:
-> > > > >
-> > > > > On Tue, Jan 23, 2024 at 07:26:57PM +0100, Rafael J. Wysocki wrote:
-> > > > > > On Tue, Jan 23, 2024 at 7:20 PM Russell King (Oracle)
-> > > > > > <linux@armlinux.org.uk> wrote:
-> > > > > > >
-> > > > > > > On Tue, Jan 23, 2024 at 06:43:59PM +0100, Rafael J. Wysocki wrote:
-> > > > > > > > On Tue, Jan 23, 2024 at 5:36 PM Russell King (Oracle)
-> > > > > > > > <linux@armlinux.org.uk> wrote:
-> > > > > > > > >
-> > > > > > > > > On Tue, Jan 23, 2024 at 05:15:54PM +0100, Rafael J. Wysocki wrote:
-> > > > > > > > > > On Tue, Jan 23, 2024 at 2:28 PM Russell King (Oracle)
-> > > > > > > > > > <linux@armlinux.org.uk> wrote:
-> > > > > > > > > > >
-> > > > > > > > > > > On Mon, Jan 22, 2024 at 06:00:13PM +0000, Jonathan Cameron wrote:
-> > > > > > > > > > > > On Mon, 18 Dec 2023 21:35:16 +0100
-> > > > > > > > > > > > "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> > > > > > > > > > > >
-> > > > > > > > > > > > > On Wed, Dec 13, 2023 at 1:49 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > From: James Morse <james.morse@arm.com>
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > The code behind ACPI_HOTPLUG_CPU allows a not-present CPU to become
-> > > > > > > > > > > > > > present.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Right.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > > This isn't the only use of HOTPLUG_CPU. On arm64 and riscv
-> > > > > > > > > > > > > > CPUs can be taken offline as a power saving measure.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > But still there is the case in which a non-present CPU can become
-> > > > > > > > > > > > > present, isn't it there?
-> > > > > > > > > > > >
-> > > > > > > > > > > > Not yet defined by the architectures (and I'm assuming it probably never will be).
-> > > > > > > > > > > >
-> > > > > > > > > > > > The original proposal we took to ARM was to do exactly that - they pushed
-> > > > > > > > > > > > back hard on the basis there was no architecturally safe way to implement it.
-> > > > > > > > > > > > Too much of the ARM arch has to exist from the start of time.
-> > > > > > > > > > > >
-> > > > > > > > > > > > https://lore.kernel.org/linux-arm-kernel/cbaa6d68-6143-e010-5f3c-ec62f879ad95@arm.com/
-> > > > > > > > > > > > is one of the relevant threads of the kernel side of that discussion.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Not to put specific words into the ARM architects mouths, but the
-> > > > > > > > > > > > short description is that there is currently no demand for working
-> > > > > > > > > > > > out how to make physical CPU hotplug possible, as such they will not
-> > > > > > > > > > > > provide an architecturally compliant way to do it for virtual CPU hotplug and
-> > > > > > > > > > > > another means is needed (which is why this series doesn't use the present bit
-> > > > > > > > > > > > for that purpose and we have the Online capable bit in MADT/GICC)
-> > > > > > > > > > > >
-> > > > > > > > > > > > It was a 'fun' dance of several years to get to that clarification.
-> > > > > > > > > > > > As another fun fact, the same is defined for x86, but I don't think
-> > > > > > > > > > > > anyone has used it yet (GICC for ARM has an online capable bit in the flags to
-> > > > > > > > > > > > enable this, which was remarkably similar to the online capable bit in the
-> > > > > > > > > > > > flags of the Local APIC entries as added fairly recently).
-> > > > > > > > > > > >
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > > On arm64 an offline CPU may be disabled by firmware, preventing it from
-> > > > > > > > > > > > > > being brought back online, but it remains present throughout.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > Adding code to prevent user-space trying to online these disabled CPUs
-> > > > > > > > > > > > > > needs some additional terminology.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > Rename the Kconfig symbol CONFIG_ACPI_HOTPLUG_PRESENT_CPU to reflect
-> > > > > > > > > > > > > > that it makes possible CPUs present.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Honestly, I don't think that this change is necessary or even useful.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Whilst it's an attempt to avoid future confusion, the rename is
-> > > > > > > > > > > > not something I really care about so my advice to Russell is drop
-> > > > > > > > > > > > it unless you are attached to it!
-> > > > > > > > > > >
-> > > > > > > > > > > While I agree that it isn't a necessity, I don't fully agree that it
-> > > > > > > > > > > isn't useful.
-> > > > > > > > > > >
-> > > > > > > > > > > One of the issues will be that while Arm64 will support hotplug vCPU,
-> > > > > > > > > > > it won't be setting ACPI_HOTPLUG_CPU because it doesn't support
-> > > > > > > > > > > the present bit changing. So I can see why James decided to rename
-> > > > > > > > > > > it - because with Arm64's hotplug vCPU, the idea that ACPI_HOTPLUG_CPU
-> > > > > > > > > > > somehow enables hotplug CPU support is now no longer true.
-> > > > > > > > > > >
-> > > > > > > > > > > Keeping it as ACPI_HOTPLUG_CPU makes the code less obvious, because it
-> > > > > > > > > > > leads one to assume that it ought to be enabled for Arm64's
-> > > > > > > > > > > implementatinon, and that could well cause issues in the future if
-> > > > > > > > > > > people make the assumption that "ACPI_HOTPLUG_CPU" means hotplug CPU
-> > > > > > > > > > > is supported in ACPI. It doesn't anymore.
-> > > > > > > > > >
-> > > > > > > > > > On x86 there is no confusion AFAICS.  It's always meant "as long as
-> > > > > > > > > > the platform supports it".
-> > > > > > > > >
-> > > > > > > > > That's x86, which supports physical CPU hotplug. We're introducing
-> > > > > > > > > support for Arm64 here which doesn't support physical CPU hotplug.
-> > > > > > > > >
-> > > > > > > > >                                                 ACPI-based      Physical        Virtual
-> > > > > > > > > Arch    HOTPLUG_CPU     ACPI_HOTPLUG_CPU        Hotplug         Hotplug         Hotplug
-> > > > > > > > > Arm64   Y               N                       Y               N               Y
-> > > > > > > > > x86     Y               Y                       Y               Y               Y
-> > > > > > > > >
-> > > > > > > > > So ACPI_HOTPLUG_CPU becomes totally misnamed with the introduction
-> > > > > > > > > of hotplug on Arm64.
-> > > > > > > > >
-> > > > > > > > > If we want to just look at stuff from an x86 perspective, then yes,
-> > > > > > > > > it remains correct to call it ACPI_HOTPLUG_CPU. It isn't correct as
-> > > > > > > > > soon as we add Arm64, as I already said.
-> > > > > > > >
-> > > > > > > > And if you rename it, it becomes less confusing for ARM64, but more
-> > > > > > > > confusing for x86, which basically is my point.
-> > > > > > > >
-> > > > > > > > IMO "hotplug" covers both cases well enough and "hotplug present" is
-> > > > > > > > only accurate for one of them.
-> > > > > > > >
-> > > > > > > > > And honestly, a two line quip to my reasoned argument is not IMHO
-> > > > > > > > > an acceptable reply.
-> > > > > > > >
-> > > > > > > > Well, I'm not even sure how to respond to this ...
-> > > > > > >
-> > > > > > > The above explanation you give would have been useful...
-> > > > > > >
-> > > > > > > I don't see how "hotplug" covers both cases. As I've tried to point
-> > > > > > > out many times now, ACPI_HOTPLUG_CPU is N for Arm64, yet it supports
-> > > > > > > ACPI based hotplug. How does ACPI_HOTPLUG_CPU cover Arm64 if it's
-> > > > > > > N there?
-> > > > > >
-> > > > > > But IIUC this change is preliminary for changing it (or equivalent
-> > > > > > option with a different name) to Y, isn't it?
-> > > > >
-> > > > > No. As I keep saying, ACPI_HOTPLUG_CPU ends up N on Arm64 even when
-> > > > > it supports hotplug CPU via ACPI.
-> > > > >
-> > > > > Even with the full Arm64 patch set here, under arch/ we still only
-> > > > > have:
-> > > > >
-> > > > > arch/loongarch/Kconfig: select ACPI_HOTPLUG_PRESENT_CPU if ACPI_PROCESSOR && HOTPLUG_CPU
-> > > > > arch/x86/Kconfig:       select ACPI_HOTPLUG_PRESENT_CPU         if ACPI_PROCESSOR && HOTPLUG_CPU
-> > > > >
-> > > > > To say it yet again, ACPI_HOTPLUG_(PRESENT_)CPU is *never* set on
-> > > > > Arm64.
-> > > >
-> > > > Allright, so ARM64 is not going to use the code that is conditional on
-> > > > ACPI_HOTPLUG_CPU today.
-> > > >
-> > > > Fair enough.
-> > > >
-> > > > > > > IMHO it totally doesn't, and moreover, it goes against what
-> > > > > > > one would logically expect - and this is why I have a problem with
-> > > > > > > your effective NAK for this change. I believe you are basically
-> > > > > > > wrong on this for the reasons I've given - that ACPI_HOTPLUG_CPU
-> > > > > > > will be N for Arm64 despite it supporting ACPI-based CPU hotplug.
-> > > > > >
-> > > > > > So I still have to understand how renaming it for all architectures
-> > > > > > (including x86) is supposed to help.
-> > > > > >
-> > > > > > It will still be the same option under a different name.  How does
-> > > > > > that change things technically?
-> > > > >
-> > > > > Do you think that it makes any sense to have support for ACPI-based
-> > > > > hotplug CPU
-> > > >
-> > > > So this is all about what you and I mean by "ACPI-based hotplug CPU".
-> > > >
-> > > > > *and* having it functional with a configuration symbol
-> > > > > named "ACPI_HOTPLUG_CPU" to be set to N ? That's essentially what
-> > > > > you are advocating for...
-> > > >
-> > > > Setting ACPI_HOTPLUG_CPU to N means that you are not going to compile
-> > > > the code that is conditional on it.
-> > > >
-> > > > That code allows the processor driver to be removed from CPUs and
-> > > > arch_unregister_cpu() to be called from within acpi_bus_trim()  (among
-> > > > other things).  On the way up, it allows arch_register_cpu() to be
-> > > > called from within acpi_bus_scan().  If these things are not done,
-> > > > what I mean by "ACPI-based hotplug CPU" is not supported.
-> > >
-> > > Even on Arm64, arch_register_cpu() and arch_unregister_cpu() will be
-> > > called when the CPU in the VM is hot-removed or hot-added...
-> > 
-> > In a different way, however.
+On Tue, Jan 23, 2024 at 04:35:19PM +0800, Huang, Ying wrote:
+> Gregory Price <gregory.price@memverge.com> writes:
 > 
-> This is getting tiresome. The goal posts keep moving. This isn't a
-> discussion, this is a "you're wrong and I'm going to keep changing my
-> argument if you agree with me to make you always wrong".
+> > On Mon, Jan 22, 2024 at 11:54:34PM -0500, Gregory Price wrote:
+> >> > 
+> >> > Can the above code be simplified as something like below?
+> >> > 
+> >> >         resume_node = prev_node;
+> > ---         resume_weight = 0;
+> > +++         resume_weight = weights[node];
+> >> >         for (...) {
+> >> >                 ...
+> >> >         }
+> >> > 
+> >> 
+> >> I'll take another look at it, but this logic is annoying because of the
+> >> corner case:  me->il_prev can be NUMA_NO_NODE or an actual numa node.
+> >> 
+> >
+> > After a quick look, as long as no one objects to (me->il_prev) remaining
+> > NUMA_NO_NODE
 > 
-> Sorry, no point continuing this.
+> MAX_NUMNODES-1 ?
+> 
 
-Let me be clear why I'm exhasperated by this.
+When setting a new policy, the il_prev gets set to NUMA_NO_NODE. It's
+not harmful and is just (-1), which is functionally the same as
+(MAX_NUMNODES-1) for the purpose of iterating the nodemask with
+next_node_in(). So it's fine to set (resume_node = me->il_prev)
+as discussed.
 
-I've been giving you a technical argument (Arm64 supporting ACPI
-hotplug CPU, but ACPI_HOTPLUG_CPU=n) for many many emails. You
-seemed to misunderstand that, expecting ACPI_HOTPLUG_CPU to become
-Y later in the series.
+I have a cleaned up function I'll push when i fix up a few other spots.
 
-When that became clear that it wasn't, you've changed tack. It then
-became about whether two functions get called or not.
+> > while having a weight assigned to pol->wil.cur_weight,
+> 
+> I think that it is OK.
+> 
+> And, IIUC, pol->wil.cur_weight can be 0, as in
+> weighted_interleave_nodes(), if it's 0, it will be assigned to default
+> weight for the node.
+> 
 
-When I pointed out that they are still going to be called, oh no,
-it's not about whether those two functions will be called but
-how they get called.
+cur_weight is different than the global weights.  cur_weight tells us
+how many pages are remaining to allocate for the current node.
 
-Essentially, what this comes down to is that _you_ have no technical
-argument against the change, just _you_ don't personally want it
-and it doesn't matter what justification I come up with, you're
-always going to tell me something different.
+(cur_weight = 0) can happen in two scenarios:
+  - initial setting of mempolicy (NUMA_NO_NODE w/ cur_weight=0)
+  - weighted_interleave_nodes decrements it down to 0
 
-So why not state that you personally don't want it in the first
-place? Why this game of cat and mouse and the constantly changing
-arguments. I guess it's to waste developers time.
+Now that i'm looking at it - the second condition should not exist, and
+we can eliminate it. The logic in weighted_interleave_nodes is actually
+annoyingly unclear at the moment, so I'm going to re-factor it a bit to
+be more explicit.
 
-Well, I'm calling you out for this, because I'm that pissed off
-at the amount of time you're causing to be wasted.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+~Gregory
