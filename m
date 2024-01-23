@@ -1,58 +1,87 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15D8C5C610
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 10:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65655C8FB;
+	Tue, 23 Jan 2024 10:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706006134; cv=none; b=DgTnXFgsZcEtBl3Cc/N2/ke28/h/rL7VMcyOlNuYDUp2R/BLIyr5dfGh53zX96xEPU0Pq0o4yNt8TGM5BItasJ0qDU67zmWa+2ZQk+tAduJp74eBQg5PdxRYldxFPMLuyTtmoSaWpCyvyQeYhNJ+NRAfmcg7wnPE/bTKZ+FT3AM=
+	t=1706006229; cv=none; b=EKEZzE4c75nEn3U60Bp/jxoqmKb9FF0y/qdCYNAMyGaAwbHdmC16zuXbLH6VC0XmWA0g/UutYlHHKBdoUizurTDsZibfFGTTBrPmWyrZl7at7M3cDp5+BB9umktu0YCo5PFOodl/53Ed0sy3Sm/I482k6NMvyfXGVkG6xMOlAPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706006134; c=relaxed/simple;
-	bh=QnkUYy1GhMJEJtWXOR9e8HMrBZZ7EUS8om8v51ySMFk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NPc6iP4rTdcbQXFsRBG2jZRvFVEkGF5b/l/6yOZgFkyHHQh9XyG8jO5udC7qMzCs1BK2uexFBfuJMsNuvd4CuTzLZgtvAa3vUXNiFOQB7yx6jJbrpI0GVPYD2wF9X8jYlTrOxi0WO3V23Kb8k6sk/HSv+mKgqwqXM6iFaa9/Lck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn; spf=pass smtp.mailfrom=phytium.com.cn; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytium.com.cn
-Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
-	by hzbj-icmmx-6 (Coremail) with SMTP id AQAAfwD3_gpmlq9l0YdkBA--.14750S2;
-	Tue, 23 Jan 2024 18:35:18 +0800 (CST)
-Received: from phytium.com.cn (unknown [123.150.8.50])
-	by mail (Coremail) with SMTP id AQAAfwDn6dpflq9lJr4AAA--.749S3;
-	Tue, 23 Jan 2024 18:35:13 +0800 (CST)
-From: Yuquan Wang <wangyuquan1236@phytium.com.cn>
-To: rmk+kernel@armlinux.org.uk,
-	jiahao.os@bytedance.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re:[PATCH v3 00/19] arm64 kernel text replication
-Date: Tue, 23 Jan 2024 18:35:09 +0800
-Message-Id: <20240123103509.696983-1-wangyuquan1236@phytium.com.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1706006229; c=relaxed/simple;
+	bh=ISBqSBU1eibSK1yROlAd67P1p3xOWCAZQTrxGAsc76M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gb9Ii5tzVOLvE5B6bs+GoSdzPqU8hHrhlvCirRauSSy7tNKzX9f/KSnoD+o+80ys23CHinsM6h5Bv7katuzBeqDs23tr9HUovJ4PveKZ7z7bkz/3teFqukoTBChHcEpMahS6wnIjc2dPiFSD+quQLshF0Yy1UhvukhH97d8L6Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=JdFwYTNY; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="JdFwYTNY"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 075CA40E01B4;
+	Tue, 23 Jan 2024 10:37:04 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id m_71YppLYEYe; Tue, 23 Jan 2024 10:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1706006221; bh=tE/UEHD9KI7AAS+HbKBmjA2d1BJnju/TAX6dJiWwRsY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JdFwYTNY5byPwgxwpSXquxkSQTnC4ZQiDXI3CNWF83P8psvQshzU6vZJXWlwtMtnM
+	 M5+HokrAiyHCafRJ3RGjEYEy+qP+/HdmqMkv2K7GmsN6GEviPYygF2rc9v7icbs+2v
+	 xFHS1sCGSPIkA+rjXhuiwtCmht7aX31Jp9Va73BAIxCMua6Dd0gRiNR7MiTJQ6eV5t
+	 8cSCA2RCiMx2a/i5pDrfnLaiyiCOP0N6DwZoio/iGRWWu+0gO1jnDOr4DfQ+vTkOtJ
+	 aaQmXVeZG8HdQfe9YI/MnVhA2tuI/Ny4ikvBqNSwu7lgsNa7g6ZOwycnUNtWTeQaWV
+	 rdrr4uXgLLnKB5yfKE0yZaGxH1GDIXmIzEmUyLEf2uLXUKh6EO2Qg/q+F6ucm/jJjd
+	 YfZyjcRQ+IXhQyTg9j33Y44vBu5sOyPEzvfJg7j4f+viUF//N5U7rbwq1DoC3w0Cp1
+	 uEcY6ZvedRqjZaff0J5OlzBa9Kp2mdcvygOzx1nrIV2XNDsqVJVQA9teMBaSSN+6vw
+	 anO0crzovgkEvuTr4rwLZHLrQLFNtQPi9t1lDFXVLZzhDJOpfJ2mGnglShYgFIMQ2W
+	 KV97r85jzooDZy+rq7zrYl+xULWwsVJ4BkUK9mKprDOqfccrUyseu9vwVB0Z/EDCpC
+	 nDgF3rlVDf+g/6RTKzqY8h58=
+Received: from zn.tnic (pd953099d.dip0.t-ipconnect.de [217.83.9.157])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 385BD40E01A9;
+	Tue, 23 Jan 2024 10:36:31 +0000 (UTC)
+Date: Tue, 23 Jan 2024 11:36:23 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
+	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
+	rdunlap@infradead.org, tj@kernel.org, peterz@infradead.org,
+	seanjc@google.com, kim.phillips@amd.com, jmattson@google.com,
+	ilpo.jarvinen@linux.intel.com, jithu.joseph@intel.com,
+	kan.liang@linux.intel.com, nikunj@amd.com,
+	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
+	rick.p.edgecombe@intel.com, rppt@kernel.org,
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, eranian@google.com,
+	peternewman@google.com, dhagiani@amd.com
+Subject: Re: [PATCH v5 1/2] x86/resctrl: Remove hard-coded memory bandwidth
+ limit
+Message-ID: <20240123103623.GAZa-Wp79DMgeArPJz@fat_crate.local>
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <c26a8ca79d399ed076cf8bf2e9fbc58048808289.1705359148.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAfwDn6dpflq9lJr4AAA--.749S3
-X-CM-SenderInfo: 5zdqw5pxtxt0arstlqxsk13x1xpou0fpof0/1tbiAQANAWWuw2kG2QAAsz
-Authentication-Results: hzbj-icmmx-6; spf=neutral smtp.mail=wangyuquan
-	1236@phytium.com.cn;
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
-	ZEXasCq-sGcSsGvfJ3UbIjqfuFe4nvWSU8nxnvy29KBjDU0xBIdaVrnUUvcSsGvfC2Kfnx
-	nUUI43ZEXa7xR_UUUUUUUUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c26a8ca79d399ed076cf8bf2e9fbc58048808289.1705359148.git.babu.moger@amd.com>
 
-> 
-> After applying these patches, we tested that our business performance
-> increased by more than 5% and the NUMA node memory bandwidth was more
-> balanced.
-> 
+On Mon, Jan 15, 2024 at 04:52:27PM -0600, Babu Moger wrote:
+> Fixes: 4d05bf71f157 ("x86/resctrl: Introduce AMD QOS feature")
 
-I have successfully applied your patches on my arm64 linux. And I could 
-start it with a qemu machine(virt). However, I don't know the way to test
-the performance it brings to the kernel. Do you have some suggestions?
+What's the point of this Fixes tag? You want this backported to stable?
 
-Hope I can get some helps here, any help will be greatly appreciated. 
+-- 
+Regards/Gruss,
+    Boris.
 
-Many thanks
-Yuquan
-
+https://people.kernel.org/tglx/notes-about-netiquette
