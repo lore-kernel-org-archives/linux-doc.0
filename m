@@ -1,175 +1,125 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4078059B4A;
-	Tue, 23 Jan 2024 09:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED1359B75
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 09:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706002052; cv=none; b=KXTmKcrPZMC7467urmHRikfGdT6qL2NMUbBUAOX++bb0lVUYCdjfz7qhJYcrqAEK5kYZNdV3HH8yku6jCfv0/ZVRInYA7FdsryA8miZ7jrpxdxcTiPn1Pinmzlouxumc83euLjX5qyzXNSAU2xVVb/o9r/0tAapIn1inV5Vf4hQ=
+	t=1706002117; cv=none; b=LYo6VAsICQrrSq4sm19m5TxxXBAWcNFAJgfRS4v4xtWuvJzuetH8XRGvbbXdimgFn4fC5mpa2sw06e5GMxIvcKqjgWIOSVFCosM6trAnObVUUZWBhWipWo0R1VoEL74fk1lT9nlUeAKmNk+30tcnTfHyr+TRliHrEs1PcOPImfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706002052; c=relaxed/simple;
-	bh=G0yzi1lG3fmcjNl/RGBz0t5QUu3R0RD1gtXtI6hWloQ=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GBjKR0ha1er+wuv6XsA0lRlisBqjMfFZnlRSx+1+OyTjIVVkKkXyZVbTOtbuO+XVvpSmtmHKA1xPK/WDy4KpiWK9wE9n42YPYE3kej1w3bdhyh0zeHjWXao9mtcRYbSiPePJKKcaUe2j0KlAoaoaM+G7ZdWDgrTGcxzG8wqSNeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TK1rm0gmyz6K6JX;
-	Tue, 23 Jan 2024 17:24:56 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9EBF81406AD;
-	Tue, 23 Jan 2024 17:27:26 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 23 Jan
- 2024 09:27:26 +0000
-Date: Tue, 23 Jan 2024 09:27:25 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-CC: "Rafael J. Wysocki" <rafael@kernel.org>, <linux-pm@vger.kernel.org>,
-	<loongarch@lists.linux.dev>, <linux-acpi@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-riscv@lists.infradead.org>,
-	<kvmarm@lists.linux.dev>, <x86@kernel.org>,
-	<acpica-devel@lists.linuxfoundation.org>, <linux-csky@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
-	<linux-parisc@vger.kernel.org>, Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, <jianyong.wu@arm.com>,
-	<justin.he@arm.com>, James Morse <james.morse@arm.com>,
-	<vishnu@os.amperecomputing.com>, <miguel.luis@oracle.com>
-Subject: Re: [PATCH RFC v3 03/21] ACPI: processor: Register CPUs that are
- online, but not described in the DSDT
-Message-ID: <20240123092725.00004382@Huawei.com>
-In-Reply-To: <Za6mHRJVjb6M1mun@shell.armlinux.org.uk>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
-	<E1rDOg2-00Dvjk-RI@rmk-PC.armlinux.org.uk>
-	<CAJZ5v0ju1JHgpjuFLHZVs4NZiARG6iBZN_wza6c2e0kDhZjK0w@mail.gmail.com>
-	<ZaURtUvWQyjYfiiO@shell.armlinux.org.uk>
-	<20240122160227.00002d83@Huawei.com>
-	<CAJZ5v0hamuXJ_w-TSmVb=5jGide=Lb7sCjbzzNb_rFuPrvkgxQ@mail.gmail.com>
-	<Za6mHRJVjb6M1mun@shell.armlinux.org.uk>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1706002117; c=relaxed/simple;
+	bh=xmE2deCpE20ed/OZitpwd3izN/aSq/TCRV+gv0G97Ts=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lde19CafPBl7OyW5bxaXe1moSdMrfdOl9cnAn25PytK4lk+ZJrJhMM5nopCGNPjDLL5l5GhcXMnMqagG5VdFme7jTMvHCqQrKDW3yPmUT3zIwig7XXZc1R8tWoudoxTY2VjOcACRSnBC0TeRuQvQKIGrdT3hQD3DNwaYhAj4h+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PKo/IV8H; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PKo/IV8H"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40ebf373130so2724545e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 01:28:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706002114; x=1706606914; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Kw4Srobn+f1O7VL878FXWvTuM60WtZXWiD2XR6BnhL8=;
+        b=PKo/IV8Hi98gQLe/JqUIpAo52s5utab04PX13pU5pfjCRDZsgzuwOQ52dG2IK+2k9w
+         ZpqK06mvfwq7bi6MCBTZobTAXCU4/bxebVpXvTGdFtLZqInL1IL6cV3MuUfILwnHt1d9
+         h9lDKT+/pAdgdAyqupu8ADe2RM9lH8+VfsTgU3Q9VVo2mGP/TWBpEeqaBHnDU2z+A4qw
+         OwX6wxke5FsX4McJcmuVni+JxdKtVyUCWW41TuiJA5Egnk9IKbW1xOxGW3wWyvyXFTf4
+         7zIjicrWZj0XsCDsVZA9fYxju2LpsXbFDCkCtUiGKDrg7S7cWeegnOGnv3C0lm76o+pU
+         KL9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706002114; x=1706606914;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kw4Srobn+f1O7VL878FXWvTuM60WtZXWiD2XR6BnhL8=;
+        b=UcqNQ9ktLPBb/2LN2EwU6+Wmhbeo+qG/fnA/Kdc5tXXmWkTNi2o15evTFCqIaDpRWr
+         j4RWGw2vucIWBAuohvZGnbTrlZ7xWpB7frXe8uZSC5CrmebOgLsMPowVtTkWu02hbNK3
+         xd/M59GdRE7BBJ9RnoHag5ZmhvdGG/AR9ZAilc2QjybQF7+r/pRMfh0PqAdBwCmDe3hP
+         APrNOwlNwfVPnWf9igadW95lNYZM5oVgZSZ6LqRzM2NwfRwlaM8KhADzZFHHCyr5ZhGs
+         5GEzfdvBtIFAZMtRxytrPCvu73nL1fWRS5umkuvqCg6MkJHUP7R/Y7WCmZ/Ct1xRRsGQ
+         unwQ==
+X-Gm-Message-State: AOJu0Yz0HtravyXYr5VnsRYozd1S9dvnBfT6OCzEIqdnRpt9Z0HuUcX4
+	u7ElD/XYHW2FkNrxmKLEtjAs58z16RvN8FqxjymNnXnPCro4D1rh
+X-Google-Smtp-Source: AGHT+IFFuGMJJjgVFzCcyEikeVyYKjgt0oO1Ilt53tB5LstuA8CohaGKcGPm7HSUivwILnFmNrmp4w==
+X-Received: by 2002:a05:600c:4e50:b0:40e:7f2c:9dbd with SMTP id e16-20020a05600c4e5000b0040e7f2c9dbdmr373419wmq.13.1706002114078;
+        Tue, 23 Jan 2024 01:28:34 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id p19-20020a05600c1d9300b0040eb6cdcbdbsm1710314wms.14.2024.01.23.01.28.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jan 2024 01:28:33 -0800 (PST)
+Message-ID: <57798354-836c-40cd-a592-d428d768811b@gmail.com>
+Date: Tue, 23 Jan 2024 10:28:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] Expand and improve AMDGPU documentation
+Content-Language: en-US
+To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Cc: amd-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org
+References: <20240122212719.647008-1-Rodrigo.Siqueira@amd.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20240122212719.647008-1-Rodrigo.Siqueira@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 22 Jan 2024 17:30:05 +0000
-"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
+Am 22.01.24 um 22:24 schrieb Rodrigo Siqueira:
+> This patchset improves how the AMDGPU display documentation is
+> organized, expands the kernel-doc to extract information from the
+> source, and adds more context about DC workflow. Finally, at the end of
+> this series, we also introduce a contribution section for those
+> interested in contributing to the display code.
+>
+> Changes since V1:
+> - Remove unprecise information about the DC process.
+> - Expand the contribution list.
+> - Rebase.
 
-> On Mon, Jan 22, 2024 at 05:22:46PM +0100, Rafael J. Wysocki wrote:
-> > On Mon, Jan 22, 2024 at 5:02=E2=80=AFPM Jonathan Cameron
-> > <Jonathan.Cameron@huawei.com> wrote: =20
-> > >
-> > > On Mon, 15 Jan 2024 11:06:29 +0000
-> > > "Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
-> > > =20
-> > > > On Mon, Dec 18, 2023 at 09:22:03PM +0100, Rafael J. Wysocki wrote: =
-=20
-> > > > > On Wed, Dec 13, 2023 at 1:49=E2=80=AFPM Russell King <rmk+kernel@=
-armlinux.org.uk> wrote: =20
-> > > > > >
-> > > > > > From: James Morse <james.morse@arm.com>
-> > > > > >
-> > > > > > ACPI has two descriptions of CPUs, one in the MADT/APIC table, =
-the other
-> > > > > > in the DSDT. Both are required. (ACPI 6.5's 8.4 "Declaring Proc=
-essors"
-> > > > > > says "Each processor in the system must be declared in the ACPI
-> > > > > > namespace"). Having two descriptions allows firmware authors to=
- get
-> > > > > > this wrong.
-> > > > > >
-> > > > > > If CPUs are described in the MADT/APIC, they will be brought on=
-line
-> > > > > > early during boot. Once the register_cpu() calls are moved to A=
-CPI,
-> > > > > > they will be based on the DSDT description of the CPUs. When CP=
-Us are
-> > > > > > missing from the DSDT description, they will end up online, but=
- not
-> > > > > > registered.
-> > > > > >
-> > > > > > Add a helper that runs after acpi_init() has completed to regis=
-ter
-> > > > > > CPUs that are online, but weren't found in the DSDT. Any CPU th=
-at
-> > > > > > is registered by this code triggers a firmware-bug warning and =
-kernel
-> > > > > > taint.
-> > > > > >
-> > > > > > Qemu TCG only describes the first CPU in the DSDT, unless cpu-h=
-otplug
-> > > > > > is configured. =20
-> > > > >
-> > > > > So why is this a kernel problem? =20
-> > > >
-> > > > So what are you proposing should be the behaviour here? What this
-> > > > statement seems to be saying is that QEMU as it exists today only
-> > > > describes the first CPU in DSDT. =20
-> > >
-> > > This confuses me somewhat, because I'm far from sure which machines t=
-his
-> > > is true for in QEMU.  I'm guessing it's a legacy thing with
-> > > some old distro version of QEMU - so we'll have to paper over it anyw=
-ay
-> > > but for current QEMU I'm not sure it's true.
-> > >
-> > > Helpfully there are a bunch of ACPI table tests so I've been checking
-> > > through all the multi CPU cases.
-> > >
-> > > CPU hotplug not enabled.
-> > > pc/DSDT.dimmpxm  - 4x Processor entries.  -smp 4
-> > > pc/DSDT.acpihmat - 2x Processor entries.  -smp 2
-> > > q35/DSDT.acpihmat - 2x Processor entries. -smp 2
-> > > virt/DSDT.acpihmatvirt - 4x ACPI0007 entries -smp 4
-> > > q35/DSDT.acpihmat-noinitiator - 4 x Processor () entries -smp 4
-> > > virt/DSDT.topology - 8x ACPI0007 entries
-> > >
-> > > I've also looked at the code and we have various types of
-> > > CPU hotplug on x86 but they all build appropriate numbers of
-> > > Processor() entries in DSDT.
-> > > Arm likewise seems to build the right number of ACPI0007 entries
-> > > (and doesn't yet have CPU HP support).
-> > >
-> > > If anyone can add a reference on why this is needed that would be very
-> > > helpful. =20
-> >=20
-> > Yes, it would.
-> >=20
-> > Personally, I would prefer to assume that it is not necessary until it
-> > turns out that (1) there is firmware with this issue actually in use
-> > and (2) updating the firmware in question to follow the specification
-> > is not practical.
-> >=20
-> > Otherwise, we'd make it easier to ship non-compliant firmware for no
-> > good reason. =20
->=20
-> If Salil can't come up with a reason, then I'm in favour of dropping
-> the patch like already done for patch 2. If the code change serves no
-> useful purpose, there's no point in making the change.
->=20
+Acked-by: Christian König <christian.koenig@amd.com> for the whole series.
 
-Salil's out today, but I've messaged him to follow up later in the week.
-
-It 'might' be the odd cold plug path where QEMU half comes up, then extra
-CPUs are added, then it boots. (used by some orchestration frameworks)
-I don't have a set up for that and I won't get to creating one today anyway
-(we all love start of the year planning workshops!)
-
-I've +CC'd a few people have run tests on the various iterations of this
-work in the past.  Maybe one of them can shed some light on this?
-
-Jonathan
-
-
-
+>
+> Thanks
+> Siqueira
+>
+> Rodrigo Siqueira (8):
+>    Documentation/gpu: Add basic page for HUBP
+>    Documentation/gpu: Add simple doc page for DCHUBBUB
+>    Documentation/gpu: Add kernel doc entry for DPP
+>    Documentation/gpu: Add kernel doc entry for MPC
+>    Documentation/gpu: Add entry for OPP in the kernel doc
+>    Documentation/gpu: Add entry for the DIO component
+>    Documentation/gpu: Add an explanation about the DC weekly patches
+>    Documentation/gpu: Introduce a simple contribution list for display
+>      code
+>
+>   .../gpu/amdgpu/display/dcn-blocks.rst         |  78 ++++++
+>   .../amdgpu/display/display-contributing.rst   | 168 ++++++++++++
+>   .../gpu/amdgpu/display/display-manager.rst    |   3 -
+>   Documentation/gpu/amdgpu/display/index.rst    |  78 +++++-
+>   drivers/gpu/drm/amd/display/TODO              | 110 --------
+>   .../gpu/drm/amd/display/dc/inc/hw/dchubbub.h  |   6 +
+>   drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h   |  26 ++
+>   drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h  |  13 +-
+>   drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h   | 250 ++++++++++++------
+>   drivers/gpu/drm/amd/display/dc/inc/hw/opp.h   |  16 ++
+>   .../amd/display/dc/link/hwss/link_hwss_dio.h  |  10 +
+>   11 files changed, 560 insertions(+), 198 deletions(-)
+>   create mode 100644 Documentation/gpu/amdgpu/display/dcn-blocks.rst
+>   create mode 100644 Documentation/gpu/amdgpu/display/display-contributing.rst
+>   delete mode 100644 drivers/gpu/drm/amd/display/TODO
+>
 
