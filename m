@@ -1,117 +1,108 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B721B60240;
-	Tue, 23 Jan 2024 15:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3754850A61;
+	Tue, 23 Jan 2024 15:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706025152; cv=none; b=E+LxCRNUIKkZlsNjRgRb+yX4yunKYUnjMrC99zsBmaKqqVFrCbKZphcQM1ZNxkJuvOJqZJvnQQQezU2ac7CzdPzT1xHiglSsdsucvrBlCc/o/AW1yI9kA6k0r4CLyLDA9/f5IVRjOMdpfPOXn+S8SIcICF2wSGSwHCo7iSRrlMw=
+	t=1706025242; cv=none; b=ld/RgPhxzLJSlHdEil74kvVdBPHulDlaXzGOS2/TMux5SA7lMvRB3IEUqP7w2Wq4Old9NKTIBEtXoV0UBembWAZfJtrT1i9Jw4tRQLWcvWP1KH6vSIVxpAZOi8Sob/ez7sxWdPPM9e5S9mzaJqusJLli1WBHKLmZiJLm86w4VEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706025152; c=relaxed/simple;
-	bh=lpOn925ITeoxcbmE2jG+i+i7BL7X1pvC6JLxC8iCIfA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kjMc16D6BeUSvlYJCIiyHKgXjuIYfm4yAbJPJH3gBMwJD3pOYAmmirN/Y4+dsJxQTYcDPSfg1IMRTI7ROKWs22yHFv9GRzJ/mN0SV0R5dFJSpMMKD3zzD/y58KS0AKxV7P+sVeKR/FAwh+pre/whlBk+CxLtxONVEgiUgjDP9Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BRy2exoP; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1706025242; c=relaxed/simple;
+	bh=MHunYJlSW0xkpBskC5UuarTnjKz+9CaefumWRC8LlQo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mOIdKttG70zaJa4EeNcsZYsRMPnO3nNui+1EMHt8q8lLsX0xgtQXuwEg+8vuVFC6fgJkZXRm+KDiNGjTgnfjzvf29Bhi3uWAOWtYU/CROQBi/0+MyMRHGuiuH1sxcinSl3JF1oV9nLSguDvmHZ7q8LEkjjbs+cjbOyRsWVz3mEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=faCoNNLB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BRy2exoP"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40N8KGt5022570;
-	Tue, 23 Jan 2024 15:52:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=JUuUnFDFUMALA36+GlPkk
-	/pGx33N4O0srUTkt71nu2k=; b=BRy2exoPAyDT44drpP3ByWRIZmJSvzC2Ea961
-	WH1zpDAhLNZn4HbCkr0ePZg9xPpIcGlu5wtKlk75h9v+w1gK4Ep9ceKOhqLmcrVs
-	N+sDpjaaAKJ6xhHZE8T3TaOSbbx7GCBvDxt3RNQqwLhUtuzAiDU9v9sFNXaSQSzt
-	1RCvz3syJjXnFBxURyZ+jQh9wKW7pAv9lovEaVvDmXwGfYrkA1BgYo2drnZ4hliQ
-	dKSut48nO/WCXsqUIEz5BD+P7US+OUuDq7CLV1lE7c/CCwR1KEW7Cp1YW34v7e8D
-	49xTYWXKAl6dD0Xhc9gcelySBAq11ODtP0hR8tiInH5O3X8Sw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vt9un945s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jan 2024 15:52:12 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40NFptAF030744
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jan 2024 15:51:55 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 23 Jan 2024 07:51:53 -0800
-Date: Tue, 23 Jan 2024 07:51:51 -0800
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Joel Granados <j.granados@samsung.com>
-CC: Huang Yiwei <quic_hyiwei@quicinc.com>, <rostedt@goodmis.org>,
-        <mhiramat@kernel.org>, <mark.rutland@arm.com>, <mcgrof@kernel.org>,
-        <keescook@chromium.org>, <mathieu.desnoyers@efficios.com>,
-        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-trace-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <quic_tsoni@quicinc.com>,
-        <quic_satyap@quicinc.com>, <quic_aiquny@quicinc.com>,
-        <kernel@quicinc.com>, Ross Zwisler
-	<zwisler@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>
-Subject: Re: [PATCH v3] tracing: Support to dump instance traces by
- ftrace_dump_on_oops
-Message-ID: <20240123155151.GE2936378@hu-bjorande-lv.qualcomm.com>
-References: <CGME20240119080907eucas1p12c357eae722d3a60d82c66b81cfc05ba@eucas1p1.samsung.com>
- <20240119080824.907101-1-quic_hyiwei@quicinc.com>
- <20240122135645.danb777cc5e7i77z@localhost>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="faCoNNLB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C10C8C433C7;
+	Tue, 23 Jan 2024 15:54:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706025241;
+	bh=MHunYJlSW0xkpBskC5UuarTnjKz+9CaefumWRC8LlQo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=faCoNNLBFV5XfXtR+8ZOEu/t+q8LVdInwpjQ39aqoyj9O4YRDBWSl2269MfaUqbRm
+	 smCSJBa/YZOgRaDlR3XsV0VZUxmeDAdjeR8ZC060toABprkH0AqQlHyLIbO6KVWNJD
+	 5+lPEBY2kemrCcz2FostODercaQr23BVNACUQZ+nEpzsoZshGIGxablCGuAQU098vM
+	 zkYcrRFVkzAl/vrgjWbFXVjPkdN8YNOIffLpEwZ+gS+3vN2VTz1gzxIDKpodu22/1K
+	 ZzO2glca/9BvqCkZwtrRbPhQY9KCoysUEAtbLyEOhDYIDxHXxONDr3QZ2wfGfYIlCz
+	 r0BI5DiKLYjFQ==
+Date: Tue, 23 Jan 2024 07:53:59 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Danielle Ratson <danieller@nvidia.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "davem@davemloft.net"
+ <davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
+ "pabeni@redhat.com" <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "sdf@google.com"
+ <sdf@google.com>, "kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
+ "maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
+ "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
+ "przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
+ "ahmed.zaki@intel.com" <ahmed.zaki@intel.com>, "richardcochran@gmail.com"
+ <richardcochran@gmail.com>, "shayagr@amazon.com" <shayagr@amazon.com>,
+ "paul.greenwalt@intel.com" <paul.greenwalt@intel.com>, "jiri@resnulli.us"
+ <jiri@resnulli.us>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, mlxsw <mlxsw@nvidia.com>, Petr Machata
+ <petrm@nvidia.com>, Ido Schimmel <idosch@nvidia.com>
+Subject: Re: [RFC PATCH net-next 3/9] ethtool: Add an interface for flashing
+ transceiver modules' firmware
+Message-ID: <20240123075359.4c502c79@kernel.org>
+In-Reply-To: <DM6PR12MB4516C97E6EC715DB78466FD3D8742@DM6PR12MB4516.namprd12.prod.outlook.com>
+References: <20240122084530.32451-1-danieller@nvidia.com>
+	<20240122084530.32451-4-danieller@nvidia.com>
+	<20240122205046.5bb0ffe7@kernel.org>
+	<DM6PR12MB4516C97E6EC715DB78466FD3D8742@DM6PR12MB4516.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240122135645.danb777cc5e7i77z@localhost>
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Zjlep91INoG0IKDkPXiFIGEo11yVSWoo
-X-Proofpoint-GUID: Zjlep91INoG0IKDkPXiFIGEo11yVSWoo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-23_09,2024-01-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=613
- priorityscore=1501 adultscore=0 clxscore=1011 spamscore=0
- lowpriorityscore=0 bulkscore=0 mlxscore=0 impostorscore=0 phishscore=0
- malwarescore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2311290000 definitions=main-2401230117
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 22, 2024 at 02:56:45PM +0100, Joel Granados wrote:
-> On Fri, Jan 19, 2024 at 04:08:24PM +0800, Huang Yiwei wrote:
-[..]
-> > diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-[..]
-> > +enum ftrace_dump_mode get_ftrace_dump_mode(void)
-> > +{
-> > +	if (!strcmp("0", ftrace_dump_on_oops))
-> Would using a strncmp be better in this case? And this question goes for
-> all the strcmp in the patch. Something like strncmp("0",
-> ftrace_dump_on_oops, 1); when they are equal, it would avoid 2
-> assignments and two comparisons.
+On Tue, 23 Jan 2024 13:34:18 +0000 Danielle Ratson wrote:
+> > > +The firmware update process can take several minutes to complete.
+> > > +Therefore, during the update process notifications are emitted from
+> > > +the kernel to user space updating it about the status and progress. =
+=20
+> >=20
+> > We should state more explicitly that the op just starts the process, an=
+d does
+> > not block. Looks like cable test already uses _ACT as a suffix, is it b=
+ased on
+> > some standard? Doesn't seem all that intuitive to me (or at least less =
+intuitive
+> > than calling it _START...) =20
+>=20
+> From Documentation/networking/ethtool-netlink.rst:
+> "
+> List of message types
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> All constants identifying message types use ``ETHTOOL_CMD_`` prefix and s=
+uffix
+> according to message purpose:
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> ``_GET``          userspace request to retrieve data
+> ``_SET``          userspace request to set data
+> ``_ACT``          userspace request to perform an action
+> ``_GET_REPLY``    kernel reply to a ``GET`` request
+> ``_SET_REPLY``    kernel reply to a ``SET`` request
+> ``_ACT_REPLY``    kernel reply to an ``ACT`` request
+> ``_NTF``          kernel notification
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> "
+>=20
+> So, it looks suitable to me.
 
-As you determine yourself below, Huang is looking for the string "0" not
-just something with the first character being '0', so you you need to
-check for null termination.
-
-> Also might avoid runaway comparisons if
-> the first string constant changes in the future.
-> 
-
-If the constant suddenly isn't null terminated, causing strcmp to run
-"endlessly", we have bigger problems.
-
-> Or maybe strncmp("0", ftrace_dump_on_oops, 2); if you want to check if
-> they are both null terminated.
-> 
-
-This is just obscure. At best it would confuse future readers.
-
-Regards,
-Bjorn
+True, didn't see that. It's fine as a distinction of "doing something"
+vs "setting configuration" but it doesn't express the fact that the
+action is async. AFAIU cable test is also async, so that's fine.
+We'll worry about it when some tries to add _ACT which isn't async.. =F0=9F=
+=A4=B7=EF=B8=8F
