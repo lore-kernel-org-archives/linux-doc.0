@@ -1,57 +1,78 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470905BADB;
-	Tue, 23 Jan 2024 10:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C9E59B60
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 10:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706004643; cv=none; b=Ru6DJdMfXLRRUy/LroYsT6OHOdALoqRJZ/HklKGrUh59ORXmOGfYG3k+V+cFer2jwGOD8Qp+1/nKraFE2nrwyoLxPjf/6/sZAHe2ky7hBQNbMw1FtConSG/1fXN8O+kQQptjrRGtwdoXPcxq94FoENzqzDIaohboxP9PMkhkIC8=
+	t=1706005409; cv=none; b=Zh6OTdvejEhE05ZrP+SP/UsxVbhXkTt7Q+ucnpRFlceWa5T2kOCfEyRiReuJ4+pNKElJlDxwGJQ5wvYGFUUSC9x6MRDtK9YTohafemt721sZim31m1zWDS/BIYnMVNBmOoRCK41agvtSElDVPsDJERN63g79aSQt32pODU5vH1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706004643; c=relaxed/simple;
-	bh=mQ8Mr1injx5+4P+73NBjD2yPgs2m4XjU/acM0z55Gp8=;
+	s=arc-20240116; t=1706005409; c=relaxed/simple;
+	bh=H02eA1JDGkow8TUG7Xi9rs7v7agisQt1t/WZcMgxK70=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Re9Z1WcvoRqAJz3XbxyptQQHrCmeLMGASbPcCvMoEs+f1bdqiWco873dl6LLp3j3J/RZe6i7xaoKWssNBpV745ZPxrkH6sGnThOcs734ARxoikmdk3LCM5kpikPxu/HNkatjniY1whRhzWpXSWxub82eGqVLfpKvKN4hxXoyWEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=cjGaJdv1; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	 Content-Type:MIME-Version; b=PBHc9YBcLh3A66tNsqkbI+tunJYfcMBGDxQAV+Sp7OoasKoFADZy15N/nWFReFQIlTkIE7l456jLxL3sA6PMI7FNdpL3WBW94ROoReSQ9Imtd7lnzqWlCWUR7jy8TINWjdQbIg51thmWulCTojyJoZkijtAZPVAPrp6/GyqnJvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OPH5xail; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="cjGaJdv1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1706004633;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OPH5xail"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706005406;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=q38ONilEN4l7Lhcyl2OEr4G7hBg18u52YIUmCo2B6Gc=;
-	b=cjGaJdv1jUmxeSvtoqG8gsHT1XJOxAPyjtF7BS1BBvLCDNUNAK9Rsd5T8muiQ440GnG0sv
-	AQkILQIRZgwDRoewyi8T0SbwkMJAKvpId+YNNX/EBav+4rJ7tNDEUVysQBJa9Y3kIAUwxU
-	FxAxoaFmXq0uewsAOwxOC1xJvRqel5g=
-Message-ID: <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
-Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-From: Paul Cercueil <paul@crapouillou.net>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
- <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?=
- <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
- linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Tue, 23 Jan 2024 11:10:31 +0100
-In-Reply-To: <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
-References: <20240119141402.44262-1-paul@crapouillou.net>
-	 <20240119141402.44262-2-paul@crapouillou.net>
-	 <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
-	 <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
-	 <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+	 in-reply-to:in-reply-to:references:references;
+	bh=OnxS8TUXze8cVtdA6154n5Rqo7M9l26NFn0F0PoNH8E=;
+	b=OPH5xail/o64/auwWVT2TnIfxxTxV5nkdV/EC4AXV7JhEs4duuED1XV/YTXtzIcnzCIccM
+	aVuVDF+mzHN8UP1Ngk6uN0XT04blCNiXg0QbWV3mijmOWPeOhUcZjx72GBrdMUfmFOgDvw
+	WVsNDHA89SmYfEydf2yKLtOTYrIp5Ts=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-582-H4wtukIdOqujyNj5JFmP1w-1; Tue, 23 Jan 2024 05:23:24 -0500
+X-MC-Unique: H4wtukIdOqujyNj5JFmP1w-1
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-78130939196so131839485a.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 02:23:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706005404; x=1706610204;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OnxS8TUXze8cVtdA6154n5Rqo7M9l26NFn0F0PoNH8E=;
+        b=LiJPRBzur0JATkOUnXXbWLAQBEC9ZSgAoHKmmpwxe0gb0pWW3jn0juoXaz87FSqXXs
+         OimWtRVEhSnvtWPfZ21APTLs3mcpEZMcYnEVrS/Oku4roRJ2D4mSfm53Fs/7Emk6smMl
+         9EI8rQQw1b5rzwIvvzbRD2SusOvsQvxvzkMbL2+kxO1oiVghYV6yc0xXPQ1TH5uJ7rrs
+         co5RtLkOVGvNs0/H91VOjPxtBG7HqRmU1vlJVrq2g8+RJQjMK5GRcI6KNho3rr417Ug+
+         V/Rc74M4cnkSH40X6i+aBqB4bUJdkZuftJudNivnSVo0S1cEpJ4jAEpyz8Xjyr6Kys2h
+         dITQ==
+X-Gm-Message-State: AOJu0YxOS1zYBrPUQO5j032vUTlBzb9zVQ9ItpPB7fybiK9oISDAW/2g
+	v04G6p5aIKEEsKNnao9kjyVPcofsqVAGDjM26u/D0sWNzc1EBAFrlUldd27zkXmKQdfGhV6nOyC
+	MMgwGt3U6tJwSnvobX0EzCx9bMkdMCqaouWsAGbz/1RkRJQ/Dx7IdlhT9pYwZodnzxA==
+X-Received: by 2002:a05:620a:1a26:b0:783:88e1:5221 with SMTP id bk38-20020a05620a1a2600b0078388e15221mr10976659qkb.6.1706005404056;
+        Tue, 23 Jan 2024 02:23:24 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF9GfusdFoULGiTnMXwI+zcNJUBSCsfSKoWHpn+j+OQKvKW7sF0qqOHjpzmwKekN7gRPPL31w==
+X-Received: by 2002:a05:620a:1a26:b0:783:88e1:5221 with SMTP id bk38-20020a05620a1a2600b0078388e15221mr10976638qkb.6.1706005403799;
+        Tue, 23 Jan 2024 02:23:23 -0800 (PST)
+Received: from pstanner-thinkpadt14sgen1.remote.csb (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id t8-20020a05620a034800b00783a206381csm1341717qkm.37.2024.01.23.02.23.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jan 2024 02:23:23 -0800 (PST)
+Message-ID: <3b2746f7779aa5dc39a406593dae37c4a8da676d.camel@redhat.com>
+Subject: Re: [PATCH v2 00/10] Make PCI's devres API more consistent
+From: Philipp Stanner <pstanner@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas
+ <bhelgaas@google.com>, Sam Ravnborg <sam@ravnborg.org>, dakr@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
+Date: Tue, 23 Jan 2024 11:23:20 +0100
+In-Reply-To: <20240123094317.15958-1-pstanner@redhat.com>
+References: <20240123094317.15958-1-pstanner@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,260 +80,136 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi Christian,
+Forgot to add a few changes to the changelog:
 
-Le lundi 22 janvier 2024 =C3=A0 14:41 +0100, Christian K=C3=B6nig a =C3=A9c=
-rit=C2=A0:
-> Am 22.01.24 um 12:01 schrieb Paul Cercueil:
-> > Hi Christian,
-> >=20
-> > Le lundi 22 janvier 2024 =C3=A0 11:35 +0100, Christian K=C3=B6nig a =C3=
-=A9crit=C2=A0:
-> > > Am 19.01.24 um 15:13 schrieb Paul Cercueil:
-> > > > These functions should be used by device drivers when they
-> > > > start
-> > > > and
-> > > > stop accessing the data of DMABUF. It allows DMABUF importers
-> > > > to
-> > > > cache
-> > > > the dma_buf_attachment while ensuring that the data they want
-> > > > to
-> > > > access
-> > > > is available for their device when the DMA transfers take
-> > > > place.
-> > > As Daniel already noted as well this is a complete no-go from the
-> > > DMA-buf design point of view.
-> > What do you mean "as Daniel already noted"? It was him who
-> > suggested
-> > this.
+On Tue, 2024-01-23 at 10:42 +0100, Philipp Stanner wrote:
+> Changes in v2:
+> =C2=A0 - Make commit head lines congruent with PCI's style (Bjorn)
+> =C2=A0 - Add missing error checks for devm_add_action(). (Andy)
+> =C2=A0 - Repair the "Returns: " marks for docu generation (Andy)
+> =C2=A0 - Initialize the addr_devres struct with memset(). (Andy)
+> =C2=A0 - Make pcim_intx() a PCI-internal function so that new drivers
+> won't
+> =C2=A0=C2=A0=C2=A0 be encouraged to use the outdated pci_intx() mechanism=
+.
+> =C2=A0=C2=A0=C2=A0 (Andy / Philipp)
+> =C2=A0 - Fix grammar and spelling (Bjorn)
+> =C2=A0 - Be more precise on why pcim_iomap_table() is problematic (Bjorn)
+> =C2=A0 - Provide the actual structs' and functions' names in the commit
+> =C2=A0=C2=A0=C2=A0 messages (Bjorn)
+> =C2=A0 - Remove redundant variable initializers (Andy)
+> =C2=A0 - Regroup PM bitfield members in struct pci_dev (Andy)
+> =C2=A0 - Consistently use the term "PCI devres API"; also in Patch #10
+> (Bjorn)
+
+ * Make pcim_intx() visible only for the PCI subsystem so that new   =20
+   drivers won't use this outdated API (Andy, Myself)
+ * Add a NOTE to pcim_iomap() to warn about this function being the    onee
+   xception that does just return NULL.
+
+This v2 now contains most of the feedback, except the ones Andy and I
+haven't agreed on yet.
+
+Thx,
+P.
+
 >=20
-> Sorry, I haven't fully catched up to the discussion then.
 >=20
-> In general DMA-buf is build around the idea that the data can be=20
-> accessed coherently by the involved devices.
+> =C2=A1Hola!
 >=20
-> Having a begin/end of access for devices was brought up multiple
-> times=20
-> but so far rejected for good reasons.
-
-I would argue that if it was brought up multiple times, then there are
-also good reasons to support such a mechanism.
-
-> That an exporter has to call extra functions to access his own
-> buffers=20
-> is a complete no-go for the design since this forces exporters into=20
-> doing extra steps for allowing importers to access their data.
-
-Then what about we add these dma_buf_{begin,end}_access(), with only
-implementations for "dumb" exporters e.g. udmabuf or the dmabuf heaps?
-And only importers (who cache the mapping and actually care about non-
-coherency) would have to call these.
-
-At the very least, is there a way to check that "the data can be
-accessed coherently by the involved devices"? So that my importer can
-EPERM if there is no coherency vs. a device that's already attached.
-
-Cheers,
--Paul
-
-> That in turn is pretty much un-testable unless you have every
-> possible=20
-> importer around while testing the exporter.
+> PCI's devres API suffers several weaknesses:
 >=20
-> Regards,
-> Christian.
+> 1. There are functions prefixed with pcim_. Those are always managed
+> =C2=A0=C2=A0 counterparts to never-managed functions prefixed with pci_ =
+=E2=80=93 or so
+> one
+> =C2=A0=C2=A0 would like to think. There are some apparently unmanaged fun=
+ctions
+> =C2=A0=C2=A0 (all region-request / release functions, and pci_intx()) whi=
+ch
+> =C2=A0=C2=A0 suddenly become managed once the user has initialized the de=
+vice
+> with
+> =C2=A0=C2=A0 pcim_enable_device() instead of pci_enable_device(). This
+> "sometimes
+> =C2=A0=C2=A0 yes, sometimes no" nature of those functions is confusing an=
+d
+> =C2=A0=C2=A0 therefore bug-provoking. In fact, it has already caused a bu=
+g in
+> DRM.
+> =C2=A0=C2=A0 The last patch in this series fixes that bug.
+> 2. iomappings: Instead of giving each mapping its own callback, the
+> =C2=A0=C2=A0 existing API uses a statically allocated struct tracking one
+> mapping
+> =C2=A0=C2=A0 per bar. This is not extensible. Especially, you can't creat=
+e
+> =C2=A0=C2=A0 _ranged_ managed mappings that way, which many drivers want.
+> 3. Managed request functions only exist as "plural versions" with a
+> =C2=A0=C2=A0 bit-mask as a parameter. That's quite over-engineered consid=
+ering
+> =C2=A0=C2=A0 that each user only ever mapps one, maybe two bars.
 >=20
-> >=20
-> > > Regards,
-> > > Christian.
-> > Cheers,
-> > -Paul
-> >=20
-> > > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > > >=20
-> > > > ---
-> > > > v5: New patch
-> > > > ---
-> > > > =C2=A0=C2=A0 drivers/dma-buf/dma-buf.c | 66
-> > > > +++++++++++++++++++++++++++++++++++++++
-> > > > =C2=A0=C2=A0 include/linux/dma-buf.h=C2=A0=C2=A0 | 37 +++++++++++++=
-+++++++++
-> > > > =C2=A0=C2=A0 2 files changed, 103 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-
-> > > > buf.c
-> > > > index 8fe5aa67b167..a8bab6c18fcd 100644
-> > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > @@ -830,6 +830,8 @@ static struct sg_table *
-> > > > __map_dma_buf(struct
-> > > > dma_buf_attachment *attach,
-> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_mmap()
-> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_begin_cpu_ac=
-cess()
-> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_end_cpu_acce=
-ss()
-> > > > + *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_begin_access()
-> > > > + *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_end_access()
-> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_map_attachme=
-nt_unlocked()
-> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_unmap_attach=
-ment_unlocked()
-> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_vmap_unlocke=
-d()
-> > > > @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct
-> > > > dma_buf
-> > > > *dmabuf, struct iosys_map *map)
-> > > > =C2=A0=C2=A0 }
-> > > > =C2=A0=C2=A0 EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF)=
-;
-> > > > =C2=A0=C2=A0=20
-> > > > +/**
-> > > > + * @dma_buf_begin_access - Call before any hardware access
-> > > > from/to
-> > > > the DMABUF
-> > > > + * @attach:	[in]	attachment used for hardware access
-> > > > + * @sg_table:	[in]	scatterlist used for the DMA transfer
-> > > > + * @direction:=C2=A0 [in]=C2=A0=C2=A0=C2=A0 direction of DMA trans=
-fer
-> > > > + */
-> > > > +int dma_buf_begin_access(struct dma_buf_attachment *attach,
-> > > > +			 struct sg_table *sgt, enum
-> > > > dma_data_direction dir)
-> > > > +{
-> > > > +	struct dma_buf *dmabuf;
-> > > > +	bool cookie;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (WARN_ON(!attach))
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	dmabuf =3D attach->dmabuf;
-> > > > +
-> > > > +	if (!dmabuf->ops->begin_access)
-> > > > +		return 0;
-> > > > +
-> > > > +	cookie =3D dma_fence_begin_signalling();
-> > > > +	ret =3D dmabuf->ops->begin_access(attach, sgt, dir);
-> > > > +	dma_fence_end_signalling(cookie);
-> > > > +
-> > > > +	if (WARN_ON_ONCE(ret))
-> > > > +		return ret;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
-> > > > +
-> > > > +/**
-> > > > + * @dma_buf_end_access - Call after any hardware access
-> > > > from/to
-> > > > the DMABUF
-> > > > + * @attach:	[in]	attachment used for hardware access
-> > > > + * @sg_table:	[in]	scatterlist used for the DMA transfer
-> > > > + * @direction:=C2=A0 [in]=C2=A0=C2=A0=C2=A0 direction of DMA trans=
-fer
-> > > > + */
-> > > > +int dma_buf_end_access(struct dma_buf_attachment *attach,
-> > > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sg_table *sgt, enum
-> > > > dma_data_direction dir)
-> > > > +{
-> > > > +	struct dma_buf *dmabuf;
-> > > > +	bool cookie;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (WARN_ON(!attach))
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	dmabuf =3D attach->dmabuf;
-> > > > +
-> > > > +	if (!dmabuf->ops->end_access)
-> > > > +		return 0;
-> > > > +
-> > > > +	cookie =3D dma_fence_begin_signalling();
-> > > > +	ret =3D dmabuf->ops->end_access(attach, sgt, dir);
-> > > > +	dma_fence_end_signalling(cookie);
-> > > > +
-> > > > +	if (WARN_ON_ONCE(ret))
-> > > > +		return ret;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
-> > > > +
-> > > > =C2=A0=C2=A0 #ifdef CONFIG_DEBUG_FS
-> > > > =C2=A0=C2=A0 static int dma_buf_debug_show(struct seq_file *s, void
-> > > > *unused)
-> > > > =C2=A0=C2=A0 {
-> > > > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > > > index 8ff4add71f88..8ba612c7cc16 100644
-> > > > --- a/include/linux/dma-buf.h
-> > > > +++ b/include/linux/dma-buf.h
-> > > > @@ -246,6 +246,38 @@ struct dma_buf_ops {
-> > > > =C2=A0=C2=A0=C2=A0	 */
-> > > > =C2=A0=C2=A0=C2=A0	int (*end_cpu_access)(struct dma_buf *, enum
-> > > > dma_data_direction);
-> > > > =C2=A0=C2=A0=20
-> > > > +	/**
-> > > > +	 * @begin_access:
-> > > > +	 *
-> > > > +	 * This is called from dma_buf_begin_access() when a
-> > > > device driver
-> > > > +	 * wants to access the data of the DMABUF. The
-> > > > exporter
-> > > > can use this
-> > > > +	 * to flush/sync the caches if needed.
-> > > > +	 *
-> > > > +	 * This callback is optional.
-> > > > +	 *
-> > > > +	 * Returns:
-> > > > +	 *
-> > > > +	 * 0 on success or a negative error code on failure.
-> > > > +	 */
-> > > > +	int (*begin_access)(struct dma_buf_attachment *,
-> > > > struct
-> > > > sg_table *,
-> > > > +			=C2=A0=C2=A0=C2=A0 enum dma_data_direction);
-> > > > +
-> > > > +	/**
-> > > > +	 * @end_access:
-> > > > +	 *
-> > > > +	 * This is called from dma_buf_end_access() when a
-> > > > device
-> > > > driver is
-> > > > +	 * done accessing the data of the DMABUF. The exporter
-> > > > can
-> > > > use this
-> > > > +	 * to flush/sync the caches if needed.
-> > > > +	 *
-> > > > +	 * This callback is optional.
-> > > > +	 *
-> > > > +	 * Returns:
-> > > > +	 *
-> > > > +	 * 0 on success or a negative error code on failure.
-> > > > +	 */
-> > > > +	int (*end_access)(struct dma_buf_attachment *, struct
-> > > > sg_table *,
-> > > > +			=C2=A0 enum dma_data_direction);
-> > > > +
-> > > > =C2=A0=C2=A0=C2=A0	/**
-> > > > =C2=A0=C2=A0=C2=A0	 * @mmap:
-> > > > =C2=A0=C2=A0=C2=A0	 *
-> > > > @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf
-> > > > *dmabuf,
-> > > > =C2=A0=C2=A0 int dma_buf_pin(struct dma_buf_attachment *attach);
-> > > > =C2=A0=C2=A0 void dma_buf_unpin(struct dma_buf_attachment *attach);
-> > > > =C2=A0=C2=A0=20
-> > > > +int dma_buf_begin_access(struct dma_buf_attachment *attach,
-> > > > +			 struct sg_table *sgt, enum
-> > > > dma_data_direction dir);
-> > > > +int dma_buf_end_access(struct dma_buf_attachment *attach,
-> > > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sg_table *sgt, enum
-> > > > dma_data_direction dir);
-> > > > +
-> > > > =C2=A0=C2=A0 struct dma_buf *dma_buf_export(const struct
-> > > > dma_buf_export_info
-> > > > *exp_info);
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0 int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+> This series:
+> - add a set of new "singular" devres functions that use devres the
+> way
+> =C2=A0 its intended, with one callback per resource.
+> - deprecates the existing iomap-table mechanism.
+> - deprecates the hybrid nature of pci_ functions.
+> - preserves backwards compatibility so that drivers using the
+> existing
+> =C2=A0 API won't notice any changes.
+> - adds documentation, especially some warning users about the
+> =C2=A0 complicated nature of PCI's devres.
+>=20
+>=20
+> Note that this series is based on my "unify pci_iounmap"-series from
+> a
+> few weeks ago. [1]
+>=20
+> I tested this on a x86 VM with a simple pci test-device with two
+> regions. Operates and reserves resources as intended on my system.
+> Kasan and kmemleak didn't find any problems.
+>=20
+> I believe this series cleans the API up as much as possible without
+> having to port all existing drivers to the new API. Especially, I
+> think
+> that this implementation is easy to extend if the need for new
+> managed
+> functions arises :)
+>=20
+> Greetings,
+> P.
+>=20
+> Philipp Stanner (10):
+> =C2=A0 PCI: add new set of devres functions
+> =C2=A0 PCI: deprecate iomap-table functions
+> =C2=A0 PCI: warn users about complicated devres nature
+> =C2=A0 PCI: make devres region requests consistent
+> =C2=A0 PCI: move dev-enabled status bit to struct pci_dev
+> =C2=A0 PCI: move pinned status bit to struct pci_dev
+> =C2=A0 PCI: give pcim_set_mwi() its own devres callback
+> =C2=A0 PCI: give pci(m)_intx its own devres callback
+> =C2=A0 PCI: remove legacy pcim_release()
+> =C2=A0 drm/vboxvideo: fix mapping leaks
+>=20
+> =C2=A0Documentation/driver-api/pci/pci.rst=C2=A0 |=C2=A0=C2=A0=C2=A0 3 +
+> =C2=A0drivers/gpu/drm/vboxvideo/vbox_main.c |=C2=A0=C2=A0 24 +-
+> =C2=A0drivers/pci/devres.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1015 ++++++++++=
++++++++++++--
+> --
+> =C2=A0drivers/pci/iomap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 =
+18 +
+> =C2=A0drivers/pci/pci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 123 ++-
+> =C2=A0drivers/pci/pci.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 25 +-
+> =C2=A0include/linux/pci.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 =
+18 +-
+> =C2=A07 files changed, 1011 insertions(+), 215 deletions(-)
 >=20
 
