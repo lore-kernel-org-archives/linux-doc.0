@@ -1,89 +1,112 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B335C5FF07;
-	Tue, 23 Jan 2024 15:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FC060B8B;
+	Tue, 23 Jan 2024 15:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706024672; cv=none; b=ZXQ84dO1Ia2jcgGhYOuSZGl/igBobDiuVlMHfK6utD/aWvqRyaoy34bc4WzUyfvifi/u7jX1SqVhEzi5+Cq0BjAIeneKoBG56cH6VXG8TvFFyFBE4yihW9CavAJuW1UqGZk4+lbhLmqpiVR2gItgltu5vTOM31fBPIvg17MyaGA=
+	t=1706024733; cv=none; b=VDDLG2+UaNvUoCuvwZN0qeovtZcIQagB6EI2Pb2UOxjpm4NiA/jhggpFOAWsalPEyYvCvvUWT+mAr/aKiq20WKQOb9+CrGZjGQjLCt1h9s/Kx1HWqqg7G4feETTVcIk6wj3PH96JhhOOZ7bfRpA2APESlGjZ6J2bnvtGA8pMKSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706024672; c=relaxed/simple;
-	bh=+UBMBwqjM4LUVFP6+vP3hZIWmeh/+RFBlTBKRI4wpMM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ii/HgVgFQwn9JzHVmOGDqZzJYvbFtkdWLowQ+Co2A8l6w0teJhcXS95ZmcoAKC5rjV++O1Kmfprjoq7AI7XxC3acvnLtNDxV7yL2r5zOJiyyZ/MDNHtg5num2DNkbH3W+xLA/Qm8HqyuGNJ1cqjRe+5nup4xrAuby7qGjtEHpgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 178871FB;
-	Tue, 23 Jan 2024 07:45:12 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.58])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC65E3F5A1;
-	Tue, 23 Jan 2024 07:44:25 -0800 (PST)
-Date: Tue, 23 Jan 2024 15:44:23 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
-Subject: Re: [PATCH 1/4] arm64/sve: Remove bitrotted comment about syscall
- behaviour
-Message-ID: <Za/e15zUOEaa1b7d@e133380.arm.com>
-References: <20240122-arm64-sve-sme-doc-v1-0-3d492e45265b@kernel.org>
- <20240122-arm64-sve-sme-doc-v1-1-3d492e45265b@kernel.org>
+	s=arc-20240116; t=1706024733; c=relaxed/simple;
+	bh=hdBYdUxOFq+kbS0ASigOqpNwC+DLJhVJWkE9MFnLlNM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gfBDtEsYyPOGrly7wPLeMXP9qOBAHeQoGyj2uHl+FJmHvQl1IMmeoKpFnmNwVA8cvcg7WAeTW6jkUp9oKa5IfwcfZNufD+yjmizinWZfaCMFz+KqC3FsxqkjRzyI6o+QSKQ/Vj7m/utrO7AWv3XO+xwq4pWJN/vy9LnWbVhVIU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZeSQHkG; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZeSQHkG"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2f79e79f0cso432919166b.2;
+        Tue, 23 Jan 2024 07:45:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706024730; x=1706629530; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jtlKdxisJ1H4nXUQnaiF3tGiczuUPAFtsLVHqqe+6VI=;
+        b=CZeSQHkGMHeHcWoEL36DbEv7o+4X+RJNWCIdD8+W1P+K4k+jfUQ1YVoX4T0x2i+1jI
+         SEcl88ixaxRdtNvzOSkg3fZ91d2hf0jv2x+hGfB2GWS1j8hiH+SmA8WwHOXyJdHBiVHl
+         RcX/LnoWaCSCvKE7uGtvKVkU3aD47GIy3p2tP+T0VIcGHoyNGe26kBJ9Syh6vStbbIEk
+         WW7K9tgSgUtbJ7Wx+HrNLTvQbsVk+d0aFSq9KuwTo46llJ4sp+YSxbaATOiLbW7qf6yG
+         Gk05kK7UaJrRtT//vaX3TvKpw32CN5FE5Vvv/69QtQkJP/Bho6UhQFd7cqO0HbCClN4H
+         c3/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706024730; x=1706629530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jtlKdxisJ1H4nXUQnaiF3tGiczuUPAFtsLVHqqe+6VI=;
+        b=oU5DaUKU+rlzlr187XEJspN+VszFNMXpQjaESqYxqgw3O3Z5RYHlkWtJppgDP4i4XT
+         Zp59qzvVxXL6LQ5hfFQ8qOFwewq0xpyo1i7YZNyuKJdOmDVgsg+8F2swKrIraI7cK3gX
+         aay0s2KwEyVDLOBINmBl9IXTyCSZ5WGjA+9mMLPKJUKe7XBdCUc/lwC8wwxdw1Sk1wI6
+         4oku/6cEe3QN6H260UJaiH1uKsC8wKpKjImKPs0C6iLBYynhjo8u+yTeZbe64jgihIsY
+         1e60syNhxjFuVUQrrqEqNt+japK2hiIxVaBxXtl//rUOKTAUa2vNhfoAGc26XKX0tzas
+         4trQ==
+X-Gm-Message-State: AOJu0YyBq+Ov4xx9VJ+Mb8p5i0yxD86TRD7HVIjYm01Kw8Us0fJK1xL8
+	py0pmZw+dghZ7bxIDoR5BvBzjhaIe+n9El9yeDk88Whx4zxCHvcuw4tCdSovjsmyBC8/99lOo7V
+	7ZjedD0Jd/+IxHCs8wZO1uSuBYXk=
+X-Google-Smtp-Source: AGHT+IGeoKDAXQT1QtGkmzsvDd9O3U+IXSXTY2VIJASOG7mhjJxF1tXdrpBbCuSnLMpczZO5eE6k5hkSEaDy2eB9Yno=
+X-Received: by 2002:a17:906:da81:b0:a30:f04e:4bdd with SMTP id
+ xh1-20020a170906da8100b00a30f04e4bddmr45448ejb.68.1706024729528; Tue, 23 Jan
+ 2024 07:45:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240122-arm64-sve-sme-doc-v1-1-3d492e45265b@kernel.org>
+References: <20240123133828.141222-1-warthog618@gmail.com>
+In-Reply-To: <20240123133828.141222-1-warthog618@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 23 Jan 2024 17:44:52 +0200
+Message-ID: <CAHp75Vd1dipGkCgQBENN3rLeUO+eQfOz9uKzz86eK755smqGag@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: gpio: describe uAPI behaviour when
+ hardware doesn't support requested config
+To: Kent Gibson <warthog618@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, brgl@bgdev.pl, linus.walleij@linaro.org, 
+	andy@kernel.org, corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 22, 2024 at 08:41:51PM +0000, Mark Brown wrote:
-> When we documented that we always clear state not shared with FPSIMD we
+On Tue, Jan 23, 2024 at 3:39=E2=80=AFPM Kent Gibson <warthog618@gmail.com> =
+wrote:
+>
+> The existing uAPI documentation does not adequately describe how the kern=
+el
+> handles the case where the underlying hardware or driver does not support
+> the requested configuration.
+>
+> Add a Configuration Support section describing that behaviour to both the
+> v1 and v2 documentation, and better document the errors returned where th=
+e
+> requested configuration cannot be supported.
 
-Where / when?
+...
 
-> didn't catch all of the places that mentioned that state might not be
-> cleared, remove a lingering reference.
-> 
-> Reported-by: Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  Documentation/arch/arm64/sve.rst | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/Documentation/arch/arm64/sve.rst b/Documentation/arch/arm64/sve.rst
-> index 0d9a426e9f85..b45a2da19bf1 100644
-> --- a/Documentation/arch/arm64/sve.rst
-> +++ b/Documentation/arch/arm64/sve.rst
-> @@ -117,11 +117,6 @@ the SVE instruction set architecture.
->  * The SVE registers are not used to pass arguments to or receive results from
->    any syscall.
->  
-> -* In practice the affected registers/bits will be preserved or will be replaced
-> -  with zeros on return from a syscall, but userspace should not make
-> -  assumptions about this.  The kernel behaviour may vary on a case-by-case
-> -  basis.
-> -
+> +Bias             best effort
 
-This was originally an intentionally conservative statement, to allow
-the kernel the flexibility to relax the register zeroing behaviour in
-the future.  It would have permitted not always disabling a task's SVE
-across a syscall, for example.  There were some concerns about security
-and testability that meant that we didn't use this flexibility to begin
-with.
+So, best effort means that in some cases it won't fail. It reminds me
+of the baud rate setting in serial (TermIOS). The question here is how
+does user space know that it fell in one of such cases? (In termios
+the IOCTL updates the respective fields and then user space can get
+settings to see what has actually been applied.)
 
-If we are making an irrevocable commitment not to use this flexibility
-ever, then this comment can go, but if we're not totally sure then I
-think it would be harmless to keep it (?)
+Floating line is not good in some cases and user space really wants to
+know that and treat it as an error (if needed). Hence the above Q. I
+believe this needs to be explained in the documentation.
 
-(Feel free to point me to the relevant past discussion that I may have
-missed.)
+...
 
-[...]
+> +Bias             best effort
 
-Cheers
----Dave
+Ditto.
+
+...
+
+Personally I would still do two patches per ABI version, but it's up
+to Bart what he wants to see at the end.
+
+--
+With Best Regards,
+Andy Shevchenko
