@@ -1,112 +1,100 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FC060B8B;
-	Tue, 23 Jan 2024 15:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EE6960265;
+	Tue, 23 Jan 2024 15:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706024733; cv=none; b=VDDLG2+UaNvUoCuvwZN0qeovtZcIQagB6EI2Pb2UOxjpm4NiA/jhggpFOAWsalPEyYvCvvUWT+mAr/aKiq20WKQOb9+CrGZjGQjLCt1h9s/Kx1HWqqg7G4feETTVcIk6wj3PH96JhhOOZ7bfRpA2APESlGjZ6J2bnvtGA8pMKSk=
+	t=1706024974; cv=none; b=bCVp3TumgGstd0YuD+zrAyNVSTBrzaAZ6qX7TPSbBjB3VR3hASNKmsJ1JlqZ3D9a6QgRA+9B9+xvAepxgs9V9kntNQafVyF4g9EI40zDfCgKoLo5ks/cNDEfY2kvNA4tqnRRSKUjmrSX2fNQcLhXvDANR7qob1E+s6uTbW9W6OU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706024733; c=relaxed/simple;
-	bh=hdBYdUxOFq+kbS0ASigOqpNwC+DLJhVJWkE9MFnLlNM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gfBDtEsYyPOGrly7wPLeMXP9qOBAHeQoGyj2uHl+FJmHvQl1IMmeoKpFnmNwVA8cvcg7WAeTW6jkUp9oKa5IfwcfZNufD+yjmizinWZfaCMFz+KqC3FsxqkjRzyI6o+QSKQ/Vj7m/utrO7AWv3XO+xwq4pWJN/vy9LnWbVhVIU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZeSQHkG; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZeSQHkG"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2f79e79f0cso432919166b.2;
-        Tue, 23 Jan 2024 07:45:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706024730; x=1706629530; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jtlKdxisJ1H4nXUQnaiF3tGiczuUPAFtsLVHqqe+6VI=;
-        b=CZeSQHkGMHeHcWoEL36DbEv7o+4X+RJNWCIdD8+W1P+K4k+jfUQ1YVoX4T0x2i+1jI
-         SEcl88ixaxRdtNvzOSkg3fZ91d2hf0jv2x+hGfB2GWS1j8hiH+SmA8WwHOXyJdHBiVHl
-         RcX/LnoWaCSCvKE7uGtvKVkU3aD47GIy3p2tP+T0VIcGHoyNGe26kBJ9Syh6vStbbIEk
-         WW7K9tgSgUtbJ7Wx+HrNLTvQbsVk+d0aFSq9KuwTo46llJ4sp+YSxbaATOiLbW7qf6yG
-         Gk05kK7UaJrRtT//vaX3TvKpw32CN5FE5Vvv/69QtQkJP/Bho6UhQFd7cqO0HbCClN4H
-         c3/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706024730; x=1706629530;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jtlKdxisJ1H4nXUQnaiF3tGiczuUPAFtsLVHqqe+6VI=;
-        b=oU5DaUKU+rlzlr187XEJspN+VszFNMXpQjaESqYxqgw3O3Z5RYHlkWtJppgDP4i4XT
-         Zp59qzvVxXL6LQ5hfFQ8qOFwewq0xpyo1i7YZNyuKJdOmDVgsg+8F2swKrIraI7cK3gX
-         aay0s2KwEyVDLOBINmBl9IXTyCSZ5WGjA+9mMLPKJUKe7XBdCUc/lwC8wwxdw1Sk1wI6
-         4oku/6cEe3QN6H260UJaiH1uKsC8wKpKjImKPs0C6iLBYynhjo8u+yTeZbe64jgihIsY
-         1e60syNhxjFuVUQrrqEqNt+japK2hiIxVaBxXtl//rUOKTAUa2vNhfoAGc26XKX0tzas
-         4trQ==
-X-Gm-Message-State: AOJu0YyBq+Ov4xx9VJ+Mb8p5i0yxD86TRD7HVIjYm01Kw8Us0fJK1xL8
-	py0pmZw+dghZ7bxIDoR5BvBzjhaIe+n9El9yeDk88Whx4zxCHvcuw4tCdSovjsmyBC8/99lOo7V
-	7ZjedD0Jd/+IxHCs8wZO1uSuBYXk=
-X-Google-Smtp-Source: AGHT+IGeoKDAXQT1QtGkmzsvDd9O3U+IXSXTY2VIJASOG7mhjJxF1tXdrpBbCuSnLMpczZO5eE6k5hkSEaDy2eB9Yno=
-X-Received: by 2002:a17:906:da81:b0:a30:f04e:4bdd with SMTP id
- xh1-20020a170906da8100b00a30f04e4bddmr45448ejb.68.1706024729528; Tue, 23 Jan
- 2024 07:45:29 -0800 (PST)
+	s=arc-20240116; t=1706024974; c=relaxed/simple;
+	bh=AzbsMvmKAIX7RADh8WN6TnAlQ/vHfo/L7WFXSV5xX3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hx0QVGPiD/ASAgj5xcduySzMxGUZCC6JY5ImlBWkAHi5lbQsybuXrqcTFC94U0BJIQtLjlrpWrfFdj6rIjiuH4P9ekJwtLuzR8YKWnH3YTshQlI5dxPtum6qrJS1vfE5RG7sl0XadKycPZgngIVucWoTOa1/nuJRMdOQxSmg8gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD0A41FB;
+	Tue, 23 Jan 2024 07:50:15 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.58])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E6C03F5A1;
+	Tue, 23 Jan 2024 07:49:29 -0800 (PST)
+Date: Tue, 23 Jan 2024 15:49:27 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
+Subject: Re: [PATCH 3/4] arm64/fp: Clarify effect of setting an unsupported
+ system VL
+Message-ID: <Za/gB3oCNAyiPPnu@e133380.arm.com>
+References: <20240122-arm64-sve-sme-doc-v1-0-3d492e45265b@kernel.org>
+ <20240122-arm64-sve-sme-doc-v1-3-3d492e45265b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240123133828.141222-1-warthog618@gmail.com>
-In-Reply-To: <20240123133828.141222-1-warthog618@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 23 Jan 2024 17:44:52 +0200
-Message-ID: <CAHp75Vd1dipGkCgQBENN3rLeUO+eQfOz9uKzz86eK755smqGag@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: describe uAPI behaviour when
- hardware doesn't support requested config
-To: Kent Gibson <warthog618@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, brgl@bgdev.pl, linus.walleij@linaro.org, 
-	andy@kernel.org, corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240122-arm64-sve-sme-doc-v1-3-3d492e45265b@kernel.org>
 
-On Tue, Jan 23, 2024 at 3:39=E2=80=AFPM Kent Gibson <warthog618@gmail.com> =
-wrote:
->
-> The existing uAPI documentation does not adequately describe how the kern=
-el
-> handles the case where the underlying hardware or driver does not support
-> the requested configuration.
->
-> Add a Configuration Support section describing that behaviour to both the
-> v1 and v2 documentation, and better document the errors returned where th=
-e
-> requested configuration cannot be supported.
+On Mon, Jan 22, 2024 at 08:41:53PM +0000, Mark Brown wrote:
+> The documentation for system vector length configuration does not cover all
+> cases where unsupported values are written, tighten it up.
+> 
+> Reported-by: Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  Documentation/arch/arm64/sme.rst | 5 ++---
+>  Documentation/arch/arm64/sve.rst | 5 ++---
+>  2 files changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/arch/arm64/sme.rst b/Documentation/arch/arm64/sme.rst
+> index 3133d0e91b48..ba0a5e5b2523 100644
+> --- a/Documentation/arch/arm64/sme.rst
+> +++ b/Documentation/arch/arm64/sme.rst
+> @@ -379,9 +379,8 @@ The regset data starts with struct user_za_header, containing:
+>  /proc/sys/abi/sme_default_vector_length
+>  
+>      Writing the text representation of an integer to this file sets the system
+> -    default vector length to the specified value, unless the value is greater
+> -    than the maximum vector length supported by the system in which case the
+> -    default vector length is set to that maximum.
+> +    default vector length to the specified value rounded to a supported value
+> +    using the same rules as for setting vector length via prctl().
 
-...
+Do parallel changes need to be made in sve.rst?
 
-> +Bias             best effort
+(There seems to be so much duplication and copy-paste between these
+files that I wonder whether it would make sense to merge them...  but
+that's probably a separate discussion.)
 
-So, best effort means that in some cases it won't fail. It reminds me
-of the baud rate setting in serial (TermIOS). The question here is how
-does user space know that it fell in one of such cases? (In termios
-the IOCTL updates the respective fields and then user space can get
-settings to see what has actually been applied.)
+Nit: is it better to name the prctl here than just to say prctl()?
+That would be easier for the reader to cross-reference.
 
-Floating line is not good in some cases and user space really wants to
-know that and treat it as an error (if needed). Hence the above Q. I
-believe this needs to be explained in the documentation.
-
-...
-
-> +Bias             best effort
+>  
+>      The result can be determined by reopening the file and reading its
+>      contents.
+> diff --git a/Documentation/arch/arm64/sve.rst b/Documentation/arch/arm64/sve.rst
+> index b45a2da19bf1..b923727ff4b9 100644
+> --- a/Documentation/arch/arm64/sve.rst
+> +++ b/Documentation/arch/arm64/sve.rst
+> @@ -423,9 +423,8 @@ The regset data starts with struct user_sve_header, containing:
+>  /proc/sys/abi/sve_default_vector_length
+>  
+>      Writing the text representation of an integer to this file sets the system
+> -    default vector length to the specified value, unless the value is greater
+> -    than the maximum vector length supported by the system in which case the
+> -    default vector length is set to that maximum.
+> +    default vector length to the specified value rounded to a supported value
+> +    using the same rules as for setting vector length via prctl().
 
 Ditto.
 
-...
+[...]
 
-Personally I would still do two patches per ABI version, but it's up
-to Bart what he wants to see at the end.
-
---
-With Best Regards,
-Andy Shevchenko
+Cheers
+---Dave
