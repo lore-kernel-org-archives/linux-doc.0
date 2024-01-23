@@ -1,158 +1,207 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB0D5FBA8
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 09:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9E459B70;
+	Tue, 23 Jan 2024 10:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706003113; cv=none; b=BBohfRurAsGIeNB1UvadgeYs0faE8w9iLLckyl77Y2cGZKVPKw4f692xEHsbW505P8va1zq9l0qX7x0+YT9KKBAJGYjeTVscl0X+M93rEYuRfqhUnMmJkvjH+qdNIGcmufJueNSk++Vbxt1I7c+cKBLgpD8BgdsY4pnbL42KOq0=
+	t=1706004508; cv=none; b=ddyGWwV1gA66SLrcGloWwMwQeDOuEATuRf4dleLc3Dc787bzaAsj2G1LN8pDHvF3HS+dc+gB3v4PCcTsIBeQjnQ/L2Su/sNnQZYtALboU9v5e48vMFZO9MQn9ANW/2jnnNJAIljGoELt/wu+oAgSseSnr0O9PE91fL3pugtnnWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706003113; c=relaxed/simple;
-	bh=3Iz4WGGoq+pCd7AYX21h5ZoVleqGHZ1r8bx9B4kfr1Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hf7X4dkrFwkRVxkvwPHiqoxNr0Ft22tLfEVP9kdi+XIXHSy2M6LUtgUsjK5SNrEFzvHRVISx+lOA8SDsoogYRTqwlJlp80TEQhMIfv7xo6/7Rt3rcmxsxxU7cH14sYujFJKHiGnSiKAGEY9242g+Bs1rlvw8cqkLz3v6erZqD8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QtbvgXM1; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QtbvgXM1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706003110;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FWMdjy11RuBqd4YsQRKnY1KCsHHpGsFFOhcTWKEv36g=;
-	b=QtbvgXM1KWoPghp2T+yGVVT27ojbKSsgpKz4Pf/Ze/kOKbVBM91utfHk0AnsR4WUjf4HRt
-	DIYDzXL3kUaK5t5sHX3EB0zQWLPe9hNq7upF+mfydcCMfOJYyK2ZTJi9XczsX/T3D1G58K
-	/U9eFP9gj8l059OI4DKY2PEdy1wJzbo=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-120-1gbp78vcNf2wCxZvVMU0Kg-1; Tue, 23 Jan 2024 04:45:08 -0500
-X-MC-Unique: 1gbp78vcNf2wCxZvVMU0Kg-1
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-42a335c8fcfso8359161cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 01:45:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706003107; x=1706607907;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FWMdjy11RuBqd4YsQRKnY1KCsHHpGsFFOhcTWKEv36g=;
-        b=lrC9h+gUkXQzSKchSQGruePK27b4AIrgW+TokIU3U1rqmyaBUbVJ7I6PTUXeuzvEIb
-         iB5mCTiwX1BQbhzTrjb5GON86Bfqw+HlyzVyQfMVzKzAQKQ9lWiAS4VeKh0hBwUrFz3b
-         bdrNGACwtNpjm8Zni7CkvVKxuPg42A/dL9SRhUI3u/UVh8Soyi9A8v75BhIqJbEml/e6
-         so07OF+GRWVSew+CDSyRGvf4XzX/gm9JXQ17wxyctemFHTR1HDMiX7x9W6wx4jGwCirG
-         srj2tz31iWXYUkoQOnb05kEwcf4HhpXOE+83S1FG75m6tpCT2xCxBIwWr6g+EdbU5gBY
-         AeyA==
-X-Gm-Message-State: AOJu0YwyMIvTpy1RU1udGCChtITMaQaik8ctkdxGqwP1OY+xPAR0UCYJ
-	EaB2TzEoIF0rldd7cETsu1xqIy6/GIHXds/xvZV2E98vjAo/LzsyTsp2vWxTKaqu0rxGFhjuh4s
-	/K/7ArG1fh4y5BqKHdX2Z7oU6D2o+hkOm00ukJXR4CxzBAd8kE+ucOAYXsA==
-X-Received: by 2002:a05:6214:21c5:b0:686:9443:87b1 with SMTP id d5-20020a05621421c500b00686944387b1mr4377405qvh.2.1706003107754;
-        Tue, 23 Jan 2024 01:45:07 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFss4rceMk+iJ1mHCcS+hUWfR7kWRFY2O8zC9T9j0KLwTPnx3az+4pz7feAJyO8Yaas1sCjsw==
-X-Received: by 2002:a05:6214:21c5:b0:686:9443:87b1 with SMTP id d5-20020a05621421c500b00686944387b1mr4377391qvh.2.1706003107503;
-        Tue, 23 Jan 2024 01:45:07 -0800 (PST)
-Received: from pstanner-thinkpadt14sgen1.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id nc5-20020a0562142dc500b00685e2ffcaf5sm2958704qvb.38.2024.01.23.01.45.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jan 2024 01:45:07 -0800 (PST)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Philipp Stanner <pstanner@redhat.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	dakr@redhat.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-pci@vger.kernel.org,
-	stable@kernel.vger.org
-Subject: [PATCH v2 10/10] drm/vboxvideo: fix mapping leaks
-Date: Tue, 23 Jan 2024 10:43:07 +0100
-Message-ID: <20240123094317.15958-11-pstanner@redhat.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240123094317.15958-1-pstanner@redhat.com>
-References: <20240123094317.15958-1-pstanner@redhat.com>
+	s=arc-20240116; t=1706004508; c=relaxed/simple;
+	bh=kxaW1bi7sX+liEnGkuJfF9UhGpIIxLkLIuBsEeev57w=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LxkpexyNEOwdz1v7GOdXfEfLH3VA3mO6Y1cMmY/9ehQBG8DiWa3ackABLHxbYUczDA4hwYBA69n29zNHaAsrCPfZ6Ds0ESGMSHvaCPyUgkvqTbp8n7ovPoNBP8UCldrxj+JIoE4bPwfVWjqcF0euBTNDvneRRS8R/yBUlJ1oKaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TK2lV0mHxz67hqY;
+	Tue, 23 Jan 2024 18:05:26 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id DCC251404F5;
+	Tue, 23 Jan 2024 18:08:22 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 23 Jan
+ 2024 10:08:22 +0000
+Date: Tue, 23 Jan 2024 10:08:21 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
+	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
+	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse <james.morse@arm.com>
+Subject: Re: [PATCH RFC v3 14/21] irqchip/gic-v3: Don't return errors from
+ gic_acpi_match_gicc()
+Message-ID: <20240123100821.00000064@Huawei.com>
+In-Reply-To: <ZZ2eGLwlkqZrh0In@shell.armlinux.org.uk>
+References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
+	<E1rDOgx-00Dvkv-Bb@rmk-PC.armlinux.org.uk>
+	<20231215163301.0000183a@Huawei.com>
+	<ZZ2eGLwlkqZrh0In@shell.armlinux.org.uk>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-When the PCI devres API was introduced to this driver, it was wrongly
-assumed that initializing the device with pcim_enable_device() instead
-of pci_enable_device() will make all PCI functions managed.
+On Tue, 9 Jan 2024 19:27:20 +0000
+"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
 
-This is wrong and was caused by the quite confusing devres API for PCI
-in which some, but not all, functions become managed that way.
+> On Fri, Dec 15, 2023 at 04:33:01PM +0000, Jonathan Cameron wrote:
+> > On Wed, 13 Dec 2023 12:50:23 +0000
+> > Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
+> >   
+> > > From: James Morse <james.morse@arm.com>
+> > > 
+> > > gic_acpi_match_gicc() is only called via gic_acpi_count_gicr_regions().
+> > > It should only count the number of enabled redistributors, but it
+> > > also tries to sanity check the GICC entry, currently returning an
+> > > error if the Enabled bit is set, but the gicr_base_address is zero.
+> > > 
+> > > Adding support for the online-capable bit to the sanity check
+> > > complicates it, for no benefit. The existing check implicitly
+> > > depends on gic_acpi_count_gicr_regions() previous failing to find
+> > > any GICR regions (as it is valid to have gicr_base_address of zero if
+> > > the redistributors are described via a GICR entry).
+> > > 
+> > > Instead of complicating the check, remove it. Failures that happen
+> > > at this point cause the irqchip not to register, meaning no irqs
+> > > can be requested. The kernel grinds to a panic() pretty quickly.
+> > > 
+> > > Without the check, MADT tables that exhibit this problem are still
+> > > caught by gic_populate_rdist(), which helpfully also prints what
+> > > went wrong:
+> > > | CPU4: mpidr 100 has no re-distributor!
+> > > 
+> > > Signed-off-by: James Morse <james.morse@arm.com>
+> > > Reviewed-by: Gavin Shan <gshan@redhat.com>
+> > > Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> > > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> > > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+> > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> > > ---
+> > >  drivers/irqchip/irq-gic-v3.c | 18 ++++++------------
+> > >  1 file changed, 6 insertions(+), 12 deletions(-)
+> > > 
+> > > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> > > index 98b0329b7154..ebecd4546830 100644
+> > > --- a/drivers/irqchip/irq-gic-v3.c
+> > > +++ b/drivers/irqchip/irq-gic-v3.c
+> > > @@ -2420,21 +2420,15 @@ static int __init gic_acpi_match_gicc(union acpi_subtable_headers *header,
+> > >  
+> > >  	/*
+> > >  	 * If GICC is enabled and has valid gicr base address, then it means
+> > > -	 * GICR base is presented via GICC
+> > > +	 * GICR base is presented via GICC. The redistributor is only known to
+> > > +	 * be accessible if the GICC is marked as enabled. If this bit is not
+> > > +	 * set, we'd need to add the redistributor at runtime, which isn't
+> > > +	 * supported.
+> > >  	 */
+> > > -	if (acpi_gicc_is_usable(gicc) && gicc->gicr_base_address) {
+> > > +	if (gicc->flags & ACPI_MADT_ENABLED && gicc->gicr_base_address)  
+> > 
+> > I was very vague in previous review.  I think the reasons you are switching
+> > from acpi_gicc_is_useable(gicc) to the gicc->flags & ACPI_MADT_ENABLED
+> > needs calling out as I'm fairly sure that this point in the series at least
+> > acpi_gicc_is_usable is same as current upstream:
+> > 
+> > static inline bool acpi_gicc_is_usable(struct acpi_madt_generic_interrupt *gicc)
+> > {
+> > 	return gicc->flags & ACPI_MADT_ENABLED;
+> > }  
+> 
+> In a previous patch adding acpi_gicc_is_usable() c54e52f84d7a ("arm64,
+> irqchip/gic-v3, ACPI: Move MADT GICC enabled check into a helper") this
+> was:
+> 
+> -       if ((gicc->flags & ACPI_MADT_ENABLED) && gicc->gicr_base_address) {
+> +       if (acpi_gicc_is_usable(gicc) && gicc->gicr_base_address) {
+> 
+> so effectively this is undoing that particular change, which raises in
+> my mind why the change was made in the first place if it's just going
+> to be reverted in a later patch (because in a following patch,
+> acpi_gicc_is_usable() has an additional condition added to it that
+> isn't applicable here.) which effectively makes acpi_gicc_is_usable()
+> return true if either ACPI_MADT_ENABLED _or_
+> ACPI_MADT_GICC_ONLINE_CAPABLE (as it is now known) are set.
 
-The function pci_iomap_range() is never managed.
+Ok. So maybe just calling out that we are about to change the meaning
+of acpi_gicc_is_usable() so need to partly revert that earlier patch
+to make use of it everywhere.
 
-Replace pci_iomap_range() with the actually managed function
-pcim_iomap_range().
+Or perhaps introduce
+acpi_gicc_is_enabled() which is called by acpi_gicc_is_usable()
+along with the new conditions when they are added though as you
+say later, what does usable mean?
 
-Additionally, add a call to pcim_request_region() to ensure exclusive
-access to BAR 0.
+> 
+> However, if ACPI_MADT_GICC_ONLINE_CAPABLE is set, does that actually
+> mean that the GICC is usable? I'm not sure it does. ACPI v6.5 says that
+> this bit indicates that the system supports enabling this processor
+> later. Is the GICC of a currently disabled processor "usable"...
 
-CC: <stable@kernel.vger.org> # v5.10+
-Fixes: 8558de401b5f ("drm/vboxvideo: use managed pci functions")
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/vboxvideo/vbox_main.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+I agree, this is confusing.
 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
-index 42c2d8a99509..7f686a0190e6 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_main.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
-@@ -42,12 +42,11 @@ static int vbox_accel_init(struct vbox_private *vbox)
- 	/* Take a command buffer for each screen from the end of usable VRAM. */
- 	vbox->available_vram_size -= vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE;
- 
--	vbox->vbva_buffers = pci_iomap_range(pdev, 0,
--					     vbox->available_vram_size,
--					     vbox->num_crtcs *
--					     VBVA_MIN_BUFFER_SIZE);
--	if (!vbox->vbva_buffers)
--		return -ENOMEM;
-+	vbox->vbva_buffers = pcim_iomap_range(
-+			pdev, 0, vbox->available_vram_size,
-+			vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE);
-+	if (IS_ERR(vbox->vbva_buffers))
-+		return PTR_ERR(vbox->vbva_buffers);
- 
- 	for (i = 0; i < vbox->num_crtcs; ++i) {
- 		vbva_setup_buffer_context(&vbox->vbva_info[i],
-@@ -115,12 +114,15 @@ int vbox_hw_init(struct vbox_private *vbox)
- 
- 	DRM_INFO("VRAM %08x\n", vbox->full_vram_size);
- 
-+	ret = pcim_request_region(pdev, 0, "vboxvideo");
-+	if (ret)
-+		return ret;
-+
- 	/* Map guest-heap at end of vram */
--	vbox->guest_heap =
--	    pci_iomap_range(pdev, 0, GUEST_HEAP_OFFSET(vbox),
--			    GUEST_HEAP_SIZE);
--	if (!vbox->guest_heap)
--		return -ENOMEM;
-+	vbox->guest_heap = pcim_iomap_range(pdev, 0,
-+			GUEST_HEAP_OFFSET(vbox), GUEST_HEAP_SIZE);
-+	if (IS_ERR(vbox->guest_heap))
-+		return PTR_ERR(vbox->guest_heap);
- 
- 	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
- 	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
--- 
-2.43.0
+acpi_gicc_may_be_usable()?
+
+Or invert it in all places to give a cleaner meaning
+!acpi_gicc_never_usable()
+
+Bit of a pain to change this throughout again, but maybe necessary
+to avoid confusion in future.
+
+> 
+> Clearly, the intention of this change is not to count this GICC entry
+> if it is marked ACPI_MADT_GICC_ONLINE_CAPABLE, but I feel that isn't
+> described in the commit message.
+
+Agreed, though that only happens in the next patch so easier to describe
+there or via a patch adding initially identical multiple helper functions
+that then diverge in following patch?
+
+Whilst a helper for this one location seems silly it would let us put
+the two helpers next to each other where the distinction is obvious.
+
+> 
+> Moreover, I am getting the feeling that there are _two_ changes going
+> on here - there's the change that's talked about in the commit message
+> (the complex validation that seems unnecessary) and then there's the
+> preparation for the change to acpi_gicc_is_usable() - which maybe
+> should be in the following patch where it would be less confusing.
+
+Agreed.
+
+> 
+> Would you agree?
+> 
+Yes, the move would help as then it's obvious why this needs to change
+and that is separate from the naming question.
+
+So in conclusion, I agree with everything you've called out on this one,
+up to you to pick which solution cleans this up. I think options are.
+1) Just move the change to the next patch where it's easier to describe.
+   Leaves the odd 'usable' behind.
+2) Rename the useable() to something else, maybe inverting logic as
+   !never is easier than now_or_maybe_later.
+3) Possibly add another helper for this new case which starts as matching
+   the existing one, but diverges in a later patch (Should still not be
+   in this patch which as you observer is doing something else and I think
+   is actually a bug fix anyway, be it one that has never mattered for
+   any shipping firmware).
+
+Jonathan
+
 
