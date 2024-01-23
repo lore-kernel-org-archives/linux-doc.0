@@ -1,96 +1,82 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6D563518
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 16:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76D66281F
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 16:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706026802; cv=none; b=eYoGtaTxL2hDtT+CqZCEb1bswbWtj1T2nPykA5neS1Pg2zupyELkZGnSujneVB3vFXdo+nltT4uYQPDC7z54P6GMoWxxT7EvNDKuVAy9U4OmPFEiJEuR1rDJYS7snnHdKbmuVA80IDlso/SxzV7CIHXCJdFNjPUiziLJ8vkkrK0=
+	t=1706026949; cv=none; b=TaFKdMZ9O0dBSbgqQIHRdY119AuCBBr5s1KshAEG9kvnk4fFmg68oGbGTZPCzVdaE0aMlU4AjJEwq6OnVO3O5AqVrsGM0xh27TGkpvQjgqp12ipyPGZYpGswdKBV4dCxd4+sz4l4YJ2f7dIbt6aeOVA4GX5JNVNOFFMv6PWluMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706026802; c=relaxed/simple;
-	bh=wZV1nDsf1Mh6bNPqk15yidzQEr972rNKIDNejFgduiM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=A/euWbHRa+Q0fjuxzdGcPfkwsYyC45i8rWFiigliz0LdTMfp1ykHFWKznEgG0ydDsr68vjjH2tCIvLW7ChTfpSozSwtMlRrZVVatV6D6rT69IXYluFKtOg/pjhsxrbKwlTJAVmoctLCyF9aGgZ0xhqemhB2EArXMM8fUccLksQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=QDt7fcS4; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1706026949; c=relaxed/simple;
+	bh=UUwGt4oUVgILrxaLSo7X4krtBWksyhTPT4cKPjSUg98=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uGURCcwUiAjRG7AbIrptfhc0Vdo1hPRGTRTLsUXraOGOWXR0XM+ZatsjQLbAWVmlP6KqGV6kZ82XnSCKH7X0pPSg5haKeSLa6CMAklOJWBTy0YNQeOm6sfHPCHywpCsHmGKgDvtFJOBvBtxUkXbeuGzHuBooWGj0oGKTwkU7RPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hXoUdMbM; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="QDt7fcS4"
-Received: from localhost (c-98-53-138-11.hsd1.co.comcast.net [98.53.138.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 61E3C383;
-	Tue, 23 Jan 2024 16:19:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 61E3C383
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1706026796; bh=c+HCD0uBFoV0Qlz1Gu4hTVYE7PigHRTbK6L0ISNBkVY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QDt7fcS4U5n2Suz9ohSr910McYe+qd+OeRhvg21y6RJ1DWUgTn+6jECAW83E9FjdB
-	 xissCZUUSOYng1oj3OIaRE4p8ve/14XuPYLGIdfhRL//aV+EYOe3MZRlR9P3xJSQWs
-	 2ugROBKDd5i4GK9YDZuvYF6/HkMxkiu7datmG31FG5B+M1pprLliiRnWnhRtMn1yr4
-	 FwuXS7KrjHbyiOJ8HjGkxy/gkJ2Q3fXKqJpjSHI/x/KsT908+op86WoTD1Se1ZRfWH
-	 TTjKd1dkPTf05lscoxTcIt61KelIl/WHvRJHJTrFQLZrG/FQUFhumcwILIf9pHYeux
-	 IbMYnioPzk+0Q==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Vegard Nossum <vegard.nossum@oracle.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: docs: requirements.txt has stopped working again
-In-Reply-To: <2018acaa-a6ce-4074-b3e1-1a12018573fb@oracle.com>
-References: <cb72b3d6-de7a-4c8a-a99c-72d58a23f89c@gmail.com>
- <b0ddcb5d-e735-437c-a828-5e400facb978@oracle.com>
- <878r4gnsev.fsf@intel.com>
- <2018acaa-a6ce-4074-b3e1-1a12018573fb@oracle.com>
-Date: Tue, 23 Jan 2024 09:19:55 -0700
-Message-ID: <874jf4m384.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hXoUdMbM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706026948; x=1737562948;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UUwGt4oUVgILrxaLSo7X4krtBWksyhTPT4cKPjSUg98=;
+  b=hXoUdMbM3hBASWhiaa+IpBaCpBBWuDPh3nsiwifirKast7l68Mj4NDUV
+   Rnd4NtmOBdYvCLzMpWRJNa1iJsO+EOqgJPijwDJlbSSw6x6hrTYaP30IF
+   /Soj+g6I5K/o/PmOkwyTQ73VG03aUS7YQ/fqDdmtTu35AXbKCGZkjAUQe
+   Cc/fC8iJfN0e5D1bV5u4yE5lPH98MwWFOposjAyV3Z1sZ4vpjWBFt5J2q
+   wZi1F6wWziwvMRsaasAMoPzarzf79bzj0pOfDXubdj68UGfrA8sxrVKIk
+   6nizGWx0MGLVFxZC4v4CeKY4pSiHdA1/bkj5gl3O66xQLR4ACbjSE0nBe
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="23041062"
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208,217";a="23041062"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 08:22:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
+   d="scan'208,217";a="1640320"
+Received: from hkhushk-mobl1.amr.corp.intel.com (HELO gjsousa-mobl2.intel.com) ([10.246.112.60])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 08:22:25 -0800
+From: Gustavo Sousa <gustavo.sousa@intel.com>
+To: linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: gustavo.sousa@intel.com
+Subject: [PATCH] docs/sphinx: Fix TOC scroll hack for the home page
+Date: Tue, 23 Jan 2024 13:21:58 -0300
+Message-ID: <20240123162157.61819-2-gustavo.sousa@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Vegard Nossum <vegard.nossum@oracle.com> writes:
+When on the documentation home page, there won't be any ".current"
+element since no entry from the TOC was selected yet. That results in a
+javascript error. Fix that by only trying to set the scrollTop if we
+have matches for current entries.
 
-> It makes sense when those ancient versions build our docs just fine and
-> run MUCH faster too. Here was my proposal, more specifically:
->
-> 1) requirements.txt : take out all the version constraints so it will
-> just use the latest versions of everything (unless there are issues with
-> those) -- this is what I think Akira/Jon/you really want
+Signed-off-by: Gustavo Sousa <gustavo.sousa@intel.com>
+---
+ Documentation/sphinx/templates/kernel-toc.html | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Yes, this is what I would do.
+diff --git a/Documentation/sphinx/templates/kernel-toc.html b/Documentation/sphinx/templates/kernel-toc.html
+index b58efa99df52..41f1efbe64bb 100644
+--- a/Documentation/sphinx/templates/kernel-toc.html
++++ b/Documentation/sphinx/templates/kernel-toc.html
+@@ -12,5 +12,7 @@
+ <script type="text/javascript"> <!--
+   var sbar = document.getElementsByClassName("sphinxsidebar")[0];
+   let currents = document.getElementsByClassName("current")
+-  sbar.scrollTop = currents[currents.length - 1].offsetTop;
++  if (currents.length) {
++    sbar.scrollTop = currents[currents.length - 1].offsetTop;
++  }
+   --> </script>
+-- 
+2.43.0
 
-> 2) requirements-2.4.4.txt : create this file and add and freeze ALL the
-> sphinx dependencies at specific versions that make 2.4.4 work --
-> freezing everything means we should never really need to touch this file
-> again
-
-I don't believe you'll ever get to a point where it never breaks; that's
-a *lot* of dependencies to track down.
-
-I don't think it's worth it.  The number of people who *really* want to
-build with a 2.4.4 system is, I believe, quite small; they may all be
-copied on this email.  It is enough of a niche thing at this point that,
-I think, we should not go to great lengths to support it.  Perhaps
-somebody can contribute a document for folks who really want to do it.
-
-> 3) add a warning when building using slow sphinx versions, perhaps
-> encouraging people with these slow versions to use
-> requirements-2.4.4.txt with a virtualenv.
->
-> I think this ticks all the boxes:
->
-> - No more whack-a-mole (since requirements.txt would have no bounds to
-> update, and requirements-2.4.4.txt would have everything frozen)
->
-> - Doesn't raise the minimum version unnecessarily for people who would
-> still like to use the older and faster version.
-
-I'm happy to not break 2.4.4 for now, though I suspect that day may
-come.  But I think directing people toward such an old version is not
-going to lead to long-term joy; for better or for worse, Sphinx has
-moved on.
-
-jon
