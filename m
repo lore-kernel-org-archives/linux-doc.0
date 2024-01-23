@@ -1,207 +1,318 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9E459B70;
-	Tue, 23 Jan 2024 10:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470905BADB;
+	Tue, 23 Jan 2024 10:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706004508; cv=none; b=ddyGWwV1gA66SLrcGloWwMwQeDOuEATuRf4dleLc3Dc787bzaAsj2G1LN8pDHvF3HS+dc+gB3v4PCcTsIBeQjnQ/L2Su/sNnQZYtALboU9v5e48vMFZO9MQn9ANW/2jnnNJAIljGoELt/wu+oAgSseSnr0O9PE91fL3pugtnnWM=
+	t=1706004643; cv=none; b=Ru6DJdMfXLRRUy/LroYsT6OHOdALoqRJZ/HklKGrUh59ORXmOGfYG3k+V+cFer2jwGOD8Qp+1/nKraFE2nrwyoLxPjf/6/sZAHe2ky7hBQNbMw1FtConSG/1fXN8O+kQQptjrRGtwdoXPcxq94FoENzqzDIaohboxP9PMkhkIC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706004508; c=relaxed/simple;
-	bh=kxaW1bi7sX+liEnGkuJfF9UhGpIIxLkLIuBsEeev57w=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LxkpexyNEOwdz1v7GOdXfEfLH3VA3mO6Y1cMmY/9ehQBG8DiWa3ackABLHxbYUczDA4hwYBA69n29zNHaAsrCPfZ6Ds0ESGMSHvaCPyUgkvqTbp8n7ovPoNBP8UCldrxj+JIoE4bPwfVWjqcF0euBTNDvneRRS8R/yBUlJ1oKaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TK2lV0mHxz67hqY;
-	Tue, 23 Jan 2024 18:05:26 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id DCC251404F5;
-	Tue, 23 Jan 2024 18:08:22 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 23 Jan
- 2024 10:08:22 +0000
-Date: Tue, 23 Jan 2024 10:08:21 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
-	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
-	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse <james.morse@arm.com>
-Subject: Re: [PATCH RFC v3 14/21] irqchip/gic-v3: Don't return errors from
- gic_acpi_match_gicc()
-Message-ID: <20240123100821.00000064@Huawei.com>
-In-Reply-To: <ZZ2eGLwlkqZrh0In@shell.armlinux.org.uk>
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk>
-	<E1rDOgx-00Dvkv-Bb@rmk-PC.armlinux.org.uk>
-	<20231215163301.0000183a@Huawei.com>
-	<ZZ2eGLwlkqZrh0In@shell.armlinux.org.uk>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1706004643; c=relaxed/simple;
+	bh=mQ8Mr1injx5+4P+73NBjD2yPgs2m4XjU/acM0z55Gp8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Re9Z1WcvoRqAJz3XbxyptQQHrCmeLMGASbPcCvMoEs+f1bdqiWco873dl6LLp3j3J/RZe6i7xaoKWssNBpV745ZPxrkH6sGnThOcs734ARxoikmdk3LCM5kpikPxu/HNkatjniY1whRhzWpXSWxub82eGqVLfpKvKN4hxXoyWEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=cjGaJdv1; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="cjGaJdv1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1706004633;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=q38ONilEN4l7Lhcyl2OEr4G7hBg18u52YIUmCo2B6Gc=;
+	b=cjGaJdv1jUmxeSvtoqG8gsHT1XJOxAPyjtF7BS1BBvLCDNUNAK9Rsd5T8muiQ440GnG0sv
+	AQkILQIRZgwDRoewyi8T0SbwkMJAKvpId+YNNX/EBav+4rJ7tNDEUVysQBJa9Y3kIAUwxU
+	FxAxoaFmXq0uewsAOwxOC1xJvRqel5g=
+Message-ID: <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Daniel
+ Vetter <daniel@ffwll.ch>
+Date: Tue, 23 Jan 2024 11:10:31 +0100
+In-Reply-To: <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+References: <20240119141402.44262-1-paul@crapouillou.net>
+	 <20240119141402.44262-2-paul@crapouillou.net>
+	 <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+	 <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+	 <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Tue, 9 Jan 2024 19:27:20 +0000
-"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
+Hi Christian,
 
-> On Fri, Dec 15, 2023 at 04:33:01PM +0000, Jonathan Cameron wrote:
-> > On Wed, 13 Dec 2023 12:50:23 +0000
-> > Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
-> >   
-> > > From: James Morse <james.morse@arm.com>
-> > > 
-> > > gic_acpi_match_gicc() is only called via gic_acpi_count_gicr_regions().
-> > > It should only count the number of enabled redistributors, but it
-> > > also tries to sanity check the GICC entry, currently returning an
-> > > error if the Enabled bit is set, but the gicr_base_address is zero.
-> > > 
-> > > Adding support for the online-capable bit to the sanity check
-> > > complicates it, for no benefit. The existing check implicitly
-> > > depends on gic_acpi_count_gicr_regions() previous failing to find
-> > > any GICR regions (as it is valid to have gicr_base_address of zero if
-> > > the redistributors are described via a GICR entry).
-> > > 
-> > > Instead of complicating the check, remove it. Failures that happen
-> > > at this point cause the irqchip not to register, meaning no irqs
-> > > can be requested. The kernel grinds to a panic() pretty quickly.
-> > > 
-> > > Without the check, MADT tables that exhibit this problem are still
-> > > caught by gic_populate_rdist(), which helpfully also prints what
-> > > went wrong:
-> > > | CPU4: mpidr 100 has no re-distributor!
-> > > 
-> > > Signed-off-by: James Morse <james.morse@arm.com>
-> > > Reviewed-by: Gavin Shan <gshan@redhat.com>
-> > > Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> > > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-> > > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
-> > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > > ---
-> > >  drivers/irqchip/irq-gic-v3.c | 18 ++++++------------
-> > >  1 file changed, 6 insertions(+), 12 deletions(-)
-> > > 
-> > > diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
-> > > index 98b0329b7154..ebecd4546830 100644
-> > > --- a/drivers/irqchip/irq-gic-v3.c
-> > > +++ b/drivers/irqchip/irq-gic-v3.c
-> > > @@ -2420,21 +2420,15 @@ static int __init gic_acpi_match_gicc(union acpi_subtable_headers *header,
-> > >  
-> > >  	/*
-> > >  	 * If GICC is enabled and has valid gicr base address, then it means
-> > > -	 * GICR base is presented via GICC
-> > > +	 * GICR base is presented via GICC. The redistributor is only known to
-> > > +	 * be accessible if the GICC is marked as enabled. If this bit is not
-> > > +	 * set, we'd need to add the redistributor at runtime, which isn't
-> > > +	 * supported.
-> > >  	 */
-> > > -	if (acpi_gicc_is_usable(gicc) && gicc->gicr_base_address) {
-> > > +	if (gicc->flags & ACPI_MADT_ENABLED && gicc->gicr_base_address)  
-> > 
-> > I was very vague in previous review.  I think the reasons you are switching
-> > from acpi_gicc_is_useable(gicc) to the gicc->flags & ACPI_MADT_ENABLED
-> > needs calling out as I'm fairly sure that this point in the series at least
-> > acpi_gicc_is_usable is same as current upstream:
-> > 
-> > static inline bool acpi_gicc_is_usable(struct acpi_madt_generic_interrupt *gicc)
-> > {
-> > 	return gicc->flags & ACPI_MADT_ENABLED;
-> > }  
-> 
-> In a previous patch adding acpi_gicc_is_usable() c54e52f84d7a ("arm64,
-> irqchip/gic-v3, ACPI: Move MADT GICC enabled check into a helper") this
-> was:
-> 
-> -       if ((gicc->flags & ACPI_MADT_ENABLED) && gicc->gicr_base_address) {
-> +       if (acpi_gicc_is_usable(gicc) && gicc->gicr_base_address) {
-> 
-> so effectively this is undoing that particular change, which raises in
-> my mind why the change was made in the first place if it's just going
-> to be reverted in a later patch (because in a following patch,
-> acpi_gicc_is_usable() has an additional condition added to it that
-> isn't applicable here.) which effectively makes acpi_gicc_is_usable()
-> return true if either ACPI_MADT_ENABLED _or_
-> ACPI_MADT_GICC_ONLINE_CAPABLE (as it is now known) are set.
+Le lundi 22 janvier 2024 =C3=A0 14:41 +0100, Christian K=C3=B6nig a =C3=A9c=
+rit=C2=A0:
+> Am 22.01.24 um 12:01 schrieb Paul Cercueil:
+> > Hi Christian,
+> >=20
+> > Le lundi 22 janvier 2024 =C3=A0 11:35 +0100, Christian K=C3=B6nig a =C3=
+=A9crit=C2=A0:
+> > > Am 19.01.24 um 15:13 schrieb Paul Cercueil:
+> > > > These functions should be used by device drivers when they
+> > > > start
+> > > > and
+> > > > stop accessing the data of DMABUF. It allows DMABUF importers
+> > > > to
+> > > > cache
+> > > > the dma_buf_attachment while ensuring that the data they want
+> > > > to
+> > > > access
+> > > > is available for their device when the DMA transfers take
+> > > > place.
+> > > As Daniel already noted as well this is a complete no-go from the
+> > > DMA-buf design point of view.
+> > What do you mean "as Daniel already noted"? It was him who
+> > suggested
+> > this.
+>=20
+> Sorry, I haven't fully catched up to the discussion then.
+>=20
+> In general DMA-buf is build around the idea that the data can be=20
+> accessed coherently by the involved devices.
+>=20
+> Having a begin/end of access for devices was brought up multiple
+> times=20
+> but so far rejected for good reasons.
 
-Ok. So maybe just calling out that we are about to change the meaning
-of acpi_gicc_is_usable() so need to partly revert that earlier patch
-to make use of it everywhere.
+I would argue that if it was brought up multiple times, then there are
+also good reasons to support such a mechanism.
 
-Or perhaps introduce
-acpi_gicc_is_enabled() which is called by acpi_gicc_is_usable()
-along with the new conditions when they are added though as you
-say later, what does usable mean?
+> That an exporter has to call extra functions to access his own
+> buffers=20
+> is a complete no-go for the design since this forces exporters into=20
+> doing extra steps for allowing importers to access their data.
 
-> 
-> However, if ACPI_MADT_GICC_ONLINE_CAPABLE is set, does that actually
-> mean that the GICC is usable? I'm not sure it does. ACPI v6.5 says that
-> this bit indicates that the system supports enabling this processor
-> later. Is the GICC of a currently disabled processor "usable"...
+Then what about we add these dma_buf_{begin,end}_access(), with only
+implementations for "dumb" exporters e.g. udmabuf or the dmabuf heaps?
+And only importers (who cache the mapping and actually care about non-
+coherency) would have to call these.
 
-I agree, this is confusing.
+At the very least, is there a way to check that "the data can be
+accessed coherently by the involved devices"? So that my importer can
+EPERM if there is no coherency vs. a device that's already attached.
 
-acpi_gicc_may_be_usable()?
+Cheers,
+-Paul
 
-Or invert it in all places to give a cleaner meaning
-!acpi_gicc_never_usable()
-
-Bit of a pain to change this throughout again, but maybe necessary
-to avoid confusion in future.
-
-> 
-> Clearly, the intention of this change is not to count this GICC entry
-> if it is marked ACPI_MADT_GICC_ONLINE_CAPABLE, but I feel that isn't
-> described in the commit message.
-
-Agreed, though that only happens in the next patch so easier to describe
-there or via a patch adding initially identical multiple helper functions
-that then diverge in following patch?
-
-Whilst a helper for this one location seems silly it would let us put
-the two helpers next to each other where the distinction is obvious.
-
-> 
-> Moreover, I am getting the feeling that there are _two_ changes going
-> on here - there's the change that's talked about in the commit message
-> (the complex validation that seems unnecessary) and then there's the
-> preparation for the change to acpi_gicc_is_usable() - which maybe
-> should be in the following patch where it would be less confusing.
-
-Agreed.
-
-> 
-> Would you agree?
-> 
-Yes, the move would help as then it's obvious why this needs to change
-and that is separate from the naming question.
-
-So in conclusion, I agree with everything you've called out on this one,
-up to you to pick which solution cleans this up. I think options are.
-1) Just move the change to the next patch where it's easier to describe.
-   Leaves the odd 'usable' behind.
-2) Rename the useable() to something else, maybe inverting logic as
-   !never is easier than now_or_maybe_later.
-3) Possibly add another helper for this new case which starts as matching
-   the existing one, but diverges in a later patch (Should still not be
-   in this patch which as you observer is doing something else and I think
-   is actually a bug fix anyway, be it one that has never mattered for
-   any shipping firmware).
-
-Jonathan
-
+> That in turn is pretty much un-testable unless you have every
+> possible=20
+> importer around while testing the exporter.
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > > Regards,
+> > > Christian.
+> > Cheers,
+> > -Paul
+> >=20
+> > > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > > >=20
+> > > > ---
+> > > > v5: New patch
+> > > > ---
+> > > > =C2=A0=C2=A0 drivers/dma-buf/dma-buf.c | 66
+> > > > +++++++++++++++++++++++++++++++++++++++
+> > > > =C2=A0=C2=A0 include/linux/dma-buf.h=C2=A0=C2=A0 | 37 +++++++++++++=
++++++++++
+> > > > =C2=A0=C2=A0 2 files changed, 103 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-
+> > > > buf.c
+> > > > index 8fe5aa67b167..a8bab6c18fcd 100644
+> > > > --- a/drivers/dma-buf/dma-buf.c
+> > > > +++ b/drivers/dma-buf/dma-buf.c
+> > > > @@ -830,6 +830,8 @@ static struct sg_table *
+> > > > __map_dma_buf(struct
+> > > > dma_buf_attachment *attach,
+> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_mmap()
+> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_begin_cpu_ac=
+cess()
+> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_end_cpu_acce=
+ss()
+> > > > + *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_begin_access()
+> > > > + *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_end_access()
+> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_map_attachme=
+nt_unlocked()
+> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_unmap_attach=
+ment_unlocked()
+> > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 - dma_buf_vmap_unlocke=
+d()
+> > > > @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct
+> > > > dma_buf
+> > > > *dmabuf, struct iosys_map *map)
+> > > > =C2=A0=C2=A0 }
+> > > > =C2=A0=C2=A0 EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF)=
+;
+> > > > =C2=A0=C2=A0=20
+> > > > +/**
+> > > > + * @dma_buf_begin_access - Call before any hardware access
+> > > > from/to
+> > > > the DMABUF
+> > > > + * @attach:	[in]	attachment used for hardware access
+> > > > + * @sg_table:	[in]	scatterlist used for the DMA transfer
+> > > > + * @direction:=C2=A0 [in]=C2=A0=C2=A0=C2=A0 direction of DMA trans=
+fer
+> > > > + */
+> > > > +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+> > > > +			 struct sg_table *sgt, enum
+> > > > dma_data_direction dir)
+> > > > +{
+> > > > +	struct dma_buf *dmabuf;
+> > > > +	bool cookie;
+> > > > +	int ret;
+> > > > +
+> > > > +	if (WARN_ON(!attach))
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	dmabuf =3D attach->dmabuf;
+> > > > +
+> > > > +	if (!dmabuf->ops->begin_access)
+> > > > +		return 0;
+> > > > +
+> > > > +	cookie =3D dma_fence_begin_signalling();
+> > > > +	ret =3D dmabuf->ops->begin_access(attach, sgt, dir);
+> > > > +	dma_fence_end_signalling(cookie);
+> > > > +
+> > > > +	if (WARN_ON_ONCE(ret))
+> > > > +		return ret;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
+> > > > +
+> > > > +/**
+> > > > + * @dma_buf_end_access - Call after any hardware access
+> > > > from/to
+> > > > the DMABUF
+> > > > + * @attach:	[in]	attachment used for hardware access
+> > > > + * @sg_table:	[in]	scatterlist used for the DMA transfer
+> > > > + * @direction:=C2=A0 [in]=C2=A0=C2=A0=C2=A0 direction of DMA trans=
+fer
+> > > > + */
+> > > > +int dma_buf_end_access(struct dma_buf_attachment *attach,
+> > > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sg_table *sgt, enum
+> > > > dma_data_direction dir)
+> > > > +{
+> > > > +	struct dma_buf *dmabuf;
+> > > > +	bool cookie;
+> > > > +	int ret;
+> > > > +
+> > > > +	if (WARN_ON(!attach))
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	dmabuf =3D attach->dmabuf;
+> > > > +
+> > > > +	if (!dmabuf->ops->end_access)
+> > > > +		return 0;
+> > > > +
+> > > > +	cookie =3D dma_fence_begin_signalling();
+> > > > +	ret =3D dmabuf->ops->end_access(attach, sgt, dir);
+> > > > +	dma_fence_end_signalling(cookie);
+> > > > +
+> > > > +	if (WARN_ON_ONCE(ret))
+> > > > +		return ret;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
+> > > > +
+> > > > =C2=A0=C2=A0 #ifdef CONFIG_DEBUG_FS
+> > > > =C2=A0=C2=A0 static int dma_buf_debug_show(struct seq_file *s, void
+> > > > *unused)
+> > > > =C2=A0=C2=A0 {
+> > > > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > > > index 8ff4add71f88..8ba612c7cc16 100644
+> > > > --- a/include/linux/dma-buf.h
+> > > > +++ b/include/linux/dma-buf.h
+> > > > @@ -246,6 +246,38 @@ struct dma_buf_ops {
+> > > > =C2=A0=C2=A0=C2=A0	 */
+> > > > =C2=A0=C2=A0=C2=A0	int (*end_cpu_access)(struct dma_buf *, enum
+> > > > dma_data_direction);
+> > > > =C2=A0=C2=A0=20
+> > > > +	/**
+> > > > +	 * @begin_access:
+> > > > +	 *
+> > > > +	 * This is called from dma_buf_begin_access() when a
+> > > > device driver
+> > > > +	 * wants to access the data of the DMABUF. The
+> > > > exporter
+> > > > can use this
+> > > > +	 * to flush/sync the caches if needed.
+> > > > +	 *
+> > > > +	 * This callback is optional.
+> > > > +	 *
+> > > > +	 * Returns:
+> > > > +	 *
+> > > > +	 * 0 on success or a negative error code on failure.
+> > > > +	 */
+> > > > +	int (*begin_access)(struct dma_buf_attachment *,
+> > > > struct
+> > > > sg_table *,
+> > > > +			=C2=A0=C2=A0=C2=A0 enum dma_data_direction);
+> > > > +
+> > > > +	/**
+> > > > +	 * @end_access:
+> > > > +	 *
+> > > > +	 * This is called from dma_buf_end_access() when a
+> > > > device
+> > > > driver is
+> > > > +	 * done accessing the data of the DMABUF. The exporter
+> > > > can
+> > > > use this
+> > > > +	 * to flush/sync the caches if needed.
+> > > > +	 *
+> > > > +	 * This callback is optional.
+> > > > +	 *
+> > > > +	 * Returns:
+> > > > +	 *
+> > > > +	 * 0 on success or a negative error code on failure.
+> > > > +	 */
+> > > > +	int (*end_access)(struct dma_buf_attachment *, struct
+> > > > sg_table *,
+> > > > +			=C2=A0 enum dma_data_direction);
+> > > > +
+> > > > =C2=A0=C2=A0=C2=A0	/**
+> > > > =C2=A0=C2=A0=C2=A0	 * @mmap:
+> > > > =C2=A0=C2=A0=C2=A0	 *
+> > > > @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf
+> > > > *dmabuf,
+> > > > =C2=A0=C2=A0 int dma_buf_pin(struct dma_buf_attachment *attach);
+> > > > =C2=A0=C2=A0 void dma_buf_unpin(struct dma_buf_attachment *attach);
+> > > > =C2=A0=C2=A0=20
+> > > > +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+> > > > +			 struct sg_table *sgt, enum
+> > > > dma_data_direction dir);
+> > > > +int dma_buf_end_access(struct dma_buf_attachment *attach,
+> > > > +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sg_table *sgt, enum
+> > > > dma_data_direction dir);
+> > > > +
+> > > > =C2=A0=C2=A0 struct dma_buf *dma_buf_export(const struct
+> > > > dma_buf_export_info
+> > > > *exp_info);
+> > > > =C2=A0=C2=A0=20
+> > > > =C2=A0=C2=A0 int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+>=20
 
