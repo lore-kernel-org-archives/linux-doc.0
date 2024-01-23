@@ -1,87 +1,79 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65655C8FB;
-	Tue, 23 Jan 2024 10:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304315C911;
+	Tue, 23 Jan 2024 10:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706006229; cv=none; b=EKEZzE4c75nEn3U60Bp/jxoqmKb9FF0y/qdCYNAMyGaAwbHdmC16zuXbLH6VC0XmWA0g/UutYlHHKBdoUizurTDsZibfFGTTBrPmWyrZl7at7M3cDp5+BB9umktu0YCo5PFOodl/53Ed0sy3Sm/I482k6NMvyfXGVkG6xMOlAPk=
+	t=1706006784; cv=none; b=ECG5KlswjIet37+4QZ8jLomDVd67T+JfJYIKHMBRNMR3a0ChlPKhNyEVq716YMpPcMk0yxmb6U4dfhx/RRAomJX99iYygDpFWdareHH8YzZQixTbPesZ8CZ33du3H0CJM3bSAAwpfjpVrJYKIKi6IMCkkqbOQgfPITIJ7N7bxZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706006229; c=relaxed/simple;
-	bh=ISBqSBU1eibSK1yROlAd67P1p3xOWCAZQTrxGAsc76M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gb9Ii5tzVOLvE5B6bs+GoSdzPqU8hHrhlvCirRauSSy7tNKzX9f/KSnoD+o+80ys23CHinsM6h5Bv7katuzBeqDs23tr9HUovJ4PveKZ7z7bkz/3teFqukoTBChHcEpMahS6wnIjc2dPiFSD+quQLshF0Yy1UhvukhH97d8L6Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=JdFwYTNY; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="JdFwYTNY"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 075CA40E01B4;
-	Tue, 23 Jan 2024 10:37:04 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id m_71YppLYEYe; Tue, 23 Jan 2024 10:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1706006221; bh=tE/UEHD9KI7AAS+HbKBmjA2d1BJnju/TAX6dJiWwRsY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JdFwYTNY5byPwgxwpSXquxkSQTnC4ZQiDXI3CNWF83P8psvQshzU6vZJXWlwtMtnM
-	 M5+HokrAiyHCafRJ3RGjEYEy+qP+/HdmqMkv2K7GmsN6GEviPYygF2rc9v7icbs+2v
-	 xFHS1sCGSPIkA+rjXhuiwtCmht7aX31Jp9Va73BAIxCMua6Dd0gRiNR7MiTJQ6eV5t
-	 8cSCA2RCiMx2a/i5pDrfnLaiyiCOP0N6DwZoio/iGRWWu+0gO1jnDOr4DfQ+vTkOtJ
-	 aaQmXVeZG8HdQfe9YI/MnVhA2tuI/Ny4ikvBqNSwu7lgsNa7g6ZOwycnUNtWTeQaWV
-	 rdrr4uXgLLnKB5yfKE0yZaGxH1GDIXmIzEmUyLEf2uLXUKh6EO2Qg/q+F6ucm/jJjd
-	 YfZyjcRQ+IXhQyTg9j33Y44vBu5sOyPEzvfJg7j4f+viUF//N5U7rbwq1DoC3w0Cp1
-	 uEcY6ZvedRqjZaff0J5OlzBa9Kp2mdcvygOzx1nrIV2XNDsqVJVQA9teMBaSSN+6vw
-	 anO0crzovgkEvuTr4rwLZHLrQLFNtQPi9t1lDFXVLZzhDJOpfJ2mGnglShYgFIMQ2W
-	 KV97r85jzooDZy+rq7zrYl+xULWwsVJ4BkUK9mKprDOqfccrUyseu9vwVB0Z/EDCpC
-	 nDgF3rlVDf+g/6RTKzqY8h58=
-Received: from zn.tnic (pd953099d.dip0.t-ipconnect.de [217.83.9.157])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 385BD40E01A9;
-	Tue, 23 Jan 2024 10:36:31 +0000 (UTC)
-Date: Tue, 23 Jan 2024 11:36:23 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Babu Moger <babu.moger@amd.com>
-Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
-	rdunlap@infradead.org, tj@kernel.org, peterz@infradead.org,
-	seanjc@google.com, kim.phillips@amd.com, jmattson@google.com,
-	ilpo.jarvinen@linux.intel.com, jithu.joseph@intel.com,
-	kan.liang@linux.intel.com, nikunj@amd.com,
-	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
-	rick.p.edgecombe@intel.com, rppt@kernel.org,
-	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, eranian@google.com,
-	peternewman@google.com, dhagiani@amd.com
-Subject: Re: [PATCH v5 1/2] x86/resctrl: Remove hard-coded memory bandwidth
- limit
-Message-ID: <20240123103623.GAZa-Wp79DMgeArPJz@fat_crate.local>
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <c26a8ca79d399ed076cf8bf2e9fbc58048808289.1705359148.git.babu.moger@amd.com>
+	s=arc-20240116; t=1706006784; c=relaxed/simple;
+	bh=wDiCdiEujrqbXRZI6ITSqBBhYmmbrbqtg+ju5UBdYDI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tcbaIQibleBM+7y26Mrje2kKL5fe6AYI8tPjWbwTcm1BGZT/12OZ/K/RU1ZBtsDyo10VjiWdlvjSoNqPLyLcV1TlZzvqRwi7I9dYZwb2VsD2S8qWFsl4U0IW7sV6R3FQUq43IYlRwGTKrQvqKlYcZpYYO75ZhWMVa8sbu/X6LPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40N65aKV028484;
+	Tue, 23 Jan 2024 05:46:20 -0500
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 3vt7vtrxgd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Jan 2024 05:46:20 -0500 (EST)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 40NAkJdr028833
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 23 Jan 2024 05:46:19 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Tue, 23 Jan
+ 2024 05:46:18 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Tue, 23 Jan 2024 05:46:17 -0500
+Received: from rbolboac.ad.analog.com ([10.48.65.122])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 40NAk5Cr010733;
+	Tue, 23 Jan 2024 05:46:07 -0500
+From: Ramona Gradinariu <ramona.gradinariu@analog.com>
+To: <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <jic23@kernel.org>,
+        <nuno.sa@analog.com>, <linux-iio@vger.kernel.org>
+CC: Ramona Gradinariu <ramona.gradinariu@analog.com>
+Subject: [PATCH 0/1] adis16475 driver documentation
+Date: Tue, 23 Jan 2024 12:45:47 +0200
+Message-ID: <20240123104548.136201-1-ramona.gradinariu@analog.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c26a8ca79d399ed076cf8bf2e9fbc58048808289.1705359148.git.babu.moger@amd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: 7LALsCwZIDFhzEhgj0rkg5XRYczpj6dM
+X-Proofpoint-ORIG-GUID: 7LALsCwZIDFhzEhgj0rkg5XRYczpj6dM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-23_05,2024-01-23_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 malwarescore=0
+ phishscore=0 suspectscore=0 impostorscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 mlxlogscore=741
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401230076
 
-On Mon, Jan 15, 2024 at 04:52:27PM -0600, Babu Moger wrote:
-> Fixes: 4d05bf71f157 ("x86/resctrl: Introduce AMD QOS feature")
+Add documentation for adis16475 driver which describes
+the driver device files and shows how the user may use the
+ABI for various scenarios (configuration, measurement, etc.).
 
-What's the point of this Fixes tag? You want this backported to stable?
+Ramona Gradinariu (1):
+  docs: iio: add documentation for adis16475 driver
 
--- 
-Regards/Gruss,
-    Boris.
+ Documentation/iio/adis16475.rst | 327 ++++++++++++++++++++++++++++++++
+ 1 file changed, 327 insertions(+)
+ create mode 100644 Documentation/iio/adis16475.rst
 
-https://people.kernel.org/tglx/notes-about-netiquette
+--
+2.34.1
+
