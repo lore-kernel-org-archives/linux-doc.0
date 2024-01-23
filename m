@@ -1,87 +1,113 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A172380026
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 17:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40EE80041;
+	Tue, 23 Jan 2024 17:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706030736; cv=none; b=WKawH63J0p1mtHSplT7OOkp/uX3XhO+boBWFBicbuAZcV/NTJc1SdQBPyAd0eCAjKt2Ttsi6YmfV+bBVUxQJy65u8M/5HRhEmEtjv0EQFwr3fINRBqx5JkmGa1dqqo7Q4nNKf0x2o6fNTMz+Ooa+supy6y+4fJ8q7hv2S5VAsSo=
+	t=1706031123; cv=none; b=qM0+zKp6yPADujUJJ+dnCWpZSJAP1SnB6AiFuo4U0+Y7GKUi0gZpmsx6oyuA8v4ayTuhLOV0Mn1e+KlXGbm4VBvv/gXeRYHnte32EvazLn4INiqVaysfEPf6VzDAxyyTKrYwWjbDA38T1ahOrbLPBacPLnjbQoQuYxtTOS+AsCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706030736; c=relaxed/simple;
-	bh=RlyFkbNTSdgtepfgjRlfah2drYHFWjCbQEDIFZfB0Ok=;
+	s=arc-20240116; t=1706031123; c=relaxed/simple;
+	bh=vnQPALudVridAeOMTUYJfy1JXdOlGYJ/2iBszYF0y1c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MiAXFyiLA+k4HZYk+tamu8KpyRyjcf86c6Ndf5gqEvS6k1fDkeiY2+3ZSRG39gxahbLL6rvwxLczqjnVvd3zCF9vZ5GQhc5oyd3YMFOsKeLyF+MB6ABqocWsOv9sC3+z2mJ1U8SUZzXEo/+uIMYpc5jdhCyF5qhwmjbhp5EPZd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=IgE1LKcS; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=uvNKXcA4/iqQbOixMbAMBQPTV34IBSBnXuGvSf/DI5pOIx/V7odTMInFjM5dIBaOBKBQD+kRE+aWHjsAnnVyfsB0wGrRJD7uUxvKAEuSqR/N4G/sKTMIrwcs0cUZ4lHyWpBk2qS0GW6JFa3myIQEZA9xUmF0W5BtZRE+yKRJdbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJXCGcAM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="IgE1LKcS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Bjhb2hfzK/8i0tKZI56owzt2KGG7OFmwSuGm4x1P2gU=; b=IgE1LKcSfIHc7PJOysQSDI9e3C
-	hk4sUUEKr51UKs1Bvg2k8X8ZunFhmWH3DahtvnfuXpMFc7SgSPvGLkqwbMK53IzfZP2S9xBwHA8py
-	0z8BkvLbqaNoDo3qdH1Uh3Z8yoxxIeepfkheorVEfCypvlM8r1toj4PIcQlleaoq2fo1FfMuaOxwc
-	YG3lKqsWN7cLSCyd17HeYHkpuD7UfNrfLfodJuKEKgSa6D2DTNC4NyYkEru0CisHqpwEFPi/2AGSa
-	crYK2F1J9b4mtzFEJ1XbW9vQ0RPDnruau/wu18s7gFZbGO9DOja8ZARQ6QnhXRTJujpRSYcA4UlcB
-	MOOXwRHQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:42660)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rSKWX-0002q9-2X;
-	Tue, 23 Jan 2024 17:25:21 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rSKWQ-00027i-Vs; Tue, 23 Jan 2024 17:25:15 +0000
-Date: Tue, 23 Jan 2024 17:25:14 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Yuquan Wang <wangyuquan1236@phytium.com.cn>
-Cc: jiahao.os@bytedance.com, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 00/19] arm64 kernel text replication
-Message-ID: <Za/2esftSXq4+aa5@shell.armlinux.org.uk>
-References: <20240123103509.696983-1-wangyuquan1236@phytium.com.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJXCGcAM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53C84C433F1;
+	Tue, 23 Jan 2024 17:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706031123;
+	bh=vnQPALudVridAeOMTUYJfy1JXdOlGYJ/2iBszYF0y1c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BJXCGcAMreUU3SZda8JNybHRCNdxaVUb9TCrzM/U8zlIbMPugud/RZL+Lu6913Mlk
+	 6KHgOHWnCYW4pUKhk9C6dFyK9TBK11vzGOXydBcO72VeESZXT/tGh+hrOOViUrcaAh
+	 32Xy8I5XTpK0iWv/yf3F+CX3XLp7LE3L7yOE9iF0QkpuccmyeiMhLkW2xfjLCVkl34
+	 pgMqfuuPStmQh4h2ZhgtLglNrXfTi65EjGQ2gllF0o6syNo6tyXGohA1VFvphOqgiQ
+	 K3MrlLzpUv5Rh/ilgJ/gdR8rjjnk2vl8SHnhS1+ZSyTLK4eUaQk3sP4km/UdhVPVEM
+	 jtrYUP7Qt9Avw==
+Date: Tue, 23 Jan 2024 17:31:58 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Dave Martin <Dave.Martin@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
+Subject: Re: [PATCH 1/4] arm64/sve: Remove bitrotted comment about syscall
+ behaviour
+Message-ID: <991d84b4-e184-4fd6-900f-601f8c31d518@sirena.org.uk>
+References: <20240122-arm64-sve-sme-doc-v1-0-3d492e45265b@kernel.org>
+ <20240122-arm64-sve-sme-doc-v1-1-3d492e45265b@kernel.org>
+ <Za/e15zUOEaa1b7d@e133380.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Wv42auelfj9rWUAH"
+Content-Disposition: inline
+In-Reply-To: <Za/e15zUOEaa1b7d@e133380.arm.com>
+X-Cookie: Stay together, drag each other down.
+
+
+--Wv42auelfj9rWUAH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240123103509.696983-1-wangyuquan1236@phytium.com.cn>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Tue, Jan 23, 2024 at 06:35:09PM +0800, Yuquan Wang wrote:
-> > 
-> > After applying these patches, we tested that our business performance
-> > increased by more than 5% and the NUMA node memory bandwidth was more
-> > balanced.
-> > 
-> 
-> I have successfully applied your patches on my arm64 linux. And I could 
-> start it with a qemu machine(virt). However, I don't know the way to test
-> the performance it brings to the kernel. Do you have some suggestions?
+On Tue, Jan 23, 2024 at 03:44:23PM +0000, Dave Martin wrote:
+> On Mon, Jan 22, 2024 at 08:41:51PM +0000, Mark Brown wrote:
+> > When we documented that we always clear state not shared with FPSIMD we
 
-Please can I make one thing utterly clear... kernel text replication
-in a virtual machine generally doesn't make sense unless one can
-setup the virtual machine to be truly NUMA. In other words, groups
-of CPUs with their local memory and remote-node memory having higher
-latency.
+> Where / when?
 
-Kernel text replication is something which solves the problem on
-bare metal NUMA machines where running kernel text that is located
-in a foreign node results in the CPU running slower than it would
-do if the kernel text were in its local RAM.
+In the document that is being modified when it was written.
 
-Unless the VM is setup in exactly that way, then kernel text
-replication has no place in a VM, and probably would result in
-poorer performance.
+> > -* In practice the affected registers/bits will be preserved or will be replaced
+> > -  with zeros on return from a syscall, but userspace should not make
+> > -  assumptions about this.  The kernel behaviour may vary on a case-by-case
+> > -  basis.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+> This was originally an intentionally conservative statement, to allow
+> the kernel the flexibility to relax the register zeroing behaviour in
+> the future.  It would have permitted not always disabling a task's SVE
+> across a syscall, for example.  There were some concerns about security
+> and testability that meant that we didn't use this flexibility to begin
+> with.
+
+> If we are making an irrevocable commitment not to use this flexibility
+> ever, then this comment can go, but if we're not totally sure then I
+> think it would be harmless to keep it (?)
+
+I think everyone except for Catalin had felt that the original
+discussion had concluded that there was a commitment to always clear the
+non-shared bits and was disappointed to learn that the documentation
+said otherwise.  When I tried to take advantage of this as part of
+optimising the system call overhead for SVE there were eventually
+complaints.
+
+> (Feel free to point me to the relevant past discussion that I may have
+> missed.)
+
+See the discussion on my syscall optimisation series:
+
+    https://lore.kernel.org/all/20220620124158.482039-8-broonie@kernel.org/
+
+--Wv42auelfj9rWUAH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWv+A0ACgkQJNaLcl1U
+h9DaTQf/VjPt7AYgYvOmXYGPovG834fzOlz6CVgNxigTvGcW3z+gY79+oinyH3q6
+SPl5DS4zSoGVMu1vR41R+l+TdmTCphxjEZIVLmk+wuMommfT+71leHQj4Gr7nNSj
+N8R/mUpOe0y4FgGyPvs6ljvso5Cyls6WtTR0j8syqAkRH08f5fnY7piCt1oHaeBm
+i0USNyjfJWShZmvsLqw8MSObZMZfZhlkPmIuNbqPbujiAIIybcvBQIevf5rSnUef
+NgwBhKTP4+HHBsTcVTOgMphiN5zJBjQnEv/NJlAk6iW7lcxTdbSW4i7luACv2DZs
+GWtM3WgGNAQP1pAITjoRPNzzGLOmog==
+=I+eN
+-----END PGP SIGNATURE-----
+
+--Wv42auelfj9rWUAH--
