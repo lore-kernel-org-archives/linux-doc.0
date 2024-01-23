@@ -1,115 +1,101 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815BA107B6
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 05:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D714F888
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 06:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705989056; cv=none; b=CXcThw1g7ABZlx9DUIFPhK7eVdmBG9+SLJ15Xxahh999RzU7HB7cGtzbDKyC7C8wk5g5L2QLfvIC5KIh7Tc+S3ArW9+T9cceeDSiQFCYmU714dChalUJGnN57Z5LQqxPO3WNebNqOGKr/89z3+M4rTxYW3swgsMIu76zKbF8y5g=
+	t=1705990306; cv=none; b=gq18LlgbtXbYb0z37oCwpHJDFFizcKK3VUIczBYGMkcTEZoCwCsMGysexfVmLxz1Y/qxZfg2f3lkizYaGdjOhG2tYKqWSV4T4DHYtQDha7I16iOweSdHeYTYE7nlH1X0ABl56F2yxrnacr6mEHZ7poR7/eJwHDhC4xmKPzejHtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705989056; c=relaxed/simple;
-	bh=uUGqYPWkqLqAuYLajkHeoiaksi8vyt5EtObg/cfEv0A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k/ZFF3117wQgfVPxs9Af4h0b4jZ8QmJVrTermEsdo3WgNJLM7uxfGhD/f9zEA5wX/YQPn0tHtJJL3LCEUnLHCytKJqSpgizjugdHpG8nDKL9xIBcC8H1T/kseyO4E5NI6JwsuBSpfPM7z6Gxunerm8TUIX7/LJz2mDDx1rwTKE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z0NbGXLf; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1705990306; c=relaxed/simple;
+	bh=CN9XP3IqMW/054i/SszfD8BegSj621QjpufQVB9yQaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qNhHkwWHAYob+07LkAu77JgnchtN7MmgQT9Q3Ds53FCqNkshaRdnM886zEl5d6Mk+/iRlWLx6bXe7X5OG1JAYWfcFsw6zoMfpw484Zp8kpv4SW4R7FwlYrcFKpqKDdM/2DGoCKk/zwcuGIOYIPsW7WbECcp6UG3JlTOtNAm7O+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mRKnHnkl; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z0NbGXLf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705989053;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H+rMK0KBBnQyaHb54gBf8clNL10ejkmGqcBgOHn7Pt4=;
-	b=Z0NbGXLfHmfSnJ4Ib+7PmS9MzkuzU/hlity5AKjJ3fE7qIACf13zD4U9D0ODZ898R6NMRe
-	vtP0b0cXbQ5jikgTKfqWNGyGsePiMWZPnz1taON9GUSCT2vezhdHI0qrGWezXYnyFtncwh
-	OSI6ausLgbFE0RW9N8d4i88SDuP8TJs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-375-JHn3VzyfMY6lUkIpG0Vk8Q-1; Tue, 23 Jan 2024 00:50:48 -0500
-X-MC-Unique: JHn3VzyfMY6lUkIpG0Vk8Q-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9386885A588;
-	Tue, 23 Jan 2024 05:50:46 +0000 (UTC)
-Received: from [10.22.8.107] (unknown [10.22.8.107])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D71B9492BC6;
-	Tue, 23 Jan 2024 05:50:40 +0000 (UTC)
-Message-ID: <8075b1d2-1260-4f1d-a757-dc991d95710c@redhat.com>
-Date: Mon, 22 Jan 2024 21:50:40 -0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mRKnHnkl"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5989d8decbfso2586673eaf.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jan 2024 22:11:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1705990304; x=1706595104; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ohXdSRWKpjp/SSHD5uSCqu3QqGgmhGSWzWcMPZ6VRxw=;
+        b=mRKnHnklKFUemg4aOxXYjyGWTrQH/3qD8zcCSSXfoE1B2cYIvm+igDGaowY9BlUM0h
+         am0WaTWle50a5c8t/DvazxDFGQNXQf41oN3pGLly7GC58lS3LqHn2GVB2ld4efBuFpDQ
+         1iroC8oFUkLfGsazNAzGIgfUfHt4qQrECVbUZ0M+BPaxgw6K7FO8/XiR/xqbh3CZABxE
+         k9F1LaKTmxuLux0qSKBHKIwovYHjXp4z6MzAuys2Ffd7BQc9fAIROVJpchmffqd7rJ07
+         UQulMGM0YcumWXdwi2ws3cIlo5nhfIKqI/fKccPh9Xp355IUe16X3SAP53w5NmAttUIZ
+         cR4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705990304; x=1706595104;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ohXdSRWKpjp/SSHD5uSCqu3QqGgmhGSWzWcMPZ6VRxw=;
+        b=fuL3Bmf9C+hiupQ3+hzv/Z6g7hhMAS/6AB9VcyW3iLsqt/ap1p9CEIg9ApJPXNcLq1
+         eIFCGJs7ftfGpyzkQ+5ufaQV1hqROmBBliNzdhQK58gq3L0jdGQSiuTq/zHsZEVJk7eV
+         3qGrVUIaGzAd+1yutbdQm30yNJ0L16kDJ6cbrPTZ6lHst9la7TbFGIMorL4km5kRK7Uh
+         QvwvAGLevsZlBjzsrohwsTzK8BAMcQjQJLVz/J3RjfFUuJKwQcnRVO5dukSQRasVN5zt
+         VoDu7ShRqrrIKE8drSsEQD2GHxoiwmW81OJ76H0xi4Zc+ZdHMA6nvtywXpNZF2mnetLI
+         QwQg==
+X-Gm-Message-State: AOJu0YzgBo99h6UNSd+M7nStWa2hSe65I55sh7Dz79LIDOcB2N9jxOew
+	cwDFY4oCCLEcfBaIQsNhmHlZ3sfJrjGoDRxoM1Kj3k/8OuhyNc+STUiw2AkDkOg=
+X-Google-Smtp-Source: AGHT+IGqPA4W4P/ONndrUy91FyDVi6kg8yuFS7ylNJFUz04/g7/KgZtnfvrHv/8TfrRxG0FJuuas0A==
+X-Received: by 2002:a05:6358:52cc:b0:172:e227:bfd9 with SMTP id z12-20020a05635852cc00b00172e227bfd9mr3703228rwz.42.1705990303944;
+        Mon, 22 Jan 2024 22:11:43 -0800 (PST)
+Received: from localhost ([122.172.81.83])
+        by smtp.gmail.com with ESMTPSA id r11-20020a056a00216b00b006dbce4a2136sm5191749pff.142.2024.01.22.22.11.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jan 2024 22:11:43 -0800 (PST)
+Date: Tue, 23 Jan 2024 11:41:41 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Erick Archer <erick.archer@gmx.com>
+Cc: Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: power: Use kcalloc() instead of
+ kzalloc()
+Message-ID: <20240123061141.k5wf6r6gn3w7qk24@vireshk-i7>
+References: <20240121104344.5001-1-erick.archer@gmx.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/8] cgroup/cpuset: Support RCU_NOCB on isolated
- partitions
-Content-Language: en-US
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Frederic Weisbecker <frederic@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <quic_neeraju@quicinc.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Shuah Khan <shuah@kernel.org>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
- Ryan Phillips <rphillips@redhat.com>, Brent Rowsell <browsell@redhat.com>,
- Peter Hunt <pehunt@redhat.com>, Cestmir Kalina <ckalina@redhat.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Alex Gladkov <agladkov@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Phil Auld <pauld@redhat.com>, Paul Gortmaker <paul.gortmaker@windriver.com>,
- Daniel Bristot de Oliveira <bristot@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Costa Shulyupin <cshulyup@redhat.com>
-References: <20240117163511.88173-1-longman@redhat.com>
- <bql5g22ovp2dm33llmq5oxpmuuhysvdyppj7j6xvrm643xuniv@pkqrwvmqzneh>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <bql5g22ovp2dm33llmq5oxpmuuhysvdyppj7j6xvrm643xuniv@pkqrwvmqzneh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240121104344.5001-1-erick.archer@gmx.com>
 
+On 21-01-24, 11:43, Erick Archer wrote:
+> As noted in the "Deprecated Interfaces, Language Features, Attributes,
+> and Conventions" documentation [1], size calculations (especially
+> multiplication) should not be performed in memory allocator (or similar)
+> function arguments due to the risk of them overflowing. This could lead
+> to values wrapping around and a smaller allocation being made than the
+> caller was expecting. Using those allocations could lead to linear
+> overflows of heap memory and other misbehaviors.
+> 
+> So, in the example code use the purpose specific kcalloc() function
+> instead of the argument size * count in the kzalloc() function.
+> 
+> At the same time, modify the translations accordingly.
+> 
+> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> Link: https://github.com/KSPP/linux/issues/162
+> Signed-off-by: Erick Archer <erick.archer@gmx.com>
 
-On 1/22/24 10:07, Michal Koutný wrote:
-> Hello Waiman.
->
-> On Wed, Jan 17, 2024 at 11:35:03AM -0500, Waiman Long <longman@redhat.com> wrote:
->> This patch series is based on the RFC patch from Frederic [1]. Instead
->> of offering RCU_NOCB as a separate option, it is now lumped into a
->> root-only cpuset.cpus.isolation_full flag that will enable all the
->> additional CPU isolation capabilities available for isolated partitions
->> if set. RCU_NOCB is just the first one to this party. Additional dynamic
->> CPU isolation capabilities will be added in the future.
-> IIUC this is similar to what I suggested back in the day and you didn't
-> consider it [1]. Do I read this right that you've changed your mind?
+Applied. Thanks.
 
-I didn't said that we were not going to do this at the time. It's just 
-that more evaluation will need to be done before we are going to do 
-this. I was also looking to see if there were use cases where such 
-capabilities were needed. Now I am aware that such use cases do exist 
-and we should start looking into it.
-
->
-> (It's fine if you did, I'm only asking to follow the heading of cpuset
-> controller.)
-
-OK, the title of the cover-letter may be too specific. I will make it 
-more general in the next version.
-
-Cheers,
-Longman
-
+-- 
+viresh
