@@ -1,26 +1,34 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D9FA664C4;
-	Tue, 23 Jan 2024 17:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FADD7F7EF;
+	Tue, 23 Jan 2024 18:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706032463; cv=none; b=OPVPTHt3yGJ6I27o4bLwq2AHppUtvRGv5SM350gqClFGgul89EBhT1DpbQ2QbrQxF6RvfRRiAD09c5bK+VEElHVMp2r2eWm6YFfXqtkrQwr5kVWHue9dUUlPNXeE1bM8cX64u6zt90UDXFCZbOpkTfVWgMUjtyXOd5heOb+tXTQ=
+	t=1706033518; cv=none; b=m+1SLd5KVnN9rHGvFZ1PcfkJBtHYVZwMFY9313xE+LCTjuJ9qTRETMa8pKeyfyGjLa1AvDyAyan/SSC2QFjtf7kA0ExmiJAkuwpa9DdHOYSO7jny8m1OR+HGXJMEw4IF88urra773XaKgEHwqR2lAfu38knhTlGcyL9ToBLPqz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706032463; c=relaxed/simple;
-	bh=EmbDpOX7soO/jTlAEEcGlSi8sSSt71tWrUUfP+zx2vY=;
+	s=arc-20240116; t=1706033518; c=relaxed/simple;
+	bh=Qf9mEHht3yUIqrNjZxcQ0bvTqZFpCh/XYVvpOp1vhmI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MpEn8/YQJK6edYnNTtN5yIi15ThvFbkQnGlMLQH4zwB3GrLCNsf8d4/8iNh4pnvxAwZIXXykmhXCBy+i4qTriLEj6Tl2bQkgSZgID5hC6NhC3y5qsQB+NFOfs7mP6CvUTYI/J6PBy8WW6ZtPy827naBavUO4p9gjpai6MVdaV+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 312061FB;
-	Tue, 23 Jan 2024 09:55:06 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.58])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD4B73F762;
-	Tue, 23 Jan 2024 09:54:19 -0800 (PST)
-Date: Tue, 23 Jan 2024 17:54:17 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Mark Brown <broonie@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FIhDHhI8h9AcHdAgEl2rHPO0jTB2jQozs6H3YF8heI6QytNUKK3iFiiCGi8wZzJclVxQEGO8Twdd7HOsUtyJXUGZAKSmA815Jk69QbBPf4maFJiOns0sXpnSs/CE7/Rj2I18JU4xvdAOca77tFnKwkvoUnqAed/HMccge0+erzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ppuFVYeb; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ppuFVYeb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C27E7C433C7;
+	Tue, 23 Jan 2024 18:11:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706033517;
+	bh=Qf9mEHht3yUIqrNjZxcQ0bvTqZFpCh/XYVvpOp1vhmI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ppuFVYebG5/NFWOdMx0aN3LAZR5fz7XrXEFb9o2k0quNnBo4yC2Z5fY4Gm1Vt7jYJ
+	 4t2l0Td6vG/kjN3Rr5JFnBE7N6FpUgZ0wE+DnWihwKhFbGNGfzHHoeN7/DNh0IJ8VF
+	 xIcmmzyjga/W76qQnB94MosrRVU7ZQc0lvNL9r2EAWaA7yyf8Fi2qSMv1MkSyZKXrY
+	 TeVi6nzpG9zBF31kiv2tfDACH4MZYUO3vyPacMvoX+7G1iXEN/+R8Np7N/sfwayHD2
+	 Un09gAz7CnKaIjLJSGlYCwFz5X89gYXIp+VdaMd972HYDMzhjsaq72R/ml37YmutEv
+	 GjaBZNK+LWDQA==
+Date: Tue, 23 Jan 2024 18:11:52 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Dave Martin <Dave.Martin@arm.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
 	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
@@ -28,84 +36,58 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
 Subject: Re: [PATCH 1/4] arm64/sve: Remove bitrotted comment about syscall
  behaviour
-Message-ID: <Za/9SawqwXmlG/9B@e133380.arm.com>
+Message-ID: <ede05e2d-0cde-4de1-b2db-d40df19d7075@sirena.org.uk>
 References: <20240122-arm64-sve-sme-doc-v1-0-3d492e45265b@kernel.org>
  <20240122-arm64-sve-sme-doc-v1-1-3d492e45265b@kernel.org>
  <Za/e15zUOEaa1b7d@e133380.arm.com>
  <991d84b4-e184-4fd6-900f-601f8c31d518@sirena.org.uk>
+ <Za/9SawqwXmlG/9B@e133380.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gmVr7hQh/YIa4C2A"
+Content-Disposition: inline
+In-Reply-To: <Za/9SawqwXmlG/9B@e133380.arm.com>
+X-Cookie: Stay together, drag each other down.
+
+
+--gmVr7hQh/YIa4C2A
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <991d84b4-e184-4fd6-900f-601f8c31d518@sirena.org.uk>
 
-On Tue, Jan 23, 2024 at 05:31:58PM +0000, Mark Brown wrote:
-> On Tue, Jan 23, 2024 at 03:44:23PM +0000, Dave Martin wrote:
-> > On Mon, Jan 22, 2024 at 08:41:51PM +0000, Mark Brown wrote:
-> > > When we documented that we always clear state not shared with FPSIMD we
-> 
-> > Where / when?
-> 
-> In the document that is being modified when it was written.
+On Tue, Jan 23, 2024 at 05:54:17PM +0000, Dave Martin wrote:
 
-Ah, right, I see this:
+> I still feel that it is iffy practice for userspace to rely on the
+> extra bits being zeroed -- I think the architecture hides this
+> guarantee anyway whenever you go through a function call confirming to
+> the regular procedure call standard (including the syscall wrappers).
+> But there may not be a lot of point trying to put people off if we
+> can't force them not to rely on it.
 
-d09ee410a3c3 ("arm64/sve: Document our actual ABI for clearing registers on syscall")
+I do tend to agree that the requirement to zero is excessively zealous
+and that the risk from relaxing it is minor (it's stricter than the
+function call ABI), I did leave a sysctl as a mechanism for restoring
+compatibility in the case where we did run into issues in my original
+series but I didn't expect to need it.  If you convince everyone else
+I'd be happy to relax things but I don't super care either way.
 
-where the zeroing is made explicit.
+--gmVr7hQh/YIa4C2A
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> > > -* In practice the affected registers/bits will be preserved or will be replaced
-> > > -  with zeros on return from a syscall, but userspace should not make
-> > > -  assumptions about this.  The kernel behaviour may vary on a case-by-case
-> > > -  basis.
-> 
-> > This was originally an intentionally conservative statement, to allow
-> > the kernel the flexibility to relax the register zeroing behaviour in
-> > the future.  It would have permitted not always disabling a task's SVE
-> > across a syscall, for example.  There were some concerns about security
-> > and testability that meant that we didn't use this flexibility to begin
-> > with.
-> 
-> > If we are making an irrevocable commitment not to use this flexibility
-> > ever, then this comment can go, but if we're not totally sure then I
-> > think it would be harmless to keep it (?)
-> 
-> I think everyone except for Catalin had felt that the original
-> discussion had concluded that there was a commitment to always clear the
-> non-shared bits and was disappointed to learn that the documentation
-> said otherwise.  When I tried to take advantage of this as part of
-> optimising the system call overhead for SVE there were eventually
-> complaints.
-> 
-> > (Feel free to point me to the relevant past discussion that I may have
-> > missed.)
-> 
-> See the discussion on my syscall optimisation series:
-> 
->     https://lore.kernel.org/all/20220620124158.482039-8-broonie@kernel.org/
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmWwAWcACgkQJNaLcl1U
+h9COVQf/a705pbZzwJ+u2yYjjQXP3ai6RIMlH0LuxLO1/fEdLadBHlLc7PIbq/c1
+e1ObAegI5TXMIvKnpiuUg/uBv2ona5Vw5uXxyxqw5P5mvh66oZeC/t4N24jJ1lzX
+UafQyWkRLbSPrEQSK3ydTOm424O8wiPvAHmppXmCh+ApOtq0wExwLF0QtxCnURPj
+SSs/qqTWSHZOeeGvv0H3mMvoYHV8bjckc4vd+0W8O5XRM54cHkKS7gl3dhqKk8dV
+48qeLfcdLVg2kwnOA6ezy0uOdKWhwCXrRDans4id5epvMu8JRV3T7W50tLX99pw0
+3hvF/Zv+EM0ZhHcjZxiBLWoGDedfCQ==
+=DePV
+-----END PGP SIGNATURE-----
 
-I think my excuse would be that this was consciously left unresolved
-when SVE originally went upstream: the kernel played safe by always
-zeroing the bits, while userspace was told not to rely on this always
-happening in future.
-
-If the decision has effectively now been made to close the door
-permanently those optimisations, then I guess it makes sense to clean
-up the documentation to be as consistent as possible.
-
-
-I still feel that it is iffy practice for userspace to rely on the
-extra bits being zeroed -- I think the architecture hides this
-guarantee anyway whenever you go through a function call confirming to
-the regular procedure call standard (including the syscall wrappers).
-But there may not be a lot of point trying to put people off if we
-can't force them not to rely on it.
-
-Cheers
----Dave
+--gmVr7hQh/YIa4C2A--
