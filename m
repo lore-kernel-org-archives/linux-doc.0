@@ -1,152 +1,115 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131483C29;
-	Tue, 23 Jan 2024 05:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705986981; cv=fail; b=ZBgZWMY7mXVOLQ0fk0UPzKvA89x1I2f/1V/qBZXrtYDd+8i5mq1g4duiR3wcTbE4QHSuXclq15TUlsl0bn5TZIjD5aBmLPUkTgMJ0f3taTtWgspdoHplCYyv1U0fm2zLOQhcz80r+wNyf+Ij6ogrRXiaymj8OTo/IN/gOIYTBws=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705986981; c=relaxed/simple;
-	bh=a/55D2DfrAeK8nc3LCSlgXEgL6vjBNMGH4W1+AWQX9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=eQFL0ubo0FJ8ClyyzKBef3GeHjMHXJ9F7+s54rBJecO8BjEi22b8sIb/EBak2l42AO6CpnC4MDodDSkez43v5C+oJhPc4VD2YiaNKMuj+al7Jptkx9auuF5mzSE+i6AJYX6ZcwQi77X4/JA/7Usd4VS9nGXiDhL16086dMFn51A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com; spf=pass smtp.mailfrom=memverge.com; dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b=AlHUIA/E; arc=fail smtp.client-ip=40.107.220.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815BA107B6
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jan 2024 05:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705989056; cv=none; b=CXcThw1g7ABZlx9DUIFPhK7eVdmBG9+SLJ15Xxahh999RzU7HB7cGtzbDKyC7C8wk5g5L2QLfvIC5KIh7Tc+S3ArW9+T9cceeDSiQFCYmU714dChalUJGnN57Z5LQqxPO3WNebNqOGKr/89z3+M4rTxYW3swgsMIu76zKbF8y5g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705989056; c=relaxed/simple;
+	bh=uUGqYPWkqLqAuYLajkHeoiaksi8vyt5EtObg/cfEv0A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k/ZFF3117wQgfVPxs9Af4h0b4jZ8QmJVrTermEsdo3WgNJLM7uxfGhD/f9zEA5wX/YQPn0tHtJJL3LCEUnLHCytKJqSpgizjugdHpG8nDKL9xIBcC8H1T/kseyO4E5NI6JwsuBSpfPM7z6Gxunerm8TUIX7/LJz2mDDx1rwTKE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z0NbGXLf; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="AlHUIA/E"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mo/xkBcTLzivETkO9ylVHHUS+QtMd5ALz1NgVtLOZtVb2Pk211NMiyA00ixTrWv0DAcqkeHiFDmy9AoU4TXIbu24OQ/Ndg2WN0fJN5TTUiOHyEPId81gBy5Mj4MpBr4nDuzyco+FlGjPLrVPkx+yl5VG4i9pu8JGYjWT1PuoCRzbUV7mCF2XL1YMCnz5384YtoKinrpYFh7TYKu6BIofQsUaWM+eNLBWMwVevVrthpNc/o6GboGyJ6eTHCtQthO1Nj4qVBErweUlaP3XHahazIPcwPZU9CRx8uU1yJgBV+zdBOSUNJO/QGnJKnYZ+Rxm/bWhYIdfw+06VtpzeOul2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XewSyly/7oNkEaqy38F5YdNGXjcQZspue3Z5A1Rww5o=;
- b=Q/ubuOnmQZ//gu9rla5mssSVAu1LiqTC18LZkzUDS16p83nm30RC/MLXcbLr4D9RLpOlcCXH5fgMgvA2MnCknpNd8d7JZcjvKXefkUX5oD8zEGXzgy4iiAlemYNjjJIJoNy9l1EUbxBSKDpHAdWjYJJOQZxS0EVREwlCzq/L+j4qIlaG92gFSIWNe42XWaZ2hAXg/inWik4Jqd11nWsR26dCxIqCCQXz+w8sl22PhoklohETseRv2DWxZuG5Y8RasQXpdhmTtr6vGQvplarDxW9agh05H1uCbpUZFeOsTLI2wwpFc20St07S/IqokYRWcb3As2BBZlA1RJGxYgVFAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XewSyly/7oNkEaqy38F5YdNGXjcQZspue3Z5A1Rww5o=;
- b=AlHUIA/EOkazohkyr1IYcLGXcAuCQ254aVejUXCA/3yRYHh2f7vYN7GmbYvFRzmDdGUWb5H21eXLsVu5j9zSnRh/+Ws5NPrxa36fJDz0MZLTntJEwb659jNpweCT1GE0aoY9PAj4SivVO6iCI9oFNpZMJ/LI3F4/NMkp+sioisc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by IA0PR17MB6226.namprd17.prod.outlook.com (2603:10b6:208:442::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.27; Tue, 23 Jan
- 2024 05:16:17 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::7a04:dc86:2799:2f15]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::7a04:dc86:2799:2f15%5]) with mapi id 15.20.7202.034; Tue, 23 Jan 2024
- 05:16:17 +0000
-Date: Tue, 23 Jan 2024 00:16:12 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: "Huang, Ying" <ying.huang@intel.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	corbet@lwn.net, akpm@linux-foundation.org, honggyu.kim@sk.com,
-	rakie.kim@sk.com, hyeongtak.ji@sk.com, mhocko@kernel.org,
-	vtavarespetr@micron.com, jgroves@micron.com,
-	ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com,
-	hannes@cmpxchg.org, dan.j.williams@intel.com,
-	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v2 3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
- for weighted interleaving
-Message-ID: <Za9LnN59SBWwdFdW@memverge.com>
-References: <20240119175730.15484-1-gregory.price@memverge.com>
- <20240119175730.15484-4-gregory.price@memverge.com>
- <87jzo0vjkk.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <Za9GiqsZtcfKXc5m@memverge.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Za9GiqsZtcfKXc5m@memverge.com>
-X-ClientProxiedBy: SJ0PR03CA0057.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::32) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z0NbGXLf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705989053;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H+rMK0KBBnQyaHb54gBf8clNL10ejkmGqcBgOHn7Pt4=;
+	b=Z0NbGXLfHmfSnJ4Ib+7PmS9MzkuzU/hlity5AKjJ3fE7qIACf13zD4U9D0ODZ898R6NMRe
+	vtP0b0cXbQ5jikgTKfqWNGyGsePiMWZPnz1taON9GUSCT2vezhdHI0qrGWezXYnyFtncwh
+	OSI6ausLgbFE0RW9N8d4i88SDuP8TJs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-375-JHn3VzyfMY6lUkIpG0Vk8Q-1; Tue, 23 Jan 2024 00:50:48 -0500
+X-MC-Unique: JHn3VzyfMY6lUkIpG0Vk8Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9386885A588;
+	Tue, 23 Jan 2024 05:50:46 +0000 (UTC)
+Received: from [10.22.8.107] (unknown [10.22.8.107])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D71B9492BC6;
+	Tue, 23 Jan 2024 05:50:40 +0000 (UTC)
+Message-ID: <8075b1d2-1260-4f1d-a757-dc991d95710c@redhat.com>
+Date: Mon, 22 Jan 2024 21:50:40 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|IA0PR17MB6226:EE_
-X-MS-Office365-Filtering-Correlation-Id: df24a963-803b-4940-ef30-08dc1bd26d21
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	V/VhvUMlOhEpeb+IhXhVo01gshTnU3Iv8PYXQSOBWh/Db9xWmftOKddDDu4zg2OPjbpCHLfYAr2yH+UdYJO+crlV+JXw3WrGJbDqe3WmdHD81x5dxSAFEImZ65dKjR5cu8FMkpuKcjJL5OBQc8mXG0sAypKc/pzD9qooJSOGmw2v604IIW3IGmw6KKYuostggMlAq5aRYtA0ub9ZNJNw75JNzKnyzIdySMwB2ibRBNuT6j6MZDqt3Tfr70qMpx3F/0nS8GrBOWQXxN2QP1W9F3l7LJaVLF5pYHkejb/ha95OCCKD0JEwsL01kFO/aomnipDrl4XUN58u52CzqUXKSOByFMcnoSv0cXqQvmWE388AY6AtL1II1K2DvQ+7Qf0J3mjR++Iho++9uDPimr6VZjusHBix+agrTuEOuWiCJ5rd1YFmHmC4t1XcFVsI8hzuMA8NDmB88Kpl7y9MFCBc29+TmPhpJ9F7pt/jl4beRQGEnUZdJIazSFOsM8cx28NbY2mg6USD3GGXaUX/e8G8Feg0tHpMGjNd+wV0Cp3diWKlj/ImbTk4SJ8iBrIHw1j7y1tYHLmMZjjejGQUySbKpmgNWWymZTfAbYj61fVDsTMDMwR9fO95a3UkirnJPCdO
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(136003)(396003)(346002)(376002)(366004)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(6506007)(2616005)(6512007)(26005)(6666004)(36756003)(86362001)(38100700002)(41300700001)(44832011)(66946007)(7416002)(4744005)(478600001)(2906002)(5660300002)(4326008)(8676002)(8936002)(66476007)(66556008)(316002)(54906003)(6486002)(6916009)(16393002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?KHKVFFDyJbb6+pvI9eFi4PJGyzeRG7+KSn4aTelInOP/MEbF3Wj+bZesF5HT?=
- =?us-ascii?Q?u8Q1qniUAkWwhS2SBW6t7Hk6NFjnTzApMXNrxS1p/+nCNiL1lZqge/VhFW6D?=
- =?us-ascii?Q?Gy6vb0ZzW2dYKSaX2ZCOjYgfJTThKbDAjwPQ6tnhMIt5FsepomnzjmvdnX86?=
- =?us-ascii?Q?Cy06L/Rxtqvc3Vnv7mit7/0s/E7ffX6m0D7/82BIb0dlDznmAEF0ClSXNhjG?=
- =?us-ascii?Q?Z65vEpMLH/ox9eIONjOrOHlM63FBln85f2ZxYV6FCAkjndYeI8ZYP7qZBF0b?=
- =?us-ascii?Q?ZJV3bVzIBxYryaQv+SkUMEgYCIN0AAhH8t3jHfH3auDLt+UeNYmXLs1OAXWB?=
- =?us-ascii?Q?3mIYqpdqGttli1eAkO9ZdXXfJlPjNVkctusOkInlh5mTBhSxvwg/fAX34zp4?=
- =?us-ascii?Q?Y6M2tF9CjqUzGFFaL1bLZl1e04Zs2u+W58Jo/g3NE46QQRgRnwnBnKi4HBQI?=
- =?us-ascii?Q?teBT/K6FAXxi/8wfNoa25RvM2WThbG6mxqeVgtGx1Hcl8Tx5etwGgQlRh+tx?=
- =?us-ascii?Q?Mn/GCpvfeHrMn36AK31eqIVusdAa/TzPQ3WdjEBqG1DFiWEIMQsh/oCHh79h?=
- =?us-ascii?Q?DKPPTj9QSmWTLH5uL6IocDOeDzuWV0YYCOYDMl9XMv4q0pqW7Gs9ddW5uGi2?=
- =?us-ascii?Q?rzVPWW9IA0L0bPZqi6sbDPAGlk02BwkHyd20G5jIdRGw3QXokUUi3/HpPT5V?=
- =?us-ascii?Q?dr/M2AAmLGa4NLhw6S/NEJnHtNXrlH195BTQ89nRUN58besEyCIqcoEOmJCL?=
- =?us-ascii?Q?NG6YT24hgdh4jB6HkA1mHcEKnCgIeRFJ9cz3OlXxb44jbS5acszbib6wP6rI?=
- =?us-ascii?Q?RQlDpZon0TT7vDIKDJci/7Dk4uEX/Hp3sTDfzdZD2Q8JAIVLoFo+UJX1CnQg?=
- =?us-ascii?Q?wp+PZVYSVQeKLo9sJ1WjX3bNf98Lllpa0AxxQEuuYrv7kIA+0B+NQrolKiMx?=
- =?us-ascii?Q?oR4jc+SOFpWWwBZjT/3i8XZNe3tOD4UB2Eco+7eOSSEoOmEDGL0O6Y+NTXzt?=
- =?us-ascii?Q?7T+besmi6XKxcmhjm+FTtVWlSfVoW2jXz6z+gA1v2+15RA/G3AjWU2ESCvzh?=
- =?us-ascii?Q?kKPeijP5DABa7j6mbdjCJ5VRQ9VyI+Ij81yZH83BkFYogdhzcpgJP2c6vdgX?=
- =?us-ascii?Q?nAdzmFwLNxEbGGUY6p127ZL83vi3X59NTHCHYQeZN85jT+e3xh2GoEAsx8GU?=
- =?us-ascii?Q?1uzYKYpImw4qFPIB60u3F+YYEjZKp7qgD0KGW9A+BSCA5J0GwPmHB8Iwhdvh?=
- =?us-ascii?Q?MA+qYEnIgfMMGx/tcHUtzM2OCxGC2xXF3X/B3/gxZmt2tMo3pMMuXJvZylrX?=
- =?us-ascii?Q?UuZ6nlMiZt5ZMa2e9EtF7f1l6AJrzaqRqNC19UtkAKywwh2k6rS/V/a9eMaR?=
- =?us-ascii?Q?pN2uwhfXYcR4z7gQl9/hpt1Va9YiQlJVSmHlbHs60cfzWHQ8ki9+JpXb1fyw?=
- =?us-ascii?Q?8Cj5ueTI2/9LLVlzyTVkLcu5wBfvgWW4fvT2nfcY/iiiY/pSzo8QA/TvCRRQ?=
- =?us-ascii?Q?C2Iusgae3YzzbsoPJk+qQl38p2GBFLsPpwypsLpCcZUascXR7tx/lJap+wyB?=
- =?us-ascii?Q?gIybh4cohmilWe51VoNuMVqh6SK1r19wYXx9koMh2UgYXvvJpQMXNoDHY3qy?=
- =?us-ascii?Q?YA=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df24a963-803b-4940-ef30-08dc1bd26d21
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 05:16:16.9094
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Aq37wzpdHGiXps6J4VbczIpQcMrvDndpSquWicbgd+nOB4HX7lkXfJg27S7AAkQCX0s78df+CUgMBi3onFjl0S7rXpUv//bX8VLPxR4ugCs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR17MB6226
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/8] cgroup/cpuset: Support RCU_NOCB on isolated
+ partitions
+Content-Language: en-US
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Frederic Weisbecker <frederic@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, Shuah Khan <shuah@kernel.org>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
+ Ryan Phillips <rphillips@redhat.com>, Brent Rowsell <browsell@redhat.com>,
+ Peter Hunt <pehunt@redhat.com>, Cestmir Kalina <ckalina@redhat.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Alex Gladkov <agladkov@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Phil Auld <pauld@redhat.com>, Paul Gortmaker <paul.gortmaker@windriver.com>,
+ Daniel Bristot de Oliveira <bristot@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Costa Shulyupin <cshulyup@redhat.com>
+References: <20240117163511.88173-1-longman@redhat.com>
+ <bql5g22ovp2dm33llmq5oxpmuuhysvdyppj7j6xvrm643xuniv@pkqrwvmqzneh>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <bql5g22ovp2dm33llmq5oxpmuuhysvdyppj7j6xvrm643xuniv@pkqrwvmqzneh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-On Mon, Jan 22, 2024 at 11:54:34PM -0500, Gregory Price wrote:
-> > 
-> > Can the above code be simplified as something like below?
-> > 
-> >         resume_node = prev_node;
----         resume_weight = 0;
-+++         resume_weight = weights[node];
-> >         for (...) {
-> >                 ...
-> >         }
-> > 
-> 
-> I'll take another look at it, but this logic is annoying because of the
-> corner case:  me->il_prev can be NUMA_NO_NODE or an actual numa node.
-> 
 
-After a quick look, as long as no one objects to (me->il_prev) remaining
-NUMA_NO_NODE while having a weight assigned to pol->wil.cur_weight, then
-this looks like it can be simplified as above.
+On 1/22/24 10:07, Michal Koutný wrote:
+> Hello Waiman.
+>
+> On Wed, Jan 17, 2024 at 11:35:03AM -0500, Waiman Long <longman@redhat.com> wrote:
+>> This patch series is based on the RFC patch from Frederic [1]. Instead
+>> of offering RCU_NOCB as a separate option, it is now lumped into a
+>> root-only cpuset.cpus.isolation_full flag that will enable all the
+>> additional CPU isolation capabilities available for isolated partitions
+>> if set. RCU_NOCB is just the first one to this party. Additional dynamic
+>> CPU isolation capabilities will be added in the future.
+> IIUC this is similar to what I suggested back in the day and you didn't
+> consider it [1]. Do I read this right that you've changed your mind?
 
-I don't think it's harmful, but i'll have to take a quick look at what
-happens on rebind to make sure we don't have a stale weight.
+I didn't said that we were not going to do this at the time. It's just 
+that more evaluation will need to be done before we are going to do 
+this. I was also looking to see if there were use cases where such 
+capabilities were needed. Now I am aware that such use cases do exist 
+and we should start looking into it.
 
-~Gregory
+>
+> (It's fine if you did, I'm only asking to follow the heading of cpuset
+> controller.)
+
+OK, the title of the cover-letter may be too specific. I will make it 
+more general in the next version.
+
+Cheers,
+Longman
+
