@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4020A7E6;
-	Tue, 23 Jan 2024 04:44:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7831FB2;
+	Tue, 23 Jan 2024 04:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705985078; cv=none; b=SHccMiZgwp8PM6Kq6XGxmexwbjtYmNvt46nozTYthjTEHWaGo21fbHorLvZ58p2TeKkZZRpoOaSY6Tz/fHz1ge4Q+D4Yo7WEtfLOYSGpfUDQqLGumHg4CujVvB0LcLtk+PnIOeO9uRXjjUwH7vgdxDMGN9BmZsNSimw+3fYvlj4=
+	t=1705985449; cv=none; b=l7r8jA6eXN0/Bb9hKwJh9IM3eFK8HK5RHsS6oTqoKW7k+BAorWfaj4eFahzG1oFoC4+t8BfgB3pme566rmnqnRKCpGbWAdlCOzr7ANQSHOSbDUNeYhsDAyPWBfNwMB9vHGYmclFeQrB5aXxAeiPzicbErwuLcz/YCtfr6bkWnq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705985078; c=relaxed/simple;
-	bh=qzv9zHZFVzYdHVnyYxp4OEawdiigNueSOUfaz4BQTsY=;
+	s=arc-20240116; t=1705985449; c=relaxed/simple;
+	bh=IdSvEOKbJIYd++hbA82AHUZUcqgNsBgNh82BmM0dfCo=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LRUyoKdzkACRwckxbHWYCadWsnguPWUMhA8VSmNqDWMiezcYXgXxtMdAxR8Kui5h4POepiQYX+XtciEJ5B2IJ6TR6djp7vBD/IGiekas5nL3W8+kBepPqlNjsSL6JB3Ef9V1p9djHyk1ds2vXSgswX4nVc+cv25GDgdEUEjE1aY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pezuVUvl; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=dA79FYTr62sV3ZOV0T1gHdCr/rFkrgmPNoYVNpdelcV3Ff7uW59R1wjSahGLtfYviECOC1Ozvz7H5unn4pX5pVHySbs3v1BRc+f4MAi4Mdg9hxBekPUZ+JnG8JrK5umIAsFzZfyTGAOTDQ0Y0ZD2VOOKwzWAnjkR7o9kWFBV6es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nRLX+7K4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pezuVUvl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83254C433C7;
-	Tue, 23 Jan 2024 04:44:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nRLX+7K4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 060A1C433F1;
+	Tue, 23 Jan 2024 04:50:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705985077;
-	bh=qzv9zHZFVzYdHVnyYxp4OEawdiigNueSOUfaz4BQTsY=;
+	s=k20201202; t=1705985449;
+	bh=IdSvEOKbJIYd++hbA82AHUZUcqgNsBgNh82BmM0dfCo=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pezuVUvloecPhxs65yiKJ7nS+lmTO/8cNCjPXeQi2lDjv6WGKldYgUMYU2z6zksvU
-	 QQDCmicgCXBYgkKX7wMa2S4w663b6rPhjlppkRFGfsv+2/4Qm+a1zOr8JBKv2+yfqJ
-	 mpHN3DyYM9BTLiCwxJZrWeL/j/IMVHPjdB5c58zyHTHGrbGt87Vcs5c8TEhdyggGYG
-	 EvvC2ZB3+qc1C1v7f7QX8YOmk174TsR2A99I51OZuy+n/vHHIo1tnt+TK5RhEKqTv2
-	 uGAsngAuafEcnXbQB2LFhxf/t2f4UfEAECZS9SYRQQUkBHmYadjMD4PG4jRqmL8SaI
-	 j4nA/mPQLgM3w==
-Date: Mon, 22 Jan 2024 20:44:35 -0800
+	b=nRLX+7K4zEfU6/5y/VdkTajG7rUbsaKiVVo08APsiJVIn/P3i7xLnSXPbK4+R12yI
+	 4olHYqoiSxCHitkm9qACSw9qpFOMQA6AlxVJqJ7lEhWTdZBBLI+QFhN/VubICdYk0b
+	 uK+zIlTJBthFfFXXXK+/tAN7XF78HsLRnYC3iM5OrovBqe0JyOZns2nmIazk/no9p+
+	 jP8HiFa/ohDcYXK2KRdqLolhZ7t0ZEmmqjaduTrcHEEq+APN0ZdoYsPDrYifSMgDmX
+	 fZqmUCrdFtlh5hiNwNHBirmSdPvjXLgx18srvdMaP/qfYtSO/rvpxQanC8T3NzEG+L
+	 y5ml+eABrkTNw==
+Date: Mon, 22 Jan 2024 20:50:46 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Danielle Ratson <danieller@nvidia.com>
 Cc: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
@@ -38,12 +38,12 @@ Cc: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
  <paul.greenwalt@intel.com>, <jiri@resnulli.us>,
  <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <mlxsw@nvidia.com>, <petrm@nvidia.com>, <idosch@nvidia.com>
-Subject: Re: [RFC PATCH net-next 8/9] ethtool: cmis_fw_update: add a layer
- for supporting firmware update using CDB
-Message-ID: <20240122204435.5a72b485@kernel.org>
-In-Reply-To: <20240122084530.32451-9-danieller@nvidia.com>
+Subject: Re: [RFC PATCH net-next 3/9] ethtool: Add an interface for flashing
+ transceiver modules' firmware
+Message-ID: <20240122205046.5bb0ffe7@kernel.org>
+In-Reply-To: <20240122084530.32451-4-danieller@nvidia.com>
 References: <20240122084530.32451-1-danieller@nvidia.com>
-	<20240122084530.32451-9-danieller@nvidia.com>
+	<20240122084530.32451-4-danieller@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,23 +53,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 22 Jan 2024 10:45:29 +0200 Danielle Ratson wrote:
-> +err_commit_image:
-> +err_run_image:
-> +err_download_image:
-> +err_fw_mng_features_get:
+On Mon, 22 Jan 2024 10:45:24 +0200 Danielle Ratson wrote:
+> +The firmware update process can take several minutes to complete. Therefore,
+> +during the update process notifications are emitted from the kernel to user
+> +space updating it about the status and progress.
 
-name labels after the target
-
-> +	ethtool_cmis_cdb_fini(cdb);
-> +err_cdb_init:
-> +	ethnl_module_fw_flash_ntf_err(module_fw->dev, NULL);
-> +out:
-> +	netdev_put(module_fw->dev, &module_fw->dev_tracker);
-> +	module_fw->dev->module_fw_flash_in_progress = false;
-> +	release_firmware(module_fw->fw);
-> +	kfree(module_fw);
-> +}
-> +EXPORT_SYMBOL_GPL(ethtool_cmis_fw_update);
-
-does this really need to be exported?
+We should state more explicitly that the op just starts the process,
+and does not block. Looks like cable test already uses _ACT as a
+suffix, is it based on some standard? Doesn't seem all that intuitive
+to me (or at least less intuitive than calling it _START...)
