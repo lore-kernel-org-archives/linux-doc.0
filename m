@@ -1,108 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3754850A61;
-	Tue, 23 Jan 2024 15:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BE45A110;
+	Tue, 23 Jan 2024 16:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706025242; cv=none; b=ld/RgPhxzLJSlHdEil74kvVdBPHulDlaXzGOS2/TMux5SA7lMvRB3IEUqP7w2Wq4Old9NKTIBEtXoV0UBembWAZfJtrT1i9Jw4tRQLWcvWP1KH6vSIVxpAZOi8Sob/ez7sxWdPPM9e5S9mzaJqusJLli1WBHKLmZiJLm86w4VEI=
+	t=1706025948; cv=none; b=pQVpuVlVoW1AeL0L+mBFARHGZimgseAGD+R8CxBkFTwtQeIlgVSMWrymtkln5Je67Qe8fCZrSvLc3KXA1aohAh/JyG5PVbXZnT2V+eHaPIr7xYX0SshCERKRjFcUULvrKiWR1yD1uep9QVRk08C8GClBfkibSvqfQrJym6GuYb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706025242; c=relaxed/simple;
-	bh=MHunYJlSW0xkpBskC5UuarTnjKz+9CaefumWRC8LlQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mOIdKttG70zaJa4EeNcsZYsRMPnO3nNui+1EMHt8q8lLsX0xgtQXuwEg+8vuVFC6fgJkZXRm+KDiNGjTgnfjzvf29Bhi3uWAOWtYU/CROQBi/0+MyMRHGuiuH1sxcinSl3JF1oV9nLSguDvmHZ7q8LEkjjbs+cjbOyRsWVz3mEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=faCoNNLB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706025948; c=relaxed/simple;
+	bh=EqwuZoW8ZN+QzaeM3/ZJRHEDInLVBlC2rbl+crDOliI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FpeCzP9wE3aNiDvCmVQsJqgANbg36FAWoZb7xHfHX/lZVE2iL7yg/CZi41Z0zy2NYE83iUQnGmbpdjZPsFq0DBBP6FxyZx67jYXBYaQVMLnJdHYE3YS/T7GLP5G4r/OGMWG3AAIY268huMH2ET6/cFI9BEiEt7pd7wD/em5VTXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDZnVfJo; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="faCoNNLB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C10C8C433C7;
-	Tue, 23 Jan 2024 15:54:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706025241;
-	bh=MHunYJlSW0xkpBskC5UuarTnjKz+9CaefumWRC8LlQo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=faCoNNLBFV5XfXtR+8ZOEu/t+q8LVdInwpjQ39aqoyj9O4YRDBWSl2269MfaUqbRm
-	 smCSJBa/YZOgRaDlR3XsV0VZUxmeDAdjeR8ZC060toABprkH0AqQlHyLIbO6KVWNJD
-	 5+lPEBY2kemrCcz2FostODercaQr23BVNACUQZ+nEpzsoZshGIGxablCGuAQU098vM
-	 zkYcrRFVkzAl/vrgjWbFXVjPkdN8YNOIffLpEwZ+gS+3vN2VTz1gzxIDKpodu22/1K
-	 ZzO2glca/9BvqCkZwtrRbPhQY9KCoysUEAtbLyEOhDYIDxHXxONDr3QZ2wfGfYIlCz
-	 r0BI5DiKLYjFQ==
-Date: Tue, 23 Jan 2024 07:53:59 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Danielle Ratson <danieller@nvidia.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "davem@davemloft.net"
- <davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
- "pabeni@redhat.com" <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "sdf@google.com"
- <sdf@google.com>, "kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
- "maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
- "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
- "przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
- "ahmed.zaki@intel.com" <ahmed.zaki@intel.com>, "richardcochran@gmail.com"
- <richardcochran@gmail.com>, "shayagr@amazon.com" <shayagr@amazon.com>,
- "paul.greenwalt@intel.com" <paul.greenwalt@intel.com>, "jiri@resnulli.us"
- <jiri@resnulli.us>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, mlxsw <mlxsw@nvidia.com>, Petr Machata
- <petrm@nvidia.com>, Ido Schimmel <idosch@nvidia.com>
-Subject: Re: [RFC PATCH net-next 3/9] ethtool: Add an interface for flashing
- transceiver modules' firmware
-Message-ID: <20240123075359.4c502c79@kernel.org>
-In-Reply-To: <DM6PR12MB4516C97E6EC715DB78466FD3D8742@DM6PR12MB4516.namprd12.prod.outlook.com>
-References: <20240122084530.32451-1-danieller@nvidia.com>
-	<20240122084530.32451-4-danieller@nvidia.com>
-	<20240122205046.5bb0ffe7@kernel.org>
-	<DM6PR12MB4516C97E6EC715DB78466FD3D8742@DM6PR12MB4516.namprd12.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDZnVfJo"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40ec3535225so2081635e9.2;
+        Tue, 23 Jan 2024 08:05:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706025943; x=1706630743; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wmYT9Ec7jUi8wFLVKDFE7/uYZ6ywsX/UTzcSASaEzGM=;
+        b=UDZnVfJo3eNH2mniKvg/wAYbmQ1BwErhKP0t4TZ1brU6uaObaDwMDvM4pvZsvA9mF2
+         75gXUNYksKypfiZ94ESqGKvPc6rtPDNIcHUYuUIZWC6VF4M5SqGdY4DHz/o9bVG/LZtc
+         dApbV57gwO+oARYfNVDoTVDCmjSzLivE3BFPzIY8tXiR/Sk9VqJitdDtf+xZ4kKLtate
+         mCHySpxHOxEjx7p+NvinQgB/ndkKH8KNBfYh8ByCnFMvAeytoXGg5lpkc7cmIku1a7g5
+         DDzZI6V1xT4fYaN6WSwl0H8mBK+918Zw0B43NamzCHA2y00STxlR+VyixnJXkyHfGDgt
+         UUIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706025943; x=1706630743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wmYT9Ec7jUi8wFLVKDFE7/uYZ6ywsX/UTzcSASaEzGM=;
+        b=Xvi1oDwqebTBIrXEKM4y05VoLhSbdRTvxFN1ABWKesSN705iy7qzT1nW+2yaeMpfzi
+         Ln2PiW/5gFakg+Q7R7KBrZGYgIEvaRrg0Gl2uxyDXfZZOtBXML+21kinyZ9cZ5oUTEx5
+         xLIttgecFrZRO/NuaC5GVda7A52LJuw/pZ7Nh5Fat+dBpWiI0ibt5J2fhCAgjl5wPIXj
+         WjilfgzPOH2f0wjE2A9j24UfLc8eonlgkjuVHyuvSfTqWbXCyQcV/HrHkeG8+YPHPdif
+         E9R4+NMCqLcDbf6WHYO7yR4oNxAylB/05lEujtz9iAQtQZVNqpaK5O7AOkGs4K+d53+u
+         P+VQ==
+X-Gm-Message-State: AOJu0YybW5PLrwyxQtcE4/NCVdgG4OocuXbYCBoh9ro4l5iOsLj6NB+X
+	2WyLXVXOka+Qqhe91pUZQxdPG/oPBfyRuOZYAFO8qGoC3hSlGVj3ReciSVMWYdGMF8Eg
+X-Google-Smtp-Source: AGHT+IFCDfPC4AtMMFuP94bRzW6EAdWmT2fryuxb44W8L1z4Vwf8kSI/CgHpQF+3JmiLWSByzsc+KA==
+X-Received: by 2002:a05:600c:470b:b0:40d:3be1:daaf with SMTP id v11-20020a05600c470b00b0040d3be1daafmr329421wmo.51.1706025943102;
+        Tue, 23 Jan 2024 08:05:43 -0800 (PST)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:b949:92c4:6118:e3b1])
+        by smtp.gmail.com with ESMTPSA id t4-20020a5d42c4000000b003392c3141absm8123830wrr.1.2024.01.23.08.05.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jan 2024 08:05:42 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Alessandro Marcolini <alessandromarcolini99@gmail.com>
+Cc: donald.hunter@redhat.com,
+	Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH net-next v1 00/12] tools/net/ynl: Add features for tc family
+Date: Tue, 23 Jan 2024 16:05:26 +0000
+Message-ID: <20240123160538.172-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, 23 Jan 2024 13:34:18 +0000 Danielle Ratson wrote:
-> > > +The firmware update process can take several minutes to complete.
-> > > +Therefore, during the update process notifications are emitted from
-> > > +the kernel to user space updating it about the status and progress. =
-=20
-> >=20
-> > We should state more explicitly that the op just starts the process, an=
-d does
-> > not block. Looks like cable test already uses _ACT as a suffix, is it b=
-ased on
-> > some standard? Doesn't seem all that intuitive to me (or at least less =
-intuitive
-> > than calling it _START...) =20
->=20
-> From Documentation/networking/ethtool-netlink.rst:
-> "
-> List of message types
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> All constants identifying message types use ``ETHTOOL_CMD_`` prefix and s=
-uffix
-> according to message purpose:
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> ``_GET``          userspace request to retrieve data
-> ``_SET``          userspace request to set data
-> ``_ACT``          userspace request to perform an action
-> ``_GET_REPLY``    kernel reply to a ``GET`` request
-> ``_SET_REPLY``    kernel reply to a ``SET`` request
-> ``_ACT_REPLY``    kernel reply to an ``ACT`` request
-> ``_NTF``          kernel notification
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> "
->=20
-> So, it looks suitable to me.
+Add features to ynl for tc and update the tc spec to use them.
 
-True, didn't see that. It's fine as a distinction of "doing something"
-vs "setting configuration" but it doesn't express the fact that the
-action is async. AFAIU cable test is also async, so that's fine.
-We'll worry about it when some tries to add _ACT which isn't async.. =F0=9F=
-=A4=B7=EF=B8=8F
+Patch 1 adds an option to output json instead of python pretty printing.
+Patch 2 adds support for sub-messages in nested attribute spaces that
+reference keys from a parent space.
+Patches 3 and 6-8 refactor ynl in support of nested struct definitions
+Patch 4 implements sub-message encoding for write ops.
+Patch 5 adds logic to set default zero values for binary blobs
+Patches 9, 10 adds support and docs for nested struct definitions
+Patch 11 updates the ynl doc generator to include type information for
+struct members.
+Patch 12 updates the tc spec - still a work in progress but more complete
+
+Donald Hunter (12):
+  tools/net/ynl: Add --output-json arg to ynl cli
+  tools/net/ynl: Support sub-messages in nested attribute spaces
+  tools/net/ynl: Refactor fixed header encoding into separate method
+  tools/net/ynl: Add support for encoding sub-messages
+  tools/net/ynl: Encode default values for binary blobs
+  tools/net/ynl: Combine struct decoding logic in ynl
+  tools/net/ynl: Rename _fixed_header_size() to _struct_size()
+  tools/net/ynl: Move formatted_string method out of NlAttr
+  tools/net/ynl: Add support for nested structs
+  doc/netlink: Describe nested structs in netlink raw docs
+  tools/net/ynl: Add type info to struct members in generated docs
+  doc/netlink/specs: Update the tc spec
+
+ Documentation/netlink/netlink-raw.yaml        |   15 +-
+ Documentation/netlink/specs/tc.yaml           | 2218 +++++++++++++++--
+ .../userspace-api/netlink/netlink-raw.rst     |   34 +
+ tools/net/ynl/cli.py                          |   22 +-
+ tools/net/ynl/lib/nlspec.py                   |    2 +
+ tools/net/ynl/lib/ynl.py                      |  174 +-
+ tools/net/ynl/ynl-gen-rst.py                  |   10 +-
+ 7 files changed, 2241 insertions(+), 234 deletions(-)
+
+-- 
+2.42.0
+
