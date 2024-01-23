@@ -1,72 +1,100 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B18512E5F;
-	Tue, 23 Jan 2024 14:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FA560259;
+	Tue, 23 Jan 2024 14:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706020744; cv=none; b=LBJnNMqpC6QDPC4LqJ5ToKu072jIwZZeWWLtGkVujsW1r6QdwIlRQdcfBUas6vpqQZyVbekwT8BPXYav5vwt+on99io4MPHPL6aWYG49NmngaY8+7gZyVBApckBxN7E4Cq1llCzzV1hBCp6BJJnCMnfzEvgXQQP+thxZhfy5Nzc=
+	t=1706021252; cv=none; b=YYkJMDdmmYOOtDxsqfWi6nlD3+Os6pT6dQlz5X0XfHjTAaS/mXo95nRSwKuZR1O6FpNZb/eWSPAthdvekIDo2cqVF5PmjaIYBGDYi/e8Y0Symb38/WcUvf+IQJspXA3OE0Cv5zhKzWF9iaYNpBmKtsAwbqiG8d074T2NVt1YHSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706020744; c=relaxed/simple;
-	bh=K6zg6vTCzrzTf1j6vmjQm/wVXkYSEHPStAwuKV9vcXM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ks88iDBdxACBSPUH8/7QU+g5ttXHm7UIOGM8goiZJGW4h7alwO1y+2mxDBQqpPs9W5xwcxO9XLlMK+ta/5pycQFbOk1YFWY5cPUw9+DpGhhi1KGRpgZWiH43DahgnDJP/E308nSpNxdn4NvudKZ1D2sQGfmmFFa6NDXTW1nXhrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NaXfEi4h; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NaXfEi4h"
-Received: from localhost (c-98-53-138-11.hsd1.co.comcast.net [98.53.138.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AB4C64A2;
-	Tue, 23 Jan 2024 14:39:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB4C64A2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1706020741; bh=xhekjE4E+jF0d+dUTemSZHRd8Hc34nR/x1C+V1iVp3M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=NaXfEi4hV/rjpmbTbBmC38fJh7E+r4XxjxZ98rDuDSQeuFrSV1mlGN2Mo2iN3heku
-	 NKRcBXljfgBH0kPmij393qvXu6RPrRkteunV8T9bsvipFp9R1Xj0mLtVtGe9MVZjpr
-	 Lb+SQm4iyZf8MKChccqv1b60iTlSvlsn8n/Ha2SMLlp3lz5+BCvwxuifCApV9rn7cI
-	 LIZE6YEgfILwPJ5qtdAd97wNo1plwowgtB+6KnAoIyhy6HCdVl7z+gYA7yQNVRw04y
-	 kLAv3i78bRo8izxjVd314b6xbZkhOb2VPosLjYH/kC3rcEscQe7z1WVdk+4cDHt+2r
-	 IR7zCaOZSAbeg==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Ramona Gradinariu <ramona.gradinariu@analog.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, jic23@kernel.org,
- nuno.sa@analog.com, linux-iio@vger.kernel.org
-Cc: Ramona Gradinariu <ramona.gradinariu@analog.com>
-Subject: Re: [PATCH 0/1] adis16475 driver documentation
-In-Reply-To: <20240123104548.136201-1-ramona.gradinariu@analog.com>
-References: <20240123104548.136201-1-ramona.gradinariu@analog.com>
-Date: Tue, 23 Jan 2024 07:39:00 -0700
-Message-ID: <87le8gm7wb.fsf@meer.lwn.net>
+	s=arc-20240116; t=1706021252; c=relaxed/simple;
+	bh=SyOCDDjWY9xeLbCSe4FxdSgAc8OEaImCI2tOJVIHOBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Z0f5nNTGW581C7Ec1IKRG5x98xXh77N+hcOJnF6w2WIoHA2xhkFrB2lQWtqMVSeHGb05eEiC9q/lzffQ8u5C6dMQzS3WcH7CjhviZM0YDi9LA9+V12qkNnt7YXZ/HhnR+McwF0oL5nzySque8z24pl5OcVNggu65YDS5OjC67d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B149C3277A;
+	Tue, 23 Jan 2024 14:47:29 +0000 (UTC)
+Date: Tue, 23 Jan 2024 09:49:00 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Huang Yiwei <quic_hyiwei@quicinc.com>
+Cc: <mhiramat@kernel.org>, <mark.rutland@arm.com>, <mcgrof@kernel.org>,
+ <keescook@chromium.org>, <j.granados@samsung.com>,
+ <mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
+ <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <quic_bjorande@quicinc.com>, <quic_tsoni@quicinc.com>,
+ <quic_satyap@quicinc.com>, <quic_aiquny@quicinc.com>, <kernel@quicinc.com>,
+ Ross Zwisler <zwisler@google.com>, Joel Fernandes <joel@joelfernandes.org>
+Subject: Re: [PATCH v3] tracing: Support to dump instance traces by
+ ftrace_dump_on_oops
+Message-ID: <20240123094900.6f96572c@gandalf.local.home>
+In-Reply-To: <0279a4cb-ced0-447a-a06f-37c38650ed5b@quicinc.com>
+References: <20240119080824.907101-1-quic_hyiwei@quicinc.com>
+	<20240119115625.603188d1@gandalf.local.home>
+	<0279a4cb-ced0-447a-a06f-37c38650ed5b@quicinc.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Ramona Gradinariu <ramona.gradinariu@analog.com> writes:
+On Tue, 23 Jan 2024 18:23:58 +0800
+Huang Yiwei <quic_hyiwei@quicinc.com> wrote:
 
-> Add documentation for adis16475 driver which describes
-> the driver device files and shows how the user may use the
-> ABI for various scenarios (configuration, measurement, etc.).
->
-> Ramona Gradinariu (1):
->   docs: iio: add documentation for adis16475 driver
->
->  Documentation/iio/adis16475.rst | 327 ++++++++++++++++++++++++++++++++
->  1 file changed, 327 insertions(+)
->  create mode 100644 Documentation/iio/adis16475.rst
+> > And if we really want to be fancy!
+> > 
+> > 	ftrace_dump_on_opps[=orig_cpu | =<instance> | =orig_cpu:<instance> ][,<instance> | ,<instance>:orig_cpu]
+> >   
+> Yeah, I agree to make the parameter more flexible.
+> 
+> "=orig_cpu:<instance>" means to dump global and another instance?
 
-Thanks for working to improve our documentation!
+No, I added a comma for that:
 
-You do, however, need to add this new file to the index.rst file in that
-directory or it won't be pulled into the documentation build.
+  =,orig_cpu:<instance>
 
-Thanks,
+Would mean to dump all of global and just the origin CPU of the instance.
 
-jon
+> 
+> I'm thinking of the following format:
+> 
+> ftrace_dump_on_opps[=orig_cpu | =<instance>][,<instance> | 
+> ,<instance>=orig_cpu]
+> 
+> Here list some possible situations:
+> 
+> 1. Dump global on orig_cpu:
+> ftrace_dump_on_oops=orig_cpu
+> 
+> 2. Dump global and instance1 on all cpu, instance2 on orig_cpu:
+> ftrace_dump_on_opps,<instance1>,<instance2>=orig_cpu
+> 
+> 3. Dump global and instance1 on orig_cpu, instance2 on all cpu:
+> ftrace_dump_on_opps=orig_cpu,<instance1>=orig_cpu,<instance2>
+> 
+> 4. Dump instance1 on all cpu, instance2 on orig_cpu:
+> ftrace_dump_on_opps=<instance1>,<instance2>=orig_cpu
+> 
+> 5. Dump instance1 and instance2 on orig_cpu:
+> ftrace_dump_on_opps=<instance1>=orig_cpu,<instance2>=orig_cpu
+> 
+> This makes orig_cpu dump for global same as instance, the parameter may 
+> seems more unified and users don't need to remember another markers to 
+> request orig_cpu dump.
+> 
+> But one problem here is if there's an instance named "orig_cpu", then we 
+> may not dump it correctly.
+
+I would put that under:
+
+   Patient: Doctor it hurts me when I do this
+   Doctor:  Then don't do that
+
+;-)
+
+-- Steve
+
