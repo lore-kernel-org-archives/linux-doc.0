@@ -1,211 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE918613D;
-	Wed, 24 Jan 2024 18:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=134.134.136.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706122322; cv=fail; b=DREYhjrSNsBuSh7BRU06Ybujieh6oGW4w3y3ejwOmzIi6/hnyIJyNQfgfQmDjZMZa0iu0s1lFTQHq+mc+/U4wd1veNv/Q9+eeZ82zAi/YkoKPYZnj427nbpDW5bHQAS6GKGs07XXoYVgqZBPL6sJ+lAmB6n4iKVDXU2XPEP+n7M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706122322; c=relaxed/simple;
-	bh=CoAVWSgrnEHPst9MDHm/yWLezVh2xCGvznloWwxjzhE=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eumGJekj27toE2CEK6whmam/NVyUV+HH+SR0EPSPxjIPr5rafK78wzL6rODUFd7GxKKByTfo40tFRx+pHdTOipoJffb+MpuApu9YmdqrmvHYSsiY9FiYpj2o/4x/K2Kxf27QRhNQvExjG6QSTRncOisUNUaPIJJ3tNtbw0CZXCc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V4iFrgCo; arc=fail smtp.client-ip=134.134.136.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB7512BE98
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 18:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706122522; cv=none; b=FV+2PdcEDH6qIEo5BUrg1LEPU42kg4Qbsoj3i01Ja+wqnKwNVb5q9amMvP/uigJQzEB1UvC4PUk/uVJF3/KPms62hJDVkDzAp7Z5gyWJeCWvLtMD57sru1cF4fM0WHYte8TyC/mY6RnZnYIk/NpU/xbWH+R51R0ArprN5h9pdlI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706122522; c=relaxed/simple;
+	bh=oWD5VLSXRA+rwKDmOK0WcQfre24wTxNEWYYxv4RGXoA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IXbHsCts/n87AymryJksD4vryon1uv7LzqYUS1AyoSljbK9hxHu/B/D8Oy1VK3XkjzERb5ElnpbAGcPiQ23IKXK6Vo20hXPUaP4+5Fv7xeJagr6CAsGQKIcBG6fCOoAUjZXb6umkPI3VhRhAnmyOPU7bspS+BAlCa6Z1atvxlPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=1yoC7uC/; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V4iFrgCo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706122320; x=1737658320;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=CoAVWSgrnEHPst9MDHm/yWLezVh2xCGvznloWwxjzhE=;
-  b=V4iFrgCoDZsfYLCBXtCV4duI50EE6hLcNBX2R7TFD8/PXcAuK7sZworQ
-   AlCU1dHr3C7ORhg69PR0v93mN2OKsjwj/guJDDrf4hEPWlKSqZadZvFgz
-   CMIAue7kw9RzTzptOJYQNpFBMreSmHwhyFo/ts3NbTxir6Tvsxlc5P2/1
-   YxUqC2C0L8UhLIEApp0yKKddpizaySuZgQJonJhE4yGr61k/Dmg86NemS
-   CyyKWfBZVoQ+LU9U3Mus5hWN/hiR3Ly64NIswtMYeB6cvLouPMKpQx7gX
-   wowZ3aA0GYPOqdMA6NNA5VC5Fmrpc6yNsk0aic43EY/DKXM9IblgUyKQa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="466217203"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="466217203"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 10:52:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="909749547"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="909749547"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 24 Jan 2024 10:51:58 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 24 Jan 2024 10:51:58 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 24 Jan 2024 10:51:58 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 24 Jan 2024 10:51:58 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hMKh92N7jLm3ZHUzahDAFk7jIE4qTkzWBazC1DmDvNBaUpIpfSt58/A9dCb2VUGdFos6VUZZVz//9iQxfqFXA77ZVoXmxDiGKvLwnn5a4CmMoDKtUZb+0x/Qn2qqIV2rPFRiZcl6NIvZlKjMQgeobNBGYy1y/89GimBMbKgYeauRzUxF7jiR45bRrAEiftUEq7snjtmepERMea0Vsuut3RCQSxQRwLC0MadbDnC2auSzd3Ko/WiE35095+9MFRx55Cl3WKebp3dk5cC1ypQlGM4uR4I3skC7NNjhL/GHXiMRpKjZ55uGzmyCqgIxvmb4xLLy2SyloRht6vbqHZrKRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A8hSe3nPxC0qAp1lfhQh0BZSNBiPG8zJrR+LncHMqmM=;
- b=n9DxYDg9UHT2UYcEkmTDcM2/B8zWBr0QwZaA9/YX5Fr+OsyjQ2S0i+wTQrSSGPd/7GPiw2TugZMu9gB7P9K22x2CEbDGmMJtHOqw4inEEFcLrLnSimP6QP3TcxlzP/KI/7ovvTSpQP0kBdCr5FSTBWDpwaYqN3t2lyLGgb66o+/d8FzEMmnNiLt16TPztioUxwhyaVROFz1dNeEOuUkZwk7ZeFEoGtX4DJEsQ73NIzDeEttqeLNE2N97PMH++tCfREwAg2yLedKCWHh1+JZe/aRiqO9i20l/0K5wdp8MD9DyjL+7Zjz7m4ptruzxlBxIZXdBMsOl30cP4GWHd6q8XQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DM4PR11MB7397.namprd11.prod.outlook.com (2603:10b6:8:103::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.37; Wed, 24 Jan
- 2024 18:51:52 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::c903:6ee5:ed69:f4fa]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::c903:6ee5:ed69:f4fa%7]) with mapi id 15.20.7202.034; Wed, 24 Jan 2024
- 18:51:52 +0000
-Message-ID: <e96df7ac-f0b4-4300-8546-7c1df836dea2@intel.com>
-Date: Wed, 24 Jan 2024 10:51:49 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] x86/resctrl: Fix unneeded variable warning reported by
- kernel test robot
-Content-Language: en-US
-To: Borislav Petkov <bp@alien8.de>
-CC: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
-	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
-	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
-	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>
-References: <202401241810.jbd8Ipa1-lkp@intel.com>
- <84128a3c83654493f637b8349153af10d69e2752.1706118776.git.babu.moger@amd.com>
- <39c4501e-4937-49de-b12b-742e6201df6f@intel.com>
- <20240124183153.GFZbFXmTKTLEpwZshW@fat_crate.local>
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <20240124183153.GFZbFXmTKTLEpwZshW@fat_crate.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0090.namprd04.prod.outlook.com
- (2603:10b6:303:6b::35) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="1yoC7uC/"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d71e1d7c78so35115895ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 10:55:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1706122519; x=1706727319; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jDj/r0j6wjrBeKVb5gL0FLzmDiXz6FHRYIwfCvn46Xc=;
+        b=1yoC7uC/hCY8BTp//3vVQjs2fRNi6cyFkfIHtPN6N6jHHHktsbh7IlTpm6c5kf+Gws
+         QQzmoGSw0qCswbL2GozTeiEoDhFcskhTFsHK3Jarwkk4id+wtSV5N5rg76d6X2FTPGMD
+         q8MRneyYV4rGpab3Lq5qJsnUTNcmfdlyFXDXHs6KjT+19e9JRglz9l31kTsF3EkyurWI
+         W3stkLM6awyOJBw/ko7XbHRMWrTb6lBDoj6R7EsDL2GkYBdKhVnEiTShZ35HOUQ+gv/t
+         YXN0uGkVTsDnZYUSHSShiGP541XuSDHzJPH3Hm9XU55D9JkxmnLErCuZpmO9JnIj/uoc
+         9k2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706122519; x=1706727319;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jDj/r0j6wjrBeKVb5gL0FLzmDiXz6FHRYIwfCvn46Xc=;
+        b=JtkpR8jvEEsU/jBKvcR8hve7IpX8IFwveidMbYdLsymI9bfBfUA5AkzFlykvKrrrx2
+         RsZuML70CmUMxZqcROHfrYzZ09JzxQlyl/Rntj4gB4R5HbfsCBf2JrFR6hlDXQflWDA3
+         FJgnxgv95JpiGblG0Fc+RXydATo2yDaXL6AYv5OodcYLaa+oNosGOov65m+cUCAHmf0j
+         3+2mZXI2MdhBu09AidffF1n1fk4zY0ETjviUYPotvi99zdMMXxNHRKADhwv6unw1bNyQ
+         k8Tvybh9rJzXMa48JBPMCPooaR/dvLsdCpnP1iL7o86xzG9reBnc3OuLEasJ2RQozDrz
+         9WOQ==
+X-Gm-Message-State: AOJu0Yz7Bu6EsbnRnhnsmKNK9UkAylkskx1k3ksfCdp+zzXlAgWtbmjC
+	+0R7xrQLSrhMDpp+Ret2fHVn7BzjRoZJKM2tL0jJMocESPRXxy29mrksUW43fyQ=
+X-Google-Smtp-Source: AGHT+IEIpZf36EhWLz+OQgHES8qLiyZ0UwP9vaFkyqYaaf3TE93IIKGP2XO1CzR3BfCEE2NcFO6xbw==
+X-Received: by 2002:a17:902:d4ce:b0:1d7:8e11:14a0 with SMTP id o14-20020a170902d4ce00b001d78e1114a0mr887617plg.91.1706122518713;
+        Wed, 24 Jan 2024 10:55:18 -0800 (PST)
+Received: from ghost ([12.44.203.122])
+        by smtp.gmail.com with ESMTPSA id z7-20020a1709028f8700b001d71935e5c1sm9210654plo.195.2024.01.24.10.55.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jan 2024 10:55:18 -0800 (PST)
+Date: Wed, 24 Jan 2024 10:55:16 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Atish Patra <atishp@atishpatra.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH v9 2/2] documentation: Document
+ PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+Message-ID: <ZbFdFARPQzjRd2g8@ghost>
+References: <20240123-fencei-v9-0-71411bfe8d71@rivosinc.com>
+ <20240123-fencei-v9-2-71411bfe8d71@rivosinc.com>
+ <26808f34-d9c4-404a-bf09-45c4aff139ad@ghiti.fr>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DM4PR11MB7397:EE_
-X-MS-Office365-Filtering-Correlation-Id: d440179a-06d4-4ed2-f6e0-08dc1d0d8777
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MRs22VcIpJ86niiQPYtv09KkClvbyA7Z23DcYqpoFGHjHZpdBe2C4ynPucnVkuU9tTB6fet1eSx6daYpnqVjZMuyDSMhgIZyW4bPgx1ZtG2xcEv438HNUPOLFEPLBLwyXH1dI5DwzDLbZ6mXo4PPzWWFXcvQL3ezN2H7TGzcF6W6FgThR84xa2Q557uS+a48cFNTyWCtkuCmJOWRaKQhCWxTRmKC7Uoad6ZXlwcwfOX4MrjKPR3jrCyGXmQkUY5qLpNqynQ2QBKCaRL/SQKQH5ZioGP4Up6Unt6H34Qfzw4jqGNmdVPbwmVQyxtcODddh0seSpCSKjBOFdSP99nTW0pUFLYCgTlxs6dAeXp9GuOA/j6xZ7/Mn78a4uO67HaPYcO9MPRq2puerBsKjPSxzQPo9UwpwPm3UAEeNAoukgvNhjZb7jsovonMHKCl5vU4ausz9+7O+1948no/t4Ry3s/lvqoQA0irJbLhVzhfuLJqA4mf3FpVgy+cDh9FBzk0MA13BERyUseNRm57owSpG3DK6CY5xF1+QfSr1J/EZ8yyuj+uoHdkkubcDcyw/hz8AZlTNTX93YzkJCTXchivkHmpCyoVx7VlIXTS5FTCUmWV14LO++JLgLp9xKNDqVk03ZkvUoKHRmx8BZfb1GTwYKuIkeJpNpAZbhXhF+j906AuO4VWJoeAd0KNhwhLpNMO
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(366004)(136003)(39860400002)(396003)(230273577357003)(230173577357003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(83380400001)(2616005)(41300700001)(26005)(6512007)(38100700002)(8676002)(6666004)(4326008)(5660300002)(7416002)(8936002)(6486002)(66946007)(478600001)(6506007)(66476007)(66556008)(53546011)(44832011)(6916009)(316002)(2906002)(31696002)(86362001)(36756003)(82960400001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MWF5dWF3bGxubDBneFVURnJmUkY3STkwU1Qxd2xGeXJpeWFIcWtyeDZMU1lq?=
- =?utf-8?B?MjlIanB5aGhQR0pRNVNHaEtLMW11TFIyMUJRR085RmtMVWtReXlXTDBaTlRY?=
- =?utf-8?B?OVhheTNnVkV0T2w1Q1hrUzkvUFZXM1gzNkZGRy94L3RCa2w5bVc2MXJHV3F3?=
- =?utf-8?B?TkFodnlnTnFMWWlTaHlMNjNXbWNaTDRBaUovRjRmMllMUTBsOUtJWkJraVpu?=
- =?utf-8?B?T1JLSUVkOHY0Q3BNeGk5ZkpQMWh1THdPeExjN2JGUHZKc0d0VWZuZGhQVjdt?=
- =?utf-8?B?aTFUZGdVVUdCRlhEMmVxTWtYY3lxVE5pVzFTbHo1SVh4eVorK29RUTVYWGt2?=
- =?utf-8?B?Y3RkdGxnR2hLUXU0NzRFWHo2Ri9iRWZaZ3FSeFo0V3pQUC9ZUHI5bmZJZkJI?=
- =?utf-8?B?bUozcWRYV2gzL1hRVy9SYjliaExxbStLdHNjVk9WbjY2UldnYnp0bkEzODBt?=
- =?utf-8?B?NGNILzhZSmRZK2xtQ1cvSmorcHY3QWRDcHlSekt0bDR4VEtJcmx0VnRFSU9X?=
- =?utf-8?B?RUlzMlZRNlIvajd3RjlDNGo1VGZMamVWNW1MQ1ZRczIvNDEvQmVvTk9yUkU3?=
- =?utf-8?B?ZXFZeng2aGVjK3pxTmZVUTE1cm9YaE9ISFhGSk5iZGk1SXdRQlVVMURpSkxt?=
- =?utf-8?B?QTBFcUtQbElKclpXUFBpVmZnV1RJMmgveTduQXJYallhU0dWbDl5LzJHUmwy?=
- =?utf-8?B?ZW5NU09qOVRCb3BFZGxmTjhGZGF2eU8wRDR1WE9RVnVBanpQbGU1VHBhanZJ?=
- =?utf-8?B?M09pMXhvb0c1anFuNHo0Slp1OVZ3UkdtbXJXTWJrQ0YyZURRU2EwMC9JNmhT?=
- =?utf-8?B?Zmg0aHprWHpFdVlwK2swTWRXYTdPQ0x6NXZsTnE3clI5MW94RW4zQ0N2bTBn?=
- =?utf-8?B?UmlVOUw3eDdsKzVDSFpVUlY0Zjl3dFVGQitudTljM00zb2oycFRFRGlQZSs5?=
- =?utf-8?B?SWF1dnZjaS9XSmhrMjdYdHJiTklyajRKR3daL3F4N0tTTk1lSlN0UlVzTENo?=
- =?utf-8?B?bldSLzgwN1NJZmpLUmlsWTd5RmRuS2Z5aVhYZUFwQ3RURmtWcE02TEhWTHBx?=
- =?utf-8?B?RlJqeVFPWGJMeXRDYm1ubWdoZmtoMVpOSXZDejhmM2JURkFDbDcwKzF2RDRx?=
- =?utf-8?B?YzdtS0VZby9kYTZwVis3Y0JMSDdxRUthVGZUOU5PVkNhK0tTeUlWZUhoaDhm?=
- =?utf-8?B?V3p5UVNPUkxrTnhTMWp1UGlhNFcwVnpCTWJ0eEZDbWE0NFdRREFaeFVYTi91?=
- =?utf-8?B?cTl1UDF1OEtPZGFhb1AveGtkdmFzeWd5SlVZNHJVWHNlYTdRS1VnbG15ZkpW?=
- =?utf-8?B?dWF6OXcwcWtlTjZHbnhBZStkNElUaktBaTNqZFVld2EwYVlOYzhYcU4vN1pr?=
- =?utf-8?B?bk5mRHJCZlJVMndvbzByeHgyUDRSQjhZcTB2eWkyaW1TVlVVU21PWnhEZTZ3?=
- =?utf-8?B?SzhjT3ZLTXRkYjArS1A1SFppODI1QnpoYnNPdE1KczhYZU5QZlFBUXRwdnJE?=
- =?utf-8?B?aE82Situcm9CQUk2dm5Fa3BVYXN3N09MTkZXVWhUc25ISFdnaWZHUXdUeFlE?=
- =?utf-8?B?RHU5bTN5Z2dIRHV6dG9aNytFdDQ4VnQzUGFEYTFHNEljQzZEOHVLeHdmZ2Zn?=
- =?utf-8?B?VmVhcEV3bTJITUxFVUNSdjl0SFlVYjNxZlpqdTdFV2ZQMDdIeHhXbjM1TUFX?=
- =?utf-8?B?TElVTmxUUktLUHR2OS9RR2RoVExnMXpHRTZuWk5UbGhObWV4eW53azlrNGZp?=
- =?utf-8?B?NXBGMkRON1kzVS9YT1pRQys4VGR5MEwzNDIwS0JyNFBnNlRFVENTV045alRK?=
- =?utf-8?B?eVJ0RXBBWklvL3dPVGlaNmlhT1d2R25LMEl4VGNUNlhXWE9LMFBLRWt4eGh4?=
- =?utf-8?B?Y3kraW56OGVhUmFlejUwSWNTSmNoNmhCRmpUVVJhazFaV3FFc0MxT0kxYjNH?=
- =?utf-8?B?UHQ0NmJxZTZKWDhiaGtWckFPWlErVmhDK3FpMVNmZ1VzUUZ4YWQ3RnVTT3Qz?=
- =?utf-8?B?U2VKT2lGMStLSzZGRXduNnZ2WWFUUGdaMUp0MGlFbDNMa1RZUUp0TWNFR0ZS?=
- =?utf-8?B?RENvd0t4WFZ5QWg0MmRxOXRzQ3lkWERQWFZBUEhqaWxSMkYreWNiaURUMTZo?=
- =?utf-8?B?L3ZpbWNPVmFOS3p1QmdvRE5Pa1JUdmZjUVF3UTdOT0RneVBTSFlVT0U0eE52?=
- =?utf-8?B?MHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d440179a-06d4-4ed2-f6e0-08dc1d0d8777
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 18:51:52.6133
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 33zj41ghIFrY2NtAehUP5h85H0y8j+4J4/Lcl2krSWqRf9nbXjU3t2GnSyhzyvd7ZmzYnjtKxUBqdT7qILo29g50Gp5cQYoTFvsjFDASWeY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7397
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <26808f34-d9c4-404a-bf09-45c4aff139ad@ghiti.fr>
 
-Hi Boris,
-
-On 1/24/2024 10:31 AM, Borislav Petkov wrote:
-> On Wed, Jan 24, 2024 at 10:25:17AM -0800, Reinette Chatre wrote:
->> This can be confusing since it implies that the patch you mention
->> introduces the issue but instead the variable has been unneeded since
->> the original:
->> 92bd5a139033 ("x86/resctrl: Add interface to write mbm_total_bytes_config")
+On Wed, Jan 24, 2024 at 08:19:42AM +0100, Alexandre Ghiti wrote:
+> On 24/01/2024 00:29, Charlie Jenkins wrote:
+> > Provide documentation that explains how to properly do CMODX in riscv.
+> > 
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >   Documentation/arch/riscv/cmodx.rst | 96 ++++++++++++++++++++++++++++++++++++++
+> >   Documentation/arch/riscv/index.rst |  1 +
+> >   2 files changed, 97 insertions(+)
+> > 
+> > diff --git a/Documentation/arch/riscv/cmodx.rst b/Documentation/arch/riscv/cmodx.rst
+> > new file mode 100644
+> > index 000000000000..2ad46129d812
+> > --- /dev/null
+> > +++ b/Documentation/arch/riscv/cmodx.rst
+> > @@ -0,0 +1,96 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +==============================================================================
+> > +Concurrent Modification and Execution of Instructions (CMODX) for RISC-V Linux
+> > +==============================================================================
+> > +
+> > +CMODX is a programming technique where a program executes instructions that were
+> > +modified by the program itself. Instruction storage and the instruction cache
+> > +(icache) are not guaranteed to be synchronized on RISC-V hardware. Therefore, the
+> > +program must enforce its own synchronization with the unprivileged fence.i
+> > +instruction.
+> > +
+> > +However, the default Linux ABI prohibits the use of fence.i in userspace
+> > +applications. At any point the scheduler may migrate a task onto a new hart. If
+> > +migration occurs after the userspace synchronized the icache and instruction
+> > +storage with fence.i, the icache will no longer be clean. This is due to the
 > 
-> What I said. :)
+> 
+> Nit: I think you mean "the icache on the new hart will no longer be clean".
 
-Right from the start, yes.
+Aw yes, that should be more explicit.
+
+- Charlie
 
 > 
->> To help clarify you can mention this order of events and also add an
->> appropriate "Fixes:" tag.
->>
->>> cocci warnings: (new ones prefixed by >>)
->>>>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8: Unneeded variable: "ret". Return "  0" on line 1655
->>>
->>> Fix the warning by removing the variable "ret" and returning 0 directly.
->>
->> cocci warning was spot on*. This fix is not just a change to "make a
->> warning go away" but instead fixing an actual problem.
->> It can just be "Remove the unneeded variable and return 0 directly".
 > 
-> I'll fix all up before applying.
-
-Thank you very much. For what it is worth, I do agree with the actual fix
-and you can add:
-Acked-by: Reinette Chatre <reinette.chatre@intel.com>
-
+> > +behavior of fence.i only affecting the hart that it is called on. Thus, the hart
+> > +that the task has been migrated to may not have synchronized instruction storage
+> > +and icache.
+> > +
+> > +There are two ways to solve this problem: use the riscv_flush_icache() syscall,
+> > +or use the ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` prctl() and emit fence.i in
+> > +userspace. The syscall performs a one-off icache flushing operation. The prctl
+> > +changes the Linux ABI to allow userspace to emit icache flushing operations.
+> > +
+> > +As an aside, "deferred" icache flushes can sometimes be triggered in the kernel.
+> > +At the time of writing, this only occurs during the riscv_flush_icache() syscall
+> > +and when the kernel uses copy_to_user_page(). These deferred flushes happen only
+> > +when the memory map being used by a hart changes. If the prctl() context caused
+> > +an icache flush, this deferred icache flush will be skipped as it is redundant.
+> > +Therefore, there will be no additional flush when using the riscv_flush_icache()
+> > +syscall inside of the prctl() context.
+> > +
+> > +prctl() Interface
+> > +---------------------
+> > +
+> > +Call prctl() with ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` as the first argument. The
+> > +remaining arguments will be delegated to the riscv_set_icache_flush_ctx
+> > +function detailed below.
+> > +
+> > +.. kernel-doc:: arch/riscv/mm/cacheflush.c
+> > +	:identifiers: riscv_set_icache_flush_ctx
+> > +
+> > +Example usage:
+> > +
+> > +The following files are meant to be compiled and linked with each other. The
+> > +modify_instruction() function replaces an add with 0 with an add with one,
+> > +causing the instruction sequence in get_value() to change from returning a zero
+> > +to returning a one.
+> > +
+> > +cmodx.c::
+> > +
+> > +	#include <stdio.h>
+> > +	#include <sys/prctl.h>
+> > +
+> > +	extern int get_value();
+> > +	extern void modify_instruction();
+> > +
+> > +	int main()
+> > +	{
+> > +		int value = get_value();
+> > +		printf("Value before cmodx: %d\n", value);
+> > +
+> > +		// Call prctl before first fence.i is called inside modify_instruction
+> > +		prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX_ON, PR_RISCV_CTX_SW_FENCEI, PR_RISCV_SCOPE_PER_PROCESS);
+> > +		modify_instruction();
+> > +
+> > +		value = get_value();
+> > +		printf("Value after cmodx: %d\n", value);
+> > +		return 0;
+> > +	}
+> > +
+> > +cmodx.S::
+> > +
+> > +	.option norvc
+> > +
+> > +	.text
+> > +	.global modify_instruction
+> > +	modify_instruction:
+> > +	lw a0, new_insn
+> > +	lui a5,%hi(old_insn)
+> > +	sw  a0,%lo(old_insn)(a5)
+> > +	fence.i
+> > +	ret
+> > +
+> > +	.section modifiable, "awx"
+> > +	.global get_value
+> > +	get_value:
+> > +	li a0, 0
+> > +	old_insn:
+> > +	addi a0, a0, 0
+> > +	ret
+> > +
+> > +	.data
+> > +	new_insn:
+> > +	addi a0, a0, 1
+> > diff --git a/Documentation/arch/riscv/index.rst b/Documentation/arch/riscv/index.rst
+> > index 4dab0cb4b900..eecf347ce849 100644
+> > --- a/Documentation/arch/riscv/index.rst
+> > +++ b/Documentation/arch/riscv/index.rst
+> > @@ -13,6 +13,7 @@ RISC-V architecture
+> >       patch-acceptance
+> >       uabi
+> >       vector
+> > +    cmodx
+> >       features
+> > 
 > 
->> * I'll add a private setup with the goal to catch these earlier.
+> I don't know how man pages are synchronized with new additions in the
+> kernel, do you? It would be nice to have this new prctl documented for
+> userspace.
 > 
-> Except that it doesn't fire with the patch that added the code. It looks
-> like the cocci script needs adjustment...
-
-Reinette
+> Thanks,
+> 
+> Alex
+> 
