@@ -1,38 +1,66 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67BBD7A701;
-	Wed, 24 Jan 2024 14:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E79760DFF;
+	Wed, 24 Jan 2024 14:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706105397; cv=none; b=HcSLvS/sGFSXCfuyuFLbekU4tgDW+z1epqLYv4VVOj3pyo3StIziewa9FYKl1V5yg3ZhsHwf/qqiPs91MzywBOC1a0X+N+P41l4q5VV7IhexvEXPXuupok6DpyzWRLDdHcdLh3vDGB6rVRt33ky9cV5oYbVlhsSdbkNlRzsE3X8=
+	t=1706105653; cv=none; b=Z3MlwmiRNNU+xV1FKMwIKtGv3ulK1THd7pz88X7hvV8Xvql28hUYLLDS+Dt55nOeIHgHwjsPxuGvrF+Z0n3eISK2wW1ib8Lp6M6TlZf+otqu9M8x3we2aEw66GfA2RR4AsElRHw2CGDeVBggsvTYSjQGxxX2vMw9OZ3izeoL+z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706105397; c=relaxed/simple;
-	bh=qCGKRcoywPioNujxDqiV9k0jNhIKWOBNvLrRohxfy5U=;
+	s=arc-20240116; t=1706105653; c=relaxed/simple;
+	bh=ayLeps8v3W7HX8vlungxHlMOuxcEHcvYI51ejw6W6y4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4+tBsWLhxWEat0/CCfQEXw0Tjz7KbbZa1xKuKQU43BWwCBAZazQ1WcxIkuHrBhVXEjiS4yqzhw+1GbLB99bkoiQc0E5OqRMxMOTnmOqCR3I3Bvbeg02wKi04BuF/LT7tm16upfAvTh5Y/x3TCcj0UtVC2ic2RB1HGVkbkYSnf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C293E1FB;
-	Wed, 24 Jan 2024 06:10:39 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.58])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A31E3F5A1;
-	Wed, 24 Jan 2024 06:09:53 -0800 (PST)
-Date: Wed, 24 Jan 2024 14:09:51 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
-Subject: Re: [PATCH 3/4] arm64/fp: Clarify effect of setting an unsupported
- system VL
-Message-ID: <ZbEaL5MAPJe7+4uQ@e133380.arm.com>
-References: <20240122-arm64-sve-sme-doc-v1-0-3d492e45265b@kernel.org>
- <20240122-arm64-sve-sme-doc-v1-3-3d492e45265b@kernel.org>
- <Za/gB3oCNAyiPPnu@e133380.arm.com>
- <46571fac-28bf-4c6e-a5a4-38b1182b93a0@sirena.org.uk>
+	 Content-Type:Content-Disposition:In-Reply-To; b=tptyAykvizZsItVkiZLDqGgyf/8IqWygOnyGZ0TjK9hnCPf3G4ioDekHMdT5fHq+lBzGVF+hAJC5+Pj8regL9n3WvyRzUWsWHbMBcTax7Etvuh5t0zcESk83rnckT9wGsLvAzmOvaf77pE/RxWnyBJ482OhDziU/CLeKDAuSgh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nghjgqqm; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nghjgqqm"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a28fb463a28so541043266b.3;
+        Wed, 24 Jan 2024 06:14:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706105650; x=1706710450; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RVt0ZnKeByvzhrfkzssJmlz6f1Lvfiy149b2/exZGTI=;
+        b=NghjgqqmN9zD+1HEfq0faYl/BWOF/o3EcsFMGLgR1xdXx9NCWVovmWxZMJXQCkSGJo
+         67Bv+T/QcBmKIKhrEX23qwS8U6dkMwDXJO8O0nYiujcnjW5fCB6SXkXdq0lL4prgdH+S
+         Kss+w5Gp/j7XGF8BCYNJgDCiD1JD93NYN/l6GQYmkK4TOTgSF1mjpl2rBX18aW6qM7zA
+         Gn9x/eJzRaIoJ4nDBjVCPqCsH8XTgcra04Mtc1j6Axdb52bJErk7ZbBVYqYP283ogEFm
+         EzLA5ntm4q0fElz/p1toQvdL2K0e7pCRbIaOvkDA9xc1ktagFkPdVa/IOzt+mREPtw1M
+         2AZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706105650; x=1706710450;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RVt0ZnKeByvzhrfkzssJmlz6f1Lvfiy149b2/exZGTI=;
+        b=M7jRcQ543oXrQQBFexf0xQ3/Ydn1v+uDuGq/0ByGlYytLeRCbVDnF1iZ1pzkqPDhOv
+         CBRpV5NxtmCaIoSMoBvVxkEFYc+3PX8avxvNdnSszBcMACt9Hp5g+sARFBWmRuNsAkYt
+         N2S+zt6PnwF2XcgstlmF0UoNd7IfaZS55iwtkgb8wq2Vbhq9NBRz/EMoikCVof+/51xA
+         cMHbiQdlUZ6fdxwD5GTrIM9uz7tBkUQy0wVGSw7w2oi3qNBXT0oxvsxZwI0badkB/cS7
+         AKhqbMtoG6NEzkaB5Ue8pnjImnKUeBABaFghVL3sG2NfcXPpgbGBRJIqNzv3KtVOuEq9
+         d49Q==
+X-Gm-Message-State: AOJu0YxGhfoYrtpA3M3TREuCC/y3kxtVV0QnUwr/oInBA1kF/6DSUa2U
+	dN7YnwuHDk4xueCdICHroomfVM5He1fu2hw/VXNza1cjd9jLWurU
+X-Google-Smtp-Source: AGHT+IF9Si4NHAOAqa3uYGeUJLR9rrnIrYwH+j1jIF67RS+3PdY09F2BJ2FydAo0qGhNxG2VPd32pA==
+X-Received: by 2002:a17:906:f197:b0:a2f:71f1:b9e4 with SMTP id gs23-20020a170906f19700b00a2f71f1b9e4mr780499ejb.53.1706105649844;
+        Wed, 24 Jan 2024 06:14:09 -0800 (PST)
+Received: from andrea ([31.189.8.91])
+        by smtp.gmail.com with ESMTPSA id vb5-20020a170907d04500b00a30f04cb266sm1142517ejc.5.2024.01.24.06.14.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jan 2024 06:14:09 -0800 (PST)
+Date: Wed, 24 Jan 2024 15:13:58 +0100
+From: Andrea Parri <parri.andrea@gmail.com>
+To: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	mathieu.desnoyers@efficios.com, paulmck@kernel.org, corbet@lwn.net
+Cc: mmaas@google.com, hboehm@google.com, striker@us.ibm.com,
+	charlie@rivosinc.com, rehn@rivosinc.com,
+	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] membarrier: riscv: Core serializing command
+Message-ID: <ZbEbJpnUoFPW0fhd@andrea>
+References: <20240110145533.60234-1-parri.andrea@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,47 +69,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <46571fac-28bf-4c6e-a5a4-38b1182b93a0@sirena.org.uk>
+In-Reply-To: <20240110145533.60234-1-parri.andrea@gmail.com>
 
-On Tue, Jan 23, 2024 at 06:42:03PM +0000, Mark Brown wrote:
-> On Tue, Jan 23, 2024 at 03:49:27PM +0000, Dave Martin wrote:
-> > On Mon, Jan 22, 2024 at 08:41:53PM +0000, Mark Brown wrote:
+On Wed, Jan 10, 2024 at 03:55:29PM +0100, Andrea Parri wrote:
+> Changes since v2 ([1]):
+>   - amaned inline comments
+>   - drop ARCH_HAS_MEMBARRIER, create membarrrier.rst
 > 
-> > >  /proc/sys/abi/sme_default_vector_length
-> > >  
-> > >      Writing the text representation of an integer to this file sets the system
-> > > -    default vector length to the specified value, unless the value is greater
-> > > -    than the maximum vector length supported by the system in which case the
-> > > -    default vector length is set to that maximum.
-> > > +    default vector length to the specified value rounded to a supported value
-> > > +    using the same rules as for setting vector length via prctl().
+> Changes since v1 ([2]):
+>   - add smp_mb() in switch_mm()
+>   - introduce ARCH_HAS_MEMBARRIER, amend documentation
 > 
-> > Do parallel changes need to be made in sve.rst?
+> Changes since RFC ([3]):
+>   - introduce prepare_sync_core_cmd()
+>   - fix nosmp builds
 > 
-> They are, in this very patch?
-
-Duh, yes.  My brain seems to have auto-ignored the second hunk, since it
-was clearly a duplicate :P
-
-> > (There seems to be so much duplication and copy-paste between these
-> > files that I wonder whether it would make sense to merge them...  but
-> > that's probably a separate discussion.)
+> [1] https://lore.kernel.org/lkml/20231211094414.8078-1-parri.andrea@gmail.com/
+> [2] https://lore.kernel.org/lkml/20231127103235.28442-1-parri.andrea@gmail.com/
+> [3] https://lore.kernel.org/lkml/20230803040111.5101-1-parri.andrea@gmail.com/
 > 
-> Indeed, thanks for volunteering.  Note that there are differences
-> resulting from specification differences.
+> Andrea Parri (4):
+>   membarrier: riscv: Add full memory barrier in switch_mm()
+>   membarrier: Create Documentation/scheduler/membarrier.rst
+>   locking: Introduce prepare_sync_core_cmd()
+>   membarrier: riscv: Provide core serializing command
 
-Thanks for agreeing to an unspecfied deadline ;)
+Gentle ping to the riscv&membarrier people who have survived the merge
+window: any other thoughts on this series? suggestions for a v4?
 
-I might have a go at some point though, just to familiarise myself with
-the differences...
-
-> > Nit: is it better to name the prctl here than just to say prctl()?
-> > That would be easier for the reader to cross-reference.
-> 
-> I guess, though it doesn't seem entirely idiomatic.
-
-I expect counterexamples can be found, but I guess the reader can figure
-it out either way.
-
-Cheers
----Dave
+  Andrea
