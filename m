@@ -1,111 +1,89 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0D17E9;
-	Wed, 24 Jan 2024 00:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EDD1866;
+	Wed, 24 Jan 2024 01:14:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706057827; cv=none; b=cHGodxZRPkz4PVfDoot0UKL6R+0oVUrkuOD0BWp3rav5fhtC43MHmKgl+qD1lFb13XegKyvfcXM6wrAZ2jTRtGL8D1oJzcDPddCCrkj5v25ckHkydanpVv7hS+sqIPKzD9Vt3+91LILtFe8HlF5WLlp3vfD+oMlbhLxeeEfJkmA=
+	t=1706058867; cv=none; b=GComsHvfIIVW3nlJNqYTsWS4+UI/aU/4Jairj6c9U3vhrnu+AGkk42yA3Ax3nragcnzeN2oiDS9hsiha1LB5egTS+DJEYLWizKr6AgPA1KyQu0c8C41IyvjxWuZdoY4pg0tZDpLLa79r3B+d5SIcJdDcfJCRAaTjMJX9z7pk+R8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706057827; c=relaxed/simple;
-	bh=WvbsvHt8oo25g8SY64KxzPgxK6HnJrkQ+C1iWvriFII=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hHD3c5aqOY9Fmpz66CN2mai8hT7d6LI1CtTpoj/SntIG2o8yGsTd+FGqDmow2AkrEnv6AR04vTf6LY4zFBGB8aLthWZ7e22Yx5WrED+eL5yuIF4visl65+ynXU/pSBdYnXpW9oCW/pKsNjh36jy4C79ZkDWGEnortfWq8E4/fH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MK9hIw4I; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1706058867; c=relaxed/simple;
+	bh=yKJVCYJO6LmBcJdeoH6hLuQIoDPeuwMJxL6h7ZsUMQY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MHSwN94AWGO4oHThiOQsUHRZ34zW+6pS9WwNo7V6eqI6GMcTNNsUQMxRlsBvOWDQOesvJQlXEcY1SAcXsQF5vHxRdFL5ZI1sD28uV8iC3b5Zt20SPEzwfyu/E/mDxUBe3fmt4pKcnvLkm4RUSoYTW6ejehY30SONlqZxuJJg4Nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GP56geRv; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MK9hIw4I"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GP56geRv"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Kgcvyz9APT4R78mS/vdiMBTmZBZEqUxJQE72qD/r2i0=; b=MK9hIw4IOZHQ3YiGrMkwb4gjrK
-	301nmcIbjtGRLoqr3+sU/wTzaGyXzwWuuNxymWyWo9YyVugL4VVpJlM+66VRjRW3Gp89YqmBCkzAj
-	sTOAUBjU4xJ6tTaXNlLgI1XZ9zAl72t74s+2pPg16elIjmBbgwdT1KMxE3tHQk1fguRvUkRsVauo6
-	vps3AC5l6atvCsr8leQ8y3AR4ie8YUrZjFs6Ua99N7gOyiDQ1hongw4fNTRZho3BdVKN9iVmd+zEp
-	PREyOc8p17gHyUhAdZkXCed5cD0YDscINfCBO960H28pFMSkVRdaqegafRbv/MdpNK05guat18+vR
-	gAanNrOQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=+XPiFTLPLUOZgR0hfpGzNmizWWKsQoXSd2FCd32Eaow=; b=GP56geRv6qlS+ZE4PnNIkyW54i
+	fHOFqZs9BaUU0VN1iqchLKOBL7rNslDZYnf65Rdz2BUIDNMPVp0gKzZ0suorNgM+iLDDrzteB16av
+	0jbzgT0BrKSCVnMQoHKCnVDtGk2ZP73+OrxspHTUM/SMNMWMinxnwR6R03TJsi9sd0Fe/2vM32k6x
+	VrvEkTglgd4bsb69EX8w09EOPfClDv6nSmtiseW95G+6SjkUJA++BQZAmsG1MzsN912GtHtTm0zRv
+	e4f1evO9schqkj2DJrHsVgzJtYAn278eDrbvm8g2EfasZF9gu2AsKVOTbdWcVP+WCvlAXhcyEM89w
+	jV8WHnrg==;
+Received: from [50.53.50.0] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSRZf-000x7Y-0P;
-	Wed, 24 Jan 2024 00:57:03 +0000
-Message-ID: <71285bc1-bf38-49ea-ab77-3258727339e3@infradead.org>
-Date: Tue, 23 Jan 2024 16:57:02 -0800
+	id 1rSRqS-000zBs-34;
+	Wed, 24 Jan 2024 01:14:25 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Dave Chinner <david@fromorbit.com>,
+	Anton Altaparmakov <anton@tuxera.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH -next] fs: remove NTFS classic from docum. index
+Date: Tue, 23 Jan 2024 17:14:24 -0800
+Message-ID: <20240124011424.731-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/8] Documentation: Move "core core" api into a separate
- file
-Content-Language: en-US
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
- linux-kernel@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>,
- John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- linux-doc@vger.kernel.org
-References: <20240123164702.55612-1-anna-maria@linutronix.de>
- <20240123164702.55612-8-anna-maria@linutronix.de>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240123164702.55612-8-anna-maria@linutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+With the remove of the NTFS classic filesystem, also remove its
+documentation entry from the filesystems index to prevent a
+kernel-doc warning:
 
+Documentation/filesystems/index.rst:63: WARNING: toctree contains reference to nonexisting document 'filesystems/ntfs'
 
-On 1/23/24 08:47, Anna-Maria Behnsen wrote:
-> Some "core core" API as timer API is documented in driver-api. This is
-> definitely the wrong place. As the subject description in
-> core-api/index.rst mentions, is also core-api/kernel-api.rst a collection
-> of leftovers. Therefore create a new core-api file and start to integrate
-> timer api. As this contains a lot of functions, it is separated into a
-> timer specific API file.
-> 
-> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-> ---
->  Documentation/core-api/core-api.rst     | 14 ++++++
->  Documentation/core-api/index.rst        |  4 +-
->  Documentation/core-api/kernel-api.rst   | 12 +++--
->  Documentation/core-api/timers/api.rst   | 63 +++++++++++++++++++++++++
->  Documentation/core-api/timers/index.rst |  4 ++
->  Documentation/driver-api/basics.rst     | 24 ----------
->  6 files changed, 93 insertions(+), 28 deletions(-)
->  create mode 100644 Documentation/core-api/core-api.rst
->  create mode 100644 Documentation/core-api/timers/api.rst
-> 
-> diff --git a/Documentation/core-api/core-api.rst b/Documentation/core-api/core-api.rst
-> new file mode 100644
-> index 000000000000..4fe00d084dc7
-> --- /dev/null
-> +++ b/Documentation/core-api/core-api.rst
-> @@ -0,0 +1,14 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=========================
-> +The Linux Kernel Core API
-> +=========================
-> +
-> +.. note:: Some Core API is still documented in :doc:`../driver-api/basic` and
+Fixes: 9c67092ed339 ("fs: Remove NTFS classic")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Dave Chinner <david@fromorbit.com>
+Cc: Anton Altaparmakov <anton@tuxera.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/filesystems/index.rst |    1 -
+ 1 file changed, 1 deletion(-)
 
-I'm getting this warning from the line above:
-
-linux-next-20240123/Documentation/core-api/core-api.rst:7: WARNING: unknown document: '../driver-api/basic'
-
-Ah, it should be "basics".
-
-> +          needs to be moved here. As this document will be huge when it contains
-> +          the whole API, split the API for a special part into a separate file.
-> +
-> +Timers
-> +======
-> +
-> +For timer related API, please refere to :doc:`timers/api`.
-
-
--- 
-#Randy
+diff -- a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -98,7 +98,6 @@ Documentation for filesystem implementat
+    isofs
+    nilfs2
+    nfs/index
+-   ntfs
+    ntfs3
+    ocfs2
+    ocfs2-online-filecheck
