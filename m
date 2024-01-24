@@ -1,172 +1,348 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2075.outbound.protection.outlook.com [40.107.223.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36007C08B;
-	Wed, 24 Jan 2024 15:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706111220; cv=fail; b=tlrquDbTrAujZxJIdz2tJyg0fRtQ1mGh/bblXc7G8LnT2rzo1i1th1r3Dt3BBz5bpcjN2LILHwi3E9v1ooYtBY1htNVikjFiLMUVJshEhfQ+EHEwT/iZEpFIKU8nhBNq9SALBavHSFbJ9JC1RvuqkZvHyKSmlbqTNI824dx70fc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706111220; c=relaxed/simple;
-	bh=/kFi5+1Tpfgr16OT8Mc9j2iZcRYUxRDMtHOPtDjlPR8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=IMIzcJGndK9rL8QnvzFXw/x6kO1OJF4bP8qkP2MKHEWSe/YdCcLglXpxu0RkPQWUDjK7pX0z6LcDLm4muFfPju7DM+KNubaJln8ny6ttTutWL+NW9DW0Metj040h5BPv/grMOOJbAJOIHvsfIspv25fTkPsjU049vHyehu57l0A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=T4WGr75P; arc=fail smtp.client-ip=40.107.223.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF64D7CF2F;
+	Wed, 24 Jan 2024 15:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706111536; cv=none; b=UQsGn87GZ5yCKY1tFA3na1wf+6lG3Al4ns50ki8OXu1gC9d0UUkFqUc8KRzJDy1igfoKlYVTU8LTAMNyk4Cn+amoXXiSBSK/eM0Aqqmgz7DW1yMjxwnXau1qlC8YGhNlPJhoJHS8bkFayM7fSTNHc2Da4nG1RP6XtBf9i9vIwlE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706111536; c=relaxed/simple;
+	bh=KzDEEPXk1BJzB7T0gf49ptX9Upq6NPCegHjNhUWdYTk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MCB6oKV9MqDtWbK4DBt0EqGuyclNsyeFKSyztdkfDQPAnRzBQnPaYyKh1B0sREMTPhkOP8H67Qog/HjSG8IAZETO9nJ8SOoPZaEejwH9AKLT4rwYuHmoll130jlspFb8MO5dXOpZIYzM1j32DQM62e+KjJ6zFfgB6hC0dX5DVBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=ISnHLPX2; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="T4WGr75P"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FtzB+yrzBsXeLcQGWoJRRXsh180Fn2tMkeqAf8gQ6NyJwes00jTBBalmZsLhggU2iXG2oqK6q+YIEcvWUyQkPGtV3VIebGtwjGGiaVskegUZA1STXaCpvWEPilkng3aiRTWMw6wDgPKB8r2fCGo4Eu33wTTexwSSXRqQH0lIhmIVhsi8R0WOn4CoWHtO8Sps85WmRFrRfIkQKTFiuzGDzHuYjAC2OfwWGWnGHsIlr9ZmVzwkcSz9XGcIm0AdL3MMspOjZKpcm4M26tI7essXya1g+q4Bd78iQ+939B0oyOj82ZCCWjldF8dmSShTilhLYAIMhns7rVdyZrsEtufqqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/kFi5+1Tpfgr16OT8Mc9j2iZcRYUxRDMtHOPtDjlPR8=;
- b=Y20OAH9+26sU35zd3RgyqyH20jtG9UoohU7/p0ELGCAS29PRfdMXwsZWDTjPXJHsv9ptc0mo9FDyvbrbRYBExZ+bQ/6z9ar14PnUT2D62x6ICJ+/EYKYO+DLlEWPfmCPMAyWRywMHMn8WHV1NYyVcYnjqKT8AO7l4YRHQdveZONxSnGZF8cffzqts1psBUwFYnKJoeO2h+9b9kp5tUkwy/cZveCgw8RfxCDk5qzNro3E/5f1nuZv92avrqJvn+MAJYVCAFdHZHRMjWE++6FTCM/E7M141xp9aI4NcScyoOS9Iakw3Z8M99TdCaUJA0DB9DOU7P9ATPgaE+x0OPKX1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/kFi5+1Tpfgr16OT8Mc9j2iZcRYUxRDMtHOPtDjlPR8=;
- b=T4WGr75PMJ0KC0ase436af2bN7RGHXlha4mMHaf4a+Rr6VaYfk99km9YQFc2jPNeC1nFt4f5XIQDUbCnkiuNwftL9wCeHoqrZAVH+jhEvZSnEaDRRMmexmBxvWW9+zW5fFvnuyODQMlvR/5MoO0cYwzydvE2lpmKW+ZLpJxKYrHHAlA3G8Od/ZXH6Us58e0T+uqZ2oXMq9CIXQN/vDUflZABwYv7kOdXjJWV9RgmXfaMVjYcM+Y/dblkMMLnjLam+NkdoZV0iUyz3xrX34+p7T6dwOewoqBWXh/5iVhYXymPVuCuBjTBmaZme5raBdPeWvJ0SzZr4v5G+A+TwyL7Vw==
-Received: from DM6PR12MB4516.namprd12.prod.outlook.com (2603:10b6:5:2ac::20)
- by DS0PR12MB6485.namprd12.prod.outlook.com (2603:10b6:8:c6::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7228.24; Wed, 24 Jan 2024 15:46:56 +0000
-Received: from DM6PR12MB4516.namprd12.prod.outlook.com
- ([fe80::fa7e:d2b7:5f80:2dd4]) by DM6PR12MB4516.namprd12.prod.outlook.com
- ([fe80::fa7e:d2b7:5f80:2dd4%5]) with mapi id 15.20.7228.022; Wed, 24 Jan 2024
- 15:46:56 +0000
-From: Danielle Ratson <danieller@nvidia.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "davem@davemloft.net"
-	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, "sdf@google.com"
-	<sdf@google.com>, "kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
-	"maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	"przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
-	"ahmed.zaki@intel.com" <ahmed.zaki@intel.com>, "richardcochran@gmail.com"
-	<richardcochran@gmail.com>, "shayagr@amazon.com" <shayagr@amazon.com>,
-	"paul.greenwalt@intel.com" <paul.greenwalt@intel.com>, "jiri@resnulli.us"
-	<jiri@resnulli.us>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, mlxsw
-	<mlxsw@nvidia.com>, Petr Machata <petrm@nvidia.com>, Ido Schimmel
-	<idosch@nvidia.com>
-Subject: RE: [RFC PATCH net-next 9/9] ethtool: Add ability to flash
- transceiver modules' firmware
-Thread-Topic: [RFC PATCH net-next 9/9] ethtool: Add ability to flash
- transceiver modules' firmware
-Thread-Index: AQHaTQ+QQZNGrHyNcEuTxxeyuUrKM7Dm2XcAgAB26TCAAD0fgIABkOfw
-Date: Wed, 24 Jan 2024 15:46:55 +0000
-Message-ID:
- <DM6PR12MB45169D23F12F3680FF8E07F8D87B2@DM6PR12MB4516.namprd12.prod.outlook.com>
-References: <20240122084530.32451-1-danieller@nvidia.com>
-	<20240122084530.32451-10-danieller@nvidia.com>
-	<20240122210534.5054b202@kernel.org>
-	<DM6PR12MB45168E425B2C1832F6D26453D8742@DM6PR12MB4516.namprd12.prod.outlook.com>
- <20240123074955.72c27eb0@kernel.org>
-In-Reply-To: <20240123074955.72c27eb0@kernel.org>
-Accept-Language: he-IL, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR12MB4516:EE_|DS0PR12MB6485:EE_
-x-ms-office365-filtering-correlation-id: 7fe86283-a694-482b-a918-08dc1cf3b17d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- CrIfuo2AieS2cy5Ct1PvwF7mNmcJeeH3mlRGHEXnzM8YOzABeRufpbn1FgE5e8BAJP+T2Fje5H5D6cfJQL5lo05qOxt/ofRGsYQRI7tKGbE455CcmTvqj6lkLMsvwtB7Tpv3WIL5wNuVq1hgMoIp1Hp1qtlUugDopdD6nWR9hGSgU1YkMH6AuY1ZXiC7lrjAMyMEQ+nMQLb53JICuk15WbK0jK6ywL1H5332njr2+DO2OanpBJi3VHl42IsYYZjbqia7LM+pfLXf0uqOO6ui2ots2tUMibCh1S6skRcPOP/z6XadIGHYs7MxRVYPPINptLR0rFMgRwl78wI1vawrebTlAjSBqRYAp+hqDyo/sBF9A1aGOx1iiO8Uul95RpLmcThx0Q9BhinHgauaGZ1w4/pAFy5z44W21q5pkoeeWEvOac4xm98YE/zkfDLxWmTzDq3WQ9g9Bn30MyZUDKQOoNKi1v/bYIEtOG1Fk4Of4WgOBQePB9U7hVlruVpn1seyzAxNYlSn84N8ISWLupMloPz70DO0xPaR/bK+moz5O5L/CudjuPSCMpHhNDrFerKX9UqkFD0SXb3XPkiXpfoGG2i7VYzhwvE1HJwYD3yjeVK4Q3bphxLnuoMAPZBBfyZY
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4516.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(366004)(396003)(136003)(376002)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(41300700001)(107886003)(55016003)(26005)(38100700002)(38070700009)(478600001)(6506007)(7696005)(9686003)(83380400001)(71200400001)(122000001)(5660300002)(2906002)(66556008)(66476007)(66446008)(76116006)(66946007)(33656002)(316002)(54906003)(86362001)(64756008)(7416002)(8676002)(8936002)(4326008)(52536014)(6916009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?UWptZmpiVERyUmg5d0NhN0hwRGFtRFpFa3ZwekhTZTR3NVNlaERxbHNTSWo2?=
- =?utf-8?B?TldmMEFTZFVBd1NZWDlhSGJSWVZ0QmowZU9nVHFzNFNvbUpVSnd2dC92YmZu?=
- =?utf-8?B?NTZreUs5M2xXc3JtZW5uT2dYbVJmL3N4ZzkzZGNlS1dpK2o1RzNxY2RlWE1O?=
- =?utf-8?B?M1F5eDc2KzE0Y0dWS3pjWUxrOWRwYVJiZzAvaTkvLzNRSFpWQkdtVWFWRkNw?=
- =?utf-8?B?SGlDZXFXZjJzZ1J3N3FYS3RXcEZ3V0lWV0oxaHYrWjN0azVhM2NnU1JwM1gy?=
- =?utf-8?B?WmZXV1ZNUmY2Y0JGTlR0ZVB6aEd3aUk3M2JrWm96NkN4dmlPN0JJaU41c0Fu?=
- =?utf-8?B?WkhqODJwOHJEV3hETGtYTEhYUlNwNFRlQk1jZlRJaWQvMGx2QS85OU5QMUIw?=
- =?utf-8?B?REtmc3NWdE9Zdmo4RkdWSndXT2NvdC9hUDRoKzJIQWR4T29xalJDdG1YME9V?=
- =?utf-8?B?a2ovak9BK3k5N2l2UzBSL1dHeDVyLzdwYmdHNndDaWFLbEI4V0puaDIzZ3c2?=
- =?utf-8?B?WFpaemplWWhXSXVHeVBmK2JPQURwN24vdTdUZU9CYStVK0E4K2FRdFBVTjRT?=
- =?utf-8?B?MEdSVmtGTnVwK1RwVFhXQ3p4YmFVWVRoUzNvUUZya0o1WjJhbm5zR2tRUlJJ?=
- =?utf-8?B?b1FueXIwRUxnaG80VWZmSGVBMHVWckhwYm5sNkQ2dGRxNENuU1h3RmJnWjRi?=
- =?utf-8?B?VnoxU2JYUzlodkNsUFdoY0FSM1J2cFFaZGFicW5yOVJDREJrVjJMUFZnNytj?=
- =?utf-8?B?Q1M5VGFiUXFZb0ZvaUZnZUN2cWtPeXZIWlg0S0hKUG1zR0I0NFBzelZNOWUz?=
- =?utf-8?B?K3RiTDlBV3RjaTN3c2N5VlRKVUVRQndTYjROL3V1YkV6MjVaWHZ2ajQ0Rkpx?=
- =?utf-8?B?MkRrQTk5L2VtbXJ3ZktINjBSOElabEhrZEVDUnA1MEZ2eXJpUWlvUUwyVzl4?=
- =?utf-8?B?d0tGaXFHZEw2andsb1I1a0FMc3pRSnR3T2x0ZExtMmcrc0VidXZrdytscTMv?=
- =?utf-8?B?YTRxekR6c21CZjBTNjlFcVdDU2JXVjVtUGhNNkZJYkdvaTJ6TjRSQ2xHVlp6?=
- =?utf-8?B?bUhnREVlTlhWWjA5V2RoRmxDdldnUXRNVnlNanRZTzRpUlhqZ2JFK3ljbCt5?=
- =?utf-8?B?bXhNb3JTY1lTUkZNWWpnQWM3RW0vbU5LQy9EYm5rVWxDQ1MzR1JSckRsVjhJ?=
- =?utf-8?B?cGpQY0NQcjA2RW9wSGp2VjdWUkN5eFBKK3pNZHZYL2gwdE5qYU9jTmNaOXoy?=
- =?utf-8?B?d2FwdDhNaHllL3lYZXBvS3krMGZqcDg3ZUpzYnMrR0ZKVzkzQ3kxREZTQlpX?=
- =?utf-8?B?M3Q0S2NpcnlkWWpmcmxHYUVHNXRBZmZWSXoybGNkaW83KzZiOEpiZ29Nc2J0?=
- =?utf-8?B?bUF1ck9laTE3cC9iUE9DeFRQUUdCYnluUXR4YTkvSkpHR3J0VmdjNm9qRGJ5?=
- =?utf-8?B?dS9nNHVLRWFUcTAxMWo2blNSTVB0WlZDTEtLRVBIdEEwd1BLU3pYSW9uMVpW?=
- =?utf-8?B?bHM3akhLT2xMRUNBc0U4Yk1SYlVDNEQ5a3R5MmczT1VrbzYvYU9TTy83Q0VN?=
- =?utf-8?B?RnlDUm9RRmY4RVAwc0dFSkg4VThVZWN3K2VHQWNUd2dpM2NXQS9wT1h3UFhB?=
- =?utf-8?B?TW9wcCt3bUl1dlR3M0YvTU5OS1VhRjJmUFlyRFZIMzJSU004V0VsR0NIa21L?=
- =?utf-8?B?TCtNb1Q2aC81REV4aGR0cEE4Z1ZvOURpVTBtTUpGTXZGRk80MkJwOEF4b3Vx?=
- =?utf-8?B?Tm1hdmJpR3NCRDRXWmtCVnU2UVY0akhiRHJjRlF5N1FncFhCeC9FOHZnOHFr?=
- =?utf-8?B?M29GR2s3cWxXcE5vTnpRdUhyUTZ5SXFHK0lObHVUbUVqRmJCUTk0WU9hT3Y0?=
- =?utf-8?B?ZGVhL2p1cXVzUXFUaEZkaXNNdnlpVVNOMkRNOGRUTTdrZTNGYUlQYzZ1MXFZ?=
- =?utf-8?B?R1JzNko5RktFcFpnZFN0RWhyNEkrV0Y4VlRRK3lGNURnSEI3cnEwQ1FJVHhp?=
- =?utf-8?B?aXNzUlh4N1hSN0xTMVRyRy9zbWYyQ2NjME1DZG1xdTBpTGc1WWxpVEFlMmpP?=
- =?utf-8?B?elpSSUxCNFZUQ0twMXhIU2xNN1M3eC9UQi8rMlNsZjRYLzlMengwZWUvZTQz?=
- =?utf-8?Q?ViH/MhoKWH/2Wlw1OseEV1pY2?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="ISnHLPX2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1706111528;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KzDEEPXk1BJzB7T0gf49ptX9Upq6NPCegHjNhUWdYTk=;
+	b=ISnHLPX229T8FzuMol/PUDWkPyo82NdDKorkDpXVrFLMC21chLr2kfn6po5yiBs9OEly4b
+	GFsa5u7pS+RMo+hqHnYxIz/p4BCPX+LDyA8qeTUJHaWJieZ3TS+zT79w7l3QEAdmaNzYqY
+	hXvXwlAnqGhTOJLo3YJr3Vp8RBa/wg4=
+Message-ID: <4819fa1e6b739380abc669a96dcea90ccc07e774.camel@crapouillou.net>
+Subject: Re: [Linaro-mm-sig] [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Andrew Davis <afd@ti.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Sumit
+ Semwal <sumit.semwal@linaro.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
+	 <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nuno
+	=?ISO-8859-1?Q?S=E1?=
+	 <noname.nuno@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
+	linux-media@vger.kernel.org
+Date: Wed, 24 Jan 2024 16:52:05 +0100
+In-Reply-To: <715efa1f-c3a4-4952-b72c-ca7f466e3ccb@ti.com>
+References: <20240119141402.44262-1-paul@crapouillou.net>
+	 <20240119141402.44262-2-paul@crapouillou.net>
+	 <8035f515-591f-4c87-bf0a-23d5705d9b1c@gmail.com>
+	 <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+	 <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+	 <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+	 <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+	 <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
+	 <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+	 <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+	 <715efa1f-c3a4-4952-b72c-ca7f466e3ccb@ti.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4516.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fe86283-a694-482b-a918-08dc1cf3b17d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2024 15:46:55.9846
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AFHhfZKqnBqOy+zEj4mTHTqsNE4wC2J33hapdzA88HM5Xo7mb3eGbcKHtH2/ThTu1EQZwOxERlWVYX4Me4MUwQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6485
 
-PiA+ID4gR0VOTF9SRVFfQVRUUl9DSEVDSywgYW5kIHlvdSBjYW4gY2hlY2sgaXQgaW4gdGhlIGNh
-bGxlciwgYmVmb3JlDQo+ID4gPiB0YWtpbmcgcnRubF9sb2NrLg0KPiA+ID4NCj4gPg0KPiA+IE9L
-LCBucC4gVGhlIGlkZWEgd2FzIHRvIGhhdmUgbW9kdWxlX2ZsYXNoX2Z3KCkgdGhhdCBjaGVja3Mg
-dGhlIGF0dHJzDQo+ID4gYW5kIGV4dHJhY3QgdGhlbSBpbnRvIHBhcmFtcyBhbmQgZXRobmxfYWN0
-X21vZHVsZV9md19mbGFzaCgpIHNob3VsZCBiZQ0KPiA+IGZyZWUgZnJvbSB0aG9zZSBjaGVja3Mu
-IEJ1dCBpZiBzbywgbWF5YmUgdGhpcyBzZXBhcmF0aW9uIGlzIHJlZHVuZGFudA0KPiA+IGFuZCBz
-aG91bGQgY29tYmluZSB0aGUgdHdvPw0KPiANCj4gTm8gc3Ryb25nIHByZWZlcmVuY2UsIHdoYXRl
-dmVyIGxvb2tzIGJldHRlciA6KSBUbyB1c2UNCj4gR0VOTF9SRVFfQVRUUl9DSEVDSygpIEkgdGhp
-bmsgeW91J2xsIG5lZWQgdG8gcGFzcyBnZW5sX2luZm8gaGVyZS4NCj4gWW91IGNhbiBlaXRoZXIg
-dG8gdGhhdCBvciBtb3ZlIHRoZSB2YWxpZGF0aW9uLg0KPiANCj4gPiA+ID4gKw0KPiA+ID4gdGJb
-RVRIVE9PTF9BX01PRFVMRV9GV19GTEFTSF9GSUxFX05BTUVdLA0KPiA+ID4gPiArCQkJCSAgICAi
-RmlsZSBuYW1lIGF0dHJpYnV0ZSBpcyBtaXNzaW5nIik7DQo+ID4gPiA+ICsJCXJldHVybiAtRUlO
-VkFMOw0KPiA+ID4gPiArCX0NCj4gPiA+ID4gKw0KPiA+ID4gPiArCXBhcmFtcy5maWxlX25hbWUg
-PQ0KPiA+ID4gPiArCQlubGFfZGF0YSh0YltFVEhUT09MX0FfTU9EVUxFX0ZXX0ZMQVNIX0ZJTEVf
-TkFNRV0pOw0KPiA+ID4NCj4gPiA+IEhtLiBJIHRoaW5rIHlvdSBjb3B5IHRoZSBwYXJhbSBzdHJ1
-Y3QgYnkgdmFsdWUgdG8gdGhlIHdvcmsgY29udGFpbmVyLg0KPiA+ID4gbmxhX2RhdGEoKSBpcyBp
-biB0aGUgc2tiIHdoaWNoIGlzIGdvaW5nIHRvIGdldCBmcmVlZCBhZnRlciBfQUNUIHJldHVybnMu
-DQo+ID4gPiBTbyBpZiBhbnlvbmUgdHJpZXMgdG8gYWNjZXNzIHRoZSBuYW1lIGZyb20gdGhlIHdv
-cmsgaXQncyBnb2luZyB0byBVQUY/DQo+ID4NCj4gPiBUaGUgZmlsZV9uYW1lIHBhcmFtZXRlciBp
-cyBub3QgcmVhbGx5IG5lZWRlZCBpbnNpZGUgdGhlIHdvcmsuIE9uY2Ugd2UNCj4gPiBjYWxsZWQg
-cmVxdWVzdF9maXJtd2FyZV9kaXJlY3QoKSwgd2UgaGF2ZSBhbGwgdGhhdCB3ZSBuZWVkIGluDQo+
-ID4gbW9kdWxlX2Z3LT5mdy4gRG8gd2Ugc3RpbGwgbmVlZCB0byBhdm9pZCB0aGF0IHNpdHVhdGlv
-bj8gSWYgc28sIGNhbg0KPiA+IHlvdSBwbGVhc2Ugc3VnZ2VzdCBob3c/DQo+IA0KPiBJJ2QgcGFz
-cyBpdCB0byBtb2R1bGVfZmxhc2hfZndfc2NoZWR1bGUoKSBhcyBhIHNlcGFyYXRlIGFyZ3VtZW50
-LCBpZiBpdCBkb2Vzbid0DQo+IGhhdmUgdG8gYmUgc2F2ZWQuDQoNCkl0IGRvZXNu4oCZdCBtYWtl
-IHRoZSBtb2R1bGVfZnctPmZpbGVfbmFtZSBhdHRyaWJ1dGUgcmVkdW5kYW50Pw0K
+Hi Andrew,
+
+Le mercredi 24 janvier 2024 =C3=A0 09:38 -0600, Andrew Davis a =C3=A9crit=
+=C2=A0:
+> On 1/24/24 4:58 AM, Paul Cercueil wrote:
+> > Hi Christian,
+> >=20
+> > Le mardi 23 janvier 2024 =C3=A0 14:28 +0100, Christian K=C3=B6nig a =C3=
+=A9crit=C2=A0:
+> > > =C2=A0=C2=A0Am 23.01.24 um 14:02 schrieb Paul Cercueil:
+> > > =C2=A0=20
+> > > > [SNIP]
+> > > > =C2=A0=20
+> > > > > =C2=A0=20
+> > > > > > =C2=A0=C2=A0=20
+> > > > > > > =C2=A0=20
+> > > > > > > That an exporter has to call extra functions to access
+> > > > > > > his
+> > > > > > > own
+> > > > > > > buffers
+> > > > > > > is a complete no-go for the design since this forces
+> > > > > > > exporters
+> > > > > > > into
+> > > > > > > doing extra steps for allowing importers to access their
+> > > > > > > data.
+> > > > > > > =C2=A0=20
+> > > > > > =C2=A0=20
+> > > > > > Then what about we add these dma_buf_{begin,end}_access(),
+> > > > > > with
+> > > > > > only
+> > > > > > implementations for "dumb" exporters e.g. udmabuf or the
+> > > > > > dmabuf
+> > > > > > heaps?
+> > > > > > And only importers (who cache the mapping and actually care
+> > > > > > about
+> > > > > > non-
+> > > > > > coherency) would have to call these.
+> > > > > > =C2=A0=20
+> > > > > =C2=A0=20
+> > > > > No, the problem is still that you would have to change all
+> > > > > importers
+> > > > > to
+> > > > > mandatory use dma_buf_begin/end.
+> > > > >=20
+> > > > > But going a step back caching the mapping is irrelevant for
+> > > > > coherency.
+> > > > > Even if you don't cache the mapping you don't get coherency.
+> > > > > =C2=A0=20
+> > > > =C2=A0=20
+> > > > You actually do - at least with udmabuf, as in that case
+> > > > dma_buf_map_attachment() / dma_buf_unmap_attachment() will
+> > > > handle
+> > > > cache
+> > > > coherency when the SGs are mapped/unmapped.
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Well I just double checked the source in 6.7.1 and I can'=
+t see
+> > > udmabuf doing anything for cache coherency in map/unmap.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0All it does is calling dma_map_sgtable() and
+> > > dma_unmap_sgtable() to
+> > > create and destroy the SG table and those are not supposed to
+> > > sync
+> > > anything to the CPU cache.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0In other words drivers usually use DMA_ATTR_SKIP_CPU_SYNC=
+ here,
+> > > it's
+> > > just that this is missing from udmabuf.
+> >=20
+> > Ok.
+> > =C2=A0=20
+> > > > =C2=A0=20
+> > > > The problem was then that dma_buf_unmap_attachment cannot be
+> > > > called
+> > > > before the dma_fence is signaled, and calling it after is
+> > > > already
+> > > > too
+> > > > late (because the fence would be signaled before the data is
+> > > > sync'd).
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Well what sync are you talking about? CPU sync? In DMA-bu=
+f that
+> > > is
+> > > handled differently.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0For importers it's mandatory that they can be coherent wi=
+th the
+> > > exporter. That usually means they can snoop the CPU cache if the
+> > > exporter can snoop the CPU cache.
+> >=20
+> > I seem to have such a system where one device can snoop the CPU
+> > cache
+> > and the other cannot. Therefore if I want to support it properly, I
+> > do
+> > need cache flush/sync. I don't actually try to access the data
+> > using
+> > the CPU (and when I do, I call the sync start/end ioctls).
+> >=20
+>=20
+> If you don't access the data using the CPU, then how did the data
+> end up in the CPU caches? If you have a device that can write-
+> allocate
+> into your CPU cache, but some other device in the system cannot snoop
+> that data back out then that is just broken and those devices cannot
+> reasonably share buffers..
+
+I think that's what happens, yes.
+
+> Now we do have systems where some hardware can snoop CPU(or L3)
+> caches
+> and others cannot, but they will not *allocate* into those caches
+> (unless they also have the ability to sync them without CPU in the
+> loop).
+>=20
+> Your problem may be if you are still using udmabuf driver as your
+> DMA-BUF exporter, which as said before is broken (and I just sent
+> some
+> patches with a few fixes just for you :)). For udmabuf, data starts
+> in the CPU domain (in caches) and is only ever synced for the CPU,
+> not for attached devices. So in this case the writing device might
+> update those cache lines but a non-snooping reader would never see
+> those updates.
+
+I tried today with the system dma-heap, and the behaviour was the same.
+Adding an implementation of .dma_buf_begin/end_access() to it made it
+work there too.
+
+> I'm not saying there isn't a need for these new {begin,end}_access()
+> functions. I can think of a few interesting usecases, but as you
+> say below that would be good to work out in a different series.
+
+Yep, but it's a can of worms I'd rather not open if I can avoid it :)
+
+> Andrew
+
+Cheers,
+-Paul
+
+>=20
+> >=20
+> > > =C2=A0=C2=A0For exporters you can implement the begin/end CPU access
+> > > functions
+> > > which allows you to implement something even if your exporting
+> > > device
+> > > can't snoop the CPU cache.
+> >=20
+> > That only works if the importers call the begin_cpu_access() /
+> > end_cpu_access(), which they don't.
+> >=20
+> > =C2=A0=20
+> > > > Daniel / Sima suggested then that I cache the mapping and add
+> > > > new
+> > > > functions to ensure cache coherency, which is what these
+> > > > patches
+> > > > are
+> > > > about.
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Yeah, I've now catched up on the latest mail. Sorry I hav=
+en't
+> > > seen
+> > > that before.
+> > > =C2=A0=20
+> > > =C2=A0=20
+> > > > =C2=A0=20
+> > > >=20
+> > > > =C2=A0=20
+> > > > > =C2=A0=20
+> > > > > In other words exporters are not require to call sync_to_cpu
+> > > > > or
+> > > > > sync_to_device when you create a mapping.
+> > > > >=20
+> > > > > What exactly is your use case here? And why does coherency
+> > > > > matters?
+> > > > > =C2=A0=20
+> > > > =C2=A0=20
+> > > > My use-case is, I create DMABUFs with udmabuf, that I attach to
+> > > > USB/functionfs with the interface introduced by this patchset.
+> > > > I
+> > > > attach
+> > > > them to IIO with a similar interface (being upstreamed in
+> > > > parallel),
+> > > > and transfer data from USB to IIO and vice-versa in a zero-copy
+> > > > fashion.
+> > > >=20
+> > > > This works perfectly fine as long as the USB and IIO hardware
+> > > > are
+> > > > coherent between themselves, which is the case on most of our
+> > > > boards.
+> > > > However I do have a board (with a Xilinx Ultrascale SoC) where
+> > > > it
+> > > > is
+> > > > not the case, and cache flushes/sync are needed. So I was
+> > > > trying to
+> > > > rework these new interfaces to work on that system too.
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0Yeah, that sounds strongly like one of the use cases we h=
+ave
+> > > rejected so far.
+> > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=20
+> > > > =C2=A0=20
+> > > > If this really is a no-no, then I am fine with the assumption
+> > > > that
+> > > > devices sharing a DMABUF must be coherent between themselves;
+> > > > but
+> > > > that's something that should probably be enforced rather than
+> > > > assumed.
+> > > >=20
+> > > > (and I *think* there is a way to force coherency in the
+> > > > Ultrascale's
+> > > > interconnect - we're investigating it)
+> > > > =C2=A0=20
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0What you can do is that instead of using udmabuf or dma-h=
+eaps
+> > > is
+> > > that the device which can't provide coherency act as exporters of
+> > > the
+> > > buffers.
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0The exporter is allowed to call sync_for_cpu/sync_for_dev=
+ice on
+> > > it's
+> > > own buffers and also gets begin/end CPU access notfications. So
+> > > you
+> > > can then handle coherency between the exporter and the CPU.
+> >=20
+> > But again that would only work if the importers would call
+> > begin_cpu_access() / end_cpu_access(), which they don't, because
+> > they
+> > don't actually access the data using the CPU.
+> >=20
+> > Unless you mean that the exporter can call
+> > sync_for_cpu/sync_for_device
+> > before/after every single DMA transfer so that the data appears
+> > coherent to the importers, without them having to call
+> > begin_cpu_access() / end_cpu_access().
+> >=20
+> > In which case - this would still demultiply the complexity; my USB-
+> > functionfs interface here (and IIO interface in the separate
+> > patchset)
+> > are not device-specific, so I'd rather keep them importers.
+> > =C2=A0=20
+> > > =C2=A0=C2=A0If you really don't have coherency between devices then t=
+hat
+> > > would
+> > > be a really new use case and we would need much more agreement on
+> > > how
+> > > to do this.
+> >=20
+> > [snip]
+> >=20
+> > Agreed. Desiging a good generic solution would be better.
+> >=20
+> > With that said...
+> >=20
+> > Let's keep it out of this USB-functionfs interface for now. The
+> > interface does work perfectly fine on platforms that don't have
+> > coherency problems. The coherency issue in itself really is a
+> > tangential issue.
+> >=20
+> > So I will send a v6 where I don't try to force the cache coherency
+> > -
+> > and instead assume that the attached devices are coherent between
+> > themselves.
+> >=20
+> > But it would be even better to have a way to detect non-coherency
+> > and
+> > return an error on attach.
+> >=20
+> > Cheers,
+> > -Paul
+
