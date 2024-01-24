@@ -1,191 +1,175 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2041.outbound.protection.outlook.com [40.107.96.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6BF77F36;
-	Wed, 24 Jan 2024 19:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706123720; cv=none; b=qFwbHruDHpmU1lEJpl3nBXnBS8zw2p2AkOA7d3EU5cCzvRWvfnlKASOjf3J05pOksTYU9Y9AHUnm+ZCpYZ/QkP1yk71r8I7GdvaTWFWM3u4TI1EEx7j3t/q/cnxLFLpGttx2Kx6Zbd9NFCh18VRAeMj4M/nk3H1rbmxAMIa7KbA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706123720; c=relaxed/simple;
-	bh=VcHlyJIXlxH3aERAxZ/QM+6SquAmwdoVRQMgH+M+Ow4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EdvWL5Wxv07H3fiY30Zx261G7lWVeXjdK/BZBo1mbN34LPype4aI2YjZ5NZQgZUffywa1Qr6GfWUvKy49ZZlRpSztw4j3Ho7BvP/FXmlnkk9iIrrt9X3LGL6vY4uX/1bB2AOUFr68rq0j7z+trefxSm6w/b1WrrG/JNrCs8c/ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=a1KcDgtJ; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB3E131755;
+	Wed, 24 Jan 2024 19:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706124430; cv=fail; b=JpXRn32wP1bYJMt8N4JDVpXToWzaoYAjsNfVbKzGZqHoRwoiuBtqmu2SF+ru+zPGzlYWotGtkDwkI7HB+qSp/2F3UuMwv8BruP9B0+7ZKwDUYnBU37F+sDn634PnJ4ig4P/RK5h+qG3W17Tq6hXSN/6WyOurwaR5ECB76Vxcvb0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706124430; c=relaxed/simple;
+	bh=tS1+p+10b6jXTARUCI2s206pdJw2L5QnLGmI9+B6qaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=IS4O/sWNH3+ZoCHjbNw5t7q22HkHP+wi9Eq4dscqq3CTRM97RM4xSYZGVw+YWCQuZkce6p4nCUHhIz3w3nO6ziWK5IrBa2sUsnY4XD/3CVYUp4j4TFRRqD0cpgkUXmhJBmpycG1kwvetDg9h3mDG/j1TzpC6QQ0v+uP4uqZNBWk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=pE0oy2SP; arc=fail smtp.client-ip=40.107.96.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="a1KcDgtJ"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6DE7C40E01A9;
-	Wed, 24 Jan 2024 19:15:14 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Q8rzXvTGYIO5; Wed, 24 Jan 2024 19:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1706123711; bh=2krLzEMQIQ+tFkjdyDir4TC8HQgYTlc8+l+XGa7jNp0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a1KcDgtJDEo2ovI49n8md2R/fKXHf09N0P/AWKrEpVFzp3oZzfzQD5+rZPuaPdqju
-	 LtI2YkBwx4DtZ2FDC3gg/1Rot4+lHTlH3yzQfpVm6plm6KfbhTXCLhDdWngAMoInzc
-	 NvcEb2G3sx49+72RjdaBPsa+phyNdlFW6mfRRqwpf0aEAC2OaqnMwGMI7SF4cgLwzd
-	 8mivnFvGsYm3kI5DyM5RBeL/Oy+bGfwhS/94Zxj1nwvkk82Z+j5x16nZvAYXZmMBXa
-	 gmGz674ObX+9e6eUbe0ga7RrX0/bPh9Uy+mxbqiiQvTGwky0GD69ygSbDDSATyyLWR
-	 fGIzOgsZkqG8TY9rsLBd9boK5ZozTqG/7H+yfyqy8mBmSbbdflXeLSa5Dpg6Km3vdi
-	 Ssx240vV9yrnczi2f+jgFt0KO12jk6a8sIz0+FxnC/9XlxH+F+zF2yC1u48yhgA0TZ
-	 yZ0ILGhTrQMvtAhu6kxNWxSwcF32l8GCzy+hVPBJwZt4cCZ/SKymbQo9fsgz4qYmtZ
-	 mXI+byFxGGZzV7qtrDtw4sEMW2p7DmVkv94t8SLxsizHWU71vPpF2jhBj5Necrc3SA
-	 jUW0Op06airRtlY16D/vwqwNgbsiGrcAZd2BYBw/D2K3+DuQkS+eIbI5VJRE14U18Z
-	 WzjEKLu+DggB4qP30LEpAHQQ=
-Received: from zn.tnic (pd953033e.dip0.t-ipconnect.de [217.83.3.62])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EFBD840E0177;
-	Wed, 24 Jan 2024 19:14:36 +0000 (UTC)
-Date: Wed, 24 Jan 2024 20:14:29 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
-	rdunlap@infradead.org, tj@kernel.org, peterz@infradead.org,
-	yanjiewtw@gmail.com, kim.phillips@amd.com, lukas.bulwahn@gmail.com,
-	seanjc@google.com, jmattson@google.com, leitao@debian.org,
-	jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
-	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
-	kai.huang@intel.com, kan.liang@linux.intel.com,
-	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
-	sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com,
-	peternewman@google.com, maciej.wieczor-retman@intel.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	eranian@google.com
-Subject: Re: [PATCH] x86/resctrl: Fix unneeded variable warning reported by
- kernel test robot
-Message-ID: <20240124191429.GGZbFhldYr3K85H9cg@fat_crate.local>
-References: <202401241810.jbd8Ipa1-lkp@intel.com>
- <84128a3c83654493f637b8349153af10d69e2752.1706118776.git.babu.moger@amd.com>
- <39c4501e-4937-49de-b12b-742e6201df6f@intel.com>
- <20240124183153.GFZbFXmTKTLEpwZshW@fat_crate.local>
- <e96df7ac-f0b4-4300-8546-7c1df836dea2@intel.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="pE0oy2SP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e+pJwTJY7p7o8VJCj1MkFAyIk3xHo8jk3tOLRydXjz09EMd+/tYbpOmW8A3I9ZHFax4PG4WZY7O/YvxTT8MjXYjTSyMWwPoxCoAcw8flsX/j67eZS5B7+L8oX5SaQKsj7svb+8kNokoGPH+dL/v84r+/y6f7u3br4NlPe8IbQkOwv7RxrUyr8MNta2B54vQN5gAhdgnZ2YA6rQnDjogClp3GyVmqITbeuYVVD3ZYjrh7pzEKHZaaNIO6AxTAb8gK90g/a/vC184JQVGggJVz1J0ml8+AGS8dBa3DOnLYNYc5NT4o6RLN+P4H8OP7vefyfp+U5rrqjDACgclHHSGbjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QOO1e5pjw6anFy9ucBbPtVhZ3yY7C2SNLMP2wcoGB6w=;
+ b=IO8AeoN0VejtjgL1XbkrQ2F/8jWSZO0zaMjhlOrUh41ALsoJrqRrfQX49HBWqioeAftPIt2I0lHepNX3QkmRm8ppZy+gj0y0DkUHri80zqY51fEdeSJ3zhlX+v3AoliNQ3pByOFK6UVXIrSEyHUU4xvRj/P94VykxEvUQx/iTzBmY2Vu1pJ7KrjWuPOle1CxuPx7Ge+WkbuKzYt1KW6SSlH3nXufZKLjfoY2bVCKKOCU5LZA/1oqg3lMYLkMjS9Hsu/ORXhpgbo4PS0B91l+aZJqE0yUsgLhKXPptJv3PJFIf0uYCI2QtJz+G7wCKsy0yuRhfUS6blBS/vMQnAg72A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QOO1e5pjw6anFy9ucBbPtVhZ3yY7C2SNLMP2wcoGB6w=;
+ b=pE0oy2SPgsV0y+hiKgSV1vuoCiMtwiIDj9gnE5PunxheTosAkFmF/w/U7zh07iwxd9XJu1F5saYv5UQORqpeOqXLe65JxnFiKHPotjMkc2cMydDzt/0RuT20KiIhHK50kHGabzEIO38MEjMWClmshKN882eHCjWBLEci0wME6ZbDRt/xYWzJfL9JmZG7uAQJekOWM6e4i4AWvLBdgvDLNfstCf4r6+sn9xnpfn1pTqyaPgy08ZyCvtQcr0S0AnltAA7HFLT/0T/9IgDVUzO63wDC8cwWt208hFMm9eudlW7zbeUCAt+Ffi/JuQS02kEt0ciSGakH6T04aZnHD/VfKA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4373.namprd12.prod.outlook.com (2603:10b6:208:261::8)
+ by SA3PR12MB7783.namprd12.prod.outlook.com (2603:10b6:806:314::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Wed, 24 Jan
+ 2024 19:27:06 +0000
+Received: from MN2PR12MB4373.namprd12.prod.outlook.com
+ ([fe80::ff68:f81b:d451:9765]) by MN2PR12MB4373.namprd12.prod.outlook.com
+ ([fe80::ff68:f81b:d451:9765%4]) with mapi id 15.20.7228.023; Wed, 24 Jan 2024
+ 19:27:06 +0000
+Date: Wed, 24 Jan 2024 14:27:02 -0500
+From: Benjamin Poirier <bpoirier@nvidia.com>
+To: Jay Vosburgh <jay.vosburgh@canonical.com>
+Cc: netdev@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Gospodarek <andy@greyhouse.net>, Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Petr Machata <petrm@nvidia.com>,
+	Danielle Ratson <danieller@nvidia.com>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Johannes Nixdorf <jnixdorf-oss@avm.de>,
+	Davide Caratti <dcaratti@redhat.com>,
+	Tobias Waldekranz <tobias@waldekranz.com>,
+	Zahari Doychev <zdoychev@maxlinear.com>,
+	Hangbin Liu <liuhangbin@gmail.com>, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 2/6] selftests: bonding: Add
+ net/forwarding/lib.sh to TEST_INCLUDES
+Message-ID: <ZbFkhmEHBSHgJ4d1@d3>
+References: <20240124170222.261664-1-bpoirier@nvidia.com>
+ <20240124170222.261664-3-bpoirier@nvidia.com>
+ <8205.1706120677@famine>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8205.1706120677@famine>
+X-ClientProxiedBy: YQBPR0101CA0110.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:5::13) To MN2PR12MB4373.namprd12.prod.outlook.com
+ (2603:10b6:208:261::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e96df7ac-f0b4-4300-8546-7c1df836dea2@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4373:EE_|SA3PR12MB7783:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0cd08fc8-13c0-434c-5d21-08dc1d12731b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	CxOX058J9czf1nPJQv/kYP2FJBiwdl4n7pDQ/A/NzCoJgdeJoGoISeoN8oFExoZJS5DcsCNGwdVRjfec+JCFKmBCaxZvY0afq2ab6ONsSGLHKC5VV7xvh5/ovNOdOeApY3kFkh0iuJrd5UzS7kazKzJSXte/7i5/PXuNuip8ETCoXEwUdfbI5Nq6Rbt6aKUyrqM6Ur8VyBLmmAJIbpdk7tRCXKvrU8q5+4RjjRy3RXVmRLclFUkWi8HAk/YeGFpBjSfs7helEJF8ApHfmPSd1cTBkQFwvKn/8q/qKGheJkXq2l4FuWhAHlvnN/kVB5GB1k7F7g0sp8ZdMnTvtPUwpFwTX1T9rIU+Y6mfMj9qcIHgAFAOQQ6DFelXdvXJsv2CNmGLLvE0PxWU3oiDlFq1TfQRxR9jAReT1lywYo3vvQt3XyH+SHqvw+ApS/V0kkGhs3KXoSE1EI353u4xkrZhD0NdPqQDXGEXVde1WICu5RhqwUhS1Nbw4mAyULZdlyxVQDRDJ5HH0RI0BRDAFHGZtY6syA8Zl30nwliPEqAtiD8gf//Fc42EIYnIrPZB3BID
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4373.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(346002)(376002)(136003)(366004)(39860400002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(2906002)(86362001)(33716001)(6666004)(6506007)(38100700002)(26005)(6512007)(53546011)(6916009)(9686003)(54906003)(316002)(66556008)(66476007)(66946007)(6486002)(478600001)(41300700001)(8936002)(4326008)(8676002)(5660300002)(7416002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?EJw39R3kc/4/wP1aH9xzQBS+smpWuvJsEvqewVvBI5Xc2K3j+zk12IcFLiiU?=
+ =?us-ascii?Q?wLy0XTX41hSFL2pLgmI8qh3kOMS89CIjwXI4D+FvWDKd0ZCS5DhTuxAGcB9b?=
+ =?us-ascii?Q?qd2QA7xdgW2HBKA2fu+gYM0dVQd9XVLwo4GgbPwo+2s1ToZKRU7Q7VMIm/2q?=
+ =?us-ascii?Q?ph1L3WouhqC9NZvnn1hjB4V7xjrbjHWv5w/VEUBjZ3BRNeqGEw8OGnhNJQ1x?=
+ =?us-ascii?Q?u3vLYjSx47qSKDK4m78yJYFyAkBPrZCyQKbFQAg7Cj1ZjRuATHe8vzA70G2A?=
+ =?us-ascii?Q?sFawf7gEdhw14w+dv+AjCxE/VmruwPaigzG7Z1tB0j1bRH0AzvhSoAXg6WKe?=
+ =?us-ascii?Q?9/S+WU7GhNESdOr9A3D70Y/2CzalfYHS/LSzdkIQrO+ywMwv5IwHq+Laep33?=
+ =?us-ascii?Q?q2I9yFAw9U1UVny92vlgnUHx/gn1KosaURsPwriacbow4qDSfB3MO+dYSGzp?=
+ =?us-ascii?Q?Tf9U11CC85jNNe455oBNVVLXHCzLt4hr6nqJxQtlpBAheJj1sLX9JXTOpoN3?=
+ =?us-ascii?Q?ccMcQh2lf+KE4YKof5qryDOduA6Brq2S83T6KK2VSW20i+/xAZGgf785kAsa?=
+ =?us-ascii?Q?hjOHN2zJUuyGpltIn1oevM9CoW/0dJ5Y+hKOCSRDbw1NFs1CUgofzr3lEezB?=
+ =?us-ascii?Q?2lAQGre3hkjrglM9zCrq52/X1hjM3aeZJ78I7BjQl4uV2XC/n+a23ZVEYe/6?=
+ =?us-ascii?Q?Osnf2tbFlseRaWonWi7eVtb3kNAtstFgnoQIJqaJfjCJZ0QT1PW3udktUbrt?=
+ =?us-ascii?Q?oWi7fidTWgT30TjI4WA/UC/o48aDvvNvswCfU16aQsfKmFXJg34D4Qz/Akwv?=
+ =?us-ascii?Q?KpXu75/En831oauhm4nOwuN733UBvG2RNoS7FaM2TdwS0jtScQc+lTqU41tf?=
+ =?us-ascii?Q?yYkhM0YMBs0Gr1ytR27gFtXKLW25i9/o23yvHMCy2c09K/b+uOwM+puU4wfh?=
+ =?us-ascii?Q?BZYivdEOnPsiwgqY0r2q7scjMWuWKsicLwFFEZ5uMjK3XCHD37uyAHtrKzNg?=
+ =?us-ascii?Q?AaNGrB21ZS9Lvs+PoGF67nMKX5eSNECgD20TFnlxMyQopB19WqeGKzebYh9s?=
+ =?us-ascii?Q?Fk8w5B4z4GxG3nhGOQrFR5+CR9WQJcbRcMrZdMBRcPXy4PvbV74rVc3kd3sZ?=
+ =?us-ascii?Q?vQ+FdDKnduc97pRu0vUo4+OZrzKXlDCFo8WBqS2bm3d7d0tU2O1dGiqyGOsw?=
+ =?us-ascii?Q?8t06xnFaROZeeqWKR4w8Q0QP7acnsxoa5PJbLghDvxYEBXdB0sEFFqU9oH5I?=
+ =?us-ascii?Q?vv4FyJsRdTCx2OeFFnf1H3g7DXX4JDKKmHf9BFVlMpp1UNvSyLYhxXB8Iyss?=
+ =?us-ascii?Q?HWNeAvx5hm4G+ANB7efa2LjzmJHURF4XO0X7HlFOWxkaNYLpVxxeuUUL0ZtB?=
+ =?us-ascii?Q?covj9O3pbqtqqecAJ49WQgI+/+WjN/UxJm9dnL/fdNrR0gDfqc/risxB+MD8?=
+ =?us-ascii?Q?ZF7KkLZZzGYUvJ8iFDv1cgI/+Cvzypra/siF0xtYpASdvGiVfGIQL2SyX4u+?=
+ =?us-ascii?Q?ct3xykeNzs0kgwbjk/YjP9E4sC79BwhWWrMPrTtXljqPvqX/EkXLysBolUD6?=
+ =?us-ascii?Q?q84fAIZzCAAHZXWG+GboZBJnSfKeUajCWcAmeYmGLyOEDVDNdyWdA/T4da/D?=
+ =?us-ascii?Q?pQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cd08fc8-13c0-434c-5d21-08dc1d12731b
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4373.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 19:27:06.1242
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3GHfErI+Vmn1IQtXk3x7+oa1U7Ti2993D4lKV0OcjLVTkyHWuIdMFAr8PaRliCy/dBUF54+OoEISP08SjN2+zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7783
 
-On Wed, Jan 24, 2024 at 10:51:49AM -0800, Reinette Chatre wrote:
-> Thank you very much. For what it is worth, I do agree with the actual fix
-> and you can add:
-> Acked-by: Reinette Chatre <reinette.chatre@intel.com>
+On 2024-01-24 10:24 -0800, Jay Vosburgh wrote:
+[...]
+> >diff --git a/tools/testing/selftests/drivers/net/bonding/bond_topo_2d1c.sh b/tools/testing/selftests/drivers/net/bonding/bond_topo_2d1c.sh
+> >index a509ef949dcf..0eb7edfb584c 100644
+> >--- a/tools/testing/selftests/drivers/net/bonding/bond_topo_2d1c.sh
+> >+++ b/tools/testing/selftests/drivers/net/bonding/bond_topo_2d1c.sh
+> >@@ -28,7 +28,7 @@
+> > REQUIRE_MZ=no
+> > NUM_NETIFS=0
+> > lib_dir=$(dirname "$0")
+> >-source ${lib_dir}/net_forwarding_lib.sh
+> >+source "$lib_dir"/../../../net/forwarding/lib.sh
+> 
+> 	Is there a way to pass TEST_INCLUDES via the environment or as a
+> parameter, so that it's not necessary to hard code the path name here
+> and in the similar cases below?
 
-Ok, have a look at the below, pls, and lemme know if that's ok too.
+It think would be possible but I see two issues:
 
-mbm_config_write_domain() only returns 0 so it can be void. So the
-callsite doesn't need to check retval either.
+1) Tests can be run in a myriad ways. Some of them (`make run_tests`,
+`run_kselftest.sh`) use runner.sh which would be the place to set
+environment variables for a test. However it's also possible to run
+tests directly:
 
-Thx.
+tools/testing/selftests/drivers/net/bonding# ./dev_addr_lists.sh
 
----
-From: Babu Moger <babu.moger@amd.com>
-Date: Wed, 24 Jan 2024 11:52:56 -0600
-Subject: [PATCH] x86/resctrl: Remove redundant variable in
- mbm_config_write_domain()
+In that case, there's nothing to automatically set an environment
+variable for the test.
 
-The kernel test robot reported the following warning after
+I think that could be addressed, for example by putting the content of
+TEST_INCLUDES in a file and having the test read it itself, but ...
 
-  54e35eb8611c ("x86/resctrl: Read supported bandwidth sources from CPUID").
+2)
+As can be seen in the dsa case and in the bonding and team cases after
+patch 6, the relationship between the files listed in TEST_INCLUDES and
+the files sourced in a test is not 1:1. So automatically sourcing all
+files listed in TEST_INCLUDES is not generally applicable.
 
-even though the issue is present even in the original patch which added
-this function
-
-  92bd5a139033 ("x86/resctrl: Add interface to write mbm_total_bytes_config")
-
-  $ make C=1 CHECK=scripts/coccicheck arch/x86/kernel/cpu/resctrl/rdtgroup.o
-  ...
-  arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8: Unneeded variable: "ret". Return "0" on line 1655
-
-Remove the local variable 'ret'.
-
-  [ bp: Massage commit message, make mbm_config_write_domain() void. ]
-
-Fixes: 92bd5a139033 ("x86/resctrl: Add interface to write mbm_total_bytes_config")
-Closes: https://lore.kernel.org/oe-kbuild-all/202401241810.jbd8Ipa1-lkp@intel.com/
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Acked-by: Reinette Chatre <reinette.chatre@intel.com>
-Link: https://lore.kernel.org/r/202401241810.jbd8Ipa1-lkp@intel.com
----
- arch/x86/kernel/cpu/resctrl/rdtgroup.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 2b69e560b05f..c33eb77b6d70 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -1614,11 +1614,10 @@ static void mon_event_config_write(void *info)
- 	wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
- }
- 
--static int mbm_config_write_domain(struct rdt_resource *r,
-+static void mbm_config_write_domain(struct rdt_resource *r,
- 				   struct rdt_domain *d, u32 evtid, u32 val)
- {
- 	struct mon_config_info mon_info = {0};
--	int ret = 0;
- 
- 	/*
- 	 * Read the current config value first. If both are the same then
-@@ -1627,7 +1626,7 @@ static int mbm_config_write_domain(struct rdt_resource *r,
- 	mon_info.evtid = evtid;
- 	mondata_config_read(d, &mon_info);
- 	if (mon_info.mon_config == val)
--		goto out;
-+		return;
- 
- 	mon_info.mon_config = val;
- 
-@@ -1650,9 +1649,6 @@ static int mbm_config_write_domain(struct rdt_resource *r,
- 	 * mbm_local and mbm_total counts for all the RMIDs.
- 	 */
- 	resctrl_arch_reset_rmid_all(r, d);
--
--out:
--	return ret;
- }
- 
- static int mon_config_write(struct rdt_resource *r, char *tok, u32 evtid)
-@@ -1661,7 +1657,6 @@ static int mon_config_write(struct rdt_resource *r, char *tok, u32 evtid)
- 	char *dom_str = NULL, *id_str;
- 	unsigned long dom_id, val;
- 	struct rdt_domain *d;
--	int ret = 0;
- 
- next:
- 	if (!tok || tok[0] == '\0')
-@@ -1690,9 +1685,7 @@ static int mon_config_write(struct rdt_resource *r, char *tok, u32 evtid)
- 
- 	list_for_each_entry(d, &r->domains, list) {
- 		if (d->id == dom_id) {
--			ret = mbm_config_write_domain(r, d, evtid, val);
--			if (ret)
--				return -EINVAL;
-+			mbm_config_write_domain(r, d, evtid, val);
- 			goto next;
- 		}
- 	}
--- 
-2.43.0
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Given these two points, I'm inclined to stick with the current approach.
+What do you think?
