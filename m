@@ -1,185 +1,99 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BC817C65;
-	Wed, 24 Jan 2024 07:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3081773A;
+	Wed, 24 Jan 2024 07:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706080791; cv=none; b=WUgAHZVrKGHxjj5ODqLZtrMLRxoeE8cl+dIvty6TVHo40PN+VhFrWzyu53P5V2NHL9kXlRqyWcx6o08Gs+dZu68UyXF7LLdnokBEEkI2ODuEAoNrbxizIRFY/f16vrqc+B2NT4t3IlgNT8VCEqiaggwhpdBulNOaZOTGb8O1TmQ=
+	t=1706081987; cv=none; b=G1CR/TgwSzMwRqC3VkGYVGj8X1Ryw/RzfLIc10CawPoMkG5mq5yzyLIo6Rpkxt8U2MTw6vGMsmqXRB3izKV52UxXIgEkA3nrU9ehqkhfp7O69C2F42/ZuL2T3v5BvjVC1Ar+IpLh2s5CdLjqwf0lpbAGKEtQWckeTpdzBYl8Z/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706080791; c=relaxed/simple;
-	bh=P1H368CplIrSMK/Tn+EOuciQSfSHbP8vxDXizZuog+M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LigL5Nt7NrXkvu1YP5V53YtcDcaoNrNTqadSfWafE996XqiP53yX2q9iG8/GhNtYM5hQjA6EKgOztG+EaxSK9KP6uiNICyI2JOJONRBIl3YL5+DrYqSjPrftb38jtVtr9Ah0zYfL+4ZVT5EvDJGB/6DTw/G2O6RtYALrwIvyneo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 185EDE000C;
-	Wed, 24 Jan 2024 07:19:42 +0000 (UTC)
-Message-ID: <26808f34-d9c4-404a-bf09-45c4aff139ad@ghiti.fr>
-Date: Wed, 24 Jan 2024 08:19:42 +0100
+	s=arc-20240116; t=1706081987; c=relaxed/simple;
+	bh=91grIYIx9OkFtRlDhcvytYmNOKGOQX3yknnlFt+vEew=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=YJBZidezx7f9X/AX91UgQZjIkEC7qa9xdORSu6jnLjYVvrIoLxVfqj+SCPeGXFnkV2310ylYIZ8hWX2abLDJES5mzWUTm3OZwIZsG0fYz2HMqWSP42UpUMxEn531Lue8fSv9KhQ32SelzTo06A0R9weV7VKjG8uxMfBRgkRpNqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UHLsnCQ1; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UHLsnCQ1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F3E6C433F1;
+	Wed, 24 Jan 2024 07:39:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706081986;
+	bh=91grIYIx9OkFtRlDhcvytYmNOKGOQX3yknnlFt+vEew=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=UHLsnCQ1dUShb1uVeOf7TkGdla3aigkHLEvLXzWs42kwKOTgVFt2D1NWvBsm4WO3X
+	 H5k/EQg5Px4owCmhHLRBNGwlw4mmPQ+XdwWow9DNqNBijEnlCvhuVWxViCyAvDUdl6
+	 TfScqKcste9zFamQJs0/AV0Yv4acCb7nNWvakLWgjKcQas/vzZ/INICfFG97v+htT5
+	 cmAIu4A2ApnTcoREmT+wAy1VgsHIHCWVTKoknVHXvVgNkYju1K+TgWsqFikALl0301
+	 MpkcmybZR9mY4KlUuPprphfjD2HbEiPWmQJpkkbBk10qXOqFOvhXj0O3Q+d0qsI5MO
+	 mYGQi0CH3g03Q==
+Date: Wed, 24 Jan 2024 01:39:45 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/2] documentation: Document
- PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
-Content-Language: en-US
-To: Charlie Jenkins <charlie@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>,
- =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Atish Patra <atishp@atishpatra.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>
-References: <20240123-fencei-v9-0-71411bfe8d71@rivosinc.com>
- <20240123-fencei-v9-2-71411bfe8d71@rivosinc.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20240123-fencei-v9-2-71411bfe8d71@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: alex@ghiti.fr
+From: Rob Herring <robh@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Cc: robh+dt@kernel.org, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, naresh.solanki@9elements.com, 
+ linux@roeck-us.net, p.zabel@pengutronix.de, 
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org, 
+ BMC-SW@aspeedtech.com, patrick@stwcx.xyz, conor+dt@kernel.org, 
+ corbet@lwn.net, linux-aspeed@lists.ozlabs.org, 
+ u.kleine-koenig@pengutronix.de, jdelvare@suse.com, joel@jms.id.au, 
+ andrew@codeconstruct.com.au, krzysztof.kozlowski+dt@linaro.org
+In-Reply-To: <20240124060705.1342461-3-billy_tsai@aspeedtech.com>
+References: <20240124060705.1342461-1-billy_tsai@aspeedtech.com>
+ <20240124060705.1342461-3-billy_tsai@aspeedtech.com>
+Message-Id: <170608198415.3412038.3874422575074669118.robh@kernel.org>
+Subject: Re: [PATCH v13 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM TACH
+ Control
 
-On 24/01/2024 00:29, Charlie Jenkins wrote:
-> Provide documentation that explains how to properly do CMODX in riscv.
->
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Atish Patra <atishp@rivosinc.com>
+
+On Wed, 24 Jan 2024 14:07:04 +0800, Billy Tsai wrote:
+> Document the compatible for aspeed,ast2600-pwm-tach device, which can
+> support up to 16 PWM outputs and 16 fan tach input.
+> 
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 > ---
->   Documentation/arch/riscv/cmodx.rst | 96 ++++++++++++++++++++++++++++++++++++++
->   Documentation/arch/riscv/index.rst |  1 +
->   2 files changed, 97 insertions(+)
->
-> diff --git a/Documentation/arch/riscv/cmodx.rst b/Documentation/arch/riscv/cmodx.rst
-> new file mode 100644
-> index 000000000000..2ad46129d812
-> --- /dev/null
-> +++ b/Documentation/arch/riscv/cmodx.rst
-> @@ -0,0 +1,96 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==============================================================================
-> +Concurrent Modification and Execution of Instructions (CMODX) for RISC-V Linux
-> +==============================================================================
-> +
-> +CMODX is a programming technique where a program executes instructions that were
-> +modified by the program itself. Instruction storage and the instruction cache
-> +(icache) are not guaranteed to be synchronized on RISC-V hardware. Therefore, the
-> +program must enforce its own synchronization with the unprivileged fence.i
-> +instruction.
-> +
-> +However, the default Linux ABI prohibits the use of fence.i in userspace
-> +applications. At any point the scheduler may migrate a task onto a new hart. If
-> +migration occurs after the userspace synchronized the icache and instruction
-> +storage with fence.i, the icache will no longer be clean. This is due to the
+>  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 73 +++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+> 
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Nit: I think you mean "the icache on the new hart will no longer be clean".
+yamllint warnings/errors:
 
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.example.dtb: pwm-tach-controller@1e610000: fan-0: Unevaluated properties are not allowed ('compatible' was unexpected)
+	from schema $id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.example.dtb: pwm-tach-controller@1e610000: fan-1: Unevaluated properties are not allowed ('compatible' was unexpected)
+	from schema $id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.example.dtb: fan-0: 'tach-ch' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.example.dtb: fan-1: 'tach-ch' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml#
 
-> +behavior of fence.i only affecting the hart that it is called on. Thus, the hart
-> +that the task has been migrated to may not have synchronized instruction storage
-> +and icache.
-> +
-> +There are two ways to solve this problem: use the riscv_flush_icache() syscall,
-> +or use the ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` prctl() and emit fence.i in
-> +userspace. The syscall performs a one-off icache flushing operation. The prctl
-> +changes the Linux ABI to allow userspace to emit icache flushing operations.
-> +
-> +As an aside, "deferred" icache flushes can sometimes be triggered in the kernel.
-> +At the time of writing, this only occurs during the riscv_flush_icache() syscall
-> +and when the kernel uses copy_to_user_page(). These deferred flushes happen only
-> +when the memory map being used by a hart changes. If the prctl() context caused
-> +an icache flush, this deferred icache flush will be skipped as it is redundant.
-> +Therefore, there will be no additional flush when using the riscv_flush_icache()
-> +syscall inside of the prctl() context.
-> +
-> +prctl() Interface
-> +---------------------
-> +
-> +Call prctl() with ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` as the first argument. The
-> +remaining arguments will be delegated to the riscv_set_icache_flush_ctx
-> +function detailed below.
-> +
-> +.. kernel-doc:: arch/riscv/mm/cacheflush.c
-> +	:identifiers: riscv_set_icache_flush_ctx
-> +
-> +Example usage:
-> +
-> +The following files are meant to be compiled and linked with each other. The
-> +modify_instruction() function replaces an add with 0 with an add with one,
-> +causing the instruction sequence in get_value() to change from returning a zero
-> +to returning a one.
-> +
-> +cmodx.c::
-> +
-> +	#include <stdio.h>
-> +	#include <sys/prctl.h>
-> +
-> +	extern int get_value();
-> +	extern void modify_instruction();
-> +
-> +	int main()
-> +	{
-> +		int value = get_value();
-> +		printf("Value before cmodx: %d\n", value);
-> +
-> +		// Call prctl before first fence.i is called inside modify_instruction
-> +		prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX_ON, PR_RISCV_CTX_SW_FENCEI, PR_RISCV_SCOPE_PER_PROCESS);
-> +		modify_instruction();
-> +
-> +		value = get_value();
-> +		printf("Value after cmodx: %d\n", value);
-> +		return 0;
-> +	}
-> +
-> +cmodx.S::
-> +
-> +	.option norvc
-> +
-> +	.text
-> +	.global modify_instruction
-> +	modify_instruction:
-> +	lw a0, new_insn
-> +	lui a5,%hi(old_insn)
-> +	sw  a0,%lo(old_insn)(a5)
-> +	fence.i
-> +	ret
-> +
-> +	.section modifiable, "awx"
-> +	.global get_value
-> +	get_value:
-> +	li a0, 0
-> +	old_insn:
-> +	addi a0, a0, 0
-> +	ret
-> +
-> +	.data
-> +	new_insn:
-> +	addi a0, a0, 1
-> diff --git a/Documentation/arch/riscv/index.rst b/Documentation/arch/riscv/index.rst
-> index 4dab0cb4b900..eecf347ce849 100644
-> --- a/Documentation/arch/riscv/index.rst
-> +++ b/Documentation/arch/riscv/index.rst
-> @@ -13,6 +13,7 @@ RISC-V architecture
->       patch-acceptance
->       uabi
->       vector
-> +    cmodx
->   
->       features
->   
->
+doc reference errors (make refcheckdocs):
 
-I don't know how man pages are synchronized with new additions in the 
-kernel, do you? It would be nice to have this new prctl documented for 
-userspace.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240124060705.1342461-3-billy_tsai@aspeedtech.com
 
-Thanks,
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Alex
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
