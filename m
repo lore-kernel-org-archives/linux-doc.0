@@ -1,150 +1,99 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D114182A1
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 09:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7653A182A1;
+	Wed, 24 Jan 2024 09:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706089602; cv=none; b=mDuynMmwh/osS1awK9f1K2k3qR3TNRVwIExZgY/kU9x4Z5V8CEdeJEQKh4Tthycb7Ue0mWPt3Fa3evP5OSIMi9/FykInqn3X6grrQDAwBwfBQdxGbQgoTHi4a0eJFHHqEGeoriuYWqOfYAYLO7LSGq4n1yLuWJhIUSmxdUas300=
+	t=1706089697; cv=none; b=Ch2tF5xg838TqD6H0x+C1MLw+23ZqglouTwcuJyiAefhf1n3UhtPc2u8fWXaW+NrArVQ1r79op9it6rR9/Z7fxoK0KziHv2UreDZO75C21ycFpkx60vwKPolIvr6jt/axrv13PXyflX+vocL6G2CUfhEQ/5AZbYTE7ivk9q6pWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706089602; c=relaxed/simple;
-	bh=KAXpL6rcNOC7cpNY+gkbkcwqymqfb3e2TV1COL5RfDU=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pBJ0CEcAWMtL1IXm9vkov9EhaZzoBZCI+deI26pJ+lQ4tKttWisS/ra2KSz2vvCIuTa1QV0GeGChq6kkTrQgAVloIE8jcnhXy96N5CSgFf41gMZJb5wP5MP9MV/yJGexIOJojqMu7qhXsFxoJn0bUNn+Z6d4VUSIW15RAamemJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rSZpc-0003zO-ML; Wed, 24 Jan 2024 10:46:04 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rSZpX-0021gf-GI; Wed, 24 Jan 2024 10:45:59 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1rSZpX-00064D-1N;
-	Wed, 24 Jan 2024 10:45:59 +0100
-Message-ID: <dccb808a2ba6ccb0fd0b4e7ccfe40cd871886b6b.camel@pengutronix.de>
-Subject: Re: [PATCH v13 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for
- ASPEED g6 PWM/Fan tach
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com, 
- linux@roeck-us.net, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
- conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
- corbet@lwn.net,  u.kleine-koenig@pengutronix.de,
- naresh.solanki@9elements.com,  linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org,  linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org,  linux-pwm@vger.kernel.org,
- BMC-SW@aspeedtech.com, patrick@stwcx.xyz
-Date: Wed, 24 Jan 2024 10:45:59 +0100
-In-Reply-To: <20240124060705.1342461-4-billy_tsai@aspeedtech.com>
-References: <20240124060705.1342461-1-billy_tsai@aspeedtech.com>
-	 <20240124060705.1342461-4-billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1706089697; c=relaxed/simple;
+	bh=jSgW+tuqwKm+CmPEln02fUD9awdM0bDg/IZUqCxn918=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=h9yJsbKXXimakkIATP8XRFNR4JjodhYrkMTwR/JYLZ4YxSc2kuZbpCZtvnlFBnGbFkHsmcmMtersQ4Z7uKdVjahmBTuw1n1Adu4BK2MAxRX8KsQ/JGX5WY34jhu5kxDZUL/JhfJDbztunSOKvw2j6UTIJ5DzuhTlntRjxlWjlIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TKYlWNh4; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TKYlWNh4"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e9ef9853bso29813025e9.1;
+        Wed, 24 Jan 2024 01:48:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706089693; x=1706694493; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jSgW+tuqwKm+CmPEln02fUD9awdM0bDg/IZUqCxn918=;
+        b=TKYlWNh4qk7cLMsBWH0CH5RLuFb3f7dWO6k7buiQj0IL/91fGuBSDwQ0SV9dFtjETd
+         CmOj5Jc8Dm1yFUSzikn52D98/i/lDKMroDX0Ya3SmCE6yjYlFZo2HupsX44LN/u5ra1V
+         cQ/X6/PgJMGw18RnAeZ009PF/Cj/9B9oCTmN4dL3tIm4f2JmPzIuK6D7xP/en8g7DlSu
+         jfYdvc4orhmqLx+c3s7Qbw8c8at/2fPQVIQ1t+fmSfiWwhkxm3aqouPOFJxagEopnfwa
+         vlzf0vwDAnJEQDR89qLAfq8bp3Z2nWB9vlWIwMLg+seWFjeLMk1KO7V3BvyJv+GVFpTe
+         ox2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706089693; x=1706694493;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jSgW+tuqwKm+CmPEln02fUD9awdM0bDg/IZUqCxn918=;
+        b=UxH6G2l5YefE+YdvzVwOg4qbh9FnvBHBp5ZhlAt4bpGDdMFjrkksrG1qTTSJLLEpYp
+         Pl5VeZqMfWL+scNCPFYeBT3NkvPr2NKz5jKkoyTApRCIiSpjty+f/naJ6nnxJi8hRjgY
+         MkJMVvT6gdDiB8khfGNSFQ0CfAx3OUMdyNKd5ZCg/JJ9+0qddmLPprjyJbnW79okOI5q
+         gEoEQZl0wgB/ilEfINl36Xd/BACqFDzYqCawX+URyeGRAH2OKeKitIC4FZVnP3mdsQ2p
+         izyn+YJuwUpRQqSdX6K6II3PUfi94J/aHa1XCB273uullKmqpqqUPptrENh8MoeLd3Vb
+         TqDg==
+X-Gm-Message-State: AOJu0YwdjqPREuNYOeoQf64czzY/c4BvOiI03meSX7k1+STD8KQyOuYe
+	7krtPotygxeqPq2+FJvwH466xv5YGPeNsO9fgoFq9dlNHsOT8Voj
+X-Google-Smtp-Source: AGHT+IEQRfNVYg8dVc7EYSjzhqzsPjoejs2P3f/MMpYgfgQzG01oF9++jIRwVa8s6TbMqNzf6mfzZQ==
+X-Received: by 2002:a7b:c303:0:b0:40e:62c5:4279 with SMTP id k3-20020a7bc303000000b0040e62c54279mr515751wmj.104.1706089693378;
+        Wed, 24 Jan 2024 01:48:13 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:bd37:9ab2:c68c:dd0c])
+        by smtp.gmail.com with ESMTPSA id u13-20020a05600c19cd00b0040e451fd602sm48854456wmq.33.2024.01.24.01.48.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jan 2024 01:48:12 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
+ Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
+ Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
+ <jacob.e.keller@intel.com>,  Breno Leitao <leitao@debian.org>,  Jiri Pirko
+ <jiri@resnulli.us>,  Alessandro Marcolini
+ <alessandromarcolini99@gmail.com>,  donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages
+ in nested attribute spaces
+In-Reply-To: <20240123161804.3573953d@kernel.org> (Jakub Kicinski's message of
+	"Tue, 23 Jan 2024 16:18:04 -0800")
+Date: Wed, 24 Jan 2024 09:37:31 +0000
+Message-ID: <m2ede7xeas.fsf@gmail.com>
+References: <20240123160538.172-1-donald.hunter@gmail.com>
+	<20240123160538.172-3-donald.hunter@gmail.com>
+	<20240123161804.3573953d@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 
-On Mi, 2024-01-24 at 14:07 +0800, Billy Tsai wrote:
-[...]
-> +static int aspeed_pwm_tach_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev, *hwmon;
-> +	int ret;
-> +	struct device_node *child;
-> +	struct aspeed_pwm_tach_data *priv;
-> +
-> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +	priv->dev =3D dev;
-> +	priv->base =3D devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(priv->base))
-> +		return PTR_ERR(priv->base);
-> +
-> +	priv->clk =3D devm_clk_get_enabled(dev, NULL);
-> +	if (IS_ERR(priv->clk))
-> +		return dev_err_probe(dev, PTR_ERR(priv->clk),
-> +				     "Couldn't get clock\n");
-> +	priv->clk_rate =3D clk_get_rate(priv->clk);
-> +	priv->reset =3D devm_reset_control_get_exclusive(dev, NULL);
-> +	if (IS_ERR(priv->reset))
-> +		return dev_err_probe(dev, PTR_ERR(priv->reset),
-> +				     "Couldn't get reset control\n");
-> +
-> +	ret =3D reset_control_deassert(priv->reset);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Couldn't deassert reset control\n");
+Jakub Kicinski <kuba@kernel.org> writes:
 
-Consider using devm_add_action_or_reset() to assert the reset in the
-error paths and on driver unbind.
+> On Tue, 23 Jan 2024 16:05:28 +0000 Donald Hunter wrote:
+>> Sub-message selectors could only be resolved using values from the
+>> current nest level. Enable value lookup in outer scopes by using
+>> collections.ChainMap to implement an ordered lookup from nested to
+>> outer scopes.
+>
+> Meaning if the key is not found in current scope we'll silently and
+> recursively try outer scopes? Did we already document that?
+> I remember we discussed it, can you share a link to that discussion?
 
-> +
-> +	priv->chip.dev =3D dev;
-> +	priv->chip.ops =3D &aspeed_pwm_ops;
-> +	priv->chip.npwm =3D PWM_ASPEED_NR_PWMS;
-> +
-> +	ret =3D devm_pwmchip_add(dev, &priv->chip);
-> +	if (ret < 0) {
-> +		reset_control_assert(priv->reset);
+Yes, it silently tries outer scopes. The previous discussion is here:
 
-Then this ...
+https://patchwork.kernel.org/project/netdevbpf/patch/20231130214959.27377-7-donald.hunter@gmail.com/#25622101
 
-> +		return dev_err_probe(dev, ret, "Failed to add PWM chip\n");
-> +	}
-> +
-> +	for_each_child_of_node(dev->of_node, child) {
-> +		ret =3D aspeed_tach_create_fan(dev, child, priv);
-> +		if (ret < 0) {
-> +			of_node_put(child);
-> +			dev_warn(dev, "Failed to create fan %d", ret);
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	of_platform_populate(dev->of_node, NULL, NULL, dev);
-> +
-> +	hwmon =3D devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv=
-,
-> +						     &aspeed_tach_chip_info, NULL);
-> +	ret =3D PTR_ERR_OR_ZERO(hwmon);
-> +	if (ret) {
-> +		reset_control_assert(priv->reset);
+This is the doc patch that describes sub-messages:
 
-... and this ...
+https://patchwork.kernel.org/project/netdevbpf/patch/20231215093720.18774-4-donald.hunter@gmail.com/
 
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to register hwmon device\n");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int aspeed_pwm_tach_remove(struct platform_device *pdev)
-> +{
-> +	struct aspeed_pwm_tach_data *priv =3D platform_get_drvdata(pdev);
-> +
-> +	reset_control_assert(priv->reset);
-> +
-> +	return 0;
-> +}
-
-... and this could be dropped.
-
-regards
-Philipp
+It doesn't mention searching outer scopes so I can add that to the docs.
