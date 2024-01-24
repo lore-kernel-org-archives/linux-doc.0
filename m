@@ -1,100 +1,124 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E79760DFF;
-	Wed, 24 Jan 2024 14:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F13747A
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 15:02:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706105653; cv=none; b=Z3MlwmiRNNU+xV1FKMwIKtGv3ulK1THd7pz88X7hvV8Xvql28hUYLLDS+Dt55nOeIHgHwjsPxuGvrF+Z0n3eISK2wW1ib8Lp6M6TlZf+otqu9M8x3we2aEw66GfA2RR4AsElRHw2CGDeVBggsvTYSjQGxxX2vMw9OZ3izeoL+z4=
+	t=1706108549; cv=none; b=CEfsMDi14WD3GJxQ/Hlg2plKRF59OIF5ipLUn0Baaxk1cNfzaq6zA55XH5HBNK9K5aoy9KReS6cN3lCPOuumVD8Bmd7H+CCJfi2AK0VMSqVMgJbFGLfZMZWXaWrPHfHcPvCd5F6k8reroEilWk57yLadKCcfnax17vffPTaq4u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706105653; c=relaxed/simple;
-	bh=ayLeps8v3W7HX8vlungxHlMOuxcEHcvYI51ejw6W6y4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tptyAykvizZsItVkiZLDqGgyf/8IqWygOnyGZ0TjK9hnCPf3G4ioDekHMdT5fHq+lBzGVF+hAJC5+Pj8regL9n3WvyRzUWsWHbMBcTax7Etvuh5t0zcESk83rnckT9wGsLvAzmOvaf77pE/RxWnyBJ482OhDziU/CLeKDAuSgh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nghjgqqm; arc=none smtp.client-ip=209.85.218.50
+	s=arc-20240116; t=1706108549; c=relaxed/simple;
+	bh=BOi5e1tfVfqqINQvinXVTE4+DXtdgoXgWJF8oClMg6g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L58MjJdKNbnivtbP751E5MO5t555c+tfJbHiQXK6BCocNyhRk/9P1WOSlkBtgrjRGtvHG5iAE6qRxQ7T2nED+RC4Xt7npjKE428KYVtyrnAwDa/X5i6jwBNn0BhinmOh0AV6xB9abmmVE1x3wGDGcwWg8qAVYLzMI9yRDpFS4c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dSaQ9WOR; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nghjgqqm"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a28fb463a28so541043266b.3;
-        Wed, 24 Jan 2024 06:14:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dSaQ9WOR"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6dda0e3600aso435813b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 07:02:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706105650; x=1706710450; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RVt0ZnKeByvzhrfkzssJmlz6f1Lvfiy149b2/exZGTI=;
-        b=NghjgqqmN9zD+1HEfq0faYl/BWOF/o3EcsFMGLgR1xdXx9NCWVovmWxZMJXQCkSGJo
-         67Bv+T/QcBmKIKhrEX23qwS8U6dkMwDXJO8O0nYiujcnjW5fCB6SXkXdq0lL4prgdH+S
-         Kss+w5Gp/j7XGF8BCYNJgDCiD1JD93NYN/l6GQYmkK4TOTgSF1mjpl2rBX18aW6qM7zA
-         Gn9x/eJzRaIoJ4nDBjVCPqCsH8XTgcra04Mtc1j6Axdb52bJErk7ZbBVYqYP283ogEFm
-         EzLA5ntm4q0fElz/p1toQvdL2K0e7pCRbIaOvkDA9xc1ktagFkPdVa/IOzt+mREPtw1M
-         2AZg==
+        d=gmail.com; s=20230601; t=1706108548; x=1706713348; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LWXfIbB9esZwNcOuZ+NyBS1AWMzTOoPoaLwqvlF1iGQ=;
+        b=dSaQ9WORT6+xczQUBCPa/tWvzwEFXWUjz61EeIPG7Rp7o9q3CTQaUV7z8HH2xxcGnK
+         vUOx/2h6K+UgyfkGkid0jyEMohQmyKpOGERUcIxA9RQAoIGTSZGgnnKKEHoj+nglBA73
+         rhdOXMFc8FERy7MxLMp0Q76EKz3lehAN01+aOw0NAWHZs5PSOMQLTLytzFZl/2lYSr50
+         HJxg9Ms9aE20Gfz6C9Du7XWkri80Gj6xfRR95RVFg8rr1noLrCbMEB29BCopotztwRj/
+         JtOVOs1YB6cvenOndJzIdYn6/LGdcP56BHVmaPLVkiduhOP0jEcXF5ChvcC09Ps2hBpB
+         M1GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706105650; x=1706710450;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RVt0ZnKeByvzhrfkzssJmlz6f1Lvfiy149b2/exZGTI=;
-        b=M7jRcQ543oXrQQBFexf0xQ3/Ydn1v+uDuGq/0ByGlYytLeRCbVDnF1iZ1pzkqPDhOv
-         CBRpV5NxtmCaIoSMoBvVxkEFYc+3PX8avxvNdnSszBcMACt9Hp5g+sARFBWmRuNsAkYt
-         N2S+zt6PnwF2XcgstlmF0UoNd7IfaZS55iwtkgb8wq2Vbhq9NBRz/EMoikCVof+/51xA
-         cMHbiQdlUZ6fdxwD5GTrIM9uz7tBkUQy0wVGSw7w2oi3qNBXT0oxvsxZwI0badkB/cS7
-         AKhqbMtoG6NEzkaB5Ue8pnjImnKUeBABaFghVL3sG2NfcXPpgbGBRJIqNzv3KtVOuEq9
-         d49Q==
-X-Gm-Message-State: AOJu0YxGhfoYrtpA3M3TREuCC/y3kxtVV0QnUwr/oInBA1kF/6DSUa2U
-	dN7YnwuHDk4xueCdICHroomfVM5He1fu2hw/VXNza1cjd9jLWurU
-X-Google-Smtp-Source: AGHT+IF9Si4NHAOAqa3uYGeUJLR9rrnIrYwH+j1jIF67RS+3PdY09F2BJ2FydAo0qGhNxG2VPd32pA==
-X-Received: by 2002:a17:906:f197:b0:a2f:71f1:b9e4 with SMTP id gs23-20020a170906f19700b00a2f71f1b9e4mr780499ejb.53.1706105649844;
-        Wed, 24 Jan 2024 06:14:09 -0800 (PST)
-Received: from andrea ([31.189.8.91])
-        by smtp.gmail.com with ESMTPSA id vb5-20020a170907d04500b00a30f04cb266sm1142517ejc.5.2024.01.24.06.14.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jan 2024 06:14:09 -0800 (PST)
-Date: Wed, 24 Jan 2024 15:13:58 +0100
-From: Andrea Parri <parri.andrea@gmail.com>
-To: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	mathieu.desnoyers@efficios.com, paulmck@kernel.org, corbet@lwn.net
-Cc: mmaas@google.com, hboehm@google.com, striker@us.ibm.com,
-	charlie@rivosinc.com, rehn@rivosinc.com,
-	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] membarrier: riscv: Core serializing command
-Message-ID: <ZbEbJpnUoFPW0fhd@andrea>
-References: <20240110145533.60234-1-parri.andrea@gmail.com>
+        d=1e100.net; s=20230601; t=1706108548; x=1706713348;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LWXfIbB9esZwNcOuZ+NyBS1AWMzTOoPoaLwqvlF1iGQ=;
+        b=eFg3hSgLeNdeHEqHLy+38XoR8gl7NH+bWWKDHrxFpaQA69omMOh19kUtG9FG+Oydqt
+         LoJ4FCf5t7fYWzUVBwHHntS23qp1ERBqCeZsLVDMLW55+0qB5q8uBDVNjcgquxMrPeGm
+         ie042cVg8zelKz6pDTUO5vrwLXa4/LzbHzUOs7h+7YFSRD0fGdRp29CM0h5BvOW4c6Rc
+         ZQh1hg3BBdsSLxF48+b5aGFeP1tathp4/SixT5uaAvWc+lts/8kyBOL55TSdbfATrKsX
+         v6ubWR6QgjQg8wbvbe13L7nrczZ6C4+kJI9RIBv1heWQm2XR8uxOVEeb71QtYJu76pTF
+         ZzQg==
+X-Gm-Message-State: AOJu0Yz7duvO/g/eQ3G+ca3e0nyD6bMg/rgVCpVYhSyOMWQ/ztIR+Njx
+	mT1nKQQA51ObUpIj6PoZvheoTEqNVdblC6kaB2oCgbw7TNJighU0
+X-Google-Smtp-Source: AGHT+IGL92YkX9l2KTu/rZvBRwytv4G+vwVB5we962hTDH8eipdBaa3e/cxclly5ElLbmf9ozo6xDQ==
+X-Received: by 2002:a05:6a00:1da4:b0:6dd:80a9:e1a with SMTP id z36-20020a056a001da400b006dd80a90e1amr2797520pfw.39.1706108547943;
+        Wed, 24 Jan 2024 07:02:27 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id z8-20020a056a00240800b006daa809584csm13748927pfh.182.2024.01.24.07.02.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Jan 2024 07:02:27 -0800 (PST)
+Message-ID: <6e4b66fe-dbb3-4149-ac7e-8ae333d6fc9d@gmail.com>
+Date: Thu, 25 Jan 2024 00:02:20 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240110145533.60234-1-parri.andrea@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: docs: requirements.txt has stopped working again
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <cb72b3d6-de7a-4c8a-a99c-72d58a23f89c@gmail.com>
+ <b0ddcb5d-e735-437c-a828-5e400facb978@oracle.com> <878r4gnsev.fsf@intel.com>
+ <2018acaa-a6ce-4074-b3e1-1a12018573fb@oracle.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <2018acaa-a6ce-4074-b3e1-1a12018573fb@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 10, 2024 at 03:55:29PM +0100, Andrea Parri wrote:
-> Changes since v2 ([1]):
->   - amaned inline comments
->   - drop ARCH_HAS_MEMBARRIER, create membarrrier.rst
+On Tue, 23 Jan 2024 14:21:32 +0100, Vegard Nossum wrote:
+> On 23/01/2024 13:30, Jani Nikula wrote:
+>> On the other hand, if you're using a virtual environment, what's the
+>> point in holding back to a version as old as 2.4.4? You might just as
+>> well go for latest, specifying only the top level dependencies,
 > 
-> Changes since v1 ([2]):
->   - add smp_mb() in switch_mm()
->   - introduce ARCH_HAS_MEMBARRIER, amend documentation
+> Performance... Specifying exact package requirements like 2.4.4 is
+> useful since 2.4.4 is by far the fastest Sphinx version that builds our
+> documentation correctly (AFAICT) and build speed matters a lot when the
+> difference is 10 minutes vs 30 minutes.
 > 
-> Changes since RFC ([3]):
->   - introduce prepare_sync_core_cmd()
->   - fix nosmp builds
-> 
-> [1] https://lore.kernel.org/lkml/20231211094414.8078-1-parri.andrea@gmail.com/
-> [2] https://lore.kernel.org/lkml/20231127103235.28442-1-parri.andrea@gmail.com/
-> [3] https://lore.kernel.org/lkml/20230803040111.5101-1-parri.andrea@gmail.com/
-> 
-> Andrea Parri (4):
->   membarrier: riscv: Add full memory barrier in switch_mm()
->   membarrier: Create Documentation/scheduler/membarrier.rst
->   locking: Introduce prepare_sync_core_cmd()
->   membarrier: riscv: Provide core serializing command
 
-Gentle ping to the riscv&membarrier people who have survived the merge
-window: any other thoughts on this series? suggestions for a v4?
+I've never observed such a huge difference, probably because I almost
+always do clean build of the document, i.e., run "make cleandocs" before
+running "make htmldocs".
 
-  Andrea
+So I assumed the performance regression Vegard are emphasizing should
+be in incremental builds.
+
+Here are some of the results comparing v2.4.5, v4.3.2 (of ubuntu jammy),
+and v7.2.6.  (v2.4.5 needs "make -j2 htmldocs" to avoid OOM.)
+Incremental builds are done after moving from v6.7 to v6.8-rc1.
+
+VM spec used: memory: 8GB, threads: 4, ubuntu jammy
+
+data in each cell: elapsed time, max resident memory
+
+                                    v2.4.5        v4.3.2        v7.2.6
+  =============================  ============  ============  ============
+  clean build at v6.7            10m08s 3.3GB  10m31s 1.1GB  10m14s 1.2GB
+  incremental build at v6.8-rc1  11m22s 3.3GB  18m55s 1.2GB  19m50s 1.4GB
+  clean build at v6.8-rc1        10m45s 3.2GB  10m32s 1.2GB  10m13s 1.3GB
+
+  empty make at v6.8-rc1         3.3s          6.6s          7.0s
+  =============================  ============  ============  ============
+
+I took only one sample for each run, so these numbers should not be
+taken as representative, but they can still show tendencies.
+
+This means the slowness in incremental build is not improved in v7.2.6,
+which contradicts what Vegard said earlier in this thread.
+
+I think incremental build is what Jon uses in his merging.
+So I'm afraid the performance regression might be troublesome in Jon's
+workflow.
+
+HTH, Akira
+
