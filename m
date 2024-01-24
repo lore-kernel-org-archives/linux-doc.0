@@ -1,246 +1,210 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E848002E
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 18:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706120685; cv=none; b=TqQb0aej7rVToQZ+KQCfrrOCVAT57wjtcHUc0hYUpt6J2/tPvIGptzQ/jOv+Uakd6Y76RVH/Oycneh622aoP5F1MxuWqID7F4WiG4QtlL9ASYVsQfUfLstIKCkDDFYokKk40RHmGyaVxo/+Dtxus5I2Z3XgS1t3XiGCCJhVMlm0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706120685; c=relaxed/simple;
-	bh=d6GDc+QkNSrk9oyuCdAXMvGQPW/LMWt0q3wXnRE1Gzw=;
-	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
-	 Content-Type:Date:Message-ID; b=cAS2a+Okvd1coWj9Imf8BMlRIuhJb6oaeK3UM7M5c1Wc5UN4IDjQ7AW1kIpByQA9RGOQRxrUSZijRkhYoaEv0HzClQwbR21Dfl47ROIcqn8zGYxgjSWJlqhKlW0+PhJ/xh5oW69fqyslc1dQiSBlFTNEowJ+FDwHuDnYvzHKPc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=CivZpzLK; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D326312AAC5;
+	Wed, 24 Jan 2024 18:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706120728; cv=fail; b=X/LqG/yNmP+AJYfSj3gLQIdpdX6s8IK0Mlh+q8HPsBz8lH3FA8I2xEakqsfQE/eQxJborXkr/rKuLSdCSrSOpujpd2Bdegj9B7LInHUXtIMyzZ7u2A/g4upYio0ECz2tnfVtvDLkh14IG8RVTfy98bzhgLoJIYn4/X7efrudTfs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706120728; c=relaxed/simple;
+	bh=J2Qum9FDma1dzbaxsEYMsXEtxeulBszVpFJkxHk+M+4=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=L76R0pWHchXVC2uQzkJZKUPQ4PUGVOdGACOs09XidLX2Nmk4Invaq9VHAxVxkewIW6BOe8A9ITRNRokw4nS1PRO2+XjQSZq1ee3DyFjYUcpqc2CxxaAQuITj/GgDVKcOM/MjbUPDTMFHbg2RdfIM2rSTwupyzxLGw+aHW68dGQg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9IOxFEj; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="CivZpzLK"
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 8916440A15
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 18:24:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1706120680;
-	bh=WFJAzGJpjiEflCT7uULX/fRESimoKCgcTGRqRm1jnZ0=;
-	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
-	 Content-Type:Date:Message-ID;
-	b=CivZpzLK4xcy6D7z2a+VnR6U9d1zg+BlQyYNI9tfEdax+dV+7b6QfPcD3zQQEutz2
-	 MK85WspE7yHPi4OGws02b+imGpdZ04peFloVw7Epoht+QMu6KDfBjKlfqz5bv7p/IJ
-	 3KPAyjRppgjIbv/paETflhHVJn5o5BcxYucdZsltJ0uVD1xJvff7VkL+/NzWHCh2EW
-	 0ReLKGDCqRrKFwOIIVNb3xTxKqk8N4cet3z1rynmXKtrKZHh3j1HARDpgXn0cpfXdQ
-	 NAmW+8tehSjnUpwSnx6PiKPy7ne/1a4CmcuAQj5TkWcpPKxuvonQTnY3jE45/NunC/
-	 FtPNShRP8k0NA==
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-1d773abbf02so13175895ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 10:24:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706120679; x=1706725479;
-        h=message-id:date:content-transfer-encoding:content-id:mime-version
-         :comments:references:in-reply-to:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WFJAzGJpjiEflCT7uULX/fRESimoKCgcTGRqRm1jnZ0=;
-        b=Yk4O4Dw2ufj78CwfNlNBuSxUVnYd3CWoPRxryzA567IeLrk6d1NGfLRHXDM6nqR30P
-         anVzZwkg4LdnP2TUHYsstQfGLMp6Hb4h/soaaS30k0FDbMZWu0CeVEdGmCfCSBmnSu67
-         fBgQ0Yawl+rjeLHZo/IWOuLplBhdarg8m6XRO2DkV0XXqe2CEX6XmPIsKFCJEiIdzL4P
-         WW2BxD5P77wxZMaxiZQuud2ZQdTfowvStJfKmz0XiVdj2IA1+c77g3PPsHgPfMs6T7om
-         jTDe4hahgv3E8772URIDZ8a3xDoWQq8tDd/S3a/WuRCy9iJ1FhVe3cpoFDCPkjfQ28oc
-         sT5g==
-X-Gm-Message-State: AOJu0YxQSr+VRFvfpTIv8ygpmSqLB6XeP0X7MvB6XqRMM3u3eCHZe6TG
-	hjT2c3VPZPrr3yvQE5WAjLgi9iPOFS78SCLkJzb5g8rKsm79pYhbBwbHjxkvjPOcVvgsIFEGQzp
-	KTZLwXpzOQUnyIzPe4MZcivdYpjVGzl469yQqkXZrI/DcrqFxs7FzuDFyvz24Y5jF4cBj+f3tbA
-	==
-X-Received: by 2002:a17:902:e9c4:b0:1d7:3687:ca33 with SMTP id 4-20020a170902e9c400b001d73687ca33mr1175137plk.68.1706120679035;
-        Wed, 24 Jan 2024 10:24:39 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGOVgCZ+57YFrf80kfBTxr3WLJy7dvkAlYiXQXpAyKtlTZIwxzv+zgQyjCVZ5Zkb+L9cuUcRg==
-X-Received: by 2002:a17:902:e9c4:b0:1d7:3687:ca33 with SMTP id 4-20020a170902e9c400b001d73687ca33mr1175120plk.68.1706120678727;
-        Wed, 24 Jan 2024 10:24:38 -0800 (PST)
-Received: from famine.localdomain ([50.125.80.253])
-        by smtp.gmail.com with ESMTPSA id i5-20020a17090332c500b001d7715031f9sm2812198plr.171.2024.01.24.10.24.38
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Jan 2024 10:24:38 -0800 (PST)
-Received: by famine.localdomain (Postfix, from userid 1000)
-	id D75A35FFF6; Wed, 24 Jan 2024 10:24:37 -0800 (PST)
-Received: from famine (localhost [127.0.0.1])
-	by famine.localdomain (Postfix) with ESMTP id CF99A9FB50;
-	Wed, 24 Jan 2024 10:24:37 -0800 (PST)
-From: Jay Vosburgh <jay.vosburgh@canonical.com>
-To: Benjamin Poirier <bpoirier@nvidia.com>
-cc: netdev@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-    Jonathan Corbet <corbet@lwn.net>,
-    Andy Gospodarek <andy@greyhouse.net>, Andrew Lunn <andrew@lunn.ch>,
-    Florian Fainelli <f.fainelli@gmail.com>,
-    Vladimir Oltean <olteanv@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-    "David S. Miller" <davem@davemloft.net>,
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-    Paolo Abeni <pabeni@redhat.com>, Petr Machata <petrm@nvidia.com>,
-    Danielle Ratson <danieller@nvidia.com>,
-    Nikolay Aleksandrov <razor@blackwall.org>,
-    Ido Schimmel <idosch@nvidia.com>,
-    Johannes Nixdorf <jnixdorf-oss@avm.de>,
-    Davide Caratti <dcaratti@redhat.com>,
-    Tobias Waldekranz <tobias@waldekranz.com>,
-    Zahari Doychev <zdoychev@maxlinear.com>,
-    Hangbin Liu <liuhangbin@gmail.com>, linux-kselftest@vger.kernel.org,
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 2/6] selftests: bonding: Add net/forwarding/lib.sh to TEST_INCLUDES
-In-reply-to: <20240124170222.261664-3-bpoirier@nvidia.com>
-References: <20240124170222.261664-1-bpoirier@nvidia.com> <20240124170222.261664-3-bpoirier@nvidia.com>
-Comments: In-reply-to Benjamin Poirier <bpoirier@nvidia.com>
-   message dated "Wed, 24 Jan 2024 12:02:18 -0500."
-X-Mailer: MH-E 8.6+git; nmh 1.6; Emacs 29.0.50
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9IOxFEj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706120727; x=1737656727;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=J2Qum9FDma1dzbaxsEYMsXEtxeulBszVpFJkxHk+M+4=;
+  b=X9IOxFEj8zGLVLSCUi4bfALVAbLNnjV/ceO3NntyhLtIlGfe4/ptjwa+
+   9lzG1YrtvgXDXfYBUe/q8E4KBIfTA6AI6bMB1lYJZBhbNUoYQUpTdT/B4
+   cTHOHzR50P+A4Ic41xehgr7KIfJlMbPViSftVgsakp8E3Ul+lQgIh5szV
+   hytHnQ7AEBOa7nQb2fdX5zBhdfBljBjMpFVj8tAG+Gmflk6peNjvLCOHR
+   y8ZISd1fcgDBJWZvYIpHV3qLc9axLAMoqqk8VC3WmQNVa6eRDMOP7sRJ5
+   YeyvOR/lpjXrlbmKF0fhgOIaF/6ALQfwCOTUiWEX0sd2Ds2TMYQxtPFPk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8698734"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="8698734"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 10:25:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="876778044"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="876778044"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 24 Jan 2024 10:25:24 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 24 Jan 2024 10:25:23 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 24 Jan 2024 10:25:23 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 24 Jan 2024 10:25:23 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.40) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 24 Jan 2024 10:25:22 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bqLjmVNGbVDu3sbUanIicLIorbXuRJUyRslorf8MQ7+EadF5dnFtBqKV1Ga7r8/m9BiodrWdMdkNWjcoCahv7mH5QrvIi9rrAJb1gcZTspXAnq2pimvWQvadL0SNFBjnIdpiJagQBY4boHSj9terZCyTDmqGxO5kAjLeprOorKX3N/YwcSwf356Jflil2QLQuDFx5DFDf962pR2D8s6mos7QHslJnm5XW4awrv5N5j2sP8Aflg4RugSBDQvPKyH+98Zq/o4RLtuz52AWCqycZJA9H4JgRjKqrQxsEJmaUJkmhzV8HfQzwikgrWZCG0D9R2Ru1g2aUi8FanJBn1knLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M1+3dyPJds5MomOEdI15f1sQqmXff7rJ9cT8AAFS+Hs=;
+ b=FufWJPPi77wA3ev2Hts2rEHkyV0JRH2j7B2hWOkzex4WpJHqXnFiCHf6ZkE5y9rL/ZSGNNeOxTgRUj0JWLWINb15bdK7ZW08dU0cM1UpY0hvsQWyoB5foqiSS4O4k5A3g9mztUB4SYNNgCQSOe0T2Xyid8zvrWIhAiJJwaJcLjONXnrHD54pF3X/c3NjmEfhP/N55ur1a8UfhvigTcDsRZ5LcJG2wOkpRTKWfnaE93gaNUn6hL5IsORUp+kZs9qE0vNjxlSsFXmtPawn7rv4tT2vdyYJeDRbuwWG0kI5W+B7kCsT+yPACP3dWcqSCOfCS4dJEyzZuXj6o/nN+9FNng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SA1PR11MB8319.namprd11.prod.outlook.com (2603:10b6:806:38c::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Wed, 24 Jan
+ 2024 18:25:20 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::c903:6ee5:ed69:f4fa]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::c903:6ee5:ed69:f4fa%7]) with mapi id 15.20.7202.034; Wed, 24 Jan 2024
+ 18:25:20 +0000
+Message-ID: <39c4501e-4937-49de-b12b-742e6201df6f@intel.com>
+Date: Wed, 24 Jan 2024 10:25:17 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] x86/resctrl: Fix unneeded variable warning reported by
+ kernel test robot
+Content-Language: en-US
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
+	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
+	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>
+References: <202401241810.jbd8Ipa1-lkp@intel.com>
+ <84128a3c83654493f637b8349153af10d69e2752.1706118776.git.babu.moger@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <84128a3c83654493f637b8349153af10d69e2752.1706118776.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0317.namprd04.prod.outlook.com
+ (2603:10b6:303:82::22) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8204.1706120677.1@famine>
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Jan 2024 10:24:37 -0800
-Message-ID: <8205.1706120677@famine>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA1PR11MB8319:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6d7ac80-1fba-4029-a21a-08dc1d09d226
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nxez95GLbvSJjB58/heC8xpEZxClFN7sdaP4o4I7tBfwsU/CZ3FbMarzbMtbVVLKwrsnD/zDMDaGyDp+XZwjicuOL3mItHeBtrnrABPYf40u48t1n/xJon/eG0AoHslI2R4avl+MNn5s3RZADWrNwR3SnUQVtRGazMSARm+dDCQ4qyke7ZoWLF8f7TbUIxqS/btvrnfv9dxaCVoVBrQnjYx6qgYq1x+nP7//iLynAlBREj92vVNBMAxZl7+254lQkpAm5m9gQY5qW77WptLyTHDi4tEeeB6KA+bSnoaJ15qNgNP+J7Rwb9qla30tQJoHkcgNEUHydCbovwfdsqT0/sax/9ubMkTezBDlg0ezE3nBwGRyy+5TWVWbpEGdR1xkc+PoQ8Zg7uaqfxJCbXGlW5LeOIGyUqTQol9b9n5+qQ8ciK/nQpUmnFmJddePO0dTD3lDJZULV0sK8VIyY6tS/ilB8vUtjZKiljBi2tBi+7LYKczszDS6EXHx2gPHH6ghPxkoJOsLbpDvwBoVGKOMAA1OK3decLDcqyFONuf3AhGh70t4rvYselifw7kMHTqJG69/vs7jjrx5Zprp8ls6EYYWE50LZyOScdMLwIlD5Uzd/fFaj/QELu9483Ya8xQ+exDUVDrJZDhwufg5CF8CID+eDDhRm2wImC+tNmsyrd2z/OMXQ0lfQVVPUId/1M75
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(39860400002)(136003)(376002)(346002)(230173577357003)(230922051799003)(230273577357003)(64100799003)(186009)(1800799012)(451199024)(66556008)(82960400001)(38100700002)(478600001)(53546011)(6506007)(6486002)(86362001)(31696002)(41300700001)(36756003)(966005)(26005)(8676002)(6666004)(8936002)(2616005)(4326008)(316002)(66476007)(66946007)(7416002)(5660300002)(6512007)(2906002)(83380400001)(44832011)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NytpeCtpUXJFM2k2MGdZNURvWVYvUDNBaEYzR3JwZndZZktEaU5nMmZhM2sy?=
+ =?utf-8?B?a1EvSUJPaDh5OGlqekY3ZE8wYmVTZW5BK2pya1dhcmVLRHNFbVRGWmpYOHVr?=
+ =?utf-8?B?Z0JZSlk1bFU1Mmh0T1ZYd1JFU1Q1eGhhVElJOEpscWlNaytwYXc3dTNCMzB6?=
+ =?utf-8?B?UFdjaG0rNHpONXJJVDFTM1NWSStPVmowSmkzYlFMYWRMU3lqUW5rUWN0OGFM?=
+ =?utf-8?B?Q1FKa0QyM3BadUw3Wlovem0rNUMxcmRKTUdwWU52L1VvUTMwOXpwWUhTU1Vw?=
+ =?utf-8?B?ZTBFd3hGQ0ZEc2FvRHYyRVNSeEFCcTBmUklac1YwUDh1T28wdS9lNmJsVUha?=
+ =?utf-8?B?Y3B0V1lPNDlZbjNqYVc2VXZINnV3bm4weFRkemUraGxxTnc4VE1ZaitZTUN4?=
+ =?utf-8?B?WFJ5dXBwZ3hmQU5kRjRoTGMxbTR4TVBaV0RrbDNZblpWQkIyUURzYlR4TG5j?=
+ =?utf-8?B?UzdOL3A5ckFLTVJ3aUFFdE0xaTNBNnJCMWVRZ3ptQ2YzVWJjQ1ljbXpwMkxn?=
+ =?utf-8?B?TWFGdlQ1eGdycm9maUZxVkhpK2VkdlBCdW9YN1hZUjBFcndudXltamk2QU53?=
+ =?utf-8?B?RWYzKzMwYzBHYklYYnBUTGxFajhCYWhxM0h4RXlYOVJrbndhYjUweUdqdjlL?=
+ =?utf-8?B?Yzg5TFcrUkRNd2tBaFptTndFbTYyTVJHd05kbnJWdG5DSXZOR1FlWlVKM3Q1?=
+ =?utf-8?B?eE41QnNsZmx4eFloZ3hFazc3UUdYVDNOL3lKZ1hkOUswekc0N0VOVU5ZVGV6?=
+ =?utf-8?B?eUFtNmNGL3NiYlA1WkpuUDFNbEwzRVNpUmhVZk5CYSt6TFRicWdqbmhsNHlW?=
+ =?utf-8?B?Z01OTncrZW1RSVVwMzlHSTlML05oaWd5Y2lMK1IrMGlzaFhyVU5udk45RGRK?=
+ =?utf-8?B?N3ZnSFJLWnBzK1pheWlRNHJlL0tGSDlQNHhSeC9nVlp0TTJPU0lUTnFtL21E?=
+ =?utf-8?B?VVlTdVc0RHJmQXBDajFERmRsOFpQbWo1NURoWkhNUWo2Qlk5WDJ1TFRQL0Nh?=
+ =?utf-8?B?cGx2VzJRR0pmZnk0YmRDN21rMnJyanJlc2l5cUN1RVB3L0lNZjd1eGp3VG51?=
+ =?utf-8?B?K3ZtcmNocDdyVGxpUk5yVnd0UjdTaHJ5bHRmNllzY0RjOWxpTVM2RVZxaGMx?=
+ =?utf-8?B?dDc4L3NpTFNmMzltaTVCTnlOTFIzSWlJVlduQWgvdjA2SGkvTm16YWdRUDVL?=
+ =?utf-8?B?TWo1V0xBMDdRdzdSYmRUV3pob2Q0QWc4QlE1ejVIZTBNRUdvOWI2V2tERzhK?=
+ =?utf-8?B?aFdoMkk4d05ndjhNUkRDcy84NUhuSTZhQlFHMHFqL1pKUS9DTCtHbmdBbElv?=
+ =?utf-8?B?V3hib2dYR2lsbUkyemtPallDZHRPSkJNRVRNejhVYVJuem9uVjJOZkpUSDBv?=
+ =?utf-8?B?bnpMdlZiVnBUQVordFpVMkdzcnd5eGxGajNmek04TEtleVkvSFIxaUJlVUYz?=
+ =?utf-8?B?SDR2ZzcrTEVIRktxbXMvVGQ3dUoxZk9hR21ZZElZQjhpZHVrZE5CN2N5aFg0?=
+ =?utf-8?B?S0M3SmpXYXJqNFhRTFBnSjFENlllRG81bGJheklQK2hPQU81MGlGMHZsSUtx?=
+ =?utf-8?B?cVM0RitvOXNpaXN3N21SQ2krdXBoNlkxRzlpQmNwb2ZNd0RhY3ltVjduMUpI?=
+ =?utf-8?B?QWdCQzhRcnBqN2RVYWpHcmY3Tlo5b1RzNFhGaThCZWF3alJjK1Z6N3k1ZGNL?=
+ =?utf-8?B?Z0dzb1NWaWFZVmgxRVVXbk9kbVM2UW1rNDNScms5ZnhXMTROYW1uVTlGTm1D?=
+ =?utf-8?B?MDEvUEszcW9jVG9qZVE0ZkJoQXhGRXMzaWl2dGROaUJCbEoyeStBejd3VmJr?=
+ =?utf-8?B?UE83Z3ZHcndOWi9ucW8xRnZrMzA1WEkrS0ZEUmRHbGl6Qk9DNnoxNllVWmNE?=
+ =?utf-8?B?dytCbzYvTjZHVmUvb3ptc0pLWFhlUmVUcEpJSzFHaG92SzNmNnZqNHdlRFhx?=
+ =?utf-8?B?dG5lays4amc4MytMK2lNakE3YzZuVkcxMitOSktZMHZNZytDbjJ4OFR3d0tj?=
+ =?utf-8?B?TkFWSThMM3dBempIL3hmbVlSWExkdDFKWStwbjJmOVEya2pUejJTWUxRL3o3?=
+ =?utf-8?B?anB4T243cElORVg2dG41bCtWUDJqMHg3VDRlMzA5OWd3Q1V0cUtQYlpicXd3?=
+ =?utf-8?B?TmEwaGphTFZGZWQwU2MycEhkOVdRRHlWdmRUVVhvN2V0aUpFa3Y5S3k2M1hE?=
+ =?utf-8?B?RkE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6d7ac80-1fba-4029-a21a-08dc1d09d226
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 18:25:19.8981
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zIJjYi/3sdjeP/lh9HN7R1jo0ASl877KBQVp2A3qhiF3l2B7JNh7pmfjC5h2Fcq2pYoRYz0FTcKOtl5a1Z8uEeXw9C8fueOxTssbBLGEXb8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8319
+X-OriginatorOrg: intel.com
 
-Benjamin Poirier <bpoirier@nvidia.com> wrote:
+Hi Babu,
 
->In order to avoid duplicated files when both the bonding and forwarding
->tests are exported together, add net/forwarding/lib.sh to TEST_INCLUDES a=
-nd
->include it via its relative path.
->
->Reviewed-by: Petr Machata <petrm@nvidia.com>
->Tested-by: Petr Machata <petrm@nvidia.com>
->Signed-off-by: Benjamin Poirier <bpoirier@nvidia.com>
->---
-> tools/testing/selftests/drivers/net/bonding/Makefile        | 6 ++++--
-> .../selftests/drivers/net/bonding/bond-eth-type-change.sh   | 2 +-
-> .../testing/selftests/drivers/net/bonding/bond_topo_2d1c.sh | 2 +-
-> .../testing/selftests/drivers/net/bonding/dev_addr_lists.sh | 2 +-
-> .../drivers/net/bonding/mode-1-recovery-updelay.sh          | 2 +-
-> .../drivers/net/bonding/mode-2-recovery-updelay.sh          | 2 +-
-> .../selftests/drivers/net/bonding/net_forwarding_lib.sh     | 1 -
-> 7 files changed, 9 insertions(+), 8 deletions(-)
-> delete mode 120000 tools/testing/selftests/drivers/net/bonding/net_forwa=
-rding_lib.sh
->
->diff --git a/tools/testing/selftests/drivers/net/bonding/Makefile b/tools=
-/testing/selftests/drivers/net/bonding/Makefile
->index 8a72bb7de70f..1e10a1f06faf 100644
->--- a/tools/testing/selftests/drivers/net/bonding/Makefile
->+++ b/tools/testing/selftests/drivers/net/bonding/Makefile
->@@ -15,7 +15,9 @@ TEST_PROGS :=3D \
-> TEST_FILES :=3D \
-> 	lag_lib.sh \
-> 	bond_topo_2d1c.sh \
->-	bond_topo_3d1c.sh \
->-	net_forwarding_lib.sh
->+	bond_topo_3d1c.sh
->+
->+TEST_INCLUDES :=3D \
->+	../../../net/forwarding/lib.sh
-> =
+Thank you for fixing this so promptly.
 
-> include ../../../lib.mk
->diff --git a/tools/testing/selftests/drivers/net/bonding/bond-eth-type-ch=
-ange.sh b/tools/testing/selftests/drivers/net/bonding/bond-eth-type-change=
-.sh
->index 862e947e17c7..8293dbc7c18f 100755
->--- a/tools/testing/selftests/drivers/net/bonding/bond-eth-type-change.sh
->+++ b/tools/testing/selftests/drivers/net/bonding/bond-eth-type-change.sh
->@@ -11,7 +11,7 @@ ALL_TESTS=3D"
-> REQUIRE_MZ=3Dno
-> NUM_NETIFS=3D0
-> lib_dir=3D$(dirname "$0")
->-source "$lib_dir"/net_forwarding_lib.sh
->+source "$lib_dir"/../../../net/forwarding/lib.sh
-> =
+I think the subject can just be:
+"x86/resctrl: Remove unneeded variable"
 
-> bond_check_flags()
-> {
->diff --git a/tools/testing/selftests/drivers/net/bonding/bond_topo_2d1c.s=
-h b/tools/testing/selftests/drivers/net/bonding/bond_topo_2d1c.sh
->index a509ef949dcf..0eb7edfb584c 100644
->--- a/tools/testing/selftests/drivers/net/bonding/bond_topo_2d1c.sh
->+++ b/tools/testing/selftests/drivers/net/bonding/bond_topo_2d1c.sh
->@@ -28,7 +28,7 @@
-> REQUIRE_MZ=3Dno
-> NUM_NETIFS=3D0
-> lib_dir=3D$(dirname "$0")
->-source ${lib_dir}/net_forwarding_lib.sh
->+source "$lib_dir"/../../../net/forwarding/lib.sh
+On 1/24/2024 9:52 AM, Babu Moger wrote:
+> kernel test robot reported the following warning after the commit
+> 54e35eb8611c ("x86/resctrl: Read supported bandwidth sources from CPUID").
 
-	Is there a way to pass TEST_INCLUDES via the environment or as a
-parameter, so that it's not necessary to hard code the path name here
-and in the similar cases below?
+This can be confusing since it implies that the patch you mention
+introduces the issue but instead the variable has been unneeded since
+the original:
+92bd5a139033 ("x86/resctrl: Add interface to write mbm_total_bytes_config")
 
-	-J
+To help clarify you can mention this order of events and also add an
+appropriate "Fixes:" tag.
 
-> s_ns=3D"s-$(mktemp -u XXXXXX)"
-> c_ns=3D"c-$(mktemp -u XXXXXX)"
->diff --git a/tools/testing/selftests/drivers/net/bonding/dev_addr_lists.s=
-h b/tools/testing/selftests/drivers/net/bonding/dev_addr_lists.sh
->index 5cfe7d8ebc25..e6fa24eded5b 100755
->--- a/tools/testing/selftests/drivers/net/bonding/dev_addr_lists.sh
->+++ b/tools/testing/selftests/drivers/net/bonding/dev_addr_lists.sh
->@@ -14,7 +14,7 @@ ALL_TESTS=3D"
-> REQUIRE_MZ=3Dno
-> NUM_NETIFS=3D0
-> lib_dir=3D$(dirname "$0")
->-source "$lib_dir"/net_forwarding_lib.sh
->+source "$lib_dir"/../../../net/forwarding/lib.sh
-> =
+> cocci warnings: (new ones prefixed by >>)
+>>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:1621:5-8: Unneeded variable: "ret". Return "  0" on line 1655
+> 
+> Fix the warning by removing the variable "ret" and returning 0 directly.
 
-> source "$lib_dir"/lag_lib.sh
-> =
+cocci warning was spot on*. This fix is not just a change to "make a
+warning go away" but instead fixing an actual problem.
+It can just be "Remove the unneeded variable and return 0 directly".
 
->diff --git a/tools/testing/selftests/drivers/net/bonding/mode-1-recovery-=
-updelay.sh b/tools/testing/selftests/drivers/net/bonding/mode-1-recovery-u=
-pdelay.sh
->index b76bf5030952..9d26ab4cad0b 100755
->--- a/tools/testing/selftests/drivers/net/bonding/mode-1-recovery-updelay=
-.sh
->+++ b/tools/testing/selftests/drivers/net/bonding/mode-1-recovery-updelay=
-.sh
->@@ -23,7 +23,7 @@ REQUIRE_MZ=3Dno
-> REQUIRE_JQ=3Dno
-> NUM_NETIFS=3D0
-> lib_dir=3D$(dirname "$0")
->-source "$lib_dir"/net_forwarding_lib.sh
->+source "$lib_dir"/../../../net/forwarding/lib.sh
-> source "$lib_dir"/lag_lib.sh
-> =
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202401241810.jbd8Ipa1-lkp@intel.com/
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
 
-> cleanup()
->diff --git a/tools/testing/selftests/drivers/net/bonding/mode-2-recovery-=
-updelay.sh b/tools/testing/selftests/drivers/net/bonding/mode-2-recovery-u=
-pdelay.sh
->index 8c2619002147..2d275b3e47dd 100755
->--- a/tools/testing/selftests/drivers/net/bonding/mode-2-recovery-updelay=
-.sh
->+++ b/tools/testing/selftests/drivers/net/bonding/mode-2-recovery-updelay=
-.sh
->@@ -23,7 +23,7 @@ REQUIRE_MZ=3Dno
-> REQUIRE_JQ=3Dno
-> NUM_NETIFS=3D0
-> lib_dir=3D$(dirname "$0")
->-source "$lib_dir"/net_forwarding_lib.sh
->+source "$lib_dir"/../../../net/forwarding/lib.sh
-> source "$lib_dir"/lag_lib.sh
-> =
+Reinette
 
-> cleanup()
->diff --git a/tools/testing/selftests/drivers/net/bonding/net_forwarding_l=
-ib.sh b/tools/testing/selftests/drivers/net/bonding/net_forwarding_lib.sh
->deleted file mode 120000
->index 39c96828c5ef..000000000000
->--- a/tools/testing/selftests/drivers/net/bonding/net_forwarding_lib.sh
->+++ /dev/null
->@@ -1 +0,0 @@
->-../../../net/forwarding/lib.sh
->\ No newline at end of file
->-- =
-
->2.43.0
->
->
+* I'll add a private setup with the goal to catch these earlier.
