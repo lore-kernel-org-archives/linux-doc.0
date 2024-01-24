@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3959F7A701;
-	Wed, 24 Jan 2024 14:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67BBD7A701;
+	Wed, 24 Jan 2024 14:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706105093; cv=none; b=riB4QXUz6HTOBlGGTrmCesq3lrb7y45H3URHPnVueigAsumbjFdqLghrQb5tbQ9wOJoUFGQ/zXYP8Z2JOScPaBNexj96NTwBD8XkYhDb3zZjNM/1lnqY4KP+0JtvUrBafVAXSxRnWegINGe/WDj5xPUySt+9FHsr0Yi2dt++WCs=
+	t=1706105397; cv=none; b=HcSLvS/sGFSXCfuyuFLbekU4tgDW+z1epqLYv4VVOj3pyo3StIziewa9FYKl1V5yg3ZhsHwf/qqiPs91MzywBOC1a0X+N+P41l4q5VV7IhexvEXPXuupok6DpyzWRLDdHcdLh3vDGB6rVRt33ky9cV5oYbVlhsSdbkNlRzsE3X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706105093; c=relaxed/simple;
-	bh=GgyKihouqlIoqQ51JN3lEJ59Za58IW34ydt615YzQ9A=;
+	s=arc-20240116; t=1706105397; c=relaxed/simple;
+	bh=qCGKRcoywPioNujxDqiV9k0jNhIKWOBNvLrRohxfy5U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mohvs05fhO+vb0zbH8boOYN6EDgFwLXJ0wd7U/DP8U42bUgxBd18G30s//SkmhYOFrPRPElJpat26dqtD8Vn/+jXddXsE8rDjVyi2+LRdewNdH6SZLDIgNZ0SV3NBhGYrgOxQpkFeEQUknG2gKrp66oMg4Dn3tX8US40OB8Kupc=
+	 Content-Type:Content-Disposition:In-Reply-To; b=q4+tBsWLhxWEat0/CCfQEXw0Tjz7KbbZa1xKuKQU43BWwCBAZazQ1WcxIkuHrBhVXEjiS4yqzhw+1GbLB99bkoiQc0E5OqRMxMOTnmOqCR3I3Bvbeg02wKi04BuF/LT7tm16upfAvTh5Y/x3TCcj0UtVC2ic2RB1HGVkbkYSnf0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 822B81FB;
-	Wed, 24 Jan 2024 06:05:35 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C293E1FB;
+	Wed, 24 Jan 2024 06:10:39 -0800 (PST)
 Received: from e133380.arm.com (e133380.arm.com [10.1.197.58])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 44E503F5A1;
-	Wed, 24 Jan 2024 06:04:49 -0800 (PST)
-Date: Wed, 24 Jan 2024 14:04:42 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A31E3F5A1;
+	Wed, 24 Jan 2024 06:09:53 -0800 (PST)
+Date: Wed, 24 Jan 2024 14:09:51 +0000
 From: Dave Martin <Dave.Martin@arm.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
@@ -26,15 +26,13 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
-Subject: Re: [PATCH 1/4] arm64/sve: Remove bitrotted comment about syscall
- behaviour
-Message-ID: <ZbEY+n11M9lQGsWA@e133380.arm.com>
+Subject: Re: [PATCH 3/4] arm64/fp: Clarify effect of setting an unsupported
+ system VL
+Message-ID: <ZbEaL5MAPJe7+4uQ@e133380.arm.com>
 References: <20240122-arm64-sve-sme-doc-v1-0-3d492e45265b@kernel.org>
- <20240122-arm64-sve-sme-doc-v1-1-3d492e45265b@kernel.org>
- <Za/e15zUOEaa1b7d@e133380.arm.com>
- <991d84b4-e184-4fd6-900f-601f8c31d518@sirena.org.uk>
- <Za/9SawqwXmlG/9B@e133380.arm.com>
- <ede05e2d-0cde-4de1-b2db-d40df19d7075@sirena.org.uk>
+ <20240122-arm64-sve-sme-doc-v1-3-3d492e45265b@kernel.org>
+ <Za/gB3oCNAyiPPnu@e133380.arm.com>
+ <46571fac-28bf-4c6e-a5a4-38b1182b93a0@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,35 +41,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ede05e2d-0cde-4de1-b2db-d40df19d7075@sirena.org.uk>
+In-Reply-To: <46571fac-28bf-4c6e-a5a4-38b1182b93a0@sirena.org.uk>
 
-On Tue, Jan 23, 2024 at 06:11:52PM +0000, Mark Brown wrote:
-> On Tue, Jan 23, 2024 at 05:54:17PM +0000, Dave Martin wrote:
+On Tue, Jan 23, 2024 at 06:42:03PM +0000, Mark Brown wrote:
+> On Tue, Jan 23, 2024 at 03:49:27PM +0000, Dave Martin wrote:
+> > On Mon, Jan 22, 2024 at 08:41:53PM +0000, Mark Brown wrote:
 > 
-> > I still feel that it is iffy practice for userspace to rely on the
-> > extra bits being zeroed -- I think the architecture hides this
-> > guarantee anyway whenever you go through a function call confirming to
-> > the regular procedure call standard (including the syscall wrappers).
-> > But there may not be a lot of point trying to put people off if we
-> > can't force them not to rely on it.
+> > >  /proc/sys/abi/sme_default_vector_length
+> > >  
+> > >      Writing the text representation of an integer to this file sets the system
+> > > -    default vector length to the specified value, unless the value is greater
+> > > -    than the maximum vector length supported by the system in which case the
+> > > -    default vector length is set to that maximum.
+> > > +    default vector length to the specified value rounded to a supported value
+> > > +    using the same rules as for setting vector length via prctl().
 > 
-> I do tend to agree that the requirement to zero is excessively zealous
-> and that the risk from relaxing it is minor (it's stricter than the
-> function call ABI), I did leave a sysctl as a mechanism for restoring
-> compatibility in the case where we did run into issues in my original
-> series but I didn't expect to need it.  If you convince everyone else
-> I'd be happy to relax things but I don't super care either way.
+> > Do parallel changes need to be made in sve.rst?
+> 
+> They are, in this very patch?
 
-[...]
+Duh, yes.  My brain seems to have auto-ignored the second hunk, since it
+was clearly a duplicate :P
 
-I don't feel that strongly about it.
+> > (There seems to be so much duplication and copy-paste between these
+> > files that I wonder whether it would make sense to merge them...  but
+> > that's probably a separate discussion.)
+> 
+> Indeed, thanks for volunteering.  Note that there are differences
+> resulting from specification differences.
 
-Ideally we'd have gone for the fully relaxed approach from the start,
-but it's hard to test whether "unspecified" registers aren't leaking
-data from somewhere they shouldn't.
+Thanks for agreeing to an unspecfied deadline ;)
 
-Given that the decision has been made anyway, the documentation should
-not send mixed messages, so:
+I might have a go at some point though, just to familiarise myself with
+the differences...
 
-Reviewed-by: Dave Martin <Dave.Martin@arm.com>
+> > Nit: is it better to name the prctl here than just to say prctl()?
+> > That would be easier for the reader to cross-reference.
+> 
+> I guess, though it doesn't seem entirely idiomatic.
 
+I expect counterexamples can be found, but I guess the reader can figure
+it out either way.
+
+Cheers
+---Dave
