@@ -1,194 +1,316 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC19130E5D
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 17:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27436E2DE;
+	Thu, 25 Jan 2024 17:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706202562; cv=none; b=rHXJMLt3OZrmKzK25RQSWIwDC+4iF/ggo25np8i562rHZhZv20S7V0X7UOFZswDuF50VnSVvcYhF6SDv0tY6BAMG4rz3aHBa6OEJrDGirz+6+icS92W6jhX7E6riAMYpS57BfP06bldqSDWMrYd+devTCooOK0bUg0OnOD1Ms5I=
+	t=1706203106; cv=none; b=gOyHdhPfjCRe2MBLB/Bo4d3kB9hYRYtN+7gYZbWwSb5+i64AsvrB5MuSVgXNbLKWqG3ix/Yj1fLsexhHEa4iGxt4RGHvuoXYxfsWuWPCxreFnC+XeCYRb81G/+MLaeUcsSoe89bbxCbWWIitL4tshdz0z34Y7bWJMOsmUyvliz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706202562; c=relaxed/simple;
-	bh=SYP5SuCzecJg/AbMI+aiTjZqTA04WqjPusKcUYsXjXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nNOCnJCOzpXxE7DGKj9RfmwYQU7fCV9M/cua/sncMxrOJTHksTq5gc7cOApgZP5OWRaKbuHWiTmIfd95VzoCYeOzbCza3mBRIh/u3NJtfW8zZVfbFwqc2gFwb9a649Po6av/w2rz8leqWqTgFYwHtuMJrE7FZW55KAG1bdLKqz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=wWxB6UTz; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="wWxB6UTz"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6d9b37f4804so669340b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 09:09:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1706202560; x=1706807360; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EemHHEVJxCejDW2IGmWybsIfYtaSynaTSK4azEaq/DU=;
-        b=wWxB6UTzC752chpv9Ex6QtzPlDcXZCYcUzrQ39rHeCXZCx0ugi59QuQ5HcMpjSm2fS
-         6lAivpF8m4CyLmGbvvFo9dr6Ve6NuXhKeRS5/kxBJ24Rf9QTbnzvCpUgAZ1K8xSfi3o+
-         9dAaOzASZoMzm2tnA5qQoUdKon0uPc042Zor/AJTthSQMkg1DWUGrbDkjjc++8V3imHl
-         +RlWnYje6UplVxu8RdlbYeY8EoNa/qaZPjylUEDaxLEQq4r5Bj5mNfrenqAepVh+P1EU
-         qAO8x9NbM4c5eGD4CvKZ+MC2e6FupknCCBBthBiBpn6rfcINTVglRhcmFkzmHSTWn2cr
-         FI1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706202560; x=1706807360;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EemHHEVJxCejDW2IGmWybsIfYtaSynaTSK4azEaq/DU=;
-        b=RiBzcelFvBjh+Qz/x9mRYDtHHbCG93+nRdVuQjlhl8rOzA5kZiDICcm9pqd+gTaHHb
-         +RpcXG1cFtCDc3Gs6qR080o5WaCj/DNgGLDRPoMgonUF7VDWPAh4zYr895rNO1IAYs3s
-         BMrcr7bMvN8fwVHEobAPKeBK0uRJAA82BK5tWsoY5HiflvJn+6/lEM2yHl5U0kjNqNp1
-         WoC0QibyD+rxmhVyWaRc/Hf5AWqF67CC2iIOZfYxQ9SJtqxVRQq8s6wBTqboABA577Qt
-         nLQUn6rRzbRemGcI0Mag0McsYQ90U6e43ct6USlFd1LyGaaF1jp2SHedzplWPHlkP2qh
-         Kh7A==
-X-Gm-Message-State: AOJu0YwIqYMrUMs2wT7C2R+Wco8tzJMEhLgYxZMd88/KjR3ZQp4etSU/
-	NkdlX09hlAMeZUS0gqJgwV5GbBqsHwbrUBjSqDz2NrW4hkNCmGqH616wbocDSC4=
-X-Google-Smtp-Source: AGHT+IG/zy1hPfIMx5+FBiFJ5BLS8zAqpVXvwWyHDpqTcM52HEkGIjepOlIdme6VNMNiF/zcKBKxqQ==
-X-Received: by 2002:a05:6a00:b4f:b0:6db:ac96:f530 with SMTP id p15-20020a056a000b4f00b006dbac96f530mr221939pfo.24.1706202559878;
-        Thu, 25 Jan 2024 09:09:19 -0800 (PST)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id w128-20020a626286000000b006dde0724247sm180477pfb.149.2024.01.25.09.09.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 09:09:19 -0800 (PST)
-Date: Thu, 25 Jan 2024 09:09:14 -0800
-From: Deepak Gupta <debug@rivosinc.com>
-To: Stefan O'Rear <sorear@fastmail.com>
-Cc: rick.p.edgecombe@intel.com, broonie@kernel.org, Szabolcs.Nagy@arm.com,
-	"kito.cheng@sifive.com" <kito.cheng@sifive.com>,
-	Kees Cook <keescook@chromium.org>,
-	Andrew Jones <ajones@ventanamicro.com>, paul.walmsley@sifive.com,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Conor Dooley <conor.dooley@microchip.com>, cleger@rivosinc.com,
-	Atish Patra <atishp@atishpatra.org>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Albert Ou <aou@eecs.berkeley.edu>,
-	oleg@redhat.com, akpm@linux-foundation.org, arnd@arndb.de,
-	"Eric W. Biederman" <ebiederm@xmission.com>, shuah@kernel.org,
-	Christian Brauner <brauner@kernel.org>, guoren <guoren@kernel.org>,
-	samitolvanen@google.com, Evan Green <evan@rivosinc.com>,
-	xiao.w.wang@intel.com, Anup Patel <apatel@ventanamicro.com>,
-	mchitale@ventanamicro.com, waylingii@gmail.com,
-	greentime.hu@sifive.com, Heiko Stuebner <heiko@sntech.de>,
-	Jisheng Zhang <jszhang@kernel.org>, shikemeng@huaweicloud.com,
-	david@redhat.com, Charlie Jenkins <charlie@rivosinc.com>,
-	panqinglin2020@iscas.ac.cn, willy@infradead.org,
-	Vincent Chen <vincent.chen@sifive.com>,
-	Andy Chiu <andy.chiu@sifive.com>, Greg Ungerer <gerg@kernel.org>,
-	jeeheng.sia@starfivetech.com, mason.huo@starfivetech.com,
-	ancientmodern4@gmail.com, mathis.salmen@matsal.de,
-	cuiyunhui@bytedance.com, bhe@redhat.com, ruscur@russell.cc,
-	bgray@linux.ibm.com, alx@kernel.org, baruch@tkos.co.il,
-	zhangqing@loongson.cn, Catalin Marinas <catalin.marinas@arm.com>,
-	revest@chromium.org, josh@joshtriplett.org, joey.gouly@arm.com,
-	shr@devkernel.io, omosnace@redhat.com, ojeda@kernel.org,
-	jhubbard@nvidia.com, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-arch@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH v1 02/28] riscv: envcfg save and restore on trap
- entry/exit
-Message-ID: <ZbKVutBWoelt33GM@debug.ba.rivosinc.com>
-References: <20240125062739.1339782-1-debug@rivosinc.com>
- <20240125062739.1339782-3-debug@rivosinc.com>
- <23d023c0-27cf-44fa-be0a-000d1534ef86@app.fastmail.com>
+	s=arc-20240116; t=1706203106; c=relaxed/simple;
+	bh=xalKMnaI94WJ5z6L0J+8sxaoEX8pPiWGx556L23GNzs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iXco1gYePlETONwnM2OxaYLEyoHhXviKxFWi7OKWIYM7gy4oAHhlid1ujAF7YM1bQoWJyT0vW/pBZbvmi/2O7yNCEgKHZmv75d8w4Vnd98bkFLt7VsYSnHKkYrTitmVEeiTaL1I/VOkEWVQ0yhmu1X+91ZQGgDEiAzM4pXZDC/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 26EF7FF802;
+	Thu, 25 Jan 2024 17:18:16 +0000 (UTC)
+Message-ID: <f7280623-fcb7-4eb3-a9ab-c9e4e0841429@ghiti.fr>
+Date: Thu, 25 Jan 2024 18:18:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <23d023c0-27cf-44fa-be0a-000d1534ef86@app.fastmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 1/2] riscv: Include riscv_set_icache_flush_ctx prctl
+Content-Language: en-US
+To: Charlie Jenkins <charlie@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
+ Atish Patra <atishp@atishpatra.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>
+References: <20240124-fencei-v10-0-a25971f4301d@rivosinc.com>
+ <20240124-fencei-v10-1-a25971f4301d@rivosinc.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20240124-fencei-v10-1-a25971f4301d@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: alex@ghiti.fr
 
-On Thu, Jan 25, 2024 at 02:19:29AM -0500, Stefan O'Rear wrote:
->On Thu, Jan 25, 2024, at 1:21 AM, debug@rivosinc.com wrote:
->> From: Deepak Gupta <debug@rivosinc.com>
->>
->> envcfg CSR defines enabling bits for cache management instructions and soon
->> will control enabling for control flow integrity and pointer masking features.
->>
->> Control flow integrity enabling for forward cfi and backward cfi is controlled
->> via envcfg and thus need to be enabled on per thread basis.
->>
->> This patch creates a place holder for envcfg CSR in `thread_info` and adds
->> logic to save and restore on trap entry and exits.
->
->Should only be "restore"?  I don't see saving.
+Hi Charlie,
 
-It's always saved in `thread_info` and user mode can't change it.
-So no point saving it.
+On 25/01/2024 05:23, Charlie Jenkins wrote:
+> Support new prctl with key PR_RISCV_SET_ICACHE_FLUSH_CTX to enable
+> optimization of cross modifying code. This prctl enables userspace code
+> to use icache flushing instructions such as fence.i with the guarantee
+> that the icache will continue to be clean after thread migration.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>   arch/riscv/include/asm/mmu.h       |  2 ++
+>   arch/riscv/include/asm/processor.h |  7 ++++
+>   arch/riscv/include/asm/switch_to.h | 13 ++++++++
+>   arch/riscv/mm/cacheflush.c         | 67 ++++++++++++++++++++++++++++++++++++++
+>   arch/riscv/mm/context.c            | 13 ++++++--
+>   include/uapi/linux/prctl.h         |  6 ++++
+>   kernel/sys.c                       |  6 ++++
+>   7 files changed, 111 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
+> index 355504b37f8e..60be458e94da 100644
+> --- a/arch/riscv/include/asm/mmu.h
+> +++ b/arch/riscv/include/asm/mmu.h
+> @@ -19,6 +19,8 @@ typedef struct {
+>   #ifdef CONFIG_SMP
+>   	/* A local icache flush is needed before user execution can resume. */
+>   	cpumask_t icache_stale_mask;
+> +	/* Force local icache flush on all migrations. */
+> +	bool force_icache_flush;
+>   #endif
+>   #ifdef CONFIG_BINFMT_ELF_FDPIC
+>   	unsigned long exec_fdpic_loadmap;
+> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
+> index a8509cc31ab2..816cdc2395f4 100644
+> --- a/arch/riscv/include/asm/processor.h
+> +++ b/arch/riscv/include/asm/processor.h
+> @@ -123,6 +123,10 @@ struct thread_struct {
+>   	struct __riscv_v_ext_state vstate;
+>   	unsigned long align_ctl;
+>   	struct __riscv_v_ext_state kernel_vstate;
+> +#ifdef CONFIG_SMP
+> +	bool force_icache_flush;
+> +	unsigned int prev_cpu;
+> +#endif
+>   };
+>   
+>   /* Whitelist the fstate from the task_struct for hardened usercopy */
+> @@ -184,6 +188,9 @@ extern int set_unalign_ctl(struct task_struct *tsk, unsigned int val);
+>   #define GET_UNALIGN_CTL(tsk, addr)	get_unalign_ctl((tsk), (addr))
+>   #define SET_UNALIGN_CTL(tsk, val)	set_unalign_ctl((tsk), (val))
+>   
+> +#define RISCV_SET_ICACHE_FLUSH_CTX(arg1, arg2)	riscv_set_icache_flush_ctx(arg1, arg2)
+> +extern int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread);
+> +
+>   #endif /* __ASSEMBLY__ */
+>   
+>   #endif /* _ASM_RISCV_PROCESSOR_H */
+> diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/switch_to.h
+> index 7efdb0584d47..ac99ab64499c 100644
+> --- a/arch/riscv/include/asm/switch_to.h
+> +++ b/arch/riscv/include/asm/switch_to.h
+> @@ -8,6 +8,7 @@
+>   
+>   #include <linux/jump_label.h>
+>   #include <linux/sched/task_stack.h>
+> +#include <linux/mm_types.h>
+>   #include <asm/vector.h>
+>   #include <asm/cpufeature.h>
+>   #include <asm/processor.h>
+> @@ -72,14 +73,26 @@ static __always_inline bool has_fpu(void) { return false; }
+>   extern struct task_struct *__switch_to(struct task_struct *,
+>   				       struct task_struct *);
+>   
+> +static inline bool switch_to_should_flush_icache(struct task_struct *task)
+> +{
+> +	bool stale_mm = task->mm && (task->mm->context.force_icache_flush);
+> +	bool stale_thread = task->thread.force_icache_flush;
+> +	bool thread_migrated = smp_processor_id() != task->thread.prev_cpu;
+> +
+> +	return thread_migrated && (stale_mm || stale_thread);
+> +}
+> +
+>   #define switch_to(prev, next, last)			\
+>   do {							\
+>   	struct task_struct *__prev = (prev);		\
+>   	struct task_struct *__next = (next);		\
+> +	__next->thread.prev_cpu = smp_processor_id();	\
+>   	if (has_fpu())					\
+>   		__switch_to_fpu(__prev, __next);	\
+>   	if (has_vector())					\
+>   		__switch_to_vector(__prev, __next);	\
+> +	if (switch_to_should_flush_icache(__next))	\
+> +		local_flush_icache_all();		\
+>   	((last) = __switch_to(__prev, __next));		\
+>   } while (0)
+>   
+> diff --git a/arch/riscv/mm/cacheflush.c b/arch/riscv/mm/cacheflush.c
+> index 55a34f2020a8..2d5e1575f6c1 100644
+> --- a/arch/riscv/mm/cacheflush.c
+> +++ b/arch/riscv/mm/cacheflush.c
+> @@ -5,6 +5,7 @@
+>   
+>   #include <linux/acpi.h>
+>   #include <linux/of.h>
+> +#include <linux/prctl.h>
+>   #include <asm/acpi.h>
+>   #include <asm/cacheflush.h>
+>   
+> @@ -152,3 +153,69 @@ void __init riscv_init_cbo_blocksizes(void)
+>   	if (cboz_block_size)
+>   		riscv_cboz_block_size = cboz_block_size;
+>   }
+> +
+> +/**
+> + * riscv_set_icache_flush_ctx() - Enable/disable icache flushing instructions in
+> + * userspace.
+> + * @ctx: Set the type of icache flushing instructions permitted/prohibited in
+> + *	 userspace. Supported values described below.
+> + *
+> + * Supported values for ctx:
+> + *
+> + * * %PR_RISCV_CTX_SW_FENCEI_ON: Allow fence.i in userspace.
+> + *
+> + * * %PR_RISCV_CTX_SW_FENCEI_OFF: Disallow fence.i in userspace. All threads in
+> + *   a process will be affected when ``scope == PR_RISCV_SCOPE_PER_PROCESS``.
+> + *   Therefore, caution must be taken -- only use this flag when you can
+> + *   guarantee that no thread in the process will emit fence.i from this point
+> + *   onward.
+> + *
+> + * @scope: Set scope of where icache flushing instructions are allowed to be
+> + *	   emitted. Supported values described below.
+> + *
+> + * Supported values for scope:
+> + *
+> + * * %PR_RISCV_SCOPE_PER_PROCESS: Ensure the icache of any thread in this process
+> + *                               is coherent with instruction storage upon
+> + *                               migration.
+> + *
+> + * * %PR_RISCV_SCOPE_PER_THREAD: Ensure the icache of the current thread is
+> + *                              coherent with instruction storage upon
+> + *                              migration.
+> + *
+> + * When ``scope == PR_RISCV_SCOPE_PER_PROCESS``, all threads in the process are
+> + * permitted to emit icache flushing instructions. Whenever any thread in the
+> + * process is migrated, the corresponding hart's icache will be guaranteed to be
+> + * consistent with instruction storage. Note this does not enforce any
+> + * guarantees outside of migration. If a thread modifies an instruction that
+> + * another thread may attempt to execute, the other thread must still emit an
+> + * icache flushing instruction before attempting to execute the potentially
+> + * modified instruction. This must be performed by the userspace program.
+> + *
+> + * In per-thread context (eg. ``scope == PR_RISCV_SCOPE_PER_THREAD``), only the
+> + * thread calling this function is permitted to emit icache flushing
+> + * instructions. When the thread is migrated, the corresponding hart's icache
+> + * will be guaranteed to be consistent with instruction storage.
+> + *
+> + * On kernels configured without SMP, this function is a nop as migrations
+> + * across harts will not occur.
+> + */
+> +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long scope)
+> +{
+> +#ifdef CONFIG_SMP
+> +	switch (ctx) {
+> +	case PR_RISCV_CTX_SW_FENCEI_ON:
+> +		switch (scope) {
+> +		case PR_RISCV_SCOPE_PER_PROCESS:
+> +			current->mm->context.force_icache_flush = true;
+> +			break;
+> +		case PR_RISCV_SCOPE_PER_THREAD:
+> +			current->thread.force_icache_flush = true;
+> +			break;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	}
+> +#endif
+> +	return 0;
+> +}
+> diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
+> index 217fd4de6134..5cabbc449080 100644
+> --- a/arch/riscv/mm/context.c
+> +++ b/arch/riscv/mm/context.c
+> @@ -15,6 +15,7 @@
+>   #include <asm/tlbflush.h>
+>   #include <asm/cacheflush.h>
+>   #include <asm/mmu_context.h>
+> +#include <asm/switch_to.h>
+>   
+>   #ifdef CONFIG_MMU
+>   
+> @@ -297,7 +298,8 @@ static inline void set_mm(struct mm_struct *prev,
+>    *
+>    * The "cpu" argument must be the current local CPU number.
+>    */
+> -static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu)
+> +static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu,
+> +					 struct task_struct *task)
+>   {
+>   #ifdef CONFIG_SMP
+>   	cpumask_t *mask = &mm->context.icache_stale_mask;
+> @@ -309,7 +311,12 @@ static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu)
+>   		 * This pairs with a barrier in flush_icache_mm.
+>   		 */
+>   		smp_mb();
+> -		local_flush_icache_all();
+> +
+> +		/*
+> +		 * If cache will be flushed in switch_to, no need to flush here.
+> +		 */
+> +		if (!(task && switch_to_should_flush_icache(task)))
+> +			local_flush_icache_all();
+>   	}
+>   
+>   #endif
+> @@ -332,5 +339,5 @@ void switch_mm(struct mm_struct *prev, struct mm_struct *next,
+>   
+>   	set_mm(prev, next, cpu);
+>   
+> -	flush_icache_deferred(next, cpu);
+> +	flush_icache_deferred(next, cpu, task);
+>   }
+> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> index 370ed14b1ae0..524d546d697b 100644
+> --- a/include/uapi/linux/prctl.h
+> +++ b/include/uapi/linux/prctl.h
+> @@ -306,4 +306,10 @@ struct prctl_mm_map {
+>   # define PR_RISCV_V_VSTATE_CTRL_NEXT_MASK	0xc
+>   # define PR_RISCV_V_VSTATE_CTRL_MASK		0x1f
+>   
+> +#define PR_RISCV_SET_ICACHE_FLUSH_CTX	71
+> +# define PR_RISCV_CTX_SW_FENCEI_ON	0
+> +# define PR_RISCV_CTX_SW_FENCEI_OFF	1
+> +# define PR_RISCV_SCOPE_PER_PROCESS	0
+> +# define PR_RISCV_SCOPE_PER_THREAD	1
+> +
+>   #endif /* _LINUX_PRCTL_H */
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index e219fcfa112d..69afdd8b430f 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -146,6 +146,9 @@
+>   #ifndef RISCV_V_GET_CONTROL
+>   # define RISCV_V_GET_CONTROL()		(-EINVAL)
+>   #endif
+> +#ifndef RISCV_SET_ICACHE_FLUSH_CTX
+> +# define RISCV_SET_ICACHE_FLUSH_CTX(a, b)	(-EINVAL)
+> +#endif
+>   
+>   /*
+>    * this is where the system-wide overflow UID and GID are defined, for
+> @@ -2743,6 +2746,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>   	case PR_RISCV_V_GET_CONTROL:
+>   		error = RISCV_V_GET_CONTROL();
+>   		break;
+> +	case PR_RISCV_SET_ICACHE_FLUSH_CTX:
+> +		error = RISCV_SET_ICACHE_FLUSH_CTX(arg2, arg3);
+> +		break;
+>   	default:
+>   		error = -EINVAL;
+>   		break;
+>
 
->
->>
->> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> ---
->>  arch/riscv/include/asm/thread_info.h | 1 +
->>  arch/riscv/kernel/asm-offsets.c      | 1 +
->>  arch/riscv/kernel/entry.S            | 4 ++++
->>  3 files changed, 6 insertions(+)
->>
->> diff --git a/arch/riscv/include/asm/thread_info.h
->> b/arch/riscv/include/asm/thread_info.h
->> index 574779900bfb..320bc899a63b 100644
->> --- a/arch/riscv/include/asm/thread_info.h
->> +++ b/arch/riscv/include/asm/thread_info.h
->> @@ -57,6 +57,7 @@ struct thread_info {
->>  	long			user_sp;	/* User stack pointer */
->>  	int			cpu;
->>  	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
->> +	unsigned long envcfg;
->>  #ifdef CONFIG_SHADOW_CALL_STACK
->>  	void			*scs_base;
->>  	void			*scs_sp;
->> diff --git a/arch/riscv/kernel/asm-offsets.c
->> b/arch/riscv/kernel/asm-offsets.c
->> index a03129f40c46..cdd8f095c30c 100644
->> --- a/arch/riscv/kernel/asm-offsets.c
->> +++ b/arch/riscv/kernel/asm-offsets.c
->> @@ -39,6 +39,7 @@ void asm_offsets(void)
->>  	OFFSET(TASK_TI_PREEMPT_COUNT, task_struct, thread_info.preempt_count);
->>  	OFFSET(TASK_TI_KERNEL_SP, task_struct, thread_info.kernel_sp);
->>  	OFFSET(TASK_TI_USER_SP, task_struct, thread_info.user_sp);
->> +	OFFSET(TASK_TI_ENVCFG, task_struct, thread_info.envcfg);
->>  #ifdef CONFIG_SHADOW_CALL_STACK
->>  	OFFSET(TASK_TI_SCS_SP, task_struct, thread_info.scs_sp);
->>  #endif
->> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
->> index 54ca4564a926..63c3855ba80d 100644
->> --- a/arch/riscv/kernel/entry.S
->> +++ b/arch/riscv/kernel/entry.S
->> @@ -129,6 +129,10 @@ SYM_CODE_START_NOALIGN(ret_from_exception)
->>  	addi s0, sp, PT_SIZE_ON_STACK
->>  	REG_S s0, TASK_TI_KERNEL_SP(tp)
->>
->> +	/* restore envcfg bits for current thread */
->> +	REG_L s0, TASK_TI_ENVCFG(tp)
->> +	csrw CSR_ENVCFG, s0
->> +
->
->This is redundant if we're repeatedly processing interrupts or exceptions
->within a single task.  We should only be writing envcfg when switching
->between tasks or as part of the prctl.
->
->We need to use an ALTERNATIVE for this since the oldest supported hardware
->does not have envcfg csrs.
+Great, thanks for the modifications, this looks good to me!
 
-Yeah fixing that in next series. Thanks
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 
->
->-s
->
->>  	/* Save the kernel shadow call stack pointer */
->>  	scs_save_current
->>
->> --
->> 2.43.0
->>
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Thanks,
+
+Alex
+
