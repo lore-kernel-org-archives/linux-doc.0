@@ -1,79 +1,165 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6614A36B10;
-	Thu, 25 Jan 2024 12:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B6423D6;
+	Thu, 25 Jan 2024 12:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706185262; cv=none; b=bObCPG4fGgwvNK6+a9FbrV5iOMXS27Xp3aEEoUZhWuNHmceTuDb000YIzu0LFSosIa/OaVyQh4q98xc4uvcLE58NCvGtt5cTm+CnbUaeVUbmd6XBNZ0oLJNQDUvS583dvbPlBd6Upd/eM4jEwBMCPLQJcfnm9aEdYwmrhwxTw3I=
+	t=1706185883; cv=none; b=rOzGYv5aF2+E4YHzJa/sPr673bvhaSkFxlcfKXj4YUzMfV/B3RHswvo/mFPY/5juI92bde4s11reNHw/DWi6/avXNaXF30LMoqQy7mBV70UiKsyGjHWL/GlGHSGatbjm9Vv6Iedto2orIeO9qPt0cK6JXznIztHDx161MnHr6bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706185262; c=relaxed/simple;
-	bh=9hK3wbpzvoGpXxkg63yw+an8DBrzwNCWA2v8juGch3w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=P7zYIWs7umorKGwVT9EbRJ7rHoSwS9cr2ZVkRT1N3jtSFdVujlCQxepVFXGdZTal4bQX3yyiH7s3CL3DZzWVR23BaHMjZeNdwRz9TDqFYNmiTdZMpbKlveDIC/OWce7jYGssIoyDJfvLd3+HvRl8fJrpTgPt4G85Qm/6ZDYed2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZTecDcXn; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4g/Gm7EO; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1706185883; c=relaxed/simple;
+	bh=e2Gx71tG+PGiXuCcWrEYqd74AvFTiXta4T5CfVZ20i4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tl9axKTFX64Tull4M0FaU5q2VepxDfet26WgyGKkjYKlmaq7GCZN8Fagl7OWhW7HLXgj6qLxUdDJf+aoyTc1EZ9vg8B1JymbsI1QezFYpFntKaPHPSI1G/J2nm/lDOyjH/zg6LSl999foSseqAx0zmfjzaFavY0cW17vvEd2NCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=vYVPfKcT; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZTecDcXn";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4g/Gm7EO"
-From: Anna-Maria Behnsen <anna-maria@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1706185259;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bqg+mquOinJ4OKCmburGkNL+d8LFRf+39AvL3I+HFbE=;
-	b=ZTecDcXnkpjUJQDnAUhCLvwoIDKfhZjVituNSeEyH2tgpXiJMCmX61k2aHHWdRPNXcm7mc
-	vQGvwB33+nck0Ghty9ZxzXdz+QBhmQuk21lNfNE9VyLqGnZ8BtBEYU2I33dbZAFS+2bRdQ
-	4Do1jSSgUrVx0KtVOtbMDzsDlv0L2qUYtp9EKgXWHFCH+TYVEDfMiCHM8evq5poyU52lg4
-	Nhm61UR+dwiy9TZzYyeq+lOvuljAxwdzQ9EWr1vbbDQAsvrTUe87nyXrJXCH47+PRnT2IJ
-	zrRD2z3qH5OgM24Rs7WRpHTL652Y+8+s48cuzlIwEfbKgt6hdHl6WaNF6vt0zw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1706185259;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bqg+mquOinJ4OKCmburGkNL+d8LFRf+39AvL3I+HFbE=;
-	b=4g/Gm7EOchq4t21bamlUoxE1QxJYdrdK4fkAYJiLriVkwNABnIOh2k1Bf+ITSHCj4nmzrC
-	hQyK0mM4Pom23JAw==
-To: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org
-Cc: Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar
- <mingo@kernel.org>, John Stultz <jstultz@google.com>, Stephen Boyd
- <sboyd@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch
- <clemens@ladisch.de>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/8] include/hrtimers: Move hrtimer base related
- definitions into hrtimer_defs
-In-Reply-To: <87plxpkesh.ffs@tglx>
-References: <20240123164702.55612-1-anna-maria@linutronix.de>
- <20240123164702.55612-2-anna-maria@linutronix.de> <87plxpkesh.ffs@tglx>
-Date: Thu, 25 Jan 2024 13:20:58 +0100
-Message-ID: <87h6j1d2ol.fsf@somnus>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="vYVPfKcT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1706185881; x=1737721881;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e2Gx71tG+PGiXuCcWrEYqd74AvFTiXta4T5CfVZ20i4=;
+  b=vYVPfKcTjbqNf6fxMdBuEt2Brx8eTxfc/k/sNNZncYBSMyuJmmhaj8mj
+   L79dHltC21R73ictxK1VeqCZRnzI9hItXRrN2wPltmt6tmEIE0QxX7JW9
+   cSiunODrLQoO/IRXWE0ytVYE20DbBlxsoHxg6N1M8DstKPVEwVolFSjZ1
+   xo3OuDIwXd7Vj25EgPiqBYtikDPrDp5GD86Z5u4mWL1TLg3K+3KgKDsm8
+   cSXx8UjusttDS2JSQ0hwbCE5K3GsBQxFYus+6fIfjJZ72fm9PkX2r1qxk
+   EYKgCpK20ZRsCY6A4BFHcr4Cb/fPy0ClRzjbZuiDPSM1Bv/I8UIIdIeJD
+   A==;
+X-CSE-ConnectionGUID: kHKU490MTVa/CUpB0qKI1Q==
+X-CSE-MsgGUID: 04RsdzskT3uNcxxVcLoRZg==
+X-IronPort-AV: E=Sophos;i="6.05,216,1701154800"; 
+   d="asc'?scan'208";a="15284694"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 25 Jan 2024 05:31:19 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 25 Jan 2024 05:31:15 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Thu, 25 Jan 2024 05:31:12 -0700
+Date: Thu, 25 Jan 2024 12:30:34 +0000
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: Conor Dooley <conor@kernel.org>, <linux-riscv@lists.infradead.org>, Miguel
+ Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida
+ Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+	<gary@garyguo.net>, =?iso-8859-1?Q?Bj=F6rn?= Roy Baron
+	<bjorn3_gh@protonmail.com>, Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
+	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Nathan
+ Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<llvm@lists.linux.dev>
+Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
+Message-ID: <20240125-bucked-payroll-47f82077b262@wendy>
+References: <20230307102441.94417-1-conor.dooley@microchip.com>
+ <20230608-dispatch-sneer-aa09bd7b2eb8@wendy>
+ <CANiq72nnph7LS1fLRtHz8NJ91PWXPaUnm0EuoV3wrbvK398AnA@mail.gmail.com>
+ <20230608-spiritism-gonad-5f5aff4c3a24@wendy>
+ <20240117-swiftly-parasail-618d62972d6e@spud>
+ <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
+ <20240118-implode-delirium-eefdd86e170e@spud>
+ <CANiq72nx1s_nyvPW86jL7eiOxROr18LfOJqNtw8L42CP+gkhRg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="mujnSF4ge/jontNh"
+Content-Disposition: inline
+In-Reply-To: <CANiq72nx1s_nyvPW86jL7eiOxROr18LfOJqNtw8L42CP+gkhRg@mail.gmail.com>
 
-Thomas Gleixner <tglx@linutronix.de> writes:
+--mujnSF4ge/jontNh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Tue, Jan 23 2024 at 17:46, Anna-Maria Behnsen wrote:
->> hrtimer base related struct definitions are part of hrtimers.h as it is
->> required there. With this, also the struct documentation which is for core
->> code internal use, is exposed into the general api. To prevent this, all
->> core internal definitions and the related includes are moved into
->> hrtimer_defs header file.
->
-> Shouldn't this simply move to kernel/time/... ? Nothing outside of it
-> needs hrtimer_base
+On Thu, Jan 18, 2024 at 05:09:40PM +0100, Miguel Ojeda wrote:
+> On Thu, Jan 18, 2024 at 4:49=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
+rote:
+> >
+> > The bit that worries me most is bindgen, and in particular detecting the
+> > version of libclang used. I mentioned to Nathan or Nick about needing a
+> > buildtime test for the version of LIBCLANG being used.
+> > I'm less worried about this for LLVM=3D1 builds, since while I think it=
+ is
+> > possible to provide a LIBCLANG path to the build system, I suspect that
+> > for LLVM=3D1 builds it's almost always going to match the LLVM toolchain
+> > in use.
 
-hrtimer_expires_remaining() which is defined in include/hrtimer.h
-dereferences hrtimer_clock_base; hrtimer_is_hres_active() also defined
-in include/hrtimer.h needs hrtimer_base.
+I chatted with the clang built linux folks about this yesterday, Nathan
+agreed that dealing with incompatibility issues iff they crop up is a
+reasonable way to go.
 
-Thanks,
+> `scripts/rust_is_available.sh` tests whether `libclang` is at least
+> the minimum LLVM supported version; and under `LLVM=3D1` builds, it also
+> tests whether the `bindgen` found one matches the C compiler. Do you
+> mean something like that?
 
-	Anna-Maria
+If by "the bindgen found one matches the C compiler" you mean that the
+version of libclang used by bindgen matches the C compiler, then that
+sounds great.
 
+> For `bindgen` under GCC builds, we will eventually want a "proper" way
+> to use GCC instead (or possibly other approaches like querying the
+> information): https://github.com/rust-lang/rust-bindgen/issues/1949.
+
+> Recently, there has been a thread in our Zulip and a couple people are
+> experimenting: https://rust-for-linux.zulipchat.com/#narrow/stream/288089=
+-General/topic/Bindgen.20--.20GCC.20backend.20port
+
+That link for me goes to a message on 22/01, so later than the email you
+sent.
+
+> > I'll do another rebase and resend after the merge window closes I
+> > suppose :)
+
+
+That said, I gave things another spin today, in a different environment,
+as a final check before sending and found an issue causing kernel
+panics. RISC-V (and x86/arm64) supports kcfi (CFI_CLANG) but enabling
+sanitisers seems to be a nightly only option for rustc. The kernel I
+built today had CFI_CLANG enabled and that caused panics when the rust
+samples were loaded.
+
+The CFI_CLANG Kconfig entry has a cc-option test for whether the option
+is supported, but from a quick check I don't see a comparable test to
+use for rust. Even if a test was added, the current flag is an unstable
+one, so I am not sure if testing for it is the right call in the first
+place, given the stabilised flag would be entirely different?
+
+The tracking issue seems to be complete:
+https://github.com/rust-lang/rust/issues/89653
+but the tracking issue for sanitisiers themselves is only 3/5:
+https://github.com/rust-lang/rust/issues/39699
+
+The simple thing would be to make them mutually exclusive options in
+Kconfig.
+
+What do you think?
+
+Cheers,
+Conor.
+
+--mujnSF4ge/jontNh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbJUXAAKCRB4tDGHoIJi
+0uVHAQDIljZB931BuYsvFh8CDiXkeXE86yDu7dnEqYO2MErRBwEArNXVKUHQ6zGx
+JQPxBR+Fd23f1rnzfJFcWNiA7BscMA8=
+=IPeL
+-----END PGP SIGNATURE-----
+
+--mujnSF4ge/jontNh--
