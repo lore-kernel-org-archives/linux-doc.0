@@ -1,35 +1,58 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88A265B1FF;
-	Thu, 25 Jan 2024 13:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21DB5B202;
+	Thu, 25 Jan 2024 13:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706190586; cv=none; b=PkDfi5z8KSpVhoMfMFbXXRbyZqIQMn8i4itjBato38EkZXek271zPWEjRW1T/KOCHmXrzSg7bnvr8rpundTre/g2u6ePWGlf28oQMA5cMwQXWBFYHXjK/BgrPZAKanAVhrWHUG2p8MqQ7zCQFN7QYaKUwbf93Sk2BCBUCIDVUaY=
+	t=1706190651; cv=none; b=h1Nhqq3i9huB8aT4eRjn8mSJB7rTrthAoG1Rzlnaek6rRkLPEwh7yKbC8glAU9icelaqjJfISbpcbo+aezqKpV1jmnPgkWRfEM1i6ldbbdlfhnSHEVZGlXg1P/kJP/id7EEGkV4sGqJkSgkjaoyPBURK/W9VytdTASLlwuVDjyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706190586; c=relaxed/simple;
-	bh=6iy/6WiekLaKinGKMQjSK9tWQ4cBT+O71xHlgaPxvqI=;
+	s=arc-20240116; t=1706190651; c=relaxed/simple;
+	bh=F/U5LhGNBmgteZeGVKoqIAELqkcV5qzrLt5Z3MmCb9w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VXL3lHg0pNZUDD4uBeY6dhueAt4rI4RAX+a096N59SDpbENuLn/uSHSmcV8xTQczQ+K8xPqDG84Ri2/hPjuVkki9yu6StN0+Zxx6Q81OfTWiBpixJrrn/4cSaog9k/M6kptk/OIzCFHk8cbOd7uGazQLgyrD8cTz6FSDwOTTPmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A58CFEC;
-	Thu, 25 Jan 2024 05:50:28 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.58])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 01F9C3F5A1;
-	Thu, 25 Jan 2024 05:49:42 -0800 (PST)
-Date: Thu, 25 Jan 2024 13:49:40 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
-Subject: Re: [PATCH v2 2/4] arm64/sme: Fix cut'n'paste in ABI document
-Message-ID: <ZbJm9J0QuE6Rx9ba@e133380.arm.com>
-References: <20240124-arm64-sve-sme-doc-v2-0-fe3964fb3c19@kernel.org>
- <20240124-arm64-sve-sme-doc-v2-2-fe3964fb3c19@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xq5RJgPLNrAV+vZOE1qObv6thktGbHw9Bs6pWWy49GsC7Ds+Jd4gjCRf6n76BggyF6Ecj8vW6aCFoep0xm12Ye3k4uEcHKcYeI9Eqwo+/veri+RQr2aJv4nY/rxEQL+kNyioPBUNtXzVQ//pkkrPXT99v3eEf1VNzT1FVIAWeWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a28a6cef709so703628266b.1;
+        Thu, 25 Jan 2024 05:50:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706190648; x=1706795448;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fHBFo+pVlE6vUm8V2rDw0OyWPlmP6lAjan69MnX7bZ4=;
+        b=KzE57ueBGvcd7SoTCEelmmpmFG/jSOkGuQ5WrGaaTMq56hPxmBOeQf3l+IQAvTqjvw
+         p7NMfNiur1o00rvYHFVtV3h5Sd59cOBY148yUk7Bxv+BqtZLFdbMUSqpczRcpMKXtEbo
+         YMYRWh600tmVMJuDwVGK+jK9LsmRqrWu9gIBpcRCeA8aVi+LePQqaSUtWrjkIc9cHHFv
+         AC+uG3197Q12uzOVjkCCMzqiUsuqTg6X4E/jdQY/NXPenWTpt6H3tdaAJc+HpemhVstH
+         JuTbsuQ28JZ02FqN+ehA5esVCseIDtyremQtVFqvhYQ3lxDY4R79xhNDsEBGbIcGrvYe
+         LdrA==
+X-Gm-Message-State: AOJu0Yxx/hZuT4lsillJPtl8uH/Gj9rQ65Tz/4Tn85uFlEo/bvwdElhQ
+	uopwuhbFgWLrNwNrPpThHLvaNylh7MBfKCtN0gSAxUihvdZng4pZ
+X-Google-Smtp-Source: AGHT+IENQs3qkbW6Z2O2Rx7IiRcujrk2SL8jPrIwcIHgjM9k8+74dxv+KUH+S67s2s6KGIgm0Oon/g==
+X-Received: by 2002:a17:906:c8c8:b0:a2d:ad36:a7a7 with SMTP id gc8-20020a170906c8c800b00a2dad36a7a7mr470492ejb.154.1706190647466;
+        Thu, 25 Jan 2024 05:50:47 -0800 (PST)
+Received: from gmail.com (fwdproxy-cln-009.fbsv.net. [2a03:2880:31ff:9::face:b00c])
+        by smtp.gmail.com with ESMTPSA id cu15-20020a170906ba8f00b00a318cb84525sm460471ejd.216.2024.01.25.05.50.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 05:50:47 -0800 (PST)
+Date: Thu, 25 Jan 2024 05:50:45 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Alessandro Marcolini <alessandromarcolini99@gmail.com>,
+	donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v1 01/12] tools/net/ynl: Add --output-json arg
+ to ynl cli
+Message-ID: <ZbJnNbX56eY3xcKK@gmail.com>
+References: <20240123160538.172-1-donald.hunter@gmail.com>
+ <20240123160538.172-2-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,35 +61,12 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240124-arm64-sve-sme-doc-v2-2-fe3964fb3c19@kernel.org>
+In-Reply-To: <20240123160538.172-2-donald.hunter@gmail.com>
 
-On Wed, Jan 24, 2024 at 06:12:36PM +0000, Mark Brown wrote:
-> The ABI for SME is very like that for SVE so bits of the ABI were copied
-> but not adequately search and replaced, fix that.
+On Tue, Jan 23, 2024 at 04:05:27PM +0000, Donald Hunter wrote:
+> The ynl cli currently emits python pretty printed structures which is
+> hard to consume. Add a new --output-json argument to emit JSON.
 > 
-> Reported-by: Edmund Grimley-Evans <edmund.grimley-evans@arm.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  Documentation/arch/arm64/sme.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/arch/arm64/sme.rst b/Documentation/arch/arm64/sme.rst
-> index 3d0e53ecac4f..3133d0e91b48 100644
-> --- a/Documentation/arch/arm64/sme.rst
-> +++ b/Documentation/arch/arm64/sme.rst
-> @@ -238,12 +238,12 @@ prctl(PR_SME_SET_VL, unsigned long arg)
->        bits of Z0..Z31 except for Z0 bits [127:0] .. Z31 bits [127:0] to become
->        unspecified, including both streaming and non-streaming SVE state.
->        Calling PR_SME_SET_VL with vl equal to the thread's current vector
-> -      length, or calling PR_SME_SET_VL with the PR_SVE_SET_VL_ONEXEC flag,
-> +      length, or calling PR_SME_SET_VL with the PR_SME_SET_VL_ONEXEC flag,
->        does not constitute a change to the vector length for this purpose.
->  
->      * Changing the vector length causes PSTATE.ZA and PSTATE.SM to be cleared.
->        Calling PR_SME_SET_VL with vl equal to the thread's current vector
-> -      length, or calling PR_SME_SET_VL with the PR_SVE_SET_VL_ONEXEC flag,
-> +      length, or calling PR_SME_SET_VL with the PR_SME_SET_VL_ONEXEC flag,
->        does not constitute a change to the vector length for this purpose.
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 
-Reviewed-by: Dave Martin <Dave.Martin@arm.com>
-
+Reviewed-by: Breno Leitao <leitao@debian.org>
