@@ -1,43 +1,43 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F654F605;
-	Thu, 25 Jan 2024 13:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3943E6340D;
+	Thu, 25 Jan 2024 14:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706191173; cv=none; b=bJoy2DKn3co0xTW9xwkA8vlIKDmoZeRMjIdfwqCwNOnYvcq3w3vluD0qptQZXweEAUjQYHpAi8Qf0YXrU0Z5y++zrQlUEcUhv8wqE+S2ufcOsB+SPaW0C/Q5hGeXPCM3EbVYERy+G7uJXwekXx0nE6CDYtl0oDWnt77CnbIzOko=
+	t=1706192664; cv=none; b=cb+wOvhVSjWIaXozelE5o+MCboXuxyzjLpJiS3AjR00HVUZXBVjae2iA6NM3oGjrZFxqmiorUKLwe02RVKnRZ708AnOMG42G5uZhJQ+iC1mz+N0L6onUt3I0X8zxwkZSuKyK0wUqbFSL+cu+1egv7OCGYykVRoC+1MTy2V1/Yho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706191173; c=relaxed/simple;
-	bh=8AGFVASptUqPJ/wFZGmb5DRTaVyYgd1A6i4rBvx5gco=;
+	s=arc-20240116; t=1706192664; c=relaxed/simple;
+	bh=ygu+dub5SAp58v0IhzyIFTLAsSxgQ6eYUHd7m+hvtz8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ned/nTtgNwP6/zNi86WgBZSmQMdyo99D705Tw1/aVejWR5FIdaYWuhy3IvWfeXixFT69xImGshFyBBnWMdpld0ZYc8R03LnK2L23lmM645wILeJQAbOfA6V2eo7zejqVBPvSOgNl7Ja1GcchEX7QXXmcUJHcMeKTLn3gPkoD6rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=geJk4R2C61Pgy6of03kai9RxbGGcqI/MQn0gTg1rLd07DwwUgMwbLHAwy0bmhydqbbmLY3ZkMKjw3afJNIHRWnoZUA1T5xAlrz+FiIV5QVwolz/Cr68kRFNSykNehx0d8V19FCl2s3ZtGdh1ZHXWWfItlYys38iGrEnqkbH28ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-557dcb0f870so8339455a12.2;
-        Thu, 25 Jan 2024 05:59:30 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-510221ab3ebso98225e87.1;
+        Thu, 25 Jan 2024 06:24:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706191169; x=1706795969;
+        d=1e100.net; s=20230601; t=1706192661; x=1706797461;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vRt1jnxtIkTBtnjcffX9r8OuG5owutFG9NfxVkKLTL8=;
-        b=oRe8GUJDdaXsB83Z4hno5dIdXM/kiWKNdH+4wO1H/YyHpgr2HBxgJ5+t/YhD/aH+4x
-         r35ndQ4ZbZy+zYZd6nGHUsC0N5BBAhq/rthHKDDrXyjrXbqP8unvgLFJnQtIfxAImfYY
-         9pMP3fNnw1YZfX92NyrESWNE/ux9uSbE2aodrw2uiL+8Yc6iP4ql0ebhwoXjrbkFId+G
-         RlJ76a1W/zacwRuv3z6XaVzoiY5qJU3J6UAPuAXTLQwraPHMZIgC+aCr7kb1ZRbuOghx
-         7/TdZERcvmnyn1vRaVl/QmfDMBP5v11blbI/klrCBztgJq4fruQ8B7GFjkBcBGXgg12e
-         tdaA==
-X-Gm-Message-State: AOJu0YysaSHtkO+vfJSZVw/ChI7VL7+PSFsybAfvPnqOoZ1azzXGWx6m
-	MSzlb+ht6N8QlWEygH3Y+7dW+EEoyk9c9laeV6oH9WJ8PsGqEkHR
-X-Google-Smtp-Source: AGHT+IHcBnHhMWlamXgWfDIupJ18TUEaQILIdLJYl3TEu2Pyr8TdTkS40pJLyPzQ2jikAdxQaVJMzg==
-X-Received: by 2002:a17:906:af66:b0:a30:e420:ef9 with SMTP id os6-20020a170906af6600b00a30e4200ef9mr459982ejb.148.1706191169215;
-        Thu, 25 Jan 2024 05:59:29 -0800 (PST)
-Received: from gmail.com (fwdproxy-cln-003.fbsv.net. [2a03:2880:31ff:3::face:b00c])
-        by smtp.gmail.com with ESMTPSA id hz5-20020a1709072ce500b00a2fd76dddebsm1042880ejc.35.2024.01.25.05.59.28
+        bh=bJg/iy5CsXL6wzjV6P3uPHR2XVzNTQ3/HSn7YWbDrh8=;
+        b=tdeFiLWlD3HL9FLVB+Szb33Ch9jCMaGBaWPNrBtBVJv2mHu99+4oiBD7Zm3zrUGD+A
+         4zt9eHYi+ecNpJmQvS1JjrBtDfWMS2xJ9AbNhc1fj/tD0drLTSHVz5vkQbfxuLOqjsOu
+         KThvfz+DI0qD8ehJPaDaoL7cFJgLW/mrGgL+GMOukIPLFXKRwFOVtlvaWCSo4zaUuXZk
+         OpS0vWKCvJDnDKNq7VNd7IYu49HIWdMJcvRz97Ev1ivH2H2ozcZaxpZN1ZLcU8A1Gw6M
+         TRGYq3lcTKJRDQdrfKXzTWqxKpmqHuzNCiW4Lp4Cpn2GupPIXERGmGhV3mDPaTfmlZ19
+         KyWg==
+X-Gm-Message-State: AOJu0YwAGwa3HtQM1dT26TQKsN2XcmaxRYbGa5mCrI+v4xXJUfK5n+JG
+	383KxejFxcE7b0uCIz87wYmJ4NPiHewxYTd4w0w4aYs9kh0W9WVGDzvxU7tv
+X-Google-Smtp-Source: AGHT+IEFkINwBNPQJ6RaQjqK8qCjJTp5SPFuuvfDh5XID2NHTRlVVVjvNYhxKAsF5DHb91eBxbSaoA==
+X-Received: by 2002:a19:381d:0:b0:50f:5e2:d50 with SMTP id f29-20020a19381d000000b0050f05e20d50mr597057lfa.51.1706192661039;
+        Thu, 25 Jan 2024 06:24:21 -0800 (PST)
+Received: from gmail.com (fwdproxy-cln-016.fbsv.net. [2a03:2880:31ff:10::face:b00c])
+        by smtp.gmail.com with ESMTPSA id hw15-20020a170907a0cf00b00a311685890csm1075732ejc.22.2024.01.25.06.24.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 05:59:28 -0800 (PST)
-Date: Thu, 25 Jan 2024 05:59:26 -0800
+        Thu, 25 Jan 2024 06:24:20 -0800 (PST)
+Date: Thu, 25 Jan 2024 06:24:18 -0800
 From: Breno Leitao <leitao@debian.org>
 To: Donald Hunter <donald.hunter@gmail.com>
 Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
@@ -48,11 +48,11 @@ Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
 	Jiri Pirko <jiri@resnulli.us>,
 	Alessandro Marcolini <alessandromarcolini99@gmail.com>,
 	donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 11/12] tools/net/ynl: Add type info to struct
- members in generated docs
-Message-ID: <ZbJpPuGP/GcZwhYZ@gmail.com>
+Subject: Re: [PATCH net-next v1 08/12] tools/net/ynl: Move formatted_string
+ method out of NlAttr
+Message-ID: <ZbJvEp9fk1hI9rKV@gmail.com>
 References: <20240123160538.172-1-donald.hunter@gmail.com>
- <20240123160538.172-12-donald.hunter@gmail.com>
+ <20240123160538.172-9-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,36 +61,13 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240123160538.172-12-donald.hunter@gmail.com>
+In-Reply-To: <20240123160538.172-9-donald.hunter@gmail.com>
 
-On Tue, Jan 23, 2024 at 04:05:37PM +0000, Donald Hunter wrote:
-> Extend the ynl doc generator to include type information for struct
-> members, ignoring the pad type.
+On Tue, Jan 23, 2024 at 04:05:34PM +0000, Donald Hunter wrote:
+> The formatted_string() class method was in NlAttr so that it could be
+> accessed by NlAttr.as_struct(). Now that as_struct() has been removed,
+> move formatted_string() to YnlFamily as an internal helper method.
 > 
 > Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
->  tools/net/ynl/ynl-gen-rst.py | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tools/net/ynl/ynl-gen-rst.py b/tools/net/ynl/ynl-gen-rst.py
-> index 262d88f88696..75c969d36b6a 100755
-> --- a/tools/net/ynl/ynl-gen-rst.py
-> +++ b/tools/net/ynl/ynl-gen-rst.py
-> @@ -189,12 +189,20 @@ def parse_operations(operations: List[Dict[str, Any]]) -> str:
->  
->  def parse_entries(entries: List[Dict[str, Any]], level: int) -> str:
->      """Parse a list of entries"""
-> +    ignored = ["pad"]
->      lines = []
->      for entry in entries:
->          if isinstance(entry, dict):
->              # entries could be a list or a dictionary
-> +            field_name = entry.get("name", "")
-> +            if field_name in ignored:
-> +                continue
-> +            type_ = entry.get("type")
-> +            struct_ = entry.get("struct")
 
-Where are you using this `struct_` variable ?
-
-Rest of the code it looks good.
+Reviewed-by: Breno Leitao <leitao@debian.org>
