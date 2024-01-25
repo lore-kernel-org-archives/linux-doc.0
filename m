@@ -1,56 +1,56 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80632C684;
-	Thu, 25 Jan 2024 10:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33152C698;
+	Thu, 25 Jan 2024 10:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706179187; cv=none; b=hVXpr2OLCHSC0UJFpB/6pwhDhqtAaKqEosWJftYUoQ5wYEXSsdgCUf0P2TPl/9nfXRQZIy0ybyjsK/UPksSf6NdLg3olB6CG/1z2qLiPI6Bpn9TUlj4OTLKsmvlipyK4EjoZicWV7wniXsVy62wjiZXxIZYgZRZnZqmgGSHGOXo=
+	t=1706179257; cv=none; b=bNmW97erwcopXOlrE5SwVVgAh2IokJBP1Qy386Gdwflhg++bQbKMAVoGmOoViS0Jmq+R5mXa9hLAkpjWXJVSOH9NmtvSnFbxDJ+R4JMMTiwKW1XouvquXvo8I1N4dhz9E3HQfb3pKD775LL0ggtYc4nZjmhrN569l5+mUxlrLqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706179187; c=relaxed/simple;
-	bh=Il7Se0v/oqXNI5U7CR1goWqSpyVYu+LQzeWBXvViFtc=;
+	s=arc-20240116; t=1706179257; c=relaxed/simple;
+	bh=fJ33SB8sYEgeOex9arqhLcNYaHmtGrWA+ihwQMm6bzc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rVQ0T3bT4tXQY1gvkQH2hD0aRJgyTOX6k5s3G8tWDd7xn04AfSioi38YxWxEzNeIJH29aaqOR1uKwt6qbAYffdBLmzx77DNlexPPPb5/I0dBz/KNRpk5T+4UcVuXBjwZNv+HMz3gIObiuQDwB/oqeCHtp0++E7A+VotEW4f5XXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Cylqpedh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Cfd/GmCu; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=UvK7uyeM0Y8DfVu5WNOjVu/Vw5lMU2WAirtgngL0LVNIb1ZUWWJfIktNycaHm9oSoXIFIVsrAve8EtWROphKgd7RwXDeFXlw9bVIHPDcM7MxrUvUBtB2mZ2lV1hsLDoTDaQC5t0sU4Y0I5t8YIWfHVu95f8xHmN8magFCgwza+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oDbb8o9W; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zswWPLOJ; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Cylqpedh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Cfd/GmCu"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oDbb8o9W";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zswWPLOJ"
 From: Anna-Maria Behnsen <anna-maria@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1706179182;
+	s=2020; t=1706179253;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XY1La2TGjSx9YGnqBSie++t7ZlT6vyosAqovaYlT9pU=;
-	b=Cylqpedheoi8COcHwid53WW3dsgqXX3nqqgFkbRt/A9ERHDRmlz29OzVbrgwAEzI1f4VZ4
-	zrr6/r1V/9Ft7TZ34NUgcGtmZ7k7a7AEVUrFcuou5hJR8p7Qqc0lGCB7p87FyusShXDLSM
-	U6a1X1KVRjnMCmMr+PvEPRcWuaN9WusMR3DV/LpGeSHUzqUDcJr8S57maaxRuDFb2L3UZK
-	I3iXQC0AuYLJoM5loJLK6bagc9DVxfFKOBcmbwiEzrLwIXzFVJHJFk2JT0y4idtGR3tt9p
-	b5Mvcfq10tIUob0UzpyDaoHRrYEHfkTcZDpWH9X65PtLVg0muKKNIv3LT4rLtw==
+	bh=3kxrqdRBZtGW871Ak7zSVqgqY1Pn7CCg4bYb7EmLawU=;
+	b=oDbb8o9WeuG3CBzXlxYNnq5OPG9fi+RxVy/KQ40gORvMcrzuu4Q3gq9dP0wz3h7M8yUbwn
+	XKtG/5kRQxhZkso+9N2DH2eRQnwMeZ49IG7A9kx4L8gRIl/ci5N11IbfDTp8sV/jPamawB
+	ei/ikZgzk04rqI5bfu59ZZk4x12MiQEq0+CkJeBM49o1s/xBvow7TTxQ+INLLs0HbaiBLM
+	U6T3pP/2lkCXTOgjism4hKl4O22WCKfJaWD12sIQFH79rceBN4Gc7j9ZUQ+yB5W4+Ql2fS
+	+7Y5FGylioIk4wZ6bMpwWfSqnYEw0+2ein/J3GeafO7K8Rsv0nyPl4buCgcqEA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1706179182;
+	s=2020e; t=1706179253;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XY1La2TGjSx9YGnqBSie++t7ZlT6vyosAqovaYlT9pU=;
-	b=Cfd/GmCuHjsm1AfzAlDhqw1iOehPV12GL5qO2VlI6lptNz2Hp5FfjOTxEqx+Ju4ie+UVuR
-	0BgmQZ5zIrx/DEBg==
+	bh=3kxrqdRBZtGW871Ak7zSVqgqY1Pn7CCg4bYb7EmLawU=;
+	b=zswWPLOJPRSuWhplhYYmqIRELeJjAV8z457lQTFPS+GnujYqX2eGNMX2iaXGvM03UwKuKI
+	ae9vLvVDcK0bPWAg==
 To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
 Cc: Thomas Gleixner <tglx@linutronix.de>, Frederic Weisbecker
  <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>, John Stultz
  <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, Jonathan Corbet
  <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
  linux-doc@vger.kernel.org
-Subject: Re: [PATCH 6/8] Documentation: Create a new folder for all timer
- internals
-In-Reply-To: <8eac7bf0-86c5-43ef-99e0-0896c994184a@infradead.org>
+Subject: Re: [PATCH 7/8] Documentation: Move "core core" api into a separate
+ file
+In-Reply-To: <71285bc1-bf38-49ea-ab77-3258727339e3@infradead.org>
 References: <20240123164702.55612-1-anna-maria@linutronix.de>
- <20240123164702.55612-7-anna-maria@linutronix.de>
- <8eac7bf0-86c5-43ef-99e0-0896c994184a@infradead.org>
-Date: Thu, 25 Jan 2024 11:39:42 +0100
-Message-ID: <87o7d9d7dd.fsf@somnus>
+ <20240123164702.55612-8-anna-maria@linutronix.de>
+ <71285bc1-bf38-49ea-ab77-3258727339e3@infradead.org>
+Date: Thu, 25 Jan 2024 11:40:53 +0100
+Message-ID: <87le8dd7be.fsf@somnus>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,73 +61,51 @@ Content-Type: text/plain
 
 Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Hi,
->
 > On 1/23/24 08:47, Anna-Maria Behnsen wrote:
->> The structure of documentation changed. There is 'core-api' where also
->> timer related documentation belongs to. But the timer related documentation
->> (doesn't matter whether it is up to date or outdated) is still located in a
->> separate folder with no relation to core-api.
->> 
->> Create a new folder which is located below core-api and make it the new
->> place for all timer related documentation. Instead of revisiting all files
->> below the already existing timer folder right now, add a warning banner to
->> the top of all those files. When it is ensured the content is up to date,
->> they can be moved to the final destination.
+>> Some "core core" API as timer API is documented in driver-api. This is
+>> definitely the wrong place. As the subject description in
+>> core-api/index.rst mentions, is also core-api/kernel-api.rst a collection
+>> of leftovers. Therefore create a new core-api file and start to integrate
+>> timer api. As this contains a lot of functions, it is separated into a
+>> timer specific API file.
 >> 
 >> Signed-off-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
 >> ---
->>  Documentation/core-api/index.rst        |  1 +
->>  Documentation/core-api/timers/index.rst | 22 ++++++++++++++++++++++
->>  Documentation/timers/highres.rst        |  5 +++++
->>  Documentation/timers/hpet.rst           |  5 +++++
->>  Documentation/timers/hrtimers.rst       |  5 +++++
->>  Documentation/timers/index.rst          |  5 +++++
->>  Documentation/timers/no_hz.rst          |  4 ++++
->>  Documentation/timers/timekeeping.rst    |  5 +++++
->>  Documentation/timers/timers-howto.rst   |  5 +++++
+>>  Documentation/core-api/core-api.rst     | 14 ++++++
+>>  Documentation/core-api/index.rst        |  4 +-
+>>  Documentation/core-api/kernel-api.rst   | 12 +++--
+>>  Documentation/core-api/timers/api.rst   | 63 +++++++++++++++++++++++++
+>>  Documentation/core-api/timers/index.rst |  4 ++
+>>  Documentation/driver-api/basics.rst     | 24 ----------
+>>  6 files changed, 93 insertions(+), 28 deletions(-)
+>>  create mode 100644 Documentation/core-api/core-api.rst
+>>  create mode 100644 Documentation/core-api/timers/api.rst
+>> 
+>> diff --git a/Documentation/core-api/core-api.rst b/Documentation/core-api/core-api.rst
+>> new file mode 100644
+>> index 000000000000..4fe00d084dc7
+>> --- /dev/null
+>> +++ b/Documentation/core-api/core-api.rst
+>> @@ -0,0 +1,14 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +=========================
+>> +The Linux Kernel Core API
+>> +=========================
+>> +
+>> +.. note:: Some Core API is still documented in :doc:`../driver-api/basic` and
 >
-> When can we remove the old, "might be outdated" files?
-> Do you think that some of their contents might be valuable to someone?
+> I'm getting this warning from the line above:
 >
-> I prefer not to have the old documentation and the new.
+> linux-next-20240123/Documentation/core-api/core-api.rst:7: WARNING: unknown document: '../driver-api/basic'
+>
+> Ah, it should be "basics".
 >
 
-This is also nothing I prefere for a final solution. But I got stucked
-when I was looking for a way to add the actual documentation because I
-wanted to add it into a cleaned-up environment. But I don't have the
-possibility at the moment to cleanup the existing timer documentation
-right away with all its aspects (content, formatting, referencing,
-location below Documentation,... ).
-
-So I had those options:
-
-1. wait until I have time for all this before publishing the new
-   documentation -> not an option because I don't know when there is
-   time to do all those things in one go
-
-2. Put the new documentation below the existing one and ignore the rest
-   silently (maybe someone else will clean it up someday) -> not an
-   option because it suggests that the new documentation structure is
-   just ignored
-
-3. Just move the old documentation without revisiting it -> not an
-   option because there might be outdated information and then it
-   doesn't has a benefit for the reader
-
-4. Add a warning banner at the existing documentation and prepare
-   everything to get the timer documentation to the proper place and
-   create a place for timer documentation below the current structure.
-
-The benefit of 4. for me is, that there is this warning banner at the
-top. So this suggests the reader, that this has to be revisited before
-relying on it for 100%. This banner might also remind the original
-author/technically deep involved developer that this should be
-updated.
-
-If there is a better way to go, please let me know!
+Oh no! I fixed it - but didn't update the patch... I'm sorry!
 
 Thanks,
-
         Anna-Maria
+
+
 
