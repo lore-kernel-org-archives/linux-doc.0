@@ -1,174 +1,149 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951B11339A2
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 18:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8BD131E45
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 18:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706206344; cv=none; b=ue2GpUnnHRpV0KoWUZJExkouqhBlq/YEnLytgflrK2VwAcnI9v82rSWudftrbVs5SVQfcrHi0kzagh1ny3vQNPoPgGiLBaUhZYxkLwldV7hJKqnsBt9yFexYMWU7ofe0Ey0CHKtpuZXGv85IgbjojDQ9FvptGvvEESJRLf9niPo=
+	t=1706206456; cv=none; b=F9DI2gkXUqLB6av9yjzppc6+S6jRzrnBcJaNQBNEX8DU1WuNKYMZ8au1tyx3hnqhpic3neowhltn4DSrr3n2RwlbGL2iWu5CaIbRCiGn7tiNlW+hrPmQCL30y21gbSRX5/AYo8l2eF4IEw3xp7Tvb2fVWA+hCddjg8leJSn5Azo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706206344; c=relaxed/simple;
-	bh=cw8O2hqO9U01pVygNFVazLWDXfPwaESFBRTWSuf70Mw=;
+	s=arc-20240116; t=1706206456; c=relaxed/simple;
+	bh=PD5+cj8+PCKS1QSIr/M8Q9HOOZCnInEzMApcR6didaw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i/eVnrGrwvwVdQL80AVCJm1jkCXguBLdqJ+Y2OsuJ658mpF2yC573FOIvz65DVF+2S2oViuxQV/ZWejs6uYwT/6y4AY2XJoawXRjm4GaZ9aS3P6hn2lNvchaH/rcWL0fAjFr0fRk1MqhSA+0W9Rb6S2kjOjGo1Nu+KGaCAdoXZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=PSmPiuhN; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=msLbl+TXpZgpsMYjmKdv1177TTbY9xRzlu/ioHCqUC63dP8nypKZZZULDqD7HOZPPmhbwxUID48hTQkf+ZZX7Uv//eZz0N5iGQGW062kQyUB5Fy4VSohf8x60rTJLN5oY/0JLBIULSmZ3ouE2eJZxXxhojKAYTXCguX8ex1MZ2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=RyDhSrMv; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="PSmPiuhN"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d750660a0aso25701335ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 10:12:21 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="RyDhSrMv"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a2e633c5365so190983566b.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 10:14:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1706206341; x=1706811141; darn=vger.kernel.org;
+        d=ffwll.ch; s=google; t=1706206452; x=1706811252; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oOQ7PY5RMwdW49c44PeUD39W3uvEolKYcNoKx9tZHuc=;
-        b=PSmPiuhN30ywzqBwEXa18j6bNFIJk7vf9IKQb4UwB5mPxikSB6Xr9t1kniyFIFKh6D
-         +U5OVWOS7q6VP5w0jxF/2822a1RyoGNob1HK09yoRfl23bf+eZepnUwoNw8ArT8W9mcz
-         svuYdYGGShpvNg+qrwugl7uUwqdu43lKdFtDIQJUJEbL6rLVRVuXb7JcW7f0/IGBQe5E
-         HuobNgHYb0I75pa8kqAC1f2aJBitzR5r3RIq2L7TqOU7iDBxrgw/jw90lqHkhDoamF5C
-         QwfcYIvk+FvvH2HvfUGfQ55nmgttPk8uCTzGYx2CbnHqCo9qX9uDRzy1sVzv1gYzHMkb
-         y/cw==
+        bh=bn65lRsPHUwSHjihHIHrD2SbxgPSKLlAgwIWNGW/AYU=;
+        b=RyDhSrMv+6yg5/bI9iNRqi+Vc2Db2PW+EPGkSgqALnefKLZzaDpAPhm+feyXVuTiwq
+         9xjvJT+3sA3bjlcy0DHsTp8JW8B09r5q2/tDItnh7e8KHaOLSsFVdOkY39CtNH1s+89Y
+         BdEhkj6byxgg534M/3+L6h08zoh+t3aSmdsTQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706206341; x=1706811141;
+        d=1e100.net; s=20230601; t=1706206452; x=1706811252;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oOQ7PY5RMwdW49c44PeUD39W3uvEolKYcNoKx9tZHuc=;
-        b=abXlQJ/IAnXaKMVz9rDDQO/22hRBrLPvXIkZkRbt8BsjzE36UyGD/jIicfIJY0KPGP
-         EHIMntaNrMP+aWJR+4GAznLcboJQ9OP4WdjkvzyXH7g8O+9EZF6Od65/dFtRdXmwqeHH
-         f7RrfibaKBeHOu2bV0UVCZYr4rz6VPd+1P+DdbemlN/U/pq7PpFzi8qkAL3e2sWBy2Th
-         QD3P0sY4Caw2ZtbO8iy2wgpJS3N1TWc4NMITzVVnUnBc5Y0Tlf4MkE2EoO6/NwZqTNFg
-         o+n2w4qHMolOyKdCygiXx/6kAXCWzq7RhljZWzw8gyPw2lA/IHxyYsx45S9rFcIW05HQ
-         dIgg==
-X-Gm-Message-State: AOJu0Yw+JuyLTdv+cL/hDJAVW1x0uZrPuQpKfk9ZfCn4S8TNzr+OKmwT
-	99Qid41Xfx0eiON3yzjo1/iEb2pHRZYrEDb4mYpYQmm2o8pcub96a1QWvQa0nQ0=
-X-Google-Smtp-Source: AGHT+IGPUyyPX5hM1Yrkm5iskfPCqBeEPRsk5d1X3OtxSMKWSiBaRZNyP6s8gkZ7PqF+fErCTpo4Gg==
-X-Received: by 2002:a17:902:b284:b0:1d4:2d8d:3536 with SMTP id u4-20020a170902b28400b001d42d8d3536mr91755plr.71.1706206340832;
-        Thu, 25 Jan 2024 10:12:20 -0800 (PST)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id jy13-20020a17090342cd00b001d720fa139fsm10390442plb.70.2024.01.25.10.12.17
+        bh=bn65lRsPHUwSHjihHIHrD2SbxgPSKLlAgwIWNGW/AYU=;
+        b=mxZbigJ228N5m5ezeFMqejfZjYbI0CM5dr8xwGoPDVAsE7xQelTUL4pSSL5eBdLTLe
+         PcTd1Bza292K9ZweivFQMN4dpx+JS2I6bgp1IjV0xqmNJK6ysSNcBP3YG6Rchp4Ct6Eu
+         tQTbJ4WtX5H6nz1t1wPaKqd6SWLyuiQQB5fPtZRZk7mAa/gkSOBU32umaHqR0XzPx1Uv
+         /RDP1hAS+h0GKRsjSkfszPjX3y+l2Rwm3fdJBrcsWU2N8FU6HeV5MQxu/RQ7fvRXjaK/
+         eC61/Oj/9EAdtUdbCeCsl4tYcd7cZU7Z2BoSuH+4tZ6lE5/vvAFugJTGR1BqqUPKtHnT
+         JhqQ==
+X-Gm-Message-State: AOJu0YxsDEyLkJpM8aU9P00BFtTwA2MbQrB4iTgpFUYgwPe/8zOIQFJC
+	l9gZBZr8QQefU1I7uRniz8NZmeMY9/qiyRJBko1+KC+h5EkP/RqI0Epf6YXdfC0=
+X-Google-Smtp-Source: AGHT+IGDPJFXBsmRgx+FddyHhH5BBAeJMfI+p5NZWXiwxg4w3hyGnwVxYOFQEjGMdgxTi+vOG+ecUA==
+X-Received: by 2002:a17:906:5655:b0:a31:1d58:262c with SMTP id v21-20020a170906565500b00a311d58262cmr1812927ejr.5.1706206452701;
+        Thu, 25 Jan 2024 10:14:12 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id ty15-20020a170907c70f00b00a317f2388cfsm839137ejc.195.2024.01.25.10.14.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 10:12:20 -0800 (PST)
-Date: Thu, 25 Jan 2024 10:12:16 -0800
-From: Deepak Gupta <debug@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: rick.p.edgecombe@intel.com, broonie@kernel.org, Szabolcs.Nagy@arm.com,
-	kito.cheng@sifive.com, keescook@chromium.org,
-	ajones@ventanamicro.com, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, conor.dooley@microchip.com, cleger@rivosinc.com,
-	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com,
-	alexghiti@rivosinc.com, corbet@lwn.net, aou@eecs.berkeley.edu,
-	oleg@redhat.com, akpm@linux-foundation.org, arnd@arndb.de,
-	ebiederm@xmission.com, shuah@kernel.org, brauner@kernel.org,
-	guoren@kernel.org, samitolvanen@google.com, evan@rivosinc.com,
-	xiao.w.wang@intel.com, apatel@ventanamicro.com,
-	mchitale@ventanamicro.com, waylingii@gmail.com,
-	greentime.hu@sifive.com, heiko@sntech.de, jszhang@kernel.org,
-	shikemeng@huaweicloud.com, david@redhat.com, charlie@rivosinc.com,
-	panqinglin2020@iscas.ac.cn, willy@infradead.org,
-	vincent.chen@sifive.com, andy.chiu@sifive.com, gerg@kernel.org,
-	jeeheng.sia@starfivetech.com, mason.huo@starfivetech.com,
-	ancientmodern4@gmail.com, mathis.salmen@matsal.de,
-	cuiyunhui@bytedance.com, bhe@redhat.com, chenjiahao16@huawei.com,
-	ruscur@russell.cc, bgray@linux.ibm.com, alx@kernel.org,
-	baruch@tkos.co.il, zhangqing@loongson.cn, catalin.marinas@arm.com,
-	revest@chromium.org, josh@joshtriplett.org, joey.gouly@arm.com,
-	shr@devkernel.io, omosnace@redhat.com, ojeda@kernel.org,
-	jhubbard@nvidia.com, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-arch@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH v1 24/28] riscv: select config for shadow stack and
- landing pad instr support
-Message-ID: <ZbKkgNX7xfU5KO8X@debug.ba.rivosinc.com>
-References: <20240125062739.1339782-1-debug@rivosinc.com>
- <20240125062739.1339782-25-debug@rivosinc.com>
- <20240125-snitch-boogieman-5b4a0b142e61@spud>
+        Thu, 25 Jan 2024 10:14:12 -0800 (PST)
+Date: Thu, 25 Jan 2024 19:14:10 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 0/2] kernel-doc: Do not pre-process comments
+Message-ID: <ZbKk8v7MHGoYFRuu@phenom.ffwll.local>
+References: <20240122093152.22536-1-anna-maria@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240125-snitch-boogieman-5b4a0b142e61@spud>
+In-Reply-To: <20240122093152.22536-1-anna-maria@linutronix.de>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 
-On Thu, Jan 25, 2024 at 06:04:26PM +0000, Conor Dooley wrote:
->On Wed, Jan 24, 2024 at 10:21:49PM -0800, debug@rivosinc.com wrote:
->> From: Deepak Gupta <debug@rivosinc.com>
->>
->> This patch selects config shadow stack support and landing pad instr
->> support. Shadow stack support and landing instr support is hidden behind
->> `CONFIG_RISCV_USER_CFI`. Selecting `CONFIG_RISCV_USER_CFI` wires up path
->> to enumerate CPU support and if cpu support exists, kernel will support
->> cpu assisted user mode cfi.
->>
->> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> ---
->>  arch/riscv/Kconfig | 15 +++++++++++++++
->>  1 file changed, 15 insertions(+)
->>
->> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
->> index 9d386e9edc45..437b2f9abf3e 100644
->> --- a/arch/riscv/Kconfig
->> +++ b/arch/riscv/Kconfig
->> @@ -163,6 +163,7 @@ config RISCV
->>  	select SYSCTL_EXCEPTION_TRACE
->>  	select THREAD_INFO_IN_TASK
->>  	select TRACE_IRQFLAGS_SUPPORT
->> +	select RISCV_USER_CFI
->
->This select makes no sense to me, it will unconditionally enable
->RISCV_USER_CFI. I don't think that that is your intent, since you have a
->detailed option below that allows the user to turn it on or off.
->
->If you remove it, the commit message will need to change too FYI.
->
+On Mon, Jan 22, 2024 at 10:31:50AM +0100, Anna-Maria Behnsen wrote:
+> Hi,
+> 
+> this is a repost of the RFC queue
+> https://lkml.kernel.org/r/20240116151456.48238-1-anna-maria@linutronix.de
+> 
+> Jonathan Corbet is fine with this change and mentioned in an answer the
+> following:
+> 
+>   "The kernel-doc change should really go together with the DRM change.
+>   I'm happy to carry both with an ack from DRMland or have the kernel-doc
+>   patch go through the DRM tree, whichever is easiest."
 
-Selecting this config puts support in Kernel so that it can run tasks who wants
-to enable hardware assisted control flow integrity for themselves. But apps still
-always need to optin using `prctls`. Those prctls are stubs and return EINVAL when
-this config is not selected. Not selecting this config means, kernel will not support
-enabling this feature for user mode.
+Agree, that sounds like the simplest merge plan and I don't think we have
+anything in-flight for vram helpers that would cause conflicts. For
+merging the drm patch through Jon's -doc tree:
 
-I'll edit commit message to better reflect this.
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
->Thanks,
->Conor.
->
->>  	select UACCESS_MEMCPY if !MMU
->>  	select ZONE_DMA32 if 64BIT
->>
->> @@ -182,6 +183,20 @@ config HAVE_SHADOW_CALL_STACK
->>  	# https://github.com/riscv-non-isa/riscv-elf-psabi-doc/commit/a484e843e6eeb51f0cb7b8819e50da6d2444d769
->>  	depends on $(ld-option,--no-relax-gp)
->>
->> +config RISCV_USER_CFI
->> +	bool "riscv userspace control flow integrity"
->> +	help
->> +	  Provides CPU assisted control flow integrity to userspace tasks.
->> +	  Control flow integrity is provided by implementing shadow stack for
->> +	  backward edge and indirect branch tracking for forward edge in program.
->> +	  Shadow stack protection is a hardware feature that detects function
->> +	  return address corruption. This helps mitigate ROP attacks.
->> +	  Indirect branch tracking enforces that all indirect branches must land
->> +	  on a landing pad instruction else CPU will fault. This mitigates against
->> +	  JOP / COP attacks. Applications must be enabled to use it, and old user-
->> +	  space does not get protection "for free".
->> +	  default y
->> +
->>  config ARCH_MMAP_RND_BITS_MIN
->>  	default 18 if 64BIT
->>  	default 8
->> --
->> 2.43.0
->>
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> 
+> But back to the patchset: Commit 654784284430 ("kernel-doc: bugfix -
+> multi-line macros") introduces pre-processing of backslashes at the end of
+> a line to not break multi-line macros. This pre-processing is done
+> independently if it is inside code or inside a comment.
+> 
+> This illustation of a hierarchy as a code block inside a kernel-doc comment
+> has a backslash at the end of the line:
+> 
+> ---8<---
+> /**
+>  * DOC: hierarchy
+>  *
+>  *                    Top Level
+>  *                /               \
+>  *         Child A                 Child B
+>  */
+> ---8<---
+> 
+> It will be displayed as:
+> 
+> ---8<---
+> 	     Top Level
+> 	 /                *        Child A                 Child B
+> ---8<---
+> 
+> 
+> As I asked for a solution on the linux-doc mailing list, I got some
+> suggestions with workarounds and also got the suggestion by Matthew Wilcox
+> to adapt the backslash preprocessing in kernel-doc script. I tested it and
+> fixed then the newly produced warnings which are covered in the first
+> patch. The processing of the documentation seems to work - but please don't
+> rely on my tests as I'm not a perl neither a kernel-doc expert.
+> 
+> Thanks,
+> 
+> 	Anna-Maria
+> 
+> 
+> 
+> Anna-Maria Behnsen (2):
+>   drm/vram-helper: Fix 'multi-line' kernel-doc comments
+>   scripts/kernel-doc: Do not process backslash lines in comments
+> 
+>  drivers/gpu/drm/drm_gem_vram_helper.c | 44 ++++++++++++---------------
+>  include/drm/drm_gem_vram_helper.h     | 16 +++++-----
+>  scripts/kernel-doc                    |  2 +-
+>  3 files changed, 29 insertions(+), 33 deletions(-)
+> 
+> -- 
+> 2.39.2
+> 
 
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
