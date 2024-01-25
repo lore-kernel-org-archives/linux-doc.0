@@ -1,161 +1,291 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086A5133431;
-	Thu, 25 Jan 2024 18:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FA61350C4
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 18:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706205882; cv=none; b=eHBSep7+/xffUslDL2WRdZv+xu+mkBjm59EJjEFoKopcdqIyFcuHfD7eWrFapoLYhYVTcZxEz3NUJ3mmaWbmNxKZhxXzVWybhoJ8q4AKKWtrE1HRYTO/f8zQVspPZw82XBlvTOVpiEB+s2Y70sAJKJnk+28yHXbbZE1v6+i57aE=
+	t=1706206217; cv=none; b=hUhaOnm0oX8+q73wK5lTOKELtyslYi+6HHDvtnyORU4xV7K+RuSr9oHrWt0lT6xESyF+POEpBs/oWeZ2qoH5qiSFH6UvWrlRmFMAM257Ggn0ef3x4wK+Od6QqP/Ig+KiGKXR+HWqviafNcIdzQq+s79ID4TYhHcqeNb2OfI1Vbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706205882; c=relaxed/simple;
-	bh=WDKiWZF/CO1jOYkvrWCm5fjBFh98x/VbgkhxOL64aJw=;
+	s=arc-20240116; t=1706206217; c=relaxed/simple;
+	bh=IjkBfYyXyZuxLRiem9LViq3PHGioJn1sHgJBkjshdog=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PTHbZPwm6qSmyew+qz2gjewbpR21inMDMq5OtgSc9ETdIG5s+CUld/Utwf7mKkbeE/PWXRM3VwSe8ae4W0vb7GBmggxIHjAc5BLhtZeXRtgB4NfQ2A6CbPsS0AfK4mmkOvHLsOInOaukMi+3SMIitimTlRiE/N7eSUQvV6XQUIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M8+ilI+r; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KgBzif2hQF/8QkwRhrP6UHPHeWnjdfMH5OQ7r4i6s5Yt1ok+4V9nmAaZxcyZByc1Y6K1YvkmJ2E8/l8UYAgk+ph2PT+juido9O1HWSeQPHnHoGZUsft1NsgRhj1BJelUKKsZbI+zBjxFB2cKzeU6A2TlQDhA68FGAvdc5lvjDvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=CGkvof0E; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M8+ilI+r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A08C433F1;
-	Thu, 25 Jan 2024 18:04:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706205881;
-	bh=WDKiWZF/CO1jOYkvrWCm5fjBFh98x/VbgkhxOL64aJw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M8+ilI+rArrGEQzPOKxpm2KS3wnWPXl81DIQIIVlFks4XkUWeCCYLnv2W1QOtXMH7
-	 vxZxdNzGTgI5Ck6OrV+3PtZNm8Cr5WmRLPPVQcrGnWkkUSAu1d3v3XE2hVMJZ0m9He
-	 iD1f44ZRSJJgs0xN+T5HI7H5rxVDgR/KYt90fxsf1ZKe9ZQZMRjMC418rbZF1Jcup/
-	 jSkG8NJUt5s3pNBKI69IhDV3sAr3XfzL+Cq4zJGEx4bc4nPpBECZySU7/hCjLo8m9L
-	 32n4SQxsAE7RgeGLlnFvEweH44zMFp5oX7ZMLwG65JW0diChuZZSzVja0gYDOCJ15k
-	 mVK8beInkEYYw==
-Date: Thu, 25 Jan 2024 18:04:26 +0000
-From: Conor Dooley <conor@kernel.org>
-To: debug@rivosinc.com
-Cc: rick.p.edgecombe@intel.com, broonie@kernel.org, Szabolcs.Nagy@arm.com,
-	kito.cheng@sifive.com, keescook@chromium.org,
-	ajones@ventanamicro.com, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, conor.dooley@microchip.com, cleger@rivosinc.com,
-	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com,
-	alexghiti@rivosinc.com, corbet@lwn.net, aou@eecs.berkeley.edu,
-	oleg@redhat.com, akpm@linux-foundation.org, arnd@arndb.de,
-	ebiederm@xmission.com, shuah@kernel.org, brauner@kernel.org,
-	guoren@kernel.org, samitolvanen@google.com, evan@rivosinc.com,
-	xiao.w.wang@intel.com, apatel@ventanamicro.com,
-	mchitale@ventanamicro.com, waylingii@gmail.com,
-	greentime.hu@sifive.com, heiko@sntech.de, jszhang@kernel.org,
-	shikemeng@huaweicloud.com, david@redhat.com, charlie@rivosinc.com,
-	panqinglin2020@iscas.ac.cn, willy@infradead.org,
-	vincent.chen@sifive.com, andy.chiu@sifive.com, gerg@kernel.org,
-	jeeheng.sia@starfivetech.com, mason.huo@starfivetech.com,
-	ancientmodern4@gmail.com, mathis.salmen@matsal.de,
-	cuiyunhui@bytedance.com, bhe@redhat.com, chenjiahao16@huawei.com,
-	ruscur@russell.cc, bgray@linux.ibm.com, alx@kernel.org,
-	baruch@tkos.co.il, zhangqing@loongson.cn, catalin.marinas@arm.com,
-	revest@chromium.org, josh@joshtriplett.org, joey.gouly@arm.com,
-	shr@devkernel.io, omosnace@redhat.com, ojeda@kernel.org,
-	jhubbard@nvidia.com, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-arch@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH v1 24/28] riscv: select config for shadow stack and
- landing pad instr support
-Message-ID: <20240125-snitch-boogieman-5b4a0b142e61@spud>
-References: <20240125062739.1339782-1-debug@rivosinc.com>
- <20240125062739.1339782-25-debug@rivosinc.com>
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="CGkvof0E"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-55369c59708so1639252a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 10:10:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1706206214; x=1706811014; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5tOrqes/9yVROTQ69tGyE0dsjLuB7wrcHht59zsTqBI=;
+        b=CGkvof0EtzcKmw7WNMprPWIIDhnUd5DMGi6YIWp80nwC41xYArFvglosFhOYI0TLRu
+         a7ObXw4SQpWaG6OJcsZcHqhoHHfKhfsGj3fVQDJ1mG2TIvsYgUF/8x1HR/Dx9efT+8go
+         7GMqiShf5ClOvHKiVH6nA3o3TGI4tfUz4e970=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706206214; x=1706811014;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5tOrqes/9yVROTQ69tGyE0dsjLuB7wrcHht59zsTqBI=;
+        b=OQZL/gvI9GloW+XuFg9ajl2nDAxYirHteed2tnzTiQUCzpv4lbSSQpMdbc7/L/R7F7
+         dXmEhtjtUHd7G0F31OLYZ5VcsS5E5NCw2Hu8Be/EaMDjfPLbi4aITkUGHlmwadqjmuUI
+         f3ujGWaX1ICnC0rqpa3qcW5cFBct97S9c0ohVOBFtlLFXoMbQOyMpoona7/Xk2/Xgo0D
+         JzotMmYPSngMAt4Y2pLVY6wGsfX+Vxsmr11Rc2DHKwm9h3BOdLhCwykI2+8EBcR3cSZ5
+         lQLU9gkT9f4bNiwyrXHUc3kRt//W/CFB4K2ApXJzTxJ4LuUuUigCsSBZ8evLrYZEP60v
+         3qNA==
+X-Gm-Message-State: AOJu0Yx7wKjyk0C8ihqVy9rb/bP9zj+YryvoxEVINVwIk1md8T1HiP6g
+	9XowGT29xUUu0D55n1BkML1yX69CVlKweTAaHoZO50+s3N7xF7JXIvkmWM4m/tY=
+X-Google-Smtp-Source: AGHT+IHiPqW8oQ3VVW2VkOd3YkCZla2B2xfbN2rRDbyJzKzFaaBeBkii2OIRJhk353wOIuVlybUpFg==
+X-Received: by 2002:aa7:c595:0:b0:55c:c283:30c6 with SMTP id g21-20020aa7c595000000b0055cc28330c6mr63184edq.0.1706206213777;
+        Thu, 25 Jan 2024 10:10:13 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id fj9-20020a0564022b8900b00559cb738c1bsm10748896edb.4.2024.01.25.10.10.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 10:10:13 -0800 (PST)
+Date: Thu, 25 Jan 2024 19:10:11 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5 1/6] dma-buf: Add dma_buf_{begin,end}_access()
+Message-ID: <ZbKkA68PuekJGIrP@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240119141402.44262-1-paul@crapouillou.net>
+ <20240119141402.44262-2-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="NUnGWzqhiv75TmQp"
-Content-Disposition: inline
-In-Reply-To: <20240125062739.1339782-25-debug@rivosinc.com>
-
-
---NUnGWzqhiv75TmQp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240119141402.44262-2-paul@crapouillou.net>
+X-Operating-System: Linux phenom 6.6.11-amd64 
 
-On Wed, Jan 24, 2024 at 10:21:49PM -0800, debug@rivosinc.com wrote:
-> From: Deepak Gupta <debug@rivosinc.com>
->=20
-> This patch selects config shadow stack support and landing pad instr
-> support. Shadow stack support and landing instr support is hidden behind
-> `CONFIG_RISCV_USER_CFI`. Selecting `CONFIG_RISCV_USER_CFI` wires up path
-> to enumerate CPU support and if cpu support exists, kernel will support
-> cpu assisted user mode cfi.
->=20
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+On Fri, Jan 19, 2024 at 03:13:57PM +0100, Paul Cercueil wrote:
+> These functions should be used by device drivers when they start and
+> stop accessing the data of DMABUF. It allows DMABUF importers to cache
+> the dma_buf_attachment while ensuring that the data they want to access
+> is available for their device when the DMA transfers take place.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+
+Putting my detailed review comments here just so I don't have to remember
+them any longer. We need to reach consensus on the big picture direction
+first.
+
+> 
 > ---
->  arch/riscv/Kconfig | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->=20
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index 9d386e9edc45..437b2f9abf3e 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -163,6 +163,7 @@ config RISCV
->  	select SYSCTL_EXCEPTION_TRACE
->  	select THREAD_INFO_IN_TASK
->  	select TRACE_IRQFLAGS_SUPPORT
-> +	select RISCV_USER_CFI
+> v5: New patch
+> ---
+>  drivers/dma-buf/dma-buf.c | 66 +++++++++++++++++++++++++++++++++++++++
+>  include/linux/dma-buf.h   | 37 ++++++++++++++++++++++
+>  2 files changed, 103 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 8fe5aa67b167..a8bab6c18fcd 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -830,6 +830,8 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+>   *     - dma_buf_mmap()
+>   *     - dma_buf_begin_cpu_access()
+>   *     - dma_buf_end_cpu_access()
+> + *     - dma_buf_begin_access()
+> + *     - dma_buf_end_access()
+>   *     - dma_buf_map_attachment_unlocked()
+>   *     - dma_buf_unmap_attachment_unlocked()
+>   *     - dma_buf_vmap_unlocked()
+> @@ -1602,6 +1604,70 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
+>  
+> +/**
+> + * @dma_buf_begin_access - Call before any hardware access from/to the DMABUF
+> + * @attach:	[in]	attachment used for hardware access
+> + * @sg_table:	[in]	scatterlist used for the DMA transfer
+> + * @direction:  [in]    direction of DMA transfer
 
-This select makes no sense to me, it will unconditionally enable
-RISCV_USER_CFI. I don't think that that is your intent, since you have a
-detailed option below that allows the user to turn it on or off.
+I think for the kerneldoc would be good to point at the other function
+here, explain why this might be needed and that for most reasonable
+devices it's probably not, and link between the function pairs.
 
-If you remove it, the commit message will need to change too FYI.
+Also we need to document that dma_buf_map does an implied
+dma_buf_begin_access (because dma_sg_map does an implied
+dma_sg_sync_for_device) and vice versa for dma_buf_end_access. Which also
+means that dma_buf_map/unmap should link to these functions in their
+kerneldoc too.
 
-Thanks,
-Conor.
+Finally I think we should document here that it's ok to call these from
+dma_fence signalling critical section and link to the relevant discussion
+in the dma_fence docs for that.
 
->  	select UACCESS_MEMCPY if !MMU
->  	select ZONE_DMA32 if 64BIT
-> =20
-> @@ -182,6 +183,20 @@ config HAVE_SHADOW_CALL_STACK
->  	# https://github.com/riscv-non-isa/riscv-elf-psabi-doc/commit/a484e843e=
-6eeb51f0cb7b8819e50da6d2444d769
->  	depends on $(ld-option,--no-relax-gp)
-> =20
-> +config RISCV_USER_CFI
-> +	bool "riscv userspace control flow integrity"
-> +	help
-> +	  Provides CPU assisted control flow integrity to userspace tasks.
-> +	  Control flow integrity is provided by implementing shadow stack for
-> +	  backward edge and indirect branch tracking for forward edge in progra=
-m.
-> +	  Shadow stack protection is a hardware feature that detects function
-> +	  return address corruption. This helps mitigate ROP attacks.
-> +	  Indirect branch tracking enforces that all indirect branches must land
-> +	  on a landing pad instruction else CPU will fault. This mitigates agai=
-nst
-> +	  JOP / COP attacks. Applications must be enabled to use it, and old us=
-er-
-> +	  space does not get protection "for free".
-> +	  default y
+> + */
+> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+> +			 struct sg_table *sgt, enum dma_data_direction dir)
+> +{
+> +	struct dma_buf *dmabuf;
+> +	bool cookie;
+> +	int ret;
 > +
->  config ARCH_MMAP_RND_BITS_MIN
->  	default 18 if 64BIT
->  	default 8
-> --=20
+> +	if (WARN_ON(!attach))
+> +		return -EINVAL;
+> +
+> +	dmabuf = attach->dmabuf;
+> +
+> +	if (!dmabuf->ops->begin_access)
+> +		return 0;
+> +
+> +	cookie = dma_fence_begin_signalling();
+> +	ret = dmabuf->ops->begin_access(attach, sgt, dir);
+> +	dma_fence_end_signalling(cookie);
+> +
+> +	if (WARN_ON_ONCE(ret))
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_access, DMA_BUF);
+
+So explicit device side coherency management is not going to be very
+compatible with dynamic buffer managament where the exporter can move the
+buffer around. The reason for that is that for a dynamic exporter we cache
+the sg mapping, which means any device-side coherency management which
+dma_buf_map/unmap would do will not happen (since it's cached),
+potentially breaking things for importers that rely on the assumption that
+dma_buf_map/unmap already implies dma_buf_begin/end_device_access.
+
+I think for now it's sufficient to put a WARN_ON(dma_buf_is_dymamic() &&
+ops->begin|end_access) or similar into dma_buf_export and bail out with an
+error to catch that.
+
+Aside from the nits I do think this is roughly what we brievely discussed
+well over a decade ago in the original dma-buf kickoff meeting at a linaro
+connect in Budapest :-)
+
+Cheers, Sima
+
+> +
+> +/**
+> + * @dma_buf_end_access - Call after any hardware access from/to the DMABUF
+> + * @attach:	[in]	attachment used for hardware access
+> + * @sg_table:	[in]	scatterlist used for the DMA transfer
+> + * @direction:  [in]    direction of DMA transfer
+> + */
+> +int dma_buf_end_access(struct dma_buf_attachment *attach,
+> +		       struct sg_table *sgt, enum dma_data_direction dir)
+> +{
+> +	struct dma_buf *dmabuf;
+> +	bool cookie;
+> +	int ret;
+> +
+> +	if (WARN_ON(!attach))
+> +		return -EINVAL;
+> +
+> +	dmabuf = attach->dmabuf;
+> +
+> +	if (!dmabuf->ops->end_access)
+> +		return 0;
+> +
+> +	cookie = dma_fence_begin_signalling();
+> +	ret = dmabuf->ops->end_access(attach, sgt, dir);
+> +	dma_fence_end_signalling(cookie);
+> +
+> +	if (WARN_ON_ONCE(ret))
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_end_access, DMA_BUF);
+> +
+>  #ifdef CONFIG_DEBUG_FS
+>  static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  {
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 8ff4add71f88..8ba612c7cc16 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -246,6 +246,38 @@ struct dma_buf_ops {
+>  	 */
+>  	int (*end_cpu_access)(struct dma_buf *, enum dma_data_direction);
+>  
+> +	/**
+> +	 * @begin_access:
+> +	 *
+> +	 * This is called from dma_buf_begin_access() when a device driver
+> +	 * wants to access the data of the DMABUF. The exporter can use this
+> +	 * to flush/sync the caches if needed.
+> +	 *
+> +	 * This callback is optional.
+> +	 *
+> +	 * Returns:
+> +	 *
+> +	 * 0 on success or a negative error code on failure.
+> +	 */
+> +	int (*begin_access)(struct dma_buf_attachment *, struct sg_table *,
+> +			    enum dma_data_direction);
+> +
+> +	/**
+> +	 * @end_access:
+> +	 *
+> +	 * This is called from dma_buf_end_access() when a device driver is
+> +	 * done accessing the data of the DMABUF. The exporter can use this
+> +	 * to flush/sync the caches if needed.
+> +	 *
+> +	 * This callback is optional.
+> +	 *
+> +	 * Returns:
+> +	 *
+> +	 * 0 on success or a negative error code on failure.
+> +	 */
+> +	int (*end_access)(struct dma_buf_attachment *, struct sg_table *,
+> +			  enum dma_data_direction);
+> +
+>  	/**
+>  	 * @mmap:
+>  	 *
+> @@ -606,6 +638,11 @@ void dma_buf_detach(struct dma_buf *dmabuf,
+>  int dma_buf_pin(struct dma_buf_attachment *attach);
+>  void dma_buf_unpin(struct dma_buf_attachment *attach);
+>  
+> +int dma_buf_begin_access(struct dma_buf_attachment *attach,
+> +			 struct sg_table *sgt, enum dma_data_direction dir);
+> +int dma_buf_end_access(struct dma_buf_attachment *attach,
+> +		       struct sg_table *sgt, enum dma_data_direction dir);
+> +
+>  struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info);
+>  
+>  int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+> -- 
 > 2.43.0
->=20
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> 
+> 
 
---NUnGWzqhiv75TmQp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbKiqgAKCRB4tDGHoIJi
-0vKGAQDVTVByG7JLLR+gPjsKjLHdPRWsvjnTta2HP7StCen6fgD9Eq3Uv1oej4Qh
-QiRGb9e3PxfM9z73zB+grxPynuwKxg4=
-=TScR
------END PGP SIGNATURE-----
-
---NUnGWzqhiv75TmQp--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
