@@ -1,56 +1,56 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A46F111A2
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 06:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6754711712
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 06:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706164103; cv=none; b=apSNKxpC0+GjNGo34xzUhecPY4abGWGA6iTDRSLUxIjlTA2n2fib1YQ9+uBy84aSIwi+qqsvOBJwJM7q/nvVKblQaByX4wbhVRdQRavBdWhzOvij3um8MNyzndMBYEaGWHfXwpLY0UjWUzvAY4pr8rX5k2t/n16+ALpnMP2Ksfs=
+	t=1706164110; cv=none; b=IY399k+hS7pN+nueOQcRGLB6zOLSdtWuvnMTyGQAAnERONtAPF0tRKvhuHbV5wP9OBzwDg3uR9UhJweMlf2WrtgwHnjMaXdKg4rhpCdqr7qZXx1Yusu9XV/SO0lC6cZILQ1G4UTFNkHs+Swx/FpS70bjgGWuN31uJqmUXrEUl1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706164103; c=relaxed/simple;
-	bh=9+H+30KMPyCh1YcAoThxCuB9d80x0zddDEJVZVZUZoo=;
+	s=arc-20240116; t=1706164110; c=relaxed/simple;
+	bh=rjN/tLQGMBp9jnM1L1ZfLUL/UMdi1I4Umc0mfIrOoTE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k+fO6bg1eABJyCUvCoVNOYpbSBwYEGhf4W6jSItsTzokB1t3dafPaYBhfozc1DQUtckMtmML5uNsUl1RJlvFQlkBf+mdOYRtmxgO80HyaxxDFnQtz3o50zynuVENFwyq71cjdbYJ9PI9NDO8jjzNj219gO6lKgj9DogZrt1wmmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=WGeuz059; arc=none smtp.client-ip=209.85.167.173
+	 MIME-Version; b=ky8V3E46qkqa10CaW+WR4GhHhWdkguXSg8O0X8pLg65hucm+WTJwjTjZvraol4P5h3m91JUW7xQenklw3q17OcaOkgR/qThkUpGMjrbu58J6imWNy0wF6Shtm2scZoVviZFsjb48GxMHd9Sj6P0t6A+xHKSjRf+LMljAQ8rDIQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=k+lyewFH; arc=none smtp.client-ip=209.85.167.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="WGeuz059"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3bdb42da0e0so3234029b6e.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 22:28:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="k+lyewFH"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3bd5c4cffefso6300357b6e.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jan 2024 22:28:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1706164101; x=1706768901; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1706164108; x=1706768908; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UpWYX6cXeb3EwmSmbUmLWJ8fZpndT9qVanP1zDkk0zs=;
-        b=WGeuz059B9Z7CNUInY/nBtaR+3tAYT7gRCwrfKaJIOcr3lGpa/M2ZxrOj23Cg8vfSN
-         vGPHxxHrHzvQIMrh/VL+qkVSP7shRow2asqcbFfz8lWSF7SXpRb038vAEuSG+68NocGG
-         3QwFxC4K+qC7VsUdSForvULS9Ir6jtpqJIUaBmyGLe9ta4tbHeodNbZ6JtYxpCLaHWa5
-         X1yWDq04KFmpqjMA5I5bGhmAK1BCljJsqkL8ZlN79hBYPDck6iR+UMmHYogY4pDpbgpq
-         /uY+aIJP+EhcTZXx6TqtIeVEbqOOoNXuGqOidNk0NGFxGJvwPkIkG8RLuqOaH8xt80uw
-         3F8w==
+        bh=ioE1LIRdb8UGU7iHQDrnlckX+FNXkyoBwT0Lgj/da5g=;
+        b=k+lyewFHKBBrNOC49D2eN5Y5EaN2zFjK84usZ1N+KfHDyi4q4P8wbC56+bZwkhoIng
+         keBUe8N7Qh2Ib6uQ6KUjjRZbmKCMAbO0AgSSwOys+gLUDony6adiZ7CttyKgeJK0tGdF
+         a5PSxrBHanp8WedZiHW17LwFjOPJP81n4A/tbXCqYNgITr6cEGUulWAVO79Dsv0MjRoq
+         jEmBNedCQBE+Ogl1IdJv8jGRwhezsQ7AWyULYqL0iO5AXfvJFXc0BYPRcD33ZVwhTM+D
+         juUhUq6/OIybst9O17HQP3/yUJxRZZfmPA/u/88cHoP2XtmxWG3NhMMfauA6ckgjwkVs
+         y3cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706164101; x=1706768901;
+        d=1e100.net; s=20230601; t=1706164108; x=1706768908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UpWYX6cXeb3EwmSmbUmLWJ8fZpndT9qVanP1zDkk0zs=;
-        b=nX49a5vcR6SExzbcetEkIRxU3l+4qw09O2XzDzEbewgRhobEjya4TJUqgZP4LmWsuW
-         zC5TYkxlolGruMzbmDml2C+DCMWSoMUukVUDHZ1aesXugLa0X5zI1pQEWFRNOJp4ilZL
-         RMLqwSj8w6Kf7h1abuww+aGFsUVYFQC/vBTOwP88JdJqmwcJ09a9jcvbyKcpV7/jIFmV
-         rMl5mMs4HnHsEpoMZVWaemtzAqXSE9ohLpVOlUVFJFSkwm+KUYW3/P/8CNgP87IRwVNU
-         drPo6b5pbkuBjitnNMbB2VbIHPrwfq8ebQxAvBJ2Jzz1hb9/M8o0Kdb1PENykOxyhIjj
-         IqoA==
-X-Gm-Message-State: AOJu0YxsFEb2X0LzAchGI0bQW+gB1tn7FN8SoeXW0LS3DEV3XgffXxrR
-	37mfqUH+iPgROw3evqTZL887NwvIP9i4wsx8SUNnU2lQjgdtMY5o4m8awoLWA7Y=
-X-Google-Smtp-Source: AGHT+IEsqvMNFQpFlOYcM36mb6P72n2g5IoYJQjyFjdvM0xADABaEzJAYSqo7gQsIel9ygICs1O66Q==
-X-Received: by 2002:a05:6808:3197:b0:3bd:a590:8a00 with SMTP id cd23-20020a056808319700b003bda5908a00mr578367oib.85.1706164101404;
-        Wed, 24 Jan 2024 22:28:21 -0800 (PST)
+        bh=ioE1LIRdb8UGU7iHQDrnlckX+FNXkyoBwT0Lgj/da5g=;
+        b=qybbjajYkLMNN9JvVpjg30wiTDQgs98eGMrmTeOFAvLPxCISnErBAEwW4XnzIwXcWr
+         DDzpuDYAVpbn4BDM3iETZeASVSPx5eJbx9snI9+WTmMoWO2NEAE1jkEs5c74VALpNpG/
+         jLnn965zhk3ynmtdo5rjEbPMMtjaW6gUL44j/h3JZYCfsqJPr2a7iGaE2mMDaf/oErFd
+         2j2JALTbee2Vpi4rHh1oB91vokkvTshNBReTD+41AbtzYfGmpYu4YGHTBCBhw/6D1x0I
+         /tSxWeP5ojZW0VEU1AyWoutq31QTTAX5UsT8+sRfI/Jw+SBe27T12RmVq1zMmPoG1J55
+         XNVQ==
+X-Gm-Message-State: AOJu0YzHHmYvmuqkE1CpozYFeXxx8qDGAEpLH/+GtJv6CE1GmjzgPipr
+	k7ViWE3d/V+X9K3axaq//I/HqRdnJLBiJVURNQEArdEM76aprZ+TaOeosvm5hqY=
+X-Google-Smtp-Source: AGHT+IEDX9sIkxnHph4wuJVvd42o38950kc3fb8mUyOs60adtjswg3LDjUQk/s2QDj8rOhFBqYZqog==
+X-Received: by 2002:a05:6808:159a:b0:3bd:7218:f318 with SMTP id t26-20020a056808159a00b003bd7218f318mr526373oiw.4.1706164108504;
+        Wed, 24 Jan 2024 22:28:28 -0800 (PST)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id t19-20020a056a00139300b006dd870b51b8sm3201139pfg.126.2024.01.24.22.28.18
+        by smtp.gmail.com with ESMTPSA id t19-20020a056a00139300b006dd870b51b8sm3201139pfg.126.2024.01.24.22.28.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jan 2024 22:28:21 -0800 (PST)
+        Wed, 24 Jan 2024 22:28:28 -0800 (PST)
 From: debug@rivosinc.com
 To: rick.p.edgecombe@intel.com,
 	broonie@kernel.org,
@@ -119,9 +119,9 @@ Cc: corbet@lwn.net,
 	linux-mm@kvack.org,
 	linux-arch@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [RFC PATCH v1 02/28] riscv: envcfg save and restore on trap entry/exit
-Date: Wed, 24 Jan 2024 22:21:27 -0800
-Message-ID: <20240125062739.1339782-3-debug@rivosinc.com>
+Subject: [RFC PATCH v1 03/28] riscv: define default value for envcfg
+Date: Wed, 24 Jan 2024 22:21:28 -0800
+Message-ID: <20240125062739.1339782-4-debug@rivosinc.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240125062739.1339782-1-debug@rivosinc.com>
 References: <20240125062739.1339782-1-debug@rivosinc.com>
@@ -135,61 +135,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Deepak Gupta <debug@rivosinc.com>
 
-envcfg CSR defines enabling bits for cache management instructions and soon
-will control enabling for control flow integrity and pointer masking features.
-
-Control flow integrity enabling for forward cfi and backward cfi is controlled
-via envcfg and thus need to be enabled on per thread basis.
-
-This patch creates a place holder for envcfg CSR in `thread_info` and adds
-logic to save and restore on trap entry and exits.
+Defines a base default value for envcfg per task. By default all tasks
+should have cache zeroing capability. Any future capabilities can be
+turned on.
 
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 ---
- arch/riscv/include/asm/thread_info.h | 1 +
- arch/riscv/kernel/asm-offsets.c      | 1 +
- arch/riscv/kernel/entry.S            | 4 ++++
- 3 files changed, 6 insertions(+)
+ arch/riscv/include/asm/csr.h | 2 ++
+ arch/riscv/kernel/process.c  | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/include/asm/thread_info.h
-index 574779900bfb..320bc899a63b 100644
---- a/arch/riscv/include/asm/thread_info.h
-+++ b/arch/riscv/include/asm/thread_info.h
-@@ -57,6 +57,7 @@ struct thread_info {
- 	long			user_sp;	/* User stack pointer */
- 	int			cpu;
- 	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
-+	unsigned long envcfg;
- #ifdef CONFIG_SHADOW_CALL_STACK
- 	void			*scs_base;
- 	void			*scs_sp;
-diff --git a/arch/riscv/kernel/asm-offsets.c b/arch/riscv/kernel/asm-offsets.c
-index a03129f40c46..cdd8f095c30c 100644
---- a/arch/riscv/kernel/asm-offsets.c
-+++ b/arch/riscv/kernel/asm-offsets.c
-@@ -39,6 +39,7 @@ void asm_offsets(void)
- 	OFFSET(TASK_TI_PREEMPT_COUNT, task_struct, thread_info.preempt_count);
- 	OFFSET(TASK_TI_KERNEL_SP, task_struct, thread_info.kernel_sp);
- 	OFFSET(TASK_TI_USER_SP, task_struct, thread_info.user_sp);
-+	OFFSET(TASK_TI_ENVCFG, task_struct, thread_info.envcfg);
- #ifdef CONFIG_SHADOW_CALL_STACK
- 	OFFSET(TASK_TI_SCS_SP, task_struct, thread_info.scs_sp);
+diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+index b3400517b0a9..01ba87954da2 100644
+--- a/arch/riscv/include/asm/csr.h
++++ b/arch/riscv/include/asm/csr.h
+@@ -202,6 +202,8 @@
+ #define ENVCFG_CBIE_FLUSH		_AC(0x1, UL)
+ #define ENVCFG_CBIE_INV			_AC(0x3, UL)
+ #define ENVCFG_FIOM			_AC(0x1, UL)
++/* by default all threads should be able to zero cache */
++#define ENVCFG_BASE			ENVCFG_CBZE
+ 
+ /* Smstateen bits */
+ #define SMSTATEEN0_AIA_IMSIC_SHIFT	58
+diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
+index 4f21d970a129..2420123444c4 100644
+--- a/arch/riscv/kernel/process.c
++++ b/arch/riscv/kernel/process.c
+@@ -152,6 +152,7 @@ void start_thread(struct pt_regs *regs, unsigned long pc,
+ 	else
+ 		regs->status |= SR_UXL_64;
  #endif
-diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
-index 54ca4564a926..63c3855ba80d 100644
---- a/arch/riscv/kernel/entry.S
-+++ b/arch/riscv/kernel/entry.S
-@@ -129,6 +129,10 @@ SYM_CODE_START_NOALIGN(ret_from_exception)
- 	addi s0, sp, PT_SIZE_ON_STACK
- 	REG_S s0, TASK_TI_KERNEL_SP(tp)
++	current->thread_info.envcfg = ENVCFG_BASE;
+ }
  
-+	/* restore envcfg bits for current thread */
-+	REG_L s0, TASK_TI_ENVCFG(tp)
-+	csrw CSR_ENVCFG, s0
-+
- 	/* Save the kernel shadow call stack pointer */
- 	scs_save_current
- 
+ void flush_thread(void)
 -- 
 2.43.0
 
