@@ -1,90 +1,136 @@
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A96C1B944
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 08:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971FE1BC46;
+	Thu, 25 Jan 2024 09:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706172215; cv=none; b=nHW4k+3VoXtxUrmtFGgIGZjCDIligDFF541HeLP0qQRuZs9mykN6dYgMQgVCUCVq0BNDwrJsUuJ0hgJprEDiAOzy4zRGaLTIH3lNDXkT3pS+OqeqMIiNxdRWSUSrLVgnKexfkiUN/1JDauX+A6z7ViWGPMqtvA9tbfUekt9Bmrk=
+	t=1706175407; cv=none; b=JWJgnp4F39aJM+cKDpr3On0R9bMw5VN2B/1c/RHY2asW2iTVb8po+kcBY2C8C7PXb3CaKkM/nkvtj2/rVrtw4uUUsZ2/E4nBg2d/A+dSYyE77pUZk8IAR/SODQ2+o06DWCbrkli5SvBZM2oEdk1bhUElYkwpsBMpgE3jD2/k8cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706172215; c=relaxed/simple;
-	bh=R6xBsFIzxs3ZX3VwdwbYtSZ2G1w2NKp7zYhPX2+phdM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XNCpp5bjOJyA/tcefyNRViff5NvJ0bP31tPaf6bONr7ZLC9R+gHhQQPHnow4XqPiZt7+mISdsYWiDddiPL4bgHVPtqVDGkeA0yKK89A//QkE/WGsiS0lV2fAokNWcqiT2FLkaZzIfX5+pWJvY+o26igIaYOXyycEil5RLpKpTY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=jHovY/vh; arc=none smtp.client-ip=209.85.222.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1706175407; c=relaxed/simple;
+	bh=5IdCGjxog+NAv/y7J+sZhb8XlMuQAvpB+GisSh4S9x8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=n1xPQ8fni/n+yKeKUIpZ9ONEVOCdYG7ScsHV0k/z26QWgG2glUBg8sHLyzxkHixjEVXl2QCgiu0zAQNsr2T2WGlTtEX7lcP/3xz+Bz2/igBep11KqaFY5WFTlox7293wEUUztzxQDuYsQVRtTAa9eKnxPyQNdYb+ikJlBONJcRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E7YPlVBx; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="jHovY/vh"
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-7d2df9d1976so1598278241.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 00:43:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1706172211; x=1706777011; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R6xBsFIzxs3ZX3VwdwbYtSZ2G1w2NKp7zYhPX2+phdM=;
-        b=jHovY/vh27gGi83bwSC1nxezO1U38Th7Yr+oeesczc0u1vRIrqI56PvBSDDOQJapq1
-         KJKQcS0JofaOnpRCVUwGoGZY1038ln9dpjyyGi5BOczjhnWE5/i0diSAyGIOtf0u4Sew
-         aPT6WgX64VFgu/BRzSseqDJ9BXBIwQJs5z9hJqAb2eFXJdkmN97e5h6eQfoGp/85LZw5
-         7qsa3AF0wujZqQgk5DHUnX0oXWfins7l/7Q+s4Ol8+mnfeXCXzfB+gobdYuEcOxjsaiI
-         VA9mfO+3nqvY7KIWiAhsnD0Nz5IgZYLmR93oNqTfagEEyJpCwPdmx/9qYWl0ecAGYjoi
-         UaVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706172211; x=1706777011;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R6xBsFIzxs3ZX3VwdwbYtSZ2G1w2NKp7zYhPX2+phdM=;
-        b=w+BiNtIw6cvRp8GoCehnqPwSPi/6Ff5AbsVBdXq52e+LZr35aHDA/dDjFBfS5W+lVA
-         3DIwS4es9HCH3uqk1Rq80Yb2U9/H3Jp0rUKaHWwdKdpqhawCEsGGJDXqBjhVZ5WZGc9b
-         4oU20UC/xw6fHQm8wFKhdQgt33fczlZzsVvmK3qLZRihGO2OrsiW1IwpzMy5nmWqsSIY
-         /5EtKCwysWEhFFEp0RFVn0MQRbCk2QqIawJB9g9tMRPBVNxwsu8Ps0aHQWAWwewNJaMp
-         86pE4czKmQF/esCD8VVLOqzVvd4tKhnfgWSO5awzvwXVeTu1Ms0dVTPO8x+Twxh73Ecu
-         GL1Q==
-X-Gm-Message-State: AOJu0YwHGtrA+/PXfcMtYOHSTCTpfDfK4mPJPgkUvtJaJPMAtjrbMpfS
-	vnnaMZ/rxWPeiD9XxC1x1JjKzBWxdqjuxdNvD1z3GEPNpq5pBJg6HoqPh46WV1Ds8vKcgZOmbTR
-	57EQHqjrccM83MiiY2kZPSNV3z5lxTL2w3rTA1w==
-X-Google-Smtp-Source: AGHT+IEbxXAzBMt9uknzb02Bu18zwPl1FJlUa5sv2Pkf2R84ZO0GUaj5kptWwmB77ttmAnfgr6+xWwyt6cR6zJEEknc=
-X-Received: by 2002:a1f:ee4b:0:b0:4bd:7bf5:934c with SMTP id
- m72-20020a1fee4b000000b004bd7bf5934cmr177165vkh.4.1706172211020; Thu, 25 Jan
- 2024 00:43:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7YPlVBx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706175405; x=1737711405;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=5IdCGjxog+NAv/y7J+sZhb8XlMuQAvpB+GisSh4S9x8=;
+  b=E7YPlVBx8zXrhMw6ObNedND5t3fgAfpL9zLncRJy+6OyXRrlT0GIGfE3
+   fMqjrh0EZ/5codKBWOs9qCjtVe+ja3HjRC1C7VuUt/zVSNm6WVBsnBmuh
+   ozFGNid3Qvb1Jj8NhzJnQz0ZR2TleyZ6BIi2R6TYmjDt4U12qhCOtai2V
+   1r6WiGEDNlSkfA70MsZ7diTsETAAf2+UL/yw4EGwMOcE2Ej6AA6sudyW2
+   A3b8HDPxTt6S4QPpouS4E2qAG3wFrEqLJPdo9NyRLz/5wv696pyWsFeFS
+   fDU1PDjxnAAPHe9QUPUEAGaKXkKiWT6OlSD77IQt1OKgkDOR300s5M5bw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="8767135"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="8767135"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 01:36:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="2303503"
+Received: from cyrillet-mobl.ger.corp.intel.com (HELO localhost) ([10.252.58.252])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 01:36:42 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>, Linux kernel regressions list
+ <regressions@lists.linux.dev>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: More detailed text about bisecting Linux kernel regression --
+ request for comments and help
+In-Reply-To: <c763e15e-e82e-49f8-a540-d211d18768a3@leemhuis.info>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <c763e15e-e82e-49f8-a540-d211d18768a3@leemhuis.info>
+Date: Thu, 25 Jan 2024 11:36:38 +0200
+Message-ID: <87fryllpp5.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240123133828.141222-1-warthog618@gmail.com>
-In-Reply-To: <20240123133828.141222-1-warthog618@gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 25 Jan 2024 09:43:20 +0100
-Message-ID: <CAMRc=McEwWQuJMb+25Yo23yXbhTsCDN4kMT=K0Lwg8xyJTrHpw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: describe uAPI behaviour when
- hardware doesn't support requested config
-To: Kent Gibson <warthog618@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linus.walleij@linaro.org, andy@kernel.org, 
-	corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Jan 23, 2024 at 2:39=E2=80=AFPM Kent Gibson <warthog618@gmail.com> =
-wrote:
+On Wed, 24 Jan 2024, Thorsten Leemhuis <linux@leemhuis.info> wrote:
+> Hi! Find below a WIP text on bisecting Linux kernel regressions I plan
+> to submit for inclusion in the Linux kernel documentation in a month or
+> two. I could do so now, but chose to write this mail instead, as the
+> text would really benefit from a few people actually testing the given
+> instructions. Hence if you notice somebody that faces a regression that
+> needs bisecting, consider poiting them them to this text, asking them to
+> play through this and provide feedback to me.
 >
-> The existing uAPI documentation does not adequately describe how the kern=
-el
-> handles the case where the underlying hardware or driver does not support
-> the requested configuration.
+> Ideally point users to the following rendered version:
+> https://www.leemhuis.info/files/misc/How%20to%20bisect%20a%20Linux%20kernel%20regression%20%e2%80%94%20The%20Linux%20Kernel%20documentation.html
 >
-> Add a Configuration Support section describing that behaviour to both the
-> v1 and v2 documentation, and better document the errors returned where th=
-e
-> requested configuration cannot be supported.
 >
-> Signed-off-by: Kent Gibson <warthog618@gmail.com>
-> ---
+> It is (a) a lot easier to read (b) has no odd or broken line breaks,
+> like the text below has a few (sorry!) (c) is updated when I improve
+> something.
+>
+> Anyone who might be willing to provide feedback can do so in a reply
+> here
 
-I applied it but shortened the commit title a bit.
+Hi Thorsten, first of all, thanks for doing this. I think it'll be good
+to have a document on kernel bisection to point people at.
 
-Bart
+The one thing I find problematic is the use of shallow clones by default
+and, well, the use of git in ways that I myself can't figure out without
+resorting to the man pages. I think it's a lot of dark corners of git
+that's overwhelming and really unrelated to the bisection itself.
+
+If I point people at that, and they have problems, I'm just going to
+tell them to:
+
+  git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+  cd linux
+  git remote add stable git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+  git fetch stable
+
+And I can tell them to 'git checkout v<GOOD>' and 'git checkout v<BAD>'
+and proceed from there.
+
+To me, that's the TL;DR. And then you can have a section on "what if I
+really can't do full clones" and various options to save bandwidth.
+
+> Downloading the sources using a full git clone
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> If downloading and storing a lot of data (~4,4 Gigabyte as of early
+> 2023) is nothing that bothers you, instead of a shallow clone perform a
+> full git clone instead. You then will avoid the specialties mentioned
+> above and will have all versions and individual commits at hand at any
+> time::
+>
+>   curl -L \
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/clone.bundle
+> \
+>     -o linux-stable.git.bundle
+>   git clone linux-stable.git.bundle ~/linux/
+>   rm linux-stable.git.bundle
+>   cd ~/linux/
+>   git remote set-url origin \
+>     https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+>   git fetch origin
+>   git checkout --detach origin/master
+
+I mean seriously, even the full clone instructions use curl, without
+rationale. Why?
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
