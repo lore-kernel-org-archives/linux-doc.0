@@ -1,317 +1,256 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6052A13A24F
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 21:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D67312B9A
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 22:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706217865; cv=none; b=oCMCvqQNPvuuCzZnh01GqyqDFEHqTfCjQAPS7zrWBUBvQjPlEIlD/6R9TOyArdSMErwF3M+5OsSZNOrHWaQfrbUwbYdMzav7+3XW7I0EWQMxQ+RbBn3ZvlM5EHAnU1LjW9+hRIo0K1n0hV8hndIjuqCsioYdqmPBOUqJ4nHezt0=
+	t=1706223467; cv=none; b=hMT9ljf+T40W+UxTtgFPEFvTH7pcbt6u62Aeh/6Sd+wXFa1+gpenvk4uP/ogHNQKlUqUXjv+s7v89XJMfcvjYCTeLKVfjc9PAC3jO/lfmalmOr/PbGNPfMX/EdU8gr2i293Y7SVMWd6gQcl2Td8Gbi3d4qEsBNKbm2OoxdSVh/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706217865; c=relaxed/simple;
-	bh=tHMBMbsAsM3IXeBIrKPdzVCQltyNYuAPz6fP7IR+O8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aIyWmT4NXSQQExvBTuH16pz7ZY5LhO3i4knBfi0pKw1yOsd5sZseG5HyEFGx8d4O3/utZlKOtUmDDHEIXRvOla6LdTI2rG7DevkIfyH0ggRccCRn77i/9w/J+Z92nij+bpZsju0TItHq2W4Fw/bux149sqySzdfR5/OKabqo2ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=WspdAUIE; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1706223467; c=relaxed/simple;
+	bh=6odP9Zfv4jT1UPPhYzIXbp8Wkc0XoPa8xwrrf2TyNnQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CLR1mIW6tWD/KfKG3QHMEzXrJT8Aw2EOoIlgYJWrdIJ/1H5ctFXLKpP5d+FarsumElobQcclGw4VECD5Z1rncCz0oosvQTJJcjBLRT0Ha+H61lB3Ug7L7MHfFBmiKJMQYDk9qGHKX+/Pk52e0oQkVYkEJ71w9i8Wh9dotyMbpDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=B58/m/Id; arc=none smtp.client-ip=209.85.166.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="WspdAUIE"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d71e184695so31492705ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 13:24:22 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="B58/m/Id"
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-7bc32b0fdadso342981839f.2
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 14:57:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1706217861; x=1706822661; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iZoT2G19TBg11JNaEabcqd35tlnxoe/xDz/ZFeMpMZQ=;
-        b=WspdAUIEb77G5QPdkXdLpWooF/wcW8YHG9eDseiHXKlOlo9DEq6rb/B32H4MSiIKbo
-         1hPW1jfR8fKBuUF8VA9a+W05Drso1f69RLZKPeZYUJ6Wsqb7tkKqS/JpLKK6BO2MHqc3
-         1E1oviIjaI48/VMcBFX6EQi3LCNletDb8tZatecr+6V6CVwbtM9bIafaaNo3CXBm+rqS
-         zsG6FYjyvQVwP1XROUTpdU1gpJMiscap6uU/QwoAtngvZHbNLus5+84ihOIHr/wo8wZ6
-         JxIvarVUw0zDV5RiNm29xepkaIrgfTA3UsjGqrp0mtjf6XbAxpx7fJtsPmXwuZp1lKGY
-         xXPQ==
+        d=fastly.com; s=google; t=1706223464; x=1706828264; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DmGx9+QDJXLKTo3H9MiyfX7TEgh1xSwvOnrY9VXnVdM=;
+        b=B58/m/IdEYEIh4nIv0EmFBOm4KbcmU6fOaU+HuIHrhpFJpz/MM3n8bRPbuqAbecug3
+         N6YzG3FjKiKEebsmKqjSkWs4Pg3AGfTud+81aSxHknxuks2j6eU4RO9yzC2qHQQ4ZlZY
+         ayecjUqmgf8t81yW5/d2MHYjH7AhLyrCDFL90=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706217861; x=1706822661;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iZoT2G19TBg11JNaEabcqd35tlnxoe/xDz/ZFeMpMZQ=;
-        b=EEow22vJYtbjWfJ1mHIWD/Ihc9PHAHv9v0B9WYGAMQUdJaicFF8L4JaEzjKjg8LBHo
-         OxXxfDQ+vgvY1ADTea8BtO1VPKVJDqoceuPwyTm379pSmdt/EUJ2af4T8fZjRKUP2VUZ
-         cvK35z0+HCIIp+UifNondbv7l3w6Mu9y+YyX/8Qf/AG7WEHKgLob0GMOMxwsO0ehMW8m
-         4lFQohC3ZQBINC6nkWuHBhcQl7wmgxvhnSBcI+wNiz+vPqBe+Pq6enUgqYBbc3FyOQCz
-         qTy9vO3LUSWZIQMS1w4nCsgN1n1a2MXRaw+4AIXuqzirPzrXjjmwDfGMWo5tyLKjmFHG
-         ZCmg==
-X-Gm-Message-State: AOJu0YxIWZaQB9K+d0PL0NrRpEsKRHcQbpb9zuX2Ocqf8/GT4yNbBy/Q
-	0qYkXxSXHzALCaOQc1s5oxOJbZ2XDitzOS/IvoHFTNDyf/VqFePCvTdB9dIpf2o=
-X-Google-Smtp-Source: AGHT+IGvjaE/JTMbYh7Rdf5yyt9F1/RX+/vud6/Lnw+WvAKkovbLy31AhW1vaTpjsJmHDLgapvOZag==
-X-Received: by 2002:a17:902:db09:b0:1d0:98d8:955c with SMTP id m9-20020a170902db0900b001d098d8955cmr344975plx.124.1706217861416;
-        Thu, 25 Jan 2024 13:24:21 -0800 (PST)
-Received: from ghost ([12.44.203.122])
-        by smtp.gmail.com with ESMTPSA id ml5-20020a17090334c500b001d8921f2058sm989116plb.205.2024.01.25.13.24.17
+        d=1e100.net; s=20230601; t=1706223464; x=1706828264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DmGx9+QDJXLKTo3H9MiyfX7TEgh1xSwvOnrY9VXnVdM=;
+        b=rCBsSbi/B7SdfF8QvuCcGcGN9B1O+1eEObvTFrR5H0jgZCWCkwIJKSlC8bPgAve0X0
+         uXFE7ZyaXeI4dvknxfa5dsXTHE1NOgVjBn0z96C3dMA8O/CAKt/ZPu4Ib0ATzjc4Sg82
+         ciumG6BnCl0qNF2Fy9P/KkTeP+YAllYQdLBdTYBSnpp/7RTLJBHXczWqnQF38wRgnDlc
+         uMjCHcx/LDMMmgKnNB7fpDcDi5M1YeHE6j3eXanq1QEh8N7Z1tQ1S9WEmsSddosIlxp3
+         7EuyE/u9mUYQl0YEpb9ilAOrPt9nFD4riv2c3RuKJt/F1t32zhH4PT82RgYcY661T9S0
+         bucg==
+X-Gm-Message-State: AOJu0YzcR23CQwzjH9g/fJsOCNmFjBeP1kSka7Z3SdU1+ggdw0OUCPJF
+	FPrD8FZgGOAHwP9JGHKG+H5j0KE4Mt9CY4moSZcPRVWjrj9KqM9mJiqgCk0TR34=
+X-Google-Smtp-Source: AGHT+IGJOlk8p0p+eepUvrJIZ2A7VA58foiJl5D62a/cdKG2oMDEtZHgf75lD945pBIByTtOFe6B7w==
+X-Received: by 2002:a92:290f:0:b0:35f:ced5:5555 with SMTP id l15-20020a92290f000000b0035fced55555mr437125ilg.25.1706223464499;
+        Thu, 25 Jan 2024 14:57:44 -0800 (PST)
+Received: from localhost.localdomain ([2620:11a:c018:0:ea8:be91:8d1:f59b])
+        by smtp.gmail.com with ESMTPSA id z24-20020a631918000000b005d68962e1a7sm19948pgl.24.2024.01.25.14.57.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 13:24:21 -0800 (PST)
-Date: Thu, 25 Jan 2024 13:24:16 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: debug@rivosinc.com
-Cc: rick.p.edgecombe@intel.com, broonie@kernel.org, Szabolcs.Nagy@arm.com,
-	kito.cheng@sifive.com, keescook@chromium.org,
-	ajones@ventanamicro.com, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, conor.dooley@microchip.com, cleger@rivosinc.com,
-	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com,
-	alexghiti@rivosinc.com, corbet@lwn.net, aou@eecs.berkeley.edu,
-	oleg@redhat.com, akpm@linux-foundation.org, arnd@arndb.de,
-	ebiederm@xmission.com, shuah@kernel.org, brauner@kernel.org,
-	guoren@kernel.org, samitolvanen@google.com, evan@rivosinc.com,
-	xiao.w.wang@intel.com, apatel@ventanamicro.com,
-	mchitale@ventanamicro.com, waylingii@gmail.com,
-	greentime.hu@sifive.com, heiko@sntech.de, jszhang@kernel.org,
-	shikemeng@huaweicloud.com, david@redhat.com,
-	panqinglin2020@iscas.ac.cn, willy@infradead.org,
-	vincent.chen@sifive.com, andy.chiu@sifive.com, gerg@kernel.org,
-	jeeheng.sia@starfivetech.com, mason.huo@starfivetech.com,
-	ancientmodern4@gmail.com, mathis.salmen@matsal.de,
-	cuiyunhui@bytedance.com, bhe@redhat.com, chenjiahao16@huawei.com,
-	ruscur@russell.cc, bgray@linux.ibm.com, alx@kernel.org,
-	baruch@tkos.co.il, zhangqing@loongson.cn, catalin.marinas@arm.com,
-	revest@chromium.org, josh@joshtriplett.org, joey.gouly@arm.com,
-	shr@devkernel.io, omosnace@redhat.com, ojeda@kernel.org,
-	jhubbard@nvidia.com, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-arch@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH v1 15/28] riscv/mm: Implement map_shadow_stack()
- syscall
-Message-ID: <ZbLRgEVZvh7LE+k/@ghost>
-References: <20240125062739.1339782-1-debug@rivosinc.com>
- <20240125062739.1339782-16-debug@rivosinc.com>
+        Thu, 25 Jan 2024 14:57:43 -0800 (PST)
+From: Joe Damato <jdamato@fastly.com>
+To: linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: chuck.lever@oracle.com,
+	jlayton@kernel.org,
+	linux-api@vger.kernel.org,
+	brauner@kernel.org,
+	edumazet@google.com,
+	davem@davemloft.net,
+	alexander.duyck@gmail.com,
+	sridhar.samudrala@intel.com,
+	kuba@kernel.org,
+	willemdebruijn.kernel@gmail.com,
+	weiwan@google.com,
+	Joe Damato <jdamato@fastly.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Waterman <waterman@eecs.berkeley.edu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jan Kara <jack@suse.cz>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Julien Panis <jpanis@baylibre.com>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nathan Lynch <nathanl@linux.ibm.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Steve French <stfrench@microsoft.com>,
+	Thomas Huth <thuth@redhat.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH net-next v3 0/3] Per epoll context busy poll support
+Date: Thu, 25 Jan 2024 22:56:56 +0000
+Message-Id: <20240125225704.12781-1-jdamato@fastly.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240125062739.1339782-16-debug@rivosinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 24, 2024 at 10:21:40PM -0800, debug@rivosinc.com wrote:
-> From: Deepak Gupta <debug@rivosinc.com>
-> 
-> As discussed extensively in the changelog for the addition of this
-> syscall on x86 ("x86/shstk: Introduce map_shadow_stack syscall") the
-> existing mmap() and madvise() syscalls do not map entirely well onto the
-> security requirements for guarded control stacks since they lead to
-> windows where memory is allocated but not yet protected or stacks which
-> are not properly and safely initialised. Instead a new syscall
-> map_shadow_stack() has been defined which allocates and initialises a
-> shadow stack page.
-> 
-> This patch implements this syscall for riscv. riscv doesn't require token
-> to be setup by kernel because user mode can do that by itself. However to
-> provide compatiblity and portability with other architectues, user mode can
-> specify token set flag.
-> 
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> ---
->  arch/riscv/kernel/Makefile      |   2 +
->  arch/riscv/kernel/usercfi.c     | 150 ++++++++++++++++++++++++++++++++
->  include/uapi/asm-generic/mman.h |   1 +
->  3 files changed, 153 insertions(+)
->  create mode 100644 arch/riscv/kernel/usercfi.c
-> 
-> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> index fee22a3d1b53..8c668269e886 100644
-> --- a/arch/riscv/kernel/Makefile
-> +++ b/arch/riscv/kernel/Makefile
-> @@ -102,3 +102,5 @@ obj-$(CONFIG_COMPAT)		+= compat_vdso/
->  
->  obj-$(CONFIG_64BIT)		+= pi/
->  obj-$(CONFIG_ACPI)		+= acpi.o
-> +
-> +obj-$(CONFIG_RISCV_USER_CFI) += usercfi.o
-> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
-> new file mode 100644
-> index 000000000000..35ede2cbc05b
-> --- /dev/null
-> +++ b/arch/riscv/kernel/usercfi.c
-> @@ -0,0 +1,150 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2023 Rivos, Inc.
-Nit: Should be updated to 2024
-> + * Deepak Gupta <debug@rivosinc.com>
-> + */
-> +
-> +#include <linux/sched.h>
-> +#include <linux/bitops.h>
-> +#include <linux/types.h>
-> +#include <linux/mm.h>
-> +#include <linux/mman.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/sizes.h>
-> +#include <linux/user.h>
-> +#include <linux/syscalls.h>
-> +#include <linux/prctl.h>
-> +#include <asm/csr.h>
-> +#include <asm/usercfi.h>
-> +
-> +#define SHSTK_ENTRY_SIZE sizeof(void *)
-> +
-> +/*
-> + * Writes on shadow stack can either be `sspush` or `ssamoswap`. `sspush` can happen
-> + * implicitly on current shadow stack pointed to by CSR_SSP. `ssamoswap` takes pointer to
-> + * shadow stack. To keep it simple, we plan to use `ssamoswap` to perform writes on shadow
-> + * stack.
-> + */
-> +static noinline unsigned long amo_user_shstk(unsigned long *addr, unsigned long val)
-> +{
-> +	/*
-> +	 * In case ssamoswap faults, return -1.
-> +	 * Never expect -1 on shadow stack. Expect return addresses and zero
-> +	 */
-> +	unsigned long swap = -1;
-> +
-> +	__enable_user_access();
-> +	asm_volatile_goto(
-> +				".option push\n"
-> +				".option arch, +zicfiss\n"
-> +#ifdef CONFIG_64BIT
-> +				"1: ssamoswap.d %0, %2, %1\n"
-> +#else
-> +				"1: ssamoswap.w %0, %2, %1\n"
+Greetings:
 
-A SSAMOSWAP macro that conditionally defines this would be cleaner
+Welcome to v3. Cover letter updated from v2 to explain why ioctl and
+adjusted my cc_cmd to try to get the correct people in addition to folks
+who were added in v1 & v2. Labeled as net-next because it seems networking
+related to me even though it is fs code.
 
-> +#endif
-> +				_ASM_EXTABLE(1b, %l[fault])
-> +				RISCV_ACQUIRE_BARRIER
-> +				".option pop\n"
-> +				: "=r" (swap), "+A" (*addr)
+TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
+epoll with socket fds.") by allowing user applications to enable
+epoll-based busy polling and set a busy poll packet budget on a per epoll
+context basis.
 
-I just ran into this on one of my patches that not every compiler
-supports output args in asm goto blocks. You need to guard this with the
-kconfig option CC_HAS_ASM_GOTO_TIED_OUTPUT. Unfortunately, that means
-that this code needs two versions, or you can choose to gate CFI behind
-this option, it's supported by recent versions of GCC/CLANG.
+This makes epoll-based busy polling much more usable for user
+applications than the current system-wide sysctl and hardcoded budget.
 
-For readability it is also nice to use labels for the asm variables such
-as `"=r" (swap)` can be `[swap] "=r" (swap)` and then replace %0 with
-%[swap].
+To allow for this, two ioctls have been added for epoll contexts for
+getting and setting a new struct, struct epoll_params.
 
-- Charlie
+ioctl was chosen vs a new syscall after reviewing a suggestion by Willem
+de Bruijn [1]. I am open to using a new syscall instead of an ioctl, but it
+seemed that: 
+  - Busy poll affects all existing epoll_wait and epoll_pwait variants in
+    the same way, so new verions of many syscalls might be needed. It
+    seems much simpler for users to use the correct
+    epoll_wait/epoll_pwait for their app and add a call to ioctl to enable
+    or disable busy poll as needed. This also probably means less work to
+    get an existing epoll app using busy poll.
 
-> +				: "r" (val)
-> +				: "memory"
-> +				: fault
-> +			);
-> +	__disable_user_access();
-> +	return swap;
-> +fault:
-> +	__disable_user_access();
-> +	return -1;
-> +}
-> +
-> +/*
-> + * Create a restore token on the shadow stack.  A token is always XLEN wide
-> + * and aligned to XLEN.
-> + */
-> +static int create_rstor_token(unsigned long ssp, unsigned long *token_addr)
-> +{
-> +	unsigned long addr;
-> +
-> +	/* Token must be aligned */
-> +	if (!IS_ALIGNED(ssp, SHSTK_ENTRY_SIZE))
-> +		return -EINVAL;
-> +
-> +	/* On RISC-V we're constructing token to be function of address itself */
-> +	addr = ssp - SHSTK_ENTRY_SIZE;
-> +
-> +	if (amo_user_shstk((unsigned long __user *)addr, (unsigned long) ssp) == -1)
-> +		return -EFAULT;
-> +
-> +	if (token_addr)
-> +		*token_addr = addr;
-> +
-> +	return 0;
-> +}
-> +
-> +static unsigned long allocate_shadow_stack(unsigned long addr, unsigned long size,
-> +				unsigned long token_offset,
-> +				bool set_tok)
-> +{
-> +	int flags = MAP_ANONYMOUS | MAP_PRIVATE;
-> +	struct mm_struct *mm = current->mm;
-> +	unsigned long populate, tok_loc = 0;
-> +
-> +	if (addr)
-> +		flags |= MAP_FIXED_NOREPLACE;
-> +
-> +	mmap_write_lock(mm);
-> +	addr = do_mmap(NULL, addr, size, PROT_SHADOWSTACK, flags,
-> +				VM_SHADOW_STACK, 0, &populate, NULL);
-> +	mmap_write_unlock(mm);
-> +
-> +	if (!set_tok || IS_ERR_VALUE(addr))
-> +		goto out;
-> +
-> +	if (create_rstor_token(addr + token_offset, &tok_loc)) {
-> +		vm_munmap(addr, size);
-> +		return -EINVAL;
-> +	}
-> +
-> +	addr = tok_loc;
-> +
-> +out:
-> +	return addr;
-> +}
-> +
-> +SYSCALL_DEFINE3(map_shadow_stack, unsigned long, addr, unsigned long, size, unsigned int, flags)
-> +{
-> +	bool set_tok = flags & SHADOW_STACK_SET_TOKEN;
-> +	unsigned long aligned_size = 0;
-> +
-> +	if (!cpu_supports_shadow_stack())
-> +		return -EOPNOTSUPP;
-> +
-> +	/* Anything other than set token should result in invalid param */
-> +	if (flags & ~SHADOW_STACK_SET_TOKEN)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Unlike other architectures, on RISC-V, SSP pointer is held in CSR_SSP and is available
-> +	 * CSR in all modes. CSR accesses are performed using 12bit index programmed in instruction
-> +	 * itself. This provides static property on register programming and writes to CSR can't
-> +	 * be unintentional from programmer's perspective. As long as programmer has guarded areas
-> +	 * which perform writes to CSR_SSP properly, shadow stack pivoting is not possible. Since
-> +	 * CSR_SSP is writeable by user mode, it itself can setup a shadow stack token subsequent
-> +	 * to allocation. Although in order to provide portablity with other architecture (because
-> +	 * `map_shadow_stack` is arch agnostic syscall), RISC-V will follow expectation of a token
-> +	 * flag in flags and if provided in flags, setup a token at the base.
-> +	 */
-> +
-> +	/* If there isn't space for a token */
-> +	if (set_tok && size < SHSTK_ENTRY_SIZE)
-> +		return -ENOSPC;
-> +
-> +	if (addr && (addr % PAGE_SIZE))
-> +		return -EINVAL;
-> +
-> +	aligned_size = PAGE_ALIGN(size);
-> +	if (aligned_size < size)
-> +		return -EOVERFLOW;
-> +
-> +	return allocate_shadow_stack(addr, aligned_size, size, set_tok);
-> +}
-> diff --git a/include/uapi/asm-generic/mman.h b/include/uapi/asm-generic/mman.h
-> index 57e8195d0b53..0c0ac6214de6 100644
-> --- a/include/uapi/asm-generic/mman.h
-> +++ b/include/uapi/asm-generic/mman.h
-> @@ -19,4 +19,5 @@
->  #define MCL_FUTURE	2		/* lock all future mappings */
->  #define MCL_ONFAULT	4		/* lock all pages that are faulted in */
->  
-> +#define SHADOW_STACK_SET_TOKEN (1ULL << 0)     /* Set up a restore token in the shadow stack */
->  #endif /* __ASM_GENERIC_MMAN_H */
-> -- 
-> 2.43.0
-> 
+  - previously added epoll_pwait2 helped to bring epoll closer to
+    existing syscalls (like pselect and ppoll) and this busy poll change
+    reflected as a new syscall would not have the same effect.
+
+Note: patch 1/4 uses an xor so that busy poll is only enabled if the
+per-context busy poll usecs is set or the system-wide sysctl. If both are
+enabled, busy polling does not happen. Calling this out specifically incase
+there are strong feelings about this one; I felt one xor the other made
+sense, but I am open to changing it.
+
+Longer explanation:
+
+Presently epoll has support for a very useful form of busy poll based on
+the incoming NAPI ID (see also: SO_INCOMING_NAPI_ID [2]).
+
+This form of busy poll allows epoll_wait to drive NAPI packet processing
+which allows for a few interesting user application designs which can
+reduce latency and also potentially improve L2/L3 cache hit rates by
+deferring NAPI until userland has finished its work.
+
+The documentation available on this is, IMHO, a bit confusing so please
+allow me to explain how one might use this:
+
+1. Ensure each application thread has its own epoll instance mapping
+1-to-1 with NIC RX queues. An n-tuple filter would likely be used to
+direct connections with specific dest ports to these queues.
+
+2. Optionally: Setup IRQ coalescing for the NIC RX queues where busy
+polling will occur. This can help avoid the userland app from being
+pre-empted by a hard IRQ while userland is running. Note this means that
+userland must take care to call epoll_wait and not take too long in
+userland since it now drives NAPI via epoll_wait.
+
+3. Optionally: Consider using napi_defer_hard_irqs and gro_flush_timeout to
+further restrict IRQ generation from the NIC. These settings are
+system-wide so their impact must be carefully weighed against the running
+applications.
+
+4. Ensure that all incoming connections added to an epoll instance
+have the same NAPI ID. This can be done with a BPF filter when
+SO_REUSEPORT is used or getsockopt + SO_INCOMING_NAPI_ID when a single
+accept thread is used which dispatches incoming connections to threads.
+
+5. Lastly, busy poll must be enabled via a sysctl
+(/proc/sys/net/core/busy_poll).
+
+Please see Eric Dumazet's paper about busy polling [3] and a recent
+academic paper about measured performance improvements of busy polling [4]
+(albeit with a modification that is not currently present in the kernel)
+for additional context.
+
+The unfortunate part about step 5 above is that this enables busy poll
+system-wide which affects all user applications on the system,
+including epoll-based network applications which were not intended to
+be used this way or applications where increased CPU usage for lower
+latency network processing is unnecessary or not desirable.
+
+If the user wants to run one low latency epoll-based server application
+with epoll-based busy poll, but would like to run the rest of the
+applications on the system (which may also use epoll) without busy poll,
+this system-wide sysctl presents a significant problem.
+
+This change preserves the system-wide sysctl, but adds a mechanism (via
+ioctl) to enable or disable busy poll for epoll contexts as needed by
+individual applications, making epoll-based busy poll more usable. Note
+that this change includes an xor allowing only the per-context busy poll or
+the system wide sysctl, not both. If both are enabled, busy polling does
+not happen. Calling this out specifically incase there are strong feelings
+about this one; I felt one xor the other made sense, but I am open to
+changing it.
+
+Thanks,
+Joe
+
+v2 -> v3:
+  - cover letter updated to mention why ioctl seems (to me) like a better
+    choice vs a new syscall.
+
+  - patch 3/4 was modified in 3 ways:
+    - when an unknown ioctl is received, -ENOIOCTLCMD is returned instead
+      of -EINVAL as the ioctl documentation requires.
+    - epoll_params.busy_poll_budget can only be set to a value larger than
+      NAPI_POLL_WEIGHT if code is run by privileged (CAP_NET_ADMIN) users.
+      Otherwise, -EPERM is returned.
+    - busy poll specific ioctl code moved out to its own function. On
+      kernels without busy poll support, -EOPNOTSUPP is returned. This also
+      makes the kernel build robot happier without littering the code with
+      more #ifdefs.
+
+  - dropped patch 4/4 after Eric Dumazet's review of it when it was sent
+    independently to the list [5].
+
+v1 -> v2:
+  - cover letter updated to make a mention of napi_defer_hard_irqs and
+    gro_flush_timeout as an added step 3 and to cite both Eric Dumazet's
+    busy polling paper and a paper from University of Waterloo for
+    additional context. Specifically calling out the xor in patch 1/4
+    incase it is missed by reviewers.
+
+  - Patch 2/4 has its commit message updated, but no functional changes.
+    Commit message now describes that allowing for a settable budget helps
+    to improve throughput and is more consistent with other busy poll
+    mechanisms that allow a settable budget via SO_BUSY_POLL_BUDGET.
+
+  - Patch 3/4 was modified to check if the epoll_params.busy_poll_budget
+    exceeds NAPI_POLL_WEIGHT. The larger value is allowed, but an error is
+    printed. This was done for consistency with netif_napi_add_weight,
+    which does the same.
+
+  - Patch 3/4 the struct epoll_params was updated to fix the type of the
+    data field; it was uint8_t and was changed to u8.
+
+  - Patch 4/4 added to check if SO_BUSY_POLL_BUDGET exceeds
+    NAPI_POLL_WEIGHT. The larger value is allowed, but an error is
+    printed. This was done for consistency with netif_napi_add_weight,
+    which does the same.
+
+[1]: https://lore.kernel.org/lkml/65b1cb7f73a6a_250560294bd@willemb.c.googlers.com.notmuch/
+[2]: https://lore.kernel.org/lkml/20170324170836.15226.87178.stgit@localhost.localdomain/
+[3]: https://netdevconf.info/2.1/papers/BusyPollingNextGen.pdf
+[4]: https://dl.acm.org/doi/pdf/10.1145/3626780
+[5]: https://lore.kernel.org/lkml/CANn89i+uXsdSVFiQT9fDfGw+h_5QOcuHwPdWi9J=5U6oLXkQTA@mail.gmail.com/
+
+Joe Damato (3):
+  eventpoll: support busy poll per epoll instance
+  eventpoll: Add per-epoll busy poll packet budget
+  eventpoll: Add epoll ioctl for epoll_params
+
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ fs/eventpoll.c                                | 122 +++++++++++++++++-
+ include/uapi/linux/eventpoll.h                |  12 ++
+ 3 files changed, 130 insertions(+), 5 deletions(-)
+
+-- 
+2.25.1
+
