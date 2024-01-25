@@ -1,222 +1,195 @@
-Received: from AUS01-ME3-obe.outbound.protection.outlook.com (mail-me3aus01olkn2178.outbound.protection.outlook.com [40.92.63.178])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3381311723;
-	Thu, 25 Jan 2024 06:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.63.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706165494; cv=fail; b=f72NPQzZm5XqMiFQ/3yVCWHaJoK1fmAzQwSEZUSFV3UhTH+BFm8UW+CxEZHZReUtxUMm9jP5Wlko+OKERoe8Dl8Td+utXtm8rwioI6DA/itDJDf7wOpTGxX9d6U00yCtCeHh3C+K/JUyG1ppo/8RZPppXVF67iNDiyj9tb9WiiE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706165494; c=relaxed/simple;
-	bh=H5oo9fMDvmyRXtboYoBoDcjYLsic17ULgksQRuv3WHE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hym37PbYzPCgu2BxuU755rAawkLLlyyY89yqiCQnhyySrKsq2Aa7Vb7+FOEipyM+aSJCtHQfvs8EejHmnu+D3HFzE2k4leQEcHevZR7oTw7Xv1msfqmYFl4k8s93NMZ8AFrxMBB/w7CLYoS07JIwPeBXgV6rW3mdy31L7oliNzE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=h1SUt6gg; arc=fail smtp.client-ip=40.92.63.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FA811713;
+	Thu, 25 Jan 2024 07:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.29
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706167198; cv=none; b=KYTwcoijXNddAZl/9QIcbG6sdbn+Zr1R7bVwVA79sjTLuPMeiRjZKCNT/PNMg042h7Ql0/7thAmGZjwBgYe6mo3bCce+LskunRSIVEfKvDXy/QvSlc507vPH4+DadDW0xAZwnSfxWNWq7jUScUcVAksC3xvyN4XW4lBy4wz9qNU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706167198; c=relaxed/simple;
+	bh=YKHitqv6MpNmX4Os52+BnwqHeGcQk+N0HbPe7Nk2SUI=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=n1tOIWBstVR4uFHXONLBqE0yGuQCZbd+ryY72xWSvl74RDFNPh6aSc9svm+KVwMQRYI0XVA2eXYcDSeLE29jL64W5c7KyTbofkwfq3LfVeK0ba6BSp3lK2nKHAAstFA4pKbdZUbhHZRDYGcsD3pIoVA+oyFPnBp7afnmGp0IqM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=4e3TmKy0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nvInZ0jw; arc=none smtp.client-ip=66.111.4.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="h1SUt6gg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HhR+2N87aNl8pRWqVuTrefqeCt8YmOKmpjb/q+uX6/PRG/QQJ9BkSgysv73GGfNdMOp9E0H+HmIPAD3OKV6E1Mb1tUR7rWC7AAPRG+uDjfyBCk1Mj7RPcl1aAXwybPIcnmzE9mgIp5/2IJVwThCyIBDCPVOqAYTUdD4k1/gWkdIAiuq+B0wtLrnZslNOzau68dyfau49R4b0ztisOWXzYxNtW8i7+7bFU69XHtmnV/TmMCaWCYHePHrLR2AcmjhJWjrPSfvkbwzba/oElVIlvd2l9xJhH953FOTCZXOrJsy9sVQxsUwfWCdk4Bx7JVIy454rOGlW7RNga3Uvrcxt1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G7W7VNPvYcuOXvUCFc8UbWTbHf04XxEKz0gfzGXcVGw=;
- b=RE+h9OrsbYDFWxxJ60EwBOQUOIGjDuuOn2ARiVqKzN7SqjulQVEtR8mJaEF38vwtTXd59FK4HWnqDFdEM7msLC2+GEQqnKoJGw+eC99TMEszMBPRnNqsS3XkLw5uqebah2wC6kC9RhdDyX4NTsG34HdE7iOxPtMdKVE0fv7NM6qig0tOFXO1q7VWjMy31u0kTj4B7bAy3RIoI5OMX/DBDFLVv+OHrRXqSYbQF0NmmtJLSquSeek3do0LyBVeGDO3n/w2JXvsoHa9noAm68sudk0NFWJWsp9ArkSfXAeFxu1swC3A8Plx7y4+mIRNs8hn1/5oTTfrWv9jVoeqGqYyVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G7W7VNPvYcuOXvUCFc8UbWTbHf04XxEKz0gfzGXcVGw=;
- b=h1SUt6ggPGcDiiCBoUxX+qPnllQVwpBoTQd7fKcPaxg/AZ8uBPNxOwSt0CEJzupJ4kPYqkJSkokvDobD3it+VSlqqWn9zG5bhreXdee8LE75nq5FnARn3Y2iW0HvOjlhBtRg6Fp+D70sgPDZx3S0raNyf9BBZImgYEiWZpi2hJ7EWI2smTLxRwWK4Pv/Dzl+oJmfkcSqNhyXsLeYSzu/65dv8jdG71Dv9FTZJmI1kncXKtmY1B2LhMgE/5EQjQd7/uyjzu6wDNt6rC/4Xx7o4U5DWZgpgo58MpiNVaZnEZ9aBlV9eLkuUWv6yjKSaEhKidWVF3crRUPD7gGMjsvHsg==
-Received: from SY6P282MB3733.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:1bc::5) by
- SY4P282MB4029.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:1c4::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7228.22; Thu, 25 Jan 2024 06:51:27 +0000
-Received: from SY6P282MB3733.AUSP282.PROD.OUTLOOK.COM
- ([fe80::8179:fed2:b690:d022]) by SY6P282MB3733.AUSP282.PROD.OUTLOOK.COM
- ([fe80::8179:fed2:b690:d022%5]) with mapi id 15.20.7228.023; Thu, 25 Jan 2024
- 06:51:27 +0000
-From: Sicheng Liu <lsc2001@outlook.com>
-To: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	corbet@lwn.net,
-	Sicheng Liu <lsc2001@outlook.com>
-Subject: [RFC PATCH 2/2] tracing: Add documentation for event stack filter
-Date: Thu, 25 Jan 2024 06:50:22 +0000
-Message-ID:
- <SY6P282MB3733566FFFD39BAC0AC452D5A37A2@SY6P282MB3733.AUSP282.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240125065022.1739502-1-lsc2001@outlook.com>
-References: <20240125065022.1739502-1-lsc2001@outlook.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [at4e0T06qSPJ8EDJ9/Bei1rtJij2fbNR]
-X-ClientProxiedBy: SG2PR04CA0180.apcprd04.prod.outlook.com
- (2603:1096:4:14::18) To SY6P282MB3733.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:1bc::5)
-X-Microsoft-Original-Message-ID:
- <20240125065022.1739502-2-lsc2001@outlook.com>
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="4e3TmKy0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nvInZ0jw"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 142EB5C01D7;
+	Thu, 25 Jan 2024 02:19:55 -0500 (EST)
+Received: from imap50 ([10.202.2.100])
+  by compute3.internal (MEProxy); Thu, 25 Jan 2024 02:19:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1706167195; x=1706253595; bh=vWNYCVEsyV
+	iu3nUft3Ms12HcBU6UW+6JtvbOuVw1J0c=; b=4e3TmKy05bp9HO9U1/VOfkypZ0
+	sWHC5b6bAA+mHGJ7Kq99ptNEilvV5dL2GTJucuUO+OtutUd3Q+KYy8c5gpF1gEtk
+	FYrYNcmd00RIucBB4IB0j3xmx9LIz/Sn7queXTSXQMthrEaMuA2NAJ70Ep6bXeyK
+	JK8vjj49qCB0qapQN9xcbVaO8NGaIPgGuuBn+AyOEARE4ONPJyihXfbHEaDWfSpX
+	Mz8FgCi26FYvdbSiDeKo4poEgASiec0X4uzr+DRUaOxL95C/O93Wfu246jSs7dc3
+	bcEQ1O+0l5lcKZGC9kkubTRJGNr7R+EpcMUgn6dvWAlfgvDetmUx2bnpPLVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706167195; x=1706253595; bh=vWNYCVEsyViu3nUft3Ms12HcBU6U
+	W+6JtvbOuVw1J0c=; b=nvInZ0jw0ZHt3KvTD5qMeeY8vGm1AphVSTXW7jRdtGTA
+	UJiIw4rafvd7FNYJlsTpKPHrWQkMDjin485xVsVB5o+lFH2p7Fd9mCritpcWrwZB
+	lM4bLLr55oNE+y1JvW62Jz0wpBYKD5gR1oOMf+fw8L0YvVB3xowTvoffPjTz2VDZ
+	etkwnNkJW6yE3FwRzZFeU4soPheuhvN/OJIDXi1c5TyO3jW1fLxRwgpt+BpoyFF8
+	ZWsARpXIC9mEDBwQaH57gzN8+t5SOaOncX3dYAsUGFLqk3s4S2jfk0aU8XZzroGA
+	QB+e4NSrJTESaZTE0oTKMOn80P4U4S3gqcghdM1Qkg==
+X-ME-Sender: <xms:mAuyZe8iakB7Hq_2uvqh5DFaJjVied9xfvhmECV2s3_cWlQdq0_9xg>
+    <xme:mAuyZeu13YaGB1IJElSnR1iY8q90A6EyAml0W8UXkFCJthZlfL0S0qGO5T_up_euZ
+    i4-SBPMNzbyHObLsg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelvddguddtfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfu
+    thgvfhgrnhcuqfdktfgvrghrfdcuoehsohhrvggrrhesfhgrshhtmhgrihhlrdgtohhmqe
+    enucggtffrrghtthgvrhhnpefhtefgffelieduudekgeevueegudegueefhfehhfffiefg
+    keffvedtuefggfehteenucffohhmrghinhepvghnthhrhidrshgspdhinhhfrhgruggvrg
+    gurdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+    mhepshhorhgvrghrsehfrghsthhmrghilhdrtghomh
+X-ME-Proxy: <xmx:mAuyZUDv2xOV7UK4WzT3j8956Y_6g6wiayc7xcQZnX9XASPYpNnzhg>
+    <xmx:mAuyZWfKe2FTP2blU-_ACLLKvXRHejSZf5xrtf0NMrMujT9qSbB-DQ>
+    <xmx:mAuyZTN8xd4j8vKqNvcCgipMRoTmWaP8LbXUIh4NPoVSciouSae3AA>
+    <xmx:mwuyZalX7bXSREqZzMkGAApYYZ2zYrSF8WxOVg6DCvX09zhBiDVpiQ>
+Feedback-ID: i84414492:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id CBA0C1700093; Thu, 25 Jan 2024 02:19:52 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SY6P282MB3733:EE_|SY4P282MB4029:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b781609-9b3d-4e73-1d01-08dc1d720db8
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Wm7K51Q8gPfYRSGl44XQ1K4J2QBmcnMsYe0ka5X6iXGNHyt8Wnu6EZsYYYFGY8lGIMsFbLQ3Ger6FEyXMeHMIjq+l8ldVdI5ogPNr+ckMpJRglDJuuBX4Eyv0VXeeY6Gp6VNpd2GwDGlR9snUg3g9mkgf1sJBPG4Fn3HVKYWqg5Pgn9yjmWWhLfCd+ehkYwLbGwMn1ZevRjQ8K8I0AAH7Yc6Jt/LuFEI9dju/A4BEq0DADqgi8AuV9yOK1JqbHuRWyd1UMIeKao+i5/QHEdnnrcVZVLobsQ68PNKSQl7MO8MrA/I5WiK3rcRuwihpfm6ZLGZk5SH7BhKJL5Zml2V2gl8bDn7onP8qFQptTHHIaIG2PmC3EhlEdQiezFBdBQBIWEPEdjuCj1cdx9VATY+uFU4FlGw5IIJ+fIEVnHK7s6aeKI4SfMmAwY2P7mHbqjZ/oICgk2xcFIi0U9N2WcgEtYHDAVFV9tiuBwt6hg/NmbNmVEvv3VO9K3KalAjiBVwkKrPuegi45NmRqu5uNykvvC3q9AdRwnSZn6XtnUOw3D5PgSBMOjxoHdOhJ0vpk334JY2E34Kqg+nmxshgQiQwUOFQ9bwHuH8K8hqEtaZ9i7nNmRmfybUDW7gVChSu4io
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?AZ8go9s4SdWVtwC0psmw313+n1Y2iI8lWb0apsg1Q69MF+pnjUsAPAsdE7YF?=
- =?us-ascii?Q?UUMY+Osn6DBfaEWOBc6wtVRQE/GbDj7jG/76Tg1+Q2cHJp/W4Nt8I/2/JpEr?=
- =?us-ascii?Q?RQHhNJ4+/q/0fD+8lghcGbXwAJnM/QrSMd/xVxE0jRyQDkd1AhGYIbi9tMYv?=
- =?us-ascii?Q?ZwPmbFT9dJt9MEE4x21cYVI2RoFPlATTu4vDZS+niU3l4ZIhq2A7u891pE/k?=
- =?us-ascii?Q?NLh7tvfTxzZ6YaPOAl8/swsndlfRQGtfJ2BqOdvan5wDZH8MdZwLPiRm8vC8?=
- =?us-ascii?Q?xyUGI10ZSDkHCMt/JA+QjgqvV+2yZyjeesjrzAIiaszgo22KJxzk8Le/TNj1?=
- =?us-ascii?Q?HiGDPg+Bt0KAhInVXpgrGPjDz8hTQqywgAjUchqVrl6K/KfnYfk9yY7T+Zl1?=
- =?us-ascii?Q?u3HlywBvjUOzx44oWFvyCqh118GP52xSAbfSP/1mvUBc7C29NrZVTtIsYZ6Y?=
- =?us-ascii?Q?O2jwJWK53xACrktsUnE4qb34BntdZ5iyVQhgtANfwtje+KsWJVAeiEai7Yv6?=
- =?us-ascii?Q?lGF4h7VCoPXCJZJeGavuzrqnnQ86XJ0zDRGas3LLUSX+WX7VLcfBsbKYrcBy?=
- =?us-ascii?Q?rijEJFb+gipFmfMMRWMuKXN+fWJqB06rb/AxRuEXGt6byzW0RO3AVPBu1QOw?=
- =?us-ascii?Q?3x9IJb5HjG7NIpnAF/gdDcFh22KUHtlTscHF8fjJScyqRcX3AiFtxv+/6NVs?=
- =?us-ascii?Q?85ZMW2Hm+AMJOj2Mg6VJJEijMI0nCRewUZO2O/9JtzTKrUgQ9z0Vfqr4fkUU?=
- =?us-ascii?Q?fZiJsySb3cUy6HuyZcO12Rf+z7OZPYfpEEoS6etkgR/ag0QvvoXBnb0ut6TO?=
- =?us-ascii?Q?NdytdlLAGerS7ltsS9iUczlm/PnWmFBGIaFytd2XcAidAgJ/refyWIKCZyhu?=
- =?us-ascii?Q?DjplEr3BP3DlPjNM83oNGCuZ0aVdYvY2YNvfnfPAdTeVC7ekGG3GsSamZ2u5?=
- =?us-ascii?Q?FLmlduuTOXp9UyltcCUz3WIMAvB6ddLseooWFQDMC4IWtsIPBGiL8BwghMKG?=
- =?us-ascii?Q?kVPeoR67YvF9SLG5wTWjWNNWMTXof7/HNaqLFs8vxnW/Utn43chRdttrQJXW?=
- =?us-ascii?Q?o3LYYaUuQV1IYcJ3Isr5/c/0Pt9cHM9HNHtq3bxugO2AcQ33H3JjowT7gH/U?=
- =?us-ascii?Q?HG2nCfFASp60PKCDjhYS+Of9vS2yC9UhOLI5ttDDXjjEzlYQON+cOfmdx0aI?=
- =?us-ascii?Q?wGJh//ufUJ1tYIKOYIScg5DuA4/T0DizHmMzFw=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b781609-9b3d-4e73-1d01-08dc1d720db8
-X-MS-Exchange-CrossTenant-AuthSource: SY6P282MB3733.AUSP282.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2024 06:51:27.6846
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY4P282MB4029
+Message-Id: <23d023c0-27cf-44fa-be0a-000d1534ef86@app.fastmail.com>
+In-Reply-To: <20240125062739.1339782-3-debug@rivosinc.com>
+References: <20240125062739.1339782-1-debug@rivosinc.com>
+ <20240125062739.1339782-3-debug@rivosinc.com>
+Date: Thu, 25 Jan 2024 02:19:29 -0500
+From: "Stefan O'Rear" <sorear@fastmail.com>
+To: debug@rivosinc.com, rick.p.edgecombe@intel.com, broonie@kernel.org,
+ Szabolcs.Nagy@arm.com, "kito.cheng@sifive.com" <kito.cheng@sifive.com>,
+ "Kees Cook" <keescook@chromium.org>,
+ "Andrew Jones" <ajones@ventanamicro.com>, paul.walmsley@sifive.com,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Conor Dooley" <conor.dooley@microchip.com>, cleger@rivosinc.com,
+ "Atish Patra" <atishp@atishpatra.org>, "Alexandre Ghiti" <alex@ghiti.fr>,
+ =?UTF-8?Q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@rivosinc.com>,
+ "Alexandre Ghiti" <alexghiti@rivosinc.com>
+Cc: "Jonathan Corbet" <corbet@lwn.net>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ oleg@redhat.com, akpm@linux-foundation.org, arnd@arndb.de,
+ "Eric W. Biederman" <ebiederm@xmission.com>, shuah@kernel.org,
+ "Christian Brauner" <brauner@kernel.org>, guoren <guoren@kernel.org>,
+ samitolvanen@google.com, "Evan Green" <evan@rivosinc.com>,
+ xiao.w.wang@intel.com, "Anup Patel" <apatel@ventanamicro.com>,
+ mchitale@ventanamicro.com, waylingii@gmail.com, greentime.hu@sifive.com,
+ "Heiko Stuebner" <heiko@sntech.de>, "Jisheng Zhang" <jszhang@kernel.org>,
+ shikemeng@huaweicloud.com, david@redhat.com,
+ "Charlie Jenkins" <charlie@rivosinc.com>, panqinglin2020@iscas.ac.cn,
+ willy@infradead.org, "Vincent Chen" <vincent.chen@sifive.com>,
+ "Andy Chiu" <andy.chiu@sifive.com>, "Greg Ungerer" <gerg@kernel.org>,
+ jeeheng.sia@starfivetech.com, mason.huo@starfivetech.com,
+ ancientmodern4@gmail.com, mathis.salmen@matsal.de,
+ cuiyunhui@bytedance.com, bhe@redhat.com, chenjiahao16@huawei.com,
+ ruscur@russell.cc, bgray@linux.ibm.com, alx@kernel.org,
+ baruch@tkos.co.il, zhangqing@loongson.cn,
+ "Catalin Marinas" <catalin.marinas@arm.com>, revest@chromium.org,
+ josh@joshtriplett.org, joey.gouly@arm.com, shr@devkernel.io,
+ omosnace@redhat.com, ojeda@kernel.org, jhubbard@nvidia.com,
+ linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH v1 02/28] riscv: envcfg save and restore on trap entry/exit
+Content-Type: text/plain
 
-A new chapter describing how to use trace event stack
-filter is added to the documentation.
+On Thu, Jan 25, 2024, at 1:21 AM, debug@rivosinc.com wrote:
+> From: Deepak Gupta <debug@rivosinc.com>
+>
+> envcfg CSR defines enabling bits for cache management instructions and soon
+> will control enabling for control flow integrity and pointer masking features.
+>
+> Control flow integrity enabling for forward cfi and backward cfi is controlled
+> via envcfg and thus need to be enabled on per thread basis.
+>
+> This patch creates a place holder for envcfg CSR in `thread_info` and adds
+> logic to save and restore on trap entry and exits.
 
-Signed-off-by: Sicheng Liu <lsc2001@outlook.com>
----
- Documentation/trace/events.rst | 88 ++++++++++++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
+Should only be "restore"?  I don't see saving.
 
-diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-index 759907c20e75..718a6d078e24 100644
---- a/Documentation/trace/events.rst
-+++ b/Documentation/trace/events.rst
-@@ -350,6 +350,94 @@ To add more PIDs without losing the PIDs already included, use '>>'.
- 
- 	# echo 123 244 1 >> set_event_pid
- 
-+5.6 Stack filters
-+---------------------
-+
-+Trace events can be filtered by their call stacks.  There could exist
-+various paths to tigger an trace event, but people sometimes only care
-+about some of them.  Once the stack filter is set, call stack of the
-+corresponding event will be compared with the stack filter.  An event
-+with matched call stack will appear in the trace output and the rest will
-+be discarded.
-+
-+5.6.1 Expression syntax
-+------------------------
-+
-+Stack filters have the form (in regular expression style) below::
-+
-+  '!'?((function|'**')'/')*(function|'**')
-+
-+In the expression, '!' means negating the filter and '**' matches any
-+call path (maybe empty).  The top of call stack will be ``stack_filter_match``,
-+which means the call path will be something like ``**/stack_filter_match``.
-+
-+A stack filter matches if the call stack contains it, which means that
-+``ret_from_fork/**/schedule`` has the same effect as
-+``**/ret_from_fork/**/schedule/**``.
-+
-+A call stack is matched successfully if the following conditions are
-+met simultaneously:
-+[1] It matches any positive stack filter.
-+[2] It doesn't match any negative stack filter.
-+If no positive filter are set, condition 1 don't need to be satisified.
-+
-+5.6.2 Setting stack filters
-+---------------------------
-+
-+Stack filters are add by echo commands to 'stack_filter' file for a given
-+event, and unset by echo 0 or blank string to the same file.
-+
-+An usage example (on x86_64 platform):
-+
-+The call stack contains ``ret_from_fork`` but not ``do_syscall_64``::
-+
-+  # cd /sys/kernel/tracing/events/sched/sched_switch
-+  # echo 'ret_from_fork' > stack_filter
-+  # echo '!do_syscall_64' >> stack_filter
-+  # cat stack_filter
-+
-+Another example (on arm64 platform):
-+
-+Set up a kprobe::
-+
-+  # echo 1 > /sys/kernel/tracing/options/stacktrace
-+  # echo 'p alloc_pages' > /sys/kernel/tracing/kprobe_events
-+
-+The call stack contains ``copy_process``::
-+
-+  # echo 'copy_process' > \
-+      /sys/kernel/tracing/events/kprobes/p_alloc_pages_0/stack_filter
-+
-+The call stack doesn't contain ``copy_process``::
-+
-+  # echo '!copy_process' > \
-+      /sys/kernel/tracing/events/kprobes/p_alloc_pages_0/stack_filter
-+
-+The call stack contains ``copy_process`` or ``do_exit``,
-+but not ``free_pgtables``::
-+
-+  # echo 'copy_process' > \
-+      /sys/kernel/tracing/events/kprobes/p_alloc_pages_0/stack_filter
-+  # echo 'do_exit' >> \
-+      /sys/kernel/tracing/events/kprobes/p_alloc_pages_0/stack_filter
-+  # echo '!free_pgtables' >> \
-+      /sys/kernel/tracing/events/kprobes/p_alloc_pages_0/stack_filter
-+
-+The call stack contains ``invoke_syscall -> ... -> copy_process``::
-+
-+  # echo 'invoke_syscall/**/copy_process' > \
-+      /sys/kernel/tracing/events/kprobes/p_alloc_pages_0/stack_filter
-+
-+Enable the kprobe event and check the trace log::
-+
-+  # echo 1 > /sys/kernel/tracing/events/kprobes/enable
-+  # cat /sys/kernel/tracing/trace
-+
-+Disable the stack filter::
-+
-+  # echo 0 > stack_filter
-+  or
-+  # echo > stack_filter
- 
- 6. Event triggers
- =================
--- 
-2.25.1
+>
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/thread_info.h | 1 +
+>  arch/riscv/kernel/asm-offsets.c      | 1 +
+>  arch/riscv/kernel/entry.S            | 4 ++++
+>  3 files changed, 6 insertions(+)
+>
+> diff --git a/arch/riscv/include/asm/thread_info.h 
+> b/arch/riscv/include/asm/thread_info.h
+> index 574779900bfb..320bc899a63b 100644
+> --- a/arch/riscv/include/asm/thread_info.h
+> +++ b/arch/riscv/include/asm/thread_info.h
+> @@ -57,6 +57,7 @@ struct thread_info {
+>  	long			user_sp;	/* User stack pointer */
+>  	int			cpu;
+>  	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
+> +	unsigned long envcfg;
+>  #ifdef CONFIG_SHADOW_CALL_STACK
+>  	void			*scs_base;
+>  	void			*scs_sp;
+> diff --git a/arch/riscv/kernel/asm-offsets.c 
+> b/arch/riscv/kernel/asm-offsets.c
+> index a03129f40c46..cdd8f095c30c 100644
+> --- a/arch/riscv/kernel/asm-offsets.c
+> +++ b/arch/riscv/kernel/asm-offsets.c
+> @@ -39,6 +39,7 @@ void asm_offsets(void)
+>  	OFFSET(TASK_TI_PREEMPT_COUNT, task_struct, thread_info.preempt_count);
+>  	OFFSET(TASK_TI_KERNEL_SP, task_struct, thread_info.kernel_sp);
+>  	OFFSET(TASK_TI_USER_SP, task_struct, thread_info.user_sp);
+> +	OFFSET(TASK_TI_ENVCFG, task_struct, thread_info.envcfg);
+>  #ifdef CONFIG_SHADOW_CALL_STACK
+>  	OFFSET(TASK_TI_SCS_SP, task_struct, thread_info.scs_sp);
+>  #endif
+> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+> index 54ca4564a926..63c3855ba80d 100644
+> --- a/arch/riscv/kernel/entry.S
+> +++ b/arch/riscv/kernel/entry.S
+> @@ -129,6 +129,10 @@ SYM_CODE_START_NOALIGN(ret_from_exception)
+>  	addi s0, sp, PT_SIZE_ON_STACK
+>  	REG_S s0, TASK_TI_KERNEL_SP(tp)
+> 
+> +	/* restore envcfg bits for current thread */
+> +	REG_L s0, TASK_TI_ENVCFG(tp)
+> +	csrw CSR_ENVCFG, s0
+> +
 
+This is redundant if we're repeatedly processing interrupts or exceptions
+within a single task.  We should only be writing envcfg when switching
+between tasks or as part of the prctl.
+
+We need to use an ALTERNATIVE for this since the oldest supported hardware
+does not have envcfg csrs.
+
+-s
+
+>  	/* Save the kernel shadow call stack pointer */
+>  	scs_save_current
+> 
+> -- 
+> 2.43.0
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
