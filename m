@@ -1,85 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351435C9A;
-	Thu, 25 Jan 2024 04:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7BB1079D;
+	Thu, 25 Jan 2024 05:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706157975; cv=none; b=seJo5dJdeHWF/lXzhLU+79ApwIB56+R+dIHFErRBVFtQJvi5z/SNGD/frQgT/ZNfSnANPdUbZ8/hgHePQsc/Lu/+/YvdRC9F3nAei83pDIMij55HE6Ad+XsleskdtiLYn1NwS617okejELpqurzqUHin3vsI1yhELrph/GcnsrQ=
+	t=1706158837; cv=none; b=QzkHpG/gryJ858rlwbzAv9QO8SqDsqpc8kt1LHPwYHZUcZUHuhQDoqIjBKMvJ7EUykJm6fOmGj9UWUXVrWftk4cl5ByyUwd6SWWsdzBJvHGwUcCuJ8UQelKA1o6XRCrK6Al+c/wI0bCm5l60fGRKR7+BSLzrqKIcn+zrcen/lig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706157975; c=relaxed/simple;
-	bh=afcdbMWCY3eiWfPY0mb5JQNRODS7wAD1Xr74pJ57Yg0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UZjiFdB1C0gdN7swwPGnxBp9G60CAKoap6yGqyFTeAGNYJQXVqpXUZeh+HRpi0f6288KCPjbebqh2NpwEYXWpD6dC5H+h10fqgYRWnn0qc1Kv0Lfh8uEs5CKP40+pHbEQQZ9Nl8PSl48wUpwqeX5DUe6Knop1oYWIy167nLXGAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y7Qnn/TE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706158837; c=relaxed/simple;
+	bh=nzYKlUKWsbCuEcHH86W2xJifvKAS1jxnxnES3Fo7LXQ=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=Aq6Y1dCmcvOAuP9tSob3izvFmQd9S4yUFHg1BwVsmJeDP1v1pYY0DtPiuaXFzOTe2PjTlp1MFqqOksosqn3LSei9C44idK7AvLEd0rVxHMA9IK4D3zfLeGWdBUNaAj/XXCGOUArj+PY6howvOGXtPt8NlBrRBZlD6JEuaRhmrVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kthh0rOS; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y7Qnn/TE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43DB4C433C7;
-	Thu, 25 Jan 2024 04:46:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706157974;
-	bh=afcdbMWCY3eiWfPY0mb5JQNRODS7wAD1Xr74pJ57Yg0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Y7Qnn/TESDf+xaJoWsAeBideYGSbmHr0wpovbhSqPdResbShIs8ehe1oURjSU+Wh7
-	 TgH5U+xisGL+tSJ7VpE6Jv9zBZrORuExpKw1uDsdxD+amaZ8DBlHreG38LpFdHzpWz
-	 r98hX1qpZx3J+sDoETMbIrx8uNF9pQSwjkrdX3sjqi+QEzKmVk1ZGJmJ8eiPPF5MmB
-	 e82UrSztqqdFhpFU4oiCNNPoR+N5XE+kQ4C3lSXe5Z3pUT6+1/rjY1waGhAQ6I8g7F
-	 8pH4fcksxRZ6upFm9+hYAWkzmACymbMAYzKXjTV2yp29oDDi8jX3J3Kx8yOgS2aN5H
-	 4oAWn7lUphhyg==
-Date: Wed, 24 Jan 2024 20:46:12 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Benjamin Poirier <bpoirier@nvidia.com>
-Cc: netdev@vger.kernel.org, Shuah Khan <shuah@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek
- <andy@greyhouse.net>, Andrew Lunn <andrew@lunn.ch>, Florian Fainelli
- <f.fainelli@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, Jiri Pirko
- <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Petr Machata
- <petrm@nvidia.com>, Danielle Ratson <danieller@nvidia.com>, Nikolay
- Aleksandrov <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>,
- Johannes Nixdorf <jnixdorf-oss@avm.de>, Davide Caratti
- <dcaratti@redhat.com>, Tobias Waldekranz <tobias@waldekranz.com>, Zahari
- Doychev <zdoychev@maxlinear.com>, Hangbin Liu <liuhangbin@gmail.com>,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 1/6] selftests: Introduce Makefile variable to
- list shared bash scripts
-Message-ID: <20240124204612.4c688095@kernel.org>
-In-Reply-To: <20240124170222.261664-2-bpoirier@nvidia.com>
-References: <20240124170222.261664-1-bpoirier@nvidia.com>
-	<20240124170222.261664-2-bpoirier@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kthh0rOS"
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5989d8decbfso3864158eaf.2;
+        Wed, 24 Jan 2024 21:00:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706158835; x=1706763635; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4a9Blzx9l4OEzkWFPQx1BBFsuuq8n7ycY+8Z5uXBb/U=;
+        b=kthh0rOSbU7R6TFRbd62g+oaexcoCHZpCzni9A0uEiA95zVLMnQ94s12zUVsTSuW+z
+         i19RBKAPzkWQXxtdRyL82fYUT6AUlrbL489OwHruoeGH9lXpZpiI4DdaWUUypKwg6vSJ
+         zHW47itU20cpRVtIaJJGVu7QprPj7CVy+hxocjNnPP9LbT2GkiARDrBS64saOKXp0vmq
+         CpdgOtOljhTfXMQ+W4+KpiEM9IRTTCSAcn0sS5012oxwiRJ6pakbQNg34J6h2e1yQxxh
+         Gy0Sde3paGF78Bn4Xcxr19Ea0ENrfQItyqoLgwuTL7rIaOzk4prUl06sOuvfQgGgo744
+         1U4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706158835; x=1706763635;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4a9Blzx9l4OEzkWFPQx1BBFsuuq8n7ycY+8Z5uXBb/U=;
+        b=d2W31lc9LsRJkkgP5scLPtYW1Cehm9rZ5EdLnRW0+e4yWYLA0mA/DCSuPVF/C5hdyZ
+         qo6FgXb6KuLn/2jpC7Ybul5o7dLiBotgXKykQ6A1KoYnMqypAY9zgaALrJZSdJTN2BaO
+         YClrJ8OW1OW8ScaJCCVWuahS5FDbyV7YSD6sK78wJXguM1KEIzyOFCvrSa4x0OXO6Tqg
+         owHhMXVjaiqapgE67J48TMQBSVzyVWw3EdX8GNvxIc4gK0MqGh0fip8ZBD1qkRlqSwqu
+         EeQWlLwf3nBBKy5F0Mv57a6i7OQmf6pewB6NqoOaHeZtcaDGIMK3qhDsnGvkpSzH/eQK
+         93vQ==
+X-Gm-Message-State: AOJu0Yz/V5d4DifcEsu/MtvmW8R32w1U3Z05XBzrX9MLibfLlFuC1V9u
+	iK0wlpg9ass1aG9Fe+CRvlF6Tjeu256B2m/IgslmiXAd/7u9wwfw
+X-Google-Smtp-Source: AGHT+IH66vrYRLBN87F0CNqyeUf0N2eJiUyq++LaFIERol/QPBGMcfpDQxvMnh56DaViSVL3hoP3fQ==
+X-Received: by 2002:a05:6358:91c:b0:174:f48c:3871 with SMTP id r28-20020a056358091c00b00174f48c3871mr551554rwi.43.1706158835340;
+        Wed, 24 Jan 2024 21:00:35 -0800 (PST)
+Received: from localhost.localdomain (c-73-254-87-52.hsd1.wa.comcast.net. [73.254.87.52])
+        by smtp.gmail.com with ESMTPSA id j38-20020a635526000000b005cf7c4bb938sm12549382pgb.94.2024.01.24.21.00.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jan 2024 21:00:35 -0800 (PST)
+From: mhkelley58@gmail.com
+X-Google-Original-From: mhklinux@outlook.com
+To: corbet@lwn.net,
+	costa.shul@redhat.com,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 1/1] docs: Fix subsystem APIs page so ungrouped entries have their own header
+Date: Wed, 24 Jan 2024 20:59:41 -0800
+Message-Id: <20240125045941.123297-1-mhklinux@outlook.com>
+X-Mailer: git-send-email 2.25.1
+Reply-To: mhklinux@outlook.com
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 24 Jan 2024 12:02:17 -0500 Benjamin Poirier wrote:
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -255,9 +255,19 @@ Contributing new tests (details)
->  
->     TEST_PROGS_EXTENDED, TEST_GEN_PROGS_EXTENDED mean it is the
->     executable which is not tested by default.
-> +
->     TEST_FILES, TEST_GEN_FILES mean it is the file which is used by
->     test.
->  
-> +   TEST_INCLUDES is similar to TEST_FILES, it lists files which should be
-> +   included when exporting or installing the tests, with the following
-> +   differences:
-> +   * symlinks to files in other directories are preserved
-> +   * the part of paths below tools/testing/selftests/ is preserved when copying
-> +     the files to the output directory
-> +   TEST_INCLUDES is meant to list dependencies located in other directories of
-> +   the selftests hierarchy.
-> +
+From: Michael Kelley <mhklinux@outlook.com>
 
-I think that this chunk causes a warning when doing make htmldocs:
+The kernel subsystem APIs front page currently has four top-level
+groupings with headers, and then everything else that isn't grouped.
+But in the table-of-contents, ungrouped subsystems are indented as
+if they were part of the preceding grouping (currently "Storage
+interfaces"), which is confusing.
 
-Documentation/dev-tools/kselftest.rst:267: WARNING: Unexpected indentation.
-Documentation/dev-tools/kselftest.rst:268: WARNING: Block quote ends without a blank line; unexpected unindent.
+Fix this by adding an "Other subsystems" header for the ungrouped
+subsystems.
 
-Could you double-check?
+Fixes: 3c591cc954d5 ("docs: consolidate human interface subsystems")
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+---
+ Documentation/subsystem-apis.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
+index 2d353fb8ea26..74af50d2ef7f 100644
+--- a/Documentation/subsystem-apis.rst
++++ b/Documentation/subsystem-apis.rst
+@@ -61,6 +61,8 @@ Storage interfaces
+    scsi/index
+    target/index
+ 
++Other subsystems
++----------------
+ **Fixme**: much more organizational work is needed here.
+ 
+ .. toctree::
+-- 
+2.25.1
+
