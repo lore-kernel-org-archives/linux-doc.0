@@ -1,54 +1,54 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA59D8F45;
-	Fri, 26 Jan 2024 03:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83188480;
+	Fri, 26 Jan 2024 03:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706238838; cv=none; b=mJQLKc3+EA8tkMeirz85Bixnq9y3E0CbWKAHo+nmGCwSl9yFDkXiuqS957+aqHpJ6Nrg9nVjhumZnevcgcd87rs27vPm3iKh25eEkidN3v7cHbEkWd6+DlFtUOpHT/Rjk5xMAheOAeVCUKgUpPzHChYmhiz+t7DCvj8k0RS27Qo=
+	t=1706241333; cv=none; b=BT0WaBGHKIJ3rWv7G9MTHR0+b2m69srtw+1RUKraheqoL2E3pLIsQE9f8RWIGOcjfKvGWXlMYD6ADVyq2VBYTtXdFAALcy+5nWgpSdsBycPXJ5vJvLKndHkSFvbTOR5k+LMm8ssxYsjHV13VXtCXAhL87AnEAfkQoyqVRYjw8AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706238838; c=relaxed/simple;
-	bh=yq+hu6UuOULfSrJRxAYoKdWzYYH+F7MC7QZ3Cfm+6gk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qaHJGEvK4/5YS39eaJPUB96wxwDp5g1am963S97KsCtRrsanmaFiloFgYhNkwq3x7vN76GAG/qAoX9zwtDsniV2I+HsnPl8zXPKylklH3+TxiOcxYet9rjv5tiOiJPwnbXEYuNJYUNvlPARrYMCg9BgJNKTaDOjYNwqSbnCGKzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H7A/9wLZ; arc=none smtp.client-ip=209.85.210.54
+	s=arc-20240116; t=1706241333; c=relaxed/simple;
+	bh=QTMeq/tbWLwGSOmkanyrrMobHE32r9uST02llsDUBZE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Xpz+rb/nz80jLNjvw7XE3pA+y+KflU4/YaofLAXJu7bIq5cukS52uli0kvpUFjKuahfTLVW/LSIuGux9LoF/+7iHvn8o0x70T7t4yvxCict/GRJ3ftbH7zzHccE0FEu+scPGZ8qxhizZlazjLMpS5s6xGMemUXAIEtv9yIzVC5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A4G5KlEq; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H7A/9wLZ"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6ddef319fabso4871999a34.1;
-        Thu, 25 Jan 2024 19:13:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A4G5KlEq"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-290d59df3f0so2853721a91.2;
+        Thu, 25 Jan 2024 19:55:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706238836; x=1706843636; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1706241331; x=1706846131; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EpxMCECa24DVULXh1Faijfwc0unMyRWhKf+jeqyDsDI=;
-        b=H7A/9wLZ8VEtq4US1o0jHMUMlmoHfMK7LWDMBVCfrtmDQzeQYzeTj3jYVqLf4MdT1X
-         ioiWI/mMydt8HIG388Y3puKWlhvY1R7Y0V47TAeYItemh4U/W7v2mIVtwtIrSrCvwzbQ
-         HKeJogamRQgNsbVhpUc9v9IMK3ihTX3Z8mxGLa2VdUDEuPkIPbhBISLQsVnIIn+e14Uk
-         JUrxdZtwefu9qZZrfkyW/0/nQJg4dazWW7fChBkUqFGsUDQKQYa1vvTOhWAILBCpLUWL
-         VQlHCoOrnt+lYKKxfWfYFealNnnfUiZPSe6mYAHJi7D+HVazKQm6iq07LQjsEiamx9gL
-         9M0Q==
+        bh=p+Q50Unqtewy7ypSZLUUF993WEutxtAN1ev6lY+kbpA=;
+        b=A4G5KlEqoCNYvzHqQGP/byU4qhq4gIli7uH9sy4fc6+9kNRESsuHcPd1tUtgJ2MCjQ
+         lS+im2+6Faqzki2tsd+chb+IqIfmrMFQ0Fb30wLibot5F1fyF/dNqn5iNgQ+6eVcOj4w
+         fY7Xy/FlalAfWU8L6Z23VuYAAhYyTvAhY7TPhq2phMl8xahyCzgrAwKsc74HfCBfcfFf
+         i+v8oXQIreNN+r6Q4IrJqlV5JmNONsOhETrAnfQ+YD6/I1JN9ifTwoMGpgtg1JwJ+nmJ
+         ehbc/MV6MlVhO8dA1wJflE13jfNP4qQhfTynDIMaQ6KlqXkvMEP19eMUnDT/X+A/YJIt
+         S1iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706238836; x=1706843636;
+        d=1e100.net; s=20230601; t=1706241331; x=1706846131;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EpxMCECa24DVULXh1Faijfwc0unMyRWhKf+jeqyDsDI=;
-        b=T8/IhuwRsYOa4YN428SfCnmcE3NBHbZsEZkrRHs2oOPiy7gk2i/raAeXRYb+QU1O0i
-         dFSY54onL+cg34oh82rtTHtSFhUhJgugHzBC1d6ruclaP/YICKGJugNkBqAIR4r4awUo
-         chNm3Wdca4NcHTdSx7bN+WAzwT/A7D+XEcKtOUBWnP9teK/GY++kGxpPj6+hZ/Lstq7R
-         +8Q9m3FVRTGHufszi5V6wZ67Mut4PTrJr22l3sDU8b6+apst0g+Lh6KpNR2ySdqYa7at
-         zeZvnHOTo9ZOAZZcbFl4xoklzCikxIlLbJ/DhI7BxRPda/pXXNCqUsC0ZpQy6Se3urzr
-         dU6A==
-X-Gm-Message-State: AOJu0YxV0jkBctPx+MR5FjF8R1rRQCjbE5a4ey5KrzQBDLDzpME+I775
-	LbZ+6ib5OpysjWMxKC9mZYL2o67rt3VT8BFq6RbMkrS+dOHbhsb5
-X-Google-Smtp-Source: AGHT+IEbGrC9ltdBZwrdCuLSE8x6QbApxdPoKEnvqPhZnH602tJ+RQGHdrY1W/8+gJysazJyp37l6g==
-X-Received: by 2002:a05:6358:923:b0:176:58ed:212 with SMTP id r35-20020a056358092300b0017658ed0212mr851028rwi.4.1706238835384;
-        Thu, 25 Jan 2024 19:13:55 -0800 (PST)
-Received: from ocxma-dut.. ([153.126.233.62])
-        by smtp.gmail.com with ESMTPSA id t8-20020a17090a024800b00293d54a85f5sm286469pje.32.2024.01.25.19.13.51
+        bh=p+Q50Unqtewy7ypSZLUUF993WEutxtAN1ev6lY+kbpA=;
+        b=IVsRPdxtuB75ERwLdpPNjkvPxnGcYPkatNCkwb8aG4uGad/jNcQFjfho8HOOfOtzou
+         7qRQvI2ADSLQ+e64ievYpUfijFYIRWRvPWFBoCl7/WXUMC7n7zr+ozzm+JpzpOCHE1VT
+         xeysXYETgwUkrLg1Uj1Z+9sl37/8clUYLn4Lgl9LLk2QYkkkguyt0MnZA2MheSsfS9EX
+         rKemu5tWQwgp/FvvMbBFlnG8vfD2/sFtViN3iQrRdfoHwKY/C0hWIM+EKYOrzAEJ1EtP
+         P6laIfm+CkGsXOEiLwrBIgO69zKhDws+Ru7lFRgZB89Ni2KM18cnmmqLmBNv2sFvNe6P
+         0a7Q==
+X-Gm-Message-State: AOJu0YzIfL6B8OLlSNiFoP9dqbKXNm/DQTlK/w+B4mBq/ssAWcB3hDmQ
+	kFtvqLMr1A6MRS0XJdDr/X9nvFXPnsL9nBcmwqUuKiGjA+20BFz/
+X-Google-Smtp-Source: AGHT+IH+JRQ64P/+GFe8prxxHVSrMM/ph9ImznDhfAaSoEiuNlEyj+Q0WrWf9nWWGfv2lYBbmPEtcg==
+X-Received: by 2002:a17:903:124f:b0:1d7:5943:21b8 with SMTP id u15-20020a170903124f00b001d7594321b8mr982271plh.16.1706241330935;
+        Thu, 25 Jan 2024 19:55:30 -0800 (PST)
+Received: from ocxma-dut.. ([153.126.233.61])
+        by smtp.gmail.com with ESMTPSA id t6-20020a170902bc4600b001d704905e9fsm238888plz.259.2024.01.25.19.55.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 19:13:54 -0800 (PST)
+        Thu, 25 Jan 2024 19:55:30 -0800 (PST)
 From: Takeru Hayasaka <hayatake396@gmail.com>
 To: Jesse Brandeburg <jesse.brandeburg@intel.com>,
 	Tony Nguyen <anthony.l.nguyen@intel.com>,
@@ -66,8 +66,8 @@ Cc: intel-wired-lan@lists.osuosl.org,
 	laforge@gnumonks.org,
 	Takeru Hayasaka <hayatake396@gmail.com>
 Subject: [PATCH net-next v3] ethtool: ice: Support for RSS settings to GTP from ethtool
-Date: Fri, 26 Jan 2024 03:13:42 +0000
-Message-Id: <20240126031342.770766-1-hayatake396@gmail.com>
+Date: Fri, 26 Jan 2024 03:55:22 +0000
+Message-Id: <20240126035522.857882-1-hayatake396@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -110,16 +110,18 @@ This case can be solved by using this patch
 
 Signed-off-by: Takeru Hayasaka <hayatake396@gmail.com>
 ---
-Sorry for the delay; I've been swamped with other work and got behind. 
+Sorry for the delay.
+I've been swamped with other work and fell behind. 
 Since Harald-san has been supportive of the basic structure in the previous patch review,
-I've kept it largely unchanged. 
+I've kept it largely unchanged but added some comments and documentation. 
 I would appreciate it if you could review it again.
+
  .../device_drivers/ethernet/intel/ice.rst     | 23 ++++--
  drivers/net/ethernet/intel/ice/ice_ethtool.c  | 74 +++++++++++++++++++
- drivers/net/ethernet/intel/ice/ice_flow.h     | 14 ++++
+ drivers/net/ethernet/intel/ice/ice_flow.h     | 21 ++++++
  drivers/net/ethernet/intel/ice/ice_lib.c      | 37 ++++++++++
  include/uapi/linux/ethtool.h                  | 35 +++++++++
- 5 files changed, 178 insertions(+), 5 deletions(-)
+ 5 files changed, 185 insertions(+), 5 deletions(-)
 
 diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
 index 5038e54586af..6bc1c6f10617 100644
@@ -281,7 +283,7 @@ index a19b06f18e40..eb5f490c6127 100644
  
  /**
 diff --git a/drivers/net/ethernet/intel/ice/ice_flow.h b/drivers/net/ethernet/intel/ice/ice_flow.h
-index ff82915ab497..6aed5cb744a4 100644
+index ff82915ab497..d5ba2ef0343a 100644
 --- a/drivers/net/ethernet/intel/ice/ice_flow.h
 +++ b/drivers/net/ethernet/intel/ice/ice_flow.h
 @@ -66,6 +66,20 @@
@@ -305,6 +307,20 @@ index ff82915ab497..6aed5cb744a4 100644
  #define ICE_FLOW_HASH_PPPOE_SESS_ID \
  	(BIT_ULL(ICE_FLOW_FIELD_IDX_PPPOE_SESS_ID))
  
+@@ -242,6 +256,13 @@ enum ice_flow_field {
+ #define ICE_FLOW_HASH_FLD_SCTP_DST_PORT	\
+ 	BIT_ULL(ICE_FLOW_FIELD_IDX_SCTP_DST_PORT)
+ 
++#define ICE_FLOW_HASH_FLD_GTPC_TEID	BIT_ULL(ICE_FLOW_FIELD_IDX_GTPC_TEID)
++#define ICE_FLOW_HASH_FLD_GTPU_IP_TEID BIT_ULL(ICE_FLOW_FIELD_IDX_GTPU_IP_TEID)
++#define ICE_FLOW_HASH_FLD_GTPU_EH_TEID BIT_ULL(ICE_FLOW_FIELD_IDX_GTPU_EH_TEID)
++#define ICE_FLOW_HASH_FLD_GTPU_EH_QFI BIT_ULL(ICE_FLOW_FIELD_IDX_GTPU_EH_QFI)
++#define ICE_FLOW_HASH_FLD_GTPU_UP_TEID BIT_ULL(ICE_FLOW_FIELD_IDX_GTPU_UP_TEID)
++#define ICE_FLOW_HASH_FLD_GTPU_DWN_TEID BIT_ULL(ICE_FLOW_FIELD_IDX_GTPU_DWN_TEID)
++
+ /* Flow headers and fields for AVF support */
+ enum ice_flow_avf_hdr_field {
+ 	/* Values 0 - 28 are reserved for future use */
 diff --git a/drivers/net/ethernet/intel/ice/ice_lib.c b/drivers/net/ethernet/intel/ice/ice_lib.c
 index 9be724291ef8..72f737c6c9ba 100644
 --- a/drivers/net/ethernet/intel/ice/ice_lib.c
