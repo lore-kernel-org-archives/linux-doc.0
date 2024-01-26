@@ -1,233 +1,168 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8A024B31
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 21:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD3225565;
+	Fri, 26 Jan 2024 22:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706306264; cv=none; b=dkc3moZcgr5Az2AJQvnplMxfnQhsqxPNJs7fndojUOlJy2l5KrQ7auRM91H3uDOHYTjy0rn1Ne5BP0flJrH9irrI5dtevBcS/UulSAJVDtjt7fKvIcVMGPgT9HJgGBmkuFAILQ5XsWGXGqbpTaid+FvB3+fwfr1tvKenaOFoxNU=
+	t=1706306462; cv=none; b=kK8USXuXYRB5sklUffIEAsciGU77LLlhrDCW4UMwoq+Arld4YtyImrtrxvYi5HweXvx0D0OoYzHWKcf4qZ0bQMK4lwm57S9p4xeyRtdvE+XKADH8Fg8HekQw7PR2w+apaFwNZim0JW8gkMiD9xXfRH1/Avj6sIrUh0QgKD+qbAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706306264; c=relaxed/simple;
-	bh=BVrGq/7XfOhF9vHBuLXUYQUG8qvDs8RmRicYvfTIGJE=;
+	s=arc-20240116; t=1706306462; c=relaxed/simple;
+	bh=riut/XdpDrQsrASptwkcJlb0by07DshnWcYF/bs/29E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GNaPlcMhSzKnZIvgpLTVNJmOgAj9uEx9gqSvkyXYEPa5uhUD48P3t178RFmSUvs8SygUj2X84PWC1tuqwqc1hCB+IUv0dXpTH534AlaUurJUKtQaDi1CiiuBtGqohLNTIrZuhUN6nrDQqyo8zFTQrAgKDjZp3qtJPlmyrpZvN7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1rTUCX-0001Od-Nf; Fri, 26 Jan 2024 22:57:29 +0100
-Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1rTUCU-002atY-LE; Fri, 26 Jan 2024 22:57:26 +0100
-Received: from mgr by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1rTUCU-0020WK-IA; Fri, 26 Jan 2024 22:57:26 +0100
-Date: Fri, 26 Jan 2024 22:57:26 +0100
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: Dominique Martinet <asmadeus@codewreck.org>,
-	Jan =?iso-8859-15?Q?L=FCbbe?= <jlu@pengutronix.de>,
-	Latchesar Ionkov <lucho@ionkov.net>, linux-usb@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=L3aRVzdcIlxFobGlhmajK4zM2nPsrIk+k2rr+RQiQPi+hrhJJRMMG21Q/0U6OiNx5fn9oc5y/0jYWc2b2pmG8YJvljvYlrTxdBUHD5y3ARE5OQZfwjiRznUXSsPaOhoSCxa8BICYdqk2aIpPkL6Kk1h24jsYEA339cLIIATEqCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OlPwJWfo; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OlPwJWfo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A277C433F1;
+	Fri, 26 Jan 2024 22:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706306461;
+	bh=riut/XdpDrQsrASptwkcJlb0by07DshnWcYF/bs/29E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OlPwJWfoQ84jFCtOj2ECYPqtGlVcOuXS54UDiCUCWepQHkwb5HGmWUV/Ub+2dO/fp
+	 y+jta1jG5WkFNa2JWgNBsRLG5ckfkgjYx2R74XPMNjzICsSq+PFWZa2mdaNXOgFvSU
+	 c85/qaqET/+epqfZKhSqfsmsuJpSThFPdO4cXU+TPvpN5yodPcjGQch8oG9sPS4uK/
+	 ZRyy7ypuVoD4l3gNX87Hif2mtnSOhNm4BTcHDg/2DG1uV/vwTCZMKkTpMSfoNpGYPb
+	 xTYXppk54qRxer6vaAQ2EGumfgjJIJeVpm7H1jkwivnBVY99YBEGid3YrSi65wWgoB
+	 oDvdwrsn3nW6w==
+Date: Fri, 26 Jan 2024 22:00:55 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	linux-riscv@lists.infradead.org, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	v9fs@lists.linux.dev,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de, Eric Van Hensbergen <ericvh@kernel.org>
-Subject: Re: [PATCH 0/3] usb: gadget: 9pfs transport
-Message-ID: <20240126215726.GA183863@pengutronix.de>
-References: <20240116-ml-topic-u9p-v1-0-ad8c306f9a4e@pengutronix.de>
- <ZaZsUQUhSlMPLJg0@codewreck.org>
- <0aba51a8be0fb165b44ec956bec7a9698a9518a2.camel@pengutronix.de>
- <Zaex_fkKcui7QZd7@codewreck.org>
- <80c4e788-65df-4a82-8453-74683289abcb@collabora.com>
+	llvm@lists.linux.dev, Matthew Maurer <mmaurer@google.com>,
+	Ramon de C Valle <rcvalle@google.com>,
+	Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
+Message-ID: <20240126-eccentric-jaywalker-3560e2151a92@spud>
+References: <CANiq72nnph7LS1fLRtHz8NJ91PWXPaUnm0EuoV3wrbvK398AnA@mail.gmail.com>
+ <20230608-spiritism-gonad-5f5aff4c3a24@wendy>
+ <20240117-swiftly-parasail-618d62972d6e@spud>
+ <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
+ <20240118-implode-delirium-eefdd86e170e@spud>
+ <CANiq72nx1s_nyvPW86jL7eiOxROr18LfOJqNtw8L42CP+gkhRg@mail.gmail.com>
+ <20240125-bucked-payroll-47f82077b262@wendy>
+ <CANiq72k7n0aZrifRRU08N8qLkNe+2EZwijZy5sM7M56n2xYHgQ@mail.gmail.com>
+ <20240125-lazy-thrower-744aacc6632a@wendy>
+ <CANiq72kb+_utZrYHtoKZQtQazikmkjpVUHpTBcaANizduMF5QQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gBBFr7Ir9EOA20Yy"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="VpYZYsPh7ooFZbB5"
 Content-Disposition: inline
-In-Reply-To: <80c4e788-65df-4a82-8453-74683289abcb@collabora.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <CANiq72kb+_utZrYHtoKZQtQazikmkjpVUHpTBcaANizduMF5QQ@mail.gmail.com>
 
 
---gBBFr7Ir9EOA20Yy
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
+--VpYZYsPh7ooFZbB5
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 26, 2024 at 08:47:22PM +0100, Andrzej Pietrasiewicz wrote:
->Hi,
->
->W dniu 17.01.2024 o=A011:54, Dominique Martinet pisze:
->>Jan L=FCbbe wrote on Tue, Jan 16, 2024 at 04:51:41PM +0100:
->>>>So I didn't have time to look at everything through, just want to make
->>>>sure, this series allows sharing data from an usb gadget (e.g. some
->>>>device with storage) over 9p as an alternative to things like MTP ?
->>>
->>>It's the other way around. :) The USB host exports a filesystem, while t=
-he
->>>gadget on the USB device side makes it mountable. Our main use-case is t=
-o use it
->>>as an alternative to NFS root booting during the development of embedded=
- Linux
->>>devices. NFS root works in many cases, but has some downsides, which mak=
-e it
->>>cumbersome to use in more and more cases.
->>
->>Oh!
->>Okay, this makes a lot more sense. And that'll need a bit more
->>explanations in the commits & Documentation/ as you've concluded :)
->>
->>
->>>NFS root needs correctly configured Ethernet interfaces on both the deve=
-lopment
->>>host and the target device. On the target, this can interfere with the n=
-etwork
->>>configuration that is used for the normal device operation (DHCP client,=
- ...).
->>>For the host, configuring a NFS (and perhaps DHCP) server can be an obst=
-acle.
->>>
->>>For target devices which don't have a real Ethernet interface, NFS root =
-would
->>>also work with the USB Ethernet gadget, but this increases the complexity
->>>further.
->>>
->>>As many embedded boards have a USB device port anyway, which is used dur=
-ing
->>>development for uploading the boot-loader and to flash filesystem images=
- (i.e.
->>>via the fastboot protocol), we want to just reuse that single data cable=
- to
->>>allow access to the root filesystem as well.
->>>
->>>Compared to flashing images, using a network filesystem like NFS and 9P =
-reduces
->>>the time between compiling on the host and running the binary on the tar=
-get, as
->>>no flash and reboot cycle is needed. That can get rid of many minutes of=
- waiting
->>>over a day. :)
->>
->>My other hat is on embedded development (dayjob at Atmark Techno[1], the
->>only english page linked is about 4 years out of date but I guess it's
->>better than no page at all), so I can understand where you're coming
->>from -- thanks for the background.
->>
->>[1] https://www.atmark-techno.com/english
->>
->>That means I'll actually want to test this, but kind of always busy so
->>it might take a few weeks...
->>Or better, do you happen to know if qemu can create a USB controller
->>that supports OTG so it'll be easy to test for folks with no such
->>hardware?
->
->Maybe dummy_hcd is what you want?
+On Fri, Jan 26, 2024 at 10:00:02PM +0100, Miguel Ojeda wrote:
+> On Thu, Jan 25, 2024 at 2:46=E2=80=AFPM Conor Dooley <conor.dooley@microc=
+hip.com> wrote:
+> >
+> > Ah, thanks for the direct link :)
+>=20
+> My pleasure!
+>=20
+> > Actually, thinking about it for a moment - if only a single compiler
+> > version is supported (the minimum, right?) then you could just add the
+>=20
+> Yeah, the minimum listed in `scripts/min-tool-version.sh` and in
+> `Documentation/process/changes.rst`. It also happens to be the maximum
+> too, until we can relax that.
+>=20
+> > -Zsanitizer=3Dkcfi flag whenever CFI_CLANG and RUST are both set.
+>=20
+> Since the flag goes to the Rust compiler, `RUST` would be always
+> enabled, so the flag would only need to be added when `CFI_CLANG=3Dy`,
+> no?
 
-I did a lot of testing with dummy_hcd. So this should work.
+Sure.
 
-But of course testing the special case of rootfs is tricky. Since you
-will have to share the gadget with qemu to boot the rootfs from
-somewhere else.
+> Or what do you mean?
 
-Regards,
-Michael
+Oh I was probably just getting myself mixed up between what the Kconfig
+and Makefile stuff would look like. dw :)
 
->>We've got enough 9p protocols that aren't actually tested on a regular
->>basis, it'd be great if we could have something that can run anywhere.
->>
->>
->>>diod (9pfs server) and the forwarder are on the development host, where =
-the root
->>>filesystem is actually stored. The gadget is initialized during boot (or=
- later)
->>>on the embedded board. Then the forwarder will find it on the USB bus an=
-d start
->>>forwarding requests.
->>>
->>>It may seem a bit unusual that in this case the requests come from the d=
-evice
->>>and are handled by the host. The reason is that USB device ports are nor=
-mally
->>>not available on PCs, so a connection in the other direction would not w=
-ork.
->>
->>Right, most host PCs won't have OTG available...
->>I was also perplexed by the linux foundation (0x1d6b):0x0109 id, that
->>might be clearer once it's properly documented -- I'll let someone from
->>the usb side chime on this as I have no idea what's appropriate.
->>
->>
->>>In the future, the functionality of the forwarder could be integrated in=
-to the
->>>9pfs server. Alternatively, an improved forwarder could also react to ud=
-ev
->>>events of gadgets showing up and forward them to different 9PFS server o=
-ver the
->>>network (when you have multiple target devices connected to one USB host=
-).
->>
->>Plenty of potential work ahead :)
->>Frankly at this stage I don't think it's much simpler than e.g. CDC
->>ethernet gadget and mounting nfs over tcp, but with further improvements
->>it can definitely get simpler.
->>
->>
->>>Perhaps, the inverse setup (9PFS server on the USB gadget side, mounted =
-on a PC)
->>>also would be useful in the future and could share some of this code. Th=
-en,
->>>you'd have an alternative to MTP.
->>
->>(Yeah, I'm not actively looking for that -- was just asking because MTP
->>has been kind of dead lately and I'm not aware of any potential
->>alternative, but I didn't go looking for them either -- let's leave that
->>to later)
->>
->
->
+> > I'm not sure if that is a better option though. It's a choice between
+> > CFI_CLANG being disabled if the check is not updated when the toolchain
+> > is bumped versus being enabled for C and not for RUST. I think I prefer
+> > the former though, tracking down the cause of the latter I would rather
+> > not wish on a user.
+> >
+> > I vote for having the check, even if it can only ever be true at the
+> > moment.
+>=20
+> Since we only support a single version, we don't need `rc-option`
+> tests until we start supporting several versions (which is why other
+> tests like that do not exist so far).
+>=20
+> In my previous message I thought you meant using the flag to test for
+> arch/target support or similar. That would be fine, but we can also do
+> the usual `ARCH_SUPPORTS_CFI_RUST` here, I would assume.
 
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Is that even needed? We already have ARCH_SUPPORTS_CFI_CLANG and AFAIU
+rust supports it if clang does, so a second option is superfluous?
 
---gBBFr7Ir9EOA20Yy
+> Now, during the version bump to a stable flag, if we happen to forget
+> to update the flag name, it would be a build error, so it should be
+> easily spotted and fixed.
+
+I'm reading back what I wrote, and I must have been trying to get out
+the door or something because none of it really makes that much sense.
+Of course an unknown option should be detectable at build time and not
+be a silent breakage. Maybe I should have written the patch for this
+before sending the mail rather than writing the mail based on what was
+in my head.
+
+> What we may want to add, though, to avoid the confusion you mention
+> meanwhile, is just a `depends on !CFI_CLANG` for `RUST`, like for the
+> other requirements we have there (which are things that should
+> eventually go away). Then they can remove that when the `-Z` flag is
+> deemed ready to be used. But perhaps let's see what Ramon et al. say.
+
+I don't really mind either way. Whatever of the two that you guys want
+that prevents broken kernels works for me!
+
+> By the way, concerning the tracking issue, since you mentioned it: it
+> has a list of PRs, but not fixes, there is a "known issues" link
+> there. On top of that, we are "shifted in time" w.r.t. the latest
+> status in the compiler, since we use stable versions of the compiler.
+
+Yah, I was linking it to point out that the stuff is unlikely to be
+usable any time soon, since it is not complete in the most recent
+toolchain.
+
+Cheers,
+Conor.
+
+--VpYZYsPh7ooFZbB5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmW0KsMACgkQC+njFXoe
-LGRMDA//TS98JSMa3OqGApgt33CFV5o169WiV14RCxkouF2ELFSZ8MKaiYrpijV6
-joMER3osdUuvuaRcrw2HDK9TzeKEfm6PwkrSrJu0mTt7VHBN6vFlhcuTVME8ED+G
-Wah5cpVq8wVjLybR8m27R6WYkLUH629ARvpJAEa13A5+76ZIBPM6gUklEvrtUJ0k
-WQEsF6G5e0ddRp48CAFalniGBFGr+yKmiEJ+emBDGCJycFWg6clmXSuQR86ZTfU4
-wQ76yg8lNbMXk178yjzNLhc2kHjbr/JO7Gn3CQMl3wzgkmhGBqPoF5DEgxEcKA5a
-yulcwwmn8S1zTSJqKApd1vMSlf7qhG3O2kf6e3P+oG+eMJKALk5xud5u0n3gtMgK
-Mk7CqlWP/UJ+SqgmBi+30i/+jKYnXuaIa9BHk77NNpPfXYZOMhheXqhw2wKHl/UW
-90Qq6DFQyLkfaGZpkuXkmmhmBmOKQ0R8AXz00luWKuVhZjC5oi6B0mTcrUDpBUt6
-aBOiKQxE6l/MK6l6wk36H6S9MPA+OAQbD8FfsaLkKJsTaS9qr4h28mruWpPq6uJU
-iD7SDFCR35Yu/6y4U/m9w4imQNUFv+HwBGmRXukRDQ9apVUEYSJ6GO+6RHMmNUPR
-AHmjXrN9n/IfQbHXjhus37xuDOs5D1U+FBFeuWcRATMifkult+M=
-=UteF
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbQrlwAKCRB4tDGHoIJi
+0meeAP9z4Z4UXLa6YN4nCic4/a2cKXvc99l+GFebDHGuZJIHpwD/W1lM4CxjLlBg
+W60C8W8UTeABvw1N16NPnnOeE8KteQI=
+=jaxq
 -----END PGP SIGNATURE-----
 
---gBBFr7Ir9EOA20Yy--
+--VpYZYsPh7ooFZbB5--
