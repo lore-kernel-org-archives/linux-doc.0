@@ -1,201 +1,292 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0265D75B;
-	Fri, 26 Jan 2024 07:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267C860DD9;
+	Fri, 26 Jan 2024 07:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706254952; cv=none; b=RTJ+p+9GAzSnVCltgbVyFFgjoTa4UV1vvHenjGlDDEOBFMCZmiLZcaVRU9/n0+i/CQPyNeuBwbioWmOrFZ0Por9JGwXDJQxLmtyrXXGtddXUOmsasDxXoPzObhagx1tVdHfWiOyWVKlfGakXyzl40mjOba0RQENEVKhrxHYrNrE=
+	t=1706255660; cv=none; b=G9pekEWU053Jp4rTjiTUK3kn5hnsjalWQS4kreKpUZ4UVOj8BT/Ilml7y9kbj2PBVyLwikyIin1azvy/FNVYmRY008bSvjdO/2Qjze9IlUxPwcITQHyW2D9bDXissrdFwWys3SYQKu3WoRX7D+EavotndUSIlx32w3oOZiSrezI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706254952; c=relaxed/simple;
-	bh=hB+/FDgOotOkMi7XZ4G7xO3oHXwb0zbrKyD4k6wFPFI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dTbxxbsISoxm4H2Irvd7FUyXML0aaah9Em0niO6bi6BgFVk2bBttHzYGr+vUeIXNEGSJWVONacyDE4iAOFAuJFQYEAafjSeIX8r4IZwK0kMzmxyZlRiHF06PZbLIg9BwjkSL5F/P264Tk2yGJI+D4O1a3WIijL9DxJWBcT15dwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YniWX0MJ; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706255660; c=relaxed/simple;
+	bh=QLy8rpo2aFsGYgPaUJyeJri3tfhTGpJbxguMHRvE5CI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gMJEBVEBEKMuSGmvoV8Gjhvq7YVEz09f525JfMUt2pWf3QKdCNMn4VPVRB7dPrvInUe9O/6ethjQhXiOsoeekNoOmCipzQiJYN8Rn1SvMRBKDvXeIIfVbbiRZ/HvjNzYroF/HqqxkYgwvcFtOSh5gKJIHRqdK4lSppdD3C3nQqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4GoqyJB; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YniWX0MJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706254950; x=1737790950;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=hB+/FDgOotOkMi7XZ4G7xO3oHXwb0zbrKyD4k6wFPFI=;
-  b=YniWX0MJzfL6rPSqfBzYn5DGGI+WgQnCOskZrSKhX69BfG0Xg5KmuLK+
-   v6crtK8k/9N1u7geJa1cJav/JTp4m0K0jpQU5q39Z6+lFiU6J2WL5pg+u
-   O94Gn56jtcaE20OJZ+pUS9yAUZR76LGy7IEpBdpudZrCBfQM2bKv7RxZM
-   Yi1LpJJ/DOfRjXtbX/6l8LGy88wWiNfWnbiKKEwFoMwiNDp6YvXjoeKk+
-   lBELNnn3y3C/LjM80bUu4ISLdP3WcaDS6NwHapvzlzRLOWMa1jmgkKsBp
-   d6VB+XIsanGypc8q+EBZ4L5WTgOCqhe9KMPDJDlxC8b6xDORgUU4IbdUK
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="2247860"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2247860"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 23:42:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2523694"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 23:42:24 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>
-Cc: linux-mm@kvack.org,  linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  linux-api@vger.kernel.org,  corbet@lwn.net,  akpm@linux-foundation.org,
-  gregory.price@memverge.com,  honggyu.kim@sk.com,  rakie.kim@sk.com,
-  hyeongtak.ji@sk.com,  mhocko@kernel.org,  vtavarespetr@micron.com,
-  jgroves@micron.com,  ravis.opensrc@micron.com,  sthanneeru@micron.com,
-  emirakhur@micron.com,  Hasan.Maruf@amd.com,  seungjun.ha@samsung.com,
-  hannes@cmpxchg.org,  dan.j.williams@intel.com
-Subject: Re: [PATCH v3 4/4] mm/mempolicy: change cur_il_weight to atomic and
- carry the node with it
-In-Reply-To: <20240125184345.47074-5-gregory.price@memverge.com> (Gregory
-	Price's message of "Thu, 25 Jan 2024 13:43:45 -0500")
-References: <20240125184345.47074-1-gregory.price@memverge.com>
-	<20240125184345.47074-5-gregory.price@memverge.com>
-Date: Fri, 26 Jan 2024 15:40:27 +0800
-Message-ID: <87sf2klez8.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4GoqyJB"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2906dffd8ddso52664a91.3;
+        Thu, 25 Jan 2024 23:54:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706255658; x=1706860458; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dm/mOhAhQ5bbbHGtVXUfdjrGHysSZF3OocQtENCWxBc=;
+        b=b4GoqyJBfR3lxil1UyEeK31niQJhX/VUE76pIp4T29ipDejxkZ9tsLPsDVlwfLXXBF
+         kY0wcqTM9im0sc9JsRdWYn971b6wDFp53CtLcL+MaPXD80oo4ik5/KG+R9bdg+9/xpbI
+         IQA3c1omgeEUKHRk21ZG/ZZXnA7wqkQ/mUVCa4IFeyXhr98m9IAy5izPVrMAgoLqNV2u
+         QIsNRMvkHnHfBgp+qBdeKYCCLS9pNiD5N8aWLz7hELy1E8eTekRWmT5oEeXGBrfTGk5j
+         PsuaT+PBW0pU/IKQNHD4WfBYnS5JIBuhSQEeos+Fw3jRUoSlCGR/GbGvLoOKK7aYYada
+         9MQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706255658; x=1706860458;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dm/mOhAhQ5bbbHGtVXUfdjrGHysSZF3OocQtENCWxBc=;
+        b=eOJ0QVPHCu/8F6n3LDSQZ1Ez0wtpF3ZW2Xnt5AGEi8Inw5Cgz0X5wLDt7Hgd0jc/AZ
+         pV634ImLaT+jiWhp9Dtwe1cR7KxX9Gi+XyP7CMH8IBP4tI3SrXGSzabNmk1OF0Qt4Fvx
+         8lb0FPnFB6auMM1ol5nlIJDKYtY5Ik5xNQXZ8VoMFJs+B70dSWuyJCJZGoUeU/U3oMuN
+         huTY6mUb6eYqO9i2puY1Oo0x44L1/fc6nNdkcLBAoy+6W7GoOxdG4nUNj+0MphpLR90p
+         ZTfGS6DWXrrY08O6NRO8WDCfZ+MYV4r0/qAyVOE+ID5UB5DmpQYRjvZhJiCQbqRuD9JW
+         0lmg==
+X-Gm-Message-State: AOJu0Yxmfw7AG4B8OjFqVw8Mr/XUrq9BHuk4QkUdHLc3dQiyCq42Noo+
+	xfgMZRSv3Ke5dAkNZ9YvwF+ZSavIJp1sGzNcIFp22sP9Bdbn9Sul
+X-Google-Smtp-Source: AGHT+IGUe3Hh0ORKr8X0RKsET8O24w9Xajdr3omjEIE2knz3aR9eMtfeUnhqPMTxCuuqasjnug8ckw==
+X-Received: by 2002:a17:90a:4206:b0:290:cb61:9ea8 with SMTP id o6-20020a17090a420600b00290cb619ea8mr670199pjg.35.1706255658237;
+        Thu, 25 Jan 2024 23:54:18 -0800 (PST)
+Received: from charles-System-Product-Name.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id mf4-20020a17090b184400b0028cc9afaae9sm638664pjb.34.2024.01.25.23.54.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 23:54:17 -0800 (PST)
+From: Charles Hsu <ythsu0511@gmail.com>
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net,
+	Delphine_CC_Chiu@Wiwynn.com,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Cc: Charles.Hsu@quantatw.com,
+	Charles Hsu <ythsu0511@gmail.com>
+Subject: [PATCH v1] hwmon: Add driver for MPS MPQ8785 Synchronous Step-Down Converter
+Date: Fri, 26 Jan 2024 15:52:13 +0800
+Message-Id: <20240126075213.1707572-1-ythsu0511@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Transfer-Encoding: 8bit
 
-Gregory Price <gourry.memverge@gmail.com> writes:
+Add support for mpq8785 device from Monolithic Power Systems, Inc.
+(MPS) vendor. This is synchronous step-down controller.
 
-> In the prior patch, we carry only the current weight for a weighted
-> interleave round with us across calls through the allocator path.
->
-> node = next_node_in(current->il_prev, pol->nodemask)
-> pol->cur_il_weight <--- this weight applies to the above node
->
-> This separation of data can cause a race condition.
->
-> If a cgroup-initiated task migration or mems_allowed change occurs
-> from outside the context of the task, this can cause the weight to
-> become stale, meaning we may end using that weight to allocate
-> memory on the wrong node.
->
-> Example:
->   1) task A sets (cur_il_weight = 8) and (current->il_prev) to
->      node0. node1 is the next set bit in pol->nodemask
->   2) rebind event occurs, removing node1 from the nodemask.
->      node2 is now the next set bit in pol->nodemask
->      cur_il_weight is now stale.
->   3) allocation occurs, next_node_in(il_prev, nodes) returns
->      node2. cur_il_weight is now applied to the wrong node.
->
-> The upper level allocator logic must still enforce mems_allowed,
-> so this isn't dangerous, but it is innaccurate.
->
-> Just clearing the weight is insufficient, as it creates two more
-> race conditions.  The root of the issue is the separation of weight
-> and node data between nodemask and cur_il_weight.
->
-> To solve this, update cur_il_weight to be an atomic_t, and place the
-> node that the weight applies to in the upper bits of the field:
->
-> atomic_t cur_il_weight
-> 	node bits 32:8
-> 	weight bits 7:0
->
-> Now retrieving or clearing the active interleave node and weight
-> is a single atomic operation, and we are not dependent on the
-> potentially changing state of (pol->nodemask) to determine what
-> node the weight applies to.
->
-> Two special observations:
-> - if the weight is non-zero, cur_il_weight must *always* have a
->   valid node number, e.g. it cannot be NUMA_NO_NODE (-1).
+Signed-off-by: Charles Hsu <ythsu0511@gmail.com>
 
-IIUC, we don't need that, "MAX_NUMNODES-1" is used instead.
+---
+Change in v1:
+    Initial patchset.
+---
+ Documentation/hwmon/index.rst   |  1 +
+ Documentation/hwmon/mpq8785.rst | 86 +++++++++++++++++++++++++++++++++
+ drivers/hwmon/pmbus/Kconfig     |  9 ++++
+ drivers/hwmon/pmbus/Makefile    |  1 +
+ drivers/hwmon/pmbus/mpq8785.c   | 55 +++++++++++++++++++++
+ 5 files changed, 152 insertions(+)
+ create mode 100644 Documentation/hwmon/mpq8785.rst
+ create mode 100644 drivers/hwmon/pmbus/mpq8785.c
 
->   This is because we steal the top byte for the weight.
->
-> - MAX_NUMNODES is presently limited to 1024 or less on every
->   architecture. This would permanently limit MAX_NUMNODES to
->   an absolute maximum of (1 << 24) to avoid overflows.
->
-> Per some reading and discussion, it appears that max nodes is
-> limited to 1024 so that zone type still fits in page flags, so
-> this method seemed preferable compared to the alternatives of
-> trying to make all or part of mempolicy RCU protected (which
-> may not be possible, since it is often referenced during code
-> chunks which call operations that may sleep).
->
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-> ---
->  include/linux/mempolicy.h |  2 +-
->  mm/mempolicy.c            | 93 +++++++++++++++++++++++++--------------
->  2 files changed, 61 insertions(+), 34 deletions(-)
->
-> diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-> index c644d7bbd396..8108fc6e96ca 100644
-> --- a/include/linux/mempolicy.h
-> +++ b/include/linux/mempolicy.h
-> @@ -56,7 +56,7 @@ struct mempolicy {
->  	} w;
->  
->  	/* Weighted interleave settings */
-> -	u8 cur_il_weight;
-> +	atomic_t cur_il_weight;
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index c7ed1f73ac06..085ad6ca9b05 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -163,6 +163,7 @@ Hardware Monitoring Kernel Drivers
+    mp2975
+    mp5023
+    mp5990
++   mpq8785
+    nct6683
+    nct6775
+    nct7802
+diff --git a/Documentation/hwmon/mpq8785.rst b/Documentation/hwmon/mpq8785.rst
+new file mode 100644
+index 000000000000..d8afdf875518
+--- /dev/null
++++ b/Documentation/hwmon/mpq8785.rst
+@@ -0,0 +1,86 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++Kernel driver mpq8785
++=======================
++
++Supported chips:
++
++  * MPS MPQ8785
++
++    Prefix: 'mpq8785'
++
++Author: Charles Hsu <ythsu0511@gmail.com>
++
++Description
++-----------
++
++The MPQ8785 is a fully integrated, PMBus-compatible, high-frequency, synchronous
++buck converter. The MPQ8785 offers a very compact solution that achieves up to
++40A output current per phase, with excellent load and line regulation over a
++wide input supply range. The MPQ8785 operates at high efficiency over a wide
++output current load range.
++
++The PMBus interface provides converter configurations and key parameters
++monitoring.
++
++The MPQ8785 adopts MPS's proprietary multi-phase digital constant-on-time (MCOT)
++control, which provides fast transient response and eases loop stabilization.
++The MCOT scheme also allows multiple MPQ8785 devices to be connected in parallel
++with excellent current sharing and phase interleaving for high-current
++applications.
++
++Fully integrated protection features include over-current protection (OCP),
++over-voltage protection (OVP), under-voltage protection (UVP), and
++over-temperature protection (OTP).
++
++The MPQ8785 requires a minimal number of readily available, standard external
++components, and is available in a TLGA (5mmx6mm) package.
++
++Device compliant with:
++
++- PMBus rev 1.3 interface.
++
++The driver exports the following attributes via the 'sysfs' files
++for input voltage:
++
++**in1_input**
++
++**in1_label**
++
++**in1_max**
++
++**in1_max_alarm**
++
++**in1_min**
++
++**in1_min_alarm**
++
++The driver provides the following attributes for output voltage:
++
++**in2_input**
++
++**in2_label**
++
++**in2_alarm**
++
++The driver provides the following attributes for output current:
++
++**curr1_input**
++
++**curr1_label**
++
++**curr1_alarm**
++
++**curr1_max**
++
++The driver provides the following attributes for temperature:
++
++**temp1_input**
++
++**temp1_max**
++
++**temp1_max_alarm**
++
++**temp1_crit**
++
++**temp1_crit_alarm**
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 294808f5240a..557ae0c414b0 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -377,6 +377,15 @@ config SENSORS_MPQ7932
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called mpq7932.
+ 
++config SENSORS_MPQ8785
++	tristate "MPS MPQ8785"
++	help
++	  If you say yes here you get hardware monitoring functionality support
++	  for power management IC MPS MPQ8785.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called mpq8785.
++
+ config SENSORS_PIM4328
+ 	tristate "Flex PIM4328 and compatibles"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index cf8a76744545..f14ecf03ad77 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -39,6 +39,7 @@ obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+ obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
+ obj-$(CONFIG_SENSORS_MP5990)	+= mp5990.o
+ obj-$(CONFIG_SENSORS_MPQ7932)	+= mpq7932.o
++obj-$(CONFIG_SENSORS_MPQ8785)	+= mpq8785.o
+ obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
+ obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
+ obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
+diff --git a/drivers/hwmon/pmbus/mpq8785.c b/drivers/hwmon/pmbus/mpq8785.c
+new file mode 100644
+index 000000000000..a0ebdb1b48b2
+--- /dev/null
++++ b/drivers/hwmon/pmbus/mpq8785.c
+@@ -0,0 +1,55 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Driver for MPS MPQ8785 Step-Down Converter
++ */
++
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include "pmbus.h"
++
++static struct pmbus_driver_info mpq8785_info = {
++	.pages = 1,
++	.format[PSC_VOLTAGE_IN] = direct,
++	.format[PSC_CURRENT_OUT] = direct,
++	.format[PSC_VOLTAGE_OUT] = linear,
++	.format[PSC_TEMPERATURE] = direct,
++	.m[PSC_VOLTAGE_IN] = 4,
++	.b[PSC_VOLTAGE_IN] = 0,
++	.R[PSC_VOLTAGE_IN] = 1,
++	.m[PSC_CURRENT_OUT] = 16,
++	.b[PSC_CURRENT_OUT] = 0,
++	.R[PSC_CURRENT_OUT] = 0,
++	.m[PSC_TEMPERATURE] = 1,
++	.b[PSC_TEMPERATURE] = 0,
++	.R[PSC_TEMPERATURE] = 0,
++	.func[0] =
++		PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT |
++		PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
++};
++
++static int mpq8785_probe(struct i2c_client *client)
++{
++	return pmbus_do_probe(client, &mpq8785_info);
++}
++
++static const struct of_device_id __maybe_unused mpq8785_of_match[] = {
++	{ .compatible = "mps,mpq8785", },
++	{}
++};
++
++MODULE_DEVICE_TABLE(of, mpq8785_of_match);
++
++static struct i2c_driver mpq8785_driver = {
++	.driver = {
++		   .name = "mpq8785",
++		   .of_match_table = of_match_ptr(mpq8785_of_match),
++	},
++	.probe_new = mpq8785_probe,
++};
++
++module_i2c_driver(mpq8785_driver);
++
++MODULE_AUTHOR("Charles Hsu <ythsu0511@gmail.com>");
++MODULE_DESCRIPTION("MPQ8785 PMIC regulator driver");
++MODULE_LICENSE("GPL");
+-- 
+2.34.1
 
-If we use this field for node and weight, why not change the field name?
-For example, cur_wil_node_weight.
-
->  };
->  
->  /*
-> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-> index 5a517511658e..41b5fef0a6f5 100644
-> --- a/mm/mempolicy.c
-> +++ b/mm/mempolicy.c
-> @@ -321,7 +321,7 @@ static struct mempolicy *mpol_new(unsigned short mode, unsigned short flags,
->  	policy->mode = mode;
->  	policy->flags = flags;
->  	policy->home_node = NUMA_NO_NODE;
-> -	policy->cur_il_weight = 0;
-> +	atomic_set(&policy->cur_il_weight, 0);
->  
->  	return policy;
->  }
-> @@ -356,6 +356,7 @@ static void mpol_rebind_nodemask(struct mempolicy *pol, const nodemask_t *nodes)
->  		tmp = *nodes;
->  
->  	pol->nodes = tmp;
-> +	atomic_set(&pol->cur_il_weight, 0);
->  }
->  
->  static void mpol_rebind_preferred(struct mempolicy *pol,
-> @@ -973,8 +974,10 @@ static long do_get_mempolicy(int *policy, nodemask_t *nmask,
->  			*policy = next_node_in(current->il_prev, pol->nodes);
->  		} else if (pol == current->mempolicy &&
->  				(pol->mode == MPOL_WEIGHTED_INTERLEAVE)) {
-> -			if (pol->cur_il_weight)
-> -				*policy = current->il_prev;
-> +			int cweight = atomic_read(&pol->cur_il_weight);
-> +
-> +			if (cweight & 0xFF)
-> +				*policy = cweight >> 8;
-
-Please define some helper functions or macros instead of operate on bits
-directly.
-
->  			else
->  				*policy = next_node_in(current->il_prev,
->  						       pol->nodes);
-
-If we record current node in pol->cur_il_weight, why do we still need
-curren->il_prev.  Can we only use pol->cur_il_weight?  And if so, we can
-even make current->il_prev a union.
-
---
-Best Regards,
-Huang, Ying
-
-[snip]
