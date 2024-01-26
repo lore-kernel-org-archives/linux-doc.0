@@ -1,254 +1,180 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0AF1CA96
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 14:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3217D1D522;
+	Fri, 26 Jan 2024 15:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706281003; cv=none; b=XLtWwZgoqmVg6jIc0cHkSObLPjEL7XWgykE/hkTySFZVK9/p+fidmD/MOBR9c/mTFRjgI1Xz6qH5B0VgpbnH4eGRigUrwSdrBAoFbSCgQ1fZREPIi8lErzO+YI2FjS91ZrD1GiqEsdpRIxDC/gCZWhOHIt9286N6CYSAZxY1jlI=
+	t=1706283759; cv=none; b=R5xuXxO/5bTh0I0sRaBUgGwf9BRSzJL8gMxC4SXx+L3v8NceJXYhULoA0XgcgS5hCk82SmpC/qMmU+L0Y+8fsA+un4F8Noh0egGswQ0EkllPfQkRo+8C4hcs2DTKli5sZRV2CQd0CKz3L6Fbgb8xtCBv/yqAh8LLwe3l74adRcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706281003; c=relaxed/simple;
-	bh=O+Et2QyBiECMjlqs36hjV1bCs0NPGQOndc6Mrtjny98=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bYrfWtIJTWzRH05k29htVpbeM8sgSQWtFUkJoBn5UEnWfyOUBmnCM8q6McQ+7bb9fTcKvHx2sugefYML0RsuBhxU2qsvyRYFmKrTrsk7pgFYQt5IUDdH6nLwZgrB558uXUKdbpVI4HXVnxNPkESxszZrXlRHw2yb3LO/MSHUaU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=RKH4NK3C; arc=none smtp.client-ip=209.85.166.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	s=arc-20240116; t=1706283759; c=relaxed/simple;
+	bh=Y3Z8LYJk8ojW2lKAiG+yhwYm9jBbV1csLki0ZOFKhMU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UM6OYIxjoSNOYEO6HVgIy3m5XAuEN0jDlTIyDkwXlaKCveA4lAgL3uYoIdhfAdtRLQgRkNtvRa9PbKsnrR/TtbkWoAqtt9qxz9/qeBAFLJruSjhRKOk2Fnq7f5U1Fl8DJxz28mX/zW2JyIx8kxiKYX1QU6yPauiCAq6moa/PqHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dAJq1/H2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="RKH4NK3C"
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7baa8da5692so24997739f.0
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 06:56:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1706280999; x=1706885799; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wWtORc4HyTExlEpsqVhVjCB+kJhCKFinGlYPLAuyejg=;
-        b=RKH4NK3CAdnw51tPojcTP7HSJjsP0AxTmrpRoXUmheEetX9OtRr14axovJ9+18eavW
-         Eys56/qE1S6+Wy5poOqyjEup4RmcE0xAFvEE4O/f+cl4eLU8av55pwbHmlGe7DbW0VvZ
-         3tSckBAmYHlui4OYF111FPlvZExX7LcWsSvw4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706280999; x=1706885799;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wWtORc4HyTExlEpsqVhVjCB+kJhCKFinGlYPLAuyejg=;
-        b=e/nAUFtWLlNSNMcbs6B7BFjyA3qD3KZnBPxaW5YslXJuekpIkcpp7HU4LneZY1ChWC
-         39bhNwOgNXLQve0p89HLyl4MfScE2cSRNSHI1cXUUlL1vbszsk/43jF7zcRmYT5vssVK
-         wklilT6vv0DPw++ImtyZKvDjWf+l0EuW5rWISxDpTKVMWAocv3H0CCQoSFhQZVAGtFK+
-         vK9y/Y+bqEdOzZC3zRumpd7PC3U63oTVQfFHB+MXqqI+21AEfHnBc4vmixfdQ1n3bJGR
-         OfglqKAdiScoyNFkg5E9JW7rdchszi5t17QpbPeHjv0ULmNgAaM9btk+zORs6WOO/wX+
-         7/UQ==
-X-Gm-Message-State: AOJu0Yz+vJNjN52Ut+KNTpMhY3w9ZyxCOKyC9pyt31X09XQv+Y6BaASZ
-	XADsodeX95N+odt8LflNyxalB+8SfTAdaqdrFNRYbEFismtEfEa5t4888FztpQ==
-X-Google-Smtp-Source: AGHT+IE7L+Lf4nGmf8jBYvWvUbBMIPYEUcZmRKhPCMfOv7qLIoTicpYxj6Q75lc9mf95xYawNxxN/g==
-X-Received: by 2002:a6b:4f13:0:b0:7bf:d2f2:3732 with SMTP id d19-20020a6b4f13000000b007bfd2f23732mr41889iob.19.1706280997488;
-        Fri, 26 Jan 2024 06:56:37 -0800 (PST)
-Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id m8-20020a056638224800b00470a4791160sm46771jas.109.2024.01.26.06.56.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 06:56:37 -0800 (PST)
-Message-ID: <db05fb6a-2ea5-4e00-ac03-adc1897d96de@ieee.org>
-Date: Fri, 26 Jan 2024 08:56:33 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dAJq1/H2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AA51BC433A6;
+	Fri, 26 Jan 2024 15:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706283758;
+	bh=Y3Z8LYJk8ojW2lKAiG+yhwYm9jBbV1csLki0ZOFKhMU=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=dAJq1/H2LfglyYCA895mP0pspSKJfqBVqPTM4GDwFZ8lW8euWLEuCc2/hX/jRTuiV
+	 3f/FkRZKJMdvbAhB9rNhN9sH152hxZKGQCFIf9T3/v1iCgCBTclwEXnkDL9CnUV/Cv
+	 vVXKvYuZLmaoyvwI84OPn8tjrTDIcQwaJuha8qPDer5lOafCjlHGb2h3GW++6Nwr2H
+	 XukhS077gS7ztTG4Jd8BbprS1hcOLQDmvu8CPjBVTrx85qxt2ubCJtQOyccAEeKV6K
+	 gA6K7jWJN82Dg1gi+TfMVRYYE0EaHDP+CWYTy+gtz8sTgZp+bvHPery5G9FZVSGPSr
+	 WG/k81l3tdSwA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92D52C47DDF;
+	Fri, 26 Jan 2024 15:42:38 +0000 (UTC)
+From: Christoph Winklhofer via B4 Relay
+ <devnull+cj.winklhofer.gmail.com@kernel.org>
+Subject: [PATCH v5 0/3] w1: add UART w1 bus driver
+Date: Fri, 26 Jan 2024 16:42:02 +0100
+Message-Id: <20240126-w1-uart-v5-0-1d82bfdc2ae9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 040/111] pwm: Provide devm_pwmchip_alloc() function
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Bjorn Helgaas <bhelgaas@google.com>, James Clark <james.clark@arm.com>,
- linux-pwm@vger.kernel.org, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Nicolas Ferre
- <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Heiko Stuebner <heiko@sntech.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Michael Walle <mwalle@kernel.org>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hammer Hsieh <hammerh0314@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Anjelique Melendez <quic_amelende@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Lu Hongfei <luhongfei@vivo.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, Luca Weiss <luca@z3ntu.xyz>,
- Johan Hovold <johan@kernel.org>
-Cc: linux-doc@vger.kernel.org, kernel@pengutronix.de,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, Guenter Roeck <groeck@chromium.org>,
- chrome-platform@lists.linux.dev, Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-mediatek@lists.infradead.org,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-rockchip@lists.infradead.org, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-gpio@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev
-References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
- <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMrSs2UC/02OzQ6CMBAGX8X07JLtH1RPvofxUHCRqlBTEDSEd
+ 7eQqBz28CU7kxlZS8FRy/abkQXqXet8E4feblhR2eZC4M5xM4FCIUcFA4enDR0QmdRoy7XVyOL
+ 3I1DpXovpeIq7DL6Grgpkv7zkIh6iQpMohToFDsU1GVxzu1e+pHC41Nbdk8LXs7BybefDeynr5
+ az9RuhfRC8BIXZkuJO5oCxdKeaIXq259M+pyGUlcZkZa3JJa26apg/1cHhQFwEAAA==
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Christoph Winklhofer <cj.winklhofer@gmail.com>, 
+ Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1706283756; l=4786;
+ i=cj.winklhofer@gmail.com; s=20240104; h=from:subject:message-id;
+ bh=Y3Z8LYJk8ojW2lKAiG+yhwYm9jBbV1csLki0ZOFKhMU=;
+ b=R7jPweL5XSb8Z6yp5Suh+YaLtVSrdR/qZScd1ek+b7zMEqmM4CViPNz9//ExzoN4cS/V1iWGN
+ p22SMvhB6kFBdh3lKRlb1aK20ei243q+aWJr1N5gDMfxQrWPaE+ys/d
+X-Developer-Key: i=cj.winklhofer@gmail.com; a=ed25519;
+ pk=lgjGjOt7hFKJT9UXhgUyrdthxvZ7DJ5F1U/7d9qdAsk=
+X-Endpoint-Received:
+ by B4 Relay for cj.winklhofer@gmail.com/20240104 with auth_id=111
+X-Original-From: Christoph Winklhofer <cj.winklhofer@gmail.com>
+Reply-To: <cj.winklhofer@gmail.com>
 
-On 1/25/24 6:09 AM, Uwe Kleine-König wrote:
-> This function allocates a struct pwm_chip and driver data. Compared to
-> the status quo the split into pwm_chip and driver data is new, otherwise
-> it doesn't change anything relevant (yet).
-> 
-> The intention is that after all drivers are switched to use this
-> allocation function, its possible to add a struct device to struct
-> pwm_chip to properly track the latter's lifetime without touching all
-> drivers again. Proper lifetime tracking is a necessary precondition to
-> introduce character device support for PWMs (that implements atomic
-> setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
-> userspace support).
-> 
-> The new function pwmchip_priv() (obviously?) only works for chips
-> allocated with devm_pwmchip_alloc().
+Hello!
 
-I think this looks good.  Two questions:
-- Should you explicitly align the private data?  Or do you believe
-   the default alignment (currently pointer size aligned) is adequate?
-- Is there a non-devres version of the allocation function?
+This patch contains a driver for a 1-Wire bus over UART. The driver
+utilizes the UART interface via the Serial Device Bus to create the
+1-Wire timing patterns.
 
-					-Alex
+Changes in v5:
+- dt-binding: allow child object for onewire and use prefix -bps for
+  baud rate configuration.
+- use type u8 for a byte, instead of unsigned char
+- use constants (NSEC_PER_SEC, BITS_PER_BYTE)
+- make delay computation from packet time more coherent
+- Link to v4: https://lore.kernel.org/r/20240106-w1-uart-v4-0-7fe1378a8b3e@gmail.com
+Thanks Jiri, Krzysztof and Rob for the review.
 
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->   .../driver-api/driver-model/devres.rst        |  1 +
->   Documentation/driver-api/pwm.rst              | 10 ++++----
->   drivers/pwm/core.c                            | 25 +++++++++++++++++++
->   include/linux/pwm.h                           |  2 ++
->   4 files changed, 33 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index c5f99d834ec5..e4df72c408d2 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -420,6 +420,7 @@ POWER
->     devm_reboot_mode_unregister()
->   
->   PWM
-> +  devm_pwmchip_alloc()
->     devm_pwmchip_add()
->     devm_pwm_get()
->     devm_fwnode_pwm_get()
-> diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
-> index 3c28ccc4b611..cee66c7f0335 100644
-> --- a/Documentation/driver-api/pwm.rst
-> +++ b/Documentation/driver-api/pwm.rst
-> @@ -143,11 +143,11 @@ to implement the pwm_*() functions itself. This means that it's impossible
->   to have multiple PWM drivers in the system. For this reason it's mandatory
->   for new drivers to use the generic PWM framework.
->   
-> -A new PWM controller/chip can be added using pwmchip_add() and removed
-> -again with pwmchip_remove(). pwmchip_add() takes a filled in struct
-> -pwm_chip as argument which provides a description of the PWM chip, the
-> -number of PWM devices provided by the chip and the chip-specific
-> -implementation of the supported PWM operations to the framework.
-> +A new PWM controller/chip can be allocated using devm_pwmchip_alloc, then added
-> +using pwmchip_add() and removed again with pwmchip_remove(). pwmchip_add()
-> +takes a filled in struct pwm_chip as argument which provides a description of
-> +the PWM chip, the number of PWM devices provided by the chip and the
-> +chip-specific implementation of the supported PWM operations to the framework.
->   
->   When implementing polarity support in a PWM driver, make sure to respect the
->   signal conventions in the PWM framework. By definition, normal polarity
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index 1b4c3d0caa82..b821a2b0b172 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -454,6 +454,31 @@ of_pwm_single_xlate(struct pwm_chip *chip, const struct of_phandle_args *args)
->   }
->   EXPORT_SYMBOL_GPL(of_pwm_single_xlate);
->   
-> +static void *pwmchip_priv(struct pwm_chip *chip)
-> +{
-> +	return (void *)chip + sizeof(*chip);
-> +}
-> +
-> +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv)
-> +{
-> +	struct pwm_chip *chip;
-> +	size_t alloc_size;
-> +
-> +	alloc_size = size_add(sizeof(*chip), sizeof_priv);
-> +
-> +	chip = devm_kzalloc(parent, alloc_size, GFP_KERNEL);
-> +	if (!chip)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	chip->dev = parent;
-> +	chip->npwm = npwm;
-> +
-> +	pwmchip_set_drvdata(chip, pwmchip_priv(chip));
-> +
-> +	return chip;
-> +}
-> +EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
-> +
->   static void of_pwmchip_add(struct pwm_chip *chip)
->   {
->   	if (!chip->dev || !chip->dev->of_node)
-> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-> index 2c49d2fe2fe7..8bc7504aa7d4 100644
-> --- a/include/linux/pwm.h
-> +++ b/include/linux/pwm.h
-> @@ -403,6 +403,8 @@ static inline bool pwm_might_sleep(struct pwm_device *pwm)
->   int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
->   		unsigned long timeout);
->   
-> +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv);
-> +
->   int __pwmchip_add(struct pwm_chip *chip, struct module *owner);
->   #define pwmchip_add(chip) __pwmchip_add(chip, THIS_MODULE)
->   void pwmchip_remove(struct pwm_chip *chip);
+Changes in v4:
+- rework baud-rate configuration: also check max bit-time, support higher
+  baud-rates by adding a delay to complete 1-Wire cycle.
+- dt-binding w1-uart: specify baud-rates for 1-Wire operations
+- Link to v3: https://lore.kernel.org/r/20240105-w1-uart-v3-0-8687093b2e76@gmail.com
+
+Changes in v3:
+- improve baud-rate configuration: use specific limits for 1-Wire
+  reset, touch-0 and touch-1 operation, compute in nanoseconds.
+- remove unused header atomic.h
+- use function instead of macro to compute bit-time from baud-rate
+- switch to b4 util to publish patch: missing recipients
+- Link to v2: https://lore.kernel.org/lkml/20231223100408.44056-1-cj.winklhofer@gmail.com
+
+Changes in v2:
+- add documentation for dt-binding
+- allow onewire as serial child node
+- support different baud-rates: The driver requests a baud-rate (9600
+  for reset and 115200 for write/read) and tries to adapt the
+  transmitted byte according to the actual baud-rate returned from
+  serdev.
+- fix locking problem for serdev-receive and w1-master reset/touch: The
+  received byte is now protected with a mutex - instead of the atomic,
+  which was used before due to the concurrent store and load.
+- explicit error in serdev-receive: Receiving more than one byte results
+  in an error, since the w1-uart driver is the only writer, it writes a
+  single-byte and should receive a single byte.
+- fix variable names, errno-returns, wrong define CONFIG_OF
+- fix log flooding
+- fix driver remove (error-path for rxtx-function)
+- Link to v1: https://lore.kernel.org/all/20231217122004.42795-1-cj.winklhofer@gmail.com
+Krzysztof, thank your very much for your feedback!
+
+It was tested on a "Raspberry Pi 3 Model B+" with a DS18B20 and on a
+"Variscite DART-6UL" with a DS18S20 temperature sensor.
+
+Content:
+- Patch 1: device tree binding 1-Wire
+- Patch 2: allow onewire as serial child node
+- Patch 3: driver and documentation
+
+The patch was created against the w1 subsytem tree (branch w1-next):
+  Link: https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-w1.git/
+
+The checkpatch.pl script reported the following error - which I am not
+sure how to fix:
+  WARNING: added, moved or deleted file(s), does MAINTAINERS need
+  updating?
+
+The technical details for 1-Wire over UART are in the document:
+  Link: https://www.analog.com/en/technical-articles/using-a-uart-to-implement-a-1wire-bus-master.html
+
+  In short, the UART peripheral must support full-duplex and operate in
+open-drain mode. The timing patterns are generated by a specific
+combination of baud-rate and transmitted byte, which corresponds to a
+1-Wire read bit, write bit or reset pulse.
+
+For instance the timing pattern for a 1-Wire reset and presence detect
+uses the baud-rate 9600, i.e. 104.2 us per bit. The transmitted byte
+0xf0 over UART (least significant bit first, start-bit low) sets the
+reset low time for 1-Wire to 521 us. A present 1-Wire device changes the
+received byte by pulling the line low, which is used by the driver to
+evaluate the result of the 1-Wire operation.
+
+Similar for a 1-Wire read bit or write bit, which uses the baud-rate
+115200, i.e. 8.7 us per bit. The transmitted byte 0x00 is used for a
+Write-0 operation and the byte 0xff for Read-0, Read-1 and Write-1.
+
+Hope the driver is helpful.
+
+Thanks,
+Christoph
+
+---
+Christoph Winklhofer (3):
+      dt-bindings: w1: UART 1-Wire bus
+      dt-bindings: serial: allow onewire as child node
+      w1: add UART w1 bus driver
+
+ .../devicetree/bindings/serial/serial.yaml         |   2 +-
+ Documentation/devicetree/bindings/w1/w1-uart.yaml  |  60 +++
+ Documentation/w1/masters/index.rst                 |   1 +
+ Documentation/w1/masters/w1-uart.rst               |  54 +++
+ drivers/w1/masters/Kconfig                         |  10 +
+ drivers/w1/masters/Makefile                        |   1 +
+ drivers/w1/masters/w1-uart.c                       | 402 +++++++++++++++++++++
+ 7 files changed, 529 insertions(+), 1 deletion(-)
+---
+base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+change-id: 20240104-w1-uart-ee8685a15a50
+
+Best regards,
+-- 
+Christoph Winklhofer <cj.winklhofer@gmail.com>
 
