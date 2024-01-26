@@ -1,28 +1,50 @@
-Received: from mx01.frank.fyi (mx01.frank.fyi [5.189.178.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518971B598
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 12:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.178.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB98F1B968;
+	Fri, 26 Jan 2024 14:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706273563; cv=none; b=exHOZvAqTgEY56wsYQzOt84aLemE4g+QI1f8+R40NuAXdBbrNrZ9Fy0HpkoG/k5W3NIKPfAVmQ5OTb85jQMcdR20RtRHR2zgYTWD1S/5ZyZndq+P4NPqR8/QP4DwGTiWgX4e4yhSVfkTb52USX+GJeCM2O+ADzoOqmJ3fD0ko3Q=
+	t=1706278184; cv=none; b=JEIcJ1QzvUj7UZoLmmv3C4g4YEZdmYzeioDDZo/4q+UTvzbGNG/d84wiBIFSIDo7wRLdJ82qtGloszZWM4i/J9J8tguIIBwFc6SzsiY/sEhx6VvCB1L3ku7PpxWhOtVl2YvwF3uxSkxQ4CsY4owUapbPB44O6/EAP+k2KipcFNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706273563; c=relaxed/simple;
-	bh=TY3Ups8CevgW6c8x6FwJ65BmIHY7FeSXL9Q9A0pyiYY=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tyJCieAbyUCT1agAiippjEsLxbDy3SHSk3jHhsvQe4IFiKOyP+ScGn5d67LbvTsxiv37bLLXI3cyi5zf+XYBRo9daseELduqZDDP+Di6oHaerq9lzvA34nahmaXsPYFoms/Bor5qAnxUYcjOB2WJey5IZt/o2RWCXdIu5eqIL5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=frank.fyi; spf=pass smtp.mailfrom=frank.fyi; arc=none smtp.client-ip=5.189.178.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=frank.fyi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=frank.fyi
-Received: by mx01.frank.fyi (Postfix, from userid 1001)
-	id 69F8D11202A0; Fri, 26 Jan 2024 13:52:38 +0100 (CET)
-Date: Fri, 26 Jan 2024 12:52:38 +0000
-From: Klaus Frank <git@frank.fyi>
-To: linux-doc@vger.kernel.org
-Subject: [PATCH] [patch] Documentation: tfix: Fix invalid reference to
- /sys/modules instead of /sys/module
-Message-ID: <jvhevji3smzia35rxb4g2xbcj7z5f542h2iz53n5a44peob3cz@52qi2oil5zwi>
-Reply-To: Klaus Frank <vger.kernel.org@frank.fyi>
+	s=arc-20240116; t=1706278184; c=relaxed/simple;
+	bh=xjvX9s++LnaIDJF1MIrJOTUIqtJkbD9k/galL79P1/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LRDnQS+ZdwA7/ryDK3rogtHg9yJsiZbjoqluZ32FuVT5xWoPPP0dEqK0M+LVKk+yU+tG5micA91OQqxhL07iHw9zKUuD8TeA2KczVe5bf2Vco2QA27hkYBYh3WJiT8K/L1Bvcy2Lf9u9ogZ691o1bqQX3iNIspczYN3z/w/qHGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Om0oRCQL; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Om0oRCQL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7925CC433F1;
+	Fri, 26 Jan 2024 14:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706278183;
+	bh=xjvX9s++LnaIDJF1MIrJOTUIqtJkbD9k/galL79P1/Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Om0oRCQLE33QaRKTiCyE98xgjfypLUnmyl9oOTDHkGom3awMfABwalVJierUdet6n
+	 61aTf6G9NUb+fy39AwAoB6dhvGs5Z17zhtkm4ayf2o/PFGDFvegIzFEZZ/kzTnDCXB
+	 11ByiXsVKspS1PIohSy4Ew8gI8s+KwEM0I0P4fYM=
+Date: Fri, 26 Jan 2024 06:09:43 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dmitry Rokosov <ddrokosov@salutedevices.com>
+Cc: Lee Jones <lee@kernel.org>,
+	Martin Kurbanov <mmkurbanov@salutedevices.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel@salutedevices.com
+Subject: Re: [PATCH v1 1/2] leds: aw200xx: support for hw pattern controllers
+Message-ID: <2024012643-safeness-stipulate-153f@gregkh>
+References: <20231207125938.175119-1-mmkurbanov@salutedevices.com>
+ <20231207125938.175119-2-mmkurbanov@salutedevices.com>
+ <20231221161011.GO10102@google.com>
+ <85c89859-ae03-4692-9c09-5779e4c40eae@salutedevices.com>
+ <20240125130049.GF74950@google.com>
+ <20240126122310.hrs37vybo2wnxto3@CAB-WSD-L081021>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -31,73 +53,85 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240126122310.hrs37vybo2wnxto3@CAB-WSD-L081021>
 
------BEGIN PGP MESSAGE-----
+On Fri, Jan 26, 2024 at 03:23:10PM +0300, Dmitry Rokosov wrote:
+> Hello Lee,
+> 
+> On Thu, Jan 25, 2024 at 01:00:49PM +0000, Lee Jones wrote:
+> > Looping in Jacek (LEDS) and Greg (SYFS) for some knowledgable input.
+> > 
+> > On Fri, 12 Jan 2024, Martin Kurbanov wrote:
+> > > On 21.12.2023 19:10, Lee Jones wrote:
+> > > > On Thu, 07 Dec 2023, Martin Kurbanov wrote:
+> > > > 
+> > > >> This led-controller supports 3 pattern controllers for auto breathing or
+> > > >> group dimming control. Each pattern controller can work in auto
+> > > >> breathing or manual control mode. All breathing parameters including
+> > > >> rising/falling slope, on/off time, repeat times, min/max brightness
+> > > >> and so on are configurable.
+> > > >>
+> > > >> Signed-off-by: Martin Kurbanov <mmkurbanov@salutedevices.com>
+> > > >> ---
+> > > >>  .../testing/sysfs-class-led-driver-aw200xx    | 108 +++
+> > > >>  Documentation/leds/leds-aw200xx.rst           | 274 ++++++++
+> > > >>  drivers/leds/leds-aw200xx.c                   | 649 ++++++++++++++++++
+> > > >>  3 files changed, 1031 insertions(+)
+> > > >>  create mode 100644 Documentation/leds/leds-aw200xx.rst
+> > > > 
+> > > > This interface is bananas.  Exposing an entire register interface to
+> > > > sysfs does not sit will with me at all.  When we add support to a sysfs
+> > > > class, we usually require it to be generic and work across all devices.
+> > > > Adding device specific interfaces is generally decried and to be
+> > > > avoided.  Don't forget, once we commit something to sysfs, it becomes
+> > > > ABI and we have to support it forever.
+> > > > 
+> > > > A far better approach would be to add support for this in userspace
+> > > > instead  You can use the standard I2C character device API to achieve
+> > > > the same result.  That way we don't have the same level of commitment
+> > > > and is generally a much more flexible/future-proof.
+> > > > 
+> > > 
+> > > I used sysfs similarly to other LED drivers (for example, leds-lm3533).
+> > > Additionally, the controller has interrupts about the completion of the pattern,
+> > > which is best to handle in the kernel. In the case of implementation in user
+> > > mode, there may be synchronization problems, as the controller has several
+> > > memory pages that can be switched by writing the page number to register 0xF0.
+> > 
+> > leds-lm3533 is a 12 year old legacy exception AND has less than half of
+> > the sysfs exports proposed here.  What makes aw200xx so different it
+> > needs to an incomparable interface to any other that we currently
+> > support?
+> 
+> >From my point of view, direct I2C raw requests from userspace are not a
+> good solution as well due to synchronization problems, as Martin
+> mentioned in the previous message.
 
-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
-V5Nx9IPsqfOTulYHLt7+wsj/Ag==
-=mK0l
------END PGP MESSAGE-----
+Sorry, I missed this, what is the synchronization problem?  This is an
+led, shouldn't have any real specific performance issues.
 
+> We have honestly been attempting to integrate this functionality into
+> the official LED pattern interface, but it cannot be achieved due to the
+> absence of this interface's functionality:
+> 1) Page-based access
+> 2) Interrupts
+
+I don't understand this, sorry.
+
+> HW patterns are very useful mechanism to draw animation faster without
+> any interactions with CPU, so I think we need to find the best architect
+> approach for its integration.
+
+The CPU is totally involved here, that should be identical.
+
+> What is an alternative way to access such a hardware pattern interface?
+> Debugfs? Or perhaps we should consider extending the LED pattern
+> interface?
+
+Or again, userspace.
+
+debugfs is for debugging.
+
+thanks,
+
+greg k-h
