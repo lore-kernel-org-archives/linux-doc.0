@@ -1,93 +1,53 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D017CEC3
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 01:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C710EDC;
+	Fri, 26 Jan 2024 01:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706231999; cv=none; b=hKnN7AcQZR1oj/7ZQD8hcM9Rn7AY6MDMyRuV5/O2d1/i/L3k9F1OL2zp+mHVcbEyYprRYY73wy0iTK3TCRv6CvmQPRFAm0eGEVDOIWG0EB595K7XGTzE7ylXoEJzE2JUhyWtDWQzeZ/K2K0jWeh94pvRd2xvKTXbRk1bZIGwS5U=
+	t=1706232512; cv=none; b=ioiGW/YfAYBMTqsDUlTOVV4EzDB+jFOLN+ook7aOKt/ye3d+Xm3ZsDgKt8Uo+MNTMYEvfweo9LAquvCnKrPDzo/f3ZDkU78p+qDASjTeHH/em1w/SfYv0bSg0jtVWwcS5WodgC6HCVyBzr/U559nGuvtjgTyRe/Tuo9u9LnD/uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706231999; c=relaxed/simple;
-	bh=O+ISzNiDeEkah3Hw3HoidwKq5p/UbFijfXglLbQfZBo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=V/wCwi1aBvqRORKc4fuUnvOJfDLNV4BwZ6zQaFzihxp2TdDv4dwangEY4A/ELeL/qbSbPd2MjSlqSwSAH7p2JswMpniRTlSQZkOUWpAe3rEpuWfZ6LCM92kxMXJeTMpR1MRpgSsojo8Np+J6WUIRwOGme6igaoVBayRlPNuk4rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DCsJZkL6; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1706232512; c=relaxed/simple;
+	bh=MXHrNMwIXxXC2zkbi7yyUvT18qCcisD+QCAYXgVEWA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uv8/au6hLBtcu+VVLVw1l8kY8ORiwHkyOeXAhT3vPQSXD0bO7uGD4xZujZLTlVD0wWG3/UgZ/C2bxEQXleWomsf9VAXHf+/mZuo0gOmuoPYIICpGePoaRVxYn3hHL7dRS/V1QXw7vDLBoKFDIQvLTNVEYU+RV6tGrVFHZWFDl6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZQX2Ffn6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DCsJZkL6"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dbf1c3816a3so8733180276.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jan 2024 17:19:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706231997; x=1706836797; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pHG1ZSD8JrDcka5NqVhNUxwoRtm1E+uIuqNOvvYJ6SE=;
-        b=DCsJZkL6fr0saIXsihcPapgknJE0lKn04IC7lcLMMZlJVPFGT3ATnpSfY3dq4W//jl
-         3RoQDDg59GppQ/gpSmoAKAyLT1FXmY9hAP5FHHGdXU+VAvH/K5xGgeO2WdQC0LuZb544
-         XSRmMeUnQXbG2eZcFHG3Rj+RIkIxZngpbQ2DVl0pYOv09ew7gp4G7JcqxzffkkSEQthu
-         0AvTKmPJNkNq/WoMqSMXkZtFu5t/T9KTK2qx94olY2M3quGtag13jPIt1P+D/5K6dQNY
-         4jtiJzyCzNvit9znOBGiNiSS4KTo/BUhixsL2BnzTnykPkTkZ8QwWM2VxS//R+uZ1kTv
-         rWCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706231997; x=1706836797;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pHG1ZSD8JrDcka5NqVhNUxwoRtm1E+uIuqNOvvYJ6SE=;
-        b=GUPTZNb0Sk9UTAVMZ9wCIdSkMy+LbtY/hDEVmj3s8LAY4joSUUCw2xEkQDl7Kj5IEG
-         TMTVNNIFcpAftGVXcLqdmKi4Nv6fOFMDGKXc0pkNf5l7JES+MoTtSFL93G/PUXoszqrb
-         BxEGEwGPOmPHrWPP8SUHt6/8K+XQ6p+bhlkiQDZW3eYIf/GjjofYjZ1NrTm5HZa7kjLY
-         Jwm5aTpqfmZX1AO3g1xn+UOm/jgmNhPS6GLnNy0DDl5KUyu7j9FtAkSfP6vxg2ppHt3j
-         uTa3WEKydRYhL8kh/n3Z1uvbtoxJ6H95nuL9z33jehLJlPr4snjDLB6tuo2szHg4o4O1
-         eFBQ==
-X-Gm-Message-State: AOJu0YyBberhnBeC5NyTyuQC+JWr81OWbYI0AATqLjVz/iZ6vlxKafFI
-	yd8eqqYRkJdDBU8JohltJHTcYHfAO5JPPdHbtmEpH9ZGRiAAz/gNWYXEELM2BelVe2mrkxD+G00
-	FZw==
-X-Google-Smtp-Source: AGHT+IHLXKe8GGe5tsEa+OhFYDBbxSYWI6FcMBfKCtGBbLWVOaSELCB0u0zyOphLvMaVq7WfVLhu2EXTeNQ=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:2309:b0:dc2:3a02:4fc8 with SMTP id
- do9-20020a056902230900b00dc23a024fc8mr87710ybb.6.1706231996798; Thu, 25 Jan
- 2024 17:19:56 -0800 (PST)
-Date: Thu, 25 Jan 2024 17:19:55 -0800
-In-Reply-To: <2b4d020c-08ba-46ac-b004-cd9cb7256bd9@xen.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZQX2Ffn6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F5FC433C7;
+	Fri, 26 Jan 2024 01:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706232511;
+	bh=MXHrNMwIXxXC2zkbi7yyUvT18qCcisD+QCAYXgVEWA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZQX2Ffn6k1pcaRnw+jJVmMFdr9GrLLoX+5tMV7En9LVxpNYz8GECkM+UvWrWJAQSH
+	 b/2p5YbcBFxxEHpVGzFaj5CB87nCMCPADzoGfeOQaJVcRJLzTBv58AA3ROZlbxEQHx
+	 o4WDupZhUiCDV67AZ7f9Mun1pFNG15jPAco8eMEo=
+Date: Thu, 25 Jan 2024 17:28:31 -0800
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH] coding-style: Add guidance to prefer dev_dbg
+Message-ID: <2024012521-magnetize-dowry-8b05@gregkh>
+References: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240115125707.1183-1-paul@xen.org> <2b4d020c-08ba-46ac-b004-cd9cb7256bd9@xen.org>
-Message-ID: <ZbMIu84Zi2_PF9o4@google.com>
-Subject: Re: [PATCH v12 00/20] KVM: xen: update shared_info and vcpu_info handling
-From: Sean Christopherson <seanjc@google.com>
-To: paul@xen.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, Shuah Khan <shuah@kernel.org>, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
 
-On Thu, Jan 25, 2024, Paul Durrant wrote:
-> On 15/01/2024 12:56, Paul Durrant wrote:
-> > From: Paul Durrant <pdurrant@amazon.com>
-> > 
-> > This series has one small fix to what was in v11 [1]:
-> > 
-> > * KVM: xen: re-initialize shared_info if guest (32/64-bit) mode is set
-> > 
-> > The v11 patch failed to set the return code of the ioctl if the mode
-> > was not actually changed, leading to a spurious failure.
-> > 
-> > This version of the series also contains a new bug-fix to the pfncache
-> > code from David Woodhouse.
-> > 
-> > [1] https://lore.kernel.org/kvm/20231219161109.1318-1-paul@xen.org/
-> > 
+On Thu, Jan 25, 2024 at 04:53:11PM -0800, Abhishek Pandit-Subedi wrote:
+> During review, it was suggested that drivers only emit messages when
+> something is wrong or it is a debug message. Document this as a formal
+> recommendation.
 > 
-> Ping?
+> https://lore.kernel.org/linux-usb/2024012525-alienate-frown-916b@gregkh/
+> 
+> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 
-Sorry, I have done basically zero upstream reviews over the last few weeks, for
-a variety of reasons.  Unless yet another thing pops up, I expect to dive into
-upstream reviews tomorrow and spend a good long while there.
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
