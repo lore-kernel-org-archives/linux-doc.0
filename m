@@ -1,144 +1,206 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C265622F0E;
-	Fri, 26 Jan 2024 21:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAB7249E4;
+	Fri, 26 Jan 2024 21:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706302816; cv=none; b=Y2X4Iv1FPoMexZtoS5htsia+eSDFR6300Splx287GP3bVL7we3ooXpDkLMhQkCobwKhpEJBwvmZDbYy4hbBCqVJeEJTkYkWHDhTVOQF56ZfMf12nK1CbMeOugHdarDkjzgtQ8msOS8MZ1TG2OTkidSzk5XbJAPJJQH2K2kIo49c=
+	t=1706303653; cv=none; b=A5WJG9nDf3qtrQKnzHuSV15PYd30hjNytscUbkrfxV8xYaftBhN4KlYoY+T3aJFwGmPRSWzkZHin+EywMPz9LEvwmc+dBG1s8SNqSARVsSihU+/mP+4tq0m6lBFDGBbUJC5YuDvmq/eq8W/vzJBTdvASeQ0Xaa/3JlBhqwr3ffc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706302816; c=relaxed/simple;
-	bh=R94U1LlE76uq+NvyE4ngyd9FxAhVaSUa06WGeHuHhIU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LuQEp0ZOt4BuJgOtlTsNvl6LeRXeKMZY2VzKfw35aSFc5C33ri7ImYDCXUMXkO+voeWDgS3/N3y8sva8ilLh/1Qj0L5GQzvn+PH/Qmw7dcoqY+0kwHVF1+V9DVbg7KmLxBTEIPtvSNyCV5ZSD4Uj7v0aDLZUMmdZw0EEhgs1xQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D0daU0s4; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706303653; c=relaxed/simple;
+	bh=L7tkL9uE+dRQ6qVIAnwoFuhEHoFvU/FCcUmVi/Mw6js=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=nvUxTIfZSK+C78GrYO+Yz8Aubue3tHOcH3OOMx0e80yrQgpK5m3t+iIaV53nN242wmhAlFtiXccHPJL71xXwsni+1qHO4WTo7vWwGDjyYhY/RQJ+ZcW+NWrVTQu4oL96IZS9kGxnEoHmmOo3qSg3cZ4WMd3J/cl7BacUZGDdgI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=orqk+L+p; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D0daU0s4"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-602cab8d7c9so10094707b3.0;
-        Fri, 26 Jan 2024 13:00:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706302814; x=1706907614; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R94U1LlE76uq+NvyE4ngyd9FxAhVaSUa06WGeHuHhIU=;
-        b=D0daU0s42q1pUtpKW3b0J9EtDz6IHAZMom0Ca6zSyYLIa3C2rPnOgreEkkV2EUlD1s
-         kUXU4SDQlmx4qtJOi7Kd9eOjz24bNBCVVf2KDzck4U8d8O/4xT3iXBLF/VH8Bjs4ZwcO
-         ekTAcb2gCKQeERGLRHLN5hwgmv/1X5tYqTSWWUjDEsXYM4P6VkdQaTXr6KxX37LLhF14
-         0ETuvPEvJKrbxLrnS8jRo3yriLJZY5Y4SgyMuc0NfcK42GX9CdWnZuHWDUoLL7LIWTf0
-         k3/ZZkLkqDW+rTh5jbqvKyw/77YdKL82kp4AKS+q8rffqKPK7BJuiiwasLqs5mi8LNuX
-         E8eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706302814; x=1706907614;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R94U1LlE76uq+NvyE4ngyd9FxAhVaSUa06WGeHuHhIU=;
-        b=Lqg1i6ps4Qp18wnBG7mNRh83LhSWHh9bKC5dyK4a4BvR+qMFugeMwbDYqOIT9zTL9j
-         Vnab/rFNlDz4jXXT4z1jppLdcd2ZHJ6vTswfzSqzWyEM/+Heq6/0hIIISdAldWmvUnBE
-         lRVaBS1Zrxy3Q1RH2/VjVRxdQhSNKtpExfish8f4qEkV1mx6ndL0j+0ItnWn3YCmPkUh
-         S9v4whaHMRLCQxeuUwZI+ZoaGi3NNQx6UFI+ruASBNFKPx/8eXFjebQLO/LfbvXrC5y5
-         B5YK4bnav09+trbotxzj4k49dyqcHtue7UC2clGTymM6C1an/+Quii3NLdL6mcf1X1Lj
-         CL7Q==
-X-Gm-Message-State: AOJu0YyyH9lobYuhGkml3FmYmyMAxoSG9MBXE5b8ObBbyigDIwUw6hYf
-	/Kt761qu7C1VOYE0tbKd89t5+KJ+dMDW+Hy5j098aFUObxl/8PHHtAZvKumzx6SVc50XPSxNCOa
-	Jo8g3dtVxoIZo2wNx+rDRNWCxl08=
-X-Google-Smtp-Source: AGHT+IHGZFwCjim0Tth1g39N/v/n0KJf4BjgENizS8dPUFq5HPMaf0iymy6drZ65jUMDqf5c20SiR8drFVpMUdT6duo=
-X-Received: by 2002:a81:de05:0:b0:5d7:1941:2c18 with SMTP id
- k5-20020a81de05000000b005d719412c18mr410434ywj.69.1706302813724; Fri, 26 Jan
- 2024 13:00:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="orqk+L+p"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40QKmJDx009339;
+	Fri, 26 Jan 2024 21:13:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:from:to:cc:references
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=FdQCEZSsPbYF4wExTxJzqosdxpMvq4tdD2TBXxuJrco=; b=or
+	qk+L+pL3QA4piAhppzLwHmqfZ88vZ/bbYFUO8nCN45Uqpe0XcHo+U56Z5YxReXds
+	zBHCMOynbRKDCJaQTAdPJ82rEPaIfcVohv8aCJTW512o62Zj4uD/b2sGxbf5owpV
+	JspzVaCbHrBxrKs/a7WumcJoZzfq1rilp+rM5q+cum5bgthSBcDDEL70GQdOekEW
+	dUJf1bbGovmGaj+ZW7RCvfG3GqCA3xGyd9TiiUNJQ+PXvIcApc0vtjzHBhzAhjvL
+	DFgG6UpsDqhH1+fRyvyhW1zakjZaQFoNyy7VuglDzZglGC+fZEbRwAgtgfy39RZh
+	NVv6OlP3K4/Ytvmn1VXA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3vv8e89km3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jan 2024 21:13:46 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 40QLDj5R020019
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jan 2024 21:13:45 GMT
+Received: from [10.110.17.111] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
+ 2024 13:13:44 -0800
+Message-ID: <ff0bff8b-f26a-87bd-9762-9f2af98abcca@quicinc.com>
+Date: Fri, 26 Jan 2024 13:13:38 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230307102441.94417-1-conor.dooley@microchip.com>
- <20230608-dispatch-sneer-aa09bd7b2eb8@wendy> <CANiq72nnph7LS1fLRtHz8NJ91PWXPaUnm0EuoV3wrbvK398AnA@mail.gmail.com>
- <20230608-spiritism-gonad-5f5aff4c3a24@wendy> <20240117-swiftly-parasail-618d62972d6e@spud>
- <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
- <20240118-implode-delirium-eefdd86e170e@spud> <CANiq72nx1s_nyvPW86jL7eiOxROr18LfOJqNtw8L42CP+gkhRg@mail.gmail.com>
- <20240125-bucked-payroll-47f82077b262@wendy> <CANiq72k7n0aZrifRRU08N8qLkNe+2EZwijZy5sM7M56n2xYHgQ@mail.gmail.com>
- <20240125-lazy-thrower-744aacc6632a@wendy>
-In-Reply-To: <20240125-lazy-thrower-744aacc6632a@wendy>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 26 Jan 2024 22:00:02 +0100
-Message-ID: <CANiq72kb+_utZrYHtoKZQtQazikmkjpVUHpTBcaANizduMF5QQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	Matthew Maurer <mmaurer@google.com>, Ramon de C Valle <rcvalle@google.com>, 
-	Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v12 04/41] usb: host: xhci-mem: Cleanup pending secondary
+ event ring events
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <gregkh@linuxfoundation.org>, <lgirdwood@gmail.com>,
+        <andersson@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <konrad.dybcio@linaro.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <robh+dt@kernel.org>, <agross@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
+ <20240102214549.22498-5-quic_wcheng@quicinc.com>
+ <734591a1-50b4-6dc7-0b93-077355ec12e4@linux.intel.com>
+ <7b2ec96b-b72f-c848-7c35-36e61a4072ac@quicinc.com>
+ <b254f73b-a1bc-3dd4-f485-a3acf556835d@quicinc.com>
+ <2178e799-2068-7443-59b2-310dfdd1ddee@linux.intel.com>
+ <ae64ce69-dc1b-1534-7950-0a35c4a56f58@quicinc.com>
+In-Reply-To: <ae64ce69-dc1b-1534-7950-0a35c4a56f58@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: I_bCQhXJsASqTNITaMpPE3gvQJrskugz
+X-Proofpoint-ORIG-GUID: I_bCQhXJsASqTNITaMpPE3gvQJrskugz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-25_14,2024-01-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=820
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ clxscore=1011 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401190000 definitions=main-2401260157
 
-On Thu, Jan 25, 2024 at 2:46=E2=80=AFPM Conor Dooley <conor.dooley@microchi=
-p.com> wrote:
->
-> Ah, thanks for the direct link :)
+Hi Mathias,
 
-My pleasure!
+On 1/16/2024 12:24 PM, Wesley Cheng wrote:
+> Hi Mathias,
+> 
+> On 1/15/2024 6:01 AM, Mathias Nyman wrote:
+>> On 10.1.2024 1.42, Wesley Cheng wrote:
+>>> Hi Mathias,
+>>>
+>>> On 1/8/2024 12:51 PM, Wesley Cheng wrote:
+>>>> Hi Mathias,
+>>>>
+>>>> On 1/4/2024 6:48 AM, Mathias Nyman wrote:
+>>>>> On 2.1.2024 23.45, Wesley Cheng wrote:
+>>>>>> As part of xHCI bus suspend, the XHCI is halted.  However, if 
+>>>>>> there are
+>>>>>> pending events in the secondary event ring, it is observed that 
+>>>>>> the xHCI
+>>>>>> controller stops responding to further commands upon host or device
+>>>>>> initiated bus resume.  Iterate through all pending events and 
+>>>>>> update the
+>>>>>> dequeue pointer to the beginning of the event ring.
+>>>>>>
+>>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>>>> ...
+>>>>>> +/*
+>>>>>> + * Move the event ring dequeue pointer to skip events kept in the 
+>>>>>> secondary
+>>>>>> + * event ring.  This is used to ensure that pending events in the 
+>>>>>> ring are
+>>>>>> + * acknowledged, so the XHCI HCD can properly enter 
+>>>>>> suspend/resume. The
+>>>>>> + * secondary ring is typically maintained by an external component.
+>>>>>> + */
+>>>>>> +void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
+>>>>>> +    struct xhci_ring *ring,    struct xhci_interrupter *ir)
+>>>>>> +{
+>>>>>> +    union xhci_trb *erdp_trb, *current_trb;
+>>>>>> +    u64 erdp_reg;
+>>>>>> +    u32 iman_reg;
+>>>>>> +    dma_addr_t deq;
+>>>>>> +
+>>>>>> +    /* disable irq, ack pending interrupt and ack all pending 
+>>>>>> events */
+>>>>>> +    xhci_disable_interrupter(ir);
+>>>>>> +    iman_reg = readl_relaxed(&ir->ir_set->irq_pending);
+>>>>>> +    if (iman_reg & IMAN_IP)
+>>>>>> +        writel_relaxed(iman_reg, &ir->ir_set->irq_pending);
+>>>>>> +
+>>>>>> +    /* last acked event trb is in erdp reg  */
+>>>>>> +    erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
+>>>>>> +    deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
+>>>>>> +    if (!deq) {
+>>>>>> +        xhci_err(xhci, "event ring handling not required\n");
+>>>>>> +        return;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    erdp_trb = current_trb = ir->event_ring->dequeue;
+>>>>>> +    /* read cycle state of the last acked trb to find out CCS */
+>>>>>> +    ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) 
+>>>>>> & TRB_CYCLE;
+>>>>>> +
+>>>>>> +    while (1) {
+>>>>>> +        inc_deq(xhci, ir->event_ring);
+>>>>>> +        erdp_trb = ir->event_ring->dequeue;
+>>>>>> +        /* cycle state transition */
+>>>>>> +        if ((le32_to_cpu(erdp_trb->event_cmd.flags) & TRB_CYCLE) !=
+>>>>>> +            ring->cycle_state)
+>>>>>> +            break;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    xhci_update_erst_dequeue(xhci, ir, current_trb, true);
+>>>>>> +}
+>>>>>
+>>>>> Code above is very similar to the existing event ring processing 
+>>>>> parts of xhci_irq()
+>>>>> and xhci_handle_event()
+>>>>>
+>>>>> I'll see if I can refactor the existing event ring processing, 
+>>>>> decouple it from
+>>>>> event handling so that it could be used by primary and secondary 
+>>>>> interrupters with
+>>>>> handlers, and this case where we just want to clear the event ring.
+>>>>>
+>>>>
+>>>> Thanks, that makes sense.  Will take a look as well.
+>>>>
+>>>
+>>> How about something like the below?  Tested this on my set up and 
+>>> everything looks to be working fine.  Had to add another param to 
+>>> struct xhci_interrupters to tell the XHCI interrupt handler to say if 
+>>> that particular interrupter wants to skip_events (handling).  This 
+>>> way, its something that the class driver utilizing the interrupter 
+>>> will have to tell XHCI sideband.  It would allow the user to 
+>>> determine if they want to use the interrupter to actually handle 
+>>> events or not on the proc running Linux.
+>>>
+>>
+>> Yes, I have something similar.
+>> I'll share it soon, just need to
+>> clean it up a bit fist.
+>>
+> 
+> Sure, no worries.  Will test it when its available.  Thanks!
+> 
 
-> Actually, thinking about it for a moment - if only a single compiler
-> version is supported (the minimum, right?) then you could just add the
+Was just wondering if you had the time to clean up the changes?  If not, 
+maybe you can provide a patch with whatever you have, and I can try my 
+best to clean it up to your liking?  Thanks!
 
-Yeah, the minimum listed in `scripts/min-tool-version.sh` and in
-`Documentation/process/changes.rst`. It also happens to be the maximum
-too, until we can relax that.
-
-> -Zsanitizer=3Dkcfi flag whenever CFI_CLANG and RUST are both set.
-
-Since the flag goes to the Rust compiler, `RUST` would be always
-enabled, so the flag would only need to be added when `CFI_CLANG=3Dy`,
-no? Or what do you mean?
-
-> I'm not sure if that is a better option though. It's a choice between
-> CFI_CLANG being disabled if the check is not updated when the toolchain
-> is bumped versus being enabled for C and not for RUST. I think I prefer
-> the former though, tracking down the cause of the latter I would rather
-> not wish on a user.
->
-> I vote for having the check, even if it can only ever be true at the
-> moment.
-
-Since we only support a single version, we don't need `rc-option`
-tests until we start supporting several versions (which is why other
-tests like that do not exist so far).
-
-In my previous message I thought you meant using the flag to test for
-arch/target support or similar. That would be fine, but we can also do
-the usual `ARCH_SUPPORTS_CFI_RUST` here, I would assume.
-
-Now, during the version bump to a stable flag, if we happen to forget
-to update the flag name, it would be a build error, so it should be
-easily spotted and fixed. And if we did use an `rc-option` for the
-arch/target support idea, it would be the first case you mention, so
-it is all good.
-
-What we may want to add, though, to avoid the confusion you mention
-meanwhile, is just a `depends on !CFI_CLANG` for `RUST`, like for the
-other requirements we have there (which are things that should
-eventually go away). Then they can remove that when the `-Z` flag is
-deemed ready to be used. But perhaps let's see what Ramon et al. say.
-
-In other words, the flag was added back in 1.68.0 to `rustc`, but it
-was not ready, so we need to store the "ready" bit in our side
-meanwhile, i.e. we can't know that just by testing the flag itself.
-
-By the way, concerning the tracking issue, since you mentioned it: it
-has a list of PRs, but not fixes, there is a "known issues" link
-there. On top of that, we are "shifted in time" w.r.t. the latest
-status in the compiler, since we use stable versions of the compiler.
-
-Cheers,
-Miguel
+Thanks
+Wesley Cheng
