@@ -1,58 +1,55 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA871D52A
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 14:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0AF1CA96
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 14:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706280139; cv=none; b=hEO3WR5UPTZmMpzdeI5NjVDnfbXHQF4L/BqxhPLRwiEdVuWiUdyypc/7IXGxWCtbDW10CN1vn/y4h4pNgIKnAMIR/GHXEtUu3oGOldex2VSkD2rX0nOuZu9rqSi6F4FrHij5auqSNWm/qbGuVbJ0CMVJ+Quyvr4Bua+rfCJVxMY=
+	t=1706281003; cv=none; b=XLtWwZgoqmVg6jIc0cHkSObLPjEL7XWgykE/hkTySFZVK9/p+fidmD/MOBR9c/mTFRjgI1Xz6qH5B0VgpbnH4eGRigUrwSdrBAoFbSCgQ1fZREPIi8lErzO+YI2FjS91ZrD1GiqEsdpRIxDC/gCZWhOHIt9286N6CYSAZxY1jlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706280139; c=relaxed/simple;
-	bh=07VmisRHxG1IMgUos42rkFUY/YdLXbQzmyHfKT3nhY4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=rTt7uVsv9aJgbubRM+lOmYaLRtadcY9EDQ9xcOKXS04juwhVPVdzB60P1ciQHoHqJ5shsAYUYG0j2AMm2ec+TWP51hEjhBO4wXS516CVWAo9o8BH6gLmj6Ykz8xt3ruN5cJOrKGn8dFu4s4khyfFcJFjAHosSFnGym9eaghs9F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jKdO5uaH; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706281003; c=relaxed/simple;
+	bh=O+Et2QyBiECMjlqs36hjV1bCs0NPGQOndc6Mrtjny98=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bYrfWtIJTWzRH05k29htVpbeM8sgSQWtFUkJoBn5UEnWfyOUBmnCM8q6McQ+7bb9fTcKvHx2sugefYML0RsuBhxU2qsvyRYFmKrTrsk7pgFYQt5IUDdH6nLwZgrB558uXUKdbpVI4HXVnxNPkESxszZrXlRHw2yb3LO/MSHUaU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=RKH4NK3C; arc=none smtp.client-ip=209.85.166.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jKdO5uaH"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-290d59df3f0so319561a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 06:42:18 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="RKH4NK3C"
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7baa8da5692so24997739f.0
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 06:56:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706280137; x=1706884937; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vfi43e0RTuEa+AHx6V3CRu8+TFPgZvJMD2FABHPFzzw=;
-        b=jKdO5uaHee6ywBc+pPHfS2rczyWHOEa1tnyAKSbZ9fgLPWUFvs4+gRc8d9QEl9ObX+
-         MQ6Xe3YwZLSo+iKnuexDte9z+wM+FwQPWqQODMh/KC2U9JE2RYYAxIu5Y71WDgklKxzc
-         2oR79/TYrMhyeRg/ujQJeV6zXItRW6wd7S+dbp7aDZQ4/2T8AaDsYV419WHKcrf14/uG
-         nMakE/trAXHO0KJ2q3ncJIPo1VUstuI0seoLZctRgPDRRaN3DlwPSPJYlk1UadAoHkkS
-         J2ZPc5Rf8IGZgC7VGnGhNUkEhBDwIBXZsynlh+5yqVhJupl2H3fc3PUYiuFrmSAZcNDg
-         dOog==
+        d=ieee.org; s=google; t=1706280999; x=1706885799; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wWtORc4HyTExlEpsqVhVjCB+kJhCKFinGlYPLAuyejg=;
+        b=RKH4NK3CAdnw51tPojcTP7HSJjsP0AxTmrpRoXUmheEetX9OtRr14axovJ9+18eavW
+         Eys56/qE1S6+Wy5poOqyjEup4RmcE0xAFvEE4O/f+cl4eLU8av55pwbHmlGe7DbW0VvZ
+         3tSckBAmYHlui4OYF111FPlvZExX7LcWsSvw4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706280137; x=1706884937;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1706280999; x=1706885799;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vfi43e0RTuEa+AHx6V3CRu8+TFPgZvJMD2FABHPFzzw=;
-        b=iX5pY3j/5brDU8/pivbWYZwTVt7K+AsJxSxo5fTjQXZ3VOHfzoZ6xowLAaJU9L2F1k
-         P255+UfwQkqszTWS+ShX+nIPLM4hasQYmd0UVh5zTNlwNlHHMZ3u7U312USoLvjFHDd7
-         5TlcjffX+56De3IufCuFtbXWX2xRTomhzWQxEQZWf/tSY3t5OP4EBon87S510U1q8l42
-         ro3g0pT+OZlsG8e/DXhLZk9ZL6aGPpFthXjDx5jviQMuGhc0Hl0eVdfSKUNjkmb5C5Oy
-         IFrFRtBZFNawZShC7aczBqGAK+450ICuUwdXRK0ghDwf0sxI60GY4+g5ZljrY1p5+5qN
-         GIuw==
-X-Gm-Message-State: AOJu0YxGb9sTB2kZdmIl4FZ0Xq4sx75KsgIXx31i0idDm199b5/1X6Cx
-	iBucQfV4FImlQE6s53YmxjuEDoLnZFVLhCAznbvOrFlcbYX5hQYk
-X-Google-Smtp-Source: AGHT+IEt0JnDYHE4N9LQcQipXjJ/tmWPgC35yA1DJ5HRANCI9ERHBjNjSKqDmV23HhDRNm+YRMHPOw==
-X-Received: by 2002:a17:90a:9f8a:b0:290:6837:d6fc with SMTP id o10-20020a17090a9f8a00b002906837d6fcmr1077017pjp.4.1706280137492;
-        Fri, 26 Jan 2024 06:42:17 -0800 (PST)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id x21-20020a17090a531500b002905f7b522fsm3191092pjh.15.2024.01.26.06.42.15
+        bh=wWtORc4HyTExlEpsqVhVjCB+kJhCKFinGlYPLAuyejg=;
+        b=e/nAUFtWLlNSNMcbs6B7BFjyA3qD3KZnBPxaW5YslXJuekpIkcpp7HU4LneZY1ChWC
+         39bhNwOgNXLQve0p89HLyl4MfScE2cSRNSHI1cXUUlL1vbszsk/43jF7zcRmYT5vssVK
+         wklilT6vv0DPw++ImtyZKvDjWf+l0EuW5rWISxDpTKVMWAocv3H0CCQoSFhQZVAGtFK+
+         vK9y/Y+bqEdOzZC3zRumpd7PC3U63oTVQfFHB+MXqqI+21AEfHnBc4vmixfdQ1n3bJGR
+         OfglqKAdiScoyNFkg5E9JW7rdchszi5t17QpbPeHjv0ULmNgAaM9btk+zORs6WOO/wX+
+         7/UQ==
+X-Gm-Message-State: AOJu0Yz+vJNjN52Ut+KNTpMhY3w9ZyxCOKyC9pyt31X09XQv+Y6BaASZ
+	XADsodeX95N+odt8LflNyxalB+8SfTAdaqdrFNRYbEFismtEfEa5t4888FztpQ==
+X-Google-Smtp-Source: AGHT+IE7L+Lf4nGmf8jBYvWvUbBMIPYEUcZmRKhPCMfOv7qLIoTicpYxj6Q75lc9mf95xYawNxxN/g==
+X-Received: by 2002:a6b:4f13:0:b0:7bf:d2f2:3732 with SMTP id d19-20020a6b4f13000000b007bfd2f23732mr41889iob.19.1706280997488;
+        Fri, 26 Jan 2024 06:56:37 -0800 (PST)
+Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id m8-20020a056638224800b00470a4791160sm46771jas.109.2024.01.26.06.56.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 06:42:17 -0800 (PST)
-Message-ID: <e8f0fc72-74de-4a74-828e-2df4da5f83f7@gmail.com>
-Date: Fri, 26 Jan 2024 23:42:13 +0900
+        Fri, 26 Jan 2024 06:56:37 -0800 (PST)
+Message-ID: <db05fb6a-2ea5-4e00-ac03-adc1897d96de@ieee.org>
+Date: Fri, 26 Jan 2024 08:56:33 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,71 +57,198 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: docs: requirements.txt has stopped working again
-To: Jonathan Corbet <corbet@lwn.net>, Vegard Nossum
- <vegard.nossum@oracle.com>, Jani Nikula <jani.nikula@linux.intel.com>
-Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <cb72b3d6-de7a-4c8a-a99c-72d58a23f89c@gmail.com>
- <b0ddcb5d-e735-437c-a828-5e400facb978@oracle.com> <878r4gnsev.fsf@intel.com>
- <2018acaa-a6ce-4074-b3e1-1a12018573fb@oracle.com>
- <6e4b66fe-dbb3-4149-ac7e-8ae333d6fc9d@gmail.com>
- <878r4eiwhm.fsf@meer.lwn.net>
- <e0da8231-e75d-40ec-85ab-71b2a9caa111@gmail.com>
+Subject: Re: [PATCH v5 040/111] pwm: Provide devm_pwmchip_alloc() function
 Content-Language: en-US
-In-Reply-To: <e0da8231-e75d-40ec-85ab-71b2a9caa111@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, James Clark <james.clark@arm.com>,
+ linux-pwm@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Michael Walle <mwalle@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hammer Hsieh <hammerh0314@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Anjelique Melendez <quic_amelende@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Lu Hongfei <luhongfei@vivo.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, Luca Weiss <luca@z3ntu.xyz>,
+ Johan Hovold <johan@kernel.org>
+Cc: linux-doc@vger.kernel.org, kernel@pengutronix.de,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, Guenter Roeck <groeck@chromium.org>,
+ chrome-platform@lists.linux.dev, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, Alim Akhtar <alim.akhtar@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 25 Jan 2024 00:43:51 +0900, Akira Yokosawa wrote:
-> On Wed, 24 Jan 2024 08:25:57 -0700, Jonathan Corbet wrote:
->> Akira Yokosawa <akiyks@gmail.com> writes:
-[...]
->>> VM spec used: memory: 8GB, threads: 4, ubuntu jammy
->>>
->>> data in each cell: elapsed time, max resident memory
->>>
->>>                                     v2.4.5        v4.3.2        v7.2.6
->>>   =============================  ============  ============  ============
->>>   clean build at v6.7            10m08s 3.3GB  10m31s 1.1GB  10m14s 1.2GB
->>>   incremental build at v6.8-rc1  11m22s 3.3GB  18m55s 1.2GB  19m50s 1.4GB
->>>   clean build at v6.8-rc1        10m45s 3.2GB  10m32s 1.2GB  10m13s 1.3GB
->>>
->>>   empty make at v6.8-rc1         3.3s          6.6s          7.0s
->>>   =============================  ============  ============  ============
->>
->> So that is quite different from my experience.  For me, full builds got
->> way slower starting with 3.x and haven't improved much since, though
->> I've not played much with 7.x yet.
+On 1/25/24 6:09 AM, Uwe Kleine-König wrote:
+> This function allocates a struct pwm_chip and driver data. Compared to
+> the status quo the split into pwm_chip and driver data is new, otherwise
+> it doesn't change anything relevant (yet).
 > 
-> One of the reasons I can think of why 2.4.5 is not faster is
-> the "make -j2" I need to use.  2.4.x is way more eager to use
-> more parallel slots than >=3.1 in later stages of its processing.
-> I think you have a memory rich system that allows a lot of parallel
-> slots.  On a machine with 16GB memory, I can say -j4 (or -j5 if
-> I am lucky).
+> The intention is that after all drivers are switched to use this
+> allocation function, its possible to add a struct device to struct
+> pwm_chip to properly track the latter's lifetime without touching all
+> drivers again. Proper lifetime tracking is a necessary precondition to
+> introduce character device support for PWMs (that implements atomic
+> setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
+> userspace support).
 > 
+> The new function pwmchip_priv() (obviously?) only works for chips
+> allocated with devm_pwmchip_alloc().
 
-So, I managed to run v2.4.5 with 4 threads.
-Also, I ran incremental builds of small diffs at the docs-6.8-fixes
-tag relative to v6.8-rc1.
+I think this looks good.  Two questions:
+- Should you explicitly align the private data?  Or do you believe
+   the default alignment (currently pointer size aligned) is adequate?
+- Is there a non-devres version of the allocation function?
 
-Here is the updated table.
+					-Alex
 
------------------------------------------
-VM spec used: memory: 10GB, threads: 4, ubuntu jammy
-data in each cell: elapsed time, max resident memory
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>   .../driver-api/driver-model/devres.rst        |  1 +
+>   Documentation/driver-api/pwm.rst              | 10 ++++----
+>   drivers/pwm/core.c                            | 25 +++++++++++++++++++
+>   include/linux/pwm.h                           |  2 ++
+>   4 files changed, 33 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> index c5f99d834ec5..e4df72c408d2 100644
+> --- a/Documentation/driver-api/driver-model/devres.rst
+> +++ b/Documentation/driver-api/driver-model/devres.rst
+> @@ -420,6 +420,7 @@ POWER
+>     devm_reboot_mode_unregister()
+>   
+>   PWM
+> +  devm_pwmchip_alloc()
+>     devm_pwmchip_add()
+>     devm_pwm_get()
+>     devm_fwnode_pwm_get()
+> diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+> index 3c28ccc4b611..cee66c7f0335 100644
+> --- a/Documentation/driver-api/pwm.rst
+> +++ b/Documentation/driver-api/pwm.rst
+> @@ -143,11 +143,11 @@ to implement the pwm_*() functions itself. This means that it's impossible
+>   to have multiple PWM drivers in the system. For this reason it's mandatory
+>   for new drivers to use the generic PWM framework.
+>   
+> -A new PWM controller/chip can be added using pwmchip_add() and removed
+> -again with pwmchip_remove(). pwmchip_add() takes a filled in struct
+> -pwm_chip as argument which provides a description of the PWM chip, the
+> -number of PWM devices provided by the chip and the chip-specific
+> -implementation of the supported PWM operations to the framework.
+> +A new PWM controller/chip can be allocated using devm_pwmchip_alloc, then added
+> +using pwmchip_add() and removed again with pwmchip_remove(). pwmchip_add()
+> +takes a filled in struct pwm_chip as argument which provides a description of
+> +the PWM chip, the number of PWM devices provided by the chip and the
+> +chip-specific implementation of the supported PWM operations to the framework.
+>   
+>   When implementing polarity support in a PWM driver, make sure to respect the
+>   signal conventions in the PWM framework. By definition, normal polarity
+> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+> index 1b4c3d0caa82..b821a2b0b172 100644
+> --- a/drivers/pwm/core.c
+> +++ b/drivers/pwm/core.c
+> @@ -454,6 +454,31 @@ of_pwm_single_xlate(struct pwm_chip *chip, const struct of_phandle_args *args)
+>   }
+>   EXPORT_SYMBOL_GPL(of_pwm_single_xlate);
+>   
+> +static void *pwmchip_priv(struct pwm_chip *chip)
+> +{
+> +	return (void *)chip + sizeof(*chip);
+> +}
+> +
+> +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv)
+> +{
+> +	struct pwm_chip *chip;
+> +	size_t alloc_size;
+> +
+> +	alloc_size = size_add(sizeof(*chip), sizeof_priv);
+> +
+> +	chip = devm_kzalloc(parent, alloc_size, GFP_KERNEL);
+> +	if (!chip)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	chip->dev = parent;
+> +	chip->npwm = npwm;
+> +
+> +	pwmchip_set_drvdata(chip, pwmchip_priv(chip));
+> +
+> +	return chip;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
+> +
+>   static void of_pwmchip_add(struct pwm_chip *chip)
+>   {
+>   	if (!chip->dev || !chip->dev->of_node)
+> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+> index 2c49d2fe2fe7..8bc7504aa7d4 100644
+> --- a/include/linux/pwm.h
+> +++ b/include/linux/pwm.h
+> @@ -403,6 +403,8 @@ static inline bool pwm_might_sleep(struct pwm_device *pwm)
+>   int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
+>   		unsigned long timeout);
+>   
+> +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv);
+> +
+>   int __pwmchip_add(struct pwm_chip *chip, struct module *owner);
+>   #define pwmchip_add(chip) __pwmchip_add(chip, THIS_MODULE)
+>   void pwmchip_remove(struct pwm_chip *chip);
 
-                                    v2.4.5       v4.3.2        v7.2.6
- ============================   ===========  ============  ============
- full build at v6.7             6m14s 2.3GB  10m31s 1.1GB  10m14s 1.2GB
- incr build at v6.8-rc1         7m26s 2.5GB  18m55s 1.2GB  19m50s 1.4GB
- full build at v6.8-rc1         6m45s 2.4GB  10m32s 1.2GB  10m13s 1.3GB
- incr build at docs-6.8-fixes   4m58s 2.2GB   6m50s 1.2GB   6m45s 1.3GB
-
- empty make at v6.8-rc1         3.3s         6.6s          7.0s
- ============================   ===========  ============  ============
-
-This should be close to the reality.
-
-HTH, Akira
