@@ -1,94 +1,233 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC50F250E8
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 21:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8A024B31
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 21:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706304718; cv=none; b=uUjF8db4juqNxbvgSAtVo6T59Vfhg1cYM2yt2hEOGlaPAfnvJRgqHTE+Do72dvmVFTnUDqtuiAvscXxEtii8xHkvQztO4toHeMQt5QpmZvfRPlu2rreLggktnox/VQOAmhjvMYaf5p//eFDq0+YYf8ZHOm35NooO5Eaais17nO8=
+	t=1706306264; cv=none; b=dkc3moZcgr5Az2AJQvnplMxfnQhsqxPNJs7fndojUOlJy2l5KrQ7auRM91H3uDOHYTjy0rn1Ne5BP0flJrH9irrI5dtevBcS/UulSAJVDtjt7fKvIcVMGPgT9HJgGBmkuFAILQ5XsWGXGqbpTaid+FvB3+fwfr1tvKenaOFoxNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706304718; c=relaxed/simple;
-	bh=pnPJv3C/8oI2mDLaLYSzM3++yh258fHVwIni0iXI++c=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dcotBLasGsuaa8/ap9M6C73bIISfXTlb+yk4TsyXihrBuV9v1SrrtxTgtWfALho1ziTm6wO22nB9p4P7uiV7MIoYlXrLmWu9FMdeBqlljVIZ2cQydj/tTJEbzwgZdeJJxK9rd7xMce0up+DVMLtRaGMeC/pY3/49UZG8xlCmJpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EmYpnFG4; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EmYpnFG4"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-6dddfc137b4so535980b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 13:31:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706304716; x=1706909516; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xJJmc9xeQcykeus6gCa38Rf/FAKcShuAjnIZq0Hgxno=;
-        b=EmYpnFG4Jrv+ozXW22/u1UaQHxP5Gus+V1C0Z7g383Jf0kcG7R4YPkpN++KTo5fNia
-         AZ8+Bk8FNUhPa6C+VBIRa+hVeqvrf13YxOSFXk/D+iIHZz18/E0nB6jIsWXZbW6Ueeqz
-         XJnsFJd2M26McrEC2s3AHM4Gyf26cHsaV3o0ECkmOSjoiG1+I7ftKVYG0+HGaE3OxKLh
-         kou+iFDAqicJVPmlFbvxEFcarr448sbc+fXW8fh77GoJH9znIlJnwEtAcIUw4Nj0GwLc
-         jOUC5eS5+JC7UpXp+yafmm8qlDViLlx3t+9jAb4Cc2E0SANzNQMW0X2mmfgiK48erVcK
-         r4mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706304716; x=1706909516;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xJJmc9xeQcykeus6gCa38Rf/FAKcShuAjnIZq0Hgxno=;
-        b=NADkefw128B8/Z8gCGHNOA4E/w9++DKL+LZ86rN901zDe0++6XFK+OeX+dozSD2cyG
-         rZ2f+NA/SbZ00dDTh/ntbU2e96hSeNoKymP+ZeGZK5UT0AZPr9LDYmM2S/CojMtfw11H
-         DaNzIF6mmYAwZLV9fDmBcUPvnYIjjuLJjp+XhLCyea3GBJ3+1mS8Jms1qglbjMk4bmwI
-         aF8kCS7lXFGtt/w3HsL634VUKANsTodEIk48nCbhQUXDcqe7lYey0sb4Ijl+xkNah68Y
-         J/dgw8cDuAnv8jyDzH9fhfYknlW+Us2rlIohl2KZBQ6++dQeisXDzRb+Yutimao4v9K1
-         emiQ==
-X-Gm-Message-State: AOJu0Yy2JgSJKwxNLiAXKuXDwfP4OPo5YLzAm9qPL0ivtPYPyMbCRprT
-	UTT0JHgPdJT/KE9d5ACemcoxIRW+kudvp5EhcanVNbZsI0ybyKzsNz0/sPtl9389h1zRkWG0h3X
-	umQ==
-X-Google-Smtp-Source: AGHT+IHlUrVIaAxo07HXP8NgbIsOQ66wMvc8QqlRpVXum/0dlz10VAW3ioqj5+4vJmt6NA0WEqOzKCcyRUg=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6a00:9095:b0:6dd:e157:fe76 with SMTP id
- jo21-20020a056a00909500b006dde157fe76mr45718pfb.1.1706304716074; Fri, 26 Jan
- 2024 13:31:56 -0800 (PST)
-Date: Fri, 26 Jan 2024 13:31:54 -0800
-In-Reply-To: <20240123-delay-verw-v6-6-a8206baca7d3@linux.intel.com>
+	s=arc-20240116; t=1706306264; c=relaxed/simple;
+	bh=BVrGq/7XfOhF9vHBuLXUYQUG8qvDs8RmRicYvfTIGJE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GNaPlcMhSzKnZIvgpLTVNJmOgAj9uEx9gqSvkyXYEPa5uhUD48P3t178RFmSUvs8SygUj2X84PWC1tuqwqc1hCB+IUv0dXpTH534AlaUurJUKtQaDi1CiiuBtGqohLNTIrZuhUN6nrDQqyo8zFTQrAgKDjZp3qtJPlmyrpZvN7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1rTUCX-0001Od-Nf; Fri, 26 Jan 2024 22:57:29 +0100
+Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1rTUCU-002atY-LE; Fri, 26 Jan 2024 22:57:26 +0100
+Received: from mgr by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1rTUCU-0020WK-IA; Fri, 26 Jan 2024 22:57:26 +0100
+Date: Fri, 26 Jan 2024 22:57:26 +0100
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: Dominique Martinet <asmadeus@codewreck.org>,
+	Jan =?iso-8859-15?Q?L=FCbbe?= <jlu@pengutronix.de>,
+	Latchesar Ionkov <lucho@ionkov.net>, linux-usb@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	v9fs@lists.linux.dev,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@pengutronix.de, Eric Van Hensbergen <ericvh@kernel.org>
+Subject: Re: [PATCH 0/3] usb: gadget: 9pfs transport
+Message-ID: <20240126215726.GA183863@pengutronix.de>
+References: <20240116-ml-topic-u9p-v1-0-ad8c306f9a4e@pengutronix.de>
+ <ZaZsUQUhSlMPLJg0@codewreck.org>
+ <0aba51a8be0fb165b44ec956bec7a9698a9518a2.camel@pengutronix.de>
+ <Zaex_fkKcui7QZd7@codewreck.org>
+ <80c4e788-65df-4a82-8453-74683289abcb@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240123-delay-verw-v6-0-a8206baca7d3@linux.intel.com> <20240123-delay-verw-v6-6-a8206baca7d3@linux.intel.com>
-Message-ID: <ZbQkyr8c12jOqWQ-@google.com>
-Subject: Re: [PATCH  v6 6/6] KVM: VMX: Move VERW closer to VMentry for MDS mitigation
-From: Sean Christopherson <seanjc@google.com>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com, ak@linux.intel.com, 
-	tim.c.chen@linux.intel.com, Andrew Cooper <andrew.cooper3@citrix.com>, 
-	Nikolay Borisov <nik.borisov@suse.com>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, antonio.gomez.iglesias@linux.intel.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gBBFr7Ir9EOA20Yy"
+Content-Disposition: inline
+In-Reply-To: <80c4e788-65df-4a82-8453-74683289abcb@collabora.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Tue, Jan 23, 2024, Pawan Gupta wrote:
-> During VMentry VERW is executed to mitigate MDS. After VERW, any memory
-> access like register push onto stack may put host data in MDS affected
-> CPU buffers. A guest can then use MDS to sample host data.
-> 
-> Although likelihood of secrets surviving in registers at current VERW
-> callsite is less, but it can't be ruled out. Harden the MDS mitigation
-> by moving the VERW mitigation late in VMentry path.
-> 
-> Note that VERW for MMIO Stale Data mitigation is unchanged because of
-> the complexity of per-guest conditional VERW which is not easy to handle
-> that late in asm with no GPRs available. If the CPU is also affected by
-> MDS, VERW is unconditionally executed late in asm regardless of guest
-> having MMIO access.
-> 
-> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> ---
 
-Acked-by: Sean Christopherson <seanjc@google.com>
+--gBBFr7Ir9EOA20Yy
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jan 26, 2024 at 08:47:22PM +0100, Andrzej Pietrasiewicz wrote:
+>Hi,
+>
+>W dniu 17.01.2024 o=A011:54, Dominique Martinet pisze:
+>>Jan L=FCbbe wrote on Tue, Jan 16, 2024 at 04:51:41PM +0100:
+>>>>So I didn't have time to look at everything through, just want to make
+>>>>sure, this series allows sharing data from an usb gadget (e.g. some
+>>>>device with storage) over 9p as an alternative to things like MTP ?
+>>>
+>>>It's the other way around. :) The USB host exports a filesystem, while t=
+he
+>>>gadget on the USB device side makes it mountable. Our main use-case is t=
+o use it
+>>>as an alternative to NFS root booting during the development of embedded=
+ Linux
+>>>devices. NFS root works in many cases, but has some downsides, which mak=
+e it
+>>>cumbersome to use in more and more cases.
+>>
+>>Oh!
+>>Okay, this makes a lot more sense. And that'll need a bit more
+>>explanations in the commits & Documentation/ as you've concluded :)
+>>
+>>
+>>>NFS root needs correctly configured Ethernet interfaces on both the deve=
+lopment
+>>>host and the target device. On the target, this can interfere with the n=
+etwork
+>>>configuration that is used for the normal device operation (DHCP client,=
+ ...).
+>>>For the host, configuring a NFS (and perhaps DHCP) server can be an obst=
+acle.
+>>>
+>>>For target devices which don't have a real Ethernet interface, NFS root =
+would
+>>>also work with the USB Ethernet gadget, but this increases the complexity
+>>>further.
+>>>
+>>>As many embedded boards have a USB device port anyway, which is used dur=
+ing
+>>>development for uploading the boot-loader and to flash filesystem images=
+ (i.e.
+>>>via the fastboot protocol), we want to just reuse that single data cable=
+ to
+>>>allow access to the root filesystem as well.
+>>>
+>>>Compared to flashing images, using a network filesystem like NFS and 9P =
+reduces
+>>>the time between compiling on the host and running the binary on the tar=
+get, as
+>>>no flash and reboot cycle is needed. That can get rid of many minutes of=
+ waiting
+>>>over a day. :)
+>>
+>>My other hat is on embedded development (dayjob at Atmark Techno[1], the
+>>only english page linked is about 4 years out of date but I guess it's
+>>better than no page at all), so I can understand where you're coming
+>>from -- thanks for the background.
+>>
+>>[1] https://www.atmark-techno.com/english
+>>
+>>That means I'll actually want to test this, but kind of always busy so
+>>it might take a few weeks...
+>>Or better, do you happen to know if qemu can create a USB controller
+>>that supports OTG so it'll be easy to test for folks with no such
+>>hardware?
+>
+>Maybe dummy_hcd is what you want?
+
+I did a lot of testing with dummy_hcd. So this should work.
+
+But of course testing the special case of rootfs is tricky. Since you
+will have to share the gadget with qemu to boot the rootfs from
+somewhere else.
+
+Regards,
+Michael
+
+>>We've got enough 9p protocols that aren't actually tested on a regular
+>>basis, it'd be great if we could have something that can run anywhere.
+>>
+>>
+>>>diod (9pfs server) and the forwarder are on the development host, where =
+the root
+>>>filesystem is actually stored. The gadget is initialized during boot (or=
+ later)
+>>>on the embedded board. Then the forwarder will find it on the USB bus an=
+d start
+>>>forwarding requests.
+>>>
+>>>It may seem a bit unusual that in this case the requests come from the d=
+evice
+>>>and are handled by the host. The reason is that USB device ports are nor=
+mally
+>>>not available on PCs, so a connection in the other direction would not w=
+ork.
+>>
+>>Right, most host PCs won't have OTG available...
+>>I was also perplexed by the linux foundation (0x1d6b):0x0109 id, that
+>>might be clearer once it's properly documented -- I'll let someone from
+>>the usb side chime on this as I have no idea what's appropriate.
+>>
+>>
+>>>In the future, the functionality of the forwarder could be integrated in=
+to the
+>>>9pfs server. Alternatively, an improved forwarder could also react to ud=
+ev
+>>>events of gadgets showing up and forward them to different 9PFS server o=
+ver the
+>>>network (when you have multiple target devices connected to one USB host=
+).
+>>
+>>Plenty of potential work ahead :)
+>>Frankly at this stage I don't think it's much simpler than e.g. CDC
+>>ethernet gadget and mounting nfs over tcp, but with further improvements
+>>it can definitely get simpler.
+>>
+>>
+>>>Perhaps, the inverse setup (9PFS server on the USB gadget side, mounted =
+on a PC)
+>>>also would be useful in the future and could share some of this code. Th=
+en,
+>>>you'd have an alternative to MTP.
+>>
+>>(Yeah, I'm not actively looking for that -- was just asking because MTP
+>>has been kind of dead lately and I'm not aware of any potential
+>>alternative, but I didn't go looking for them either -- let's leave that
+>>to later)
+>>
+>
+>
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--gBBFr7Ir9EOA20Yy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmW0KsMACgkQC+njFXoe
+LGRMDA//TS98JSMa3OqGApgt33CFV5o169WiV14RCxkouF2ELFSZ8MKaiYrpijV6
+joMER3osdUuvuaRcrw2HDK9TzeKEfm6PwkrSrJu0mTt7VHBN6vFlhcuTVME8ED+G
+Wah5cpVq8wVjLybR8m27R6WYkLUH629ARvpJAEa13A5+76ZIBPM6gUklEvrtUJ0k
+WQEsF6G5e0ddRp48CAFalniGBFGr+yKmiEJ+emBDGCJycFWg6clmXSuQR86ZTfU4
+wQ76yg8lNbMXk178yjzNLhc2kHjbr/JO7Gn3CQMl3wzgkmhGBqPoF5DEgxEcKA5a
+yulcwwmn8S1zTSJqKApd1vMSlf7qhG3O2kf6e3P+oG+eMJKALk5xud5u0n3gtMgK
+Mk7CqlWP/UJ+SqgmBi+30i/+jKYnXuaIa9BHk77NNpPfXYZOMhheXqhw2wKHl/UW
+90Qq6DFQyLkfaGZpkuXkmmhmBmOKQ0R8AXz00luWKuVhZjC5oi6B0mTcrUDpBUt6
+aBOiKQxE6l/MK6l6wk36H6S9MPA+OAQbD8FfsaLkKJsTaS9qr4h28mruWpPq6uJU
+iD7SDFCR35Yu/6y4U/m9w4imQNUFv+HwBGmRXukRDQ9apVUEYSJ6GO+6RHMmNUPR
+AHmjXrN9n/IfQbHXjhus37xuDOs5D1U+FBFeuWcRATMifkult+M=
+=UteF
+-----END PGP SIGNATURE-----
+
+--gBBFr7Ir9EOA20Yy--
