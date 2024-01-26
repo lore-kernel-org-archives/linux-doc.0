@@ -1,118 +1,103 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mx01.frank.fyi (mx01.frank.fyi [5.189.178.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42A119474;
-	Fri, 26 Jan 2024 12:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518971B598
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jan 2024 12:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.178.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706273292; cv=none; b=aVs1rpEX6wicl61gPljlEZ2Lt+l3kzTiLjyhHA4+ZkoWJyC9P40iqv5/WUrvLlkbj4cp/0CPVcOvx9tH663TaGja/mjf7gpkCAgYT7jil49lvxSI6AcWLqmRwmDo66NCYlY6u8IfpxhfCjqAjhrpR6pE3kDtAw/tG+X1jrMIWxw=
+	t=1706273563; cv=none; b=exHOZvAqTgEY56wsYQzOt84aLemE4g+QI1f8+R40NuAXdBbrNrZ9Fy0HpkoG/k5W3NIKPfAVmQ5OTb85jQMcdR20RtRHR2zgYTWD1S/5ZyZndq+P4NPqR8/QP4DwGTiWgX4e4yhSVfkTb52USX+GJeCM2O+ADzoOqmJ3fD0ko3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706273292; c=relaxed/simple;
-	bh=AbCXxnvgTq0FOYmlq6xETEvEPvXHG5whrlFRmeMA8as=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=GgPznsYg8rPQ5bAJOpFAhL+aYgybDXS9VRExb5roBrbG2PxcCO9TdBLeMSq1+16bchsWRI4vARRd9vue8DqAakClZ1isEk35XP2jCS9SVQWBFCGuyHZrUFnItn0qsbe5DRzY/yi0S2NUL4p/gjwp7xutgq6IL4/axYRD+xwWxRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k+1q8MwD; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k+1q8MwD"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40eb033c1b0so5048445e9.2;
-        Fri, 26 Jan 2024 04:48:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706273289; x=1706878089; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VXjStc9Bv9VVmZATT/H5BM5voqDONk04D7Kh2ueouvw=;
-        b=k+1q8MwDkNIxH9ZuZ251N3bpkSWM/xbxpz4YHTQHOFnqbaFg8RmmDn2gUIqcqmzMyE
-         REE+PTsuFiIWq9PkaiCznx8dbOYPKn7pGWYES0X0i0LcglMmTYICkNO+D36+8GXCOmrB
-         UmvLCSdzbtUN/PzZc5zgb3POKAlp6M2ZzCDN1Uc0Hfcwv/5x7KYxeAfkQAUJ8zMsNRPg
-         WwlA2AK7RPwmdhvGmwBAOSEZ1CWLYeB0M5AJDm8CdnU3bIcz7oaMGyrPmj2VmjLVVgAn
-         D27VW668lPcd0nA5M+8Ngcg5BKKdsow//iZx4e+qlkc2n5TgMhwIFaJBNcFwfkn1kQYM
-         fu0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706273289; x=1706878089;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VXjStc9Bv9VVmZATT/H5BM5voqDONk04D7Kh2ueouvw=;
-        b=YnPDNTrmgpxJ9oDG55Wi75GFgGE6ljpBzmtcE8rKtR1GWOE2Nli1Iw2TkkoKjuF/xy
-         wYMt8Qffla1gCSEIeOapLkWrVz4BEsjbtv3NY3S3uszqI+J1St8a1GCvmiqVHAjquFr3
-         7kAZoW+m6Ij2MMkElgRvlJYq3VHfcg01jUMNhrUySvFBPeICqXtwV0vUv9IHoGJfAe2W
-         LYzti4P2ghuvdhsUc1CWVPkRTov7ANWL8/DlOwcwshJPO4cM/zIy2nSSVivEZ0L2haPe
-         L3FsC2deorJnNPrGFsUIfeHy+NPQbUgtZizWeEv+KYyxHqFzCUfhOAjxHZl7QUCWoAZb
-         XcWw==
-X-Gm-Message-State: AOJu0YwPLOBDchtMDDOutrT4kdj9+ficUWLJPTCQtDzLRiey1NLPueUF
-	CTuSrcO79+93LNNvDN54z3Wn83nuWgzRmgxl63uCyb7j523TCt3f
-X-Google-Smtp-Source: AGHT+IEIu33aEiH7ck43gxXS8SEt5dQoK3NdSy53Ic76JJBJjv5dhyTwB+qMOnyaZ/AO98xiizJoPw==
-X-Received: by 2002:a7b:c44f:0:b0:40e:aee0:125b with SMTP id l15-20020a7bc44f000000b0040eaee0125bmr910401wmi.181.1706273288860;
-        Fri, 26 Jan 2024 04:48:08 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:b060:7468:8ec9:fcb])
-        by smtp.gmail.com with ESMTPSA id o1-20020adfe801000000b0033725783839sm1201000wrm.110.2024.01.26.04.48.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 04:48:08 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
- Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
- Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
- <jacob.e.keller@intel.com>,  Breno Leitao <leitao@debian.org>,  Jiri Pirko
- <jiri@resnulli.us>,  Alessandro Marcolini
- <alessandromarcolini99@gmail.com>,  donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages
- in nested attribute spaces
-In-Reply-To: <20240124073228.0e939e5c@kernel.org> (Jakub Kicinski's message of
-	"Wed, 24 Jan 2024 07:32:28 -0800")
-Date: Fri, 26 Jan 2024 12:44:57 +0000
-Message-ID: <m2ttn0w9fa.fsf@gmail.com>
-References: <20240123160538.172-1-donald.hunter@gmail.com>
-	<20240123160538.172-3-donald.hunter@gmail.com>
-	<20240123161804.3573953d@kernel.org> <m2ede7xeas.fsf@gmail.com>
-	<20240124073228.0e939e5c@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1706273563; c=relaxed/simple;
+	bh=TY3Ups8CevgW6c8x6FwJ65BmIHY7FeSXL9Q9A0pyiYY=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tyJCieAbyUCT1agAiippjEsLxbDy3SHSk3jHhsvQe4IFiKOyP+ScGn5d67LbvTsxiv37bLLXI3cyi5zf+XYBRo9daseELduqZDDP+Di6oHaerq9lzvA34nahmaXsPYFoms/Bor5qAnxUYcjOB2WJey5IZt/o2RWCXdIu5eqIL5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=frank.fyi; spf=pass smtp.mailfrom=frank.fyi; arc=none smtp.client-ip=5.189.178.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=frank.fyi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=frank.fyi
+Received: by mx01.frank.fyi (Postfix, from userid 1001)
+	id 69F8D11202A0; Fri, 26 Jan 2024 13:52:38 +0100 (CET)
+Date: Fri, 26 Jan 2024 12:52:38 +0000
+From: Klaus Frank <git@frank.fyi>
+To: linux-doc@vger.kernel.org
+Subject: [PATCH] [patch] Documentation: tfix: Fix invalid reference to
+ /sys/modules instead of /sys/module
+Message-ID: <jvhevji3smzia35rxb4g2xbcj7z5f542h2iz53n5a44peob3cz@52qi2oil5zwi>
+Reply-To: Klaus Frank <vger.kernel.org@frank.fyi>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Jakub Kicinski <kuba@kernel.org> writes:
+-----BEGIN PGP MESSAGE-----
 
-> On Wed, 24 Jan 2024 09:37:31 +0000 Donald Hunter wrote:
->> > Meaning if the key is not found in current scope we'll silently and
->> > recursively try outer scopes? Did we already document that?
->> > I remember we discussed it, can you share a link to that discussion?  
->> 
->> Yes, it silently tries outer scopes. The previous discussion is here:
->> 
->> https://patchwork.kernel.org/project/netdevbpf/patch/20231130214959.27377-7-donald.hunter@gmail.com/#25622101
->> 
->> This is the doc patch that describes sub-messages:
->> 
->> https://patchwork.kernel.org/project/netdevbpf/patch/20231215093720.18774-4-donald.hunter@gmail.com/
->> 
->> It doesn't mention searching outer scopes so I can add that to the docs.
->
-> I'm a tiny bit worried about the mis-ordered case. If the selector attr
-> is after the sub-msg but outer scope has an attr of the same name we'll
-> silently use the wrong one. It shouldn't happen in practice but can we
-> notice the wrong ordering and error out cleanly?
+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
+V5Nx9IPsqfOTulYHLt7+wsj/Ag==
+=mK0l
+-----END PGP MESSAGE-----
 
-I was quite pleased with how simple the patch turned out to be when I
-used ChainMap, but it does have this weakness. In practice, the only
-place this could be a problem is with tc-act-attrs which has the same
-attribute name 'kind' in the nest and in tc-attrs at the top level. If
-you send a create message with ynl, you could omit the 'kind' attr in
-the 'act' nest and ynl would incorrectly resolve to the top level
-'kind'. The kernel would reject the action with a missing 'kind' but the
-rest of payload would be encoded wrongly and/or could break ynl.
-
-My initial thought is that this might be better handled as input
-validation, e.g. adding 'required: true' to the spec for 'act/kind'.
-After using ynl for a while, I think it would help to specify required
-attributes for messages, nests and sub-messsages. It's very hard to
-discover the required attributes for families that don't provide extack
-responses for errors.
-
-Thoughts?
