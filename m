@@ -1,156 +1,118 @@
-Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185FF13FEE;
-	Fri, 26 Jan 2024 12:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42A119474;
+	Fri, 26 Jan 2024 12:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706271800; cv=none; b=OaK32+v6MXUEKhu2OHnmon5jnO//OuXLdcPGVgyBHo91F45oZfaBO8BE+4qzHj+JSjuGKNRPE/I0xTkRmy76G00oSdTVDsNfgfJMxfU3Q6XC2nSmkda5Nu0EKtVdLspw2CpF/63OY7xa0iaBsNC+2hsRGFP50fmAnne1+BnrL7o=
+	t=1706273292; cv=none; b=aVs1rpEX6wicl61gPljlEZ2Lt+l3kzTiLjyhHA4+ZkoWJyC9P40iqv5/WUrvLlkbj4cp/0CPVcOvx9tH663TaGja/mjf7gpkCAgYT7jil49lvxSI6AcWLqmRwmDo66NCYlY6u8IfpxhfCjqAjhrpR6pE3kDtAw/tG+X1jrMIWxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706271800; c=relaxed/simple;
-	bh=FUoOlA7SEsmZQCCCoAomLStIAwVpeVTQ+3yZ6glGOag=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PZezjzom4pSsjmmcArYWuTBaClFxZPqch+Cew8YfIO1M4kSly3SvZtJQcg0Uni/e3o688+qc/mn6lAQCx2ZH62Leka0PSqlZde2fQPzPXjPt9FvMrs8tu5ZFMFGHTshpD5oaM65+b03nEnlb+WwJExYyTjOLiD5Nr4c4jvJXs58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=Z0nR0MNj; arc=none smtp.client-ip=37.18.73.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
+	s=arc-20240116; t=1706273292; c=relaxed/simple;
+	bh=AbCXxnvgTq0FOYmlq6xETEvEPvXHG5whrlFRmeMA8as=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=GgPznsYg8rPQ5bAJOpFAhL+aYgybDXS9VRExb5roBrbG2PxcCO9TdBLeMSq1+16bchsWRI4vARRd9vue8DqAakClZ1isEk35XP2jCS9SVQWBFCGuyHZrUFnItn0qsbe5DRzY/yi0S2NUL4p/gjwp7xutgq6IL4/axYRD+xwWxRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k+1q8MwD; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="Z0nR0MNj"
-Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 4EE99100005;
-	Fri, 26 Jan 2024 15:23:11 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 4EE99100005
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1706271791;
-	bh=tbL6XxsbbaDgXHm9IcCy2M+iiWgJnoaXzmTqbl73lsg=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=Z0nR0MNjy5QzdW+OjnTMli4Go//StdjUKrraQJlAYKmizAXPkQiRrKEtz6ocHRkUn
-	 GhiwAsT7wim6CTv+9n8TBwVrXFH0ZuN8diV8rqf2lOFmmKGRLy+pqBKc02NuU2ZEeS
-	 /xRHveCCqugHRZ7BfO1XzKSlwoYY7iFctzQCjqjOIUrTbHIEcfQc2+g4TlbOVckxlA
-	 THMCiWj9uEpsee3hZ+TtvnK6TBQO04+kaSskbEU2SO7lAlO1x20T2ERuL8e+DWHwXf
-	 i6LpNXSoKcnQdn776cqxm9VcYvyip41gvWYySAKBEUoTsX3t3Sd3FfK8zt3ZO1RD1s
-	 sedtki/W4lZlw==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Fri, 26 Jan 2024 15:23:11 +0300 (MSK)
-Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
- (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 26 Jan
- 2024 15:23:10 +0300
-Date: Fri, 26 Jan 2024 15:23:10 +0300
-From: Dmitry Rokosov <ddrokosov@salutedevices.com>
-To: Lee Jones <lee@kernel.org>
-CC: Martin Kurbanov <mmkurbanov@salutedevices.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andy Shevchenko
-	<andy.shevchenko@gmail.com>, <linux-kernel@vger.kernel.org>,
-	<linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <kernel@salutedevices.com>
-Subject: Re: [PATCH v1 1/2] leds: aw200xx: support for hw pattern controllers
-Message-ID: <20240126122310.hrs37vybo2wnxto3@CAB-WSD-L081021>
-References: <20231207125938.175119-1-mmkurbanov@salutedevices.com>
- <20231207125938.175119-2-mmkurbanov@salutedevices.com>
- <20231221161011.GO10102@google.com>
- <85c89859-ae03-4692-9c09-5779e4c40eae@salutedevices.com>
- <20240125130049.GF74950@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k+1q8MwD"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40eb033c1b0so5048445e9.2;
+        Fri, 26 Jan 2024 04:48:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706273289; x=1706878089; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VXjStc9Bv9VVmZATT/H5BM5voqDONk04D7Kh2ueouvw=;
+        b=k+1q8MwDkNIxH9ZuZ251N3bpkSWM/xbxpz4YHTQHOFnqbaFg8RmmDn2gUIqcqmzMyE
+         REE+PTsuFiIWq9PkaiCznx8dbOYPKn7pGWYES0X0i0LcglMmTYICkNO+D36+8GXCOmrB
+         UmvLCSdzbtUN/PzZc5zgb3POKAlp6M2ZzCDN1Uc0Hfcwv/5x7KYxeAfkQAUJ8zMsNRPg
+         WwlA2AK7RPwmdhvGmwBAOSEZ1CWLYeB0M5AJDm8CdnU3bIcz7oaMGyrPmj2VmjLVVgAn
+         D27VW668lPcd0nA5M+8Ngcg5BKKdsow//iZx4e+qlkc2n5TgMhwIFaJBNcFwfkn1kQYM
+         fu0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706273289; x=1706878089;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VXjStc9Bv9VVmZATT/H5BM5voqDONk04D7Kh2ueouvw=;
+        b=YnPDNTrmgpxJ9oDG55Wi75GFgGE6ljpBzmtcE8rKtR1GWOE2Nli1Iw2TkkoKjuF/xy
+         wYMt8Qffla1gCSEIeOapLkWrVz4BEsjbtv3NY3S3uszqI+J1St8a1GCvmiqVHAjquFr3
+         7kAZoW+m6Ij2MMkElgRvlJYq3VHfcg01jUMNhrUySvFBPeICqXtwV0vUv9IHoGJfAe2W
+         LYzti4P2ghuvdhsUc1CWVPkRTov7ANWL8/DlOwcwshJPO4cM/zIy2nSSVivEZ0L2haPe
+         L3FsC2deorJnNPrGFsUIfeHy+NPQbUgtZizWeEv+KYyxHqFzCUfhOAjxHZl7QUCWoAZb
+         XcWw==
+X-Gm-Message-State: AOJu0YwPLOBDchtMDDOutrT4kdj9+ficUWLJPTCQtDzLRiey1NLPueUF
+	CTuSrcO79+93LNNvDN54z3Wn83nuWgzRmgxl63uCyb7j523TCt3f
+X-Google-Smtp-Source: AGHT+IEIu33aEiH7ck43gxXS8SEt5dQoK3NdSy53Ic76JJBJjv5dhyTwB+qMOnyaZ/AO98xiizJoPw==
+X-Received: by 2002:a7b:c44f:0:b0:40e:aee0:125b with SMTP id l15-20020a7bc44f000000b0040eaee0125bmr910401wmi.181.1706273288860;
+        Fri, 26 Jan 2024 04:48:08 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:b060:7468:8ec9:fcb])
+        by smtp.gmail.com with ESMTPSA id o1-20020adfe801000000b0033725783839sm1201000wrm.110.2024.01.26.04.48.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jan 2024 04:48:08 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
+ Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
+ Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
+ <jacob.e.keller@intel.com>,  Breno Leitao <leitao@debian.org>,  Jiri Pirko
+ <jiri@resnulli.us>,  Alessandro Marcolini
+ <alessandromarcolini99@gmail.com>,  donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages
+ in nested attribute spaces
+In-Reply-To: <20240124073228.0e939e5c@kernel.org> (Jakub Kicinski's message of
+	"Wed, 24 Jan 2024 07:32:28 -0800")
+Date: Fri, 26 Jan 2024 12:44:57 +0000
+Message-ID: <m2ttn0w9fa.fsf@gmail.com>
+References: <20240123160538.172-1-donald.hunter@gmail.com>
+	<20240123160538.172-3-donald.hunter@gmail.com>
+	<20240123161804.3573953d@kernel.org> <m2ede7xeas.fsf@gmail.com>
+	<20240124073228.0e939e5c@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240125130049.GF74950@google.com>
-User-Agent: NeoMutt/20220415
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 182964 [Jan 26 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.3
-X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, smtp.sberdevices.ru:5.0.1,7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;salutedevices.com:7.1.1;100.64.160.123:7.1.2, FromAlignment: s, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/01/26 07:16:00 #23429590
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: text/plain
 
-Hello Lee,
+Jakub Kicinski <kuba@kernel.org> writes:
 
-On Thu, Jan 25, 2024 at 01:00:49PM +0000, Lee Jones wrote:
-> Looping in Jacek (LEDS) and Greg (SYFS) for some knowledgable input.
-> 
-> On Fri, 12 Jan 2024, Martin Kurbanov wrote:
-> > On 21.12.2023 19:10, Lee Jones wrote:
-> > > On Thu, 07 Dec 2023, Martin Kurbanov wrote:
-> > > 
-> > >> This led-controller supports 3 pattern controllers for auto breathing or
-> > >> group dimming control. Each pattern controller can work in auto
-> > >> breathing or manual control mode. All breathing parameters including
-> > >> rising/falling slope, on/off time, repeat times, min/max brightness
-> > >> and so on are configurable.
-> > >>
-> > >> Signed-off-by: Martin Kurbanov <mmkurbanov@salutedevices.com>
-> > >> ---
-> > >>  .../testing/sysfs-class-led-driver-aw200xx    | 108 +++
-> > >>  Documentation/leds/leds-aw200xx.rst           | 274 ++++++++
-> > >>  drivers/leds/leds-aw200xx.c                   | 649 ++++++++++++++++++
-> > >>  3 files changed, 1031 insertions(+)
-> > >>  create mode 100644 Documentation/leds/leds-aw200xx.rst
-> > > 
-> > > This interface is bananas.  Exposing an entire register interface to
-> > > sysfs does not sit will with me at all.  When we add support to a sysfs
-> > > class, we usually require it to be generic and work across all devices.
-> > > Adding device specific interfaces is generally decried and to be
-> > > avoided.  Don't forget, once we commit something to sysfs, it becomes
-> > > ABI and we have to support it forever.
-> > > 
-> > > A far better approach would be to add support for this in userspace
-> > > instead  You can use the standard I2C character device API to achieve
-> > > the same result.  That way we don't have the same level of commitment
-> > > and is generally a much more flexible/future-proof.
-> > > 
-> > 
-> > I used sysfs similarly to other LED drivers (for example, leds-lm3533).
-> > Additionally, the controller has interrupts about the completion of the pattern,
-> > which is best to handle in the kernel. In the case of implementation in user
-> > mode, there may be synchronization problems, as the controller has several
-> > memory pages that can be switched by writing the page number to register 0xF0.
-> 
-> leds-lm3533 is a 12 year old legacy exception AND has less than half of
-> the sysfs exports proposed here.  What makes aw200xx so different it
-> needs to an incomparable interface to any other that we currently
-> support?
+> On Wed, 24 Jan 2024 09:37:31 +0000 Donald Hunter wrote:
+>> > Meaning if the key is not found in current scope we'll silently and
+>> > recursively try outer scopes? Did we already document that?
+>> > I remember we discussed it, can you share a link to that discussion?  
+>> 
+>> Yes, it silently tries outer scopes. The previous discussion is here:
+>> 
+>> https://patchwork.kernel.org/project/netdevbpf/patch/20231130214959.27377-7-donald.hunter@gmail.com/#25622101
+>> 
+>> This is the doc patch that describes sub-messages:
+>> 
+>> https://patchwork.kernel.org/project/netdevbpf/patch/20231215093720.18774-4-donald.hunter@gmail.com/
+>> 
+>> It doesn't mention searching outer scopes so I can add that to the docs.
+>
+> I'm a tiny bit worried about the mis-ordered case. If the selector attr
+> is after the sub-msg but outer scope has an attr of the same name we'll
+> silently use the wrong one. It shouldn't happen in practice but can we
+> notice the wrong ordering and error out cleanly?
 
-From my point of view, direct I2C raw requests from userspace are not a
-good solution as well due to synchronization problems, as Martin
-mentioned in the previous message.
+I was quite pleased with how simple the patch turned out to be when I
+used ChainMap, but it does have this weakness. In practice, the only
+place this could be a problem is with tc-act-attrs which has the same
+attribute name 'kind' in the nest and in tc-attrs at the top level. If
+you send a create message with ynl, you could omit the 'kind' attr in
+the 'act' nest and ynl would incorrectly resolve to the top level
+'kind'. The kernel would reject the action with a missing 'kind' but the
+rest of payload would be encoded wrongly and/or could break ynl.
 
-We have honestly been attempting to integrate this functionality into
-the official LED pattern interface, but it cannot be achieved due to the
-absence of this interface's functionality:
-1) Page-based access
-2) Interrupts
+My initial thought is that this might be better handled as input
+validation, e.g. adding 'required: true' to the spec for 'act/kind'.
+After using ynl for a while, I think it would help to specify required
+attributes for messages, nests and sub-messsages. It's very hard to
+discover the required attributes for families that don't provide extack
+responses for errors.
 
-HW patterns are very useful mechanism to draw animation faster without
-any interactions with CPU, so I think we need to find the best architect
-approach for its integration.
-
-What is an alternative way to access such a hardware pattern interface?
-Debugfs? Or perhaps we should consider extending the LED pattern
-interface?
-
--- 
-Thank you,
-Dmitry
+Thoughts?
