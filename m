@@ -1,117 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from air.basealt.ru (air.basealt.ru [194.107.17.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BA11DFF9;
-	Fri, 26 Jan 2024 18:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638932375C;
+	Fri, 26 Jan 2024 19:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706295057; cv=none; b=Oa/ppsVVlTgeR5CVn/yHyUpA3M68qjQPjtkxy0CFqepxNsdgrZFBD8o68tSAJ/qKUO7B8ElMZa6enmCboJ+LOfwQ4NwedzubxhqKYKdz4bEU1f140V9Fm7gH5L12WZPEJrpyy6QV/rXD8PPG49RM1TG3wvVc8Z6PLtqW6GFQ6Ng=
+	t=1706297535; cv=none; b=bj7Zt1ogeAX4LG+vGwhVOovqOYG7v2tAqBDmpGqE7z0GF9fVNqriEAp7h6ecOfZ9HsP1TLBwgVTj9FHI21TSrI50e1RpkjArOhB+WNkxEdz/6kFZjx9X2kpUQRYzApWuV5F1OgxCNB/An1K0kYfKc26gw7kVQ+v6QIsgtdlEnbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706295057; c=relaxed/simple;
-	bh=1fIdBK9itM3esz+45anwZiUUi0Nm9BupJFdH2OcnKHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UtkPXcfwhEKR3HntOebqcEtjPjfNY3fBzCgQeNCjaMJB1gQq8Up97aGz62aZW/xrlPwGIPOVYJGPOY2mI154Q+h3RlXqDTXydp0GKv3HZB82RJa3cQ18xYt0ynhrjMG/TXP0R5KecQc/yY79zU9an/q3ur+rsgiS5HlHczxhDaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ql0q4xCS; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ql0q4xCS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F693C433C7;
-	Fri, 26 Jan 2024 18:50:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706295056;
-	bh=1fIdBK9itM3esz+45anwZiUUi0Nm9BupJFdH2OcnKHU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ql0q4xCSd1ECPT731kwD6UN7mZUKOpqjZ7zO3iAjguXCltnjpZWbQBOA0J79QTExM
-	 r9QBbNNd8mmv1dv+g05gn7DdsbpQgHhP+ceUtPxzSV2f6vR3cjOtx2iJz/kBOjHs6+
-	 cD41f/oFoaaZKlwZnT3gDAUy+ErAzIFthD4wIa1i9ptLivBbhaovq6HB8KP7JvLffS
-	 9AHnsjStXi3qIoiVG4OWvx3K8fLcpWsqldBqyfYzrF8GkY5PqCQQLa/Air4W8nNEo1
-	 IbEEJMw7JmmcHwLt4cv833YDcRy3a3WxHNPl/g5NXBRAP570pgWRYnbXPui+1kxOfS
-	 d70P3pJKCLrWw==
-Date: Fri, 26 Jan 2024 10:50:55 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
- <jacob.e.keller@intel.com>, Breno Leitao <leitao@debian.org>, Jiri Pirko
- <jiri@resnulli.us>, Alessandro Marcolini <alessandromarcolini99@gmail.com>,
- donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages
- in nested attribute spaces
-Message-ID: <20240126105055.2200dc36@kernel.org>
-In-Reply-To: <m2ttn0w9fa.fsf@gmail.com>
-References: <20240123160538.172-1-donald.hunter@gmail.com>
-	<20240123160538.172-3-donald.hunter@gmail.com>
-	<20240123161804.3573953d@kernel.org>
-	<m2ede7xeas.fsf@gmail.com>
-	<20240124073228.0e939e5c@kernel.org>
-	<m2ttn0w9fa.fsf@gmail.com>
+	s=arc-20240116; t=1706297535; c=relaxed/simple;
+	bh=kBUsdBRGibggPisS6UgH+qECKvgWl3qwx3c5ZrsthAo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Z7cjrlUYqn6WoU7/ayv/hko/KCo7O2KgbwfFkVgBuUlz823keMJKzLsRSG26/AUuXbIlkjUe9tafAVnxG7D86vr/VAHXYcuO5E/btwZndGIacC2+BYNnz6r2VnRKHSK+j/n9SH7UAX1Bc40pER3brIOyZvHf15/wpwH2tF5Ksts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: by air.basealt.ru (Postfix, from userid 490)
+	id 3A0182F2023E; Fri, 26 Jan 2024 19:32:10 +0000 (UTC)
+X-Spam-Level: 
+Received: from altlinux.ipa.basealt.ru (unknown [178.76.204.78])
+	by air.basealt.ru (Postfix) with ESMTPSA id 5C7532F20238;
+	Fri, 26 Jan 2024 19:32:05 +0000 (UTC)
+From: kovalev@altlinux.org
+To: stable@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org
+Cc: keescook@chromium.org,
+	sfrench@samba.org,
+	corbet@lwn.net,
+	natechancellor@gmail.com,
+	ndesaulniers@google.com,
+	kovalev@altlinux.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: [PATCH 1/2] stddef: Introduce DECLARE_FLEX_ARRAY() helper
+Date: Fri, 26 Jan 2024 22:31:42 +0300
+Message-Id: <20240126193143.245122-2-kovalev@altlinux.org>
+X-Mailer: git-send-email 2.33.8
+In-Reply-To: <20240126193143.245122-1-kovalev@altlinux.org>
+References: <20240126193143.245122-1-kovalev@altlinux.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 26 Jan 2024 12:44:57 +0000 Donald Hunter wrote:
-> I was quite pleased with how simple the patch turned out to be when I
-> used ChainMap, but it does have this weakness.
+From: Kees Cook <keescook@chromium.org>
 
-It is very neat, no question about it :(
+commit 3080ea5553cc909b000d1f1d964a9041962f2c5b upstream.
 
-> In practice, the only place this could be a problem is with
-> tc-act-attrs which has the same attribute name 'kind' in the nest and
-> in tc-attrs at the top level. If you send a create message with ynl,
-> you could omit the 'kind' attr in the 'act' nest and ynl would
-> incorrectly resolve to the top level 'kind'. The kernel would reject
-> the action with a missing 'kind' but the rest of payload would be
-> encoded wrongly and/or could break ynl.
+There are many places where kernel code wants to have several different
+typed trailing flexible arrays. This would normally be done with multiple
+flexible arrays in a union, but since GCC and Clang don't (on the surface)
+allow this, there have been many open-coded workarounds, usually involving
+neighboring 0-element arrays at the end of a structure. For example,
+instead of something like this:
 
-We can detect the problem post-fact and throw an exception. I primarily
-care about removing the ambiguity.
+struct thing {
+	...
+	union {
+		struct type1 foo[];
+		struct type2 bar[];
+	};
+};
 
-Is it possible to check at which "level" of the chainmap the key was
-found? If so we can also construct a 'chainmap of attr sets' and make
-sure that the key level == attr set level. I.e. that we got a hit at
-the first level which declares a key of that name.
+code works around the compiler with:
 
-More crude option - we could construct a list of dicts (the levels
-within the chainmap) and keys they can't contain. Once we got a hit 
-for a sub-message key at level A, all dicts currently on top of A
-are not allowed to add that key. Once we're done with the message we
-scan thru the list and make sure the keys haven't appeared?
+struct thing {
+	...
+	struct type1 foo[0];
+	struct type2 bar[];
+};
 
-Another random thought, should we mark the keys which can "descend"
-somehow? IDK, put a ~ in front?
+Another case is when a flexible array is wanted as the single member
+within a struct (which itself is usually in a union). For example, this
+would be worked around as:
 
-	selector: ~kind
+union many {
+	...
+	struct {
+		struct type3 baz[0];
+	};
+};
 
-or some other char?
+These kinds of work-arounds cause problems with size checks against such
+zero-element arrays (for example when building with -Warray-bounds and
+-Wzero-length-bounds, and with the coming FORTIFY_SOURCE improvements),
+so they must all be converted to "real" flexible arrays, avoiding warnings
+like this:
 
-> My initial thought is that this might be better handled as input
-> validation, e.g. adding 'required: true' to the spec for 'act/kind'.
-> After using ynl for a while, I think it would help to specify required
-> attributes for messages, nests and sub-messsages. It's very hard to
-> discover the required attributes for families that don't provide
-> extack responses for errors.
+fs/hpfs/anode.c: In function 'hpfs_add_sector_to_btree':
+fs/hpfs/anode.c:209:27: warning: array subscript 0 is outside the bounds of an interior zero-length array 'struct bplus_internal_node[0]' [-Wzero-length-bounds]
+  209 |    anode->btree.u.internal[0].down = cpu_to_le32(a);
+      |    ~~~~~~~~~~~~~~~~~~~~~~~^~~
+In file included from fs/hpfs/hpfs_fn.h:26,
+                 from fs/hpfs/anode.c:10:
+fs/hpfs/hpfs.h:412:32: note: while referencing 'internal'
+  412 |     struct bplus_internal_node internal[0]; /* (internal) 2-word entries giving
+      |                                ^~~~~~~~
 
-Hah, required attrs. I have been sitting on patches for the kernel for
-over a year - https://github.com/kuba-moo/linux/tree/req-args
-Not sure if they actually work but for the kernel I was curious if it's
-possible to do the validation in constant time (in relation to the
-policy size, i.e. without scanning the entire policy at the end to
-confirm that all required attrs are present). And that's what I came up
-with.
+drivers/net/can/usb/etas_es58x/es58x_fd.c: In function 'es58x_fd_tx_can_msg':
+drivers/net/can/usb/etas_es58x/es58x_fd.c:360:35: warning: array subscript 65535 is outside the bounds of an interior zero-length array 'u8[0]' {aka 'unsigned char[]'} [-Wzero-length-bounds]
+  360 |  tx_can_msg = (typeof(tx_can_msg))&es58x_fd_urb_cmd->raw_msg[msg_len];
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from drivers/net/can/usb/etas_es58x/es58x_core.h:22,
+                 from drivers/net/can/usb/etas_es58x/es58x_fd.c:17:
+drivers/net/can/usb/etas_es58x/es58x_fd.h:231:6: note: while referencing 'raw_msg'
+  231 |   u8 raw_msg[0];
+      |      ^~~~~~~
 
-I haven't posted it because I was a tiny bit worried that required args
-will cause bugs (people forgetting to null check attrs) and may cause
-uAPI breakage down the line (we should clearly state that "required"
-status is just advisory, and can go away in future kernel release).
-But that was more of a on-the-fence situation. If you find them useful
-feel free to move forward!
+However, it _is_ entirely possible to have one or more flexible arrays
+in a struct or union: it just has to be in another struct. And since it
+cannot be alone in a struct, such a struct must have at least 1 other
+named member -- but that member can be zero sized. Wrap all this nonsense
+into the new DECLARE_FLEX_ARRAY() in support of having flexible arrays
+in unions (or alone in a struct).
 
-I do think that's a separate story, tho. For sub-message selector
-- isn't the key _implicitly_ required, in the first attr set where 
-it is defined? Conversely if the sub-message isn't present the key
-isn't required any more either?
+As with struct_group(), since this is needed in UAPI headers as well,
+implement the core there, with a non-UAPI wrapper.
+
+Additionally update kernel-doc to understand its existence.
+
+https://github.com/KSPP/linux/issues/137
+
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
+---
+ include/linux/stddef.h      | 13 +++++++++++++
+ include/uapi/linux/stddef.h | 16 ++++++++++++++++
+ scripts/kernel-doc          |  3 ++-
+ 3 files changed, 31 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/stddef.h b/include/linux/stddef.h
+index 938216f8ab7e7c..31fdbb784c24e2 100644
+--- a/include/linux/stddef.h
++++ b/include/linux/stddef.h
+@@ -84,4 +84,17 @@ enum {
+ #define struct_group_tagged(TAG, NAME, MEMBERS...) \
+ 	__struct_group(TAG, NAME, /* no attrs */, MEMBERS)
+ 
++/**
++ * DECLARE_FLEX_ARRAY() - Declare a flexible array usable in a union
++ *
++ * @TYPE: The type of each flexible array element
++ * @NAME: The name of the flexible array member
++ *
++ * In order to have a flexible array member in a union or alone in a
++ * struct, it needs to be wrapped in an anonymous struct with at least 1
++ * named member, but that member can be empty.
++ */
++#define DECLARE_FLEX_ARRAY(TYPE, NAME) \
++	__DECLARE_FLEX_ARRAY(TYPE, NAME)
++
+ #endif
+diff --git a/include/uapi/linux/stddef.h b/include/uapi/linux/stddef.h
+index c3725b49226323..7837ba4fe72890 100644
+--- a/include/uapi/linux/stddef.h
++++ b/include/uapi/linux/stddef.h
+@@ -28,4 +28,20 @@
+ 		struct { MEMBERS } ATTRS; \
+ 		struct TAG { MEMBERS } ATTRS NAME; \
+ 	}
++
++/**
++ * __DECLARE_FLEX_ARRAY() - Declare a flexible array usable in a union
++ *
++ * @TYPE: The type of each flexible array element
++ * @NAME: The name of the flexible array member
++ *
++ * In order to have a flexible array member in a union or alone in a
++ * struct, it needs to be wrapped in an anonymous struct with at least 1
++ * named member, but that member can be empty.
++ */
++#define __DECLARE_FLEX_ARRAY(TYPE, NAME)	\
++	struct { \
++		struct { } __empty_ ## NAME; \
++		TYPE NAME[]; \
++	}
+ #endif
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 19af6dd160e6b7..7a04d4c0532607 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1232,7 +1232,8 @@ sub dump_struct($$) {
+ 	$members =~ s/DECLARE_KFIFO\s*\(([^,)]+),\s*([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
+ 	# replace DECLARE_KFIFO_PTR
+ 	$members =~ s/DECLARE_KFIFO_PTR\s*\(([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
+-
++	# replace DECLARE_FLEX_ARRAY
++	$members =~ s/(?:__)?DECLARE_FLEX_ARRAY\s*\($args,\s*$args\)/$1 $2\[\]/gos;
+ 	my $declaration = $members;
+ 
+ 	# Split nested struct/union elements as newer ones
+-- 
+2.33.8
+
