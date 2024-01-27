@@ -1,169 +1,194 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3C941C85;
-	Sat, 27 Jan 2024 17:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A5B2D042;
+	Sat, 27 Jan 2024 17:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706376096; cv=none; b=ZVYyr38dZHjSuTUqUUjxBfGMavWRl601QvXfqHkXBO9DQxsYZUDpRU0hssw4bKV2nLnEM3GY/bqLVUzyuwz5cq5kcmuvRCyBW2ayUkbAfX8CPETSvUM/cQbJ4FtFCbonaTBpmekL3wD0HQKZeUHrmjJqKmD4ARBjhbHIkczwXS4=
+	t=1706377504; cv=none; b=VPFofnMTaV+fcGIVHYc262+OTifWnUYu6H3BpRr+Fl8YuAKtgQc8CWwig9yEugB25PohtIsco5b9dLlCTp2Fh97z4IN5QnP1MnL/JUiIeClG8KcxSvFRGWHbbnn3vRGF0+4JEFm3Cbhj/8rpGe8Z/RwmBIW0rAeI6G7w/LlmCjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706376096; c=relaxed/simple;
-	bh=SSKCKiL1YnmxVg4Xe2YdM3ktiD4jdScuF5ZZ9Iu0qBo=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=CJsDJ7jeQsaSJjQuJLoZwflcdJ+AznuH0yL3HAwZKm0htCtnnhvaaPR4NOpwJ+9PqYJuOwTXBzaGlaCtKVZ2MrdxGfh7zjRF64RZrrW3kyA96g332I8ra3kIxZwLXVg+YSDpHIM4SUYGuA2Dj2SjQMDF0CUacGK0PeZUZLcMwmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aq0pmRTJ; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1706377504; c=relaxed/simple;
+	bh=eJucBB62y53/6x3b8IeytY61xG836ojNrHpvPBuocbw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=qIXGjEhUNXBlNqMA3LnMeR/6LwajR1oXiJRIio2zwd20188ieBB39JWcdb9zi3I0BsFAb/I9B7wQZ6M140ntx3D/G5j3Dx25Af2H+6gswFOOEYNcgtUahp7JA2caO3qnKBLdATNkfb3Qv3UWI0BSEThGkM0tnn97D48TsZr9OHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cqJEuynE; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aq0pmRTJ"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40ee6ff0c7dso23468965e9.2;
-        Sat, 27 Jan 2024 09:21:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cqJEuynE"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40ea5653f6bso23548615e9.3;
+        Sat, 27 Jan 2024 09:45:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706376093; x=1706980893; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p4rUlkt+rkv6CMzRlHN8tQkvwBQfgooo3skIas42+XQ=;
-        b=aq0pmRTJb8Ktx6xUvOGwWmEu3xX2agsUYcmKtDNyo3T6j1s64vnK1GYyCmLAL66ITE
-         3owZlGe46MEMWrpZAmBvCnsIBStFwgeSDwPzQ25oaoVPiPbAFid/nQUF5g2kxeGpu2sz
-         idvqf37euqPCOAqPiZF2qMEhBz8zFO/woZ/3R0x0P6qJGmLJziBqEz+srhThwR/ICb3v
-         G+cHLxgcVgxp+3178JL37fJYleVmDDou0FhzOU4ZNhoYiFn2irkOBHBaE8MJW92YVmRb
-         xmhx/kNRwdfc2ffe8/X+gap6q/YVpQvlU955xv7ctajJa/KalMw+mFNv1/MlJHwLpIXW
-         UlKA==
+        d=gmail.com; s=20230601; t=1706377501; x=1706982301; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:content-language:cc:to:subject
+         :from:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8anKxnJbLLtWVdu6pUUU4w5pqzpUyEAuIBblrjsBQ20=;
+        b=cqJEuynEJhWn85Z44I/RxqPMITi/t9dEmuHR6Af1mJ5te90GIrrSQnRGyqOU1MYDJF
+         vnfFNg/0Yp9GTXGkRrvXZlZJXZb/Zk37nhFd352nj1IuKdiMalHtObQC60+cW1sYfNae
+         EG0Ad+QxdhwKwabnjvYBMwcG+Y/KpC7INEG/NtAZa926ix55F1x5Npg19Cn8McrTLF4a
+         iIpyvGi5EqnaXO7R57Co7jTn/AFgcm9ADVi3hJk+HoLNvRuIkSDHyG/80RuYBnjpFJ/z
+         Bk6Ecwx6Yd31IM0GAsYE1BRynzYdtCqsV9pEUGM2dhUZDVrEMTdN+A8mnxUdbq9Levg4
+         wETA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706376093; x=1706980893;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p4rUlkt+rkv6CMzRlHN8tQkvwBQfgooo3skIas42+XQ=;
-        b=XJCkn+kjFw8mJ5enCRlJC977NWPAO8uK3w0i6BBvBnu14P4oAte345gWCFeeHpf6Fh
-         TUDbOwQYDhyHt346Xe/VlJ57TLL5XLR5QYmCrzh452awPLA0Vo/Hb0DMbbWOJ3PLA/r5
-         wI/5AYwl76Y9qPBc3Yn02uzoKN1Xab+QNF9V3umuZ+RR8b2LYlolpJ96QJDz+xQPljnD
-         fV7f+5reoihXQApKKiwxL4v11ykG1AzvhO1euRvZTn3NNr6cKGBekVDhu3kCuyWAUkno
-         fqrSeiVw+7uPqa9GUV7b+571IoVDp4jWtcCX/sLXP13KDpszNRo/YoJcqhDgXtyIs1cC
-         lzXg==
-X-Gm-Message-State: AOJu0YxV/N8Zc/JItF/+if3bw+97yUSBG357L/xK3lx67EskNP5MEVF9
-	BgmyHR/aYvhy7VXeuM455qUoAahgMpF6WTP+/lItvqAilZUo5Jf1
-X-Google-Smtp-Source: AGHT+IEykak8nMEthRNEOLdrc5G/3NUS1bjO42TT+WZeXNsbkDU3/NKRGX5nAV+6KsWFQ/GjppYu6Q==
-X-Received: by 2002:a05:600c:5494:b0:40e:c31b:653d with SMTP id iv20-20020a05600c549400b0040ec31b653dmr1307114wmb.39.1706376092417;
-        Sat, 27 Jan 2024 09:21:32 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:61a5:32a6:6851:46ff])
-        by smtp.gmail.com with ESMTPSA id z5-20020adfe545000000b00338ca0ada22sm3876484wrm.111.2024.01.27.09.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jan 2024 09:21:31 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
- Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
- Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
- <jacob.e.keller@intel.com>,  Breno Leitao <leitao@debian.org>,  Jiri Pirko
- <jiri@resnulli.us>,  Alessandro Marcolini
- <alessandromarcolini99@gmail.com>,  donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages
- in nested attribute spaces
-In-Reply-To: <20240126105055.2200dc36@kernel.org> (Jakub Kicinski's message of
-	"Fri, 26 Jan 2024 10:50:55 -0800")
-Date: Sat, 27 Jan 2024 17:18:59 +0000
-Message-ID: <m2jznuwv7g.fsf@gmail.com>
-References: <20240123160538.172-1-donald.hunter@gmail.com>
-	<20240123160538.172-3-donald.hunter@gmail.com>
-	<20240123161804.3573953d@kernel.org> <m2ede7xeas.fsf@gmail.com>
-	<20240124073228.0e939e5c@kernel.org> <m2ttn0w9fa.fsf@gmail.com>
-	<20240126105055.2200dc36@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        d=1e100.net; s=20230601; t=1706377501; x=1706982301;
+        h=content-transfer-encoding:autocrypt:content-language:cc:to:subject
+         :from:user-agent:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8anKxnJbLLtWVdu6pUUU4w5pqzpUyEAuIBblrjsBQ20=;
+        b=vr1BZGDwkpLMVUOlfYI+juqyHBG85aDhJ9c7NsKgglM/4EO5XuwJxdaW1xuER/oEJX
+         o0aHyWGK0LyBEmMaysrw3yy6Y6D9T7wgm8ab5MV9MAOnlFxRIa4KEf5iqGy5LnwHnAVO
+         tT/KqfOqsxTnTu17DgcIOgMI02Lwu/fo8uOheO0v7Fo0eH4pOg6RW62Qz+o9/+d5gWb8
+         zX6lmvfUIvKclR9hHzHe3PKbZZ3Z5zt3waBVYCkeCxzeu6U4MKLe9P8aliTQZuTT9zl2
+         CrzlkNCsYeqUaxDediBpXhf+6yiNFA6qs/Ay9YdOFsweiKujSF7D2TYmqV1aOhOJyafr
+         Awaw==
+X-Gm-Message-State: AOJu0YwoylQspxTwq+GX1SDxO38Kdj6E8UeLMDoC/jS3F1I0/DzBG3F9
+	jdxWw1jkjk1HRAR9itjKoPG1Jfn5jg8Y6px+FWIPby17Q+V6IKEa
+X-Google-Smtp-Source: AGHT+IG6jGko7sEAjG+dh8v+IQYvKdvRtdk/7Erkl9hDpj34WF81qQnIevb3PbDYrghT2sFd01Ii9Q==
+X-Received: by 2002:adf:fc46:0:b0:33a:de7b:43bc with SMTP id e6-20020adffc46000000b0033ade7b43bcmr1192734wrs.130.1706377501168;
+        Sat, 27 Jan 2024 09:45:01 -0800 (PST)
+Received: from ?IPV6:2a01:c23:b938:5400:11ba:857c:4df8:38b0? (dynamic-2a01-0c23-b938-5400-11ba-857c-4df8-38b0.c23.pool.telefonica.de. [2a01:c23:b938:5400:11ba:857c:4df8:38b0])
+        by smtp.googlemail.com with ESMTPSA id ck8-20020a5d5e88000000b003392986585esm3946712wrb.41.2024.01.27.09.45.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 Jan 2024 09:45:00 -0800 (PST)
+Message-ID: <13ce7c11-a958-4892-ada9-faf5bfdcb89d@gmail.com>
+Date: Sat, 27 Jan 2024 18:45:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] hwmon: Drop non-functional I2C_CLASS_HWMON support for
+ drivers w/o detect()
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Language: en-US
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Class-based I2C probing requires detect() and address_list both
+to be set in the I2C client driver, see checks in i2c_detect().
+It's misleading to declare I2C_CLASS_HWMON support if the driver
+doesn't implement detect().
+Class-based probing is a legacy mechanism, in addition apparently
+nobody ever noticed that class-based probing has been non-functional
+in both drivers from the very beginning. So drop the fragments of
+class-based probing support.
 
-> On Fri, 26 Jan 2024 12:44:57 +0000 Donald Hunter wrote:
->> I was quite pleased with how simple the patch turned out to be when I
->> used ChainMap, but it does have this weakness.
->
-> It is very neat, no question about it :(
->
->> In practice, the only place this could be a problem is with
->> tc-act-attrs which has the same attribute name 'kind' in the nest and
->> in tc-attrs at the top level. If you send a create message with ynl,
->> you could omit the 'kind' attr in the 'act' nest and ynl would
->> incorrectly resolve to the top level 'kind'. The kernel would reject
->> the action with a missing 'kind' but the rest of payload would be
->> encoded wrongly and/or could break ynl.
->
-> We can detect the problem post-fact and throw an exception. I primarily
-> care about removing the ambiguity.
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ Documentation/hwmon/emc2305.rst | 1 -
+ drivers/hwmon/adt7410.c         | 2 --
+ drivers/hwmon/emc2305.c         | 5 -----
+ 3 files changed, 8 deletions(-)
 
-Agreed.
+diff --git a/Documentation/hwmon/emc2305.rst b/Documentation/hwmon/emc2305.rst
+index 2403dbaf2..d0bfffe46 100644
+--- a/Documentation/hwmon/emc2305.rst
++++ b/Documentation/hwmon/emc2305.rst
+@@ -6,7 +6,6 @@ Kernel driver emc2305
+ Supported chips:
+    Microchip EMC2305, EMC2303, EMC2302, EMC2301
+ 
+-   Addresses scanned: I2C 0x27, 0x2c, 0x2d, 0x2e, 0x2f, 0x4c, 0x4d
+    Prefixes: 'emc2305'
+ 
+    Datasheet: Publicly available at the Microchip website :
+diff --git a/drivers/hwmon/adt7410.c b/drivers/hwmon/adt7410.c
+index 952506779..fd214d9b3 100644
+--- a/drivers/hwmon/adt7410.c
++++ b/drivers/hwmon/adt7410.c
+@@ -95,14 +95,12 @@ static const struct i2c_device_id adt7410_ids[] = {
+ MODULE_DEVICE_TABLE(i2c, adt7410_ids);
+ 
+ static struct i2c_driver adt7410_driver = {
+-	.class		= I2C_CLASS_HWMON,
+ 	.driver = {
+ 		.name	= "adt7410",
+ 		.pm	= pm_sleep_ptr(&adt7x10_dev_pm_ops),
+ 	},
+ 	.probe		= adt7410_i2c_probe,
+ 	.id_table	= adt7410_ids,
+-	.address_list	= I2C_ADDRS(0x48, 0x49, 0x4a, 0x4b),
+ };
+ module_i2c_driver(adt7410_driver);
+ 
+diff --git a/drivers/hwmon/emc2305.c b/drivers/hwmon/emc2305.c
+index 29f0e4945..6ef733c0b 100644
+--- a/drivers/hwmon/emc2305.c
++++ b/drivers/hwmon/emc2305.c
+@@ -12,9 +12,6 @@
+ #include <linux/platform_data/emc2305.h>
+ #include <linux/thermal.h>
+ 
+-static const unsigned short
+-emc2305_normal_i2c[] = { 0x27, 0x2c, 0x2d, 0x2e, 0x2f, 0x4c, 0x4d, I2C_CLIENT_END };
+-
+ #define EMC2305_REG_DRIVE_FAIL_STATUS	0x27
+ #define EMC2305_REG_VENDOR		0xfe
+ #define EMC2305_FAN_MAX			0xff
+@@ -611,14 +608,12 @@ static void emc2305_remove(struct i2c_client *client)
+ }
+ 
+ static struct i2c_driver emc2305_driver = {
+-	.class  = I2C_CLASS_HWMON,
+ 	.driver = {
+ 		.name = "emc2305",
+ 	},
+ 	.probe = emc2305_probe,
+ 	.remove	  = emc2305_remove,
+ 	.id_table = emc2305_ids,
+-	.address_list = emc2305_normal_i2c,
+ };
+ 
+ module_i2c_driver(emc2305_driver);
+-- 
+2.43.0
 
-> Is it possible to check at which "level" of the chainmap the key was
-> found? If so we can also construct a 'chainmap of attr sets' and make
-> sure that the key level == attr set level. I.e. that we got a hit at
-> the first level which declares a key of that name.
->
-> More crude option - we could construct a list of dicts (the levels
-> within the chainmap) and keys they can't contain. Once we got a hit
-> for a sub-message key at level A, all dicts currently on top of A
-> are not allowed to add that key. Once we're done with the message we
-> scan thru the list and make sure the keys haven't appeared?
->
-> Another random thought, should we mark the keys which can "descend"
-> somehow? IDK, put a ~ in front?
->
-> 	selector: ~kind
->
-> or some other char?
 
-Okay, so I think the behaviour we need is to either search current scope
-or search the outermost scope. My suggestion would be to replace the
-ChainMap approach with just choosing between current and outermost
-scope. The unusual case is needing to search the outermost scope so
-using a prefix e.g. '/' for that would work.
-
-We can have 'selector: kind' continue to refer to current scope and then
-have 'selector: /kind' refer to the outermost scope.
-
-If we run into a case that requires something other than current or
-outermost then we could add e.g. '../kind' so that the scope to search
-is always explicitly identified.
-
->> My initial thought is that this might be better handled as input
->> validation, e.g. adding 'required: true' to the spec for 'act/kind'.
->> After using ynl for a while, I think it would help to specify required
->> attributes for messages, nests and sub-messsages. It's very hard to
->> discover the required attributes for families that don't provide
->> extack responses for errors.
->
-> Hah, required attrs. I have been sitting on patches for the kernel for
-> over a year - https://github.com/kuba-moo/linux/tree/req-args
-> Not sure if they actually work but for the kernel I was curious if it's
-> possible to do the validation in constant time (in relation to the
-> policy size, i.e. without scanning the entire policy at the end to
-> confirm that all required attrs are present). And that's what I came up
-> with.
-
-Interesting. It's definitely a thorny problem with varying sets of
-'required' attributes. It could be useful to report the absolutely
-required attributes in policy responses, without any actual enforcement.
-Would it be possible to report policy for legacy netlink-raw families?
-
-Thinking about it, usability would probably be most improved by adding
-extack messages to more of the tc error paths.
-
-> I haven't posted it because I was a tiny bit worried that required args
-> will cause bugs (people forgetting to null check attrs) and may cause
-> uAPI breakage down the line (we should clearly state that "required"
-> status is just advisory, and can go away in future kernel release).
-> But that was more of a on-the-fence situation. If you find them useful
-> feel free to move forward!
->
-> I do think that's a separate story, tho. For sub-message selector
-> - isn't the key _implicitly_ required, in the first attr set where
-> it is defined? Conversely if the sub-message isn't present the key
-> isn't required any more either?
-
-Yes, the key is implicitly required for sub-messages. The toplevel key
-is probably required regardless of the presence of a sub-message.
