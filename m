@@ -1,160 +1,82 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4589060DC9;
-	Sat, 27 Jan 2024 16:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2819286AE;
+	Sat, 27 Jan 2024 16:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706372456; cv=none; b=PY+KhNjxBkJyXQwJaEiHMoOE6HoxG+DZUGYnS0Y2ZNzWVGfhablMNLHAKsdvlp84bXpuLoO0566ZWxkD/brWyJFCO2jNGHz+lOubJiwzWAd5+0y9OBRbuADo0CwmyBfMgoc/KYN/C2aZCs5JeCbytX/dMfQN9FHgosaDV9MWBa8=
+	t=1706374261; cv=none; b=aQC5L4BTrwcHxBAg7TiGp2u/wC1JIiV1CSC/+G5tbhW7BBDdMIHFG+rO1CHvAkfPnoOWzzerCF76B9k0rfGKv5tgNYAEG1cq1hxqjUMoTtECh/S5+m2gty3i3AxgDaygJ/hQuzErqV3E4CW8NhHp368z4plh6Sc0iPHPIWN5YZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706372456; c=relaxed/simple;
-	bh=vuJqFnZtTpTssMFoMa9G7Fw9QNg4vClPrMPI4Vl+fQo=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=fafJxih7yCJwLVqGxaNM4DGQWx80i4IBNBWBGI3YjxUljNFdb+Ajn6UyfUoFh/pYQW1qvWtk7VOLERAZEMIPMI0hSdH9i2zcPtaDbobR1FO4g2PEH1ZIceyyRpz1WphrNYGgkwaHCckgfUX40bAIML/9vFBOUCYoTXvzTWotA0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jF3MusBl; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706374261; c=relaxed/simple;
+	bh=QP+swmkCdNQGO0Nmh/aIJ91HocN7GAu5e8lfaOWVe1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lZ22m3UiLlvUh+rfVEJmU2axVZpkyj+zOcHUMPFQZb0NDLK6F1Cxfp5GG1RLv1ssxQaG2IJzN1PuI1C220B1YrWfRH7C5jfCRAUjCBu1q/le7XYbQTxYJ7dKbyLNfZxGtqjx3bnRJ0eKeKf87T5moWK9I0hidJpW0N1h5CcYB6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kHE4GT14; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jF3MusBl"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-68c37bf73aaso9925036d6.2;
-        Sat, 27 Jan 2024 08:20:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706372452; x=1706977252; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=khozqR2J5qyGoQPqSuwAokWTqr1QO39YPwi2HTUl2g4=;
-        b=jF3MusBlQFXatW7qXIZGK2UaaN+1M9baONpaP/BIfrGdix5COoJp+mc1fQNsL24Qjw
-         xV+ASIUQhjc27doTnXRWVUUDo4UTFylG1IvsrJO87Q5dHCG+n8AGEfLocqIv2cy52a3J
-         s+7KIxvm54f+DLC5SlDlbOOf0qtfQyGqG+bFxFjpMSFO59AVQamlcSxC5v/XesvaS8m1
-         qA2uPtTbqdRtSE5Ks3IByQb1GLaKmd/lHk/e+S0DIiGj3VDirSN3oMv1bz9mOZTIOY7T
-         x5f++Yx5wtyqyyC0QpTHvTDnbBZpJsX3VKqkVbfyu3kpyHXXiVyN7c3saEkOT0i75cXN
-         /Xlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706372452; x=1706977252;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=khozqR2J5qyGoQPqSuwAokWTqr1QO39YPwi2HTUl2g4=;
-        b=JoNYKuC6NP42vw6qW6PekBOYr5OEQbp4p+HS0HreG7Db5PElSjZROKze6RSFhL5q6W
-         TfvNNzGD7nRKjG6D20runw8xszcZSZrspayeOzp3oaGUO7qL6HYOD5PU+H5375hItqQs
-         TPd14NmdavbSl0xbYv2z4pbfUUBina1hbeSraKuiMEzfuG7P5VYmLrth1xtm4nsHQdUp
-         HjxVz2z3YnwpDCbKFq/Y16aW/x1zYIuK5lJEsL/3+6HMbmF/Sf0cPbDoKpLpVdYaJn3d
-         kddguNUGcdQWG+XKp7Dep/kd9SxjIzBJFqvKsv4Pq1NSRIxsRB52QmD/iB+j1+8kRpSk
-         P5eg==
-X-Gm-Message-State: AOJu0YxRSBZsHQPEy47QB6CyuzKn62Pd1gU3QdKYJ+vplNj4V0XFbe8B
-	QvAxxjAtoEfyFVUbLRpxBAid54PtCbXKRLnJ0axAVBajaxPl/cPz
-X-Google-Smtp-Source: AGHT+IEtYpnrWB7Pm3yuX4jPsKtMVMAT7CxIrt/thqrPJmnt6o0+3z1I+ItZujRzlRejHx8eF/YXDg==
-X-Received: by 2002:a05:6214:d4b:b0:67f:c133:3922 with SMTP id 11-20020a0562140d4b00b0067fc1333922mr2597732qvr.129.1706372452055;
-        Sat, 27 Jan 2024 08:20:52 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCU3+LBrHc5Zp2e/HJFvVOcowk2itTDRWVCeBu9FGgIoLhx1ERum609+VtwSXCmHZuqS5yjQCmPIOTKaPjOQe/dQTVYgq22FobAr2B/krJF/ABfPP6m7x4EnV1WSKu3Favw3R/CbLgjf5/KoV1SK7vMijxAF6bl7l3CjFbqXYhiVyfr3NdcT1IalWJrnDIDvwQXAH+8vMcCn58UmXIbIdpGi+QIRmYUiAKDZeK8dweFrlaJHhu4odqc7bkwALp38FVz8uctVXmeUDwB2/lw9r84h8fC5wfZhacmiPwbaeYB3uK3FMUsy8WMyqwZXvQ662JodMK+Ckz8Vlrh7uJX+WpaEhUDH4HWu9luhqqgzcCnUIez7adveWXYigeEOT6Zs2Evn+zFaqWUOPBcTgbt4mcOuWRmZGrpy3P4iXeTwtZWOD0UK0KTMIWxIPwu4cEAA2yoetHwyrCqg1YG4B4J6RX3Q7rnAuGmWy0F4Gy6JaivBNAUqAkkiQZgBXJpME8ViDxeKurO8zLRLDOGIuFJPQ88yzzDp/OTK3y5gqH5eSq8NpgoEKKTj1WZFsCugbWRMRWNXvOegG169A2OY8YlYSBY4PUT5sbUgfxPMVKXw9UCzIkqmEqs1SBrOvjAuDw1VaUfY1RD1QerhxTAoKJLFboH6DAaoR5tB7H6C1ZgOQC0MGvtl5XP66jVYbk3z4nIo7ssbaJuvZFei+ixltrx+QSNWmB6p9dDBN4po1+Vyn1pRQo8ZgWv/HC+BAFi/v8Gywoc8ablY6S2+UpeRQTwJHYvapimI5O/v3A//4++ejuPmhlC+hAFzmidM7s5mCcyBZchB8mGo1SGwUnUTcXnlopGASubLZKb11JA4GUSgJYN7obbCcauHOF5YwR9g7BW1x1AfpwyR0pDLQzI6wG4HgQG9mxfQlJ0QswjplomeljUhaHVAE0x1mVra5t3f
-Received: from localhost (131.65.194.35.bc.googleusercontent.com. [35.194.65.131])
-        by smtp.gmail.com with ESMTPSA id ly9-20020a0562145c0900b0068509353fb6sm991500qvb.133.2024.01.27.08.20.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jan 2024 08:20:51 -0800 (PST)
-Date: Sat, 27 Jan 2024 11:20:51 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Joe Damato <jdamato@fastly.com>, 
- linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org
-Cc: chuck.lever@oracle.com, 
- jlayton@kernel.org, 
- linux-api@vger.kernel.org, 
- brauner@kernel.org, 
- edumazet@google.com, 
- davem@davemloft.net, 
- alexander.duyck@gmail.com, 
- sridhar.samudrala@intel.com, 
- kuba@kernel.org, 
- willemdebruijn.kernel@gmail.com, 
- weiwan@google.com, 
- Joe Damato <jdamato@fastly.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Andrew Waterman <waterman@eecs.berkeley.edu>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Dominik Brodowski <linux@dominikbrodowski.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jan Kara <jack@suse.cz>, 
- Jiri Slaby <jirislaby@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Julien Panis <jpanis@baylibre.com>, 
- linux-doc@vger.kernel.org (open list:DOCUMENTATION), 
- "(open list:FILESYSTEMS \\(VFS and infrastructure\\))" <linux-fsdevel@vger.kernel.org>, 
- Michael Ellerman <mpe@ellerman.id.au>, 
- Nathan Lynch <nathanl@linux.ibm.com> (open list:FILESYSTEMS \(VFS and infrastructure\)), 
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Steve French <stfrench@microsoft.com>, 
- Thomas Huth <thuth@redhat.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <65b52d6381de7_3a9e0b2943d@willemb.c.googlers.com.notmuch>
-In-Reply-To: <20240125225704.12781-1-jdamato@fastly.com>
-References: <20240125225704.12781-1-jdamato@fastly.com>
-Subject: Re: [PATCH net-next v3 0/3] Per epoll context busy poll support
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kHE4GT14"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7BFC433F1;
+	Sat, 27 Jan 2024 16:50:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706374260;
+	bh=QP+swmkCdNQGO0Nmh/aIJ91HocN7GAu5e8lfaOWVe1c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kHE4GT14qyZ9I0dPf3JZXSf2KWCeckxoGqODmilUYb+pouIkOG0PYuxUTRvH5IKL/
+	 8027UCs0RkMLDqypr8Xez1mHrPzUpaYqXdIBwlJIVmSLOEYJwOHHl2kNuK6G1K4Cse
+	 gqN+/rdjyKsk/3+BPoMGzF/E9cmtxQkF1zcMmaz10JrLPFLtHbbc1ksahSgc+PY4Va
+	 fVlv5Kbkq5xj9XOnO1ErYaT0nLxkh/na/nVHByuhTxQp/bWM8P/cf7Usxpyzhuxrar
+	 11GV3LsFzScBDF4TtjuAK1EHyNaYfrGvDpvsLd692/hySSUirAFWN3Nn7aD1CMlPH8
+	 Rgo7n1lSqppsw==
+Date: Sat, 27 Jan 2024 16:50:44 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Nuno =?UTF-8?B?U8Oh?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>
+Subject: Re: [PATCH v5 5/8] iio: core: Add new DMABUF interface
+ infrastructure
+Message-ID: <20240127165044.22f1b329@jic23-huawei>
+In-Reply-To: <ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
+References: <20231219175009.65482-1-paul@crapouillou.net>
+	<20231219175009.65482-6-paul@crapouillou.net>
+	<20231221120624.7bcdc302@jic23-huawei>
+	<ee5d7bb2fb3e74e8fc621d745b23d1858e1f0c3c.camel@crapouillou.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Joe Damato wrote:
-> Greetings:
+
+> > > +	iio_buffer_dmabuf_put(attach);
+> > > +
+> > > +out_dmabuf_put:
+> > > +	dma_buf_put(dmabuf);  
+> > As below. Feels like a __free(dma_buf_put) bit of magic would be a
+> > nice to have.  
 > 
-> Welcome to v3. Cover letter updated from v2 to explain why ioctl and
-> adjusted my cc_cmd to try to get the correct people in addition to folks
-> who were added in v1 & v2. Labeled as net-next because it seems networking
-> related to me even though it is fs code.
+> I'm working on the patches right now, just one quick question.
 > 
-> TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
-> epoll with socket fds.") by allowing user applications to enable
-> epoll-based busy polling and set a busy poll packet budget on a per epoll
-> context basis.
+> Having a __free(dma_buf_put) requires that dma_buf_put is first
+> "registered" as a freeing function using DEFINE_FREE() in <linux/dma-
+> buf.h>, which has not been done yet.  
 > 
-> This makes epoll-based busy polling much more usable for user
-> applications than the current system-wide sysctl and hardcoded budget.
+> That would mean carrying a dma-buf specific patch in your tree, are you
+> OK with that?
+Needs an ACK from appropriate maintainer, but otherwise I'm fine doing
+so.  Alternative is to circle back to this later after this code is upstream.
+
 > 
-> To allow for this, two ioctls have been added for epoll contexts for
-> getting and setting a new struct, struct epoll_params.
+> Cheers,
+> -Paul
+
 > 
-> ioctl was chosen vs a new syscall after reviewing a suggestion by Willem
-> de Bruijn [1]. I am open to using a new syscall instead of an ioctl, but it
-> seemed that: 
->   - Busy poll affects all existing epoll_wait and epoll_pwait variants in
->     the same way, so new verions of many syscalls might be needed. It
-
-There is no need to support a new feature on legacy calls. Applications have
-to be upgraded to the new ioctl, so they can also be upgraded to the latest
-epoll_wait variant.
-
-epoll_pwait extends epoll_wait with a sigmask.
-epoll_pwait2 extends extends epoll_pwait with nsec resolution timespec.
-Since they are supersets, nothing is lots by limiting to the most recent API.
-
-In the discussion of epoll_pwait2 the addition of a forward looking flags
-argument was discussed, but eventually dropped. Based on the argument that
-adding a syscall is not a big task and does not warrant preemptive code.
-This decision did receive a suitably snarky comment from Jonathan Corbet [1].
-
-It is definitely more boilerplate, but essentially it is as feasible to add an
-epoll_pwait3 that takes an optional busy poll argument. In which case, I also
-believe that it makes more sense to configure the behavior of the syscall
-directly, than through another syscall and state stored in the kernel.
-
-I don't think that the usec fine grain busy poll argument is all that useful.
-Documentation always suggests setting it to 50us or 100us, based on limited
-data. Main point is to set it to exceed the round-trip delay of whatever the
-process is trying to wait on. Overestimating is not costly, as the call
-returns as soon as the condition is met. An epoll_pwait3 flag EPOLL_BUSY_POLL
-with default 100us might be sufficient.
-
-[1] https://lwn.net/Articles/837816/
-
-
->     seems much simpler for users to use the correct
->     epoll_wait/epoll_pwait for their app and add a call to ioctl to enable
->     or disable busy poll as needed. This also probably means less work to
->     get an existing epoll app using busy poll.
 
