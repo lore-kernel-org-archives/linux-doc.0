@@ -1,156 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982A71EB20;
-	Sat, 27 Jan 2024 10:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D94E1EB35;
+	Sat, 27 Jan 2024 11:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706350838; cv=none; b=PhMP/BOMqXlLsB+6t69nX2n0WpRZUS99AcmMgsz6gacOuF3L9Si+JTKrDrYZPbgjsU+S9atBtrfFjSIzW3iPcxeecNQT7Vx4TVmu6khqI7Qflwb8k9FzMao2Unf+xg4uJ9qB+cpTUKh3ZxlInh+xrKzvzT6J3ADZ1qO2AZ8Xbyc=
+	t=1706353844; cv=none; b=eTXL6NA/M0Dlk9QWdTIr4vV7IueR4VRItpUW8yeGmFSp2cf5SosGBVe1nxVHCzuioRGqcVI5TGvkuWuMCI9qx8QpHCleO3mPi8OKop/XmlU2EUKHNlePY8i05vkvRXluLSGEULG2C5IfND3IUTAAwsgXTlsbTP3xLSBKtKAD4jQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706350838; c=relaxed/simple;
-	bh=ZIp07KLSbtqTKgIrZCzbzRih7jTMG+18gPMPyej+kaA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H+8T3lR1Dq4/7cGKphb20E7QZiBdjewN8QdkFA3jyIkJl3ZK01qhjHcf6tYW5S5EFnRTH1+xlxrnhcc7Motv/9hjGnDLjXnPoAcL90FW0ZZokWoZ1gKW/rmPh8khqmC1QeC9cd9VH61/47fa4OkEdmM9Tktx8rbjYXIH5Wbo7tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dhHElZAt; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706353844; c=relaxed/simple;
+	bh=lWD3Yu/iWduUcZjUVmjkV6YLZ0ZkiCzd01DXVfzdL0o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R7OZFYNN8G0235VbyOgnF7syzsEVJCizYU9X64SRjomzg0s0LNaZAwrMC3ePg2ZDfoLyZl5BIJXey9jHjlN5ejhVa0mpPl7GTtzXrs6n42xL7qQ+OHpDaovysIhhIqcAqbOUQg4Vu8XKHrpAD1XaQcSuWNoVFtgpFOXjgDnRvkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DMAcoNUf; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dhHElZAt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706350837; x=1737886837;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZIp07KLSbtqTKgIrZCzbzRih7jTMG+18gPMPyej+kaA=;
-  b=dhHElZAt9WdR/hy6R6svHYbhImQFm8t9rZDK2YknJW0TAjDUcxl9vv0z
-   GKlUJOm9UrBxvzaXuZ7hGeSO6Q5QTHp3ZVN1+h75jLD0Stl0MAn1ONu09
-   QkvNpW1kpANWegWafVnIzUIvHpHpYDSknlAioElSc9EVA5NuAOGC+s/Y/
-   gpb/B32x7NTFURZgW/mTwkZnNChlYM+6e3yN2jQDY7k29fGcELnCaRCx4
-   yXIK3US6/9EQhkQ0dqJohaR2kJPHivam5mjRJZb6eu+An1qK/VcVYZNMp
-   tTPwMhBWnQ6Tg41o+E2AZ9hxVYMslYwWXKhAlWxKfM7N/+gIfAiSv9c6a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="2539942"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="2539942"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 02:20:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="787359545"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="787359545"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2024 02:20:35 -0800
-From: Xin Li <xin3.li@intel.com>
-To: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: corbet@lwn.net,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	ravi.v.shankar@intel.com,
-	andrew.cooper3@citrix.com
-Subject: [PATCH] x86/fred: Let command line option "fred" accept multiple options
-Date: Sat, 27 Jan 2024 01:49:12 -0800
-Message-ID: <20240127094912.1489-1-xin3.li@intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DMAcoNUf"
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso939505276.2;
+        Sat, 27 Jan 2024 03:10:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706353841; x=1706958641; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lWD3Yu/iWduUcZjUVmjkV6YLZ0ZkiCzd01DXVfzdL0o=;
+        b=DMAcoNUfSuaS0dLOMq2X0RwumUb31UhTyf8pW2+JbpdqavBUY2jHaC3sWFdQaj6PZH
+         qS4WEAo2huhjafaWOEVN1/x+VUyoGHSie6n6qql3zAZ3jqIuLQjKQSjGzWDptF+m3W3q
+         H/aIfRVdIhM21XC+orP0/K3ygvsLyE3B+wTkHhTK+yOiCDCBBhlOlzSo9E501/hSkLlI
+         0zg5UESlY21kXpHrgZm0sZZhJmg3A1Twv76lruXpaLEgEPp7+iXpi/sPrHh8SvmhOxeB
+         c5C7h9Vfn9YVmexucAcXAYqQm/N92aG2GLSkEmZPYN/HOso3cnxqL+QE6HSjA9oCPwtP
+         /fIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706353841; x=1706958641;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lWD3Yu/iWduUcZjUVmjkV6YLZ0ZkiCzd01DXVfzdL0o=;
+        b=PhnABC+/8j16JNhnOTDdR7E4suIVEfAo9rSyzncD5SO3ovbgU+nOQNj5JM2u6/1t2y
+         gYQIPbqDU14xkE1hvbLQUEipeErobcPVA/uatLhhMdLPBcXSlDYiZMq0tY0qnSsEjhjG
+         A7Q5zplILs4DLHIxnohcgdHcBApzm/J+CD9wlRiIM3FQHe+Z6n9M3ecQQrHguw0DPHEk
+         cl0IfEhDKdShsuDFouKvK5sVl6l6fGtbfU3YPBavSkjcUFEmnyrK80pu0Dwus5/R5sSF
+         p7TAslDBLdPijX7XTBQ5WsnuldQ9uBX0mujRjaI3s4nT8rOB5joXh/zGJ4LnvRaPVPKo
+         LdJw==
+X-Gm-Message-State: AOJu0Yw0MHjMcbQtqP9c8TEPci65gib6TnyaTFZlm5E54XOTsAUtMj4v
+	+dZ/Z9NwecQIZh+67PUvMzYWZcLbdGI98JUU5X3a3BDtV4IB1AWIqso4H31prZJ+fduU4frXjFY
+	MBSBzY3aAG0D0HWwjCgfLjfjTvNg=
+X-Google-Smtp-Source: AGHT+IE1vSzKK+O91qDqFt2y1OcufDzXdBHUga3KuwXkrrUbqgzpQs+SDOyDthoUk8FPoeOW8XBic/ie3g07/2XopM4=
+X-Received: by 2002:a25:8141:0:b0:dc2:4ab7:3d81 with SMTP id
+ j1-20020a258141000000b00dc24ab73d81mr727861ybm.96.1706353841483; Sat, 27 Jan
+ 2024 03:10:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240126045220.861125-1-hayatake396@gmail.com> <fb90ae9c-1f83-424c-878a-8b7e472bb6f0@molgen.mpg.de>
+In-Reply-To: <fb90ae9c-1f83-424c-878a-8b7e472bb6f0@molgen.mpg.de>
+From: takeru hayasaka <hayatake396@gmail.com>
+Date: Sat, 27 Jan 2024 20:10:30 +0900
+Message-ID: <CADFiAcKJyZPDbbLoH11OpaLA5+ny-QmakN5d3KvAO5A_zQbfAg@mail.gmail.com>
+Subject: Re: [Intel-wired-lan] [PATCH net-next v3] ethtool: ice: Support for
+ RSS settings to GTP from ethtool
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-doc@vger.kernel.org, vladimir.oltean@nxp.com, 
+	linux-kernel@vger.kernel.org, laforge@gnumonks.org, 
+	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org, 
+	mailhol.vincent@wanadoo.fr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Let command line option "fred" accept multiple options to make it
-easier to tweak its behavior.
+Hi Paul-san
 
-Currently two options 'on' and 'off' are allowed, and the default
-behavior is to disable FRED. To enable FRED, append "fred=on" to
-the kernel command line.
+> This patch was sent at least four(?) times to the mailing list.
 
-Suggested-by: Borislav Petkov (AMD) <bp@alien8.de>
-Signed-off-by: Xin Li <xin3.li@intel.com>
----
- .../admin-guide/kernel-parameters.txt         |  7 +++--
- arch/x86/kernel/cpu/common.c                  |  3 ---
- arch/x86/kernel/traps.c                       | 26 +++++++++++++++++++
- 3 files changed, 31 insertions(+), 5 deletions(-)
+Oh, I apologize for that. I had sent it several times due to issues
+caught by the CI.
+I wasn't aware of the proper etiquette, so your guidance is much appreciate=
+d!
+I will tag it as `[PATCH net-next v3 RESENT]` next time.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c6c1a2c79835..bca252946e5e 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1539,8 +1539,11 @@
- 			Warning: use of this parameter will taint the kernel
- 			and may cause unknown problems.
- 
--	fred		[X86-64]
--			Enable flexible return and event delivery
-+	fred=		[X86-64]
-+			Enable/disable Flexible Return and Event Delivery.
-+			Format: { on | off }
-+			on: enable FRED when it's present.
-+			off: disable FRED, the default option in early stage.
- 
- 	ftrace=[tracer]
- 			[FTRACE] will set and start the specified tracer
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 5ed968c0f9c5..cf82e3181f7a 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -1484,9 +1484,6 @@ static void __init cpu_parse_early_param(void)
- 	char *argptr = arg, *opt;
- 	int arglen, taint = 0;
- 
--	if (!cmdline_find_option_bool(boot_command_line, "fred"))
--		setup_clear_cpu_cap(X86_FEATURE_FRED);
--
- #ifdef CONFIG_X86_32
- 	if (cmdline_find_option_bool(boot_command_line, "no387"))
- #ifdef CONFIG_MATH_EMULATION
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index cf198d9e98b2..1993e3bba1d1 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -1402,8 +1402,34 @@ DEFINE_IDTENTRY_SW(iret_error)
- }
- #endif
- 
-+/* Do not enable FRED by default in its early stage. */
-+static bool enable_fred __ro_after_init = false;
-+
-+#ifdef CONFIG_X86_FRED
-+static int __init fred_setup(char *str)
-+{
-+	if (!str)
-+		return -EINVAL;
-+
-+	if (!boot_cpu_has(X86_FEATURE_FRED))
-+		return 0;
-+
-+	if (!strcmp(str, "on"))
-+		enable_fred = true;
-+	else if (!strcmp(str, "off"))
-+		enable_fred = false;
-+	else
-+		pr_warn("invalid FRED option: 'fred=%s'\n", str);
-+	return 0;
-+}
-+early_param("fred", fred_setup);
-+#endif
-+
- void __init trap_init(void)
- {
-+	if (boot_cpu_has(X86_FEATURE_FRED) && !enable_fred)
-+		setup_clear_cpu_cap(X86_FEATURE_FRED);
-+
- 	/* Init cpu_entry_area before IST entries are set up */
- 	setup_cpu_entry_areas();
- 
+> Should you sent another iteration, please do not break lines, just becaus=
+e a sentence ends, and please add a blank line between paragraphs.
 
-base-commit: a9f26154bf5478fc155309fc69128415f3a1be08
--- 
-2.43.0
+Understood. I will make sure to do that!
 
+Takeru
+
+2024=E5=B9=B41=E6=9C=8826=E6=97=A5(=E9=87=91) 20:12 Paul Menzel <pmenzel@mo=
+lgen.mpg.de>:
+>
+> Dear Takeru,
+>
+>
+> This patch was sent at least four(?) times to the mailing list. Could
+> you please sent a patch tagged with [RESENT] or a v4, so there won=E2=80=
+=99t be
+> several replies to different threads.
+>
+> One nit below:
+>
+> Am 26.01.24 um 05:52 schrieb Takeru Hayasaka:
+> > This is a patch that enables RSS functionality for GTP packets using
+> > ethtool.
+> > A user can include her TEID and make RSS work for GTP-U over IPv4 by
+> > doing the following:
+> > `ethtool -N ens3 rx-flow-hash gtpu4 sde`
+> > In addition to gtpu(4|6), we now support gtpc(4|6),gtpc(4|6)t,gtpu(4|6)=
+e,
+> > gtpu(4|6)u, and gtpu(4|6)d.
+>
+> Should you sent another iteration, please do not break lines, just
+> because a sentence ends, and please add a blank line between paragraphs.
+>
+> [=E2=80=A6]
+>
+>
+> Kind regards,
+>
+> Paul
