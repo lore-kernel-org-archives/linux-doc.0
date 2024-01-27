@@ -1,88 +1,87 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AC81A723;
-	Sat, 27 Jan 2024 21:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.224
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7AC1DDCF
+	for <linux-doc@vger.kernel.org>; Sat, 27 Jan 2024 22:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706390422; cv=none; b=Pz3jM7kJ4WWT+f+VvdrjXZ3PWUBBy9ZFF4RKYiI/sXq9FPru8+Ymu82gUCCyy/U4kHJNUnj8PGY5Co5H+I08aeoTUyl2XJmk3PpoqQnKUNEIw2x4Uj2zQ0XX1FPM7jz18E4wkBCXNSgAnJUIQNzx6O2x5Aj54YCpDvv3EV5AvUs=
+	t=1706395307; cv=none; b=Wzs/q9xEBqShfbFeKU646jJqscFw6wDZrf1hcfxoCnhIpDFZav+1fVkln0W93hdMhapvFsA2vbXPbd48x507PwGYEexSa3rVRbVGstP3ebYvrZxUPXavE95Nk4OwaKVR+JgFUZuU94wSZB/p2b9sd793YxZ3vECRy1Uu4IbuFaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706390422; c=relaxed/simple;
-	bh=ZwsAmgZApPQl6UcX4NZ85FITCeQi1lWhLsxv2X98pc4=;
+	s=arc-20240116; t=1706395307; c=relaxed/simple;
+	bh=Di8aXsrN+brLHErJqzdM/XadOIBYxRZNXiwPRnjcbfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qmCSIo3Sn7dquWQTGodkWRn05kfD3uVj1AH8JbVWkOTS8fX91zJy+UQpSzR6aMChCu0gzMlG/IVEHoMkj95HYuFnBACWxPCnLr8v5fhfYzIBNG1wOhQg6VZnYJH6Y53rj9V+2GReQASIeHdCn5Adhxy2NaGfgIfwAivjVxjoMHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=AU/CnMFS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ixsic8fM; arc=none smtp.client-ip=66.111.4.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=B89rO9lPb9KNcgZXbPgxLzhGfei7kRQep0zebT4hmRvBSddbPQNwpgf4Q/T3JbW66/O1YfxWYRonwpQoGdHUD/gsJJI9oFQMfIo5Cg9qUESx7U7DTeLVk4m3sGYp8EVGhcuVjwdPSgcN2jEQr0YnQ7NjJJIIS1JneXNAL8d6Ifo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=drNIs0U8; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="AU/CnMFS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ixsic8fM"
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 525C15808BF;
-	Sat, 27 Jan 2024 16:20:19 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Sat, 27 Jan 2024 16:20:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1706390419; x=1706397619; bh=vl7A5tB7tb
-	/TqrGN7zKDKDidJXhLI9itkoXMD7OD1W8=; b=AU/CnMFSB3VE2OditYKkN9RDmL
-	a09lnP+jf2t0+QlPmNGaKX2Bo46pu2wwmXltSB1TC+O8JRxoUeowKVhe/G3+PJxD
-	N5QkVK7WmXicWGBQ9Kxbc0V9F5GDiWEFTw5HgqZ3kUDPduuWH7WBBGWI4Bra0b7u
-	28PIAvnI2h13n7b0PdIjFl1VGCI4sRgnZE4ttaG7yhiCeaB/+PEfsX4CmHC8KLct
-	GoZEBMI6boF386ZpQYXuM4lOXn0qJ+ZovU994CWhdcb6gVok7tzpZ1/X302qfWIm
-	K0VGMzvRXM1Of4Tr8XdetUCnXkT075FQDhVbY0APrBoe0O1s5uAseDT7Z4TQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1706390419; x=1706397619; bh=vl7A5tB7tb/TqrGN7zKDKDidJXhL
-	I9itkoXMD7OD1W8=; b=ixsic8fM907SI64oZJ1hXuRpDwLdNXJQGJ7ngk7ig2KD
-	nHfufxLq2FqokSBdpKQ5PyZ41S1VHcKLphDasiKKwtYgXsKtOVkqXqFtnbD9SqAa
-	911zpe81neI1J58vF5IUP5YH+IqhJB5iJTHRkI8lzrAYOFEJlo/fmQ3P4PaoTIkG
-	lLQZjD4iEeEkNNrunVdujhXfz2Ae6lfsM9OcHdRWeItImG57ZEiJhMGelm0rLMVd
-	PEo2d8J2U6sZiu5hDRi5f/VGUJy1nE2V8XWLE6hQvnuNj6mGkaQn2SH50FDQiwJd
-	SIccKQaTRMr6uWVxxAlH9vtGY+aHGhK/s9FnGGKKzw==
-X-ME-Sender: <xms:knO1ZXS1eEDL5fsf2yvykeaFl-i759gkOgMq90hKm8bDl1Bl5VkWyw>
-    <xme:knO1ZYyWUQ196Li0y2qx7GVxrh9Eaqo-lgLMC7dl4SrjqaWKacwFApqI_2NmS5No1
-    U_rhx0Aa_cuTA>
-X-ME-Received: <xmr:knO1Zc05byHj2SHn5D9W0G-Y1yZZ61F7Ap779-2H7kGvs8vJE0nZiOgGcxgW>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelledgudegiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgv
-    ghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehge
-    dvvedvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhroh
-    grhhdrtghomh
-X-ME-Proxy: <xmx:knO1ZXA2KX4kRKj_eSzAT1yLnZ7VpeYDT1mdVGbTKN26DgCLdU5J0A>
-    <xmx:knO1ZQiS-Em0pL-1f4xRU4d2FcAsBdBNYTB8FCSuIPLAYrdt30zD8A>
-    <xmx:knO1Zbr5T-IlXYO8UwelejQ07wUHEuPtkT-nmGo1aj8Bk00KlDXFrQ>
-    <xmx:k3O1ZZCnrFwC3_SnFMBTlBtg2ZxVxebxlmAhMFnrU6DGtq_ZUV1t0A>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 27 Jan 2024 16:20:18 -0500 (EST)
-Date: Sat, 27 Jan 2024 13:20:17 -0800
-From: Greg KH <greg@kroah.com>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: kovalev@altlinux.org, stable@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org, keescook@chromium.org,
-	sfrench@samba.org, corbet@lwn.net, natechancellor@gmail.com,
-	ndesaulniers@google.com, "pc@manguebit.com" <pc@manguebit.com>,
-	"Mohamed Abuelfotoh, Hazem" <abuehaze@amazon.com>,
-	Shyam Prasad N <nspmangalore@gmail.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Darren Kenny <darren.kenny@oracle.com>, linkinjeon@kernel.org
-Subject: Re: [PATCH 0/2] smb: client: fix "df: Resource temporarily
- unavailable" on 5.10 stable kernel
-Message-ID: <2024012708-satchel-canteen-d949@gregkh>
-References: <20240126193143.245122-1-kovalev@altlinux.org>
- <2024012613-woozy-exhume-7b9d@gregkh>
- <472d92aa-1b49-43c9-a91f-80dfc8f25ad3@oracle.com>
- <57fda449-0d18-485a-0858-39f48722fe27@basealt.ru>
- <8ad7fac4-dcd5-4ef7-8e40-0c9fd1c6fd0a@oracle.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="drNIs0U8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706395305; x=1737931305;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Di8aXsrN+brLHErJqzdM/XadOIBYxRZNXiwPRnjcbfc=;
+  b=drNIs0U8Y7kWB/V5t2jCPD7GxVfQ8XgUPSYMeTljXDp8n2xT6Ns/8EII
+   aGa9tC7efoIiRdI41ZU1ApTsIPxrsOMy9Eifkq7abg5qJZ6DoiVAUDXBM
+   I4OFMzX5owz0vkiBZ1ZQYEmElbV3MNoBxiEFGSilabLYVLzd9zh1btY5j
+   2tmPx4FBaZrmls36H+xBB3vbGih1tlW6a/Sffcjv4JK9cRm8u2SGWqXKf
+   t/5doAp/BI5r85KRweYRvuMSv4BAwv6yD33XTfLJDjS1J+IQ9JJpge4l6
+   /6OKF4l/yFfL2MDr8DQanlQusYPSNA9k8gsAqBK3KrpIxrSLL2X2HFqcK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2609679"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="2609679"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 14:41:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="35775781"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 14:41:06 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id EB5E111FB1F;
+	Sun, 28 Jan 2024 00:41:02 +0200 (EET)
+Date: Sat, 27 Jan 2024 22:41:02 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O 'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC 1/1] kernel-doc: Support arrays of pointers struct fields
+Message-ID: <ZbWGfgHoZgDyXDNn@kekkonen.localdomain>
+References: <20240126-gix-mtk-warnings-v1-17-eed7865fce18@chromium.org>
+ <20240127185311.391940-1-sakari.ailus@linux.intel.com>
+ <aa94772b-7010-4bba-b099-d3b8fe1b97aa@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,26 +90,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8ad7fac4-dcd5-4ef7-8e40-0c9fd1c6fd0a@oracle.com>
+In-Reply-To: <aa94772b-7010-4bba-b099-d3b8fe1b97aa@infradead.org>
 
-On Sat, Jan 27, 2024 at 06:59:15PM +0530, Harshit Mogalapalli wrote:
-> Hi Kovalev,
-> 
-> On 27/01/24 1:32 pm, kovalev@altlinux.org wrote:
-> > Hi,
-> > 
-> > 27.01.2024 09:42, Harshit Mogalapalli wrote:
-> > > We can reproduce this on 5.15.148(latest 5.15.y) and Mohamed
-> > > reported this on 6.1.y, so we need backports there as well.
-> > 
-> > in the 6.1.72 kernel, this problem was fixed by the commit [1] "smb3:
-> > Replace smb2pdu 1-element arrays with flex-arrays", which was proposed
-> > in this series of patches.
-> > 
-> Thanks for sharing this, I didnot notice that the above commit was
-> backported to 6.1.72.
-> 
-> I think we still need fixing in 5.15.y as the commit eb3e28c1e89b ("smb3:
-> Replace smb2pdu 1-element arrays with flex-arrays") is not in 5.15.148
+Hi Randy,
 
-Patches gladly accepted :)
+On Sat, Jan 27, 2024 at 01:01:01PM -0800, Randy Dunlap wrote:
+> Hi Sakari,
+> 
+> On 1/27/24 10:53, Sakari Ailus wrote:
+> > In a rather unusual arrangement in include/media/v4l2-vp9.h struct
+> > v4l2_vp9_frame_symbol_counts has fields that are arrays of pointers, not a
+> > pointer to an array, which is what's usually done.
+> > 
+> 
+> Yet another kernel-doc bug. I have a list of 5 or 6 or 8 bugs that are
+> similar to this one, but I didn't have this one.
+
+:-)
+
+Regular expressions are not best for parsing C. It seems to be doable in
+practice but imperfect at the same time.
+
+> 
+> 
+> > Add support for such arrays of pointers to kernel-doc.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> 
+> Did this work for you?
+> I still see the same warnings as before this patch is applied.
+
+Hmm. How did you test this? I did:
+
+	$ scripts/kernel-doc include/media/v4l2-vp9.h > /dev/null
+
+Without this patch I do get a bunch of errors, with this patch there's no
+output. The produced kernel-doc seemed to be fine, too (with the
+redirection removed).
+
+> 
+> 
+> > ---
+> > Hi Ricardo,
+> > 
+> > I tried to ram it together with processing the rest but it seemed
+> > to complicate processing the usual fields.
+> > 
+> >  scripts/kernel-doc | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> > index e8aefd258a29..728b1ffc0478 100755
+> > --- a/scripts/kernel-doc
+> > +++ b/scripts/kernel-doc
+> > @@ -1509,6 +1509,15 @@ sub create_parameterlist($$$$) {
+> >  	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
+> >  	    save_struct_actual($param);
+> >  	    push_parameter($param, $type, $arg, $file, $declaration_name);
+> > +	} elsif ($arg =~ m/\(.+\)\s*\[/) {
+> > +	    # array-of-pointers
+> > +	    $arg =~ tr/#/,/;
+> > +	    $arg =~ m/[^\(]+\(\s*\*\s*([\w\[\]\.]*?)\s*(\s*\[\s*[\w]+\s*\]\s*)*\)/;
+> > +	    $param = $1;
+> > +	    $type = $arg;
+> > +	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
+> > +	    save_struct_actual($param);
+> > +	    push_parameter($param, $type, $arg, $file, $declaration_name);
+> >  	} elsif ($arg) {
+> >  	    $arg =~ s/\s*:\s*/:/g;
+> >  	    $arg =~ s/\s*\[/\[/g;
+> 
+> 
+> Thanks.
+
+-- 
+Regards,
+
+Sakari Ailus
