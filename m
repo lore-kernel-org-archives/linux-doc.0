@@ -1,24 +1,37 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DE56116;
-	Sun, 28 Jan 2024 05:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162098BF7;
+	Sun, 28 Jan 2024 06:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706419749; cv=none; b=IZoyTbywdkIqPt4musehZV9iyu/4LyesVqjcB7Xp77ffFyBE8JNY6afC/AGHkgY0683eeDOuwxsDp0vJuNIYOdGTiJF77p4dwzcCNjByWGQuKmPfjn2G+MIwkCyZMfdKQ/inbwYVnw1OVnQckwxxEP2v1YGe7OfceMwkXi5I78A=
+	t=1706423214; cv=none; b=TI4MQQy3gKqoJzvtWzsyPpoZLAdleloTauq6Cn6QAr8OhLwNceknuuGY0O+M4XtSSo+SLbibsn/QZcuoiM0evFCjh06lHTGi1SYsANpJWcTzXZL6jjFh//8S88o/M7mo6PthIUQmd1TPHer/K1HiIYvbzuF/xbYajB7mO4PWRqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706419749; c=relaxed/simple;
-	bh=RuBcm8S1vTe9HAWaPid9zok/yeAdJ2G0EHaTlXq9CwA=;
+	s=arc-20240116; t=1706423214; c=relaxed/simple;
+	bh=u06AxDE/ERNHphJgllEbxmKf0TouXDyp3C/4i66D+lI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DKOspgeHDEDoaWrNceFPaqE8GbUApn/MmEZGipjpl5XlF42oqBsThmYNa9qISHlyHD9z9RP0BPB+NlPfdb1a0wVGaNWPPXiLkcKxLJIX163UWOml30n/QVWfNvy2u0AjXtOidjOTqxhcdqvSSdVL36nsfcGPGRaL9es8tb1WWhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rTxiv-0001cd-BH; Sun, 28 Jan 2024 06:28:53 +0100
-Message-ID: <a373a71c-f5b6-471b-b7d2-b1f21dc505ca@leemhuis.info>
-Date: Sun, 28 Jan 2024 06:28:52 +0100
+	 In-Reply-To:Content-Type; b=TGfIdagKuXajRN+9hSY25unMcZPn4dpaTyrOOz19AczQKdQBj0dwsYj7elHwgNnn2mHXjRnzUjb4ryDv33RM6WO2XyZjGTtH1e1zODzplJwkzCgmkbQLuxk70JdkqUq5X6BIydHp29fz2HF4NlYwgiOEuNoxnyxYOp67Oz9g6g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Vdizl39s; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Vdizl39s"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=3rA06n96WGLK2ibap/ECyjeIxpRARSJPprcl5Inbv4k=; b=Vdizl39swonXgRvIB3URmUUHeI
+	bU49yxcR7zVIiSc+jJ7z1+W7uBnuwYkFkzx+rSOHshxVp0MuF4qE61z3ttgzPzrR/hm8e1DvWOC9m
+	4HCy86c7mi8lRhJLoB21mthAab4RNQFzltv4HHl+Bc1+ROXTNDx1C+/bH3ooO2fUUVBXBqgWBgbxh
+	L9vgTvqpydua42924Uqwe+uYPQ/8DkrhbqnYA4M/Vghs3K2Dky6IYwY92MWMjgnjR/P6jDH6OZZAH
+	IDavZxILp8sXVhlzwkWF2cfWS0zTxu++nzTTUJ1c6Vmy95Fxsna/uPU+Kf0ZP0QbN1ecMz3fqHYOt
+	+wcCZylQ==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rTycq-00000008r9L-3te3;
+	Sun, 28 Jan 2024 06:26:41 +0000
+Message-ID: <7a0f057c-1544-49e2-9bbe-a46eb33dc8ac@infradead.org>
+Date: Sat, 27 Jan 2024 22:26:40 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -26,100 +39,92 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: More detailed text about bisecting Linux kernel regression --
- request for comments and help
-Content-Language: en-US, de-DE
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Greg KH <gregkh@linuxfoundation.org>
-References: <c763e15e-e82e-49f8-a540-d211d18768a3@leemhuis.info>
- <ZbW5emVndDNZlPTg@archie.me>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <ZbW5emVndDNZlPTg@archie.me>
+Subject: Re: [PATCH v3 1/1] coding-style: recommend split headers instead of
+ kernel.h
+Content-Language: en-US
+To: Yueh-Shun Li <shamrocklee@posteo.net>, Jonathan Corbet <corbet@lwn.net>
+Cc: Hu Haowen <src.res.211@gmail.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <107b6b5e-ca14-4b2b-ba2e-38ecd74c0ad3@infradead.org>
+ <20240108201851.191604-1-shamrocklee@posteo.net>
+ <20240108202217.191839-1-shamrocklee@posteo.net>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240108202217.191839-1-shamrocklee@posteo.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1706419747;f850648e;
-X-HE-SMSGID: 1rTxiv-0001cd-BH
 
-On 28.01.24 03:18, Bagas Sanjaya wrote:
-> On Wed, Jan 24, 2024 at 01:19:16PM +0100, Thorsten Leemhuis wrote:
->> .. _bisectstart_bissbs:
->>
->> * Start the bisection and tell Git about the versions earlier
->> established as 'good' and 'bad'::
->>
->>     cd ~/linux/
->>     git bisect start
->>     git bisect good v6.0
->>     git bisect bad v6.1.5
+
+
+On 1/8/24 12:22, Yueh-Shun Li wrote:
+> In section "18) Don't re-invent the kernel macros" in "Linux kernel
+> coding style":
 > 
-> If stable release tag is supplied instead as "good" version instead (e.g.
-> v6.0.1), as in many regression cases, git will ask to test the merge base
-> instead, which is corresponding mainline release (in this case v6.0).
+> Recommend reusing macros from headers inside include/linux, instead of
+> the obsolete include/linux/kernel.h
+> 
+> Change wording
+> 
+> - "The header file contains macros" -> "the header files provide macros"
+>   Some macros are intended to use inside the header file only, or are
+>   considered the implementation detail of other facilities. Developers
+>   are expected to determine if a macro is meant to be used outside the
+>   header file.
+> 
+> Signed-off-by: Yueh-Shun Li <shamrocklee@posteo.net>
 
-That should not happen if people follow the guide, as this is avoided by
-an earlier step:
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
-"'"
-.. _rangecheck_bissbs:
+> ---
+>  Documentation/process/coding-style.rst | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 6db37a46d305..2a5c4f4c568c 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -1048,27 +1048,29 @@ readable alternative if the call-sites have naked true/false constants.
+>  Otherwise limited use of bool in structures and arguments can improve
+>  readability.
+>  
+> +
+>  18) Don't re-invent the kernel macros
+>  -------------------------------------
+>  
+> -The header file include/linux/kernel.h contains a number of macros that
+> -you should use, rather than explicitly coding some variant of them yourself.
+> +The header files in the ``include/linux`` directory provide a number of macros
+> +that you should use, rather than explicitly coding some variant of them
+> +yourself.
+> +
+>  For example, if you need to calculate the length of an array, take advantage
+> -of the macro
+> +of the macro ``ARRAY_SIZE()`` from ``include/linux/array_size.h`` by
+>  
+>  .. code-block:: c
+>  
+> -	#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+> +	#include <linux/array_size.h>
+> +	ARRAY_SIZE(x) // The size of array x
+>  
+>  Similarly, if you need to calculate the size of some structure member, use
+> +``sizeof_field()`` from ``include/linux/stddef.h``.
+>  
+> -.. code-block:: c
+> -
+> -	#define sizeof_field(t, f) (sizeof(((t*)0)->f))
+> -
+> -There are also min() and max() macros that do strict type checking if you
+> -need them.  Feel free to peruse that header file to see what else is already
+> -defined that you shouldn't reproduce in your code.
+> +There are also ``min()`` and ``max()`` macros in ``include/linux/minmax.h``
+> +that do strict type checking if you need them. Feel free to search across and
+> +peruse the header files to see what else is already defined that you shouldn't
+> +reproduce in your code.
+>  
+>  
+>  19) Editor modelines and other cruft
 
-* Determine the kernel versions considered 'good' and 'bad' throughout
-this guide:
-
-[...]
-
-  * Some function stopped working when updating from 6.0.11 to 6.1.4?
-Then for the time being consider 'v6.0' as the last 'good' version and
-'v6.1.4' as the 'bad' one. Note, it is at this point an assumption that
-6.0 is fine that will be checked later.
-
-"'"
-
-Ciao, Thorsten
-
-
+-- 
+#Randy
