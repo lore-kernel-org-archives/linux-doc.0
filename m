@@ -1,94 +1,125 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646E46116;
-	Sun, 28 Jan 2024 04:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DE56116;
+	Sun, 28 Jan 2024 05:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706417633; cv=none; b=eM0zjTPv7YxiKEUc8S2wuoiSmWBtscH0OuELLLNHpWBjgxHXiG5a+9sUOFJ/zeFQNWX9xiBRTTjos/hng3kvwtMVSiVoW5YLYjaXlSBp4ZpyxCwY0mdQr60zQBcwH9+5RwMi9AWePZ4EAvpBl0zeebql1HtO25yelkpUJXoEWaE=
+	t=1706419749; cv=none; b=IZoyTbywdkIqPt4musehZV9iyu/4LyesVqjcB7Xp77ffFyBE8JNY6afC/AGHkgY0683eeDOuwxsDp0vJuNIYOdGTiJF77p4dwzcCNjByWGQuKmPfjn2G+MIwkCyZMfdKQ/inbwYVnw1OVnQckwxxEP2v1YGe7OfceMwkXi5I78A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706417633; c=relaxed/simple;
-	bh=N8OAfAAMd64feZpXPmfhCadvsAZERJxQmTW0JK/hyXM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y9oVjaIHvC/gzL7zi4kjuw9kMBo23vhya5vkoSghNEGL/6A2DY2c2OJuRXM2JqmKqNuN0TGrOyCQ2gEUgMyXoNIS+NOyPqSa+2o3u5kcRiD8iGvu4EnVXrVxyf8sfwBTysa6qS2or5ljWvkwRfkVO2e7vbJA5f67la0+AlLRLE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1gFmqsBx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1gFmqsBx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Jhwv+0/QNmEjIq4GNRuX+cmD/88pv8YEVncUT+Cq1So=; b=1gFmqsBx4D2AYNJpbqL8sLgZO9
-	n9iKt2Z100zcdDyEYD6MGmW8i+7ftVcnbCfKWoF7Iguf8rSlPz8ULyz4UTR2kK5cq0QVdC3dpiewj
-	7qm2abZZ9bWjXEbnKknRlJb+/9XT5aLIZZS2GwpIUr5CncMhCHjNsJs+C0oLGRyeBFMUiGWM0RzEC
-	MdwpmJf5NaZKgIjyDFHwnroASFlDaEHagWkimlz1BJYGOwviOf32P5E1uxOkAqjrcLLwszu4RBip6
-	hFhgAw0qSJDIBEVHnkzBWCc4+g29cBPknnaK/bb/+ZYyeswb2E9sq3uABeyy3PvMwP6rcS56Y0V+m
-	OaKUWEpw==;
-Received: from [50.53.50.0] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTxAz-00000008jQB-29YC;
-	Sun, 28 Jan 2024 04:53:49 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Krishna Kurapati <quic_kriskura@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Subject: [PATCH v2] usb: gadget: fix max_segment_size malformed table
-Date: Sat, 27 Jan 2024 20:53:47 -0800
-Message-ID: <20240128045347.25909-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1706419749; c=relaxed/simple;
+	bh=RuBcm8S1vTe9HAWaPid9zok/yeAdJ2G0EHaTlXq9CwA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DKOspgeHDEDoaWrNceFPaqE8GbUApn/MmEZGipjpl5XlF42oqBsThmYNa9qISHlyHD9z9RP0BPB+NlPfdb1a0wVGaNWPPXiLkcKxLJIX163UWOml30n/QVWfNvy2u0AjXtOidjOTqxhcdqvSSdVL36nsfcGPGRaL9es8tb1WWhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rTxiv-0001cd-BH; Sun, 28 Jan 2024 06:28:53 +0100
+Message-ID: <a373a71c-f5b6-471b-b7d2-b1f21dc505ca@leemhuis.info>
+Date: Sun, 28 Jan 2024 06:28:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: More detailed text about bisecting Linux kernel regression --
+ request for comments and help
+Content-Language: en-US, de-DE
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Greg KH <gregkh@linuxfoundation.org>
+References: <c763e15e-e82e-49f8-a540-d211d18768a3@leemhuis.info>
+ <ZbW5emVndDNZlPTg@archie.me>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <ZbW5emVndDNZlPTg@archie.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1706419747;f850648e;
+X-HE-SMSGID: 1rTxiv-0001cd-BH
 
-Sphinx reports a malformed table due to the table begin/end line
-segments being too short for the word "max_segment_size", so
-extend them by one more '=' character to prevent the error.
+On 28.01.24 03:18, Bagas Sanjaya wrote:
+> On Wed, Jan 24, 2024 at 01:19:16PM +0100, Thorsten Leemhuis wrote:
+>> .. _bisectstart_bissbs:
+>>
+>> * Start the bisection and tell Git about the versions earlier
+>> established as 'good' and 'bad'::
+>>
+>>     cd ~/linux/
+>>     git bisect start
+>>     git bisect good v6.0
+>>     git bisect bad v6.1.5
+> 
+> If stable release tag is supplied instead as "good" version instead (e.g.
+> v6.0.1), as in many regression cases, git will ask to test the merge base
+> instead, which is corresponding mainline release (in this case v6.0).
 
-Documentation/usb/gadget-testing.rst:459: ERROR: Malformed table.
-Text in column margin in table line 9.
+That should not happen if people follow the guide, as this is avoided by
+an earlier step:
 
-Fixes: 1900daeefd3e ("usb: gadget: ncm: Add support to update wMaxSegmentSize via configfs")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Krishna Kurapati <quic_kriskura@quicinc.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Sergei Shtylyov <sergei.shtylyov@gmail.com>
----
-v2: s /to error/the error/ in the patch description.
+"'"
+.. _rangecheck_bissbs:
 
- Documentation/usb/gadget-testing.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+* Determine the kernel versions considered 'good' and 'bad' throughout
+this guide:
 
-diff -- a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -448,7 +448,7 @@ Function-specific configfs interface
- The function name to use when creating the function directory is "ncm".
- The NCM function provides these attributes in its function directory:
- 
--	===============   ==================================================
-+	================  ==================================================
- 	ifname		  network device interface name associated with this
- 			  function instance
- 	qmult		  queue length multiplier for high and super speed
-@@ -458,7 +458,7 @@ The NCM function provides these attribut
- 			  Ethernet over USB link
- 	max_segment_size  Segment size required for P2P connections. This
- 			  will set MTU to (max_segment_size - 14 bytes)
--	===============   ==================================================
-+	================  ==================================================
- 
- and after creating the functions/ncm.<instance name> they contain default
- values: qmult is 5, dev_addr and host_addr are randomly selected.
+[...]
+
+  * Some function stopped working when updating from 6.0.11 to 6.1.4?
+Then for the time being consider 'v6.0' as the last 'good' version and
+'v6.1.4' as the 'bad' one. Note, it is at this point an assumption that
+6.0 is fine that will be checked later.
+
+"'"
+
+Ciao, Thorsten
+
+
