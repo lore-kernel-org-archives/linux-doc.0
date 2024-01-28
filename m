@@ -1,137 +1,138 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBAC1F93F;
-	Sat, 27 Jan 2024 23:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773C1241E7;
+	Sun, 28 Jan 2024 00:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706396494; cv=none; b=P7Jb4VOMNVRT5Lc/a+bjsMj63WIg+8TlA2nr7ysWDyeDRqCv5nVEaVhbTUVtmPhnNdkJyRrdPFj3RsY10BHPvs/lPF+uzhjhT3anN7qlsqWDIrp4auJiG8YXqZLXZjG43a9O0/2wpBFjfjdQ9avuCYK3Bi9Jh7m9qpvPqsLGCEI=
+	t=1706400032; cv=none; b=LE9LCNyVvejcOnxre+ai5KWhWFJIjgP6q2flZyuCM/uZaqHFGZcDqDqqQc2LjSp/5u344Lhx/eX8aEUj1w5vr27d51DawUjDc4qJZemK519fHX8sVF3/H2F/nFAzoUPZAhmQ108eL7p8RGSqpzqhWX1Zgh7ibwJLUk+pDK4eZEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706396494; c=relaxed/simple;
-	bh=HQMTgPB4Bhpi6XTnDbAxXcr86RjC0yJcJ4MlTGyCRJA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=vByzMnmkPalTqv3JQOB2QamBYo+tGWtP+tV1532BILz5KpK2mWY70BXav3dWS5aRSEmNd2bbG0eoAG4fz8b75CIwz4m3PbWAyOP5ado0kNbylgTyVPV1K5SVbdPiMqyOYWO+DFWaOtxnTXbFXXPCGU1OJ+vn+o3LMzNrQ3lDE/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f3D7F0cN; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1706400032; c=relaxed/simple;
+	bh=jWFhcZWzzkHMKynjUE+bOduJBsCkVYwxGvAAyoWuIjM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dbR5xRVu8QTQax3WLZZOej5gyLvk7qo6sK6G2xFZT+snt2I+3dlNLbwfdYuCrRGGisMh5zzyzTgkCpDYmCfspp2XpoNz9W1+IVB2iJ0SUZENmITW04GkEJeQbIrWf0PrwHng6hbUDvWeDiOFQNCYIj9X1jamJY4Qw2a8tOHT5aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LNYvBTbB; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f3D7F0cN"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-51028acdcf0so1739089e87.0;
-        Sat, 27 Jan 2024 15:01:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LNYvBTbB"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2900c648b8bso1205956a91.3;
+        Sat, 27 Jan 2024 16:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706396490; x=1707001290; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N3PtoOCmflXE8JrM44LwtaHSMNzcJ3eR+Esxbam8yVg=;
-        b=f3D7F0cN6227EU//2JzlSDOIKY/ezUigjsNgebcu4VF4MlPXvEsoxqmHSCwDaoXy7F
-         8pUUUnU1//oHObBsvHBcS4aHwoFYvqEU7KDLvDcsXiRLrmOzKN2bFmCaiuzY4JwOi7d8
-         17a9M9l8cPonHek/25o9d+wNfaWVT+O5z/bSJ0/NaNbGp2uQpjNM8r9oDAjwy64FKsuI
-         k0LJGGumZ4SfcWtxiq+SeoIM8AZ+9fpIp4h/OoSQ5j4pyDtfeqyhz8YFofMl3Vev8XjP
-         o0P7G2riYXWfI4Yqr+H9v/DjJUJkLYbi1dSxJ2TQ67Q7W+OG8THEjZX+Y2oC3Dr2oGqq
-         dSSQ==
+        d=gmail.com; s=20230601; t=1706400028; x=1707004828; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hKBatOeFtgBc38RfQF1Wg8gY9lXRRUPPaojugjidloI=;
+        b=LNYvBTbBaqAmv6n4Qjhb7hWDcoUrIEc3CmZA735aNYCGJq+r0VRF1vbRPxPIlRqqg3
+         hFaKNwar3GB4Dk1MrnVfkolAfMwR2J0axSSloJ++BQAOKdwhgL95LJHG5mJ2TlmkWo7Z
+         kmr6fwBXLBPxIvTQel7r12/N+dguA9X71h9Qr4Uc1lyLnPqKxF5K40N1h1563m8qXZN/
+         kVTym6aQRLt40fYNLuccSPnb6axZFWtK1zaYPCdwsla9Cl7Klo8n7Pxy/RVTC79z+0+G
+         FmWTkNPvxV51FsG79s4jtZottHGZOH8JKX9pt+qfJlQ8XdVIQ6dgh7GJzGfo0huUlg5g
+         MfTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706396490; x=1707001290;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1706400028; x=1707004828;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N3PtoOCmflXE8JrM44LwtaHSMNzcJ3eR+Esxbam8yVg=;
-        b=JQsJ7j7f4YBED6KyzbbW2FFyy6QC5sA06EStPkl+fNtaDSB3nNnIXLf/7Kx534k1GL
-         qKY+dR9OmZ5uZOsfCD01ideMmKK/Jkz5LkCeslcjbjRQ49gVGEMDQRd2lbxcTMB+neXN
-         m7O1rAJbE9fjZhkylecTOTqNPX8SpYGECyYiZ4y84Q7o2egqQutXi+9D7UxTgYC4+aNt
-         c3VQTaP5B9I16pkc8Dol/1VGo10OcTZ4qSw+00iS3EyrHrkClAJsM4mfcCRQUNHD+ljb
-         3L3IWTIi1I2J2+wFiCWv7NtKvl9ZF6/HwzNqxWI7QUQZ2jroVjjwKrGLMzikETy0Jp/w
-         wmcw==
-X-Gm-Message-State: AOJu0YwTZ+kj+xrOVkNeQJoEfGos5QSnlriVRI0eiYAMgjg6ezF8lAc6
-	J4tbnxfzFhO0XnNR4Q75/inelmchLIStgYPRAi19elw0JlTQKD2IZYetcKArjkMnbjE2IYAv2Zg
-	eoN0EiLAK+RVZRUGdJyQWGL5o/5c=
-X-Google-Smtp-Source: AGHT+IE+iOPuu6oBq6RfhXdXaSlN1kLy8vx7/5kCGbP8mMThNsfKdD+U3LBhdWItjkggF7qNNwFD84CJsW07upVjH9M=
-X-Received: by 2002:a05:6512:20d2:b0:50e:7aaf:ec53 with SMTP id
- u18-20020a05651220d200b0050e7aafec53mr1226739lfr.12.1706396490033; Sat, 27
- Jan 2024 15:01:30 -0800 (PST)
+        bh=hKBatOeFtgBc38RfQF1Wg8gY9lXRRUPPaojugjidloI=;
+        b=UbOytCSFRMAbKY4r/ifjUhmJyeKF0MoI5W0ilppAoo8tewdoUDZZXyPlPJgtrW4+Yo
+         MpyuG790l61fCXCQ9fhNlwIvbCPdhQMZSzaZ4dLoKRZzp/9YPGKJMh51bLxezv8+L9j8
+         +YHdPI9LC9J6s96Kfhm05+Xg0SFyg3ExjtrwsLMIWV89PBetf+r7tZmcElzBsATgBcdr
+         5yOIV43gBq0gv/UtrpH6b7/LTizyLWYB6axgRLJ8HIaI59npJpuKmeKMbkm8ZFwo4lcr
+         kSdq+BQH3gcZ7qkaKna/6z8llJqYkRCsE1OsyhIr+H9ZQsnDF+0bUddIHar61FXFb2e6
+         zCOQ==
+X-Gm-Message-State: AOJu0YyW5CEIP6uP2Of9zu7OFvUJfvP4ucjqGMgi/PT/gAftWZ3Sh2W0
+	4+kp9pxc4wOdQ1RRVJq3Z500n7Zc2yLQgsm1/b8IXZrlkQlTxctDG/ym/zM6
+X-Google-Smtp-Source: AGHT+IHhTflqKed6XZFpVLDivazimufb9DNDz+aAg0baqahpo1LV60a70Kfxvqc4yNysYTBTFUDz6w==
+X-Received: by 2002:a17:902:7802:b0:1d8:c875:27f7 with SMTP id p2-20020a170902780200b001d8c87527f7mr732166pll.92.1706400027760;
+        Sat, 27 Jan 2024 16:00:27 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id b13-20020a170902b60d00b001d7610fdb7csm2870884pls.226.2024.01.27.16.00.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jan 2024 16:00:26 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 27 Jan 2024 16:00:25 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Charles Hsu <ythsu0511@gmail.com>
+Cc: jdelvare@suse.com, corbet@lwn.net, Delphine_CC_Chiu@wiwynn.com,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	Charles.Hsu@quantatw.com
+Subject: Re: [PATCH v1] hwmon: Add driver for MPS MPQ8785 Synchronous
+ Step-Down Converter
+Message-ID: <81860c27-43ac-4e55-a653-e7f5597ffa93@roeck-us.net>
+References: <20240126075213.1707572-1-ythsu0511@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240126193143.245122-1-kovalev@altlinux.org> <2024012613-woozy-exhume-7b9d@gregkh>
- <472d92aa-1b49-43c9-a91f-80dfc8f25ad3@oracle.com>
-In-Reply-To: <472d92aa-1b49-43c9-a91f-80dfc8f25ad3@oracle.com>
-From: Steve French <smfrench@gmail.com>
-Date: Sat, 27 Jan 2024 17:01:18 -0600
-Message-ID: <CAH2r5mv2ipr4KJfMDXwHgq9L+kGdnRd1C2svcM=PCoDjA7uALA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] smb: client: fix "df: Resource temporarily
- unavailable" on 5.10 stable kernel
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: kovalev@altlinux.org, Greg KH <greg@kroah.com>, stable@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
-	keescook@chromium.org, sfrench@samba.org, corbet@lwn.net, 
-	natechancellor@gmail.com, ndesaulniers@google.com, 
-	"pc@manguebit.com" <pc@manguebit.com>, "Mohamed Abuelfotoh, Hazem" <abuehaze@amazon.com>, 
-	Shyam Prasad N <nspmangalore@gmail.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
-	Darren Kenny <darren.kenny@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240126075213.1707572-1-ythsu0511@gmail.com>
 
-On Sat, Jan 27, 2024 at 12:43=E2=80=AFAM Harshit Mogalapalli
-<harshit.m.mogalapalli@oracle.com> wrote:
->
-> Hi,
->
-> Adding more people to CC.(who have looked at this issue)
->
-> On 27/01/24 6:19 am, Greg KH wrote:
-> > On Fri, Jan 26, 2024 at 10:31:41PM +0300, kovalev@altlinux.org wrote:
-> >> After mounting a remote cifs resource, it becomes unavailable:
-> >> df: /mnt/sambashare: Resource temporarily unavailable
-> >>
-> >> It was tested on the following Linux kernels:
-> >> Linux altlinux 5.10.208-std-def-alt1
-> >> Linux fedora 5.10.208-200.el8.x86_64
-> >>
-> >> The error appeared starting from kernel 5.10.206 after adding
-> >> the commit [1] "smb: client: fix OOB in SMB2_query_info_init()",
-> >> in which the buffer length increases by 1 as a result of changes:
-> >> ...
-> >> -      iov[0].iov_len =3D total_len - 1 + input_len;
-> >> +      iov[0].iov_len =3D len;
-> >> ...
-> >>
->
-> We can reproduce this on 5.15.148(latest 5.15.y) and Mohamed reported
-> this on 6.1.y, so we need backports there as well.
->
-> https://lore.kernel.org/all/09738f0f-53a2-43f1-a09d-a2bef48e1344@oracle.c=
-om/
->
->
-> [root@vm1 xfstests-dev]# ./check -g quick -s smb3
-> TEST_DEV=3D//<SERVER_IP>/TEST is mounted but not a type cifs filesystem
-> [root@vm1 xfstests-dev]# df
-> df: /mnt/test: Resource temporarily unavailable
->
->
-> This two patch series doesn't cleanly apply to 5.15.y.
->
-> Also I am unsure, which is the better approach to go with
->
-> Approach 1 - suggested by Paulo:
-> https://lore.kernel.org/all/446860c571d0699ed664175262a9e84b@manguebit.co=
-m/
->
-> Approach 2 - this series
-> Pulling in [PATCH 2/2] smb3: Replace smb2pdu 1-element arrays with
-> flex-arrays like this series did.
->
-> I think approach 1 is better as the changes are minimal, but please
-> correct me if that seems wrong.
+On Fri, Jan 26, 2024 at 03:52:13PM +0800, Charles Hsu wrote:
+> Add support for mpq8785 device from Monolithic Power Systems, Inc.
+> (MPS) vendor. This is synchronous step-down controller.
+> 
 
-Yes - Paulo's fix looks simple
+"(MPS) vendor" above has no value.
 
+I find no reference that this chip actually exists. Sorry, but I can not
+apply such patches without confirmation that the chip actually exists.
 
---=20
-Thanks,
+> Signed-off-by: Charles Hsu <ythsu0511@gmail.com>
+> ---
+> Change in v1:
+>     Initial patchset.
 
-Steve
+A change log or v1 tag is not needed for the first version of a patch
+or patch series.
+
+> ---
+...
+> +		PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT |
+> +		PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
+
+I am not too happy that all those drivers claim to have no output status
+registers. It always makes me wonder if the definitions are just copied
+from one driver to the next.
+
+> +static const struct of_device_id __maybe_unused mpq8785_of_match[] = {
+> +	{ .compatible = "mps,mpq8785", },
+> +	{}
+
+checkpatch says:
+
+WARNING: DT compatible string "mps,mpq8785" appears un-documented -- check ./Documentation/devicetree/bindings/
+#293: FILE: drivers/hwmon/pmbus/mpq8785.c:37:
++	{ .compatible = "mps,mpq8785", },
+
+I don't care about the also missing entry in MAINTAINERS,
+but the device needs to be be documented in
+Documentation/devicetree/bindings/trivial-devices.yaml.
+
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, mpq8785_of_match);
+> +
+> +static struct i2c_driver mpq8785_driver = {
+> +	.driver = {
+> +		   .name = "mpq8785",
+> +		   .of_match_table = of_match_ptr(mpq8785_of_match),
+> +	},
+> +	.probe_new = mpq8785_probe,
+> +};
+> +
+> +module_i2c_driver(mpq8785_driver);
+> +
+> +MODULE_AUTHOR("Charles Hsu <ythsu0511@gmail.com>");
+> +MODULE_DESCRIPTION("MPQ8785 PMIC regulator driver");
+
+Is this copied from the mpq7932 driver ? This driver does not include a
+regulator component, so it is a bit misleading to label it as regulator
+driver.
+
+Guenter
