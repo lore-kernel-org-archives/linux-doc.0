@@ -1,139 +1,167 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE25D208C6;
-	Sun, 28 Jan 2024 12:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B442A2C68B;
+	Sun, 28 Jan 2024 17:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706444872; cv=none; b=q3HWAhpVZBqStWrhnJhw0FzuuI8yjvpr/iGwQxxFKl0rfJmXy0+EGm9NP1BpIwzO1iZhFab6+w6d89ithVAHajge607drdKqW2hqeiZLXwU/ABFf2jnxXu27a8MiXf/lpp+jTIbuj+OawStFVscNx2bE4o82yWhWQfy/2erioDw=
+	t=1706461997; cv=none; b=iaIA6GivhSTajkfJVcFSdFg1hPG4gLzFhMqoHSqZwejdlKR9QhD5cVJaKCDQkNbRnEj0hh7WYbPWv9q/ojJlBnFbk+zJqLK7WWmWxR5Klq3jBM60rkH4FOb6sLNg0Kcc7bInZTYfusz9IgpP4w3Z3AoJRnA3gbzIBImiot8o/ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706444872; c=relaxed/simple;
-	bh=RazE+jc+SID1Wz2okl+YhaUu42pguW2xXu+B0GsHDOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gwHRJqQmXFEqhNpToaPbEZtN9KtHArgMgo2yXOXzg4Gd0s6FZ3P/ePooJyVQJnj79/oTuAbPWaoTwA74ZjiWJZOVagGH6OImOWUAJvhFXiH+TIUNIWru1NM9kYlHylF4YNbxtWMBIfP3dvTwOT6NQNsG0YFDFJnAs532uMFJAGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OqDm96Zt; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1706461997; c=relaxed/simple;
+	bh=jNDfSP0iz6F45hxisn1nC9nJOoP8Llt5SFMdhiO4ow8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Lc14tjP5VG3+E2G6bPxV/9jQxz/Qye+2cQhikwRzuvvBskFjEIGXjrHV5C3bHs4SYN7UaWgEPEZ5j2xaNtIzwVC1FhkaCtR+uzblBuQBeqqvZeZB0nY4VWuGEPaZtF3D+LZB1326BjrXokU++gzxCnGc7Mbx6EyWfGnaZ5zXQlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KY1un6OB; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqDm96Zt"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d8cec0f71aso2059555ad.1;
-        Sun, 28 Jan 2024 04:27:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KY1un6OB"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d8cec0f71aso2782435ad.1;
+        Sun, 28 Jan 2024 09:13:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706444870; x=1707049670; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=f6A3+XdkKqU1Q3k8PxIHg8Ql7lOhl/fZYFw1hUekQ9U=;
-        b=OqDm96ZthoWYG47eVbqQ+D6O7dOPxxCsayRieaZGpujkN8MMPE3L7QYRi26l/5Az6t
-         qZC63SiPuJZyVr2kTzgonf7gwlPjv3OaOb0tWfUEkrSKQEDQVXIKst9XvWC+RWKLib07
-         Mx8UO4UxW33Pyn6n+odHxdhvFUo//eSLU8F5csD8ZinTUQK4OUL3xo+RibR7aar8shvF
-         m+WH0CVP6A2YQ9/c3S0OW4d3bE6XTjYo4sDBKPUc9nMLBEQDTN50ymSdDukr6gd9IQI0
-         4P9ldsCQidoclcJV7xpzsSJvQpQHgXaXffIDkEguHYry96qcPlW3r5WJcm0sV4pxDK63
-         Essw==
+        d=gmail.com; s=20230601; t=1706461995; x=1707066795; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=6cDy7Rb25xoEXZNoitNmW/3Zfu/z4arLpo3N6K1MDEs=;
+        b=KY1un6OB5x0a8E+t2A1PFv6n8QmxOnuvq1EcGpWi4vNjE7ReZvrV4oeLbObwKS2osT
+         5rXQ11METOk5GfmOP8RGbOmJMWvr3Jers654XazEIHctnQ0yzXfCzqznDWbHUFX8e+H+
+         Bc+JopscQZLTBY1ysB/+UKcS697QePgGQhz9D4GLTng1hwG2UZ8Fc534oZeTrnqettfK
+         2ob3aCZ13naOqU/DM8o0HssNEHQowxx+kDRmMnkcWEzHZZjp38K+GlSEen+1y9XWndhx
+         jOBSOiv6BptI95EuWkg6ZAi+UGN2sG0RyvcnVc6Xkoyz9twFCz+Vn4t7ysBPPeggyhFh
+         /zNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706444870; x=1707049670;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1706461995; x=1707066795;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f6A3+XdkKqU1Q3k8PxIHg8Ql7lOhl/fZYFw1hUekQ9U=;
-        b=Zv/kBkqQfl5CSvOp1yLma8XZ8ouVrjvgW6tF0PDMIs9mJ/YcmT9AYLuqkiskWZaMxF
-         E1ojWV0L15F8wrLIrMlQ0hvzFhL6vUuFh6VjFLZHpFUqhPGKcE+lFbL+90fMLu9wHn4f
-         rdWjW0n8IO5UWPRzYPeaPlhLMSWOHj4ZUvt6J8aPTRVygof1x8NYAkpPPDXq4+FEMlwG
-         Sr2luLGckwCMFiG0z2yX7MZe1bel9iOzgvgDGPByXNNlKew05MNd7Qv9+nAQddFeWJML
-         jEJgYRrz8ZhMxux+IrYz5sVAPOni0RbQ60nAfyfHDTJOqSnVTF7UOWyU9BvBNAQx4jCE
-         M/Vg==
-X-Gm-Message-State: AOJu0YwkYdGbnqbWUOD3yhXdw0G7PFk8/F5V+aj5JjUBdQQ7US8KTcfV
-	hh0/2LaXtqk6+S+3rF2TRAAZC8kwKg54nLjt3zcEiwgztGuXUyya
-X-Google-Smtp-Source: AGHT+IG1q/641b1QavA3wBgGsZom93VKUFtlhiyXKQo2Fnsfgaw1etUBlzUT0VPgje31Cfs9zdexSQ==
-X-Received: by 2002:a17:902:b615:b0:1d7:2337:9ff4 with SMTP id b21-20020a170902b61500b001d723379ff4mr2600554pls.46.1706444870084;
-        Sun, 28 Jan 2024 04:27:50 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id o10-20020a170902d4ca00b001d787672afcsm3584848plg.258.2024.01.28.04.27.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jan 2024 04:27:49 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id D83B718550346; Sun, 28 Jan 2024 19:27:45 +0700 (WIB)
-Date: Sun, 28 Jan 2024 19:27:45 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Thorsten Leemhuis <linux@leemhuis.info>,
-	Linux kernel regressions list <regressions@lists.linux.dev>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: More detailed text about bisecting Linux kernel regression --
- request for comments and help
-Message-ID: <ZbZIQc91DRrTeMtZ@archie.me>
-References: <c763e15e-e82e-49f8-a540-d211d18768a3@leemhuis.info>
- <ZbW5emVndDNZlPTg@archie.me>
- <a373a71c-f5b6-471b-b7d2-b1f21dc505ca@leemhuis.info>
+        bh=6cDy7Rb25xoEXZNoitNmW/3Zfu/z4arLpo3N6K1MDEs=;
+        b=I9b0h1wekW42HQNT16BVbUMDpQC5vXiWvxS2csyghqJ4YAdMJRt6R/vN4mh9MxOZTx
+         eQriFV40uD78cmg5f9ekn8woD6mrVm1+ldwU4KkyOcnZ2Om4fkks6k0BtzjUpOhNivRc
+         iFkBR+Uw/sisZcRCtESMEkh0xyuv/Q2n8s7BPRoTb7QrvLTWdBgLeeRiG8pYGkXnbg0u
+         BJGU5gCYK6EFbNWHThVuoRj3eB1G8fEXj9PopbY/vaQNyPZnpn3N52bhDy6Yl/IBY3O7
+         Dj22Vv1tqf3gZIuZRKk/6ClYDaj15hnYG+HPlGgw0ZvguymMYoBTQ2mpnpk9dAadaI9L
+         C31A==
+X-Gm-Message-State: AOJu0Yy6QbCyddPjfdiUTK9SxZ6iRiYwOwFU2pihE8SzY2pSURDTIT8s
+	VDF/0wmRedE1U4u+w3hrgTMV/mF87DnfCfFn/41PL7WM40XuJ7PH
+X-Google-Smtp-Source: AGHT+IHG4xQpWy5Yeqyu7lIOVrg/6i6qbqw0HjEhQzLzzE2jHDaUtrmZQMKIruoyu8kYli+xdFUaMw==
+X-Received: by 2002:a17:902:e84a:b0:1d8:dbd0:bb42 with SMTP id t10-20020a170902e84a00b001d8dbd0bb42mr759372plg.21.1706461994795;
+        Sun, 28 Jan 2024 09:13:14 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j71-20020a63804a000000b005d7c02994c4sm4560870pgd.60.2024.01.28.09.13.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Jan 2024 09:13:13 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <cc561e9a-e493-43dd-ac9b-cf14786130ff@roeck-us.net>
+Date: Sun, 28 Jan 2024 09:13:12 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QW2iM5aW2BJe83wI"
-Content-Disposition: inline
-In-Reply-To: <a373a71c-f5b6-471b-b7d2-b1f21dc505ca@leemhuis.info>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] hwmon: Add driver for MPS MPQ8785 Synchronous
+ Step-Down Converter
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+To: Charles Hsu <ythsu0511@gmail.com>
+Cc: jdelvare@suse.com, corbet@lwn.net, Delphine_CC_Chiu@wiwynn.com,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ Charles.Hsu@quantatw.com
+References: <20240126075213.1707572-1-ythsu0511@gmail.com>
+ <81860c27-43ac-4e55-a653-e7f5597ffa93@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <81860c27-43ac-4e55-a653-e7f5597ffa93@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 1/27/24 16:00, Guenter Roeck wrote:
+> On Fri, Jan 26, 2024 at 03:52:13PM +0800, Charles Hsu wrote:
+>> Add support for mpq8785 device from Monolithic Power Systems, Inc.
+>> (MPS) vendor. This is synchronous step-down controller.
+>>
+> 
+> "(MPS) vendor" above has no value.
+> 
+> I find no reference that this chip actually exists. Sorry, but I can not
+> apply such patches without confirmation that the chip actually exists.
+> 
 
---QW2iM5aW2BJe83wI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I since learned that the chip does exist, so this is no longer a concern.
 
-On Sun, Jan 28, 2024 at 06:28:52AM +0100, Thorsten Leemhuis wrote:
-> On 28.01.24 03:18, Bagas Sanjaya wrote:
-> > On Wed, Jan 24, 2024 at 01:19:16PM +0100, Thorsten Leemhuis wrote:
-> >> .. _bisectstart_bissbs:
-> >>
-> >> * Start the bisection and tell Git about the versions earlier
-> >> established as 'good' and 'bad'::
-> >>
-> >>     cd ~/linux/
-> >>     git bisect start
-> >>     git bisect good v6.0
-> >>     git bisect bad v6.1.5
-> >=20
-> > If stable release tag is supplied instead as "good" version instead (e.=
-g.
-> > v6.0.1), as in many regression cases, git will ask to test the merge ba=
-se
-> > instead, which is corresponding mainline release (in this case v6.0).
->=20
-> That should not happen if people follow the guide, as this is avoided by
-> an earlier step:
->=20
-> "'"
-> .. _rangecheck_bissbs:
->=20
-> * Determine the kernel versions considered 'good' and 'bad' throughout
-> this guide:
->=20
-> [...]
->=20
->   * Some function stopped working when updating from 6.0.11 to 6.1.4?
-> Then for the time being consider 'v6.0' as the last 'good' version and
-> 'v6.1.4' as the 'bad' one. Note, it is at this point an assumption that
-> 6.0 is fine that will be checked later.
->=20
-> "'"
->=20
+>> Signed-off-by: Charles Hsu <ythsu0511@gmail.com>
+>> ---
+>> Change in v1:
+>>      Initial patchset.
+> 
+> A change log or v1 tag is not needed for the first version of a patch
+> or patch series.
+> 
+>> ---
+> ...
+>> +		PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_TEMP | PMBUS_HAVE_IOUT |
+>> +		PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
+> 
+> I am not too happy that all those drivers claim to have no output status
+> registers. It always makes me wonder if the definitions are just copied
+> from one driver to the next.
 
-Oops, I didn't see that context above. Thanks anyway.
+I also learned that the chip supports additional status registers. Please
+list all supported status registers.
 
---=20
-An old man doll... just what I always wanted! - Clara
+I also learned that the chips voltage output mode is configurable. As such,
 
---QW2iM5aW2BJe83wI
-Content-Type: application/pgp-signature; name="signature.asc"
++	.format[PSC_CURRENT_OUT] = direct,
 
------BEGIN PGP SIGNATURE-----
+won't do because it cause instantiation to fail due to mode mismatch
+in pmbus_identify_common() if the mode is configured to linear or vid mode.
+This will need to be addressed.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZbZIPAAKCRD2uYlJVVFO
-o2AVAP94Vb9po75H476YPkW8Ab5KWGCdPe5GMFhjORBuZzA/VwD+N2tvHII2zzQS
-Z/Pbfh53eCGsd7inrATn8J6SOemepwU=
-=gE8H
------END PGP SIGNATURE-----
+Thanks,
+Guenter
 
---QW2iM5aW2BJe83wI--
