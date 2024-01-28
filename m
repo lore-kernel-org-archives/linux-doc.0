@@ -1,116 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229BF1EB20;
-	Sun, 28 Jan 2024 11:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE25D208C6;
+	Sun, 28 Jan 2024 12:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706441077; cv=none; b=WyRk9GaeocEAUVtGPIcIZLFCbCUYbq3C4o/RAGvXQyPVNDKcfuthIB83v/8+ydZrUQkKcDQq2Ic6CSp06gfJjpA8aARJWAd9d9iMECg+7ff/b+DhQX3VaCsBUXasTvU9ai6nPm51koMN5hbJ1srJgTPaxMonYn5N1FmsZLXfe+Q=
+	t=1706444872; cv=none; b=q3HWAhpVZBqStWrhnJhw0FzuuI8yjvpr/iGwQxxFKl0rfJmXy0+EGm9NP1BpIwzO1iZhFab6+w6d89ithVAHajge607drdKqW2hqeiZLXwU/ABFf2jnxXu27a8MiXf/lpp+jTIbuj+OawStFVscNx2bE4o82yWhWQfy/2erioDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706441077; c=relaxed/simple;
-	bh=KNaq6FiBBjclWVzp6k4jvy23iUnCG4CcpVAGv3MI8Uw=;
+	s=arc-20240116; t=1706444872; c=relaxed/simple;
+	bh=RazE+jc+SID1Wz2okl+YhaUu42pguW2xXu+B0GsHDOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R3mE4iWT0yjZJRjWDwtEoQkPI8p9LresDv0lYwM272m/9M3Hw9RpzL8uzKOcEuni6RwcFWVHnYwiu6bSPaNKnJ2bynAkKKtD4g3b/OF3VVqs1jIex4eVU7pAmmG76vq3htb3xYyYvh87lNcJRwR8YdLe6zjHCsMCn4pEPiP2j60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UK+cUsN7; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gwHRJqQmXFEqhNpToaPbEZtN9KtHArgMgo2yXOXzg4Gd0s6FZ3P/ePooJyVQJnj79/oTuAbPWaoTwA74ZjiWJZOVagGH6OImOWUAJvhFXiH+TIUNIWru1NM9kYlHylF4YNbxtWMBIfP3dvTwOT6NQNsG0YFDFJnAs532uMFJAGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OqDm96Zt; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UK+cUsN7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706441075; x=1737977075;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KNaq6FiBBjclWVzp6k4jvy23iUnCG4CcpVAGv3MI8Uw=;
-  b=UK+cUsN7A+IxZNjrOEE+vz9gkfXhwlFWIJWxRMS3hH2oAfxkf+1HaDjz
-   huTAm2nsB28FrCaZbcCnKCUdAiZx1PrA+4O8ricJ0yDEmG2nhnHVZg90V
-   aTe+zglgMKBlpHiTtEZr/zcuQL8kzgmZvpou93nGa14pr12MXIfkgx+Pv
-   9xZWFV7m+iUBdAVXY2BmNQTBPELE7y7nbnpnZ7ZbICnFUikWTxlsXsWQY
-   pLowVFdcB81kqhaP4fkO7uGJjcxqO8p9Q6TEPRbJtMIgdWJkhGfMRjZof
-   UU+yiuNVKww1xMTIXb/xh/TV0auNmgtCLrRFS+dfVUKj18jivS79k6EQr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="2592988"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="2592988"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2024 03:24:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="3187856"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Jan 2024 03:24:26 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rU3Gx-0003LS-0y;
-	Sun, 28 Jan 2024 11:24:23 +0000
-Date: Sun, 28 Jan 2024 19:24:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joe Damato <jdamato@fastly.com>, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, chuck.lever@oracle.com,
-	jlayton@kernel.org, linux-api@vger.kernel.org, brauner@kernel.org,
-	edumazet@google.com, davem@davemloft.net, alexander.duyck@gmail.com,
-	sridhar.samudrala@intel.com, kuba@kernel.org,
-	willemdebruijn.kernel@gmail.com, weiwan@google.com,
-	Joe Damato <jdamato@fastly.com>, Jonathan Corbet <corbet@lwn.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nathan Lynch <nathanl@linux.ibm.com>,
-	Steve French <stfrench@microsoft.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Julien Panis <jpanis@baylibre.com>, Arnd Bergmann <arnd@arndb.de>,
-	Andrew Waterman <waterman@eecs.berkeley.edu>,
-	Thomas Huth <thuth@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
-	linux-doc@vger.kernel.org,
-	"(open list:FILESYSTEMS (VFS and infrastructure))" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH net-next v3 3/3] eventpoll: Add epoll ioctl for
- epoll_params
-Message-ID: <202401281917.WeFbZE56-lkp@intel.com>
-References: <20240125225704.12781-4-jdamato@fastly.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqDm96Zt"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d8cec0f71aso2059555ad.1;
+        Sun, 28 Jan 2024 04:27:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706444870; x=1707049670; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f6A3+XdkKqU1Q3k8PxIHg8Ql7lOhl/fZYFw1hUekQ9U=;
+        b=OqDm96ZthoWYG47eVbqQ+D6O7dOPxxCsayRieaZGpujkN8MMPE3L7QYRi26l/5Az6t
+         qZC63SiPuJZyVr2kTzgonf7gwlPjv3OaOb0tWfUEkrSKQEDQVXIKst9XvWC+RWKLib07
+         Mx8UO4UxW33Pyn6n+odHxdhvFUo//eSLU8F5csD8ZinTUQK4OUL3xo+RibR7aar8shvF
+         m+WH0CVP6A2YQ9/c3S0OW4d3bE6XTjYo4sDBKPUc9nMLBEQDTN50ymSdDukr6gd9IQI0
+         4P9ldsCQidoclcJV7xpzsSJvQpQHgXaXffIDkEguHYry96qcPlW3r5WJcm0sV4pxDK63
+         Essw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706444870; x=1707049670;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f6A3+XdkKqU1Q3k8PxIHg8Ql7lOhl/fZYFw1hUekQ9U=;
+        b=Zv/kBkqQfl5CSvOp1yLma8XZ8ouVrjvgW6tF0PDMIs9mJ/YcmT9AYLuqkiskWZaMxF
+         E1ojWV0L15F8wrLIrMlQ0hvzFhL6vUuFh6VjFLZHpFUqhPGKcE+lFbL+90fMLu9wHn4f
+         rdWjW0n8IO5UWPRzYPeaPlhLMSWOHj4ZUvt6J8aPTRVygof1x8NYAkpPPDXq4+FEMlwG
+         Sr2luLGckwCMFiG0z2yX7MZe1bel9iOzgvgDGPByXNNlKew05MNd7Qv9+nAQddFeWJML
+         jEJgYRrz8ZhMxux+IrYz5sVAPOni0RbQ60nAfyfHDTJOqSnVTF7UOWyU9BvBNAQx4jCE
+         M/Vg==
+X-Gm-Message-State: AOJu0YwkYdGbnqbWUOD3yhXdw0G7PFk8/F5V+aj5JjUBdQQ7US8KTcfV
+	hh0/2LaXtqk6+S+3rF2TRAAZC8kwKg54nLjt3zcEiwgztGuXUyya
+X-Google-Smtp-Source: AGHT+IG1q/641b1QavA3wBgGsZom93VKUFtlhiyXKQo2Fnsfgaw1etUBlzUT0VPgje31Cfs9zdexSQ==
+X-Received: by 2002:a17:902:b615:b0:1d7:2337:9ff4 with SMTP id b21-20020a170902b61500b001d723379ff4mr2600554pls.46.1706444870084;
+        Sun, 28 Jan 2024 04:27:50 -0800 (PST)
+Received: from archie.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id o10-20020a170902d4ca00b001d787672afcsm3584848plg.258.2024.01.28.04.27.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jan 2024 04:27:49 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id D83B718550346; Sun, 28 Jan 2024 19:27:45 +0700 (WIB)
+Date: Sun, 28 Jan 2024 19:27:45 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>,
+	Linux kernel regressions list <regressions@lists.linux.dev>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: More detailed text about bisecting Linux kernel regression --
+ request for comments and help
+Message-ID: <ZbZIQc91DRrTeMtZ@archie.me>
+References: <c763e15e-e82e-49f8-a540-d211d18768a3@leemhuis.info>
+ <ZbW5emVndDNZlPTg@archie.me>
+ <a373a71c-f5b6-471b-b7d2-b1f21dc505ca@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="QW2iM5aW2BJe83wI"
 Content-Disposition: inline
-In-Reply-To: <20240125225704.12781-4-jdamato@fastly.com>
+In-Reply-To: <a373a71c-f5b6-471b-b7d2-b1f21dc505ca@leemhuis.info>
 
-Hi Joe,
 
-kernel test robot noticed the following build errors:
+--QW2iM5aW2BJe83wI
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on net-next/main]
+On Sun, Jan 28, 2024 at 06:28:52AM +0100, Thorsten Leemhuis wrote:
+> On 28.01.24 03:18, Bagas Sanjaya wrote:
+> > On Wed, Jan 24, 2024 at 01:19:16PM +0100, Thorsten Leemhuis wrote:
+> >> .. _bisectstart_bissbs:
+> >>
+> >> * Start the bisection and tell Git about the versions earlier
+> >> established as 'good' and 'bad'::
+> >>
+> >>     cd ~/linux/
+> >>     git bisect start
+> >>     git bisect good v6.0
+> >>     git bisect bad v6.1.5
+> >=20
+> > If stable release tag is supplied instead as "good" version instead (e.=
+g.
+> > v6.0.1), as in many regression cases, git will ask to test the merge ba=
+se
+> > instead, which is corresponding mainline release (in this case v6.0).
+>=20
+> That should not happen if people follow the guide, as this is avoided by
+> an earlier step:
+>=20
+> "'"
+> .. _rangecheck_bissbs:
+>=20
+> * Determine the kernel versions considered 'good' and 'bad' throughout
+> this guide:
+>=20
+> [...]
+>=20
+>   * Some function stopped working when updating from 6.0.11 to 6.1.4?
+> Then for the time being consider 'v6.0' as the last 'good' version and
+> 'v6.1.4' as the 'bad' one. Note, it is at this point an assumption that
+> 6.0 is fine that will be checked later.
+>=20
+> "'"
+>=20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/eventpoll-support-busy-poll-per-epoll-instance/20240126-070250
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240125225704.12781-4-jdamato%40fastly.com
-patch subject: [PATCH net-next v3 3/3] eventpoll: Add epoll ioctl for epoll_params
-config: i386-buildonly-randconfig-002-20240127 (https://download.01.org/0day-ci/archive/20240128/202401281917.WeFbZE56-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240128/202401281917.WeFbZE56-lkp@intel.com/reproduce)
+Oops, I didn't see that context above. Thanks anyway.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401281917.WeFbZE56-lkp@intel.com/
+--=20
+An old man doll... just what I always wanted! - Clara
 
-All errors (new ones prefixed by >>):
+--QW2iM5aW2BJe83wI
+Content-Type: application/pgp-signature; name="signature.asc"
 
-   In file included from <command-line>:
->> ./usr/include/linux/eventpoll.h:89:9: error: unknown type name 'u64'
-      89 |         u64 busy_poll_usecs;
-         |         ^~~
->> ./usr/include/linux/eventpoll.h:90:9: error: unknown type name 'u16'
-      90 |         u16 busy_poll_budget;
-         |         ^~~
->> ./usr/include/linux/eventpoll.h:93:9: error: unknown type name 'u8'
-      93 |         u8 data[118];
-         |         ^~
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZbZIPAAKCRD2uYlJVVFO
+o2AVAP94Vb9po75H476YPkW8Ab5KWGCdPe5GMFhjORBuZzA/VwD+N2tvHII2zzQS
+Z/Pbfh53eCGsd7inrATn8J6SOemepwU=
+=gE8H
+-----END PGP SIGNATURE-----
+
+--QW2iM5aW2BJe83wI--
