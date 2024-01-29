@@ -1,54 +1,53 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE05E15AAAF;
-	Mon, 29 Jan 2024 17:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F5115B116;
+	Mon, 29 Jan 2024 17:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706547789; cv=none; b=orjqPGhqEh/2lVXlx1AfGXGF2iklxejE25phoBnmskr9snv6i3rXvTJCwjNX5saVBK87Zpgale5/dKAlzge6GJO7xFcPzbBgd6s17gnnlKygceC9DEAjjJZQcyZrMY3/BZqoSkdWflXj4a4dvMAyHUT9VJSLW3DNqDNXWWQpCMI=
+	t=1706548220; cv=none; b=UCQ41deShBnfA/TA1RAeM7C9LAjvRk5l+kfxKrJfB+PhQ5SAmxqo8JbX1CTP0xdK32F75qOraqLpVNwJFnBBMEsxm6AyKAaHspcMrrnLWqVt02pbWq2lwat249hz/btiMGcPa2833Ojh3PfNt2MyT4Kdi+rTqOxAw5aFpCuGdIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706547789; c=relaxed/simple;
-	bh=wHWg4LZRwCfhResqeH0XOYfyJt+0f2JWYpJlo3R3dtA=;
+	s=arc-20240116; t=1706548220; c=relaxed/simple;
+	bh=knSS9unA7hc6KA9qC5LWhdCH3De86xvGTTMz/2ncIkw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Rp2Onbvusjs830PS7Va0/UJ9zo+zfjboyQVxb49f5ebChjPapgTpAQ8zb8uSa8yhBTYfHVfkJRN9Ck5OD0GZljRq5k7NMXYor2+bxyC3Q/OqWPiNo/aqO7KJTQQEUtSFazTiJwThK7DOvA8FhwS/LKA0eY3WkqZ+LsI6NjhO30g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=Hz5iSkzr; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	 MIME-Version; b=MvC7iyvZOXrG8lSSHPLS95edBzvo/JbE8tXEy17Co+RkAvjurr+8re45wSGOZANG2SnjhdHRKkEa4aN5oKdsisyWfVfy/D3NBTTgEogzDpqtPlWIkU0EJaZZQOEY/rb+Iz/3vEW7w93M0yB3G20LcidzzlzE3ppfHpOMsKM8v0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Es44K9Xq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="Hz5iSkzr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1706547741;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6SosLHUfbvBusyQrjhEdH6qlujZTce4ql106/+fLWzw=;
-	b=Hz5iSkzreG374dszhrBcWBdOw/8E9kBUgkLUyYVVOzM0dIA3qjeGkDueAhT1yesWaD3R/J
-	CU0Dav7pa+LPws6gK3o25zLvdwVZOMMblQ+ZLMEMbNg+y0SSabHObT9U9BAeFIJSWcS+Ht
-	4Mel07g7k6sXDOVHXLU9KIMPE1H9a9U=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Es44K9Xq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9816AC433F1;
+	Mon, 29 Jan 2024 17:10:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706548220;
+	bh=knSS9unA7hc6KA9qC5LWhdCH3De86xvGTTMz/2ncIkw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Es44K9XqfWHx735eNI5R/YVZtjnOF7wEw6hX0RDXNWv3Ov4jUcJOjdvshKfZDkH5b
+	 +ym4CLpEzMIK4Li7UYisfZ3mwj9DB94W7U3hfAjpw+4+utf/+GId+t/c/RClH3SHzL
+	 3aCrG/rncD+a39DHu7/enqjdal0Bfjrw/RaTZvoA=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Cai Huoqing <cai.huoqing@linux.dev>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Dave Airlie <airlied@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	Nuno Sa <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v6 6/6] Documentation: iio: Document high-speed DMABUF based API
-Date: Mon, 29 Jan 2024 18:02:01 +0100
-Message-ID: <20240129170201.133785-7-paul@crapouillou.net>
-In-Reply-To: <20240129170201.133785-1-paul@crapouillou.net>
-References: <20240129170201.133785-1-paul@crapouillou.net>
+	linux-doc@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH 6.7 251/346] drm: Fix TODO list mentioning non-KMS drivers
+Date: Mon, 29 Jan 2024 09:04:42 -0800
+Message-ID: <20240129170023.799446801@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240129170016.356158639@linuxfoundation.org>
+References: <20240129170016.356158639@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,101 +56,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the new DMABUF based API.
+6.7-stable review patch.  If anyone has any objections, please let me know.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+------------------
 
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit 9cf5ca1f485cae406968947a92bf304603999fa1 upstream.
+
+Non-KMS drivers have been removed from DRM. Update the TODO list
+accordingly.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: a276afc19eec ("drm: Remove some obsolete drm pciids(tdfx, mga, i810, savage, r128, sis, via)")
+Cc: Cai Huoqing <cai.huoqing@linux.dev>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.3+
+Cc: linux-doc@vger.kernel.org
+Reviewed-by: David Airlie <airlied@gmail.com>
+Reviewed-by: Daniel Vetter <daniel@ffwll.ch>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231122122449.11588-3-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-v2: - Explicitly state that the new interface is optional and is
-      not implemented by all drivers.
-    - The IOCTLs can now only be called on the buffer FD returned by
-      IIO_BUFFER_GET_FD_IOCTL.
-    - Move the page up a bit in the index since it is core stuff and not
-      driver-specific.
+ Documentation/gpu/todo.rst |    7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-v3: Update the documentation to reflect the new API.
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -337,8 +337,8 @@ connector register/unregister fixes
+ 
+ Level: Intermediate
+ 
+-Remove load/unload callbacks from all non-DRIVER_LEGACY drivers
+----------------------------------------------------------------
++Remove load/unload callbacks
++----------------------------
+ 
+ The load/unload callbacks in struct &drm_driver are very much midlayers, plus
+ for historical reasons they get the ordering wrong (and we can't fix that)
+@@ -347,8 +347,7 @@ between setting up the &drm_driver struc
+ - Rework drivers to no longer use the load/unload callbacks, directly coding the
+   load/unload sequence into the driver's probe function.
+ 
+-- Once all non-DRIVER_LEGACY drivers are converted, disallow the load/unload
+-  callbacks for all modern drivers.
++- Once all drivers are converted, remove the load/unload callbacks.
+ 
+ Contact: Daniel Vetter
+ 
 
-v5: Use description lists for the documentation of the three new IOCTLs
-    instead of abusing subsections.
----
- Documentation/iio/dmabuf_api.rst | 54 ++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst      |  2 ++
- 2 files changed, 56 insertions(+)
- create mode 100644 Documentation/iio/dmabuf_api.rst
-
-diff --git a/Documentation/iio/dmabuf_api.rst b/Documentation/iio/dmabuf_api.rst
-new file mode 100644
-index 000000000000..1cd6cd51a582
---- /dev/null
-+++ b/Documentation/iio/dmabuf_api.rst
-@@ -0,0 +1,54 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+High-speed DMABUF interface for IIO
-+===================================
-+
-+1. Overview
-+===========
-+
-+The Industrial I/O subsystem supports access to buffers through a
-+file-based interface, with read() and write() access calls through the
-+IIO device's dev node.
-+
-+It additionally supports a DMABUF based interface, where the userspace
-+can attach DMABUF objects (externally created) to a IIO buffer, and
-+subsequently use them for data transfers.
-+
-+A userspace application can then use this interface to share DMABUF
-+objects between several interfaces, allowing it to transfer data in a
-+zero-copy fashion, for instance between IIO and the USB stack.
-+
-+The userspace application can also memory-map the DMABUF objects, and
-+access the sample data directly. The advantage of doing this vs. the
-+read() interface is that it avoids an extra copy of the data between the
-+kernel and userspace. This is particularly useful for high-speed devices
-+which produce several megabytes or even gigabytes of data per second.
-+It does however increase the userspace-kernelspace synchronization
-+overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
-+be used for data integrity.
-+
-+2. User API
-+===========
-+
-+As part of this interface, three new IOCTLs have been added. These three
-+IOCTLs have to be performed on the IIO buffer's file descriptor,
-+obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-+
-+  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
-+    Attach the DMABUF object, identified by its file descriptor, to the
-+    IIO buffer. Returns zero on success, and a negative errno value on
-+    error.
-+
-+  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
-+    Detach the given DMABUF object, identified by its file descriptor,
-+    from the IIO buffer. Returns zero on success, and a negative errno
-+    value on error.
-+
-+    Note that closing the IIO buffer's file descriptor will
-+    automatically detach all previously attached DMABUF objects.
-+
-+  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
-+    Enqueue a previously attached DMABUF object to the buffer queue.
-+    Enqueued DMABUFs will be read from (if output buffer) or written to
-+    (if input buffer) as long as the buffer is enabled.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 1b7292c58cd0..3eae8fcb1938 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -9,6 +9,8 @@ Industrial I/O
- 
-    iio_configfs
- 
-+   dmabuf_api
-+
-    ep93xx_adc
- 
-    bno055
--- 
-2.43.0
 
