@@ -1,217 +1,176 @@
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2078.outbound.protection.partner.outlook.cn [139.219.17.78])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D01655E52;
-	Mon, 29 Jan 2024 10:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706522825; cv=fail; b=RNWt+OP1ptiAslPVRFzeruipIMp+EgrTrb884JBg8rG9zx+5ZMuSG4jwq6j5n8BHITKHzhBP7sS4IjzfJPWmirLGwgACpH8Xv9HlXFrYSxqL+DzpCwjkIlhepHy5YfOnC/syK5nkAjrQ0G7+h4Qx67s5/HXwxRvu1BJ11wws3yQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706522825; c=relaxed/simple;
-	bh=qHZ4k68QwDxbeugZFjfXcaJZ8QbjqmvVRqfUOf02drs=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=OwA9XP6oDI3MaqtUP3qYw9Tt0YOCDAqQtgOB3OmdxOraCnT7//5ScJ51vbRNa417wrO7Zpy+ttjr1hHeueh0Y6BBZUcjMVIxh007eEqAiH85UvpxSnCN8L7pqJCBwVqOhJ5FiB+6RMaWnCgFjzkW/HQXYJ0smUX5nBHGSAp9xnk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y/04ABzUJp4RyGEBf7R/Iehxqt1tDSEV8gaCcEgre9kXQm+8ne94Z4lLibBW/WJjV0vEGzas37DCzEZlldjNRuIIBHH2plv1dChkODwuVd4SelDOtglejJrL1JLq7nfdIZ/YPE4gSECe9BF4dGwpyQF8VnaG/U7pe1/Q5sbkyHtM5XwYuFhN6ssWcJK+2gYXmZVFsM54GmS9qcwlQaFfxghWEIT9Zfp75keoBmCBUMsxC9RjqJSOxBpijB16XX6WFVFN2sE0nIRAWTZNSkbIEZOEcvrXROkbI1dxsiX6Jj80z5pnSTrSXk3kksb7fA/fT2t05AlXL6rovPg2BDagjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7gsq/fTh85hPUpqQokgxn7fOGa6u54SKDSjz6iKGcGI=;
- b=l9Zp6xJlLF/owYq2gRAiKnpU7i+FivEY41vD9kDrfPLwIIopsId8vrQySPhZ8tkKGe8ra9/D00ch65gDtX4OluTDoZVyfUElBBEwIeefUaTdUZr6g5I4r/Rd8u7TqYzax/gDiY4iy7f4K7+zjSslPHSWMY56LkojavWeYXEJDVdizs2xy8yPqG+hEyBopa97K1tInUsHaUe2jGK1Fk0CAbh0Ki74N6DN5C5rsdGACoiZF7p93ownk4S6TgkXRL7Jmf+2gU2LXTAyXh/AL8J1ppIG46qMyvSTs6DLUmN0tLpxISBs0IwcEDqxrFpy9yiybpc1mEDDeARa6SUs1J/g5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from ZQ0PR01MB1160.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:19::6) by ZQ0PR01MB1016.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:c::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.28; Mon, 29 Jan
- 2024 09:52:20 +0000
-Received: from ZQ0PR01MB1160.CHNPR01.prod.partner.outlook.cn
- ([fe80::1dbb:b090:7d89:4e22]) by
- ZQ0PR01MB1160.CHNPR01.prod.partner.outlook.cn ([fe80::1dbb:b090:7d89:4e22%4])
- with mapi id 15.20.7228.028; Mon, 29 Jan 2024 09:52:20 +0000
-From: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>
-Cc: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
-	Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v6 0/4] StarFive's StarLink PMU Support
-Date: Mon, 29 Jan 2024 17:51:37 +0800
-Message-ID: <20240129095141.3262366-1-jisheng.teoh@starfivetech.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SH0PR01CA0003.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:5::15) To ZQ0PR01MB1160.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:19::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5705C8E8
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jan 2024 11:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706526961; cv=none; b=VmrZdS5/tD+Q2IMmebvQZwXwEux5fhL4YMe/Uy0Anp+bEag7uI1ZMKG/zdXyLgi1nRJ4VoIOGZyYxYCdYYlnmfoMn/usmjpynEhMsvwYqZxRM8/CW93pWyozonSpVpuC8gHtWaaIW8lbihbQTwN3+cvV0guSKC8igXxpDjGOKMc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706526961; c=relaxed/simple;
+	bh=RpKJBPyAuJx70Gw2vedDa9+hb0ZDyAGj7AdkuSzaxD0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VS9JaDpmPWtCy2PQ3fgHu48GSj1i7TdpKPARg/ky043kAbKrSFpsDClctkrd+bU2E2wtLvCgGcG7Xi671Ul0vRhugTVgdJIiV6ohYXSly7Sy+s1IXTEviaAc4+JM3Jjm0Ko/J+YiNYMN31A0hEHqXJSNV93kYwoYky4KWGy5JWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LtJ/qmzN; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LtJ/qmzN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706526957;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PdmBCDGtM8wSDqYKx2ZDXDpktAyoxR2CO0TvUORZDug=;
+	b=LtJ/qmzNA3bIhBYjHwuOakIEXZ89j3mhz/D9XZLjGQ+JKqSD9JcoIkigGUO3TRYC6/UFOB
+	tt5VdKx+9VJ6b6UggkQJ5oMWeSvJP2+AqovtIAhRe85raDtfsYeWYniEpEubMOlu4c3jBF
+	CBOy5bIA2AH8cWjI3EvdAUPLNAINIPk=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-671-gWToU5SsNcu9GjvFbq2MdA-1; Mon, 29 Jan 2024 06:15:56 -0500
+X-MC-Unique: gWToU5SsNcu9GjvFbq2MdA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a2bc65005feso199707566b.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jan 2024 03:15:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706526955; x=1707131755;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PdmBCDGtM8wSDqYKx2ZDXDpktAyoxR2CO0TvUORZDug=;
+        b=OxYIEWwpSCkSilScdII5hkUu5gh6eTRTg2IzJ0EsUgjmyDmGM7ewEvcz3Pt8NJ37Qj
+         p1UxNe7L2B2jAtuLeIRB6adzP813GRgsEvuGGTL/3rMGAZiqZ891nCDiGTley+1w/063
+         RzNiJSaBfsDNDJHcluQaYo44rm6Y3ij22sAsDxiWuFscdxMNgX44MTyGM1kIIBJPpO9k
+         GB4aPV2VWObcxQciRA2NtkrF6k219bvUdwwtLqCVhR8whUJsgsjG//ZEP90j8yNapG3a
+         LxQnlBKlqr7g97qQujmkV/d0bbpuN82DnL601YVmdouPBsfLBqf9XSDfBD/nwvMSRN/5
+         T9Xg==
+X-Gm-Message-State: AOJu0YzEToIICI7lcfusI0hVWH+9MinJBT9VswJYRtxm4FgODdG4htsz
+	w/2PeUyZbImTKEUO3Tf6UKOpYLjZQ0BuF+X9VYr40HcH1GtK6JI04zPAB4+ojtEeFJSNYM7FZVh
+	THps+tN0gfu+yrwUOWTM/FBlDcVipFHXQRnNiPBCuh2pmA7Ics9/lHQq8AA==
+X-Received: by 2002:a17:906:a013:b0:a2b:a7e:3496 with SMTP id p19-20020a170906a01300b00a2b0a7e3496mr3812591ejy.28.1706526955476;
+        Mon, 29 Jan 2024 03:15:55 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGpAHqhErhQZXiA+dg1bA0riWjrWB83FQhDQeuo1UG0xYvOnaHB3CqQACeeik/4F+TYM4aupQ==
+X-Received: by 2002:a17:906:a013:b0:a2b:a7e:3496 with SMTP id p19-20020a170906a01300b00a2b0a7e3496mr3812571ejy.28.1706526955125;
+        Mon, 29 Jan 2024 03:15:55 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id qx25-20020a170906fcd900b00a311a360433sm3893770ejb.143.2024.01.29.03.15.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 03:15:54 -0800 (PST)
+Message-ID: <e21c0853-d10a-44b5-917a-3f3c08102b87@redhat.com>
+Date: Mon, 29 Jan 2024 12:15:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1160:EE_|ZQ0PR01MB1016:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d970747-1289-4ba1-5177-08dc20affc14
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	EohCljLX9xXSZmHwbi916HV1UYwCv/Q/hu7zQXPOqPm4jqdXvdormCavnF1leWxWoUxEaMJmrwyfx/RxIuVjNXhs8AjaOk4VitVYy0xqqoP1ziaFfUVSd9om148b413wwe+4KjfmSoemrTcvvONhCnlLqxPTfG9HtgkATVo8GsrUkBAZ0Z2KsSXqSEPMkW6J8aRLKxHOZbcEypgmZ364LJjeEavQ0PS+hyEU1wBUQNDMSiG+/jMifS9Uq1opRd2Nn9qM+aK97lvoaR3KyZCHEdkN5R5tZjmhqsRnoSSTMiLJ+klyyOJ3Iu7Kw+7e2FkUYX6VYYEsrRAia7P7/h303dM+hqzFzlSTOukdLAHcfA5FRak+jszCtozQBnGE3GPn5qj4CKkJsk52IqmONoVeOdcnlKIexC2Hu46ws2yoDv0y3iG65k3P6vcFhaoUo/zL1yEb0C74pYM0cCHVYhYpERnMN0RvCZWMUmN+lcsRT9vFD0nKEGOcYq1lUcnZ3LP7rbE02NxP3/7xGOXZvakYciT3QZG75k8XROHVo3TrtOJta3EyZUaFY3zIwYG3edaoxKAzUhuVFkPoBK+yq/jiZLLFAxxd/0PyCsN9VfKX3qT9H20VMIKY+25L7DmYdegZ
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1160.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(136003)(366004)(346002)(396003)(230173577357003)(230922051799003)(230273577357003)(186009)(64100799003)(451199024)(1800799012)(36756003)(41320700001)(8676002)(8936002)(4326008)(2906002)(7416002)(5660300002)(66556008)(110136005)(86362001)(66946007)(66476007)(54906003)(38350700005)(40160700002)(40180700001)(38100700002)(52116002)(508600001)(6666004)(83380400001)(2616005)(1076003)(26005)(41300700001)(921011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?WsmeOPTWdTbAmU+EWEp3SbLEpJwfLT4ZY8qj++nSWBoFvKB4Fhixt+7MkXaO?=
- =?us-ascii?Q?thCy0LXWPLVQ6nJxTfcpKBfKbJ04m707+mUq8C8by7lIikBfPVcCUkpRv/iP?=
- =?us-ascii?Q?CQV8pxvahU6DWvBesXwDEh1zifrmrO49wxQs8sypSnco5ZiWLS9wm0itsd3P?=
- =?us-ascii?Q?K16DICN0Q3wyjBD+AjgFA3rA2nY1xkQ91EUAEf3OUTRo27nS5N9T67ngYoCp?=
- =?us-ascii?Q?3m0YRPY0VL6UUTnMM4iRA00ueIYhY4pASC1Nt2pgYiHlAUGMwI0Kt6YE/D7V?=
- =?us-ascii?Q?FG3boPgeZyfaUXhtfoaINP+dsSO+mFrj99BDrXK7ivp47/5zCIdkcb6u4s8Y?=
- =?us-ascii?Q?/wek9Hx5UcDu+GeB/ASMRGC3ZLQH+oVPUyystDZ18khh54bfeySQCnlzDTDD?=
- =?us-ascii?Q?b1uxyWQLOiW63JslG89jAJ6Yq4e+mrr2/4cFwhs98AshrlAQoAV3JEnXVbnw?=
- =?us-ascii?Q?JuoBoNJeFZplMYWMpbF6OS4ShIXoz4p1fMEDiArUBztdAyb0FUM5m0Ni1sFu?=
- =?us-ascii?Q?6Ou0TBvWEJEEkMWvO4JZFiRW1Qx2kySd2YCOgMpccIRWNoc7jrMUtL9UL6dc?=
- =?us-ascii?Q?W08kJ2Pdia6zx9VRqvHoSmgFt6rZh8428JbD60E13GySEOi+M8NStto3sMuE?=
- =?us-ascii?Q?4QZJzhtzinhyfMfMMfthTswZuBHP7vqsl/sAsMOcZbdu6Jgte++GuDXnf+pi?=
- =?us-ascii?Q?GtXGPUc6kfRd2Vl2k5KLkZMKAwSKITNwTLUJyuDEMpwMMAa7B+XnYTY8DQvj?=
- =?us-ascii?Q?qNQntM8zu99tnW3gB9I3gejqiX54D2iRxJgFfEkVDJJzFK/Hw8YhgCNYBGR4?=
- =?us-ascii?Q?IiLLe/8TCp03xr/VdkBEOD4Ud6MTYn4jC1fS1ZHY/zwKiDs3xh8SHFdMWjPP?=
- =?us-ascii?Q?JimiDt8u2cKXaqsFVETPxIFX0lgEiBL81Jp2/vB4nzTho78Pj1eQ84xKzpTj?=
- =?us-ascii?Q?qzsF4LuMR4BRN0rRGww5vxdlWXopFmZ3a+xf8l/xsctOe0S7/Kqcjsh+FPAm?=
- =?us-ascii?Q?EDJ04PQJHrfnzxODnUB2twUssySgY6x6xTvi5e06qqGX3sPl+p7m+65pmQ1D?=
- =?us-ascii?Q?UBR1ZSaNHv5CQLCpo+yNJ+a+S1jh1kT8PYhmydAaUvwpEP1ctxInObt+vYUN?=
- =?us-ascii?Q?xABsu6Zli6NtuYuaMTRzIXhoPwPRSe+7m27ZRydOeJPWhha4xqnb/an2PWek?=
- =?us-ascii?Q?chPL3tBzbeFpOg94ZRSPCJPo8JqmJUSO2Bkkv6LxPhrza5ieycnZ/mVU3W27?=
- =?us-ascii?Q?0qM7fbWsL2MvXK3pbbCtGvUtzJkoUUa93p7uLCBbd5fvIilbxY14Jk0ejDXC?=
- =?us-ascii?Q?iFkVpp+12nxrVK1Vo38LxLx8xffoq1oXEQRNiX6dJfebjCbjP23Nlidgl0sq?=
- =?us-ascii?Q?fEFNkMZ1XMropID1O65qWApoINS35Sc5b5l9Nz7D8Y2r9LZ5w/+aL2ykFMxl?=
- =?us-ascii?Q?0x2lIUTD5TFex9zs9JaHNHkTnqjtYKQiHQ1OaWsk459ssvnHmG8xmk6akzxc?=
- =?us-ascii?Q?+13cMta0+NIQyvFydzVtIH6AZv+i05mI+yWBeuQjPHmTGjG+ZbEbMUXWCmcn?=
- =?us-ascii?Q?lacSnNCG248RYGg2V4BYLt7vkl05Wl+uN27Ba4cwjADuD2Hq5Pp98GZbYPwS?=
- =?us-ascii?Q?tA=3D=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d970747-1289-4ba1-5177-08dc20affc14
-X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1160.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 09:52:20.2243
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6cMj7uMuCKGsG8jZAIE5QbSF0mOoo0BB2pIO9mu/ot92TzInkLCgLqT4vm2HEEaaHfR1nExl/tg6r90lzQRd0LTeFy4IQCYAv2KzsWK6SrU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1016
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/10] drm/vboxvideo: fix mapping leaks
+Content-Language: en-US, nl
+To: Philipp Stanner <pstanner@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dakr@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org,
+ stable@kernel.vger.org
+References: <20240123094317.15958-1-pstanner@redhat.com>
+ <20240123094317.15958-11-pstanner@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240123094317.15958-11-pstanner@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Changes since v5:
-- Add entry to MAINTAINERS and mark the driver as "Maintained".
+Hi Philipp,
 
-Changes since v4:
-- Add Reviewed-by tag from Conor to dt-bindings.
-- Add Documentation/admin-guide/perf/starfive_starlink_pmu.rst.
-- Rework starfive_starlink_pmu.c based on Jonathan's comment.
-  - Use <linux/mod_devicetable.h> in place of <linux/of_device.h>.
-  - Prefix CYCLES to STARLINK_CYCLES.
-  - Fixup error handling, remove unnecessary comma after NULL and comments.
+On 1/23/24 10:43, Philipp Stanner wrote:
+> When the PCI devres API was introduced to this driver, it was wrongly
+> assumed that initializing the device with pcim_enable_device() instead
+> of pci_enable_device() will make all PCI functions managed.
+> 
+> This is wrong and was caused by the quite confusing devres API for PCI
+> in which some, but not all, functions become managed that way.
+> 
+> The function pci_iomap_range() is never managed.
+> 
+> Replace pci_iomap_range() with the actually managed function
+> pcim_iomap_range().
+> 
+> Additionally, add a call to pcim_request_region() to ensure exclusive
+> access to BAR 0.
 
-Changes since v3:
-- Change dt-bindings filename along with the compatible field to
-   "starfive,jh8100-starlink-pmu" with SOC specific naming
-   convention.
-- Drop unused label defined in examples section in dt-bindings.
-- Update compatible field in starfive_starlink_pmu.c to the
-  aforementioned.
+I'm a bit worried about this last change. There might be
+issues where the pcim_request_region() fails due to
+e.g. a conflict with the simplefb / simpledrm code.
 
-Changes since v2:
-- Change compatible field from generic "starfive,starlink-pmu"
-   to "starfive,starlink-500-pmu" with specific IP versioning
-   in bindings and driver.
-- Fix warning '-Wmissing-prototypes' reported by kernel test robot,
-   by appending static to starlink_pmu_set_event_period() in
-   starfive_starlink_pmu.c.
+There is a drm_aperture_remove_conflicting_pci_framebuffers()
+call done before hw_init() gets called, but still this
+has been known to cause issues in the past.
 
-Changes since v1:
-- Change 'depends on SOC_STARFIVE' to 'depends on ARCH_STARFIVE'
-   in Kconfig
+Can you split out the adding of the pcim_request_region()
+into a separate patch and *not* mark that separate patch
+for stable ?
 
-----
+Regards,
 
-This patch series adds support for StarFive's Starlink Performance
-Monitor Unit(PMU).
-StarFive's StarLink PMU integrates one or more CPU cores with
-a shared L3 memory system. The PMU supports overflow interrupt,
-up to 16 programmable 64bit event counters, and an independent
-64bit cycle counter.
-StarLink PMU is accessed via MMIO.
+Hans
 
-Example Perf stat output:
-[root@user]# perf stat -a -e /starfive_starlink_pmu/cycles/ \
-        -e /starfive_starlink_pmu/read_miss/ \
-        -e /starfive_starlink_pmu/read_hit/ \
-        -e /starfive_starlink_pmu/release_request/  \
-        -e /starfive_starlink_pmu/write_hit/ \
-        -e /starfive_starlink_pmu/write_miss/ \
-        -e /starfive_starlink_pmu/write_request/ \
-        -e /starfive_starlink_pmu/writeback/ \
-        -e /starfive_starlink_pmu/read_request/ \
-        -- openssl speed rsa2048
-Doing 2048 bits private rsa's for 10s: 5 2048 bits private RSA's in
-2.84s
-Doing 2048 bits public rsa's for 10s: 169 2048 bits public RSA's in
-2.42s
-version: 3.0.11
-built on: Tue Sep 19 13:02:31 2023 UTC
-options: bn(64,64)
-CPUINFO: N/A
-                  sign    verify    sign/s verify/s
-rsa 2048 bits 0.568000s 0.014320s      1.8     69.8
-/////////
- Performance counter stats for 'system wide':
 
-         649991998      starfive_starlink_pmu/cycles/
-           1009690      starfive_starlink_pmu/read_miss/
-           1079750      starfive_starlink_pmu/read_hit/
-           2089405      starfive_starlink_pmu/release_request/
-               129      starfive_starlink_pmu/write_hit/
-                70      starfive_starlink_pmu/write_miss/
-               194      starfive_starlink_pmu/write_request/
-            150080      starfive_starlink_pmu/writeback/
-           2089423      starfive_starlink_pmu/read_request/
 
-      27.062755678 seconds time elapsed
 
-Ji Sheng Teoh (4):
-  perf: starfive: Add StarLink PMU support
-  dt-bindings: perf: starfive: Add JH8100 StarLink PMU
-  docs: perf: Add description for StarFive's StarLink PMU
-  MAINTAINERS: Add entry for StarFive StarLink PMU
 
- Documentation/admin-guide/perf/index.rst      |   1 +
- .../perf/starfive_starlink_pmu.rst            |  46 ++
- .../perf/starfive,jh8100-starlink-pmu.yaml    |  46 ++
- MAINTAINERS                                   |   7 +
- drivers/perf/Kconfig                          |   9 +
- drivers/perf/Makefile                         |   1 +
- drivers/perf/starfive_starlink_pmu.c          | 643 ++++++++++++++++++
- 7 files changed, 753 insertions(+)
- create mode 100644 Documentation/admin-guide/perf/starfive_starlink_pmu.rst
- create mode 100644 Documentation/devicetree/bindings/perf/starfive,jh8100-starlink-pmu.yaml
- create mode 100644 drivers/perf/starfive_starlink_pmu.c
-
--- 
-2.43.0
+> 
+> CC: <stable@kernel.vger.org> # v5.10+
+> Fixes: 8558de401b5f ("drm/vboxvideo: use managed pci functions")
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+>  drivers/gpu/drm/vboxvideo/vbox_main.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
+> index 42c2d8a99509..7f686a0190e6 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_main.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
+> @@ -42,12 +42,11 @@ static int vbox_accel_init(struct vbox_private *vbox)
+>  	/* Take a command buffer for each screen from the end of usable VRAM. */
+>  	vbox->available_vram_size -= vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE;
+>  
+> -	vbox->vbva_buffers = pci_iomap_range(pdev, 0,
+> -					     vbox->available_vram_size,
+> -					     vbox->num_crtcs *
+> -					     VBVA_MIN_BUFFER_SIZE);
+> -	if (!vbox->vbva_buffers)
+> -		return -ENOMEM;
+> +	vbox->vbva_buffers = pcim_iomap_range(
+> +			pdev, 0, vbox->available_vram_size,
+> +			vbox->num_crtcs * VBVA_MIN_BUFFER_SIZE);
+> +	if (IS_ERR(vbox->vbva_buffers))
+> +		return PTR_ERR(vbox->vbva_buffers);
+>  
+>  	for (i = 0; i < vbox->num_crtcs; ++i) {
+>  		vbva_setup_buffer_context(&vbox->vbva_info[i],
+> @@ -115,12 +114,15 @@ int vbox_hw_init(struct vbox_private *vbox)
+>  
+>  	DRM_INFO("VRAM %08x\n", vbox->full_vram_size);
+>  
+> +	ret = pcim_request_region(pdev, 0, "vboxvideo");
+> +	if (ret)
+> +		return ret;
+> +
+>  	/* Map guest-heap at end of vram */
+> -	vbox->guest_heap =
+> -	    pci_iomap_range(pdev, 0, GUEST_HEAP_OFFSET(vbox),
+> -			    GUEST_HEAP_SIZE);
+> -	if (!vbox->guest_heap)
+> -		return -ENOMEM;
+> +	vbox->guest_heap = pcim_iomap_range(pdev, 0,
+> +			GUEST_HEAP_OFFSET(vbox), GUEST_HEAP_SIZE);
+> +	if (IS_ERR(vbox->guest_heap))
+> +		return PTR_ERR(vbox->guest_heap);
+>  
+>  	/* Create guest-heap mem-pool use 2^4 = 16 byte chunks */
+>  	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
 
