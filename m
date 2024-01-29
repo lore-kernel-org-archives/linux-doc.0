@@ -1,84 +1,162 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07674EB3D;
-	Mon, 29 Jan 2024 07:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551C652F7D;
+	Mon, 29 Jan 2024 08:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706514636; cv=none; b=SinqM4W0mqblkMNATiHO8uCx56/ZO9btCYfp9kFQyd/CJOKFQchfN2wKsBhKQ0bt9/pnAm0V6bAdWc8GhmwBXhPMm2BdixRaNGKcJCK8V/B74TJ3xkZAYs4A7REBiDYwDaLB6L4VxZqmZh42Lb0IE9ayULErW/e52i9uOfUWngg=
+	t=1706516393; cv=none; b=CpRrJAC2ll/imTZJ2P/FSxufAu+JG1YjoHf5cn+/WAmQhKBEc4CgrLI0L+kLpHwW2bGaoHy6KgJYIBSuW9UpIyIErW1jGgZPemP7HpH+04xlHbjUCEEAzhOKh2cG7lDQvL8nGRTmC06l9T85rz2uaPCEz6uAzGI3/t1TqHT/TqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706514636; c=relaxed/simple;
-	bh=daBtVwb/lXqjAG7knocO2q2VJO0kTxb3gqnLhCRYuBY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dvAHFGuI7mj249Csxmyew9vCB/XIgURscTmplowb7Gv+aNixGym5UPrQ5ib4xDEx17pqU2/Ixq0KbKmXW62C9X18gaI6yzOU5ZEVZC2FTdhrhGBOlcVvmfQKsQujEx5ylsqfKpgDGirl2FB6IMX4S8bZC8Kwb/AHGu7z4m0vSyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gjwDujoo; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706516393; c=relaxed/simple;
+	bh=q9yLJZ27jvLejI0DqUZQHKwFIPnOnNb3BDVtGNN+2V8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=RJYQJ6u/J1sVUml+D6zngjlqj+H9vl+rpshN8y15mM9mjYIqMP5KQxFvwkYUsJxKjmdtn7haKMX7sQMpBDnKfi4Xg0qqAdrEs6DiXUhQyP5XHeEkUn3NIUroX5Qu0FHmx7Im6r9F/w4iSQPPiDva1jok24dTk/0VeyhO7YPz/Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JIhpEHYY; arc=none smtp.client-ip=134.134.136.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gjwDujoo"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5d8b70b39efso770667a12.0;
-        Sun, 28 Jan 2024 23:50:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706514634; x=1707119434; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=daBtVwb/lXqjAG7knocO2q2VJO0kTxb3gqnLhCRYuBY=;
-        b=gjwDujooSxKr1WlOtJT9HmgsnA6vLRZc9s4Yr4TdvZErj5F4b8M3+rwilqoPcXKMVn
-         MAblr4KzIhe0yrDn83Er5Ejv5W1JO/uoWNE12r0eMxfF+cK9r8eRXZTQ0Ai1YQed4ElF
-         h0RigkrrK1vPB45//+ooRzRLXFByMyFNeebWfv2cR4WHdq+SZKVzSlrlyScq4fiXKWq9
-         YSQeh/Ob2xJzHywDbLuoqwBlXkTMQqRChDh9E4YGJeNexrEzRm5xEt3Wj3XZf97yTKSY
-         Uscm/FFxv9GoFovOt/J42FRYWvYB+MuhPl6s9V/4V7ChvTzCMA2vUgh9j9emSlW85zsM
-         Ts/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706514634; x=1707119434;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=daBtVwb/lXqjAG7knocO2q2VJO0kTxb3gqnLhCRYuBY=;
-        b=Beo2g30qHfXMTpx90cyO+zGWrPDQPDPpPdQOesRB7TTED85Zi4PRWUi7x7wQEk3U3W
-         X6iee0/GeiOiLvyPGsRPT+1N+GuXkorqkfKzluCHaKhMntJTpCcHBzrnbY9bsLGX/Jyg
-         s78Cx6rHeVcM45FbXR2rRlzcgJU/nJJYWB20R2xHaU5hTRYBJFCEjc/7A2EWwEoEMDzs
-         SW6QSVOf85LbTDKv5bBOYhOR2ytIPY/wyhzpbr5jSnUQThoCkP10+2UkF8Ksl4uAfWVG
-         kUeR9eQ2z/0yzZb3a/I6BY2Tx0fMCNnti70RlR3MrUFM4VdePSatnoRKwrh2KAHsyiG+
-         JU3Q==
-X-Gm-Message-State: AOJu0YwyzmRrcJpRXc9MajhaNjx+9DMA8R9KDz+VLQLunN3OPWjPlwy4
-	A0wNS0CFJpaYufSVkE33hDIfH57S5D7ol8SfdYe5c96E8ozA2oQc
-X-Google-Smtp-Source: AGHT+IF7fEYIei+OVQWtVITm5s1kpndgqSHGPRXXSGXQJ+77ZRujKNPYEaQFdrEZqcFm4BZ+b9UnjQ==
-X-Received: by 2002:a05:6a20:2d0a:b0:19c:ad6b:e1c2 with SMTP id g10-20020a056a202d0a00b0019cad6be1c2mr750080pzl.12.1706514633901;
-        Sun, 28 Jan 2024 23:50:33 -0800 (PST)
-Received: from kohshi54-ThinkCentre-M715q.. ([2404:7a80:c880:6500:a374:2c9:8d38:9a2d])
-        by smtp.gmail.com with ESMTPSA id kh7-20020a170903064700b001d721ee41c6sm4737820plb.232.2024.01.28.23.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jan 2024 23:50:33 -0800 (PST)
-From: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
-To: rdunlap@infradead.org
-Cc: corbet@lwn.net,
-	gregkh@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] doc: Fix malformed table in gadget-testing.rst
-Date: Mon, 29 Jan 2024 16:50:30 +0900
-Message-Id: <20240129075030.52625-1-kohshi54.yam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <d3bc8995-b0bc-4d9e-b811-fccdbaf426c5@infradead.org>
-References: <d3bc8995-b0bc-4d9e-b811-fccdbaf426c5@infradead.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JIhpEHYY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706516391; x=1738052391;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=q9yLJZ27jvLejI0DqUZQHKwFIPnOnNb3BDVtGNN+2V8=;
+  b=JIhpEHYYMvTxRTFQDg0GX6eNZ8ZrelCTytzl6lu3MLSj8do4/hyeMKdr
+   Pxr61zTtMSIsq6v8Ng5HsbrffwCcCKBWp5xxrRQr4ApC1xndMde+HBIYu
+   UcjWBmn+tDgGOQQNyY1A4JYZe39PIvX7c76rGpS97oGoMjBfyUHyv/Yie
+   puqXR4o8//dVHWt4KTttEn4MVPMcQDpO5WUUOx+CHi4H82k3hw9uXG1hb
+   cXC4HRGKBOrcEv8bpVq//efrh+O6Bjtzk6uWpJNbrOg4xZRtJskdvH2Hn
+   MVsMdx/90lTxckoJwhLIlyUYUAFTGCS7axdUQxvy9e07n8i3KHfJHrD3H
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="406609298"
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="406609298"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 00:19:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
+   d="scan'208";a="29701150"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 00:19:43 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
+  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
+  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
+  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
+  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
+  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
+  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
+  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
+  <dan.j.williams@intel.com>
+Subject: Re: [PATCH v3 4/4] mm/mempolicy: change cur_il_weight to atomic and
+ carry the node with it
+In-Reply-To: <ZbPf6d2cQykdl3Eb@memverge.com> (Gregory Price's message of "Fri,
+	26 Jan 2024 11:38:01 -0500")
+References: <20240125184345.47074-1-gregory.price@memverge.com>
+	<20240125184345.47074-5-gregory.price@memverge.com>
+	<87sf2klez8.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZbPf6d2cQykdl3Eb@memverge.com>
+Date: Mon, 29 Jan 2024 16:17:46 +0800
+Message-ID: <877cjsk0yd.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=ascii
 
-Hi Randy,
+Gregory Price <gregory.price@memverge.com> writes:
 
-Thank you for reviewing my patch and pointing out the similar change you posted.
-I appreciate your feedback.
+> On Fri, Jan 26, 2024 at 03:40:27PM +0800, Huang, Ying wrote:
+>> Gregory Price <gourry.memverge@gmail.com> writes:
+>> 
+>> > Two special observations:
+>> > - if the weight is non-zero, cur_il_weight must *always* have a
+>> >   valid node number, e.g. it cannot be NUMA_NO_NODE (-1).
+>> 
+>> IIUC, we don't need that, "MAX_NUMNODES-1" is used instead.
+>> 
+>
+> Correct, I just thought it pertinent to call this out explicitly since
+> I'm stealing the top byte, but the node value has traditionally been a
+> full integer.
+>
+> This may be relevant should anyone try to carry, a random node value
+> into this field. For example, if someone tried to copy policy->home_node
+> into cur_il_weight for whatever reason.
+>
+> It's worth breaking out a function to defend against this - plus to hide
+> the bit operations directly as you recommend below.
+>
+>> >  	/* Weighted interleave settings */
+>> > -	u8 cur_il_weight;
+>> > +	atomic_t cur_il_weight;
+>> 
+>> If we use this field for node and weight, why not change the field name?
+>> For example, cur_wil_node_weight.
+>> 
+>
+> ack.
+>
+>> > +			if (cweight & 0xFF)
+>> > +				*policy = cweight >> 8;
+>> 
+>> Please define some helper functions or macros instead of operate on bits
+>> directly.
+>> 
+>
+> ack.
+>
+>> >  			else
+>> >  				*policy = next_node_in(current->il_prev,
+>> >  						       pol->nodes);
+>> 
+>> If we record current node in pol->cur_il_weight, why do we still need
+>> curren->il_prev.  Can we only use pol->cur_il_weight?  And if so, we can
+>> even make current->il_prev a union.
+>> 
+>
+> I just realized that there's a problem here for shared memory policies.
+>
+> from weighted_interleave_nodes, I do this:
+>
+> cur_weight = atomic_read(&policy->cur_il_weight);
+> ...
+> weight--;
+> ...
+> atomic_set(&policy->cur_il_weight, cur_weight);
+>
+> On a shared memory policy, this is a race condition.
+>
+>
+> I don't think we can combine il_prev and cur_wil_node_weight because
+> the task policy may be different than the current policy.
+>
+> i.e. it's totally valid to do the following:
+>
+> 1) set_mempolicy(MPOL_INTERLEAVE)
+> 2) mbind(..., MPOL_WEIGHTED_INTERLEAVE)
+>
+> Using current->il_prev between these two policies, is just plain incorrect,
+> so I will need to rethink this, and the existing code will need to be
+> updated such that weighted_interleave does not use current->il_prev.
 
-Best regards,
+IIUC, weighted_interleave_nodes() is only used for mempolicy of tasks
+(set_mempolicy()), as in the following code.
+
++		*nid = (ilx == NO_INTERLEAVE_INDEX) ?
++			weighted_interleave_nodes(pol) :
++			weighted_interleave_nid(pol, ilx);
+
+But, in contrast, it's bad to put task-local "current weight" in
+mempolicy.  So, I think that it's better to move cur_il_weight to
+task_struct.  And maybe combine it with current->il_prev.
+
 --
-Kohshi Yamaguchi
-
+Best Regards,
+Huang, Ying
