@@ -1,57 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A1638DDF;
-	Tue, 30 Jan 2024 16:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF6A38DDF;
+	Tue, 30 Jan 2024 16:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706632402; cv=none; b=A/AhCHqTgv1XFs50GV9Bxmq6waOWEggEbbAVEZNHRhOEydLTBlyijAdaUMG6IUdIRpDcZJjMmAzyIV+mLMfl0WbbfFKS7Y6hxL4bo5o4AKexLSTQSGm1evxv37wYWLo85kDGagMr/jJKWYhaloUnh3IiI512CXeWk5VuMUFgVW0=
+	t=1706632531; cv=none; b=Dki85ZrnPuGXcLj4aoAm30GIyja4A6cUQ/pnsnh7vP/11u4Kki64+3HCJAISbkQKXpukvi0eSKWc7mVvZCYAj7YEH0lAR8eoePmSCirpC2E82K4wZ3v8Cy7akYU4AZeWjQZ85yZ+rfDxipR+/KPqig/kDPPiOrKr8wCGsmSl1fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706632402; c=relaxed/simple;
-	bh=7lcXGcjnNomt+i2x6M1dhs33eS+R8FWYGL8TkfLV164=;
+	s=arc-20240116; t=1706632531; c=relaxed/simple;
+	bh=e6WGrzfI011OwRmHVj7M53wMeTl8sRp+30pwPx8VzMk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f60AhquwWo7KUhYLjPFMh5XTZnEL6gVeJgYeMOjjnMfoebo7qXeLPFMRyNWrYkzwj0b8AkKuKwo0wq4IQi/o0ZHgJ+xT2Iv+mts5gCQoMmoWEsOJhh7a29Fc5e3fb67Aj322S0cuXdNciLx8cJZ5KI6uc6Ty3u/z9OENpAuCxF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K95DzjwF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fyVwGLQZkERTJn7SBfjN93AMf2lKFcYWO7HpewdfIuiUE+DlykcogVZkCHopnNKJh+mRm0tUvdxrzXGETdPdPyYqB+a5I9S90xrbnqb3X00MJC/dcD/fkvmbGVoLjR1L1hJpldKJOGoGYq/A8S2UYYPjlJAfvNf2UFUPEsofK60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bWLCiNLR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K95DzjwF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B22BFC433F1;
-	Tue, 30 Jan 2024 16:33:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706632401;
-	bh=7lcXGcjnNomt+i2x6M1dhs33eS+R8FWYGL8TkfLV164=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=K95DzjwFeGX+F/y1ok9451Ib5LX5ZEJ4E0D+ZjuWleALpCIE99fi41NAKHj9en2NJ
-	 U5FmJ4e7R9SPvgRO9UpMYC0FnSlPxSYr5QNk8tao0YmswsccE/Vl+rHAK0X4AM7+zv
-	 w+WWKlwsAQ9kQ4bZmzCCmWpJwlYiZ5bxnArZsciBJPudRelHCtZXEfb+owvFN3mOO5
-	 Wnp6/fiKK0egb1O1NW0nmzC1CY2OPog7wPVXXfN/3N1Shgcv2aquiT72aMGNDVBh7U
-	 mnEXz8gU1Xvu213BsRH5Cvcicvwj6r3FElH/WtLuqCP+4bNSM1XmDmTtnMujAmDP4n
-	 +PAfg5gfC7gkA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 3E4A2CE14F0; Tue, 30 Jan 2024 08:33:21 -0800 (PST)
-Date: Tue, 30 Jan 2024 08:33:21 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: linux-kernel@vger.kernel.org, "E."@paulmck-thinkpad-p17-gen-1,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	David Howells <dhowells@redhat.com>,
-	Jade Alglave <j.alglave@ucl.ac.uk>,
-	Luc Maranget <luc.maranget@inria.fr>,
-	Paul@paulmck-thinkpad-p17-gen-1, Akira Yokosawa <akiyks@gmail.com>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>
-Subject: Re: [PATCH doc] Emphasize that failed atomic operations give no
- ordering
-Message-ID: <db3d2a7e-a459-46e1-9c79-2b4e1d503ce5@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <63d9d6f6-05e8-473d-9d09-ce8d3a33ca39@paulmck-laptop>
- <ZbkdqYFlFOdcZ63m@andrea>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bWLCiNLR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92349C43390;
+	Tue, 30 Jan 2024 16:35:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706632530;
+	bh=e6WGrzfI011OwRmHVj7M53wMeTl8sRp+30pwPx8VzMk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bWLCiNLRLkEK1vJUF+8N4E/8wRAIoYpJv5JKfnlv1euTtd2aimkBbVzG45XgTxB9S
+	 7f3z9D3M4dkRVuWcdgCOlFYLwxHZNbTD0aEfPf5H4ErKorWtSffFvTXtI5qB6oKzTT
+	 LglJbNnGQTgbSB3ME+1ye1rHhpzZalfIWM+aQzdE=
+Date: Mon, 29 Jan 2024 14:52:23 -0800
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sourav Panda <souravpanda@google.com>
+Cc: corbet@lwn.net, rafael@kernel.org, akpm@linux-foundation.org,
+	mike.kravetz@oracle.com, muchun.song@linux.dev, rppt@kernel.org,
+	david@redhat.com, rdunlap@infradead.org, chenlinxuan@uniontech.com,
+	yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com,
+	bhelgaas@google.com, ivan@cloudflare.com, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com,
+	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com,
+	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
+	surenb@google.com, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, willy@infradead.org, weixugc@google.com
+Subject: Re: [PATCH v7 1/1] mm: report per-page metadata information
+Message-ID: <2024012948-hungry-tibia-5345@gregkh>
+References: <20240129224204.1812062-1-souravpanda@google.com>
+ <20240129224204.1812062-2-souravpanda@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,31 +49,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZbkdqYFlFOdcZ63m@andrea>
+In-Reply-To: <20240129224204.1812062-2-souravpanda@google.com>
 
-On Tue, Jan 30, 2024 at 05:02:49PM +0100, Andrea Parri wrote:
-> On Tue, Jan 30, 2024 at 06:53:38AM -0800, Paul E. McKenney wrote:
-> > The ORDERING section of Documentation/atomic_t.txt can easily be read as
-> > saying that conditional atomic RMW operations that fail are ordered when
-> > those operations have the _acquire() or _release() prefixes.  This is
+On Mon, Jan 29, 2024 at 02:42:04PM -0800, Sourav Panda wrote:
+> Adds two new per-node fields, namely nr_page_metadata and
+> nr_page_metadata_boot, to /sys/devices/system/node/nodeN/vmstat
+> and a global PageMetadata field to /proc/meminfo. This information can
+> be used by users to see how much memory is being used by per-page
+> metadata, which can vary depending on build configuration, machine
+> architecture, and system use.
 > 
-> s/prefixes/suffixes
-
-Good catch, fixed.
-
-> > not the case, therefore update this section to make it clear that failed
-> > conditional atomic RMW operations provide no ordering.
-> > 
-> > Reported-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-> > Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> Per-page metadata is the amount of memory that Linux needs in order to
+> manage memory at the page granularity. The majority of such memory is
+> used by "struct page" and "page_ext" data structures. In contrast to
+> most other memory consumption statistics, per-page metadata might not
+> be included in MemTotal. For example, MemTotal does not include memblock
+> allocations but includes buddy allocations. In this patch, exported
+> field nr_page_metadata in /sys/devices/system/node/nodeN/vmstat would
+> exclusively track buddy allocations while nr_page_metadata_boot would
+> exclusively track memblock allocations. Furthermore, PageMetadata in
+> /proc/meminfo would exclusively track buddy allocations allowing it to
+> be compared against MemTotal.
 > 
-> You may want to add a "subsystem" to the subject line, git-log suggests
-> "Documentation/atomic_t".  Anyway,
+> This memory depends on build configurations, machine architectures, and
+> the way system is used:
+> 
+> Build configuration may include extra fields into "struct page",
+> and enable / disable "page_ext"
+> Machine architecture defines base page sizes. For example 4K x86,
+> 8K SPARC, 64K ARM64 (optionally), etc. The per-page metadata
+> overhead is smaller on machines with larger page sizes.
+> System use can change per-page overhead by using vmemmap
+> optimizations with hugetlb pages, and emulated pmem devdax pages.
+> Also, boot parameters can determine whether page_ext is needed
+> to be allocated. This memory can be part of MemTotal or be outside
+> MemTotal depending on whether the memory was hot-plugged, booted with,
+> or hugetlb memory was returned back to the system.
+> 
+> Suggested-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Signed-off-by: Sourav Panda <souravpanda@google.com>
+> ---
+>  Documentation/filesystems/proc.rst |  3 +++
+>  fs/proc/meminfo.c                  |  4 ++++
+>  include/linux/mmzone.h             |  4 ++++
+>  include/linux/vmstat.h             |  4 ++++
+>  mm/hugetlb_vmemmap.c               | 19 ++++++++++++++----
+>  mm/mm_init.c                       |  3 +++
+>  mm/page_alloc.c                    |  1 +
+>  mm/page_ext.c                      | 32 +++++++++++++++++++++---------
+>  mm/sparse-vmemmap.c                |  8 ++++++++
+>  mm/sparse.c                        |  7 ++++++-
+>  mm/vmstat.c                        | 26 +++++++++++++++++++++++-
+>  11 files changed, 96 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 49ef12df631b..d5901d04e082 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -993,6 +993,7 @@ Example output. You may not have all of these fields.
+>      AnonPages:       4654780 kB
+>      Mapped:           266244 kB
+>      Shmem:              9976 kB
+> +    PageMetadata:     513419 kB
+>      KReclaimable:     517708 kB
+>      Slab:             660044 kB
+>      SReclaimable:     517708 kB
 
-Good point, done.
+Why are you adding it to the middle of the file?  Are you sure the
+userspace tools that parse this file today can handle an unknown field
+here, and not just at the end of the file?
 
-> Acked-by: Andrea Parri <parri.andrea@gmail.com>
+thanks,
 
-Thank you!
-
-							Thanx, Paul
+greg k-h
