@@ -1,189 +1,149 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBD03C062
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jan 2024 19:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC74157E60;
+	Mon, 29 Jan 2024 20:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706555370; cv=none; b=BlNhqO+f5Rl/X5VFDjJVgQcQz+fwUhrN1Fq6XR1JsqCZBZd1hmfCjxkzU8ji/4ScsVSgi73znX5kEcNNGIBRRGURZV3tWurRvTT019u/mDXm4Ck9zqmQUkdy9OV0tyPwwdlrSeE1AH/FEiFbTpCz50knwjkdrQHjRQRE77npFl0=
+	t=1706560475; cv=none; b=QOcbUdV7EjMNjRnmqKtzIZIZsibalHVsE44r4CR4/0PyL/t8Yp9//vdAlsoIdGlIzbZ/Ejq/AzBcyXoOSQAncRP/03FjZGZgiuffyrjHImNbFx18OFsDnChtBhs1hFCjMDGutYV+2ZHo2Uu/Qt2A6HuuXBaBc7CfMDcoUqOkXpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706555370; c=relaxed/simple;
-	bh=511hvbc1Pbq2+EOuaGOVAprY+/qc4fIDXxmZ7B+0s2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hl/2x/gGECoKw85SoCSMyN8cI5FiS05mOlWPGvenO8x8lBlkuE0cDoSD//hWUcEE4cbe9OvoftyU9FFJZ51UkV3uoaWiEOt8WfSsEPGPIrg7IXzwWpxrfIBnMNOvZsLk6yHiTQRW+ETkOcC9dbZWQtymrCu+poBnjhZcosXQhAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=rIkU6Ws2; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1706560475; c=relaxed/simple;
+	bh=uwYfI8ZH97ABK24JBgyk9nqr5KgeMLw0uZfqpsw0t6Y=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=HM83x7jLbmiXa0JVoT+2V8N89/ins7ylUQ7Cwzq8VGIkACHFfKpfpc6leOMLYANo7wDvTA+iNA6KHkuNRPfio1ngJscUIUR1SW3UeltM+6DFngVrTwdorGrI44rame6J/A+M8vvmOueSEmTPtyd2cAkwuOwjBkHb6JoJih8918c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hgbOed/C; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="rIkU6Ws2"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6ddd19552e6so1424305b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jan 2024 11:09:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hgbOed/C"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a26ed1e05c7so372933866b.2;
+        Mon, 29 Jan 2024 12:34:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1706555368; x=1707160168; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A+pfwsAR7dQEMZaUbmAmf7P3tGpaqey93GDUy/LCXUY=;
-        b=rIkU6Ws2QKHii+1VfbHJ2qXmJcqT+IfmpgjYD4xzI5MIRFiSvC+xRxCq3OP1SGpSgF
-         4TglgnOJTGktPRPsH8rsgF7lN7JIo5WrTDlJVg1OO4glT8goQETCjiwYdIofMJ5z+XVc
-         D3eVlvTYsLHUwtw4Ginkr08ZTdGu83VGHMZK4=
+        d=gmail.com; s=20230601; t=1706560472; x=1707165272; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uwYfI8ZH97ABK24JBgyk9nqr5KgeMLw0uZfqpsw0t6Y=;
+        b=hgbOed/CE9GbglDfxIIP/O8qMOdjQWm5IProcQxy/ewGd7+QcoIgI5kN4ZJirSOjlH
+         0dCo0FulqQdmxd3rPO88a61JOcVyOUF2NHpUfTn06zSvEH/ncAwKDvYK2YWIhiZz05Qi
+         kxOvk1dJFHuelA6hgvrdLbFsPygXQLSO7FVTgQJjcr1p61lSUhwuxtUJ3THMphCrEcbN
+         7jOzNfFFuSpyPJUI/AM4qys6v8Z8EVHpxwg4vK4ekO6VEKf1xugIPUdIYFnYBlRhgUt3
+         KzbsH+nClZGJaUCNq42Yw5FP8j4S7pAbpvVo2XJ0r8uO9ejN3UBrFsFRn6Zftiz7GEbj
+         ar4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706555368; x=1707160168;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A+pfwsAR7dQEMZaUbmAmf7P3tGpaqey93GDUy/LCXUY=;
-        b=OzjzFz6IOl8ER91XbE4M7gNPqvBMgBmQVQN2CSxiDcmIddyIxmGLHw+6RClz5HlV7a
-         8dO1OzwLv72Dp6oy6pKf4Jx0b/lv5K2zrW/2CccrCXUskvAqXAmZxPhavnh5CPOTuKxJ
-         ZlkCLS900Rxc9UhW29D5QmPUuzkneRVfo/+2+vZRxj2GUIPbmZpFpYe1amHf5FDCVKAO
-         PEw6bW1o5oLoG70jPIhQHER+jg0SUp0Zo96plpK99zUeQThjkKMa4NH0ep7A23EGH8rr
-         /H4hwCq0eYmth9GeQp579ehmtAQjCTO1o5Uox4mNg9FeuUj/NnPPeLZcfAonUZk1CdCF
-         fE9g==
-X-Gm-Message-State: AOJu0YwzR7BSOkFXek9R2gJo2xzTayAN2S4NQzLBW1GNFeXfNklD9WFc
-	FJSGI8F285mENaK/LTvceGa2Y+h6SLuWUMCBmpGFshOTpJgSYQDw0PBOo9LeUdA=
-X-Google-Smtp-Source: AGHT+IESoPfU8AaOOY4JrFQlBadzLfIdEEVi2A6ryh3PYylu1gurZgUOMvs8PMQt3gmoBwZrfVF57g==
-X-Received: by 2002:a05:6a00:939c:b0:6dd:8767:2fa1 with SMTP id ka28-20020a056a00939c00b006dd87672fa1mr4221676pfb.0.1706555367798;
-        Mon, 29 Jan 2024 11:09:27 -0800 (PST)
-Received: from fastly.com (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
-        by smtp.gmail.com with ESMTPSA id gu7-20020a056a004e4700b006db105027basm6234279pfb.50.2024.01.29.11.09.24
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jan 2024 11:09:27 -0800 (PST)
-Date: Mon, 29 Jan 2024 11:09:23 -0800
-From: Joe Damato <jdamato@fastly.com>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	chuck.lever@oracle.com, jlayton@kernel.org,
-	linux-api@vger.kernel.org, brauner@kernel.org, edumazet@google.com,
-	davem@davemloft.net, alexander.duyck@gmail.com,
-	sridhar.samudrala@intel.com, kuba@kernel.org, weiwan@google.com,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Waterman <waterman@eecs.berkeley.edu>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jan Kara <jack@suse.cz>, Jiri Slaby <jirislaby@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Julien Panis <jpanis@baylibre.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"(open list:FILESYSTEMS \\(VFS and infrastructure\\))" <linux-fsdevel@vger.kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nathan Lynch <nathanl@linux.ibm.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Steve French <stfrench@microsoft.com>,
-	Thomas Huth <thuth@redhat.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH net-next v3 0/3] Per epoll context busy poll support
-Message-ID: <20240129190922.GA1315@fastly.com>
-References: <20240125225704.12781-1-jdamato@fastly.com>
- <65b52d6381de7_3a9e0b2943d@willemb.c.googlers.com.notmuch>
+        d=1e100.net; s=20230601; t=1706560472; x=1707165272;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uwYfI8ZH97ABK24JBgyk9nqr5KgeMLw0uZfqpsw0t6Y=;
+        b=isSepDeWI6HPL9o5MLRfAiCytPnCVf26zhFz9LkPHCgX3u0EdrQfKRLuE5u2dubpAq
+         6DYH9PyYZ9QCj4Iul9XiUjxiXOmnif+C9eFamnx1OTpg4fVLPL0g4zn2+rgIuwfpeJCk
+         uu8vzvNCsS8JK89aKaSKvejXQRChcWAdu1+D/VBW8pf2EspOxkx2VWMh5Q9v4/JxRnFe
+         uANB4eTTphRcAxOTVMiWgokgN5fxZNRCsD6+7PR8vkds1oEaTjZcC6jgzcQIpMMhlpUj
+         TMUqrYVb0TXri0wvowxUa6IeIydJ8PUUeMU05A3uiTBd5GjeQ3KN1/pXKGEl2v8XhBjP
+         /bMQ==
+X-Gm-Message-State: AOJu0Yy1Z5AJDGJMwA7PcriOMoVeL+EJHE25xItatFC4oILIYm9Up6/8
+	xeIWMqRhrP8ozkBJAe8d6nNeT5ZZLjhsloFmpJv4Hq8Q4ovseLBh
+X-Google-Smtp-Source: AGHT+IFdchIyeTypdnZusIcAz5gU+jL424v7Ird40iUWOoqxl0BheS818rBAarjGRpNnHUh6kBEkkA==
+X-Received: by 2002:a17:906:140a:b0:a34:a8e2:6296 with SMTP id p10-20020a170906140a00b00a34a8e26296mr4985988ejc.69.1706560471544;
+        Mon, 29 Jan 2024 12:34:31 -0800 (PST)
+Received: from ?IPV6:2001:b07:646f:4a4d:e17a:bd08:d035:d8c2? ([2001:b07:646f:4a4d:e17a:bd08:d035:d8c2])
+        by smtp.gmail.com with ESMTPSA id vu2-20020a170907a64200b00a35a9745910sm1741672ejc.137.2024.01.29.12.34.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 12:34:31 -0800 (PST)
+Message-ID: <fbdf0e62-e52b-461d-88c1-70b4270780e0@gmail.com>
+Date: Mon, 29 Jan 2024 21:35:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <65b52d6381de7_3a9e0b2943d@willemb.c.googlers.com.notmuch>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+User-Agent: Mozilla Thunderbird
+From: Alessandro Marcolini <alessandromarcolini99@gmail.com>
+Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages in
+ nested attribute spaces
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>,
+ Breno Leitao <leitao@debian.org>, Jiri Pirko <jiri@resnulli.us>,
+ donald.hunter@redhat.com
+References: <20240123160538.172-1-donald.hunter@gmail.com>
+ <20240123160538.172-3-donald.hunter@gmail.com>
+ <20240123161804.3573953d@kernel.org> <m2ede7xeas.fsf@gmail.com>
+ <20240124073228.0e939e5c@kernel.org> <m2ttn0w9fa.fsf@gmail.com>
+ <20240126105055.2200dc36@kernel.org> <m2jznuwv7g.fsf@gmail.com>
+ <fcf9630e-26fd-4474-a791-68c548a425b6@gmail.com> <m2bk95w8qq.fsf@gmail.com>
+Content-Language: en-US
+In-Reply-To: <m2bk95w8qq.fsf@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jan 27, 2024 at 11:20:51AM -0500, Willem de Bruijn wrote:
-> Joe Damato wrote:
-> > Greetings:
-> > 
-> > Welcome to v3. Cover letter updated from v2 to explain why ioctl and
-> > adjusted my cc_cmd to try to get the correct people in addition to folks
-> > who were added in v1 & v2. Labeled as net-next because it seems networking
-> > related to me even though it is fs code.
-> > 
-> > TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
-> > epoll with socket fds.") by allowing user applications to enable
-> > epoll-based busy polling and set a busy poll packet budget on a per epoll
-> > context basis.
-> > 
-> > This makes epoll-based busy polling much more usable for user
-> > applications than the current system-wide sysctl and hardcoded budget.
-> > 
-> > To allow for this, two ioctls have been added for epoll contexts for
-> > getting and setting a new struct, struct epoll_params.
-> > 
-> > ioctl was chosen vs a new syscall after reviewing a suggestion by Willem
-> > de Bruijn [1]. I am open to using a new syscall instead of an ioctl, but it
-> > seemed that: 
-> >   - Busy poll affects all existing epoll_wait and epoll_pwait variants in
-> >     the same way, so new verions of many syscalls might be needed. It
-> 
-> There is no need to support a new feature on legacy calls. Applications have
-> to be upgraded to the new ioctl, so they can also be upgraded to the latest
-> epoll_wait variant.
+On 1/28/24 20:36, Donald Hunter wrote:
+> Alessandro Marcolini <alessandromarcolini99@gmail.com> writes:
+>
+>> On 1/27/24 18:18, Donald Hunter wrote:
+>>> Okay, so I think the behaviour we need is to either search current scope
+>>> or search the outermost scope. My suggestion would be to replace the
+>>> ChainMap approach with just choosing between current and outermost
+>>> scope. The unusual case is needing to search the outermost scope so
+>>> using a prefix e.g. '/' for that would work.
+>>>
+>>> We can have 'selector: kind' continue to refer to current scope and then
+>>> have 'selector: /kind' refer to the outermost scope.
+>>>
+>>> If we run into a case that requires something other than current or
+>>> outermost then we could add e.g. '../kind' so that the scope to search
+>>> is always explicitly identified.
+>> Wouldn't add different chars in front of the selctor value be confusing?
+>>
+>> IMHO the solution of using a ChainMap with levels could be an easier solution. We could just
+>> modify the __getitem__() method to output both the value and the level, and the get() method to
+>> add the chance to specify a level (in our case the level found in the spec) and error out if the
+>> specified level doesn't match with the found one. Something like this:
+> If we take the approach of resolving the level from the spec then I
+> wouldn't use ChainMap. Per the Python docs [1]: "A ChainMap class is
+> provided for quickly linking a number of mappings so they can be treated
+> as a single unit."
+>
+> I think we could instead pass a list of mappings from current to
+> outermost and then just reference the correct level that was resolved
+> from the spec.
 
-Sure, that's a fair point. I think we could probably make reasonable
-arguments in both directions about the pros/cons of each approach.
+Yes, you're right. There is no need to use a ChainMap at all. The implementation I proposed is in fact a list of mappings with unnecessary complications.
 
-It's still not clear to me that a new syscall is the best way to go on
-this, and IMO it does not offer a clear advantage. I understand that part
-of the premise of your argument is that ioctls are not recommended, but in
-this particular case it seems like a good use case and there have been
-new ioctls added recently (at least according to git log).
-
-This makes me think that while their use is not recommended, they can serve
-a purpose in specific use cases. To me, this use case seems very fitting.
-
-More of a joke and I hate to mention this, but this setting is changing how
-io is done and it seems fitting that this done via an ioctl ;)
-
-> epoll_pwait extends epoll_wait with a sigmask.
-> epoll_pwait2 extends extends epoll_pwait with nsec resolution timespec.
-> Since they are supersets, nothing is lots by limiting to the most recent API.
-> 
-> In the discussion of epoll_pwait2 the addition of a forward looking flags
-> argument was discussed, but eventually dropped. Based on the argument that
-> adding a syscall is not a big task and does not warrant preemptive code.
-> This decision did receive a suitably snarky comment from Jonathan Corbet [1].
-> 
-> It is definitely more boilerplate, but essentially it is as feasible to add an
-> epoll_pwait3 that takes an optional busy poll argument. In which case, I also
-> believe that it makes more sense to configure the behavior of the syscall
-> directly, than through another syscall and state stored in the kernel.
-
-I definitely hear what you are saying; I think I'm still not convinced, but
-I am thinking it through.
-
-In my mind, all of the other busy poll settings are configured by setting
-options on the sockets using various SO_* options, which modify some state
-in the kernel. The existing system-wide busy poll sysctl also does this. It
-feels strange to me to diverge from that pattern just for epoll.
-
-In the case of epoll_pwait2 the addition of a new syscall is an approach
-that I think makes a lot of sense. The new system call is also probably
-better from an end-user usability perspective, as well. For busy poll, I
-don't see a clear reasoning why a new system call is better, but maybe I am
-still missing something.
-
-> I don't think that the usec fine grain busy poll argument is all that useful.
-> Documentation always suggests setting it to 50us or 100us, based on limited
-> data. Main point is to set it to exceed the round-trip delay of whatever the
-> process is trying to wait on. Overestimating is not costly, as the call
-> returns as soon as the condition is met. An epoll_pwait3 flag EPOLL_BUSY_POLL
-> with default 100us might be sufficient.
-> 
-> [1] https://lwn.net/Articles/837816/
-
-Perhaps I am misunderstanding what you are suggesting, but I am opposed to
-hardcoding a value. If it is currently configurable system-wide and via
-SO_* options for other forms of busy poll, I think it should similarly be
-configurable for epoll busy poll.
-
-I may yet be convinced by the new syscall argument, but I don't think I'd
-agree on imposing a default. The value can be modified by other forms of
-busy poll and the goal of my changes are to:
-  - make epoll-based busy poll per context
-  - allow applications to configure (within reason) how epoll-based busy
-    poll behaves, like they can do now with the existing SO_* options for
-    other busy poll methods.
-
-> >     seems much simpler for users to use the correct
-> >     epoll_wait/epoll_pwait for their app and add a call to ioctl to enable
-> >     or disable busy poll as needed. This also probably means less work to
-> >     get an existing epoll app using busy poll.
-> 
+>> from collections import ChainMap
+>>
+>> class LevelChainMap(ChainMap):
+>>     def __getitem__(self, key):
+>>         for mapping in self.maps:
+>>             try:
+>>                 return mapping[key], self.maps[::-1].index(mapping)
+>>             except KeyError:
+>>                 pass
+>>         return self.__missing__(key)
+>>
+>>     def get(self, key, default=None, level=None):
+>>         val, lvl = self[key] if key in self else (default, None)
+>>         if level:
+>>             if lvl != level:
+>>                 raise Exception("Level mismatch")
+>>         return val, lvl
+>>
+>> # example usage
+>> c = LevelChainMap({'a':1}, {'inner':{'a':1}}, {'outer': {'inner':{'a':1}}})
+>> print(c.get('a', level=2))
+>> print(c.get('a', level=1)) #raise err
+>>
+>> This will leave the spec as it is and will require small changes.
+>>
+>> What do you think?
+> The more I think about it, the more I agree that using path-like syntax
+> in the selector is overkill. It makes sense to resolve the selector
+> level from the spec and then directly access the mappings from the
+> correct scope level.
+>
+> [1] https://docs.python.org/3/library/collections.html#collections.ChainMap
+Agreed.
