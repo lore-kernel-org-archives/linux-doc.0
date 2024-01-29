@@ -1,149 +1,116 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC74157E60;
-	Mon, 29 Jan 2024 20:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D411158D99;
+	Mon, 29 Jan 2024 22:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706560475; cv=none; b=QOcbUdV7EjMNjRnmqKtzIZIZsibalHVsE44r4CR4/0PyL/t8Yp9//vdAlsoIdGlIzbZ/Ejq/AzBcyXoOSQAncRP/03FjZGZgiuffyrjHImNbFx18OFsDnChtBhs1hFCjMDGutYV+2ZHo2Uu/Qt2A6HuuXBaBc7CfMDcoUqOkXpE=
+	t=1706566879; cv=none; b=J8N646pYZAL1anBQ4Cdn8yvPkch7yZx9+kjF54NV9I1ZC2iqSVVvZQWbaaQYPD62wAlNdTBvAABHXwO4SeZW3RDqnyjqir1IsvWv2RNayK1bF86cBTaiO/r15uuQbF61Iiwz6dF2qPaKieAGTRe2Ruix8npo3tiI71ScAkH8hZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706560475; c=relaxed/simple;
-	bh=uwYfI8ZH97ABK24JBgyk9nqr5KgeMLw0uZfqpsw0t6Y=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=HM83x7jLbmiXa0JVoT+2V8N89/ins7ylUQ7Cwzq8VGIkACHFfKpfpc6leOMLYANo7wDvTA+iNA6KHkuNRPfio1ngJscUIUR1SW3UeltM+6DFngVrTwdorGrI44rame6J/A+M8vvmOueSEmTPtyd2cAkwuOwjBkHb6JoJih8918c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hgbOed/C; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706566879; c=relaxed/simple;
+	bh=QO6T5tt8NMalRJEwbBqkth8IWMyi4TL9rAZyeRq7xfQ=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=GfpvIFdQ55lPyVIETPnWCRVVxLZyY41EI9Ya0PtZ0AXgjByvlBekXQ2wqgQFDvkfJSo2dNQvjBgeXdJwmvSF7deFs4XRJyf29DyYrmXEHmwUsixoOmOKso61Fm+td+xrp573frv0+rV5ngR/DYgmuSLbZCP+g0VXWTiGEHZq5CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9jUHeMO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hgbOed/C"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a26ed1e05c7so372933866b.2;
-        Mon, 29 Jan 2024 12:34:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706560472; x=1707165272; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uwYfI8ZH97ABK24JBgyk9nqr5KgeMLw0uZfqpsw0t6Y=;
-        b=hgbOed/CE9GbglDfxIIP/O8qMOdjQWm5IProcQxy/ewGd7+QcoIgI5kN4ZJirSOjlH
-         0dCo0FulqQdmxd3rPO88a61JOcVyOUF2NHpUfTn06zSvEH/ncAwKDvYK2YWIhiZz05Qi
-         kxOvk1dJFHuelA6hgvrdLbFsPygXQLSO7FVTgQJjcr1p61lSUhwuxtUJ3THMphCrEcbN
-         7jOzNfFFuSpyPJUI/AM4qys6v8Z8EVHpxwg4vK4ekO6VEKf1xugIPUdIYFnYBlRhgUt3
-         KzbsH+nClZGJaUCNq42Yw5FP8j4S7pAbpvVo2XJ0r8uO9ejN3UBrFsFRn6Zftiz7GEbj
-         ar4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706560472; x=1707165272;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uwYfI8ZH97ABK24JBgyk9nqr5KgeMLw0uZfqpsw0t6Y=;
-        b=isSepDeWI6HPL9o5MLRfAiCytPnCVf26zhFz9LkPHCgX3u0EdrQfKRLuE5u2dubpAq
-         6DYH9PyYZ9QCj4Iul9XiUjxiXOmnif+C9eFamnx1OTpg4fVLPL0g4zn2+rgIuwfpeJCk
-         uu8vzvNCsS8JK89aKaSKvejXQRChcWAdu1+D/VBW8pf2EspOxkx2VWMh5Q9v4/JxRnFe
-         uANB4eTTphRcAxOTVMiWgokgN5fxZNRCsD6+7PR8vkds1oEaTjZcC6jgzcQIpMMhlpUj
-         TMUqrYVb0TXri0wvowxUa6IeIydJ8PUUeMU05A3uiTBd5GjeQ3KN1/pXKGEl2v8XhBjP
-         /bMQ==
-X-Gm-Message-State: AOJu0Yy1Z5AJDGJMwA7PcriOMoVeL+EJHE25xItatFC4oILIYm9Up6/8
-	xeIWMqRhrP8ozkBJAe8d6nNeT5ZZLjhsloFmpJv4Hq8Q4ovseLBh
-X-Google-Smtp-Source: AGHT+IFdchIyeTypdnZusIcAz5gU+jL424v7Ird40iUWOoqxl0BheS818rBAarjGRpNnHUh6kBEkkA==
-X-Received: by 2002:a17:906:140a:b0:a34:a8e2:6296 with SMTP id p10-20020a170906140a00b00a34a8e26296mr4985988ejc.69.1706560471544;
-        Mon, 29 Jan 2024 12:34:31 -0800 (PST)
-Received: from ?IPV6:2001:b07:646f:4a4d:e17a:bd08:d035:d8c2? ([2001:b07:646f:4a4d:e17a:bd08:d035:d8c2])
-        by smtp.gmail.com with ESMTPSA id vu2-20020a170907a64200b00a35a9745910sm1741672ejc.137.2024.01.29.12.34.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jan 2024 12:34:31 -0800 (PST)
-Message-ID: <fbdf0e62-e52b-461d-88c1-70b4270780e0@gmail.com>
-Date: Mon, 29 Jan 2024 21:35:22 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9jUHeMO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB723C433F1;
+	Mon, 29 Jan 2024 22:21:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706566879;
+	bh=QO6T5tt8NMalRJEwbBqkth8IWMyi4TL9rAZyeRq7xfQ=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=c9jUHeMOD/K7aR0Uf+b3B4DBqzuWwA7jfgXE848L4Wsl451pPJPmNH4Rck0a80mfo
+	 +XFdvvbNst3mTrfUUMY08jpBWCZrI6/dLIIoZvx7C/++iEd3gkAdW+G+STQU3cJC2x
+	 LkGJ5C1ahoTso91BRS7048PwfQA0pltRZt3i0EzLuQDKJiwb7be/Isn5EekdUTiHvc
+	 nieGvGjsu1WJTIZtStiGtwGnYOxOVEeZvkbynSWsCgxfcsqnB7VPEkum9Dz2bhiPER
+	 i6pY3T44egVesB40L5qXkL0VMVAgPofT0R6oQqyM/f+HICRsv2IYe56u6KXIRf0mtI
+	 ZD4g3yGVQZzYQ==
+Date: Mon, 29 Jan 2024 16:21:17 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Alessandro Marcolini <alessandromarcolini99@gmail.com>
-Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages in
- nested attribute spaces
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, Jacob Keller <jacob.e.keller@intel.com>,
- Breno Leitao <leitao@debian.org>, Jiri Pirko <jiri@resnulli.us>,
- donald.hunter@redhat.com
-References: <20240123160538.172-1-donald.hunter@gmail.com>
- <20240123160538.172-3-donald.hunter@gmail.com>
- <20240123161804.3573953d@kernel.org> <m2ede7xeas.fsf@gmail.com>
- <20240124073228.0e939e5c@kernel.org> <m2ttn0w9fa.fsf@gmail.com>
- <20240126105055.2200dc36@kernel.org> <m2jznuwv7g.fsf@gmail.com>
- <fcf9630e-26fd-4474-a791-68c548a425b6@gmail.com> <m2bk95w8qq.fsf@gmail.com>
-Content-Language: en-US
-In-Reply-To: <m2bk95w8qq.fsf@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Rob Herring <robh@kernel.org>
+To: Dragan Cvetic <dragan.cvetic@amd.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Rob Herring <robh+dt@kernel.org>, Michal Simek <michal.simek@amd.com>, 
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Derek Kiernan <derek.kiernan@amd.com>, 
+ "moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ "Erim, Salih" <salih.erim@amd.com>, Conor Dooley <conor+dt@kernel.org>
+In-Reply-To: <20240129171854.3570055-1-dragan.cvetic@amd.com>
+References: <20240129171854.3570055-1-dragan.cvetic@amd.com>
+Message-Id: <170656680094.3132.1588315626789249618.robh@kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: misc: xlnx,sd-fec: convert bindings to
+ yaml
 
-On 1/28/24 20:36, Donald Hunter wrote:
-> Alessandro Marcolini <alessandromarcolini99@gmail.com> writes:
->
->> On 1/27/24 18:18, Donald Hunter wrote:
->>> Okay, so I think the behaviour we need is to either search current scope
->>> or search the outermost scope. My suggestion would be to replace the
->>> ChainMap approach with just choosing between current and outermost
->>> scope. The unusual case is needing to search the outermost scope so
->>> using a prefix e.g. '/' for that would work.
->>>
->>> We can have 'selector: kind' continue to refer to current scope and then
->>> have 'selector: /kind' refer to the outermost scope.
->>>
->>> If we run into a case that requires something other than current or
->>> outermost then we could add e.g. '../kind' so that the scope to search
->>> is always explicitly identified.
->> Wouldn't add different chars in front of the selctor value be confusing?
->>
->> IMHO the solution of using a ChainMap with levels could be an easier solution. We could just
->> modify the __getitem__() method to output both the value and the level, and the get() method to
->> add the chance to specify a level (in our case the level found in the spec) and error out if the
->> specified level doesn't match with the found one. Something like this:
-> If we take the approach of resolving the level from the spec then I
-> wouldn't use ChainMap. Per the Python docs [1]: "A ChainMap class is
-> provided for quickly linking a number of mappings so they can be treated
-> as a single unit."
->
-> I think we could instead pass a list of mappings from current to
-> outermost and then just reference the correct level that was resolved
-> from the spec.
 
-Yes, you're right. There is no need to use a ChainMap at all. The implementation I proposed is in fact a list of mappings with unnecessary complications.
+On Mon, 29 Jan 2024 17:18:51 +0000, Dragan Cvetic wrote:
+> Convert AMD (Xilinx) sd-fec bindings to yaml format, so it can validate
+> dt-entries as well as any future additions to yaml.
+> Change in clocks is due to IP is itself configurable and
+> only the first two clocks are in all combinations. The last
+> 6 clocks can be present in some of them. It means order is
+> not really fixed and any combination is possible.
+> Interrupt may or may not be present.
+> The documentation for sd-fec bindings is now YAML, so update the
+> MAINTAINERS file.
+> Update the link to the new yaml file in xilinx_sdfec.rst.
+> 
+> Signed-off-by: Dragan Cvetic <dragan.cvetic@amd.com>
+> ---
+> Changes in v2:
+> ---
+> Drop clocks description.
+> Use "contains:" with enum for optional clock-names and update
+> comment explaining diference from the original DT binding file.
+> Remove trailing full stops.
+> Add more details in sdfec-code description.
+> Set sdfec-code to "string" not "string-array"
+> ---
+>  .../devicetree/bindings/misc/xlnx,sd-fec.txt  |  58 --------
+>  .../devicetree/bindings/misc/xlnx,sd-fec.yaml | 136 ++++++++++++++++++
+>  Documentation/misc-devices/xilinx_sdfec.rst   |   2 +-
+>  MAINTAINERS                                   |   2 +-
+>  4 files changed, 138 insertions(+), 60 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
+>  create mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
+> 
 
->> from collections import ChainMap
->>
->> class LevelChainMap(ChainMap):
->>     def __getitem__(self, key):
->>         for mapping in self.maps:
->>             try:
->>                 return mapping[key], self.maps[::-1].index(mapping)
->>             except KeyError:
->>                 pass
->>         return self.__missing__(key)
->>
->>     def get(self, key, default=None, level=None):
->>         val, lvl = self[key] if key in self else (default, None)
->>         if level:
->>             if lvl != level:
->>                 raise Exception("Level mismatch")
->>         return val, lvl
->>
->> # example usage
->> c = LevelChainMap({'a':1}, {'inner':{'a':1}}, {'outer': {'inner':{'a':1}}})
->> print(c.get('a', level=2))
->> print(c.get('a', level=1)) #raise err
->>
->> This will leave the spec as it is and will require small changes.
->>
->> What do you think?
-> The more I think about it, the more I agree that using path-like syntax
-> in the selector is overkill. It makes sense to resolve the selector
-> level from the spec and then directly access the mappings from the
-> correct scope level.
->
-> [1] https://docs.python.org/3/library/collections.html#collections.ChainMap
-Agreed.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/misc/xlnx,sd-fec.example.dts:32.29-30 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/misc/xlnx,sd-fec.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1428: dt_binding_check] Error 2
+make: *** [Makefile:240: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240129171854.3570055-1-dragan.cvetic@amd.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
