@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F5115B116;
-	Mon, 29 Jan 2024 17:10:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07434755FB;
+	Mon, 29 Jan 2024 17:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706548220; cv=none; b=UCQ41deShBnfA/TA1RAeM7C9LAjvRk5l+kfxKrJfB+PhQ5SAmxqo8JbX1CTP0xdK32F75qOraqLpVNwJFnBBMEsxm6AyKAaHspcMrrnLWqVt02pbWq2lwat249hz/btiMGcPa2833Ojh3PfNt2MyT4Kdi+rTqOxAw5aFpCuGdIM=
+	t=1706548597; cv=none; b=rwiiknOhMvI5wVWtKktQl26vkug8Xv6uuKAHMlW5We7eB1SRfZNTF56BuUlYuPu/f02/Tay6+qJ75O93gmv6FoJ9eBo8C2OJRIhYkK9MXvOoc12vgqrwrfCVdCuL0ydplrMM+vk8dHJboPe29ry22rYaEE5YtBIAC11popuNJv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706548220; c=relaxed/simple;
-	bh=knSS9unA7hc6KA9qC5LWhdCH3De86xvGTTMz/2ncIkw=;
+	s=arc-20240116; t=1706548597; c=relaxed/simple;
+	bh=V6fDtlfzT2RPJl1PXwTscg2la3kSRKpaHZq01rncxDY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MvC7iyvZOXrG8lSSHPLS95edBzvo/JbE8tXEy17Co+RkAvjurr+8re45wSGOZANG2SnjhdHRKkEa4aN5oKdsisyWfVfy/D3NBTTgEogzDpqtPlWIkU0EJaZZQOEY/rb+Iz/3vEW7w93M0yB3G20LcidzzlzE3ppfHpOMsKM8v0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Es44K9Xq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=mDoOdwcrTgiYT/3sNepj6fQY1zDv5SS88r9wsumMbroXdMPvqgQqqqzdQsFLWX6LUcTgEO32BgFKdOBtK2Vla5vtcS4WVxKU+4r0vz5DR0zTk6H3NEBIkOb7mKupk+FiEMnyFesOb4+0cS1KZo2GIAqxSyLyHUNfi4nxZi5+ynM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MapfaUCH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Es44K9Xq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9816AC433F1;
-	Mon, 29 Jan 2024 17:10:20 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MapfaUCH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB01DC433C7;
+	Mon, 29 Jan 2024 17:16:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706548220;
-	bh=knSS9unA7hc6KA9qC5LWhdCH3De86xvGTTMz/2ncIkw=;
+	s=korg; t=1706548596;
+	bh=V6fDtlfzT2RPJl1PXwTscg2la3kSRKpaHZq01rncxDY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Es44K9XqfWHx735eNI5R/YVZtjnOF7wEw6hX0RDXNWv3Ov4jUcJOjdvshKfZDkH5b
-	 +ym4CLpEzMIK4Li7UYisfZ3mwj9DB94W7U3hfAjpw+4+utf/+GId+t/c/RClH3SHzL
-	 3aCrG/rncD+a39DHu7/enqjdal0Bfjrw/RaTZvoA=
+	b=MapfaUCH/zboDEFpxXnXi6fleC2CEnm7XkUZthoHwgrojhOHnKQtmt84BT1DAmosU
+	 WXcZMPm5ugpudPkFMotM5N6ZbSLq8QAiQljThlGtyCsQwiT11/oeUR6daU+rXKdYG9
+	 Yp0c6RYCB12/ctrl0JTh5KrKrskUjYFgVTaYdGns=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -39,12 +39,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	dri-devel@lists.freedesktop.org,
 	linux-doc@vger.kernel.org,
 	Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH 6.7 251/346] drm: Fix TODO list mentioning non-KMS drivers
-Date: Mon, 29 Jan 2024 09:04:42 -0800
-Message-ID: <20240129170023.799446801@linuxfoundation.org>
+Subject: [PATCH 6.6 257/331] drm: Fix TODO list mentioning non-KMS drivers
+Date: Mon, 29 Jan 2024 09:05:21 -0800
+Message-ID: <20240129170022.408685979@linuxfoundation.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240129170016.356158639@linuxfoundation.org>
-References: <20240129170016.356158639@linuxfoundation.org>
+In-Reply-To: <20240129170014.969142961@linuxfoundation.org>
+References: <20240129170014.969142961@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-6.7-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -87,9 +87,11 @@ Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Link: https://patchwork.freedesktop.org/patch/msgid/20231122122449.11588-3-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- Documentation/gpu/todo.rst |    7 +++----
+ Documentation/gpu/todo.rst | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 503d57c75215..41a264bf84ce 100644
 --- a/Documentation/gpu/todo.rst
 +++ b/Documentation/gpu/todo.rst
 @@ -337,8 +337,8 @@ connector register/unregister fixes
@@ -103,7 +105,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  The load/unload callbacks in struct &drm_driver are very much midlayers, plus
  for historical reasons they get the ordering wrong (and we can't fix that)
-@@ -347,8 +347,7 @@ between setting up the &drm_driver struc
+@@ -347,8 +347,7 @@ between setting up the &drm_driver structure and calling drm_dev_register().
  - Rework drivers to no longer use the load/unload callbacks, directly coding the
    load/unload sequence into the driver's probe function.
  
@@ -113,5 +115,8 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  Contact: Daniel Vetter
  
+-- 
+2.43.0
+
 
 
