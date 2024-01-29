@@ -1,110 +1,84 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FDC101CF;
-	Mon, 29 Jan 2024 02:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07674EB3D;
+	Mon, 29 Jan 2024 07:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706497162; cv=none; b=cl8NgUdxjdsiU1rQ6kS8K6iwdE56cxUgNb5/If4RljAdAsO+VqQL2nzmh2qITz9v/9M8e8Zy7rCFKm0aJCkvYVpljAvjjxeLrRXO3JBvXQ0tNoyC67YBpvelEKYxyDALaMWSWuSUzA1xDIUB1S4ZkSZBZNsr7HgQgQaTJLV2XUU=
+	t=1706514636; cv=none; b=SinqM4W0mqblkMNATiHO8uCx56/ZO9btCYfp9kFQyd/CJOKFQchfN2wKsBhKQ0bt9/pnAm0V6bAdWc8GhmwBXhPMm2BdixRaNGKcJCK8V/B74TJ3xkZAYs4A7REBiDYwDaLB6L4VxZqmZh42Lb0IE9ayULErW/e52i9uOfUWngg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706497162; c=relaxed/simple;
-	bh=AkL5XMHJxqpGdKkQ02KZlPaEAtTmtXYjDpIdOGl2vpY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WSwIky2g4vsW6YQ0iApAoswO6No20TQkTAN1EYt4XYAPJvX3ClMACHdmBVh36rfzLjzkMWHJcnN5gOiDTPaZj8xZPpuZoAof3wcWV6JHBmJY5tKtopFiohYliZ8g51kQOf9i2hWBn3bumdZVy8OiwIhkqS7kJM+cxex24rZDqFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kC1Y7HR+; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1706514636; c=relaxed/simple;
+	bh=daBtVwb/lXqjAG7knocO2q2VJO0kTxb3gqnLhCRYuBY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=dvAHFGuI7mj249Csxmyew9vCB/XIgURscTmplowb7Gv+aNixGym5UPrQ5ib4xDEx17pqU2/Ixq0KbKmXW62C9X18gaI6yzOU5ZEVZC2FTdhrhGBOlcVvmfQKsQujEx5ylsqfKpgDGirl2FB6IMX4S8bZC8Kwb/AHGu7z4m0vSyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gjwDujoo; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kC1Y7HR+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=mXt373LIr+R+kMq9PxELhBz9gRcfeFLyy87k0vEnszM=; b=kC1Y7HR+j3sEae2B4rPzzklhuX
-	L/gqcVtT9yPhY46B89SDcUYmeqfUWaL8dsxHFQjhwEPFiqkJ6R9ZKeBGeB8gf3l/N3dEBtPIYEOvF
-	XuAPwECCjkQ4lcxbmo/z0sKCOK7wCyHPsBROz81821zpOg3CeRCIJmHDRFCnO/wNio5jfu/Hmf+kW
-	laAmgpj1ZGgHBPik+IyiAey3CFv4tWP0cZ5JsTr+KGnVtBfgp/SMPTQS822GPtOeqelTNsDfLMCxY
-	njLLD9W6RwQIXW6/1fASmdx4vd50dfhHNiDiHZjRMmOVh5dsCOqPFGJAKV+kx+pTmnfagKX8ljTnZ
-	q/h7NGZQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUHrg-0000000B4Rl-2r2u;
-	Mon, 29 Jan 2024 02:59:16 +0000
-Message-ID: <d3bc8995-b0bc-4d9e-b811-fccdbaf426c5@infradead.org>
-Date: Sun, 28 Jan 2024 18:59:16 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gjwDujoo"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5d8b70b39efso770667a12.0;
+        Sun, 28 Jan 2024 23:50:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706514634; x=1707119434; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=daBtVwb/lXqjAG7knocO2q2VJO0kTxb3gqnLhCRYuBY=;
+        b=gjwDujooSxKr1WlOtJT9HmgsnA6vLRZc9s4Yr4TdvZErj5F4b8M3+rwilqoPcXKMVn
+         MAblr4KzIhe0yrDn83Er5Ejv5W1JO/uoWNE12r0eMxfF+cK9r8eRXZTQ0Ai1YQed4ElF
+         h0RigkrrK1vPB45//+ooRzRLXFByMyFNeebWfv2cR4WHdq+SZKVzSlrlyScq4fiXKWq9
+         YSQeh/Ob2xJzHywDbLuoqwBlXkTMQqRChDh9E4YGJeNexrEzRm5xEt3Wj3XZf97yTKSY
+         Uscm/FFxv9GoFovOt/J42FRYWvYB+MuhPl6s9V/4V7ChvTzCMA2vUgh9j9emSlW85zsM
+         Ts/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706514634; x=1707119434;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=daBtVwb/lXqjAG7knocO2q2VJO0kTxb3gqnLhCRYuBY=;
+        b=Beo2g30qHfXMTpx90cyO+zGWrPDQPDPpPdQOesRB7TTED85Zi4PRWUi7x7wQEk3U3W
+         X6iee0/GeiOiLvyPGsRPT+1N+GuXkorqkfKzluCHaKhMntJTpCcHBzrnbY9bsLGX/Jyg
+         s78Cx6rHeVcM45FbXR2rRlzcgJU/nJJYWB20R2xHaU5hTRYBJFCEjc/7A2EWwEoEMDzs
+         SW6QSVOf85LbTDKv5bBOYhOR2ytIPY/wyhzpbr5jSnUQThoCkP10+2UkF8Ksl4uAfWVG
+         kUeR9eQ2z/0yzZb3a/I6BY2Tx0fMCNnti70RlR3MrUFM4VdePSatnoRKwrh2KAHsyiG+
+         JU3Q==
+X-Gm-Message-State: AOJu0YwyzmRrcJpRXc9MajhaNjx+9DMA8R9KDz+VLQLunN3OPWjPlwy4
+	A0wNS0CFJpaYufSVkE33hDIfH57S5D7ol8SfdYe5c96E8ozA2oQc
+X-Google-Smtp-Source: AGHT+IF7fEYIei+OVQWtVITm5s1kpndgqSHGPRXXSGXQJ+77ZRujKNPYEaQFdrEZqcFm4BZ+b9UnjQ==
+X-Received: by 2002:a05:6a20:2d0a:b0:19c:ad6b:e1c2 with SMTP id g10-20020a056a202d0a00b0019cad6be1c2mr750080pzl.12.1706514633901;
+        Sun, 28 Jan 2024 23:50:33 -0800 (PST)
+Received: from kohshi54-ThinkCentre-M715q.. ([2404:7a80:c880:6500:a374:2c9:8d38:9a2d])
+        by smtp.gmail.com with ESMTPSA id kh7-20020a170903064700b001d721ee41c6sm4737820plb.232.2024.01.28.23.50.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jan 2024 23:50:33 -0800 (PST)
+From: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
+To: rdunlap@infradead.org
+Cc: corbet@lwn.net,
+	gregkh@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH] doc: Fix malformed table in gadget-testing.rst
+Date: Mon, 29 Jan 2024 16:50:30 +0900
+Message-Id: <20240129075030.52625-1-kohshi54.yam@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <d3bc8995-b0bc-4d9e-b811-fccdbaf426c5@infradead.org>
+References: <d3bc8995-b0bc-4d9e-b811-fccdbaf426c5@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] doc: Fix malformed table in gadget-testing.rst
-Content-Language: en-US
-To: Kohshi Yamaguchi <kohshi54.yam@gmail.com>, gregkh@linuxfoundation.org,
- corbet@lwn.net
-Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-References: <20240128195731.40003-1-kohshi54.yam@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240128195731.40003-1-kohshi54.yam@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Randy,
 
-On 1/28/24 11:57, Kohshi Yamaguchi wrote:
-> The table describing the NCM function attributes in gadget-testing.rst
-> was malformed, causing Sphinx build warnings. This patch fixes the table
-> format to align with the reStructuredText specifications.
-> 
-> The border lines of the table were not properly aligned with the column
-> headers, which was corrected by adjusting the border line lengths to
-> match the headers.
-> 
-> Signed-off-by: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
-> ---
->  Documentation/usb/gadget-testing.rst | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-> index 8cd62c466d20..1d1737f246df 100644
-> --- a/Documentation/usb/gadget-testing.rst
-> +++ b/Documentation/usb/gadget-testing.rst
-> @@ -448,17 +448,17 @@ Function-specific configfs interface
->  The function name to use when creating the function directory is "ncm".
->  The NCM function provides these attributes in its function directory:
->  
-> -	===============   ==================================================
-> -	ifname		  network device interface name associated with this
-> -			  function instance
-> -	qmult		  queue length multiplier for high and super speed
-> -	host_addr	  MAC address of host's end of this
-> -			  Ethernet over USB link
-> -	dev_addr	  MAC address of device's end of this
-> -			  Ethernet over USB link
-> -	max_segment_size  Segment size required for P2P connections. This
-> -			  will set MTU to (max_segment_size - 14 bytes)
-> -	===============   ==================================================
-> +	================   ==================================================
-> +	ifname		   network device interface name associated with this
-> +			   function instance
-> +	qmult		   queue length multiplier for high and super speed
-> +	host_addr	   MAC address of host's end of this
-> +			   Ethernet over USB link
-> +	dev_addr	   MAC address of device's end of this
-> +			   Ethernet over USB link
-> +	max_segment_size   Segment size required for P2P connections. This
-> +			   will set MTU to (max_segment_size - 14 bytes)
-> +	================   ==================================================
->  
->  and after creating the functions/ncm.<instance name> they contain default
->  values: qmult is 5, dev_addr and host_addr are randomly selected.
+Thank you for reviewing my patch and pointing out the similar change you posted.
+I appreciate your feedback.
 
-or like this:
+Best regards,
+--
+Kohshi Yamaguchi
 
-https://lore.kernel.org/lkml/20240128045347.25909-1-rdunlap@infradead.org/
-
-Thanks.
--- 
-#Randy
