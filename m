@@ -1,368 +1,313 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2046.outbound.protection.outlook.com [40.107.93.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494A8157050;
-	Mon, 29 Jan 2024 17:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706548742; cv=fail; b=Xie/okkSaXlriBVLj/rIlmQWknfzWYXk0VFjEAVpMKCPVf//bt/5wcWSbxiKpBrJmwJnFgJ5qYJVyCzl4gZ7pIRr/o+i0GpbSdbgjSe6P+KnLHJOQCBCLR2d9tzp8RJ3brw1zyfP/jeOWHRxJ89gP4mHxtQkggQZsBfd/AC0tHE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706548742; c=relaxed/simple;
-	bh=kg5KIPR37sBWHaIg4GelxQwcbbdi8RLH1sScgF51IJY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qk82xnhION0IN0n3In1P2Dn/2/OyGHXRgHIH2VIXeYmFVzPVNmzG8/x92ZN/6rHMjnf2DjkuVw/aRsACBSvIwDHLsLgPG9TacrIVnYH3AdJn05k/b3KaR2KalvCO8EWIkUebNFqCHT4a8Qbqqpfgtd8r9rtfl/l4sjYMcaYUEGA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WfpLEdZK; arc=fail smtp.client-ip=40.107.93.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B006176041
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jan 2024 18:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706551252; cv=none; b=BOhPbPkR5KbiInECQ/05Tu2mN9hzSwoLyZpScQZzNd0IMcLy6d0v89UKV5quj8Uf5y2lTfCQL5clXhGsGvRkavrdQEJ3eA3K7qS2BUgACIHa3s6Zv0bOmuoo2GR7KrBqN5df10JFwWczo3z/wXFqwT9xqf3v5QT8TZOLTDI/aj0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706551252; c=relaxed/simple;
+	bh=ChqR4pwLOMRrvI2mwMAhvrmBk7bFBrYJU+84/NDgMjc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YlRcLGrBTzf9Xxcp7AegrqsI9G1BBRjlFPaoM6kA0ODAPezAIdCqwiE7SPNNh7aCVQv42qAb0t77gvxydL6PAS5E8nA/uinCzXHREJAeMXfsqETFym1DmbBqDEpRWdmUBd+4voA+tgGzgK71BcvY/bFrqdHK1YGlEvo7/zZN5Og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eVdL6wUQ; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WfpLEdZK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ipBSWDwSr6ZwvI6pERioMMQCZZvVqR7yY2QzesFan+wPp64arVzhr451XmM2nO9e5uXQ1dPjjvLOGP5aLQ8sCjmqjLJ08kQ/VnVVCpeltsqnplt9OY/9GhV2j6fZK78AfLeSj5U/rsCouzBfJbaCO57DOreDoi+QkcvILfMGxpnw/r/KkVoC//AHKjJyup4pjjA1WTi/vSFlLPdg2/TN0C/LVABQbRQ27wys7BxmHf3DMtgAB3mmcJHT94Oc7Lj6w10juhrzvfLCLS0kMVB7ApBoUQNI4mxpQr0/BcFvTVKbNspxUo88jIUALsInfZT6uXgr+4WwO8YA2f0jXvfRzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hB0sImxyjoi7kcf0IcSUJhW+ONmBpYtOFM66PR9LX8E=;
- b=ERX5fB631T9fwhofQPt664l/gg8TuMDloBo1ymCPfrV7MqulZKymFKhcp1if76zdafXWan9D7cagPpPpr2BSuBI0Z+I/sS9dfW5E4vMM673PcqEXcKg9UUfEHeJQBfnUYHj37UyE3bCP+eqNqKlB8PPMtidcmvjMxniptOPuk3mRfH+yXWSr2/p/aRFY3yHl1cqGLs4Unrm1QgZRIdMdpum2iIgnzCav62w0Ht39p3YjecsKuOxHItBAhuBrxpHNEakB7/K1E9Q2hCn6SFcqKUSFOlV+BDurxd66Pq5J4cPoStqdzW7Ke0gcNgsRG4upaPp+35QSWeU0+zRTsJfBFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hB0sImxyjoi7kcf0IcSUJhW+ONmBpYtOFM66PR9LX8E=;
- b=WfpLEdZK9a7KB7ZolwqUgaav41WX8M1nQTbd9Pfx1yh8WiyfF+Sfy2hn+CWaia7Lr7PvgDBM4GclN/sVOjLIQZP0IkvuvUO7d74ipZlQ6z6nC/JfDIbkRNZ8t72O21yInWXGh4MdcP0gdBUOa51WoigkPerOY5rY0uEiSFvPoFs=
-Received: from BN8PR12CA0005.namprd12.prod.outlook.com (2603:10b6:408:60::18)
- by MN2PR12MB4127.namprd12.prod.outlook.com (2603:10b6:208:1d1::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.32; Mon, 29 Jan
- 2024 17:18:57 +0000
-Received: from BN1PEPF00004689.namprd05.prod.outlook.com
- (2603:10b6:408:60:cafe::b1) by BN8PR12CA0005.outlook.office365.com
- (2603:10b6:408:60::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34 via Frontend
- Transport; Mon, 29 Jan 2024 17:18:57 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN1PEPF00004689.mail.protection.outlook.com (10.167.243.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7249.19 via Frontend Transport; Mon, 29 Jan 2024 17:18:56 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Mon, 29 Jan
- 2024 11:18:56 -0600
-Received: from xirmroche40.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.34 via Frontend
- Transport; Mon, 29 Jan 2024 11:18:55 -0600
-From: Dragan Cvetic <dragan.cvetic@amd.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>, Jonathan Corbet <corbet@lwn.net>,
-	Michal Simek <michal.simek@amd.com>, "Erim, Salih" <salih.erim@amd.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
-	<devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "moderated list:ARM/ZYNQ
- ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2] dt-bindings: misc: xlnx,sd-fec: convert bindings to yaml
-Date: Mon, 29 Jan 2024 17:18:51 +0000
-Message-ID: <20240129171854.3570055-1-dragan.cvetic@amd.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eVdL6wUQ"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2906fd62cb2so1210342a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jan 2024 10:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1706551250; x=1707156050; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MZoPcgm2ExbWiklFnpgC7jG0zZ989QvpgVdI0GYP0N0=;
+        b=eVdL6wUQn1OrJpjdli/1aJZg9sQIJTVlcOSwa8vWcj3jYynkilFbnin8s3lXHtE3wg
+         lHTvnOZxXABCsUM5olGw7z7AgrbxHbndgBjcEvmZTmvs3/i9jecaglDPolVQfOxoUI/A
+         j7Rpk4lKC3Wcmt8YjQLYwNzkmJoajH2u98Wp0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706551250; x=1707156050;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MZoPcgm2ExbWiklFnpgC7jG0zZ989QvpgVdI0GYP0N0=;
+        b=P+HJ3DKm2duOocvDsdKVdXhnTTJWeN5N2yf2b5Ks4K9Q/HZtXr0NMfpuRWI8o/JzWP
+         ZIgTeCkjHy1CnqfusHgwZtuH6/qyRCOw6Iw189uRlnSDGKnAmhM6jeK3eZATxrloaiVH
+         g0UHV0GLSKDPosrxxxOtvbgyEPXoIr5MH+GyQ2gmb5j9G5Wmhp05mZq18zVNK8PUrqVC
+         vlmXupoZABLKuuProG1ACJEto/Yv0vsjg7J7hH2+sZl6GCXtw//tTsd/m1knwLyJzKbY
+         pYwMN49nyJHqvn/VTczNL6ixkiK6zf+sOWQbI8es3MTpGGbNE5kiW/tyY3/iYxxV51ri
+         qpiQ==
+X-Gm-Message-State: AOJu0YwSNFctpRtG6fDaydQEeQttJT04FH3J4ajYb0z5YHbZts6lCvM8
+	QCn/Zlrxhs0/uJFcNr7faJNX4ka9wDc+/8myBkrfXZH5w36TfCbCiH4wS4tUqQ==
+X-Google-Smtp-Source: AGHT+IFJF0hBnKPnC2NvGE/ASBC2G7DOqChpIyY5M1CvIMsaqLsisQe6MdkRA14bizZntAf3cxjpUA==
+X-Received: by 2002:a17:90b:fd4:b0:294:bd32:6ddf with SMTP id gd20-20020a17090b0fd400b00294bd326ddfmr2604323pjb.38.1706551249916;
+        Mon, 29 Jan 2024 10:00:49 -0800 (PST)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id c92-20020a17090a496500b0029102d936casm9508441pjh.47.2024.01.29.10.00.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jan 2024 10:00:47 -0800 (PST)
+From: Kees Cook <keescook@chromium.org>
+To: Marco Elver <elver@google.com>
+Cc: Kees Cook <keescook@chromium.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Justin Stitt <justinstitt@google.com>,
+	Fangrui Song <maskray@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Bill Wendling <morbo@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH 4/6] ubsan: Remove CONFIG_UBSAN_SANITIZE_ALL
+Date: Mon, 29 Jan 2024 10:00:41 -0800
+Message-Id: <20240129180046.3774731-4-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240129175033.work.813-kees@kernel.org>
+References: <20240129175033.work.813-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7713; i=keescook@chromium.org;
+ h=from:subject; bh=ChqR4pwLOMRrvI2mwMAhvrmBk7bFBrYJU+84/NDgMjc=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlt+fKFqznRoc47f8x3QBqsx9X6BtCiDiZKmRIR
+ 0EaK8ZbstmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZbfnygAKCRCJcvTf3G3A
+ Jg4gEAChu+riNsR4c9zKObZSyCQUUAbASyVvN0lCOoFA0sP6wed+rAC2TyDu+UQ9leLyPsbImoA
+ f5T1X+cih9rKYfmgsh4qZjlfZyKxDq8h7boBYb4ViPcPI6gjaK/nmcKd1p9D3kuQrosXQTOOBb0
+ 2A9JQAchDgi8bYBAUx4bbQDrE2PN9IlNfpNOOXIEbyMaLI2tXTmLSXkHsY7Dv0j57/D5LasGpXJ
+ dnPe7wiyx7ScZiqIXARLDMEEUmRrjXoX8M79qvy6HFDxmn6DCcaOB6lDzjfYRZk+isVvloD+JsT
+ aTi5iL9rwJ5QyukDAL2YcLpWdugTz6w1QDIQLTtMMiPoCxSzIQrWEquf9jvKZ4YIy8/zQxtO373
+ 24CyKH2XRFk2se/59wIyQrQEzaOK5LGmgKUhrLaXTTvvs2DISeeeQjyb0nmZsn9aI/nb+/1i8lM
+ lMxAI6TWYY8qCyCmL+jrNeb9uxXrLKvk3jScplihgdGqY4K/5+vBbFOK1MCW96hJZy/gfzsXiJ0
+ Jpy1pdy3hgyvKS+DJ967EltatLdjLYjIGBEPtG3Y6ERhC+8otnnJnwR5B6aZjyvVSX8rtD5Rfwz
+ f2SLNwQcz+SJtiDV0bohAza2wbBe7E3/+4OpLDaTRaHYrr6RCKdJD2gXQwAFautWLmw5gYdanNc ZwzHb2t7GGez9gQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004689:EE_|MN2PR12MB4127:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8519c73f-4eb4-42f1-49fe-08dc20ee604a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	M0MPjQYXaCpSjhMdVMr1ru1j3EIe3F8O7dqREOqOrDk7lGGtS4EiY8zYPvitF91O9GJE8cMwgyg0aObHWpvLpM1WuHeEz2wPnfmE5Xyvdv4xIS/E0DR7IbDUdoHEGhjduwyneKjlao6oRkOjQNvHPc/LVTYcfbIQibh4kdJRGk23zZtlHOg9+ueCmGE3ABB0vcPo1op5UhIMcq7QHr0CMmfGA6ZBuC+htIsr2FBLfcEuiUCH4CJirZtfsBGA5ps29jFLwTdAukkV/t+lvx/+EJDEQNEyke92Qi0exoAcpSukdfcdjMkiOC/tZBDqrMemI3Sz1cBABuNf9J3u0i09wQJ8jnEiNiqD1qyrdhZS6f5LSd8PKSSVIyDcBg8R0wjG8f/jfjDPe7TR7iaHMuQvdt9z8+jc8jMtYzBuBAKuzJ7WYUSKzurQoJHR2uohGdFLyuqG1ZVYxITK8FHAmT0xpK6XHbW6DH0HVBOcF4eYT3VnpfxtfKR7LGB827ZfNo+FXe6/r2RD8CBFADOIOPiONQdALAP673pZEp9WAz8432RqNgT5I9shAUvy9/jpATg/nQNS3jzd8JDGk24i2HLWmOP3hzjFdlECsy6v1FX3J2KtT9WLIvIBXNXU++Nr+8qgwDmoD6HOuxRkWDb0P0kkYPJI+AxCgnmU2W8FmfHPD7aDHWK9FD76KPur+gjsRdekL9ODhA1kmf0HXwNuYvpKUduJIBHKSuG9q1rOsZhtdmmbr5oDV2KyJFskm5RzXYXfkbLwvn5sgMvPn8DZwoZQiw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(376002)(396003)(39860400002)(230922051799003)(451199024)(186009)(82310400011)(1800799012)(64100799003)(40470700004)(46966006)(36840700001)(47076005)(83380400001)(6666004)(40480700001)(40460700003)(44832011)(36860700001)(966005)(356005)(5660300002)(336012)(426003)(2616005)(478600001)(1076003)(26005)(66899024)(82740400003)(8936002)(8676002)(81166007)(30864003)(36756003)(41300700001)(2906002)(70206006)(86362001)(921011)(316002)(70586007)(110136005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2024 17:18:56.9085
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8519c73f-4eb4-42f1-49fe-08dc20ee604a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00004689.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4127
 
-Convert AMD (Xilinx) sd-fec bindings to yaml format, so it can validate
-dt-entries as well as any future additions to yaml.
-Change in clocks is due to IP is itself configurable and
-only the first two clocks are in all combinations. The last
-6 clocks can be present in some of them. It means order is
-not really fixed and any combination is possible.
-Interrupt may or may not be present.
-The documentation for sd-fec bindings is now YAML, so update the
-MAINTAINERS file.
-Update the link to the new yaml file in xilinx_sdfec.rst.
+For simplicity in splitting out UBSan options into separate rules,
+remove CONFIG_UBSAN_SANITIZE_ALL, effectively defaulting to "y", which
+is how it is generally used anyway. (There are no ":= y" cases beyond
+where a specific file is enabled when a top-level ":= n" is in effect.)
 
-Signed-off-by: Dragan Cvetic <dragan.cvetic@amd.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Marco Elver <elver@google.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
-Changes in v2:
----
-Drop clocks description.
-Use "contains:" with enum for optional clock-names and update
-comment explaining diference from the original DT binding file.
-Remove trailing full stops.
-Add more details in sdfec-code description.
-Set sdfec-code to "string" not "string-array"
----
- .../devicetree/bindings/misc/xlnx,sd-fec.txt  |  58 --------
- .../devicetree/bindings/misc/xlnx,sd-fec.yaml | 136 ++++++++++++++++++
- Documentation/misc-devices/xilinx_sdfec.rst   |   2 +-
- MAINTAINERS                                   |   2 +-
- 4 files changed, 138 insertions(+), 60 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
- create mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
+ Documentation/dev-tools/ubsan.rst | 28 ++++++++--------------------
+ arch/arm/Kconfig                  |  2 +-
+ arch/arm64/Kconfig                |  2 +-
+ arch/mips/Kconfig                 |  2 +-
+ arch/parisc/Kconfig               |  2 +-
+ arch/powerpc/Kconfig              |  2 +-
+ arch/riscv/Kconfig                |  2 +-
+ arch/s390/Kconfig                 |  2 +-
+ arch/x86/Kconfig                  |  2 +-
+ lib/Kconfig.ubsan                 | 13 +------------
+ scripts/Makefile.lib              |  2 +-
+ 11 files changed, 18 insertions(+), 41 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-deleted file mode 100644
-index e3289634fa30..000000000000
---- a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-+++ /dev/null
-@@ -1,58 +0,0 @@
--* Xilinx SDFEC(16nm) IP *
--
--The Soft Decision Forward Error Correction (SDFEC) Engine is a Hard IP block
--which provides high-throughput LDPC and Turbo Code implementations.
--The LDPC decode & encode functionality is capable of covering a range of
--customer specified Quasi-cyclic (QC) codes. The Turbo decode functionality
--principally covers codes used by LTE. The FEC Engine offers significant
--power and area savings versus implementations done in the FPGA fabric.
--
--
--Required properties:
--- compatible: Must be "xlnx,sd-fec-1.1"
--- clock-names : List of input clock names from the following:
--    - "core_clk", Main processing clock for processing core (required)
--    - "s_axi_aclk", AXI4-Lite memory-mapped slave interface clock (required)
--    - "s_axis_din_aclk", DIN AXI4-Stream Slave interface clock (optional)
--    - "s_axis_din_words-aclk", DIN_WORDS AXI4-Stream Slave interface clock (optional)
--    - "s_axis_ctrl_aclk",  Control input AXI4-Stream Slave interface clock (optional)
--    - "m_axis_dout_aclk", DOUT AXI4-Stream Master interface clock (optional)
--    - "m_axis_dout_words_aclk", DOUT_WORDS AXI4-Stream Master interface clock (optional)
--    - "m_axis_status_aclk", Status output AXI4-Stream Master interface clock (optional)
--- clocks : Clock phandles (see clock_bindings.txt for details).
--- reg: Should contain Xilinx SDFEC 16nm Hardened IP block registers
--  location and length.
--- xlnx,sdfec-code : Should contain "ldpc" or "turbo" to describe the codes
--  being used.
--- xlnx,sdfec-din-words : A value 0 indicates that the DIN_WORDS interface is
--  driven with a fixed value and is not present on the device, a value of 1
--  configures the DIN_WORDS to be block based, while a value of 2 configures the
--  DIN_WORDS input to be supplied for each AXI transaction.
--- xlnx,sdfec-din-width : Configures the DIN AXI stream where a value of 1
--  configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
--  of "4x128b".
--- xlnx,sdfec-dout-words : A value 0 indicates that the DOUT_WORDS interface is
--  driven with a fixed value and is not present on the device, a value of 1
--  configures the DOUT_WORDS to be block based, while a value of 2 configures the
--  DOUT_WORDS input to be supplied for each AXI transaction.
--- xlnx,sdfec-dout-width : Configures the DOUT AXI stream where a value of 1
--  configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
--  of "4x128b".
--Optional properties:
--- interrupts: should contain SDFEC interrupt number
--
--Example
-----------------------------------------
--	sd_fec_0: sd-fec@a0040000 {
--		compatible = "xlnx,sd-fec-1.1";
--		clock-names = "core_clk","s_axi_aclk","s_axis_ctrl_aclk","s_axis_din_aclk","m_axis_status_aclk","m_axis_dout_aclk";
--		clocks = <&misc_clk_2>,<&misc_clk_0>,<&misc_clk_1>,<&misc_clk_1>,<&misc_clk_1>, <&misc_clk_1>;
--		reg = <0x0 0xa0040000 0x0 0x40000>;
--		interrupt-parent = <&axi_intc>;
--		interrupts = <1 0>;
--		xlnx,sdfec-code = "ldpc";
--		xlnx,sdfec-din-words = <0>;
--		xlnx,sdfec-din-width = <2>;
--		xlnx,sdfec-dout-words = <0>;
--		xlnx,sdfec-dout-width = <1>;
--	};
-diff --git a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
-new file mode 100644
-index 000000000000..8534beac042d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
-@@ -0,0 +1,136 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/misc/xlnx,sd-fec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Xilinx SDFEC(16nm) IP
-+
-+maintainers:
-+  - Cvetic, Dragan <dragan.cvetic@amd.com>
-+  - Erim, Salih <salih.erim@amd.com>
-+
-+description: |
-+  The Soft Decision Forward Error Correction (SDFEC) Engine is a Hard IP block
-+  which provides high-throughput LDPC and Turbo Code implementations.
-+  The LDPC decode & encode functionality is capable of covering a range of
-+  customer specified Quasi-cyclic (QC) codes. The Turbo decode functionality
-+  principally covers codes used by LTE. The FEC Engine offers significant
-+  power and area savings versus implementations done in the FPGA fabric.
-+
-+properties:
-+  compatible:
-+    const: xlnx,sd-fec-1.1
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 2
-+    maxItems: 8
-+    additionalItems: true
-+    items:
-+      - description: Main processing clock for processing core
-+      - description: AXI4-Lite memory-mapped slave interface clock
-+      - description: Control input AXI4-Stream Slave interface clock
-+      - description: DIN AXI4-Stream Slave interface clock
-+      - description: Status output AXI4-Stream Master interface clock
-+      - description: DOUT AXI4-Stream Master interface clock
-+      - description: DIN_WORDS AXI4-Stream Slave interface clock
-+      - description: DOUT_WORDS AXI4-Stream Master interface clock
-+
-+  clock-names:
-+    minItems: 2
-+    maxItems: 8
-+    additionalItems: true
-+    items:
-+      - const: core_clk
-+      - const: s_axi_aclk
-+    contains:
-+      enum:
-+        - s_axis_ctrl_aclk
-+        - s_axis_din_aclk
-+        - m_axis_status_aclk
-+        - m_axis_dout_aclk
-+        - s_axis_din_words_aclk
-+        - m_axis_dout_words_aclk
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  xlnx,sdfec-code:
-+    description: |
-+      The SD-FEC integrated block supports Low Density Parity Check (LDPC)
-+      decoding and encoding and Turbo code decoding. The LDPC codes used are
-+      highly configurable, and the specific code used can be specified on
-+      a codeword-by-codeword basis. The Turbo code decoding is required by LTE
-+      standard.
-+    $ref: /schemas/types.yaml#/definitions/string
-+    items:
-+      enum: [ ldpc, turbo ]
-+
-+  xlnx,sdfec-din-width:
-+    description: |
-+      Configures the DIN AXI stream where a value of 1
-+      configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
-+      of "4x128b".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1, 2, 4 ]
-+
-+  xlnx,sdfec-din-words:
-+    description: |
-+      A value 0 indicates that the DIN_WORDS interface is
-+      driven with a fixed value and is not present on the device, a value of 1
-+      configures the DIN_WORDS to be block based, while a value of 2 configures the
-+      DIN_WORDS input to be supplied for each AXI transaction.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2 ]
-+
-+  xlnx,sdfec-dout-width:
-+    description: |
-+      Configures the DOUT AXI stream where a value of 1 configures a width of "1x128b",
-+      2 a width of "2x128b" and 4 configures a width of "4x128b".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1, 2, 4 ]
-+
-+  xlnx,sdfec-dout-words:
-+    description: |
-+      A value 0 indicates that the DOUT_WORDS interface is
-+      driven with a fixed value and is not present on the device, a value of 1
-+      configures the DOUT_WORDS to be block based, while a value of 2 configures the
-+      DOUT_WORDS input to be supplied for each AXI transaction.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2 ]
-+
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - xlnx,sdfec-code
-+  - xlnx,sdfec-din-width
-+  - xlnx,sdfec-din-words
-+  - xlnx,sdfec-dout-width
-+  - xlnx,sdfec-dout-words
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sd-fec@a0040000 {
-+        compatible = "xlnx,sd-fec-1.1";
-+        reg = <0xa0040000 0x40000>;
-+        clocks = <&misc_clk_2>, <&misc_clk_0>, <&misc_clk_1>, <&misc_clk_1>,
-+                 <&misc_clk_1>, <&misc_clk_1>;
-+        clock-names = "core_clk", "s_axi_aclk", "s_axis_ctrl_aclk",
-+                      "s_axis_din_aclk", "m_axis_status_aclk",
-+                      "m_axis_dout_aclk";
-+        interrupts = <1 IRQ_TYPE_LEVEL_HIGH>;
-+        xlnx,sdfec-code = "ldpc";
-+        xlnx,sdfec-din-width = <2>;
-+        xlnx,sdfec-din-words = <0>;
-+        xlnx,sdfec-dout-width = <1>;
-+        xlnx,sdfec-dout-words = <0>;
-+    };
-+
-diff --git a/Documentation/misc-devices/xilinx_sdfec.rst b/Documentation/misc-devices/xilinx_sdfec.rst
-index 8c8a289d69a3..698e6630f3a7 100644
---- a/Documentation/misc-devices/xilinx_sdfec.rst
-+++ b/Documentation/misc-devices/xilinx_sdfec.rst
-@@ -29,7 +29,7 @@ follows:
-   - Does not support shared LDPC code table wraparound
+diff --git a/Documentation/dev-tools/ubsan.rst b/Documentation/dev-tools/ubsan.rst
+index 2de7c63415da..e3591f8e9d5b 100644
+--- a/Documentation/dev-tools/ubsan.rst
++++ b/Documentation/dev-tools/ubsan.rst
+@@ -49,34 +49,22 @@ Report example
+ Usage
+ -----
  
- The device tree entry is described in:
--`linux-xlnx/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt <https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/misc/xlnx%2Csd-fec.txt>`_
-+`linux-xlnx/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml <https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/misc/xlnx%2Csd-fec.yaml>`_
+-To enable UBSAN configure kernel with::
++To enable UBSAN, configure the kernel with::
  
+-	CONFIG_UBSAN=y
++  CONFIG_UBSAN=y
  
- Modes of Operation
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8999497011a2..d62e04322e19 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24157,7 +24157,7 @@ XILINX SD-FEC IP CORES
- M:	Derek Kiernan <derek.kiernan@amd.com>
- M:	Dragan Cvetic <dragan.cvetic@amd.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-+F:	Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
- F:	Documentation/misc-devices/xilinx_sdfec.rst
- F:	drivers/misc/Kconfig
- F:	drivers/misc/Makefile
+-and to check the entire kernel::
+-
+-        CONFIG_UBSAN_SANITIZE_ALL=y
+-
+-To enable instrumentation for specific files or directories, add a line
+-similar to the following to the respective kernel Makefile:
+-
+-- For a single file (e.g. main.o)::
+-
+-    UBSAN_SANITIZE_main.o := y
+-
+-- For all files in one directory::
+-
+-    UBSAN_SANITIZE := y
+-
+-To exclude files from being instrumented even if
+-``CONFIG_UBSAN_SANITIZE_ALL=y``, use::
++To exclude files from being instrumented use::
+ 
+   UBSAN_SANITIZE_main.o := n
+ 
+-and::
++and to exclude all targets in one directory use::
+ 
+   UBSAN_SANITIZE := n
+ 
++When disabled for all targets, specific files can be enabled using::
++
++  UBSAN_SANITIZE_main.o := y
++
+ Detection of unaligned accesses controlled through the separate option -
+ CONFIG_UBSAN_ALIGNMENT. It's off by default on architectures that support
+ unaligned accesses (CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y). One could
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 0af6709570d1..287e62522064 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -29,7 +29,7 @@ config ARM
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG if CPU_V7 || CPU_V7M || CPU_V6K
+ 	select ARCH_HAS_GCOV_PROFILE_ALL
+ 	select ARCH_KEEP_MEMBLOCK
+-	select ARCH_HAS_UBSAN_SANITIZE_ALL
++	select ARCH_HAS_UBSAN
+ 	select ARCH_MIGHT_HAVE_PC_PARPORT
+ 	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_OPTIONAL_KERNEL_RWX_DEFAULT if CPU_V7
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index aa7c1d435139..78533d1b7f35 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -107,7 +107,7 @@ config ARM64
+ 	select ARCH_WANT_LD_ORPHAN_WARN
+ 	select ARCH_WANTS_NO_INSTR
+ 	select ARCH_WANTS_THP_SWAP if ARM64_4K_PAGES
+-	select ARCH_HAS_UBSAN_SANITIZE_ALL
++	select ARCH_HAS_UBSAN
+ 	select ARM_AMBA
+ 	select ARM_ARCH_TIMER
+ 	select ARM_GIC
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index 797ae590ebdb..9750ce3e40d5 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -14,7 +14,7 @@ config MIPS
+ 	select ARCH_HAS_STRNCPY_FROM_USER
+ 	select ARCH_HAS_STRNLEN_USER
+ 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+-	select ARCH_HAS_UBSAN_SANITIZE_ALL
++	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_GCOV_PROFILE_ALL
+ 	select ARCH_KEEP_MEMBLOCK
+ 	select ARCH_USE_BUILTIN_BSWAP
+diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
+index d14ccc948a29..dbc9027ea2f4 100644
+--- a/arch/parisc/Kconfig
++++ b/arch/parisc/Kconfig
+@@ -12,7 +12,7 @@ config PARISC
+ 	select ARCH_HAS_ELF_RANDOMIZE
+ 	select ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_HAS_STRICT_MODULE_RWX
+-	select ARCH_HAS_UBSAN_SANITIZE_ALL
++	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_PTE_SPECIAL
+ 	select ARCH_NO_SG_CHAIN
+ 	select ARCH_SUPPORTS_HUGETLBFS if PA20
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index b9fc064d38d2..2065973e09d2 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -154,7 +154,7 @@ config PPC
+ 	select ARCH_HAS_SYSCALL_WRAPPER		if !SPU_BASE && !COMPAT
+ 	select ARCH_HAS_TICK_BROADCAST		if GENERIC_CLOCKEVENTS_BROADCAST
+ 	select ARCH_HAS_UACCESS_FLUSHCACHE
+-	select ARCH_HAS_UBSAN_SANITIZE_ALL
++	select ARCH_HAS_UBSAN
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+ 	select ARCH_KEEP_MEMBLOCK
+ 	select ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE	if PPC_RADIX_MMU
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index bffbd869a068..d824d113a02d 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -37,7 +37,7 @@ config RISCV
+ 	select ARCH_HAS_STRICT_MODULE_RWX if MMU && !XIP_KERNEL
+ 	select ARCH_HAS_SYSCALL_WRAPPER
+ 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+-	select ARCH_HAS_UBSAN_SANITIZE_ALL
++	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_VDSO_DATA
+ 	select ARCH_KEEP_MEMBLOCK if ACPI
+ 	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
+diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+index fe565f3a3a91..97dd25521617 100644
+--- a/arch/s390/Kconfig
++++ b/arch/s390/Kconfig
+@@ -82,7 +82,7 @@ config S390
+ 	select ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_HAS_STRICT_MODULE_RWX
+ 	select ARCH_HAS_SYSCALL_WRAPPER
+-	select ARCH_HAS_UBSAN_SANITIZE_ALL
++	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_VDSO_DATA
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+ 	select ARCH_INLINE_READ_LOCK
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 5edec175b9bf..1c4c326a3640 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -100,7 +100,7 @@ config X86
+ 	select ARCH_HAS_STRICT_MODULE_RWX
+ 	select ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
+ 	select ARCH_HAS_SYSCALL_WRAPPER
+-	select ARCH_HAS_UBSAN_SANITIZE_ALL
++	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_DEBUG_WX
+ 	select ARCH_HAS_ZONE_DMA_SET if EXPERT
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+index 04222a6d7fd9..0611120036eb 100644
+--- a/lib/Kconfig.ubsan
++++ b/lib/Kconfig.ubsan
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-config ARCH_HAS_UBSAN_SANITIZE_ALL
++config ARCH_HAS_UBSAN
+ 	bool
+ 
+ menuconfig UBSAN
+@@ -169,17 +169,6 @@ config UBSAN_ALIGNMENT
+ 	  Enabling this option on architectures that support unaligned
+ 	  accesses may produce a lot of false positives.
+ 
+-config UBSAN_SANITIZE_ALL
+-	bool "Enable instrumentation for the entire kernel"
+-	depends on ARCH_HAS_UBSAN_SANITIZE_ALL
+-	default y
+-	help
+-	  This option activates instrumentation for the entire kernel.
+-	  If you don't enable this option, you have to explicitly specify
+-	  UBSAN_SANITIZE := y for the files/directories you want to check for UB.
+-	  Enabling this option will get kernel image size increased
+-	  significantly.
+-
+ config TEST_UBSAN
+ 	tristate "Module for testing for undefined behavior detection"
+ 	depends on m
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index cd5b181060f1..52efc520ae4f 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -175,7 +175,7 @@ endif
+ 
+ ifeq ($(CONFIG_UBSAN),y)
+ _c_flags += $(if $(patsubst n%,, \
+-		$(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_SANITIZE)$(CONFIG_UBSAN_SANITIZE_ALL)), \
++		$(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_SANITIZE)y), \
+ 		$(CFLAGS_UBSAN))
+ endif
+ 
 -- 
 2.34.1
 
