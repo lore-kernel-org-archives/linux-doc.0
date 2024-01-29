@@ -1,180 +1,183 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A005153BC6;
-	Mon, 29 Jan 2024 15:35:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE07D154C07;
+	Mon, 29 Jan 2024 15:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706542511; cv=none; b=WNZe8QnOueebGLiCLsUHDh/gAPij+saLCPTwhCKdsxkGznywMLtxE6w5ScOW4hjf/V4HyN/2mqVCjRwo0prC16oKNvBE8Pd4AqBt7tnKdgjUJYHEcCqO1RkMCbpG3FqMIqoBiPxcbFf3gEWV3/k2RRMAVP7lwKn5sU5UzUWszfA=
+	t=1706543019; cv=none; b=hyraUHWUxhktfGnycxuRz4DV1wOFC/ktVhEKTtMAExRhG7VqP+CIYZBOXE7hKAkMsVanxbi+VX3O9+Gkp5tGy4wfFpSi+b4VHvlhTXvkgiM8vjCPDYixfXOA4fzEKfLAEXdk0B0PP0YP77nkTq3+YPnn0HyVv+TE6rQYnV0zj+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706542511; c=relaxed/simple;
-	bh=oqnGdtTv/k7O49UAKeLaHEMigeXSQOzpobeqbQwsRC0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bPLC4zhtyD4bU50kQ5nQKdGp9+5+fo5d5TJ5aRxiheqn2QQKb+GvBSYu9K2H4RRkuKkSXUdxu4oz9DRHxOKmlMySBZFJnqG32noFb8rFGiMUMl5G2YkvQ/ReVPNa6bzyq+pjsQDKs420imoenUeTntTcIb8uoUorvWjokVcguNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-210cd12fae2so25259fac.0;
-        Mon, 29 Jan 2024 07:35:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706542508; x=1707147308;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TG+8XeCHdsIlnW4L47AUTukqeea8Ay75J0VzHSz+j7A=;
-        b=Twa9prJe/xBthuLdZL8KpXHwppEh7BLCz6JGLBRsCNNLLjxF39VqYtZ2F2R5h+YEpr
-         Gt6/me2moiVq0hPU2hNf+a9COMR1bLm+5J6zGm6NFf9xi+X4qOEmlPfZm5wXrdouxNvz
-         +FI769+JpwDznPPZZ13kYDSfxUh0MwPH2rmtCzon6QGEtRMJCslxqcQeqDlN0SqEopgB
-         gcVBxuu8CPd9v8ceVp3tkjQMSVmx7+/ZrJdNC66cuWGg0y1lDDr3aUmctu2s3Od0jgQt
-         oLwWaNTTEzXEDTZs7MYHHorb3avTGz4bc23NV855AP8EAtjYlx5Pik3+E7vn972jJoHs
-         lQZg==
-X-Forwarded-Encrypted: i=0; AJvYcCWivtAILoZlBgyc8Hp0ORscZpsAnxqYMh/fjI5p6X+eFspXzltgbFcJn+aLewMld/OHzT6lLVJmgdQteGngui6Jm4Wx5cXCwLmF+BLAKQiccmNfQWjPheCfsJTmNAAo9/W6+FCp5kNAK9v7qkGTbqlhghnwhyp3SR498xZsQa+Ad9lfpvlH8gdPlcjTfXnyojvhfpeMGBGmo+mhx9OWJ7es/Ervw5GNtxX+adYh9Z7CrCZQdGWngK18sPQFiWvcnHc8PgRgqNts2mBGkkBfOxIjsiWsW49LI6otzGfK2t736aK6iTqqQgwb+OP/Pdyzg4D8T3bd+kIItrrJ3XaJcx8eLkv6n1Clw3bd/oRaug7g
-X-Gm-Message-State: AOJu0YzTLLTp9Lnb0CkAwCS2FdUSWTg8RDFNyM8Z/AhT2jLTf5O2DZO/
-	dm79IWnfNajpDMPwzIhXeJxWxsl/xpSCcWzcg5q1CCygHk4RLy6U/EawPuAn56nzeovVIyKVv5N
-	B4Ulk8YS2aLBN9fcXwko46xjSbE8=
-X-Google-Smtp-Source: AGHT+IHhrTU6Vx9l5tJAOVsHqvjFv8owslRWENpfX2JETljBTVS4w/It4UoW1njjPVf/6maja2wtMQZ5MonYr2C+WRA=
-X-Received: by 2002:a05:6870:230d:b0:214:fddf:99f7 with SMTP id
- w13-20020a056870230d00b00214fddf99f7mr7432263oao.5.1706542508620; Mon, 29 Jan
- 2024 07:35:08 -0800 (PST)
+	s=arc-20240116; t=1706543019; c=relaxed/simple;
+	bh=n8a6DcN34MCg2EL+T3oLmFAy3UeopUFYPMC/oHMiox8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
+	 In-Reply-To:Content-Type; b=tJQHLkf0+wz6VVFlXlwMntx6130f1IylE8swOY1yh5kUjQiTAH5pk/o3F80r8qt6406yDLk9jQx2gxyCYoo3SApbE3hyyDk7aPIkspzldu1cJYAo//O+WsWFrnf4VceKLfFWd03AUnZ9EIfENrGaAnhXrptPdnWzyaOnCuHsmw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6BQG4Rw; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6BQG4Rw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706543016; x=1738079016;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=n8a6DcN34MCg2EL+T3oLmFAy3UeopUFYPMC/oHMiox8=;
+  b=A6BQG4RwneBFN8Q4gWtiXBLKGTsuaebuepLrO3TglQ93JZ3mevmg9oRm
+   EmgU5AwqtyssKKIAXrEnmIio4ghC5e0mXkmJ4YzujE5ba2Q+VCBLJSvZF
+   iFryVKhwFL1kI+5LXp5HwJKPTQfMNtPmku4NTHlr5Ups+6oSNmw34JnUM
+   W8yNIZvOVq5I7kjyOA/tVr8lsU/9lMPF06KTYAeHc5cFTB8Mlt3bPwr4l
+   yUJf7JAHD0G+CB+fm1zd+U6/QRVOUEf6AmsLb9Mn9unh8datVb41pH7tI
+   FrfDoUu/EgyH9tjl/YL+sCIQWKnlgneyF5dCUULtRK1A1YSfgMOdfGxeU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="434159615"
+X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
+   d="scan'208";a="434159615"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 07:43:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="960921358"
+X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
+   d="scan'208";a="960921358"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga005.jf.intel.com with ESMTP; 29 Jan 2024 07:43:25 -0800
+Message-ID: <44a3d4db-7759-dd93-782a-1efbebfdb22c@linux.intel.com>
+Date: Mon, 29 Jan 2024 17:44:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZXmn46ptis59F0CO@shell.armlinux.org.uk> <ZXxxa+XZjPZtNfJ+@shell.armlinux.org.uk>
- <20231215161539.00000940@Huawei.com> <5760569.DvuYhMxLoT@kreacher>
- <20240102143925.00004361@Huawei.com> <20240111101949.000075dc@Huawei.com>
- <ZZ/CR/6Voec066DR@shell.armlinux.org.uk> <20240112115205.000043b0@Huawei.com>
- <Zbe8WQRASx6D6RaG@shell.armlinux.org.uk> <CAJZ5v0iba93EhQB2k3LMdb2YczndbRmF5WGRYHhnqCHq6TQJ0A@mail.gmail.com>
- <ZbfBYgdLzvEX/VjN@shell.armlinux.org.uk>
-In-Reply-To: <ZbfBYgdLzvEX/VjN@shell.armlinux.org.uk>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 29 Jan 2024 16:34:57 +0100
-Message-ID: <CAJZ5v0gr3ZmLY9m+rYGP36zQYNH4ohL=zbym4LS3Eq+Qt4nZLA@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 01/21] ACPI: Only enumerate enabled (or functional) devices
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
-	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
-	James Morse <james.morse@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+Content-Language: en-US
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, gregkh@linuxfoundation.org, lgirdwood@gmail.com,
+ andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ konrad.dybcio@linaro.org, Thinh.Nguyen@synopsys.com, broonie@kernel.org,
+ bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org, agross@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org, "Neronin, Niklas" <niklas.neronin@intel.com>
+References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
+ <20240102214549.22498-5-quic_wcheng@quicinc.com>
+ <734591a1-50b4-6dc7-0b93-077355ec12e4@linux.intel.com>
+ <7b2ec96b-b72f-c848-7c35-36e61a4072ac@quicinc.com>
+ <b254f73b-a1bc-3dd4-f485-a3acf556835d@quicinc.com>
+ <2178e799-2068-7443-59b2-310dfdd1ddee@linux.intel.com>
+ <ae64ce69-dc1b-1534-7950-0a35c4a56f58@quicinc.com>
+ <ff0bff8b-f26a-87bd-9762-9f2af98abcca@quicinc.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v12 04/41] usb: host: xhci-mem: Cleanup pending secondary
+ event ring events
+In-Reply-To: <ff0bff8b-f26a-87bd-9762-9f2af98abcca@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 29, 2024 at 4:17=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
->
-> On Mon, Jan 29, 2024 at 04:05:42PM +0100, Rafael J. Wysocki wrote:
-> > On Mon, Jan 29, 2024 at 3:55=E2=80=AFPM Russell King (Oracle)
-> > <linux@armlinux.org.uk> wrote:
-> > >
-> > > Hi Jonathan,
-> > >
-> > > On Fri, Jan 12, 2024 at 11:52:05AM +0000, Jonathan Cameron wrote:
-> > > > On Thu, 11 Jan 2024 10:26:15 +0000
-> > > > "Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
-> > > > > @@ -2381,16 +2388,38 @@ EXPORT_SYMBOL_GPL(acpi_dev_clear_dependen=
-cies);
-> > > > >   * acpi_dev_ready_for_enumeration - Check if the ACPI device is =
-ready for enumeration
-> > > > >   * @device: Pointer to the &struct acpi_device to check
-> > > > >   *
-> > > > > - * Check if the device is present and has no unmet dependencies.
-> > > > > + * Check if the device is functional or enabled and has no unmet=
- dependencies.
-> > > > >   *
-> > > > > - * Return true if the device is ready for enumeratino. Otherwise=
-, return false.
-> > > > > + * Return true if the device is ready for enumeration. Otherwise=
-, return false.
-> > > > >   */
-> > > > >  bool acpi_dev_ready_for_enumeration(const struct acpi_device *de=
-vice)
-> > > > >  {
-> > > > >     if (device->flags.honor_deps && device->dep_unmet)
-> > > > >             return false;
-> > > > >
-> > > > > -   return acpi_device_is_present(device);
-> > > > > +   /*
-> > > > > +    * ACPI 6.5's 6.3.7 "_STA (Device Status)" allows firmware to=
- return
-> > > > > +    * (!present && functional) for certain types of devices that=
- should be
-> > > > > +    * enumerated. Note that the enabled bit should not be set un=
-less the
-> > > > > +    * present bit is set.
-> > > > > +    *
-> > > > > +    * However, limit this only to processor devices to reduce po=
-ssible
-> > > > > +    * regressions with firmware.
-> > > > > +    */
-> > > > > +   if (device->status.functional)
-> > > > > +           return true;
-> > >
-> > > I have a report from within Oracle that this causes testing failures
-> > > with QEMU using -smp cpus=3D2,maxcpus=3D4. I think it needs to be:
-> > >
-> > >         if (!device->status.present)
-> > >                 return device->status.functional;
-> > >
-> > >         if (device->status.enabled)
-> > >                 return true;
-> > >
-> > >         return !acpi_device_is_processor(device);
-> >
-> > The above is fine by me.
-> >
-> > > So we can better understand the history here, let's list it as a
-> > > truth table. P=3Dpresent, F=3Dfunctional, E=3Denabled, Orig=3Dhow the=
- code
-> > > is in mainline, James=3DJames' original proposal, Rafael=3Dthe propos=
-ed
-> > > replacement but seems to be buggy, Rmk=3Dthe fixed version that passe=
-s
-> > > tests:
-> > >
-> > > P F E   Orig    James   Rafael          Rmk
-> > > 0 0 0   0       0       0               0
-> > > 0 0 1   0       0       0               0
-> > > 0 1 0   1       1       1               1
-> > > 0 1 1   1       0       1               1
-> > > 1 0 0   1       0       !processor      !processor
-> > > 1 0 1   1       1       1               1
-> > > 1 1 0   1       0       1               !processor
-> > > 1 1 1   1       1       1               1
-> > >
-> > > Any objections to this?
-> >
-> > So AFAIAC it can return false if not enabled, but present and
-> > functional.  [Side note: I'm wondering what "functional" means then,
-> > but whatever.]
->
-> From ACPI v6.5 (bit 3 is our "status.functional":
->
->  _STA may return bit 0 clear (not present) with bit [3] set (device is
->  functional). This case is used to indicate a valid device for which no
->  device driver should be loaded (for example, a bridge device.) Children
->  of this device may be present and valid. OSPM should continue
->  enumeration below a device whose _STA returns this bit combination.
->
-> So, for this case, acpi_dev_ready_for_enumeration() returning true for
-> this case is correct, since we're supposed to enumerate it and child
-> devices.
->
-> It's probably also worth pointing out that in the above table, the two
-> combinations with P=3D0 E=3D1 goes against the spec, but are included for
-> completness.
+On 26.1.2024 23.13, Wesley Cheng wrote:
+> Hi Mathias,
+> 
+> On 1/16/2024 12:24 PM, Wesley Cheng wrote:
+>> Hi Mathias,
+>>
+>> On 1/15/2024 6:01 AM, Mathias Nyman wrote:
+>>> On 10.1.2024 1.42, Wesley Cheng wrote:
+>>>> Hi Mathias,
+>>>>
+>>>> On 1/8/2024 12:51 PM, Wesley Cheng wrote:
+>>>>> Hi Mathias,
+>>>>>
+>>>>> On 1/4/2024 6:48 AM, Mathias Nyman wrote:
+>>>>>> On 2.1.2024 23.45, Wesley Cheng wrote:
+>>>>>>> As part of xHCI bus suspend, the XHCI is halted.  However, if there are
+>>>>>>> pending events in the secondary event ring, it is observed that the xHCI
+>>>>>>> controller stops responding to further commands upon host or device
+>>>>>>> initiated bus resume.  Iterate through all pending events and update the
+>>>>>>> dequeue pointer to the beginning of the event ring.
+>>>>>>>
+>>>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>>>>> ...
+>>>>>>> +/*
+>>>>>>> + * Move the event ring dequeue pointer to skip events kept in the secondary
+>>>>>>> + * event ring.  This is used to ensure that pending events in the ring are
+>>>>>>> + * acknowledged, so the XHCI HCD can properly enter suspend/resume. The
+>>>>>>> + * secondary ring is typically maintained by an external component.
+>>>>>>> + */
+>>>>>>> +void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
+>>>>>>> +    struct xhci_ring *ring,    struct xhci_interrupter *ir)
+>>>>>>> +{
+>>>>>>> +    union xhci_trb *erdp_trb, *current_trb;
+>>>>>>> +    u64 erdp_reg;
+>>>>>>> +    u32 iman_reg;
+>>>>>>> +    dma_addr_t deq;
+>>>>>>> +
+>>>>>>> +    /* disable irq, ack pending interrupt and ack all pending events */
+>>>>>>> +    xhci_disable_interrupter(ir);
+>>>>>>> +    iman_reg = readl_relaxed(&ir->ir_set->irq_pending);
+>>>>>>> +    if (iman_reg & IMAN_IP)
+>>>>>>> +        writel_relaxed(iman_reg, &ir->ir_set->irq_pending);
+>>>>>>> +
+>>>>>>> +    /* last acked event trb is in erdp reg  */
+>>>>>>> +    erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
+>>>>>>> +    deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
+>>>>>>> +    if (!deq) {
+>>>>>>> +        xhci_err(xhci, "event ring handling not required\n");
+>>>>>>> +        return;
+>>>>>>> +    }
+>>>>>>> +
+>>>>>>> +    erdp_trb = current_trb = ir->event_ring->dequeue;
+>>>>>>> +    /* read cycle state of the last acked trb to find out CCS */
+>>>>>>> +    ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
+>>>>>>> +
+>>>>>>> +    while (1) {
+>>>>>>> +        inc_deq(xhci, ir->event_ring);
+>>>>>>> +        erdp_trb = ir->event_ring->dequeue;
+>>>>>>> +        /* cycle state transition */
+>>>>>>> +        if ((le32_to_cpu(erdp_trb->event_cmd.flags) & TRB_CYCLE) !=
+>>>>>>> +            ring->cycle_state)
+>>>>>>> +            break;
+>>>>>>> +    }
+>>>>>>> +
+>>>>>>> +    xhci_update_erst_dequeue(xhci, ir, current_trb, true);
+>>>>>>> +}
+>>>>>>
+>>>>>> Code above is very similar to the existing event ring processing parts of xhci_irq()
+>>>>>> and xhci_handle_event()
+>>>>>>
+>>>>>> I'll see if I can refactor the existing event ring processing, decouple it from
+>>>>>> event handling so that it could be used by primary and secondary interrupters with
+>>>>>> handlers, and this case where we just want to clear the event ring.
+>>>>>>
+>>>>>
+>>>>> Thanks, that makes sense.  Will take a look as well.
+>>>>>
+>>>>
+>>>> How about something like the below?  Tested this on my set up and everything looks to be working fine.  Had to add another param to struct xhci_interrupters to tell the XHCI interrupt handler to say if that particular interrupter wants to skip_events (handling).  This way, its something that the class driver utilizing the interrupter will have to tell XHCI sideband.  It would allow the user to determine if they want to use the interrupter to actually handle events or not on the proc running Linux.
+>>>>
+>>>
+>>> Yes, I have something similar.
+>>> I'll share it soon, just need to
+>>> clean it up a bit fist.
+>>>
+>>
+>> Sure, no worries.  Will test it when its available.  Thanks!
+>>
+> 
+> Was just wondering if you had the time to clean up the changes?  If not, maybe you can provide a patch with whatever you have, and I can try my best to clean it up to your liking?  Thanks!
 
-The difference between the last two columns is the present and
-functional, but not enabled combination AFAICS, for which my patch
-just returned true, but the firmware disagrees with that.
+Sure, got stuck fixing other issues.
 
-It is kind of analogous to the "not present and functional" case
-covered by the spec, which is why it is fine by me to return "false"
-then (for processors), but the spec is not crystal clear about it.
+Code is not yet cleaned up, commit messages are not ready etc, but current work is in
+a fix_eventhandling branch:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git  fix_eventhandling
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=fix_eventhandling
+
+I was in the middle of figuring out when and where the ip_autoclear and interrupt
+moderation values should be set for secondary interrupters
+
+Thanks
+Mathias
+
