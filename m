@@ -1,129 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B62422083;
-	Tue, 30 Jan 2024 01:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9CF339AD;
+	Tue, 30 Jan 2024 01:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706576711; cv=none; b=lEEmkChvp1jzYvwdewTr6IBm90yJNdtatJ3HMo4b/exwWMLg/gEZSBMTn5GvzlBSvSzs74vE18x8C6J9TN+LqQtzaKEBhpF+r9TSBRslSDb1kY5p4oPmxjZxZFxSc0/vsaQMwdK9L7cBrLuMZiSjQBTTV491yuky7Z4zBctvW5g=
+	t=1706578381; cv=none; b=cCNvAIPI2M6hpqdpzBo81t6zXZG56Guj3MrTcfZg/5oI8F2COIptDN0yyhXUPs25Lzbdd3Tj/wg5UlzlAZMdSy7cV/WjfJYM15ghTOS50AwRzNTmOzzgvHz14I6Gv9tr8gTm4csQLoqbLYVAXM5a4l2mK6CnfpY5dq2Y4J8K/Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706576711; c=relaxed/simple;
-	bh=bG7LWMMzQOA4pnHxVE9T5M/eEsZhCIbhOeGSUfM/lKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AriK6cdD46Orq3gb67r0OVY/qqCQL30fkliXZa2RHSvzZw357OJAgu3H5TxLge2UJMfpcUtnWrMGBe5CoKI5aYD2C+X7LinDc7uIqs5L5YZ1LqPOBZd0fmc/5dHuDkA1iomFgUDlEAIL6IwEolTLPpWlSg5TiCfFKF5CnVtdNu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VH4+r4ue; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706578381; c=relaxed/simple;
+	bh=jKVXSUHnuGD6UfpTwd8Rf6+GCaEio67YadwFP6z0OJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CpCWdIs6HLIp1D03x3l20hifOqJkWxRB7OUeLr3NH8mw43Jd2tiOkSPwD/FV3UXDw1hjzpZX5ZorAxCosdcZZUP0mCHgX7tBjK+gTuGJibY9isEYLboaeJVviAJPB1F1HAlRspOc6c3eEqlsTKxZ589wKsTDAEALyM/Ck/iji5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ruN2F5rJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VH4+r4ue"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706576711; x=1738112711;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bG7LWMMzQOA4pnHxVE9T5M/eEsZhCIbhOeGSUfM/lKE=;
-  b=VH4+r4ue2ZMNASQsQOoTk+/pQDt2Bd3s05csty7MZCeZAy6dTUA0aRci
-   2ZWhMBf5shCzBiIvmiSkxnzwxq2xA6REZP/b6DrwMmuMPeep/mRjub3cc
-   x0BUqU0NwW9nJeTG51QnKr8NN8CKoMAvMKPBHklqfGX+znWZWeIfbCjL6
-   lnnc7bjVfea3Ac6llpgcEnd+oQ6w8YtTZAPFtSHX5GAiDalaTpPxQiiM/
-   qLNAirP7XOUksGl+vaye8NRThXZfdDzgfxqjDTPL2JOu+3LW1yKM3vsFt
-   UPQSnTt+QazJAnQPKSqdoh2aerUO/716RRAS9MLLzRxdxgYEOKc0dyx9O
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="3006761"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="3006761"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 17:05:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="29719504"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 17:05:09 -0800
-Date: Mon, 29 Jan 2024 17:05:08 -0800
-From: Tony Luck <tony.luck@intel.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>, x86@kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v14 0/8] Add support for Sub-NUMA cluster (SNC) systems
-Message-ID: <ZbhLRDvZrxBZDv2j@agluck-desk3>
-References: <20231204185357.120501-1-tony.luck@intel.com>
- <20240126223837.21835-1-tony.luck@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ruN2F5rJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4860C433C7;
+	Tue, 30 Jan 2024 01:33:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706578381;
+	bh=jKVXSUHnuGD6UfpTwd8Rf6+GCaEio67YadwFP6z0OJk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ruN2F5rJAMlRDAEsQoLNolTUWIfv7P4yBbvtegSJyJ1aEUnamWwVeL3omGloDjH/a
+	 vCuGMt/7YR6a308erYs8Lp34/2MgcGT0+Eu8DkFfMEqMpeCKDO+vBo9MfjArJClZTD
+	 i448HTnKby/rXqZAg39WZhiFnDGKTpYNFTeI4Xt0w3on9zsNNy93xs2Re3VHVA0UZb
+	 frd5cRDgN+C+Sb5EtZXAQZIgBWCeYog9muf5onZutb5NtmYk+aYM6LwgmN5iZ2ngI4
+	 9JeUNmCO86WoZCiWNklDeBfoU3dL0sTucwY99OMSIaEazJMnmo9kyNTwC2Ti26HUG2
+	 +HxOemffu6kwQ==
+Date: Mon, 29 Jan 2024 17:32:59 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Donald Hunter <donald.hunter@gmail.com>
+Cc: Alessandro Marcolini <alessandromarcolini99@gmail.com>,
+ netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Jacob Keller
+ <jacob.e.keller@intel.com>, Breno Leitao <leitao@debian.org>, Jiri Pirko
+ <jiri@resnulli.us>, donald.hunter@redhat.com
+Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages
+ in nested attribute spaces
+Message-ID: <20240129173259.1a2451df@kernel.org>
+In-Reply-To: <m2bk95w8qq.fsf@gmail.com>
+References: <20240123160538.172-1-donald.hunter@gmail.com>
+	<20240123160538.172-3-donald.hunter@gmail.com>
+	<20240123161804.3573953d@kernel.org>
+	<m2ede7xeas.fsf@gmail.com>
+	<20240124073228.0e939e5c@kernel.org>
+	<m2ttn0w9fa.fsf@gmail.com>
+	<20240126105055.2200dc36@kernel.org>
+	<m2jznuwv7g.fsf@gmail.com>
+	<fcf9630e-26fd-4474-a791-68c548a425b6@gmail.com>
+	<m2bk95w8qq.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240126223837.21835-1-tony.luck@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I've been wondering whether the SNC patches were creating way too much
-infrastructure that isn't generally useful. Specifically the capability
-for a reactrl resource to have different scope for monitoring and
-control functions.
+On Sun, 28 Jan 2024 19:36:29 +0000 Donald Hunter wrote:
+> > from collections import ChainMap
+> >
+> > class LevelChainMap(ChainMap):
+> > =C2=A0=C2=A0=C2=A0 def __getitem__(self, key):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for mapping in self.maps:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 return mapping[key], self.maps[::-1].index(mapping)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exce=
+pt KeyError:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 pass
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return self.__missing__(key)
+> >
+> > =C2=A0=C2=A0=C2=A0 def get(self, key, default=3DNone, level=3DNone):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val, lvl =3D self[key] if ke=
+y in self else (default, None)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if level:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if l=
+vl !=3D level:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 raise Exception("Level mismatch")
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return val, lvl
+> >
+> > # example usage
+> > c =3D LevelChainMap({'a':1}, {'inner':{'a':1}}, {'outer': {'inner':{'a'=
+:1}}})
+> > print(c.get('a', level=3D2))
+> > print(c.get('a', level=3D1)) #raise err
+> >
+> > This will leave the spec as it is and will require small changes.
+> >
+> > What do you think? =20
+>=20
+> The more I think about it, the more I agree that using path-like syntax
+> in the selector is overkill. It makes sense to resolve the selector
+> level from the spec and then directly access the mappings from the
+> correct scope level.
 
-That seems like a very strange thing.
-
-History here is that Intel CMT, MBM and L3 CAT features arrived in
-quick succession, closely followed by MBA and then L2 CAT. At the time
-it made sense for the "L3" resource to cover all of CMT, MBM and L3 CAT.
-
-That became slightly odd when MBA (another L3 scoped resource) was
-added. It was given its own "struct rdt_resource". AMD later added
-SMBA as yet another L3-scoped resource with its own "struct resource".
-
-I wondered how the SNC series would look if I went back to an approach
-from one of the earlier versions. In that one I created a new resource
-for SNC monitoring that was NODE scoped. And then made all the CMT and
-MBM code switch over to using that one when SNC was enabled. That was
-a bit hacky, and I moved from there to the dual domain lists per
-resource.
-
-I just tried out an approach the split the RDT_RESOURCE_L3 resource
-into separate resources, one for control, one for monitoring.
-
-It makes the code much simpler:
-
- 8 files changed, 235 insertions(+), 30 deletions(-) [1]
-
-vs.
-
- 9 files changed, 629 insertions(+), 282 deletions(-)
-
-
-Tradeoffs:
-
-The complex series (posted as v14) cleanly split the "rdt_domain"
-structure into two. So it no longer carried all the fields needed
-for both control and monitor, even though only one set was ever
-used. But the cost was a lot of code churn that may never be useful
-for anything other than SNC.
-
-On non-SNC systems the new series produces separate linked lists
-of domains for L3 control & monitor, even though the lists are the
-same, and the domain structures still carry all fields for both
-control and monitor functions.
-
-Question: Does anyone think that single domain with different scope for
-control and monitor is inherently more useful than two separate domains?
-
-
-While I get this sorted out, maybe Boris should take James next set
-of MPAM patches as they are, instead of on top of the complex SNC
-series.
-
--Tony
-
-[1] I'll post this set just as soon as I can get time on and SNC machine
-to make sure they actually work.
+Plus if we resolve from the spec that's easily reusable in C / C++=20
+code gen :)
