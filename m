@@ -1,46 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C368171B2E
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 20:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C8371B35;
+	Tue, 30 Jan 2024 20:18:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706645819; cv=none; b=K5mVa0qbWY8AcbxQ5TWDhuuAws+eEALZVKy0Nw4hq/TwWm/PofrGYlMeMCWWbYb5XkOA87oGg9yh3JNfK4X2ZwpFbptmbtSCT+N8KG7a8BWATqSEbCcdGFO5346VVlmiIS5K7BhbzUUsvoeBriTlkjBekbKxu9Pf+swX0lMulBQ=
+	t=1706645897; cv=none; b=HtCRJcDQ1EBN3n6ARfHx3QcoVCNlxhRAKKoFcRYVLxBUq4goH+cLJjL788Lb6fWN+3YnNfEMarLSCUNNLDjJmU0R4a5l9T3XjqVHQV2Nn92UEDpeuIcBQaRiGLjkuFavPWT7nywLRsxJ74MFUvbuchi2Bo3YJw99HbTm4GrPBM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706645819; c=relaxed/simple;
-	bh=CjUeRfiqxL7Bo1XgkCRMpiWOZQllYFoAdWuf6wGwOJM=;
+	s=arc-20240116; t=1706645897; c=relaxed/simple;
+	bh=kw4/vZsQ4igABvQM8UwIbtkB/TnHdIU/pnO5e+cNS8k=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=m0GQVLU20SU/3cNnDo9so9hy+CCjVGOz+DzTjJ8lD9dcHxxL5cws5pf70oArnxyXEjrjgg9CEPIJxfpfldcv2s5nbhSFAApR643iB50SYvVPqvEG1fjH4Ha/zwSLbNZKQ3SBEbTfDiUekiRP5b/smhhY1yzkBGTk1sqFqOtFUDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bviOoktO; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=EpjJRm61kUwrzxssde99KjDX34wRr9ZsOqHuUX0moiyJoWct7/6Yvl/opKeBIgBFrABDpds9gOA2GX4qkRgOnXuhZEC1Lgg9Lj8xu2fT3CJWp+4qmcCdScaoZPWJg3z1uIjb96FCLcFAgKkFv/ELtG958bO9ydMRpbvkLNLK/tY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=g/karfMa; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bviOoktO"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DDA5141A47
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="g/karfMa"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E576B41A47
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1706645817; bh=peA1lP3ohBAPpNQhiCa8qRjeL0kmU8pT9+F7mXWUbTE=;
+	t=1706645895; bh=9KysNAjR2JJqZckLeN84dmIjHnc6rN2+vXgE45980uU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bviOoktOsf0h4VpwGfh3tkmzPoAEggTBxjx2fl1DQ4iQ2wmkXLFfT0og1D042+C45
-	 qwfo+hM/sPeoLyIFAUmkcHjRrDa4EIg2AOPmJxjhf2wyUtUqKrerFQcX8MJXib1LIn
-	 ChMVBlI57TF5aw+BXvDc1zQdtWVmOiliTp+d4JfOl9S3nptW9okPDm7Cyi7xFvK1EY
-	 jULQfl2uNgFwdzveAC8WvXL2CDZICdiGEFS2viwdgDErPTyn3ZINNNEP+C+Ph6CTkn
-	 nwrLgYo9awvNNVhoo6TM53CrC9/ma0pjmnTn+904u3t35/l/YCOwrNCr90FCuPZDUt
-	 6WHT5kyxXFEEg==
+	b=g/karfMalEzLnFfjmYg+HXbUBUv2mpeqvy66J883uo9ZS4xhTNI19ANDbgGhXNt4E
+	 qyyje5/F3tftwwKw67XZXbIXuJIixYSm+yAuxgR7ETaeNkun9o1xR//ewH6RJk6pMf
+	 nHqNHB5h5fdWDVRQcI8c4dBwviuXjkJI+0+c7ByB0RRUTY1at7XhEqXweYVU0hn0uR
+	 HR8ikFK2kmUIu2GuN8NVf6TKHXeJRJ5ZRPHJrY2QZaJZMcm0cdiVB2O6KoxuJaxn8K
+	 CG5qwT3CD9I5CWpS6RsFHPPbYKw2B30GNXIxtojAO3XIbw5JAcKgMSF5P/J0ufiohm
+	 pjp3598pgy8Hg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DDA5141A47;
-	Tue, 30 Jan 2024 20:16:56 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E576B41A47;
+	Tue, 30 Jan 2024 20:18:14 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: linux-doc@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [RFC PATCH] docs: add blurb about target audience to
- maintainer-profile
-In-Reply-To: <20240111094838.3695697-1-vegard.nossum@oracle.com>
-References: <20240111094838.3695697-1-vegard.nossum@oracle.com>
-Date: Tue, 30 Jan 2024 13:16:56 -0700
-Message-ID: <87mssmbmpz.fsf@meer.lwn.net>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, Randy Dunlap <rdunlap@infradead.org>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [PATCH] kernel-doc: document object-like preprocessor macros
+In-Reply-To: <20240109140345.3344094-1-daniel.vetter@ffwll.ch>
+References: <20240109140345.3344094-1-daniel.vetter@ffwll.ch>
+Date: Tue, 30 Jan 2024 13:18:14 -0700
+Message-ID: <87il3abmnt.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,20 +52,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Vegard Nossum <vegard.nossum@oracle.com> writes:
+Daniel Vetter <daniel.vetter@ffwll.ch> writes:
 
-> It's good to be clear about who the intended target audience for any
-> given piece of documentation is, as this will help us put new text in
-> the correct place. Let's encourage submitters to state it explicitly
-> rather than relying on where they placed it in the directory hierarchy
-> as there isn't necessarily a one-to-one correspondence between them.
+> I had no idea this exists, but Randy pointed out it's been added quite
+> a long time ago in cbb4d3e6510b ("scripts/kernel-doc: handle
+> object-like macros"). Definitely way before I started to write all the
+> drm docs sadly, so there's a few things where I skipped writing
+> kernel-doc since I didn't know it was possible.
 >
-> Target audience: documentation contributors and reviewers.
+> Fix this asap by documenting the two possible kernel-doc flavours for
+> preprocessor definitions.
 >
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> References: https://lore.kernel.org/dri-devel/dd917333-9ae8-4e76-991d-39b6229ba8ce@infradead.org/
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > ---
->  Documentation/doc-guide/maintainer-profile.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  Documentation/doc-guide/kernel-doc.rst | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 
 Applied, thanks.
 
