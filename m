@@ -1,78 +1,54 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE2FEAC7;
-	Tue, 30 Jan 2024 16:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71C76BB25;
+	Tue, 30 Jan 2024 16:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706630578; cv=none; b=lMX/YvalXOtLn7PdmH+FnYEL5UXIsnkJKZkKbb5UsMlHzg7aCz0X29Oyqb2DyoZnd0VlNex8XBJTSlXC0lzuYvTAt5XrcCCPwaz/zPc2YjFZO6n6IsYWooYv2F17dF+kpcOUia0A3Aksc1XYDETMTW7eWDkHuy4nszwNZXUR5Tk=
+	t=1706630770; cv=none; b=B8tvADWiXKnq7Uz/6kHsP2QpzuLsPwps7me0l5XWgzFjeGkhud3MLss5YgwaOHXJyLuaH/4jSHiK7rAISXDOJNu1M9QomMQMD55ZHRKtQdCz0P2C3lkCMjNuDBTp97B82rbWia4yZP9QrRWX1PU/q6sMlDaDxknKoAyV3RdYCVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706630578; c=relaxed/simple;
-	bh=a1sq8uMpLqioihsAs/WblvrrWbPyap3BtOIg52F6Dwo=;
+	s=arc-20240116; t=1706630770; c=relaxed/simple;
+	bh=H16eLQlz15glhHn83S28O2LCWxrtu1PELdKLN4q9zoQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GYiWfo+JS7dqTBJwYY0IGI16N2f9DR+/AiDe+Rr6PuQD3RU2zxGlx7cKk5mdAxIwxkB8inK8IQ2qbaPSZAEHFjPiKU7eANeFVVUHqXyiwww9yONRFP2Ea9Io98fqhKiEzRf9eyLLukAr2WJER4cO2uyPpVNWdxch7aqyL3WRbKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eYc6cIiw; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qbtyq8Wzrp8zaWIbcLw8PJ4jnS/PTcUzQY/KvgOTEVI9aXFV3ptEoy3lYv9Dh5kzQJref9b5OPj4dHB1AMbq9p98AYOpvfkB0REzkzHUM8Kv9x7QhyiDfoGrAQfppjQrt+4nZOWdA2K8x2Wqu/FcpwfWB0kMvmVvz7R1QEpD0aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eYc6cIiw"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3394ca0c874so3458802f8f.2;
-        Tue, 30 Jan 2024 08:02:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706630575; x=1707235375; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y0g/NXgRqLI2SOKy7+C46GziQ7aYr7hsa14DTOG9qGQ=;
-        b=eYc6cIiw/ElSBjJ9B3uaqYtrZHVRkPUET5ygjh49clYOF5nUmHNT0Wa8OZVEIxrZzb
-         Z2K2MWg02kymAoTbhiVvUL/zeDOc/atkA6vhmzsEgZv2Hzjvl0ZEx9uDHNKdJrFMOtvj
-         WM4nfby17p2V9Kqk40S1oCIaCO9NLaEIA2Sxg/NsWhMXssn8Lh0MwF9r4Mqtw1wrOLqT
-         y5+5WeMeZoByTE9dAhbd+ioudZ+7nXZHhidyZJZQdSJRtAG4rjKlw7qASCNZaSYUiryN
-         519PlKuMoOBbMkWB3VdFAdq51BxChcFGndEnLiCM/nZvgIrGEWIrD7YDnzOcl+r3N/rs
-         nz5w==
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a359e6fde44so298483666b.3;
+        Tue, 30 Jan 2024 08:06:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706630575; x=1707235375;
+        d=1e100.net; s=20230601; t=1706630767; x=1707235567;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y0g/NXgRqLI2SOKy7+C46GziQ7aYr7hsa14DTOG9qGQ=;
-        b=MmDJdWMHgYqYZTB65tb3t2+OE76qusWuqYiPS3PGUWIyAotFEaG2RvtRmpptfWxkCA
-         KBUXG+2eLq+aLVEz1xQtCrbtENHoRCLcHlGPhQPoTINb2/ttJR4liz7qPM9FoiPsqula
-         PTu2wCl4agvaCwpDkP5sTmMhG5+5MdTumPhFvnlPOGvXu4M7Xj0298ILqxLEluNaYhkI
-         NL2gEI7TX+5MLeidcD8y8ONRBO3xIo1rfzL80/H3TCsUc8LuhneUxPPkGYj/eqxff99n
-         8cELuV+pjMvGN2wSxWgr58t+b4htLIiqWRYt0Zpt8ENFnlFDq+MFYBpU7impeGgBb+l2
-         JJgA==
-X-Gm-Message-State: AOJu0YxIsLnn7bRv1n00dgeoYrz1TkSbnf3WuGAZ3uNMGNq6NCisaPNP
-	Zuo1zBKGqK3dX7XnmeO9ZrTycC3sHWdJs2lgO7NUw/6lSVp8EEDn
-X-Google-Smtp-Source: AGHT+IEpEYtdtyVoRZd2f1IVCvvy5P1CxtacvDKsIjxhYiO0MrqDz0G/pF5tDH01v/qC1m4sxwsEbg==
-X-Received: by 2002:adf:f84b:0:b0:33a:fd5d:ae40 with SMTP id d11-20020adff84b000000b0033afd5dae40mr1135701wrq.25.1706630574522;
-        Tue, 30 Jan 2024 08:02:54 -0800 (PST)
-Received: from andrea (93-42-14-189.ip84.fastwebnet.it. [93.42.14.189])
-        by smtp.gmail.com with ESMTPSA id ce6-20020a5d5e06000000b0033af3a43e91sm4465378wrb.46.2024.01.30.08.02.53
+        bh=2LbX2mdHtCqh+Dk4WrTnZLdkeXAyj+cWIMg/K56AOg8=;
+        b=jYApe5eAhL4c4TpkrbPHS2UWMI9UOQkglWszV/Da2+HzNtSsNXdwVbW4xyTJgov7iI
+         gaLPvu6g1eI3U/lAcNwvfOblWvZTYl91pl8YzYEHPF9rHfNl0iGa9bIi9nbHvfcStkiP
+         1Fo8hZ2L4CDTSq+gz9hh80JW3+qbIKK8+ytMR4ia+aSXfs49pbUQzlRmaw9Q5aqOb7M4
+         uAy4Jlqwfi+rC3Tx4HwYUXxamXMd77dSDnyb/fTAPvshoDprbJW1SOwUnHeYNewVxfrg
+         vpV73mrQylz2ANCj0l2ZieaDGcmPI632yDzHwZZgBqq8z2KTVFh7hkqFddzj2diNyAVw
+         pH+w==
+X-Gm-Message-State: AOJu0Yza9p4aMHEpohCiC1oFLH4YzuMJOGa0rrai2fEkrRL+P1FTxJRn
+	HJcUlXeZJh6skUScKm0EbJKjBarjoJnmUT5BH65+/yVJIiALCcY2
+X-Google-Smtp-Source: AGHT+IFw9mPfX0TBsU15eBWunTInbBhoRK8tZLLd6sLDnMPemtqwf7MlCh5KbtnhYDfv7AHMVWNzmg==
+X-Received: by 2002:a17:906:298d:b0:a30:69d4:3047 with SMTP id x13-20020a170906298d00b00a3069d43047mr7458405eje.8.1706630766846;
+        Tue, 30 Jan 2024 08:06:06 -0800 (PST)
+Received: from gmail.com (fwdproxy-cln-011.fbsv.net. [2a03:2880:31ff:b::face:b00c])
+        by smtp.gmail.com with ESMTPSA id ps10-20020a170906bf4a00b00a355fbe55d0sm3666832ejb.30.2024.01.30.08.06.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 08:02:54 -0800 (PST)
-Date: Tue, 30 Jan 2024 17:02:49 +0100
-From: Andrea Parri <parri.andrea@gmail.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: linux-kernel@vger.kernel.org, E.@paulmck-thinkpad-p17-gen-1,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	David Howells <dhowells@redhat.com>,
-	Jade Alglave <j.alglave@ucl.ac.uk>,
-	Luc Maranget <luc.maranget@inria.fr>,
-	Paul@paulmck-thinkpad-p17-gen-1, Akira Yokosawa <akiyks@gmail.com>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>
-Subject: Re: [PATCH doc] Emphasize that failed atomic operations give no
- ordering
-Message-ID: <ZbkdqYFlFOdcZ63m@andrea>
-References: <63d9d6f6-05e8-473d-9d09-ce8d3a33ca39@paulmck-laptop>
+        Tue, 30 Jan 2024 08:06:06 -0800 (PST)
+Date: Tue, 30 Jan 2024 08:06:04 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, kuba@kernel.org,
+	"David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pabeni@redhat.com, edumazet@google.com
+Subject: Re: [PATCH v3] Documentation: Document each netlink family
+Message-ID: <ZbkebMW+xLqNhsoB@gmail.com>
+References: <20231121114831.3033560-1-leitao@debian.org>
+ <874jevjgvo.fsf@intel.com>
+ <87jznqewa7.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,25 +57,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <63d9d6f6-05e8-473d-9d09-ce8d3a33ca39@paulmck-laptop>
+In-Reply-To: <87jznqewa7.fsf@meer.lwn.net>
 
-On Tue, Jan 30, 2024 at 06:53:38AM -0800, Paul E. McKenney wrote:
-> The ORDERING section of Documentation/atomic_t.txt can easily be read as
-> saying that conditional atomic RMW operations that fail are ordered when
-> those operations have the _acquire() or _release() prefixes.  This is
-
-s/prefixes/suffixes
-
-
-> not the case, therefore update this section to make it clear that failed
-> conditional atomic RMW operations provide no ordering.
+On Tue, Jan 30, 2024 at 07:22:08AM -0700, Jonathan Corbet wrote:
+> Jani Nikula <jani.nikula@linux.intel.com> writes:
 > 
-> Reported-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> > On Tue, 21 Nov 2023, Breno Leitao <leitao@debian.org> wrote:
+> >> This is a simple script that parses the Netlink YAML spec files
+> >> (Documentation/netlink/specs/), and generates RST files to be rendered
+> >> in the Network -> Netlink Specification documentation page.
+> >
+> > First of all, my boilerplate complaint: All extra processing for Sphinx
+> > should really be done using Sphinx extensions instead of adding Makefile
+> > hacks. I don't think it's sustainable to keep adding this stuff. We
+> > chose Sphinx because it is extensible, and to avoid the Rube Goldberg
+> > machine that the previous documentation build system was.
+> 
+> So I feel like we've (me included) have kind of sent Breno around in
+> circles on this one.  This *was* implemented as an extension once:
+> 
+>   https://lore.kernel.org/netdev/20231103135622.250314-1-leitao@debian.org/
+> 
+> At that time it seemed too complex, and I thought that an external
+> script would lead to a simpler implementation overall.  Perhaps I was
+> wrong.
 
-You may want to add a "subsystem" to the subject line, git-log suggests
-"Documentation/atomic_t".  Anyway,
-
-Acked-by: Andrea Parri <parri.andrea@gmail.com>
-
-  Andrea
+I think you are correct. I personally _think_ that the external script
+is better, mainly because it is self contained, thus, easier to
+maintain.
