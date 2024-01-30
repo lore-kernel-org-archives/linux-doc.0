@@ -1,46 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EF455E63;
-	Tue, 30 Jan 2024 20:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A649762F2;
+	Tue, 30 Jan 2024 20:50:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706647313; cv=none; b=hZEEjzZsWjhfHAn/aQ6GpKsmzVWZG7dMDx0bn1USB/9EDDeaKal3A4cQARhE010E4KIJMun06iUjbtssU72w/wtt6pKFKVP5nzWlR6fwmZahL4HdvwugSQqGXDm76sBN/T1kdrfetXyPUdR76NgcJOK6ZuaBuaRfGq2ZYhtXOQM=
+	t=1706647828; cv=none; b=KWOIM+7WSk9S23pOsYnHBWs2qsMXl8oR+80FXOQOguJ1GZwTmA9RnOAibMbkm2X3a+5lyga3eDcRrGRl+1kD3kNlNcEqSdEJTU9cM+YBMEqvnw5YumI9uHW/a88RDGEWNaNp7C0nqrV89midDKDWjT0rW+fB2jSIrF3TgQ3v/IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706647313; c=relaxed/simple;
-	bh=3lWoI4fp1UvbzI7RP+651lFdJtAzivLl8NKwpRSUtwg=;
+	s=arc-20240116; t=1706647828; c=relaxed/simple;
+	bh=6Tedb7Dj+/odnHs4h8iRSDGO1llbomw/c2z4zGiG7ZE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Xiyf1uyux/dS9bKEOcotJdXXRSwceZJoSikcKyQc++NEu9ujlokBVIhvjPA04Y9RQ89XqPrMsUX/k7+VwnlzOfL9VfblUW0FN9+bpP4bG6yFE4MCVBIk5v0ZbS6HOZNWwae9seLiFl/EN1tNafe8eECIV/7II2ycapeWe58/+yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LKerDBWl; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ubdDE2T54LwDuWpuLT1vVoxUkSj7IsnfE5I2oUxKy7fXzKPgb8w4CDolx/qwPGS+LE+gY0SBouxCKVd6t0cYDa5ZjH86TiUOSlWtup267VoUev00ZwBFUr3lTOkAABob80N7vdspF6u2SOunY4fW0f/ZO95FQ78LBYEYFaUof2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cFQwocNa; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LKerDBWl"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3D11341A47
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cFQwocNa"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D0C1141A47
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1706647309; bh=XW/VGubkQ/xLI57k4zHcflysiAno5fvazmiEwifngHw=;
+	t=1706647827; bh=6Tedb7Dj+/odnHs4h8iRSDGO1llbomw/c2z4zGiG7ZE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=LKerDBWlc+0O2wjQbP1fsylKo/gqAXP9YmnvBFU6XxXu+hXT9p9GVkrw8L8wEWqJK
-	 dbGX5F2Uc2xDqgKbIP+G3LGWYVcK0zSuZZJegxtSP6JqPWkJFJYvUdZ0RXh3fUjtTW
-	 ShnUwMt709ara0myE7jAgQ/RIVrvxp0+OPkDzk9xFDbqZqZUlBq0MT+xTIu+OezcCL
-	 EgpUKVziE6FgPu/pIqKRJS4M18vKt1X6GT33+bt1JY7uFc1RrKVlGp1Wo0thtUri1c
-	 uRgWC3+aQenij13dYrjnXm1LoJq2TvW002TyqnMARsXnOeaMNrzgQmIdwRaBpKhZ+e
-	 hcP6Y4Zftnajw==
+	b=cFQwocNaSvgU4kMXJA9nACpCV9oIQcGJtYhaFInXCd3Y8swcnxihbC+uzB6ZdvZ28
+	 pGk4swOVNhaKYzw3n9JZFaOE0ulj23uUZCsexZ+zxN0UnGHdVmR3lkYL83BLZ7aaHo
+	 Dn3Q/zHd883/JPUBwV/4fFUgjFjMj0pCKWzbIcBDfqeRIqb3SxhevmwBJbpoKQ3fOu
+	 UrIH61SemDyMGmeaoHb4rjMlT+n+9YZzr0/uxWS8bVYvbf1aFbhvbE1g0beR2do0R/
+	 k54tzOFWAazLWxG71QaxUgWELXr30sJGIGot/edDrTW3uvRepoGj+jl3prTyYeS0i7
+	 LLzRVr1KouYwQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3D11341A47;
-	Tue, 30 Jan 2024 20:41:49 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id D0C1141A47;
+	Tue, 30 Jan 2024 20:50:26 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] doc:it_IT: first translation for locking/
-In-Reply-To: <20240106233820.30454-1-federico.vaga@vaga.pv.it>
+In-Reply-To: <20240130202340.tmppiux5oiwvrtij@numero-86.vaga.pv.it>
 References: <20240106233820.30454-1-federico.vaga@vaga.pv.it>
-Date: Tue, 30 Jan 2024 13:41:48 -0700
-Message-ID: <871q9yblkj.fsf@meer.lwn.net>
+ <20240130202340.tmppiux5oiwvrtij@numero-86.vaga.pv.it>
+Date: Tue, 30 Jan 2024 13:50:26 -0700
+Message-ID: <87ttmua6lp.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,36 +51,12 @@ Content-Type: text/plain
 
 Federico Vaga <federico.vaga@vaga.pv.it> writes:
 
-> To begin with:
->     - locking/index.rst
->     - locking/lockdep-design.rst
->     - locking/lockstat.rst
->     - locking/lockturture.rst
->     - locking/locktypes.rst
+> Hi Jon,
 >
-> And RCU/torture.rst to avoid broken references.
->
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> ---
->  Documentation/RCU/torture.rst                 |   2 +-
->  .../translations/it_IT/RCU/index.rst          |  19 +
->  .../translations/it_IT/RCU/torture.rst        | 369 ++++++++++
->  .../translations/it_IT/core-api/index.rst     |  12 +
->  Documentation/translations/it_IT/index.rst    |   1 +
->  .../translations/it_IT/locking/index.rst      |  20 +
->  .../it_IT/locking/lockdep-design.rst          | 678 ++++++++++++++++++
->  .../translations/it_IT/locking/lockstat.rst   | 230 ++++++
->  .../it_IT/locking/locktorture.rst             | 181 +++++
->  .../translations/it_IT/locking/locktypes.rst  | 547 ++++++++++++++
->  10 files changed, 2058 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/it_IT/RCU/index.rst
->  create mode 100644 Documentation/translations/it_IT/RCU/torture.rst
->  create mode 100644 Documentation/translations/it_IT/locking/index.rst
->  create mode 100644 Documentation/translations/it_IT/locking/lockdep-design.rst
->  create mode 100644 Documentation/translations/it_IT/locking/lockstat.rst
->  create mode 100644 Documentation/translations/it_IT/locking/locktorture.rst
->  create mode 100644 Documentation/translations/it_IT/locking/locktypes.rst
+> I hope you are doing well. I do not want to disturbe you too much, I'm pinging
+> you just in case this patch got lost.
 
-Applied, thanks.
+Nope, just finally catching up after the merge window; I think I was
+applying it exactly as you were writing :)
 
 jon
