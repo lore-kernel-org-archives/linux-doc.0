@@ -1,122 +1,120 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492B3657DC;
-	Tue, 30 Jan 2024 09:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B09A57891;
+	Tue, 30 Jan 2024 09:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706606345; cv=none; b=Zp6X+bZ58KVKxfmh4tOxj+cmUdXeGU4swaSDKZMR83kFJzAaGhWGl7GU8d+bXOBmaVTY7R/dNRK2Ss5bZG9R/YwbYY6RHENqVC4bsZOXlBASCY9u519Be1K11yQT0kUFPAsEvf5sJW7O+Abn0Trj+AJJZV+N8M2iQ+gdwxwoHMY=
+	t=1706606876; cv=none; b=oZgReyCPQcdqKQcxR9pSS37YgQh1hQqIf9nghKeX50WgeINV6rjos60RHojcoKHDpHrT1sVGrwR1YfhpqBKkGfoVAMZZUm8F84LtfdlHVWtp3y6scW+2A0QW4Gnba2ROgzdHyKgqDjnV5y9SeAKjWh7Qxb/eUFmggReKNmokGuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706606345; c=relaxed/simple;
-	bh=CDEVKAukMSd4Ch9/i4zmBazocJf38KDwE3Uzg9xR78I=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=sM47Fk7E7suPZN7CN2TbkkvKoSOSBLW4lq3cBsNSECg856ui1S+xwJG0wcxc0H6wv10gvmTpP3gR8iF2OnS7T7VzltarVH6eU+jD+jXX6lgwybueMhPKK0H2O16poXBVFQh3Wt8bi7vp2i8QC+RfgHlCxk7lc1C3qWo1h2WYE/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IT59q9/r; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IT59q9/r"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40fafae5532so402415e9.1;
-        Tue, 30 Jan 2024 01:19:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706606341; x=1707211141; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0bdstY2hKysbHEBB9RD/YGo6z98AGMmpK58OyypNypM=;
-        b=IT59q9/rnbvK6hmEpXD5CyqswL1MX63PTHFYFremYQxcfzQVJ/tFh94u+3gDUYihSD
-         nmja7HaQcWuSjoRaKfTrxjEutYPrir+Dv8uDCWbLYCm8pRoRM4Tu+h0k3UdEg9x2h7Xd
-         7KuLJCsgmbQ+ScVKPR0EG9tuR3ke0OTleG3L/A5ogc43N4uxp9nArj/0V+1j2bV0IU0E
-         Yy9eufWjDo09vgVQu+XqYxQPbd61/lwK6ItHZL624DYIDZhlUUa8XA9YjonWV7j303rZ
-         1i4gzwIWHA7hBX1QTIabU4dMAD5JJModEa1GEKtqI1iILQtXKBDqgNvZqpBeCDiIWtny
-         ey2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706606341; x=1707211141;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0bdstY2hKysbHEBB9RD/YGo6z98AGMmpK58OyypNypM=;
-        b=OiMDLspaS+7uBmBsfinHpdpUZMAiDIfuZpUgluKxdGOtoJOZDlKBiD/B+Si/lE+qsc
-         YbTN0wYEf6d4Hgv6pe98rbagR+m4XvonpZlCWvS/fjIjN/h0dGc4hwl9mZAFrxqcecxT
-         1yE0t1qV4INcdfecdkUPqqJH3BQduffe61zj8q3ZF4Kk76TDICrPy7txWyx6AcNhLyAv
-         hk6XTfvJWkxFk9O9F1Pai9cRP4TmcheDwqoSqbqrJpzp/2mS6vsp+8XU8+TICQPSjxrB
-         Eva0nveWgRjMEthiqS5BsTMns1eqtl8ySHdi2D/RUyOBTxCbEY80eTtCqai13Q9PjOvZ
-         hzZw==
-X-Gm-Message-State: AOJu0YxypD00wHz2k9i/rsUZjwE2Y8usE8fYZgyQDiUMX/ikYCKzj8sd
-	dtbTSWJBQhO8/C33/XK+aNe+KWqk8KzIgnUWNnhxlMpT7SZEZ1y7
-X-Google-Smtp-Source: AGHT+IHtrAvZTqRVMu8om+eVDC5NRwRPwHIwC5z52RQNL0KsaPyjesn72We47CmYayg3wlQscbydaA==
-X-Received: by 2002:a05:600c:3592:b0:40f:a661:ee6b with SMTP id p18-20020a05600c359200b0040fa661ee6bmr281363wmq.7.1706606341324;
-        Tue, 30 Jan 2024 01:19:01 -0800 (PST)
-Received: from imac ([2a02:8010:60a0:0:9c2b:323d:b44d:b76d])
-        by smtp.gmail.com with ESMTPSA id b7-20020adfee87000000b0033aebf727b2sm5464150wro.60.2024.01.30.01.19.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 01:19:00 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Eric
- Dumazet <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan
- Corbet <corbet@lwn.net>,  linux-doc@vger.kernel.org,  Jacob Keller
- <jacob.e.keller@intel.com>,  Breno Leitao <leitao@debian.org>,  Jiri Pirko
- <jiri@resnulli.us>,  Alessandro Marcolini
- <alessandromarcolini99@gmail.com>,  donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages
- in nested attribute spaces
-In-Reply-To: <20240129174220.65ac1755@kernel.org> (Jakub Kicinski's message of
-	"Mon, 29 Jan 2024 17:42:20 -0800")
-Date: Tue, 30 Jan 2024 09:12:47 +0000
-Message-ID: <m2zfwnuquo.fsf@gmail.com>
-References: <20240123160538.172-1-donald.hunter@gmail.com>
-	<20240123160538.172-3-donald.hunter@gmail.com>
-	<20240123161804.3573953d@kernel.org> <m2ede7xeas.fsf@gmail.com>
-	<20240124073228.0e939e5c@kernel.org> <m2ttn0w9fa.fsf@gmail.com>
-	<20240126105055.2200dc36@kernel.org> <m2jznuwv7g.fsf@gmail.com>
-	<20240129174220.65ac1755@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1706606876; c=relaxed/simple;
+	bh=cQyNKX5SJGiHTCO+KmEdO+MwVWTOKOVYyLhPuY+O8bk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=PerSJ6mUZkwDjqEZSmkDGRIqBex0nPo8JtpkGN085RstRIwHvv0VHkanuMwWjrh9Y2D4E6WDrWih9Eey9MNS8OKmxohH+i36JxOEikT9JhCLIPQN1qrUgYSZCVBtt3o/T5hc+ppBcnybpoZuOoYlUvIZerJXqr+yZT97qae+NDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.112.150])
+	by gateway (Coremail) with SMTP id _____8CxrusYwbhlN0oIAA--.25346S3;
+	Tue, 30 Jan 2024 17:27:52 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.112.150])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxLs8WwbhlWL8nAA--.23412S3;
+	Tue, 30 Jan 2024 17:27:51 +0800 (CST)
+Message-ID: <e45bd402-0c39-4075-a730-1dd5f4fc2208@loongson.cn>
+Date: Tue, 30 Jan 2024 17:27:49 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sched/doc: Update EM API em_pd_energy to em_cpu_energy
+To: Chenggang Wang <wangchenggang@vivo.com>, Jonathan Corbet
+ <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Pierre Gondois <Pierre.Gondois@arm.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <TY0PR06MB5470E30E86989E8CD84FCE0DC47D2@TY0PR06MB5470.apcprd06.prod.outlook.com>
+ <1706585531-24072-1-git-send-email-wangchenggang@vivo.com>
+Content-Language: en-US
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <1706585531-24072-1-git-send-email-wangchenggang@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8BxLs8WwbhlWL8nAA--.23412S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxGFyfWF4DuFW3ZF4UtF1xXrc_yoW5Xr1xpF
+	ykKr4xtF1fAFn8KryxAw1UXrWrXw4fCayUGFs8t3saqrs5ArW0yw13t343Grs7ZrySyFZr
+	XryYg3s2yw12vwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Yb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVWxJr0_GcWln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
+	6r17McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+	8JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y
+	6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+	AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+	2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+	C2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIev
+	Ja73UjIFyTuYvjxU7PrcDUUUU
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Hi Chenggang,
 
-> On Sat, 27 Jan 2024 17:18:59 +0000 Donald Hunter wrote:
->> > Hah, required attrs. I have been sitting on patches for the kernel for
->> > over a year - https://github.com/kuba-moo/linux/tree/req-args
->> > Not sure if they actually work but for the kernel I was curious if it's
->> > possible to do the validation in constant time (in relation to the
->> > policy size, i.e. without scanning the entire policy at the end to
->> > confirm that all required attrs are present). And that's what I came up
->> > with.  
->> 
->> Interesting. It's definitely a thorny problem with varying sets of
->> 'required' attributes. It could be useful to report the absolutely
->> required attributes in policy responses, without any actual enforcement.
->> Would it be possible to report policy for legacy netlink-raw families?
+在 2024/1/30 11:32, Chenggang Wang 写道:
+> The em_pd_energy function name is obsolete and non-existent now.
+> ---
+
+It is not a complete patch, at least it is missing a Signed of by; Then, 
+could you please explain
+
+the reason for sending again in a short period of time? Perhaps this 
+email should be used as
+
+patch v2. see .../Documentation/translations/zh_CN/process/5.Posting.rst
+
+
+You can also execute this command:
+
+  $:./scripts/checkpatch.pl
+
+Then silence all warnings and errors.
+
+
+Thanks,
+
+Yanteng
+
+>   Documentation/scheduler/sched-energy.rst                    | 2 +-
+>   Documentation/translations/zh_CN/scheduler/sched-energy.rst | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> It's a simple matter of plumbing. We care reuse the genetlink policy
-> dumping, just need to add a new attr to make "classic" family IDs
-> distinct from genetlink ones.
->
-> The policy vs spec is another interesting question. When I started
-> thinking about YNL my intuition was to extend policies to carry all
-> relevant info. But the more I thought about it the less sense it made.
->
-> Whether YNL specs should replace policy dumps completely (by building
-> the YAML into the kernel, and exposing via sysfs like kheaders or btf)
->  - I'm not sure. I think I used policy dumps twice in my life. They
-> are not all that useful, IMVHO...
+> diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+> index 70e2921..84b37a2 100644
+> --- a/Documentation/scheduler/sched-energy.rst
+> +++ b/Documentation/scheduler/sched-energy.rst
+> @@ -141,7 +141,7 @@ in its previous activation.
+>   find_energy_efficient_cpu() uses compute_energy() to estimate what will be the
+>   energy consumed by the system if the waking task was migrated. compute_energy()
+>   looks at the current utilization landscape of the CPUs and adjusts it to
+> -'simulate' the task migration. The EM framework provides the em_pd_energy() API
+> +'simulate' the task migration. The EM framework provides the em_cpu_energy() API
+>   which computes the expected energy consumption of each performance domain for
+>   the given utilization landscape.
+>   
+> diff --git a/Documentation/translations/zh_CN/scheduler/sched-energy.rst b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
+> index fdbf6cf..03dedc6 100644
+> --- a/Documentation/translations/zh_CN/scheduler/sched-energy.rst
+> +++ b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
+> @@ -119,7 +119,7 @@ EAS覆盖了CFS的任务唤醒平衡代码。在唤醒平衡时，它使用平
+>   
+>   如果唤醒的任务被迁移，find_energy_efficient_cpu()使用compute_energy()来估算
+>   系统将消耗多少能量。compute_energy()检查各CPU当前的利用率情况，并尝试调整来
+> -“模拟”任务迁移。EM框架提供了API em_pd_energy()计算每个性能域在给定的利用率条件
+> +“模拟”任务迁移。EM框架提供了API em_cpu_energy()计算每个性能域在给定的利用率条件
+>   下的预期能量消耗。
+>   
+>   下面详细介绍一个优化能量消耗的任务放置决策的例子。
 
-Yeah, fair point. I don't think I've used policy dumps in any meaningful
-way either. Maybe no real value in exporting it for netlink-raw.
-
->> Thinking about it, usability would probably be most improved by adding
->> extack messages to more of the tc error paths.
->
-> TC was one of the first netlink families, so we shouldn't judge it too
-> harshly. With that preface - it should only be used as "lessons learned"
-> not to inform modern designs.
-
-Oh, not judging TC, just considering whether it would be useful to throw
-some extack patches at it.
