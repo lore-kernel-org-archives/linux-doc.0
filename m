@@ -1,190 +1,105 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0F51292DB;
-	Tue, 30 Jan 2024 17:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F418586AC8;
+	Tue, 30 Jan 2024 17:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706635424; cv=none; b=a6YS80yO9Fpne4k7aSC7cu2k+SjbuViZzycbzSEQVj7RajDB56tbK8hJNcLJTGk9YSv10aCoH4pnR2PiPqyRP7dYqHrGTaIvPxYK+qLUDxSlxvSrfwyzAkZ/GH2AyGYdiOuZ5Z035OqxnjZ3qYtnzyMvqt1qdp38KSFLANC9EPY=
+	t=1706635768; cv=none; b=QT/pH1v0LXrAeHnOeCNcGa9fZWA5l70ZSQBgZWKtFfmJHtqAdonxWmtssdMSgjjUSlmb2mT8enNKiCpPSEG8W4mL3/fg4WrOJ8vIeoQ+BQ327s1cfy/mubBC/6IFTLk7Rl8Vx2Ti2dc/wunr/6qRrRVd6rqMXHA85cBDTVAxWwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706635424; c=relaxed/simple;
-	bh=WVZMJ2S0EugNJB6BTz7XzKnB3cgJOgtM05Qu3n6r5dg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GtQFSyWJ/e/0oPyBH2LU/Ql7T6RIcNRGErl+9CitIIqsC9cArr+at6r7rFd+JxJHRSNO0XOXrxwN8phpjSGNRa+YQ9OSCb51rxEZao7qgOPNJSE5i/QvIuowF01TgUIL49OdGcChqrmHeKogi1qS4X+sq8M7FengOk0RzKWfMjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=faZH3sia; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="faZH3sia"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1706635413;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5yttsGv/nZzm8P4I37O+sbjW65Bb56qxCJ5ApCblXiM=;
-	b=faZH3siafi9jEi315A2HIps30mZcyIsINRLU55uymIvXMB5fB98He1hDz67Ccd+M0kvtEM
-	1P9kAwCBxym7GHnLVrowoWysHJFkzjEI6d0v+0a+ThZomANVbwAxP3yndvdPm247qwjdQX
-	2Z7gnNBfPsjBkxG2zNvElx2YtbwW6sw=
-Message-ID: <fcf3e49cae178b18c0b15e12c69f9f2a84e8312e.camel@crapouillou.net>
-Subject: Re: [PATCH v6 1/6] dmaengine: Add API function
- dmaengine_prep_slave_dma_vec()
-From: Paul Cercueil <paul@crapouillou.net>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Lars-Peter Clausen
-	 <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
-	=?ISO-8859-1?Q?K=F6nig?=
-	 <christian.koenig@amd.com>, Daniel Vetter <daniel@ffwll.ch>, Nuno Sa
-	 <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Date: Tue, 30 Jan 2024 18:23:31 +0100
-In-Reply-To: <ZbkfC31eWBUQ3kSl@matsya>
-References: <20240129170201.133785-1-paul@crapouillou.net>
-	 <20240129170201.133785-2-paul@crapouillou.net> <ZbkfC31eWBUQ3kSl@matsya>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1706635768; c=relaxed/simple;
+	bh=wQ5lyz2eBlx1PxsGXBAMIkd3YS8qNppoaChpsHFgeSA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ljFon+YermeneluwqqDzB6PiVIGSoYrSFh/bRdtF8LMTv0OCj7Rzp57aWFIC202F+/vjRFVOWRKPI7EtygTN4HADbQtv5LRjYtAqx/80YVeuKLt497QhXq/BexwP5J06PEnIrqQJAHJ8tckAvb7q/Qq6ZEWTbeZPwKhPRXN1vJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a29c4bbb2f4so445376266b.1;
+        Tue, 30 Jan 2024 09:29:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706635765; x=1707240565;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lX5j+4Pi5k+lrwe5c2LVQlx9bMQ0Yzg1CVxNcNnOwRU=;
+        b=nVIcyk/fobbLJV6cBWIKnD0wj2UZoOYgi6CemWDu+UageYZPZRN+fyR2uiGtkqVCmf
+         5DWML6lR0VuzqPlYgFT3MLx/d/V8y39VGY3RFAMFytZrSf5twpGa2zwp6b/v/qhminvK
+         rN4cDRWPTHmLArozwnIq3voZvB4CTHGhpczfJgHwKNGGBk5qFDh3EVABQm31gs0HPHUX
+         IB6yN7bG3l8XxnYXojeP9o1YkhcRbe1pWmf7Lo8CoIikucMkbYSxey1bIcIV6zK6/E44
+         q3voEOitGGFJu2YJ51iK22zyu/nHZ6lhTgstoSkis5cKaj6/oyTuwiatjfjYxP5nktE4
+         VvTg==
+X-Gm-Message-State: AOJu0Yz2HiLxFA8g4wySrjKD19C8qSCchDr9HZGG3Zzsk8fRSsrG6NbW
+	7a3D9/tUs3njGSaHRGl2pAQYDJMylHOQw050xQfQhzPzFcmUb5SM
+X-Google-Smtp-Source: AGHT+IHP0TNvHsKVfe06kCsdvC4yvJ2v+4V8iPbs6DfFMnJTk08qnmxaatQnOQvg5LTM0M+5jDtpvA==
+X-Received: by 2002:a17:906:250e:b0:a35:d943:b183 with SMTP id i14-20020a170906250e00b00a35d943b183mr3829613ejb.35.1706635764952;
+        Tue, 30 Jan 2024 09:29:24 -0800 (PST)
+Received: from gmail.com (fwdproxy-cln-116.fbsv.net. [2a03:2880:31ff:74::face:b00c])
+        by smtp.gmail.com with ESMTPSA id w24-20020a17090652d800b00a3193a5556csm5309049ejn.189.2024.01.30.09.29.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jan 2024 09:29:24 -0800 (PST)
+Date: Tue, 30 Jan 2024 09:29:22 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Jani Nikula <jani.nikula@linux.intel.com>, kuba@kernel.org,
+	"David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pabeni@redhat.com, edumazet@google.com
+Subject: Re: [PATCH v3] Documentation: Document each netlink family
+Message-ID: <Zbkx8vd+vzLvWuuF@gmail.com>
+References: <20231121114831.3033560-1-leitao@debian.org>
+ <874jevjgvo.fsf@intel.com>
+ <87jznqewa7.fsf@meer.lwn.net>
+ <ZbkebMW+xLqNhsoB@gmail.com>
+ <63304f6a-d26f-414a-8c92-14d740774379@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <63304f6a-d26f-414a-8c92-14d740774379@oracle.com>
 
-Hi Vinod,
+On Tue, Jan 30, 2024 at 05:23:36PM +0100, Vegard Nossum wrote:
+> 
+> On 30/01/2024 17:06, Breno Leitao wrote:
+> > On Tue, Jan 30, 2024 at 07:22:08AM -0700, Jonathan Corbet wrote:
+> > > Jani Nikula <jani.nikula@linux.intel.com> writes:
+> > > 
+> > > > On Tue, 21 Nov 2023, Breno Leitao <leitao@debian.org> wrote:
+> > > > > This is a simple script that parses the Netlink YAML spec files
+> > > > > (Documentation/netlink/specs/), and generates RST files to be rendered
+> > > > > in the Network -> Netlink Specification documentation page.
+> > > > 
+> > > > First of all, my boilerplate complaint: All extra processing for Sphinx
+> > > > should really be done using Sphinx extensions instead of adding Makefile
+> > > > hacks. I don't think it's sustainable to keep adding this stuff. We
+> > > > chose Sphinx because it is extensible, and to avoid the Rube Goldberg
+> > > > machine that the previous documentation build system was.
+> > > 
+> > > So I feel like we've (me included) have kind of sent Breno around in
+> > > circles on this one.  This *was* implemented as an extension once:
+> > > 
+> > >    https://lore.kernel.org/netdev/20231103135622.250314-1-leitao@debian.org/
+> > > 
+> > > At that time it seemed too complex, and I thought that an external
+> > > script would lead to a simpler implementation overall.  Perhaps I was
+> > > wrong.
+> > 
+> > I think you are correct. I personally _think_ that the external script
+> > is better, mainly because it is self contained, thus, easier to
+> > maintain.
+> 
+> From a cursory look at the two versions, the actual Python code to read
+> the YAML and write the reST is the same in both cases. (Breno, please
+> correct me if I'm wrong.)
 
-Le mardi 30 janvier 2024 =C3=A0 21:38 +0530, Vinod Koul a =C3=A9crit=C2=A0:
-> On 29-01-24, 18:01, Paul Cercueil wrote:
-> > This function can be used to initiate a scatter-gather DMA
-> > transfer,
-> > where the address and size of each segment is located in one entry
-> > of
-> > the dma_vec array.
-> >=20
-> > The major difference with dmaengine_prep_slave_sg() is that it
-> > supports
-> > specifying the lengths of each DMA transfer; as trying to override
-> > the
-> > length of the transfer with dmaengine_prep_slave_sg() is a very
-> > tedious
-> > process. The introduction of a new API function is also justified
-> > by the
-> > fact that scatterlists are on their way out.
-> >=20
-> > Note that dmaengine_prep_interleaved_dma() is not helpful either in
-> > that
-> > case, as it assumes that the address of each segment will be higher
-> > than
-> > the one of the previous segment, which we just cannot guarantee in
-> > case
-> > of a scatter-gather transfer.
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> >=20
-> > ---
-> > v3: New patch
-> >=20
-> > v5: Replace with function dmaengine_prep_slave_dma_vec(), and
-> > struct
-> > =C2=A0=C2=A0=C2=A0 'dma_vec'.
-> > =C2=A0=C2=A0=C2=A0 Note that at some point we will need to support cycl=
-ic
-> > transfers
-> > =C2=A0=C2=A0=C2=A0 using dmaengine_prep_slave_dma_vec(). Maybe with a n=
-ew "flags"
-> > =C2=A0=C2=A0=C2=A0 parameter to the function?
->=20
-> that would be better
+You are correct. They are similar because Sphinx was not bringing much
+value to what I was trying to do (or I was not able to explore all
+Sphinx benefit - It was my very first Sphinx plug-in).
 
-Ok, I think it'd be better that I add a new "flags" parameter now -
-even if it means passing 0 until we actually have flags for it.
-
->=20
-> > ---
-> > =C2=A0include/linux/dmaengine.h | 25 +++++++++++++++++++++++++
-> > =C2=A01 file changed, 25 insertions(+)
-> >=20
-> > diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> > index 3df70d6131c8..ee5931ddb42f 100644
-> > --- a/include/linux/dmaengine.h
-> > +++ b/include/linux/dmaengine.h
-> > @@ -160,6 +160,16 @@ struct dma_interleaved_template {
-> > =C2=A0	struct data_chunk sgl[];
-> > =C2=A0};
-> > =C2=A0
-> > +/**
-> > + * struct dma_vec - DMA vector
-> > + * @addr: Bus address of the start of the vector
-> > + * @len: Length in bytes of the DMA vector
-> > + */
-> > +struct dma_vec {
-> > +	dma_addr_t addr;
-> > +	size_t len;
-> > +};
-> > +
-> > =C2=A0/**
-> > =C2=A0 * enum dma_ctrl_flags - DMA flags to augment operation
-> > preparation,
-> > =C2=A0 *=C2=A0 control completion, and communicate status.
-> > @@ -910,6 +920,10 @@ struct dma_device {
-> > =C2=A0	struct dma_async_tx_descriptor
-> > *(*device_prep_dma_interrupt)(
-> > =C2=A0		struct dma_chan *chan, unsigned long flags);
-> > =C2=A0
-> > +	struct dma_async_tx_descriptor
-> > *(*device_prep_slave_dma_vec)(
-> > +		struct dma_chan *chan, const struct dma_vec *vecs,
-> > +		size_t nents, enum dma_transfer_direction
-> > direction,
-> > +		unsigned long flags);
->=20
-> s/slave/peripheral
->=20
-> I had requested it a bit while ago as well
-
-You did. Sorry, I forgot about it when working on the v6.
-
-Cheers,
--Paul
-
-> > =C2=A0	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
-> > =C2=A0		struct dma_chan *chan, struct scatterlist *sgl,
-> > =C2=A0		unsigned int sg_len, enum dma_transfer_direction
-> > direction,
-> > @@ -972,6 +986,17 @@ static inline struct dma_async_tx_descriptor
-> > *dmaengine_prep_slave_single(
-> > =C2=A0						=C2=A0 dir, flags,
-> > NULL);
-> > =C2=A0}
-> > =C2=A0
-> > +static inline struct dma_async_tx_descriptor
-> > *dmaengine_prep_slave_dma_vec(
-> > +	struct dma_chan *chan, const struct dma_vec *vecs, size_t
-> > nents,
-> > +	enum dma_transfer_direction dir, unsigned long flags)
-> > +{
-> > +	if (!chan || !chan->device || !chan->device-
-> > >device_prep_slave_dma_vec)
-> > +		return NULL;
-> > +
-> > +	return chan->device->device_prep_slave_dma_vec(chan, vecs,
-> > nents,
-> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dir,
-> > flags);
-> > +}
-> > +
-> > =C2=A0static inline struct dma_async_tx_descriptor
-> > *dmaengine_prep_slave_sg(
-> > =C2=A0	struct dma_chan *chan, struct scatterlist
-> > *sgl,	unsigned int sg_len,
-> > =C2=A0	enum dma_transfer_direction dir, unsigned long flags)
-> > --=20
-> > 2.43.0
->=20
-
+That said, the plug-in was basically a wrapper around "the Python code",
+that was re-used for the one-off script. So, moving from one to another
+was easy.
