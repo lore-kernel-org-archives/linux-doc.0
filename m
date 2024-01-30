@@ -1,158 +1,274 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B0560DC0;
-	Tue, 30 Jan 2024 09:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CF560BB0;
+	Tue, 30 Jan 2024 09:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706607828; cv=none; b=pzaIe7yMyEDcyAcPUKNhmMOfsznh90lL4l489HmJQ51HrRdaLxohAzhgV8iPf5yGhyjqAT8sR6xb2cmLESwWqDCV19IwmzXlXwhVBqTCnZst/EvnU/IdMkDkC7ZMf0jcjVQpNgE6TtggcTGrxZgpYnj/7LfXNUEPn2OTy1pIwu8=
+	t=1706608115; cv=none; b=cRJ5vhiUhaTWW4Rc3TjG62YTMQK1c6uLibz+XbLNBuOxbvvbp/1mYZEwhcNhQGO/DMox8Fk3H0f4xp4th9Y174Vd1mHsZfqat+lZXpObR3836Xyqfst60iqLwvxvANvDzyJV3b/rg9EwJyxpqhNFLXdrs51jn3GNO85DF1x7leg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706607828; c=relaxed/simple;
-	bh=o5dpfM83ZQetXPFoQaiUi8sNPsZ0JGG1M8+mmBuXIgA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ktfancoDvxiXejitZnz0EasmP8ZHt3f+MrcBNqJCWQqphT11tzeL4Zg2aMA7QW/3MBOTBfYTBsv78vkZbrgh0xs8Snecao729Ks2LhuxbD8NPYRhhPgGYE/mA7ND6NYSB8PRqPFQTRcj63bVd+y7MG1rTxf80QzxWB1RjN1bE3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TG8PSorp; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706608115; c=relaxed/simple;
+	bh=SlW9j0GS/bTylATTXJKG9UE7eebmUXJ8gRyL6UopHj0=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kJwpxkGW02rVxTU0G/AhCGcIDJ6jr4GJ9aEAgKUygAs+j+Uy69g0YkhMFkW6EYFUYUh7qYitR3/TOQwzsj67xLTzMVYWy7YIcvppA95/HFSWtUD6a8LwKy2etcKKimarSosSsC2r9JM9/BGy5oN8yc2Kor94547QB6vfWlBkFZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=GaMkHCku; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TG8PSorp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706607826; x=1738143826;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=o5dpfM83ZQetXPFoQaiUi8sNPsZ0JGG1M8+mmBuXIgA=;
-  b=TG8PSorpIph8XL/MIe3SmnIZI/OWQe66mgnfYwLrxNpdqDbECLFmibzH
-   z3UKY6dnLgiinXliUZCC/LG812zqVI3cKMkxSyVA/6zk11t5FbFiYT+pt
-   p+QQobqj1bPhmrGQVp5+iRVicWkY78CvAnrmyvRpLFo/5qedyVldYIYa+
-   0YVIDDBa5OLtkQ2QwiTpZ/M9lULJdgTDAUVrEf2lalsysyjZw3vYNRDrR
-   SP4YwgQwSlWqTnlpyh/hZ7G9mK1Jsoy7xa745TKHGqihSPgofp46Y2YTF
-   jD1ri6ULuT2vmPI4mKekudCg2Qoyi0bK0P7f+hBJiP3IMgM+v0NAn9H9Z
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="9864943"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="9864943"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:43:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="3682192"
-Received: from dcarleto-mobl.ger.corp.intel.com (HELO localhost) ([10.252.59.176])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 01:43:42 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Breno Leitao <leitao@debian.org>, corbet@lwn.net, kuba@kernel.org, David
- S. Miller <davem@davemloft.net>
-Cc: linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, pabeni@redhat.com, edumazet@google.com
-Subject: Re: [PATCH v3] Documentation: Document each netlink family
-In-Reply-To: <20231121114831.3033560-1-leitao@debian.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231121114831.3033560-1-leitao@debian.org>
-Date: Tue, 30 Jan 2024 11:43:39 +0200
-Message-ID: <874jevjgvo.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="GaMkHCku"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1706608105;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=fzKqsStcb36iopomlKgRGs7SQG0sReHnAQLYp7HEgu0=;
+	b=GaMkHCkutXjW0L4/XyIxRz73MLclQ9Ia3j5M6z+wdTwSCEYHwYtDikGSv2r4x81YUBlihy
+	QNgViGuhWALFT+qoow9WmzoaLW6sGAyeHKwWZOXHki0Imxc1Be5O6lJMrdpERSf/Ek21hg
+	BCU+bC9oV4o447lijAoa0537XEiQazA=
+Message-ID: <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron
+ <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Christoph
+ Hellwig <hch@lst.de>
+Date: Tue, 30 Jan 2024 10:48:23 +0100
+In-Reply-To: <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
+References: <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
+	 <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
+	 <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
+	 <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+	 <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
+	 <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+	 <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+	 <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
+	 <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
+	 <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
+	 <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
+	 <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
 
-On Tue, 21 Nov 2023, Breno Leitao <leitao@debian.org> wrote:
-> This is a simple script that parses the Netlink YAML spec files
-> (Documentation/netlink/specs/), and generates RST files to be rendered
-> in the Network -> Netlink Specification documentation page.
+Hi Christian,
 
-First of all, my boilerplate complaint: All extra processing for Sphinx
-should really be done using Sphinx extensions instead of adding Makefile
-hacks. I don't think it's sustainable to keep adding this stuff. We
-chose Sphinx because it is extensible, and to avoid the Rube Goldberg
-machine that the previous documentation build system was.
+(Your email software is configured for HTML btw)
 
-At the very least I would've expected to see Jon's ack on changes like
-this.
+Le mardi 30 janvier 2024 =C3=A0 10:23 +0100, Christian K=C3=B6nig a =C3=A9c=
+rit=C2=A0:
+> =C2=A0Am 30.01.24 um 10:01 schrieb Daniel Vetter:
+> =C2=A0
+> > =C2=A0
+> > On Fri, Jan 26, 2024 at 05:42:50PM +0100, Christian K=C3=B6nig wrote:
+> > =C2=A0
+> > > [SNIP]=20
+> > > Well I think we should have some solution, but I'm not sure if it
+> > > should be
+> > > part of DMA-buf.
+> > >=20
+> > > Essentially a DMA-buf exports the buffers as he uses it and the
+> > > importer (or
+> > > the DMA-buf subsystem) is then the one who says ok I can use this
+> > > or I can't
+> > > use this or I need to call extra functions to use this or
+> > > whatever.
+> > >=20
+> > > It's not the job of the exporter to provide the coherency for the
+> > > importer,
+> > > cause otherwise we would have a lot of code in the exporter which
+> > > can only
+> > > be tested when you have the right importer around. And I strongly
+> > > think that
+> > > this is a no-go for having a reliable solution.
+> > > =C2=A0
+> > =C2=A0
+> > The trouble is, that if you have other memory than stuff allocated
+> > by the
+> > dma-api or mapped using the dma-api, then by necessity the exporter
+> > has to
+> > deal with this.
+> > =C2=A0
+> =C2=A0
+> =C2=A0Yes, I was thinking about that as well.
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> > Which is the exact same reason we also force the exporters to deal
+> > with
+> > the cpu cache flushing - you're argument that it's not great to
+> > replicate
+> > this everywhere holds there equally.
+> > =C2=A0
+> =C2=A0
+> =C2=A0And I'm not really happy with that either.
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> > The other thing is that right now the exporter is the only one who
+> > actually knows what kind of dma coherency rules apply for a certain
+> > piece
+> > of memory. E.g. on i915-gem even if it's dma_map_sg mapped the
+> > underlying
+> > i915-gem buffer might be non-coherent, and i915-gem makes it all
+> > work by
+> > doing the appropriate amount of clflush.
+> > =C2=A0
+> =C2=A0
+> =C2=A0Yeah, exactly that's the reason why I think that this stuff doesn't
+> belong into exporters/drivers.
+> =C2=A0
+> =C2=A0Looking at what kind of hacks and workarounds we have in both amdgp=
+u
+> as well as i915 it's pretty clear that we need to improve this design
+> somehow.
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> > Similar funky things happen in other cases.
+> >=20
+> > So unless we add an interface which allows importers to figure out
+> > how
+> > much flushing is needed, currently the exporter is the only one who
+> > knows
+> > (because it can inspect the struct device at dma_buf_attach time).
+> >=20
+> > We could flip this around, but it would be a rather serious
+> > depature from
+> > the dma-buf design approach thus far.
+> > =C2=A0
+> =C2=A0
+> =C2=A0Well clients already give the DMA-direction to exporters when
+> creating the mapping and get an appropriate sg_table in return.
+> =C2=A0
+> =C2=A0All we need to do is getting the information what flushing is neede=
+d
+> into the object returned here so that the DMA API can work with it.
+> =C2=A0
+> =C2=A0Christoph Hellwig pretty much nailed it when he said that the
+> problem with the sg_table is that it mixes input and output
+> parameters of the DMA-API.
+> =C2=A0
+> =C2=A0I would extend that and say that we need a mapping object the DMA-
+> API can work with so that it can know what needs to be done when
+> devices request that data is made coherent between them or the CPU.
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> > > =C2=A0
+> > > That's why I think the approach of having DMA-buf callbacks is
+> > > most likely
+> > > the wrong thing to do.
+> > >=20
+> > > What should happen instead is that the DMA subsystem provides
+> > > functionality
+> > > which to devices which don't support coherency through it's
+> > > connection to
+> > > say I want to access this data, please make sure to flush the
+> > > appropriate
+> > > catches. But that's just a very very rough design idea.
+> > >=20
+> > > This will become more with CXL at the horizon I think.
+> > > =C2=A0
+> > =C2=A0
+> > Yeah CXL will make this all even more fun, but we are firmly there
+> > already
+> > with devices deciding per-buffer (or sometimes even per-access with
+> > intel's MOCS stuff) what coherency mode to use for a buffer.
+> >=20
+> > Also arm soc generally have both coherent and non-coherent device
+> > interconnects, and I think some devices can switch with runtime
+> > flags too
+> > which mode they use for a specific transition.
+> >=20
+> > CXL just extends this to pcie devices.
+> >=20
+> > So the mess is here, how do we deal with it?
+> > =C2=A0
+> =C2=A0
+> =C2=A0I would say we start with the DMA-API by getting away from sg_table=
+s
+> to something cleaner and state oriented.=C2=A0
 
-The specific problem with this patch, now merged as commit f061c9f7d058
-("Documentation: Document each netlink family"), is that it explicitly
-writes intermediate files in the $(srctree). Even for O= builds. That's
-one of the pitfalls of hacking it in Makefiles.
+FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
+which is just a dead simple
 
-See below.
+struct dma_vec {
+  dma_addr_t addr;
+  size_t len;
+};
 
-> Create a python script that is invoked during 'make htmldocs', reads the
-> YAML specs input file and generate the correspondent RST file.
->
-> Create a new Documentation/networking/netlink_spec index page, and
-> reference each Netlink RST file that was processed above in this main
-> index.rst file.
->
-> In case of any exception during the parsing, dump the error and skip
-> the file.
->
-> Do not regenerate the RST files if the input files (YAML) were not
-> changed in-between invocations.
->
-> Suggested-by: Jakub Kicinski <kuba@kernel.org>
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+(The rationale for introducing it in the IIO DMABUF patchset was that
+the "scatterlist" wouldn't allow me to change the transfer size.)
 
-[snip]
+So I believe a new "sg_table"-like could just be an array of struct
+dma_vec + flags.
 
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 2f35793acd2a..5c156fbb6cdf 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -97,7 +97,21 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
->  		cp $(if $(patsubst /%,,$(DOCS_CSS)),$(abspath $(srctree)/$(DOCS_CSS)),$(DOCS_CSS)) $(BUILDDIR)/$3/_static/; \
->  	fi
->  
-> -htmldocs:
-> +YNL_INDEX:=$(srctree)/Documentation/networking/netlink_spec/index.rst
-> +YNL_RST_DIR:=$(srctree)/Documentation/networking/netlink_spec
-> +YNL_YAML_DIR:=$(srctree)/Documentation/netlink/specs
-> +YNL_TOOL:=$(srctree)/tools/net/ynl/ynl-gen-rst.py
-> +
-> +YNL_RST_FILES_TMP := $(patsubst %.yaml,%.rst,$(wildcard $(YNL_YAML_DIR)/*.yaml))
-> +YNL_RST_FILES := $(patsubst $(YNL_YAML_DIR)%,$(YNL_RST_DIR)%, $(YNL_RST_FILES_TMP))
-> +
-> +$(YNL_INDEX): $(YNL_RST_FILES)
-> +	@$(YNL_TOOL) -o $@ -x
-> +
-> +$(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml
-> +	@$(YNL_TOOL) -i $< -o $@
-> +
+Cheers,
+-Paul
 
-Right here.
+> > =C2=A0
+> >=20
+> > My take is that the opt-in callback addition is far from great, but
+> > it's
+> > in line with how we extended dma-buf the past decade plus too. So
+> > unless
+> > someone's volunteering to pour some serious time into re-
+> > engineering this
+> > all (including testing all the different device/driver<-
+> > >device/driver
+> > interactions) I think there's only really one other option: To not
+> > support
+> > these cases at all. And I don't really like that, because it means
+> > people
+> > will hack together something even worse in their drivers.
+> >=20
+> > By adding it to dma-buf it'll stare us in our faces at least :-/
+> > =C2=A0
+> =C2=A0
+> =C2=A0Yeah, it's the way of the least resistance. But with CXL at the
+> horizon and more and more drivers using it I think it's predictable
+> that this will sooner or later blow up.
+> =C2=A0
+> =C2=A0Cheers,
+> =C2=A0Christian.=20
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> >=20
+> > Cheers, Sima
+> >=20
+> > =C2=A0
+> > > =C2=A0
+> > > Regards,
+> > > Christian.
+> > >=20
+> > > =C2=A0
+> > > > =C2=A0
+> > > > Cheers, Sima
+> > > > =C2=A0
+> > > =C2=A0
+> > > _______________________________________________
+> > > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> > > To unsubscribe send an email to linaro-mm-sig-
+> > > leave@lists.linaro.org
+> > > =C2=A0
+> > =C2=A0=C2=A0
+> =C2=A0
+> =C2=A0
 
-> +htmldocs: $(YNL_INDEX)
->  	@$(srctree)/scripts/sphinx-pre-install --version-check
->  	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
->  
-> diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-> index 683eb42309cc..cb435c141794 100644
-> --- a/Documentation/networking/index.rst
-> +++ b/Documentation/networking/index.rst
-> @@ -55,6 +55,7 @@ Contents:
->     filter
->     generic-hdlc
->     generic_netlink
-> +   netlink_spec/index
->     gen_stats
->     gtp
->     ila
-> diff --git a/Documentation/networking/netlink_spec/.gitignore b/Documentation/networking/netlink_spec/.gitignore
-> new file mode 100644
-> index 000000000000..30d85567b592
-> --- /dev/null
-> +++ b/Documentation/networking/netlink_spec/.gitignore
-> @@ -0,0 +1 @@
-> +*.rst
-
-And then goes on to git ignore the mess it made.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel
