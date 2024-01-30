@@ -1,85 +1,161 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E828762C9;
-	Tue, 30 Jan 2024 21:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08866E2A5;
+	Tue, 30 Jan 2024 21:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706648625; cv=none; b=YcrY8ACCRtLbKGKe9wJfO7ThRftg7ZvNHixJHV6Rhizh3O+ttq+afGF0ZH2kvwI9Xtq+12JcRUZe9TvY03AMHQMPpjHmWyp9gpi86mXDdqPhJfP3XetUJLj3GS6qBM+XCNVhsv5TWNecbCd7Bu+3QlVik62m23MpZsgdlri6BKM=
+	t=1706648802; cv=none; b=eDbCPC3Zk1kuKULJbSVa3Iv8pOT8UpQJ9X049Y/9Wp2SnZyjhy8+Te9umxMJECaHzMNUbA3znY6hPJRKcTHL30NcfyE1Hbv6bt52NW4dHAZUmr46Ho0q49Qgr02s72CectUvvi6V6BUNxe3IOkGRoaEjbQzH2FtWFILpvIKrfNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706648625; c=relaxed/simple;
-	bh=JRAZHf0aez7fHgKMmEwrAb4y3zuYwdw10+sZLpzx0eo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Cbh/ILFPPxsDlrNcaThGgVHLKj2SHEip0A7PyTM0CLgyYiXl2ImYMX/XeUV9m14O3Oh7/LHH0HII1WE8DOIkv8e63RLUfNw50tQZDe6j1/Mx90VcBnqXeVqIVRY7iIpd8+xIofaDX1a1Ni39A0iysFh8J+uXber5OsRJ0fafPbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=V63GSi/z; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1706648802; c=relaxed/simple;
+	bh=gM2k755jodQt1/XCCpHAG09gohkbqOUKelwFkZoypLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JvbKtJjRL1iPGUPK+MvozCX261Bt+PogCdvh+fM902yskNChfdz0zbZW6W4zTxfTwhLiFTkckNUOR4iRgIRaadQGSj5+quO7v25Vfr5vhBaTXYnPdeIZnT3uE4YzcvXrSu6vzYfnBxZxb+BDCxJHnufUWlbsgEYorMQfblrAz9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W00wxUZ6; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="V63GSi/z"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CFFF447AAB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1706648623; bh=jlbymONYyYcCqv/YNvmte1jsEk92RWydj8O4kkJ1L60=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=V63GSi/zUCbaaY4V3APaNDSDy1eCx8IOIvTE2hpCtyXMgDBu65pJqO8ecxQHXLjxi
-	 orQbignj4mCITcaLAktMvfMp058YbLAkbUOPPpitsBoLQOGNt02oNV4KEuz74chbvz
-	 vdl0F41LdA0izvLAptSOEBmk9y34NX1X7rP1MuifCVqg7K+4wlM+4cnFMqn7EJAgsf
-	 UKOOFwBBHosqkOr0oSEUEuFC8VEB0op+SdxtE9nM0ArdYOB7gCwi1yPrKJySfzD1kq
-	 T+iMR7o+or38/FMcOSIlQL+sxQy4FG27ap1w3ILVrvr+F6hKvQEVfsY31vVsG3M3mZ
-	 Yf2RNRO5NRwqA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CFFF447AAB;
-	Tue, 30 Jan 2024 21:03:42 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
- gregkh@linuxfoundation.org
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-Subject: Re: [PATCH] coding-style: Add guidance to prefer dev_dbg
-In-Reply-To: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
-References: <20240125165311.1.I8d9c88e747e233917e527c7dad1feb8a18f070e2@changeid>
-Date: Tue, 30 Jan 2024 14:03:42 -0700
-Message-ID: <87fryea5zl.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W00wxUZ6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706648800; x=1738184800;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gM2k755jodQt1/XCCpHAG09gohkbqOUKelwFkZoypLo=;
+  b=W00wxUZ6CDDbI7gZ+ySkygkrRg/MjygtQn+EZMQ7zCwQvWmL/rTDA6HF
+   kGlUYWXFRAti1QFdD/jSRcxUo3Cx7KxtlEqTZ+ju9Lh4pK2cvmLtFZbdN
+   dLCzY9B2vzk98YRkDLO9s1uZsta5YBOHfrZ6vS2U4bYzIgmN7ClgeYH+d
+   YfpX9UVLcqdw1wzAqZRCo2hhIQCix+RdvGm7Fjo2lV5qthLEA6D8ZYhhL
+   crDDxQSGxZ32q6PA8lnGF2JFc7U3LUUM+tR7oKGqyJQBdYpPdit8Oloqc
+   ezNjaAVGopwgE6eNkWSd35psxx9T00VGgg7nyLBUFKU+u9UDYIBi5Hi8p
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10788275"
+X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
+   d="scan'208";a="10788275"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 13:06:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="911559025"
+X-IronPort-AV: E=Sophos;i="6.05,230,1701158400"; 
+   d="scan'208";a="911559025"
+Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 30 Jan 2024 13:06:34 -0800
+Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rUvJQ-0000pY-1M;
+	Tue, 30 Jan 2024 21:06:32 +0000
+Date: Wed, 31 Jan 2024 05:05:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Charlie Jenkins <charlie@rivosinc.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Yangyu Chen <cyy@cyyself.name>
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>
+Subject: Re: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
+Message-ID: <202401310404.eNJvHoC9-lkp@intel.com>
+References: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
 
-Abhishek Pandit-Subedi <abhishekpandit@chromium.org> writes:
+Hi Charlie,
 
-> During review, it was suggested that drivers only emit messages when
-> something is wrong or it is a debug message. Document this as a formal
-> recommendation.
->
-> https://lore.kernel.org/linux-usb/2024012525-alienate-frown-916b@gregkh/
->
-> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> ---
-> I'm sending up the change to documentation while this is still fresh.
-> Will send an update to checkpatch.pl afterwards.
->
->  Documentation/process/coding-style.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index c48382c6b477..f8ec23fa89bc 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -899,7 +899,8 @@ which you should use to make sure messages are matched to the right device
->  and driver, and are tagged with the right level:  dev_err(), dev_warn(),
->  dev_info(), and so forth.  For messages that aren't associated with a
->  particular device, <linux/printk.h> defines pr_notice(), pr_info(),
-> -pr_warn(), pr_err(), etc.
-> +pr_warn(), pr_err(), etc. When drivers are working properly they are quiet,
-> +so prefer to use dev_dbg/pr_debug unless something is wrong.
->  
+kernel test robot noticed the following build errors:
 
-Applied, thanks.
+[auto build test ERROR on 556e2d17cae620d549c5474b1ece053430cd50bc]
 
-jon
+url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/riscv-mm-Use-hint-address-in-mmap-if-available/20240130-084208
+base:   556e2d17cae620d549c5474b1ece053430cd50bc
+patch link:    https://lore.kernel.org/r/20240129-use_mmap_hint_address-v1-1-4c74da813ba1%40rivosinc.com
+patch subject: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20240131/202401310404.eNJvHoC9-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240131/202401310404.eNJvHoC9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202401310404.eNJvHoC9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/riscv/include/asm/irqflags.h:10,
+                    from include/linux/irqflags.h:18,
+                    from arch/riscv/include/asm/bitops.h:14,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from mm/mmap.c:12:
+   mm/mmap.c: In function 'generic_get_unmapped_area':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   mm/mmap.c:1703:40: note: in expansion of macro 'arch_get_mmap_end'
+    1703 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+         |                                        ^~~~~~~~~~~~~~~~~
+   mm/mmap.c: In function 'generic_get_unmapped_area_topdown':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   mm/mmap.c:1751:40: note: in expansion of macro 'arch_get_mmap_end'
+    1751 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+         |                                        ^~~~~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/irqflags.h:10,
+                    from include/linux/irqflags.h:18,
+                    from arch/riscv/include/asm/bitops.h:14,
+                    from include/linux/bitops.h:68,
+                    from include/linux/thread_info.h:27,
+                    from fs/hugetlbfs/inode.c:12:
+   fs/hugetlbfs/inode.c: In function 'hugetlb_get_unmapped_area_bottomup':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   fs/hugetlbfs/inode.c:173:27: note: in expansion of macro 'arch_get_mmap_end'
+     173 |         info.high_limit = arch_get_mmap_end(addr, len, flags);
+         |                           ^~~~~~~~~~~~~~~~~
+   fs/hugetlbfs/inode.c: In function 'hugetlb_get_unmapped_area_topdown':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   fs/hugetlbfs/inode.c:204:35: note: in expansion of macro 'arch_get_mmap_end'
+     204 |                 info.high_limit = arch_get_mmap_end(addr, len, flags);
+         |                                   ^~~~~~~~~~~~~~~~~
+   fs/hugetlbfs/inode.c: In function 'generic_hugetlb_get_unmapped_area':
+>> arch/riscv/include/asm/processor.h:28:9: error: expected expression before 'else'
+      28 |         else                                                    \
+         |         ^~~~
+   fs/hugetlbfs/inode.c:219:40: note: in expansion of macro 'arch_get_mmap_end'
+     219 |         const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
+         |                                        ^~~~~~~~~~~~~~~~~
+
+
+vim +/else +28 arch/riscv/include/asm/processor.h
+
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  20  
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  21  #define arch_get_mmap_end(addr, len, flags)			\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  22  ({								\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  23  	unsigned long mmap_end;					\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  24  	typeof(addr) _addr = (addr);				\
+c5712238cfe3f5 Charlie Jenkins 2024-01-29  25  	if ((_addr) == 0 ||					\
+c5712238cfe3f5 Charlie Jenkins 2024-01-29  26  		(IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) ||	\
+c5712238cfe3f5 Charlie Jenkins 2024-01-29  27  		((_addr + len) > BIT(VA_BITS - 1)))		\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09 @28  	else							\
+c5712238cfe3f5 Charlie Jenkins 2024-01-29  29  		mmap_end = (_addr + len);			\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  30  	mmap_end;						\
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  31  })
+add2cc6b6515f7 Charlie Jenkins 2023-08-09  32  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
