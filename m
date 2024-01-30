@@ -1,83 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6EC66B5B
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 12:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9FE67E78;
+	Tue, 30 Jan 2024 12:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706617230; cv=none; b=n+8/PzzrfVlLmrPDZqGfEHc9GIO93Z/G+lS8zQw6M1GoAOZNe0GvL0LUEl641p5vpefp/+571hG7w/5Gy2c1o+bkKblLZbbjTfOLPPwLkea8G53k1M2rgIvZW3RVUeFYrRml1nZokuSw1ouDOPBQ1PhrAQh9THq99hj0zwPvzCE=
+	t=1706617431; cv=none; b=h6regi1/XPvrPhPPJpCOvturimTqch0OgD64dZykkyufOvGrDtKKLcnzd50ddUkoLparghLcxPt9AGlrlKpW/MHld67h4+fk01QsvjWIhWJFALVIp6YaaVJuNfYMMWLuwWJ+wQPAeA5iB7tpD3dPgHm9nWfMkv4GfU6nm2X7Qdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706617230; c=relaxed/simple;
-	bh=x/Bwe35UcFZ432cEebDSrm3xLEhA/N0F6oSsq85Cvwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mzl7bElD6ogrpdYns13xz20FyZ24WZdwjDkJoDWpG9/fd/PgGWkvMLRDGVGZF37CPanF2CquJtvOAgvK8idNPK6cwkPsG/f77n+Q0TDXpEbLjAU2nTsvAzi721nkE6Q3Tv9c2nLKiJR20J2fplplGUZU16JXYe41BqWKD9/UySs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFbk19mZ; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706617431; c=relaxed/simple;
+	bh=ZDNJjmcuzyAag0Kxso0ulWjGOYHJ6K6MtOrAMvsl3KI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X8vSA6nCya1w4nZ83U/Hbm1pkgIhacHrWuytUvtt5K/9XGkTuuX0LudEzaR3wm1r7IUZdLRVx8ObQv2cXI56m3S3+NT6jibBQWIMX4jWnNePgsLp24dT3V6K5KHYetdAkniI17IbkQAKD/RWUV3aRbOSfU+C8o/Igi6Qsexx5P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=Lv6jdOaQ; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFbk19mZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706617228; x=1738153228;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x/Bwe35UcFZ432cEebDSrm3xLEhA/N0F6oSsq85Cvwk=;
-  b=XFbk19mZTZd4+xs+a1tOWmdSmLQ9enFnAZ1gTGF+dQF93Pb81U0LjXxL
-   oQizA863DCP2q16xYRbOM7s6e+wkV23Wd0pJhtIohnNvrIH8mRd9h0RNO
-   NWBtKvpkabHYuBk6xZy3dtdsMyARwqzqCFGS/pT2FeuFCXsvhEQV91++p
-   ZS6ViZaKoJZCInUrsl4KI35Wzm3rqg3TKp8hwnrTYSgzcVPCrBnFAHxuh
-   qz1b1F75IysxEIgOiEAg3YnHadWiYGJAMcluHCAOTMaE6lGizubmD4AgY
-   rlGfS9w1h1M9Bv5MuIcRE3gyrSLMB/eJTENn5QV09FN2Esa3xlpUCgKrb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="24738610"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="24738610"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 04:20:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="961258705"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="961258705"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 30 Jan 2024 04:20:25 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rUn5l-0000Gw-2Z;
-	Tue, 30 Jan 2024 12:19:54 +0000
-Date: Tue, 30 Jan 2024 20:18:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	linux-doc@vger.kernel.org
-Subject: [linux-next:master 2643/2827] htmldocs: Warning:
- Documentation/gpu/amdgpu/display/display-contributing.rst references a file
- that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
-Message-ID: <202401302044.TYqzwNmq-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="Lv6jdOaQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1706617427;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+n8ItVGKEntF1q4atKJJA2NJbdTS+Zf0wFw3L1mGo3s=;
+	b=Lv6jdOaQdchyQWN4DHxAvoCnvj0/mzDrE8k+Dr5pJcsLTiEG+reSL3O6QPCwhLeaDszKCu
+	cRzpOCW4TQFqmEXaAJ1pHsu1AjJNjx6+Ip6LyAVCeCT9jhrt/vkvzf4TFcfPZVANebtntU
+	EjtFP7R0OwxikAVSeQNnRvnGl431PHg=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?q?Nuno=20S=C3=A1?= <noname.nuno@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v6 0/4] usb: gadget: functionfs: DMABUF import interface
+Date: Tue, 30 Jan 2024 13:23:36 +0100
+Message-ID: <20240130122340.54813-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   41d66f96d0f15a0a2ad6fa2208f6bac1a66cbd52
-commit: ba162ae749a5526025a6f1061bfcbb301a6adb65 [2643/2827] Documentation/gpu: Introduce a simple contribution list for display code
-reproduce: (https://download.01.org/0day-ci/archive/20240130/202401302044.TYqzwNmq-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401302044.TYqzwNmq-lkp@intel.com/
+This is the v6 of my patchset that adds a new DMABUF import interface to
+FunctionFS.
 
-All warnings (new ones prefixed by >>):
+Given that the cache coherency issue that has been discussed after my
+v5 is a tangential problem and not directly related to this new
+interface, I decided to drop the dma_buf_begin/end_access() functions
+for now - but I'm open to the idea of re-introducing them in a
+subsequent patchset.
 
->> Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
+The patchset was rebased on next-20240129.
+
+Cheers,
+-Paul
+
+---
+Changelog:
+* Drop v5's patches [1/6] and [2/6].
+* [3/4]: 
+  - Drop use of dma_buf_begin/end_access(). We now make the assumption
+    that the devices attached to the DMABUFs must be coherent between
+    themselves. The cache coherency issue is a tangential problem, and
+    those functions can be re-introduced in a subsequent patchset.
+  - Unqueue pending requests on detach. Otherwise, when closing the data
+    endpoint the DMABUF will never be signaled.
+  - Use list_for_each_entry_safe() in ffs_dmabuf_detach(), because there
+    is a list_del() in there.
+  - use pr_vdebug() instead of pr_debug()
+  - Rename ffs_dmabuf_unmap_work() -> ffs_dmabuf_cleanup()
+
+---
+Paul Cercueil (4):
+  usb: gadget: Support already-mapped DMA SGs
+  usb: gadget: functionfs: Factorize wait-for-endpoint code
+  usb: gadget: functionfs: Add DMABUF import interface
+  Documentation: usb: Document FunctionFS DMABUF API
+
+ Documentation/usb/functionfs.rst    |  36 ++
+ drivers/usb/gadget/Kconfig          |   1 +
+ drivers/usb/gadget/function/f_fs.c  | 513 ++++++++++++++++++++++++++--
+ drivers/usb/gadget/udc/core.c       |   7 +-
+ include/linux/usb/gadget.h          |   2 +
+ include/uapi/linux/usb/functionfs.h |  41 +++
+ 6 files changed, 579 insertions(+), 21 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
