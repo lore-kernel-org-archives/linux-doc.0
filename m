@@ -1,357 +1,367 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C12F57883
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 09:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34915F849;
+	Tue, 30 Jan 2024 09:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706605268; cv=none; b=demgS/6Mf5h72+XmCx8qUxTTkc719KkWOwPCzMURxLHtUK4V8VyrV9m9D+2+KOvhdOXpj4sMeznX66ez4POJ63bQ9Qj/ebgNTbvBFgrNaL40s4w/qdRxOQOJjuKzVIDPvt+SqpXNdV4uDBW3WmPfNE/IahvExsj/P+51GuGAfDk=
+	t=1706606214; cv=none; b=XvbbbBv4BdN96/6qNjjvBLQnacO7PJrWZfhkwJ15QCMoS3YC8pnX4RH7SWYvqI77i3v+2n+PmX61Vncnn89qiuJY/gyJV8O0uijEXNQDXM3ZLcpsl6vxL5YWQXqtdzrwlN1st22V+aX9K0WZKM57YwSE0z2XuTX21yhvd6ivqeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706605268; c=relaxed/simple;
-	bh=GUau5KiidEfn7Zqze1dX1vIlCEOjEOgrtFkVABWnmbk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nNbA8HnkKT6mwQEbaGKpM7ZEGgggWnBqxY8YpoR9GhvGvj0Qa1B7CLfN6krYOkSEtBdYYgagfbpPtflBBijuD6RxQrbDTpOPqDY1e1C+yKvrI0gsl1wvOhRX0Nsp7W/TPy62hCRWy6CBlo9CPbEJPDm90nQ3+kQhTGUP616TDa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=XRSBS9Ns; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	s=arc-20240116; t=1706606214; c=relaxed/simple;
+	bh=tTAS6UztStpo0SYXx14eTSJP+yk4zMdR6h+ep2k7+s4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a6Ij615pRaliq8G9j4eYMggyg+tJ4g4nwtkHMHnHomHeyq0fFIK8HnjL8dWRdTv9r6rjrwUzu7CQMsQHtKGc4TYIJC0rQlxHpkdvk/XopndELc1/xvDaqdnnVSHkQVwxQGH/huqO+UqQ4zPwQLnhNsNfeQ9YjLokPogi9qpB75I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LI6damsW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="XRSBS9Ns"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-55369c59708so1503067a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 01:01:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1706605264; x=1707210064; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iviL2+SAMhL4f4M9BrsRO99N0cHmSw6DwmN85C/fnbs=;
-        b=XRSBS9NsS2JrOrGMSBKo+N4iFuBW0a3k1r1XinW4ShDftPfQ/0cxdGvO9UuFb5UJ8p
-         PRAk81w3VAeS96e7N8MaBsk1c2/V2bsChK2rPK+mjEoyBb5MTGsB16dKdBtlrYPaFH0v
-         hzmHLSgS8VK2h8NlmpyvFxqslGmL9xhOsqspc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706605264; x=1707210064;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iviL2+SAMhL4f4M9BrsRO99N0cHmSw6DwmN85C/fnbs=;
-        b=ppPoXVjSOntQQm/tLuVn5AiuEf76/uEeb22znIaOkevaJDLUMtTYPwwGIwIPzHmsg7
-         kh+JdONGwzp84+0A4hlgJIGqKFKCjZAB2kauiCN1ftTiirH45uw9Bkc2hwbYQOJ//1JU
-         u/COwIkAIGI5tSSl/tj4JHq3ZDlTiiDmVwcvCW21fVHfMWXBBx83ACBbKKqHmn8sqgHb
-         Fd41fRGgWNcHAl17ld0Go1ATYxgq0ND4G83hRIpenM6C92L3sGulRp9zSwmwSSUMJGGw
-         OhwXJOklH/+5cCyQ9n1F0Sz0nDxkE7LaWyrh6cfvZ9twQxpeNu+XWc9DaNteZfHa3jmX
-         emJw==
-X-Forwarded-Encrypted: i=0; AJvYcCUiYbHqSwBehBJ0z00JmOn7YIjyoDqPZYIpSSD48v4cGwG6qiC76kc/akJ0kMkOcN28j5cgUEUnXpBDxA6BA+8YfNvVgyGR4IGE
-X-Gm-Message-State: AOJu0YxRxRnNUJCIrs61V5oWA29oPW/MoEEs0GESemsAg5UyYDuJXR5J
-	kOGGfr68EgEHWPYQtpbNIngJijr0SrB+MUtmkQTm0OaWiTRKwfGzQGCAtFY3BnA=
-X-Google-Smtp-Source: AGHT+IEEz+ER+ZYgh2X+lnwADbolE5wAPyK/z45mUwIpueFK9FUVKRy/g+fVGncVxRfL19fA0sSQhQ==
-X-Received: by 2002:aa7:d9c3:0:b0:55e:fe18:157b with SMTP id v3-20020aa7d9c3000000b0055efe18157bmr3565284eds.3.1706605264361;
-        Tue, 30 Jan 2024 01:01:04 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id fd12-20020a056402388c00b00557d839727esm4647498edb.7.2024.01.30.01.01.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 01:01:03 -0800 (PST)
-Date: Tue, 30 Jan 2024 10:01:01 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Paul Cercueil <paul@crapouillou.net>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-Message-ID: <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <442f69f31ece6d441f3dc41c3dfeb4dcf52c00b8.camel@crapouillou.net>
- <0b6b8738-9ea3-44fa-a624-9297bd55778f@amd.com>
- <e4620acdf24628d904cedcb0030d78b14559f337.camel@crapouillou.net>
- <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
- <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
- <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
- <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
- <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
- <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
- <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LI6damsW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FF54C433F1;
+	Tue, 30 Jan 2024 09:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706606213;
+	bh=tTAS6UztStpo0SYXx14eTSJP+yk4zMdR6h+ep2k7+s4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=LI6damsWx45gi0EMf45wHMGUnuXtIwsTNZogYgpI5h5B+rgxfpc9gOdVtrqGbUGIa
+	 +UJujQrtAIFMXyzaUjuM7PEaxxWUP74kPpmpKFg8eOblA6UPD2Qxxj3yNhQBPFgJ3k
+	 MbNuoA8jnneE4CH3xGTInz1nauTv8RJPLKlT5zdGGHxDfg6IaugG4MhiDtWg3QT4KK
+	 /ZXHpgr2oaaQR6EZsIFKSr5FraPB+3mSJ24KuNOGt3q6NF4QEfzDSQpOZtwEAyiCWq
+	 KgB6ZslNcjIPKDZK/dxqlRF8woq2Z5ITZ93fjHEGquF2SV0m9hq476FEnmeITe8JZ7
+	 izDIdpR4+sdDw==
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-210ce33ea1aso1917683fac.0;
+        Tue, 30 Jan 2024 01:16:53 -0800 (PST)
+X-Gm-Message-State: AOJu0Yww8nKGiBtIzUIVR9O2YbCT0ZoP9wDTRjuamPzZyktJW8ftps2T
+	cGn2fuSjeLZDNtEC+f2smapa0sNMaai2MbjBOTiEeg5lqWoLgaST/p/9WOLUaO2ChfO32BwawwA
+	RVWcxXNSYrexTNZtk+h84hlSKRjc=
+X-Google-Smtp-Source: AGHT+IEZ5HgcZiwMnOtdPH0wJzLQI3BAbDfeft5qApbQhSwGWUprF5hwqNIGW5fDJY9ewFd9/U2oFc9Fzwd4QPxuasc=
+X-Received: by 2002:a05:6870:b684:b0:214:ff12:3dda with SMTP id
+ cy4-20020a056870b68400b00214ff123ddamr7405022oab.2.1706606212712; Tue, 30 Jan
+ 2024 01:16:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
+ <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
+ <20240109143349.GR1610741@bill-the-cat> <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
+ <CAFLszTjPAHd6RdO1mvatXC=yRS+h=sgJ_pMdyEnkROTx7yRpog@mail.gmail.com>
+In-Reply-To: <CAFLszTjPAHd6RdO1mvatXC=yRS+h=sgJ_pMdyEnkROTx7yRpog@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 30 Jan 2024 18:16:16 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARsY6-rrx=sNFq6oFqpqf0s5S_=3DrUsCOS7zF0BXcoTg@mail.gmail.com>
+Message-ID: <CAK7LNARsY6-rrx=sNFq6oFqpqf0s5S_=3DrUsCOS7zF0BXcoTg@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Simon Glass <sjg@chromium.org>
+Cc: Tom Rini <trini@konsulko.com>, Will Deacon <will@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org, Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 26, 2024 at 05:42:50PM +0100, Christian König wrote:
-> Am 25.01.24 um 19:01 schrieb Daniel Vetter:
-> > On Thu, Jan 25, 2024 at 04:00:16PM +0100, Christian König wrote:
-> > > Am 24.01.24 um 11:58 schrieb Paul Cercueil:
-> > > > [SNIP]
-> > > > > > The problem was then that dma_buf_unmap_attachment cannot be called
-> > > > > > before the dma_fence is signaled, and calling it after is already
-> > > > > > too
-> > > > > > late (because the fence would be signaled before the data is
-> > > > > > sync'd).
-> > > > >    Well what sync are you talking about? CPU sync? In DMA-buf that is
-> > > > > handled differently.
-> > > > >    For importers it's mandatory that they can be coherent with the
-> > > > > exporter. That usually means they can snoop the CPU cache if the
-> > > > > exporter can snoop the CPU cache.
-> > > > I seem to have such a system where one device can snoop the CPU cache
-> > > > and the other cannot. Therefore if I want to support it properly, I do
-> > > > need cache flush/sync. I don't actually try to access the data using
-> > > > the CPU (and when I do, I call the sync start/end ioctls).
-> > > Usually that isn't a problem as long as you don't access the data with the
-> > > CPU.
-> > > 
-> > > [SNIP]
-> > > 
-> > > > > > (and I *think* there is a way to force coherency in the
-> > > > > > Ultrascale's
-> > > > > > interconnect - we're investigating it)
-> > > > >    What you can do is that instead of using udmabuf or dma-heaps is
-> > > > > that the device which can't provide coherency act as exporters of the
-> > > > > buffers.
-> > > > >    The exporter is allowed to call sync_for_cpu/sync_for_device on it's
-> > > > > own buffers and also gets begin/end CPU access notfications. So you
-> > > > > can then handle coherency between the exporter and the CPU.
-> > > > But again that would only work if the importers would call
-> > > > begin_cpu_access() / end_cpu_access(), which they don't, because they
-> > > > don't actually access the data using the CPU.
-> > > Wow, that is a completely new use case then.
-> > > 
-> > > Neither DMA-buf nor the DMA subsystem in Linux actually supports this as far
-> > > as I can see.
-> > > 
-> > > > Unless you mean that the exporter can call sync_for_cpu/sync_for_device
-> > > > before/after every single DMA transfer so that the data appears
-> > > > coherent to the importers, without them having to call
-> > > > begin_cpu_access() / end_cpu_access().
-> > > Yeah, I mean the importers don't have to call begin_cpu_access() /
-> > > end_cpu_access() if they don't do CPU access :)
-> > > 
-> > > What you can still do as exporter is to call sync_for_device() and
-> > > sync_for_cpu() before and after each operation on your non-coherent device.
-> > > Paired with the fence signaling that should still work fine then.
-> > > 
-> > > But taking a step back, this use case is not something even the low level
-> > > DMA subsystem supports. That sync_for_cpu() does the right thing is
-> > > coincident and not proper engineering.
-> > > 
-> > > What you need is a sync_device_to_device() which does the appropriate
-> > > actions depending on which devices are involved.
-> > > 
-> > > > In which case - this would still demultiply the complexity; my USB-
-> > > > functionfs interface here (and IIO interface in the separate patchset)
-> > > > are not device-specific, so I'd rather keep them importers.
-> > > > >    If you really don't have coherency between devices then that would
-> > > > > be a really new use case and we would need much more agreement on how
-> > > > > to do this.
-> > > > [snip]
-> > > > 
-> > > > Agreed. Desiging a good generic solution would be better.
-> > > > 
-> > > > With that said...
-> > > > 
-> > > > Let's keep it out of this USB-functionfs interface for now. The
-> > > > interface does work perfectly fine on platforms that don't have
-> > > > coherency problems. The coherency issue in itself really is a
-> > > > tangential issue.
-> > > Yeah, completely agree.
-> > > 
-> > > > So I will send a v6 where I don't try to force the cache coherency -
-> > > > and instead assume that the attached devices are coherent between
-> > > > themselves.
-> > > > 
-> > > > But it would be even better to have a way to detect non-coherency and
-> > > > return an error on attach.
-> > > Take a look into the DMA subsystem. I'm pretty sure we already have
-> > > something like this in there.
-> > > 
-> > > If nothing else helps you could take a look if the coherent memory access
-> > > mask is non zero or something like that.
-> > Jumping in way late and apolgies to everyone since yes I indeed suggested
-> > this entire mess to Paul in some private thread.
-> > 
-> > And worse, I think we need it, it's just that we got away without it thus
-> > far.
-> > 
-> > So way back at the og dma-buf kick-off dma coherency was discussed, and a
-> > few things where noted:
-> > - the dma api only supports device<->cpu coherency
-> > - getting the full coherency model off the ground right away is probably
-> >    too hard, so we made the decision that where it matters, relevant
-> >    flushing needs to be done in dma_buf_map/unmap.
-> > 
-> > If you look at the earliest patches for dma-buf we had pretty clear
-> > language that all dma-operations should be bracketed with map/unmap. Of
-> > course that didn't work out for drm at all, and we had to first get
-> > dma_resv_lock and dma_fence landed and then your dynamic exporter/importer
-> > support in just to get the buffer migration functionality working, which
-> > was only one of the things discussed that braketing everything with
-> > map/unmap was supposed to take care of.
-> > 
-> > The other was coherency management. But looking through archives I think
-> > this was already agreed to be postponed for later in the original kick-off
-> > meeting and never further discussed on the mailing list.
-> > 
-> > This worked for a fairly long time, because thus far dma-buf was used on
-> > fairly reaasonable architectures where all participating devices are
-> > coherent enough.
-> > 
-> > We did have to add the cpu access flushing fairly quickly because there's
-> > a lot of SoC chips (including intel) where that was necessary, but even
-> > that was added later on, as an opt-in and without fixing every. See
-> > fc13020e086b ("dma-buf: add support for kernel cpu access").
-> > 
-> > The ioctl to allow userspace to do flushing was added even later on, and
-> > there the entire yolo opt-in situation is even worse. c11e391da2a8
-> > ("dma-buf: Add ioctls to allow userspace to flush") was only in 2016, 5
-> > years after dma-buf landed.
-> > 
-> > It looks like it's finally time to add the device side flushing functions
-> > we've talked about first over 12 years ago :-)
-> > 
-> > The reason this pops up now is that unlike other dma-buf users on maybe
-> > somewhat more funky architectures, Paul's patches want to use dma_fence
-> > for synchronization of the dma operations. Which means you cannot call the
-> > full dma_buf_map/unmap dance because that takes dma_resv_lock, and
-> > absolute no-go in a dma_fence critical path.
-> > 
-> > And yes in those 12 years the dma-api hasn't gained the device2device sync
-> > support we'd need, but neither has it gained the multiple devices <-> cpu
-> > sync support we'd strictly need for dma-buf. So yes this is all a terrible
-> > hodge-podge of hacks, but if we'd require theoretically perfect code we'd
-> > still have zero dma-buf support in upstream.
-> > 
-> > This also includes how we landed these extensions, none of them in the
-> > past have landed with a "update all existing exporters/importers" rule. We
-> > talked about that every time, and rejected it every time for imo pretty
-> > good reasons - the perf impact tends to be way too harsh if you impose
-> > over-flushing on everyone, including the reasonable platforms. And we
-> > currently can't do less than overflushing with the current dma-api
-> > interfaces because we dont have the specific flush functions we'd need. So
-> > really this isn't doing a worse abuse of the dma-api than what we have.
-> > It's definitely a bit wasteful since the functions we use do in theory
-> > flush too much. But in practice on the these funky architectures they
-> > flush enough.
-> > 
-> > There's also the very hard issue of actually trying to optimize flushes,
-> > because a dma operation might only access part of a buffer, and you might
-> > interleave read/write access by different devices in very innovative ways.
-> > So I'm firmly on the "make it work first, then fast" side of things.
-> > 
-> > So dma-buf will continue to be a thing that's tested for specific combos,
-> > and then we'll patch them. It's a decade-plus tradition at this point.
-> > 
-> > Which is all a very long winded way of saying that yes, I think we need
-> > this, and we needed this 12 years ago already if we'd have aimed for
-> > perfect.
-> > 
-> > I have a bunch of detail comments on the patch itself, but I guess we
-> > first need to find consensus on whether it's a good idea in the first
-> > place.
-> 
-> Well I think we should have some solution, but I'm not sure if it should be
-> part of DMA-buf.
-> 
-> Essentially a DMA-buf exports the buffers as he uses it and the importer (or
-> the DMA-buf subsystem) is then the one who says ok I can use this or I can't
-> use this or I need to call extra functions to use this or whatever.
-> 
-> It's not the job of the exporter to provide the coherency for the importer,
-> cause otherwise we would have a lot of code in the exporter which can only
-> be tested when you have the right importer around. And I strongly think that
-> this is a no-go for having a reliable solution.
+On Fri, Jan 26, 2024 at 1:04=E2=80=AFAM Simon Glass <sjg@chromium.org> wrot=
+e:
+>
+> Hi,
+>
+> On Wed, 17 Jan 2024 at 06:14, Simon Glass <sjg@chromium.org> wrote:
+> >
+> > Hi Masahiro, Tom,
+> >
+> > On Tue, 9 Jan 2024 at 07:33, Tom Rini <trini@konsulko.com> wrote:
+> > >
+> > > On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wrote:
+> > > > Hi Simon,
+> > > >
+> > > >
+> > > > On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromium.or=
+g> wrote:
+> > > > >
+> > > > > Hi Masahiro,
+> > > > >
+> > > > > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.=
+org> wrote:
+> > > > > >
+> > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > > > > > > Add a script which produces a Flat Image Tree (FIT), a single=
+ file
+> > > > > > > containing the built kernel and associated devicetree files.
+> > > > > > > Compression defaults to gzip which gives a good balance of si=
+ze and
+> > > > > > > performance.
+> > > > > > >
+> > > > > > > The files compress from about 86MB to 24MB using this approac=
+h.
+> > > > > > >
+> > > > > > > The FIT can be used by bootloaders which support it, such as =
+U-Boot
+> > > > > > > and Linuxboot. It permits automatic selection of the correct
+> > > > > > > devicetree, matching the compatible string of the running boa=
+rd with
+> > > > > > > the closest compatible string in the FIT. There is no need fo=
+r
+> > > > > > > filenames or other workarounds.
+> > > > > > >
+> > > > > > > Add a 'make image.fit' build target for arm64, as well. Use
+> > > > > > > FIT_COMPRESSION to select a different algorithm.
+> > > > > > >
+> > > > > > > The FIT can be examined using 'dumpimage -l'.
+> > > > > > >
+> > > > > > > This features requires pylibfdt (use 'pip install libfdt'). I=
+t also
+> > > > > > > requires compression utilities for the algorithm being used. =
+Supported
+> > > > > > > compression options are the same as the Image.xxx files. For =
+now there
+> > > > > > > is no way to change the compression other than by editing the=
+ rule for
+> > > > > > > $(obj)/image.fit
+> > > > > > >
+> > > > > > > While FIT supports a ramdisk / initrd, no attempt is made to =
+support
+> > > > > > > this here, since it must be built separately from the Linux b=
+uild.
+> > > > > > >
+> > > > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > > > > > ---
+> > > > > > >
+> > > > > > > Changes in v9:
+> > > > > > > - Move the compression control into Makefile.lib
+> > > > > > >
+> > > > > > > Changes in v8:
+> > > > > > > - Drop compatible string in FDT node
+> > > > > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > > > > > > - Turn compress part of the make_fit.py comment in to a sente=
+nce
+> > > > > > > - Add two blank lines before parse_args() and setup_fit()
+> > > > > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > > > > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > > > > > > - Add 'mkimage' details Documentation/process/changes.rst
+> > > > > > > - Allow changing the compression used
+> > > > > > > - Tweak cover letter since there is only one clean-up patch
+> > > > > > >
+> > > > > > > Changes in v7:
+> > > > > > > - Add Image as a dependency of image.fit
+> > > > > > > - Drop kbuild tag
+> > > > > > > - Add dependency on dtbs
+> > > > > > > - Drop unnecessary path separator for dtbs
+> > > > > > > - Rebase to -next
+> > > > > > >
+> > > > > > > Changes in v5:
+> > > > > > > - Drop patch previously applied
+> > > > > > > - Correct compression rule which was broken in v4
+> > > > > > >
+> > > > > > > Changes in v4:
+> > > > > > > - Use single quotes for UIMAGE_NAME
+> > > > > > >
+> > > > > > > Changes in v3:
+> > > > > > > - Drop temporary file image.itk
+> > > > > > > - Drop patch 'Use double quotes for image name'
+> > > > > > > - Drop double quotes in use of UIMAGE_NAME
+> > > > > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> > > > > > > - Avoid hard-coding "arm64" for the DT architecture
+> > > > > > >
+> > > > > > > Changes in v2:
+> > > > > > > - Drop patch previously applied
+> > > > > > > - Add .gitignore file
+> > > > > > > - Move fit rule to Makefile.lib using an intermediate file
+> > > > > > > - Drop dependency on CONFIG_EFI_ZBOOT
+> > > > > > > - Pick up .dtb files separately from the kernel
+> > > > > > > - Correct pylint too-many-args warning for write_kernel()
+> > > > > > > - Include the kernel image in the file count
+> > > > > > > - Add a pointer to the FIT spec and mention of its wide indus=
+try usage
+> > > > > > > - Mention the kernel version in the FIT description
+> > > > > > >
+> > > > > > >  Documentation/process/changes.rst |   9 +
+> > > > > > >  MAINTAINERS                       |   7 +
+> > > > > > >  arch/arm64/Makefile               |   7 +-
+> > > > > > >  arch/arm64/boot/.gitignore        |   1 +
+> > > > > > >  arch/arm64/boot/Makefile          |   6 +-
+> > > > > > >  scripts/Makefile.lib              |  16 ++
+> > > > > > >  scripts/make_fit.py               | 291 ++++++++++++++++++++=
+++++++++++
+> > > > > > >  7 files changed, 334 insertions(+), 3 deletions(-)
+> > > > > > >  create mode 100755 scripts/make_fit.py
+> > > > > >
+> > > > > > I'll need Masahiro's Ack on the scripts/ changes before I can t=
+ake this
+> > > > > > one.
+> > > > >
+> > > > > Any thoughts on this request, please?
+> > > > >
+> > > > > Regards,
+> > > > > Simon
+> > > > >
+> > > >
+> > > >
+> > > >
+> > > > As I mentioned before, I am concerned with having
+> > > > the same "compatible" entries, with different contents,
+> > > > as you use the "compatible" string as an ID to selecting
+> > > > the target config node, right?
+> > > >
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > $ fdtdump  arch/arm64/boot/image.fit
+> > > >
+> > > >         ...
+> > > >
+> > > >         conf-10 {
+> > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > > "tq,am642-tqma6442l", "ti,am642";
+> > > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL c=
+arrier board";
+> > > >             fdt =3D "fdt-10";
+> > > >             kernel =3D "kernel";
+> > > >         };
+> > > >
+> > > >         ...
+> > > >
+> > > >         conf-25 {
+> > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > > "tq,am642-tqma6442l", "ti,am642";
+> > > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL c=
+arrier board";
+> > > >             fdt =3D "fdt-25";
+> > > >             kernel =3D "kernel";
+> > > >         };
+> > >
+> > > I had asked Rob a while ago about if having the same compatible for t=
+wo
+> > > functionally different machines is a feature, or a bug, and I don't
+> > > think either of us fully agreed either way. I'd be leaning towards
+> > > saying the above example is a bug in the dts files, it's just not bee=
+n a
+> > > bug people have worried about before due to (sadly) how little the
+> > > top-level compatible has been used.
+> >
+> > Yes I believe this is a bug in the files.
+> >
+> > What should the script do in this case? Print a warning, perhaps?
+>
+> Is there anything I should do here? Would a warning be helpful, or
+> just confusing?
 
-The trouble is, that if you have other memory than stuff allocated by the
-dma-api or mapped using the dma-api, then by necessity the exporter has to
-deal with this.
 
-Which is the exact same reason we also force the exporters to deal with
-the cpu cache flushing - you're argument that it's not great to replicate
-this everywhere holds there equally.
 
-The other thing is that right now the exporter is the only one who
-actually knows what kind of dma coherency rules apply for a certain piece
-of memory. E.g. on i915-gem even if it's dma_map_sg mapped the underlying
-i915-gem buffer might be non-coherent, and i915-gem makes it all work by
-doing the appropriate amount of clflush.
+I do not think it is useful.
+You would almost always get a warning, and there is no way to fix it.
 
-Similar funky things happen in other cases.
 
-So unless we add an interface which allows importers to figure out how
-much flushing is needed, currently the exporter is the only one who knows
-(because it can inspect the struct device at dma_buf_attach time).
 
-We could flip this around, but it would be a rather serious depature from
-the dma-buf design approach thus far.
+With arm64 defconfig, image.fit will include a thousand DTBs.
 
-> That's why I think the approach of having DMA-buf callbacks is most likely
-> the wrong thing to do.
-> 
-> What should happen instead is that the DMA subsystem provides functionality
-> which to devices which don't support coherency through it's connection to
-> say I want to access this data, please make sure to flush the appropriate
-> catches. But that's just a very very rough design idea.
-> 
-> This will become more with CXL at the horizon I think.
 
-Yeah CXL will make this all even more fun, but we are firmly there already
-with devices deciding per-buffer (or sometimes even per-access with
-intel's MOCS stuff) what coherency mode to use for a buffer.
+The config node of my board was listed 214th.
+(I found it by fdtdump)
 
-Also arm soc generally have both coherent and non-coherent device
-interconnects, and I think some devices can switch with runtime flags too
-which mode they use for a specific transition.
 
-CXL just extends this to pcie devices.
+Then, I learned
 
-So the mess is here, how do we deal with it?
+  >  bootm  ${loadaddr}#conf-214
 
-My take is that the opt-in callback addition is far from great, but it's
-in line with how we extended dma-buf the past decade plus too. So unless
-someone's volunteering to pour some serious time into re-engineering this
-all (including testing all the different device/driver<->device/driver
-interactions) I think there's only really one other option: To not support
-these cases at all. And I don't really like that, because it means people
-will hack together something even worse in their drivers.
+is the correct command to boot my board.
 
-By adding it to dma-buf it'll stare us in our faces at least :-/
 
-Cheers, Sima
+Of course, the "214" will be different in the future.
 
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > Cheers, Sima
-> 
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+The node names, conf-*, are useless.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+
+Only the useful way is to enable CONFIG_FIT_BEST_MATCH in U-Boot,
+but this relies on the uniqueness of a compatible string,
+which is not true.
+
+(I do not know how to do it in barebox)
+
+
+
+
+
+I think using the file name as a config node
+mitigates the issue because a file name is
+considered unique.
+
+
+For example, with composite DTBs:
+
+imx8mm-venice-gw72xx-0x-imx219-dtbs :=3D imx8mm-venice-gw72xx-0x.dtb
+imx8mm-venice-gw72xx-0x-imx219.dtbo
+imx8mm-venice-gw72xx-0x-rpidsi-dtbs :=3D imx8mm-venice-gw72xx-0x.dtb
+imx8mm-venice-gw72xx-0x-rpidsi.dtbo
+
+
+
+
+configurations {
+      imx8mm-venice-gw72xx-0x-imx219 {
+            ...
+      };
+
+      imx8mm-venice-gw72xx-0x-rpidsi {
+            ...
+      }
+};
+
+
+
+Then, we can distinguish them by node, even if they have
+the same compatible string.
+At least we can do
+
+  > bootm  ${loadaddr}#imx8mm-venice-gw72xx-0x-imx219
+
+
+
+
+For the issue including stale DTBs, you can use my patch:
+[PATCH 1/4] kbuild: create a list of all built DTB files
+(https://lore.kernel.org/linux-kbuild/CAK7LNASOxi-gzve+_d-sCW9z_eEJ5TMMnzPE=
+vN2Nj2AwgVjF9g@mail.gmail.com/T/#ma3595627a96a04554a78cbbd22056831e13db260)
+
+
+You can change scripts/make_fit.py to take
+the DTB files instead of the directory to search.
+
+Optionally, you can support '@' syntax to
+take command arguments from a file.
+
+
+scripts/make_fit.py ... @arch/$(SRCARCH)/boot/dts/dtbs-list
+
+
+
+
+
+
+For the separate base and overlays support,
+you can use my patch as a base:
+[PATCH 3/4] kbuild: create a list of base and overlays for each DTB
+(https://lore.kernel.org/linux-kbuild/CAK7LNASOxi-gzve+_d-sCW9z_eEJ5TMMnzPE=
+vN2Nj2AwgVjF9g@mail.gmail.com/T/#m32c5bdde9098901b7c7776b932827493a05c82d5)
+
+
+
+
+
+Lastly, you do not need to require mkimage for
+args.external.
+You can simply concatenate files.
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
