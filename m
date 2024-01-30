@@ -1,183 +1,139 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3670C107A0
-	for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 02:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AD6374C9;
+	Tue, 30 Jan 2024 03:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706583050; cv=none; b=aPRAteCT1FNSd6ISq+Zd7AHxsdwyoRyGl0Ob4oXPwUlqAG/vjn1EqE10YiRKlQ2P1Bhl9FAmjAhUhYWPmTnF9eOeNcWeY4Y+rjIV7hsPcDf3CuDglGlRJTgr0BS/jCe2e2SsMMX37WXwtLTY/zxssBpmQmRT5IP0fRAOGRv04GI=
+	t=1706584660; cv=none; b=d7iO/0Uw33oFJObVRS8YK4HFTnb5FJpaByfOeBnuTGfoRkfAmTuXc5fnPyjRTQPpSUYzL5wS3KsYQUOZHupZaR/FrIkJkta2eYX0uQf1JALKeL0U1eNtpxSjPHvTeDqS6JkBHIgx8UsShvC1T93IEbhy8nJSsDCkOINMYXbQEKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706583050; c=relaxed/simple;
-	bh=0TEm3/crCtPyfYZL8bXJs3aeXPqJ01LKo32QgDLoJlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z/N7Nf13ieiaOtNyrICENjjK16EGMQXLp5ylAFonjm05HekFRO3EjApRF6Y+3KZiHvyARx2qPYxE1velrHXErC/YgOL5MitiUGLSDVrMJMoVsR8w1/Y9crrIzLU1X0jEc17tc/BLkz4zmep9Vkb01vPUO05Mf6gjFi+REPl5uo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=jWzdlt8t; arc=none smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1706584660; c=relaxed/simple;
+	bh=wcpqROo/Nav+p/3mZ66wGUmf7vdiOv5PYmXgj8P2Y88=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fwtBITNvQuyDZL7aFpl2JkjJ99uQvOqzuZfuULMu+wk0ew1aYkhaITEa/P0cNeO3ACjWf2paL/PdOlouBJB8aY3sGdXx2yIVcLyp8sxdRasaxXc45rensoKb5yHf+SreSBvKTgXgKVx84vTHmichBOXEsnyMta3kKzp9Tag9QsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iycBlVWE; arc=none smtp.client-ip=134.134.136.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="jWzdlt8t"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-595ac2b6c59so2431901eaf.2
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jan 2024 18:50:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1706583046; x=1707187846; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=I4kmLD/ZHgJFQzacfvJ5aXtIPI3Q8g9U5l7cj/1gwss=;
-        b=jWzdlt8toQ2FsBo3S6a7Q7ROpdRBxUH1g9DN0DBiw+5bcGPLcII1V+07/+MAJPh/as
-         IdyJDSHpNjy9CnoruaeuvomdWmsnHlVcss8HoFDnG9y06nzI5K96t7oI1OlpWtDJx1p9
-         d7+7fti71HITHzK9uF0il7X6GyhEtrxo0nelCqvva5bsTP9AsVJifDhdBjU76nelvukU
-         4UJ+IAfgXm27CjvELFIJJZadv+r8lIESAbNtUgpH04BcX+L9yzjQyqZbvt67EuksbThd
-         /gR2I1yC+Eoo2aDo9Qh4gFvwggNM2+eJ+L42h7TGiamq96bqn9Ho/G+keTithdhdFb5p
-         6hVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706583046; x=1707187846;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I4kmLD/ZHgJFQzacfvJ5aXtIPI3Q8g9U5l7cj/1gwss=;
-        b=fYI5WNiP7JX2s3Xa1P296rdHXz1lzMYlUcI0HGTzADLb5c+keHGaTaYOqAsEiAku4i
-         SobcF9a/SkaqJLHjTK+je9Aw9ffXc04sJmJEh8DXi6OSZgxfiUjbPxqaggyvvxdV19wi
-         gjRW+O4Ra9dzykBqcYNH+rqcgETUe67QLvO60JylxBJOgujIeyIKoWqj/E4MMSsYhbqK
-         WjBr3qUmBQEYUs5bYCcz7n34zNW72G6f26hdXnnYGPjnek4P5d1TjdfwS4DSrmZu5ijI
-         sB8vvOgxcnFEN0wSSN88/Ea+vWStExvahrR3jXLQXjCeLVP4VuJdtE9gofkSkHvSSf4H
-         smTg==
-X-Gm-Message-State: AOJu0Yz6yBVxEDRbJquMX/tz0U8CjKNr3p5JHHHpdbM9IgxIlgRWX/jD
-	dO8Z7eqq65TeF5aWWv4GeenjqkfnKJ3tkecTeP26b5yQIX0Vi1U19poo3JT9+iM=
-X-Google-Smtp-Source: AGHT+IHVIhbQGSEna5MN4n3vgllTv+oL5jn7aTe6nq6Ie2BpSyHZw7jYc/tSHXwtTS+M7cDDGwEHmw==
-X-Received: by 2002:a05:6358:796:b0:178:76b3:58d8 with SMTP id n22-20020a056358079600b0017876b358d8mr3227466rwj.38.1706583046256;
-        Mon, 29 Jan 2024 18:50:46 -0800 (PST)
-Received: from ghost (mobile-166-137-160-039.mycingular.net. [166.137.160.39])
-        by smtp.gmail.com with ESMTPSA id y12-20020aa7854c000000b006dbd3aec001sm6794293pfn.146.2024.01.29.18.50.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 18:50:45 -0800 (PST)
-Date: Mon, 29 Jan 2024 18:50:41 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] riscv: mm: Use hint address in mmap if available
-Message-ID: <ZbhkAUf+h7sK71Rs@ghost>
-References: <20240129-use_mmap_hint_address-v1-0-4c74da813ba1@rivosinc.com>
- <20240129-use_mmap_hint_address-v1-1-4c74da813ba1@rivosinc.com>
- <tencent_F34C3BC7F1077728A62E84A7D183EF5BF005@qq.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iycBlVWE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706584658; x=1738120658;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=wcpqROo/Nav+p/3mZ66wGUmf7vdiOv5PYmXgj8P2Y88=;
+  b=iycBlVWEqvkF9uAcwSqxI+lk50VQS2frOlFTyMeuXMT9a2g4it/ayJhd
+   3u/lrR8zuB4gutWN4zPVm+S6Ko7/gPmKQTRY0WoYwrc9XWD90k5kZa1cP
+   BeFoKjKehiZ1Ho0RMpYsml+fTc1Aiccqty17GGAp+uBpSevLUrsBokplu
+   Mm6mv+kpFXVRpVV8rD1RgTvpPFfjC/iH06QZiPeMWVRIiz2WT4m+Mi/Bs
+   SUHGGklAf/pIXNQuoAS7XJzxMZ5P3+GEdmk4sn7TdC70h0eREAgUN0i/J
+   KLeL3boZOLEgXBF9vESqEOWZPbNm6DQrU7ZWu797pym8D6K3p7KeqS0BE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="406873069"
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="406873069"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 19:17:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
+   d="scan'208";a="3674612"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 19:17:32 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
+  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
+  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
+  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
+  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
+  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
+  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
+  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
+  <dan.j.williams@intel.com>
+Subject: Re: [PATCH v3 4/4] mm/mempolicy: change cur_il_weight to atomic and
+ carry the node with it
+In-Reply-To: <ZbfqVHA9+38/j3Mq@memverge.com> (Gregory Price's message of "Mon,
+	29 Jan 2024 13:11:32 -0500")
+References: <20240125184345.47074-1-gregory.price@memverge.com>
+	<20240125184345.47074-5-gregory.price@memverge.com>
+	<87sf2klez8.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZbPf6d2cQykdl3Eb@memverge.com>
+	<877cjsk0yd.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZbfI3+nhgQlNKMPG@memverge.com> <ZbfqVHA9+38/j3Mq@memverge.com>
+Date: Tue, 30 Jan 2024 11:15:35 +0800
+Message-ID: <875xzbika0.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <tencent_F34C3BC7F1077728A62E84A7D183EF5BF005@qq.com>
+Content-Type: text/plain; charset=ascii
 
-On Tue, Jan 30, 2024 at 10:34:03AM +0800, Yangyu Chen wrote:
-> 
-> > On Jan 30, 2024, at 08:37, Charlie Jenkins <charlie@rivosinc.com> wrote:
-> > 
-> > On riscv it is guaranteed that the address returned by mmap is less than
-> > the hint address. Allow mmap to return an address all the way up to
-> > addr, if provided, rather than just up to the lower address space.
-> > 
-> > This provides a performance benefit as well, allowing mmap to exit after
-> > checking that the address is in range rather than searching for a valid
-> > address.
-> > 
-> > It is possible to provide an address that uses at most the same number
-> > of bits, however it is significantly more computationally expensive to
-> > provide that number rather than setting the max to be the hint address.
-> > There is the instruction clz/clzw in Zbb that returns the highest set bit
-> > which could be used to performantly implement this, but it would still
-> > be slower than the current implementation. At worst case, half of the
-> > address would not be able to be allocated when a hint address is
-> > provided.
-> > 
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > ---
-> > arch/riscv/include/asm/processor.h | 21 ++++++++-------------
-> > 1 file changed, 8 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-> > index f19f861cda54..f3ea5166e3b2 100644
-> > --- a/arch/riscv/include/asm/processor.h
-> > +++ b/arch/riscv/include/asm/processor.h
-> > @@ -22,14 +22,11 @@
-> > ({ \
-> > unsigned long mmap_end; \
-> > typeof(addr) _addr = (addr); \
-> > - if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) && is_compat_task())) \
-> > - mmap_end = STACK_TOP_MAX; \
-> > - else if ((_addr) >= VA_USER_SV57) \
-> > - mmap_end = STACK_TOP_MAX; \
-> > - else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) \
-> > - mmap_end = VA_USER_SV48; \
-> > + if ((_addr) == 0 || \
-> > + (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) || \
-> > + ((_addr + len) > BIT(VA_BITS - 1))) \
-> 
-> How about replacing BIT(VA_BITS-1) to DEFAULT_MAP_WINDOW to make the code
-> more general.
-> 
-> > else \
-> > - mmap_end = VA_USER_SV39; \
-> > + mmap_end = (_addr + len); \
-> > mmap_end; \
-> > })
-> > 
-> > @@ -39,14 +36,12 @@
-> > typeof(addr) _addr = (addr); \
-> > typeof(base) _base = (base); \
-> > unsigned long rnd_gap = DEFAULT_MAP_WINDOW - (_base); \
-> > - if ((_addr) == 0 || (IS_ENABLED(CONFIG_COMPAT) && is_compat_task())) \
-> > + if ((_addr) == 0 || \
-> > +    (IS_ENABLED(CONFIG_COMPAT) && is_compat_task()) || \
-> > +    ((_addr + len) > BIT(VA_BITS - 1))) \
-> 
-> Same here.
-> 
-> > mmap_base = (_base); \
-> > - else if (((_addr) >= VA_USER_SV57) && (VA_BITS >= VA_BITS_SV57)) \
-> > - mmap_base = VA_USER_SV57 - rnd_gap; \
-> > - else if ((((_addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) \
-> > - mmap_base = VA_USER_SV48 - rnd_gap; \
-> > else \
-> > - mmap_base = VA_USER_SV39 - rnd_gap; \
-> > + mmap_base = (_addr + len) - rnd_gap; \
-> > mmap_base; \
-> > })
-> > 
-> > 
-> 
-> What about not setting the upper bound as x86/arm/powerpc as [1] did?
-> In this case, user space can directly pass a constant hint address >
-> BIT(47) to get a mapping in sv57. If you want this, this code also allows
-> user-space to pass any address larger than TASK_SIZE. You should also
-> limit the mmap_base to (base) + TASK_SIZE - DEFAULT_MAP_WINDOW.
+Gregory Price <gregory.price@memverge.com> writes:
 
-No. This suggestion causes a random address to be used if the hint
-address is not available. That is why I didn't simply go with your
-patch.
+> On Mon, Jan 29, 2024 at 10:48:47AM -0500, Gregory Price wrote:
+>> On Mon, Jan 29, 2024 at 04:17:46PM +0800, Huang, Ying wrote:
+>> > Gregory Price <gregory.price@memverge.com> writes:
+>> > 
+>> > But, in contrast, it's bad to put task-local "current weight" in
+>> > mempolicy.  So, I think that it's better to move cur_il_weight to
+>> > task_struct.  And maybe combine it with current->il_prev.
+>> > 
+>> Style question: is it preferable add an anonymous union into task_struct:
+>> 
+>> union {
+>>     short il_prev;
+>>     atomic_t wil_node_weight;
+>> };
+>> 
+>> Or should I break out that union explicitly in mempolicy.h?
+>> 
+>
+> Having attempted this, it looks like including mempolicy.h into sched.h
+> is a non-starter.  There are build issues likely associated from the
+> nested include of uapi/linux/mempolicy.h
+>
+> So I went ahead and did the following.  Style-wise If it's better to just
+> integrate this as an anonymous union in task_struct, let me know, but it
+> seemed better to add some documentation here.
+>
+> I also added static get/set functions to mempolicy.c to touch these
+> values accordingly.
+>
+> As suggested, I changed things to allow 0-weight in il_prev.node_weight
+> adjusted the logic accordingly. Will be testing this for a day or so
+> before sending out new patches.
+>
 
-This patch both gives your application the benefit of being able to use
-a hint address in the hopes that the address is available, as well as
-continuing to support the guarantee that an address using more bits than
-the hint address is not returned.
+Thanks about this again.  It seems that we don't need to touch
+task->il_prev and task->il_weight during rebinding for weighted
+interleave too.
 
-- Charlie
+For weighted interleaving, il_prev is the node used for previous
+allocation, il_weight is the weight after previous allocation.  So
+weighted_interleave_nodes() could be as follows,
 
-> 
-> I’m also aware of the rnd_gap if it is not 0, then we will not get
-> address mapped to VA_USER_SV39 - rnd_gap.
-> 
-> [1]. https://lore.kernel.org/linux-riscv/tencent_2683632BEE438C6D4854E30BDF9CA0843606@qq.com/
-> 
-> > -- 
-> > 2.43.0
-> > 
-> 
+unsigned int weighted_interleave_nodes(struct mempolicy *policy)
+{
+        unsigned int nid;
+        struct task_struct *me = current;
+
+        nid = me->il_prev;
+        if (!me->il_weight || !node_isset(nid, policy->nodes)) {
+                nid = next_node_in(...);
+                me->il_prev = nid;
+                me->il_weight = weights[nid];
+        }
+        me->il_weight--;
+
+        return nid;
+}
+
+If this works, we can just add il_weight into task_struct.
+
+--
+Best Regards,
+Huang, Ying
