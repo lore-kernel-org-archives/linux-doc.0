@@ -1,381 +1,259 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2040.outbound.protection.outlook.com [40.107.101.40])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF5B86151;
-	Tue, 30 Jan 2024 16:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEC4823A7;
+	Tue, 30 Jan 2024 16:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706631187; cv=fail; b=aWRKPhP7YIjE0jaRD5xJNx7vQxhsC9lNQdwoccybBb9f/lnEOfZph+869Fpy0bMZXUZQaPI/4gJDKVWV2rliOlwGI3F4bRmGA0yi3LaOrk9LFyeYE5bxztdXj8PFYQrqXUddQgDFuJNihx2AifOsl3Vyg7xlOwBINtvuBYRr7+4=
+	t=1706631860; cv=fail; b=XTFh2FV6jEqoCboiHaNjaHKbo58r3VLVJg/+lN9aUXKorwunofQUxhjyj9TVi56BtvHTQGFEoo7Jz+D24R24p6zzWHjnkx8/nCVWU41qCGh+XMSOvaAPfPiQYejoGiPbyNPLv+cMKAQnOezqlTcUjms9peBKoCzvn2frfcZS+IQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706631187; c=relaxed/simple;
-	bh=LiPDWiX3AjAjcSImXTLW7du7wpIVfgc3fjQgvoko0oM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lwXEhQCOkc0p/xXZpCXxtZi/zZB5RwpHk39rpOPUuPsZcPsOb+uUYIPn+3coegQOryqNZAQs52+YnzVVTYqDDyFzIgyhRnfEWIDMHS+dfg1yhJlZzf2gGvlgX3syt0xx8uQfY1fhUBV689aw6L0f3XuCgJw8LuworfQWsQhpick=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rQM5ynL9; arc=fail smtp.client-ip=40.107.101.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1706631860; c=relaxed/simple;
+	bh=Az8gzBN8/6Zk8WAPcqCDJFBcU7PRS684vTMJr5aMulg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EwfLYHgX0XLWzQ7STMA/NFdDQo0mpjdbvnFWgkcAKAr3iK36zITcz4RiLa2FfHeEz1UTxENwNws7MMge9HI+WxphyJF6lqsU45t2SRTSl09PJa/Ed9QUDkMp4/BAFahGs2bWx20AzvkT6nyqJCFeDUg2n1ffMTufj5HZGA+uROQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fnhELjXR; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=sKJor+dw; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rQM5ynL9"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fnhELjXR";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="sKJor+dw"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40UCA8cR020796;
+	Tue, 30 Jan 2024 16:23:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=4tD0cM0reAOzfKN3Ldh/6PYJpDWsEDewF4tLwucqCw4=;
+ b=fnhELjXRS0g/DH6dj+MIRXy1UA5xti26QPv3kBw0cQJoiY7QKYgTNRP/Rc9/r4hBq+WU
+ Wi+cc6B8NcYXDUyd64NeCXh2ZEGXRKkI4t7SFzDzMf04lD4g0WgIUq8FRq+5mg7RCqpd
+ D7Au2KimapbJv17d5DoFlhdSALz2ste34AgvF5H03s6SdHr1kXKIb2amnjP/Jpf/IqjB
+ LlKRZO5W+1YUvpVe2CaE00zGu1VQ43nqO/tMNeh36n3UQ3yb1q/qw6nxRYiFMc2bw+ek
+ NZBw80fyvvFdgMmWMUVVMwrGXXG2cb3oZHVVHWKc8JNO4vMosWlNxF9lFmr9dBnrEpKr pQ== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vvtcuy8nb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 Jan 2024 16:23:56 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40UG4sli014630;
+	Tue, 30 Jan 2024 16:23:54 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2040.outbound.protection.outlook.com [104.47.56.40])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vvr9dnf4g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 Jan 2024 16:23:54 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=juRKxr3qcg1aacpgNFno1bBGVjEvLp3d2LL27COV0U92PlUKJrniNXXQUZEdvLcoUX32jolW1Ja7ra3nciMps0AKfwJ/rD4h1b2ftOYJ544B6P5iY2T/z2s1ANWRLtS8S97PkhuQlQg86enfslHcMzkug7HD6Rew9rvq3MRxPtwN/XeCt1rv+XAaIc0ef16qKo0OY/Mbd5iIvCMqTgFsnzLRqlNKlPRYSg9k3M0z5RWBdj/APpBiikrrO8T3rp+TMLxqctxg9EfRyakwWdGkb0wejoDIMW+aQqeBy6saSozkq65zU6CQRa72qXfcTvMYkfJSBXArm6UzSNWMKLFp6Q==
+ b=m7emHUQgIjJ1yMteOPLFpiocfcge0h+dWmexapaBQLRt/lJ+0HS/UMdoZmw8h19zxa4cncpukbVx8dynzQLQxL9cK4q7AgMDg/HmHWHoZa1G20Bbz0J2i6z/8A8RDEPaqvEMlqQA5v0EnR6XijK+yAhommLVRguHVCG33Bhccv79eIqlnqcekqWCUwmdpZ8CPguYa+OFjtb9j4eihgjxK3/9mOQ4l700DwITJhnkB408pKD/NDYLt0BiLpJKkm8TtZYOI1sNl71bffVHjf+eAg9uL1Siw6fNrus/EjF0bKcOxrJseG/cUBzwjwFTCNCYCD7S8wWF1uCS4qkt+8mnYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QbqeTdVZdB2ugO7r/4Gy081ukQFw05hoy9AqXGWGaWw=;
- b=dbPA8PXxy4q1fRkjp5f1ImhVFcvRC2V3O2DG9gxqo/SbT9MZjUGfowM9aqrEBEyfH5qldmZnL8V+E8m+frJGPgP6FdqLU0wn751ZgEMXyJUKdhjDLwjSHEuz/RJ/wXCemmZkAkSn/WL/A+hBHHI5R6LJlSKHYwwa/l83oRtxN3M9QOwYa6vTzYVgVRt6fUdlbNeMgo6WxZkqHQ/5cbTIyBOijfG8OxraDCDU6Jn5GxN9I6Ugvbz0pv6uLJQLxZzikwf1IDxxJ8wTYMLe1KXIHv/gcjd3HonzlUd+JP7J5n4PlYlzGs0r/FxftjV5e+XHGES7TZlnii6YEDxdCTVi/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=4tD0cM0reAOzfKN3Ldh/6PYJpDWsEDewF4tLwucqCw4=;
+ b=GSbIgzKZ4y1o0Gh7enyGnIdhnwyvlG7Mhqm+rCIZPVm2JYJRb0Q6ia8wrP2gNEK+0Wgq7+Kds6SJU4kxbatrQaalaC+cMczWOkrge5tUd6eDZuCwHz2A4+JcMcwlucDR0Zh8jSc6+a5paFh3K9kxN6bGp+bGMCv2xYLlRK/tnrXd5anTKOj9odR2DMS4PTwZRrJuBJUDs8Qgk703him1K4K7DcM1g/NzGTfq9Zwdrme7Q2+wnd3qBbc5ICd/r75GohQwOvCaBLyTNKD7X8ShCEL/hmDfh+wHOkPXtaWgehd5/6G4Foj1fPFp5M92UeupSVVoWZyCRHKFr26B4yHOyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QbqeTdVZdB2ugO7r/4Gy081ukQFw05hoy9AqXGWGaWw=;
- b=rQM5ynL9hnTI+wbdcwTN4TuK0STFNsy7qoPmBmpDXNPn7bGSNRTUUDO0QjtjvleKT0SSjcTW7A6niE1FFDVEHArrYjz/359EsnaRX0VWwl+IrEp5Da4sqIUBkLWeJPIwQJjsdHdC+U4VL+UoCkYYg4Y2MhpnFdVjYS3nMLZPKl0=
-Received: from CH5PR02CA0002.namprd02.prod.outlook.com (2603:10b6:610:1ed::14)
- by IA1PR12MB8311.namprd12.prod.outlook.com (2603:10b6:208:3fa::12) with
+ bh=4tD0cM0reAOzfKN3Ldh/6PYJpDWsEDewF4tLwucqCw4=;
+ b=sKJor+dw6An4lnUTT3QRZpLkTmaNzOlzh1+XNpUl5janAuUxjRhrVvehuV+kbc75yYdNk3Gk/TpHGucgfQYoVex3OHPGxNp6ZRb3ovr44R+wnVsELtHtuhB6dh4FTntOqjrBH2YHi1hbu1ivMgltr/T+kmJjjvJBFyjuIRwbQS4=
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
+ by DS0PR10MB6101.namprd10.prod.outlook.com (2603:10b6:8:ca::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.33; Tue, 30 Jan
- 2024 16:13:02 +0000
-Received: from DS2PEPF00003441.namprd04.prod.outlook.com
- (2603:10b6:610:1ed:cafe::24) by CH5PR02CA0002.outlook.office365.com
- (2603:10b6:610:1ed::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34 via Frontend
- Transport; Tue, 30 Jan 2024 16:13:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS2PEPF00003441.mail.protection.outlook.com (10.167.17.68) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7249.19 via Frontend Transport; Tue, 30 Jan 2024 16:13:01 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 30 Jan
- 2024 10:13:01 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Tue, 30 Jan
- 2024 08:13:01 -0800
-Received: from xirmroche40.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.34 via Frontend
- Transport; Tue, 30 Jan 2024 10:12:59 -0600
-From: Dragan Cvetic <dragan.cvetic@amd.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>, Jonathan Corbet <corbet@lwn.net>,
-	Michal Simek <michal.simek@amd.com>, "Erim, Salih" <salih.erim@amd.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
-	<devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "moderated list:ARM/ZYNQ
- ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v4] dt-bindings: misc: xlnx,sd-fec: convert bindings to yaml
-Date: Tue, 30 Jan 2024 16:12:58 +0000
-Message-ID: <20240130161259.4118510-1-dragan.cvetic@amd.com>
-X-Mailer: git-send-email 2.34.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Tue, 30 Jan
+ 2024 16:23:41 +0000
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::5997:266c:f3fd:6bf4]) by PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::5997:266c:f3fd:6bf4%4]) with mapi id 15.20.7228.035; Tue, 30 Jan 2024
+ 16:23:41 +0000
+Message-ID: <63304f6a-d26f-414a-8c92-14d740774379@oracle.com>
+Date: Tue, 30 Jan 2024 17:23:36 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Documentation: Document each netlink family
+Content-Language: en-US
+To: Breno Leitao <leitao@debian.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, kuba@kernel.org,
+        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        pabeni@redhat.com, edumazet@google.com
+References: <20231121114831.3033560-1-leitao@debian.org>
+ <874jevjgvo.fsf@intel.com> <87jznqewa7.fsf@meer.lwn.net>
+ <ZbkebMW+xLqNhsoB@gmail.com>
+From: Vegard Nossum <vegard.nossum@oracle.com>
+Autocrypt: addr=vegard.nossum@oracle.com; keydata=
+ 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 8A==
+In-Reply-To: <ZbkebMW+xLqNhsoB@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PR2P264CA0020.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::32)
+ To PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003441:EE_|IA1PR12MB8311:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e3d4954-2d38-4c0f-6aa0-08dc21ae5563
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5433:EE_|DS0PR10MB6101:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2a72aa3-8a49-44f8-cc44-08dc21afd28c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	SB0EIEM1a1RV1AWXGbVj6W9uCW7JhFGTJA7QqaSH1p9yYKy7wjhIShjzc6h9eudctLg/JUfmt8DF8C1Wx1Hz44DII5OsXG7JXVX0Lg2XaS8PnumV13w1jA6me0RLtS0yZrLHB8Rppngcv8qdCtNZf+ulJa8weagI3a/77zbTMrAJOtNYV3QrEIXD0qIYC5gGKU3ZAAqJ56NTw82llTGV3vMJ8RDZ/9jGt9FyIuFCYnLU7kP+lNveydFSrZm0i2bSxzLGCQcIX5UorSRpQCiHEdGmL5rQ4bYXeRpP+zbhTLGEbbd46kxGqVMNbXDbTXwi0FU/8fQBOS0f0rMjhCQnIs8irqGvgLzZBDtiNlBBjIKOuR+MIYRrXxjE45UiejUKJnO2wBk3+pd0rBOCc8uVwFlxmcngbvncQDAh1OABii1fpU1tT7ek+1r2ovDEVudz/k8JFtu82E32hTtBVI52KNebu4U7qv2og6N9yLfqEi0SX/qe2cMsXHkkiB76HSDWQB/Sm4ZUZRxxfJp5tm80ccx50ogrKtmowTzJPhKbhD4NS9rYQjaQF8Zv9P9NsVJAG10MyUVP9nWHMhqpgpcxS8BRvNCUQT2bD/Scw/deq2Fwo6PeykK2CEIzLu9R3EF+Hln02HDg3djhE+A7qXbkAa9xHXQCAOAm8smAJ7ffCmZ4MadMJa3BrsUuEfUQ/PohDqlM49Kuw2oTU05ybeEyxFJ3lZVwHHruNzc+OTyVOOv70mjDYSPBtIkQttjrQu5vp06Edzm0vj4fW7d1MOxpytGkzjJyVqXaXtMq0+TS46C/Sc0/60LJCZ5uPl57v/B4
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(136003)(396003)(39860400002)(230922051799003)(451199024)(1800799012)(82310400011)(64100799003)(186009)(46966006)(36840700001)(40470700004)(70586007)(316002)(8936002)(8676002)(110136005)(1076003)(83380400001)(36860700001)(70206006)(478600001)(86362001)(5660300002)(966005)(30864003)(2906002)(44832011)(2616005)(36756003)(81166007)(921011)(336012)(82740400003)(40460700003)(40480700001)(426003)(47076005)(356005)(26005)(41300700001)(66899024)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 16:13:01.9591
+X-Microsoft-Antispam-Message-Info: 
+	+ze1Mx3P3I/y0l4v8ahkiHInn7/3CkqtADPClXizOKqmTpi3ivlYkT8rjpmADRsbEYQi7jbNJnOpWkp7cbimAhsUzT5DQQAkK7nBp6X2vWFMVt5qu+Tny9XTXPUCAg0ervtNvX8FzLNOXbdWLsMsNzo4if8ssMSLkoAE06F/zDTbfrVlCglp7pOJRnOuOgq9HtVCTtlaxtmUFivfEXwvo/ta1e48lItACthlqtPKpz7QJOBmwisjfmzq3VVa21t7RFqzEr8zVwmFsbyXVzW/ArhD+mmPXWXP79f6acvbh9BIu2Li2xcvYBrEuTLve/+AmfZbC89f81K+w9EugE9dAsvBbRHi7vjMV9r6CUP8oJgc5XmOBU3qsl1JNVWLx6xrWcHfjPqnLwAh7pEAJJreW2qkUwV/PyAXc9UZ3osGUUHjv0lVOxWYg6156Bkndn7X638K8LNdVkO1nam+HyW6FQ+X3d/MuUs5nh4dzSfLpZaSJXJ0SXtGBHWXQXb+w5422It7j9mQWX5x1styvPQA/iZZ+FUPjrhwBHgmxVBoFUr21snMh/Pc1LQgyNvW7cb5ym+gDn3HAXtidbJTSfdPW3BsFJBhu3bVC51o5aQa69dGHJRcKMNX5CY6cDuD7xpKZuKnJApEYE3fZWpbsNAhnVga3QL1GY8hLBxhHON++O+vv7SoRgDCY4QbfIXfZ2xu
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(366004)(39860400002)(136003)(396003)(230173577357003)(230273577357003)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(36756003)(2906002)(7416002)(41300700001)(6666004)(2616005)(53546011)(6512007)(83380400001)(26005)(966005)(6486002)(66556008)(66476007)(110136005)(316002)(66946007)(54906003)(478600001)(6506007)(31686004)(38100700002)(8936002)(8676002)(4326008)(5660300002)(86362001)(31696002)(44832011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ckM0UVkwWFZSUHdCWDJXRlFJdEZJV1FiUURNNm1WM2VUMzRYU2RuSE9sMC9m?=
+ =?utf-8?B?N2dqYkNwWmJoNnhrblc1aHJ0TjlDS0ZmTXJoRlNzWFkwY3YvcHJLYlJjU0I2?=
+ =?utf-8?B?WG5ubWxHV2Z3T0ZyVkMwUFNFQ3FsOVBlc3hZdDhHc1pHTFBlTE9lcVY4MTAv?=
+ =?utf-8?B?UHVwRWdrbDVTcWNMd0l1WGlTcWJEdEFLYVFPZHI5N3JBRXJTVWs4dFZHeCt0?=
+ =?utf-8?B?elpETkVLZWcxOGNCVm9XdlZEVVE1WkZwMnFFWWsvYWZmTit1YStOcjNzZDZQ?=
+ =?utf-8?B?SURxQWNHMGRrNU5reWxCYjJ1Y2M2MWd3OVZ3eFRISis4TlZIb1gzQVNhdnhB?=
+ =?utf-8?B?VHBZNXhycnIrMDlxMHkvVzY2bnhuWkY1aGdQNlBxQTU2UGk4MFQ5YVhMWTNY?=
+ =?utf-8?B?L09SZ3NoSHRWd3pNNHhHN2ZYemd5cGVaNGNQOUVOcngwaTRTRGxZR05LZ21h?=
+ =?utf-8?B?azRmSGZJN0xjU0F3TEZWaWF1STJRbkRqTVMyWXl6VlhPait5aWdhUWZSWlpG?=
+ =?utf-8?B?YUMvWUY2M3NiL2I2dTlHMTk2b1hVT1krNDdEZEpGRHZIdHN4Ym9DdmJBVTZt?=
+ =?utf-8?B?UE5DdG5PUFMwRWovME80SnkrWUVEcDFNNGtYeEx0S0hVUWx3YkZqVUdzazBC?=
+ =?utf-8?B?VEVRQVlOMENMZTZRTlUrR0Z4RktXUjJhU25aanpUMUo5SWlpYkNUVXFoa3N4?=
+ =?utf-8?B?YkFEdzFxL21ZQ1VZbjZoS2R0clVhSVpueFVPZW5YYUhVM3Y2eGtEeU5QTXVq?=
+ =?utf-8?B?Mkp4MzE3NnhmdU1wVWZ1MGFiT1pvV1plbmF1Y01tUlFlQnJ6emp2Q1p0d1g2?=
+ =?utf-8?B?cUNFVFFiUTVWelRnOWVWUEJFS2R6S0lEbUJ6OEtrblhHa2xpNmFMYnJvMm9D?=
+ =?utf-8?B?RG9EOXlOaDRMM3N5eGEwdUFDK1lLVnFZTEZPVUpRZHBITGJ3b3hBVVhFMkFr?=
+ =?utf-8?B?dTBHVVNnU0hJV2czOHljVTQyR0t5RzIxY1h5Yk5QZjhJSnRKWTZFa0xRcy9a?=
+ =?utf-8?B?c2lRa1lrMHZyL29DdlI2S2U4dEpHVG02dkwxTEYreU9nTzZYdkdpQXYxdHJw?=
+ =?utf-8?B?b0kzNGZad2lRV2liYVI5ZkhrKzRTSzlqdTVOTFNzY0o4ZnVzNmJXalNVSmpm?=
+ =?utf-8?B?ME02VXk3SFNMUVNYYTJnS0V6RXNjaDZNTXBTczk3ZFFUMytVcVBOQ0EvQVdP?=
+ =?utf-8?B?bitBMk9pVkd3NzJMTUtUMWxxKzZFbXNSQzhnRzNtSDR2dXg0dDVWUDJmalJM?=
+ =?utf-8?B?MmludStyVW1CbEN6YWFNK3ZobFZ6eGVIdXhzSHBGeDZQR1gzWFNtbk4zMCtR?=
+ =?utf-8?B?OE40QTFmeStyMnBRQmpxbkNBQ3NOR09UdzJjWXJodjFIdDB1MCtJZitqOTJY?=
+ =?utf-8?B?WDFQWm1uVnl5MVlIMXJGSDFDL0tPelBpWFdBL1lZR25pbk12SEpEamhFS0Nu?=
+ =?utf-8?B?NTNYZDRpODlJQU5jTVNWTDR3UzZlMTdjbCswVWZCM2I1L0tIQUNObENya1Zr?=
+ =?utf-8?B?WkUxQ1dJSFoyMHYrdTFheVV6bnUvZDU4eE1DZ0huaTlkM1hHa0RvRlpDMnFB?=
+ =?utf-8?B?RCt1MVVxcTR1WEZBRzVieWN0dDVDL2R1RnA2REE3NlBYUVVIVXpIQ3JsYUM3?=
+ =?utf-8?B?dUdHVXBPSXBXeWdkWi8xVWE1T0k2UUZrTVhwNWF0c1pSZDVzeklOUitpOEdN?=
+ =?utf-8?B?a1R1TFArMk9YeVA0akN5L0hKOTFySkVSZThVQTExcUdXY2tQT2VOendIZTgy?=
+ =?utf-8?B?WUkrN0lmOFlnSG1GNi80TzErSjVlVlJLS2oreHg2OGlDdnRpSnBSSlhjNHIr?=
+ =?utf-8?B?Nm5sMHMxTWZsQ1pNNVp0bk5zcjVFRkpwSm43cHNhZTNYRWUzTG9GUWtOZTdo?=
+ =?utf-8?B?ak8rdmR5a3Q4dy95OEhqMElkQlpGT25xaG1Mam5KK0J2WUltYllISC9KWGFt?=
+ =?utf-8?B?TUtuOVI0T2V2VjkvTG80eElPUTZBRlFrK0QxRWE5ZnYvWHFlOE4xcGh0Wk95?=
+ =?utf-8?B?Um9HbVZFdEgxNDNMQUZXMGJ3N0NGSWljNmVIQmNod0ZhZjJwUTF4OXp2UEFG?=
+ =?utf-8?B?QUdvYzBZcDliZnpVNWw2Q0JSWUNuNklxTFRLTDNGc0M3STZZNnVJdXRXUWhU?=
+ =?utf-8?B?a2xjZURPN1RUMGZLWWg2UStNeEVXMzVUZVArSHVIRDZvRUJ3LytTNVF0RHFY?=
+ =?utf-8?B?YUE9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	K3vxsMM4gJooKx5EkJj5Yjx4xfx1LT0C533SjjigzJjn5gnuolFRnnDUVnwRXV3vFij2CKNnJW093L9SXnOcNevjgTjbWLsJfMTqONA0SC7I9+YcBA2lH70fJmRRcu58WwdK+/0P5NWCDZmmkFqOwenfSpF6XG5b/qWITqGVMKBWj9Wc3WFuEjYTFZaWR1zgnGt7FqI8OahlxdICB3FLVv5J1saK3xMBLW9T5S5VOeb0riYhrkauBxgBR6vmLQYIZJe9JCwdrUCk5gnrQrfjQn4ixSywPAqcTsOt+g9iBtfgcCtQUCwzLTbIs3Gr72wF5PVOuZJXOgMkGFwiPGESFN1RxYABYnTdyP2Yosb9vDHen7C2IhlWue6Y70FM1qUm7BPfIePKEJD8LJhy6yOmjQTfnHmfSyFthbHB9FN9mPrsjUp4J/SboI9J48+XEm8NaI+khyPS97R5bhC5exd6ZYMi5f84N1iVAmFa3Lspcz6HC82SSffmJ+ytPDwnK1AkLtr7PVZ8OU943jacHoYfLx9haIpE7bUP3N/AxAJ58VIOj7btsgfByNTsmSBNH4k1ieKbu884S4upwUIzigbT3GLsH1RdPapc/U0qcEuEPj0=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2a72aa3-8a49-44f8-cc44-08dc21afd28c
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 16:23:41.7759
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e3d4954-2d38-4c0f-6aa0-08dc21ae5563
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS2PEPF00003441.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8311
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x2IUFt8wUrPZ+Tz2gOIhV3yTkKK5O+HuDo+ebE7HU2J1JQFxfoeTLIfBk9LvrqBIMaVPLWPAdXQcFqszi00GmIjvugB8hr+9TJIeolDTGnQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6101
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-30_07,2024-01-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=871 adultscore=0
+ bulkscore=0 malwarescore=0 suspectscore=0 phishscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2401300121
+X-Proofpoint-ORIG-GUID: S10pBbbnre91zn59ESaOjJKaZFC8VOYq
+X-Proofpoint-GUID: S10pBbbnre91zn59ESaOjJKaZFC8VOYq
 
-Convert AMD (Xilinx) sd-fec bindings to yaml format, so it can validate
-dt-entries as well as any future additions to yaml.
-Change in clocks is due to IP is itself configurable and
-only the first two clocks are in all combinations. The last
-6 clocks can be present in some of them. It means order is
-not really fixed and any combination is possible.
-Interrupt may or may not be present.
-The documentation for sd-fec bindings is now YAML, so update the
-MAINTAINERS file.
-Update the link to the new yaml file in xilinx_sdfec.rst.
 
-Signed-off-by: Dragan Cvetic <dragan.cvetic@amd.com>
----
-Changes in v2:
----
-Drop clocks description.
-Use "contains:" with enum for optional clock-names and update
-comment explaining diference from the original DT binding file.
-Remove trailing full stops.
-Add more details in sdfec-code description.
-Set sdfec-code to "string" not "string-array"
----
-Changes in v3:
-Fix a mistake in example, set interrupt type to 0.
----
-Changes in v4:
-Set interrupt type to high level sensitive.
-Remove '|' from descriptions, no need to preserve format.
-Remove not needed empty line.
----
- .../devicetree/bindings/misc/xlnx,sd-fec.txt  |  58 --------
- .../devicetree/bindings/misc/xlnx,sd-fec.yaml | 137 ++++++++++++++++++
- Documentation/misc-devices/xilinx_sdfec.rst   |   2 +-
- MAINTAINERS                                   |   2 +-
- 4 files changed, 139 insertions(+), 60 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
- create mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
+On 30/01/2024 17:06, Breno Leitao wrote:
+> On Tue, Jan 30, 2024 at 07:22:08AM -0700, Jonathan Corbet wrote:
+>> Jani Nikula <jani.nikula@linux.intel.com> writes:
+>>
+>>> On Tue, 21 Nov 2023, Breno Leitao <leitao@debian.org> wrote:
+>>>> This is a simple script that parses the Netlink YAML spec files
+>>>> (Documentation/netlink/specs/), and generates RST files to be rendered
+>>>> in the Network -> Netlink Specification documentation page.
+>>>
+>>> First of all, my boilerplate complaint: All extra processing for Sphinx
+>>> should really be done using Sphinx extensions instead of adding Makefile
+>>> hacks. I don't think it's sustainable to keep adding this stuff. We
+>>> chose Sphinx because it is extensible, and to avoid the Rube Goldberg
+>>> machine that the previous documentation build system was.
+>>
+>> So I feel like we've (me included) have kind of sent Breno around in
+>> circles on this one.  This *was* implemented as an extension once:
+>>
+>>    https://lore.kernel.org/netdev/20231103135622.250314-1-leitao@debian.org/
+>>
+>> At that time it seemed too complex, and I thought that an external
+>> script would lead to a simpler implementation overall.  Perhaps I was
+>> wrong.
+> 
+> I think you are correct. I personally _think_ that the external script
+> is better, mainly because it is self contained, thus, easier to
+> maintain.
 
-diff --git a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-deleted file mode 100644
-index e3289634fa30..000000000000
---- a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-+++ /dev/null
-@@ -1,58 +0,0 @@
--* Xilinx SDFEC(16nm) IP *
--
--The Soft Decision Forward Error Correction (SDFEC) Engine is a Hard IP block
--which provides high-throughput LDPC and Turbo Code implementations.
--The LDPC decode & encode functionality is capable of covering a range of
--customer specified Quasi-cyclic (QC) codes. The Turbo decode functionality
--principally covers codes used by LTE. The FEC Engine offers significant
--power and area savings versus implementations done in the FPGA fabric.
--
--
--Required properties:
--- compatible: Must be "xlnx,sd-fec-1.1"
--- clock-names : List of input clock names from the following:
--    - "core_clk", Main processing clock for processing core (required)
--    - "s_axi_aclk", AXI4-Lite memory-mapped slave interface clock (required)
--    - "s_axis_din_aclk", DIN AXI4-Stream Slave interface clock (optional)
--    - "s_axis_din_words-aclk", DIN_WORDS AXI4-Stream Slave interface clock (optional)
--    - "s_axis_ctrl_aclk",  Control input AXI4-Stream Slave interface clock (optional)
--    - "m_axis_dout_aclk", DOUT AXI4-Stream Master interface clock (optional)
--    - "m_axis_dout_words_aclk", DOUT_WORDS AXI4-Stream Master interface clock (optional)
--    - "m_axis_status_aclk", Status output AXI4-Stream Master interface clock (optional)
--- clocks : Clock phandles (see clock_bindings.txt for details).
--- reg: Should contain Xilinx SDFEC 16nm Hardened IP block registers
--  location and length.
--- xlnx,sdfec-code : Should contain "ldpc" or "turbo" to describe the codes
--  being used.
--- xlnx,sdfec-din-words : A value 0 indicates that the DIN_WORDS interface is
--  driven with a fixed value and is not present on the device, a value of 1
--  configures the DIN_WORDS to be block based, while a value of 2 configures the
--  DIN_WORDS input to be supplied for each AXI transaction.
--- xlnx,sdfec-din-width : Configures the DIN AXI stream where a value of 1
--  configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
--  of "4x128b".
--- xlnx,sdfec-dout-words : A value 0 indicates that the DOUT_WORDS interface is
--  driven with a fixed value and is not present on the device, a value of 1
--  configures the DOUT_WORDS to be block based, while a value of 2 configures the
--  DOUT_WORDS input to be supplied for each AXI transaction.
--- xlnx,sdfec-dout-width : Configures the DOUT AXI stream where a value of 1
--  configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
--  of "4x128b".
--Optional properties:
--- interrupts: should contain SDFEC interrupt number
--
--Example
-----------------------------------------
--	sd_fec_0: sd-fec@a0040000 {
--		compatible = "xlnx,sd-fec-1.1";
--		clock-names = "core_clk","s_axi_aclk","s_axis_ctrl_aclk","s_axis_din_aclk","m_axis_status_aclk","m_axis_dout_aclk";
--		clocks = <&misc_clk_2>,<&misc_clk_0>,<&misc_clk_1>,<&misc_clk_1>,<&misc_clk_1>, <&misc_clk_1>;
--		reg = <0x0 0xa0040000 0x0 0x40000>;
--		interrupt-parent = <&axi_intc>;
--		interrupts = <1 0>;
--		xlnx,sdfec-code = "ldpc";
--		xlnx,sdfec-din-words = <0>;
--		xlnx,sdfec-din-width = <2>;
--		xlnx,sdfec-dout-words = <0>;
--		xlnx,sdfec-dout-width = <1>;
--	};
-diff --git a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
-new file mode 100644
-index 000000000000..7be8439861a9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
-@@ -0,0 +1,137 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/misc/xlnx,sd-fec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Xilinx SDFEC(16nm) IP
-+
-+maintainers:
-+  - Cvetic, Dragan <dragan.cvetic@amd.com>
-+  - Erim, Salih <salih.erim@amd.com>
-+
-+description:
-+  The Soft Decision Forward Error Correction (SDFEC) Engine is a Hard IP block
-+  which provides high-throughput LDPC and Turbo Code implementations.
-+  The LDPC decode & encode functionality is capable of covering a range of
-+  customer specified Quasi-cyclic (QC) codes. The Turbo decode functionality
-+  principally covers codes used by LTE. The FEC Engine offers significant
-+  power and area savings versus implementations done in the FPGA fabric.
-+
-+properties:
-+  compatible:
-+    const: xlnx,sd-fec-1.1
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 2
-+    maxItems: 8
-+    additionalItems: true
-+    items:
-+      - description: Main processing clock for processing core
-+      - description: AXI4-Lite memory-mapped slave interface clock
-+      - description: Control input AXI4-Stream Slave interface clock
-+      - description: DIN AXI4-Stream Slave interface clock
-+      - description: Status output AXI4-Stream Master interface clock
-+      - description: DOUT AXI4-Stream Master interface clock
-+      - description: DIN_WORDS AXI4-Stream Slave interface clock
-+      - description: DOUT_WORDS AXI4-Stream Master interface clock
-+
-+  clock-names:
-+    minItems: 2
-+    maxItems: 8
-+    additionalItems: true
-+    items:
-+      - const: core_clk
-+      - const: s_axi_aclk
-+    contains:
-+      enum:
-+        - s_axis_ctrl_aclk
-+        - s_axis_din_aclk
-+        - m_axis_status_aclk
-+        - m_axis_dout_aclk
-+        - s_axis_din_words_aclk
-+        - m_axis_dout_words_aclk
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  xlnx,sdfec-code:
-+    description:
-+      The SD-FEC integrated block supports Low Density Parity Check (LDPC)
-+      decoding and encoding and Turbo code decoding. The LDPC codes used are
-+      highly configurable, and the specific code used can be specified on
-+      a codeword-by-codeword basis. The Turbo code decoding is required by LTE
-+      standard.
-+    $ref: /schemas/types.yaml#/definitions/string
-+    items:
-+      enum: [ ldpc, turbo ]
-+
-+  xlnx,sdfec-din-width:
-+    description:
-+      Configures the DIN AXI stream where a value of 1
-+      configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
-+      of "4x128b".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1, 2, 4 ]
-+
-+  xlnx,sdfec-din-words:
-+    description:
-+      A value 0 indicates that the DIN_WORDS interface is
-+      driven with a fixed value and is not present on the device, a value of 1
-+      configures the DIN_WORDS to be block based, while a value of 2 configures the
-+      DIN_WORDS input to be supplied for each AXI transaction.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2 ]
-+
-+  xlnx,sdfec-dout-width:
-+    description:
-+      Configures the DOUT AXI stream where a value of 1 configures a width of "1x128b",
-+      2 a width of "2x128b" and 4 configures a width of "4x128b".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1, 2, 4 ]
-+
-+  xlnx,sdfec-dout-words:
-+    description:
-+      A value 0 indicates that the DOUT_WORDS interface is
-+      driven with a fixed value and is not present on the device, a value of 1
-+      configures the DOUT_WORDS to be block based, while a value of 2 configures the
-+      DOUT_WORDS input to be supplied for each AXI transaction.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2 ]
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - xlnx,sdfec-code
-+  - xlnx,sdfec-din-width
-+  - xlnx,sdfec-din-words
-+  - xlnx,sdfec-dout-width
-+  - xlnx,sdfec-dout-words
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    sd-fec@a0040000 {
-+        compatible = "xlnx,sd-fec-1.1";
-+        reg = <0xa0040000 0x40000>;
-+        clocks = <&misc_clk_2>, <&misc_clk_0>, <&misc_clk_1>, <&misc_clk_1>,
-+                 <&misc_clk_1>, <&misc_clk_1>;
-+        clock-names = "core_clk", "s_axi_aclk", "s_axis_ctrl_aclk",
-+                      "s_axis_din_aclk", "m_axis_status_aclk",
-+                      "m_axis_dout_aclk";
-+        interrupts = <1 IRQ_TYPE_LEVEL_HIGH>;
-+        xlnx,sdfec-code = "ldpc";
-+        xlnx,sdfec-din-width = <2>;
-+        xlnx,sdfec-din-words = <0>;
-+        xlnx,sdfec-dout-width = <1>;
-+        xlnx,sdfec-dout-words = <0>;
-+    };
-+
-diff --git a/Documentation/misc-devices/xilinx_sdfec.rst b/Documentation/misc-devices/xilinx_sdfec.rst
-index 8c8a289d69a3..698e6630f3a7 100644
---- a/Documentation/misc-devices/xilinx_sdfec.rst
-+++ b/Documentation/misc-devices/xilinx_sdfec.rst
-@@ -29,7 +29,7 @@ follows:
-   - Does not support shared LDPC code table wraparound
- 
- The device tree entry is described in:
--`linux-xlnx/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt <https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/misc/xlnx%2Csd-fec.txt>`_
-+`linux-xlnx/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml <https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/misc/xlnx%2Csd-fec.yaml>`_
- 
- 
- Modes of Operation
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8999497011a2..d62e04322e19 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24157,7 +24157,7 @@ XILINX SD-FEC IP CORES
- M:	Derek Kiernan <derek.kiernan@amd.com>
- M:	Dragan Cvetic <dragan.cvetic@amd.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-+F:	Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
- F:	Documentation/misc-devices/xilinx_sdfec.rst
- F:	drivers/misc/Kconfig
- F:	drivers/misc/Makefile
--- 
-2.34.1
+ From a cursory look at the two versions, the actual Python code to read
+the YAML and write the reST is the same in both cases. (Breno, please
+correct me if I'm wrong.)
 
+It should be fairly easy to support both methods by moving most of the
+code into a library and then having two thin wrappers around it, one
+being a stand-alone command-line script and one being the Sphinx extension.
+
+The stand-alone script could even be put directly in the library code,
+just wrapped in "if __name__ == '__main__'".
+
+A stand-alone script might be useful for debugging the output without
+invoking the full sphinx-build machinery (i.e. basically having an easy
+way to inspect and diff the output when making changes to the code).
+
+Bottom line: This particular thing looks like a false dichotomy to me.
+
+We should still fix the writing of .rst to $(srctree), though --
+our use of parse-headers.pl seems to sidestep this by writing the
+intermediate .rst output to Documentation/output/, I'll have to look a
+bit more closely.
+
+
+Vegard
