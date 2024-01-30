@@ -1,65 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF12078661;
-	Tue, 30 Jan 2024 22:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC377EF12
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 23:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706655124; cv=none; b=aFyPru0iBvhPONl5IpIVXsoDVeY44YzVbqC+Nci3lRiUlSF4vE3FguK6Ssg36gRD4bpRaHhO6WE1lRlri+TsCnKNOgKe+5pJf8/wIHPFskY05wEJXN5GXcCNQkrGKGKrXP9JI9hIB62Yh4q5z6wiSVjG7FQvS69QsWzanpAbC3U=
+	t=1706656030; cv=none; b=eQYDEzkBLNST8QG7sRmIco0ueNhWuRWsID3yHA+9lQWDRqN0qqzwt9eeAWkD66pMc9um8+6eo5qDr6T2d6RBRUz4sVddQjaiK/C9XN1jfsWh5UJ3f9L+3yXNQpxQWB7xgcxQfACv5116DHRnjYH5x9XuxEnOXXqVdjeCVqY+oBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706655124; c=relaxed/simple;
-	bh=Z9JSOZJwv4veo8nEmqZ3zyrn1RuKLDCF57K2KTf6Gdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nxWPqAC5I2aL8JKbSZDBjzoJ7C++fdve/ezhSY3MOsIpk2H7idy6OFYWhTknUy124ExWInI2B5MTWSS438f0wquEFi5v1K16QeoMW7k54wVJJizWViSEURZ9+oi0HQBSS0+sbO348nqDdQ0V7K2wrFkbGRVd7kJ+vdFMQrOQSxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DjaOInZf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706656030; c=relaxed/simple;
+	bh=NQbNim9Kl9w3hMZilkX8mghToO2vPsILhxHQxKtN3Mg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=DVyYi5WJgJHae113akpxiYK9eXcGEkyGbI2KjEJY1T8kg+PRV7cBMn0UAiCsExMZFHRbFXpgiJDFTrpkawlFWT0uh1UaoCtPdOEkp1T7gggzZ4l2O4CNoSH4Uo55uZojr2VgL7GB/6VI150MwG4FX7NQMcW1fxy5YYDlzQDtLM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iwanders.net; spf=pass smtp.mailfrom=iwanders.net; dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b=IDFVj/lk; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iwanders.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iwanders.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DjaOInZf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B38C433C7;
-	Tue, 30 Jan 2024 22:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706655124;
-	bh=Z9JSOZJwv4veo8nEmqZ3zyrn1RuKLDCF57K2KTf6Gdk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DjaOInZfp82KjVrjgPjw4ZXqGcMp2+fZJdVaHZTK/8E+4+c87wYUZlAjbKt1O0vOf
-	 dfN1npQ76k5AFv4vFmqARwCW5hVB97FsbHD42hwdPCMo4FVQu7y6aqEFeAxueoE2PQ
-	 RcfOLmb0oDpHhIiQRW3dx/0eQf/6NrV5Wtw0raO+CqetuVIpUJusFRYTe3vCXbih89
-	 f9uuir4h5RHOeXkyW3z599Ia5W787tgp1Mobyp1ryLle2rDRN/FFcwx7wpXUcVBpBO
-	 DNECB6qyMEawqKM2cXwsf1Y0+CCWZ/zSKOCFHC+tHMTprs5elV/vHv1g8bSV4G9NGm
-	 Yo7Hz6+n2vTmg==
-Date: Tue, 30 Jan 2024 16:52:02 -0600
-From: Rob Herring <robh@kernel.org>
-To: Christoph Winklhofer <cj.winklhofer@gmail.com>
-Cc: Jiri Slaby <jirislaby@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-serial@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 1/3] dt-bindings: w1: UART 1-Wire bus
-Message-ID: <170665512145.2562941.4940727869669470030.robh@kernel.org>
-References: <20240126-w1-uart-v5-0-1d82bfdc2ae9@gmail.com>
- <20240126-w1-uart-v5-1-1d82bfdc2ae9@gmail.com>
+	dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b="IDFVj/lk"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60406f4e1d0so3318007b3.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 15:07:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=iwanders.net; s=google; t=1706656027; x=1707260827; darn=vger.kernel.org;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XyHH5Unq92X0kSKpyQantcGDB1tT8ugB/3UImkmNwAE=;
+        b=IDFVj/lkAES27SD7y2PE+Akuu1uEcLvjm1pV7PsKvh1mqDPmiEnZqXYUtViiNbR7l6
+         VDkXTTkz0Hqx7eTMM9pDE91rV5p8KBew1Od+J0ZCzAfw4YA8HU+I5S/u1Wo3eAdTFrEd
+         PEypRiIv+MaBGxLu4FRZv7keu2qR6yQ/Lzbxs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706656027; x=1707260827;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XyHH5Unq92X0kSKpyQantcGDB1tT8ugB/3UImkmNwAE=;
+        b=Yvmepde/vRbkRx28GJb5co3MQs1AuZX1OV3Y4krWIunX3juhYdIjPPJuPrbS7OYFxl
+         VSldRHZNEVneabm0yknF0wAtrPqvc6+wwOwdIjqswO/xKtXTpfCp9nX8qcfof8Tn39ZI
+         czK+/12yyVZo0rg9wd2MBUcpUmqbITd24XS+u3xEC11YBtG/yTaLUdq93hIsuk5woOTR
+         zkFzNczDR7EWjKf0At0UAPqxa6n5CIasTW9r8LRCzUXeKv1MN0rNGAu4PveIpiPF10C1
+         6etWmlulY3+AeLD46MYNzEeC6OMmIWvGWtBA0RyvsOuiExZcGQtDazK6DNqBmFbPSlZY
+         6HNQ==
+X-Gm-Message-State: AOJu0YyAN5iFkJeQeymHCKPsCq6NayPHGKI/M13mDS7QS5wWX+MQniq8
+	SCvZPYfM5lqcceQbt61/yCjNfGxnvVqv7RmqjruTcTETuaO73dN/v+iYGLV56Iw=
+X-Google-Smtp-Source: AGHT+IEQXgQHf7sprO3/WcC9qBEGZ9XfRvNABgddgUIxPgQY3kLczs49/FKD+DKLZeQpM6lMZetBhA==
+X-Received: by 2002:a81:eb0e:0:b0:5ff:6084:421e with SMTP id n14-20020a81eb0e000000b005ff6084421emr7017803ywm.32.1706656027480;
+        Tue, 30 Jan 2024 15:07:07 -0800 (PST)
+Received: from eagle.lan (24-246-30-234.cable.teksavvy.com. [24.246.30.234])
+        by smtp.gmail.com with ESMTPSA id di8-20020ad458e8000000b0068c47832171sm3081275qvb.65.2024.01.30.15.07.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jan 2024 15:07:06 -0800 (PST)
+From: Ivor Wanders <ivor@iwanders.net>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Ivor Wanders <ivor@iwanders.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mark Gross <markgross@kernel.org>
+Cc: linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH v4 1/2] platform/surface: aggregator_registry: add entry for fan speed
+Date: Tue, 30 Jan 2024 18:06:53 -0500
+Message-Id: <20240130230654.4218-2-ivor@iwanders.net>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240130230654.4218-1-ivor@iwanders.net>
+References: <20240130230654.4218-1-ivor@iwanders.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240126-w1-uart-v5-1-1d82bfdc2ae9@gmail.com>
 
+Add an entry for the fan speed function.
+Add this new entry to the Surface Pro 9 group.
 
-On Fri, 26 Jan 2024 16:42:03 +0100, Christoph Winklhofer wrote:
-> Add device tree binding for UART 1-Wire bus.
-> 
-> Signed-off-by: Christoph Winklhofer <cj.winklhofer@gmail.com>
-> ---
->  Documentation/devicetree/bindings/w1/w1-uart.yaml | 60 +++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
-> 
+Signed-off-by: Ivor Wanders <ivor@iwanders.net>
+Link: https://github.com/linux-surface/kernel/pull/144
+Reviewed-by: Maximilian Luz <luzmaximilian@gmail.com>
+---
+Changes in v4:
+  - No changes in this patch.
+Changes in v3:
+  - No changes in this patch.
+Changes in v2:
+  - No changes in this patch.
+---
+ drivers/platform/surface/surface_aggregator_registry.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+diff --git a/drivers/platform/surface/surface_aggregator_registry.c b/drivers/platform/surface/surface_aggregator_registry.c
+index 530db4db7..b0db25886 100644
+--- a/drivers/platform/surface/surface_aggregator_registry.c
++++ b/drivers/platform/surface/surface_aggregator_registry.c
+@@ -74,6 +74,12 @@ static const struct software_node ssam_node_tmp_pprof = {
+ 	.parent = &ssam_node_root,
+ };
+ 
++/* Fan speed function. */
++static const struct software_node ssam_node_fan_speed = {
++	.name = "ssam:01:05:01:01:01",
++	.parent = &ssam_node_root,
++};
++
+ /* Tablet-mode switch via KIP subsystem. */
+ static const struct software_node ssam_node_kip_tablet_switch = {
+ 	.name = "ssam:01:0e:01:00:01",
+@@ -319,6 +325,7 @@ static const struct software_node *ssam_node_group_sp9[] = {
+ 	&ssam_node_bat_ac,
+ 	&ssam_node_bat_main,
+ 	&ssam_node_tmp_pprof,
++	&ssam_node_fan_speed,
+ 	&ssam_node_pos_tablet_switch,
+ 	&ssam_node_hid_kip_keyboard,
+ 	&ssam_node_hid_kip_penstash,
+-- 
+2.17.1
 
