@@ -1,375 +1,196 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2073.outbound.protection.outlook.com [40.107.237.73])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2061.outbound.protection.outlook.com [40.107.102.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A446D1BD;
-	Tue, 30 Jan 2024 12:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF5B6BB5C;
+	Tue, 30 Jan 2024 13:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.61
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706619211; cv=fail; b=T+ySSUzqOuq+19LKt7bLwwMtySP1o/YjR3QXp8vRYyMJeeUiEmrxVfaz3WlifB8gHy7sjWWJkZ2yMCf88DPP66bK2YSZPkGOxkUfBM48qRkSPt5/BqkkqGzrlaHdaqEz+hRqHydFmYkabDFTRka5rirb8RwP0ztaromIKSuyhSA=
+	t=1706620203; cv=fail; b=ECYl7wKEyJMOAL0Bp12W8FE+H3dGpARvnN9RkrCuEWNdpqKqLdXymxXeEj8xwcJXGZ2dCD1zEmToiDF03Mtb2LtnOTvrXFC5dedoXpBWNyDKf5LCfpYlDSQsUDkA0UjaUQX7LFamEa5eFCiTUE/7IeqeRkyHvnDKegqieloafh4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706619211; c=relaxed/simple;
-	bh=kvwg62xz+gMXGKq2EznuDa4EsO8HLyC4JoYWKz+RjAk=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y+WEeKxWkXidhXtD008MXNU6nEI9sdFC4J5w6hM2trhobgvsJMwG3Q94CpaXAv7+V0+aCjVQaPIH5vcnZuwJvzPftooEPKdyVH5+Hcx3A7aMTs4TrjScxhs9mMkHrb3X8ZD6ObilzBt57TgzatoTBl3YUHJW1Aqvk8xppnOsAL4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QawNaijG; arc=fail smtp.client-ip=40.107.237.73
+	s=arc-20240116; t=1706620203; c=relaxed/simple;
+	bh=/qrURTatOldc1nL59Q4tzLN7FzggvQwOPTD4vDhRYH4=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=jPTp4/pQGxl7vz24N/vyUqingarj3atpxR3MvWQG5Cs2chHBlNMmMfnfYXUReC2C/9tgB0zm64k+5sANmI/J5MdVArcQA02i5T9M/AJybnZDQXnFh6oZtQLTPWgQh95TnCemHRItNPcVqST9xmWSg29hQeLhcquEoiRnNUIYkhk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=yYCnlwpY; arc=fail smtp.client-ip=40.107.102.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QawNaijG"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="yYCnlwpY"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dKY5Ui/f2YatdXFWw19U+PyP/nguoQ9U/wRuQ9hNBRwruVLjENRaEl8a2UmNXatT+QtTA36FtziCajbPHonen6v2yUZ1XbXvyqQssZkbJyZA98I9ds3BVbm6PZ4QFH1tiYd+NWtgp9Ypqx2FSIoOIs8Qe+XTEy3gIofW6gOqaPeNK9BtU+A5jdyLkTFOjTJsX2pVYQQzy/r18nyxjbJSVefcUfgmH81MbbUCDY0703CqRkERcCpXBqkFnPctsuo8sHK2N9XQqoB62V7KYbfX0S6jGvAlOb8QGVJ3qEny9Col8/wOumkMTxZG/0bNe6EsddVBZ5UDMBlG99Ew+nWrIA==
+ b=KfKrprOf3PaAZA4V1PfAyXaIVaH/MYvYumsBuSHCT9o3PJvzDCewsIckSelRYUhVCg/UfgyYrxuNL9wjjFGwfcj+m22an0aVUEJbide0DwjHX3AxgdIHzBlSvIVGE34moL65ssP3fCm8gw8V86YT6h+FM0p9Vu3RXzBFDzNtte8+WyLyeSIcnQ2pMwxHShid690g/G2zqntbksxd7oBb5ntZHYSSjBbfOgFjcWvkHr8fRHtO8wgYxVzFIU4iIq1xa+YDFY+o65sV/TFw5iE3G++8fqG+QNGlKljecimFti1wciCYKr+Aag9EIvDM9tkY1vEeVlQZEdtygoXIsnMbFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=97kLD7u5ocC2pNhIaouJMQN5QlNV6phXE1tfwjBHJzU=;
- b=oSy8jFkJODn/tckVkCueE28GPYraETatVvwtRwrUwLOZr3q13SBWIYkg0DL59EYg47RLjk8zvSkd++kZjj/RKdfARq2z/KI9jTvwASVwORdCXWmqy4YoeOaZgUHPdeMFuQc4MkdzcLpbBWryxYHx+d5+uVF0Efi0eCp8g4eQkacoFrIdMfYHkGf7jZ4MWGiKaMaSPsYmWp9sRvbdXQeyfvCquos7EEyQLGwpEM5qs1Ak6j1MQwzCebC8Ch0bwsVdz7h5p5td8vgI6YmXseRMOleW7s+4MQtPpZK6S733qNLVZVS1O8zxA7Jg9hlcMdA212l7V59YsdBIH85+S59UKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
+ bh=8YyCWdugEcbPxK31IUu4twc4iWTbXF20lRfL264iGms=;
+ b=nx/FGXxxaiSKatI26s0Z8BBC3FkzFvhUpz16hccBZlwmjRUboBhZ2mmyp/BAmNBy7hutl32IcU5E2x66h0tfZTD5QXGuIbBEO04YijphUUk6e36Y3RaovazaFT2Nbo8IoDjqAksS7XiridzOSaQ+qw4YaHg0QrtMkpo7e3C7B0/RUMFwco6qH1SPtCKHFubjVkoE6MIcqxG6yi8ijutEQI1jOPrL5LZhQMWyretJQrcW0xkHkW+IMVFnAgM2G3/49TkUKTxdDRLC7zBO+CJDDvlnO6C5qZOxu+fQJK0aXNsIPDEyN5dMwVkUGUnkpYrmgUNJ/KLx+vXgS/kq3jEzZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=97kLD7u5ocC2pNhIaouJMQN5QlNV6phXE1tfwjBHJzU=;
- b=QawNaijG8QFzZXE8xTxpqj0NZViVJXy1cJjUAhrbzbMR0HjE5+zgHgFExyZ7RyTpoCTXtZBRk5fCSnJ17by76kRAA4C/stGSxJUOm4P6ybayOwTSqdhbJ2NZ7BxPqYHho5h0MaBRS19dTTBxx8neS2A6g496alDqeZ7ojT3FyiY=
-Received: from BN0PR08CA0028.namprd08.prod.outlook.com (2603:10b6:408:142::27)
- by BL0PR12MB4898.namprd12.prod.outlook.com (2603:10b6:208:1c7::17) with
+ bh=8YyCWdugEcbPxK31IUu4twc4iWTbXF20lRfL264iGms=;
+ b=yYCnlwpYtBswQbu32R+MCg1B2U7INFj0GH2Fj8rqQSo5k2dliF9K7QUvqH9Bmv64Z6oY1DaHG6mBL0V6AZVUZzWgTIrQKmd8HoshRZ8HNz5dZxWZX72JqfCKjngSUADI/CDyPMK1fnrnpDBsuedu3Fghuvp8aIqIPCDktinxNWs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY5PR12MB6528.namprd12.prod.outlook.com (2603:10b6:930:43::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Tue, 30 Jan
- 2024 12:53:25 +0000
-Received: from BN3PEPF0000B077.namprd04.prod.outlook.com
- (2603:10b6:408:142:cafe::7b) by BN0PR08CA0028.outlook.office365.com
- (2603:10b6:408:142::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.22 via Frontend
- Transport; Tue, 30 Jan 2024 12:53:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN3PEPF0000B077.mail.protection.outlook.com (10.167.243.122) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7249.19 via Frontend Transport; Tue, 30 Jan 2024 12:53:25 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 30 Jan
- 2024 06:53:23 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 30 Jan
- 2024 06:53:10 -0600
-Received: from xirmroche40.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.34 via Frontend
- Transport; Tue, 30 Jan 2024 06:53:09 -0600
-From: Dragan Cvetic <dragan.cvetic@amd.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>, Jonathan Corbet <corbet@lwn.net>,
-	Michal Simek <michal.simek@amd.com>, "Erim, Salih" <salih.erim@amd.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
-	<devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "moderated list:ARM/ZYNQ
- ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v3] dt-bindings: misc: xlnx,sd-fec: convert bindings to yaml
-Date: Tue, 30 Jan 2024 12:53:07 +0000
-Message-ID: <20240130125309.4019261-1-dragan.cvetic@amd.com>
-X-Mailer: git-send-email 2.34.1
+ 2024 13:09:53 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::e1fb:4123:48b1:653%4]) with mapi id 15.20.7228.029; Tue, 30 Jan 2024
+ 13:09:52 +0000
+Message-ID: <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
+Date: Tue, 30 Jan 2024 14:09:45 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Christoph Hellwig <hch@lst.de>
+References: <85a89505-edeb-4619-86c1-157f7abdd190@amd.com>
+ <0fe2755fb320027234c086bcc88fd107855234c5.camel@crapouillou.net>
+ <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+ <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+ <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
+ <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
+ <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
+ <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
+ <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
+ <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
+ <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0383.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f7::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B077:EE_|BL0PR12MB4898:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad8e68e2-891c-4c22-e63e-08dc219272e3
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6528:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7585fff9-e117-467c-e830-08dc2194bf2a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	OH8qM5D8qjSj57Qlzv5bbt0uwin3YxhT5QLZEM5KzZkJOoJABGYUWYkEG43U6PNfEumn4w23e3bC6xbUsykBnwkMo5rhCQxVZbWYLxYYDH2mhu03EaUJ5zhp5eBFd1dLDl5TufjpnV+jpvKvxt5U1dgJod16Nq+CEoTS04vSHnSY9Bgymnk+44604gFY1XJs3kv8Ylw7xnz0WSy+riXY1sym2JJkeNo6H9nWVBhkI6OUPQOnrY5s2bQrhJy2KS5bXz7agoOIpnrAtzkSTJpc4It1qUvvfrkv8IHhwTnuFykvbcv4GORq/y04AW9cQyKDJQT6HhMdOzcHPT9g9VB7qWaMDm2O3tgb96e+cAV6E+SVe0Uowdcv7jfTcmhoS51AZTeKGsZKy+NrgPrjE3rCkoAW8/s3bTGzvbyXAhW0PemngteEVj41WC+7VnuaQbIpHZdEuSCp0O3o1Ui1YobPBV9Mlb6TDauFp9xh0StvG6oKapCr3hpEieiI0pYDVwMTo8SxxivTgNqWw4nPFvI9zEOpilHogsDX5iMQ2Kbpu1cvdUXh4vDTCLrgaPmOi8f8XasTsKlqJjnDDcCy9zvXERyrB2FRVls1QLgFj7eOYVcccgkplmt/xDGFK90IlN3tNaV3vdzKHKmlRf69N92yUnMR4J1QiqXVM2R2gH4T6u0RAt+U5NolwMAMFnzJ8aEGFRbGTGlwbeZxMBdopRbZ8UeDeO/9vgKHgU+Yfb3jmie7b9bl6utmXj5PUD+EFXuUM4aGkS3yaoKEqqErlUJiwqIIbe8T50ci7/EXnPBxqgFuePaxNPGc3oU+ccZ44ysy
+	qcof7NtiKz2W+HNvj5RLPNzZhhTRZQffg+5djtOVtdoBmkoukeqHBY9QxGwshN27bhAHn1f8T9X9Bb7iWr5P1H7DSKnCz1QpalsGUT0GNAXKns3+2UWKS2kJmHwOEueUOrNEEib2Tq+NoVFzOJmbtzDo9wlTQNTwYF2OL3p0TCw0uEwd9vjExqFRCJ//tlkue/6HHQvpHEBhg1IXgH08W6jtqLz+NHfRz5Y2aW/qI/n9bwqjta8ZJsZ77BgN9Kf+W3wVlAMobwy7+9cmEIX8xODaXYioiEhdQOC1cd0bmb1en54RH7l8o2ooHcsrnfHrfLTi9s7N7nEyCuDtA/DjGWuk9nTalRx8TIXewjwPtyGg4AHTmAadb0xn7ZlbtHuO1J5yxMzgQUCffgyL25RiIh/qbj6opIMRcdv8kYO+PytFEdV1EXxsAciPbb/7394GRt037CeC0eF8fzAoJZk0v+qcRsQOV8MVGjf1SCUT5bxNMbhrUL8FSeByz3gswwudRL78qXTTgCaEq4J0Pl4GygMKg4/zJDxTHy2KuE+9SbW2koWiwBbKc1/Rz7qEbbB08tU/d4tuvAQ5Js46xBkskN1MfmWemUed+UaxvzjV/4+AU8bljDUW5xyldiJc+81tbQmUSw6dUe6Go6AA3UBheLsqmlTfAD51I+jhXo3tpLU=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(346002)(376002)(39860400002)(396003)(230922051799003)(186009)(82310400011)(64100799003)(451199024)(1800799012)(36840700001)(40470700004)(46966006)(426003)(66899024)(1076003)(110136005)(36860700001)(47076005)(966005)(36756003)(82740400003)(41300700001)(83380400001)(81166007)(478600001)(356005)(86362001)(316002)(44832011)(8676002)(336012)(8936002)(26005)(2616005)(70586007)(70206006)(30864003)(2906002)(5660300002)(921011)(40480700001)(40460700003)(36900700001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(136003)(396003)(39860400002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(41300700001)(2906002)(7416002)(5660300002)(36756003)(921011)(66556008)(86362001)(66946007)(66476007)(316002)(31696002)(83380400001)(110136005)(478600001)(6486002)(6666004)(26005)(2616005)(8936002)(6512007)(8676002)(6506007)(66574015)(31686004)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b08xM2thSWdTWVEyWEZEWFVWemdTK1BGVDdyY1JVdmRaZXo4QjUvRlF5b0Q1?=
+ =?utf-8?B?eDMyZWV2QWorQXZvZzdSNUdBSnBnVXdqRWc2TEZUbWp6UnFTQVBYRS9FaVJE?=
+ =?utf-8?B?alA3N21rVEhTVkN1NEdFMG83ZVFlVGZRa2l2b25vcFZSdS9naTFaZld5MGdL?=
+ =?utf-8?B?cVZjbVJvTnJuY0l4OTdiQldIbWRZbDRUN2g5QVgweVgvc2ZNYjJ5NUQxL0JT?=
+ =?utf-8?B?Q2tNYVhqaWc1dlNFVkNxc1BBZklSbUN0VTlFQ2pjRm5oZERTeUsvVTc2RmZh?=
+ =?utf-8?B?a2NKMXd3WStCUVdaTkNUd3dwOG1HK0YvZXY3d1M1YTdUV29SZ2lPeTByanpG?=
+ =?utf-8?B?SHd2aXgxOTFCTGVVajVqYm1qb0Rabzc0YzhnWVpzR01OdVBVTE1Zd2liRGZV?=
+ =?utf-8?B?OUhPa3gyTWZvVU11QzEwNEt6bmJqSWtOR0tuREVNeW1Na2lTeit4a3ovZzhq?=
+ =?utf-8?B?NjJLdFNjZ1lQQ0J0TGQ0OW0vdXJ2T1licXZ3M3p4dUJVdGVQeWpTQXpFa1ZB?=
+ =?utf-8?B?bUVFbTV5cGg1RXd6bkxkdjhxcWRHTXp6aXhhMlVrN2VPMHozbmoyajhLUWZX?=
+ =?utf-8?B?eVVhTGpJWmY2eUNjQU5GQ3E3Lzg0R1JQazZEeEthRFk2eFQ1TU1EWjh1OWZL?=
+ =?utf-8?B?cEFaRWpiQk95OU1iZkpSWGhvSFY3VG5pWFZ0cnNkbFpaeHZsTFNkUnJFem9o?=
+ =?utf-8?B?NHAvUVJCL1ZuUzV3TmpaWndQRC9zQVhvZU5FVlMwL3IyQkpWaU9NMzdRRHQy?=
+ =?utf-8?B?Y00veXYxTjJiZnVQQVlIUm9QVUxRQ3BlSGdrYzlxRGFSYkNUcmZrL1UraHo1?=
+ =?utf-8?B?SDlJTXAvT1RZdUc4MlRhazhSRVdrblpYS0VJK0hoZ0x2a0xmMGZxVkhISklz?=
+ =?utf-8?B?Sm91RjhSOFdSN0owOXU0YjlpUVRMc1ROcjlOeStCZGJkOFVSaEM4bmU3MVRz?=
+ =?utf-8?B?MVdnTUtEdHBjdHJISFJRMFQ0dk16NFJjN0pPc0lXTy8zMzhOc0ZEMjhwZEw2?=
+ =?utf-8?B?QVZUY2U4Y25IQlM2Tm5ZVHNwUVo5d0cwZjc3bWpmaFlKamUrYWxYaGJ5S0hy?=
+ =?utf-8?B?aEQ4czR4K0tFZGVVMk5hdEU1Mzg2L3lwQ1hBRGNvMFhMV3F6dHZPM0VFZU51?=
+ =?utf-8?B?Z0YrYWlkT0x3L1VjKzJqTFV4ZWlrR0RuV0s0ZGFGQW54ZXhTbE8zU3ZreDRW?=
+ =?utf-8?B?SlFJWTZjcUZOSFFiV2dueURLbXpzeS9yMHZwd0ZFd2o5WEt0REVJZHNSeDhs?=
+ =?utf-8?B?ZmtvaUYwNFJ3UjNTZmFwUEcrSk13cHZidW12S1p1RlFMYjIyYWlnV2w1Y1NY?=
+ =?utf-8?B?Mzl5QnE0UVg3aWVjZ0ErRm8xcEI3Y3BPZnpmUDNLR3U0OTRUUkVpR0Z3V3hj?=
+ =?utf-8?B?TzBjc2UybUZyMkh1d3JNR09Bd0MzWjVvOHNhcDYxUklhTWhsSG85MzBwWHNJ?=
+ =?utf-8?B?Nzd6dk5LQzlORGlRTlRWN3NQL2tVR1B6WlFEbEtZRXAvK0diTDFlY01OOHpI?=
+ =?utf-8?B?YlZLa2ZUVlA3d2JvbEd6bEZmWSt4MkEwQzZwaWl4V1lwMDNrVTVobU5JaTBh?=
+ =?utf-8?B?T1h0K05nYVNTWU5IT2x2dDQrWU1WbmZCRktCYkl6bXU0SzFyQjVsb2daOUZQ?=
+ =?utf-8?B?TEFMZDRQUk9xQktVTGQ1QjRBc2ZOQlFjekhSWE04ck03ZktjaHpYZnMzSHkr?=
+ =?utf-8?B?QmNhT2RiYklMZG5FclFkNkpaaTIrWUVod1ZEZlk4QmhtVGNDNTBLM0I4K3JJ?=
+ =?utf-8?B?emZwa2syNjR1STdlYXpiT2VTY3dBL3NVa2FwMWZsSVFCNHJmdEJSei91ZFVX?=
+ =?utf-8?B?MnVzYmpzaXJrbEdIV0U2T3lJSkQ0QTBuVkNybVNydmp1Y1YrZzViZHlQWC9P?=
+ =?utf-8?B?NVpUMnpld3NwSVE2NmxYckppMjZPNzA4dkljTnBHdUs5dzlaTTRKZ1ZITkgw?=
+ =?utf-8?B?dExVYTdTWUExcmU3Y3RaV05Mbk9wUDVoWkxJbjM1cVBFSzlWSzQzSm5Cazlr?=
+ =?utf-8?B?MVd6T1B4aHJMazNOUUNBUWtHZmhBOUpZa2RVMDZlSW5oY0JuUlFPdnkyMkJ3?=
+ =?utf-8?B?dVRQa1RwbjRvY29aMm1QL3VXR2xwa0hvR2NxQUoxZTlXaTFiNjhpZ1hpNGZa?=
+ =?utf-8?Q?h5EAqCcP51ixF3oy1i7IdvimL?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 12:53:25.5779
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7585fff9-e117-467c-e830-08dc2194bf2a
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 13:09:52.7870
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad8e68e2-891c-4c22-e63e-08dc219272e3
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B077.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4898
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RiH56v4IHea2T5VGpf6DL4a9H+TpS+18JQF55hxSqBFbOilKHlTE95QmJmFogqeQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6528
 
-Convert AMD (Xilinx) sd-fec bindings to yaml format, so it can validate
-dt-entries as well as any future additions to yaml.
-Change in clocks is due to IP is itself configurable and
-only the first two clocks are in all combinations. The last
-6 clocks can be present in some of them. It means order is
-not really fixed and any combination is possible.
-Interrupt may or may not be present.
-The documentation for sd-fec bindings is now YAML, so update the
-MAINTAINERS file.
-Update the link to the new yaml file in xilinx_sdfec.rst.
+Am 30.01.24 um 11:40 schrieb Daniel Vetter:
+> On Tue, Jan 30, 2024 at 10:48:23AM +0100, Paul Cercueil wrote:
+>> Le mardi 30 janvier 2024 à 10:23 +0100, Christian König a écrit :
+>>>   I would say we start with the DMA-API by getting away from sg_tables
+>>> to something cleaner and state oriented.
+>> FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
+>> which is just a dead simple
+>>
+>> struct dma_vec {
+>>    dma_addr_t addr;
+>>    size_t len;
+>> };
+>>
+>> (The rationale for introducing it in the IIO DMABUF patchset was that
+>> the "scatterlist" wouldn't allow me to change the transfer size.)
+>>
+>> So I believe a new "sg_table"-like could just be an array of struct
+>> dma_vec + flags.
+> Yeah that's pretty much the proposal I've seen, split the sg table into
+> input data (struct page + len) and output data (which is the dma_addr_t +
+> len you have above).
 
-Signed-off-by: Dragan Cvetic <dragan.cvetic@amd.com>
----
-Changes in v2:
----
-Drop clocks description.
-Use "contains:" with enum for optional clock-names and update
-comment explaining diference from the original DT binding file.
-Remove trailing full stops.
-Add more details in sdfec-code description.
-Set sdfec-code to "string" not "string-array"
----
-Changes in v3:
-Fix a mistake in example, set interrupt type to 0.
----
- .../devicetree/bindings/misc/xlnx,sd-fec.txt  |  58 --------
- .../devicetree/bindings/misc/xlnx,sd-fec.yaml | 136 ++++++++++++++++++
- Documentation/misc-devices/xilinx_sdfec.rst   |   2 +-
- MAINTAINERS                                   |   2 +-
- 4 files changed, 138 insertions(+), 60 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
- create mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
+I would extend that a bit and say we have an array with 
+dma_addr+power_of_two_order and a header structure with lower bit offset 
+and some DMA transaction flags.
 
-diff --git a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-deleted file mode 100644
-index e3289634fa30..000000000000
---- a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-+++ /dev/null
-@@ -1,58 +0,0 @@
--* Xilinx SDFEC(16nm) IP *
--
--The Soft Decision Forward Error Correction (SDFEC) Engine is a Hard IP block
--which provides high-throughput LDPC and Turbo Code implementations.
--The LDPC decode & encode functionality is capable of covering a range of
--customer specified Quasi-cyclic (QC) codes. The Turbo decode functionality
--principally covers codes used by LTE. The FEC Engine offers significant
--power and area savings versus implementations done in the FPGA fabric.
--
--
--Required properties:
--- compatible: Must be "xlnx,sd-fec-1.1"
--- clock-names : List of input clock names from the following:
--    - "core_clk", Main processing clock for processing core (required)
--    - "s_axi_aclk", AXI4-Lite memory-mapped slave interface clock (required)
--    - "s_axis_din_aclk", DIN AXI4-Stream Slave interface clock (optional)
--    - "s_axis_din_words-aclk", DIN_WORDS AXI4-Stream Slave interface clock (optional)
--    - "s_axis_ctrl_aclk",  Control input AXI4-Stream Slave interface clock (optional)
--    - "m_axis_dout_aclk", DOUT AXI4-Stream Master interface clock (optional)
--    - "m_axis_dout_words_aclk", DOUT_WORDS AXI4-Stream Master interface clock (optional)
--    - "m_axis_status_aclk", Status output AXI4-Stream Master interface clock (optional)
--- clocks : Clock phandles (see clock_bindings.txt for details).
--- reg: Should contain Xilinx SDFEC 16nm Hardened IP block registers
--  location and length.
--- xlnx,sdfec-code : Should contain "ldpc" or "turbo" to describe the codes
--  being used.
--- xlnx,sdfec-din-words : A value 0 indicates that the DIN_WORDS interface is
--  driven with a fixed value and is not present on the device, a value of 1
--  configures the DIN_WORDS to be block based, while a value of 2 configures the
--  DIN_WORDS input to be supplied for each AXI transaction.
--- xlnx,sdfec-din-width : Configures the DIN AXI stream where a value of 1
--  configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
--  of "4x128b".
--- xlnx,sdfec-dout-words : A value 0 indicates that the DOUT_WORDS interface is
--  driven with a fixed value and is not present on the device, a value of 1
--  configures the DOUT_WORDS to be block based, while a value of 2 configures the
--  DOUT_WORDS input to be supplied for each AXI transaction.
--- xlnx,sdfec-dout-width : Configures the DOUT AXI stream where a value of 1
--  configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
--  of "4x128b".
--Optional properties:
--- interrupts: should contain SDFEC interrupt number
--
--Example
-----------------------------------------
--	sd_fec_0: sd-fec@a0040000 {
--		compatible = "xlnx,sd-fec-1.1";
--		clock-names = "core_clk","s_axi_aclk","s_axis_ctrl_aclk","s_axis_din_aclk","m_axis_status_aclk","m_axis_dout_aclk";
--		clocks = <&misc_clk_2>,<&misc_clk_0>,<&misc_clk_1>,<&misc_clk_1>,<&misc_clk_1>, <&misc_clk_1>;
--		reg = <0x0 0xa0040000 0x0 0x40000>;
--		interrupt-parent = <&axi_intc>;
--		interrupts = <1 0>;
--		xlnx,sdfec-code = "ldpc";
--		xlnx,sdfec-din-words = <0>;
--		xlnx,sdfec-din-width = <2>;
--		xlnx,sdfec-dout-words = <0>;
--		xlnx,sdfec-dout-width = <1>;
--	};
-diff --git a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
-new file mode 100644
-index 000000000000..ed87c48a9ee9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
-@@ -0,0 +1,136 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/misc/xlnx,sd-fec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Xilinx SDFEC(16nm) IP
-+
-+maintainers:
-+  - Cvetic, Dragan <dragan.cvetic@amd.com>
-+  - Erim, Salih <salih.erim@amd.com>
-+
-+description: |
-+  The Soft Decision Forward Error Correction (SDFEC) Engine is a Hard IP block
-+  which provides high-throughput LDPC and Turbo Code implementations.
-+  The LDPC decode & encode functionality is capable of covering a range of
-+  customer specified Quasi-cyclic (QC) codes. The Turbo decode functionality
-+  principally covers codes used by LTE. The FEC Engine offers significant
-+  power and area savings versus implementations done in the FPGA fabric.
-+
-+properties:
-+  compatible:
-+    const: xlnx,sd-fec-1.1
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 2
-+    maxItems: 8
-+    additionalItems: true
-+    items:
-+      - description: Main processing clock for processing core
-+      - description: AXI4-Lite memory-mapped slave interface clock
-+      - description: Control input AXI4-Stream Slave interface clock
-+      - description: DIN AXI4-Stream Slave interface clock
-+      - description: Status output AXI4-Stream Master interface clock
-+      - description: DOUT AXI4-Stream Master interface clock
-+      - description: DIN_WORDS AXI4-Stream Slave interface clock
-+      - description: DOUT_WORDS AXI4-Stream Master interface clock
-+
-+  clock-names:
-+    minItems: 2
-+    maxItems: 8
-+    additionalItems: true
-+    items:
-+      - const: core_clk
-+      - const: s_axi_aclk
-+    contains:
-+      enum:
-+        - s_axis_ctrl_aclk
-+        - s_axis_din_aclk
-+        - m_axis_status_aclk
-+        - m_axis_dout_aclk
-+        - s_axis_din_words_aclk
-+        - m_axis_dout_words_aclk
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  xlnx,sdfec-code:
-+    description: |
-+      The SD-FEC integrated block supports Low Density Parity Check (LDPC)
-+      decoding and encoding and Turbo code decoding. The LDPC codes used are
-+      highly configurable, and the specific code used can be specified on
-+      a codeword-by-codeword basis. The Turbo code decoding is required by LTE
-+      standard.
-+    $ref: /schemas/types.yaml#/definitions/string
-+    items:
-+      enum: [ ldpc, turbo ]
-+
-+  xlnx,sdfec-din-width:
-+    description: |
-+      Configures the DIN AXI stream where a value of 1
-+      configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
-+      of "4x128b".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1, 2, 4 ]
-+
-+  xlnx,sdfec-din-words:
-+    description: |
-+      A value 0 indicates that the DIN_WORDS interface is
-+      driven with a fixed value and is not present on the device, a value of 1
-+      configures the DIN_WORDS to be block based, while a value of 2 configures the
-+      DIN_WORDS input to be supplied for each AXI transaction.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2 ]
-+
-+  xlnx,sdfec-dout-width:
-+    description: |
-+      Configures the DOUT AXI stream where a value of 1 configures a width of "1x128b",
-+      2 a width of "2x128b" and 4 configures a width of "4x128b".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1, 2, 4 ]
-+
-+  xlnx,sdfec-dout-words:
-+    description: |
-+      A value 0 indicates that the DOUT_WORDS interface is
-+      driven with a fixed value and is not present on the device, a value of 1
-+      configures the DOUT_WORDS to be block based, while a value of 2 configures the
-+      DOUT_WORDS input to be supplied for each AXI transaction.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2 ]
-+
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - xlnx,sdfec-code
-+  - xlnx,sdfec-din-width
-+  - xlnx,sdfec-din-words
-+  - xlnx,sdfec-dout-width
-+  - xlnx,sdfec-dout-words
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sd-fec@a0040000 {
-+        compatible = "xlnx,sd-fec-1.1";
-+        reg = <0xa0040000 0x40000>;
-+        clocks = <&misc_clk_2>, <&misc_clk_0>, <&misc_clk_1>, <&misc_clk_1>,
-+                 <&misc_clk_1>, <&misc_clk_1>;
-+        clock-names = "core_clk", "s_axi_aclk", "s_axis_ctrl_aclk",
-+                      "s_axis_din_aclk", "m_axis_status_aclk",
-+                      "m_axis_dout_aclk";
-+        interrupts = <1 0>;
-+        xlnx,sdfec-code = "ldpc";
-+        xlnx,sdfec-din-width = <2>;
-+        xlnx,sdfec-din-words = <0>;
-+        xlnx,sdfec-dout-width = <1>;
-+        xlnx,sdfec-dout-words = <0>;
-+    };
-+
-diff --git a/Documentation/misc-devices/xilinx_sdfec.rst b/Documentation/misc-devices/xilinx_sdfec.rst
-index 8c8a289d69a3..698e6630f3a7 100644
---- a/Documentation/misc-devices/xilinx_sdfec.rst
-+++ b/Documentation/misc-devices/xilinx_sdfec.rst
-@@ -29,7 +29,7 @@ follows:
-   - Does not support shared LDPC code table wraparound
- 
- The device tree entry is described in:
--`linux-xlnx/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt <https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/misc/xlnx%2Csd-fec.txt>`_
-+`linux-xlnx/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml <https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/misc/xlnx%2Csd-fec.yaml>`_
- 
- 
- Modes of Operation
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8999497011a2..d62e04322e19 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24157,7 +24157,7 @@ XILINX SD-FEC IP CORES
- M:	Derek Kiernan <derek.kiernan@amd.com>
- M:	Dragan Cvetic <dragan.cvetic@amd.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-+F:	Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
- F:	Documentation/misc-devices/xilinx_sdfec.rst
- F:	drivers/misc/Kconfig
- F:	drivers/misc/Makefile
--- 
-2.34.1
+But this is something which can be worked as an optimization later on. 
+For a start this proposal here looks good to me as well.
+
+> The part I don't expect to ever happen, because it hasn't the past 20 or
+> so years, is that the dma-api will give us information about what is
+> needed to keep the buffers coherency between various devices and the cpu.
+
+Well maybe that's what we are doing wrong.
+
+Instead of asking the dma-api about the necessary information we should 
+give the API the opportunity to work for us.
+
+In other words we don't need the information about buffer coherency what 
+we need is that the API works for as and fulfills the requirements we have.
+
+So the question is really what should we propose to change on the 
+DMA-api side to get this working as expected?
+
+Regards,
+Christian.
+
+
+
+
+
+> -Sima
 
