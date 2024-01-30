@@ -1,80 +1,69 @@
-Received: from ganesha.gnumonks.org (ganesha.gnumonks.org [213.95.27.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F736089A;
-	Tue, 30 Jan 2024 10:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.27.120
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A054A6089B
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 10:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706609717; cv=none; b=HyOzxP5HWZJ7Qr6COqRFGnKBUULITTH+n4bvPAhAZkQ2waN3th7obcx+jMTKiczqzk+jYb+lxJxhvxuEW2az1ZIrlj6iq4xz040UzdiotMDxt5NBZRfj2U7bQuzfuZpJ29SW1GbLk0pcR9TMb9Ta6+Zmcwe8lQ28L3OtGY8yl9k=
+	t=1706609819; cv=none; b=Hcfy8aatNmIU21K8MdF93yeSC6Gs7eZgl2tdwDPGCQnuGz2dEYa3PW5BUh2vXP/hMkD00twpoKoq8YUkAy47C6rmF2seovsrBHYj3r+FgWlXMaXBsQVimIhI46pY6EYBGttyZhFn1Kzow5VwECAzsTPGIvEMrjVGJRBC2E5QiFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706609717; c=relaxed/simple;
-	bh=9fYioI8dC2iBxcG6AmP63IOk32XJP98pHndMcV1dzEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cCSqYjGIN7b4321OuvyZRdgMT80JGvXSQKB/rW9yuzGEch/7jf9VnuPlMylI/H0Y9xhsLFcMzGdQkfYM22CmWY6ZoFPScY2aUyID6RPEyHD43Ugz+acET1CeQWtbTJ+n4e/rwER5e/y1KQ4//6P6Am93clmceJEQlph4zsQhYzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gnumonks.org; spf=pass smtp.mailfrom=gnumonks.org; arc=none smtp.client-ip=213.95.27.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gnumonks.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gnumonks.org
-Received: from uucp by ganesha.gnumonks.org with local-bsmtp (Exim 4.94.2)
-	(envelope-from <laforge@gnumonks.org>)
-	id 1rUl90-00F0vY-2G; Tue, 30 Jan 2024 11:15:06 +0100
-Received: from laforge by localhost.localdomain with local (Exim 4.97)
-	(envelope-from <laforge@gnumonks.org>)
-	id 1rUl5f-0000000FnQK-1I97;
-	Tue, 30 Jan 2024 11:11:39 +0100
-Date: Tue, 30 Jan 2024 11:11:39 +0100
-From: Harald Welte <laforge@gnumonks.org>
-To: Marcin Szycik <marcin.szycik@linux.intel.com>
-Cc: takeru hayasaka <hayatake396@gmail.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	vladimir.oltean@nxp.com, linux-kernel@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-	mailhol.vincent@wanadoo.fr
-Subject: Re: [Intel-wired-lan] [PATCH net-next RESENT v3] ethtool: ice:
- Support for RSS settings to GTP from ethtool
-Message-ID: <ZbjLWwG8m-FdyxMH@nataraja>
-References: <20240127140747.905552-1-hayatake396@gmail.com>
- <154f979e-a335-461b-b72e-5e9c54fe940c@linux.intel.com>
- <CADFiAcJShbgBLXdVgs1vK1jqDFopkRcw-se4b4h0V3Yd60xLVw@mail.gmail.com>
- <92958c7b-7e5f-4e25-819f-4e52f9ffcf7b@linux.intel.com>
+	s=arc-20240116; t=1706609819; c=relaxed/simple;
+	bh=EDGuo0RUHFSwB70OalvBLp87OwyxACMnocj0LKt+v9I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ycbzp327wjT0LIQx73XltO6wGgPA1JmyvA9RZMTQqbzJFpPWXN+OCdvC9RWvYiUJeYNaX/KU6nEaiJY29EDR26j9YHUqf6w6t//bclD3vhrf1mXN6ixDvlMBEPBPS65VHut7wMHzW+VA2WfUOwIREzsSFVjsUJ42fJWCoraZVXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn; spf=pass smtp.mailfrom=phytium.com.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytium.com.cn
+Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
+	by hzbj-icmmx-6 (Coremail) with SMTP id AQAAfwCXncmUzLhlCFzqBA--.16832S2;
+	Tue, 30 Jan 2024 18:16:52 +0800 (CST)
+Received: from phytium.com.cn (unknown [218.76.62.144])
+	by mail (Coremail) with SMTP id AQAAfwD3vn6KzLhltAoDAA--.37S3;
+	Tue, 30 Jan 2024 18:16:43 +0800 (CST)
+From: Xiong Yining <xiongyining1480@phytium.com.cn>
+To: rmk+kernel@armlinux.org.uk
+Cc: linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	jiahao.os@bytedance.com,
+	wangyuquan1236@phytium.com.cn,
+	chenbaozi@phytium.com.cn,
+	Xiong Yining <xiongyining1480@phytium.com.cn>
+Subject: Re:[PATCH v2 00/17] arm64 kernel text replication
+Date: Tue, 30 Jan 2024 10:16:13 +0000
+Message-Id: <20240130101613.3425933-1-xiongyining1480@phytium.com.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <92958c7b-7e5f-4e25-819f-4e52f9ffcf7b@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAfwD3vn6KzLhltAoDAA--.37S3
+X-CM-SenderInfo: x0lr0wp1lqx0bjrumio6sk53xlxphulrpou0/1tbiAQAABmW3-fcGQwADsZ
+Authentication-Results: hzbj-icmmx-6; spf=neutral smtp.mail=xiongyinin
+	g1480@phytium.com.cn;
+X-Coremail-Antispam: 1Uk129KBjvdXoW7XryfWF17KFWrtw4DWrWfXwb_yoW3tFc_ZF
+	WxZrykWrnrGFy09wnrtFW5tayrAa4F9r4UXrykWF1Ut34jvFnxZrs5G39xZa1rJrsrtrsI
+	vFsxtr1UC39a9jkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrnU
+	Uv73VFW2AGmfu7jjvjm3AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUU
+	UUUU=
 
-hi Marcin,
+Hi, Russell
 
-Disclaimer: I have no understanding of the proposed implementation here, just commenting
-on this from a 3GPP protocol architecture point of view.
+>
+> Needless to say, the performance results from kernel text replication
+> are workload specific, but appear to show a gain of between 6% and 
+> 17% for database-centric like workloads. When combined with userspace
+> awareness of NUMA, this can result in a gain of over 50%.
+>
 
-On Tue, Jan 30, 2024 at 10:59:40AM +0100, Marcin Szycik wrote:
-> >> gtpc(4|6) doesn't include TEID, so what is its purpose?
-> > In GTPC communication, there is no TEID in the CSR (Create Session Request).
-> > Therefore, there are cases of GTPC that do not include TEID.
-> 
-> The way I understand it now, this patch (and the ethtool one) adds hashing on
-> TEID field in GTP* headers. So I wanted to ask why do we have a case (gtpc(4|6))
-> that doesn't include TEID? Do we hash on other fields in this header?
+Tested-off-by: Xiong Yining <xiongyining1480@phytium.com.cn>
+Tested-off-by: Yuquan Wang <wangyuquan1236@phytium.com.cn>
 
-There are many differen GTPv2C messages, most of which contain a TEID.  So it does
-in general still make sense to be able to use RSS for all those other messages.
+Sorry for disturbing. This time I have applyed this patch on a real NUMA machine 
+through "-ktext=1" linux options and successfully booted. With a database-centric 
+performance test, it shows the patch will provide some improvement near 10%. However, 
+since I am unfamiliar with numa performace test, could you support more details or 
+suggestions on how to get the "gain of over 50%"?
 
-The CSR (Create Session Request) will not be able to benfit from it, but
-it's just the first message initiating a dialogue between two elements
-(think of it like a TCP SYN).  All the follow-up messages in that
-dialogue contain TEIDs and hence can benefit from RSS.
+Many thanks
+Yining
 
--- 
-- Harald Welte <laforge@gnumonks.org>          https://laforge.gnumonks.org/
-============================================================================
-"Privacy in residential applications is a desirable marketing option."
-                                                  (ETSI EN 300 175-7 Ch. A6)
