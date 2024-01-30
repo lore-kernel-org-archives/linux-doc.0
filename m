@@ -1,143 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC41E60ED9;
-	Tue, 30 Jan 2024 15:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5B581AD7
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 15:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706627040; cv=none; b=NeZzftfeqSVPzSb9bS9VV5UN+S19umwWER/4dxrE3iN/prTYlRwWg+KDZ3nVjEBVxH4I5cI/z7VN66dOw2e4zi37gazkvxd3tR7Y6tz/9yUsK+CwcpqyG32W/fy+SvA+Mk2CpnLBB4LzaHEu9aaiwnXi04MptKtiBoataz9Cxi8=
+	t=1706628280; cv=none; b=l8NOyfNWwd8tv1d6Ys0KGSUAd/SsXCVgja7CuSWnqkkj9dCFtGFtiQyXVCPjw+q4Pz2t8+32droJskfaqJcYHrrGz990fWoNtBkmMrYYRYEL6Ao/gya31NiA52hG2cHXEAnjCHqel2YMOQqMUroTFdHTDGX4JndTamlaYtJLz0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706627040; c=relaxed/simple;
-	bh=//kFKSouwAE4cOJHqMCMPzz68JKEdAOc+2/aJyyBShg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kvXDYBoXPQk0uz58oFJ8SPKEMAOo9gWIyFCGWx6CDJJZrOKGXg2mVX/nn9IrSh010SUofWe8kk2vxq5QJ6+pj/mjPfkqhG90IAKzblsAo42ilXERFZvB96R6RRia1iniCMVR9cznUJFnAnRUNKlJ+PZ62XwZTpOdmyeoo7hc054=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zc9UAHgY; arc=none smtp.client-ip=192.55.52.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1706628280; c=relaxed/simple;
+	bh=aLRLkFKEygSuNKnQf4vO02QwB1fYA8luQzkAZqptDUA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=XY5LJ73Zqi8rNVTTrpTGWb7cXT7iHDcXMvm4n2e6GiXlf9dSEWF7OJpPDv02r/wWnZ+RTnRcobHvumvn4L6uX4qHRVYeskQXtDX0urS1LFaD9H0k8GXJC6chd4AmC4WfdKaFb/o/SO2npApeM2nxG+MgAsgOj1vkgQwBMJ5q0wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U3c5jfZg; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zc9UAHgY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706627038; x=1738163038;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=//kFKSouwAE4cOJHqMCMPzz68JKEdAOc+2/aJyyBShg=;
-  b=Zc9UAHgYXO5H5YGJDKCAZBhjsb+3IgMIbOZbsvYn2UGiqn664d9+Muh3
-   ilGokoDwLX4hf/B5XKFVoVcFq/HZszEFC6nb2dl4ReJRbZWx3YFG3wORX
-   6oepYk9i7gl6eQAncKFDdq4eJIl0Cxo/qJD9clKVLO7O8n0ImiALW4uxj
-   3F/rUCjCh48oqD+D0s01iFHZ2ZdABN6GxcgL8Ba7103GQgkPV8a9k9PD3
-   lJMEyUugp/N6V2SjQsrMk7qxYbDqFyhe98Kjg08JlvtjWck/1MTiMgRuf
-   55qQj/uYn/ekdnzyM42EFw8HhMnZuP3vSj3RmCnvz8FwlWF5j/E2RQ1OP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="434478342"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="434478342"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 07:03:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="737803418"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="737803418"
-Received: from dcarleto-mobl.ger.corp.intel.com (HELO localhost) ([10.252.59.176])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 07:03:53 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jonathan Corbet <corbet@lwn.net>, Breno Leitao <leitao@debian.org>,
- kuba@kernel.org, "David S. Miller" <davem@davemloft.net>
-Cc: linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, pabeni@redhat.com, edumazet@google.com
-Subject: Re: [PATCH v3] Documentation: Document each netlink family
-In-Reply-To: <87jznqewa7.fsf@meer.lwn.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231121114831.3033560-1-leitao@debian.org>
- <874jevjgvo.fsf@intel.com> <87jznqewa7.fsf@meer.lwn.net>
-Date: Tue, 30 Jan 2024 17:03:50 +0200
-Message-ID: <87wmrqj221.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U3c5jfZg"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a26ed1e05c7so492978166b.2
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 07:24:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706628276; x=1707233076; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=upSyqDT91KZTzUgxrRwQ/EY2FPJ40Fp2ZgWf7H1/u3c=;
+        b=U3c5jfZgmeKKPHLax67eJU21O3ViLlw6P6sNrQBkWEGoszlnoahEDuJ+vv6Wlo4W3l
+         9NZqUPyQSGSS8HF1Ngisx3xLPhJ+ExQ4O6NJIMXNFwM05vIOwX8de9ZJ2UZDvsxmcwPV
+         S20WNV/jWISLmzX470FUZq4XllGrPK57v/mRAwvqaRL9gofnn7zYrvnxbS95DPuUVKW6
+         uLiBxlvwp68VO/canx+kBTS+f/g80ZN2OXaBdujbcjwWyI0jSUG/mJ41bfmmiZu4Bmtt
+         rCZEoQelmWpEPUWQvsA0GmBacY+BqU79WkyRJdX5siDYAKkNGU9G58buRtVY3tB+SGUW
+         Dj0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706628276; x=1707233076;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=upSyqDT91KZTzUgxrRwQ/EY2FPJ40Fp2ZgWf7H1/u3c=;
+        b=GsrSef5kCZK0QjOBDCS0LPDtWW9EGLQE/vLrnTaTaPC9NQ86/lFvhRZP73p9HC8uqZ
+         B4ggqgBovO/jNXBsT7pt3bJl66Ms+IIkLpSEpLkL95HKpiHtG5ON6/1eKLMlDgy/bwoT
+         lDUt4I3R5jC5jH97SrKjQJB+IT0VFH3myEwiRajovgxztxQQz6+jXd7CSPesMw+F6iiv
+         vUxbfmA6hkM9VXX5wYWXeX7rPGYEeAoeHd354fXv3eb8Ch4rb70efurUsuqes+eQ5Xx6
+         ldSBDZmX2+t4wiyad7IVwg+84x4RRmnuyUdVd0aus0bSSPFOKx+syMig9HJODoWNKQnp
+         yRag==
+X-Gm-Message-State: AOJu0YzkQ8saXUwSlxxoPuh0e1W3HE1N5PAFH/EoEajsRfaGFyxYnDnB
+	uiiEMBYGqLzUYf+gAEiNUC8d/C2QIa6Ek4CFvKX5HQgs7gu9f1pj3sVSG5dIpeA=
+X-Google-Smtp-Source: AGHT+IETvNmQMIHCQz27NuNXXXDADihf3p/sSp2mp29XrME0Bkd6glnFjdUcPFDntwwsK6JA8YF5uw==
+X-Received: by 2002:a17:906:e57:b0:a35:da9c:ff80 with SMTP id q23-20020a1709060e5700b00a35da9cff80mr3469896eji.12.1706628276346;
+        Tue, 30 Jan 2024 07:24:36 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVbVG8bYLwqsPOydkSM5+VHguOM0m+2c/Ca1iL4H0oX79Ey7CfSflsz57RyTTis4cZoHFy2CmE/DsmlRqwmJDGJ6Inlj5wqjCx7kZ4M9a6/bAQX7VLau02ct1mk1gXmyIp0bLWabcdyDzAZ+SfyNUxyttw4KU6vnNesTOMjdFuh0ZQdN069zRcXaDW3XV8MjvS5xCbr/NZjv04s3qGOEH9N+G1VvxWvMkh6b0r8pSTpIu1yzUX2EJFiAw5FzMR9FcBKwwdRqRsRg9fL32NrmYaLdBeAeKPFBDIuek6nB+MzJDYficcmNW4+W5HpZOt/dahUYeb8BElRnfQKgAgr3/RE43O6+0zmEBldDNWOasSYoj8hmid+nfNeAF0+/JVfDbRUE/zcHBetNsegP0B1RFHvM1DMbtqQ893V0yRTxFJnXeSN8yfNFA==
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id vo1-20020a170907a80100b00a35e4b460b1sm1762095ejc.222.2024.01.30.07.24.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 07:24:35 -0800 (PST)
+Message-ID: <4792600b-4c08-45dc-a611-2cad4b2fede1@linaro.org>
+Date: Tue, 30 Jan 2024 16:24:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] dt-bindings: misc: xlnx,sd-fec: convert bindings to
+ yaml
+Content-Language: en-US
+To: "Cvetic, Dragan" <dragan.cvetic@amd.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ "Kiernan, Derek" <derek.kiernan@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+ "Simek, Michal" <michal.simek@amd.com>, "Erim, Salih" <Salih.Erim@amd.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
+References: <20240130125309.4019261-1-dragan.cvetic@amd.com>
+ <8b01a23d-c5f1-474b-b69d-ef629d6d5f24@linaro.org>
+ <BY5PR12MB424156FCFE0E76DBCCE80862E27D2@BY5PR12MB4241.namprd12.prod.outlook.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <BY5PR12MB424156FCFE0E76DBCCE80862E27D2@BY5PR12MB4241.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 30 Jan 2024, Jonathan Corbet <corbet@lwn.net> wrote:
-> Jani Nikula <jani.nikula@linux.intel.com> writes:
->
->> On Tue, 21 Nov 2023, Breno Leitao <leitao@debian.org> wrote:
->>> This is a simple script that parses the Netlink YAML spec files
->>> (Documentation/netlink/specs/), and generates RST files to be rendered
->>> in the Network -> Netlink Specification documentation page.
+On 30/01/2024 16:00, Cvetic, Dragan wrote:
+> Hi Krzysztof,
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Sent: Tuesday, January 30, 2024 2:31 PM
+>> To: Cvetic, Dragan <dragan.cvetic@amd.com>; Rob Herring
+>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>;
+>> Kiernan, Derek <derek.kiernan@amd.com>; Jonathan Corbet
+>> <corbet@lwn.net>; Simek, Michal <michal.simek@amd.com>; Erim, Salih
+>> <Salih.Erim@amd.com>; open list:OPEN FIRMWARE AND FLATTENED DEVICE
+>> TREE BINDINGS <devicetree@vger.kernel.org>; open list <linux-
+>> kernel@vger.kernel.org>; open list:DOCUMENTATION <linux-
+>> doc@vger.kernel.org>; moderated list:ARM/ZYNQ ARCHITECTURE <linux-arm-
+>> kernel@lists.infradead.org>
+>> Subject: Re: [PATCH v3] dt-bindings: misc: xlnx,sd-fec: convert bindings to
+>> yaml
 >>
->> First of all, my boilerplate complaint: All extra processing for Sphinx
->> should really be done using Sphinx extensions instead of adding Makefile
->> hacks. I don't think it's sustainable to keep adding this stuff. We
->> chose Sphinx because it is extensible, and to avoid the Rube Goldberg
->> machine that the previous documentation build system was.
->
-> So I feel like we've (me included) have kind of sent Breno around in
-> circles on this one.  This *was* implemented as an extension once:
->
->   https://lore.kernel.org/netdev/20231103135622.250314-1-leitao@debian.org/
->
-> At that time it seemed too complex, and I thought that an external
-> script would lead to a simpler implementation overall.  Perhaps I was
-> wrong.
->
-> I worry that a proliferation of extensions adds its own sort of
-> complexity and hazards - look at the things Vegard has fixed recently,
-> for example.
+>> On 30/01/2024 13:53, Dragan Cvetic wrote:
+>>> Convert AMD (Xilinx) sd-fec bindings to yaml format, so it can validate
+>>> dt-entries as well as any future additions to yaml.
+>>> Change in clocks is due to IP is itself configurable and
+>>> only the first two clocks are in all combinations. The last
+>>> 6 clocks can be present in some of them. It means order is
+>>> not really fixed and any combination is possible.
+>>> Interrupt may or may not be present.
+>>> The documentation for sd-fec bindings is now YAML, so update the
+>>> MAINTAINERS file.
+>>> Update the link to the new yaml file in xilinx_sdfec.rst.
+>>>
+>>> Signed-off-by: Dragan Cvetic <dragan.cvetic@amd.com>
+>>> ---
+>>> Changes in v2:
+>>> ---
+>>> Drop clocks description.
+>>> Use "contains:" with enum for optional clock-names and update
+>>> comment explaining diference from the original DT binding file.
+>>> Remove trailing full stops.
+>>> Add more details in sdfec-code description.
+>>> Set sdfec-code to "string" not "string-array"
+>>> ---
+>>> Changes in v3:
+>>> Fix a mistake in example, set interrupt type to 0.
+>>
+>> Why? That's not a correct interrupt type in most of the cases.
+> 
+> The interrupt type is set to active high in IP, cannot be changed with driver.
+> I keep 0 to be aligned with the original document.
+> What do you suggest?
 
-If we're talking about the same things, I think one of the main problems
-there was shelling out to an external script while it could all have
-been trivially implemented directly in the extension. ;)
-
-> Relatively few people can work in that environment, and
-> extensions can make our version-support troubles worse.  So I'm not
-> fully sold on the idea that everything should be an extension,
-> especially if it can be expressed as a simple dependency and build step
-> in the makefile.
-
-I think we're just going to have to agree to disagree here. And,
-ultimately, it's your call as the documentation maintainer.
-
-I'm sure some individual things are simple to put in the makefiles, but
-I believe overall the entire thing would be simpler if we avoided that.
-
-> Some of the uglier makefile stuff we have is a different story...
->
-> Anyway, I apologize for my role in making this particular addition
-> harder than it needed to be.  Perhaps, for the future, we should put
-> together and agree on a document (of all things) on how we think this
-> sort of functionality should be added.
-
-Perhaps. The problem at hand, though, is that after 'make
-O=/path/to/build htmldocs' I have this cruft in my source tree:
-
-$ git ls-files -oi --exclude-per-directory=.gitignore
-Documentation/networking/netlink_spec/devlink.rst
-Documentation/networking/netlink_spec/dpll.rst
-Documentation/networking/netlink_spec/ethtool.rst
-Documentation/networking/netlink_spec/fou.rst
-Documentation/networking/netlink_spec/handshake.rst
-Documentation/networking/netlink_spec/index.rst
-Documentation/networking/netlink_spec/mptcp_pm.rst
-Documentation/networking/netlink_spec/netdev.rst
-Documentation/networking/netlink_spec/nfsd.rst
-Documentation/networking/netlink_spec/ovs_datapath.rst
-Documentation/networking/netlink_spec/ovs_flow.rst
-Documentation/networking/netlink_spec/ovs_vport.rst
-Documentation/networking/netlink_spec/rt_addr.rst
-Documentation/networking/netlink_spec/rt_link.rst
-Documentation/networking/netlink_spec/rt_route.rst
-Documentation/networking/netlink_spec/tc.rst
-
-I'm not even sure what the best way to fix that would be. (Apart from
-turning it into an extension, of course. ;)
+Use proper type, so active high.
 
 
-BR,
-Jani.
+Best regards,
+Krzysztof
 
-
--- 
-Jani Nikula, Intel
