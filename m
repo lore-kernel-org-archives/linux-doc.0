@@ -1,194 +1,367 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A3169D0E
-	for <linux-doc@vger.kernel.org>; Wed, 31 Jan 2024 10:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A3D6E2A5;
+	Wed, 31 Jan 2024 10:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706695959; cv=none; b=Apfj+d448e3g7f8aLWjiAgfE3LzAxpBOkSkhakTA0YdNmD4bGRp/Vk1iBbVfUA8KWpU+YhmRDG+AkIzMzglj/CUHgiD8jWuBtblGDI7HhXkHEyv9ENpRI3BjvbiIEHrGIpEoAxmqVxf0xJGVUWibn5tBBKMAGnOCI1FYNG99pHk=
+	t=1706696117; cv=none; b=ee7ZPgsNOIG2zr7L82EZvhswrtbdlNiBEhIuuo+LClYECzroIySWlPVCR0q1rsK09txBAM2fBFFojZDCkzny/4OG/+DFU1ccle2JzoV7zcp8yzwDG2ekiBZw0lNoqOZz7FGsjO6FjmvVPwzRwjX2WsePIvVB/eqen/szTicPgA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706695959; c=relaxed/simple;
-	bh=nv5wJpKycfGiQ4mJFb7n+bEsRPMw+mys3ZONIKMGZjQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PvLwyX8QuOnYGW2bG+oorj+J7oyOuL4lvV882SYFE5AZNQRhMjehlRc8867AEQGOwuNJpnPp/0wbcchyZvloPa6R2fpYQuUnNvopTre39duREK+2TL5s+uYwj2eFejQJvrjWdzM1+DZKwiDAC7mdHbUvAKdXhG68VETBASuY3GY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wPC98Zp5; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1706696117; c=relaxed/simple;
+	bh=w/0vv7TrIVCb0F38hakGI6R+FGoVqx4cnrXY1lbUkaw=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=SqxW75yQfFBr21b8UnWegPzjytskCpDlltYOmfxYA5oy8/wD7lgC7eSWfnIiKU8Pb6PjN/GHYY5E9XzMmq2QQZQOehXyCG2irHdcLxrtMVPWn08dzAGrmf7P09TspzqhsXbdeVO1D13XYu+5q9BjxjX1NpeNlpkBHKRTL99v6mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=linYKR0L; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TFSskRoT; arc=none smtp.client-ip=66.111.4.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wPC98Zp5"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a2a17f3217aso685826566b.2
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jan 2024 02:12:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706695953; x=1707300753; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nVbxQinrEqswh5zspngm/qhQyfWoDB43WXLHzJl9zEw=;
-        b=wPC98Zp5HRTOKTBUzkyILR/Qn/HF2g5OBdk+gtgt1SRKrWkHoARd5bPwMoqzLs/hD6
-         iG0uDz2/bdHUJkH9Mmy5z0IBPbQ+GlYqMZ507nXj0rl9eHOPDQfQlbtVunnPt3+6XyfD
-         Jv6HhEoi54f5FX4hZgRlPMGYBnT5TmZS9l+B4+jotCwcPXxlNpaOC4bpr68i4haRmFBh
-         zoedeoufq4T5yUHPPbrJzpfsjafyEretkxwbTtzlEAogDYeUqUKwW1JBeoDrKv3dQcJJ
-         qeGAZfR7sRtgXAAnyGQrKHMGPbq4wxxjXGjX8bnByJK/jC+eItOh9WMBw4ljsTOf36+s
-         +svQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706695953; x=1707300753;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nVbxQinrEqswh5zspngm/qhQyfWoDB43WXLHzJl9zEw=;
-        b=RgWiKBb0fTv0O2PjlYSYfLIn3WI0PKYcZs8bfwBK2HZVpTB3tKDLWjAuQZ0/d4GpXC
-         9GrWhgW5vu4z+qH5Vq7se2pC0ikfeNOfO/fvQ8lc1R8g1VMoaSyhqPmYYTzaLu6LuxZM
-         CCKecSfdQDZX3D7thmiszTZ8tiHH+jiIPJ/HsgoSi2HflcLbmCFrFXGik9qTvD21FIGz
-         9CCIQv59400NHlFmXlea0K6hX4d92ZrHUVQ6OmNEY/4cKFafqU9GmO8k2Yw/kd5ZERcl
-         ru1HvXUk4H2+bRF4rC81wthfzMoa0u8rnz1gGa+cHjcN+ErI9KOl3t0NtnnpX98tbJNp
-         MbwQ==
-X-Gm-Message-State: AOJu0YxH5Mnzldmvj3vTe476SWQzZEm0SG41cUWbGGh717T2WNBvxG1i
-	aMzGlPx2l9KHt6MGqkVKc2pIIMHNcHfIJzgCc4UER5Nc24Go/4HRQ60OLsp67ck=
-X-Google-Smtp-Source: AGHT+IG0ldG9tCGI3ca/halEauDPGz9QmAEuZycnuZMyKBlpMivFD8YGbuuhUWQDcVNR/SHMcqrVvw==
-X-Received: by 2002:a17:906:e215:b0:a2d:79b6:bbea with SMTP id gf21-20020a170906e21500b00a2d79b6bbeamr823941ejb.64.1706695952952;
-        Wed, 31 Jan 2024 02:12:32 -0800 (PST)
-X-Forwarded-Encrypted: i=0; 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
-Received: from [192.168.1.20] ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id vo5-20020a170907a80500b00a3689bde88esm188662ejc.153.2024.01.31.02.12.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Jan 2024 02:12:32 -0800 (PST)
-Message-ID: <8a15ae5e-e949-4177-9737-84aa471c300d@linaro.org>
-Date: Wed, 31 Jan 2024 11:12:27 +0100
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="linYKR0L";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TFSskRoT"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 0ECEA5C00FD;
+	Wed, 31 Jan 2024 05:15:14 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 31 Jan 2024 05:15:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1706696114; x=1706782514; bh=PIqvIF++O8
+	prNRQycSl4yvs3SVb1+7vU4k2CiJh82ow=; b=linYKR0LyGqBh3M5lanjAOuEuZ
+	omaiGbbc6Spdg52E+kLUwNSZnT0g/VknKNhG+PU3jp1wLgBNbcFFsXj5aHbuNhOO
+	OOsQhVBa5lcdMuJ1xx4QA68wn/zeqrtqkSl4EqPMY3gZnJSc9jPmSi0wi7mD0O9U
+	v8k2ORiIpt4xKcRTV8eYey2BmDV9C776BcaGEREoWM7yJmAINYRdSZqQ7Ka03iGd
+	+w82j6BX22e+lxUB18S8Ew1KbNUHWfpkPsYROZX83gYkgJlEefxRCr1TFsQhLN/V
+	Qx+QbMoACnWtMG3Jml1qHLjHIc+ni3bQXRDODNUE8jqfNmSCBx5e3vB0xekQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706696114; x=1706782514; bh=PIqvIF++O8prNRQycSl4yvs3SVb1
+	+7vU4k2CiJh82ow=; b=TFSskRoT5bHEuYQ56uM/KKpe/PIW2urOakSkflYOdaSi
+	LxCMxzYlgaLZoroFxVlKxUKGX11MZiuNYX+sZ3YVN+UH8QqBKJ737VV3Da+Ruvt/
+	S6gNIs65AdBUOVuc+jkyEnSBGlxUDu0+LcsDOvaEGqcSfB0Enza4dGPcHRm2Nfx0
+	C7MRL23WzpBLOwhkjOHmGtVOVc/MPUoW+OgOcqrnjudjsItvclO3PVM5Zy3/ffkr
+	yddzV3zLYUkcioedp2G7JpFPuS5/BEsZlSwgPOD/MFpE5CXLgXEkzRp5wQtSfBPH
+	KB/uojd5p6UCXl25PDJu7+YHsVJ+fGjmKe0VwYwwOg==
+X-ME-Sender: <xms:sB26ZRrljK2vyL7xQVyBlEga_u2-Q2mu_ZJwQRKoHA_g9vDs57VQPA>
+    <xme:sB26ZToEwYJTVLKnWzJevpF4m3QWTVDn1L4dQF62DFD7JJ7m6eLWg70hRYQPa67NK
+    OazVPOTbzWRNKLBf5w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfedtledguddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:sB26ZeNA0z5pqyylBq1yb0e42jwqKTqNxL0Bo5czCN7rwXImd8n66w>
+    <xmx:sB26Zc7-ZXwKR70kdAEMYa5v3Gd1VQA0n7TYNEiHhLvEewyPfsV8fg>
+    <xmx:sB26ZQ5WhmATJ2LRwwsSaOfzi5_3AAwVKTZjVNM4aE7E7Edrzd_jQg>
+    <xmx:sh26ZSTp6M1RZ9IBwZQDPwqDfmc_YHtMkDjFM8NRmF8UQgtUF5lM1g>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 5D984B6008D; Wed, 31 Jan 2024 05:15:12 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 31/31] kvx: Add IPI driver
-Content-Language: en-US
-To: Yann Sionneau <ysionneau@kalrayinc.com>,
- Yann Sionneau <ysionneau@kalray.eu>, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Boqun Feng <boqun.feng@gmail.com>, Mark Rutland <mark.rutland@arm.com>,
- Eric Biederman <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>,
- Oleg Nesterov <oleg@redhat.com>, Ingo Molnar <mingo@redhat.com>,
- Waiman Long <longman@redhat.com>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, Nick Piggin <npiggin@gmail.com>,
- Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>,
- Christian Brauner <brauner@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jules Maselbas <jmaselbas@kalray.eu>,
- Guillaume Thouvenin <gthouvenin@kalray.eu>,
- Clement Leger <clement@clement-leger.fr>,
- Vincent Chardon <vincent.chardon@elsys-design.com>,
- =?UTF-8?Q?Marc_Poulhi=C3=A8s?= <dkm@kataplop.net>,
- Julian Vetter <jvetter@kalray.eu>, Samuel Jones <sjones@kalray.eu>,
- Ashley Lesdalons <alesdalons@kalray.eu>, Thomas Costis <tcostis@kalray.eu>,
- Marius Gligor <mgligor@kalray.eu>, Jonathan Borne <jborne@kalray.eu>,
- Julien Villette <jvillette@kalray.eu>, Luc Michel <lmichel@kalray.eu>,
- Louis Morhet <lmorhet@kalray.eu>, Julien Hascoet <jhascoet@kalray.eu>,
- Jean-Christophe Pince <jcpince@gmail.com>,
- Guillaume Missonnier <gmissonnier@kalray.eu>, Alex Michon
- <amichon@kalray.eu>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <git@xen0n.name>, Shaokun Zhang <zhangshaokun@hisilicon.com>,
- John Garry <john.garry@huawei.com>,
- Guangbin Huang <huangguangbin2@huawei.com>,
- Bharat Bhushan <bbhushan2@marvell.com>, Bibo Mao <maobibo@loongson.cn>,
- Atish Patra <atishp@atishpatra.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Qi Liu <liuqi115@huawei.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Mark Brown <broonie@kernel.org>,
- Janosch Frank <frankja@linux.ibm.com>, Alexey Dobriyan
- <adobriyan@gmail.com>, Julian Vetter <jvetter@kalrayinc.com>,
- jmaselbas@zdiv.net
-Cc: Benjamin Mugnier <mugnier.benjamin@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-mm@kvack.org, linux-arch@vger.kernel.org, linux-audit@redhat.com,
- linux-riscv@lists.infradead.org, bpf@vger.kernel.org
-References: <20230120141002.2442-1-ysionneau@kalray.eu>
- <20230120141002.2442-32-ysionneau@kalray.eu>
- <995eb624-3efe-10fc-a6ed-883d52d591bb@linaro.org>
- <269edff0-d989-4ac8-b0c3-bce31283806b@kalrayinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <269edff0-d989-4ac8-b0c3-bce31283806b@kalrayinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Message-Id: <4ce460c4-00ab-4665-8bfa-6f16cdcb38e3@app.fastmail.com>
+In-Reply-To: 
+ <LV8PR11MB846358B901CA67965197C4AB8B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
+References: 
+ <LV8PR11MB846358B901CA67965197C4AB8B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
+Date: Wed, 31 Jan 2024 11:14:52 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Corona, Ernesto" <ernesto.corona@intel.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+Cc: "'oleksandrs@mellanox.com'" <oleksandrs@mellanox.com>,
+ "Jiri Pirko" <jiri@nvidia.com>, "Castro,
+ Omar Eduardo" <omar.eduardo.castro@intel.com>,
+ "'omar.eduardo.castro@linux.intel.com'"
+ <omar.eduardo.castro@linux.intel.com>,
+ "'pombredanne@nexb.com'" <pombredanne@nexb.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "'bbrezillon@kernel.org'" <bbrezillon@kernel.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Johan Hovold" <johan@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
+ "Joel Stanley" <joel@jms.id.au>, "Palmer Dabbelt" <palmer@sifive.com>,
+ "Kees Cook" <keescook@chromium.org>,
+ "William Breathitt Gray" <vilhelm.gray@gmail.com>,
+ "'federico.vaga@cern.ch'" <federico.vaga@cern.ch>,
+ "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+ "Tony Luck" <tony.luck@intel.com>,
+ "'christian.gromm@microchip.com'" <christian.gromm@microchip.com>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "'zzyiwei@google.com'" <zzyiwei@google.com>,
+ "'rubini@gnudd.com'" <rubini@gnudd.com>,
+ "Viresh Kumar" <viresh.kumar@linaro.org>,
+ "Mika Westerberg" <mika.westerberg@linux.intel.com>, "Filary,
+ Steven A" <steven.a.filary@intel.com>,
+ "'vadimp@mellanox.com'" <vadimp@mellanox.com>,
+ "'amithash@fb.com'" <amithash@fb.com>,
+ "'patrickw3@fb.com'" <patrickw3@fb.com>, "Chen,
+ Luke" <luke_chen@aspeedtech.com>,
+ "'billy_tsai@aspeedtech.com'" <billy_tsai@aspeedtech.com>,
+ "'rgrs@protonmail.com'" <rgrs@protonmail.com>
+Subject: Re: [PATCH 30 1/7] Add JTAG core driver
+Content-Type: text/plain
 
-On 31/01/2024 10:52, Yann Sionneau wrote:
-> Hello Krzysztof,
-> 
-> On 22/01/2023 12:54, Krzysztof Kozlowski wrote:
->> On 20/01/2023 15:10, Yann Sionneau wrote:
->>> +
->>> +int __init kvx_ipi_ctrl_probe(irqreturn_t (*ipi_irq_handler)(int, void *))
->>> +{
->>> +	struct device_node *np;
->>> +	int ret;
->>> +	unsigned int ipi_irq;
->>> +	void __iomem *ipi_base;
->>> +
->>> +	np = of_find_compatible_node(NULL, NULL, "kalray,kvx-ipi-ctrl");
->> Nope, big no.
->>
->> Drivers go to drivers, not to arch code. Use proper driver infrastructure.
-> Thank you for your review.
-> 
-> It raises questions on our side about how to handle this change.
+On Wed, Jan 31, 2024, at 00:26, Corona, Ernesto wrote:
+>
+> +static long jtag_ioctl(struct file *file, unsigned int cmd, unsigned 
+> long arg)
+> +{
+> +	struct jtag *jtag = file->private_data;
+> +	struct jtag_tap_state tapstate;
+> +	struct jtag_xfer xfer;
+> +	struct bitbang_packet bitbang;
+> +	struct tck_bitbang *bitbang_data;
+> +	struct jtag_mode mode;
+> +	u8 *xfer_data;
+> +	u32 data_size;
+> +	u32 value;
+> +	u32 active;
+> +	int err;
+> +
+> +	if (!arg)
+> +		return -EINVAL;
 
-I am sorry, but responding with one page of hardware description is
-totally unrelated to the code I am questioning here and does not make it
-easier for me to respond. I understand that you want me to learn entire
-new KVX architecture to be able to provide good review, but it is just
-not possible, sorry. We all have quite limited time around here, so we
-all expect concise and precise answers.
+Why do you need a different return code for one invalid
+pointer, compared to any other invalid pointer? It seems
+better to just return the -EFAULT from put_user here.
 
-Best regards,
-Krzysztof
+> +	switch (cmd) {
+> +	case JTAG_GIOCFREQ:
+> +		if (!jtag->ops->freq_get)
+> +			return -EOPNOTSUPP;
+> +
+> +		err = jtag->ops->freq_get(jtag, &value);
+> +		if (err)
+> +			break;
+> +		dev_dbg(jtag->miscdev.parent, "JTAG_GIOCFREQ: freq get = %d",
+> +			value);
 
+These dev_dbg() statements look like this is from
+code that is not quite ready. There are sometimes
+reasons to leave debug prints in a driver, but those
+are usually for events that happen asynchronously,
+rather than directly being part of a user call.
+
+I would just remove these all.
+
+> +		if (put_user(value, (__u32 __user *)arg))
+> +			err = -EFAULT;
+> +		break;
+
+The open-coded typecasts look suboptimal, and the function
+is rather long. I would suggest you rearrange the ioctl
+handler to
+
+- have one function that takes the correct argument type
+  (__u32 __user *arg) for each command
+
+- a 'void __user *' variable in the ioctl function itself
+  that has a single cast and passes the pointer to those
+  functions.
+
+> +
+> +		print_hex_dump_debug("O:", DUMP_PREFIX_NONE, 16, 1, xfer_data,
+> +				     data_size, false);
+
+If this is enabled, it looks like userspace can produce
+a denial-of-service by sending down gigabytes of data
+that end up being printed.
+
+> +static const struct file_operations jtag_fops = {
+> +	.owner		= THIS_MODULE,
+> +	.open		= jtag_open,
+> +	.llseek		= noop_llseek,
+> +	.unlocked_ioctl	= jtag_ioctl,
+> +	.release	= jtag_release,
+> +};
+
+You should set
+
+       .compat_ioctl = compat_ptr_ioctl
+
+otherwise this driver won't be able to be used from
+32-bit applications.
+
+> +struct jtag *jtag_alloc(struct device *host, size_t priv_size,
+> +			const struct jtag_ops *ops)
+> +{
+...
+> +
+> +	jtag = kzalloc(sizeof(*jtag), GFP_KERNEL);
+> +	if (!jtag)
+> +		return NULL;
+> +	jtag->priv = kzalloc(priv_size, GFP_KERNEL);
+> +	if (!jtag->priv)
+> +		return NULL;
+> +
+> +	jtag->ops = ops;
+> +	jtag->miscdev.parent = host;
+> +
+> +	return jtag;
+> +}
+> +EXPORT_SYMBOL_GPL(jtag_alloc);
+> +
+> +void jtag_free(struct jtag *jtag)
+> +{
+> +	kfree(jtag);
+> +}
+> +EXPORT_SYMBOL_GPL(jtag_free);
+
+You have two 'kzalloc' but only one 'kfree' here. You
+also leak the first allocation if the second one fails.
+
+The usual way to do this is to have a single allocation
+of 'sizeof(*jtag) + priv_size' and then point
+jtag->priv to 'jtag + 1'.
+
+> +struct jtag_tap_state {
+> +	__u8	reset;
+> +	__u8	from;
+> +	__u8	endstate;
+> +	__u32	tck;
+> +};
+
+This structure has a padding byte inside, which can
+leak kernel information when copied back to userspace.
+In some cases (not here) the padding can also lead
+to incompatible layouts between architectures.
+
+Just add an explicit padding byte and make sure this
+gets properly initialized when copying to userspace
+and checked for being zero when copied to the kernel.
+
+> +/**
+> + * struct jtag_xfer - jtag xfer:
+> + *
+> + * @type: transfer type
+> + * @direction: xfer direction
+> + * @from: xfer current state
+> + * @endstate: xfer end state
+> + * @padding: xfer padding
+> + * @length: xfer bits length
+> + * @tdio : xfer data array
+> + *
+> + * Structure provide interface to JTAG device for JTAG SDR/SIR xfer 
+> execution.
+> + */
+> +struct jtag_xfer {
+> +	__u8	type;
+> +	__u8	direction;
+> +	__u8	from;
+> +	__u8	endstate;
+> +	__u32	padding;
+> +	__u32	length;
+> +	__u64	tdio;
+> +};
+
+This one is indeed incompatible between i386 userland
+and x86_64 kernels, and will need explicit padding between
+length and tdio.
+
+> +/**
+> + * struct bitbang_packet - jtag bitbang array packet:
+> + *
+> + * @data:   JTAG Bitbang struct array pointer(input/output)
+> + * @length: array size (input)
+> + *
+> + * Structure provide interface to JTAG device for JTAG bitbang bundle 
+> execution
+> + */
+> +struct bitbang_packet {
+> +	struct tck_bitbang *data;
+> +	__u32	length;
+> +} __attribute__((__packed__));
+
+This one has no implicit padding because of the
+__attribute__((__packed__)), but that attribute actually
+makes things worse since pointers must be naturally aligned
+on most architectures.
+
+The pointer also makes this structure incompatible for
+32-bit userspace, so you should use the same u64_to_user_ptr()
+trick you have elsewhere, or ideally completely avoid the
+extra indirection.
+
+> +/**
+> + * struct jtag_bitbang - jtag bitbang:
+> + *
+> + * @tms: JTAG TMS
+> + * @tdi: JTAG TDI (input)
+> + * @tdo: JTAG TDO (output)
+> + *
+> + * Structure provide interface to JTAG device for JTAG bitbang 
+> execution.
+> + */
+> +struct tck_bitbang {
+> +	__u8	tms;
+> +	__u8	tdi;
+> +	__u8	tdo;
+> +} __attribute__((__packed__));
+
+Here the __packed__ should have no effect here, what is it for?
+
+> +/* ioctl interface */
+> +#define __JTAG_IOCTL_MAGIC	0xb9
+> +
+> +#define JTAG_SIOCSTATE	_IOW(__JTAG_IOCTL_MAGIC, 0, struct 
+> jtag_tap_state)
+> +#define JTAG_SIOCFREQ	_IOW(__JTAG_IOCTL_MAGIC, 1, unsigned int)
+> +#define JTAG_GIOCFREQ	_IOR(__JTAG_IOCTL_MAGIC, 2, unsigned int)
+> +#define JTAG_IOCXFER	_IOWR(__JTAG_IOCTL_MAGIC, 3, struct jtag_xfer)
+> +#define JTAG_GIOCSTATUS _IOWR(__JTAG_IOCTL_MAGIC, 4, enum 
+> jtag_tapstate)
+
+Enums are not good for interface definitions, just use a __u32 here.
+I would also list __u32 instead of 'unsigned int' for the others,
+though that makes no practical difference.
+
+> +/**
+> + * struct tms_cycle - This structure represents a tms cycle state.
+> + *
+> + * @tmsbits: is the bitwise representation of the needed tms 
+> transitions to
+> + *           move from one state to another.
+> + * @count:   number of jumps needed to move to the needed state.
+> + *
+> + */
+> +struct tms_cycle {
+> +	unsigned char tmsbits;
+> +	unsigned char count;
+> +};
+
+Maybe also use __u8 here.
+
+> +/*
+> + * This is the complete set TMS cycles for going from any TAP state to 
+> any
+> + * other TAP state, following a "shortest path" rule.
+> + */
+> +static const struct tms_cycle _tms_cycle_lookup[][16] = {
+> +/*	    TLR        RTI        SelDR      CapDR      SDR        Ex1DR*/
+> +/* TLR  */{{0x00, 0}, {0x00, 1}, {0x02, 2}, {0x02, 3}, {0x02, 4}, 
+> {0x0a, 4},
+> +/*	    PDR        Ex2DR      UpdDR      SelIR      CapIR      SIR*/
+> +	    {0x0a, 5}, {0x2a, 6}, {0x1a, 5}, {0x06, 3}, {0x06, 4}, {0x06, 5},
+> +/*	    Ex1IR      PIR        Ex2IR      UpdIR*/
+> +	    {0x16, 5}, {0x16, 6}, {0x56, 7}, {0x36, 6} },
+
+It's not clear if this is part of the user ABI of this specific
+driver or if it's just generic information about jtag. My feeling
+is that this does not belong into this header if this is something
+that an application would use regardless of the kernel
+interface.
+
+     Arnd
