@@ -1,80 +1,230 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD5B1847
-	for <linux-doc@vger.kernel.org>; Wed, 31 Jan 2024 00:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA240A29;
+	Wed, 31 Jan 2024 00:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706660623; cv=none; b=DCodK3ZPaT/hwCI9MBfPWu1eo6odk6QPF+njZBOYJbJJ4s/eP9gEZ4g0RVTSDtOjbc3SwD7yjOBf/8+6jqDRChfNlVheAxtYbndQyh10mCsUHo8SYnq+10+2W/+PBlIkZV4KF3oaEwsXa9AJWTMCUkhT+yRAf1CCtYcur5yLNUA=
+	t=1706661170; cv=none; b=Guw0U7cxqsxXKaGER97Lc8ur5hECxgWP3WRD4UxOukfrjLB26T7lokQikyHSJDicHeNIqW1agwHbtzTsAKpHxHjyN/EBufCXJpeR6IhznLvDhnVRKkmoNa7JrB2V0knZAyRejDR0Vy2Crg+sbKZJwbJZlHeEWDGxn439SogK1BY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706660623; c=relaxed/simple;
-	bh=3Rj3F0vLfTq4/ynJ66a15e/Bdu0XKbUKQmnCGzKFxUU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=n2DA/CBQj7ofNbGIM341jg6r7p4quLL2J0edZekNP99PCgEBc7WEVEkrYSJORt9iAxtkE/HUKIUeZ6FQAkYQuxu03jiCqH2lIRq4zwZD2i7nsBILYSei4t2Y69tyaPPRZscYHuR5lVWmRnRnFpBp42tNUODpBHl00RbXtUOK6iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iwanders.net; spf=pass smtp.mailfrom=iwanders.net; dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b=PyaEF4/N; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iwanders.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iwanders.net
+	s=arc-20240116; t=1706661170; c=relaxed/simple;
+	bh=TbbCfL8IJfxgiIsFWKnXWPwHbFFZ4Te+lbkwAcKaEhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rGbybNLH8IscyZKnjVi5xhBZeshmTNrcTHdaJN4Hq5FjdGdqfJCxhCRyjCteVMtrRmUY7tDBo1qCspmYR3hfll0KDSQuE5S9uhljn09kyI+0w2S5VWfC8Jk6Po3evcBP5GLA4/8QtN288cjcY01qT+TB6Zd0mJma6+nQab+Srzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M3KMncQp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b="PyaEF4/N"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-783ced12f9bso302753385a.3
-        for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 16:23:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=iwanders.net; s=google; t=1706660621; x=1707265421; darn=vger.kernel.org;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3Rj3F0vLfTq4/ynJ66a15e/Bdu0XKbUKQmnCGzKFxUU=;
-        b=PyaEF4/NqPfS3c3kEHWRZlIBRd/7/xZKM9qPIuKbVo3RJOwXPrL6KMzLRsIJm/1M7a
-         VBDK6AYedaXPk/iMxTLec4UpyLOwlG0i76Sq2M4weGqYFFIC9lGqytbL7PUFJ2Cw9Qjq
-         7fi6gqhq+8fAr8297Vuw+csnayFhn/uCkIhbI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706660621; x=1707265421;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Rj3F0vLfTq4/ynJ66a15e/Bdu0XKbUKQmnCGzKFxUU=;
-        b=Xen1qt4jRcTR7y482cT8WNonHOZox0qqzqbIl3xrkWkaGk6u/rPNgF1mOXqnssK1wI
-         NHLykK6qJaNkDxOLQG/N/XI0ErMpI+4G+WotzE2TBtLQCnzaEy4wg42zmJDgLOJZUP0J
-         K1AHuVDpHfHXS2amyEZSryNoQucMDeV5MaMrhchqqfp6sHy5O7Iki1bppuTpoHL15Cjp
-         1uqORhNPcdtKGzX5fC0XuzytXxvoGgM0LDUFRuGzk5zDNQ8g795ncSYKPHvOJ9aaszGE
-         mifLD1ajI80d5xlZHccmWgObAF6TyV/P6eEBS2XSXw7f80JVRYUTWFoSQlLXR3gJqhgw
-         ZI9A==
-X-Gm-Message-State: AOJu0YyjRPaPZRtBzlYG1443sqNjbn8zgHOoih1jPzpEjghqpq84pdYJ
-	wNqySLrsc9cDwrhwtVWUqa1HcQVJh8bYt25IgsCPPyyrLp+pm/qA2yhKwxc7Bmg=
-X-Google-Smtp-Source: AGHT+IHDeLHxsLl0jVfDYP5QKiXxJqwSK3+ZDSQa+cDd5nZ4qk10qTUH6lAMjTkuKwnyS0h+WDgqHw==
-X-Received: by 2002:a05:6214:1315:b0:68c:46e0:78d with SMTP id pn21-20020a056214131500b0068c46e0078dmr172271qvb.45.1706660620930;
-        Tue, 30 Jan 2024 16:23:40 -0800 (PST)
-Received: from eagle.lan (24-246-30-234.cable.teksavvy.com. [24.246.30.234])
-        by smtp.gmail.com with ESMTPSA id lq7-20020a0562145b8700b006819bb31533sm988523qvb.99.2024.01.30.16.23.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 16:23:40 -0800 (PST)
-From: Ivor Wanders <ivor@iwanders.net>
-To: linux@roeck-us.net
-Cc: corbet@lwn.net,
-	hdegoede@redhat.com,
-	ivor@iwanders.net,
-	jdelvare@suse.com,
-	linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	luzmaximilian@gmail.com,
-	markgross@kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] hwmon: add fan speed monitoring driver for Surface devices
-Date: Tue, 30 Jan 2024 19:23:37 -0500
-Message-Id: <20240131002337.6122-1-ivor@iwanders.net>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <975f0b2e-5cb0-480f-af96-b0bd5004e0b2@roeck-us.net>
-References: <975f0b2e-5cb0-480f-af96-b0bd5004e0b2@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M3KMncQp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46FFFC433C7;
+	Wed, 31 Jan 2024 00:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706661170;
+	bh=TbbCfL8IJfxgiIsFWKnXWPwHbFFZ4Te+lbkwAcKaEhk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M3KMncQphv5pdrMNdBn56gAU1QjTtwVLGki7OgDIU+VK4dl7bi5jLL54lo3hcy95k
+	 bAZLYI1imLFoDGg1x+YHGaJjYYU3YiZvf60c6T3W6Pg3HYkmgYP5rroXAj7ximGlBG
+	 +UlaOpMaPHfBTLYwcd+ShnHL+dk1EGx07p3ytF0hFkRcoqMlqL5vwmqKjBSLPgKYE3
+	 67JQZJXz2o6/6aWflWPgAyUoivH969ABA9qySqfKz80Vd+kQFs7Qo7QADGgpU9dFsA
+	 Zd1fTu/pCVGNYsYIcHSwiQAAbmW/mkbncQ027jmNXyZS25MB4g9Ig56uaokw55iZ/D
+	 OggQXOwCTGVCQ==
+Date: Wed, 31 Jan 2024 00:32:42 +0000
+From: Conor Dooley <conor@kernel.org>
+To: "Corona, Ernesto" <ernesto.corona@intel.com>
+Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"'oleksandrs@mellanox.com'" <oleksandrs@mellanox.com>,
+	"'jiri@nvidia.com'" <jiri@nvidia.com>,
+	"Castro, Omar Eduardo" <omar.eduardo.castro@intel.com>,
+	"'omar.eduardo.castro@linux.intel.com'" <omar.eduardo.castro@linux.intel.com>,
+	"'robh@kernel.org'" <robh@kernel.org>,
+	"'corbet@lwn.net'" <corbet@lwn.net>,
+	"'mchehab+samsung@kernel.org'" <mchehab+samsung@kernel.org>,
+	"'alexandre.belloni@bootlin.com'" <alexandre.belloni@bootlin.com>,
+	"'tytso@mit.edu'" <tytso@mit.edu>,
+	"'arnd@arndb.de'" <arnd@arndb.de>,
+	"'ebiggers@google.com'" <ebiggers@google.com>,
+	"'mark.rutland@arm.com'" <mark.rutland@arm.com>,
+	"'joel@jms.id.au'" <joel@jms.id.au>,
+	"'andrew@aj.id.au'" <andrew@aj.id.au>,
+	"Filary, Steven A" <steven.a.filary@intel.com>,
+	"'vadimp@mellanox.com'" <vadimp@mellanox.com>,
+	"'amithash@fb.com'" <amithash@fb.com>,
+	"'patrickw3@fb.com'" <patrickw3@fb.com>,
+	"Chen, Luke" <luke_chen@aspeedtech.com>,
+	"'billy_tsai@aspeedtech.com'" <billy_tsai@aspeedtech.com>,
+	"'rgrs@protonmail.com'" <rgrs@protonmail.com>
+Subject: Re: [PATCH 30 2/7] Add binding for Aspeed SOC
+Message-ID: <20240131-felt-tip-mountain-e29606b63acf@spud>
+References: <LV8PR11MB8463D0017B82135324127DB98B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="QWiiH/5RiPb5Te7D"
+Content-Disposition: inline
+In-Reply-To: <LV8PR11MB8463D0017B82135324127DB98B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
 
-Hello Guenter,
 
-> What is your baseline? It doesn't even seem to be based on a mainline kernel.
-Ah, yes, this is from the linux-surface kernel tree, which is still on v6.6.
+--QWiiH/5RiPb5Te7D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Please base your patches on the latest mainline kernel.
-Will rebase this and send v5 shortly.
+Hey,
 
-~Ivor
+On Tue, Jan 30, 2024 at 11:30:10PM +0000, Corona, Ernesto wrote:
+> Aspeed AST2400, AST2500 and AST2600 JTAG controller driver.
+>=20
+> Signed-off-by: Oleksandr Shamray <oleksandrs@mellanox.com>
+> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+> Signed-off-by: Ernesto Corona <ernesto.corona@intel.com>
+> Signed-off-by: Omar Castro <omar.eduardo.castro@linux.intel.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+
+Where did this ack come from? The conversion to a yaml binding was in
+v29 (according to your changelog) but I don't see the ack from Rob
+there.
+I think a conversion from (text?) to yaml would be sufficient of a
+change to drop his tag.
+
+> v28->v29
+> - Change documentation to the new dt-bindings yaml format.
+
+>  .../devicetree/bindings/jtag/aspeed-jtag.yaml | 85 +++++++++++++++++++
+>  1 file changed, 85 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/jtag/aspeed-jtag.ya=
+ml
+>=20
+> diff --git a/Documentation/devicetree/bindings/jtag/aspeed-jtag.yaml b/Do=
+cumentation/devicetree/bindings/jtag/aspeed-jtag.yaml
+> new file mode 100644
+> index 000000000000..1a412e83b81b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/jtag/aspeed-jtag.yaml
+
+Filename matching a compatible please.
+
+> @@ -0,0 +1,85 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/jtag/aspeed-jtag.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Aspeed JTAG driver for ast2400, ast2500 and ast2600 SoC
+> +
+> +description:
+> +  Driver adds support of Aspeed 24/25/2600 series SOC JTAG controller.
+> +  Driver implements the following jtag ops
+> +    freq_get
+> +    freq_set
+> +    status_get
+> +    status_set
+> +    xfer
+> +    mode_set
+> +    bitbang
+> +    enable
+> +    disable
+
+None of the driver stuff, nor where you tested this, is relevant to the
+description in the binding nor the title of the binding. Just describe
+the hardware.
+
+> +
+> +  It has been tested on Mellanox system with BMC equipped with
+> +  Aspeed 2520 SoC for programming CPLD devices.
+> +
+> +  It has also been tested on Intel system using Aspeed 25xx SoC
+> +  for JTAG communication.
+> +
+> +  Tested on Intel system using Aspeed 26xx SoC for JTAG communication.
+> +
+> +maintainers:
+> +  - Oleksandr Shamray <oleksandrs@mellanox.com>
+> +  - Jiri Pirko <jiri@nvidia.com>
+> +  - Ernesto Corona<ernesto.corona@intel.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - aspeed,ast2400-jtag
+> +              - aspeed,ast2500-jtag
+> +              - aspeed,ast2600-jtag
+
+You don't need the "oneOf" or "items" here, it's enough to do:
+  compatible:
+    enum:
+      - allwinner,sun5i-a13-mbus
+      - allwinner,sun8i-a33-mbus
+
+> +
+> +
+> +  reg:
+> +    items:
+> +      - description: JTAG Master controller register range
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/aspeed-clock.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +      jtag: jtag@1e6e4000 {
+
+The labels for both of these examples are also not needed
+as they're not used anywhere.
+
+Thanks,
+Conor.
+
+> +          compatible =3D "aspeed,ast2500-jtag";
+> +          reg =3D <0x1e6e4000 0x1c>;
+> +          clocks =3D <&syscon ASPEED_CLK_APB>;
+> +          resets =3D <&syscon ASPEED_RESET_JTAG_MASTER>;
+> +          interrupts =3D <43>;
+> +      };
+> +  - |
+> +    #include <dt-bindings/clock/aspeed-clock.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +      jtag1: jtag@1e6e4100 {
+> +          compatible =3D "aspeed,ast2600-jtag";
+> +          reg =3D <0x1e6e4100 0x40>;
+> +          clocks =3D <&syscon ASPEED_CLK_APB1>;
+> +          resets =3D <&syscon ASPEED_RESET_JTAG_MASTER2>;
+> +          interrupts =3D <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>;
+> +      };
+> +
+> +...
+> --=20
+> 2.25.1
+
+--QWiiH/5RiPb5Te7D
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbmVKgAKCRB4tDGHoIJi
+0rCjAQDYj1EFmAGScPlfZN5yZJTxnHl32pOtpDUx3mrrfxczLQEA2sbvYzMN1NN0
+lsTxpN/rFe4/GnLJeDKbYtp82xbo1gA=
+=L/R4
+-----END PGP SIGNATURE-----
+
+--QWiiH/5RiPb5Te7D--
