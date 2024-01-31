@@ -1,172 +1,127 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6361069D2E;
-	Wed, 31 Jan 2024 11:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706701892; cv=fail; b=uK6gIHwyqZBTvIjlQKO4WbMwq2vBStb3QGkUjZ/4H1cXLU/h69kxmfd4SknvHE5uDsfKBwhCE1mKG3zo1yrgvxHdCORY8dRU+Hf2ZT5pVniYYsAAJ/mCIBuI21noZ2VRSyZBzjUaKB7NJUH3lZhk2eJsGxwh71q0ftkSNP0kjGY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706701892; c=relaxed/simple;
-	bh=hAmicKl3kkXi37TFt2mePtIZ37RlcC9TKkcttcOnlug=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sU/HTk2IFmPpsIq/Ui5Yroq34Pz5s5hQrcSshlMueHYnM01YZSp/wTNUEct3jJ/NNTT+Dhs9JboaR5YEVYEhpsQjtbKlc6qTvssaKntbbkfaaKYUvJLjbSukqv2+L6vIKtL0fE3LxFv4IiuvfYatjk2DMc06hDcSsPdBTue1HlQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=M7qu8hcn; arc=fail smtp.client-ip=40.107.236.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE8969D39;
+	Wed, 31 Jan 2024 11:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706702013; cv=none; b=nPFE1MGUviOocv8bHW8ye9+zFiMOhj5XXEejR7i07OPkPS70QGBafaqmOBFHoAlPvhqCwwK3H3xvXlAR3+3W3DUlNtcw8wVZE1PGyj+dBXvvfOLqM+N50GK4gOXYPlnh1JN8dRuE1BK/oDVxTALLBnVnPDkana8mNxfsI+o8rU0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706702013; c=relaxed/simple;
+	bh=e6U7IZSvIvmIZ9psc3hSArHZqp0dIjof9nK3JhYKmU4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dehGCwaWcDsuPVdYObxkG2R1uX1Rivmo/M3Jpqi5W8JCnB20VCjRN2X0FTMuqwxRzd0kx8D2lKbPs8uDZJthkeg06cYpnDdZmwCfSbBGSWqRXj3W2MtRWdL7NEYS117ZeXiGo4yofHRWPoJ7oRDAVgx9sANijpegG+mf3/Er5HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTWFvOI3; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="M7qu8hcn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cTid27bEMHkhbb2QXDH7QkR+P6IDliIZK2UHhjwhaywQiugt4JcpfKwuI5r0wmJHlkXtKoKrP0wjfs/8tgqnXyK+9pVbUbMKlVGjU2fPA0Fwoiho4UaRMYbl0/TCUoi3/PtQyVkVTUAtWQNFb2ZTU3TANsBlN07aiDyuFaTOXSIQ0f43EGycS43BSDarTL3cnScUhR738F0OTJGyD7qXLg3dtwE30q3z64nw71ayJYdBdeSkXj1MMInMir21QfZF3BSGGgYYFukJH5kMBHkxW+RDij4JLepbdKiEadHAqdWVEv92BM8qmfwWWHpA6Yjx+rLN/i+KD8puhUZWksDOKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hAmicKl3kkXi37TFt2mePtIZ37RlcC9TKkcttcOnlug=;
- b=YmfxaFR8YXdBplr0pdrzeZeneI4lTkAuZ+jsnSMwb4cy3hy/ndX8Tdmb5VtnlEsyfoZ9kW2IWOdCRcOHQhVLJte4JOCcTgcETo81xaTWZFIBMvFGfLYU04ILOHyR+kVGQt1w5bbZzpzO2HnRXFTftdi1ugBlFouXQggQJqvaFc0VHAy0xMXKT1qyfrIqRpzrN8ovd18kFKYwflkcfJt3kx2VzSn7PeOpMjlDBszIAIUWQHjFP1Hl7Q9V7L40Yj/6JOMMqAnpo4GkelKDbgn3SxpvWVtRtA68lJw+0MQ3Xqbm486oeSXRQhOtR9jK1xkQUCvoCpeynL96s42J+jQegA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hAmicKl3kkXi37TFt2mePtIZ37RlcC9TKkcttcOnlug=;
- b=M7qu8hcnY6z8lzKFTzh914cRNb/s/foGtsYjcTKkjUSeBHuW0RWnjpNAJuRIiAoCvDC/cu2gFu6wy43MfxX7VkStGXVQGOAiTt3mPOWfzR2Go2GE/0CaA0nAhpuq6LU43uFdHfJfMQblQ3kx0X0iLxA/I3JBrLf8CTISzqLw1Zn0M88+za6VZEQDKkDGYwnMyxQStI9jbT8nbuIdnmg7e8kR1QQ6Ccyn70ocMFhT6+Akqsk5FSXKcx5Eb/WrMKnv/21/9n+ZZsRs8+pIkOi2hui9Qm1WtJKVf0QbwjPhuO0LQ5bn+/GM9d5Bh4naTvC0yWLdY7DCH/euVCrROEPt2w==
-Received: from DM6PR12MB4516.namprd12.prod.outlook.com (2603:10b6:5:2ac::20)
- by MW4PR12MB7333.namprd12.prod.outlook.com (2603:10b6:303:21b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.22; Wed, 31 Jan
- 2024 11:51:27 +0000
-Received: from DM6PR12MB4516.namprd12.prod.outlook.com
- ([fe80::fa7e:d2b7:5f80:2dd4]) by DM6PR12MB4516.namprd12.prod.outlook.com
- ([fe80::fa7e:d2b7:5f80:2dd4%5]) with mapi id 15.20.7228.029; Wed, 31 Jan 2024
- 11:51:27 +0000
-From: Danielle Ratson <danieller@nvidia.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "davem@davemloft.net"
-	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "linux@armlinux.org.uk"
-	<linux@armlinux.org.uk>, "sdf@google.com" <sdf@google.com>,
-	"kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
-	"maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	"przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
-	"ahmed.zaki@intel.com" <ahmed.zaki@intel.com>, "richardcochran@gmail.com"
-	<richardcochran@gmail.com>, "shayagr@amazon.com" <shayagr@amazon.com>,
-	"paul.greenwalt@intel.com" <paul.greenwalt@intel.com>, "jiri@resnulli.us"
-	<jiri@resnulli.us>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, mlxsw
-	<mlxsw@nvidia.com>, Petr Machata <petrm@nvidia.com>, Ido Schimmel
-	<idosch@nvidia.com>
-Subject: RE: [RFC PATCH net-next 1/9] ethtool: Add ethtool operation to write
- to a transceiver module EEPROM
-Thread-Topic: [RFC PATCH net-next 1/9] ethtool: Add ethtool operation to write
- to a transceiver module EEPROM
-Thread-Index: AQHaTQ9wgRzMSsypjUOlyEfOvVgnwbDq/18AgAjcG2A=
-Date: Wed, 31 Jan 2024 11:51:27 +0000
-Message-ID:
- <DM6PR12MB451624E10A2614AFBFB70E73D87C2@DM6PR12MB4516.namprd12.prod.outlook.com>
-References: <20240122084530.32451-1-danieller@nvidia.com>
- <20240122084530.32451-2-danieller@nvidia.com>
- <9eecccb0-a875-4dbc-b88c-5b2aad838305@lunn.ch>
-In-Reply-To: <9eecccb0-a875-4dbc-b88c-5b2aad838305@lunn.ch>
-Accept-Language: he-IL, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR12MB4516:EE_|MW4PR12MB7333:EE_
-x-ms-office365-filtering-correlation-id: bc64a1bd-14ef-4c7f-069f-08dc2252f4fd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 8IHoE7FPtSaG+IB3+o2jFIH5ODdNeeGVWsMbBO0LzUaNGIloHFiS5okwCvo03gucBUAnK/JmjeP53AVcKsgrRk9rndCkEitUxmc53rmXvOn5HuSSl+zDGJYjZVKdDoLOr6G9RctfIuiW4iYY6APPn9Y+LAjk4eX9ho1dfCrRu990Tc83TgdNhTYH24I8I9PaIW8goB2ANYYLRPnfdlq1XIdJamqJOSIa3WWqnxhKpDTsxLpcfGIb0D8BEWw85iqHGmdH2Kla2EVCNc6Q5rpVZHUz4eCd7++1JGRCD8GFPzP+H+3vSP/L+Cy1aLBtnZyuENjNm5iwkXvAtDiSrFxi/yB3u4K/p76EYuSpN2qK9IchLq0LBOKXlBTvNzcE8FuVaw3AdGAdBQLj+j68P9209uxwxqqQlrWAtfVuLcY6uCnfIwad5i7IuMIHduG7IaFXOw6S/BFy0i6FeM5UlLWXwsgN9t650drVfzVSv2D6plaZfpTc5gf1iYK9m5P7fEEkB4OBSzekk1JklLgHXWYl1o4Ak4T2vC68WumubdOmw7anuik674UBOrH6WxX4k4o/bUY6tajzEzaONY5GxYLsHSriWSKHFdOwb3YfbaNJE2zh7oVpqiCRbL6HlPM3lbPP
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4516.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(366004)(136003)(376002)(396003)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(122000001)(33656002)(41300700001)(86362001)(38100700002)(71200400001)(6506007)(7696005)(8676002)(7416002)(8936002)(6916009)(64756008)(54906003)(316002)(66446008)(66556008)(76116006)(66946007)(66476007)(478600001)(4326008)(5660300002)(26005)(83380400001)(2906002)(52536014)(9686003)(107886003)(38070700009)(55016003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?TUk0dHNsQ3kyUGJWYndQM3hCSGh0clJaSjVmSUtTZXFkYk0wVWROTzZqbldh?=
- =?utf-8?B?TitYNmRxNWdPeHBLRzlySGM5cGEraENMUGNBMmFHM1lROTllK1ltQjdyZlBZ?=
- =?utf-8?B?TkdkNmFvZVpaNWV3VHp5a2pPc3gyUnBqKzIyMUZUL0poVURkZHA3Z1BqMUxD?=
- =?utf-8?B?RVQxUDFtT0N2RmgxL1oxT0l6QlBUQ0tJSkJpM0NvYUF3dTZrV2RETGo4MUNS?=
- =?utf-8?B?VXV5WjZIZ3c4bnluTHRzeURSc3NWenRYVkxkeUY2ZVBmVzNlVVFMVk1lYWlK?=
- =?utf-8?B?MDBickNwWFNZMGQ5UlluMnVyODVxVGdZMFNnUDRVbTJOSDd6SFpZSDBFYmdD?=
- =?utf-8?B?azVXbExjbU01TFc0UEJHNUdNVDlZSTNtK3F1WW5ZdXR0K2VKMDlpUG9nK29L?=
- =?utf-8?B?ZGJMeEZId3hEWDY5OUttRkxmZ3NQUXVWNTdxZHE2T3FkZHgvbmdpV0M1Rmta?=
- =?utf-8?B?ZVg2dXVldVdiR0VFcXBMRnZrMUduc1gzeXRBZDM3UWlCTlpXMGJXQ0QrTnlV?=
- =?utf-8?B?QXExUytoSEVBNFRTa3pJUnQ0Z3k5S3VPV1MvZHMvbVI3S1F6UEVxVmlxeTZ6?=
- =?utf-8?B?Q0U1VXF0YkxMOFNuU1NrMVBMbjg5c0ZneEFJOGY4emMzWFhoQXU4RmFnc1lw?=
- =?utf-8?B?MWxGVktBRS9iODVXcDI5amJveVY5Z1VFU25UN1daUXZXbmptVHUvdEViLzJo?=
- =?utf-8?B?aHdOYVQ1YlNtSHhSSGwvN1MvaTZGNlM2cGlvMGNPRG10R0xYaTlRTXdvN01Q?=
- =?utf-8?B?MGRINEFkbHhWY2NUYUd4SkhpMjMyRzRrc3ZFWm9LSkRybjhBZG1JeStac1NQ?=
- =?utf-8?B?azE5N0lFTDkrOWdBeTVEeEpkaDVBQU4wMTEvelZrbTVrTUR0WjRudnhzSDlN?=
- =?utf-8?B?Q2lBNGVIdjBnZlBxUUxPQ3M1RFVBcWZkR09TUmtRRDZlVGNYM2ZucWMxaEZG?=
- =?utf-8?B?L01wUmgvL05RUWFzN3BwaDZRL0lIaXNkem9EUURzSEwwb1FUTDBYenlCVVBr?=
- =?utf-8?B?a1pzRFRoM1Y3Vkg3bnVPdURPK2hBck5kODBmR2xrNkFOMXkwRzkwVjkxWVdM?=
- =?utf-8?B?V0JONjBJYWY1MWp0MlBJY3UwV0NWZGxiaUt4Sit0T3JpQnUxR0dnZjlnelRB?=
- =?utf-8?B?TEpwT01MWWdNQ3lXRm9Qc3l1MXNRclptZTJZTHdvZzAyTlVmNVd4a0ZvdkJE?=
- =?utf-8?B?NVVDVDlXREw2WUZqT3prcDVRS3lzcDNLVUJXQ0dKZW1zckw1RXIvZERSMnBM?=
- =?utf-8?B?UFAxUnZwM0ZpM2s4U2N2Y1NES0YrcEk3STZKckEwc0l2Y2x2YmR3SnZDbFNz?=
- =?utf-8?B?elpqeXE3MzVKcnJUU3h5MUpuK05EempXblZ3ZGlpNzBLT3NaOEQ4Y1Z0ZDZl?=
- =?utf-8?B?TytvZDZzZUQwQ21CNXVsOHFZSWNxQXM5ZUFSdng3M0F5NjJzYk1hWjlVSGZE?=
- =?utf-8?B?M04zbFlUUFdFYmNZRFZ4VmlBQWYwYWl3UitMUkZkWi9RM29UMWFEZFRHYnM4?=
- =?utf-8?B?R08rRmpDYXBVb3hLNUxMQ3JKWm9NdlhINzVhOWQ5b2Fmdm80dThlMUh6QnZN?=
- =?utf-8?B?NUxDcnBXSWZhNjFuYnlIS3JsemZpNVluRWxGM3YxMHl1NDFaaHliRHB3V241?=
- =?utf-8?B?MjEvenlpY1pzQ2J4MUlxT0h6L2JsSTd5Q3NWdXNSblFhNWx0bkc0UTdLbXFM?=
- =?utf-8?B?MXRKMSt2cW9uM1greW01bEhkVGFtekdUZnJCc2FXaEJXcmhNNm5VSzZRSVZu?=
- =?utf-8?B?aDloUmt5Uk5aSFp3ZkhYQlFvWE9wR1AwSGFETEh4UytCZ0hnQU5QZWdVMEVo?=
- =?utf-8?B?UUh2WlRhZ3V2cnBySk1WM3ZLY29lSlhWWDZadnM3T2hrRCt5dDdBdlBIbWNV?=
- =?utf-8?B?VHo4dUk5cVU2MjlRYUkvbmRjMjNYamlrRlhWdkJzQ3UvVGhiMUhETlZDR0R0?=
- =?utf-8?B?cGpxc0tjSUhoU0drUko3K1Z3cTFRTERyYkpCZWlVMFcycW9iQ0lOd3ZBTWFv?=
- =?utf-8?B?RVY4QmFEcVhmUHRLUmUzbHpiRGsyOXVyazdVSzRCTk8wVEtBNTFydVRCRTdx?=
- =?utf-8?B?YzI2a1l1RDBTMUxNWElvTmFXaVV2MXZKYjZ6bXBvbTl5OExaTitwVitvbjdz?=
- =?utf-8?Q?4TDnOPe/0zeuc+iDhqdmHgccG?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTWFvOI3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706702012; x=1738238012;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=e6U7IZSvIvmIZ9psc3hSArHZqp0dIjof9nK3JhYKmU4=;
+  b=XTWFvOI3hC0/8xqrvZR9WW3oDX/h3TKPm4PgF0yYw5nSETGHLu7aGC4K
+   Dl0GceqpOUEM+hV4I/t4xnOaaE2iBoTOzB2GivEtZ4QYA1kZPNVMj87lR
+   MqKtwasTFaDJ1Corr2vAx0sO3ZYolKH3ifrhqS17HiYlqGJANzbUw/5oi
+   04aBfa0UrhWsfjX3cJZQiVc/HZCuDG+cn4Jaz8tmm04zGWY6Izdytnqu4
+   cPH1GxfSrA5OM3kK1OmqyTcfF+spgVdPCSB8gZ6/zL9LEKpbAWsYsvQyJ
+   1jKO8cBFhLu/y87ng90XqVFzzMLhmdOFA8IklxuMnsijBsDZy8JdRzaT7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10962417"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="10962417"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 03:53:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="738071148"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="738071148"
+Received: from mszycik-mobl1.ger.corp.intel.com (HELO [10.246.35.198]) ([10.246.35.198])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 03:53:27 -0800
+Message-ID: <0fc3f574-6243-4c85-a6a7-442dc480c9e7@linux.intel.com>
+Date: Wed, 31 Jan 2024 12:53:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4516.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc64a1bd-14ef-4c7f-069f-08dc2252f4fd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2024 11:51:27.2614
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: H5ec3qyinhRgCm79oPy8xgo8S4LuthZd+9i0MUn5dpEqFEqp9Xq4z7KLqkNpnvAYDENWSRnaNVG6H0jiXmKjzA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7333
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-wired-lan] [PATCH net-next v5] ethtool: ice: Support for
+ RSS settings to GTP from ethtool
+Content-Language: en-US
+To: Takeru Hayasaka <hayatake396@gmail.com>,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, vladimir.oltean@nxp.com,
+ linux-kernel@vger.kernel.org, laforge@gnumonks.org,
+ intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+ mailhol.vincent@wanadoo.fr
+References: <20240131013705.1002722-1-hayatake396@gmail.com>
+From: Marcin Szycik <marcin.szycik@linux.intel.com>
+In-Reply-To: <20240131013705.1002722-1-hayatake396@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-PiA+IEZyb206IElkbyBTY2hpbW1lbCA8aWRvc2NoQG52aWRpYS5jb20+DQo+ID4NCj4gPiBFdGh0
-b29sIGNhbiBhbHJlYWR5IHJldHJpZXZlIGluZm9ybWF0aW9uIGZyb20gYSB0cmFuc2NlaXZlciBt
-b2R1bGUNCj4gPiBFRVBST00gYnkgaW52b2tpbmcgdGhlIGV0aHRvb2xfb3BzOjpnZXRfbW9kdWxl
-X2VlcHJvbV9ieV9wYWdlDQo+IG9wZXJhdGlvbi4NCj4gPiBBZGQgYSBjb3JyZXNwb25kaW5nIG9w
-ZXJhdGlvbiB0aGF0IGFsbG93cyBldGh0b29sIHRvIHdyaXRlIHRvIGENCj4gPiB0cmFuc2NlaXZl
-ciBtb2R1bGUgRUVQUk9NLg0KPiA+DQo+ID4gVGhlIHB1cnBvc2Ugb2YgdGhpcyBvcGVyYXRpb24g
-aXMgbm90IHRvIGVuYWJsZSBhcmJpdHJhcnkgcmVhZCAvIHdyaXRlDQo+ID4gYWNjZXNzLCBidXQg
-dG8gYWxsb3cgdGhlIGtlcm5lbCB0byB3cml0ZSB0byBzcGVjaWZpYyBhZGRyZXNzZXMgYXMgcGFy
-dA0KPiA+IG9mIHRyYW5zY2VpdmVyIG1vZHVsZSBmaXJtd2FyZSBmbGFzaGluZy4gSW4gdGhlIGZ1
-dHVyZSwgbW9yZQ0KPiA+IGZ1bmN0aW9uYWxpdHkgY2FuIGJlIGltcGxlbWVudGVkIG9uIHRvcCBv
-ZiB0aGVzZSByZWFkIC8gd3JpdGUNCj4gPiBvcGVyYXRpb25zLg0KPiANCj4gTXkgbWVtb3J5IGlz
-IGRpbSwgYnV0IGkgdGhvdWdodCB3ZSBkZWNpZGVkIHRoYXQgc2luY2UgdGhlIGFsZ29yaXRobSB0
-bw0KPiBwcm9ncmFtIHRoZXNlIG1vZHVsZXMgaXMgZGVmaW5lZCBpbiB0aGUgc3RhbmRhcmQsIGFs
-bCB3ZSBuZWVkIHRvIGRvIGlzIHBhc3MNCj4gdGhlIGZpcm13YXJlIGJsb2IsIGFuZCBoYXZlIGFu
-IGluIGtlcm5lbCBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgYWxnb3JpdGhtLg0KPiBUaGVyZSBpcyBu
-byBuZWVkIHRvIGhhdmUgYW4gYXJiaXRyYXJ5IHdyaXRlIGJsb2IgdG8gbW9kdWxlLCB3aGljaCBt
-aWdodCwgb3INCj4gbWlnaHQgbm90IGJlIGFidXNlZCBpbiB0aGUgZnV0dXJlLg0KPiANCj4gQWxz
-bywgaXMgdGhlIG1vZHVsZSBmdW5jdGlvbmFsIHdoaWxlIGl0cyBmaXJtd2FyZSBpcyBiZWluZyB1
-cGdyYWRlZD8NCj4gRG8gd2UgbmVlZCB0byBlbmZvcmNlIHRoZSBsaW5rIGlzIGRvd24/DQo+IA0K
-PiAgICBBbmRyZXcNCg0KVGhpcyBpcyBwYXJ0IG9mIHRoZSByZWFzb25zIHdoeSB3ZSBrZXB0IGEg
-ZmxhZyBmb3IgbW9kdWxlX2Z3X2ZsYXNoX2luX3Byb2dyZXNzLiANCkkgdGhpbmsgaXQgc2hvdWxk
-IGJlIGRvd24gc2luY2UgdGhlIG1vZHVsZSBpcyBkb2luZyBzb21lIHNvcnQgb2YgcmVzZXQgZHVy
-aW5nIHRoZSBmbGFzaGluZyBwcm9jZXNzIChhZnRlciB0aGUgUnVuIEZpcm13YXJlIEltYWdlKS4N
-ClNvIGluIG9yZGVyIHRvIGF2b2lkIHBhY2tldCBsb3NzLCB0aGlzIHNob3VsZCBiZSBjb25zaWRl
-cmVkLg0KDQpJbGwgY29uc2lkZXIgdGhlIHJlbGV2YW50IHNjZW5hcmlvcyBmb3IgdmV0b2luZyBp
-biB0aGUgYWN0dWFsIHZlcnNpb24uDQoNClRoYW5rcy4NCg==
+
+
+On 31.01.2024 02:37, Takeru Hayasaka wrote:
+> This is a patch that enables RSS functionality for GTP packets using ethtool.
+> 
+> A user can include TEID and make RSS work for GTP-U over IPv4 by doing the
+> following:`ethtool -N ens3 rx-flow-hash gtpu4 sde`
+> 
+> In addition to gtpu(4|6), we now support gtpc(4|6),gtpc(4|6)t,gtpu(4|6)e,
+> gtpu(4|6)u, and gtpu(4|6)d.
+> 
+> gtpc(4|6): Used for GTP-C in IPv4 and IPv6, where the GTP header format does
+> not include a TEID.
+> gtpc(4|6)t: Used for GTP-C in IPv4 and IPv6, with a GTP header format that
+> includes a TEID.
+> gtpu(4|6): Used for GTP-U in both IPv4 and IPv6 scenarios.
+> gtpu(4|6)e: Used for GTP-U with extended headers in both IPv4 and IPv6.
+> gtpu(4|6)u: Used when the PSC (PDU session container) in the GTP-U extended
+> header includes Uplink, applicable to both IPv4 and IPv6.
+> gtpu(4|6)d: Used when the PSC in the GTP-U extended header includes Downlink,
+> for both IPv4 and IPv6.
+> 
+> GTP generates a flow that includes an ID called TEID to identify the tunnel.
+> This tunnel is created for each UE (User Equipment).By performing RSS based on
+> this flow, it is possible to apply RSS for each communication unit from the UE.
+> Without this, RSS would only be effective within the range of IP addresses. For
+> instance, the PGW can only perform RSS within the IP range of the SGW.
+> Problematic from a load distribution perspective, especially if there's a bias
+> in the terminals connected to a particular base station.This case can be
+> solved by using this patch.
+
+LGTM
+Reviewed-by: Marcin Szycik <marcin.szycik@linux.intel.com>
+
+> Signed-off-by: Takeru Hayasaka <hayatake396@gmail.com>
+> ---
+> v2->v3: Based on Harald-san's review, I added documentation and comments to 
+> ethtool.h and ice.rst.
+> v3->v4: Based on Marcin-san's review, I added the missing code for GTPC and 
+> GTPC_TEID, and revised the documentation and comments.
+> v4->v5: Based on Marcin-san's review, I fixed rename and wrong code regarding
+> GTPC
+
+[...]
+
+>      f     Hash on bytes 0 and 1 of the Layer 4 header of the Rx packet.
+>      n     Hash on bytes 2 and 3 of the Layer 4 header of the Rx packet.
+> -
+
+Still removing this line :c
+
+> +    e     Hash on GTP Packet on TEID (4bytes) of the Rx packet.
+>  
+>  Accelerated Receive Flow Steering (aRFS)
+>  ----------------------------------------
+
+---8<---
