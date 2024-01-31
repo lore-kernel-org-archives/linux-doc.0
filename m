@@ -1,87 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900B73FB1E;
-	Wed, 31 Jan 2024 20:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE9F39864;
+	Wed, 31 Jan 2024 21:13:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706732429; cv=none; b=kxmt7KKeMn0gxIgfhcXzC9wmyQ1+V/Vcjx2z19LcoRJ/RkQTrD7rGWxTTfrhwhjieI1DeuS6Zvso8vInLFe5AgPR/dR91vL+wDuiHgEY39fp3/G9el7KZ49dNN2tl9fTz4NX6cZ195R3nuGnojHAyce2VTt+gqkaFIrNVV894qM=
+	t=1706735584; cv=none; b=A59lYTifGr7UlFIEaxR6pEiWxGbP/waGUKLoVnxXYGvVDeelRPih9QSYZOrKZ2lGbLtCP1A0OkLgt4uPbC7H2MZF01l12nD+7HbnW4bu0N5DHJhepTNq4uuJWqOA6fFxWFLtaLNQEEwPhsx8dSwZY11JmWip4K9O9Hv61G76ems=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706732429; c=relaxed/simple;
-	bh=5n2GPaqqGywO7Qry4eYZWTM4oFGQUDmGZmFT4fN7rrA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=V5tk5twx4UxIbCwcBA7Dtjb6dijhsYCcR6BOXxpBk74eKp1vPXTq55COUdt2Vv3sQJ29/ijPYfm/d/4EnZ/XZHyob+wsuSGj6GtEHq82HCpGz/L/uQ5G4tUQhq3XdOj4lB4SN+YNpsJWMzFqBwP+yVnKr0ZUlfZFNipfpvn9flY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j2uVbYHm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706735584; c=relaxed/simple;
+	bh=KpeAZao1g931gOPKrARuB7csMwiSRG+PLjdP6UwwNN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pnuWhNme7rjnOQAenMDjPV3jCGbZU79vdoc5s7dQi3iDjDX4d1UQqaPuQ1WD9mN91vWZxSEc3Ncf4/Idwy8/LWzqSG3e68vrPutpZXeeUE0MIkovpV+kkDN/WFXos7dpihG//LVFW/0WMj5CmdZYy0zUdKgp7r7+XGVD0q4MNsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mHYp/br4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j2uVbYHm"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1644BC43399;
-	Wed, 31 Jan 2024 20:20:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mHYp/br4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2990BC43394;
+	Wed, 31 Jan 2024 21:13:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706732429;
-	bh=5n2GPaqqGywO7Qry4eYZWTM4oFGQUDmGZmFT4fN7rrA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=j2uVbYHmJ0BNlBHTdgUBgToOHPf+Qp4+Unj1DhM4x0CdZn1Tp36nyKi13zJ4NsBIr
-	 //0kQJg6fwsnmWQYfnR2CZSUXvSIpo3/iGgYh/XaFnVL1jU0DTgM8QBNto5qWBWVDS
-	 vcqbDp7/vd0zLOGyh5KfD4vVhxPymWXNSaVHEQnaHcADHr+VtdaF38ZzDPzu6o8zPU
-	 fWEGnzHYcE7+2/JhZaS3ZIov8rGKSfUD63SwZdSAHH3lFpglQsA/0G3nIPMWrFeXm3
-	 9frtgxX17A8LyAlpcuY9DlRurZmEwHMKebMLzPTzZHfIKjiacmWjriWBzUTbkx54sG
-	 53m66RsqvuGaQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F2F56DC99E4;
-	Wed, 31 Jan 2024 20:20:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1706735583;
+	bh=KpeAZao1g931gOPKrARuB7csMwiSRG+PLjdP6UwwNN0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mHYp/br4PIDgr2Q2UoE2YGQ9ybcMX5UUpZjaqU4OWWRx3mz93/SKLXjbGoMBcqGtJ
+	 HzH+OOvNl1XNol3OrCKwFgZVB5YZ/czTicEfZwCOO3r30cN7qCdZL9YYzDhhuY2+wx
+	 WX7CYjDJ5Rf8IdaXwg7R99cFfEn485JP9llYEuzEUYGewIzg/vvrE2l6t3xoFYLd1O
+	 4sC/m+sJXDsu/0g+faGE4XrVPbT3PeneVq5q4gD6CDUEUw1pZaqdyT3qI+DLHjG2xw
+	 ZobrCtsxoRmenhAMZPVTSRgwwZCvVdLzp8fOV/SPY1NthbyXZAgUVfW91qKJM5dPe7
+	 wxnnYftoxanVw==
+Date: Wed, 31 Jan 2024 13:12:58 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Takeru Hayasaka <hayatake396@gmail.com>
+Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, intel-wired-lan@lists.osuosl.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mailhol.vincent@wanadoo.fr,
+ vladimir.oltean@nxp.com, laforge@gnumonks.org
+Subject: Re: [PATCH net-next v6] ethtool: ice: Support for RSS settings to
+ GTP from ethtool
+Message-ID: <20240131131258.47c05b7e@kernel.org>
+In-Reply-To: <20240131134621.1017530-1-hayatake396@gmail.com>
+References: <20240131134621.1017530-1-hayatake396@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170673242899.4502.6917209613478941432.git-patchwork-notify@kernel.org>
-Date: Wed, 31 Jan 2024 20:20:28 +0000
-References: <cover.1706491398.git.dxu@dxuuu.xyz>
-In-Reply-To: <cover.1706491398.git.dxu@dxuuu.xyz>
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: linux-trace-kernel@vger.kernel.org, coreteam@netfilter.org,
- bpf@vger.kernel.org, linux-input@vger.kernel.org, cgroups@vger.kernel.org,
- netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- fsverity@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, netfilter-devel@vger.kernel.org,
- alexei.starovoitov@gmail.com, olsajiri@gmail.com, quentin@isovalent.com,
- alan.maguire@oracle.com, memxor@gmail.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
+On Wed, 31 Jan 2024 13:46:22 +0000 Takeru Hayasaka wrote:
+>  .../device_drivers/ethernet/intel/ice.rst     | 21 ++++-
+>  drivers/net/ethernet/intel/ice/ice_ethtool.c  | 82 +++++++++++++++++++
+>  drivers/net/ethernet/intel/ice/ice_flow.h     | 31 +++++--
+>  drivers/net/ethernet/intel/ice/ice_lib.c      | 37 +++++++++
+>  include/uapi/linux/ethtool.h                  | 48 +++++++++++
 
-This series was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
-
-On Sun, 28 Jan 2024 18:24:05 -0700 you wrote:
-> === Description ===
-> 
-> This is a bpf-treewide change that annotates all kfuncs as such inside
-> .BTF_ids. This annotation eventually allows us to automatically generate
-> kfunc prototypes from bpftool.
-> 
-> We store this metadata inside a yet-unused flags field inside struct
-> btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
-> 
-> [...]
-
-Here is the summary with links:
-  - [bpf-next,v4,1/3] bpf: btf: Support flags for BTF_SET8 sets
-    https://git.kernel.org/bpf/bpf-next/c/79b47344bbc5
-  - [bpf-next,v4,2/3] bpf: btf: Add BTF_KFUNCS_START/END macro pair
-    https://git.kernel.org/bpf/bpf-next/c/2747e0ee57c2
-  - [bpf-next,v4,3/3] bpf: treewide: Annotate BPF kfuncs in BTF
-    https://git.kernel.org/bpf/bpf-next/c/6e7769e6419f
-
-You are awesome, thank you!
+Could you split the uAPI changes and the driver changes to two separate
+commits? You should post them as a patch series, but combining them
+into a single commit makes the uAPI addition to easy to miss.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+pw-bot: cr
