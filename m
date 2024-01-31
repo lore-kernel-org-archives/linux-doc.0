@@ -1,38 +1,33 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75D45788C;
-	Wed, 31 Jan 2024 07:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A716957318;
+	Wed, 31 Jan 2024 08:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706687027; cv=none; b=tev0TbaGdYh9zoNya802e+1XiN+nXwqwI49LhSiDApgRL+rYZ1b/XZHHSwwwpKl07RtVU/SrLC7qJYFwnDygsPtxSd494mMVHXWwtNu7W7kFHAEpK2jhBYmyWeDNXSyKAw8hjU4UDLDv4bGKUDHWQvKDueHwO39qhpSQD0WwdAA=
+	t=1706689103; cv=none; b=MMpMSUeeqPoYPMnPRLI8llMy+spWDKocLHfBzJWdFQ1y3fwL+WdnaJJ9YgUEZfI0/imrbBxnjlx+kV+WBHHTyEw4Dq+AxizKG5K7vDZtHCTJFnEMaAAVchUdTJj1V3qDjHzYTC49dvZaqBc4CrBF41mNqKgsW2WlBUvSH+P7ISE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706687027; c=relaxed/simple;
-	bh=3UtEEurfF0DcUrGrZ1swp8W+Hl3SyFmpYaEjxHY/nFM=;
+	s=arc-20240116; t=1706689103; c=relaxed/simple;
+	bh=uVuCtAAr/8kTNdmmZBQPRy6Y0jWrvVDn0rG6YH7p4VU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D6nkqe/VZBoRS65K4tHpkO6BMc1lxmxApdIOmLfGPdBCv8MA8OJuwpzo2o0xbvX6YKOmJwR9AShl62CS/Q9L0IzSHI8SP9dldFyw4QI6vk8brEKf/pPxg7WlDjhD++PgBeWfTcdSxXa0fsKEw16V+4J2kiwDHuoxcsmLB8o6na4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Hi2dSkbn; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	 In-Reply-To:Content-Type; b=SvsutQ/TDuNFoKOrYUnMJcMRxdefJnEUQs1pKSADwe1Dd+xk9AHLOAb4demwT3AAwec5OPxr9F9liY+oiIqqmVdTLfu+L4szvrr+SJCY/DOb3IW8+DLQfwxXIMah4+KodoN60+Wx2w30iKlGsgP+Q19b0U/yDLuKLNGqLR1o+mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QAdIJ/i+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Hi2dSkbn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1706686983; x=1707291783; i=markus.elfring@web.de;
-	bh=3UtEEurfF0DcUrGrZ1swp8W+Hl3SyFmpYaEjxHY/nFM=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Hi2dSkbnv9yYiXpDMjayehX07BUp1NW/nccsYAxYCPV5mE6R4t6DmUT/6vxxz+5M
-	 pGnC1IpV0RwV4ZgkvrtWqWEMxi1Bhh643Ri3Lv+na+Xf8WyCn/bU0ccCHh8jmskR9
-	 WHfhT8QssDTM9Qg9MSn0v1eM4Oy/khfHyjJu1iTTDUe3h4qpKze9R9/337nSEU0UD
-	 V/v+lV287r7TThCeCwOzyuPiqOe94OGWfodjSEVA9SLfQL62d6i7m7QSvDemEGyAa
-	 IcXp8exYI8v48cyhbKk7zcH2s9dq+n7BhgPa2MghCNpGTg+FQ3XJuouP2PTD8vZcO
-	 PkLYx0yQnbbuy4Yw/Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N6sG3-1qzCMy0ngF-01871C; Wed, 31
- Jan 2024 08:43:03 +0100
-Message-ID: <4cabce20-b5ff-4586-8492-60d2d198a13b@web.de>
-Date: Wed, 31 Jan 2024 08:42:33 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QAdIJ/i+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A034BC433C7;
+	Wed, 31 Jan 2024 08:18:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706689103;
+	bh=uVuCtAAr/8kTNdmmZBQPRy6Y0jWrvVDn0rG6YH7p4VU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QAdIJ/i+5sP3lPohRphDzZU5Ek32FUCfbjWw+IU+SqwC23Yw1a4Q8cMIeUVIWL0dG
+	 1A6e7MJzMb4OzeCay5vgD0QqzXGZZdsP0czcyN+6EH0I/sOnpdxWYEGI2OGhTR7E8f
+	 a4YSgXQ3nT46s0HqO37puWNOwtSaGGs+Pqss3NBTmhDdFVPYOLeG5nPoWTwyN9VOrF
+	 8EQbdiumMZislx9pWo6CJEJqBFBc15CMCxM60brdEsM0zRDnqraNjK3D989qfM+kKK
+	 GEmt0l2qyFSVnhKuejfq9iKx/nddoUAFPuqoEjdZoHgoCuFaablECkFofWzJyYDBil
+	 T6lPsOpD4cTBQ==
+Message-ID: <88a036a2-2848-41d3-a0fb-48ee14604850@kernel.org>
+Date: Wed, 31 Jan 2024 09:18:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,57 +35,263 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: fpga: dfl: fme: Return directly after a failed devm_kasprintf()
- call in fme_perf_pmu_register()
-To: Xu Yilun <yilun.xu@linux.intel.com>, linux-fpga@vger.kernel.org,
- kernel-janitors@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Moritz Fischer <mdf@kernel.org>, Tom Rix <trix@redhat.com>,
- Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
- linux-doc@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Kunwu Chan <chentao@kylinos.cn>,
- Jonathan Corbet <corbet@lwn.net>
-References: <d94376b6-12e8-45bb-a9be-4887bb316d35@web.de>
- <ZbjJYMlDifIv0WId@yilunxu-OptiPlex-7050>
- <ZbjPDX1y2I9Heanq@yilunxu-OptiPlex-7050>
- <49183574-ea83-4517-8e34-5d6e87ede064@web.de>
- <ZbkAziPCX+RDSgfP@yilunxu-OptiPlex-7050>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <ZbkAziPCX+RDSgfP@yilunxu-OptiPlex-7050>
+Subject: Re: [PATCH 30 2/7] Add binding for Aspeed SOC
+To: "Corona, Ernesto" <ernesto.corona@intel.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+Cc: "'oleksandrs@mellanox.com'" <oleksandrs@mellanox.com>,
+ "'jiri@nvidia.com'" <jiri@nvidia.com>,
+ "Castro, Omar Eduardo" <omar.eduardo.castro@intel.com>,
+ "'omar.eduardo.castro@linux.intel.com'"
+ <omar.eduardo.castro@linux.intel.com>, "'robh@kernel.org'"
+ <robh@kernel.org>, "'corbet@lwn.net'" <corbet@lwn.net>,
+ "'mchehab+samsung@kernel.org'" <mchehab+samsung@kernel.org>,
+ "'alexandre.belloni@bootlin.com'" <alexandre.belloni@bootlin.com>,
+ "'tytso@mit.edu'" <tytso@mit.edu>, "'arnd@arndb.de'" <arnd@arndb.de>,
+ "'ebiggers@google.com'" <ebiggers@google.com>,
+ "'mark.rutland@arm.com'" <mark.rutland@arm.com>,
+ "'joel@jms.id.au'" <joel@jms.id.au>, "'andrew@aj.id.au'" <andrew@aj.id.au>,
+ "Filary, Steven A" <steven.a.filary@intel.com>,
+ "'vadimp@mellanox.com'" <vadimp@mellanox.com>,
+ "'amithash@fb.com'" <amithash@fb.com>, "'patrickw3@fb.com'"
+ <patrickw3@fb.com>, "Chen, Luke" <luke_chen@aspeedtech.com>,
+ "'billy_tsai@aspeedtech.com'" <billy_tsai@aspeedtech.com>,
+ "'rgrs@protonmail.com'" <rgrs@protonmail.com>
+References: <LV8PR11MB8463D0017B82135324127DB98B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <LV8PR11MB8463D0017B82135324127DB98B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:f1i1yJGnQvsaxMF3ysU2Q3MKc0v1ZqMlnGlCdOdQU92xqESrmLC
- 32faYZJASuGhAlIO1E7rIPuiYDDHUMRwWK7t12GSAZGvlacqjnORhc7IGR3zf9OpnD8Cnok
- owulZmVQZGYjwklX5tNvBFEOgQDgpjctV+Kc6aA8vUF8tDuv39SrlXnoyZ2DSDnBYurCaos
- NBRHokiFOULLbfKjHuyug==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ABEuiVqcTWA=;1S/Q+gJchbADRcMSwHok6Y9Hd08
- uDJu05/UPgVsiwfgqqdlhtfugE1vcwAK550Z8CzzKwnSzVjL4wRZpj1FMnHT4nZh3NXviP2vj
- oKTgjvTwi9f3E5qCXrz+FpXFjaDB0XkofknRjvMrAVQYZ8XdVTSsJqAhzjLpT3QsuWfyaJsQL
- VXuH0H7SbzuW7FOHQA911Gq9nKGTuBp00AmdBe73DUi9LFOrlBc9MI0SdiKN1JZ5R2gKEW6eP
- MuFfYx2ObubBlRc+1sDxFeKUOExjSwUqzLhrZSFFXJt+ENW/WSFqZlCQmo+b+pDy7TCNvYV6u
- +8V6rIBPQypboe24aZOPbKpC/BGaUTZL/b8mc9GcMKv+OeEyWXUHGhbGGj08ajmUKn9mBQTgS
- ogop3U8YgYpW0UXryh9ZyHRSJANbfEBRU5lnMrsS1HZtteXnywDNCWJBOjpICF2DNiR5rhHhi
- z+VUu+asPEu+Kcq1M2jurGEwU+iPFu1XSuOK8w+sw+BosErPquRELXS/TSUWdSznXihZ0u32T
- ajVFatxSX69Cn1brc6eT101YHVTBN5aILW1p4oQCadDj4JjEKgJGqbXga6DUuWA3vZ0ueOs9H
- mFrdFa1pKZKl1K16g/0fnC2467i/LaF0X+R2arcUfruKKW2wQXHo+DQ8Fr87RRoKGThEMKbWy
- wmbBaXh2W7t2LXW/yVOX7Hv6B0qqm5ibmayV3zaJLvFEs78XkSpy7d7r7/9+B/aRfBFzS0lpW
- VIn2Noib8w3KRbVn0i7K4geUNIOBjdXNjlsX4GGbg2l3OhR5H1iMG7lyo/K8xP5HYZH8mbvaS
- x9bhjxl7izXwZk69Ebu+ZtZoyiOm4oqSD3S5ACWtGGwCTE7sAlr3fco65F5aX/ZKdOPUFw+g1
- qrdsPS5aTlU6K80eypoV152l6hqYFcq8ZJLAAqTshff366m3ahFee4RdQCot9+82q1Wp6WNVt
- bO65kM6EyE/lb7/E/0awB/9IrZ4=
+Content-Transfer-Encoding: 7bit
 
->> There are different preferences involved.
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/Documentation/process/submitting-patches.rst?h=3Dv6.8-rc2#n109
->
-> Ah, I mean you use 13 chars, but 12 chars is better. Also the doc
-> doens't seem to enforce 12 chars, but checkpatch warns on that.
+On 31/01/2024 00:30, Corona, Ernesto wrote:
+> Aspeed AST2400, AST2500 and AST2600 JTAG controller driver.
+> 
+> Signed-off-by: Oleksandr Shamray <oleksandrs@mellanox.com>
+> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+> Signed-off-by: Ernesto Corona <ernesto.corona@intel.com>
+> Signed-off-by: Omar Castro <omar.eduardo.castro@linux.intel.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 
-Would the specification =E2=80=9Cat least=E2=80=9D become supported at fur=
-ther places
-for such hash lengths?
+1. There are so many wrong things with this submission that you should
+drop the tag.
 
-Regards,
-Markus
+Please provide lore link where you received this tag. Quick look at lore
+suggests you faked it.
+
+2. Please use subject prefixes matching the subsystem. You can get them
+for example with `git log --oneline -- DIRECTORY_OR_FILE` on the
+directory your patch is touching.
+
+3. Please use scripts/get_maintainers.pl to get a list of necessary
+people and lists to CC. It might happen, that command when run on an
+older kernel, gives you outdated entries. Therefore please be sure you
+base your patches on recent Linux kernel.
+
+Tools like b4 or scripts_getmaintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, use mainline), work on fork of kernel (don't, use
+mainline) or you ignore some maintainers (really don't). Just use b4 and
+everything should be fine, although remember about `b4 prep
+--auto-to-cc` if you added new patches to the patchset.
+
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time, thus I will skip this patch entirely till you follow
+the process allowing the patch to be tested.
+
+Please kindly resend and include all necessary To/Cc entries.
+
+
+
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: "Theodore Ts'o" <tytso@mit.edu>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Eric Biggers <ebiggers@google.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: Steven Filary <steven.a.filary@intel.com>
+> Cc: Vadim Pasternak <vadimp@mellanox.com>
+> Cc: Amithash Prasad <amithash@fb.com>
+> Cc: Patrick Williams <patrickw3@fb.com>
+> Cc: Luke Chen <luke_chen@aspeedtech.com>
+> Cc: Billy Tsai <billy_tsai@aspeedtech.com>
+> Cc: Rgrs <rgrs@protonmail.com>
+> ---
+> v29->v30
+> Comments pointed by Steven Filary <steven.a.filary@intel.com>
+> - Add Suport for 26xx series
+> 
+> v28->v29
+> Comments pointed by Ernesto Corona <ernesto.corona@intel.com>
+> - Change documentation to the new dt-bindings yaml format.
+> 
+> v27->v28
+> v26->v27
+> v25->v26
+> v24->v25
+> v23->v24
+> v22->v23
+> v21->v22
+> v20->v21
+> v19->v20
+> v18->v19
+> 
+> v17->v18
+> v16->v17
+> v15->v16
+> Comments pointed by Joel Stanley <joel.stan@gmail.com>
+> - change clocks = <&clk_apb> to proper clocks = <&syscon ASPEED_CLK_APB>
+> - add reset descriptions in bindings file
+> 
+> v14->v15
+> v13->v14
+> v12->v13
+> v11->v12
+> v10->v11
+> v9->v10
+> v8->v9
+> v7->v8
+> Comments pointed by pointed by Joel Stanley <joel.stan@gmail.com>
+> - Change compatible string to ast2400 and ast2000
+> 
+> V6->v7
+> Comments pointed by Tobias Klauser <tklauser@distanz.ch>
+>  - Fix spell "Doccumentation" -> "Documentation"
+> 
+> v5->v6
+> Comments pointed by Tobias Klauser <tklauser@distanz.ch>
+> - Small nit: s/documentation/Documentation/
+> 
+> v4->v5
+> 
+> V3->v4
+> Comments pointed by Rob Herring <robh@kernel.org>
+> - delete unnecessary "status" and "reg-shift" descriptions in
+>   bindings file
+> 
+> v2->v3
+> Comments pointed by Rob Herring <robh@kernel.org>
+> - split Aspeed jtag driver and binding to separate patches
+> - delete unnecessary "status" and "reg-shift" descriptions in
+>   bindings file
+> ---
+>  .../devicetree/bindings/jtag/aspeed-jtag.yaml | 85 +++++++++++++++++++
+>  1 file changed, 85 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/jtag/aspeed-jtag.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/jtag/aspeed-jtag.yaml b/Documentation/devicetree/bindings/jtag/aspeed-jtag.yaml
+> new file mode 100644
+> index 000000000000..1a412e83b81b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/jtag/aspeed-jtag.yaml
+
+Use filename matching compatibles, so aspeed,jtag.yaml
+
+> @@ -0,0 +1,85 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/jtag/aspeed-jtag.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Aspeed JTAG driver for ast2400, ast2500 and ast2600 SoC
+> +
+> +description:
+> +  Driver adds support of Aspeed 24/25/2600 series SOC JTAG controller.
+> +  Driver implements the following jtag ops
+> +    freq_get
+> +    freq_set
+> +    status_get
+> +    status_set
+> +    xfer
+> +    mode_set
+> +    bitbang
+> +    enable
+> +    disable
+> +
+> +  It has been tested on Mellanox system with BMC equipped with
+> +  Aspeed 2520 SoC for programming CPLD devices.
+> +
+> +  It has also been tested on Intel system using Aspeed 25xx SoC
+> +  for JTAG communication.
+> +
+> +  Tested on Intel system using Aspeed 26xx SoC for JTAG communication.
+> +
+> +maintainers:
+> +  - Oleksandr Shamray <oleksandrs@mellanox.com>
+> +  - Jiri Pirko <jiri@nvidia.com>
+> +  - Ernesto Corona<ernesto.corona@intel.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+
+Drop
+
+> +      - items:
+
+Drop
+
+> +          - enum:
+> +              - aspeed,ast2400-jtag
+> +              - aspeed,ast2500-jtag
+> +              - aspeed,ast2600-jtag
+> +
+> +
+
+Just one blank line. Since this was not tested, I will skip review of
+the rest.
+
+Best regards,
+Krzysztof
+
