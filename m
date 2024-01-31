@@ -1,67 +1,69 @@
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A3D6E2A5;
-	Wed, 31 Jan 2024 10:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8BE679E1;
+	Wed, 31 Jan 2024 10:29:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706696117; cv=none; b=ee7ZPgsNOIG2zr7L82EZvhswrtbdlNiBEhIuuo+LClYECzroIySWlPVCR0q1rsK09txBAM2fBFFojZDCkzny/4OG/+DFU1ccle2JzoV7zcp8yzwDG2ekiBZw0lNoqOZz7FGsjO6FjmvVPwzRwjX2WsePIvVB/eqen/szTicPgA0=
+	t=1706696963; cv=none; b=dk3hHH+GlH8o99PbocNQafNofQh1ibF+bPQETRAgeK2lgfefbWwmn8tHeWNEz+8D4bTRr20YyEOTAmuSRt6F47OIJw/y/Vcu0rzlOPNnTUd3hgfZi5BfEW10GZJ4bKHJ/dR6XEuNSSkKmuKHJkiLwX8SlwEThU1xTlRdcfVQtNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706696117; c=relaxed/simple;
-	bh=w/0vv7TrIVCb0F38hakGI6R+FGoVqx4cnrXY1lbUkaw=;
+	s=arc-20240116; t=1706696963; c=relaxed/simple;
+	bh=FmRhJrNN5tdkYj1oEn1WGlN9crcXpNJmsF89y7Q5CxM=;
 	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=SqxW75yQfFBr21b8UnWegPzjytskCpDlltYOmfxYA5oy8/wD7lgC7eSWfnIiKU8Pb6PjN/GHYY5E9XzMmq2QQZQOehXyCG2irHdcLxrtMVPWn08dzAGrmf7P09TspzqhsXbdeVO1D13XYu+5q9BjxjX1NpeNlpkBHKRTL99v6mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=linYKR0L; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TFSskRoT; arc=none smtp.client-ip=66.111.4.25
+	 Subject:Content-Type; b=UX/nDSKraDQnzX4DfkiJmamYy6ac8pdhCvUfEm+3Ik9dDReOUBXvGK2kS5g2MqDE3xP1TWPv9I0Bqg+lPl0Wrn3SclVfd9tctB6DlSRaVATa4VRTsQZFKDap5N+Zsk1M/XGivNyADib9/NA7skAIa29IuwrIhXinS/U4GeKguT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=r1w+SIgG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=prxagr4L; arc=none smtp.client-ip=66.111.4.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="linYKR0L";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TFSskRoT"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="r1w+SIgG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="prxagr4L"
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 0ECEA5C00FD;
-	Wed, 31 Jan 2024 05:15:14 -0500 (EST)
+	by mailout.nyi.internal (Postfix) with ESMTP id 677D15C00BF;
+	Wed, 31 Jan 2024 05:29:20 -0500 (EST)
 Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 31 Jan 2024 05:15:14 -0500
+  by compute5.internal (MEProxy); Wed, 31 Jan 2024 05:29:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1706696114; x=1706782514; bh=PIqvIF++O8
-	prNRQycSl4yvs3SVb1+7vU4k2CiJh82ow=; b=linYKR0LyGqBh3M5lanjAOuEuZ
-	omaiGbbc6Spdg52E+kLUwNSZnT0g/VknKNhG+PU3jp1wLgBNbcFFsXj5aHbuNhOO
-	OOsQhVBa5lcdMuJ1xx4QA68wn/zeqrtqkSl4EqPMY3gZnJSc9jPmSi0wi7mD0O9U
-	v8k2ORiIpt4xKcRTV8eYey2BmDV9C776BcaGEREoWM7yJmAINYRdSZqQ7Ka03iGd
-	+w82j6BX22e+lxUB18S8Ew1KbNUHWfpkPsYROZX83gYkgJlEefxRCr1TFsQhLN/V
-	Qx+QbMoACnWtMG3Jml1qHLjHIc+ni3bQXRDODNUE8jqfNmSCBx5e3vB0xekQ==
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1706696960;
+	 x=1706783360; bh=iKsNv795W6E/GbLdxQpU+VkSSklR3RfYg2NP17KrEuU=; b=
+	r1w+SIgGWw7dJyt3GzIZOgqo2n/eeg1SXNYzBJKIHR6M+ZtY9LOh/WzC8xl5ZyiX
+	KGiDo4w+ZuwSEQ1vuvGYQvBLaMADawKJeAQY6vMvLojc2nTufc2dwLrdoan28w8L
+	NX4TquETi11QgoauczLec/BpoD1TxBXJ0E5lzJwPQP1Z6V2oWv+o+FEyeeyPYpVn
+	gT8ibuoLeRJlzl96Gs9TKtcIl7CcSgc/LXeZUQCWW8n7s5lOftNa2Mert2BDm2GP
+	YaaVIomhQwxG6eFGNlsVVWMLtp8Y5UtRyG+22deQB/OrbIIMR0mNY97d5YsDwNXi
+	l/a/oPZxoUjFG27YrK7sgA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1706696114; x=1706782514; bh=PIqvIF++O8prNRQycSl4yvs3SVb1
-	+7vU4k2CiJh82ow=; b=TFSskRoT5bHEuYQ56uM/KKpe/PIW2urOakSkflYOdaSi
-	LxCMxzYlgaLZoroFxVlKxUKGX11MZiuNYX+sZ3YVN+UH8QqBKJ737VV3Da+Ruvt/
-	S6gNIs65AdBUOVuc+jkyEnSBGlxUDu0+LcsDOvaEGqcSfB0Enza4dGPcHRm2Nfx0
-	C7MRL23WzpBLOwhkjOHmGtVOVc/MPUoW+OgOcqrnjudjsItvclO3PVM5Zy3/ffkr
-	yddzV3zLYUkcioedp2G7JpFPuS5/BEsZlSwgPOD/MFpE5CXLgXEkzRp5wQtSfBPH
-	KB/uojd5p6UCXl25PDJu7+YHsVJ+fGjmKe0VwYwwOg==
-X-ME-Sender: <xms:sB26ZRrljK2vyL7xQVyBlEga_u2-Q2mu_ZJwQRKoHA_g9vDs57VQPA>
-    <xme:sB26ZToEwYJTVLKnWzJevpF4m3QWTVDn1L4dQF62DFD7JJ7m6eLWg70hRYQPa67NK
-    OazVPOTbzWRNKLBf5w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfedtledguddvucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706696960; x=
+	1706783360; bh=iKsNv795W6E/GbLdxQpU+VkSSklR3RfYg2NP17KrEuU=; b=p
+	rxagr4LAAt5LDBTk5TLUgiJy31iihbvdHZuht6v/ZdhedjYllhFfqCe81x2f95Zo
+	7c6qF6Vqn0Ct+PWPC0LPmC2q3oxm8PJ+97vM2ReNQS4BnfuikN8+tFzLSVwAiLnB
+	XCwpMLMC/apTM5pOXQjPBmynVDClv9VC0FVmqluRrpBax54ys6yQVKOB8+JxDgx7
+	CeJBEi5CJKu+A2PM+6A9QnmPb1gRmwAS45hIUBOcJLxv4NTuzCD+RmnYS8OKNWo/
+	J/L2JLLQS3iQN6M066Waa64UWuCrsmuVL2LkuV7ucDjl3KDA2RKS79l+cG3uXD9h
+	80+Nmub29smTdXwFwugbg==
+X-ME-Sender: <xms:_iC6ZWx41lQGmTgxNQPv033inelQFUqqgqhGoRB1Yy_Suw3I8Xelgg>
+    <xme:_iC6ZSRqCMMRGR4dsf2AkWDbTf6DTYgj0B5L_el4qpBjc-H_WY24kzGjuScisGao2
+    yzSLAe8OaA_rRy8Tlo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfedtledgudehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:sB26ZeNA0z5pqyylBq1yb0e42jwqKTqNxL0Bo5czCN7rwXImd8n66w>
-    <xmx:sB26Zc7-ZXwKR70kdAEMYa5v3Gd1VQA0n7TYNEiHhLvEewyPfsV8fg>
-    <xmx:sB26ZQ5WhmATJ2LRwwsSaOfzi5_3AAwVKTZjVNM4aE7E7Edrzd_jQg>
-    <xmx:sh26ZSTp6M1RZ9IBwZQDPwqDfmc_YHtMkDjFM8NRmF8UQgtUF5lM1g>
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:_iC6ZYXhgaK38oMGNaGPwVUfqTjpiERjPnsH4firn_SwhCPxrErYHA>
+    <xmx:_iC6ZcjvaWNtDsNaKMs_RAFWnK9ju6FdUo2vEcbE8gjZqfayeaG8bg>
+    <xmx:_iC6ZYCMLDoeolGZs_ufJ7ezycNWlbfwu69_HSZoxwUOXAZXBSQ_Mw>
+    <xmx:ACG6ZY2U-kSIMTC4srsLhXKXwUwJquPF-ApdBE0B8lL06BOUgQl9CQ>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5D984B6008D; Wed, 31 Jan 2024 05:15:12 -0500 (EST)
+	id 44453B6008D; Wed, 31 Jan 2024 05:29:18 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
 Precedence: bulk
@@ -70,298 +72,172 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <4ce460c4-00ab-4665-8bfa-6f16cdcb38e3@app.fastmail.com>
-In-Reply-To: 
- <LV8PR11MB846358B901CA67965197C4AB8B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
-References: 
- <LV8PR11MB846358B901CA67965197C4AB8B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
-Date: Wed, 31 Jan 2024 11:14:52 +0100
+Message-Id: <1036060c-25dd-439b-b081-893d0cb000f6@app.fastmail.com>
+In-Reply-To: <269edff0-d989-4ac8-b0c3-bce31283806b@kalrayinc.com>
+References: <20230120141002.2442-1-ysionneau@kalray.eu>
+ <20230120141002.2442-32-ysionneau@kalray.eu>
+ <995eb624-3efe-10fc-a6ed-883d52d591bb@linaro.org>
+ <269edff0-d989-4ac8-b0c3-bce31283806b@kalrayinc.com>
+Date: Wed, 31 Jan 2024 11:28:57 +0100
 From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Corona, Ernesto" <ernesto.corona@intel.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
-Cc: "'oleksandrs@mellanox.com'" <oleksandrs@mellanox.com>,
- "Jiri Pirko" <jiri@nvidia.com>, "Castro,
- Omar Eduardo" <omar.eduardo.castro@intel.com>,
- "'omar.eduardo.castro@linux.intel.com'"
- <omar.eduardo.castro@linux.intel.com>,
- "'pombredanne@nexb.com'" <pombredanne@nexb.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "'bbrezillon@kernel.org'" <bbrezillon@kernel.org>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Johan Hovold" <johan@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
- "Joel Stanley" <joel@jms.id.au>, "Palmer Dabbelt" <palmer@sifive.com>,
- "Kees Cook" <keescook@chromium.org>,
- "William Breathitt Gray" <vilhelm.gray@gmail.com>,
- "'federico.vaga@cern.ch'" <federico.vaga@cern.ch>,
- "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
- "Tony Luck" <tony.luck@intel.com>,
- "'christian.gromm@microchip.com'" <christian.gromm@microchip.com>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "'zzyiwei@google.com'" <zzyiwei@google.com>,
- "'rubini@gnudd.com'" <rubini@gnudd.com>,
- "Viresh Kumar" <viresh.kumar@linaro.org>,
- "Mika Westerberg" <mika.westerberg@linux.intel.com>, "Filary,
- Steven A" <steven.a.filary@intel.com>,
- "'vadimp@mellanox.com'" <vadimp@mellanox.com>,
- "'amithash@fb.com'" <amithash@fb.com>,
- "'patrickw3@fb.com'" <patrickw3@fb.com>, "Chen,
- Luke" <luke_chen@aspeedtech.com>,
- "'billy_tsai@aspeedtech.com'" <billy_tsai@aspeedtech.com>,
- "'rgrs@protonmail.com'" <rgrs@protonmail.com>
-Subject: Re: [PATCH 30 1/7] Add JTAG core driver
-Content-Type: text/plain
+To: "Yann Sionneau" <ysionneau@kalrayinc.com>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Yann Sionneau" <ysionneau@kalray.eu>,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Marc Zyngier" <maz@kernel.org>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Will Deacon" <will@kernel.org>, "Peter Zijlstra" <peterz@infradead.org>,
+ "Boqun Feng" <boqun.feng@gmail.com>,
+ "Mark Rutland" <mark.rutland@arm.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ "Kees Cook" <keescook@chromium.org>, "Oleg Nesterov" <oleg@redhat.com>,
+ "Ingo Molnar" <mingo@redhat.com>, "Waiman Long" <longman@redhat.com>,
+ "Aneesh Kumar" <aneesh.kumar@linux.ibm.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Paul Moore" <paul@paul-moore.com>, "Eric Paris" <eparis@redhat.com>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Paul Walmsley" <paul.walmsley@sifive.com>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Jules Maselbas" <jmaselbas@kalray.eu>,
+ "Guillaume Thouvenin" <gthouvenin@kalray.eu>,
+ "Clement Leger" <clement@clement-leger.fr>,
+ "Vincent Chardon" <vincent.chardon@elsys-design.com>,
+ =?UTF-8?Q?Marc_Poulhi=C3=A8s?= <dkm@kataplop.net>,
+ "Julian Vetter" <jvetter@kalray.eu>, "Samuel Jones" <sjones@kalray.eu>,
+ "Ashley Lesdalons" <alesdalons@kalray.eu>,
+ "Thomas Costis" <tcostis@kalray.eu>, "Marius Gligor" <mgligor@kalray.eu>,
+ "Jonathan Borne" <jborne@kalray.eu>,
+ "Julien Villette" <jvillette@kalray.eu>,
+ "Luc Michel" <lmichel@kalray.eu>, "Louis Morhet" <lmorhet@kalray.eu>,
+ "Julien Hascoet" <jhascoet@kalray.eu>,
+ "Jean-Christophe Pince" <jcpince@gmail.com>,
+ "Guillaume Missonnier" <gmissonnier@kalray.eu>,
+ "Alex Michon" <amichon@kalray.eu>, "Huacai Chen" <chenhuacai@kernel.org>,
+ "WANG Xuerui" <git@xen0n.name>,
+ "Shaokun Zhang" <zhangshaokun@hisilicon.com>,
+ "John Garry" <john.garry@huawei.com>,
+ "Guangbin Huang" <huangguangbin2@huawei.com>,
+ "Bharat Bhushan" <bbhushan2@marvell.com>,
+ "Bibo Mao" <maobibo@loongson.cn>, "Atish Patra" <atishp@atishpatra.org>,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>, "Qi Liu" <liuqi115@huawei.com>,
+ "Jiaxun Yang" <jiaxun.yang@flygoat.com>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Mark Brown" <broonie@kernel.org>,
+ "Janosch Frank" <frankja@linux.ibm.com>,
+ "Alexey Dobriyan" <adobriyan@gmail.com>,
+ "Julian Vetter" <jvetter@kalrayinc.com>, jmaselbas@zdiv.net
+Cc: "Benjamin Mugnier" <mugnier.benjamin@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-mm@kvack.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-audit@redhat.com,
+ linux-riscv@lists.infradead.org, bpf@vger.kernel.org
+Subject: Re: [RFC PATCH v2 31/31] kvx: Add IPI driver
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 31, 2024, at 00:26, Corona, Ernesto wrote:
+On Wed, Jan 31, 2024, at 10:52, Yann Sionneau wrote:
+> On 22/01/2023 12:54, Krzysztof Kozlowski wrote:
+>> On 20/01/2023 15:10, Yann Sionneau wrote:
+>>> +
+>>> +int __init kvx_ipi_ctrl_probe(irqreturn_t (*ipi_irq_handler)(int, v=
+oid *))
+>>> +{
+>>> +	struct device_node *np;
+>>> +	int ret;
+>>> +	unsigned int ipi_irq;
+>>> +	void __iomem *ipi_base;
+>>> +
+>>> +	np =3D of_find_compatible_node(NULL, NULL, "kalray,kvx-ipi-ctrl");
+>> Nope, big no.
+>>
+>> Drivers go to drivers, not to arch code. Use proper driver infrastruc=
+ture.
+> Thank you for your review.
 >
-> +static long jtag_ioctl(struct file *file, unsigned int cmd, unsigned 
-> long arg)
-> +{
-> +	struct jtag *jtag = file->private_data;
-> +	struct jtag_tap_state tapstate;
-> +	struct jtag_xfer xfer;
-> +	struct bitbang_packet bitbang;
-> +	struct tck_bitbang *bitbang_data;
-> +	struct jtag_mode mode;
-> +	u8 *xfer_data;
-> +	u32 data_size;
-> +	u32 value;
-> +	u32 active;
-> +	int err;
-> +
-> +	if (!arg)
-> +		return -EINVAL;
+> It raises questions on our side about how to handle this change.
+>
+> First let me describe the hardware:
+>
+> The coolidge ipi controller device handles IPI communication between c=
+pus
+> inside a cluster.
+>
+> Each cpu has 8 of its dedicated irq lines (24 to 31) hard-wired to the=
+ ipi.
+> The ipi controller has 8 sets of 2 registers:
+> - a 17-bit "interrupt" register
+> - a 17-bit "mask" register
+>
+> Each couple of register is dedicated to 1 of the 8 irqlines.
+> Each of the 17 bits of interrupt/mask register
+> identifies a cpu (cores 0 to 15 + secure_core).
+> Writing bit i in interrupt register sends an irq to cpu i, according t=
+o the mask
+> in mask register.
+> Writing in interrupt/mask register couple N targets irq line N of the =
+core.
+>
+> - Ipi generates an interrupt to the cpu when message is ready.
+> - Messages are delivered via Axi.
+> - Ipi does not have any interrupt input lines.
+>
+>
+> =C2=A0 +---------------+=C2=A0=C2=A0 irq=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 axi_w
+> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 i=C2=A0=
+ |<--/--- ipi <------
+> =C2=A0 | CPU=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 n=C2=A0 |=C2=A0 x8
+> =C2=A0 |=C2=A0 core0=C2=A0 |=C2=A0 t=C2=A0 |
+> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 c=C2=A0=
+ |=C2=A0 irq=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 irq=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msi
+> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 t=C2=A0=
+ |<--/--- apic <----- mbox <-------
+> =C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 l=C2=A0=
+ |=C2=A0 x4
+> =C2=A0 +---------------+
+> =C2=A0 with intctl =3D core-irq controller
+>=C2=A0=C2=A0 =C2=A0
+>
+> We analyzed how other Linux ports are handling this situation (IPI) an=
+d=20
+> here are several possible solutions:
+>
+> 1/ put everything in smp.c like what longarch is doing.
+> =C2=A0 * Except that IPI in longarch seems to involve writing to a spe=
+cial=20
+> purpose CPU register and not doing a memory mapped write like kvx.
+>
+> 2/ write a device driver in drivers/xxx/ with the content from ipi.c
+> =C2=A0 * the probe would just ioremap the reg from DT and register the=
+ irq=20
+> using request_percpu_irq()
+> =C2=A0 * it would export a function "kvx_ipi_send()" that would direct=
+ly be=20
+> called by smp.c
+> =C2=A0 * Question : where would this driver be placed in drivers/ ?=20
+> drivers/irqchip/ ? Even if this is not per-se an interrupt-controller=20
+> driver?
 
-Why do you need a different return code for one invalid
-pointer, compared to any other invalid pointer? It seems
-better to just return the -EFAULT from put_user here.
+This looks like it's close enough to the irqchip driver
+that you can just have it in the same file as the 'intctl'
+portion.
 
-> +	switch (cmd) {
-> +	case JTAG_GIOCFREQ:
-> +		if (!jtag->ops->freq_get)
-> +			return -EOPNOTSUPP;
-> +
-> +		err = jtag->ops->freq_get(jtag, &value);
-> +		if (err)
-> +			break;
-> +		dev_dbg(jtag->miscdev.parent, "JTAG_GIOCFREQ: freq get = %d",
-> +			value);
+Top-level irqchip implementations tend to be rather architecture
+specific, as does the IPI mechanism. Depending on the register
+layout, I think you can have a single devicetree node for
+the combination of the core-irq (for managing your
+own interrupts) and the ipi (for receiving interrupts from
+others), and then have a driver in drivers/irqchip to
+deal with both. For the ipi mechanism, trying to abstract
+it too much generally makes it too slow, so I would not
+go through a nested irqchip or a mailbox driver etc.
 
-These dev_dbg() statements look like this is from
-code that is not quite ready. There are sometimes
-reasons to leave debug prints in a driver, but those
-are usually for events that happen asynchronously,
-rather than directly being part of a user call.
-
-I would just remove these all.
-
-> +		if (put_user(value, (__u32 __user *)arg))
-> +			err = -EFAULT;
-> +		break;
-
-The open-coded typecasts look suboptimal, and the function
-is rather long. I would suggest you rearrange the ioctl
-handler to
-
-- have one function that takes the correct argument type
-  (__u32 __user *arg) for each command
-
-- a 'void __user *' variable in the ioctl function itself
-  that has a single cast and passes the pointer to those
-  functions.
-
-> +
-> +		print_hex_dump_debug("O:", DUMP_PREFIX_NONE, 16, 1, xfer_data,
-> +				     data_size, false);
-
-If this is enabled, it looks like userspace can produce
-a denial-of-service by sending down gigabytes of data
-that end up being printed.
-
-> +static const struct file_operations jtag_fops = {
-> +	.owner		= THIS_MODULE,
-> +	.open		= jtag_open,
-> +	.llseek		= noop_llseek,
-> +	.unlocked_ioctl	= jtag_ioctl,
-> +	.release	= jtag_release,
-> +};
-
-You should set
-
-       .compat_ioctl = compat_ptr_ioctl
-
-otherwise this driver won't be able to be used from
-32-bit applications.
-
-> +struct jtag *jtag_alloc(struct device *host, size_t priv_size,
-> +			const struct jtag_ops *ops)
-> +{
-...
-> +
-> +	jtag = kzalloc(sizeof(*jtag), GFP_KERNEL);
-> +	if (!jtag)
-> +		return NULL;
-> +	jtag->priv = kzalloc(priv_size, GFP_KERNEL);
-> +	if (!jtag->priv)
-> +		return NULL;
-> +
-> +	jtag->ops = ops;
-> +	jtag->miscdev.parent = host;
-> +
-> +	return jtag;
-> +}
-> +EXPORT_SYMBOL_GPL(jtag_alloc);
-> +
-> +void jtag_free(struct jtag *jtag)
-> +{
-> +	kfree(jtag);
-> +}
-> +EXPORT_SYMBOL_GPL(jtag_free);
-
-You have two 'kzalloc' but only one 'kfree' here. You
-also leak the first allocation if the second one fails.
-
-The usual way to do this is to have a single allocation
-of 'sizeof(*jtag) + priv_size' and then point
-jtag->priv to 'jtag + 1'.
-
-> +struct jtag_tap_state {
-> +	__u8	reset;
-> +	__u8	from;
-> +	__u8	endstate;
-> +	__u32	tck;
-> +};
-
-This structure has a padding byte inside, which can
-leak kernel information when copied back to userspace.
-In some cases (not here) the padding can also lead
-to incompatible layouts between architectures.
-
-Just add an explicit padding byte and make sure this
-gets properly initialized when copying to userspace
-and checked for being zero when copied to the kernel.
-
-> +/**
-> + * struct jtag_xfer - jtag xfer:
-> + *
-> + * @type: transfer type
-> + * @direction: xfer direction
-> + * @from: xfer current state
-> + * @endstate: xfer end state
-> + * @padding: xfer padding
-> + * @length: xfer bits length
-> + * @tdio : xfer data array
-> + *
-> + * Structure provide interface to JTAG device for JTAG SDR/SIR xfer 
-> execution.
-> + */
-> +struct jtag_xfer {
-> +	__u8	type;
-> +	__u8	direction;
-> +	__u8	from;
-> +	__u8	endstate;
-> +	__u32	padding;
-> +	__u32	length;
-> +	__u64	tdio;
-> +};
-
-This one is indeed incompatible between i386 userland
-and x86_64 kernels, and will need explicit padding between
-length and tdio.
-
-> +/**
-> + * struct bitbang_packet - jtag bitbang array packet:
-> + *
-> + * @data:   JTAG Bitbang struct array pointer(input/output)
-> + * @length: array size (input)
-> + *
-> + * Structure provide interface to JTAG device for JTAG bitbang bundle 
-> execution
-> + */
-> +struct bitbang_packet {
-> +	struct tck_bitbang *data;
-> +	__u32	length;
-> +} __attribute__((__packed__));
-
-This one has no implicit padding because of the
-__attribute__((__packed__)), but that attribute actually
-makes things worse since pointers must be naturally aligned
-on most architectures.
-
-The pointer also makes this structure incompatible for
-32-bit userspace, so you should use the same u64_to_user_ptr()
-trick you have elsewhere, or ideally completely avoid the
-extra indirection.
-
-> +/**
-> + * struct jtag_bitbang - jtag bitbang:
-> + *
-> + * @tms: JTAG TMS
-> + * @tdi: JTAG TDI (input)
-> + * @tdo: JTAG TDO (output)
-> + *
-> + * Structure provide interface to JTAG device for JTAG bitbang 
-> execution.
-> + */
-> +struct tck_bitbang {
-> +	__u8	tms;
-> +	__u8	tdi;
-> +	__u8	tdo;
-> +} __attribute__((__packed__));
-
-Here the __packed__ should have no effect here, what is it for?
-
-> +/* ioctl interface */
-> +#define __JTAG_IOCTL_MAGIC	0xb9
-> +
-> +#define JTAG_SIOCSTATE	_IOW(__JTAG_IOCTL_MAGIC, 0, struct 
-> jtag_tap_state)
-> +#define JTAG_SIOCFREQ	_IOW(__JTAG_IOCTL_MAGIC, 1, unsigned int)
-> +#define JTAG_GIOCFREQ	_IOR(__JTAG_IOCTL_MAGIC, 2, unsigned int)
-> +#define JTAG_IOCXFER	_IOWR(__JTAG_IOCTL_MAGIC, 3, struct jtag_xfer)
-> +#define JTAG_GIOCSTATUS _IOWR(__JTAG_IOCTL_MAGIC, 4, enum 
-> jtag_tapstate)
-
-Enums are not good for interface definitions, just use a __u32 here.
-I would also list __u32 instead of 'unsigned int' for the others,
-though that makes no practical difference.
-
-> +/**
-> + * struct tms_cycle - This structure represents a tms cycle state.
-> + *
-> + * @tmsbits: is the bitwise representation of the needed tms 
-> transitions to
-> + *           move from one state to another.
-> + * @count:   number of jumps needed to move to the needed state.
-> + *
-> + */
-> +struct tms_cycle {
-> +	unsigned char tmsbits;
-> +	unsigned char count;
-> +};
-
-Maybe also use __u8 here.
-
-> +/*
-> + * This is the complete set TMS cycles for going from any TAP state to 
-> any
-> + * other TAP state, following a "shortest path" rule.
-> + */
-> +static const struct tms_cycle _tms_cycle_lookup[][16] = {
-> +/*	    TLR        RTI        SelDR      CapDR      SDR        Ex1DR*/
-> +/* TLR  */{{0x00, 0}, {0x00, 1}, {0x02, 2}, {0x02, 3}, {0x02, 4}, 
-> {0x0a, 4},
-> +/*	    PDR        Ex2DR      UpdDR      SelIR      CapIR      SIR*/
-> +	    {0x0a, 5}, {0x2a, 6}, {0x1a, 5}, {0x06, 3}, {0x06, 4}, {0x06, 5},
-> +/*	    Ex1IR      PIR        Ex2IR      UpdIR*/
-> +	    {0x16, 5}, {0x16, 6}, {0x56, 7}, {0x36, 6} },
-
-It's not clear if this is part of the user ABI of this specific
-driver or if it's just generic information about jtag. My feeling
-is that this does not belong into this header if this is something
-that an application would use regardless of the kernel
-interface.
+I don't know what the 'apic' in your diagram is, so that
+would be either a nested irqchip or could be part of
+the same driver as well.
 
      Arnd
