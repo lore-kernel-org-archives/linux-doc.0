@@ -1,258 +1,82 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF1E13BEB9
-	for <linux-doc@vger.kernel.org>; Wed, 31 Jan 2024 18:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38D92110B;
+	Wed, 31 Jan 2024 19:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706724590; cv=none; b=YRMFIl58nNPb31L0MQMaam6Lxc4IPCVTViXRUqHtZ1XS4Bs6Mipfv8W7eSp77aJNqmXKobW++qRhZDDjU6PsULMUkdmb8NAdV2QwPtxEoMLzJ2pUk+b8EvFy9Jq1YRxA033aQOTwaj7uRQSo4cWqhvAxuiUJ+nAU1uaV/VCSz8c=
+	t=1706727865; cv=none; b=llXk0FzHKu09Q+My1EQ26kMo2c7vwZrai1RT7YWl7le2jM50WSTn+Rv0WKae2QY6Zx0l+lXFs7k7fQOaTeVDdmIgrQMIU5F2Ny0ePovuMhCEpiYdGJvh45M/csoWm0D75QAjmFh8oIUQabPuaogemIz+4WmE911tPtmLzR7cKRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706724590; c=relaxed/simple;
-	bh=7A7sHroL9Ow9RB5SlrBbD5eZxpWYWwUbOvldYd9/zgE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Adc7eyRGUq5v15G0T39achKMt5JdRGKYwsLAJlCgBOmlL9q4HOBacVTa+1clx7P4yavwhsMyjr84fYlf8ia39M2sa4+7w6uujAA+7T8kUT7+5UvvIAT3dPBMjBRT5GkGDfOwnNq5q+3I/G8r3hWqPHgOuhlKOom56tnqp+d3FCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=PMtahE2n; arc=none smtp.client-ip=209.85.161.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1706727865; c=relaxed/simple;
+	bh=ZFaDRFvyJi8lc9H2xeHHqn2J0lyfMDKKkZt/RaDQJyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NjR05bm/OkPsGhT1Zlrs2zZWUnAfRDNMYKOYWElmz/SqpqM3qIPReQk2dp4IAddmrSufCdinU4DRSxnY4KlfMGelKBxOYOXqwanI+CK09v8LAAkKKjCB1mJr3UImaXTZ61f3IljOE/5bvI7witoOQthiPQ6vIO5MTIe8XPfDGxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oPQZLRAN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="PMtahE2n"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-59a146e8c85so50841eaf.0
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jan 2024 10:09:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1706724586; x=1707329386; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eL7KL2gLPbAb4hjqxQ9bqO5kTIW0debt+d1tm+r3LDo=;
-        b=PMtahE2nzTI6NrcNsv9ux64CWk/ga8Ey3k8fsDCJ0ka8O1FdG2frROY36f64eLQRJ/
-         qekG4muZzU9V9FEvI5Yg+W0zvkg56aWQotkl/G0V3QG+ifqSLBdvS2sQqPcj/IKFPRbm
-         d//41RqxlWTDNRZYpxI8z5FEEPwkD5Tt3cmw0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706724586; x=1707329386;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eL7KL2gLPbAb4hjqxQ9bqO5kTIW0debt+d1tm+r3LDo=;
-        b=jFs22y6QvlryacPJLXPOfwrI3icUuPAVEHejhEdIjJzdRXkwN1m7DCP9MMwb2lGT2m
-         hLtxuy43Psh9f59yI+eR5Ive72zuaMR1jOTjdEbvGrYDp5hSpMjLkWQBJDstsKJwIC+r
-         4B3DhG78xmBb6mm4KJYTmjo4olhaXOAnr/2kI0iNqTMxFB4MQooaZQGOr/su3C+EqYhI
-         wgfMtza4uZJ704RcPrP7fxI7qBeJeqDCOw0AtkadMrRF5XoprZnEDwbwwTHYQOVDfhMk
-         bg7DeanrO3PTH11luPoc2ap0quCrtnSIX3KK8I4qI7fZVROpwo8T8L9OAKNUM0fs4VKj
-         npsQ==
-X-Gm-Message-State: AOJu0Yx6cnNVAeAInPTWrIe+JWIEMv/Y7o1BwosroVRZ8M3osEWUmWOj
-	gBYc/ViPiaXB4yHNKoTiX8lzOT3fozspQuStqGUUIVvt3Q/zNZ0IUNYM67PhvCw=
-X-Google-Smtp-Source: AGHT+IH6vZMWPVrGq0O5BrjIonOKl2Z+F9QpaXvc/P9ImjsQryVPvIl2cAqRN6GYK8SEKr9YUCu6kQ==
-X-Received: by 2002:a05:6870:8a1f:b0:218:d3a2:2430 with SMTP id p31-20020a0568708a1f00b00218d3a22430mr1705910oaq.22.1706724586595;
-        Wed, 31 Jan 2024 10:09:46 -0800 (PST)
-Received: from localhost.localdomain ([2620:11a:c018:0:ea8:be91:8d1:f59b])
-        by smtp.gmail.com with ESMTPSA id v24-20020a634818000000b005cfbf96c733sm10876004pga.30.2024.01.31.10.09.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 10:09:46 -0800 (PST)
-From: Joe Damato <jdamato@fastly.com>
-To: linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: chuck.lever@oracle.com,
-	jlayton@kernel.org,
-	linux-api@vger.kernel.org,
-	brauner@kernel.org,
-	edumazet@google.com,
-	davem@davemloft.net,
-	alexander.duyck@gmail.com,
-	sridhar.samudrala@intel.com,
-	kuba@kernel.org,
-	willemdebruijn.kernel@gmail.com,
-	weiwan@google.com,
-	David.Laight@ACULAB.COM,
-	arnd@arndb.de,
-	Joe Damato <jdamato@fastly.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nathan Lynch <nathanl@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Steve French <stfrench@microsoft.com>,
-	Julien Panis <jpanis@baylibre.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Thomas Huth <thuth@redhat.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrew Waterman <waterman@eecs.berkeley.edu>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure))
-Subject: [PATCH net-next v5 3/3] eventpoll: Add epoll ioctl for epoll_params
-Date: Wed, 31 Jan 2024 18:08:05 +0000
-Message-Id: <20240131180811.23566-4-jdamato@fastly.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240131180811.23566-1-jdamato@fastly.com>
-References: <20240131180811.23566-1-jdamato@fastly.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oPQZLRAN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4739CC433C7;
+	Wed, 31 Jan 2024 19:04:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706727863;
+	bh=ZFaDRFvyJi8lc9H2xeHHqn2J0lyfMDKKkZt/RaDQJyE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oPQZLRANymnanJEmVrcU1z5hwoMHQ0uiQ2OuD0i/eugGPZiRSQKYKEElVSkQjwfOm
+	 AhyvdcTA/3byabyI6bqeTnoCEow1gajhWprTieKkGfmDN4xPtujfzzK5RDHXYViMK6
+	 8XYYZvWVJp9jXvAeqnp++2o060/zCZyzHU5nXvzkNeg+NBAAWGfBQs44WlljopfwzJ
+	 SYaUNOonI+e0L070SLPY9sVzL3lbT9tE8iHo/b1Tw0CvwdpbPcdiGo9I4ob4c1TQcQ
+	 UfzSFeOUwFK7PHNzyZFsMrDISII7Xf0HyPYVqBK8J3GwNBkyAjg+U4YF4EHYNNkiW1
+	 wpa3Xx+dtRPNA==
+Date: Wed, 31 Jan 2024 13:04:21 -0600
+From: Rob Herring <robh@kernel.org>
+To: Charles Hsu <ythsu0511@gmail.com>
+Cc: krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
+	Delphine_CC_Chiu@wiwynn.com, naresh.solanki@9elements.com,
+	peteryin.openbmc@gmail.com, patrick.rudolph@9elements.com,
+	alexander.stein@ew.tq-group.com, lakshmiy@us.ibm.com,
+	bhelgaas@google.com, michal.simek@amd.com, lukas@wunner.de,
+	festevam@denx.de, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	ytshu0511@gmail.com
+Subject: Re: [PATCH v2] hwmon: Add driver for MPS MPQ8785 Synchronous
+ Step-Down Converter
+Message-ID: <20240131190421.GA2119523-robh@kernel.org>
+References: <20240129083115.2107466-1-ythsu0511@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240129083115.2107466-1-ythsu0511@gmail.com>
 
-Add an ioctl for getting and setting epoll_params. User programs can use
-this ioctl to get and set the busy poll usec time or packet budget
-params for a specific epoll context.
+On Mon, Jan 29, 2024 at 04:31:15PM +0800, Charles Hsu wrote:
+> Add support for mpq8785 device from Monolithic Power Systems, Inc.
+> (MPS) vendor. This is synchronous step-down controller.
+> 
+> Signed-off-by: Charles Hsu <ythsu0511@gmail.com>
+> 
+> ---
+> Change in v1:
+>     Initial patchset.
+> Change in v2:
+>     1.Add pmbus support status registers.
+>     2.Add mpq8785 in trivial-devices.yaml.
+>     3.Remove format[PSC_VOLTAGE_OUT]
+>     4.Fix MODULE_DESCRIPTION
+> ---
+>  .../devicetree/bindings/trivial-devices.yaml  |  2 +
 
-Parameters are limited:
-  - busy_poll_usecs is limited to <= u32_max
-  - busy_poll_budget is limited to <= NAPI_POLL_WEIGHT by unprivileged
-    users (!capable(CAP_NET_ADMIN)).
-  - __pad must be 0
+Bindings are a separate patch. checkpatch.pl will tell you this.
 
-Signed-off-by: Joe Damato <jdamato@fastly.com>
----
- .../userspace-api/ioctl/ioctl-number.rst      |  1 +
- fs/eventpoll.c                                | 68 +++++++++++++++++++
- include/uapi/linux/eventpoll.h                | 12 ++++
- 3 files changed, 81 insertions(+)
-
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index 457e16f06e04..b33918232f78 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -309,6 +309,7 @@ Code  Seq#    Include File                                           Comments
- 0x89  0B-DF  linux/sockios.h
- 0x89  E0-EF  linux/sockios.h                                         SIOCPROTOPRIVATE range
- 0x89  F0-FF  linux/sockios.h                                         SIOCDEVPRIVATE range
-+0x8A  00-1F  linux/eventpoll.h
- 0x8B  all    linux/wireless.h
- 0x8C  00-3F                                                          WiNRADiO driver
-                                                                      <http://www.winradio.com.au/>
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 3985434df527..96efca6a9238 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -37,6 +37,7 @@
- #include <linux/seq_file.h>
- #include <linux/compat.h>
- #include <linux/rculist.h>
-+#include <linux/capability.h>
- #include <net/busy_poll.h>
- 
- /*
-@@ -495,6 +496,45 @@ static inline void ep_set_busy_poll_napi_id(struct epitem *epi)
- 	ep->napi_id = napi_id;
- }
- 
-+static long ep_eventpoll_bp_ioctl(struct file *file, unsigned int cmd,
-+				  unsigned long arg)
-+{
-+	struct eventpoll *ep;
-+	struct epoll_params epoll_params;
-+	void __user *uarg = (void __user *) arg;
-+
-+	ep = file->private_data;
-+
-+	switch (cmd) {
-+	case EPIOCSPARAMS:
-+		if (copy_from_user(&epoll_params, uarg, sizeof(epoll_params)))
-+			return -EFAULT;
-+
-+		if (memchr_inv(epoll_params.__pad, 0, sizeof(epoll_params.__pad)))
-+			return -EINVAL;
-+
-+		if (epoll_params.busy_poll_usecs > U32_MAX)
-+			return -EINVAL;
-+
-+		if (epoll_params.busy_poll_budget > NAPI_POLL_WEIGHT &&
-+		    !capable(CAP_NET_ADMIN))
-+			return -EPERM;
-+
-+		ep->busy_poll_usecs = epoll_params.busy_poll_usecs;
-+		ep->busy_poll_budget = epoll_params.busy_poll_budget;
-+		return 0;
-+	case EPIOCGPARAMS:
-+		memset(&epoll_params, 0, sizeof(epoll_params));
-+		epoll_params.busy_poll_usecs = ep->busy_poll_usecs;
-+		epoll_params.busy_poll_budget = ep->busy_poll_budget;
-+		if (copy_to_user(uarg, &epoll_params, sizeof(epoll_params)))
-+			return -EFAULT;
-+		return 0;
-+	default:
-+		return -ENOIOCTLCMD;
-+	}
-+}
-+
- #else
- 
- static inline bool ep_busy_loop(struct eventpoll *ep, int nonblock)
-@@ -510,6 +550,12 @@ static inline bool ep_busy_loop_on(struct eventpoll *ep)
- {
- 	return false;
- }
-+
-+static long ep_eventpoll_bp_ioctl(struct file *file, unsigned int cmd,
-+				  unsigned long arg)
-+{
-+	return -EOPNOTSUPP;
-+}
- #endif /* CONFIG_NET_RX_BUSY_POLL */
- 
- /*
-@@ -869,6 +915,26 @@ static void ep_clear_and_put(struct eventpoll *ep)
- 		ep_free(ep);
- }
- 
-+static long ep_eventpoll_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-+{
-+	int ret;
-+
-+	if (!is_file_epoll(file))
-+		return -EINVAL;
-+
-+	switch (cmd) {
-+	case EPIOCSPARAMS:
-+	case EPIOCGPARAMS:
-+		ret = ep_eventpoll_bp_ioctl(file, cmd, arg);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- static int ep_eventpoll_release(struct inode *inode, struct file *file)
- {
- 	struct eventpoll *ep = file->private_data;
-@@ -975,6 +1041,8 @@ static const struct file_operations eventpoll_fops = {
- 	.release	= ep_eventpoll_release,
- 	.poll		= ep_eventpoll_poll,
- 	.llseek		= noop_llseek,
-+	.unlocked_ioctl	= ep_eventpoll_ioctl,
-+	.compat_ioctl   = compat_ptr_ioctl,
- };
- 
- /*
-diff --git a/include/uapi/linux/eventpoll.h b/include/uapi/linux/eventpoll.h
-index cfbcc4cc49ac..98e5ea525dd0 100644
---- a/include/uapi/linux/eventpoll.h
-+++ b/include/uapi/linux/eventpoll.h
-@@ -85,4 +85,16 @@ struct epoll_event {
- 	__u64 data;
- } EPOLL_PACKED;
- 
-+struct epoll_params {
-+	__aligned_u64 busy_poll_usecs;
-+	__u16 busy_poll_budget;
-+
-+	/* pad the struct to a multiple of 64bits for alignment on all arches */
-+	__u8 __pad[6];
-+};
-+
-+#define EPOLL_IOC_TYPE 0x8A
-+#define EPIOCSPARAMS _IOW(EPOLL_IOC_TYPE, 0x01, struct epoll_params)
-+#define EPIOCGPARAMS _IOR(EPOLL_IOC_TYPE, 0x02, struct epoll_params)
-+
- #endif /* _UAPI_LINUX_EVENTPOLL_H */
--- 
-2.25.1
-
+>  Documentation/hwmon/index.rst                 |  1 +
+>  Documentation/hwmon/mpq8785.rst               | 94 +++++++++++++++++++
+>  drivers/hwmon/pmbus/Kconfig                   |  9 ++
+>  drivers/hwmon/pmbus/Makefile                  |  1 +
+>  drivers/hwmon/pmbus/mpq8785.c                 | 62 ++++++++++++
+>  6 files changed, 169 insertions(+)
+>  create mode 100644 Documentation/hwmon/mpq8785.rst
+>  create mode 100644 drivers/hwmon/pmbus/mpq8785.c
