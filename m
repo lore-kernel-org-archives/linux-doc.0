@@ -1,127 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE8969D39;
-	Wed, 31 Jan 2024 11:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC7A76C85;
+	Wed, 31 Jan 2024 12:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706702013; cv=none; b=nPFE1MGUviOocv8bHW8ye9+zFiMOhj5XXEejR7i07OPkPS70QGBafaqmOBFHoAlPvhqCwwK3H3xvXlAR3+3W3DUlNtcw8wVZE1PGyj+dBXvvfOLqM+N50GK4gOXYPlnh1JN8dRuE1BK/oDVxTALLBnVnPDkana8mNxfsI+o8rU0=
+	t=1706704348; cv=none; b=D5WnpQCoAv3/sPp5Df7W5dsoNQtnVaEUyDlepSQqaXD0jegJ0Vbze1J/uasDde36Fxux2ap7VYFpHRQZWqkT5VuKJr7zosAeK7Z0dd0QuBShaOcKB+bKDz2RQ+ALzlBSf1Z073c9dwaIVGuoBPQfU+SmNpiw+xpSlqNrg5EBPWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706702013; c=relaxed/simple;
-	bh=e6U7IZSvIvmIZ9psc3hSArHZqp0dIjof9nK3JhYKmU4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dehGCwaWcDsuPVdYObxkG2R1uX1Rivmo/M3Jpqi5W8JCnB20VCjRN2X0FTMuqwxRzd0kx8D2lKbPs8uDZJthkeg06cYpnDdZmwCfSbBGSWqRXj3W2MtRWdL7NEYS117ZeXiGo4yofHRWPoJ7oRDAVgx9sANijpegG+mf3/Er5HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTWFvOI3; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTWFvOI3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706702012; x=1738238012;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=e6U7IZSvIvmIZ9psc3hSArHZqp0dIjof9nK3JhYKmU4=;
-  b=XTWFvOI3hC0/8xqrvZR9WW3oDX/h3TKPm4PgF0yYw5nSETGHLu7aGC4K
-   Dl0GceqpOUEM+hV4I/t4xnOaaE2iBoTOzB2GivEtZ4QYA1kZPNVMj87lR
-   MqKtwasTFaDJ1Corr2vAx0sO3ZYolKH3ifrhqS17HiYlqGJANzbUw/5oi
-   04aBfa0UrhWsfjX3cJZQiVc/HZCuDG+cn4Jaz8tmm04zGWY6Izdytnqu4
-   cPH1GxfSrA5OM3kK1OmqyTcfF+spgVdPCSB8gZ6/zL9LEKpbAWsYsvQyJ
-   1jKO8cBFhLu/y87ng90XqVFzzMLhmdOFA8IklxuMnsijBsDZy8JdRzaT7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10962417"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="10962417"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 03:53:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="738071148"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="738071148"
-Received: from mszycik-mobl1.ger.corp.intel.com (HELO [10.246.35.198]) ([10.246.35.198])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 03:53:27 -0800
-Message-ID: <0fc3f574-6243-4c85-a6a7-442dc480c9e7@linux.intel.com>
-Date: Wed, 31 Jan 2024 12:53:24 +0100
+	s=arc-20240116; t=1706704348; c=relaxed/simple;
+	bh=FED9EEmMKE+UuTS+51bHGBf+zW3QlM2itO24OOhtWuk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oNSW1IpgENX0jgw1+sZyEXgq6xm7rDY4WIwNhOX/vRr/MF4IfSfjltzkEkxko/DRvAL7zXp5s0VF3cIHx4DRqS0u0bR3E4sMyr98qwoUl1lo5wg/scVsSZfTcUfZnuOCeSbGYNooUAwaEr6dBizLw7Fc8xbo51o9KGDSQ9m8I7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4TQ1bC3Zwsz1Q89B;
+	Wed, 31 Jan 2024 20:30:31 +0800 (CST)
+Received: from dggpeml500018.china.huawei.com (unknown [7.185.36.186])
+	by mail.maildlp.com (Postfix) with ESMTPS id 580C01404F7;
+	Wed, 31 Jan 2024 20:32:22 +0800 (CST)
+Received: from octopus.huawei.com (10.67.174.191) by
+ dggpeml500018.china.huawei.com (7.185.36.186) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 31 Jan 2024 20:32:22 +0800
+From: Zhang Qiao <zhangqiao22@huawei.com>
+To: <corbet@lwn.net>
+CC: <mingo@kernel.org>, <chrubis@suse.cz>, <zhangqiao22@huawei.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] sched/Documentation: Add RT_RUNTIME_SHARE documentation
+Date: Wed, 31 Jan 2024 20:32:38 +0800
+Message-ID: <20240131123238.2332064-1-zhangqiao22@huawei.com>
+X-Mailer: git-send-email 2.18.0.huawei.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-wired-lan] [PATCH net-next v5] ethtool: ice: Support for
- RSS settings to GTP from ethtool
-Content-Language: en-US
-To: Takeru Hayasaka <hayatake396@gmail.com>,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, vladimir.oltean@nxp.com,
- linux-kernel@vger.kernel.org, laforge@gnumonks.org,
- intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
- mailhol.vincent@wanadoo.fr
-References: <20240131013705.1002722-1-hayatake396@gmail.com>
-From: Marcin Szycik <marcin.szycik@linux.intel.com>
-In-Reply-To: <20240131013705.1002722-1-hayatake396@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500018.china.huawei.com (7.185.36.186)
 
+RT_RUNTIME_SHARE is an important strategy for rt bandwidth, and
+we should document this sched feature.
 
+Signed-off-by: Zhang Qiao <zhangqiao22@huawei.com>
+---
+ Documentation/scheduler/sched-rt-group.rst | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-On 31.01.2024 02:37, Takeru Hayasaka wrote:
-> This is a patch that enables RSS functionality for GTP packets using ethtool.
-> 
-> A user can include TEID and make RSS work for GTP-U over IPv4 by doing the
-> following:`ethtool -N ens3 rx-flow-hash gtpu4 sde`
-> 
-> In addition to gtpu(4|6), we now support gtpc(4|6),gtpc(4|6)t,gtpu(4|6)e,
-> gtpu(4|6)u, and gtpu(4|6)d.
-> 
-> gtpc(4|6): Used for GTP-C in IPv4 and IPv6, where the GTP header format does
-> not include a TEID.
-> gtpc(4|6)t: Used for GTP-C in IPv4 and IPv6, with a GTP header format that
-> includes a TEID.
-> gtpu(4|6): Used for GTP-U in both IPv4 and IPv6 scenarios.
-> gtpu(4|6)e: Used for GTP-U with extended headers in both IPv4 and IPv6.
-> gtpu(4|6)u: Used when the PSC (PDU session container) in the GTP-U extended
-> header includes Uplink, applicable to both IPv4 and IPv6.
-> gtpu(4|6)d: Used when the PSC in the GTP-U extended header includes Downlink,
-> for both IPv4 and IPv6.
-> 
-> GTP generates a flow that includes an ID called TEID to identify the tunnel.
-> This tunnel is created for each UE (User Equipment).By performing RSS based on
-> this flow, it is possible to apply RSS for each communication unit from the UE.
-> Without this, RSS would only be effective within the range of IP addresses. For
-> instance, the PGW can only perform RSS within the IP range of the SGW.
-> Problematic from a load distribution perspective, especially if there's a bias
-> in the terminals connected to a particular base station.This case can be
-> solved by using this patch.
+diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
+index d685609ed3d7..4d8eceb71f5e 100644
+--- a/Documentation/scheduler/sched-rt-group.rst
++++ b/Documentation/scheduler/sched-rt-group.rst
+@@ -12,6 +12,7 @@ Real-Time group scheduling
+      2.1 System-wide settings
+      2.2 Default behaviour
+      2.3 Basis for grouping tasks
++     2.4 RT_RUNTIME_SHARE sched feature
+    3. Future plans
+ 
+ 
+@@ -146,6 +147,16 @@ For now, this can be simplified to just the following (but see Future plans):
+ 
+    \Sum_{i} runtime_{i} <= global_runtime
+ 
++2.4 RT_RUNTIME_SHARE sched feature
++----------------------------
++
++RT_RUNTIME_SHARE allows a cpu borrows rt-runtime from other cpus if it runs
++out of its own rt-runtime.
++
++With this feature enabled, a rt-task probably hits 100% cpu usage and starves
++per-cpu tasks like kworkers, as a result, it may hang up the whole system.
++Therefore, in order to avoid such exception, recommand to disable this feature
++by default unless you really know what you're up to.
+ 
+ 3. Future plans
+ ===============
+-- 
+2.18.0.huawei.25
 
-LGTM
-Reviewed-by: Marcin Szycik <marcin.szycik@linux.intel.com>
-
-> Signed-off-by: Takeru Hayasaka <hayatake396@gmail.com>
-> ---
-> v2->v3: Based on Harald-san's review, I added documentation and comments to 
-> ethtool.h and ice.rst.
-> v3->v4: Based on Marcin-san's review, I added the missing code for GTPC and 
-> GTPC_TEID, and revised the documentation and comments.
-> v4->v5: Based on Marcin-san's review, I fixed rename and wrong code regarding
-> GTPC
-
-[...]
-
->      f     Hash on bytes 0 and 1 of the Layer 4 header of the Rx packet.
->      n     Hash on bytes 2 and 3 of the Layer 4 header of the Rx packet.
-> -
-
-Still removing this line :c
-
-> +    e     Hash on GTP Packet on TEID (4bytes) of the Rx packet.
->  
->  Accelerated Receive Flow Steering (aRFS)
->  ----------------------------------------
-
----8<---
