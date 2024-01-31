@@ -1,83 +1,80 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0C4363;
-	Wed, 31 Jan 2024 00:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD5B1847
+	for <linux-doc@vger.kernel.org>; Wed, 31 Jan 2024 00:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706659921; cv=none; b=umG+rYQWLZCBwRQC1qBSodZEZi6eYaDM9iEmbh8emWgEi9j3MZ0jQ3dbbxFQKiCIqzCV+IiMFsa0KUOUm94kSIA2RRo6HEAIrmkg7ZunzitlouxZropLqOt2OBesrISYQGbwA06atSISQ5W4vPOwEWnu+uqDKVT6sLAiYN2bPS8=
+	t=1706660623; cv=none; b=DCodK3ZPaT/hwCI9MBfPWu1eo6odk6QPF+njZBOYJbJJ4s/eP9gEZ4g0RVTSDtOjbc3SwD7yjOBf/8+6jqDRChfNlVheAxtYbndQyh10mCsUHo8SYnq+10+2W/+PBlIkZV4KF3oaEwsXa9AJWTMCUkhT+yRAf1CCtYcur5yLNUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706659921; c=relaxed/simple;
-	bh=GgouBS036lSk8Ti6LM62/pvnl1AZvOJ/NE31Wux+lX0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lkR/nqGKXmAAUDIATKpWDjxfLrOcJ+AcL0Emy7sjcBvESybwwyFin+hHe33ypUgNE19oulufC9nrtewjcqyvzCENDsi4jfyWl8LHjiZ5T4HSeZUcJWNN32XNlKQp55vOtzyo0u0+WvjrwH40Q49fvuSK5mJ3wIfHoEMexDccuKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rdjxNWNV; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1706660623; c=relaxed/simple;
+	bh=3Rj3F0vLfTq4/ynJ66a15e/Bdu0XKbUKQmnCGzKFxUU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=n2DA/CBQj7ofNbGIM341jg6r7p4quLL2J0edZekNP99PCgEBc7WEVEkrYSJORt9iAxtkE/HUKIUeZ6FQAkYQuxu03jiCqH2lIRq4zwZD2i7nsBILYSei4t2Y69tyaPPRZscYHuR5lVWmRnRnFpBp42tNUODpBHl00RbXtUOK6iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iwanders.net; spf=pass smtp.mailfrom=iwanders.net; dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b=PyaEF4/N; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iwanders.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iwanders.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rdjxNWNV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ZUu41NIy1go0/WlVvM2jE8yEu9KhVGZIlw10YLiU/wY=; b=rdjxNWNVvuMp7Dmxu3W5l2C6BA
-	/YB0Cvf8+ETvJfkSgHCZ1T7HAJtN19VT+sAv2UWv9rw8KXeWTtIpa6FDYhFpDGOSnRP8M2nf254O/
-	S8tVjHO59MmBufpzYO52ZYslGjmslX+/nCj7HOMbTdedBr6AAAI/QOviTqVmS6qIyQanWyJ5HHLWa
-	02+IBQfpfg8ThqEZYSuvXWab/Ezvsr220iLYP6q9AhXGpz0ZEpqAMWZ7FepsxY/TEsjelwgPQqG6k
-	DAC8CHlFiNP0MRXrST0eywfT9OO23BpH0AWOpZg+7spVdLxUzFOzOJa+BbzMd4AjRZq4TyiJTO+Cr
-	xKilm3ww==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUyCr-00000000z5O-1bh8;
-	Wed, 31 Jan 2024 00:11:57 +0000
-Message-ID: <8fe881af-dab8-456f-8e8a-8d76153c4322@infradead.org>
-Date: Tue, 30 Jan 2024 16:11:55 -0800
+	dkim=pass (1024-bit key) header.d=iwanders.net header.i=@iwanders.net header.b="PyaEF4/N"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-783ced12f9bso302753385a.3
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jan 2024 16:23:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=iwanders.net; s=google; t=1706660621; x=1707265421; darn=vger.kernel.org;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3Rj3F0vLfTq4/ynJ66a15e/Bdu0XKbUKQmnCGzKFxUU=;
+        b=PyaEF4/NqPfS3c3kEHWRZlIBRd/7/xZKM9qPIuKbVo3RJOwXPrL6KMzLRsIJm/1M7a
+         VBDK6AYedaXPk/iMxTLec4UpyLOwlG0i76Sq2M4weGqYFFIC9lGqytbL7PUFJ2Cw9Qjq
+         7fi6gqhq+8fAr8297Vuw+csnayFhn/uCkIhbI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706660621; x=1707265421;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Rj3F0vLfTq4/ynJ66a15e/Bdu0XKbUKQmnCGzKFxUU=;
+        b=Xen1qt4jRcTR7y482cT8WNonHOZox0qqzqbIl3xrkWkaGk6u/rPNgF1mOXqnssK1wI
+         NHLykK6qJaNkDxOLQG/N/XI0ErMpI+4G+WotzE2TBtLQCnzaEy4wg42zmJDgLOJZUP0J
+         K1AHuVDpHfHXS2amyEZSryNoQucMDeV5MaMrhchqqfp6sHy5O7Iki1bppuTpoHL15Cjp
+         1uqORhNPcdtKGzX5fC0XuzytXxvoGgM0LDUFRuGzk5zDNQ8g795ncSYKPHvOJ9aaszGE
+         mifLD1ajI80d5xlZHccmWgObAF6TyV/P6eEBS2XSXw7f80JVRYUTWFoSQlLXR3gJqhgw
+         ZI9A==
+X-Gm-Message-State: AOJu0YyjRPaPZRtBzlYG1443sqNjbn8zgHOoih1jPzpEjghqpq84pdYJ
+	wNqySLrsc9cDwrhwtVWUqa1HcQVJh8bYt25IgsCPPyyrLp+pm/qA2yhKwxc7Bmg=
+X-Google-Smtp-Source: AGHT+IHDeLHxsLl0jVfDYP5QKiXxJqwSK3+ZDSQa+cDd5nZ4qk10qTUH6lAMjTkuKwnyS0h+WDgqHw==
+X-Received: by 2002:a05:6214:1315:b0:68c:46e0:78d with SMTP id pn21-20020a056214131500b0068c46e0078dmr172271qvb.45.1706660620930;
+        Tue, 30 Jan 2024 16:23:40 -0800 (PST)
+Received: from eagle.lan (24-246-30-234.cable.teksavvy.com. [24.246.30.234])
+        by smtp.gmail.com with ESMTPSA id lq7-20020a0562145b8700b006819bb31533sm988523qvb.99.2024.01.30.16.23.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jan 2024 16:23:40 -0800 (PST)
+From: Ivor Wanders <ivor@iwanders.net>
+To: linux@roeck-us.net
+Cc: corbet@lwn.net,
+	hdegoede@redhat.com,
+	ivor@iwanders.net,
+	jdelvare@suse.com,
+	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	luzmaximilian@gmail.com,
+	markgross@kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] hwmon: add fan speed monitoring driver for Surface devices
+Date: Tue, 30 Jan 2024 19:23:37 -0500
+Message-Id: <20240131002337.6122-1-ivor@iwanders.net>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <975f0b2e-5cb0-480f-af96-b0bd5004e0b2@roeck-us.net>
+References: <975f0b2e-5cb0-480f-af96-b0bd5004e0b2@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 30 3/7] Add Aspeed SOC 24xx, 25xx and 26xx JTAG support
-Content-Language: en-US
-To: "Corona, Ernesto" <ernesto.corona@intel.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
-Cc: "'oleksandrs@mellanox.com'" <oleksandrs@mellanox.com>,
- "'jiri@nvidia.com'" <jiri@nvidia.com>,
- "Castro, Omar Eduardo" <omar.eduardo.castro@intel.com>,
- "'omar.eduardo.castro@linux.intel.com'"
- <omar.eduardo.castro@linux.intel.com>, "'arnd@arndb.de'" <arnd@arndb.de>,
- "'pombredanne@nexb.com'" <pombredanne@nexb.com>,
- "'joel@jms.id.au'" <joel@jms.id.au>, "'andrew@aj.id.au'" <andrew@aj.id.au>,
- "'p.zabel@pengutronix.de'" <p.zabel@pengutronix.de>,
- "Filary, Steven A" <steven.a.filary@intel.com>,
- "'vadimp@mellanox.com'" <vadimp@mellanox.com>,
- "'amithash@fb.com'" <amithash@fb.com>, "'patrickw3@fb.com'"
- <patrickw3@fb.com>, "Chen, Luke" <luke_chen@aspeedtech.com>,
- "'billy_tsai@aspeedtech.com'" <billy_tsai@aspeedtech.com>,
- "'rgrs@protonmail.com'" <rgrs@protonmail.com>
-References: <LV8PR11MB846379E82775EFA1C9062D1C8B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <LV8PR11MB846379E82775EFA1C9062D1C8B7D2@LV8PR11MB8463.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+Hello Guenter,
 
+> What is your baseline? It doesn't even seem to be based on a mainline kernel.
+Ah, yes, this is from the linux-surface kernel tree, which is still on v6.6.
 
-On 1/30/24 15:30, Corona, Ernesto wrote:
-> +config USE_INTERRUPTS
-> +	bool "Use interrupts as event wait mechanism"
-> +	depends on JTAG_ASPEED
-> +	default n
-> +	help
+> Please base your patches on the latest mainline kernel.
+Will rebase this and send v5 shortly.
 
-This symbol needs some kind of namespacing. It is too generic as is.
-
-Thanks.
--- 
-#Randy
+~Ivor
