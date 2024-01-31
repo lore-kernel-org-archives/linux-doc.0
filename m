@@ -1,59 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0D712BF04;
-	Wed, 31 Jan 2024 16:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFF112CDAA;
+	Wed, 31 Jan 2024 16:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706717815; cv=none; b=DtlDLfrOpFKrgioGhjBUy4lPhId86mTNvTPgFy8Gnxm56g36zsTHfKIcfvqYmU20WLzuGyi/dUPDMYOcLNcGKsX2DLV6NUjGmGGE+hGCb3YOeQNMGpDKgwH0UFLLme1MZ3H7k9MyQrj4BkNGUUMGif3A9E5u0VCTos8y4Yup2lU=
+	t=1706718676; cv=none; b=b/71f2ro/pLF6OhCeD6GpdElsx7euTFbeNEEHnRrMCIgq6qFAd6zoe/4jfCORFIFSXB7uMisY1pHM6otP2Qc0dM2lgVlEXOhFyLiTPx9r7NTM/GsLaeIhiPYafnGRT1YZ3CZfoPm33FBCBlTGks+ZZg9TDPHezCxCdbPvIqCeP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706717815; c=relaxed/simple;
-	bh=UWlq1EvrM0m1ICwPMbYYxNGA47wTvXH22WzmLVpjSio=;
+	s=arc-20240116; t=1706718676; c=relaxed/simple;
+	bh=FQk80lx6LBU/vGzS3KvVOXF8bV761X7qqWnO6O3DsnA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DYO+zqimSqrEDPrvrtPfhVH6616/+e8MtYUvpuvT3pjuhPLP58GKGfoEiXToJGa6vWvx7VEAqFzK8aOUWnFWNfumkLnaQLPhTkk8TaJZpu7ZM4SP5XvkvQ5Cc4OZqwMY/T3LUVfRnC/DHObq2kbDJXfUA6HUibIcN09F7ili5Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CgORUqrJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FVLmJiqMPQ2wkMvpUw4fxuMitboyGFYdRpBqV+o0+ZB1Fsr2IeBYTBVpj8H7zm6aq0uYMJOS7SOkrLyivoyImBiKQ/kmneZ0MP8Mvzfpm+2llrK+Joh7IYNqE66rTohQ/AeXSzD/cOAaR/71evKHDaRROOnsQ4Idli/H1juT6WI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=iDNSeBwD; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CgORUqrJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE299C43394;
-	Wed, 31 Jan 2024 16:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706717814;
-	bh=UWlq1EvrM0m1ICwPMbYYxNGA47wTvXH22WzmLVpjSio=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CgORUqrJmMRy+gVz2WCDjKWTEcugunpPRz1KOkLESVexKQmfsQnJYdqUuBz3sUPZ5
-	 uarGdPXOwzHzLluU5h8xUdzXA/6nuIWUeZPHlK37WXT8q8/lDhrNKur26A4mv8mYh4
-	 u8PERyhH9A4LdAC+CI34Ay5qoQNbZssp3TOu4CAk=
-Date: Wed, 31 Jan 2024 08:16:54 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Joe Damato <jdamato@fastly.com>, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, chuck.lever@oracle.com, jlayton@kernel.org,
-	linux-api@vger.kernel.org, brauner@kernel.org, edumazet@google.com,
-	davem@davemloft.net, alexander.duyck@gmail.com,
-	sridhar.samudrala@intel.com, kuba@kernel.org,
-	willemdebruijn.kernel@gmail.com, weiwan@google.com,
-	David.Laight@aculab.com, arnd@arndb.de,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nathan Lynch <nathanl@linux.ibm.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maik Broemme <mbroemme@libmpq.org>,
-	Steve French <stfrench@microsoft.com>,
-	Julien Panis <jpanis@baylibre.com>, Thomas Huth <thuth@redhat.com>,
-	Andrew Waterman <waterman@eecs.berkeley.edu>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH net-next v4 3/3] eventpoll: Add epoll ioctl for
- epoll_params
-Message-ID: <2024013145-payment-enjoyment-6274@gregkh>
-References: <20240131014738.469858-1-jdamato@fastly.com>
- <20240131014738.469858-4-jdamato@fastly.com>
- <2024013001-prison-strum-899d@gregkh>
- <20240131022756.GA4837@fastly.com>
- <efee9789-4f05-4202-9a95-21d88f6307b0@kernel.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="iDNSeBwD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=kjk4r4IOpDJAInBw9oQcvbcWlzWkItt0uplMKw74Lkk=; b=iDNSeBwDEwR6AhvBychY0Uo9zA
+	TxBMH/wwrLaFa4WAqlJqrZox7kraISilV/Ol53k3JphW0L+kDp/u8iL+b0WRn0q8eManrxukhJF6j
+	NITQzNf15WeVSKljl8V3bH8TDNe5+1glCwUt77XqK2iowopWnMPQ/FMXUPVOYXjkiovk=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rVDU8-006bAp-Tk; Wed, 31 Jan 2024 17:30:48 +0100
+Date: Wed, 31 Jan 2024 17:30:48 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Danielle Ratson <danieller@nvidia.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	"sdf@google.com" <sdf@google.com>,
+	"kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
+	"maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
+	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
+	"przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
+	"ahmed.zaki@intel.com" <ahmed.zaki@intel.com>,
+	"richardcochran@gmail.com" <richardcochran@gmail.com>,
+	"shayagr@amazon.com" <shayagr@amazon.com>,
+	"paul.greenwalt@intel.com" <paul.greenwalt@intel.com>,
+	"jiri@resnulli.us" <jiri@resnulli.us>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	mlxsw <mlxsw@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+	Ido Schimmel <idosch@nvidia.com>
+Subject: Re: [RFC PATCH net-next 9/9] ethtool: Add ability to flash
+ transceiver modules' firmware
+Message-ID: <7039bd68-d972-46f6-8d8d-5388d9cff109@lunn.ch>
+References: <20240122084530.32451-1-danieller@nvidia.com>
+ <20240122084530.32451-10-danieller@nvidia.com>
+ <5bf6b526-02c4-4940-b8ec-bf858f9d4a58@lunn.ch>
+ <DM6PR12MB45161C82F43B67AD8EDB950BD87C2@DM6PR12MB4516.namprd12.prod.outlook.com>
+ <DM6PR12MB4516BC80DBF383A186707F19D87C2@DM6PR12MB4516.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,25 +67,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <efee9789-4f05-4202-9a95-21d88f6307b0@kernel.org>
+In-Reply-To: <DM6PR12MB4516BC80DBF383A186707F19D87C2@DM6PR12MB4516.namprd12.prod.outlook.com>
 
-On Wed, Jan 31, 2024 at 07:03:54AM +0100, Jiri Slaby wrote:
-> On 31. 01. 24, 3:27, Joe Damato wrote:
-> > On Tue, Jan 30, 2024 at 06:08:36PM -0800, Greg Kroah-Hartman wrote:
-> > > On Wed, Jan 31, 2024 at 01:47:33AM +0000, Joe Damato wrote:
-> > > > +struct epoll_params {
-> > > > +	__aligned_u64 busy_poll_usecs;
-> > > > +	__u16 busy_poll_budget;
-> > > > +
-> > > > +	/* pad the struct to a multiple of 64bits for alignment on all arches */
-> > > > +	__u8 __pad[6];
-> > > 
-> > > You HAVE to check this padding to be sure it is all 0, otherwise it can
-> > > never be used in the future for anything.
-> > 
-> > Is there some preferred mechanism for this in the kernel that I should be
-> > using or is this as simple as adding a for loop to check each u8 == 0 ?
+> > > How big are these firmware blobs?
+> > >
 > 
-> You are likely looking for memchr_inv().
+> The largest file I came across is 400K.
 
-Ah, never noticed that, thanks!
+https://hack-gpon.org/ont-fs-com-gpon-onu-stick-with-mac/
+
+Suggests that some GPON devices have 16MB of flash. Ideally we don't
+want to map a 16MB firmware image into the kernel address space. A
+high end switch could do it, but a typical OpenWRT 'cable modem' is
+likely to have trouble.
+
+     Andrew
