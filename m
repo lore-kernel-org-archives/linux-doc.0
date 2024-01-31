@@ -1,384 +1,458 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2045.outbound.protection.outlook.com [40.107.220.45])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7F512BF0E;
-	Wed, 31 Jan 2024 17:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E1612C54B;
+	Wed, 31 Jan 2024 17:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706720819; cv=fail; b=J6dWSmaAVafg/X63zx+yXNGq83fzgZRtdl5Iam4fY6wvEBzGFwvwrJdyvhCGufPklOa0V9PQJEhWwaARXodhMsU+gbYVkwwIrzezSdirn29Fb+MD2LKXl50/AtNAFk+TIZ0KVtbntT1AyKFLIrM+DL41A2lQkhF2YgE5daOt/g0=
+	t=1706721961; cv=fail; b=sTfOMk8fandr7pXCtJVIpB0wDf5WWVS9zfE4DWpv/XHEth9u6eVZmVeVAH/ACaIr1/4sjFiEWG8auaPMW7+3GbFv+NR0uotKGnanhCV9HVEKCawLXpy6vYOQPt+8OUk+mR2plnUzpvRNaDJsJBFgLFjie/Szzk7b3sA7KCL4sY8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706720819; c=relaxed/simple;
-	bh=tpE/n8lRpVquouXsDC3VYtQHKqWi4+oFa55DJkVY6Ow=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gKLPihMALDAgdHyIqJuwgmfbksNM1RJu6j5yEuOrAkqS+XFQ15JQDVlBjEwEmhBiowNJOviiYwi1A9IWPAHztWDDUJblhDFvbT2c6fmH+ushDIBhVs9V21PG7mBD/EwdgQaL6R+qCXDzMQrNs3GCWYhJwU5iqttBG3ieBnfY53c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dMmclgbY; arc=fail smtp.client-ip=40.107.220.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1706721961; c=relaxed/simple;
+	bh=6lwlahWQgRjGUyqoNVyjkxpREBr2N5caJeFnec4at7g=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Z4fBWVZnAbMxpMYCf8CA7QX1Ucm7ccmVTT7Bfqxt7tn5NYHsLCA9fh4npHrVpNtZ46pIydNzqn2B40Bh/E0cpW66XtHJgKiTy9WeBFFvTmf+5vbVspHmp0D1Y7r4FJQr3p0nCNT/TYW5VKwI87o0BNMdKPePuazICgjPltILyxA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=VHerG/iw; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=OvbQt26t; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dMmclgbY"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VHerG/iw";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="OvbQt26t"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40VHC3hU004756;
+	Wed, 31 Jan 2024 17:25:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=05fyeGhIMhB1lOJKioTUONn/STr+y5O4M3hrptRHV1k=;
+ b=VHerG/iwekOA3DLY8gNPgGKTa1Z8JACw5wErcCpeBIxwE6a7yOSUzBPdPGeL1RgHWFkX
+ yOrW1c3UW9OAeNMKgiy7Y1pkrYRGwtgCqCQDSax25ZI1i1m1owGPS6K8OM6Njoxdu47t
+ qSFnA5ituVtg0OZSPDagwXQWi7LfLJhOB6T+xoYg8CEBJZIDSya3XBUyfnpFXeS2P0d5
+ CqVkAX/4CAO5SBaocsMgOnsHu8IcAbljC4y8db14TCuwqO2+diY+8WVXwyLf63wQW+2U
+ lGTu5G2yU+75bJD7MghYfaCYGZtZEHVBY27HJa1CtnCbQGBKqQ7Fg2K55Ug/uCKbromJ 9A== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vvsqb2ehv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 31 Jan 2024 17:25:33 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40VGvhw7036101;
+	Wed, 31 Jan 2024 17:25:32 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2041.outbound.protection.outlook.com [104.47.73.41])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vvr9fmncn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 31 Jan 2024 17:25:32 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cKEkR1qWu9hyyyMGgktUFGurYPLQBhwH2FmVu4tnwXkOn/fhp7cCAM0OXjYuAHLTNI/OUoSeVAFMsng66dT2/CQBODGtuufmLQpsZhO8opWkLDmFd8lT6lV7Ht8o36M1XxRUtL5jZsVyAz8JuAbbqULoXa0Notj/84w+RknkO22/2b8lkx75SAkg77MB7qqVOBDuNwhL3K0VG+S2Jmvum6wn+V8v6bMN3lNz0h1hAzLqBIy/DHB6AUwkGf9ib7YAIxXl16J9S+goLegw++sLBKQUjjhGjTsRaw7jOaVhJzRQXfldbL+ZF4oF7SvFqf5ET0u7SaxaXFoLCG5dH4d/rg==
+ b=VD93YpZEFVU6LMt5/v+xy0c7XiQMv+3zfhZXnYBaKVo1Lzo5ylO7YxnMUClu03Ea2X8LphlcT/p1glhaMeehTrwyJ55jEw613oJtNCjamozR7c8wS+Mg1xFrqYz9nHHIVQozxp0fEvnPzY1wvalKPmjWaHY45ri/xDe7dBl/pgSEy+zaGYVpC2W0/dKtqwpQkEoaQkQPBJdxWLn3k2eZeuly9LsqbAmYkO5FeZTpY8zZBv9F5YuKRoxa+6aQ1BK+bM0SYKXPpp42y1YoGUvLk9BdazK0Hif0aSK7/mVojDi2s1zjDznj1HcSk20nm7lF9X6K3fZ7dHpO3/4Zy/6n8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iBJ7a9SaUySKyI+Yiy/bmychQhgcxknH8ZSDOBd3SeM=;
- b=D/wQO6rgUJD08GmCKHoumoOApMTXa7Y5GJi2QqF9qKP3sAnBz4t/ft3N+KscZoThPTHyzC33HOqWyJi0wg+i5SzgJXuq8DiPg91+ifqREbW+o1RAItt5hDRI12/TCHp4VcRavps4h6ozMUmcI4HJt4pY+bHHj8QZC4j+fJYxEVK4nw1jxmmRlpwlSDvBBoC/E8x5lHvyas6fGq53+0qKmOYWtHnq2vpCdbH8DzwCeeuu8rdFoWod5nAe/uMCuu+okBN6sv5KvTQRC2TIEom//QXkMQmfzPnVdnYuG1ujAg4rtqlg/14zEFPWtzb69Y6gjHQK7o4Ha92wyvy75p5X6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=05fyeGhIMhB1lOJKioTUONn/STr+y5O4M3hrptRHV1k=;
+ b=oaJj3wI6Px5Pj5KvSEWoGHvx4hSVbNbzmP1FDOzOk8+/13GwaBPnFB7s3K8dtDJ3ocIHItyqKMfTG8ewZb4nttiwkwQrP99/XIJ0uQI6NNq38ulNuaSe8YQOWqAEgsAaj6MlE79wKGuv1F+G4IOd4ppylNqUSykM0hqXqiAvPeP11wfaTUBM7gD714VX504ltyCnygGw57GtQQBu+G++iI9C5moLe60PID6vV9XGgtzvW4mQhj+e/DhO/sBcaCtW4org1su79Bnkfg41ilx/PaOQVLZv0x94xvOOg5D5+rW+cZh6nh7RK1JD2irAjJjXZzHpfuIwUDcB6bFfVhg72g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iBJ7a9SaUySKyI+Yiy/bmychQhgcxknH8ZSDOBd3SeM=;
- b=dMmclgbYuwWekdRBL4EVJccnyornBgbrOVFl81WF34iGhMIiO+CPuBI/OkpcmWU/TIDtYpAu3MXYlrjj8I2X8m3ejoWTBlHlIXiL8XJtNcvQqg9lLMlavjuwYjlgD/KT22Wn8STUkjFqRjShSYMnQ8MEEyrQF518NuDXgw/3fTQ=
-Received: from SN7PR18CA0001.namprd18.prod.outlook.com (2603:10b6:806:f3::15)
- by CH3PR12MB8073.namprd12.prod.outlook.com (2603:10b6:610:126::8) with
+ bh=05fyeGhIMhB1lOJKioTUONn/STr+y5O4M3hrptRHV1k=;
+ b=OvbQt26t5yfkM3UZU8qfnpK9aVWDXtta82ec0NXxzGauqL9immcHPtSkVYbi4Uxu+fOOo+wwEhPn03hRGMkoMky3nhfv04fifznGlHDYzyNx9/3L4mrOAlHVvHbwvLOpQS/bRt5Q9HgaSwQBcxQkcEAreW5Pnt/wveZI1G8xX/U=
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
+ by DS0PR10MB7979.namprd10.prod.outlook.com (2603:10b6:8:1ab::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Wed, 31 Jan
- 2024 17:06:55 +0000
-Received: from SN1PEPF000252A4.namprd05.prod.outlook.com
- (2603:10b6:806:f3:cafe::27) by SN7PR18CA0001.outlook.office365.com
- (2603:10b6:806:f3::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.24 via Frontend
- Transport; Wed, 31 Jan 2024 17:06:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- SN1PEPF000252A4.mail.protection.outlook.com (10.167.242.11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7249.19 via Frontend Transport; Wed, 31 Jan 2024 17:06:54 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 31 Jan
- 2024 11:06:52 -0600
-Received: from xirmroche40.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.34 via Frontend
- Transport; Wed, 31 Jan 2024 11:06:51 -0600
-From: Dragan Cvetic <dragan.cvetic@amd.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>, Jonathan Corbet <corbet@lwn.net>,
-	Michal Simek <michal.simek@amd.com>, "Erim, Salih" <salih.erim@amd.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
-	<devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "moderated list:ARM/ZYNQ
- ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v5] dt-bindings: misc: xlnx,sd-fec: convert bindings to yaml
-Date: Wed, 31 Jan 2024 17:06:45 +0000
-Message-ID: <20240131170650.530079-1-dragan.cvetic@amd.com>
-X-Mailer: git-send-email 2.34.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.37; Wed, 31 Jan
+ 2024 17:25:29 +0000
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::5997:266c:f3fd:6bf4]) by PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::5997:266c:f3fd:6bf4%4]) with mapi id 15.20.7228.035; Wed, 31 Jan 2024
+ 17:25:29 +0000
+From: Miguel Luis <miguel.luis@oracle.com>
+To: Russell King <rmk+kernel@armlinux.org.uk>
+CC: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>,
+        "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>,
+        "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "acpica-devel@lists.linuxfoundation.org"
+	<acpica-devel@lists.linuxfoundation.org>,
+        "linux-csky@vger.kernel.org"
+	<linux-csky@vger.kernel.org>,
+        "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>,
+        "linux-ia64@vger.kernel.org"
+	<linux-ia64@vger.kernel.org>,
+        "linux-parisc@vger.kernel.org"
+	<linux-parisc@vger.kernel.org>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        "jianyong.wu@arm.com"
+	<jianyong.wu@arm.com>,
+        "justin.he@arm.com" <justin.he@arm.com>,
+        James Morse
+	<james.morse@arm.com>,
+        Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH RFC v4 01/15] ACPI: Only enumerate enabled (or functional)
+ processor devices
+Thread-Topic: [PATCH RFC v4 01/15] ACPI: Only enumerate enabled (or
+ functional) processor devices
+Thread-Index: AQHaVGWXrmQ6tbct00qr+/5CouVONrD0LCkA
+Date: Wed, 31 Jan 2024 17:25:29 +0000
+Message-ID: <05A27863-22ED-4CF6-BBD6-5349ED1330A9@oracle.com>
+References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
+ <E1rVDmP-0027YJ-EW@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1rVDmP-0027YJ-EW@rmk-PC.armlinux.org.uk>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR10MB5433:EE_|DS0PR10MB7979:EE_
+x-ms-office365-filtering-correlation-id: 239c1c46-8156-4f08-0c80-08dc22819f37
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 13rnIGOyd4jAamv+GHXnmeeqvZMxtl71EHFiI4+S7mbugbDBTVRGGfTgveZnuIDRV/UWqlbKEEI1kVEwSnVVUpbL+7Vh+NSkF4l4nTGt21quKeeZNR9tzv9JehVfDwQcuKU27UiWnvNMLNmXr4Ix8/vyjCqGCarIo1LA9M/w6BGDnRCYjsvS6FFZSUqb8R299G/sxVx17nRaWT7LfqX12qndkrHyX66HJdaeZVKC8moe4bbOJqat2/qXWX7Ok+xXGR+P5rx6cN8HRkiCLiMZkwiHI4zycoexC2c/szcxjhjlHdFD7/qsxwB1cdV1/tV1t12lVZzB7Yg9E/Aon2AXfP36Mo+xw1oBDGDLj+OWHZB4CvXv7/wV6o7WkJrqYzTRfyYk9zbHgp7lLpKj+PC3Y9HshGxqZX+gWFJhcCQAT98l2m7Dx7tjZ0QMOpYfN9+SOv5LTdJ+AB+9mQt4bwyfbcM09WYlVtitccEn/OR/4fIBQ2PTPDXvCGIrO6JdQ3WWXhIKHmKGVcwhzYnYewd/4j/jWymf8sMFQocy3cyxATW6NQ3BqHR1ltp3YR3kfmEAc3ql/IwnS0WKOdr+pKgYHuNqooMjH+gXytUgnghm9bXDC8R3NNoiCdbqaQjP4YUP1ZNo8TUIp+KbGEIbJW7OZzC35JXgEQSj4G1yGWl3u5BhWHI2SxrmMAJrlk9qg4yI
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(366004)(39860400002)(396003)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(83380400001)(36756003)(38070700009)(41300700001)(44832011)(8936002)(4326008)(8676002)(6512007)(2906002)(33656002)(2616005)(5660300002)(66946007)(478600001)(6486002)(966005)(76116006)(66446008)(64756008)(6506007)(38100700002)(86362001)(53546011)(91956017)(66476007)(54906003)(316002)(66556008)(71200400001)(7416002)(122000001)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?KIKUvpWWX6fu8l7PCOEbuGh1nO+sAPXA/M+YwRYtT1pxbnnEyB0eLR0vAkuu?=
+ =?us-ascii?Q?CoDZm653IdFhx2CqK+0nfUdV3kPy9vdrBoEkHiNiQq0OdPEixTa7g1bgziJC?=
+ =?us-ascii?Q?EFwhOg6KEdgrThslD++FSEqJ4HfM9nnS4+/laMf3KlHMs/1dz7WrKrKVXo/N?=
+ =?us-ascii?Q?ZZ3tSh57abYbBECTHicYtsweVnPLLY/OxNDDHbXWlbzOjWa6tReJHn0eg+Rn?=
+ =?us-ascii?Q?nTTDMcqW6kD6LvA2c2WTqMOGtu+uSnlQbYXwOm+XQobTk4pwJuVkek4wHt75?=
+ =?us-ascii?Q?BJ2HXMVCM4s8NQnjbfZE+TsWc6ny4+jMeE1xsclNJEULInKsiqF6ENmwdwm6?=
+ =?us-ascii?Q?dIWaDuChs9/ikq/Cl3TD+PWGhAwBmuincI8qoh4MX2kT31P/pX+utmRMI7Hf?=
+ =?us-ascii?Q?rwS44bN6AHf1vxJbDmIdSd5tbC+r3ajpWUSWFcV3CowDAJBCftpXpG6biGkg?=
+ =?us-ascii?Q?LQjmXO2v1nfWoynXMqKmnORxKTnR1iuqiVG6QobvvnFNeHu5h+F3Axum42Kv?=
+ =?us-ascii?Q?YoyTAc8l8IUI/wJlMDqbfOnfo6qFF/qky+LHUZFj2EfUWV0p+qaGfGwmDsD0?=
+ =?us-ascii?Q?lcUz4Td8Bk0IJCF/abcgsRSO9UoHTU9bPyZZWxiwhxChjoglANE/jxh5Wz4I?=
+ =?us-ascii?Q?TkVfHF1TXR4iZRlVM0tLz0tHc5AC11bdfv9xERPJc2M03XLLvVNB8KaqknRP?=
+ =?us-ascii?Q?XNOzazwWmYWX+IhTqw6Feo3bmen/8oq/T+5R52S+khxb8W6sd4zrm/SL8EDI?=
+ =?us-ascii?Q?R8XwWUrCWV+biKGEvod+ydHlewreq5eJPby6PhqRTQSbgE6Bek29you94g4l?=
+ =?us-ascii?Q?WLBH7K8Ysp82hW9l6OHXjRy920RvgtF7ptq7CRRQJT7ON96xMcvNpB5uBGL7?=
+ =?us-ascii?Q?D3DNHXbhy4f5jJidCQNS7yzmlP1+JInvf+bPyr2aE21PrWI04BWsV/Kmit8h?=
+ =?us-ascii?Q?xZCYeAnZTtWwv8w5fpHSBLTnL0Mf8ZLtI4ldlPlI6L4bIK8wZoWfaRbOiR5x?=
+ =?us-ascii?Q?TNW1gXYwGipYquYW88EnSQvBeVZVdssm9+k/xQIpeSPy82QIURaRqsJOpcLT?=
+ =?us-ascii?Q?xgtWxuYRiMKA8dg1Aq82AOHnAvg5MY312+b7IU8Dabq61AmZZzxt77ph0txG?=
+ =?us-ascii?Q?VKHK1GtgWfpgseVY4V+2O/wZAIGataKxCmIw+ujUvfPLdBzd6M95wkI7tQni?=
+ =?us-ascii?Q?5KENat0Z3c52hODZahmIhCfu/kRleUmiL0L+LWWuLuEKaRi4zm18hQC/dmcw?=
+ =?us-ascii?Q?WgsThR4nC4NPL6t6D3baUpxtrfJjXGgAuiuTlC/luil3caeXMYVCqCGMfCbE?=
+ =?us-ascii?Q?L2NlXnQQlJ6HdL8kvf+jP4AKYvhZgbYVhRqLcoMxM0HzijJBzhI+dDyuXbAR?=
+ =?us-ascii?Q?XRUCsqjRgltX4HjKF24buCOY6rhg+Oakqf/gihb9Pm3pB9FM+1bPEWUJZNCi?=
+ =?us-ascii?Q?g1BQp1w4wO3B0x7t+sTWznQTBVqR5S0mTTx1bRTDabEiWydsRZ1Ia3fCS3mk?=
+ =?us-ascii?Q?Qdt/w0UWZYi20X89mi52CZfmedI2Z9/+grMvb+FFgShROSxNzuDebg98RMFq?=
+ =?us-ascii?Q?yUW18fYgt69iKWJPUXexslCT51JKbD7fZkrTOUMeZPBzLzoG1k/lSxLIMbpB?=
+ =?us-ascii?Q?XEsnWMjWcqHt0aKGMKM+HIk=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <8FC90E6C189EA44E9F8E6FF2032CAE53@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000252A4:EE_|CH3PR12MB8073:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8f803b6-a19c-4b06-ce43-08dc227f06a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ztrg/eN1j5ltf+RTS0r1mJFvrq1L0VX6hCd5m5HUKTGwHEoM9GfVb6VK7bjlZKFCwksOLBlBSa+9RDIvQgEFk28+hV3QmF1GnTb7dYpVLGYVawEIch6LsJ7rZlM5bfrUmTAh7sfX7/oiHtpaNZ/lJNcsxJAHwPQfIpC2aOvkLDKSVZXuFm0rJMICDqbttByjku0lSqGSRFImqE1xEAhF2UEjAR7EUE7Lv/tIk9QKxfeDhQyxYrBiC7BUF3JOzeYEqtB//MUh8XzO6nnhCT72ZyoVieCNiN6+vBnsNoXuPhjAhofd36+OGrjY1tj4DWWFltAPil+QX9FDCTx+batVKa9zN/6q7ILRIsMY5gGIbr98F1ZJO721Mb6HnGCybQco8I0kjmEshN7KYNRuylt0ZWcux9MgpxkIYDqF/v0JMgQFczVcil0x3PsdEGPTAdDm/uaVBFQ1AZele9trDfnZgTaL4OX8qaZ4fbYznYn+a27va19L5TNjKVCe0pZqWx2dBsaoMaPPtaVyahos4OiZIOcuRPujsP6pXqLlVg8DHohd1xXebJ4f+R6ARmfGVFX0JC+oDUFrAa/cno82BTPRMC+MRPVYwLSmnHGm8AiKq2YyyE5c5OuiRDuTfC4ROD1DfO4BEF+B9BypZg7jJtbZndLPG2KGlegcLAeLhI6pGM/gLGtkvbQoj9FTP2IUr28a4Taf0UXyawMF2OqnlI1UButzzoWSr0hi7Lae+dnspsn65FTEVIt8AKt86SgkMK8aYRrbI0x8Vb5otydhbAkhBKCviR2OvNEsNDPp57ky6TF2QrucFv/BglRS8qdkb9yA
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(396003)(376002)(136003)(346002)(230922051799003)(82310400011)(186009)(64100799003)(451199024)(1800799012)(40470700004)(36840700001)(46966006)(40480700001)(40460700003)(66899024)(41300700001)(83380400001)(921011)(86362001)(36756003)(82740400003)(36860700001)(26005)(47076005)(336012)(1076003)(2616005)(426003)(70206006)(30864003)(478600001)(966005)(2906002)(110136005)(81166007)(316002)(356005)(70586007)(44832011)(6666004)(8676002)(5660300002)(8936002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 17:06:54.6132
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	85+Cagi0gvsXMI9BJYndbO906L0RqDraYRDudbP+w/fmQrKuULcqPd2hapmV6EGOLXHSyoNBAVVoif62KxRldomV6jlMRMxzJAlIdeH5yyQE9jJC/X/3NoRIomL9vP9MqiwYK0tM15lKZ/HUC8/xIIpvgUM6ohWTIgB9wf1v0CXOD5fkYVrGuXVRBYLYnMkL2HKKhBWjPlzhOg/pQi9NOb3UoPCqhPj0V+lHOSGdVT/kpNQqtz+NT17zr+cnFXvxQUQ14pd+jZ8JT5UVKf8T2XK7zDb4Bb+Pnp0mbLy2IIPLAWAHiqPYzot0S8eJ9yvr3KTly1UbOOJvrG3/+GwXvd4k72VaETEFrhdMVazUVz1wGCcnsvloN7lrxppzW246WGeBbSXbH7BR4r9fMMxX+bhZqwQ4TF9qekDFvlLbmQZIBGqQ6dNCZn6mYNZxYDOcGorsODDjAi/MZdenuRzO9AmbtAImZjBh9ApSq8YccYV746NkEFXdqSmqhb+PKg25s+yMqR07j2FaL0smAcDeFD3Fd+Etm42QfNddJqHE5CsAy9vM1iHnOHStEslIB/lyHh2imHe7L4xhO8BJk5wxoHl5brzpcrBW/FwEyuIep4M=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 239c1c46-8156-4f08-0c80-08dc22819f37
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2024 17:25:29.6579
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8f803b6-a19c-4b06-ce43-08dc227f06a1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF000252A4.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8073
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CMp6qsK4jiEKMN99JKVfk+YN9UNTHz4isX/uXu3wCNXwOpdtObrnvZyJ1lOzv3XZgExRW4aLkwstqc9RX1VO+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7979
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-31_10,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 malwarescore=0
+ spamscore=0 mlxlogscore=999 adultscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401310134
+X-Proofpoint-GUID: e3s_sTLO9TF_C4Po0IXfVKJiSDYXeFje
+X-Proofpoint-ORIG-GUID: e3s_sTLO9TF_C4Po0IXfVKJiSDYXeFje
 
-Convert AMD (Xilinx) sd-fec bindings to yaml format, so it can validate
-dt-entries as well as any future additions to yaml.
-Change in clocks is due to IP is itself configurable and
-only the first two clocks are in all combinations. The last
-6 clocks can be present in some of them. It means order is
-not really fixed and any combination is possible.
-Interrupt may or may not be present.
-The documentation for sd-fec bindings is now YAML, so update the
-MAINTAINERS file.
-Update the link to the new yaml file in xilinx_sdfec.rst.
+Hi
 
-Signed-off-by: Dragan Cvetic <dragan.cvetic@amd.com>
----
-Changes in v2:
----
-Drop clocks description.
-Use "contains:" with enum for optional clock-names and update
-comment explaining diference from the original DT binding file.
-Remove trailing full stops.
-Add more details in sdfec-code description.
-Set sdfec-code to "string" not "string-array"
----
-Changes in v3:
-Fix a mistake in example, set interrupt type to 0.
----
-Changes in v4:
-Set interrupt type to high level sensitive.
-Remove '|' from descriptions, no need to preserve format.
-Remove not needed empty line.
----
-Changes in v5:
-Apply allOf to clock-names and put permanent clock items
-inside enum.
----
- .../devicetree/bindings/misc/xlnx,sd-fec.txt  |  58 --------
- .../devicetree/bindings/misc/xlnx,sd-fec.yaml | 140 ++++++++++++++++++
- Documentation/misc-devices/xilinx_sdfec.rst   |   2 +-
- MAINTAINERS                                   |   2 +-
- 4 files changed, 142 insertions(+), 60 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
- create mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
+> On 31 Jan 2024, at 15:49, Russell King <rmk+kernel@armlinux.org.uk> wrote=
+:
+>=20
+> From: James Morse <james.morse@arm.com>
+>=20
+> Today the ACPI enumeration code 'visits' all devices that are present.
+>=20
+> This is a problem for arm64, where CPUs are always present, but not
+> always enabled. When a device-check occurs because the firmware-policy
+> has changed and a CPU is now enabled, the following error occurs:
+> | acpi ACPI0007:48: Enumeration failure
+>=20
+> This is ultimately because acpi_dev_ready_for_enumeration() returns
+> true for a device that is not enabled. The ACPI Processor driver
+> will not register such CPUs as they are not 'decoding their resources'.
+>=20
+> ACPI allows a device to be functional instead of maintaining the
+> present and enabled bit, but we can't simply check the enabled bit
+> for all devices since firmware can be buggy.
+>=20
+> If ACPI indicates that the device is present and enabled, then all well
+> and good, we can enumate it. However, if the device is present and not
 
-diff --git a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-deleted file mode 100644
-index e3289634fa30..000000000000
---- a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-+++ /dev/null
-@@ -1,58 +0,0 @@
--* Xilinx SDFEC(16nm) IP *
--
--The Soft Decision Forward Error Correction (SDFEC) Engine is a Hard IP block
--which provides high-throughput LDPC and Turbo Code implementations.
--The LDPC decode & encode functionality is capable of covering a range of
--customer specified Quasi-cyclic (QC) codes. The Turbo decode functionality
--principally covers codes used by LTE. The FEC Engine offers significant
--power and area savings versus implementations done in the FPGA fabric.
--
--
--Required properties:
--- compatible: Must be "xlnx,sd-fec-1.1"
--- clock-names : List of input clock names from the following:
--    - "core_clk", Main processing clock for processing core (required)
--    - "s_axi_aclk", AXI4-Lite memory-mapped slave interface clock (required)
--    - "s_axis_din_aclk", DIN AXI4-Stream Slave interface clock (optional)
--    - "s_axis_din_words-aclk", DIN_WORDS AXI4-Stream Slave interface clock (optional)
--    - "s_axis_ctrl_aclk",  Control input AXI4-Stream Slave interface clock (optional)
--    - "m_axis_dout_aclk", DOUT AXI4-Stream Master interface clock (optional)
--    - "m_axis_dout_words_aclk", DOUT_WORDS AXI4-Stream Master interface clock (optional)
--    - "m_axis_status_aclk", Status output AXI4-Stream Master interface clock (optional)
--- clocks : Clock phandles (see clock_bindings.txt for details).
--- reg: Should contain Xilinx SDFEC 16nm Hardened IP block registers
--  location and length.
--- xlnx,sdfec-code : Should contain "ldpc" or "turbo" to describe the codes
--  being used.
--- xlnx,sdfec-din-words : A value 0 indicates that the DIN_WORDS interface is
--  driven with a fixed value and is not present on the device, a value of 1
--  configures the DIN_WORDS to be block based, while a value of 2 configures the
--  DIN_WORDS input to be supplied for each AXI transaction.
--- xlnx,sdfec-din-width : Configures the DIN AXI stream where a value of 1
--  configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
--  of "4x128b".
--- xlnx,sdfec-dout-words : A value 0 indicates that the DOUT_WORDS interface is
--  driven with a fixed value and is not present on the device, a value of 1
--  configures the DOUT_WORDS to be block based, while a value of 2 configures the
--  DOUT_WORDS input to be supplied for each AXI transaction.
--- xlnx,sdfec-dout-width : Configures the DOUT AXI stream where a value of 1
--  configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
--  of "4x128b".
--Optional properties:
--- interrupts: should contain SDFEC interrupt number
--
--Example
-----------------------------------------
--	sd_fec_0: sd-fec@a0040000 {
--		compatible = "xlnx,sd-fec-1.1";
--		clock-names = "core_clk","s_axi_aclk","s_axis_ctrl_aclk","s_axis_din_aclk","m_axis_status_aclk","m_axis_dout_aclk";
--		clocks = <&misc_clk_2>,<&misc_clk_0>,<&misc_clk_1>,<&misc_clk_1>,<&misc_clk_1>, <&misc_clk_1>;
--		reg = <0x0 0xa0040000 0x0 0x40000>;
--		interrupt-parent = <&axi_intc>;
--		interrupts = <1 0>;
--		xlnx,sdfec-code = "ldpc";
--		xlnx,sdfec-din-words = <0>;
--		xlnx,sdfec-din-width = <2>;
--		xlnx,sdfec-dout-words = <0>;
--		xlnx,sdfec-dout-width = <1>;
--	};
-diff --git a/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
-new file mode 100644
-index 000000000000..9bd210337426
---- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
-@@ -0,0 +1,140 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/misc/xlnx,sd-fec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Xilinx SDFEC(16nm) IP
-+
-+maintainers:
-+  - Cvetic, Dragan <dragan.cvetic@amd.com>
-+  - Erim, Salih <salih.erim@amd.com>
-+
-+description:
-+  The Soft Decision Forward Error Correction (SDFEC) Engine is a Hard IP block
-+  which provides high-throughput LDPC and Turbo Code implementations.
-+  The LDPC decode & encode functionality is capable of covering a range of
-+  customer specified Quasi-cyclic (QC) codes. The Turbo decode functionality
-+  principally covers codes used by LTE. The FEC Engine offers significant
-+  power and area savings versus implementations done in the FPGA fabric.
-+
-+properties:
-+  compatible:
-+    const: xlnx,sd-fec-1.1
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 2
-+    maxItems: 8
-+    additionalItems: true
-+    items:
-+      - description: Main processing clock for processing core
-+      - description: AXI4-Lite memory-mapped slave interface clock
-+      - description: Control input AXI4-Stream Slave interface clock
-+      - description: DIN AXI4-Stream Slave interface clock
-+      - description: Status output AXI4-Stream Master interface clock
-+      - description: DOUT AXI4-Stream Master interface clock
-+      - description: DIN_WORDS AXI4-Stream Slave interface clock
-+      - description: DOUT_WORDS AXI4-Stream Master interface clock
-+
-+  clock-names:
-+    allOf:
-+      - minItems: 2
-+        maxItems: 8
-+        additionalItems: true
-+        items:
-+          - const: core_clk
-+          - const: s_axi_aclk
-+      - items:
-+          enum:
-+            - core_clk
-+            - s_axi_aclk
-+            - s_axis_ctrl_aclk
-+            - s_axis_din_aclk
-+            - m_axis_status_aclk
-+            - m_axis_dout_aclk
-+            - s_axis_din_words_aclk
-+            - m_axis_dout_words_aclk
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  xlnx,sdfec-code:
-+    description:
-+      The SD-FEC integrated block supports Low Density Parity Check (LDPC)
-+      decoding and encoding and Turbo code decoding. The LDPC codes used are
-+      highly configurable, and the specific code used can be specified on
-+      a codeword-by-codeword basis. The Turbo code decoding is required by LTE
-+      standard.
-+    $ref: /schemas/types.yaml#/definitions/string
-+    items:
-+      enum: [ ldpc, turbo ]
-+
-+  xlnx,sdfec-din-width:
-+    description:
-+      Configures the DIN AXI stream where a value of 1
-+      configures a width of "1x128b", 2 a width of "2x128b" and 4 configures a width
-+      of "4x128b".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1, 2, 4 ]
-+
-+  xlnx,sdfec-din-words:
-+    description:
-+      A value 0 indicates that the DIN_WORDS interface is
-+      driven with a fixed value and is not present on the device, a value of 1
-+      configures the DIN_WORDS to be block based, while a value of 2 configures the
-+      DIN_WORDS input to be supplied for each AXI transaction.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2 ]
-+
-+  xlnx,sdfec-dout-width:
-+    description:
-+      Configures the DOUT AXI stream where a value of 1 configures a width of "1x128b",
-+      2 a width of "2x128b" and 4 configures a width of "4x128b".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 1, 2, 4 ]
-+
-+  xlnx,sdfec-dout-words:
-+    description:
-+      A value 0 indicates that the DOUT_WORDS interface is
-+      driven with a fixed value and is not present on the device, a value of 1
-+      configures the DOUT_WORDS to be block based, while a value of 2 configures the
-+      DOUT_WORDS input to be supplied for each AXI transaction.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [ 0, 1, 2 ]
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - xlnx,sdfec-code
-+  - xlnx,sdfec-din-width
-+  - xlnx,sdfec-din-words
-+  - xlnx,sdfec-dout-width
-+  - xlnx,sdfec-dout-words
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    sd-fec@a0040000 {
-+        compatible = "xlnx,sd-fec-1.1";
-+        reg = <0xa0040000 0x40000>;
-+        clocks = <&misc_clk_2>, <&misc_clk_0>, <&misc_clk_1>, <&misc_clk_1>,
-+                 <&misc_clk_1>, <&misc_clk_1>;
-+        clock-names = "core_clk", "s_axi_aclk", "s_axis_ctrl_aclk",
-+                      "s_axis_din_aclk", "m_axis_status_aclk",
-+                      "m_axis_dout_aclk";
-+        interrupts = <1 IRQ_TYPE_LEVEL_HIGH>;
-+        xlnx,sdfec-code = "ldpc";
-+        xlnx,sdfec-din-width = <2>;
-+        xlnx,sdfec-din-words = <0>;
-+        xlnx,sdfec-dout-width = <1>;
-+        xlnx,sdfec-dout-words = <0>;
-+    };
-+
-diff --git a/Documentation/misc-devices/xilinx_sdfec.rst b/Documentation/misc-devices/xilinx_sdfec.rst
-index 8c8a289d69a3..698e6630f3a7 100644
---- a/Documentation/misc-devices/xilinx_sdfec.rst
-+++ b/Documentation/misc-devices/xilinx_sdfec.rst
-@@ -29,7 +29,7 @@ follows:
-   - Does not support shared LDPC code table wraparound
- 
- The device tree entry is described in:
--`linux-xlnx/Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt <https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/misc/xlnx%2Csd-fec.txt>`_
-+`linux-xlnx/Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml <https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/misc/xlnx%2Csd-fec.yaml>`_
- 
- 
- Modes of Operation
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8999497011a2..d62e04322e19 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24157,7 +24157,7 @@ XILINX SD-FEC IP CORES
- M:	Derek Kiernan <derek.kiernan@amd.com>
- M:	Dragan Cvetic <dragan.cvetic@amd.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
-+F:	Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
- F:	Documentation/misc-devices/xilinx_sdfec.rst
- F:	drivers/misc/Kconfig
- F:	drivers/misc/Makefile
--- 
-2.34.1
+enumerate
+
+> enabled, then we also check whether the device is a processor device
+> to limit the impact of this new check to just processor devices.
+>=20
+> This avoids enumerating present && functional processor devices that
+> are not enabled.
+>=20
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Co-developed-by: Rafael J. Wysocki <rjw@rjwysocki.net>
+> Tested-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+> Changes since RFC v2:
+> * Incorporate comment suggestion by Gavin Shan.
+> Changes since RFC v3:
+> * Fixed "sert" typo.
+> Changes since RFC v3 (smaller series):
+> * Restrict checking the enabled bit to processor devices, update
+>   commit comments.
+> * Use Rafael's suggestion in
+>   https://lore.kernel.org/r/5760569.DvuYhMxLoT@kreacher
+> * Updated with a fix - see:
+>   https://lore.kernel.org/all/Zbe8WQRASx6D6RaG@shell.armlinux.org.uk/
+> ---
+> drivers/acpi/acpi_processor.c | 11 +++++++++
+> drivers/acpi/device_pm.c      |  2 +-
+> drivers/acpi/device_sysfs.c   |  2 +-
+> drivers/acpi/internal.h       |  4 ++-
+> drivers/acpi/property.c       |  2 +-
+> drivers/acpi/scan.c           | 46 +++++++++++++++++++++++++++--------
+> 6 files changed, 53 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.=
+c
+> index 4fe2ef54088c..cf7c1cca69dd 100644
+> --- a/drivers/acpi/acpi_processor.c
+> +++ b/drivers/acpi/acpi_processor.c
+> @@ -626,6 +626,17 @@ static struct acpi_scan_handler processor_handler =
+=3D {
+> },
+> };
+>=20
+> +bool acpi_device_is_processor(const struct acpi_device *adev)
+> +{
+> + if (adev->device_type =3D=3D ACPI_BUS_TYPE_PROCESSOR)
+> + return true;
+> +
+> + if (adev->device_type !=3D ACPI_BUS_TYPE_DEVICE)
+> + return false;
+> +
+> + return acpi_scan_check_handler(adev, &processor_handler);
+> +}
+> +
+> static int acpi_processor_container_attach(struct acpi_device *dev,
+>   const struct acpi_device_id *id)
+> {
+> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
+> index 3b4d048c4941..e3c80f3b3b57 100644
+> --- a/drivers/acpi/device_pm.c
+> +++ b/drivers/acpi/device_pm.c
+> @@ -313,7 +313,7 @@ int acpi_bus_init_power(struct acpi_device *device)
+> return -EINVAL;
+>=20
+> device->power.state =3D ACPI_STATE_UNKNOWN;
+> - if (!acpi_device_is_present(device)) {
+> + if (!acpi_dev_ready_for_enumeration(device)) {
+> device->flags.initialized =3D false;
+> return -ENXIO;
+> }
+> diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
+> index 23373faa35ec..a0256d2493a7 100644
+> --- a/drivers/acpi/device_sysfs.c
+> +++ b/drivers/acpi/device_sysfs.c
+> @@ -141,7 +141,7 @@ static int create_pnp_modalias(const struct acpi_devi=
+ce *acpi_dev, char *modalia
+> struct acpi_hardware_id *id;
+>=20
+> /* Avoid unnecessarily loading modules for non present devices. */
+> - if (!acpi_device_is_present(acpi_dev))
+> + if (!acpi_dev_ready_for_enumeration(acpi_dev))
+> return 0;
+>=20
+> /*
+> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
+> index 6588525c45ef..1bc8b6db60c5 100644
+> --- a/drivers/acpi/internal.h
+> +++ b/drivers/acpi/internal.h
+> @@ -62,6 +62,8 @@ void acpi_sysfs_add_hotplug_profile(struct acpi_hotplug=
+_profile *hotplug,
+> int acpi_scan_add_handler_with_hotplug(struct acpi_scan_handler *handler,
+>       const char *hotplug_profile_name);
+> void acpi_scan_hotplug_enabled(struct acpi_hotplug_profile *hotplug, bool=
+ val);
+> +bool acpi_scan_check_handler(const struct acpi_device *adev,
+> +     struct acpi_scan_handler *handler);
+>=20
+> #ifdef CONFIG_DEBUG_FS
+> extern struct dentry *acpi_debugfs_dir;
+> @@ -121,7 +123,6 @@ int acpi_device_setup_files(struct acpi_device *dev);
+> void acpi_device_remove_files(struct acpi_device *dev);
+> void acpi_device_add_finalize(struct acpi_device *device);
+> void acpi_free_pnp_ids(struct acpi_device_pnp *pnp);
+> -bool acpi_device_is_present(const struct acpi_device *adev);
+> bool acpi_device_is_battery(struct acpi_device *adev);
+> bool acpi_device_is_first_physical_node(struct acpi_device *adev,
+> const struct device *dev);
+> @@ -133,6 +134,7 @@ int acpi_bus_register_early_device(int type);
+> const struct acpi_device *acpi_companion_match(const struct device *dev);
+> int __acpi_device_uevent_modalias(const struct acpi_device *adev,
+>  struct kobj_uevent_env *env);
+> +bool acpi_device_is_processor(const struct acpi_device *adev);
+>=20
+> /* ----------------------------------------------------------------------=
+----
+>                                   Power Resource
+> diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
+> index a6ead5204046..9f8d54038770 100644
+> --- a/drivers/acpi/property.c
+> +++ b/drivers/acpi/property.c
+> @@ -1486,7 +1486,7 @@ static bool acpi_fwnode_device_is_available(const s=
+truct fwnode_handle *fwnode)
+> if (!is_acpi_device_node(fwnode))
+> return false;
+>=20
+> - return acpi_device_is_present(to_acpi_device_node(fwnode));
+> + return acpi_dev_ready_for_enumeration(to_acpi_device_node(fwnode));
+> }
+>=20
+> static const void *
+> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> index e6ed1ba91e5c..fd2e8b3a5749 100644
+> --- a/drivers/acpi/scan.c
+> +++ b/drivers/acpi/scan.c
+> @@ -304,7 +304,7 @@ static int acpi_scan_device_check(struct acpi_device =
+*adev)
+> int error;
+>=20
+> acpi_bus_get_status(adev);
+> - if (acpi_device_is_present(adev)) {
+> + if (acpi_dev_ready_for_enumeration(adev)) {
+> /*
+> * This function is only called for device objects for which
+> * matching scan handlers exist.  The only situation in which
+> @@ -338,7 +338,7 @@ static int acpi_scan_bus_check(struct acpi_device *ad=
+ev, void *not_used)
+> int error;
+>=20
+> acpi_bus_get_status(adev);
+> - if (!acpi_device_is_present(adev)) {
+> + if (!acpi_dev_ready_for_enumeration(adev)) {
+> acpi_scan_device_not_enumerated(adev);
+> return 0;
+> }
+> @@ -1917,11 +1917,6 @@ static bool acpi_device_should_be_hidden(acpi_hand=
+le handle)
+> return true;
+> }
+>=20
+> -bool acpi_device_is_present(const struct acpi_device *adev)
+> -{
+> - return adev->status.present || adev->status.functional;
+> -}
+> -
+> static bool acpi_scan_handler_matching(struct acpi_scan_handler *handler,
+>       const char *idstr,
+>       const struct acpi_device_id **matchid)
+> @@ -1942,6 +1937,18 @@ static bool acpi_scan_handler_matching(struct acpi=
+_scan_handler *handler,
+> return false;
+> }
+>=20
+> +bool acpi_scan_check_handler(const struct acpi_device *adev,
+> +     struct acpi_scan_handler *handler)
+> +{
+> + struct acpi_hardware_id *hwid;
+> +
+> + list_for_each_entry(hwid, &adev->pnp.ids, list)
+> + if (acpi_scan_handler_matching(handler, hwid->id, NULL))
+> + return true;
+> +
+> + return false;
+> +}
+> +
+> static struct acpi_scan_handler *acpi_scan_match_handler(const char *idst=
+r,
+> const struct acpi_device_id **matchid)
+> {
+> @@ -2405,16 +2412,35 @@ EXPORT_SYMBOL_GPL(acpi_dev_clear_dependencies);
+>  * acpi_dev_ready_for_enumeration - Check if the ACPI device is ready for=
+ enumeration
+>  * @device: Pointer to the &struct acpi_device to check
+>  *
+> - * Check if the device is present and has no unmet dependencies.
+> + * Check if the device is functional or enabled and has no unmet depende=
+ncies.
+>  *
+> - * Return true if the device is ready for enumeratino. Otherwise, return=
+ false.
+> + * Return true if the device is ready for enumeration. Otherwise, return=
+ false.
+>  */
+> bool acpi_dev_ready_for_enumeration(const struct acpi_device *device)
+> {
+> if (device->flags.honor_deps && device->dep_unmet)
+> return false;
+>=20
+> - return acpi_device_is_present(device);
+> + /*
+> + * ACPI 6.5's 6.3.7 "_STA (Device Status)" allows firmware to return
+> + * (!present && functional) for certain types of devices that should be
+> + * enumerated. Note that the enabled bit should not be set unless the
+> + * present bit is set.
+> + *
+> + * However, limit this only to processor devices to reduce possible
+> + * regressions with firmware.
+> + */
+> + if (!device->status.present)
+> + return device->status.functional;
+> +
+> + /*
+> + * Fast path - if enabled is set, avoid the more expensive test to
+> + * check whether this device is a processor.
+> + */
+> + if (device->status.enabled)
+> + return true;
+> +
+> + return !acpi_device_is_processor(device);
+
+Otherwise, feel free to add:
+
+Reviewed-by: Miguel Luis <miguel.luis@oracle.com>
+Tested-by: Miguel Luis <miguel.luis@oracle.com>
+
+Thanks
+
+Miguel
+
+> }
+> EXPORT_SYMBOL_GPL(acpi_dev_ready_for_enumeration);
+>=20
+> --=20
+> 2.30.2
+>=20
+>=20
 
