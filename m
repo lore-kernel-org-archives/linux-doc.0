@@ -1,130 +1,175 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2124.outbound.protection.outlook.com [40.107.94.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5C5FBF5;
-	Wed, 31 Jan 2024 03:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706670956; cv=none; b=QSZPqMrmcYDspdrxIxHSz6n9Y9PKCHtvA7OkMGn4ZU2vx5sNXgetF1gNK/g0Pe0CLYnJH7qmJsLqwkQ0MIOSYc65XuTWp4KXrwJC0idUFXcM65qaL7aEn6cJNp/mZcKtMFJ4BBpPkzDIwAfLfTBjJ3bTjHYFFdYbqV84y7qWX/k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706670956; c=relaxed/simple;
-	bh=xj888ufwZMUj4A2QyuAYOBr+//HBIZGWsKDinV5WyCE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nkKbcl0xc+/4KFtt8oihW1RTjluISDYkgyF6auV4Q9lNAZs70ceTM6RH+93NgNP2pYJoOnMq0x5Q9T8Q7nq1zQ/pz/tJZ42LUW1YjLp2ipciMrBhptOKB3/1eoOB/beIR7e7+oRDIUf78CJbwyZVvTkr6GWOJQ0jjQ22ebE6yAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRDBoQmN; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06733D548;
+	Wed, 31 Jan 2024 05:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706677954; cv=fail; b=ub3cP1FctQHWXopYT209VhEgHrmXyNechRM4EGVrAuEa04N0jdNM/ZJHhsHdt9rZwHXVSOWTtPNVaLb6amjh+JxO5OhGsYSMWZDmj3GNdKrqDLZSp56G609H33//P8gmHASh3CnXW61Mx7CYJaipq28yNTGaFIssBH9Q8OvCKsg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706677954; c=relaxed/simple;
+	bh=Pa2GbEDS619nUEgdNXgkpvNVANqYDGOvAEzL0IItvDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Wi155J/WBTUhdkaPEHCMgtAWtu1+7X7g6ttQ2wVe5UjFW7pSRmY9GSQnKnDOvwwFG+9G6L9BDfGcqjG9P9M1HCPANTdaQ9MjqidevMBtugiAsTKexMaOeCrjfW6PYtQcKV9YGbtQagT0C5PGle5YpCLWt0xdJZJ8vKWsfsw6qB4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com; spf=pass smtp.mailfrom=memverge.com; dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b=ugn1b+/E; arc=fail smtp.client-ip=40.107.94.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRDBoQmN"
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc6bad09398so338561276.2;
-        Tue, 30 Jan 2024 19:15:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706670953; x=1707275753; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M5vfFw+B4qQaAmX0KSnFyPWaYeXXdPCyWr3sYtimr6c=;
-        b=YRDBoQmN1F7zbs4O2XHvlAHhxK6i6iit0rn3OiWPocK3MX9BIosPuxlfeuRwKhl1ff
-         W/L+9P2YG6AIEQV9SwGXZ9DwayKpqi/05RtVgB7Ph3NVZK7IoCrSpNg9JCh5Y2GdWL94
-         zdlN12KimZZm8uSdNwXdXQNCevpF+r4Ahf8QpFbbKSSyBvW0nXyh/4hl+yXH2aKIsjhq
-         eZteTshZirgm7RTQn/KB0qbv6DwU5K3fjGgOM3orqLdGkXHGhznOqGh5Jdq1Mwi0Qarr
-         z6t8uajSnaZXMplvHiaxgai/M4vn0w3/FT8Xs3eS+uIo/9DvmxshH5qBBlMXy5i5hZgc
-         MMqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706670953; x=1707275753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M5vfFw+B4qQaAmX0KSnFyPWaYeXXdPCyWr3sYtimr6c=;
-        b=ZgK3j4YXTal/ORG6PjhPJzFR7RPVYno5HfzHqghzbYHgR9D1B1kA3EJ63O7rtjG7iY
-         ywYtJ5VqlFAfUTuySLxFkSL4xIExCn8p9iqPKA+OE4IK7OLpKbWXc5DDiNTwXj0CKmM7
-         6v/Tpn+wJLR0PuVHFCHNuB2wX5ScMFaeqslELWETsTBEoz9WyPXsV6TpT1z0gfK3KeFh
-         SkpX6djCmrwwf/WgnM1ZRIzdfw1IAsJb9Fi1PJcFer/41y6yg3CjkFTvrrSNEoE5YBJJ
-         AjmT1VGtBBaPGbmuZ9pW5gko4Vnv4dWNaxAKdsPFEy9wRKGhNf+tL02iBZ11ElQKe4ZK
-         gBuw==
-X-Gm-Message-State: AOJu0Yye/51n07qyQTRBQPVRhFX9mh2qY8mebQem6IyVgpdhkCd4P+vp
-	IgMdVqEilM5ytbJlzrYxnRTTNYwt4gmaKwdoTRDNMY0RUJoSZrhD0kI3ZYZ0UGrfdowxOVLk+YT
-	A+4z78fEK0eUI+Z7F87BJILC2p6c=
-X-Google-Smtp-Source: AGHT+IEgSI5FvPenJVdi3XSwbwBPCPZgeHMPUFSwjko4DrgrPFSHLEF6/7bMGVVrk7NI2yxvajEREOc/g+s3DqlyrL8=
-X-Received: by 2002:a25:bd92:0:b0:dc6:b945:e58 with SMTP id
- f18-20020a25bd92000000b00dc6b9450e58mr348589ybh.48.1706670953113; Tue, 30 Jan
- 2024 19:15:53 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="ugn1b+/E"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WsqY2h+u/z9aRiuNJVLNxCGJ5po0BEoAVdP3YQRfAYk2dWswO5ZNEan2DX2bOaPN2JjolAwM9wxS5OmY+iYoH94b8oJExfO1CiYdbmm0F/6IJj1XkTxyloiJR/sHRwiUhbkAH7NfiQKVX3aWz81nb8WXJfM0EHFNZyeUyqBeHRjLXdk0N7vaS77XU4PULVrXd/FLhHMgVrvdtbkx8QRae+kSGWJeK7k3A0q+HvyOYVu2cCaozl/AKIsv2LGsJSEza5tus0sFcvGVDFRIlo2BKcDVqsfraB8J4T8iVTLnf/oOIwIGuw9x+k8G5C0c/on7ydVvfSWol06W/UBMZOHsqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yzy+08+X5nBwtfZjcfR/cB+0TAoxQzf92ItY0JBaz90=;
+ b=DMAKegLl6C1QO3VS428XQP5h+30G+XbSV2laUTabi1B5aL1klnHh5c9QAu7170G4gYgHxinJV4wJxaaPi4FpJxWAvr8uNTK6ftlaGSkEhSk++4RD5LxCbE6R9piXNGRVNXVvb4tjCADeEAmp+jyhha0k/o5ChAZnSdwOp+I2h688XddFmra+9YHGSTuYExUEacIEr2FgQRCgiT5zfuhDFbgha/UE0tWjdrtJEtTo3HiVC8icvs/h3aR0ZLxgzGJ4FMRxNUC13Yuu+3HHUBAOVUn3H2W8T6iEz5QBashKzPwbKh54umohE0LD7gYQJwmULu+RMfh8Cqs+ewGDrc1ZsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yzy+08+X5nBwtfZjcfR/cB+0TAoxQzf92ItY0JBaz90=;
+ b=ugn1b+/EUA41NEkn0fp/BoFoeooLv8ri6gZLPEU4OROgVJsu1y4P5/vKLS+/Nfj3C6LMFTF04n/rDIhELxqIvmjBxMoz3LYDGRMQ/Hv+lFAuZ5fSFNkglmMslPYSdQ9L8dc2erGpyEQOFb+5eKpGmNtsvtgCT/4SeRObtymaR9M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by SJ0PR17MB6545.namprd17.prod.outlook.com (2603:10b6:a03:4e2::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Wed, 31 Jan
+ 2024 05:12:29 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15%5]) with mapi id 15.20.7228.029; Wed, 31 Jan 2024
+ 05:12:29 +0000
+Date: Wed, 31 Jan 2024 00:12:24 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org, corbet@lwn.net,
+	akpm@linux-foundation.org, honggyu.kim@sk.com, rakie.kim@sk.com,
+	hyeongtak.ji@sk.com, mhocko@kernel.org, ying.huang@intel.com,
+	vtavarespetr@micron.com, jgroves@micron.com,
+	ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com,
+	hannes@cmpxchg.org, dan.j.williams@intel.com,
+	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
+Subject: Re: [PATCH v4 3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
+ for weighted interleaving
+Message-ID: <ZbnWuB4dRCEFRz2m@memverge.com>
+References: <20240130182046.74278-1-gregory.price@memverge.com>
+ <20240130182046.74278-4-gregory.price@memverge.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240130182046.74278-4-gregory.price@memverge.com>
+X-ClientProxiedBy: BYAPR01CA0032.prod.exchangelabs.com (2603:10b6:a02:80::45)
+ To SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240127140747.905552-1-hayatake396@gmail.com>
- <154f979e-a335-461b-b72e-5e9c54fe940c@linux.intel.com> <CADFiAcJShbgBLXdVgs1vK1jqDFopkRcw-se4b4h0V3Yd60xLVw@mail.gmail.com>
- <92958c7b-7e5f-4e25-819f-4e52f9ffcf7b@linux.intel.com> <ZbjLWwG8m-FdyxMH@nataraja>
-In-Reply-To: <ZbjLWwG8m-FdyxMH@nataraja>
-From: takeru hayasaka <hayatake396@gmail.com>
-Date: Wed, 31 Jan 2024 12:15:41 +0900
-Message-ID: <CADFiAcLuKXTsHm6FzojKcD_wc8LQz43xt-cN0rHJyA3Va_-EDQ@mail.gmail.com>
-Subject: Re: [Intel-wired-lan] [PATCH net-next RESENT v3] ethtool: ice:
- Support for RSS settings to GTP from ethtool
-To: Harald Welte <laforge@gnumonks.org>
-Cc: Marcin Szycik <marcin.szycik@linux.intel.com>, 
-	Jesse Brandeburg <jesse.brandeburg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-doc@vger.kernel.org, vladimir.oltean@nxp.com, 
-	linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
-	netdev@vger.kernel.org, mailhol.vincent@wanadoo.fr
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SJ0PR17MB6545:EE_
+X-MS-Office365-Filtering-Correlation-Id: 300ffd92-869a-4cdb-7f9e-08dc221b38c4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	fwt57qkiFFw65TQQDi9XwnDOyJr/4HfNiAGlVv6WRp1gzvcFtrRbkufpdr7aYwOjZdm1jEMMPVH0UOR8ZVFbC1bqi6jaPemQCXiR+g9Em6LxXryxwweNafXHW1MczoRixbQc9Iq4blort3ZiE9aljZTZ2Yg+BVK8os2dMExaeMnU9LJ/B8PCX634oo172wxgGrHmW/SdO2BKgxIhH/XrAqf2bLjxE7J6gmfXRKKTWYDIWLqEWFtTZCUjnd0E/jP15diKcMk6spJP6LS0/TQDePKtmgf/PdVaADmlOLMF7wmujQRf7GKaXIgbOu6cqyrzSDyoc9myktmk21amMOpF5kB1HHGKNWM8q6tNCdeA5Vu7ItRveKHKQr37fBt13ZZuZpjjU6+KOtAYfIj5ThVyDXivxCZA6ENZJlMz0Qsl855rmn22yHtlhViVVWGLQ70Qi3M56/O/AJJKz8klaPPY+pZXjGe+Ur6yQRBXHH7PoMjrfJDKTzbBFD8JQSEaKeNRsS88kM2H5+9kPAN2E/ch2Zyj5br96j9QS9Vyjn2tOyF0/gk+RdKIqj3MD+NDVRgyunZkuBjSqxgIfOdI8gfUVSwoRV+Dek525vSPbAlN0Cwnw7fGVTzVTQXK4dczzaog
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(376002)(346002)(39840400004)(396003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(8936002)(8676002)(4326008)(7416002)(2906002)(44832011)(5660300002)(6486002)(86362001)(316002)(6916009)(66556008)(66476007)(66946007)(36756003)(38100700002)(6512007)(6506007)(478600001)(6666004)(2616005)(83380400001)(26005)(41300700001)(16393002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?HPbAhSkvl212xHi2ccUmrZTOnxxlLdtv/4zn576q1csZf0L/4TbX18f92Sk9?=
+ =?us-ascii?Q?TVDgpCgWq6RBP/XMqPODOjNHJbyYbssvKxIhWlvlXGt+zUGJkksDIveSY8Qd?=
+ =?us-ascii?Q?+sQJFjqd+idFWcNiWve1Z+E416gTFKV/JlaX0xO2AKXV8CYl/R21Lp+3KdMP?=
+ =?us-ascii?Q?h8PKGs0E//CSbXI8OiQb/zZV7sbzzUmKkDQIHnpMmOofgIyRfvZo6D2Tn3uZ?=
+ =?us-ascii?Q?xft20U9unyYhMeEP+iB5l6zFD/TFjmCdkmnnnWeC6PniGS3WVu3psnE+ptpc?=
+ =?us-ascii?Q?zg5NxQ3QfLPqW2gyHihbyK97M4gxTnQCQOZmLjgs/H7z4izejihcYBip7hZF?=
+ =?us-ascii?Q?+EAXYw450ix4r/7WlmXakf2ma65n2bHAHva2/IxJmamCAQz4UVbVDatKpuDX?=
+ =?us-ascii?Q?z/JsSFLW+u4G1hq3FHUyGhJBkeNuj/ZpYapKkX36GQmGE4m+UNlw/pUyWvBo?=
+ =?us-ascii?Q?w9XKZbyerE0ERrO8UjZ266ufvCkJ5CsybbRO+lDWNr/Gfn8sMKvLYbRdhiDc?=
+ =?us-ascii?Q?vRsoHIXW5DbJDg36QgUEbLnUNYSOTULvyr8AN1ssmqo95UKUlvW5rM/KdGQe?=
+ =?us-ascii?Q?9qDn6OZzTNHOKaEr1RoN6AGQgBy6tTKIK/tcVtxk/T8MwXymyYAEHkKHLz5V?=
+ =?us-ascii?Q?VKZ2deQg/aIY+Lve4h2TY5WuiDxxnr7IHiXl1ecLgU3xeqWXFc2ZDYK8nPFD?=
+ =?us-ascii?Q?sKWCivg/uRZ3cdbTz9r6U9s3AV/gKL0QZ6wwxccqNOGwc2kvpd/oaCplDdd6?=
+ =?us-ascii?Q?NSNMsZmO8kbL7n3hhqYtDpXY+FcEZc6V3+AAedBSNoU4anw4+rdhBM4/uB5n?=
+ =?us-ascii?Q?2zClObbFkvO4e53jVU7G2cwFMt+0eH4MPGTgYzaG7HiGeVyd5vcDWje28BGc?=
+ =?us-ascii?Q?xztVrxK2WxgxwC/sOC3XhUAWOlfCfJKyUNxfegmDywlkQG5pq0hXHHbDrtgJ?=
+ =?us-ascii?Q?Cf44NbsoB0dy5i0JHXrGHA6QNb6J49aMKMIGPKFj1DbHzPIp6tH/R+g/Hs+8?=
+ =?us-ascii?Q?VMKSTBCwm3U+zCDvpkZ3VOdspiMiMcfXBd+YYxEZvSxu35d4D7CSb0jrSc5V?=
+ =?us-ascii?Q?7MpZ0Xhu32mn77d/JGKiO1neFcb6njxFBSIezpaj/IByX0ScivPGBAUbvzno?=
+ =?us-ascii?Q?A3cJquTA3mCUC3NHTT2fHfnEPSY57Puag/8LLmbeNLzzQd4V45QuiPteTG42?=
+ =?us-ascii?Q?kiWc5vgc3mZezOHNRVTDGCevUViVGtYV40dnaE6MvrGKCTT2Q2JlwgwoPlsm?=
+ =?us-ascii?Q?2CxJghcdyI/UYvaFx62wE9G4ODc253a/8uLpWrRlwurn2b9GgsSjXfdJeIAk?=
+ =?us-ascii?Q?vPbW7b1ASE3U/ir92qeImfk5X2bNli17C16+xZiKnpGImIpK2lyecgxZwkLa?=
+ =?us-ascii?Q?SAVx8IymJF+pRKaDTpnYt9wvUvbAWJ934rv+vbJLCP5zEzSlY4hs5hYUVc/E?=
+ =?us-ascii?Q?xOE74ALsoTtw7UfksZIHWxI+aAGMZx78HF57Xx0tw8oucS7GW+jOUva7B/OV?=
+ =?us-ascii?Q?usPK8tQRzRMY6YrLKmQ3nEVjCaLwTDDLJO6Y0IZqfSf5Mv8VPIX/zBVwU2Hq?=
+ =?us-ascii?Q?Ublr2hUJw2KNOhm0l3VL4J7zVrjfZ1Nfq6rhBUAdcSlmFOoNcEsIzwSbG5/T?=
+ =?us-ascii?Q?EA=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 300ffd92-869a-4cdb-7f9e-08dc221b38c4
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 05:12:29.2807
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bMKIXlFUq2MdZNrWoPp+n0uRXYOPtozAPyNnm+haqdluevK5a0rEiPsjLZCEg/36T6XvL1mV9730e0uCHk0JCNDKd/K37fD0mnxUrGgzLSQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB6545
 
-Hi Harald-san
+On Tue, Jan 30, 2024 at 01:20:46PM -0500, Gregory Price wrote:
+> +	/* Continue allocating from most recent node and adjust the nr_pages */
+> +	node = me->il_prev;
+> +	weight = me->il_weight;
+> +	if (weight && node_isset(node, nodes)) {
+> +		node_pages = min(rem_pages, weight);
+> +		nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
+> +						  NULL, page_array);
+> +		page_array += nr_allocated;
+> +		total_allocated += nr_allocated;
+> +		/* if that's all the pages, no need to interleave */
+> +		if (rem_pages < weight) {
+> +			/* stay on current node, adjust il_weight */
+> +			me->il_weight -= rem_pages;
+> +			return total_allocated;
+> +		} else if (rem_pages == weight) {
+> +			/* move to next node / weight */
+> +			me->il_prev = next_node_in(node, nodes);
+> +			me->il_weight = get_il_weight(next_node);
 
-I apologize for the delay in making further progress on this
-patch.(I'm three months late...
+Sigh, I managed to miss a small update that killed next_node in favor of
+operating directly on il_prev. Can you squash this fix into the patch?
+Otherwise I can submit a separate patch.
 
-> There are many different GTPv2C messages
+~Gregory
 
-Thank you for your assistance in explaining GTPC:)
 
-Thanks,
-Takeru
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index 7cd92f4ec0d7..2c1aef8eab70 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -2382,7 +2382,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+        unsigned int weight_total = 0;
+        unsigned long rem_pages = nr_pages;
+        nodemask_t nodes;
+-       int nnodes, node, next_node;
++       int nnodes, node;
+        int resume_node = MAX_NUMNODES - 1;
+        u8 resume_weight = 0;
+        int prev_node;
+@@ -2412,7 +2412,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+                } else if (rem_pages == weight) {
+                        /* move to next node / weight */
+                        me->il_prev = next_node_in(node, nodes);
+-                       me->il_weight = get_il_weight(next_node);
++                       me->il_weight = get_il_weight(me->il_prev);
+                        return total_allocated;
+                }
+                /* Otherwise we adjust remaining pages, continue from there */
 
-2024=E5=B9=B41=E6=9C=8830=E6=97=A5(=E7=81=AB) 19:15 Harald Welte <laforge@g=
-numonks.org>:
->
-> hi Marcin,
->
-> Disclaimer: I have no understanding of the proposed implementation here, =
-just commenting
-> on this from a 3GPP protocol architecture point of view.
->
-> On Tue, Jan 30, 2024 at 10:59:40AM +0100, Marcin Szycik wrote:
-> > >> gtpc(4|6) doesn't include TEID, so what is its purpose?
-> > > In GTPC communication, there is no TEID in the CSR (Create Session Re=
-quest).
-> > > Therefore, there are cases of GTPC that do not include TEID.
-> >
-> > The way I understand it now, this patch (and the ethtool one) adds hash=
-ing on
-> > TEID field in GTP* headers. So I wanted to ask why do we have a case (g=
-tpc(4|6))
-> > that doesn't include TEID? Do we hash on other fields in this header?
->
-> There are many differen GTPv2C messages, most of which contain a TEID.  S=
-o it does
-> in general still make sense to be able to use RSS for all those other mes=
-sages.
->
-> The CSR (Create Session Request) will not be able to benfit from it, but
-> it's just the first message initiating a dialogue between two elements
-> (think of it like a TCP SYN).  All the follow-up messages in that
-> dialogue contain TEIDs and hence can benefit from RSS.
->
-> --
-> - Harald Welte <laforge@gnumonks.org>          https://laforge.gnumonks.o=
-rg/
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> "Privacy in residential applications is a desirable marketing option."
->                                                   (ETSI EN 300 175-7 Ch. =
-A6)
