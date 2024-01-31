@@ -1,83 +1,95 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC7A76C85;
-	Wed, 31 Jan 2024 12:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1029C54BC5
+	for <linux-doc@vger.kernel.org>; Wed, 31 Jan 2024 12:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706704348; cv=none; b=D5WnpQCoAv3/sPp5Df7W5dsoNQtnVaEUyDlepSQqaXD0jegJ0Vbze1J/uasDde36Fxux2ap7VYFpHRQZWqkT5VuKJr7zosAeK7Z0dd0QuBShaOcKB+bKDz2RQ+ALzlBSf1Z073c9dwaIVGuoBPQfU+SmNpiw+xpSlqNrg5EBPWk=
+	t=1706705638; cv=none; b=TE+jh/mvovXWikIZhYGXoIsBXGQYU05UrseSFpwa5glpuSMYQVkWvydbILvu8t2soniY+Tu+7UdpzHuCwC7OFr1ERpL/Zz4pCFGep5Pgno5oGhTWqn91QF2ZSM35V/QzVqVrs+oieO3XAcsrx8rU9QgFldTU4RfwtQBsje0OJ48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706704348; c=relaxed/simple;
-	bh=FED9EEmMKE+UuTS+51bHGBf+zW3QlM2itO24OOhtWuk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oNSW1IpgENX0jgw1+sZyEXgq6xm7rDY4WIwNhOX/vRr/MF4IfSfjltzkEkxko/DRvAL7zXp5s0VF3cIHx4DRqS0u0bR3E4sMyr98qwoUl1lo5wg/scVsSZfTcUfZnuOCeSbGYNooUAwaEr6dBizLw7Fc8xbo51o9KGDSQ9m8I7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4TQ1bC3Zwsz1Q89B;
-	Wed, 31 Jan 2024 20:30:31 +0800 (CST)
-Received: from dggpeml500018.china.huawei.com (unknown [7.185.36.186])
-	by mail.maildlp.com (Postfix) with ESMTPS id 580C01404F7;
-	Wed, 31 Jan 2024 20:32:22 +0800 (CST)
-Received: from octopus.huawei.com (10.67.174.191) by
- dggpeml500018.china.huawei.com (7.185.36.186) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 31 Jan 2024 20:32:22 +0800
-From: Zhang Qiao <zhangqiao22@huawei.com>
-To: <corbet@lwn.net>
-CC: <mingo@kernel.org>, <chrubis@suse.cz>, <zhangqiao22@huawei.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] sched/Documentation: Add RT_RUNTIME_SHARE documentation
-Date: Wed, 31 Jan 2024 20:32:38 +0800
-Message-ID: <20240131123238.2332064-1-zhangqiao22@huawei.com>
-X-Mailer: git-send-email 2.18.0.huawei.25
+	s=arc-20240116; t=1706705638; c=relaxed/simple;
+	bh=JfeMfeEnN893lB7oRpDj4HzmZahwCizVq6qzLQuZnx0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=V+iC4FNxDOKAQnsdjsqQN7OvCJo+hRS5Ml5MWWrDggg4VClksstw5oV29enucOaJGdHER9PBu5pDzr4oCm2liDaPBwW2I/n2fXgD1l6pauUjwYEMzMTykE597ojUFi4CuztQvrFnkrJHiE1UlUrOnu6PaNzPBcHkbh2wEWnlaU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uXiJcRJk; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uXiJcRJk"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a354fc17f24so478831966b.0
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jan 2024 04:53:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706705635; x=1707310435; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m7DD5+v6R7La9ObGy1udtBj61vuNh6NTN+5s93nqhEA=;
+        b=uXiJcRJkZ2x7RhCMDwTtwLwZLI54unGjkiIa1ihMa7YrEeFKVrrd6BMH3EuCnjTje4
+         gvOH2wq2Jddv8xik/G0D7srR2e4Spm7hvn/jxL9Gz5tl0a0wsUSytjTTdtcTsipmO4T4
+         5Y8QbDTw7MeDs3m+d1fkFVRkfNVFMYPz2awRuT4/qDYlA39ydlqOPVcI4fbceE8yzVLy
+         MAoNY+m50KT7ExXeekfLpNSEUpmn3mBlDm3AG3y5UmlFBtXVKgXThx3MY7ei0j6l0HdX
+         zyZC0gZHBi0i5Aitew5tHqORh9WxmRJCEQZ6j8DSJIpotcMlO1TGlJwywL3QzUvQTLD3
+         AJmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706705635; x=1707310435;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m7DD5+v6R7La9ObGy1udtBj61vuNh6NTN+5s93nqhEA=;
+        b=tgbaMayv8KzC5+cYn7OgqlMdSKqmFWSg5X2chmYDIIWUSbhx/KexPZif/PKxU2cyM+
+         eGYnBRcgJprYKsFBZWgZqkh2sBlIB1mCGbqm8OncgBOlrFu/grfJSQA4Fu3dqrGN9SvC
+         YPJXqQ5g8YUCoy8iVAXiMbVRWSXHR594lW/UGvaYZ9rCGcIqJ3PF7CkvtdsuwmODuNRu
+         MXp6Rkaho4PpXRwReDRS8Z+EzlZQ/1cUnN1HkbX5TX3o1nRPRqfgErGIxz21jSkoZ2qO
+         1GbpGh8V7LWzEXrOLoUnoQJ70YWApnFRVXt22CExYm40xHfOgNeOlcdn+a/Le+ezkWdj
+         xgrw==
+X-Gm-Message-State: AOJu0YxuDe0BQEPc3fPBPfOgQGcItQkAsmQqnKypZ/NJ6qjKahiVgkKo
+	LlkiwI8LJB98/JDMun49f6a83Tr428rZ8tjRHWyMJC3c+A6vwT1Vw++Auknd3c4=
+X-Google-Smtp-Source: AGHT+IHh+5E7WDhAyzWWQLM2E33J1ndluJSuDHtMHUT4y5vtHkbpPBVpifO1tfGUIHIFqW68HNw1AQ==
+X-Received: by 2002:a17:906:28cd:b0:a29:852c:dd21 with SMTP id p13-20020a17090628cd00b00a29852cdd21mr1040061ejd.10.1706705635294;
+        Wed, 31 Jan 2024 04:53:55 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUAX5xN8J5gbaX9xvceyb8x4Cb+lAf5LMeiNd8+WxkOWeM7R5zIwvApPFGNdY6hzr+VW8AEQUKOxWA7BObDWUEQEv2Nu40EVAVXZT2zN2IoJ7Jn07tHg1aamojk1vdxaMU2GOMtMqknb4AyfDg3qyTYRs/rlqlcMxYaewIKdKEE3mzo
+Received: from krzk-bin.. ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id vs6-20020a170907a58600b00a310c9d0cb9sm6092652ejc.121.2024.01.31.04.53.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jan 2024 04:53:54 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] docs: maintainer: add existing SoC and netdev profiles
+Date: Wed, 31 Jan 2024 13:53:51 +0100
+Message-Id: <20240131125351.123509-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500018.china.huawei.com (7.185.36.186)
+Content-Transfer-Encoding: 8bit
 
-RT_RUNTIME_SHARE is an important strategy for rt bandwidth, and
-we should document this sched feature.
+Extend the list of maintainer profiles with SoC and netdev.
 
-Signed-off-by: Zhang Qiao <zhangqiao22@huawei.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/scheduler/sched-rt-group.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ Documentation/maintainer/maintainer-entry-profile.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
-index d685609ed3d7..4d8eceb71f5e 100644
---- a/Documentation/scheduler/sched-rt-group.rst
-+++ b/Documentation/scheduler/sched-rt-group.rst
-@@ -12,6 +12,7 @@ Real-Time group scheduling
-      2.1 System-wide settings
-      2.2 Default behaviour
-      2.3 Basis for grouping tasks
-+     2.4 RT_RUNTIME_SHARE sched feature
-    3. Future plans
- 
- 
-@@ -146,6 +147,16 @@ For now, this can be simplified to just the following (but see Future plans):
- 
-    \Sum_{i} runtime_{i} <= global_runtime
- 
-+2.4 RT_RUNTIME_SHARE sched feature
-+----------------------------
-+
-+RT_RUNTIME_SHARE allows a cpu borrows rt-runtime from other cpus if it runs
-+out of its own rt-runtime.
-+
-+With this feature enabled, a rt-task probably hits 100% cpu usage and starves
-+per-cpu tasks like kworkers, as a result, it may hang up the whole system.
-+Therefore, in order to avoid such exception, recommand to disable this feature
-+by default unless you really know what you're up to.
- 
- 3. Future plans
- ===============
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index 18cee1edaecb..b49fb6dc4d0c 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -102,7 +102,10 @@ to do something different in the near future.
+    ../doc-guide/maintainer-profile
+    ../nvdimm/maintainer-entry-profile
+    ../arch/riscv/patch-acceptance
++   ../process/maintainer-soc
++   ../process/maintainer-soc-clean-dts
+    ../driver-api/media/maintainer-entry-profile
++   ../process/maintainer-netdev
+    ../driver-api/vfio-pci-device-specific-driver-acceptance
+    ../nvme/feature-and-quirk-policy
+    ../filesystems/xfs/xfs-maintainer-entry-profile
 -- 
-2.18.0.huawei.25
+2.34.1
 
