@@ -1,191 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF8186645;
-	Thu,  1 Feb 2024 12:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB495D48E
+	for <linux-doc@vger.kernel.org>; Thu,  1 Feb 2024 14:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706791879; cv=none; b=NEbKthR7KDB36Dsm1MXCL1aH/OW0nYpJCXhE6EOvMxQI6oBgaoePOfB9F+cl215C/5kEtv7Jh9Vv+wmClKATK6a4iepx42+Ii/dIa9b/UfTIQT44lmqS6AXIo8uJR9iYSYkz4szi/eeDxJVLE2+kSzw8NYVbSfXXoGJazFB0atU=
+	t=1706796343; cv=none; b=SPqbanukURec5CThRYQkfNnCVDGhofNmIwM0IBrv2L9EirDQeAaWuVQGNoR/DBijKi2n5divpjB6Vfm2eily++1ilytRED+6KTL39C2Smy8xSAqWBYVqr8tIUWlpLh5D3ncqE29U0NA/OkUAL0xlklzELz7qnD10VjoODCYi6YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706791879; c=relaxed/simple;
-	bh=iO+Eo8pPglcxEzFGDR/NbmaGU1weyDXreVR1dhmvHfA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BU6Uilh/3Bu4lu1s94Sps9ggfaww2gGJeozR5fFbi8InMUe8JdAHqPzpb3kFhlwRpXGBP7OA98xrjtTBmJFhbyHdA1DeEMRF7QjskXqEg31nZc7d2CD9aWzPhA2nHiMWYDLLeqh6WxlU4/MGmvonuIgoLzfcEHWo1ssRjas4qys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VG2TeXqv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706796343; c=relaxed/simple;
+	bh=7BvcHpGNojuMkGldGxA7daDj6oUHy4iiyQOkU+6RsWY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ew0SSP3EhyKxQ8UXtmgR+fuKzoBo8URr01ZHtJDLbG3r82UH/PTqm2+gxIi1Ux+d/Y9/u8g/sBCW+olNCp/BXoMwSease/W//onxPc/ZT9XiB8kmqS3DkJ8u6s3pX6Lps8NgdP609aSmLELgfKKUD7peKbaAj+X0q6a34N7cOug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=rSHHkAJi; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VG2TeXqv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C37FC433C7;
-	Thu,  1 Feb 2024 12:51:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706791878;
-	bh=iO+Eo8pPglcxEzFGDR/NbmaGU1weyDXreVR1dhmvHfA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VG2TeXqvjxGcRv1tIL7nOyafkaL7z3CCvzIcS+2JApyFPDRQM0dhUM3PKC9rui9W7
-	 opOWXzX3wf+INRuwos5WuH4cf3M6JbqJJyg+LLI0aU/Mjafxp/zI/6LLOjymUIwDoC
-	 VDSk9ZulqP9mhOGNO91YqNdrN/xj0ITM+fgsH8po+qhjWD78Oni1Q/PDRrpA8716mK
-	 q7pVitaQP60mvxztWefD4GBlghOrGBUOghPd2F99j+OOahvR6F8gTncbv1qJZI/FBz
-	 m1WAK/Vazl7vTC3aR4c4aWHK20XFT2GuwJVRCjUR6Z4saoYMDPtpDx3hv0SXZYc5LH
-	 BbV/B+1mMlIrg==
-Date: Thu, 1 Feb 2024 13:51:15 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>, 
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: [PATCH v5 15/44] drm/connector: hdmi: Compute bpc and format
- automatically
-Message-ID: <jlkoofv7nszj2uqmo2672yo4wjd3yjqarge2l2hxofixcchu6a@j72pa4iybitd>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-15-6538e19d634d@kernel.org>
- <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rSHHkAJi"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d8b2f392b3so739885ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 Feb 2024 06:05:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1706796336; x=1707401136; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JiEpcBE0z8Q5t3JWdIgJHWEI2G0S1HPZ9ikeHZvifi4=;
+        b=rSHHkAJitqpY8jYzEFpBLQbaIfCepERGoPtXmgjMFW5vaALlYQd2crm10cF+Wm+0tb
+         mCjPuxfGOIEyUKZ7e7aEslz2IjEA2IqGMi1ZI4ph6EZdUc0XcgnMmjyFLOeBILj8gb3a
+         st12gmXbw+EBz3Wl4/S6D7DL0FbjSFhbCmJYx3211dqsXCsOiLn0lb5QBNYP8j77VN2U
+         CobBhVBpl8C8mbHloriG7lGkquvJoqJHcYpVl/IOkxz9FOwQT2U4arBW1vdUvASL1hp+
+         CFdFR7rh6l3iiuS6iml4/dT2g20p5ihaErwr8W3yLgrL1biOFXPGH6WL5c+Gg+VxqN9S
+         5VjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706796336; x=1707401136;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JiEpcBE0z8Q5t3JWdIgJHWEI2G0S1HPZ9ikeHZvifi4=;
+        b=Ak0jmPM7iU3JaA8H56m8Z4YnXW59Y0wpNPb3wkFSwx3LJvj3MenuE0hOC3ddKzY6x2
+         qp9oBgl8+JUsiK1c+vzJydsJ8Qx1vLXk9xc7w8vZubHJnAe+CVzro8xufgxyJ+lRWZOL
+         3Y2nJghNIswHY5IJvA0xjX8GFcXZHAMODzzPTX6YcliCPupfB4QYnFIX6CRDgUNrK4TH
+         mGdpLCrJrJygNHs80idgSqWf0CkZ/hMFgqfWH3iGe/mj6azcJ4HejhESrefXFtdIxS9h
+         XfZlSZ5pZZNF8Rb7q3OpCGRcQQLWr5pzhPns7oteG8V7sKuf1yk3CnKCxUhfArIprSmd
+         Vqqg==
+X-Forwarded-Encrypted: i=0; AJvYcCWk+zY4Ifd99K5Y78JcbbSVUZobExmp8GZY9xuJy0WKX6EysHEq/PU9DMgg1Fracwb+ZGlzGWD3EGNXINU2XJn5JOLzHwM3xHj4
+X-Gm-Message-State: AOJu0YyBUNl0nOqXFcAzOz0lf8tPQUmP9/r3V9WTYXec7EIvGt7YgC4d
+	4tpoRjxtTI6+sz7jGVT7EauZI7/cLxAVCxF0sctqfxJZrbms03F0bg7oJBKBVYE=
+X-Google-Smtp-Source: AGHT+IH8tWdldiYSjIIvCar+NyjyZ+8lWYi2wVCMLRjX2BxVq2M9ONUwvbyZ78JOaLsGgI8+DCI/jQ==
+X-Received: by 2002:a17:902:ea08:b0:1d8:d1f5:e5d with SMTP id s8-20020a170902ea0800b001d8d1f50e5dmr2801264plg.0.1706796335668;
+        Thu, 01 Feb 2024 06:05:35 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCU25vJ3ilONQ5+/2C4Wo2EpHNVQs3nHC9z6Guhj5ymJAU6kxBvc3F//8Q+scr/hLvk8cIRUNkuurwXW45PCazS3ATmw/SnLm77EZOQ5TLzQaZxwVz9beY1BoTbofuwYSOjNSrYouvlGBRh5WS9oj0ANDmSCutNP3ZHt5m2gCwJHrnuFGlHgQ6bdn6QSPWEnbdFWb8Z4mFT50NQABIOvwob+iHVHb8iq7tM4FZPxfNIUz1GmPKdRDJ5JiWaqnVA+S6yu+q2wH3eQ2GPTLoh4+tFD4tCseVmgacj20XaeMvCa9g==
+Received: from carbon-x1.. ([2a01:e0a:999:a3a0:189:f9cd:e10f:7a3f])
+        by smtp.gmail.com with ESMTPSA id kb16-20020a170903339000b001d8ec844fe7sm6914308plb.283.2024.02.01.06.05.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 06:05:35 -0800 (PST)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Robin Ehn <rehn@rivosinc.com>
+Subject: [PATCH] riscv: hwprobe: export VA_BITS
+Date: Thu,  1 Feb 2024 15:02:45 +0100
+Message-ID: <20240201140319.360088-1-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vqybhtpmawkwvb6z"
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntBQ+qY9441-rMzq_JAoYAaY_r+E-ADv7Wry0tJNTzKpwg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Some userspace applications (OpenJDK for instance) uses the free bits
+in pointers to insert additional information for their own logic.
+Currently they rely on parsing /proc/cpuinfo to obtain the current value
+of virtual address used bits [1]. Exporting VA_BITS through hwprobe will
+allow for a more stable interface to be used.
 
---vqybhtpmawkwvb6z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Link: https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/linux_riscv/vm_version_linux_riscv.cpp#L171 [1]
+Signed-off-by: Clément Léger <cleger@rivosinc.com>
 
-On Thu, Dec 14, 2023 at 03:10:43PM +0000, Dave Stevenson wrote:
-> > +static bool
-> > +sink_supports_format_bpc(const struct drm_connector *connector,
-> > +                        const struct drm_display_info *info,
-> > +                        const struct drm_display_mode *mode,
-> > +                        unsigned int format, unsigned int bpc)
-> > +{
-> > +       struct drm_device *dev =3D connector->dev;
-> > +       u8 vic =3D drm_match_cea_mode(mode);
-> > +
-> > +       if (vic =3D=3D 1 && bpc !=3D 8) {
-> > +               drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
-> > +               return false;
-> > +       }
-> > +
-> > +       if (!info->is_hdmi &&
-> > +           (format !=3D HDMI_COLORSPACE_RGB || bpc !=3D 8)) {
-> > +               drm_dbg(dev, "DVI Monitors require an RGB output at 8 b=
-pc\n");
-> > +               return false;
-> > +       }
-> > +
-> > +       if (!(connector->hdmi.supported_formats & BIT(format))) {
-> > +               drm_dbg(dev, "%s format unsupported by the connector.\n=
-",
-> > +                       drm_hdmi_connector_get_output_format_name(forma=
-t));
-> > +               return false;
-> > +       }
-> > +
-> > +       switch (format) {
-> > +       case HDMI_COLORSPACE_RGB:
-> > +               drm_dbg(dev, "RGB Format, checking the constraints.\n");
-> > +
-> > +               if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
-> > +                       return false;
->=20
-> We've dropped this check from vc4 in our downstream kernel as it stops
-> you using the prebaked EDIDs (eg drm.edid_firmware=3Dedid/1024x768.bin),
-> or any other EDID that is defined as an analog monitor.
-> The EDID parsing bombs out at [1], so info->color_formats gets left at 0.
+---
+ Documentation/arch/riscv/hwprobe.rst  | 3 +++
+ arch/riscv/include/asm/hwprobe.h      | 2 +-
+ arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+ arch/riscv/kernel/sys_hwprobe.c       | 3 +++
+ 4 files changed, 8 insertions(+), 1 deletion(-)
 
-Right, but it only does so if the display isn't defined as a digital displa=
-y...
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index b2bcc9eed9aa..6f198c6ed4f0 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -210,3 +210,6 @@ The following keys are defined:
+ 
+ * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+   represents the size of the Zicboz block in bytes.
++
++* :c:macro:`RISCV_HWPROBE_KEY_VA_BITS`: An unsigned long which
++  represent the number of bits used to store virtual addresses.
+diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
+index 630507dff5ea..150a9877b0af 100644
+--- a/arch/riscv/include/asm/hwprobe.h
++++ b/arch/riscv/include/asm/hwprobe.h
+@@ -8,7 +8,7 @@
+ 
+ #include <uapi/asm/hwprobe.h>
+ 
+-#define RISCV_HWPROBE_MAX_KEY 6
++#define RISCV_HWPROBE_MAX_KEY 7
+ 
+ static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+ {
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index 9f2a8e3ff204..2a5006cddb7b 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -67,6 +67,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
+ #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
+ #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
++#define RISCV_HWPROBE_KEY_VA_BITS		7
+ /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+ 
+ /* Flags */
+diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+index a7c56b41efd2..328435836e36 100644
+--- a/arch/riscv/kernel/sys_hwprobe.c
++++ b/arch/riscv/kernel/sys_hwprobe.c
+@@ -202,6 +202,9 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+ 		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
+ 			pair->value = riscv_cboz_block_size;
+ 		break;
++	case RISCV_HWPROBE_KEY_VA_BITS:
++		pair->value = VA_BITS;
++		break;
+ 
+ 	/*
+ 	 * For forward compatibility, unknown keys don't fail the whole
+-- 
+2.43.0
 
-> RGB is mandatory for both DVI and HDMI, so rejecting it seems overly fuss=
-y.
-
-=2E.. which is required for both DVI and HDMI.
-
-And sure enough, if we decode that EDID:
-
-edid-decode (hex):
-
-00 ff ff ff ff ff ff 00 31 d8 00 00 00 00 00 00
-05 16 01 03 6d 23 1a 78 ea 5e c0 a4 59 4a 98 25
-20 50 54 00 08 00 61 40 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 64 19 00 40 41 00 26 30 08 90
-36 00 63 0a 11 00 00 18 00 00 00 ff 00 4c 69 6e
-75 78 20 23 30 0a 20 20 20 20 00 00 00 fd 00 3b
-3d 2f 31 07 00 0a 20 20 20 20 20 20 00 00 00 fc
-00 4c 69 6e 75 78 20 58 47 41 0a 20 20 20 00 55
-
-----------------
-
-Block 0, Base EDID:
-  EDID Structure Version & Revision: 1.3
-  Vendor & Product Identification:
-    Manufacturer: LNX
-    Model: 0
-    Made in: week 5 of 2012
-  Basic Display Parameters & Features:
-    Analog display
-    Signal Level Standard: 0.700 : 0.000 : 0.700 V p-p
-    Blank level equals black level
-    Sync: Separate Composite Serration
-    Maximum image size: 35 cm x 26 cm
-    Gamma: 2.20
-    DPMS levels: Standby Suspend Off
-    RGB color display
-    First detailed timing is the preferred timing
-  Color Characteristics:
-    Red  : 0.6416, 0.3486
-    Green: 0.2919, 0.5957
-    Blue : 0.1474, 0.1250
-    White: 0.3125, 0.3281
-  Established Timings I & II:
-    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 =
-MHz
-  Standard Timings:
-    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 =
-MHz
-  Detailed Timing Descriptors:
-    DTD 1:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz=
- (355 mm x 266 mm)
-                 Hfront    8 Hsync 144 Hback  168 Hpol N
-                 Vfront    3 Vsync   6 Vback   29 Vpol N
-    Display Product Serial Number: 'Linux #0'
-    Display Range Limits:
-      Monitor ranges (GTF): 59-61 Hz V, 47-49 kHz H, max dotclock 70 MHz
-    Display Product Name: 'Linux XGA'
-Checksum: 0x55
-
-----------------
-
-Warnings:
-
-Block 0, Base EDID:
-  Detailed Timing Descriptor #1: DTD is similar but not identical to DMT 0x=
-10.
-
-EDID conformity: PASS
-
-So, if anything, it's the EDID that needs to be updated, not the code there.
-Maxime
-
---vqybhtpmawkwvb6z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZbuTwwAKCRDj7w1vZxhR
-xStzAQDYM7L7UXag4iNuhrqdZjT3FFQPKQRkvAlVCUNanR6aCQEAkg4xQyzE9/jz
-b81DQAxlvCB4Ne7NX/cfiEPrXcR93Q0=
-=Fb2U
------END PGP SIGNATURE-----
-
---vqybhtpmawkwvb6z--
