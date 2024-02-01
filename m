@@ -1,102 +1,99 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2BA210D;
-	Thu,  1 Feb 2024 00:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC874A26;
+	Thu,  1 Feb 2024 01:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706749181; cv=none; b=YMpSmra187yoRemHnOx+7kcPD6GwaDYoL+kqnJfbgHWNGb9ScwTLfAkd8rZCViBPns8GnKXtSM1SRFE8Xx37siiusmVJiT5AwNBZUnoTWd0MOjccb8I9mPqgR6qoZ9CoTFmbtLF0Rib78GOoTwJ9CQzPrdmIjftfkcpO+SSYHfY=
+	t=1706749935; cv=none; b=IxRyseWTeEvOXOK2yprsKGwBjqouUUx2jxIkCTnu4UXVQy2X+hntOLZrQPZCds3h4FkxPl/s8nsDq3e2Xsfdvz9J5rMYcM8Wm1ZbZWNz/q3/WJcemZ8PHAeCKIvT2RmOrB5mP446WL+n7y9s1dQv73Bt1rCyishxIHu4YDxC5L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706749181; c=relaxed/simple;
-	bh=qmCE2eb4SQrR5zjTO0TKNUCnAcQHCUe34CrmP1TWssg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dDqy66hqdIQvH27KxXyLnwXQvEXzwwu30ELx3FgazoxlpiIOpjzZ66vlDMqM2uo6/0rpn1u0teXvGuFY0fvn5Jfy6FvzpHuDh1uyODz554pWHr5UQ5I89Qg+Nus8ZxtFInSBzwqzWsV1RYvdkECPIZAfIspicAfcD43iE0jqUQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VKrw3sd/; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706749935; c=relaxed/simple;
+	bh=rRJkOiEWWx+MaAyf5EYSwy92FdMDJ+1rmyiEUoTvRww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B9Hl/a++NriKw8JoKt8+viuFSsScB2jGZLAJo99hUUk1DlZiDir5UfaQ+kXILfdj9RWKLeQSXW1k51H/QzZ3YLW4IlpIoi5VoZUZQFSQPmRPp1O79jLiJ1sJaagFNqotDpUgMbzjiiY3VfCCsH/nLAzif9ogKQff/tqfIj+gDNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jDUw+sWu; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VKrw3sd/"
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dc6d7e3b5bfso171074276.2;
-        Wed, 31 Jan 2024 16:59:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706749179; x=1707353979; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fnA6L1M+2ngP3XBAVkCJ/2X93cQHtcov6Oy79KZ7gIg=;
-        b=VKrw3sd/vlX1yb9zSvlP0CBcRUwjivMH5Km+37zPg7M07XeaM/lu5pEr3L4OYtLRXf
-         7W9Qa7Jxv1BnF6u5pKlQ2hmO/iPJD2HrJVRcjmsdwvLnGPAvXd1b/oZ56dOWvJ2fSSLF
-         Ik96LrkyNxAwZs/PNTbx7+2a/gCH9FImVp8AmyyjnRQz2yJ0vGsWB7j+F0vTTuSmt+Y4
-         ojtsk+/qDQkwmyDsVOj+R5OUuwwQp7AAFy+Mn5TP7AQSTIBWqWh5+tFsYjWQXPnbm0KE
-         x0LRX8CKkaBrQUIJ6YP0A+CCjmrdBOVI242I7L0atwn2LbcYn8LoBq5sZ/ZKihOB/acl
-         HemQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706749179; x=1707353979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fnA6L1M+2ngP3XBAVkCJ/2X93cQHtcov6Oy79KZ7gIg=;
-        b=T+FD7iYpZLsMZL/uiCAEZzV/bZPgk707ub3UU7zN8ueMLHcPZ8vjJPUfjjCeP+itzA
-         W9xuwYNo8wHId38Yjg3xVOpAFAwyhklkmepYRKKlI1/hRUxkoYcTq+VJD/vT1oXYuSbi
-         txE+nHku1R3UDQXCeQCXdpurWVh8l91SH5xBAQeteAllcmAN21B9m/UBvLMze0reMTwF
-         NAB2wt4FLsQ8GsN/os/+HmNpnFAeYWMQ7qpSpfnBjS+hsWenB70gTpL3cM63oSUIt1bL
-         BU+GtYllgUpZHyqpOFtYMFXrVIkZ9mViBKiQBGBX9wT4/96MpSdJGVhkeDudqaqxwkVg
-         Ysaw==
-X-Gm-Message-State: AOJu0Yza6SLOAz+AZEVD0CklojqpOU4TjgYKG2nF4Ir0CXS85LhfBpFe
-	B51HRH2VRcmdnCNdCMx/WmxRgMKnKMQJoc0kf0qDt3HjEX2aOePKbtohXBBUnuR0+nGLXiM/xbt
-	oxNfsSnw7bxtIe5Z6w2WyHwZJ/Kw5SOQ1Lm8=
-X-Google-Smtp-Source: AGHT+IH+sI9yJQvIvZr607dY7V2Hw5Wgr4Mq7UB6jdlS+TAeU4Whu2zcygKmUuAXqLwjM6y65ECm9pwU04l3Eq8PBZM=
-X-Received: by 2002:a25:c793:0:b0:dc6:6307:d194 with SMTP id
- w141-20020a25c793000000b00dc66307d194mr796730ybe.48.1706749178945; Wed, 31
- Jan 2024 16:59:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jDUw+sWu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706749935; x=1738285935;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rRJkOiEWWx+MaAyf5EYSwy92FdMDJ+1rmyiEUoTvRww=;
+  b=jDUw+sWuUGzkQWZ49aXwc93QNylB113iVYHBxqyF3+EGz5cAt3loW3jv
+   YSVQhhX72HIOop/Yb2JBg5hgLTQvB4L/x1qmIgCj+neQVGcBd+pd1Q8lG
+   FqvRTvqrjzyeP34CRdYRbz9v7IKKbGn91XQqnIZs+1ug6LVw11cWs2IYE
+   dtulHhdgE4PW3xVQWSemtkH8bUycYygxGwP0eec4xTg1zpHBRqwc7dic5
+   L2RaUFjJLlpGBnYDMnsTMTJ253SJN98bbzSM1HWLbuGhO6ju819NCwl4i
+   6eshRT+lv7qk4LWIUFYsMC69N/eHAOjCJCgTtjoOlN0sKBUMQL9oAPHGN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="2714366"
+X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
+   d="scan'208";a="2714366"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 17:12:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="961771144"
+X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
+   d="scan'208";a="961771144"
+Received: from hlhunt-860g9.amr.corp.intel.com (HELO desk) ([10.251.15.168])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 17:12:12 -0800
+Date: Wed, 31 Jan 2024 17:12:05 -0800
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com
+Subject: Re: [PATCH  v6 6/6] KVM: VMX: Move VERW closer to VMentry for MDS
+ mitigation
+Message-ID: <20240201011129.rmuhpl6iwpozpll6@desk>
+References: <20240123-delay-verw-v6-0-a8206baca7d3@linux.intel.com>
+ <20240123-delay-verw-v6-6-a8206baca7d3@linux.intel.com>
+ <ZbQkyr8c12jOqWQ-@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240131134621.1017530-1-hayatake396@gmail.com> <20240131131258.47c05b7e@kernel.org>
-In-Reply-To: <20240131131258.47c05b7e@kernel.org>
-From: takeru hayasaka <hayatake396@gmail.com>
-Date: Thu, 1 Feb 2024 09:59:27 +0900
-Message-ID: <CADFiAc+y_SXGtVqZkLoiWw-YBArMovMkuWw3X596QDwEtdBJ2g@mail.gmail.com>
-Subject: Re: [PATCH net-next v6] ethtool: ice: Support for RSS settings to GTP
- from ethtool
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, intel-wired-lan@lists.osuosl.org, 
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mailhol.vincent@wanadoo.fr, 
-	vladimir.oltean@nxp.com, laforge@gnumonks.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZbQkyr8c12jOqWQ-@google.com>
 
-Hi Jakub-san
-Thank you for your review.
-I apologize for the delay in resubmitting the patch.
+On Fri, Jan 26, 2024 at 01:31:54PM -0800, Sean Christopherson wrote:
+> On Tue, Jan 23, 2024, Pawan Gupta wrote:
+> > During VMentry VERW is executed to mitigate MDS. After VERW, any memory
+> > access like register push onto stack may put host data in MDS affected
+> > CPU buffers. A guest can then use MDS to sample host data.
+> > 
+> > Although likelihood of secrets surviving in registers at current VERW
+> > callsite is less, but it can't be ruled out. Harden the MDS mitigation
+> > by moving the VERW mitigation late in VMentry path.
+> > 
+> > Note that VERW for MMIO Stale Data mitigation is unchanged because of
+> > the complexity of per-guest conditional VERW which is not easy to handle
+> > that late in asm with no GPRs available. If the CPU is also affected by
+> > MDS, VERW is unconditionally executed late in asm regardless of guest
+> > having MMIO access.
+> > 
+> > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> > ---
+> 
+> Acked-by: Sean Christopherson <seanjc@google.com>
 
-> Could you split the uAPI changes and the driver changes to two separate
-> commits? You should post them as a patch series, but combining them
-> into a single commit makes the uAPI addition to easy to miss.
-
-Understood. I will split the patches and submit them separately in v7.
-
-Thanks
-Takeru
-
-2024=E5=B9=B42=E6=9C=881=E6=97=A5(=E6=9C=A8) 6:13 Jakub Kicinski <kuba@kern=
-el.org>:
->
-> On Wed, 31 Jan 2024 13:46:22 +0000 Takeru Hayasaka wrote:
-> >  .../device_drivers/ethernet/intel/ice.rst     | 21 ++++-
-> >  drivers/net/ethernet/intel/ice/ice_ethtool.c  | 82 +++++++++++++++++++
-> >  drivers/net/ethernet/intel/ice/ice_flow.h     | 31 +++++--
-> >  drivers/net/ethernet/intel/ice/ice_lib.c      | 37 +++++++++
-> >  include/uapi/linux/ethtool.h                  | 48 +++++++++++
->
-> Could you split the uAPI changes and the driver changes to two separate
-> commits? You should post them as a patch series, but combining them
-> into a single commit makes the uAPI addition to easy to miss.
-> --
-> pw-bot: cr
+Thanks.
