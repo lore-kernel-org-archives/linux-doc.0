@@ -1,159 +1,277 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DB51FD7;
-	Thu,  1 Feb 2024 01:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00040EAE3;
+	Thu,  1 Feb 2024 01:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706750306; cv=none; b=Fcy+1BQu01v4/v99nGNvRIA5toGqoPPhk02P7n3+JAt818GaJ1huB3g9j/9bucMqHNtJyqACGWhsTlCVAkJ4ywB+x3G5Z9/w7RXr0iUMpRF/OAIl86U2jBhgZgx4sATDPlNJQdTNIlOGF00j3JVDBpqqmwWkW85M59X8mHbzXss=
+	t=1706752632; cv=none; b=VcRa2q8RU2hxghCfgSil8uVkBlrNs259l84jjFDZPRw99ggismNafKeXZtChHDRFua0Q+Kno/0oYbcy6FB1Fzf9auRC0D/Amun2IC3sNDtM4AqJq35ju9eD7AkII0/lS5JR4AgjBvgckMfrndR+vrpaeHYZtUE9wVAHc1Bd5MZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706750306; c=relaxed/simple;
-	bh=XNofIviOY14fT2/jWKz29tEsY3addidH4rW3dZuP+yE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lPQ6Oibu1b0u1UX3aWD9ckeWnrmlZTpCVJN/nC3MzTHw1DPr3vFKM+KnW+j8/8aduEVCUFN/VsjssUqGz5D8eJhWHOdJ1fBXF6Exn42R/JytxDH2q4RlxEwlaeFmyFyNsyRcznZAUm0kCgk5sO9AiG+jKq0kvK+Mz8LJBLk9Kb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f0EMCGNt; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1706752632; c=relaxed/simple;
+	bh=jg8fsA7gXRgMZuwES+GCMsjZx4lbadXYHh8Ji9UDptE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=AXr/ApTQxaN+3NjWe/TDwucjlAUCtuvgzPrdvS+r8Oh6vl/zH4AKmX05mYvy3f1OAJBKqDobaUdLK0A7TAtPpg+ZYxxdgHmuIS99JA1yVw08JDlYJ+l3gcf3n9+jSDqxrOu6114poAA2nwb6gDiYe9yo2m3sYw2T36inBeVzass=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQ9No+Gv; arc=none smtp.client-ip=134.134.136.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f0EMCGNt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQ9No+Gv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706750305; x=1738286305;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XNofIviOY14fT2/jWKz29tEsY3addidH4rW3dZuP+yE=;
-  b=f0EMCGNt8knBVS2Ku17loYLQ60eSNM3Of1HFk97b0ngGUpN4piBDrESY
-   jcUlXVMYwI/MpZtjagvEfrCPjWCoOncnhc1u8MYlYYjljmoln4dZIf8vs
-   SQqr+aND6YYYS+tOtX+MzaKX71NEi8zJ9BlV0r+aY/a0NYsGji+1sLL7u
-   dSKTKl+V8ULpgZYDARXRddBCB8Jx1/bV+DolwW2T40qZvI7HVwOJLklRS
-   ncf1J5j+nkoTKcrijeGjxUSsO9qeZRu18SwoM5edeOXbtHApbKsDdYgrj
-   o3gIa9zVPu9ogqD2DlKXbsrhWhcZJo9YtH8dHlmjCVV0AaDWU8skeQaCH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="10534977"
+  t=1706752630; x=1738288630;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=jg8fsA7gXRgMZuwES+GCMsjZx4lbadXYHh8Ji9UDptE=;
+  b=nQ9No+GvJtvZHfiYfhzbVedpcnxoQNm7U5i4h2OnpIOj80CBBydLyjcU
+   QmmMJuylXYwKDPJEcWY+cv7pGivLZs3Quz9zetoYsUf67JXwj5PGHRH55
+   dYPsAU3ADRrqXIJUTUWMQ+qiHa5VzuSBzZbapaK7AYI8KY/C13N/wSG/z
+   MgCcYjNgYj+J4vbdp776W3Rsb1WdPvW6lv8oOSDM/6cXHgCMBSG+ddRPu
+   e9F+i5QZAuhpjUyCRq0mgokOlLjGA4s/RX1ALqUDEGHPLwdP9I6w+Yhu4
+   XXQomyt1rWJuvszRm6SFQIIZGrPcQCwmnMSIss7ylgVCGWnVL0msZNZ8x
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="394228897"
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="10534977"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 17:18:23 -0800
+   d="scan'208";a="394228897"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 17:57:09 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.05,233,1701158400"; 
-   d="scan'208";a="4233208"
-Received: from hlhunt-860g9.amr.corp.intel.com (HELO desk) ([10.251.15.168])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 17:18:22 -0800
-Date: Wed, 31 Jan 2024 17:18:11 -0800
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Alyssa Milburn <alyssa.milburn@intel.com>
-Subject: Re: [PATCH  v6 1/6] x86/bugs: Add asm helpers for executing VERW
-Message-ID: <20240201011811.752qyub52fhciaxr@desk>
-References: <20240123-delay-verw-v6-0-a8206baca7d3@linux.intel.com>
- <20240123-delay-verw-v6-1-a8206baca7d3@linux.intel.com>
+   d="scan'208";a="4375381"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 17:57:04 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
+  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
+  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
+  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
+  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
+  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
+  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
+  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
+  <dan.j.williams@intel.com>,  Srinivasulu Thanneeru
+ <sthanneeru.opensrc@micron.com>
+Subject: Re: [PATCH v4 3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
+ for weighted interleaving
+In-Reply-To: <ZbqDgaOsAeXnqRP2@memverge.com> (Gregory Price's message of "Wed,
+	31 Jan 2024 12:29:37 -0500")
+References: <20240130182046.74278-1-gregory.price@memverge.com>
+	<20240130182046.74278-4-gregory.price@memverge.com>
+	<877cjqgfzz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<Zbn6FG3346jhrQga@memverge.com>
+	<87y1c5g8qw.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZbqDgaOsAeXnqRP2@memverge.com>
+Date: Thu, 01 Feb 2024 09:55:07 +0800
+Message-ID: <871q9xeyo4.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240123-delay-verw-v6-1-a8206baca7d3@linux.intel.com>
+Content-Type: text/plain; charset=ascii
 
-On Tue, Jan 23, 2024 at 11:41:01PM -0800, Pawan Gupta wrote:
-> MDS mitigation requires clearing the CPU buffers before returning to
-> user. This needs to be done late in the exit-to-user path. Current
-> location of VERW leaves a possibility of kernel data ending up in CPU
-> buffers for memory accesses done after VERW such as:
-> 
->   1. Kernel data accessed by an NMI between VERW and return-to-user can
->      remain in CPU buffers since NMI returning to kernel does not
->      execute VERW to clear CPU buffers.
->   2. Alyssa reported that after VERW is executed,
->      CONFIG_GCC_PLUGIN_STACKLEAK=y scrubs the stack used by a system
->      call. Memory accesses during stack scrubbing can move kernel stack
->      contents into CPU buffers.
->   3. When caller saved registers are restored after a return from
->      function executing VERW, the kernel stack accesses can remain in
->      CPU buffers(since they occur after VERW).
-> 
-> To fix this VERW needs to be moved very late in exit-to-user path.
-> 
-> In preparation for moving VERW to entry/exit asm code, create macros
-> that can be used in asm. Also make VERW patching depend on a new feature
-> flag X86_FEATURE_CLEAR_CPU_BUF.
-> 
-> Reported-by: Alyssa Milburn <alyssa.milburn@intel.com>
-> Suggested-by: Andrew Cooper <andrew.cooper3@citrix.com>
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> ---
->  arch/x86/entry/entry.S               | 22 ++++++++++++++++++++++
->  arch/x86/include/asm/cpufeatures.h   |  2 +-
->  arch/x86/include/asm/nospec-branch.h | 15 +++++++++++++++
->  3 files changed, 38 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/entry/entry.S b/arch/x86/entry/entry.S
-> index 8c8d38f0cb1d..bd8e77c5a375 100644
-> --- a/arch/x86/entry/entry.S
-> +++ b/arch/x86/entry/entry.S
-> @@ -6,6 +6,9 @@
->  #include <linux/export.h>
->  #include <linux/linkage.h>
->  #include <asm/msr-index.h>
-> +#include <asm/unwind_hints.h>
-> +#include <asm/segment.h>
-> +#include <asm/cache.h>
->  
->  .pushsection .noinstr.text, "ax"
->  
-> @@ -20,3 +23,22 @@ SYM_FUNC_END(entry_ibpb)
->  EXPORT_SYMBOL_GPL(entry_ibpb);
->  
->  .popsection
+Gregory Price <gregory.price@memverge.com> writes:
+
+> On Wed, Jan 31, 2024 at 05:19:51PM +0800, Huang, Ying wrote:
+>> Gregory Price <gregory.price@memverge.com> writes:
+>> 
+>> >
+>> > I think this is handled already? It is definitely an explicit race
+>> > condition that is documented elsewhere:
+>> >
+>> > /*
+>> >  * mpol_rebind_policy - Migrate a policy to a different set of nodes
+>> >  *
+>> >  * Per-vma policies are protected by mmap_lock. Allocations using per-task
+>> >  * policies are protected by task->mems_allowed_seq to prevent a premature
+>> >  * OOM/allocation failure due to parallel nodemask modification.
+>> >  */
+>> 
+>> Thanks for pointing this out!
+>> 
+>> If we use task->mems_allowed_seq reader side in
+>> weighted_interleave_nodes() we can guarantee the consistency of
+>> policy->nodes.  That may be not deserved, because it's not a big deal to
+>> allocate 1 page in a wrong node.
+>> 
+>> It makes more sense to do that in
+>> alloc_pages_bulk_array_weighted_interleave(), because a lot of pages may
+>> be allocated there.
+>> 
+>
+> To save the versioning if there are issues, here are the 3 diffs that
+> I have left. If you are good with these changes, I'll squash the first
+> 2 into the third commit, keep the last one as a separate commit (it
+> changes the interleave_nodes() logic too), and submit v5 w/ your
+> reviewed tag on all of them.
+>
+>
+> Fix one (pedantic?) warning from syzbot:
+> ----------------------------------------
+>
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index b1437396c357..dfd097009606 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -2391,7 +2391,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+>         unsigned long nr_allocated = 0;
+>         unsigned long rounds;
+>         unsigned long node_pages, delta;
+> -       u8 __rcu *table, *weights, weight;
+> +       u8 __rcu *table, __rcu *weights, weight;
+
+The __rcu usage can be checked with `sparse` directly.  For example,
+
+make C=1 mm/mempolicy.o
+
+More details can be found in
+
+https://www.kernel.org/doc/html/latest/dev-tools/sparse.html
+
+Per my understanding, we shouldn't use "__rcu" here.  Please search
+"__rcu" in the following document.
+
+https://www.kernel.org/doc/html/latest/RCU/checklist.html
+
+>         unsigned int weight_total = 0;
+>         unsigned long rem_pages = nr_pages;
+>         nodemask_t nodes;
+>
+>
+>
+> Simplifying resume_node/weight logic:
+> -------------------------------------
+>
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index 2c1aef8eab70..b0ca9bcdd64c 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -2405,15 +2405,9 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+>                 page_array += nr_allocated;
+>                 total_allocated += nr_allocated;
+>                 /* if that's all the pages, no need to interleave */
+> -               if (rem_pages < weight) {
+> -                       /* stay on current node, adjust il_weight */
+> +               if (rem_pages <= weight) {
+>                         me->il_weight -= rem_pages;
+>                         return total_allocated;
+> -               } else if (rem_pages == weight) {
+> -                       /* move to next node / weight */
+> -                       me->il_prev = next_node_in(node, nodes);
+> -                       me->il_weight = get_il_weight(me->il_prev);
+> -                       return total_allocated;
+>                 }
+>                 /* Otherwise we adjust remaining pages, continue from there */
+>                 rem_pages -= weight;
+> @@ -2460,17 +2454,10 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+>                         node_pages += weight;
+>                         delta -= weight;
+>                 } else if (delta) {
+> +                       /* when delta is deleted, resume from that node */
+                                           ~~~~~~~
+                                           depleted?
+
+
+>                         node_pages += delta;
+> -                       /* delta may deplete on a boundary or w/ a remainder */
+> -                       if (delta == weight) {
+> -                               /* boundary: resume from next node/weight */
+> -                               resume_node = next_node_in(node, nodes);
+> -                               resume_weight = weights[resume_node];
+> -                       } else {
+> -                               /* remainder: resume this node w/ remainder */
+> -                               resume_node = node;
+> -                               resume_weight = weight - delta;
+> -                       }
+> +                       resume_node = node;
+> +                       resume_weight = weight - delta;
+>                         delta = 0;
+>                 }
+>                 /* node_pages can be 0 if an allocation fails and rounds == 0 */
+>
+>
+>
+>
+>
+> task->mems_allowed_seq protection (added as 4th patch)
+> ------------------------------------------------------
+>
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index b0ca9bcdd64c..b1437396c357 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -1879,10 +1879,15 @@ bool apply_policy_zone(struct mempolicy *policy, enum zone_type zone)
+>  static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
+>  {
+>         unsigned int node = current->il_prev;
+> +       unsigned int cpuset_mems_cookie;
+>
+> +retry:
+> +       /* to prevent miscount use tsk->mems_allowed_seq to detect rebind */
+> +       cpuset_mems_cookie = read_mems_allowed_begin();
+>         if (!current->il_weight || !node_isset(node, policy->nodes)) {
+>                 node = next_node_in(node, policy->nodes);
+
+node will be changed in the loop.  So we need to change the logic here.
+
+> -               /* can only happen if nodemask is being rebound */
+> +               if (read_mems_allowed_retry(cpuset_mems_cookie))
+> +                       goto retry;
+>                 if (node == MAX_NUMNODES)
+>                         return node;
+>                 current->il_prev = node;
+> @@ -1896,10 +1901,17 @@ static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
+>  static unsigned int interleave_nodes(struct mempolicy *policy)
+>  {
+>         unsigned int nid;
+> +       unsigned int cpuset_mems_cookie;
 > +
-> +/*
-> + * Defines the VERW operand that is disguised as entry code so that
-> + * it can be referenced with KPTI enabled. This ensures VERW can be
-> + * used late in exit-to-user path after page tables are switched.
-> + */
-> +.pushsection .entry.text, "ax"
+> +       /* to prevent miscount, use tsk->mems_allowed_seq to detect rebind */
+> +       do {
+> +               cpuset_mems_cookie = read_mems_allowed_begin();
+> +               nid = next_node_in(current->il_prev, policy->nodes);
+> +       } while (read_mems_allowed_retry(cpuset_mems_cookie));
+>
+> -       nid = next_node_in(current->il_prev, policy->nodes);
+>         if (nid < MAX_NUMNODES)
+>                 current->il_prev = nid;
 > +
-> +.align L1_CACHE_BYTES, 0xcc
-> +SYM_CODE_START_NOALIGN(mds_verw_sel)
-> +	UNWIND_HINT_UNDEFINED
-> +	ANNOTATE_NOENDBR
-> +	.word __KERNEL_DS
-> +.align L1_CACHE_BYTES, 0xcc
-> +SYM_CODE_END(mds_verw_sel);
-> +/* For KVM */
-> +EXPORT_SYMBOL_GPL(mds_verw_sel);
+>         return nid;
+>  }
+>
+> @@ -2374,6 +2386,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+>                 struct page **page_array)
+>  {
+>         struct task_struct *me = current;
+> +       unsigned int cpuset_mems_cookie;
+>         unsigned long total_allocated = 0;
+>         unsigned long nr_allocated = 0;
+>         unsigned long rounds;
+> @@ -2388,10 +2401,17 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+>         int prev_node;
+>         int i;
+>
+> +
 
-I realized this needs an extern:
+Change by accident?
 
-diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
-index 0a8fa023a804..9daf92071f77 100644
---- a/arch/x86/include/asm/nospec-branch.h
-+++ b/arch/x86/include/asm/nospec-branch.h
-@@ -550,6 +550,8 @@ DECLARE_STATIC_KEY_FALSE(switch_mm_cond_l1d_flush);
- 
- DECLARE_STATIC_KEY_FALSE(mmio_stale_data_clear);
- 
-+extern u16 mds_verw_sel;
-+
- #include <asm/segment.h>
- 
- /**
+>         if (!nr_pages)
+>                 return 0;
+>
+> -       nnodes = read_once_policy_nodemask(pol, &nodes);
+> +       /* read the nodes onto the stack, retry if done during rebind */
+> +       do {
+> +               cpuset_mems_cookie = read_mems_allowed_begin();
+> +               nnodes = read_once_policy_nodemask(pol, &nodes);
+> +       } while (read_mems_allowed_retry(cpuset_mems_cookie));
+> +
+> +       /* if the nodemask has become invalid, we cannot do anything */
+>         if (!nnodes)
+>                 return 0;
+
+--
+Best Regards,
+Huang, Ying
