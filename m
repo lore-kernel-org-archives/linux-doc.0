@@ -1,361 +1,112 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from gepdcl09.sg.gdce.sony.com.sg (unknown [121.100.38.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921BE15B995;
-	Thu,  1 Feb 2024 09:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603AD4DA1D;
+	Thu,  1 Feb 2024 10:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.100.38.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706780657; cv=none; b=H0bWg3qIDKWuUd+u/WbDuumdZ6eE+YlDiyc1PXMDWeXwwMhuPXeAicRuvQu5MpW36oKA5BeYT6Th051oOuRXxogdZLWzfMRdQo0MzAc5KEtcVliq9nw+wNaSoxQ4KNSNay3d1TzStVbYhGey2jeVBFIYRmEIaJuRW8N4d2GJzjA=
+	t=1706782841; cv=none; b=uQPep8RJlPq0VKjUXYK1GvPZjT657cXvv7mkQ+GHY2KhABgfRvO31Dw3crvWXuHEQ0dLjpKx1lyFRgml6lKjdkMwnaNaSUY+dXDCdoFwdPMSmbp/brbiAUsGFG4FxIP6xzpyFzzVMczGLgf7Mnz4QQP8uDXjA/17ua9Ra+sp2lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706780657; c=relaxed/simple;
-	bh=C8AitdaoBIcKR44uJyMOG7G5OG2flvelnSS+vt/CmMQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A+wEbLC8VYqIchatTIt2ZckDs72zB27CmlM/vJZ5jKaFuVl2WfWpDGkvuMBbhCygl9asqMbyL67GzFcnX3cbSr2FD0EhAEvp5HQmjYJBOiCAn5fMQAWIhNGMhurSj4KqJ6vvelWUelNqJvMol6xkeWob0KSiha9modTf2dyIbKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=aiMu/SrP; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aiMu/SrP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706780654;
-	bh=C8AitdaoBIcKR44uJyMOG7G5OG2flvelnSS+vt/CmMQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aiMu/SrPTKm2kxhZRA6E9jWpsDX3XVEtQszdCaYdOt1e3PgBMcz7W2LBKZWW2NKsY
-	 fbBEFwmakwX8tJagXc/r9eVw3mFrJmTo97T5CYuZ2dPl7Jbvwy4yUe1BPeLP4+JmgQ
-	 PRHs+PkZo1yA6arQHYef+CWIOGnZDCsRSNIAj69ZReCmZuefM8r3RT7MN2kmx4NMKI
-	 2EhLS9kEP6W+Tv9KuyVugrQSZMqz4UbHV6o3dBVIFdrWQx1QoRFVTEewpTdUqzUwxW
-	 g2HA4IQX+CqOTgVqzB0LT1ARlRuWF2X+WLIvdzr6KmoCEonSQ/epZip6NaJu0/1qJF
-	 iT8/DaHH8/Buw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7C092378208F;
-	Thu,  1 Feb 2024 09:44:12 +0000 (UTC)
-Message-ID: <e43a6f6e-6e95-4cbd-9e73-49c129d5724e@collabora.com>
-Date: Thu, 1 Feb 2024 10:44:12 +0100
+	s=arc-20240116; t=1706782841; c=relaxed/simple;
+	bh=pYr5nSckZllMvDyVy8SYcl+YX0JIp0Bb40dbMDbdlLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AkBE7XAYpA8ZCR1LvD133gR4+sd/BFBWpBNyB4lvJoZIv7hPWICt7pMY806zXKfVVaHAeQsCN3xWYUIxz0xt/6/NH413YM3zIzUAF8MEzqTnmUocY7e+gpzAI19+xqRvUjhrycfzVbM4Cac5yQcqaJ3sSoU0qZ5b1nNPuv5isTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; arc=none smtp.client-ip=121.100.38.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
+Received: from gepdcl04.s.gdce.sony.com.sg (SGGDCSE1NS08.sony.com.sg [146.215.123.198])
+	by gepdcl09.sg.gdce.sony.com.sg (8.14.7/8.14.4) with ESMTP id 411AJ2we009066;
+	Thu, 1 Feb 2024 18:20:07 +0800
+Received: from mail.sony.com ([43.88.80.246])
+	by gepdcl04.s.gdce.sony.com.sg (8.14.7/8.14.4) with ESMTP id 411AIUEB008473;
+	Thu, 1 Feb 2024 18:18:30 +0800
+Received: by mail.sony.com (Postfix, from userid 1000)
+	id 9BD1820C1C49; Thu,  1 Feb 2024 15:46:57 +0530 (IST)
+Date: Thu, 1 Feb 2024 15:46:57 +0530
+From: Sreenath Vijayan <sreenath.vijayan@sony.com>
+To: john.ogness@linutronix.de, corbet@lwn.net, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, pmladek@suse.com
+Cc: rdunlap@infradead.org, rostedt@goodmis.org, senozhatsky@chromium.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org, taichi.shimoyashiki@sony.com,
+        daniel.palmer@sony.com, anandakumar.balasubramaniam@sony.com,
+        sreenath.vijayan@sony.com
+Subject: [PATCH v4 0/2] Add support to dump printk buffer to console via sysrq
+Message-ID: <cover.1706772349.git.sreenath.vijayan@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 06/21] virt: geniezone: Add set_user_memory_region for
- vm
-Content-Language: en-US
-To: Yi-De Wu <yi-de.wu@mediatek.com>,
- Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
- Ze-Yu Wang <ze-yu.wang@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Richard Cochran <richardcochran@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
- David Bradil <dbrazdil@google.com>, Trilok Soni <quic_tsoni@quicinc.com>,
- My Chuang <my.chuang@mediatek.com>, Shawn Hsiao <shawn.hsiao@mediatek.com>,
- PeiLun Suei <peilun.suei@mediatek.com>,
- Liju Chen <liju-clr.chen@mediatek.com>,
- Willix Yeh <chi-shen.yeh@mediatek.com>,
- Kevenny Hsieh <kevenny.hsieh@mediatek.com>
-References: <20240129083302.26044-1-yi-de.wu@mediatek.com>
- <20240129083302.26044-7-yi-de.wu@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240129083302.26044-7-yi-de.wu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Il 29/01/24 09:32, Yi-De Wu ha scritto:
-> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
-> 
-> Direct use of physical memory from VMs is forbidden and designed to be
-> dictated to the privilege models managed by GenieZone hypervisor for
-> security reason. With the help of gzvm-ko, the hypervisor would be able
-> to manipulate memory as objects. And the memory management is highly
-> integrated with ARM 2-stage translation tables to convert VA to IPA to
-> PA under proper security measures required by protected VMs.
-> 
-> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
-> Signed-off-by: Jerry Wang <ze-yu.wang@mediatek.com>
-> Signed-off-by: Liju Chen <liju-clr.chen@mediatek.com>
-> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
-> ---
->   arch/arm64/geniezone/gzvm_arch_common.h |   2 +
->   arch/arm64/geniezone/vm.c               |   9 ++
->   drivers/virt/geniezone/Makefile         |   1 -
->   drivers/virt/geniezone/gzvm_vm.c        | 110 ++++++++++++++++++++++++
->   include/linux/gzvm_drv.h                |  40 +++++++++
->   include/uapi/linux/gzvm.h               |  26 ++++++
->   6 files changed, 187 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/geniezone/gzvm_arch_common.h b/arch/arm64/geniezone/gzvm_arch_common.h
-> index fdaa7849353d..2f66e496dfae 100644
-> --- a/arch/arm64/geniezone/gzvm_arch_common.h
-> +++ b/arch/arm64/geniezone/gzvm_arch_common.h
-> @@ -11,6 +11,7 @@
->   enum {
->   	GZVM_FUNC_CREATE_VM = 0,
->   	GZVM_FUNC_DESTROY_VM = 1,
-> +	GZVM_FUNC_SET_MEMREGION = 4,
->   	GZVM_FUNC_PROBE = 12,
->   	NR_GZVM_FUNC,
->   };
-> @@ -23,6 +24,7 @@ enum {
->   
->   #define MT_HVC_GZVM_CREATE_VM		GZVM_HCALL_ID(GZVM_FUNC_CREATE_VM)
->   #define MT_HVC_GZVM_DESTROY_VM		GZVM_HCALL_ID(GZVM_FUNC_DESTROY_VM)
-> +#define MT_HVC_GZVM_SET_MEMREGION	GZVM_HCALL_ID(GZVM_FUNC_SET_MEMREGION)
->   #define MT_HVC_GZVM_PROBE		GZVM_HCALL_ID(GZVM_FUNC_PROBE)
->   
->   /**
-> diff --git a/arch/arm64/geniezone/vm.c b/arch/arm64/geniezone/vm.c
-> index a15bad13c2ee..998d6498ac5e 100644
-> --- a/arch/arm64/geniezone/vm.c
-> +++ b/arch/arm64/geniezone/vm.c
-> @@ -49,6 +49,15 @@ int gzvm_arch_probe(void)
->   	return 0;
->   }
->   
-> +int gzvm_arch_set_memregion(u16 vm_id, size_t buf_size,
-> +			    phys_addr_t region)
-> +{
-> +	struct arm_smccc_res res;
-> +
-> +	return gzvm_hypcall_wrapper(MT_HVC_GZVM_SET_MEMREGION, vm_id,
-> +				    buf_size, region, 0, 0, 0, 0, &res);
-> +}
-> +
->   /**
->    * gzvm_arch_create_vm() - create vm
->    * @vm_type: VM type. Only supports Linux VM now.
-> diff --git a/drivers/virt/geniezone/Makefile b/drivers/virt/geniezone/Makefile
-> index 066efddc0b9c..25614ea3dea2 100644
-> --- a/drivers/virt/geniezone/Makefile
-> +++ b/drivers/virt/geniezone/Makefile
-> @@ -7,4 +7,3 @@
->   GZVM_DIR ?= ../../../drivers/virt/geniezone
->   
->   gzvm-y := $(GZVM_DIR)/gzvm_main.o $(GZVM_DIR)/gzvm_vm.o
-> -
+Hi,
 
-Don't remove this line here - actually, don't introduce it in the first place...
+This patch series enables one to dump the messages in printk ring
+buffer unless all CPUs are locked up. This is useful to view the
+kernel messages when terminal is unresponsive to enter commands
+like dmesg and syslog services are also disabled, especially on
+embedded targets. Although debug features like kdb/kgdb already
+allow this, these debug configs should be enabled which is often
+not the case.
 
-> diff --git a/drivers/virt/geniezone/gzvm_vm.c b/drivers/virt/geniezone/gzvm_vm.c
-> index d5e850af924a..326cc9e93d92 100644
-> --- a/drivers/virt/geniezone/gzvm_vm.c
-> +++ b/drivers/virt/geniezone/gzvm_vm.c
-> @@ -15,6 +15,115 @@
->   static DEFINE_MUTEX(gzvm_list_lock);
->   static LIST_HEAD(gzvm_list);
->   
-> +u64 gzvm_gfn_to_hva_memslot(struct gzvm_memslot *memslot, u64 gfn)
-> +{
-> +	u64 offset = gfn - memslot->base_gfn;
+Till the last version, kmsg_dump* interface was being used to
+retrieve the messages in printk buffer before dumping them to
+consoles. However, John Ogness pointed out the issue with
+kmsg_dump* interface that it doesn't work well with extended
+consoles. He suggested a new method to reuse the code in
+console_flush_on_panic() but without disabling scheduling.
 
-I'd check if `gfn` is less than `memslot->base_gfn` - that's a potential security
-issue.
+In the first commit, code under CONSOLE_REPLAY_ALL mode in
+console_flush_on_panic() is taken out to a helper function
+console_rewind_all() to set the console sequence numbder to
+oldest record in the printk buffer. And the new function to
+dump the buffer called dump_printk_buffer() calls this function
+after taking the console lock and then releases the lock which
+flushes out the contents of printk buffer to console.
 
-This means that this function should be
+In the second commit, code is added to call dump_printk_buffer()
+function when sysrq+D is pressed. As the function may sleep,
+it cannot be called from interrupt context. A work is queued
+in the system unbound workqueue to call the function when
+the key is pressed.
 
-int gzvm_gfn_to_hva_memslot(struct gzvm_memslot *memslot, u64 gfn, u64 *hva_memslot)
+Links to previous discussion:
+- https://lore.kernel.org/all/cover.1705331453.git.sreenath.vijayan@sony.com/T/#t
+- https://lore.kernel.org/linux-serial/20231221133953.1507021-1-sreenath.vijayan@sony.com/
 
-if (gfn < memslot->base_gfn)
-	return -EINVAL
+Changelog:
+V3 -> V4:
+- refactored code in console_flush_on_panic() under CONSOLE_REPLAY_ALL mode
+- added helper function console_rewind_all()
+- used console_rewind_all() instead of ksmg_dump*() in dump_printk_buffer()
 
-offset = gfn - memslot->base_gfn;
-*hva_memslot = memslot->userspace_addr + offset * PAGE_SIZE:
+V2 -> V3:
+- split the implementation into two commits
+- added function in printk.c to dump printk buffer to consoles
+- added Suggested-by tag
+- removed code to dump printk buffer from sysrq.c and called
+new function
 
-return 0;
+V1 -> V2:
+- modified kernel ring buffer to printk ring buffer
+- allocated buf dynamically to prevent stack frame size warnings
+- used buf of size 2048 to match PRINTK_MESSAGE_MAX and added comment
 
-> +
-> +	return memslot->userspace_addr + offset * PAGE_SIZE;
-> +}
-> +
-> +/**
-> + * register_memslot_addr_range() - Register memory region to GenieZone
-> + * @gzvm: Pointer to struct gzvm
-> + * @memslot: Pointer to struct gzvm_memslot
-> + *
-> + * Return: 0 for success, negative number for error
-> + */
-> +static int
-> +register_memslot_addr_range(struct gzvm *gzvm, struct gzvm_memslot *memslot)
-> +{
-> +	struct gzvm_memory_region_ranges *region;
-> +	u32 buf_size = PAGE_SIZE * 2;
-> +	u64 gfn;
-> +
-> +	region = alloc_pages_exact(buf_size, GFP_KERNEL);
-> +	if (!region)
-> +		return -ENOMEM;
-> +
-> +	region->slot = memslot->slot_id;
-> +	region->total_pages = memslot->npages;
-> +	gfn = memslot->base_gfn;
-> +	region->gpa = PFN_PHYS(gfn);
-> +
-> +	if (gzvm_arch_set_memregion(gzvm->vm_id, buf_size,
-> +				    virt_to_phys(region))) {
-> +		pr_err("Failed to register memregion to hypervisor\n");
-> +		free_pages_exact(region, buf_size);
-> +		return -EFAULT;
-> +	}
-> +
-> +	free_pages_exact(region, buf_size);
-> +	return 0;
-> +}
-> +
-> +/**
-> + * gzvm_vm_ioctl_set_memory_region() - Set memory region of guest
-> + * @gzvm: Pointer to struct gzvm.
-> + * @mem: Input memory region from user.
-> + *
-> + * Return: 0 for success, negative number for error
-> + *
-> + * -EXIO		- The memslot is out-of-range
-> + * -EFAULT		- Cannot find corresponding vma
-> + * -EINVAL		- Region size and VMA size mismatch
-> + */
-> +static int
-> +gzvm_vm_ioctl_set_memory_region(struct gzvm *gzvm,
-> +				struct gzvm_userspace_memory_region *mem)
-> +{
-> +	struct vm_area_struct *vma;
-> +	struct gzvm_memslot *memslot;
-> +	unsigned long size;
-> +	__u32 slot;
-> +
+-- Sreenath
 
-Remove __u32 slot.....
+Sreenath Vijayan (2):
+  printk: Add function to dump printk buffer directly to consoles
+  tty/sysrq: Dump printk ring buffer messages via sysrq
 
-	if (mem->slot >= GZVM_MAX_MEM_REGION)
-		return -ENXIO;
+ Documentation/admin-guide/sysrq.rst |  2 +
+ drivers/tty/sysrq.c                 | 20 +++++++++-
+ include/linux/printk.h              |  4 ++
+ kernel/printk/printk.c              | 61 +++++++++++++++++------------
+ 4 files changed, 62 insertions(+), 25 deletions(-)
 
-	memslot = &gzvm->memslot[mem->slot];
-
-> +	slot = mem->slot;
-> +	if (slot >= GZVM_MAX_MEM_REGION)
-> +		return -ENXIO;
-> +	memslot = &gzvm->memslot[slot];
-> + > +	vma = vma_lookup(gzvm->mm, mem->userspace_addr);
-> +	if (!vma)
-> +		return -EFAULT;
-> +
-> +	size = vma->vm_end - vma->vm_start;
-> +	if (size != mem->memory_size)
-> +		return -EINVAL;
-> +
-> +	memslot->base_gfn = __phys_to_pfn(mem->guest_phys_addr);
-> +	memslot->npages = size >> PAGE_SHIFT;
-> +	memslot->userspace_addr = mem->userspace_addr;
-> +	memslot->vma = vma;
-> +	memslot->flags = mem->flags;
-> +	memslot->slot_id = mem->slot;
-> +	return register_memslot_addr_range(gzvm, memslot);
-> +}
-> +
-> +/* gzvm_vm_ioctl() - Ioctl handler of VM FD */
-> +static long gzvm_vm_ioctl(struct file *filp, unsigned int ioctl,
-> +			  unsigned long arg)
-> +{
-> +	long ret;
-> +	void __user *argp = (void __user *)arg;
-> +	struct gzvm *gzvm = filp->private_data;
-> +
-> +	switch (ioctl) {
-> +	case GZVM_SET_USER_MEMORY_REGION: {
-> +		struct gzvm_userspace_memory_region userspace_mem;
-> +
-> +		if (copy_from_user(&userspace_mem, argp, sizeof(userspace_mem))) {
-
-			return -EFAULT;
-
-> +			ret = -EFAULT;
-> +			goto out;
-> +		}
-> +		ret = gzvm_vm_ioctl_set_memory_region(gzvm, &userspace_mem);
-> +		break;
-> +	}
-> +	default:
-> +		ret = -ENOTTY;
-> +	}
-> +out:
-> +	return ret;
-> +}
-> +
->   static void gzvm_destroy_vm(struct gzvm *gzvm)
->   {
->   	pr_debug("VM-%u is going to be destroyed\n", gzvm->vm_id);
-> @@ -42,6 +151,7 @@ static int gzvm_vm_release(struct inode *inode, struct file *filp)
->   
->   static const struct file_operations gzvm_vm_fops = {
->   	.release        = gzvm_vm_release,
-> +	.unlocked_ioctl = gzvm_vm_ioctl,
->   	.llseek		= noop_llseek,
->   };
->   
-> diff --git a/include/linux/gzvm_drv.h b/include/linux/gzvm_drv.h
-> index f1dce23838e4..81696b7b67cc 100644
-> --- a/include/linux/gzvm_drv.h
-> +++ b/include/linux/gzvm_drv.h
-> @@ -7,9 +7,16 @@
->   #define __GZVM_DRV_H__
->   
->   #include <linux/list.h>
-> +#include <linux/mm.h>
->   #include <linux/mutex.h>
->   #include <linux/gzvm.h>
->   
-> +/*
-> + * For the normal physical address, the highest 12 bits should be zero, so we
-> + * can mask bit 62 ~ bit 52 to indicate the error physical address
-> + */
-> +#define GZVM_PA_ERR_BAD (0x7ffULL << 52)
-> +
->   #define INVALID_VM_ID   0xffff
->   
->   /*
-> @@ -27,10 +34,39 @@
->    * The following data structures are for data transferring between driver and
->    * hypervisor, and they're aligned with hypervisor definitions
->    */
-> +#define GZVM_MAX_MEM_REGION	10
-> +
-> +/* struct mem_region_addr_range - Identical to ffa memory constituent */
-> +struct mem_region_addr_range {
-> +	/* the base IPA of the constituent memory region, aligned to 4 kiB */
-> +	__u64 address;
-> +	/* the number of 4 kiB pages in the constituent memory region. */
-> +	__u32 pg_cnt;
-> +	__u32 reserved;
-> +};
-> +
-> +struct gzvm_memory_region_ranges {
-> +	__u32 slot;
-> +	__u32 constituent_cnt;
-> +	__u64 total_pages;
-> +	__u64 gpa;
-> +	struct mem_region_addr_range constituents[];
-> +};
-> +
-> +/* struct gzvm_memslot - VM's memory slot descriptor */
-> +struct gzvm_memslot {
-> +	u64 base_gfn;			/* begin of guest page frame */
-> +	unsigned long npages;		/* number of pages this slot covers */
-> +	unsigned long userspace_addr;	/* corresponding userspace va */
-> +	struct vm_area_struct *vma;	/* vma related to this userspace addr */
-
-kerneldoc please
-
-> +	u32 flags;
-> +	u32 slot_id;
-> +};
->   
-
-Regards,
-Angelo
+-- 
+2.43.0
 
