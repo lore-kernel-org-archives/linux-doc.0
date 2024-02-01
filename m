@@ -1,193 +1,305 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2110.outbound.protection.outlook.com [40.107.244.110])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926C2FC14;
-	Thu,  1 Feb 2024 02:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.110
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706752878; cv=fail; b=b9Vx3HJaO1ToUeW2v1cWp7SypDTwWpCLhjhOPmrkHPCyQBZEjgcn0e3k2LZf5DqTW7f1zGcrPXNK015PaXsrkEIzancvVPhztPLW9jf8uK+NzpPXjCyZv6QB3LZ6aBtMgZ9UBGfTKseIDQVXWebsNB9RuFzeKIzvOKg06YGHVLM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706752878; c=relaxed/simple;
-	bh=CCXwS3LRPC2VM4lrPwmOvwtQpa7WeHQXUG0Y86YpiiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=qzLSJHQ/NiNCpy56NbQ0hVSs3ZS2QvAcukdqWN0DTL2h7VzNyZd8P23CHyARVL5mQn0HEaIrZ1w3vkG8eP2nXfx9DmHR/oIWAimmfzvC+VC12MWu1aS4NmVQnApcqMFJ8sYI+JB0TW9e4cUQBT17n5BQT7taN7JwxaL24O2HSTQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com; spf=pass smtp.mailfrom=memverge.com; dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b=E3UOeauO; arc=fail smtp.client-ip=40.107.244.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD1B171D0;
+	Thu,  1 Feb 2024 02:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706753341; cv=none; b=GAcOv+cWFtAe9dFAVOvq6vRX+JYjzKLNbnDRL2S18bXEE6I6x/x2H2+8i/yzeOVlaSYkWMgq3hMdDY5HmVR9uHQtgLl0myCsnwB6dAqf7HCKSHy+QzAkPHbZgzKtW+GnYTFLY5eqlHnWKwGbMNXJacUrQ2dWAmqGZDd9O6TYqkE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706753341; c=relaxed/simple;
+	bh=qpgaAko8Zmepj+CsJYgEeQt49UM0kbaD3f1MmT1j9Y0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hij+/PMEkTQTX6y+shAS1rmLNP1BnGnAPUDo8Jm79RhDPhHjmTFlYaI2ZwFvBpKRus0g8SX90yiV+NmZ1lodfYZW8c/bpgfVCBUwCtTHPE892Ihz4OyvAfyGBZFbJsrKL+1msVN8KI6oGfPYPU2FEw1G0TwDXpR+BpcYAdhs92Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZTad7qP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="E3UOeauO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IuNUgMINKm/R7hEP9k6WAwuefdbcZnUU6ANm/7Jw1fqrHjti4nhafqxdITn4RlbuVxBwx+PLZmMwStiqyJs3HWsABjVfpU0dfqPjxv+7R/NTp/bx0qF+r9sYWDw6y046YYWbaEt5awqPB99oFGsquOiCYYLcsHCMFScT4KunxAXv0fa4GMnn2OqLjm9EU3qCno57UE4PV9OAH7NWUOngZO2OD3gAAno4YCsl9HduSHSWO1b50pDToUrSWABjXdNkuzU6yaBTeKX1k8GLG9K1zRcHYtCot/rJ4WK0XKrgMIheHFgK8M26Ga0r9o0sqXU9evUaU1j7IzgRaXAWeDGZHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eVjVkooVbPRw3vwlMOqLorO9qpYDJaaMeOD0+bjpfzk=;
- b=fYtwVpMyqV+eHV/IUyhlhEuLm4OjUMyZ61FTdTsj7GkJ2QotYI5Qv5wSTv/8oPqV6hVBq1DC/O2+/5eUA4GPFN1/5KdrdgsqCvi3A+QrkTQX5WK4P4xuqSCWWNrb24QtF1o7YohER4HNndE/dHQWNdNFXvFI4Hi0Gyn7Qrn5Y2HCVIMGl2qqzJHSp4NcRqsU04+udDydte8+ZXGKtqlnVIcRLO7n1MDr/flm0sXw7qmDEluotmYA3HKKMQNhD3ww1tyg5jC3uu9jtsPlIoXsnqzeUHWxm4Miyii5k6L5w21Y+GVAc4QngkAA077v7R/VNPZacVr2ca5Qx07sj4+a5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eVjVkooVbPRw3vwlMOqLorO9qpYDJaaMeOD0+bjpfzk=;
- b=E3UOeauOMRv8ujkD5PfN4yFadKE7KVorwj25jt0cm1K5xUz783Ek1LFbXxj/XvR5g57eO4x70OHc/mw/VH7XvqUReqSkeksTSQ5HDE/ks51P/fzjQt5J0zumeltURllNEnxiDlf0sc6WjgJK1E3b1SdPd2EAfF7VuQCFQ+uJNmA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by MW3PR17MB4217.namprd17.prod.outlook.com (2603:10b6:303:43::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.24; Thu, 1 Feb
- 2024 02:01:12 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::7a04:dc86:2799:2f15]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::7a04:dc86:2799:2f15%5]) with mapi id 15.20.7249.025; Thu, 1 Feb 2024
- 02:01:12 +0000
-Date: Wed, 31 Jan 2024 21:01:07 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: "Huang, Ying" <ying.huang@intel.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	corbet@lwn.net, akpm@linux-foundation.org, honggyu.kim@sk.com,
-	rakie.kim@sk.com, hyeongtak.ji@sk.com, mhocko@kernel.org,
-	vtavarespetr@micron.com, jgroves@micron.com,
-	ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com,
-	hannes@cmpxchg.org, dan.j.williams@intel.com,
-	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v4 3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
- for weighted interleaving
-Message-ID: <Zbr7YzjFrrIWXomI@memverge.com>
-References: <20240130182046.74278-1-gregory.price@memverge.com>
- <20240130182046.74278-4-gregory.price@memverge.com>
- <877cjqgfzz.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <Zbn6FG3346jhrQga@memverge.com>
- <87y1c5g8qw.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZbqDgaOsAeXnqRP2@memverge.com>
- <871q9xeyo4.fsf@yhuang6-desk2.ccr.corp.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <871q9xeyo4.fsf@yhuang6-desk2.ccr.corp.intel.com>
-X-ClientProxiedBy: BYAPR02CA0015.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::28) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZTad7qP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CBD2C433A6;
+	Thu,  1 Feb 2024 02:09:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706753340;
+	bh=qpgaAko8Zmepj+CsJYgEeQt49UM0kbaD3f1MmT1j9Y0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=JZTad7qPMEODueqFLCJmkELXm9HqTKqqlK6oRGm1CWsxL5D8nj56bwWj4KHDjoGAT
+	 QFSmCQT+VmLNXD+YWswWbYQE+RgWqX9LeAum2/AnCvO+ta9I+CHn50rG4i6XXPokd8
+	 U91f0X5GdhMvb5nfvW2v79oE1kHcUNscpAFW+QK7Ai/LtGVpt0yGNS+0lYKmyWPSmr
+	 AHcXS6CJVm3qzRq7Z92J/0nfnmbt1MneKUR8vVc9VPcKkURXwokU2LUCQ21wdsOBZ4
+	 Dwa7JdsfOwSE6D4WvoP+ZjeyfdoauCZXdMi5OaSZBDyP83OphTzJriJorHSyZI3mhQ
+	 73WVBu8JzlQWA==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d05d774518so3162391fa.1;
+        Wed, 31 Jan 2024 18:09:00 -0800 (PST)
+X-Gm-Message-State: AOJu0YxLpS4DL1wbt+pYzC0DV31xoCTFHPLl9fEpKp9eYZUgIEC/zzsn
+	bJp73su3l+3w3hVr42EWteCbk6VI5uOaKokJiOzvveCKctrNBlqEeQSXhl5S8rLh2s3LWNKLLr0
+	+E4te4n5ZPud5KhD+Ljwhb9CnpN0=
+X-Google-Smtp-Source: AGHT+IEZWLOW5AyfTxq3DsArqXYZjZVQKlZdAkdNup913YWdU7itR3gfTo5qLKzEsXv/ztER6wEmyRn8aAlIHDNUV8Y=
+X-Received: by 2002:a2e:a414:0:b0:2cc:78b7:1ef0 with SMTP id
+ p20-20020a2ea414000000b002cc78b71ef0mr1136378ljn.4.1706753338768; Wed, 31 Jan
+ 2024 18:08:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|MW3PR17MB4217:EE_
-X-MS-Office365-Filtering-Correlation-Id: e981c151-c0e2-4185-5402-08dc22c9aa86
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	4dHMDda+64xbKQBPWi63MHu+UgvlPmuxDdV7kVLz4URiaxkcoFJ3VG9licgntzuB/Dqn/Hd7DghM5KlZd/Dh9RPINMup+xCiog7AZQQQoPD6Q8TY3roSoQu6eoQeGTQEIpwIoWIH+Im+R/LxxG4TULrsTbIb3g368u26OVRK8GJTgye802LxvknTnx24J4A84Hli+bmZbvYK1P+5yOA6jYCOHhhB8WZ2ayThN8nBSBYotSlGgP9q12jO7KAeK8CGRA01ElbiIsaS323qkx/xTXbJr5fQIzxZTqTSLsENtxaHGDKHhJrbq6JoC0E7qWN5sHJdrL40O8GKL6HAQDjJxRQBFpOqQujWLPcDJe7QpkwNoz5/HHYCf70zpLX+GXbsl+aaQcvaWRpIKLrMj1Pnb7+iwbPJYRavYiTtHMQ0J60CqerRf6FFIDhaFrlqmP+0FT3xNKgnv5dMgMuX9jwaZjAZdU3KlnnTkytbWrPLz8EwtsTjbW3J+jo2xLR1f/cE1Ck3vp2lg+7TVYdtUZYjJyYR/+FTpScfXPTqb0VK/OvmWwOaeIJZA7ikbGaXL4FBP+mhbopuP/hcqqDPle4apwRXxmE7IBGYDAHEyGxkOjc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(376002)(346002)(39850400004)(136003)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(6666004)(316002)(66946007)(86362001)(54906003)(66556008)(6916009)(66476007)(38100700002)(4326008)(44832011)(8936002)(7416002)(8676002)(478600001)(2616005)(6512007)(26005)(6506007)(6486002)(5660300002)(966005)(83380400001)(36756003)(2906002)(41300700001)(16393002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1usUWRG110xduUaJ6+CUUNdEDudc+icOMzI2tfTe/xSp2jaSfZeHmMEaPaCy?=
- =?us-ascii?Q?LnA12d+Zn/1LTqv2WmAHqeGrSaOXdjROxMhZ5/U0p0bYgKewUHDcIb9mxJVV?=
- =?us-ascii?Q?XWoH+u2MENy1NwMAhjn33R+7eMxlWrSvtG+w44SeFad3TRsLK9zpW2ylYPGq?=
- =?us-ascii?Q?f3C7mfP3SWji6g04CUlTurMNeyczSHEVNH6Rd/Z0thpLzuLXBH4BFJvLsljh?=
- =?us-ascii?Q?xvXucyfxpTYaTHmum27PCYHRoEpX9i9+i8htDi4fi4iKZN70wQawTsy4xMEn?=
- =?us-ascii?Q?cAWNv0vvfxX4DlBIENuGe1YtjiTxA30mKRp0yPpnPRbvoGQWyAled5+OvXYd?=
- =?us-ascii?Q?yhQOedo5ArxsolahPGA5LSGKB+QydtApaZLtCIPW+owAq+PQdUog8Q3GjfLM?=
- =?us-ascii?Q?78W7Lkdivstk+GBUh1TQJChwx3y41kVlHovVHS46bXwneEDcB9Qg/RuC5LjQ?=
- =?us-ascii?Q?fy9Fr7wHdYMH1QTSRsrNcWzQX98JNjyazJdcrZi/F61zMwbev8gHhawCo9ZG?=
- =?us-ascii?Q?YgQDLsHh2ieS1IDckUrFevAixv/F3BGut7iFDj5TKIF28aqupJiR98DCDCeM?=
- =?us-ascii?Q?cd4w4Z0cBVXyuowVy/FnMAuNp6WKuhDu9a9A4+gY7/ih+ZHmG4vPI/l2ydds?=
- =?us-ascii?Q?xC1LS1SvKKeWzg0TY4wNFw6w2Uho8J6X3Xxdm5l+5/YZ1O1rNHQBGGtkQX+E?=
- =?us-ascii?Q?xrldUF9D4d8JDPYwdLFbtJUSkBs+dwfieZlKwMHgzqCMYf/Pe/TzwoN6nNCB?=
- =?us-ascii?Q?TvdGpqsJCMuu0mvUAY8iS8aqQ9uBM4rgwF05lTKPT9xeCeLKTMDeNmk/soa6?=
- =?us-ascii?Q?YFim75jLmhk5pCi/WMyFaawzv5awyKbicjIgxhoiZmxGQTHDzzuSBiKOsS3u?=
- =?us-ascii?Q?M3R9C/ofRqAwCTH3HjZDAZQcMIGeKpbAn5Sqo5k+fLLHMRxdno6lmVUw0h+Y?=
- =?us-ascii?Q?SCl2fp9+MFOo9v1wFqURtUR/XgXXxnwaQ1ueKZWZnid7WQibX7OLrAqPn2Y3?=
- =?us-ascii?Q?SQAbTJzlWFO9vKbPY0xFBtEZpw0ZpOQht1KAs3MJXLBClZkrpmzNTc/2SaUX?=
- =?us-ascii?Q?88Vs+yS9rMUIisHOvLc7FjZpoRwbM2HWAbsstMlkj/ANwidumnobKKoi2FAD?=
- =?us-ascii?Q?su+EpWrb/itFun63Gfge09iB9lmd9+r9MOLxaLT1LdRN27Kkj7Rl35kjWHRm?=
- =?us-ascii?Q?2fYGiWZ59nBy8kk0L5w565nWbJPD9Q6OwJA4wcxd/8QjnqBqBUvp6q/eIswT?=
- =?us-ascii?Q?EoP2CRRE+9WL/eNH1P+FJPqXHFQAGONyhluM4s54VfU+G7iYPjJmaqFGinp2?=
- =?us-ascii?Q?tLBoczCSLn6HMr+b/jkLI5pQcFHYJRJLQwBS/EGsxE/BDZDoqc/9JJnEfNrW?=
- =?us-ascii?Q?AFC713MNtjek5zmey8/dUOLOonlsE9TJgVXMfDMthIvefNTmSmzRi3hpVL+1?=
- =?us-ascii?Q?F5IILDJ5yaaIqyujJEziCC97BW+/OlOK/L+ns1W3yxEKX7jXktOfkeoI2dx3?=
- =?us-ascii?Q?cIx7+ncFAHZncT+vXL7Mtk2lgLNi7+V3xPDCEIW81pdhbe6A8VFRpBK+a43D?=
- =?us-ascii?Q?VioHhed7Nc5k69WjSeHBdEa0srWJGVL6HXqbcTajAt7LUXJM/PiaIHGl6o4b?=
- =?us-ascii?Q?eg=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e981c151-c0e2-4185-5402-08dc22c9aa86
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2024 02:01:12.5523
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 85Tl/0z3LQwgYidFQ/8172QgbvMADVkERUsl543WBFFHpgkgDPCqK2+0n1OJsBR5VKikkINBwQlJJSmSDoF3S7LPaJ60CwA+TTvsMcD6gYo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR17MB4217
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
+ <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
+ <20240109143349.GR1610741@bill-the-cat> <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
+ <CAFLszTjPAHd6RdO1mvatXC=yRS+h=sgJ_pMdyEnkROTx7yRpog@mail.gmail.com>
+ <CAK7LNARsY6-rrx=sNFq6oFqpqf0s5S_=3DrUsCOS7zF0BXcoTg@mail.gmail.com> <CAL_JsqLYB0D5wAfedsb6tQp4EmD1AROgxiCncwO7gvA2p1C6Lg@mail.gmail.com>
+In-Reply-To: <CAL_JsqLYB0D5wAfedsb6tQp4EmD1AROgxiCncwO7gvA2p1C6Lg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 1 Feb 2024 11:08:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR-3rL6=YdhRRXB9dz+94y2yHTA=9mF4p7OPj7KExd7rg@mail.gmail.com>
+Message-ID: <CAK7LNAR-3rL6=YdhRRXB9dz+94y2yHTA=9mF4p7OPj7KExd7rg@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Rob Herring <robh@kernel.org>
+Cc: Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>, Will Deacon <will@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 01, 2024 at 09:55:07AM +0800, Huang, Ying wrote:
-> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-> > index b1437396c357..dfd097009606 100644
-> > --- a/mm/mempolicy.c
-> > +++ b/mm/mempolicy.c
-> > @@ -2391,7 +2391,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
-> >         unsigned long nr_allocated = 0;
-> >         unsigned long rounds;
-> >         unsigned long node_pages, delta;
-> > -       u8 __rcu *table, *weights, weight;
-> > +       u8 __rcu *table, __rcu *weights, weight;
-> 
-> The __rcu usage can be checked with `sparse` directly.  For example,
-> 
-> make C=1 mm/mempolicy.o
-> 
-> More details can be found in
-> 
-> https://www.kernel.org/doc/html/latest/dev-tools/sparse.html
-> 
-> Per my understanding, we shouldn't use "__rcu" here.  Please search
-> "__rcu" in the following document.
-> 
-> https://www.kernel.org/doc/html/latest/RCU/checklist.html
-> 
-
-Thanks for this, I will sort this out and respond here with changes
-before v5.
-
-> > @@ -2460,17 +2454,10 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
-> >                         node_pages += weight;
-> >                         delta -= weight;
-> >                 } else if (delta) {
-> > +                       /* when delta is deleted, resume from that node */
->                                            ~~~~~~~
->                                            depleted?
-
-ack.
-
-> > +retry:
-> > +       /* to prevent miscount use tsk->mems_allowed_seq to detect rebind */
-> > +       cpuset_mems_cookie = read_mems_allowed_begin();
-> >         if (!current->il_weight || !node_isset(node, policy->nodes)) {
-> >                 node = next_node_in(node, policy->nodes);
-> 
-> node will be changed in the loop.  So we need to change the logic here.
-> 
-
-Good catch, stupid mistake. ack.
-
-> > @@ -2388,10 +2401,17 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
-> >         int prev_node;
-> >         int i;
-> >
-> > +
-> 
-> Change by accident?
+On Thu, Feb 1, 2024 at 7:03=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
 >
+> On Tue, Jan 30, 2024 at 3:16=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Fri, Jan 26, 2024 at 1:04=E2=80=AFAM Simon Glass <sjg@chromium.org> =
+wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Wed, 17 Jan 2024 at 06:14, Simon Glass <sjg@chromium.org> wrote:
+> > > >
+> > > > Hi Masahiro, Tom,
+> > > >
+> > > > On Tue, 9 Jan 2024 at 07:33, Tom Rini <trini@konsulko.com> wrote:
+> > > > >
+> > > > > On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wrote:
+> > > > > > Hi Simon,
+> > > > > >
+> > > > > >
+> > > > > > On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromiu=
+m.org> wrote:
+> > > > > > >
+> > > > > > > Hi Masahiro,
+> > > > > > >
+> > > > > > > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@ker=
+nel.org> wrote:
+> > > > > > > >
+> > > > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote=
+:
+> > > > > > > > > Add a script which produces a Flat Image Tree (FIT), a si=
+ngle file
+> > > > > > > > > containing the built kernel and associated devicetree fil=
+es.
+> > > > > > > > > Compression defaults to gzip which gives a good balance o=
+f size and
+> > > > > > > > > performance.
+> > > > > > > > >
+> > > > > > > > > The files compress from about 86MB to 24MB using this app=
+roach.
+> > > > > > > > >
+> > > > > > > > > The FIT can be used by bootloaders which support it, such=
+ as U-Boot
+> > > > > > > > > and Linuxboot. It permits automatic selection of the corr=
+ect
+> > > > > > > > > devicetree, matching the compatible string of the running=
+ board with
+> > > > > > > > > the closest compatible string in the FIT. There is no nee=
+d for
+> > > > > > > > > filenames or other workarounds.
+> > > > > > > > >
+> > > > > > > > > Add a 'make image.fit' build target for arm64, as well. U=
+se
+> > > > > > > > > FIT_COMPRESSION to select a different algorithm.
+> > > > > > > > >
+> > > > > > > > > The FIT can be examined using 'dumpimage -l'.
+> > > > > > > > >
+> > > > > > > > > This features requires pylibfdt (use 'pip install libfdt'=
+). It also
+> > > > > > > > > requires compression utilities for the algorithm being us=
+ed. Supported
+> > > > > > > > > compression options are the same as the Image.xxx files. =
+For now there
+> > > > > > > > > is no way to change the compression other than by editing=
+ the rule for
+> > > > > > > > > $(obj)/image.fit
+> > > > > > > > >
+> > > > > > > > > While FIT supports a ramdisk / initrd, no attempt is made=
+ to support
+> > > > > > > > > this here, since it must be built separately from the Lin=
+ux build.
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > > > > > > > ---
+> > > > > > > > >
+> > > > > > > > > Changes in v9:
+> > > > > > > > > - Move the compression control into Makefile.lib
+> > > > > > > > >
+> > > > > > > > > Changes in v8:
+> > > > > > > > > - Drop compatible string in FDT node
+> > > > > > > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > > > > > > > > - Turn compress part of the make_fit.py comment in to a s=
+entence
+> > > > > > > > > - Add two blank lines before parse_args() and setup_fit()
+> > > > > > > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > > > > > > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > > > > > > > > - Add 'mkimage' details Documentation/process/changes.rst
+> > > > > > > > > - Allow changing the compression used
+> > > > > > > > > - Tweak cover letter since there is only one clean-up pat=
+ch
+> > > > > > > > >
+> > > > > > > > > Changes in v7:
+> > > > > > > > > - Add Image as a dependency of image.fit
+> > > > > > > > > - Drop kbuild tag
+> > > > > > > > > - Add dependency on dtbs
+> > > > > > > > > - Drop unnecessary path separator for dtbs
+> > > > > > > > > - Rebase to -next
+> > > > > > > > >
+> > > > > > > > > Changes in v5:
+> > > > > > > > > - Drop patch previously applied
+> > > > > > > > > - Correct compression rule which was broken in v4
+> > > > > > > > >
+> > > > > > > > > Changes in v4:
+> > > > > > > > > - Use single quotes for UIMAGE_NAME
+> > > > > > > > >
+> > > > > > > > > Changes in v3:
+> > > > > > > > > - Drop temporary file image.itk
+> > > > > > > > > - Drop patch 'Use double quotes for image name'
+> > > > > > > > > - Drop double quotes in use of UIMAGE_NAME
+> > > > > > > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> > > > > > > > > - Avoid hard-coding "arm64" for the DT architecture
+> > > > > > > > >
+> > > > > > > > > Changes in v2:
+> > > > > > > > > - Drop patch previously applied
+> > > > > > > > > - Add .gitignore file
+> > > > > > > > > - Move fit rule to Makefile.lib using an intermediate fil=
+e
+> > > > > > > > > - Drop dependency on CONFIG_EFI_ZBOOT
+> > > > > > > > > - Pick up .dtb files separately from the kernel
+> > > > > > > > > - Correct pylint too-many-args warning for write_kernel()
+> > > > > > > > > - Include the kernel image in the file count
+> > > > > > > > > - Add a pointer to the FIT spec and mention of its wide i=
+ndustry usage
+> > > > > > > > > - Mention the kernel version in the FIT description
+> > > > > > > > >
+> > > > > > > > >  Documentation/process/changes.rst |   9 +
+> > > > > > > > >  MAINTAINERS                       |   7 +
+> > > > > > > > >  arch/arm64/Makefile               |   7 +-
+> > > > > > > > >  arch/arm64/boot/.gitignore        |   1 +
+> > > > > > > > >  arch/arm64/boot/Makefile          |   6 +-
+> > > > > > > > >  scripts/Makefile.lib              |  16 ++
+> > > > > > > > >  scripts/make_fit.py               | 291 ++++++++++++++++=
+++++++++++++++
+> > > > > > > > >  7 files changed, 334 insertions(+), 3 deletions(-)
+> > > > > > > > >  create mode 100755 scripts/make_fit.py
+> > > > > > > >
+> > > > > > > > I'll need Masahiro's Ack on the scripts/ changes before I c=
+an take this
+> > > > > > > > one.
+> > > > > > >
+> > > > > > > Any thoughts on this request, please?
+> > > > > > >
+> > > > > > > Regards,
+> > > > > > > Simon
+> > > > > > >
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > > As I mentioned before, I am concerned with having
+> > > > > > the same "compatible" entries, with different contents,
+> > > > > > as you use the "compatible" string as an ID to selecting
+> > > > > > the target config node, right?
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > > $ fdtdump  arch/arm64/boot/image.fit
+> > > > > >
+> > > > > >         ...
+> > > > > >
+> > > > > >         conf-10 {
+> > > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > > > > "tq,am642-tqma6442l", "ti,am642";
+> > > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4x=
+xL carrier board";
+> > > > > >             fdt =3D "fdt-10";
+> > > > > >             kernel =3D "kernel";
+> > > > > >         };
+> > > > > >
+> > > > > >         ...
+> > > > > >
+> > > > > >         conf-25 {
+> > > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > > > > "tq,am642-tqma6442l", "ti,am642";
+> > > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4x=
+xL carrier board";
+> > > > > >             fdt =3D "fdt-25";
+> > > > > >             kernel =3D "kernel";
+> > > > > >         };
+> > > > >
+> > > > > I had asked Rob a while ago about if having the same compatible f=
+or two
+> > > > > functionally different machines is a feature, or a bug, and I don=
+'t
+> > > > > think either of us fully agreed either way. I'd be leaning toward=
+s
+> > > > > saying the above example is a bug in the dts files, it's just not=
+ been a
+> > > > > bug people have worried about before due to (sadly) how little th=
+e
+> > > > > top-level compatible has been used.
+>
+> I much prefer being able to use compatibles over filenames.
+>
+> > > >
+> > > > Yes I believe this is a bug in the files.
+> > > >
+> > > > What should the script do in this case? Print a warning, perhaps?
+> > >
+> > > Is there anything I should do here? Would a warning be helpful, or
+> > > just confusing?
+> >
+> >
+> >
+> > I do not think it is useful.
+> > You would almost always get a warning, and there is no way to fix it.
+>
+> The above case is due to overlays. Why would you have a FIT image with
+> both a base tree and applied overlays?
 
-ack.
 
-~Gregory
+
+Because they are different hardware.
+
+If FIT includes only base DTBs, how to use a base with extensions?
+
+
+
+
+>
+> In any case, maybe we need to record in dtb overlays that have been
+> applied (which you asked about recently on dtc list). Not sure what
+> that looks like though. Overlays have a 'top-level' compatible that we
+> add in either separately or merged with the base's top-level
+> compatible?
+
+
+If there is a way to make "compatible" unique, that will be good.
+
+But, in my understanding, we can replace a property value,
+but not modify it.
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
