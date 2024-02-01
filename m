@@ -1,305 +1,252 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD1B171D0;
-	Thu,  1 Feb 2024 02:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C111A27C;
+	Thu,  1 Feb 2024 02:12:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706753341; cv=none; b=GAcOv+cWFtAe9dFAVOvq6vRX+JYjzKLNbnDRL2S18bXEE6I6x/x2H2+8i/yzeOVlaSYkWMgq3hMdDY5HmVR9uHQtgLl0myCsnwB6dAqf7HCKSHy+QzAkPHbZgzKtW+GnYTFLY5eqlHnWKwGbMNXJacUrQ2dWAmqGZDd9O6TYqkE=
+	t=1706753532; cv=none; b=cxsD2UGpzdC+PUUjk7Wdl3NedriJudvxy8pQfmetwa/iRF9VATbCuaR+iITXbekLpN6KSFOzbymfLQ10HcXTU2WUMmIbXcxXxcSKKDeeDcbiUTwPZc2rs8dOSQ7cnaTloHtrQ1X4ly2BNAEKrR9fZV2kLPjzA51kUtEHcMSnJyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706753341; c=relaxed/simple;
-	bh=qpgaAko8Zmepj+CsJYgEeQt49UM0kbaD3f1MmT1j9Y0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hij+/PMEkTQTX6y+shAS1rmLNP1BnGnAPUDo8Jm79RhDPhHjmTFlYaI2ZwFvBpKRus0g8SX90yiV+NmZ1lodfYZW8c/bpgfVCBUwCtTHPE892Ihz4OyvAfyGBZFbJsrKL+1msVN8KI6oGfPYPU2FEw1G0TwDXpR+BpcYAdhs92Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZTad7qP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706753532; c=relaxed/simple;
+	bh=GEHSgsu0BZcuUy9oj10MDz3Ju71xKXpFfee68XOSut4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UQeZELXIR8TBfSD5YqZksRnT6q9AwAErKRWJhP17edwHoPg1tTKgYI1yDXpO9nPvsZ4nUcKy9oCPanOrAWLyyDeWy7eGX8U5SFP1BaQlGNcC6e4PV8DFoms8XLjloqe6hZkN8jbR4QPUQqISCorBWRQ0lueRa6cIT7F635SkxwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=T0D0+NJu; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZTad7qP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CBD2C433A6;
-	Thu,  1 Feb 2024 02:09:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706753340;
-	bh=qpgaAko8Zmepj+CsJYgEeQt49UM0kbaD3f1MmT1j9Y0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JZTad7qPMEODueqFLCJmkELXm9HqTKqqlK6oRGm1CWsxL5D8nj56bwWj4KHDjoGAT
-	 QFSmCQT+VmLNXD+YWswWbYQE+RgWqX9LeAum2/AnCvO+ta9I+CHn50rG4i6XXPokd8
-	 U91f0X5GdhMvb5nfvW2v79oE1kHcUNscpAFW+QK7Ai/LtGVpt0yGNS+0lYKmyWPSmr
-	 AHcXS6CJVm3qzRq7Z92J/0nfnmbt1MneKUR8vVc9VPcKkURXwokU2LUCQ21wdsOBZ4
-	 Dwa7JdsfOwSE6D4WvoP+ZjeyfdoauCZXdMi5OaSZBDyP83OphTzJriJorHSyZI3mhQ
-	 73WVBu8JzlQWA==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d05d774518so3162391fa.1;
-        Wed, 31 Jan 2024 18:09:00 -0800 (PST)
-X-Gm-Message-State: AOJu0YxLpS4DL1wbt+pYzC0DV31xoCTFHPLl9fEpKp9eYZUgIEC/zzsn
-	bJp73su3l+3w3hVr42EWteCbk6VI5uOaKokJiOzvveCKctrNBlqEeQSXhl5S8rLh2s3LWNKLLr0
-	+E4te4n5ZPud5KhD+Ljwhb9CnpN0=
-X-Google-Smtp-Source: AGHT+IEZWLOW5AyfTxq3DsArqXYZjZVQKlZdAkdNup913YWdU7itR3gfTo5qLKzEsXv/ztER6wEmyRn8aAlIHDNUV8Y=
-X-Received: by 2002:a2e:a414:0:b0:2cc:78b7:1ef0 with SMTP id
- p20-20020a2ea414000000b002cc78b71ef0mr1136378ljn.4.1706753338768; Wed, 31 Jan
- 2024 18:08:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="T0D0+NJu"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 411020og008375;
+	Thu, 1 Feb 2024 02:11:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=RWnYYJY5eR7CWR2cSLbZQZuLEMhedY0ZNp51BM7vOHg=; b=T0
+	D0+NJul2CGun8Z+yt/tA6Z30WlPQoo6obHCjD7VinRSBDDS0CLcE7faWiQ8/8e7g
+	oduejLaT9isUGmXW40W2RVX+55/eYBHgG1FY+cc0UIR5aLH/3aDDa6uzVmgnqYJ2
+	CZHcNFZ06oddzZBTSRVSqMA0mEFTR/wqSBu3p/qJhrHsi3l2J9fRuNAtEdTmDd1S
+	SYPm0iTzxX4ANxJxINlFjkg2EyXdZBzYYnJ3FapnAhlBH4NSguXpsFGPIwVYHKmu
+	pkXjhipaWgS6MJiZEHuzzU35X23JtA3kETtxLn3gt+3WSKjqoLzsE/0tmwyuO6qA
+	67vy67925RDdJJ28DmVA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w00dc06wk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 01 Feb 2024 02:11:38 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4112BbuJ018472
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 1 Feb 2024 02:11:37 GMT
+Received: from [10.110.47.187] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 31 Jan
+ 2024 18:11:36 -0800
+Message-ID: <775b6010-0d9f-eb6f-2402-325bfba73094@quicinc.com>
+Date: Wed, 31 Jan 2024 18:11:36 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
- <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
- <20240109143349.GR1610741@bill-the-cat> <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
- <CAFLszTjPAHd6RdO1mvatXC=yRS+h=sgJ_pMdyEnkROTx7yRpog@mail.gmail.com>
- <CAK7LNARsY6-rrx=sNFq6oFqpqf0s5S_=3DrUsCOS7zF0BXcoTg@mail.gmail.com> <CAL_JsqLYB0D5wAfedsb6tQp4EmD1AROgxiCncwO7gvA2p1C6Lg@mail.gmail.com>
-In-Reply-To: <CAL_JsqLYB0D5wAfedsb6tQp4EmD1AROgxiCncwO7gvA2p1C6Lg@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 1 Feb 2024 11:08:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR-3rL6=YdhRRXB9dz+94y2yHTA=9mF4p7OPj7KExd7rg@mail.gmail.com>
-Message-ID: <CAK7LNAR-3rL6=YdhRRXB9dz+94y2yHTA=9mF4p7OPj7KExd7rg@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Rob Herring <robh@kernel.org>
-Cc: Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>, Will Deacon <will@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
-	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v12 04/41] usb: host: xhci-mem: Cleanup pending secondary
+ event ring events
+Content-Language: en-US
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <gregkh@linuxfoundation.org>, <lgirdwood@gmail.com>,
+        <andersson@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <konrad.dybcio@linaro.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <robh+dt@kernel.org>, <agross@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>,
+        "Neronin, Niklas" <niklas.neronin@intel.com>
+References: <20240102214549.22498-1-quic_wcheng@quicinc.com>
+ <20240102214549.22498-5-quic_wcheng@quicinc.com>
+ <734591a1-50b4-6dc7-0b93-077355ec12e4@linux.intel.com>
+ <7b2ec96b-b72f-c848-7c35-36e61a4072ac@quicinc.com>
+ <b254f73b-a1bc-3dd4-f485-a3acf556835d@quicinc.com>
+ <2178e799-2068-7443-59b2-310dfdd1ddee@linux.intel.com>
+ <ae64ce69-dc1b-1534-7950-0a35c4a56f58@quicinc.com>
+ <ff0bff8b-f26a-87bd-9762-9f2af98abcca@quicinc.com>
+ <44a3d4db-7759-dd93-782a-1efbebfdb22c@linux.intel.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <44a3d4db-7759-dd93-782a-1efbebfdb22c@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: wfVeILWC3-aNJKK-XfQL6Zc9ABL1hHzi
+X-Proofpoint-GUID: wfVeILWC3-aNJKK-XfQL6Zc9ABL1hHzi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-31_10,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1011
+ phishscore=0 lowpriorityscore=0 mlxscore=0 bulkscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401190000
+ definitions=main-2402010015
 
-On Thu, Feb 1, 2024 at 7:03=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
+Hi Mathias,
+
+On 1/29/2024 7:44 AM, Mathias Nyman wrote:
+> On 26.1.2024 23.13, Wesley Cheng wrote:
+>> Hi Mathias,
+>>
+>> On 1/16/2024 12:24 PM, Wesley Cheng wrote:
+>>> Hi Mathias,
+>>>
+>>> On 1/15/2024 6:01 AM, Mathias Nyman wrote:
+>>>> On 10.1.2024 1.42, Wesley Cheng wrote:
+>>>>> Hi Mathias,
+>>>>>
+>>>>> On 1/8/2024 12:51 PM, Wesley Cheng wrote:
+>>>>>> Hi Mathias,
+>>>>>>
+>>>>>> On 1/4/2024 6:48 AM, Mathias Nyman wrote:
+>>>>>>> On 2.1.2024 23.45, Wesley Cheng wrote:
+>>>>>>>> As part of xHCI bus suspend, the XHCI is halted.  However, if 
+>>>>>>>> there are
+>>>>>>>> pending events in the secondary event ring, it is observed that 
+>>>>>>>> the xHCI
+>>>>>>>> controller stops responding to further commands upon host or device
+>>>>>>>> initiated bus resume.  Iterate through all pending events and 
+>>>>>>>> update the
+>>>>>>>> dequeue pointer to the beginning of the event ring.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>>>>>> ...
+>>>>>>>> +/*
+>>>>>>>> + * Move the event ring dequeue pointer to skip events kept in 
+>>>>>>>> the secondary
+>>>>>>>> + * event ring.  This is used to ensure that pending events in 
+>>>>>>>> the ring are
+>>>>>>>> + * acknowledged, so the XHCI HCD can properly enter 
+>>>>>>>> suspend/resume. The
+>>>>>>>> + * secondary ring is typically maintained by an external 
+>>>>>>>> component.
+>>>>>>>> + */
+>>>>>>>> +void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
+>>>>>>>> +    struct xhci_ring *ring,    struct xhci_interrupter *ir)
+>>>>>>>> +{
+>>>>>>>> +    union xhci_trb *erdp_trb, *current_trb;
+>>>>>>>> +    u64 erdp_reg;
+>>>>>>>> +    u32 iman_reg;
+>>>>>>>> +    dma_addr_t deq;
+>>>>>>>> +
+>>>>>>>> +    /* disable irq, ack pending interrupt and ack all pending 
+>>>>>>>> events */
+>>>>>>>> +    xhci_disable_interrupter(ir);
+>>>>>>>> +    iman_reg = readl_relaxed(&ir->ir_set->irq_pending);
+>>>>>>>> +    if (iman_reg & IMAN_IP)
+>>>>>>>> +        writel_relaxed(iman_reg, &ir->ir_set->irq_pending);
+>>>>>>>> +
+>>>>>>>> +    /* last acked event trb is in erdp reg  */
+>>>>>>>> +    erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
+>>>>>>>> +    deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
+>>>>>>>> +    if (!deq) {
+>>>>>>>> +        xhci_err(xhci, "event ring handling not required\n");
+>>>>>>>> +        return;
+>>>>>>>> +    }
+>>>>>>>> +
+>>>>>>>> +    erdp_trb = current_trb = ir->event_ring->dequeue;
+>>>>>>>> +    /* read cycle state of the last acked trb to find out CCS */
+>>>>>>>> +    ring->cycle_state = 
+>>>>>>>> le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
+>>>>>>>> +
+>>>>>>>> +    while (1) {
+>>>>>>>> +        inc_deq(xhci, ir->event_ring);
+>>>>>>>> +        erdp_trb = ir->event_ring->dequeue;
+>>>>>>>> +        /* cycle state transition */
+>>>>>>>> +        if ((le32_to_cpu(erdp_trb->event_cmd.flags) & 
+>>>>>>>> TRB_CYCLE) !=
+>>>>>>>> +            ring->cycle_state)
+>>>>>>>> +            break;
+>>>>>>>> +    }
+>>>>>>>> +
+>>>>>>>> +    xhci_update_erst_dequeue(xhci, ir, current_trb, true);
+>>>>>>>> +}
+>>>>>>>
+>>>>>>> Code above is very similar to the existing event ring processing 
+>>>>>>> parts of xhci_irq()
+>>>>>>> and xhci_handle_event()
+>>>>>>>
+>>>>>>> I'll see if I can refactor the existing event ring processing, 
+>>>>>>> decouple it from
+>>>>>>> event handling so that it could be used by primary and secondary 
+>>>>>>> interrupters with
+>>>>>>> handlers, and this case where we just want to clear the event ring.
+>>>>>>>
+>>>>>>
+>>>>>> Thanks, that makes sense.  Will take a look as well.
+>>>>>>
+>>>>>
+>>>>> How about something like the below?  Tested this on my set up and 
+>>>>> everything looks to be working fine.  Had to add another param to 
+>>>>> struct xhci_interrupters to tell the XHCI interrupt handler to say 
+>>>>> if that particular interrupter wants to skip_events (handling).  
+>>>>> This way, its something that the class driver utilizing the 
+>>>>> interrupter will have to tell XHCI sideband.  It would allow the 
+>>>>> user to determine if they want to use the interrupter to actually 
+>>>>> handle events or not on the proc running Linux.
+>>>>>
+>>>>
+>>>> Yes, I have something similar.
+>>>> I'll share it soon, just need to
+>>>> clean it up a bit fist.
+>>>>
+>>>
+>>> Sure, no worries.  Will test it when its available.  Thanks!
+>>>
+>>
+>> Was just wondering if you had the time to clean up the changes?  If 
+>> not, maybe you can provide a patch with whatever you have, and I can 
+>> try my best to clean it up to your liking?  Thanks!
+> 
+> Sure, got stuck fixing other issues.
 >
-> On Tue, Jan 30, 2024 at 3:16=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > On Fri, Jan 26, 2024 at 1:04=E2=80=AFAM Simon Glass <sjg@chromium.org> =
-wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Wed, 17 Jan 2024 at 06:14, Simon Glass <sjg@chromium.org> wrote:
-> > > >
-> > > > Hi Masahiro, Tom,
-> > > >
-> > > > On Tue, 9 Jan 2024 at 07:33, Tom Rini <trini@konsulko.com> wrote:
-> > > > >
-> > > > > On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wrote:
-> > > > > > Hi Simon,
-> > > > > >
-> > > > > >
-> > > > > > On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromiu=
-m.org> wrote:
-> > > > > > >
-> > > > > > > Hi Masahiro,
-> > > > > > >
-> > > > > > > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@ker=
-nel.org> wrote:
-> > > > > > > >
-> > > > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote=
-:
-> > > > > > > > > Add a script which produces a Flat Image Tree (FIT), a si=
-ngle file
-> > > > > > > > > containing the built kernel and associated devicetree fil=
-es.
-> > > > > > > > > Compression defaults to gzip which gives a good balance o=
-f size and
-> > > > > > > > > performance.
-> > > > > > > > >
-> > > > > > > > > The files compress from about 86MB to 24MB using this app=
-roach.
-> > > > > > > > >
-> > > > > > > > > The FIT can be used by bootloaders which support it, such=
- as U-Boot
-> > > > > > > > > and Linuxboot. It permits automatic selection of the corr=
-ect
-> > > > > > > > > devicetree, matching the compatible string of the running=
- board with
-> > > > > > > > > the closest compatible string in the FIT. There is no nee=
-d for
-> > > > > > > > > filenames or other workarounds.
-> > > > > > > > >
-> > > > > > > > > Add a 'make image.fit' build target for arm64, as well. U=
-se
-> > > > > > > > > FIT_COMPRESSION to select a different algorithm.
-> > > > > > > > >
-> > > > > > > > > The FIT can be examined using 'dumpimage -l'.
-> > > > > > > > >
-> > > > > > > > > This features requires pylibfdt (use 'pip install libfdt'=
-). It also
-> > > > > > > > > requires compression utilities for the algorithm being us=
-ed. Supported
-> > > > > > > > > compression options are the same as the Image.xxx files. =
-For now there
-> > > > > > > > > is no way to change the compression other than by editing=
- the rule for
-> > > > > > > > > $(obj)/image.fit
-> > > > > > > > >
-> > > > > > > > > While FIT supports a ramdisk / initrd, no attempt is made=
- to support
-> > > > > > > > > this here, since it must be built separately from the Lin=
-ux build.
-> > > > > > > > >
-> > > > > > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > > > > > > > > ---
-> > > > > > > > >
-> > > > > > > > > Changes in v9:
-> > > > > > > > > - Move the compression control into Makefile.lib
-> > > > > > > > >
-> > > > > > > > > Changes in v8:
-> > > > > > > > > - Drop compatible string in FDT node
-> > > > > > > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
-> > > > > > > > > - Turn compress part of the make_fit.py comment in to a s=
-entence
-> > > > > > > > > - Add two blank lines before parse_args() and setup_fit()
-> > > > > > > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> > > > > > > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> > > > > > > > > - Add 'mkimage' details Documentation/process/changes.rst
-> > > > > > > > > - Allow changing the compression used
-> > > > > > > > > - Tweak cover letter since there is only one clean-up pat=
-ch
-> > > > > > > > >
-> > > > > > > > > Changes in v7:
-> > > > > > > > > - Add Image as a dependency of image.fit
-> > > > > > > > > - Drop kbuild tag
-> > > > > > > > > - Add dependency on dtbs
-> > > > > > > > > - Drop unnecessary path separator for dtbs
-> > > > > > > > > - Rebase to -next
-> > > > > > > > >
-> > > > > > > > > Changes in v5:
-> > > > > > > > > - Drop patch previously applied
-> > > > > > > > > - Correct compression rule which was broken in v4
-> > > > > > > > >
-> > > > > > > > > Changes in v4:
-> > > > > > > > > - Use single quotes for UIMAGE_NAME
-> > > > > > > > >
-> > > > > > > > > Changes in v3:
-> > > > > > > > > - Drop temporary file image.itk
-> > > > > > > > > - Drop patch 'Use double quotes for image name'
-> > > > > > > > > - Drop double quotes in use of UIMAGE_NAME
-> > > > > > > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> > > > > > > > > - Avoid hard-coding "arm64" for the DT architecture
-> > > > > > > > >
-> > > > > > > > > Changes in v2:
-> > > > > > > > > - Drop patch previously applied
-> > > > > > > > > - Add .gitignore file
-> > > > > > > > > - Move fit rule to Makefile.lib using an intermediate fil=
-e
-> > > > > > > > > - Drop dependency on CONFIG_EFI_ZBOOT
-> > > > > > > > > - Pick up .dtb files separately from the kernel
-> > > > > > > > > - Correct pylint too-many-args warning for write_kernel()
-> > > > > > > > > - Include the kernel image in the file count
-> > > > > > > > > - Add a pointer to the FIT spec and mention of its wide i=
-ndustry usage
-> > > > > > > > > - Mention the kernel version in the FIT description
-> > > > > > > > >
-> > > > > > > > >  Documentation/process/changes.rst |   9 +
-> > > > > > > > >  MAINTAINERS                       |   7 +
-> > > > > > > > >  arch/arm64/Makefile               |   7 +-
-> > > > > > > > >  arch/arm64/boot/.gitignore        |   1 +
-> > > > > > > > >  arch/arm64/boot/Makefile          |   6 +-
-> > > > > > > > >  scripts/Makefile.lib              |  16 ++
-> > > > > > > > >  scripts/make_fit.py               | 291 ++++++++++++++++=
-++++++++++++++
-> > > > > > > > >  7 files changed, 334 insertions(+), 3 deletions(-)
-> > > > > > > > >  create mode 100755 scripts/make_fit.py
-> > > > > > > >
-> > > > > > > > I'll need Masahiro's Ack on the scripts/ changes before I c=
-an take this
-> > > > > > > > one.
-> > > > > > >
-> > > > > > > Any thoughts on this request, please?
-> > > > > > >
-> > > > > > > Regards,
-> > > > > > > Simon
-> > > > > > >
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > > As I mentioned before, I am concerned with having
-> > > > > > the same "compatible" entries, with different contents,
-> > > > > > as you use the "compatible" string as an ID to selecting
-> > > > > > the target config node, right?
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > > $ fdtdump  arch/arm64/boot/image.fit
-> > > > > >
-> > > > > >         ...
-> > > > > >
-> > > > > >         conf-10 {
-> > > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > > > > > "tq,am642-tqma6442l", "ti,am642";
-> > > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4x=
-xL carrier board";
-> > > > > >             fdt =3D "fdt-10";
-> > > > > >             kernel =3D "kernel";
-> > > > > >         };
-> > > > > >
-> > > > > >         ...
-> > > > > >
-> > > > > >         conf-25 {
-> > > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > > > > > "tq,am642-tqma6442l", "ti,am642";
-> > > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4x=
-xL carrier board";
-> > > > > >             fdt =3D "fdt-25";
-> > > > > >             kernel =3D "kernel";
-> > > > > >         };
-> > > > >
-> > > > > I had asked Rob a while ago about if having the same compatible f=
-or two
-> > > > > functionally different machines is a feature, or a bug, and I don=
-'t
-> > > > > think either of us fully agreed either way. I'd be leaning toward=
-s
-> > > > > saying the above example is a bug in the dts files, it's just not=
- been a
-> > > > > bug people have worried about before due to (sadly) how little th=
-e
-> > > > > top-level compatible has been used.
->
-> I much prefer being able to use compatibles over filenames.
->
-> > > >
-> > > > Yes I believe this is a bug in the files.
-> > > >
-> > > > What should the script do in this case? Print a warning, perhaps?
-> > >
-> > > Is there anything I should do here? Would a warning be helpful, or
-> > > just confusing?
-> >
-> >
-> >
-> > I do not think it is useful.
-> > You would almost always get a warning, and there is no way to fix it.
->
-> The above case is due to overlays. Why would you have a FIT image with
-> both a base tree and applied overlays?
 
+No worries, tested the code briefly as is and it is working, with some 
+minor modifications.
 
+> Code is not yet cleaned up, commit messages are not ready etc, but 
+> current work is in
+> a fix_eventhandling branch:
+> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git  
+> fix_eventhandling
+> https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=fix_eventhandling 
+> 
+> 
+> I was in the middle of figuring out when and where the ip_autoclear and 
+> interrupt
+> moderation values should be set for secondary interrupters
+> 
 
-Because they are different hardware.
+I set these currently when the client driver requests for the 
+interrupter, ie xhci_sideband_create_interrupter().  If the client 
+driver wants to actually have the secondary interrupter events handled 
+by the OS then I added a path to call xhci_enable_interrupter() to 
+enable that IRQ line.  Likewise, based on XHCI spec Figure 4-22, the 
+IMAN interrupt enable (IE) bit controls basically when IMOD and IP 
+autoclear mechanisms would come into the picture, so I placed these 
+configurations before we set the IE bit.
 
-If FIT includes only base DTBs, how to use a base with extensions?
+For the most part, if we offload event ring handling to another 
+processor, then IMOD and IE settings would be irrelevant IMO.
 
+The only pitfall with this is that it gets a bit cumbersome (although 
+flexible) for the client driver to know what these arguments actually do 
+within the XHCI layer.  Working through your changes and will push 
+something soon.  Thanks again for sharing the changes!
 
-
-
->
-> In any case, maybe we need to record in dtb overlays that have been
-> applied (which you asked about recently on dtc list). Not sure what
-> that looks like though. Overlays have a 'top-level' compatible that we
-> add in either separately or merged with the base's top-level
-> compatible?
-
-
-If there is a way to make "compatible" unique, that will be good.
-
-But, in my understanding, we can replace a property value,
-but not modify it.
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Thanks
+Wesley Cheng
