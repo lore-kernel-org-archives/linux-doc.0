@@ -1,139 +1,193 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1360F168B9
-	for <linux-doc@vger.kernel.org>; Fri,  2 Feb 2024 17:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA07126F22;
+	Fri,  2 Feb 2024 18:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706895848; cv=none; b=gfAoPzMjT8Ww6tuXyWbYaouJKQ3+Uea5id1qj13Xw8NdP1b1UKoDvWRckPJ2jn32+GUfl9FC2MxMrkOkjlWw9ukwJebbV++NSxAVB+EUmswGoToeDGRSex8i7Rrzjr/Zape6slEfIv4kzqbdADy3sfczEoYmLcCLe5hhXL0Rqv0=
+	t=1706899800; cv=none; b=e98GFNyPJhJmoBkuHkfjZt8wwVVpbU8yPl4P6zy+xaeUtR2WIN07GokWdCxfagK1wPhn3FQEb6JDJttnmOb5JvZNcdJEK/8TelgqWP1IvtYQmyqtsWtIVVuZhSdOHEExcQl0+oXRtnEGlV0c0FiQAllU1zbjpi/79K4hWx2OJvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706895848; c=relaxed/simple;
-	bh=6/qPdGRGqcwv3m1KSfVw8PW50DkgRWx8evfvr1L5p10=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sufC5MEf5SINsp1CeQPx3TsO4WEvObQGtYiG8LRgV5xZBM9KbZgmLCU2D1GMFEPi2WasQ0OPxzWbqhlxTES9YLr+mB5rbOHZa+/Tqj8o6KgzEajv/2B1hMVs008dyh4NVN+v6cdmD4o+KwC/HV9FpkwIzWu4FiGB4G2od6oyEU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aV71RMNi; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1706899800; c=relaxed/simple;
+	bh=kIDXrZYa7YvbjaZ39Y/wNvsjQTgKItJ4WaLfAWeaQPI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ZlrU2aO16qMpUlPFC7OdTjafe0N93c25P7ROQPOlqQx0ADFkEzKwhG5RJnkejFOnZMaWPqiIJOvjnF4Te/pPJYefOlaioas/srOODpcIfQMR5cIpUcpWHSCWtBvmZVww/9sOqHugSSkaOw7EMHeGvbHV/otXU0kE343vCEWQA1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=Tm8e2N9X; arc=none smtp.client-ip=198.252.153.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aV71RMNi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706895845;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=++pep7UK0OfxTpG5wffeR3Nq4MugK8U0/QV/c/5dIwY=;
-	b=aV71RMNiZUj+kCGWnivmY0aHfbM4P/ceON6eNjcAZ0HgrZzMTHFwXKa7/I7MlTnFitux7E
-	A6Zfe8cWOJ9VjaReoGJVz46MtCofTzmpjbW7bxpVeIZKvSS01EkdCVjL8TwPVFfaVRNgvk
-	cn7N6FYXFGn5F1QYsZ/wPSfu+LIaP+o=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-451-7O4Mtw9kOSGfKTOX8jRH2Q-1; Fri, 02 Feb 2024 12:44:04 -0500
-X-MC-Unique: 7O4Mtw9kOSGfKTOX8jRH2Q-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-33b250a4bd7so256498f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Feb 2024 09:44:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706895843; x=1707500643;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=++pep7UK0OfxTpG5wffeR3Nq4MugK8U0/QV/c/5dIwY=;
-        b=bHBH0xv6bAA9hUVl5YJ/9FUFlqZmDmog8SHkURV2L09PdvxN2AwQLbMKEix+cUyzms
-         mVbqI8L1vZHFB4tAITret6+oNFjui3TQWAvcQsuZudepuzEle4+oDLHFrEfzBfeQVMkq
-         izllI41NgQm8GRtoj9Tfih5q9cgVPS01QHB5+/9AYUvw+m/SI0hJYxLjblS1gQi2UvJn
-         xpY6wdxM3OBNL+GCs0kUWR1/baiM+YmpugVBUZP2bbpRzOBDkNd5Kiu3YORFgFgOCDiv
-         sjqKxmog8YLz5+c/kIBGCGUj4crXU4i6jVQS99Wj/T9XroJloLR3xp5hFK486IMRq9TB
-         RJSw==
-X-Gm-Message-State: AOJu0YxDfyz2qjCcvnAyhukU3r4wl4M8hLdIv277+DV4tdd8honIdHM7
-	MDxwOx73GYAzERexcVfP0DjfuPuJVsfhM6AM9gVFM4TboXy3/jfVN4w8i23Tz/G9ptGny7/k7Am
-	nMCZqCXfrnRQlwTCcshPaXhhD6ppNoyLuWdAb/O6unqaXbQfAaUtjCFJF
-X-Received: by 2002:a5d:59aa:0:b0:33b:1a42:cd04 with SMTP id p10-20020a5d59aa000000b0033b1a42cd04mr3770935wrr.15.1706895843233;
-        Fri, 02 Feb 2024 09:44:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHptmVcjBx8/ISw3LPjFJcVumKc/wve+Wgbrv3l3RC1PT/8U9mWM7h8XDDVSL1zjLyo4EGtPQ==
-X-Received: by 2002:a5d:59aa:0:b0:33b:1a42:cd04 with SMTP id p10-20020a5d59aa000000b0033b1a42cd04mr3770925wrr.15.1706895842897;
-        Fri, 02 Feb 2024 09:44:02 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVPe9GCk+5shgZ3WfE9iMyubLBQrBBIRioAzdNByGofbVJp+KGEo1ZlaWyt3SSmxTOoE160snjMhdcV678U5RUuTYsIBNb6TnLyWT2JCdTJucFL6CWxtE7o/Nt3lypkdkcAlGVbu5LCAxKxwdefpNF+TFgdu2IKKYXOevvHR7t7TDgsFztkrAl9N38yHePVL9aaofnqNw1bAbBxNePcincnt8xxCpNJxk1w5BfK+Js+25FwSrNu42sLzw70tL348kgHrV1sF5oR1ICSfxDeUjT4AxbZVvEZ5wG8w5UsqP/lgvM0Xjy6E4cU+JmOmFrQiXRMiiXPISLCWkScQnHje4C/AABC
-Received: from [192.168.9.34] (net-2-34-24-75.cust.vodafonedsl.it. [2.34.24.75])
-        by smtp.gmail.com with ESMTPSA id h18-20020a05600c351200b0040faf3df118sm526056wmq.32.2024.02.02.09.44.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Feb 2024 09:44:02 -0800 (PST)
-Message-ID: <0720eb91-72f9-4781-8558-8a1b0a3691c2@redhat.com>
-Date: Fri, 2 Feb 2024 18:44:01 +0100
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="Tm8e2N9X"
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4TRPvz3Q6YzDqLd;
+	Fri,  2 Feb 2024 18:49:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1706899792; bh=kIDXrZYa7YvbjaZ39Y/wNvsjQTgKItJ4WaLfAWeaQPI=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=Tm8e2N9XN3xz9TmD5FX7b4LVl5iIr00IBtn9r5OZJw8ap/zye9W8JhG6znpAFNB1N
+	 D8/kgV4xjxF1g0GANtPUuYYMISjzuSI6RJvxPiFZmW0C7ZZi3CPkNyZuT1s9ukVDCr
+	 U0WBRuhcAG7DMF9/Ze/jkubhajMs145nVL0eP1vQ=
+X-Riseup-User-ID: AC796D553161309225802F4533227B3C3B461BDFDF791A0A23FAFA2986536A4A
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4TRPvs38wyzFvGP;
+	Fri,  2 Feb 2024 18:49:45 +0000 (UTC)
+Message-ID: <034aed14-6eb7-4758-86b9-cc294614f045@riseup.net>
+Date: Fri, 2 Feb 2024 15:49:42 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v5 1/1] fpga: add an owner and use it to take the
- low-level module's refcount
+Subject: Re: [PATCH v2 2/7] drm/vkms: Add support for multy-planar
+ framebuffers
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Harry Wentland <harry.wentland@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Melissa Wen <melissa.srw@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com, marcheu@google.com
+References: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
+ <20240110-vkms-yuv-v2-2-952fcaa5a193@riseup.net>
+ <ZbvXHECSBmH0NDZn@localhost.localdomain>
 Content-Language: en-US
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
- Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Tull <atull@opensource.altera.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org
-References: <20240111160242.149265-1-marpagan@redhat.com>
- <20240111160242.149265-2-marpagan@redhat.com>
- <Zbh7iO9wlm9ekzB7@yilunxu-OptiPlex-7050>
-From: Marco Pagani <marpagan@redhat.com>
-In-Reply-To: <Zbh7iO9wlm9ekzB7@yilunxu-OptiPlex-7050>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <ZbvXHECSBmH0NDZn@localhost.localdomain>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 2024-01-30 05:31, Xu Yilun wrote:
->> +#define fpga_mgr_register_full(parent, info) \
->> +	__fpga_mgr_register_full(parent, info, THIS_MODULE)
->>  struct fpga_manager *
->> -fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
->> +__fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
->> +			 struct module *owner);
+On 01/02/24 14:38, Louis Chauvet wrote:
 >>  
->> +#define fpga_mgr_register(parent, name, mops, priv) \
->> +	__fpga_mgr_register(parent, name, mops, priv, THIS_MODULE)
->>  struct fpga_manager *
->> -fpga_mgr_register(struct device *parent, const char *name,
->> -		  const struct fpga_manager_ops *mops, void *priv);
->> +__fpga_mgr_register(struct device *parent, const char *name,
->> +		    const struct fpga_manager_ops *mops, void *priv, struct module *owner);
+>>  /*
+>> @@ -23,27 +23,25 @@ static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int
+>>   * @frame_info: Buffer metadata
+>>   * @x: The x(width) coordinate of the 2D buffer
+>>   * @y: The y(Heigth) coordinate of the 2D buffer
+>> + * @index: The index of the plane on the 2D buffer
+>>   *
+>>   * Takes the information stored in the frame_info, a pair of coordinates, and
+>> - * returns the address of the first color channel.
+>> - * This function assumes the channels are packed together, i.e. a color channel
+>> - * comes immediately after another in the memory. And therefore, this function
+>> - * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
+>> + * returns the address of the first color channel on the desired index.
+>>   */
+>>  static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
+>> -				int x, int y)
+>> +				int x, int y, size_t index)
+>>  {
+>> -	size_t offset = pixel_offset(frame_info, x, y);
+>> +	size_t offset = pixel_offset(frame_info, x, y, index);
+>>  
+>>  	return (u8 *)frame_info->map[0].vaddr + offset;
+>>  }
+> 
+> This implementation of packed_pixels_addr will only work with
+> block_w == block_h == 1. For packed or tiled formats we will need to use
+> x/y information to extract the correct address, and this address will not 
+> be a single pixel. See below my explanation.
+
+You're right, currently, VKMS only supports non-packed/tiled formats. As
+all the formats I plan to add are too not packed or tiled, I haven't
+added support to it. But if you want to add it, please do :).
+
+>> @@ -130,17 +128,28 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
+>>  {
+>>  	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+>>  	struct vkms_frame_info *frame_info = plane->frame_info;
+>> -	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+>> +	const struct drm_format_info *frame_format = frame_info->fb->format;
+>>  	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
+>> +	u8 *src_pixels[DRM_FORMAT_MAX_PLANES];
+>>  
+>> -	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
+>> +	for (size_t i = 0; i < frame_format->num_planes; i++)
+>> +		src_pixels[i] = get_packed_src_addr(frame_info, y, i);
 >> +
->>  void fpga_mgr_unregister(struct fpga_manager *mgr);
+>> +	for (size_t x = 0; x < limit; x++) {
+>>  		int x_pos = get_x_position(frame_info, limit, x);
 >>  
->> +#define devm_fpga_mgr_register_full(parent, info) \
->> +	__devm_fpga_mgr_register_full(parent, info, THIS_MODULE)
->>  struct fpga_manager *
->> -devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
->> +__devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
->> +			      struct module *owner);
+>> -		if (drm_rotation_90_or_270(frame_info->rotation))
+>> -			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
+>> -				+ frame_info->fb->format->cpp[0] * y;
+>> +		if (drm_rotation_90_or_270(frame_info->rotation)) {
+>> +			for (size_t i = 0; i < frame_format->num_planes; i++) {
+>> +				src_pixels[i] = get_packed_src_addr(frame_info,
+>> +								    x + frame_info->rotated.y1, i);
+>> +				src_pixels[i] += frame_format->cpp[i] * y;
 > 
-> Add a line here. I can do it myself if you agree.
+> I find the current rotation management a bit complex to understand. This 
+> is not related to your patch, but as I had to understand this to create my 
+> second patch, I think this could be significanlty simplified.
 
-Sure, that is fine by me. I also spotted a typo in the commit log body
-(in taken -> is taken). Do you want me to send a v6, or do you prefer
-to fix that in place?
+I also found the rotation logic complex when implementing this. I would
+appreciate it if it were simplified.
 
 > 
-> There is still a RFC prefix for this patch. Are you ready to get it merged?
-> If yes, Acked-by: Xu Yilun <yilun.xu@intel.com>
+> Please see the below comment about frame_format->cpp, it applies here too. 
+> I think the "easy" way here is simply to reuse the method 
+> get_packed_src_addr every time you need a new pixel.
+> 
+>> +			}
+>> +		}
+>>  
+>> 		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
+>> +
+> 
+> The usage of cpp and pointer to specific pixel only work for non-packed 
+> and non-blocked pixels, but for example NV30 or Y0L0 need more 
+> informations about the exact location of the pixel to convert and write 
+> the correct pixel value (each pixel can't be referenced directly by a 
+> pointer). For example NV30 uses 5 bytes to store 3 pixels (10 bits each), 
+> so to access the "middle" one you need to read the 5 bytes and do a small 
+> computation to extract it's value.
 
-I'm ready for the patch to be merged. However, I recently sent an RFC
-to propose a safer implementation of try_module_get() that would
-simplify the code and may also benefit other subsystems. What do you
-think?
+Great explanation, I can see what is the problem here.
 
-https://lore.kernel.org/linux-modules/20240130193614.49772-1-marpagan@redhat.com/
+> 
+> I think a simple solution to handle most cases would be to profide two 
+> more parameters: the x and y positions of the pixel to copy, using 
+> "absolute coordinates" (i.e x=0,y=0 means the first byte of the src 
+> buffer, not the first pixel in the `drm_rect src`, this way the method 
+> `pixel_read` can extract the correct value).
+> 
+> This way it become easy to manage "complex" pixel representations in this 
+> loop: simply increment x/y and let the pixel_read method handle 
+> everything.
+> 
+> The second patch I will send is doing this. And as explained before, it 
+> will also simplify a lot the code related to rotation and translation (no 
+> more switch case everywhere to add offset to x/y, it simply use drm_rect_* 
+> helpers).
 
-> Next time if you think patches are ready for serious review and merge, drop
-> the RFC prefix. That avoids an extra query.
+I like this, expect my review soon :).
 
-Okay, I'll do it like that next time.
+> 
+> It's not optimal in term of performance (in some situation it will read 
+> the same block multiple time to generate different pixels), but I 
+> believe it still is an intersting trade-off.
+> 
+> In the future, if performance is actally critical, the whole composition 
+> loop will have to be specialized for each pixel formats: some can be 
+> treated line by line (as it's done today), but with blocks or packed 
+> pixels it's more complex.
+> 
+>> +		for (size_t i = 0; i < frame_format->num_planes; i++)
+>> +			src_pixels[i] += frame_format->cpp[i];
+> 
+> This is likely working with format with block_w != 1, see explanation 
+> above.
 
-Thanks,
-Marco
+I think you meant that is _not_ working. Yeah, as I already explained,
+it was never my plan to add support for packed or tiled formats.
 
+Best Regards,
+~Arthur Grillo
