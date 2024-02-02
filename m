@@ -1,173 +1,192 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E192D14A4E7;
-	Fri,  2 Feb 2024 17:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA8E148FF0;
+	Fri,  2 Feb 2024 17:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706893383; cv=none; b=V8SdDNVu8mCLpm4eYc4FyjUS6TlNyzzSx5s9oxDCE6ZmwCrJu7XAE2ErskSc014ULfSDtCP5vtkjpb4yycu4LokK+YqvW9PUGF6ROZ7CSnFUE7atTojEC1XbENx4SQgHocH7qVu2toJ16bpll7P+PJRFD6M3m641h2h1udEU1rE=
+	t=1706893461; cv=none; b=VsdUsCftPhVRBYsewDY7aKRD2pBliwUZFx/brhk6kU9uwbslADsXTbwXFTUkt2mYH6a22gaDEhGTMSc19/M+bFw5KOAmjk11xBzVI2nBW2Om11aR3vKEdDE1aFWkIx08QNF99p2yrxE0ACUXOMhj0+x3MHSEEIqCSc2rRnermE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706893383; c=relaxed/simple;
-	bh=WGXGeGTdrW7NoVRK7cYfyrjHnGc5NCJjZnCnYePfUZQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ATl4mIuHJzYkeuTnof2LM3qsRVv9o4+qCHygIkHYJHDS0h3AxJqezry5FCXwPhdqFSDVl52SgX6W72lzyFN8q7McTB/q0Ne1zLZgHQ8Bg7wzZWfTguT+jK9685tCr8amM/mgSB2GfbD0ZM/m/HVS1bxtEA1M4vwyQd3wbtfJaMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WdIbO7Ou; arc=none smtp.client-ip=209.85.210.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WdIbO7Ou"
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-6dfc321c677so1724918b3a.3;
-        Fri, 02 Feb 2024 09:03:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706893381; x=1707498181; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HhrTG5AYewh5phNKX1uPxhcy8QhnMld2uJe/mWMdTe0=;
-        b=WdIbO7Ouw3Z3py0EEW5CcPqIlylJU5eowr5F68NhhsduW+K7P/0JlYNtzBhTRLyNmB
-         0/UDkimsfnoSj2r/vSfIattYQL5NwWnsWNUmdLMqST0uvnXPPJD+yOsyJzuDkX9DZq2T
-         Gf2d6TjzKYTcKtvVn+6KJWpJT1cFn62m3k9aF7lkOUnDftZszjNV/y+0WAVdi7ZUWAo/
-         ngKzGNmmQW/yI7SWEkHwlspyAx1i+PhZaOGdeapzN1gZpqs+Uv0Hjg4O9AxzEe39Lb0U
-         XW6XPyNF6g/I57BOhrAgzwh3y6T7wcsJ7BmKCeYgnPQ+qY9TRo8kc0IbqeZLv1EbdNb0
-         ZRnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706893381; x=1707498181;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HhrTG5AYewh5phNKX1uPxhcy8QhnMld2uJe/mWMdTe0=;
-        b=gMV/llJJKF+mm6g2aMYc89BpZ/onRKuL5VLgNjOknGshjj0T6jyMimOdUqw7J5tBII
-         d+0R2wFlDOR5JXB3dAx3xMYBcfmq8zefCeLoqhRyKc7Q37g3ofXdb5TJPcxwdM1zLXUt
-         q+ckRFS/yvyD5rLtvOIxUW2OIg8iF13rr1BasJnFbfBdAfwbzYfJSkb0WMCi4nxUiPOa
-         iwyRzRAPOW0ADxgfZiyqZCiIrV9EGGnMV3LEiLmMP42BwDaxCbao54K/lKVu/rs4JjvA
-         80bg8NCmY83ZpCmNaPbfZxmFPXj3suBDH2K6OBzuaWV+H1wAR68Bk2qDSNOFWvsoH+O1
-         zQfg==
-X-Gm-Message-State: AOJu0YzuLpnAjFOBMv7wmS15We5UMAKkI0Y+ldHKI+xKI5xGmFsKFJR7
-	RqJGJD1JJXk9/78wHODYneTOnCpisYPsB69PhIO1bZNdjHcqyYQ=
-X-Google-Smtp-Source: AGHT+IFogIopQqwUpwpEFsFzdYwSc8X+34bpQwF6wcEJlxSEsQ2LoOTeQtLBa1R1mPNFivEZAibTKQ==
-X-Received: by 2002:aa7:8698:0:b0:6dd:c3b1:797e with SMTP id d24-20020aa78698000000b006ddc3b1797emr2585012pfo.19.1706893381133;
-        Fri, 02 Feb 2024 09:03:01 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVt1bpVi7/1usRCD00UfVroAEBs2kkA7ivPuJBFs7e4G+50XRtr/OkpAzFSMfFRAHdUrmWFaRgbmluqN9+kP6pYoISXSBVGj3gGym0kGZAPJqyC9zCnaxeKxoVqIg+YsKhcBnckhYr0jqT+88HBKWVVvKol1k9qKs6zfze27eMF8LMwoCCImKMQ1QboF2LNyUiQlGDhILX78kacwGH3CEFwJF4MjCCPH0WZzUCY/EqU11rSp+7VSCcPyhqnACvJLqIenX7ox5uk6g+0BRmKDyW+u0Kc96vapdvPzWcSfp5uXlV8r4+b1LugH1OLSTzxHTdLvSuzkh+bhPyPGuGqqkRp6Jq/WmFwjFmTpaVnvynSrPgg6EXt8aJXZqPdvgU1hCvlfMTDAyWGPgEprUT0uA7CjpAMGLx9aO2UBB/uFO4lpMVdoIkgg+FhMnZNXJxNugpKs6x6pYKxEzulQq0Qc4VtjlWtT3Ml2/G1MpSSw2VARz4d2EBU7mh4um+v+jw+7cNDhrTAWNgBx7r4cq/lD29zYteZKCs+AhvgyOw94L0HxtBf8Mh8WR9T8cZvnNh0uxpT4ozEnaaTYxN/bWhlS0dY1lsdRGSWlqopk5eik5zKkpWz/fv0D5jTdAaQ5ARjZhTX69CwPcQUtgzfBrZ0y9Ic17GPXYKjlKblDPYcsHw=
-Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
-        by smtp.gmail.com with ESMTPSA id z22-20020aa785d6000000b006ddddc7701fsm1866578pfn.4.2024.02.02.09.02.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 09:03:00 -0800 (PST)
-From: Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	corbet@lwn.net,
-	akpm@linux-foundation.org,
-	gregory.price@memverge.com,
-	honggyu.kim@sk.com,
-	rakie.kim@sk.com,
-	hyeongtak.ji@sk.com,
-	mhocko@kernel.org,
-	ying.huang@intel.com,
-	vtavarespetr@micron.com,
-	jgroves@micron.com,
-	ravis.opensrc@micron.com,
-	sthanneeru@micron.com,
-	emirakhur@micron.com,
-	Hasan.Maruf@amd.com,
-	seungjun.ha@samsung.com,
-	hannes@cmpxchg.org,
-	dan.j.williams@intel.com
-Subject: [PATCH v5 4/4] mm/mempolicy: protect task interleave functions with tsk->mems_allowed_seq
-Date: Fri,  2 Feb 2024 12:02:38 -0500
-Message-Id: <20240202170238.90004-5-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240202170238.90004-1-gregory.price@memverge.com>
-References: <20240202170238.90004-1-gregory.price@memverge.com>
+	s=arc-20240116; t=1706893461; c=relaxed/simple;
+	bh=+6PX3jMjQrHTOGNXA5nPZT3qkryf5lBqoyw4ViAwdas=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qMJNc3ggIgSTtivM/VQGoBlUKanWt+y3otX2f/FbG6Vx839/D/GcS5nSZh4f0hTniBFw8FAzs0qnwhMmsDcQOUN7sH1qKP/WndVtA6GkcD9VSk1+cZsSxzt5OaBDP34Waib2aoN8Vvhjnx8pUvvkDoBvJ/TJJZGGYmrdHO7nZ6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TRMV93hsYz6J9h8;
+	Sat,  3 Feb 2024 01:00:49 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 69A141400CD;
+	Sat,  3 Feb 2024 01:04:15 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 2 Feb
+ 2024 17:04:14 +0000
+Date: Fri, 2 Feb 2024 17:04:13 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
+	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
+	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse
+	<james.morse@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH RFC v4 14/15] arm64: document virtual CPU hotplug's
+ expectations
+Message-ID: <20240202170413.0000154e@Huawei.com>
+In-Reply-To: <E1rVDnU-0027Zf-GF@rmk-PC.armlinux.org.uk>
+References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
+	<E1rVDnU-0027Zf-GF@rmk-PC.armlinux.org.uk>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-In the event of rebind, pol->nodemask can change at the same time as an
-allocation occurs.  We can detect this with tsk->mems_allowed_seq and
-prevent a miscount or an allocation failure from occurring.
+On Wed, 31 Jan 2024 16:50:48 +0000
+Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
 
-The same thing happens in the allocators to detect failure, but this
-can prevent spurious failures in a much smaller critical section.
+> From: James Morse <james.morse@arm.com>
+> 
+> Add a description of physical and virtual CPU hotplug, explain the
+> differences and elaborate on what is required in ACPI for a working
+> virtual hotplug system.
+> 
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+> Outstanding comment:
+>  https://lore.kernel.org/r/20230914174137.00000a62@Huawei.com
 
-Suggested-by: "Huang, Ying" <ying.huang@intel.com>
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
----
- mm/mempolicy.c | 31 +++++++++++++++++++++++++------
- 1 file changed, 25 insertions(+), 6 deletions(-)
+Outstanding but an ACPI Spec question rather than one about this description.
+I've finally regained access to Mantis etc so can follow that up at some point.
 
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index d8cc3a577986..ed0d5d2d456a 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -1878,11 +1878,17 @@ bool apply_policy_zone(struct mempolicy *policy, enum zone_type zone)
- 
- static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
- {
--	unsigned int node = current->il_prev;
--
--	if (!current->il_weight || !node_isset(node, policy->nodes)) {
-+	unsigned int node;
-+	unsigned int cpuset_mems_cookie;
-+
-+retry:
-+	/* to prevent miscount use tsk->mems_allowed_seq to detect rebind */
-+	cpuset_mems_cookie = read_mems_allowed_begin();
-+	node = current->il_prev;
-+	if (!node || !node_isset(node, policy->nodes)) {
- 		node = next_node_in(node, policy->nodes);
--		/* can only happen if nodemask is being rebound */
-+		if (read_mems_allowed_retry(cpuset_mems_cookie))
-+			goto retry;
- 		if (node == MAX_NUMNODES)
- 			return node;
- 		current->il_prev = node;
-@@ -1896,8 +1902,14 @@ static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
- static unsigned int interleave_nodes(struct mempolicy *policy)
- {
- 	unsigned int nid;
-+	unsigned int cpuset_mems_cookie;
-+
-+	/* to prevent miscount, use tsk->mems_allowed_seq to detect rebind */
-+	do {
-+		cpuset_mems_cookie = read_mems_allowed_begin();
-+		nid = next_node_in(current->il_prev, policy->nodes);
-+	} while (read_mems_allowed_retry(cpuset_mems_cookie));
- 
--	nid = next_node_in(current->il_prev, policy->nodes);
- 	if (nid < MAX_NUMNODES)
- 		current->il_prev = nid;
- 	return nid;
-@@ -2374,6 +2386,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 		struct page **page_array)
- {
- 	struct task_struct *me = current;
-+	unsigned int cpuset_mems_cookie;
- 	unsigned long total_allocated = 0;
- 	unsigned long nr_allocated = 0;
- 	unsigned long rounds;
-@@ -2391,7 +2404,13 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 	if (!nr_pages)
- 		return 0;
- 
--	nnodes = read_once_policy_nodemask(pol, &nodes);
-+	/* read the nodes onto the stack, retry if done during rebind */
-+	do {
-+		cpuset_mems_cookie = read_mems_allowed_begin();
-+		nnodes = read_once_policy_nodemask(pol, &nodes);
-+	} while (read_mems_allowed_retry(cpuset_mems_cookie));
-+
-+	/* if the nodemask has become invalid, we cannot do anything */
- 	if (!nnodes)
- 		return 0;
- 
--- 
-2.39.1
+If we get clarify on how to tell that CPUs that are present and enabled at boot
+can be removed later we can relax this text to allow for that.
+
+
+>  https://lore.kernel.org/r/20231215170428.00000d81@Huawei.com
+That's a comment on the above comment to say I'm fine with it as is :)
+
+This @Huawei guy is really annoying ;)
+
+Jonathan
+
+> ---
+>  Documentation/arch/arm64/cpu-hotplug.rst | 79 ++++++++++++++++++++++++
+>  Documentation/arch/arm64/index.rst       |  1 +
+>  2 files changed, 80 insertions(+)
+>  create mode 100644 Documentation/arch/arm64/cpu-hotplug.rst
+> 
+> diff --git a/Documentation/arch/arm64/cpu-hotplug.rst b/Documentation/arch/arm64/cpu-hotplug.rst
+> new file mode 100644
+> index 000000000000..76ba8d932c72
+> --- /dev/null
+> +++ b/Documentation/arch/arm64/cpu-hotplug.rst
+> @@ -0,0 +1,79 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. _cpuhp_index:
+> +
+> +====================
+> +CPU Hotplug and ACPI
+> +====================
+> +
+> +CPU hotplug in the arm64 world is commonly used to describe the kernel taking
+> +CPUs online/offline using PSCI. This document is about ACPI firmware allowing
+> +CPUs that were not available during boot to be added to the system later.
+> +
+> +``possible`` and ``present`` refer to the state of the CPU as seen by linux.
+> +
+> +
+> +CPU Hotplug on physical systems - CPUs not present at boot
+> +----------------------------------------------------------
+> +
+> +Physical systems need to mark a CPU that is ``possible`` but not ``present`` as
+> +being ``present``. An example would be a dual socket machine, where the package
+> +in one of the sockets can be replaced while the system is running.
+> +
+> +This is not supported.
+> +
+> +In the arm64 world CPUs are not a single device but a slice of the system.
+> +There are no systems that support the physical addition (or removal) of CPUs
+> +while the system is running, and ACPI is not able to sufficiently describe
+> +them.
+> +
+> +e.g. New CPUs come with new caches, but the platform's cache toplogy is
+> +described in a static table, the PPTT. How caches are shared between CPUs is
+> +not discoverable, and must be described by firmware.
+> +
+> +e.g. The GIC redistributor for each CPU must be accessed by the driver during
+> +boot to discover the system wide supported features. ACPI's MADT GICC
+> +structures can describe a redistributor associated with a disabled CPU, but
+> +can't describe whether the redistributor is accessible, only that it is not
+> +'always on'.
+> +
+> +arm64's ACPI tables assume that everything described is ``present``.
+> +
+> +
+> +CPU Hotplug on virtual systems - CPUs not enabled at boot
+> +---------------------------------------------------------
+> +
+> +Virtual systems have the advantage that all the properties the system will
+> +ever have can be described at boot. There are no power-domain considerations
+> +as such devices are emulated.
+> +
+> +CPU Hotplug on virtual systems is supported. It is distinct from physical
+> +CPU Hotplug as all resources are described as ``present``, but CPUs may be
+> +marked as disabled by firmware. Only the CPU's online/offline behaviour is
+> +influenced by firmware. An example is where a virtual machine boots with a
+> +single CPU, and additional CPUs are added once a cloud orchestrator deploys
+> +the workload.
+> +
+> +For a virtual machine, the VMM (e.g. Qemu) plays the part of firmware.
+> +
+> +Virtual hotplug is implemented as a firmware policy affecting which CPUs can be
+> +brought online. Firmware can enforce its policy via PSCI's return codes. e.g.
+> +``DENIED``.
+> +
+> +The ACPI tables must describe all the resources of the virtual machine. CPUs
+> +that firmware wishes to disable either from boot (or later) should not be
+> +``enabled`` in the MADT GICC structures, but should have the ``online capable``
+> +bit set, to indicate they can be enabled later. The boot CPU must be marked as
+> +``enabled``.  The 'always on' GICR structure must be used to describe the
+> +redistributors.
+> +
+> +CPUs described as ``online capable`` but not ``enabled`` can be set to enabled
+> +by the DSDT's Processor object's _STA method. On virtual systems the _STA method
+> +must always report the CPU as ``present``. Changes to the firmware policy can
+> +be notified to the OS via device-check or eject-request.
+> +
+> +CPUs described as ``enabled`` in the static table, should not have their _STA
+> +modified dynamically by firmware. Soft-restart features such as kexec will
+> +re-read the static properties of the system from these static tables, and
+> +may malfunction if these no longer describe the running system. Linux will
+> +re-discover the dynamic properties of the system from the _STA method later
+> +during boot.
+> diff --git a/Documentation/arch/arm64/index.rst b/Documentation/arch/arm64/index.rst
+> index d08e924204bf..78544de0a8a9 100644
+> --- a/Documentation/arch/arm64/index.rst
+> +++ b/Documentation/arch/arm64/index.rst
+> @@ -13,6 +13,7 @@ ARM64 Architecture
+>      asymmetric-32bit
+>      booting
+>      cpu-feature-registers
+> +    cpu-hotplug
+>      elf_hwcaps
+>      hugetlbpage
+>      kdump
 
