@@ -1,60 +1,74 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0791712C7EF
-	for <linux-doc@vger.kernel.org>; Fri,  2 Feb 2024 18:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872DF12F374;
+	Fri,  2 Feb 2024 18:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706899920; cv=none; b=YatRIdmQgm8yFLOdtevlSbMfHRcuIqKkjBZDTxELm7eIfwk7f94lzUqwbR3MWejm+d6c3Ui5Il7GRWzVDFwVVQqYpc1kyegdNS+eaZIPDfUS/3v8IEangghBqyl2CLwl1a5fn2Q2qKpTXS1dYDnyneckyAQNkeuMX9JPTquvboI=
+	t=1706900074; cv=none; b=dZve1ufkEvUfPXrXN/ZyeEigN/pMO9K9IvhpjkJX4Ei1lTN4kwwwTesmw5Tm9P2E704iRzy3txetyfGcemYArG1d6BiDHm0MRMJKvx47dQfTq8yKI9DLJCj3rjcCyidofOh1hTliGGHYk7BicCG4TZkSCuW0BafNNjqz6v5Zias=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706899920; c=relaxed/simple;
-	bh=AW0oiHNRWLwkj7DtXqlQs47sAiZxxTl/D0PavmFNNso=;
+	s=arc-20240116; t=1706900074; c=relaxed/simple;
+	bh=jo+FWGe+oR7bSCoGGVbo+SEtmwAqP81B6x0dU3BHZRM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I1U9meQzT8hVZFGJAvbgQ0xJwWS9ly7k58meP6lSj/rPM+NZL79Qt5UEctsybn3U3SoECi5NDHzal7HSnof+8mXcaGDUnlsCT0GY6CmDw+AJH9zCKv9+2T2dUztvIVWswxl04tWViw4VdBCdoDVM8/VRhXPNtjlxhGYMbVd2Z40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=redhat.com; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6041779e75eso25487527b3.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Feb 2024 10:51:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706899917; x=1707504717;
+	 Content-Type:Content-Disposition:In-Reply-To; b=gTCkqtkFqbfo5tF8FojhI4v1u4/QkheBN/wP8bguUby8WjMUMVY9hQBzpVbhehJUyBGAlSjP2pmkHC1NbsbQtnxR0DaHGVnRTaihDSf/tVVzk+Lx0fHGJJJk+z5w0t08pySTYbmEjIaAqQmckYZtSozM9Lw9EbFV4aQUD91nN0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ro6UE5jt; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ro6UE5jt"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1d71cb97937so22832955ad.3;
+        Fri, 02 Feb 2024 10:54:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706900072; x=1707504872; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ph1IYkDrzTvpiJ6XKsi8PGQTmUGSqWuwAi9y4521vtI=;
-        b=eMwWHKKf1zq5yn7SX24Umr81gMSsZFrHygTtXqQdROmsJn2eEHieKlDkLA923MOhpU
-         sJUDKprojbeelrCaZBO2SQwHYrIg0wNrZOJD2l1z2DjklNennoB2mQrOTTQU0Dln/hx7
-         LQ8oXH6lB9RaWz3oQZGpLIE4K9ZsL5GG6IwX1Zpbcw7XtPobVBPial7c9i557+81H/xV
-         WbKAQcG8HScrT3f7+F3rRWgLzZdgyEKs9AWL5g7HzIIDeSDSrSj78mYIwvqmDRYn2Vpe
-         yEvXdGG7UDrc9LmYTlvVkGD+FTbIFLjEMbIRKV4hdWPhhs5KMTZRLKrcNPta70DEDCBK
-         03Ng==
-X-Gm-Message-State: AOJu0YybS66lraO/VObkpegTTgC6CghIqAoZfFgVa92eD/byqqOcxwv4
-	Qa37PqWkdy6/nYyZzUPP/Z+8Un41RJAjw+sFacBDFc70rzkoiK0/NW8QdMpbfA==
-X-Google-Smtp-Source: AGHT+IHzSoy9sIqCe1trQy3sTBHypeAjU5TzDYa4rgE3LRbYzokk0H0wQROhLE8FkkUDyWBrdMh9UA==
-X-Received: by 2002:a81:ac67:0:b0:5ff:76c5:f638 with SMTP id z39-20020a81ac67000000b005ff76c5f638mr3220501ywj.21.1706899917047;
-        Fri, 02 Feb 2024 10:51:57 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCU5x0xesXnhPy9m+vbgtSeOvE2jww0i9Tjwtxsc+mWeiLpLHghmb3RgoPY4YlidsLDnh9x3De8P3Dt9d1SJ7zGdzjLP/BsqZYFGfpX1puybWRRjrAAqPrg6Ktc8pax+N869iCi2gOcJbZZaWcQSktZSCeyT40FCSqnrcPP3UwjwDlVFLZoMx8qVs2n3M7YiWUkTgPNrsW2NRUz+4Zo6ugS/86mC8XQAAWeTDT30JbBuV1XpdNX6nasJOGugz/oIEXSbcc560klHxu8kvj/237+hpVYVAeZAK9DwJZWTY0Tjhca9jtDd8n/nQxV302xWv0NqEu1BA4vMtf6AnIObINSGPRgeKt4GPfSHZxE4BMcZr6ONdXo9a2X1LVp17xYh7WlvWMXkIoRv7dYsAL3mW1QhG7rG1PVX33RFouQqbcgRQGIZ3FOUR0iO+rJU1ytJnDXNxfAEgAJfYvyWTd/N/s5vToYaZSWrWvg8t0HVG3/vcmIwTys+Rw7VuwvRAkdhSN2dhSyqk54dvFfYaKBoy2VbmNiA9bbraj9ohjRfLOxXqCPhCU7j6S9XCfmrOZOScFaQLApOiuY/h1xNV0lnsal7Tv+3
-Received: from localhost (pool-68-160-141-91.bstnma.fios.verizon.net. [68.160.141.91])
-        by smtp.gmail.com with ESMTPSA id gd19-20020a05622a5c1300b0042992b06012sm1080669qtb.2.2024.02.02.10.51.56
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aeSCHAy3VJzuhlqFkWOWdVVAJVTWx5SZIKFlnniBmYk=;
+        b=Ro6UE5jt152SSIvbOSzdfB4jX5QHbJdcpcj6WvhwaaypLec558pcHRyZeoDFEhEsym
+         SbQztnz76PD23hBrD2JFeGClB6FD5EZ40Lew69flxH06H/DBI388qVXqcaEMTFdjp21p
+         PJqcKfyV1Ka1QzVL60cyOK3TE0pCbQJTKrORmBct8QmrcglKv/klvpjvYdfbbf3hwCgf
+         5qROH3K5v6X0FlYQmgdvUGqHpgrpOj2+naDPdOeECDa75LtqTLswq00vZA826q3FvIxE
+         HDaCN6hLDvIuibUigW6b1mjKQchZ6IeozhDDawMFZN/eUIaKT80mnQCQFkdy/BAMw6el
+         f1Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706900072; x=1707504872;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aeSCHAy3VJzuhlqFkWOWdVVAJVTWx5SZIKFlnniBmYk=;
+        b=WD8uD+RbSUZgnZkryNYQiR0vfVYXqeSPIpRkjyngNi47Gpbp2wH2teFi5sr65w+IbJ
+         79ibFgW1qxWO/iLmwOKMU1Y9jmQXHrQq3hez5ROyx9ry2Vsmi/qlb8LKK6FaX7Q9YA6c
+         LTTCPymJM3tNYOATYkolTqvb1dt7lU4+o+t86j279HrAIc0Yppu2Wk5Ca4CWk3c6MNSZ
+         u/buM9jzfZ4ueMvpfz92lO/9aiBb+Km2hQ1McnQCZs2DngdgdECw6nhErS8dxyTw8Qcu
+         hv+4wQppaf38+j3UEqegSiwdd0JIyYiae2rvzGLlnnHUiHB7MJrEy3RZEnzYtuX2nWGo
+         HAGQ==
+X-Gm-Message-State: AOJu0YwViKhrfSGfIt9mwK2a2Th5JQlHWUgkPIdhWREWPG1dwLcy/kSC
+	wYdQAA/YXHqh8R7PD+TSRW7Wd+/XZgftHdE7oC+24h2KV8CihSuQHHlm37up
+X-Google-Smtp-Source: AGHT+IFcZQemFSdmcEK9i4IsX7bisc15TiKjCHoB4bg5gBSwHBOW06rHkGoT8HX+PDKFtcYYd5XT3Q==
+X-Received: by 2002:a17:903:943:b0:1d9:8832:f800 with SMTP id ma3-20020a170903094300b001d98832f800mr215664plb.8.1706900071874;
+        Fri, 02 Feb 2024 10:54:31 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXhtYm5bifoXUxUvTc+M2Vo5X4YrXPoXCmMK1UlWBscbUoGwho5tCSKPqWmg2v0D5vuQnzUsa7UlaN8MRrRTRNgF4LclPFVjub2NIflv1YziPg9KdhUYS6R3jbE1Wq96LMdZuyngHnaSLu6JB09Y0dkejvAm4PxDJ5ZT5MSYa6xc03VBhOzxdJoZoPeRMYkDugOUcfcdbrWDOt5pbfMUhdYHAR4Wa/Q0UqEttxBo3YCdBm0KNn++Ud13FoW6VFyJFmSqtSUJTrplxYj9F6IXXhJBmkD2DaNHAbEzh66J+OcTv+m/mTl0lR3j1weYAZJN5yJUX0cQuJqpva/XjawxIzyc9jAzKxKDxbeotPSz3OUDrzaT3zQ4E9VE7NhSxakiHcHGtc+wvEpF0wAPmMGfNaT/Y25JOiRdvmZ0KFrInDxiAcYWa4=
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id iz5-20020a170902ef8500b001d8f111804asm1929010plb.113.2024.02.02.10.54.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 10:51:56 -0800 (PST)
-Date: Fri, 2 Feb 2024 13:51:55 -0500
-From: Mike Snitzer <snitzer@kernel.org>
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-	serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-	axboe@kernel.dk, agk@redhat.com, eparis@redhat.com,
-	paul@paul-moore.com, linux-doc@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev, audit@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v12 12/20] dm verity: set DM_TARGET_SINGLETON feature
- flag
-Message-ID: <Zb05y2cl3T9rxRJZ@redhat.com>
-References: <1706654228-17180-1-git-send-email-wufan@linux.microsoft.com>
- <1706654228-17180-13-git-send-email-wufan@linux.microsoft.com>
+        Fri, 02 Feb 2024 10:54:31 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 2 Feb 2024 10:54:29 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v6 1/5] dt-bindings: vendor-prefixes: add Amphenol
+Message-ID: <fa215ab8-0b0a-462e-b205-7b2288df263a@roeck-us.net>
+References: <20240130-topic-chipcap2-v6-0-260bea05cf9b@gmail.com>
+ <20240130-topic-chipcap2-v6-1-260bea05cf9b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,55 +77,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1706654228-17180-13-git-send-email-wufan@linux.microsoft.com>
+In-Reply-To: <20240130-topic-chipcap2-v6-1-260bea05cf9b@gmail.com>
 
-On Tue, Jan 30 2024 at  5:37P -0500,
-Fan Wu <wufan@linux.microsoft.com> wrote:
+On Tue, Jan 30, 2024 at 10:06:44PM +0100, Javier Carrasco wrote:
+> Add vendor prefix for Amphenol (https://www.amphenol-sensors.com)
+> 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-> The device-mapper has a flag to mark targets as singleton, which is a
-> required flag for immutable targets. Without this flag, multiple
-> dm-verity targets can be added to a mapped device, which has no
-> practical use cases and will let dm_table_get_immutable_target return
-> NULL. This patch adds the missing flag, restricting only one
-> dm-verity target per mapped device.
-> 
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> 
-> ---
-> v1-v10:
->   + Not present
-> 
-> v11:
->   + Introduced
-> 
-> v12:
->   + No changes
-> ---
->  drivers/md/dm-verity-target.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-target.c
-> index 14e58ae70521..66a850c02be4 100644
-> --- a/drivers/md/dm-verity-target.c
-> +++ b/drivers/md/dm-verity-target.c
-> @@ -1507,7 +1507,7 @@ int dm_verity_get_root_digest(struct dm_target *ti, u8 **root_digest, unsigned i
->  
->  static struct target_type verity_target = {
->  	.name		= "verity",
-> -	.features	= DM_TARGET_IMMUTABLE,
-> +	.features	= DM_TARGET_SINGLETON | DM_TARGET_IMMUTABLE,
->  	.version	= {1, 9, 0},
->  	.module		= THIS_MODULE,
->  	.ctr		= verity_ctr,
-> -- 
-> 2.43.0
-> 
-> 
-
-It is true this change will cause dm_table_get_immutable_target() to
-not return NULL, but: I'm curious how that is meaningful in the
-context of dm-verity? (given the only caller of
-dm_table_get_immutable_target() is request-based DM code in DM core.)
+Applied.
 
 Thanks,
-Mike
+Guenter
+
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index 1a0dc04f1db4..25158559471c 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -107,6 +107,8 @@ patternProperties:
+>      description: Amlogic, Inc.
+>    "^ampere,.*":
+>      description: Ampere Computing LLC
+> +  "^amphenol,.*":
+> +    description: Amphenol Advanced Sensors
+>    "^ampire,.*":
+>      description: Ampire Co., Ltd.
+>    "^ams,.*":
