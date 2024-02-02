@@ -1,78 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6A84694;
-	Fri,  2 Feb 2024 00:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D93EC5
+	for <linux-doc@vger.kernel.org>; Fri,  2 Feb 2024 00:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706832262; cv=none; b=f3J+4FNzjMAFq7YA61veOk6Gno4BVKbHRWui+LTWLqEnxl8h7o5a9uSqeaJeewYyo7dG7n93OEgDf5RRDNMBdSVnU15ctvo2cDnYqF86sNoA+qheln3E+qhTUJVk28O8yMWWRYGbxXS8cY7MJMVuVdFVBS6GQTayMK29Z+ngvOs=
+	t=1706832333; cv=none; b=Uno38X4IvRS5EGhIGFpzY4CFtzYtympbw//XP6pKlW+42S87XTSduh+Pi5DGp65ezBLN63MMcjwejjSSmMX6pJlVGDgXFOx/Ud6NXyYTbfLNCzB/JMR0ecFzi2UCmSC06HNKUSmxIqVyLcBKWiy0NUXTwCKnf0kFc2qR2+r60FU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706832262; c=relaxed/simple;
-	bh=pNTP5KAhWQVKoi5tIE6ZiagSXkkKSX/ysVVnKPKlVr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AAQI/xrGxT8AhOMQAnCbklVzo4iE0rv9rNNbZwwZIjn/9wbz4N1g8ER2MP6khAx+IVTcZ8BNO9OCfSnhP3U3u21ToZ+SNb33EXq5c7HozmhO3Q9h8dIll/CL4Jj1pqY0EgtXnAPKRcKm9bEGmTTm029qZbmScWOwJKPHeJ9+jfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C+KGT/67; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C+KGT/67"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572BBC433F1;
-	Fri,  2 Feb 2024 00:04:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706832261;
-	bh=pNTP5KAhWQVKoi5tIE6ZiagSXkkKSX/ysVVnKPKlVr4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=C+KGT/67532lFzqQWf2qp3tEQorF868vzJZSYmvHQItVKOld9voLEOnX1YQRZ1bpV
-	 uSH1edCyj/dVEW4eAAELqpFN1q4r+oRhMt6WU1ibyhSPxcyznwDUmVrsgxLXEclXU3
-	 BtHKdPgfJVJBqGnBYEzRcMpIfkqpur6x6SVlGdkkLcNXj629OvnzBgSVHpla/mhQhO
-	 CPP1ffEZGugqzf1Rl65diOQ0BEJHt4DE8abW73qbN71EIStTVUfCISOy/NX2AjG49h
-	 f85TnUcQ4PBt2QC3KYFKw2wDdMPySEHwxBXLAhDvkLCgOoiuQI0czdC+ClRwVNCDZ7
-	 9tF5c0XkBmPzQ==
-Date: Thu, 1 Feb 2024 16:04:16 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jacob Keller <jacob.e.keller@intel.com>
-Cc: Donald Hunter <donald.hunter@gmail.com>, <netdev@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>, "Eric Dumazet"
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, "Jonathan Corbet"
- <corbet@lwn.net>, <linux-doc@vger.kernel.org>, Breno Leitao
- <leitao@debian.org>, Jiri Pirko <jiri@resnulli.us>, Alessandro Marcolini
- <alessandromarcolini99@gmail.com>, <donald.hunter@redhat.com>
-Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages
- in nested attribute spaces
-Message-ID: <20240201160416.0da06952@kernel.org>
-In-Reply-To: <029065d6-faaf-4e58-ac06-4e11c2ded02c@intel.com>
-References: <20240123160538.172-1-donald.hunter@gmail.com>
-	<20240123160538.172-3-donald.hunter@gmail.com>
-	<20240123161804.3573953d@kernel.org>
-	<m2ede7xeas.fsf@gmail.com>
-	<20240124073228.0e939e5c@kernel.org>
-	<m2ttn0w9fa.fsf@gmail.com>
-	<20240126105055.2200dc36@kernel.org>
-	<m2jznuwv7g.fsf@gmail.com>
-	<20240129174220.65ac1755@kernel.org>
-	<029065d6-faaf-4e58-ac06-4e11c2ded02c@intel.com>
+	s=arc-20240116; t=1706832333; c=relaxed/simple;
+	bh=IdiYYWpzmr9RPusGSBqszbMgZq+ap0BptPduyKLTtUQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qExHnpJTzwbvCQxOZ3t9hUfRLkAvoUGXr9FKuuzEuZ24EwkjKQPjW9BKixv9tVmw78LZ3dl8cWFTlenB2++i8XvDbJxbwF/creSbM7+Tb9mFDm9Ti7RH90DFRht71F+LjpZUGRfvurCdJPNd4lhfjegL8ifvqw7Q9jbbATvf4e8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1rVh3Z-0000cz-Rd; Fri, 02 Feb 2024 01:05:21 +0100
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1rVh3W-003xQ5-2P; Fri, 02 Feb 2024 01:05:18 +0100
+Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
+	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1rVh3V-00AFlM-1h;
+	Fri, 02 Feb 2024 01:05:18 +0100
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Subject: [PATCH v2 0/4] usb: gadget: 9pfs transport
+Date: Fri, 02 Feb 2024 01:05:09 +0100
+Message-Id: <20240116-ml-topic-u9p-v2-0-b46cbf592962@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALUxvGUC/3WNyw6DIBBFf6Vh3amAj2pX/Y/GBeKokygQUGNj/
+ Pei+y7Pzbk5OwvoCQN73XbmcaVA1kSQ9xvTgzI9ArWRmeQy40IUMI0wW0calspBWeXymeUpx0a
+ weGlUQGi8Mno4T9M4jcllJ9E+Beexo+3qferIA4XZ+u+VX8W5/imtAjiottQpL7pKZfh2aPpl9
+ tbQ9miR1cdx/AAoAvyKzgAAAA==
+To: Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ kernel@pengutronix.de, Michael Grzeschik <m.grzeschik@pengutronix.de>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4125;
+ i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
+ bh=IdiYYWpzmr9RPusGSBqszbMgZq+ap0BptPduyKLTtUQ=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBlvDG3xC0tz0b2twuAdUyIaYaJ4coWj3Icx3NeB
+ ifEniisW+2JAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZbwxtwAKCRC/aVhE+XH0
+ q/VwEAClVZxlYo9pt5R9IA48qsaUIdVtnj9CEnWtFWRUZPbZvJWnrdkHIB315nssDgIJtxBaACf
+ IodfZ0EyaqO4CTxGmw92QO+h9awNG3YztU3BCQMeUEn0KGaejkDgApCZt/pjlIQMkspKyxw01D6
+ FHCPEvvw5y840MEN0Vxe4OLfwTUCNroyRHf8kXoeTjY7Vu+KQ/ZOU4a8tWVG5HBEg74iGQ/l/3B
+ V7irmYXy1ji6T9y+o9eyN8Q8uYEU6b1SBVEkNVopW3qJ119xVKqj29t+EENLL9Fktt0607xYLip
+ 3iCwXi7CRM7xawRMaKaXq1nxW2fH57cL6XxXnlDTKDf3vy2GShwKFenCSKttmaWLEwMZTlJdrzR
+ 8HrHBvAIBWAVhH4ijtkTYPeTui4AIHT8G3X/f2WFSf2ORj/XaP7/3hYvLto23Z5SSkydA9DRYNB
+ oDfKemkAfpocnon4LUML3rSgtUtcR1vqtVKXObidbloxFZdnSijb41ygpgVg/zo35pdlzucFnqG
+ gJcQGHfayZ1l/6u66p+gkauKYB+EmPZLdKRHoN5SRA/TT+2VtFdM5AIgveXCjGmXWIvmdcuIo8m
+ 2z+x4YbEGlJKRQ0fD9lFukcFSEjrpQq28bQOLNibrmKXn78DLUcGKsdt73vMAQsVDWoob3CgjQa
+ f995mmHE7u1FQKg==
+X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
+ fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, 1 Feb 2024 12:53:08 -0800 Jacob Keller wrote:
-> On 1/29/2024 5:42 PM, Jakub Kicinski wrote:
-> > Whether YNL specs should replace policy dumps completely (by building
-> > the YAML into the kernel, and exposing via sysfs like kheaders or btf)
-> >  - I'm not sure. I think I used policy dumps twice in my life. They
-> > are not all that useful, IMVHO...  
-> 
-> Many older genetlink/netlink families don't have a super robust or
-> specific policy. For example, devlink has a single enum for all
-> attributes, and the policy is not specified per command. The policy
-> simply accepts all attributes for every command. This means that you
-> can't rely on policy to decide whether an attribute has meaning for a
-> given command.
+This series is adding support to mount usb hostside exported 9pfs
+filesystems via the usb gadget interface. It also includes a simple tool
+(p9_fwd.py) to translate an tcp 9pfs transport and reuse it via the usb
+interface.
 
-FWIW Jiri converted devlink to use ynl policy generation. AFAIU it now
-only accepts what's used and nobody complained, yet, knock wood.
+    +--------------------------+    |    +--------------------------+
+    |  9PFS mounting client    |    |    |  9PFS exporting server   |
+ SW |                          |    |    |                          |
+    |   (this:trans_usbg)      |    |    |(e.g. diod or nfs-ganesha)|
+    +-------------^------------+    |    +-------------^------------+
+                  |                 |                  |
+                  |                 |           +------v------+
+                  |                 |           |  p9_fwd.py  |
+                  |                 |           +------^------+
+                  |                 |                  |
+------------------|------------------------------------|-------------
+                  |                 |                  |
+    +-------------v------------+    |    +-------------v------------+
+    |                          |    |    |                          |
+ HW |   USB Device Controller  <--------->   USB Host Controller    |
+    |                          |    |    |                          |
+    +--------------------------+    |    +--------------------------+
 
-Agreed on other points :)
+The USB host exports a filesystem, while the gadget on the USB device
+side makes it mountable.
+
+Diod (9pfs server) and the forwarder are on the development host, where
+the root filesystem is actually stored. The gadget is initialized during
+boot (or later) on the embedded board. Then the forwarder will find it
+on the USB bus and start forwarding requests.
+
+In this case the 9p requests come from the device and are handled by the
+host. The reason is that USB device ports are normally not available on
+PCs, so a connection in the other direction would not work.
+
+One use-case is to use it as an alternative to NFS root booting during
+the development of embedded Linux devices.
+
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+---
+Changes in v2:
+- improved the commit messages
+- introduced an patch to move the header u_f.h to include/linux/usb to compile usb gadget functions treewide
+- moved usbg gadget function to net/9p/
+- adderessed several comments in function driver, like the cleanup path and kbuild errors
+- improved the documentation in Documentation/filesystems/9p.rst
+- Link to v1: https://lore.kernel.org/r/20240116-ml-topic-u9p-v1-0-ad8c306f9a4e@pengutronix.de
+
+---
+Michael Grzeschik (4):
+      usb: gadget: function: move u_f.h to include/linux/usb/
+      net/9p/usbg: Add new usb gadget function transport
+      usb: gadget: legacy: add 9pfs multi gadget
+      tools: usb: p9_fwd: add usb gadget packet forwarder script
+
+ Documentation/filesystems/9p.rst                |  47 ++
+ drivers/usb/gadget/configfs.c                   |   2 +-
+ drivers/usb/gadget/function/f_fs.c              |   2 +-
+ drivers/usb/gadget/function/f_hid.c             |   2 +-
+ drivers/usb/gadget/function/f_loopback.c        |   2 +-
+ drivers/usb/gadget/function/f_midi.c            |   2 +-
+ drivers/usb/gadget/function/f_midi2.c           |   2 +-
+ drivers/usb/gadget/function/f_sourcesink.c      |   2 +-
+ drivers/usb/gadget/legacy/9pfs.c                | 268 ++++++++
+ drivers/usb/gadget/legacy/Kconfig               |  16 +
+ drivers/usb/gadget/legacy/Makefile              |   2 +
+ drivers/usb/gadget/u_f.c                        |   2 +-
+ {drivers/usb/gadget => include/linux/usb}/u_f.h |   0
+ net/9p/Kconfig                                  |   6 +
+ net/9p/Makefile                                 |   4 +
+ net/9p/trans_usbg.c                             | 871 ++++++++++++++++++++++++
+ tools/usb/p9_fwd.py                             | 194 ++++++
+ 17 files changed, 1416 insertions(+), 8 deletions(-)
+---
+base-commit: 41bccc98fb7931d63d03f326a746ac4d429c1dd3
+change-id: 20240116-ml-topic-u9p-895274530eb1
+
+Best regards,
+-- 
+Michael Grzeschik <m.grzeschik@pengutronix.de>
+
