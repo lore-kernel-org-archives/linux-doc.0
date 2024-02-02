@@ -1,49 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B67583A03;
-	Fri,  2 Feb 2024 20:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5ED83A03;
+	Fri,  2 Feb 2024 21:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706904176; cv=none; b=sn77OdyIv2kYiggLaO+JvQNbPesT17vfyYvObM0wW42J1Wr4u8ab14e7qWjVdZHKw104HwJnNbY/89j9srPoMiRXt75E3k8WpguFU3JcTUbj8zYqetRjFkxooSS685D7652/pspCiHUHgLNv4PBlsNoHkXPlVrv5Drn6OmRLrcE=
+	t=1706909497; cv=none; b=m9leEEsqZeBLTKhtZKRw9XnxildElhpPpOYJc1Yz80/DnxYh7MagB5kSD25Vpnky20DECKGDEH6EPgevKYsrjwmKgGml5Pc1CHG9KhL6xQrwxhlPMEdO8dECpZbzwdDHRFR5WUtLIe4lZXaUfM48nZwXjHNLSHudEb3nBjACLe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706904176; c=relaxed/simple;
-	bh=nIysIOI7opT1HAnMInnR3sU1pkX9Nj0BNAZHI42Pbiw=;
+	s=arc-20240116; t=1706909497; c=relaxed/simple;
+	bh=e/jtn8sn44EpFq31C7CYmB+SiierH0OvgSrhIK/xiS4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KgQgPlkkDhM40vgtObfOqyitLsk18zACpcKq+ybtccMAfXR7adrLiK9aDXaw4+AI9wclHxuCSfIqiM/C3UTlEPLnwYXTXcIH2+9VpmbNmOL9vhIykz+9baC1YfCQ+KUgDDKemw6qOGH0kWsm9UEFh9kS/4k1ZauySgxeGvAm/UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UX6uNGbB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KG3gGPtCxCkpv/gGEvyx6UId8wyTw1Km0w/sZw22YfAfIdx2mMzpAuijdZYl+dipoIT0qpDvOC+duW5ZcrD9sXrzif3l0sp9U4sVAn7/Z7J4Gieq2BED8EvmKA9N/dWH+c4j6dyMdQ3Wg3eMTH34St21iYhkdY0SGh4m2n/4Pj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKgdLLSG; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UX6uNGbB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3087C433F1;
-	Fri,  2 Feb 2024 20:02:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706904176;
-	bh=nIysIOI7opT1HAnMInnR3sU1pkX9Nj0BNAZHI42Pbiw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UX6uNGbBpq/Rlk9dSp2KQEOEZRPGiBmRvSBSCJrfWpQ+kU4FTLahnJU6n2X9qosOq
-	 tlDUBXKXHcRPU9Ovlzh8KY42qrrosNmZFJzcoJo+T5MHXvCRMbmEFF7cyp1lHH66lV
-	 jZWLWTsQmPDfAZyNEhhQR5GHApNzia/2kAYWJ+XOXVMS61avTsFjWhQeQNJsT5ebJJ
-	 2NKXeNpt46BI7ziowbhnesDbL1dSXwIf6FQYfsC70VUrNmS2fJkYlNKFgPGlmzjGRs
-	 IBtSdwKuxWhmLBur63XIlZdDwEv1KIkehfwgHxG0ndvIUruVGse+oJtCL2vZJT5vzD
-	 lKnK8J5Ua5V1w==
-Date: Fri, 2 Feb 2024 14:02:53 -0600
-From: Rob Herring <robh@kernel.org>
-To: Dragan Cvetic <dragan.cvetic@amd.com>
-Cc: Michal Simek <michal.simek@amd.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	"Erim, Salih" <salih.erim@amd.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v5] dt-bindings: misc: xlnx,sd-fec: convert bindings to
- yaml
-Message-ID: <170690417008.874488.5757943525065117413.robh@kernel.org>
-References: <20240131170650.530079-1-dragan.cvetic@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKgdLLSG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706909496; x=1738445496;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e/jtn8sn44EpFq31C7CYmB+SiierH0OvgSrhIK/xiS4=;
+  b=OKgdLLSGYbzT8o94fCo7cSVgzI3lU9DYBgmv0Icw9nvaEijRHRzVxiLj
+   ZIzMAT4GbTvObt5Xte+MlsAprBNjRywiQFrdOt+NXu0PSdno+Vyv36Qkn
+   0MY+ikNlzhF1KD7/lCwGvAFHmLOoXWFnwOSsqX0zGPSqXmPkRmX8aHyC7
+   IEEcmXIbgyiIsN+BrJ82xNOBx4s3KvN7jKkjSUTBhpmcokqEG5X4D6sI/
+   0sI83L0CuNG0E3iYCKpW3B4FxYEOjdx/3LCOJX3mljcHwdUJ9NdBOuQMK
+   9VFAEdLeqawxTCfpLmJ5rsGpD46tS2U+3FB7h6GfkL749fmxVMXsID658
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="143422"
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="143422"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 13:31:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="481566"
+Received: from shannonw-mobl2.amr.corp.intel.com (HELO desk) ([10.209.74.93])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 13:31:34 -0800
+Date: Fri, 2 Feb 2024 13:31:32 -0800
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Alyssa Milburn <alyssa.milburn@intel.com>
+Subject: Re: [PATCH  v6 1/6] x86/bugs: Add asm helpers for executing VERW
+Message-ID: <20240202213132.kvdyz3dqqkzw7gox@desk>
+References: <20240123-delay-verw-v6-0-a8206baca7d3@linux.intel.com>
+ <20240123-delay-verw-v6-1-a8206baca7d3@linux.intel.com>
+ <20240202032909.exegdxpgyndlkn2n@treble>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,52 +72,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240131170650.530079-1-dragan.cvetic@amd.com>
+In-Reply-To: <20240202032909.exegdxpgyndlkn2n@treble>
 
-
-On Wed, 31 Jan 2024 17:06:45 +0000, Dragan Cvetic wrote:
-> Convert AMD (Xilinx) sd-fec bindings to yaml format, so it can validate
-> dt-entries as well as any future additions to yaml.
-> Change in clocks is due to IP is itself configurable and
-> only the first two clocks are in all combinations. The last
-> 6 clocks can be present in some of them. It means order is
-> not really fixed and any combination is possible.
-> Interrupt may or may not be present.
-> The documentation for sd-fec bindings is now YAML, so update the
-> MAINTAINERS file.
-> Update the link to the new yaml file in xilinx_sdfec.rst.
+On Thu, Feb 01, 2024 at 07:29:09PM -0800, Josh Poimboeuf wrote:
+> On Tue, Jan 23, 2024 at 11:41:01PM -0800, Pawan Gupta wrote:
+> > index 4af140cf5719..79a7e81b9458 100644
+> > --- a/arch/x86/include/asm/cpufeatures.h
+> > +++ b/arch/x86/include/asm/cpufeatures.h
+> > @@ -308,10 +308,10 @@
+> >  #define X86_FEATURE_SMBA		(11*32+21) /* "" Slow Memory Bandwidth Allocation */
+> >  #define X86_FEATURE_BMEC		(11*32+22) /* "" Bandwidth Monitoring Event Configuration */
+> >  #define X86_FEATURE_USER_SHSTK		(11*32+23) /* Shadow stack support for user mode applications */
+> > -
+> >  #define X86_FEATURE_SRSO		(11*32+24) /* "" AMD BTB untrain RETs */
+> >  #define X86_FEATURE_SRSO_ALIAS		(11*32+25) /* "" AMD BTB untrain RETs through aliasing */
+> >  #define X86_FEATURE_IBPB_ON_VMEXIT	(11*32+26) /* "" Issue an IBPB only on VMEXIT */
+> > +#define X86_FEATURE_CLEAR_CPU_BUF	(11*32+27) /* "" Clear CPU buffers using VERW */
 > 
-> Signed-off-by: Dragan Cvetic <dragan.cvetic@amd.com>
-> ---
-> Changes in v2:
-> ---
-> Drop clocks description.
-> Use "contains:" with enum for optional clock-names and update
-> comment explaining diference from the original DT binding file.
-> Remove trailing full stops.
-> Add more details in sdfec-code description.
-> Set sdfec-code to "string" not "string-array"
-> ---
-> Changes in v3:
-> Fix a mistake in example, set interrupt type to 0.
-> ---
-> Changes in v4:
-> Set interrupt type to high level sensitive.
-> Remove '|' from descriptions, no need to preserve format.
-> Remove not needed empty line.
-> ---
-> Changes in v5:
-> Apply allOf to clock-names and put permanent clock items
-> inside enum.
-> ---
->  .../devicetree/bindings/misc/xlnx,sd-fec.txt  |  58 --------
->  .../devicetree/bindings/misc/xlnx,sd-fec.yaml | 140 ++++++++++++++++++
->  Documentation/misc-devices/xilinx_sdfec.rst   |   2 +-
->  MAINTAINERS                                   |   2 +-
->  4 files changed, 142 insertions(+), 60 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
->  create mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
-> 
+> This will need to be rebased.  And the "11*32" level is now full in
+> Linus' tree, so this will presumably need to go to a different "level".
 
-Applied, thanks!
-
+Yes, will send a new rebased version.
