@@ -1,391 +1,126 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7C914691C
-	for <linux-doc@vger.kernel.org>; Fri,  2 Feb 2024 16:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706889676; cv=none; b=f2lsN32Sy0oneSoJB9Wdn3y3DaC8R7+Jf0TIJiEfjuVfERKEWzZGQvNfi+mWhlJ1eDLm6EN9fjU08sXPa8R4fiVryjw32l6IxMzD3LjJUw6zB0YndJJlfHzwIz7YW448ojNpKHldysFYqiyYjn5ou8qcA98Fsl9a/SgwlKSa6Ug=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706889676; c=relaxed/simple;
-	bh=KuN876f57JsaySOWS9+9L785PXShwmedFiw9mxkee68=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c9N3ldJlA8jIQ+TGOPGbglZsgIZVLcpB+nq4CCVo6tffTMBD95rfynlRHCzrVFK4M2cXKEhgExgvuCY4uNdu98d8X0+GaAEblEcwQbpCLoaNyj8UGcg9w0hREzcxODpN6rEXIP6Bs/6865Huufz78+kzQFpEkPveE6v9NudDM50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RUreNNTC; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9934214AD02;
+	Fri,  2 Feb 2024 16:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706889991; cv=fail; b=Fj4ILIq1Njui5H9RH6M8LNWs37Wmhyg/Kp1dS5MKlp4oe7QpsZcHN+iDNTSt1GeFHEDfuR9vYTjZWB1XBkv6rjQwT29JvW1crmQ7JUqdW+xs9xC/ljHRVhrmO+0mJnnY4/4LPmjCoI3EdpcID7Xr2MNjflUzy4RkQJyu/dfDuXw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706889991; c=relaxed/simple;
+	bh=MsNYoj6sxe+SfUFtH4QybfrFuLezXoGakiC2UjHPYQ8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t4L8x+bpS2LKDHE/LkuJl82xSr7gTjSM0S6uUYw1E9ucMjyhRMB1kBpe5iHv8YR/uPytHCTQZQfQ9ejkY9qVjIEzkfypaCNed/KCO3djJP97ondGD3JPDoeb4R6R0eh3anmPnPKQiBwGKZpVGRcWFGTFimQdFNFAh5bTqRDyG3Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Lr0pktfi; arc=fail smtp.client-ip=40.107.236.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RUreNNTC"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3bb9d54575cso1459237b6e.2
-        for <linux-doc@vger.kernel.org>; Fri, 02 Feb 2024 08:01:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706889670; x=1707494470; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qWOWYYEAxtKEbCbBz7L28/OQ2XY0i2cVeG9NC/yetZM=;
-        b=RUreNNTC8k+8+a1BjaZ5a2hQhJcTZGMkFtCCyAGbNbzooboxz8RfyTnKdJx3oFHJx6
-         QZNrqzOGaEhhi287TWQNz2KNGgomQapz+Mapjl3H2lzVWXLrFPZBS+OV7FcWgklsFvrM
-         Ug79iwywDpGIe+q+wsrwtDzqdbwPTDc49GMe0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706889670; x=1707494470;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qWOWYYEAxtKEbCbBz7L28/OQ2XY0i2cVeG9NC/yetZM=;
-        b=xPkRMKKcfS313R+nNSRIJoKNndd7KjR9vuNdvsmZVwSwLwTNkXtjFjyp2zczwUrg05
-         eqhkClAPgmCjSXhaa2YhZafe61i+GaR1+XXH73aCUnKouT0+Jbxa3KkKtlQtSejE/Lwy
-         oHpNIzTKbvwFDU6UnuzbV1zapsnGCN0NSSt1mEa98rd5IBMbPuOSHd7afvlXIJtMzwbu
-         IsLJcimWOrFcHInkH79zUhFUpK4PEpB181NLX24VH4AVEQ27i40e7JShA+sOXzlD4vnk
-         dKWNn5qNNbIKMSFjG+156YTi3PgytaYlbxAQwr3UFaHme4/7klfkvCw3WdtrLjegoy7l
-         to0Q==
-X-Gm-Message-State: AOJu0YwPYs5RkabllXbHSN4Lgi1APWAKJwi5C+SfSLqFsUuI94tw+4zR
-	zhv1LHCTdmAYYjf5QLTBir+/C94n6CNSD/bAsTAiciP4td5UwVJ5mHxd7FKFRG1Ni0cqXMx0556
-	5FfWv5ZuimCNC+5e0x0t8c7OtVb4rhho+ptx2
-X-Google-Smtp-Source: AGHT+IGkfsdQlA+htwDeD7zH3WjVhxGzYd3xt2y1hGo9/Xb3yR38PfLF0lt60z2VvCERYfrrO1dHkdBi+J+oKwjqgVQ=
-X-Received: by 2002:a05:6870:d10c:b0:219:4033:a21c with SMTP id
- e12-20020a056870d10c00b002194033a21cmr98007oac.33.1706889668519; Fri, 02 Feb
- 2024 08:01:08 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Lr0pktfi"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wo1Ht4SqPxVNEmYXnPVbEO+IjfYLxKrbLiD3YBg9gbkvPzT7ajfh6sfIs+kI/D9qCLfStYNIwslH4a83AJlhtQvEquY4JnB6cm04/GpQbHkEl/p7WY2MfkpbAwA6syPK3diQJfNSEZVtzNItJzD7YFqbI+Ur8hLO2KMYFdacIHA8i+0WHrMAUGcvKa5l3RualPYekqhlkHV8FRtFQvJS8XaufJMNec/INrABtZUp2tYSkvgtIAYOQSvifDVyzyRfY2uYJhdsVbV0KYjf1GS1R4Z5yucn5d36AglDkClLC+6s/BEoUZmezFd3df7R2KhODa2nA7t1MHl4N2O9fm49AA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DhzUggw8fnZiJ9w5rmA/Y9st0kiBXOVYyMOMpiaa6ag=;
+ b=BFylWXlXI7J7amB5CP5DoiY4oeKk2AO6/xyJK+KJ2V48mCmKtiu4VakJJ1zFqEh3afxLQWzHfeBGhQhFR5vRQmO7nKWuwdttnVzJXvtbqKa0kFmYFbR2VeXk9bmyzc1Ntv4DjxDTi78+vrjJ5+kG44FaIG4b3qjPUQPBTICpcRgfpngMN7X+C/cTFfUKJj4zIuZ+Bmp4DV4Ax5XOQCQj2VTNwZ8ZhIT92xtvGGHFVQhhx6D0chsYCSusLWU74Wv/HFlBGiVfXVYQhR/6PGECFa1BsMJfLdhoHlNcjFO3Ai0q5jGwRVmHcsRhaKFbP3RLAo9ysCbPof7tZX9EIKAw3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DhzUggw8fnZiJ9w5rmA/Y9st0kiBXOVYyMOMpiaa6ag=;
+ b=Lr0pktfiEyyAJqSyvX/P2nOrHt1LSlWP+OqOSPlJ7faQ3q2/FczelzLBpmWq/RZZ4TPeb8Z/3VcbCoaHNIRTtoaGFccrXB1FUCpYJMzMXkpsARGe9caJJj1p5TwCP7+RnqQwifGOo2CkfeafQ1HADEtGEJA9s5x7nfAVp3iDuhs=
+Received: from SJ0PR13CA0101.namprd13.prod.outlook.com (2603:10b6:a03:2c5::16)
+ by DS0PR12MB7971.namprd12.prod.outlook.com (2603:10b6:8:14e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.28; Fri, 2 Feb
+ 2024 16:06:18 +0000
+Received: from DS2PEPF00003448.namprd04.prod.outlook.com
+ (2603:10b6:a03:2c5:cafe::1c) by SJ0PR13CA0101.outlook.office365.com
+ (2603:10b6:a03:2c5::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.24 via Frontend
+ Transport; Fri, 2 Feb 2024 16:06:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS2PEPF00003448.mail.protection.outlook.com (10.167.17.75) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7249.19 via Frontend Transport; Fri, 2 Feb 2024 16:06:18 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Fri, 2 Feb
+ 2024 10:06:18 -0600
+From: Michael Roth <michael.roth@amd.com>
+To: <x86@kernel.org>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<bp@alien8.de>, <sfr@canb.auug.org.au>, <thomas.lendacky@amd.com>,
+	<ashish.kalra@amd.com>
+Subject: [PATCH] Documentation: virt: Fix up pre-formatted text block for SEV ioctls
+Date: Fri, 2 Feb 2024 10:05:44 -0600
+Message-ID: <20240202160544.2297320-1-michael.roth@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
- <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
- <20240109143349.GR1610741@bill-the-cat> <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
- <CAFLszTjPAHd6RdO1mvatXC=yRS+h=sgJ_pMdyEnkROTx7yRpog@mail.gmail.com> <CAK7LNARsY6-rrx=sNFq6oFqpqf0s5S_=3DrUsCOS7zF0BXcoTg@mail.gmail.com>
-In-Reply-To: <CAK7LNARsY6-rrx=sNFq6oFqpqf0s5S_=3DrUsCOS7zF0BXcoTg@mail.gmail.com>
-From: Simon Glass <sjg@chromium.org>
-Date: Fri, 2 Feb 2024 09:00:57 -0700
-Message-ID: <CAFLszTgYMrj2AhYdAXBjGACQjehvVBnJ2EsKg2TO7c50Dp_ukQ@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Tom Rini <trini@konsulko.com>, Will Deacon <will@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
-	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	workflows@vger.kernel.org, Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003448:EE_|DS0PR12MB7971:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0bbf94b0-ec13-47de-18c9-08dc2408e42e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	n5YYkH8583iWOu7Z9/QlomEWLySn2RaaUktviD1R9hfxZRiU6CyXHSf1USgH0gKva+5OVheSWa47PrAeO9CnGS+zOFYSjSvnSp2hc7Vi09wOTebyXXp2NSFM/ZjG6RabMXSnvECD74oDJhy/YtYZ9JWLHD9WjT/r7elrlfaAqn/tl8he87ElOJ3zulTtxEkwv37uwO14xcbFaex7uqWYhCogt6CL5GEwVDNYKPxEw9pnT5ME5WtiaLy4he9mu/G3dMWrl3U9/k2ppGzICXqFQYAHjm4O1gturPZM4DabyBoySKcibqFgSiDZfEFDHOgRJOgTaOpdZHk94BKs5vdsnjqjMJucPvefhXgqDAFnpyQfEfGcNedbbCm397zxWXTowCqa0EXRsC9f/yObh7+pK4kSBMcQ5+4A8XK/S1eMZK1UXd5uLoZhkSy1CM7ejAnkq9qRIlaHEi7Ar/dMXKmQLIAmwQOmOwouKrueGHxc7auea/DcJmy00JLdt7jpzFfK4Qe5KT3SGE+dtLziKO2t66D56QMDD6h2EfNkbhNklUqvt9CD74/rBemmmDWU241criOM3lzd55GHI5eTHy04ElqeCNMZTDBeOi86E0feD1+QclRU/t2ItlGzsSc5k9UNZlZyjV9paLdyOvru396B/KfnlyJDslqeZQWKQXoZH8pjzUgPHZZGuPWANtF/hy6cv7DoUOVJCzdO230afQtO2BDR2MAk2mv2yotgRfaUP9+KFP87nN3pU77ZEtAk/Kdd2UXhii8ObQecq64BnxXbQ8dx89EOB7qLKt+BTrYQH9OawvZOjetu7Q095qmNBfTY
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(39860400002)(136003)(346002)(396003)(230922051799003)(230173577357003)(230273577357003)(186009)(451199024)(1800799012)(82310400011)(64100799003)(40470700004)(36840700001)(46966006)(40460700003)(40480700001)(83380400001)(36756003)(41300700001)(86362001)(82740400003)(81166007)(36860700001)(356005)(47076005)(1076003)(16526019)(26005)(426003)(336012)(2616005)(2906002)(966005)(8936002)(478600001)(70206006)(316002)(70586007)(6916009)(6666004)(54906003)(4326008)(5660300002)(8676002)(44832011)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2024 16:06:18.5551
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bbf94b0-ec13-47de-18c9-08dc2408e42e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS2PEPF00003448.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7971
 
-Hi Masahiro,
+A missing newline after "::" resulted in the htmldocs build failing to
+recognize the start of a pre-formatted block of text, resulting in
+warnings being generated during the build. Fix this by adding in the
+missing newline.
 
-On Tue, 30 Jan 2024 at 02:16, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Fri, Jan 26, 2024 at 1:04=E2=80=AFAM Simon Glass <sjg@chromium.org> wr=
-ote:
-> >
-> > Hi,
-> >
-> > On Wed, 17 Jan 2024 at 06:14, Simon Glass <sjg@chromium.org> wrote:
-> > >
-> > > Hi Masahiro, Tom,
-> > >
-> > > On Tue, 9 Jan 2024 at 07:33, Tom Rini <trini@konsulko.com> wrote:
-> > > >
-> > > > On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wrote:
-> > > > > Hi Simon,
-> > > > >
-> > > > >
-> > > > > On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromium.=
-org> wrote:
-> > > > > >
-> > > > > > Hi Masahiro,
-> > > > > >
-> > > > > > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kerne=
-l.org> wrote:
-> > > > > > >
-> > > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > > > > > > Add a script which produces a Flat Image Tree (FIT), a sing=
-le file
-> > > > > > > > containing the built kernel and associated devicetree files=
-.
-> > > > > > > > Compression defaults to gzip which gives a good balance of =
-size and
-> > > > > > > > performance.
-> > > > > > > >
-> > > > > > > > The files compress from about 86MB to 24MB using this appro=
-ach.
-> > > > > > > >
-> > > > > > > > The FIT can be used by bootloaders which support it, such a=
-s U-Boot
-> > > > > > > > and Linuxboot. It permits automatic selection of the correc=
-t
-> > > > > > > > devicetree, matching the compatible string of the running b=
-oard with
-> > > > > > > > the closest compatible string in the FIT. There is no need =
-for
-> > > > > > > > filenames or other workarounds.
-> > > > > > > >
-> > > > > > > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > > > > > > FIT_COMPRESSION to select a different algorithm.
-> > > > > > > >
-> > > > > > > > The FIT can be examined using 'dumpimage -l'.
-> > > > > > > >
-> > > > > > > > This features requires pylibfdt (use 'pip install libfdt').=
- It also
-> > > > > > > > requires compression utilities for the algorithm being used=
-. Supported
-> > > > > > > > compression options are the same as the Image.xxx files. Fo=
-r now there
-> > > > > > > > is no way to change the compression other than by editing t=
-he rule for
-> > > > > > > > $(obj)/image.fit
-> > > > > > > >
-> > > > > > > > While FIT supports a ramdisk / initrd, no attempt is made t=
-o support
-> > > > > > > > this here, since it must be built separately from the Linux=
- build.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > > > > > > > ---
-> > > > > > > >
-> > > > > > > > Changes in v9:
-> > > > > > > > - Move the compression control into Makefile.lib
-> > > > > > > >
-> > > > > > > > Changes in v8:
-> > > > > > > > - Drop compatible string in FDT node
-> > > > > > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
-> > > > > > > > - Turn compress part of the make_fit.py comment in to a sen=
-tence
-> > > > > > > > - Add two blank lines before parse_args() and setup_fit()
-> > > > > > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> > > > > > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> > > > > > > > - Add 'mkimage' details Documentation/process/changes.rst
-> > > > > > > > - Allow changing the compression used
-> > > > > > > > - Tweak cover letter since there is only one clean-up patch
-> > > > > > > >
-> > > > > > > > Changes in v7:
-> > > > > > > > - Add Image as a dependency of image.fit
-> > > > > > > > - Drop kbuild tag
-> > > > > > > > - Add dependency on dtbs
-> > > > > > > > - Drop unnecessary path separator for dtbs
-> > > > > > > > - Rebase to -next
-> > > > > > > >
-> > > > > > > > Changes in v5:
-> > > > > > > > - Drop patch previously applied
-> > > > > > > > - Correct compression rule which was broken in v4
-> > > > > > > >
-> > > > > > > > Changes in v4:
-> > > > > > > > - Use single quotes for UIMAGE_NAME
-> > > > > > > >
-> > > > > > > > Changes in v3:
-> > > > > > > > - Drop temporary file image.itk
-> > > > > > > > - Drop patch 'Use double quotes for image name'
-> > > > > > > > - Drop double quotes in use of UIMAGE_NAME
-> > > > > > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> > > > > > > > - Avoid hard-coding "arm64" for the DT architecture
-> > > > > > > >
-> > > > > > > > Changes in v2:
-> > > > > > > > - Drop patch previously applied
-> > > > > > > > - Add .gitignore file
-> > > > > > > > - Move fit rule to Makefile.lib using an intermediate file
-> > > > > > > > - Drop dependency on CONFIG_EFI_ZBOOT
-> > > > > > > > - Pick up .dtb files separately from the kernel
-> > > > > > > > - Correct pylint too-many-args warning for write_kernel()
-> > > > > > > > - Include the kernel image in the file count
-> > > > > > > > - Add a pointer to the FIT spec and mention of its wide ind=
-ustry usage
-> > > > > > > > - Mention the kernel version in the FIT description
-> > > > > > > >
-> > > > > > > >  Documentation/process/changes.rst |   9 +
-> > > > > > > >  MAINTAINERS                       |   7 +
-> > > > > > > >  arch/arm64/Makefile               |   7 +-
-> > > > > > > >  arch/arm64/boot/.gitignore        |   1 +
-> > > > > > > >  arch/arm64/boot/Makefile          |   6 +-
-> > > > > > > >  scripts/Makefile.lib              |  16 ++
-> > > > > > > >  scripts/make_fit.py               | 291 ++++++++++++++++++=
-++++++++++++
-> > > > > > > >  7 files changed, 334 insertions(+), 3 deletions(-)
-> > > > > > > >  create mode 100755 scripts/make_fit.py
-> > > > > > >
-> > > > > > > I'll need Masahiro's Ack on the scripts/ changes before I can=
- take this
-> > > > > > > one.
-> > > > > >
-> > > > > > Any thoughts on this request, please?
-> > > > > >
-> > > > > > Regards,
-> > > > > > Simon
-> > > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > > > As I mentioned before, I am concerned with having
-> > > > > the same "compatible" entries, with different contents,
-> > > > > as you use the "compatible" string as an ID to selecting
-> > > > > the target config node, right?
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > > > $ fdtdump  arch/arm64/boot/image.fit
-> > > > >
-> > > > >         ...
-> > > > >
-> > > > >         conf-10 {
-> > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > > > > "tq,am642-tqma6442l", "ti,am642";
-> > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL=
- carrier board";
-> > > > >             fdt =3D "fdt-10";
-> > > > >             kernel =3D "kernel";
-> > > > >         };
-> > > > >
-> > > > >         ...
-> > > > >
-> > > > >         conf-25 {
-> > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> > > > > "tq,am642-tqma6442l", "ti,am642";
-> > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL=
- carrier board";
-> > > > >             fdt =3D "fdt-25";
-> > > > >             kernel =3D "kernel";
-> > > > >         };
-> > > >
-> > > > I had asked Rob a while ago about if having the same compatible for=
- two
-> > > > functionally different machines is a feature, or a bug, and I don't
-> > > > think either of us fully agreed either way. I'd be leaning towards
-> > > > saying the above example is a bug in the dts files, it's just not b=
-een a
-> > > > bug people have worried about before due to (sadly) how little the
-> > > > top-level compatible has been used.
-> > >
-> > > Yes I believe this is a bug in the files.
-> > >
-> > > What should the script do in this case? Print a warning, perhaps?
-> >
-> > Is there anything I should do here? Would a warning be helpful, or
-> > just confusing?
->
->
->
-> I do not think it is useful.
-> You would almost always get a warning, and there is no way to fix it.
->
->
->
-> With arm64 defconfig, image.fit will include a thousand DTBs.
->
->
-> The config node of my board was listed 214th.
-> (I found it by fdtdump)
->
->
-> Then, I learned
->
->   >  bootm  ${loadaddr}#conf-214
->
-> is the correct command to boot my board.
->
->
-> Of course, the "214" will be different in the future.
->
-> The node names, conf-*, are useless.
->
->
->
-> Only the useful way is to enable CONFIG_FIT_BEST_MATCH in U-Boot,
-> but this relies on the uniqueness of a compatible string,
-> which is not true.
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20240202145932.31c62fd6@canb.auug.org.au/
+Fixes: f5db8841ebe5 ("crypto: ccp: Add the SNP_PLATFORM_STATUS command")
+Signed-off-by: Michael Roth <michael.roth@amd.com>
+---
+ Documentation/virt/coco/sev-guest.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-See my other email, but I think this is a problem we should fix.
+diff --git a/Documentation/virt/coco/sev-guest.rst b/Documentation/virt/coco/sev-guest.rst
+index 14c9de997b7d..e1eaf6a830ce 100644
+--- a/Documentation/virt/coco/sev-guest.rst
++++ b/Documentation/virt/coco/sev-guest.rst
+@@ -71,6 +71,7 @@ The host ioctls are issued to a file descriptor of the /dev/sev device.
+ The ioctl accepts the command ID/input structure documented below.
+ 
+ ::
++
+         struct sev_issue_cmd {
+                 /* Command ID */
+                 __u32 cmd;
+-- 
+2.25.1
 
->
-> (I do not know how to do it in barebox)
->
->
->
->
->
-> I think using the file name as a config node
-> mitigates the issue because a file name is
-> considered unique.
->
->
-> For example, with composite DTBs:
->
-> imx8mm-venice-gw72xx-0x-imx219-dtbs :=3D imx8mm-venice-gw72xx-0x.dtb
-> imx8mm-venice-gw72xx-0x-imx219.dtbo
-> imx8mm-venice-gw72xx-0x-rpidsi-dtbs :=3D imx8mm-venice-gw72xx-0x.dtb
-> imx8mm-venice-gw72xx-0x-rpidsi.dtbo
->
->
->
->
-> configurations {
->       imx8mm-venice-gw72xx-0x-imx219 {
->             ...
->       };
->
->       imx8mm-venice-gw72xx-0x-rpidsi {
->             ...
->       }
-> };
->
->
->
-> Then, we can distinguish them by node, even if they have
-> the same compatible string.
-> At least we can do
->
->   > bootm  ${loadaddr}#imx8mm-venice-gw72xx-0x-imx219
->
->
-
-Sure, but the goal with FIT is to be able to boot with the correct dtb
-automatically. What you have above would require some sort of boot
-script, or some other information about the configuration-node name.
-
->
->
-> For the issue including stale DTBs, you can use my patch:
-> [PATCH 1/4] kbuild: create a list of all built DTB files
-> (https://lore.kernel.org/linux-kbuild/CAK7LNASOxi-gzve+_d-sCW9z_eEJ5TMMnz=
-PEvN2Nj2AwgVjF9g@mail.gmail.com/T/#ma3595627a96a04554a78cbbd22056831e13db26=
-0)
->
->
-> You can change scripts/make_fit.py to take
-> the DTB files instead of the directory to search.
->
-> Optionally, you can support '@' syntax to
-> take command arguments from a file.
->
->
-> scripts/make_fit.py ... @arch/$(SRCARCH)/boot/dts/dtbs-list
-
-Thank you for doing that. I will take a look and send v10.
-
->
->
->
->
->
->
-> For the separate base and overlays support,
-> you can use my patch as a base:
-> [PATCH 3/4] kbuild: create a list of base and overlays for each DTB
-> (https://lore.kernel.org/linux-kbuild/CAK7LNASOxi-gzve+_d-sCW9z_eEJ5TMMnz=
-PEvN2Nj2AwgVjF9g@mail.gmail.com/T/#m32c5bdde9098901b7c7776b932827493a05c82d=
-5)
->
->
->
->
->
-> Lastly, you do not need to require mkimage for
-> args.external.
-> You can simply concatenate files.
-
-Yes, that's true. Do you think there is a problem with using mkimage?
-
-Regards,
-Simon
