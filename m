@@ -1,160 +1,81 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE88DBE7E
-	for <linux-doc@vger.kernel.org>; Fri,  2 Feb 2024 02:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73320DF5D;
+	Fri,  2 Feb 2024 03:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706841175; cv=none; b=D/tO+qGAOtrIndD5llp3F3nJr/vWpJQllTymbMMzRyA40PtDZU4Ig2BB1ouvSfD/Ph3iTYnxh4U3CdZ8sHuPm69ClQPUSbejBW6q1s5yfMd5RbgMnngdI+g48wMA3uKYdl+jr/K94HRA7sn/L9bEnnd4F1gibRCiEJfQATUp8uE=
+	t=1706844552; cv=none; b=jkKZkXg29zPdph6Dx8v/sC/xYAQ8Sm5Ddud/tf8C3EaajZMgIElUE8V6DyfR5ZrKcw+nofSefGzRcRxZYf2tHkupVBFGshwIfmgKAuyAtrY+Tt6TXeVt+S/fDcNgwlyVByEZfv+3kjQFMb4OnDGoL+ayP4pUuMASL48GrG0Y+O8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706841175; c=relaxed/simple;
-	bh=fxQOIG7+vgteotClB1CdAI70My2PQ8a3hxXKVhBrh6M=;
+	s=arc-20240116; t=1706844552; c=relaxed/simple;
+	bh=hrszDQjg1r99rOZvRO+CbHKbrtAj33R5nUJ/aP8OlAo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CXVMRo1zJ0PemskrG6YNdxThJ6xCJJKWQE2vxp4ujN9z/zUUWDs64BLN8yJR2OokLjz0yOJjKDMmSGrzL3LR388L7LQh7rYjqHXLYXujvVfGl/kSiaY4ep/JNHHI7skm+Y02OLvmeG4EWAMxVl7gwbJXuSETw8pQPTJa7SQCHec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=bqTQn0by; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xe40JYJirtlWmH7LvWLH0XWD81VhkNT2V3UUeU8iM4P0F9nKqwCCZkADQr71nLJqugsyvHIixHBqMZfT9o01tQ/zz127tQrSRtUeZSZRlaaUKoqgx+1wqPJtivESGgB8VQNCK2GeftiPSb8sgTjp19ROuAbk7+cL5sfyCTlqCx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7lP3i+S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="bqTQn0by"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d93b525959so16342945ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Feb 2024 18:32:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1706841173; x=1707445973; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0bXBoUL8xedCmLcnMAqTDLt5mCSq9W7voiTTkiqTwv4=;
-        b=bqTQn0byxqWkiKww4qG2sLLU+cfGse+l5tQ1+EaMw/GtU2HtXZS1p320oqNKlyqcGR
-         cjyGW7W88N1C70t4VdbvKojcO1ugjxFuyBPCb86Hkte9udfdYUnh1qvU6l4OdVofiGHE
-         hX0PAw6mUFuPsDszWQaqP4ieGHriupemdVhp6czwomuJ3JMNiZLCWs6xoru2T5rjIGCH
-         Prd7ISm4qPplU2Efw04a+Br6JiCGv2zesAl4q1+WJ473OQDP0Gh6wQGKA5O46aGGLyQZ
-         zatl8dk5exG6ATJUwWHN5ZnaD1czOibx6hXAkE4s9HXHA60Sjajxyr6CjjJiFLB34gcr
-         D94w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706841173; x=1707445973;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0bXBoUL8xedCmLcnMAqTDLt5mCSq9W7voiTTkiqTwv4=;
-        b=UNhjXhsRk8DFydr0vtCC7j8DX4xcLikUoSJ3ausKFKoi+fZeBR6e2cAXWi/BtyILA0
-         dtxH3vRD3o/N4Qa1PpbdKvWarW8uI9Pbfx6zat4NbVt7ZqCLPeqybLboG+gBnn6qYtyW
-         tqdgNwqUlJlsIemBW2/yl58L9Ev7G/ntLT08WvIm0bzfdVzuXrDMXbd3zSMiUsfzfiPQ
-         r5cYBMMh6Gt24YkqSh70YzFDkEsoW00N7mIfaql9xdAo/CYw1OiFYRyqKlN7/91zCgRN
-         XlT9eaS24QXUiWsYROga+LdzKqoMCLOep6L7vWeaSPB6MMSKN6y1Mmo8uZXF91XbiTGc
-         I8uw==
-X-Gm-Message-State: AOJu0YzSgChPyqhGiuEBP/VmEv5uI4LOz84QicwpIajFB6+cs8qIfb78
-	x07oqDXE4o1ZxYtTok2Q/Z0uEICy2vGSGKHaE2J0Dqu6TPN9oDxLlytZM0bDaeU=
-X-Google-Smtp-Source: AGHT+IGtFCDECe658rt2QpCLasaQ2JkghYeJOImzP8BJBK7/gOp6/f6aiZdBc58sQIW8BtovrJE54Q==
-X-Received: by 2002:a17:90a:b10a:b0:296:2843:99cd with SMTP id z10-20020a17090ab10a00b00296284399cdmr1401923pjq.19.1706841173141;
-        Thu, 01 Feb 2024 18:32:53 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXZ6STwiDMcre3f6rZaunHarbO54/adMkGh2ZZ/CykLb79STq4eDTPsA5FX5WMZZXHBB5Msk+NlKkixeem05d2nlknG/D+rpeG6q2rYqx6udY6poFg+E2WGpkLZbpqBQQDqH9FQ+G+6INoHRtQ2OYwp3QKaCj50D06NLGYRrElpiFFjg3oohH9gLBhab/i78AaPUCe4L/BJDoWZYoChqaaYdPZqS09P7OlDc5V51mcNlvFgyeGGbBkX4bUko2TCq4ihf/Ye1gsASBbkH+BajspR/pXVmcfJ83NELoR6FiZShQ==
-Received: from ghost ([12.44.203.122])
-        by smtp.gmail.com with ESMTPSA id t13-20020a17090a024d00b0028ce81d9f32sm650159pje.16.2024.02.01.18.32.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Feb 2024 18:32:52 -0800 (PST)
-Date: Thu, 1 Feb 2024 18:32:50 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Robin Ehn <rehn@rivosinc.com>
-Subject: Re: [PATCH] riscv: hwprobe: export VA_BITS
-Message-ID: <ZbxUUsKdKIPI8Fb/@ghost>
-References: <20240201140319.360088-1-cleger@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7lP3i+S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E11C433C7;
+	Fri,  2 Feb 2024 03:29:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706844551;
+	bh=hrszDQjg1r99rOZvRO+CbHKbrtAj33R5nUJ/aP8OlAo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n7lP3i+S1HK19Szbki1gpNcjT56ZAc3eU1c3GK3xyLzWt5U7eFMUedktdxBnEFo35
+	 qrCEVhbm5rO0QS38JimDBYic0HvMzS+XnXrMQuGfrWWFSeV/w2Zw7o3um3rCxDLmYx
+	 EhrFnvUlOuHn79KhfqxaS3Y/dRsC36NFEkihtW+LBME0hvO/5N+3LpUIP1720keN6Q
+	 EAwb+x8qyAef49fQ5fZWb67Bv6l+vEmJ+tjeDW+RPBBnCuOWcRHvp28cPkoG4MjuGs
+	 +a/JN/1x9h8wY0IdiardxibIeTrtfu1FUJhfTiKsihgyiX7cBMIYxNI6uHSoKhy/UW
+	 9hi/sHprptC8Q==
+Date: Thu, 1 Feb 2024 19:29:09 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Alyssa Milburn <alyssa.milburn@intel.com>
+Subject: Re: [PATCH  v6 1/6] x86/bugs: Add asm helpers for executing VERW
+Message-ID: <20240202032909.exegdxpgyndlkn2n@treble>
+References: <20240123-delay-verw-v6-0-a8206baca7d3@linux.intel.com>
+ <20240123-delay-verw-v6-1-a8206baca7d3@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240201140319.360088-1-cleger@rivosinc.com>
+In-Reply-To: <20240123-delay-verw-v6-1-a8206baca7d3@linux.intel.com>
 
-On Thu, Feb 01, 2024 at 03:02:45PM +0100, Clément Léger wrote:
-> Some userspace applications (OpenJDK for instance) uses the free bits
-> in pointers to insert additional information for their own logic.
-> Currently they rely on parsing /proc/cpuinfo to obtain the current value
-> of virtual address used bits [1]. Exporting VA_BITS through hwprobe will
-> allow for a more stable interface to be used.
+On Tue, Jan 23, 2024 at 11:41:01PM -0800, Pawan Gupta wrote:
+> index 4af140cf5719..79a7e81b9458 100644
+> --- a/arch/x86/include/asm/cpufeatures.h
+> +++ b/arch/x86/include/asm/cpufeatures.h
+> @@ -308,10 +308,10 @@
+>  #define X86_FEATURE_SMBA		(11*32+21) /* "" Slow Memory Bandwidth Allocation */
+>  #define X86_FEATURE_BMEC		(11*32+22) /* "" Bandwidth Monitoring Event Configuration */
+>  #define X86_FEATURE_USER_SHSTK		(11*32+23) /* Shadow stack support for user mode applications */
+> -
+>  #define X86_FEATURE_SRSO		(11*32+24) /* "" AMD BTB untrain RETs */
+>  #define X86_FEATURE_SRSO_ALIAS		(11*32+25) /* "" AMD BTB untrain RETs through aliasing */
+>  #define X86_FEATURE_IBPB_ON_VMEXIT	(11*32+26) /* "" Issue an IBPB only on VMEXIT */
+> +#define X86_FEATURE_CLEAR_CPU_BUF	(11*32+27) /* "" Clear CPU buffers using VERW */
 
-mmap already supports this without a need for applications to know the
-underlying hardware. If a hint address is passed into mmap, it will never
-return an address that uses more bits than the hint address. I designed
-it that way so that something like this wasn't necessary.
+This will need to be rebased.  And the "11*32" level is now full in
+Linus' tree, so this will presumably need to go to a different "level".
 
-- Charlie
-
-> 
-> Link: https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/linux_riscv/vm_version_linux_riscv.cpp#L171 [1]
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> 
-> ---
->  Documentation/arch/riscv/hwprobe.rst  | 3 +++
->  arch/riscv/include/asm/hwprobe.h      | 2 +-
->  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
->  arch/riscv/kernel/sys_hwprobe.c       | 3 +++
->  4 files changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> index b2bcc9eed9aa..6f198c6ed4f0 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -210,3 +210,6 @@ The following keys are defined:
->  
->  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
->    represents the size of the Zicboz block in bytes.
-> +
-> +* :c:macro:`RISCV_HWPROBE_KEY_VA_BITS`: An unsigned long which
-> +  represent the number of bits used to store virtual addresses.
-> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-> index 630507dff5ea..150a9877b0af 100644
-> --- a/arch/riscv/include/asm/hwprobe.h
-> +++ b/arch/riscv/include/asm/hwprobe.h
-> @@ -8,7 +8,7 @@
->  
->  #include <uapi/asm/hwprobe.h>
->  
-> -#define RISCV_HWPROBE_MAX_KEY 6
-> +#define RISCV_HWPROBE_MAX_KEY 7
->  
->  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
->  {
-> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-> index 9f2a8e3ff204..2a5006cddb7b 100644
-> --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> @@ -67,6 +67,7 @@ struct riscv_hwprobe {
->  #define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
->  #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
->  #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
-> +#define RISCV_HWPROBE_KEY_VA_BITS		7
->  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
->  
->  /* Flags */
-> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-> index a7c56b41efd2..328435836e36 100644
-> --- a/arch/riscv/kernel/sys_hwprobe.c
-> +++ b/arch/riscv/kernel/sys_hwprobe.c
-> @@ -202,6 +202,9 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
->  		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
->  			pair->value = riscv_cboz_block_size;
->  		break;
-> +	case RISCV_HWPROBE_KEY_VA_BITS:
-> +		pair->value = VA_BITS;
-> +		break;
->  
->  	/*
->  	 * For forward compatibility, unknown keys don't fail the whole
-> -- 
-> 2.43.0
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+-- 
+Josh
