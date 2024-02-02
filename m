@@ -1,550 +1,78 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62394654D;
-	Thu,  1 Feb 2024 22:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6A84694;
+	Fri,  2 Feb 2024 00:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706827833; cv=none; b=VqXTY5sscUivAzPDksttiWu08lR5i+w+tkfEAi8MDXMvBimFhU0J9ntvQSw1nqpmqSAOPHA+eTh/JoqlsLwa26s8+i9VMQcvT/ritdYA/ZA0y/Byc+FzNNxJvh0ciFVv7Q9lt/c98iEXUj+CZJ4fsHowxnO5qmRAfsonPCOAwLA=
+	t=1706832262; cv=none; b=f3J+4FNzjMAFq7YA61veOk6Gno4BVKbHRWui+LTWLqEnxl8h7o5a9uSqeaJeewYyo7dG7n93OEgDf5RRDNMBdSVnU15ctvo2cDnYqF86sNoA+qheln3E+qhTUJVk28O8yMWWRYGbxXS8cY7MJMVuVdFVBS6GQTayMK29Z+ngvOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706827833; c=relaxed/simple;
-	bh=hvS/nc33JG9TW9V2fGNLHsBjKEozS2d67DTqE1GxjBA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qNZReyGBml4BRtKCOuJOKoG2zFhlnE5+Ps2r6gM7d3BDgTpLYJREwCWtLPmA8k2oo3NARA7E3CxeWApVbYJcFVn6GikkaP+IpKL0hyM15l2fe6EI2XiCdUZmwheyzyolHhfHouwMfkbW9jVyJiGuD6HwyqbN4bNOilylI0YmIgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=HFzX0H1j; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1706832262; c=relaxed/simple;
+	bh=pNTP5KAhWQVKoi5tIE6ZiagSXkkKSX/ysVVnKPKlVr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AAQI/xrGxT8AhOMQAnCbklVzo4iE0rv9rNNbZwwZIjn/9wbz4N1g8ER2MP6khAx+IVTcZ8BNO9OCfSnhP3U3u21ToZ+SNb33EXq5c7HozmhO3Q9h8dIll/CL4Jj1pqY0EgtXnAPKRcKm9bEGmTTm029qZbmScWOwJKPHeJ9+jfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C+KGT/67; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="HFzX0H1j"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 411MoPes009469;
-	Thu, 1 Feb 2024 16:50:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1706827825;
-	bh=xruoUk69kw1j4DvLfautg+Zv9j2Q/+/o1C9Ff5tG4/s=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=HFzX0H1jdgBW+CQXX5rkoY/fS4AsYozNKAzSxiBVPHZgP8Icy5Hpv2olm0sn2NQv2
-	 piu3m5mnKJvTz4p6T2R8E5+tL7lLVYWb6krIsqcXcvYpZ2SmQ11VRGhDqbotkjCP1L
-	 AkkMxj/pCuDmxVMbvcV0ENoxQrKhBS7krlv55gQU=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 411MoPfv094257
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 1 Feb 2024 16:50:25 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 1
- Feb 2024 16:50:24 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 1 Feb 2024 16:50:24 -0600
-Received: from lelvsmtp6.itg.ti.com ([10.249.42.149])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 411MoNUG109168;
-	Thu, 1 Feb 2024 16:50:24 -0600
-From: Andrew Davis <afd@ti.com>
-To: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-        Tero
- Kristo <kristo@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>
-CC: <linux-doc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Andrew Davis <afd@ti.com>
-Subject: [PATCH v3 4/4] dt-bindings: dma: Convert ti-edma.txt to YAML
-Date: Thu, 1 Feb 2024 16:50:22 -0600
-Message-ID: <20240201225022.144476-4-afd@ti.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240201225022.144476-1-afd@ti.com>
-References: <20240201225022.144476-1-afd@ti.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C+KGT/67"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572BBC433F1;
+	Fri,  2 Feb 2024 00:04:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706832261;
+	bh=pNTP5KAhWQVKoi5tIE6ZiagSXkkKSX/ysVVnKPKlVr4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=C+KGT/67532lFzqQWf2qp3tEQorF868vzJZSYmvHQItVKOld9voLEOnX1YQRZ1bpV
+	 uSH1edCyj/dVEW4eAAELqpFN1q4r+oRhMt6WU1ibyhSPxcyznwDUmVrsgxLXEclXU3
+	 BtHKdPgfJVJBqGnBYEzRcMpIfkqpur6x6SVlGdkkLcNXj629OvnzBgSVHpla/mhQhO
+	 CPP1ffEZGugqzf1Rl65diOQ0BEJHt4DE8abW73qbN71EIStTVUfCISOy/NX2AjG49h
+	 f85TnUcQ4PBt2QC3KYFKw2wDdMPySEHwxBXLAhDvkLCgOoiuQI0czdC+ClRwVNCDZ7
+	 9tF5c0XkBmPzQ==
+Date: Thu, 1 Feb 2024 16:04:16 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Donald Hunter <donald.hunter@gmail.com>, <netdev@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, "Eric Dumazet"
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, "Jonathan Corbet"
+ <corbet@lwn.net>, <linux-doc@vger.kernel.org>, Breno Leitao
+ <leitao@debian.org>, Jiri Pirko <jiri@resnulli.us>, Alessandro Marcolini
+ <alessandromarcolini99@gmail.com>, <donald.hunter@redhat.com>
+Subject: Re: [PATCH net-next v1 02/12] tools/net/ynl: Support sub-messages
+ in nested attribute spaces
+Message-ID: <20240201160416.0da06952@kernel.org>
+In-Reply-To: <029065d6-faaf-4e58-ac06-4e11c2ded02c@intel.com>
+References: <20240123160538.172-1-donald.hunter@gmail.com>
+	<20240123160538.172-3-donald.hunter@gmail.com>
+	<20240123161804.3573953d@kernel.org>
+	<m2ede7xeas.fsf@gmail.com>
+	<20240124073228.0e939e5c@kernel.org>
+	<m2ttn0w9fa.fsf@gmail.com>
+	<20240126105055.2200dc36@kernel.org>
+	<m2jznuwv7g.fsf@gmail.com>
+	<20240129174220.65ac1755@kernel.org>
+	<029065d6-faaf-4e58-ac06-4e11c2ded02c@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Convert ti-edma.txt to ti/ti,edma3-tpcc.yaml and
-ti/ti,edma3-tptc.yaml.
+On Thu, 1 Feb 2024 12:53:08 -0800 Jacob Keller wrote:
+> On 1/29/2024 5:42 PM, Jakub Kicinski wrote:
+> > Whether YNL specs should replace policy dumps completely (by building
+> > the YAML into the kernel, and exposing via sysfs like kheaders or btf)
+> >  - I'm not sure. I think I used policy dumps twice in my life. They
+> > are not all that useful, IMVHO...  
+> 
+> Many older genetlink/netlink families don't have a super robust or
+> specific policy. For example, devlink has a single enum for all
+> attributes, and the policy is not specified per command. The policy
+> simply accepts all attributes for every command. This means that you
+> can't rely on policy to decide whether an attribute has meaning for a
+> given command.
 
-Signed-off-by: Andrew Davis <afd@ti.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
+FWIW Jiri converted devlink to use ynl policy generation. AFAIU it now
+only accepts what's used and nobody complained, yet, knock wood.
 
-Changes for v3:
- - Add tags and rebase
-
- .../devicetree/bindings/dma/ti-edma.txt       | 238 ------------------
- .../bindings/dma/ti/ti,edma3-tpcc.yaml        | 128 ++++++++++
- .../bindings/dma/ti/ti,edma3-tptc.yaml        |  63 +++++
- MAINTAINERS                                   |   1 -
- 4 files changed, 191 insertions(+), 239 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/dma/ti-edma.txt
- create mode 100644 Documentation/devicetree/bindings/dma/ti/ti,edma3-tpcc.yaml
- create mode 100644 Documentation/devicetree/bindings/dma/ti/ti,edma3-tptc.yaml
-
-diff --git a/Documentation/devicetree/bindings/dma/ti-edma.txt b/Documentation/devicetree/bindings/dma/ti-edma.txt
-deleted file mode 100644
-index f719e1612b0a5..0000000000000
---- a/Documentation/devicetree/bindings/dma/ti-edma.txt
-+++ /dev/null
-@@ -1,238 +0,0 @@
--Texas Instruments eDMA
--
--The eDMA3 consists of two components: Channel controller (CC) and Transfer
--Controller(s) (TC). The CC is the main entry for DMA users since it is
--responsible for the DMA channel handling, while the TCs are responsible to
--execute the actual DMA tansfer.
--
--------------------------------------------------------------------------------
--eDMA3 Channel Controller
--
--Required properties:
----------------------
--- compatible:	Should be:
--		- "ti,edma3-tpcc" for the channel controller(s) on OMAP,
--		  AM33xx and AM43xx SoCs.
--		- "ti,k2g-edma3-tpcc", "ti,edma3-tpcc" for the
--		  channel controller(s) on 66AK2G.
--- #dma-cells:	Should be set to <2>. The first number is the DMA request
--		number and the second is the TC the channel is serviced on.
--- reg:		Memory map of eDMA CC
--- reg-names:	"edma3_cc"
--- interrupts:	Interrupt lines for CCINT, MPERR and CCERRINT.
--- interrupt-names: "edma3_ccint", "edma3_mperr" and "edma3_ccerrint"
--- ti,tptcs:	List of TPTCs associated with the eDMA in the following form:
--		<&tptc_phandle TC_priority_number>. The highest priority is 0.
--
--SoC-specific Required properties:
----------------------------------
--The following are mandatory properties for OMAP, AM33xx and AM43xx SoCs only:
--- ti,hwmods:	Name of the hwmods associated to the eDMA CC.
--
--The following are mandatory properties for 66AK2G SoCs only:
--- power-domains:Should contain a phandle to a PM domain provider node
--		and an args specifier containing the device id
--		value. This property is as per the binding,
--		Documentation/devicetree/bindings/soc/ti/sci-pm-domain.yaml
--
--Optional properties:
---------------------
--- ti,edma-memcpy-channels: List of channels allocated to be used for memcpy, iow
--		these channels will be SW triggered channels. See example.
--- ti,edma-reserved-slot-ranges: PaRAM slot ranges which should not be used by
--		the driver, they are allocated to be used by for example the
--		DSP. See example.
--- dma-channel-mask: Mask of usable channels.
--		Single uint32 for EDMA with 32 channels, array of two uint32 for
--		EDMA with 64 channels. See example and
--		Documentation/devicetree/bindings/dma/dma-common.yaml
--
--
--------------------------------------------------------------------------------
--eDMA3 Transfer Controller
--
--Required properties:
----------------------
--- compatible:	Should be:
--		- "ti,edma3-tptc" for the transfer controller(s) on OMAP,
--		  AM33xx and AM43xx SoCs.
--		- "ti,k2g-edma3-tptc", "ti,edma3-tptc" for the
--		  transfer controller(s) on 66AK2G.
--- reg:		Memory map of eDMA TC
--- interrupts:	Interrupt number for TCerrint.
--
--SoC-specific Required properties:
----------------------------------
--The following are mandatory properties for OMAP, AM33xx and AM43xx SoCs only:
--- ti,hwmods:	Name of the hwmods associated to the eDMA TC.
--
--The following are mandatory properties for 66AK2G SoCs only:
--- power-domains:Should contain a phandle to a PM domain provider node
--		and an args specifier containing the device id
--		value. This property is as per the binding,
--		Documentation/devicetree/bindings/soc/ti/sci-pm-domain.yaml
--
--Optional properties:
---------------------
--- interrupt-names: "edma3_tcerrint"
--
--------------------------------------------------------------------------------
--Examples:
--
--1.
--edma: edma@49000000 {
--	compatible = "ti,edma3-tpcc";
--	ti,hwmods = "tpcc";
--	reg =	<0x49000000 0x10000>;
--	reg-names = "edma3_cc";
--	interrupts = <12 13 14>;
--	interrupt-names = "edma3_ccint", "edma3_mperr", "edma3_ccerrint";
--	dma-requests = <64>;
--	#dma-cells = <2>;
--
--	ti,tptcs = <&edma_tptc0 7>, <&edma_tptc1 7>, <&edma_tptc2 0>;
--
--	/* Channel 20 and 21 is allocated for memcpy */
--	ti,edma-memcpy-channels = <20 21>;
--	/* The following PaRAM slots are reserved: 35-44 and 100-109 */
--	ti,edma-reserved-slot-ranges = <35 10>, <100 10>;
--	/* The following channels are reserved: 35-44 */
--	dma-channel-mask = <0xffffffff /* Channel 0-31 */
--			    0xffffe007>; /* Channel 32-63 */
--};
--
--edma_tptc0: tptc@49800000 {
--	compatible = "ti,edma3-tptc";
--	ti,hwmods = "tptc0";
--	reg =	<0x49800000 0x100000>;
--	interrupts = <112>;
--	interrupt-names = "edm3_tcerrint";
--};
--
--edma_tptc1: tptc@49900000 {
--	compatible = "ti,edma3-tptc";
--	ti,hwmods = "tptc1";
--	reg =	<0x49900000 0x100000>;
--	interrupts = <113>;
--	interrupt-names = "edm3_tcerrint";
--};
--
--edma_tptc2: tptc@49a00000 {
--	compatible = "ti,edma3-tptc";
--	ti,hwmods = "tptc2";
--	reg =	<0x49a00000 0x100000>;
--	interrupts = <114>;
--	interrupt-names = "edm3_tcerrint";
--};
--
--sham: sham@53100000 {
--	compatible = "ti,omap4-sham";
--	ti,hwmods = "sham";
--	reg = <0x53100000 0x200>;
--	interrupts = <109>;
--	/* DMA channel 36 executed on eDMA TC0 - low priority queue */
--	dmas = <&edma 36 0>;
--	dma-names = "rx";
--};
--
--mcasp0: mcasp@48038000 {
--	compatible = "ti,am33xx-mcasp-audio";
--	ti,hwmods = "mcasp0";
--	reg = <0x48038000 0x2000>,
--		<0x46000000 0x400000>;
--	reg-names = "mpu", "dat";
--	interrupts = <80>, <81>;
--	interrupt-names = "tx", "rx";
--	/* DMA channels 8 and 9 executed on eDMA TC2 - high priority queue */
--	dmas = <&edma 8 2>,
--	       <&edma 9 2>;
--	dma-names = "tx", "rx";
--};
--
--2.
--edma1: edma@2728000 {
--	compatible = "ti,k2g-edma3-tpcc", "ti,edma3-tpcc";
--	reg =	<0x02728000 0x8000>;
--	reg-names = "edma3_cc";
--	interrupts = <GIC_SPI 208 IRQ_TYPE_EDGE_RISING>,
--			<GIC_SPI 219 IRQ_TYPE_EDGE_RISING>,
--			<GIC_SPI 220 IRQ_TYPE_EDGE_RISING>;
--	interrupt-names = "edma3_ccint", "emda3_mperr",
--			  "edma3_ccerrint";
--	dma-requests = <64>;
--	#dma-cells = <2>;
--
--	ti,tptcs = <&edma1_tptc0 7>, <&edma1_tptc1 0>;
--
--	/*
--	 * memcpy is disabled, can be enabled with:
--	 * ti,edma-memcpy-channels = <12 13 14 15>;
--	 * for example.
--	 */
--
--	power-domains = <&k2g_pds 0x4f>;
--};
--
--edma1_tptc0: tptc@27b0000 {
--	compatible = "ti,k2g-edma3-tptc", "ti,edma3-tptc";
--	reg =	<0x027b0000 0x400>;
--	power-domains = <&k2g_pds 0x4f>;
--};
--
--edma1_tptc1: tptc@27b8000 {
--	compatible = "ti,k2g-edma3-tptc", "ti,edma3-tptc";
--	reg =	<0x027b8000 0x400>;
--	power-domains = <&k2g_pds 0x4f>;
--};
--
--mmc0: mmc@23000000 {
--	compatible = "ti,k2g-hsmmc", "ti,omap4-hsmmc";
--	reg = <0x23000000 0x400>;
--	interrupts = <GIC_SPI 96 IRQ_TYPE_EDGE_RISING>;
--	dmas = <&edma1 24 0>, <&edma1 25 0>;
--	dma-names = "tx", "rx";
--	bus-width = <4>;
--	ti,needs-special-reset;
--	no-1-8-v;
--	max-frequency = <96000000>;
--	power-domains = <&k2g_pds 0xb>;
--	clocks = <&k2g_clks 0xb 1>, <&k2g_clks 0xb 2>;
--	clock-names = "fck", "mmchsdb_fck";
--};
--
--------------------------------------------------------------------------------
--DEPRECATED binding, new DTS files must use the ti,edma3-tpcc/ti,edma3-tptc
--binding.
--
--Required properties:
--- compatible : "ti,edma3"
--- #dma-cells: Should be set to <1>
--              Clients should use a single channel number per DMA request.
--- reg: Memory map for accessing module
--- interrupts: Exactly 3 interrupts need to be specified in the order:
--              1. Transfer completion interrupt.
--              2. Memory protection interrupt.
--              3. Error interrupt.
--Optional properties:
--- ti,hwmods: Name of the hwmods associated to the EDMA
--- ti,edma-xbar-event-map: Crossbar event to channel map
--
--Deprecated properties:
--Listed here in case one wants to boot an old kernel with new DTB. These
--properties might need to be added to the new DTS files.
--- ti,edma-regions: Number of regions
--- ti,edma-slots: Number of slots
--- dma-channels: Specify total DMA channels per CC
--
--Example:
--
--edma: edma@49000000 {
--	reg = <0x49000000 0x10000>;
--	interrupt-parent = <&intc>;
--	interrupts = <12 13 14>;
--	compatible = "ti,edma3";
--	ti,hwmods = "tpcc", "tptc0", "tptc1", "tptc2";
--	#dma-cells = <1>;
--	ti,edma-xbar-event-map = /bits/ 16 <1 12
--					    2 13>;
--};
-diff --git a/Documentation/devicetree/bindings/dma/ti/ti,edma3-tpcc.yaml b/Documentation/devicetree/bindings/dma/ti/ti,edma3-tpcc.yaml
-new file mode 100644
-index 0000000000000..c44dcfad31a10
---- /dev/null
-+++ b/Documentation/devicetree/bindings/dma/ti/ti,edma3-tpcc.yaml
-@@ -0,0 +1,128 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/dma/ti/ti,edma3-tpcc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments eDMA3 Channel Controller
-+
-+description: |
-+  The eDMA3 consists of two components, Channel controller (CC) and Transfer
-+  Controller(s) (TC). The CC is the main entry for DMA users since it is
-+  responsible for the DMA channel handling, while the TCs are responsible to
-+  execute the actual DMA tansfer. This documents the Channel Controller.
-+
-+maintainers:
-+  - Andrew Davis <afd@ti.com>
-+
-+allOf:
-+  - $ref: /schemas/dma/dma-controller.yaml#
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: ti,edma3-tpcc # OMAP, AM33xx, and AM43xx
-+      - items:
-+          - const: ti,k2g-edma3-tpcc # 66AK2G
-+          - const: ti,edma3-tpcc
-+
-+  reg:
-+    maxItems: 1
-+
-+  reg-names:
-+    const: edma3_cc
-+
-+  interrupts:
-+    items:
-+      - description: CCINT Interrupt
-+      - description: MPERR Interrupt
-+      - description: CCERRINT Interrupt
-+
-+  interrupt-names:
-+    items:
-+      - const: edma3_ccint
-+      - const: edma3_mperr
-+      - const: edma3_ccerrint
-+
-+  "#dma-cells":
-+    const: 2
-+    description: |
-+      The first cell is the DMA request number.
-+      The second cell is the TC the channel is serviced on.
-+
-+  ti,tptcs:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description: |
-+      List of TPTCs associated with the eDMA in the following form,
-+      <&tptc_phandle TC_priority_number>. The highest priority is 0.
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  ti,edma-memcpy-channels:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description: |
-+      List of channels allocated to be used for memcpy, iow
-+      these channels will be SW triggered channels.
-+
-+  ti,edma-reserved-slot-ranges:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description: |
-+      PaRAM slot ranges which should not be used by the driver,
-+      they are allocated to be used by for example the DSP.
-+
-+  dma-channel-mask:
-+    description: |
-+      Mask of usable channels. Single uint32 for EDMA with 32 channels,
-+      array of two uint32 for EDMA with 64 channels.
-+
-+  dma-requests:
-+    const: 64
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - interrupt-names
-+  - "#dma-cells"
-+  - ti,tptcs
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - ti,k2g-edma3-tptc
-+then:
-+  required:
-+    - power-domains
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    dma-controller@49000000 {
-+        compatible = "ti,edma3-tpcc";
-+        reg = <0x49000000 0x10000>;
-+        reg-names = "edma3_cc";
-+        interrupts = <GIC_SPI 200 IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 216 IRQ_TYPE_EDGE_RISING>,
-+                     <GIC_SPI 217 IRQ_TYPE_EDGE_RISING>;
-+        interrupt-names = "edma3_ccint",
-+                          "edma3_mperr",
-+                          "edma3_ccerrint";
-+        dma-requests = <64>;
-+        #dma-cells = <2>;
-+
-+        ti,tptcs = <&edma_tptc0 7>, <&edma_tptc1 7>, <&edma_tptc2 0>;
-+
-+        /* Channel 20 and 21 is allocated for memcpy */
-+        ti,edma-memcpy-channels = <20 21>;
-+        /* The following PaRAM slots are reserved: 35-44 and 100-109 */
-+        ti,edma-reserved-slot-ranges = <35 10>, <100 10>;
-+        /* The following channels are reserved: 35-44 */
-+        dma-channel-mask = <0xffffffff /* Channel 0-31 */
-+                            0xffffe007>; /* Channel 32-63 */
-+    };
-diff --git a/Documentation/devicetree/bindings/dma/ti/ti,edma3-tptc.yaml b/Documentation/devicetree/bindings/dma/ti/ti,edma3-tptc.yaml
-new file mode 100644
-index 0000000000000..1d3a1af63c9b4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/dma/ti/ti,edma3-tptc.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/dma/ti/ti,edma3-tptc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments eDMA3 Transfer Controller
-+
-+description: |
-+  The eDMA3 consists of two components, Channel controller (CC) and Transfer
-+  Controller(s) (TC). The CC is the main entry for DMA users since it is
-+  responsible for the DMA channel handling, while the TCs are responsible to
-+  execute the actual DMA tansfer. This documents the Transfer Controller.
-+
-+maintainers:
-+  - Andrew Davis <afd@ti.com>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: ti,edma3-tptc # OMAP, AM33xx, and AM43xx
-+      - items:
-+          - const: ti,k2g-edma3-tptc # 66AK2G
-+          - const: ti,edma3-tptc
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    description: Interrupt number for TCerrint
-+    maxItems: 1
-+
-+  interrupt-names:
-+    const: edma3_tcerrint
-+
-+  power-domains:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - ti,k2g-edma3-tptc
-+then:
-+  required:
-+    - power-domains
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    tptc@49800000 {
-+        compatible = "ti,k2g-edma3-tptc", "ti,edma3-tptc";
-+        reg = <0x49800000 0x100000>;
-+        interrupts = <112>;
-+        interrupt-names = "edma3_tcerrint";
-+        power-domains = <&k2g_pds 0xb>;
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8999497011a26..9dfa6814681ff 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21716,7 +21716,6 @@ M:	Peter Ujfalusi <peter.ujfalusi@gmail.com>
- L:	dmaengine@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/dma/ti-dma-crossbar.txt
--F:	Documentation/devicetree/bindings/dma/ti-edma.txt
- F:	Documentation/devicetree/bindings/dma/ti/
- F:	drivers/dma/ti/
- F:	include/linux/dma/k3-psil.h
--- 
-2.39.2
-
+Agreed on other points :)
