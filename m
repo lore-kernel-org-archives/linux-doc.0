@@ -1,214 +1,164 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5F679953
-	for <linux-doc@vger.kernel.org>; Fri,  2 Feb 2024 11:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3C513BEA9;
+	Fri,  2 Feb 2024 11:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706871757; cv=none; b=AnBOA2Hmu0e4aBf+6wmxQa6ppTZnD84RZPwPzP4s9XJ1xIpLydAxIZxThrveuzh3fVGL0JAflr2C5bbuPOsln8h3+qMNdwOseJaKzf31N5lZEn5Qr0Sesz/Nya3YroKFCf0co6h+kiuY3CnfgvCmJHzPHg4rJoApIJmVbq64Ucs=
+	t=1706871901; cv=none; b=q8D+9WM8NUZgxZWKNL8SE0CCE1DsRcR951kA1wvVpqx1wP8rtUm+hzFzajWlJaUrBh3iib/T8P+buXv7kV4chthTMh5sFZxNQhIr3uWiQUk87Xca/JDbdWD0PwRhPAE285WMG1Ty1CJVD0GJjiaPt2I++jvqpYl97LIL2adT19M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706871757; c=relaxed/simple;
-	bh=D74xUy1ymoMyy6G89fvtRm0D45tUlhGfHmdtylAdP74=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kwIeo4y/6Iu6wag5/MggeUTNFrZyJhpaHxgzmN6uBKnY/IAtdsZW/hCithNCZdVRDpeFozrg7rhPLVximcjFAQCxCLvtbOVyQqcx5wM7u4kW4ptYNeqjgfyEUDvWzvF3Ex7om8pWjC/VI9qsMP0cHsuNNJK8uT/I+fMbxZps5mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mRLrVqNU; arc=none smtp.client-ip=209.85.167.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1706871901; c=relaxed/simple;
+	bh=q7IX5Ck7p9ObclPnEIIJjPrssh+zna2B8YOn9nxa6vk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=S5BvZF7AeoMC/vXH4+ulzZ1NNi++ufWTXg5BPlNWKlVOmvK4WxSuKY4I16haQtxL5OJ/j4qOdUie054YBGfaTjp8cWCirg8rSXOi/pc1AAFafK0Mk7V6pTxLQAxek93Xcq2UdcLXi+iVIH4POD85o6ofsXsfxRIuFBMRVCoJP74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7sqhytb; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mRLrVqNU"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3beab443a63so1389577b6e.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Feb 2024 03:02:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706871754; x=1707476554; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AKvTOkMfs92gzE0M+TFiSJEhkCKRpJTzmpH7agAwUHE=;
-        b=mRLrVqNUC0+K74GLOl3vqaKFfnZylYJ9FexXfOF7UWpR79qSkQVkNE7M3Dd3TeVLhb
-         PhrYT0Eam/JvsohsUplCZo2sC80k7JA38WiRwJR/Tiyzu/netZn4T1zXO+n3szutFE73
-         AYobjBPAq6heSsJap54Cc/4cOZ8dsmtVBSb6YNXMp+K+Jr4A2Z1ZH9RdF9OcyE2iAv6G
-         Nvgx8OhKbCbIVM0OPBdwcEm0cU9+gsvREElE+bIRwnrDrW9OsJ3y2hB0935KlI0qV1vb
-         EmXVwTpkOERbd8aEchG0ttIRworAU5vnn5ah8i+faa84zzD9AT9VD008Sx+sdyvHnbPE
-         OCtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706871754; x=1707476554;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AKvTOkMfs92gzE0M+TFiSJEhkCKRpJTzmpH7agAwUHE=;
-        b=YzXmnxAieEldG5Kqtmn1Pmfd46jXjaj03ec0RWJxQhal6EY7MjQNvcuCAaa9hrVkLK
-         8gxX6Bxk+kM61ZFj0iyyt8Wh9xZ8/Nx1jKYHq36j4ZSviC+oWdnRgfnrEo0sd+Is8ZsK
-         OstNGyrSAF6lJHJOVny29bUG2Lp/LwSSpR79DQkObg5+K6NPo7tPVKFT6TgdeuVq7OP5
-         /MxsJPtXf+MtUHoFIva2hz3NNQj7sVDNlr4l/mKg5PjJx7aPQ/rqWpL1aUyvSVALTBXP
-         SN6JcHJu1I5Rb+kbC7tL7HEi/U3J1z8xT+5tljhGaKfiPk3Su8pYrgeOJUU1POx16Cqn
-         Elow==
-X-Gm-Message-State: AOJu0Yz6dfc9eFWXys0rOEnjfwiEYVa2kJCNTn56e7q5jSLS2zGkIzth
-	zASU16O3WdNUicdYR7Ftrps1LH1y7hDAc9C+3QneMotEp1n0L5Qgrr395AAFfOPcvj7UFtOiqLy
-	+ry9FPW2QLmHanMLNmnh/SWxsNRNr2YEV9BnK
-X-Google-Smtp-Source: AGHT+IFRpqtiZKVAmnfyGxbOhfn+Xv95kz9Cj0dh1dh0pmbX0ph2z2DTZnuR3soBcYzNT173zBRShjkf603kulKsELQ=
-X-Received: by 2002:a05:6808:10c3:b0:3bf:80de:9831 with SMTP id
- s3-20020a05680810c300b003bf80de9831mr1988318ois.10.1706871754161; Fri, 02 Feb
- 2024 03:02:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7sqhytb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706871899; x=1738407899;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=q7IX5Ck7p9ObclPnEIIJjPrssh+zna2B8YOn9nxa6vk=;
+  b=i7sqhytb0tVRUwQ48QDH2veY4jkL57GZxTvtpr/A0/RVIvX+WrcAz0WG
+   2FhulqkGn84J1BIL238wAeAK7NysYyQvNMa98aH8jOCQLHo1l6xWM0mh5
+   IHpMQG/K9xzaDSRK6Gx7+6UD+Zo7mxTQpRHnMaRTOuQKXNod+4lK0Exjk
+   t76BP11X56TG/jJIAufPVPj2eUJGPrX84tX1djZw6+lVdYH7TP5ZueTVp
+   1gaEzVuG3e9VxAPPdsFq+zHeSvyD1b62WZGa9lKd1aX4e6ZutWXFR48R2
+   +oNlDiWpT0qRy9svPB/ZVNnDe4qbSz5t313CarxByPJD85RB7oCo0fT8U
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="435276041"
+X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
+   d="scan'208";a="435276041"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 03:04:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="908542172"
+X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
+   d="scan'208";a="908542172"
+Received: from mmermeza-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.59.198])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 03:04:53 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>, Maxime Ripard
+ <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, Samuel
+ Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org, Hans
+ Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, Chen-Yu
+ Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Ville
+ =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
+In-Reply-To: <20240115143308.GA159345@toolbox>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox>
+Date: Fri, 02 Feb 2024 13:04:50 +0200
+Message-ID: <874jerf7ot.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240202101311.it.893-kees@kernel.org> <20240202101642.156588-2-keescook@chromium.org>
-In-Reply-To: <20240202101642.156588-2-keescook@chromium.org>
-From: Marco Elver <elver@google.com>
-Date: Fri, 2 Feb 2024 12:01:55 +0100
-Message-ID: <CANpmjNPPbTNPJfM5MNE6tW-jCse+u_RB8bqGLT3cTxgCsL+x-A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] ubsan: Reintroduce signed and unsigned overflow sanitizers
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org, Justin Stitt <justinstitt@google.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Hao Luo <haoluo@google.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Fangrui Song <maskray@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Bill Wendling <morbo@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Jonathan Corbet <corbet@lwn.net>, x86@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Fri, 2 Feb 2024 at 11:16, Kees Cook <keescook@chromium.org> wrote:
->
-> Effectively revert commit 6aaa31aeb9cf ("ubsan: remove overflow
-> checks"), to allow the kernel to be built with the "overflow"
-> sanitizers again. This gives developers a chance to experiment[1][2][3]
-> with the instrumentation again, while compilers adjust their sanitizers
-> to deal with the impact of -fno-strict-oveflow (i.e. moving from
-> "overflow" checking to "wrap-around" checking).
->
-> Notably, the naming of the options is adjusted to use the name "WRAP"
-> instead of "OVERFLOW". In the strictest sense, arithmetic "overflow"
-> happens when a result exceeds the storage of the type, and is considered
-> by the C standard and compilers to be undefined behavior for signed
-> and pointer types (without -fno-strict-overflow). Unsigned arithmetic
-> overflow is defined as always wrapping around.
->
-> Because the kernel is built with -fno-strict-overflow, signed and pointer
-> arithmetic is defined to always wrap around instead of "overflowing"
-> (which could either be elided due to being undefined behavior or would
-> wrap around, which led to very weird bugs in the kernel).
->
-> So, the config options are added back as CONFIG_UBSAN_SIGNED_WRAP and
-> CONFIG_UBSAN_UNSIGNED_WRAP. Since the kernel has several places that
-> explicitly depend on wrap-around behavior (e.g. counters, atomics, crypto,
-> etc), also introduce the __signed_wrap and __unsigned_wrap function
-> attributes for annotating functions where wrapping is expected and should
-> not be instrumented. This will allow us to distinguish in the kernel
-> between intentional and unintentional cases of arithmetic wrap-around.
->
-> Additionally keep these disabled under CONFIG_COMPILE_TEST for now.
->
-> Link: https://github.com/KSPP/linux/issues/26 [1]
-> Link: https://github.com/KSPP/linux/issues/27 [2]
-> Link: https://github.com/KSPP/linux/issues/344 [3]
-> Cc: Justin Stitt <justinstitt@google.com>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Hao Luo <haoluo@google.com>
-> Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  include/linux/compiler_types.h | 14 ++++++-
->  lib/Kconfig.ubsan              | 19 ++++++++++
->  lib/test_ubsan.c               | 49 ++++++++++++++++++++++++
->  lib/ubsan.c                    | 68 ++++++++++++++++++++++++++++++++++
->  lib/ubsan.h                    |  4 ++
->  scripts/Makefile.ubsan         |  2 +
->  6 files changed, 155 insertions(+), 1 deletion(-)
->
-> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-> index 6f1ca49306d2..e585614f3152 100644
-> --- a/include/linux/compiler_types.h
-> +++ b/include/linux/compiler_types.h
-> @@ -282,11 +282,23 @@ struct ftrace_likely_data {
->  #define __no_sanitize_or_inline __always_inline
->  #endif
->
-> +/* Allow wrapping arithmetic within an annotated function. */
-> +#ifdef CONFIG_UBSAN_SIGNED_WRAP
-> +# define __signed_wrap __attribute__((no_sanitize("signed-integer-overflow")))
-> +#else
-> +# define __signed_wrap
-> +#endif
-> +#ifdef CONFIG_UBSAN_UNSIGNED_WRAP
-> +# define __unsigned_wrap __attribute__((no_sanitize("unsigned-integer-overflow")))
-> +#else
-> +# define __unsigned_wrap
-> +#endif
-> +
->  /* Section for code which can't be instrumented at all */
->  #define __noinstr_section(section)                                     \
->         noinline notrace __attribute((__section__(section)))            \
->         __no_kcsan __no_sanitize_address __no_profile __no_sanitize_coverage \
-> -       __no_sanitize_memory
-> +       __no_sanitize_memory __signed_wrap __unsigned_wrap
->
->  #define noinstr __noinstr_section(".noinstr.text")
->
-> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> index 59e21bfec188..a7003e5bd2a1 100644
-> --- a/lib/Kconfig.ubsan
-> +++ b/lib/Kconfig.ubsan
-> @@ -116,6 +116,25 @@ config UBSAN_UNREACHABLE
->           This option enables -fsanitize=unreachable which checks for control
->           flow reaching an expected-to-be-unreachable position.
->
-> +config UBSAN_SIGNED_WRAP
-> +       bool "Perform checking for signed arithmetic wrap-around"
-> +       default UBSAN
-> +       depends on !COMPILE_TEST
-> +       depends on $(cc-option,-fsanitize=signed-integer-overflow)
-> +       help
-> +         This option enables -fsanitize=signed-integer-overflow which checks
-> +         for wrap-around of any arithmetic operations with signed integers.
-> +
-> +config UBSAN_UNSIGNED_WRAP
-> +       bool "Perform checking for unsigned arithmetic wrap-around"
-> +       depends on $(cc-option,-fsanitize=unsigned-integer-overflow)
-> +       depends on !X86_32 # avoid excessive stack usage on x86-32/clang
-> +       depends on !COMPILE_TEST
-> +       help
-> +         This option enables -fsanitize=unsigned-integer-overflow which checks
-> +         for wrap-around of any arithmetic operations with unsigned integers. This
-> +         currently causes x86 to fail to boot.
+On Mon, 15 Jan 2024, Sebastian Wick <sebastian.wick@redhat.com> wrote:
+> On Thu, Dec 07, 2023 at 04:49:31PM +0100, Maxime Ripard wrote:
+>> The i915 driver has a property to force the RGB range of an HDMI output.
+>> The vc4 driver then implemented the same property with the same
+>> semantics. KWin has support for it, and a PR for mutter is also there to
+>> support it.
+>> 
+>> Both drivers implementing the same property with the same semantics,
+>> plus the userspace having support for it, is proof enough that it's
+>> pretty much a de-facto standard now and we can provide helpers for it.
+>> 
+>> Let's plumb it into the newly created HDMI connector.
+>> 
+>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-My hypothesis is that these options will quickly be enabled by various
-test and fuzzing setups, to the detriment of kernel developers. While
-the commit message states that these are for experimentation, I do not
-think it is at all clear from the Kconfig options.
+[snip]
 
-Unsigned integer wrap-around is relatively common (it is _not_ UB
-after all). While I can appreciate that in some cases wrap around is a
-genuine semantic bug, and that's what we want to find with these
-changes, ultimately marking all semantically valid wrap arounds to
-catch the unmarked ones. Given these patterns are so common, and C
-programmers are used to them, it will take a lot of effort to mark all
-the intentional cases. But I fear that even if we get to that place,
-_unmarked_  but semantically valid unsigned wrap around will keep
-popping up again and again.
+>> @@ -1655,6 +1678,26 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
+>>  /**
+>>   * DOC: HDMI connector properties
+>>   *
+>> + * Broadcast RGB
+>> + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+>> + *      Infoframes will be generated according to that value.
+>> + *
+>> + *      The value of this property can be one of the following:
+>> + *
+>> + *      Automatic:
+>> + *              RGB Range is selected automatically based on the mode
+>> + *              according to the HDMI specifications.
+>> + *
+>> + *      Full:
+>> + *              Full RGB Range is forced.
+>> + *
+>> + *      Limited 16:235:
+>> + *              Limited RGB Range is forced. Unlike the name suggests,
+>> + *              this works for any number of bits-per-component.
+>> + *
+>> + *      Drivers can set up this property by calling
+>> + *      drm_connector_attach_broadcast_rgb_property().
+>> + *
+>
+> This is a good time to document this in more detail. There might be two
+> different things being affected:
+>
+> 1. The signalling (InfoFrame/SDP/...)
+> 2. The color pipeline processing
+>
+> All values of Broadcast RGB always affect the color pipeline processing
+> such that a full-range input to the CRTC is converted to either full- or
+> limited-range, depending on what the monitor is supposed to accept.
+>
+> When automatic is selected, does that mean that there is no signalling,
+> or that the signalling matches what the monitor is supposed to accept
+> according to the spec? Also, is this really HDMI specific?
 
-What is the long-term vision to minimize the additional churn this may
-introduce?
+Automatic is based on the mode as described in the specs
+below. Basically certain modes are expected to be broadcast range, and
+others full range.
 
-I think the problem reminds me a little of the data race problem,
-although I suspect unsigned integer wraparound is much more common
-than data races (which unlike unsigned wrap around is actually UB) -
-so chasing all intentional unsigned integer wrap arounds and marking
-will take even more effort than marking all intentional data races
-(which we're still slowly, but steadily, making progress towards).
+I don't remember why we don't use the full range if the display
+indicates it supports selectable quantization range in Video
+Capabilities Data Block. It's quite possible there are displays that
+declare support but don't. Cc: Ville.
 
-At the very least, these options should 'depends on EXPERT' or even
-'depends on BROKEN' while the story is still being worked out.
+- HDMI 1.4b section 6.6 Video Quantization Ranges
 
-Thanks,
--- Marco
+- HDMI 2.1 section 7.3 Video Quantization Ranges
+
+- DP 2.1 (and earlier) section 5.1.1.1 Video Colorimetry
+
+- CTA-861-H (and earlier) section 5.1 Default Encoding Parameters and
+  section 6.4.3 Quantization Range
+
+> When full or limited is selected and the monitor doesn't support the
+> signalling, what happens?
+
+1) Limited selected, display expects full, colors seem washed out.
+
+2) Full selected, display expects limited, black screen possible.
+
+We receive the occasional bug report for 1, because there are displays
+that incorrectly expect full when spec says it should be limited. We
+reject the bug reports, because erring the other way can lead to black
+screens.
+
+
+BR,
+Jani.
+
+
+
+-- 
+Jani Nikula, Intel
