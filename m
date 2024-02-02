@@ -1,339 +1,402 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FF017994;
-	Fri,  2 Feb 2024 05:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706850146; cv=fail; b=IGw+P9GiX3jMx84DEzcK5eSlENf4CItLm7IEhYR0OHooou1vJl5kf+9ntTq3HfkVnxtnxxXMRmtBUJN/7B7wcmjm5r4yPKJ4vM2ysWVo+uMD6vV0gobdOu/RSkxDVrqqHHSg2McYVQACh4PW8mX7Sy0Q0qD4KeMHbleHopupMK8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706850146; c=relaxed/simple;
-	bh=fEyH9cIo4TDxe93k6sVmiAl10A7nPxlz+rBRCpW/z7c=;
-	h=Message-ID:Date:Subject:From:To:CC:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=a7uunel3F0f46/PNOzfqhR/CTXuRSS2gRRNoZoi0NUviSZ5j4Egec8vZ1fm+Zby+G5N/hJYDEF8qm5Xty7YVyhgTZVf9drw+e1vCATET8HRQjiUoURv5iTSE0hsFIQTsrAC6ija8gbheat5xefDZKow1zRT5ac8kVywDpF+yuzk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ANSjVNNu; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6851E17546;
+	Fri,  2 Feb 2024 05:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706852286; cv=none; b=WgTObbHu+vLFJswaE9BaR8+Qaf43aRswsi5Q7O3GVrhUXbCh5WsPC+WweaZiObHAGMZqAItMkNn2Bsz7Gc4i4PBq5x0dIOYm5gB4kzUOwa9WJzs5XWmZQ05nu1ww8zRRzQfNoiNS4EB0btIWh/sUrFE7ESOGoj0gT4fBzvfPp4c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706852286; c=relaxed/simple;
+	bh=E2GR5XDHSPikBayOkcLuyu7j9MvZrOlxRVXQ5WJoxgs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qqGx1AmMnxenaKnGHmfHscZ9Xg8tm2w1GQNHwQU3I0ClpeNb9SXS0LvY9qH5tDXxjMxFYx9ve7Fg8H2OXoXkMOYoW9jk8L7UOCMURHRDkJzfZ8QKh1TU6mkntZfK2Qazo2+y33FFvhF04MYf4oxTSxK6WV64Vgh/43sLEPmBv+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dh6doJiC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ANSjVNNu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706850145; x=1738386145;
-  h=message-id:date:subject:from:to:cc:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=fEyH9cIo4TDxe93k6sVmiAl10A7nPxlz+rBRCpW/z7c=;
-  b=ANSjVNNu+MsFKJvD0ROWQXfK/r6uWLTeMrN3AlM64qBNCgUwsT+52GIa
-   uQp0uWNvHIiHD5j3FjPuyv+2eisIdtVqY6c1tIGHYFc8xOjk3ZHcxgCcy
-   1azv0zze2h+cwPO05kZq/TOtDg3r6JUJazp7RSvKbiz7Qr/om8G6+W1yd
-   N5EHJ4HhpsO5I8+XxZIB71OynVoVsBQmy1X0HyXQwCJbQHbrL0mIhvVr1
-   z3kr+5kxnzOBBHh/6BDcth7ZG5q0ZoyQRz3Vg3Z5h4hq9Oh+AIKFC1i6M
-   18/Oww8Xl2d9rf98ZWN2LN8cIAb6QUL7xWf5MQSHNsoFQsZFwpbmaWmW8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="11454173"
-X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
-   d="scan'208";a="11454173"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 21:02:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,237,1701158400"; 
-   d="scan'208";a="4616612"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Feb 2024 21:02:20 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 1 Feb 2024 21:02:20 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 1 Feb 2024 21:02:20 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 1 Feb 2024 21:01:24 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=As3gZFZkYbnnkMpcPsrqalTiFJtFW3SFURQDIs/XJEtx8apsnthP8m5pz0OAingrGN7vaYxSA+aGR4Yp4UzZE4EO20rsWFQgDZt/9qY3qHyuf2/BDlDNZbqlgTRli1RQh7AJ7tvMACb1MoWDn10IUL+lQDdDBtM24KltzXz+rdGGlJzSR86Fs0sA9XeUhKZEZmHCwOeCJH/q7AxE/3zfBR+6zeihantgF3h3AIGujcwHL5pNwuMFSDrLBACm68M58UDRGfr63GWDjzC5Kxi5FzkPMUS5dOXSvHCDcsZ/Q/BjsvmjnUvhlqYnQy8r6snkWLSI2l2/tvU+Mv43HO5YJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3+Sbh37h7ll0/4nqSgdW1NenK9uxDRCOoe3eFt6QqHE=;
- b=Ov00eaqWc8U9xoG/rtx/NbL+HBRgUmyLRbB+etVdYvR4KrhBf/H2WC2BpZ7DUcA9yuCvyq35m6D1giziYP2/prB+/xNwlS+p0dapq0+8FThn6kxikXSQbYffYBgU9B6Wz5HjlE8qi/ls4cWEbvSJHzNgeIrBTU2FAa9UTAfm/Qz/7xcuIbNi9H+IyrmDBosqSUOQNiXSyVYgzq+xfvbxH9ukIeRXq3kV1GC6qYPLOdzaCh7kv1+DtBH1bIkgh4wjJ3YoIVIPdQ9Fvtx5tMLDwy3+uixHKzVkshPxyV05Dd80QSI9i9iARc6Pe2zjXJkEl+D5W0s9yID4d3vVujwLAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by SN7PR11MB6948.namprd11.prod.outlook.com (2603:10b6:806:2ab::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.24; Fri, 2 Feb
- 2024 05:01:22 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::c903:6ee5:ed69:f4fa]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::c903:6ee5:ed69:f4fa%7]) with mapi id 15.20.7228.029; Fri, 2 Feb 2024
- 05:01:22 +0000
-Message-ID: <0271aa74-a193-4391-84a8-c5bb527f0ce3@intel.com>
-Date: Thu, 1 Feb 2024 21:01:18 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
-	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
-	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
-	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>, James Morse <james.morse@arm.com>
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <cover.1705688538.git.babu.moger@amd.com>
- <7c26af23-fa1e-4e01-8088-8fbd9be3d6f3@intel.com>
-In-Reply-To: <7c26af23-fa1e-4e01-8088-8fbd9be3d6f3@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4P222CA0007.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:303:114::12) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dh6doJiC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A54BCC43390;
+	Fri,  2 Feb 2024 05:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706852285;
+	bh=E2GR5XDHSPikBayOkcLuyu7j9MvZrOlxRVXQ5WJoxgs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Dh6doJiCFcemsy8VlbfxgnCRA+eZWVPGbFB9UvG3bHNtDfM8WoaTSxgSEJm1/M4oZ
+	 NdIop9HwGOQRrcyEozvi7PvbrwZrLc4NPoNc6iIv3Wi070m+J0EtNvoUvJyT2Utehl
+	 9ifhg0bvSFE7DARAleCceFpuIa0hv8hLzqq09n5etBFQ3Sfw1JvJz/HPhx8GRWymno
+	 h5lHFXJo40UBto6r48dmQCmkOC2ewLwdY8Mr27kCm1UPNFuBfASI8W2SCCS+WAKNnX
+	 VyheKGVwxtFxh6xnIKEejK2h9gbVuEDBM3WwaEG5THoyp7WUS5tfgQUCfAlseHTM0n
+	 TkVo2+HWX30XA==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5112a04c7acso2780112e87.3;
+        Thu, 01 Feb 2024 21:38:05 -0800 (PST)
+X-Gm-Message-State: AOJu0Yy7V2UDVH/UGuCJ2sItCV1zlsOv9EVg8uyI9cXlk2sPFzuvjVI7
+	8kAOua2IlODCNEfwr16IvyhArcamviRwCXdGC8x9dZJh/FjZg2NlT1vXFnoRtIS/HuvjfY8YEaB
+	auaf11/63sNdm8oSIOriVQMclpnQ=
+X-Google-Smtp-Source: AGHT+IEx5d3cL+SHteHuJJiPnd5pqIM+E+Jcy3+p18zXc92ZL6sviKC9fFLdsRcahqJ5y84jQK7dxuxpkrNT7J8dh8U=
+X-Received: by 2002:a19:6702:0:b0:511:341b:ff94 with SMTP id
+ b2-20020a196702000000b00511341bff94mr578145lfc.26.1706852283931; Thu, 01 Feb
+ 2024 21:38:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SN7PR11MB6948:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1da75dd-58d7-4a9d-2a86-08dc23abfffd
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P931GhSTS9pj5HCnrGuhDASHLroi2LaChU2+HRwDNwySTb6zWLT+TgCNth+33A53VKNW9NimdgCDsBRNQgHZp3usTgj1FtcjDTu2JFxhYID5kWUXPISMHbH1EY+lxpAVzh7TKHfJynakJtezZE2XrhRrfPAcbyAuYVP83r6N0JuFDf/MezhIlFw5fYzhdNyXzAq0OuSxzBTHwibUy1U6WfccpUE0qhE+FXlEt6IsukRNS77rwH0IhWetO8NagN8a6fDwolbm9dPF7Kpwu4G0JAv+uf7NzWk48bCIt2IWKo4l/U5xdv5nDOBfP/WxEIU3ojhkuGtTjPI3UN9vpUsV5XrEYOW/T2+jnY7ypyYtfbb093dN7mJQclVzvT2NFns8FqksCaAdtkfC3IMTnFKKlxA8ZJaO11yOpmrLulFdizpyaqYFlUGoz4SKTlSTsz6JSAHst/oZ0xXdmMgLskzvCIUr0jOckbKzM7ad/INWYACTfIFyBbAiZ4/mX6ojEowTV0WNlj/Ta7CtXr46cnqJH7P428Uty6vAToU++UkD8HrOhs+53YsNLiZ/bV20x+X0B+eN8ZSM3qkIweAmyjVw4MGKigBODQ5gf29Q1CegyWfanqf3NYEdwj2qsOCH0790P/Ge+VvrFM90mKJLyZ3qCWvyloWwH9VETCur7LLILjSgAuL8fUEnxskMQStxfm4b
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(376002)(346002)(136003)(39860400002)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(8676002)(66556008)(966005)(66946007)(31686004)(478600001)(66476007)(6486002)(44832011)(316002)(53546011)(6666004)(8936002)(6512007)(6506007)(4326008)(2616005)(2906002)(26005)(5660300002)(38100700002)(7416002)(7406005)(41300700001)(36756003)(82960400001)(83380400001)(31696002)(86362001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OW1PMkdKckZKaVRhcFZGaWEraVN3R2t2WFBEMFE2UWszeWhUQmtmYlZZdmcw?=
- =?utf-8?B?WlBWWmU1UDFzZ2cvV2V1akdFRExHdDg1TE9oUVl2ZlZZV0h1YnZsVGhjWW4y?=
- =?utf-8?B?WHlxNEZvTXdoNDRYbTFORXhpWFcwQUJiQzArRkhKejNNU1RUcUlvRzR3VUJY?=
- =?utf-8?B?UzJwRnQ5c3JIamFGZEM0UmZudFg0b0JxR3MveEhoa3kvNFQ0RmppSjhuWkV2?=
- =?utf-8?B?NjQ0UnhONXhpVm4xUUFJeXIrK3JlRlIwNFJUY2NGQmx4c212MCtUNE1CLy9H?=
- =?utf-8?B?bm13UDJPYUFsbm5NVVRsanlkTnpMYUdsTmVDWHRzYlJmcWwwRjUxbjFPRmxy?=
- =?utf-8?B?WjFJb0RtUWZCeE9PV0lQQ1VwT05YcjVYMFRXMExFdjF5M3B1WlJLeDZrQ241?=
- =?utf-8?B?UlhvT05SemZ5MVdvaHhrcUh1SGw1eGd3SE13ZU5rV08wVFN1a0NLMWg4NXRs?=
- =?utf-8?B?Z0pPQ21wcHRxbUhsdTEwTFdhRC9HVmJMaWN3MjJYdHRUWGJxR25pMi9oaGZr?=
- =?utf-8?B?Z2pRV1g5SVBTck0rT3E4Z1NuQzVoc0oxUVQxTTI5dEhVM0xzK1YvRk94OVgy?=
- =?utf-8?B?SUpocTk2MEdqWVBJMnRWODVtQmZ6RVkxKzAxbjZ4bmNEVUQ2Q3dLZVhZQ2lx?=
- =?utf-8?B?eG15TDkwQTc0bnhXb29qOEFvQUphTzVDU3F6WFB0RjU0VWlQSFl6Sy9qZnJF?=
- =?utf-8?B?ek1PclBOYTJ3ZGY1L1RNVmJTQ05YUWVISkdQNDBqTHhmYlRhQjNEOVVpUTVX?=
- =?utf-8?B?UjRZL2wrb0RYTEJDSlEzc21FVjFLOENueUp5cWdWTnh6MitXcHF0Q080RUZG?=
- =?utf-8?B?NlhvdGlOZFI4dXdHMjR6L0pnUmxwTVV3YnlxbE55VndUYmxWdXdPRFIxWWwv?=
- =?utf-8?B?WEtCeXNUOUxBU3NLRkpReG1kbVBrY2ZsbW1nYWRQVFhVUFpFL3RwenJJSldB?=
- =?utf-8?B?dk9weGVjYnVZV2pDN2xyQjU2MjBmTDRnRUV2REdoMUI3N1FJZG53bUg2ZHgz?=
- =?utf-8?B?ZVlzUWxHa1N6OVdhcnI3S3lneEJWNkZUdnZkQ2dSZTc3eHp0aUd5dk5rNmcz?=
- =?utf-8?B?QXl1NENaenI1c1J3NzBNZFpjVjJnMnZxN0JLTXBteWRQNlpmWk5pZE9SY3Az?=
- =?utf-8?B?RHZXMDNUZGt0bE90MzdLQWw0bEord05saW1IcFdxT1pvMGZtYmREY0F0K0Ny?=
- =?utf-8?B?RlZpZTd0VGhwSHcxQ3FiTWF6d3dwd3JCZ0JtanNuMFY1Z1E0UGlwU3NxaXpz?=
- =?utf-8?B?SmdRTDFyQVFFYVhXSmo1T1hvWGZLZEV6bGhkcEZtMWpNUjdyR0dUSVVXY3Iz?=
- =?utf-8?B?VDRkU3RsSUxwVkZjTnRPTG5UalpsWFBmQ3JGLzRCd3pUR09FZkRlMGZ5TFkz?=
- =?utf-8?B?SVAxQlFrYWhJSjNSODFhc3Qwd3JXUDJsbG13dnJkNExXejFldy9SeU9VYkZK?=
- =?utf-8?B?MXc0Z2t6NUhOUWNXL0pBWjZJcEVRTU1PdWs2NW83N3lmS2ZWYzhZNzlJY3o4?=
- =?utf-8?B?US8xQi9oc3RsWll5Y3JjOVJ1OTJkTlNJcGdaLy9vT3JvN0R3WWxzMW53bzRa?=
- =?utf-8?B?VFhmVVo2L21oTEFraXdKTms2NFFqbWtFdGlyaXRSakR5WnZTbjRjdmFqSjRt?=
- =?utf-8?B?L2FxL2dsY2xacE9tWXp4Q0dUcUs5azRPcHdvRjdBQk5qMk9yVVZySFFqKzVw?=
- =?utf-8?B?VElkWW0zZDhUTzA2Si9WcFFvaVJ4cnVPcTVPV3hML2RIM2c4MHpZellkR01t?=
- =?utf-8?B?YTFGVnZmanova1Z5cWhkdXE3SktpWXZJaVU0T1J1WEdxTGFpbmZNeGdpNFUy?=
- =?utf-8?B?SEdiTnpoU0Y0K3JMRyt2cVg3enJ2RXVORkNtS2cvNVdVUzZubmdkeS94Mmtp?=
- =?utf-8?B?Y3MvaUk0QlR6NHN3WDBxUGlRa1Y2MlZ2azVtVVZ0UmtmZE9pWUhUQi9keHlS?=
- =?utf-8?B?cjQ2U2xVTkVxZlpJZjZ2TGZjeTUyNTRHV3FJQW96UU4zOTlzWkk5Y3V2ZXBW?=
- =?utf-8?B?Qk5GSjhoTzdRVWNxb2JiQmk5WWF5TG1vQ1FHT3NmQ1MxMWFqQS9vMjNYNTJJ?=
- =?utf-8?B?bUhoc1BsSXBVVm82Z1hSUk4yTUNCUllua2xPN2ZJVVZTZWFCZjgzSXAySW9F?=
- =?utf-8?B?blpIa1FwTzN3U0dNMmM5VC9DRHpSaGxDSlF5MlU3bVpsaTBIRlFGZ1FDdDlu?=
- =?utf-8?B?U2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1da75dd-58d7-4a9d-2a86-08dc23abfffd
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2024 05:01:22.2305
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZE9e2lOWmlesCAWHMPDbCqPr9eBzfVNy6tH+zj/1GIRuOnC5iVnpv7ytldAbV35LNgfq9FdWwxN1gRQ1aGDWPzxmlNozVXpisYXCGeXxXn8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6948
-X-OriginatorOrg: intel.com
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
+ <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
+ <20240109143349.GR1610741@bill-the-cat> <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
+ <CAFLszTjPAHd6RdO1mvatXC=yRS+h=sgJ_pMdyEnkROTx7yRpog@mail.gmail.com>
+ <CAK7LNARsY6-rrx=sNFq6oFqpqf0s5S_=3DrUsCOS7zF0BXcoTg@mail.gmail.com>
+ <CAL_JsqLYB0D5wAfedsb6tQp4EmD1AROgxiCncwO7gvA2p1C6Lg@mail.gmail.com>
+ <CAK7LNAR-3rL6=YdhRRXB9dz+94y2yHTA=9mF4p7OPj7KExd7rg@mail.gmail.com> <CAL_JsqLeTDALoKBuk9r+4NGXo0pc9LbK6bhDiZET+=UHG60fEA@mail.gmail.com>
+In-Reply-To: <CAL_JsqLeTDALoKBuk9r+4NGXo0pc9LbK6bhDiZET+=UHG60fEA@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 2 Feb 2024 14:37:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARSHiNGwHy4Tocbfkgyio1SbHV6sRJCA7yTrcTOXYEQHQ@mail.gmail.com>
+Message-ID: <CAK7LNARSHiNGwHy4Tocbfkgyio1SbHV6sRJCA7yTrcTOXYEQHQ@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Rob Herring <robh@kernel.org>
+Cc: Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>, Will Deacon <will@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-+James
+On Fri, Feb 2, 2024 at 6:03=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
+>
+> On Wed, Jan 31, 2024 at 8:09=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Thu, Feb 1, 2024 at 7:03=E2=80=AFAM Rob Herring <robh@kernel.org> wr=
+ote:
+> > >
+> > > On Tue, Jan 30, 2024 at 3:16=E2=80=AFAM Masahiro Yamada <masahiroy@ke=
+rnel.org> wrote:
+> > > >
+> > > > On Fri, Jan 26, 2024 at 1:04=E2=80=AFAM Simon Glass <sjg@chromium.o=
+rg> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > On Wed, 17 Jan 2024 at 06:14, Simon Glass <sjg@chromium.org> wrot=
+e:
+> > > > > >
+> > > > > > Hi Masahiro, Tom,
+> > > > > >
+> > > > > > On Tue, 9 Jan 2024 at 07:33, Tom Rini <trini@konsulko.com> wrot=
+e:
+> > > > > > >
+> > > > > > > On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wro=
+te:
+> > > > > > > > Hi Simon,
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chr=
+omium.org> wrote:
+> > > > > > > > >
+> > > > > > > > > Hi Masahiro,
+> > > > > > > > >
+> > > > > > > > > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will=
+@kernel.org> wrote:
+> > > > > > > > > >
+> > > > > > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass w=
+rote:
+> > > > > > > > > > > Add a script which produces a Flat Image Tree (FIT), =
+a single file
+> > > > > > > > > > > containing the built kernel and associated devicetree=
+ files.
+> > > > > > > > > > > Compression defaults to gzip which gives a good balan=
+ce of size and
+> > > > > > > > > > > performance.
+> > > > > > > > > > >
+> > > > > > > > > > > The files compress from about 86MB to 24MB using this=
+ approach.
+> > > > > > > > > > >
+> > > > > > > > > > > The FIT can be used by bootloaders which support it, =
+such as U-Boot
+> > > > > > > > > > > and Linuxboot. It permits automatic selection of the =
+correct
+> > > > > > > > > > > devicetree, matching the compatible string of the run=
+ning board with
+> > > > > > > > > > > the closest compatible string in the FIT. There is no=
+ need for
+> > > > > > > > > > > filenames or other workarounds.
+> > > > > > > > > > >
+> > > > > > > > > > > Add a 'make image.fit' build target for arm64, as wel=
+l. Use
+> > > > > > > > > > > FIT_COMPRESSION to select a different algorithm.
+> > > > > > > > > > >
+> > > > > > > > > > > The FIT can be examined using 'dumpimage -l'.
+> > > > > > > > > > >
+> > > > > > > > > > > This features requires pylibfdt (use 'pip install lib=
+fdt'). It also
+> > > > > > > > > > > requires compression utilities for the algorithm bein=
+g used. Supported
+> > > > > > > > > > > compression options are the same as the Image.xxx fil=
+es. For now there
+> > > > > > > > > > > is no way to change the compression other than by edi=
+ting the rule for
+> > > > > > > > > > > $(obj)/image.fit
+> > > > > > > > > > >
+> > > > > > > > > > > While FIT supports a ramdisk / initrd, no attempt is =
+made to support
+> > > > > > > > > > > this here, since it must be built separately from the=
+ Linux build.
+> > > > > > > > > > >
+> > > > > > > > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > > > > > > > > > ---
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v9:
+> > > > > > > > > > > - Move the compression control into Makefile.lib
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v8:
+> > > > > > > > > > > - Drop compatible string in FDT node
+> > > > > > > > > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > > > > > > > > > > - Turn compress part of the make_fit.py comment in to=
+ a sentence
+> > > > > > > > > > > - Add two blank lines before parse_args() and setup_f=
+it()
+> > > > > > > > > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > > > > > > > > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > > > > > > > > > > - Add 'mkimage' details Documentation/process/changes=
+.rst
+> > > > > > > > > > > - Allow changing the compression used
+> > > > > > > > > > > - Tweak cover letter since there is only one clean-up=
+ patch
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v7:
+> > > > > > > > > > > - Add Image as a dependency of image.fit
+> > > > > > > > > > > - Drop kbuild tag
+> > > > > > > > > > > - Add dependency on dtbs
+> > > > > > > > > > > - Drop unnecessary path separator for dtbs
+> > > > > > > > > > > - Rebase to -next
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v5:
+> > > > > > > > > > > - Drop patch previously applied
+> > > > > > > > > > > - Correct compression rule which was broken in v4
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v4:
+> > > > > > > > > > > - Use single quotes for UIMAGE_NAME
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v3:
+> > > > > > > > > > > - Drop temporary file image.itk
+> > > > > > > > > > > - Drop patch 'Use double quotes for image name'
+> > > > > > > > > > > - Drop double quotes in use of UIMAGE_NAME
+> > > > > > > > > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for hel=
+p
+> > > > > > > > > > > - Avoid hard-coding "arm64" for the DT architecture
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v2:
+> > > > > > > > > > > - Drop patch previously applied
+> > > > > > > > > > > - Add .gitignore file
+> > > > > > > > > > > - Move fit rule to Makefile.lib using an intermediate=
+ file
+> > > > > > > > > > > - Drop dependency on CONFIG_EFI_ZBOOT
+> > > > > > > > > > > - Pick up .dtb files separately from the kernel
+> > > > > > > > > > > - Correct pylint too-many-args warning for write_kern=
+el()
+> > > > > > > > > > > - Include the kernel image in the file count
+> > > > > > > > > > > - Add a pointer to the FIT spec and mention of its wi=
+de industry usage
+> > > > > > > > > > > - Mention the kernel version in the FIT description
+> > > > > > > > > > >
+> > > > > > > > > > >  Documentation/process/changes.rst |   9 +
+> > > > > > > > > > >  MAINTAINERS                       |   7 +
+> > > > > > > > > > >  arch/arm64/Makefile               |   7 +-
+> > > > > > > > > > >  arch/arm64/boot/.gitignore        |   1 +
+> > > > > > > > > > >  arch/arm64/boot/Makefile          |   6 +-
+> > > > > > > > > > >  scripts/Makefile.lib              |  16 ++
+> > > > > > > > > > >  scripts/make_fit.py               | 291 ++++++++++++=
+++++++++++++++++++
+> > > > > > > > > > >  7 files changed, 334 insertions(+), 3 deletions(-)
+> > > > > > > > > > >  create mode 100755 scripts/make_fit.py
+> > > > > > > > > >
+> > > > > > > > > > I'll need Masahiro's Ack on the scripts/ changes before=
+ I can take this
+> > > > > > > > > > one.
+> > > > > > > > >
+> > > > > > > > > Any thoughts on this request, please?
+> > > > > > > > >
+> > > > > > > > > Regards,
+> > > > > > > > > Simon
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > As I mentioned before, I am concerned with having
+> > > > > > > > the same "compatible" entries, with different contents,
+> > > > > > > > as you use the "compatible" string as an ID to selecting
+> > > > > > > > the target config node, right?
+> > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > $ fdtdump  arch/arm64/boot/image.fit
+> > > > > > > >
+> > > > > > > >         ...
+> > > > > > > >
+> > > > > > > >         conf-10 {
+> > > > > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > > > > > > "tq,am642-tqma6442l", "ti,am642";
+> > > > > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MB=
+ax4xxL carrier board";
+> > > > > > > >             fdt =3D "fdt-10";
+> > > > > > > >             kernel =3D "kernel";
+> > > > > > > >         };
+> > > > > > > >
+> > > > > > > >         ...
+> > > > > > > >
+> > > > > > > >         conf-25 {
+> > > > > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > > > > > > "tq,am642-tqma6442l", "ti,am642";
+> > > > > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MB=
+ax4xxL carrier board";
+> > > > > > > >             fdt =3D "fdt-25";
+> > > > > > > >             kernel =3D "kernel";
+> > > > > > > >         };
+> > > > > > >
+> > > > > > > I had asked Rob a while ago about if having the same compatib=
+le for two
+> > > > > > > functionally different machines is a feature, or a bug, and I=
+ don't
+> > > > > > > think either of us fully agreed either way. I'd be leaning to=
+wards
+> > > > > > > saying the above example is a bug in the dts files, it's just=
+ not been a
+> > > > > > > bug people have worried about before due to (sadly) how littl=
+e the
+> > > > > > > top-level compatible has been used.
+> > >
+> > > I much prefer being able to use compatibles over filenames.
+> > >
+> > > > > >
+> > > > > > Yes I believe this is a bug in the files.
+> > > > > >
+> > > > > > What should the script do in this case? Print a warning, perhap=
+s?
+> > > > >
+> > > > > Is there anything I should do here? Would a warning be helpful, o=
+r
+> > > > > just confusing?
+> > > >
+> > > >
+> > > >
+> > > > I do not think it is useful.
+> > > > You would almost always get a warning, and there is no way to fix i=
+t.
+> > >
+> > > The above case is due to overlays. Why would you have a FIT image wit=
+h
+> > > both a base tree and applied overlays?
+> >
+> >
+> >
+> > Because they are different hardware.
+>
+> Meaning the base tree is valid on its own without any overlays?
 
-On 2/1/2024 8:09 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 1/19/2024 10:22 AM, Babu Moger wrote:
->>
->> These series adds the support for Assignable Bandwidth Monitoring Counters
-> 
-> Not a good start ([1]).
-> 
->> (ABMC). It is also called QoS RMID Pinning feature
->>
->> The feature details are documented in the  APM listed below [1].
->> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
->> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
->> Monitoring (ABMC). The documentation is available at
->> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
->>
->> The patches are based on top of commit
->> 1ac6b49423e83af2abed9be7fbdf2e491686c66b (tip/master)
->>
->> # Introduction
->>
->> AMD hardware can support 256 or more RMIDs. However, bandwidth monitoring
->> feature only guarantees that RMIDs currently assigned to a processor will
->> be tracked by hardware. The counters of any other RMIDs which are no longer
->> being tracked will be reset to zero. The MBM event counters return
->> "Unavailable" for the RMIDs that are not active.
->>     
->> Users can create 256 or more monitor groups. But there can be only limited
->> number of groups that can be give guaranteed monitoring numbers.  With ever
-> 
-> "can be given"?
-> 
->> changing configurations there is no way to definitely know which of these
->> groups will be active for certain point of time. Users do not have the
->> option to monitor a group or set of groups for certain period of time
->> without worrying about RMID being reset in between.
->>     
->> The ABMC feature provides an option to the user to assign an RMID to the
->> hardware counter and monitor the bandwidth for a longer duration.
->> The assigned RMID will be active until the user unassigns it manually.
->> There is no need to worry about counters being reset during this period.
->> Additionally, the user can specify a bitmask identifying the specific
->> bandwidth types from the given source to track with the counter.
->>
->> Without ABMC enabled, monitoring will work in current mode without
->> assignment option.
->>
->> # Linux Implementation
->>
->> Linux resctrl subsystem provides the interface to count maximum of two
->> memory bandwidth events per group, from a combination of available total
->> and local events. Keeping the current interface, users can assign a maximum
->> of 2 ABMC counters per group. User will also have the option to assign only
->> one counter to the group. If the system runs out of assignable ABMC
->> counters, kernel will display an error. Users need to unassign an already
->> assigned counter to make space for new assignments.
->>
->>
->> # Examples
->>
->> a. Check if ABMC support is available
->> 	#mount -t resctrl resctrl /sys/fs/resctrl/
->>
->> 	#cat /sys/fs/resctrl/info/L3_MON/mon_features 
->> 	llc_occupancy
->> 	mbm_total_bytes
->> 	mbm_total_bytes_config
->> 	mbm_local_bytes
->> 	mbm_local_bytes_config
->> 	mbm_assign_capable ←  Linux kernel detected ABMC feature
->>
->> b. Check if ABMC is enabled. By default, ABMC feature is disabled.
->>    Monitoring works in legacy monitor mode when ABMC is not enabled.
->>
->> 	#cat /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
->> 	0
->>
-> 
-> With the introduction of "mbm_assign_enable" the entry in mon_features seems
-> to provide duplicate information.
-> 
->> c. There will be new file "monitor_state" for each monitor group when ABMC
->>    feature is supported. However, monitor_state is not available if ABMC is
->>    disabled.
->> 	
->> 	#cat /sys/fs/resctrl/monitor_state 
->> 	Unsupported
-> 
-> This sounds potentially confusing since users will still be able to monitor
-> the groups ...
-> 
->> 	
->> d. Read the event mbm_total_bytes and mbm_local_bytes. Without ABMC
->>    enabled, monitoring will work in current mode without assignment option.
->> 	
->> 	# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->> 	779247936
->> 	# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes 
->> 	765207488
->> 	
->> e. Enable ABMC mode.
->>
->> 	#echo 1 > /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
->>         #cat /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
->>         1
->>
->> f. Read the monitor states. By default, both total and local MBM
->> 	events are in "unassign" state.
->> 	
->> 	#cat /sys/fs/resctrl/monitor_state
->> 	total=unassign;local=unassign
-> 
-> This interface does not seem to take into account that hardware
-> can support assignment per domain. I understand that this is
-> not something you want to implement at this time but the user interface
-> has to accommodate such an enhancement. This was already mentioned, and
-> you did acknowledge the point [3] to this new version that does not
-> reflect this is unexpected.
-> 
-> My previous suggestions do seem to still stand and and I also am not able to
-> see how Peter's requests [2] were considered. This same interface needs to
-> accommodate usages apart from ABMC. For example, how to use this interface
-> to address the same counter issue on AMD hardware without ABMC, and MPAM
-> (pending James's feedback). 
-> 
-> I understand that until we hear from Arm we do not know all the requirements
-> that this interface needs to support, but I do expect this interface to
-> at least consider requirements and usage scenarios that are already known.
->  
->> g. Read the event mbm_total_bytes and mbm_local_bytes. In ABMC mode,
->>    the MBA events are not available until the user assigns the events
->>    explicitly.
->> 	
->> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->> 	Unsupported
->> 	
->> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes 
->> 	Unsupported
->>
-> 
-> This needs some more thought to accommodate Peter's scenario where the counter
-> can be expected to return the final count after the counter is disabled.
-> 
->> h. The event llc_occupancy is not affected by ABMC mode. Users can still
->>    read the llc_occupancy.
->>
->> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/llc_occupancy 
->> 	557056
->>
->> i. Now assign the total event and read the monitor_state.
->> 	
->> 	#echo total=assign > /sys/fs/resctrl/monitor_state
->> 	#cat /sys/fs/resctrl/monitor_state 
->> 	total=assign;local=unassign
->> 	
-> 
-> I do not see the "global assign/unassign" scenario addressed.
-> 
-> This version seems to ignore (without discussion) a lot of earlier
-> feedback.
-> 
-> Reinette
-> 
-> [1] https://lore.kernel.org/lkml/5ce67d8f-e207-4029-8fb3-0bc7deab1e9f@amd.com/
-> [2] https://lore.kernel.org/lkml/CALPaoCiRD6j_Rp7ffew+PtGTF4rWDORwbuRQqH2i-cY5SvWQBg@mail.gmail.com/
-> [3] https://lore.kernel.org/lkml/38421428-84cb-b67e-f3ce-b7a0233e016b@amd.com/
+
+
+If the base board is directly added to dtb-y, we need to assume
+it is valid as a standalone board.
+
+
+k3-am654-gp-evm-dtbs is a base of other composite DTBs, and
+it is also added to dtb-y.
+
+
+dtb-$(CONFIG_ARCH_K3) +=3D k3-am654-base-board.dtb
+
+
+
+Not only the base board.
+
+
+There are multiple composite DTBs that have the same compatible string.
+
+
+k3-am654-gp-evm-dtbs :=3D k3-am654-base-board.dtb
+k3-am654-base-board-rocktech-rk101-panel.dtbo
+k3-am654-evm-dtbs :=3D k3-am654-base-board.dtb k3-am654-icssg2.dtbo
+
+
+
+k3-am654-base-board.dtb, k3-am654-gp-evm-dtbs, and k3-am654-evm-dtbs
+have the same top-level compatible string.
+
+
+
+
+>
+> > If FIT includes only base DTBs, how to use a base with extensions?
+>
+> I would expect that you package up base and overlays or DTs with
+> already applied overlays, but not both together. That would be based
+> on whether your bootloader can apply overlays or not.
+
+
+Correct.
+
+
+
+> This problem boils down to your firmware knows or gains the knowledge
+> of some set of extra features or h/w pop options. The result is you
+> need base plus X, Y, Z whether those are a list of overlays or an
+> encoding of filename or something else. For example, FIT entries could
+> have a field that just lists those X, Y, Z features. But I'd much
+> rather have something that works outside of FIT images.
+>
+> > > In any case, maybe we need to record in dtb overlays that have been
+> > > applied (which you asked about recently on dtc list). Not sure what
+> > > that looks like though. Overlays have a 'top-level' compatible that w=
+e
+> > > add in either separately or merged with the base's top-level
+> > > compatible?
+> >
+> >
+> > If there is a way to make "compatible" unique, that will be good.
+> >
+> > But, in my understanding, we can replace a property value,
+> > but not modify it.
+>
+> Currently yes, but that shouldn't be too hard to add. The dtc
+> modification is the easy part. The hard part is figuring out the
+> policy around how we would use that.
+>
+> But I don't really know what you want to accomplish with FIT here.
+> IMO, if you need filenames, then use a filesystem. They work pretty
+> well for storing large collections of files.
+
+
+Whom does the term "you" point to?
+
+If you have questions about the motivation for this patch,
+ask its author.
+
+
+
+There are two ways to look up the config node;
+node-name or compatible string.
+
+The key-value lookup works only when the key is unique.
+
+Apparently, the compatible string is not unique
+when overlay comes into play.
+
+
+
+
+
+
+
+>
+> Rob
+
+--
+Best Regards
+Masahiro Yamada
