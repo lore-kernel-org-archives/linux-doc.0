@@ -1,97 +1,146 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F06513EFFB;
-	Fri,  2 Feb 2024 15:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C2C1798F;
+	Fri,  2 Feb 2024 15:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706887300; cv=none; b=a+5KWwSU5kwQZfrC4pKNXzt+CTvFsO2iA5Ync91g6iBy1USz3zoycyADXXTeT2uAa6sT064N9idt7OscQnnbNHwCqlQX0uBjDJ+LwdqQuK0ThEExXVj/wYPkN1jSgwzE8g/940GHlu0yVoqZe3ZsFNhkF1J6nvvaeyi8GVy6Wr0=
+	t=1706888457; cv=none; b=FU9IDYRq/uE86eAGZruJ0L4Mby1zghccM7uNUYNrac78v78RebUloDj/Roe2V5b1ReBWxIAN6S0+swHSbqWneS9AQOoqHY3uzuTQ1y93PELAk5iXjOD4yYxAbLSp3yHznIaXf/2GZKKJp1Peg3NUmtLxyyLa7m4mr8xlu3fLw6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706887300; c=relaxed/simple;
-	bh=60udXl9tGICJStOf3FsZ8Y/LhHheNLwsi4UzVmlgbB0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A0sx+eSybZ8oRaOcvrPMBJ04reX6sRO67MaiiixJ4yoWPoF936WKlLHKRTKtEgCyDggYwdUQkMOmvqBUALUh+S4arCDA0cx3HXfvMGg6QdvQWRDvI46AsV76hClFFwom+75XTHb9KFXvvU2cFgD7ruXEjCt13b8L92fo/PJplr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U+yMkyq+; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706888457; c=relaxed/simple;
+	bh=Wzt2OKA98oRZpOPKfSYMaxS0U0E4dZGMDfd4SSadYFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KHTolzLbzp2nwLpBOClcOH5A0Lrtez72tUtTKoaAdrTMqNjREyJdAuV1VDdHpLui9MYgkwsNnWeJcRpnE4CNV7T+BYmSk0gb1Umz9zJTeo679RarQctdt2jMIKtLFgBY3QaU7ABxipF/u2QSMvRkA/QoBcKJFST0oKhb1Gj6zCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ABhSRxiy; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U+yMkyq+"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6de24201aa6so1405637b3a.2;
-        Fri, 02 Feb 2024 07:21:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706887298; x=1707492098; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WzB9CiG8527gM43w39eAVcIuImyQFLRSzEMWnUfNR5Q=;
-        b=U+yMkyq+2s+OOtI8vFHfT2R4I5yM3K9C8CMbqCNXmaMHwNc91CCnq1iN31ViWLHhnE
-         VEREDytVuXwkfUU3Abr4uRGBBApkjEGJ3By/4ycOQuGfsy2IzpP/5TKw5l/pCneuaatl
-         WZxDWkIoSp8BL6WvAxFfV0+KQru+2CZbZujk345YCB/oVk29sDsjm+y3ZDzsIxN1+mbx
-         Sn9n7KJ96kZX6y4PT9j024I7MztPTBpJk9v8bH2G/d5bKOzYOf2AERz6QB1KIxxBmJ+T
-         bi+SG6ID7ujN3fFstlGMHzgJH8lVQOirogOpM9dRkh/tiewmFZgRu8vlF4JZL87EiyON
-         zqsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706887298; x=1707492098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WzB9CiG8527gM43w39eAVcIuImyQFLRSzEMWnUfNR5Q=;
-        b=Ds9695pgypn4GXnZxG9EKcdZAJzwIT3mkjReGqMPae29HHNAH0Qm4khGtXyEXYnoZR
-         crTHTmn4tYctjwfqoWDXOc/+6Y7kKUTqGICqQkY0pfsV33F43fysf3st6FSF0sz3Rnif
-         d+0wM2Q2NLzaNYVCZu9O1OJngIcUg/BSQL50sklYJIinNzF2eBg52vVxIwV6Absn/Myu
-         P5jnu5uSXlsTtQl4IMVZMjRl1+Y7Gvr0shYE0iULakBqjQ9W8RpMzO59xtR8szAPspB9
-         mh36CYKO0OpgqCEJxt+qRUxPCqW4jB2rnEN8BUQVvHvJhWfO+flyEH8p/vmwkPIp55RY
-         oICw==
-X-Gm-Message-State: AOJu0Yzc06Qrc+oX+iboe4O7gi6Z4oIXvTHrjY1NP5Bej/+My2DMy6wU
-	8ipyfvCqIIUdXscL2hIyc1x5CqOrdruUq+gdvk0q8d0WUOdMNQWN
-X-Google-Smtp-Source: AGHT+IGk3cGVAyNVViJrx5ZRvyLU4FsqPF1aLBAiMMi/ut8i/PfCBqg7P7T7bPB6FjdvtoHYcBPIqA==
-X-Received: by 2002:aa7:984b:0:b0:6dd:c1b4:2643 with SMTP id n11-20020aa7984b000000b006ddc1b42643mr7997922pfq.28.1706887298273;
-        Fri, 02 Feb 2024 07:21:38 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVfi3WN2Yw+G6AXGdYGJtKqsao0E+UCrKD9j9LB7DiCnbjz+gwpQg08O04YIkSN8XK/evSQLKpYegJVramjhxiSR2wUiogqn5XtYups0RoKGhDX1X//jGHXxRRvqI5fVXpioOjp12vJwddspyF0Xkr5yRpKrD1PJ008jJ8P3/XmTDTMQnyk75WWXBMODA==
-Received: from rin-ThinkPad-L390.. (123-193-217-197.dynamic.kbronet.com.tw. [123.193.217.197])
-        by smtp.gmail.com with ESMTPSA id v17-20020aa78511000000b006dde0b7d633sm1757626pfn.77.2024.02.02.07.21.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 07:21:37 -0800 (PST)
-From: Yiwei Lin <s921975628@gmail.com>
-To: rafael@kernel.org,
-	linux-pm@vger.kernel.org,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	RinHizakura <s921975628@gmail.com>
-Subject: [PATCH] Documentation: PM: Fix system hibernation section
-Date: Fri,  2 Feb 2024 23:21:20 +0800
-Message-Id: <20240202152120.13317-1-s921975628@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ABhSRxiy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706888457; x=1738424457;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Wzt2OKA98oRZpOPKfSYMaxS0U0E4dZGMDfd4SSadYFo=;
+  b=ABhSRxiyJy8zTBa61YNqripqMeQNC2WejO5F4DjWpUM4wmERjFmDyeEG
+   +WnOUflOM+Y2QTfYKjoSfhVu2KedSe9sryc9IQmoXyLfFXTo7uwYdNUqa
+   vSj2grjgCZIbjFAxX+SSHq7cZ8pUoax/gdxwgztVak7lCnqH8Lz+9TjxF
+   oOtFAzz+bA6ly+hnraBu4lREf2/+5M917LiwgJzXFlbEZpFZkjYYnw7yL
+   lJ7+5Oi9JCnF/E5tytoGL4Z99op6j6VsuGvnUcBtkSrLuXEJjyl0X2Ah5
+   1l0xInrbgnsaW31qv8D6E8kv1WyicqIffyPkkv3zH9m62oWcUrF1v267t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="356367"
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="356367"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 07:40:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="823240563"
+X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
+   d="scan'208";a="823240563"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga001.jf.intel.com with SMTP; 02 Feb 2024 07:40:48 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Fri, 02 Feb 2024 17:40:47 +0200
+Date: Fri, 2 Feb 2024 17:40:47 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <Zb0M_2093UwPXK8y@intel.com>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
+ <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
+ <20240115143308.GA159345@toolbox>
+ <20240115143720.GA160656@toolbox>
+ <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
+X-Patchwork-Hint: comment
 
-From: RinHizakura <s921975628@gmail.com>
+On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> Hi,
+> 
+> On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > >  /**
+> > > >   * DOC: HDMI connector properties
+> > > >   *
+> > > > + * Broadcast RGB
+> > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > + *      Infoframes will be generated according to that value.
+> > > > + *
+> > > > + *      The value of this property can be one of the following:
+> > > > + *
+> > > > + *      Automatic:
+> > > > + *              RGB Range is selected automatically based on the mode
+> > > > + *              according to the HDMI specifications.
+> > > > + *
+> > > > + *      Full:
+> > > > + *              Full RGB Range is forced.
+> > > > + *
+> > > > + *      Limited 16:235:
+> > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > + *              this works for any number of bits-per-component.
+> > > > + *
+> > > > + *      Drivers can set up this property by calling
+> > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > + *
+> > > 
+> > > This is a good time to document this in more detail. There might be two
+> > > different things being affected:
+> > > 
+> > > 1. The signalling (InfoFrame/SDP/...)
+> > > 2. The color pipeline processing
+> > > 
+> > > All values of Broadcast RGB always affect the color pipeline processing
+> > > such that a full-range input to the CRTC is converted to either full- or
+> > > limited-range, depending on what the monitor is supposed to accept.
+> > > 
+> > > When automatic is selected, does that mean that there is no signalling,
+> > > or that the signalling matches what the monitor is supposed to accept
+> > > according to the spec? Also, is this really HDMI specific?
+> > > 
+> > > When full or limited is selected and the monitor doesn't support the
+> > > signalling, what happens?
+> > 
+> > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > the cable, so is this only affecting RGB? If not, how does it affect
+> > YCbCr?
+> 
+> So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> we're using a YCbCr format, i915 will always use a limited range while
+> vc4 will follow the value of the property.
 
-According to the context, 'pci_pm_suspend_noirq' is the right
-word for the changed sentence.
+The property is literally called "Broadcast *RGB*".
+That should explain why it's only affecting RGB.
 
-Signed-off-by: Yiwei Lin <s921975628@gmail.com>
----
- Documentation/power/pci.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Full range YCbCr is a much rarer beast so we've never bothered
+to enable it. Eg. with DP it only became possible with the
+introduction of the VSC SDP (and I don't recall if there's
+additional capability checks that are also required). With
+DP MSA signalling full range YCbCr is not possible at all.
+I don't recall right now what the HDMI requirements are.
 
-diff --git a/Documentation/power/pci.rst b/Documentation/power/pci.rst
-index a125544b4..120703203 100644
---- a/Documentation/power/pci.rst
-+++ b/Documentation/power/pci.rst
-@@ -625,7 +625,7 @@ The PCI subsystem-level callbacks they correspond to::
- 	pci_pm_poweroff()
- 	pci_pm_poweroff_noirq()
- 
--work in analogy with pci_pm_suspend() and pci_pm_poweroff_noirq(), respectively,
-+work in analogy with pci_pm_suspend() and pci_pm_suspend_noirq(), respectively,
- although they don't attempt to save the device's standard configuration
- registers.
- 
 -- 
-2.34.1
-
+Ville Syrjälä
+Intel
