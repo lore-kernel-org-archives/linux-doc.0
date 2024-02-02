@@ -1,175 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125BD14830B;
-	Fri,  2 Feb 2024 16:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1621468E6;
+	Fri,  2 Feb 2024 16:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706891882; cv=none; b=oK8JSf1qr1ASWciFHRp0hTk8qXSDzHrKxFkqegzUr1myfF6KLV4qQR+7RxzMXzVTO2KMfusOd5WJ9Bft+ioUNgCrJW6Th3LsM51P1F7tKJWDrwjKho1iu33wtshNwuNdqWvgP2kV7dmWQR/MHXwfsfWKlSNGEj7/H1NW4Flbxfw=
+	t=1706892124; cv=none; b=TQH2dW9MNXPidxnAEwku70qKFedzdoXNbYfRj9cdXDmhEzUpWt9NDMu6WdWTxsZ5WUSvrkLcWiI3C6kuEZGs3PtTriLQ3nGYeCKYtSGwin9sZtNFKxxtapTWIMBPv8cyPDl726QwUhHG6rX7YX0P0W8v3Jnz1QSLHUywF+OzCrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706891882; c=relaxed/simple;
-	bh=DI+vowAp6HxEMoicKFi0dBorFyKWjCm9wzepkmTNs34=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pYTrOVQ+0B5ukyzMsUBdXn3MNleMK0e+V09t72LLKYvg+eYUCXNPLL6Dke9pdhX2sR8bB3vK2sdlxy1WZwP3OODujWav3QgiZgNeJK+AACcdqx9+5AyPoH/eZgAJNDe7jf3sWTN6dImF+TvNlvLD7oziUtaKyFylSQYN86aCnD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HLDMYY3q; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1706892124; c=relaxed/simple;
+	bh=g4/Lme51PqbRNplL2dW1VIxg//AbxpVLnn6uJyh7p8s=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NTdUQ31UmerWdLJ8vb3wMhw86oKhdGfEaXmFix8vO6pxavAZsyBjEAqt+3/qbVWu21rdPNYnX4gTjPPMa/v4WO3tOjWiiESsIATb1k6fn+SFiSvJq/IeiaudTmwvBwdQ+kHJ5nwe30j3OhhlC0T3pxh38itA1p/ylpy/0xy/N68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cGG0JMzL; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HLDMYY3q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706891882; x=1738427882;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=DI+vowAp6HxEMoicKFi0dBorFyKWjCm9wzepkmTNs34=;
-  b=HLDMYY3qW9KfFYTZxPLMbqIFj+jvdrbRnmE5dZrYcgpAqc7ZAuOL2cm+
-   LYMJ37m8JQlaRbr1CX2fdQKWy9OdkG57G+N8W3Ig9WEEdhsrl8TMb7dkd
-   apPEVCQKpPQuzcxoR+m/1lxgzq8o/n15m0RggQBmMHDN2psDgKeNVevHZ
-   8IveClGH4QyZfi8p5HdlBU/yhFOYt19GJq6fwwyWC/GWOlHHEJeF56/Oy
-   WyOhE9KIFEo8XtCm4ggCyswY0CRTXC/Mt13ck1XZas9g2no4PqGHIxEcU
-   rUvvRef4Ldmgs+5qxTBS84fJSd7GpVSZEyCpxp1Bxhfoyap5QLfB0Clkb
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="354999"
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="354999"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 08:38:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="823251802"
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="823251802"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga001.jf.intel.com with SMTP; 02 Feb 2024 08:37:53 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 02 Feb 2024 18:37:52 +0200
-Date: Fri, 2 Feb 2024 18:37:52 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <Zb0aYAapkxQ2kopt@intel.com>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cGG0JMzL"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 412GOVwK029960;
+	Fri, 2 Feb 2024 16:41:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding; s=qcppdkim1; bh=1ieg7Nu1h5WLta/i10MG
+	vCQme0ZcAD8tbxUmkqkp2Jg=; b=cGG0JMzLUfKTzP1NtSJVdkbbbQccaqDAnTfm
+	txC+PS50Vo7pEOEAYpI4aC5TSknGT2oFrfWJMweunHBLlobZMiQonedEHWItfHaX
+	uNu2Hnwa6mLxTJt3i614QVHVC59/CNlebsHiBmp1eUPu9S7UoRc92+C/0u+yDXJD
+	zEWSEusVRPEM0+2gwLdi8atb3r7fiI4jmYl2VwYBUf6BeY5XBQuO4gONnfxKfeaO
+	4paxdXmfPX41AbJcVdNbAJZ/G8dHs5i3RoPYUF5ayUs3eggiQZ15lzqKKp0yPQJF
+	Tv8SBvULBrzAbZVvia2B4OKPHMrIA8cCy0/b5KMAS4gKWK/zEQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w0pwc1uek-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 02 Feb 2024 16:41:47 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 412GflsN025317
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 2 Feb 2024 16:41:47 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 2 Feb 2024 08:41:46 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <corbet@lwn.net>, <carlos.bilbao@amd.com>, <avadhut.naik@amd.com>,
+        <alexs@kernel.org>, <iyanteng@loongson.cn>,
+        <2023002089@link.tyut.edu.cn>, <quic_bjorande@quicinc.com>,
+        <quic_tsoni@quicinc.com>
+CC: <linux-arm-msm@vger.kernel.org>, <workflows@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jeffrey Hugo
+	<quic_jhugo@quicinc.com>
+Subject: [PATCH] Documentation: embargoed-hardware-issues.rst: Fix Trilok's email
+Date: Fri, 2 Feb 2024 09:41:19 -0700
+Message-ID: <20240202164119.4090703-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
-X-Patchwork-Hint: comment
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: UHEM4n3Oug9_QCHsvcVEo9sSl-NXoHwV
+X-Proofpoint-ORIG-GUID: UHEM4n3Oug9_QCHsvcVEo9sSl-NXoHwV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-02_10,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=781 clxscore=1011
+ phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 impostorscore=0 lowpriorityscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402020121
 
-On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj‰l‰ wrote:
-> > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > Hi,
-> > > 
-> > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > >  /**
-> > > > > >   * DOC: HDMI connector properties
-> > > > > >   *
-> > > > > > + * Broadcast RGB
-> > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
-> > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > + *
-> > > > > > + *      The value of this property can be one of the following:
-> > > > > > + *
-> > > > > > + *      Automatic:
-> > > > > > + *              RGB Range is selected automatically based on the mode
-> > > > > > + *              according to the HDMI specifications.
-> > > > > > + *
-> > > > > > + *      Full:
-> > > > > > + *              Full RGB Range is forced.
-> > > > > > + *
-> > > > > > + *      Limited 16:235:
-> > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
-> > > > > > + *              this works for any number of bits-per-component.
-> > > > > > + *
-> > > > > > + *      Drivers can set up this property by calling
-> > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > + *
-> > > > > 
-> > > > > This is a good time to document this in more detail. There might be two
-> > > > > different things being affected:
-> > > > > 
-> > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > 2. The color pipeline processing
-> > > > > 
-> > > > > All values of Broadcast RGB always affect the color pipeline processing
-> > > > > such that a full-range input to the CRTC is converted to either full- or
-> > > > > limited-range, depending on what the monitor is supposed to accept.
-> > > > > 
-> > > > > When automatic is selected, does that mean that there is no signalling,
-> > > > > or that the signalling matches what the monitor is supposed to accept
-> > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > 
-> > > > > When full or limited is selected and the monitor doesn't support the
-> > > > > signalling, what happens?
-> > > > 
-> > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
-> > > > the cable, so is this only affecting RGB? If not, how does it affect
-> > > > YCbCr?
-> > > 
-> > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
-> > > we're using a YCbCr format, i915 will always use a limited range while
-> > > vc4 will follow the value of the property.
-> > 
-> > The property is literally called "Broadcast *RGB*".
-> > That should explain why it's only affecting RGB.
-> 
-> Right. And the limited range option is called "Limited 16:235" despite
-> being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> to make names inconsistent too, that's fine and not an argument in
-> itself.
-> 
-> > Full range YCbCr is a much rarer beast so we've never bothered
-> > to enable it.
-> 
-> vc4 supports it.
+The servers for the @codeaurora domain have long been retired and any
+messages addressed to @codeaurora will bounce.
 
-Someone implemented it incorrectly then.
+Trilok has an entry in .mailmap, but the raw documentation files still
+list an old @codeaurora address.  Update the address in the
+documentation files for anyone reading them.
 
-> 
-> > Eg. with DP it only became possible with the introduction of the VSC
-> > SDP (and I don't recall if there's additional capability checks that
-> > are also required). With DP MSA signalling full range YCbCr is not
-> > possible at all.
-> 
-> This is for HDMI only.
-> 
-> > I don't recall right now what the HDMI requirements are.
-> 
-> HDMI has supported it for a while, and it's defined (for example) in the
-> HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
-> limited and full range on both RGB and YCbCr, as long as the EDIDs state
-> so and the Infoframes signal it.
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+ Documentation/process/embargoed-hardware-issues.rst             | 2 +-
+ .../translations/sp_SP/process/embargoed-hardware-issues.rst    | 2 +-
+ .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
+ .../translations/zh_TW/process/embargoed-hardware-issues.rst    | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-I think a good reason for not using a simple boolean like this 
-YCbCr is that it doesn't cover the color encoding part at all,
-which is probably more important than the quantization range.
-So we need a new property anyway.
-
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index 31000f075707..bb2100228cc7 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -255,7 +255,7 @@ an involved disclosed party. The current ambassadors list:
+   IBM Power	Anton Blanchard <anton@linux.ibm.com>
+   IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
+   Intel		Tony Luck <tony.luck@intel.com>
+-  Qualcomm	Trilok Soni <tsoni@codeaurora.org>
++  Qualcomm	Trilok Soni <quic_tsoni@quicinc.com>
+   RISC-V	Palmer Dabbelt <palmer@dabbelt.com>
+   Samsung	Javier Gonz√°lez <javier.gonz@samsung.com>
+ 
+diff --git a/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst b/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
+index c261b428b3f0..7d4d694967c7 100644
+--- a/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
++++ b/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst
+@@ -273,7 +273,7 @@ revelada involucrada. La lista de embajadores actuales:
+   IBM Power	Anton Blanchard <anton@linux.ibm.com>
+   IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
+   Intel		Tony Luck <tony.luck@intel.com>
+-  Qualcomm	Trilok Soni <tsoni@codeaurora.org>
++  Qualcomm	Trilok Soni <quic_tsoni@quicinc.com>
+   Samsung	Javier Gonz√°lez <javier.gonz@samsung.com>
+ 
+   Microsoft	James Morris <jamorris@linux.microsoft.com>
+diff --git a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
+index cf5f1fca3d92..c90ecb557811 100644
+--- a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
++++ b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
+@@ -177,7 +177,7 @@ CVEÂàÜÈÖç
+   AMD		Tom Lendacky <thomas.lendacky@amd.com>
+   IBM
+   Intel		Tony Luck <tony.luck@intel.com>
+-  Qualcomm	Trilok Soni <tsoni@codeaurora.org>
++  Qualcomm	Trilok Soni <quic_tsoni@quicinc.com>
+ 
+   Microsoft	Sasha Levin <sashal@kernel.org>
+   VMware
+diff --git a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+index 3cce7db2ab7e..93d21fd88910 100644
+--- a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
++++ b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+@@ -180,7 +180,7 @@ CVEÂàÜÈÖç
+   AMD		Tom Lendacky <thomas.lendacky@amd.com>
+   IBM
+   Intel		Tony Luck <tony.luck@intel.com>
+-  Qualcomm	Trilok Soni <tsoni@codeaurora.org>
++  Qualcomm	Trilok Soni <quic_tsoni@quicinc.com>
+ 
+   Microsoft	Sasha Levin <sashal@kernel.org>
+   VMware
 -- 
-Ville Syrj‰l‰
-Intel
+2.34.1
+
