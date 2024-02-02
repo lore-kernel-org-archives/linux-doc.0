@@ -1,66 +1,49 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D6315E5BA;
-	Fri,  2 Feb 2024 19:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B67583A03;
+	Fri,  2 Feb 2024 20:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706901888; cv=none; b=SLi7CyLyWND755U0BvkQmEcNqlngdis3dky3uM+54MKzHiGJLstEA/wQJfb1Tgy89Y/2IQqBsxwQ7GR4W2pvUkosA2rdVPy395Ztf6F+qXm9HIMqFujF5Y+30gzXi+KWMU43zSMJCUw2GZRtu2hc+YkosluRCIOztmBAQ1G3rjw=
+	t=1706904176; cv=none; b=sn77OdyIv2kYiggLaO+JvQNbPesT17vfyYvObM0wW42J1Wr4u8ab14e7qWjVdZHKw104HwJnNbY/89j9srPoMiRXt75E3k8WpguFU3JcTUbj8zYqetRjFkxooSS685D7652/pspCiHUHgLNv4PBlsNoHkXPlVrv5Drn6OmRLrcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706901888; c=relaxed/simple;
-	bh=VzsNAmetuwaJAri48Hvu4bRMn6DOByRxemY4EnBT+zY=;
+	s=arc-20240116; t=1706904176; c=relaxed/simple;
+	bh=nIysIOI7opT1HAnMInnR3sU1pkX9Nj0BNAZHI42Pbiw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wf6AveH+gwjEmcU/jAEq792Xokc/XKxWNNDpezGd9MzWnEeU1LZKL2ncPnJIFp2M6q8g6KJ41LTeBte52IVbZ6WOawpkd1ZBuBulFJkWJbpD7A8u7tEPNCVwGfhq/gHjfCozgTEA0IpIB+WfuK1jaaJXs6GuI2uhS+rtAwwXFRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SuBSU1Qa; arc=none smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=KgQgPlkkDhM40vgtObfOqyitLsk18zACpcKq+ybtccMAfXR7adrLiK9aDXaw4+AI9wclHxuCSfIqiM/C3UTlEPLnwYXTXcIH2+9VpmbNmOL9vhIykz+9baC1YfCQ+KUgDDKemw6qOGH0kWsm9UEFh9kS/4k1ZauySgxeGvAm/UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UX6uNGbB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SuBSU1Qa"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-59502aa878aso1163279eaf.1;
-        Fri, 02 Feb 2024 11:24:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706901886; x=1707506686; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E2HCzONe6LgbNHkou0opA4ZegVuXZrSGIHqWmkGo0sw=;
-        b=SuBSU1Qa7d6mHaKeLWpev3l54vWk5dqpszE1nIGLH3MtzIms8uEYX9imn5Mo+yja0/
-         pgzetHCW1Ogk7G0ym2SivaBsl6GgSDz7cOAKIPqMr29JLR8TDlsicGyuh8WjQQ2F5jiV
-         lI5ldMHQBQQ/lV3hWCgNaqFScsnonqjANjrMsnIYqf3yd4OYzvCAcauIb6oAmn+VWLVs
-         j4kYKdruVbYjgcp9vUhci3nC23ESvwVBzR+QXSmCDWWxWYMvmHsClzlkYigQFmYq1CFs
-         hDgsnbTeYHrCU2rVSwzaR9hw/kyM1j4pICf50oTR3ZbCDlp3vAwWA/JG5EoFlbclYbgo
-         p39A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706901886; x=1707506686;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E2HCzONe6LgbNHkou0opA4ZegVuXZrSGIHqWmkGo0sw=;
-        b=k+XdX7DFBav81TJHi5Xb7jQT6RBKhXlSshxkLKlr6WqBPfa/yEn3yHDINFJyMb2Bnc
-         68WlXtgLy9CIFiKC4nK3qwVYryPxM/kFynD6i79U6MKQxNyfaqgdpHo3WLkTHRbJEnYT
-         mUVd+wRD9ClIRXBB1egI9qwvPeCtAFMToEff/a6vIO6Fx9ZZWcX134yW5Z/dHgBWWSwy
-         awQpjC3t9pRqjqrc3zBBpMkIsWghdHSq79mwtO1QNe6Sm/IMWW3zeUcrJXm5DGl+CTsB
-         C4QJMMRESkW1z7+G56hdPWfs9aN3bgb8Dl8KYqi02grCARvTYnlBlijSLF/RsKTbDzXy
-         097Q==
-X-Gm-Message-State: AOJu0YwneZM1DvfdhfQ2FVYT9thhfITAY4U8yQFl+8BuN4Ag8Tsb5CXH
-	tVEd4Q9G90oFi52rksTG4ZAh4HvFoFmFGsr3GneqfLxwQbku3IFj
-X-Google-Smtp-Source: AGHT+IGQNqqD/wy73YHkVD3ERsEwXagmrxTN8x3oRROnbC+hTIM4j4wdB7Vy0MsDSE3QgK1SaBwNrA==
-X-Received: by 2002:a05:6359:4c0b:b0:178:950d:1175 with SMTP id kj11-20020a0563594c0b00b00178950d1175mr8935031rwc.13.1706901886015;
-        Fri, 02 Feb 2024 11:24:46 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWMOJqxGVe94hngn8tQchgZJkhPSV7BBxVdzUCCUf5Jwle7mf0vpPo3EHFaXqVlZP4Hu2RZvPG35YT9M9TwYJ6R8+GbB+6277LC+DVjJA7RMB1T7NT2Qq+fpnmCrKUCPDi16TapMvWn7/ax2XtKTo5+5E9lClnX/opZV+Z6mim/hcqKAf2S8QbtiUbYloY+/qbDde28
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 28-20020a630e5c000000b005d553239b16sm2166377pgo.20.2024.02.02.11.24.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 11:24:40 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 2 Feb 2024 11:24:39 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Jack Doan <me@jackdoan.com>
-Cc: jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: Add MSI PSU HID monitoring driver
-Message-ID: <4dbe0482-7165-4143-8d76-378ab1b25a0b@roeck-us.net>
-References: <20240108185604.2858930-1-me@jackdoan.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UX6uNGbB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3087C433F1;
+	Fri,  2 Feb 2024 20:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706904176;
+	bh=nIysIOI7opT1HAnMInnR3sU1pkX9Nj0BNAZHI42Pbiw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UX6uNGbBpq/Rlk9dSp2KQEOEZRPGiBmRvSBSCJrfWpQ+kU4FTLahnJU6n2X9qosOq
+	 tlDUBXKXHcRPU9Ovlzh8KY42qrrosNmZFJzcoJo+T5MHXvCRMbmEFF7cyp1lHH66lV
+	 jZWLWTsQmPDfAZyNEhhQR5GHApNzia/2kAYWJ+XOXVMS61avTsFjWhQeQNJsT5ebJJ
+	 2NKXeNpt46BI7ziowbhnesDbL1dSXwIf6FQYfsC70VUrNmS2fJkYlNKFgPGlmzjGRs
+	 IBtSdwKuxWhmLBur63XIlZdDwEv1KIkehfwgHxG0ndvIUruVGse+oJtCL2vZJT5vzD
+	 lKnK8J5Ua5V1w==
+Date: Fri, 2 Feb 2024 14:02:53 -0600
+From: Rob Herring <robh@kernel.org>
+To: Dragan Cvetic <dragan.cvetic@amd.com>
+Cc: Michal Simek <michal.simek@amd.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	"Erim, Salih" <salih.erim@amd.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v5] dt-bindings: misc: xlnx,sd-fec: convert bindings to
+ yaml
+Message-ID: <170690417008.874488.5757943525065117413.robh@kernel.org>
+References: <20240131170650.530079-1-dragan.cvetic@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,111 +52,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240108185604.2858930-1-me@jackdoan.com>
+In-Reply-To: <20240131170650.530079-1-dragan.cvetic@amd.com>
 
-On Mon, Jan 08, 2024 at 11:56:04AM -0700, Jack Doan wrote:
-> This driver provides a sysfs interface for MSI power supplies with a
-> USB-HID monitoring interface.
+
+On Wed, 31 Jan 2024 17:06:45 +0000, Dragan Cvetic wrote:
+> Convert AMD (Xilinx) sd-fec bindings to yaml format, so it can validate
+> dt-entries as well as any future additions to yaml.
+> Change in clocks is due to IP is itself configurable and
+> only the first two clocks are in all combinations. The last
+> 6 clocks can be present in some of them. It means order is
+> not really fixed and any combination is possible.
+> Interrupt may or may not be present.
+> The documentation for sd-fec bindings is now YAML, so update the
+> MAINTAINERS file.
+> Update the link to the new yaml file in xilinx_sdfec.rst.
 > 
-> Measurements for the output voltage and current for each rail are provided,
-> as well as total output power, temperature, and fan control.
-> 
-> This patch adds:
-> - hwmon driver msi-psu
-> - hwmon documentation
-> - updates MAINTAINERS
-> 
-> Signed-off-by: Jack Doan <me@jackdoan.com>
+> Signed-off-by: Dragan Cvetic <dragan.cvetic@amd.com>
 > ---
->  Documentation/hwmon/index.rst   |   1 +
->  Documentation/hwmon/msi-psu.rst |  64 +++
->  MAINTAINERS                     |   7 +
->  drivers/hwmon/Kconfig           |  12 +
->  drivers/hwmon/Makefile          |   1 +
->  drivers/hwmon/msi-psu.c         | 801 ++++++++++++++++++++++++++++++++
->  6 files changed, 886 insertions(+)
->  create mode 100644 Documentation/hwmon/msi-psu.rst
->  create mode 100644 drivers/hwmon/msi-psu.c
+> Changes in v2:
+> ---
+> Drop clocks description.
+> Use "contains:" with enum for optional clock-names and update
+> comment explaining diference from the original DT binding file.
+> Remove trailing full stops.
+> Add more details in sdfec-code description.
+> Set sdfec-code to "string" not "string-array"
+> ---
+> Changes in v3:
+> Fix a mistake in example, set interrupt type to 0.
+> ---
+> Changes in v4:
+> Set interrupt type to high level sensitive.
+> Remove '|' from descriptions, no need to preserve format.
+> Remove not needed empty line.
+> ---
+> Changes in v5:
+> Apply allOf to clock-names and put permanent clock items
+> inside enum.
+> ---
+>  .../devicetree/bindings/misc/xlnx,sd-fec.txt  |  58 --------
+>  .../devicetree/bindings/misc/xlnx,sd-fec.yaml | 140 ++++++++++++++++++
+>  Documentation/misc-devices/xilinx_sdfec.rst   |   2 +-
+>  MAINTAINERS                                   |   2 +-
+>  4 files changed, 142 insertions(+), 60 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.txt
+>  create mode 100644 Documentation/devicetree/bindings/misc/xlnx,sd-fec.yaml
 > 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 72f4e6065bae..34e4bc086bdb 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -159,6 +159,7 @@ Hardware Monitoring Kernel Drivers
->     mp2888
->     mp2975
->     mp5023
-> +   msi-psu
->     nct6683
->     nct6775
->     nct7802
-> diff --git a/Documentation/hwmon/msi-psu.rst b/Documentation/hwmon/msi-psu.rst
-> new file mode 100644
-> index 000000000000..3dda7190a627
-> --- /dev/null
-> +++ b/Documentation/hwmon/msi-psu.rst
-> @@ -0,0 +1,64 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +Kernel driver msi-psu
-> +=========================
-> +
-> +Supported devices:
-> +
-> +* MSI MEG Ai1300P
-> +
-> +* MSI MEG Ai1000P
-> +
-> +Author: Jack Doan
-> +
-> +Description
-> +-----------
-> +
-> +This driver provides a sysfs interface for MSI PSUs with a HID monitoring
-> +interface.
-> +
-> +Measurements for the output voltage and current for each rail are provided,
-> +as well as total output power, temperature, and fan control.
-> +
-> +Additional properties are available in debugfs, such as an efficiency
-> +measurement, and switching to/from 12V multi-rail mode
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +============    ===============================================================
-> +curr1_input     Current on the 12v psu rail
-> +curr2_input     Current on the 5v psu rail
-> +curr3_input     Current on the 3.3v psu rail
-> +fan1_input      RPM of psu fan
-> +in0_input       Voltage of the psu ac input
-> +in1_input       Voltage of the 12v psu rail
-> +in2_input       Voltage of the 5v psu rail
-> +in3_input       Voltage of the 3.3v psu rail
-> +power1_input    Total power usage
-> +pwm1            PWM value for fan1. Writes to this file will switch set
-> +                pwm1_enable to manual control mode.
 
-No, that is unexpected and not supposed to happen.
+Applied, thanks!
 
-> +pwm1_enable     PWM mode for fan1. (1) means "auto", and uses the built-in fan
-> +                curve. (3) means manual control
-
-The ABI (Documentation/ABI/testing/sysfs-class-hwmon) says:
-
-                - 0: no fan speed control (i.e. fan at full speed)
-                - 1: manual fan speed control enabled (using `pwmY`)
-                - 2+: automatic fan speed control enabled
-
-I really do not see the point of declaring that 1 shall mean automatic,
-or to skip 2.
-
-...
-
-> +#define REPLY_SIZE 40 /* max length of a reply to a single command */
-
-#define<space>NAME<tab>value
-
-for all defines, please.
-
-Guenter
