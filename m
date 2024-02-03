@@ -1,68 +1,82 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2554C63AE;
-	Sat,  3 Feb 2024 01:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843125232;
+	Sat,  3 Feb 2024 01:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706923674; cv=none; b=oy100GllZgWu1XCnYd1WO80KUX0N+hqBuUxwrrB6CZM+0fL0wD4KfLxFUOBSp6HIROdpW+LqKkMIcFHHRxnb54du21HITIepAGVQMKdgVAGpaXX36xkBdhxUCsVUXv7j2DuyQ4Q3502hqJg2obc1OgnD2JqVOhVsGjH7TfxvYF0=
+	t=1706924087; cv=none; b=fTLflSK3BNzRjl82ZCltFuHpshr4DX5LoA5pUFIkNPYSh2MHUGbVrwBhEoWaIq9vBBp3hamlf99jGbp0VmcHfqbnHvtc0ZGO6d5OVvE1SnX5XQh0gC/gIcnRa8NLnshzOxgGl05cvQxCHesgxkpeinkLd9PUxogxTJHjjHO/3IE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706923674; c=relaxed/simple;
-	bh=Gl1G2fIsmLDZRV8pG0yE4+nlf0H6J3/BoRBolCHSNZQ=;
+	s=arc-20240116; t=1706924087; c=relaxed/simple;
+	bh=X0Ojwdr7D0Pc16RpTgvTbb5pPVX5ib05jZoeLOX6oAM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u1vbL6tbGGzA7IJ84X5wpZbYc5kNSfSZq8+Yn9Fj3p9QeeQ3IYDN0lb3vVptlQTYUIXBTR8n5YgmPWY5kjAQDbm83lCMLGuPGEtjttfFvci2yE7r4aIm472CF3dqwkEMLJ1BuR6/ao7s1KaUgd+rmzJ+dTIYEwmuR9zAvdpMI10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jnTBbdpk; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=u0BMwMeOW6pT3Ayq8KGupckDNnUeKstZmyyewGsWmAfAqEVByXWp0ht9orWQrSCmEnuk/3MlSpwlRCSNxUUqF1BZfS0P7CC1+CpI/4gKPGwHTi8VJD6ziW+R5+LXeEZuiqJ3KkL82eH3Izo7tRHzwpE3j1Qw0LMQixeGQiYcaFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz; spf=pass smtp.mailfrom=dxuuu.xyz; dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b=MFj+jqKB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=T9nM7Hgl; arc=none smtp.client-ip=66.111.4.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jnTBbdpk"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6de070a4cadso1938810b3a.2;
-        Fri, 02 Feb 2024 17:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706923671; x=1707528471; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rfN7PEXKkbRajYyXkiAJhiqOd4ro2FrRiAL+D+SIWtk=;
-        b=jnTBbdpkDSzHJNOxRW4LivntQi81Z4J/J0NUpxZf1kcUjP5QvAhHEbcpsPCrx6zMiZ
-         BcGBJ+ZT/2ZbB9bkqmLY5/2jIy76b1DSXfyPP+iCgAn6MWZtYL2yCTzipmmUUnBJ6cpn
-         7tpHpkJOzD4mgu6jrb0yOkWjNRJm9eSL+pKj3Sufu4/gheeAftT1bLcZUvK0MjQOVNRW
-         xksxiwogFDDnSBPhNfGDgZ68AN4Th1jTHmAWKImVoEARJ2xQdglFFLSU5lp/a9EZiNlV
-         v57WiV3m+NINJpENT2V51F1B6mBpi3YbdXQo61c4VMIr3m02DxZ8Nan7vXs7h9e/gSfF
-         tlew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706923671; x=1707528471;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rfN7PEXKkbRajYyXkiAJhiqOd4ro2FrRiAL+D+SIWtk=;
-        b=Ri1ZQonyuFnJhbqT7EZOroJ3DInHq3prPL24n6k2+xdfwFd5h3lnNu7hgN1+IX9uxj
-         3S0hyHZwa5wnLjlaUMwHoBZ502lZc6NnQRF3lpxEKAQRGvRMQr0zl7DSgDQPSA6DP1zU
-         pMZsK8qubQTL1Oz51JKQqKePEAoqKyIHesgKQ/jn4uTZUgOGK8PapKjrUgvbhQdy4vng
-         IhjlzM/KcvWzWIvqRohYEAHNN84r5pfr6Ten4AMbrMKFMEQtJxwzzwC0rC9urbCJEqHK
-         TN4clR7NAs06LBd9IrJxjeyyLWjti3PrFUB9rm018rXQSr4rQZzNh2ggkLoNIHElkpDJ
-         vJ/g==
-X-Gm-Message-State: AOJu0Yw9YP392FgL+SMDMTXey+s2wCHKOD5cpfYDH8wHSwCr49a0czrh
-	aGJLJmpWLKJMStvh9oHyAyNKY4lp+s+vNUj9yD1pIg6z/JP+Hcla
-X-Google-Smtp-Source: AGHT+IFQfJ7fyb7+t1JdoP1NdLqyDn9eoAnVt1s4pkkNULctQkyaMxJRZPPk8YlHBqXEElfxciOkBw==
-X-Received: by 2002:aa7:9d10:0:b0:6dd:6caa:aecc with SMTP id k16-20020aa79d10000000b006dd6caaaeccmr3833419pfp.31.1706923671093;
-        Fri, 02 Feb 2024 17:27:51 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXMx9ySJG3R+xo+HPJtstnuBlU29DPUy1KOJi/kf+q9w4ch0uNSp5kGuwIJXGlLVZYR34SVx+ihsbKyT8ZgGgWEK4vYtpnNbAp0Jl9qYUtGtziaE+NYIICVV5K/9aNNJxDW306Yk/m+roVF5gW67zdlhla20dhRN8eLe4QW0x2z3MxK8IV3FNzHJwIh4ki/Li+eN1bRW8C1ZgynM9cVaVr6YjgM//cqB14CqPMUEEs5F34UuGM/w80=
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id bn7-20020a056a00324700b006db87354a8fsm2278170pfb.119.2024.02.02.17.27.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 17:27:50 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 2 Feb 2024 17:27:48 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: David Ober <dober6023@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jdelvare@suse.com, corbet@lwn.net,
-	dober@lenovo.com, mpearson-lenovo@squebb.ca
-Subject: Re: [PATCH v3] hwmon:Add MEC172x Micro Chip driver for Lenovo
- motherboards
-Message-ID: <b30d8725-5fe8-41bc-9f5d-253b090fc529@roeck-us.net>
-References: <20240109193557.4946-1-dober6023@gmail.com>
+	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="MFj+jqKB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="T9nM7Hgl"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 68EE95C0050;
+	Fri,  2 Feb 2024 20:34:43 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Fri, 02 Feb 2024 20:34:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1706924083; x=1707010483; bh=NnnIMmc9MZ
+	3IASFiC5hqBjgW0tly7YEQAd6Bpm7OEMI=; b=MFj+jqKBnhouCKmuAELuyDh+rJ
+	jjWg9fl6r38OJwM0JajDa19hxTMqhi96t3TnnPaYGdfmgNWhYY3LsvK10Ukp3II7
+	YNUGkCfMkfhY/kT4TFXH2vcmxai3Y1BBxFe38eq/IlAUxeRT7gMDdb75kIfdZqYM
+	veuS70k5okuJnl2gi5hvk1jZORe2UnrADy7GQA0g2LrfO6Rnx0q0OqTZb8SszW5f
+	fclWJVdCzlx1cBeSRwcZn0og3LYu0jPbegzVLQwrKvHMQU4nHoZ52fx822mhBhei
+	9jZrUJMlIwmznZImKPxo1m6+ZbYzLPJ7uzN01xOEN7fJpbzmXKtJxdYuRcvw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706924083; x=1707010483; bh=NnnIMmc9MZ3IASFiC5hqBjgW0tly
+	7YEQAd6Bpm7OEMI=; b=T9nM7Hgled/XXm0WO8ytjfKSfgvTMNqwCAdHrZCKieNE
+	ZdTXViyMt3xFNfdTQClCr8YvYCWDxTGW10izkQcRraa5Fqv/9KazkyXYKQbb4ArD
+	pQS3a3ngwFZKj3eIFu3j050thBZaZRjrueMX/vOJ9eA/zbRUA6+7WH2TGSYencPK
+	Vrj3dXNYtrUc56bqd4iSkyaEWlVtijxpzM6u0IE/lSDQXOk+eEquQljN5OwShxVi
+	438zZyXh+dLUiBclUWI/EAkOIXP4aIrfgzGn6OQryQNzJuGl9If6JihcfdnPDBpZ
+	19JVKlpfjZQrZZ1LCdmnA5qubEMUh5Kku68u/9kdxQ==
+X-ME-Sender: <xms:Mpi9ZZ_HORM30B-rZD9-PypTMISUhuaWob6e5Wr0Gy6zQmE3lAR-Fg>
+    <xme:Mpi9Zdv0fEmt8gWlYrSjAyqq1te_2_HCGned0HkOJ7RZc4xfuZILeij_wuZrNxxWv
+    arBz5iyY-q5FXHEfg>
+X-ME-Received: <xmr:Mpi9ZXBbdSkULMNSJ7-MNs28J3bgwT1SfJ5sK7gPjUiarKu_M-KZPWdpC-GAyptHOz-WH8xm8IpOwJbTCimuziKtGzvuclg1y4Lhooc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfeduhedgfeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdlvdefmdenucfjughrpeffhf
+    fvvefukfhfgggtuggjsehttdfstddttddvnecuhfhrohhmpeffrghnihgvlhcuighuuceo
+    ugiguhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepieffjedujeehtdduhe
+    ffgeeiveehleevffdvudethfdugedtleduhffhhfejfffgnecuffhomhgrihhnpehgihht
+    hhhusgdrtghomhdpjhgvmhgrrhgthhdrnhgvthenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegugihusegugihuuhhurdighiii
+X-ME-Proxy: <xmx:M5i9Zdf6QcdOMMRg-j-oLkZ4PFYKCR7jHEcrxzNZru59PuTTDVbMiQ>
+    <xmx:M5i9ZeO77Ara2IObUaPffrjYy0QFmjbxP1SobyzzVW4sr3vvWnWagg>
+    <xmx:M5i9ZfmNxOeGwxBxjy5unm-E-9gBhW7ppyYukJwATDjRczPVMGUlFQ>
+    <xmx:M5i9ZZFLO67t1PQsu3Ogmj-PHiCAuqCf6Ncak8C10MmIgpjIZlhIMw>
+Feedback-ID: i6a694271:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 2 Feb 2024 20:34:41 -0500 (EST)
+Date: Fri, 2 Feb 2024 18:34:40 -0700
+From: Daniel Xu <dxu@dxuuu.xyz>
+To: Manu Bretelle <chantr4@gmail.com>
+Cc: linux-trace-kernel@vger.kernel.org, coreteam@netfilter.org, 
+	bpf@vger.kernel.org, linux-input@vger.kernel.org, cgroups@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	netfilter-devel@vger.kernel.org, alexei.starovoitov@gmail.com, olsajiri@gmail.com, 
+	quentin@isovalent.com, alan.maguire@oracle.com, memxor@gmail.com, vmalik@redhat.com
+Subject: Re: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
+Message-ID: <fq7iecmqkibtexsbgvv5gyu5nva6ig7gcww56oskk2rvmoxfno@uohfy2x57tch>
+References: <cover.1706491398.git.dxu@dxuuu.xyz>
+ <Zb12EZt0BAKOPBk/@surya>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,732 +85,134 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240109193557.4946-1-dober6023@gmail.com>
+In-Reply-To: <Zb12EZt0BAKOPBk/@surya>
 
-On Tue, Jan 09, 2024 at 02:35:57PM -0500, David Ober wrote:
-> This addition adds in the ability for the system to scan the
-> MEC172x EC chip in Lenovo ThinkStation systems to get the
-> current fan RPM speeds and the Maximum speed value for each
-> fan also provides the current CPU and DIMM thermal status
+Hi Manu,
+
+On Fri, Feb 02, 2024 at 03:09:05PM -0800, Manu Bretelle wrote:
+> On Sun, Jan 28, 2024 at 06:24:05PM -0700, Daniel Xu wrote:
+> > === Description ===
+> > 
+> > This is a bpf-treewide change that annotates all kfuncs as such inside
+> > .BTF_ids. This annotation eventually allows us to automatically generate
+> > kfunc prototypes from bpftool.
+> > 
+> > We store this metadata inside a yet-unused flags field inside struct
+> > btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
+> > 
+> > More details about the full chain of events are available in commit 3's
+> > description.
+> > 
+> > The accompanying pahole and bpftool changes can be viewed
+> > here on these "frozen" branches [0][1].
+> > 
+> > [0]: https://github.com/danobi/pahole/tree/kfunc_btf-v3-mailed
+> > [1]: https://github.com/danobi/linux/tree/kfunc_bpftool-mailed
 > 
-> Signed-off-by: David Ober <dober6023@gmail.com>
 > 
-> Written by David Ober from Lenovo using this gmail address since
-> my corporate email address does not comply with git email
-
-One way to handle that would be to use the coprporate e-mail address
-as author, your corporate e-mail address as first sign-off, and your
-gmail address as second sign-off.
-
+> I hit a similar issue to [0] on master
+> 943b043aeecc ("selftests/bpf: Fix bench runner SIGSEGV")
+>  when cross-compiling on x86_64 (LE) to s390x (BE).
+> I do have CONFIG_DEBUG_INFO_BTF enable and the issue would not trigger if
+> I disabled CONFIG_DEBUG_INFO_BTF (and with the fix mentioned in [0]).
 > 
-> v2 fixed mixcased naming
-> v2 add mutex protection
-> v2 removed references to ACPI as it is not used
-> v2 added comment to explain why returning a -1 is needed
-> v3 verify running on a ThinkStation before calling probe function
-> V3 replaced empty strings with N/A value in lable arrays
-> V3 rename p7_amd to p8 since the name is now changed formally
-> V3 removed returning -1 now returns ENODEV
-> V3 fixed compiler warning from version 2
-> ---
-
-Change log should be after "---".
-
->  drivers/hwmon/Kconfig             |  10 +
->  drivers/hwmon/Makefile            |   1 +
->  drivers/hwmon/lenovo-ec-sensors.c | 490 ++++++++++++++++++++++++++++++
-
-Documentation is missing.
-
->  3 files changed, 501 insertions(+)
->  create mode 100644 drivers/hwmon/lenovo-ec-sensors.c
+> What seems to happen is that `tools/resolve_btfids` is ran in the context of the
+> host endianess and if I printk before the WARN_ON:
+> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> index ef380e546952..a9ed7a1a4936 100644
+>   --- a/kernel/bpf/btf.c
+>   +++ b/kernel/bpf/btf.c
+>   @@ -8128,6 +8128,7 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
+>            * WARN() for initcall registrations that do not check errors.
+>            */
+>           if (!(kset->set->flags & BTF_SET8_KFUNCS)) {
+>   +        printk("Flag 0x%08X, expected 0x%08X\n", kset->set->flags, BTF_SET8_KFUNCS);
+>                   WARN_ON(!kset->owner);
+>                   return -EINVAL;
+>           }
 > 
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index ec38c8892158..821741ec0d2f 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -862,6 +862,16 @@ config SENSORS_LAN966X
->  	  This driver can also be built as a module. If so, the module
->  	  will be called lan966x-hwmon.
->  
-> +config SENSORS_LENOVO_EC
-> +        tristate "Microchip MEC172X Chip for Lenovo ThinkStation"
+> the boot logs would show:
+>   Flag 0x01000000, expected 0x00000001
+> 
+> The issue did not happen prior to
+> 6f3189f38a3e ("bpf: treewide: Annotate BPF kfuncs in BTF")
+> has only 0 was written before.
+> 
+> It seems [1] will be addressing cross-compilation, but it did not fix it as is
+> by just applying on top of master, so probably some of the changes will also need
+> to be ported to `tools/include/linux/btf_ids.h`?
+> 
+> A hacky workaround to cross-compilation I have is to apply:
+> 
+>   diff --git a/tools/bpf/resolve_btfids/Makefile b/tools/bpf/resolve_btfids/Makefile
+>   index 4b8079f294f6..b706e7ab066f 100644
+>   --- a/tools/bpf/resolve_btfids/Makefile
+>   +++ b/tools/bpf/resolve_btfids/Makefile
+>   @@ -22,10 +22,10 @@ HOST_OVERRIDES := AR="$(HOSTAR)" CC="$(HOSTCC)" LD="$(HOSTLD)" ARCH="$(HOSTARCH)
+>                     CROSS_COMPILE="" EXTRA_CFLAGS="$(HOSTCFLAGS)"
+>    RM      ?= rm
+>   -HOSTCC  ?= gcc
+>   -HOSTLD  ?= ld
+>   -HOSTAR  ?= ar
+>   -CROSS_COMPILE =
+>   +HOSTCC  = $(CC)
+>   +HOSTLD  = $(LD)
+>   +HOSTAR  = $(AR)
+>   +#CROSS_COMPILE =
+>    OUTPUT ?= $(srctree)/tools/bpf/resolve_btfids/
+>   @@ -56,16 +56,16 @@ $(OUTPUT) $(OUTPUT)/libsubcmd $(LIBBPF_OUT):
+>    $(SUBCMDOBJ): fixdep FORCE | $(OUTPUT)/libsubcmd
+>           $(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(SUBCMD_OUT) \
+>   -                   DESTDIR=$(SUBCMD_DESTDIR) $(HOST_OVERRIDES) prefix= subdir= \
+>   +                   DESTDIR=$(SUBCMD_DESTDIR) prefix= subdir= \
+>                       $(abspath $@) install_headers
+>    $(BPFOBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(LIBBPF_OUT)
+>           $(Q)$(MAKE) $(submake_extras) -C $(LIBBPF_SRC) OUTPUT=$(LIBBPF_OUT)    \
+>   -                   DESTDIR=$(LIBBPF_DESTDIR) $(HOST_OVERRIDES) prefix= subdir= \
+>   +                   DESTDIR=$(LIBBPF_DESTDIR) prefix= subdir= \
+>                       $(abspath $@) install_headers
+>   -LIBELF_FLAGS := $(shell $(HOSTPKG_CONFIG) libelf --cflags 2>/dev/null)
+>   -LIBELF_LIBS  := $(shell $(HOSTPKG_CONFIG) libelf --libs 2>/dev/null || echo -lelf)
+>   +LIBELF_FLAGS := $(shell $(PKG_CONFIG) libelf --cflags 2>/dev/null)
+>   +LIBELF_LIBS  := $(shell $(PKG_CONFIG) libelf --libs 2>/dev/null || echo -lelf)
+>    HOSTCFLAGS_resolve_btfids += -g \
+>              -I$(srctree)/tools/include \
+>   @@ -84,7 +84,7 @@ $(BINARY_IN): fixdep FORCE prepare | $(OUTPUT)
+>    $(BINARY): $(BPFOBJ) $(SUBCMDOBJ) $(BINARY_IN)
+>           $(call msg,LINK,$@)
+>   -       $(Q)$(HOSTCC) $(BINARY_IN) $(KBUILD_HOSTLDFLAGS) -o $@ $(BPFOBJ) $(SUBCMDOBJ) $(LIBS)
+>   +       $(Q)$(CC) $(BINARY_IN) $(KBUILD_HOSTLDFLAGS) -o $@ $(BPFOBJ) $(SUBCMDOBJ) $(LIBS)
+>    clean_objects := $(wildcard $(OUTPUT)/*.o                \
+>                                $(OUTPUT)/.*.o.cmd           \
+>   diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
+>   index a38a3001527c..5cd193c04448 100644
+>   --- a/tools/testing/selftests/bpf/Makefile
+>   +++ b/tools/testing/selftests/bpf/Makefile
+>   @@ -171,7 +171,7 @@ INCLUDE_DIR := $(SCRATCH_DIR)/include
+>    BPFOBJ := $(BUILD_DIR)/libbpf/libbpf.a
+>    ifneq ($(CROSS_COMPILE),)
+>    HOST_BUILD_DIR         := $(BUILD_DIR)/host
+>   -HOST_SCRATCH_DIR       := $(OUTPUT)/host-tools
+>   +HOST_SCRATCH_DIR       := $(SCRATCH_DIR)
+>    HOST_INCLUDE_DIR       := $(HOST_SCRATCH_DIR)/include
+>    else
+>    HOST_BUILD_DIR         := $(BUILD_DIR)
+> 
+> This causes `resolve_btfids` to be compiled in the target endianess and gets
+> magically run provided that the hosts has `qemu-s390x-static` and a functional
+> binfmt_misc [2] on the host, but having this using host architecture per [1]
+> is likely better.
 
-It is completely irrelevant that the EC chip is MEC172X. This would work
-just as well on another Lenovo ThinkStation with an EC from another
-vendor as long as the API is the same.
+This is kinda surprising to me. I don't recall seeing any code inside
+resolve_btfids that touches the set8 flags field -- only the ids in the
+flexible array member. Would be interested to see what the value of the
+set8 flags field is before resolve_btfids is run.
 
-Didn't I say this before ? I am  quite sure I did.
+I'm a bit busy until Sunday afternoon but I'll try to take a look around
+then. Might be a good opportunity to play with poke [0].
 
-> +        depends on I2C
-> +        help
-> +          If you say yes here you get support for LENOVO
-> +          EC Sensors on newer ThinkStation systems
-> +
-> +          This driver can also be built as a module. If so, the module
-> +          will be called lenovo_ec_sensors.
-> +
->  config SENSORS_LINEAGE
->  	tristate "Lineage Compact Power Line Power Entry Module"
->  	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 4ac9452b5430..aa3c2dc390ec 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -104,6 +104,7 @@ obj-$(CONFIG_SENSORS_JC42)	+= jc42.o
->  obj-$(CONFIG_SENSORS_K8TEMP)	+= k8temp.o
->  obj-$(CONFIG_SENSORS_K10TEMP)	+= k10temp.o
->  obj-$(CONFIG_SENSORS_LAN966X)	+= lan966x-hwmon.o
-> +obj-$(CONFIG_SENSORS_LENOVO_EC)	+= lenovo-ec-sensors.o
->  obj-$(CONFIG_SENSORS_LINEAGE)	+= lineage-pem.o
->  obj-$(CONFIG_SENSORS_LOCHNAGAR)	+= lochnagar-hwmon.o
->  obj-$(CONFIG_SENSORS_LM63)	+= lm63.o
-> diff --git a/drivers/hwmon/lenovo-ec-sensors.c b/drivers/hwmon/lenovo-ec-sensors.c
-> new file mode 100644
-> index 000000000000..731d75e06977
-> --- /dev/null
-> +++ b/drivers/hwmon/lenovo-ec-sensors.c
-> @@ -0,0 +1,490 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * HWMON driver for MEC172x chip that publishes some sensor values
-
-Again, no, that is not what it is.
-
-> + * via the embedded controller registers specific to Lenovo Systems.
-> + *
-> + * Copyright (C) 2023 David Ober (Lenovo) <dober@lenovo.com>
-> + *
-> + * EC provides:
-> + * - CPU temperature
-> + * - DIMM temperature
-> + * - Chassis zone temperatures
-> + * - CPU fan RPM
-> + * - DIMM fan RPM
-> + * - Chassis fans RPM
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/delay.h>
-> +#include <linux/dmi.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/io.h>
-> +#include <linux/ioport.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/units.h>
-> +
-> +#define MCHP_SING_IDX			0x0000
-> +#define MCHP_EMI0_APPLICATION_ID	0x090C
-> +#define MCHP_EMI0_EC_ADDRESS_LSB	0x0902
-> +#define MCHP_EMI0_EC_ADDRESS_MSB	0x0903
-> +#define MCHP_EMI0_EC_DATA_BYTE0		0x0904
-> +#define MCHP_EMI0_EC_DATA_BYTE1		0x0905
-> +#define MCHP_EMI0_EC_DATA_BYTE2		0x0906
-> +#define MCHP_EMI0_EC_DATA_BYTE3		0x0907
-> +
-
-The driver should reserve this i/o space using devm_request_region() or
-similar to ensure that it is not used by other drivers. It should also
-use acpi_check_resource_conflict() to ensure that there is no resource
-conflict with ACPI.
-
-> +#define io_write8(a, b)	outb_p(b, a)
-> +#define io_read8(a)	inb_p(a)
-> +
-> +static inline uint8_t
-> +get_ec_reg(unsigned char page, unsigned char index)
-
-Unnecessary line break
-
-> +{
-> +	u8 onebyte;
-> +	unsigned short m_index;
-> +	unsigned short phy_index = page * 256 + index;
-> +
-> +	io_write8(MCHP_EMI0_APPLICATION_ID, 0x01);
-> +
-> +	m_index = phy_index & 0x7FFC;
-> +	io_write8(MCHP_EMI0_EC_ADDRESS_LSB, m_index);
-> +	io_write8(MCHP_EMI0_EC_ADDRESS_MSB, m_index >> 8);
-> +
-> +	switch (phy_index & 0x0003) {
-> +	case 0:
-> +		onebyte = io_read8(MCHP_EMI0_EC_DATA_BYTE0);
-> +		break;
-> +	case 1:
-> +		onebyte = io_read8(MCHP_EMI0_EC_DATA_BYTE1);
-> +		break;
-> +	case 2:
-> +		onebyte = io_read8(MCHP_EMI0_EC_DATA_BYTE2);
-> +		break;
-> +	case 3:
-> +		onebyte = io_read8(MCHP_EMI0_EC_DATA_BYTE3);
-> +		break;
-> +	}
-
-Why not just something like the following ?
-	io_read8(MCHP_EMI0_EC_DATA_BYTE0 + (index & 3));
-
-> +
-> +	io_write8(MCHP_EMI0_APPLICATION_ID, 0x01);  /* write same data to clean */
-
-That comment doesn't explain anything. What is "same data" ?
-"write 0x01 again to clean" would be more useful if that is what it means.
-
-> +	return onebyte;
-> +}
-> +
-> +static const char * const systems[] = {
-> +	"Tomcat",
-> +	"Hornet",
-> +	"Falcon",
-> +	"Manta_",
-> +};
-> +
-> +static const char * const lenovo_px_ec_temp_label[] = {
-> +	"CPU1",
-> +	"CPU2",
-> +	"R_DIMM1",
-> +	"L_DIMM1",
-> +	"R_DIMM2",
-> +	"L_DIMM2",
-> +	"PCH",
-> +	"M2_R",
-> +	"M2_Z1R",
-> +	"M2_Z2R",
-> +	"PCI_Z1",
-> +	"PCI_Z2",
-> +	"PCI_Z3",
-> +	"PCI_Z4",
-> +	"AMB",
-> +};
-> +
-> +static const char * const lenovo_gen_ec_temp_label[] = {
-> +	"CPU1",
-> +	"N/A",
-> +	"R_DIMM",
-> +	"L_DIMM",
-> +	"N/A",
-> +	"N/A",
-> +	"PCH",
-> +	"M2_R",
-> +	"M2_Z1R",
-> +	"M2_Z2R",
-> +	"PCI_Z1",
-> +	"PCI_Z2",
-> +	"PCI_Z3",
-> +	"PCI_Z4",
-> +	"AMB",
-> +};
-> +
-> +static const char * const px_ec_fan_label[] = {
-> +	"CPU1_Fan",
-> +	"CPU2_Fan",
-> +	"Front_Fan1-1",
-> +	"Front_Fan1-2",
-> +	"Front_Fan2",
-> +	"Front_Fan3",
-> +	"MEM_Fan1",
-> +	"MEM_Fan2",
-> +	"Rear_Fan1",
-> +	"Rear_Fan2",
-> +	"Flex_Bay_Fan1",
-> +	"Flex_Bay_Fan2",
-> +	"Flex_Bay_Fan2",
-> +	"PSU_HDD_Fan",
-> +	"PSU1_Fan",
-> +	"PSU2_Fan",
-> +};
-> +
-> +static const char * const p7_ec_fan_label[] = {
-> +	"CPU1_Fan",
-> +	"N/A",
-> +	"HP_CPU_Fan1",
-> +	"HP_CPU_Fan2",
-> +	"PCIE1_4_Fan",
-> +	"PCIE5_7_Fan",
-> +	"MEM_Fan1",
-> +	"MEM_Fan2",
-> +	"Rear_Fan1",
-> +	"N/A",
-> +	"BCB_Fan",
-> +	"Flex_Bay_Fan",
-> +	"N/A",
-> +	"N/A",
-> +	"PSU_Fan",
-> +	"N/A",
-> +};
-> +
-> +static const char * const p5_ec_fan_label[] = {
-> +	"CPU_Fan",
-> +	"N/A",
-> +	"N/A",
-> +	"N/A",
-> +	"N/A",
-> +	"HDD_Fan",
-> +	"Duct_Fan1",
-> +	"MEM_Fan",
-> +	"Rear_Fan",
-> +	"N/A",
-> +	"Front_Fan",
-> +	"Flex_Bay_Fan",
-> +	"N/A",
-> +	"N/A",
-> +	"PSU_Fan",
-> +	"N/A",
-
-If "N/A" means that there are no such sensors, those should not be
-instantiated to start with. If the sensors exist but their use is unknown,
-there should be no label attribute. The label attribute is supposed to
-provide information about _known_ sensors, not some unspecified data.
-
-> +};
-> +
-> +static const char * const p8_ec_fan_label[] = {
-> +	"CPU1_Fan",
-> +	"CPU2_Fan",
-> +	"HP_CPU_Fan1",
-> +	"HP_CPU_Fan2",
-> +	"PCIE1_4_Fan",
-> +	"PCIE5_7_Fan",
-> +	"DIMM1_Fan1",
-> +	"DIMM1_Fan2",
-> +	"DIMM2_Fan1",
-> +	"DIMM2_Fan2",
-> +	"Rear_Fan",
-> +	"HDD_Bay_Fan",
-> +	"Flex_Bay_Fan",
-> +	"N/A",
-> +	"PSU_Fan",
-> +	"N/A",
-> +};
-> +
-> +struct ec_sensors_data {
-> +	struct mutex mec_mutex; /* lock for sensors write */
-
-Not really "lock for sensors write", because it is also used
-when reading sensor values. More like "lock for sensor access".
-
-> +	u8 platform_id;
-> +	const char *const *fan_labels;
-> +	const char *const *temp_labels;
-> +};
-> +
-> +static int
-> +lenovo_ec_do_read_temp(struct ec_sensors_data *data, u32 attr, int channel, long *val)
-> +{
-> +	u8   LSB;
-
-Please refrain from using upper case for variables. "lsb" is sufficient.
-Use upper case for definitions.
-
-> +
-> +	switch (attr) {
-> +	case hwmon_temp_input:
-> +		mutex_lock(&data->mec_mutex);
-> +		LSB = get_ec_reg(2, 0x81 + channel);
-> +		mutex_unlock(&data->mec_mutex);
-> +		if (LSB > 0x40)
-> +			*val = (LSB - 0x40) * 1000;
-> +		else
-> +			return -ENODEV;
-
-Wrong return code. This is not "No such device". -EIO, maybe.
-Also, error handling comes first.
-
-		if (lsb <= 0x40)
-			return -EIO;
-		*val = (LSB - 0x40) * 1000;
+Thanks,
+Daniel
 
 
-> +		return 0;
-> +	default:
-> +		break;
-> +	}
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int
-> +lenovo_ec_do_read_fan(struct ec_sensors_data *data, u32 attr, int channel, long *val)
-> +{
-> +	u8    LSB, MSB;
-> +
-> +	channel *= 2;
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		mutex_lock(&data->mec_mutex);
-> +		LSB = get_ec_reg(4, 0x60 + channel);
-> +		MSB = get_ec_reg(4, 0x61 + channel);
-> +		mutex_unlock(&data->mec_mutex);
-> +		if (MSB || LSB) {
-> +			mutex_lock(&data->mec_mutex);
-> +			LSB = get_ec_reg(4, 0x20 + channel);
-> +			MSB = get_ec_reg(4, 0x21 + channel);
-> +			mutex_unlock(&data->mec_mutex);
-> +			*val = (MSB << 8) + LSB;
-> +			return 0;
-> +		}
-> +		return -ENODATA; /* enodata has the sensors tool mark the FAN speed as N/A */
-
-Again, should be reverse
-
-		if (!msb && !lsb)
-			return -ENODATA;
-		...
-		return 0;
-
-Also, please explain this sequence in more detail. It appears that
-the data is only valid (for both input and max speed) if at least
-one of the registers 0x60/0x61 + channel * 2 is valid. At the same
-time, it does not seem to matter if an unspecified amoutn of time passes
-between reading those registers and deading the current / max speed.
-
-If this is static, it could be read once. If not, it might make sense
-to have a function such as
-
-bool fan_valid(data, channel)
-{
-	mutex_lock(&data->mec_mutex);
-	lsb = get_ec_reg(4, 0x60 + channel);
-	lsb = get_ec_reg(4, 0x61 + channel);
-	mutex_unlock(&data->mec_mutex);
-
-	return lsb || msb;
-}
-
-but then the question is what happens if lsb and lsb are zero
-after the second mutex_lock().
-
-> +	case hwmon_fan_max:
-> +		mutex_lock(&data->mec_mutex);
-> +		LSB = get_ec_reg(4, 0x60 + channel);
-> +		MSB = get_ec_reg(4, 0x61 + channel);
-> +		mutex_unlock(&data->mec_mutex);
-> +		if (MSB || LSB) {
-> +			mutex_lock(&data->mec_mutex);
-> +			LSB = get_ec_reg(4, 0x40 + channel);
-> +			MSB = get_ec_reg(4, 0x41 + channel);
-> +			mutex_unlock(&data->mec_mutex);
-> +			*val = (MSB << 8) + LSB;
-> +		} else {
-> +			*val = 0;
-> +		}
-> +		return 0;
-> +	case hwmon_fan_min:
-> +	case hwmon_fan_div:
-> +	case hwmon_fan_alarm:
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int get_platform(struct ec_sensors_data *data)
-> +{
-> +	char system_type[6];
-> +	int ret = -1;
-
-Consider returning a valid error code.
-
-> +	int idx;
-> +
-> +	for (idx = 0 ; idx < 6 ; idx++) {
-> +		mutex_lock(&data->mec_mutex);
-> +		system_type[idx] = get_ec_reg(0xC, 0x10 + idx);
-> +		mutex_unlock(&data->mec_mutex);
-> +	}
-
-What is the point of the repeated lock / unlock sequence ? get_platform()
-is only called from the probe function, so I don't see why locking
-would be necessary to start with. Even if it is necessary, I don't see
-why it would make sense to lock for each read instead of for the entire
-loop.
-
-> +
-> +	for (idx = 0 ; idx < 4 ; idx++) {
-> +		if (!strncmp(systems[idx], system_type, 6)) {
-> +			ret = idx;
-> +			break;
-> +		}
-> +	}
-
-In my opinion it would make much more sense to declare system_type as
-	char system_type[7];
-zero-terminate it, and change the code to
-
-	for (idx = 0 ; idx < 4 ; idx++) {
-		if (!strcmp(systems[idx], system_type))
-			return idx;
-	}
-
-	dev_err(dev, "Unsupported ThinkStation Model %s", system_type);
-	return -ENODEV;
-
-> +	return ret;
-> +}
-> +
-> +static int
-> +lenovo_ec_hwmon_read_string(struct device *dev, enum hwmon_sensor_types type,
-> +			    u32 attr, int channel, const char **str)
-> +{
-> +	struct ec_sensors_data *state = dev_get_drvdata(dev);
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		*str = state->temp_labels[channel];
-> +		break;
-> +
-> +	case hwmon_fan:
-> +		*str = state->fan_labels[channel];
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int
-> +lenovo_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> +		     u32 attr, int channel, long *val)
-> +{
-> +	struct ec_sensors_data *data = dev_get_drvdata(dev);
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		return lenovo_ec_do_read_temp(data, attr, channel, val);
-> +	case hwmon_fan:
-> +		return lenovo_ec_do_read_fan(data, attr, channel, val);
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t
-> +lenovo_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
-> +			   u32 attr, int channel)
-> +{
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		if (attr == hwmon_temp_input || attr == hwmon_temp_label)
-> +			return 0444;
-> +		break;
-> +	case hwmon_fan:
-> +		if (attr == hwmon_fan_input || attr == hwmon_fan_max || attr == hwmon_fan_label)
-> +			return 0444;
-> +		break;
-> +	default:
-> +		return 0;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static const struct hwmon_channel_info *lenovo_ec_hwmon_info[] = {
-> +	HWMON_CHANNEL_INFO(temp,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL),
-> +	HWMON_CHANNEL_INFO(fan,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX,
-> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MAX),
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_ops lenovo_ec_hwmon_ops = {
-> +	.is_visible = lenovo_ec_hwmon_is_visible,
-> +	.read = lenovo_ec_hwmon_read,
-> +	.read_string = lenovo_ec_hwmon_read_string,
-> +};
-> +
-> +static struct hwmon_chip_info lenovo_ec_chip_info = {
-> +	.ops = &lenovo_ec_hwmon_ops,
-> +	.info = lenovo_ec_hwmon_info,
-> +};
-> +
-> +static int lenovo_ec_probe(struct platform_device *pdev)
-> +{
-> +	struct device *hwdev;
-> +	struct ec_sensors_data *ec_data;
-> +	const struct hwmon_chip_info *chip_info;
-> +	struct device *dev = &pdev->dev;
-> +
-> +	ec_data = devm_kzalloc(dev, sizeof(struct ec_sensors_data), GFP_KERNEL);
-> +	if (!ec_data)
-> +		return -ENOMEM;
-> +
-> +	dev_set_drvdata(dev, ec_data);
-> +
-> +	chip_info = &lenovo_ec_chip_info;
-> +
-> +	mutex_init(&ec_data->mec_mutex);
-> +
-> +	mutex_lock(&ec_data->mec_mutex);
-> +	if (io_read8(MCHP_EMI0_APPLICATION_ID) != 0) { /* check EMI Application BIT */
-
-This checks a byte, though, not a bit.
-
-> +		io_write8(0x90C, io_read8(0x90C)); /* set EMI Application BIT to 0 */
-
-Writing the value read from 0x90C back to 0x90C does that ?
-I mean, I have no choice but to believe that, but it seems odd.
-
-Also, why not use MCHP_EMI0_APPLICATION_ID instead of 0x90C,
-and why read the value twice ? Or, in other words, why not
-something like the following and a comment explaining what
-this actually does and why it is needed.
-
-	app_id = io_read8(MCHP_EMI0_APPLICATION_ID);
-	if (app_id)
-		io_write8(MCHP_EMI0_APPLICATION_ID, app_id);
-
-As a general comment, I hope this code works on _all_ thinkstations,
-not only on the ones supported by this driver. 
-
-> +	}
-> +	io_write8(MCHP_EMI0_EC_ADDRESS_LSB, MCHP_SING_IDX);
-> +	io_write8(MCHP_EMI0_EC_ADDRESS_MSB, MCHP_SING_IDX >> 8);
-> +	mutex_unlock(&ec_data->mec_mutex);
-
-What is the purpose of those locks ? Even if they were needed,
-this being the probe function, what would prevent other code
-from stepping in after the mutex_unlock() and changing the content
-of MCHP_EMI0_EC_DATA_BYTE[0123] ?
-
-> +
-> +	if ((io_read8(MCHP_EMI0_EC_DATA_BYTE0) == 'M') &&
-> +	    (io_read8(MCHP_EMI0_EC_DATA_BYTE1) == 'C') &&
-> +	    (io_read8(MCHP_EMI0_EC_DATA_BYTE2) == 'H') &&
-> +	    (io_read8(MCHP_EMI0_EC_DATA_BYTE3) == 'P')) {
-
-Error handling should be first.
-
-	if ((io_read8(MCHP_EMI0_EC_DATA_BYTE0) != 'M') ||
-	    (io_read8(MCHP_EMI0_EC_DATA_BYTE1) != 'C') ||
-	    (io_read8(MCHP_EMI0_EC_DATA_BYTE2) != 'H') ||
-	    (io_read8(MCHP_EMI0_EC_DATA_BYTE3) != 'P')) {
-		return -ENODEV;
-	
-	ec_data->platform_id = get_platform(ec_data);
-	...
-
-platform_id is defined as u8. While this technically works
-because the returned -1 is converted to 0xff or 255, it is still
-incorrect.
-
-> +		switch (ec_data->platform_id) {
-> +		case 0:
-> +			ec_data->fan_labels = px_ec_fan_label;
-> +			ec_data->temp_labels = lenovo_px_ec_temp_label;
-> +			break;
-> +		case 1:
-> +			ec_data->fan_labels = p7_ec_fan_label;
-> +			ec_data->temp_labels = lenovo_gen_ec_temp_label;
-> +			break;
-> +		case 2:
-> +			ec_data->fan_labels = p5_ec_fan_label;
-> +			ec_data->temp_labels = lenovo_gen_ec_temp_label;
-> +			break;
-> +		case 3:
-> +			ec_data->fan_labels = p8_ec_fan_label;
-> +			ec_data->temp_labels = lenovo_gen_ec_temp_label;
-> +			break;
-> +		default:
-> +			dev_err(dev, "Unsupported ThinkStation Model");
-> +			return -EINVAL;
-
-			return -ENODEV;
-
-> +		}
-> +
-> +		hwdev = devm_hwmon_device_register_with_info(dev, "lenovo_ec",
-> +							     ec_data,
-> +							     chip_info, NULL);
-> +
-> +		return PTR_ERR_OR_ZERO(hwdev);
-> +	}
-> +	return -ENODEV;
-> +}
-> +
-> +static struct platform_driver lenovo_ec_sensors_platform_driver = {
-> +	.driver = {
-> +		.name	= "lenovo-ec-sensors",
-> +	},
-> +	.probe = lenovo_ec_probe,
-> +};
-> +
-> +static struct platform_device *lenovo_ec_sensors_platform_device;
-> +
-> +static int __init lenovo_ec_init(void)
-> +{
-> +	char const *s;
-> +
-> +	s = dmi_get_system_info(DMI_PRODUCT_NAME);
-> +	if (s && !(strncasecmp(s, "ThinkStation", 12))) {
-
-Unnecessary () around strncasecmp()
-
-> +		lenovo_ec_sensors_platform_device =
-> +			platform_create_bundle(&lenovo_ec_sensors_platform_driver,
-> +					       lenovo_ec_probe, NULL, 0, NULL, 0);
-> +
-
-The i/o resource should be assigned and validated here,
-and be reserved in the probe function.
-
-> +		if (IS_ERR(lenovo_ec_sensors_platform_device))
-> +			return PTR_ERR(lenovo_ec_sensors_platform_device);
-> +
-> +		return 0;
-> +	}
-> +	return -ENODEV;
-
-Again, error handling first.
-
-	if (!s || strncasecmp(s, "ThinkStation", 12))
-		return -ENODEV;
-	...
-
-> +}
-> +
-> +static void __exit lenovo_ec_exit(void)
-> +{
-> +	platform_device_unregister(lenovo_ec_sensors_platform_device);
-> +	platform_driver_unregister(&lenovo_ec_sensors_platform_driver);
-> +}
-> +
-> +module_init(lenovo_ec_init);
-> +module_exit(lenovo_ec_exit);
-> +
-> +MODULE_AUTHOR("David Ober <dober@lenovo.com>");
-> +MODULE_DESCRIPTION("HWMON driver for MEC172x EC sensors on LENOVO motherboards");
-> +MODULE_LICENSE("GPL");
+[0]: http://www.jemarch.net/poke
