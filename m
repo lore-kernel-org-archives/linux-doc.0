@@ -1,103 +1,128 @@
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C237863AE;
-	Sat,  3 Feb 2024 02:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCBE63CB;
+	Sat,  3 Feb 2024 02:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706926126; cv=none; b=b/MPN7mgH1RTc6YsjikGauH9MWnT3EnAWlnAp8XA8oB+rZuHcRc3FwJbNZk92wwTzKNBzzxf0hBimdkNSGBakyJI30nTZJtAP++iR4iFfkaEMQ+335mrOUtYsqYc6937OzrJkZC+AH3Xex7IKdRVcntX2wRb6WovtkDaK/pUojE=
+	t=1706927867; cv=none; b=VoC2po23mSiWfizB1aEQl7jEAU4END7kgJLczRd/wbE106oM28wqFbtokyQ3os7l7aqYCiY9KXBW1vuyF8ia7As0KSd/mWF9DHev2kjh2Uucbi1Qws/mmmqG/1F6SWyirDdTgg19Du3Zm+hE3+53cRyBIMun8YrHF2evzdlRsBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706926126; c=relaxed/simple;
-	bh=lTPYk3uP/7Hs53WTMe3kG3GlscZKfUoKB1OWY+JmyB0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pJ8kf7aRPD83urbXbX37O6JVi2123EFQHXDXgd+hNJXYRqMPP7qcA/RtMY6F8ifDO3X51cOeXzofwK9KLX5M6ue+DNItrRvRY/sqsykVmhnq5H1MJmXHD1rwAyPOKKt4AzwN8M8jdwiD6bdgs75f68I/p4lTj0U+3mkwCEonZ6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=O0ul/Ycp; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1706927867; c=relaxed/simple;
+	bh=/ctydeO9BP9IDNCKzOW84UaD1pWVBJmsNl/Vixk3Z5M=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gOyfGnsoBARHWl5CI1Lm54GA98zSdTWHjhazycGmTbzYzwh95BkpoVWp5S+a93jtpZGV7zkOmAzsUgchpTxf7bBH1p+sbUQ5aOZfPaPXuIFhNSrRWnkoJ6Q1paQN/z8xaWAFqJ3gD1y6jHd657jOGWOkK+XKBdDYwuDcwco/2KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TksxWt9w; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="O0ul/Ycp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=BISZmxAxuhGywf5Psgs5bYnINGRpQwP9TOf62KALg00=; b=O0ul/Ycp0twiaFNrgQRhvbYf9U
-	mKP/lf2M9IbeqHZdncibjWOB4y/TXBubUhfXY7OdwltC6Ug3kl5o2pLf//u6yBQA6483CQSOomTC+
-	mBnr4EC34Ta/fIuSLNMe/adQVSwhI0AXu8cbmuMlZ3FyJGk2WB6F+V2uJdhqMIdW+nRLuxNYGPRKg
-	JR8Xppl2zWfoQDh93Q8l6NWMOLqJGLtRtmm2JmVdEgZtePWIAyUKxe3f8vxBOpOm8Z1lNVO7y/hG4
-	JrrbyUIOaWuSpu9shYaCHQwP3wVDVkvvF9SZQaQDkK32pj/k8lcGIqAf11Ols0E0qR90qTXbhNnPU
-	UDUw5/NA==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rW5SJ-006FG8-2O;
-	Fri, 02 Feb 2024 20:08:32 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Andi Kleen <ak@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject:
- Re: [RFC PATCH v2 19/29] selftests: ntsync: Add some tests for
- NTSYNC_IOC_WAIT_ANY.
-Date: Fri, 02 Feb 2024 20:08:31 -0600
-Message-ID: <8329156.T7Z3S40VBb@camazotz>
-In-Reply-To: <878r45khqc.fsf@linux.intel.com>
-References:
- <20240131021356.10322-1-zfigura@codeweavers.com>
- <20240131021356.10322-20-zfigura@codeweavers.com>
- <878r45khqc.fsf@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TksxWt9w"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4131vpjH015339;
+	Sat, 3 Feb 2024 02:37:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=2sOcjxKmnstL/5ftZf58
+	41vds3YmEI4sRJLRwbFI4Jw=; b=TksxWt9wD+hoE1wZM0dYR9Mip7EhGUvIUp0I
+	H3YzlTxhKDLq1Ayl0YbckWnl52CBK4mJFQGq/svusRBpOoCcqongn1y5QXZ2HgTx
+	L3dFxmD2rvVi3Q2TeGYemG/ITGYW6JqeJ1Lclz70icWi9ugkmup9OvuXBHOfZEDi
+	fg5IT1Ne2OJgpyH4y16C4VYijU4G10OTqMkwt7WOM0Ri5ohBxyNAaDo74wxgkKPu
+	6zVM7E2Gz8WSH79zd4KPSQhsUvKPieh25ZO+kSkT6Z8T3Q3tA0zNGPK5pe6RMBC6
+	o+lvVXBJk9vxNAUzBd9ttqa5U92WQ3R5GjBJHTqDPSjS+HuKbA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w1ax4849a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 03 Feb 2024 02:37:18 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4132bHsY008154
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 3 Feb 2024 02:37:17 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 2 Feb 2024 18:37:17 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v13 01/53] xhci: fix possible null pointer dereference at secondary interrupter removal
+Date: Fri, 2 Feb 2024 18:35:53 -0800
+Message-ID: <20240203023645.31105-2-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240203023645.31105-1-quic_wcheng@quicinc.com>
+References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: nvPhaEaUOS4conh-P7-RduoJTWJsxWOX
+X-Proofpoint-GUID: nvPhaEaUOS4conh-P7-RduoJTWJsxWOX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-02_16,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 bulkscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501
+ impostorscore=0 malwarescore=0 spamscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402030015
 
-On Wednesday, 31 January 2024 02:52:11 CST Andi Kleen wrote:
-> Elizabeth Figura <zfigura@codeweavers.com> writes:
-> 
-> > +TEST(test_wait_any)
-> > +{
-> > +	struct ntsync_mutex_args mutex_args = {0};
-> > +	struct ntsync_wait_args wait_args = {0};
-> > +	struct ntsync_sem_args sem_args = {0};
-> > +	__u32 owner, index, count;
-> > +	struct timespec timeout;
-> > +	int objs[2], fd, ret;
-> > +
-> > +	clock_gettime(CLOCK_MONOTONIC, &timeout);
-> > +
-> > +	fd = open("/dev/ntsync", O_CLOEXEC | O_RDONLY);
-> > +	ASSERT_LE(0, fd);
-> > +
-> > +	sem_args.count = 2;
-> > +	sem_args.max = 3;
-> > +	sem_args.sem = 0xdeadbeef;
-> > +	ret = ioctl(fd, NTSYNC_IOC_CREATE_SEM, &sem_args);
-> > +	EXPECT_EQ(0, ret);
-> > +	EXPECT_NE(0xdeadbeef, sem_args.sem);
-> > +
-> > +	mutex_args.owner = 0;
-> > +	mutex_args.count = 0;
-> > +	mutex_args.mutex = 0xdeadbeef;
-> > +	ret = ioctl(fd, NTSYNC_IOC_CREATE_MUTEX, &mutex_args);
-> > +	EXPECT_EQ(0, ret);
-> > +	EXPECT_NE(0xdeadbeef, mutex_args.mutex);
-> 
-> It seems your tests are missing test cases for exceeding any limits,
-> especially overflow/underflow cases. Since these are the most likely
-> for any security problems it would be good to have extra coverage here.
-> The fuzzers will hopefully hit it too.
-> 
-> Also some stress testing with multiple threads would be useful.
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-Thanks, I'll add these.
+Don't try to remove a secondary interrupter that is known to be invalid.
+Also check if the interrupter is valid inside the spinlock that protects
+the array of interrupters.
 
+Found by smatch static checker
 
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/linux-usb/ffaa0a1b-5984-4a1f-bfd3-9184630a97b9@moroto.mountain/
+Fixes: c99b38c41234 ("xhci: add support to allocate several interrupters")
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://lore.kernel.org/r/20240125152737.2983959-2-mathias.nyman@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci-mem.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 4460fa7e9fab..d00d4d937236 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -1861,14 +1861,14 @@ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrup
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	unsigned int intr_num;
+ 
++	spin_lock_irq(&xhci->lock);
++
+ 	/* interrupter 0 is primary interrupter, don't touch it */
+-	if (!ir || !ir->intr_num || ir->intr_num >= xhci->max_interrupters)
++	if (!ir || !ir->intr_num || ir->intr_num >= xhci->max_interrupters) {
+ 		xhci_dbg(xhci, "Invalid secondary interrupter, can't remove\n");
+-
+-	/* fixme, should we check xhci->interrupter[intr_num] == ir */
+-	/* fixme locking */
+-
+-	spin_lock_irq(&xhci->lock);
++		spin_unlock_irq(&xhci->lock);
++		return;
++	}
+ 
+ 	intr_num = ir->intr_num;
+ 
