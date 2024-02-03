@@ -1,109 +1,98 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EECB5EE93;
-	Sat,  3 Feb 2024 15:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2376655E70;
+	Sat,  3 Feb 2024 15:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706973192; cv=none; b=StIN976ZCmuzqSeL9D2Tl9RRJQMFUIQbdNJViRLRduHbXZYMAjUpybp7Dci6k5CylSkBqOWX95XigSctQYk0TSz0yf2On/GDYjMGgoBpEpWLiJNbQdfQ1quRY4IsVqMyH65/xHpEaAZAm9RCMk/vI0KQraIpYwZ0Th4ZWQ257YU=
+	t=1706973749; cv=none; b=E5Qgh8NzYDx979b5S4WbxirX9atL2W2ibnu4iU4AYveYoUDBs1cg1kJTLg3sB1dHXOLgOmAFkmqMlc/Cc/2os4joimuidTIaC61217iAIoXJr0v5rZt+V3FjqNLhHS1G5CfBHyBo67r62SGAFHzLHcK2r4kF16Fyua1wuHSF7AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706973192; c=relaxed/simple;
-	bh=JL+PSRmvVzKSLfAoJ77lkRIiOVNvdMZicj1Fohwv15Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PDAzVSl5I0b5fIJQxnHVakDfVw/7SBjAQqKVtTeSGLfhbYTy3e7CmxXS985LwvhUQ/Gd5KhBDTLUcecCm1D2w91iEQiiXK/O1HURq2+rie7oufCsDvo6f55IApNfF6gyDjDU6StwbdjnN9A5/X9JtZAarAwvqjmtrYh78iVq5nA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iKLifrvG; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706973749; c=relaxed/simple;
+	bh=c+Jc4BAS+IryDupflpvWK9nQ/pkuVv+Flzsyr7rEEDw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t19uylTRv/yNx35kajZ4VaP7jhRNOVQbzG5dBI29XyWPT0bcuW00k2cF9yw2TWxwRuP38OIB7J8QAEGXJWqG3NemqLKUNn6xYhyhNsrWXAm9ay8/1Ls56gXNzEoEgq3LrxAYKgAq39+K9FhBvBK9fjX/wLkuv/m6J9YYFlVBQvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=QGqG24Wv; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iKLifrvG"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6ddc0c02593so2218488b3a.3;
-        Sat, 03 Feb 2024 07:13:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706973190; x=1707577990; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xN9WkJF6hYDK+c2hghOyEcly1TR1Vl/4IjxK+gN4NfY=;
-        b=iKLifrvG1R8gJKfxMY3GybZae1WvWo+ir4mzrpA8Zzz5riK8/FAV+giD/nKT/cqfan
-         3RlSXFT0nH2Hm1JIC6zhqaQHCSdlyfMMft/zuP/b7SV6Ms17hcXfwLydJ8XFunq9kMEg
-         Mp4BrN9kFDALCblRYIbtcLckABx0wq7y7CSVNn+t61WPtNBR+/XZj/sfinwoPWjfk99j
-         umFAd4qAA0kf89UF2aZ5VXh27qAAsKYlaqn+YQIJYd0yIRU6BaKJHKdZlZIBqNTHMxyt
-         DdhEgxvmOx5WEdd4r3YkYrB+TPDIDj4sMETk54955O49stLZE+/4/v9x3P5pJSPeAH58
-         nvvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706973190; x=1707577990;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xN9WkJF6hYDK+c2hghOyEcly1TR1Vl/4IjxK+gN4NfY=;
-        b=THR/HdlGa4RzDLSKkzeHnZrukJ4e/MgBvRxBiWLyXrJ6oNfukrsogPZIBeLzk51o00
-         HHbczgA20AyJJPmgQXslg/qmZZaDGNvx54oDIk5pMzYJdIEKz2SyLWhxHvvp3upyOLYV
-         IQF25sqW4ZfTsq/Sxpqshqqzm9K3gPuyFoApJYK2EDUTO5AYd/EZr4yzXRMvHgfwknqv
-         CmyKU6VOa2xVNu8QAszLlfQJ42bEziwKlx+oKgFz4tILElTKpT4zbM2N6IK/js3pLmRY
-         9GFiPgZ/r3dpRVQvA8L3O/JXQJG64qbW6I76BuogIo1g+3jlGZ/8yyJ3TFIimw/ydcma
-         yKTQ==
-X-Gm-Message-State: AOJu0YxHYU9b9cizGRXfHFP2wAN8t++SIlbyUxjyOdM9VhpG5XrrqTz3
-	iSPS1hDsXehkw/1V85PxeL2ezKrhd0usaMciYUOMIJygUR6xJrlM
-X-Google-Smtp-Source: AGHT+IGzclwUEWMRrB7qUW7wMZUYvN4KbDaWuMK5T/g9+YsyjQ0OdD5a6sVLWIN+82c2yQmSgWYBeQ==
-X-Received: by 2002:a05:6a00:1407:b0:6df:f634:4f83 with SMTP id l7-20020a056a00140700b006dff6344f83mr6028980pfu.2.1706973189541;
-        Sat, 03 Feb 2024 07:13:09 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUqYJZtF0397o79UzP467rq+EAXWG13ZCkuGdHXaZvG71bKhtaZ87yr7V3NXIZ4NLnCp5BZJCtLrJoXZAvzCQja+f1KOfybqtNT3eANB/oh3C1NGHWrKwehgCcO1ZoJWFzCG8l9NENaMXsUitkqyCf+tBUR8DPmy0MzKRMF+fceGoyC07gWeQIC/+j8+A9AY2PUVsF/oR5RJG2OiYXEtUeAn9txBrXtmxbbctnYemk8oyh5Ds1FoopUbq8VbebCQlvPAMdoP1SL+8aMgJzY4bn8Y906L7Ln31LNTfXN32Y/7cLg/RtQN54lUDUCa59F9HSRZWMxOvy/E5NQf9HvxxK8wFMxgvAksmEkf59tqFRV3Z2NYW+G73xa3vhzLN3x8wMHUy36RY81K4pEVeHwaPF2m3jCz70uno3P3cGWYzD7w6WbTsfyh5+Y4k1QcnWMyTsaTp214+GkWDcqFV0LYvNpHTpn028grAIXbj05NYX5kjklvxeBjCPgndBnHoKVcRCDnnRqSzIUu51mTEdzgvI1Q2nZjBdDxkTvpNq07AsalOaiJ1/HqSt0PGeI1zEQOfauB6xDTFgRiBP1M4kuWN+uKOY4VEfi4oA22jZ4Cmb+NicUk9EJt4J85246qjNKaH1aRLitgP0sJQ4VlP8CuzyKJtZ91RcILRYmL1NxX7ZW0w0nuBUyRqKtYA==
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b129-20020a62cf87000000b006dfe45dfdb4sm3671627pfg.74.2024.02.03.07.13.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 07:13:09 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sat, 3 Feb 2024 07:13:08 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: jdelvare@suse.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	joel@jms.id.au, andrew@codeconstruct.com.au, corbet@lwn.net,
-	u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de,
-	naresh.solanki@9elements.com, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-	BMC-SW@aspeedtech.com, patrick@stwcx.xyz
-Subject: Re: [PATCH v13 1/3] dt-bindings: hwmon: fan: Add fan binding to
- schema
-Message-ID: <e1b1c69f-a2ff-4fa5-80a6-3ff0a3de6ce6@roeck-us.net>
-References: <20240124060705.1342461-1-billy_tsai@aspeedtech.com>
- <20240124060705.1342461-2-billy_tsai@aspeedtech.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="QGqG24Wv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=j9K/vax56e3sCnb71UIU5Gz4B8feV2qAX5/Vur9/dM8=; b=QGqG24WvpulgcmjYWeP8Fzj7U/
+	IDQyV210c3AwnZgQSuytBZ8xpVsTGWSJ7OKnfCWF6MzQD65aautSRsr4vcTcPBP1lnF1s9HZ2yg5W
+	veng2shFrLwq4KM5wmQ4c5HY1YQV3z4cEmzp5IGQv9rxhOHMjaXeKHUaAnUh84TLin29RxETU+W3Q
+	V7jDq/T41zpRwMhWr/6RiucZo5uZXV3x9Lw29Wx63CkLQifvwWH9Df5cct3cZ19CrUxRKBpAnDsAj
+	QnmnmrAMxGPnQ+pz8gO65O5q22jYQ9bGzBvISh11tdCpVn+PrKwTuoBlnmDx3goLsIWj8HWmu5bXt
+	ztzRv2CQ==;
+Received: from [187.90.178.235] (helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1rWHqP-00DJoe-Vg; Sat, 03 Feb 2024 16:22:14 +0100
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To: linux-doc@vger.kernel.org,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	rdunlap@infradead.org,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	hca@linux.ibm.com,
+	gor@linux.ibm.com,
+	agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com,
+	svens@linux.ibm.com,
+	kernel@gpiccoli.net,
+	kernel-dev@igalia.com,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Changwoo Min <changwoo@igalia.com>
+Subject: [PATCH] docs: Document possible_cpus parameter
+Date: Sat,  3 Feb 2024 12:21:13 -0300
+Message-ID: <20240203152208.1461293-1-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240124060705.1342461-2-billy_tsai@aspeedtech.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 24, 2024 at 02:07:03PM +0800, Billy Tsai wrote:
-> From: Naresh Solanki <naresh.solanki@9elements.com>
-> 
-> Add common fan properties bindings to a schema.
-> 
-> Bindings for fan controllers can reference the common schema for the
-> fan
-> 
-> child nodes:
-> 
->   patternProperties:
->     "^fan@[0-2]":
->       type: object
->       $ref: fan-common.yaml#
->       unevaluatedProperties: false
-> 
-> Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+The number of possible CPUs is set be kernel in early boot time through
+some discovery mechanisms, like ACPI in x86. We have a parameter both
+in x86 and S390 to override that - there are some cases of BIOSes exposing
+more possible CPUs than the available ones, so this parameter is a good
+testing mechanism, but for some reason wasn't mentioned so far in the
+kernel parameters guide - let's fix that.
 
-v12 of this patch got a Reviewed-by: tag from Rob.
-The tag is gone in this version, presumably meaning that there
-was a substantial change.
+Cc: Changwoo Min <changwoo@igalia.com>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-I don't normally do this, but I downloaded v12 and v13 and did not
-find a single change. Why did you drop Rob's Reviewed-by: tag ?
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 31b3a25680d0..e553740190ea 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4644,6 +4644,11 @@
+ 			may be specified.
+ 			Format: <port>,<port>....
+ 
++	possible_cpus=  [SMP,S390,X86]
++			Format: <unsigned int>
++			Set the number of possible CPUs, overriding the
++			regular discovery mechanisms (such as ACPI/FW, etc).
++
+ 	powersave=off	[PPC] This option disables power saving features.
+ 			It specifically disables cpuidle and sets the
+ 			platform machine description specific power_save
+-- 
+2.43.0
 
-Guenter
