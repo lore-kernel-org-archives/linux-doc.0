@@ -1,155 +1,167 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9999E134B6
-	for <linux-doc@vger.kernel.org>; Sat,  3 Feb 2024 21:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95744156E4
+	for <linux-doc@vger.kernel.org>; Sat,  3 Feb 2024 22:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706997468; cv=none; b=XKtErV27hbJN3Y0chwhuaLxg1w56kRjsXGiCmM6ofsyQjvt10X1EgkgmMg/3RPeoiD01tIBtNHwLTqXEzRq8KTgCc+iqCsoZJWJNlZTAZOL5LXomb4SjuXegsYtgTPUY7V5ZbWlrhDuCxF7eBIojQdFIank9NM2zR0bpPTC1hF8=
+	t=1706999113; cv=none; b=c+WQ6SOm3beenwAcyVdeujiTqxpLKJ7ZL3rCWBuBL24pzjh0D2Sf8fPc7cLeZIXfh8L8l3cZHnF17OSiP0WYNFy3Of2RM7teP4WM5uvC2wCHbQC9ZqqB8Gd1RdWItXivGZqEi9/y9tBkiMpm0oJGrzB+Y5LNMYtE0uT4ISWVz8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706997468; c=relaxed/simple;
-	bh=SRerrLKzpZQDtjHackhk1mDgOzORiSIkR/k68ytsI6o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iiTwovXvziokYNYeLQ8UxowLxlfD53xwxT+U8xti/HASPfKg0a+Eq9fhuzw2Sttzip58Ckj+AXq43/v4Y5JGkyZzhaMJH5EGeuY+CMEFPlu1ZsLSWhBACiwnX1wjTpaobJFw5/vH/x5B0PV1ITN1+hXVmhPtlc8q7xpoOEFV/xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=Mm7nqW1/; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
+	s=arc-20240116; t=1706999113; c=relaxed/simple;
+	bh=Akk3yfd0skBsyfpDvBuTijI4DTSE1uDMrPs5axVSpcY=;
+	h=Date:Message-ID:MIME-Version:Content-Type:Content-Disposition:
+	 From:To:Cc:Subject:References:In-Reply-To; b=gT/ORA4/D+F1WJMsUomt/mqLae2r4PYfkV6H1UyQ6lGbYkEIj6Sf6bf+iuJ5N6/k+8MdihodBxHzzkuTlqAGkH0LJwLk4FlriZVUw4EcZbwv3Pa+c43M7AYGa/VsnaWcLyePN5aFzydQEUwaGWT3z6TB/LkIeWphz/O12IAFs5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=UslhFOVg; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="Mm7nqW1/"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d09b21a8bbso6800181fa.3
-        for <linux-doc@vger.kernel.org>; Sat, 03 Feb 2024 13:57:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="UslhFOVg"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-783f3d27bfbso185380685a.2
+        for <linux-doc@vger.kernel.org>; Sat, 03 Feb 2024 14:25:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1706997464; x=1707602264; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QSh3+bsIgvBbpY5uR/zlE9QAypvU9WM+2nXDWZ8TyzQ=;
-        b=Mm7nqW1/gXemg3gVWgYWHojApGf5oR9A59pVhZ2YcocQsqpQo6rsP9reVLD5kRQNAg
-         G8GoQTQqPyuuHnzS9kTnc/IBBG9KPIJPHc/IrYYNN4Xlwp1xJ72m6nntPhYSJBPVrvPe
-         meWnJr8/2cLGWP83gDGdVUw+LuaEdFCE/1nTxeGm3xQ+xyMnXTqw476u1YdlUO+Z8/M8
-         b0GHJp0oNWRFRxq3tNObWDsjkq8XauKaG0tGPM3x+xGubVRztqz0X5MzkJ+G8F/yFJWJ
-         SNpYKvNdYCQWhSAdQvpUmx4rpa61Ncvntt/piYCnqqP6tXCHtcaqo42qQXFO//YwMTHO
-         cReA==
+        d=paul-moore.com; s=google; t=1706999109; x=1707603909; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :content-disposition:mime-version:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DnWesDs8xRNqrKgsSJ7fCUj/XnlBG4IvaiEQPBxCK/I=;
+        b=UslhFOVg8WFUzqld2FRyTxItmLSnj0ByEQAtAEokRfNrtL65h4jolouj4Q0KaXgy7I
+         dwWBbtq75NLmwEzjqHnxX6ovf74HGb/+eQ1u5u3cDuR962nRMBIQAHO2pklMJs5VEtFF
+         J2KCZKGZqiH1GAnqMx/jR6Kw1zADG154LUO/sPqRF9z5CqmPx0YjEUQsIW35qgmWb16q
+         3UaVjFXAR/V/Ibmrl6bz95E4lv1HC+gW2jdbko6h6uNedJrm2Y8zlf0v1gBV7qgbdbqz
+         HidKBzGH5j3uX3pnyQRpaiw5EN+leF/d42mepu7qrwQGlfYFPxBsNV0AKjK0W8M46hI/
+         AMkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706997464; x=1707602264;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QSh3+bsIgvBbpY5uR/zlE9QAypvU9WM+2nXDWZ8TyzQ=;
-        b=P2P+dFjFBudYRD9bPfYOmFOAhj5WHXo+J/wN0VukykiSeRo7A/Ns0Eg3nQbQxGJGbj
-         EGpdAd1YMyPKezCkAVo36YS7rgW227JmL2FIfByPcU3QIbmrU/PJ5ZvRhlWjghLwqWz4
-         YKZIGxMTMIX5+7GwM5vgstOgP2Il1beu0Xep8usdTqwWTCxbuBTSh8TT7b73htEd/Swo
-         opxpbDsSDUsiaBWhGwhi9kRmukxMvrzHvMz+QJ+sLl484syI5UcryBapx/1+YMKWWeqh
-         32KSY4cZHNYPm7po3DBnK/OJmfhAW8jzuMdww3btvA8XEe3pe/OObuosCep87/PkEjIH
-         taIg==
-X-Gm-Message-State: AOJu0Yy277Qk6hZg1GSn0ImHrW+iiFKHmLztx8hQw9E7RJcY+cY+voAT
-	KTBHWLURgSYMPxC3LmKK1CQ+oT8mdS7K+mAB+ZlTD/6IFE7ycUPuYe5591hb2FJlFRRmaxv98fU
-	Ihlk=
-X-Google-Smtp-Source: AGHT+IFeRHQIx44rRfhxF9NVxLHLBD6CaOc0wLFRwI1YmXdgVIhnXZXIwgiL9WTMlhFhEm5QNnvBXA==
-X-Received: by 2002:a2e:7e07:0:b0:2cf:2491:b49f with SMTP id z7-20020a2e7e07000000b002cf2491b49fmr7795002ljc.40.1706997464450;
-        Sat, 03 Feb 2024 13:57:44 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWbkyPvLdHrWqFoyV5EtfnvFoiGmTXpyKcYEQ3DwU9iOV7UO1is0d9lZBYLJ/BpNmj4pmhjNoAl6Wuu0+/HKIZEZ74TumK1n/3ULmgDJXizfHA25SpsKlG6cGHMZy0ksdj4foJ8SqIzgzM7usBNlbV2HQuf+sTuLId6Inu9jjc6yYc=
-Received: from debian.fritz.box (aftr-82-135-80-223.dynamic.mnet-online.de. [82.135.80.223])
-        by smtp.gmail.com with ESMTPSA id p4-20020aa7c884000000b0055f02661ae2sm2063328eds.78.2024.02.03.13.57.43
+        d=1e100.net; s=20230601; t=1706999109; x=1707603909;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :content-disposition:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DnWesDs8xRNqrKgsSJ7fCUj/XnlBG4IvaiEQPBxCK/I=;
+        b=ml8Bwr6pn109cRbQ80kxNg0mUMka23wSiDxxF5ef9MWR/x0J1AICHHnKo0ZNKnP/Qo
+         fcL4a0GiyCvrEltHL8B4+xik8+P6xs1OKWzanzwC6rhQIjn+FQ2z0QVe9PUVJ5nosWoX
+         oDhSBC1DJJkNUyHP9SbdjfB/jIkHR2lHhPpl1XtU7YACtAk+d/4z8UtT63+xuk+SWPSk
+         I/6WLWDWJvBmFsLHZMb0wO5SOtEGMMyny6Rmj7LSgrYyNC2jSJD+oeqcG0AldcmgSGEJ
+         JMc08VNgYof9UVsrWAKc3Qtnr2p06QEGsXjoXR9zjiUy85wS3n+AByPEDnvwNULoyBxK
+         9P9g==
+X-Gm-Message-State: AOJu0YzXtzl09CjcJfbIr0vUqCXMWwMrQHPFWvvtWqRbQJDddqeL1YO/
+	dWCGmbcY5XN1/ge4un/X0jvQbXzplOK03qSxwt38G2MrC/Sf94X8Aa+6qRG6RQ==
+X-Google-Smtp-Source: AGHT+IFtZe+Q8W1ePYytw7UeC4Jf2MOnkQ6RcSuccAbbwyK+ZuVbp0rOxBJSIWscsGRZX7r4oaJh+g==
+X-Received: by 2002:a05:620a:2e3:b0:783:b038:d1a1 with SMTP id a3-20020a05620a02e300b00783b038d1a1mr9095773qko.39.1706999109324;
+        Sat, 03 Feb 2024 14:25:09 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVwYaZbKyqip0VIR8GONQxXUcX8op8aMPNo2Ap1p+jdcI0F9O4QdFtfkXUh2izlay/UPxQX4uTdUnml1eWFaVIu3sl4cZN0o9MEZYPtDzuPUBt8ISFeQUgk//7oOgSqTo+LWz7pHI783WZUe7avWlFl2g4RV0ALfs6fSYnt9PmcP3V5e5UUC9OHfUN1hGOhFCEIHdwZdid79pfUdFyuN0HQ1asimEWyLDwYPGdfmyK0n3vX204PQ6L6I7qS+XYcc2+4FDbFfrLjHojE/EkYwAYSDsPcTayfqX5R0GGth4PTwEABerphUsn9JY6Cz1DdD0rhuTOjEi/XLpHp1AvDca0BRlY13p7V9uUBl5XxTmPDaaLTbmdbuj1e2I3b+GHRn4+Guw1TVTp0wlUYUAdXRnJPf1jp9/Mte8sgyYSGDJVgBLodRU8oGcMpA5MLWsHMPY5+8w5xv6eKGe3vsfBvHJH92nrGbL7ODZl7dWe1CNUDc7uQPTJqnToEqjD5Yl1fzWFBuCEy7dobme80FhUuQ9F8QqZX8GC19w5DGqXnrHRf6FF81Ob58I7Z4V+OoQ0FbylAMRBpa+pH
+Received: from localhost ([70.22.175.108])
+        by smtp.gmail.com with ESMTPSA id g4-20020a37e204000000b00783f534706esm1734412qki.61.2024.02.03.14.25.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 13:57:44 -0800 (PST)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [PATCH] Documentation: multiple .rst files: Fix grammar and more consistent formatting
-Date: Sat,  3 Feb 2024 22:53:45 +0100
-Message-Id: <20240203215345.4396-1-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.39.2
+        Sat, 03 Feb 2024 14:25:08 -0800 (PST)
+Date: Sat, 03 Feb 2024 17:25:08 -0500
+Message-ID: <b9ca171301d5abeb78922dd79d65136a@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 
+Content-Type: text/plain; charset=utf-8 
+Content-Disposition: inline 
 Content-Transfer-Encoding: 8bit
+From: Paul Moore <paul@paul-moore.com>
+To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, linux-kernel@vger.kernel.org, Fan Wu <wufan@linux.microsoft.com>
+Subject: Re: [PATCH RFC v12 5/20] initramfs|security: Add security hook to  initramfs unpack
+References: <1706654228-17180-6-git-send-email-wufan@linux.microsoft.com>
+In-Reply-To: <1706654228-17180-6-git-send-email-wufan@linux.microsoft.com>
 
-sphinx.rst:
-- remove unnecessary newline
-- fix grammar s/check/checks
-- capitalize heading "The C domain"
+On Jan 30, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
+> 
+> This patch introduces a new hook to notify security system that the
+> content of initramfs has been unpacked into the rootfs.
+> 
+> Upon receiving this notification, the security system can activate
+> a policy to allow only files that originated from the initramfs to
+> execute or load into kernel during the early stages of booting.
+> 
+> This approach is crucial for minimizing the attack surface by
+> ensuring that only trusted files from the initramfs are operational
+> in the critical boot phase.
+> 
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> ---
+> v1-v11:
+>   + Not present
+> 
+> v12:
+>   + Introduced
+> ---
+>  include/linux/lsm_hook_defs.h |  4 ++++
+>  include/linux/security.h      | 10 ++++++++++
+>  init/initramfs.c              |  3 +++
+>  security/security.c           | 12 ++++++++++++
+>  4 files changed, 29 insertions(+)
+> 
+> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+> index 185924c56378..b247388786a9 100644
+> --- a/include/linux/lsm_hook_defs.h
+> +++ b/include/linux/lsm_hook_defs.h
+> @@ -425,3 +425,7 @@ LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
+>  LSM_HOOK(int, 0, uring_sqpoll, void)
+>  LSM_HOOK(int, 0, uring_cmd, struct io_uring_cmd *ioucmd)
+>  #endif /* CONFIG_IO_URING */
+> +
+> +#ifdef CONFIG_BLK_DEV_INITRD
+> +LSM_HOOK(void, LSM_RET_VOID, unpack_initramfs_security, void)
+> +#endif /* CONFIG_BLK_DEV_INITRD */
 
-changes.rst:
-- remove colon after "pahole" to be consistent with other entries
+Let's just call it "unpack_initramfs", the "_security" part is somewhat
+implied since we are talking about a LSM hook ;)
 
-howto.rst:
-- fix grammar s/you will/will you
-- hyphenate "real-world problems"
+> diff --git a/init/initramfs.c b/init/initramfs.c
+> index 76deb48c38cb..075a5794cde5 100644
+> --- a/init/initramfs.c
+> +++ b/init/initramfs.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/init_syscalls.h>
+>  #include <linux/task_work.h>
+>  #include <linux/umh.h>
+> +#include <linux/security.h>
+>  
+>  static __initdata bool csum_present;
+>  static __initdata u32 io_csum;
+> @@ -720,6 +721,8 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
+>  #endif
+>  	}
+>  
+> +	security_unpack_initramfs();
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
----
- Documentation/doc-guide/sphinx.rst | 7 +++----
- Documentation/process/changes.rst  | 4 ++--
- Documentation/process/howto.rst    | 4 ++--
- 3 files changed, 7 insertions(+), 8 deletions(-)
+Given the caller, what do you think of changing the hook name to
+"security_initramfs_populated()"?  I think this not only matches up
+better with the caller, "do_populate_rootfs()", but since in using the
+past tense we help indicate that this hook happens *after* the rootfs
+is populated with the initramfs data.
 
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 3d125fb4139d..2526811489bf 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -63,8 +63,7 @@ Image output
- ------------
- 
- The kernel documentation build system contains an extension that
--handles images on both GraphViz and SVG formats (see
--:ref:`sphinx_kfigure`).
-+handles images on both GraphViz and SVG formats (see :ref:`sphinx_kfigure`).
- 
- For it to work, you need to install both GraphViz and ImageMagick
- packages. If those packages are not installed, the build system will
-@@ -108,7 +107,7 @@ further info.
- Checking for Sphinx dependencies
- --------------------------------
- 
--There's a script that automatically check for Sphinx dependencies. If it can
-+There's a script that automatically checks for Sphinx dependencies. If it can
- recognize your distribution, it will also give a hint about the install
- command line options for your distro::
- 
-@@ -283,7 +282,7 @@ Here are some specific guidelines for the kernel documentation:
-   from highlighting. For a short snippet of code embedded in the text, use \`\`.
- 
- 
--the C domain
-+The C domain
- ------------
- 
- The **Sphinx C Domain** (name c) is suited for documentation of C API. E.g. a
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 50b3d1cb1115..4c1552160321 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -144,8 +144,8 @@ Bison
- Since Linux 4.16, the build system generates parsers
- during build.  This requires bison 2.0 or later.
- 
--pahole:
---------
-+pahole
-+------
- 
- Since Linux 5.2, if CONFIG_DEBUG_INFO_BTF is selected, the build system
- generates BTF (BPF Type Format) from DWARF in vmlinux, a bit later from kernel
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index 6c73889c98fc..eebda4910a88 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -351,8 +351,8 @@ Managing bug reports
- --------------------
- 
- One of the best ways to put into practice your hacking skills is by fixing
--bugs reported by other people. Not only you will help to make the kernel
--more stable, but you'll also learn to fix real world problems and you will
-+bugs reported by other people. Not only will you help to make the kernel
-+more stable, but you'll also learn to fix real-world problems and you will
- improve your skills, and other developers will be aware of your presence.
- Fixing bugs is one of the best ways to get merits among other developers,
- because not many people like wasting time fixing other people's bugs.
--- 
-2.39.2
+>  done:
+>  	/*
+>  	 * If the initrd region is overlapped with crashkernel reserved region,
+> diff --git a/security/security.c b/security/security.c
+> index ddf2e69cf8f2..2a527d4c69bc 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -5581,3 +5581,15 @@ int security_uring_cmd(struct io_uring_cmd *ioucmd)
+>  	return call_int_hook(uring_cmd, 0, ioucmd);
+>  }
+>  #endif /* CONFIG_IO_URING */
+> +
+> +#ifdef CONFIG_BLK_DEV_INITRD
+> +/**
+> + * security_unpack_initramfs() - Notify LSM that initramfs has been loaded
+> + *
+> + * Tells the LSM the initramfs has been unpacked into the rootfs.
+> + */
+> +void security_unpack_initramfs(void)
+> +{
+> +	call_void_hook(unpack_initramfs_security);
+> +}
+> +#endif /* CONFIG_BLK_DEV_INITRD */
+> -- 
+> 2.43.0
 
+--
+paul-moore.com
