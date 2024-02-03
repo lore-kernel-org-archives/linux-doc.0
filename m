@@ -1,217 +1,340 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD03E5C91A;
-	Sat,  3 Feb 2024 10:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B791F5D906;
+	Sat,  3 Feb 2024 12:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706956859; cv=none; b=Z21adkW8EaUGo6rW7Fq6i/CamFXGSiFYRWu7/+ss8xGCvQFuD4KMIjFYVckWYsDS+lzZCjTPciB7F+l4i9xFEy1M8mrxtiRJvlYl29/vGGdJgWzf6OFDzcjtVwYLwSefNWExiBu73Az0dwZ1d/kb7zVYObUUxzD42YBlJ8IwcsY=
+	t=1706963207; cv=none; b=JJ8nWBXOaq1wdQzAqgvjr/H5V81SrzAfFkWU3vtWhl2pEBABZm5FYQLRNHqD9UT8JseP1ylHhwteYOIDKA6AlC0XsrFi4iv/0vvYWXT+MDRmt1cwzAga5Mean1zAOvtiI2akVYZxGh9Pwl3KgGAeoU7AIf9lZ+wpH6DL1o4h/eY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706956859; c=relaxed/simple;
-	bh=V7xBJrQen3yHaLq2IUHKBijYH6HFoMJbSIfYjSbeDuc=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=PKfivwcTIqbsKOl/xXr12wjm0snwlk6V0/uyrksiZmrHSuyDKR1eAYGe/YHZ/Acpgre64SraENRHbA4k3gxzISdwjNN3a+oYbCGqjxCvVrv2osKT/nJORvCdD4zREqwoBhK+3L0yN71tjQfOaKR60yDH/dq47fYhFTpQaxWndSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=IrmA9Blo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=A6V7wSqY; arc=none smtp.client-ip=64.147.123.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+	s=arc-20240116; t=1706963207; c=relaxed/simple;
+	bh=7nikwRMXxkQI47PI5LgYYAnwr0ud1PE/qnSuV6BlNNQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iCqwEh0c0NDCfyNEuo5juxD/LbYGQZKI8S6kymKt6znfa4bW9CFvvQbBZ4aUqqXT92xrEL1Ho1xEIwD7WHH5r8GUroKMnQcoJfpIuzok+w/lIPfBcTSZ7v3BrgUBDo11tyPp3pt6urg4pcKzEC5HRgqcr5K3sv7b1oD3c+bJL54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bpwo12yg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="IrmA9Blo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="A6V7wSqY"
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id F12FD3200B15;
-	Sat,  3 Feb 2024 05:40:54 -0500 (EST)
-Received: from imap50 ([10.202.2.100])
-  by compute3.internal (MEProxy); Sat, 03 Feb 2024 05:40:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1706956854;
-	 x=1707043254; bh=5i1vqb5NehMGoPuv1e9ZjiUnajUF+hzp+g2HFH1CXoM=; b=
-	IrmA9BloMIRk9DuufY7g71TtazNUwzM2XjbIvTlrtEXjVpWOYaDrBH2jLTrx5kj6
-	aihz+zqUEJuLokGHvt9HastOyFmGv1mOvwqxs/wQk2lhkt59+neUvR2gJNeTCs0R
-	kd5yJOHMV5/bE9mH44VeXekDo8S1w27GP5CCUaVwHmqFpmB6Gns/GJC43HT+p2hE
-	cGyoIRgV+b3LF2JN/+Rx53ppVeoIA5IjwwLnjfiIM/7GLzJIUgVd/Ry/YOwbuww/
-	KDEP0tTyYzApTfsjMVh2DoLKs1VLbJe8/Pnfii1lH4YrxuRLtVXj+SZF2HdGmTz8
-	mLMTMhnkYjjA7nkDI4yquw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706956854; x=
-	1707043254; bh=5i1vqb5NehMGoPuv1e9ZjiUnajUF+hzp+g2HFH1CXoM=; b=A
-	6V7wSqYX3vuYt8RellyWE0DmACaKNVt/mHGsbY5cC4G/0NTcawFPXRKH4YFe0Wsx
-	7Y/cVwvjAvLc06E85s0ZtinCfcpTrcJEbDfg9nQEsfHRKtD8AokvMUSrMcXaaEkF
-	zG55O3+jPraT02V4JT1azsIlNkMBER4/Sua2RZT0CJ21dlSFCDQHWhJqIK3Zxrm+
-	1+aV8YrJ2cADWhQscfaD6SCIrxUyqjeJx1ABQAZFKAvQgl/T5XL1+3karPqOUNx2
-	AnFrbN1wed3ABygMEfc6aO1fGyNTcorzJyhUWyH+cu32H6NqgNSt0k0wduF2lWwH
-	tKS8rY7OCCnR12m3GgxOg==
-X-ME-Sender: <xms:NRi-ZUNj4Dsw3FNu9ThpsIy_UJBzt9yJWyIiPSwBOQzhlpz_nkgwvw>
-    <xme:NRi-Za-RcvvQhz6wNaNGhb_P49q155RPQPjXE5x5_ruJS8KCTxTr--r0ECctKjdq7
-    vZFJ4mZP7pTWGFf0A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfeduiedgudejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdfu
-    thgvfhgrnhcuqfdktfgvrghrfdcuoehsohhrvggrrhesfhgrshhtmhgrihhlrdgtohhmqe
-    enucggtffrrghtthgvrhhnpefhudfhffetvdegfeeiudduleekheelteefgfdtleffuddt
-    ffduffeigffghfegieenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhinhhfrhgrug
-    gvrggurdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
-    rhhomhepshhorhgvrghrsehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:Nhi-ZbSZXwUZnQWrffX5b9IabcbW8dAVCeBfnJCvx6MvYRLCU53u_w>
-    <xmx:Nhi-ZcuVnzzuPDEjOv-exsaewy2a5lD1Ixvd4O1zxpWfRl-8fzc6Pg>
-    <xmx:Nhi-Zcft7o0p5F6m2bvBaLIR1hwgdcaZ6F0Ao1f6mfYb5w0lwrid7Q>
-    <xmx:Nhi-Zavl71KwJAgeAGvURdX7bSrP6FyGq9CVg0a-avtCKUXOJ-l2Pg>
-Feedback-ID: i84414492:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id DE8071700093; Sat,  3 Feb 2024 05:40:53 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bpwo12yg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9153C433F1;
+	Sat,  3 Feb 2024 12:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706963207;
+	bh=7nikwRMXxkQI47PI5LgYYAnwr0ud1PE/qnSuV6BlNNQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Bpwo12ygZ5lTkKkhrnag39/wbwpIbasf2rem32bJpz7MvZLuFAZc7msdfo9ZHRR+K
+	 1nsBfEi6kNPm4U8Yahu0QEhqZk5aFwEZ+/+GLMl+Z2kgbxVhNFb2fDS5XQRxSvS7kk
+	 RiX9O489iHzhxiMJovSvOM8aeGotksdcJxF+cG+28zVeTdCbthqcR6rWYpClCZoGOb
+	 GYSdgNM2rDjtqppbPJYgsAY0lgml6FPtA6H3voHqcCfFQE8gDHkS1sEzhnH4wRlugL
+	 ZBSpNpq1KhRN/nHECU0Cpfg0HdD32cbml2wJLH7QLW2kQRG/4mEt38XReROVckx7xS
+	 Lqkt9F4v+Rk6A==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v8 00/38] arm64/gcs: Provide support for GCS in userspace
+Date: Sat, 03 Feb 2024 12:25:26 +0000
+Message-Id: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <5657c211-531b-4890-8c52-182b7b4eae7c@app.fastmail.com>
-In-Reply-To: <701d3350-93d3-4235-aaf7-04c6492420a7@rivosinc.com>
-References: <20240201140319.360088-1-cleger@rivosinc.com>
- <ZbxUUsKdKIPI8Fb/@ghost> <701d3350-93d3-4235-aaf7-04c6492420a7@rivosinc.com>
-Date: Sat, 03 Feb 2024 05:40:06 -0500
-From: "Stefan O'Rear" <sorear@fastmail.com>
-To: =?UTF-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>,
- "Charlie Jenkins" <charlie@rivosinc.com>
-Cc: "Jonathan Corbet" <corbet@lwn.net>,
- "Paul Walmsley" <paul.walmsley@sifive.com>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, "Robin Ehn" <rehn@rivosinc.com>
-Subject: Re: [PATCH] riscv: hwprobe: export VA_BITS
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALgwvmUC/2XOy2rDMBAF0F8JWldF70dW/Y/ShaQZOaaNHaRgW
+ oL/vXIKjYLR6g46c+dGKpYRKzkebqTgMtZxnlpwLweSTmEakI7QMhFMSNYeDeVsFB1SpSg5D5G
+ Bs8KT9j+GijSWMKXTJq7nyza9FMzj973h/aPl01ivc/m5Fy58m/7tttx0uxdOGY1ZG5u9jDGYt
+ 08sE369zmUg25pFdFSonopGIYnEQakkMO6o7KjkPZWNJoDss3cMvNtR9aCO2Z6qRo1LOch2MjN
+ +R3VHheipbtRj5o4DGCnUjpp/yhnzPTWNWodaA4agAHbUPih/brWNCsaTcjKCtfqJruv6C9hLr
+ MAbAgAA
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Andrew Morton <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, 
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, 
+ Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>, 
+ "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+ Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, 
+ Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Cc: "H.J. Lu" <hjl.tools@gmail.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Florian Weimer <fweimer@redhat.com>, Christian Brauner <brauner@kernel.org>, 
+ Thiago Jung Bauermann <thiago.bauermann@linaro.org>, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.13-dev-a684c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13867; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7nikwRMXxkQI47PI5LgYYAnwr0ud1PE/qnSuV6BlNNQ=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlvjDQoBalVfXKKuVphS9ChRtnCrPuzfbmaFImAUeW
+ TuPe27SJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZb4w0AAKCRAk1otyXVSH0JKiB/
+ 9o+bqb/Kpz9R739LlYAPWX7me6reQZOppuOdFLjLttI34e2l0TvtntwBYxc1qwXJZ5G7/9YJIdFiEb
+ sYhd2soedUwQNjU2K9mfPQYy3iNEsUqwqlrHAFmd45BIiOhXdepUS9J392UljJy0jvRa2YBGZU2quZ
+ K/90cbfzgzhx56x16YDhxep2zkEPFMXzOXoWgCYIQa7ptZdib7g+Cb2xcsMxpzl2kSNAhaxBinhi1s
+ 9QudGxKdUVeLWf94jvZ+jB3Idp8MBaPi7TysZ+BDJCZoGO/qN9tnUayj3D2uu2+yw3p4AM/Sz4TkEW
+ Qgb0bw66ARkiIagCW+2Cn9Xj0zI2Ag
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, Feb 2, 2024, at 3:22 AM, Cl=C3=A9ment L=C3=A9ger wrote:
-> On 02/02/2024 03:32, Charlie Jenkins wrote:
->> On Thu, Feb 01, 2024 at 03:02:45PM +0100, Cl=C3=A9ment L=C3=A9ger wro=
-te:
->>> Some userspace applications (OpenJDK for instance) uses the free bits
->>> in pointers to insert additional information for their own logic.
->>> Currently they rely on parsing /proc/cpuinfo to obtain the current v=
-alue
->>> of virtual address used bits [1]. Exporting VA_BITS through hwprobe =
-will
->>> allow for a more stable interface to be used.
->>=20
->> mmap already supports this without a need for applications to know the
->> underlying hardware. If a hint address is passed into mmap, it will n=
-ever
->> return an address that uses more bits than the hint address. I design=
-ed
->> it that way so that something like this wasn't necessary.
->
-> Ok even though probing this kind of thing is probably not what mmap is
-> meant to do. IMHO, probing this through the regular hwprobe interface =
-is
-> probably more coherent but maybe Robin (which needs this information)
-> can rely on that.
+The arm64 Guarded Control Stack (GCS) feature provides support for
+hardware protected stacks of return addresses, intended to provide
+hardening against return oriented programming (ROP) attacks and to make
+it easier to gather call stacks for applications such as profiling.
 
-Both of these are useful, separately and in conjunction.
+When GCS is active a secondary stack called the Guarded Control Stack is
+maintained, protected with a memory attribute which means that it can
+only be written with specific GCS operations.  The current GCS pointer
+can not be directly written to by userspace.  When a BL is executed the
+value stored in LR is also pushed onto the GCS, and when a RET is
+executed the top of the GCS is popped and compared to LR with a fault
+being raised if the values do not match.  GCS operations may only be
+performed on GCS pages, a data abort is generated if they are not.
 
-hwprobe allows applications which can adapt to different VA sizes to lea=
-rn
-which is in use prior to allocating memory.
+The combination of hardware enforcement and lack of extra instructions
+in the function entry and exit paths should result in something which
+has less overhead and is more difficult to attack than a purely software
+implementation like clang's shadow stacks.
 
-mmap hints allow applications which require a fixed limit on the VA size=
- to
-express that limit at the point of requirement, the hint can be set base=
-d on
-the hwprobe result to explicitly indicate its use.
+This series implements support for use of GCS by userspace, along with
+support for use of GCS within KVM guests.  It does not enable use of GCS
+by either EL1 or EL2, this will be implemented separately.  Executables
+are started without GCS and must use a prctl() to enable it, it is
+expected that this will be done very early in application execution by
+the dynamic linker or other startup code.  For dynamic linking this will
+be done by checking that everything in the executable is marked as GCS
+compatible.
 
--s
+x86 has an equivalent feature called shadow stacks, this series depends
+on the x86 patches for generic memory management support for the new
+guarded/shadow stack page type and shares APIs as much as possible.  As
+there has been extensive discussion with the wider community around the
+ABI for shadow stacks I have as far as practical kept implementation
+decisions close to those for x86, anticipating that review would lead to
+similar conclusions in the absence of strong reasoning for divergence.
 
-> Cl=C3=A9ment
->
->>=20
->> - Charlie
->>=20
->>>
->>> Link: https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/=
-linux_riscv/vm_version_linux_riscv.cpp#L171 [1]
->>> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
->>>
->>> ---
->>>  Documentation/arch/riscv/hwprobe.rst  | 3 +++
->>>  arch/riscv/include/asm/hwprobe.h      | 2 +-
->>>  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
->>>  arch/riscv/kernel/sys_hwprobe.c       | 3 +++
->>>  4 files changed, 8 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/ar=
-ch/riscv/hwprobe.rst
->>> index b2bcc9eed9aa..6f198c6ed4f0 100644
->>> --- a/Documentation/arch/riscv/hwprobe.rst
->>> +++ b/Documentation/arch/riscv/hwprobe.rst
->>> @@ -210,3 +210,6 @@ The following keys are defined:
->>> =20
->>>  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int w=
-hich
->>>    represents the size of the Zicboz block in bytes.
->>> +
->>> +* :c:macro:`RISCV_HWPROBE_KEY_VA_BITS`: An unsigned long which
->>> +  represent the number of bits used to store virtual addresses.
->>> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/a=
-sm/hwprobe.h
->>> index 630507dff5ea..150a9877b0af 100644
->>> --- a/arch/riscv/include/asm/hwprobe.h
->>> +++ b/arch/riscv/include/asm/hwprobe.h
->>> @@ -8,7 +8,7 @@
->>> =20
->>>  #include <uapi/asm/hwprobe.h>
->>> =20
->>> -#define RISCV_HWPROBE_MAX_KEY 6
->>> +#define RISCV_HWPROBE_MAX_KEY 7
->>> =20
->>>  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
->>>  {
->>> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/incl=
-ude/uapi/asm/hwprobe.h
->>> index 9f2a8e3ff204..2a5006cddb7b 100644
->>> --- a/arch/riscv/include/uapi/asm/hwprobe.h
->>> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
->>> @@ -67,6 +67,7 @@ struct riscv_hwprobe {
->>>  #define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
->>>  #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
->>>  #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
->>> +#define RISCV_HWPROBE_KEY_VA_BITS		7
->>>  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
->>> =20
->>>  /* Flags */
->>> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys=
-_hwprobe.c
->>> index a7c56b41efd2..328435836e36 100644
->>> --- a/arch/riscv/kernel/sys_hwprobe.c
->>> +++ b/arch/riscv/kernel/sys_hwprobe.c
->>> @@ -202,6 +202,9 @@ static void hwprobe_one_pair(struct riscv_hwprob=
-e *pair,
->>>  		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
->>>  			pair->value =3D riscv_cboz_block_size;
->>>  		break;
->>> +	case RISCV_HWPROBE_KEY_VA_BITS:
->>> +		pair->value =3D VA_BITS;
->>> +		break;
->>> =20
->>>  	/*
->>>  	 * For forward compatibility, unknown keys don't fail the whole
->>> --=20
->>> 2.43.0
->>>
->>>
->>> _______________________________________________
->>> linux-riscv mailing list
->>> linux-riscv@lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-riscv
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+The main divergence I am concious of is that x86 allows shadow stack to
+be enabled and disabled repeatedly, freeing the shadow stack for the
+thread whenever disabled, while this implementation keeps the GCS
+allocated after disable but refuses to reenable it.  This is to avoid
+races with things actively walking the GCS during a disable, we do
+anticipate that some systems will wish to disable GCS at runtime but are
+not aware of any demand for subsequently reenabling it.
+
+x86 uses an arch_prctl() to manage enable and disable, since only x86
+and S/390 use arch_prctl() a generic prctl() was proposed[1] as part of a
+patch set for the equivalent RISC-V Zicfiss feature which I initially
+adopted fairly directly but following review feedback has been revised
+quite a bit.
+
+We currently maintain the x86 pattern of implicitly allocating a shadow
+stack for threads started with shadow stack enabled, there has been some
+discussion of removing this support and requiring the use of clone3()
+with explicit allocation of shadow stacks instead.  I have no strong
+feelings either way, implicit allocation is not really consistent with
+anything else we do and creates the potential for errors around thread
+exit but on the other hand it is existing ABI on x86 and minimises the
+changes needed in userspace code.
+
+There is an open issue with support for CRIU, on x86 this required the
+ability to set the GCS mode via ptrace.  This series supports
+configuring mode bits other than enable/disable via ptrace but it needs
+to be confirmed if this is sufficient.
+
+The series depends on support for shadow stacks in clone3(), that series
+includes the addition of ARCH_HAS_USER_SHADOW_STACK.
+
+   https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
+
+It also depends on the addition of more waitpid() flags to nolibc:
+
+   https://lore.kernel.org/r/20231023-nolibc-waitpid-flags-v2-1-b09d096f091f@kernel.org
+
+You can see a branch with the full set of dependencies against Linus'
+tree at:
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git arm64-gcs
+
+[1] https://lore.kernel.org/lkml/20230213045351.3945824-1-debug@rivosinc.com/
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v8:
+- Invalidate signal cap token on stack when consuming.
+- Typo and other trivial fixes.
+- Don't try to use process_vm_write() on GCS, it intentionally does not
+  work.
+- Fix leak of thread GCSs.
+- Rebase onto latest clone3() series.
+- Link to v7: https://lore.kernel.org/r/20231122-arm64-gcs-v7-0-201c483bd775@kernel.org
+
+Changes in v7:
+- Rebase onto v6.7-rc2 via the clone3() patch series.
+- Change the token used to cap the stack during signal handling to be
+  compatible with GCSPOPM.
+- Fix flags for new page types.
+- Fold in support for clone3().
+- Replace copy_to_user_gcs() with put_user_gcs().
+- Link to v6: https://lore.kernel.org/r/20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org
+
+Changes in v6:
+- Rebase onto v6.6-rc3.
+- Add some more gcsb_dsync() barriers following spec clarifications.
+- Due to ongoing discussion around clone()/clone3() I've not updated
+  anything there, the behaviour is the same as on previous versions.
+- Link to v5: https://lore.kernel.org/r/20230822-arm64-gcs-v5-0-9ef181dd6324@kernel.org
+
+Changes in v5:
+- Don't map any permissions for user GCSs, we always use EL0 accessors
+  or use a separate mapping of the page.
+- Reduce the standard size of the GCS to RLIMIT_STACK/2.
+- Enforce a PAGE_SIZE alignment requirement on map_shadow_stack().
+- Clarifications and fixes to documentation.
+- More tests.
+- Link to v4: https://lore.kernel.org/r/20230807-arm64-gcs-v4-0-68cfa37f9069@kernel.org
+
+Changes in v4:
+- Implement flags for map_shadow_stack() allowing the cap and end of
+  stack marker to be enabled independently or not at all.
+- Relax size and alignment requirements for map_shadow_stack().
+- Add more blurb explaining the advantages of hardware enforcement.
+- Link to v3: https://lore.kernel.org/r/20230731-arm64-gcs-v3-0-cddf9f980d98@kernel.org
+
+Changes in v3:
+- Rebase onto v6.5-rc4.
+- Add a GCS barrier on context switch.
+- Add a GCS stress test.
+- Link to v2: https://lore.kernel.org/r/20230724-arm64-gcs-v2-0-dc2c1d44c2eb@kernel.org
+
+Changes in v2:
+- Rebase onto v6.5-rc3.
+- Rework prctl() interface to allow each bit to be locked independently.
+- map_shadow_stack() now places the cap token based on the size
+  requested by the caller not the actual space allocated.
+- Mode changes other than enable via ptrace are now supported.
+- Expand test coverage.
+- Various smaller fixes and adjustments.
+- Link to v1: https://lore.kernel.org/r/20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org
+
+---
+Mark Brown (38):
+      arm64/mm: Restructure arch_validate_flags() for extensibility
+      prctl: arch-agnostic prctl for shadow stack
+      mman: Add map_shadow_stack() flags
+      arm64: Document boot requirements for Guarded Control Stacks
+      arm64/gcs: Document the ABI for Guarded Control Stacks
+      arm64/sysreg: Add definitions for architected GCS caps
+      arm64/gcs: Add manual encodings of GCS instructions
+      arm64/gcs: Provide put_user_gcs()
+      arm64/cpufeature: Runtime detection of Guarded Control Stack (GCS)
+      arm64/mm: Allocate PIE slots for EL0 guarded control stack
+      mm: Define VM_SHADOW_STACK for arm64 when we support GCS
+      arm64/mm: Map pages for guarded control stack
+      KVM: arm64: Manage GCS registers for guests
+      arm64/gcs: Allow GCS usage at EL0 and EL1
+      arm64/idreg: Add overrride for GCS
+      arm64/hwcap: Add hwcap for GCS
+      arm64/traps: Handle GCS exceptions
+      arm64/mm: Handle GCS data aborts
+      arm64/gcs: Context switch GCS state for EL0
+      arm64/gcs: Ensure that new threads have a GCS
+      arm64/gcs: Implement shadow stack prctl() interface
+      arm64/mm: Implement map_shadow_stack()
+      arm64/signal: Set up and restore the GCS context for signal handlers
+      arm64/signal: Expose GCS state in signal frames
+      arm64/ptrace: Expose GCS via ptrace and core files
+      arm64: Add Kconfig for Guarded Control Stack (GCS)
+      kselftest/arm64: Verify the GCS hwcap
+      kselftest/arm64: Add GCS as a detected feature in the signal tests
+      kselftest/arm64: Add framework support for GCS to signal handling tests
+      kselftest/arm64: Allow signals tests to specify an expected si_code
+      kselftest/arm64: Always run signals tests with GCS enabled
+      kselftest/arm64: Add very basic GCS test program
+      kselftest/arm64: Add a GCS test program built with the system libc
+      kselftest/arm64: Add test coverage for GCS mode locking
+      selftests/arm64: Add GCS signal tests
+      kselftest/arm64: Add a GCS stress test
+      kselftest/arm64: Enable GCS for the FP stress tests
+      kselftest: Provide shadow stack enable helpers for arm64
+
+ Documentation/admin-guide/kernel-parameters.txt    |   6 +
+ Documentation/arch/arm64/booting.rst               |  22 +
+ Documentation/arch/arm64/elf_hwcaps.rst            |   3 +
+ Documentation/arch/arm64/gcs.rst                   | 233 +++++++
+ Documentation/arch/arm64/index.rst                 |   1 +
+ Documentation/filesystems/proc.rst                 |   2 +-
+ arch/arm64/Kconfig                                 |  20 +
+ arch/arm64/include/asm/cpufeature.h                |   6 +
+ arch/arm64/include/asm/el2_setup.h                 |  17 +
+ arch/arm64/include/asm/esr.h                       |  28 +-
+ arch/arm64/include/asm/exception.h                 |   2 +
+ arch/arm64/include/asm/gcs.h                       | 107 +++
+ arch/arm64/include/asm/hwcap.h                     |   1 +
+ arch/arm64/include/asm/kvm_arm.h                   |   4 +-
+ arch/arm64/include/asm/kvm_host.h                  |  12 +
+ arch/arm64/include/asm/mman.h                      |  23 +-
+ arch/arm64/include/asm/pgtable-prot.h              |  14 +-
+ arch/arm64/include/asm/processor.h                 |   7 +
+ arch/arm64/include/asm/sysreg.h                    |  20 +
+ arch/arm64/include/asm/uaccess.h                   |  40 ++
+ arch/arm64/include/uapi/asm/hwcap.h                |   1 +
+ arch/arm64/include/uapi/asm/ptrace.h               |   8 +
+ arch/arm64/include/uapi/asm/sigcontext.h           |   9 +
+ arch/arm64/kernel/cpufeature.c                     |  19 +
+ arch/arm64/kernel/cpuinfo.c                        |   1 +
+ arch/arm64/kernel/entry-common.c                   |  23 +
+ arch/arm64/kernel/idreg-override.c                 |   2 +
+ arch/arm64/kernel/process.c                        |  85 +++
+ arch/arm64/kernel/ptrace.c                         |  59 ++
+ arch/arm64/kernel/signal.c                         | 242 ++++++-
+ arch/arm64/kernel/traps.c                          |  11 +
+ arch/arm64/kvm/emulate-nested.c                    |   4 +
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h         |  17 +
+ arch/arm64/kvm/sys_regs.c                          |  22 +
+ arch/arm64/mm/Makefile                             |   1 +
+ arch/arm64/mm/fault.c                              |  79 ++-
+ arch/arm64/mm/gcs.c                                | 300 +++++++++
+ arch/arm64/mm/mmap.c                               |  13 +-
+ arch/arm64/tools/cpucaps                           |   1 +
+ arch/x86/include/uapi/asm/mman.h                   |   3 -
+ fs/proc/task_mmu.c                                 |   3 +
+ include/linux/mm.h                                 |  16 +-
+ include/uapi/asm-generic/mman.h                    |   4 +
+ include/uapi/linux/elf.h                           |   1 +
+ include/uapi/linux/prctl.h                         |  22 +
+ kernel/sys.c                                       |  30 +
+ tools/testing/selftests/arm64/Makefile             |   2 +-
+ tools/testing/selftests/arm64/abi/hwcap.c          |  19 +
+ tools/testing/selftests/arm64/fp/assembler.h       |  15 +
+ tools/testing/selftests/arm64/fp/fpsimd-test.S     |   2 +
+ tools/testing/selftests/arm64/fp/sve-test.S        |   2 +
+ tools/testing/selftests/arm64/fp/za-test.S         |   2 +
+ tools/testing/selftests/arm64/fp/zt-test.S         |   2 +
+ tools/testing/selftests/arm64/gcs/.gitignore       |   5 +
+ tools/testing/selftests/arm64/gcs/Makefile         |  24 +
+ tools/testing/selftests/arm64/gcs/asm-offsets.h    |   0
+ tools/testing/selftests/arm64/gcs/basic-gcs.c      | 428 ++++++++++++
+ tools/testing/selftests/arm64/gcs/gcs-locking.c    | 200 ++++++
+ .../selftests/arm64/gcs/gcs-stress-thread.S        | 311 +++++++++
+ tools/testing/selftests/arm64/gcs/gcs-stress.c     | 532 +++++++++++++++
+ tools/testing/selftests/arm64/gcs/gcs-util.h       | 100 +++
+ tools/testing/selftests/arm64/gcs/libc-gcs.c       | 736 +++++++++++++++++++++
+ tools/testing/selftests/arm64/signal/.gitignore    |   1 +
+ .../testing/selftests/arm64/signal/test_signals.c  |  17 +-
+ .../testing/selftests/arm64/signal/test_signals.h  |   6 +
+ .../selftests/arm64/signal/test_signals_utils.c    |  32 +-
+ .../selftests/arm64/signal/test_signals_utils.h    |  39 ++
+ .../arm64/signal/testcases/gcs_exception_fault.c   |  62 ++
+ .../selftests/arm64/signal/testcases/gcs_frame.c   |  88 +++
+ .../arm64/signal/testcases/gcs_write_fault.c       |  67 ++
+ .../selftests/arm64/signal/testcases/testcases.c   |   7 +
+ .../selftests/arm64/signal/testcases/testcases.h   |   1 +
+ tools/testing/selftests/ksft_shstk.h               |  37 ++
+ 73 files changed, 4241 insertions(+), 40 deletions(-)
+---
+base-commit: 50abefbf1bc07f5c4e403fd28f71dcee855100f7
+change-id: 20230303-arm64-gcs-e311ab0d8729
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
