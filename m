@@ -1,233 +1,83 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F3D387
-	for <linux-doc@vger.kernel.org>; Sun,  4 Feb 2024 00:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C65710E9;
+	Sun,  4 Feb 2024 00:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707006161; cv=none; b=IJs1itn69CfujyoNKFZ5kBSFYEsEUSFH8rP4jMbI9WArT/m9a7qQRfCH2kPKr8m/yyd76tLfPO82lbnT9qioXW3Ln7XDn4z0NLYu4ilGbPMEBh3vAFBoh3B8HAhFQ1u+C33AVRjPDqMYb4jo72CNenSxh/lRgWKjH8dbeUfwAiM=
+	t=1707007976; cv=none; b=ftRB1GcVBTIiwdbHwo9z1Jr/wUdMUvC2WO2JaCtLR0PcLqi8iHmXgPXj/lpuS5xGEIQDwruwN/IWBtr+bjGG+X83NevDFZb8MMJaMsrRh2rfnz3/U1KOD7eKQ8dD/vPkphSHRkxXzb+FPfFY3pEnmrpf1ozXRAH5phTTyxn6YO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707006161; c=relaxed/simple;
-	bh=czkfpW61lAXFdsguakOz0Yvzzd1nD9b8p8YAJzKHBq0=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=MwDDQecvlzakr6yGCu94sHHq4Ed58Q9fcbjXVFdTp3/otG/4KLTcMbXH4UWFJGvLTl98n8FgTH7gmyJFvajtAq9dUJ3nduL6nOzT81Y8YQ6WyTBlmYMw6U9af74GCd5oXpotoHOU4LdkipwyHEJejT7sVCYNWTZCRzipdkDkjyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com; spf=pass smtp.mailfrom=jrtc27.com; dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b=gE+5TW3D; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jrtc27.com
+	s=arc-20240116; t=1707007976; c=relaxed/simple;
+	bh=NwR5mrk+h7TdhdFOGitSGh+iNGlqjIx+uacgS5e2lkY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mYsjalrbIuhzqUE9uGtJzd+aJ9FkF+DsggU5Fdh1PMSkadVWtIeNWil4ITiDx7K0qF8Hc6JfxzBtuTOTWPmhxx3AzCOp9ZSeFUb3UM+0r+BlLORTaQYWn7tECvWhIqKWuCCZ4cORWPH7xmHoDLjxT6m5Eir8limc6ucqMqXjvDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=M+NGLImT; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b="gE+5TW3D"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40fd55c7f93so2788275e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 03 Feb 2024 16:22:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jrtc27.com; s=gmail.jrtc27.user; t=1707006156; x=1707610956; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TfmI2ewltHRJMYO5mo5fFwZc+1SV7LuHqUomT5kdRyc=;
-        b=gE+5TW3DktoPPS5gBD8eylS2CiliBultrDat5wN+17ZfOz9deSbSHR8JKx/kVrLUu/
-         mY50uYc09LIH6SQJmMmjQhJemB9qfi9e4KeMQz/aWswRIdBSSbiojFlAkPvNFLlzPFNB
-         oNlGh9Vmg2Jt+LiU8cBniDwWRx6fUMigZR2QizPmO2MHm0lOktGaShUqc2lNq3De5f7/
-         KAdPRBLbiWHat7HUzZqq92+VX5qm7zrW1zVRcw+94JcmCVVML0TjK9AirelQMrmovKfh
-         rszptZqyKiWVlLDIhb/VmbSz8njW+jtArbGLkCURDyUxFw6ozdb+gXWM9OVXEoBiLHNz
-         a86g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707006156; x=1707610956;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TfmI2ewltHRJMYO5mo5fFwZc+1SV7LuHqUomT5kdRyc=;
-        b=sNd+v1MLQyzehzKQ+zdFN9z7+oU3G30DurAcIcjSlqAta1RdbdnzvRuZ0Y7CMNKv+g
-         eypzzf25s1BW2GufSymFvYKZChbaqWqE0FSKenzBamkRERvLeHZk+N5FjU+Jdw459zYE
-         L4S3yDiYJ3GC07CLySf4t/QLIgq0C/X5cPFBRsy6XNxz+1DC96+otk0TVwQgMSstgONy
-         yPuwTewRHB06itB97mAiGt9A4JRq2lzAnZ7U26UTP3ms3YB1nJjL+LYiwX99CGHqpRiE
-         irCKPBWG2uSe1EMVnaj4Hm6cXhlRVcDk5p7avPB/4Cy8bmEXKgXQY69T1X1CTTEaVDLA
-         kK4Q==
-X-Gm-Message-State: AOJu0YxfJ5pWKlS3qTxltPFpLBJao8FMNX7dMqh5OfKD5W23IcGVAH/U
-	NLvfnHh4MjOJwNoaXpG5PLanA9jFTn7ivlkvPBLFYY91wjLbQUmO18g5Kwd6yGLb8PC6Pr44NDs
-	W
-X-Google-Smtp-Source: AGHT+IHTi3m2btatPb8/FQEFneiCu7KlySBWkA0Ujl2vPiUvGEgjbz/Z9LiAEEo14cV/np8nHj9OcA==
-X-Received: by 2002:a05:600c:458a:b0:40f:d3bd:b222 with SMTP id r10-20020a05600c458a00b0040fd3bdb222mr1413414wmo.38.1707006156368;
-        Sat, 03 Feb 2024 16:22:36 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWJTmKxGNH/ofKVvL73KTRZlg0mpziW2SONM+lih4pUDUXze0Pudw4a1sccT9ryZqBsoL7pFDIP7gcQG0h5kprVUqwPZsmtyd5/4WCR9wwSbK3d96ikGt21oE2QcjHfIkB8j1I++xn65wWXI3HgsSzY2E7+unG4QFRBDvUWgdkoEgn18caH8K5iO++HQ+Gve8TcUqqvvFKIYSyldA7JaAaM0erFh+AEoihv47VtdWvnsNsqKesxAmoZrybLyOF0+DjlLFl3N3IZKOcMXRl92deUuotAozXDEx9j2NCMTGo9hbImGql1w8U6m59XC9rt+l3xwfdg6BvgSXED10Qmcw2RvtKjfeYQ
-Received: from smtpclient.apple ([131.111.5.246])
-        by smtp.gmail.com with ESMTPSA id p4-20020a05600c358400b0040fb7c87c73sm4250081wmq.45.2024.02.03.16.22.35
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 03 Feb 2024 16:22:35 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M+NGLImT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ZBq6t6hl94U57roCBPNk4QRZAVbooskR2FOO/z2Cm68=; b=M+NGLImTQGpeatWl69IxZzvWnr
+	VMqxiYggaHMbJaKrAFfe0QFBgePTucUK1q+6IBqyPt9IGJ8083s4ySfcvq5uQG+SqEb4aep24D0j8
+	6jLi1/EHnG9TA1H4A4b3nH4/hiLsTggXyHVfpRd3Dh1/cvM1/XSsJTNDZ1gCubOPxY3L8vyTjTyeF
+	FLvl9+Zd/2LmlmCo8sJHqpydq/lCTjVT97n8SWBXGut7NO+xvvmQbpGXS/wcY5AuAKl0xPNjQxrhX
+	PUc9WT6ULrYubTU009673VwdN4rjlsVbRWDFQUguABOsbheQOsyqhLHn268pqVcbiMpJMkA0RoMOE
+	RXp3XhLw==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rWQkd-0000000HT9J-1iaV;
+	Sun, 04 Feb 2024 00:52:51 +0000
+Message-ID: <933653c5-a944-403d-b686-5b12c13132ab@infradead.org>
+Date: Sat, 3 Feb 2024 16:52:49 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Subject: Re: [PATCH] riscv: hwprobe: export VA_BITS
-From: Jessica Clarke <jrtc27@jrtc27.com>
-In-Reply-To: <5657c211-531b-4890-8c52-182b7b4eae7c@app.fastmail.com>
-Date: Sun, 4 Feb 2024 00:22:25 +0000
-Cc: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Charlie Jenkins <charlie@rivosinc.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- linux-doc@vger.kernel.org,
- linux-riscv <linux-riscv@lists.infradead.org>,
- linux-kernel@vger.kernel.org,
- Robin Ehn <rehn@rivosinc.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <5A2420B9-6039-445B-B2C3-77F13EDD77BA@jrtc27.com>
-References: <20240201140319.360088-1-cleger@rivosinc.com>
- <ZbxUUsKdKIPI8Fb/@ghost> <701d3350-93d3-4235-aaf7-04c6492420a7@rivosinc.com>
- <5657c211-531b-4890-8c52-182b7b4eae7c@app.fastmail.com>
-To: Stefan O'Rear <sorear@fastmail.com>
-X-Mailer: Apple Mail (2.3774.200.91.1.1)
-
-On 3 Feb 2024, at 10:40, Stefan O'Rear <sorear@fastmail.com> wrote:
->=20
-> On Fri, Feb 2, 2024, at 3:22 AM, Cl=C3=A9ment L=C3=A9ger wrote:
->> On 02/02/2024 03:32, Charlie Jenkins wrote:
->>> On Thu, Feb 01, 2024 at 03:02:45PM +0100, Cl=C3=A9ment L=C3=A9ger =
-wrote:
->>>> Some userspace applications (OpenJDK for instance) uses the free =
-bits
->>>> in pointers to insert additional information for their own logic.
->>>> Currently they rely on parsing /proc/cpuinfo to obtain the current =
-value
->>>> of virtual address used bits [1]. Exporting VA_BITS through hwprobe =
-will
->>>> allow for a more stable interface to be used.
->>>=20
->>> mmap already supports this without a need for applications to know =
-the
->>> underlying hardware. If a hint address is passed into mmap, it will =
-never
->>> return an address that uses more bits than the hint address. I =
-designed
->>> it that way so that something like this wasn't necessary.
->>=20
->> Ok even though probing this kind of thing is probably not what mmap =
-is
->> meant to do. IMHO, probing this through the regular hwprobe interface =
-is
->> probably more coherent but maybe Robin (which needs this information)
->> can rely on that.
->=20
-> Both of these are useful, separately and in conjunction.
->=20
-> hwprobe allows applications which can adapt to different VA sizes to =
-learn
-> which is in use prior to allocating memory.
->=20
-> mmap hints allow applications which require a fixed limit on the VA =
-size to
-> express that limit at the point of requirement, the hint can be set =
-based on
-> the hwprobe result to explicitly indicate its use.
-
-Neither is an architecture-specific concept though. If you want to
-expose a notion of VA bits to userspace then it should probably be done
-in a more generic manner than the RISC-V-specific hwprobe syscall,
-probably as two numbers, low and high bits (ia64=E2=80=99s regions may =
-be gone,
-but sparc64 still has both halves of the address space presented to
-userspace, with the stack in high/negative memory).
-
-Jess
-
-> -s
->=20
->> Cl=C3=A9ment
->>=20
->>>=20
->>> - Charlie
->>>=20
->>>>=20
->>>> Link: =
-https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/linux_riscv/=
-vm_version_linux_riscv.cpp#L171 [1]
->>>> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
->>>>=20
->>>> ---
->>>> Documentation/arch/riscv/hwprobe.rst  | 3 +++
->>>> arch/riscv/include/asm/hwprobe.h      | 2 +-
->>>> arch/riscv/include/uapi/asm/hwprobe.h | 1 +
->>>> arch/riscv/kernel/sys_hwprobe.c       | 3 +++
->>>> 4 files changed, 8 insertions(+), 1 deletion(-)
->>>>=20
->>>> diff --git a/Documentation/arch/riscv/hwprobe.rst =
-b/Documentation/arch/riscv/hwprobe.rst
->>>> index b2bcc9eed9aa..6f198c6ed4f0 100644
->>>> --- a/Documentation/arch/riscv/hwprobe.rst
->>>> +++ b/Documentation/arch/riscv/hwprobe.rst
->>>> @@ -210,3 +210,6 @@ The following keys are defined:
->>>>=20
->>>> * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int =
-which
->>>>   represents the size of the Zicboz block in bytes.
->>>> +
->>>> +* :c:macro:`RISCV_HWPROBE_KEY_VA_BITS`: An unsigned long which
->>>> +  represent the number of bits used to store virtual addresses.
->>>> diff --git a/arch/riscv/include/asm/hwprobe.h =
-b/arch/riscv/include/asm/hwprobe.h
->>>> index 630507dff5ea..150a9877b0af 100644
->>>> --- a/arch/riscv/include/asm/hwprobe.h
->>>> +++ b/arch/riscv/include/asm/hwprobe.h
->>>> @@ -8,7 +8,7 @@
->>>>=20
->>>> #include <uapi/asm/hwprobe.h>
->>>>=20
->>>> -#define RISCV_HWPROBE_MAX_KEY 6
->>>> +#define RISCV_HWPROBE_MAX_KEY 7
->>>>=20
->>>> static inline bool riscv_hwprobe_key_is_valid(__s64 key)
->>>> {
->>>> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h =
-b/arch/riscv/include/uapi/asm/hwprobe.h
->>>> index 9f2a8e3ff204..2a5006cddb7b 100644
->>>> --- a/arch/riscv/include/uapi/asm/hwprobe.h
->>>> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
->>>> @@ -67,6 +67,7 @@ struct riscv_hwprobe {
->>>> #define RISCV_HWPROBE_MISALIGNED_UNSUPPORTED (4 << 0)
->>>> #define RISCV_HWPROBE_MISALIGNED_MASK (7 << 0)
->>>> #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE 6
->>>> +#define RISCV_HWPROBE_KEY_VA_BITS 7
->>>> /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
->>>>=20
->>>> /* Flags */
->>>> diff --git a/arch/riscv/kernel/sys_hwprobe.c =
-b/arch/riscv/kernel/sys_hwprobe.c
->>>> index a7c56b41efd2..328435836e36 100644
->>>> --- a/arch/riscv/kernel/sys_hwprobe.c
->>>> +++ b/arch/riscv/kernel/sys_hwprobe.c
->>>> @@ -202,6 +202,9 @@ static void hwprobe_one_pair(struct =
-riscv_hwprobe *pair,
->>>> if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
->>>> pair->value =3D riscv_cboz_block_size;
->>>> break;
->>>> + case RISCV_HWPROBE_KEY_VA_BITS:
->>>> + pair->value =3D VA_BITS;
->>>> + break;
->>>>=20
->>>> /*
->>>>  * For forward compatibility, unknown keys don't fail the whole
->>>> --=20
->>>> 2.43.0
->>>>=20
->>>>=20
->>>> _______________________________________________
->>>> linux-riscv mailing list
->>>> linux-riscv@lists.infradead.org
->>>> http://lists.infradead.org/mailman/listinfo/linux-riscv
->>=20
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
->=20
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: multiple .rst files: Fix grammar and more
+ consistent formatting
+Content-Language: en-US
+To: Thorsten Blum <thorsten.blum@toblux.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240203215345.4396-1-thorsten.blum@toblux.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240203215345.4396-1-thorsten.blum@toblux.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
+
+On 2/3/24 13:53, Thorsten Blum wrote:
+> sphinx.rst:
+> - remove unnecessary newline
+> - fix grammar s/check/checks
+> - capitalize heading "The C domain"
+> 
+> changes.rst:
+> - remove colon after "pahole" to be consistent with other entries
+> 
+> howto.rst:
+> - fix grammar s/you will/will you
+> - hyphenate "real-world problems"
+> 
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/doc-guide/sphinx.rst | 7 +++----
+>  Documentation/process/changes.rst  | 4 ++--
+>  Documentation/process/howto.rst    | 4 ++--
+>  3 files changed, 7 insertions(+), 8 deletions(-)
+> 
+
+-- 
+#Randy
