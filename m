@@ -1,104 +1,119 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7264219EB;
-	Sun,  4 Feb 2024 11:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193E524B24;
+	Sun,  4 Feb 2024 13:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707046017; cv=none; b=CG2RKwDbP6+TTNlavsiU0QxjkJBc4DV0emxcWjJC+agOWFck2PcFEy03K8hCq2rq1ZTqbwRQmDqk5AtOHkDdRfrGpKX0+lvfOyL7wX6hV5rRDC/BSGx8mL3yDsWEnWPhAZ4MLJijKzlH2RRCUabJhkF0d+wiSAhA4KI2Q5TV+M4=
+	t=1707051833; cv=none; b=mZLCzOlOZumLCnh21nlrWKHv35x6D8csePPu25SB6EAyQMOEs12qo+TN2Ic7mcY79juKnfAff1hYUh00T38NA3mct83OFAlXKL0s/91AovaAAZqu6dXf0WciWMWjABbhBiU5325E5+MmlI0PYgsJu1nC6xP/+zw2b98ztptfQDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707046017; c=relaxed/simple;
-	bh=AGiif2Xtf5Y9Uddc6aaMw+kq1ikhS4jFGlHsCtCYShU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A+F++GzT79lN0IpNtJMp/2ZQAt69wTCh6JAlrkCuEc4zWbmHG6DL2kNku2WyBu0TwLCFftSX82g42AKmarJ2l3OTH03lOpaMcoJav8bZOZzKw4y6/UQmrKYIZGwzYGtplJ+u607wF1Y31OzoP7CpvY5G00erfM8awL227xSJHco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=RlgY14DT; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1707051833; c=relaxed/simple;
+	bh=33qb0lTFCLf4rU2I1xs5+TJ0LIK/mHIS088j2jXFTQs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=J/uVJ4f7o/RwDWwxl3tAAmtJ6qj9CjH0TKKrV17L790mdoaE5GWbKLzRYXYK4FIrzDFGJWnGdxAkmbm3NVkSmc1y7CTJkxThvfq3BG4x5jVSJJ7PnFJqjqK3UcVw6VuibonqnLxhVXAYKRMpby9kPfnGlZj8qPPzsHlxQoUaV80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pzpXdjjk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="RlgY14DT"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 068E640E0196;
-	Sun,  4 Feb 2024 11:26:52 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id TYR2N3tSIz_N; Sun,  4 Feb 2024 11:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1707046008; bh=RfFrsqpQx96GuQZbFdGwWU2a+cMGMQVi1r+5tU7keZc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RlgY14DT7ko2GjFpMlO7h43uXl+NTmo8dOMN4am0SwPXgD7VJmBXpS7sc28ntTCXA
-	 JAGRebVS6Eusygd9etwhyTM/3TQmmJsYGMxrI6m3Ralh+iZIknVhLAiCOAAMk8L5E4
-	 ujZPVD5Q+zz6EQYQwcdbwf/OApTlkeB5f4t6WCIsu8tGARAcD//SfMkLcapU9jA2TL
-	 Bv9LGEcmsag5zL1vKv8mN5zX+aelm5SYx/A6G0Jc+JYO7zZ6xoq2jQh+9MaW5QLRD1
-	 wvv6ZWy/xYUuYZx9ljQs+p+02tfFA4oIYLk4/w9PJhOrpol6S8AtaOcM1Wpxb/3zq8
-	 o22UWavl15mYSkrUjN02UEsK/L3yc5CUX3qIr30n/0/jr3NsrToVQ4E8Rx5uUZThd3
-	 KQSbXRfOu2mk5FemlIQAky97+2X0mqt2Z2c3imrd2JvqIRdeGX4P7KeLACUUAFmnww
-	 xuq8nH3j2iW0gdnLX4jrubZqdwax13fVCXO1G3Mpk2ofIqHqkWNJcaVn/PL95n44/5
-	 uLZDYrbgPpt/BF3TySPKqUEoLcEcOSct51qrXR0LOzg9C5YGd53MRFiCd7la0Ixei2
-	 8wBvjUv8asPAW4wEEFbnBjoE+W3ikA16dNIS8B9Ln2bdkRWRoub06wFqQrMNrI6quH
-	 P3eVSnENTkjW+b6+xVYVOwyM=
-Received: from zn.tnic (pd953021b.dip0.t-ipconnect.de [217.83.2.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2C48840E01A9;
-	Sun,  4 Feb 2024 11:26:32 +0000 (UTC)
-Date: Sun, 4 Feb 2024 12:26:26 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Roth <michael.roth@amd.com>,
-	Dionna Glaze <dionnaglaze@google.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Peter Gonda <pgonda@google.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] crypto: ccp: Fix sev_issue_cmd code block
-Message-ID: <20240204112626.GBZb90Yl5ps7awXOZT@fat_crate.local>
-References: <20240204110604.192024-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pzpXdjjk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB75C433C7;
+	Sun,  4 Feb 2024 13:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707051832;
+	bh=33qb0lTFCLf4rU2I1xs5+TJ0LIK/mHIS088j2jXFTQs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=pzpXdjjk7o1gSecRwrYV0VNSFQfoFsjJfXsczJaRmLQHs2J97J8JS40VYzB80LTt7
+	 hpzvZf3ZqEyF5GWUI37cFm9qbKuvk8VA64GLku+lZGQs3XztYjK2WvVd/6cBpubZKe
+	 Sv7QW4ryDF7n7hKaQEa80K4b1ASfAKxn+zj7rOVrXBSi2N7pwtTVeRl7V8xuoQikM1
+	 sNUeCqmtoXGkW6D2/j/6PQ6rEd0DKZBfH0WtTgCcN7kUpqMfRlHVebvjbeb1l0RPUq
+	 vKS6ruR7vBLBKXVUN3gLl4MOgqO1XAqXcEfXzqeylYW5vrLppT1uUGDmCWR9R3Ozdt
+	 idjYd/GaggK8A==
+Date: Sun, 04 Feb 2024 14:03:51 +0100
+From: Kees Cook <kees@kernel.org>
+To: Rae Moar <rmoar@google.com>, frowand.list@gmail.com, davidgow@google.com,
+ keescook@chromium.org, Tim.Bird@sony.com, shuah@kernel.org,
+ brendanhiggins@google.com, dlatypov@google.com
+CC: tytso@google.com, gustavo.padovan@collabora.com,
+ ricardo.canuelo@collabora.com, guillaume.tucker@collabora.com,
+ corbet@lwn.net, kernelci@lists.linux.dev, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [KTAP V2 PATCH v2] ktap_v2: add test metadata
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20240126221426.4173112-1-rmoar@google.com>
+References: <20240126221426.4173112-1-rmoar@google.com>
+Message-ID: <6CCB5F6D-EC6C-452A-9D25-0D7B3F9739AB@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240204110604.192024-1-bagasdotme@gmail.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 04, 2024 at 06:06:04PM +0700, Bagas Sanjaya wrote:
-> Stephen Rothwell reports htmldocs warnings when merging tip tree:
-> 
-> Documentation/virt/coco/sev-guest.rst:75: WARNING: Inline emphasis start-string without end-string.
-> Documentation/virt/coco/sev-guest.rst:78: WARNING: Inline emphasis start-string without end-string.
-> Documentation/virt/coco/sev-guest.rst:81: WARNING: Inline emphasis start-string without end-string.
-> Documentation/virt/coco/sev-guest.rst:83: WARNING: Definition list ends without a blank line; unexpected unindent.
-> 
-> sev_issue_cmd struct code block has unindented block marker, hence above
-> warnings. Fix the marker by appending it instead at the end of preceding
-> paragraph to silence these warnings.
-> 
-> Fixes: f5db8841ebe59d ("crypto: ccp: Add the SNP_PLATFORM_STATUS command")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20240202145932.31c62fd6@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/virt/coco/sev-guest.rst | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
 
-https://git.kernel.org/tip/1bfca8d2800ab5ef0dfed335a2a29d1632c99411
 
--- 
-Regards/Gruss,
-    Boris.
+On January 26, 2024 11:14:26 PM GMT+01:00, Rae Moar <rmoar@google=2Ecom> w=
+rote:
+> KTAP version 2
+> # ktap_test: main
+> # ktap_arch: uml
+> 1=2E=2E1
+>     KTAP version 2
+>     # ktap_test: suite_1
+>     # ktap_subsystem: example
+>     # ktap_test_file: lib/test=2Ec
 
-https://people.kernel.org/tglx/notes-about-netiquette
+I think it's a mistake to mix "diagnostics" lines with semantic lines=2E S=
+ince the diagnostic prefix is [# ] (hash space) how about make the test met=
+adata lines be [#:] (hash colon)=2E For example:
+
+
+     1=2E=2E2
+     ok 1 test_1
+     #:ktap_test: test_2
+     #:ktap_speed: very_slow
+     #:custom_is_flaky: true
+     # format-free stuff goes here
+     ok 2 test_2
+=2E=2E=2E
+
+> ok 1 test_suite
+>
+>The changes to the KTAP specification outline the format, location, and
+>different types of metadata=2E
+>
+>Here is a link to a version of the KUnit parser that is able to parse tes=
+t
+>metadata lines for KTAP version 2=2E Note this includes test metadata
+>lines for the main level of KTAP=2E
+>
+>Link: https://kunit-review=2Egooglesource=2Ecom/c/linux/+/5889
+>
+>Signed-off-by: Rae Moar <rmoar@google=2Ecom>
+>---
+> Documentation/dev-tools/ktap=2Erst | 163 ++++++++++++++++++++++++++++++-
+> 1 file changed, 159 insertions(+), 4 deletions(-)
+>
+>diff --git a/Documentation/dev-tools/ktap=2Erst b/Documentation/dev-tools=
+/ktap=2Erst
+>index ff77f4aaa6ef=2E=2E4480eaf5bbc3 100644
+>--- a/Documentation/dev-tools/ktap=2Erst
+>+++ b/Documentation/dev-tools/ktap=2Erst
+>@@ -17,19 +17,20 @@ KTAP test results describe a series of tests (which m=
+ay be nested: i=2Ee=2E, test
+> can have subtests), each of which can contain both diagnostic data -- e=
+=2Eg=2E, log
+> lines -- and a final result=2E The test structure and results are
+> machine-readable, whereas the diagnostic data is unstructured and is the=
+re to
+
+We even say it's unstructured=2E=2E=2E :)
+
+
+>+prefix must not include spaces or the characters ":" or "_"=2E
+
+Why not _?
+
+--=20
+Kees Cook
