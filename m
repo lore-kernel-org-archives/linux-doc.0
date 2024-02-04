@@ -1,80 +1,132 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244C1EDE;
-	Sun,  4 Feb 2024 01:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED12A6119;
+	Sun,  4 Feb 2024 05:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707010012; cv=none; b=KvMknVDFPBtTVDQQKuLKMLip7cFGdoC8vLY3j6TTybTyEpDZPLKuapbWUZFjxRzCDqwGAjPZGHSL7Fvidjmm3AcUStoc24fK21gRoUp7+7oeE4ypNiLDDlpot93K8kzE8+vAQZ6Ys7j0QmA1ipr+K5f8khNeLTocDvUUaShRmJY=
+	t=1707023953; cv=none; b=FwWIp9xkCNdm5oqzMPHVAfNL+ullsOoUEYRw7BdrSW+FaoMc9YvCsUkNlElT5uexFiUSfTo+lk2Z/SeKsE/y3+vOboUh3aG2/OCewfg7iDGUb+5XZSEhgjTZ4ZibcjCm+GSAdy6L99NKs8BfQop1YNfNP0swRvAED97gb5mvd6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707010012; c=relaxed/simple;
-	bh=LpJEAMF+Ooaz45GJ+ISwigXoS0uW4CmyzR45FwrvGHo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AvErLk/pVbjsfdfEMFxO8lF54PceGiGAQwB5Jsq5d+xgSkYosn3SGIAJUyAZmqcVkIy5j3f7sUdeLKg4I2QYs/CxDDussmkL6AXzRJ/Jn+4ZrfPzavM37sNxdXVvyR43MCUsif/HsYOIIJ3XNy08SgLZsmp9/ze4fXF7dwFXn3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nLKCxn+y; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1707023953; c=relaxed/simple;
+	bh=P6VGiDl0jduaJYu6jiH+VhGE0WfXIZzpvflkq0mKjH4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TiwuX0CWgeqXJuwVM9JA60kpe3mhM3WMIMCWvk3x/sBd5bPHcnh7HLq8bj6tiQF+WKJHLQ9G2s5qdPS61ssdC5fn46GV2TudhDZ8QsOLgCI2+dOzPgkKz6pcQGMcqnIkmF22PgCzyIiPlrMaFslziPYRTjtb+JCZFocea7t4wBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DVkmGt+L; arc=none smtp.client-ip=134.134.136.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nLKCxn+y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=rhinI2Yz3ldCYiyf5UXL/+9A9v7fUw89mwEEs5eTdoA=; b=nLKCxn+yVc/eV71DOyVta0bKBT
-	FUeGTTTOu39hERGUbyGAbzcy4KEO5G6/e2Kr1ayYOEoNbIj5uBM2Yd7XTYD80FwZoKU1RZ2sv4J0e
-	5Mh0gM9wsHCW9gEetfCoSlFmFhC7FFMIP3lksbh0cLHSK4VKGYLQ43/GtAsm4NcAMHrT71mQESHol
-	3c8AUCqebHKxmdNzCOysrVed7qUl98AF/bfAuT3lcgowN5qJ/GcA5LgWuZ/6wGyOjT4LDGU6Agk/H
-	8lpVauyf5NFHSEoumHx6ARu5ib7KPI0On5PtrRKVbbm2Y7+RCqe93mZ9g1e5w4sq3XcFbRQLvqeTg
-	pSFnGWPQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWRHV-0000000HWAS-2ntk;
-	Sun, 04 Feb 2024 01:26:49 +0000
-Message-ID: <97f7e278-725b-4453-aae9-6a80664920c7@infradead.org>
-Date: Sat, 3 Feb 2024 17:26:49 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DVkmGt+L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707023952; x=1738559952;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P6VGiDl0jduaJYu6jiH+VhGE0WfXIZzpvflkq0mKjH4=;
+  b=DVkmGt+L+gvx+1jrSn94ZVGw7jn9EePrfnUiO1KIMFg7nyXQ9NdwaSaP
+   yLUfc84f8vCNqxbHAGkaX/Cv2dLEu4qHq4W3VFEoxVQlEsISGO6A9N95U
+   i/ZFh+rFQH/Gfgm9V5IEhcksH/pN7glLC7Bu1hGgjX0hNhZKWkCF09hhZ
+   +ROFFYK5yz1GxETiQFU+lUdIXuP5oq1LmJQaldgEcF6bgzCW37vma+BYT
+   llVdOfdUjVajkWzlBFje2jHli1x+c5YurDYqbKryI6tX1S2w+sXE9dJ5c
+   o2WLvoToBs0Va3t1GGP5e1yn4aZiaaecpXK8dp0HhS/2SaJk27EcRHr7L
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10973"; a="394787343"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="394787343"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2024 21:19:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="23694652"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2024 21:19:08 -0800
+Date: Sun, 4 Feb 2024 13:15:35 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Marco Pagani <marpagan@redhat.com>
+Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Tull <atull@opensource.altera.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fpga@vger.kernel.org
+Subject: Re: [RFC PATCH v5 1/1] fpga: add an owner and use it to take the
+ low-level module's refcount
+Message-ID: <Zb8dd9af0Ru/fzGi@yilunxu-OptiPlex-7050>
+References: <20240111160242.149265-1-marpagan@redhat.com>
+ <20240111160242.149265-2-marpagan@redhat.com>
+ <Zbh7iO9wlm9ekzB7@yilunxu-OptiPlex-7050>
+ <0720eb91-72f9-4781-8558-8a1b0a3691c2@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 12610/12662] htmldocs: Warning: file
- Documentation/ABI/testing/sysfs-platform-silicom#20:
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Hans de Goede <hdegoede@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>, linux-doc@vger.kernel.org
-References: <202401070202.BQvPxgyp-lkp@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202401070202.BQvPxgyp-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0720eb91-72f9-4781-8558-8a1b0a3691c2@redhat.com>
 
-Hi ktr,
-
-Sorry for the late reply.
-
-
-On 1/6/24 10:13, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   e2425464bc87159274879ab30f9d4fe624b9fcd2
-> commit: f24945c77ed4c57b602632b9e3cbf5752e202a6f [12610/12662] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git
-> reproduce: (https://download.01.org/0day-ci/archive/20240107/202401070202.BQvPxgyp-lkp@intel.com/reproduce)
+On Fri, Feb 02, 2024 at 06:44:01PM +0100, Marco Pagani wrote:
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202401070202.BQvPxgyp-lkp@intel.com/
 > 
-> All warnings (new ones prefixed by >>):
+> On 2024-01-30 05:31, Xu Yilun wrote:
+> >> +#define fpga_mgr_register_full(parent, info) \
+> >> +	__fpga_mgr_register_full(parent, info, THIS_MODULE)
+> >>  struct fpga_manager *
+> >> -fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
+> >> +__fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
+> >> +			 struct module *owner);
+> >>  
+> >> +#define fpga_mgr_register(parent, name, mops, priv) \
+> >> +	__fpga_mgr_register(parent, name, mops, priv, THIS_MODULE)
+> >>  struct fpga_manager *
+> >> -fpga_mgr_register(struct device *parent, const char *name,
+> >> -		  const struct fpga_manager_ops *mops, void *priv);
+> >> +__fpga_mgr_register(struct device *parent, const char *name,
+> >> +		    const struct fpga_manager_ops *mops, void *priv, struct module *owner);
+> >> +
+> >>  void fpga_mgr_unregister(struct fpga_manager *mgr);
+> >>  
+> >> +#define devm_fpga_mgr_register_full(parent, info) \
+> >> +	__devm_fpga_mgr_register_full(parent, info, THIS_MODULE)
+> >>  struct fpga_manager *
+> >> -devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
+> >> +__devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
+> >> +			      struct module *owner);
+> > 
+> > Add a line here. I can do it myself if you agree.
 > 
->>> Warning: file Documentation/ABI/testing/sysfs-platform-silicom#20:
-> 
+> Sure, that is fine by me. I also spotted a typo in the commit log body
+> (in taken -> is taken). Do you want me to send a v6, or do you prefer
+> to fix that in place?
 
-but what was the warning or problem here?
-I don't see it.
+No need, I can fix it.
 
-thanks.
--- 
-#Randy
+> 
+> > 
+> > There is still a RFC prefix for this patch. Are you ready to get it merged?
+> > If yes, Acked-by: Xu Yilun <yilun.xu@intel.com>
+> 
+> I'm ready for the patch to be merged. However, I recently sent an RFC
+> to propose a safer implementation of try_module_get() that would
+> simplify the code and may also benefit other subsystems. What do you
+> think?
+> 
+> https://lore.kernel.org/linux-modules/20240130193614.49772-1-marpagan@redhat.com/
+
+I suggest take your fix to linux-fpga/for-next now. If your try_module_get()
+proposal is applied before the end of this cycle, we could re-evaluate
+this patch.
+
+Thanks,
+Yilun
+
+> 
+> > Next time if you think patches are ready for serious review and merge, drop
+> > the RFC prefix. That avoids an extra query.
+> 
+> Okay, I'll do it like that next time.
+> 
+> Thanks,
+> Marco
+> 
