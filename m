@@ -1,142 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E072C859;
-	Mon,  5 Feb 2024 12:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642AD249F7
+	for <linux-doc@vger.kernel.org>; Mon,  5 Feb 2024 13:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707136563; cv=none; b=Q039HIxyetQidiyk+auvmGWLw7iWVfJ0n0SnMdVp+yuIDbh7JsgGIbsHGEZVwSPSGQ1kkUgIsg9LTDlywJ/etFfmEtchCvVVKb1VBvzegAubMVUITkPwjupK3bYERsZ2bJF0XYqJrAYsXACVEC86K2I3JFnFzuBzqZv61ibUCoI=
+	t=1707139653; cv=none; b=nCK0tEaAdvH5Pd74l9OBi51k5qx+VzAEPOH/OX+VxT0AMs6dF/MyEPjSOHyylT67QXGkl/POwjDdxF2d4/AWZtAsprAk1N2iPWIbwSBSpvzJvO6Qkj5NjaYbeWac/5DGLKkhjDpTByoz06GreZiggyH2gZyOKMXXmVf6nrlgiFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707136563; c=relaxed/simple;
-	bh=W/gM23dRxGIQHhXX9oPXf9/doTEakFPicYrHGjQOU1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nAqc8fxcX4EQ9Hwi0WrQOIw82PJebCvNzno++fG7KNEItPNlKk8E4OUlZAtFuJdM0XUSKmsnod0i/17M9UQX+znq4FbpL2bj1Ud2DLOpSXu23NXdGhp0JkBZe3kZeDR0Yo2dIuiKHGgoqfMBXD3HbQERVQyhtkeFVkaE4PzP+os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kiq7v3WH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707139653; c=relaxed/simple;
+	bh=ohd2b4QJUiBI+u2W+/bqlN+cDhKAzefVIpOzmXTVka8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pm3IQLSMT4tym4lYAC2x5JgWrRd5vIJXiTTbcLBYJLnAAqLdI8edzDeSso5ozbQ0wRdnmlk+ku+ve3VaGdUZjR+Y8LUXQbDf1RSSn4RFyI3G18XN5qC6SJP26LUVMncoQ4Q6ziGgK9mZxy3mRQCLRPa9Y0mT624Qjwtk7HD9FjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=iAU5Cygi; arc=none smtp.client-ip=209.85.167.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kiq7v3WH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E9CC433F1;
-	Mon,  5 Feb 2024 12:35:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707136563;
-	bh=W/gM23dRxGIQHhXX9oPXf9/doTEakFPicYrHGjQOU1o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kiq7v3WH4BXjlBM5da8GhgVzNWrFmT69sXn2Z3kO+XSByinlTm+nldLGPza1A7/ZM
-	 wYC2Gg9vCokYw5fDYx/qQEg2c+CFP8iw+xofOVbNYvnsXNedFxCGd3ufs6VxoNBeXH
-	 50FKZLbJXyju+0fAQ40QoDCyBn6FtSNDMwDjUf/bYITVShxqCLWvtPS6T5UZsH074b
-	 a0LHJ05ccHIX0vYhq4C9uU5ICN03IOzpsz9v1K8Bnll82Jt9fqjDRwilIiy+Cj6O2j
-	 Bj2o/ErTqvL0oT0WwGQ3pMhdwKYHeSpKoUUHqRyRoHtoufMjdrU1igTNgB3FQOIkyG
-	 /jdgN58UpyTUQ==
-Date: Mon, 5 Feb 2024 12:35:53 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 13/38] KVM: arm64: Manage GCS registers for guests
-Message-ID: <825d2b35-fa10-43ad-b3b3-b29a77f3fed0@sirena.org.uk>
-References: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
- <20240203-arm64-gcs-v8-13-c9fec77673ef@kernel.org>
- <868r3z6y6v.wl-maz@kernel.org>
+	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="iAU5Cygi"
+Received: by mail-lf1-f66.google.com with SMTP id 2adb3069b0e04-51124d43943so6935136e87.2
+        for <linux-doc@vger.kernel.org>; Mon, 05 Feb 2024 05:27:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1707139649; x=1707744449; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5n4ydAnPupPd3U6BJzPTr7OuGw8QKp6ux4SyUSisFEA=;
+        b=iAU5CygifKUFaYJGEH3oS0gj7Iva8mcgw/OQiuTgjCEMLRjVqStipxUTkoqBOlYoQY
+         KWsAQsyuTePfB2bU/Hu1pCZVPbDAHeRBlI25qa3vAmtce32nCSjXrFBxcjFHpVcAYLrh
+         Odzq0DozEyMYCsRB90eB6qj3rydRnpctqAb6rwGQhi/eyuKjVkdgQ2+7fdBsE2hylxf4
+         RVesgnoDygat4V4dtH+k6G+HTpson1rBW0sZ0DNz/s34mNAGrKj4s/hfywStUGm2BQv/
+         VWlIRIOzIc9uMGG3KVQ3XQDfDZhlL1AFAr0uTtN0GrB/yKRSCXLdZLgsJWSstPrNJ+Jt
+         V2BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707139649; x=1707744449;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5n4ydAnPupPd3U6BJzPTr7OuGw8QKp6ux4SyUSisFEA=;
+        b=vU+ksLY9ohKkrdPDNTjJUo1XRNY2npvk4VLTQQI6njkgkVqQ+yDzHjtakIRKj8cRDa
+         6+I12i33vLh7umDag7Ob8GbWIQ9u2Ofey+JwvigFi1/j/71yU+mvYCwgMSXNHbT+ZHm4
+         KK4QfV8rHzE7gVk4mucWn6jdJAwDimAgARq4yrgD/vpPm1jcatBdQGqb2iOD2uGT7mct
+         fJZjh3kobTRJD4K/hDJZE0AFGLVgrDp7Bixiab8rGcqOgg6bPEWIB2xTo3Uydc2LPYxf
+         l+9Mdk11lvTheApBNIxCbK5c6hK1pgENtuyeyf0vVF7thxFY+AHidYYgxodQa3atb+NK
+         hHpA==
+X-Gm-Message-State: AOJu0YzGu9982G3VTIvhoAX/DFQm+px5giY+dsvG9fhJIMp8Ytulss/f
+	VNPbeBoTloFa6ddduxQKRoq3CPHiRLGnulKh4DkIFro4SWqhgthLHwwBux4nKH4=
+X-Google-Smtp-Source: AGHT+IGu2gtE1cUt6AHDOUPwaptcYcsZjSXRvZxIhDCgcRk9JF0x2AihclIRoqRhXs/mFwdgEWbSeA==
+X-Received: by 2002:a05:6512:5d7:b0:511:486d:454a with SMTP id o23-20020a05651205d700b00511486d454amr3380981lfo.39.1707139649198;
+        Mon, 05 Feb 2024 05:27:29 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVNcP7Glt7qtXOYVGsFMgoaRvL0k6QMXQVxeVyrv4j2QCU7c3WomuBcT3v1VM4TcRpJ5K4aE4RfUhHCgSkIXn/wZTgUdO88TVSNTIzP9SKFNnTFyzM8K00nOEuBRVFNw1A1D6+WGp3BFvIcrmxMEy9qFDNfboDMWu7YQg==
+Received: from debian.fritz.box (aftr-82-135-80-180.dynamic.mnet-online.de. [82.135.80.180])
+        by smtp.gmail.com with ESMTPSA id lg25-20020a170907181900b00a3756cb9370sm2872837ejc.91.2024.02.05.05.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 05:27:28 -0800 (PST)
+From: Thorsten Blum <thorsten.blum@toblux.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	trivial@kernel.org,
+	Thorsten Blum <thorsten.blum@toblux.com>
+Subject: [PATCH] Documentation: admin-guide: tainted-kernels.rst: Add missing article and comma
+Date: Mon,  5 Feb 2024 14:24:10 +0100
+Message-Id: <20240205132409.1957-1-thorsten.blum@toblux.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SWF5NMV/X92Kf8zP"
-Content-Disposition: inline
-In-Reply-To: <868r3z6y6v.wl-maz@kernel.org>
-X-Cookie: No solicitors.
+Content-Transfer-Encoding: 8bit
 
+- Add missing article "the"
+- s/above example/example above/
+- Add missing comma after introductory clause to improve readability
 
---SWF5NMV/X92Kf8zP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+---
+ Documentation/admin-guide/tainted-kernels.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Mon, Feb 05, 2024 at 09:46:16AM +0000, Marc Zyngier wrote:
-> On Sat, 03 Feb 2024 12:25:39 +0000,
-> Mark Brown <broonie@kernel.org> wrote:
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index 92a8a07f5c43..f92551539e8a 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -34,7 +34,7 @@ name of the command ('Comm:') that triggered the event::
+ 
+ You'll find a 'Not tainted: ' there if the kernel was not tainted at the
+ time of the event; if it was, then it will print 'Tainted: ' and characters
+-either letters or blanks. In above example it looks like this::
++either letters or blanks. In the example above it looks like this::
+ 
+ 	Tainted: P        W  O
+ 
+@@ -52,7 +52,7 @@ At runtime, you can query the tainted state by reading
+ tainted; any other number indicates the reasons why it is. The easiest way to
+ decode that number is the script ``tools/debugging/kernel-chktaint``, which your
+ distribution might ship as part of a package called ``linux-tools`` or
+-``kernel-tools``; if it doesn't you can download the script from
++``kernel-tools``; if it doesn't, you can download the script from
+ `git.kernel.org <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/tools/debugging/kernel-chktaint>`_
+ and execute it with ``sh kernel-chktaint``, which would print something like
+ this on the machine that had the statements in the logs that were quoted earlier::
+-- 
+2.39.2
 
-> > +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> > @@ -25,6 +25,8 @@ static inline void __sysreg_save_user_state(struct kvm_cpu_context *ctxt)
-> >  {
-> >  	ctxt_sys_reg(ctxt, TPIDR_EL0)	= read_sysreg(tpidr_el0);
-> >  	ctxt_sys_reg(ctxt, TPIDRRO_EL0)	= read_sysreg(tpidrro_el0);
-> > +	if (has_gcs())
-> > +		ctxt_sys_reg(ctxt, GCSPR_EL0) = read_sysreg_s(SYS_GCSPR_EL0);
-
-> We have had this discussion in the past. This must be based on the
-> VM's configuration. Guarding the check with the host capability is a
-> valuable optimisation, but that's nowhere near enough. See the series
-> that I have posted on this very subject (you're on Cc), but you are
-> welcome to invent your own mechanism in the meantime.
-
-Right, which postdates the version you're replying to and isn't merged
-yet - the current code was what you were asking for at the time.  I'm
-expecting to update all these feature series to work with that once it
-gets finalised and merged but it's not there yet, I do see I forgot to
-put a note in v9 about that like I did for dpISA - sorry about that, I
-was too focused on the clone3() rework when rebasing onto the new
-kernel.
-
-This particular series isn't going to get merged for a while yet anyway
-due to the time it'll take for userspace testing, I'm expecting your
-series to be in by the time it becomes an issue.
-
-> > +	if (has_gcs()) {
-> > +		write_sysreg_el1(ctxt_sys_reg(ctxt, GCSPR_EL1),	SYS_GCSPR);
-> > +		write_sysreg_el1(ctxt_sys_reg(ctxt, GCSCR_EL1),	SYS_GCSCR);
-> > +		write_sysreg_s(ctxt_sys_reg(ctxt, GCSCRE0_EL1),
-> > +			       SYS_GCSCRE0_EL1);
-> > +	}
-
-> For the benefit of the unsuspecting reviewers, and in the absence of a
-> public specification (which the XML drop isn't), it would be good to
-> have the commit message explaining the rationale of what gets saved
-> when.
-
-What are you looking for in terms of rationale here?  The KVM house
-style is often very reliant on reader context so it would be good to
-know what considerations you'd like to see explicitly addressed.  These
-registers shouldn't do anything when we aren't running the guest so
-they're not terribly ordering sensitive, the EL2 ones will need a bit
-more consideration in the face of nested virt.
-
---SWF5NMV/X92Kf8zP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXA1iYACgkQJNaLcl1U
-h9Dczgf8Co+AEsFdqthpdeHca9wZHZrvIV4GyHYFYxQUc2QQcQF8l68f9qpa+7WU
-wwyKL5wu1uARGynhBiI1rGQHAv8lBunf5D4wkD3kJ8X/AtB0wSRFutA2Q35fQDo3
-HcJi94+8UvNTLtAgbLMmiyihG6PxVhpUfwA3SZCuun068j81Zcd1hX4hUlpuSEXr
-hm5Hy73ooZ/T/F5OrYsxxUuEbTRWHYhPq+CXEhWhtyTK9wRAzDes+UK6rXdjfOmj
-iFWAR4jYhFukgcENJvGgwKKvS1YUFxMABGAPJmIfjjX/3eVNriZDeh5DFHyrrp+R
-LPixjIxkXqN9p1+ZfpiReAfH4T+wRQ==
-=7b9C
------END PGP SIGNATURE-----
-
---SWF5NMV/X92Kf8zP--
