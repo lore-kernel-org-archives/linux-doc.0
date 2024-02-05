@@ -1,146 +1,147 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9885756B60;
-	Mon,  5 Feb 2024 21:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F0D1AB818
+	for <linux-doc@vger.kernel.org>; Mon,  5 Feb 2024 22:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707168495; cv=none; b=Szn3ZqsKh/2BYep+KagLjtioNXIuM1lR62j3GjXy7kUQYPHhf3LiwA+tagMyh86s2SHUY7tw2rv5Yscsjpc9pSU8llU4yb/OVF/YeNmcNJp5GJ1a0KOQvDB7S070y1UKmEKQkIbiFiJnec/37o7j1812L5EpNUqVgV08ozCDoJs=
+	t=1707170979; cv=none; b=KDpdqQ5V0CQdhwUEcQo5UUc1bX2f2Hxon/8cMlzNMGOmxug5tHT4W6mGEuFni13gxKziKhN+3PeVIzEyzke1DvID0lD2xZFMC+Tq6k+jKEtyFztKmzoKTxpNY1zLxdd/3bKDgSNli5MYo6L4B68iemDag24eZR6PmKNf1+DW21U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707168495; c=relaxed/simple;
-	bh=5lrum/AjuJwqk20RkwGk9tqExlYNgPl6td00iapqChA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=BE+fhy6CXg7b2qGcyc0C5cVUpLo3OmwXjcgJekA1I+ebCh2CsnwC1MX2UPErE+1goqizmH5G9+RPEQmEC7rxPpPDQYMeu8bQDeeUP29URQLNBGG183QwUIeOZ9m5ouab8j8rokWV6IFPCOAXvQDx9XZGClTqsyw2pkwVxvWvPuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iaXU7vLr; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1707170979; c=relaxed/simple;
+	bh=YSYY+NvI2LiEOsee8qc5Zz6ETm3g/FfEe2HSjZXsVIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lA9NrZZ7hUufBBadf66WFXjEMAHYhhD119jGHaqKWURKYf7Yjfd7AqeYgAu0FKvMx5aDysMKJYMD5NNZSlbSM1Qng8xFpWibGE3Y18a6F2e6fk+OduZ4JHKzZX03co5Qt8Jk31LSY8PwMvM1zIYRpNLu5MUBVuL+NNqJQ77aulw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J9vSUCgd; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iaXU7vLr"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 415LASOj014430;
-	Mon, 5 Feb 2024 21:27:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=zUMiOKcNb14lRNC0PHgjnPf539O7z/gNiVeRfyHYiCg=; b=ia
-	XU7vLrUjhuLqT39+iCG6Wem2p9KvnCKurTv96O1oN1ZPATRdOwCtKTWtyauoxOz+
-	y1pASrsqIrWMpXq+GiYzsF/S7iRE1XTX1JOLv9Zj/8UeY7NyqthiOMXSKj6ZLjUg
-	dIDxFBsTyRgcDR/fHFyKo+zDwKcI6pAav/6wFjD2sTZqSovIbrSI4pSlMjSuJRMW
-	vJhkZKxQwtnmfBSGduZux9uMHXSthdWo8btz8/60el/vHuYE/5M24vSlGmU7AC0X
-	KW9vJaAtNARfIkxC2HiE1pnHIMDlp0NRIQrbOq10qx1qc0Yg2Jr4IskqRo3YMEHd
-	Cl/BZWSpmj9jfgzZYTYg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w2t9wswnt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 05 Feb 2024 21:27:54 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 415LRsX1010093
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 5 Feb 2024 21:27:54 GMT
-Received: from [10.110.7.251] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 5 Feb
- 2024 13:27:52 -0800
-Message-ID: <4d03b2cf-3b97-a066-15a5-245228813253@quicinc.com>
-Date: Mon, 5 Feb 2024 13:27:52 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J9vSUCgd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707170978; x=1738706978;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YSYY+NvI2LiEOsee8qc5Zz6ETm3g/FfEe2HSjZXsVIQ=;
+  b=J9vSUCgd88VSiikB2t8vOLuni52WdCSkZP1zpHsMhC6ELxigfBY5NCGc
+   nVESFe4tqTya+P40mkA/vAL0roqvytapJOOTQq57Q8OoFizq4qFdUkNnm
+   2xg2dPo4kBRguPX5rBS5sIvWWCVmf8ZjT1iHbooYaje0Lwf8XR0RSQaFW
+   EGkEynu/7M0d0ku/kSgrzoocwlD5zQLsp8p/PtS7F/hScz//3JZt0t6nb
+   7xWPF42upsWMfoLUM6uR7vC4NmbHc2oPh/9ubsU7R17nkqNindckxS4oH
+   VOXQa+WG8vCWLjfW6g2QLzxdbqk+A0XBRr6P2zCtJFNodK4FmGgRa6Aan
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="11353019"
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="11353019"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 14:09:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="823982952"
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="823982952"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 14:09:29 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 718C911F89A;
+	Mon,  5 Feb 2024 23:30:34 +0200 (EET)
+Date: Mon, 5 Feb 2024 21:30:34 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: Re: [PATCH 1/1] kernel-doc: Support arrays of pointers struct fields
+Message-ID: <ZcFTepqR7xBFAMTM@kekkonen.localdomain>
+References: <20240131084934.191226-1-sakari.ailus@linux.intel.com>
+ <87y1byvo4t.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v13 50/53] ALSA: usb-audio: Allow for rediscovery of
- connected USB SND devices
-Content-Language: en-US
-To: =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
- <20240203023645.31105-51-quic_wcheng@quicinc.com>
- <aaa76d7a-4299-4e1c-83f1-cbbea763927f@linux.intel.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <aaa76d7a-4299-4e1c-83f1-cbbea763927f@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Fhx4-0QTJ2jvgXTCbibMBpUNgQgwTlk5
-X-Proofpoint-ORIG-GUID: Fhx4-0QTJ2jvgXTCbibMBpUNgQgwTlk5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-05_15,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0
- malwarescore=0 suspectscore=0 phishscore=0 impostorscore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402050161
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87y1byvo4t.fsf@meer.lwn.net>
 
-Hi Amadeusz,
+Hi Jon,
 
-On 2/5/2024 1:01 AM, Amadeusz Sławiński wrote:
-> On 2/3/2024 3:36 AM, Wesley Cheng wrote:
->> In case of notifying SND platform drivers of connection events, some of
->> these use cases, such as offloading, require an ASoC USB backend 
->> device to
->> be initialized before the events can be handled.  If the USB backend 
->> device
->> has not yet been probed, this leads to missing initial USB audio device
->> connection events.
->>
->> Expose an API that traverses the usb_chip array for connected devices, 
->> and
->> to call the respective connection callback registered to the SND platform
->> driver.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>   sound/usb/card.c                  | 19 +++++++++++++++++++
->>   sound/usb/card.h                  |  2 ++
->>   sound/usb/qcom/qc_audio_offload.c |  2 ++
->>   3 files changed, 23 insertions(+)
->>
->> diff --git a/sound/usb/card.c b/sound/usb/card.c
->> index 11b827b7a2a5..995b2df676ab 100644
->> --- a/sound/usb/card.c
->> +++ b/sound/usb/card.c
->> @@ -202,6 +202,25 @@ struct snd_usb_stream 
->> *snd_usb_find_suppported_substream(int card_idx,
->>   }
->>   EXPORT_SYMBOL_GPL(snd_usb_find_suppported_substream);
->> +/*
->> + * in case the platform driver was not ready at the time of USB SND
->> + * device connect, expose an API to discover all connected USB devices
->> + * so it can populate any dependent resources/structures.
->> + */
->> +void snd_usb_rediscover_devices(void)
->> +{
->> +    int i;
->> +
->> +    mutex_lock(&register_mutex);
->> +    for (i = 0; i < SNDRV_CARDS; i++) {
->> +        if (usb_chip[i])
->> +            if (platform_ops && platform_ops->connect_cb)
->> +                platform_ops->connect_cb(usb_chip[i]);
+On Mon, Feb 05, 2024 at 10:04:18AM -0700, Jonathan Corbet wrote:
+> Sakari Ailus <sakari.ailus@linux.intel.com> writes:
 > 
-> if inside if, it can just be && or maybe move callback check before 
-> mutex lock and just return early if it is not present?
+> > In a rather unusual arrangement in include/media/v4l2-vp9.h struct
+> > v4l2_vp9_frame_symbol_counts has fields that are arrays of pointers, not a
+> > pointer to an array, which is what's usually done.
+> >
+> > Add support for such arrays of pointers to kernel-doc.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> > Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> > Tested-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> > No change since the RFC, just added the acks.
+> >
+> >  scripts/kernel-doc | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> > index e8aefd258a29..23c91b11585a 100755
+> > --- a/scripts/kernel-doc
+> > +++ b/scripts/kernel-doc
+> > @@ -1509,6 +1509,15 @@ sub create_parameterlist($$$$) {
+> >  	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
+> >  	    save_struct_actual($param);
+> >  	    push_parameter($param, $type, $arg, $file, $declaration_name);
+> > +	} elsif ($arg =~ m/\(.+\)\s*\[/) {
+> > +	    # array-of-pointers
+> > +	    $arg =~ tr/#/,/;
+> > +	    $arg =~ m/[^\(]+\(\s*\*\s*([\w\[\]\.]*?)\s*(\s*\[\s*[\w]+\s*\]\s*)*\)/;
+> > +	    $param = $1;
+> > +	    $type = $arg;
+> > +	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
+> > +	    save_struct_actual($param);
+> > +	    push_parameter($param, $type, $arg, $file, $declaration_name);
+> >  	} elsif ($arg) {
 > 
+> Sigh ... seeing more indecipherable regexes added to kernel-doc is like
+> seeing another load of plastic bags dumped into the ocean...  it doesn't
+> change the basic situation, but it's still sad.
+> 
+> Oh well, applied, thanks.
 
-Thanks for pointing that out.  Makes sense, and will update it.
+Thanks. I have to say I feel the same...
 
-Thanks
-Wesley Cheng
+Regexes aren't great for parsing C, that's for sure. :-I But what are the
+options? Write a proper parser for (a subset of) C?
+
+-- 
+Regards,
+
+Sakari Ailus
