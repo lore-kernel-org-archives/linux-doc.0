@@ -1,49 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E5445941;
-	Mon,  5 Feb 2024 17:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807B14594C;
+	Mon,  5 Feb 2024 17:26:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707153892; cv=none; b=PAjhpFfQ8uYALjhr5WkZ/tnWhlquzwaEr8XLnqU7P4BproKhGc+HU4oF/AlxfU7iEvG/2drA+Ew7CveIdJUHQsbUhIwzmgUd5nGyheBTHAQp/b6KvaccStAlJnZ0TsF46LBTx5eqrcCoeqreF7O1DF8QC+0exndwyWe3qWcQS+M=
+	t=1707153971; cv=none; b=SB06ZvTmA33Df2Vw3MLe7wkieDjbForVn7hMkpYBTkkEYe/In63HC9AaJHXu7F6VXlD7UxL1MRg8i+0iGxlK8OrsT0yozWjkTPundNr9wkWPIvZOQ8uODtnf/7+AAxhvYLgW8siw++OE7qpEFZEfEXQCD7a0XZGEkftwAqcR5e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707153892; c=relaxed/simple;
-	bh=qwqCvMF+PIbl16OVgkf+2TCi5yui9ioUyHJRsouWKks=;
+	s=arc-20240116; t=1707153971; c=relaxed/simple;
+	bh=8i7lcxh/x4uQunS+AlvlgqrIx4AVsofuwd7cPq+3coM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=N+7f4hcfNeorT+kvBsTdoRnw4DYZUjPput84d3yc7MtqkOcMt0GIXCicOQznNd5G4KqvpMoAPwO2MlsTJrDSdB/CEoy59IPlYjPjEjqVuuHDLoBr8U9aKphBZMTEJqdUig9Wx+9F/vL3fkYgZgOc/D9ij9ajVjadsI6Dl4x8NgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Eivg2FMt; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=CO8GaMx44xp/xcoew2FsfXdhatFqXvlxhzG2QRGF7KRXpnxjMn1CohrFAYRL37HMvt5l/38L+ZnB+0a+LV/ItPJkFrqMEp/7SVf9sxFIv9PBlY31ZCdEklGYFXp6DwH/yo8zHs31vRw8BulIsU2tDGH/Tl++s2QzxoxvjYk6GdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WIbCxkMf; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Eivg2FMt"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EFFB945AC9
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WIbCxkMf"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BFD8145AC9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707153890; bh=yfpllgzWBFP/zgAYSr+xda2U05jDfEi2qKsvLe7I8UE=;
+	t=1707153969; bh=qr/2lpiQ89AbjIDEIndmFpZxXbjgeKgLt4sGWgqQabg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Eivg2FMt4Q4y1ZOkc06YU37qoFiuTvOCiqEOx6dW0GQr5ZVKqHJapAJmQsF0R1GEq
-	 zUjyQIjXje2vWPSMAwL+Y3PaqRdwt0v1vh/Wywc3O0BQTcR/mFQ2gXqBnwCqNeCBU7
-	 Ju0uFrMC8+B2RVVcfx/bo0uNr5MGYAUkeGyqqJyNGGIuYzioumpBWL6XQUa/PTooQh
-	 TMqyTrZfUrRzA1hNM4tCpisR9JGsKaaiF5gTxx1hhSE1OaLnVOREYqNYVsXXOtWfBU
-	 TSEKXm0jSo6TQxh1XFYrnzxZ775PVuf9iHfwcW3Gkm1/8w6eIIfvuW1K0ZKiMjNdX9
-	 INtxJgoA9wxTw==
+	b=WIbCxkMfr/JvlOBfMgcqc6W0D/fOhFgRWBeja/Im5CqnIL7MKuiQ8acdKRIwozE3N
+	 naqLwrjT4AaSSbiu0FEktZLnAtRmPQKhEld0RLbBmn53q5r7ZmVWHgf4MyIYORG1rw
+	 90NZzO+kSSKcOXb162BhtcJHyFuuGInRe0JyMRaxA6+4/HAOSCOkd6yPcsI5QpCGcL
+	 oAUpeeE3gqk/7ZQwzoxMWsdxa2ymb5hOckWU6Aw2QCFaZzBq0ki0tv7mf7DcikRyMh
+	 hQ9HNXnbyO11zdN5A7fvt8sA5/ZclDHy4+hhLXVX8km665KU0ImpA9MZ9QnDVWGO4f
+	 7PPFFMkvsYoZQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EFFB945AC9;
-	Mon,  5 Feb 2024 17:24:49 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BFD8145AC9;
+	Mon,  5 Feb 2024 17:26:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Blum <thorsten.blum@toblux.com>, willy@infradead.org
+To: Thorsten Blum <thorsten.blum@toblux.com>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- thorsten.blum@toblux.com, workflows@vger.kernel.org, Randy Dunlap
- <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v2] Documentation: multiple .rst files: Fix grammar and
- more consistent formatting
-In-Reply-To: <20240205000117.3285-1-thorsten.blum@toblux.com>
-References: <ZcAFi9ZW07fOLQaW@casper.infradead.org>
- <20240205000117.3285-1-thorsten.blum@toblux.com>
-Date: Mon, 05 Feb 2024 10:24:49 -0700
-Message-ID: <878r3yvn6m.fsf@meer.lwn.net>
+ trivial@kernel.org, Thorsten Blum <thorsten.blum@toblux.com>
+Subject: Re: [PATCH] Documentation: admin-guide: tainted-kernels.rst: Add
+ missing article and comma
+In-Reply-To: <20240205132409.1957-1-thorsten.blum@toblux.com>
+References: <20240205132409.1957-1-thorsten.blum@toblux.com>
+Date: Mon, 05 Feb 2024 10:26:08 -0700
+Message-ID: <874jemvn4f.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,31 +52,14 @@ Content-Type: text/plain
 
 Thorsten Blum <thorsten.blum@toblux.com> writes:
 
-> sphinx.rst:
-> - Remove unnecessary newline
-> - Fix grammar s/on/in/
-> - Fix grammar s/check/checks/
-> - Capitalize heading "The C domain"
->
-> changes.rst:
-> - Remove colon after "pahole" to be consistent with other entries
->
-> howto.rst:
-> - Fix grammar s/you will/will you/
-> - Hyphenate "real-world problems"
+> - Add missing article "the"
+> - s/above example/example above/
+> - Add missing comma after introductory clause to improve readability
 >
 > Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
-> Changes in v2:
-> - Preserve Reviewed-by: tags
-> - s/on/in/ in sphinx.rst as suggested by Matthew Wilcox <willy@infradead.org>
-> ---
->  Documentation/doc-guide/sphinx.rst | 7 +++----
->  Documentation/process/changes.rst  | 4 ++--
->  Documentation/process/howto.rst    | 4 ++--
->  3 files changed, 7 insertions(+), 8 deletions(-)
+>  Documentation/admin-guide/tainted-kernels.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Applied, thanks.
 
