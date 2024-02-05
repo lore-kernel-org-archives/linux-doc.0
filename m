@@ -1,51 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683E844C7E;
-	Mon,  5 Feb 2024 17:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5F445949;
+	Mon,  5 Feb 2024 17:21:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707153405; cv=none; b=hGH8NvjgLk0zxagYGUxQmrSMs2+Hp3jN9GKJNvjEwQnSq5SuEC0yuE9RdEY8jQcpOCuwwOOaKhVo3Qay/R9lYBIOs4vEWoa8GQXcsxwHlYJU59jZ34ij0wcqh/HuGVLB4fHkpwtRJnH1U+C057hODbcudBj44DdJqJ7biri4iyY=
+	t=1707153696; cv=none; b=N79zMzhhlAQjn/zwcvkznvYg9YNgL/SSxQtHDcRO/S+5rDgLyOKnGTO8+NOugI4faVt9EHv8ic44CxN/LCu14E77ZtT1nphV1fNZLLHpborDOAxgmlkJFAdyGe1cFrq/zZ/ca+PSvXG5IvmkIdh2QggYth1xvLG9ogYC2wtQ320=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707153405; c=relaxed/simple;
-	bh=F8XI2DqjCgkrm9KbXW8tvjffoJfCHy8lt51+H+cZvd8=;
+	s=arc-20240116; t=1707153696; c=relaxed/simple;
+	bh=ea63PLwNl5FqbQxrrg0hqVQX7rjVFV72BlE5+I4cLi4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mrui3TPMwVaewgI1oDd3Cg8VbpN116x7PbX+vdhqFNqWDI2AdZBXNzbQnLxrghedJleGmrt0jV8ag+9Uts4aed8UC1B1nw1oRwEk3F5oR52LbWg43uLyB3D4UlFSEF3Job3o3PS7o0VNNGvCiJ01dSj0OkB4N3Q8MGVsvzGmFwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bf0n908+; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=KTK0mjm38jAmbSDBw6N5+KM7P83T+pgdIbIx1QFySXpob+Et8i3Nao8whpvO6cY63PBHbIBmlbnRzN4DEH1gtPel+6lhMnoS2M/pfTQfLJK4qlJQwm8q9poI4YkSaYmekIt/KTDcAHrmNXs3lmDeA3KrhyOwpLgbYKdfFeO8bdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Fo4cC1jD; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bf0n908+"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6CFF147A9B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Fo4cC1jD"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E71F745ACA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707153394; bh=aOqO7Xk+LE5FlbU+iDPXbhTZnGtMGkyeoyB+ULkowsI=;
+	t=1707153692; bh=oUb/ZU0m956j09lY1gorLyKNp+KeEuERLzbirHHa85U=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bf0n908+iNil5mnyncMg8V14G+89f5WwaJ8RrsMSjr8mVBO84entk4I3uCZaYvlPP
-	 GOUKsmOyTTIF0YwTJ5uXGsD+L7kngf58JrTW+BBjsgiP6FNXDsBKwiGlRmYIk0mxll
-	 5Gk35iyxNhMirqRaDxMr9hQwxtZRBcx2NDD3RCWdUI5Ou+bqKT/1y9C56sQ3yAzdY+
-	 r1oH3oEjSeXw/+osTZHWIk8lXPeb4m4rqEKmV7y1fnEO6m09Ac/0mAD9g33rO1qPEn
-	 H93p7hzZCidGKsHPQg625l4gKlLNOSDGHnbPlkjla8ZgZ/d9KhODQtGaLZnbQewXXa
-	 PsosSc12MXRlA==
+	b=Fo4cC1jDMUuD6qduIUoKQnuDFwgP0txmSggZ9PXwf1J78xx8mmvxLKquPfJDLbzPQ
+	 RPI2vYUb9npi5wdHHpyqMeCOoC4WmUFnLLA0Iy/jdiix8ZH8V3NqsEDN+/zabhumNz
+	 WZG7IKrW5R7JM4ImER0DV58CLThf26geHBITzvSqZ99ddz4cjkQflKgYtDptXVGiJV
+	 3ZeR0KFFt0MuoIOkwAFh3CFKso2sKmXioYuunnLjpXIIDyiLzYAMXQ2677R9H5WCj0
+	 0MJaofuZZomnnXzZksj7jTvJ4BQImDHRDfIFAmFIwuLYA3QoLs1wixRlTQ4Nfn3CNi
+	 FEMgHD3exuXqQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6CFF147A9B;
-	Mon,  5 Feb 2024 17:16:34 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E71F745ACA;
+	Mon,  5 Feb 2024 17:21:31 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Blum <thorsten.blum@toblux.com>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>, Carlos Bilbao
- <carlos.bilbao@amd.com>, Avadhut Naik <avadhut.naik@amd.com>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Thorsten Blum
- <thorsten.blum@toblux.com>
-Subject: Re: [PATCH] Documentation: coding-style: Fix indentation in
- code-blocks
-In-Reply-To: <20240202231316.7606-1-thorsten.blum@toblux.com>
-References: <20240202231316.7606-1-thorsten.blum@toblux.com>
-Date: Mon, 05 Feb 2024 10:16:33 -0700
-Message-ID: <87le7yvnke.fsf@meer.lwn.net>
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ rdunlap@infradead.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+ borntraeger@linux.ibm.com, svens@linux.ibm.com, kernel@gpiccoli.net,
+ kernel-dev@igalia.com, "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+ Changwoo Min <changwoo@igalia.com>
+Subject: Re: [PATCH] docs: Document possible_cpus parameter
+In-Reply-To: <20240203152208.1461293-1-gpiccoli@igalia.com>
+References: <20240203152208.1461293-1-gpiccoli@igalia.com>
+Date: Mon, 05 Feb 2024 10:21:31 -0700
+Message-ID: <87h6imvnc4.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,25 +54,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Thorsten Blum <thorsten.blum@toblux.com> writes:
+"Guilherme G. Piccoli" <gpiccoli@igalia.com> writes:
 
-> - Remove spaces in C code-blocks to align error labels consistently
-> - Replace tab characters with spaces in emacs-lisp code blocks
+> The number of possible CPUs is set be kernel in early boot time through
+> some discovery mechanisms, like ACPI in x86. We have a parameter both
+> in x86 and S390 to override that - there are some cases of BIOSes exposing
+> more possible CPUs than the available ones, so this parameter is a good
+> testing mechanism, but for some reason wasn't mentioned so far in the
+> kernel parameters guide - let's fix that.
 >
-> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+> Cc: Changwoo Min <changwoo@igalia.com>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 > ---
->  Documentation/process/coding-style.rst                    | 6 +++---
->  Documentation/translations/it_IT/process/coding-style.rst | 6 +++---
->  Documentation/translations/sp_SP/process/coding-style.rst | 6 +++---
->  Documentation/translations/zh_CN/process/coding-style.rst | 4 ++--
->  Documentation/translations/zh_TW/process/coding-style.rst | 4 ++--
->  5 files changed, 13 insertions(+), 13 deletions(-)
+>  Documentation/admin-guide/kernel-parameters.txt | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-I have applied this, but I would really rather not see a lot of
-white-space patches like this; there are so many ways in which our
-documentation could use improvement, and this is pretty far down the
-list.
-
-Thanks,
+Applied, thanks.
 
 jon
