@@ -1,273 +1,173 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE4ABE62;
-	Mon,  5 Feb 2024 06:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707113373; cv=none; b=s658vfEfB/XYg5cebeJ5JPftBdxGFcGMIB9e4y1qTvwH7dP3dW2eOCtjt72P1JYZJxdJTccr995hO2UNLFNYkJYVm3ULCa1jPOVm+lZyYm1h4nPXgyAZIMgGdgR/2bEpZDuK3cvYM+HJbkBBzjOVKKtR9Mj1QOszTzo1vsV2LFc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707113373; c=relaxed/simple;
-	bh=4d0nKTk+nvKr99zkSPoxp6Z/ddVVKv4vmxFIdpJtkiU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xm+QgEhq5ZVwKw2skbxqlUN2stFmu900lE3UT2FiV+WVQIkgbLq0yHgcPRg8Y+er6mUlBVzJ6bFVUpV6iOUwgZUcO/6ExYAqrL4qxaFbJOoVHzsakDKg+lhBpXV6tQlwJIFjmNyVBPDYrNGMwAYtN1Wlg+3D5xH1mBIsvIf5bFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [113.200.148.30])
-	by gateway (Coremail) with SMTP id _____8AxqvCYe8Bl88kKAA--.30677S3;
-	Mon, 05 Feb 2024 14:09:28 +0800 (CST)
-Received: from linux.localdomain (unknown [113.200.148.30])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxHs+Ve8BluusvAA--.49177S3;
-	Mon, 05 Feb 2024 14:09:26 +0800 (CST)
-From: Tiezhu Yang <yangtiezhu@loongson.cn>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Marco Elver <elver@google.com>
-Cc: kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] kasan: docs: Update descriptions about test file and module
-Date: Mon,  5 Feb 2024 14:09:21 +0800
-Message-ID: <20240205060925.15594-2-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20240205060925.15594-1-yangtiezhu@loongson.cn>
-References: <20240205060925.15594-1-yangtiezhu@loongson.cn>
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2096.outbound.protection.outlook.com [40.107.215.96])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372D210965;
+	Mon,  5 Feb 2024 06:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.96
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707116381; cv=fail; b=itzn/LPXcF9dZ9MWyj6xDXbvp2YeFeiSSd62bk73g27OuxTvuIlvmnpA+bqB3VGis4lSSMleKCryebtHwRN087pGzXHiendTO7VUPuESd+6b3mynBg81Ws4eTCkec7rjx+XGyK7DpLC4ZZWt5NkX+0Wdt/PT7jt3l+cjOaPwb5w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707116381; c=relaxed/simple;
+	bh=sYWS0kVvISurkVSYv9d6/wYFCEEfqiJHIwHI49m5a64=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=DBvgQi2yZ82dGLJ/09yDj60Hy+I8Ly2FZEtmtWmnJnY74DV4mQ4sCRMHk5yvdCLXRp6gcCK27FmlOSCon2PZnb1N9x20YZyfT98tHcBc5HdNNJ6p7V6rN9nEYl/15GvomzyPPHuwUkpxccZ/NjZFZH5Q9hADw22xYwIxETxmCis=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b=PiMuTRAK; arc=fail smtp.client-ip=40.107.215.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b="PiMuTRAK"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IosF83yMewDhmOHC/bMpG+AabNOEJmijVmuhaG9ihs3PXNm9ct1nFxH6hvOQ/ORuJkvu/0CSRjDsKRPJNeW0Bw71fdCGCEX8w1Sbf8l+ADHnv66jmpkw8YWAGE2kEXDj9eohLMlK4F4D4pPe2GbRNOT+SlCWvMScT6UBNgGfZTaM7aZK5zf8envJNnBr8sYccHb/YiKfp8CV225t6V4qGsPlCO5GmCjiBJbZIQcJeSv/Zv+aequpPbKFYMfcq7ZySIbWx/Ec43MRHGeHADei7NB+zacf/0Mq8di4HkaewzuPd1NIkaufrg4OXspUn3HLpwU2CGs5PNHnyccjBER4Rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9tT02xkRqPxg1XRHUgKyZA8jkAcH2b2dN6YdtOzLCmU=;
+ b=HTDXELqgcr1WRhhdIcAG+o2gopzBDyQrwSZBvw/NYmwNIUYKLt9AxqZrQJQcoS32M9JIWHxuAEnCmEM8HdfUVVeJ21XkRmqPV2Y2SqcCo4VFQFF1rHM/9riMZqy/Xx9gu3++sBJIUHyqisWq2V6yJr6QuMAT+NMEXzQoAI8aX1Yq3jd12zAkirihc8EOHSD8TtmspGhQpWIFN2s5Lba6Kh6QdxFBDQOLmdPhafnqIZdhJjSgNKH3v7JCY1deGNIUzZhUviVdAyVaJja2ZYq+T65r1URpRDR86xMSGwwREuaK8kyCav7mZCR3d/gqbgQ9Q0h/fCvqxLYVjBSHj8Xqwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9tT02xkRqPxg1XRHUgKyZA8jkAcH2b2dN6YdtOzLCmU=;
+ b=PiMuTRAKNB3BW2h4AvCKYO5BZlM9171dUkxEGpyves3Chf2y6JRFgKv55jqcOSAanDXsuKUbmupORPWtfQYCjcI+8dwfqaafDR7ady/4MowUKN3eqxK9maNey/OhE6sFz3+aN7T9++B8RZgusRDFk9lc9Bg/Cnz61n7pYX/MuO0lzLgeD1WkxrfMcN90N7I5oz36dKVC03BfDSI7YTSTTOrtnpC9Rzqu+0FbxXET6pkIAPgvPyGYQM+kCOX5i+piF8TJBNQbgzVtOiIpo4bHsbUzrXctc/lSFKrLci2jkC93f9hXyrON691assiYEwIzBeBpJTvmDkgNNv5plI7lzQ==
+Received: from OSQPR06MB7252.apcprd06.prod.outlook.com (2603:1096:604:29c::6)
+ by SEZPR06MB5897.apcprd06.prod.outlook.com (2603:1096:101:e6::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.33; Mon, 5 Feb
+ 2024 06:59:27 +0000
+Received: from OSQPR06MB7252.apcprd06.prod.outlook.com
+ ([fe80::5322:42aa:bc2c:acac]) by OSQPR06MB7252.apcprd06.prod.outlook.com
+ ([fe80::5322:42aa:bc2c:acac%7]) with mapi id 15.20.7249.032; Mon, 5 Feb 2024
+ 06:59:27 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Guenter Roeck <linux@roeck-us.net>
+CC: "jdelvare@suse.com" <jdelvare@suse.com>, "robh+dt@kernel.org"
+	<robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+	<krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "joel@jms.id.au" <joel@jms.id.au>,
+	"andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>, "corbet@lwn.net"
+	<corbet@lwn.net>, "u.kleine-koenig@pengutronix.de"
+	<u.kleine-koenig@pengutronix.de>, "p.zabel@pengutronix.de"
+	<p.zabel@pengutronix.de>, "naresh.solanki@9elements.com"
+	<naresh.solanki@9elements.com>, "linux-hwmon@vger.kernel.org"
+	<linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-pwm@vger.kernel.org"
+	<linux-pwm@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>,
+	"patrick@stwcx.xyz" <patrick@stwcx.xyz>
+Subject: Re: [PATCH v13 1/3] dt-bindings: hwmon: fan: Add fan binding to
+ schema
+Thread-Topic: [PATCH v13 1/3] dt-bindings: hwmon: fan: Add fan binding to
+ schema
+Thread-Index: AQHaTouU6UuA7DszbkS0jmW8LTy9jLD4yeUAgAKZNBc=
+Date: Mon, 5 Feb 2024 06:59:27 +0000
+Message-ID:
+ <OSQPR06MB72522452AF463172AD54D4EA8B472@OSQPR06MB7252.apcprd06.prod.outlook.com>
+References: <20240124060705.1342461-1-billy_tsai@aspeedtech.com>
+ <20240124060705.1342461-2-billy_tsai@aspeedtech.com>
+ <e1b1c69f-a2ff-4fa5-80a6-3ff0a3de6ce6@roeck-us.net>
+In-Reply-To: <e1b1c69f-a2ff-4fa5-80a6-3ff0a3de6ce6@roeck-us.net>
+Accept-Language: en-US, zh-TW
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSQPR06MB7252:EE_|SEZPR06MB5897:EE_
+x-ms-office365-filtering-correlation-id: be3b79b4-bfe9-4a5c-4bef-08dc2617fe83
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ sIsm+N/HzTnM+AsSQhZR03nJNGvi2PyWCsAhKmAhiwjns1cef+ueQmnJ3xov0QG1eZMvb7JUOJfjo4whQv6cXbFE8oSUhDrsZ/BmPE7lSCqN65dMHnRrl8+m/y0bnle25dc+Gj/nxUKADrruonXR/MGd+mCgSMrzor+LoGO0+mCkrBn+vdTjci/Kb6WiVAG6jgtLpmCtp9JQ0SqAAIxA7uE2YLZNvE8wECuN705+nYT4SxUa4LNTIcK5an/s5JPKxjafVBM+0xq2g13TXXDBi3HA93/LaLYgSSohaJSXzOUTh+3TClnqHc8OgR8+98N+/T2g60CACFa8FC/KfOss4iafVpAZNKhgk4W58Fz0t3jPSp2R1nTHYDXvK0vn6z+2/9qwxVyIW5Y/Q+yQr6drXJsPBaFjaElsnrAX+PeAuwbwIbxgzaOx3Ngi9W3NkbXIKwI/HPIQ8Fkyh5Vg4MwMwrSOQZpbiUIsThk8mYqEIJRpJAk+mdWNbSG/rnbO1vEV2U7bWzV610JsiIy5BpP/W+75Kp5KzrQhlwVgXsoJYBo2kiBPkjdbMtOVlMw9ZHj2Ud2lxwWsKP9c05L9P0cI+8s/12/EIDomtQfCqO2tRpihjIahOaPKAP6r6/yLMfCb
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSQPR06MB7252.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(366004)(376002)(346002)(39850400004)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(55016003)(33656002)(9686003)(55236004)(478600001)(38070700009)(71200400001)(41300700001)(26005)(83380400001)(122000001)(6916009)(7696005)(64756008)(4744005)(7416002)(66446008)(2906002)(66476007)(4326008)(5660300002)(66556008)(54906003)(52536014)(91956017)(66946007)(8676002)(76116006)(8936002)(38100700002)(316002)(86362001)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?z+1qTVR+hZ4ZnII1gmc/97BC62JkX8Pr8acvmOZGN+JtVP5PYrD4cQ6vF6?=
+ =?iso-8859-1?Q?skHpH1+Ye0snjS6rYHyuD2ozb85b1jACWJb49QBMPznRqwK8sXkZgirZrD?=
+ =?iso-8859-1?Q?LRScMUMxU9oH3hQElFgBgPos+wqgCN5yHheEQL2P5Jt9IU7ZjblUzymuhw?=
+ =?iso-8859-1?Q?+RLIrGzLA6kWixBz/oi3baHS28UbX8+CAYHO6kEIDhuTvEC6k4IawsWhuv?=
+ =?iso-8859-1?Q?oQjj8Ntw0IJxi0gN+zLIh8lDdxS9p5cimxRqr14iM5GB43z3kGLRR9cdBc?=
+ =?iso-8859-1?Q?UwPunXvqKq4xq0EfLFq1PhfisUefZTfl2mevyxjD6+FU6OZUrmUFZ8OTeE?=
+ =?iso-8859-1?Q?hVPODVv79SIkrompo+EycgIBNpVX0zpUWNIoIvwFwuVeCzyxxE0Y4qIq1J?=
+ =?iso-8859-1?Q?ziAnM8n2iE1U7fchSmNAuzn5LwIv8je8+/OE1+eU/y82Bs52hmMiqekLiT?=
+ =?iso-8859-1?Q?YemBgRU5MuVlRxQiG8/r9MZdoVe130LK2U9f2tgXISUeMB5ThdaN4jzgR0?=
+ =?iso-8859-1?Q?Uo6gYVcz4xIp4Y+jfUYdDiMlEFwqlZa/FdfkWI2ZjX43bJfAJnaFmdE073?=
+ =?iso-8859-1?Q?3NezkqVp5VehtSzKhQiiqFQtBQ6VIU6VSrXHNSDsfW4/G8sPeTzUhbW/Re?=
+ =?iso-8859-1?Q?0wAtvTEfOd492BjCDqc+xrI6TkqJaq9FvM5x5SAxAS9O/0SBaUXG+DF7Fv?=
+ =?iso-8859-1?Q?xJIuSRraKTYC1vtEd7mBTSdeJxoUDY5AL/LHzyqPMIpDDkjVI0kwO50DVa?=
+ =?iso-8859-1?Q?5gWgUb4DQAHotNYLE5T6ATIMOCJtWP+fv2UxLkFRkotwBQgNqrgxhefuet?=
+ =?iso-8859-1?Q?23RA7YuQHdKar/DmAo2Bl/sXvm+874pJFl4weURIrbi0U8elqDYKXjkzlM?=
+ =?iso-8859-1?Q?UrtpRN0raD6aSQS6an+xqCF944PqqZ+pR5rVP0YI1fgb8X9T0ZtBEj8V9Y?=
+ =?iso-8859-1?Q?A4hKW9stu3qpzC1Dex7e7iRKabc+uKyw1vtEyNqh9zIQYb0WAwsDC5mNEg?=
+ =?iso-8859-1?Q?lOMfHkXlKVcCqEHEsPcjcUB5HRNYorepGYoxH4dcmvmWTZQJfvH96iSq1a?=
+ =?iso-8859-1?Q?S+fjCaIBCGsXIrdtA31FeVA3JMB64YJMOtif044AizF1Pbnk+775qKwMXc?=
+ =?iso-8859-1?Q?XP7dTqCGbYokawrIT+JxvEFqe71+Tmit3ciTf9682EFZoz+Lyn0W9Ll9WN?=
+ =?iso-8859-1?Q?imwcaA8QC386r/tjnwhtatG+IEe3DkHKgibBZfz8khmNXt3WNfgfl7DWL2?=
+ =?iso-8859-1?Q?gAHI2Cp40fcFk9LRJ7FTBhQOWCMomTJwjeup4Y/ywpMLJ6u9ydkdWUwruE?=
+ =?iso-8859-1?Q?oR93OX5zLP1Ahyww+CIYC/eJLusAmJ4jMqbCar+V1DIS7IyVrwcWV6/eW5?=
+ =?iso-8859-1?Q?xz1iWyhu5NTPLnZpmXfijSMFLuD1cfX5jUf9Q19sKaCvI8rs9BNj6XwEzR?=
+ =?iso-8859-1?Q?DjZDqgTqOmCBJrwDBF3lG6WHylp7YADpgeEVyeiqupKl4d82sNiBaaEcJG?=
+ =?iso-8859-1?Q?wQeEnM6U8yJIK+jIYUheqaM2lra2aT/aTykqoOIXUCQdPGiDzXfSYavjUk?=
+ =?iso-8859-1?Q?ONhKg0zHV1/ciCY5WQd83NPE85mHCHo4R5+c41efYV8B/d/V1dRb9wWW5H?=
+ =?iso-8859-1?Q?7i2U2Lfm3NY5G0FxThY4ukM2ROiiRMTFnd?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8AxHs+Ve8BluusvAA--.49177S3
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxKryUuF15ZF1Uuw4fJr1xtFc_yoWDJF1xpF
-	ZFgryxtFn8ArWkur4jyF1jyr10yFs7ur17K3Zaqwn3XrZ8Kw10yFsFkr4jgFyxWr4rZFyU
-	Z3WktFyDGw4UGabCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Yb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-	vIr41l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
-	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
-	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAI
-	cVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
-	Ja73UjIFyTuYvjxU4OzVUUUUU
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSQPR06MB7252.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be3b79b4-bfe9-4a5c-4bef-08dc2617fe83
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2024 06:59:27.5693
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vEP7+YU2drOy4aGBqYmevwv0ctSAerzXPjgqRxdfeZF+2cocshSOUfPJIFn0NqoTnOvYBk0riGMYhkHmI/NhqU2lsilkkL4eoXAxYV+LHr8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5897
 
-After commit f7e01ab828fd ("kasan: move tests to mm/kasan/"), the test
-file is renamed to mm/kasan/kasan_test.c and the test module is renamed
-to kasan_test.ko, so update the descriptions in the document.
-
-While at it, update the line number and testcase number when the tests
-kmalloc_large_oob_right and kmalloc_double_kzfree failed to sync with
-the current code in mm/kasan/kasan_test.c.
-
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- Documentation/dev-tools/kasan.rst             | 20 +++++++++----------
- .../translations/zh_CN/dev-tools/kasan.rst    | 20 +++++++++----------
- .../translations/zh_TW/dev-tools/kasan.rst    | 20 +++++++++----------
- 3 files changed, 30 insertions(+), 30 deletions(-)
-
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index 858c77fe7dc4..a5a6dbe9029f 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -169,7 +169,7 @@ Error reports
- A typical KASAN report looks like this::
- 
-     ==================================================================
--    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_kasan]
-+    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [kasan_test]
-     Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
- 
-     CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
-@@ -179,8 +179,8 @@ A typical KASAN report looks like this::
-      print_address_description+0x73/0x280
-      kasan_report+0x144/0x187
-      __asan_report_store1_noabort+0x17/0x20
--     kmalloc_oob_right+0xa8/0xbc [test_kasan]
--     kmalloc_tests_init+0x16/0x700 [test_kasan]
-+     kmalloc_oob_right+0xa8/0xbc [kasan_test]
-+     kmalloc_tests_init+0x16/0x700 [kasan_test]
-      do_one_initcall+0xa5/0x3ae
-      do_init_module+0x1b6/0x547
-      load_module+0x75df/0x8070
-@@ -200,8 +200,8 @@ A typical KASAN report looks like this::
-      save_stack+0x43/0xd0
-      kasan_kmalloc+0xa7/0xd0
-      kmem_cache_alloc_trace+0xe1/0x1b0
--     kmalloc_oob_right+0x56/0xbc [test_kasan]
--     kmalloc_tests_init+0x16/0x700 [test_kasan]
-+     kmalloc_oob_right+0x56/0xbc [kasan_test]
-+     kmalloc_tests_init+0x16/0x700 [kasan_test]
-      do_one_initcall+0xa5/0x3ae
-      do_init_module+0x1b6/0x547
-      load_module+0x75df/0x8070
-@@ -510,15 +510,15 @@ When a test passes::
- 
- When a test fails due to a failed ``kmalloc``::
- 
--        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
-+        # kmalloc_large_oob_right: ASSERTION FAILED at mm/kasan/kasan_test.c:245
-         Expected ptr is not null, but is
--        not ok 4 - kmalloc_large_oob_right
-+        not ok 5 - kmalloc_large_oob_right
- 
- When a test fails due to a missing KASAN report::
- 
--        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:974
-+        # kmalloc_double_kzfree: EXPECTATION FAILED at mm/kasan/kasan_test.c:709
-         KASAN failure expected in "kfree_sensitive(ptr)", but none occurred
--        not ok 44 - kmalloc_double_kzfree
-+        not ok 28 - kmalloc_double_kzfree
- 
- 
- At the end the cumulative status of all KASAN tests is printed. On success::
-@@ -534,7 +534,7 @@ There are a few ways to run KUnit-compatible KASAN tests.
- 1. Loadable module
- 
-    With ``CONFIG_KUNIT`` enabled, KASAN-KUnit tests can be built as a loadable
--   module and run by loading ``test_kasan.ko`` with ``insmod`` or ``modprobe``.
-+   module and run by loading ``kasan_test.ko`` with ``insmod`` or ``modprobe``.
- 
- 2. Built-In
- 
-diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Documentation/translations/zh_CN/dev-tools/kasan.rst
-index 8fdb20c9665b..2b1e8f74904b 100644
---- a/Documentation/translations/zh_CN/dev-tools/kasan.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
-@@ -137,7 +137,7 @@ KASAN受到通用 ``panic_on_warn`` 命令行参数的影响。当它被启用
- 典型的KASAN报告如下所示::
- 
-     ==================================================================
--    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_kasan]
-+    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [kasan_test]
-     Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
- 
-     CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
-@@ -147,8 +147,8 @@ KASAN受到通用 ``panic_on_warn`` 命令行参数的影响。当它被启用
-      print_address_description+0x73/0x280
-      kasan_report+0x144/0x187
-      __asan_report_store1_noabort+0x17/0x20
--     kmalloc_oob_right+0xa8/0xbc [test_kasan]
--     kmalloc_tests_init+0x16/0x700 [test_kasan]
-+     kmalloc_oob_right+0xa8/0xbc [kasan_test]
-+     kmalloc_tests_init+0x16/0x700 [kasan_test]
-      do_one_initcall+0xa5/0x3ae
-      do_init_module+0x1b6/0x547
-      load_module+0x75df/0x8070
-@@ -168,8 +168,8 @@ KASAN受到通用 ``panic_on_warn`` 命令行参数的影响。当它被启用
-      save_stack+0x43/0xd0
-      kasan_kmalloc+0xa7/0xd0
-      kmem_cache_alloc_trace+0xe1/0x1b0
--     kmalloc_oob_right+0x56/0xbc [test_kasan]
--     kmalloc_tests_init+0x16/0x700 [test_kasan]
-+     kmalloc_oob_right+0x56/0xbc [kasan_test]
-+     kmalloc_tests_init+0x16/0x700 [kasan_test]
-      do_one_initcall+0xa5/0x3ae
-      do_init_module+0x1b6/0x547
-      load_module+0x75df/0x8070
-@@ -421,15 +421,15 @@ KASAN连接到vmap基础架构以懒清理未使用的影子内存。
- 
- 当由于 ``kmalloc`` 失败而导致测试失败时::
- 
--        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
-+        # kmalloc_large_oob_right: ASSERTION FAILED at mm/kasan/kasan_test.c:245
-         Expected ptr is not null, but is
--        not ok 4 - kmalloc_large_oob_right
-+        not ok 5 - kmalloc_large_oob_right
- 
- 当由于缺少KASAN报告而导致测试失败时::
- 
--        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:974
-+        # kmalloc_double_kzfree: EXPECTATION FAILED at mm/kasan/kasan_test.c:709
-         KASAN failure expected in "kfree_sensitive(ptr)", but none occurred
--        not ok 44 - kmalloc_double_kzfree
-+        not ok 28 - kmalloc_double_kzfree
- 
- 
- 最后打印所有KASAN测试的累积状态。成功::
-@@ -445,7 +445,7 @@ KASAN连接到vmap基础架构以懒清理未使用的影子内存。
- 1. 可加载模块
- 
-    启用 ``CONFIG_KUNIT`` 后，KASAN-KUnit测试可以构建为可加载模块，并通过使用
--   ``insmod`` 或 ``modprobe`` 加载 ``test_kasan.ko`` 来运行。
-+   ``insmod`` 或 ``modprobe`` 加载 ``kasan_test.ko`` 来运行。
- 
- 2. 内置
- 
-diff --git a/Documentation/translations/zh_TW/dev-tools/kasan.rst b/Documentation/translations/zh_TW/dev-tools/kasan.rst
-index 979eb84bc58f..ed342e67d8ed 100644
---- a/Documentation/translations/zh_TW/dev-tools/kasan.rst
-+++ b/Documentation/translations/zh_TW/dev-tools/kasan.rst
-@@ -137,7 +137,7 @@ KASAN受到通用 ``panic_on_warn`` 命令行參數的影響。當它被啓用
- 典型的KASAN報告如下所示::
- 
-     ==================================================================
--    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_kasan]
-+    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [kasan_test]
-     Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
- 
-     CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
-@@ -147,8 +147,8 @@ KASAN受到通用 ``panic_on_warn`` 命令行參數的影響。當它被啓用
-      print_address_description+0x73/0x280
-      kasan_report+0x144/0x187
-      __asan_report_store1_noabort+0x17/0x20
--     kmalloc_oob_right+0xa8/0xbc [test_kasan]
--     kmalloc_tests_init+0x16/0x700 [test_kasan]
-+     kmalloc_oob_right+0xa8/0xbc [kasan_test]
-+     kmalloc_tests_init+0x16/0x700 [kasan_test]
-      do_one_initcall+0xa5/0x3ae
-      do_init_module+0x1b6/0x547
-      load_module+0x75df/0x8070
-@@ -168,8 +168,8 @@ KASAN受到通用 ``panic_on_warn`` 命令行參數的影響。當它被啓用
-      save_stack+0x43/0xd0
-      kasan_kmalloc+0xa7/0xd0
-      kmem_cache_alloc_trace+0xe1/0x1b0
--     kmalloc_oob_right+0x56/0xbc [test_kasan]
--     kmalloc_tests_init+0x16/0x700 [test_kasan]
-+     kmalloc_oob_right+0x56/0xbc [kasan_test]
-+     kmalloc_tests_init+0x16/0x700 [kasan_test]
-      do_one_initcall+0xa5/0x3ae
-      do_init_module+0x1b6/0x547
-      load_module+0x75df/0x8070
-@@ -421,15 +421,15 @@ KASAN連接到vmap基礎架構以懶清理未使用的影子內存。
- 
- 當由於 ``kmalloc`` 失敗而導致測試失敗時::
- 
--        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:163
-+        # kmalloc_large_oob_right: ASSERTION FAILED at mm/kasan/kasan_test.c:245
-         Expected ptr is not null, but is
--        not ok 4 - kmalloc_large_oob_right
-+        not ok 5 - kmalloc_large_oob_right
- 
- 當由於缺少KASAN報告而導致測試失敗時::
- 
--        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:974
-+        # kmalloc_double_kzfree: EXPECTATION FAILED at mm/kasan/kasan_test.c:709
-         KASAN failure expected in "kfree_sensitive(ptr)", but none occurred
--        not ok 44 - kmalloc_double_kzfree
-+        not ok 28 - kmalloc_double_kzfree
- 
- 
- 最後打印所有KASAN測試的累積狀態。成功::
-@@ -445,7 +445,7 @@ KASAN連接到vmap基礎架構以懶清理未使用的影子內存。
- 1. 可加載模塊
- 
-    啓用 ``CONFIG_KUNIT`` 後，KASAN-KUnit測試可以構建爲可加載模塊，並通過使用
--   ``insmod`` 或 ``modprobe`` 加載 ``test_kasan.ko`` 來運行。
-+   ``insmod`` 或 ``modprobe`` 加載 ``kasan_test.ko`` 來運行。
- 
- 2. 內置
- 
--- 
-2.42.0
-
+> > From: Naresh Solanki <naresh.solanki@9elements.com>=0A=
+> >=0A=
+> > Add common fan properties bindings to a schema.=0A=
+> >=0A=
+> > Bindings for fan controllers can reference the common schema for the=0A=
+> > fan=0A=
+> >=0A=
+> > child nodes:=0A=
+> >=0A=
+> >   patternProperties:=0A=
+> >     "^fan@[0-2]":=0A=
+> >       type: object=0A=
+> >       $ref: fan-common.yaml#=0A=
+> >       unevaluatedProperties: false=0A=
+> >=0A=
+> > Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>=0A=
+> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>=0A=
+=0A=
+> v12 of this patch got a Reviewed-by: tag from Rob.=0A=
+> The tag is gone in this version, presumably meaning that there=0A=
+> was a substantial change.=0A=
+=0A=
+> I don't normally do this, but I downloaded v12 and v13 and did not=0A=
+> find a single change. Why did you drop Rob's Reviewed-by: tag ?=0A=
+=0A=
+Hi Guenter,=0A=
+=0A=
+The fan DT-binding for version 12 is identical to that of version 13. I=0A=
+apologize for forgetting to include the 'Reviewed-by' from Rob when=0A=
+preparing version 13. I will make sure to include it when sending=0A=
+version 14.=0A=
+=0A=
+Thanks=0A=
