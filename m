@@ -1,73 +1,72 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840E512B96;
-	Sun,  4 Feb 2024 23:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A657800
+	for <linux-doc@vger.kernel.org>; Mon,  5 Feb 2024 00:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707089279; cv=none; b=q1+2FxlKSVhHTZCtvioYZ2uhJAtj3qTA4kpe8IbHqALhwypecVBCrosaNpsNiJpXcU49pIdKu3TzPN90Wfy12IF2ieUrgBkfEJHke9jpifDkjQFY/UoKq1EZISHKQj1SsmniAbTzUUjpuM+JRysPhbhzoHKOI6ow3DQR1bfelz0=
+	t=1707091506; cv=none; b=jnLOoCZv/e0MbSRepIdb3DuGx6KTXWZ5H+S9Q5ywABnlsHek3bEuM2CsBQmVQvwzeZ2IL7BJePneXW4xjAx5YfmBMkYLaO7tN1Byfp8JcCSZYPYJDXdsXEMmoik7GSYDrZThXKN5NDoXt0k4x9KBN3LIHQ5MRQ0gOOBhwZvzFLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707089279; c=relaxed/simple;
-	bh=/n7gte7+g5iz4O3gD/aRaektVHW/cg++aK2ocK/HCRo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XAPcW5VFtUCTMgQZyXhjkhy4MlId/q2lg1yO8ncmmtE2Yas9lyrQ6zhBEHfaKS0vtK67vFZbyYFPw7J7b2+OUUxcu52H8+v8F33HKJKxhZjUiGwu1b9jWO0sZPREs8DUhgbiGhmx26YsB2vH95ivKvGwDgPugJzG5PPPPNIRb/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SpI8B8u1; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707091506; c=relaxed/simple;
+	bh=AjRq3tAtkWmofnUVyDyjPCLlJxCrhzWzpItfMik+c6U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=C2FNegFJwjOEA2hCTBOFKc4ez5r6D1ldSDXJgXEBjTc3XSEGJbLl61xsLdnXYoLlzgFXdn0UijFYK4sLDW4c6oifEfePxKSVy04gzhtynhcJEj9dh/05iQWiNxqMFg6MiBg+tPhCcE4qpL6Ju+DhiyAgja4TTJsiUN/to1rICbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=QWATiXE0; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SpI8B8u1"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-21920f89441so1599589fac.2;
-        Sun, 04 Feb 2024 15:27:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="QWATiXE0"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40efcb37373so35429245e9.2
+        for <linux-doc@vger.kernel.org>; Sun, 04 Feb 2024 16:05:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707089275; x=1707694075; darn=vger.kernel.org;
+        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1707091503; x=1707696303; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FUUoKdZN1IuRsIaFfQ05cFLLrwH0tLTS4XTxE2edstM=;
-        b=SpI8B8u1khiz/lkWadE5Bv5yLDamClLhTKLXYEa29+Q53cazsGIiKCetJHWgUDJg4g
-         3z0Rm00ToXSSJGr3sYeFDguHddNZ/aWdTLnNzJ+xifWKCKhwYtwnVKIkL4xQgeLc+Zkc
-         xtDwWkNCFcG4D7mlpcnHzgzpR67AClRZUsVcfoHgIwhu9MsJKEgLsShXEJbUO1YQFynP
-         jh9qyzaH7BCfK/JP0OW2TTCPbKOKr31gFLlu4XxqVrYhR44plQCUTedfaNKbIHS5K/7L
-         jHQagtSeGcBurEUDJKpHkyS2oWKLkk1HG64J+AlFjES59gkVzFTqaqwt2L8uWU2SMmoj
-         QyOw==
+        bh=BWKljW3OQWKG3gLM0dMSuQJwcAILTgzcp7Kc5MiBzeY=;
+        b=QWATiXE0dGa8k3GCbpnClciDACjeCaQHIycZED6EmHPuTyBFb5S7P8T4ag7jyGm8a6
+         6HxdlXG66AO0MP9RHxbKNb9pcVkBot3W09+kViCQ1I8QWx1Duce8Aw5tLvmDJxz9kbwB
+         St1u2GDV8lK6xBPhxuBhZojbq9aI+hdG3mtoDOLCu4PltTRMt7LvnEdlelmlduN4P05z
+         hbRbJKac2GbZA3ELeLwXi33DYVdnoRfiMIQgWBTMC5tIXfzdu1WHh+Ki2EvKeuM5QBVn
+         uRzLXXhZlJ8u8UHRs7erWe6MmFeGqpqs2RsS1dsWoBtGDtkm3Yl8t6HGE0Rmse3TUr+a
+         FRSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707089275; x=1707694075;
+        d=1e100.net; s=20230601; t=1707091503; x=1707696303;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FUUoKdZN1IuRsIaFfQ05cFLLrwH0tLTS4XTxE2edstM=;
-        b=d67b5ETlOUEwsjJ4NG+hMqx4hrZwKUY5NGDS0KFGocN+F11Ws3T3pVZsY45DV2lXd/
-         yBqTbBK6fjb53VFus/OrGe078qxLkZ66I6Qy+tGlBhndJ4eIt012V5ZDqSVddRAXfLFX
-         0X2x9vbSZgdVPpthkufM8iIKJS3tF3TWWldxiOI5Mh7ESo2OQNyvOlpHhJj90mvFv4rn
-         xbxIRsRDjkNjaNlpJtaiPXc9f9JqIwupxMq+3Z+R1zjJPdcNXNNfEtEvQsL+1n4/jptI
-         lQou/tevvV0yHHFQqFUzmvkUXfe9cuutX+CFDNLXjwi77S16W0i6PRLx0Wf7IHcMuNVm
-         09ZQ==
-X-Gm-Message-State: AOJu0YyS1Myw+5q7otRkJIP525qzkw3+CDp8rCvN/DKveZ3VqOnQtcU+
-	Hbqxwr/ZCN40YSWm/jb1Y83YyAE63MRPAf4Rw9yIMhgIcpIUc+Ov
-X-Google-Smtp-Source: AGHT+IFZmh15qIq8LdNHtaeWiziOTdE+EjvKRKzLYiRjNumjhoTSYbQivN+YD2lMCmV7fuUOa3QHWg==
-X-Received: by 2002:a05:6871:e717:b0:219:6ced:9500 with SMTP id qa23-20020a056871e71700b002196ced9500mr3396519oac.56.1707089275316;
-        Sun, 04 Feb 2024 15:27:55 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXTKeT1GHDnGjlk8MnbVTUCDxJMW8cZox1BLrs21FZvkB3rWtj2e2NcosF+j2XFwGOheh+Ia3ZBIRCqooMv3HaIeAO224SkFsqSLnON1CyeJNicJweVJrOCJ4GaH/hEMPCe3A6hX+enN3Zr3TBRF3wPEwE/9qvCMAIYU7Cv/EcU72fDS84zGvgmxQhbQ/gSBidbOI2OcQl0M04egfButJdmwG2KsNYEumyWbDtQYnHf8+oBSYRNIWMV6bGwODmg18zycIhpHa2Q6g==
-Received: from localhost ([2601:644:9380:8cd0::7fb4])
-        by smtp.gmail.com with ESMTPSA id l37-20020a635725000000b005d66caee3d0sm5612417pgb.22.2024.02.04.15.27.54
+        bh=BWKljW3OQWKG3gLM0dMSuQJwcAILTgzcp7Kc5MiBzeY=;
+        b=ucArGR3nSPSbIISBbS/ieISrVA9j30RoQvN8BJpLHOWGX7euq3AWRw5Jv5+/qQ0A6G
+         2l0s6CprP3MvJ7YFNLtIgJ8uvAA2apUKrfaHIax9erDWrcUehWRVVLsh9m5HzjshGKXW
+         iP+U3hC3W3YLndrDGXT34MKF6+bbYt0PrgQgZbSqKGeHPIhtixtT9wbd8DsKDiHUsYcI
+         inekJGWUu1yIykH6NBeBEFoL3TDv0Xm2w7O+xta7hExp1qUceegwc+wNrfzL4LQkO9gv
+         y/IoTPgE/3bAGDOve5O/ft+HO0PVP1vPZaxjjskbKWZP14AtHZ69cOiXvJkyXjHFLqZy
+         9BTg==
+X-Gm-Message-State: AOJu0YzSE5XqX9jUQYmRjq9onK1bT704VU5/mqSuvcyNofB4cHnJEJrO
+	ObsxU0cppEgCrrgjOMmGSqRKfcvQ5Z09XSXYWfBJCuz6ocmDoD9pN2fWh0zYr5Q=
+X-Google-Smtp-Source: AGHT+IGqtYW+vwVOR9OL3U8HQ7aXrgLU1V19Ac6+cyj43/d731sJIdFCI/GPtRA5vJm4UW9q7YSLjg==
+X-Received: by 2002:a5d:5f46:0:b0:33b:2856:5188 with SMTP id cm6-20020a5d5f46000000b0033b28565188mr6625740wrb.44.1707091502562;
+        Sun, 04 Feb 2024 16:05:02 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWYpe6QP2jd13nzPNmWxtq9nITyM938xleEeIYbPo+iNImWxS6a+eU3kFM8I8ylBjWMHo2pLLYWRtbnO8sMWle1o0w1w7boTJsgOWKFJlpVi0ThzSfmy85JY9EIQKEc6GYgJdBgBi5uZvhVRCX1h4dIBVMXNESdSYfNYexS2FXH5tXN4onWqC2sTOakpxHyiqUI6BJq9dyN2Y2ixZc+k9OD84asLBK4Mn2TIFhjpfvCOTF1u5LfjWFjAgzhMKlO0dYak5RiNFaB/T0=
+Received: from debian.fritz.box (aftr-82-135-80-180.dynamic.mnet-online.de. [82.135.80.180])
+        by smtp.gmail.com with ESMTPSA id c6-20020a056000104600b0033b35ca71c0sm2535671wrx.108.2024.02.04.16.05.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 15:27:55 -0800 (PST)
-From: Matthew Wood <thepacketgeek@gmail.com>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Breno Leitao <leitao@debian.org>,
-	netdev@vger.kernel.org,
+        Sun, 04 Feb 2024 16:05:02 -0800 (PST)
+From: Thorsten Blum <thorsten.blum@toblux.com>
+To: willy@infradead.org
+Cc: corbet@lwn.net,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v3 4/8] net: netconsole: add docs for appending netconsole user data
-Date: Sun,  4 Feb 2024 15:27:35 -0800
-Message-ID: <20240204232744.91315-5-thepacketgeek@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240204232744.91315-1-thepacketgeek@gmail.com>
-References: <20240204232744.91315-1-thepacketgeek@gmail.com>
+	linux-kernel@vger.kernel.org,
+	thorsten.blum@toblux.com,
+	workflows@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v2] Documentation: multiple .rst files: Fix grammar and more consistent formatting
+Date: Mon,  5 Feb 2024 01:01:17 +0100
+Message-Id: <20240205000117.3285-1-thorsten.blum@toblux.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZcAFi9ZW07fOLQaW@casper.infradead.org>
+References: <ZcAFi9ZW07fOLQaW@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,101 +75,94 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a new User Data section to the netconsole docs to describe the
-appending of user data capability (for netconsole dynamic configuration)
-with usage and netconsole output examples.
+sphinx.rst:
+- Remove unnecessary newline
+- Fix grammar s/on/in/
+- Fix grammar s/check/checks/
+- Capitalize heading "The C domain"
 
-Co-developed-by: Breno Leitao <leitao@debian.org>
-Signed-off-by: Breno Leitao <leitao@debian.org>
-Signed-off-by: Matthew Wood <thepacketgeek@gmail.com>
+changes.rst:
+- Remove colon after "pahole" to be consistent with other entries
+
+howto.rst:
+- Fix grammar s/you will/will you/
+- Hyphenate "real-world problems"
+
+Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/networking/netconsole.rst | 66 +++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+Changes in v2:
+- Preserve Reviewed-by: tags
+- s/on/in/ in sphinx.rst as suggested by Matthew Wilcox <willy@infradead.org>
+---
+ Documentation/doc-guide/sphinx.rst | 7 +++----
+ Documentation/process/changes.rst  | 4 ++--
+ Documentation/process/howto.rst    | 4 ++--
+ 3 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 390730a74332..b28c525e5d1e 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -15,6 +15,8 @@ Extended console support by Tejun Heo <tj@kernel.org>, May 1 2015
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index 3d125fb4139d..709e19821a16 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -63,8 +63,7 @@ Image output
+ ------------
  
- Release prepend support by Breno Leitao <leitao@debian.org>, Jul 7 2023
+ The kernel documentation build system contains an extension that
+-handles images on both GraphViz and SVG formats (see
+-:ref:`sphinx_kfigure`).
++handles images in both GraphViz and SVG formats (see :ref:`sphinx_kfigure`).
  
-+Userdata append support by Matthew Wood <thepacketgeek@gmail.com>, Jan 22 2024
-+
- Please send bug reports to Matt Mackall <mpm@selenic.com>
- Satyam Sharma <satyam.sharma@gmail.com>, and Cong Wang <xiyou.wangcong@gmail.com>
+ For it to work, you need to install both GraphViz and ImageMagick
+ packages. If those packages are not installed, the build system will
+@@ -108,7 +107,7 @@ further info.
+ Checking for Sphinx dependencies
+ --------------------------------
  
-@@ -171,6 +173,70 @@ You can modify these targets in runtime by creating the following targets::
-  cat cmdline1/remote_ip
-  10.0.0.3
+-There's a script that automatically check for Sphinx dependencies. If it can
++There's a script that automatically checks for Sphinx dependencies. If it can
+ recognize your distribution, it will also give a hint about the install
+ command line options for your distro::
  
-+Append User Data
-+----------------
-+
-+Custom user data can be appended to the end of messages with netconsole
-+dynamic configuration enabled. User data entries can be modified without
-+changing the "enabled" attribute of a target.
-+
-+Directories (keys) under `userdata` are limited to 54 character length, and
-+data in `userdata/<key>/value` are limited to 200 bytes::
-+
-+ cd /sys/kernel/config/netconsole && mkdir cmdline0
-+ cd cmdline0
-+ mkdir userdata/foo
-+ echo bar > userdata/foo/value
-+ mkdir userdata/qux
-+ echo baz > userdata/qux/value
-+
-+Messages will now include this additional user data::
-+
-+ echo "This is a message" > /dev/kmsg
-+
-+Sends::
-+
-+ 12,607,22085407756,-;This is a message
-+ foo=bar
-+ qux=baz
-+
-+Preview the userdata that will be appended with::
-+
-+ cd /sys/kernel/config/netconsole/cmdline0/userdata
-+ for f in `ls userdata`; do echo $f=$(cat userdata/$f/value); done
-+
-+If a `userdata` entry is created but no data is written to the `value` file,
-+the entry will be omitted from netconsole messages::
-+
-+ cd /sys/kernel/config/netconsole && mkdir cmdline0
-+ cd cmdline0
-+ mkdir userdata/foo
-+ echo bar > userdata/foo/value
-+ mkdir userdata/qux
-+
-+The `qux` key is omitted since it has no value::
-+
-+ echo "This is a message" > /dev/kmsg
-+ 12,607,22085407756,-;This is a message
-+ foo=bar
-+
-+Delete `userdata` entries with `rmdir`::
-+
-+ rmdir /sys/kernel/config/netconsole/cmdline0/userdata/qux
-+
-+.. warning::
-+   When writing strings to user data values, input is broken up per line in
-+   configfs store calls and this can cause confusing behavior::
-+
-+     mkdir userdata/testing
-+     printf "val1\nval2" > userdata/testing/value
-+     # userdata store value is called twice, first with "val1\n" then "val2"
-+     # so "val2" is stored, being the last value stored
-+     cat userdata/testing/value
-+     val2
-+
-+   It is recommended to not write user data values with newlines.
-+
- Extended console:
- =================
+@@ -283,7 +282,7 @@ Here are some specific guidelines for the kernel documentation:
+   from highlighting. For a short snippet of code embedded in the text, use \`\`.
  
+ 
+-the C domain
++The C domain
+ ------------
+ 
+ The **Sphinx C Domain** (name c) is suited for documentation of C API. E.g. a
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 50b3d1cb1115..4c1552160321 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -144,8 +144,8 @@ Bison
+ Since Linux 4.16, the build system generates parsers
+ during build.  This requires bison 2.0 or later.
+ 
+-pahole:
+--------
++pahole
++------
+ 
+ Since Linux 5.2, if CONFIG_DEBUG_INFO_BTF is selected, the build system
+ generates BTF (BPF Type Format) from DWARF in vmlinux, a bit later from kernel
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 6c73889c98fc..eebda4910a88 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -351,8 +351,8 @@ Managing bug reports
+ --------------------
+ 
+ One of the best ways to put into practice your hacking skills is by fixing
+-bugs reported by other people. Not only you will help to make the kernel
+-more stable, but you'll also learn to fix real world problems and you will
++bugs reported by other people. Not only will you help to make the kernel
++more stable, but you'll also learn to fix real-world problems and you will
+ improve your skills, and other developers will be aware of your presence.
+ Fixing bugs is one of the best ways to get merits among other developers,
+ because not many people like wasting time fixing other people's bugs.
 -- 
-2.43.0
+2.39.2
 
