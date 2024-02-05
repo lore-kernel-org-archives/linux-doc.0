@@ -1,51 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5F445949;
-	Mon,  5 Feb 2024 17:21:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D07482E1;
+	Mon,  5 Feb 2024 17:22:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707153696; cv=none; b=N79zMzhhlAQjn/zwcvkznvYg9YNgL/SSxQtHDcRO/S+5rDgLyOKnGTO8+NOugI4faVt9EHv8ic44CxN/LCu14E77ZtT1nphV1fNZLLHpborDOAxgmlkJFAdyGe1cFrq/zZ/ca+PSvXG5IvmkIdh2QggYth1xvLG9ogYC2wtQ320=
+	t=1707153773; cv=none; b=EOvdWW2RTNamOSu6HolYkcC0a6hFf5hLPOreV5gn58ZTZ1QbqW66Y82og/k8VW9Zb1UWGIeYQx/Tu90Q7jtTbmSeBCVrqfaO6gm842WD/L10UAhCqRggYL4VcueFtfG8BFhwB0kCS6gST5PR3kEReztZFED4E8oC85OrQdXZ8Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707153696; c=relaxed/simple;
-	bh=ea63PLwNl5FqbQxrrg0hqVQX7rjVFV72BlE5+I4cLi4=;
+	s=arc-20240116; t=1707153773; c=relaxed/simple;
+	bh=hIRSfmrQg0Rn/nYcx47/cZU9CRerlJJPETPX4UA4gqQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KTK0mjm38jAmbSDBw6N5+KM7P83T+pgdIbIx1QFySXpob+Et8i3Nao8whpvO6cY63PBHbIBmlbnRzN4DEH1gtPel+6lhMnoS2M/pfTQfLJK4qlJQwm8q9poI4YkSaYmekIt/KTDcAHrmNXs3lmDeA3KrhyOwpLgbYKdfFeO8bdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Fo4cC1jD; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=PEhqNZuPg0sGYNFCirovhZHiSyJZ+G/H9/2PLauDstRDOuZeJzgIl/eeo0XnjEQK+qIKIgemyiTdh2KkR1NiLQnM/wqoy5oq8ExYBWEFlh8qqUmYpfiSiKcQgW8CwOcWmjURBWxWeeQSYl99jykW4mN8ZuMeioZN3P3i4gCuRAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nidtQxCV; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Fo4cC1jD"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E71F745ACA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nidtQxCV"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6E1FE47A9F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707153692; bh=oUb/ZU0m956j09lY1gorLyKNp+KeEuERLzbirHHa85U=;
+	t=1707153771; bh=MCk4AMP7OTPhC5gw4fooEf9VsrtizbEaHd64UMSzPt8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Fo4cC1jDMUuD6qduIUoKQnuDFwgP0txmSggZ9PXwf1J78xx8mmvxLKquPfJDLbzPQ
-	 RPI2vYUb9npi5wdHHpyqMeCOoC4WmUFnLLA0Iy/jdiix8ZH8V3NqsEDN+/zabhumNz
-	 WZG7IKrW5R7JM4ImER0DV58CLThf26geHBITzvSqZ99ddz4cjkQflKgYtDptXVGiJV
-	 3ZeR0KFFt0MuoIOkwAFh3CFKso2sKmXioYuunnLjpXIIDyiLzYAMXQ2677R9H5WCj0
-	 0MJaofuZZomnnXzZksj7jTvJ4BQImDHRDfIFAmFIwuLYA3QoLs1wixRlTQ4Nfn3CNi
-	 FEMgHD3exuXqQ==
+	b=nidtQxCVgS1Mjo9RVySalTR77hYfvnkqTIjGHxtiKlU/1cDSm3p+kNOJpsmFmxwzp
+	 FnkQ8OAuJlzWlPk6boNxi/z7m58tPeDSQodCpzOjysPfZuTee6EeKBKUVtpBq8/spl
+	 M8ySiAWlTIkxn09KJzTmBLXniXHvh0VQPpE6DMfYLlY5Bw5Gf2XGGKSmYhdhtCMveo
+	 deBPQ8chsER//FIC+gBHGbrL2UUGsVjnMc6DISV4uGOk4nGEwuVLs5a6w4RVC+XVqJ
+	 lSTEg5BaqxXHFif8B8JZp4hcJCsKhUoYkNHwnVmkxuu8B8H6f2iYE7NQvlGmjA9mdI
+	 EYnPUtIt/d9PA==
 Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E71F745ACA;
-	Mon,  5 Feb 2024 17:21:31 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6E1FE47A9F;
+	Mon,  5 Feb 2024 17:22:51 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
- rdunlap@infradead.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
- borntraeger@linux.ibm.com, svens@linux.ibm.com, kernel@gpiccoli.net,
- kernel-dev@igalia.com, "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
- Changwoo Min <changwoo@igalia.com>
-Subject: Re: [PATCH] docs: Document possible_cpus parameter
-In-Reply-To: <20240203152208.1461293-1-gpiccoli@igalia.com>
-References: <20240203152208.1461293-1-gpiccoli@igalia.com>
-Date: Mon, 05 Feb 2024 10:21:31 -0700
-Message-ID: <87h6imvnc4.fsf@meer.lwn.net>
+To: Thorsten Blum <thorsten.blum@toblux.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thorsten Blum <thorsten.blum@toblux.com>
+Subject: Re: [PATCH] Documentation: coding-style: Update syntax highlighting
+ for code-blocks
+In-Reply-To: <20240203223926.5077-1-thorsten.blum@toblux.com>
+References: <20240203223926.5077-1-thorsten.blum@toblux.com>
+Date: Mon, 05 Feb 2024 10:22:50 -0700
+Message-ID: <87cytavn9x.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,20 +50,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-"Guilherme G. Piccoli" <gpiccoli@igalia.com> writes:
+Thorsten Blum <thorsten.blum@toblux.com> writes:
 
-> The number of possible CPUs is set be kernel in early boot time through
-> some discovery mechanisms, like ACPI in x86. We have a parameter both
-> in x86 and S390 to override that - there are some cases of BIOSes exposing
-> more possible CPUs than the available ones, so this parameter is a good
-> testing mechanism, but for some reason wasn't mentioned so far in the
-> kernel parameters guide - let's fix that.
+> Use c and elisp instead of none in code-blocks
 >
-> Cc: Changwoo Min <changwoo@igalia.com>
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 5 +++++
->  1 file changed, 5 insertions(+)
+>  Documentation/process/coding-style.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index c48382c6b477..a75c7044d8b7 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -203,7 +203,7 @@ Do not unnecessarily use braces where a single statement will do.
+>  
+>  and
+>  
+> -.. code-block:: none
+> +.. code-block:: c
+>  
+>  	if (condition)
+>  		do_this();
+> @@ -660,7 +660,7 @@ make a good program).
+>  So, you can either get rid of GNU emacs, or change it to use saner
+>  values.  To do the latter, you can stick the following in your .emacs file:
+>  
+> -.. code-block:: none
+> +.. code-block:: elisp
 
 Applied, thanks.
 
