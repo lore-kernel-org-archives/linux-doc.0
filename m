@@ -1,16 +1,16 @@
 Received: from davidv.dev (mail.davidv.dev [78.46.233.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA782C195
-	for <linux-doc@vger.kernel.org>; Mon,  5 Feb 2024 14:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7752C688
+	for <linux-doc@vger.kernel.org>; Mon,  5 Feb 2024 14:31:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.233.60
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707142523; cv=none; b=s2l7aGBmB2uOP6Os+7osHZdDJkl2US3AraN4AW5DYWZj6aSykAZLNnQeR6bAxAVpJ4d2JQJmM9okAH+l7VS0rtUNepclNS7PmVoKjXqxtYSiC43EUHIqvNrbM6SfjVvJeuKXTp9LA7L8uomaU3ZxJ44gbKF1Rbld9SntV/kVZYg=
+	t=1707143502; cv=none; b=WyexcppPH51eR6ZH5YVSfzlKWlU36YwR525iLQNZdrDB1MQkCPL98KpnFiiHPAs4I2dWtsUUdMLCDchFE80h3IWZJYCbiRofpWEN2w5tcwaXoEqKGRdQGZFrASeqIm40HAHNnEVARFEgpANADkpN1Iq7fdXnldRGIm6dA3/lpR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707142523; c=relaxed/simple;
-	bh=1sx6S6RZmWWktS32CzO/twbFEx823PgRG5frnIJerJg=;
+	s=arc-20240116; t=1707143502; c=relaxed/simple;
+	bh=GGTif6QrhiFR3v2KdIfHhHcqC9cZcUSFm6BvXU/Sy0I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HyLFF1adTWf1EoAFBUKADwWKMJN/WUZ5yfmHJHCxXgu64PMjph+YQit4OQDzv69VmQ26DWYj6oExe5lcw5G2nSqthFlkQYH88GT1gc6+SeaaDL3EgRXttZdWLLcikEhpSsCm0kv+Wsg6CWECiecyxkHVVRlE58F9nJCYvSS801U=
+	 In-Reply-To:Content-Type; b=n/MUW7w8BRfXu6k74fNimzcaTeUo1MymxSKtKPWG1lxNpa/A8jsqW9g1i+4ugwTMM2U0VtyUzml/3hp4rwBvI/4MllGDRRbxoFay/aM4OUq2/DB+KD78Gsgdbudsr8s5aVX8vRXyJ0wLAIsqn05xXzBixMmwvmNH7qgf2a2Blng=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev; spf=pass smtp.mailfrom=davidv.dev; arc=none smtp.client-ip=78.46.233.60
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidv.dev
@@ -18,9 +18,9 @@ Received: from [192.168.2.153]
 	by mail.davidv.dev (chasquid) with ESMTPSA
 	tls TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
 	(over submission+TLS, TLS-1.2, envelope from "david@davidv.dev")
-	; Mon, 05 Feb 2024 15:15:19 +0100
-Message-ID: <0789be46-b8d1-4ca6-801f-dfe95b1032d3@davidv.dev>
-Date: Mon, 5 Feb 2024 15:15:18 +0100
+	; Mon, 05 Feb 2024 15:31:39 +0100
+Message-ID: <bfbad418-f8c6-4cdf-97b5-5c13044539e8@davidv.dev>
+Date: Mon, 5 Feb 2024 15:31:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,7 +45,7 @@ References: <20240205114609.440597-1-david@davidv.dev>
 From: David <david@davidv.dev>
 In-Reply-To: <1e08910b-8ae2-4985-8423-45a1a823cefc@lunn.ch>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 On 2/5/24 15:06, Andrew Lunn wrote:
 > On Mon, Feb 05, 2024 at 12:44:40PM +0100, David Ventura wrote:
@@ -57,7 +57,10 @@ On 2/5/24 15:06, Andrew Lunn wrote:
 > papering over the cracks.
 >
 > 	Andrew
+I don't know of any drivers that may need to wait -- I noticed
+this code path being hit when building a minimal kernel that only
+had a virtio network device.
+At least for the virtio device, the wait is unnecessary and bloats
+the time to boot a minimal kernel from 15ms to 33ms.
 
-I haven't seen any problems -- I assumed that some drivers need to wait, 
-given
-
+     David
