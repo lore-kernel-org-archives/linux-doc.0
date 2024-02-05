@@ -1,111 +1,155 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B06D18EB2;
-	Mon,  5 Feb 2024 21:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EDC01AB807;
+	Mon,  5 Feb 2024 21:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707167174; cv=none; b=V4J7VB0e6xe/yVwK1A4XQ6S54zm0R0M/kbpsVB96T747YxVvkExEjKvIfTE11yEQ0kZwn5hLq8x5ZMzj7GZGq0E7whu4qgeXp0GeYz4OmZoeEuLS7r+ZP+MFzZXUKrCJ02gK0wXkfoAEi0XhAUw/dPaNY8vS5osH0vFpi/141k4=
+	t=1707167885; cv=none; b=NXr3hwdCHpzIW+fj6a1pQ1myxallHAiuK7AYuVvi0Gk2kXxaQPCdC7QzLCTDiFKhMDHUn91kctFgJCpTL2BH4Hi3U6yOz7uU/EFk7976CtlYEol28YuNCmHiGbjdTDXquPCVS/uUIN7qwaxmM++GMl3PIy/+eym2oj0x1P+Dzu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707167174; c=relaxed/simple;
-	bh=AqJ2v80mx+3OzAqt8PUSCnloJ7PT6QExzuLDDSzhFXs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RSDtdbOmiiTlikxh4zLMPZXt1FNKleIBQkw0HmEKm4FQuDkVzhUU9d2X2rHZU2tfOTwBLMlEZ8P3WM4MvATXJXc9C2J7tTeayRx4ReEFV61J8TI4eImJRDCse00RzqeO9W2g8jnhqbr977GWZEMXK4ghVimQm/L1S+H7uf/5ZMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJK74dzZ; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707167885; c=relaxed/simple;
+	bh=/Enu6bwQmdx49axHA/1lmJJgKYU6G8zyTZPbq9OH+ck=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CH7Uxpf3Cez8k7ZdIDuPUiiMg1kLZg5cecEHRLfRZ7OEIDG4p/8d5BYOvoOxnO9ebiuiBCez4yzN0H7+C9rP2x9koyqw/0Iz5sRxCbwgnXPwMryetGmJ1XlScJNKjJx/WDTPlDZTPff+sbwZ7Xn7w5VdP6NWOFKbwJOqid+IFX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=W8TAC/No; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJK74dzZ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40fb63c40c0so43629365e9.2;
-        Mon, 05 Feb 2024 13:06:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707167171; x=1707771971; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oYuB7rX3JOcdu5mrg7aKnBeo6EiHj+iA643HXTXEZt0=;
-        b=VJK74dzZH1ykR6tAY97X+tk7oGE0UL3di43boSi8udSeOABedcwc2NXOOFZ3UVI5Tx
-         /aOAGnrBpZDtJei/V+Kdr45oDyWEnvQUM3ouCe6KKZOS2AuC1GOrxTHlrDJbLh0hyrL+
-         TXvGgvU4YgHIcdxkT0uJbr9cVjAq5LTqBJLkjUJhRL3zsOiyzYbk5FeqD7YxMsJRN2sk
-         k6pVBlb2RAJoEMayTus1tnPLgyJayXq0E3EwLKFenkVJ0HqqGN8ykl0FqziKs/0LCPm1
-         Nk3O8IVYMghCWVCzQnyTPFslh7vZ1DVdI9Ppj7y2pJGfzlOswKCR18XzHiun3qNTq30M
-         UDBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707167171; x=1707771971;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oYuB7rX3JOcdu5mrg7aKnBeo6EiHj+iA643HXTXEZt0=;
-        b=mdc/JJcU2nyX/PkX5d6IlGIqGcGxwX5n4GRKvuzcGaP51NyGCOmHFzEDZ2JoyerBoS
-         MnvvSN6SBUu+7y6o7BTtVZx6qwT6Frkq1oCGopQO5gMGPeLCJv+i6GA6X3RsQuKUsKuZ
-         HGy1NBbRIAt51khAT8gQ9ckJxQXJIivEFVDODfuF/itCl/aEoYXoFxTc6ZTqEVwthjCY
-         Vc3OuoybCHRJFfN9cK4AZpFXUm6rF4qRfGrtPc2KrnLHMplqdgHYKb8nUBGVQhZBqJs4
-         KQtZFi1g+iGulR5jYROpPjJg2QmmFSCnkYtwtw5c5kMf1m8UX/2ABMVuTqcp6oIXrvVh
-         e70w==
-X-Gm-Message-State: AOJu0Yzt09RiGNZ5AGp93LwIO6Lv4WLWyC77lu1Ywni2ZtfmX29AzR4M
-	GLjt0l+GPH3jdcdUnmN/FMXX74cwtzPXVhAXGjYMCvXg4XMMgg4y7tVX3pF77p2//Ywjsok8DOE
-	Dk1iYgDbkhHoV123KAriHRJwEgSc=
-X-Google-Smtp-Source: AGHT+IGomtbLPkRkNcFViqEMdOXtyWcy9rH0JnxpE4rKLdWEzFJKOYBWOXVdu/KAVk26VGVQgPzK/nOTLX7j03TlxMk=
-X-Received: by 2002:a05:600c:3ba8:b0:40f:b630:a9e2 with SMTP id
- n40-20020a05600c3ba800b0040fb630a9e2mr181152wms.14.1707167171018; Mon, 05 Feb
- 2024 13:06:11 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="W8TAC/No"
+Received: from [10.137.106.151] (unknown [131.107.8.87])
+	by linux.microsoft.com (Postfix) with ESMTPSA id B65FB20B2000;
+	Mon,  5 Feb 2024 13:18:03 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B65FB20B2000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1707167883;
+	bh=H595nLqKN1iU7O92UiJT9PEuwtk7Rd1yCbWBC1ZA8Dk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=W8TAC/No1VdGRZqMNpbRyarbJ0N1ksbo6q9VDwms6JAikfNWLiPh8pBpJItN4CS23
+	 IfusA0S7VmJXlzwz6fInL7nOKKj4xPLnLwKrHbC0DxeKFY9uDlKLJYrmJTNL3IsRxQ
+	 NhwWoikC1Q5N62rvYtOFqHGPmfxebEyKNmpVRN1s=
+Message-ID: <13daca32-ee3f-46f5-a6ca-66bb02726e5c@linux.microsoft.com>
+Date: Mon, 5 Feb 2024 13:18:03 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240205060925.15594-1-yangtiezhu@loongson.cn> <20240205060925.15594-3-yangtiezhu@loongson.cn>
-In-Reply-To: <20240205060925.15594-3-yangtiezhu@loongson.cn>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Mon, 5 Feb 2024 22:06:00 +0100
-Message-ID: <CA+fCnZdvQmA7S6cnFS5niSm3zERyaLpb_wp5Y6=na-yeNNX9=A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kasan: Rename test_kasan_module_init to kasan_test_module_init
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Marco Elver <elver@google.com>, kasan-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v12 5/20] initramfs|security: Add security hook to
+ initramfs unpack
+To: Paul Moore <paul@paul-moore.com>, corbet@lwn.net, zohar@linux.ibm.com,
+ jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+ axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ audit@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1706654228-17180-6-git-send-email-wufan@linux.microsoft.com>
+ <b9ca171301d5abeb78922dd79d65136a@paul-moore.com>
+Content-Language: en-US
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <b9ca171301d5abeb78922dd79d65136a@paul-moore.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 5, 2024 at 7:09=E2=80=AFAM Tiezhu Yang <yangtiezhu@loongson.cn>=
- wrote:
->
-> After commit f7e01ab828fd ("kasan: move tests to mm/kasan/"),
-> the test module file is renamed from lib/test_kasan_module.c
-> to mm/kasan/kasan_test_module.c, in order to keep consistent,
-> rename test_kasan_module_init to kasan_test_module_init.
->
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> ---
->  mm/kasan/kasan_test_module.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/mm/kasan/kasan_test_module.c b/mm/kasan/kasan_test_module.c
-> index 8b7b3ea2c74e..27ec22767e42 100644
-> --- a/mm/kasan/kasan_test_module.c
-> +++ b/mm/kasan/kasan_test_module.c
-> @@ -62,7 +62,7 @@ static noinline void __init copy_user_test(void)
->         kfree(kmem);
->  }
->
-> -static int __init test_kasan_module_init(void)
-> +static int __init kasan_test_module_init(void)
->  {
->         /*
->          * Temporarily enable multi-shot mode. Otherwise, KASAN would onl=
-y
-> @@ -77,5 +77,5 @@ static int __init test_kasan_module_init(void)
->         return -EAGAIN;
->  }
->
-> -module_init(test_kasan_module_init);
-> +module_init(kasan_test_module_init);
->  MODULE_LICENSE("GPL");
+
+
+On 2/3/2024 2:25 PM, Paul Moore wrote:
+> On Jan 30, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
+>>
+>> This patch introduces a new hook to notify security system that the
+>> content of initramfs has been unpacked into the rootfs.
+>>
+>> Upon receiving this notification, the security system can activate
+>> a policy to allow only files that originated from the initramfs to
+>> execute or load into kernel during the early stages of booting.
+>>
+>> This approach is crucial for minimizing the attack surface by
+>> ensuring that only trusted files from the initramfs are operational
+>> in the critical boot phase.
+>>
+>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+>> ---
+>> v1-v11:
+>>    + Not present
+>>
+>> v12:
+>>    + Introduced
+>> ---
+>>   include/linux/lsm_hook_defs.h |  4 ++++
+>>   include/linux/security.h      | 10 ++++++++++
+>>   init/initramfs.c              |  3 +++
+>>   security/security.c           | 12 ++++++++++++
+>>   4 files changed, 29 insertions(+)
+>>
+>> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+>> index 185924c56378..b247388786a9 100644
+>> --- a/include/linux/lsm_hook_defs.h
+>> +++ b/include/linux/lsm_hook_defs.h
+>> @@ -425,3 +425,7 @@ LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
+>>   LSM_HOOK(int, 0, uring_sqpoll, void)
+>>   LSM_HOOK(int, 0, uring_cmd, struct io_uring_cmd *ioucmd)
+>>   #endif /* CONFIG_IO_URING */
+>> +
+>> +#ifdef CONFIG_BLK_DEV_INITRD
+>> +LSM_HOOK(void, LSM_RET_VOID, unpack_initramfs_security, void)
+>> +#endif /* CONFIG_BLK_DEV_INITRD */
+> 
+> Let's just call it "unpack_initramfs", the "_security" part is somewhat
+> implied since we are talking about a LSM hook ;)
+> 
+>> diff --git a/init/initramfs.c b/init/initramfs.c
+>> index 76deb48c38cb..075a5794cde5 100644
+>> --- a/init/initramfs.c
+>> +++ b/init/initramfs.c
+>> @@ -18,6 +18,7 @@
+>>   #include <linux/init_syscalls.h>
+>>   #include <linux/task_work.h>
+>>   #include <linux/umh.h>
+>> +#include <linux/security.h>
+>>   
+>>   static __initdata bool csum_present;
+>>   static __initdata u32 io_csum;
+>> @@ -720,6 +721,8 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
+>>   #endif
+>>   	}
+>>   
+>> +	security_unpack_initramfs();
+> 
+> Given the caller, what do you think of changing the hook name to
+> "security_initramfs_populated()"?  I think this not only matches up
+> better with the caller, "do_populate_rootfs()", but since in using the
+> past tense we help indicate that this hook happens *after* the rootfs
+> is populated with the initramfs data.
+> 
+
+Yeah, I agree this sounds better. I will update this part.
+
+-Fan
+>>   done:
+>>   	/*
+>>   	 * If the initrd region is overlapped with crashkernel reserved region,
+>> diff --git a/security/security.c b/security/security.c
+>> index ddf2e69cf8f2..2a527d4c69bc 100644
+>> --- a/security/security.c
+>> +++ b/security/security.c
+>> @@ -5581,3 +5581,15 @@ int security_uring_cmd(struct io_uring_cmd *ioucmd)
+>>   	return call_int_hook(uring_cmd, 0, ioucmd);
+>>   }
+>>   #endif /* CONFIG_IO_URING */
+>> +
+>> +#ifdef CONFIG_BLK_DEV_INITRD
+>> +/**
+>> + * security_unpack_initramfs() - Notify LSM that initramfs has been loaded
+>> + *
+>> + * Tells the LSM the initramfs has been unpacked into the rootfs.
+>> + */
+>> +void security_unpack_initramfs(void)
+>> +{
+>> +	call_void_hook(unpack_initramfs_security);
+>> +}
+>> +#endif /* CONFIG_BLK_DEV_INITRD */
+>> -- 
+>> 2.43.0
+> 
 > --
-> 2.42.0
->
-
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-
-Thanks!
+> paul-moore.com
