@@ -1,210 +1,157 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1122411CA9
-	for <linux-doc@vger.kernel.org>; Mon,  5 Feb 2024 08:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B9D125BC;
+	Mon,  5 Feb 2024 09:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707122365; cv=none; b=Es/x+VccVwWfE4h4lSV5T57MoUhWC6MCaOqtJF0erJZhvIw2ieHA/rKKpKBJsPe7+KWm80X32hn6jKMhq91q2Y7rOPAQfazWmNL5KwNpVJvGhVxrM9uy4AeBd3IHvLKH0jHYtGgh5OFSxGiabFj9xZj4djOd0Ou7r5mdKySXRuE=
+	t=1707123674; cv=none; b=EwbM/oX0G691LsOpVQ3oDA0AqP1hVpbzPmkzNvTlXiHkSBdVyMPDrYSKM5Yn/ULl7jHVwC/bkBsJZUsC2JNHP6TO5fOp8Q8P1k9t3ZvJ7TU02WiBEVvv5f0/GrxCAjTRfx8GKDEvoOdtx7jRsTHo72Dv5EryOK1LPFrIu9RhU/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707122365; c=relaxed/simple;
-	bh=vWCUg5e3ZEMZK/WPs6t0bqEagLm8F2BxIwdVLhxnKZU=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=kIRE1Fl9pjHtgm8gvWBLvN7pmr43fYoASLgLNy4+L6oe6YDZTRenXqA5BI7SkxMeHrfB7GJ4ODr6YzkbK68+ASnUyiGdSU/vYz/Zpy+Ndbq4h98Y7TmkNKlWWgz+uYh4XtT/oWkEQWmUzojuYQYYoLLtKo5D4UaS4eCBoHE3+5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at; spf=pass smtp.mailfrom=sigma-star.at; dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b=USQm8JgA; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigma-star.at
+	s=arc-20240116; t=1707123674; c=relaxed/simple;
+	bh=MtCVmkyd73igsHfqhm9GVwH5JT8L8I7oiOceUhAzTic=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s6NfbmA0+ZRwO8Qma/ijtP0UFKqsrmFGw1wBVbV1fjPt23VmwwZRr92qHwiImtTcgZDbLMXKXl7qXsyQpqgUlKET3b7RCiD1+Wl43tEK1dDItMLw7hhczekq9ZXxOTNKRaXutz4y831fWhZh4zv4HILkK97cBuL51SPX85iB3qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FdKnnOnG; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b="USQm8JgA"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a36126e7459so538478566b.2
-        for <linux-doc@vger.kernel.org>; Mon, 05 Feb 2024 00:39:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sigma-star.at; s=google; t=1707122360; x=1707727160; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9fYC3H+9fhYO7ZOc/qX6rq1afQIQ11uUH5tLK3IWpXc=;
-        b=USQm8JgAsU+bvggwhfSL5ljcQ5Z14tU+aidl4amOwC7ZtSddvc9cEIU5FQDAtpdiZt
-         00xL062bRmN7OPRxqr9e3hhhQP2KxWABZr8Ma9bEsukUP/+XfBdKrxS8u8xvWWr8r2VP
-         UxZhDLZ4BtL4L3Hy+SGvRO9Zo7LX77N1QosSuLMUgDOa7fp2NEBZlRX8TlRHzfj2xsHg
-         ruw24jXiiwcaiq+nC/CJZi0HDUybbK0aKr+39odEyNF9Ke1tux69a9NVWHrTn2sGHRUW
-         SZ6dIdM1EKfOG0F+J9NXyLx/pz+JwMNCxlMay3J1rr9zgJTm+WrXQnjvV4L2LLRkUFpB
-         W1XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707122360; x=1707727160;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9fYC3H+9fhYO7ZOc/qX6rq1afQIQ11uUH5tLK3IWpXc=;
-        b=pSwmcG+cHOktpgN03RbNHLBumIqpiBcyTip9mWlkYLXkeXDOYSDHhwZ2Sv4KO7eTwK
-         fJIXrmKd0eHUT7mgDhBk4HwYhw8YtmXvoPUzlagfVStWerNV87CQHH3lgwce4NL5CMXe
-         EGGj24kuQEzQpQDyWa8LckKwZPRaRvdtd02ipoVtOxj3u0LBcbQ+ehJmosZoaAIAvape
-         iDWDzLgViVaDLT5vCWn9/1Mx3msH/InT2ENASmv6L4rQFdKnDUU21A80L7ZkGYk25gbY
-         eczbYE3urzqiPdQ2ORWfAMuDTdO8nxQOvuIvxyJFhAICoW7HmaVLX0vspxSStKd0Kimu
-         YNHA==
-X-Gm-Message-State: AOJu0YznxOs9I4ztcNvnLFU3NhIThgksZUfGFkYJiIPMGJgEYP5xC7Cl
-	BlxQh+Wv1RgL2gC+41gXZXeq9WvogLubAas1uFw4QZkglWZv5k7z8NSdZyOPrbY=
-X-Google-Smtp-Source: AGHT+IHLVlIqTHZQT4uS2cWMqHQ2/IKc/41epP/Cs1vBSz9FD6909OEjZv22ODsI8EUgs+fyzA4YHw==
-X-Received: by 2002:a17:906:16c8:b0:a37:bdc2:e4e6 with SMTP id t8-20020a17090616c800b00a37bdc2e4e6mr1530645ejd.10.1707122360096;
-        Mon, 05 Feb 2024 00:39:20 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUTINvkr7TdZxNV3zYWkm9NGPQZ3GBX+JIgmxygvgv41SJzvPqoxxCTp3Tc5PUMHqQw6PbrIpUJx88b3E4cjK5SpUhXe9GIOdkr+YAeq65K7GeGBl1IcKBE3vDLsUsnuV2IbaG0QNY2n7bIZmG6EvZe1SBcWh+cXAGLPTi+gsHzLIB4Ek4PUYTx4gU+ytkjrCv9icm50Zeb3mURGFiiEDIG7cEFIv8APYkltJkm2gyR7ujeOD214DLsYXioA4GA+mfSAn1zE6cUXN3gEY+rLpkmUpLjD2iJPbzDVzGNISNprHIg7SmguU4h2FdVVnwSTySpbdJdWbY3O73k0isTb+fW+2BhqgbYzLQP4Th8toVBowOkBsWLuiIMTWzYAOhJmk6ekd906b1/N5qCiiP0jMcDqGHNHD66is0Ey/uYHly9YuPt9eh1AjwKjjwF5b/qpsQ704D/FfKIJGUGgJ1LvvVEDZ4wkLobm4MWzCyKR42KQu0JY9qwDmsVCk+CmP2XiCJQ8kF2e1uHxU2m6jE1Jk/PCyOQgU3eOv7zuzVmmRlrTGC97+WwZ9lMD8jIvBNhTVIoLbb6F+28AgmyFJsGRwnuvmQaQIBSDluu/HVeamiL/BJF4j44dxmUseTJh1DPAFnwb8JEHWSiMWx8TUueFEYA879cQmBtXxDqUYJWkmFVkkCePJ36slN9TE80+JJXJ1Z0bJJAZkbT5axJshtLmW1nYM/cCaLufm5IJ62p4nLFPkfgMBdpMO6VDWIOUm45cYxAY+QEZfwBlvJpE8Lld5T1ciB/mRzSVLQhcT3wgMswJ4SIQG0CdlYdDMod8umwfxAvQ5eVNuJZUIxogGlCwuZkzTMDTNJW11/MvqvmrxyUY2liKdTG8Q37KBJklaQPX7hBwW80miWJmXOgOFH/ZR0c8gSG0jlvmwQvhcM3zN3VOh/65AVlQsT6eAoJaDQm1u4hW4
- /DnIJlK+OUtw19HfTP17A+oLh+MUcCC6cXuft5pI0Syr4CJfj5Mt2O/zB3IJax/LQQuYmm
-Received: from smtpclient.apple ([82.150.214.1])
-        by smtp.gmail.com with ESMTPSA id vu11-20020a170907a64b00b00a37a38737d5sm1316761ejc.89.2024.02.05.00.39.18
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 05 Feb 2024 00:39:19 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FdKnnOnG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707123672; x=1738659672;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=MtCVmkyd73igsHfqhm9GVwH5JT8L8I7oiOceUhAzTic=;
+  b=FdKnnOnGi7I6RLoz9/EUW4nBr2skpAaowep/Wh5vu1v1KVslKXs9vuZy
+   8pGLCL5+bRcIt35a9JJ3ccHMB8qxfxIw3V42e8TyLD5dkTvwGEj1vs33b
+   WHAcfXqznxiZAzZU2cyJ2AkDu5pjNgsIwTdmU//X6Xe2av3hAaruFu1E3
+   x/AvHp6aYzr1Isaz8/Egl/SVyo9+UjiOdW2BBigMFGrzcLqRLvBd/e44t
+   fNRxWbIqlhcVMr2Wv/phUQ7/xdMJftcG6z0MLBM+tP2AGT/h64C22HZoo
+   eXMUFnOcx9xLO3y7t354Z8i0bCv1j/jdww0zl2sW8omTWQyXbxo+b5H20
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="435614850"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="435614850"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 01:01:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="933099575"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="933099575"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 01:01:05 -0800
+Message-ID: <aaa76d7a-4299-4e1c-83f1-cbbea763927f@linux.intel.com>
+Date: Mon, 5 Feb 2024 10:01:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.400.31\))
-Subject: Re: [PATCH v5 0/6] DCP as trusted keys backend
-From: David Gstir <david@sigma-star.at>
-In-Reply-To: <20231215110639.45522-1-david@sigma-star.at>
-Date: Mon, 5 Feb 2024 09:39:07 +0100
-Cc: Shawn Guo <shawnguo@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>,
- sigma star Kernel Team <upstream+dcp@sigma-star.at>,
- David Howells <dhowells@redhat.com>,
- Li Yang <leoyang.li@nxp.com>,
- Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Tejun Heo <tj@kernel.org>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>,
- linux-doc@vger.kernel.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
- "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org,
- "linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <7AED262F-9387-446D-B11A-C549C02542F9@sigma-star.at>
-References: <20231215110639.45522-1-david@sigma-star.at>
-To: Mimi Zohar <zohar@linux.ibm.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>
-X-Mailer: Apple Mail (2.3774.400.31)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 50/53] ALSA: usb-audio: Allow for rediscovery of
+ connected USB SND devices
+Content-Language: en-US
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+ Thinh.Nguyen@synopsys.com, broonie@kernel.org, bgoswami@quicinc.com,
+ tiwai@suse.com, robh+dt@kernel.org, konrad.dybcio@linaro.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
+ <20240203023645.31105-51-quic_wcheng@quicinc.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240203023645.31105-51-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 2/3/2024 3:36 AM, Wesley Cheng wrote:
+> In case of notifying SND platform drivers of connection events, some of
+> these use cases, such as offloading, require an ASoC USB backend device to
+> be initialized before the events can be handled.  If the USB backend device
+> has not yet been probed, this leads to missing initial USB audio device
+> connection events.
+> 
+> Expose an API that traverses the usb_chip array for connected devices, and
+> to call the respective connection callback registered to the SND platform
+> driver.
+> 
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>   sound/usb/card.c                  | 19 +++++++++++++++++++
+>   sound/usb/card.h                  |  2 ++
+>   sound/usb/qcom/qc_audio_offload.c |  2 ++
+>   3 files changed, 23 insertions(+)
+> 
+> diff --git a/sound/usb/card.c b/sound/usb/card.c
+> index 11b827b7a2a5..995b2df676ab 100644
+> --- a/sound/usb/card.c
+> +++ b/sound/usb/card.c
+> @@ -202,6 +202,25 @@ struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+>   }
+>   EXPORT_SYMBOL_GPL(snd_usb_find_suppported_substream);
+>   
+> +/*
+> + * in case the platform driver was not ready at the time of USB SND
+> + * device connect, expose an API to discover all connected USB devices
+> + * so it can populate any dependent resources/structures.
+> + */
+> +void snd_usb_rediscover_devices(void)
+> +{
+> +	int i;
+> +
+> +	mutex_lock(&register_mutex);
+> +	for (i = 0; i < SNDRV_CARDS; i++) {
+> +		if (usb_chip[i])
+> +			if (platform_ops && platform_ops->connect_cb)
+> +				platform_ops->connect_cb(usb_chip[i]);
 
-> On 15.12.2023, at 12:06, David Gstir <david@sigma-star.at> wrote:
->=20
-> This is a revival of the previous patch set submitted by Richard =
-Weinberger:
-> =
-https://lore.kernel.org/linux-integrity/20210614201620.30451-1-richard@nod=
-.at/
->=20
-> v4 is here:
-> =
-https://lore.kernel.org/keyrings/20231024162024.51260-1-david@sigma-star.a=
-t/
->=20
-> v4 -> v5:
-> - Make Kconfig for trust source check scalable as suggested by Jarkko =
-Sakkinen
-> - Add Acked-By from Herbert Xu to patch #1 - thanks!
-> v3 -> v4:
-> - Split changes on MAINTAINERS and documentation into dedicated =
-patches
-> - Use more concise wording in commit messages as suggested by Jarkko =
-Sakkinen
-> v2 -> v3:
-> - Addressed review comments from Jarkko Sakkinen
-> v1 -> v2:
-> - Revive and rebase to latest version
-> - Include review comments from Ahmad Fatoum
->=20
-> The Data CoProcessor (DCP) is an IP core built into many NXP SoCs such
-> as i.mx6ull.
->=20
-> Similar to the CAAM engine used in more powerful SoCs, DCP can AES-
-> encrypt/decrypt user data using a unique, never-disclosed,
-> device-specific key. Unlike CAAM though, it cannot directly wrap and
-> unwrap blobs in hardware. As DCP offers only the bare minimum feature
-> set and a blob mechanism needs aid from software. A blob in this case
-> is a piece of sensitive data (e.g. a key) that is encrypted and
-> authenticated using the device-specific key so that unwrapping can =
-only
-> be done on the hardware where the blob was wrapped.
->=20
-> This patch series adds a DCP based, trusted-key backend and is similar
-> in spirit to the one by Ahmad Fatoum [0] that does the same for CAAM.
-> It is of interest for similar use cases as the CAAM patch set, but for
-> lower end devices, where CAAM is not available.
->=20
-> Because constructing and parsing the blob has to happen in software,
-> we needed to decide on a blob format and chose the following:
->=20
-> struct dcp_blob_fmt {
-> __u8 fmt_version;
-> __u8 blob_key[AES_KEYSIZE_128];
-> __u8 nonce[AES_KEYSIZE_128];
-> __le32 payload_len;
-> __u8 payload[];
-> } __packed;
->=20
-> The `fmt_version` is currently 1.
->=20
-> The encrypted key is stored in the payload area. It is AES-128-GCM
-> encrypted using `blob_key` and `nonce`, GCM auth tag is attached at
-> the end of the payload (`payload_len` does not include the size of
-> the auth tag).
->=20
-> The `blob_key` itself is encrypted in AES-128-ECB mode by DCP using
-> the OTP or UNIQUE device key. A new `blob_key` and `nonce` are =
-generated
-> randomly, when sealing/exporting the DCP blob.
->=20
-> This patchset was tested with dm-crypt on an i.MX6ULL board.
->=20
-> [0] =
-https://lore.kernel.org/keyrings/20220513145705.2080323-1-a.fatoum@pengutr=
-onix.de/
->=20
-> David Gstir (6):
->  crypto: mxs-dcp: Add support for hardware-bound keys
->  KEYS: trusted: improve scalability of trust source config
->  KEYS: trusted: Introduce NXP DCP-backed trusted keys
->  MAINTAINERS: add entry for DCP-based trusted keys
->  docs: document DCP-backed trusted keys kernel params
->  docs: trusted-encrypted: add DCP as new trust source
->=20
-> .../admin-guide/kernel-parameters.txt         |  13 +
-> .../security/keys/trusted-encrypted.rst       |  85 +++++
-> MAINTAINERS                                   |   9 +
-> drivers/crypto/mxs-dcp.c                      | 104 +++++-
-> include/keys/trusted_dcp.h                    |  11 +
-> include/soc/fsl/dcp.h                         |  17 +
-> security/keys/trusted-keys/Kconfig            |  18 +-
-> security/keys/trusted-keys/Makefile           |   2 +
-> security/keys/trusted-keys/trusted_core.c     |   6 +-
-> security/keys/trusted-keys/trusted_dcp.c      | 311 ++++++++++++++++++
-> 10 files changed, 562 insertions(+), 14 deletions(-)
-> create mode 100644 include/keys/trusted_dcp.h
-> create mode 100644 include/soc/fsl/dcp.h
-> create mode 100644 security/keys/trusted-keys/trusted_dcp.c
+if inside if, it can just be && or maybe move callback check before 
+mutex lock and just return early if it is not present?
 
-Jarkko, Mimi, David do you need anything from my side for these patches =
-to get them merged?
-
-Thanks,
-- David
+> +	}
+> +	mutex_unlock(&register_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(snd_usb_rediscover_devices);
+> +
+>   /*
+>    * disconnect streams
+>    * called from usb_audio_disconnect()
+> diff --git a/sound/usb/card.h b/sound/usb/card.h
+> index 6d59995440c3..3a0d68f453a1 100644
+> --- a/sound/usb/card.h
+> +++ b/sound/usb/card.h
+> @@ -222,11 +222,13 @@ int snd_usb_unregister_platform_ops(void);
+>   #if IS_ENABLED(CONFIG_SND_USB_AUDIO)
+>   struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+>   			struct snd_pcm_hw_params *params, int direction);
+> +void snd_usb_rediscover_devices(void);
+>   #else
+>   static struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+>   			struct snd_pcm_hw_params *params, int direction)
+>   {
+>   	return NULL;
+>   }
+> +static void snd_usb_rediscover_devices(void) { }
+>   #endif /* IS_ENABLED(CONFIG_SND_USB_AUDIO) */
+>   #endif /* __USBAUDIO_CARD_H */
+> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+> index 08af82ec22ad..9b0f98600e58 100644
+> --- a/sound/usb/qcom/qc_audio_offload.c
+> +++ b/sound/usb/qcom/qc_audio_offload.c
+> @@ -1867,6 +1867,8 @@ static int __init qc_usb_audio_offload_init(void)
+>   	if (ret < 0)
+>   		goto release_qmi;
+>   
+> +	snd_usb_rediscover_devices();
+> +
+>   	return 0;
+>   
+>   release_qmi:
+> 
 
