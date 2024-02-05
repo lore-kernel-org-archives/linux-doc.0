@@ -1,123 +1,95 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83478629F6;
-	Mon,  5 Feb 2024 19:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F350C48783;
+	Mon,  5 Feb 2024 20:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707162220; cv=none; b=WJalf2+01WLlUZNyBFGRUe7jPQECTSTgdVIKpJS1Erqi15wpF4EfslOPMN01YY+iHOrRHI+cVU6MnexvCOvIDXaULNe6xWd9PWAy4/PMSZaXkJtAjLGF4Ybmg6gX27nUQaxAd5WYa4gmqFYpsvidwMXJE4DhdH7yA7K6DMifcTQ=
+	t=1707166649; cv=none; b=D5416UV1kymIKroTlMS/FnDzAH/DM6sF/DYGPkRNk/Bkrgnxwp2J6BrJZoivhZR5mzzpioGZnXGKkyPo+bwvmxfq0xrOo8P+Gc4enPDyGgu3vccX1qNn1bntFno9wzVaJXg2a/9DbFhZg7p0/SOIN0J0y1cHCL09jeCquWhJXlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707162220; c=relaxed/simple;
-	bh=XY4TTAJbJUhHs+OdwIErJkmjXGbvN1tNZwvsPs7cS4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JMvrHBircZIhe71yehdRSsCRtVLVQkUurzbMy7sI0CWhaIbfJsRGQ3xL+05gyUlfSFvY5xG0MziL2iU55ULdRUMTn4enJYHMHjSp5dMQE3Uu7eLHrBzy7ZM9dEpyE1WvKlKX2hTjw3l3VBbFM5kXXCQLBYlbjqI7G7WSRT9zT1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kTHoIdkZ; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707166649; c=relaxed/simple;
+	bh=n9NXOBKbZzHnS6QoP5z2ZivCMPOrduYRvq0pRS862fs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ioqpNJjpJuySZaI4NtJvZvNRMvCOcC6Yb/RGGm7Vcz/iq2y0bn1TfsldxQe/l+euVwa60bEAphCbUsAMaKNhi3oEZcchEk+0sQSCb5RKdrsxe1Ncm6ymqKBPmlxij4U4ye4sWKBLfxdVjHCRS4K3RXvebsNl/biX3PsCrRZYHrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bm7WOZR1; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kTHoIdkZ"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5cddfe0cb64so3826634a12.0;
-        Mon, 05 Feb 2024 11:43:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707162218; x=1707767018; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WownJN3vieYmCVvDaJslP4w36aaJ0JfyBZ8/ZSdb1Ew=;
-        b=kTHoIdkZoOCyjACvqZKItLkozfiV2qx9ahywTDnHw4sydSwwwqpLbcxrMLIw2ZWPPC
-         bgxH6J1k9d/qhz7hwx2bMOjiwhguXFXdlUy/zfcScH6YD8lni1RK5mLiLFyrYSHw62HZ
-         3v3y4ddGtjR+buqt54CAjEvsFgk5VXsOxzy5eL4P3YwXk38JYnn+MNYIVwjEvxI7nM9r
-         UW3YwW4ThfzH6fv48Xexk9KEqd6xR10LpFDP1RCgj9uO6XV8ardfp/Gj0GTjByBLLfbb
-         HDOlDA8llRaj86HEy47vMjXPQX6Bgwb1UTBoRBiqFqY7m42kqQn3MmgnKk8Pa7MRgcLy
-         92mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707162218; x=1707767018;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WownJN3vieYmCVvDaJslP4w36aaJ0JfyBZ8/ZSdb1Ew=;
-        b=mdVleis2kDcf1QNEwh1iNCShlG64gIcgQgc2i4yhzE65Gc9AqRmr8ourDo9QKUXBvv
-         5ya8SXkwIdp3iLL8+LbrlOBqiZFsGZFnSfjVDf7LFeAAA6xBTq3d57oE8pb8mFlDgeCp
-         abkzCxJ8bKwBnSz3kkSaoXAnmaZseqHP1+VxAG/VjPMRe2uE6M0It6gOXx4DDZLRIORX
-         s1eUAsU9zf6q72bvtTcI25DVTEXKIPJeMSC0x3fIBU2AH3lBEe3xJgVjB8toNoGo8c5I
-         oFu34lOMxi7cT7EXUle0TNwh3QvJepxsGYA6+VzrZQMPqE7ij8IqmL7Cpvr/Y6Gpeyei
-         W8QQ==
-X-Gm-Message-State: AOJu0YwhLnkku+Mk+H2+F3mUx29WRRZumZZFdxyvk0mWcozEWAcatI3A
-	hldF7m6IAg98blO3EoLJ9RPpyk0dxRTmm/vsINIrtNt5EpIvIHs5
-X-Google-Smtp-Source: AGHT+IFKDFB025e5u29N27FpcDCFQbYoe+NkNUu9nCOwpF1183SVpoRf6Eiwlpzc1Mg9NG4FqW0bPg==
-X-Received: by 2002:a05:6a21:7893:b0:19e:4e80:38ca with SMTP id bf19-20020a056a21789300b0019e4e8038camr679969pzc.2.1707162217638;
-        Mon, 05 Feb 2024 11:43:37 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXcWRFnS3Rfjcjem2fP/tReUf7+D1TKeDF9nsfEVLZQaAlV304amNPOgB6CWUQgvMW59KgbZ0ma00CayhZ/vv55kgzKIcaLqvrU9QsPkfcOdBXwU8/Kg1ISE5ijGIFTzhWtx9lQPlSHO8oVCR8Lc0JDIJLQxvtpEWEDBECXMKtp/1mtyzi9vy3Zo+KiIX2VW00nHAcxdklQLJ106tsBRBsixaOyPkHaSCMtVFaqdsxVObmmr6F1jOqio4vZygWJX4/3B8ePMZ3dW4X9dNFlHMEWb+Z26YOLvu5E0k9UJmyjm9vaCTsvfoflBD3oOLDVCuN9NqIQyoQ7iMFVu7yMj0yHWygYu5NdFcC3/gxFKWnlAxcKx6YeDe1/oe+DflNT60XWfG6REyLwhH90EBJ8JeRvN9ruKc4UDiouafy4SIbKVs4BbPYvwY9DaJQKIrCbWIQUVc7aKZIt5Sm2TcObIgQ+xv5oKUqhEP6x1h+/ul+dhCMHxYf6+P6KxsAg2dWJ89Ugs27kl9fi1eNNLq1rwXKQU1U5ZrI7oruYR+9/jNa7KS0obJktFMM42rgspLfafDhjX4LwRREGsWDaTGemYfXvDkdUokMQwhUYf6SEmlUHYZDXmL9MRDpip8mWJJYB+I+4jiMXl77VUcEYckXDwGCuvewAgenyBko3MANj6pfSA3rT2uUhVFUZ4Ev8eG8X7AZMwQBa+/ctSKdSejq0uOMx5S1tUvzpuimLFKmigbGs1puSV2St4+CrxvI98Q4GnRhbqxWRQmz6pKSzf1xDao7+n8b1Wd2xkwjIb9WSrO6Kbygkjjjo/0I=
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id hy9-20020a056a006a0900b006d9b2694b0csm225526pfb.200.2024.02.05.11.43.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 11:43:36 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 5 Feb 2024 11:43:35 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Cosmo Chou <chou.cosmo@gmail.com>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net,
-	broonie@kernel.org, naresh.solanki@9elements.com,
-	vincent@vtremblay.dev, patrick.rudolph@9elements.com,
-	luca.ceresoli@bootlin.com, bhelgaas@google.com, festevam@denx.de,
-	alexander.stein@ew.tq-group.com, heiko@sntech.de,
-	jernej.skrabec@gmail.com, macromorgan@hotmail.com,
-	forbidden405@foxmail.com, sre@kernel.org, linus.walleij@linaro.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	cosmo.chou@quantatw.com
-Subject: Re: [PATCH v5 1/1] hwmon: Add driver for Astera Labs PT5161L retimer
-Message-ID: <4a504043-e24d-4119-8c5d-107f0d371110@roeck-us.net>
-References: <20240205152013.3833940-1-chou.cosmo@gmail.com>
- <20240205152013.3833940-2-chou.cosmo@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bm7WOZR1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=BK6dgOw0DUhNxnKL/qa1Tc0mcbdX59+dC5ywm0Fydo4=; b=bm7WOZR1fo7zAHVEX5zIhUN5T0
+	GC2PDtLeaTYO7hzWkcuhTfm1xY+lcxLR3VdbZE8J6sdK4Ebt6YQ9hxSUollhaxy0MWZITK5qFh6+s
+	fmvRLaQ4I59pzFUhYFRPOVuc+EDHRkijxsjS+LHIru7DifWqZdal1GoCvKaVz2N8lmwfvBuFgSZ0R
+	PDiT1uYmdnz4HQrHp6oOEIceH3Rt/y1ltuO0F8+EUeQlgu79ysH+nPk2GqUbL2qPc11ADe1iQL5LV
+	gqzCM2PxnfildQNjnPywbovMBFihzDipVX2VuXwOIDXKmv4/L0ZOpnf58XhwCf7K7zpEVRSXqTbwU
+	YxayafJg==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rX61s-000000058Qn-0COD;
+	Mon, 05 Feb 2024 20:57:24 +0000
+Message-ID: <65734029-0cbd-4870-905f-024fcc09a634@infradead.org>
+Date: Mon, 5 Feb 2024 12:57:23 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240205152013.3833940-2-chou.cosmo@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: admin-guide: tainted-kernels.rst: Add
+ missing article and comma
+Content-Language: en-US
+To: Thorsten Blum <thorsten.blum@toblux.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ trivial@kernel.org
+References: <20240205132409.1957-1-thorsten.blum@toblux.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240205132409.1957-1-thorsten.blum@toblux.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 05, 2024 at 11:20:13PM +0800, Cosmo Chou wrote:
-> This driver implements support for temperature monitoring of Astera Labs
-> PT5161L series PCIe retimer chips.
+
+
+On 2/5/24 05:24, Thorsten Blum wrote:
+> - Add missing article "the"
+> - s/above example/example above/
+> - Add missing comma after introductory clause to improve readability
 > 
-> This driver implementation originates from the CSDK available at
-> Link: https://github.com/facebook/openbmc/tree/helium/common/recipes-lib/retimer-v2.14
-> The communication protocol utilized is based on the I2C/SMBus standard.
-> 
-> Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
 > ---
-[ ... ]
+>  Documentation/admin-guide/tainted-kernels.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+> index 92a8a07f5c43..f92551539e8a 100644
+> --- a/Documentation/admin-guide/tainted-kernels.rst
+> +++ b/Documentation/admin-guide/tainted-kernels.rst
+> @@ -34,7 +34,7 @@ name of the command ('Comm:') that triggered the event::
+>  
+>  You'll find a 'Not tainted: ' there if the kernel was not tainted at the
+>  time of the event; if it was, then it will print 'Tainted: ' and characters
+> -either letters or blanks. In above example it looks like this::
+> +either letters or blanks. In the example above it looks like this::
+>  
+>  	Tainted: P        W  O
+>  
+> @@ -52,7 +52,7 @@ At runtime, you can query the tainted state by reading
+>  tainted; any other number indicates the reasons why it is. The easiest way to
+>  decode that number is the script ``tools/debugging/kernel-chktaint``, which your
+>  distribution might ship as part of a package called ``linux-tools`` or
+> -``kernel-tools``; if it doesn't you can download the script from
+> +``kernel-tools``; if it doesn't, you can download the script from
+>  `git.kernel.org <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/tools/debugging/kernel-chktaint>`_
+>  and execute it with ``sh kernel-chktaint``, which would print something like
+>  this on the machine that had the statements in the logs that were quoted earlier::
 
-> +static ssize_t pt5161l_debugfs_read_fw_ver(struct file *file, char __user *buf,
-> +					   size_t count, loff_t *ppos)
-> +{
-> +	struct pt5161l_data *data = file->private_data;
-> +	int ret;
-> +	char ver[32];
-> +
-> +	mutex_lock(&data->lock);
-> +	ret = pt5161l_fwsts_check(data);
-> +	mutex_unlock(&data->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = snprintf(ver, sizeof(ver), "%u.%u.%u\n", data->fw_ver.major,
-> +		       data->fw_ver.minor, data->fw_ver.build);
-> +	if (ret < 0)
-> +		return ret;
-> +
-
-You almost got me here ;-). snprintf() never returns a negative error code,
-so checking for it is not necessary.
-
-> +	return simple_read_from_buffer(buf, count, ppos, ver, ret + 1);
-
-Number of bytes written plus 1 ? Why ?
-
-Thanks,
-Guenter
+-- 
+#Randy
