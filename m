@@ -1,167 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from poodle.tulip.relay.mailchannels.net (poodle.tulip.relay.mailchannels.net [23.83.218.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B4B3CF63;
-	Mon,  5 Feb 2024 15:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707147249; cv=none; b=q8nTOAYiCSASzKpB2goUAKuJ4eZ3nTBvfHifO7qdhxLwKa/rhKFtiSPIOWjsAmQBqRF2twfl13rAGGGB6kfZO1fmcZIYllufQ4wg2regc/QgfyYqw/VPExrbPnFgiGG7Km74ri7UlBsAc9jV/v1JmEgkkPi3rwsz6IoJxyBT8A0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707147249; c=relaxed/simple;
-	bh=SZ5lOaTcjPLax9RiPdWCg4niKcbES+E0uMPELi0RXuU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qRslNkPnR8VIA6ZMJ2KwdpDZGSRoeAPE0IASsSnR8HmYZDPUdRVomxyiEXQLFN7m7B+mEzq1CUBXditCDceEAPaJJAp4kUWekMygG0FpmYnrp6lPJF2Q2lBHpI7oY+5o7bF+hvc8xmenPFpTcPygUW7ukzx8nSG6f1WtGLXQbiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DvvLnxe0; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DvvLnxe0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 213CBC433F1;
-	Mon,  5 Feb 2024 15:34:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707147249;
-	bh=SZ5lOaTcjPLax9RiPdWCg4niKcbES+E0uMPELi0RXuU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DvvLnxe0P4S5yNRw5W2VY9jJ/E1A+shICsu1xDuV/gHmffvHBzURzsVRFJcvUJ8YE
-	 6QBN55llvCBZnj2N7RqNyqqi9c7wb9DYeG2+9zjkVok4Da3nmMRjNTPGl+52PDgjhM
-	 GsH1ZYh1DLMKySBZsxTWhaRwJPkUykxLG+W3eZkFdZ3mhXH9Sw0xcFypYfdPXfZBjP
-	 sHZCaIf8sr9Lx503zRsqr0kqLGI0h6JzFx1tMKuSAoy5MXNktLQyNPGD6r8QxxINLm
-	 5o0ggZ7xvpbbeoBwBLxqbCmkB97jAeDicbiBgGlpnPXzp92m19n0g6qQkAvnLQu4Iz
-	 PpsszaLe4tw5Q==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1rX0z0-000Su2-Bp;
-	Mon, 05 Feb 2024 15:34:06 +0000
-Date: Mon, 05 Feb 2024 15:34:05 +0000
-Message-ID: <8634u76i36.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Kees Cook <keescook@chromium.org>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 13/38] KVM: arm64: Manage GCS registers for guests
-In-Reply-To: <825d2b35-fa10-43ad-b3b3-b29a77f3fed0@sirena.org.uk>
-References: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
-	<20240203-arm64-gcs-v8-13-c9fec77673ef@kernel.org>
-	<868r3z6y6v.wl-maz@kernel.org>
-	<825d2b35-fa10-43ad-b3b3-b29a77f3fed0@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE892C85D
+	for <linux-doc@vger.kernel.org>; Mon,  5 Feb 2024 15:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.249
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707147677; cv=pass; b=qBlpPco+68LKZPvcZ5BF9YwRUWZcVvt7oVcPCi6VxhPeCv4wPiKBX9A/q1D1OYSNi+D31cr6BqdHPq3V85QstSjWgUj4rYb5kWfMu0Ko6r78ENj6sbcZ00k1MgDa4SH/eK6Q5hwu+YlIjIa0gKN+oi/xHo9EYcPufeiM4OG+6kk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707147677; c=relaxed/simple;
+	bh=J5iNGP3KS9seIB5x3HAu9hwsVIG3/Uq6tr+Nk0Cm4cI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u9MyH44J/ciA/ivus4U/ULMS26jg4iJL06bFnP8o78xso2F9uLMSgFX8L+KfcLDIUda/1yUXyAANuuSapWzoK4L19i3gY4z+EyNl2CRIV7T/C7iHrbL0UZlHpDpo6A9hJRAOcMHi1/bciWH1tW6lsNnhX67FcekEUQFEI51NPyw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=christoph.anton.mitterer.name; spf=pass smtp.mailfrom=scientia.org; arc=pass smtp.client-ip=23.83.218.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=christoph.anton.mitterer.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=scientia.org
+X-Sender-Id: instrampxe0y3a|x-authuser|calestyo@scientia.org
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id CCFD8C36AF;
+	Mon,  5 Feb 2024 15:41:07 +0000 (UTC)
+Received: from cpanel-007-fra.hostingww.com (unknown [127.0.0.6])
+	(Authenticated sender: instrampxe0y3a)
+	by relay.mailchannels.net (Postfix) with ESMTPA id E6525C360E;
+	Mon,  5 Feb 2024 15:41:06 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1707147667; a=rsa-sha256;
+	cv=none;
+	b=YgJQcaFdKbNr8UvbSbGD8w1FaeG0Eidg1QU3SV2G69ffSv00etIB8WUVs+2PDCzbUuMgIo
+	PF3+oix2UPn5w6DbVJTRWR6J6En3r93hl+ZtMKh7ZYDEh5QPIrZnyETk4n12eEuF85V/hT
+	kCubFyJl5UXq43LcfqQrQH1TR//5bhzCI+ikgssvM7ZfsILKP5Aok4d2y+4L9O4IRlSpFn
+	2c/8UGXlSdr3Le8NMFN+Hd0t1wLBK7c48qBhmRPo/nXaXJaYRzYqEMPttdoZ1MAwH7CdX2
+	/vTO84u7wGtUNVxQFzW7Q7/s2r4qkR/AnBt67XUMxRSMf2L00l9OjgfMwttE+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1707147667;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZOZnr7RbatMpEJ0rX6OCZvoZ62JMg0YQ58vkNCaLh9M=;
+	b=Filjz1JLnN1JfM3qkpXcHMxlQZHeWeiie8il+lJH8hcinwgaCoSRzXRyVNTt0EUgK4+Hnq
+	lvwRK+HFwfreLXdSr6exQTRU5GN+nXqoUvfnFHoed8GvDwLpYda5Tl7LWIH0yvIgUsIxlU
+	sxlP2mmau0PE8epjfq4biCJfEaZF6KIRIPVnkZLQBaw4gsHconHsSrobn3yAJheMR5lANE
+	3bvtHQ0a3nZR59PIlGLXMEMM6wTVKvWJukXC+Sfga+aGJTQ71hRR2WzB6584C7+8d8Qwp6
+	qoIrwk+AkAeNYXTFQhezT1DEaN8Zi9N8V/uGItKSch6Oj5Rqkt3Bbdko7M72qA==
+ARC-Authentication-Results: i=1;
+	rspamd-55b4bfd7cb-lrbxf;
+	auth=pass smtp.auth=instrampxe0y3a smtp.mailfrom=calestyo@scientia.org
+X-Sender-Id: instrampxe0y3a|x-authuser|calestyo@scientia.org
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: instrampxe0y3a|x-authuser|calestyo@scientia.org
+X-MailChannels-Auth-Id: instrampxe0y3a
+X-Duck-Gusty: 6b938fea46174ea3_1707147667658_1497600776
+X-MC-Loop-Signature: 1707147667658:1441814696
+X-MC-Ingress-Time: 1707147667657
+Received: from cpanel-007-fra.hostingww.com (cpanel-007-fra.hostingww.com
+ [3.69.87.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
+	by 100.127.213.229 (trex/6.9.2);
+	Mon, 05 Feb 2024 15:41:07 +0000
+Received: from p5b0ed8de.dip0.t-ipconnect.de ([91.14.216.222]:58668 helo=heisenberg.scientia.org)
+	by cpanel-007-fra.hostingww.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <calestyo@scientia.org>)
+	id 1rX15h-0002bI-1u;
+	Mon, 05 Feb 2024 15:41:05 +0000
+Received: by heisenberg.scientia.org (Postfix, from userid 1000)
+	id 37AD31974DAE; Mon,  5 Feb 2024 16:41:00 +0100 (CET)
+From: Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net
+Subject: [PATCH] docs: proc.rst: comm: mention the included NUL
+Date: Mon,  5 Feb 2024 16:41:00 +0100
+Message-ID: <20240205154100.736499-1-mail@christoph.anton.mitterer.name>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, akpm@linux-foundation.org, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, arnd@arndb.de, oleg@redhat.com, ebiederm@xmission.com, keescook@chromium.org, shuah@kernel.org, rick.p.edgecombe@intel.com, debug@rivosinc.com, ardb@kernel.org, Szabolcs.Nagy@arm.com, hjl.tools@gmail.com, paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, fweimer@redhat.com, brauner@kernel.org, thiago.bauermann@linaro.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-AuthUser: calestyo@scientia.org
 
-On Mon, 05 Feb 2024 12:35:53 +0000,
-Mark Brown <broonie@kernel.org> wrote:
-> 
-> On Mon, Feb 05, 2024 at 09:46:16AM +0000, Marc Zyngier wrote:
-> > On Sat, 03 Feb 2024 12:25:39 +0000,
-> > Mark Brown <broonie@kernel.org> wrote:
-> 
-> > > +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> > > @@ -25,6 +25,8 @@ static inline void __sysreg_save_user_state(struct kvm_cpu_context *ctxt)
-> > >  {
-> > >  	ctxt_sys_reg(ctxt, TPIDR_EL0)	= read_sysreg(tpidr_el0);
-> > >  	ctxt_sys_reg(ctxt, TPIDRRO_EL0)	= read_sysreg(tpidrro_el0);
-> > > +	if (has_gcs())
-> > > +		ctxt_sys_reg(ctxt, GCSPR_EL0) = read_sysreg_s(SYS_GCSPR_EL0);
-> 
-> > We have had this discussion in the past. This must be based on the
-> > VM's configuration. Guarding the check with the host capability is a
-> > valuable optimisation, but that's nowhere near enough. See the series
-> > that I have posted on this very subject (you're on Cc), but you are
-> > welcome to invent your own mechanism in the meantime.
-> 
-> Right, which postdates the version you're replying to and isn't merged
-> yet - the current code was what you were asking for at the time.
+Indicate that the actual value will be one character less.
 
-v1 and v2 predate it. And if the above is what I did ask, then I must
-have done a very poor job of explaining what was required. For which I
-apologise profusely.
+Signed-off-by: Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>
+---
+ Documentation/filesystems/proc.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> I'm
-> expecting to update all these feature series to work with that once it
-> gets finalised and merged but it's not there yet, I do see I forgot to
-> put a note in v9 about that like I did for dpISA - sorry about that, I
-> was too focused on the clone3() rework when rebasing onto the new
-> kernel.
-> 
-> This particular series isn't going to get merged for a while yet anyway
-> due to the time it'll take for userspace testing, I'm expecting your
-> series to be in by the time it becomes an issue.
-
-Right. Then I'll ignore it for the foreseeable future.
-
-> 
-> > > +	if (has_gcs()) {
-> > > +		write_sysreg_el1(ctxt_sys_reg(ctxt, GCSPR_EL1),	SYS_GCSPR);
-> > > +		write_sysreg_el1(ctxt_sys_reg(ctxt, GCSCR_EL1),	SYS_GCSCR);
-> > > +		write_sysreg_s(ctxt_sys_reg(ctxt, GCSCRE0_EL1),
-> > > +			       SYS_GCSCRE0_EL1);
-> > > +	}
-> 
-> > For the benefit of the unsuspecting reviewers, and in the absence of a
-> > public specification (which the XML drop isn't), it would be good to
-> > have the commit message explaining the rationale of what gets saved
-> > when.
-> 
-> What are you looking for in terms of rationale here?  The KVM house
-> style is often very reliant on reader context so it would be good to
-> know what considerations you'd like to see explicitly addressed.
-
-Nothing to do with style, everything to do with substance: if nothing
-in the host kernel makes any use of these registers, why are they
-eagerly saved/restored on nVHE/hVHE? I'm sure you have a reason for
-it, but it isn't that obvious. Because these two modes need all the
-help they can get in terms of overhead reduction.
-
-> These
-> registers shouldn't do anything when we aren't running the guest so
-> they're not terribly ordering sensitive, the EL2 ones will need a bit
-> more consideration in the face of nested virt.
-
-The EL2 registers should follow the exact same pattern, specially once
-you fix the VNCR bugs I pointed out.
-
-	M.
-
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 104c6d047d9b..41b9be923519 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1899,8 +1899,8 @@ For more information on mount propagation see:
+ These files provide a method to access a task's comm value. It also allows for
+ a task to set its own or one of its thread siblings comm value. The comm value
+ is limited in size compared to the cmdline value, so writing anything longer
+-then the kernel's TASK_COMM_LEN (currently 16 chars) will result in a truncated
+-comm value.
++then the kernel's TASK_COMM_LEN (currently 16 chars, including the null
++terminator) will result in a truncated comm value.
+ 
+ 
+ 3.7	/proc/<pid>/task/<tid>/children - Information about task children
 -- 
-Without deviation from the norm, progress is not possible.
+2.43.0
+
