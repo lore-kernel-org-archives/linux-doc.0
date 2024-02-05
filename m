@@ -1,107 +1,70 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC48FB670;
-	Mon,  5 Feb 2024 05:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD4D8BE4C;
+	Mon,  5 Feb 2024 06:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707112534; cv=none; b=IX0IH7P7egq2N3AARu9dX0qU10fNB+E7hMERmmQ/5lQE1hQ68JS7fEhjg2NQZYwyCOffAq7S+KnkVpXBu0cf387mwCpvEV5c3/P7dPqvto2WSTYX5NTbEGeyEkTtsVDr4nG+M3AhWaFxiCxlorXtHbgiSVFdMJDqtIpaaFE8iaY=
+	t=1707113371; cv=none; b=NIpGl/8vKD2mYcteKodjlsG5ZHMAKnW2o7ZP5eo+L7OYclD3RmLinnOYOWRmBpvmx0OXOyIGOM/Tfaldx3VX5D1mP7lsiFBoh7izvDhcGMortUZJM7aHHAc7UiwGysNsPL7twJ8db0u15Os6HHaZkxwBRG/RBNohijMzdPOhnrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707112534; c=relaxed/simple;
-	bh=ju6YE0oBHIeK9zcvvq+qvKrPJsFzxoBtpAAHRsRvN80=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tPF1QQMREAJU/MBwMyX6mhlfC1uKFsqWjxHn8yL0FnDIB5HcpUr9xJG9C+j3V5LT+an/xWUg+XREEmPTx9MskBAqVzHB1lkG2Z/29CLmMfGzg4FYsWIXtLbXUv9+rJgaK6HgZXlmnWz/XPWc2TfmADJ8UlU9QVTI1iZ3cysKvo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=SwhvQZio; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="SwhvQZio"
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4155tGiV120696;
-	Sun, 4 Feb 2024 23:55:16 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1707112516;
-	bh=LvEJrWyHyN0lxHNcqKJjNjH0q34jTFfI5LghukRsGIg=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=SwhvQZiozpvh0Xe3ph2T/TA7tWW85Ay4lv2lMBijRRUUeGz2GVCltUJPv6YbVC7+9
-	 ccNiLx/2CARmJrSag5T2EUrsnR8DvZJviK0DxT3le9KHe+4LUtFgtgACamJ+OGhtAg
-	 +cb0AK2uz+SMMumbJRX5WGq4BL6HcQ1261lUvHp4=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4155tGBF001855
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 4 Feb 2024 23:55:16 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sun, 4
- Feb 2024 23:55:15 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sun, 4 Feb 2024 23:55:15 -0600
-Received: from localhost (dhruva.dhcp.ti.com [172.24.227.68])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4155tFDn117159;
-	Sun, 4 Feb 2024 23:55:15 -0600
-Date: Mon, 5 Feb 2024 11:25:14 +0530
-From: Dhruva Gole <d-gole@ti.com>
-To: Stefan Wahren <wahrenst@gmx.net>
-CC: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Rob
- Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, <andy.shevchenko@gmail.com>,
-        Angelo Compagnucci
-	<angelo.compagnucci@gmail.com>,
-        Philip Howard <phil@gadgetoid.com>, Sean
- Young <sean@mess.org>,
-        Linus Walleij <linus.walleij@linaro.org>, <linux-pwm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH V4 0/2] pwm: Add GPIO PWM driver
-Message-ID: <20240205055514.rox6yd2eenhsngva@dhruva>
-References: <20240204220851.4783-1-wahrenst@gmx.net>
+	s=arc-20240116; t=1707113371; c=relaxed/simple;
+	bh=O6lE1j6DLw2hNNPADG3UruIJV8j82U4fDFAtxuxNxAE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Pu5PaVCJo1KPJXAhgF4IChrD6lSnp7eZNR/ciApPPW6pWA6s2iYgL49hkL2RWoD5Mr5puKhCd72VAY1NnPWJr6EQH8DUADj6ZEG/1PMh48Gi1z16uVW3AHKD7IgfQCvLFSRvj12EhfSKOBaD3fQrma2KER03iVp+2URYE7GNTqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8CxifCWe8Bl58kKAA--.30566S3;
+	Mon, 05 Feb 2024 14:09:26 +0800 (CST)
+Received: from linux.localdomain (unknown [113.200.148.30])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxHs+Ve8BluusvAA--.49177S2;
+	Mon, 05 Feb 2024 14:09:25 +0800 (CST)
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Marco Elver <elver@google.com>
+Cc: kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Update kasan docs and tests
+Date: Mon,  5 Feb 2024 14:09:20 +0800
+Message-ID: <20240205060925.15594-1-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240204220851.4783-1-wahrenst@gmx.net>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8AxHs+Ve8BluusvAA--.49177S2
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+	BjDU0xBIdaVrnRJUUU9Sb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxV
+	AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E
+	14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
+	I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2
+	jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20x
+	vY0x0EwIxGrwCF54CYxVAaw2AFwI0_Jrv_JF1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxY
+	O2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
+	WUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_
+	Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rV
+	WUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4U
+	YxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU=
 
-Hi,
+Tiezhu Yang (2):
+  kasan: docs: Update descriptions about test file and module
+  kasan: Rename test_kasan_module_init to kasan_test_module_init
 
-On Feb 04, 2024 at 23:08:49 +0100, Stefan Wahren wrote:
-> Add a software PWM which toggles a GPIO from a high-resolution timer.
-> 
-> Recent discussions in the Raspberry Pi community revealt that a lot
-> of users still use MMIO userspace tools for GPIO access. One argument
-> for this approach is the lack of a GPIO PWM kernel driver. So this
-> series tries to fill this gap.
-> 
-> This continues the work of Vincent Whitchurch [1], which is easier
-> to read and more consequent by rejecting sleeping GPIOs than Nicola's
-> approach [2].
-> 
-> The work has been tested on a Raspberry Pi 3 B+ and a cheap logic
-> analyzer.
-
-I recently came across this series and I have to say that it will sure be
-a nice to have feature to be able to use any GPIO as a PWM.
-
-However, just a minor suggestion is that we should make sure it's well
-documented how to actually use this. It would be much appreciated if you
-could include some basic documentation of a few sysfs commands or any
-userspace library that you used to test what you've mentioned above.
-
-Maybe add another patch for this page?
-https://docs.kernel.org/driver-api/pwm.html#using-pwms-with-the-sysfs-interface
-
-This will ensure people know about this feature and will actually be
-able to use it.
+ Documentation/dev-tools/kasan.rst             | 20 +++++++++----------
+ .../translations/zh_CN/dev-tools/kasan.rst    | 20 +++++++++----------
+ .../translations/zh_TW/dev-tools/kasan.rst    | 20 +++++++++----------
+ mm/kasan/kasan_test_module.c                  |  4 ++--
+ 4 files changed, 32 insertions(+), 32 deletions(-)
 
 -- 
-Best regards,
-Dhruva Gole <d-gole@ti.com>
+2.42.0
+
