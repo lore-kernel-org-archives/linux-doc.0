@@ -1,207 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8284647F7B
-	for <linux-doc@vger.kernel.org>; Mon,  5 Feb 2024 18:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C92660DF2;
+	Mon,  5 Feb 2024 19:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707158590; cv=none; b=bCKmrY8bRXZtgoXCnAKdi2elmAy638xvie7riWl5B0yEneCFxBSvNEfr23DsG5g1Hj86KQLWYQ3L0dHpO4Vt+u6Ig27bN/aIfTAOacEHYp827Jr+/rHD7h6hKkV+TxUKhswJ4AC8H+gllWJodWPhTmgPasB+yX6bbpElAqpmO08=
+	t=1707162096; cv=none; b=Oh7Gd9v9Jib3+tXFAW6QNLmHQ8miHX095HLtG9H0wUlfkhr6TNeBWxfLdVzr5TwsH8n9WVmUERvqanJ6jCY9JxsR+zwoEA6rAppt9s1SUbGhlscujkS0eXw/WSOLeKx1DomZOHEk6/kh5+y6QaZSTDIaGXGJUF5J8fyZxrdDssY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707158590; c=relaxed/simple;
-	bh=lxH2UkoXhtlULl/zvh0je1dal/ztpt8QeP0kl4G+Vbs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uRHCb2hKsf+ASNgT7U+vTUe6ufgVHfvjRvK4iCse93ceGHWb7HcI85O4f9hZtb5mZwey0+3JPLZ0mSvduWjAhbC8ZO7q6T7IhHEjLPbKpWzXcpBDKKkxhqx7lomtPdJRNCJlpPdVVS5FGIVf5uTUFwuJU0zl6bukQNdND7q0k6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=in/T6uQe; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1707162096; c=relaxed/simple;
+	bh=gwNsUaGGaqv8vHcEre9Xj6V4R/eUrjnrSdACMEeFbI0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jj8IqB2ovcjrbk2DruwP14uNveA29qM2l2ZDLeHcWu0T0tv+84nOqXnnCncDC0VZ3BvyDQFiUVK38uGzrqnD8lQaQ8C954bZMOQMutsELTVamIldgdQ8S5YeyoMXpnRWsyV9zBqUS9oRX8ylLTcKFeCw+Z3TjC4ByLViS1QCFXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=DdgTTn8E; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="in/T6uQe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707158587;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LNq6oubwXmqe6ItjQ33y0Ud8zzbj1+GnKVYTNf0QWt4=;
-	b=in/T6uQeNvaUdgFgVdLZUIS672ButXTkcYX8Oz07h3uxFDhzcESuv44EzF7LB4vo5nzmpJ
-	dwFYYr7jjKk6UI0RdYnycyELNXfQ3rdIfB5A3Qd7Yx1Gjs0qK017E6F1hR3ZDnrIjNbeS0
-	36c5MbBM1MWncPQsTjh+HRFc0+cFmrs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-466-rCYBzz5mPmarB5kOJAl3rw-1; Mon, 05 Feb 2024 13:43:05 -0500
-X-MC-Unique: rCYBzz5mPmarB5kOJAl3rw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a26f2da3c7bso275923366b.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Feb 2024 10:43:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707158584; x=1707763384;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LNq6oubwXmqe6ItjQ33y0Ud8zzbj1+GnKVYTNf0QWt4=;
-        b=ilNJs6CpUSwXFNQ0zeWkCJSNgT4p+S+gHf/maziKSViTJmReXAi1vWaETauY+LB19t
-         o7d9vmmlivL97J2RY4z9YGJ/dytb7RHub/Oxp0MWwQSOmNpX8N3O8DNvhAluum9tY2R7
-         dZtcuOcid8H3WLb/KMtPfYpfsLjnmARsM7ocPAZnzT1Rce/WLRr+o5SjAHhuhLiwroOP
-         5taGNmDLzhjh1GaUMwILORwJLPh+h6eEeiLZseePjhHZ4mLtiXq6QkFYFFDiUctXhrA+
-         OrYCe60TPJPsoSZceY6hO4XGLEye++7b5t1XvQQ9+dKQaq4YOifU5sqn4iVTiObWzp4u
-         uIqw==
-X-Gm-Message-State: AOJu0Ywj2HDnH7HpDcYhgaNrzOq//4i4IHdj/9d/ZQgeCYehyoz/hX2N
-	QIoALwZS2Cb9Mdg7tQpDG2Kg/7eNmH4RXge63+mS9VpI14lPRChrvb6wuhFbTFgXp5hwSwkbX6v
-	+rVHiyV/egydPsBOx3VMCNoMndIvLky9H4iAqeIBAbSYfcaZuQZeR9U9g
-X-Received: by 2002:a17:906:c291:b0:a32:b376:489d with SMTP id r17-20020a170906c29100b00a32b376489dmr228561ejz.21.1707158584051;
-        Mon, 05 Feb 2024 10:43:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHBJJqi+E8gTHS8rAQpA+gl5qKoCPXD/0rXi7vARpqh0DWv7P2ivFSjS3co7lz7OUOuk2D9Nw==
-X-Received: by 2002:a17:906:c291:b0:a32:b376:489d with SMTP id r17-20020a170906c29100b00a32b376489dmr228552ejz.21.1707158583686;
-        Mon, 05 Feb 2024 10:43:03 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCW/539QzZ3CsCBd/dh6u4+Lu0RJ/lNp9RpJ+QdlVC2XRNNKX6VqeLJj50ZJA+N90OsJClBVsg5JNJx2ats/acge24t52SP1Khtr1Zb4g78xgsfghwaFLj1f6AJtfVo6O317uL1HzzNqXxmpy7ECqBJEptEIkKBxTFpYeMwuFd+BML/Xrojv2jMMXM9fitkLsKBmdYff02rTHIy1/9RYeW9KdA+vBiMMFajtXpJ9V3LInGlCjYjlUDdXOvBtO5I7hA45drv3aKenosx8u4UyB41Mz1PLz7aLENeuLx+D1O2uqJitQ5WY2/MWQsxC4hRsJLrtQSEiVEO//auoefGKYicIZXYmMBpZyobmMO+U5/AI7JRZNB4SrfhxFR3pafp6m1NPrmYlSeKc08AuIyTHk9ANC0tpyeniQJ3jCv+QnMgmLtM/kn+0P+/bRaYeDZ6d8IRlYLtr+o3sXelQ5sLfNPgIJKCnYmIVFOljcVjx7+ZUhFi0fAaUSSYmOH5KO46artcSjNhj82irK/HCSLEyg8UvWscGqbKXPwX22XgIsaFBiaZQJE98IoKW/FK5HPxvcKxRAW/5/iKxgZhKCM8KtX0dQCkHll57HIUiJSjrmPsVcn0ucLRS3jgg9lsPvnuDItmph5A4CJHwTnHeAe/8NIIZ8VBicJlP78Sc2dSEOj28GuudM2rMQLEK9T4bEzynKCV2zDJ0K6FcH+gAF302k7BBiiWiEivB
-Received: from [192.168.0.159] (185-219-167-205-static.vivo.cz. [185.219.167.205])
-        by smtp.gmail.com with ESMTPSA id t26-20020a1709066bda00b00a353d1a19a9sm121768ejs.191.2024.02.05.10.43.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 10:43:03 -0800 (PST)
-Message-ID: <afb2fc66-abb4-4010-8120-ada7a6881f89@redhat.com>
-Date: Mon, 5 Feb 2024 19:43:02 +0100
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="DdgTTn8E"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 82A6540E00B2;
+	Mon,  5 Feb 2024 19:41:29 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id NP_oJnZ5KlIR; Mon,  5 Feb 2024 19:41:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1707162086; bh=R7Pr/RRw/kKo0+V44VWePgEa5COJIWtlsvccbXKuuLg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DdgTTn8EhXbDQwcy9aF5OiE0bR9RrAAhcvznERiA54w2FwnBS42Sa93mT/Dn//IWB
+	 CppjyaDnWIk5UIOgrnMPNRnLBFMs+rlCTUPQ1UpZRLLbcUiPJY99tyJ/vcuDVLHQ8O
+	 SNO1mo+4PnS30AMvNbyM6jgEdCUWz1CCCVDJyIu7tW72Ho6e2lN1umiNYruuJT96lo
+	 Is6hTjfDm8GUFG0peMG259zIeRYjR6T3QwNE97tcvHqwXM8gCd9UzFv7aF4fLa3Fg1
+	 vE6Cx2DengLdjS/0GBNupx8HhE+xvwnlmnx0W/OxReEqpN1aYlwah6mMsilk0tCl6H
+	 oSHvFLy3qXGfGVyg7KNLwqvbdrND19JxT6XrYY6v226IGUf2gDd3qhDlgSI4GEgr1m
+	 K7V3sjWmZnN4/eQnPTbfiW/2pDvOUMCz4TOhlzDyEAeXohaZXJa06ROPed4pgWyfcD
+	 WbIPb2EbLEumkjlwHHlFTNPs3gXcozv0su9yGrwDYFKtPWiHeiXxdrk1w0ra+S5JBT
+	 eKIh3WLzb2PxZ1fb2SpCwnUyxQHW0ftKS9kQeheHhZcDX0b3qMZi38V3IYuqgDyxD8
+	 TdcaG8xntoVHxT9QoWCD/hxHRaQgXnkEmoqQhnCQXNlqHefoCqnrx5m6d7U9TdeHwO
+	 ttkkKG0+BzKXQSbA6AWQ0V7k=
+Received: from zn.tnic (pd953021b.dip0.t-ipconnect.de [217.83.2.27])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2CC9440E01A9;
+	Mon,  5 Feb 2024 19:41:18 +0000 (UTC)
+Date: Mon, 5 Feb 2024 20:41:12 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Tony Luck <tony.luck@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>,
+	Muralidhara M K <muralimk@amd.com>, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Muralidhara M K <muralidhara.mk@amd.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Begin a RAS section
+Message-ID: <20240205194112.GGZcE52DXtK2lr0-14@fat_crate.local>
+References: <20231102114225.2006878-1-muralimk@amd.com>
+ <20231102114225.2006878-2-muralimk@amd.com>
+ <20231128142049.GTZWX3QQTSaQk/+u53@fat_crate.local>
+ <87a5pes8jy.fsf@meer.lwn.net>
+ <20240109183646.GAZZ2SPiMZv83J3f0a@fat_crate.local>
+ <87wmsiqok6.fsf@meer.lwn.net>
+ <20240109200434.GBZZ2m0vWjm9v795YX@fat_crate.local>
+ <20240124124030.GDZbEFPo4APcggdE33@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
-Content-Language: en-US
-To: Manu Bretelle <chantr4@gmail.com>, Jiri Olsa <olsajiri@gmail.com>
-Cc: Daniel Xu <dxu@dxuuu.xyz>, linux-trace-kernel@vger.kernel.org,
- coreteam@netfilter.org, bpf@vger.kernel.org, linux-input@vger.kernel.org,
- cgroups@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, fsverity@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- netfilter-devel@vger.kernel.org, alexei.starovoitov@gmail.com,
- quentin@isovalent.com, alan.maguire@oracle.com, memxor@gmail.com
-References: <cover.1706491398.git.dxu@dxuuu.xyz> <Zb12EZt0BAKOPBk/@surya>
- <Zb5QWCw3Tg26_MDa@krava> <Zb6Jt30bNcNhM6zR@surya>
-From: Viktor Malik <vmalik@redhat.com>
-In-Reply-To: <Zb6Jt30bNcNhM6zR@surya>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240124124030.GDZbEFPo4APcggdE33@fat_crate.local>
 
-On 2/3/24 19:45, Manu Bretelle wrote:
-> On Sat, Feb 03, 2024 at 03:40:24PM +0100, Jiri Olsa wrote:
->> On Fri, Feb 02, 2024 at 03:09:05PM -0800, Manu Bretelle wrote:
->>> On Sun, Jan 28, 2024 at 06:24:05PM -0700, Daniel Xu wrote:
->>>> === Description ===
->>>>
->>>> This is a bpf-treewide change that annotates all kfuncs as such inside
->>>> .BTF_ids. This annotation eventually allows us to automatically generate
->>>> kfunc prototypes from bpftool.
->>>>
->>>> We store this metadata inside a yet-unused flags field inside struct
->>>> btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
->>>>
->>>> More details about the full chain of events are available in commit 3's
->>>> description.
->>>>
->>>> The accompanying pahole and bpftool changes can be viewed
->>>> here on these "frozen" branches [0][1].
->>>>
->>>> [0]: https://github.com/danobi/pahole/tree/kfunc_btf-v3-mailed
->>>> [1]: https://github.com/danobi/linux/tree/kfunc_bpftool-mailed
->>>
->>>
->>> I hit a similar issue to [0] on master
->>> 943b043aeecc ("selftests/bpf: Fix bench runner SIGSEGV")
->>>  when cross-compiling on x86_64 (LE) to s390x (BE).
->>> I do have CONFIG_DEBUG_INFO_BTF enable and the issue would not trigger if
->>> I disabled CONFIG_DEBUG_INFO_BTF (and with the fix mentioned in [0]).
->>>
->>> What seems to happen is that `tools/resolve_btfids` is ran in the context of the
->>> host endianess and if I printk before the WARN_ON:
->>> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
->>> index ef380e546952..a9ed7a1a4936 100644
->>>   --- a/kernel/bpf/btf.c
->>>   +++ b/kernel/bpf/btf.c
->>>   @@ -8128,6 +8128,7 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
->>>            * WARN() for initcall registrations that do not check errors.
->>>            */
->>>           if (!(kset->set->flags & BTF_SET8_KFUNCS)) {
->>>   +        printk("Flag 0x%08X, expected 0x%08X\n", kset->set->flags, BTF_SET8_KFUNCS);
->>>                   WARN_ON(!kset->owner);
->>>                   return -EINVAL;
->>>           }
->>>
->>> the boot logs would show:
->>>   Flag 0x01000000, expected 0x00000001
->>>
->>> The issue did not happen prior to
->>> 6f3189f38a3e ("bpf: treewide: Annotate BPF kfuncs in BTF")
->>> has only 0 was written before.
->>>
->>> It seems [1] will be addressing cross-compilation, but it did not fix it as is
->>> by just applying on top of master, so probably some of the changes will also need
->>> to be ported to `tools/include/linux/btf_ids.h`?
->>
->> the fix in [1] is fixing flags in set8's pairs, but not the global flags
->>
->> it looks like Viktor's fix should now also swap that as well? like in the
->> change below on top of Viktor's changes (untested)
->>
->> jirka
->>
->>
->> ---
->> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
->> index d01603ef6283..c44d57fec390 100644
->> --- a/tools/bpf/resolve_btfids/main.c
->> +++ b/tools/bpf/resolve_btfids/main.c
->> @@ -706,6 +706,8 @@ static int sets_patch(struct object *obj)
->>  			 * correctly translate everything.
->>  			 */
->>  			if (need_bswap) {
->> +				set8->flags = bswap_32(set8->flags);
->> +
->>  				for (i = 0; i < cnt; i++) {
->>  					set8->pairs[i].flags =
->>  						bswap_32(set8->pairs[i].flags);
->>
+On Wed, Jan 24, 2024 at 01:40:30PM +0100, Borislav Petkov wrote:
+> From: "Borislav Petkov (AMD)" <bp@alien8.de>
+> Date: Wed, 24 Jan 2024 13:37:52 +0100
+> Subject: [PATCH] Documentation: Move RAS section to admin-guide
 > 
-> That should work. Here are a few tests I ran:
+> This is where this stuff should be.
 > 
-> $ md5sum /tmp/kbuild-s390x/vmlinux.*
-> eb658e51e089f3c5b2c8909a29dc9997  /tmp/kbuild-s390x/vmlinux.a
-> # plain vmlinux before running resolv_btfids (all 0s)
-> ea907cd46a1a73b8276b5f2a82af00ca  /tmp/kbuild-s390x/vmlinux.before_resolv
-> # x86_64 resolv_btfids on master without Viktor's patch
-> 980a40c3a3ff563d1c2d1ebdd5071a23  /tmp/kbuild-s390x/vmlinux.resolv_native
-> # x86_64 resolv_btfids on master with Viktor's patch
-> b986d19e242719ebea41c578235da662  /tmp/kbuild-s390x/vmlinux.resolv_native_patch_viktor
-> # x86_64 resolv_btfids on master with Viktor's patch and your suggested patch
-> 4edd8752ff01129945bd442689b1927b  /tmp/kbuild-s390x/vmlinux.resolv_native_patch_viktor_patched
-> # s390x resolv_btfids run with qemu-s390x-static
-> 4edd8752ff01129945bd442689b1927b  /tmp/kbuild-s390x/vmlinux.resolv_s390x
-> 
-> 
-> and some hexdiff of those binaries:
-> 
-> 
-> # difference between master's native build and s390x build.... has byte swapping for set8 and others
-> diff -ruN <(xxd /tmp/kbuild-s390x/vmlinux.resolv_s390x) <(xxd /tmp/kbuild-s390x/vmlinux.resolv_native) > diff_s390x_native.diff
-> https://gist.github.com/chantra/c3d58637a08a6f7340953dc155bb18cc
-> 
-> # difference betwee Viktor's version and  s390x build.... squinting my eyes I only see the global set8 is missing
-> diff -ruN <(xxd /tmp/kbuild-s390x/vmlinux.resolv_s390x) <(xxd /tmp/kbuild-s390x/vmlinux.resolv_native_patch_viktor) > diff_s390x_native_viktor.diff
-> https://gist.github.com/chantra/61cfff02b456ae72d3c0161ce1897097
+> Requested-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> ---
+>  Documentation/RAS/index.rst                        | 14 --------------
+>  .../{ => admin-guide}/RAS/address-translation.rst  |  0
+>  .../{ => admin-guide}/RAS/error-decoding.rst       |  0
+>  Documentation/admin-guide/RAS/index.rst            |  7 +++++++
+>  .../admin-guide/{ras.rst => RAS/main.rst}          | 10 +++++++---
+>  Documentation/admin-guide/index.rst                |  2 +-
+>  Documentation/index.rst                            |  1 -
+>  7 files changed, 15 insertions(+), 19 deletions(-)
+>  delete mode 100644 Documentation/RAS/index.rst
+>  rename Documentation/{ => admin-guide}/RAS/address-translation.rst (100%)
+>  rename Documentation/{ => admin-guide}/RAS/error-decoding.rst (100%)
+>  create mode 100644 Documentation/admin-guide/RAS/index.rst
+>  rename Documentation/admin-guide/{ras.rst => RAS/main.rst} (99%)
 
-Thanks for the testing Manu!
+Now queued.
 
-Jiri's suggested fix is now a part of [1].
+Thx.
 
-Viktor
+-- 
+Regards/Gruss,
+    Boris.
 
-[1] https://lore.kernel.org/bpf/cover.1707157553.git.vmalik@redhat.com/
-
-> 
-> Have a good weekend all!
-> 
-> Manu
-> 
-
+https://people.kernel.org/tglx/notes-about-netiquette
