@@ -1,107 +1,123 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C92660DF2;
-	Mon,  5 Feb 2024 19:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83478629F6;
+	Mon,  5 Feb 2024 19:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707162096; cv=none; b=Oh7Gd9v9Jib3+tXFAW6QNLmHQ8miHX095HLtG9H0wUlfkhr6TNeBWxfLdVzr5TwsH8n9WVmUERvqanJ6jCY9JxsR+zwoEA6rAppt9s1SUbGhlscujkS0eXw/WSOLeKx1DomZOHEk6/kh5+y6QaZSTDIaGXGJUF5J8fyZxrdDssY=
+	t=1707162220; cv=none; b=WJalf2+01WLlUZNyBFGRUe7jPQECTSTgdVIKpJS1Erqi15wpF4EfslOPMN01YY+iHOrRHI+cVU6MnexvCOvIDXaULNe6xWd9PWAy4/PMSZaXkJtAjLGF4Ybmg6gX27nUQaxAd5WYa4gmqFYpsvidwMXJE4DhdH7yA7K6DMifcTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707162096; c=relaxed/simple;
-	bh=gwNsUaGGaqv8vHcEre9Xj6V4R/eUrjnrSdACMEeFbI0=;
+	s=arc-20240116; t=1707162220; c=relaxed/simple;
+	bh=XY4TTAJbJUhHs+OdwIErJkmjXGbvN1tNZwvsPs7cS4I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jj8IqB2ovcjrbk2DruwP14uNveA29qM2l2ZDLeHcWu0T0tv+84nOqXnnCncDC0VZ3BvyDQFiUVK38uGzrqnD8lQaQ8C954bZMOQMutsELTVamIldgdQ8S5YeyoMXpnRWsyV9zBqUS9oRX8ylLTcKFeCw+Z3TjC4ByLViS1QCFXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=DdgTTn8E; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=JMvrHBircZIhe71yehdRSsCRtVLVQkUurzbMy7sI0CWhaIbfJsRGQ3xL+05gyUlfSFvY5xG0MziL2iU55ULdRUMTn4enJYHMHjSp5dMQE3Uu7eLHrBzy7ZM9dEpyE1WvKlKX2hTjw3l3VBbFM5kXXCQLBYlbjqI7G7WSRT9zT1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kTHoIdkZ; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="DdgTTn8E"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 82A6540E00B2;
-	Mon,  5 Feb 2024 19:41:29 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id NP_oJnZ5KlIR; Mon,  5 Feb 2024 19:41:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1707162086; bh=R7Pr/RRw/kKo0+V44VWePgEa5COJIWtlsvccbXKuuLg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DdgTTn8EhXbDQwcy9aF5OiE0bR9RrAAhcvznERiA54w2FwnBS42Sa93mT/Dn//IWB
-	 CppjyaDnWIk5UIOgrnMPNRnLBFMs+rlCTUPQ1UpZRLLbcUiPJY99tyJ/vcuDVLHQ8O
-	 SNO1mo+4PnS30AMvNbyM6jgEdCUWz1CCCVDJyIu7tW72Ho6e2lN1umiNYruuJT96lo
-	 Is6hTjfDm8GUFG0peMG259zIeRYjR6T3QwNE97tcvHqwXM8gCd9UzFv7aF4fLa3Fg1
-	 vE6Cx2DengLdjS/0GBNupx8HhE+xvwnlmnx0W/OxReEqpN1aYlwah6mMsilk0tCl6H
-	 oSHvFLy3qXGfGVyg7KNLwqvbdrND19JxT6XrYY6v226IGUf2gDd3qhDlgSI4GEgr1m
-	 K7V3sjWmZnN4/eQnPTbfiW/2pDvOUMCz4TOhlzDyEAeXohaZXJa06ROPed4pgWyfcD
-	 WbIPb2EbLEumkjlwHHlFTNPs3gXcozv0su9yGrwDYFKtPWiHeiXxdrk1w0ra+S5JBT
-	 eKIh3WLzb2PxZ1fb2SpCwnUyxQHW0ftKS9kQeheHhZcDX0b3qMZi38V3IYuqgDyxD8
-	 TdcaG8xntoVHxT9QoWCD/hxHRaQgXnkEmoqQhnCQXNlqHefoCqnrx5m6d7U9TdeHwO
-	 ttkkKG0+BzKXQSbA6AWQ0V7k=
-Received: from zn.tnic (pd953021b.dip0.t-ipconnect.de [217.83.2.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2CC9440E01A9;
-	Mon,  5 Feb 2024 19:41:18 +0000 (UTC)
-Date: Mon, 5 Feb 2024 20:41:12 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Tony Luck <tony.luck@intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>,
-	Muralidhara M K <muralimk@amd.com>, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Muralidhara M K <muralidhara.mk@amd.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Begin a RAS section
-Message-ID: <20240205194112.GGZcE52DXtK2lr0-14@fat_crate.local>
-References: <20231102114225.2006878-1-muralimk@amd.com>
- <20231102114225.2006878-2-muralimk@amd.com>
- <20231128142049.GTZWX3QQTSaQk/+u53@fat_crate.local>
- <87a5pes8jy.fsf@meer.lwn.net>
- <20240109183646.GAZZ2SPiMZv83J3f0a@fat_crate.local>
- <87wmsiqok6.fsf@meer.lwn.net>
- <20240109200434.GBZZ2m0vWjm9v795YX@fat_crate.local>
- <20240124124030.GDZbEFPo4APcggdE33@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kTHoIdkZ"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5cddfe0cb64so3826634a12.0;
+        Mon, 05 Feb 2024 11:43:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707162218; x=1707767018; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WownJN3vieYmCVvDaJslP4w36aaJ0JfyBZ8/ZSdb1Ew=;
+        b=kTHoIdkZoOCyjACvqZKItLkozfiV2qx9ahywTDnHw4sydSwwwqpLbcxrMLIw2ZWPPC
+         bgxH6J1k9d/qhz7hwx2bMOjiwhguXFXdlUy/zfcScH6YD8lni1RK5mLiLFyrYSHw62HZ
+         3v3y4ddGtjR+buqt54CAjEvsFgk5VXsOxzy5eL4P3YwXk38JYnn+MNYIVwjEvxI7nM9r
+         UW3YwW4ThfzH6fv48Xexk9KEqd6xR10LpFDP1RCgj9uO6XV8ardfp/Gj0GTjByBLLfbb
+         HDOlDA8llRaj86HEy47vMjXPQX6Bgwb1UTBoRBiqFqY7m42kqQn3MmgnKk8Pa7MRgcLy
+         92mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707162218; x=1707767018;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WownJN3vieYmCVvDaJslP4w36aaJ0JfyBZ8/ZSdb1Ew=;
+        b=mdVleis2kDcf1QNEwh1iNCShlG64gIcgQgc2i4yhzE65Gc9AqRmr8ourDo9QKUXBvv
+         5ya8SXkwIdp3iLL8+LbrlOBqiZFsGZFnSfjVDf7LFeAAA6xBTq3d57oE8pb8mFlDgeCp
+         abkzCxJ8bKwBnSz3kkSaoXAnmaZseqHP1+VxAG/VjPMRe2uE6M0It6gOXx4DDZLRIORX
+         s1eUAsU9zf6q72bvtTcI25DVTEXKIPJeMSC0x3fIBU2AH3lBEe3xJgVjB8toNoGo8c5I
+         oFu34lOMxi7cT7EXUle0TNwh3QvJepxsGYA6+VzrZQMPqE7ij8IqmL7Cpvr/Y6Gpeyei
+         W8QQ==
+X-Gm-Message-State: AOJu0YwhLnkku+Mk+H2+F3mUx29WRRZumZZFdxyvk0mWcozEWAcatI3A
+	hldF7m6IAg98blO3EoLJ9RPpyk0dxRTmm/vsINIrtNt5EpIvIHs5
+X-Google-Smtp-Source: AGHT+IFKDFB025e5u29N27FpcDCFQbYoe+NkNUu9nCOwpF1183SVpoRf6Eiwlpzc1Mg9NG4FqW0bPg==
+X-Received: by 2002:a05:6a21:7893:b0:19e:4e80:38ca with SMTP id bf19-20020a056a21789300b0019e4e8038camr679969pzc.2.1707162217638;
+        Mon, 05 Feb 2024 11:43:37 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXcWRFnS3Rfjcjem2fP/tReUf7+D1TKeDF9nsfEVLZQaAlV304amNPOgB6CWUQgvMW59KgbZ0ma00CayhZ/vv55kgzKIcaLqvrU9QsPkfcOdBXwU8/Kg1ISE5ijGIFTzhWtx9lQPlSHO8oVCR8Lc0JDIJLQxvtpEWEDBECXMKtp/1mtyzi9vy3Zo+KiIX2VW00nHAcxdklQLJ106tsBRBsixaOyPkHaSCMtVFaqdsxVObmmr6F1jOqio4vZygWJX4/3B8ePMZ3dW4X9dNFlHMEWb+Z26YOLvu5E0k9UJmyjm9vaCTsvfoflBD3oOLDVCuN9NqIQyoQ7iMFVu7yMj0yHWygYu5NdFcC3/gxFKWnlAxcKx6YeDe1/oe+DflNT60XWfG6REyLwhH90EBJ8JeRvN9ruKc4UDiouafy4SIbKVs4BbPYvwY9DaJQKIrCbWIQUVc7aKZIt5Sm2TcObIgQ+xv5oKUqhEP6x1h+/ul+dhCMHxYf6+P6KxsAg2dWJ89Ugs27kl9fi1eNNLq1rwXKQU1U5ZrI7oruYR+9/jNa7KS0obJktFMM42rgspLfafDhjX4LwRREGsWDaTGemYfXvDkdUokMQwhUYf6SEmlUHYZDXmL9MRDpip8mWJJYB+I+4jiMXl77VUcEYckXDwGCuvewAgenyBko3MANj6pfSA3rT2uUhVFUZ4Ev8eG8X7AZMwQBa+/ctSKdSejq0uOMx5S1tUvzpuimLFKmigbGs1puSV2St4+CrxvI98Q4GnRhbqxWRQmz6pKSzf1xDao7+n8b1Wd2xkwjIb9WSrO6Kbygkjjjo/0I=
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id hy9-20020a056a006a0900b006d9b2694b0csm225526pfb.200.2024.02.05.11.43.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 11:43:36 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 5 Feb 2024 11:43:35 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Cosmo Chou <chou.cosmo@gmail.com>
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net,
+	broonie@kernel.org, naresh.solanki@9elements.com,
+	vincent@vtremblay.dev, patrick.rudolph@9elements.com,
+	luca.ceresoli@bootlin.com, bhelgaas@google.com, festevam@denx.de,
+	alexander.stein@ew.tq-group.com, heiko@sntech.de,
+	jernej.skrabec@gmail.com, macromorgan@hotmail.com,
+	forbidden405@foxmail.com, sre@kernel.org, linus.walleij@linaro.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	cosmo.chou@quantatw.com
+Subject: Re: [PATCH v5 1/1] hwmon: Add driver for Astera Labs PT5161L retimer
+Message-ID: <4a504043-e24d-4119-8c5d-107f0d371110@roeck-us.net>
+References: <20240205152013.3833940-1-chou.cosmo@gmail.com>
+ <20240205152013.3833940-2-chou.cosmo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240124124030.GDZbEFPo4APcggdE33@fat_crate.local>
+In-Reply-To: <20240205152013.3833940-2-chou.cosmo@gmail.com>
 
-On Wed, Jan 24, 2024 at 01:40:30PM +0100, Borislav Petkov wrote:
-> From: "Borislav Petkov (AMD)" <bp@alien8.de>
-> Date: Wed, 24 Jan 2024 13:37:52 +0100
-> Subject: [PATCH] Documentation: Move RAS section to admin-guide
+On Mon, Feb 05, 2024 at 11:20:13PM +0800, Cosmo Chou wrote:
+> This driver implements support for temperature monitoring of Astera Labs
+> PT5161L series PCIe retimer chips.
 > 
-> This is where this stuff should be.
+> This driver implementation originates from the CSDK available at
+> Link: https://github.com/facebook/openbmc/tree/helium/common/recipes-lib/retimer-v2.14
+> The communication protocol utilized is based on the I2C/SMBus standard.
 > 
-> Requested-by: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
 > ---
->  Documentation/RAS/index.rst                        | 14 --------------
->  .../{ => admin-guide}/RAS/address-translation.rst  |  0
->  .../{ => admin-guide}/RAS/error-decoding.rst       |  0
->  Documentation/admin-guide/RAS/index.rst            |  7 +++++++
->  .../admin-guide/{ras.rst => RAS/main.rst}          | 10 +++++++---
->  Documentation/admin-guide/index.rst                |  2 +-
->  Documentation/index.rst                            |  1 -
->  7 files changed, 15 insertions(+), 19 deletions(-)
->  delete mode 100644 Documentation/RAS/index.rst
->  rename Documentation/{ => admin-guide}/RAS/address-translation.rst (100%)
->  rename Documentation/{ => admin-guide}/RAS/error-decoding.rst (100%)
->  create mode 100644 Documentation/admin-guide/RAS/index.rst
->  rename Documentation/admin-guide/{ras.rst => RAS/main.rst} (99%)
+[ ... ]
 
-Now queued.
+> +static ssize_t pt5161l_debugfs_read_fw_ver(struct file *file, char __user *buf,
+> +					   size_t count, loff_t *ppos)
+> +{
+> +	struct pt5161l_data *data = file->private_data;
+> +	int ret;
+> +	char ver[32];
+> +
+> +	mutex_lock(&data->lock);
+> +	ret = pt5161l_fwsts_check(data);
+> +	mutex_unlock(&data->lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = snprintf(ver, sizeof(ver), "%u.%u.%u\n", data->fw_ver.major,
+> +		       data->fw_ver.minor, data->fw_ver.build);
+> +	if (ret < 0)
+> +		return ret;
+> +
 
-Thx.
+You almost got me here ;-). snprintf() never returns a negative error code,
+so checking for it is not necessary.
 
--- 
-Regards/Gruss,
-    Boris.
+> +	return simple_read_from_buffer(buf, count, ppos, ver, ret + 1);
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Number of bytes written plus 1 ? Why ?
+
+Thanks,
+Guenter
