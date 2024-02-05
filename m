@@ -1,196 +1,293 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C4813FF5;
-	Mon,  5 Feb 2024 09:39:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A36512E5C;
+	Mon,  5 Feb 2024 09:46:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707125982; cv=none; b=myQOnl8NbmxciQfBO6+VEep7dIeH1ATMqvDkjDIxjmjmSjKfk7eMIkt8X0mTkJhDOROJM7/TRzWLO+kUEs2cGFOxWgQzs5gipEzj1JeRJ7PHzNYqbOdC/9C0Vn+jnpMkZbcz+7Nph8Rx7Hzhn9ReQ/Zwr/MAEyqHOHL/fG5YuN4=
+	t=1707126380; cv=none; b=a+6cQlGtdSaU+gRAaCYMSKhEPxv4SZZ67qdM47aFH77CIFWfgHi2y4/WTSZQESqUGMyR2w61W+gbn3P1uU4X9XbmqLsqF4uXDe7UwnJItf1BHyqNaPTTmuxUOKFtlOlqKB4ZLnH2haFDcpNts4YEIGMzes7CjyyJX1vM9TU6IxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707125982; c=relaxed/simple;
-	bh=QSsaMz2aa4Ow1e/E+8+zBv0RXCM/l1/3uCQIFHDC8Bg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SH1DGC6mXiXK7in7CkFymcWTIndxO7VHifpjyim0hg3Z5r/NKyJl6QcZiu+4lM4clQD2wybYaB5FsmwirfFuugVBXWKmChQZUSjw1y1SuNEJef8pXKpe4e/M8WgtTIUX7ex2WJfXoOs/uAKtAddmPzQtqITjYLS4Oc+1ijgsLJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CGjcGlZS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707126380; c=relaxed/simple;
+	bh=S97KO5vp8gvf1SplDj/NGWxNDyP6qbms4ZkJbU5yooM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XEA2zJ8RREzSo45Awa4dWyhS/vRbhgp5miD3PZGVVC4BzVpK80uArNO5bdoqHfhMpPJQgR/huXlor/SYhM0gMQ2WFTN6Zzg6TxqMgVjKVMWXyGGVOwylD/Xbw27IHv0BzniSUH3G9xJbPji0oGnYWsfk3wHOrsx9vx2qYS1i9gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bNRiIrQz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGjcGlZS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3A85C433C7;
-	Mon,  5 Feb 2024 09:39:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bNRiIrQz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA44C433C7;
+	Mon,  5 Feb 2024 09:46:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707125981;
-	bh=QSsaMz2aa4Ow1e/E+8+zBv0RXCM/l1/3uCQIFHDC8Bg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CGjcGlZS0fBCh8Pj91FOCfGeLuBLH2IJXsvlSDNMJNYXbieL6OYjONC2i8L3eyk2A
-	 gDjW66Kot7LNXs+KGyl9mTfxQHJYFLZ3t0L1RLIN1Dm1Wck0ZHUJPEScRyxhMkJDmj
-	 OXKlIi1RFgz/w6HuL5qsHb2rRJ71FEHpXG+35Ca18O49av3Z/EfEhdmPtI+kXJX0OP
-	 ty/ICYtQbhjVujqeERH5pvK1Lj5IcwybfB49b1ssuH53OFwd8+WGgdjXHg0/GmHiR5
-	 6HgFPBmIm+TpGHkQdx/8FL7eeEjve5s0Czv4tmwkki21i0l2PqfomTZ58KFKCHSM9S
-	 99nBqUaN/35Jw==
-Date: Mon, 5 Feb 2024 10:39:38 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast
- RGB property
-Message-ID: <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
+	s=k20201202; t=1707126380;
+	bh=S97KO5vp8gvf1SplDj/NGWxNDyP6qbms4ZkJbU5yooM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bNRiIrQzbsUHuNnGrTyP97HsR6a5ElJ8g/yOEAUSEgMLXjrD1wrompGhpSa784aDm
+	 BOJIFakdCbJ0oLGWnXmjvko1iKXoIYs+tkYLq1ozX11wzikPpCorAkMLycbrZOjvfE
+	 871aPrxCMtGwj9JCNpg8MCD/eVsBGYDb7chMM/moiMdAow6Dfks+AKxhryvwYjag+k
+	 gquq3s0gH9ZJRp9Qlr44GigOojab3TfuwWgk7mC8ZOhtow2GGRAOxoRh6V4RJCpfs6
+	 rCI57Q7MPII5wAtiDPmoNej4WLo/WmuWTqRu1K5rFDS7wdbrexH1SexDwC10KXdOIG
+	 MtJ2paw/8y1YQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1rWvYO-000MhB-Iw;
+	Mon, 05 Feb 2024 09:46:16 +0000
+Date: Mon, 05 Feb 2024 09:46:16 +0000
+Message-ID: <868r3z6y6v.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Kees Cook <keescook@chromium.org>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 13/38] KVM: arm64: Manage GCS registers for guests
+In-Reply-To: <20240203-arm64-gcs-v8-13-c9fec77673ef@kernel.org>
+References: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
+	<20240203-arm64-gcs-v8-13-c9fec77673ef@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="i6rjjatuyp65otli"
-Content-Disposition: inline
-In-Reply-To: <Zb0aYAapkxQ2kopt@intel.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, akpm@linux-foundation.org, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, arnd@arndb.de, oleg@redhat.com, ebiederm@xmission.com, keescook@chromium.org, shuah@kernel.org, rick.p.edgecombe@intel.com, debug@rivosinc.com, ardb@kernel.org, Szabolcs.Nagy@arm.com, hjl.tools@gmail.com, paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, fweimer@redhat.com, brauner@kernel.org, thiago.bauermann@linaro.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+
+On Sat, 03 Feb 2024 12:25:39 +0000,
+Mark Brown <broonie@kernel.org> wrote:
+> 
+> GCS introduces a number of system registers for EL1 and EL0, on systems
+
+and EL2.
+
+> with GCS we need to context switch them and expose them to VMMs to allow
+> guests to use GCS, as well as describe their fine grained traps to
+> nested virtualisation.  Traps are already disabled.
+
+The latter is not true with NV, since the guest is in control of the
+FGT registers.
+
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/kvm_host.h          | 12 ++++++++++++
+>  arch/arm64/kvm/emulate-nested.c            |  4 ++++
+>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 17 +++++++++++++++++
+>  arch/arm64/kvm/sys_regs.c                  | 22 ++++++++++++++++++++++
+>  4 files changed, 55 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 21c57b812569..6c7ea7f9cd92 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -388,6 +388,12 @@ enum vcpu_sysreg {
+>  	GCR_EL1,	/* Tag Control Register */
+>  	TFSRE0_EL1,	/* Tag Fault Status Register (EL0) */
+>  
+> +	/* Guarded Control Stack registers */
+> +	GCSCRE0_EL1,	/* Guarded Control Stack Control (EL0) */
+> +	GCSCR_EL1,	/* Guarded Control Stack Control (EL1) */
+
+This is subjected to VNCR (0x8D0).
+
+> +	GCSPR_EL0,	/* Guarded Control Stack Pointer (EL0) */
+> +	GCSPR_EL1,	/* Guarded Control Stack Pointer (EL1) */
+
+So is this one (0x8C0). And how about the *_EL2 versions?
+
+> +
+>  	/* 32bit specific registers. */
+>  	DACR32_EL2,	/* Domain Access Control Register */
+>  	IFSR32_EL2,	/* Instruction Fault Status Register */
+> @@ -1221,6 +1227,12 @@ static inline bool __vcpu_has_feature(const struct kvm_arch *ka, int feature)
+>  
+>  #define vcpu_has_feature(v, f)	__vcpu_has_feature(&(v)->kvm->arch, (f))
+>  
+> +static inline bool has_gcs(void)
+> +{
+> +	return IS_ENABLED(CONFIG_ARM64_GCS) &&
+> +		cpus_have_final_cap(ARM64_HAS_GCS);
+> +}
+> +
+>  int kvm_trng_call(struct kvm_vcpu *vcpu);
+>  #ifdef CONFIG_KVM
+>  extern phys_addr_t hyp_mem_base;
+> diff --git a/arch/arm64/kvm/emulate-nested.c b/arch/arm64/kvm/emulate-nested.c
+> index 431fd429932d..24eb7eccbae4 100644
+> --- a/arch/arm64/kvm/emulate-nested.c
+> +++ b/arch/arm64/kvm/emulate-nested.c
+> @@ -1098,8 +1098,12 @@ static const struct encoding_to_trap_config encoding_to_fgt[] __initconst = {
+>  	SR_FGT(SYS_ESR_EL1, 		HFGxTR, ESR_EL1, 1),
+>  	SR_FGT(SYS_DCZID_EL0, 		HFGxTR, DCZID_EL0, 1),
+>  	SR_FGT(SYS_CTR_EL0, 		HFGxTR, CTR_EL0, 1),
+> +	SR_FGT(SYS_GCSPR_EL0,		HFGxTR, nGCS_EL0, 1),
+>  	SR_FGT(SYS_CSSELR_EL1, 		HFGxTR, CSSELR_EL1, 1),
+>  	SR_FGT(SYS_CPACR_EL1, 		HFGxTR, CPACR_EL1, 1),
+> +	SR_FGT(SYS_GCSCR_EL1,		HFGxTR, nGCS_EL1, 1),
+> +	SR_FGT(SYS_GCSPR_EL1,		HFGxTR, nGCS_EL1, 1),
+> +	SR_FGT(SYS_GCSCRE0_EL1,		HFGxTR, nGCS_EL0, 1),
+
+This is clearly wrong on all 4 counts (the n prefix gives it away...).
+
+>  	SR_FGT(SYS_CONTEXTIDR_EL1, 	HFGxTR, CONTEXTIDR_EL1, 1),
+>  	SR_FGT(SYS_CLIDR_EL1, 		HFGxTR, CLIDR_EL1, 1),
+>  	SR_FGT(SYS_CCSIDR_EL1, 		HFGxTR, CCSIDR_EL1, 1),
+> diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> index bb6b571ec627..ec34d4a90717 100644
+> --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> @@ -25,6 +25,8 @@ static inline void __sysreg_save_user_state(struct kvm_cpu_context *ctxt)
+>  {
+>  	ctxt_sys_reg(ctxt, TPIDR_EL0)	= read_sysreg(tpidr_el0);
+>  	ctxt_sys_reg(ctxt, TPIDRRO_EL0)	= read_sysreg(tpidrro_el0);
+> +	if (has_gcs())
+> +		ctxt_sys_reg(ctxt, GCSPR_EL0) = read_sysreg_s(SYS_GCSPR_EL0);
+
+We have had this discussion in the past. This must be based on the
+VM's configuration. Guarding the check with the host capability is a
+valuable optimisation, but that's nowhere near enough. See the series
+that I have posted on this very subject (you're on Cc), but you are
+welcome to invent your own mechanism in the meantime.
+
+>  }
+>  
+>  static inline bool ctxt_has_mte(struct kvm_cpu_context *ctxt)
+> @@ -62,6 +64,12 @@ static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
+>  	ctxt_sys_reg(ctxt, PAR_EL1)	= read_sysreg_par();
+>  	ctxt_sys_reg(ctxt, TPIDR_EL1)	= read_sysreg(tpidr_el1);
+>  
+> +	if (has_gcs()) {
+> +		ctxt_sys_reg(ctxt, GCSPR_EL1)	= read_sysreg_el1(SYS_GCSPR);
+> +		ctxt_sys_reg(ctxt, GCSCR_EL1)	= read_sysreg_el1(SYS_GCSCR);
+> +		ctxt_sys_reg(ctxt, GCSCRE0_EL1)	= read_sysreg_s(SYS_GCSCRE0_EL1);
+> +	}
+> +
+
+Same thing.
+
+>  	if (ctxt_has_mte(ctxt)) {
+>  		ctxt_sys_reg(ctxt, TFSR_EL1) = read_sysreg_el1(SYS_TFSR);
+>  		ctxt_sys_reg(ctxt, TFSRE0_EL1) = read_sysreg_s(SYS_TFSRE0_EL1);
+> @@ -95,6 +103,8 @@ static inline void __sysreg_restore_user_state(struct kvm_cpu_context *ctxt)
+>  {
+>  	write_sysreg(ctxt_sys_reg(ctxt, TPIDR_EL0),	tpidr_el0);
+>  	write_sysreg(ctxt_sys_reg(ctxt, TPIDRRO_EL0),	tpidrro_el0);
+> +	if (has_gcs())
+> +		write_sysreg_s(ctxt_sys_reg(ctxt, GCSPR_EL0), SYS_GCSPR_EL0);
+>  }
+>  
+>  static inline void __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt)
+> @@ -138,6 +148,13 @@ static inline void __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt)
+>  	write_sysreg(ctxt_sys_reg(ctxt, PAR_EL1),	par_el1);
+>  	write_sysreg(ctxt_sys_reg(ctxt, TPIDR_EL1),	tpidr_el1);
+>  
+> +	if (has_gcs()) {
+> +		write_sysreg_el1(ctxt_sys_reg(ctxt, GCSPR_EL1),	SYS_GCSPR);
+> +		write_sysreg_el1(ctxt_sys_reg(ctxt, GCSCR_EL1),	SYS_GCSCR);
+> +		write_sysreg_s(ctxt_sys_reg(ctxt, GCSCRE0_EL1),
+> +			       SYS_GCSCRE0_EL1);
+> +	}
+> +
+
+For the benefit of the unsuspecting reviewers, and in the absence of a
+public specification (which the XML drop isn't), it would be good to
+have the commit message explaining the rationale of what gets saved
+when.
+
+>  	if (ctxt_has_mte(ctxt)) {
+>  		write_sysreg_el1(ctxt_sys_reg(ctxt, TFSR_EL1), SYS_TFSR);
+>  		write_sysreg_s(ctxt_sys_reg(ctxt, TFSRE0_EL1), SYS_TFSRE0_EL1);
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 30253bd19917..83ba767e75d2 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -2000,6 +2000,23 @@ static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
+>  	.visibility = mte_visibility,		\
+>  }
+>  
+> +static unsigned int gcs_visibility(const struct kvm_vcpu *vcpu,
+> +				   const struct sys_reg_desc *rd)
+> +{
+> +	if (has_gcs())
+> +		return 0;
+
+Yet another case of exposing potentially unwanted state, to the VMM
+this time.
+
+> +
+> +	return REG_HIDDEN;
+> +}
+> +
+> +#define GCS_REG(name) {				\
+> +	SYS_DESC(SYS_##name),			\
+> +	.access = undef_access,			\
+> +	.reset = reset_unknown,			\
+> +	.reg = name,				\
+> +	.visibility = gcs_visibility,		\
+> +}
+> +
+>  static unsigned int el2_visibility(const struct kvm_vcpu *vcpu,
+>  				   const struct sys_reg_desc *rd)
+>  {
+> @@ -2376,6 +2393,10 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  	PTRAUTH_KEY(APDB),
+>  	PTRAUTH_KEY(APGA),
+>  
+> +	GCS_REG(GCSCR_EL1),
+> +	GCS_REG(GCSPR_EL1),
+> +	GCS_REG(GCSCRE0_EL1),
+> +
+>  	{ SYS_DESC(SYS_SPSR_EL1), access_spsr},
+>  	{ SYS_DESC(SYS_ELR_EL1), access_elr},
+>  
+> @@ -2462,6 +2483,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  	{ SYS_DESC(SYS_SMIDR_EL1), undef_access },
+>  	{ SYS_DESC(SYS_CSSELR_EL1), access_csselr, reset_unknown, CSSELR_EL1 },
+>  	{ SYS_DESC(SYS_CTR_EL0), access_ctr },
+> +	GCS_REG(GCSPR_EL0),
+>  	{ SYS_DESC(SYS_SVCR), undef_access },
+>  
+>  	{ PMU_SYS_REG(PMCR_EL0), .access = access_pmcr, .reset = reset_pmcr,
+> 
 
 
---i6rjjatuyp65otli
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks,
 
-On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > Hi,
-> > > >=20
-> > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > >  /**
-> > > > > > >   * DOC: HDMI connector properties
-> > > > > > >   *
-> > > > > > > + * Broadcast RGB
-> > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limite=
-d) used.
-> > > > > > > + *      Infoframes will be generated according to that value.
-> > > > > > > + *
-> > > > > > > + *      The value of this property can be one of the followi=
-ng:
-> > > > > > > + *
-> > > > > > > + *      Automatic:
-> > > > > > > + *              RGB Range is selected automatically based on=
- the mode
-> > > > > > > + *              according to the HDMI specifications.
-> > > > > > > + *
-> > > > > > > + *      Full:
-> > > > > > > + *              Full RGB Range is forced.
-> > > > > > > + *
-> > > > > > > + *      Limited 16:235:
-> > > > > > > + *              Limited RGB Range is forced. Unlike the name=
- suggests,
-> > > > > > > + *              this works for any number of bits-per-compon=
-ent.
-> > > > > > > + *
-> > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > + *
-> > > > > >=20
-> > > > > > This is a good time to document this in more detail. There migh=
-t be two
-> > > > > > different things being affected:
-> > > > > >=20
-> > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > 2. The color pipeline processing
-> > > > > >=20
-> > > > > > All values of Broadcast RGB always affect the color pipeline pr=
-ocessing
-> > > > > > such that a full-range input to the CRTC is converted to either=
- full- or
-> > > > > > limited-range, depending on what the monitor is supposed to acc=
-ept.
-> > > > > >=20
-> > > > > > When automatic is selected, does that mean that there is no sig=
-nalling,
-> > > > > > or that the signalling matches what the monitor is supposed to =
-accept
-> > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > >=20
-> > > > > > When full or limited is selected and the monitor doesn't suppor=
-t the
-> > > > > > signalling, what happens?
-> > > > >=20
-> > > > > Forgot to mention: user-space still has no control over RGB vs YC=
-bCr on
-> > > > > the cable, so is this only affecting RGB? If not, how does it aff=
-ect
-> > > > > YCbCr?
-> > > >=20
-> > > > So I dug a bit into both the i915 and vc4 drivers, and it looks lik=
-e if
-> > > > we're using a YCbCr format, i915 will always use a limited range wh=
-ile
-> > > > vc4 will follow the value of the property.
-> > >=20
-> > > The property is literally called "Broadcast *RGB*".
-> > > That should explain why it's only affecting RGB.
-> >=20
-> > Right. And the limited range option is called "Limited 16:235" despite
-> > being usable on bpc > 8 bits. Naming errors occurs, and history happens
-> > to make names inconsistent too, that's fine and not an argument in
-> > itself.
-> >=20
-> > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > to enable it.
-> >=20
-> > vc4 supports it.
->=20
-> Someone implemented it incorrectly then.
+	M.
 
-Incorrectly according to what documentation / specification? I'm sorry,
-but I find it super ironic that i915 gets to do its own thing, not
-document any of it, and when people try to clean things up they get told
-that we got it all wrong.
-
-> > > Eg. with DP it only became possible with the introduction of the VSC
-> > > SDP (and I don't recall if there's additional capability checks that
-> > > are also required). With DP MSA signalling full range YCbCr is not
-> > > possible at all.
-> >=20
-> > This is for HDMI only.
-> >=20
-> > > I don't recall right now what the HDMI requirements are.
-> >=20
-> > HDMI has supported it for a while, and it's defined (for example) in the
-> > HDMI 1.4 spec in Section 6.6 - Video Quantization Ranges. It supports
-> > limited and full range on both RGB and YCbCr, as long as the EDIDs state
-> > so and the Infoframes signal it.
->=20
-> I think a good reason for not using a simple boolean like this=20
-> YCbCr is that it doesn't cover the color encoding part at all,
-> which is probably more important than the quantization range.
-> So we need a new property anyway.
-
-This isn't what is being discussed here, and as I've shown you, is
-completely orthogonal as far as HDMI is concerned.
-
-Maxime
-
---i6rjjatuyp65otli
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcCs2gAKCRDj7w1vZxhR
-xfaBAQD78t262ocyxX6HKmtZFJU24L6e/wHmLbEAi1D59Gs+tAEApB/D8z2XtVcT
-HS9PH5mQL0RDg4t5JjTmJFk1zuBxygo=
-=6BSH
------END PGP SIGNATURE-----
-
---i6rjjatuyp65otli--
+-- 
+Without deviation from the norm, progress is not possible.
