@@ -1,184 +1,139 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DD912881F
-	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 07:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01B7128837;
+	Tue,  6 Feb 2024 07:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707204830; cv=none; b=Nav2GRxkBDusB358Dz61eowTCgc3b/IPb9mu+D0JFrErPb6OUW2ZN2X/GBWq5Dz5wGA00J584InvpTnDIJiTaujtxYefGY0UondyWseyVfiisB9WhJW5fuWWejsy6BAUxVJHm3TmljMlhPbGlimOgETLR0EDEIQXodC7WbWveT0=
+	t=1707206162; cv=none; b=PXiH9nttrPbW823mZ5IpSlMBV+p+K2Zgr120vGUfGD9pBSyeZf8ynf/Ypb9yh+Nm7/A/dZuaYgMhWOciBQ/AvIR31oFRcVtxpkno+eQvors72pis/PbQaI8wN12hwBBKNY9i9etar1LD/hl8/bVGQg6R0lmhWfdlWSlZ7ifmbRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707204830; c=relaxed/simple;
-	bh=CNpEweTFv5oCaBP1luQEX8qTi0+T9RtH73gxUzyo/DQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bHGrT2sK3OoIAtTu9Gn0vXNH44WPr2BnQ/Ju/+jZqokZ6gvshmIxUUcdYQoRMKBt47CyTDYwlLrL66wSwG9SlLycZOjlspPj/UGwRfPgY6AXzDelZJ0NTLYjatGeFRkRYnNMuOkZecmTJ5vzXnDFd/xw8AyrXho8PXamtCvUJj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fyuoquNF; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1707206162; c=relaxed/simple;
+	bh=kibuinQQboCOdIbObfqQOCERxYUraXYrglrTfEYaZlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DaAYvwk+6D1yee2NqP3uz5fPtywkqlSVqKJGZHTnMuldfKfuC/VUF+cePVah1QhUUy4+N5lDY0F0TWbHnxym2ZjQn+WskeyAaJUaYKHQ6ZvQRtkm5vtVvCGHu5OnFnrouWW04nIdqTGgr3kcliY8Yb4YZlenTu1bWxmbaE4EvyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kesKdZ7b; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fyuoquNF"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51117bfd452so8891528e87.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Feb 2024 23:33:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707204827; x=1707809627; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=epm7YcjPaDPPivdSKs9f+kqj2TGWyrJAF+NqwefGpDg=;
-        b=fyuoquNFHmd4/xlxBO0q/CsHdfclSVQQOMpsVkz6S0WYjt+iR4t+eZ3X42uAKtm8P4
-         OicTMTfk/PQobkt2p718AnmL75ZxrJHiLrMfnOIEndJg6w6Po/f+aynvfK8XIx5/XoW3
-         4JkKfkAgcvFO/BChmK35DJ8OdjrJ+uZCeU4lexOWSXOWuyYTHB0eKOuE+T2SNIMXHYcZ
-         tGgr0ArDyDLpo+azgR7Ko483NCL9GOlwVjkS2vF5PN1oi8iU91vEp1h7LRU5qb+HFkqB
-         6GR0OA8PtrD1uqLMe+DaSqdFyypn1tRa3u2xtOqs3XiV1ITJvvpS2GQ7RvDwZMLvsKf8
-         WxKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707204827; x=1707809627;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=epm7YcjPaDPPivdSKs9f+kqj2TGWyrJAF+NqwefGpDg=;
-        b=WWnqQsSmK0RcGeEN23V0G4Ag7TzXVDj+OAn6SEOWtzKhLzM0wqjpzU+FgxLEQq/1BO
-         xwAPQwFV6omrcr3sCoRxXnMyb7hAbZRdWo+8/2Gm53BylvZkcDX01UNJ5M0j7+iJxcZV
-         ElcJqG0lVNQMk4GqX7rD3DXe2rBXJscyGxif5QONeADr+QnmslTkzyzQsYx5H20yoxE8
-         f4/tnjWn8dx1QcBCT7+4ZpxGcsr6VuEdbcaAw/6opIy9lpgjwCD03YaWuz+15zmg+DIv
-         c/+uesc/cIysbZMLr5x7Eoth/TcR+0B6MvnLZkhvLr3y8LI5pH735A9afZQZBiQ/vH4w
-         9hMA==
-X-Gm-Message-State: AOJu0YxE5TWpP9jppw4VaEb7VMoNnoLzM5yxA62L5+H2Cf6OlR/7twFu
-	cIS8cK9d6WAgNkxn1sF7aar1qJUOMkcAFCFNn9PcOSXdYXVa0MBy1Kf30sOb1i0=
-X-Google-Smtp-Source: AGHT+IF8wLS2DKRYZAjdNAxararBHRigMxvVvwyxWeqjbMxCAwTnW5t3EJJEj/tZBJtZBqCVC1uwoQ==
-X-Received: by 2002:a05:6512:288:b0:511:4c52:ff53 with SMTP id j8-20020a056512028800b005114c52ff53mr937074lfp.53.1707204826618;
-        Mon, 05 Feb 2024 23:33:46 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX1hD4Ys0qLW4LI9vPGfiKkkPFfmdd1Gs9gfaGcuiyl/jJ4iXLYtJ5LRKu4m3P1autVp5OhDPwen669TiFyDcKwGwx6u+e9Hw4xUFhmK6ESuL4CQMFRO+/87utpKwP2zaH1Rwavq4XFYZiA+xcGZfkpP8cMQqD3FWMA0i2mBtLpMkM2jd2SUko9wzM8JL7EenjjEj6gA/4/gMZxHFrc/FT35gvlpny6Hp4VFEg5S3lvuVEsqMYJUoi5/busUpo0/cHkjNVv/7tLvO+1++HTI7lWiQJomeQM6/SYIgprWiA3Il9bF5lHcUFovAagxIG+qu8jDCuql3hQ+VBv9JIiElC6YyTF2kcCaSgbGXmSD91tqRe9G6u2rVrh7N9rcC5toXIhjU90vPQjnXHAaeG7wEkI0PKbLmfSMOi9AOIi5R1rvPBcislqqB/WGTxuRSf2nib9bX8BKhiSwzeoW6sIh0IIVwkgT/b/kqxDR6Z0CekVnr36lKBpxTVUJAilP9/cvWdagNEVdVfD40kEYLJMLmGptCj/hbRis84wQ/erwrmEBkMUe3da21+TVfcQLRH+KC1rOo4FvpIxXIOgeXlDhbBM9A8cH9NzJdK4St/9VLRTcqVienEN0YZlAGIzcXr084v2NnrnDp1iCeCw9oDGkk3CvFRHUoTKctJIhfpIxAFH0NgjPCY7UD6USbEK5VzoBoYIAlL+WB+lAW0DCuxOSjUlB4O3xVZW8MO0PLoff+7efpKW1saMAkV9XZWLLhIgvA92+F64+V9vTFHiWraBVXxo9eo3arnjmbpwcw3rL5mSkjPKYcijSjJOBlvefPVcfQ96JbWH2qDxOyiZlg==
-Received: from [192.168.1.20] ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id fc16-20020a05600c525000b0040feb8c71a0sm191266wmb.13.2024.02.05.23.33.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 23:33:46 -0800 (PST)
-Message-ID: <027fddd4-d572-4f9f-bf7a-1980c73017fa@linaro.org>
-Date: Tue, 6 Feb 2024 08:33:43 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kesKdZ7b"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707206160; x=1738742160;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kibuinQQboCOdIbObfqQOCERxYUraXYrglrTfEYaZlo=;
+  b=kesKdZ7bMElefYnxzZC+hxWNpw6nmH6Paq5LWtlacGJC0nVjGnoFzvbl
+   hC/LSKV1ClC5slML6V6Vh7plP4ESmbcy342QlK4gipUkG+xbbXuEKwZgE
+   PWzw4a9VtI9QlEWf6o875A4A4nCZHFZGQuNb4miF/yqm+exGWeoeP5gge
+   8SBqbV1+d99PU6fjhDezfDFCG6oLW2Li+YSxveEdIEei47LOnRvGxdM54
+   rjHxN5GBgnvDqzPAOMIqS2t3VlM+ZMH8unRDa9ZEaYMysmUOxAiWYasl1
+   MjZCv6xjbDAaXe2/GGnLBW8PHAExH5iGMnhlxNmcQUZeAtH/acu8a+SUw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="3651567"
+X-IronPort-AV: E=Sophos;i="6.05,246,1701158400"; 
+   d="scan'208";a="3651567"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 23:55:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,246,1701158400"; 
+   d="scan'208";a="1228376"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 05 Feb 2024 23:55:55 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rXGJ6-0001Ay-2x;
+	Tue, 06 Feb 2024 07:55:52 +0000
+Date: Tue, 6 Feb 2024 15:55:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Odelu Kukatla <quic_okukatla@quicinc.com>, djakov@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org, corbet@lwn.net,
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_okukatla@quicinc.com,
+	quic_viveka@quicinc.com, peterz@infradead.org,
+	quic_mdtipton@quicinc.com, linux-arm-msm@vger.kernel.org,
+	konrad.dybcio@linaro.org, krzysztof.kozlowski@linaro.org
+Subject: Re: [PATCH v2 1/4] interconnect: qcom: icc-rpmh: Add QoS
+ configuration support
+Message-ID: <202402061541.oNi4V6C6-lkp@intel.com>
+References: <20240205145606.16936-2-quic_okukatla@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/1] hwmon: Add driver for Astera Labs PT5161L retimer
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Cosmo Chou <chou.cosmo@gmail.com>, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jdelvare@suse.com,
- corbet@lwn.net, broonie@kernel.org, naresh.solanki@9elements.com,
- vincent@vtremblay.dev, patrick.rudolph@9elements.com,
- luca.ceresoli@bootlin.com, bhelgaas@google.com, festevam@denx.de,
- alexander.stein@ew.tq-group.com, heiko@sntech.de, jernej.skrabec@gmail.com,
- macromorgan@hotmail.com, forbidden405@foxmail.com, sre@kernel.org,
- linus.walleij@linaro.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, cosmo.chou@quantatw.com
-References: <20240205152013.3833940-1-chou.cosmo@gmail.com>
- <20240205152013.3833940-2-chou.cosmo@gmail.com>
- <99a1a309-41d6-448f-b622-b62dbabb2c52@linaro.org>
- <b932533c-d1fe-46bb-8187-b0560861e982@roeck-us.net>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <b932533c-d1fe-46bb-8187-b0560861e982@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240205145606.16936-2-quic_okukatla@quicinc.com>
 
-On 05/02/2024 17:15, Guenter Roeck wrote:
-> On Mon, Feb 05, 2024 at 04:26:08PM +0100, Krzysztof Kozlowski wrote:
->> On 05/02/2024 16:20, Cosmo Chou wrote:
->>> This driver implements support for temperature monitoring of Astera Labs
->>> PT5161L series PCIe retimer chips.
->>>
->>> This driver implementation originates from the CSDK available at
->>> Link: https://github.com/facebook/openbmc/tree/helium/common/recipes-lib/retimer-v2.14
->>> The communication protocol utilized is based on the I2C/SMBus standard.
->>>
->>> Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
->>> ---
-> [ ... ]
-> 
->>> +
->>> +static int __init pt5161l_init(void)
->>> +{
->>> +	pt5161l_debugfs_dir = debugfs_create_dir("pt5161l", NULL);
->>
->> Drivers don't need initcalls. For sure any debugfs should not be handled
->> here but in probe.
->>
-> 
-> Lots of hwmon drivers have init functions, for basic chip detection of
-> Super-I/O chips (example: drivers/hwmon/nct6775-platform.c) and to create
-> a parent debugfs subdirectory for the driver. The probe function then adds
-> subdirecties per chip instantiation. Example for pmbus, in
-> drivers/hwmon/pmbus/pmbus_core.c:
+Hi Odelu,
 
-Core bus components are a bit different...
+kernel test robot noticed the following build errors:
 
-> 
-> static int __init pmbus_core_init(void)
-> {
->         pmbus_debugfs_dir = debugfs_create_dir("pmbus", NULL);
->         if (IS_ERR(pmbus_debugfs_dir))
->                 pmbus_debugfs_dir = NULL;
-> 
->         return 0;
-> }
-> 
-> static void __exit pmbus_core_exit(void)
-> {
->         debugfs_remove_recursive(pmbus_debugfs_dir);
-> }
-> 
-> Are you saying this is all wrong ? What alternative would you suggest ?
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.8-rc3 next-20240205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Just create parent directory in probe and only keep remove in __exit.
-But you are right that might not be much better approach.
+url:    https://github.com/intel-lab-lkp/linux/commits/Odelu-Kukatla/interconnect-qcom-icc-rpmh-Add-QoS-configuration-support/20240205-230208
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240205145606.16936-2-quic_okukatla%40quicinc.com
+patch subject: [PATCH v2 1/4] interconnect: qcom: icc-rpmh: Add QoS configuration support
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20240206/202402061541.oNi4V6C6-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240206/202402061541.oNi4V6C6-lkp@intel.com/reproduce)
 
-Best regards,
-Krzysztof
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402061541.oNi4V6C6-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   drivers/interconnect/qcom/icc-rpmh.c: In function 'qcom_icc_set_qos':
+>> drivers/interconnect/qcom/icc-rpmh.c:46:36: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+      46 |                                    FIELD_PREP(QOS_DISABLE_MASK, qos->prio_fwd_disable));
+         |                                    ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_PREP +46 drivers/interconnect/qcom/icc-rpmh.c
+
+    25	
+    26	/**
+    27	 * qcom_icc_set_qos - initialize static QoS configurations
+    28	 * @qp: qcom icc provider to which @node belongs
+    29	 * @node: qcom icc node to operate on
+    30	 */
+    31	static void qcom_icc_set_qos(struct qcom_icc_provider *qp,
+    32					struct qcom_icc_node *node)
+    33	{
+    34		const struct qcom_icc_qosbox *qos = node->qosbox;
+    35		int port;
+    36	
+    37		if (!qp->regmap)
+    38			return;
+    39	
+    40		if (!qos)
+    41			return;
+    42	
+    43		for (port = 0; port < qos->num_ports; port++) {
+    44			regmap_update_bits(qp->regmap, QOSGEN_MAINCTL_LO(qos, port),
+    45					   QOS_DISABLE_MASK,
+  > 46					   FIELD_PREP(QOS_DISABLE_MASK, qos->prio_fwd_disable));
+    47	
+    48			regmap_update_bits(qp->regmap, QOSGEN_MAINCTL_LO(qos, port),
+    49					   QOS_DFLT_PRIO_MASK,
+    50					   FIELD_PREP(QOS_DFLT_PRIO_MASK, qos->prio));
+    51	
+    52			regmap_update_bits(qp->regmap, QOSGEN_MAINCTL_LO(qos, port),
+    53					   QOS_SLV_URG_MSG_EN_MASK,
+    54					   FIELD_PREP(QOS_SLV_URG_MSG_EN_MASK, qos->urg_fwd));
+    55		}
+    56	}
+    57	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
