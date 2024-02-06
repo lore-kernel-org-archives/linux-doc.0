@@ -1,102 +1,121 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFD356B7C
-	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 03:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5D2745C9;
+	Tue,  6 Feb 2024 03:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707188680; cv=none; b=T8rEc5xa4qPgJ3TzOB7LQyQG2g/ur9PEdCpWg7Xh+3+UHzSqlKvdljrJPx7bOSmAc7XoDkFhhPPTvWHJF29j3V8HGfs3OcjIXbK+5d0gU8UOwqU4NuixjUfxhYCDNxahKvg8KM4IfuS5SDmbRnHmfmQqHCrK9PTEy/rB/H02tNs=
+	t=1707188729; cv=none; b=f+9TBGmJJGcX3avHOIaRjmZlq0lqGvLntTNCPNRCSIEI1z8rUCPu+5eY7KBHuC2wiVqr7P6f9pvbjsTBBG842t9YfefieCVRc8XfFOVYfDVg+CXPqMlqBn30rwSnsdqyz9uQ9Ip4OVLHeI1HDB5mYj/XPOzOKSbu4mWxTsnyv5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707188680; c=relaxed/simple;
-	bh=74ufEIXExOmiUxVq7HtBBKKNlVSOfwO6muV/N/cFBBg=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=U//RTsJVte91XrNJdrRlp7jD1NsEZBvADrtZBu3ElNdalXQV26l9dNdScV1ENkSKuiWs+b4fh8mrhg6JhewSn23m1u0GU88SiYdwxj2srza1ISdc1WgeE53gFn1/F2AdtrH4hYqbSUhf0yMwRdCzDGQSia31ANZ83aFY1SU/5LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KyKfIr4a; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1707188729; c=relaxed/simple;
+	bh=McwGGPgRVkavoNQoMXPL2VXwhEZL1rZM8bw+shBA+Fw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CSvPvutmjuFrrxl8XbtryII9oW3nvPqkqD2gI9MAjTVitg0ydbcciKQCSs3tP19d13TecIYz/YhtXe3UqWlLjWfRpi8woitJbLJI0sSCSgYp6RkHixprUEHvDk6+eYTRqRip77IYna7Tx4Th7ROK97MQ1aRTCIRLJh+E/fSdBN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VxZh61Sj; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KyKfIr4a"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6d9f94b9186so3735276b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Feb 2024 19:04:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VxZh61Sj"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a3796032418so189019666b.3;
+        Mon, 05 Feb 2024 19:05:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707188678; x=1707793478; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fT18hycL2DMuAaefjtXDuz480XYlrD40t1A8vhR5sis=;
-        b=KyKfIr4abvppk3VzRIqTBgXzzsJQPjrtwV7I1y5bKyGmX77/BjoLP/TNyuMpJgwydZ
-         6J0AZo7oCWuEEbb+ilpryAlqgbYPQCYFjH7awbu0vFv/mXcy2yQmhMGkBqeRRoDGedQI
-         /+fvoDtnNTMdRMkq16VGtcJwjEWqtgNAx4/XHhs4gw8smSVGnhfG+qo9RPvYtc58lifH
-         UVKJEvAR/1+tVWZRz4XoAcACPFTTE+zlvZD/HVTsDy/n+YhQMhQtcfmhJwr+j6v9h7ga
-         8gqpmPDrUPvCR3Wy7jZpXKYkUFhlfWlfjajAUdSRr65G1sSflCOSbT62eej2gag+okRn
-         7e8w==
+        d=gmail.com; s=20230601; t=1707188726; x=1707793526; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Ku75UCViTWac7boa5tWLVJAO47alPJRNpLs6NkWusg=;
+        b=VxZh61SjW20wYxVweRwHmc60M+9EUl2QiSm5azciVqG+qk62FoZE2Jc7x5eYAZCPuP
+         jhf9HvQ3xwOFs4KiQfroNgphQyo6v7OtCG0Emfv9/M79aV1dcxbZW7EV3PJpcViti/3Y
+         jFJ5aIpd6u2z/J1IXqnBs4qVfsgnz/gbMRPn41j1yCEV6wJ1+ooCnizredNnilUbc7IW
+         xsdcZ5yO5sdYlbyyAmZMUFB/LOaXT24TZZs6lDJQ8Lkq9nVCk7e/uwSsMU3EOG3i9ZbK
+         9Voq/RPlpaZnQfJS/hgO+cMHXmj2dc/qQYbqrbnoQB5wTRuKS5d0udJ6BURVzEf0jJU8
+         XiMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707188678; x=1707793478;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fT18hycL2DMuAaefjtXDuz480XYlrD40t1A8vhR5sis=;
-        b=tZY7Wv6wvQ2h5iW+Bxane+PEgU2urisY522loHwHE7zn5isrZeZzW8nAu/1uGnYKgT
-         qQoloI/JG4w2djsf9kP3e621VsobjDkpNMjIq/Ij7uhTIF6O/nXs4Kbu/q6HNVHqpbcj
-         SYzeezxv72Mp19oSZrZJfVWmqkQxFmjDzFYORPoLq6HtT37yr1clwLbhtpsHR0HBmJeY
-         UeWicR2YKxeTn8l/4FozQ+M2qceKZ2/y1XYpiQ3DYI3ogbNWY8zWhVb8q6dTl9MWUp4q
-         RqTEdwnc7L7ROdY7i/KFEu93YZqicdVHpQ2RhayQGz5wrKcjWTPbhTsoyVmJ6hB4FTW1
-         4Ydw==
-X-Gm-Message-State: AOJu0YxoEDenZLTvKhTtbIs/N2MoZwNwKCCW8jujC489JYGrxDG/elBk
-	qxdlmVOPEmFBjP62TIbwfU/ZBbKwvar7woQ2wXt2AIjk1jF2CsBJ
-X-Google-Smtp-Source: AGHT+IHCoQ37vzLoawH0f/mPZdYErhNSPEBJRJtZXdk3BuEAs/yROYTQvL2IlsEaBlSyV8S9azKELA==
-X-Received: by 2002:a05:6a00:928b:b0:6e0:4d4c:f8f3 with SMTP id jw11-20020a056a00928b00b006e04d4cf8f3mr1920582pfb.22.1707188677959;
-        Mon, 05 Feb 2024 19:04:37 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCW6Cc8cYuj3RBPcFIwIIEVCT0gqPssCTvpnsxz4FnKFYetCBeVAsVNLBqdqn37r2fK8lwAqpEhhTiy45qEP1JhvmhZBDNK6BduLfJ83yVyfKIVhwQG65ggIc9jNMgzXIFiwMNMd3QmYTBxUT94Fc95yoWmQ1qUaqqOp/984w68lJW3eaHFJ6g==
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id t27-20020a62d15b000000b006e04efcfbc2sm671700pfl.74.2024.02.05.19.04.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 19:04:37 -0800 (PST)
-Message-ID: <f3735f2e-dcc3-4d27-94a1-7390589132c2@gmail.com>
-Date: Tue, 6 Feb 2024 12:04:36 +0900
+        d=1e100.net; s=20230601; t=1707188726; x=1707793526;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+Ku75UCViTWac7boa5tWLVJAO47alPJRNpLs6NkWusg=;
+        b=MzYTWrIiDTM45oIMJ+cxWi703iHONDEs8W44h7PT8buiL4j/6Q3Fhy73MFlvHj9UYs
+         W3SUqTNTHzbShA9vFqoBZ0pBjmmcDGNswXkTLqop7PerL75xmJoXighNO+YGxOaYqLxH
+         t7AQP0GLE7Uddp89vNkUjAI7/VNEO0DU5i50PUN7Rixus1z2533mFZx5vxle26fIU/PN
+         p2WmjDHfbfkLc1KTcR2W6HuIGkLJzFkcqsuAT4sbz97aa6VPGkgsvvgeeU8tPf4jAwEl
+         R4oVOyaBOy2I/PGx5Ct6E4wWeJZvya/pDSO+Prl/iaPbVO93emGOpLPX1HC2lES1J8Q+
+         02iA==
+X-Gm-Message-State: AOJu0YwkZEh8BgKT2ucbTcTTUfRCDeMajk/7qPsa2l6U26G9ji/dVxJG
+	1ijmnrPrgyHsksdiAX7WKRb/gIaI/3VAvMgIP9prGc5ERQEQ8pje35uOOG3lPOPoB3kBCP8nYfz
+	VvLchAP4yXoFM6hbs0x6LKe5cVOkY0HExnv0=
+X-Google-Smtp-Source: AGHT+IFFtkSco0Nn4trbVLlcxRdt06Mavs1dxjdC8tfMdK4uxDm7E2j/S1fPE2WZ+9OvvL+APbgi2zuPGcLjt73Lrzc=
+X-Received: by 2002:a17:906:e091:b0:a37:9793:60fe with SMTP id
+ gh17-20020a170906e09100b00a37979360femr820985ejb.54.1707188726369; Mon, 05
+ Feb 2024 19:05:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: vegard.nossum@oracle.com
-Cc: corbet@lwn.net, jani.nikula@intel.com, linux-doc@vger.kernel.org,
- mchehab@kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <20240205175133.774271-7-vegard.nossum@oracle.com>
-Subject: Re: [PATCH 6/8] doc: kfigure.py: convert to sphinx.util.logging
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20240205175133.774271-7-vegard.nossum@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240205152013.3833940-1-chou.cosmo@gmail.com>
+ <20240205152013.3833940-2-chou.cosmo@gmail.com> <4a504043-e24d-4119-8c5d-107f0d371110@roeck-us.net>
+In-Reply-To: <4a504043-e24d-4119-8c5d-107f0d371110@roeck-us.net>
+From: Cosmo Chou <chou.cosmo@gmail.com>
+Date: Tue, 6 Feb 2024 11:05:14 +0800
+Message-ID: <CAOeEDysSZEeKt==zyexLE1GhE5ZpeDHS7sDLRfcC=4JgiogLKQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] hwmon: Add driver for Astera Labs PT5161L retimer
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	jdelvare@suse.com, corbet@lwn.net, broonie@kernel.org, 
+	naresh.solanki@9elements.com, vincent@vtremblay.dev, 
+	patrick.rudolph@9elements.com, luca.ceresoli@bootlin.com, bhelgaas@google.com, 
+	festevam@denx.de, alexander.stein@ew.tq-group.com, heiko@sntech.de, 
+	jernej.skrabec@gmail.com, macromorgan@hotmail.com, forbidden405@foxmail.com, 
+	sre@kernel.org, linus.walleij@linaro.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, cosmo.chou@quantatw.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon,  5 Feb 2024 18:51:31 +0100, Vegard Nossum wrote:
-> As of commit 3e893e16af55 ("docs: Raise the minimum Sphinx requirement
-> to 2.4.4"), we can use Sphinx's built-in logging facilities.
-> 
-> Gotchas:
-> - remove first argument 'app' from all calls
-> - instead of (fmt % (args)), use (fmt, args)
-> - instead of ("<fmt>: " + str) use ("<fmt: %s>", str)
-> - realign wrapped lines
-> 
-> I changed the "Neither inkscape(1) nor convert(1) found." message from a
-> .verbose() to a .warning(), since that actually affects the output in a
-> big way.
+On Tue, Feb 06, 2024 at 3:43 AM +0800, Guenter Roeck wrote:
+>
+> On Mon, Feb 05, 2024 at 11:20:13PM +0800, Cosmo Chou wrote:
+> > This driver implements support for temperature monitoring of Astera Labs
+> > PT5161L series PCIe retimer chips.
+> >
+> > This driver implementation originates from the CSDK available at
+> > Link: https://github.com/facebook/openbmc/tree/helium/common/recipes-lib/retimer-v2.14
+> > The communication protocol utilized is based on the I2C/SMBus standard.
+> >
+> > Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
+> > ---
+> [ ... ]
+>
+> > +static ssize_t pt5161l_debugfs_read_fw_ver(struct file *file, char __user *buf,
+> > +                                        size_t count, loff_t *ppos)
+> > +{
+> > +     struct pt5161l_data *data = file->private_data;
+> > +     int ret;
+> > +     char ver[32];
+> > +
+> > +     mutex_lock(&data->lock);
+> > +     ret = pt5161l_fwsts_check(data);
+> > +     mutex_unlock(&data->lock);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     ret = snprintf(ver, sizeof(ver), "%u.%u.%u\n", data->fw_ver.major,
+> > +                    data->fw_ver.minor, data->fw_ver.build);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+>
+> You almost got me here ;-). snprintf() never returns a negative error code,
+> so checking for it is not necessary.
+>
+Oh! You're right.
 
-No, please don't!
+> > +     return simple_read_from_buffer(buf, count, ppos, ver, ret + 1);
+>
+> Number of bytes written plus 1 ? Why ?
+It's just to include the string terminator '\0'.
 
-you are partially reverting commit d987d5ae51ec ("docs: kfigure.py:
-Don't warn of missing PDF converter in 'make htmldocs'").
-
-See its changelog for why it should be kept verbase.
-
-        Thanks, Akira
-
-> 
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  Documentation/sphinx/kfigure.py | 66 ++++++++++++++++-----------------
->  1 file changed, 32 insertions(+), 34 deletions(-)
+>
+> Thanks,
+> Guenter
