@@ -1,132 +1,184 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CBF8004A;
-	Tue,  6 Feb 2024 06:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DD912881F
+	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 07:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707199433; cv=none; b=a359QN9y/LWa1rTu0bwXwB9oFJ2yjxUNBB4CGnKsHLhOhdiATexIIivQgopyQoLRJz0mttEvopYrrdq1vJmNhAUarifXEl8eOHGt7k7IUVh5GJXS2nK4nuN/Fa3heqLQmZASpHk5ywxkTtLqcwvqmJLdNqSNxyNKKGlkhVn2dHM=
+	t=1707204830; cv=none; b=Nav2GRxkBDusB358Dz61eowTCgc3b/IPb9mu+D0JFrErPb6OUW2ZN2X/GBWq5Dz5wGA00J584InvpTnDIJiTaujtxYefGY0UondyWseyVfiisB9WhJW5fuWWejsy6BAUxVJHm3TmljMlhPbGlimOgETLR0EDEIQXodC7WbWveT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707199433; c=relaxed/simple;
-	bh=49+VR82bl0ZleNstFJHox4KSX3k01vOhnhTBd3oGKOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pNfpOTdfZSPvph821EeoFfU2PFXOELdS/6ImYhRKPWERhFXkfenrympmnnS8nQJALQui5T7V0aYIlkGnyKqsZTvTtRn/Dye5hjY28Hhr2OhfVND+viR2/RH0ikMKsdjm5+RbRZ/ivEMny0luPmYq03Xn5hMT73TSkL9NB3et+vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b1H2yIKh; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707204830; c=relaxed/simple;
+	bh=CNpEweTFv5oCaBP1luQEX8qTi0+T9RtH73gxUzyo/DQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bHGrT2sK3OoIAtTu9Gn0vXNH44WPr2BnQ/Ju/+jZqokZ6gvshmIxUUcdYQoRMKBt47CyTDYwlLrL66wSwG9SlLycZOjlspPj/UGwRfPgY6AXzDelZJ0NTLYjatGeFRkRYnNMuOkZecmTJ5vzXnDFd/xw8AyrXho8PXamtCvUJj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fyuoquNF; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b1H2yIKh"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a271a28aeb4so733210166b.2;
-        Mon, 05 Feb 2024 22:03:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fyuoquNF"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51117bfd452so8891528e87.3
+        for <linux-doc@vger.kernel.org>; Mon, 05 Feb 2024 23:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707199429; x=1707804229; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3hiAgHh+Gg4JAfLChPswcQYzPhkOPvxPL2BqsCIhKs0=;
-        b=b1H2yIKh45zA8+8IubZ6wOD1Fp345KilZD7HVe9ztmjTSqV306NssuKSg2Jyj+opXn
-         AeqoUs9bd7n1fA/yI66GTk9vdSTBZbYawpEmXTjGWvGaeHQcJ6Rd0p2T9WmSOXq3x6DA
-         Z6lTmeKL80mh0ODvOYgWc7DqAITLQCgGt+8Z5oNB/YlB43RsquAq+CKzchAhwZMuz3Ah
-         l0dDzxEFkjdwGifptNapn5woPA5BAasFMhyZwCz9aqO6JOBeLjUmzGPsw0f1bZiVjxuM
-         QpmaPKpm25leAFQMw34BdiNkZqgKkmfUad0OGNd49pVhp1NUHM4eCUG2aMyeq6HzRkDr
-         jA5w==
+        d=linaro.org; s=google; t=1707204827; x=1707809627; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=epm7YcjPaDPPivdSKs9f+kqj2TGWyrJAF+NqwefGpDg=;
+        b=fyuoquNFHmd4/xlxBO0q/CsHdfclSVQQOMpsVkz6S0WYjt+iR4t+eZ3X42uAKtm8P4
+         OicTMTfk/PQobkt2p718AnmL75ZxrJHiLrMfnOIEndJg6w6Po/f+aynvfK8XIx5/XoW3
+         4JkKfkAgcvFO/BChmK35DJ8OdjrJ+uZCeU4lexOWSXOWuyYTHB0eKOuE+T2SNIMXHYcZ
+         tGgr0ArDyDLpo+azgR7Ko483NCL9GOlwVjkS2vF5PN1oi8iU91vEp1h7LRU5qb+HFkqB
+         6GR0OA8PtrD1uqLMe+DaSqdFyypn1tRa3u2xtOqs3XiV1ITJvvpS2GQ7RvDwZMLvsKf8
+         WxKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707199429; x=1707804229;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3hiAgHh+Gg4JAfLChPswcQYzPhkOPvxPL2BqsCIhKs0=;
-        b=QNkL2OpqtH0lgNK/yOpKqDVJzMD/GHKzedKcoaVFQ1VISflWSIF+1yTYUnmxwa85or
-         QxEwQIRDfeOSCeUUJZAMfsdfb2XA5PZCt1fIbSgEeLmdiitWJUCs2dDKVnqafT8k0Lrr
-         aYBocZRIy9iq033tGoHwRW6ANeh+EaJlvyiY7mZ7cgfpr81LXy1rjOGW2ddWlBaeW4UD
-         CwQbKktQnR6SdXeTkW2OI/UJIhiwFzGHX7TSp8uQXb+WiXE90lAJNJcs0mYH++R7nwLf
-         Vmj24qbX/n5sdhluFrHt+adoT9VPPg93aPNx+yKlZOkA5zeePjBHk6KrvVCxuS8CC+Wo
-         8Obg==
-X-Gm-Message-State: AOJu0YwKNixolEgtiHqZus+p8/XKN1O6sTSr+8HD9tHiYsekW4RprDeZ
-	+l1GC6/GpUBflfKaFRs/ckfxcym6WOJuS1EimBJg5Xs39akt+vPV
-X-Google-Smtp-Source: AGHT+IG/enrf3VM0r811NcE7hmAPj8XpxOJMeAamKMECLGCrshnSjWfi0+RbKqxcfdqszQvlgFy5pw==
-X-Received: by 2002:a17:907:910d:b0:a35:b2b1:5372 with SMTP id p13-20020a170907910d00b00a35b2b15372mr812250ejq.68.1707199429121;
-        Mon, 05 Feb 2024 22:03:49 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCW8Bi7JjmWB3qtuj9KkUykIV/zUDOr9QT1tKft6rDYsrpO5G9tK5yW0ig8cJm/y+eHYvNKI6yA3LNUg2v5hDFvkCCr8tGEuWp2Q3OhKxtFRAC54v4aQ80bZqtVSN5WF47Z+TZMYYHOnh5IOElhPnrOzlaAfVwsO34gGqTRACnDVhKZmPD7UH0HDzKNWHo5h+Pzfjwwar2iwoJIHtHqQ/fdHHupZq7Ud9w==
-Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch. [82.192.242.114])
-        by smtp.gmail.com with ESMTPSA id tk12-20020a170907c28c00b00a377a476692sm704161ejc.213.2024.02.05.22.03.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 22:03:48 -0800 (PST)
-Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
-Received: by eldamar.lan (Postfix, from userid 1000)
-	id 89F19BE2DE0; Tue,  6 Feb 2024 07:03:47 +0100 (CET)
-Date: Tue, 6 Feb 2024 07:03:47 +0100
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	Justin Forbes <jforbes@fedoraproject.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/8] docs: kernel_feat.py: fix build error for missing
- files
-Message-ID: <ZcHLw1wtypMD5497@eldamar.lan>
-References: <20240205175133.774271-1-vegard.nossum@oracle.com>
- <20240205175133.774271-2-vegard.nossum@oracle.com>
+        d=1e100.net; s=20230601; t=1707204827; x=1707809627;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=epm7YcjPaDPPivdSKs9f+kqj2TGWyrJAF+NqwefGpDg=;
+        b=WWnqQsSmK0RcGeEN23V0G4Ag7TzXVDj+OAn6SEOWtzKhLzM0wqjpzU+FgxLEQq/1BO
+         xwAPQwFV6omrcr3sCoRxXnMyb7hAbZRdWo+8/2Gm53BylvZkcDX01UNJ5M0j7+iJxcZV
+         ElcJqG0lVNQMk4GqX7rD3DXe2rBXJscyGxif5QONeADr+QnmslTkzyzQsYx5H20yoxE8
+         f4/tnjWn8dx1QcBCT7+4ZpxGcsr6VuEdbcaAw/6opIy9lpgjwCD03YaWuz+15zmg+DIv
+         c/+uesc/cIysbZMLr5x7Eoth/TcR+0B6MvnLZkhvLr3y8LI5pH735A9afZQZBiQ/vH4w
+         9hMA==
+X-Gm-Message-State: AOJu0YxE5TWpP9jppw4VaEb7VMoNnoLzM5yxA62L5+H2Cf6OlR/7twFu
+	cIS8cK9d6WAgNkxn1sF7aar1qJUOMkcAFCFNn9PcOSXdYXVa0MBy1Kf30sOb1i0=
+X-Google-Smtp-Source: AGHT+IF8wLS2DKRYZAjdNAxararBHRigMxvVvwyxWeqjbMxCAwTnW5t3EJJEj/tZBJtZBqCVC1uwoQ==
+X-Received: by 2002:a05:6512:288:b0:511:4c52:ff53 with SMTP id j8-20020a056512028800b005114c52ff53mr937074lfp.53.1707204826618;
+        Mon, 05 Feb 2024 23:33:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX1hD4Ys0qLW4LI9vPGfiKkkPFfmdd1Gs9gfaGcuiyl/jJ4iXLYtJ5LRKu4m3P1autVp5OhDPwen669TiFyDcKwGwx6u+e9Hw4xUFhmK6ESuL4CQMFRO+/87utpKwP2zaH1Rwavq4XFYZiA+xcGZfkpP8cMQqD3FWMA0i2mBtLpMkM2jd2SUko9wzM8JL7EenjjEj6gA/4/gMZxHFrc/FT35gvlpny6Hp4VFEg5S3lvuVEsqMYJUoi5/busUpo0/cHkjNVv/7tLvO+1++HTI7lWiQJomeQM6/SYIgprWiA3Il9bF5lHcUFovAagxIG+qu8jDCuql3hQ+VBv9JIiElC6YyTF2kcCaSgbGXmSD91tqRe9G6u2rVrh7N9rcC5toXIhjU90vPQjnXHAaeG7wEkI0PKbLmfSMOi9AOIi5R1rvPBcislqqB/WGTxuRSf2nib9bX8BKhiSwzeoW6sIh0IIVwkgT/b/kqxDR6Z0CekVnr36lKBpxTVUJAilP9/cvWdagNEVdVfD40kEYLJMLmGptCj/hbRis84wQ/erwrmEBkMUe3da21+TVfcQLRH+KC1rOo4FvpIxXIOgeXlDhbBM9A8cH9NzJdK4St/9VLRTcqVienEN0YZlAGIzcXr084v2NnrnDp1iCeCw9oDGkk3CvFRHUoTKctJIhfpIxAFH0NgjPCY7UD6USbEK5VzoBoYIAlL+WB+lAW0DCuxOSjUlB4O3xVZW8MO0PLoff+7efpKW1saMAkV9XZWLLhIgvA92+F64+V9vTFHiWraBVXxo9eo3arnjmbpwcw3rL5mSkjPKYcijSjJOBlvefPVcfQ96JbWH2qDxOyiZlg==
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id fc16-20020a05600c525000b0040feb8c71a0sm191266wmb.13.2024.02.05.23.33.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Feb 2024 23:33:46 -0800 (PST)
+Message-ID: <027fddd4-d572-4f9f-bf7a-1980c73017fa@linaro.org>
+Date: Tue, 6 Feb 2024 08:33:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240205175133.774271-2-vegard.nossum@oracle.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/1] hwmon: Add driver for Astera Labs PT5161L retimer
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Cosmo Chou <chou.cosmo@gmail.com>, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jdelvare@suse.com,
+ corbet@lwn.net, broonie@kernel.org, naresh.solanki@9elements.com,
+ vincent@vtremblay.dev, patrick.rudolph@9elements.com,
+ luca.ceresoli@bootlin.com, bhelgaas@google.com, festevam@denx.de,
+ alexander.stein@ew.tq-group.com, heiko@sntech.de, jernej.skrabec@gmail.com,
+ macromorgan@hotmail.com, forbidden405@foxmail.com, sre@kernel.org,
+ linus.walleij@linaro.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, cosmo.chou@quantatw.com
+References: <20240205152013.3833940-1-chou.cosmo@gmail.com>
+ <20240205152013.3833940-2-chou.cosmo@gmail.com>
+ <99a1a309-41d6-448f-b622-b62dbabb2c52@linaro.org>
+ <b932533c-d1fe-46bb-8187-b0560861e982@roeck-us.net>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <b932533c-d1fe-46bb-8187-b0560861e982@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Vegard,
+On 05/02/2024 17:15, Guenter Roeck wrote:
+> On Mon, Feb 05, 2024 at 04:26:08PM +0100, Krzysztof Kozlowski wrote:
+>> On 05/02/2024 16:20, Cosmo Chou wrote:
+>>> This driver implements support for temperature monitoring of Astera Labs
+>>> PT5161L series PCIe retimer chips.
+>>>
+>>> This driver implementation originates from the CSDK available at
+>>> Link: https://github.com/facebook/openbmc/tree/helium/common/recipes-lib/retimer-v2.14
+>>> The communication protocol utilized is based on the I2C/SMBus standard.
+>>>
+>>> Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
+>>> ---
+> [ ... ]
+> 
+>>> +
+>>> +static int __init pt5161l_init(void)
+>>> +{
+>>> +	pt5161l_debugfs_dir = debugfs_create_dir("pt5161l", NULL);
+>>
+>> Drivers don't need initcalls. For sure any debugfs should not be handled
+>> here but in probe.
+>>
+> 
+> Lots of hwmon drivers have init functions, for basic chip detection of
+> Super-I/O chips (example: drivers/hwmon/nct6775-platform.c) and to create
+> a parent debugfs subdirectory for the driver. The probe function then adds
+> subdirecties per chip instantiation. Example for pmbus, in
+> drivers/hwmon/pmbus/pmbus_core.c:
 
-On Mon, Feb 05, 2024 at 06:51:26PM +0100, Vegard Nossum wrote:
-> If the directory passed to the '.. kernel-feat::' directive does not
-> exist or the get_feat.pl script does not find any files to extract
-> features from, Sphinx will report the following error:
-> 
->     Sphinx parallel build error:
->     UnboundLocalError: local variable 'fname' referenced before assignment
->     make[2]: *** [Documentation/Makefile:102: htmldocs] Error 2
-> 
-> This is due to how I changed the script in c48a7c44a1d0 ("docs:
-> kernel_feat.py: fix potential command injection"). Before that, the
-> filename passed along to self.nestedParse() in this case was weirdly
-> just the whole get_feat.pl invocation.
-> 
-> We can fix it by doing what kernel_abi.py does -- just pass
-> self.arguments[0] as 'fname'.
-> 
-> Fixes: c48a7c44a1d0 ("docs: kernel_feat.py: fix potential command injection")
-> Cc: Justin Forbes <jforbes@fedoraproject.org>
-> Cc: Salvatore Bonaccorso <carnil@debian.org>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  Documentation/sphinx/kernel_feat.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/sphinx/kernel_feat.py b/Documentation/sphinx/kernel_feat.py
-> index b9df61eb4501..03ace5f01b5c 100644
-> --- a/Documentation/sphinx/kernel_feat.py
-> +++ b/Documentation/sphinx/kernel_feat.py
-> @@ -109,7 +109,7 @@ class KernelFeat(Directive):
->              else:
->                  out_lines += line + "\n"
->  
-> -        nodeList = self.nestedParse(out_lines, fname)
-> +        nodeList = self.nestedParse(out_lines, self.arguments[0])
->          return nodeList
->  
->      def nestedParse(self, lines, fname):
-> -- 
-> 2.34.1
+Core bus components are a bit different...
 
-Thanks for the fix. Tested doc build on top of v6.6.16 and addresses
-the issue.
+> 
+> static int __init pmbus_core_init(void)
+> {
+>         pmbus_debugfs_dir = debugfs_create_dir("pmbus", NULL);
+>         if (IS_ERR(pmbus_debugfs_dir))
+>                 pmbus_debugfs_dir = NULL;
+> 
+>         return 0;
+> }
+> 
+> static void __exit pmbus_core_exit(void)
+> {
+>         debugfs_remove_recursive(pmbus_debugfs_dir);
+> }
+> 
+> Are you saying this is all wrong ? What alternative would you suggest ?
 
-Tested-by: Salvatore Bonaccorso <carnil@debian.org>
+Just create parent directory in probe and only keep remove in __exit.
+But you are right that might not be much better approach.
 
-Regards,
-Salvatore
+Best regards,
+Krzysztof
+
