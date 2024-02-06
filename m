@@ -1,170 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82345134CF1
-	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 16:08:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E8E12D150;
+	Tue,  6 Feb 2024 16:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707235706; cv=none; b=XB+FIthgB5WsTBMA6ptVCxB0SqH5UUT0Z2MH0WmvdsGPx7ks0VSInFUqquwXJqHMnXR2/Ex1VVYMrl0zkCWxPkgRJQjml7i+sQcKoxIAxtf7pKlwGcJkmqqxZr38mPMlz8fmwm90WRBhdamSX7NjipGejiNcOs9DRSWFYeNRWi4=
+	t=1707236023; cv=none; b=WgvtXJpotpWqbYafgSqkApBtXap+Ipeyai0cS4AYAI9cp/A8LTjjCr1+NlrhibPcave/sPRlJYCcwWa0F4R4HNTA7crCGkv07e2uy+sTBzZgr+p78FgCt9b9L+aWfdFXmg1VfvC3hbnA3eigU23lIdl+Wxmn0ho2a9wqycLCGA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707235706; c=relaxed/simple;
-	bh=KUcH2w81ubI6j+hIl4/fL/PRZok6JmE46tdEn9wd4Nw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bum7r6vRFPFEyGt5MxSXbEiYnU7M1PKguf1HkDN8M3LlrE2+tInUXJ/Mga8FGWPQ9bVtKBd22qiRsp1fC31FBAjGs6JnPdyITyakQpBRjFXotmMlJS9XO6TIhWbcYN+na0lGxCpggsn3AQWXgTVhrJ3UwF9fpLMnD7Np/Jivph8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3WP5U14; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707236023; c=relaxed/simple;
+	bh=c1sZ3YqjwLgIe/oUDK6sgpcyFQmmz43JxRT/kHAfLYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lk7XLtSLzyZjmFmXWIZ+7OguW3hjWarezo6Ls1CNi+4C2lCS89fyoeAVRNA4FmbB4i4a02tvYY/YzNkYlzb7coEiFMmmthvZWdGsQWNSp+xpwDGc47BJ3ZRcgWbe41EtFK0Eo7sy24aRKTYKLJgJyEPLD6FFxsKGaVdBIoXPgew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jlUHOAEn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3WP5U14"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 912C8C433C7;
-	Tue,  6 Feb 2024 16:08:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jlUHOAEn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 040C0C433C7;
+	Tue,  6 Feb 2024 16:13:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707235706;
-	bh=KUcH2w81ubI6j+hIl4/fL/PRZok6JmE46tdEn9wd4Nw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=S3WP5U14uqmA3p9a8Md3pQhpJcIM5uOrn+NlEVp5BT06C2zVNgUchtCpoBQzmPOC0
-	 /iB5tBGYWmV0K4+3CFi2AFpH9Ud/6L/Dd+tiKoTv7XCtKARgSt3rcZj2nu0kcBzw7E
-	 xK6Gmd/K1Usk6kOIo0xnKqO8rNFvKHx+dj1uzJjiYcUynTx7W8iUpDXR1p1dOIaZ1e
-	 TCVXwIU2qogpnEZ5yVUjxYARMaoz4sfu8lzQZM0glth+jyBYtYkIEuZ6taB7TrxXxu
-	 /ZOBnXAxAkctZGY7ykYlN6B2ZGct+Gmbm3un5JG3B2tGTVvVsli4JfnveSmdC+CPEA
-	 HoDPErCRSafYw==
-Date: Tue, 6 Feb 2024 17:08:19 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 6/8] doc: kfigure.py: convert to sphinx.util.logging
-Message-ID: <20240206170819.08f3e31a@coco.lan>
-In-Reply-To: <87zfwec6m7.fsf@intel.com>
-References: <20240205175133.774271-1-vegard.nossum@oracle.com>
-	<20240205175133.774271-7-vegard.nossum@oracle.com>
-	<87zfwec6m7.fsf@intel.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1707236022;
+	bh=c1sZ3YqjwLgIe/oUDK6sgpcyFQmmz43JxRT/kHAfLYc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jlUHOAEnInU30oik5DPIGz6JgFHROuPeLJgpWMoanTiX/F9nJO8S6FQIWlQdpV0Jl
+	 +EDIKyTlUw2s35GBSvpYxBobPHMvDS0SlVxFSuBwIkCBsugAp3Y1sJefh6tdx+iDj+
+	 tieTWeVky5DPpTbCSVwM50ryLecIJm9jwCPPqQaursXXSEY7yGrP4HcFTkWBJtU3T3
+	 jW3naVUxR/lmiDVmyIxj7vLdUmdr0LLkzV0Z2/kZzNvqJ3+fm8i67rUkr8dMc9363H
+	 b6yV6+Swl4GpQUrVE1WOXEv91PrYQ6HbM4uAM0BNakq8Y//7aYn93KhFdff3kU5zjE
+	 vPE2F67S+zRnQ==
+Date: Tue, 6 Feb 2024 16:13:39 +0000
+From: Mark Brown <broonie@kernel.org>
+To: debug@rivosinc.com
+Cc: rick.p.edgecombe@intel.com, Szabolcs.Nagy@arm.com,
+	kito.cheng@sifive.com, keescook@chromium.org,
+	ajones@ventanamicro.com, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, conor.dooley@microchip.com, cleger@rivosinc.com,
+	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com,
+	alexghiti@rivosinc.com, corbet@lwn.net, aou@eecs.berkeley.edu,
+	oleg@redhat.com, akpm@linux-foundation.org, arnd@arndb.de,
+	ebiederm@xmission.com, shuah@kernel.org, brauner@kernel.org,
+	guoren@kernel.org, samitolvanen@google.com, evan@rivosinc.com,
+	xiao.w.wang@intel.com, apatel@ventanamicro.com,
+	mchitale@ventanamicro.com, waylingii@gmail.com,
+	greentime.hu@sifive.com, heiko@sntech.de, jszhang@kernel.org,
+	shikemeng@huaweicloud.com, david@redhat.com, charlie@rivosinc.com,
+	panqinglin2020@iscas.ac.cn, willy@infradead.org,
+	vincent.chen@sifive.com, andy.chiu@sifive.com, gerg@kernel.org,
+	jeeheng.sia@starfivetech.com, mason.huo@starfivetech.com,
+	ancientmodern4@gmail.com, mathis.salmen@matsal.de,
+	cuiyunhui@bytedance.com, bhe@redhat.com, chenjiahao16@huawei.com,
+	ruscur@russell.cc, bgray@linux.ibm.com, alx@kernel.org,
+	baruch@tkos.co.il, zhangqing@loongson.cn, catalin.marinas@arm.com,
+	revest@chromium.org, josh@joshtriplett.org, joey.gouly@arm.com,
+	shr@devkernel.io, omosnace@redhat.com, ojeda@kernel.org,
+	jhubbard@nvidia.com, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH v1 18/28] prctl: arch-agnostic prtcl for indirect
+ branch tracking
+Message-ID: <ZcJas4tZNzOJv6hW@finisterre.sirena.org.uk>
+References: <20240125062739.1339782-1-debug@rivosinc.com>
+ <20240125062739.1339782-19-debug@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-Em Tue, 06 Feb 2024 10:57:36 +0200
-Jani Nikula <jani.nikula@intel.com> escreveu:
-
-> On Mon, 05 Feb 2024, Vegard Nossum <vegard.nossum@oracle.com> wrote:
-> > As of commit 3e893e16af55 ("docs: Raise the minimum Sphinx requirement
-> > to 2.4.4"), we can use Sphinx's built-in logging facilities.
-> >
-> > Gotchas:
-> > - remove first argument 'app' from all calls
-> > - instead of (fmt % (args)), use (fmt, args)
-> > - instead of ("<fmt>: " + str) use ("<fmt: %s>", str)  
-> 
-> If you're doing this, why not go directly to f-strings? IMO the above
-> are inferior to it.
-
-Hmm... f-strings require at least python 3.6. Not sure what's the current
-requirement.
-
-On a quick check wit vermin:
-
-<snip>
-$ vermin -v $(git ls-files "*.py"|grep -v tools)
-
-!2, 3.3      Documentation/conf.py
-2.6, 3.0     Documentation/networking/device_drivers/atm/cxacru-cf.py
-!2, 3.6      Documentation/sphinx/automarkup.py
-2.4, 3.0     Documentation/sphinx/cdomain.py
-2.7, 3.1     Documentation/sphinx/kernel_abi.py
-2.7, 3.1     Documentation/sphinx/kernel_feat.py
-2.3, 3.0     Documentation/sphinx/kernel_include.py
-2.5, 3.0     Documentation/sphinx/kerneldoc.py
-~2, ~3       Documentation/sphinx/kernellog.py
-!2, 3.3      Documentation/sphinx/kfigure.py
-2.5, 3.0     Documentation/sphinx/load_config.py
-2.3, 3.0     Documentation/sphinx/maintainers_include.py
-2.3, 3.0     Documentation/sphinx/rstFlatTable.py
-!2, 3.0      Documentation/sphinx/translations.py
-2.0, !3      Documentation/trace/postprocess/decode_msr.py
-File with incompatible versions: Documentation/trace/postprocess/decode_msr.py
-2.3, 3.0     Documentation/userspace-api/media/conf_nitpick.py
-!2, 3.5      drivers/gpu/drm/ci/check-patch.py
-!2, 3.6      drivers/gpu/drm/ci/xfails/update-xfails.py
-!2, 3.7      scripts/bpf_doc.py
-!2, 3.3      scripts/checkkconfigsymbols.py
-~2, ~3       scripts/gdb/linux/__init__.py
-2.2, 3.0     scripts/gdb/linux/clk.py
-2.5, 3.0     scripts/gdb/linux/config.py
-2.7, 3.0     scripts/gdb/linux/cpus.py
-2.7, 3.0     scripts/gdb/linux/device.py
-2.6, 3.0     scripts/gdb/linux/dmesg.py
-2.7, 3.0     scripts/gdb/linux/genpd.py
-2.7, 3.0     scripts/gdb/linux/interrupts.py
-2.7, 3.0     scripts/gdb/linux/lists.py
-2.3, 3.0     scripts/gdb/linux/mm.py
-2.6, 3.0     scripts/gdb/linux/modules.py
-2.3, 3.0     scripts/gdb/linux/page_owner.py
-!2, 3.6      scripts/gdb/linux/pgtable.py
-2.7, 3.0     scripts/gdb/linux/proc.py
-2.7, 3.0     scripts/gdb/linux/radixtree.py
-2.7, 3.0     scripts/gdb/linux/rbtree.py
-2.7, 3.0     scripts/gdb/linux/slab.py
-~2, ~3       scripts/gdb/linux/stackdepot.py
-2.7, 3.0     scripts/gdb/linux/symbols.py
-2.7, 3.0     scripts/gdb/linux/tasks.py
-2.7, 3.0     scripts/gdb/linux/timerlist.py
-2.7, 3.0     scripts/gdb/linux/utils.py
-2.2, 3.0     scripts/gdb/linux/vfs.py
-2.2, 3.0     scripts/gdb/linux/vmalloc.py
-2.3, 3.0     scripts/gdb/vmlinux-gdb.py
-!2, 3.6      scripts/generate_rust_analyzer.py
-~2, ~3       scripts/kconfig/tests/auto_submenu/__init__.py
-~2, ~3       scripts/kconfig/tests/choice/__init__.py
-~2, ~3       scripts/kconfig/tests/choice_value_with_m_dep/__init__.py
-!2, 3.2      scripts/kconfig/tests/conftest.py
-~2, ~3       scripts/kconfig/tests/err_recursive_dep/__init__.py
-~2, ~3       scripts/kconfig/tests/err_recursive_inc/__init__.py
-~2, ~3       scripts/kconfig/tests/inter_choice/__init__.py
-~2, ~3       scripts/kconfig/tests/new_choice_with_dep/__init__.py
-~2, ~3       scripts/kconfig/tests/no_write_if_dep_unmet/__init__.py
-~2, ~3       scripts/kconfig/tests/preprocess/builtin_func/__init__.py
-~2, ~3       scripts/kconfig/tests/preprocess/circular_expansion/__init__.py
-~2, ~3       scripts/kconfig/tests/preprocess/escape/__init__.py
-~2, ~3       scripts/kconfig/tests/preprocess/variable/__init__.py
-!2, 3.9      scripts/rust_is_available_test.py
-!2, 3.2      scripts/spdxcheck.py
-2.3, 3.0     scripts/tracing/draw_functrace.py
-</snip>
-
-It sounds that automarkup is already requiring 3.6, so it should be ok
-to use it here too (also because it uses f-strings):
-
-	$ vermin -vv Documentation/sphinx/automarkup.py 
-	Detecting python files..
-	Analyzing using 8 processes..
-	!2, 3.6      /new_devel/v4l/media_tree/Documentation/sphinx/automarkup.py
-	  'itertools' module requires 2.3, 3.0
-	  'sorted' member requires 2.4, 3.0
-	  'sorted(key)' requires 2.4, 3.0
-	  `with` requires 2.5, 3.0
-	  f-strings require !2, 3.6
-	...
-
-There are still:
-
-	scripts/bpf_doc.py requires 3.7
-	rust_is_available_test.py requires 3.9.
-
-But those don't seem to be part of the build.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IzS+gDfE7WAJn9u1"
+Content-Disposition: inline
+In-Reply-To: <20240125062739.1339782-19-debug@rivosinc.com>
+X-Cookie: You might have mail.
 
 
-Anyway, I would expect that the minimal python version to be listed at:
+--IzS+gDfE7WAJn9u1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-	Documentation/process/changes.rst
+On Wed, Jan 24, 2024 at 10:21:43PM -0800, debug@rivosinc.com wrote:
 
-Apparently, it isn't. IMO, we need to document there that python
-3.6 is the minimal version required to build the Kernel - or
-at least the documentation.
+> To allow userspace to enable this feature for itself, following prtcls are
+> defined:
+>  - PR_GET_INDIR_BR_LP_STATUS: Gets current configured status for indirect branch
+>    tracking.
+>  - PR_SET_INDIR_BR_LP_STATUS: Sets a configuration for indirect branch tracking
+>    Following status options are allowed
+>            - PR_INDIR_BR_LP_ENABLE: Enables indirect branch tracking on user
+>              thread.
+>            - PR_INDIR_BR_LP_DISABLE; Disables indirect branch tracking on user
+>              thread.
+>  - PR_LOCK_INDIR_BR_LP_STATUS: Locks configured status for indirect branch
+>    tracking for user thread.
 
+FWIW the arm64 BTI feature is enabled per page of executable memory
+rather than in CPU state so it'd be hard for us to adopt this interface.
+I don't think that's a blocker, just noting it.
 
-Thanks,
-Mauro
+--IzS+gDfE7WAJn9u1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXCWrIACgkQJNaLcl1U
+h9CqHAf/YTvIwiIOAvwQ9XqrETCEC8PE7wl9yNsGNfr06ERBrjw436apeNtLMOPF
+3FujoE4HG2IAw0iXzAKOJAQhYyLVhioOqMhsFNIxGaCCaUFExzRAABZmkiZtVeQh
+GrmhU/kVDYaa/3z+egy9d4BDidA778b7Opw6GFgrwId1wg3Wl0zQG89h0VMFJMKw
+/8mvyHmbjdv+5ucF8fYE30+QXu6fAniENvRjHum6N8ReGyEZ9vf2pHlmGCVtzLUz
+nVsbKvjwR71Zlq2RHRmjrf6WsNCBkp/xx/1SwwTof4Y6tHkfEhBAVjQGLqwhi7w5
+d2s9KQp3hvWSCNUxDEapZF+m1vGRLQ==
+=UNVO
+-----END PGP SIGNATURE-----
+
+--IzS+gDfE7WAJn9u1--
