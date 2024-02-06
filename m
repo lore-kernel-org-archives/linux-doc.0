@@ -1,203 +1,286 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32A92F46;
-	Tue,  6 Feb 2024 04:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855A6745F2
+	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 04:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707192154; cv=none; b=WEQXV8gQccXNZtqH1g2fXG2f3SfFlDfFPEyP8RQVWouxu3+WhUl8wuFXiz5XRub1moXpHuHQPu13WIaUDug8tzGN9gCewgC64+1BM1CDzRiuSrN0QGqjZEQMGuyiIjwCuwJozxQ73g+lVp4b1foVDL6xOWdnc+txMCq7wxsbwfs=
+	t=1707192246; cv=none; b=UBXei80C6xRt9tQrNVUnsw+IEe6LSoXlOTTwWxAUOtavKrUAVIwMsmvy3SoP9HH6wzGSfx7f8PQwH/Dq9IRM+DSHL4agUHgpLrUMRbd73K550rBMGqOafB9vDauiW5XnNXGHVwgNFmnclYUlqOxe/MrK/tCC2GR1H8qkoSW54eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707192154; c=relaxed/simple;
-	bh=mQ3804mPdAZpVPuClVV838v71nXIi73L3/VXWTKOTaU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TW9KhA0zIUSxGSyRyZw+Uz9ZeaAOBlpfKdiztOWRW7HaoNmNki70A62FZw7LMKjVZ4Uwx43OgdmFNFs5KaPJBtJ862z4cN//0PT3VK0f93QHTWCqNaJKbvq5EoKHAtDFIrwc62TEMYnJO6VaSDdNZPSijwYU1FiHU8C/uK3JcBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pr7sqp79; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707192246; c=relaxed/simple;
+	bh=46WzyXbj7Rm0isZadcw3+pCtPTo44kSLkWucGKrXudw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BWubII1BPubkmkZ7SgORaLQrTxRNDJhFUQpb8ObMsvUbUQMPm2s9r1Nqf8lSj+AO1qN6bkgcVzval3ASnLB5inSA9ZNsXLIWIETHNRs2zBRq5a54+C0PlVfYoV4R/FTU9y+B0KhA5ebX0kulqQJBFS8rnY15MsLgCfTGoqlU+K0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TZfjJpd0; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pr7sqp79"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6e04d24bd39so1054542b3a.0;
-        Mon, 05 Feb 2024 20:02:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TZfjJpd0"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-42a99dc9085so105691cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Feb 2024 20:04:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707192152; x=1707796952; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=dFJlrRMXwnDezdLQg2hDFWTpcTb5Yg1delD02OSNw98=;
-        b=Pr7sqp79/Bzfg5OzxK6xTBI1oecTqNWoEElFTUDYWoivI3IqAMwGtQ8NgraSmKt/9i
-         KXwk5F8ocMCFw7QRdWsW4lN/0f9J3mXKEEtHBcICwRjYX/FDz5Ths10jtUasDdTGZcnS
-         /zLRiFngO/phxdsjw9tXGvQruxjMiToqeggZzoNaDaAwMDCasdl/qpRCn7y6xRFJDoy8
-         C8GaneQzqhiUfRz5KytqVVKFZv+OxzcrZeUsL01HeP4UsHTOG1UR2jvkEdctdDNqoxwl
-         mMzjP/29a5o/alScMy0lor5uIjfPD2FaEdC6+b+IrJHHCVbuDJqOBBx4hBcOVrXRiRiw
-         bBJQ==
+        d=google.com; s=20230601; t=1707192243; x=1707797043; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/ZUcKB1MmAKiLxQ+dfYgEUx1Chwig5NhIdP1gbmcUVM=;
+        b=TZfjJpd0pstCmEeStWKoi1218t8h3Au17jbNsRoAbTVZE2Po6AOc/t3UCDX0GX6nTW
+         iJcNdQt117bSJPGUniEOszFedUyvMvPF9oB+VoMDYEGsGpKVspCHkU2unqZ2MpH7Z59J
+         AGZgPBQaUNkDLf0p/aRXEA+ps3NvVETvpKXjcMdQtPckoNgR7QNOMR+g1nbtpoXa7AAJ
+         AzXb0bKace0Tr9Uf3qbaZwnrFXof5fbG8gOdnnrzOizp59Rn06N2QacRhgKG+5fuOO5/
+         UWEiVlyu8XETc8MF1E6ZVgqku/ag6nH6Vx/sVQ++SnKiFwVeI7K4rdDVnDyg4OqJ5sEl
+         Jr3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707192152; x=1707796952;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dFJlrRMXwnDezdLQg2hDFWTpcTb5Yg1delD02OSNw98=;
-        b=oYKwR+ezA0MPjLN+rou4HJRMx5NNj4tJqCSYn1WzEkL6jvJoyy1lQi2j9RgK/njzyb
-         vAhfgZycZkvZoy6EaZjl6eHRbzWH98hD6K89LesUkaffZOeXmOpJ9yXIuVQA/NncN6Cu
-         R1209vlJISSqO9NIh/GNm04zH/Ih0rwe/G/p2jtTcszbcW/YYeMD0ahpP+tXlmVbhK5q
-         KzUHhvS0QsvM47hQPVzPI+DWjd2t/IejNLYXQalXLrWCmV10vkqhmmVcMfL8uS+AKEI3
-         8Nl9iiqALvN0GHZrl/YI1WP24u4CATk5qD664z+75QrTm4MrOXQSvhd+omGe0FjYghJc
-         K2fw==
-X-Gm-Message-State: AOJu0Yzc3nSP5Go3nedk7HbPTUNQKxb3U9waJJfJlWs1WRcEvfYmxfhv
-	8WATWSkcOTEMygChHpWW5sRsc9hba2wkQAYhmFbVj7qV1wLqoPZW
-X-Google-Smtp-Source: AGHT+IFtxAHI0HNnOfFhurDHo1H1nqzz1aNXLH9HsvkH+vNPigKzml505fu56/pHGoEaqkTV7oqiHg==
-X-Received: by 2002:aa7:87d9:0:b0:6d9:b4e6:ffb with SMTP id i25-20020aa787d9000000b006d9b4e60ffbmr1107836pfo.0.1707192151989;
-        Mon, 05 Feb 2024 20:02:31 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXlHusBya25b4qSr7PRCgdsQ4g7IhjdeojDBoDqPgZvvI9Lz95Jy1+7AZBkqQ4YkY0f+RS8jMXNVmLxlLR8vYmxMLlTMbBC8esMln5cj8ExglFFx2vY7wKcXm76l8hB5RjSIvEJ9bCv83fHXNx4pbKUw5uCIBsYUzVmo5QF1PQFYupca25rpsrsGH+VJ7fvTpd/RANf/ez+KFkJ7YZs61DGNSmnLWI8vRq8eiOTVRCXaE47MUfjKIMUupWGGY816MVRFSqDwhn4xNbMaVjZIYyqxGL6f9WauG6+YoTs1qCWlF8mD2Vtg8rg2cmVdQaQCEGTLpTnzR756KVerPv1o73GhECSly3yyg4iMs6BP6oiyhSwcgzEa4SpHeNqMd/4CwNUpi6jPFaGwFRkWJgI4cjQ8kyG0GUOUnog7Rvlci+qyT7blYjyStZZj9QF35qjurpZ/n5/+tHr1O1Y2cx1v6N8X2g6BZhM87/19QYgbJtvHxHJ3/+rS3iFjzXGxU1wWLiJ8fL92r3x7BLh8/6B8BXfxge/Kzah4fJVJ8vJJDfi9Kw9FMHMPWRbnL78VVYN/NwNcj17UAdnjOY37c0fRiT4eDOWCXanzJvW5HIKr1wM0LEKS+9LJTYZ3uCHknbQ4KztlleaCnZsVFyI03VJsHqvKv+/C7+hB4l+NzQpGB8rqVw0LdXX17vTsiandAIbYuiHe+wbty9sjO5HNJhj3JWpmrFo3vlL9NjP45CxXHz1TRRuUwr2PsIOVOvDys8tyCnrDafKeYJcfhYI8JEcjLHabeNwaDKvnEPy7zxvW2sBYAMaquI/LpU=
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id gx22-20020a056a001e1600b006e03e29e67esm696795pfb.204.2024.02.05.20.02.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 20:02:31 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <cfc51210-4ef1-4df4-bb57-499316fb18fd@roeck-us.net>
-Date: Mon, 5 Feb 2024 20:02:28 -0800
+        d=1e100.net; s=20230601; t=1707192243; x=1707797043;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/ZUcKB1MmAKiLxQ+dfYgEUx1Chwig5NhIdP1gbmcUVM=;
+        b=Y36Hs36l+HOGqoscUWYgx11uvtPVnyHJNlB2cBCKaOI137LunfKEX2UGawlphqWLx0
+         2fAPG4sUBKG9RtJ6D7h1fTUztInfTJRQLqk4s6Ktjk0smsMpCiTy9D6C7jUOzibEgvyE
+         lBMmTrwrdEwEMMQ8Cq4qNV2V3KXJ/4IKfj4tBGNdqUwV/fIvrRx1Eqgn0r1knQ0Z9QHP
+         6hQUWjFzxO9xIZlcgxy+imHlVJrBYz7HGX+BTLzQYAdzc/iYCRnA38UrNQO2xJ72AqH2
+         P44fqaOsK1HFrv3prHhUSCtA1BZ6rGiWenRIRXpGOggTJ576b2kP61iQy0zgsc3yvDtN
+         sPHg==
+X-Gm-Message-State: AOJu0Yz1I81hFWOuZV+Lh0BlLLIWjqS0irx2GjKlNGcPDtbvSlb93KdX
+	0MCzyQLD7R5jGBJVzVBmT2BFPCNV7+TxTWYPgb0+Oe6VYz+55L9mLUAioY/YuD9PB82vZCejz5O
+	His89t+KySUc287SJ/UTjVaaEVIxwG8kRSJz4
+X-Google-Smtp-Source: AGHT+IHHvm3bCzGtrEywwBe8Oc9Jqcu5/bnzcw25qfyrcHWaR0+Sp1FyhGjl2pX7vza0xSUMHT9ZXoTBl+i6QiOkhdg=
+X-Received: by 2002:a05:622a:1817:b0:42b:f713:ec29 with SMTP id
+ t23-20020a05622a181700b0042bf713ec29mr201668qtc.8.1707192243206; Mon, 05 Feb
+ 2024 20:04:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/1] hwmon: Add driver for Astera Labs PT5161L retimer
-Content-Language: en-US
-To: Cosmo Chou <chou.cosmo@gmail.com>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net, broonie@kernel.org,
- naresh.solanki@9elements.com, vincent@vtremblay.dev,
- patrick.rudolph@9elements.com, luca.ceresoli@bootlin.com,
- bhelgaas@google.com, festevam@denx.de, alexander.stein@ew.tq-group.com,
- heiko@sntech.de, jernej.skrabec@gmail.com, macromorgan@hotmail.com,
- forbidden405@foxmail.com, sre@kernel.org, linus.walleij@linaro.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- cosmo.chou@quantatw.com
-References: <20240205152013.3833940-1-chou.cosmo@gmail.com>
- <20240205152013.3833940-2-chou.cosmo@gmail.com>
- <4a504043-e24d-4119-8c5d-107f0d371110@roeck-us.net>
- <CAOeEDysSZEeKt==zyexLE1GhE5ZpeDHS7sDLRfcC=4JgiogLKQ@mail.gmail.com>
- <a05ec2fe-cfe4-48d8-bff4-9f3689c585d3@roeck-us.net>
- <CAOeEDyscobVHaAe+72P2wEiucgWUDX=2H2W5dq0P1q8RB=7tzg@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <CAOeEDyscobVHaAe+72P2wEiucgWUDX=2H2W5dq0P1q8RB=7tzg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240126221426.4173112-1-rmoar@google.com> <SA3PR13MB63728D82B285DD69266AADDEFD7C2@SA3PR13MB6372.namprd13.prod.outlook.com>
+In-Reply-To: <SA3PR13MB63728D82B285DD69266AADDEFD7C2@SA3PR13MB6372.namprd13.prod.outlook.com>
+From: Rae Moar <rmoar@google.com>
+Date: Mon, 5 Feb 2024 23:03:50 -0500
+Message-ID: <CA+GJov70ojVYbBf+ssFRS00nCrTs5rhsTwj3Jv6Kzk+ZqdBspA@mail.gmail.com>
+Subject: Re: [KTAP V2 PATCH v2] ktap_v2: add test metadata
+To: "Bird, Tim" <Tim.Bird@sony.com>
+Cc: "frowand.list@gmail.com" <frowand.list@gmail.com>, "davidgow@google.com" <davidgow@google.com>, 
+	"keescook@chromium.org" <keescook@chromium.org>, "shuah@kernel.org" <shuah@kernel.org>, 
+	"brendanhiggins@google.com" <brendanhiggins@google.com>, "dlatypov@google.com" <dlatypov@google.com>, 
+	"tytso@google.com" <tytso@google.com>, 
+	"gustavo.padovan@collabora.com" <gustavo.padovan@collabora.com>, 
+	"ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>, 
+	"guillaume.tucker@collabora.com" <guillaume.tucker@collabora.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"kernelci@lists.linux.dev" <kernelci@lists.linux.dev>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
+	"kunit-dev@googlegroups.com" <kunit-dev@googlegroups.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/5/24 19:53, Cosmo Chou wrote:
-> On Tue, Feb 06, 2024 at 11:26 AM +0800, Guenter Roeck wrote:
->>
->> On 2/5/24 19:05, Cosmo Chou wrote:
->>> On Tue, Feb 06, 2024 at 3:43 AM +0800, Guenter Roeck wrote:
->>>>
->>>> On Mon, Feb 05, 2024 at 11:20:13PM +0800, Cosmo Chou wrote:
->>>>> This driver implements support for temperature monitoring of Astera Labs
->>>>> PT5161L series PCIe retimer chips.
->>>>>
->>>>> This driver implementation originates from the CSDK available at
->>>>> Link: https://github.com/facebook/openbmc/tree/helium/common/recipes-lib/retimer-v2.14
->>>>> The communication protocol utilized is based on the I2C/SMBus standard.
->>>>>
->>>>> Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
->>>>> ---
->>>> [ ... ]
->>>>
->>>>> +static ssize_t pt5161l_debugfs_read_fw_ver(struct file *file, char __user *buf,
->>>>> +                                        size_t count, loff_t *ppos)
->>>>> +{
->>>>> +     struct pt5161l_data *data = file->private_data;
->>>>> +     int ret;
->>>>> +     char ver[32];
->>>>> +
->>>>> +     mutex_lock(&data->lock);
->>>>> +     ret = pt5161l_fwsts_check(data);
->>>>> +     mutex_unlock(&data->lock);
->>>>> +     if (ret)
->>>>> +             return ret;
->>>>> +
->>>>> +     ret = snprintf(ver, sizeof(ver), "%u.%u.%u\n", data->fw_ver.major,
->>>>> +                    data->fw_ver.minor, data->fw_ver.build);
->>>>> +     if (ret < 0)
->>>>> +             return ret;
->>>>> +
->>>>
->>>> You almost got me here ;-). snprintf() never returns a negative error code,
->>>> so checking for it is not necessary.
->>>>
->>> Oh! You're right.
->>>
->>>>> +     return simple_read_from_buffer(buf, count, ppos, ver, ret + 1);
->>>>
->>>> Number of bytes written plus 1 ? Why ?
->>> It's just to include the string terminator '\0'.
->>>
->>
->> If that was needed, it would be risky. snprintf() truncates the output
->> if the buffer is not large enough. You might want to consider using
->> scnprintf() instead. But then I am not sure if that is needed in the first
->> place. Almost all code I checked doesn't do that, and it seems to be likely
->> that the few drivers who do that are simply wrong. Can you explain why the
->> string terminator needs to be added to the output ?
->>
->> Thanks,
->> Guenter
->>
-> It's just in case someone reads and prints this, but with a dirty
-> buffer and doesn't handle the terminator.
+On Wed, Jan 31, 2024 at 5:22=E2=80=AFPM Bird, Tim <Tim.Bird@sony.com> wrote=
+:
+>
+>
+>
+> > -----Original Message-----
+> > From: Rae Moar <rmoar@google.com>
+> > Add specification for test metadata to the KTAP v2 spec.
+> >
+> > KTAP v1 only specifies the output format of very basic test information=
+:
+> > test result and test name. Any additional test information either gets
+> > added to general diagnostic data or is not included in the output at al=
+l.
+> >
+> > The purpose of KTAP metadata is to create a framework to include and
+> > easily identify additional important test information in KTAP.
+> >
+> > KTAP metadata could include any test information that is pertinent for
+> > user interaction before or after the running of the test. For example,
+> > the test file path or the test speed.
+> >
+> > Since this includes a large variety of information, this specification
+> > will recognize notable types of KTAP metadata to ensure consistent form=
+at
+> > across test frameworks. See the full list of types in the specification=
+.
+> >
+> > Example of KTAP Metadata:
+> >
+> >  KTAP version 2
+> >  # ktap_test: main
+> >  # ktap_arch: uml
+> >  1..1
+> >      KTAP version 2
+> >      # ktap_test: suite_1
+> >      # ktap_subsystem: example
+> >      # ktap_test_file: lib/test.c
+> >      1..2
+> >      ok 1 test_1
+> >      # ktap_test: test_2
+> >      # ktap_speed: very_slow
+> >      # custom_is_flaky: true
+> >      ok 2 test_2
+> >  ok 1 test_suite
+> >
+> > The changes to the KTAP specification outline the format, location, and
+> > different types of metadata.
+> >
+> > Here is a link to a version of the KUnit parser that is able to parse t=
+est
+> > metadata lines for KTAP version 2. Note this includes test metadata
+> > lines for the main level of KTAP.
+> >
+> > Link: https://kunit-review.googlesource.com/c/linux/+/5889
+> >
+> > Signed-off-by: Rae Moar <rmoar@google.com>
+> > ---
+> >  Documentation/dev-tools/ktap.rst | 163 ++++++++++++++++++++++++++++++-
+> >  1 file changed, 159 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools=
+/ktap.rst
+> > index ff77f4aaa6ef..4480eaf5bbc3 100644
+> > --- a/Documentation/dev-tools/ktap.rst
+> > +++ b/Documentation/dev-tools/ktap.rst
+> > @@ -17,19 +17,20 @@ KTAP test results describe a series of tests (which=
+ may be nested: i.e., test
+> >  can have subtests), each of which can contain both diagnostic data -- =
+e.g., log
+> >  lines -- and a final result. The test structure and results are
+> >  machine-readable, whereas the diagnostic data is unstructured and is t=
+here to
+> > -aid human debugging.
+> > +aid human debugging. One exception to this is test metadata lines - a =
+type
+> > +of diagnostic lines. Test metadata is used to identify important suppl=
+emental
+> > +test information and can be machine-readable.
+> >
+> >  KTAP output is built from four different types of lines:
+> >  - Version lines
+> >  - Plan lines
+> >  - Test case result lines
+> > -- Diagnostic lines
+> > +- Diagnostic lines (including test metadata)
+> >
+> >  In general, valid KTAP output should also form valid TAP output, but s=
+ome
+> >  information, in particular nested test results, may be lost. Also note=
+ that
+> >  there is a stagnant draft specification for TAP14, KTAP diverges from =
+this in
+> > -a couple of places (notably the "Subtest" header), which are described=
+ where
+> > -relevant later in this document.
+> > +a couple of places, which are described where relevant later in this d=
+ocument.
+> >
+> >  Version lines
+> >  -------------
+> > @@ -166,6 +167,154 @@ even if they do not start with a "#": this is to =
+capture any other useful
+> >  kernel output which may help debug the test. It is nevertheless recomm=
+ended
+> >  that tests always prefix any diagnostic output they have with a "#" ch=
+aracter.
+> >
+> > +KTAP metadata lines
+> > +-------------------
+> > +
+> > +KTAP metadata lines are a subset of diagnostic lines that are used to =
+include
+> > +and easily identify important supplemental test information in KTAP.
+> > +
+> > +.. code-block:: none
+> > +
+> > +     # <prefix>_<metadata type>: <metadata value>
+> > +
+> > +The <prefix> indicates where to find the specification for the type of
+> > +metadata. The metadata types listed below use the prefix "ktap" (See T=
+ypes of
+> > +KTAP Metadata).
+> > +
+> > +Types that are instead specified by an individual test framework use t=
+he
+> > +framework name as the prefix. For example, a metadata type documented =
+by the
+> > +kselftest specification would use the prefix "kselftest". Any metadata=
+ type
+> > +that is not listed in a specification must use the prefix "custom". No=
+te the
+> > +prefix must not include spaces or the characters ":" or "_".
+> > +
+> > +The format of <metadata type> and <value> varies based on the type. Se=
+e the
+> > +individual specification. For "custom" types the <metadata type> can b=
+e any
+> > +string excluding ":", spaces, or newline characters and the <value> ca=
+n be any
+> > +string.
+> > +
+> > +**Location:**
+> > +
+> > +The first KTAP metadata entry for a test must be "# ktap_test: <test n=
+ame>",
+> > +which acts as a header to associate metadata with the correct test.
+> > +
+> > +For test cases, the location of the metadata is between the prior test=
+ result
+> > +line and the current test result line. For test suites, the location o=
+f the
+> > +metadata is between the suite's version line and test plan line. See t=
+he
+> > +example below.
+> > +
+> > +KTAP metadata for a test does not need to be contiguous. For example, =
+a kernel
+> > +warning or other diagnostic output could interrupt metadata lines. How=
+ever, it
+> > +is recommended to keep a test's metadata lines together when possible,=
+ as this
+> > +improves readability.
+> > +
+> > +**Here is an example of using KTAP metadata:**
+> > +
+> > +::
+> > +
+> > +        KTAP version 2
+> > +        # ktap_test: main
+> > +        # ktap_arch: uml
+> > +        1..1
+> > +          KTAP version 2
+> > +          # ktap_test: suite_1
+> > +          # ktap_subsystem: example
+> > +          # ktap_test_file: lib/test.c
+> > +          1..2
+> > +          ok 1 test_1
+> > +          # ktap_test: test_2
+> > +          # ktap_speed: very_slow
+> > +          # custom_is_flaky: true
+> > +          ok 2 test_2
+> > +        # suite_1 passed
+> > +        ok 1 suite_1
+> > +
+> > +In this example, the tests are running on UML. The test suite "suite_1=
+" is part
+> > +of the subsystem "example" and belongs to the file "lib/example_test.c=
+". It has
+> Unless I'm missing something, the file is specified in the example above =
+as
+> list/test.c, not "lib/example_test.c".
+>
+> Other than that, the documentation looks fine to me.
+>  -- Tim
+>
 
-That needs a better reason. It is not conceivable that 99% of drivers
-don't do this but this one would need it for some reason. I am not going
-to accept this unless you can show that debugfs files are supposed to
-include a terminating '\0' in the response. This is like claiming that
-printf() should include a terminating '\0' in the output just in case
-the output is read by a broken application which needs to see the
-terminator.
+Hello!
 
-Guenter
+Thanks for looking over the documentation. And sorry about that typo
+in the explanation. It should say "belongs to the file "lib/test.c"".
+I will change that for the next version.
 
+Thanks!
+-Rae
+
+>
