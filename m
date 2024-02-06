@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1605F24A1A;
-	Tue,  6 Feb 2024 04:30:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8608745CE
+	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 04:37:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707193815; cv=none; b=IDE/p5OuJ1MMSULODNzhVP0jV61oUoEdlqAXUQOXrgr/pgiSbDk2ekmiRV52nHN6mCxP+GgHJlRKZsUGze4RQ4sVaFK/OSC09K1kkMyrf/zRk+tYfekc9EYY/9vkapthvWXSHYL9y3pgWrYr3cUDuxyqlK3ndj6SdaIwAw3MsQI=
+	t=1707194221; cv=none; b=memYZWtKPfMqOQ9QbppFc7VP2q6riz2Rb5+KGPzNrg4YZuJcDv+tUuLWukh7P4i3yx4NWSA+cwjJbDjggcf5x3dAEIYzV7mH68dj4f0D9dL6Kev0snHnM1+G+4AVwgvTkboNtkIMT14sny96UxvW9iTYwg67oFkq977F0JHd7SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707193815; c=relaxed/simple;
-	bh=AmnWmDdim7gYChLNqqyW6hIpuiK3qYdWtDhIEifJhiI=;
+	s=arc-20240116; t=1707194221; c=relaxed/simple;
+	bh=LqbQiN83GREc7uepXUECcVyo4MCKVDwPuCP3ZcjMgtI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cR7q/9kREeuYGko7vV8MpC1AcRdrxfPq3L1jYYsGPz8DQ9a6Vn62uld+op9yKgQza5elQZiT8QnB6UVxpG1yBVbm4+kHmMRyFhySlqtPGe4IV+9nqE0q7jdoBv/PFXnB0Vfgx40V63HRXU7yNHyEdvbE3PIvAM23Vx3k/VOhbGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rHGPVUH2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=CwZ2HJA+pR4GW73t0itA0bbTaeA0R6IVcJeQcS6WPxdFlOtt+u3M/jebRIaIu9R81dclDGjmiUqZb2yJfct7dDWNSXPLWXttxn1Ec7ZUL6rqRi3VwI90wu1AMXW6P8G8rWemB65nQM3psjSFvajLkAVc/GirhrAYzRfPDpaOgmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aUTLxtC5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rHGPVUH2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFCADC433F1;
-	Tue,  6 Feb 2024 04:30:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aUTLxtC5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 602A1C433C7;
+	Tue,  6 Feb 2024 04:36:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707193814;
-	bh=AmnWmDdim7gYChLNqqyW6hIpuiK3qYdWtDhIEifJhiI=;
+	s=k20201202; t=1707194220;
+	bh=LqbQiN83GREc7uepXUECcVyo4MCKVDwPuCP3ZcjMgtI=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rHGPVUH2u0rX2x8ta4bqIJo0mSOq/JwlQSKgJgKgrpXIjNE+GMIEjkxwKr8KAut+g
-	 GicwzFXYrhz8X2NCpLsNxhTv5tsE+4DxFkTq5XeHBo84SI/gzAPVhYJNFeaSSXwkqR
-	 qEPS4lfWGAuVxz3p9Gj4JrtbQdpMvDilNUzzYMe/UMAa/6U/LAqdESeSYtKeDBUdGF
-	 Y3Uv4stT3IeDmbec1d3HxfDyBb84s0dYO52oZ2kEap1jJzLgADrPh3Uae1bSpNDQJo
-	 sX3xU7h+C0MgYL+BluKSWk/2g/Y8C+Zs6/Xw382ycgHIZP5xTlNKssDKxx5bKhpBYV
-	 z5Wsbqrvu9emg==
-Date: Tue, 6 Feb 2024 05:30:04 +0100
+	b=aUTLxtC5W+f0KP2bqE8Qm0riRGsaC5u+NA0pOLQ91C9Dz1NJ3ecngBi7SZDsIBVKW
+	 8lXB8T/67ALVFcLSZ5eObKPhoEwbEMqat/8YqgFFl3z5uwh6zFWSR5K7smg4WGNA7c
+	 I7glcsJt2RPsNz5dOoS/Jq0us44rS7DZ7PDshkvfdSa/1VHfGM6qH/mGVvDeG9gPg0
+	 pu8w6fKlfouGwPtWV+QhuYnx9oPjbxEszEl+Sl4yy8frvXMTlu+d1cb9D7mRZ8r8XF
+	 e3EPS/uSMr8VaSZcZH0INBwYDrPRB1SpwNzf8EJro9dGalNafUlUpVxGQ/3oa48llw
+	 3CqpT8m2fxe9w==
+Date: Tue, 6 Feb 2024 05:36:56 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: Vegard Nossum <vegard.nossum@oracle.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Jani Nikula <jani.nikula@intel.com>,
- linux-doc@vger.kernel.org, Justin Forbes <jforbes@fedoraproject.org>,
- Salvatore Bonaccorso <carnil@debian.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/8] docs: kernel_feat.py: fix build error for missing
- files
-Message-ID: <20240206053004.6abf49c9@coco.lan>
-In-Reply-To: <20240205175133.774271-2-vegard.nossum@oracle.com>
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/8] doc: kernel_abi.py: convert to sphinx.util.logging
+Message-ID: <20240206053656.30941200@coco.lan>
+In-Reply-To: <20240205175133.774271-4-vegard.nossum@oracle.com>
 References: <20240205175133.774271-1-vegard.nossum@oracle.com>
-	<20240205175133.774271-2-vegard.nossum@oracle.com>
+	<20240205175133.774271-4-vegard.nossum@oracle.com>
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -48,52 +46,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Mon,  5 Feb 2024 18:51:26 +0100
+Em Mon,  5 Feb 2024 18:51:28 +0100
 Vegard Nossum <vegard.nossum@oracle.com> escreveu:
 
-> If the directory passed to the '.. kernel-feat::' directive does not
-> exist or the get_feat.pl script does not find any files to extract
-> features from, Sphinx will report the following error:
+> As of commit 3e893e16af55 ("docs: Raise the minimum Sphinx requirement
+> to 2.4.4"), we can use Sphinx's built-in logging facilities.
 > 
->     Sphinx parallel build error:
->     UnboundLocalError: local variable 'fname' referenced before assignment
->     make[2]: *** [Documentation/Makefile:102: htmldocs] Error 2
-> 
-> This is due to how I changed the script in c48a7c44a1d0 ("docs:
-> kernel_feat.py: fix potential command injection"). Before that, the
-> filename passed along to self.nestedParse() in this case was weirdly
-> just the whole get_feat.pl invocation.
-> 
-> We can fix it by doing what kernel_abi.py does -- just pass
-> self.arguments[0] as 'fname'.
-> 
-> Fixes: c48a7c44a1d0 ("docs: kernel_feat.py: fix potential command injection")
-> Cc: Justin Forbes <jforbes@fedoraproject.org>
-> Cc: Salvatore Bonaccorso <carnil@debian.org>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: stable@vger.kernel.org
 > Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 
 Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 > ---
->  Documentation/sphinx/kernel_feat.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/sphinx/kernel_abi.py | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/sphinx/kernel_feat.py b/Documentation/sphinx/kernel_feat.py
-> index b9df61eb4501..03ace5f01b5c 100644
-> --- a/Documentation/sphinx/kernel_feat.py
-> +++ b/Documentation/sphinx/kernel_feat.py
-> @@ -109,7 +109,7 @@ class KernelFeat(Directive):
+> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+> index 288f26097569..9eb7282cc941 100644
+> --- a/Documentation/sphinx/kernel_abi.py
+> +++ b/Documentation/sphinx/kernel_abi.py
+> @@ -37,16 +37,18 @@ import os
+>  import subprocess
+>  import sys
+>  import re
+> -import kernellog
+>  
+>  from docutils import nodes, statemachine
+>  from docutils.statemachine import ViewList
+>  from docutils.parsers.rst import directives, Directive
+>  from docutils.utils.error_reporting import ErrorString
+> +from sphinx.util import logging
+>  from sphinx.util.docutils import switch_source_input
+>  
+>  __version__  = '1.0'
+>  
+> +logger = logging.getLogger(__name__)
+> +
+>  def setup(app):
+>  
+>      app.add_directive("kernel-abi", KernelCmd)
+> @@ -129,7 +131,7 @@ class KernelCmd(Directive):
 >              else:
->                  out_lines += line + "\n"
+>                  content.append(line, f, ln)
 >  
-> -        nodeList = self.nestedParse(out_lines, fname)
-> +        nodeList = self.nestedParse(out_lines, self.arguments[0])
->          return nodeList
+> -        kernellog.info(self.state.document.settings.env.app, "%s: parsed %i lines" % (fname, n))
+> +        logger.info("%s: parsed %i lines", fname, n)
 >  
->      def nestedParse(self, lines, fname):
+>          if content:
+>              self.do_parse(content, node)
 
 
 
