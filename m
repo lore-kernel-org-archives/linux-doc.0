@@ -1,300 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84ED12B173
-	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 08:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A653312BF3C
+	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 09:07:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707209864; cv=none; b=UJKB8wy8WuSe5lmIYF4euA2284dFz6Ph3EynWh5RCf4xVzRi3HrZL8vSibfuGtAkb13W3lesNj8hvvVvETwBoOO/B0zBpX8YuAsyyPo63CcExm9D1qKyG9ygtaWGQDYysFIkSueX9OXxkvGjbQiresfji/921OS/fZp6GGCdxkY=
+	t=1707210434; cv=none; b=WfL4rvRWZeu6c4rZTztQD5tZWs/Up8lTDb7jSkiIC8z9/X/NPje9S5FyUPN28pxnLoVoBU8Wj14pZ/6zK2LJ8vemVC9/6ACGLdO4yIxdBiOAmAFLxeDFk9eCHshtGtXiKq60hYU3HDlEf4oqBym2CaEBL9FQKbxTj17F5o09buI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707209864; c=relaxed/simple;
-	bh=CvgISvorx9JO5B5ysnl7t1Elu3J5NPW5l/4tmGWQvEU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HlcL0utAm5hE/H90LPwqyQhtQNkHa2758XslHMNV0IQK00SJ5rksanXilPxHLpbmDscTZw5gBcYYKCoPdH9AKU+j5wKvFi4enNyfHLqOLMOlMVmI4tyuFZa5RR3ZlqQAnr5amOaHk900mbtZhx4k/FvIW2cNQu7W7NAymFHYJEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gYlAP05B; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707210434; c=relaxed/simple;
+	bh=fnEctsruhnVWmql+TCSz11y0qzJmN4K1EeDPjcx04Vs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UPY2SKr1TVNkLDCqHdkwBrxgyGgE2sTh3miPIkTi0cK57fChbJHmTqlEp/oMjNegeUTKpQOHpende8onIDYNYuSkW7F/FcEdYDZLEwnXIOlYu+kqjPFRn+27y0i9msaYZm8VuiPRPAJoTZiVc/0EqttRt1VP/B+7/eEw3fxY5kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SBZK2Weg; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gYlAP05B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707209862; x=1738745862;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=CvgISvorx9JO5B5ysnl7t1Elu3J5NPW5l/4tmGWQvEU=;
-  b=gYlAP05BWaz2PwrLiD+Ut0IJvZ468ZqM+MrdlFngyfQsXQiDJEja1kHW
-   XFtYhhE2YA8N41zD7NW065NC5O4VYnvXnZMFQwlKggP+62u9lVU+SSyzk
-   W13ZRYsZs+UKfZUPAVCKLp3vteAcRNAClKlIcHZRa5Yv1oEEilNq8VU98
-   PXd3uRXP+LaYgTXgaiIJm501DTUAQeCSpy06RZ+cFlS0IYiNWaJ+EhDWd
-   jkxB6n6E32fvyOv7WtWp+1ZJQ9tFX3SnrmNTfRp3SLXuC4GBjuG/VEdJN
-   9gWnoRNaj4q5fUZW8Rb9u+gLKHbElf0sAcwP8+82OShQoNnsjTM5Jbmx0
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="600082"
-X-IronPort-AV: E=Sophos;i="6.05,246,1701158400"; 
-   d="scan'208";a="600082"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 00:57:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,246,1701158400"; 
-   d="scan'208";a="1245613"
-Received: from lgrunert-mobl.ger.corp.intel.com (HELO localhost) ([10.252.42.150])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 00:57:39 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org,
- Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH 6/8] doc: kfigure.py: convert to sphinx.util.logging
-In-Reply-To: <20240205175133.774271-7-vegard.nossum@oracle.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240205175133.774271-1-vegard.nossum@oracle.com>
- <20240205175133.774271-7-vegard.nossum@oracle.com>
-Date: Tue, 06 Feb 2024 10:57:36 +0200
-Message-ID: <87zfwec6m7.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SBZK2Weg"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5101cd91017so7053901e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 06 Feb 2024 01:07:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707210431; x=1707815231; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WM+y+UC/O88KwoIvUP7ztF2oIYBeAuZ8I4kYszkol04=;
+        b=SBZK2WegSlON9KbJe/eaicM2ZG1ZGJwG6v3Is7z/Y3lNWVy/DUigWr9R0a5/guxSLH
+         o9FeA71M266CLNQYKOF4YF9legQYslKW0sx0VtO4ZCo82lsxPFFTbXYXdqfa2guExN2t
+         FBM16eSTsMCjFg5n+duvQ9H55Igk6Mqwlja+RZ784kz+QKFVRG/ehZU6+/hcZpGB4/Gb
+         0tskeTMoi4ZBquo0kkbzH8Zb3ScVUN769CNKp64WIu7zDCMEx8MVMX+gyxMz7sjsovKI
+         IO7asHlDZIbsVK7AkgAWRs2fqK6dzQGqfw3JtlQgB8q6i1MBSzP7lrQjHz/3f6HsxVGd
+         WQFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707210431; x=1707815231;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WM+y+UC/O88KwoIvUP7ztF2oIYBeAuZ8I4kYszkol04=;
+        b=RV7eYflUgcGKyi+Pcha1tybHHuVHQEH1t07Qkulhr6PP0aewLk5K/4N8Q2CX+hGI/9
+         3GFzQoUqgYdWWCGt+EypOfU0jfI+L1GNiAzlh2++HsejOQ9ldNJPcsr/qDrJWfzVmDXs
+         QhuTh2XWudm7QCUfGpkNkf3w3OxZDrD7lw247nwj5yZ8GHAqDSq5YPSSG16Puwv2nMWy
+         Be6ceya64JgqQgRvETEttCo1C4QXyhMl9mWk8hj2rEpYzYntnRVqKGEI+L/LTTOThy2B
+         uHPM1x1TL78ztRAPGqqe8rGqBf+JK2oDKM9ulXeR3X9fpkDbdXzSesqDdU2L5ZklBOJp
+         2gUg==
+X-Gm-Message-State: AOJu0YxFffjLJEONS/iuI9R9/yOFmco2fmalu1BkVdYlK0pTt1rF0bNa
+	fgJ/bv1E9V39Z7As86xpwXssyhG8uppuO/djshg4MrldaW1vGqhiJaHin76ciQw1F8kL8Bs1nRP
+	lXUA=
+X-Google-Smtp-Source: AGHT+IEVtfeRspRLdAyLcxvAk3kbxLTxwqNrCZLbrhzZEIgx06XTFt+w7WRDO3WY1hTQdxiW0zJC/w==
+X-Received: by 2002:a05:6512:b8c:b0:510:1797:14dc with SMTP id b12-20020a0565120b8c00b00510179714dcmr1667466lfv.10.1707210430685;
+        Tue, 06 Feb 2024 01:07:10 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXDy6w5A1fvKBuSP6HcTwk/RZzZolXWXofV2m7S5vm8UINiI5mTxV9ZC0VhTGMIHCiENn328A+ii8rummc2TOQy89Ogc+5iB6YxljMe5ECt6nH0t3KHNEq06or3ZraISdd8DEgTRmdlt01b/Ki255Q9ifXNUA0eDj/q6ARUK+lZp4FYy5dNxDDs42hfwQojg6/2LgtC6VCxyXsmZnHPKi4BWOsjzFzFBGbt81fAfG3eGnHyuAkLbliS6Kj9SryKCs2b3UaL30Daikzqp6CfQU44ETz4YuAkkb8cRpB10UgGFkaS9Jr6H9gw8LiumaL+rjZXBl+kZ6ZaLwWsHfZTj+aogLmXs9bEJsPrqi4qluc8hrhNsoAoxX3yb/AdFuToz+4csCghG60H5XQyixUt
+Received: from [172.30.205.88] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id 14-20020ac2484e000000b005114a6cbc4dsm187169lfy.4.2024.02.06.01.07.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Feb 2024 01:07:10 -0800 (PST)
+Message-ID: <8189e50a-290c-494d-af42-a954a5d231ea@linaro.org>
+Date: Tue, 6 Feb 2024 10:07:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] Add support for QoS configuration
+To: Odelu Kukatla <quic_okukatla@quicinc.com>, djakov@kernel.org
+Cc: rafael@kernel.org, corbet@lwn.net, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ quic_viveka@quicinc.com, peterz@infradead.org, quic_mdtipton@quicinc.com,
+ linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org
+References: <20240205145606.16936-1-quic_okukatla@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20240205145606.16936-1-quic_okukatla@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 05 Feb 2024, Vegard Nossum <vegard.nossum@oracle.com> wrote:
-> As of commit 3e893e16af55 ("docs: Raise the minimum Sphinx requirement
-> to 2.4.4"), we can use Sphinx's built-in logging facilities.
->
-> Gotchas:
-> - remove first argument 'app' from all calls
-> - instead of (fmt % (args)), use (fmt, args)
-> - instead of ("<fmt>: " + str) use ("<fmt: %s>", str)
 
-If you're doing this, why not go directly to f-strings? IMO the above
-are inferior to it.
 
-> - realign wrapped lines
->
-> I changed the "Neither inkscape(1) nor convert(1) found." message from a
-> .verbose() to a .warning(), since that actually affects the output in a
-> big way.
->
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  Documentation/sphinx/kfigure.py | 66 ++++++++++++++++-----------------
->  1 file changed, 32 insertions(+), 34 deletions(-)
->
-> diff --git a/Documentation/sphinx/kfigure.py b/Documentation/sphinx/kfigure.py
-> index 97166333b727..b58f6458af63 100644
-> --- a/Documentation/sphinx/kfigure.py
-> +++ b/Documentation/sphinx/kfigure.py
-> @@ -58,13 +58,15 @@ from docutils.statemachine import ViewList
->  from docutils.parsers.rst import directives
->  from docutils.parsers.rst.directives import images
->  import sphinx
-> +from sphinx.util import logging
->  from sphinx.util.nodes import clean_astext
-> -import kernellog
->  
->  Figure = images.Figure
->  
->  __version__  = '1.0.0'
->  
-> +logger = logging.getLogger(__name__)
-> +
->  # simple helper
->  # -------------
->  
-> @@ -170,7 +172,7 @@ def setupTools(app):
->      """
->      global dot_cmd, dot_Tpdf, convert_cmd, rsvg_convert_cmd   # pylint: disable=W0603
->      global inkscape_cmd, inkscape_ver_one  # pylint: disable=W0603
-> -    kernellog.verbose(app, "kfigure: check installed tools ...")
-> +    logger.verbose("kfigure: check installed tools ...")
->  
->      dot_cmd = which('dot')
->      convert_cmd = which('convert')
-> @@ -178,7 +180,7 @@ def setupTools(app):
->      inkscape_cmd = which('inkscape')
->  
->      if dot_cmd:
-> -        kernellog.verbose(app, "use dot(1) from: " + dot_cmd)
-> +        logger.verbose("use dot(1) from: %s", dot_cmd)
+On 2/5/24 15:56, Odelu Kukatla wrote:
+> This series adds QoS support for QNOC type device which can be found on
+> SC7280 platform. It adds support for programming priority,
+> priority forward disable and urgency forwarding. This helps in
+> priortizing the traffic originating from different interconnect masters
+> at NOC(Network On Chip).
+> 
+> Changes in v2:
+>   - Updated regmap_update to make use GENMASK and FIELD_PREP.
+>   - Removed the regmap structure from qcom_icc_node.
+>   - Made qcom_icc_rpmh_configure_qos() static
+>   - Removed qcom_icc_rpmh_map() API, inlined the code in probe
+>     function.
+>   - Updated declarations to reverse christmas tree fashion.
 
-For example:
+You ignored some of my previous review comments without a response.
 
-logger.verbose(f"use dot(1) from: {dot_cmd}")
-
->  
->          try:
->              dot_Thelp_list = subprocess.check_output([dot_cmd, '-Thelp'],
-> @@ -190,10 +192,10 @@ def setupTools(app):
->          dot_Tpdf_ptn = b'pdf'
->          dot_Tpdf = re.search(dot_Tpdf_ptn, dot_Thelp_list)
->      else:
-> -        kernellog.warn(app, "dot(1) not found, for better output quality install "
-> +        logger.warning("dot(1) not found, for better output quality install "
->                         "graphviz from https://www.graphviz.org")
->      if inkscape_cmd:
-> -        kernellog.verbose(app, "use inkscape(1) from: " + inkscape_cmd)
-> +        logger.verbose("use inkscape(1) from: %s", inkscape_cmd)
->          inkscape_ver = subprocess.check_output([inkscape_cmd, '--version'],
->                                                 stderr=subprocess.DEVNULL)
->          ver_one_ptn = b'Inkscape 1'
-> @@ -204,26 +206,26 @@ def setupTools(app):
->  
->      else:
->          if convert_cmd:
-> -            kernellog.verbose(app, "use convert(1) from: " + convert_cmd)
-> +            logger.verbose("use convert(1) from: %s", convert_cmd)
->          else:
-> -            kernellog.verbose(app,
-> +            logger.warning(
->                  "Neither inkscape(1) nor convert(1) found.\n"
->                  "For SVG to PDF conversion, "
->                  "install either Inkscape (https://inkscape.org/) (preferred) or\n"
->                  "ImageMagick (https://www.imagemagick.org)")
-
-These could be converted to use """:
-
-"""Neither inkscape(1) nor convert(1) found.
-For SVG to PDF conversion, 
-install either Inkscape (https://inkscape.org/) (preferred) or
-ImageMagick (https://www.imagemagick.org)"
-"""
-
->  
->          if rsvg_convert_cmd:
-> -            kernellog.verbose(app, "use rsvg-convert(1) from: " + rsvg_convert_cmd)
-> -            kernellog.verbose(app, "use 'dot -Tsvg' and rsvg-convert(1) for DOT -> PDF conversion")
-> +            logger.verbose("use rsvg-convert(1) from: %s", rsvg_convert_cmd)
-> +            logger.verbose("use 'dot -Tsvg' and rsvg-convert(1) for DOT -> PDF conversion")
->              dot_Tpdf = False
->          else:
-> -            kernellog.verbose(app,
-> +            logger.verbose(
->                  "rsvg-convert(1) not found.\n"
->                  "  SVG rendering of convert(1) is done by ImageMagick-native renderer.")
->              if dot_Tpdf:
-> -                kernellog.verbose(app, "use 'dot -Tpdf' for DOT -> PDF conversion")
-> +                logger.verbose("use 'dot -Tpdf' for DOT -> PDF conversion")
->              else:
-> -                kernellog.verbose(app, "use 'dot -Tsvg' and convert(1) for DOT -> PDF conversion")
-> +                logger.verbose("use 'dot -Tsvg' and convert(1) for DOT -> PDF conversion")
->  
->  
->  # integrate conversion tools
-> @@ -257,13 +259,12 @@ def convert_image(img_node, translator, src_fname=None):
->  
->      # in kernel builds, use 'make SPHINXOPTS=-v' to see verbose messages
->  
-> -    kernellog.verbose(app, 'assert best format for: ' + img_node['uri'])
-> +    logger.verbose('assert best format for: %s', img_node['uri'])
->  
->      if in_ext == '.dot':
->  
->          if not dot_cmd:
-> -            kernellog.verbose(app,
-> -                              "dot from graphviz not available / include DOT raw.")
-> +            logger.verbose("dot from graphviz not available / include DOT raw.")
->              img_node.replace_self(file2literal(src_fname))
->  
->          elif translator.builder.format == 'latex':
-> @@ -290,10 +291,9 @@ def convert_image(img_node, translator, src_fname=None):
->  
->          if translator.builder.format == 'latex':
->              if not inkscape_cmd and convert_cmd is None:
-> -                kernellog.warn(app,
-> -                                  "no SVG to PDF conversion available / include SVG raw."
-> -                                  "\nIncluding large raw SVGs can cause xelatex error."
-> -                                  "\nInstall Inkscape (preferred) or ImageMagick.")
-> +                logger.warning("no SVG to PDF conversion available / include SVG raw.\n"
-> +                               "Including large raw SVGs can cause xelatex error.\n"
-> +                               "Install Inkscape (preferred) or ImageMagick.")
->                  img_node.replace_self(file2literal(src_fname))
->              else:
->                  dst_fname = path.join(translator.builder.outdir, fname + '.pdf')
-> @@ -306,15 +306,14 @@ def convert_image(img_node, translator, src_fname=None):
->          _name = dst_fname[len(str(translator.builder.outdir)) + 1:]
->  
->          if isNewer(dst_fname, src_fname):
-> -            kernellog.verbose(app,
-> -                              "convert: {out}/%s already exists and is newer" % _name)
-> +            logger.verbose("convert: {out}/%s already exists and is newer" % _name)
->  
->          else:
->              ok = False
->              mkdir(path.dirname(dst_fname))
->  
->              if in_ext == '.dot':
-> -                kernellog.verbose(app, 'convert DOT to: {out}/' + _name)
-> +                logger.verbose('convert DOT to: {out}/%s', _name)
->                  if translator.builder.format == 'latex' and not dot_Tpdf:
->                      svg_fname = path.join(translator.builder.outdir, fname + '.svg')
->                      ok1 = dot2format(app, src_fname, svg_fname)
-> @@ -325,7 +324,7 @@ def convert_image(img_node, translator, src_fname=None):
->                      ok = dot2format(app, src_fname, dst_fname)
->  
->              elif in_ext == '.svg':
-> -                kernellog.verbose(app, 'convert SVG to: {out}/' + _name)
-> +                logger.verbose('convert SVG to: {out}/%s', _name)
->                  ok = svg2pdf(app, src_fname, dst_fname)
->  
->              if not ok:
-> @@ -354,8 +353,7 @@ def dot2format(app, dot_fname, out_fname):
->      with open(out_fname, "w") as out:
->          exit_code = subprocess.call(cmd, stdout = out)
->          if exit_code != 0:
-> -            kernellog.warn(app,
-> -                          "Error #%d when calling: %s" % (exit_code, " ".join(cmd)))
-> +            logger.warning("Error #%d when calling: %s", exit_code, " ".join(cmd))
->      return bool(exit_code == 0)
->  
->  def svg2pdf(app, svg_fname, pdf_fname):
-> @@ -388,13 +386,13 @@ def svg2pdf(app, svg_fname, pdf_fname):
->          pass
->  
->      if exit_code != 0:
-> -        kernellog.warn(app, "Error #%d when calling: %s" % (exit_code, " ".join(cmd)))
-> +        logger.warning("Error #%d when calling: %s", exit_code, " ".join(cmd))
->          if warning_msg:
-> -            kernellog.warn(app, "Warning msg from %s: %s"
-> -                           % (cmd_name, str(warning_msg, 'utf-8')))
-> +            logger.warning("Warning msg from %s: %s",
-> +                           cmd_name, str(warning_msg, 'utf-8'))
->      elif warning_msg:
-> -        kernellog.verbose(app, "Warning msg from %s (likely harmless):\n%s"
-> -                          % (cmd_name, str(warning_msg, 'utf-8')))
-> +        logger.warning("Warning msg from %s (likely harmless):\n%s",
-> +                       cmd_name, str(warning_msg, 'utf-8'))
->  
->      return bool(exit_code == 0)
->  
-> @@ -418,7 +416,7 @@ def svg2pdf_by_rsvg(app, svg_fname, pdf_fname):
->          # use stdout and stderr from parent
->          exit_code = subprocess.call(cmd)
->          if exit_code != 0:
-> -            kernellog.warn(app, "Error #%d when calling: %s" % (exit_code, " ".join(cmd)))
-> +            logger.warning("Error #%d when calling: %s", exit_code, " ".join(cmd))
->          ok = bool(exit_code == 0)
->  
->      return ok
-> @@ -513,15 +511,15 @@ def visit_kernel_render(self, node):
->      app = self.builder.app
->      srclang = node.get('srclang')
->  
-> -    kernellog.verbose(app, 'visit kernel-render node lang: "%s"' % (srclang))
-> +    logger.verbose('visit kernel-render node lang: "%s"', srclang)
->  
->      tmp_ext = RENDER_MARKUP_EXT.get(srclang, None)
->      if tmp_ext is None:
-> -        kernellog.warn(app, 'kernel-render: "%s" unknown / include raw.' % (srclang))
-> +        logger.warning('kernel-render: "%s" unknown / include raw.', srclang)
->          return
->  
->      if not dot_cmd and tmp_ext == '.dot':
-> -        kernellog.verbose(app, "dot from graphviz not available / include raw.")
-> +        logger.verbose("dot from graphviz not available / include raw.")
->          return
->  
->      literal_block = node[0]
-
--- 
-Jani Nikula, Intel
+Konrad
