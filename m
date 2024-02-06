@@ -1,61 +1,37 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF156E2B0;
-	Tue,  6 Feb 2024 03:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC75F41C65
+	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 03:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707189969; cv=none; b=sQe1BHLI8rrkuI5buQlvXe89Dnm15NZ8MqptzYAnWyla0WXBijPTh8P+UuEKecaae//XfdE+VvAIXS0gc/k/xC1RZrT3AYYxUvwJ3E2JGl7uYquaQVYTKR+nOY5Q/ZSQXYeBpcT2drayZPPgqUXSVtTEvmXlZg8WauvIOi9G0FQ=
+	t=1707191443; cv=none; b=dxEJiEP50R+mki9nSZ29ZpKNIruijbrd3QP+RS52olFhXh3lYw2Upo8q4aQmD5rkMQyzDF28W5V/LlUPOQa60E4z0KQ1K8RFRyEQDYf1WQoXttrMCwQanHQdzE21uQlEr0BFh4CQfEJvfFMHV+vJASmGZCi5MZ10GGkuXV3TJVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707189969; c=relaxed/simple;
-	bh=umEb0BhqMX8QgLQWlM++IWcTd98YG6V+w+9Y6bL6Kz8=;
+	s=arc-20240116; t=1707191443; c=relaxed/simple;
+	bh=McWxTUQJCnOv0ytCl8bNeOp1gV7eGgPYn8v24uKJ9o8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UWeT/jdtyHVGo0YQ6OmOjXa52TT0HTqudqRw05Ppu14bqekAaKbCAkOllp2aSzSbut99YSEgSUkXqhn7nLy1aqhvqUpVuAtUVtonPj7cmcT8KlOY4DWOrntYTqFZGzGNCxaZ1jFhimR2WnzL/esy/+3PmiwJzFglW/1VFc+vdpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFxLB2C3; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=CY4Pr0+xS8vxE9p58ndaAMXImwX6saZZftyJ/omCFSETc4LakGvBQnhUjTmJLh1j0NoFsyaBLNfto99INMuwzO3wsAutHyzCxcupbLjMXRHWDW4E8ypxL7HWFiO7YdVQAxJ2oi2PihOa5Mwym7p3NYVQugB/83KGPCiOLMKEO5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VX4x58kW; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFxLB2C3"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5dbf7b74402so387736a12.0;
-        Mon, 05 Feb 2024 19:26:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707189967; x=1707794767; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=XZfzzDXmxicnToftyCXmWq7bV7IDNDJptxpK3iKTrk4=;
-        b=VFxLB2C3auGDmBYnck2VQxQ0zp/pWl61WhynTTrh5CIUGtu9gIr1FWHYU9QuBafYkL
-         hv39wGvaX8oMGrlGUt3tdDD5Khy5Gsup/SwddFk8g+8AwCb+roN3MnYnTEzlbpH4gMgs
-         JGwdTCiGmBWx91IvF996riEB3hBod5vJM8HPk3COk/hM4WgYz+aJ9HYw2MYqZi5dNAoI
-         SKWbwfNgZvlUwoF2+Zo1nbFLCE4IaktVtDCnveNdl7FWvWUHYZ6OHXHF1CR1eLox3vdW
-         hATpv1H8IntFJtAcshCpr4sC2jOytVWf4RwmWp3hisMN6p/j4h18pY4TFmCgLT2pzJPb
-         afXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707189967; x=1707794767;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XZfzzDXmxicnToftyCXmWq7bV7IDNDJptxpK3iKTrk4=;
-        b=XFOUX2XE9syaY7qnrbKWhBsxPInlUHNhdfwJWnfRvat0GZqxGdGmiyfRaD80l6EZec
-         jlPLCi724VTQuuuRLKq3W2VXMRk1RWeGjttgxysTymFuzYkLY5YK2B1as93oVCu3Zut/
-         KlM2U6/Pk2n6pCzSGymIdnfGuhcF6yP2YdE8O0fj2VAOUNhu/4btrSHZ239L8ty7mAvl
-         xhMu1H0Kbz99U7CxacmSLDUuWGUE/0cNHIqBrkjOVX+tSAtw0Gq1lY8FB2qG4Q1C1sZq
-         /7iXt0ODFTJ6yGDaY0fbcRluKMPZUKmP0u9N0XUSd3pu0mzGmRY4iwvChhBIexqFtLkI
-         GTRQ==
-X-Gm-Message-State: AOJu0YxbtZte8CMU5LZsN7b6vzta2fqXNtH6tDk0qBAvV+xS8QZkB9Iu
-	MkFuo0bozqNFw4YLwEyh/Z6jwtR+77hapJMD7HZdTQGdx9I3PgmJ
-X-Google-Smtp-Source: AGHT+IEt6oykrf0PDpMVT9qDaE9akvUwe33dM2NY9Sa84AvoA2lfeOaEHLIuX5/yXhRC6aGi+gLocg==
-X-Received: by 2002:a05:6a20:8fa5:b0:19c:9b48:6982 with SMTP id k37-20020a056a208fa500b0019c9b486982mr296790pzj.46.1707189966735;
-        Mon, 05 Feb 2024 19:26:06 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUUpP4a1dvLNnp4PIyWXb8YzcC8C7liV6E8lGOx66DxbyKcVVPnNiMihI+PK5G3zy1qXsHDgG6/ArXcxWIXxqICYhpSasJXxiArNHfGFWmHHyI8wrXuepUCMqfMyOiqyQtzwai1pfJUlVof7ZyzBX9S3zx59hqEmaILLynyM7gGatFUBbdpisNZ/erR9MRNwnkBYiJfBwBb52HmRlhC56GIBdeZI5qEmFNzaWB6uW1adCJW3nVywmB4ErjJObvjj6E3EQ+qacZ1dqhcgx9VbgDTyD9/ff2sHTEH+V/TlvjtVijHu3i9AwL+kJQUZSI1QyIWgcesO8qWsM8oX9d0rXaCF6VFKyzCg5L9vVuel98RSC+sySGJsLoYeu+3gVXh6qGAiIg0mc+/8Cp/72hdnMe/rTY+sj78lUSWQXMV5dlwRZUmt6Z8JFc3wn9KShuSx7iSFNaBDeDH6Aqj83nkaePS4dNIBxw5vXpL1RLZtLy9XRilFFkhQKAoKVeOHpfrx4t+dLeyrlp4GHmqSRuLtDP0lGjyMOlLJbJpeSGUtJYPvnmR4HbwqoFpmSWPuUSITL5gxepdigFOFTEMn/oTfOwk8qJpfZBkgU6z/YFjznf1uFRPFeQV+fwh/xBV9QZUs14TsXvNslgpZ54biUhllHteBlFbUf46phPtdQd/PXXnnxvqXSLnj4ZZlnXl7NTHHm5sfhYrdeifEd04TMr29vmX5Zid+QVw7lAcA7qpgB+fNZSKCgZD3CM2fkC2HiD4gPUWz2jJGakQBQfOhCwQZ7ESEveYhbt2x8A/y+hGTW8qSQ+Neap2xlc=
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b18-20020a170902d51200b001d986ce6893sm636562plg.198.2024.02.05.19.26.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 19:26:06 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a05ec2fe-cfe4-48d8-bff4-9f3689c585d3@roeck-us.net>
-Date: Mon, 5 Feb 2024 19:26:04 -0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VX4x58kW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=rJxa61deUoi3fN9mIc3c1JR1mWrzFHZTAPY84o4QhNk=; b=VX4x58kWwAgfTDnw6QZCbRc1s0
+	NpJa4MxlylaEMKv7sC+tlWAU3xJS9DensZQcWDfpCMfzYuP1FvjUSS+f3859Vg5oR7baZ1Mm5cNOK
+	XeMVaMH5W09dnlooQu9DsLEAIuJzs7QS7PXCT9nWqt06wbP1P6v3hpaFl1HxdiA1MbJ89wv70DL7z
+	Rd0gzzAkQszcYzppuVPB834MSvW/nLfJE0cR7/r3X47igJQ+XJd4/PUEY12Hz1d5bEVwV2ep+B4YF
+	8VU8Wcg1XklVikoMhd+KMrNiLi8RZwwSV4sUX4IvNIRI3tWAsewlPYOTfEN1XR5IDCXkzEerA+qeJ
+	4W90xKgA==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rXCTp-00000005xGA-1Fbk;
+	Tue, 06 Feb 2024 03:50:41 +0000
+Message-ID: <3a6a7dd0-72f1-44c6-b0bc-b1ce76fca76a@infradead.org>
+Date: Mon, 5 Feb 2024 19:50:38 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,123 +39,134 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/1] hwmon: Add driver for Astera Labs PT5161L retimer
+Subject: scripts/kernel-doc parsing issues
 Content-Language: en-US
-To: Cosmo Chou <chou.cosmo@gmail.com>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net, broonie@kernel.org,
- naresh.solanki@9elements.com, vincent@vtremblay.dev,
- patrick.rudolph@9elements.com, luca.ceresoli@bootlin.com,
- bhelgaas@google.com, festevam@denx.de, alexander.stein@ew.tq-group.com,
- heiko@sntech.de, jernej.skrabec@gmail.com, macromorgan@hotmail.com,
- forbidden405@foxmail.com, sre@kernel.org, linus.walleij@linaro.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- cosmo.chou@quantatw.com
-References: <20240205152013.3833940-1-chou.cosmo@gmail.com>
- <20240205152013.3833940-2-chou.cosmo@gmail.com>
- <4a504043-e24d-4119-8c5d-107f0d371110@roeck-us.net>
- <CAOeEDysSZEeKt==zyexLE1GhE5ZpeDHS7sDLRfcC=4JgiogLKQ@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <CAOeEDysSZEeKt==zyexLE1GhE5ZpeDHS7sDLRfcC=4JgiogLKQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Jonathan Corbet <corbet@lwn.net>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20240131084934.191226-1-sakari.ailus@linux.intel.com>
+ <87y1byvo4t.fsf@meer.lwn.net> <ZcFTepqR7xBFAMTM@kekkonen.localdomain>
+ <874jemtq2f.fsf@meer.lwn.net>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <874jemtq2f.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
 
-On 2/5/24 19:05, Cosmo Chou wrote:
-> On Tue, Feb 06, 2024 at 3:43 AM +0800, Guenter Roeck wrote:
->>
->> On Mon, Feb 05, 2024 at 11:20:13PM +0800, Cosmo Chou wrote:
->>> This driver implements support for temperature monitoring of Astera Labs
->>> PT5161L series PCIe retimer chips.
->>>
->>> This driver implementation originates from the CSDK available at
->>> Link: https://github.com/facebook/openbmc/tree/helium/common/recipes-lib/retimer-v2.14
->>> The communication protocol utilized is based on the I2C/SMBus standard.
->>>
->>> Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
->>> ---
->> [ ... ]
->>
->>> +static ssize_t pt5161l_debugfs_read_fw_ver(struct file *file, char __user *buf,
->>> +                                        size_t count, loff_t *ppos)
->>> +{
->>> +     struct pt5161l_data *data = file->private_data;
->>> +     int ret;
->>> +     char ver[32];
->>> +
->>> +     mutex_lock(&data->lock);
->>> +     ret = pt5161l_fwsts_check(data);
->>> +     mutex_unlock(&data->lock);
->>> +     if (ret)
->>> +             return ret;
->>> +
->>> +     ret = snprintf(ver, sizeof(ver), "%u.%u.%u\n", data->fw_ver.major,
->>> +                    data->fw_ver.minor, data->fw_ver.build);
->>> +     if (ret < 0)
->>> +             return ret;
->>> +
->>
->> You almost got me here ;-). snprintf() never returns a negative error code,
->> so checking for it is not necessary.
->>
-> Oh! You're right.
+[reduced Cc: list]
+
+[was: Re: [PATCH 1/1] kernel-doc: Support arrays of pointers struct fields]
+
+On 2/5/24 16:05, Jonathan Corbet wrote:
+
+> Sakari Ailus <sakari.ailus@linux.intel.com> writes:
 > 
->>> +     return simple_read_from_buffer(buf, count, ppos, ver, ret + 1);
+>>> Sigh ... seeing more indecipherable regexes added to kernel-doc is like
+>>> seeing another load of plastic bags dumped into the ocean...  it doesn't
+>>> change the basic situation, but it's still sad.
+>>>
+>>> Oh well, applied, thanks.
 >>
->> Number of bytes written plus 1 ? Why ?
-> It's just to include the string terminator '\0'.
+>> Thanks. I have to say I feel the same...
+>>
+>> Regexes aren't great for parsing C, that's for sure. :-I But what are the
+>> options? Write a proper parser for (a subset of) C?
 > 
+> Every now and then I've pondered on this a bit.  There are parsers out
+> there, of course; we could consider using something like tree-sitter.
+> There's just two little problems:
+> 
+> - That's a massive dependency to drag into the docs build that seems
+>   unlikely to speed things up.
+> 
+> - kernel-doc is really two parsers - one for C code, one for the
+>   comment syntax.  Strangely, nobody has written a grammar for this
+>   combination.
+> 
+> A suitably motivated developer could probably create a C+kerneldoc
+> grammer that would let us make a rock-solid, tree-sitter-based parser
+> that would be mostly maintained by somebody else.  But that doesn't get
+> us around the "adding a big dependency" problem.
+> 
+> <back to work now...>
 
-If that was needed, it would be risky. snprintf() truncates the output
-if the buffer is not large enough. You might want to consider using
-scnprintf() instead. But then I am not sure if that is needed in the first
-place. Almost all code I checked doesn't do that, and it seems to be likely
-that the few drivers who do that are simply wrong. Can you explain why the
-string terminator needs to be added to the output ?
+As I said here on the RFC patch from Sakari:
+https://lore.kernel.org/all/aa94772b-7010-4bba-b099-d3b8fe1b97aa@infradead.org/
 
-Thanks,
-Guenter
+"Yet another kernel-doc bug. I have a list of 5 or 6 or 8 bugs that are
+similar to this one, but I didn't have this one."
 
+The patch to report Excess struct or union members has unearthed several
+kernel-doc "parsing" problems.
+
+I have not tried to fix any of these in scripts/kernel-doc yet. I might get
+around to it, but it's not a high priority for me.
+
+
+Examples:
+
+1) drivers/slimbus/stream.c:49: warning: Excess struct member 'segdist_codes' description in 'segdist_code'
+
+struct declaration and definition together. Also possible that the leading "static const"
+confuses scripts/kernel-doc.
+
+2) include/linux/spi/spi.h:246: warning: Function parameter or struct member 'cs_index_mask:SPI_CS_CNT_MAX' not described in 'spi_device'
+include/linux/spi/spi.h:246: warning: Excess struct member 'cs_index_mask' description in 'spi_device'
+
+scripts/kernel-doc handles some bit fields in structs successfully, so something is
+different about this one.
+
+3) fs/ntfs/compress.c:24: warning: cannot understand function prototype: 'typedef enum '
+
+fs/ntfs/* has been removed in linux-next (still in mainline for a little while), but this
+shows that scripts/kernel-doc does not handle a 'typedef enum' successfully.
+
+4) drivers/misc/vmw_balloon.c:260: warning: Excess struct member 'reserved' description in 'vmballoon_batch_entry'
+
+This may be the same problem as #2, with using bit fields in a struct.
+
+5) drivers/base/power/runtime.c:362: warning: Excess function parameter 'dev' description in '__rpm_callback'
+
+Confused by either the first function parameter (a function pointer) or the trailing
+__releases() and __acquires() attributes.
+
+6) drivers/md/bcache/request.c:309: warning: expecting prototype for bch_data_insert(). Prototype was for CLOSURE_CALLBACK() instead
+
+and
+fs/bcachefs/io_write.c:1558: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
+
+CLOSURE_CALLBACK() and function parameters are confusing scripts/kernel-doc.
+
+7) drivers/iio/adc/at91-sama5d2_adc.c:471: warning: Excess struct member 'adc_channels' description in 'at91_adc_platform'
+
+Fixed by Sakari's patch.  :)
+
+8) drivers/pci/controller/pcie-iproc-msi.c:110: warning: Excess struct member 'reg_offsets' description in 'iproc_msi'
+
+Fixed by Sakari's patch.  :)
+
+9) drivers/usb/gadget/udc/pch_udc.c:361: warning: Excess struct member 'stall' description in 'pch_udc_dev'
+pch_udc.c:361: warning: Excess struct member 'prot_stall' description in 'pch_udc_dev'
+pch_udc.c:361: warning: Excess struct member 'registered' description in 'pch_udc_dev'
+pch_udc.c:361: warning: Excess struct member 'suspended' description in 'pch_udc_dev'
+pch_udc.c:361: warning: Excess struct member 'connected' description in 'pch_udc_dev'
+pch_udc.c:361: warning: Excess struct member 'vbus_session' description in 'pch_udc_dev'
+pch_udc.c:361: warning: Excess struct member 'set_cfg_not_acked' description in 'pch_udc_dev'
+pch_udc.c:361: warning: Excess struct member 'waiting_zlp_ack' description in 'pch_udc_dev'
+
+All of these except @registered (which is just an Excess description) are declared with one
+'unsigned' followed by a list of bit fields, which isn't kernel coding style but it is valid C.
+or it might just be 'unsigned' without having a following 'int' that is the problem. I don't
+know -- haven't looked yet.
+
+10) Matthew Wilcox pointed out to me that commit 0d55d48b19ff is causing problems with
+generated output. A few instances of using TAB or multiple spaces have been patched
+recently, but there are others that are not being addressed. I don't have a list of these.
+
+
+I don't know anything about tree-sitter, so if I were going to add a parser, I would
+probably (foolishly?) first try using sparse and a sparse extension.
+
+cheers.
+-- 
+#Randy
