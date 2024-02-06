@@ -1,368 +1,233 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0BB131736
-	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 13:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707227830; cv=none; b=IVjzE5QWSACh4GV7gjWHMhlDz4l60ZV44oG6eViAk4mYnaZvemwIomJxIUUR7gv+I3JvwWOS/WN0Z8umtyYV5Idev10xGHnt0Gq9lZ6oNVFt7VvnjsSCBZsiEln7mD73N55py6jKlEgTDUkSNcuHZHlu0AuJtGCn93lmToxXIIU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707227830; c=relaxed/simple;
-	bh=OOelxUoiVHdNQnYiq8PpssK7fO4+9GMJyY83Ls7aG20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A1V1qOeuGwwxAE7aGv34LrdMZjq3WdQuWtkyenv533MhOtU3IAefEpiG2wHt49Xp4acMAfDLp6nf98jzUU/B9l6ROCMDTjtnGDhUo0+2346CVbBYtV75E/9FKiY1vMAEPM4LcAFMDVPx7GBIJRugf3vhrYVWcA99LV2Ye4VgYn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=AvHlf8ZF; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8424B131752
+	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 14:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707228028; cv=fail; b=lmb0ZSEhIC0WalNg5wZ1nWLc0GSToMBrkjQvGQj1TnRw58favjxnHrlLyGXaVdJ6nTwok/zb50wU/Dxu1PH9+BfVsF8XDHTDXlV736GAfSJc9drJsovqHdh+ioeFgqsTImblNs/mdH3a9T51pyOFtvII3RDHyBuVas9DLfsJejo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707228028; c=relaxed/simple;
+	bh=SgVc70KJAC76fCWc4s5O+EQ8j5a9McBJQwlHTDnUshY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=KjutZGD3cGs2T/B1FdP83XxLxgXHAuLlpSQV67fr9bRWM6siD3CW9FdXnWzzqzKmaYeVXrjeWMYiPljKGKrWZD/s94XE1GqfAzQ9qEY3J+xb79gYccwmTuSHUJHsPfGV1OeiCbDsSDm81A2uUkzqP+AePBVuGQzVbRj0V9UR1CI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NYcxqvSj; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=p9Uz8ek4; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="AvHlf8ZF"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40fcc74a0a0so6621895e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Feb 2024 05:57:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NYcxqvSj";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="p9Uz8ek4"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 416AE1IC032695;
+	Tue, 6 Feb 2024 14:00:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=kPixdiY3JM+hDUbzgzvK2L55apn84ieD31uzsxoSjgo=;
+ b=NYcxqvSjOBLGFaXXYXPftH474iL89/BodxbCWoq0DEWy9b6kouUKWDXYAc4oYTcDeTcY
+ e8BWJ9nKzCCQWohIRyITBm11JbgKYzeXE6NtJQfmkBXE+lCp8LqafvHn3kQCN2Y5+gMb
+ PAUic+wTgJt9rGLFfbJl4PagR0maeCYpfqZl+JAUFcXbMftc1AmSmhtmrO7VhOEYhDyF
+ FW5TNc5RXidkG7apfw7T50KcEVZN7G/mxIqwZD4V+b1BG1VluN9vmdzjBWsIuI6qkN3V
+ uqSD7pHMsdTt2yxL7dhaV6gCFioMBzGNuaCHF1oL42mayAvteqLMn+2wu9h8rpo9eFgS FA== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w1d3uevv4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 06 Feb 2024 14:00:19 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 416Drdtc019694;
+	Tue, 6 Feb 2024 14:00:19 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3w1bxdm9j6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 06 Feb 2024 14:00:19 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HME7dgQryKzSaP+CCPnR/+wK2ZxnkAC7H6B6JbcmqL3x+O2nrI21dswlQg4N/zRc9zU2ML7FCIbqng12i7s+pzSVSgYbysYaBRiuHGPuuYfvQzt6d4e78dGAKT38ulKWtuszaqOxTEMQTR5P2TukbtGJQcBJayTqLsi0gUElU1yS7s4id447scMztI7UvFWuY+27qtOqw79cwF8hneGS8FGML94Hfn5RnmqFSB8ufgZzd158MuLnJC2DQYfUpGEa+wPqGkUG3JND67Pa+l4tjGEkfELC3R0yuwjWN0l5mxzeZz97tsk3JRHl469o+0aMCjEC+UxlIN2brpGMYl4hSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kPixdiY3JM+hDUbzgzvK2L55apn84ieD31uzsxoSjgo=;
+ b=oHqnKI6mgfBM2y7iFjZHWbBK5Zl9XMPo+9466DMSZh2FlkdrpJi4ebdGkVWZy+r6mlmlW0zrMOd3L1hWfX/21Cxe9jzuCGPfbeUIQRUbWrboFKUFgpCiWEBxsLsKLeLZYmS6pmPDlOdY358iG6TBzlFTmv2yzDpvz0mNfv8gf68QnT1Myh7hYLlR6RDAnSoP1X4U//4Qg/E23yHRQgMAX9NIPxTgGyVN6g2VK8LXIWwQYc8sqqSknwxOWiiN8i5aO0kkcTMjFhxBme6lDSmShJXTdXkdNSotqo2lLt8o6WPOjNrERg4jhhRc63Q52Wuz/2GZKHOTNs6HSAAntRK7IA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1707227826; x=1707832626; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kb3EfwQ1MJaeA9+O1qYrsLSl0T9nvfGVDQWyYC/ou2o=;
-        b=AvHlf8ZF+fzw5SzqMUUoLXXXPRsOmm5z+Ee+iQaL/Y7KEL5DaAEsHI1amOwVvSydqg
-         t9q5TjHTWPvXiVPm5tRyYn2m+uq5RF0+lrbyNTE6VaObN0iJd8QP5IMLmt3TqHJEcSJ/
-         dqNniKo4rp8DxZMeejoc+YtqMvqpaevOtfZTE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707227826; x=1707832626;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kb3EfwQ1MJaeA9+O1qYrsLSl0T9nvfGVDQWyYC/ou2o=;
-        b=AGSy2hMX8OAPssDw/DmWd142pzX2dyDQoEvPAO/oZzysj1WdiMy8zETgxg6KYsdA5q
-         1mA0rEMEgPpvmDm8/8PQZd+/FR5DBIIzf70B08Gij7NJbJ2Y1WaNty6ELSJmamIFv+BZ
-         y9ztbt1MA596g8Sbpir9SrurUyvPvJktS6c3K0+XFzAk1F/7gn7gF8C32Im6bE19pbt9
-         Gz/05JzrWaxELKkoPWmPXbDrJhZ9USbouZG/iGkZq8Y8C8PT9Cb+GKwlV8OaEb1OtmTd
-         UHmrZlURXOz6RaebImhnV3f2J9qI/HESqNfFJkAGIaHLGZRFj7MlrcYd3h3rIAABs6ak
-         rZxw==
-X-Gm-Message-State: AOJu0Yx8t7Lq3aUgGWOkwBclhvQVlnzMMsSCMc14wYgB3LrythhQxJR0
-	vcIS1Re0TZuh0hqJxPXcRlxmLn62xGd7DwywSJCWusJZCXUfXdFmT7Oc3lssmXY=
-X-Google-Smtp-Source: AGHT+IFOqn0cbJK+WY/X2jzsNFe5DlfE9RRoN3pYgv6uF/Bp/mQ+6ZreQmabY1RjWhfdxFOF8hFqgg==
-X-Received: by 2002:a05:600c:1d07:b0:40f:dd10:180f with SMTP id l7-20020a05600c1d0700b0040fdd10180fmr2171433wms.3.1707227826124;
-        Tue, 06 Feb 2024 05:57:06 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVlNRdjfnrbeDjDbrCKYEBO3kd6rGhLpeMtXIG9oqKa+D8JDxEGy5DMCrqpoHSWZs0/bNypXMCfWtNtUPqoesQgAB0H6Daunh1Zgxlc+2Ut33t2ErRQSVGy8smjuSRGtY0tvTXLVh7k2qgPJ93b3ErEDdLGeMwVxq55VuThizfQDT/p92QBrVwVt6BC9+X/SgRZrG0aownrL7ZHiM5971IDJlkOtrvm6vm9btDr7rv6V6gklC7NhCAFtqZc8Pe/XJ7+9n2Rv5Auu909IPa39tT735ZRStAPQXX0KhuLsVAp7u7JKEaZy/OQBZ7OyT7GVfzIqxz+sgDsJt66dHh2BvC1uWUyIwCoa0jWx1h5P8wd7yKn0PYKtKi83LfG4m6t2/LSboEDvEmcshMx0eJHZjkLyWzcDWnLXG0SAj4nS4G+WWjIVaUS8optm2+U6EPGTnjDirg8XZAwCT2sFJbsh9+wpp7btXrzOT/ocxKYjY8ji4cYLruFDMZrZtrTNBc7+j0i3Mnw/EvN2ackeUuZ4g==
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f6-20020a5d50c6000000b0033afcc069c3sm2153649wrt.84.2024.02.06.05.57.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 05:57:05 -0800 (PST)
-Date: Tue, 6 Feb 2024 14:57:03 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
- dma_buf_{begin,end}_access()
-Message-ID: <ZcI6r_F1RQf8MCrq@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Christoph Hellwig <hch@lst.de>
-References: <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
- <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
- <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
- <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
- <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
- <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
- <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
- <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
- <ZboNyju8h4vfSd7v@phenom.ffwll.local>
- <b2906521-998f-4a65-adb2-23caff207a4a@gmail.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kPixdiY3JM+hDUbzgzvK2L55apn84ieD31uzsxoSjgo=;
+ b=p9Uz8ek453dPQNS7hJnPZ61QdRjYYFPN5UCrBiWV3aAE8jbk+qAVj6SHYsqvft+I4HSnLN9AigizPHpKQlQztVOr2WPzE64N0h58gnoYsRHajSUXjptQwRIH+0pmx9br86AdBZaJXQkifL4Chd6XzWUG8GWMw8Y+ASzBXrBI23Y=
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
+ by SN7PR10MB6524.namprd10.prod.outlook.com (2603:10b6:806:2a7::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.31; Tue, 6 Feb
+ 2024 14:00:11 +0000
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::2e34:ae4e:d7db:ab33]) by PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::2e34:ae4e:d7db:ab33%4]) with mapi id 15.20.7249.035; Tue, 6 Feb 2024
+ 14:00:10 +0000
+Message-ID: <45254692-6ee0-4483-a853-2152d8d000ec@oracle.com>
+Date: Tue, 6 Feb 2024 15:00:06 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8] doc: kfigure.py: convert to sphinx.util.logging
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@intel.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
+References: <20240205175133.774271-1-vegard.nossum@oracle.com>
+ <20240205175133.774271-7-vegard.nossum@oracle.com> <87zfwec6m7.fsf@intel.com>
+From: Vegard Nossum <vegard.nossum@oracle.com>
+Autocrypt: addr=vegard.nossum@oracle.com; keydata=
+ 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 8A==
+In-Reply-To: <87zfwec6m7.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PA7P264CA0162.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:36c::16) To PH0PR10MB5433.namprd10.prod.outlook.com
+ (2603:10b6:510:e0::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b2906521-998f-4a65-adb2-23caff207a4a@gmail.com>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5433:EE_|SN7PR10MB6524:EE_
+X-MS-Office365-Filtering-Correlation-Id: de142f26-5770-40b1-776b-08dc271beef2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	/9VWJ28cMvTpzDqybyO4tS9L/IwzJicfWmK/aqvXxFTKD0te8GjujfHjTpoke+qgQYH1CXWZlr6v1OiNiK0TdkveAK6V5XseFeDPYrb1VuOcQkHPKyRx9VPyrmeduQIALm43zLhqW/vfBspYz3Kox3f3+OBEP6bY9WqHmiHxlgIqk1epNuSkh6vR9mzogVGnBcNYtGDyuJ7ZWHXyyICpPsQzv3UdAVUNi67LoaLXMFx0aZS6rs6pkgr3YoQva1RpAmqgUf46Boo4fWCd0Q9+jTQr0p2zL8s528RfUj38VcUwwTpcJf+J4DCq52EfHo6PFwm2d2VKpm4gYxl4UPUQHgi3O4t4J6ZnN7ijfzrcnID4NHcLyw5LwskUbHly7SD9rMZ/wex5LDume5K9UOkbdPP918q2mFpeilwmXD0mJpD1B143SNX3/JxcxSnBlXFSHvwVlb9m14EiwsI7c+Gwovp7wz4ePxdpUINjLmWSy1m6BBIUY6Pl6xXvQejhp53fUSbWHgIC6DS6Pa34267APiO9qYLjxg76Z6cd0TcSBjkUkLp9SaXDzba4MWj937lauoHn/YLKbkyvTChzeVCAvImGC88Y3cCDMi2gLZNF9D674UFnA3bH69tF6Bh6RUQXE522ftk/1KyuCiZ4BA6CrA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(136003)(346002)(376002)(366004)(230922051799003)(230273577357003)(451199024)(1800799012)(186009)(64100799003)(478600001)(26005)(31696002)(2616005)(41300700001)(83380400001)(5660300002)(8936002)(6506007)(86362001)(110136005)(316002)(38100700002)(4326008)(44832011)(8676002)(66946007)(66556008)(66476007)(6666004)(2906002)(4744005)(6486002)(6512007)(53546011)(36756003)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZWVNUytjeWhraDVRNWhFd05BTis3SUd1a2p1MVhoY3k3a2g0NVl5N3NlYno4?=
+ =?utf-8?B?S2VkN2EyYjI5WmlDSi9VTjZWMk0wWTZaNVpVeTJFT1BZK2l5Q2ZVTmIrQkd5?=
+ =?utf-8?B?bDFPc1A0azBka3lLV1AyZ0xlSktRVkNUL3QreU1IVWpkTEM5KzcwY1dKcTF3?=
+ =?utf-8?B?TmRqMlc4ZUxaNExnbG5IL3JFTzFYbjdWYkl3OTdLUnhOTU1EREhqOEozYXNj?=
+ =?utf-8?B?MEdtVmdIZDNia0JUWEpXcXN5YkwwTjF4ay9EWWovcXNkbFJISjc2K1B1Nm50?=
+ =?utf-8?B?S3kxYldxbHUyRUMxZWlPamNjZEpHbWtmaGpDbWp4MVhXVlBPeWFrUVhyZXlS?=
+ =?utf-8?B?SWJoK0RrYmxkNXhQZ2hqNmF1SG80TmJMaFdDWU5mSXF2MkpFaTZ0NFZvV0Vj?=
+ =?utf-8?B?NFJKV0RUK3FrcklGaEI0aHJ3c0dFNms0M0lSeklraDlkdm5yZVE3d0RFWjR4?=
+ =?utf-8?B?alBQYVo4RkN0YzY3U2hsZlpUbGV3MUwyNll6ZUl1bXFaN1FYSlNGenlDcllP?=
+ =?utf-8?B?NjNFM2hndzVtcGV1R2NuZkdlSWdqbEdsWmxiblZsMXhWY0lrNkp1UTNMZTlJ?=
+ =?utf-8?B?QmxXR2txNkl2eHRFT2ZheXZadkxpU2xFSStZNHFVL0VVR3hVVCt2UkdQcVdJ?=
+ =?utf-8?B?MWdEcGxsNFZaQmNVaHhkeG82ZzVnMnF0N1Y4RW9DMExpdTN4a2MvWllzdGlF?=
+ =?utf-8?B?U2RzM2p2bDU2YUpuMGExOFlESkwyY25zOWFhVDRFUnNtdmJiV3lYS1p0T1VK?=
+ =?utf-8?B?YkZVcWZONllQNHl0UEtnY2loZ3NOUlFoOTR5M3Z0R2pFT0xyaEtIK3RsZ1lJ?=
+ =?utf-8?B?R05aUUVXNXBKWkN6aTl3V3JwOHhld0x6Y3dUVG92YmtaRGxNZ1hLdnMzWVVE?=
+ =?utf-8?B?L2xJTUpNVGdWWHpseGJaVnBQZ1gweTBxeU1mTG0vRHFiWm9pdmNuNVQ5SGFV?=
+ =?utf-8?B?NElrTWI1bmMrcDhEbGp2M1E2Z0JDSFVrTW9DTGhqWWNNbXcyUkk0YlNFbkI3?=
+ =?utf-8?B?dmdCSVNURlcrWXB5Q250VjdxYkRBb2ZwNFdCT0ZzOGRyZGpBMFFxd2hGVWdq?=
+ =?utf-8?B?aVBYbFp6UnMxcnJQNTQ3VzZLQ3Fla1BNM2pwTy9hR2cwdlVuOVdvUmFXVGF2?=
+ =?utf-8?B?Q0hVTWJoMzhSL09aM0hsYUxlS0JqUms4YytqYjBWSS84NGR1RWxDc0NnVDRq?=
+ =?utf-8?B?WGtKRklIbkdrb25SZUliR1pNL0JneXI0eXpFL2dDTk80aUtyK1FSMGQ3aWZ1?=
+ =?utf-8?B?QlFlbDkrT2ZSeXlBblF0M1NsTVJ6eUFwTTFJT2RXTDNjT0k1bjJNcVM0bzQw?=
+ =?utf-8?B?b2Q1VzlTZ0xCdTk2aFE4NTllS0dpNEhSSVBNQzZ5eTJmU0VDVDI2QVo4VGV4?=
+ =?utf-8?B?NjI4UHA3L2VjWjk0V3BwOGRNODAzUmhHaHdYQXo5cDBwdXFsSG43REp1YVlM?=
+ =?utf-8?B?d0R4aVNmVjBOSkVYNlduOTdhUjFoYllhbVhVQjUvd1VXeVZnSElJR0NYbUlV?=
+ =?utf-8?B?Q00rRDVYMXFTNFZvRk9UY09YMUZMRHJYZGw4RTUwb1k0WGRFYzhxNE5yaEwv?=
+ =?utf-8?B?VWg5a0lON2xDRzlUb2RXRmxXWWZ6T3d2N3d3dmVIaDNhOW4wT3ByWWY4V3Ex?=
+ =?utf-8?B?aU5BQWhwV0EzNWZqUHNJU2JydmpxWC9EVUM4VlpVZk05NkxubjQ4STUwZUxT?=
+ =?utf-8?B?YUsxT3g4Z2hrQ2NnNG80T3BPOEV4S3VhYkY1VHgvZUx1M1lGTWQ2Yk1PVjZX?=
+ =?utf-8?B?T0J2UzltK1h4d0FxQW43a09EVUpXZDBlemNVL1o4STF4aklsdG9zZlF2T1Jv?=
+ =?utf-8?B?enl6NUZFa0tCVEtzcC83a0lUOGVEMDZvNVIxTVBKdndTeGNkbHRlMjkvUEx0?=
+ =?utf-8?B?T1dOUkRuZXpSNittb3habkdUMUJIY08vMXh5ZGdLdExJZ1UzbGZsRkhRYUE3?=
+ =?utf-8?B?dDZFNlBXMUd0bDBqMis4c2llRmF2VFF3K3ZtcEZIbVhBSllHNXMvMXZidDBo?=
+ =?utf-8?B?YUtGMlkvbnl1c0RFVy9DeEJRODJVOFdUZ2tPRXEwL3BtVC96Qkx5VlFrZ1Rj?=
+ =?utf-8?B?ZGJMWWowWlBqWUNwT3lmWTN1emNzdFl0SjZuTC9Id1ZFSGUrOWp5VVNFTXhU?=
+ =?utf-8?B?ZUtHc1NPM051bEhoYzVuanRlckNRQW5TWDlhY0gyY1VVTnV3MnNsbGFvcnUw?=
+ =?utf-8?B?YUE9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	iHtx8UcAa/96eW19iMf55OhNbnXN78frqiiouP2X4ERNajs8vF81Fr3pQVxryOkZDui+iqwRGuzB2jnV9e5GTCh4mBQ3ed0yZOCFeXomyobX25qM98HeMeuvEWDCKeCe8NLgzSYSysm/k7GijyeFfv/KJuI1dAlfAPnwHWiegZv0limi7WeBYmjhxxN5RkUVU298fxy4piggEKuiYRqVljD5p+f1L5G2Uyw/8fRSpSuDCPpRqXK9Bb4FPneSeQdBVDokau57Ka/1aeVTpzhaZ6lu1k/HnOB9i8aHds3fQYGZydV68V/+VA9sqJz5xwBDxdJ3XhtVFBzVjoAIalWK+OLTwA5AVGEkGSi2wM+RC1LW8n9u5RWHJ/N49gAIeCgOsaO8OqNkrNLg/FHQTLIEEa7/aF3KvH8jgm0sbPP+v/hptBOwrnr6UA//olv9/DwTTvy12lpgdsHTs3/wGjA/rauyL0Xo3xmL5oEoEC+It/Dj38i438/b4dtN/U8Hg7gGvbkSlTn3LScdtNXlXv4aSjaRnRuWDtC2MtJUcV8U+fOy0Ka6oacZ2dTp8mXm1mGJcJ1/jo0ZAyA1qFc8SNInohCwHKOg8nR3ezlgiuqET50=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de142f26-5770-40b1-776b-08dc271beef2
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2024 14:00:10.8831
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1l4B761fxP/YMayuoh+hur1f/vg5AU/RGgvOS6L9RfanszxkbQJaJlOoFjvjI+GzV0rtj5/YajK3KiGruIXjs4HtZBbC9IJbPCNjhdAqBWQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6524
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-06_07,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0 mlxscore=0
+ adultscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2402060098
+X-Proofpoint-ORIG-GUID: OeJd7iIEgQG6V2UJJWI5_52xxz0MVJJ7
+X-Proofpoint-GUID: OeJd7iIEgQG6V2UJJWI5_52xxz0MVJJ7
 
-On Tue, Feb 06, 2024 at 02:28:35PM +0100, Christian König wrote:
-> Am 31.01.24 um 10:07 schrieb Daniel Vetter:
-> > On Tue, Jan 30, 2024 at 02:09:45PM +0100, Christian König wrote:
-> > > Am 30.01.24 um 11:40 schrieb Daniel Vetter:
-> > > > On Tue, Jan 30, 2024 at 10:48:23AM +0100, Paul Cercueil wrote:
-> > > > > Le mardi 30 janvier 2024 à 10:23 +0100, Christian König a écrit :
-> > > > > >    I would say we start with the DMA-API by getting away from sg_tables
-> > > > > > to something cleaner and state oriented.
-> > > > > FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
-> > > > > which is just a dead simple
-> > > > > 
-> > > > > struct dma_vec {
-> > > > >     dma_addr_t addr;
-> > > > >     size_t len;
-> > > > > };
-> > > > > 
-> > > > > (The rationale for introducing it in the IIO DMABUF patchset was that
-> > > > > the "scatterlist" wouldn't allow me to change the transfer size.)
-> > > > > 
-> > > > > So I believe a new "sg_table"-like could just be an array of struct
-> > > > > dma_vec + flags.
-> > > > Yeah that's pretty much the proposal I've seen, split the sg table into
-> > > > input data (struct page + len) and output data (which is the dma_addr_t +
-> > > > len you have above).
-> > > I would extend that a bit and say we have an array with
-> > > dma_addr+power_of_two_order and a header structure with lower bit offset and
-> > > some DMA transaction flags.
-> > > 
-> > > But this is something which can be worked as an optimization later on. For a
-> > > start this proposal here looks good to me as well.
-> > > 
-> > > > The part I don't expect to ever happen, because it hasn't the past 20 or
-> > > > so years, is that the dma-api will give us information about what is
-> > > > needed to keep the buffers coherency between various devices and the cpu.
-> > > Well maybe that's what we are doing wrong.
-> > > 
-> > > Instead of asking the dma-api about the necessary information we should give
-> > > the API the opportunity to work for us.
-> > > 
-> > > In other words we don't need the information about buffer coherency what we
-> > > need is that the API works for as and fulfills the requirements we have.
-> > > 
-> > > So the question is really what should we propose to change on the DMA-api
-> > > side to get this working as expected?
-> > So one thing I've been pondering, kinda picking up your point about CXL,
-> > is that we do make the coherency protocol more explicit by adding a
-> > coherency mode to dma_buf that the exporter sets. Some ideas for values
-> > this could have:
-> > 
-> > - ATTOMIC_COHERENT: Fully cache coherent, including device/cpu atomis.
-> >    This would be for CXL. Non-CXL devices could still participate with the
-> >    old model using explicit devices flushes, but must at comply with
-> >    CPU_COHERENT.
-> > 
-> >    There's also the power9-only nvlink that would fit here, but I guess
-> >    going forward CXL (and cache-coherent integrated gpu) would really be
-> >    the only users of this flag.
-> > 
-> >    Peer2peer would have the same rules, otherwise doesn't really make
-> >    sense. Also we might want to forbib non-CXL imports for these buffers
-> >    maybe even? Not sure on that.
-> > 
-> > - CPU_COHERENT: device transactions do snoop cpu devices caches, but
-> >    devices might do their own caching which isn't snooped by the cpu and
-> >    needs explicit device-side invalidate/flushing. This means pcie
-> >    importers are not allowed to use pcie no-snoop transactions, intel igpu
-> >    wouldn't be allowed to use MOCS that do the same, similar for arm
-> >    integrated devices.
-> > 
-> >    Importers can skip all explicit cache management apis like
-> >    dma_buf_begin/end_cpu_access, or the newly proposed
-> >    dma_buf_begin/end_device_access here.
-> > 
-> >    We'd need to figure out what exactly this means for peer2peer
-> >    transactions, I have no idea whether the no-snoop flag even does
-> >    anything for those.
-> > 
-> >    We might also want to split up CPU_COHERENT into CPU_COHERENT_WB and
-> >    CPU_WOHERENT_WC, so that importers know whether cpu reads are going to
-> >    be crawling or not.
-> > 
-> > - MEMORY_COHERENT: devices transactions do not snoop any caches, but
-> >    promise that all transactions are fully flushed to system memory. Any
-> >    devices transactions which do fill cpu caches must call the proposed
-> >    dma_buf_begin/end_device_access functions proposed here. Any cpu access
-> >    must be braketed by calls to dma_buf_begin/end_cpu_access.
-> > 
-> >    If your device does fill cpu caches, then essentially you'd not be able
-> >    to import such buffers. Not sure whether we need to put the
-> >    responsibility of checking that onto importers or exporters. Ideally
-> >    core dma-buf.c code would check this.
-> > 
-> >    Also maybe the cpu WC mapping mode would actually need to be a sub-mode
-> >    for MEMORY_COHERENT, because all cpu wc achieves is to avoid the need to
-> >    call dma_buf_begin/end_cpu_access, you would still need your devices to
-> >    be memory coherent. And if they're not, then you cannot use that
-> >    dma-buf.
-> > 
-> >    Or maybe alternatively we need to guarantee that exporters which set
-> >    MEMORY_COHERENT implement dma_buf_begin/end_device_access to make things
-> >    work for these cpu-coherent but not memory-coherent devices. This
-> >    becomes very tricky with device/arch/bus specific details I think.
-> > 
-> > - DMA_API_COHERENT: The memory is allocated or mapped by the dma-api, and
-> >    the exact coherency mode is not know. Importers _must_ braket all cpu
-> >    and device access with the respective dma_buf functions. This is
-> >    essentially the "we have no idea" default.
-> > 
-> >    Note that exporters might export memory allocated with dma_map_alloc
-> >    with MEMORY_COHERENT or CPU_COHERENT if they know how the memory exactly
-> >    works. E.g. for most arm soc gpu/display drivers we can assume that the
-> >    dma-api gives us MEMORY_COHERENT or CPU_COHERENT_WC, and just use that.
-> >    Essentially this would make the current implicit assumptions explicit.
-> > 
-> >    udmabuf would need to set this, definitely if Paul's patches to add the
-> >    explicit device flushes land.
-> > 
-> > - DEFAULT_COHERENT: This would be the backwards compat legacy yolo
-> >    behvaior. I'm not sure whether we should alias that with
-> >    DMA_API_COHERENT or leave it as a special value to mark exporters which
-> >    haven't been updated for the much more explicit coherency handling yet.
-> > 
-> >    The specification for this coherency mode would be a flat out "who
-> >    knows, just don't break existing use-cases with actual users".
-> >    Essentially the only reason we'd have this would be to make sure we can
-> >    avoid regressions of these existing use-cases, by keeping whatever
-> >    horrible heuristics we have in current exporters.
-> > 
-> >    It would also allow us to convert exporters and importers on a case by
-> >    case basis.
-> > 
-> > Note that all these coherency modes are defined in terms of bus-sepecific
-> > device access and in terms of dma_buf apis the importer must call or can
-> > skip. This way we'd avoid having to change the dma-api in a first step,
-> > and if this all works out properly we could then use the resulting dma-api
-> > as a baseline to propose dma-api extensions.
+
+On 06/02/2024 09:57, Jani Nikula wrote:
+> On Mon, 05 Feb 2024, Vegard Nossum <vegard.nossum@oracle.com> wrote:
+>> -            kernellog.verbose(app,
+>> +            logger.warning(
+>>                   "Neither inkscape(1) nor convert(1) found.\n"
+>>                   "For SVG to PDF conversion, "
+>>                   "install either Inkscape (https://inkscape.org/) (preferred) or\n"
+>>                   "ImageMagick (https://www.imagemagick.org)")
 > 
-> When I read this for the first time my initial impression was that the idea
-> mostly looked good, but while thinking about it more and more I came to the
-> conclusion that this would go into the wrong direction.
+> These could be converted to use """:
 > 
-> Maybe I'm repeating myself, but I think we first of all have to talk a bit
-> about some aspects of coherency:
-> 
-> 1. Intra device coherency. This means that intra devices caches are
-> invalidated before beginning an operation and flushed before signaling that
-> an operation finished.
-> 
-> 2. Inter device and device to CPU coherency. This means that caches which
-> sit in between devices and between devices and the CPU need to be
-> invalidated and flushed appropriately when buffers are accessed by different
-> parties.
-> 
-> Number 1 is device specific, part of the DMA-buf framework and handled by
-> dma_fences. As far as I can see that part is actually quite well designed
-> and I don't see any obvious need for change.
-> 
-> Number 2 is platform specific and I completely agree with the DMA-api folks
-> that this doesn't belong into DMA-buf in the first place. That's why I think
-> the begin_cpu_access()/end_cpu_access() callbacks are actually a bit
-> misplaced. We still can use those in the exporter, but to make better buffer
-> placement decisions, but should not invalidate any caches when they are
-> called.
+> """Neither inkscape(1) nor convert(1) found.
+> For SVG to PDF conversion,
+> install either Inkscape (https://inkscape.org/) (preferred) or
+> ImageMagick (https://www.imagemagick.org)"
+> """
 
-I don't think there's cases where we can avoid the cache management in
-begin/end_cpu_access, because there are SoC out there with the following
-constraints:
+That would mean the lines could not be indented, causing a (to me)
+somewhat strange-looking block:
 
-- Device access is not coherent with cpu caches, no snooping going on at
-  all. Device2device dma is fully coherent though (since there's no caches
-  to take care of at all).
+             logger.verbose("""Neither inkscape(1) nor convert(1) found.
+For SVG to PDF conversion, install either Inkscape 
+(https://inkscape.org/) (preferred) or
+ImageMagick (https://www.imagemagick.org)""")
 
-- Mapping as write-combined on the cpu is not possible. Not every platform
-  is reasonable and has something like pat with cache control in each pte.
-  Or they have, but in practice it's not useable.
+Is that preferred?
 
-Which means your options are only a) no cpu access b) bracket cpu access
-with cache management. So I'm not sure what exactly you have in mind here,
-since people really don't like a) that's why we added that cpu access
-braketing stuff?
 
-Also what exactly would you do in begin/end_cpu_access instead of cache
-management? Note that you kinda need to call dma_buf_vmap (for kernel
-access) or dma_buf_mmap (for userspace) before you can call these, and any
-placement changes should be done in those functions and not in
-begin/end_cpu_access. Especially for dma_buf_vmap the buffer must be
-pinned, so you have no other choice. And for userspace you'd need fault
-handlers, you cannot rely on the begin/end ioct calls, because that would
-defacto make those into a pin/unpin ioctl, which defeats the point of
-having more dynamic memory management for these buffers.
-
-> The flushing and invalidation for platform caches should really be in the
-> DMA-buf framework and not the exporter.
-> 
-> So in my thinking the enumeration you outlined above should really go into
-> struct device and explaining to everybody what the coherency properties of
-> DMA operations of this device is.
-
-So that's the part that I think dma-api folks really don't like. They
-don't want higher levels to know about cache management at all, so I don't
-see how we can make this happen.
-
-The other issue is that we have a ton of exporter which flaunt the dma-api
-rules for their platform/device, e.g. x86 is officially fully cache
-coherent. Except integrated gpu/camera isp are not, and for rendering you
-can select the coherency mode on a per-transaction level in the cs
-packets.
-
-So putting this into a struct device flags is not going to work I think
-for these two cases: for dma-api allocated/managed memory I don't
-think'll get it, and for stuff like i915-gem it's too strict, we need at
-least a per-buffer flag for this.
-
-> > I think starting right out with designing dma-api extension is a few
-> > bridges too far. Both from a "how do we convince upstream" pov, but maybe
-> > even more from a "how do we figure out what we even need" pov.
-> 
-> Well I totally agree on the "how do we figure out what we even need", but I
-> disagree a bit on that we don't know what DMA-api extension we need.
-> 
-> We don't have the full picture yet, but as I already outlined from the
-> DMA-api pov we have two major things on our TODO list:
-> 
-> 1. Somehow remove the struct pages from the DMA-buf *importer* API.
-> 
->     My best suggestion at the moment for this is to split sg_tables into two
-> data structures, one for the struct pages and one for the DMA addresses.
-> 
->     Mangling the addresses to ensure that no importer messes with the struct
-> pages was a good step, but it also creates problems when
-> dma_sync_sg_for_cpu() dma_sync_for_device() are supposed to be called.
-
-Hm yeah we need to temporarily unmangle those around those calls. Since
-it's a debug only option this should't be a big deal.
-
-I agree that eventually we should aim towards splitting this properly, but
-I think as long as the dma-api itself isn't there yet, it doesn't make too
-much sense to charge ahead in dma-buf code.
-
-> 2. Add some dma_sync_sg_between_devices(A, B....).
-> 
->     And on this I think we are on the same page that we are going to need
-> this, but we are just not clear on who is going to use it.
-
-Yeah I think this we might be able to eventually get added to dma-api. But
-I think that's only on the table once
-- we have this in dma-buf code (can be in dma-buf.c or in exporters, I'm
-  not extremely opionated about this).
-- we have real-world use-cases where fusing superflous caches management
-  operations with the existing dma_sync_sg_for_device/cpu actually matters
-- someone's willing to roll out the infrastructure work - altough a
-  default implementation that just calss dma_sync_sg_for_device/cpu in the
-  right order is probably good enough as fallback for most platforms.
-
-I think the other issue is that all this is multi-year projects with a lot
-of effort, and I think we need something that will work a lot sooner for
-Paul's use-case here.
-
-Cheers, Sima
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Vegard
