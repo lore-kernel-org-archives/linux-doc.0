@@ -1,232 +1,303 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93763131E32
-	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 13:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707225176; cv=fail; b=P0IiWwBE4Am3DBicUwfeYu7V9fGdhuFvtwJHpkWYXiEdKfg6CWG8ss+lenVZROZYSvj7ueJsyFjHuUkl/23BN3iXmgLB0HcxgsjHIRWw7jx4Uu60E3oRr//amuX3LGP6KKl4N8W7HWZnNU/NFoH+ANhRS6BCFDXW5OsgF/sb+dw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707225176; c=relaxed/simple;
-	bh=oI1FRzA6KB3Ir9xcDKmGE05oQzHVlUGj/Q80u4Da9AQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eQinAalrlQskgfv+AcDqyduvZEI8zPBlHIiyJm9ZNknWW/o4jxgQNyqzpjMzA0cTVkY4aSnnEiNww5Jt1hOeWT4k6GuPu0JCYZmeNEc9ExNbVg1qIq92NJwtySqFSDnlEf85dUolvMmwClH917p3KzzL/aTmxNRLJYTCV7ySPsM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=b2LhMkCY; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=JA9inh+R; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC4D12FF97;
+	Tue,  6 Feb 2024 13:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707226122; cv=none; b=qB76wwSy/PoA1Lc1uOk0FOYqcnvDbeeE9Xza1kgBHgtEXMj7tKo4KC2Ztgb0YwF8N8J6BOFlI2iWzi+StNVT7fjn822S79hAuUVwyi/FcpYZYIlQ7VqI0kpvcbj5URDLDVYyxiFzwMOGjJ2kZ3Jog3GYIXA0lxku2RtZxxBA3Bg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707226122; c=relaxed/simple;
+	bh=Y6u4vsxwAHerMpaObMfnjuURvcBzAxAuonlC1EEHjeA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=EVmv4ODbXU18AYc7AzoVs+124CO5PIVJqwmQs8GFmFjcSWyt0K/x92x3ckmfqsHLNrqfpcMv06q27N3l4T+rUZn+TJiiZMzMqkbzRkT+QgG2RXK2IhBf/iwjfGGVqmXI2woIiXr/hCHpP3GbSUUU5Ponme4eXYzN8/5MAMuPzPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jHR3VNqO; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="b2LhMkCY";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="JA9inh+R"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 416ADb8d004413;
-	Tue, 6 Feb 2024 13:12:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=RVHeL6/bgLVxKUw7Wai4Q6AOGE8lDSmoS6TloPsqxeE=;
- b=b2LhMkCYqVKF4Nf1NmeOrGKoCH5cLhUZqmGpjgV+0/uzagkbjjOBO8xT/NfFzJgJxVH7
- zEULQaeHMbhvXKhY9mj0el3xFmswJH+JgE5YHoFmxxGsITjUozcHW9RH+rxJSdhKgdur
- vWqPdHZpsi5yhoie0qj9Kwr8Jd5btSVLQ9zGCa7PGB2mxgnqnphdodyokimSp+C0nA3K
- h38jVmlq4i73nQZ9mzNByAc6WB56q7Wy9NuNi28Khf8+BXalLEoMMDp75QADM7QvCD21
- oi5D1++ZrYwoT/XMsKHxooL0AsDX6g68aOBB+bf0rXPPMzlNZI6JzS7jvLveXozwphu4 FQ== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w1c93xvwd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 06 Feb 2024 13:12:48 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 416C8rru039333;
-	Tue, 6 Feb 2024 13:12:47 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3w1bx71sve-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 06 Feb 2024 13:12:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RW1KIJLK91YF8yCMCgYbxbwCaaV1JNzB+knCX91L1kHZCOlxyQJAdEgmHAScoDTzLSRNUIpVLeD1jfmo5SogIcyUIOSX/F94ajUgdw92ZEhha+1LVV2soj3NBIQYJmrtmVzPVlDd2LblDvZmislJO3n7nRh3Fo5lZAQLICAgOwqOefH+ThrIdeGyquiAQ/yZsKrR3GhCNs8GBYj+DpuHAJhXceTVwRhvD+RfRFAJr8J64OuMU/tFT9liQc1ZCy6gqJPbaNQu/Hv2oQfrVFqYte3J8Io8ONYizxWwivxL+IN6L3cUxBRROMaryHW/s4inY0Jt2d8dQQsUjSgW2OFu7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RVHeL6/bgLVxKUw7Wai4Q6AOGE8lDSmoS6TloPsqxeE=;
- b=bRIWdabnKhE4GoH8naWafyem5J406pK7jILOv3UXIqIGsjAGaazsF1rzfftnlFuGjrwhw50SIkITZeiiOks82ah+zPWtBsgQ6Klm42BJM3TSbODcPbgBL/PWCQ1eBxogNfW5ffHV8/qugPaOsMq2Iq+iqEyBi8+ZFNlYJMGgccHYYQHD/mLoJAOFzjMC/1+JjAR0qDBF6yr4IxtLc11iRe6GfRw28NzYNuE1Gogl+eKc0emH6JVDjYd5/AjGbnFoY+psPS0aWnAx404twB3VOPKgfPQ4aOytYM6jVybWnDNNjXtNWIISOxeKA/hdy3d1SyGZixzm53zjLlVb6flikQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jHR3VNqO"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33b436dbdcfso896995f8f.0;
+        Tue, 06 Feb 2024 05:28:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RVHeL6/bgLVxKUw7Wai4Q6AOGE8lDSmoS6TloPsqxeE=;
- b=JA9inh+RzcvDlobE7lQIay6t9TKa8K4cMzAXkKD1SSyKOjZo0kr9A11vKMNvRBNo5xKPxaSrS8Kez5fZbA7501anab1H2Nb1Qa29+3zd5+Kgo3Iy2KfkCNB8LM/AIHpI0XleUJsTybBOwvrqsOpqZ0baHAW3ltIYC8cYLU2uL5w=
-Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
- by BN0PR10MB5064.namprd10.prod.outlook.com (2603:10b6:408:114::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Tue, 6 Feb
- 2024 13:12:45 +0000
-Received: from PH0PR10MB5433.namprd10.prod.outlook.com
- ([fe80::2e34:ae4e:d7db:ab33]) by PH0PR10MB5433.namprd10.prod.outlook.com
- ([fe80::2e34:ae4e:d7db:ab33%4]) with mapi id 15.20.7249.035; Tue, 6 Feb 2024
- 13:12:44 +0000
-Message-ID: <4fe28581-8662-4731-a974-0bc7bc0041f8@oracle.com>
-Date: Tue, 6 Feb 2024 14:12:40 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] doc: kfigure.py: convert to sphinx.util.logging
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@intel.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
-References: <20240205175133.774271-1-vegard.nossum@oracle.com>
- <20240205175133.774271-7-vegard.nossum@oracle.com> <87zfwec6m7.fsf@intel.com>
-From: Vegard Nossum <vegard.nossum@oracle.com>
-Autocrypt: addr=vegard.nossum@oracle.com; keydata=
- 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 8A==
-In-Reply-To: <87zfwec6m7.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PA7P264CA0173.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:36f::9) To PH0PR10MB5433.namprd10.prod.outlook.com
- (2603:10b6:510:e0::9)
+        d=gmail.com; s=20230601; t=1707226119; x=1707830919; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wsLRKQ8iAaIhKBkm7KdmikDqe1gMJ2UtuCoYvn2yltg=;
+        b=jHR3VNqOuMtcOf8X5bl1o/N38jc6n7YSjuFUaLCx3TpOwxFRWESrtGUC7wnyDRY2JB
+         IftGuVaKP4FFrJFzJjY1PL30sp21MPYzu4yj1hj8j8SxTlwcnApgSLhlSgmcggZXgWkq
+         pvVWtWO6QdL5HhQfqX150klIAj4zzDvmFC0lpc1TMLzHAzTeG1Txsa+eSbT3IpuGKjdC
+         ZHwf64zrN8vVrmT4ivkXEzJgZ2qhomNcaQhyp8dro5NhF6w4MlrOXqkLDNgvQNjfimF3
+         Mm6U4JwF84oukxG+Sx+kAih2ZYgV/b/rQy1w/L7RQ/GRBunokxD7SUVLi96NVH1oV7xl
+         /mjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707226119; x=1707830919;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wsLRKQ8iAaIhKBkm7KdmikDqe1gMJ2UtuCoYvn2yltg=;
+        b=tvJ6IaSRyOB7B8HNMeapmkDTH1v8vLrzbopmQoqrLNjGCVnir8y9RklCBGa46khKMX
+         rZ9XBJHEWmnBAhdLKRE/XPo4h0RI3YrevCKZnBIFLaAJ9vc/1o8Q2YiTWRBsu3QqXlSl
+         noJXA62+w5UYC8G7koEuNYhk99bf+MtY5EDJHiR6G+VWeLt574tns1jU3c3zG5wsQxHV
+         Wvt38P3Bu0KYncrQ5iiTjqHXRNy+aaNAdBHyn3sXlWi30qZiZSa2meGqglwfE64PCWqY
+         n3O/lSwROqUv52YCOSnGV6oLGWh1hW+a9V5bJp2Z9F9Z2+Rq3z3We3THzyywbEfHqsfb
+         XHKw==
+X-Gm-Message-State: AOJu0YzkLi6T7pLD0gnqXtOEq4Nj9kxVQENnq4F55oRn2xyiDMFk6S9o
+	gGn1YNAL5eK5HjE7UIkP6iLdOlxpVDVklDiHiywUijHW98COLcA3
+X-Google-Smtp-Source: AGHT+IGSDJt3qyb8vqRZcGNSkwAyY4OOFYpsyl5EB9OpHo+uWm9GpfenvaGvvYCRalJgwa8LRwgXHA==
+X-Received: by 2002:a5d:468b:0:b0:33b:214b:1a6c with SMTP id u11-20020a5d468b000000b0033b214b1a6cmr1257999wrq.22.1707226118451;
+        Tue, 06 Feb 2024 05:28:38 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCV/xd/hEifO+dh/jkqixxKYmjfxNhhZAMCya98Aa5zo+qWYH015fAtOyzEaN8GI+6mlwKVyFScyB4J6MmSJ954wR+MWzART6L4Ahc0FsQgfs7f0HdgsCCADkTuOkZQSaOvJnekcFu6MeDVvQGe2vIo4Rfeedt0rPHNjI0LKgzcux+K6zSm7FFwrUTvz8twOXlNZV/QtfQVMeKFukreR1kgYwaKciqspQsPXaI0jXFfdiDiTjCyqLl+wvm39Re23g6SWfApq2JCwOfy0GblNwuDqZ+QhkAnfM1T70g109AcyEEw8BHYDVdaFso7ZME3uKPQCmRnRFWjxpTq+0lUMzaidSwgxbOc/I71b3xV2IKbNYlN+OdoZU4H6m/nQtv/dOqzS9j7JREkdNyanHJZV9bFaGu/b9VzvUB91+1iRpkSm/ZXGQsoiySnSHeps71anGtgZbUP6NDgWecuHQKzaBduU6gSL/2SNvh1mVN02/o15ndJPb261Nu3IC9Ne1k14Swfg6v15U/95/qYEYdTiZA==
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id e1-20020a5d65c1000000b0033b3c1200f0sm2124190wrw.10.2024.02.06.05.28.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Feb 2024 05:28:37 -0800 (PST)
+Message-ID: <b2906521-998f-4a65-adb2-23caff207a4a@gmail.com>
+Date: Tue, 6 Feb 2024 14:28:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5433:EE_|BN0PR10MB5064:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9609665e-e69a-4113-7b5b-08dc27154e8f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	qx64z4GUCP4HQxV27JnRD/jIwtf2D6giSmCKkNMRyk8vtbF7laHKWZc7XvNA/jQOaqhR4UG4Bi29qHmHC707KSVvck093xp7LK81Z6/m0xI+1t6V5m05M3dopGNFaAfHSRDDMS9plf+kceJuC9YLM8AjG45MjXa45ecIO9c9Pw1ygaDP6XXqHvJx197keVB8UUTZ2WbBg+7GHZLjM7vdZjEOcvq9ueUkyIzlTPnHijad2ui7HlR8STfdrI5F3GOJOZnW3csS1fOfQXEKggjerxdhoXcnU871nm7DVVl+MHF4qda98AUyuw9zXoBkgvUMTaB9FUs0fLqeMl5RQbGk00IdzBK13FKu8GRiA3DU2VwJUZPr6NfJzMmmS0zW3FDPOXzAhERuh/z6PDdarxJL5/0JP8r9uUu4ji+4OH4FWAGjI9KpUTh/ydU1P//yTvi6L4Bn8hsZ7Ay0oqIaIrPquvEu87VzwOn/jV2eQa7tsPpe6u1BzevtksdHAmCdNmhCTMHcQnD2cYOOUtepOSWXi0xL3n6ysXzGVLkLkHPT1XUNhhg9s7hw7s+3pX4D/4SOx9ryJyVAXwbF24Nr6RtFkfJ02NGgiD3EG3HMSCIvcMvUexSQgP5Nx5d40GekJqUOZCB7abQyAIYKgfII0bIfng==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(376002)(396003)(346002)(136003)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(41300700001)(86362001)(66556008)(66946007)(66476007)(6486002)(110136005)(53546011)(6506007)(36756003)(6512007)(478600001)(6666004)(8936002)(8676002)(4326008)(316002)(26005)(38100700002)(2616005)(31696002)(5660300002)(44832011)(2906002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ZzR3MW8xRWFOcksyV013c0xlSVJVQWFPYTFoZEltejRmYngrOSs0eTl4N1Ux?=
- =?utf-8?B?bkloUHJVWE9qdkY5R044OExRdU5iMlMydTNpYzlGWVduRXVCVkVQNVlBUTRU?=
- =?utf-8?B?UE1rcXN6QmZOSUdpcmVETm1yeWxSZXp2cDFPYlo4YXlDbUZhd3luaGxGTk5n?=
- =?utf-8?B?akFRS05rRzAvVGhONG00ZmVWOEdIYXZiV0NNSnpBQ045NnZianZtK3M3OWYz?=
- =?utf-8?B?ejMxby9FZ2N4TVhvVEdIQU1WNWJmYVRVNDQ5QnR3N3pnVmNuV1VDdGlSaGl6?=
- =?utf-8?B?ZnFWZkZaaWtLVGhRa2xqU1l1K2ZMa0c2ckJuZjhZajRSQmIwdWhEK2R3anV6?=
- =?utf-8?B?SG8zNkVyckhJK3hWZDVxQ1NXRWN2cFNzRG9RbXNJcjFjU2l3aWVBMk5WVHlC?=
- =?utf-8?B?T3g0L0loQmZpU2NQcGNqcDc3aGRXY1N3dGszQXQzOTZZemc3eDJqRnU0cXZ1?=
- =?utf-8?B?T28rcC9FVmNJUEJUNUVDTjRmZnhkY1h5VFhlcFU5a0tSaFlwbXFqUFdkekoy?=
- =?utf-8?B?SnVJOHhUa3l5QmVYcVFWM21hU09odFRRSXgydjJTY21FOXRDTWU1YXNlS2Vx?=
- =?utf-8?B?cmpjRDR3TGtYVTRvVGFCeENyeEowbkRCQ1I5aDlkaXdad1d3UzZBZWZEQ1BN?=
- =?utf-8?B?WDI4VS9mRUhUSlhrd2VPdERKelRRa2xrZng5MThOaWRGZ2hGdWNGOVVDc2lu?=
- =?utf-8?B?Rk9HRUxYalVrY0ZDeDEzc1UxQ1JYSmh5aFg0QW42ekpVZGFiMGdXSFYvNEZZ?=
- =?utf-8?B?K1lyRWRydjNEa3kzSEF3Vm5YTHVMS1RjN2NMQjI5SVp1cndmdFl0L0JOVGh2?=
- =?utf-8?B?a09WeUc2Q3F5YXpKVTY5a2tEZjZMMW1ja3cyZkgySEZnQUJsQm1RM3dZS0d5?=
- =?utf-8?B?aUo5SWpHd1FaeVVLZUVxa1hldTZKQ2xaQ2FJS0QvWG5tN0Q5VWFrZVZpUDZZ?=
- =?utf-8?B?NE5sa3VyRXlkR1VaMFB0ZDQ5TTNUYUZkci8yRE1Ja0hYTlJUWG1tMFhaSWVn?=
- =?utf-8?B?L2lOclp6cEVzeldmYVRLeVhWWW9jRmNPV2FFdmt1K3cwOXZ6UlllbkhmR2ly?=
- =?utf-8?B?Zkg4V3dUS3JkNFg5NGpvSDBqUTVJaWMvMWFLZGo5aWhaL054eGpjSFkvd0Rv?=
- =?utf-8?B?N1B6RjRqV3ZKVndWdFZ3Y3ptbjFEeG5HV0Q4WGlPb0JFT0dqMTlPRkpBdTJj?=
- =?utf-8?B?ZWRUS2oraHpWSFVwTHlBVkR1SGZESDJBVHFXdEh2TXNaK3dMeFR0RGMwckgz?=
- =?utf-8?B?b3Q1Sk45dmQxUWZCWEUyWlA5VkJXaUhpVFpoMy96MmN1SlpkUms3K1RUYnky?=
- =?utf-8?B?QzNaRTFuV0lyUXY5OFJnc24yOGhYL3BwdE90a1dWZ1NXRldxbHpXdDgwSVFu?=
- =?utf-8?B?OFZnU2Roc3RvWkxjNlF1bXgwS010bkRIN082akNLMHlTZDFtMXJ0amtuWUh5?=
- =?utf-8?B?VVA3NitDNFRERkF0endEYWdMV0lJLzExQjcxZkppR3BzaGxTd2cydmxaNTg1?=
- =?utf-8?B?ZjhRSG1Bay9XQVdVNklRMG1tcXRuQnVwbytqLzVMdGV4aFZBOC9MZjNCMFpR?=
- =?utf-8?B?QzF0anNTWUxyMU10SFFvNUE5Q2VIaFVLWTdDNENwRUpKTlQ2R3Y1Y25rU3U0?=
- =?utf-8?B?MGhma2dkZURYbzFvZlpyUEJ1S2hKc0JXVU85SkgvbnFyQ3JyaVVwU0ZlcnFi?=
- =?utf-8?B?TUxSUXcyNlBFWitjbHY5YzJndkhlMUZVazVXS2s1d0ZQVmc4WUhTdWQzOHE5?=
- =?utf-8?B?K0QrNHdFTVUzK2hzUFFEYm92ZzZkU1ptaWZzRUN0b08wMWJqS0xuNEJwaVlz?=
- =?utf-8?B?QXVNOEk2b2taUTZrMWdlelZTTFhXbmRnT3MwdHhqQTNLUklNQ3VYVThtR2lj?=
- =?utf-8?B?elgrR1B0enVEUjFTME82L20wZE1RZW1qYkN0a0hLT0NIUFdCSXBMVXpiT3Ba?=
- =?utf-8?B?YnZYdEpYcC83WHg5Um82Yldmd1J5TEhIbS9pZ084SEJCMGt2ZngzSGFOd2cr?=
- =?utf-8?B?dkg1WjJJKzN4S2hvVEgyR3JxOVRRR3N2TEdDYVRSVTlmSzRuRjhJcG5uNXlZ?=
- =?utf-8?B?ckFvTnZ2WGp6UzNONE5tUDhGdmFWWEdDRHZEa3hId25ZeklnTnBQL08wb0pz?=
- =?utf-8?B?aGpMd0ZzYXZsNHFvMGNGdVVSWHRqT2lFNy90aHpTRVErMHkwb09ML0w5V0xk?=
- =?utf-8?B?Mnc9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	gS5vUK2jduBroOQj1WKgYqKzHMfpGKH8wx7kJICnQsVOf1+i7mH0ha9rYLkuxx0ZNxi4yePbB162dSw4FQrtrHMjiMY+1hpqISxfL5Yeb4vH4n4Fcy6vb2trHkU+MgTLUwVoAu9R3CLk4UAdCsyaeheGzYh7GUY+DirN5nV1/cYWfRyTq3atTSs/IoexAh1DU0I8At+PtSTtzKomaxNlLzjxBDGOWRl7frY3xWFsrYmiUozm0DsTwr9vOlJB0CFgkyAoPpwhUpHPGg8gu7OVMO4RVT2huRoqPa7qcMvbVlZ5BsINHV3YDTYz+HZ9FIioPN/ANEcPGyuj5fEUJ95wkUO90kI1HaZ/doLxukvWR6+KlHFnEmX+f3AU8fvjtGmqQms1vBWyIWCddoc5HF94+Xk21oJ1K/kNULzkgfUmrjT7p8rHIwcswp8B6xGRaCv7jFH9LkJnTYpIqdZ6I/cNu4esJWzQfzAMdqky4C5UcPOIcjlatrmq5hLRftoMlDWQ/cdQwm74GyeEVMcM8NO5fMRpNbE0MphXCuQo7OOiruyKftLiKt7sFvYuBVQtvt0SfMfGxL6STEHkw34KSvSNSYCjsrR7OAqmy+6xsaNG3iU=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9609665e-e69a-4113-7b5b-08dc27154e8f
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2024 13:12:44.8735
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 31WvHEQkrM3ySjkTMrTDDJwShGJEOAzIPtibEM0pvsSf9WybJvt1bnX5LMsKH1eVXdhMZPvYBkt/K6hvCdaQ9jEf8Xcy/V0fyURkB+1HkR0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5064
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-06_06,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 phishscore=0
- spamscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2402060092
-X-Proofpoint-ORIG-GUID: YJaBeUAnrku3lgdVelvfECyE3Kl8T8FX
-X-Proofpoint-GUID: YJaBeUAnrku3lgdVelvfECyE3Kl8T8FX
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 1/6] dma-buf: Add
+ dma_buf_{begin,end}_access()
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <noname.nuno@gmail.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Christoph Hellwig <hch@lst.de>
+References: <577501f9-9d1c-4f8d-9882-7c71090e5ef3@amd.com>
+ <7928c0866ac5b2bfaaa56ad3422bedc9061e0f7b.camel@crapouillou.net>
+ <2ac7562c-d221-409a-bfee-1b3cfcc0f1c6@amd.com>
+ <ZbKiCPhRvWaz4Icn@phenom.ffwll.local>
+ <c97e38ee-b860-4990-87f1-3e59d7d9c999@amd.com>
+ <Zbi6zQYtnfOZu5Wh@phenom.ffwll.local>
+ <a2346244-e22b-4ff6-b6cd-1da7138725ae@amd.com>
+ <7eec45a95808afe94ac65a8518df853356ecf117.camel@crapouillou.net>
+ <ZbjSJi07gQhZ4WMC@phenom.ffwll.local>
+ <1d912523-b980-4386-82b2-8d79808398c1@amd.com>
+ <ZboNyju8h4vfSd7v@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <ZboNyju8h4vfSd7v@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-On 06/02/2024 09:57, Jani Nikula wrote:
-> On Mon, 05 Feb 2024, Vegard Nossum <vegard.nossum@oracle.com> wrote:
->> As of commit 3e893e16af55 ("docs: Raise the minimum Sphinx requirement
->> to 2.4.4"), we can use Sphinx's built-in logging facilities.
+Am 31.01.24 um 10:07 schrieb Daniel Vetter:
+> On Tue, Jan 30, 2024 at 02:09:45PM +0100, Christian König wrote:
+>> Am 30.01.24 um 11:40 schrieb Daniel Vetter:
+>>> On Tue, Jan 30, 2024 at 10:48:23AM +0100, Paul Cercueil wrote:
+>>>> Le mardi 30 janvier 2024 à 10:23 +0100, Christian König a écrit :
+>>>>>    I would say we start with the DMA-API by getting away from sg_tables
+>>>>> to something cleaner and state oriented.
+>>>> FYI I am already adding a 'dma_vec' object in my IIO DMABUF patchset,
+>>>> which is just a dead simple
+>>>>
+>>>> struct dma_vec {
+>>>>     dma_addr_t addr;
+>>>>     size_t len;
+>>>> };
+>>>>
+>>>> (The rationale for introducing it in the IIO DMABUF patchset was that
+>>>> the "scatterlist" wouldn't allow me to change the transfer size.)
+>>>>
+>>>> So I believe a new "sg_table"-like could just be an array of struct
+>>>> dma_vec + flags.
+>>> Yeah that's pretty much the proposal I've seen, split the sg table into
+>>> input data (struct page + len) and output data (which is the dma_addr_t +
+>>> len you have above).
+>> I would extend that a bit and say we have an array with
+>> dma_addr+power_of_two_order and a header structure with lower bit offset and
+>> some DMA transaction flags.
 >>
->> Gotchas:
->> - remove first argument 'app' from all calls
->> - instead of (fmt % (args)), use (fmt, args)
->> - instead of ("<fmt>: " + str) use ("<fmt: %s>", str)
-> 
-> If you're doing this, why not go directly to f-strings? IMO the above
-> are inferior to it.
+>> But this is something which can be worked as an optimization later on. For a
+>> start this proposal here looks good to me as well.
+>>
+>>> The part I don't expect to ever happen, because it hasn't the past 20 or
+>>> so years, is that the dma-api will give us information about what is
+>>> needed to keep the buffers coherency between various devices and the cpu.
+>> Well maybe that's what we are doing wrong.
+>>
+>> Instead of asking the dma-api about the necessary information we should give
+>> the API the opportunity to work for us.
+>>
+>> In other words we don't need the information about buffer coherency what we
+>> need is that the API works for as and fulfills the requirements we have.
+>>
+>> So the question is really what should we propose to change on the DMA-api
+>> side to get this working as expected?
+> So one thing I've been pondering, kinda picking up your point about CXL,
+> is that we do make the coherency protocol more explicit by adding a
+> coherency mode to dma_buf that the exporter sets. Some ideas for values
+> this could have:
+>
+> - ATTOMIC_COHERENT: Fully cache coherent, including device/cpu atomis.
+>    This would be for CXL. Non-CXL devices could still participate with the
+>    old model using explicit devices flushes, but must at comply with
+>    CPU_COHERENT.
+>
+>    There's also the power9-only nvlink that would fit here, but I guess
+>    going forward CXL (and cache-coherent integrated gpu) would really be
+>    the only users of this flag.
+>
+>    Peer2peer would have the same rules, otherwise doesn't really make
+>    sense. Also we might want to forbib non-CXL imports for these buffers
+>    maybe even? Not sure on that.
+>
+> - CPU_COHERENT: device transactions do snoop cpu devices caches, but
+>    devices might do their own caching which isn't snooped by the cpu and
+>    needs explicit device-side invalidate/flushing. This means pcie
+>    importers are not allowed to use pcie no-snoop transactions, intel igpu
+>    wouldn't be allowed to use MOCS that do the same, similar for arm
+>    integrated devices.
+>
+>    Importers can skip all explicit cache management apis like
+>    dma_buf_begin/end_cpu_access, or the newly proposed
+>    dma_buf_begin/end_device_access here.
+>
+>    We'd need to figure out what exactly this means for peer2peer
+>    transactions, I have no idea whether the no-snoop flag even does
+>    anything for those.
+>
+>    We might also want to split up CPU_COHERENT into CPU_COHERENT_WB and
+>    CPU_WOHERENT_WC, so that importers know whether cpu reads are going to
+>    be crawling or not.
+>
+> - MEMORY_COHERENT: devices transactions do not snoop any caches, but
+>    promise that all transactions are fully flushed to system memory. Any
+>    devices transactions which do fill cpu caches must call the proposed
+>    dma_buf_begin/end_device_access functions proposed here. Any cpu access
+>    must be braketed by calls to dma_buf_begin/end_cpu_access.
+>
+>    If your device does fill cpu caches, then essentially you'd not be able
+>    to import such buffers. Not sure whether we need to put the
+>    responsibility of checking that onto importers or exporters. Ideally
+>    core dma-buf.c code would check this.
+>
+>    Also maybe the cpu WC mapping mode would actually need to be a sub-mode
+>    for MEMORY_COHERENT, because all cpu wc achieves is to avoid the need to
+>    call dma_buf_begin/end_cpu_access, you would still need your devices to
+>    be memory coherent. And if they're not, then you cannot use that
+>    dma-buf.
+>
+>    Or maybe alternatively we need to guarantee that exporters which set
+>    MEMORY_COHERENT implement dma_buf_begin/end_device_access to make things
+>    work for these cpu-coherent but not memory-coherent devices. This
+>    becomes very tricky with device/arch/bus specific details I think.
+>
+> - DMA_API_COHERENT: The memory is allocated or mapped by the dma-api, and
+>    the exact coherency mode is not know. Importers _must_ braket all cpu
+>    and device access with the respective dma_buf functions. This is
+>    essentially the "we have no idea" default.
+>
+>    Note that exporters might export memory allocated with dma_map_alloc
+>    with MEMORY_COHERENT or CPU_COHERENT if they know how the memory exactly
+>    works. E.g. for most arm soc gpu/display drivers we can assume that the
+>    dma-api gives us MEMORY_COHERENT or CPU_COHERENT_WC, and just use that.
+>    Essentially this would make the current implicit assumptions explicit.
+>
+>    udmabuf would need to set this, definitely if Paul's patches to add the
+>    explicit device flushes land.
+>
+> - DEFAULT_COHERENT: This would be the backwards compat legacy yolo
+>    behvaior. I'm not sure whether we should alias that with
+>    DMA_API_COHERENT or leave it as a special value to mark exporters which
+>    haven't been updated for the much more explicit coherency handling yet.
+>
+>    The specification for this coherency mode would be a flat out "who
+>    knows, just don't break existing use-cases with actual users".
+>    Essentially the only reason we'd have this would be to make sure we can
+>    avoid regressions of these existing use-cases, by keeping whatever
+>    horrible heuristics we have in current exporters.
+>
+>    It would also allow us to convert exporters and importers on a case by
+>    case basis.
+>
+> Note that all these coherency modes are defined in terms of bus-sepecific
+> device access and in terms of dma_buf apis the importer must call or can
+> skip. This way we'd avoid having to change the dma-api in a first step,
+> and if this all works out properly we could then use the resulting dma-api
+> as a baseline to propose dma-api extensions.
 
-I agree, and I also vastly prefer f-strings everywhere(*) personally.
+When I read this for the first time my initial impression was that the 
+idea mostly looked good, but while thinking about it more and more I 
+came to the conclusion that this would go into the wrong direction.
 
-(*): However, for logging and logging-related APIs I had the impression
-that it was still canonical/recommended not to use f-strings since they
-are still going to get interpolated by the logging API -- which means if
-you use an f-string and the interpolated f-string results in a %
-anywhere your logging call will fail since it won't find the
-corresponding parameter in the argument list -- similar to using
-printf(buf); instead of printf("%s", buf); in C.
+Maybe I'm repeating myself, but I think we first of all have to talk a 
+bit about some aspects of coherency:
 
-In other words, the change in this patch is not (purely) a stylistic
-one, but also a correctness thing.
+1. Intra device coherency. This means that intra devices caches are 
+invalidated before beginning an operation and flushed before signaling 
+that an operation finished.
 
+2. Inter device and device to CPU coherency. This means that caches 
+which sit in between devices and between devices and the CPU need to be 
+invalidated and flushed appropriately when buffers are accessed by 
+different parties.
 
-Vegard
+Number 1 is device specific, part of the DMA-buf framework and handled 
+by dma_fences. As far as I can see that part is actually quite well 
+designed and I don't see any obvious need for change.
+
+Number 2 is platform specific and I completely agree with the DMA-api 
+folks that this doesn't belong into DMA-buf in the first place. That's 
+why I think the begin_cpu_access()/end_cpu_access() callbacks are 
+actually a bit misplaced. We still can use those in the exporter, but to 
+make better buffer placement decisions, but should not invalidate any 
+caches when they are called.
+
+The flushing and invalidation for platform caches should really be in 
+the DMA-buf framework and not the exporter.
+
+So in my thinking the enumeration you outlined above should really go 
+into struct device and explaining to everybody what the coherency 
+properties of DMA operations of this device is.
+
+> I think starting right out with designing dma-api extension is a few
+> bridges too far. Both from a "how do we convince upstream" pov, but maybe
+> even more from a "how do we figure out what we even need" pov.
+
+Well I totally agree on the "how do we figure out what we even need", 
+but I disagree a bit on that we don't know what DMA-api extension we need.
+
+We don't have the full picture yet, but as I already outlined from the 
+DMA-api pov we have two major things on our TODO list:
+
+1. Somehow remove the struct pages from the DMA-buf *importer* API.
+
+     My best suggestion at the moment for this is to split sg_tables 
+into two data structures, one for the struct pages and one for the DMA 
+addresses.
+
+     Mangling the addresses to ensure that no importer messes with the 
+struct pages was a good step, but it also creates problems when 
+dma_sync_sg_for_cpu() dma_sync_for_device() are supposed to be called.
+
+2. Add some dma_sync_sg_between_devices(A, B....).
+
+     And on this I think we are on the same page that we are going to 
+need this, but we are just not clear on who is going to use it.
+
+Regards,
+Christian.
+
+>
+>> Regards,
+>> Christian.
+>>
+>>
+>>
+>>
+>>
+>>> -Sima
+>> _______________________________________________
+>> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+>> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+
