@@ -1,60 +1,59 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A653312BF3C
-	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 09:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619D912BF2D
+	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 09:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707210434; cv=none; b=WfL4rvRWZeu6c4rZTztQD5tZWs/Up8lTDb7jSkiIC8z9/X/NPje9S5FyUPN28pxnLoVoBU8Wj14pZ/6zK2LJ8vemVC9/6ACGLdO4yIxdBiOAmAFLxeDFk9eCHshtGtXiKq60hYU3HDlEf4oqBym2CaEBL9FQKbxTj17F5o09buI=
+	t=1707211501; cv=none; b=FvDDqXaV1wiWVivKcPP0O9uwQXelzDgKWTzn0siooDgSUX105LD1HD8Kn6SI5ih97Br9IlLXdo0W3DwVT/xj+IwPH1Xl6IqDJqeovrgl+T/p3TSjFLuOFABtC2t3DL6pkvA2Df5rSJotW+F8WK/FdO4tkh+nmK732tdMbLj4zi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707210434; c=relaxed/simple;
-	bh=fnEctsruhnVWmql+TCSz11y0qzJmN4K1EeDPjcx04Vs=;
+	s=arc-20240116; t=1707211501; c=relaxed/simple;
+	bh=vOqlbdfxhcsaCnZ17fBY9oZbHfd19Xy/8LiZ75ANLJk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UPY2SKr1TVNkLDCqHdkwBrxgyGgE2sTh3miPIkTi0cK57fChbJHmTqlEp/oMjNegeUTKpQOHpende8onIDYNYuSkW7F/FcEdYDZLEwnXIOlYu+kqjPFRn+27y0i9msaYZm8VuiPRPAJoTZiVc/0EqttRt1VP/B+7/eEw3fxY5kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SBZK2Weg; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=rk+PdK700prsOZohXcv938SXF/QK03o600nxHZQdZJjea/iNNJJMDU48vtkJuz/jbbe4I1I2b+huQYuoTDZnHsOFQodjmjdzQriyRSoO4KEXCW0dXnhIkkXES3MgkXFnAZc03b1GVUtNoNTP+kd73C4tPRuKpWQWvHobigpRNiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=U2E+ab0L; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SBZK2Weg"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5101cd91017so7053901e87.2
-        for <linux-doc@vger.kernel.org>; Tue, 06 Feb 2024 01:07:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="U2E+ab0L"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d3ae9d1109so10960025ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Feb 2024 01:24:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707210431; x=1707815231; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1707211498; x=1707816298; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WM+y+UC/O88KwoIvUP7ztF2oIYBeAuZ8I4kYszkol04=;
-        b=SBZK2WegSlON9KbJe/eaicM2ZG1ZGJwG6v3Is7z/Y3lNWVy/DUigWr9R0a5/guxSLH
-         o9FeA71M266CLNQYKOF4YF9legQYslKW0sx0VtO4ZCo82lsxPFFTbXYXdqfa2guExN2t
-         FBM16eSTsMCjFg5n+duvQ9H55Igk6Mqwlja+RZ784kz+QKFVRG/ehZU6+/hcZpGB4/Gb
-         0tskeTMoi4ZBquo0kkbzH8Zb3ScVUN769CNKp64WIu7zDCMEx8MVMX+gyxMz7sjsovKI
-         IO7asHlDZIbsVK7AkgAWRs2fqK6dzQGqfw3JtlQgB8q6i1MBSzP7lrQjHz/3f6HsxVGd
-         WQFA==
+        bh=R8r9psvandqJ07ZF90QtVTVKq/Y9rSgNYXnuqiW3t60=;
+        b=U2E+ab0LtKrzNOoRX2m3paTMdRjtL4we5ZBamkWybh9/8nHanZCepDq0SJQXVq8yfZ
+         aUstvQxffwX3qgwyl2PJqi9MLO2DtTTiQD9hZDg13qJ2fA1BwxuRDGi1NB0DLszHcHm8
+         jFuJ4ILn8HbN/hMRR8eA+ix04FblP/fEiDDzYoswJq4kOKrwIpQ+uMegnT887NK+KqK/
+         6ZCK2mJBHQChQpY+fCV+EI+nUVhlJc3dpVkOZNEkGsSCzNzw+Lb7GYVb7lxOhJWbYSIv
+         dk6izRSThblN8EuuQONblfYl+776zkZYpk3qtkj+9CqfDOuclNzbMrZIwV1MRTTvLOZj
+         YiOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707210431; x=1707815231;
+        d=1e100.net; s=20230601; t=1707211498; x=1707816298;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WM+y+UC/O88KwoIvUP7ztF2oIYBeAuZ8I4kYszkol04=;
-        b=RV7eYflUgcGKyi+Pcha1tybHHuVHQEH1t07Qkulhr6PP0aewLk5K/4N8Q2CX+hGI/9
-         3GFzQoUqgYdWWCGt+EypOfU0jfI+L1GNiAzlh2++HsejOQ9ldNJPcsr/qDrJWfzVmDXs
-         QhuTh2XWudm7QCUfGpkNkf3w3OxZDrD7lw247nwj5yZ8GHAqDSq5YPSSG16Puwv2nMWy
-         Be6ceya64JgqQgRvETEttCo1C4QXyhMl9mWk8hj2rEpYzYntnRVqKGEI+L/LTTOThy2B
-         uHPM1x1TL78ztRAPGqqe8rGqBf+JK2oDKM9ulXeR3X9fpkDbdXzSesqDdU2L5ZklBOJp
-         2gUg==
-X-Gm-Message-State: AOJu0YxFffjLJEONS/iuI9R9/yOFmco2fmalu1BkVdYlK0pTt1rF0bNa
-	fgJ/bv1E9V39Z7As86xpwXssyhG8uppuO/djshg4MrldaW1vGqhiJaHin76ciQw1F8kL8Bs1nRP
-	lXUA=
-X-Google-Smtp-Source: AGHT+IEVtfeRspRLdAyLcxvAk3kbxLTxwqNrCZLbrhzZEIgx06XTFt+w7WRDO3WY1hTQdxiW0zJC/w==
-X-Received: by 2002:a05:6512:b8c:b0:510:1797:14dc with SMTP id b12-20020a0565120b8c00b00510179714dcmr1667466lfv.10.1707210430685;
-        Tue, 06 Feb 2024 01:07:10 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXDy6w5A1fvKBuSP6HcTwk/RZzZolXWXofV2m7S5vm8UINiI5mTxV9ZC0VhTGMIHCiENn328A+ii8rummc2TOQy89Ogc+5iB6YxljMe5ECt6nH0t3KHNEq06or3ZraISdd8DEgTRmdlt01b/Ki255Q9ifXNUA0eDj/q6ARUK+lZp4FYy5dNxDDs42hfwQojg6/2LgtC6VCxyXsmZnHPKi4BWOsjzFzFBGbt81fAfG3eGnHyuAkLbliS6Kj9SryKCs2b3UaL30Daikzqp6CfQU44ETz4YuAkkb8cRpB10UgGFkaS9Jr6H9gw8LiumaL+rjZXBl+kZ6ZaLwWsHfZTj+aogLmXs9bEJsPrqi4qluc8hrhNsoAoxX3yb/AdFuToz+4csCghG60H5XQyixUt
-Received: from [172.30.205.88] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id 14-20020ac2484e000000b005114a6cbc4dsm187169lfy.4.2024.02.06.01.07.08
+        bh=R8r9psvandqJ07ZF90QtVTVKq/Y9rSgNYXnuqiW3t60=;
+        b=L2ia/Ve1BKPk1G64ZAmLQ7OuwgmebAIICmlEJPbRb1+Ia0TrozharWQen5se58XXec
+         CS6qLHk9s91bIAjWCpNY267n7SGuYSOS8en7EMYd3x0uITudQyDJV43sTxM8r6/KmViA
+         5brZQPNxEKrOIGDv8KOk4+McZZN5zoSsEg11iR9Pv8iud4dbJhAuCezXHC6SFxr/oHVu
+         PCl32uEn+TaMg13imiLH+YLCxM8TcSvrd/G9LpWotQKsgo1365gIaLka3rWqM2ifwySv
+         hIg0goRjJmukdS9iUBdB39yzo4lvbTajK7hSYGztNRTe2vjm1PEDQwCL/Xq/bVGlFJEh
+         mYCA==
+X-Gm-Message-State: AOJu0YwQLFHBaLydfaznzJ4nAZN9p3upvg15JyUmWDjynymRysqfrsdu
+	8E6VnYywOZ+ahSYEbJrqkdF+LwN4uihC6HzGz5+euxCPHdZnfAphfvUtsNcVE4I=
+X-Google-Smtp-Source: AGHT+IEyWQ/Tdp7OhsXODjgzE6QvJ6i+EwJdHXr+0N64oDh9My4/IcabB4BRaQg/teyOL6XTGHR9kg==
+X-Received: by 2002:a17:902:ec8a:b0:1d5:efd6:20f with SMTP id x10-20020a170902ec8a00b001d5efd6020fmr2289192plg.1.1707211497690;
+        Tue, 06 Feb 2024 01:24:57 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVIzuoQFU0lBMGRFz1/ZSjCVIWe8aszIpAeYlO3KU1WZQl34maPzJhby59uoO5k/xzRpgCtChE/GKINEO8rM/E1wJK3Ax51vo5U//jFZX2EaiGBDyItOewtQUJiKRGkkpGgZx5+hmYdHoe32vv7taCW7lm6dMLE/js1Z72YtPzRlDfFRFoGkLPtMuxBoXG1qiXeM07GDdbPhxaCLZE5GFGx4DMY/ThoDDO4awnE56qoXpnpW5/cOpA52OhOUPU3ZfTP5XgyBK9TQcCz3zeloPa1X06MXACOAHyfNo9TZQsKcsw3uBPnGu2v2eTAYjLREFJvqZ+pyrZo8SOaY0K8cZ7DLofWFWA=
+Received: from ?IPV6:2a01:e0a:999:a3a0:20a2:d2ee:941a:156e? ([2a01:e0a:999:a3a0:20a2:d2ee:941a:156e])
+        by smtp.gmail.com with ESMTPSA id ky12-20020a170902f98c00b001d8a80cbb15sm1353566plb.238.2024.02.06.01.24.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 01:07:10 -0800 (PST)
-Message-ID: <8189e50a-290c-494d-af42-a954a5d231ea@linaro.org>
-Date: Tue, 6 Feb 2024 10:07:07 +0100
+        Tue, 06 Feb 2024 01:24:57 -0800 (PST)
+Message-ID: <32cfb8d2-7ea1-44da-8739-2cbe2b597b60@rivosinc.com>
+Date: Tue, 6 Feb 2024 10:24:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,36 +61,163 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] Add support for QoS configuration
-To: Odelu Kukatla <quic_okukatla@quicinc.com>, djakov@kernel.org
-Cc: rafael@kernel.org, corbet@lwn.net, linux-pm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- quic_viveka@quicinc.com, peterz@infradead.org, quic_mdtipton@quicinc.com,
- linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org
-References: <20240205145606.16936-1-quic_okukatla@quicinc.com>
+Subject: Re: [PATCH] riscv: hwprobe: export VA_BITS
+To: Jessica Clarke <jrtc27@jrtc27.com>, Stefan O'Rear <sorear@fastmail.com>
+Cc: Charlie Jenkins <charlie@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ linux-doc@vger.kernel.org, linux-riscv <linux-riscv@lists.infradead.org>,
+ linux-kernel@vger.kernel.org, Robin Ehn <rehn@rivosinc.com>
+References: <20240201140319.360088-1-cleger@rivosinc.com>
+ <ZbxUUsKdKIPI8Fb/@ghost> <701d3350-93d3-4235-aaf7-04c6492420a7@rivosinc.com>
+ <5657c211-531b-4890-8c52-182b7b4eae7c@app.fastmail.com>
+ <5A2420B9-6039-445B-B2C3-77F13EDD77BA@jrtc27.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20240205145606.16936-1-quic_okukatla@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <5A2420B9-6039-445B-B2C3-77F13EDD77BA@jrtc27.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
 
-On 2/5/24 15:56, Odelu Kukatla wrote:
-> This series adds QoS support for QNOC type device which can be found on
-> SC7280 platform. It adds support for programming priority,
-> priority forward disable and urgency forwarding. This helps in
-> priortizing the traffic originating from different interconnect masters
-> at NOC(Network On Chip).
+On 04/02/2024 01:22, Jessica Clarke wrote:
+> On 3 Feb 2024, at 10:40, Stefan O'Rear <sorear@fastmail.com> wrote:
+>>
+>> On Fri, Feb 2, 2024, at 3:22 AM, Clément Léger wrote:
+>>> On 02/02/2024 03:32, Charlie Jenkins wrote:
+>>>> On Thu, Feb 01, 2024 at 03:02:45PM +0100, Clément Léger wrote:
+>>>>> Some userspace applications (OpenJDK for instance) uses the free bits
+>>>>> in pointers to insert additional information for their own logic.
+>>>>> Currently they rely on parsing /proc/cpuinfo to obtain the current value
+>>>>> of virtual address used bits [1]. Exporting VA_BITS through hwprobe will
+>>>>> allow for a more stable interface to be used.
+>>>>
+>>>> mmap already supports this without a need for applications to know the
+>>>> underlying hardware. If a hint address is passed into mmap, it will never
+>>>> return an address that uses more bits than the hint address. I designed
+>>>> it that way so that something like this wasn't necessary.
+>>>
+>>> Ok even though probing this kind of thing is probably not what mmap is
+>>> meant to do. IMHO, probing this through the regular hwprobe interface is
+>>> probably more coherent but maybe Robin (which needs this information)
+>>> can rely on that.
+>>
+>> Both of these are useful, separately and in conjunction.
+>>
+>> hwprobe allows applications which can adapt to different VA sizes to learn
+>> which is in use prior to allocating memory.
+>>
+>> mmap hints allow applications which require a fixed limit on the VA size to
+>> express that limit at the point of requirement, the hint can be set based on
+>> the hwprobe result to explicitly indicate its use.
 > 
-> Changes in v2:
->   - Updated regmap_update to make use GENMASK and FIELD_PREP.
->   - Removed the regmap structure from qcom_icc_node.
->   - Made qcom_icc_rpmh_configure_qos() static
->   - Removed qcom_icc_rpmh_map() API, inlined the code in probe
->     function.
->   - Updated declarations to reverse christmas tree fashion.
+> Neither is an architecture-specific concept though. If you want to
+> expose a notion of VA bits to userspace then it should probably be done
+> in a more generic manner than the RISC-V-specific hwprobe syscall,
+> probably as two numbers, low and high bits (ia64’s regions may be gone,
+> but sparc64 still has both halves of the address space presented to
+> userspace, with the stack in high/negative memory).
 
-You ignored some of my previous review comments without a response.
+Agreed, this is not architecture specific. The initial goal was to
+expose SVxx extensions which are hardware specific but it seemed wrong
+since this is some S-mode extension. But maybe we can go back with
+exposing these extensions rather than VA_BITS.
 
-Konrad
+If exposing VA_BITS is still  useful for other architectures, maybe
+exposing a mask of "used" bits could be more flexible. Which mechanism
+to use to expose that is another problem. sysconf() might be a good fit
+since it already exposes page size.
+
+Clément
+
+> 
+> Jess
+> 
+>> -s
+>>
+>>> Clément
+>>>
+>>>>
+>>>> - Charlie
+>>>>
+>>>>>
+>>>>> Link: https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/linux_riscv/vm_version_linux_riscv.cpp#L171 [1]
+>>>>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+>>>>>
+>>>>> ---
+>>>>> Documentation/arch/riscv/hwprobe.rst  | 3 +++
+>>>>> arch/riscv/include/asm/hwprobe.h      | 2 +-
+>>>>> arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+>>>>> arch/riscv/kernel/sys_hwprobe.c       | 3 +++
+>>>>> 4 files changed, 8 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+>>>>> index b2bcc9eed9aa..6f198c6ed4f0 100644
+>>>>> --- a/Documentation/arch/riscv/hwprobe.rst
+>>>>> +++ b/Documentation/arch/riscv/hwprobe.rst
+>>>>> @@ -210,3 +210,6 @@ The following keys are defined:
+>>>>>
+>>>>> * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+>>>>>   represents the size of the Zicboz block in bytes.
+>>>>> +
+>>>>> +* :c:macro:`RISCV_HWPROBE_KEY_VA_BITS`: An unsigned long which
+>>>>> +  represent the number of bits used to store virtual addresses.
+>>>>> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
+>>>>> index 630507dff5ea..150a9877b0af 100644
+>>>>> --- a/arch/riscv/include/asm/hwprobe.h
+>>>>> +++ b/arch/riscv/include/asm/hwprobe.h
+>>>>> @@ -8,7 +8,7 @@
+>>>>>
+>>>>> #include <uapi/asm/hwprobe.h>
+>>>>>
+>>>>> -#define RISCV_HWPROBE_MAX_KEY 6
+>>>>> +#define RISCV_HWPROBE_MAX_KEY 7
+>>>>>
+>>>>> static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+>>>>> {
+>>>>> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+>>>>> index 9f2a8e3ff204..2a5006cddb7b 100644
+>>>>> --- a/arch/riscv/include/uapi/asm/hwprobe.h
+>>>>> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+>>>>> @@ -67,6 +67,7 @@ struct riscv_hwprobe {
+>>>>> #define RISCV_HWPROBE_MISALIGNED_UNSUPPORTED (4 << 0)
+>>>>> #define RISCV_HWPROBE_MISALIGNED_MASK (7 << 0)
+>>>>> #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE 6
+>>>>> +#define RISCV_HWPROBE_KEY_VA_BITS 7
+>>>>> /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+>>>>>
+>>>>> /* Flags */
+>>>>> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+>>>>> index a7c56b41efd2..328435836e36 100644
+>>>>> --- a/arch/riscv/kernel/sys_hwprobe.c
+>>>>> +++ b/arch/riscv/kernel/sys_hwprobe.c
+>>>>> @@ -202,6 +202,9 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+>>>>> if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
+>>>>> pair->value = riscv_cboz_block_size;
+>>>>> break;
+>>>>> + case RISCV_HWPROBE_KEY_VA_BITS:
+>>>>> + pair->value = VA_BITS;
+>>>>> + break;
+>>>>>
+>>>>> /*
+>>>>>  * For forward compatibility, unknown keys don't fail the whole
+>>>>> -- 
+>>>>> 2.43.0
+>>>>>
+>>>>>
+>>>>> _______________________________________________
+>>>>> linux-riscv mailing list
+>>>>> linux-riscv@lists.infradead.org
+>>>>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>>>
+>>> _______________________________________________
+>>> linux-riscv mailing list
+>>> linux-riscv@lists.infradead.org
+>>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>>
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> 
+> 
