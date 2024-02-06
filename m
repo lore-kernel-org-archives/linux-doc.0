@@ -1,192 +1,125 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001A8131752
-	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 14:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ED31E4BE;
+	Tue,  6 Feb 2024 14:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707230441; cv=none; b=nVnLKdFpPds5MyLD3nqrylEDCnlt/73quUt6e6fuf84lgpzSDGALvjwCebk077MviPp96BIMRpBdeUZ+cQ1MoNArlAwtJ1RPmdKwq46mv6HuH/h4L8u53W3hnsNthsrlmh6bySwF1FbB0/HWye42UYZ7pJagP/c8Ewq+H6ZGMBE=
+	t=1707231024; cv=none; b=ZLq5JClHXDOvF1O4Phd791iZAht+njlIPCDlOY+ehsD3ylI/X/0mQ+ItgNPZcfvDz7O6mao99iddl8yNnfRrhstupKLT5oFcsOnu1DLu2EauVPobJm14cmodz+2WaJPW27tGZpxGqiYlvfvhSD6ieSF7dcQPdgsT02SAvkZuuWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707230441; c=relaxed/simple;
-	bh=GyTTCLyaqdUATclQ53aQcWLFdER8rzwtEcSb0y8DF0k=;
+	s=arc-20240116; t=1707231024; c=relaxed/simple;
+	bh=TRNOZ2E0jVFr1j4Jk3WeOB19Tmkl0WCO11cXpH5xx0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hd3pN6IQGxEkWcZmmXrIuVPZDgkM9Yabxh9ipm3sKPi/sMtG3Dhi0zXKyRmZLG5KGmiskxHutCB1WZI0bkczdiKCtFE0qXqLBbCK2LN2bNI+ZeItIRrZrhDy8BHheN8f2ZKBgAJENu7gyc2DCC3GDPhsB3Dc1irZZbFUiF4VPFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rXMcd-0003xc-Ql; Tue, 06 Feb 2024 15:40:27 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rXMcY-004qRv-6e; Tue, 06 Feb 2024 15:40:22 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rXMcY-00EFqp-0E;
-	Tue, 06 Feb 2024 15:40:22 +0100
-Date: Tue, 6 Feb 2024 15:40:22 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Alexander Graf <graf@amazon.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org, x86@kernel.org,
-	Eric Biederman <ebiederm@xmission.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	James Gowans <jgowans@amazon.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v3 00/17] kexec: Allow preservation of ftrace buffers
-Message-ID: <ZcJE1qQy29lR42-G@pengutronix.de>
-References: <20240117144704.602-1-graf@amazon.com>
- <ZcHrIJ7lxpbkm5sc@pengutronix.de>
- <c7157097-4727-4360-80a0-20e7d8015e13@amazon.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uLehfM0Tm/ri9VGKbGbGne2qY3konLpMXzCtKnFbP9yzWeW0U0FzFJxCWO66irpNJkCcjfDyygqDAwn/qIP+50BiBOmG8pjNAM8SehKqoX9T+a3NaDuqpyaE7Bji0aCzRlMDD5fC6JW6TKxyuWWVGRGTxU0xKrVXzjiyJVE053w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kLFOOydV; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kLFOOydV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 742AAC433C7;
+	Tue,  6 Feb 2024 14:50:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707231024;
+	bh=TRNOZ2E0jVFr1j4Jk3WeOB19Tmkl0WCO11cXpH5xx0c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kLFOOydVz8hY/tZlvFGGUr5yxRLIh5a3MMj5zIRocdMkLDC1jdALkpy9OA3M9F8lD
+	 uRpBnMXQLY+8ovJ86Mu/N+WBHiVZCawbZRCXM749gkLpVYkyUjNoqP4OZx2B7X+6le
+	 95uqhpXCNWzr+Hy9rLJ6CQwMVmoMMdIisEZbF31o=
+Date: Tue, 6 Feb 2024 14:50:21 +0000
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+	corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, Thinh.Nguyen@synopsys.com,
+	broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
+	robh+dt@kernel.org, konrad.dybcio@linaro.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH v13 32/53] ALSA: usb-audio: Check for support for
+ requested audio format
+Message-ID: <2024020617-limb-name-f852@gregkh>
+References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
+ <20240203023645.31105-33-quic_wcheng@quicinc.com>
+ <87wmrhvir7.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c7157097-4727-4360-80a0-20e7d8015e13@amazon.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <87wmrhvir7.wl-tiwai@suse.de>
 
-On Tue, Feb 06, 2024 at 02:43:15PM +0100, Alexander Graf wrote:
-> Hey Oleksij!
-> 
-> On 06.02.24 09:17, Oleksij Rempel wrote:
-> > Hi Alexander,
+On Tue, Feb 06, 2024 at 02:12:44PM +0100, Takashi Iwai wrote:
+> On Sat, 03 Feb 2024 03:36:24 +0100,
+> Wesley Cheng wrote:
 > > 
-> > Nice work!
+> > Allow for checks on a specific USB audio device to see if a requested PCM
+> > format is supported.  This is needed for support when playback is
+> > initiated by the ASoC USB backend path.
 > > 
-> > On Wed, Jan 17, 2024 at 02:46:47PM +0000, Alexander Graf wrote:
-> > > Make sure to fill ftrace with contents that you want to observe after
-> > > kexec.  Then, before you invoke file based "kexec -l", activate KHO:
-> > > 
-> > >    # echo 1 > /sys/kernel/kho/active
-> > >    # kexec -l Image --initrd=initrd -s
-> > >    # kexec -e
-> > > 
-> > > The new kernel will boot up and contain the previous kernel's trace
-> > > buffers in /sys/kernel/debug/tracing/trace.
-> > Assuming:
-> > - we wont to start tracing as early as possible, before rootfs
-> >    or initrd would be able to configure it.
-> > - traces are stored on a different device, not RAM. For example NVMEM.
-> > - Location of NVMEM is different for different board types, but
-> >    bootloader is able to give the right configuration to the kernel.
+> > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 > 
+> Just cosmetic:
 > 
-> Let me try to really understand what you're tracing here. Are we talking
-> about exposing boot loader traces into Linux [1]? In that case, I think a
-> mechanism like [2] is what you're looking for.
+> > +struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+> > +			struct snd_pcm_hw_params *params, int direction)
+> > +{
+> > +	struct snd_usb_audio *chip;
+> > +	struct snd_usb_substream *subs;
+> > +	struct snd_usb_stream *as;
+> > +	const struct audioformat *fmt;
+> > +
+> > +	/*
+> > +	 * Register mutex is held when populating and clearing usb_chip
+> > +	 * array.
+> > +	 */
+> > +	mutex_lock(&register_mutex);
+> > +	chip = usb_chip[card_idx];
+> > +	if (!chip) {
+> > +		mutex_unlock(&register_mutex);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	if (enable[card_idx]) {
+> > +		list_for_each_entry(as, &chip->pcm_list, list) {
+> > +			subs = &as->substream[direction];
+> > +			fmt = snd_usb_find_substream_format(subs, params);
+> > +			if (fmt) {
+> > +				mutex_unlock(&register_mutex);
+> > +				return as;
+> > +			}
+> > +		}
+> > +	}
+> > +	mutex_unlock(&register_mutex);
 > 
-> Or do you want to transfer genuine Linux ftrace traces? In that case, why
-> would you want to store them outside of RAM?
-
-The high level object of what i need is to find how embedded systems in
-fields do break. Since this devices should be always on, there are
-different situations where system may reboot. For example, voltage
-related issues, temperature, scheduled system updates, HW or SW errors.
-
-To get better understand on what is going on, information should be
-collected. But there are some limitations:
-- voltage drops can be recorder only with prepared HW:
-  https://www.spinics.net/lists/devicetree/msg644030.html
-
-- In case of voltage drops RAM or block devices can't be used. Instead,
-  some variant of NVMEM should be used. In my case, NVMEM has 8 bits of
-  storage :) So, only one entry of the "trace" is compressed to this storage.
-  https://lore.kernel.org/all/20240124122204.730370-1-o.rempel@pengutronix.de
-  The reset reason information is provide by kernel and used by firmware
-  and kernel on next reboot
-
-The implementation is not a big deal. The problematic part is the way
-how the system should get information about existence of recorder and
-where the recorder should stored things, for example NVMEM cell.
-
-In my initial implementation I used devicetree to configure the software
-based recorder and linked it with NVMEM cell. But it is against the DT
-purpose to describe only HW and it makes this recorder unusable for
-not DT basd systems.
-
-Krzysztof is suggesting to configure it from initrd. This has own
-limitations as well:
- - record can't be used before initrd.
- - we have multiple configuration point of board specific information - 
-   firmware (bootloader) and initrd.
- - initrd take place and reduce boot time for device which do not needed
-   it before.
-
-Other variants like kernel command-line and/or module parameters seems
-to be not acceptable depending maintainer. So, I'm still seeking
-proper, acceptable, portable way to hand over not HW specific
-information to the kernel.
-
-> > What would be the best, acceptable for mainline, way to provide this
-> > kind of configuration? At least part of this information do not
-> > describes devices or device states, this would not fit in to devicetree
-> > universe. Amount of possible information would not fit in to bootconfig
-> > too.
+> I prefer having the single lock/unlock call pair, e.g.
 > 
+> 	struct snd_usb_stream *as, *ret;
 > 
-> We have precedence for configuration in device tree: You can use device tree
-> to describe partitions on a NAND device, you can use it to specify MAC
-> address overrides of devices attached to USB, etc etc. At the end of the day
-> when people say they don't want configuration in device tree, what they mean
-> is that device tree should be a hand over data structure from firmware to
-> kernel, not from OS integrator to kernel :). If your firmware is the place
-> that knows about offsets and you need to pass those offsets, IMHO DT is a
-> good fit.
-
-Yes, the layout of the NVMEM can be described in the DT. How can I tell
-the system that this NVMEM cell should be used by some recorder or
-tracer? Before sysfs is available any how. @Krzysztof ?
-
-> > Other more or less overlapping use case I have in mind is a netbootable
-> > embedded system with a requirement to boot as fast as possible. Since
-> > bootloader already established a link and got all needed ip
-> > configuration, it would be able to hand over etherent controller and ip
-> > configuration states. Wille be the KHO the way to go for this use case?
+> 	ret = NULL;
+> 	mutex_lock(&register_mutex);
+> 	chip = usb_chip[card_idx];
+> 	if (chip && enable[card_idx]) {
+> 		list_for_each_entry(as, &chip->pcm_list, list) {
+> 			subs = &as->substream[direction];
+> 			if (snd_usb_find_substream_format(subs, params)) {
+> 				ret = as;
+> 				break;
+> 			}
+> 		}
+> 	}
+> 	mutex_unlock(&register_mutex);
+> 	return ret;
+> }
 > 
-> 
-> That's an interesting one too. I would lean towards "try with normal device
-> tree first" here as well. It's again a very clear case of "firmware wants to
-> tell OS about things it knows, but the OS doesn't know" to me. That means
-> device tree should be fine to describe it.
+> In this case, we shouldn't reuse "as" for the return value since it
+> can be non-NULL after the loop end.
 
-I can imagine description of PHY and MAC state. But IP configuration
-state of the firmware seems to be out of DT scope?
+Why not just use guard(mutex) for this, making it all not an issue?
 
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+thanks,
+
+greg k-h
