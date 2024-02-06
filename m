@@ -1,107 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8E812E1FF;
-	Tue,  6 Feb 2024 10:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7315C90C
+	for <linux-doc@vger.kernel.org>; Tue,  6 Feb 2024 10:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707214653; cv=none; b=izTueArmWkbkSs1PriPOIQXbNdcfX7R603mmxi4muacpfMdq59imdo8rPZW3zsCmz8zG46P85V0F9gLibEsCK6oFfBuCG4rUcupP2a/8LQswBu6bdIf/7K0uWzqs1Cyyvh7Al7prtr/2MnOOw2DuxNOfdnVZvC4H81eN2aPyNnA=
+	t=1707217017; cv=none; b=lEC6sx59OnaHo6u9RQOWgGawTMXbO8UT32qTzXhLUy1lA3/x07xR2XzxVYZB96GToxHqmwIYNELHQifvy9oVGpHteYj9dRnjcz6fT4PCpINvMC5K0l7hGiuHRWRdvOEWN/a+/NWHAcvztojBtcuJKDSHArfCpgkE8b8hUB3RszE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707214653; c=relaxed/simple;
-	bh=oFoZrkj5hSrIBFV+8cbsdJVafz0I/YimdsJSybYVGUU=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Pp8KoKaG6zJhO8MrwN/93MUfuYTViEI8Q3xa5QOpPT0r5kQhR2QK/5pLqa5rjf7SraUGIPooTcOoEbV7L5g5PSI164cfGlgbIm7wg7mMBJahgJ1P+NN6BuNGQ5lpzGgyHe+CQZ3sYdTb4l4Vv3cvepea0KpUEA/O4Q7b9E9JF4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arNQsvqK; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707217017; c=relaxed/simple;
+	bh=8vOg9PtERGFIzxGfr1uQ777xA4qgfnvqvPqJZtaB7dA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TRVjYc4PGGRXMVrx9ypRADRdFBmGLmHLC9bfSFj3WFnTrPzhBrGsFs9qkFxR0EqIHWsj/MCQut/JEV0sqghq1Hcij8kH60W5I3WNJm+pwJ9i46tPDHFC4GLU8WdEKKPZ8HBJPrR5htOP7JsL3HNJsTWv0x7bt34DOE783SjzKok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YIe+sRjB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arNQsvqK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707214652; x=1738750652;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=oFoZrkj5hSrIBFV+8cbsdJVafz0I/YimdsJSybYVGUU=;
-  b=arNQsvqKFtxvVlGwurx9mvshXf4lynhj1u+LpJHsdQIQte900VQhzFiS
-   0gdxqJlRAne5eFpFZS77VP6j+uonyFBawMHDe8+TUEmbps8hq9GdzZ6uR
-   pLHGydRort8XimIwGWKts4z5WKnPCFMPuJvcaLR1xhLrrTdtr4fwBA1tJ
-   rseS/IVV+4v7gVSFS42VlXR58pNgu0fhy2zTn9hHdjiiea2Jqj4Ij45Fu
-   97YoWjfNSiOBNEREpvEcG/y0nQyEdkz1lYKv6jscgfzJXcLswCNAZs/x9
-   Qd3nzXjH8P9SJPzdKyyOHSik1K0kTRPC2RSojDXSwJqd9d+LAeQNpyKQy
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="18233866"
-X-IronPort-AV: E=Sophos;i="6.05,246,1701158400"; 
-   d="scan'208";a="18233866"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 02:17:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,246,1701158400"; 
-   d="scan'208";a="976750"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.246.36.139])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 02:17:24 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 6 Feb 2024 12:17:21 +0200 (EET)
-To: Maximilian Luz <luzmaximilian@gmail.com>, Ivor Wanders <ivor@iwanders.net>
-cc: Guenter Roeck <linux@roeck-us.net>, Hans de Goede <hdegoede@redhat.com>, 
-    Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-    Mark Gross <markgross@kernel.org>, linux-hwmon@vger.kernel.org, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] platform/surface: aggregator_registry: add entry
- for fan speed
-In-Reply-To: <6659d49c-4a70-1a92-2a76-ce7144fed50c@linux.intel.com>
-Message-ID: <f79f050d-708d-a9c3-fb6d-b06e046603c3@linux.intel.com>
-References: <20240131005856.10180-1-ivor@iwanders.net> <20240131005856.10180-3-ivor@iwanders.net> <7e392c1e-2cb2-43e4-804e-227551ed2dd7@roeck-us.net> <8552a795-9ce4-417a-bc71-593571a6b363@gmail.com> <6659d49c-4a70-1a92-2a76-ce7144fed50c@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YIe+sRjB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707217014;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NOcDAAfRrdOruM3vQufk8xXSJsuXJBYipbiUl5Fyob4=;
+	b=YIe+sRjBNCDAfrjVzyEvzF2qN8h6BeUU4xtCf9NL2kRbJYz0EuJzlvQeb1Sdg4jO7ZD+9C
+	0OULE6yJTsD6UX0fzCmfYzESba8TdfvNIyVBNaGEG3pqvojMg9a953awTudYTE1Z9LNIsM
+	vkEz+1tk2gNoD/7B4E957R4LNxdSg+4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-66-xktzKIJNNXCzY4JELiCkXQ-1; Tue, 06 Feb 2024 05:56:51 -0500
+X-MC-Unique: xktzKIJNNXCzY4JELiCkXQ-1
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-68ca5f30b20so18523516d6.2
+        for <linux-doc@vger.kernel.org>; Tue, 06 Feb 2024 02:56:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707217011; x=1707821811;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NOcDAAfRrdOruM3vQufk8xXSJsuXJBYipbiUl5Fyob4=;
+        b=TJq4MXwUmgHR7vwUQPZkBLvNiwb4ruihcpFko6Yr28wMdem9rKgEkheb1Ilq/uevg3
+         Uy8V14ExqNoqnN6FXBd0L57x6choZJXaxY9YIY9gPQsa8v7O8kcXx0Z+tIsQ8jMhSElT
+         dFNs71hr+swROoDIFJEfpBzRRsVGv7Ke3GsqnhlBylyjnBbF3I9Pc1ow+v7e42AYviHY
+         MdUYLmzgzp9nogA6Av9e0RODYSrn3DE0wcJEbBCJ3pWKcOyYoQyu+CjULX3Ke8iWwPoO
+         zh+FGfumhWuTyTK9nycHoJ7Wyv+5PXjdI7MgfStetM369kw3QvGfQnPpJGTbPo/PxgQ1
+         ErRA==
+X-Gm-Message-State: AOJu0Ywy7VCdNme2/CO4TwXVPCdHFnD9q6qRAMBb7sGCkmtyuOXGyfZV
+	50CUN+gxeMVTj61eq2oHDN8Xioz4BVpNIjzdL7rTRBcmAaiMTq2qt3bDE59pAkIK0EquCjzz+xy
+	4MBrL7qdK676eCx+aU+hb8extICqJMNtgxOOysg/4ottnnuxcP7rRXjdO
+X-Received: by 2002:a05:6214:21e9:b0:680:f8d2:c828 with SMTP id p9-20020a05621421e900b00680f8d2c828mr2323848qvj.16.1707217010848;
+        Tue, 06 Feb 2024 02:56:50 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGhff2DlHZd/ZEK5FY5fiFC/T9Pyc4sJSO0MZ/TglPCHuCL3o0cMWVg9QtToY7v6Z+KW8fOWg==
+X-Received: by 2002:a05:6214:21e9:b0:680:f8d2:c828 with SMTP id p9-20020a05621421e900b00680f8d2c828mr2323839qvj.16.1707217010625;
+        Tue, 06 Feb 2024 02:56:50 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUy6sn6pHYdmwklCBeIPLcmA1sdU6HtNEqv2vI89wRaRuOTRoeDVvkMZSTi8k4LvKuQ+uw3wya3VWjclc935+MWSLQ1FLMXeUPsNKCqJwqo0N6g9CaWIXEbpHIvFW4hY7hdrx/83/UaLEwREYUxlSfIj5OurBwqw55BcvAuQ+neLuoy4C+Z+fIT9uVzHZvhMc9Sz4UEcu6C+LqYKemieSEGBzAP8IaKN126K1tr1tdC4NdMTGdm8oh6aM6Phr+EB36wRQfo/rv0tJjtyfcAZEnIX73Z08xwdYPfFImmhKT+pjVQWpQmPMlEnwVxqnnVrD4ZhbO4AMKT0PFYi1Oki6vJ+bbj
+Received: from klayman.redhat.com (net-2-34-24-75.cust.vodafonedsl.it. [2.34.24.75])
+        by smtp.gmail.com with ESMTPSA id hf15-20020a0562140e8f00b0068c95b634d3sm909547qvb.11.2024.02.06.02.56.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Feb 2024 02:56:50 -0800 (PST)
+From: Marco Pagani <marpagan@redhat.com>
+To: Moritz Fischer <mdf@kernel.org>,
+	Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Tull <atull@opensource.altera.com>
+Cc: Marco Pagani <marpagan@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fpga@vger.kernel.org
+Subject: [RFC PATCH 0/1] fpga: bridge improve protection against low-level control module unloading
+Date: Tue,  6 Feb 2024 11:56:43 +0100
+Message-ID: <20240206105644.41185-1-marpagan@redhat.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-2118278718-1707214641=:1141"
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This RFC proposes a solution to keep protecting the fpga bridge against
+the unloading of the low-level control modules while addressing the
+limitations of the current implementation. Currently, the code assumes
+that the low-level module registers a driver for the parent device that
+is later used to take the module's refcount. This proposal removes this
+limitation by adding a module owner field to the fpga_bridge struct that
+can be set while registering the bridge.
 
---8323328-2118278718-1707214641=:1141
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+The RFC patch is based on top of ("fpga: remove redundant checks for
+bridge ops").
 
-On Thu, 1 Feb 2024, Ilpo J=E4rvinen wrote:
+https://lore.kernel.org/linux-fpga/20240201155713.82898-1-marpagan@redhat.com/
 
-> On Wed, 31 Jan 2024, Maximilian Luz wrote:
->=20
-> > Am 1/31/2024 um 2:24 PM schrieb Guenter Roeck:
-> > > On Tue, Jan 30, 2024 at 07:58:56PM -0500, Ivor Wanders wrote:
-> > > > Add an entry for the fan speed function.
-> > > > Add this new entry to the Surface Pro 9 group.
-> > > >=20
-> > > > Signed-off-by: Ivor Wanders <ivor@iwanders.net>
-> > > > Link: https://github.com/linux-surface/kernel/pull/144
-> > > > Reviewed-by: Maximilian Luz <luzmaximilian@gmail.com>
-> > >=20
-> > > I wasn't sure if the Reviewed-by: tag means that I should apply the p=
-atch
-> > > through the hwmon subsystem. If so, please let me know. For now I'll
-> > > assume that it will be applied through a platform tree.
-> >=20
-> > I think it would make more sense for it to go through pdx86 (as usual
-> > for platform/surface). That would avoid any potential merge conflicts
-> > if we get more changes to the surface_aggregator_registry later on.
-> >=20
-> > Hans, Ilpo, could you please take this?
-> >=20
-> > Also I just noticed that Ilpo wasn't CCd, I assume because of an older
-> > MAINTAINERS list. Ivor, please add him for any next submissions to
-> > platform/surface.
->=20
-> Okay, thanks for letting me know (I assumed the opposite). I'll take it=
-=20
-> through pdx86.
+Marco Pagani (1):
+  fpga: bridge: improve protection against low-level control module
+    unloading
 
-Patch 2/2 applied to review-ilpo.
+ Documentation/driver-api/fpga/fpga-bridge.rst |  7 ++-
+ drivers/fpga/fpga-bridge.c                    | 61 +++++++++++--------
+ include/linux/fpga/fpga-bridge.h              | 10 ++-
+ 3 files changed, 47 insertions(+), 31 deletions(-)
 
---=20
- i.
+-- 
+2.43.0
 
---8323328-2118278718-1707214641=:1141--
