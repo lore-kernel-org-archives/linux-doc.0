@@ -1,214 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF98713666F;
-	Wed,  7 Feb 2024 17:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C7112D761
+	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 18:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707328769; cv=none; b=I6cVb0ZrSHFCKZphI/Wc5NXta+qs5duu/XT9teNBcT4jbZnxP1AD7GubBnZXEF8PO6jsj22NBfgddfcdaF5x4geJtjaWnMwFQ6FTfrXiLQIvgMCjLlCufuduEFiL8za3LF4vTmdNC1iFNPPW6IbBG0OfVWSVZio76mLDBoxAM8o=
+	t=1707331413; cv=none; b=tX0g+jcayr5wmRziPrX/7VNyTx01D+IgMELKO17D7BnK4EHQSoO97GcgccvGweiR7856JfbmfOIZjC65vvgWmWzigm/2F0cDIMKUBxFyJ/My42/FjbiaOmUvcUyv0ZoIXMvwPWqOKsx1sp+USyDQBGFuD1dWqilUybZsamn0pjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707328769; c=relaxed/simple;
-	bh=WIt9o4OjjawnuBTk8GUkaHPSrfrC5St66G3/Ao7RYxg=;
+	s=arc-20240116; t=1707331413; c=relaxed/simple;
+	bh=uB3EFp1QO1hexwLLVQgbTObbWoAfnWMVl1AIy0DdRhs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dH2wJurC6EWjhQnfYXovyck33UiMvvLMCqjFfy0EcYBfzr+UF87jv50AatL25z93yB0kUPjHYDFO1WB0bJDqs3hI/gJI09fGyCLX7D7/zInsufuvE8FvBX7kb0XghykObddvgNBhIgByJY40T6dlEswmYyXUy+X0Sk4srv5JQc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=chL9Ufci; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="chL9Ufci"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707328764; x=1738864764;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=WIt9o4OjjawnuBTk8GUkaHPSrfrC5St66G3/Ao7RYxg=;
-  b=chL9UfciYEARhNzX3RpIWqvj6D4+Cnpcafj3AB/BPc3oxcDptRjjl6cu
-   guPU1fd9LGA6Cl1RRETA9EmbOf8cXnPE0WvRPyIltZgTMmjcyIXsE9Fe1
-   Jr+sT/aJStSvzJQkTtpsOIwktbE5Da2x4cbGthkhLRV+srKU0BpCfwuIq
-   Q5eBOoTPKmqGUBoXN+IoOTtpRSN8KgiRnxrCVbHWfpsfewxtYxcs+TA8l
-   plkWyXqB7o335G2i7E1kAImTYsjH0GwMp2HyNXx23bXIDT983fN6fPMN1
-   lMv7yQ8OHis7KzyhuOgxUfauGSyD4kp7jNWyn/aMqgQS8M/dblou0BKOl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="11622692"
-X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="11622692"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 09:59:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
-   d="scan'208";a="6020771"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Feb 2024 09:58:59 -0800
-From: Xin Li <xin3.li@intel.com>
-To: linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
+	 MIME-Version:Content-Type; b=abgPoObhGzpqyAl2DcIJwqSaL2A5LGk18PwupvQMJh0Ru1uMQRcQ8KGX9Hz5EhLUQvi7t4MYEnnuU4Fs6roPbBDmj6H3oocvu/r+5Ml37wJ/dM41OVLkPz7WWvxNN1Pobr8TTRdbJhTsECK4KoIEq00Zwcj2RjQ/c8yR3x3z/YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rXmtE-00089Y-UF; Wed, 07 Feb 2024 19:43:20 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rXmtE-0054Ym-3e; Wed, 07 Feb 2024 19:43:20 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rXmtE-00HRtt-05;
+	Wed, 07 Feb 2024 19:43:20 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: kernel@pengutronix.de,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	James Clark <james.clark@arm.com>,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Cc: seanjc@google.com,
-	pbonzini@redhat.com,
-	corbet@lwn.net,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	shuah@kernel.org,
-	vkuznets@redhat.com,
-	peterz@infradead.org,
-	ravi.v.shankar@intel.com,
-	xin@zytor.com
-Subject: [PATCH v2 24/25] KVM: selftests: Add a new VM guest mode to run user level code
-Date: Wed,  7 Feb 2024 09:26:44 -0800
-Message-ID: <20240207172646.3981-25-xin3.li@intel.com>
+	linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org
+Subject: [PATCH v3 31/32] spi: Drop compat layer from renaming "master" to "controller"
+Date: Wed,  7 Feb 2024 19:40:45 +0100
+Message-ID:  <ad1d949325b61a4682e8d6ecf9d05da751e6a99f.1707324794.git.u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207172646.3981-1-xin3.li@intel.com>
-References: <20240207172646.3981-1-xin3.li@intel.com>
+In-Reply-To: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3777; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=uB3EFp1QO1hexwLLVQgbTObbWoAfnWMVl1AIy0DdRhs=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlw87m7jcEk6MBx1cg+GuyUSMqcytNRFv3xCFiM 6JtdE0QP2qJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZcPO5gAKCRCPgPtYfRL+ TpzWCACjfAyRML6L8ZOoMmat3fJR2FLO4Aw3vRds41Bmzf0wXRoRCuJhA7rAaSG9rTc8tijCWr5 v9asd7VwhesST11FK/hrFHqlriBG8zT8nYNYJRES2yc3qrVE4+n/t0FJJ1CGTY/TPodjABqLOqH m6XS0WWv9+0WfUNypQk14db+sT8KpDuom7TuwLa4ylkkFfhUkSbzmXXN+vlbaKwTKoDz5Nw5UZG JzXvWjlau2v20A8Zp219c7Jet0Wqb3kjbWPODyIQ3t+35PIfW+YbGhpBe51c5NjMo0R5fbxjhin Ka94760BEZONczT3M69IXKcCp73KaoEm5skKp6ejTi9XbLj7
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Add a new VM guest mode VM_MODE_PXXV48_4K_USER to set the user bit of
-guest page table entries, thus allow user level code to run in guests.
+Now that all in-tree users followed the rename, the compat stuff can go
+away.  This completes the renaming started with commit 8caab75fd2c2
+("spi: Generalize SPI "master" to "controller"")
 
-Suggested-by: Sean Christopherson <seanjc@google.com>
-Signed-off-by: Xin Li <xin3.li@intel.com>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- .../testing/selftests/kvm/include/kvm_util_base.h |  1 +
- tools/testing/selftests/kvm/lib/kvm_util.c        |  5 ++++-
- .../testing/selftests/kvm/lib/x86_64/processor.c  | 15 ++++++++++-----
- tools/testing/selftests/kvm/lib/x86_64/vmx.c      |  4 ++--
- 4 files changed, 17 insertions(+), 8 deletions(-)
+ .../driver-api/driver-model/devres.rst        |  2 +-
+ drivers/spi/spi.c                             |  2 +-
+ include/linux/spi/spi.h                       | 20 +------------------
+ 3 files changed, 3 insertions(+), 21 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/include/kvm_util_base.h b/tools/testing/selftests/kvm/include/kvm_util_base.h
-index 9e5afc472c14..ea1a585ef6f4 100644
---- a/tools/testing/selftests/kvm/include/kvm_util_base.h
-+++ b/tools/testing/selftests/kvm/include/kvm_util_base.h
-@@ -187,6 +187,7 @@ enum vm_guest_mode {
- 	VM_MODE_P36V48_16K,
- 	VM_MODE_P36V48_64K,
- 	VM_MODE_P36V47_16K,
-+	VM_MODE_PXXV48_4K_USER,	/* For 48bits VA but ANY bits PA with USER bit set */
- 	NUM_VM_MODES,
- };
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index c5f99d834ec5..49c6fd82cd5d 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -462,7 +462,7 @@ SLAVE DMA ENGINE
+ SPI
+   devm_spi_alloc_master()
+   devm_spi_alloc_slave()
+-  devm_spi_register_master()
++  devm_spi_register_controller()
  
-diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
-index e066d584c656..8b4761836b3e 100644
---- a/tools/testing/selftests/kvm/lib/kvm_util.c
-+++ b/tools/testing/selftests/kvm/lib/kvm_util.c
-@@ -163,6 +163,7 @@ const char *vm_guest_mode_string(uint32_t i)
- 		[VM_MODE_P36V48_16K]	= "PA-bits:36,  VA-bits:48, 16K pages",
- 		[VM_MODE_P36V48_64K]	= "PA-bits:36,  VA-bits:48, 64K pages",
- 		[VM_MODE_P36V47_16K]	= "PA-bits:36,  VA-bits:47, 16K pages",
-+		[VM_MODE_PXXV48_4K_USER]	= "PA-bits:ANY, VA-bits:48,  4K user pages",
- 	};
- 	_Static_assert(sizeof(strings)/sizeof(char *) == NUM_VM_MODES,
- 		       "Missing new mode strings?");
-@@ -189,6 +190,7 @@ const struct vm_guest_mode_params vm_guest_mode_params[] = {
- 	[VM_MODE_P36V48_16K]	= { 36, 48,  0x4000, 14 },
- 	[VM_MODE_P36V48_64K]	= { 36, 48, 0x10000, 16 },
- 	[VM_MODE_P36V47_16K]	= { 36, 47,  0x4000, 14 },
-+	[VM_MODE_PXXV48_4K_USER]	= {  0,  0,  0x1000, 12 },
- };
- _Static_assert(sizeof(vm_guest_mode_params)/sizeof(struct vm_guest_mode_params) == NUM_VM_MODES,
- 	       "Missing new mode params?");
-@@ -263,6 +265,7 @@ struct kvm_vm *____vm_create(struct vm_shape shape)
- 		vm->pgtable_levels = 3;
- 		break;
- 	case VM_MODE_PXXV48_4K:
-+	case VM_MODE_PXXV48_4K_USER:
- #ifdef __x86_64__
- 		kvm_get_cpu_address_width(&vm->pa_bits, &vm->va_bits);
- 		/*
-@@ -278,7 +281,7 @@ struct kvm_vm *____vm_create(struct vm_shape shape)
- 		vm->pgtable_levels = 4;
- 		vm->va_bits = 48;
- #else
--		TEST_FAIL("VM_MODE_PXXV48_4K not supported on non-x86 platforms");
-+		TEST_FAIL("VM_MODE_PXXV48_4K(_USER) not supported on non-x86 platforms");
- #endif
- 		break;
- 	case VM_MODE_P47V64_4K:
-diff --git a/tools/testing/selftests/kvm/lib/x86_64/processor.c b/tools/testing/selftests/kvm/lib/x86_64/processor.c
-index d8288374078e..a8e60641df53 100644
---- a/tools/testing/selftests/kvm/lib/x86_64/processor.c
-+++ b/tools/testing/selftests/kvm/lib/x86_64/processor.c
-@@ -124,8 +124,8 @@ bool kvm_is_tdp_enabled(void)
+ WATCHDOG
+   devm_watchdog_register_device()
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index 53c25a351dab..c08fe2cb256c 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -584,7 +584,7 @@ struct spi_device *spi_alloc_device(struct spi_controller *ctlr)
+ 		return NULL;
+ 	}
  
- void virt_arch_pgd_alloc(struct kvm_vm *vm)
+-	spi->master = spi->controller = ctlr;
++	spi->controller = ctlr;
+ 	spi->dev.parent = &ctlr->dev;
+ 	spi->dev.bus = &spi_bus_type;
+ 	spi->dev.release = spidev_release;
+diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
+index 9e3866809a0e..7500db33f70c 100644
+--- a/include/linux/spi/spi.h
++++ b/include/linux/spi/spi.h
+@@ -131,7 +131,6 @@ extern void spi_transfer_cs_change_delay_exec(struct spi_message *msg,
+  * struct spi_device - Controller side proxy for an SPI slave device
+  * @dev: Driver model representation of the device.
+  * @controller: SPI controller used with the device.
+- * @master: Copy of controller, for backwards compatibility.
+  * @max_speed_hz: Maximum clock rate to be used with this chip
+  *	(on this board); may be changed by the device's driver.
+  *	The spi_transfer.speed_hz can override this for each transfer.
+@@ -185,7 +184,6 @@ extern void spi_transfer_cs_change_delay_exec(struct spi_message *msg,
+ struct spi_device {
+ 	struct device		dev;
+ 	struct spi_controller	*controller;
+-	struct spi_controller	*master;	/* Compatibility layer */
+ 	u32			max_speed_hz;
+ 	u8			chip_select[SPI_CS_CNT_MAX];
+ 	u8			bits_per_word;
+@@ -1298,7 +1296,7 @@ spi_max_transfer_size(struct spi_device *spi)
+  */
+ static inline bool spi_is_bpw_supported(struct spi_device *spi, u32 bpw)
  {
--	TEST_ASSERT(vm->mode == VM_MODE_PXXV48_4K, "Attempt to use "
--		"unknown or unsupported guest mode, mode: 0x%x", vm->mode);
-+	TEST_ASSERT((vm->mode == VM_MODE_PXXV48_4K) || (vm->mode == VM_MODE_PXXV48_4K_USER),
-+		"Attempt to use unknown or unsupported guest mode, mode: 0x%x", vm->mode);
+-	u32 bpw_mask = spi->master->bits_per_word_mask;
++	u32 bpw_mask = spi->controller->bits_per_word_mask;
  
- 	/* If needed, create page map l4 table. */
- 	if (!vm->pgd_created) {
-@@ -159,6 +159,8 @@ static uint64_t *virt_create_upper_pte(struct kvm_vm *vm,
- 
- 	if (!(*pte & PTE_PRESENT_MASK)) {
- 		*pte = PTE_PRESENT_MASK | PTE_WRITABLE_MASK;
-+		if (vm->mode == VM_MODE_PXXV48_4K_USER)
-+			*pte |= PTE_USER_MASK;
- 		if (current_level == target_level)
- 			*pte |= PTE_LARGE_MASK | (paddr & PHYSICAL_PAGE_MASK);
- 		else
-@@ -185,7 +187,7 @@ void __virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr, int level)
- 	uint64_t *pml4e, *pdpe, *pde;
- 	uint64_t *pte;
- 
--	TEST_ASSERT(vm->mode == VM_MODE_PXXV48_4K,
-+	TEST_ASSERT((vm->mode == VM_MODE_PXXV48_4K) || (vm->mode == VM_MODE_PXXV48_4K_USER),
- 		    "Unknown or unsupported guest mode, mode: 0x%x", vm->mode);
- 
- 	TEST_ASSERT((vaddr % pg_size) == 0,
-@@ -222,6 +224,8 @@ void __virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr, int level)
- 	TEST_ASSERT(!(*pte & PTE_PRESENT_MASK),
- 		    "PTE already present for 4k page at vaddr: 0x%lx\n", vaddr);
- 	*pte = PTE_PRESENT_MASK | PTE_WRITABLE_MASK | (paddr & PHYSICAL_PAGE_MASK);
-+	if (vm->mode == VM_MODE_PXXV48_4K_USER)
-+		*pte |= PTE_USER_MASK;
+ 	if (bpw == 8 || (bpw <= 32 && bpw_mask & SPI_BPW_MASK(bpw)))
+ 		return true;
+@@ -1670,20 +1668,4 @@ spi_transfer_is_last(struct spi_controller *ctlr, struct spi_transfer *xfer)
+ 	return list_is_last(&xfer->transfer_list, &ctlr->cur_msg->transfers);
  }
  
- void virt_arch_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr)
-@@ -268,8 +272,8 @@ uint64_t *__vm_get_page_table_entry(struct kvm_vm *vm, uint64_t vaddr,
- 	TEST_ASSERT(*level >= PG_LEVEL_NONE && *level < PG_LEVEL_NUM,
- 		    "Invalid PG_LEVEL_* '%d'", *level);
- 
--	TEST_ASSERT(vm->mode == VM_MODE_PXXV48_4K, "Attempt to use "
--		"unknown or unsupported guest mode, mode: 0x%x", vm->mode);
-+	TEST_ASSERT((vm->mode == VM_MODE_PXXV48_4K) || (vm->mode == VM_MODE_PXXV48_4K_USER),
-+		"Attempt to use unknown or unsupported guest mode, mode: 0x%x", vm->mode);
- 	TEST_ASSERT(sparsebit_is_set(vm->vpages_valid,
- 		(vaddr >> vm->page_shift)),
- 		"Invalid virtual address, vaddr: 0x%lx",
-@@ -536,6 +540,7 @@ static void vcpu_setup(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
- 
- 	switch (vm->mode) {
- 	case VM_MODE_PXXV48_4K:
-+	case VM_MODE_PXXV48_4K_USER:
- 		sregs.cr0 = X86_CR0_PE | X86_CR0_NE | X86_CR0_PG;
- 		sregs.cr4 |= X86_CR4_PAE | X86_CR4_OSFXSR;
- 		sregs.efer |= (EFER_LME | EFER_LMA | EFER_NX);
-diff --git a/tools/testing/selftests/kvm/lib/x86_64/vmx.c b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
-index 59d97531c9b1..65147de6f9c0 100644
---- a/tools/testing/selftests/kvm/lib/x86_64/vmx.c
-+++ b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
-@@ -403,8 +403,8 @@ void __nested_pg_map(struct vmx_pages *vmx, struct kvm_vm *vm,
- 	struct eptPageTableEntry *pt = vmx->eptp_hva, *pte;
- 	uint16_t index;
- 
--	TEST_ASSERT(vm->mode == VM_MODE_PXXV48_4K, "Attempt to use "
--		    "unknown or unsupported guest mode, mode: 0x%x", vm->mode);
-+	TEST_ASSERT((vm->mode == VM_MODE_PXXV48_4K) || (vm->mode == VM_MODE_PXXV48_4K_USER),
-+		    "Attempt to use unknown or unsupported guest mode, mode: 0x%x", vm->mode);
- 
- 	TEST_ASSERT((nested_paddr >> 48) == 0,
- 		    "Nested physical address 0x%lx requires 5-level paging",
+-/* Compatibility layer */
+-#define spi_master			spi_controller
+-
+-#define spi_master_get_devdata(_ctlr)	spi_controller_get_devdata(_ctlr)
+-#define spi_master_set_devdata(_ctlr, _data)	\
+-	spi_controller_set_devdata(_ctlr, _data)
+-#define spi_master_get(_ctlr)		spi_controller_get(_ctlr)
+-#define spi_master_put(_ctlr)		spi_controller_put(_ctlr)
+-#define spi_master_suspend(_ctlr)	spi_controller_suspend(_ctlr)
+-#define spi_master_resume(_ctlr)	spi_controller_resume(_ctlr)
+-
+-#define spi_register_master(_ctlr)	spi_register_controller(_ctlr)
+-#define devm_spi_register_master(_dev, _ctlr) \
+-	devm_spi_register_controller(_dev, _ctlr)
+-#define spi_unregister_master(_ctlr)	spi_unregister_controller(_ctlr)
+-
+ #endif /* __LINUX_SPI_H */
 -- 
 2.43.0
 
