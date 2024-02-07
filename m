@@ -1,90 +1,60 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A727FBAA;
-	Wed,  7 Feb 2024 15:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF271E4BD;
+	Wed,  7 Feb 2024 15:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707319866; cv=none; b=JxL3vXlDcnyiQXtzd8sZZj4CKTOFs5eb8iDodgM8YJHKavlTKiaDeAdBm2gOS7uxv/LRwq4mLgs6yNlcgqKmrxfIjAe3Dij5iW9fHhaBc+d8MCYm7Q966I7DJJ8b1Eu28+BDa8nOqT9EACw+sgc58b5wD+sXGW8syBx4YyxcBkQ=
+	t=1707321491; cv=none; b=bImMJqG9Lqf4BZnFWqjLMEMaMcEjBGmW/alys7LKPAAL5vZ2XIRRdHI+55qQgL8K2mF5FniJCVnuIbHKjX1QxYSF5RZ3AePdh3cLSi5kWh5DDonLnM9NiMIPlAlMEvnSfq9+wPCWFbYRbX2P/EFBYi4Ssq9HH9o7ckn/Y9Hpxu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707319866; c=relaxed/simple;
-	bh=eJeLndhWGRvAdTc5kciWtPegu1uaVizibVG6t8sSW7A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=P7PPlaKe0sF5QCjEF/VsBpsEV9CaUr6y+aCD2grZA8vYCPN8DgUXLCOy7eG0RI1Sip1nfGTmUnWpEvyF67gCxeBq1mQj1cEdTvCefsS700BGKSQtc1pvJKfF4OcWo1SS9eaCRoROL+3T59EywIjWkzKH+SCX9tq5DqU3tTDKH/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pX3LTP6j; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rd8/9nVM; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1707321491; c=relaxed/simple;
+	bh=/+tRVDx02BW/hh+PutujEBFR9dzXkl6Wjap5CTdPXPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CXFt83v0ck1ld6rzoan6zkxPsfMsZCKEw1TGzEL5sy4m9ekjswzInnytR5YiGbIqeexD+zjYjUtGmbF5BYM/3+/SH9TSJxNRwCr6rWuxbBVFgCdxTV6MmyZkECBWtwRmKup/LuX9ijEXH7FqBrZGoaKCKXYESnio7bNUmmgHCYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwoswSA9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pX3LTP6j";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rd8/9nVM"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1707319863;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c04kwZUxrvzi0qvbSSBFwoEI3C7fipYQbJIv4qBO2mM=;
-	b=pX3LTP6jV2sgdSLm1wYHtfx8ErZl1KpxVfPY9rb03KkNx8HshqzA+MQcD1oD+pi1+98JnT
-	hukHm/rQE4T/Lr0aLnUxVqVvqkE0SolHJ/yHRTHKhMDUDtp0CvUlgAXyz3HCF10+FoOdYz
-	IJEsyZlpaw3Vl+KUtMsDd3Ev5iCeIl3bNmEbHx0zde9t7+1gvIJ2x2N2xH0LzDgNQxSKj3
-	9yTiqHI/Ds4eZBsIRW9Lgdb+gtmkus9yy91OC+l1pbflBSuHxvfOEsSJ+IJZmVXCyL3zmN
-	TxDv/fPfWOpMNNhgZ4GKkOJlg/J7BeDb/iQCkcKbXsDjLp3f/uk2NESKg/0wFw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1707319863;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c04kwZUxrvzi0qvbSSBFwoEI3C7fipYQbJIv4qBO2mM=;
-	b=rd8/9nVMjgPNsldK9YDX7YWT5kRNdt7AE4DtqnZ0JUjYD/Rpywr6xjdjT/asiFcpRtTF+B
-	CWRJeVKy5QeunoCw==
-To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org
-Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
- eddie.dong@intel.com, christopher.s.hall@intel.com,
- jesse.brandeburg@intel.com, davem@davemloft.net,
- alexandre.torgue@foss.st.com, joabreu@synopsys.com,
- mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
- anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
- pandith.n@intel.com, mallikarjunappa.sangannavar@intel.com,
- subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com,
- lakshmi.sowjanya.d@intel.com
-Subject: Re: [PATCH v4 07/11] ice/ptp: remove convert_art_to_tsc()
-In-Reply-To: <20240207060854.6524-8-lakshmi.sowjanya.d@intel.com>
-References: <20240207060854.6524-1-lakshmi.sowjanya.d@intel.com>
- <20240207060854.6524-8-lakshmi.sowjanya.d@intel.com>
-Date: Wed, 07 Feb 2024 16:31:02 +0100
-Message-ID: <87bk8smguh.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwoswSA9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E54E3C433F1;
+	Wed,  7 Feb 2024 15:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707321489;
+	bh=/+tRVDx02BW/hh+PutujEBFR9dzXkl6Wjap5CTdPXPI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UwoswSA9DHdlkgDOhoW0q+dEwthdJfdOr9W5gBiE+Ljpp7m7tCG3X6hC0Uxij+Mri
+	 XnkOny1SvYfw2Wvh622ZCPwwIdgcCkwdOAHnFCDbRSVi2gAZx7RxRNfrtcbwVWQmKD
+	 GXLQaJovT15U7tfaEH5mKFeyQlzffZ9mLZwhQwoUNHxEtIblmHv5/fNC2IDqL77ONS
+	 gjQRbXhETF1v/lHL9NvivtgC3/M64y7u8L/w6z+7QxIOYkJX6cSQ/uKRoBG6VmmCcn
+	 vLG3L7BhaJLUJ5dZ6TkcIES+av/DSDyf1s1gMsTYyx138HQDmXS2Mo/K+NnhKSGWed
+	 qhDM8Z5NCSaAw==
+Date: Wed, 7 Feb 2024 07:58:07 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: David Ventura <david@davidv.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>, "David S. Miller"
+ <davem@davemloft.net>, David Ahern <dsahern@kernel.org>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Xiongwei Song
+ <xiongwei.song@windriver.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH] net: Change default delay on IP autoconfig to 0ms
+Message-ID: <20240207075807.5eeed93f@kernel.org>
+In-Reply-To: <20240205155717.484198-1-david@davidv.dev>
+References: <580001e3-17ef-4f24-8fd8-bc14110e874e@lunn.ch>
+	<20240205155717.484198-1-david@davidv.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 07 2024 at 11:38, lakshmi sowjanya d. wrote:
+On Mon,  5 Feb 2024 16:55:43 +0100 David Ventura wrote:
+> As suggested, I'm updating the default to 0ms. 
+> 
+> This patch depends on 1f0aa0c947eeb4edb60add141a5bc2309f2dc8dd ("
+> net: make driver settling time configurable").
 
-> From: Thomas Gleixner <tglx@linutronix.de>
->
-> Remove convert_art_to_tsc() function call, Pass system clock cycles and
-> clocksource ID as input to get_device_system_crosststamp().
->
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> ---
->  drivers/net/ethernet/intel/ice/ice_ptp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/net/ethernet/intel/ice/ice_ptp.c b/drivers/net/ethernet/intel/ice/ice_ptp.c
-> index 3b6605c8585e..104b3f7a7cfc 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_ptp.c
-> +++ b/drivers/net/ethernet/intel/ice/ice_ptp.c
-> @@ -2101,7 +2101,7 @@ ice_ptp_get_syncdevicetime(ktime_t *device,
->  			hh_ts_lo = rd32(hw, GLHH_ART_TIME_L);
->  			hh_ts_hi = rd32(hw, GLHH_ART_TIME_H);
->  			hh_ts = ((u64)hh_ts_hi << 32) | hh_ts_lo;
-> -			*system = convert_art_ns_to_tsc(hh_ts);
-> +			system->cycles = hh_ts;
-
-Fails to set the ID.
+Please post a v2, in a new thread, and proper commit description
+with a link to the discussion with Andrew.
