@@ -1,114 +1,178 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97EE1272D1
-	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 21:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138821CF95;
+	Wed,  7 Feb 2024 22:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707340000; cv=none; b=pw7hYox5qU2ej+wbBwrp9QZoHQQaZt5ykiDDlG22N5qNSK5lAVoELoR5AHyhvLuYwsBK/ILjTomvl7Xg3f8Te6I0+prgOjisiq8I3sq0qjhcTv5TUK/1JD+aHWgeaZ9e6FvnkkVeYrN48t1K7zxgCLLk2qquAHKyfc5cEnMUuds=
+	t=1707346397; cv=none; b=cbbS5OF7MF6e26EyeAlUKkKRbq4lbdsb30h6X3niXq0FLTZSdcmtD/5mi1cyQyyP9OYloWgpz18PB5pzfJ6Rm5cXL49fxCNHH3wPqlobQiME5k+eLJJnzwa76Dn2SeMACCkvzA3LA3M8mHOH2mDhNNlGQCyOLX/ZKBjxFeBqqjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707340000; c=relaxed/simple;
-	bh=kfCF66+nsP3XZFTo8GwalkScCc4V7eApC34k00p2TZI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I7xvouS0VUlA5HasOMom+VciLNEQz+0U/+DtWqQzwmC54QuZy50u7OeNVUXwsNKl54jNSrrZvLbFrY6L17QF1yfnCY6cwjvDrWIho/EeVQzccRCbo+zH/HT6W7RdonNdnjrJCusK8p++xMocBNyE/CAeY4zxlKnRfZlL3tastyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=gZLbPrCv; arc=none smtp.client-ip=209.85.161.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
+	s=arc-20240116; t=1707346397; c=relaxed/simple;
+	bh=rP4JcaMQDvEMYdZZT3B3rq2quv1kyXqyFd0xfhCJ6O4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RvO6vcII7/y0G0/Xawoq5N3xzcCm/rSaovyrVn+km7yh2Oo6edUWWCn8TxKBxcQTBUdwuajbLd4ECi9gSBR7lEZABpxrFhjfFRxtsg56FBnIi+juSOJkIFdp7HWkBD8REBx882kIciSDndH/gUge/WG0pJsboqenU3T/D9yetgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FSP9qAyt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="gZLbPrCv"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-59cf4872e1dso450438eaf.1
-        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 13:06:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vimeo.com; s=google; t=1707339998; x=1707944798; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NchtCtztTYgLVk31R6XXB+U98ZPDL1AD+o55ip7WTnY=;
-        b=gZLbPrCvgHu/1S3PNVV7VNGkZK4GUtWwndnwsnVg0IYtf+6D/5cc6xtcFuI/D18KRK
-         iS1RHfHBuTqtWF13P5KSgR9ktQZn99sBhWXuUNm09XW3154ruHUltQCUL+0KONTyXs+B
-         AHO0iupgzeJ4GLmlqVH8ptQ43rxdOql2bwNWU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707339998; x=1707944798;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NchtCtztTYgLVk31R6XXB+U98ZPDL1AD+o55ip7WTnY=;
-        b=JcjCyumPtIvjwZ3W5JokCmgEi28VqMKtzQMQK6m1hWFibpgFx2jepS6+AKFlkrU2aD
-         CmoDXxNcLynLxyUtTbjUSHHZYiGCUTwA1+fO8ELU1pFnl/PB5qCJykzAsvTkMKDTwk0A
-         +R4svv76nSOSzxPDANfpANJGk5Z+2zLCVrhyIX2SzD/8wHj/Q0jGTtnAmMZH/zNe1cay
-         DNIryoGuad9x9kE1+p+ec1hUzE1+5hPQCPRGKb4wRGYqRyqLvl7WficDfCw09mzIwf/P
-         cKHJStBX0PJxbM4PwMqeuKVm7cMxsYOX6e4FXMHhtiF1wjU3BUVparA57hXHxxfw9oSu
-         r+gg==
-X-Gm-Message-State: AOJu0YzmeYPdQzJ+gZD4THdOjNadYsrZhwC7G5oa2MRBouxKVizxrTe+
-	wKwh2Y/PMAPbiKvHmie60qzyvaUfLzQkOj/jWX5RcxVdMH/1gbJwvREZ8Yt3+1aPW6NMuMNaEFO
-	eUi2fTNerUVsjSmBJPb/PB1jW3rzZzKhFErU6iQ==
-X-Google-Smtp-Source: AGHT+IFHJ8RzBy8kDruajhclKaKc5G+oGuGhBt6+ikiR1rVtLI1ZIksnvJc+jThp9pyXy+1XUd/hTd9KJKxiBGbCd0Y=
-X-Received: by 2002:a05:6358:d09b:b0:179:1f6:4775 with SMTP id
- jc27-20020a056358d09b00b0017901f64775mr3847995rwb.31.1707339997647; Wed, 07
- Feb 2024 13:06:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FSP9qAyt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E834BC433C7;
+	Wed,  7 Feb 2024 22:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707346396;
+	bh=rP4JcaMQDvEMYdZZT3B3rq2quv1kyXqyFd0xfhCJ6O4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FSP9qAytXk5I+VJJ+/D10LMsrO7jWkOfGTT0vjK9NKYdzznet0UiMF8hU5l3jU3M/
+	 HwA6oqKDA6UCspCvv57rLttajuxe0uySipZ2rZ3GGnK1+v/k6ZHzyjr7j7d8Gg6OCV
+	 qroXLIbnGBPeaOktqpA15je2gQrKPCzsNDTiB19E4visd51oR0cfbQGfPoH6Ttex8u
+	 de5L92gghArYaYA/gmziHBKmptTuytviOxLkZTO7kY4x7mgQftpPB/mIn6JC3n1hNd
+	 nK8PpZJ/UIA7gMYRhK636jpxK0YTUWQZBDns1Zg2c7Wnl7DYqbVPWecFVn3dhJ8gsE
+	 e9pNR+gIlz8rg==
+Date: Wed, 7 Feb 2024 23:53:13 +0100
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+	linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+	Chen Zhongjin <chenzhongjin@huawei.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Neeraj Upadhyay <neeraj.iitr10@gmail.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Peng Zhang <zhangpeng.00@bytedance.com>
+Subject: Re: [PATCH 2/2] rcu-tasks: Eliminate deadlocks involving do_exit()
+ and RCU tasks
+Message-ID: <ZcQJ2Vec1_b5ooS_@pavilion.home>
+References: <20240129225730.3168681-1-boqun.feng@gmail.com>
+ <20240129225730.3168681-3-boqun.feng@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231204194156.2411672-1-davidf@vimeo.com>
-In-Reply-To: <20231204194156.2411672-1-davidf@vimeo.com>
-From: David Finkel <davidf@vimeo.com>
-Date: Wed, 7 Feb 2024 16:06:26 -0500
-Message-ID: <CAFUnj5PjgQM8G=s2TxJS73_GnytOACog8PFuzASgYNfLH2Uo-w@mail.gmail.com>
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-To: Muchun Song <muchun.song@linux.dev>
-Cc: core-services@vimeo.com, Jonathan Corbet <corbet@lwn.net>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeelb@google.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240129225730.3168681-3-boqun.feng@gmail.com>
 
-Did I miss a reviewer on this change?
+Le Mon, Jan 29, 2024 at 02:57:27PM -0800, Boqun Feng a écrit :
+> From: "Paul E. McKenney" <paulmck@kernel.org>
+> 
+> Holding a mutex across synchronize_rcu_tasks() and acquiring
+> that same mutex in code called from do_exit() after its call to
+> exit_tasks_rcu_start() but before its call to exit_tasks_rcu_stop()
+> results in deadlock.  This is by design, because tasks that are far
+> enough into do_exit() are no longer present on the tasks list, making
+> it a bit difficult for RCU Tasks to find them, let alone wait on them
+> to do a voluntary context switch.  However, such deadlocks are becoming
+> more frequent.  In addition, lockdep currently does not detect such
+> deadlocks and they can be difficult to reproduce.
+> 
+> In addition, if a task voluntarily context switches during that time
+> (for example, if it blocks acquiring a mutex), then this task is in an
+> RCU Tasks quiescent state.  And with some adjustments, RCU Tasks could
+> just as well take advantage of that fact.
+> 
+> This commit therefore eliminates these deadlock by replacing the
+> SRCU-based wait for do_exit() completion with per-CPU lists of tasks
+> currently exiting.  A given task will be on one of these per-CPU lists for
+> the same period of time that this task would previously have been in the
+> previous SRCU read-side critical section.  These lists enable RCU Tasks
+> to find the tasks that have already been removed from the tasks list,
+> but that must nevertheless be waited upon.
+> 
+> The RCU Tasks grace period gathers any of these do_exit() tasks that it
+> must wait on, and adds them to the list of holdouts.  Per-CPU locking
+> and get_task_struct() are used to synchronize addition to and removal
+> from these lists.
+> 
+> Link: https://lore.kernel.org/all/20240118021842.290665-1-chenzhongjin@huawei.com/
+> 
+> Reported-by: Chen Zhongjin <chenzhongjin@huawei.com>
+> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 
-I've clearly missed the window for 6.8, but it would be nice to get
-this into a staging branch for 6.9.
+With that, I think we can now revert 28319d6dc5e2 (rcu-tasks: Fix
+synchronize_rcu_tasks() VS zap_pid_ns_processes()). Because if the task
+is in rcu_tasks_exit_list, it's treated just like the others and must go
+through check_holdout_task(). Therefore and unlike with the previous srcu thing,
+a task sleeping between exit_tasks_rcu_start() and exit_tasks_rcu_finish() is
+now a quiescent state. And that kills the possible deadlock.
 
-(I can definitely rebase and re-mail if necessary)
+> -void exit_tasks_rcu_start(void) __acquires(&tasks_rcu_exit_srcu)
+> +void exit_tasks_rcu_start(void)
+>  {
+> -	current->rcu_tasks_idx = __srcu_read_lock(&tasks_rcu_exit_srcu);
+> +	unsigned long flags;
+> +	struct rcu_tasks_percpu *rtpcp;
+> +	struct task_struct *t = current;
+> +
+> +	WARN_ON_ONCE(!list_empty(&t->rcu_tasks_exit_list));
+> +	get_task_struct(t);
 
-Thanks,
-David Finkel
+Is this get_task_struct() necessary?
 
+> +	preempt_disable();
+> +	rtpcp = this_cpu_ptr(rcu_tasks.rtpcpu);
+> +	t->rcu_tasks_exit_cpu = smp_processor_id();
+> +	raw_spin_lock_irqsave_rcu_node(rtpcp, flags);
 
-On Mon, Dec 4, 2023 at 2:42=E2=80=AFPM David Finkel <davidf@vimeo.com> wrot=
-e:
->
-> Other mechanisms for querying the peak memory usage of either a process
-> or v1 memory cgroup allow for resetting the high watermark. Restore
-> parity with those mechanisms.
->
-> For example:
->  - Any write to memory.max_usage_in_bytes in a cgroup v1 mount resets
->    the high watermark.
->  - writing "5" to the clear_refs pseudo-file in a processes's proc
->    directory resets the peak RSS.
->
-> This change copies the cgroup v1 behavior so any write to the
-> memory.peak and memory.swap.peak pseudo-files reset the high watermark
-> to the current usage.
->
-> This behavior is particularly useful for work scheduling systems that
-> need to track memory usage of worker processes/cgroups per-work-item.
-> Since memory can't be squeezed like CPU can (the OOM-killer has
-> opinions), these systems need to track the peak memory usage to compute
-> system/container fullness when binpacking workitems.
->
-> Signed-off-by: David Finkel <davidf@vimeo.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst       | 20 +++---
->  mm/memcontrol.c                               | 23 ++++++
->  .../selftests/cgroup/test_memcontrol.c        | 72 ++++++++++++++++---
->  3 files changed, 99 insertions(+), 16 deletions(-)
+Do we really need smp_mb__after_unlock_lock() ?
 
+> +	if (!rtpcp->rtp_exit_list.next)
+> +		INIT_LIST_HEAD(&rtpcp->rtp_exit_list);
+> +	list_add(&t->rcu_tasks_exit_list, &rtpcp->rtp_exit_list);
+> +	raw_spin_unlock_irqrestore_rcu_node(rtpcp, flags);
+> +	preempt_enable();
+>  }
+>  
+>  /*
+> - * Contribute to protect against tasklist scan blind spot while the
+> - * task is exiting and may be removed from the tasklist. See
+> - * corresponding synchronize_srcu() for further details.
+> + * Remove the task from the "yet another list" because do_exit() is now
+> + * non-preemptible, allowing synchronize_rcu() to wait beyond this point.
+>   */
+> -void exit_tasks_rcu_stop(void) __releases(&tasks_rcu_exit_srcu)
+> +void exit_tasks_rcu_stop(void)
+>  {
+> +	unsigned long flags;
+> +	struct rcu_tasks_percpu *rtpcp;
+>  	struct task_struct *t = current;
+>  
+> -	__srcu_read_unlock(&tasks_rcu_exit_srcu, t->rcu_tasks_idx);
+> +	WARN_ON_ONCE(list_empty(&t->rcu_tasks_exit_list));
+> +	rtpcp = per_cpu_ptr(rcu_tasks.rtpcpu, t->rcu_tasks_exit_cpu);
+> +	raw_spin_lock_irqsave_rcu_node(rtpcp, flags);
+> +	list_del_init(&t->rcu_tasks_exit_list);
+> +	raw_spin_unlock_irqrestore_rcu_node(rtpcp, flags);
+> +	put_task_struct(t);
 
---=20
-David Finkel
-Senior Principal Software Engineer, Core Services
+And conversely this put_task_struct()?
+
+Thanks.
+
+>  }
+>  
+>  /*
+> -- 
+> 2.43.0
+> 
