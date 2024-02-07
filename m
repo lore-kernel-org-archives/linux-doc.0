@@ -1,99 +1,92 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F19577F12
-	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 14:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078587E76F;
+	Wed,  7 Feb 2024 14:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707315227; cv=none; b=Tw8h64yO7+a+Q4GMLst7oFCQNmCJ987OqUMpTUcECtKqhGj5+J3MNL2KvuYRBufJHHBfwWKSac8HTaXZqxGYWa12neJrybdiJZBFS0XcipgipyN29rqkttvDHIzRPItp8E6AsYNgD1HjlxeX8G1V4YqCJ6KtWAXWFq59vTdHW44=
+	t=1707316949; cv=none; b=RAatikpbei+FveK8ViOJkbG41G64cztUDUcgQWBJnBzU2wFGOnqrbmltzjNscgoRop9Q3x7TbAtfYQStmg4RwsUlp9QE0dDlAU6NFG9VY2EjEXrwUSpp0KCskINeHgYgSENflru/KGWtaq+jHJGhFXmOnizaUt3nsST5I3A8y6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707315227; c=relaxed/simple;
-	bh=uDMXyMG6j9ONbezTC0mpLsB4ibSrcJDdL0htrYl1dP8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U5EG5TvReagfpKbZ2nIT8RBz7Gyq4SkC8HY89cTipjGcTFL0I4Clg9Hwf2YfZVlh56M0/jhEopxOViMZYAt6dVGY82zCifPWZ1RTQrzgxNe7C/s9NaYPIKRR3v6hMDZ7ypwZ0UdNmsMapmYz+a+4I8hUtELu12Wn15w7EplCi9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org; spf=pass smtp.mailfrom=joelfernandes.org; dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b=AEM1TaGG; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=joelfernandes.org
+	s=arc-20240116; t=1707316949; c=relaxed/simple;
+	bh=I6hzrIUtnSs54OFI6AqxQ3VKJYAZEy9pH7ofba6UDdM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Cq8StWAH3Qj++4YT76GCr69U2/LGIzImeJqBT0CqsO2qID91AOunt3thF6cehpjUhrIs18ssnrDP63tRpTPtqn+t0NHE1LIz5SS7vhitczQaV7ACqHKXW90ikEUaI0KkKP/aUFi2F1eKTrUTlKrVfc62SxsklAxTfpVucaqbtzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kWbzYrpL; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="AEM1TaGG"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d09cf00214so8627951fa.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 06:13:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1707315223; x=1707920023; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uDMXyMG6j9ONbezTC0mpLsB4ibSrcJDdL0htrYl1dP8=;
-        b=AEM1TaGGJL4wfEqm+2q9peXuocQIkjrQDjqZWUgmrqbKh2c6echwGBVUOkHYGtL1Jp
-         02AhZevn+De6PN7zGsB819FgrNnk/pvSqHSCA7PPW//BH4iRu3GtCxMeDnF34BH9WieF
-         R1hLL0ZneyOMPuS0eERh9ZDVSUIzkN/ZJ2rKg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707315223; x=1707920023;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uDMXyMG6j9ONbezTC0mpLsB4ibSrcJDdL0htrYl1dP8=;
-        b=hCPeVx/3jiEWHhxYoWfkgFQ0aSJwolsq5LrmmD1+ZJv3ZGt5Egn1RQKFoHZtZ/MFOF
-         IrLg7wY2XsMwmKmyHhQ/53uzctThvWhPnBMAGsRTCT1sgKx5B0+iFVX4rizQ1vpZ4cfj
-         RXjD91nKQjgSx45qiZyYw6o0HaesQIuo0LlVsbQcB87UnITUHcR282doL+FuDTeF3lBs
-         o/HxBogNU3KcozSXeBVXrwTIN4CGy4pjJiwH0bTSAg0uRytB8y2l3Z2H8xAOXyqlj3Yz
-         clWgTZrSbmlGY/PSXcPZcKo2y0btT7WcMxnm+QfojbR4mlonOTa0RD7nZmcs7olVo5OW
-         CqRA==
-X-Gm-Message-State: AOJu0YyiAVrGUN7uyzm/9AsvhuGBPPh3XWXtunb6EPXN1N+SULQ81HiV
-	yq6FLmedUS4Gd9z8fKZmyDQOs5FDCag4nLl0pIaN9ZS2czGRrGJIGsiIDb0Z7PRo3aakEw9B/c/
-	FzHjL7keRhTD6adkbef+pBSZ2mZ/S7V+eVoYXSA==
-X-Google-Smtp-Source: AGHT+IED9YAP6IjuLO7QGzwihwwoadtsQqIErozgRiEhzKfXYz5J89hbN3mS6Tn00zxP0ae3LMxLBAw1f4m1Z4XB0YY=
-X-Received: by 2002:a2e:2206:0:b0:2d0:5f90:2b29 with SMTP id
- i6-20020a2e2206000000b002d05f902b29mr4579555lji.12.1707315222978; Wed, 07 Feb
- 2024 06:13:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kWbzYrpL"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CDCDE47A98
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1707316947; bh=vDYEhTFFgnork5EjOqZIfhF7OqvelUDpm60RO3y0ru4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=kWbzYrpLFW+myFWvIs2Z9rxjg/F0FRxrv+fj22TH/HkA7islP9/DJdvVhwejJyCjU
+	 DgO4NEOk4CDMtHAzgD/omZcI4P0NqKDP0kO4qKawcueapZWennaNtvwSdhu312Xv6U
+	 OnzLZIcP2YXj5o89p3kkg4hNaFJvIpnuYV47Zzp70ggiMg3W+m1gD113Y1U/y2FB3T
+	 N4IV5M6521CKFXGKc9d4JMMm/7xorFYJHjVe4WuTtAtdmkqT+N4/1sC9wwuuvTziL3
+	 DJeaWc1K+dZqu4fM+vsAN2JyHtmY/2a7wJ0s5wBgKH7B1FSFl2Rj/y3ZTZgr6n7StK
+	 jspaufYTTHpDA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CDCDE47A98;
+	Wed,  7 Feb 2024 14:42:26 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Jani Nikula
+ <jani.nikula@intel.com>, linux-doc@vger.kernel.org, Justin Forbes
+ <jforbes@fedoraproject.org>, Salvatore Bonaccorso <carnil@debian.org>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 1/8] docs: kernel_feat.py: fix build error for missing
+ files
+In-Reply-To: <bb4493e2-91bb-4238-ab77-b38b16cd2a57@oracle.com>
+References: <20240205175133.774271-1-vegard.nossum@oracle.com>
+ <20240205175133.774271-2-vegard.nossum@oracle.com>
+ <8734u5p5le.fsf@meer.lwn.net>
+ <bb4493e2-91bb-4238-ab77-b38b16cd2a57@oracle.com>
+Date: Wed, 07 Feb 2024 07:42:25 -0700
+Message-ID: <87ttmknxny.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240206094650.1696566-1-quic_hyiwei@quicinc.com>
- <50cdbe95-c14c-49db-86aa-458e87ae9513@joelfernandes.org> <20240207061429.3e29afc8@rorschach.local.home>
-In-Reply-To: <20240207061429.3e29afc8@rorschach.local.home>
-From: Joel Fernandes <joel@joelfernandes.org>
-Date: Wed, 7 Feb 2024 09:13:30 -0500
-Message-ID: <CAEXW_YSUD-CW_=BHbfrfPZAfRUtk_hys5r06uJP2TJJeYJb-1g@mail.gmail.com>
-Subject: Re: [PATCH v4] tracing: Support to dump instance traces by ftrace_dump_on_oops
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Huang Yiwei <quic_hyiwei@quicinc.com>, mhiramat@kernel.org, mark.rutland@arm.com, 
-	mcgrof@kernel.org, keescook@chromium.org, j.granados@samsung.com, 
-	mathieu.desnoyers@efficios.com, corbet@lwn.net, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, quic_bjorande@quicinc.com, quic_tsoni@quicinc.com, 
-	quic_satyap@quicinc.com, quic_aiquny@quicinc.com, kernel@quicinc.com, 
-	Ross Zwisler <zwisler@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Feb 7, 2024 at 6:14=E2=80=AFAM Steven Rostedt <rostedt@goodmis.org>=
- wrote:
+Vegard Nossum <vegard.nossum@oracle.com> writes:
+
+> On 06/02/2024 23:53, Jonathan Corbet wrote:
+>> Vegard Nossum <vegard.nossum@oracle.com> writes:
+>>> @@ -109,7 +109,7 @@ class KernelFeat(Directive):
+>>>               else:
+>>>                   out_lines += line + "\n"
+>>>   
+>>> -        nodeList = self.nestedParse(out_lines, fname)
+>>> +        nodeList = self.nestedParse(out_lines, self.arguments[0])
+>>>           return nodeList
+>> 
+>> So I can certainly track this through to 6.8, but I feel like I'm
+>> missing something:
+>> 
+>>   - If we have never seen a ".. FILE" line, then (as the changelog notes)
+>>     no files were found to extract feature information from.  In that
+>>     case, why make the self.nestedParse() call at all?  Why not just
+>>     return rather than making a useless call with a random name?
+>> 
+>> What am I overlooking?
 >
-> On Wed, 7 Feb 2024 05:24:58 -0500
-> Joel Fernandes <joel@joelfernandes.org> wrote:
->
-> > Btw, hopefully the "trace off on warning" and related boot parameters a=
-lso apply
-> > to instances, I haven't personally checked but I often couple those wit=
-h the
-> > dump-on-oops ones.
->
-> Currently they do not. It would require an updated interface to do so,
-> as sometimes instances can be used to continue tracing after a warning,
-> so I don't want to make it for all instances.
+> Even if we skip the call in the error/empty case, we still need to pass
+> a sensible value here in the other cases -- this value is the file that
+> will be attributed by Sphinx if there is e.g. a reST syntax error in any
+> of the feature files. 'fname' here is basically the last file that
+> happened to be read by get_feat.pl, which is more misleading than
+> self.arguments[0] IMHO.
 
-Thanks for clarifying.
+The purpose is to point the finger at the file that actually contained
+the error; are you saying that this isn't working?
 
-> Perhaps we need an option for these too, and have all options be
-> updated via the command line. That way we don't need to make special
-> boot line parameters for this. If we move these to options (keeping the
-> proc interface for backward compatibility) it would make most features
-> available to all with one change.
+Sorry if I'm being slow here,
 
-Agreed, that would be nice!!
-
- - Joel
+jon
