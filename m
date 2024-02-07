@@ -1,180 +1,103 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582DE7A70E
-	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 17:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE46823AD;
+	Wed,  7 Feb 2024 17:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.103.80.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707325817; cv=none; b=d+kZ+/LA0mnNJXbhXgehXEPvJrWvrEEuHFOzuejScjOA89LeyT46Xtj2QDU+4vPHfQRrK6Gt3ITfJntjsK9WrtS3oTQ2OQrquhVHChmSbSjp/j3hjpqfYOaFGFb5HQVh6WghyQDAz6MgwR2EOYRLMk9cPQ6ZCX9BieZczKb+bYg=
+	t=1707325973; cv=none; b=PKPqh9I+SsRulYXgE+Jpq4LT1g+XNkAyeH2vYCZz1ILFe3IHj8js9qZQNvyZDIfAG615LNLNpHbpcFyCvm/YdbXHkYKYBdPsYqoSDR8y/G4iut6e1UVKNu7mtYnKXR6HpNU/blXwCpPd5c9FuaLeXlRPAPXhOsvnrOWdq+jFc7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707325817; c=relaxed/simple;
-	bh=vEUPI+uVUhfTV/tojMqehfC5wsKr2e5S0TdhVxbgmpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=su42prOBmL2lFctr6XD3qwulH+2EWnLCGYc2AsLd2/LH1Z7Pn+ll9rqJb+XS5cIHpjCDgsd1nvALnFMk5iYs4xFulDpuCX5ueXq4VX/XRAe+J21o8HB3RHiD3Kj2rBSK9TNQUFz69Cvkio/x39fFFLk3lSvKpNbq0hOhgCs1AOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=kwxj5o5r; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	s=arc-20240116; t=1707325973; c=relaxed/simple;
+	bh=4thBBmqk5hlMpmpcQwxAA3u0nkyAH6ntKflK/ok1k2w=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=q4wfvhc6mb5JgRt89Cr1V3+1AtBjCvvhsSnRNs3yVonZPTUeAPy0ko9RqK+V/tyF69LGiYBM0rlKOBvrUOmDmMWTTVolv8zNHbzW6TcEtmzclzTl+pyfHs5Gj5TfpiaBKOkTcF3792FgcpQxHfcLUBDvzv40J4ll74U9+iCEF64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b=R5Fi9UGL; arc=none smtp.client-ip=212.103.80.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="kwxj5o5r"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40fc4363a0aso2627845e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 09:10:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1707325812; x=1707930612; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UPG+Y5UifSfAr1b/3ugQkQKZbhHpDNonzO9dzweV4Ww=;
-        b=kwxj5o5r3k2qZWAp2ske0jdNDUjyE8l1jCeq/X2uoaiFLy52Flmd77vayPCatztiRr
-         lW6ZIIwoo4itIYGQGTHWp16g+iNNCH9ya1EHAFCAsjZ5dUw5rikKlEr1DC/A4EYizTK5
-         k4Oa70jPZomY0Bvmm+R8kbI41EwubCbBIguCY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707325812; x=1707930612;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UPG+Y5UifSfAr1b/3ugQkQKZbhHpDNonzO9dzweV4Ww=;
-        b=HAgE6Z6atgWLQPgvjp9f5fPuoJ796zRzsKfRRSgVAemkaq+u3TCmbejIuxwXQxzxGi
-         gznjlLDrxBZSU5hX/hvGDSZAJW6Q+UGK990zWFKwV1HETjq3YPtRlATFK2XQ8aljTCSl
-         eScI/DGf3VTEtHHtPNgWMxD9/nsN5mAmHrHgaLmdVFFNsodMmuTELvSB/8FcskrhHG/e
-         6QBOMxLNTsI9HKVKso4egV8cxyQ5hk4FpE/vZYcjzv9KiC++YhkSaomPQ0LLpvz1OsEg
-         iU1a7CbGpaltplFXi05GJYDjH3qJvHsjfpl7rtxP1MHuI/1gUAKlqGjf5XFwfPEKyHp8
-         7qVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJOuz6E5AqUqzJZUDt02uvO3yayI9/3FfVbScUx8m1s0r5qD5tKvIfFWY1XsMbcAASmqVRtNDsx8vLdzJdCbvbiFq+FK9DWgm2
-X-Gm-Message-State: AOJu0Ywbuqg+Xv17Ut5hTZCRzyj3L+A89NjRunq3vJPMvaxMkUaxsN04
-	pvWFCCb1FmFLrP8UETy3eUkw6XVNyp6JgUWBD3XfWKgPb8BoycTgWkhAyH2h8Xo=
-X-Google-Smtp-Source: AGHT+IEsPRfVy9ib6+oPTaqzljo0dzFnfy37G2xZ7RAqfN0oGHicnE8YOdNtlahZH3k+EfqI3cynvg==
-X-Received: by 2002:a05:600c:3d8e:b0:40f:e930:9ebe with SMTP id bi14-20020a05600c3d8e00b0040fe9309ebemr3771440wmb.0.1707325812247;
-        Wed, 07 Feb 2024 09:10:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU4d78PdJmWpGaxeVM/qVZphJus4y+keSsoOAhdIG4L9XbZi80S4LVlZjttUegahtRfb+WxnirB+rL7E+6dEhFQZdLaQyPdkA85Et84sn/Z8V/ODYhjfY3gJmYMEOdASWS2hdFyUPFRrIZVkyqcw0v85EO8qpTdvza67qAvwxb8v8BF/UDU0yEtj/Fn+NGrXSYKuDi9d7XLMrSSk76P9fgRxH0AWyOIvrR05xWc7FcVAoPrRXBLzq7YxpULr524RIadgKGCNrDuyW8mlrDJUD7xOJeXQD13mpqPdZWEXcQnHr3PlmyY9P7zejXJmXoH7gngc7HcscVY61Kip0O2FNSNaM+3P97i/aa9+TLPtTTFX+vV65/23X6hTg7Onsn7Q9bNaviLS1LE6W6mgxV274yHq6U/3XLMgAU6cMqSzvM0MAghTIXF0LHNbKtFP8+14g1vjHl3lVfjH9rlI5hH9zzOblXyvY+ixmIMPg==
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id m4-20020a05600c4f4400b0041007731a52sm2697105wmq.11.2024.02.07.09.10.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 09:10:11 -0800 (PST)
-Date: Wed, 7 Feb 2024 18:10:09 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [Linaro-mm-sig] [PATCH v5 2/6] dma-buf: udmabuf: Implement
- .{begin,end}_access
-Message-ID: <ZcO5ccqwTIhSKDfS@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240119141402.44262-1-paul@crapouillou.net>
- <20240119141402.44262-3-paul@crapouillou.net>
+	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="R5Fi9UGL"
+Received: from localhost (unknown [127.0.0.1])
+	by mx.kolabnow.com (Postfix) with ESMTP id 9AEBA2095C06;
+	Wed,  7 Feb 2024 18:06:15 +0100 (CET)
+Authentication-Results: ext-mx-out011.mykolab.com (amavis);
+ dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
+ header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+	content-transfer-encoding:content-type:content-type:message-id
+	:references:in-reply-to:subject:subject:from:from:date:date
+	:mime-version:received:received:received; s=dkim20160331; t=
+	1707325573; x=1709139974; bh=aHIWuq7r2wmuzrEqiql4mNGKz5wCpRsiiSb
+	LoRj77zU=; b=R5Fi9UGL7pdTdbdeeNB5OrOOKQeYcBm9/Rzpc/6Eh6lkBI8oMia
+	Iw3+ERv1gMdlWmT6gal0kYPE/6D0biQ0b4GIjPgE/JR6PejdxaVIAM3A2rMl4AtU
+	3XSNxQqB2oW7W2VwX4lvn83SzpbJhxfpFilCoxJyzKCP6NAi9aTHDVMh+LWR5Hfm
+	yxwDVW9vlOZfqn8StEbMJaFdze7wRAbLb9E+zBJh8oy3HzV6hcR0QyFdk0i1cx+O
+	sLEa9A/PRmAGVAWkmN/kw3SXGjkA+YNURDcxQYoVdZrT2Sbn61H1wR7nnlFwSt9C
+	JkNHWbIjEcs9PD42lCieDCC/ktL6ICQM/bmjc7CNQ5kyUY92ddqxxGkROf1LQ81V
+	OqcX5uKL8KfolAyHCKkjVebeBsvddCR3z5dccMeZFhACV/bKl3hBNGy8FETNfH3/
+	WcxTJ4imITNRM2npmrVrcSulCbAfFqOLUFsZp/0sEgPSzEoYEyHzTdfMCANAnc2W
+	11QPr0+VTKDp8/DOSN2tygE/W6CYo9ksnQWMujn+LVsIiqNtzKBSwCN3zJY/8Q+A
+	3zLqEmD5FIijSRUUaOnYGLFoYIw+GTlQj85e5GMn7rfroNVNPTUdx08MJ1p6PSNI
+	tB82lO7sNh8SDt5ns4fwTSWKzaCkyWAWFOW/rS44Exg/a0rlus8Tha44=
+X-Virus-Scanned: amavis at mykolab.com
+X-Spam-Flag: NO
+X-Spam-Score: -1
+X-Spam-Level:
+Received: from mx.kolabnow.com ([127.0.0.1])
+ by localhost (ext-mx-out011.mykolab.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id D36b_ffzchBX; Wed,  7 Feb 2024 18:06:13 +0100 (CET)
+Received: from int-mx011.mykolab.com (unknown [10.9.13.11])
+	by mx.kolabnow.com (Postfix) with ESMTPS id 51C8F20C81E3;
+	Wed,  7 Feb 2024 18:06:12 +0100 (CET)
+Received: from int-subm015.mykolab.com (unknown [10.9.37.15])
+	by int-mx011.mykolab.com (Postfix) with ESMTPS id 0129C30B0233;
+	Wed,  7 Feb 2024 18:06:11 +0100 (CET)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240119141402.44262-3-paul@crapouillou.net>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+Date: Wed, 07 Feb 2024 18:06:11 +0100
+From: Federico Vaga <federico.vaga@vaga.pv.it>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: fix a typo in the config name in RCU torture
+In-Reply-To: <20240207150322.20238-1-lukas.bulwahn@gmail.com>
+References: <20240207150322.20238-1-lukas.bulwahn@gmail.com>
+Message-ID: <c7917018190d71e6ebecd91ce81f5f2c@vaga.pv.it>
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 19, 2024 at 03:13:58PM +0100, Paul Cercueil wrote:
-> Implement .begin_access() and .end_access() callbacks.
+Thank you for the fix
+
+On 2024-02-07 16:03, Lukas Bulwahn wrote:
+> This issue was detected with the scripts/checkkconfigsymbols.py tool.
 > 
-> For now these functions will simply sync/flush the CPU cache when
-> needed.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > ---
-> v5: New patch
-> ---
->  drivers/dma-buf/udmabuf.c | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
+>  Documentation/translations/it_IT/RCU/torture.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index c40645999648..a87d89b58816 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -179,6 +179,31 @@ static int end_cpu_udmabuf(struct dma_buf *buf,
->  	return 0;
->  }
->  
-> +static int begin_udmabuf(struct dma_buf_attachment *attach,
-> +			 struct sg_table *sgt,
-> +			 enum dma_data_direction dir)
-> +{
-> +	struct dma_buf *buf = attach->dmabuf;
-> +	struct udmabuf *ubuf = buf->priv;
-> +	struct device *dev = ubuf->device->this_device;
-> +
-> +	dma_sync_sg_for_device(dev, sgt->sgl, sg_nents(sgt->sgl), dir);
-
-So one thing I've just wondered is whether we've made sure that this is
-only doing cache coherency maintenance, and not swiotlb bounce buffer
-copying. The latter would really not be suitable for dma-buf anymore I
-think.
-
-Not sure how to best check for that since it's all in the depths of the
-dma-api code, but I guess the best way to really make sure is to disable
-CONFIG_SWIOTLB. Otherwise I guess the way to absolutely make sure is to
-trace swiotlb_sync_single_for_device/cpu.
-
-It would be kinda neat if dma-buf.c code could make sure you never ever
-get an swiotlb entry from a dma_buf_map_attachment call, but I don't think
-we can enforce that. There's sg_dma_is_swiotlb, but that won't catch all
-implementations, only the generic dma-iommu.c one.
-
-Cheers, Sima
-
-> +	return 0;
-> +}
-> +
-> +static int end_udmabuf(struct dma_buf_attachment *attach,
-> +		       struct sg_table *sgt,
-> +		       enum dma_data_direction dir)
-> +{
-> +	struct dma_buf *buf = attach->dmabuf;
-> +	struct udmabuf *ubuf = buf->priv;
-> +	struct device *dev = ubuf->device->this_device;
-> +
-> +	if (dir != DMA_TO_DEVICE)
-> +		dma_sync_sg_for_cpu(dev, sgt->sgl, sg_nents(sgt->sgl), dir);
-> +	return 0;
-> +}
-> +
->  static const struct dma_buf_ops udmabuf_ops = {
->  	.cache_sgt_mapping = true,
->  	.map_dma_buf	   = map_udmabuf,
-> @@ -189,6 +214,8 @@ static const struct dma_buf_ops udmabuf_ops = {
->  	.vunmap		   = vunmap_udmabuf,
->  	.begin_cpu_access  = begin_cpu_udmabuf,
->  	.end_cpu_access    = end_cpu_udmabuf,
-> +	.begin_access      = begin_udmabuf,
-> +	.end_access        = end_udmabuf,
->  };
->  
->  #define SEALS_WANTED (F_SEAL_SHRINK)
-> -- 
-> 2.43.0
+> diff --git a/Documentation/translations/it_IT/RCU/torture.rst
+> b/Documentation/translations/it_IT/RCU/torture.rst
+> index 79d9e6932acc..189f7c6caebc 100644
+> --- a/Documentation/translations/it_IT/RCU/torture.rst
+> +++ b/Documentation/translations/it_IT/RCU/torture.rst
+> @@ -129,7 +129,7 @@ Uso su specifici kernel
 > 
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+>  A volte può essere utile eseguire RCU torture su un kernel già 
+> compilato, ad
+>  esempio quando lo si sta per mettere in proeduzione. In questo caso, 
+> il kernel
+> -dev'essere compilato con CONFIG_RCU_TORTUE_TEST=m, cosicché le
+> verifiche possano
+> +dev'essere compilato con CONFIG_RCU_TORTURE_TEST=m, cosicché le
+> verifiche possano
+>  essere avviate usano modprobe e terminate con rmmod.
+> 
+>  Per esempio, potreste usare questo script::
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Federico Vaga
