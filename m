@@ -1,65 +1,64 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B1A1BF27
-	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 04:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050231CD1E
+	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 04:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707279249; cv=none; b=PdGpUcX4YOGzfOzLFZ1a5kU3Cl1B61SzPeThgSzcxMI0gmhLsv0LfEjCIo4FskMOOfBagcl8R6gWiDkZGY8p20DUt66BpwH7RXdrydC1XjRPh3ST89IH5eZSGKeb033Q7GMfvdEhlIimG79U9LNXypYHeh/UuPIeSe4FEPmUSqc=
+	t=1707279451; cv=none; b=d58xe29iimyUPpmDsMScDefgEj9YvuVHyLlj5FRNugukxtpSJw3InhNMsvQc8uhj30ppUlQEecgkCecTKWFMy1An6W8sapttcggoC67sfef1OAFCecSZ5wC+Lqmi+WTot0c1TX+ymCQgKFt5gDVR9wsX/XEiFX/PCWidsULbnrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707279249; c=relaxed/simple;
-	bh=rfUNLTlGw19FsUppZijU0qVdUB0SA34XOGdj75UFOxo=;
+	s=arc-20240116; t=1707279451; c=relaxed/simple;
+	bh=AUe/GSsJccV5uGPLVy5XeDrtLFb96OtRmmTz6qmuBxY=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dg10CXeffNKLTEtSzH9ROvweDLhvEYnQv7jVVP/wxcuWwR9oprqOBfmGJ9LnPs6bkT7A25SZsPDzx4u8Y4FwEnyiyKXijcyhjQqGN0Cyfvz0akcPRqZblpPUCM5yZ68Cos7ZpFeJfRpKFay+oqdXy5q26o0D8LhF8/RQLsytjH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BvFTjn0y; arc=none smtp.client-ip=209.85.219.201
+	 To:Cc:Content-Type; b=J7dZ5O34kqwwZomXNuTvjJRr2sh29bsjDP/fXVmptCOv0X2XJFZmBIO7MntT+oAjN1T2a3HlmLOaU88rQJOnOO2hlQ+Nj378njjuPFTGq1GCFSGQp0BogfcCCzVUKZX4u7pXu7bGVHimZeaA6pzHZWPrufNoU/QbrFUa4lyZenQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=j/uQvdPr; arc=none smtp.client-ip=209.85.215.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BvFTjn0y"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dc6cd00633dso291185276.3
-        for <linux-doc@vger.kernel.org>; Tue, 06 Feb 2024 20:14:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="j/uQvdPr"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-5cfd6ba1c11so108660a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Feb 2024 20:17:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707279247; x=1707884047; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1707279449; x=1707884249; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=749WbrUv1FQoFjL/H/9KkDdXSpncARgezg9SxCgFfJo=;
-        b=BvFTjn0yEtZk1B/Fz4xk6uKt5bam4c9/9dg0dXo2QRGIInZrDeS9tkDCQ2uwyox16+
-         O2XZ4ZM8Kyxfydml6jjqo/b4pJfJL3ICxOcO3xLxD0rn5vCAPNHsZFc2B2OEi2reaO6K
-         czoYTykCDCUgBHVcC6KAqYSTo8sq40F9qWxFzTvZHsBhTUTYQcJg5hLF1MUNKppC1nXC
-         WQ5Jqz7fpn9V0WwGcpQjIwHO0W5Boo6z54q+gRplJ5I+U3FsNZcZK/lK3ZR/MoJnO88L
-         xGALxF+gT4rFr38JT40Zy669nn/jylG/TD8xE0IWHjKSz+/yz1Srq7rABfw2oW/wqIvX
-         fjeA==
+        bh=JMJMGBHWMMeyINCjIXY3OUMUuZgKx0SF/Wat2yBezj0=;
+        b=j/uQvdPrwdf9RzAMRGLShRbZYSjZGkOa9lD1X4bfxbGoGx/KlPoC6e8ntqn4oIr2jC
+         pURE5W4F79bBelDr7W1cwUqbOMZBkcupnN/6zrGKglwCJx4JSoZRoipCL3A/07/7qKII
+         A2i+VranCHLzxCI7w/lEDXBNVo3a2v+xZDnGHqWoU0yoaoXSHEe8oRe1s55GankHraQX
+         iNmPS7tJxCgOWUIPLO4yTgHWRQHHidT17o6jBJG03p4TPkim5JksUw6ucnQeMJvwzy/3
+         8jSlVoQy41FRLlo1e12SqgP0j41B+S8ZLqNujmAOThV0OGhrPJMU/3T3zmpvCJyIU/2X
+         SiXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707279247; x=1707884047;
+        d=1e100.net; s=20230601; t=1707279449; x=1707884249;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=749WbrUv1FQoFjL/H/9KkDdXSpncARgezg9SxCgFfJo=;
-        b=knSCZmxNl7Wqg5/94p8Of00+d9ohX3F/pr0w3jluXlcJ+aoadppt06nhfzVjwiawym
-         /IobFpm9vb/MNNMjDvqoEJubdrDgcpoxFPIwuo9mjCCMQX0BC5D8d02U2K9capb2f/Nl
-         gpzwQxMfL7WYqRFPPrc6SO2pEoXiooGqytSyTq3r8OR29cftU0DmZYb1nmZOLIcDx02+
-         Qo5Fe1VDuZ77KkgymS4vKDti5ZQLWClNvPasaWR8iCXhB5C4z6L33CJWUyW3Xir6zdcs
-         sHKYtKg+gDfboxtOujCOGr5Iyzzy7jD/VetyP42MfDqWlgSvpKf+PseJCoFQ1m0ePLmU
-         05rg==
-X-Gm-Message-State: AOJu0YyYkbZ0SGe5b4m7jhpoU496A1XjcyUiXyWQdcSPZ2pN7AO+evNx
-	ElpusYJMZs61ShVe4LW6q46Bdkimw9K05heWcX6rD0hM0ZGU66hSrtlc2Vnmee4hWJM5wX0psD2
-	99g==
-X-Google-Smtp-Source: AGHT+IH+pbET44xcyl9LmoSjIUBSr1gsMyHHpDv3qKym8rEGE3UrAt3fQcAm+ZmYH/Szy3eNuYEcQRazUVM=
+        bh=JMJMGBHWMMeyINCjIXY3OUMUuZgKx0SF/Wat2yBezj0=;
+        b=HK5HyMscoewg3utK14YyoH3szZo2jp3aH6zFge0eFrLFrSft30ubeZegVRMDD30Vtv
+         uSmpOJtNxOYKwaVbD/oHBNRjbe48deJRGnv8w1q205zCOmxfeotKNcGhPhgjtUobqXJd
+         bbvtFkSZsfzMqU3L7CaTRxgsUCiZvCUVZMdwJNQV6b5a/D8uq9iVu5GeizHKvnbwAjJk
+         Xjw5qgyVPt50+65PaI6NZJgFprGoWGFb+8sy0cfKsHNkACoL05W8rVG+ngxaw6oeKJIT
+         iMhvr6zYRKaNpkaLww+nNrPBgFk4L70pX0HtwjimiuJa1kz1+cVllENpRWP6LCWt4abc
+         lq6Q==
+X-Gm-Message-State: AOJu0Yx2NT7NSsR0gQuyPS77daSNuhMcFtzljh0spO69O9LKAyFE2xE7
+	l6bEY6mYdTqejSoViJUfk4g6ZJ/h+cW2sKHZf8xjHUQF44F9rLxbCj6z6QTNfWHO1HDpJ+boWq9
+	7/g==
+X-Google-Smtp-Source: AGHT+IH25STSEf+EYgwYtJxqeLFylL567AgMD6tkjG1b76SDRJRCs3uWFuOKLRoMfpDEqSUrNHFDYEQU288=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:2186:b0:dc6:ece2:634c with SMTP id
- dl6-20020a056902218600b00dc6ece2634cmr151759ybb.11.1707279247353; Tue, 06 Feb
- 2024 20:14:07 -0800 (PST)
-Date: Tue, 6 Feb 2024 20:14:05 -0800
-In-Reply-To: <20240115125707.1183-14-paul@xen.org>
+ (user=seanjc job=sendgmr) by 2002:a65:6e96:0:b0:5ce:715:56d5 with SMTP id
+ bm22-20020a656e96000000b005ce071556d5mr3973pgb.11.1707279449266; Tue, 06 Feb
+ 2024 20:17:29 -0800 (PST)
+Date: Tue, 6 Feb 2024 20:17:28 -0800
+In-Reply-To: <20240115125707.1183-18-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240115125707.1183-1-paul@xen.org> <20240115125707.1183-14-paul@xen.org>
-Message-ID: <ZcMDjZ2t8XflbIpD@google.com>
-Subject: Re: [PATCH v12 13/20] KVM: selftests / xen: map shared_info using HVA
- rather than GFN
+References: <20240115125707.1183-1-paul@xen.org> <20240115125707.1183-18-paul@xen.org>
+Message-ID: <ZcMEWMAKCDp5sA9r@google.com>
+Subject: Re: [PATCH v12 17/20] KVM: xen: don't block on pfncache locks in kvm_xen_set_evtchn_fast()
 From: Sean Christopherson <seanjc@google.com>
 To: Paul Durrant <paul@xen.org>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -70,5 +69,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
 	linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 
-Please stop making up random scopes.  Yes, I know "KVM: selftests:" is too coarse,
-bt everyone doing their own thing is worse.
+On Mon, Jan 15, 2024, Paul Durrant wrote:
+> From: Paul Durrant <pdurrant@amazon.com>
+> 
+> As described in [1] compiling with CONFIG_PROVE_RAW_LOCK_NESTING shows that
+> kvm_xen_set_evtchn_fast() is blocking on pfncache locks in IRQ context.
+> There is only actually blocking with PREEMPT_RT because the locks will
+> turned into mutexes. There is no 'raw' version of rwlock_t that can be used
+> to avoid that, so use read_trylock() and treat failure to lock the same as
+> an invalid cache.
+
+Are rwlocks fundamentally incapable of supporting a raw version?  Because that's
+the only argument I see for adding a hack like this.
