@@ -1,111 +1,66 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F342F86AC6
-	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 17:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971A282C76;
+	Wed,  7 Feb 2024 17:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707327685; cv=none; b=aG+UnL/8SFSO0xUETtUxmSq+KymUSNPhcPgOKXcSkd/5qrBTcAiXICUhhkcD3XQcTqr5/HcxMmSExDVeifKj3JnjEaJWTDvWbifRIIQktsFp22VVO3K0rxFoLYk90PvvU4BNVBDnIAMWE45BodWKRfNZ0TtjkwtsyFTz0d2U3ig=
+	t=1707328740; cv=none; b=G3uauVguXAcLmm4IvDaIw3iQmoGpbFaPngtSjWIwToJxRcYOB18kUFbw5YUgUDdLAHmN2m+JZg7elEmy69qBBE8GDSJfVpNlKZLZh/u+9uKjrlezJKzH5Xf66nruVLbWtPRNdjE/+UhzdBGhiKOIDjm3snDer2uRvTejm5pl0Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707327685; c=relaxed/simple;
-	bh=PHns6xqLyHWVS2RFXaEsGlNTnkb0vFPfE2pekEJ/kfI=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LUonKjjZqg3ukW/CcO3YtJVHK0cdPpdgAuJWiJH3lWJvyE91EPg6m1Lr/s0P//DWlWmE09I/X0T9k4Aaa0LAscgNkzusADMDzAC0rnrZkvVgzQCRkS51xW0akcItZpw49XHzVkiWg94rVzn96voBhUcA4a/PtdP7LWA5n3rofTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=arnOFxU5 reason="key not found in DNS"; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1707328740; c=relaxed/simple;
+	bh=lmwp+X4m566IhpL3BVzRtbCOejiCrKvu6IvAyXfd1sY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tMsjXvWh/uy3eXaQuYhgLOERZ+ONvyk45JFlQyOSLRVLQtv0Z2eB84suJ6JiTBA/P8Zz++uDTzmUK3rXE9R/5pjSBPhhab4WaylP7b9f5um7XNEYY9ihxKGBhRrFelAE7U4qQ6gdOySfRuOoCgLbqOaeCqBuPgZdh9QZmmB7MII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lsl2TtvI; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="arnOFxU5"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-783def87c8cso46581685a.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 09:41:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1707327680; x=1707932480; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HrRTSlkta7nD8c1SJPx3AxPn1tn9y9LkFmhcOlF4lks=;
-        b=arnOFxU5cn85jYFGkJUyCJxEvYG2g4lb29V0lw7lYx6dhVbOMMj1ZJLlqlx++DPplJ
-         iilZAVjOvPgm///IjM6he5GyyUZ7k3FcvE1QswXro+J9VEWwR1FGRxzCU6YM1IfibVR4
-         YrLd3Uzl+fzzLH/OijQWbSNVnurl9YVsX9kotUtzYq11B+3sbIrdtPD1c3vE8qIvxeHj
-         m3+G8hf4JtneUetc3xoxy4KLQzIMQFKKPE2tnD4nga1XRdrJaxP8+zoWuFrqGuEs9wgn
-         vDi7CaXbMmWjW5JPft9hlCObEl5wpy78Zo/G3gbKEUbekgswPzzmphP7LisVOoqurr6t
-         8Tnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707327680; x=1707932480;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HrRTSlkta7nD8c1SJPx3AxPn1tn9y9LkFmhcOlF4lks=;
-        b=veJjxKRRX6i5680qk1XNYkZe2+hIS7MSYhk8zXWKY7CplVsPR1IZa4N/dWR4KCW1aT
-         mnuQHNuyWLC6THsh7FuZdRy8r8o9kBwDa96HtXtPdfmt1eYYyqzm81Mz75C1aulU6O08
-         lwcoNX8/uLIUoyXstIovgpFDgJjT1TqWSkwVbu7d5Kepm26h9wBLdJciR6E01ihhobMX
-         sBuWFy7e65kmwRMFV07T9TDnwREZLgLTFekeJ4ex6eUrdfPy7VDRdkvrCICi2CHVl4Ay
-         LyAMovO3QyeAcLFtsCLP2nalnJn2MJMh94qLp4k0R2ORmiB8gwQAdz4bKnin2NT5A+Ml
-         bwqA==
-X-Gm-Message-State: AOJu0YzHT1Svp/mKEp2uQuFdeBeGZ1ozH3st4tceKG1kh38LpvJABBlw
-	oll+ltXuV8a1ZWPY2IcFNA71gpO0176WLBg32o+C5jp0TENjK+weYuhj5na+7RQ=
-X-Google-Smtp-Source: AGHT+IHhb+pueaISZV6Y8tJp2t2CFo0mWlpmACo7IYuyoV1N2oy7KZrIG0XVhtVG+SmB5cwuhpqy+Q==
-X-Received: by 2002:a05:620a:12c8:b0:785:3887:de18 with SMTP id e8-20020a05620a12c800b007853887de18mr6401324qkl.65.1707327679899;
-        Wed, 07 Feb 2024 09:41:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUCDfKWFIl6QUubNKHOK+J/TQZfBk6GOATQV7+UROelHHizxj2bMScNb5yjy+7wEKvrKAVO938EhFK3MDp4QvVuIEMns3aJNEfZ4lLhVczSUx4hYdn3X7Qx8HTpAiobpDi+dY9UU0JFYWP3sxFQVS1xxl7fcBVSx0blttAqIQWkGbtG/8OFxy5YJX+xNhtsJb3t9pvZsef+YcrlQh+9z7K1HEh5YIvRBqpPod3dD8oKW9DDybH9+3HAaHHBY8iiIHdHyvvhg/Qqh/tY8U66rdo6r4QvsxgmBFMyxznrxlOPKUwMUFVhM2YvFghVr6hKgb6KzPzIvg28q6LrAw8lD7weD0eI2MrfirCmooqnAA/zgK7D0KurMOIDpabn9VkUHuhE88OEKQ8h62/Wa2gdcl4YDdMkJY4DDjELGulQmsDVBCrUtil9loYc5aX8Gh2jq/ztHo3kv5ymJnfZ/h7e7WZdfaZvxSbUL64wc23AYR/EczgayCdZpmGXX2jQE3/KPfSIPAL6DXV6qvHIwUWL4vG18mc7tiVYDE//uM4hJo7eMbISiBgH4sundju5RQWqxyjeA3VcVHj+VPU4vBDpsrZVdnHRZeaGTV3rwC8oZXb19D/7KR1Wm7euJ76N5bgFnA7vjZhfsEp+F03DZsEUpCkkLYMsxrQWrLbAZIy488QP+Zdz41QqcwwktLByJIdIxAeRSxHxin8RRSgrxaqXRKius9NFl4oDbRCD6svZoHMd4UnX0vfYrQ0s8umvFi83/7gbRVCzXY4TP8NJFByhRuhTVTALB1EBu6ny+PtNXEQLdFexeijpQwT5/ahI+mpZ9ajMM7oM3At8FGk5pnU/BL1Nonz5Y8fjdV6tPG/C5Zk6RhURg9qAf+9R8Omad1eFWXxT9K6yqaix3pq9xGAZ8o3pF+xFI149xhPQNCmvLnHRgEmJUeIIm7boC4KgdrC5bBoaux
- c6ozrLySOAxoy5JAAUBKnlhPctpWnwmvtfHeBXAM+mRt1+c/cu3MhP0MSUMt9WZHns3r/985c1KNIPq0blR6t+yh5SOQk7YDqh0wPxUpt4Kax6NjryE1iCgR1+E5QeDElNdAVf+hiKcPe5+DO4dGivJK8C2DQW1E5U+dX94X2hiWwHcHd0IHOFqpQBMw3MYyXVibLuxNZq6E5ml+47r+bMOyL/Bqfi3ViLUhztHQ6nikGjlZcsJYY7JUssc0W5vg58IiiHspK92+rwN2jGd4sH3ALx4bgyCF0SF9flcBEtXUjRUNSmob4ETrVkz7HKMS7If6nnJcyM0Vbo0UMoOZmd5knYt1xz+hu+YULQesXnetGwV4BBbVo0WA5dRc2eIzIsQXmdql1aXqiSjGCn5mug3+d3TEVV9PvmDpKEou6WN731U4KQNAZjHoQUf6UFZNlFysQJQPL4NE73c76duMdmUXiGxzZFehKgNvB7y4Wu+1/j
-Received: from soleen.c.googlers.com.com (249.240.85.34.bc.googleusercontent.com. [34.85.240.249])
-        by smtp.gmail.com with ESMTPSA id e10-20020a37db0a000000b007854018044bsm696310qki.134.2024.02.07.09.41.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 09:41:19 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: akpm@linux-foundation.org,
-	alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com,
-	bhelgaas@google.com,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	david@redhat.com,
-	dwmw2@infradead.org,
-	hannes@cmpxchg.org,
-	heiko@sntech.de,
-	iommu@lists.linux.dev,
-	jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com,
-	joro@8bytes.org,
-	krzysztof.kozlowski@linaro.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lsl2TtvI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707328735; x=1738864735;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lmwp+X4m566IhpL3BVzRtbCOejiCrKvu6IvAyXfd1sY=;
+  b=Lsl2TtvIsfi/Ubfox07I+ss9cNM1nby8zP1138pj7XdlwOhPCLJcgQ3r
+   3z/PsU62FAQlqKIyMPxPAfUu8fp3SeLkgymt6WbnPU/MTs4W2tak8fkr+
+   B9eW1WpRqTb2KenE2yR/ISUEqoTbwXU5PiYgRyPyFxjN9RYv77caZdRRu
+   NyvU1ZJ1hwLD8gXcNXoWTX+Bol8LIBfzyOXRtmXI8lbM78BVrSc/VbLR8
+   ztxH8oyd3CHyrO0Wm/hVF7N62KrmFzdC7Ec/rWPraC8bthmeu63GWFwik
+   sLbqotoW2V3y1UUyjRHmwGi+NbyOWxJ9TVSiZd3XJsHfc4NMpkkNFOeqH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10977"; a="11622474"
+X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
+   d="scan'208";a="11622474"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2024 09:58:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,251,1701158400"; 
+   d="scan'208";a="6020686"
+Received: from unknown (HELO fred..) ([172.25.112.68])
+  by fmviesa004.fm.intel.com with ESMTP; 07 Feb 2024 09:58:53 -0800
+From: Xin Li <xin3.li@intel.com>
+To: linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	lizefan.x@bytedance.com,
-	marcan@marcan.st,
-	mhiramat@kernel.org,
-	m.szyprowski@samsung.com,
-	pasha.tatashin@soleen.com,
-	paulmck@kernel.org,
-	rdunlap@infradead.org,
-	robin.murphy@arm.com,
-	samuel@sholland.org,
-	suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev,
-	thierry.reding@gmail.com,
-	tj@kernel.org,
-	tomas.mudrunka@gmail.com,
-	vdumpa@nvidia.com,
-	wens@csie.org,
-	will@kernel.org,
-	yu-cheng.yu@intel.com,
-	rientjes@google.com,
-	bagasdotme@gmail.com,
-	mkoutny@suse.com
-Subject: [PATCH v4 10/10] iommu: account IOMMU allocated memory
-Date: Wed,  7 Feb 2024 17:41:02 +0000
-Message-ID: <20240207174102.1486130-11-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.43.0.594.gd9cf4e227d-goog
-In-Reply-To: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
-References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+	linux-kselftest@vger.kernel.org
+Cc: seanjc@google.com,
+	pbonzini@redhat.com,
+	corbet@lwn.net,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	shuah@kernel.org,
+	vkuznets@redhat.com,
+	peterz@infradead.org,
+	ravi.v.shankar@intel.com,
+	xin@zytor.com
+Subject: [PATCH v2 00/25] Enable FRED with KVM VMX
+Date: Wed,  7 Feb 2024 09:26:20 -0800
+Message-ID: <20240207172646.3981-1-xin3.li@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -114,91 +69,156 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In order to be able to limit the amount of memory that is allocated
-by IOMMU subsystem, the memory must be accounted.
+This patch set enables the Intel flexible return and event delivery
+(FRED) architecture with KVM VMX to allow guests to utilize FRED.
 
-Account IOMMU as part of the secondary pagetables as it was discussed
-at LPC.
+The FRED architecture defines simple new transitions that change
+privilege level (ring transitions). The FRED architecture was
+designed with the following goals:
 
-The value of SecPageTables now contains mmeory allocation by IOMMU
-and KVM.
+1) Improve overall performance and response time by replacing event
+   delivery through the interrupt descriptor table (IDT event
+   delivery) and event return by the IRET instruction with lower
+   latency transitions.
 
-There is a difference between GFP_ACCOUNT and what NR_IOMMU_PAGES shows.
-GFP_ACCOUNT is set only where it makes sense to charge to user
-processes, i.e. IOMMU Page Tables, but there more IOMMU shared data
-that should not really be charged to a specific process.
+2) Improve software robustness by ensuring that event delivery
+   establishes the full supervisor context and that event return
+   establishes the full user context.
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Acked-by: David Rientjes <rientjes@google.com>
-Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 2 +-
- Documentation/filesystems/proc.rst      | 4 ++--
- drivers/iommu/iommu-pages.h             | 2 ++
- include/linux/mmzone.h                  | 2 +-
- 4 files changed, 6 insertions(+), 4 deletions(-)
+The new transitions defined by the FRED architecture are FRED event
+delivery and, for returning from events, two FRED return instructions.
+FRED event delivery can effect a transition from ring 3 to ring 0, but
+it is used also to deliver events incident to ring 0. One FRED
+instruction (ERETU) effects a return from ring 0 to ring 3, while the
+other (ERETS) returns while remaining in ring 0. Collectively, FRED
+event delivery and the FRED return instructions are FRED transitions.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 17e6e9565156..15f80fea8df7 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1432,7 +1432,7 @@ PAGE_SIZE multiple when read back.
- 	  sec_pagetables
- 		Amount of memory allocated for secondary page tables,
- 		this currently includes KVM mmu allocations on x86
--		and arm64.
-+		and arm64 and IOMMU page tables.
- 
- 	  percpu (npn)
- 		Amount of memory used for storing per-cpu kernel
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 104c6d047d9b..604b2dccdc5a 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1110,8 +1110,8 @@ KernelStack
- PageTables
-               Memory consumed by userspace page tables
- SecPageTables
--              Memory consumed by secondary page tables, this currently
--              currently includes KVM mmu allocations on x86 and arm64.
-+              Memory consumed by secondary page tables, this currently includes
-+              KVM mmu and IOMMU allocations on x86 and arm64.
- NFS_Unstable
-               Always zero. Previous counted pages which had been written to
-               the server, but has not been committed to stable storage.
-diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
-index 7336f976b641..e3eb93857a73 100644
---- a/drivers/iommu/iommu-pages.h
-+++ b/drivers/iommu/iommu-pages.h
-@@ -27,6 +27,7 @@ static inline void __iommu_alloc_account(struct page *page, int order)
- 	const long pgcnt = 1l << order;
- 
- 	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
-+	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, pgcnt);
- }
- 
- /**
-@@ -39,6 +40,7 @@ static inline void __iommu_free_account(struct page *page, int order)
- 	const long pgcnt = 1l << order;
- 
- 	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
-+	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, -pgcnt);
- }
- 
- /**
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index bb6bc504915a..a18edcf12d53 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -202,7 +202,7 @@ enum node_stat_item {
- 	NR_KERNEL_SCS_KB,	/* measured in KiB */
- #endif
- 	NR_PAGETABLE,		/* used for pagetables */
--	NR_SECONDARY_PAGETABLE, /* secondary pagetables, e.g. KVM pagetables */
-+	NR_SECONDARY_PAGETABLE, /* secondary pagetables, KVM & IOMMU */
- #ifdef CONFIG_IOMMU_SUPPORT
- 	NR_IOMMU_PAGES,		/* # of pages allocated by IOMMU */
- #endif
+Intel VMX architecture is extended to run FRED guests, and the major
+changes are:
+
+1) New VMCS fields for FRED context management, which includes two new
+event data VMCS fields, eight new guest FRED context VMCS fields and
+eight new host FRED context VMCS fields.
+
+2) VMX nested-exception support for proper virtualization of stack
+levels introduced with FRED architecture.
+
+Search for the latest FRED spec in most search engines with this search
+pattern:
+
+  site:intel.com FRED (flexible return and event delivery) specification
+
+As the native FRED patches are committed in the tip tree "x86/fred"
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/log/?h=x86/fred,
+and we have received a good amount of review comments for v1, it's time
+to send out v2 based on this branch for further help from the community.
+
+Patch 1-2 are cleanups to VMX basic and misc MSRs, which were sent
+out earlier as a preparation for FRED changes:
+https://lore.kernel.org/kvm/20240206182032.1596-1-xin3.li@intel.com/T/#u
+
+Patch 3-15 add FRED support to VMX.
+Patch 16-21 add FRED support to nested VMX.
+Patch 22 exposes FRED and its baseline features to KVM guests.
+Patch 23-25 add FRED selftests.
+
+There is also a counterpart qemu patch set for FRED at:
+https://lore.kernel.org/qemu-devel/20231109072012.8078-1-xin3.li@intel.com/T/,
+which works with this patch set to allow KVM to run FRED guests.
+
+
+Changes since v1:
+* Always load the secondary VM exit controls (Sean Christopherson).
+* Remove FRED VM entry/exit controls consistency checks in
+  setup_vmcs_config() (Sean Christopherson).
+* Clear FRED VM entry/exit controls if FRED is not enumerated (Chao Gao).
+* Use guest_can_use() to trace FRED enumeration in a vcpu (Chao Gao).
+* Enable FRED MSRs intercept if FRED is no longer enumerated in CPUID
+  (Chao Gao).
+* Move guest FRED states init into __vmx_vcpu_reset() (Chao Gao).
+* Don't use guest_cpuid_has() in vmx_prepare_switch_to_{host,guest}(),
+  which are called from IRQ-disabled context (Chao Gao).
+* Reset msr_guest_fred_rsp0 in __vmx_vcpu_reset() (Chao Gao).
+* Fail host requested FRED MSRs access if KVM cannot virtualize FRED
+  (Chao Gao).
+* Handle the case FRED MSRs are valid but KVM cannot virtualize FRED
+  (Chao Gao).
+* Add sanity checks when writing to FRED MSRs.
+* Explain why it is ok to only check CR4.FRED in kvm_is_fred_enabled()
+  (Chao Gao).
+* Document event data should be equal to CR2/DR6/IA32_XFD_ERR instead
+  of using WARN_ON() (Chao Gao).
+* Zero event data if a #NM was not caused by extended feature disable
+  (Chao Gao).
+* Set the nested flag when there is an original interrupt (Chao Gao).
+* Dump guest FRED states only if guest has FRED enabled (Nikolay Borisov).
+* Add a prerequisite to SHADOW_FIELD_R[OW] macros
+* Remove hyperv TLFS related changes (Jeremi Piotrowski).
+* Use kvm_cpu_cap_has() instead of cpu_feature_enabled() to decouple
+  KVM's capability to virtualize a feature and host's enabling of a
+  feature (Chao Gao).
+
+
+Xin Li (25):
+  KVM: VMX: Cleanup VMX basic information defines and usages
+  KVM: VMX: Cleanup VMX misc information defines and usages
+  KVM: VMX: Add support for the secondary VM exit controls
+  KVM: x86: Mark CR4.FRED as not reserved
+  KVM: VMX: Initialize FRED VM entry/exit controls in vmcs_config
+  KVM: VMX: Defer enabling FRED MSRs save/load until after set CPUID
+  KVM: VMX: Set intercept for FRED MSRs
+  KVM: VMX: Initialize VMCS FRED fields
+  KVM: VMX: Switch FRED RSP0 between host and guest
+  KVM: VMX: Add support for FRED context save/restore
+  KVM: x86: Add kvm_is_fred_enabled()
+  KVM: VMX: Handle FRED event data
+  KVM: VMX: Handle VMX nested exception for FRED
+  KVM: VMX: Disable FRED if FRED consistency checks fail
+  KVM: VMX: Dump FRED context in dump_vmcs()
+  KVM: VMX: Invoke vmx_set_cpu_caps() before nested setup
+  KVM: nVMX: Add support for the secondary VM exit controls
+  KVM: nVMX: Add a prerequisite to SHADOW_FIELD_R[OW] macros
+  KVM: nVMX: Add FRED VMCS fields
+  KVM: nVMX: Add support for VMX FRED controls
+  KVM: nVMX: Add VMCS FRED states checking
+  KVM: x86: Allow FRED/LKGS/WRMSRNS to be exposed to guests
+  KVM: selftests: Run debug_regs test with FRED enabled
+  KVM: selftests: Add a new VM guest mode to run user level code
+  KVM: selftests: Add fred exception tests
+
+ Documentation/virt/kvm/x86/nested-vmx.rst     |  19 +
+ arch/x86/include/asm/kvm_host.h               |   8 +-
+ arch/x86/include/asm/msr-index.h              |  15 +-
+ arch/x86/include/asm/vmx.h                    |  59 ++-
+ arch/x86/kvm/cpuid.c                          |   4 +-
+ arch/x86/kvm/governed_features.h              |   1 +
+ arch/x86/kvm/kvm_cache_regs.h                 |  17 +
+ arch/x86/kvm/svm/svm.c                        |   4 +-
+ arch/x86/kvm/vmx/capabilities.h               |  30 +-
+ arch/x86/kvm/vmx/nested.c                     | 329 ++++++++++++---
+ arch/x86/kvm/vmx/nested.h                     |   2 +-
+ arch/x86/kvm/vmx/vmcs.h                       |   1 +
+ arch/x86/kvm/vmx/vmcs12.c                     |  19 +
+ arch/x86/kvm/vmx/vmcs12.h                     |  38 ++
+ arch/x86/kvm/vmx/vmcs_shadow_fields.h         |  80 ++--
+ arch/x86/kvm/vmx/vmx.c                        | 385 +++++++++++++++---
+ arch/x86/kvm/vmx/vmx.h                        |  15 +-
+ arch/x86/kvm/x86.c                            | 103 ++++-
+ arch/x86/kvm/x86.h                            |   5 +-
+ tools/testing/selftests/kvm/Makefile          |   1 +
+ .../selftests/kvm/include/kvm_util_base.h     |   1 +
+ .../selftests/kvm/include/x86_64/processor.h  |  36 ++
+ tools/testing/selftests/kvm/lib/kvm_util.c    |   5 +-
+ .../selftests/kvm/lib/x86_64/processor.c      |  15 +-
+ tools/testing/selftests/kvm/lib/x86_64/vmx.c  |   4 +-
+ .../testing/selftests/kvm/x86_64/debug_regs.c |  50 ++-
+ .../testing/selftests/kvm/x86_64/fred_test.c  | 297 ++++++++++++++
+ 27 files changed, 1320 insertions(+), 223 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/x86_64/fred_test.c
+
+
+base-commit: e13841907b8fda0ae0ce1ec03684665f578416a8
 -- 
-2.43.0.594.gd9cf4e227d-goog
+2.43.0
 
