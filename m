@@ -1,94 +1,90 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53E37F492
-	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 15:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A727FBAA;
+	Wed,  7 Feb 2024 15:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707318938; cv=none; b=NisyeC7xPm35YBZp4456ekGvn++aVYECFxZH7DJSr4uxD9SLe38aFfZ8ZkU9FBgg/NxsWgZlFQJKIkj0dK3j+GToJxfjYwUjNbyYSb9D/Bg0YvRQzdT/6MP+Z7kO17Me+21ww+A4xO5pB2ZIaPkTPCIgyIGyZbbxJba6ySA2uY0=
+	t=1707319866; cv=none; b=JxL3vXlDcnyiQXtzd8sZZj4CKTOFs5eb8iDodgM8YJHKavlTKiaDeAdBm2gOS7uxv/LRwq4mLgs6yNlcgqKmrxfIjAe3Dij5iW9fHhaBc+d8MCYm7Q966I7DJJ8b1Eu28+BDa8nOqT9EACw+sgc58b5wD+sXGW8syBx4YyxcBkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707318938; c=relaxed/simple;
-	bh=+5gAsmpd9QdKp7xCjs/9IKm5TooA5w/PXHdwwf0C/zM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=WzU6g/v/yy10G2blUKmI/nYi6p5rW/ptYPy3OZwquI0XjMtpG1tfKIiJl22Dv/YRA+zYJeSXc2UBVXM+abzGgOljLQgQC9CdWe8O/O+6PXApvH176diOXkywQs26/u4/he1Rr0oMAOnrRZrAF+wl5e/Um+BYNAgsaPsb4xiaYVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kE//yfoY; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1707319866; c=relaxed/simple;
+	bh=eJeLndhWGRvAdTc5kciWtPegu1uaVizibVG6t8sSW7A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=P7PPlaKe0sF5QCjEF/VsBpsEV9CaUr6y+aCD2grZA8vYCPN8DgUXLCOy7eG0RI1Sip1nfGTmUnWpEvyF67gCxeBq1mQj1cEdTvCefsS700BGKSQtc1pvJKfF4OcWo1SS9eaCRoROL+3T59EywIjWkzKH+SCX9tq5DqU3tTDKH/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pX3LTP6j; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rd8/9nVM; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kE//yfoY"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6040ffa60ddso14860807b3.2
-        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 07:15:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707318936; x=1707923736; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SEn4KucfVwWnA6ONVB1s2d+K8L0IxI86qXgAYuZM0Tk=;
-        b=kE//yfoYcQrXOncvzHqq8pth1y6c4fU/MHZhza5U1FfNM7YjOiJLiY/oMY+3e0enFD
-         Ympu34lvB73M6/0deGhppliXcKsv90XMjuUoppB+KC5GenPAJ82yUQpTZJBY9ze5vqJJ
-         bfqdxKvdxs79w3pnkAopoP7b6Uetq2u3sOj4Yrlit1lUmu5smKQJlq1PXMhv0pgibvxW
-         AI2e37JUEi8VPF0G6t6v3NagBsgDHwmusdQfYZJTREZ0wybL5gJ4dSIfJ+zcVXcVScXr
-         0UuLuqZJiLvl0nH8Z+QmOBqtrhCo7q1x27y1aYwD9/0tFSooLonp8x0I3loKkCQ/hDdb
-         yPkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707318936; x=1707923736;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=SEn4KucfVwWnA6ONVB1s2d+K8L0IxI86qXgAYuZM0Tk=;
-        b=JRRK4V1IreHNnMR8NpizgQu3ATuRvCjcBXu0sj24Q5PwDjG4to/et/DVMJObAMxXha
-         V0AcJH6J2lZch1mj4QXVNshAykPXBrIBiyiQY51OhWqHIj+HhBa4JRcdn3i2PR5bEYEe
-         kftCyP75R0Iskg6OzhHE89JPkQkZfj0HLhN4VNTFrPaVSj9FYJftZLF5YyOSEXxevHQu
-         cFsNMQPQeQl6loOzYN+8WPK8TmgdJihlGwwovew8CbRPD2JUD8PodWVkgvs5wGy1aA1a
-         MYeq12ttFgCkrpZOGYKlqz4/2LUqpXrubwPoETlLlCPVk1FJSBSNNzOCPISV7Lne9Yht
-         bT8g==
-X-Gm-Message-State: AOJu0YwWFDCsW+7cEiUw+81XTCM8/uEK30Nal4EzpCvHvycFIVTbTR2F
-	AdGtsl/wTLBm2dducqh0jImLI2zyU62FCNFutCMGdrOxvkBsYztmfrxte+DtrTgL2iGq7wpZR3N
-	UAg==
-X-Google-Smtp-Source: AGHT+IEFZ+SP4R0EEFAHlwFzyVCVMNE8xnvlYJ09UyF9xPMQ49VRACOjvraPRowOTS/BI6HZPeFFmoALbiM=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:690c:39c:b0:5d3:5a95:2338 with SMTP id
- bh28-20020a05690c039c00b005d35a952338mr1120972ywb.9.1707318935989; Wed, 07
- Feb 2024 07:15:35 -0800 (PST)
-Date: Wed, 7 Feb 2024 07:15:34 -0800
-In-Reply-To: <a7f375a2e60eae85ffa69f6e60ac6a8cf18521dd.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pX3LTP6j";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rd8/9nVM"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1707319863;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c04kwZUxrvzi0qvbSSBFwoEI3C7fipYQbJIv4qBO2mM=;
+	b=pX3LTP6jV2sgdSLm1wYHtfx8ErZl1KpxVfPY9rb03KkNx8HshqzA+MQcD1oD+pi1+98JnT
+	hukHm/rQE4T/Lr0aLnUxVqVvqkE0SolHJ/yHRTHKhMDUDtp0CvUlgAXyz3HCF10+FoOdYz
+	IJEsyZlpaw3Vl+KUtMsDd3Ev5iCeIl3bNmEbHx0zde9t7+1gvIJ2x2N2xH0LzDgNQxSKj3
+	9yTiqHI/Ds4eZBsIRW9Lgdb+gtmkus9yy91OC+l1pbflBSuHxvfOEsSJ+IJZmVXCyL3zmN
+	TxDv/fPfWOpMNNhgZ4GKkOJlg/J7BeDb/iQCkcKbXsDjLp3f/uk2NESKg/0wFw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1707319863;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c04kwZUxrvzi0qvbSSBFwoEI3C7fipYQbJIv4qBO2mM=;
+	b=rd8/9nVMjgPNsldK9YDX7YWT5kRNdt7AE4DtqnZ0JUjYD/Rpywr6xjdjT/asiFcpRtTF+B
+	CWRJeVKy5QeunoCw==
+To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com,
+ jesse.brandeburg@intel.com, davem@davemloft.net,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
+ pandith.n@intel.com, mallikarjunappa.sangannavar@intel.com,
+ subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com,
+ lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v4 07/11] ice/ptp: remove convert_art_to_tsc()
+In-Reply-To: <20240207060854.6524-8-lakshmi.sowjanya.d@intel.com>
+References: <20240207060854.6524-1-lakshmi.sowjanya.d@intel.com>
+ <20240207060854.6524-8-lakshmi.sowjanya.d@intel.com>
+Date: Wed, 07 Feb 2024 16:31:02 +0100
+Message-ID: <87bk8smguh.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240115125707.1183-1-paul@xen.org> <20240115125707.1183-4-paul@xen.org>
- <ZcL2Y1gpRG8C1_8f@google.com> <a7f375a2e60eae85ffa69f6e60ac6a8cf18521dd.camel@infradead.org>
-Message-ID: <ZcOelockFh47Xu3s@google.com>
-Subject: Re: [PATCH v12 03/20] KVM: xen: mark guest pages dirty with the
- pfncache lock held
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Tue, Feb 06, 2024, David Woodhouse wrote:
-> On Tue, 2024-02-06 at 19:17 -0800, Sean Christopherson wrote:
-> > KVM: x86/xen: for the scope please.=C2=A0 A few commits have "KVM: xen:=
-", but "x86/xen"
-> > is the overwhelming favorite.
->=20
-> Paul's been using "KVM: xen:" in this patch series since first posting
-> it in September of last year. If there aren't more substantial changes
-> you need, would you perhaps be able to make that minor fixup as you
-> apply the series?
+On Wed, Feb 07 2024 at 11:38, lakshmi sowjanya d. wrote:
 
-Yes, I can fixup scopes when applying, though I think in this case there's =
-just
-enough small changes that another version would be helpful.  Tweaks to the =
-scope
-are rarely grounds for needing a new version.  I'd say "never", but then so=
-meone
-would inevitably prove me wrong :-)
+> From: Thomas Gleixner <tglx@linutronix.de>
+>
+> Remove convert_art_to_tsc() function call, Pass system clock cycles and
+> clocksource ID as input to get_device_system_crosststamp().
+>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> ---
+>  drivers/net/ethernet/intel/ice/ice_ptp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/net/ethernet/intel/ice/ice_ptp.c b/drivers/net/ethernet/intel/ice/ice_ptp.c
+> index 3b6605c8585e..104b3f7a7cfc 100644
+> --- a/drivers/net/ethernet/intel/ice/ice_ptp.c
+> +++ b/drivers/net/ethernet/intel/ice/ice_ptp.c
+> @@ -2101,7 +2101,7 @@ ice_ptp_get_syncdevicetime(ktime_t *device,
+>  			hh_ts_lo = rd32(hw, GLHH_ART_TIME_L);
+>  			hh_ts_hi = rd32(hw, GLHH_ART_TIME_H);
+>  			hh_ts = ((u64)hh_ts_hi << 32) | hh_ts_lo;
+> -			*system = convert_art_ns_to_tsc(hh_ts);
+> +			system->cycles = hh_ts;
+
+Fails to set the ID.
