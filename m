@@ -1,135 +1,141 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9DB7F470
-	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 15:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618427F48C
+	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 15:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707318580; cv=none; b=c/nt5MVYkGRuapDapx+nGNYYIB/R3BHuwQ0qNVRiVCNXe3N6DrcwzWMxJgSzm+MOKZnJ+2JHzO6nptdQ4zLqGdwdYxvzJYYIgMajTAewdZsHmij/dEOnxneRAT/YPgp7UnVysH/hBjrAlTfp++6zL49Rxv7PBjIX+dYgsSX6PWw=
+	t=1707318633; cv=none; b=mi114vKRU8/xNtzaq66C71raRv8tIo7ugY3uJ/PI1J1GrN5oZHtj32QYlmDKQq3XyN7geq4lc+jQ4El5m35bk3wEe0/YkU0LdISAoCE5+q8U4sSjWCY+eZAz0ElMW95Jv/UGr+zLQrvix1qC45zARj7X0Q6Ayu1jmfb3kumpS5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707318580; c=relaxed/simple;
-	bh=289HaGYyUFlSBzdgaJPiX1tdAh3koUayV8L35fXtBMQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTTgN8S3t8YM1Lz/i0hHb9dfWZTLmcXf1RwHAsXrj9YOzQyaFqt45po6LPKr/m44kPstJmcJh6Zc0QhfVkABsA9Z1W+lUNVgvEzD7llzuzkrtRqJ26/RCKh0GpirbBvFN/CW2Wn3ybT41S4k8WSJvGHb5Rc+B8WqBgrE3sIl5UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=PY+GQVkB; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1707318633; c=relaxed/simple;
+	bh=TDeuMYw3V5mfviFayWil0sUeiH295xl/tQfWNiFIdFg=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=c5cP8crJan6ef7nilO8tm8LT2tSHuZFgPERiyrQf/kbpr3gIJlHzYHKy/4M3Bv/4RGmp470zvGlpWPIc9AeTA01KgI9B7SRZCgiLMenPFa/2dKHZbxww8jAsEUD2uO6L20/6mcYU6386HbrpLNnBOhicPDoriT31AOteivlKPOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AtX7nhxl; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="PY+GQVkB"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a3850ce741bso83697066b.3
-        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 07:09:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AtX7nhxl"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dbf618042daso1096824276.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 07:10:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1707318577; x=1707923377; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3fOJyiQhDEQVM/OwkrnT+6+TKgKM76JkW083fWVVDBk=;
-        b=PY+GQVkBbwxWwZNCfwCthRubJa9T++UD1BCfRZdMnhgRuWB0As4VvOuMekPlhPwVHH
-         s+NMskSpxvlXsKzp0sCv+9SsErwtFOpIDfrmEhLRbLvsH7SEkG13VYhVUgQW+AbXsop0
-         mQjQttud987Oh5DIrHXZXoAQzSSnEGV7n6apJLh13NJX22EkfFrXsUv54ORBs1yfM7YJ
-         /vHcYbEJMKI9RsSlUvwOGPH4W7f76HYKeqX2UC/+0nzbCqozTFTHtxaBPdzlh2DpXazM
-         +9azSiI7vdi2Kmj/P5vtqO0kPJCGN/LIgTwmTL9bkq2QBmpoHij1hb9MnFrrOrs8o5Cs
-         gPlA==
+        d=google.com; s=20230601; t=1707318630; x=1707923430; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C/5FPgGvRtWIxXt/NaMkBCrrVZJi2vGASXviIWBw83Q=;
+        b=AtX7nhxlgibTRw+/Xuk1ltRXz6DAeXR1MOjqdE8mMFF5Q1PrKrmwcQ2E2imBhe5l+E
+         DVVO95MQh6dG2yMwt7utxjtaBVlTlk4qd11EO6K3i+l8CLvR6kdlxt8m6kJSQw9DsS1D
+         EIx8NoYelrredMlJj7KtQDH3JM90e/KNnwpYkUEuKjCsQkv8OzXuHuZ3ZzMIosC3rWKI
+         N5UqY4+VBR5F8oFEn8wVaUa93sIi4LDQnoXlUlVSfCemXIfkCOHriP4SGwLopFs5d0EE
+         /keGIyll82Q24nQQHjsDbdV+4cz2aq3IzBC+Hhxd5rXpbkVy88gzZWC5DQUKVyZ3p928
+         UcMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707318577; x=1707923377;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3fOJyiQhDEQVM/OwkrnT+6+TKgKM76JkW083fWVVDBk=;
-        b=HiRy7VGWRXY/MdPYe0FuDH/cWfLM7kgXc/PtW2/OggMncz2zr7Eo5nfZ5yhgs+2ytq
-         f64kdvDfs9ntayqxmxzrY6CaZ0Xg1D8PMq2oWW+FwWJZB3+VAFiPooyDkseYLinNpl54
-         3d4fMMaW+JmQKhOaFxOPNzzjn1CC0VTU6VIAZL4EvhToMLgDM+Z3kAHBmlrAJTThg2Ll
-         Dwwip8fD0IQiqMEect8Vtv84lPC+ShpnYveg/b5PfOdrwglzjEcWOVdZ/KxyR9G1DyiF
-         iqLVp7yBbrgPECjg4c8tdssNbMfZGHGESU6C1I2+nZ7R9sjL+/0z01fJcL1POb+7fF7B
-         HIhg==
-X-Gm-Message-State: AOJu0YzUkhWjcL4TsZlDphGaoPJT4tIVDTgQDXMRpUJSHzNAFJHz9lkS
-	Pj4VkgaYtDqEY/bzTadJTbF1be5CHmEUNRejza0Kwiq0i5Fgxxk/kUJdwnR9yjI=
-X-Google-Smtp-Source: AGHT+IEll9oUuMXPJPEKfzna/H4NBKn3iyg+La3JeQgNI7lqzBIfxefGwoDNHHhuwYO4qQW6EQqgRQ==
-X-Received: by 2002:a17:907:7803:b0:a34:96e9:f46c with SMTP id la3-20020a170907780300b00a3496e9f46cmr4162025ejc.31.1707318576821;
-        Wed, 07 Feb 2024 07:09:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUvxcgxBYzEwqY+Jl6A6mhH/kPpsJosFYLwZCqbchnZsHhP6c7ZxGSU2Pz3grVJ8cfjhumSW1VdAs+UJ7Ul6fU9s+A8UAlJhMYDdt5sCHZXd9AkWmm89A7S103tkhQ0bM9wY75FZeNX0J3e9OmLVhp5lX7s3NXsfoeD0jbChoB4GHnMC7EFZ09KXxuUag+NW2zXpd7bqdGZAQO0c5Ez/YDspt5lkcAoDjZdJJXG4Gan82yImyk3HveUAmh+IVRwaM9UxblyfwczOHmc4CSEqPIAGLoupgSWYtWvzbjXCRaR9AQXdG5d4IQIHvuwlzDnJIYTkZuZkXwsg5WUxAyMXlCDn/idLyxAzGsobpp+2fJXPKVCYSvRiibxgisv/q2wgrJ/QKOAwY0cS1PDQ+hccitcgvV2it8taIHfieBe/MRrQ54D4GGb0RkYECSF9EGJ3bo3LOJ1jC6QxXWNXbe8zCqFEYO22V2DwySm
-Received: from alley ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id cw9-20020a170907160900b00a388e24bd2fsm428980ejd.162.2024.02.07.07.09.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 07:09:36 -0800 (PST)
-Date: Wed, 7 Feb 2024 16:09:34 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Sreenath Vijayan <sreenath.vijayan@sony.com>
-Cc: john.ogness@linutronix.de, corbet@lwn.net, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, rdunlap@infradead.org, rostedt@goodmis.org,
-	senozhatsky@chromium.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-	taichi.shimoyashiki@sony.com, daniel.palmer@sony.com,
-	anandakumar.balasubramaniam@sony.com
-Subject: Re: [PATCH v4 2/2] tty/sysrq: Dump printk ring buffer messages via
- sysrq
-Message-ID: <ZcOdLrOPiPJmCec5@alley>
-References: <cover.1706772349.git.sreenath.vijayan@sony.com>
- <ca8dd18e434f309612c907d90e9f77c09e045b37.1706772349.git.sreenath.vijayan@sony.com>
+        d=1e100.net; s=20230601; t=1707318630; x=1707923430;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=C/5FPgGvRtWIxXt/NaMkBCrrVZJi2vGASXviIWBw83Q=;
+        b=VhKKE3y1Sf7+Sf0dInnTrJcrAI7JINACrT2bH6KT/R3TBDvbYls9+dgeWY1NOOOsaG
+         /RITsTso84kmhoGPRad6R+T3U7v+2T6GRTvdVgFYAhXYSl98Pxp+m85nymmw/MlRiXy5
+         MTYAwTou5NwdUoqTreeUEpG4n3JJtZkwAl0PSNjV6VrdRsvYHTEZpD24hjuRXgIF0Sdw
+         5lzG+S4SPQVA08lZ3oDNYkXJ7bU/VEiDIv4z7fdm5g6OnYDYPlDUN2ecOTGwlMhD4OGv
+         XswhCglj9BPpq3RKdLLtFEN21cxWF13UOGvCrt8I0mgDLLzZAD8PS2Sng7rk/W6KPKLB
+         s7Lg==
+X-Gm-Message-State: AOJu0YznaVJ4oWFbSGaHFhDX0aup4cO5RLp+4Eh9X3TyToivjs2dGyOT
+	Lf9E78Kr3iyfdT1F2PJUQWEDDjt9HFAmm7dA0zJUR2xbKBg/v989XByuKXxgBeRZlOHjncGe7V7
+	Szw==
+X-Google-Smtp-Source: AGHT+IFvJL9oypygwTLZ3VHM332NyBw8WKMDivEtxpFXSaOzxlyiHKWCNbhIvXGG/Y4f74o4QcvLCt4/dbI=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:220c:b0:dc2:5456:d9ac with SMTP id
+ dm12-20020a056902220c00b00dc25456d9acmr181054ybb.5.1707318630365; Wed, 07 Feb
+ 2024 07:10:30 -0800 (PST)
+Date: Wed, 7 Feb 2024 07:10:28 -0800
+In-Reply-To: <a817d64f3fe7b935a02e78df02dc0c6281e61af3.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ca8dd18e434f309612c907d90e9f77c09e045b37.1706772349.git.sreenath.vijayan@sony.com>
+Mime-Version: 1.0
+References: <20240115125707.1183-1-paul@xen.org> <20240115125707.1183-19-paul@xen.org>
+ <ZcMFb1epchA7Mbzo@google.com> <bbd59a2c0897d8ca642ea8c4787b829190e75a4d.camel@infradead.org>
+ <ZcMLX5Omum3riZe8@google.com> <a817d64f3fe7b935a02e78df02dc0c6281e61af3.camel@infradead.org>
+Message-ID: <ZcOdZKmmYz3kMgwp@google.com>
+Subject: Re: [PATCH v12 18/20] KVM: pfncache: check the need for invalidation
+ under read lock first
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu 2024-02-01 13:12:41, Sreenath Vijayan wrote:
-> When terminal is unresponsive, one cannot use dmesg to view printk
-> ring buffer messages. Also, syslog services may be disabled,
-> to check the messages after a reboot, especially on embedded systems.
-> In this scenario, dump the printk ring buffer messages via sysrq
-> by pressing sysrq+D.
+On Tue, Feb 06, 2024, David Woodhouse wrote:
+> On Tue, 2024-02-06 at 20:47 -0800, Sean Christopherson wrote:
+> >=20
+> > I'm saying this:
+> >=20
+> > =C2=A0 When processing mmu_notifier invalidations for gpc caches, pre-c=
+heck for
+> > =C2=A0 overlap with the invalidation event while holding gpc->lock for =
+read, and
+> > =C2=A0 only take gpc->lock for write if the cache needs to be invalidat=
+ed.=C2=A0 Doing
+> > =C2=A0 a pre-check without taking gpc->lock for write avoids unnecessar=
+ily
+> > =C2=A0 contending the lock for unrelated invalidations, which is very b=
+eneficial
+> > =C2=A0 for caches that are heavily used (but rarely subjected to mmu_no=
+tifier
+> > =C2=A0 invalidations).
+> >=20
+> > is much friendlier to readers than this:
+> >=20
+> > =C2=A0 Taking a write lock on a pfncache will be disruptive if the cach=
+e is
+> > =C2=A0 heavily used (which only requires a read lock). Hence, in the MM=
+U notifier
+> > =C2=A0 callback, take read locks on caches to check for a match; only t=
+aking a
+> > =C2=A0 write lock to actually perform an invalidation (after a another =
+check).
+>=20
+> That's a somewhat subjective observation. I actually find the latter to
+> be far more succinct and obvious.
+>=20
+> Actually... maybe I find yours harder because it isn't actually stating
+> the situation as I understand it. You said "unrelated invalidation" in
+> your first email, and "overlap with the invalidation event" in this
+> one... neither of which makes sense to me because there is no *other*
+> invalidation here.
 
-I would use sysrq-R and say that it replays the kernel log on
-consoles.
+I am referring to the "mmu_notifier invalidation event".  While a particula=
+r GPC
+may not be affected by the invalidation, it's entirely possible that a diff=
+erent
+GPC and/or some chunk of guest memory does need to be invalidated/zapped.
 
-The word "dump" is ambiguous. People might thing that it calls
-dmesg dumpers.
+> We're only talking about the MMU notifier gratuitously taking the write
 
-Also the messages would be shown on the terminal only when
-console_loglevel is set to show all messages. This is done
-in __handle_sysrq(). But it is not done in the workqueue
-context.
+It's not "the MMU notifier" though, it's KVM that unnecessarily takes a loc=
+k.  I
+know I'm being somewhat pedantic, but the distinction does matter.  E.g. wi=
+th
+guest_memfd, there will be invalidations that get routed through this code,=
+ but
+that do not originate in the mmu_notifier.
 
-Finally, the commit message should explain why workqueues are used
-and what are the limitations. Something like:
+And I think it's important to make it clear to readers that an mmu_notifier=
+ really
+just is a notification from the primary MMU, albeit a notification that com=
+es with
+a rather strict contract.
 
-<add>
-The log is replayed using workqueues. The reason is that it has to
-be done a safe way (in compare with panic context).
-
-This also means that the sysrq won't have the desired effect
-when the system is in so bad state that workqueues do not
-make any progress.
-</add>
-
-Another reason might be that we do not want to do it in
-an interrupt context. But this reason is questionable.
-Many other sysrq commands do a complicate work and
-print many messages as well.
-
-Another reason is that the function need to use console_lock()
-which can't be called in IRQ context. Maybe, we should use
-console_trylock() instead.
-
-The function would replay the messages only when console_trylock()
-succeeds. Users could repeat the sysrq when it fails.
-
-Idea:
-
-Using console_trylock() actually might be more reliable than
-workqueues. console_trylock() might fail repeatably when:
-
-    + the console_lock() owner is stuck. But workqueues would fail
-      in this case as well.
-
-    + there is a flood of messages. In this case, replaying
-      the log would not help much.
-
-Another advantage is that the consoles would be flushed
-in sysrq context with the manipulated console_loglevel.
-
-Best Regards,
-Petr
+> lock on a GPC that it *isn't* going to invalidate (the common case),
+> and that disrupting users which are trying to take the read lock on
+> that GPC.
