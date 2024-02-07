@@ -1,95 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6F0126F37;
-	Wed,  7 Feb 2024 20:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97EE1272D1
+	for <linux-doc@vger.kernel.org>; Wed,  7 Feb 2024 21:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707337126; cv=none; b=Cx/COZtc7Y6hH5hInCguPVyjAI9OYB3o4Z7pfO+6JOvu7PN5uofOwmsEDkD41b7XeAu3ZcPmJIOwa9cqI62Jr2+x7EVzhHIKy2qH2goUCwsi9a1hzRtfYb9YDaRpqsVrGsuvF0vTcEQsDwVxjQCQNPh2LBeQqBLz8yH1nTBE688=
+	t=1707340000; cv=none; b=pw7hYox5qU2ej+wbBwrp9QZoHQQaZt5ykiDDlG22N5qNSK5lAVoELoR5AHyhvLuYwsBK/ILjTomvl7Xg3f8Te6I0+prgOjisiq8I3sq0qjhcTv5TUK/1JD+aHWgeaZ9e6FvnkkVeYrN48t1K7zxgCLLk2qquAHKyfc5cEnMUuds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707337126; c=relaxed/simple;
-	bh=3DBdSkr1+oN510ucK4APN7lecmvtDgNwN2r/J31Mba0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B4NzmW+shwoHcNQHfbUfj/dVrWujbzCgpJNgFA3niE829LC/1xb0ilIPDbs3oDYUl+JvP1Q4TO2L2gkU4h7JOkgNmB8ZmJqiu6HjaCDuh15RNrff/NAERV+eQk9YmN/UA05zdHhw6B+jP7VwN5co5sHAqV6zkv9a5RHWtB+itRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NEFuw/ej; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707340000; c=relaxed/simple;
+	bh=kfCF66+nsP3XZFTo8GwalkScCc4V7eApC34k00p2TZI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I7xvouS0VUlA5HasOMom+VciLNEQz+0U/+DtWqQzwmC54QuZy50u7OeNVUXwsNKl54jNSrrZvLbFrY6L17QF1yfnCY6cwjvDrWIho/EeVQzccRCbo+zH/HT6W7RdonNdnjrJCusK8p++xMocBNyE/CAeY4zxlKnRfZlL3tastyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=gZLbPrCv; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NEFuw/ej"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E61FC433C7;
-	Wed,  7 Feb 2024 20:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707337126;
-	bh=3DBdSkr1+oN510ucK4APN7lecmvtDgNwN2r/J31Mba0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NEFuw/ejNPdZC/T+TmKCAo/eVBLcHKGs+gAzsnAOT1Z3Pk1+kHIFk5qOiqT+x7LvO
-	 ibzQMw15E9lNzOdHZIEI3EVuyp22O8Xfo21T64QhQazWamkzSRHbWdBgaJqbZsp6EL
-	 IbsZxi1ThJgF17+yE0hpL2iruWh2V3Sw0gsHiOPH+DzEo6MjJ04Fml8EqKOGrE6Pio
-	 2c9Okoqr3741mPdoHwQJEVFO7x+lFuBqWjEWOqv8AUFxPCV7vQYQ8+Mk6y/shdNKAk
-	 ZvunoN+G00tuZe1DW516zTmTO5VRY3h5nkUQ8KkNA7C/svrr/+jSYU69TvIARo6ljn
-	 aXXMdSQxTjIrg==
-Date: Wed, 7 Feb 2024 12:18:44 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Joe Damato <jdamato@fastly.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- chuck.lever@oracle.com, jlayton@kernel.org, linux-api@vger.kernel.org,
- brauner@kernel.org, edumazet@google.com, davem@davemloft.net,
- alexander.duyck@gmail.com, sridhar.samudrala@intel.com,
- willemdebruijn.kernel@gmail.com, weiwan@google.com,
- David.Laight@ACULAB.COM, arnd@arndb.de, sdf@google.com,
- amritha.nambiar@intel.com, Jonathan Corbet <corbet@lwn.net>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Nathan Lynch
- <nathanl@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Namjae Jeon
- <linkinjeon@kernel.org>, Steve French <stfrench@microsoft.com>, Thomas
- Zimmermann <tzimmermann@suse.de>, Julien Panis <jpanis@baylibre.com>,
- Andrew Waterman <waterman@eecs.berkeley.edu>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "open list:FILESYSTEMS
- (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH net-next v6 4/4] eventpoll: Add epoll ioctl for
- epoll_params
-Message-ID: <20240207121844.6bf34083@kernel.org>
-In-Reply-To: <20240207191603.GB1313@fastly.com>
-References: <20240205210453.11301-1-jdamato@fastly.com>
-	<20240205210453.11301-5-jdamato@fastly.com>
-	<ec9791cf-d0a2-4d75-a7d6-00bcab92e823@kernel.org>
-	<20240207185014.GA1221@fastly.com>
-	<20240207110726.68c07188@kernel.org>
-	<20240207191603.GB1313@fastly.com>
+	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="gZLbPrCv"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-59cf4872e1dso450438eaf.1
+        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 13:06:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vimeo.com; s=google; t=1707339998; x=1707944798; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NchtCtztTYgLVk31R6XXB+U98ZPDL1AD+o55ip7WTnY=;
+        b=gZLbPrCvgHu/1S3PNVV7VNGkZK4GUtWwndnwsnVg0IYtf+6D/5cc6xtcFuI/D18KRK
+         iS1RHfHBuTqtWF13P5KSgR9ktQZn99sBhWXuUNm09XW3154ruHUltQCUL+0KONTyXs+B
+         AHO0iupgzeJ4GLmlqVH8ptQ43rxdOql2bwNWU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707339998; x=1707944798;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NchtCtztTYgLVk31R6XXB+U98ZPDL1AD+o55ip7WTnY=;
+        b=JcjCyumPtIvjwZ3W5JokCmgEi28VqMKtzQMQK6m1hWFibpgFx2jepS6+AKFlkrU2aD
+         CmoDXxNcLynLxyUtTbjUSHHZYiGCUTwA1+fO8ELU1pFnl/PB5qCJykzAsvTkMKDTwk0A
+         +R4svv76nSOSzxPDANfpANJGk5Z+2zLCVrhyIX2SzD/8wHj/Q0jGTtnAmMZH/zNe1cay
+         DNIryoGuad9x9kE1+p+ec1hUzE1+5hPQCPRGKb4wRGYqRyqLvl7WficDfCw09mzIwf/P
+         cKHJStBX0PJxbM4PwMqeuKVm7cMxsYOX6e4FXMHhtiF1wjU3BUVparA57hXHxxfw9oSu
+         r+gg==
+X-Gm-Message-State: AOJu0YzmeYPdQzJ+gZD4THdOjNadYsrZhwC7G5oa2MRBouxKVizxrTe+
+	wKwh2Y/PMAPbiKvHmie60qzyvaUfLzQkOj/jWX5RcxVdMH/1gbJwvREZ8Yt3+1aPW6NMuMNaEFO
+	eUi2fTNerUVsjSmBJPb/PB1jW3rzZzKhFErU6iQ==
+X-Google-Smtp-Source: AGHT+IFHJ8RzBy8kDruajhclKaKc5G+oGuGhBt6+ikiR1rVtLI1ZIksnvJc+jThp9pyXy+1XUd/hTd9KJKxiBGbCd0Y=
+X-Received: by 2002:a05:6358:d09b:b0:179:1f6:4775 with SMTP id
+ jc27-20020a056358d09b00b0017901f64775mr3847995rwb.31.1707339997647; Wed, 07
+ Feb 2024 13:06:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20231204194156.2411672-1-davidf@vimeo.com>
+In-Reply-To: <20231204194156.2411672-1-davidf@vimeo.com>
+From: David Finkel <davidf@vimeo.com>
+Date: Wed, 7 Feb 2024 16:06:26 -0500
+Message-ID: <CAFUnj5PjgQM8G=s2TxJS73_GnytOACog8PFuzASgYNfLH2Uo-w@mail.gmail.com>
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+To: Muchun Song <muchun.song@linux.dev>
+Cc: core-services@vimeo.com, Jonathan Corbet <corbet@lwn.net>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeelb@google.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 7 Feb 2024 11:16:03 -0800 Joe Damato wrote:
-> > > netdev maintainers: Jiri marked this with Reviewed-by, but was this review
-> > > what caused "Changes Requested" to be the status set for this patch set in
-> > > patchwork?
-> > > 
-> > > If needed, I'll send a v7 with the changes Jiri suggested and add the
-> > > "Reviewed-by" since the changes are cosmetic, but I wanted to make sure
-> > > this was the reason.  
-> > 
-> > Yes, I think that's it.  
-> 
-> OK, thanks for letting me know. I wasn't sure if it was because of the
-> netdev/source_inline which marked 1/4 as "fail" because of the inlines
-> added.
-> 
-> Does that need to be changed, as well?
+Did I miss a reviewer on this change?
 
-For background our preference is to avoid using static inline in C
-sources, unless the author compiled the code and actually confirmed
-the code doesn't get inlined correctly. But it's not a hard
-requirement, and technically the code is under fs/.
+I've clearly missed the window for 6.8, but it would be nice to get
+this into a staging branch for 6.9.
 
-In general the patchwork checks are a bit noisy, see here the top left
-graph of how many of the patches we merge are "all green":
-https://netdev.bots.linux.dev/checks.html
-Some of the checks are also largely outside of our control (checkpatch)
-so consider the patchwork checks as automation for maintainers. 
-The maintainers should respond on the list if any of the failures 
-are indeed legit. 
+(I can definitely rebase and re-mail if necessary)
+
+Thanks,
+David Finkel
+
+
+On Mon, Dec 4, 2023 at 2:42=E2=80=AFPM David Finkel <davidf@vimeo.com> wrot=
+e:
+>
+> Other mechanisms for querying the peak memory usage of either a process
+> or v1 memory cgroup allow for resetting the high watermark. Restore
+> parity with those mechanisms.
+>
+> For example:
+>  - Any write to memory.max_usage_in_bytes in a cgroup v1 mount resets
+>    the high watermark.
+>  - writing "5" to the clear_refs pseudo-file in a processes's proc
+>    directory resets the peak RSS.
+>
+> This change copies the cgroup v1 behavior so any write to the
+> memory.peak and memory.swap.peak pseudo-files reset the high watermark
+> to the current usage.
+>
+> This behavior is particularly useful for work scheduling systems that
+> need to track memory usage of worker processes/cgroups per-work-item.
+> Since memory can't be squeezed like CPU can (the OOM-killer has
+> opinions), these systems need to track the peak memory usage to compute
+> system/container fullness when binpacking workitems.
+>
+> Signed-off-by: David Finkel <davidf@vimeo.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst       | 20 +++---
+>  mm/memcontrol.c                               | 23 ++++++
+>  .../selftests/cgroup/test_memcontrol.c        | 72 ++++++++++++++++---
+>  3 files changed, 99 insertions(+), 16 deletions(-)
+
+
+--=20
+David Finkel
+Senior Principal Software Engineer, Core Services
