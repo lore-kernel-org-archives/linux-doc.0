@@ -1,100 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79338EEC4;
-	Wed,  7 Feb 2024 01:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7554DDC6;
+	Wed,  7 Feb 2024 02:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707269670; cv=none; b=ulIEZGpzlB/v+ehS5LpZEoGi9LmrC0KXr6XkHnxNZ4NlGWXMMzsaiiS9rWWDM/g9RIi//npPySvXOC0XARmQCDyHYMAHWQzoD10vi3vrLdrtHndeCE7bbbpJueXKVeqn016SAbnwbzPSo5apRJHv0UVwe2a66U1gL/xA1WOE65o=
+	t=1707272397; cv=none; b=kAA22HUyGM/nZtotkpvmCc7OFhmxZKXVE77NvQuyfUoCJiMkkrerxkASY9PaOpkch1om8CUr48C5gdR22BLx3O/poMaA9E1BeTr32lzOHj6w5PNcGSANPwaM3GtY2flnqsN688USwWuCRma3qJ6dkwhZA/fDVJJPzq4V2iNzNR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707269670; c=relaxed/simple;
-	bh=K5UqNYXECDU8B6qMO6ZrnzRU9Kj9go3KsOdjqpy1u60=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OzMJRCPVMYCIrCkrVHAz56IAoZlrugvzhJWE/Cl0Nz29C/gMoFIp1IffPhx26Y78dpO9WG7Z/zOr6Du7zmaverw9fIHEo5T0Dx6lfHZYdL5jQp6D1UGUgg9N08xfbgO8ClAz1reQk3INAztYLf49NqGjBhOcPsSsPtZxRvmfJKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cXg0h28g; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707272397; c=relaxed/simple;
+	bh=Chp9zNiZQisqvJTCxnpUb83eLJUJnwZdDtmJwK5aEjE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TuI22k+YlsJc9R1PuqtoSfjjX00XT85dWQeBFYh9U8/YLwP7R3vEWT2oyfXpLv5+CT391ZfTrT5+q7q8rXpnr1e4Dl+pLVEZQ2XLSHOSH0tlQslyHMlRGJ1H+YF8Or6u707aV+PGmAbXbDEkPD7w5/iwt18+30oMKhheWz/2aIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ui/tL+mc; arc=none smtp.client-ip=115.124.30.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXg0h28g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707269668; x=1738805668;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K5UqNYXECDU8B6qMO6ZrnzRU9Kj9go3KsOdjqpy1u60=;
-  b=cXg0h28gZbUGKF6LLHWItBHl0VQdxBd2ZTgjNQyo4URkSKSiMU4OStfx
-   eYcJlP8KDawcB+gE7lBBKVMTVeGa+nXnvMoFoK22C+EeRxgTFgUPgpsRm
-   Ya4pAk2OJIYoR7WmrTFbvY92dHmOAPOW2pkfAS6l2U1WhIxrbZep7niM6
-   7bDL3YV5iw4hUN6KAAVeIkBfGH57dT4OlGgSIlrG5Bvf1DHIyC4IkqI4R
-   jH+TJNPwiHiVqR7d7KJfnYXqAls2rUPosFI9pDpTBr/d2oq9dBR8GlLz0
-   6zzJzSUQJG0ottGUOXlitsCYBwVdGYt/cM5j1PPDbevVwGVaL7Uqz5fKC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10976"; a="11533440"
-X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="11533440"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2024 17:34:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,248,1701158400"; 
-   d="scan'208";a="1189312"
-Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Feb 2024 17:34:26 -0800
-Received: from kbuild by 01f0647817ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rXWpT-0001xG-2t;
-	Wed, 07 Feb 2024 01:34:23 +0000
-Date: Wed, 7 Feb 2024 09:33:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sreenath Vijayan <sreenath.vijayan@sony.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>,
-	John Ogness <john.ogness@linutronix.de>, linux-doc@vger.kernel.org
-Subject: [tty:tty-testing 28/29] kernel/printk/printk.c:4267: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202402070957.NsPz3RBO-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ui/tL+mc"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1707272384; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=SzzRsuoKn9NUe6qiu7CdTsPN+rpGpZaX9D+ucZDQDig=;
+	b=ui/tL+mcqJVOTxMOJR2kU7D5xQAgfJqpdqcg9i+yvwllD7CNjqMsXqdKR9U79+WTGuzfeG3phA6dM+8bIGLycrLt+S66IhBTwZSpZn+EOH2eeM/L+m+P+4YezubFTV6f/wGxgv4DKisR3vSx+YHe1f7nTxx8nY7q+3BgvpPwLOQ=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=xiangzao@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0W0F5hRE_1707272372;
+Received: from localhost.localdomain(mailfrom:xiangzao@linux.alibaba.com fp:SMTPD_---0W0F5hRE_1707272372)
+          by smtp.aliyun-inc.com;
+          Wed, 07 Feb 2024 10:19:43 +0800
+From: Yuanhe Shu <xiangzao@linux.alibaba.com>
+To: keescook@chromium.org,
+	tony.luck@intel.com,
+	gpiccoli@igalia.com,
+	shuah@kernel.org,
+	corbet@lwn.net
+Cc: xlpang@linux.alibaba.com,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Yuanhe Shu <xiangzao@linux.alibaba.com>
+Subject: [PATCH v3 0/3] pstore: add multi-backend support
+Date: Wed,  7 Feb 2024 10:19:18 +0800
+Message-Id: <20240207021921.206425-1-xiangzao@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-head:   014e10bea593b963574d607faa34e7eaaad3c02b
-commit: 558367b641b3802572132e7ed865f5eb887c41ea [28/29] printk: Add function to dump printk buffer directly to consoles
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20240207/202402070957.NsPz3RBO-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240207/202402070957.NsPz3RBO-lkp@intel.com/reproduce)
+I have been steadily working but struggled to find a seamlessly
+integrated way to implement tty frontend until Guilherme inspired me
+that multi-backend and tty frontend are actually two separate entities.
+This submission presents the 3rd iteration of my efforts, listing
+notable changes form the v1:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402070957.NsPz3RBO-lkp@intel.com/
+1. pstore.backend no longer acts as "registered backend", but "backends
+eligible for registration".
 
-All warnings (new ones prefixed by >>):
+2. drop subdir since it will break user space
 
->> kernel/printk/printk.c:4267: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Dump the printk ring buffer directly to consoles
+3. drop tty frontend since I haven't yet devised a satisfactory
+implementation strategy
 
+Changes from v2:
 
-vim +4267 kernel/printk/printk.c
+1. Fix ftrace.c build error as I did not compile with
+CONFIG_PSTORE_FTRACE.
 
-  4265	
-  4266	/**
-> 4267	 * Dump the printk ring buffer directly to consoles
-  4268	 */
-  4269	void dump_printk_buffer(void)
-  4270	{
-  4271		console_lock();
-  4272		console_rewind_all();
-  4273		console_unlock();
-  4274	}
-  4275	#endif
-  4276	
+A heartfelt thank you to Kees and Guilherme for your suggestions.
+I firmly believe that a tty frontend is crucial for kdump debugging,
+and I am still dedicating effort to develop one. Hope in the future I
+can accomplish it with deeper comprehension with tty driver :) 
+
+Yuanhe Shu (3):
+  pstore: add multi-backend support
+  Documentation: adjust pstore backend related document
+  tools/testing: adjust pstore backend related selftest
+
+ Documentation/ABI/testing/pstore              |   8 +-
+ .../admin-guide/kernel-parameters.txt         |   4 +-
+ fs/pstore/ftrace.c                            |  31 ++-
+ fs/pstore/inode.c                             |  19 +-
+ fs/pstore/internal.h                          |   4 +-
+ fs/pstore/platform.c                          | 225 ++++++++++++------
+ fs/pstore/pmsg.c                              |  24 +-
+ include/linux/pstore.h                        |  29 +++
+ tools/testing/selftests/pstore/common_tests   |   8 +-
+ .../selftests/pstore/pstore_post_reboot_tests |  65 ++---
+ tools/testing/selftests/pstore/pstore_tests   |   2 +-
+ 11 files changed, 295 insertions(+), 124 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.3
+
