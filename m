@@ -1,267 +1,128 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9100C1E4A8;
-	Thu,  8 Feb 2024 08:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE8A6BB5B;
+	Thu,  8 Feb 2024 08:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707381243; cv=none; b=fpDF0WFdriZuL0HRNSHY6ftoq5o7ACPi+L6PoIieB9Wue79fQQ6UTWsD0lK5IfpH8bZHtztRTiLqv5K1rYzarioiu3MRLYWpdi/MnZ2nQKkFYWj0Rqm9B8HQaB/K3mogmitUSIu8yVoocR0OF6VZDlw101JnlZt3NMxI66ndqJc=
+	t=1707382338; cv=none; b=XXwB3BC3CjJHr4lDbgsBwiKQjlItWwF4m1Kkkw4yykevsfavZbEMTKdkQidA7eeCQzrh0NQHc5S0cTdfWvpsx0+yoTTorD3EyKVlyLE2eRezscojYVQiWewscH7ZW6PL9e2114+JmbpwGWICn7ADezzfc6iKEuKQfchPJ3OQOdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707381243; c=relaxed/simple;
-	bh=yQIpBBEIxx4/IIjfHNRw5tmPHKF8fKnfitNKVQcauKM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JDbqNcXkKCeYR3DvnxoxX02+7ZU4xKBiqxmKwmInSd38DUzEsVjSrNos98oaeiUGsDvfmGVSoUgnfjIvSP5+E5plPMmTcIboAnX0t/gOVGITw6EbWfZTYuJNYrt+TONfq5YqxOTXRxNRDx0eZeMsWM6O4ylFQgf5SFVzeBVkpQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XwxPSA/r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=i6LLynjM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XwxPSA/r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=i6LLynjM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1707382338; c=relaxed/simple;
+	bh=nsYgwYdoCf/v23CMHkRT2qhweno5Q0SXZJgI7dMic6A=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=qbuLSb4e2cRxwvlq7+g9HRgA2QafUwEiIURul/MRRReaAkl0FHlCvSS0pP4Jw38yXfAtSCsJ8Z2W+3PIvKy7299S/hL1xO74DBrEMR0sEtAwVEQkPDlSCRBhRGjgsiWQhzlA3Ca9eniFnOtTaOd5bID5kcemYsTg51Rpghc2t8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K4/Fie8p; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XwxPSA/r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i6LLynjM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XwxPSA/r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i6LLynjM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8AE3B1FCA1;
-	Thu,  8 Feb 2024 08:33:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707381239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fs8rzxLNmwlqkJjO3hZMPEHaTXcNfexMZfLhq/hjgdw=;
-	b=XwxPSA/rqRdkAUNLQ/eUO8vFDXbq1aFN8h/uaNasK1TfkwxIBlQhi2TAE8i8L3H+1t88Vk
-	76PfcZZ7PnA/fQeEftPJ6rFfxrb7AQF3D+799ZSE/r4WSzPLean+TQ6JiGGePIZRDKE+07
-	rhC6rZi823vuLFBW0VXgVbERTTJw5wY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707381239;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fs8rzxLNmwlqkJjO3hZMPEHaTXcNfexMZfLhq/hjgdw=;
-	b=i6LLynjMBh/8H/AooDcHNVFovAsslhIUYIayIg3A/Vx8vg0BQmtFCwuR2NPT6hyBMTTSgw
-	ImtDrMVHWMH6RNBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707381239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fs8rzxLNmwlqkJjO3hZMPEHaTXcNfexMZfLhq/hjgdw=;
-	b=XwxPSA/rqRdkAUNLQ/eUO8vFDXbq1aFN8h/uaNasK1TfkwxIBlQhi2TAE8i8L3H+1t88Vk
-	76PfcZZ7PnA/fQeEftPJ6rFfxrb7AQF3D+799ZSE/r4WSzPLean+TQ6JiGGePIZRDKE+07
-	rhC6rZi823vuLFBW0VXgVbERTTJw5wY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707381239;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fs8rzxLNmwlqkJjO3hZMPEHaTXcNfexMZfLhq/hjgdw=;
-	b=i6LLynjMBh/8H/AooDcHNVFovAsslhIUYIayIg3A/Vx8vg0BQmtFCwuR2NPT6hyBMTTSgw
-	ImtDrMVHWMH6RNBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDBCD1326D;
-	Thu,  8 Feb 2024 08:33:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /uiqOPaRxGWSIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Feb 2024 08:33:58 +0000
-Date: Thu, 08 Feb 2024 09:33:58 +0100
-Message-ID: <87zfwb4ao9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: <srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<corbet@lwn.net>,
-	<lgirdwood@gmail.com>,
-	<andersson@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>,
-	<gregkh@linuxfoundation.org>,
-	<Thinh.Nguyen@synopsys.com>,
-	<broonie@kernel.org>,
-	<bgoswami@quicinc.com>,
-	<tiwai@suse.com>,
-	<robh+dt@kernel.org>,
-	<konrad.dybcio@linaro.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v13 35/53] ALSA: usb-audio: Prevent starting of audio stream if in use
-In-Reply-To: <0cb39613-ec01-50aa-807f-b537f201dac0@quicinc.com>
-References: <20240203023645.31105-1-quic_wcheng@quicinc.com>
-	<20240203023645.31105-36-quic_wcheng@quicinc.com>
-	<87y1bxvj0o.wl-tiwai@suse.de>
-	<ef83036f-6605-1db3-d962-ac28a10711ac@quicinc.com>
-	<877cjg7o0k.wl-tiwai@suse.de>
-	<810161b3-4d98-755f-163f-fdfc9fe37063@quicinc.com>
-	<0cb39613-ec01-50aa-807f-b537f201dac0@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K4/Fie8p"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-337d05b8942so1154669f8f.3;
+        Thu, 08 Feb 2024 00:52:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707382335; x=1707987135; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZLijPkNPZl+6L/SNv7KMroW42WvF577+ZBffRW12WRY=;
+        b=K4/Fie8p2dbJtsglNr3D9Zfe/IO5JJlq2HUkmRbox1W2Aca6I3UAYmA8lfRs7oXrzs
+         BgnUyUfLA27WnfgAwQ/fGnfAn/pOxv32oRDpU1WnLsAX8Jg2P6YB/gVBs6QxlCQNa7gh
+         DLmZj2WcxeP5GjyjpS6JicryortXoQvBi0hjGdTLP5uvEQznG0wiAoYym5YfcO6wmEL2
+         b6SuXFcg2IJvka5vapB5rzUDXTEvGZfUPgCwvon7HHeJTwTarGxFMl3WGM5LEsVfjGxR
+         J3r2YNajDLCWPzh1kYpWKc+9Irtm+j7l8FHIcVP3KIsf/64C00QNEoMxEobh6IqbdeUL
+         SDxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707382335; x=1707987135;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZLijPkNPZl+6L/SNv7KMroW42WvF577+ZBffRW12WRY=;
+        b=HG8mcd+psIBixo8BC39rUDU9lNwO8Y4tiB7TrhZZ0Rd8dxRfODHne8B0/4n1S1iMgi
+         YWwNZGUEo6Q8LzqjpBoSVZswx0O2ZBxVeOJyB9oZpaxFOrVDD/9tF/++Dr2UpwFNXrlP
+         wHpRsgxMJhVKP/QslNJRPYJKqywbl0Wi7Bx55u51P7Su+scXmHtMboF8EDfElCLrBpc/
+         V9BHhY6lTQ8D0mJmBqV44aoFByxCxqTbnUiMKaUJCnfhyQkJXp5A2Iq9JdfRTH5lpC2l
+         04s8f+uI1FGccWEBi1wxnuBm0Mo24Rv3fIZBqWUlA4y0QdN6i3QNXSDgS33riH1XN6fH
+         m8Ag==
+X-Forwarded-Encrypted: i=1; AJvYcCWXwjJemMRRs2uNf0KoZDXmZuWdqy2vIo9z0HWqghOT4Z7N/YWJzpTQwJg20XTTCiOyZwhnr2kJ9NX003XN/CU2zROrrHwHoqpXRSkefRicUM3NqYDGF02CRek/1osH7k5fY4teRatgaS0PyN7lR4taDB/q0mPorGKCtDkbnxEIkk1tsSQNRMPZNxDqtDgm6JEBRluhzXpIjIr7aB0o
+X-Gm-Message-State: AOJu0Yy5mv/6vzP3/h23J6SALH+k/MlChyr7KBNgbchGwnptQwQc8edn
+	2ogp5bl8OMkAkfu8OsbavRcj6PGcewz+R+MDkaoneoO6LP5A4c3/
+X-Google-Smtp-Source: AGHT+IG2lAcMdFKBZ5vcEaLKD/Wi/8gZcHvjnvfWa8YHRbWGT4Dmq2v32/8oBzuewudCDRhlB3OTzw==
+X-Received: by 2002:a5d:558e:0:b0:33a:fe3b:b2ae with SMTP id i14-20020a5d558e000000b0033afe3bb2aemr4867695wrv.66.1707382334630;
+        Thu, 08 Feb 2024 00:52:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX9mTO16tkOA+8xvP3tdKoS2oQCC+t3nSnWwQABs6FQGzpVYvQOZaC7FjLZFFYgdXcHeFSK05gT+W1HEMCFcxyowCXGEHrjTN5FKbkjXhfV7Mc5SmfmHswNmCKppsmvv4C7BlOxgJrs60HUV9feZcl88lnXvfNPfYqBbA5F4/L2eIV9bOK9F/kVLlMOLei+eF7IR/VLDL7k+nd9XSWn2onJqY4WS3+MzIcaik3H/9LEXLXISqI1ZrOX5KyB+1rl2IsBrPFPFdM/598+CkR2XRHmedDdI/WJdAAZ7Zdavo9EVAw2xIy97yqJVe+APv7Uh0RFEirn/tn9n4zbbLKxRrA6IShxK+GDlZOWEVg4hUFPZHmQJCTv4g9JTTEnDBU71YWsOKPnCLuRCgDaf3Yp/XQhHO+0mD1yHKdekPoAWJoM1ghNTwQ=
+Received: from [192.168.10.199] (54-240-197-239.amazon.com. [54.240.197.239])
+        by smtp.gmail.com with ESMTPSA id bo16-20020a056000069000b0033b0d2ba3a1sm941262wrb.63.2024.02.08.00.52.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Feb 2024 00:52:14 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <92918ee8-3cc9-41c3-a284-5cd6648abc05@xen.org>
+Date: Thu, 8 Feb 2024 08:52:06 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: *
-X-Spam-Score: 1.40
-X-Spamd-Result: default: False [1.40 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[dt];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 NEURAL_SPAM_SHORT(3.00)[1.000];
-	 R_RATELIMIT(0.00)[to_ip_from(RLjs3ec4aura4kmsd6wxjjm4hg)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[23];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[quicinc.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Reply-To: paul@xen.org
+Subject: Re: [PATCH v12 11/20] KVM: xen: allow shared_info to be mapped by
+ fixed HVA
+Content-Language: en-US
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ David Woodhouse <dwmw2@infradead.org>, Shuah Khan <shuah@kernel.org>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20240115125707.1183-1-paul@xen.org>
+ <20240115125707.1183-12-paul@xen.org> <ZcMCogbbVKuTIXWJ@google.com>
+Organization: Xen Project
+In-Reply-To: <ZcMCogbbVKuTIXWJ@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 08 Feb 2024 02:12:00 +0100,
-Wesley Cheng wrote:
+On 07/02/2024 04:10, Sean Christopherson wrote:
+> On Mon, Jan 15, 2024, Paul Durrant wrote:
+>> @@ -638,20 +637,32 @@ int kvm_xen_hvm_set_attr(struct kvm *kvm, struct kvm_xen_hvm_attr *data)
+>>   		}
+>>   		break;
+>>   
+>> -	case KVM_XEN_ATTR_TYPE_SHARED_INFO: {
+>> +	case KVM_XEN_ATTR_TYPE_SHARED_INFO:
+>> +	case KVM_XEN_ATTR_TYPE_SHARED_INFO_HVA: {
+>>   		int idx;
+>>   
+>>   		mutex_lock(&kvm->arch.xen.xen_lock);
+>>   
+>>   		idx = srcu_read_lock(&kvm->srcu);
+>>   
+>> -		if (data->u.shared_info.gfn == KVM_XEN_INVALID_GFN) {
+>> -			kvm_gpc_deactivate(&kvm->arch.xen.shinfo_cache);
+>> -			r = 0;
+>> +		if (data->type == KVM_XEN_ATTR_TYPE_SHARED_INFO) {
+>> +			if (data->u.shared_info.gfn == KVM_XEN_INVALID_GFN) {
+>> +				kvm_gpc_deactivate(&kvm->arch.xen.shinfo_cache);
+>> +				r = 0;
+>> +			} else {
+>> +				r = kvm_gpc_activate(&kvm->arch.xen.shinfo_cache,
+>> +						     gfn_to_gpa(data->u.shared_info.gfn),
+>> +						     PAGE_SIZE);
+>> +			}
+>>   		} else {
+>> -			r = kvm_gpc_activate(&kvm->arch.xen.shinfo_cache,
+>> -					     gfn_to_gpa(data->u.shared_info.gfn),
+>> -					     PAGE_SIZE);
+>> +			if (data->u.shared_info.hva == 0) {
 > 
-> Hi Takashi,
+> I know I said I don't care about the KVM Xen ABI, but I still think using '0' as
+> "invalid" is ridiculous.
 > 
-> On 2/7/2024 4:02 PM, Wesley Cheng wrote:
-> > Hi Takashi,
-> > 
-> > On 2/6/2024 11:05 PM, Takashi Iwai wrote:
-> >> On Wed, 07 Feb 2024 01:08:00 +0100,
-> >> Wesley Cheng wrote:
-> >>> 
-> >>> Hi Takashi,
-> >>> 
-> >>> On 2/6/2024 5:07 AM, Takashi Iwai wrote:
-> >>>> On Sat, 03 Feb 2024 03:36:27 +0100,
-> >>>> Wesley Cheng wrote:
-> >>>>> 
-> >>>>> With USB audio offloading, an audio session is started from the ASoC
-> >>>>> platform sound card and PCM devices.  Likewise, the USB SND path
-> >>>>> is still
-> >>>>> readily available for use, in case the non-offload path is
-> >>>>> desired.  In
-> >>>>> order to prevent the two entities from attempting to use the USB bus,
-> >>>>> introduce a flag that determines when either paths are in use.
-> >>>>> 
-> >>>>> If a PCM device is already in use, the check will return an error to
-> >>>>> userspace notifying that the stream is currently busy.  This
-> >>>>> ensures that
-> >>>>> only one path is using the USB substream.
-> >>>>> 
-> >>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> >>>> 
-> >>>> Hm, I'm not sure whether it's safe to hold chip->mutex there for the
-> >>>> long code path.  It even kicks off the auto-resume, which may call
-> >>>> various functions at resuming, and some of them may re-hold
-> >>>> chip->mutex.
-> >>>> 
-> >>> 
-> >>> That's a good point.
-> >>> 
-> >>>> If it's only about the open flag, protect only the flag access with
-> >>>> the mutex, not covering the all open function.  At least the re-entry
-> >>>> can be avoided by that.
-> >>>> 
-> >>> 
-> >>> Sure, let me re-order the check/assignment and the mutex locking.
-> >>> Since this is now checked here in USB PCM and the QC offload driver,
-> >>> we want to make sure that if there was some application attempting to
-> >>> open both at the same time, we prevent any possible races.
-> >>> 
-> >>> I think the best way to address this would be something like:
-> >>> 
-> >>> static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
-> >>> {
-> >>> ...
-> >>>     mutex_lock(&chip->mutex);
-> >>>     if (subs->opened) {
-> >>>         mutex_unlock(&chip->mutex);
-> >>>         return -EBUSY;
-> >>>     }
-> >>>     subs->opened = 1;
-> >>>     mutex_unlock(&chip->mutex);
-> >>> 
-> >>> //Execute bulk of PCM open routine
-> >>> ...
-> >>>     return 0;
-> >>> 
-> >>> // If any errors are seen, unwind
-> >>> err_resume:
-> >>>     snd_usb_autosuspend(subs->stream->chip);
-> >>> err_open:
-> >>>     mutex_lock(&chip->mutex);
-> >>>     subs->opened = 0;
-> >>>     mutex_unlock(&chip->mutex);
-> >>> 
-> >>>     return ret;
-> >>> }
-> >>> 
-> >>> Set the opened flag first, so that if QC offload checks it, it can
-> >>> exit early and vice versa.  Otherwise, if we set the opened flag at
-> >>> the same position as the previous patch, we may be calling the other
-> >>> routines in parallel to the QC offload enable stream routine.  The
-> >>> only thing with this patch is that we'd need some error handling
-> >>> unwinding.
-> >> 
-> >> The above is what I had in mind.
-> >> 
-> >> But, thinking on this again, you might be able to get the same result
-> >> by using the ALSA PCM core substream open_mutex and hw_opened flag.
-> >> This is already held and set at snd_pcm_core() (the hw_opened flag is
-> >> set after open callback, though).  The offload driver can use those
-> >> instead of the own lock and flag, too, although it's not really
-> >> well-mannered behavior (hence you need proper comments).
-> >> 
-> > 
-> > I think I had looked into this as well previously, and it was
-> > difficult to achieve, because from the USB offloading perspective,
-> > we don't ever call: snd_usb_pcm_open()
-> > 
-> > This is actually where we populate the pcm_substream parameter
-> > within struct snd_usb_substream based on when userspace opens the
-> > USB SND PCM device (which is not the case for offloading).  So the
-> > offload driver doesn't have a way to fetch the struct snd_pcm that
-> > is allocated to the PCM device created by the USB SND card.
-> > 
-> 
-> Sorry, took a look at it again, and found a way.  Although not pretty,
-> we can access it using:
-> subs->stream->pcm->streams[direction].substream->hw_opened
 
-Yes, it's not easy to follow it.  So if we want to this path, worth
-for a detailed comment.  That said, I don't mind to introduce the new
-local mutex and flag as you did if the above became too messy in the
-end.
+With the benefit of some sleep, I'm wondering why 0 is a 'ridiculous' 
+invalid value for a *virtual* address? Surely it's essentially a 
+numerical cast of the canonically invalid NULL pointer?
 
-
-thanks,
-
-Takashi
+   Paul
