@@ -1,153 +1,137 @@
-Received: from davidv.dev (mail.davidv.dev [78.46.233.60])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452D182D76
-	for <linux-doc@vger.kernel.org>; Thu,  8 Feb 2024 16:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.233.60
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875DC7CF13
+	for <linux-doc@vger.kernel.org>; Thu,  8 Feb 2024 16:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707410584; cv=none; b=tp+CZQsSI/WkaonYupUXuzXRMMS7Pqxmq7nyIPSdmHvuhJEwURS/cbuG4YjJVbcG9suOB794DBGcYneKGtRKTaN75I0D2FGE9+6T13xHIowua4gSx6KlT5imGGr4eTR02MteK1sbmQYHOEhlJiR+wQVnnraiihbkvzj5v9q/xxQ=
+	t=1707410941; cv=none; b=jfLzvRGm0BfJNW1lRePQ47F+QAx1NT4DxczgDWio1ZB087c1NJGmRLj2CcPDUJsnNfUR+xbtFo74oXF0IV0VjCJO89iHC5PlFFrngzZkr5hSnLqqjaVSRSTB0Xc/1l/7ngHYuIdbvJOZawdzhKX+rEQIRvI0l0Q94su05KHIENw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707410584; c=relaxed/simple;
-	bh=e9gx7ysf5nDVQcKyRIhMrUuZqIvSokXKGgA3mBX6IGE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pZvhxUQCCKmu+aEUQ6ksK9fRkDNdGejbpymZ76mGiW/gMrsI3ZtmWB72RsTlNm7IznzuOtyDOmNgkPBUFBDujwIjlYkPWVXG8Hll9EyWKvicS1sdHpa8Qt7fvTte6EMhHZ9uWGf6R6IcXlMeYcsDWj8LjaKvrFX0/DezqT8J76Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev; spf=pass smtp.mailfrom=davidv.dev; arc=none smtp.client-ip=78.46.233.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidv.dev
-Received: from [192.168.2.131]
-	by mail.davidv.dev (chasquid) with ESMTPSA
-	tls TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
-	(over submission+TLS, TLS-1.2, envelope from "david@davidv.dev")
-	; Thu, 08 Feb 2024 17:42:59 +0100
-Message-ID: <ff6cef18-c1fb-4a1e-91a5-fb713086474e@davidv.dev>
-Date: Thu, 8 Feb 2024 17:42:58 +0100
+	s=arc-20240116; t=1707410941; c=relaxed/simple;
+	bh=pIkQcZS9dPhEHcosG9RvWsKh81a3Ju3tnA2/A83HRUI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=vFAeZ9qciuOD0o2QVohVx1muRmSOjxZcrSbr8k+BTmqnphzwyBETIf9EhqH+actg03VCJOK0Bkz+z9TnqVgCDXaDokGi/KZXPy4noJnnhPk6nyYPJz1ve7YQpjRG24L6DF+KNiDdzPjXy84qcOsgq6tvCaEbvV8bKEuYnJpG5gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QQyfUJy4; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QQyfUJy4"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-604ad18981eso1304947b3.2
+        for <linux-doc@vger.kernel.org>; Thu, 08 Feb 2024 08:48:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1707410938; x=1708015738; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lOwnn26TKMYPd0wmIeXSxvlCDp0GqmDj4OeL7dzZHIA=;
+        b=QQyfUJy4VaY6qF1ffR89eKTTiCe+wRKJS1CVSaicweFzZ8gujNbUWsiIpk2pr8ZCM8
+         mDpYZSGygkyOxefclvVCXi2ZUv1oQbD9Zww5abP1ZDYWDrAjFbovXNsrh33kSMekCdBa
+         KgoqqgekplgDRfFWHc30TZckLAL2dXATCQclEL7s5PrsHSYc0Y/2UAXYrmGS3Kxcbh6J
+         m0/CrqrXIAF6voQ3+hcjGsboPt0I84aAQ8HNdlfJsb4+pS6salKppRGpRPLW4Nabu5br
+         YS32TAGLPbH88J+JmqlKYofCPv9ynOB6HrwmuQGfLTumBrYxTn+Qb/PRoourTrBtRZoo
+         p8Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707410938; x=1708015738;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lOwnn26TKMYPd0wmIeXSxvlCDp0GqmDj4OeL7dzZHIA=;
+        b=EmhRCqdwjE5WYmVtM7tyhZPOtEh8HFs11go2Qb8K9hyh6BlYjAUm6/RDkOVM3bUDFd
+         NwAP1mDE0eyEFzyh1U+/UgWB5ZP//PuXKrleXDYYC/gAc3qGE3CtXxcbk/nYVhBRI51I
+         Gyme9Ens3qkAWhcL8268uPqBOoe+XvAE732Iy41XdrueciSVv3auQIe8SH1cw4YHo5TK
+         rjyN3EeI3hGXhijKfEaXSrWr/Y6kcW0+e3nnAX527L+nQ3wrvOnksUAV1Iy4jID1/N8b
+         UEAc4/sg9nZ8sVjySZxCPK+6RwQgHtNHyxM2MM0JWCQQY/37VKO8L7QopjcPmRZk3dac
+         G9tg==
+X-Forwarded-Encrypted: i=1; AJvYcCVM/jvtU4fuuxDgX3RSfvVNozG4qsHmGapXy8iHWEBZIPOu8M9alfvLddNCWJRq/Aty8vsK233ZDamRr2vOj9bKyYgc+6HopDjM
+X-Gm-Message-State: AOJu0YzsUi7XXuOyOmk71H8UL7vk8gZyu2m7xB8pYUErPERLVwhsxe1d
+	xgjrB78/S8aMe/juNi8+O+O5Nuz2ZMNGKA6uKdDJTC/Efr/gY4aSY3KaSP9QcGHFKBshj/F4ulU
+	qvQ==
+X-Google-Smtp-Source: AGHT+IFOo4ddahF0N7mDmX9X1X2sNM2ZcU+vQGm7JwWM0YenhPypIVF1WHscjjJm6Z5C2Oh/m3uaJv7ZgLM=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:1a48:b0:dc2:3441:897f with SMTP id
+ cy8-20020a0569021a4800b00dc23441897fmr2126896ybb.6.1707410938415; Thu, 08 Feb
+ 2024 08:48:58 -0800 (PST)
+Date: Thu, 8 Feb 2024 08:48:57 -0800
+In-Reply-To: <92918ee8-3cc9-41c3-a284-5cd6648abc05@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] net: make driver settling time configurable
-Content-Language: en-US
-To: Denis Kirjanov <dkirjanov@suse.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, "David S. Miller"
- <davem@davemloft.net>, David Ahern <dsahern@kernel.org>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Paul E. McKenney" <paulmck@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Xiongwei Song <xiongwei.song@windriver.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:NETWORKING [IPv4/IPv6]" <netdev@vger.kernel.org>
-References: <20240208093722.246930-1-david@davidv.dev>
- <20240208095358.251381-1-david@davidv.dev>
- <0e129417-53c8-4931-af76-a37762472fb0@suse.de>
-From: David <david@davidv.dev>
-In-Reply-To: <0e129417-53c8-4931-af76-a37762472fb0@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20240115125707.1183-1-paul@xen.org> <20240115125707.1183-12-paul@xen.org>
+ <ZcMCogbbVKuTIXWJ@google.com> <92918ee8-3cc9-41c3-a284-5cd6648abc05@xen.org>
+Message-ID: <ZcUF-TNbykWvh3r7@google.com>
+Subject: Re: [PATCH v12 11/20] KVM: xen: allow shared_info to be mapped by
+ fixed HVA
+From: Sean Christopherson <seanjc@google.com>
+To: paul@xen.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, Shuah Khan <shuah@kernel.org>, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On 2/8/24 11:26, Denis Kirjanov wrote:
->
-> On 2/8/24 12:52, David Ventura wrote:
->> During IP auto configuration, some drivers apparently need to wait a
->> certain length of time to settle; as this is not true for all drivers,
->> make this length of time configurable.
->>
->> Signed-off-by: David Ventura <david@davidv.dev>
->> ---
->>   .../admin-guide/kernel-parameters.txt         |  4 ++++
->>   Documentation/admin-guide/nfs/nfsroot.rst     |  3 +++
->>   net/ipv4/ipconfig.c                           | 23 ++++++++++++++++---
->>   3 files changed, 27 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index b47940577c10..b07a035642fa 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -2291,6 +2291,10 @@
->>   
->>   	ip=		[IP_PNP]
->>   			See Documentation/admin-guide/nfs/nfsroot.rst.
->> +	ip.dev_wait_ms=
->> +			[IP_PNP]
->> +			See Documentation/admin-guide/nfs/nfsroot.rst.
->> +
->>   
->>   	ipcmni_extend	[KNL,EARLY] Extend the maximum number of unique System V
->>   			IPC identifiers from 32,768 to 16,777,216.
->> diff --git a/Documentation/admin-guide/nfs/nfsroot.rst b/Documentation/admin-guide/nfs/nfsroot.rst
->> index 135218f33394..f26f7a342af6 100644
->> --- a/Documentation/admin-guide/nfs/nfsroot.rst
->> +++ b/Documentation/admin-guide/nfs/nfsroot.rst
->> @@ -223,6 +223,9 @@ ip=<client-ip>:<server-ip>:<gw-ip>:<netmask>:<hostname>:<device>:<autoconf>:<dns
->>     /proc/net/ipconfig/ntp_servers to an NTP client before mounting the real
->>     root filesystem if it is on NFS).
->>   
->> +ip.dev_wait_ms=<value>
->> +  Set the number of milliseconds to delay after opening the network device
->> +  which will be autoconfigured. Defaults to 10 milliseconds.
->>   
->>   nfsrootdebug
->>     This parameter enables debugging messages to appear in the kernel
->> diff --git a/net/ipv4/ipconfig.c b/net/ipv4/ipconfig.c
->> index c56b6fe6f0d7..cbf35163b973 100644
->> --- a/net/ipv4/ipconfig.c
->> +++ b/net/ipv4/ipconfig.c
->> @@ -82,8 +82,6 @@
->>   #define IPCONFIG_DYNAMIC
->>   #endif
->>   
->> -/* Define the friendly delay before and after opening net devices */
->> -#define CONF_POST_OPEN		10	/* After opening: 10 msecs */
->>   
->>   /* Define the timeout for waiting for a DHCP/BOOTP/RARP reply */
->>   #define CONF_OPEN_RETRIES 	2	/* (Re)open devices twice */
->> @@ -101,6 +99,7 @@
->>   
->>   /* Wait for carrier timeout default in seconds */
->>   static unsigned int carrier_timeout = 120;
->> +static unsigned int dev_wait_ms = 10;
->>   
->>   /*
->>    * Public IP configuration
->> @@ -1516,7 +1515,8 @@ static int __init ip_auto_config(void)
->>   		return err;
->>   
->>   	/* Give drivers a chance to settle */
->> -	msleep(CONF_POST_OPEN);
->> +	if(dev_wait_ms > 0)
->> +		msleep(dev_wait_ms);
-> What's the point to wait more than CONF_POST_OPEN with the change?
+On Thu, Feb 08, 2024, Paul Durrant wrote:
+> On 07/02/2024 04:10, Sean Christopherson wrote:
+> > On Mon, Jan 15, 2024, Paul Durrant wrote:
+> > > @@ -638,20 +637,32 @@ int kvm_xen_hvm_set_attr(struct kvm *kvm, struct kvm_xen_hvm_attr *data)
+> > >   		}
+> > >   		break;
+> > > -	case KVM_XEN_ATTR_TYPE_SHARED_INFO: {
+> > > +	case KVM_XEN_ATTR_TYPE_SHARED_INFO:
+> > > +	case KVM_XEN_ATTR_TYPE_SHARED_INFO_HVA: {
+> > >   		int idx;
+> > >   		mutex_lock(&kvm->arch.xen.xen_lock);
+> > >   		idx = srcu_read_lock(&kvm->srcu);
+> > > -		if (data->u.shared_info.gfn == KVM_XEN_INVALID_GFN) {
+> > > -			kvm_gpc_deactivate(&kvm->arch.xen.shinfo_cache);
+> > > -			r = 0;
+> > > +		if (data->type == KVM_XEN_ATTR_TYPE_SHARED_INFO) {
+> > > +			if (data->u.shared_info.gfn == KVM_XEN_INVALID_GFN) {
+> > > +				kvm_gpc_deactivate(&kvm->arch.xen.shinfo_cache);
+> > > +				r = 0;
+> > > +			} else {
+> > > +				r = kvm_gpc_activate(&kvm->arch.xen.shinfo_cache,
+> > > +						     gfn_to_gpa(data->u.shared_info.gfn),
+> > > +						     PAGE_SIZE);
+> > > +			}
+> > >   		} else {
+> > > -			r = kvm_gpc_activate(&kvm->arch.xen.shinfo_cache,
+> > > -					     gfn_to_gpa(data->u.shared_info.gfn),
+> > > -					     PAGE_SIZE);
+> > > +			if (data->u.shared_info.hva == 0) {
+> > 
+> > I know I said I don't care about the KVM Xen ABI, but I still think using '0' as
+> > "invalid" is ridiculous.
+> > 
+> 
+> With the benefit of some sleep, I'm wondering why 0 is a 'ridiculous'
+> invalid value for a *virtual* address? Surely it's essentially a numerical
+> cast of the canonically invalid NULL pointer?
 
-I didn't have anything specificin mind - shall I change this
+It's legal to mmap() virtual address '0', albeit not by default:
 
-to only enable/disable the 10ms wait instead of allowing a configurable 
-value?
+  config DEFAULT_MMAP_MIN_ADDR
+	int "Low address space to protect from user allocation"
+	depends on MMU
+	default 4096
+	help
+	  This is the portion of low virtual memory which should be protected
+	  from userspace allocation.  Keeping a user from writing to low pages
+	  can help reduce the impact of kernel NULL pointer bugs.
 
->>   
->>   	/*
->>   	 * If the config information is insufficient (e.g., our IP address or
->> @@ -1849,3 +1849,20 @@ static int __init set_carrier_timeout(char *str)
->>   	return 1;
->>   }
->>   __setup("carrier_timeout=", set_carrier_timeout);
->> +
->> +
->> +static int __init set_dev_wait_ms(char *str)
->> +{
->> +	ssize_t ret;
->> +
->> +	if (!str)
->> +		return 0;
->> +
->> +	ret = kstrtouint(str, 0, &dev_wait_ms);
->> +	if (ret)
->> +		return 0;
->> +
->> +	return 1;
->> +}
->> +
->> +__setup("ip.dev_wait_ms=", set_dev_wait_ms);
+	  For most ppc64 and x86 users with lots of address space
+	  a value of 65536 is reasonable and should cause no problems.
+	  On arm and other archs it should not be higher than 32768.
+	  Programs which use vm86 functionality or have some need to map
+	  this low address space will need CAP_SYS_RAWIO or disable this
+	  protection by setting the value to 0.
+
+	  This value can be changed after boot using the
+	  /proc/sys/vm/mmap_min_addr tunable.
+
+
+Obviously it's equally ridiculous that userspace would ever mmap() '0' and pass
+that as the shared_info, but given that this is x86-only, there are architecturally
+illegal addresses that can be used, at least until Intel adds LA64 ;-)
