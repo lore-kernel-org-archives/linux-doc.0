@@ -1,45 +1,45 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D1250A70;
-	Thu,  8 Feb 2024 23:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6EF50A6A;
+	Thu,  8 Feb 2024 23:14:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707434079; cv=none; b=eMzWc20vP72bogeh7vkTQspRHtDFW3aFjFUe/Z2mw7+kx91PUp7ARo7VGt45OqF7tDuEIYidLO6qqFW3bl24dGP1pvZ77dyyGlhvVaV37xro5wxSSQ+zw1E+EIObIi1Gp9QT16z6utXVVeOvhNa5Rd3CivrgUsqomiX3i9Wv6+s=
+	t=1707434080; cv=none; b=Sm/lJsd1YtQcW4aWdzsy2ni2qlA/p02pjsbJ71sQttBy/UScYA1Iz/n2A/G0MidDvdBokPiepPRm6ee6FAx06URm/ccV22zw7KvjZrnEmTUu8wLbhe1jQMy1EzfIwh7ddu0IXBuyqLxA2ZltwKbfEg4k6yQxRwBQ8Ek4O5vKSDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707434079; c=relaxed/simple;
-	bh=NFb5KrutHq3DEtEEDYwpfG5twPMjHvzujusJINVO7hw=;
+	s=arc-20240116; t=1707434080; c=relaxed/simple;
+	bh=AUzYa+W3vXThhkfZrkvq18z95m/MUhJSaK13Esrt9IU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VZj/40COk3HGsY7SPh5NK4yNjYd2CDZbNn9oQuhuxbQVN1ti48Ppnuo5TXvlIW+yaktYwQJv+u30j75YjfNp48DTu+EIpdQHm8lPyIrRTHfuGZ7QiU7Z5byanggdIryblK7ygY/jN7zNLrL5U6Wl7j/BMkRPECGNuhNRuYDg3hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=nmyhFz94; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=DjD2vG+QzThH7SlwRH0jvHACrr4XNDzLd6mQYfkZOczW0xNNbDBdnnjeP7DCd6FQu8A1JVPpjayXRX952ZxpmzMt3+3xBM1T5oQp+0ZNgt1CGXnZKfH0krKSfHVHHRUv831a17Zq1qWeBDMyvUiRZoZvnSgW75PvQmNIFh+c+wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=F8n6wV8j; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nmyhFz94"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 418MWXUY003836;
-	Thu, 8 Feb 2024 23:14:24 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="F8n6wV8j"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 418Mqt56008173;
+	Thu, 8 Feb 2024 23:14:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=S9VTWxSz7x4qq1AeYZyZ
-	G+OFcZ7lvmr3A4Wyz4IN404=; b=nmyhFz94i58NcMtBUXFTjFvgn+JoddbHFpsq
-	1HZftJnOtPoWWU7bO5CnwCN8LXMX9FxFr3dzeHIp8KxM3AwnF4AarfXKFDs4aIj0
-	aF2A/2fMkgy/btH6W45Lk0pewA1cxI2qghchH8N90oekuxcjmDNP08NIXD4gMUJs
-	jhkCCT2o3MXkkxCDUWJK4GnCNwT9HmBBSTv/CD5c2sljVtnrFExxfY5SkWx1143D
-	OVP3VakBVlgWgT/r4dpWng1lw5Zl8KcbQgYBFZNKdepNSS3CIYlFKeXvZSkKGxyO
-	v5r06cBM0/CqJpwX1lyNLjC0JZdMPkhnsjUug6kHG3W3LaBapg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4m3ak1pe-1
+	:mime-version:content-type; s=qcppdkim1; bh=jumcsyHAMPRdK6BBRrtX
+	rViYw1o9e9jHI3H7NDZD9Tc=; b=F8n6wV8jo+3D4QCffSq7/J+CRknaj8BZan6H
+	2vdUiWpqscI0/NfaYSGm+ykyvuspkiZ0VT3wwpqeCRrEihJJGdo5du54zYJ9pDmd
+	0VkDAklAesRtj3IxJDOSfUQXyPz6MiqIZjlFqW7H7OFxACOkf2igx0A8EAUhJD2B
+	YwfsfK3s9vwIchro7lznOQKxAF4nGVJCSy1CCChHzq+D/1z/Ot4KmTGI4BDHGKCf
+	rtpjLiWM6drs9M0wv1W3+dyO2sUQlveN6i3ADBHCQl5Qg2B/ESk0jK2clEImVWwd
+	ObuWTOGN5xZho6cSIsFdHfUzWx5L9m/MgosNPZEGL9It62hnYQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4sns2aan-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 08 Feb 2024 23:14:23 +0000 (GMT)
+	Thu, 08 Feb 2024 23:14:17 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 418NEMsw005590
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 418NEGtP022030
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 8 Feb 2024 23:14:23 GMT
+	Thu, 8 Feb 2024 23:14:16 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 8 Feb 2024 15:14:22 -0800
+ 15.2.1118.40; Thu, 8 Feb 2024 15:14:16 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -51,10 +51,12 @@ To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
 CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v14 25/53] ALSA: usb-audio: Introduce USB SND platform op callbacks
-Date: Thu, 8 Feb 2024 15:13:38 -0800
-Message-ID: <20240208231406.27397-26-quic_wcheng@quicinc.com>
+        <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v14 02/53] xhci: fix off by one check when adding a secondary interrupter.
+Date: Thu, 8 Feb 2024 15:13:15 -0800
+Message-ID: <20240208231406.27397-3-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240208231406.27397-1-quic_wcheng@quicinc.com>
 References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
@@ -69,136 +71,51 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: MV9UD4QMEr-0_X4WY57egN_5DuUEBoQP
-X-Proofpoint-GUID: MV9UD4QMEr-0_X4WY57egN_5DuUEBoQP
+X-Proofpoint-ORIG-GUID: VLcCHzYUv4yxZ_dA3mNz8QIsNh7SR_HZ
+X-Proofpoint-GUID: VLcCHzYUv4yxZ_dA3mNz8QIsNh7SR_HZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-08_11,2024-02-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- bulkscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
- mlxlogscore=934 adultscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402080131
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ adultscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ phishscore=0 clxscore=1015 suspectscore=0 impostorscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401310000
+ definitions=main-2402080131
 
-Allow for different platforms to be notified on USB SND connect/disconnect
-seqeunces.  This allows for platform USB SND modules to properly initialize
-and populate internal structures with references to the USB SND chip
-device.
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
+The sanity check of interrupter index when adding a new interrupter is
+off by one. intr_num needs to be smaller than xhci->max_interrupter to
+fit the array of interrupters.
+
+Luckily this doesn't cause any real word harm as xhci_add_interrupter()
+is always called with a intr_num value smaller than xhci->max_interrupters
+in any current kernel.
+
+Should not be needed for stable as 6.7 kernel and older only supports
+one interrupter, with intr_num always being zero.
+
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/linux-usb/e9771296-586d-456a-ac24-a82de79bb2e6@moroto.mountain/
+Fixes: 4bf398e15aa4 ("xhci: split allocate interrupter into separate alloacte and add parts")
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://lore.kernel.org/r/20240125152737.2983959-3-mathias.nyman@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/usb/card.c | 53 ++++++++++++++++++++++++++++++++++++++++++++++++
- sound/usb/card.h |  9 ++++++++
- 2 files changed, 62 insertions(+)
+ drivers/usb/host/xhci-mem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 1b2edc0fd2e9..ca4f3bc1b42d 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -118,6 +118,42 @@ MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no)
- static DEFINE_MUTEX(register_mutex);
- static struct snd_usb_audio *usb_chip[SNDRV_CARDS];
- static struct usb_driver usb_audio_driver;
-+static struct snd_usb_platform_ops *platform_ops;
-+
-+/*
-+ * Register platform specific operations that will be notified on events
-+ * which occur in USB SND.  The platform driver can utilize this path to
-+ * enable features, such as USB audio offloading, which allows for audio data
-+ * to be queued by an audio DSP.
-+ *
-+ * Only one set of platform operations can be registered to USB SND.  The
-+ * platform register operation is protected by the register_mutex.
-+ */
-+int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops)
-+{
-+	guard(mutex)(&register_mutex);
-+	if (platform_ops)
-+		return -EEXIST;
-+
-+	platform_ops = ops;
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_register_platform_ops);
-+
-+/*
-+ * Unregisters the current set of platform operations.  This allows for
-+ * a new set to be registered if required.
-+ *
-+ * The platform unregister operation is protected by the register_mutex.
-+ */
-+int snd_usb_unregister_platform_ops(void)
-+{
-+	guard(mutex)(&register_mutex);
-+	platform_ops = NULL;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_unregister_platform_ops);
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index d00d4d937236..a7716202a8dd 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2322,7 +2322,7 @@ xhci_add_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+ 	u64 erst_base;
+ 	u32 erst_size;
  
- /*
-  * disconnect streams
-@@ -910,7 +946,11 @@ static int usb_audio_probe(struct usb_interface *intf,
- 	chip->num_interfaces++;
- 	usb_set_intfdata(intf, chip);
- 	atomic_dec(&chip->active);
-+
-+	if (platform_ops && platform_ops->connect_cb)
-+		platform_ops->connect_cb(chip);
- 	mutex_unlock(&register_mutex);
-+
- 	return 0;
- 
-  __error:
-@@ -947,6 +987,9 @@ static void usb_audio_disconnect(struct usb_interface *intf)
- 	card = chip->card;
- 
- 	mutex_lock(&register_mutex);
-+	if (platform_ops && platform_ops->disconnect_cb)
-+		platform_ops->disconnect_cb(chip);
-+
- 	if (atomic_inc_return(&chip->shutdown) == 1) {
- 		struct snd_usb_stream *as;
- 		struct snd_usb_endpoint *ep;
-@@ -1090,6 +1133,11 @@ static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
- 		chip->system_suspend = chip->num_suspended_intf;
- 	}
- 
-+	mutex_lock(&register_mutex);
-+	if (platform_ops && platform_ops->suspend_cb)
-+		platform_ops->suspend_cb(intf, message);
-+	mutex_unlock(&register_mutex);
-+
- 	return 0;
- }
- 
-@@ -1130,6 +1178,11 @@ static int usb_audio_resume(struct usb_interface *intf)
- 
- 	snd_usb_midi_v2_resume_all(chip);
- 
-+	mutex_lock(&register_mutex);
-+	if (platform_ops && platform_ops->resume_cb)
-+		platform_ops->resume_cb(intf);
-+	mutex_unlock(&register_mutex);
-+
-  out:
- 	if (chip->num_suspended_intf == chip->system_suspend) {
- 		snd_power_change_state(chip->card, SNDRV_CTL_POWER_D0);
-diff --git a/sound/usb/card.h b/sound/usb/card.h
-index 6ec95b2edf86..2884912adc96 100644
---- a/sound/usb/card.h
-+++ b/sound/usb/card.h
-@@ -207,4 +207,13 @@ struct snd_usb_stream {
- 	struct list_head list;
- };
- 
-+struct snd_usb_platform_ops {
-+	void (*connect_cb)(struct snd_usb_audio *chip);
-+	void (*disconnect_cb)(struct snd_usb_audio *chip);
-+	void (*suspend_cb)(struct usb_interface *intf, pm_message_t message);
-+	void (*resume_cb)(struct usb_interface *intf);
-+};
-+
-+int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops);
-+int snd_usb_unregister_platform_ops(void);
- #endif /* __USBAUDIO_CARD_H */
+-	if (intr_num > xhci->max_interrupters) {
++	if (intr_num >= xhci->max_interrupters) {
+ 		xhci_warn(xhci, "Can't add interrupter %d, max interrupters %d\n",
+ 			  intr_num, xhci->max_interrupters);
+ 		return -EINVAL;
