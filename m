@@ -1,95 +1,82 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5CD3D68;
-	Thu,  8 Feb 2024 21:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E4350A80;
+	Thu,  8 Feb 2024 22:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707428347; cv=none; b=RwrsQQ8732KuglKm6Cxv8Ns4s3aX0gU5DOAGB6Z6XKr+omxcnog8snFYYvuVYLkRr5zIDsFtt/+cGexN9pHuU7XjiTVHJ2gRNgdiz9OsdVHyTALuzBGWk5yz5D4xjU78wZNc1ZzkoK8SvIGYPta8eBNXoBff44QL5tPN7/toGJQ=
+	t=1707432168; cv=none; b=au2ECU9PD0ZML/xl/a/14Jr0lEwRvN/C/VuR0Esv+hPGt8DyRxfc9y0qyBksI1UuB0AMNvdIzZb0wESvHpbKrF3ATBlmWQsLVDTYnKg8vT6HsmMCJtsjS/dUBGaZpVghA+y5CdJ+4vyBMpSEAXP3areDtGGtrQSJeXkCadHv3Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707428347; c=relaxed/simple;
-	bh=N4ZSH8YQHF3QwjMf6bNmvtPYxG+3ZsvjUv89YpXUFkk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TB3s+YRyE9oGwm5Kr8LqACz9Jm6h4U1YKEtAqlR55s+PhuHrY2frkpBoAj/nvmEhhkad0ut4nm0AMLE3NkXG/ED1aW+MWAMLjC/isVnLhou6eMfH8sWFCEz6oJsX67JyDYgQqTzwrX1XlemBjDTRSfofU/Iw3a9NPyV6Z98iHO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qkMetZTO; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1707432168; c=relaxed/simple;
+	bh=tPopddPokWzvKTDXNmXGYkQ+NQBNOktakJhneyDUziE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=c+oV3sgI0oKs/dc/4oZFd+98EwNLJcx+NsaKOTRXfIpflDzNO13lupNKSOJ/ognBpdgJf0CtEAKfOBxsCLNf0rbKGezpi7wFNi1R9vD12F93vo+5Y5XB/QUIclZ5wwG905acZwbyDEyKGsKVQAYuy1fGfJGA4jVG6kB83eNvnYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JQb7KLnG; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qkMetZTO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=9KnTk0Elz+30SMcvKWJqnKHQjJlrhF1+VavfjqyrA/s=; b=qkMetZTOnKqbu2PjT3mwt5sY+P
-	taPCFaW7CCGvL/aDMvDRuuYHwuDDMoz/yg3citqCzdmDIpZw1j80LuodAzWPvNCGZiVenU/o1uGKB
-	+p14xCLGF1LNsysEdH7CVRIix1u8XSq8UaMPfdxAJ/n4M+aCl2pMw350JMrHfFHCzGAlPa/9iDv66
-	7QafAEtX0EQHAsxmMz05H3bevUSRhK0AvWiCPqKk1L466iH5B9RqEzeUKrvulIC+m6B+QaKhe5BzM
-	DduAXQeg1gXa1lDNVPVZYQUE1r3Dh8eOH1HgTqe3VtPnC/ko96WmSR6eyt6nOHOiWx0Z9xz7v60Bu
-	AyVrgXiw==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rYC6o-0000000F2ZZ-22E4;
-	Thu, 08 Feb 2024 21:39:02 +0000
-Message-ID: <e447348b-97ae-4833-ae83-2d0c2ca78ad4@infradead.org>
-Date: Thu, 8 Feb 2024 13:38:59 -0800
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JQb7KLnG"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1A64E45917
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1707432162; bh=jydrZ40GisSC4rzzPCfj/cTMoaX/disrkf3oXpumN5o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JQb7KLnG/BIN/1oF3g82A9o7bGHz93JjIUYI0YaKwqiZToc6Qb68F2tdSNm3svIyv
+	 wSBiKc8dpe7QcAqlWYyNIFroUdNnaZLDvvKsVkSuKLLIzbrabeQYObtBe/9ARr8uy4
+	 +d0K4SuaA7ui1cwEtkr23l9xtIpaSM9n1dcsIodj8yPqoBB7c61/KZhoAAs74cOjpk
+	 1FiCWDiOH8yJTuGJlM0pPz59wMowbOMSgLR/KPeMTb43WnlSj4PWV1A9eYa94nCICD
+	 e5JY+FiYXl0VBokUEFKe1L8k9A1lH96Oh0aOjfTy1xBpf5AzOloK45JTPz92/mGBc0
+	 9lcWunse18pWA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1A64E45917;
+	Thu,  8 Feb 2024 22:42:42 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Vincenzo Mezzela <vincenzo.mezzela@gmail.com>, andersson@kernel.org,
+ mathieu.poirier@linaro.org
+Cc: linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, Vincenzo Mezzela
+ <vincenzo.mezzela@gmail.com>
+Subject: Re: [PATCH] docs: staging: fix typo in docs
+In-Reply-To: <20240208162748.111120-1-vincenzo.mezzela@gmail.com>
+References: <20240208162748.111120-1-vincenzo.mezzela@gmail.com>
+Date: Thu, 08 Feb 2024 15:42:41 -0700
+Message-ID: <87r0hmfuhq.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: dev-tools: checkpatch.rst: Fix grammar
-Content-Language: en-US
-To: Thorsten Blum <thorsten.blum@toblux.com>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240208152039.65293-1-thorsten.blum@toblux.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240208152039.65293-1-thorsten.blum@toblux.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Vincenzo Mezzela <vincenzo.mezzela@gmail.com> writes:
 
+So your fix is fine, but I need to point out a couple of things with the
+changelog.
 
-On 2/8/24 07:20, Thorsten Blum wrote:
-> - s/exists/exist/
-> - s/maybe/may be/
-> 
-> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+> This patch resolves a spelling error in the documentation found
+> with codespell.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+If you look at Documentation/process/submitting-patches.rst, you'll see
+that changelog text should be phrased in the imperative mode; no "this
+patch".  I tend not to be too fussy about that, but some maintainers
+will reject a patch out of hand for that, so it's a good thing to learn
+to avoid.
 
-Thanks.
+> It is submitted as part of my application to the "Linux Kernel Bug
+> Fixing Spring Unpaid 2024" mentorship program of the Linux Kernel
+> Foundation.
 
-> ---
->  Documentation/dev-tools/checkpatch.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index c3389c6f3838..127968995847 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -168,7 +168,7 @@ Available options:
->  
->   - --fix
->  
-> -   This is an EXPERIMENTAL feature.  If correctable errors exists, a file
-> +   This is an EXPERIMENTAL feature.  If correctable errors exist, a file
->     <inputfile>.EXPERIMENTAL-checkpatch-fixes is created which has the
->     automatically fixable errors corrected.
->  
-> @@ -181,7 +181,7 @@ Available options:
->  
->   - --ignore-perl-version
->  
-> -   Override checking of perl version.  Runtime errors maybe encountered after
-> +   Override checking of perl version.  Runtime errors may be encountered after
->     enabling this flag if the perl version does not meet the minimum specified.
->  
->   - --codespell
+This is interesting (I'd never heard of the Linux Kernel Foundation),
+but it's not really relevant for the kernel development history.  If you
+want to put this kind of information in a submission, put it after the
+"---" line so that it doesn't end up being committed with the patch.
 
--- 
-#Randy
+> Signed-off-by: Vincenzo Mezzela <vincenzo.mezzela@gmail.com>
+
+I have gone ahead and fixed up these things and applied your two
+patches, thanks.
+
+jon
