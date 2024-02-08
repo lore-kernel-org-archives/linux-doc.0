@@ -1,168 +1,407 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779B11E496;
-	Thu,  8 Feb 2024 02:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546F314008
+	for <linux-doc@vger.kernel.org>; Thu,  8 Feb 2024 02:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707358236; cv=none; b=WEyKLBNxVswCC++FUzh7zoAIn2TLl8C6RebNaiZ8TRWWX/D7inorKBNTd44NrDy7oD0VEn4+WthopipmiCC5DgmgnC/+A2dTEDRSobaKQvjPW61ZIP9sszstyCUXuCSXs4ggH5yZSwiZle8enTWVUQLG+23OgZmuYYpeK+14lYk=
+	t=1707359240; cv=none; b=A4ccHv4G6tR/X/wRqq9I/avbggt/n+I51e5H/XeqiHcc9lR1I6S/lbsTJwuJtvXv4+7jFBVbhmh5C4IazfxJpHjTtuBc0G2m3FICpQ3lcfU8KPzErMN4JgUZOpAVhB8RihcauX4XRkeVhhp55fQKTbpSjnI7QItfxWZn17e0VpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707358236; c=relaxed/simple;
-	bh=/4ttBMId4rWiX6KW8ClyjACfBDEUnUoRW2Y+04upi04=;
+	s=arc-20240116; t=1707359240; c=relaxed/simple;
+	bh=XLk9g87izE0UlczcX4z1MdeykRfHBdsa8Y/ArIVV/Jc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ghH4SKzTECKKi3dnhc8CYiQKcIQoN5uqcUpzsk1FNknzNqjYEh+YvgHjSWHHIoZag2OWIR2GuYuTbDKgMAmXJ065dUopmcZBCH9cAYh/KO2RIeqa6qp7jxXpGd/eCWbjFFAiNuMhRQlCVDeEqk735vdQRBmlICO94GD7on+6iMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aj1qKKxT; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=PH8d0EotPLYiCnbd0Y0gyU9rn1Ak3akxxx3TkC/R5gvs7snLcCxPduIEMuIh+prSViC1963f0WXvkellgjzEL7dCDh+uBFm9FOT1uFPPz6RMjHItzkHbozGScevNdqFgtS1JyKP4A9INb/yWzQIw82HoIuJzl1Aj/990jffd2kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=pIh3Vmnn; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aj1qKKxT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FCDCC433C7;
-	Thu,  8 Feb 2024 02:10:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707358235;
-	bh=/4ttBMId4rWiX6KW8ClyjACfBDEUnUoRW2Y+04upi04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Aj1qKKxTBOAdDZ7GfvIB6p0QpTvENDkkwTKvhKhlXLsLF41IX9mZaUPpxPX5guYFQ
-	 grqUHLcsw1RdR/JWVkJ1LitXa801WT3hit1LU6CiRd+pQkK0YeO9pIAyHHRPcucdU4
-	 OCyz4ECWKd0lxCbsmlnbjIila4FUEA3UU3AyRQH9zEgeVS7eG40vqWDaKuqK6yRdvn
-	 bqDKaGy95hm3IwE8G3jpX751sZBDYFPrsgaNyqHpLrGv7WcTpM3dFLHlbb2QC7JNRg
-	 tx4ik7X3bC4/ng9MYIPk5defJytkyaRrOmaCvaIxxZehM80qIpayFC0Q/oPPwplCFa
-	 qDcMBRDuLFPfg==
-Date: Thu, 8 Feb 2024 03:10:32 +0100
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-	linux-doc@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-	Chen Zhongjin <chenzhongjin@huawei.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Neeraj Upadhyay <neeraj.iitr10@gmail.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Mike Christie <michael.christie@oracle.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Peng Zhang <zhangpeng.00@bytedance.com>
-Subject: Re: [PATCH 2/2] rcu-tasks: Eliminate deadlocks involving do_exit()
- and RCU tasks
-Message-ID: <ZcQ4GMEbLFtkCZXw@pavilion.home>
-References: <20240129225730.3168681-1-boqun.feng@gmail.com>
- <20240129225730.3168681-3-boqun.feng@gmail.com>
- <ZcQJ2Vec1_b5ooS_@pavilion.home>
- <ZcQzyhcaRUSRo8a9@pavilion.home>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="pIh3Vmnn"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2909a632e40so981859a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 18:27:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1707359237; x=1707964037; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hk7ZBu3HurWptK6Jqxv5pv5i6VPmY5c2Ebia9meKyH8=;
+        b=pIh3Vmnn4CkPwbJ9MdftES8ZudB4iMEGFd9YplNDBumwA4M5r2ofDDjo1UlYhpouSv
+         4g+67JwS5kIa7Ma5otYEjgKhmqCXCKAzsxO9xSZxRxfBH0Pk2hxOwezw1seAOEWd4dsm
+         ZIN/401SmUTIaXXSOurFskgfJxvpsNNvKgGrMeBH8nRI7f6dBQZbkUChDOZapXhzd/3k
+         ID2y3odL4RlLeajeZDoE8muSK1xGj50MbiOCmoVKKHsrOBcxhvYPRXzqo1VNrCvw1zY+
+         sHqi9mZyq3ao2XTC6o8CuPSk2ADmhhyOVYjLDNSvmNOx1/KiAScCYr1VUpgrfMKqVuzw
+         tZVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707359237; x=1707964037;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hk7ZBu3HurWptK6Jqxv5pv5i6VPmY5c2Ebia9meKyH8=;
+        b=AHu4vs4koSkiRny68DgUk5ghXp93Vu0QKL1Tf/sX47n1ChhOuuapEm8jAqd2gGk2Tf
+         xuyCxIBujx05Q44ElCwSoaUs80BufXctpfatCjBUoChQmgKH69hNLodDrOhlXEQoBvE3
+         CbrXJgIjGVEQxluesLb4ny++MkGV+FtoOduSq4Vj+moIoL3SVCILJ5wHC3056sTUO3iJ
+         tC74kmcaZV7s7v4fTyONWRPr5BqjoL7TWts0cq1SoZkpICJqCsQwoGnsrvV+/iCKuQ9U
+         2AmdAZcrGA9bkLcPF2fVe7rxirp2IlXV5W3gzbyfz7xvctfsJoU7LRadLO0y7FzvMg3S
+         eJhw==
+X-Forwarded-Encrypted: i=1; AJvYcCUbJ9mrpanT1uJTCIRoPSNu2uke+6uhJhHfFvLQoGVA89P4OqohcKVdMW/2Tgb5A9kzv3F4xgY6jTeORW+xEkU2EqYoKjTSyhvC
+X-Gm-Message-State: AOJu0Yynwiles4ZtfJl1c9Fvt4WbImT9Y0DCAoW8buZMuIHow1BYMjx2
+	XqAeFFIuGIB1Sqmj0tC4wV/mwehmEikbHWDTlfBLYRzgVx2q8La/biOAhTRIp0E=
+X-Google-Smtp-Source: AGHT+IEPYkh0T7abTwPmR89ZmskiQMXL1Jzq060oaQiJqqmJp0kHeX3owcA3Y6sl+JbA2YBh8oWZlw==
+X-Received: by 2002:a17:90a:fb87:b0:290:9e9e:a87e with SMTP id cp7-20020a17090afb8700b002909e9ea87emr4541463pjb.42.1707359237452;
+        Wed, 07 Feb 2024 18:27:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWlp7aSq9sbJGvJI6PVa+3Owfz+xtwDZBKZm17mlbjNd98ImzfoRg4C0gMC1d7H9BXDynd2oTWJdBhN0oT9vaQ1qEA8YuzmnDfmuq6Llo2R6aZkNv3FULu0C5gPPeCWGgGSY4QaGEjU+SuzbOfheDOh+Lxdr8/9/hVed4F8xbG/5hIUiaqQOQe6DeWIIGpVqtUfG/XEQo4QkxWT/Dw5V17pnKJDXOzx428Xi016kaT4fbxr/6z3Q+pfMCdcwQRDoTwdCAx+Jr/n4HHkWbb6NIXLsczke01TYS9mib5Tz+X28KGicxU68dkIwCkWSuRkXLNucQGxcqq37IPTKwBgKvGmk49S1FrxMs25H6u/1mKFXAlPZuciZZ2dKnXYqIZg4+JHX3Lh//YSzOWK9PgN/i44X/GiU6w+g5+sOeSjcukB66zo5GT9+Z/AcbXvjBG3GIoO
+Received: from ghost ([12.44.203.122])
+        by smtp.gmail.com with ESMTPSA id nd7-20020a17090b4cc700b00296a265acbbsm167120pjb.25.2024.02.07.18.27.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Feb 2024 18:27:17 -0800 (PST)
+Date: Wed, 7 Feb 2024 18:27:13 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Samuel Holland <samuel.holland@sifive.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Atish Patra <atishp@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Atish Patra <atishp@atishpatra.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v10 1/2] riscv: Include riscv_set_icache_flush_ctx prctl
+Message-ID: <ZcQ8ARL70eB3kvUE@ghost>
+References: <20240124-fencei-v10-0-a25971f4301d@rivosinc.com>
+ <20240124-fencei-v10-1-a25971f4301d@rivosinc.com>
+ <5849b66f-d7c4-4011-b556-10725ac0958e@sifive.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZcQzyhcaRUSRo8a9@pavilion.home>
+In-Reply-To: <5849b66f-d7c4-4011-b556-10725ac0958e@sifive.com>
 
-Le Thu, Feb 08, 2024 at 02:52:10AM +0100, Frederic Weisbecker a écrit :
-> Le Wed, Feb 07, 2024 at 11:53:13PM +0100, Frederic Weisbecker a écrit :
-> > Le Mon, Jan 29, 2024 at 02:57:27PM -0800, Boqun Feng a écrit :
-> > > From: "Paul E. McKenney" <paulmck@kernel.org>
-> > > 
-> > > Holding a mutex across synchronize_rcu_tasks() and acquiring
-> > > that same mutex in code called from do_exit() after its call to
-> > > exit_tasks_rcu_start() but before its call to exit_tasks_rcu_stop()
-> > > results in deadlock.  This is by design, because tasks that are far
-> > > enough into do_exit() are no longer present on the tasks list, making
-> > > it a bit difficult for RCU Tasks to find them, let alone wait on them
-> > > to do a voluntary context switch.  However, such deadlocks are becoming
-> > > more frequent.  In addition, lockdep currently does not detect such
-> > > deadlocks and they can be difficult to reproduce.
-> > > 
-> > > In addition, if a task voluntarily context switches during that time
-> > > (for example, if it blocks acquiring a mutex), then this task is in an
-> > > RCU Tasks quiescent state.  And with some adjustments, RCU Tasks could
-> > > just as well take advantage of that fact.
-> > > 
-> > > This commit therefore eliminates these deadlock by replacing the
-> > > SRCU-based wait for do_exit() completion with per-CPU lists of tasks
-> > > currently exiting.  A given task will be on one of these per-CPU lists for
-> > > the same period of time that this task would previously have been in the
-> > > previous SRCU read-side critical section.  These lists enable RCU Tasks
-> > > to find the tasks that have already been removed from the tasks list,
-> > > but that must nevertheless be waited upon.
-> > > 
-> > > The RCU Tasks grace period gathers any of these do_exit() tasks that it
-> > > must wait on, and adds them to the list of holdouts.  Per-CPU locking
-> > > and get_task_struct() are used to synchronize addition to and removal
-> > > from these lists.
-> > > 
-> > > Link: https://lore.kernel.org/all/20240118021842.290665-1-chenzhongjin@huawei.com/
-> > > 
-> > > Reported-by: Chen Zhongjin <chenzhongjin@huawei.com>
-> > > Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > 
-> > With that, I think we can now revert 28319d6dc5e2 (rcu-tasks: Fix
-> > synchronize_rcu_tasks() VS zap_pid_ns_processes()). Because if the task
-> > is in rcu_tasks_exit_list, it's treated just like the others and must go
-> > through check_holdout_task(). Therefore and unlike with the previous srcu thing,
-> > a task sleeping between exit_tasks_rcu_start() and exit_tasks_rcu_finish() is
-> > now a quiescent state. And that kills the possible deadlock.
-> > 
-> > > -void exit_tasks_rcu_start(void) __acquires(&tasks_rcu_exit_srcu)
-> > > +void exit_tasks_rcu_start(void)
-> > >  {
-> > > -	current->rcu_tasks_idx = __srcu_read_lock(&tasks_rcu_exit_srcu);
-> > > +	unsigned long flags;
-> > > +	struct rcu_tasks_percpu *rtpcp;
-> > > +	struct task_struct *t = current;
-> > > +
-> > > +	WARN_ON_ONCE(!list_empty(&t->rcu_tasks_exit_list));
-> > > +	get_task_struct(t);
-> > 
-> > Is this get_task_struct() necessary?
-> > 
-> > > +	preempt_disable();
-> > > +	rtpcp = this_cpu_ptr(rcu_tasks.rtpcpu);
-> > > +	t->rcu_tasks_exit_cpu = smp_processor_id();
-> > > +	raw_spin_lock_irqsave_rcu_node(rtpcp, flags);
-> > 
-> > Do we really need smp_mb__after_unlock_lock() ?
+On Wed, Feb 07, 2024 at 12:55:24PM -0600, Samuel Holland wrote:
+> Hi Charlie,
 > 
-> Or maybe it orders add into rtpcp->rtp_exit_list VS
-> main tasklist's removal? Such that:
+> On 2024-01-24 10:23 PM, Charlie Jenkins wrote:
+> > Support new prctl with key PR_RISCV_SET_ICACHE_FLUSH_CTX to enable
+> > optimization of cross modifying code. This prctl enables userspace code
+> > to use icache flushing instructions such as fence.i with the guarantee
+> > that the icache will continue to be clean after thread migration.
+> > 
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  arch/riscv/include/asm/mmu.h       |  2 ++
+> >  arch/riscv/include/asm/processor.h |  7 ++++
+> >  arch/riscv/include/asm/switch_to.h | 13 ++++++++
+> >  arch/riscv/mm/cacheflush.c         | 67 ++++++++++++++++++++++++++++++++++++++
+> >  arch/riscv/mm/context.c            | 13 ++++++--
+> >  include/uapi/linux/prctl.h         |  6 ++++
+> >  kernel/sys.c                       |  6 ++++
+> >  7 files changed, 111 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
+> > index 355504b37f8e..60be458e94da 100644
+> > --- a/arch/riscv/include/asm/mmu.h
+> > +++ b/arch/riscv/include/asm/mmu.h
+> > @@ -19,6 +19,8 @@ typedef struct {
+> >  #ifdef CONFIG_SMP
+> >  	/* A local icache flush is needed before user execution can resume. */
+> >  	cpumask_t icache_stale_mask;
+> > +	/* Force local icache flush on all migrations. */
+> > +	bool force_icache_flush;
+> >  #endif
+> >  #ifdef CONFIG_BINFMT_ELF_FDPIC
+> >  	unsigned long exec_fdpic_loadmap;
+> > diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
+> > index a8509cc31ab2..816cdc2395f4 100644
+> > --- a/arch/riscv/include/asm/processor.h
+> > +++ b/arch/riscv/include/asm/processor.h
+> > @@ -123,6 +123,10 @@ struct thread_struct {
+> >  	struct __riscv_v_ext_state vstate;
+> >  	unsigned long align_ctl;
+> >  	struct __riscv_v_ext_state kernel_vstate;
+> > +#ifdef CONFIG_SMP
+> > +	bool force_icache_flush;
+> > +	unsigned int prev_cpu;
+> > +#endif
+> >  };
+> >  
+> >  /* Whitelist the fstate from the task_struct for hardened usercopy */
+> > @@ -184,6 +188,9 @@ extern int set_unalign_ctl(struct task_struct *tsk, unsigned int val);
+> >  #define GET_UNALIGN_CTL(tsk, addr)	get_unalign_ctl((tsk), (addr))
+> >  #define SET_UNALIGN_CTL(tsk, val)	set_unalign_ctl((tsk), (val))
+> >  
+> > +#define RISCV_SET_ICACHE_FLUSH_CTX(arg1, arg2)	riscv_set_icache_flush_ctx(arg1, arg2)
+> > +extern int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread);
+> > +
+> >  #endif /* __ASSEMBLY__ */
+> >  
+> >  #endif /* _ASM_RISCV_PROCESSOR_H */
+> > diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/switch_to.h
+> > index 7efdb0584d47..ac99ab64499c 100644
+> > --- a/arch/riscv/include/asm/switch_to.h
+> > +++ b/arch/riscv/include/asm/switch_to.h
+> > @@ -8,6 +8,7 @@
+> >  
+> >  #include <linux/jump_label.h>
+> >  #include <linux/sched/task_stack.h>
+> > +#include <linux/mm_types.h>
+> >  #include <asm/vector.h>
+> >  #include <asm/cpufeature.h>
+> >  #include <asm/processor.h>
+> > @@ -72,14 +73,26 @@ static __always_inline bool has_fpu(void) { return false; }
+> >  extern struct task_struct *__switch_to(struct task_struct *,
+> >  				       struct task_struct *);
+> >  
+> > +static inline bool switch_to_should_flush_icache(struct task_struct *task)
+> > +{
+> > +	bool stale_mm = task->mm && (task->mm->context.force_icache_flush);
 > 
-> synchronize_rcu_tasks()                       do_exit()
-> ----------------------                        ---------
-> //for_each_process_thread()
-> READ tasklist                                 WRITE rtpcp->rtp_exit_list
-> LOCK rtpcp->lock                              UNLOCK rtpcp->lock
-> smp_mb__after_unlock_lock()                   WRITE tasklist //unhash_process()
-> READ rtpcp->rtp_exit_list
+> No parentheses needed here.
 > 
-> Does this work? Hmm, I'll play with litmus once I have a fresh brain...
+> > +	bool stale_thread = task->thread.force_icache_flush;
+> > +	bool thread_migrated = smp_processor_id() != task->thread.prev_cpu;
+> 
+> This fails to compile when SMP is disabled:
+> 
+> In file included from arch/riscv/kernel/ptrace.c:14:
+> ./arch/riscv/include/asm/switch_to.h:78:49: error: no member named
+> 'force_icache_flush' in 'mm_context_t'
+>         bool stale_mm = task->mm && (task->mm->context.force_icache_flush);
+>                                      ~~~~~~~~~~~~~~~~~ ^
+> ./arch/riscv/include/asm/switch_to.h:79:35: error: no member named
+> 'force_icache_flush' in 'struct thread_struct'
+>         bool stale_thread = task->thread.force_icache_flush;
+>                             ~~~~~~~~~~~~ ^
+> ./arch/riscv/include/asm/switch_to.h:80:60: error: no member named 'prev_cpu' in
+> 'struct thread_struct'
+>         bool thread_migrated = smp_processor_id() != task->thread.prev_cpu;
+>                                                      ~~~~~~~~~~~~ ^
+>   CC      arch/riscv/kernel/sys_hwprobe.o
+> 
+> > +
+> > +	return thread_migrated && (stale_mm || stale_thread);
+> > +}
+> > +
+> >  #define switch_to(prev, next, last)			\
+> >  do {							\
+> >  	struct task_struct *__prev = (prev);		\
+> >  	struct task_struct *__next = (next);		\
+> > +	__next->thread.prev_cpu = smp_processor_id();	\
+> 
+> Shouldn't this instead update __prev (the task being scheduled out)?
 
-ie: does smp_mb__after_unlock_lock() order only what precedes the UNLOCK with
-the UNLOCK itself? (but then the UNLOCK itself can be reordered with anything
-that follows)? Or does it also order what follows the UNLOCK with the UNLOCK
-itself? If both, then it looks ok, otherwise...
+Hmm, yes that makes sense. I shouldn't have moved this to above the
+switch_to_should_flush_icache call. If this is after
+switch_to_should_flush_icache, then setting __prev or __next will have
+the same effect but __prev probably makes more sense.
 
-Also on the other end, does LOCK/smp_mb__after_unlock_lock() order against what
-precedes the LOCK? That also is necessary for the above to work.
+> 
+> >  	if (has_fpu())					\
+> >  		__switch_to_fpu(__prev, __next);	\
+> >  	if (has_vector())					\
+> >  		__switch_to_vector(__prev, __next);	\
+> > +	if (switch_to_should_flush_icache(__next))	\
+> > +		local_flush_icache_all();		\
+> >  	((last) = __switch_to(__prev, __next));		\
+> >  } while (0)
+> >  
+> > diff --git a/arch/riscv/mm/cacheflush.c b/arch/riscv/mm/cacheflush.c
+> > index 55a34f2020a8..2d5e1575f6c1 100644
+> > --- a/arch/riscv/mm/cacheflush.c
+> > +++ b/arch/riscv/mm/cacheflush.c
+> > @@ -5,6 +5,7 @@
+> >  
+> >  #include <linux/acpi.h>
+> >  #include <linux/of.h>
+> > +#include <linux/prctl.h>
+> >  #include <asm/acpi.h>
+> >  #include <asm/cacheflush.h>
+> >  
+> > @@ -152,3 +153,69 @@ void __init riscv_init_cbo_blocksizes(void)
+> >  	if (cboz_block_size)
+> >  		riscv_cboz_block_size = cboz_block_size;
+> >  }
+> > +
+> > +/**
+> > + * riscv_set_icache_flush_ctx() - Enable/disable icache flushing instructions in
+> > + * userspace.
+> > + * @ctx: Set the type of icache flushing instructions permitted/prohibited in
+> > + *	 userspace. Supported values described below.
+> > + *
+> > + * Supported values for ctx:
+> > + *
+> > + * * %PR_RISCV_CTX_SW_FENCEI_ON: Allow fence.i in userspace.
+> > + *
+> > + * * %PR_RISCV_CTX_SW_FENCEI_OFF: Disallow fence.i in userspace. All threads in
+> > + *   a process will be affected when ``scope == PR_RISCV_SCOPE_PER_PROCESS``.
+> > + *   Therefore, caution must be taken -- only use this flag when you can
+> > + *   guarantee that no thread in the process will emit fence.i from this point
+> > + *   onward.
+> > + *
+> > + * @scope: Set scope of where icache flushing instructions are allowed to be
+> > + *	   emitted. Supported values described below.
+> > + *
+> > + * Supported values for scope:
+> > + *
+> > + * * %PR_RISCV_SCOPE_PER_PROCESS: Ensure the icache of any thread in this process
+> > + *                               is coherent with instruction storage upon
+> > + *                               migration.
+> > + *
+> > + * * %PR_RISCV_SCOPE_PER_THREAD: Ensure the icache of the current thread is
+> > + *                              coherent with instruction storage upon
+> > + *                              migration.
+> > + *
+> > + * When ``scope == PR_RISCV_SCOPE_PER_PROCESS``, all threads in the process are
+> > + * permitted to emit icache flushing instructions. Whenever any thread in the
+> > + * process is migrated, the corresponding hart's icache will be guaranteed to be
+> > + * consistent with instruction storage. Note this does not enforce any
+> > + * guarantees outside of migration. If a thread modifies an instruction that
+> > + * another thread may attempt to execute, the other thread must still emit an
+> > + * icache flushing instruction before attempting to execute the potentially
+> > + * modified instruction. This must be performed by the userspace program.
+> > + *
+> > + * In per-thread context (eg. ``scope == PR_RISCV_SCOPE_PER_THREAD``), only the
+> > + * thread calling this function is permitted to emit icache flushing
+> > + * instructions. When the thread is migrated, the corresponding hart's icache
+> > + * will be guaranteed to be consistent with instruction storage.
+> > + *
+> > + * On kernels configured without SMP, this function is a nop as migrations
+> > + * across harts will not occur.
+> > + */
+> > +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long scope)
+> > +{
+> > +#ifdef CONFIG_SMP
+> > +	switch (ctx) {
+> > +	case PR_RISCV_CTX_SW_FENCEI_ON:
+> > +		switch (scope) {
+> > +		case PR_RISCV_SCOPE_PER_PROCESS:
+> > +			current->mm->context.force_icache_flush = true;
+> > +			break;
+> > +		case PR_RISCV_SCOPE_PER_THREAD:
+> > +			current->thread.force_icache_flush = true;
+> > +			break;
+> > +		default:
+> > +			return -EINVAL;
+> > +		}
+> 
+> At some point you dropped the implementation for PR_RISCV_CTX_SW_FENCEI_OFF.
+> It's still documented, so I don't think that was intentional.
+> 
 
-Of course by the time I'm writing this email, litmus would have told me
-already...
+Yikes!
 
-Thanks.
+> Also, PR_RISCV_CTX_SW_FENCEI_OFF needs to mark the icache on all other CPUs as
+> stale, as in flush_icache_mm(). Consider the following sequence:
+>  1. Migrate from CPU A to CPU B
+>  2. CMODX on CPU B
+>  3. fence.i in userspace on CPU B
+>  4. prctl(PR_RISCV_CTX_SW_FENCEI_OFF) on CPU B
+>  5. Migrate back to CPU A -- force_icache_flush is false, no flush happens
+>  6. Execute the modified code -- fails, because CPU A's I$ never got flushed
+> 
+
+Oh good catch, thank you.
+
+> > +	}
+> > +#endif
+> > +	return 0;
+> 
+> This makes the prtcl() call silently succeed for invalid ctx values, whereas it
+> should fail for those instead.
+> 
+> Regards,
+> Samuel
+> 
+> > +}
+> > diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
+> > index 217fd4de6134..5cabbc449080 100644
+> > --- a/arch/riscv/mm/context.c
+> > +++ b/arch/riscv/mm/context.c
+> > @@ -15,6 +15,7 @@
+> >  #include <asm/tlbflush.h>
+> >  #include <asm/cacheflush.h>
+> >  #include <asm/mmu_context.h>
+> > +#include <asm/switch_to.h>
+> >  
+> >  #ifdef CONFIG_MMU
+> >  
+> > @@ -297,7 +298,8 @@ static inline void set_mm(struct mm_struct *prev,
+> >   *
+> >   * The "cpu" argument must be the current local CPU number.
+> >   */
+> > -static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu)
+> > +static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu,
+> > +					 struct task_struct *task)
+> >  {
+> >  #ifdef CONFIG_SMP
+> >  	cpumask_t *mask = &mm->context.icache_stale_mask;
+> > @@ -309,7 +311,12 @@ static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu)
+> >  		 * This pairs with a barrier in flush_icache_mm.
+> >  		 */
+> >  		smp_mb();
+> > -		local_flush_icache_all();
+> > +
+> > +		/*
+> > +		 * If cache will be flushed in switch_to, no need to flush here.
+> > +		 */
+> > +		if (!(task && switch_to_should_flush_icache(task)))
+> > +			local_flush_icache_all();
+> >  	}
+> >  
+> >  #endif
+> > @@ -332,5 +339,5 @@ void switch_mm(struct mm_struct *prev, struct mm_struct *next,
+> >  
+> >  	set_mm(prev, next, cpu);
+> >  
+> > -	flush_icache_deferred(next, cpu);
+> > +	flush_icache_deferred(next, cpu, task);
+> >  }
+> > diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> > index 370ed14b1ae0..524d546d697b 100644
+> > --- a/include/uapi/linux/prctl.h
+> > +++ b/include/uapi/linux/prctl.h
+> > @@ -306,4 +306,10 @@ struct prctl_mm_map {
+> >  # define PR_RISCV_V_VSTATE_CTRL_NEXT_MASK	0xc
+> >  # define PR_RISCV_V_VSTATE_CTRL_MASK		0x1f
+> >  
+> > +#define PR_RISCV_SET_ICACHE_FLUSH_CTX	71
+> > +# define PR_RISCV_CTX_SW_FENCEI_ON	0
+> > +# define PR_RISCV_CTX_SW_FENCEI_OFF	1
+> > +# define PR_RISCV_SCOPE_PER_PROCESS	0
+> > +# define PR_RISCV_SCOPE_PER_THREAD	1
+> > +
+> >  #endif /* _LINUX_PRCTL_H */
+> > diff --git a/kernel/sys.c b/kernel/sys.c
+> > index e219fcfa112d..69afdd8b430f 100644
+> > --- a/kernel/sys.c
+> > +++ b/kernel/sys.c
+> > @@ -146,6 +146,9 @@
+> >  #ifndef RISCV_V_GET_CONTROL
+> >  # define RISCV_V_GET_CONTROL()		(-EINVAL)
+> >  #endif
+> > +#ifndef RISCV_SET_ICACHE_FLUSH_CTX
+> > +# define RISCV_SET_ICACHE_FLUSH_CTX(a, b)	(-EINVAL)
+> > +#endif
+> >  
+> >  /*
+> >   * this is where the system-wide overflow UID and GID are defined, for
+> > @@ -2743,6 +2746,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+> >  	case PR_RISCV_V_GET_CONTROL:
+> >  		error = RISCV_V_GET_CONTROL();
+> >  		break;
+> > +	case PR_RISCV_SET_ICACHE_FLUSH_CTX:
+> > +		error = RISCV_SET_ICACHE_FLUSH_CTX(arg2, arg3);
+> > +		break;
+> >  	default:
+> >  		error = -EINVAL;
+> >  		break;
+> > 
+> 
+
+I will send out a new verson.
+
+- Charlie
+
