@@ -1,146 +1,117 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEAA2E407
-	for <linux-doc@vger.kernel.org>; Thu,  8 Feb 2024 04:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438576930E;
+	Thu,  8 Feb 2024 07:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707365851; cv=none; b=NETzxIzX4nMMMFbNK8CnbihHO+b6ktFZ6WMyrFRT0ezJp3E55/aS0peNyJaMMZIdEmUdH8jWRrvsDXiePOOMojKVNkCjAHxhLDFOXnWdAqMHze+fEnbmAQy3DDKpgQzhU7WQ8BsHTerI6rxbqjfAMmP1heXFLaznXfSlNWrsaSA=
+	t=1707377703; cv=none; b=IVarO22Jnd/RjkC68ew+N1eYHEa8WHKAB0jXFlFgquTKCwkbNqlseHbSWE5JVu5pjY4b/YpJ0qGkI4UN2m9uxgdjYYhICrY1KwKXbY6ShCOlryS4BUr2+/CCC9NmLU0q0jeSJl1IvrMAjSTsQCIPJZdTfWJflpCm60jm3NWfFWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707365851; c=relaxed/simple;
-	bh=cAHh4xjhBUsUvi6dV0lRc25LSMG4QeXOE/23496L/SI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tULFcMJ7xGYP0SMfgotMh66z802piKf177fKCgVjmKlW9f+8qTaKM5CttKBh+dP2V/iTiHVhkfIiyg94gwwr53mvIC2TW9rL6KdkdFwV+o6x6D2wPL1joYTpmDC5800H1pH/0yeTHB/nErweWpa5V/8L/0xuSte63QZbfdOkq4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pdp7.com; spf=none smtp.mailfrom=pdp7.com; dkim=pass (2048-bit key) header.d=pdp7-com.20230601.gappssmtp.com header.i=@pdp7-com.20230601.gappssmtp.com header.b=nud4MXKj; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pdp7.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=pdp7.com
+	s=arc-20240116; t=1707377703; c=relaxed/simple;
+	bh=1XADCEM8vRbIH6R9VOUbWP8/IpprYucwod/GjqTaZKg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QN4FXQwrMvw7Bb9NLGDMhCongjmq1osKhYP04iuU56rO2qHFGhcoAfbvxkO4NayhynYXWyxKeH0qYaiFigwleAOM2vXzJ/atvCYpdYHnn6oM3nrOjkohgYbCNbd2dyVSsREeljUv1WH2PApwjVZAkHh3iuqAIZKOAgeHFXBeoBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JjuhtJe0; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pdp7-com.20230601.gappssmtp.com header.i=@pdp7-com.20230601.gappssmtp.com header.b="nud4MXKj"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5d8b70b39efso1206355a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Feb 2024 20:17:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JjuhtJe0"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-db3a09e96daso1516756276.3;
+        Wed, 07 Feb 2024 23:35:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pdp7-com.20230601.gappssmtp.com; s=20230601; t=1707365849; x=1707970649; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VMfM6tLjsjGv++dP9ohEDO8bzLO9AXA9FZHQRHDHuD0=;
-        b=nud4MXKj8JDgAKaSMtBUg0URbf0yf4kvrvH8dd9wxm1t+a7/fX7t5X/Etg7oWHCSBn
-         Ygi21z+n/ONyW9ewy7qC6wnWQMosUfxJVYDYsHUVx8BpMJJQYunY0hBG60CcZTj/tSm5
-         7UmF6ywFFf3nAU9T3QQ6Wgggl2ZHFDgkHcGranLt6XFti5wCfHCDuYlsZaaz2OfNWwiQ
-         GSHejnSZmNwwoWzTLcFww0EY9j5DPMaXyzEauOtMXixSfnQptLvjuzDGW/RpmJwSEz0B
-         L6eoAzS/R1a8WoJlmxxDsPEERknrzIHxmKdnjDZ1A+QkNUJT/on761N2v8+YoqQjhmO8
-         pdWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707365849; x=1707970649;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1707377701; x=1707982501; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VMfM6tLjsjGv++dP9ohEDO8bzLO9AXA9FZHQRHDHuD0=;
-        b=bDWvetKu711ZWu35bFcNpZT6i8uNjJ7jlXD4WcfSfkXaJTNHWwMj1viiygR6gEVizo
-         zPemJGWTCJCdh/G0kOjrFiJkZUcQ6TSnXhYja69HIwC8GwcnuV2H+VzvHeUKD5f5z2ZV
-         7McB8YYL4SINsJpv7C7CsHtenWM9mUs2MC+mBaGTxLhuaZ5V7SQk0zLsW+Rz5bIIB8Dr
-         dj1Eu4UC4POtLeZzLcqGkVmI3nDUAiT0nWUIbL5BhMYsZbxd+XUpqdcbePxmQv0FknNj
-         QgY2L2x14LGy9Dl+yrjNrOlmLe9nd/ASGCsHsTEItZxjh6jMQXWOB+rE5X7ZWLhzQ7fj
-         MGrw==
-X-Forwarded-Encrypted: i=1; AJvYcCVE0+id9RSbQ6/I/4HCyQS5wJbe2IRhGTSJTV10paHUzwi7jEKf8bqv1qJNoS9QybQvtzBqEr/EJDa7pMK1Lr2FUFYfOKS5dYbc
-X-Gm-Message-State: AOJu0YzUM8Tn14b/nsLit1vXopMM134IMUuJOqqcvTD4gEUTYcmSQYC/
-	sEo9/FIRjH03tPK3F8p2ZbyJxIKiWPOZyUTFwdmqQtzVb6nh9oDcnepxi+wncXg=
-X-Google-Smtp-Source: AGHT+IGy56Ygai1gEesu11gcC5X7oygZYFdrRpd1VgYGiAFJeE0xjOR3DXoJ2a9vLefMqnwckTySXA==
-X-Received: by 2002:a05:6a21:9214:b0:19c:5ae6:4425 with SMTP id tl20-20020a056a21921400b0019c5ae64425mr8350230pzb.59.1707365848984;
-        Wed, 07 Feb 2024 20:17:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXWeDIoarGsQx3+UKEz2tEshr1jtFWhOljZpJblOlXsUweFB7dY+oThk+1y+Uw/fQWVuSyPNYrKLJ5eq0PdMVe1Tatbj8GTEK9MG0UfNls1BEwdwsc93HkJDUXV1CX0PP7N4Du2STjp+fU4OslOUawzmCn67uTAQ6p7/7vyZymWNQ+RKGnISD5lsF6xJI2MtRIH3rdbZSMlDMW5fGF18O+Bh0tOBcmemCm63n65N7Ze1V9FR8cfmCYPFW7OLTwro/yrfouI+AemQx+cnDlhVHZh8t9GQtavASrrdOq4PTKYhlZXhlBqZOV/2nr6vMPSOal2MeECG3/DBHzfZ5LpnQ6+0TuUWjkUtnb9TiaCtYa+ROQeiLpPqsldrnzZxH0jMu1LYcDlwGzxiG3G3ZE7x8P0cliIh8+fln/sdIL253DhGUvTQv7yrUV42VsD45tS6GFFQdqAx/dUV5Jmk91NcC5qQdBO6/CXEcxpD7Cc/PfaSbmqxBnA0pw=
-Received: from x1 ([2601:1c2:1800:f680:3e6:72a3:7bf1:6e29])
-        by smtp.gmail.com with ESMTPSA id q11-20020a170902c74b00b001d9ef367c85sm2171292plq.104.2024.02.07.20.17.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 20:17:28 -0800 (PST)
-Date: Wed, 7 Feb 2024 20:17:25 -0800
-From: Drew Fustini <drew@pdp7.com>
-To: Tony Luck <tony.luck@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Drew Fustini <dfustini@baylibre.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v15-RFC 0/8] Add support for Sub-NUMA cluster (SNC)
- systems
-Message-ID: <ZcRVZYtmFMz0fdjU@x1>
-References: <20240126223837.21835-1-tony.luck@intel.com>
- <20240130222034.37181-1-tony.luck@intel.com>
+        bh=OwiLWf5rY+M5k7F7A5kk6IJ+AFJMy/SNlblmJ/d533s=;
+        b=JjuhtJe0uTVCjPpz3CjkM7yVBmk31CQXVRuLKX7xj+aRUfzbD131mUkrepqIT2yH3o
+         9GWzFMTEZaYOHFlP1xtXshWzyWsNBnMeFcwUqXxFkL9B0XN+lRFl1SWvvNiX4vLVGbVD
+         h5IsgYd3bEF7SuxA4lqgc7WIYktXsSvCB5ZIxXm37BXB2f5w4Q8bpB3/4tjq/QhSuaPi
+         76yHDqIoMqu2v03LjtRReCZaj+6mQlu/S3vY7RzW/d8bx+DmAu7nVwR3MqUSc//ow1Fl
+         NdozHxcBnzT22yFXV+INQBNbOI29l0W6Ha5ZijwR77zsZhzRyVHBwJNSNejRX6kEz5df
+         ppFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707377701; x=1707982501;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OwiLWf5rY+M5k7F7A5kk6IJ+AFJMy/SNlblmJ/d533s=;
+        b=r33S6fFf7swmiwlm3tdQjdzRm8FQ/VS+RnaXwZeDztDqg70d0w8LL6sJdJf7Op49q8
+         M53bXjvgN7wMnpZmF7+Q/AtTBjBqL9AkIfiKddcniJd6EPgEWqPiK0hnwhpqRoWaQS+N
+         qF3fsYFbaSPL3PgBnOnVzr7jYxiuqlYMvw2t5tRr7kqyXbI4FEEN5aFy2Wi56+vi4lVL
+         5y2vLY41k1fRvOw++oy1UGP+rzUKxg74B2vQaEh9ZpJPLiMPErs7UWQOCNwt3+StS4zz
+         BS3jNPm6VKKxEWZ7ANlAKeJvWbugqcWbhDBvitSLd1YNXfs2BQNnhMvKLag/co4kONLX
+         +dIA==
+X-Forwarded-Encrypted: i=1; AJvYcCWmxHq+xDdixHGyxorepK5BNfebdFeBf8S3YGzk6poiP3BWMfhhDLorzFmUGpRz2dydntOtMpdCPsF59f1Q77xDJKiZeW1GR6CPMz4UwZUdpj7Mrnyh0zg0Bd26zRAZOy1gwRPqUX4j1psrgBdOnssACqik8SwblfijMUTLa9Cb
+X-Gm-Message-State: AOJu0YyzvMk2Fs9/7PUFPI9JSWFK0PVjFwPSQ4TpCDADuCg1q3Lde6/A
+	CSp7c/c/hKCxWAGEDGYUCpZj4UPvav3fXyHTiTFkmEet95swhPJgbEMiRifTTTJWij+xAKwezWT
+	INviIxAFl5/q8iiTT47yTVm+QIv0=
+X-Google-Smtp-Source: AGHT+IHGcjkvccjmKXkUVl0dy4auf3wes5FH5BEijtfhWmT3ZweyADdEGnbtjanITGRXfjgeqxb40zpZi79vnfnfwQA=
+X-Received: by 2002:a25:6981:0:b0:dc7:461f:6920 with SMTP id
+ e123-20020a256981000000b00dc7461f6920mr325253ybc.48.1707377700189; Wed, 07
+ Feb 2024 23:35:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240130222034.37181-1-tony.luck@intel.com>
+References: <20240131134621.1017530-1-hayatake396@gmail.com>
+ <20240131131258.47c05b7e@kernel.org> <CADFiAc+y_SXGtVqZkLoiWw-YBArMovMkuWw3X596QDwEtdBJ2g@mail.gmail.com>
+In-Reply-To: <CADFiAc+y_SXGtVqZkLoiWw-YBArMovMkuWw3X596QDwEtdBJ2g@mail.gmail.com>
+From: Takeru Hayasaka <hayatake396@gmail.com>
+Date: Thu, 8 Feb 2024 16:34:49 +0900
+Message-ID: <CADFiAcK_XjLNjzZuF+OZDWjZA4tFB8VgeYXVJHR8+N3XryGxwA@mail.gmail.com>
+Subject: Re: [PATCH net-next v6] ethtool: ice: Support for RSS settings to GTP
+ from ethtool
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, intel-wired-lan@lists.osuosl.org, 
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mailhol.vincent@wanadoo.fr, 
+	vladimir.oltean@nxp.com, laforge@gnumonks.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 30, 2024 at 02:20:26PM -0800, Tony Luck wrote:
-> This is the re-worked version of this series that I promised to post
-> yesterday. Check that e-mail for the arguments for this alternate
-> approach.
-> 
-> https://lore.kernel.org/all/ZbhLRDvZrxBZDv2j@agluck-desk3/
-> 
-> Apologies to Drew Fustini who I'd somehow dropped from later versions
-> of this series. Drew: you had made a comment at one point that having
-> different scopes within a single resource may be useful on RISC-V.
-> Version 14 included that, but it's gone here. Maybe multiple resctrl
-> "struct resource" for a single h/w entity like L3 as I'm doing in this
-> version could work for you too?
+Hello Jakub-san, and all reviewers and maintainers,
 
-Sorry for the latency.
+It has been a week since I last received any feedback on this patch. I
+apologize for the inconvenience during this busy period, but I would
+greatly appreciate it if you could continue the review.
 
-The RISC-V CBQRI specification [1] describes a bandwidth controller
-register interface [2]. It allows a controller to implement both
-bandwidth allocation and bandwidth usage monitoring.
+Sincerely,
+Takeru
 
-The proof-of-concept resctrl implementation [3] that I worked on created
-two domains for each memory controller in the example SoC. One domain
-would contain the MBA resource and the other would contain the L3
-resource to represent MBM files like local_bytes:
-
-  # cat /sys/fs/resctrl/schemata
-  MB:4=  80;6=  80;8=  80
-  L2:0=0fff;1=0fff
-  L3:2=ffff;3=0000;5=0000;7=0000
-
-Where:
-
-  Domain 0 is L2 cache controller 0 capacity allocation
-  Domain 1 is L2 cache controller 1 capacity allocation
-  Domain 2 is L3 cache controller capacity allocation
-
-  Domain 4 is Memory controller 0 bandwidth allocation
-  Domain 6 is Memory controller 1 bandwidth allocation
-  Domain 8 is Memory controller 2 bandwidth allocation
-
-  Domain 3 is Memory controller 0 bandwidth monitoring
-  Domain 5 is Memory controller 1 bandwidth monitoring
-  Domain 7 is Memory controller 2 bandwidth monitoring
-
-I think this scheme is confusing but I wasn't able to find a better
-way to do it at the time.
-
-> Patches 1-5 are almost completely rewritten based around the new
-> idea to give CMT and MBM their own "resource" instead of sharing
-> one with L3 CAT. This removes the need for separate domain lists,
-> and thus most of the churn of the previous version of this series.
-
-Very interesting. Do you think I would be able to create MBM files for
-each memory controller without creating pointless L3 domains that show
-up in schemata?
-
-Thanks,
-Drew
-
-[1] https://github.com/riscv-non-isa/riscv-cbqri/releases/tag/v1.0-rc1
-[2] https://github.com/riscv-non-isa/riscv-cbqri/blob/main/qos_bandwidth.adoc
-[3] https://lore.kernel.org/linux-riscv/20230419111111.477118-1-dfustini@baylibre.com/
+2024=E5=B9=B42=E6=9C=881=E6=97=A5(=E6=9C=A8) 9:59 takeru hayasaka <hayatake=
+396@gmail.com>:
+>
+> Hi Jakub-san
+> Thank you for your review.
+> I apologize for the delay in resubmitting the patch.
+>
+> > Could you split the uAPI changes and the driver changes to two separate
+> > commits? You should post them as a patch series, but combining them
+> > into a single commit makes the uAPI addition to easy to miss.
+>
+> Understood. I will split the patches and submit them separately in v7.
+>
+> Thanks
+> Takeru
+>
+> 2024=E5=B9=B42=E6=9C=881=E6=97=A5(=E6=9C=A8) 6:13 Jakub Kicinski <kuba@ke=
+rnel.org>:
+> >
+> > On Wed, 31 Jan 2024 13:46:22 +0000 Takeru Hayasaka wrote:
+> > >  .../device_drivers/ethernet/intel/ice.rst     | 21 ++++-
+> > >  drivers/net/ethernet/intel/ice/ice_ethtool.c  | 82 +++++++++++++++++=
+++
+> > >  drivers/net/ethernet/intel/ice/ice_flow.h     | 31 +++++--
+> > >  drivers/net/ethernet/intel/ice/ice_lib.c      | 37 +++++++++
+> > >  include/uapi/linux/ethtool.h                  | 48 +++++++++++
+> >
+> > Could you split the uAPI changes and the driver changes to two separate
+> > commits? You should post them as a patch series, but combining them
+> > into a single commit makes the uAPI addition to easy to miss.
+> > --
+> > pw-bot: cr
