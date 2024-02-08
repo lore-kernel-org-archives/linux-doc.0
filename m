@@ -1,96 +1,143 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF4A78B40
-	for <linux-doc@vger.kernel.org>; Thu,  8 Feb 2024 14:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E5B78B75;
+	Thu,  8 Feb 2024 15:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707403935; cv=none; b=L5+2nAL3eQoIde6p40ZB794Cr8MVjIIftUw2cmJAxVyAQdTifDYDcvw7ZnEP7Zj5mOyfrsBxOYTL3WhcCA0I7pwSR4QcUY53uk9FkUQAopSQbuy8yb1fIAi3Ox6C7BOM0w/qUOFgSFv7r2u0m70GF72/Jtp8ZLlc82Tk8pDGcWU=
+	t=1707405259; cv=none; b=gbV4+jyj0Eq7Tmj89Lop5tNfSP+eu6DPctevEHnOT17QLGUmfYqEHt13BH1tsmoS800Er3rrQx7+8wrD3anH0U0oWxM/pmcIOpJash46351zR9ozPVVNfSjrYEAIPQjTol66H+zpqxa2slN1op30cPhfM4Gwu3dwj5VIjN4K7Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707403935; c=relaxed/simple;
-	bh=8aXxMqKjuGYAZbxGk8K/JAdM76UCaTFG5zJidRIuLWg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LAyAHT9M0mvmKfHmDruiWOiKv42MTG9ITimgUCzbKvjFNphDS48TX/6AruvG0pd0+ZGej1TUXWaCrDZQbopU43Z7oPAbqNgyNrKqEmCcl00iJKoiLWqSD9kqCbPqRkN+le18B26h7gtfJIAOQTz1eTpZi3K7rOyuZjEz6NeFqJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=JeGk+hdY; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
+	s=arc-20240116; t=1707405259; c=relaxed/simple;
+	bh=k67Ku4nB+j9z1OnPAabF+SA7vYNtpc6cZOpoi92P1D4=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
+	 Content-Type; b=Rlpb0GuBvDPbhx/pIjP6RUDh9JK8A6nj1TKvbJS9FNgaDYyTDba2PrVHPGXOaC0BbueReMls88RH4YuafjkLfLyhUB/+dHidr/LlcJldZPcQVmwJPXQIwB1vNHNSzQHYyjIz2KXyu3lXV+I2oVYyOFXuRgPgqJUHrfottKYWtok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lR5Xv308; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lX2vlCRv; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="JeGk+hdY"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-55ad2a47b7aso2655899a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 08 Feb 2024 06:52:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1707403930; x=1708008730; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2d3bjISixj6XxfcjFNFffsbfi1JCl6LveKlFSzCZnjI=;
-        b=JeGk+hdYZTj0eVsDhqIns7VzmdjERt3De3j4me5wo1de0FdOu+ARuNdaaz8P6oFpsG
-         o/87pOazLEIsZb+aPf95b4j7zs844l96MEmWA+LU1Md1MJp2liV0osNdNotV/MNkbmpu
-         yiBgo685IjNltGB6jMghmehJ2G+OhFpTd7lDAMAzcy+GYAWJutwwbfG4FUSmO/kPTVWR
-         1Fwy0jTyHSldT1noJN8kseJx2rBHvElYA4t4x1wUK6nEoIE8Q71oVD73JPGQj8vqlQyV
-         npb0G6Iz3lzqE2M98zrUcen6SKiAv/lIMN5EbTweONEDY1Xf5r3nXpBrg9grOek4OjkD
-         v8OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707403930; x=1708008730;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2d3bjISixj6XxfcjFNFffsbfi1JCl6LveKlFSzCZnjI=;
-        b=PlbJ7sQni9I8VGAkE7SfCGeVt2fP2Ga1InUHGlkhrlwQhIMx4lUNBPRAoeS4r+gmsp
-         RqN376RuR09y5L6Ujbk8IQbM0vqrmTjixI085bTFq/JjXqpAXUJs94jQE/+Qz5D1cJ6W
-         +ns/0q6Ylh0rzfLZ2JrQFOXuK/Qzw9oxaEQ5N5r0BT3uKiMFrfFGN1nwq6/oCj3ZjGge
-         ZrZF9h/u7ieKeEWmvclbIlYT85SEKd2ZzEvFsNwa8mVkmVIO5uZVmIZXKWPGwVU7XT2Q
-         PkKip1oc91vvU3D5u5nQvBqAXdSYcg+nX03EdKNGs+rvwsUpetglHxLvy455OFohKyAh
-         n2+A==
-X-Gm-Message-State: AOJu0YyD1vUnWEcJBVg2Tzp64DdQoZ750O60jw0lMPesRgIZ5KWS4X8V
-	YbPFG/Umx1cOuuc0ZEYzA3jhkC3MNFa+H1uMGUrMm2gMNq71EzS0QwlYbRnPYD0c/T5a+3V+vSJ
-	NZYf1Dw==
-X-Google-Smtp-Source: AGHT+IHHw955E7ZE/Q0T8Z6irZg1N/aCs3IbXoNVqw0WOLKE3K9HUNR49ZCRYJjEmj5ZfhzbTjvQVg==
-X-Received: by 2002:a17:906:5d:b0:a36:3c59:3449 with SMTP id 29-20020a170906005d00b00a363c593449mr7096417ejg.56.1707403930393;
-        Thu, 08 Feb 2024 06:52:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWX+VIhhLkDx/C51uQV+PvNpVgeYss76QEu3Fd+6M96VTCfqgZ/Q+Tt1egxnwQUla/veuyA3FhPG8GcgYW65/Y30mMrw3dnuMS5exJUn75yWgK+xU/uSffTtPMI4fs0Edymc4Tb4Fw=
-Received: from debian.fritz.box (aftr-82-135-80-180.dynamic.mnet-online.de. [82.135.80.180])
-        by smtp.gmail.com with ESMTPSA id v8-20020a1709067d8800b00a3bb6de59ddsm122994ejo.100.2024.02.08.06.52.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 06:52:09 -0800 (PST)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [PATCH] docs: Makefile: Fix make cleandocs by deleting generated .rst files
-Date: Thu,  8 Feb 2024 15:50:01 +0100
-Message-Id: <20240208145001.61769-1-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lR5Xv308";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lX2vlCRv"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1707405255;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to; bh=Y/mJ4V5ODp1OjO5K7WAULxON8je6JT7lSJcesdF0zwA=;
+	b=lR5Xv308pjT/LKI8IM8xB/XSaI0Dnb5HSiiNZEcP1GG/X0J2TGhY5RsRXxvUquFtK5Kaba
+	2qgKUqQBYDes23bT/Oti60rd/dLpmC1C6XEqg+UvsrvCqKxYP8nb1k+B33QKNOcpSSXcSH
+	IQPxQ3pK41vKwjXsCNbCA3PAbnYM1W7QICBM1MV5LoQ2zE3IzztFmaabhkdZfFzLdOHs+5
+	7M6dJ1Ndv1+8RVk6GLIpY425f7WzV+O406O+gK3Z05xJ8j5gQbnT1hfCZo8YXAzE9tRiep
+	Wnooz6ezxZ+T2sO6f5ps2Yzx44+QTLTYOd45CVawJ6cJNBJV9wuWjjGU6jQ4yg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1707405255;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to; bh=Y/mJ4V5ODp1OjO5K7WAULxON8je6JT7lSJcesdF0zwA=;
+	b=lX2vlCRvmWLLnz1TXzYs9CGXtjOII9OYpB8OU/Wn0AEnymAqvTvw87UIVMVFJVX3rNXkG2
+	DyClVZlotGwKEmBw==
+To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com,
+ jesse.brandeburg@intel.com, davem@davemloft.net,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
+ pandith.n@intel.com, mallikarjunappa.sangannavar@intel.com,
+ subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com,
+ lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v4 02/11] timekeeping: Add function to convert realtime
+ to base clock
+In-Reply-To: <20240207060854.6524-3-lakshmi.sowjanya.d@intel.com>
+Date: Thu, 08 Feb 2024 16:14:15 +0100
+Message-ID: <8734u3m1iw.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The script tools/net/ynl/ynl-gen-rst.py (YNL_TOOL) generates several .rst
-files (YNL_INDEX, YNL_RST_FILES) in Documentation/networking/netlink_spec
-(YNL_RST_DIR) which are not deleted by make cleandocs.
+On Wed, Feb 07 2024 at 11:38, lakshmi sowjanya d. wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>
+> Introduce an interface, ktime_real_to_base_clock() to convert realtime
+> to base clock.
+>
+> Convert the base clock to the system clock using convert_base_to_cs() in
+> get_device_system_crosststamp().
+>
+> Add the helper function timekeeping_clocksource_has_base(), to check
+> whether the current clocksource has the same base clock.
 
-Fix make cleandocs by deleting the generated .rst files.
+Neither ktime_real_to_base_clock() nor
+timekeeping_clocksource_has_base() are used anywhere.
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
----
- Documentation/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+What's the point of having them in the first place?
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 3885bbe260eb..4479910166fc 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -176,6 +176,7 @@ refcheckdocs:
- 	$(Q)cd $(srctree);scripts/documentation-file-ref-check
- 
- cleandocs:
-+	$(Q)rm -f $(YNL_INDEX) $(YNL_RST_FILES)
- 	$(Q)rm -rf $(BUILDDIR)
- 	$(Q)$(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media clean
- 
--- 
-2.39.2
+Your changelog explains the WHAT but not the WHY....
 
+> +static bool convert_clock(u64 *val, u32 numerator, u32 denominator)
+> +{
+> +	u64 rem, res;
+> +
+> +	if (numerator == 0 || denominator == 0)
+> +		return false;
+
+What's wrong with the usual (!numerator || !denominator) notation?
+
+> +
+> +	res = div64_u64_rem(*val, denominator, &rem) * numerator;
+> +	*val = res + div_u64(rem * numerator, denominator);
+> +	return true;
+> +}
+> +
+> +static bool convert_base_to_cs(struct system_counterval_t *scv)
+> +{
+> +	struct clocksource *cs = tk_core.timekeeper.tkr_mono.clock;
+> +	struct clocksource_base *base = cs->base;
+> +
+> +	/* The timestamp was taken from the time keeper clock source */
+> +	if (cs->id == scv->cs_id)
+> +		return true;
+> +
+> +	/* Check whether cs_id matches the base clock */
+> +	if (!base || base->id != scv->cs_id)
+> +		return false;
+> +
+> +	/* Avoid conversion to a less precise clock */
+> +	if (scv->nsecs && cs->freq_khz != 0 && base->freq_khz < cs->freq_khz) {
+> +		if (!convert_clock(&scv->cycles, cs->freq_khz, USEC_PER_SEC))
+> +			return false;
+> +	} else {
+> +		if (scv->nsecs) {
+> +			if (!convert_clock(&scv->cycles, base->freq_khz, USEC_PER_SEC))
+> +				return false;
+> +		}
+> +		if (!convert_clock(&scv->cycles, base->numerator, base->denominator))
+> +			return false;
+> +	}
+
+The above logic makes my brain hurt.
+
+It's a reaonable requirement that cs->freq must be != 0 when sc->base !=
+NULL and then converting from nanoseconds can always use cs->freq no
+matter what the value of the base frequency is. Even for the case where
+the base frequency is larger than cs->freq because the double conversion
+does not give you more precision, right?
+
+> +	scv->cycles += base->offset;
+
+So the whole thing can be reduced to:
+
+   nom = scv->nsecs ? cs->freq_khz : base->numerator;
+   den = scv->nsecs ? USEC_PER_SEC : base->denominator;
+
+   convert(&scv->cycles, nom, den);
+   scv->cycles += base->offset;
+
+Thanks,
+
+        tglx
