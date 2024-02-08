@@ -1,63 +1,48 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE8A6BB5B;
-	Thu,  8 Feb 2024 08:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7EF6BFA6;
+	Thu,  8 Feb 2024 09:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707382338; cv=none; b=XXwB3BC3CjJHr4lDbgsBwiKQjlItWwF4m1Kkkw4yykevsfavZbEMTKdkQidA7eeCQzrh0NQHc5S0cTdfWvpsx0+yoTTorD3EyKVlyLE2eRezscojYVQiWewscH7ZW6PL9e2114+JmbpwGWICn7ADezzfc6iKEuKQfchPJ3OQOdI=
+	t=1707384189; cv=none; b=bbiGTD10VviojDU49InhDPyWy6CDmwNh3wi4arYsmzDUX0TiTbAExzkpvF0bnOHylv1N/fFvrgtxVMK+qQihYnf9wmBGmCeM7Nm1WbwYIxpqyzZYyPqdFPPl1k11IwLJeOMEABIL6V9vIPx66LiB3/0a1ieO3ugcgLu42pJ87so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707382338; c=relaxed/simple;
-	bh=nsYgwYdoCf/v23CMHkRT2qhweno5Q0SXZJgI7dMic6A=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=qbuLSb4e2cRxwvlq7+g9HRgA2QafUwEiIURul/MRRReaAkl0FHlCvSS0pP4Jw38yXfAtSCsJ8Z2W+3PIvKy7299S/hL1xO74DBrEMR0sEtAwVEQkPDlSCRBhRGjgsiWQhzlA3Ca9eniFnOtTaOd5bID5kcemYsTg51Rpghc2t8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K4/Fie8p; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707384189; c=relaxed/simple;
+	bh=gdfBej27euGxJcT9NXwgasXWvHeRtnjKy2yiVwekJ4A=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=qdi8V1UDty9CKmsFB49Rafcp6a+wBNOUvie+3WvMQuYCVCgwJJncJvINI0LOAguwPDy9r0mddbFDZNTvqTT0LedVgNM/c4K25LsVoLT9W75jnUMwZUcQGOJwQ0FPeK3c6Hfo5oDrBNKIhIzcAvxlKBQ5XDIz48AL0ogCSXVzmXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=a69GVgQO; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K4/Fie8p"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-337d05b8942so1154669f8f.3;
-        Thu, 08 Feb 2024 00:52:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707382335; x=1707987135; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZLijPkNPZl+6L/SNv7KMroW42WvF577+ZBffRW12WRY=;
-        b=K4/Fie8p2dbJtsglNr3D9Zfe/IO5JJlq2HUkmRbox1W2Aca6I3UAYmA8lfRs7oXrzs
-         BgnUyUfLA27WnfgAwQ/fGnfAn/pOxv32oRDpU1WnLsAX8Jg2P6YB/gVBs6QxlCQNa7gh
-         DLmZj2WcxeP5GjyjpS6JicryortXoQvBi0hjGdTLP5uvEQznG0wiAoYym5YfcO6wmEL2
-         b6SuXFcg2IJvka5vapB5rzUDXTEvGZfUPgCwvon7HHeJTwTarGxFMl3WGM5LEsVfjGxR
-         J3r2YNajDLCWPzh1kYpWKc+9Irtm+j7l8FHIcVP3KIsf/64C00QNEoMxEobh6IqbdeUL
-         SDxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707382335; x=1707987135;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZLijPkNPZl+6L/SNv7KMroW42WvF577+ZBffRW12WRY=;
-        b=HG8mcd+psIBixo8BC39rUDU9lNwO8Y4tiB7TrhZZ0Rd8dxRfODHne8B0/4n1S1iMgi
-         YWwNZGUEo6Q8LzqjpBoSVZswx0O2ZBxVeOJyB9oZpaxFOrVDD/9tF/++Dr2UpwFNXrlP
-         wHpRsgxMJhVKP/QslNJRPYJKqywbl0Wi7Bx55u51P7Su+scXmHtMboF8EDfElCLrBpc/
-         V9BHhY6lTQ8D0mJmBqV44aoFByxCxqTbnUiMKaUJCnfhyQkJXp5A2Iq9JdfRTH5lpC2l
-         04s8f+uI1FGccWEBi1wxnuBm0Mo24Rv3fIZBqWUlA4y0QdN6i3QNXSDgS33riH1XN6fH
-         m8Ag==
-X-Forwarded-Encrypted: i=1; AJvYcCWXwjJemMRRs2uNf0KoZDXmZuWdqy2vIo9z0HWqghOT4Z7N/YWJzpTQwJg20XTTCiOyZwhnr2kJ9NX003XN/CU2zROrrHwHoqpXRSkefRicUM3NqYDGF02CRek/1osH7k5fY4teRatgaS0PyN7lR4taDB/q0mPorGKCtDkbnxEIkk1tsSQNRMPZNxDqtDgm6JEBRluhzXpIjIr7aB0o
-X-Gm-Message-State: AOJu0Yy5mv/6vzP3/h23J6SALH+k/MlChyr7KBNgbchGwnptQwQc8edn
-	2ogp5bl8OMkAkfu8OsbavRcj6PGcewz+R+MDkaoneoO6LP5A4c3/
-X-Google-Smtp-Source: AGHT+IG2lAcMdFKBZ5vcEaLKD/Wi/8gZcHvjnvfWa8YHRbWGT4Dmq2v32/8oBzuewudCDRhlB3OTzw==
-X-Received: by 2002:a5d:558e:0:b0:33a:fe3b:b2ae with SMTP id i14-20020a5d558e000000b0033afe3bb2aemr4867695wrv.66.1707382334630;
-        Thu, 08 Feb 2024 00:52:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX9mTO16tkOA+8xvP3tdKoS2oQCC+t3nSnWwQABs6FQGzpVYvQOZaC7FjLZFFYgdXcHeFSK05gT+W1HEMCFcxyowCXGEHrjTN5FKbkjXhfV7Mc5SmfmHswNmCKppsmvv4C7BlOxgJrs60HUV9feZcl88lnXvfNPfYqBbA5F4/L2eIV9bOK9F/kVLlMOLei+eF7IR/VLDL7k+nd9XSWn2onJqY4WS3+MzIcaik3H/9LEXLXISqI1ZrOX5KyB+1rl2IsBrPFPFdM/598+CkR2XRHmedDdI/WJdAAZ7Zdavo9EVAw2xIy97yqJVe+APv7Uh0RFEirn/tn9n4zbbLKxRrA6IShxK+GDlZOWEVg4hUFPZHmQJCTv4g9JTTEnDBU71YWsOKPnCLuRCgDaf3Yp/XQhHO+0mD1yHKdekPoAWJoM1ghNTwQ=
-Received: from [192.168.10.199] (54-240-197-239.amazon.com. [54.240.197.239])
-        by smtp.gmail.com with ESMTPSA id bo16-20020a056000069000b0033b0d2ba3a1sm941262wrb.63.2024.02.08.00.52.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Feb 2024 00:52:14 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <92918ee8-3cc9-41c3-a284-5cd6648abc05@xen.org>
-Date: Thu, 8 Feb 2024 08:52:06 +0000
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="a69GVgQO"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4185PxZ6031708;
+	Thu, 8 Feb 2024 09:22:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:from:subject:to:cc:references
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=yIsFGzjC2AWz7C0/no0S1EAVpf2e+m6kDY2d+317iyg=; b=a6
+	9GVgQOrPS9NO26yK+GxGX1Hswx1AN7AN+g3u/2eHnUc2ui2Ylo4RSMOLe5zLBWoT
+	hMElQRCELAiAnRQCZWV5HWtbs8DfH/tknHubjr/MfftH7iDaMUAZ6tySizyo9R7+
+	jFhS/gqrOofS3tFhK4d5seIezBWXBe6t3QJRlvDhngrJe7hEDCU+VuUG6gvuUuKB
+	z9sF+Q/h5J1bdKGgldQukX2XjbqFiB/V26TKTdZ6s3/+/a9/ATi92SRHM4ZlnKJK
+	AwZe+fgndca5yvUo07C8aJHy+0Tp1phS0+hDq/uJSY4/76BOil0CLGCXYp00lEtd
+	ILWwj2Pzp81T+ar0kCXw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w44fwk7hg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 08 Feb 2024 09:22:44 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4189Mh2r025552
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 8 Feb 2024 09:22:43 GMT
+Received: from [10.239.132.50] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 8 Feb
+ 2024 01:22:36 -0800
+Message-ID: <ec99fdee-8d3f-476f-842f-f57b2b817dae@quicinc.com>
+Date: Thu, 8 Feb 2024 17:22:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,64 +50,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Reply-To: paul@xen.org
-Subject: Re: [PATCH v12 11/20] KVM: xen: allow shared_info to be mapped by
- fixed HVA
+From: Huang Yiwei <quic_hyiwei@quicinc.com>
+Subject: Re: [PATCH v4] tracing: Support to dump instance traces by
+ ftrace_dump_on_oops
+To: Joel Fernandes <joel@joelfernandes.org>,
+        Steven Rostedt
+	<rostedt@goodmis.org>
+CC: <mhiramat@kernel.org>, <mark.rutland@arm.com>, <mcgrof@kernel.org>,
+        <keescook@chromium.org>, <j.granados@samsung.com>,
+        <mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <quic_bjorande@quicinc.com>, <quic_tsoni@quicinc.com>,
+        <quic_satyap@quicinc.com>, <quic_aiquny@quicinc.com>,
+        <kernel@quicinc.com>, Ross Zwisler <zwisler@google.com>
+References: <20240206094650.1696566-1-quic_hyiwei@quicinc.com>
+ <50cdbe95-c14c-49db-86aa-458e87ae9513@joelfernandes.org>
+ <20240207061429.3e29afc8@rorschach.local.home>
+ <CAEXW_YSUD-CW_=BHbfrfPZAfRUtk_hys5r06uJP2TJJeYJb-1g@mail.gmail.com>
 Content-Language: en-US
-To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- David Woodhouse <dwmw2@infradead.org>, Shuah Khan <shuah@kernel.org>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20240115125707.1183-1-paul@xen.org>
- <20240115125707.1183-12-paul@xen.org> <ZcMCogbbVKuTIXWJ@google.com>
-Organization: Xen Project
-In-Reply-To: <ZcMCogbbVKuTIXWJ@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAEXW_YSUD-CW_=BHbfrfPZAfRUtk_hys5r06uJP2TJJeYJb-1g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Q_Xwq2R-qjMYvW3jW5NKo5PQzDK1nXS8
+X-Proofpoint-ORIG-GUID: Q_Xwq2R-qjMYvW3jW5NKo5PQzDK1nXS8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-08_01,2024-02-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 clxscore=1015 mlxscore=0
+ adultscore=0 suspectscore=0 priorityscore=1501 spamscore=0 mlxlogscore=964
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402080049
 
-On 07/02/2024 04:10, Sean Christopherson wrote:
-> On Mon, Jan 15, 2024, Paul Durrant wrote:
->> @@ -638,20 +637,32 @@ int kvm_xen_hvm_set_attr(struct kvm *kvm, struct kvm_xen_hvm_attr *data)
->>   		}
->>   		break;
->>   
->> -	case KVM_XEN_ATTR_TYPE_SHARED_INFO: {
->> +	case KVM_XEN_ATTR_TYPE_SHARED_INFO:
->> +	case KVM_XEN_ATTR_TYPE_SHARED_INFO_HVA: {
->>   		int idx;
->>   
->>   		mutex_lock(&kvm->arch.xen.xen_lock);
->>   
->>   		idx = srcu_read_lock(&kvm->srcu);
->>   
->> -		if (data->u.shared_info.gfn == KVM_XEN_INVALID_GFN) {
->> -			kvm_gpc_deactivate(&kvm->arch.xen.shinfo_cache);
->> -			r = 0;
->> +		if (data->type == KVM_XEN_ATTR_TYPE_SHARED_INFO) {
->> +			if (data->u.shared_info.gfn == KVM_XEN_INVALID_GFN) {
->> +				kvm_gpc_deactivate(&kvm->arch.xen.shinfo_cache);
->> +				r = 0;
->> +			} else {
->> +				r = kvm_gpc_activate(&kvm->arch.xen.shinfo_cache,
->> +						     gfn_to_gpa(data->u.shared_info.gfn),
->> +						     PAGE_SIZE);
->> +			}
->>   		} else {
->> -			r = kvm_gpc_activate(&kvm->arch.xen.shinfo_cache,
->> -					     gfn_to_gpa(data->u.shared_info.gfn),
->> -					     PAGE_SIZE);
->> +			if (data->u.shared_info.hva == 0) {
+
+
+On 2/7/2024 10:13 PM, Joel Fernandes wrote:
+> On Wed, Feb 7, 2024 at 6:14 AM Steven Rostedt <rostedt@goodmis.org> wrote:
+>>
+>> On Wed, 7 Feb 2024 05:24:58 -0500
+>> Joel Fernandes <joel@joelfernandes.org> wrote:
+>>
+>>> Btw, hopefully the "trace off on warning" and related boot parameters also apply
+>>> to instances, I haven't personally checked but I often couple those with the
+>>> dump-on-oops ones.
+>>
+>> Currently they do not. It would require an updated interface to do so,
+>> as sometimes instances can be used to continue tracing after a warning,
+>> so I don't want to make it for all instances.
 > 
-> I know I said I don't care about the KVM Xen ABI, but I still think using '0' as
-> "invalid" is ridiculous.
+> Thanks for clarifying.
 > 
+>> Perhaps we need an option for these too, and have all options be
+>> updated via the command line. That way we don't need to make special
+>> boot line parameters for this. If we move these to options (keeping the
+>> proc interface for backward compatibility) it would make most features
+>> available to all with one change.
+It's a good idea that "traceoff_on_warning" also has instance support, 
+but we will use another patchset to do this, right?
 
-With the benefit of some sleep, I'm wondering why 0 is a 'ridiculous' 
-invalid value for a *virtual* address? Surely it's essentially a 
-numerical cast of the canonically invalid NULL pointer?
-
-   Paul
+And for this patchset, shall I fix the typo and resend again? Thanks.
+> 
+> Agreed, that would be nice!!
+> 
+>   - Joel
+Regards,
+Huang Yiwei
