@@ -1,39 +1,39 @@
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9536F097;
-	Thu,  8 Feb 2024 13:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4330763E7;
+	Thu,  8 Feb 2024 13:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707397806; cv=none; b=SOycRAey5BFJ/nF2HNnjm5jXWqc2QAvVQHRdYPryOe1inKIMFYtwEl9nvnmnpwHDQ/uNrdkFEOeO47qqEWm0JiynagfLfqAgGFsS+hvZ8jczDkbSgqpWL9XH9354fHTjjIpUbXR69jA/3g6uFDzmm+fws/ESMKi4fVJEW4m3mxA=
+	t=1707397806; cv=none; b=rHskxM3Cb+VrQDerFU9u5hplvq4GNMjAzJQW2opSiauxsUeKjetIpmtTIRgVdGzAT47kJPkrCkFLUyEp3FHJAMLXviOw5olDmF2+Pa/woSBbBUFIrd30kKXNDnITFPHhoCMzq/ns/unbwlCzCl+ltDYR2z8UdFg+FRF142jW/5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1707397806; c=relaxed/simple;
-	bh=O4JrOmwONE7XoBbMJ6P6XwBfKh+9vXZQm3jgPm6/pFg=;
+	bh=xirP1iWxtUN76lRB4LuOX4kybJIAsxB9jvOxxXxyyZE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DZnPmkPMQcKwUO4IUeUqE54e7afNm8ehlB8hWjY7QznQw9JmTv7uL+W9xQInHCSRj7/aDZullYRPPLp68GWp8gl+ki+TOGLR4ZFQRC5uzw6NPf/l66798ind2jsaCkvwv8Z8uKgVYuI7i6Gno4TgBnXaWZhKQPaUdDN+ehIx6Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IWrOk/A0; arc=none smtp.client-ip=217.70.183.201
+	 In-Reply-To:To:Cc; b=EMO1m7kekFrpb8ygHsv2lpvBAyC0M3XA5YPfudou7taPgzH6i26HVKBHaoOoKPp284wARt6nhecXW5H74SNZy6gi6JqNsHENSBwJ+Bv0yvGlVLhRPBDyBUSqW2LLIyN6tm1ZNcrpjrEs8y8zhtlef91CJbliXDiaGkphtcp8CIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Pyzljtv+; arc=none smtp.client-ip=217.70.183.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IWrOk/A0"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E1C711BF217;
-	Thu,  8 Feb 2024 13:09:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Pyzljtv+"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3D0BD1BF212;
+	Thu,  8 Feb 2024 13:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707397801;
+	t=1707397796;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nz2rsEGQVUk+8dGhffLMTLpgk2opuZ6DdqVgCG9hr5s=;
-	b=IWrOk/A0hN/KnZtAlfWlTvYQiUzlrH9BcK5cLqD7hHXjCaNNXCNUSA1m1J6GddzXi07KJm
-	nXlsTvZ3zR2RXeoe/d8AOLP8RGf4w5yDdqJXnZhM3tyCej5hSO8k7b0Vn9kX0toCsLcvUs
-	pQ91Wv3e5qUq2BH9crfEWP3RSfkw50K0KRfohBUyL2A3yPMAqVDxMuEUhA2tlnyV3F2y0z
-	agIL/BrWAbLrhk8Z1Fdk/UXfC204rCE/lNWomNLTDpye2RC/KS2/6RxQCnHrY8D4pMIhQg
-	JlAA8ZDp5vqCWwM0R53UpxREc5avNdMjNyggyX+dSvjMOE0NJsvnSh1pbNCetw==
+	bh=5nSY/2ac0py4lgUHMSREzXtFoOJOEw1JwX66XEmc9XM=;
+	b=Pyzljtv+wIgRhfTRiwJSD9C4CQarW2a128biEjXrylyl31slt0a2W43zlMRaARsrSq8tLk
+	a1Q5EOYiQbf/6Nb84bQ8dE7kNiKWK/78lLHQiY/D4Hti/V5vxOymfxPXKbIb8X4ENNgQ+h
+	h7MTgtbm3s7kV/IrG/DaN+t8yp/oYNWKR5/Q4fgXdMjoBvhJYprlmrKnMYSfq9IH5aSwhm
+	bB0E8ayqU1SgxTWuEjZCewqmb3gruQ4MBsyI9ugiY1KNTY4+k/ukkVBigcsxcvQ9ILL67o
+	5p3nv43O7a4C+Tdri6t4Rd7CePeVGXMQOo9ADZJjJzsYzQ0B1EMZa1xYd7Ltdw==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Thu, 08 Feb 2024 14:08:44 +0100
-Subject: [PATCH net-next v3 07/17] netlink: specs: Modify pse attribute
- prefix
+Date: Thu, 08 Feb 2024 14:08:40 +0100
+Subject: [PATCH net-next v3 03/17] net: pse-pd: Rectify and adapt the
+ naming of admin_cotrol member of struct pse_control_config
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240208-feature_poe-v3-7-531d2674469e@bootlin.com>
+Message-Id: <20240208-feature_poe-v3-3-531d2674469e@bootlin.com>
 References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
 In-Reply-To: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -64,63 +64,94 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: kory.maincent@bootlin.com
 
-Remove podl from the attribute prefix to prepare the support of PoE pse
-netlink spec.
+In commit 18ff0bcda6d1 ("ethtool: add interface to interact with Ethernet
+Power Equipment"), the 'pse_control_config' structure was introduced,
+housing a single member labeled 'admin_cotrol' responsible for maintaining
+the operational state of the PoDL PSE functions.
+
+A noticeable typographical error exists in the naming of this field
+('cotrol' should be corrected to 'control'), which this commit aims to
+rectify.
+
+Furthermore, with upcoming extensions of this structure to encompass PoE
+functionalities, the field is being renamed to 'podl_admin_state' to
+distinctly indicate that this state is tailored specifically for PoDL."
 
 Sponsored-by: Dent Project <dentproject@linuxfoundation.org>
+Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
+ drivers/net/pse-pd/pse_regulator.c | 8 ++++----
+ include/linux/pse-pd/pse.h         | 4 ++--
+ net/ethtool/pse-pd.c               | 2 +-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-Changes in v2:
-- Add the ethtool auto generated code.
-
-Changes in v3:
-- Remove the ethtool auto generated code.
----
- Documentation/netlink/specs/ethtool.yaml | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
-index 197208f419dc..33e81fa189ca 100644
---- a/Documentation/netlink/specs/ethtool.yaml
-+++ b/Documentation/netlink/specs/ethtool.yaml
-@@ -878,17 +878,17 @@ attribute-sets:
-         type: nest
-         nested-attributes: header
-       -
--        name: admin-state
-+        name: podl-pse-admin-state
-         type: u32
--        name-prefix: ethtool-a-podl-pse-
-+        name-prefix: ethtool-a-
-       -
--        name: admin-control
-+        name: podl-pse-admin-control
-         type: u32
--        name-prefix: ethtool-a-podl-pse-
-+        name-prefix: ethtool-a-
-       -
--        name: pw-d-status
-+        name: podl-pse-pw-d-status
-         type: u32
--        name-prefix: ethtool-a-podl-pse-
-+        name-prefix: ethtool-a-
-   -
-     name: rss
-     attributes:
-@@ -1571,9 +1571,9 @@ operations:
-         reply:
-           attributes: &pse
-             - header
--            - admin-state
--            - admin-control
--            - pw-d-status
-+            - podl-pse-admin-state
-+            - podl-pse-admin-control
-+            - podl-pse-pw-d-status
-       dump: *pse-get-op
-     -
-       name: pse-set
+diff --git a/drivers/net/pse-pd/pse_regulator.c b/drivers/net/pse-pd/pse_regulator.c
+index e2bf8306ca90..1dedf4de296e 100644
+--- a/drivers/net/pse-pd/pse_regulator.c
++++ b/drivers/net/pse-pd/pse_regulator.c
+@@ -31,10 +31,10 @@ pse_reg_ethtool_set_config(struct pse_controller_dev *pcdev, unsigned long id,
+ 	struct pse_reg_priv *priv = to_pse_reg(pcdev);
+ 	int ret;
+ 
+-	if (priv->admin_state == config->admin_cotrol)
++	if (priv->admin_state == config->podl_admin_control)
+ 		return 0;
+ 
+-	switch (config->admin_cotrol) {
++	switch (config->podl_admin_control) {
+ 	case ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED:
+ 		ret = regulator_enable(priv->ps);
+ 		break;
+@@ -43,14 +43,14 @@ pse_reg_ethtool_set_config(struct pse_controller_dev *pcdev, unsigned long id,
+ 		break;
+ 	default:
+ 		dev_err(pcdev->dev, "Unknown admin state %i\n",
+-			config->admin_cotrol);
++			config->podl_admin_control);
+ 		ret = -ENOTSUPP;
+ 	}
+ 
+ 	if (ret)
+ 		return ret;
+ 
+-	priv->admin_state = config->admin_cotrol;
++	priv->admin_state = config->podl_admin_control;
+ 
+ 	return 0;
+ }
+diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
+index fb724c65c77b..199cf4ae3cf2 100644
+--- a/include/linux/pse-pd/pse.h
++++ b/include/linux/pse-pd/pse.h
+@@ -15,11 +15,11 @@ struct pse_controller_dev;
+ /**
+  * struct pse_control_config - PSE control/channel configuration.
+  *
+- * @admin_cotrol: set PoDL PSE admin control as described in
++ * @podl_admin_control: set PoDL PSE admin control as described in
+  *	IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl
+  */
+ struct pse_control_config {
+-	enum ethtool_podl_pse_admin_state admin_cotrol;
++	enum ethtool_podl_pse_admin_state podl_admin_control;
+ };
+ 
+ /**
+diff --git a/net/ethtool/pse-pd.c b/net/ethtool/pse-pd.c
+index cc478af77111..aef57a058f0d 100644
+--- a/net/ethtool/pse-pd.c
++++ b/net/ethtool/pse-pd.c
+@@ -130,7 +130,7 @@ ethnl_set_pse(struct ethnl_req_info *req_info, struct genl_info *info)
+ 	struct phy_device *phydev;
+ 
+ 	/* this values are already validated by the ethnl_pse_set_policy */
+-	config.admin_cotrol = nla_get_u32(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
++	config.podl_admin_control = nla_get_u32(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
+ 
+ 	phydev = dev->phydev;
+ 	if (!phydev) {
 
 -- 
 2.25.1
