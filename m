@@ -1,47 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F7850240
-	for <linux-doc@vger.kernel.org>; Thu,  8 Feb 2024 22:47:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363C950253;
+	Thu,  8 Feb 2024 22:52:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707432441; cv=none; b=oATSt/cGMR5naxsP8/hGSFBNBW/8qwaB+Ez4MxQa1BzoUl1kUHxC7ZLzynIfRsOxSGKOWuOFXkf8mqnrnXVla0DNig2yNcsICSUsLVJBdGCGKZBSmYoxydiCcmux3xeFzepfrwJH5If3RhXnwZBiMgafofMmnxZjgnDmIOTCl08=
+	t=1707432731; cv=none; b=pSFz2Dm7Tcg4jkCW0qWLu19KiQS8/fANJTk/lJ4dpcSb7bn1VaOLdaZcdY5UnakNd2bvVUN5Lu5j7B9F07qj4MmkWd2xPj1e3EBgJBY8vQPjN9zJXX1uEf/tXe+sHiAlyXerlaHfd1o8ltzVDGaPrCewu67U244ETH1PHCByKiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707432441; c=relaxed/simple;
-	bh=XGnfatujS/6dwVTGCxvJAjzTI5SU9NzAb/+VStPhS2I=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UgBuySfidFg3N0F5dF7Jjz+20+WXUss1ZnnCrkuBIpemwXP13gx3etr/kKKomD0nRDNOihW7KTdHXD+KmK7foHiF2qajNDAnuVY8+CSH4e6BcKdW+YdVRy8Q9nOCMhFWCmyZXevy95njVfPUypRGMD7DIaO9EUgQGZO+k1ghG24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KpL46RCZ; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1707432731; c=relaxed/simple;
+	bh=FXldPRMidLA55x+Hx/mIMRwupZQ/ec2lSqkWMdAcMXg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Alr6Xu+1PsN2rScdGykD8Oju5kOo7MT8CErCJZuzC08tIpInt87uK8r+jNkuT5cr6k+iShNFRAszSgoVCryWULq9ndpET+IrE5WsBE9++uajsCGv4NQmeFEI/qvBPawCfMsRVyfky/wPTXHGw6u2PCwl1IHz3J30Z52tGHQHhzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FErf5knS; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KpL46RCZ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1374445917
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FErf5knS"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8B37545917
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707432435; bh=xPLyYaWmRjwHNX9MQtZKbv2j9BNH0GbJ2Xk9JaAst1Y=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=KpL46RCZDEyKmQAx26MNAoS9Pw5O9iRHon8OGQj9K9P/psLrb0QFrVb+XARtn0cp7
-	 YKTtOD3KA8ewDYfpojyaX5Ng0tCFSdpTubHyuVJ71nUnimjX/rra1tWq1M90JPbXpN
-	 u7cg8abSAjQKID7FWGKTyv7Rdyq5PthsAf5VZAWqzIbum//kX8TlbXPqnXrQ8lPa2F
-	 dspuqYPl0PZVMgnu5M4Wl5+qWVxT3W0Q6rE3Z9qw0ZbciFLu1bCR2qrBzd/NPta/KL
-	 dbGA5HxUzj1VIcchO6Tk87u6Kz7ZxoLf+iPpj+un8J3BnLQ5WYN5fKO6mspoqajMIf
-	 Ruuvdj8VxdlXA==
+	t=1707432729; bh=3TgYkOcRC2sSgpj6cJafcSQeo2zp3995bRHryh4idG8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=FErf5knSwzEnT4RPdR6837+qZGmBdLkKqgWLqoQGTzLUOMKQHFlQB3jfvtEfBI9Yh
+	 oxwSDDqUPq850t93+eCkhKymFHjQchhZAsNDmLUw4383x5ProoDVQ3phOaGc4lIHCR
+	 dudUtgm7kOpyBYdHsqK109HN5k3Jm5j4mCjQT9XwXy9oSTuphvIa0yRK+7XtNX/nOQ
+	 a0o3TiX/rCNNjBBBoUYIhKsJEzGlRX64RcVis7T5BvttIzCAmqTq8jASNqVuIokd58
+	 DSV2TbRoRWZY1STOF0JRGzc5hbECIr23sA6zgsYW6fMHe74d5ZmuMaxDfN5AfSPxN2
+	 YnqPp/CArr34w==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1374445917;
-	Thu,  8 Feb 2024 22:47:15 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8B37545917;
+	Thu,  8 Feb 2024 22:52:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] docs: proc.rst: comm: mention the included NUL
-In-Reply-To: <20240206022237.794761-2-mail@christoph.anton.mitterer.name>
-References: <20240205154100.736499-1-mail@christoph.anton.mitterer.name>
- <20240206022237.794761-1-mail@christoph.anton.mitterer.name>
- <20240206022237.794761-2-mail@christoph.anton.mitterer.name>
-Date: Thu, 08 Feb 2024 15:47:14 -0700
-Message-ID: <87il2yfua5.fsf@meer.lwn.net>
+To: Thorsten Blum <thorsten.blum@toblux.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Thorsten Blum
+ <thorsten.blum@toblux.com>, Vegard Nossum <vegard.nossum@oracle.com>,
+ Breno Leitao <leitao@debian.org>
+Subject: Re: [PATCH] docs: Makefile: Fix make cleandocs by deleting
+ generated .rst files
+In-Reply-To: <20240208145001.61769-1-thorsten.blum@toblux.com>
+References: <20240208145001.61769-1-thorsten.blum@toblux.com>
+Date: Thu, 08 Feb 2024 15:52:08 -0700
+Message-ID: <87a5oafu1z.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,33 +51,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Christoph Anton Mitterer <mail@christoph.anton.mitterer.name> writes:
+Thorsten Blum <thorsten.blum@toblux.com> writes:
 
-> Indicate that the actual value will be one character less.
+> The script tools/net/ynl/ynl-gen-rst.py (YNL_TOOL) generates several .rst
+> files (YNL_INDEX, YNL_RST_FILES) in Documentation/networking/netlink_spec
+> (YNL_RST_DIR) which are not deleted by make cleandocs.
 >
-> Signed-off-by: Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>
+> Fix make cleandocs by deleting the generated .rst files.
+>
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
 > ---
->  Documentation/filesystems/proc.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  Documentation/Makefile | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 104c6d047d9b..c0e92a056079 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -1899,8 +1899,9 @@ For more information on mount propagation see:
->  These files provide a method to access a task's comm value. It also allows for
->  a task to set its own or one of its thread siblings comm value. The comm value
->  is limited in size compared to the cmdline value, so writing anything longer
-> -then the kernel's TASK_COMM_LEN (currently 16 chars) will result in a truncated
-> -comm value.
-> +then the kernel's TASK_COMM_LEN (currently 16 chars, including the null
-> +terminator, which is printed as the line feed character in the file) will result
-> +in a truncated comm value.
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 3885bbe260eb..4479910166fc 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -176,6 +176,7 @@ refcheckdocs:
+>  	$(Q)cd $(srctree);scripts/documentation-file-ref-check
+>  
+>  cleandocs:
+> +	$(Q)rm -f $(YNL_INDEX) $(YNL_RST_FILES)
+>  	$(Q)rm -rf $(BUILDDIR)
+>  	$(Q)$(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media clean
 
-I don't understand the line-feed comment at all; printed by whom?
-
-I think I'll just apply the first version, which explained the situation
-well enough.
+So this seems worth doing ... except that there has been talk about not
+depositing those files into the source tree in the first place.  Adding
+Vegard and Breno to see if they have any thoughts on the matter...
 
 Thanks,
 
