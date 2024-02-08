@@ -1,15 +1,16 @@
 Received: from davidv.dev (mail.davidv.dev [78.46.233.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B506BFC7
-	for <linux-doc@vger.kernel.org>; Thu,  8 Feb 2024 09:38:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB836D1AD
+	for <linux-doc@vger.kernel.org>; Thu,  8 Feb 2024 09:54:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.233.60
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707385108; cv=none; b=Rxtuq1EiSLKZODpHG4r/Q3LnvI5LHE2j0tkYmSbK0TTa1gml46V6WvbucsepOlWRRyRixcWK6ysOrLtKVXmmUmmL7E3UiiVqLPD8/lcngVrBbFJ5pTAG+dm9ERNhymyUU5mrjsHq8RjeHXS5C+a2FSHNVGnewZNeipxQINNCA6U=
+	t=1707386050; cv=none; b=uATq/8lDcQWeDmGMeVjDiyE8MTU43jqRbvp0KyQ8les5TUOjHWsD/2HaJRj2v3/TV+DZvofhC8o/lQs/5Q+0la2dSt/2qbGLRJN3x8OeMAranv1+YeOUP89XJVz1/DSwLRjAOEClhmywSbN2NSKIWlVm7TR9wpMtf14KXYg7erY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707385108; c=relaxed/simple;
-	bh=HePxAJzG+Hzp9z7hNBUyZDvvmWxVkU8m291kkXWPkL4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YMmnwWCuyXwoEuuKtUeo7ZeXTZjnCeSdwLJQYad9YVAIhukQDyIlPOX/eaYpIZeHKK3f5XdPjqSg5ky5uMeZ/PJBV1FhN67FAh5wbsqv7ctkrlLWT6sWL5GqZSkt5iUBs7ltNG2407lH1Ut1tiMWT88IKWNbyT5qohEMa58sYq4=
+	s=arc-20240116; t=1707386050; c=relaxed/simple;
+	bh=zquoTPDiDMopq79YAJN8pFBJInmPfdGsBn+pPQU1BdE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=HQ6hg+wXV8bBk2QV/mXMMrGCQZfy0NjhsEhJ+EcXvcrrYIfhApCv24wJyYL2RCM+ZicOwhNOtoFUgatW/CORDxDckB54i1Pe4iq4np/UQPAqEgnC5noAfx4zQIgZZj1gRrOSZqVN1uNcjftvB6izzQvSA9Q3uo++jSOYgItEkuc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev; spf=pass smtp.mailfrom=davidv.dev; arc=none smtp.client-ip=78.46.233.60
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidv.dev
@@ -17,7 +18,7 @@ Received: from framework.labs
 	by mail.davidv.dev (chasquid) with ESMTPSA
 	tls TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
 	(over submission+TLS, TLS-1.2, envelope from "david@davidv.dev")
-	; Thu, 08 Feb 2024 10:38:19 +0100
+	; Thu, 08 Feb 2024 10:54:06 +0100
 From: David Ventura <david@davidv.dev>
 To: david@davidv.dev
 Cc: Jonathan Corbet <corbet@lwn.net>,
@@ -33,10 +34,12 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
 	linux-kernel@vger.kernel.org (open list),
 	netdev@vger.kernel.org (open list:NETWORKING [IPv4/IPv6])
-Subject: [PATCH v2 0/2] net: ipconfig: remove wait for drivers
-Date: Thu,  8 Feb 2024 10:35:53 +0100
-Message-Id: <20240208093722.246930-1-david@davidv.dev>
+Subject: [PATCH v2 1/2] net: make driver settling time configurable
+Date: Thu,  8 Feb 2024 10:52:29 +0100
+Message-Id: <20240208095358.251381-1-david@davidv.dev>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240208093722.246930-1-david@davidv.dev>
+References: <20240208093722.246930-1-david@davidv.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,12 +48,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently ip autoconfiguration has a hardcoded delay of 10ms.
+During IP auto configuration, some drivers apparently need to wait a
+certain length of time to settle; as this is not true for all drivers,
+make this length of time configurable.
 
-Make the delay configurable via the new `ip.dev_wait_ms` argument, and
-set the default value to 0ms.
-    
+Signed-off-by: David Ventura <david@davidv.dev>
+---
+ .../admin-guide/kernel-parameters.txt         |  4 ++++
+ Documentation/admin-guide/nfs/nfsroot.rst     |  3 +++
+ net/ipv4/ipconfig.c                           | 23 ++++++++++++++++---
+ 3 files changed, 27 insertions(+), 3 deletions(-)
 
-    David
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b47940577c10..b07a035642fa 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2291,6 +2291,10 @@
+ 
+ 	ip=		[IP_PNP]
+ 			See Documentation/admin-guide/nfs/nfsroot.rst.
++	ip.dev_wait_ms=
++			[IP_PNP]
++			See Documentation/admin-guide/nfs/nfsroot.rst.
++
+ 
+ 	ipcmni_extend	[KNL,EARLY] Extend the maximum number of unique System V
+ 			IPC identifiers from 32,768 to 16,777,216.
+diff --git a/Documentation/admin-guide/nfs/nfsroot.rst b/Documentation/admin-guide/nfs/nfsroot.rst
+index 135218f33394..f26f7a342af6 100644
+--- a/Documentation/admin-guide/nfs/nfsroot.rst
++++ b/Documentation/admin-guide/nfs/nfsroot.rst
+@@ -223,6 +223,9 @@ ip=<client-ip>:<server-ip>:<gw-ip>:<netmask>:<hostname>:<device>:<autoconf>:<dns
+   /proc/net/ipconfig/ntp_servers to an NTP client before mounting the real
+   root filesystem if it is on NFS).
+ 
++ip.dev_wait_ms=<value>
++  Set the number of milliseconds to delay after opening the network device
++  which will be autoconfigured. Defaults to 10 milliseconds.
+ 
+ nfsrootdebug
+   This parameter enables debugging messages to appear in the kernel
+diff --git a/net/ipv4/ipconfig.c b/net/ipv4/ipconfig.c
+index c56b6fe6f0d7..cbf35163b973 100644
+--- a/net/ipv4/ipconfig.c
++++ b/net/ipv4/ipconfig.c
+@@ -82,8 +82,6 @@
+ #define IPCONFIG_DYNAMIC
+ #endif
+ 
+-/* Define the friendly delay before and after opening net devices */
+-#define CONF_POST_OPEN		10	/* After opening: 10 msecs */
+ 
+ /* Define the timeout for waiting for a DHCP/BOOTP/RARP reply */
+ #define CONF_OPEN_RETRIES 	2	/* (Re)open devices twice */
+@@ -101,6 +99,7 @@
+ 
+ /* Wait for carrier timeout default in seconds */
+ static unsigned int carrier_timeout = 120;
++static unsigned int dev_wait_ms = 10;
+ 
+ /*
+  * Public IP configuration
+@@ -1516,7 +1515,8 @@ static int __init ip_auto_config(void)
+ 		return err;
+ 
+ 	/* Give drivers a chance to settle */
+-	msleep(CONF_POST_OPEN);
++	if(dev_wait_ms > 0)
++		msleep(dev_wait_ms);
+ 
+ 	/*
+ 	 * If the config information is insufficient (e.g., our IP address or
+@@ -1849,3 +1849,20 @@ static int __init set_carrier_timeout(char *str)
+ 	return 1;
+ }
+ __setup("carrier_timeout=", set_carrier_timeout);
++
++
++static int __init set_dev_wait_ms(char *str)
++{
++	ssize_t ret;
++
++	if (!str)
++		return 0;
++
++	ret = kstrtouint(str, 0, &dev_wait_ms);
++	if (ret)
++		return 0;
++
++	return 1;
++}
++
++__setup("ip.dev_wait_ms=", set_dev_wait_ms);
+-- 
+2.39.2
 
