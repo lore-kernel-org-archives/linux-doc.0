@@ -1,80 +1,78 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE77969300;
-	Thu,  8 Feb 2024 13:39:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2676076417;
+	Thu,  8 Feb 2024 13:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707399598; cv=none; b=EUeFYaJmWyvarFqWHbfBqxxsZ274qHdpiURAsGq9iHDHhnhg6e7SNs9nJgPcc5TqL4mAd78rNAn7rNefEsAz/CGuyUDbaJHAxzASpQbivl/VXd1w1xzXo7iuoV6WEcTjhOG1ZvcNrvI1z2vlAWMdILl6BpcNr0hF3Y49UrmxjuQ=
+	t=1707400734; cv=none; b=gzEbOFlyNkpnKvqiZ+6flX5pJmaoC/emODy1s5/LfpCjTE4ZNrPKlrS5tyF2myVwX1TIwE22ycv4N1+MhrinFsj6c7gPWqDeXKi9jJc9TcUwQHUlZIuw4zlq4bxoi3S2K7zhEof3lsNEQLOLjYslwg5h0zKqteQQiUi3sqzVXwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707399598; c=relaxed/simple;
-	bh=GAQvZFPGVkGIRHn+TfnYrCD/18BFSOgL0xVQMh03f7Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=F/vCsIPUHS/j5Bctc/V/xavVIjlOXg3Tt37h4mTgzC4TUVkgMqGfxDakA+eZH5GkDXcs08TpojCm+LJknxQ3ry7dXXOKrUnOHtIyzltUZ1Dtq84FfqFQfy2ISDbfY7W/63vVOd5BC74pJcUQb2tGUm1QAhfiV/ppoKl060N0BWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iJke3Ccm; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Y2wIRbRb; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1707400734; c=relaxed/simple;
+	bh=ll0dar8cNCeW9SvNKADTETzN3jimsD0cr4E8aRV6sng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eXkmqwAlRtLhIyaCL+qb471zK7QZoobCM+pBWZDqISTTTrd7dmr5WYMxNAT1X4a821sEWu/aUXRMrBXlup6wsnU6OUQK8wPhmgsmhPzF9wwcdqswI4fFofU3m0hPBCrTOFDdc2i2f2Ke7dzyyncAba5bOnIx+1TW3XVGvYEpW14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KeB/kC8e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iJke3Ccm";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Y2wIRbRb"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1707399594;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JHDIQzkGG+MPwKNeQEZx8vGwHDj28JgeiF1oIt02Zz8=;
-	b=iJke3CcmBJMtWum8U7gZsj4lHvZ7Z1HEwpCpjS5J6VZV/416zRHLSESuKSLlVApH9xlhXh
-	w0Ak3425v8+HR6ct9inEZeoa9HRszriudVsxIbNId8Jo1N+rwNXidLQADuIVgvzCdPlNts
-	bJqc+71IT7NGwdGDuaN5N6cDDzgLwAgDpjNC6S4orLxCQRQ3dLDQGyhfmls6bDSDITHz/V
-	1Awd/WgChIrUxjjQAe7tnOnTBuKXuf3EuFrK74GzPTEWqo7zgeI1Z6imUuHCcWUry/YEig
-	HY/iS6bzhyp09nsQGFL8lqm98jQW444z/4rncqLfVDBPxh7tc0p83Ig3AyV8TQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1707399594;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JHDIQzkGG+MPwKNeQEZx8vGwHDj28JgeiF1oIt02Zz8=;
-	b=Y2wIRbRbEDvbBO2IyXfdji8e+QXRZPCsQg1+nF7w/n2BZeNn3qvKdVdXSv9kiDq+XqMcZb
-	NY7+ruHKvCgQJhBA==
-To: Greg KH <gregkh@linuxfoundation.org>, Petr Mladek <pmladek@suse.com>
-Cc: Sreenath Vijayan <sreenath.vijayan@sony.com>, corbet@lwn.net,
- jirislaby@kernel.org, rdunlap@infradead.org, rostedt@goodmis.org,
- senozhatsky@chromium.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- taichi.shimoyashiki@sony.com, daniel.palmer@sony.com,
- anandakumar.balasubramaniam@sony.com
-Subject: Re: [PATCH v4 2/2] tty/sysrq: Dump printk ring buffer messages via
- sysrq
-In-Reply-To: <2024020845-antiquely-faculty-407d@gregkh>
-References: <cover.1706772349.git.sreenath.vijayan@sony.com>
- <ca8dd18e434f309612c907d90e9f77c09e045b37.1706772349.git.sreenath.vijayan@sony.com>
- <ZcOdLrOPiPJmCec5@alley> <2024020845-antiquely-faculty-407d@gregkh>
-Date: Thu, 08 Feb 2024 14:45:43 +0106
-Message-ID: <87v86zt6qo.fsf@jogness.linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KeB/kC8e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9CD6C433F1;
+	Thu,  8 Feb 2024 13:58:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707400733;
+	bh=ll0dar8cNCeW9SvNKADTETzN3jimsD0cr4E8aRV6sng=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KeB/kC8eS9lFq7WL1GePLNR2AttRt0VbcbJGS2fImIqe2w8JqS7qeqX63KbzsHwsb
+	 Kuv0mqym8BhobYBLPF2f0UZ1Y8Olje9owlwwa4QnLMxdZzVYymsg1VqdvObnndz/cH
+	 U5rTOdtos9LtcuPa+kj173umTLsTL5Cj6iO7O/dyB+ygNtIoDkVYInR/i+cDH3KZZv
+	 +a25L/rc4aBUTCleEpmSg+D0EkALXmksk7Oy1zfWy0xViR7ebcoAdAKtWSLhiyGMxv
+	 ORR5lTzb5JugyH/P709EE6OjJ4WwXvVFSMk9p3hSJRDnk32Bf1hfjGyFu+g3bL3Q4S
+	 t6Pg/RXHwkY0g==
+Date: Thu, 8 Feb 2024 13:58:47 +0000
+From: Lee Jones <lee@kernel.org>
+To: Dmitry Rokosov <ddrokosov@salutedevices.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Martin Kurbanov <mmkurbanov@salutedevices.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel@salutedevices.com
+Subject: Re: [PATCH v1 1/2] leds: aw200xx: support for hw pattern controllers
+Message-ID: <20240208135847.GP689448@google.com>
+References: <20231207125938.175119-1-mmkurbanov@salutedevices.com>
+ <20231207125938.175119-2-mmkurbanov@salutedevices.com>
+ <20231221161011.GO10102@google.com>
+ <85c89859-ae03-4692-9c09-5779e4c40eae@salutedevices.com>
+ <20240125130049.GF74950@google.com>
+ <20240126122310.hrs37vybo2wnxto3@CAB-WSD-L081021>
+ <2024012643-safeness-stipulate-153f@gregkh>
+ <20240129141339.vvqi5z7ta7jkhvxy@CAB-WSD-L081021>
+ <20240205105717.bmppb3xalmmqapqg@CAB-WSD-L081021>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240205105717.bmppb3xalmmqapqg@CAB-WSD-L081021>
 
-On 2024-02-08, Greg KH <gregkh@linuxfoundation.org> wrote:
-> I just remembered all the rt-changes coming down the pipe for
-> consoles/printk, is this going to mess with that?
+On Mon, 05 Feb 2024, Dmitry Rokosov wrote:
 
-It will not mess with the changes because we will continue to support
-the legacy consoles anyway.
+> Hello Greg, Lee and Pavel,
+> 
+> Apologies for the ping, but I would appreciate it if you could spare a
+> couple of minutes to decide on the next steps. From my perspective, the
+> problems I previously described persist, and we need to discuss the
+> possible solutions.
 
-> So when this option fails when people need it the most, perhaps it's not
-> worth adding?  When else would people want to use it?
+I thought you were going to use hw_pattern?
 
-The feature could be massively improved once the rt-changes (atomic
-consoles) become available.
-
-Petr also brought up valid points about this feature (such as the
-loglevel) that should be considered. We should clarify what exactly we
-want this feature to do. The actual implementation is the easy part.
-
-John
+-- 
+Lee Jones [李琼斯]
