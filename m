@@ -1,138 +1,119 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7FD84A50;
-	Fri,  9 Feb 2024 19:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5D98612E;
+	Fri,  9 Feb 2024 20:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707508663; cv=none; b=hVFEhc6c6abapdFPOwjIvRVdRYAT2fa7JCwkOZLDEKDcA0Av/89NlzKlbyNOX6/WIiAApB+Mds/lBNjHfZreaKoWddrpc1iYp+Ffx0M9dcw8zZ8V3qd3r7dXb4VRDhCaE3BX/4bgy8GLIcoHx4FpytU0mC4CMrlODBDJpwxbCP0=
+	t=1707509877; cv=none; b=EZioHG73FBfx1whB6y4tBDvbdas25FPDYgZUpZJG2GPN5/04yQA4rECe1qHYviRiRzOx6ebP7P1uHSucO7YsK0metAu3kVRhWSPpihHoXkjuPCsubN2+ydGts+EtwKRC2m6QWF1XSI1mJe80DRz001SXAWlzVsrZTlmkwcVPhbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707508663; c=relaxed/simple;
-	bh=FsBb6B2wa3yPeH8I5VZIx7o8owuEkmIHTsHqHQ3wjh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q16lB/0iSY+SypJs8tHR7i5LgviB2YEnil3V5G0YFq/626kryYJpz+Bmj1QTYyszDGIj+1ELf7XjbJPOi0vVGoI4i5OoQfcLuct7rr2mR3Rapjqcr3qOHzKvww2t5KMQ8F/AU1GqS/JhBbs7R5ZpB87YSsv0QLSex+d9e701pO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=LZhlomEb; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1707509877; c=relaxed/simple;
+	bh=+/17/Db5shJjnPhbTOpDSpi82+ZeQT5HopLWnhvUjJU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=eERugvmyTxC36L66wrqQ+HzcSYL3JdribIv2aOvTBfpoowV6jDzv13PtmCsgjQyeLETfV402yBsG0+Lc1GWxpOjVBjqTqJISHCKCxK/H+3YR+KI29Ebda750nbS1UM2OZQcaC9goMACRXoG51YUUvuVA+gq14dY8Ou56NNU0Spw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Q0bPlVgL; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="LZhlomEb"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5335A40E01A9;
-	Fri,  9 Feb 2024 19:57:37 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id TgbeWiLRVUwY; Fri,  9 Feb 2024 19:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1707508655; bh=iW9U2ooZEMeuKAa64COmmNOJFLMhQU+pVbKHtxLkfFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LZhlomEbisqMj5X32Kwmu9a8PaI36q6p5jqAhfQGt8XkrpJPf51+8difz1IKJXdrv
-	 YdxoRIF/M1FwKldOPRYPvvrFMRzL93G4TlSlYisfT4w3tpHsn9wFi42EKPEqpU8x8z
-	 kKch9DkqJOccxKa05NN1BS83qWzwSzGz/0UBt0i+gBS2WfoG2sVObiW68EQEw7ovQd
-	 wNIYlC43Y3SVuFwNtcHYpitYgRl4i7KO/NGlbmQCpOTqxVXOH1mRQyVhswj67/rkzr
-	 +7q3n3awhX/obCg9N7IEJZJzC13o+O1BDwlOeDBLtTT5AjiWai+pfyx208vwGoAPrE
-	 BIiLI8Oi4xbTZOVCAffjpiT6v+XxTg9SPR4o+NWhqx0AjXgTWXLa0/OXIJlCrpgkUR
-	 pF5za3LKbelxUOR6iDM/XuUafFZPa4equKzoQeWz1gj0EDuhMTRd1wGL8iFyQAd9df
-	 lRcIY0Cfy3Fso6G4qVh/ibzBr8V99IuvfvWhLe9EzZU6Z6dHT67bfTIv142HaXwHCG
-	 QFyS98U9Rk36GjFo42q3gtU2dll+qY0+3R+GFs+V1VxCVJq/wE8t4PFOxgAZnha1wA
-	 EJ8aPA4Ec9t1e/Y8gU+MoKIGztEv5TzcDBjULbkn7j/0iQOdk5LtxvlzRoUPT6Pud2
-	 sQN5X+c0BkZkfhvnCGrlS9lA=
-Received: from zn.tnic (pd953021b.dip0.t-ipconnect.de [217.83.2.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B234E40E016D;
-	Fri,  9 Feb 2024 19:57:09 +0000 (UTC)
-Date: Fri, 9 Feb 2024 20:57:04 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Alyssa Milburn <alyssa.milburn@intel.com>, stable@kernel.org
-Subject: Re: [PATCH  v7 1/6] x86/bugs: Add asm helpers for executing VERW
-Message-ID: <20240209195704.GEZcaDkMUR560qafaI@fat_crate.local>
-References: <20240204-delay-verw-v7-0-59be2d704cb2@linux.intel.com>
- <20240204-delay-verw-v7-1-59be2d704cb2@linux.intel.com>
- <20240209172843.GUZcZgy7EktXgKZQoc@fat_crate.local>
- <20240209190602.skqahxhgbdc5b2ax@desk>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Q0bPlVgL"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 419HPEcx028228;
+	Fri, 9 Feb 2024 20:17:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=DyZ0r0Lg0UTbWRFEP73ovi8ryhS6b6PAgg6sp6Ed11c=; b=Q0
+	bPlVgL2EMWqwq0wWrmZ1VhOaE6o1QZ//a5Q/Z/8cM+Rbi8lsxlKe3TcVJIu65BxP
+	sK/QgWZQJIeBp17iUzCSpWt2ZSks5sm5IqXSkaeD2NCwC4dbB+53cPss8U6gkpp8
+	YFBy/hVqjmBobNjMnAe2UWZF+wkS4U9fMVxKOWVOmpnGoYnc1zAwPZ6ImIYwJowS
+	GQBQHxeKZV+1hpmfKITTiqXLbbsg9sG4kZlX2UfObbqys6p3dwXra//JjETG6DN6
+	zsfdN0mFM8w4R9zlthxb1+v2D00VL1ziK8vhXqn4YPTCBpEhbTQlmwUWNXBKb/Aj
+	u+bV3EWmt5cpyQkiIEWQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w4rk84yr3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 Feb 2024 20:17:18 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 419KHHBc030175
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 9 Feb 2024 20:17:17 GMT
+Received: from [10.110.93.252] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 9 Feb
+ 2024 12:17:16 -0800
+Message-ID: <4468011b-11df-1f4a-63cf-45a4c3b27c80@quicinc.com>
+Date: Fri, 9 Feb 2024 12:16:59 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240209190602.skqahxhgbdc5b2ax@desk>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v14 01/53] xhci: fix possible null pointer dereference at
+ secondary interrupter removal
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <robh+dt@kernel.org>, <konrad.dybcio@linaro.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
+ <20240208231406.27397-2-quic_wcheng@quicinc.com>
+ <2024020931-unelected-scribble-50f4@gregkh>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <2024020931-unelected-scribble-50f4@gregkh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: prGZxwGmsmmYeBpoiaBaCIrcHnl6Y4eg
+X-Proofpoint-ORIG-GUID: prGZxwGmsmmYeBpoiaBaCIrcHnl6Y4eg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-09_18,2024-02-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
+ phishscore=0 priorityscore=1501 adultscore=0 bulkscore=0 suspectscore=0
+ spamscore=0 impostorscore=0 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402090146
 
-On Fri, Feb 09, 2024 at 11:06:02AM -0800, Pawan Gupta wrote:
-> (Though, there was a comment on avoiding the macro alltogether, to which
-> I replied that it complicates 32-bit.)
+Hi Greg,
 
-Hmm, so this seems to build the respective entry_{32,64}.S TUs fine:
+On 2/9/2024 2:22 AM, Greg KH wrote:
+> On Thu, Feb 08, 2024 at 03:13:14PM -0800, Wesley Cheng wrote:
+>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>
+>> Don't try to remove a secondary interrupter that is known to be invalid.
+>> Also check if the interrupter is valid inside the spinlock that protects
+>> the array of interrupters.
+>>
+>> Found by smatch static checker
+>>
+>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> Closes: https://lore.kernel.org/linux-usb/ffaa0a1b-5984-4a1f-bfd3-9184630a97b9@moroto.mountain/
+>> Fixes: c99b38c41234 ("xhci: add support to allocate several interrupters")
+>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>> Link: https://lore.kernel.org/r/20240125152737.2983959-2-mathias.nyman@linux.intel.com
+>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> 
+> Wait, this is already in my tree, right?  Why keep sending it?
+> 
 
----
-diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
-index e81cabcb758f..7d1e5fe66495 100644
---- a/arch/x86/include/asm/nospec-branch.h
-+++ b/arch/x86/include/asm/nospec-branch.h
-@@ -313,12 +313,9 @@
-  *
-  * Note: Only the memory operand variant of VERW clears the CPU buffers.
-  */
--.macro EXEC_VERW
--	verw _ASM_RIP(mds_verw_sel)
--.endm
- 
- .macro CLEAR_CPU_BUFFERS
--	ALTERNATIVE "", __stringify(EXEC_VERW), X86_FEATURE_CLEAR_CPU_BUF
-+	ALTERNATIVE "",  __stringify(verw _ASM_RIP(mds_verw_sel)), X86_FEATURE_CLEAR_CPU_BUF
- .endm
- 
- #else /* __ASSEMBLY__ */
----
+Sorry, I noticed this yesterday night as well when I was preparing some 
+changes to push elsewhere.  Will remove the ones I saw that were already 
+present on usb-next.
 
-and looking at the asm:
-
-64-bit:
-
-# 317 "./arch/x86/include/asm/nospec-branch.h"
-.macro CLEAR_CPU_BUFFERS
- ALTERNATIVE "", "verw mds_verw_sel (% rip)", ( 3*32+18)
-.endm
-
-  23:   0f 00 2d 00 00 00 00    verw   0x0(%rip)        # 2a <.altinstr_replacement+0x2a>
-
-32-bit:
-
-.macro CLEAR_CPU_BUFFERS
- ALTERNATIVE "", "verw mds_verw_sel", ( 3*32+18)
-.endm
-
- 13d:   0f 00 2d 00 00 00 00    verw   0x0
-
-it makes sense.
-
-So what complications do you mean?
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks
+Wesley Cheng
