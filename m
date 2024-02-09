@@ -1,86 +1,58 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C2F7317B
-	for <linux-doc@vger.kernel.org>; Fri,  9 Feb 2024 16:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24846BB2F;
+	Fri,  9 Feb 2024 16:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707495291; cv=none; b=UX3mH3YLDbc6veCshBmfF9bQYUtnT0zTufmk2ctF6Q0aXGsEHezvgUGecane+HjQiWYoWfnbXxKm0MFcXR/FYdMR+rTs4MuAadOr/qlnCEX8iWsTkrkcjS1OuOfdZKJnjz4ENy3dukCmU2Nn1G04MvpbV9U7eWYN5j0BwBJLxRM=
+	t=1707495647; cv=none; b=AtvBY4psqjr0D0Hg+7Z4bVEMm9brvNFmNYt4+bFhh2HzIgdKKYDzv9Cvr9DJFCseik9MmLxg/PUtQC61axRVEfcUNwwJqH71Jsh+WXb6Wrg1ShiPqWOVfjd0OhCbHDcz3CNguPeFrXgkFOHjoMjCh5lBXVLx4hVTKP8WGV7daK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707495291; c=relaxed/simple;
-	bh=sVzlYSncAo1gFFo8GKHnZeX2AilT+0vbeM9eS6ImcIo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RMRCbvI62+wOG4Rqb0a2iEmjQg4WX9wZr8NtgfWcMXcMqVc03RzS02thaa6wpFPM5hJJ0gawkrkQxAtmZ4dX7m3XLR3jwU7UwLrcz22YnvfMqFNJl3c19blihez052HM/ICc6BKA8rqfE+6iCTHv9+X+NCvOeaik5soQzbv/qfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gNTFsq9i; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1707495647; c=relaxed/simple;
+	bh=FUe8AyhhPCKSa/J30DiqA+BD7KZPrczbV8a2zpDNWO0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ldcr2EtzQfrYtt4UR71ezWVwu0gxuhT4QnaqQPAO202/bR3UW/3MAx8wttBWQPhXEWJ7k3o9qqaPvErONYPURCXmXX4GHB0uB9nuRiuNP7i8ZlWW+IusaQ7S/LkgHb7mILYDbBoKN0Tvjsgp3L/JIWkmcdJKMfQsR7aYekRzJAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQXGsRDx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gNTFsq9i"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=xyBTthuy04YUyUsrk+iLDr6xP+M56OQcEXAlXoX91UQ=; b=gNTFsq9i4fxjvDgL6y9cJmAYBk
-	woG1dsmel4etQ8cHgS6QPEbXw3QE/IdanxiNQ9UFQwUJv3gxsrVswxetLDDTwYjxvOHV40Q//qoir
-	5gdIGygvVaD7PcVfDQrg9pxo+PrhdX65L432x4EwrefDVR+amMFVDz1F8t3WYHHJDnQ+hXh7Gne+4
-	tO4PiZqQJ1w+PhDUcIVHVviP9icPFVHWBPjhOGCxkZBPyvxOMqu31h8GJEH2SvtfGNUBE3QZvTFJ+
-	6+n4fzTzSKOlP+BYCnp+ExPP2H4/7KzIXXNeZ0N15ac2K0awoF9p0bzH70K7kw8gvJnDHLrCh4lGM
-	MNhtMLcQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rYTWW-0000000HVBc-0Yqu;
-	Fri, 09 Feb 2024 16:14:44 +0000
-Message-ID: <1c672ddf-20f8-439f-9019-27b0aacf45fe@infradead.org>
-Date: Fri, 9 Feb 2024 08:14:38 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQXGsRDx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C6CC433C7;
+	Fri,  9 Feb 2024 16:20:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707495647;
+	bh=FUe8AyhhPCKSa/J30DiqA+BD7KZPrczbV8a2zpDNWO0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GQXGsRDxpBriaidC+OgfY6oXLfYbLCdwah49E0Kj05jtSJVm5RYtTSdqnHXMQCmYm
+	 nCDIq2ey1U9Mfp3oyw+dpJjsDkDbOS+uocsUf5NyfkfHH91hw4OzPhIKUr6iK3XeeR
+	 4uoWjyLv0pWb4c6W0yCEnKNY03ylyvQjvFhQY4AAryNczpWORQPJpI1bHk59iyJeJI
+	 NDtl4XBYNjZkV4shJsWigfR8mcheewLnn63S5b1M1JOqsd2lK0Y9xGjqbiSPaMmvqE
+	 t1cJtB92UHSFex6cBPJUVISS5aZ3elPWYG1XyquA4P8S6rc8FE03tYGnbhaI4UIGof
+	 ns1UAF50nUF3g==
+Date: Fri, 9 Feb 2024 08:20:46 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: James Chapman <jchapman@katalix.com>, tparkin@katalix.com
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, edumazet@google.com,
+ gnault@redhat.com, davem@davemloft.net, pabeni@redhat.com, corbet@lwn.net,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv3] PPPoL2TP: Add more code snippets
+Message-ID: <20240209082046.6a87f7f8@kernel.org>
+In-Reply-To: <20240203223513.f2nfgaamgffz6dno@begin>
+References: <20240203223513.f2nfgaamgffz6dno@begin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH docs-next] scripts/kernel-doc: reindent
-Content-Language: en-US
-To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-References: <20240208161705.888385-1-vegard.nossum@oracle.com>
- <b7c5562d-611f-43e5-b78b-122c84941f60@infradead.org>
- <e66e7fb6-3877-4de4-8086-b09c445e6b14@oracle.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <e66e7fb6-3877-4de4-8086-b09c445e6b14@oracle.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-
-
-On 2/8/24 23:31, Vegard Nossum wrote:
-> On 09/02/2024 04:49, Randy Dunlap wrote:
->> On 2/8/24 08:17, Vegard Nossum wrote:
->>> Bite the bullet and reindent it by hand. I tried using both perltidy
->>> and vim, but neither of them were up to the task without changing too
->>> much or getting confused about what they were supposed to be doing.
->>>
->> I'm not verifying that the changes are whitespace only, but this change
->> needs to be done.
->>
->> The only downside of it for me is finding what commit to blame for
->> a Fixes: tag. I have no good skills for doing that.
+On Sat, 3 Feb 2024 23:35:13 +0100 Samuel Thibault wrote:
+> The existing documentation was not telling that one has to create a PPP
+> channel and a PPP interface to get PPPoL2TP data offloading working.
 > 
-> Probably the easiest is to use "git blame -w scripts/kernel-doc", where
-> the -w is "ignore whitespace changes", meaning it will successfully
-> traverse history past this patch and attribute lines to the correct
-> commit.
+> Also, tunnel switching was not mentioned, so that people were thinking
+> it was not supported, while it actually is.
 > 
-> You can also use GitHub:
-> 
-> https://github.com/torvalds/linux/blame/master/scripts/kernel-doc
-> 
-> If the specific line you are looking at gets attributed to the reindent
-> commit you can click on the "blame prior to change" link just next to
-> the line numbers (it looks a bit like this: [[[ ]) and that will give
-> you a view of the file before the reindent.
+> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-Thanks for all that useful info. :)
-
--- 
-#Randy
+James, Tom, looks good?
