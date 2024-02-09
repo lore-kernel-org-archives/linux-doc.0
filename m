@@ -1,89 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3371A80C19;
-	Fri,  9 Feb 2024 18:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B395478B
+	for <linux-doc@vger.kernel.org>; Fri,  9 Feb 2024 19:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707505036; cv=none; b=c+m6+8RGBqDOW6uCPxSdbK27bU06rNh1DLBiPDMSl9VkR1ZMkbwGXYIJpaMuYnG5ng4T1s7fVNBshbwRJlXnlMO6gaYrZI0aPPlidOtREJzd4XWxSyejhYItAyzIZ6zZtT2z3a8QCRvbMKo75dURPxLBAWYL944TL7boSCT5HUo=
+	t=1707505277; cv=none; b=OBzj+KJ/qc4PXoX+UHlqxxxf3wdw24srtHIjGce062sKScbRJbLSl2mCJAIdBSp8VuJqt9d6CR5VvsS+zBgdtlbnMvCLB+0AL23dJdtqmjfB4XAOVM8BQVfu5h108Vx6Lhuo/Ymj99YAzIZMjV2UxgvLxYmIUu4W/Gp4fRB+8d4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707505036; c=relaxed/simple;
-	bh=bUAK1DEExzQReycv2NXfZg8Az8jhS3bv+ZGUUQ7Mu+E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AsEGOZ0EdeWVq+zlWmqad4ronxrtuKqlkE9zg4w2xLWn9fs/nJ0vn+K0NpJm+hrPB3FeWYbuhTFcBW22jSuAXpGOnPtyGWXtaAggK9zgA3GBc9B3uhDrC2+WbSNztatRRQvK4xFE/bfxDncxzB8Sm7DBE62A9UkCvWVxRL7jOt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cT+W+JNe; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1707505277; c=relaxed/simple;
+	bh=A6nixm9+pytVx29gZ1u6InMe44RI3ah/j/zSFqY5qPg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DdivthW3pugWdJOlJ4TWDOkFDn/vYR5evsPJf8Xk+Rsu9Bf1Zp/jnxGMXZcxu89rN4zwsgP4epuskj9aJw6fEVsoYdJpYUt9c+VORUMexEDIljWCggOuV761+EsRMioDn3bgUq/a2T3aN0JmgoxsMa2QwIjOB4LkTY+uAXnlBL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=QjH4Tz9d reason="key not found in DNS"; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cT+W+JNe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707505035; x=1739041035;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bUAK1DEExzQReycv2NXfZg8Az8jhS3bv+ZGUUQ7Mu+E=;
-  b=cT+W+JNeGArekz3WmmLkKkus96GW6XTzDtHtVv4X0WTiHINgwvPxFvaQ
-   Xvo2xqVPBkda9fMMox6HMP2g6EVBjxX69NbPG5eGQczHsjaVAiih9qliQ
-   RigiCAIZiYEaeiXX1YaazP795w9defDwCh2txiae8/iDHrgGPZ8Vgaym/
-   kSYv2Ivcuv1pB1+A5CJd0dHB6wd/r9pS+Bbj79mVLDsRPetsuvi3P+ncK
-   m+oY0jFlzd1UqJ9DLVa8SEwh0StxO8uRV0op7hjqEiVEglvlVfbomn0Kf
-   OLMq92Hzzr8BlR+zRG3ff6ZvvMTMCIWMLJgpxjD1iUNVWybPL2ICSGcCr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="18897080"
-X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="18897080"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 10:57:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
-   d="scan'208";a="2350762"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 10:57:14 -0800
-Date: Fri, 9 Feb 2024 10:57:11 -0800
-From: Tony Luck <tony.luck@intel.com>
-To: "Moger, Babu" <babu.moger@amd.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Drew Fustini <dfustini@baylibre.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v15-RFC 3/8] x86/resctrl: Prepare for non-cache-scoped
- resources
-Message-ID: <ZcZ1hxQTjyCoQr5F@agluck-desk3>
-References: <20240126223837.21835-1-tony.luck@intel.com>
- <20240130222034.37181-1-tony.luck@intel.com>
- <20240130222034.37181-4-tony.luck@intel.com>
- <b3e77817-e070-48a7-a92b-630603c81556@amd.com>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="QjH4Tz9d"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6e2d49ec431so53205a34.2
+        for <linux-doc@vger.kernel.org>; Fri, 09 Feb 2024 11:01:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1707505275; x=1708110075; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A6nixm9+pytVx29gZ1u6InMe44RI3ah/j/zSFqY5qPg=;
+        b=QjH4Tz9d+y5onMYkIxLLxqn0XMOp51rpc21fBqX/T6NMpHVrOFT1XCWvWjhnjozecp
+         KzxtI4L124U2yykx6Gav8jT2xv1InuoiBFEqYu7jqhNinpwz31qmcWSQMUMRMF329SQb
+         h25odb6c3n0zElyVXFZoI7QvoxbtNpjp0rcpYIRo6lGu0J0YsvKHXgy0D4/ir3xzRjph
+         J/3/AmMOOOXC74bOedxaT9rYBAByPbX/aeRxJmcqwm2ZGrBX110eZyPNMpjZHdzZl0Gf
+         bfHPVHb2nArw/o10GvwtEEbZi2LXNbBrxO5BAJrjYTCdXfz0HOsYOA5KDvYDvymflCIX
+         6w8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707505275; x=1708110075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A6nixm9+pytVx29gZ1u6InMe44RI3ah/j/zSFqY5qPg=;
+        b=vjzXzgFaVgNmudkvkfIBp+T3e/rHwigNcb443c678jNWC4UmdBiYYZVNKt6guP8/wL
+         wFLwabaNHvyP931KYQ61jLWuixDFERY+GzWDumxHXWXtfVHcGnrBWAlH2S7PU54Wa79c
+         4Slfe1THOVDoDDKkpAfMZVpXMlOriqLgY97QJ9SB/HVeDIhjpTLsjJhVpEkOHwjNCYil
+         2gyNu0orRD0l4a4vxuYLn5Y4AtLcClp4oPwDJoIQzF00am8Dms07tgLHmmLFMv3++vTT
+         SB4/VdWmKTaT1y/RO+Y7RLJ0LltEH45dnhByoh6r22zzMRB21BT08VDZoqVJym7iZ1U3
+         VgBQ==
+X-Gm-Message-State: AOJu0YxVxFJuFiv/N/lMZ+bGsWofnn8ojcNsHcBt80HAcuDYwdEKPubn
+	XSNsDUsIaPFoDAhP6+JWtdqRqBW+U2soeZVQJbVTBKyVw5dCzAgdqvt+u+hTtoLLcfH5CkEHkW9
+	xQBd9WTvua77OWfkvgXGcHnBuNwSvYU8U9JOc8g==
+X-Google-Smtp-Source: AGHT+IFk85AK/GUYg3sBgSG/PbDJz6nuE4vk8ZoEGio36nkbZvD4VZo1ESUanwCzArrVosJa8bsMEnRS+HyilbasQKI=
+X-Received: by 2002:a05:6830:141a:b0:6e0:faab:cff4 with SMTP id
+ v26-20020a056830141a00b006e0faabcff4mr3036212otp.13.1707505274772; Fri, 09
+ Feb 2024 11:01:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b3e77817-e070-48a7-a92b-630603c81556@amd.com>
+References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+ <CGME20240207174117eucas1p237865b0a39f3a6d1a6650150efe22e83@eucas1p2.samsung.com>
+ <20240207174102.1486130-6-pasha.tatashin@soleen.com> <a1c452f9-c265-4934-82c2-8c9278d087ec@samsung.com>
+In-Reply-To: <a1c452f9-c265-4934-82c2-8c9278d087ec@samsung.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 9 Feb 2024 14:00:37 -0500
+Message-ID: <CA+CK2bCax2NVhVwiVdyWG0Fpj7W8gi2Tmz1guNKOFNf9O1tfng@mail.gmail.com>
+Subject: Re: [PATCH v4 05/10] iommu/exynos: use page allocation function
+ provided by iommu-pages.h
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, paulmck@kernel.org, rdunlap@infradead.org, 
+	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
+	yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com, 
+	mkoutny@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 09, 2024 at 09:28:35AM -0600, Moger, Babu wrote:
-> Hi Tony,
-> 
-> On 1/30/24 16:20, Tony Luck wrote:
-> > Not all resources are scoped in line with some level of hardware cache.
-> 
-> same level?
+On Fri, Feb 9, 2024 at 6:26=E2=80=AFAM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> On 07.02.2024 18:40, Pasha Tatashin wrote:
+> > Convert iommu/exynos-iommu.c to use the new page allocation functions
+> > provided in iommu-pages.h.
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > Acked-by: David Rientjes <rientjes@google.com>
+> > Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-No. "same" isn't what I meant here. If I shuffle this around:
-
-	Not all resources are scoped to match the scope of a hardware
-	cache level.
-
-Is that more clear?
-
-
--Tony
+Thank you,
+Pasha
