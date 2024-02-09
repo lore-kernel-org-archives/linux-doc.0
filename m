@@ -1,110 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A48428DB5;
-	Fri,  9 Feb 2024 15:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82DCB692FC;
+	Fri,  9 Feb 2024 15:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707491909; cv=none; b=kJXb+Qj7hi3HXh1ufU21FemQ1XmJhhN6d4cXmN2Rv+eRH4APi4UuqPcxu0kAChIeEYcDpfHXuLFFNKB7spBVg3kMw9zoiZxHa1AVoEBaXD4cB+HyeYeCOgV7wg2UZ2HvMAQcUwKh5/pBwOqgRVjNsRNUeb+HEGRDeHnwHIMc3AQ=
+	t=1707492289; cv=none; b=V2g4ALKCepYPXSeW64NJ4CQGmbU31UX8YnnjFQOJ0H5XrIINyJMt4mLvlO4iLRgRG12t7ASVLXsKpsxqNIbbXeAGhOh2isMGL4AEvP+ZppGOnsDT3ClRsXJ0INfNRuUqsmEJc7qJ8qsTkUsUdheSjmKmE1+WfovCwvtQOCH9Aqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707491909; c=relaxed/simple;
-	bh=qsEohGDlLb5D6DJLRfIDcQFTUfVGUCeWwneA1f1Lcq0=;
+	s=arc-20240116; t=1707492289; c=relaxed/simple;
+	bh=RM8H6bUC9U8mMKpRD9Ey5fbo1RLNZ1HsaM1tQ1l/zIk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ubTD3azCk5eIuj9NlqJuXyrm92XFOkteMJZnfHgSlP4JNZGcjuWtxGEKZXTyBS7OW6wfmoEC2G9033okqqHJcDrVJ3hP3pl1SSBMaBLnFdwJ4bAkaDOEuhD1MPHFSeQN6+MIbLpV3/RlckTdNA9nBapIgrMTnqu6v1ZzZO/63Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e84l+KMQ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e84l+KMQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CC62C433C7;
-	Fri,  9 Feb 2024 15:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707491909;
-	bh=qsEohGDlLb5D6DJLRfIDcQFTUfVGUCeWwneA1f1Lcq0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e84l+KMQC9NBIrXYUXkAX7vePQw7RIDj6eTwmZptCjhNJwjV09bzS+TA3v7x9PL20
-	 VhodEm4/wktAFiIgm9a0Ra/aI1NWfBYhhq7P1/fi46rVq77YvPNytX7FAEQ8m0lyCm
-	 fml3Tbe7OJ8/V1Ra234KnVF7h3kaOPCd1711Om/tOp4U55fqoqGt/ufvIbi3AZBGw+
-	 J2lVHp1hUcBU1gdYyXZNQpVwHo+35aORpEAmhMb9KfvO1zawHyxiePWJq7HWV+M905
-	 Xs/SkkoiCxY3ymG5k5HDgbZnkOD+nlzBseccKvsANiMS1td65W/KsfOYnQSJRl/iNp
-	 Qauf5rYHZVmDQ==
-Date: Fri, 9 Feb 2024 15:18:22 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	linux-riscv@lists.infradead.org, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=m38dJZ8rHZnVfVXviwk5nXU2tsS8mO+fqLuS9vAUs7rrV4t35CJE/xJ9BKmDevqsN1HJIPbnxq+1+aOQa5NqhaV42EaCvLic7P/Ptek6RorF3ZroX67NtB/KaR7i9VmkTSMpcF/16H3GUMyJxvLD0slbzjHLlXCSykkT9JO/Gs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=black.fi.intel.com; spf=pass smtp.mailfrom=intel.com; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=black.fi.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1325892"
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="1325892"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 07:24:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="934452854"
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="934452854"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 09 Feb 2024 07:24:43 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id A16F7159; Fri,  9 Feb 2024 17:24:42 +0200 (EET)
+Date: Fri, 9 Feb 2024 17:24:42 +0200
+From: Andy Shevchenko <andy@black.fi.intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
 	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, Matthew Maurer <mmaurer@google.com>,
-	Ramon de C Valle <rcvalle@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>
-Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
-Message-ID: <20240209-rage-keg-1b2982cd17d9@spud>
-References: <20240117-swiftly-parasail-618d62972d6e@spud>
- <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
- <20240118-implode-delirium-eefdd86e170e@spud>
- <CANiq72nx1s_nyvPW86jL7eiOxROr18LfOJqNtw8L42CP+gkhRg@mail.gmail.com>
- <20240125-bucked-payroll-47f82077b262@wendy>
- <CANiq72k7n0aZrifRRU08N8qLkNe+2EZwijZy5sM7M56n2xYHgQ@mail.gmail.com>
- <20240125-lazy-thrower-744aacc6632a@wendy>
- <CANiq72kb+_utZrYHtoKZQtQazikmkjpVUHpTBcaANizduMF5QQ@mail.gmail.com>
- <20240126-eccentric-jaywalker-3560e2151a92@spud>
- <CANiq72nu2NXUWYanHZd5EXgX4P_v673EWn6SCRW60Es9naraQQ@mail.gmail.com>
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	James Clark <james.clark@arm.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH v3 31/32] spi: Drop compat layer from renaming "master"
+ to "controller"
+Message-ID: <ZcZDugcgkClwX7qp@black.fi.intel.com>
+References: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+ <ad1d949325b61a4682e8d6ecf9d05da751e6a99f.1707324794.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="CHccunpyRzIcwl0N"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CANiq72nu2NXUWYanHZd5EXgX4P_v673EWn6SCRW60Es9naraQQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ad1d949325b61a4682e8d6ecf9d05da751e6a99f.1707324794.git.u.kleine-koenig@pengutronix.de>
+
+On Wed, Feb 07, 2024 at 07:40:45PM +0100, Uwe Kleine-König wrote:
+> Now that all in-tree users followed the rename, the compat stuff can go
+> away.  This completes the renaming started with commit 8caab75fd2c2
+> ("spi: Generalize SPI "master" to "controller"")
+
+It does not complete the conversion.
+We still have spi_alloc_master/slave.
+
+Besides, we still have drivers that use master/slave terminology in
+their (local) variables, functions and data type names.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---CHccunpyRzIcwl0N
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Jan 27, 2024 at 02:46:38PM +0100, Miguel Ojeda wrote:
-> On Fri, Jan 26, 2024 at 11:01=E2=80=AFPM Conor Dooley <conor@kernel.org> =
-wrote:
-> >
-> > Is that even needed? We already have ARCH_SUPPORTS_CFI_CLANG and AFAIU
-> > rust supports it if clang does, so a second option is superfluous?
->=20
-> From a quick look, I don't see it enabled in any RISC-V built-in
-> target in `rustc` yet.
->=20
-> It may also still be the case that KCFI needs some tweaks for, say,
-> RISC-V, before the flag actually works, i.e. we couldn't just test the
-> flag in that case -- Ramon: how likely is it that RISC-V would work if
-> KCFI works for aarch64 and x86_64?
-
-Well, there's been no reply here. I'll do sa you suggested and add a=20
-depends on !CFI_CLANG to RUST.
-
-Cheers,
-Conor.
-
-
---CHccunpyRzIcwl0N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZcZCPgAKCRB4tDGHoIJi
-0v5zAQCzZ7t4RKWWhpbT+/YlhCexHgJAtD+HTzNc09+i1Ph0HwEAhd/NiiTHdmkJ
-LbqEznQmgueGJZpHS5dLO20wBGVAUgA=
-=q5/s
------END PGP SIGNATURE-----
-
---CHccunpyRzIcwl0N--
