@@ -1,37 +1,26 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from davidv.dev (mail.davidv.dev [78.46.233.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD119364AE;
-	Fri,  9 Feb 2024 23:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB000219E4
+	for <linux-doc@vger.kernel.org>; Fri,  9 Feb 2024 23:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.233.60
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707519667; cv=none; b=nlvQOW3B+PScDSdCq9vHqu3nMxQW9YT6+X3dM/aSuBI9JeQ1L67JSCrrPRl2rGI31UIYLBVJ9GEhxz04Q9HMNupA1Dmy/8Kg6cy9yGN8kB45tNp95tT9eWldQg4uU9gpsm0dw8TowQoaQl/mTK8b9tMQDDadXZWowdKla129i2M=
+	t=1707520552; cv=none; b=V1cMUOUD/dG1s70xOOMmHqQ0DePZ5MniQxdpFpEVCiQWdBlpeV/mnATpI6IYZKkQvQ3PyAotzyXYJPC6NrFoGHlIIoJg4gi2IgdxDj7pzC6dxZ8TfhsBjy1eI1PRkjeVKaGpKCtiVwsqJeZBvtosVVPntjnM8kSuGf7zR/jsL70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707519667; c=relaxed/simple;
-	bh=f/s6qNu01ILKzMwDnVjntUiAteO3NPuo/Rty/dlQ9Ks=;
+	s=arc-20240116; t=1707520552; c=relaxed/simple;
+	bh=xEYmqoe0JpXF+8LCEEn18mFm7SSFoDzDPkuEOR2M26Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oLdxlF7FqNPiul8BD/xz20fnB9ef3xU3ky1ZeRvuxWOI/i2f/HUiengzF3DOMPrq3CKnJ3oGbuNxlMg9IAn5qnbOUV7YHDKOyRhU0nWIa5arwXO7lUHRWPsYmtsnnHC086+reZNDb9Y9vyKdhoXxQq3JGZg+IjXyFTE6R/Fvsos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OXm3sJna; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OXm3sJna"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=gmacEVrfRMHpA0+533PB1RmxTePlSp6iAq0RpqSnWnI=; b=OXm3sJna4lSQPcZxFk6OnEORw7
-	xT+pdCOtmocB7lgsq4fifo8HXHZCM8MB77iHgPvVkyATuK93E6oOup88vp/vYGj24EmkolGCdMg+A
-	8V/G/i+lZ2Ei9z4IKebndbi3DfKbVEqxKJ3ndMQEA5N/VaZmh6D55toso81e4e0+5EJpbVpam2j39
-	u0jMvJAlwqS71Z8YXCp8TW8VfWLZmx/Rsm400tn2seunqlz3Xu2+3xgyuAemKuw9n/8qi+51o2VgK
-	0IKdoaxBYR8J3qJm1olZsBLRVJckwgsZ1vlGeTMnpTBT0aqGnl8Coytb/zwqGDHY8iqwfhISg79YB
-	DiQknORQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rYZrU-00000000q1k-1hGw;
-	Fri, 09 Feb 2024 23:00:48 +0000
-Message-ID: <e8378ba2-ccd1-48fe-973d-38986fc0716d@infradead.org>
-Date: Fri, 9 Feb 2024 15:00:44 -0800
+	 In-Reply-To:Content-Type; b=Bngff5n4E6oNTAnHQdDXN16NcoAi6tILcWo/xliaierNd8ZBxhV0X/U5PGSJcJvLsK91Zo2SQHxlprf1hqhUmwuVgxN7QWHkQgwZGQdQwWs10ZKkoI/Ceja9n2kjQWBrDOidysZR3kYJ66ezwpEFPZRfnpU21z/RFqVP3wemG5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev; spf=pass smtp.mailfrom=davidv.dev; arc=none smtp.client-ip=78.46.233.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidv.dev
+Received: from [192.168.2.131]
+	by mail.davidv.dev (chasquid) with ESMTPSA
+	tls TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+	(over submission+TLS, TLS-1.2, envelope from "david@davidv.dev")
+	; Sat, 10 Feb 2024 00:15:43 +0100
+Message-ID: <ee37f457-3d2d-4c18-b22f-dfb315b3c078@davidv.dev>
+Date: Sat, 10 Feb 2024 00:15:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,63 +28,76 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/13] security: Introduce the digest_cache LSM
+Subject: Re: [PATCH v2 1/2] net: make driver settling time configurable
 Content-Language: en-US
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
- paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, mic@digikod.net
-Cc: linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- linux-integrity@vger.kernel.org, wufan@linux.microsoft.com,
- pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
- pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com,
- jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com,
- petrtesarik@huaweicloud.com, Roberto Sassu <roberto.sassu@huawei.com>
-References: <20240209140917.846878-1-roberto.sassu@huaweicloud.com>
- <20240209140917.846878-3-roberto.sassu@huaweicloud.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240209140917.846878-3-roberto.sassu@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
+To: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, "David S. Miller"
+ <davem@davemloft.net>, David Ahern <dsahern@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Xiongwei Song <xiongwei.song@windriver.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:NETWORKING [IPv4/IPv6]" <netdev@vger.kernel.org>
+References: <20240208093722.246930-1-david@davidv.dev>
+ <20240208095358.251381-1-david@davidv.dev>
+ <20240209135944.265953be@kernel.org>
+ <7485f0b2-93fe-4c82-95e8-5b0e10f9fa7a@lunn.ch>
+From: David <david@davidv.dev>
+In-Reply-To: <7485f0b2-93fe-4c82-95e8-5b0e10f9fa7a@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi--
 
-On 2/9/24 06:09, Roberto Sassu wrote:
-> diff --git a/security/digest_cache/Kconfig b/security/digest_cache/Kconfig
-> new file mode 100644
-> index 000000000000..0c47d5151f07
-> --- /dev/null
-> +++ b/security/digest_cache/Kconfig
-> @@ -0,0 +1,17 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +config SECURITY_DIGEST_CACHE
-> +	bool "Digest_cache LSM"
-> +	default n
-> +	help
-> +	   This option enables an LSM maintaining a cache of digests
-> +	   (e.g. of file content or metadata).
-> +
-> +	   This LSM can support other kernel components in making access
-> +	   control decisions.
-> +
+On 2/9/24 23:11, Andrew Lunn wrote:
+> On Fri, Feb 09, 2024 at 01:59:44PM -0800, Jakub Kicinski wrote:
+>> On Thu,  8 Feb 2024 10:52:29 +0100 David Ventura wrote:
+>>> During IP auto configuration, some drivers apparently need to wait a
+>>> certain length of time to settle; as this is not true for all drivers,
+>>> make this length of time configurable.
+>> Please CC folks who gave you feedback, Andrew's is missing.
+Thanks for the feedback, still learning this workflow
+>>
+>> Andrew, what do you think about just removing the wait?
+>> Or decreasing it to 1ms?
+>> It feels a little wasteful to be adding uAPI for something
+>> which as you said is likely papering over ancient bugs. We'll
+>> fix the bugs which are still around and the uAPI will stay
+>> forever :(
+> My guess is, the broken drivers are doing setup stuff after they call
+> netdev_register().
+>
+> Reducing it to 1ms will probably continue to hide such bugs. So we
+> could just go with that, and probably not see any regressions. Or we
+> can decide we really do want to know about broken drivers, and just
+> remove the delay.
+>
+> Either way, we don't need a new uAPI.
 
-nit:  -ESTYLE.
-coding-style.rst says:
+Would it make sense to move this to a build-time configuration flag?
 
-Lines under a ``config`` definition
-are indented with one tab, while help text is indented an additional two
-spaces.
+I do not have a gut-feeling for which behaviors should be configurable
 
-> +config DIGEST_LIST_DEFAULT_PATH
-> +	string
-> +	default "/etc/digest_lists"
-> +	help
-> +	   Default directory where digest_cache LSM expects to find digest
-> +	   lists.
+at build vs run time.
 
-Same comment for patch 03/13.
-Same comment for patch 04/13.
+> David, is 1ms too long for you? If we do take the delay out, you are
+> going to receive some of the flack from regression reports.
 
--- 
-#Randy
+I've used this patch to experiment with different values, and the sleep time
+
+behaves as described in Documentation/timers/timers-howto.rst, that is, a
+
+call of `msleep(1)` usually delays boot time by 12~13 ms in my tests.
+
+On top of this, I'm running this specific example on a no-smp systemm, 
+where I
+
+do not believe the `msleep` achieves anything (but I'm a kernel newbie 
+so please
+
+correct me if I'm wrong).
+
+>
+>        Andrew
+>
