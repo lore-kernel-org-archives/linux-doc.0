@@ -1,52 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C740D7B3D2;
-	Fri,  9 Feb 2024 17:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5F25733C;
+	Fri,  9 Feb 2024 18:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707500324; cv=none; b=gtcfygO0BQZ0Ezic7s7e/8JvzTbb/bdM/0B71N0Co01KquC1BaZ8UhXSiOwMHqPgsbGFWAPO7JHomuKAzE3iCzs18Dy04QAymPKgPPIEj65S8AHshX9kuWz1T9doos3q7kLnNSDVg7awW4dQhl58SF7xslZ1SqrrsSCOGTMnSKg=
+	t=1707503494; cv=none; b=c90q7RZOpy+IzcNVtNbyDThSqBOPhSHEu3WigeEcmYYQwofE9btGC5D7WvWp3RLQZ+13NCouByUxH7Qs5Xcmdv05W9NDDHtr9/DQfq7iAIldq7M2Md7CqaE8KsNNObbQQLxoKvYuKp8s8APPhoUht9BEEJUlQejeA7KsR2KIuCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707500324; c=relaxed/simple;
-	bh=HravDwgHEdCMpMGa6CrqloF7sVySm2L8D8y1O2Do7lc=;
+	s=arc-20240116; t=1707503494; c=relaxed/simple;
+	bh=M3/AQ82yfrpbo27RiP67TArS5rEkXNxRZ/v2g1yjKCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=isypjgPHSO8Y0caClEw5igS72KgWuDk5TVS3oa+U1X9ykvbXrpxQOmrDbtss3IvU97g885Eu2pnv8YOiBlE2Y2xPtdnV7SjfxcmOc9TurQSKt4cHQ/dpLas0uhk/IG67+0X7v5FoUTHn800nIqn9Tqh3VmG7hiH9MLb9VQKxz70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kerfjuN5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fzHLKV+8aXaZOtQEsoW+GCCyX1IwGEUUFcJx3V03wAeSaJ3NYBlMElHoWPw4o5U4mJj1f8HRFIZ8S6rB7hY5/PyBtqQowHyMC63CXPUZFcEDidiBgCtzCPff2MJlHDydvOh3VCKSNHYfb34FD453GRHIgAqu+605VqW8O4jF4LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7ucxAzT; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kerfjuN5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 712F2C433F1;
-	Fri,  9 Feb 2024 17:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707500324;
-	bh=HravDwgHEdCMpMGa6CrqloF7sVySm2L8D8y1O2Do7lc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kerfjuN5jyjh7Iq+1DOcDabahKbMAmoRDLrtb30fs4WS1zuswq4yoePYrSk7sLA5B
-	 ABE3qeI81FOY0b3nQF3bBfYoTzpxXpxvOvvVZZY+tKW3Iqcb8FEurBWf8UOkQqkpsF
-	 hvUcYu6Al9JHWShocndQW1QrIOYHqdhJ22jeSiZKaw/3hvAnljZJVrgVBd8SX6K6YD
-	 RK+e0HrHMlpB1/dNfmnLLHbm2mKCcjaj1xBakrPbywxz1VQO0UTm+ZTBgtrKnSvQR2
-	 Jv/pTzO/mhp5gmKijD4th/XDi81p8TaNWTeXTLjRptBuYqz0jb0yTQWdwi80RAKVH4
-	 4AnarJn9OZzbg==
-Date: Fri, 9 Feb 2024 17:38:38 +0000
-From: Simon Horman <horms@kernel.org>
-To: Takeru Hayasaka <hayatake396@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, intel-wired-lan@lists.osuosl.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mailhol.vincent@wanadoo.fr,
-	vladimir.oltean@nxp.com, laforge@gnumonks.org
-Subject: Re: [PATCH net-next v6] ethtool: ice: Support for RSS settings to
- GTP from ethtool
-Message-ID: <20240209173838.GH1533412@kernel.org>
-References: <20240131134621.1017530-1-hayatake396@gmail.com>
- <20240131131258.47c05b7e@kernel.org>
- <CADFiAc+y_SXGtVqZkLoiWw-YBArMovMkuWw3X596QDwEtdBJ2g@mail.gmail.com>
- <CADFiAcK_XjLNjzZuF+OZDWjZA4tFB8VgeYXVJHR8+N3XryGxwA@mail.gmail.com>
- <20240208072351.3a806dda@kernel.org>
- <CADFiAc+i9i29SL0PM8gzmDG6o=ARS6fSrTPKNyqh9RLmWWB78A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7ucxAzT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707503494; x=1739039494;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M3/AQ82yfrpbo27RiP67TArS5rEkXNxRZ/v2g1yjKCs=;
+  b=X7ucxAzTmbSSJd1RZIZ3o+oihE1/CdLk2fhKB3k1CEYm2mJgN7qHxQDM
+   oaRGCjd2/wD2qXaX77XJNnEFOgbO6s8ndtlFdEgbJeYJHGTlkomc2BJ3Z
+   5aJCj2ceu2FSnfpm4SquEaqr0oQySDpUGn43GVnD/Xh4JEHSOBD4nF6RE
+   4yTVnoAsURmdFGVNwPAaIkcB5HXOgoOPV0c6gmofI2Dlc2/OZ9kOe3eAM
+   GSghh4tQ/KzR8iWZSZZdv5sG3OlEgTJjMSxPOoee+jUcu1MG/ju1TO2OC
+   8YwQAEF/MFsT7t8qtt5CyAB+JAucfDmUJHrnCV+r3HwnwXshUxNp3wReA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="12211010"
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="12211010"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 10:31:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="2297834"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 10:31:32 -0800
+Date: Fri, 9 Feb 2024 10:31:30 -0800
+From: Tony Luck <tony.luck@intel.com>
+To: "Moger, Babu" <babu.moger@amd.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
+	Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+	James Morse <james.morse@arm.com>,
+	Jamie Iles <quic_jiles@quicinc.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Drew Fustini <dfustini@baylibre.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v15-RFC 0/8] Add support for Sub-NUMA cluster (SNC)
+ systems
+Message-ID: <ZcZvguSNel-z3Xe5@agluck-desk3>
+References: <20240126223837.21835-1-tony.luck@intel.com>
+ <20240130222034.37181-1-tony.luck@intel.com>
+ <91bd281e-e21f-4b60-9e73-2f14fcbec316@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,29 +67,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADFiAc+i9i29SL0PM8gzmDG6o=ARS6fSrTPKNyqh9RLmWWB78A@mail.gmail.com>
+In-Reply-To: <91bd281e-e21f-4b60-9e73-2f14fcbec316@amd.com>
 
-On Fri, Feb 09, 2024 at 02:25:50AM +0900, Takeru Hayasaka wrote:
-> Hi Jakub-san
+On Fri, Feb 09, 2024 at 09:27:56AM -0600, Moger, Babu wrote:
+> Hi Tony,
 > 
-> Thank you for your reply.
+> On 1/30/24 16:20, Tony Luck wrote:
+> > This is the re-worked version of this series that I promised to post
+> > yesterday. Check that e-mail for the arguments for this alternate
+> > approach.
 > 
-> > We're expecting a v7 with the patch split into two.
+> To be honest, I like this series more than the previous series. I always
+> thought RDT_RESOURCE_L3_MON should have been a separate resource by itself.
 > 
-> I see, I had not informed you that we have released v7. My apologies.
-> The split patch for v7 has already been submitted. Could you please
-> check this link?
-> https://patchwork.kernel.org/project/netdevbpf/patch/20240201033310.1028154-1-hayatake396@gmail.com/
-> https://patchwork.kernel.org/project/netdevbpf/patch/20240201033310.1028154-2-hayatake396@gmail.com/
+> You need to separate the domain lists for RDT_RESOURCE_L3 and
+> RDT_RESOURCE_L3_MON if you are going this route. I didn't see that in this
+> series. Also I have few other comments as well.
 
-Hi Hayasaka-san,
+They are separated. Each "struct rdt_resource" has its own domain list.
 
-It appears that the series at the link above has been marked as
-"Changes Requested" in patchwork. Although I am unsure why.
-
-I would suggest reposting it, say with the tags supplied by Marcin Szycik
-as [PATCH net-next v8].
-
-Also, please don't top-post on the Kernel MLs [1]
-
-[1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html#use-trimmed-interleaved-replies-in-email-discussions
+Or do you mean break up the struct rdt_domain into the control and
+monitor versions as was done in the previous series?
+> 
+> Thanks
+> Babu
+> 
