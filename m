@@ -1,102 +1,108 @@
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDB124A1C;
-	Fri,  9 Feb 2024 22:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.103.80.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D024125625;
+	Fri,  9 Feb 2024 23:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707517300; cv=none; b=I+XPq7C9U55papfMbDZDaW9YHgbMzEYFTqi1tHCyD+ElN22Q/wQYELjWpUZNpyw62nK3rDf6xWYzMViCCbHni0tGyya++gjJzPhwtTMK7aN3cYFxkt4FdO+waYp4pSLyHLZvEOdveUwEWssqr5FvauOkMO50S3OQG2NkzanU5Fs=
+	t=1707519638; cv=none; b=RAt+1jzy+gFdC00Nj178/+A4o5e1aLSYkj9DlxWna5ngcgQhjF9mfTSDMEIVQGe/l3Ypo4CuwE46NCnVn6NNPy7XWlTrAFDustYQQXP21FdLCjekWWnb5KxtFMVEJB7RboHNe5Zauumy87kRLpQ/FMcsi9IaGsalRJ96UxTFRM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707517300; c=relaxed/simple;
-	bh=nPUzSVNO0JR5uZFqIok9jwwQ80cWnH4zzFa89Rs2OJE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AKAXrmzNQuzjMavmeZnRTNE8/h+FGhTgeYsDwLBOl/85ccBvVhE9gRSMd4xlThHmBZ1PPnOfCjCNZ3HjoHcZUgtwoc+Bc88hbPH87QK3p0d3dNnTwK7w1q8njnae+FWPj7s/k9thnmIOESOHjtM/qxTBav8BNDVT2KK+ez3nito=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b=oiKalBI3; arc=none smtp.client-ip=212.103.80.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
+	s=arc-20240116; t=1707519638; c=relaxed/simple;
+	bh=T+PvjDwY/Hn8AAPu8/4akRrXz4Nvc83esFAymZg5xBE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=eunA/9msoPQ9YwjKMs1WkGl+hTtoc5dnt8XsvECAJFscdRruQr/jEhqYEBRowxVx4qVRDTV4LquPIj1+wa9lyrIQl8CrPuQbZHsytr8zN5PpKFWNSPHcdtwfldqOZ0gEK6ldaoIcGMMnwtuDEUKNhuNmjrvtZ0FFNNRiKVvTyJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pwg24t6H; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="oiKalBI3"
-Received: from localhost (unknown [127.0.0.1])
-	by mx.kolabnow.com (Postfix) with ESMTP id 5915D20C81F1;
-	Fri,  9 Feb 2024 23:21:36 +0100 (CET)
-Authentication-Results: ext-mx-out011.mykolab.com (amavis);
- dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
- header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-	content-transfer-encoding:mime-version:message-id:date:date
-	:subject:subject:from:from:received:received:received; s=
-	dkim20160331; t=1707517295; x=1709331696; bh=FsMLQgcgR2RXy8n0jzd
-	bLSB9viHUO86AeksgQ5aNO6o=; b=oiKalBI3Lb2LVuVTAA4FuCw9HvJUkaVaLhY
-	HDh9v1ad2gcay7QHTuCNCTJwCDX3jxT13/9yQyarPqhQAKKExKOb6otbb4RzxVp0
-	5Pi7fENcavSMYg95ghNYq+SHJ/J59JNPuFon3CjxiN5/Txtp1iy3Fgmwr3nvpgEB
-	ziMcDXhVMg2r5RdUHlKv9DgqlayeKalAPQ/DhXveH6oX2nzO82OMyzruNaMDKMAi
-	ST3LSHnANPTHjWLmn4snFNYomHXAIq7yn4Aa5HJvxFMt69iICX0uaQLzzj4JrUW2
-	4ACuVZf7XBPIOqE2Lm1PUNhyz8OhvtOgyXPEjHwiFSsG3XL6tbSaqGiIIJdm0XuO
-	kHUA3/1xb2LP18GZmv/BeerbXtb/DDcQoQAFKWg7bPjuJGkAZxqqiS5SkztFrjMc
-	IKbuSvVfxOEsdAU6u1JKlU8bD5Uz7KmARUr6Dwzi+EEX8vxV/ps0qEcLFNewU8TM
-	h6mYDL8nMal+kiYZoJAKRR5TaHM3HENpG6hFPFy2+IcC1bavjTNoRqblk8E/9hG3
-	qV4A0c+ybq2+BlUBMhYFv0nEFcemYw4FekiQCxky32KXuJSkj1ruHZLMFjvRsgJC
-	FwtUBMypUExMQC8Ve7VSR1IW4znn3R1M1J0peghhBxoh0YcGvzhh8TLuotj/QAlG
-	D/Bf9zfI=
-X-Virus-Scanned: amavis at mykolab.com
-X-Spam-Flag: NO
-X-Spam-Score: -1
-X-Spam-Level:
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out011.mykolab.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id 6Vq4zpR3Yv1N; Fri,  9 Feb 2024 23:21:35 +0100 (CET)
-Received: from int-mx011.mykolab.com (unknown [10.9.13.11])
-	by mx.kolabnow.com (Postfix) with ESMTPS id 5B92820C73F8;
-	Fri,  9 Feb 2024 23:21:35 +0100 (CET)
-Received: from ext-subm010.mykolab.com (unknown [10.9.6.10])
-	by int-mx011.mykolab.com (Postfix) with ESMTPS id 1A43C30B0C06;
-	Fri,  9 Feb 2024 23:21:35 +0100 (CET)
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Davide Benini <davide.benini@gmail.com>,
-	Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH] doc:it_IT: remove unreferenced and not translated page
-Date: Fri,  9 Feb 2024 23:21:15 +0100
-Message-Id: <20240209222115.31505-1-federico.vaga@vaga.pv.it>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pwg24t6H"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 419MwhK4030804;
+	Fri, 9 Feb 2024 23:00:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=2zBR+IkjLHI1yS66YvjnS+R0KDHeCNMM9/4VVTgmt+w=; b=pw
+	g24t6HHnMn0j+J6ME9wvDXyEKWj1xyG+lbFP6QIta1/bbzoxo6aQ+1J/Z0BZH8W7
+	H5FnzpLPL8/qMJ/FtVqdz/GaFrpdqoQKO7D8U0XbBLsTslV372ddnRJKoncFjUk7
+	jdNqXnLFVVrHkWJENXLl/aSfy5I0cgnsEi/0P89X7FI67CAYhmA9+/iqwzS5Utsy
+	3MvKp2eeO+95yZ7NJeXhGMyd9F9a5ghYkpdAXb0bZtAVNzDR7jhyU7Op0DTJzwl0
+	3SNlVz9VvVT/ZhxNkK1gZcXtTdqfkoNkYUpCJM+ndi/k3ENfybKI7R1Fu9SGvwDl
+	nL2dl2Rl2kWiYOIEUqEg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w5gk2hqf3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 Feb 2024 23:00:16 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 419N0F7I010813
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 9 Feb 2024 23:00:15 GMT
+Received: from [10.110.93.252] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 9 Feb
+ 2024 15:00:14 -0800
+Message-ID: <cc9500fb-1d31-6878-4feb-595a67947991@quicinc.com>
+Date: Fri, 9 Feb 2024 15:00:13 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v14 45/53] ASoC: usb: Create SOC USB SND jack kcontrol
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
+ <20240208231406.27397-46-quic_wcheng@quicinc.com>
+ <87plx5294p.wl-tiwai@suse.de>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <87plx5294p.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 3Of01_LhwD_a14Q1kLsldSnmg9_zfk3q
+X-Proofpoint-GUID: 3Of01_LhwD_a14Q1kLsldSnmg9_zfk3q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-09_18,2024-02-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ phishscore=0 malwarescore=0 mlxlogscore=447 spamscore=0 impostorscore=0
+ suspectscore=0 clxscore=1015 bulkscore=0 priorityscore=1501 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401310000
+ definitions=main-2402090168
 
-The netdev-FAQ page in the italian translation was creted to avoid
-having broken links. With the evolution of the documentation this was
-not referenced anymore, but the page never removed.
+Hi Takashi,
 
-Reported-by: Davide Benini <davide.benini@gmail.com>
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- .../translations/it_IT/networking/netdev-FAQ.rst    | 13 -------------
- 1 file changed, 13 deletions(-)
- delete mode 100644 Documentation/translations/it_IT/networking/netdev-FAQ.rst
+On 2/9/2024 3:02 AM, Takashi Iwai wrote:
+> On Fri, 09 Feb 2024 00:13:58 +0100,
+> Wesley Cheng wrote:
+>>
+>> Expose API for creation of a jack control for notifying of available
+>> devices that are plugged in/discovered, and that support offloading.  This
+>> allows for control names to be standardized across implementations of USB
+>> audio offloading.
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> 
+> Again, use a more intuitive control element name.
+> 
 
-diff --git a/Documentation/translations/it_IT/networking/netdev-FAQ.rst b/Documentation/translations/it_IT/networking/netdev-FAQ.rst
-deleted file mode 100644
-index 8a1e049585c0..000000000000
---- a/Documentation/translations/it_IT/networking/netdev-FAQ.rst
-+++ /dev/null
-@@ -1,13 +0,0 @@
--.. include:: ../disclaimer-ita.rst
--
--:Original: :ref:`Documentation/process/maintainer-netdev.rst <netdev-FAQ>`
--
--.. _it_netdev-FAQ:
--
--==========
--netdev FAQ
--==========
--
--.. warning::
--
--    TODO ancora da tradurre
--- 
-2.39.2
+Sorry, missed these.  Will fix.
 
+Thanks
+Wesley Cheng
