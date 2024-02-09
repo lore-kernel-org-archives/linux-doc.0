@@ -1,100 +1,169 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2616883CB7
-	for <linux-doc@vger.kernel.org>; Fri,  9 Feb 2024 19:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D659A84A29;
+	Fri,  9 Feb 2024 19:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707505323; cv=none; b=VA66EaQQe3h/j7rgRSRNB9gTQV27J+a3bQg6JQmaloMEeYul6rikaw0/KJtzWBdpWRUY3cw+ntyqzVCZ+s3FYra72VzIqcseoelWHXgq9nlVuYiXz1jHKfq2Hqf4pZFJovkOOeZcXkrR7Yl5dCU9Z/UMafUBWjBM2v1bf3c/C8o=
+	t=1707505566; cv=none; b=OX+A+CmJ7o3FNIERSUmnSGtUNPJTDNbLkrZfAGvcHHeUKwumMCXws4d/DSsEn3B8qTieuQP58Tyh2ftLt5llnQDFltoXBaCnQ+v9dsFVlQMJkluHkJaMYbSPpMe09fCwKKeg0Epys81XMuno+dq26aKeiZYoEQgZQ2HNUxHKgWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707505323; c=relaxed/simple;
-	bh=r2GAPlcgJGDaQINPFrlt1R7Ny0c1Ad/P9P2yI23KbDE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CqG0u1KMfdl3xgenPygO8EQ6EDLz1Jq3yycN/lzblg9FMaZ78r9qF1q49Dz64+J9S2jy8GGVy28ta7T3c0Kv7t88f2F/QL52tx6mGr1fjPMcUVSHkPTaSmEGBPlhV3Grqyw7rnOSIjDe6njYGFwGC0NjFlXHjz/A3BBmA/oLXeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=YrISHW17 reason="key not found in DNS"; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1707505566; c=relaxed/simple;
+	bh=uH5jVE0MECW4NZxWlW2VDnG/UXQKh57bJcefzW5uzZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UmwF1sNcSZ1PHckf8Xo1obnnemX27UMqfA7x8ARLdVh8YM8j3pqpbtZ+ssQ+haJjHNPECzSGhqWQfdX85Npgam18wQRgPsaN8+CgPHkJyK+LTrY3uNTXIQh6zq1Fl6LCMYt1YsiW8XkYGOWUgL6eupZ5Fi9wDT8BMqZKjxHhDXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eW3LHiaJ; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="YrISHW17"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-42c2998d3a3so9593021cf.3
-        for <linux-doc@vger.kernel.org>; Fri, 09 Feb 2024 11:02:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1707505321; x=1708110121; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r2GAPlcgJGDaQINPFrlt1R7Ny0c1Ad/P9P2yI23KbDE=;
-        b=YrISHW17lCS/ho4//b4p9TqA8m5OjeuDgKDgXz2T9RvjLqJMDjuxgIo0sijLNlnvbw
-         vlbxBsbVIkA1cbwtLh9in9xFo1B4OsJA0GK8KZWWdHvOBSe5wPtvUL146w7QRZY9MQGr
-         NEW5JhuUvu2EeSXDCMubEXBxZWE+NnF6BbEMvRNFUugYnfCRkJrf80B6e9HDwpGNXcsU
-         PKEXQrVV6iloQuodAuf5jDgLu7zt+VWUHsH4xY31Z4+MZkdqqrszFzl1HE58BU0sqGjE
-         XjYLaGRX9jwOCKgEY1Q8HKkMLe12wEj+BgZXxmorOV5bUdfuVgOPnV2+qch5gHTJV4g5
-         u0VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707505321; x=1708110121;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r2GAPlcgJGDaQINPFrlt1R7Ny0c1Ad/P9P2yI23KbDE=;
-        b=adU+xyFaPLrzagkDtRInwgEUhQeMxluc4fq6DsZJK1OzmF/I5JgJQZD6wbiBC4Zl+L
-         Oigc2Ua86zN2d14QM1qC6GADBoOLOg8iI1iXuhcSJiC/TxoYulf06m28c/oImEgzPkRK
-         tAXp7LGDnhbFxEIMv7Sd7TzUtA/XKiw5qOJ82kckcXqQCAD1rLXNTCr7xg9poAqlz9ha
-         Sq8cO0qNfiWWDN1IQgazikt0NWDDshEGotm8+G78RDIQycyk55Ige4YUNsl5IcPoX5L2
-         qzUJ4uPqcQVTBJ4MVsonAL1JAQuDkO6vQ4gq2D3bnLyVNX67uoG0ICCMsEB8niERYwll
-         m3ng==
-X-Gm-Message-State: AOJu0YxUEKP5gZotgVihlJ0MfZ3nzBT8CYam33NfRtC1pG7qVNovr/9Y
-	ueL6jxCK+7n6xs8/ys2qaBnmJ7Vly/zOzAVnb2BwGiK4jeJoNrqr9F1k+9NaivVinLukylqp/7U
-	aEzunSpQJsp7+VCIeNcAK4bjt20sLcvXCbcwXqg==
-X-Google-Smtp-Source: AGHT+IH7/mZBjs2EjvojqcpcvFrKDkqXbLzePQwHXjWI3pjuKzeuKKYp6aDXpqli+cr6MKqGXO43wFaJScoTxBnZMCE=
-X-Received: by 2002:ac8:5e51:0:b0:42c:5f0e:6411 with SMTP id
- i17-20020ac85e51000000b0042c5f0e6411mr85445qtx.25.1707505320844; Fri, 09 Feb
- 2024 11:02:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eW3LHiaJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707505565; x=1739041565;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uH5jVE0MECW4NZxWlW2VDnG/UXQKh57bJcefzW5uzZY=;
+  b=eW3LHiaJi7abuANvCgilfBOBSCuwgvgerTAvOvGIgFBhQDkKJqrCPOrP
+   OtnkIR7p2CrVFa/MimkJSl6nJqYWZEhlMYxx8jobPGTR+mrTsxgvsy4R3
+   etzOSjS2Z6EXbn5WpZnYRxzknLMW2/jGcg4lgPeVrKXB2D6N+XpGkciw9
+   Zmpxqvlp7cVRU6CUxjrt1AKKyvOhpn5HE3+lLvLi2T+YBFl6CnWN10pGB
+   ar69gQl1BEkIjIXR1v0/WaEIM0ltbi8H0GoXagLU0c1xlBCb1nxPbrDHd
+   amjsL0tJfTBSjWjdN36mHqy4+sF8TVBKYsBbxNdZWnhq3tUHYCraYjR59
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="1392462"
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="1392462"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 11:06:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="6661651"
+Received: from karenaba-mobl1.amr.corp.intel.com (HELO desk) ([10.209.64.107])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 11:06:02 -0800
+Date: Fri, 9 Feb 2024 11:06:02 -0800
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
+	ak@linux.intel.com, tim.c.chen@linux.intel.com,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	antonio.gomez.iglesias@linux.intel.com,
+	Alyssa Milburn <alyssa.milburn@intel.com>, stable@kernel.org
+Subject: Re: [PATCH  v7 1/6] x86/bugs: Add asm helpers for executing VERW
+Message-ID: <20240209190602.skqahxhgbdc5b2ax@desk>
+References: <20240204-delay-verw-v7-0-59be2d704cb2@linux.intel.com>
+ <20240204-delay-verw-v7-1-59be2d704cb2@linux.intel.com>
+ <20240209172843.GUZcZgy7EktXgKZQoc@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
- <20240207174102.1486130-8-pasha.tatashin@soleen.com> <2718393.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <2718393.mvXUDI8C0e@jernej-laptop>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 9 Feb 2024 14:01:24 -0500
-Message-ID: <CA+CK2bBqzd4imzKxGJVUn3SkvDBPk_=CLA1Fm05kz3DqSE2gpA@mail.gmail.com>
-Subject: Re: [PATCH v4 07/10] iommu/sun50i: use page allocation function
- provided by iommu-pages.h
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jonathanh@nvidia.com, joro@8bytes.org, 
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com, 
-	bagasdotme@gmail.com, mkoutny@suse.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240209172843.GUZcZgy7EktXgKZQoc@fat_crate.local>
 
-On Fri, Feb 9, 2024 at 5:55=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec@=
-gmail.com> wrote:
->
-> Dne sreda, 07. februar 2024 ob 18:40:59 CET je Pasha Tatashin napisal(a):
-> > Convert iommu/sun50i-iommu.c to use the new page allocation functions
-> > provided in iommu-pages.h.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > Acked-by: David Rientjes <rientjes@google.com>
-> > Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
->
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+On Fri, Feb 09, 2024 at 06:28:43PM +0100, Borislav Petkov wrote:
+> On Sun, Feb 04, 2024 at 11:18:59PM -0800, Pawan Gupta wrote:
+> >  .popsection
+> > +
+> > +/*
+> > + * Defines the VERW operand that is disguised as entry code so that
+> 
+> "Define..."
+> 
+> > + * it can be referenced with KPTI enabled. This ensures VERW can be
+> 
+> "Ensure..."
+> 
+> But committer can fix those.
+> 
+> > + * used late in exit-to-user path after page tables are switched.
+> > + */
+> > +.pushsection .entry.text, "ax"
+> > +
+> > +.align L1_CACHE_BYTES, 0xcc
+> > +SYM_CODE_START_NOALIGN(mds_verw_sel)
+> > +	UNWIND_HINT_UNDEFINED
+> > +	ANNOTATE_NOENDBR
+> > +	.word __KERNEL_DS
+> > +.align L1_CACHE_BYTES, 0xcc
+> > +SYM_CODE_END(mds_verw_sel);
+> > +/* For KVM */
+> > +EXPORT_SYMBOL_GPL(mds_verw_sel);
+> > +
+> > +.popsection
+> > diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> > index fdf723b6f6d0..2b62cdd8dd12 100644
+> > --- a/arch/x86/include/asm/cpufeatures.h
+> > +++ b/arch/x86/include/asm/cpufeatures.h
+> > @@ -95,7 +95,7 @@
+> >  #define X86_FEATURE_SYSENTER32		( 3*32+15) /* "" sysenter in IA32 userspace */
+> >  #define X86_FEATURE_REP_GOOD		( 3*32+16) /* REP microcode works well */
+> >  #define X86_FEATURE_AMD_LBR_V2		( 3*32+17) /* AMD Last Branch Record Extension Version 2 */
+> > -/* FREE, was #define X86_FEATURE_LFENCE_RDTSC		( 3*32+18) "" LFENCE synchronizes RDTSC */
+> > +#define X86_FEATURE_CLEAR_CPU_BUF	( 3*32+18) /* "" Clear CPU buffers using VERW */
+> >  #define X86_FEATURE_ACC_POWER		( 3*32+19) /* AMD Accumulated Power Mechanism */
+> >  #define X86_FEATURE_NOPL		( 3*32+20) /* The NOPL (0F 1F) instructions */
+> >  #define X86_FEATURE_ALWAYS		( 3*32+21) /* "" Always-present feature */
+> > diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
+> > index 262e65539f83..ec85dfe67123 100644
+> > --- a/arch/x86/include/asm/nospec-branch.h
+> > +++ b/arch/x86/include/asm/nospec-branch.h
+> > @@ -315,6 +315,21 @@
+> >  #endif
+> >  .endm
+> >  
+> > +/*
+> > + * Macros to execute VERW instruction that mitigate transient data sampling
+> > + * attacks such as MDS. On affected systems a microcode update overloaded VERW
+> > + * instruction to also clear the CPU buffers. VERW clobbers CFLAGS.ZF.
+> > + *
+> > + * Note: Only the memory operand variant of VERW clears the CPU buffers.
+> > + */
+> > +.macro EXEC_VERW
+> 
+> I think I asked this already:
 
-Thank you,
-Pasha
+Sorry I can't seem to find that on lore.
+(Though, there was a comment on avoiding the macro alltogether, to which
+I replied that it complicates 32-bit.)
+
+> Why isn't this called simply "VERW"?
+>
+> There's no better name as this is basically the insn itself...
+
+Agree.
+
+> > +	verw _ASM_RIP(mds_verw_sel)
+
+But, in this case the instruction needs a special operand, and the build
+fails with the macro name VERW:
+
+  AS      arch/x86/entry/entry.o
+  AS      arch/x86/entry/entry_64.o
+arch/x86/entry/entry_64.S: Assembler messages:
+arch/x86/entry/entry_64.S:164: Error: too many positional arguments
+arch/x86/entry/entry_64.S:577: Error: too many positional arguments
+arch/x86/entry/entry_64.S:728: Error: too many positional arguments
+arch/x86/entry/entry_64.S:1479: Error: too many positional arguments
+make[4]: *** [scripts/Makefile.build:361: arch/x86/entry/entry_64.o] Error 1
+make[3]: *** [scripts/Makefile.build:481: arch/x86/entry] Error 2
+make[2]: *** [scripts/Makefile.build:481: arch/x86] Error 2
+
+> > +.endm
+
+Perhaps s/EXEC_VERW/_VERW/ ?
+
+Thanks for the review.
