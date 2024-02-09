@@ -1,26 +1,60 @@
-Received: from davidv.dev (mail.davidv.dev [78.46.233.60])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB000219E4
-	for <linux-doc@vger.kernel.org>; Fri,  9 Feb 2024 23:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.233.60
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EED374F1;
+	Fri,  9 Feb 2024 23:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707520552; cv=none; b=V1cMUOUD/dG1s70xOOMmHqQ0DePZ5MniQxdpFpEVCiQWdBlpeV/mnATpI6IYZKkQvQ3PyAotzyXYJPC6NrFoGHlIIoJg4gi2IgdxDj7pzC6dxZ8TfhsBjy1eI1PRkjeVKaGpKCtiVwsqJeZBvtosVVPntjnM8kSuGf7zR/jsL70=
+	t=1707520811; cv=none; b=P4qOLjbxUWGyfKcwmHlLzf35+LTw/zeDdCGAEEUB6v+R5FeRhKy90Jl4ruB87UTSMft1qUixil8vkCbpcVX1gGk6WCIrFxJClHbcRmhbtn/px1Tbq9FPO+VnwuVHgaTLgIqNJrnmlBuUB8cNsHnkHuJWWJ2vsdI4LcMVzqTVMaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707520552; c=relaxed/simple;
-	bh=xEYmqoe0JpXF+8LCEEn18mFm7SSFoDzDPkuEOR2M26Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bngff5n4E6oNTAnHQdDXN16NcoAi6tILcWo/xliaierNd8ZBxhV0X/U5PGSJcJvLsK91Zo2SQHxlprf1hqhUmwuVgxN7QWHkQgwZGQdQwWs10ZKkoI/Ceja9n2kjQWBrDOidysZR3kYJ66ezwpEFPZRfnpU21z/RFqVP3wemG5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev; spf=pass smtp.mailfrom=davidv.dev; arc=none smtp.client-ip=78.46.233.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidv.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidv.dev
-Received: from [192.168.2.131]
-	by mail.davidv.dev (chasquid) with ESMTPSA
-	tls TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
-	(over submission+TLS, TLS-1.2, envelope from "david@davidv.dev")
-	; Sat, 10 Feb 2024 00:15:43 +0100
-Message-ID: <ee37f457-3d2d-4c18-b22f-dfb315b3c078@davidv.dev>
-Date: Sat, 10 Feb 2024 00:15:42 +0100
+	s=arc-20240116; t=1707520811; c=relaxed/simple;
+	bh=s8+JThjOLWZYxS6Wz7yMLXJSk1mkS2CUnkq/spkXnAQ=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=CWnhS7relcy+2tyY9sk0h8HvLFGyA2ugyYL/7Rf2bAx7tnAD2QPeP7LWIR3g03B0VKeDqX2jn18tkx1owIVN9kTKV/DnUkX+HGjaTBqgL4d6nGPz+U/KrkD9Jae0VCsYyRcVMPIs6z8YHdmxyFe5g2lpT2O3OS6hA7bwIuBzPNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jM8FmB0C; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jM8FmB0C"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d932f6ccfaso11766265ad.1;
+        Fri, 09 Feb 2024 15:20:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707520809; x=1708125609; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ltg6lO1oS8AWhQ5+N+TRDT9oy9pLlputYPkulGsyy+U=;
+        b=jM8FmB0CD/AmAkb/nDsf2VKNV8S2mFsJgeUX2Xi672zTHqVi6v12B1OCl+tMznKp76
+         ThJnb0mi0m1Xh2NN4Sx54PGhyEuDMt8uXFoy5olS5pgnmmYxrRqKgXysZhYAnaz0w8Ob
+         p25GsrV+lew6O5jO1r/FXaM7lyTSdtizNXYBhTRXaUvgfkijqsU4ZN4aR0fAo+LBfLm2
+         faxe8qI8IyPbPrQnCwvJv7WB8gjf0+by3YTWDUA38EWjGH4OZ2LdyL1Y7WuJL9goVBeS
+         oJtO85H4+2PsAbjGjMZsQ29DdLGB96lsHrBQTKwuyCYMuNXybAPSPZGmRBNM+SgFypB9
+         JbMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707520809; x=1708125609;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ltg6lO1oS8AWhQ5+N+TRDT9oy9pLlputYPkulGsyy+U=;
+        b=l3pWo09R1hWp95tYNFeFwAVBYcbnRddyRlUX+AKp2lOUh1/oBUqFx1Uusp/2UjBaDt
+         OkxdnuXUefQL3FdFi8UX1ZeNM7CNoNz0VUI7GwVwPMWMdmQQRJML5gSRwtZUITbcuQYe
+         5W9WiPK4K0iYXvBMLZE2DSlHiFjwXgjcRXbJ5eAEGkpa5tBckiOnNYFZ3HTQIBDwlr/B
+         g6tM5VlQpCjtQ96wa8TSA8x0ynVBk3oibY1MeB254n9/xXT1Niw1z+a2nUtjbRDVM5VH
+         OyvDSa4ZKCe3kDP6deudHJsQgb8ux/dkQwlTcGz6wTvx73ckufoGADhJGNsdQ2Dbi3YR
+         lZPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpri56G9B1Gw8ZYWt+Kxu7WNy4LuKWBNw8c5xYeS1B8NsmEaZXeCGqm7P6ivQMIJ63NBlbYrsaDMm5ccjJMkFmTWCIlrjo9oOnajtJXQqIEYYRmJVQT/T+/XfaEgm+7b7LzyOmbY0jBQ/eL91qMPMzamBlFj+bgjYzO0fhvraL
+X-Gm-Message-State: AOJu0YwFArfr9IVCMRR2p6diEA4a34ebcCyhM9fptahmQfxueEjy6WRK
+	bkWGMKmcFJFXV1QbIEP1N3ksHOVQoJvJ4+xUgzxS+DQMvizBgbSM
+X-Google-Smtp-Source: AGHT+IHkO5tVoG4DnwrGnYtUtoX4VwHX7HlHF7glv0Pz+lcGgj7Lof5EGnid8D1aZ594vLVOLpZ3pA==
+X-Received: by 2002:a17:903:184:b0:1d9:b8bc:fd7 with SMTP id z4-20020a170903018400b001d9b8bc0fd7mr604591plg.68.1707520809293;
+        Fri, 09 Feb 2024 15:20:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX9Ev0PJemXSnZvJeZYSgx8UAetmIwNOFiv8rzP7M2pekC90OonFsLNPsf3SRPDopd71LrrF0NNBi7vvZUuduGjZK85p+TDvk2nxOB4BFlVM4fCKV1B4ZRAOZa02xTfhgcGczjDvxlsjvNl1gcOCTVMcH79CEuolJfKse9vxx3IssaYFr9O1twrDYIGAk8D6aEPN8nPwl0FF1GQmt46IdKcgOWMHAVOHQzZzhjpk52XlwkXw1rjYWD4xFhbUMd3RhlS/zwlIXErHwddwDsFSUgutbknEk/gS8NiKSVY5baNMU4qbAgid10f+JNSX3vyrdw+0+hjF5gwEEqz9A8x
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id li12-20020a170903294c00b001d9ef7f4bfdsm2020978plb.164.2024.02.09.15.20.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Feb 2024 15:20:09 -0800 (PST)
+Message-ID: <d8bce254-74a8-4d4e-8739-2d96a697782d@gmail.com>
+Date: Sat, 10 Feb 2024 08:20:07 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,76 +62,47 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] net: make driver settling time configurable
+To: vegard.nossum@oracle.com
+Cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+ jani.nikula@linux.intel.com, kuba@kernel.org, leitao@debian.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, pabeni@redhat.com
+References: <2d3359b3-f124-4ddc-97e0-cd56d0e7b966@oracle.com>
+Subject: Re: [PATCH v3] Documentation: Document each netlink family
 Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, "David S. Miller"
- <davem@davemloft.net>, David Ahern <dsahern@kernel.org>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Paul E. McKenney" <paulmck@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Xiongwei Song <xiongwei.song@windriver.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:NETWORKING [IPv4/IPv6]" <netdev@vger.kernel.org>
-References: <20240208093722.246930-1-david@davidv.dev>
- <20240208095358.251381-1-david@davidv.dev>
- <20240209135944.265953be@kernel.org>
- <7485f0b2-93fe-4c82-95e8-5b0e10f9fa7a@lunn.ch>
-From: David <david@davidv.dev>
-In-Reply-To: <7485f0b2-93fe-4c82-95e8-5b0e10f9fa7a@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <2d3359b3-f124-4ddc-97e0-cd56d0e7b966@oracle.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi,
 
-On 2/9/24 23:11, Andrew Lunn wrote:
-> On Fri, Feb 09, 2024 at 01:59:44PM -0800, Jakub Kicinski wrote:
->> On Thu,  8 Feb 2024 10:52:29 +0100 David Ventura wrote:
->>> During IP auto configuration, some drivers apparently need to wait a
->>> certain length of time to settle; as this is not true for all drivers,
->>> make this length of time configurable.
->> Please CC folks who gave you feedback, Andrew's is missing.
-Thanks for the feedback, still learning this workflow
->>
->> Andrew, what do you think about just removing the wait?
->> Or decreasing it to 1ms?
->> It feels a little wasteful to be adding uAPI for something
->> which as you said is likely papering over ancient bugs. We'll
->> fix the bugs which are still around and the uAPI will stay
->> forever :(
-> My guess is, the broken drivers are doing setup stuff after they call
-> netdev_register().
->
-> Reducing it to 1ms will probably continue to hide such bugs. So we
-> could just go with that, and probably not see any regressions. Or we
-> can decide we really do want to know about broken drivers, and just
-> remove the delay.
->
-> Either way, we don't need a new uAPI.
+On Fri, 9 Feb 2024 15:47:16 +0100, Vegard Nossum wrote:
+> On 30/01/2024 17:23, Vegard Nossum wrote:
+>> We should still fix the writing of .rst to $(srctree), though -- our
+>> use of parse-headers.pl seems to sidestep this by writing the 
+>> intermediate .rst output to Documentation/output/, I'll have to look
+>> a bit more closely.
+> 
+> I have now spent quite a bit of time investigating this.
+> 
+> The main result is that Sphinx really does NOT like it when documents
+> are located outside of the source root.
 
-Would it make sense to move this to a build-time configuration flag?
+There is a hack extension named "kernel_include".
+See Documentation/sphinx/kernel_include.py (no, I'm not saying
+I understand it.)
 
-I do not have a gut-feeling for which behaviors should be configurable
+The "kernel-include::" directive is exploited only in
+Documentation/userspace-api/media/dvb/headers.rst.
 
-at build vs run time.
+I have no idea if Jon is happy to see another subsystem
+to start exploiting this extension.
 
-> David, is 1ms too long for you? If we do take the delay out, you are
-> going to receive some of the flack from regression reports.
+And you should be interested in seeing
+Documentation/userspace-api/media/Makefile and how it is integrated
+into Documentation/Makefile.
 
-I've used this patch to experiment with different values, and the sleep time
+I think media people are doing similar things you'd like to do.
 
-behaves as described in Documentation/timers/timers-howto.rst, that is, a
-
-call of `msleep(1)` usually delays boot time by 12~13 ms in my tests.
-
-On top of this, I'm running this specific example on a no-smp systemm, 
-where I
-
-do not believe the `msleep` achieves anything (but I'm a kernel newbie 
-so please
-
-correct me if I'm wrong).
-
->
->        Andrew
->
+HTH, Akira
