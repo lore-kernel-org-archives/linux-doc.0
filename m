@@ -1,131 +1,162 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B1A69D02
-	for <linux-doc@vger.kernel.org>; Fri,  9 Feb 2024 16:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707496005; cv=none; b=pNEyZBrP5PGimAhBaSn46IEa7veQGt0UPtR3nExXDm0Ebpmb8rd76zvqBcUUIhJKOserQT1xqWgoz00FtoAjxz5YwSOr0oi5mqn2vROpWW6+Sx6hHy/uomcNkz+d7aSEeiTpw9hjRLk1w7KYm4oxfMEckJKiF9KO8M+kerNucZ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707496005; c=relaxed/simple;
-	bh=xSVANJ9Sul+6tG8IyWGYziNKbkjPAgWV/TLqpKmQNq8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D57bNz5xDJAE9N1qW4lDowes9cgwy/hjMNAgAWPHtIcRwZRTRRaC9FhPmr3MheJQQ1kiDy+XFCSWSDFjJvyIcl81mIOSG3UkHeQGw3e39vFM6eBJ4WnXZsEbPB0M8JLtL1wwgiCTk1uTQJKcd0yW1XOGl587f778RviAq3TlN6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DW3FR9+i; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B4A7AE50
+	for <linux-doc@vger.kernel.org>; Fri,  9 Feb 2024 16:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707496502; cv=fail; b=D3yc3OabnBK+Fot5LixEgil7/RAjnxAYzXn2rlNXObdGnmGq+BhQAykb5OsY4W24i6N4RpdKZrTTmrcOP6E+Kt7llPYOszvjqCgkigpokZUQeRhXJhmpjG+d9xUOMsXXHerzTT4UUbeNQo+rA1jgOaWIgldnn5JOEOmGSZ0Pbos=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707496502; c=relaxed/simple;
+	bh=81hY1nky3+zUrcnDOzdqeeJqUr8x0jFiUusc9LPT350=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=ckQV4PXsMrGyz83y7AC2bULtMKTu2mwo3/JUGJ1QKVRS2mdtjYB9QF8OlcNutFDUVnMvgO3AvN+fcT36PNQYyiuVU/Mi7Kaw90gGxZDUQhdipyTtL238LW00y/IR9xJ+qja/7t+W2xJXcnA3kDw2NGDGt+9XuFPu02713w9ZBfM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZbCq9L50; arc=fail smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DW3FR9+i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707496002;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xSVANJ9Sul+6tG8IyWGYziNKbkjPAgWV/TLqpKmQNq8=;
-	b=DW3FR9+iZOpwbkDTiLriIv7st4VzhMT+129sIwx2PY/S+b9K4nCuSQTUqYmfZIb1I8UXqJ
-	Pbd2vqNFj5WsyHlHmnDlwEtIYqwHp0Rlx7Nx1BgAwStByxpb8s+UUZs48oc2XG7466Pme8
-	iCDvxHruEwuJalHmBmvRKCj4IrMI+zk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-517-xPg1Jd76NLaDdTRQIu5a8w-1; Fri, 09 Feb 2024 11:26:41 -0500
-X-MC-Unique: xPg1Jd76NLaDdTRQIu5a8w-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a3c027b6987so32357566b.2
-        for <linux-doc@vger.kernel.org>; Fri, 09 Feb 2024 08:26:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707496000; x=1708100800;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xSVANJ9Sul+6tG8IyWGYziNKbkjPAgWV/TLqpKmQNq8=;
-        b=wGNPpQlEg9aVUNe9SXtN2MX7kgMJfS9UAzAth6WhUhmzxpGqWPa0N7X3o4oXID0OwO
-         6V7+dp/L75OQkcsmSMiKGwXIx5Wg3qZsbyiELrkCXT5r45Q0tMsUwum39OnqFHZQON+w
-         cYZiQ6Xp2vGqA4H5BBDI1abdiYLLos8WPOQTRpom5r1NmwMTdBhW6YPCZBzOXP/dqcNL
-         HSlHyxiMRfbKLMdwH8NXqcyBqF/tQL7SHA2shn1uxO/9jHqDxLPs6ZTNImDFMAsP89th
-         F3AVaMqcJyFFlc3tDhXkgdUBHunm9xIo7c/qUZ95e9ICkty3wFLRSqNRxQmMoyt2HrDJ
-         +sUA==
-X-Gm-Message-State: AOJu0Yx08n2dvIiUN+vyD9nd30fVZVeBWz92ZZpTz9ri6jjXCn2yBLv5
-	VKayc9gEgItC12VZEXoqs2UlH5frwVVd3GNdP4PhWKNmVhHFdpoEVjbu5Ov69TQCJMQipmKrXvM
-	dDf6N8kYWybMJCceDN39cx5+ydE5Q1UxACQ7wvCHQvKIi+SBhWbFKsiDghwdqrjgYZ6+Bb63dS2
-	cL3g2U7VXG1pskBhX0loJ8Ewo+Y3DU0B4B
-X-Received: by 2002:a17:906:a3d6:b0:a37:e35b:9a3e with SMTP id ca22-20020a170906a3d600b00a37e35b9a3emr1642615ejb.40.1707496000225;
-        Fri, 09 Feb 2024 08:26:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHy61pDxReOPip14CkIUEYp+eoqOxBTFmJqAoTo/34APibzrj1ifuHurTTUgT36YYc88gUAGfXaSJOT9jT1nF8=
-X-Received: by 2002:a17:906:a3d6:b0:a37:e35b:9a3e with SMTP id
- ca22-20020a170906a3d600b00a37e35b9a3emr1642604ejb.40.1707495999966; Fri, 09
- Feb 2024 08:26:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZbCq9L50"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707496500; x=1739032500;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=81hY1nky3+zUrcnDOzdqeeJqUr8x0jFiUusc9LPT350=;
+  b=ZbCq9L50lKVYUSSPms6BAZtmrA4j9yF+qz93pqXR4WMkZ8qi5z/MkI4Y
+   dmK2DKU//YGK3am2N660sgy10/f3FUeWFDNRK2kmFU2Bl1rDLSxRvyd4F
+   W0TFUKtmNggd5WEV41UImVBnrmBAaa2Nj2ZUXkNYiyilvRVbRwWZS8sFZ
+   ACwZY2Es8xlcO6oIawjF0+cdxV8t6VM/ltHvsEwxOv9grrN/N2It7rVR0
+   uXMojyL+rLadcB/SJiGmhVEHPs1WsEoPj0aK8flhIekN0YnEjP0Ls9TuB
+   cUXOrbMuMS2iCNJczbDQq1sQp/i9aDHHaZbtoa14Q9AT5mUrsIYzM+3/q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10979"; a="23937750"
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="23937750"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2024 08:34:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,257,1701158400"; 
+   d="scan'208";a="6625978"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Feb 2024 08:34:59 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 9 Feb 2024 08:34:59 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 9 Feb 2024 08:34:59 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 9 Feb 2024 08:34:58 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HX8h+Tb6lBI84ooAT5mojkd5ZwRh6NiL3kSt20hR7dBgC1qIu3oHqetRqt2P+SFp3SAjzv5JoPUWDRRbi6PL4rxT6Mx5Q4SV87vZD4gi1REFSNBWB0b02iS45TKc1oS+9rphk/WVnPN1zhHaMPLaE2v7uY2VxqebwmdomHKayb6Vvsn3wUK/9VoSbRHyzye6PslKZKPbXLasgVdwWKidR5BWEJD9XwuZbABbpuPNzeegVlelPkB2CpRQuuuB1yAQ2BIaIhYNSI4EkTvjdxxo1/L8+WrXnERsCHXxNge4ErAtitxuQFs3zsnSr4RZxSHtOE9qs3tGxLT+f3TqhMgiQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Hrkvv4hmZRlfboHyfvmYUlHqnAakbvaRfsm1V1Lx/aI=;
+ b=gTQjl1lpX1Av579axlNnZWWGmmovBuhx7Eouyg0/dbSK7SXpu1nwZGDjGdyiUKTsFm80Z/rCNVMUjluUGkUlj2TB7GYq5Hf71G3v/opfxURBLOJm7ZCOuL+K43ufe4NoO16Aq4BPNrKemns2+j2xVP+DxnZLEp5GcjeZn9pt1+jXwE+EEwA10ExPLvdMa6+Or1hNUZx0K/TSr8QhCXdUR4T/qOX7TnTtcT7M80m58Q8S4lmyJqq+ZjuJLd7v+DrwaZwz66NQlJdlsDRD5Smt4W8Iz/LBZ/gmhh65/uE+GK0RJjSQ60sNW/ZsR58TLF6PsRoY/U8zv4R7S8pIEDSbVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
+ by SA2PR11MB5100.namprd11.prod.outlook.com (2603:10b6:806:119::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.38; Fri, 9 Feb
+ 2024 16:34:56 +0000
+Received: from CH3PR11MB8414.namprd11.prod.outlook.com
+ ([fe80::ed34:4cf2:df58:f708]) by CH3PR11MB8414.namprd11.prod.outlook.com
+ ([fe80::ed34:4cf2:df58:f708%4]) with mapi id 15.20.7249.038; Fri, 9 Feb 2024
+ 16:34:56 +0000
+Date: Sat, 10 Feb 2024 00:34:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dharma Balasubiramani <dharma.b@microchip.com>
+CC: <oe-kbuild-all@lists.linux.dev>, Lee Jones <lee@kernel.org>, Conor Dooley
+	<conor.dooley@microchip.com>, <linux-doc@vger.kernel.org>
+Subject: [lee-mfd:for-mfd-next 19/19] dtbs_check:
+ Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml:
+Message-ID: <202402090901.PJ4OjZCB-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0173.apcprd04.prod.outlook.com (2603:1096:4::35)
+ To CH3PR11MB8414.namprd11.prod.outlook.com (2603:10b6:610:17e::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240209-hid-bpf-sleepable-v1-0-4cc895b5adbd@kernel.org> <87bk8pve2z.fsf@toke.dk>
-In-Reply-To: <87bk8pve2z.fsf@toke.dk>
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date: Fri, 9 Feb 2024 17:26:27 +0100
-Message-ID: <CAO-hwJ+UeaBydN9deA8KBbgBiC_UCt6oXX-wGnNuSr8fhUrkXw@mail.gmail.com>
-Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
-To: =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
-Cc: Benjamin Tissoires <bentiss@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8414:EE_|SA2PR11MB5100:EE_
+X-MS-Office365-Filtering-Correlation-Id: 800cb4d2-9654-462d-2925-08dc298d0d16
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2F3DVYrGGoiPFo9F/V56ZasdjQn7sbh7Z484WugKE8b/LpCp6o2inT1W459W69wEUrMKl7qKJG9oUDr/h6soPK1MIQNXMYlhZ+5xHHMf5a6Ut7txa5ndbPC/9IV3IxEFJ2UlqeYo+MkCW9HdPaNqdFB/zhWdakV37yCMLgXDBVpn/HP8Z5vIU29hCsuDZsTbXcR8RWjZqRyyHjlUtdbk6GB+rq1LR8wqcZkNjOjrVv4+sQ4bV2j8QAehjut3t5AJCY3BfeT5oyWlInSLA5RwcuK92FDEoMCphfw+gr8YUHkheWm9S6z9dF3lpFTdBKJoNB5i6iS/tiPWQNEgUo2rMNBGz4epiF4WHLHKtdhL+PAhSugbQCqsaN/4LIS7X1AvQnKBMxTEQIlFp11nsKLfuq6hHq9RozRqcUOflpKOWs48o4OCgXxKKTLZ4FP7rtXb8Kp9vqvc6B/uFVEaKx258yCKpw+s/wM1/30BCZwxpioAOHtsuSC6+ANbhdzSt6PZMkRSmVtGbZs8Y20rO/0k20Aj2G2NR+zMlg9hQMN56vAklImyRCJlJqWB/4xMy/PB
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8414.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(366004)(396003)(39860400002)(136003)(230922051799003)(230273577357003)(186009)(451199024)(1800799012)(64100799003)(54906003)(83380400001)(38100700002)(8936002)(82960400001)(6916009)(316002)(66476007)(66946007)(4326008)(66556008)(8676002)(6506007)(5660300002)(2906002)(1076003)(2616005)(6512007)(26005)(966005)(6486002)(6666004)(478600001)(86362001)(36756003)(41300700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TF6csoxojJXakg0g4JNbkR76HqPQTZpE2kwQWZqZTSbWMZB3hbNyQvvBH4Ry?=
+ =?us-ascii?Q?AG+gJi0T8ZWNRD5IEn1rNCKavgvtpY0DOGy+/A5xKiu9t4wfi3dpEDp51Pss?=
+ =?us-ascii?Q?Q6Pv5RmsPOthlCiRG5AzB0FYVhh/GDJ3Af+yJNvFkpQzAJ2hjGTbCNoeoYOr?=
+ =?us-ascii?Q?rDvz2jYION84x6UoFkWmC4QuoSBHekkbcVGq9EymDRJILQxY/bVZi055xdsh?=
+ =?us-ascii?Q?y2CP/+jXnZswMgU27h1YvzAgL0aI837j0e0G++3iSnaBSnY0lfxSNDxnx1tb?=
+ =?us-ascii?Q?XK4lPfI3RfpDQKGyIwFN7vdmaxxUDo0Zerx7PcojvbM72UAKLH16XZ5IOJxo?=
+ =?us-ascii?Q?z1HGQA/IZxA9k+N25mtKKePgkvySFb+qEKPqS3/hMQwh5SwxUn9QUq0si3Pb?=
+ =?us-ascii?Q?hDpIs61Yz8j+9KtaKI4xjL9+wN3qwNG4KVtrCv18O4CDIUDlC10gndJ++HdP?=
+ =?us-ascii?Q?DD9S4oZgyqcpPkxSdF9hL+uN/cMTDkQoAPSbaQ5O8QmZsjxMHfTu70lAdKNA?=
+ =?us-ascii?Q?b4hhSUynZUpG8gv2c/cKjATtNpIRl32WNtkMF8TST7KTTJxiKRoUoEJJ0WHA?=
+ =?us-ascii?Q?JUdzs7HU+vzx9/Qd8NWCl4wfGhCtIfdg6ijeB1xik2OayG6KC5YPPmzdYSwr?=
+ =?us-ascii?Q?F0YaNWZ3BCdFzs5MTxW6md9faQ25p0wVOW7QjG5x3T0HG1sTTJpnalNyRjU3?=
+ =?us-ascii?Q?F7McKmn9F8MyXPqEvvJNqvUJF45rzMI61FFOVfn3ipXjsSDoznI2GZmSfNKP?=
+ =?us-ascii?Q?VOdg3ubiXT6h2J0qNkqTHLmoMo2J84NcQP3gP4ydJ1pDvCJrsCYMbpmD6+n6?=
+ =?us-ascii?Q?qhU1OtxOPhAtCvIvDhTFHieuZuyb6Vonqezfu88vOyiufyhQQtn2xv2iQJnD?=
+ =?us-ascii?Q?mQ8CNQrmE3dPR1IzwuvPnO1a0bTf6mpHrA79BXAd0K843VjTrXLT5q3eDGqs?=
+ =?us-ascii?Q?FJ/yqA4wVkdRbKSs8EE9V2SGmjF0r4PWclvz49E5yfrwu7yXQP5bGOfLuUAc?=
+ =?us-ascii?Q?wbLIwOMn8litgFFaBVaNio8Mc+K+k7bzcWkJA+sbds4IfkIIKXLKJ0+/W8dF?=
+ =?us-ascii?Q?aU+1cQ0QY76oSwEy89uhF+wWH9S/YCm32Ixwl3uiTzh5bh7JpHYEToaIJd8w?=
+ =?us-ascii?Q?w6G50+NYlWu4CTfu1orOmllKbsZNG8ABpH4NeAvpiuIE9f7z/LZDVJ0/TQgE?=
+ =?us-ascii?Q?gd+mg51I7hRPE5K993M//VXudVEcV58E/BG6pw+bLsOEL9QtCAi7IKzy6fl7?=
+ =?us-ascii?Q?abmKMe5OAJ/ICgLeYzzqMhjVuyQJAXelMtcvJqz+4jHF88Wh0WE4ecNiErCv?=
+ =?us-ascii?Q?FyLkwlmVWWWYrPPtS5FigIHOFLbM1Sc1KwZCHtLEkJQWwmk6gPNHivtaVmy+?=
+ =?us-ascii?Q?hBkqmA5rcWqGChvISz28mqbN3LjXWawM0YczEDk6O9oA81utWsWv0Awdi+dQ?=
+ =?us-ascii?Q?1nvCRd+XwuwNwRwP+QTKtdXYtMDfCp8pIdcVZzvPQiXKs6Jnax0bks+Gv1KY?=
+ =?us-ascii?Q?D1P4ESnGKTS00h9PCHGKfZXx1gOgtvzmxi/K2lDTDwBTOwmpwEmgB5w2ZstY?=
+ =?us-ascii?Q?HhVbWIKkkfCKBnHT8arKQ2/laJyp/pknBqqCIGiWLHUqB4QoXtnOtrG7cbn4?=
+ =?us-ascii?Q?vA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 800cb4d2-9654-462d-2925-08dc298d0d16
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8414.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2024 16:34:56.7458
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TbZiTE8dsE79Csa6JDYzO7Q0qd2FVMffMsmLY5gcHbAp/hoyAERvpk5gfeEYzYS25rvBs1WDUeH1mat+0c0Ojg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5100
+X-OriginatorOrg: intel.com
 
-On Fri, Feb 9, 2024 at 4:42=E2=80=AFPM Toke H=C3=B8iland-J=C3=B8rgensen <to=
-ke@redhat.com> wrote:
->
-> Benjamin Tissoires <bentiss@kernel.org> writes:
->
-> > [Putting this as a RFC because I'm pretty sure I'm not doing the things
-> > correctly at the BPF level.]
-> > [Also using bpf-next as the base tree as there will be conflicting
-> > changes otherwise]
-> >
-> > Ideally I'd like to have something similar to bpf_timers, but not
-> > in soft IRQ context. So I'm emulating this with a sleepable
-> > bpf_tail_call() (see "HID: bpf: allow to defer work in a delayed
-> > workqueue").
->
-> Why implement a new mechanism? Sounds like what you need is essentially
-> the bpf_timer functionality, just running in a different context, right?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+head:   d5132d176d6f21742ac67fd311ccc61fe830e999
+commit: 54a372cc10ac77a6fd8e2e57a72d3d43be9e292c [19/19] dt-bindings: mfd: atmel,hlcdc: Convert to DT schema format
+:::::: branch date: 11 hours ago
+:::::: commit date: 14 hours ago
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240209/202402090901.PJ4OjZCB-lkp@intel.com/reproduce)
 
-Heh, that's exactly why I put in a RFC :)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202402090901.PJ4OjZCB-lkp@intel.com/
 
-So yes, the bpf_timer approach is cleaner, but I need it in a
-workqueue, as a hrtimer in a softIRQ would prevent me to kzalloc and
-wait for the device.
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/mfd/atmel,hlcdc.yaml:
+   Error in referenced schema matching $id: http://devicetree.org/schemas/display/atmel/atmel,hlcdc-display-controller.yaml
 
-> So why not just add a flag to the timer setup that controls the callback
-> context? I've been toying with something similar for restarting XDP TX
-> for my queueing patch series (though I'm not sure if this will actually
-> end up being needed in the end):
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git/commit/?h=
-=3Dxdp-queueing-08&id=3D54bc201a358d1ac6ebfe900099315bbd0a76e862
->
-
-Oh, nice. Good idea. But would it be OK to have a "timer-like" where
-it actually defers the job in a workqueue instead of using an hrtimer?
-
-I thought I would have to rewrite the entire bpf_timer approach
-without the softIRQ, but if I can just add a new flag, that will make
-things way simpler for me.
-
-This however raises another issue if I were to use the bpf_timers: now
-the HID-BPF kfuncs will not be available as they are only available to
-tracing prog types. And when I tried to call them from a bpf_timer (in
-softIRQ) they were not available.
-
-Cheers,
-Benjamin
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
