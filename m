@@ -1,154 +1,83 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC5053398;
-	Fri,  9 Feb 2024 17:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C740D7B3D2;
+	Fri,  9 Feb 2024 17:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707499763; cv=none; b=Dc32LrXK2MXeBuWdATpPl1Ja9xXXC+cPw3GJCwqqI8IiTGnYPdLJ6eQn3IGXPcu6gi5R6g0vcIUuwLRZeLxruLB32WY3UXCcTWMML1fYnZ93g+hoQWM/y+C49ZZlEUJ0CMxY3UaRBpjm5VexI6npfVuVC7xq+oFIXNCjpOKI6dg=
+	t=1707500324; cv=none; b=gtcfygO0BQZ0Ezic7s7e/8JvzTbb/bdM/0B71N0Co01KquC1BaZ8UhXSiOwMHqPgsbGFWAPO7JHomuKAzE3iCzs18Dy04QAymPKgPPIEj65S8AHshX9kuWz1T9doos3q7kLnNSDVg7awW4dQhl58SF7xslZ1SqrrsSCOGTMnSKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707499763; c=relaxed/simple;
-	bh=EkSrADbaed32E6a2US7Oxs/9b3BCmWx75oCYAcCz+8Q=;
+	s=arc-20240116; t=1707500324; c=relaxed/simple;
+	bh=HravDwgHEdCMpMGa6CrqloF7sVySm2L8D8y1O2Do7lc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RhXZgCwZvNyUi8PgcJx8G3x6mJHSSKM4ANVAhTVdUQKc5j+E/4xYyQcwS4iY9TqLCFkWfmnYk8Mf/o6PKxIPzXsYUH1NGWBCV186RPid3UbeeBOK4pCEtSH/gak2mKy8ONGEZQrd4l7+XL2+MOdyfWkTT3AOrEBVV+6Cpw97TtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UwPkD79u; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=isypjgPHSO8Y0caClEw5igS72KgWuDk5TVS3oa+U1X9ykvbXrpxQOmrDbtss3IvU97g885Eu2pnv8YOiBlE2Y2xPtdnV7SjfxcmOc9TurQSKt4cHQ/dpLas0uhk/IG67+0X7v5FoUTHn800nIqn9Tqh3VmG7hiH9MLb9VQKxz70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kerfjuN5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UwPkD79u"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A4DA040E0192;
-	Fri,  9 Feb 2024 17:29:16 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id qdR596g8WX8w; Fri,  9 Feb 2024 17:29:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1707499754; bh=Nhpf7nFX+VKx5DMtuC+3xgYTTGAyZzaetOFhzVHC8Nc=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kerfjuN5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 712F2C433F1;
+	Fri,  9 Feb 2024 17:38:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707500324;
+	bh=HravDwgHEdCMpMGa6CrqloF7sVySm2L8D8y1O2Do7lc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UwPkD79uaru0szKr6LQup8rGQC0VLRA/G/HDHxKu11YMBHKC2jaiLhqUpwQoSIO9p
-	 DRsQSpe/jxN3Enz/X09DGOQiQBjewfZ1xnKHausobJ+gR0sBoupHZJKm4f5OmoKDgB
-	 W38NtSDJZ3BRM607eMJLifVaz6VdVPqtEi1QENlY5FyG2kdYO4T6b81pX4wRb0tTjw
-	 TxyiGnC56cVzvu4k9ma31gI+bDKoVKqjpx06jLwV+OvFyzwq/5ddaN5tey4b+HXytM
-	 Ip9vi0qekSL4KiF5gPN1b9kbmN47QBqZ83fXMXhfMvphOY4l6KGNHPrstgcOsnrx+s
-	 Dc4J1Na4gAe16xnha/Jq8JabC4UE37ci5R/pbA0RMIpN/DMLBnn9apLa5J6sZA69TY
-	 8CDs8yR5SOELuhpnId/yRtbt9PlWYRrdxfQJZFGYNMimcztCfp//t2a16QRss+WbaQ
-	 B9KexYWD+UeBtqy5Rd7ehvcddc+KOWn05uogF9HLdRzMbEYblWWuWCW254eaogFM6F
-	 0fTuWLQHK4YVyi8FlmBKWV6vvxuvinjWk95cmCADnGDrpztkVUKXBCJBdQX/eX7J/V
-	 fiNSSnwcucFzD/dcwUs1/673SbH+A3dk0TiqvWRGCAEBSONNvp4qgaP089LKnPDVH1
-	 sHNzieMnPfmaQc4voF98lHf4=
-Received: from zn.tnic (pd953021b.dip0.t-ipconnect.de [217.83.2.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DE2CA40E00B2;
-	Fri,  9 Feb 2024 17:28:48 +0000 (UTC)
-Date: Fri, 9 Feb 2024 18:28:43 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com,
-	Alyssa Milburn <alyssa.milburn@intel.com>, stable@kernel.org
-Subject: Re: [PATCH  v7 1/6] x86/bugs: Add asm helpers for executing VERW
-Message-ID: <20240209172843.GUZcZgy7EktXgKZQoc@fat_crate.local>
-References: <20240204-delay-verw-v7-0-59be2d704cb2@linux.intel.com>
- <20240204-delay-verw-v7-1-59be2d704cb2@linux.intel.com>
+	b=kerfjuN5jyjh7Iq+1DOcDabahKbMAmoRDLrtb30fs4WS1zuswq4yoePYrSk7sLA5B
+	 ABE3qeI81FOY0b3nQF3bBfYoTzpxXpxvOvvVZZY+tKW3Iqcb8FEurBWf8UOkQqkpsF
+	 hvUcYu6Al9JHWShocndQW1QrIOYHqdhJ22jeSiZKaw/3hvAnljZJVrgVBd8SX6K6YD
+	 RK+e0HrHMlpB1/dNfmnLLHbm2mKCcjaj1xBakrPbywxz1VQO0UTm+ZTBgtrKnSvQR2
+	 Jv/pTzO/mhp5gmKijD4th/XDi81p8TaNWTeXTLjRptBuYqz0jb0yTQWdwi80RAKVH4
+	 4AnarJn9OZzbg==
+Date: Fri, 9 Feb 2024 17:38:38 +0000
+From: Simon Horman <horms@kernel.org>
+To: Takeru Hayasaka <hayatake396@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, intel-wired-lan@lists.osuosl.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mailhol.vincent@wanadoo.fr,
+	vladimir.oltean@nxp.com, laforge@gnumonks.org
+Subject: Re: [PATCH net-next v6] ethtool: ice: Support for RSS settings to
+ GTP from ethtool
+Message-ID: <20240209173838.GH1533412@kernel.org>
+References: <20240131134621.1017530-1-hayatake396@gmail.com>
+ <20240131131258.47c05b7e@kernel.org>
+ <CADFiAc+y_SXGtVqZkLoiWw-YBArMovMkuWw3X596QDwEtdBJ2g@mail.gmail.com>
+ <CADFiAcK_XjLNjzZuF+OZDWjZA4tFB8VgeYXVJHR8+N3XryGxwA@mail.gmail.com>
+ <20240208072351.3a806dda@kernel.org>
+ <CADFiAc+i9i29SL0PM8gzmDG6o=ARS6fSrTPKNyqh9RLmWWB78A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240204-delay-verw-v7-1-59be2d704cb2@linux.intel.com>
+In-Reply-To: <CADFiAc+i9i29SL0PM8gzmDG6o=ARS6fSrTPKNyqh9RLmWWB78A@mail.gmail.com>
 
-On Sun, Feb 04, 2024 at 11:18:59PM -0800, Pawan Gupta wrote:
->  .popsection
-> +
-> +/*
-> + * Defines the VERW operand that is disguised as entry code so that
+On Fri, Feb 09, 2024 at 02:25:50AM +0900, Takeru Hayasaka wrote:
+> Hi Jakub-san
+> 
+> Thank you for your reply.
+> 
+> > We're expecting a v7 with the patch split into two.
+> 
+> I see, I had not informed you that we have released v7. My apologies.
+> The split patch for v7 has already been submitted. Could you please
+> check this link?
+> https://patchwork.kernel.org/project/netdevbpf/patch/20240201033310.1028154-1-hayatake396@gmail.com/
+> https://patchwork.kernel.org/project/netdevbpf/patch/20240201033310.1028154-2-hayatake396@gmail.com/
 
-"Define..."
+Hi Hayasaka-san,
 
-> + * it can be referenced with KPTI enabled. This ensures VERW can be
+It appears that the series at the link above has been marked as
+"Changes Requested" in patchwork. Although I am unsure why.
 
-"Ensure..."
+I would suggest reposting it, say with the tags supplied by Marcin Szycik
+as [PATCH net-next v8].
 
-But committer can fix those.
+Also, please don't top-post on the Kernel MLs [1]
 
-> + * used late in exit-to-user path after page tables are switched.
-> + */
-> +.pushsection .entry.text, "ax"
-> +
-> +.align L1_CACHE_BYTES, 0xcc
-> +SYM_CODE_START_NOALIGN(mds_verw_sel)
-> +	UNWIND_HINT_UNDEFINED
-> +	ANNOTATE_NOENDBR
-> +	.word __KERNEL_DS
-> +.align L1_CACHE_BYTES, 0xcc
-> +SYM_CODE_END(mds_verw_sel);
-> +/* For KVM */
-> +EXPORT_SYMBOL_GPL(mds_verw_sel);
-> +
-> +.popsection
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index fdf723b6f6d0..2b62cdd8dd12 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -95,7 +95,7 @@
->  #define X86_FEATURE_SYSENTER32		( 3*32+15) /* "" sysenter in IA32 userspace */
->  #define X86_FEATURE_REP_GOOD		( 3*32+16) /* REP microcode works well */
->  #define X86_FEATURE_AMD_LBR_V2		( 3*32+17) /* AMD Last Branch Record Extension Version 2 */
-> -/* FREE, was #define X86_FEATURE_LFENCE_RDTSC		( 3*32+18) "" LFENCE synchronizes RDTSC */
-> +#define X86_FEATURE_CLEAR_CPU_BUF	( 3*32+18) /* "" Clear CPU buffers using VERW */
->  #define X86_FEATURE_ACC_POWER		( 3*32+19) /* AMD Accumulated Power Mechanism */
->  #define X86_FEATURE_NOPL		( 3*32+20) /* The NOPL (0F 1F) instructions */
->  #define X86_FEATURE_ALWAYS		( 3*32+21) /* "" Always-present feature */
-> diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
-> index 262e65539f83..ec85dfe67123 100644
-> --- a/arch/x86/include/asm/nospec-branch.h
-> +++ b/arch/x86/include/asm/nospec-branch.h
-> @@ -315,6 +315,21 @@
->  #endif
->  .endm
->  
-> +/*
-> + * Macros to execute VERW instruction that mitigate transient data sampling
-> + * attacks such as MDS. On affected systems a microcode update overloaded VERW
-> + * instruction to also clear the CPU buffers. VERW clobbers CFLAGS.ZF.
-> + *
-> + * Note: Only the memory operand variant of VERW clears the CPU buffers.
-> + */
-> +.macro EXEC_VERW
-
-I think I asked this already:
-
-Why isn't this called simply "VERW"?
-
-There's no better name as this is basically the insn itself...
-
-> +	verw _ASM_RIP(mds_verw_sel)
-> +.endm
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+[1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html#use-trimmed-interleaved-replies-in-email-discussions
