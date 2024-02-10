@@ -1,197 +1,118 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3098B23DB;
-	Sat, 10 Feb 2024 08:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE691A29F
+	for <linux-doc@vger.kernel.org>; Sat, 10 Feb 2024 08:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707552521; cv=none; b=OwGFxKA5M57o6TbtJYLLJec8nayWveFq4/A6TXx5fMIUV1lkxPDn1dlbXvWhAqlqi4MiqJoaDXXlIJu1EDfGu8RvX6Y6aA5fhx5x/uaJPaXGG7UZiCvxF3S4YRJfX80Z9IoTP12Y1wL1dGzmSKMHCnureubc92+3q6WPk8ThUt8=
+	t=1707552799; cv=none; b=jkVoBGu/vXaiWCYKNozyj6usgnIiLUMPuGZxpprGyOsA36ncGUraNqH9ywfJN+2mSLdhRrQTGirY0xboAwEWaDkl8I5s1ov1jDLjKIKnvOJ0ZFP725VAdTEM0nRHIOWtElufTOdZ2t3pZshjE2S10fikvVDOtz+48dOuKj/F25U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707552521; c=relaxed/simple;
-	bh=F8DGyIH//SMvI1ax+96o/ObM1ZtA0zzCYF6zYzURkuY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VhCY1L1lQi+MdjZS2jWDSFdycXNRwKP6xvGQD9BN6rFJ46d/6ijPOmZjlHzIeZsrJVepws8kchAfqha3LIIX59Sh/XEIaNfdRXHG05bJsHTw+vOXcb0JV42fnPdjdVE2aDEMqgRdN8OVNE7xmZkxnrmohCXGCl6VehNhjxbGRIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KJoW4J71; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DALLQMtL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZTWz1/eC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xJIBcXYS; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1707552799; c=relaxed/simple;
+	bh=Glo99Q4rZ224bZIULXqWRKYAJ1UBUwAAGaeNDMYK3aY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RvwBcdhspgMhSuTMzDeKwwd4Ylbdoite+39IOkU3VUb8PexSBQfR6DPVzj+R+kSIrUQzbg8IN1l5NxVH2SVcH4GxynpGpouY3oifOLOjetSvjn5pk6o3swfkZ5bMpVVGfyHgeKqef0L7y9fmtNltSD1lQ07x9DpS1lTggnPevoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu; spf=pass smtp.mailfrom=umich.edu; dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b=fcmXXufi; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=umich.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KJoW4J71";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DALLQMtL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZTWz1/eC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xJIBcXYS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5A6711F871;
-	Sat, 10 Feb 2024 08:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707552517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
-	b=KJoW4J71U9ZLJ7gO2a8d/PIy4nhqzxY0s2zlnSK3EfY+kPyH4g9TEVPDrbfiXtcc/TIc19
-	rBz1R3rMMqHBFpfdklsVYAvJUBGeIBd1yEeUbyG+S4pvPUI3SlQWCdSERiYlNcqQK8aMbi
-	FLTcGWIGmoltnHEJ9DbUUfL3K59u3Cs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707552517;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
-	b=DALLQMtLxjWwWSgCINWrel5oJJeUceaqE4HtJb6m4CQza+kjwh0s/IV8ugvQhrrR/EzT5b
-	Us/14GhwwZ1wBUAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707552515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
-	b=ZTWz1/eCrW4xLIfHtnBLB6BnNE2Hyv+DpxtveF0h6zNq9n2cM02p5thixj/s3MPSNtnQ1z
-	oWVlRIw4qVHxPrc9pXXKeC739EKUY3jDKS0izOgEk9N/+8AYvkDEcvuryy8bu1Wg0PaJqU
-	w8ZfhTZZRJjf5urEpo/4ELDawf/K784=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707552515;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
-	b=xJIBcXYSPUlRFsJAH686aURuAcIgKNqRNMW8Sp8PsxJ1wmcHs6/sbp65Meumml9uDAWSPz
-	lg4vL/0gbcQppkBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A58C613867;
-	Sat, 10 Feb 2024 08:08:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dyCTJgIvx2VMcQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 10 Feb 2024 08:08:34 +0000
-Date: Sat, 10 Feb 2024 09:08:34 +0100
-Message-ID: <875xywzqpp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: <srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<corbet@lwn.net>,
-	<lgirdwood@gmail.com>,
-	<andersson@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>,
-	<gregkh@linuxfoundation.org>,
-	<Thinh.Nguyen@synopsys.com>,
-	<broonie@kernel.org>,
-	<bgoswami@quicinc.com>,
-	<tiwai@suse.com>,
-	<robh+dt@kernel.org>,
-	<konrad.dybcio@linaro.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v14 20/53] ASoC: Add SOC USB APIs for adding an USB backend
-In-Reply-To: <b007a78c-b8fb-83bc-3be6-963708182cee@quicinc.com>
-References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
-	<20240208231406.27397-21-quic_wcheng@quicinc.com>
-	<87r0hl29ha.wl-tiwai@suse.de>
-	<b007a78c-b8fb-83bc-3be6-963708182cee@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b="fcmXXufi"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dc6d8f31930so1336920276.0
+        for <linux-doc@vger.kernel.org>; Sat, 10 Feb 2024 00:13:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umich.edu; s=google-2016-06-03; t=1707552797; x=1708157597; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Glo99Q4rZ224bZIULXqWRKYAJ1UBUwAAGaeNDMYK3aY=;
+        b=fcmXXufiGwJTBnjMxw87JvxkGnPhQdK+m7Ywu2uCCCwlUKInTHch4pKP1abDg54s+q
+         sowiXrsCogHCiRjiNwp5MktcZXaWhCl342/Smihu5ZguRpCOWNsq8zz7dyCPse+qVgqY
+         rgy82FTEdnK79lpCCCAlJ2C4HisoADhp8oJ9Qe2x6SkQW0SlK2yrAAS7hNAbwz8sEKyH
+         qpz4bYXMlkFdXha5+r1LiXMZsXWNrSCkEft8VoDsC9fWYZ0OBs80hCsMKc6pTLxek4mO
+         yHEubhJJU2mZAQrhg98b88j8GH+ajhCOOiIX+7qZ97DUTi9wGt7tZo0gA8UfYD4O90ej
+         LCZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707552797; x=1708157597;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Glo99Q4rZ224bZIULXqWRKYAJ1UBUwAAGaeNDMYK3aY=;
+        b=kRLToswpMwKRem/GKjyTg6nfOzDMExWS6omOy2cnwL9WgqsWodVFKbgdrehhfZ0E6O
+         Hb4hr2Qlqz7eMrji8JKHysCjfVYIYWznkzoQmNHnEGmVhx5TcRKyQ1A0qmpqE82z561u
+         z1cjfG9tGrUudn00TAKvNOI7Xqxu9RKeJx09iUsqTXa/+qTfU1ebYveVI1ykdsrQKi4n
+         FGbKHWVHan2bQuLGhQ7OAFyMmSOg5E57ru7smaCu/CZ+ykweeQsB5/cjkBLbTicE0tM5
+         SdvWvi+X2Gehv9iWKpA305r4NqqkRMT2UpVK5DKNsqKWUmwMyv9kd0TEv36TZ0IokiRz
+         05hw==
+X-Gm-Message-State: AOJu0YxFmUFTmhvSEuhMuEy6xU1Z23viAPrDCmGH62iKNFD2BKe/YkPc
+	LPWJUwz676Q4xGhpSTxBdJxLxIcy4N4op/4zB5qLXWl3Cau7VmOQYj+K5+YnRVR/AaTVUxrKcjk
+	NYeHjIcOjvzw6hx+w3tNj1OopGWktQ6J23GuX1A==
+X-Google-Smtp-Source: AGHT+IF4tUvf6ttwQdM3xfeC1VlLijJBFO5NkKyzXeExzVFNvP7Fl5D8PP7Tfno5g/OaAlhCpe9aPfGgUUtsjZouSLw=
+X-Received: by 2002:a25:7c02:0:b0:dc2:201a:7f1a with SMTP id
+ x2-20020a257c02000000b00dc2201a7f1amr2506701ybc.30.1707552796867; Sat, 10 Feb
+ 2024 00:13:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ZTWz1/eC";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xJIBcXYS
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLe67txhfobum3fqdb5xx8e3au)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[dt];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[23];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,quicinc.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: 5A6711F871
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <20240117-swiftly-parasail-618d62972d6e@spud> <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
+ <20240118-implode-delirium-eefdd86e170e@spud> <CANiq72nx1s_nyvPW86jL7eiOxROr18LfOJqNtw8L42CP+gkhRg@mail.gmail.com>
+ <20240125-bucked-payroll-47f82077b262@wendy> <CANiq72k7n0aZrifRRU08N8qLkNe+2EZwijZy5sM7M56n2xYHgQ@mail.gmail.com>
+ <20240125-lazy-thrower-744aacc6632a@wendy> <CANiq72kb+_utZrYHtoKZQtQazikmkjpVUHpTBcaANizduMF5QQ@mail.gmail.com>
+ <20240126-eccentric-jaywalker-3560e2151a92@spud> <CANiq72nu2NXUWYanHZd5EXgX4P_v673EWn6SCRW60Es9naraQQ@mail.gmail.com>
+ <20240209-rage-keg-1b2982cd17d9@spud>
+In-Reply-To: <20240209-rage-keg-1b2982cd17d9@spud>
+From: Trevor Gross <tmgross@umich.edu>
+Date: Sat, 10 Feb 2024 02:13:06 -0600
+Message-ID: <CALNs47sRqAbE=u3=_ciO2oge7Afz-6GBBhW+BwcLRET-TsuxTg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
+To: Conor Dooley <conor@kernel.org>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, linux-riscv@lists.infradead.org, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	Matthew Maurer <mmaurer@google.com>, Ramon de C Valle <rcvalle@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 09 Feb 2024 21:34:39 +0100,
-Wesley Cheng wrote:
-> 
-> Hi Takashi,
-> 
-> On 2/9/2024 2:54 AM, Takashi Iwai wrote:
-> > On Fri, 09 Feb 2024 00:13:33 +0100,
-> > Wesley Cheng wrote:
-> >> 
-> >> Some platforms may have support for offloading USB audio devices to a
-> >> dedicated audio DSP.  Introduce a set of APIs that allow for management of
-> >> USB sound card and PCM devices enumerated by the USB SND class driver.
-> >> This allows for the ASoC components to be aware of what USB devices are
-> >> available for offloading.
-> >> 
-> >> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> > (snip)
-> >> --- a/sound/soc/Makefile
-> >> +++ b/sound/soc/Makefile
-> >> @@ -1,5 +1,5 @@
-> >>   # SPDX-License-Identifier: GPL-2.0
-> >> -snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-utils.o soc-dai.o soc-component.o
-> >> +snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-usb.o soc-utils.o soc-dai.o soc-component.o
-> >>   snd-soc-core-objs += soc-pcm.o soc-devres.o soc-ops.o soc-link.o soc-card.o
-> >>   snd-soc-core-$(CONFIG_SND_SOC_COMPRESS) += soc-compress.o
-> > 
-> > Do we really want to build this into ASoC core unconditionally?
-> > This is very specific to Qualcomm USB-offload stuff, so it's better to
-> > factor out.
-> > 
-> 
-> Ideally, the SOC USB part shouldn't be Qualcomm specific.  Since I
-> don't have access or insight into how other vendors are achieving the
-> same thing, I can only base the soc-usb layer to work with the
-> information that is required to get the audio stream up and running on
-> the QC platforms.  In its simplest form, its basically just a SW
-> entity that notifies ASoC components about changes occurring from USB
-> SND, and I think all vendors that have an ASoC based platform card
-> handling the offload will need this notification.
+On Fri, Feb 9, 2024 at 9:18=E2=80=AFAM Conor Dooley <conor@kernel.org> wrot=
+e:
+>
+> On Sat, Jan 27, 2024 at 02:46:38PM +0100, Miguel Ojeda wrote:
+> > On Fri, Jan 26, 2024 at 11:01=E2=80=AFPM Conor Dooley <conor@kernel.org=
+> wrote:
+> > >
+> > > Is that even needed? We already have ARCH_SUPPORTS_CFI_CLANG and AFAI=
+U
+> > > rust supports it if clang does, so a second option is superfluous?
+> >
+> > From a quick look, I don't see it enabled in any RISC-V built-in
+> > target in `rustc` yet.
+> >
+> > It may also still be the case that KCFI needs some tweaks for, say,
+> > RISC-V, before the flag actually works, i.e. we couldn't just test the
+> > flag in that case -- Ramon: how likely is it that RISC-V would work if
+> > KCFI works for aarch64 and x86_64?
+>
+> Well, there's been no reply here. I'll do sa you suggested and add a
+> depends on !CFI_CLANG to RUST.
+>
+> Cheers,
+> Conor.
+>
 
-Yes, but it's not necessarily built into the snd-soc-core module at
-all, but can be split to another module, right?  Otherwise all
-machines must load this code even if it doesn't use at all.
-If this were common among various chips, it'd be worth to be merged
-into the default common module.  But I don't think that's the case.
+I asked on Zulip and it sounds like Ramon may be out [1]. It
+_probably_ works, but going with a dependency to not be blocked on
+KCFI is probably reasonable for now.
 
+- Trevor
 
-thanks,
-
-Takashi
+[1]: https://rust-lang.zulipchat.com/#narrow/stream/343119-project-exploit-=
+mitigations/topic/KCFI.20on.20RISC-V.20questions
