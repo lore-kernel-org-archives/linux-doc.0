@@ -1,186 +1,197 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C127525B
-	for <linux-doc@vger.kernel.org>; Sat, 10 Feb 2024 04:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3098B23DB;
+	Sat, 10 Feb 2024 08:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707538809; cv=none; b=IXeux+NY5jRJspd2Sbicg9VLNX1dIEY3Ovdt2IdV0IsTMJovZZh/ycWTI3FyaGQssoRvfibEvpIhckqg3I8n6XEbXRZ5XrZKnN2JcRkckIVs5gy2y6kVLOTyenAFebK+oGx4DZv8gfGFl3gvvafdk3DhAjVgTvH5Zi0Vw83XhzE=
+	t=1707552521; cv=none; b=OwGFxKA5M57o6TbtJYLLJec8nayWveFq4/A6TXx5fMIUV1lkxPDn1dlbXvWhAqlqi4MiqJoaDXXlIJu1EDfGu8RvX6Y6aA5fhx5x/uaJPaXGG7UZiCvxF3S4YRJfX80Z9IoTP12Y1wL1dGzmSKMHCnureubc92+3q6WPk8ThUt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707538809; c=relaxed/simple;
-	bh=MI1UER5k/zVC0RgJ6mRH32EW0jN5U9Mp1biZX1Oxpww=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KNfc/qvMc8qco19d3tBG/ym9Fkk9UOtVrJF4xcz4x1f9kRccyZgGKZPIVdoxl1iV9XzQ7ZnxWlfKbqL7N96eYPMQqBqWxVELZUduQEbcBf7J0ABTzowhmRjLhaQ6S2IPNwj/Bvc5WSEqcRIXm8o+iFi6KmG7YUWjjcAGWhtvhh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=imJ6G0w/; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1707552521; c=relaxed/simple;
+	bh=F8DGyIH//SMvI1ax+96o/ObM1ZtA0zzCYF6zYzURkuY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VhCY1L1lQi+MdjZS2jWDSFdycXNRwKP6xvGQD9BN6rFJ46d/6ijPOmZjlHzIeZsrJVepws8kchAfqha3LIIX59Sh/XEIaNfdRXHG05bJsHTw+vOXcb0JV42fnPdjdVE2aDEMqgRdN8OVNE7xmZkxnrmohCXGCl6VehNhjxbGRIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KJoW4J71; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DALLQMtL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZTWz1/eC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xJIBcXYS; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="imJ6G0w/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707538806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qj8awdQxCDQMdFFZH7GYC8xsn8ZodHraAX8/7iY9PS8=;
-	b=imJ6G0w/QGERiOQ5AUw6bzxPNELeat741mP5tj4ehBSBDTD4aArfki46RujhYk7dYz3QKq
-	dZe/4ylpYYVRfaK9w7GITrxAs5X3mcSf/lx8dgIAy7jC9EXJEah71iHbqPg3XA7uqhl9cL
-	dD2MS+FRvvNHznkE45WTZBc5fJHtdNs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-589-1Up1vlD4PW-fA4xNBnYDpQ-1; Fri, 09 Feb 2024 23:20:02 -0500
-X-MC-Unique: 1Up1vlD4PW-fA4xNBnYDpQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KJoW4J71";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DALLQMtL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZTWz1/eC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xJIBcXYS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2213E185A780;
-	Sat, 10 Feb 2024 04:20:01 +0000 (UTC)
-Received: from [10.22.17.112] (unknown [10.22.17.112])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9B6762166B31;
-	Sat, 10 Feb 2024 04:19:58 +0000 (UTC)
-Message-ID: <b6e6454a-d08f-4a71-b546-16cf3e2b88a5@redhat.com>
-Date: Fri, 9 Feb 2024 23:19:58 -0500
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5A6711F871;
+	Sat, 10 Feb 2024 08:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707552517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
+	b=KJoW4J71U9ZLJ7gO2a8d/PIy4nhqzxY0s2zlnSK3EfY+kPyH4g9TEVPDrbfiXtcc/TIc19
+	rBz1R3rMMqHBFpfdklsVYAvJUBGeIBd1yEeUbyG+S4pvPUI3SlQWCdSERiYlNcqQK8aMbi
+	FLTcGWIGmoltnHEJ9DbUUfL3K59u3Cs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707552517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
+	b=DALLQMtLxjWwWSgCINWrel5oJJeUceaqE4HtJb6m4CQza+kjwh0s/IV8ugvQhrrR/EzT5b
+	Us/14GhwwZ1wBUAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707552515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
+	b=ZTWz1/eCrW4xLIfHtnBLB6BnNE2Hyv+DpxtveF0h6zNq9n2cM02p5thixj/s3MPSNtnQ1z
+	oWVlRIw4qVHxPrc9pXXKeC739EKUY3jDKS0izOgEk9N/+8AYvkDEcvuryy8bu1Wg0PaJqU
+	w8ZfhTZZRJjf5urEpo/4ELDawf/K784=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707552515;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zlZxIUNjuMw/gmtQRSWgnNoi6CtpoNOtj4J6OuXVIjg=;
+	b=xJIBcXYSPUlRFsJAH686aURuAcIgKNqRNMW8Sp8PsxJ1wmcHs6/sbp65Meumml9uDAWSPz
+	lg4vL/0gbcQppkBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A58C613867;
+	Sat, 10 Feb 2024 08:08:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dyCTJgIvx2VMcQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 10 Feb 2024 08:08:34 +0000
+Date: Sat, 10 Feb 2024 09:08:34 +0100
+Message-ID: <875xywzqpp.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: <srinivas.kandagatla@linaro.org>,
+	<mathias.nyman@intel.com>,
+	<perex@perex.cz>,
+	<conor+dt@kernel.org>,
+	<corbet@lwn.net>,
+	<lgirdwood@gmail.com>,
+	<andersson@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>,
+	<gregkh@linuxfoundation.org>,
+	<Thinh.Nguyen@synopsys.com>,
+	<broonie@kernel.org>,
+	<bgoswami@quicinc.com>,
+	<tiwai@suse.com>,
+	<robh+dt@kernel.org>,
+	<konrad.dybcio@linaro.org>,
+	<linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>,
+	<linux-arm-msm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>
+Subject: Re: [PATCH v14 20/53] ASoC: Add SOC USB APIs for adding an USB backend
+In-Reply-To: <b007a78c-b8fb-83bc-3be6-963708182cee@quicinc.com>
+References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
+	<20240208231406.27397-21-quic_wcheng@quicinc.com>
+	<87r0hl29ha.wl-tiwai@suse.de>
+	<b007a78c-b8fb-83bc-3be6-963708182cee@quicinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/8] cgroup/cpuset: Support RCU_NOCB on isolated
- partitions
-Content-Language: en-US
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <quic_neeraju@quicinc.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Shuah Khan <shuah@kernel.org>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
- Ryan Phillips <rphillips@redhat.com>, Brent Rowsell <browsell@redhat.com>,
- Peter Hunt <pehunt@redhat.com>, Cestmir Kalina <ckalina@redhat.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Alex Gladkov <agladkov@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Phil Auld <pauld@redhat.com>, Paul Gortmaker <paul.gortmaker@windriver.com>,
- Daniel Bristot de Oliveira <bristot@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Costa Shulyupin <cshulyup@redhat.com>
-References: <20240117163511.88173-1-longman@redhat.com>
- <ZagJPoEsLZ6Dg-NG@mtj.duckdns.org>
- <5ee5bf79-6cdc-4d1b-a19f-f0d5165a5f16@redhat.com>
- <ZcIsd6fjgmsb2dxr@localhost.localdomain>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <ZcIsd6fjgmsb2dxr@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ZTWz1/eC";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xJIBcXYS
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 R_RATELIMIT(0.00)[to_ip_from(RLe67txhfobum3fqdb5xx8e3au)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-3.00)[100.00%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[dt];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[23];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,quicinc.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Score: -3.01
+X-Rspamd-Queue-Id: 5A6711F871
+X-Spam-Flag: NO
 
-On 2/6/24 07:56, Frederic Weisbecker wrote:
-> Le Wed, Jan 17, 2024 at 12:15:07PM -0500, Waiman Long a écrit :
->> On 1/17/24 12:07, Tejun Heo wrote:
->>> Hello,
->>>
->>> On Wed, Jan 17, 2024 at 11:35:03AM -0500, Waiman Long wrote:
->>>> The first 2 patches are adopted from Federic with minor twists to fix
->>>> merge conflicts and compilation issue. The rests are for implementing
->>>> the new cpuset.cpus.isolation_full interface which is essentially a flag
->>>> to globally enable or disable full CPU isolation on isolated partitions.
->>> I think the interface is a bit premature. The cpuset partition feature is
->>> already pretty restrictive and makes it really clear that it's to isolate
->>> the CPUs. I think it'd be better to just enable all the isolation features
->>> by default. If there are valid use cases which can't be served without
->>> disabling some isolation features, we can worry about adding the interface
->>> at that point.
->> My current thought is to make isolated partitions act like isolcpus=domain,
->> additional CPU isolation capabilities are optional and can be turned on
->> using isolation_full. However, I am fine with making all these turned on by
->> default if it is the consensus.
-> Right it was the consensus last time I tried. Along with the fact that mutating
-> this isolation_full set has to be done on offline CPUs to simplify the whole
-> picture.
->
-> So lemme try to summarize what needs to be done:
->
-> 1) An all-isolation feature file (that is, all the HK_TYPE_* things) on/off for
->    now. And if it ever proves needed, provide a way later for more finegrained
->    tuning.
-That is more or less the current plan. As detailed below, HK_TYPE_DOMAIN 
-& HK_TYPE_WQ isolation are included in the isolated partitions by 
-default. I am also thinking about including other relatively cheap 
-isolation flags by default. The expensive ones will have to be enabled 
-via isolation_full.
->
-> 2) This file must only apply to offline CPUs because it avoids migrations and
->    stuff.
-Well, the process of first moving the CPUs offline first is rather 
-expensive. I won't mind doing some partial offlining based on the 
-existing set of teardown and bringup callbacks, but I would try to avoid 
-fully offlining the CPUs first.
->
-> 3) I need to make RCU NOCB tunable only on offline CPUs, which isn't that much
->     changes.
->
-> 4) HK_TYPE_TIMER:
->     * Wrt. timers in general, not much needs to be done, the CPUs are
->       offline. But:
->     * arch/x86/kvm/x86.c does something weird
->     * drivers/char/random.c might need some care
->     * watchdog needs to be (de-)activated
->     
-> 5) HK_TYPE_DOMAIN:
->     * This one I fear is not mutable, this is isolcpus...
+On Fri, 09 Feb 2024 21:34:39 +0100,
+Wesley Cheng wrote:
+> 
+> Hi Takashi,
+> 
+> On 2/9/2024 2:54 AM, Takashi Iwai wrote:
+> > On Fri, 09 Feb 2024 00:13:33 +0100,
+> > Wesley Cheng wrote:
+> >> 
+> >> Some platforms may have support for offloading USB audio devices to a
+> >> dedicated audio DSP.  Introduce a set of APIs that allow for management of
+> >> USB sound card and PCM devices enumerated by the USB SND class driver.
+> >> This allows for the ASoC components to be aware of what USB devices are
+> >> available for offloading.
+> >> 
+> >> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> > (snip)
+> >> --- a/sound/soc/Makefile
+> >> +++ b/sound/soc/Makefile
+> >> @@ -1,5 +1,5 @@
+> >>   # SPDX-License-Identifier: GPL-2.0
+> >> -snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-utils.o soc-dai.o soc-component.o
+> >> +snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-usb.o soc-utils.o soc-dai.o soc-component.o
+> >>   snd-soc-core-objs += soc-pcm.o soc-devres.o soc-ops.o soc-link.o soc-card.o
+> >>   snd-soc-core-$(CONFIG_SND_SOC_COMPRESS) += soc-compress.o
+> > 
+> > Do we really want to build this into ASoC core unconditionally?
+> > This is very specific to Qualcomm USB-offload stuff, so it's better to
+> > factor out.
+> > 
+> 
+> Ideally, the SOC USB part shouldn't be Qualcomm specific.  Since I
+> don't have access or insight into how other vendors are achieving the
+> same thing, I can only base the soc-usb layer to work with the
+> information that is required to get the audio stream up and running on
+> the QC platforms.  In its simplest form, its basically just a SW
+> entity that notifies ASoC components about changes occurring from USB
+> SND, and I think all vendors that have an ASoC based platform card
+> handling the offload will need this notification.
 
-HK_TYPE_DOMAIN is already available via the current cpuset isolated 
-partition functionality. What I am currently doing is to extend that to 
-other HK_TYPE* flags.
+Yes, but it's not necessarily built into the snd-soc-core module at
+all, but can be split to another module, right?  Otherwise all
+machines must load this code even if it doesn't use at all.
+If this were common among various chips, it'd be worth to be merged
+into the default common module.  But I don't think that's the case.
 
 
->
-> 6) HK_TYPE_MANAGED_IRQ:
->     * I prefer not to think about it :-)
->
-> 7) HK_TYPE_TICK:
->     * Maybe some tiny ticks internals to revisit, I'll check that.
->     * There is a remote tick to take into consideration, but again the
->       CPUs are offline so it shouldn't be too complicated.
->
-> 8) HK_TYPE_WQ:
->     * Fortunately we already have all the mutable interface in place.
->       But we must make it live nicely with the sysfs workqueue affinity
->       files.
+thanks,
 
-HK_TYPE_WQ is basically done and it is going to work properly with the 
-workqueue affinity sysfs files. From the workqueue of view, HK_TYPE_WQ 
-is currently treated the same as HK_TYPE_DOMAIN.
-
->
-> 9) HK_FLAG_SCHED:
->     * Oops, this one is ignored by nohz_full/isolcpus, isn't it?
->     Should be removed?
-I don't think HK_FLAG_SCHED is being used at all. So I believe we should 
-remove it to avoid confusion.
->
-> 10) HK_TYPE_RCU:
->      * That's point 3) and also some kthreads to affine, which leads us
->       to the following in HK_TYPE_KTHREAD:
->
-> 11) HK_FLAG_KTHREAD:
->      * I'm guessing it's fine as long as isolation_full is also an
->        isolated partition. Then unbound kthreads shouldn't run there.
-
-Yes, isolation_full applies only to isolated partitions. It extends the 
-amount of CPU isolation by enabling all the other CPU available 
-isolation flags.
-
-Cheers,
-Longman
-
+Takashi
