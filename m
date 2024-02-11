@@ -1,81 +1,98 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91301E506;
-	Sun, 11 Feb 2024 12:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C090B2AE74;
+	Sun, 11 Feb 2024 16:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707656073; cv=none; b=VYSFKHg9tReL+v8tl1/gL3uXLFmL9BJHWvYOSvZaBHU9MofkIjjuu3LewOhpih5vrHgvd4Mv6xdAn8tM29AfzGQWsP8exDihTipKCs+nJemvXBJ13mPhc3nZEPuXpB20cM8T0G5fKN9ybfdOH/cxc4EpmmueEBIi2/McZXAfTKE=
+	t=1707667321; cv=none; b=nYsiogJvSdZ46USkK6ZVMdc3BNWx/5ExRxIpIKOUV9TMW1pw9M1n65NgP97tBP8o+eUvT5MtpEL1hs1Mu6DVeHVSoIiypsuyAzmVkvDcRYKSYMFiBIB4UWtHV+eyyCkI8fYBysbhASp0rUci+j/XO7Yn84NuHx3rZLzrMlawT6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707656073; c=relaxed/simple;
-	bh=C+XQXwDD9N8THlo39OomPFlzmvWu4gIgQwLvf2U+jCc=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=W3k7iCJdcqY509MuG08oD1m9m95pN3fr0BXFe+BH7Va4pr91C9D3PHFgAc3FPd0JurHOqPNOf9xdjSbgb951TnzxTo2++5ZREDYBJpQ1yduv5ToMBvrL2+rvTTw4Xpw/g9lMXLnNiiuja/Xp7Jr+4Ib2+rHTI75KYHVsbFXE+Ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j63qDuSn; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1707667321; c=relaxed/simple;
+	bh=iC+JbRILc1eLrWSfxvm521SmQ6znWeU6jUzyc+yCpCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MmjNJlrn4TBY8LRWXe8kvQSrJJpWn79T5N8Vl6eg7AjbpmTZ5G7PJ5wjyzMZecIFI6k3vyayNV34gop1ryLIHSOBMOmTQUWNanpYOtgo7G61ijqFuOWp5o6PI03nh2cf5F6w3SJQeJZw7wo9qzZy6r/7o3dZo5Lb1uftnrKCWxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=kd86+i6P; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j63qDuSn"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5cddc5455aeso1672066a12.1;
-        Sun, 11 Feb 2024 04:54:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707656071; x=1708260871; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:in-reply-to
-         :message-id:cc:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C+XQXwDD9N8THlo39OomPFlzmvWu4gIgQwLvf2U+jCc=;
-        b=j63qDuSnVUCw6eQMZLFHni/B0vwSKfJLfXTFb3Q46iffr1O1wrKX1ayueeHMQBvRJt
-         Kn+4qjgft1k2MITt2+ncRn07w4fKhmw/q9GbNN2b8cwXBiirWTLld7vCQscamRpAhewM
-         rv8Yk+vjbjVSMyAZOmgsCmwyG82XwRkTyPAJ6qoViRIIC89xgb5udPNIp9+544c8A2tW
-         25O8UZD1TdkYsnafHANRySyM3OrPLs+DXgScXUesTAL1lVv3zoeNJJjg7zbYCY14r5t+
-         k27JM65R0ToflLcxKpQAHA8S1+7/t6TiYMeuLAMwHhCREXuUawRtEtSi4YWTdMDCMtd3
-         H+qA==
+	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="kd86+i6P"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1d91397bd22so18614095ad.0;
+        Sun, 11 Feb 2024 08:01:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707656071; x=1708260871;
-        h=content-transfer-encoding:mime-version:subject:in-reply-to
-         :message-id:cc:to:from:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=C+XQXwDD9N8THlo39OomPFlzmvWu4gIgQwLvf2U+jCc=;
-        b=VFs5Ap/WpiBFGo0tUFtpkpFX1taXu5dOXJrwMmVcVRTNO9FMAGE/jiFjJvaU0gfMiL
-         Lll1DuxljCi3PHACw0237mmaPVg9woeCBuCE4AUnyE12idQfwyrSqvuYIDZnMWDJeMqg
-         KkYZMQ1iAbMqOpBoEe+Li0l3ICKKmAxZHcCy8wxht0IP8LZHZniKlG701QED7rTge9Zm
-         rlclBc0IAxKp7Et/c2n6OSCRHqKXmomRm272tlPKe1P63OfMst+xjEFv1XuKc0SwMiOV
-         2UKYarWRaKZ3irfNhtFuycz4NwIKBC2OY4Gccq4XESaJGJWQwQT2ftYTbuZQsAQ4IP7H
-         4v3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXDGvlCRfVofStDUasRip1vI7Bsi97lnMd1WdIAvrldPNPkxWS3850FyTky+kPU3Lf3tfWeyR9ZLaxLmRoRlh8oAe6O4WuKFlQiSZ0pVmJidjzngoOZtyD3e0D/zClACTWQyouLAPcOjIvUJ9xTEwLwYRnKpTqVov8qWPKXERA2wTW2
-X-Gm-Message-State: AOJu0YxPi2d/ENrAQrr3LwSXF/TGyJR35ORovpIA6LZqKLvO6cI3StPy
-	7DWCtPa51Q2o1nvyX3aXt5/9156T7lXAXe4wYcMO2qetYcPF2s3O
-X-Google-Smtp-Source: AGHT+IEx1P+gJ/HEVuA6gr921gTOXVlkSkMwk8B77f7YKCvdF4xrlA6DRHKgxZEuCTaD0dpvKYOlsg==
-X-Received: by 2002:a05:6a20:d707:b0:19e:3c4e:d0f8 with SMTP id iz7-20020a056a20d70700b0019e3c4ed0f8mr3281418pzb.32.1707656071274;
-        Sun, 11 Feb 2024 04:54:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWY5o7/De9dzWdddJ0uWaxsYvSfYmI93GrIZshPkMOg98hR2Ewgh+N8tlMIWon2t5WKBja2k6RzOgapRhA67+YmgWLNIYMgdSz3l7Aq43EMQnQvgQN9LWrcsMXZehIMOZLpxSc+75AFa/3IyfQGVrsNLSDLS3mBZzDO/yz/rNj/DnyrxEFSBI/cuA4S+gV61zQ9HVVbyZN1mPK1uxw02WUyfab1OzprjNy39YS5oH4alMyq9+Hms1eLApdyraw68L1Ex3dgr5ACAreM3mNLo5KRlp/08l0sWATZV+UT3zkW4t/3HTFu4fo=
-Received: from [127.0.0.1] ([106.221.237.147])
-        by smtp.gmail.com with ESMTPSA id ja15-20020a170902efcf00b001d9fc6cb5f2sm4280038plb.203.2024.02.11.04.54.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Feb 2024 04:54:30 -0800 (PST)
-Date: Sun, 11 Feb 2024 18:24:24 +0530 (GMT+05:30)
-From: Shresth Prasad <shresthprasad7@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	shresthprasad7@gmail.com, skhan@linuxfoundation.org
-Message-ID: <74d67b62-6fa4-4218-b51f-f0d33f19c422@gmail.com>
-In-Reply-To: <2024021159-banner-dramatic-af88@gregkh>
+        d=1e100.net; s=20230601; t=1707667319; x=1708272119;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=enTZ7yPBGcyh9V3V7UZj+oDbi/s8GRugq5pckUIXny8=;
+        b=Lsi2n8fUYSycq35aGCiYgG3oetK2eBoKZQsWl5GCsggl+GvhTG5F95p6/uNnP0joLt
+         +ch3u2qZKLjiF8eRImimey6q1GkJXcX9IjvFUD/8UKXkz+nJkT/max8Ef+s5BY/4EQgm
+         JJK/QoPGs21vNpa9gGihJhpuL/PMh9CXMm1y0cJ4lGNjifdn+EdDJKFSmcbZgJlr1IOu
+         tfNZ2e6n2sEBhuTfpISpSnwkB+aDq7H+f74rYn7TGubFNdgpOtJFyG8JsNrwTXr1B2cN
+         Vm7hETHx+TQ7e1yuibQf/Fs/rIdyGcz5GNUuu+IFj2pQoJUf8KM9UaerooMj9XHHhY/R
+         rPng==
+X-Gm-Message-State: AOJu0YzQJM/biJEBb6Kwvq4/hACAKS/seZEQ2GP/tC1A5FzxB8+kbOh1
+	8BEia+oFJNowbdx82k7qEsS3FCZwpb1EB2zTlUCj90nuDfYby5Rd5jhi2vlMUMIPVg==
+X-Google-Smtp-Source: AGHT+IGV6aw/103BpNKJyhhVIc2nslgu+kV7vfCuKhF1hSUzTLM7MV8eSROCrqi5pl6aV7pDmBVKIw==
+X-Received: by 2002:a17:902:b906:b0:1da:1e83:b961 with SMTP id bf6-20020a170902b90600b001da1e83b961mr3286505plb.63.1707667319031;
+        Sun, 11 Feb 2024 08:01:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX5AlRHgfc4qix+2oX3sHxdq09tV/fuUxgBjPdxnMGHBzofdopUGDqP7OtWc1y072phEhcCpPSF3p/b0/sJ1eAJ0vbSxpJSdTDAqj0P9Yk7zE26V6Q+TOySsExAu8Z7k4XGmcTBUS5ye8SnXURL0mCVpE3HoZ2FBMGKf7bPRzXkN3dqBmWNNPwRFTwAjqr9aeNxODTVEBbF4f+SGqyLKx1zQd3XjkNxhViIfzAGgVqf3WdAvmt5w49FHstkkBz0hwILQ0/dDbrCseLKCxyc7re/iZ5WsuyC52UbUrS2xw==
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id o3-20020a170902d4c300b001d987771271sm4418503plg.123.2024.02.11.08.01.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Feb 2024 08:01:58 -0800 (PST)
+Date: Sun, 11 Feb 2024 13:02:34 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+	s=2024; t=1707667316;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=enTZ7yPBGcyh9V3V7UZj+oDbi/s8GRugq5pckUIXny8=;
+	b=kd86+i6P8fyNFqDFvEkSzF819/p9sP+e3B2DuIHzeK1gERxnVQkkmEfwsMKwQENXP9bsmq
+	j5YJsZbTlxFZrVBqmkAzYee1wBM/1e6lQsaBT4RKIlnkgmjM8EmOzSd5WAIvumiHtgwJ7M
+	ymILgOfYS7S58PCOiKlK31QvzFyTN0tv4CZ1lzX9J4AtaZ2ftR5DJMWFLsxeLOzxCLGJnC
+	qVdVlOdynVLIr/eScILSwrajjmG9RzgLaUuUfALJRLZ0SJXXGtdSSkyDzi1JqzqtEcc2W9
+	16JbLGaKcXwzf++nOepIEskVeCnKS2WjbQ5eRWhCAIgf17ImTLQJAReLlpiF4A==
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+To: Shresth Prasad <shresthprasad7@gmail.com>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	skhan@linuxfoundation.org
 Subject: Re: [PATCH] Fix malformed table error in gadget-testing.rst
+Message-ID: <qhnapkrcmqvpagzii46be362iyaelcbodo6vh7v3sem3ww5kpl@nw65w7gbyjij>
+References: <2024021159-banner-dramatic-af88@gregkh>
+ <74d67b62-6fa4-4218-b51f-f0d33f19c422@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Correlation-ID: <74d67b62-6fa4-4218-b51f-f0d33f19c422@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <74d67b62-6fa4-4218-b51f-f0d33f19c422@gmail.com>
 
-I see, sorry about that. I will try some other way to fix the error.
+Hi Shresth,
 
-Also, as mentioned in this thread: https://lore.kernel.org/all/877cjqa5le.fsf@meer.lwn.net/ has the patch already been applied, fixing the issue?
+On 11 Feb 18:24, Shresth Prasad wrote:
+> I see, sorry about that. I will try some other way to fix the error.
+> 
+> Also, as mentioned in this thread: https://lore.kernel.org/all/877cjqa5le.fsf@meer.lwn.net/ has the patch already been applied, fixing the issue?
 
-Regards,
-Shresth
+Yes, that seems to be the case. In the future, make sure to split your
+patches into individual "logical" changes. In this case you would have
+one patch to fix the warnings and another to change tabs to space (even
+though this should not be done, as you know now).
+
+Refer to https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+
+Best regards,
+-	Ricardo.
+
+
+
+> 
+> Regards,
+> Shresth
+> 
