@@ -1,119 +1,431 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A478A15B3
-	for <linux-doc@vger.kernel.org>; Sun, 11 Feb 2024 01:46:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D692659161
+	for <linux-doc@vger.kernel.org>; Sun, 11 Feb 2024 09:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707616008; cv=none; b=CfsfDMd2dHGjbS1SJuSJsbEEKGvHYl61zpJJViFvleiS8jwJVJN2NAFwIiL4m53Cs0sMF3ERadp3VmgleRt/eSaagxdcWVxy+rr8ZCl1Tug0mZX8ITi1hYFx6k+ZIVrUTTvi9QFEfJ0DwpCD7QXPWGnInFsctZ+b+SNi/s9AyI0=
+	t=1707644019; cv=none; b=fwino5ZF8fZGDD/SjcrCbvVuxbmoD6DNfR0Qw0lAUSrn6b4SOOryw9p5imKIE6ILqqVkjTd+1S6kv9iDehFf1zR0GG+5CRzjDoAMzoozX+UXRew2CsG6SUn73gVwpB6ksKHBGP8joWjMqRgvhhPfiZzx5LvlsFBQ4GvVxfq9EvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707616008; c=relaxed/simple;
-	bh=BQmjpW0I5tJ8/1nqzqWJxFSuGQt107l1mhgaSnsMkJI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h2UFF6DhbiB1Ge8f4Ddq5irnX1Qal8PdHfBz9BA96QcnFwgHF3kLk3ZJj7L2lC0Ou0p8/l2xxWnpAK5yi0nvaISBTsjfeI/iW0xl5vhbOb8J0zmxNQ0QVZKPoYglpKITjQbPaxXu+rKTee3lol70+vwOGbRX/npat3qKShpQ8QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WpISfuCO; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WpISfuCO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707616005;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fGLK4dJX5e1tF4UUiUtCFTTT+Sp7JjuwMt77i6yrPM0=;
-	b=WpISfuCO24GsuMHjjxSWXyYQCBA1IprpwdnBAHZIDj3UeW4NVOzx9fVVecy1rj9HjlhZ+7
-	I3rLhWjh1WTRKb9E1Dz6rdPdNGmfuAqc0MXzEyP1Ia8EL041qfNOG0NH8EhXY9yknLdMV9
-	fnL+FrmwKaiWTPLGQdAUdEQeEyDdzhQ=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-571-yiTLxjd_N9GMU2JQXIMtGQ-1; Sat,
- 10 Feb 2024 20:46:41 -0500
-X-MC-Unique: yiTLxjd_N9GMU2JQXIMtGQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7C7E38212CD;
-	Sun, 11 Feb 2024 01:46:40 +0000 (UTC)
-Received: from [10.22.16.18] (unknown [10.22.16.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 99E84111CD4C;
-	Sun, 11 Feb 2024 01:46:34 +0000 (UTC)
-Message-ID: <099a0310-6805-4ad5-aa99-2589e768acd6@redhat.com>
-Date: Sat, 10 Feb 2024 20:46:34 -0500
+	s=arc-20240116; t=1707644019; c=relaxed/simple;
+	bh=BPuUABTTAGyo0kD9LjEBkbMgFFFEB6Wv7K9ZPZmRtyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oF2cZCzjRUNr28TEOFBDNWyeNJCQ1e0JiGDG3nIZZZVVcsQ6foMdiFHZB15z/MSBwCI1le8Wu1ERo4UAcLKoO6Tabjl2YUOY+CICdxTyKlrWtaMCkcJSfECwIe4GCgTqF7mLCsRbYsNmzu2PCy05GHrnbB7r8HGGDT2/ugV+VJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rZ6Cl-0005cL-GU; Sun, 11 Feb 2024 10:32:55 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rZ6Cg-0004CL-LZ; Sun, 11 Feb 2024 10:32:50 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rZ6Cg-0044e9-1o;
+	Sun, 11 Feb 2024 10:32:50 +0100
+Date: Sun, 11 Feb 2024 10:32:50 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v3 14/17] dt-bindings: net: pse-pd: Add bindings
+ for PD692x0 PSE controller
+Message-ID: <ZciUQqjM4Z8Tc6Db@pengutronix.de>
+References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
+ <20240208-feature_poe-v3-14-531d2674469e@bootlin.com>
+ <20240209145727.GA3702230-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/8] cgroup/cpuset: Support RCU_NOCB on isolated
- partitions
-Content-Language: en-US
-To: paulmck@kernel.org
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Frederic Weisbecker <frederic@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Neeraj Upadhyay <quic_neeraju@quicinc.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Shuah Khan <shuah@kernel.org>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Mrunal Patel <mpatel@redhat.com>,
- Ryan Phillips <rphillips@redhat.com>, Brent Rowsell <browsell@redhat.com>,
- Peter Hunt <pehunt@redhat.com>, Cestmir Kalina <ckalina@redhat.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Alex Gladkov <agladkov@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Phil Auld <pauld@redhat.com>, Paul Gortmaker <paul.gortmaker@windriver.com>,
- Daniel Bristot de Oliveira <bristot@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Costa Shulyupin <cshulyup@redhat.com>
-References: <20240117163511.88173-1-longman@redhat.com>
- <ad806d7c-91ec-4659-9348-1b0bb42dd417@paulmck-laptop>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <ad806d7c-91ec-4659-9348-1b0bb42dd417@paulmck-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+In-Reply-To: <20240209145727.GA3702230-robh@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On 1/19/24 05:24, Paul E. McKenney wrote:
-> On Wed, Jan 17, 2024 at 11:35:03AM -0500, Waiman Long wrote:
->> This patch series is based on the RFC patch from Frederic [1]. Instead
->> of offering RCU_NOCB as a separate option, it is now lumped into a
->> root-only cpuset.cpus.isolation_full flag that will enable all the
->> additional CPU isolation capabilities available for isolated partitions
->> if set. RCU_NOCB is just the first one to this party. Additional dynamic
->> CPU isolation capabilities will be added in the future.
->>
->> The first 2 patches are adopted from Federic with minor twists to fix
->> merge conflicts and compilation issue. The rests are for implementing
->> the new cpuset.cpus.isolation_full interface which is essentially a flag
->> to globally enable or disable full CPU isolation on isolated partitions.
->> On read, it also shows the CPU isolation capabilities that are currently
->> enabled. RCU_NOCB requires that the rcu_nocbs option be present in
->> the kernel boot command line. Without that, the rcu_nocb functionality
->> cannot be enabled even if the isolation_full flag is set. So we allow
->> users to check the isolation_full file to verify that if the desired
->> CPU isolation capability is enabled or not.
->>
->> Only sanity checking has been done so far. More testing, especially on
->> the RCU side, will be needed.
-> There has been some discussion of simplifying the (de-)offloading code
-> to handle only offline CPUs.  Along with some discussion of eliminating
-> the (de-)offloading capability altogehter.
->
-> We clearly should converge on the capability to be provided before
-> exposing this to userspace.  ;-)
+On Fri, Feb 09, 2024 at 02:57:27PM +0000, Rob Herring wrote:
+> On Thu, Feb 08, 2024 at 02:08:51PM +0100, Kory Maincent wrote:
+> > Add the PD692x0 I2C Power Sourcing Equipment controller device tree
+> > bindings documentation.
+> > 
+> > Sponsored-by: Dent Project <dentproject@linuxfoundation.org>
+> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> > ---
+> > 
+> > Changes in v2:
+> > - Enhance ports-matrix description.
+> > - Replace additionalProperties by unevaluatedProperties.
+> > - Drop i2c suffix.
+> > 
+> > Changes in v3:
+> > - Remove ports-matrix parameter.
+> > - Add description of all physical ports and managers.
+> > - Add pse_pis subnode moving to the API of pse-controller binding.
+> > - Remove the MAINTAINERS section for this driver as I will be maintaining
+> >   all pse-pd subsystem.
+> > ---
+> >  .../bindings/net/pse-pd/microchip,pd692x0.yaml     | 157 +++++++++++++++++++++
+> >  1 file changed, 157 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/net/pse-pd/microchip,pd692x0.yaml b/Documentation/devicetree/bindings/net/pse-pd/microchip,pd692x0.yaml
+> > new file mode 100644
+> > index 000000000000..57ba5365157c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/net/pse-pd/microchip,pd692x0.yaml
+> > @@ -0,0 +1,157 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/net/pse-pd/microchip,pd692x0.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Microchip PD692x0 Power Sourcing Equipment controller
+> > +
+> > +maintainers:
+> > +  - Kory Maincent <kory.maincent@bootlin.com>
+> > +
+> > +allOf:
+> > +  - $ref: pse-controller.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - microchip,pd69200
+> > +      - microchip,pd69210
+> > +      - microchip,pd69220
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  managers:
+> > +    $ref: "#/$defs/managers"
+> > +    description:
+> > +      List of the PD69208T4/PD69204T4/PD69208M PSE managers. Each manager
+> > +      have 4 or 8 physical ports according to the chip version. No need to
+> > +      specify the SPI chip select as it is automatically detected by the
+> > +      PD692x0 PSE controller. The PSE managers have to be described from
+> > +      the lowest chip select to the greatest one, which is the detection
+> > +      behavior of the PD692x0 PSE controller. The PD692x0 support up to
+> > +      12 PSE managers which can expose up to 96 physical ports. All
+> > +      physical ports available on a manager have to be described in the
+> > +      incremental order even if they are not used.
+> 
+> Looks to me like you just need 3 PSE cells: <manager> <port> <A|B>
+> 
+> Really, no need for each piece of data to its own cell, so it could be 
+> merged into 1 or 2 cells.
+> 
+> But cell data is generally supposed to be meaningful to the provider and 
+> opaque to the consumer. It's not clear to me who needs to know 
+> alternative A vs. B. That seems more like a property of the PHY than the 
+> power provider? 
 
-Would you mind giving me a pointer to the discussion of simplifying the 
-de-offloading code to  handle only offline CPUs?
+This is a bit complex question, so I decided to answer it with freshly
+created documentation which should be included to this patch set:
 
-Thanks,
-Longman
+PSE Power Interface (PSE PI) Documentation
+==========================================
 
+The Power Sourcing Equipment Power Interface (PSE PI) plays a pivotal role in
+the architecture of Power over Ethernet (PoE) systems. It is essentially a
+blueprint that outlines how one or multiple power sources are connected to the
+eight-pin modular jack, commonly known as the Ethernet RJ45 port. This
+connection scheme is crucial for enabling the delivery of power alongside data
+over Ethernet cables.
+
+Documentation and Standards
+---------------------------
+
+The IEEE 802.3 standard provides detailed documentation on the PSE PI.
+Specifically:
+
+- Section "33.2.3 PI pin assignments" covers the pin assignments for PoE
+  systems that utilize two pairs for power delivery.
+- Section "145.2.4 PSE PI" addresses the configuration for PoE systems that
+  deliver power over all four pairs of an Ethernet cable.
+
+PSE PI and Single Pair Ethernet
+-------------------------------
+
+Single Pair Ethernet (SPE) represents a different approach to Ethernet
+connectivity, utilizing just one pair of conductors for both data and power
+transmission. Unlike the configurations detailed in the PSE PI for standard
+Ethernet, which can involve multiple power sourcing arrangements across four or
+two pairs of wires, SPE operates on a simpler model due to its single-pair
+design. As a result, the complexities of choosing between alternative pin
+assignments for power delivery, as described in the PSE PI for multi-pair
+Ethernet, are not applicable to SPE.
+
+Understanding PSE PI
+--------------------
+
+The Power Sourcing Equipment Power Interface (PSE PI) is a framework defining
+how Power Sourcing Equipment (PSE) delivers power to Powered Devices (PDs) over
+Ethernet cables. It details two main configurations for power delivery, known
+as Alternative A and Alternative B, which are distinguished not only by their
+method of power transmission but also by the implications for polarity and data
+transmission direction.
+
+Alternative A and B Overview
+----------------------------
+
+- **Alternative A:** Utilizes the data-carrying pairs for power transmission in
+  10/100BaseT networks. The power delivery's polarity in this alternative can
+  vary based on the MDI (Medium Dependent Interface) or MDI-X (Medium Dependent
+  Interface Crossover) configuration.
+
+- **Alternative B:** Delivers power over the spare pairs not used for data in
+  10/100BaseT networks. Unlike Alternative A, Alternative B's method separates
+  power from data lines within the cable. Though it is less influenced by data
+  transmission direction, Alternative B includes two configurations with
+  different polarities, known as variant X and variant S, to accommodate
+  different network requirements and device specifications.
+
+Table 145–3—PSE Pinout Alternatives
+-----------------------------------
+
+The following table outlines the pin configurations for both Alternative A and
+Alternative B.
+
++------------+-------------------+-----------------+-----------------+-----------------+
+| Conductor  | Alternative A     | Alternative A   | Alternative B   | Alternative B   |
+|            |    (MDI-X)        |      (MDI)      |        (X)      |        (S)      |
++============+===================+=================+=================+=================+
+| 1          | Negative V        | Positive V      | -               | -               |
++------------+-------------------+-----------------+-----------------+-----------------+
+| 2          | Negative V        | Positive V      | -               | -               |
++------------+-------------------+-----------------+-----------------+-----------------+
+| 3          | Positive V        | Negative V      | -               | -               |
++------------+-------------------+-----------------+-----------------+-----------------+
+| 4          | -                 | -               | Negative V      | Positive V      |
++------------+-------------------+-----------------+-----------------+-----------------+
+| 5          | -                 | -               | Negative V      | Positive V      |
++------------+-------------------+-----------------+-----------------+-----------------+
+| 6          | Positive V        | Negative V      | -               | -               |
++------------+-------------------+-----------------+-----------------+-----------------+
+| 7          | -                 | -               | Positive V      | Negative V      |
++------------+-------------------+-----------------+-----------------+-----------------+
+| 8          | -                 | -               | Positive V      | Negative V      |
++------------+-------------------+-----------------+-----------------+-----------------+
+
+.. note::
+    - "Positive V" and "Negative V" indicate the voltage polarity for each pin.
+    - "-" indicates that the pin is not used for power delivery in that
+      specific configuration.
+
+PSE Power Interface (PSE PI) Connection Diagram
+------------------------------------------------
+
+The diagram below illustrates the connection architecture between the RJ45
+port, the Ethernet PHY (Physical Layer), and the PSE PI (Power Sourcing
+Equipment Power Interface), demonstrating how power and data are delivered
+simultaneously through an Ethernet cable. The RJ45 port serves as the physical
+interface for these connections, with each of its eight pins connected to both
+the Ethernet PHY for data transmission and the PSE PI for power delivery.
+
+.. code-block::
+
+    +--------------------------+
+    |                          |
+    |          RJ45 Port       |
+    |                          |
+    +--+--+--+--+--+--+--+--+--+                +-------------+
+      1| 2| 3| 4| 5| 6| 7| 8|                   |             |
+       |  |  |  |  |  |  |  o-------------------+             |
+       |  |  |  |  |  |  o--|-------------------+             +<--- PSE 1
+       |  |  |  |  |  o--|--|-------------------+             |
+       |  |  |  |  o--|--|--|-------------------+             |
+       |  |  |  o--|--|--|--|-------------------+  PSE PI     |
+       |  |  o--|--|--|--|--|-------------------+             |
+       |  o--|--|--|--|--|--|-------------------+             +<--- PSE 2 (optional)
+       o--|--|--|--|--|--|--|-------------------+             |
+       |  |  |  |  |  |  |  |                   |             |
+    +--+--+--+--+--+--+--+--+--+                +-------------+
+    |                          |
+    |       Ethernet PHY       |
+    |                          |
+    +--------------------------+
+
+Simple PSE PI Configuration for Alternative A
+---------------------------------------------
+
+The diagram below illustrates a straightforward PSE PI (Power Sourcing
+Equipment Power Interface) configuration designed to support the Alternative A
+setup for Power over Ethernet (PoE). This implementation is tailored to provide
+power delivery through the data-carrying pairs of an Ethernet cable, suitable
+for either MDI or MDI-X configurations, albeit supporting one variation at a
+time.
+
+.. code-block::
+
+         +-------------+
+         |    PSE PI   |
+ 8  -----+                             +-------------+
+ 7  -----+                    Rail 1   |             
+ 6  -----+------+----------------------+             
+ 5  -----+      |                      |             
+ 4  -----+     /              Rail 2   |  PSE 1       
+ 3  -----+----´          +-------------+             
+ 2  -----+----+---------´              |             
+ 1  -----+---´                         +-------------+
+         |                                           
+         +-------------+                            
+
+In this configuration:
+
+- Pins 1 and 2, as well as pins 3 and 6, are utilized for power delivery in
+  addition to data transmission. This aligns with the standard wiring for
+  10/100BaseT Ethernet networks where these pairs are used for data.
+- Rail 1 and Rail 2 represent the positive and negative voltage rails, with
+  Rail 1 connected to pins 1 and 2, and Rail 2 connected to pins 3 and 6.
+  More advanced PSE PI configurations may include integrated or external
+  switches to change the polarity of the voltage rails, allowing for
+  compatibility with both MDI and MDI-X configurations.
+
+More complex PSE PI configurations may include additional components, to support
+Alternative B, or to provide additional features such as power management, or
+additional power delivery capabilities such as 2-pair or 4-pair power delivery.
+
+.. code-block::
+
+         +-------------+
+         |    PSE PI   |
+         |        +---+
+ 8  -----+--------+   |                 +-------------+
+ 7  -----+--------+   |       Rail 1   |             
+ 6  -----+--------+   +-----------------+             
+ 5  -----+--------+   |                |             
+ 4  -----+--------+   |       Rail 2   |  PSE 1       
+ 3  -----+--------+   +----------------+             
+ 2  -----+--------+   |                |             
+ 1  -----+--------+   |                 +-------------+
+         |        +---+                               
+         +-------------+                            
+
+Device Tree Configuration: Describing PSE PI Configurations
+------------------------------------------------------------
+
+The necessity for a separate PSE PI node in the device tree is influenced by
+the intricacy of the Power over Ethernet (PoE) system's setup. Here are
+descriptions of both simple and complex PSE PI configurations to illustrate
+this decision-making process:
+
+**Simple PSE PI Configuration:**
+In a straightforward scenario, the PSE PI setup involves a direct, one-to-one
+connection between a single PSE controller and an Ethernet port. This setup
+typically supports basic PoE functionality without the need for dynamic
+configuration or management of multiple power delivery modes. For such simple
+configurations, detailing the PSE PI within the existing PSE controller's node
+may suffice, as the system does not encompass additional complexity that
+warrants a separate node. The primary focus here is on the clear and direct
+association of power delivery to a specific Ethernet port.
+
+**Complex PSE PI Configuration:**
+Contrastingly, a complex PSE PI setup may encompass multiple PSE controllers or
+auxiliary circuits that collectively manage power delivery to one Ethernet
+port. Such configurations might support a range of PoE standards and require
+the capability to dynamically configure power delivery based on the operational
+mode (e.g., PoE2 versus PoE4) or specific requirements of connected devices. In
+these instances, a dedicated PSE PI node becomes essential for accurately
+documenting the system architecture. This node would serve to detail the
+interactions between different PSE controllers, the support for various PoE
+modes, and any additional logic required to coordinate power delivery across
+the network infrastructure.
+
+**Guidance:**
+
+For simple PSE setups, including PSE PI information in the PSE controller node
+might suffice due to the straightforward nature of these systems. However,
+complex configurations, involving multiple components or advanced PoE features,
+benefit from a dedicated PSE PI node. This method adheres to IEEE 802.3
+specifications, improving documentation clarity and ensuring accurate
+representation of the PoE system's complexity.
+
+PSE PI Node: Essential Information
+----------------------------------
+
+The PSE PI (Power Sourcing Equipment Power Interface) node in a device tree can
+include several key pieces of information critical for defining the power
+delivery capabilities and configurations of a PoE (Power over Ethernet) system.
+Below is a list of such information, along with explanations for their
+necessity and reasons why they might not be found within a PSE controller node:
+
+1. **Powered Pairs Configuration**
+   - *Description:* Identifies the pairs used for power delivery in the
+     Ethernet cable.
+   - *Necessity:* Essential to ensure the correct pairs are powered according
+     to the board's design.
+   - *PSE Controller Node:* Typically lacks details on physical pair usage,
+     focusing on power regulation.
+
+2. **Polarity of Powered Pairs**
+   - *Description:* Specifies the polarity (positive or negative) for each
+     powered pair.
+   - *Necessity:* Critical for safe and effective power transmission to PDs.
+   - *PSE Controller Node:* Polarity management may exceed the standard
+     functionalities of PSE controllers.
+
+3. **PSE Cells Association**
+   - *Description:* Details the association of PSE cells with Ethernet ports or
+     pairs in multi-cell configurations.
+   - *Necessity:* Allows for optimized power resource allocation in complex
+     systems.
+   - *PSE Controller Node:* Controllers may not manage cell associations
+     directly, focusing instead on power flow regulation.
+
+4. **Support for PoE Standards**
+   - *Description:* Lists the PoE standards and configurations supported by the
+     system.
+   - *Necessity:* Ensures system compatibility with various PDs and adherence
+     to industry standards.
+   - *PSE Controller Node:* Specific capabilities may depend on the overall PSE
+     PI design rather than the controller alone. Multiple PSE cells per PI
+     do not necessarily imply support for multiple PoE standards.
+
+5. **Protection Mechanisms**
+   - *Description:* Outlines additional protection mechanisms, such as
+     overcurrent protection and thermal management.
+   - *Necessity:* Provides extra safety and stability, complementing PSE
+     controller protections.
+   - *PSE Controller Node:* Some protections may be implemented via
+     board-specific hardware or algorithms external to the controller.
+
+
+Regards,
+Oleksij
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
