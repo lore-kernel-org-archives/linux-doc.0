@@ -1,55 +1,55 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022154CB4E
-	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 22:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4664D59C
+	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 22:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707775654; cv=none; b=lFumYs23uIVt6fuNSQ/IUuNx5C9bTv3YpW1xwwF2Hz3cGLXcyYovjViq0vZ9NPP1tXzVXGW5GfCEWEJWfRr0ooX/pIAVVbz0S1ZFpNGBXySZbEGA+P41EdHnAAMt6hhYdMH6889/kH/ImC1/nIldnhXq/52QH1PLzeQ60ywdRZs=
+	t=1707775777; cv=none; b=ivMHOLtJ0BQp3PIsXg2Rcw9C0K1qiEXvRcL5i6nN+f7kvEhE4mgxIOQAnd9fWxEITXX1NSuG2ex67EXIr+1/QZS5E4PvU/+LLTjYb9TaUHRZr341YlgGZR+uhfGTOD1pwrZS285YP/l0rkqL/WmBbBdI0lyN+mNiJcZR695gjq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707775654; c=relaxed/simple;
-	bh=o3J+H6QK+ft/jI/HQ/DmCribE5VO5VgEVrwjTsOd3+s=;
+	s=arc-20240116; t=1707775777; c=relaxed/simple;
+	bh=MLwsSr8MVdCOcLFBS21ndz8l0PLPcDhM3Y/oMOTG9R8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nF6TnhaT4l2sXjsNrnSlh9V3DgV7UmW0gGXUowO9Ck88NLQFZleoMHZaM8E4O4Qafcxb28CjYfpOPXsPD0aSO7Wn64ptxGYY4qwQ9e3tz8mb8LnF0IvZ28r+QSnWbc8PLPBygW3BvamZJzMXsI5p+aOo/EJfDiBqGXaoLJNqABQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XdtMu9WI; arc=none smtp.client-ip=209.85.161.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=TlblK/KhyvtX6ALYJZfZYqUJdB4D9hQ3AcZZvU3j6JiEUNunKEJc5u5G7CUxNUtBgy1LhOr0agb06RUYMoaNLgIaGpVIAtsy31g34Rc5EV/W+4MEtmWlLaaPn2iaTSIz6Cl8Zv7gowpVbNjIeVHHHRggmBuN5c8hDae2aED6PFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=McKPaw6D; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XdtMu9WI"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-595aa5b1fe0so2508666eaf.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 14:07:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="McKPaw6D"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e06d2180b0so3020602b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 14:09:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707775652; x=1708380452; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1707775775; x=1708380575; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8TgitNbd1mPIu/vo61kw5GTuium5jPqAU8tOs86SzdA=;
-        b=XdtMu9WIFB9uc4U8zSKaU7+In/8Xo4bXeWei2q9/eXsCtsC9kPrJ140XpB915ij5CC
-         WDYU5SG//GaarAXX6bV/HN1JAUy2rPoEDCzCeVwGRL8evFCYUezqzcft/JPRGyvYjtSj
-         Mvkn98lqNGW+hsbHMDsXH9mejpzKBqIQH+/ZQ=
+        bh=ijXS7mVIfD783iJTrvPPuV7zXdag7eKduahqAMiyRM0=;
+        b=McKPaw6DXrLHk5gwQBi14gC36WdNjtcbjXr9Th2EFwu0ozmdj7lEErt39knzyI8Xab
+         LnwmO2ExgK9SP7FJMmoMQ7RHPXTi/Ojr5ZV5bzkLM1etG1wyHznlqcwn17cJNooraMEr
+         4TUICGFhrt+cmBpJCKl5JPPp7Lwa35J06fFTY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707775652; x=1708380452;
+        d=1e100.net; s=20230601; t=1707775775; x=1708380575;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8TgitNbd1mPIu/vo61kw5GTuium5jPqAU8tOs86SzdA=;
-        b=njaBxI5JjK7onPP54QoRY85aI19xQX1/VDtaRuI+eu0cD8hoC7IN0UGwglUuGD6xvu
-         obOmwN6ptq2KnHrtHbzBf99vW3sPOnSZnqJOMB/CQ+tUOUIs5gwjgQ40GCPRnt5naNgX
-         RtrIWjXCXJiv4uofIDSPMbDJ4WgnQkW7FtwOn5TotTN9vWONPwHB/BPomj3s4nvLBlg0
-         eNe4/2M9DrsSbQoX4+frYmFohot+y9BJkvHZjzF1sMXpQqihSnWIhqEBL2kEO5dne8HO
-         SCm8KXR6u7CxWhGYANsrBrNTPEvZ05RoTuT7HAL4its4V88MxP3mU7xQIA+nqdRwgPm1
-         vtWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzzXBV5vAMokjLJvAscKt9EhF7+QwTKx+iHbOWlGRJjsfa60R5FoEfU+S2ZUNZ1n9tdatlBOIvvxb5v+V6OOZk8DAMHJ6ktOTc
-X-Gm-Message-State: AOJu0YyuvMfIRP5tYmRpnMKisL5qUgOu1sBOO9HkVrt/E2gu2i6q6iLc
-	4LGPWsY9X6H997AAtZs1aq+NWAFba2hQRorn8kVlAREB/4N3zqwCeEUcxiFmkQ==
-X-Google-Smtp-Source: AGHT+IEBoMpvF9BOMExh1vMJk+XNeXjoVJg2+jCy4pHswhoUPY0dich6Z61quUlAHQwa6lLLXH8fXg==
-X-Received: by 2002:a05:6358:5620:b0:176:b16a:f392 with SMTP id b32-20020a056358562000b00176b16af392mr12132731rwf.10.1707775652109;
-        Mon, 12 Feb 2024 14:07:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV8Gn2OxEuKk3FWjwu68UFaXsDD8RjGlM9njWSjabpecNhnMIF1qXxYsfC+/txWlVHC0uNpzndoDwf4ESht85jrpR/r/ZEAKPrZUfbCo36fTMhd5H7f89i82wLKok+ONkyckgWyvxvKZtguOZF19Lc8xEaaVmAhtDm4F98Jh5EiEU3bzhs2RJR7RX0b9EomlrTIMl2Vxf2JdkvMNlJ0310atgxvP0jRcjEz3LHTvUEeurXD9TVukzAeS1b+rDlDTNf71RARiXOdJMocjBhVxo0y425GBYWZy8HcJ3+Ewgj4Xbb5EiVCQj1rNNHF2o6HLhHP4A5G2EKni1Zp8kjTIQjZ7s2fZJ1D72MCwgSyHivTpm6mOTQtfxtt+idhBUM0KbKxWyCg7Fv1qyqxIRjf1NF3si4y72XuPquRerzGB+jFwtjZvokCokPWHXZe7fe9UFmeZqPwFzwdNYmKgzWkpfwmCqyBJbExowRztIrXkyAP1VdjX4X5Qc7dYEOmYc2WTGh3xtGJQr2Xo9EofKKCkp3mJ75b52BYwQbiQKEcmvC9ksvZybPWUZsRvCHQn+/hCuu/sVnHaFqQ2wTv1z7S/eBVKDqADDYHWqcS27arhMV3Qjz5uTY6EdWZHoxUwWBMH6jThkfIXMpBBFqDYg4U/KSoQpNzl38XKZW5h7gL6/YWlncNExg8DDgYF1aMOe7inz7E4L4FD63Iu9G9AHU8reaLM/OMt3uQXOlbrIrQE+z6JttijOLciccsYCwdIBgLeFq6N7Cw2y5pw8g/+8JUMVk=
+        bh=ijXS7mVIfD783iJTrvPPuV7zXdag7eKduahqAMiyRM0=;
+        b=L6bXw+fuGJH9KK79t3G2bv+uqXWoUC8EH7Ja2vHSZJLrUXvRyQG8UZ8zN2NAUpIX3v
+         OR5W4hETcsnYqx3ogvyfxBHXOKjCqAWoTvKv+ypeXeS/g4BqxhDNd/2Y2NYOhMmPbgUI
+         2+J0YJFS5ephd7UDg3QaUIz46SN0XQfEpYskLVC1AfY6442RRQHqN2JAAByFQDKUC04u
+         y8KIvvbf+9wpy0cPEpnV97mCPN3ywW2vtvdyD8W7f3X8RUXzhRBJnyBY90dhc+lmZaS+
+         1qFCdTEAxWR2BXvi/jjfvIVgUBP+sGsQpTETZdfF5m28ssY0vCoW4FYAMHIZJfxvR7yC
+         uwGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrtPPiJTJlZH6SHcOoWZgWs4LxAMg3ywNXHgpZo+JvKThe1/x7iDAbn/2Znbfgf9d0Fp9RnuPRyXaeACQRHdsViW8JI7S/sTAl
+X-Gm-Message-State: AOJu0YzHoQk5HzPTrPNNIoY85izvH/ED2/haWgEB+OQF108eRO2i3NYN
+	VNd22BUKFxPRaPmX2NgAem4W7K3fsqbRXgjGzvf1pzai5Gx2GoxgfAWvJN391w==
+X-Google-Smtp-Source: AGHT+IGA33xPlWYbMt4sAOWVxNiiyT8AtvIRLrUgOdMPx/2TUza3Dw0PHn4w0vzmkstDOUwhjqvlRA==
+X-Received: by 2002:a05:6a00:4b4b:b0:6e0:38bf:28ea with SMTP id kr11-20020a056a004b4b00b006e038bf28eamr9682776pfb.19.1707775775255;
+        Mon, 12 Feb 2024 14:09:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWl2GHEiI0AdIONJv9vhuo053+zvHgdgwx2XCGWS00mxsRzMcqr79bvNvUDgm4zurDDPMyzknMUHE2JzbpNpXpoosUywUuK8+h2bt63JzaaMKGW1JwFkeicTqkQnrh5yEsbUY0YSJ9KrvTBoJzdixbEQwXGnB+rBT4smOkRhcG3knPCxp5C5Jmu74qY0nq9EOrAW9CVttjK3LBzv7FXCoZ4NIj+hpsuYoReG76UiKrBEUUslqfsnPDWvWLiRaZARKurLT/uPwecyFHzGa6QZBFqZs39g9QQqpxCzlP8crYc3dvxjzW95a7CEQmZMA/pIwcZPD5PznKyfGa8Zhcgw0jBETK3W3wOxPJtobmxnoIUltdfffu2zdolE4WS8qneSd0RnuJLbI5CvSmPksggXAwQBpfSjRow/luRjT5t5fi3EKG34lljK3UsZFrf0AkYedTEG9gAWsrElOEfr7wZM5qD7lSBcnghPDc+He4vk1wG8a5maN3KWnNAGd+yJsjmlKHKiL+qgyACU3Fg05QbSZFvSZd6uhF47cH0mgzLEvbZkIOeKyDesE+6SMGVzhaye/ANoj1+hPzMhSl83im0D8wWkdtCJDUU2vzlrmLvKYfLJiddjBonHbV/5oYtsnKbHKN/bNLryZfRlo9iikMEMkFOG66/DD474EblIazqjnz+eJ2I+/Y0Ckt0lhGrr+wBx8jty7dK/PqWEs0w6x4fR57/eWmImaXyVs560HpVnn2GeDvdhGi+5z5+oWyrXLZk6iiM3POqqyDmPB1WSIt4UIf4AcFzh4CPCLUhblFuFGpuXoLl+L4J6dKCityjp3TPGWiqEsnhNWQc2mHIyvo0b0MnVXLerlFLm42viHQ9Z5HAM+GGR652A441koINmwJaGpt7XPVtNyqMHOqcfZXeHjNAEA7U5qEHKP4qfh1GXbEP2E96JLV6bsx8oqiMe2FTQg==
 Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id p2-20020aa78602000000b006e0eece1ca4sm974755pfn.4.2024.02.12.14.07.31
+        by smtp.gmail.com with ESMTPSA id b18-20020aa78712000000b006db9604bf8csm5978722pfo.131.2024.02.12.14.09.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 14:07:31 -0800 (PST)
-Date: Mon, 12 Feb 2024 14:07:31 -0800
+        Mon, 12 Feb 2024 14:09:34 -0800 (PST)
+Date: Mon, 12 Feb 2024 14:09:34 -0800
 From: Kees Cook <keescook@chromium.org>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
@@ -78,11 +78,18 @@ Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
 	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
 	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-	cgroups@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH v3 03/35] fs: Convert alloc_inode_sb() to a macro
-Message-ID: <202402121407.A6C61F37AE@keescook>
+	cgroups@vger.kernel.org, Andy Shevchenko <andy@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v3 01/35] lib/string_helpers: Add flags param to
+ string_get_size()
+Message-ID: <202402121408.5C98241E@keescook>
 References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-4-surenb@google.com>
+ <20240212213922.783301-2-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,18 +98,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240212213922.783301-4-surenb@google.com>
+In-Reply-To: <20240212213922.783301-2-surenb@google.com>
 
-On Mon, Feb 12, 2024 at 01:38:49PM -0800, Suren Baghdasaryan wrote:
+On Mon, Feb 12, 2024 at 01:38:47PM -0800, Suren Baghdasaryan wrote:
 > From: Kent Overstreet <kent.overstreet@linux.dev>
 > 
-> We're introducing alloc tagging, which tracks memory allocations by
-> callsite. Converting alloc_inode_sb() to a macro means allocations will
-> be tracked by its caller, which is a bit more useful.
+> The new flags parameter allows controlling
+>  - Whether or not the units suffix is separated by a space, for
+>    compatibility with sort -h
+>  - Whether or not to append a B suffix - we're not always printing
+>    bytes.
 > 
 > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 
-Yup, getting these all doing direct calls will be nice.
+If there is a v4, please include some short examples with the .h bit
+field documentation. It's pretty obvious right now but these kinds of
+things have a habit of growing, so let's set a good example for
+documenting the flags.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
