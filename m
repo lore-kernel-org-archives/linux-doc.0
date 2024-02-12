@@ -1,35 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC12FBF2;
-	Mon, 12 Feb 2024 09:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450D212B72;
+	Mon, 12 Feb 2024 09:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707729028; cv=none; b=okfVlMnAYxEChBSZE4Ia6ocEAMWdyAXOdcfv3jcF0eZQkhLR6njp1tqyGMHCaTgBN3GErmXM3eTH1l7jFg0y0Dtt9+7kH1U7AHcotVj8rGlB7ORwgaZ8Wl7qN8tH3Z75D5lBxqJsM88im0/hymniJ+rAQvSR3iBT3dtjmxqGv4k=
+	t=1707730474; cv=none; b=ZNE4uBnVxoPMH1rTvTr99KsOU237QuUzMOlqwjfjXEnUHH+z3hmboVEJnSvVzbrOATVX2i1do1mq9jHUq2zaLYvtuBy5AeLOaOAXoS7Lo87YR+BSG742aGClVTXnp/cor2B7+U3U7v/Tx1FdUaBJadfb2ziW7ozLkIOlA/Cw+qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707729028; c=relaxed/simple;
-	bh=KfhIfI/6BlUL8MZo9WhQL2Av61+PXGBuJ5lGrQfs7Ms=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=OvUM0kLmN9O5RtPWB1I6Qkto4ydbaJUxE7nm/HWdy6UwmSgtrLJYnJ0UB2NeEBeQRLnIxSl88xR9m6lOOPH5Do6H63ACvXAFmD2aCPOtZOxPm71oAixaI0d7BhjQIOUHi1MFK4WM3hLV6rvRJCQTeotWTKKO45Tr70LwM48Nm0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HarlmHtL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707730474; c=relaxed/simple;
+	bh=ViKQiSWcWYCkXU6A9PDOO1oKjlvMExVCKTXkGh9et6w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Hx+SStRT23HI88Om7M6wzYXUoTGKpMLMvywgFvwPQRnCZRsowPO4bj4gGZwmNmxKVb7k6GV1giv+8J/CFOlnDLdVGloR/Ch16rpwp+teIMIA5q/4McILDNA6BMxCHV6tH1vyL/2Ry7JKse8iKZuUCmiD4Sh2b4Veo7FfBoQUuSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FBI57cVj; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HarlmHtL"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E033AC43390;
-	Mon, 12 Feb 2024 09:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707729027;
-	bh=KfhIfI/6BlUL8MZo9WhQL2Av61+PXGBuJ5lGrQfs7Ms=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=HarlmHtLb8R+xRnv0SHksXb7K1QekZ4D/K7UJFItN7YFi0R9V1a8jF48xf15E1ukz
-	 afMgWkgdZhRqTKk1MAXOpRU0bjE5xfVR8IooTt2+Cv0TOlzDt4I1zEkvneM2uNLtuk
-	 bQ9CkfjU9dAObO8fzqlPlM95Y2HytYhS9Rl8XHoxzQsBL+ZUEzUdJ5SgKSJPc/D78t
-	 VRsj8xiUyvNPW/lTSlQ1ZO+qWXMrCmGGVw2+PlAbjaunSBvrWSHtyiuJAcaNuiV6Lw
-	 gLf+44s/oNCrQQwLT1bg+31I3zaV9aG3vJMuaYcs1MgT+MCk/hA0SElDiYZvM6waQb
-	 tZ7yxX4vdh3cw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B79A0D84BD0;
-	Mon, 12 Feb 2024 09:10:27 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FBI57cVj"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6e09ea155c5so1239650b3a.2;
+        Mon, 12 Feb 2024 01:34:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707730472; x=1708335272; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dnKx8M7/sfj+9SE79BBw1FFhj3SBdGNF9ih2TYOEbAo=;
+        b=FBI57cVjJ5XmXKdobSrrb1v+5uFZmiMNboYz7AJLWCCXJt0c0RxErvXmSRWU/srND6
+         hZ+puDPs1BRe6p8hXcuK8ijh9xioqcYFVSOoeyA4nIKJtCm7XCVU7SrQELWd40MeB16/
+         BXMdF2aruYZeCsu619+/KS2MVqVEALPNm+r0KtU+SMxTUFt4riVXq/GX/wW9Fb+T+SDT
+         0fo2V/L4wnPlFeEILzRAkc5F5yHhK8o68rzkDNjKwGDCguogCqEn/7pmwyfxE3MTNWu4
+         21VEhvkJJ4aDvxJEIBcC+OMd85mtdQrFGFzJZ+Uegs/zxgns569+s8BZMf+x9vMWeOVx
+         jOOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707730472; x=1708335272;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dnKx8M7/sfj+9SE79BBw1FFhj3SBdGNF9ih2TYOEbAo=;
+        b=lDanZW4fqxxrKP/juua1gElfR9/BS5Hx4Y2+IQxMoC6uNwXDcSsOqZl+otj0nwWyp9
+         ZYEAUS8JMB+XNRVEIbKd7P1hEK9P01I1JGTNBvAuCYTyhdyz7tzW47t0lUIKF8JtPEbd
+         0Hsxge+Aov2xE+4G7vWYFZwt8CorvycAma739vI2N9MFuSluww4JjBE6upjfy+7y3Azm
+         uL/pan7UKN21m3bAOpmzgKk67frH/6VcMJqJx5l/zEuA2wSHC9uKqA92N016GvHFDgaA
+         Nh/vC9EPI4c5CaVhcH47CwUAqJ43L1ZjJ6Tuk+7FcLM5dxCr/cH3PsiVngXxC/Af/YBo
+         7iUg==
+X-Gm-Message-State: AOJu0YyogVEF2sXkKdx5GG49gusTUXfsrtBF+GJ2ifwReDwPX3+J0wif
+	4oQyOIlIJuPeeDeiZYq+6DdSDmTgXReKw1I8kBo5wtfZ8e6TX8Zx0WhCIlAJ
+X-Google-Smtp-Source: AGHT+IEIWIxQirdR5Jrh2d7TTPv/dJNYbCB/uEw31DCCfpvyouy5b1Jg+BSy2r02uRdCwf6uifhe1Q==
+X-Received: by 2002:a05:6a00:2d82:b0:6e0:d220:4463 with SMTP id fb2-20020a056a002d8200b006e0d2204463mr3677645pfb.24.1707730472307;
+        Mon, 12 Feb 2024 01:34:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXr/ObyCQ014DXM2/K0oQu3x9cHR3rK+8sdyF1ijMmVZwwLkg/BF1Cac1Z9/4ukKdD9RKF7CpX3bG6QY+0pL/GHSaXpeX73nhZUpsddlFF/HbeDbZYxwlU9PAuZC3HhKQBxbjMAvDRJMPFut2awTqJV1TXm6mT651d8LT+XsCWIEHgjxnkp3crCd3K73V3JR79PYjTy3KBDmH6p64LVxcKJufIcorpuBw7Dpyh9u5E1
+Received: from rigel.home.arpa ([220.235.35.85])
+        by smtp.gmail.com with ESMTPSA id p19-20020a056a0026d300b006e0e3ef5f23sm1042222pfw.101.2024.02.12.01.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 01:34:32 -0800 (PST)
+From: Kent Gibson <warthog618@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	brgl@bgdev.pl,
+	linus.walleij@linaro.org,
+	andy@kernel.org,
+	corbet@lwn.net
+Cc: Kent Gibson <warthog618@gmail.com>
+Subject: [PATCH] Documentation: gpio: clarify sysfs line values are logical
+Date: Mon, 12 Feb 2024 17:34:20 +0800
+Message-Id: <20240212093420.381575-1-warthog618@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,61 +70,31 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v7 0/8] add octeon_ep_vf driver
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170772902774.3287.11858895594477147419.git-patchwork-notify@kernel.org>
-Date: Mon, 12 Feb 2024 09:10:27 +0000
-References: <20240208101841.3108103-1-srasheed@marvell.com>
-In-Reply-To: <20240208101841.3108103-1-srasheed@marvell.com>
-To: Shinas Rasheed <srasheed@marvell.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, hgani@marvell.com, vimleshk@marvell.com,
- sedara@marvell.com, egallen@redhat.com, mschmidt@redhat.com,
- pabeni@redhat.com, kuba@kernel.org, horms@kernel.org, wizhao@redhat.com,
- kheib@redhat.com, konguyen@redhat.com
 
-Hello:
+Clarify that line values are logical, not physical, by replacing high/low
+terminology with active/inactive.
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+Signed-off-by: Kent Gibson <warthog618@gmail.com>
+---
+ Documentation/userspace-api/gpio/sysfs.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Thu, 8 Feb 2024 02:18:32 -0800 you wrote:
-> This driver implements networking functionality of Marvell's Octeon
-> PCI Endpoint NIC VF.
-> 
-> This driver support following devices:
->  * Network controller: Cavium, Inc. Device b203
->  * Network controller: Cavium, Inc. Device b403
->  * Network controller: Cavium, Inc. Device b103
->  * Network controller: Cavium, Inc. Device b903
->  * Network controller: Cavium, Inc. Device ba03
->  * Network controller: Cavium, Inc. Device bc03
->  * Network controller: Cavium, Inc. Device bd03
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v7,1/8] octeon_ep_vf: Add driver framework and device initialization
-    https://git.kernel.org/netdev/net-next/c/cb7dd712189f
-  - [net-next,v7,2/8] octeon_ep_vf: add hardware configuration APIs
-    https://git.kernel.org/netdev/net-next/c/2c0c32c72be2
-  - [net-next,v7,3/8] octeon_ep_vf: add VF-PF mailbox communication.
-    https://git.kernel.org/netdev/net-next/c/c5cb944ded94
-  - [net-next,v7,4/8] octeon_ep_vf: add Tx/Rx ring resource setup and cleanup
-    https://git.kernel.org/netdev/net-next/c/ca6ecb0d3c3a
-  - [net-next,v7,5/8] octeon_ep_vf: add support for ndo ops
-    https://git.kernel.org/netdev/net-next/c/c3fad23cdc06
-  - [net-next,v7,6/8] octeon_ep_vf: add Tx/Rx processing and interrupt support
-    https://git.kernel.org/netdev/net-next/c/1cd3b407977c
-  - [net-next,v7,7/8] octeon_ep_vf: add ethtool support
-    https://git.kernel.org/netdev/net-next/c/c92881599efb
-  - [net-next,v7,8/8] octeon_ep_vf: update MAINTAINERS
-    https://git.kernel.org/netdev/net-next/c/90cabae2a234
-
-You are awesome, thank you!
+diff --git a/Documentation/userspace-api/gpio/sysfs.rst b/Documentation/userspace-api/gpio/sysfs.rst
+index e12037a0f2b4..116921048b18 100644
+--- a/Documentation/userspace-api/gpio/sysfs.rst
++++ b/Documentation/userspace-api/gpio/sysfs.rst
+@@ -87,9 +87,9 @@ and have the following read/write attributes:
+ 		allow userspace to reconfigure this GPIO's direction.
+ 
+ 	"value" ...
+-		reads as either 0 (low) or 1 (high). If the GPIO
++		reads as either 0 (inactive) or 1 (active). If the GPIO
+ 		is configured as an output, this value may be written;
+-		any nonzero value is treated as high.
++		any nonzero value is treated as active.
+ 
+ 		If the pin can be configured as interrupt-generating interrupt
+ 		and if it has been configured to generate interrupts (see the
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.39.2
 
