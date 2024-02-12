@@ -1,97 +1,103 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB9A1841;
-	Mon, 12 Feb 2024 02:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC7D2F5B;
+	Mon, 12 Feb 2024 03:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707703840; cv=none; b=X2DvSgAxYqFfhkSmLE3WCYY5kdvtlz6LE9DrWTvhNb/+DTUj0czh/rkJXZSrZ6WILWjF0euy5UUhFgE77BKRyDQ8Q7PzNqnI8OF8RczlIGCLSRi8yLJ79vO02c1xe8CLsFr9PCI2yfWXF6lWtSkG6t01HJAl+pBQyqVnrV6brQ8=
+	t=1707709229; cv=none; b=mD/l+hANrJmf0Qxyp/PWCcWe5kh1zPL027bYbGSClLRKWY7os+me+mqxdbTrLQtZy/JJjFNr3pA9rZEpAqIX1ZU4y8VMOLNhzL4twu3hychKovd8hxlwCIqwD5muSFlVnee7P2Ycd7sl4QGF89zhstY1kzD0R8OaXGwq9jzcPjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707703840; c=relaxed/simple;
-	bh=6XqNeV8HICRTclL6GDae/YFFVPmhHEsvis2v55t51iI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dq+Lvd3HdA2Syt8XlBYsiN+ym9C+ypbKOBYJua5+VtM3PaSVE7RWFtqP2y6sYEC/NW3wXAdVHraPq30DKYgpJSILW286ehMkEjl3bAdSC30U3FqK+gk4Vy2lPQbrAefuxTGLLu2BLU+MPrv5p6AFnrBaf33+AWBiy+UvyzNcl0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DI+JAULM; arc=none smtp.client-ip=209.85.128.170
+	s=arc-20240116; t=1707709229; c=relaxed/simple;
+	bh=4tvg+kQRfVajNMUPBhzZ2Fso5DQSlRU9xLQVBU2OJUs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jQvQrYt9CEH7+ACd59A2ZzwBB+50MvF5aC6NoPihbyQpwPK65lsA8A0wTzI/JQ9+K5jUlQk3KZZoQfjmi37r5wv6RvAhvINIGcdiq+S3/JEA1FcjGPwrfXa3Ytpauqf1hiSfwGAt8WiyrizUf681qcdms7SqGjno5OM+XMlEUCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kl72AWwe; arc=none smtp.client-ip=209.85.161.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DI+JAULM"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-60493e299b6so25884897b3.1;
-        Sun, 11 Feb 2024 18:10:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kl72AWwe"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-59a45d8ec91so980190eaf.3;
+        Sun, 11 Feb 2024 19:40:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707703838; x=1708308638; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6XqNeV8HICRTclL6GDae/YFFVPmhHEsvis2v55t51iI=;
-        b=DI+JAULMZ9PwJ4YJoXUsaD4dZjQtftF9t0XTIax6HtEjqMSQEtPSZC0fXbKnIHFa9R
-         LXLbW2R8JurkGROwSg3ccNYouRQeUlb2cLsPeSlLuZcHzw5YmcEPfxe3f8n8mM6Uqcgf
-         JKzQ8RSy191kC4XZd1NH1M1A31nOgDec+Jcd9g5r5uZ9xdFB/uCI+kDA29+KsnKw3c92
-         Ws5U7Vr4DhULRmF/0Trovcl9Q+gVWW25x8LhDqqcGV2WW3YR3TX2UYy5iRqc38HGoYf1
-         o2uZDPL0neKgVfATAIZl1tITJM7yv3v4psziv9P56vcHXd2vdOLZxMztwxLcBAZL1Y0v
-         7fKA==
+        d=gmail.com; s=20230601; t=1707709227; x=1708314027; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m4X5VSvPzK7InvxxfBHcWCSFZJstUqSBqMhbodVXTKs=;
+        b=kl72AWwerg168XMCNKHUkq+p8StOdB3CyI3L+cuoYj9R3oeNoCbfSJQ+NF47SEP+mm
+         kRLCzxht9qdA37UM0rjMAdwvcTj0F2TPleq6kBIw0O5zc4Lr02zQIjOkTlS/Ad5WwQW6
+         pbfN/0msuz5FOx8WGOeFJLvHiz6lrl2X42QkcQmlN0J/3sqzuwP438FOPcuVoQaCy/W4
+         mbqt5F9pXZjGV5GlAb4LFkzNFqOHAW3oIjN93BP+uc/i1hUYfadbM8tLrFSjE0xh/IOc
+         RpwHxGLVmiKrlC8c/dYX7EpdPQLnVbycbB5R8uY9rywmt4bMWZ32uG8GXy1FSVEFHnoK
+         33gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707703838; x=1708308638;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1707709227; x=1708314027;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6XqNeV8HICRTclL6GDae/YFFVPmhHEsvis2v55t51iI=;
-        b=mVlWWJm5TxFTi8KFd8xnBx/79ELHjGCkHz4cKRsVIP+80wFuILgplDsQSdJ1+U5OVO
-         pxLUA40fYTf9WBSWTr3pRmfCVWjDFkraQHqT9c6G7W0hyw4ZKavMHIfw1N22R5RpXEih
-         IlXv7BYd0LsEK/rNkIUYTafoceprBwqvxfy4DMTJA0YAa8Ngy/0xki2cW5i1YdJ9MH3T
-         47McgHoL7QuKHYPUI+HxRkOQ2GBylXPJnOgv8wN+HDo8X1wslVeVsqUDalnZyYRfg+6d
-         0iZFu3hxsLq8c6fId2B6M6t0ecyFxEPjafjp+VyW/mUPvVR/UKBEf0XWeBx8YHzBD6UE
-         gP/w==
-X-Gm-Message-State: AOJu0Yymz9U4OBaZYw6s5K4UQHmC6M4sop5PSP2sHB1h7isU9mbmv192
-	iNQXqbyzg6+zDr7zBRKt6ZA7ODMpRgxeFhVB8nXeI59oCZQoy/KRuw3Tlb5HvWEQGJKPCXW91wi
-	lsWeoQIVu/p5UFok7JeKgC+NOoBo=
-X-Google-Smtp-Source: AGHT+IHZVH2z4XzjxzYa7ZY/aj3j/96lF0YHhg6eswXwPgd8cDrQWDvUvHENdPBsxgVmuErpURN2XDu9u5q+rMSUgn0=
-X-Received: by 2002:a0d:e242:0:b0:5ee:a910:107 with SMTP id
- l63-20020a0de242000000b005eea9100107mr5487218ywe.21.1707703838313; Sun, 11
- Feb 2024 18:10:38 -0800 (PST)
+        bh=m4X5VSvPzK7InvxxfBHcWCSFZJstUqSBqMhbodVXTKs=;
+        b=llJnpZ+y5erQy3P/60pNtGbw8Nr4WhxaNFGcd4fttxfj+CZPpES9hbOVYLDQnNwOH6
+         3hLoAtZB37vAbP4Vdp0eqyusoXinQ/0khA+dugnue9AbUWQHykeofMk8LY+2JaDzGCpe
+         Py2lHOkZtA+jtjuCZrmBJPUu8+okgDLTun0zqAicC85el1jZe487X1+soxBRUBVzGYTE
+         3nfqmp5YkQa60wwKuXTxhxN9ysFdKdX+Fu+npPq/W/7oATIocOU53p9RR/1oDnEw0Hty
+         jaySjR1BJlID1ZGHflf/RmV9/vEX9dr4MAENTuHotKbF4LskvwFF/lDgLTbmQi2/wSru
+         jAYw==
+X-Gm-Message-State: AOJu0YzePQqgjY8wGTqUB+d35Gj6w328KVK1DdaKxXgJMOxoouS1sdYv
+	fZ6GySFhO9RNntroT36t0mqSqWtQqX526zkjADVa+NSeZblkYa6A
+X-Google-Smtp-Source: AGHT+IFH+mhYBMi/Ks/lsR9PhdJZw8QS3ZAoOOA9o2XK80M9/ZhnOtym6yff9HXWrlIF6b1TD8SG2w==
+X-Received: by 2002:a05:6358:a09c:b0:176:a2d7:850 with SMTP id u28-20020a056358a09c00b00176a2d70850mr8272343rwn.16.1707709227057;
+        Sun, 11 Feb 2024 19:40:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUTkFG/ZtI2dPIQZookFRyFPljdUD7FsZFzOvesXJFeGCU1ncjtIcdFG8QEZSxoG5ndrkP5+jfQW14PIGNw9rCwc6OO9Z+fvSKAb8T+YZ9vzM04eHDhl8AOY8mlmWaECGE+o+FXoQnLJsPm8R7WneSiManWVpletrN3u4X1zILJIWiW+NIrO4IcUW67UbyZWA1A
+Received: from mari.. ([2804:431:cfd3:3f64:7da:1321:7c71:86bb])
+        by smtp.gmail.com with ESMTPSA id x186-20020a6263c3000000b006e0521c2156sm4795105pfb.173.2024.02.11.19.40.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Feb 2024 19:40:26 -0800 (PST)
+From: MarileneGarcia <marilene.agarcia@gmail.com>
+To: ray.huang@amd.com,
+	corbet@lwn.net
+Cc: MarileneGarcia <marilene.agarcia@gmail.com>,
+	linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] Documentation/admin-guide/pm/amd-pstate.rst: fix the warning: Title underline too short.
+Date: Mon, 12 Feb 2024 00:40:15 -0300
+Message-Id: <20240212034015.120697-1-marilene.agarcia@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240131134621.1017530-1-hayatake396@gmail.com>
- <20240131131258.47c05b7e@kernel.org> <CADFiAc+y_SXGtVqZkLoiWw-YBArMovMkuWw3X596QDwEtdBJ2g@mail.gmail.com>
- <CADFiAcK_XjLNjzZuF+OZDWjZA4tFB8VgeYXVJHR8+N3XryGxwA@mail.gmail.com>
- <20240208072351.3a806dda@kernel.org> <CADFiAc+i9i29SL0PM8gzmDG6o=ARS6fSrTPKNyqh9RLmWWB78A@mail.gmail.com>
- <20240209173838.GH1533412@kernel.org>
-In-Reply-To: <20240209173838.GH1533412@kernel.org>
-From: Takeru Hayasaka <hayatake396@gmail.com>
-Date: Mon, 12 Feb 2024 11:10:27 +0900
-Message-ID: <CADFiAcLCv=r8pyEYR_46LfTWdmmb+ssN99nKxB2EdNXf3guE_w@mail.gmail.com>
-Subject: Re: [PATCH net-next v6] ethtool: ice: Support for RSS settings to GTP
- from ethtool
-To: Simon Horman <horms@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, Jesse Brandeburg <jesse.brandeburg@intel.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	mailhol.vincent@wanadoo.fr, vladimir.oltean@nxp.com, laforge@gnumonks.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Simon-san.
+There was the following warning when the documentation was generated:
 
-Thank you for your reply!
+Documentation/admin-guide/pm/amd-pstate.rst:384: WARNING: Title underline too short.
 
-> It appears that the series at the link above has been marked as
-> "Changes Requested" in patchwork. Although I am unsure why.
->
-> I would suggest reposting it, say with the tags supplied by Marcin Szycik
-> as [PATCH net-next v8].
+``amd-pstate`` Preferred Core Switch
+=================================
 
-I have resent it earlier with version 8, including Marcin-san's Reviewed-by tag.
+Signed-off-by: MarileneGarcia <marilene.agarcia@gmail.com>
+---
+Change:
+Increasing title underline to solve the warning
+Thank you.
 
-> Also, please don't top-post on the Kernel MLs [1]
+ Documentation/admin-guide/pm/amd-pstate.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-My apologies. I wasn't aware of the proper etiquette. I appreciate
-your guidance.
+diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+index 0a3aa6b8ffd5..322488a0b2c9 100644
+--- a/Documentation/admin-guide/pm/amd-pstate.rst
++++ b/Documentation/admin-guide/pm/amd-pstate.rst
+@@ -381,7 +381,7 @@ driver receives a message with the highest performance change, it will
+ update the core ranking and set the cpu's priority.
+ 
+ ``amd-pstate`` Preferred Core Switch
+-=================================
++====================================
+ Kernel Parameters
+ -----------------
+ 
+-- 
+2.34.1
 
-I was not aware of many things, so please do let me know if there is
-anything else. Thank you for your advice!
-
-Takeru
