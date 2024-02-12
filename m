@@ -1,54 +1,55 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD31A4D595
-	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 22:15:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698974D599
+	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 22:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707776128; cv=none; b=YwJyy+zkhK8OMYwKqY+2+X2PbYJQqnQCOozTwLChT/DXNhvMk1thC5lmZkXZy4slNiJU4RoZHgzEJZs2lewAK+RKsS4RY0cPN8nbX4lM2TidWnHH19AW3dQEZ5gyg0T21tjMRO109vT1cIDRJXtnaXF6Fr0lh5ptKHOo0tHzDZg=
+	t=1707776148; cv=none; b=lkzDZdrga6z7Mco20l2t5Tfip+hWPA4Eusp1Os8Fdl0z9bXxY+huXFT7MZ9/PVwzhm2ygKC48Bp2X88M4h+fEK+jrsv6MOvPyDPmO+oTeQdKzb7QQkDulk+bj+i4kjbWBgI1SGiYAxQjoA8XJj7SkHeBDyJ7Og+GQtFOSs3UBzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707776128; c=relaxed/simple;
-	bh=TpphJ90hO3BEQfdDdRqDvdw7C+9WN5haDjzrkAhJjPA=;
+	s=arc-20240116; t=1707776148; c=relaxed/simple;
+	bh=CZGD9Yki2FLQHsFid9OfPienmBqYjhNh+fd/Uf+R608=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eN//vVqpsbMdwPO3iTcTe+jbpUjTfa3ZUSRumJ4kO0FUpDZzJPAa7xlCOacJABavbYIkNPyoYTgY9wLlRdKzAgNq4idDrX3Yl08N5Tpgdst+u6N/NtM8Tr+r4lZJ2DVRuzC3Vfus+hv6N4u4+TCOukOJ6+b0rEjhcb4G+1mzfHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lrtd80kQ; arc=none smtp.client-ip=209.85.214.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=bKnQW8vLIPTrSUCV17ZK/703b2o1Yieuhqpz+f1JYYtQBHsb8vBrAUTF5mVi80/vm9gpoHTFVod20x7MVL1k+42+ccSHu/ARb20aB5zixxXQuPi7keM1W0qux7uizTzciK5LN7CJVDXaI8JsvXRNfVIdlkLJhzGK/ewo2195ZNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kmLPptxY; arc=none smtp.client-ip=209.85.166.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lrtd80kQ"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d70b0e521eso28378535ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 14:15:26 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kmLPptxY"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-363c28eb463so11309815ab.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 14:15:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707776126; x=1708380926; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1707776145; x=1708380945; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VGyor2jQd80o7izL2Q665nn1vzR3SBtHBIgEg9t9XJs=;
-        b=lrtd80kQCt20MJK0hQoSDR5WAsK1yHe2y0E/9KuS/vqwSxdKfEkAkGrI6OuNtzNpGc
-         rjf7VexrfQnRwSvAsxJRIW0uaTvDrPiHn3OaNYEqK6twPC19uG9/ntWWX3OrEg0xi1nh
-         orLFoFBvpvSvNuu4DiDqg9ig5shD5vPSeIemQ=
+        bh=Vrm2VgfWvTQwh4Ccc8xLBpbBJbaIpSksAyHKgKxPeQ0=;
+        b=kmLPptxYdBwYxwpb60ki+XnK2fQdCg786cIAoBMKDs1dkxmXXEFlH7jY9t9bZjSy84
+         XUUx8HflKy8Qknk6+2Nrxy5JPrq6z5Swu+Tscwp6YaykgGAU9pInkaQlyxjqY2spPsvd
+         Oe/1qIv29tawL62wHhQIfc3I06DOR2/qKi28c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707776126; x=1708380926;
+        d=1e100.net; s=20230601; t=1707776145; x=1708380945;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VGyor2jQd80o7izL2Q665nn1vzR3SBtHBIgEg9t9XJs=;
-        b=wJhYpZuFN7kibMK4GkAjVvogSmZsgwl1VuspJ1JXzSd69aiI+/1aAJyPid/IfB66tY
-         AwzRa1GmBxjlla1c9SR5J54OD852HAx+WnQS0NTKR09q46Ple74X+iOCQRPuBrXAL8Oi
-         EwFItvblWgTDA5mk6zewxO6MnpXVxtdlVCdcqsH3wk3CkY0v+ltLxQJc90yBG6Z9cNdI
-         noar6DnY/P5d35u4ZL6ZNl9fXvm96RFX6BHYx/Zw9NgHg3QnhkMTOSvKTEUrpYFllEoT
-         4iGa1W0zCD+pLJ2osL1KVQugWYlMCqQw5rzb2HQRmKyaHOUlemJodJF0um/boLSwJIHD
-         444A==
-X-Gm-Message-State: AOJu0YzxBEOGQg0srbh4UpN79VEFvju712tZMfXFpILrW7bfsv8iv7FW
-	sWYsogbP6CJJbOWmmgVZA8dXDDqFKUEXsvA/d4c7ubvj+pdYe4TOsb5Ed2w2nw==
-X-Google-Smtp-Source: AGHT+IHJ+eMFkw2LbAxe+h/oMXqSRof50VRb3yJeSh7LkAV4UN/gEpC37Gy4Bv1PGat7cqnAXmWBCw==
-X-Received: by 2002:a17:902:e5cc:b0:1da:200f:de05 with SMTP id u12-20020a170902e5cc00b001da200fde05mr8415549plf.29.1707776126273;
-        Mon, 12 Feb 2024 14:15:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWKgO+hejNI7kEZ4YYJ9UHPdn730zo4WYg89e5PmiPyV1ma6e6+5HtAq0YPbTPfSDkVP6TeiMYAwq0HJ/FlU7M+0RgVtkFfT3pRb4HiJZEyE4Ki/2cTnd78QQ09ABwh7iA48yzo7Q1OHbIZMhemOYUjIkY6GxpI5fUe4jOTVZlOSpz9XjEmj6bNG3JdZzndqRj3tFSfVTr1kbrc/gFN/3i9C2LZpxGacAB6WiMEGe/fYjfXJrYjXkPviY5iwRBktHIUKj99/Ue9dfHWZ8SAdomMQo8258SsvKYz3FuZJCK1clovIr6KnyhkbSVYF9je+oNrukYLiBVKjtCNlJVQjL2QlZKg0I/w4Wb9qQAoi2O2uQ6she9hyLm3RekGc3CgRkm8+KEXXJRenxn8JVNghjx1Wbul+jWGDs5deoB9AZZSm7RUmAt3KMVKKonmKdiq1OnzOTCK0bwWl8NEtlPwWbEe8qiDkBxZC23glZcczJhMoO7BxnMFZWR0DRV7hZqipE4OysgkbKxNjbcq98gMRIIgv2xhAXW98X6S+UEqcEw/zR0IVRe9T02Gzm0fRVkaGrBGT87hlMuZabsd5eCZW4ad/5u1ksRZovPl7yqEaCLu7DOpPVeo75Bq0+HL+RDUhoQoML0LnjEhHS0KMw7iQaKNV7K2OTBHszwaf/XL24Bd1CbfMq0vlUm570sD6+ZXY4os6klv74r4JI7uhW9MQO4AccSm6clUUrm1s1uXnyZWZORXAx/5GA==
+        bh=Vrm2VgfWvTQwh4Ccc8xLBpbBJbaIpSksAyHKgKxPeQ0=;
+        b=tzXJaocOhzm+Nue2eCp1pWqhqpn9GTX4l3M5wbtaL9fdWD+ZxXtg/rSkScFlWG4PXl
+         5r1KSdrCwaNj0h/42fej4VStrFOMbJ1cm6RwejHymyQGH2WTrU/ifBXOWtiTvJnb61nl
+         fMfaYlJNUcEjX2IJde47P99nmS3U9fzZ4CvIToucQGYP7iF7XBqSp/XRTPWLrfKtK9e1
+         y2lGmynit6iS78S/b4GaNVA8HoaSv7K8zEV/AtgdmRJjRZhkF9HaHaFiz88LRl3MGBEx
+         1p59jdrKWxUrRF4uFtm1+9LB7mazS9dHNikB/lncmhRSxKcJLCy+moSEvwFqye2VIeH7
+         jvjg==
+X-Forwarded-Encrypted: i=1; AJvYcCW0eCCC0XGwsMKY+dzvtJAWOIDJ2WJ6BH2mig0oYGQd0y7Xj0X2ZA7EvdDb6tAbb2lbkl/RAAVbSIAurkea8ZtbZXsU2ltwfJUr
+X-Gm-Message-State: AOJu0YyprGnLbJlvmnM8QtVMLr0ZMKC6ZlB/LEgZQVGtirMux8OgHKr/
+	ZbxoeWBSEO/dMLE8GoBTeOUArZ3jqtZ08K+9naA3fBm8pkGDe4xuj6gjAT3Icw==
+X-Google-Smtp-Source: AGHT+IFbWEBS7zyWLhQM+vaS154zwpiwlRSUXx6fb3PU0OaHGhrlF2s4QfJATaNSxtzfHabbp/2uzA==
+X-Received: by 2002:a05:6e02:13e4:b0:364:1b8f:8437 with SMTP id w4-20020a056e0213e400b003641b8f8437mr30680ilj.12.1707776145739;
+        Mon, 12 Feb 2024 14:15:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX8ALbNXelFqqBGCaho861sYQgXUcXf0rjGjPKnZWFceKsuueaMlNdDZZuJ5n3oJ72fVAK2LgYnstRInl9LO8JcpnpUVHfIjXWFzFz6v8CK1bATfMoV04nj8KbbqG0avwQVq5yTJDt7k/Lzbl7XSosyzumPDx6qt3M8puz8zphCkfnvGzTtvU9umgXK3EoniNVIRAAHMnR+sdlqZFj6l8eS+hsMVSAke/oKFq3iNU48oI0Dx/i+p9mgm5VLWC7ZMcGiFc0wKFQ/nvkiVq9rQwPTgyT5dptfGqJlgF2pEOGxr10d/Sjn4QdlIIyb9KkNgZTrIKIkGpmQXZLzR+O4eHe2rZoB3d5oMXi2ikczeWPxPXDuE8H2SNmWu8IhRcpROBGG9Sw0IKLu8IxmYL4rjcnnpF17dBvKLyhUWyyMt6C1yMWlINcVVpell4fva0Jlow1qCr8G9fkWBed3FiMS/wzqxf5EJeR8xQN+IISht0MU2XWA1QUpPHibGG+YTFDQOaqVzVZj38+NYZeFLJ+ueolP/VRTmhBpjxciMS44sjGJnkgiWgPU2cT6ha1FRWmh9NSbJXdpQgk8PGHDTeFBJLGACQFkgWJ+bcUn+yOdkc4n3Chs4tbIw/qJg9Veuwg9I7Xf6tVGOPp2+oRF4D5wZsciaZt7axcDu5BLDgJ7oQooWMc0eWYjGvZniJSkFaedjQDoHzKkGLKTjw5JRvWVYYTv23lxe6aLcQ/x9WezR4CTZkPOrPmSPw==
 Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id jx4-20020a170903138400b001d9df9a72b4sm817027plb.26.2024.02.12.14.15.25
+        by smtp.gmail.com with ESMTPSA id x66-20020a636345000000b005dc191a1599sm961714pgb.1.2024.02.12.14.15.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 14:15:25 -0800 (PST)
-Date: Mon, 12 Feb 2024 14:15:24 -0800
+        Mon, 12 Feb 2024 14:15:45 -0800 (PST)
+Date: Mon, 12 Feb 2024 14:15:44 -0800
 From: Kees Cook <keescook@chromium.org>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
@@ -78,11 +79,11 @@ Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
 	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
 	cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 08/35] mm: prevent slabobj_ext allocations for
- slabobj_ext and kmem_cache objects
-Message-ID: <202402121415.77843B9D39@keescook>
+Subject: Re: [PATCH v3 09/35] slab: objext: introduce objext_flags as
+ extension to page_memcg_data_flags
+Message-ID: <202402121415.4E74908@keescook>
 References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-9-surenb@google.com>
+ <20240212213922.783301-10-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,16 +92,12 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240212213922.783301-9-surenb@google.com>
+In-Reply-To: <20240212213922.783301-10-surenb@google.com>
 
-On Mon, Feb 12, 2024 at 01:38:54PM -0800, Suren Baghdasaryan wrote:
-> Use __GFP_NO_OBJ_EXT to prevent recursions when allocating slabobj_ext
-> objects. Also prevent slabobj_ext allocations for kmem_cache objects.
+On Mon, Feb 12, 2024 at 01:38:55PM -0800, Suren Baghdasaryan wrote:
+> Introduce objext_flags to store additional objext flags unrelated to memcg.
 > 
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-
-I almost feel like this can be collapsed into earlier patches, but
-regardless:
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
