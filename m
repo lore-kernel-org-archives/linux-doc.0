@@ -1,190 +1,85 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE6817BB2
-	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 09:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D40018036;
+	Mon, 12 Feb 2024 09:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707731540; cv=none; b=bI+R5ksxDyRQ85kfWeAgZnQHb011ofYrJgqgfhpwo86haNvBXUQxAYHSRL+DLtnKnu5XhrS/XVquW1SDd/9gh7pWFl/Q9KB/B2Ziaq2uIwznruLJn9IhcsBfNfXcU+yjxG/HWLPS0JuP/xsah+4CH5vYIj1Zsb3EayVDDlcq0bM=
+	t=1707731732; cv=none; b=F1KspBZ1z30G7eBbQI6xxwZpzRqFMvwVIB5KOTMtrsNvi+/sy3C5T/lZdncBRjso0KdG6YrZ3P7aJGke9dvgCgMBddI2iE94nUV2FDes4szjrmBvvfWbB3c/EjsFNaI/tPdc8ssg0qdgrE2++udb1trww8/hu8YlrgkI+IIUooU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707731540; c=relaxed/simple;
-	bh=ZF6rXYNNIOq2KLy6c8hHoqHp0kSlA2/VdKUEAEOhCCI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=THhFzoOZXLEqQIdDkDuD3tQXoKzhSMPiXInRDgzVEI1Lt6QIlM2Qr5WcPhxDwhj7v7PjmC3IC5aOm/MBLnpT/zlcZpXZWTapdSsZL4zgYKvDs55j3v6E+cB2VCeRL7NmbkMKjlfJxtZBfn5+yRYRbXphGsOuL1B78dCxiTcm/I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=itVHb9tx; arc=none smtp.client-ip=209.85.161.46
+	s=arc-20240116; t=1707731732; c=relaxed/simple;
+	bh=uQq4CbKJxGMQSgFVkzKkkQfK2+8jYuus2rLp3fv1zug=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zzdl6arReAJexobZVbSOogb+lJSq9ajKO7DsWyrFfTKApjhRzNInkG0lW4ii2FO8AJ/LZurvwzx1jiW8PlZWFx99XtZz/2eJlFtfRGK8S+P/vmy4eOb0LchQcddaLiN8GdvLSRlVMeM3kMqTaxyKf1oAY2jsRSegueiu5l4VhHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P9ZD9ecT; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="itVHb9tx"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-59cf563e8c6so856895eaf.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 01:52:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P9ZD9ecT"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a3cc2f9621aso39952566b.1;
+        Mon, 12 Feb 2024 01:55:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707731537; x=1708336337; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:content-language:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1707731729; x=1708336529; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7CP0NcOiRJGJhDfn4ULCaGJamTIWKa2DJMjWoxMN11U=;
-        b=itVHb9txEwyFOKSkuYfGxZyZz6r6XH1mnZ6WXQSRkq0mgPQTnbyfCPomgNDrqcH8e1
-         shRe+Dm+1jZAv+G0Suh9cCdQcrbKVivb4U2Iw/FXV/fLPq9nQQHCcO93CAh4S9vJWDR/
-         V0mlgHk7xTw/L2LxDkv8M3xc/Jbv8XJHYkyLRb7J01Fnb0iHV6ACaknN7r+TbM/0s0/h
-         DcR8izNzJh+wjiFED7Cvl37TGzrBL8FO4NPpiQT7sPuEfUbjumYZtcdJCNq2UFPSrlbD
-         8Q3viBrML5A1Xq+dIakiwW5hfUNP/FOqM4b9QQwscSBUAd54Zrka+zzUuoMnK2UemvxJ
-         8PjQ==
+        bh=uQq4CbKJxGMQSgFVkzKkkQfK2+8jYuus2rLp3fv1zug=;
+        b=P9ZD9ecTGiBJ7MCB8CEJ7Uts8qZGZ4ZmCQtRCxoUeqsO71U04f5VNuZHWamWWP/vVS
+         K5S5qWZt7JpeE/tneLyeHlCQN07TykoSKaaZHzHQpGObNXhjdxWgWyD7/x96wSz1vthP
+         2/YqPn2dF6i/n31cEmEYx/s0NlfURQ4A9U4ES+6m8QPDZTC86WJgHizPPI5qRK5v1BIw
+         0hmaGTi8U23JgFRVm9MQ2zor9/MJdx+QipU013dwQAbE9yZcOtGwP3kQV7NEKuVw7R4x
+         S9YR4Krmh7lEmV75k6caXrhV8P0jo/NlJr388YQjbZ9ixyV2HIccCSsXpA6hObiak2/a
+         NGkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707731537; x=1708336337;
-        h=content-transfer-encoding:cc:to:content-language:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7CP0NcOiRJGJhDfn4ULCaGJamTIWKa2DJMjWoxMN11U=;
-        b=EvSJU7aWYf+jYzqAbFBr4a9Bm7cHpz0F06f2eJM+xdQSNfJvLS3uneqjNGo7alCmmp
-         x6KRNU3mLm7Tez8A5VqOZG8wCJVvpnI2Yc3ya82Mgl1ns3LZ3vXJ+AuOowjJ2wcx4QOp
-         nUeYEG76Mk5fFD/CSfzY3RiBDaMsOFreRZampNFdGaOUsLmLxS86t2uAWdezlzT3+E4f
-         ZL+yCN0NNxkINO1LCV4jVjAAIp3oy7nkLOZsv4ol42nBH0LWaSUYOEddyvimJnus5bpY
-         Hpbwc8HWCvSnDRN6FT2oP+Nw6O0PBv3h8qCq4IrLHt4Gb9Cb7thImBkg4um+E9syGJWL
-         Y4Xw==
-X-Gm-Message-State: AOJu0YyGIqyPxlWDXo+sJmMGDECvmCO1xN4ChUEu170DmLD3XXl0U5rH
-	cOPy31uxrppg9YdciWtbLUPIzxuQMNTHKoi2qdH1M7kjcEy23CQc
-X-Google-Smtp-Source: AGHT+IHrLd8XjYXgpehcyDQ6VztwfvHqSKD1WFZqRedhxP4o9/jnY5FeRvw4x8y+Ti79Z6DZR68dTQ==
-X-Received: by 2002:a05:6358:5985:b0:178:76f8:e626 with SMTP id c5-20020a056358598500b0017876f8e626mr9809634rwf.6.1707731537325;
-        Mon, 12 Feb 2024 01:52:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUOh2kpjDwBXy1gzHA/BijYRht5XFZbrP0f8kjVak75fFP+XP3eOLQxL7bIFNSas9Gl6WYRukzb6K5pJtMJMu4o4TuM9hUOcflT726fMXYcyw==
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id s64-20020a625e43000000b006e06aaf5e58sm5402604pfb.34.2024.02.12.01.52.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 01:52:16 -0800 (PST)
-Message-ID: <54a56c2e-a27c-45a0-b712-02a7bc7d2673@gmail.com>
-Date: Mon, 12 Feb 2024 18:52:13 +0900
+        d=1e100.net; s=20230601; t=1707731729; x=1708336529;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uQq4CbKJxGMQSgFVkzKkkQfK2+8jYuus2rLp3fv1zug=;
+        b=v+Z8il64U1ytqjqqGlZwYkAQiWV3mxb+fx/ofW3038KFPNId+Nj0gmrDnGj9IROw4l
+         O11hDoBKE14htKI1iLjj1xhbYRDrCMnqr5pBXiH+o9DoKo+H2fM7KyPlgOcIVB8399Tj
+         hDh/ZcgytpN5lAV0NwxHdChEgFzWEY7cYyHVNZ3xf9QsizajDJwiqnnioD0cOby4VlvH
+         J29AD65EYN+WRO8U8Ltl2qVHC0FJBuJFlfhufMko8rWA71SYcoVdxtlRTlvaVMr+t4w6
+         TxlksYhxx9A3B2THsTIi1NMuRV8IhfO2o6S2ReAUoO0crMQmj+vUn7iuFj20mjhLfqH+
+         lvZw==
+X-Forwarded-Encrypted: i=1; AJvYcCXZV5tW6Olc8hG10cMRX6otD4c6mknb1SS31BhRw27fITtNQitv4N/jWlozVg/nVrw338lwXSqItMD2N3NTJvnM/u+t/wSCiQfci0isT/O+ea/+IOC9KrxGrLPBehIskYLgzZNLsg==
+X-Gm-Message-State: AOJu0YwYW3SA13zqLfjtapmjy0LcbUiM935rOKtzoOjp/0pjJRVr1yrr
+	rydq4gDtDkmXbcFXH4WpBB0QpRr1g7PSdhe6eRGzvPc8asl207kL+deDhv38/BbDQBd6vIBJpl+
+	F2Hhq9J1gc/mGNojtpsiwrDH05VY=
+X-Google-Smtp-Source: AGHT+IECAT/cXgpg8e5MpXFQXkt5GjHL2TMJTma0M0sqlzPQC4ZKAqwAO1dm0i4lzBQbQya00Eo2SAIeCbW5h+vbo5U=
+X-Received: by 2002:a17:906:6849:b0:a3c:c8de:7a66 with SMTP id
+ a9-20020a170906684900b00a3cc8de7a66mr684151ejs.13.1707731728539; Mon, 12 Feb
+ 2024 01:55:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: docs: "translations" extension breaks "make latexdocs" with
- 6.1.3<=Sphinx<7.2
-Content-Language: en-US
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Akira Yokosawa <akiyks@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240212093420.381575-1-warthog618@gmail.com>
+In-Reply-To: <20240212093420.381575-1-warthog618@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 12 Feb 2024 11:54:52 +0200
+Message-ID: <CAHp75VezERVckBBuMV0SSTVQjz_UAJ3jUFv1N+ZLYn3va7aMgA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: gpio: clarify sysfs line values are logical
+To: Kent Gibson <warthog618@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, brgl@bgdev.pl, linus.walleij@linaro.org, 
+	andy@kernel.org, corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Vegard,
+On Mon, Feb 12, 2024 at 11:34=E2=80=AFAM Kent Gibson <warthog618@gmail.com>=
+ wrote:
+>
+> Clarify that line values are logical, not physical, by replacing high/low
+> terminology with active/inactive.
 
-While testing update of sphinx_pre_install WRT pyyaml, I noticed build
-errors in "make latexdocs" against Fedora 39's distro Sphinx (v6.2.1).
+For this
+Reviewed-by: Andy Shevchenko <amdy.shevchenko@gmail.com>
 
-I don't mean the translations extension is doing anything wrong.
+But as I said there are much more...
 
-Repro:
-
-    make cleandocs
-    make SPHINXDIRS=doc-guide htmldocs  # for yaml -> rst conversion
-    make SPHINXDIRS=doc-guide latexdocs
-
-At current docs-next, Fedora 39's Sphinx ends up in the error:
-
-    Exception occurred:
-      File "/usr/lib/python3.12/site-packages/sphinx/util/nodes.py", line 624, in _copy_except__document
-        newnode = self.__class__(rawsource=self.rawsource, **self.attributes)
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    TypeError: LanguagesNode.__init__() missing 1 required positional argument: 'current_language'
-    The full traceback has been saved in /tmp/sphinx-err-7xmwytuu.log, if you want to report the issue to the developers.
-
-
-/tmp/sphinx-err-7xmwytuu.log reads:
-------------------------------------------
-# Platform:         linux; (Linux-6.7.3-200.fc39.x86_64-x86_64-with-glibc2.38)
-# Sphinx version:   6.2.1
-# Python version:   3.12.1 (CPython)
-# Docutils version: 0.19
-# Jinja2 version:   3.1.3
-# Pygments version: 2.15.1
-
-# Last messages:
-#   building [latex]: all documents
-#   updating environment:
-#   0 added, 0 changed, 0 removed
-#   reading sources...
-#   
-#   looking for now-outdated files...
-#   none found
-#   processing doc-guide.tex...
-#   index
-#   failed
-
-# Loaded extensions:
-#   sphinx.ext.mathjax (6.2.1)
-#   alabaster (0.7.12)
-#   sphinxcontrib.applehelp (1.0.2)
-#   sphinxcontrib.devhelp (1.0.2)
-#   sphinxcontrib.htmlhelp (2.0.0)
-#   sphinxcontrib.serializinghtml (1.1.5)
-#   sphinxcontrib.qthelp (1.0.3)
-#   kerneldoc (1.0)
-#   rstFlatTable (1.0)
-#   kernel_include (1.0)
-#   kfigure (1.0.0)
-#   sphinx.ext.ifconfig (6.2.1)
-#   automarkup (unknown version)
-#   maintainers_include (1.0)
-#   sphinx.ext.autosectionlabel (6.2.1)
-#   kernel_abi (1.0)
-#   kernel_feat (1.0)
-#   translations (unknown version)
-#   sphinx.ext.imgmath (6.2.1)
-
-# Traceback:
-Traceback (most recent call last):
-  File "/usr/lib/python3.12/site-packages/sphinx/cmd/build.py", line 285, in build_main
-    app.build(args.force_all, args.filenames)
-  File "/usr/lib/python3.12/site-packages/sphinx/application.py", line 353, in build
-    self.builder.build_update()
-  File "/usr/lib/python3.12/site-packages/sphinx/builders/__init__.py", line 308, in build_update
-    self.build(['__all__'], to_build)
-  File "/usr/lib/python3.12/site-packages/sphinx/builders/__init__.py", line 378, in build
-    self.write(docnames, list(updated_docnames), method)
-  File "/usr/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py", line 287, in write
-    doctree = self.assemble_doctree(
-              ^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py", line 344, in assemble_doctree
-    largetree = inline_all_toctrees(self, self.docnames, indexfile, tree,
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/site-packages/sphinx/util/nodes.py", line 403, in inline_all_toctrees
-    tree = tree.deepcopy()
-           ^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/site-packages/docutils/nodes.py", line 1064, in deepcopy
-    copy.extend([child.deepcopy() for child in self.children])
-                 ^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/site-packages/docutils/nodes.py", line 1063, in deepcopy
-    copy = self.copy()
-           ^^^^^^^^^^^
-  File "/usr/lib/python3.12/site-packages/sphinx/util/nodes.py", line 624, in _copy_except__document
-    newnode = self.__class__(rawsource=self.rawsource, **self.attributes)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: LanguagesNode.__init__() missing 1 required positional argument: 'current_language'
-------------------------------------------
-
-I did quick tests on Ubuntu 22.04 + venv (whose python3 is v3.10.12),
-and found that Sphinx versions 6.1.3 and 7.1.2 also suffer from the
-same issue.
-
-Luckily, Sphinx v7.2.6 is not affected.
-
-Bisection pointed commit 7418ec5b151f ("docs: translations: add
-translations links when they exist") as the first bad commit and
-reverting it resolved the issue.
-
-Sphinx's git history shows that the code at line 624 of nodes.py
-was added just before 6.1.3.  It was heavily refactored during
-the 7.2.x development cycle [1] for improving TOC tree processing.
-
-So this issue looks like a regression in Sphinx which has been
-resolved upstream since.
-
-Vegard, please let me know if am I missing something.
-
-[1]: https://github.com/sphinx-doc/sphinx/pull/11565
-
-        Thanks, Akira
+--=20
+With Best Regards,
+Andy Shevchenko
