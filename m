@@ -1,112 +1,144 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF8F51005
-	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 23:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4972A51025;
+	Mon, 12 Feb 2024 23:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707778883; cv=none; b=ImyFNw3n2W6SO4tjjoXr+zch3StiRhgXIUT57pTwJcnlqybQn/P7TzGJiNOruDlLgbMAYozqa9V12qXjTo05JyODUifv3HIyW6Izewyw7gaLefgX0dE7Rr88u/2fEB37eM8GMJkDB38gxHXoUtqPqF6HE/mJgGJDxoBcW1fMQA0=
+	t=1707780568; cv=none; b=OGQjw4qryNziBYN4L1lkp3ogG/zPe3nNWX/y4KlPLZw2aKVKKaZmEftSPdPXpBmdBXxiVFiGldrn+EKyM+0HDVXSiLzqyQAtE+CvffYNqRvgw+eza13Tm0UNZ5hy8uNp47SsGbey5C11dTecXM3MQgkduKE8YHPNoDuYhlCRfWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707778883; c=relaxed/simple;
-	bh=tTpbh5UfZfyy28Rs/Cv2qtnww4MwOrI6Z7e146A9LpI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JeVYs7WV99/bdUwBCceWHjnx6tx4yEe8FaboTVJoMO2foZeRN80oF7LQbFkdCr/c0vlOrRVONCHCWAXyzdBZGV7g99urZkUUjxpcdCK4ACtAjKLusBLHK8bTkrZzzlth6mf24cUgV8YEFLuSOLDttpjnrm/xlAb/4+PzWxKNPDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YNoHMl8H; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1707780568; c=relaxed/simple;
+	bh=OlgJwJR7mtndOUI3dB214bznUl48qyp1IY7QPUcT5Mg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IIJXXZ4KDtInlVwt8wcR2dkD03FdFC3M09oWwFd0XqrEuubWrpsXNfppWY1FWD9t2MDemCciPSYE33SA7TSbY1ywbH8GrZexV6n0Wh2wm71zCmd1xQ5IAcr7V9HgpWFcmnHQUQMGwETwIBADtThaKbbXlzdhJZtSd+OuoccevZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=AfVRxsxg; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YNoHMl8H"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6e0dcf0a936so694279b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 15:01:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707778881; x=1708383681; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FzsjrPnusIaHUIYYiKKdbD1PNR9YsTLIdgA5piLTr48=;
-        b=YNoHMl8HoMvf8bHoQ14GAwd8t1a5Tz1VLxpRPT9+25A8wfNg6DQhOHiIXVsgyL/7ph
-         kjH+DoMMK4X+8kyCZW60fFI6ixvJZH8IRakeT0/mlh3TVkwU8oJze10u/z6Q/M4cXq8X
-         +bXouy3+5739nJ7PwDQieSRut2Qe8ERkrzO0o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707778881; x=1708383681;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FzsjrPnusIaHUIYYiKKdbD1PNR9YsTLIdgA5piLTr48=;
-        b=var+tdjrkVHY1wvszHByAE51auqownl7ciU94yI26Js2YPPlS/jWpMG72tywcNN76/
-         O80JLL0V0lVeYCe2ZAYDF1fNfyx6DgsHV3LkoqDUDFamHPB6SwutgYU/uQKcb+ma58ah
-         axOQJomuHtFKOrkXEJ6XSmAkoZWUwsgXs7MfFfnjCH0JB+XyIxNSRZeHx5CbotMcnM9W
-         dIsZnH43gtDal1zhLbooBCfdhN8Hbk9QhfkiYzMVpq9wBDfDEVKdICXzCnJRwfM4gBvX
-         xpSr2hnZv6sPbJLDiVB3WNMoVq30fOcppaiv8foQi+AZJ8y57NC15OipFRsSfL4j2+PP
-         ic8w==
-X-Forwarded-Encrypted: i=1; AJvYcCXDA7o/1MQtAl+v9qhn+yXpSfYFH+CYlYEv7YeXv1/PfQfRGkLbY/d6Y/xjQ/dfP332g1ceK1I/ssCV7hZ6M7auv2JhNPvelimH
-X-Gm-Message-State: AOJu0Yw1lTDWGAs4L5Iin3Ut3/GSwKoFKVnGDj8F+mOkfCOlr1f5+Fqf
-	RBNh0+2kgwixAuZsp/+9IC90PRJULZTc6uFTLy58mRj7U6PC9/N3TuSJkh52E0/Z/UezYvcwVzc
-	=
-X-Google-Smtp-Source: AGHT+IHKYkrvWP6pn+Z0bv1j498bkNcTGlpfF62jfvH5sqEIpqwicwiMKjizBBkpoFi7tjdt3fDdpQ==
-X-Received: by 2002:a05:6a00:194c:b0:6e0:6aaf:5e57 with SMTP id s12-20020a056a00194c00b006e06aaf5e57mr1150993pfk.8.1707778881054;
-        Mon, 12 Feb 2024 15:01:21 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVqPDglaouwlesQHnb43T4Isv16NQxb4dXSRTJuJSE5aNgdLn5NkEJGctOyntILaXZQS0mnDZpLVHN+/xwOB9IoAgg9x0u29PK/IhT7vjo91yIRFcPvoSMBYBFTzt+86JDN1jgMokFHBEXgSllBDYGACxIo0zUFX17bzZBEU7NwjPK5esvpkzsm8ibJaJyYxi2UJsA8zbTPNgaMTjZhnLBqFB+AILhOnQMu3xiK9ZU4f7GtCTbRmKaQQgFh0z0TRcxbJff4bi+eT3yTtwdcnSLjIvBdWA0x+ELkk+GqvBo+wxUIMd3R/SyxCqpTCriDuDr9DirngV3+ShKRVfu2nluGcwRSZfrhSjApbK/fCGIR4/LdLALZhVz/s56pny6O3gcmucfFvYV4odX4ckaTFciS8AJBREeUfEUPAnq8fWaB96nB3adrPIkjaAnXVxmnTdxL5X6oM/t8wis1hvXbcOnobKCN9fFEDPgjNVeA+QNqNhdzD3YRnTrs3sRnZeZs0tuUf0LW4+UtqwmVIsYxmql8pL7fOpAREfPaCHgqX0NFpVieKkvY0fMMnu3nRh0xKbfllsY9sjEzjpCwyZQCJ/CKBP9jT9n6AKjiVTNe50JwZj4ZeSvaC/a6uMZ0lhgP0nfkvvI7EFxu+TtZRjrzuIHn6E+fxmBlhHOCFV79XFx8fJc/wu0AHsf2VzlWSUIzFXGqPnNMDjAzpTzvx/l9cNLUx4eRQl6ExPiTPL5iDDwJCxAOJ7ppGA==
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id r19-20020aa78b93000000b006da19433468sm6077507pfd.61.2024.02.12.15.01.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 15:01:20 -0800 (PST)
-Date: Mon, 12 Feb 2024 15:01:19 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-	liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, peterx@redhat.com, david@redhat.com,
-	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
-	ndesaulniers@google.com, vvvvvv@google.com,
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
-	elver@google.com, dvyukov@google.com, shakeelb@google.com,
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 22/35] mm/slab: enable slab allocation tagging for
- kmalloc and friends
-Message-ID: <202402121500.68DFA4A32D@keescook>
-References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-23-surenb@google.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AfVRxsxg"
+Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.147.51])
+	by linux.microsoft.com (Postfix) with ESMTPSA id DEC5820B2000;
+	Mon, 12 Feb 2024 15:29:19 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DEC5820B2000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1707780560;
+	bh=Pus6ekEvBcHFMFdVrX0AsPS3od4PAAyDna4mLnwpX+Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AfVRxsxgLeTe1ATfXx56hbI3QdfOzJ9ZaAwqBnlz0dHepD9AubTSUK7z3ItCvmWa0
+	 SOOPHJvKz7qQRrnuC+e/b9fdEtR3EnJTlkOvK5o+vhYlnw7I6YJhatTDr/vr8j9yER
+	 20Pkmjzl27tMdRaEimwmtYZ4TIQNvZRe8Ls75GFQ=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Easwar Hariharan <eahariha@linux.microsoft.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] arm64: Subscribe Microsoft Azure Cobalt 100 to ARM Neoverse N2 errata
+Date: Mon, 12 Feb 2024 23:29:06 +0000
+Message-Id: <20240212232909.2276378-1-eahariha@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240212213922.783301-23-surenb@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 12, 2024 at 01:39:08PM -0800, Suren Baghdasaryan wrote:
-> Redefine kmalloc, krealloc, kzalloc, kcalloc, etc. to record allocations
-> and deallocations done by these functions.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+Add the MIDR value of Microsoft Azure Cobalt 100, which is a Microsoft
+implemented CPU based on r0p0 of the ARM Neoverse N2 CPU, and therefore
+suffers from all the same errata.
 
-I'm not a big fan of the _noprof suffix, but anything else I can think
-of isn't as descriptive, so:
+CC: Mark Rutland <mark.rutland@arm.com>
+CC: Marc Zyngier <maz@kernel.org>
+CC: Anshuman Khandual <anshuman.khandual@arm.com>
+CC: stable@vger.kernel.org # 5.15+
+Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+---
+ Documentation/arch/arm64/silicon-errata.rst | 7 +++++++
+ arch/arm64/include/asm/cputype.h            | 4 ++++
+ arch/arm64/kernel/cpu_errata.c              | 3 +++
+ 3 files changed, 14 insertions(+)
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index e8c2ce1f9df6..45a7f4932fe0 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -243,3 +243,10 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ASR            | ASR8601         | #8601001        | N/A                         |
+ +----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
++| Microsoft      | Azure Cobalt 100| #2139208        | ARM64_ERRATUM_2139208       |
+++----------------+-----------------+-----------------+-----------------------------+
++| Microsoft      | Azure Cobalt 100| #2067961        | ARM64_ERRATUM_2067961       |
+++----------------+-----------------+-----------------+-----------------------------+
++| Microsoft      | Azure Cobalt 100| #2253138        | ARM64_ERRATUM_2253138       |
+++----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+index 7c7493cb571f..a632a7514e55 100644
+--- a/arch/arm64/include/asm/cputype.h
++++ b/arch/arm64/include/asm/cputype.h
+@@ -61,6 +61,7 @@
+ #define ARM_CPU_IMP_HISI		0x48
+ #define ARM_CPU_IMP_APPLE		0x61
+ #define ARM_CPU_IMP_AMPERE		0xC0
++#define ARM_CPU_IMP_MICROSOFT		0x6D
+ 
+ #define ARM_CPU_PART_AEM_V8		0xD0F
+ #define ARM_CPU_PART_FOUNDATION		0xD00
+@@ -135,6 +136,8 @@
+ 
+ #define AMPERE_CPU_PART_AMPERE1		0xAC3
+ 
++#define MSFT_CPU_PART_AZURE_COBALT_100	0xD49 /* Based on r0p0 of ARM Neoverse N2 */
++
+ #define MIDR_CORTEX_A53 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A53)
+ #define MIDR_CORTEX_A57 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A57)
+ #define MIDR_CORTEX_A72 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A72)
+@@ -193,6 +196,7 @@
+ #define MIDR_APPLE_M2_BLIZZARD_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_BLIZZARD_MAX)
+ #define MIDR_APPLE_M2_AVALANCHE_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_AVALANCHE_MAX)
+ #define MIDR_AMPERE1 MIDR_CPU_MODEL(ARM_CPU_IMP_AMPERE, AMPERE_CPU_PART_AMPERE1)
++#define MIDR_MICROSOFT_AZURE_COBALT_100 MIDR_CPU_MODEL(ARM_CPU_IMP_MICROSOFT, MSFT_CPU_PART_AZURE_COBALT_100)
+ 
+ /* Fujitsu Erratum 010001 affects A64FX 1.0 and 1.1, (v0r0 and v1r0) */
+ #define MIDR_FUJITSU_ERRATUM_010001		MIDR_FUJITSU_A64FX
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 967c7c7a4e7d..76b8dd37092a 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -374,6 +374,7 @@ static const struct midr_range erratum_1463225[] = {
+ static const struct midr_range trbe_overwrite_fill_mode_cpus[] = {
+ #ifdef CONFIG_ARM64_ERRATUM_2139208
+ 	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
++	MIDR_ALL_VERSIONS(MIDR_MICROSOFT_AZURE_COBALT_100),
+ #endif
+ #ifdef CONFIG_ARM64_ERRATUM_2119858
+ 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
+@@ -387,6 +388,7 @@ static const struct midr_range trbe_overwrite_fill_mode_cpus[] = {
+ static const struct midr_range tsb_flush_fail_cpus[] = {
+ #ifdef CONFIG_ARM64_ERRATUM_2067961
+ 	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
++	MIDR_ALL_VERSIONS(MIDR_MICROSOFT_AZURE_COBALT_100),
+ #endif
+ #ifdef CONFIG_ARM64_ERRATUM_2054223
+ 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
+@@ -399,6 +401,7 @@ static const struct midr_range tsb_flush_fail_cpus[] = {
+ static struct midr_range trbe_write_out_of_range_cpus[] = {
+ #ifdef CONFIG_ARM64_ERRATUM_2253138
+ 	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
++	MIDR_ALL_VERSIONS(MIDR_MICROSOFT_AZURE_COBALT_100),
+ #endif
+ #ifdef CONFIG_ARM64_ERRATUM_2224489
+ 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
 -- 
-Kees Cook
+2.34.1
+
