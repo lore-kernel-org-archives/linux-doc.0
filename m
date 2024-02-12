@@ -1,130 +1,102 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E42345BEF;
-	Mon, 12 Feb 2024 19:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE4047772;
+	Mon, 12 Feb 2024 19:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707764675; cv=none; b=pjjKeRT+IV/oogQq9WlF09xQmS7aNx/Riun856CNALVXYScdcfZsFzyNWF1Ee0mt/2FJlWyRwEe0zagmWLPSpwm8vJZYiicEqMs8rUk0TV21qIl/BifrO4glql7rQL4+QOJ6ujB4wgAHO/lKBl6ObQdtsY73U84YGdK/e3W9Mpo=
+	t=1707765095; cv=none; b=DL/PbCpFcemY9P5yAiMJHz0R+gEYh3P/AJhNckQ1HijTDZlbKaPvK0fDmVKPh3sLo3oAY1+FzAB5FnWZ5H5w61KIba32LgyxJeExk/oD4t//2hMn+VTYQ9JYw5Jdqk3/XYe/PdLMmUZ94cQ0c3wcALOT1RmhGyuW/Dzr2x6L5jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707764675; c=relaxed/simple;
-	bh=vI89LdebZecrlsHELjk1qJUqW5p9P9BrNUGhawfpPSU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YFtTIOGnWMTDdxYaiHR4eXfwWVNbWd5+7i0aQva8M7R/wp8a3cb3YRpZJPTM9efghlv5b8P99QaJ1lXGjgBq++GpDWddwHbjaXFKJi23gTykLvxtPw4qIBIJzltUUFkb38HwSo+aX+XexjWVVkN7aIVMl1atAEmkkLlnv2klUDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=y3aN71zO; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1707765095; c=relaxed/simple;
+	bh=uShb6ZcgqhX2ALUmZCWrjlz3y5tvNFOTevE37zcmKJA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=teBwHUCy1A2FC8TUttP83baHtbXqgus1FlPknxq7uyak179qRhIvhLr/cFWIE2u8AqVC86myGYgpA/NXATspZ61fOXjKIr1fhV3K5BscjAGqbGsg/F4jmpKW14nXIEMQpZs7fvTMolOS2K4nSymXdrwc0c4Pxg2LRmGpYzTlCsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SxEBtPVz; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="y3aN71zO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=x5eMkKunWvdfI72+MG0lH8Jec7gbENd3muJV5uM1De0=; b=y3aN71zOtbdIcZhOcHgfVyfHuh
-	kxAQlkrQKV5+2NliW8lMtGXMiwFAOMe9gjKTihd0XwqbGg0RMtfjH5qkM18zyJG7YdsNILmuQcLgU
-	97HVkD0WhM8UocuhGgTMOZ9QIEMfzGcugF962N4X12BhkZUR3U74tVlTac4eL3Qke2ynOT7Z+Cr70
-	uCJmv5wrTrKoNEWi7jKIURrfDQuO9llohhldBCaN/1+RjDcF3y3CIV4u95AgG/xvt9EUTeF/LGPYv
-	9MS4v4m8XdfvUnhI4FYdEWdhuWE8KMH3W2j8/mrLd+Enlnra5r79bDyHD9EQIVcoQY2LhDNCjDVhs
-	RZg/oH3A==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZbbO-00000006iYa-1OtD;
-	Mon, 12 Feb 2024 19:04:26 +0000
-Message-ID: <1d12e130-d3db-4eb5-a1d0-bc994c97a175@infradead.org>
-Date: Mon, 12 Feb 2024 11:04:24 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SxEBtPVz"
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dc236729a2bso102878276.0;
+        Mon, 12 Feb 2024 11:11:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707765093; x=1708369893; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uShb6ZcgqhX2ALUmZCWrjlz3y5tvNFOTevE37zcmKJA=;
+        b=SxEBtPVzbSP1DXv65obqVo5hwkeW3UaNUwmtfAiGt7OLXeFRlkUaaaeH8D1lptRvbR
+         D4eCbeP9gvtWBn5/Gu5GCCT58nByUKRqKzKaWtcOzYwOVlsCLeoVBzaZaMKvpcZb5ztE
+         Dg8JPLuFg0/9f0ryQQjNPYikkrE9TSyuJ2GWiy71NJ/Cp15v0eoIOVl3eKkB0J0XHLso
+         cN4KOInEEP/fSRRJGqvkmY7xwnCLmM656LPngGdqmUajj6z1e3iXZf9fE+tlk7e5ZYlx
+         3rHg43FxsVLB3CgoeNWhN51Mq2pTs8XnmoIY4xF2vY3oiQgbLnK90VQGv+se0byOZd3z
+         WA3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707765093; x=1708369893;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uShb6ZcgqhX2ALUmZCWrjlz3y5tvNFOTevE37zcmKJA=;
+        b=iooptvjgsOldMRa9+PNcX2V0iczqt4JtbwUENBQyxsG6tgESN9qXcjiGlrW+wgZFSp
+         sCsGk7WvPtuVGTYFzWSPzhwdOfbJ04MgvCAABKB3qwr7W6I1cdwBtVKljQRPEW9aqBHo
+         ay0eLECJDLCmXo9anCk49hZVUPORKuaRmqmIKJo/9RtEh/NOG62sHNyKLAVqdeXFynpQ
+         /k5vE0IGG6sDogTB0f+I7KP+arB1stv2q6CckP3oPoPRj0AOSiSD8sgCUGbtwxdI8MQH
+         vnBRGUcTGauy1yXr1RDUVJbXTArS1qotDY+IsSvxaIJBUNTd53C/4NxMR6CCIP2VBOa4
+         p+Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCWBAVKijnygfGrhEUr/62YztSy8iXptrIoy1MO8YrHQRVZ/oWGLGKB74k5PvV7KSIHdOWNOLyWwn8/km79Bc0qcT5rupMO5XAhsd+XuUO+3Fv4iZ4OurQoDaWizJUDDMHNLgSBK/NVuBULEHY48VdMZJS6ZtqaKHTH9sxQdhqkhlEAlq2p8QIg=
+X-Gm-Message-State: AOJu0YwG23NqzJf7pXc8QwCFEylnDvcp0/7XogimcHFtytBF8datB6Xu
+	1d/AHTw1fzA2fMMvvxDX+W/4Ktr5bzjHs9+TpNzpndc0PJVgSMO14Zu85c1070TWuUGJl0d95Si
+	9MEcuFfVijxdrjFHiI3vfcL6B5Vy0g4a3imY=
+X-Google-Smtp-Source: AGHT+IHqXLnUCxAsb7XvKnFAPSGDB3hUHETodqtr+uDm3QdrNT5WCj6II1sL9VaSLYPlv+uufOR+eCV6bruG7EgGquo=
+X-Received: by 2002:a05:6902:4e6:b0:dc7:4758:7802 with SMTP id
+ w6-20020a05690204e600b00dc747587802mr6000531ybs.48.1707765092762; Mon, 12 Feb
+ 2024 11:11:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] PM: hibernate: Support to select compression algorithm
-Content-Language: en-US
-To: Nikhil V <quic_nprakash@quicinc.com>, Pavel Machek <pavel@ucw.cz>,
- Len Brown <len.brown@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Tejun Heo <tj@kernel.org>,
- Yan-Jie Wang <yanjiewtw@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>,
- Catalin Marinas <catalin.marinas@arm.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- quic_pkondeti@quicinc.com, quic_kprasan@quicinc.com,
- quic_mpilaniy@quicinc.com, quic_shrekk@quicinc.com,
- mpleshivenkov@google.com, ericyin@google.com
-References: <3776355f920c1af44490e076072f93bafdf128cc.1707740870.git.quic_nprakash@quicinc.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <3776355f920c1af44490e076072f93bafdf128cc.1707740870.git.quic_nprakash@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240117-swiftly-parasail-618d62972d6e@spud> <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
+ <20240118-implode-delirium-eefdd86e170e@spud> <CANiq72nx1s_nyvPW86jL7eiOxROr18LfOJqNtw8L42CP+gkhRg@mail.gmail.com>
+ <20240125-bucked-payroll-47f82077b262@wendy> <CANiq72k7n0aZrifRRU08N8qLkNe+2EZwijZy5sM7M56n2xYHgQ@mail.gmail.com>
+ <20240125-lazy-thrower-744aacc6632a@wendy> <CANiq72kb+_utZrYHtoKZQtQazikmkjpVUHpTBcaANizduMF5QQ@mail.gmail.com>
+ <20240126-eccentric-jaywalker-3560e2151a92@spud> <CANiq72nu2NXUWYanHZd5EXgX4P_v673EWn6SCRW60Es9naraQQ@mail.gmail.com>
+ <20240209-rage-keg-1b2982cd17d9@spud> <CALNs47sRqAbE=u3=_ciO2oge7Afz-6GBBhW+BwcLRET-TsuxTg@mail.gmail.com>
+ <CAOcBZORDaHHH3jTL3GO7OsDubhhyQE0Uy2uAjJpiRzrKBgqaOw@mail.gmail.com>
+In-Reply-To: <CAOcBZORDaHHH3jTL3GO7OsDubhhyQE0Uy2uAjJpiRzrKBgqaOw@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 12 Feb 2024 20:11:21 +0100
+Message-ID: <CANiq72=VBFvB9O9c84YxpBBftpfNnnXx-+Xes0h8h6rN3EN5pA@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
+To: Ramon de C Valle <rcvalle@google.com>
+Cc: Trevor Gross <tmgross@umich.edu>, Conor Dooley <conor@kernel.org>, 
+	Conor Dooley <conor.dooley@microchip.com>, linux-riscv@lists.infradead.org, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	Matthew Maurer <mmaurer@google.com>, Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Feb 12, 2024 at 8:02=E2=80=AFPM Ramon de C Valle <rcvalle@google.co=
+m> wrote:
+>
+> Sorry for the late reply. Sami might be the best person to answer this, b=
+ut KCFI (not CFI) tests are lowered by passes that are architecture specifi=
+c (see https://reviews.llvm.org/D119296), so we'd need to add support for R=
+ISC-V. There is no additional work required in the Rust compiler besides en=
+abling it for the new target.
 
+Thanks a lot Ramon!
 
-On 2/12/24 04:32, Nikhil V wrote:
-> Currently the default compression algorithm is selected based on
-> compile time options. Introduce a module parameter "hibernate.compressor"
-> to override this behaviour.
-> 
-> Different compression algorithms have different characteristics and
-> hibernation may benefit when it uses any of these algorithms, especially
-> when a secondary algorithm(LZ4) offers better decompression speeds over a
-> default algorithm(LZO), which in turn reduces hibernation image restore
-> time.
-> 
-> Users can override the default algorithm in two ways:
->  1) Passing "hibernate.compressor" as kernel command line parameter.
->     Usage:
->     	LZO: hibernate.compressor=lzo
->     	LZ4: hibernate.compressor=lz4
-> 
->  2) Specifying the algorithm at runtime.
->     Usage:
-> 	LZO: echo lzo > /sys/module/hibernate/parameters/compressor
-> 	LZ4: echo lz4 > /sys/module/hibernate/parameters/compressor
-> 
-> Currently LZO and LZ4 are the supported algorithms. LZO is the default
-> compression algorithm used with hibernation.
-> 
-> Signed-off-by: Nikhil V <quic_nprakash@quicinc.com>
-> ---
-> This patch is dependent on the patch series, [1] (patches 1/4 to 3/4).
-> This is picked in linux-next, [2].
->  [1] https://lore.kernel.org/all/cover.1705927916.git.quic_nprakash@quicinc.com/
->  [2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/kernel/power?h=next-20240212
-> 
->  .../admin-guide/kernel-parameters.txt         | 10 ++++
->  kernel/power/hibernate.c                      | 57 ++++++++++++++++++-
->  2 files changed, 64 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 31b3a25680d0..522155056645 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1748,6 +1748,16 @@
->  				(that will set all pages holding image data
->  				during restoration read-only).
->  
+Then for RISC-V let's go for the `depends on` for the moment, and we
+can remove when the support lands for RISC-V (ideally when someone has
+managed to boot it at least under some configuration).
 
-Hi,
-Please add something like:
-
-
-> +	hibernate.compressor= 	[HIBERNATION] Compression algorithm to be
-> +				used with hibernation.
-> +				Format: { lzo | lz4 }
-				Default: lzo
-> +
-> +				lzo: Select LZO compression algorithm to
-> +				compress/decompress hibernation image.
-> +
-> +				lz4: Select LZ4 compression algorithm to
-> +				compress/decompress hibernation image.
-> +
->  	highmem=nn[KMG]	[KNL,BOOT] forces the highmem zone to have an exact
->  			size of <nn>. This works even on boxes that have no
->  			highmem otherwise. This also works to reduce highmem
-
-
-thanks.
--- 
-#Randy
+Cheers,
+Miguel
