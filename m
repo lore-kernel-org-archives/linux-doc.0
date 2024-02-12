@@ -1,55 +1,56 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4664D59C
-	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 22:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC5A4D5A5
+	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 22:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707775777; cv=none; b=ivMHOLtJ0BQp3PIsXg2Rcw9C0K1qiEXvRcL5i6nN+f7kvEhE4mgxIOQAnd9fWxEITXX1NSuG2ex67EXIr+1/QZS5E4PvU/+LLTjYb9TaUHRZr341YlgGZR+uhfGTOD1pwrZS285YP/l0rkqL/WmBbBdI0lyN+mNiJcZR695gjq0=
+	t=1707775818; cv=none; b=MR0oD4BGJYjpE5XPuPv2Tx0nCTpoEWj5GZb9+t4k/RtQg0bS+kUQzYaUa0X25MyMTSxa8IjZqXWGA50Jlcu/ptWYUE5g61suZTDkCwqYfOs5qI8KUpxc9HaD+YnHIdb0qVQECGOF0QoPRZ+9QXRDwZ9zjjiRxfBha8SLeRkT2CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707775777; c=relaxed/simple;
-	bh=MLwsSr8MVdCOcLFBS21ndz8l0PLPcDhM3Y/oMOTG9R8=;
+	s=arc-20240116; t=1707775818; c=relaxed/simple;
+	bh=x2dB2HwYcw6FEFcyt88gNSz8C4rxKf1AxqpiQ+NBli4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TlblK/KhyvtX6ALYJZfZYqUJdB4D9hQ3AcZZvU3j6JiEUNunKEJc5u5G7CUxNUtBgy1LhOr0agb06RUYMoaNLgIaGpVIAtsy31g34Rc5EV/W+4MEtmWlLaaPn2iaTSIz6Cl8Zv7gowpVbNjIeVHHHRggmBuN5c8hDae2aED6PFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=McKPaw6D; arc=none smtp.client-ip=209.85.210.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=UrKPn9SE+IFQNkWI2W0ypKQsQq/ouhJQX58uWOM+IZnYFwIbiww1uiAVyUO0B0B1+qXGx2eouAOoIl+JF+eJYcn+GJhn1lHgfbJ+kcFAChqZejRWeh5chhYbthk0com/yLo7fHUumr3n5tez+FK4n8jvR6oMK5ksr5t+z0JRHTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=f/hD+jRm; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="McKPaw6D"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e06d2180b0so3020602b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 14:09:35 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="f/hD+jRm"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6e09143c7bdso1848253b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 14:10:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707775775; x=1708380575; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ijXS7mVIfD783iJTrvPPuV7zXdag7eKduahqAMiyRM0=;
-        b=McKPaw6DXrLHk5gwQBi14gC36WdNjtcbjXr9Th2EFwu0ozmdj7lEErt39knzyI8Xab
-         LnwmO2ExgK9SP7FJMmoMQ7RHPXTi/Ojr5ZV5bzkLM1etG1wyHznlqcwn17cJNooraMEr
-         4TUICGFhrt+cmBpJCKl5JPPp7Lwa35J06fFTY=
+        d=chromium.org; s=google; t=1707775815; x=1708380615; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SkGi1YlkpzrNgkK7fsGdO+nBxolzeU4HsB6lcpcl19k=;
+        b=f/hD+jRmmD/nslR6LOtigo4QXPAJUg77aKa0j8xZ6fJ+CLUWVkHvb1gZf5oN8WqpPg
+         dE6jNHmvvmbX4CPhzwJqU1rqN1Vu1cTaDW4hmAZb8bNPcTMzPNdvxcvcA5FSeqzyt72g
+         KlBKpWvqMHamP/P8cqIPHy2pvlpoEOQcPKstg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707775775; x=1708380575;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ijXS7mVIfD783iJTrvPPuV7zXdag7eKduahqAMiyRM0=;
-        b=L6bXw+fuGJH9KK79t3G2bv+uqXWoUC8EH7Ja2vHSZJLrUXvRyQG8UZ8zN2NAUpIX3v
-         OR5W4hETcsnYqx3ogvyfxBHXOKjCqAWoTvKv+ypeXeS/g4BqxhDNd/2Y2NYOhMmPbgUI
-         2+J0YJFS5ephd7UDg3QaUIz46SN0XQfEpYskLVC1AfY6442RRQHqN2JAAByFQDKUC04u
-         y8KIvvbf+9wpy0cPEpnV97mCPN3ywW2vtvdyD8W7f3X8RUXzhRBJnyBY90dhc+lmZaS+
-         1qFCdTEAxWR2BXvi/jjfvIVgUBP+sGsQpTETZdfF5m28ssY0vCoW4FYAMHIZJfxvR7yC
-         uwGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWrtPPiJTJlZH6SHcOoWZgWs4LxAMg3ywNXHgpZo+JvKThe1/x7iDAbn/2Znbfgf9d0Fp9RnuPRyXaeACQRHdsViW8JI7S/sTAl
-X-Gm-Message-State: AOJu0YzHoQk5HzPTrPNNIoY85izvH/ED2/haWgEB+OQF108eRO2i3NYN
-	VNd22BUKFxPRaPmX2NgAem4W7K3fsqbRXgjGzvf1pzai5Gx2GoxgfAWvJN391w==
-X-Google-Smtp-Source: AGHT+IGA33xPlWYbMt4sAOWVxNiiyT8AtvIRLrUgOdMPx/2TUza3Dw0PHn4w0vzmkstDOUwhjqvlRA==
-X-Received: by 2002:a05:6a00:4b4b:b0:6e0:38bf:28ea with SMTP id kr11-20020a056a004b4b00b006e038bf28eamr9682776pfb.19.1707775775255;
-        Mon, 12 Feb 2024 14:09:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWl2GHEiI0AdIONJv9vhuo053+zvHgdgwx2XCGWS00mxsRzMcqr79bvNvUDgm4zurDDPMyzknMUHE2JzbpNpXpoosUywUuK8+h2bt63JzaaMKGW1JwFkeicTqkQnrh5yEsbUY0YSJ9KrvTBoJzdixbEQwXGnB+rBT4smOkRhcG3knPCxp5C5Jmu74qY0nq9EOrAW9CVttjK3LBzv7FXCoZ4NIj+hpsuYoReG76UiKrBEUUslqfsnPDWvWLiRaZARKurLT/uPwecyFHzGa6QZBFqZs39g9QQqpxCzlP8crYc3dvxjzW95a7CEQmZMA/pIwcZPD5PznKyfGa8Zhcgw0jBETK3W3wOxPJtobmxnoIUltdfffu2zdolE4WS8qneSd0RnuJLbI5CvSmPksggXAwQBpfSjRow/luRjT5t5fi3EKG34lljK3UsZFrf0AkYedTEG9gAWsrElOEfr7wZM5qD7lSBcnghPDc+He4vk1wG8a5maN3KWnNAGd+yJsjmlKHKiL+qgyACU3Fg05QbSZFvSZd6uhF47cH0mgzLEvbZkIOeKyDesE+6SMGVzhaye/ANoj1+hPzMhSl83im0D8wWkdtCJDUU2vzlrmLvKYfLJiddjBonHbV/5oYtsnKbHKN/bNLryZfRlo9iikMEMkFOG66/DD474EblIazqjnz+eJ2I+/Y0Ckt0lhGrr+wBx8jty7dK/PqWEs0w6x4fR57/eWmImaXyVs560HpVnn2GeDvdhGi+5z5+oWyrXLZk6iiM3POqqyDmPB1WSIt4UIf4AcFzh4CPCLUhblFuFGpuXoLl+L4J6dKCityjp3TPGWiqEsnhNWQc2mHIyvo0b0MnVXLerlFLm42viHQ9Z5HAM+GGR652A441koINmwJaGpt7XPVtNyqMHOqcfZXeHjNAEA7U5qEHKP4qfh1GXbEP2E96JLV6bsx8oqiMe2FTQg==
+        d=1e100.net; s=20230601; t=1707775815; x=1708380615;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SkGi1YlkpzrNgkK7fsGdO+nBxolzeU4HsB6lcpcl19k=;
+        b=EJOUBWgIsYui7lKGhXdLR8FjISktnwv6+vp4FsArD8MzyWVjQ+Z8E5LW9/yhJjZ1cb
+         IFEiJSr2YeZm4l+DP1XjF9Ou2zeTKtGRuhOy0/cCL/NUFERnJM2oO1Ek7vANenn3G7Li
+         vtdj1E7eIU15oaHtHTCjgWX2YmD9m3TGKzErMtNjuB8ca5b2x8vPRC+yL+cnLS4r+eqk
+         8ZEOHc2UHK8eaAVZNI8BX4SopRKSryI28d3jJ1byQQBcYFPdF2jDrzjGCsa5eu7LJS7C
+         i+F1ipEapWPKFtYNCLnVp11sAV91UBvPgozi/2Mfc8bs8kZCm82v7h93rGYzgeUBc+Mg
+         dd2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU6uG9lNuqt2vvjoxsSo+MDaHOPdQ6oA4EeMKp16VOYvqZVCt8JQxxlTo8Q4GqcqvabdGkWJxS6+jus1nfPGksl+6ElL1iqMviU
+X-Gm-Message-State: AOJu0YwbcP8514Jr68E4j8x8+NdLDFsTDFJfTG3rouahWFfjmKqKJqnq
+	6MK775lEJl8/74HEcuxvRkx2cF5JzNPtK0MICrjSgsdl7fZ+wMnhsDzAckzf5w==
+X-Google-Smtp-Source: AGHT+IHpQno5Gs03vrNijZSLYd7CPW99yv7uxK9TZvUe9tkILhybemJJepHKCzS3OyHmktw5rKj2Aw==
+X-Received: by 2002:aa7:98db:0:b0:6df:dde5:6029 with SMTP id e27-20020aa798db000000b006dfdde56029mr6510317pfm.19.1707775815028;
+        Mon, 12 Feb 2024 14:10:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXOM1Q1oyTIbMIm3/8NgYuKUVkfTyBovJtGCm92Dn+6W/OCl9Nrv/9i724olnZ5KO3Fz5WtaYNAxg/AWzfjP4i6FjATD/SDxSr/7MuS07SgqtcyB+KBkjG74OXwCYRnrUCULqm/FS1x+sDsfAtu5s6Kk9iGqitIj4DucCWD8+Hl7h+hD17lQD7sNGOUbVALXnbpIsgXE+6k9TNDm2VZqP1caSvISBQNoE5caPtC23Ze9Rpx+Gy1DKQW6uVG8x/pp95bOikO0VDHbBRFvlHuN1wOhy02IGklmdfe4h55X03v7DqS+SOQ/623AhBZyVQ31lQ4xSd6Qt0Z/YpxMLduBeenZOufyU3HUaY8oQjZb7JQQIODmDHwUbepfiMNs+GFKMo6YmScsmqReF1sHoBGSpV0Sdv/8rYGdPSMZG1XpAooQEr++lm34XyeYmZKniSFeLuTEEq0bYTHwevd/8a3xdOwtmuY+OrRGw4OipMEe1qbiuJDEtXWuFvwQ2gseYYcqX0Mmb5sma7UrIoA78CngK185TpVFMCib6jjPZmKaOU5oWUrMVPwtChDDSkb/8k0l8hdSdJyz+tcq0aiBX6NDtWHVtFZ16gGOHy1doeBfWMHyKWwFsraOU1+xUE6dqPg+aliI9BzB7SiLIDJ3fOw4wmqBnXROPnqBVbHUGPrLJvvvEwsBbfzcKgjdtOHKHfJam1UoC1057u35AfN2U4nwohU6ExKIcdFgnYFlt+7gwEzYI96N9vuVVfFr6cGfdoD5EdsOJ4yxoeWOQ==
 Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id b18-20020aa78712000000b006db9604bf8csm5978722pfo.131.2024.02.12.14.09.34
+        by smtp.gmail.com with ESMTPSA id z10-20020aa79e4a000000b006dae568baedsm6042528pfq.24.2024.02.12.14.10.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 14:09:34 -0800 (PST)
-Date: Mon, 12 Feb 2024 14:09:34 -0800
+        Mon, 12 Feb 2024 14:10:14 -0800 (PST)
+Date: Mon, 12 Feb 2024 14:10:14 -0800
 From: Kees Cook <keescook@chromium.org>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
@@ -78,43 +79,32 @@ Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
 	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
 	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-	cgroups@vger.kernel.org, Andy Shevchenko <andy@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Paul Mackerras <paulus@samba.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v3 01/35] lib/string_helpers: Add flags param to
- string_get_size()
-Message-ID: <202402121408.5C98241E@keescook>
+	cgroups@vger.kernel.org,
+	Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Subject: Re: [PATCH v3 04/35] mm: enumerate all gfp flags
+Message-ID: <202402121410.2AC4CACAE@keescook>
 References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-2-surenb@google.com>
+ <20240212213922.783301-5-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240212213922.783301-2-surenb@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240212213922.783301-5-surenb@google.com>
 
-On Mon, Feb 12, 2024 at 01:38:47PM -0800, Suren Baghdasaryan wrote:
-> From: Kent Overstreet <kent.overstreet@linux.dev>
+On Mon, Feb 12, 2024 at 01:38:50PM -0800, Suren Baghdasaryan wrote:
+> Introduce GFP bits enumeration to let compiler track the number of used
+> bits (which depends on the config options) instead of hardcoding them.
+> That simplifies __GFP_BITS_SHIFT calculation.
 > 
-> The new flags parameter allows controlling
->  - Whether or not the units suffix is separated by a space, for
->    compatibility with sort -h
->  - Whether or not to append a B suffix - we're not always printing
->    bytes.
-> 
-> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> Suggested-by: Petr Tesařík <petr@tesarici.cz>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-If there is a v4, please include some short examples with the .h bit
-field documentation. It's pretty obvious right now but these kinds of
-things have a habit of growing, so let's set a good example for
-documenting the flags.
+Yeah, looks good.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
