@@ -1,146 +1,120 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4E279C0;
-	Mon, 12 Feb 2024 07:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B60F9CA;
+	Mon, 12 Feb 2024 08:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707724740; cv=none; b=nbQvSDeFPhiMPKTyDdraoygjkcAW7HBkXCVz0gSUVChnA9+RjFhko0RTCAN/9zAcktQJkOddZm3mMyeSy1zWfaxYqWSizn+tWV6HihnmodgDzSu8jgcDrXDfN1L2q+gzg2VRK7PG6zaYoATkAY80K76ovYIFZ9AZGrZ9e+YRGw4=
+	t=1707724964; cv=none; b=nFgvfMWBD++EWQR2gIWnSNuskEBykKEyy8iytH1mqYJEpStvOeRp+htgDZBy4TLek4bGYE/RLercAdqEnuglk2i7trIuze6ynMxfhClK6FDN6Ph/8oeRRO0YywkYg6SG9hKmhh+Vwb4YoQFrdv66luFqrWdM6yiS9uJkNbgQPsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707724740; c=relaxed/simple;
-	bh=+4UKT5lMeLqBN6tkRMqWTiLZXcD5qaeXmDujbrzfJ+U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Ibm/dVaX3qBOmf3BO4u7cVBw8pqxb5AdLijm9ZUD8u5QSNvNqY1JMP5nNAN5mKG3s0hAoPLHlHaUrfQsJsEZzU/H7Zm5nD/Z0LMvWuNeN+hodB67EZtpyRey95mXNQ7ed+FsgWBfxqvTUpm+fZQgJbrxJwEtmnNmj8rKB0cg5Oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Gmewb0m7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Gmewb0m7"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41C5ixuY008599;
-	Mon, 12 Feb 2024 07:58:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=ZSOH1PNXfKcnxMduQOe97NhLQ6gWraBZNi5A2GI1zrg=; b=Gm
-	ewb0m7TnoqQg1weQKx3rmrFinaLGHVngcZ7tVF5oBruuWsoCNKtN1KhjGx/eykG1
-	9kYeAgZqkDprk/nM+xBiGAgbnwHsDszyWppicxn+M1p1jdCQ0VsnUd9975hR6jXn
-	eSH7atGT45+43Njy6Q/HxiJwg6E7Wl3J/rjGh8EKcBAoFlVEzDZJkRp9F/s7bW8p
-	4JkaW/Rwtx1iYew/JCu1W4YybxZOcEgYG6iKlScxWgul08LmEIa7REyLjHvq4kIo
-	pf0P5nYKsu1hxAOnuyefGTzWvNN1ziHAMv/4362wNJSeEc5Ub82a/SJRrMTxm6Pf
-	eUEJx14zDcROktVrZvFw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w62n02qqx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 12 Feb 2024 07:58:33 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41C7wWRg005655
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 12 Feb 2024 07:58:32 GMT
-Received: from [10.110.93.252] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 11 Feb
- 2024 23:58:31 -0800
-Message-ID: <7abc0c1f-c223-c069-7152-418c42aaaecf@quicinc.com>
-Date: Sun, 11 Feb 2024 23:58:31 -0800
+	s=arc-20240116; t=1707724964; c=relaxed/simple;
+	bh=4NIW/S+1SXSOSu4OX4XJKNnkiHbTJHa6LNjRdW7BjSY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=b/P1/ocQ6em7+eJbsjBPZUeqCQuGBMvD4+MMbKc2/JbsKL6w7Dzg2MJTpQm7dFeQpw5hmOGO9sWH/W//jho5e5lzu6hfDZRjug6WADg+tSpO0drpCoQeW/bvyTAiflAMkNmsynXNiuhHxVJfgzfT4MvBJhaK0IVupY+v4pTz0JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4TYGl03kj1z9xrsF;
+	Mon, 12 Feb 2024 15:47:24 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id 6FFAA140118;
+	Mon, 12 Feb 2024 16:02:38 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP1 (Coremail) with SMTP id LxC2BwDn3heO0MllesFaAg--.29115S2;
+	Mon, 12 Feb 2024 09:02:37 +0100 (CET)
+Message-ID: <0d4edea8f075311d3ecedf2471cd6ea3d3a282cf.camel@huaweicloud.com>
+Subject: Re: [PATCH v3 02/13] security: Introduce the digest_cache LSM
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
+ paul@paul-moore.com,  jmorris@namei.org, serge@hallyn.com,
+ shuah@kernel.org, mcoquelin.stm32@gmail.com,  alexandre.torgue@foss.st.com,
+ mic@digikod.net
+Cc: linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
+ linux-integrity@vger.kernel.org, wufan@linux.microsoft.com,
+ pbrobinson@gmail.com,  zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
+ pmatilai@redhat.com,  jannh@google.com, dhowells@redhat.com,
+ jikos@kernel.org, mkoutny@suse.com,  ppavlu@suse.com, petr.vorel@gmail.com,
+ petrtesarik@huaweicloud.com, Roberto Sassu <roberto.sassu@huawei.com>
+Date: Mon, 12 Feb 2024 09:02:19 +0100
+In-Reply-To: <e8378ba2-ccd1-48fe-973d-38986fc0716d@infradead.org>
+References: <20240209140917.846878-1-roberto.sassu@huaweicloud.com>
+	 <20240209140917.846878-3-roberto.sassu@huaweicloud.com>
+	 <e8378ba2-ccd1-48fe-973d-38986fc0716d@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v14 20/53] ASoC: Add SOC USB APIs for adding an USB
- backend
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
- <20240208231406.27397-21-quic_wcheng@quicinc.com>
- <87r0hl29ha.wl-tiwai@suse.de>
- <b007a78c-b8fb-83bc-3be6-963708182cee@quicinc.com>
- <875xywzqpp.wl-tiwai@suse.de>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <875xywzqpp.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: W9h0Nhn7smWBWqODCEcxtLDWOGGyIb2g
-X-Proofpoint-ORIG-GUID: W9h0Nhn7smWBWqODCEcxtLDWOGGyIb2g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-12_05,2024-02-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- mlxlogscore=929 phishscore=0 priorityscore=1501 mlxscore=0 suspectscore=0
- spamscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402120060
+X-CM-TRANSID:LxC2BwDn3heO0MllesFaAg--.29115S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruF47WF1fWryftr1rAryUGFg_yoWkAFgEvw
+	1xAw1kKFZ8ZFy2yFsFyF48AFWqg3Z7Zr18Gry8tryfZw1fX3sI9FZ7XFnxX3W8W34S9FnI
+	kr93Zr9xt3yq9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb4kFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
+	1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
+	04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUojjgUU
+	UUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQALBF1jj5pEHgAAs-
 
-Hi Takashi,
+On Fri, 2024-02-09 at 15:00 -0800, Randy Dunlap wrote:
+> Hi--
+>=20
+> On 2/9/24 06:09, Roberto Sassu wrote:
+> > diff --git a/security/digest_cache/Kconfig b/security/digest_cache/Kcon=
+fig
+> > new file mode 100644
+> > index 000000000000..0c47d5151f07
+> > --- /dev/null
+> > +++ b/security/digest_cache/Kconfig
+> > @@ -0,0 +1,17 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +config SECURITY_DIGEST_CACHE
+> > +	bool "Digest_cache LSM"
+> > +	default n
+> > +	help
+> > +	   This option enables an LSM maintaining a cache of digests
+> > +	   (e.g. of file content or metadata).
+> > +
+> > +	   This LSM can support other kernel components in making access
+> > +	   control decisions.
+> > +
+>=20
+> nit:  -ESTYLE.
+> coding-style.rst says:
+>=20
+> Lines under a ``config`` definition
+> are indented with one tab, while help text is indented an additional two
+> spaces.
+>=20
+> > +config DIGEST_LIST_DEFAULT_PATH
+> > +	string
+> > +	default "/etc/digest_lists"
+> > +	help
+> > +	   Default directory where digest_cache LSM expects to find digest
+> > +	   lists.
+>=20
+> Same comment for patch 03/13.
+> Same comment for patch 04/13.
 
-On 2/10/2024 12:08 AM, Takashi Iwai wrote:
-> On Fri, 09 Feb 2024 21:34:39 +0100,
-> Wesley Cheng wrote:
->>
->> Hi Takashi,
->>
->> On 2/9/2024 2:54 AM, Takashi Iwai wrote:
->>> On Fri, 09 Feb 2024 00:13:33 +0100,
->>> Wesley Cheng wrote:
->>>>
->>>> Some platforms may have support for offloading USB audio devices to a
->>>> dedicated audio DSP.  Introduce a set of APIs that allow for management of
->>>> USB sound card and PCM devices enumerated by the USB SND class driver.
->>>> This allows for the ASoC components to be aware of what USB devices are
->>>> available for offloading.
->>>>
->>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>> (snip)
->>>> --- a/sound/soc/Makefile
->>>> +++ b/sound/soc/Makefile
->>>> @@ -1,5 +1,5 @@
->>>>    # SPDX-License-Identifier: GPL-2.0
->>>> -snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-utils.o soc-dai.o soc-component.o
->>>> +snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-usb.o soc-utils.o soc-dai.o soc-component.o
->>>>    snd-soc-core-objs += soc-pcm.o soc-devres.o soc-ops.o soc-link.o soc-card.o
->>>>    snd-soc-core-$(CONFIG_SND_SOC_COMPRESS) += soc-compress.o
->>>
->>> Do we really want to build this into ASoC core unconditionally?
->>> This is very specific to Qualcomm USB-offload stuff, so it's better to
->>> factor out.
->>>
->>
->> Ideally, the SOC USB part shouldn't be Qualcomm specific.  Since I
->> don't have access or insight into how other vendors are achieving the
->> same thing, I can only base the soc-usb layer to work with the
->> information that is required to get the audio stream up and running on
->> the QC platforms.  In its simplest form, its basically just a SW
->> entity that notifies ASoC components about changes occurring from USB
->> SND, and I think all vendors that have an ASoC based platform card
->> handling the offload will need this notification.
-> 
-> Yes, but it's not necessarily built into the snd-soc-core module at
-> all, but can be split to another module, right?  Otherwise all
-> machines must load this code even if it doesn't use at all.
-> If this were common among various chips, it'd be worth to be merged
-> into the default common module.  But I don't think that's the case.
-> 
+Hi Randy
 
-That's fair.  I'll make it a separate module and upload v15 tomorrow. 
-Thanks for the explanation.
+thanks, will apply your suggestions to the next version.
 
-Thanks
-Wesley Cheng
+Roberto
+
+
