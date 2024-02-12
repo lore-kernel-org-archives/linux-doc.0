@@ -1,207 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524A05244;
-	Mon, 12 Feb 2024 10:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD4617C62
+	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 10:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707732070; cv=none; b=RHo4JKsS12kA7Rx+FWwZUwvXZaiFUD37VD7XhXBfqUnJ0wsHqu6wiTlkzg5TozZwyUsnxKq0amWx03ysyQA2pnIi4Jr62Woi29SljbsGydyf7sfrnFRHFVQGEKQKcGXzfPyrFbiehzhgREjd3dkdJ8mrDSjaGFUoIDU9XCKGP1E=
+	t=1707733437; cv=none; b=GAhAFFgi2dMuJz5syGZCeXi8+aFRimlJrbjcE5jvfUKoOQtavjLATCcWeiBiXB9gY7RXSsOOoTZMa37b4hyAo0p9LWaHFnYxEePGPqJQqvDodhHYWeh6xnf6YwRzWM9cNxT5D6NEs7El8V/x6AqASrSPLLOyjd9vVE8upCVsgKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707732070; c=relaxed/simple;
-	bh=ZV4pECgPYcbYpTFYE/HHDZCGaJXwRLM519uxPcGBl0I=;
+	s=arc-20240116; t=1707733437; c=relaxed/simple;
+	bh=TLWj/r7Pgt5h2SbwNEGy7ntlN2xmuVp2ucImosJuV3s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PKSuZrig1GVtHjpM6uqtZY8wBSkBw3q0hEPwC+TGxjHRqOoo4RibGAVvMggxICaXNhLiLkKCcOku8kLtVgRCNerQ3YNG1qiXC2/LNeOv37VSjcAFStQXba2jx/cY9RB7a44XzR5Gi+GaUuZDYg3NbcorZLl2IFIok7y5Pnd8CEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vRdcfGdN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mgu4ph8f2VrGo+cBSbpzfYUu+LV0+Soh7obwKptGWc1K3E6nd/HzL77jONAg6Igsiuilm+u9egw5BzPQq9Sa3DMIJZ8d2nFZANEen21rfdLkeaS4WrRN+j5IEEPdYBhTWz9hl5n5FJ2ERYTfL57UDElyoayoP97bPP1BJM/gBXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=lcKaCn4O; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vRdcfGdN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76253C433F1;
-	Mon, 12 Feb 2024 10:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707732069;
-	bh=ZV4pECgPYcbYpTFYE/HHDZCGaJXwRLM519uxPcGBl0I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vRdcfGdNCOnmnB8/dcuM1aTGBkhnZCU+s8sdi2HDhKo1bAM9sweGpXpaiAluc56DU
-	 6M+uTI+N44afTG92KjSZS06Cfpa3OKXGNfTgQHDL2jFuLI3Rng7DXh+ZJI3cWNlsJS
-	 BrKiT9j7VQH3iQOQrybjasLvm2WVuEaU0eflNduPT/sjhtKqTrydzL3flueiwkwNlu
-	 f/aJmEAyfDnbIhycldNE2lW71I6zwId6r2BydT7BXebgkkBpsQreTcUL1iJlcsiVx/
-	 1f3nRZU3Jb4tGQY9zd4Z/FxH4FKFD7uYhtz7fG5gF60eK1onGRgp31xxYoRYOP9X6S
-	 MgypK9eU7VjMA==
-Date: Mon, 12 Feb 2024 11:01:07 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi: Add
- Broadcast RGB property
-Message-ID: <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
- <20231207-kms-hdmi-connector-state-v5-8-6538e19d634d@kernel.org>
- <20240115143308.GA159345@toolbox>
- <20240115143720.GA160656@toolbox>
- <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="lcKaCn4O"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a3ccea0d75fso38367666b.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 02:23:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1707733434; x=1708338234; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=er7uqV/3pxqI9E15uDGZ9iWhLJcFGSi+T2B/hFaMbBg=;
+        b=lcKaCn4O8jWvmQj4JVY2b3Hu8aDVbmgdz2MSKl3Gjad+fU4f4dik8oxq9eDiS+drGl
+         IjnyN318J4XOb1A1odLv62vyT/9YQR+VKcjQf+iI5YfGKGVq5MN02f5JMRnUVROj+ci+
+         bgN6ua1ifcd/6Xn2Cq3+expZKP7zP+BLuY3vmbwELmnICmFKL/TIImS6Y1Hxv7f/z8Xm
+         ogdt9pzj4EtkGrvtpwPOUXbxRPoezbAyZUlCuRGBfevvUbQZ4SGChvBUsrPg+3HsQK0a
+         R9Wo59Amv+y1NlFIeZZZHE9ocdY6qyuHG9QFjEZGS1YHvVA9YuCliQYtyVExkaKTnP0I
+         JU0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707733434; x=1708338234;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=er7uqV/3pxqI9E15uDGZ9iWhLJcFGSi+T2B/hFaMbBg=;
+        b=i93UMPblmeI4ysapHbJb6kPcrPxtrKp+cg9/O9tKFEx7Wb+GJdu/zT1+9svPwIyRkJ
+         jXw+VE33bLan8qdnKA7C/SrWbf08IuWP88ld4D3YRwDo79YkYRNZ0MwGSlHBCKl/emVl
+         AyvoJmxwc/TRb6YZPXFcJp+TwjS6GyprupdekohNDOtqqF4rPhGI3yILunI8D9uDq0q6
+         39OOOdJkYXqCUl1vvjy5bWTAHGtcbYN3EDl9zYIyJCSaBVPTTp7bEWcXphMvyfR7AUTh
+         hiZx9FeA6YsFUaeQg+UCiV1B8KMg5LF+xDE7Zj7wHLvevzym6p4MF8BvHVZP6GU84Pz0
+         61rg==
+X-Gm-Message-State: AOJu0YztnR0Ia7Zmj0FBkWKRk2m6Xw0YtlHtPFQvvuixA1sZY79lXFiK
+	bvUqA/D3IfEYkFtnDfqGc5IvXMfBhKjQybQYuhPAKNS285koEs4fmCy5lBRgs7M=
+X-Google-Smtp-Source: AGHT+IEIVVAUpTpqdBT16MY7gnKOm8Wgm8lU/UhtOte8u9qNN7LVPAHblq+h85cUkD6/Ed6GGvCddQ==
+X-Received: by 2002:a17:906:a88b:b0:a3c:cebc:9e0e with SMTP id ha11-20020a170906a88b00b00a3ccebc9e0emr567479ejb.66.1707733433939;
+        Mon, 12 Feb 2024 02:23:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUPAzE+xdeF9TrZSKLD2pHEr88oRydbkgxmrvinHSvSQxUcUIyGSd4eufO2JDcBJ7dp7k0omkE0TZm5KqaV2RSmopwEH9KJUBeAuNEnCQZp/Na3kZyhqGhtsPoWUFMQWLjH8g1/XK5jmvnK3onAoGGYAjWJYmG20MsKxc8Yn9hXfF2DIBZZzGU6LHBehpCvPsVjofyX2DVddSWuIv/g8ypG3DrQoeVz4cIaOtpF0w2aQFPxniQSHtJKifQoI36QcqUz+GTeRa25cUcHcaFSIQmeIhQc0JSMEzlS4c0IEEQuh4BCexsaE+Q2RkgtWWZhpOa/zFS9tiBq7NOlJoD7GObmq5y2nTJbzou3e8N/JqJSg+NdzdwTTJUpVKPs29VIz44lxoHm6/kZeP4Smk1W08JaOjCzXRt8PuEeZ/ZindEfAW3sw5G8/+7SeMUmw0s+pjY5aq6PL8Es9QTI+gFjyh5aBJdPU11Mw/b8r+ggEfN9EqNFco+lICueODov2KMWeF9NjaBVj7iuEimn1MzGt8h09gt++g3M+hv8cjkxyNnKs568+BR8yc2MOxQQfPS10utFK8+zFVEhGgYzQdUVImLwxe37lmPhh60wZlbX9IzH8qQrJ6pXMKqI7ua/HuD+egoIQG7OQAblqLWyAAYzgzeBywNTlp4Txdjmklview3xwwTap1D5fOGoJcX3j6hu48qZsuyeGsyC9nsBmohNR1DagrdFR+BQPMd8gUJY++R62GwIzRAH4E9fbyPamjyvb3f65wE2mOTSc9FZUoRQcF639WAouaosGVNVx1Lb+cyBEU6FitjgZXDhOSgLIEDineFX73GZcKSrIBtz4oK2eq7mAoQvQNaGVZKmYrzVDunSfj481sy1kH7T62OUcjxcEqkvFA6AoU8syAnrTA/2MrCiJ2cTSBnstrRgHXEzdtHuRyNWjIHVyXNF4EoXfIjpHWpKwC
+ eFJ5J+101mb/s4Q/1cmQ4Wz11QZhp5DbbKlvzcjLsFg2m3gpryp3twJqX5TrxCAcFt/wAV3BkzPRN88+roOQEXkWbekKlM46Y71IoxRtiUkdHJN5WqFsqlTyD5KyCw2GGJTw3SH6T/MmHAr+oOwvKSIc3aC0hV24YWulCM2OsuRuhclbmlzyt6Y2JJxxnVKaEqRxDeMNsLrGMeiDbuUhtua8pSpKm3dNm1G1WDslPC35cV5XDKSWmKAb1/M2wkuq5SETC7B1gv6XnzZnlR1wQSLix+8+kin8J6JO3gm3X+McNhBRLrxx2loxFJMo2c/xjh7wF3wDssyxKjHX5A+5fcuPqv50ODa5GDub27T0Uc32g162GnVdCC+VeowGyq11KgvugkpIVtk10/sJDfMFGpZuviKTl3msRZRr3qrlPR4dQveuCxGTOo6Oyav0FytnJtGp3LnLOhGFP3ew0jwPCoPc6cw6K+VeKW8qiwGLv/Zb8bgVl3bujL9JS6Qo/52tJiC0ZuLRKF0FHpPoBy/q+YQhTYHMl18uxLehORfxoVvopoQWyWBYfdFhJ6Zw4rz8Q3MZWMxMDQ3CncpPaKx2ctow9uTjN8qQgbOhE/nRr55TRTZYeL2J9umD0EbRUOAPfKrtRYeRcln+faWGY1RFXS0SkOu8ul3zt4sehJkmrrwdGMZP7KTM7JcjoVtmgaa5ny3FdpkRXFN6TbIN0bGzTgwdO8Q47IPyS1xFnDgY3d3inqjDrNKZ+ApxxPH0VXmkBGBMUz3yomR0ChsvRgC5CMHBStwF4uSxPqonHfDFzPjINLbSkuK5J1iq1mGTAGg/z4AFlUd/6W2ARQswjf42gEBah0qBZ/jxD0NzH+A1BvfORnnJDXSaxlJzogY3Yqw7ulEjTbff7wBfEAQd1+H23TSbMHcfcEg8bJq1L8w8lzRqmE3x5zY1gHR9uI3y8tKtTr166Quq7EosM5SUUfT9LoO3vcs6beCXmhNk7
+ vesJ1Ft9sE1alaQEh
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id cd6-20020a170906b34600b00a34c07816e3sm61419ejb.73.2024.02.12.02.23.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 02:23:53 -0800 (PST)
+Date: Mon, 12 Feb 2024 11:23:52 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: debug@rivosinc.com
+Cc: rick.p.edgecombe@intel.com, broonie@kernel.org, Szabolcs.Nagy@arm.com, 
+	kito.cheng@sifive.com, keescook@chromium.org, paul.walmsley@sifive.com, 
+	palmer@dabbelt.com, conor.dooley@microchip.com, cleger@rivosinc.com, 
+	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com, alexghiti@rivosinc.com, 
+	corbet@lwn.net, aou@eecs.berkeley.edu, oleg@redhat.com, 
+	akpm@linux-foundation.org, arnd@arndb.de, ebiederm@xmission.com, shuah@kernel.org, 
+	brauner@kernel.org, guoren@kernel.org, samitolvanen@google.com, evan@rivosinc.com, 
+	xiao.w.wang@intel.com, apatel@ventanamicro.com, mchitale@ventanamicro.com, 
+	waylingii@gmail.com, greentime.hu@sifive.com, heiko@sntech.de, jszhang@kernel.org, 
+	shikemeng@huaweicloud.com, david@redhat.com, charlie@rivosinc.com, 
+	panqinglin2020@iscas.ac.cn, willy@infradead.org, vincent.chen@sifive.com, 
+	andy.chiu@sifive.com, gerg@kernel.org, jeeheng.sia@starfivetech.com, 
+	mason.huo@starfivetech.com, ancientmodern4@gmail.com, mathis.salmen@matsal.de, 
+	cuiyunhui@bytedance.com, bhe@redhat.com, chenjiahao16@huawei.com, ruscur@russell.cc, 
+	bgray@linux.ibm.com, alx@kernel.org, baruch@tkos.co.il, zhangqing@loongson.cn, 
+	catalin.marinas@arm.com, revest@chromium.org, josh@joshtriplett.org, joey.gouly@arm.com, 
+	shr@devkernel.io, omosnace@redhat.com, ojeda@kernel.org, jhubbard@nvidia.com, 
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH v1 01/28] riscv: abstract envcfg CSR
+Message-ID: <20240212-cf2c44241bfd5e942a4e3752@orel>
+References: <20240125062739.1339782-1-debug@rivosinc.com>
+ <20240125062739.1339782-2-debug@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jve3saefgwx6cqdm"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240209203435.GB996172@toolbox>
+In-Reply-To: <20240125062739.1339782-2-debug@rivosinc.com>
 
+On Wed, Jan 24, 2024 at 10:21:26PM -0800, debug@rivosinc.com wrote:
+> From: Deepak Gupta <debug@rivosinc.com>
+> 
+> This patch abstracts envcfg CSR in kernel (as is done for other homonyn
+> CSRs). CSR_ENVCFG is used as alias for CSR_SENVCFG or CSR_MENVCFG depending
+> on how kernel is compiled.
+> 
+> Additionally it changes CBZE enabling to start using CSR_ENVCFG instead of
+> CSR_SENVCFG.
+> 
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/csr.h   | 2 ++
+>  arch/riscv/kernel/cpufeature.c | 2 +-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+> index 306a19a5509c..b3400517b0a9 100644
+> --- a/arch/riscv/include/asm/csr.h
+> +++ b/arch/riscv/include/asm/csr.h
+> @@ -415,6 +415,7 @@
+>  # define CSR_STATUS	CSR_MSTATUS
+>  # define CSR_IE		CSR_MIE
+>  # define CSR_TVEC	CSR_MTVEC
+> +# define CSR_ENVCFG CSR_MENVCFG
+>  # define CSR_SCRATCH	CSR_MSCRATCH
+>  # define CSR_EPC	CSR_MEPC
+>  # define CSR_CAUSE	CSR_MCAUSE
+> @@ -439,6 +440,7 @@
+>  # define CSR_STATUS	CSR_SSTATUS
+>  # define CSR_IE		CSR_SIE
+>  # define CSR_TVEC	CSR_STVEC
+> +# define CSR_ENVCFG CSR_SENVCFG
+>  # define CSR_SCRATCH	CSR_SSCRATCH
+>  # define CSR_EPC	CSR_SEPC
+>  # define CSR_CAUSE	CSR_SCAUSE
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> index b3785ffc1570..98623393fd1f 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -725,7 +725,7 @@ arch_initcall(check_unaligned_access_all_cpus);
+>  void riscv_user_isa_enable(void)
+>  {
+>  	if (riscv_cpu_has_extension_unlikely(smp_processor_id(), RISCV_ISA_EXT_ZICBOZ))
+> -		csr_set(CSR_SENVCFG, ENVCFG_CBZE);
+> +		csr_set(CSR_ENVCFG, ENVCFG_CBZE);
+>  }
+>  
+>  #ifdef CONFIG_RISCV_ALTERNATIVE
+> -- 
+> 2.43.0
+>
 
---jve3saefgwx6cqdm
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
-> On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
-> > > > > > Hi,
-> > > > > >=20
-> > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
-> > > > > > > > >  /**
-> > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > >   *
-> > > > > > > > > + * Broadcast RGB
-> > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Li=
-mited) used.
-> > > > > > > > > + *      Infoframes will be generated according to that v=
-alue.
-> > > > > > > > > + *
-> > > > > > > > > + *      The value of this property can be one of the fol=
-lowing:
-> > > > > > > > > + *
-> > > > > > > > > + *      Automatic:
-> > > > > > > > > + *              RGB Range is selected automatically base=
-d on the mode
-> > > > > > > > > + *              according to the HDMI specifications.
-> > > > > > > > > + *
-> > > > > > > > > + *      Full:
-> > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > + *
-> > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > + *              Limited RGB Range is forced. Unlike the =
-name suggests,
-> > > > > > > > > + *              this works for any number of bits-per-co=
-mponent.
-> > > > > > > > > + *
-> > > > > > > > > + *      Drivers can set up this property by calling
-> > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
-> > > > > > > > > + *
-> > > > > > > >=20
-> > > > > > > > This is a good time to document this in more detail. There =
-might be two
-> > > > > > > > different things being affected:
-> > > > > > > >=20
-> > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > 2. The color pipeline processing
-> > > > > > > >=20
-> > > > > > > > All values of Broadcast RGB always affect the color pipelin=
-e processing
-> > > > > > > > such that a full-range input to the CRTC is converted to ei=
-ther full- or
-> > > > > > > > limited-range, depending on what the monitor is supposed to=
- accept.
-> > > > > > > >=20
-> > > > > > > > When automatic is selected, does that mean that there is no=
- signalling,
-> > > > > > > > or that the signalling matches what the monitor is supposed=
- to accept
-> > > > > > > > according to the spec? Also, is this really HDMI specific?
-> > > > > > > >=20
-> > > > > > > > When full or limited is selected and the monitor doesn't su=
-pport the
-> > > > > > > > signalling, what happens?
-> > > > > > >=20
-> > > > > > > Forgot to mention: user-space still has no control over RGB v=
-s YCbCr on
-> > > > > > > the cable, so is this only affecting RGB? If not, how does it=
- affect
-> > > > > > > YCbCr?
-> > > > > >=20
-> > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks=
- like if
-> > > > > > we're using a YCbCr format, i915 will always use a limited rang=
-e while
-> > > > > > vc4 will follow the value of the property.
-> > > > >=20
-> > > > > The property is literally called "Broadcast *RGB*".
-> > > > > That should explain why it's only affecting RGB.
-> > > >=20
-> > > > Right. And the limited range option is called "Limited 16:235" desp=
-ite
-> > > > being usable on bpc > 8 bits. Naming errors occurs, and history hap=
-pens
-> > > > to make names inconsistent too, that's fine and not an argument in
-> > > > itself.
-> > > >=20
-> > > > > Full range YCbCr is a much rarer beast so we've never bothered
-> > > > > to enable it.
-> > > >=20
-> > > > vc4 supports it.
-> > >=20
-> > > Someone implemented it incorrectly then.
-> >=20
-> > Incorrectly according to what documentation / specification? I'm sorry,
-> > but I find it super ironic that i915 gets to do its own thing, not
-> > document any of it, and when people try to clean things up they get told
-> > that we got it all wrong.
->=20
-> FWIW, this was an i915 property and if another driver uses the same
-> property name it must have the same behavior. Yes, it isn't standardized
-> and yes, it's not documented (hence this effort here) but it's still on
-> vc4 to make the property compatible.
-
-How is it not compatible? It's a superset of what i915 provides, but
-it's strictly compatible with it.
-
-I would argue that i915 is the broken one since userspace could force a
-full range output, but since the driver takes the YUV vs RGB decision
-itself and only supports limited range for YUV, the driver would
-effectively ignore that user-space property, without the user-space
-being able to tell it was ignored in the first place.
-
-> Trying to make the property handle YCbCr is very much in the "let's try
-> to fix the property" territory that I want to avoid, so I'm in favor of
-> adjusting vc4.
-
-Breaking the ABI in the process. For something that is explicitly
-supported by the spec, the driver, and the hardware. On a property that
-never said it wasn't meant to be used that way, and with semantics based
-on a driver that never provided a way to check those restrictions in the
-first place.
-
-And it's not like i915 is going to use that code anyway.
-
-Maxime
-
---jve3saefgwx6cqdm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZcnsYgAKCRDj7w1vZxhR
-xbXvAQCwcVIa0ZIBiFB60+Djxs5Q9r6KT+VmRcFEid+4vu5kmAD/SoSSxALs4Fec
-o0UKGT8WuF+A9QWBqCkljcQ1i+X1aAA=
-=q4Ag
------END PGP SIGNATURE-----
-
---jve3saefgwx6cqdm--
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
