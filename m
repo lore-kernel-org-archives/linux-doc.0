@@ -1,144 +1,177 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4972A51025;
-	Mon, 12 Feb 2024 23:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198BB4F894
+	for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 23:36:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707780568; cv=none; b=OGQjw4qryNziBYN4L1lkp3ogG/zPe3nNWX/y4KlPLZw2aKVKKaZmEftSPdPXpBmdBXxiVFiGldrn+EKyM+0HDVXSiLzqyQAtE+CvffYNqRvgw+eza13Tm0UNZ5hy8uNp47SsGbey5C11dTecXM3MQgkduKE8YHPNoDuYhlCRfWA=
+	t=1707780994; cv=none; b=Bp5n1nVBJ0sZ/IvaOvsHSXlN1VnU8Z+6ejdKza52+Qd5k63e0UpGiQnuNXnovv9CHGiHovuC/iQaitgWhlAhdrezGZ7uze1mcwQjEFeUzaK9picQMYWBG8XXCBcKX1BNxnLljiOgfxK4/aM4EUEp9/ZC/cQ60bwPjB7u89Cpqic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707780568; c=relaxed/simple;
-	bh=OlgJwJR7mtndOUI3dB214bznUl48qyp1IY7QPUcT5Mg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IIJXXZ4KDtInlVwt8wcR2dkD03FdFC3M09oWwFd0XqrEuubWrpsXNfppWY1FWD9t2MDemCciPSYE33SA7TSbY1ywbH8GrZexV6n0Wh2wm71zCmd1xQ5IAcr7V9HgpWFcmnHQUQMGwETwIBADtThaKbbXlzdhJZtSd+OuoccevZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=AfVRxsxg; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1707780994; c=relaxed/simple;
+	bh=pUkJcJN2rctCyQ0hK/qiJS411FCsdKiJii0pjIPLWbg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lyWsfMTXW44g4juzS90IUlgKEETynj6iu4h0n++cdQzOzwZSCrqhL8Hw58vdHfhmeQSwOMZtnqIMnIn4kU1CPFa5x2+l/KuKtf2zq+vm2svUVQcf3MfIbdhQuNfG9hQ/LILg3cUl0bdkbfoG3qwaAFcqhjkZIYa7McKrIEosAJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=M3nABIb8; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AfVRxsxg"
-Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.147.51])
-	by linux.microsoft.com (Postfix) with ESMTPSA id DEC5820B2000;
-	Mon, 12 Feb 2024 15:29:19 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DEC5820B2000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1707780560;
-	bh=Pus6ekEvBcHFMFdVrX0AsPS3od4PAAyDna4mLnwpX+Y=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AfVRxsxgLeTe1ATfXx56hbI3QdfOzJ9ZaAwqBnlz0dHepD9AubTSUK7z3ItCvmWa0
-	 SOOPHJvKz7qQRrnuC+e/b9fdEtR3EnJTlkOvK5o+vhYlnw7I6YJhatTDr/vr8j9yER
-	 20Pkmjzl27tMdRaEimwmtYZ4TIQNvZRe8Ls75GFQ=
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] arm64: Subscribe Microsoft Azure Cobalt 100 to ARM Neoverse N2 errata
-Date: Mon, 12 Feb 2024 23:29:06 +0000
-Message-Id: <20240212232909.2276378-1-eahariha@linux.microsoft.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="M3nABIb8"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d93edfa76dso30228275ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 15:36:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1707780991; x=1708385791; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oNioNdguCz5tyqf3w8SAJg3WWFu/ZpF1hV12mYbLuZw=;
+        b=M3nABIb8Duqd1/WqTQLCDTwxg+B5jxrOMCM13OuQ6X23HAea/NPLKfEUtTITKl9omP
+         Uq0BBS9EazJ9EUgNwwRIXhXU1yEO8EdObHVoVdX+EVs2Csqln6APqSx9Ote7dDmgvRMc
+         G62DiHTNe7YkhRuBuyaLgdEzd56pMZpHtftQcRDfPwTnI1M458pxlQeHExvZq/yu6Hg6
+         BiMzBTvDtA1yKEW9S801lDi8t9oQE1HiBqrtuia6wnYP1zzge75zxYfVCBxaNj+DAsZ5
+         IexEU6twYcCZ506jEYh4UyQbg9m40IVi8RWforSrnW9ASDi1/vGDW8lFCoO3qT/u7Jkp
+         70tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707780991; x=1708385791;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oNioNdguCz5tyqf3w8SAJg3WWFu/ZpF1hV12mYbLuZw=;
+        b=YAxC+cKm2Bwya02pgbYUOoFtzXGsw12AIDW14EOKKqS90+ccnU0pms1kyds39UdZMo
+         r3F4lJAkQPkTcvWi2knhvMDsHyPMqYZZlE56+Q0BEVWlTOaVOQOFvrX+Xs0lZex4MbHK
+         BQi++bq55XPr3w02U8KVY9q9k9s3/ZKo64I3Dm3PRlUjNv0v/no2P5gemqrW3IIfGZzE
+         y1onl6IdA8yEksESHzeJTrQcpwwVLumH/lBsGj+q+c0RjzRcFLbeAslSOW0w1BJ35wXa
+         kCm4XF3ZI/zoNfiDOkNmGdIatnuk8znzZRdI3TBMeLUshHllFMVyid8ie0JMKkIibS6Z
+         IKtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUpwQohRiaPZr31FUwtb99uW0AjD+VGSOegDv7TSSMP/OzJN/2hfNgXDPvciPCBG4mV+pwo2CN/TNLGuhuiitD9KwKlDTgVweYY
+X-Gm-Message-State: AOJu0YyvJyYtlEFMuHAMt37s1LrY0wDjsKgDouRmGimxMe+51LbQLT7P
+	FpXSGtxiaptjUWNHue9VozSQUrQhWshHN40nZaWqE9u7EmZ9Pc2h0aSY2wVT5KU=
+X-Google-Smtp-Source: AGHT+IGlzxazBjxv9RA941+ZHFC2kAe0rM4VKTlBx4LwX5kenDzB6/KnJLHG3CbaBKLMEuWgOEr4pg==
+X-Received: by 2002:a17:902:e5ca:b0:1d9:a5ec:30d2 with SMTP id u10-20020a170902e5ca00b001d9a5ec30d2mr11052876plf.12.1707780991294;
+        Mon, 12 Feb 2024 15:36:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXpvQ/bifwy33zc0j7hfXTIrBarDTDQRSnG6jYoRxhctuzyMpZB6R4vMI76zxbUXHW0cs3V8WLKORH+/uwFPaweDLNxZ7qbduxPCHHp0g7FFkebRIRxtn2bizXbAPcSXa8QVUUu97cm7VTqO4JHVM283X7nKupleVBuXX3tbwbUi8IlEBnYoLbiSp+JhOnGD8VzLBXHn3gVtZ98YrtIhUVagP8HgaUEES4xH8F+9CuDEpfjLP+N/q2901jsLZ9+4IZmDRonnYLIENZ54LTACnJQ9/BheuZoViYtxjyRimNQJyM4fxmdG+920Nh0ZHC0kiYnoZPYtLsiKBcKkrRgH39F49cjZ9FbEyrWwykOK+ncNr596z6qNw24o1R3+Yuu80MZg+QWKMUcCTADenpd1O/lte6A4HetVbCQKl2Byf3z4eDJhGCHuVB6E/Dt08bDCsftsF0=
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id b5-20020a170902650500b001da153682c5sm888693plk.261.2024.02.12.15.36.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 15:36:30 -0800 (PST)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v11 0/4] riscv: Create and document
+ PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+Date: Mon, 12 Feb 2024 15:36:25 -0800
+Message-Id: <20240212-fencei-v11-0-e1327f25fe10@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAHmrymUC/23SS07EMAwG4KuMsqbIdpxHWXEPxKJ5MVnQjlpUg
+ UZzd9IR00Yoy1j5fjtWrmKJc46LeDldxRzXvORpLAfEp5Pw52H8iF0OpSAISCKi6VIcfcxd6pO
+ GYCynAUS5fJljyt/3pLf3cj7n5Wuaf+7BK27VvwiiR8SKHXQuerCI3hHS65zXacmjf/bTp9hSV
+ qqkhF1SkeSdJjk4dJgaUh6SUO5Sbj2NQmVJ2uhMQ/JDMiDsD165yMA+UXI9qCAbUtXS7lIVOQw
+ YFQZDRK1pdS37XeoigRF1sczKN6SpJB67NUUam0AjRwwOGtLWUu/SFsly4LI1TkDYkH0l6dhtv
+ /XEMq5L0QbTkgg15eMrwLYjUr3BxBIw/LO32+0XwJEEjKwCAAA=
+To: Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, 
+ Atish Patra <atishp@atishpatra.org>, Randy Dunlap <rdunlap@infradead.org>, 
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>, 
+ Atish Patra <atishp@rivosinc.com>, Alexandre Ghiti <alexghiti@rivosinc.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1707780989; l=3458;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=pUkJcJN2rctCyQ0hK/qiJS411FCsdKiJii0pjIPLWbg=;
+ b=MPwj9l2ctTE9U5PMrkcabg29HVx1LnyHJJ9FmdT2NRt6a6jiZmF+27/ABOvnKjANPSgri2Nzk
+ yny/fD+G20bBSrkLd6AMgL81mkbhViWypSaZGxhLbhPl1JRHJHuVKKM
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-Add the MIDR value of Microsoft Azure Cobalt 100, which is a Microsoft
-implemented CPU based on r0p0 of the ARM Neoverse N2 CPU, and therefore
-suffers from all the same errata.
+Improve the performance of icache flushing by creating a new prctl flag
+PR_RISCV_SET_ICACHE_FLUSH_CTX. The interface is left generic to allow
+for future expansions such as with the proposed J extension [1].
 
-CC: Mark Rutland <mark.rutland@arm.com>
-CC: Marc Zyngier <maz@kernel.org>
-CC: Anshuman Khandual <anshuman.khandual@arm.com>
-CC: stable@vger.kernel.org # 5.15+
-Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+Documentation is also provided to explain the use case.
+
+Patch sent to add PR_RISCV_SET_ICACHE_FLUSH_CTX to man-pages [2].
+
+[1] https://github.com/riscv/riscv-j-extension
+[2] https://lore.kernel.org/linux-man/20240124-fencei_prctl-v1-1-0bddafcef331@rivosinc.com
+
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 ---
- Documentation/arch/arm64/silicon-errata.rst | 7 +++++++
- arch/arm64/include/asm/cputype.h            | 4 ++++
- arch/arm64/kernel/cpu_errata.c              | 3 +++
- 3 files changed, 14 insertions(+)
+Changes in v11:
+- Add back PR_RISCV_CTX_SW_FENCEI_OFF (Samuel)
+- Fix under nosmp (Samuel)
+- Change set_prev_cpu (Samuel)
+- Fixup example testcase in docs
+- Change wording of documentation slightly (Alejandor Colomar)
+- Link to v10: https://lore.kernel.org/r/20240124-fencei-v10-0-a25971f4301d@rivosinc.com
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index e8c2ce1f9df6..45a7f4932fe0 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -243,3 +243,10 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | ASR            | ASR8601         | #8601001        | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
-++----------------+-----------------+-----------------+-----------------------------+
-+| Microsoft      | Azure Cobalt 100| #2139208        | ARM64_ERRATUM_2139208       |
-++----------------+-----------------+-----------------+-----------------------------+
-+| Microsoft      | Azure Cobalt 100| #2067961        | ARM64_ERRATUM_2067961       |
-++----------------+-----------------+-----------------+-----------------------------+
-+| Microsoft      | Azure Cobalt 100| #2253138        | ARM64_ERRATUM_2253138       |
-++----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
-index 7c7493cb571f..a632a7514e55 100644
---- a/arch/arm64/include/asm/cputype.h
-+++ b/arch/arm64/include/asm/cputype.h
-@@ -61,6 +61,7 @@
- #define ARM_CPU_IMP_HISI		0x48
- #define ARM_CPU_IMP_APPLE		0x61
- #define ARM_CPU_IMP_AMPERE		0xC0
-+#define ARM_CPU_IMP_MICROSOFT		0x6D
- 
- #define ARM_CPU_PART_AEM_V8		0xD0F
- #define ARM_CPU_PART_FOUNDATION		0xD00
-@@ -135,6 +136,8 @@
- 
- #define AMPERE_CPU_PART_AMPERE1		0xAC3
- 
-+#define MSFT_CPU_PART_AZURE_COBALT_100	0xD49 /* Based on r0p0 of ARM Neoverse N2 */
-+
- #define MIDR_CORTEX_A53 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A53)
- #define MIDR_CORTEX_A57 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A57)
- #define MIDR_CORTEX_A72 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A72)
-@@ -193,6 +196,7 @@
- #define MIDR_APPLE_M2_BLIZZARD_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_BLIZZARD_MAX)
- #define MIDR_APPLE_M2_AVALANCHE_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_AVALANCHE_MAX)
- #define MIDR_AMPERE1 MIDR_CPU_MODEL(ARM_CPU_IMP_AMPERE, AMPERE_CPU_PART_AMPERE1)
-+#define MIDR_MICROSOFT_AZURE_COBALT_100 MIDR_CPU_MODEL(ARM_CPU_IMP_MICROSOFT, MSFT_CPU_PART_AZURE_COBALT_100)
- 
- /* Fujitsu Erratum 010001 affects A64FX 1.0 and 1.1, (v0r0 and v1r0) */
- #define MIDR_FUJITSU_ERRATUM_010001		MIDR_FUJITSU_A64FX
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 967c7c7a4e7d..76b8dd37092a 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -374,6 +374,7 @@ static const struct midr_range erratum_1463225[] = {
- static const struct midr_range trbe_overwrite_fill_mode_cpus[] = {
- #ifdef CONFIG_ARM64_ERRATUM_2139208
- 	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
-+	MIDR_ALL_VERSIONS(MIDR_MICROSOFT_AZURE_COBALT_100),
- #endif
- #ifdef CONFIG_ARM64_ERRATUM_2119858
- 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
-@@ -387,6 +388,7 @@ static const struct midr_range trbe_overwrite_fill_mode_cpus[] = {
- static const struct midr_range tsb_flush_fail_cpus[] = {
- #ifdef CONFIG_ARM64_ERRATUM_2067961
- 	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
-+	MIDR_ALL_VERSIONS(MIDR_MICROSOFT_AZURE_COBALT_100),
- #endif
- #ifdef CONFIG_ARM64_ERRATUM_2054223
- 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
-@@ -399,6 +401,7 @@ static const struct midr_range tsb_flush_fail_cpus[] = {
- static struct midr_range trbe_write_out_of_range_cpus[] = {
- #ifdef CONFIG_ARM64_ERRATUM_2253138
- 	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
-+	MIDR_ALL_VERSIONS(MIDR_MICROSOFT_AZURE_COBALT_100),
- #endif
- #ifdef CONFIG_ARM64_ERRATUM_2224489
- 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
+Changes in v10:
+- Fix fence.i condition to properly only flush on migration (Alex)
+- Fix documentation wording (Alex)
+- Link to v9: https://lore.kernel.org/r/20240123-fencei-v9-0-71411bfe8d71@rivosinc.com
+
+Changes in v9:
+- Remove prev_cpu from mm (Alex)
+- Link to v8: https://lore.kernel.org/r/20240116-fencei-v8-0-43a42134f021@rivosinc.com
+
+Changes in v8:
+- Only flush icache if migrated to different cpu (Alex)
+- Move flushing to switch_to to catch per-thread flushing properly
+- Link to v7: https://lore.kernel.org/r/20240112-fencei-v7-0-78f0614e1db0@rivosinc.com
+
+Changes in v7:
+- Change "per_thread" parameter to "scope" and provide constants for the
+  parameter.
+- Link to v6: https://lore.kernel.org/r/20240109-fencei-v6-0-04116e51445c@rivosinc.com
+
+Changes in v6:
+- Fixup documentation formatting
+- Link to v5: https://lore.kernel.org/r/20240108-fencei-v5-0-aa1e51d7222f@rivosinc.com
+
+Changes in v5:
+- Minor documentation changes (Randy)
+- Link to v4: https://lore.kernel.org/r/20240107-fencei-v4-0-d4cf2fb905d3@rivosinc.com
+
+Changes in v4:
+- Add OFF flag to disallow fence.i in userspace (Atish)
+- Fix documentation issues (Atish)
+- Link to v3: https://lore.kernel.org/r/20231213-fencei-v3-0-b75158238eb7@rivosinc.com
+
+Changes in v3:
+- Check if value force_icache_flush set on thread, rather than in mm
+  twice (Clément)
+- Link to v2: https://lore.kernel.org/r/20231130-fencei-v2-0-2cb623ab1b1f@rivosinc.com
+
+Changes in v2:
+- Fix kernel-doc comment (Conor)
+- Link to v1: https://lore.kernel.org/r/20231122-fencei-v1-0-bec0811cb212@rivosinc.com
+
+---
+Charlie Jenkins (4):
+      riscv: Remove unnecessary irqflags processor.h include
+      riscv: Include riscv_set_icache_flush_ctx prctl
+      documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+      cpumask: Add assign cpu
+
+ Documentation/arch/riscv/cmodx.rst |  98 ++++++++++++++++++++++++++++++++++
+ Documentation/arch/riscv/index.rst |   1 +
+ arch/riscv/include/asm/irqflags.h  |   1 -
+ arch/riscv/include/asm/mmu.h       |   2 +
+ arch/riscv/include/asm/processor.h |  12 +++++
+ arch/riscv/include/asm/switch_to.h |  23 ++++++++
+ arch/riscv/mm/cacheflush.c         | 105 +++++++++++++++++++++++++++++++++++++
+ arch/riscv/mm/context.c            |  18 +++++--
+ include/linux/cpumask.h            |  16 ++++++
+ include/uapi/linux/prctl.h         |   6 +++
+ kernel/sys.c                       |   6 +++
+ 11 files changed, 282 insertions(+), 6 deletions(-)
+---
+base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
+change-id: 20231117-fencei-f9f60d784fa0
 -- 
-2.34.1
+- Charlie
 
