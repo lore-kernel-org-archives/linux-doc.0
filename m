@@ -1,183 +1,159 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1594756767;
-	Tue, 13 Feb 2024 14:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C99F56764
+	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 14:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707832988; cv=none; b=ka4XVNU7OySIBIXoN0iwQCJylGWMtWZVnj3AzxFhMzS/uiuJeAXje8SWkwnsj3Dz4zCE8Li1Bbcn42RQnB+ij7ews9cKVQGnKz4WK2oU2nqWYCQ5kYyGjn5P7moW6IYtbwO6wSFaDCQUU6O3iDIZ5ZssIKbmGVI08kN2J07JrOk=
+	t=1707833150; cv=none; b=P7hlOSSSWW0oCSqoVtInJwgp/BdVIFH13+OHPJhLBb7F3PtupOCpVBauxh60OEk/snG/2LVTHBVFw01yZgjNZdOn2iLmJdNcWRBcfhEJeZexCQw/PSJ4vsgyPjzbRTSRxA33sCjd2O9XweAWfXqv+6gAL7dm9GELLwwp1NIyKDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707832988; c=relaxed/simple;
-	bh=l6xGtXUVd0pZcjRV1106mZieZPMPAOqCaQaJHGZfhNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I6t62miL0iSwEQzuvjNRDk4P0pnieLCrMRg2eDEUX5HGDlL5eHPr9B/lu1sv/4S3jHj6V1ONpaxIoo+40+jNissXgQQzC0Ol/Qqmv2OTIhFRQdf/vuUphKB/WwOkkIn2Qkf4nptDtoAFExazB4z52FaSM5lopS+1q013TtVfWhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=gUMVj4CE; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="gUMVj4CE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=pXy28F4oZs8p0WURsI7cKbzl3wBcMbF+9piGOUored0=; b=gUMVj4CEgguPKwSCS923HiZVXN
-	j6g/h2QmDdOwAeQPhtAq5AkeNyms6snBVTuO1yP0w23t1ciTBKUhIycrEaNq/Bj8z4mB1H39Bwqhj
-	hWtyaONOdm7Q7s3TGSkqei2OWSjwmfzQPbzcBqCaSWN4RhNEK4RJc2Z/kaTFV+tK/b+8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rZtNF-007gUi-NX; Tue, 13 Feb 2024 15:03:01 +0100
-Date: Tue, 13 Feb 2024 15:03:01 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, davem@davemloft.net,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	s=arc-20240116; t=1707833150; c=relaxed/simple;
+	bh=ZffPAM8vbEKI9/iymjjwBQJuBEoGb2F5+MVh2HRI0PQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=lC8PMn+M9/ylTBFoe7VZcWMW4O0zXn0nR1m/KTxG6Dqkba4rLUALl3/+HBZGaytHCRyjP+c1A710FjoynnRuJwV8ONQjJbreVDe/quYy64BYc68wnB+67zZ1cKSUhh7uDbR9np59xmFjWBfFceoOM8w11D0+6xTDwpmudlyimQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:47b8:b872:d87c:512])
+	by andre.telenet-ops.be with bizsmtp
+	id me5d2B0091wMtyi01e5dSF; Tue, 13 Feb 2024 15:05:39 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rZtPe-000Z13-Fy;
+	Tue, 13 Feb 2024 15:05:37 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rZpxf-00G3dP-K7;
+	Tue, 13 Feb 2024 11:24:23 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Andrew Davis <afd@ti.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com,
-	=?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
-Subject: Re: [PATCH net-next 1/3] net: phy: Add support for inband extensions
-Message-ID: <27644300-ff4f-4603-9338-bad4aa0e5610@lunn.ch>
-References: <20240212173307.1124120-1-maxime.chevallier@bootlin.com>
- <20240212173307.1124120-2-maxime.chevallier@bootlin.com>
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] docs: dt: Update overlay file extension
+Date: Tue, 13 Feb 2024 11:24:18 +0100
+Message-Id: <5ac79104822cdce7a4caab87f14ce02477f85820.1707819511.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240212173307.1124120-2-maxime.chevallier@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> +Inband Extensions
-> +=================
-> +
-> +The USGMII Standard allows the possibility to re-use the full-length 7-bytes
-> +frame preamble to convey meaningful data. This is already partly used by modes
-> +like QSGMII, which passes the port number in the preamble.
-> +
-> +In USGMII, we have a standardized approach to allow the MAC and PHY to pass
-> +such data in the preamble, which looks like this :
-> +
-> +|  0   |  1   |  2  |  3  |  4  |  5  |  6  |  7  |  Frame data
-> +| SoP  |      |      Extension              | CRC |
-> +|     /        \_______________             |     |
-> +|    /                         \            |     |
-> +|   | type | subport | ext type |           |     |
-> +
-> +The preamble in that case uses the Packet Control Header (PCH) format, where
-> +the byte 1 is used as a control field with :
-> +
-> +type - 2 bits :
-> +        - 00 : Packet with PCH
-> +        - 01 : Packet without PCH
-> +        - 10 : Idle Packet, without data
-> +        - 11 : Reserved
-> +
-> +subport - 4 bits : The subport identifier. For QUSGMII, this field ranges from
-> +                   0 to 3, and for OUSGMII, it ranges from 0 to 7.
-> +
-> +ext type - 2 bits : Indicated the type of data conveyed in the extension
-> +        - 00 : Ignore extension
-> +        - 01 : 8 bits reserved + 32 timestamp
-> +        - 10 : Reserved
-> +        - 11 : Reserved
+Building DTB overlays from .dts files is no longer supported.
+Update the documentation to reflect this.
 
-Somewhat crystal ball...
+Fixes: 81d362732bac05f6 ("kbuild: Disallow DTB overlays to built from .dts named source files")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/devicetree/overlay-notes.rst           | 12 ++++++------
+ .../translations/zh_CN/devicetree/overlay-notes.rst  | 12 ++++++------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-Those two reserved values could be used in the future to indicate
-other extensions. So we could have three in operation at once, but
-only one selected per frame.
+diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
+index e139f22b363e9f36..35e79242af9a928d 100644
+--- a/Documentation/devicetree/overlay-notes.rst
++++ b/Documentation/devicetree/overlay-notes.rst
+@@ -38,10 +38,10 @@ Lets take an example where we have a foo board with the following base tree::
+ 	};
+     ---- foo.dts ---------------------------------------------------------------
+ 
+-The overlay bar.dts,
++The overlay bar.dtso,
+ ::
+ 
+-    ---- bar.dts - overlay target location by label ----------------------------
++    ---- bar.dtso - overlay target location by label ---------------------------
+ 	/dts-v1/;
+ 	/plugin/;
+ 	&ocp {
+@@ -51,7 +51,7 @@ The overlay bar.dts,
+ 			... /* various properties and child nodes */
+ 		};
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ when loaded (and resolved as described in [1]) should result in foo+bar.dts::
+ 
+@@ -88,9 +88,9 @@ in the base DT. In this case, the target path can be provided. The target
+ location by label syntax is preferred because the overlay can be applied to
+ any base DT containing the label, no matter where the label occurs in the DT.
+ 
+-The above bar.dts example modified to use target path syntax is::
++The above bar.dtso example modified to use target path syntax is::
+ 
+-    ---- bar.dts - overlay target location by explicit path --------------------
++    ---- bar.dtso - overlay target location by explicit path -------------------
+ 	/dts-v1/;
+ 	/plugin/;
+ 	&{/ocp} {
+@@ -100,7 +100,7 @@ The above bar.dts example modified to use target path syntax is::
+ 			... /* various properties and child nodes */
+ 		}
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ 
+ Overlay in-kernel API
+diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+index 43e3c0bc5a9f8235..ba5edd05dc1e7fd2 100644
+--- a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
++++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+@@ -43,10 +43,10 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+ 	};
+     ---- foo.dts ---------------------------------------------------------------
+ 
+-覆盖bar.dts,
++覆盖bar.dtso,
+ ::
+ 
+-    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
++    ---- bar.dtso - 按标签覆盖目标位置 ---------------------------
+ 	/dts-v1/;
+ 	/插件/;
+ 	&ocp {
+@@ -56,7 +56,7 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+ 			... /* 各种属性和子节点 */
+ 		};
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ 当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
+ 
+@@ -90,9 +90,9 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+ DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
+ 较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
+ 
+-上面的bar.dts例子被修改为使用目标路径语法，即为::
++上面的bar.dtso例子被修改为使用目标路径语法，即为::
+ 
+-    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
++    ---- bar.dtso - 通过明确的路径覆盖目标位置 -------------------
+ 	/dts-v1/;
+ 	/插件/;
+ 	&{/ocp} {
+@@ -102,7 +102,7 @@ DT中的适当位置。在这种情况下，可以提供目标路径。通过标
+ 			... /* 各种外围设备和子节点 */
+ 		}
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ 
+ 内核中关于覆盖的API
+-- 
+2.34.1
 
-> +A PHY driver can register available modes with::
-> +
-> +  int phy_inband_ext_set_available(struct phy_device *phydev, enum phy_inband_ext ext);
-> +  int phy_inband_ext_set_unavailable(struct phy_device *phydev, enum phy_inband_ext ext);
-
-enum phy_inband_ext is just an well defined, but arbitrary number? 0
-is this time stamp value mode, 1 could be used MACSEC, 2 could be a
-QoS indicator when doing rate adaptation? 3 could be ....
-
-> +It's then up to the MAC driver to enable/disable the extension in the PHY as
-> +needed. This was designed to fit the timestamping configuration model, as it
-> +is the only mode supported so far.
-> +
-> +Enabling/Disabling an extension is done from the MAC driver through::
-> +
-> +  int phy_inband_ext_enable(struct phy_device *phydev, enum phy_inband_ext ext);
-
-So maybe this should return the 2 bit ext type value? The MAC can
-request QoS marking, and the PHY replies it expects the bits to be 3 ?
-
-I'm just trying to ensure we have an API which is extensible in the
-future to make use of those two reserved values.
-
-> diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-> index 3b9531143be1..4b6cf94f51d5 100644
-> --- a/drivers/net/phy/phy.c
-> +++ b/drivers/net/phy/phy.c
-> @@ -1760,3 +1760,89 @@ int phy_ethtool_nway_reset(struct net_device *ndev)
->  	return ret;
->  }
->  EXPORT_SYMBOL(phy_ethtool_nway_reset);
-> +
-> +/**
-> + * PHY modes in the USXGMII family can have extensions, with data transmitted
-> + * in the frame preamble.
-> + * For now, only QUSGMII is supported, but other variants like USGMII and
-> + * OUSGMII can be added in the future.
-> + */
-> +static inline bool phy_interface_has_inband_ext(phy_interface_t interface)
-
-No inline functions in .c file please. Let the compiler decide.
-
-> +bool phy_inband_ext_available(struct phy_device *phydev, enum phy_inband_ext ext)
-> +{
-> +	return !!(phydev->inband_ext.available & ext);
-
-should this be BIT(ext) ?
-
-> +}
-> +EXPORT_SYMBOL(phy_inband_ext_available);
-
-If you don't mind, i would prefer EXPORT_SYMBOL_GPL().
-
-> +static int phy_set_inband_ext(struct phy_device *phydev,
-> +			      enum phy_inband_ext ext,
-> +			      bool enable)
-> +{
-> +	int ret;
-> +
-> +	if (!phy_interface_has_inband_ext(phydev->interface))
-> +		return -EOPNOTSUPP;
-> +
-> +	if (!phydev->drv->set_inband_ext)
-> +		return -EOPNOTSUPP;
-
-That is a driver bug. It should not set phydev->inband_ext.available
-and then not have drv->set_inband_ext. So we should probably test this
-earlier. Maybe define that phydev->inband_ext.available has to be set
-during probe, and the core can validate this after probe and reject
-the device if it is inconsistent?
-
-> +
-> +	mutex_lock(&phydev->lock);
-> +	ret = phydev->drv->set_inband_ext(phydev, ext, enable);
-> +	mutex_unlock(&phydev->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (enable)
-> +		phydev->inband_ext.enabled |= BIT(ext);
-> +	else
-> +		phydev->inband_ext.enabled &= ~BIT(ext);
-
-Should these be also protected by the mutex?
-
-       Andrew
