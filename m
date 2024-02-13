@@ -1,111 +1,214 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C909C5EE87
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 16:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4838F5D914;
+	Tue, 13 Feb 2024 16:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707840348; cv=none; b=D91VtBvXs2X4Sk4jzjYFNOEhvDln1cDAxAgbIPR0weY+z+SubQNggk40O2oD+gTt2gSjIn+n6E/UTfD2elvEFWirf0CBcgyCb6v4gCjAMWg13lBEAGOPkp9ytX0Eb5etqBFXulNnkr9jVlc2kxBZdKHTKdxdLvggc8mOHq4Iacw=
+	t=1707840470; cv=none; b=XJVP0tphw9I/CRwZaMwe/D1OR+gNexPsDDeh3rEeZaGjrNax7xVMX5axmWmuQzqeH+iP5dJmTjUnUIWbt7paot+y6F9vP01xfP2eyUGoPqDlZwI6tsgK7B1m+1fUogirpYQko3CXu99QFUk8la8LM/Gum8eeyBBZLYYXLOvNYP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707840348; c=relaxed/simple;
-	bh=WlWQhkPvqvvxS2SzBrkZ/UlzsYw4kCBq05WyUUmIeGk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Vvmx+5RWyPOv3bODUiygbfarp9bhydyo7fiZ1sUFyQ9DRvgG9Urqfu/pJSVmbDip47FzckfG7gHnUC3tkc7xMjiGAV+xWks0amZrw1ODEWARQlRsX0ecCsQS8Aew46Zr9+ZuT5b/aHAI5bR1OZiv9fAky8R8T56X4N1Vcl6/d0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=raf3WQah; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1707840470; c=relaxed/simple;
+	bh=Nq5NLWM8fquBBRNIIZ/z4DwyXucV/4AOy2bTNrl4gfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FHN0i51MB+ke4/a71oJ1Te4Z1bknVCx7qWFtLv3oOe3Mo8JtxgesU7FGy+oOo5e8m1bbla/NssmTN9mKbNjf+uJGLA5304CugEI1ktCw/RyRBMichjFd9axyRNB3eynI17qmW/6U2Cfk2whwIiyueIQPrPJ6/GtL/eUeLLSA5Ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Bnx3owWj; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="raf3WQah"
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 0DA663F18F
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 16:05:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1707840336;
-	bh=m2uF9MzAc75gHZLl1cGiAQQWw9h+uBS56/okcKFf60I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=raf3WQah8zNsNPVOzR1PhNHICi3ggftNbmG6DQw1thtnCi457J2Aa2QHj9Wi9qF/P
-	 ZO6Lt4rq0U2gADPpGFuLLPOnbTqels514DWdHp7FegRSOdTt71SQb0SpjkSGbIBOIn
-	 Um7L1jL75id0xT6AodT+FdM37ZkTTkjvRdSO9ZJZqbby/FoFux23ekSp6dUVZeneDg
-	 is7hvJKoHQuX6iCLWuryHIjKlLgoj3a4jiYWRu6K+kZ7ipI/d7GG3rHPWgH5vbOmxO
-	 qrmWCnoq0q1YDp2m5aX0D53U4v9Fdw+c8lmrOoDvq8EiPMoWLgJ34SotIfehcCBXgM
-	 i8dq4uHwx7YOQ==
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-298bedc5b99so405917a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 08:05:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707840334; x=1708445134;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m2uF9MzAc75gHZLl1cGiAQQWw9h+uBS56/okcKFf60I=;
-        b=poebl4UaFCtKppkAtulOat1YYjNHZiWwEgegY5bZX8NAH1kucj5jTbg8gqFTBJf1b1
-         aJZcMqmCRzJlZqIYk8QAFKth91rDDnd4QTexMPfSI6Frd2ApM97ZpSEPAAUpkk2d6WW/
-         nEw0hGeJ5eKiiKf/yADZ0mnync97nqOHhZQsDrhRHm9NVDJwfpxavkXDScM5kXBQWzHx
-         4851Nl3ajzpgecVWQy4IovK0CFd45026iOk7806JtJ2iclw5SFuuSkDVUFEvbGmGXbeC
-         yP8vZTYSj5fe1sTVNsAsIqUteByleVAhFFHBDkW65uBJds4r7mKKBsHoB8ABxTWdBH9t
-         zH+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVoqDXbMezL5XwUYMSt4Z3LsvnWDaa8SwKBf3rZuWGcnoJhDNNsGCGiGg/WjfkNd8YpLRjfWoAfTcc1ZhimGMeFbW+TwHHDwExS
-X-Gm-Message-State: AOJu0YxK9ipXqBWRuF38b9Jx4gAYVtRcPuYItrTQ3LGnJ749YqRZ3k3M
-	tfBCFZ3isCzgSGqk8lnkcyZivXax0CWQjEus/U3gj6f4Y7tNHCEPljj19Z44xUrQvVogt44hn7m
-	tc6vlKuChtCFfIkzJrn0zM7qdIXB+T2WR2rTJMWkltYfdelJHDQXQOoYv7teu1EorhTmi+Qp+eg
-	==
-X-Received: by 2002:a17:902:eccc:b0:1d8:e2af:f7a3 with SMTP id a12-20020a170902eccc00b001d8e2aff7a3mr9033464plh.60.1707840334696;
-        Tue, 13 Feb 2024 08:05:34 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH/I9tj91UbaygSHRr/+8Vld7JgcLjlxqJeYSEJsh8+q9pnwmMcdOZcAzCm83FWMUNwV/QEjQ==
-X-Received: by 2002:a17:902:eccc:b0:1d8:e2af:f7a3 with SMTP id a12-20020a170902eccc00b001d8e2aff7a3mr9033435plh.60.1707840334330;
-        Tue, 13 Feb 2024 08:05:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU370TRTXx+dacoVfx8mFo22IPUsO2OwdpclHJxKZsi5lmYJwY+5eGsyVEBemBP6a1cq6kbjlf50zD3qUaVfvGtd13P4uTaqf+6/t9abkgxfKkieVEaNkc7XiJdjIz0W28DeO9YExb6vkQMhffzi6tkYW2S8/O6ssHihqQQe4+ENcjGXPp2yrt0WFE/PMqqrCIE6ECppESNDIqTO93hgA==
-Received: from fenrir.. ([179.108.23.66])
-        by smtp.gmail.com with ESMTPSA id bf5-20020a170902b90500b001d9c1d8a401sm2251685plb.191.2024.02.13.08.05.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 08:05:33 -0800 (PST)
-From: lincoln.wallace@canonical.com
-To: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	corbet@lwn.net,
-	brgl@bgdev.pl,
-	linus.walleij@linaro.org
-Cc: Lincoln Wallace <lincoln.wallace@canonical.com>
-Subject: [PATCH] Documentation: gpio: Add a note on the deprecated GPIO Testing Driver
-Date: Tue, 13 Feb 2024 13:05:22 -0300
-Message-Id: <20240213160522.37940-1-lincoln.wallace@canonical.com>
-X-Mailer: git-send-email 2.40.1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Bnx3owWj"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 93E41C000B;
+	Tue, 13 Feb 2024 16:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1707840464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gVnzc7OAdrtUJbFDyTTibW0hk3NfWNlLDbaHw8ta+S8=;
+	b=Bnx3owWjNw2cJ0Jza4wUrQauMZ+sFCg4yoKBcAIBj/yJBtyZtWax7yKqIPwQRn12E6tuTa
+	tH9TbpLp08NNV0UZsDFx+XXBO5ROXyCuY31lNQ05P4vvnCwOvTzlp2nSiLGDDtjUdGusLD
+	0FY0RAGiwSQAqeGMfkpGHZRc7z9IRqb7uVt/pDGYx+ZlQFBILq3pS2unj+ofv6RnskuWnU
+	ROlzfe+uAx3ERoGD6S61ZsgbdKHWNKVoa5UBD4EtEGqTcSOi2Ue/mWaobcr5lgao6nV7h7
+	kDn67fD1vkhGVsK+yS5EMGgnHmOXUV5qX6k/VF5fFMEYeIlPu0Lk0nqvAgkcYg==
+Date: Tue, 13 Feb 2024 17:07:41 +0100
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, davem@davemloft.net, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Richard Cochran <richardcochran@gmail.com>,
+ UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, =?UTF-8?B?S8O2cnk=?= Maincent
+ <kory.maincent@bootlin.com>
+Subject: Re: [PATCH net-next 1/3] net: phy: Add support for inband
+ extensions
+Message-ID: <20240213170741.3ffa20e8@device-28.home>
+In-Reply-To: <27644300-ff4f-4603-9338-bad4aa0e5610@lunn.ch>
+References: <20240212173307.1124120-1-maxime.chevallier@bootlin.com>
+	<20240212173307.1124120-2-maxime.chevallier@bootlin.com>
+	<27644300-ff4f-4603-9338-bad4aa0e5610@lunn.ch>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: maxime.chevallier@bootlin.com
 
-From: Lincoln Wallace <lincoln.wallace@canonical.com>
+Hello Andrew,
 
-A deprecation note was added on gpio-mockup Kconfig since v6.7,
-update the documentation to inform users.
+On Tue, 13 Feb 2024 15:03:01 +0100
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-Signed-off-by: Lincoln Wallace <lincoln.wallace@canonical.com>
----
- Documentation/admin-guide/gpio/gpio-mockup.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+> > +Inband Extensions
+> > +=================
+> > +
+> > +The USGMII Standard allows the possibility to re-use the full-length 7-bytes
+> > +frame preamble to convey meaningful data. This is already partly used by modes
+> > +like QSGMII, which passes the port number in the preamble.
+> > +
+> > +In USGMII, we have a standardized approach to allow the MAC and PHY to pass
+> > +such data in the preamble, which looks like this :
+> > +
+> > +|  0   |  1   |  2  |  3  |  4  |  5  |  6  |  7  |  Frame data
+> > +| SoP  |      |      Extension              | CRC |
+> > +|     /        \_______________             |     |
+> > +|    /                         \            |     |
+> > +|   | type | subport | ext type |           |     |
+> > +
+> > +The preamble in that case uses the Packet Control Header (PCH) format, where
+> > +the byte 1 is used as a control field with :
+> > +
+> > +type - 2 bits :
+> > +        - 00 : Packet with PCH
+> > +        - 01 : Packet without PCH
+> > +        - 10 : Idle Packet, without data
+> > +        - 11 : Reserved
+> > +
+> > +subport - 4 bits : The subport identifier. For QUSGMII, this field ranges from
+> > +                   0 to 3, and for OUSGMII, it ranges from 0 to 7.
+> > +
+> > +ext type - 2 bits : Indicated the type of data conveyed in the extension
+> > +        - 00 : Ignore extension
+> > +        - 01 : 8 bits reserved + 32 timestamp
+> > +        - 10 : Reserved
+> > +        - 11 : Reserved  
+> 
+> Somewhat crystal ball...
+> 
+> Those two reserved values could be used in the future to indicate
+> other extensions. So we could have three in operation at once, but
+> only one selected per frame.
+> 
+> > +A PHY driver can register available modes with::
+> > +
+> > +  int phy_inband_ext_set_available(struct phy_device *phydev, enum phy_inband_ext ext);
+> > +  int phy_inband_ext_set_unavailable(struct phy_device *phydev, enum phy_inband_ext ext);  
+> 
+> enum phy_inband_ext is just an well defined, but arbitrary number? 0
+> is this time stamp value mode, 1 could be used MACSEC, 2 could be a
+> QoS indicator when doing rate adaptation? 3 could be ....
+> 
+> > +It's then up to the MAC driver to enable/disable the extension in the PHY as
+> > +needed. This was designed to fit the timestamping configuration model, as it
+> > +is the only mode supported so far.
+> > +
+> > +Enabling/Disabling an extension is done from the MAC driver through::
+> > +
+> > +  int phy_inband_ext_enable(struct phy_device *phydev, enum phy_inband_ext ext);  
+> 
+> So maybe this should return the 2 bit ext type value? The MAC can
+> request QoS marking, and the PHY replies it expects the bits to be 3 ?
+> 
+> I'm just trying to ensure we have an API which is extensible in the
+> future to make use of those two reserved values.
 
-diff --git a/Documentation/admin-guide/gpio/gpio-mockup.rst b/Documentation/admin-guide/gpio/gpio-mockup.rst
-index 493071da1738..a6424de925da 100644
---- a/Documentation/admin-guide/gpio/gpio-mockup.rst
-+++ b/Documentation/admin-guide/gpio/gpio-mockup.rst
-@@ -3,6 +3,11 @@
- GPIO Testing Driver
- ===================
- 
-+.. note::
-+    Since kernel version 6.7, this method is being deprecated. Prefer using
-+    Documentation/admin-guide/gpio/gpio-sim.rst instead for kernel versions
-+    newer than 5.17, which is when gpio-sim was added.
-+
- The GPIO Testing Driver (gpio-mockup) provides a way to create simulated GPIO
- chips for testing purposes. The lines exposed by these chips can be accessed
- using the standard GPIO character device interface as well as manipulated
--- 
-2.40.1
+You are right, that's a much better idea !
 
+> 
+> > diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+> > index 3b9531143be1..4b6cf94f51d5 100644
+> > --- a/drivers/net/phy/phy.c
+> > +++ b/drivers/net/phy/phy.c
+> > @@ -1760,3 +1760,89 @@ int phy_ethtool_nway_reset(struct net_device *ndev)
+> >  	return ret;
+> >  }
+> >  EXPORT_SYMBOL(phy_ethtool_nway_reset);
+> > +
+> > +/**
+> > + * PHY modes in the USXGMII family can have extensions, with data transmitted
+> > + * in the frame preamble.
+> > + * For now, only QUSGMII is supported, but other variants like USGMII and
+> > + * OUSGMII can be added in the future.
+> > + */
+> > +static inline bool phy_interface_has_inband_ext(phy_interface_t interface)  
+> 
+> No inline functions in .c file please. Let the compiler decide.
+
+My bad this one slept through the cracks...
+
+> 
+> > +bool phy_inband_ext_available(struct phy_device *phydev, enum phy_inband_ext ext)
+> > +{
+> > +	return !!(phydev->inband_ext.available & ext);  
+> 
+> should this be BIT(ext) ?
+
+Correct indeed
+
+> 
+> > +}
+> > +EXPORT_SYMBOL(phy_inband_ext_available);  
+> 
+> If you don't mind, i would prefer EXPORT_SYMBOL_GPL().
+
+I don't mind, I'll fix that
+
+> 
+> > +static int phy_set_inband_ext(struct phy_device *phydev,
+> > +			      enum phy_inband_ext ext,
+> > +			      bool enable)
+> > +{
+> > +	int ret;
+> > +
+> > +	if (!phy_interface_has_inband_ext(phydev->interface))
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	if (!phydev->drv->set_inband_ext)
+> > +		return -EOPNOTSUPP;  
+> 
+> That is a driver bug. It should not set phydev->inband_ext.available
+> and then not have drv->set_inband_ext. So we should probably test this
+> earlier. Maybe define that phydev->inband_ext.available has to be set
+> during probe, and the core can validate this after probe and reject
+> the device if it is inconsistent?
+
+Good point, I'll add that !
+
+> 
+> > +
+> > +	mutex_lock(&phydev->lock);
+> > +	ret = phydev->drv->set_inband_ext(phydev, ext, enable);
+> > +	mutex_unlock(&phydev->lock);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (enable)
+> > +		phydev->inband_ext.enabled |= BIT(ext);
+> > +	else
+> > +		phydev->inband_ext.enabled &= ~BIT(ext);  
+> 
+> Should these be also protected by the mutex?
+
+I think you are right, it would be better making sure we serialize
+accesses to these indeed.
+
+Thanks for the review,
+
+Maxime
