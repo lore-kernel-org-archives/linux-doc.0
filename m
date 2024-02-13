@@ -1,233 +1,118 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012D4171AF;
-	Tue, 13 Feb 2024 07:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41596249F5
+	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 08:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707807759; cv=none; b=QFhpZScfAL3iI9hV6tBtIgARSbJ8x+zLzBIbmt9g+BUyuhAVmN4I7h1BGjPk46mcHmE6Py22tLac//n1ZfaFBgAWI3TqMnKAEBfM3R7bsSHUgLUNrtvFXDEYsJSP9bzK9bKNV9rqmDuJF+lqBjEKBgqjJzni0fXUCcDy2b6fERg=
+	t=1707812241; cv=none; b=F252+crHZAg4+8h+I0vCY9DKyE33vctfSsdaFwA8PF22YYThrOL/y9CmjWCA3+qG3/MgYIzMkJb7Ib8fB0D90ninxBdrU7q2bZf897aiXLGoVNEbM5CLw74vlUGPXsnV7WhLHF+uzU4UFe3ofIamdIpGlCNnSrdSXpG0AnDMKsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707807759; c=relaxed/simple;
-	bh=lZeK2gRHpuUy0pQK9B/76rraAeuXtQdDGPNtMRsJMF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rmHL3yz+AEOsMIlWJNw29HXZ1f+hEnOeBmH1ASj0PTlJ8TZUFdFwxA4JoMjPxgQEjkjDmlSWcXY5HtuoWsk22C7c1ZSKw901pVtWYtPNX84hd7kIY6MBp/scWXAuUd37ZiHbjGmpCPs0kMjFocKHTU/4TaIDmwTEd00h9Bg0Bh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZE5Fb00n; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707812241; c=relaxed/simple;
+	bh=k0dlcOpqCeQ859XsaJEpqmX/eHez3ZKf32wZRP8twEM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BGpyC4S4N6G5B/AjnRj5XTW/uo/vckK7tXPdBXkvo7oBeLyyKvMCNYizO4oNYDgPPrYNRwfzcsfVceAAQ2uil00hx4e7w0bXNzX0Ir1pz3ZMlGX+6nM7qk/hlO8Qc1fE2ejRQj7fUAmZGinXdikMvjP04shXbn6jkEw0VtZ5frI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aQC6uG1A; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZE5Fb00n"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-55fc7f63639so5059041a12.1;
-        Mon, 12 Feb 2024 23:02:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aQC6uG1A"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dc74e33fe1bso3986895276.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 00:17:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707807756; x=1708412556; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z+udwVZEdtua1lL/X4tovmfNwH/O3Old1O5MzEt/irs=;
-        b=ZE5Fb00nnHxD8PsR03/c5TrpVaOllm/UVBNFOXos5T6J4Fm1oaakHk9VFXXq2yUPam
-         TN4UwaX8zrwt93uusJV6Ph/utyvbahLraaC1obwg6DGENxrSdsK01SFRjWNNYKVA4sMU
-         lH7acMOOeqRnfleqOr5/5x/ZA9VOTXpVKoUMZfCgHn2aDqwXEpHmgnTppBG2EcAFtyJc
-         nitsKgy6aDEKnsvM7mfIQ7IQ2fQyDXRTdf731Pz9/3mFLWfo6xI8vtBSrB0P/J3JQq6s
-         P7y2Wj8O9LWQxe5bpFS6A4GE7pEgN0LlcwST6m7LKNIfLb2HXov9/L1b6iGTS6zHKRr+
-         9dDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707807756; x=1708412556;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1707812239; x=1708417039; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z+udwVZEdtua1lL/X4tovmfNwH/O3Old1O5MzEt/irs=;
-        b=PRSu5uZzGtN7iVOSiZa/rtAKaLEq1K+qSBISX0TfG6aSixGrGhUeDgglPcMUkue1IS
-         K3y9jQsm3zrsAR1wdhCnKseiyG97xSwdtWZI3R0OrafO7isSWbgnaTVu6MKlkGk7f8co
-         /SnduQ2FN1E3Mb/1fKZCeZoF1go4iXftIQ1LPEKv2bGpI+JbaPT2pAQRHnkaWUhc/vMO
-         efgrxyni+5z8m8iP8wqTJ114d1yRGLbDJ8Ftkz7iIw+eUX9mX9NYDFkoj5+NagT+Un4d
-         l2cIsSGv+aDFvJUcTlu/lpBYzyfTxtHEaiXdAf0mNcYKzZOIExii9Jo8Q+s/51mLBmUu
-         0SkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWEf9jKn4pImKcz5iAsE2lW6pPWCGbjHnA9FralO0q520Q3mIBN8fMC7QPxudzbSzSaJa9Uy1sIcF43OIPljb/fNc7w3gNYJBC4+Xg70g8FUcQTvdxK4HiluOWQ57CuHKzxIfHMDXW+z2gLC3bXpM2fdyJO980y/h/h2BNYLo0vT1sr5n71V2LsREW+Wq1QgmCgAR0t1I6DalAjSCmQiDpWRQ==
-X-Gm-Message-State: AOJu0YypugRqdUOH8G+dHICo2jiFAwvY0liWg/KZXgD6WcpyGXM6ZwWQ
-	r7yi8qv96/DSpj3VqigHog4meusPCktsnKt2poJJsOetzBFmjX3w
-X-Google-Smtp-Source: AGHT+IH32n/VabfZRui3/N1kTk9igIxKOYGMUC2zi3BJn1fDEZGUSEd0VTQEtIvUszYxkgShIm+Mvw==
-X-Received: by 2002:a05:6402:2c2:b0:561:d3d4:242d with SMTP id b2-20020a05640202c200b00561d3d4242dmr2187954edx.38.1707807756060;
-        Mon, 12 Feb 2024 23:02:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVUfht4Z1J2zaP0zNNC/mk7MaOFF4NJRIq6XBG/hkGxTMG/VqdYWnKEjzcFoEjuOTY1sxXW8La/POimFkUCplPmF1sCypg9DPPRX417dFmMr37YYUyMgX1UiIYR9RPij1flWIQcbV/PLuTaE4es/5AX88SMDOdGU2u0Piz2880i/ji4Snkh4QSqVN5Q7qDns7aOHevOG119hzutDzEbqk2hDfba219tNOU2rL9YhMYh4JhwY7M1wFCMK/fX0GojQdXHP9I86qSYwZt4EnzaoEWWox2YI6YKUhJnluTPjMG3SD3EN67NJVUcUy5Zz4Z025XwqVdiMV6M8w==
-Received: from cjw-notebook (2a02-8388-0502-f480-6c32-186a-368b-d6a9.cable.dynamic.v6.surfer.at. [2a02:8388:502:f480:6c32:186a:368b:d6a9])
-        by smtp.gmail.com with ESMTPSA id a23-20020a05640233d700b0055ff708dee3sm3409005edc.11.2024.02.12.23.02.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 23:02:35 -0800 (PST)
-Date: Tue, 13 Feb 2024 08:02:32 +0100
-From: Christoph Winklhofer <cj.winklhofer@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 3/3] w1: add UART w1 bus driver
-Message-ID: <ZcsUCHu42ILfKSBs@cjw-notebook>
-References: <20240209-w1-uart-v6-0-3e753c149196@gmail.com>
- <20240209-w1-uart-v6-3-3e753c149196@gmail.com>
- <466d7be4-6ca1-4eb2-a59b-a3f0a846a2df@linaro.org>
+        bh=hC5Sp72DpOGszEFoskDK+zxBIS3uARFrNh6dT/DOYpw=;
+        b=aQC6uG1AXej3oTFT3m2fKoYa7LYFxfuAxPkLfo/+dHttTZeAGK1ACiZfvHg7uw0Mk1
+         NyffctXcL4SO7EBLTKauvlsluF9l45qqYYS/KQONb+jIPCiLK+c+WbNi/zBkjJmV5iQn
+         WsnqaAKYBSrfSkW7fXdosoOrkNwAzcUp43y8upwgTF2pjdBLkjHiuPGOfOCToa6iDsSZ
+         CavdtF6mFt5fTzar38xQes3PQzi0/e6CRsAp0GocFdrTQFzMDfarix1y1+EUFBjx1Fx0
+         EFHr6x3Um7GcCahg2w7MywWIgN9lVJvVg/DnGOrIZQvRXVxFAH/k3iDSS1SZW7/xRNNz
+         zarQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707812239; x=1708417039;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hC5Sp72DpOGszEFoskDK+zxBIS3uARFrNh6dT/DOYpw=;
+        b=uEzdZ68nh5+o3bf512+mZain79CqVqcRTAlMy9Q3rE2K2LHIfmLlzIG3rgkRQvdjbh
+         m8YqxDqnoJjuB84TuiaKdJVazycRX3LSU0VzMRUP6d+PG1O+8L8Sy3lCi+TpfmGqFkgM
+         R7m3CbjH8e+wQuHX8s8FPNSZrtz1T+zJYl0KQCwp1WHsadKGqTkyvpaGVztPZPtoWoyc
+         FChhBJICWvczV3my73qqWO9B3sGzOnUxpCcXF+eKFaJSNm4Z4k7TXdjHFJkOXjyDTiqg
+         dcREpdX3YgMZi2AuCYFGsA2tgkUcsr5JfTPMV0JPjZGP8jxYJ7LywcXaU1SKQgvCF6tB
+         1CBg==
+X-Gm-Message-State: AOJu0YyU/od/oRkNCHxWvfcssMK9ul6Vhram1p4tWBFs9Nw/Ln4eEDTZ
+	MnHvscQpHsyzrIfXMAFRKggWQLtu6u/EJcj29RWR3w7URGv2x4kccKs0dWcqm3u8hflfyE0Bem+
+	kJe3tVAWWlILRMFJn71kG8AAUKggoviEQ6ab3
+X-Google-Smtp-Source: AGHT+IHjpakmjDseMf+FthsBajS4lohi+4SNf65A0StZavoAeiHzVp/HPng86atAuU0FiQuCDBbDYkv0F+8/PL8mBAs=
+X-Received: by 2002:a25:6841:0:b0:dcd:24b6:1aee with SMTP id
+ d62-20020a256841000000b00dcd24b61aeemr45209ybc.47.1707812238953; Tue, 13 Feb
+ 2024 00:17:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <466d7be4-6ca1-4eb2-a59b-a3f0a846a2df@linaro.org>
+References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-32-surenb@google.com>
+ <202402121606.687E798B@keescook> <20240212192242.44493392@gandalf.local.home> <wvn5hh63omtqvs4e3jy7vfu7fvkikkzkhqbmcd7vdtmm7jta7s@qjagmjwle2z3>
+In-Reply-To: <wvn5hh63omtqvs4e3jy7vfu7fvkikkzkhqbmcd7vdtmm7jta7s@qjagmjwle2z3>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 13 Feb 2024 00:17:04 -0800
+Message-ID: <CAJuCfpE2hMx4rUSex3rX_wWiGOt=rX5FWms98Rd6WAaVqW6yvw@mail.gmail.com>
+Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Kees Cook <keescook@chromium.org>, 
+	akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, ndesaulniers@google.com, 
+	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
+	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
+	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 12, 2024 at 04:30:00PM +0100, Krzysztof Kozlowski wrote:
-> On 09/02/2024 07:22, Christoph Winklhofer via B4 Relay wrote:
-> > From: Christoph Winklhofer <cj.winklhofer@gmail.com>
-> > 
-> > Add a UART 1-Wire bus driver. The driver utilizes the UART interface via
-> > the Serial Device Bus to create the 1-Wire timing patterns. The driver
-> > was tested on a "Raspberry Pi 3B" with a DS18B20 and on a "Variscite
-> > DART-6UL" with a DS18S20 temperature sensor.
-> > 
-> > The 1-Wire timing pattern and the corresponding UART baud-rate with the
-> > interpretation of the transferred bytes are described in the document:
-> 
-> 
-> > +/*
-> > + * struct w1_uart_config - configuration for 1-Wire operation
-> > + *
-> > + * @baudrate: baud-rate returned from serdev
-> > + * @delay_us: delay to complete a 1-Wire cycle (in us)
-> > + * @tx_byte: byte to generate 1-Wire timing pattern
-> > + */
-> > +struct w1_uart_config {
-> > +	unsigned int baudrate;
-> > +	unsigned int delay_us;
-> > +	u8 tx_byte;
-> > +};
-> > +
-> > +/*
-> > + * struct w1_uart_config - w1-uart device data
-> 
-> That's neither correct (device, not config) nor proper kerneldoc nor
-> useful. Your comment repeats struct name. If you want to make it
-> kerneldoc, go ahead, but then make it a full kerneldoc.
-> 
+On Mon, Feb 12, 2024 at 8:33=E2=80=AFPM Kent Overstreet
+<kent.overstreet@linux.dev> wrote:
+>
+> On Mon, Feb 12, 2024 at 07:22:42PM -0500, Steven Rostedt wrote:
+> > On Mon, 12 Feb 2024 16:10:02 -0800
+> > Kees Cook <keescook@chromium.org> wrote:
+> >
+> > > >  #endif
+> > > > +#ifdef CONFIG_MEM_ALLOC_PROFILING
+> > > > + {
+> > > > +         struct seq_buf s;
+> > > > +         char *buf =3D kmalloc(4096, GFP_ATOMIC);
+> > >
+> > > Why 4096? Maybe use PAGE_SIZE instead?
+> >
+> > Will it make a difference for architectures that don't have 4096 PAGE_S=
+IZE?
+> > Like PowerPC which has PAGE_SIZE of anywhere between 4K to 256K!
+>
+> it's just a string buffer
 
-Yes, sorry - will use the correct name.
-
-> And obviously compile with W=1.
-> 
-
-You mean the padding error of mutex, I get it with W=3 and will fix it
-by moving mutex up.
-
-> > + *
-> > + * @serdev: serial device
-> > + * @bus: w1-bus master
-> > + * @cfg_reset: config for 1-Wire reset
-> > + * @cfg_touch_0: config for 1-Wire write-0 cycle
-> > + * @cfg_touch_1: config for 1-Wire write-1 and read cycle
-> > + * @rx_byte_received: completion for serdev receive
-> > + * @rx_err: indicates an error in serdev-receive
-> > + * @rx_byte: result byte from serdev-receive
-> > + * @mutex: mutex to protected rx_err and rx_byte from concurrent access
-> > + *         in w1-callbacks and serdev-receive.
-> > + */
-> > +struct w1_uart_device {
-> > +	struct serdev_device *serdev;
-> > +	struct w1_bus_master bus;
-> > +
-> > +	struct w1_uart_config cfg_reset;
-> > +	struct w1_uart_config cfg_touch_0;
-> > +	struct w1_uart_config cfg_touch_1;
-> > +
-> > +	struct completion rx_byte_received;
-> > +	int rx_err;
-> > +	u8 rx_byte;
-> > +
-> 
-> How did you solve my comment and checkpatch warning from previous version:
-> 
-> CHECK: struct mutex definition without comment
-> 
-
-Thanks, I missed the option --strict in checkpatch.pl and dit not get
-this warning. Will add a comment.
-
-> > +	struct mutex mutex;
-> > +};
-> > +
-> > +/*
-> > + * struct w1_uart_limits - limits for 1-Wire operations
-> > + *
-> > + * @baudrate: Requested baud-rate to create 1-Wire timing pattern
-> > + * @bit_min_us: minimum time for a bit (in us)
-> > + * @bit_max_us: maximum time for a bit (in us)
-> > + * @sample_us: timespan to sample 1-Wire response
-> > + * @cycle_us: duration of the 1-Wire cycle
-> > + */
-> > +struct w1_uart_limits {
-> > +	unsigned int baudrate;
-> > +	unsigned int bit_min_us;
-> > +	unsigned int bit_max_us;
-> > +	unsigned int sample_us;
-> > +	unsigned int cycle_us;
-> 
-> ...
-> 
-> > +/*
-> > + * Configuration for write-1 and read cycle (touch bit 1)
-> > + * - bit_min_us is 5us, add margin and use 6us
-> > + * - limits for sample time 5us-15us, use 15us
-> > + */
-> > +static int w1_uart_set_config_touch_1(struct w1_uart_device *w1dev)
-> > +{
-> > +	struct serdev_device *serdev = w1dev->serdev;
-> > +	struct device_node *np = serdev->dev.of_node;
-> > +
-> > +	struct w1_uart_limits limits = { .baudrate = 115200,
-> > +					 .bit_min_us = 6,
-> > +					 .bit_max_us = 15,
-> > +					 .sample_us = 15,
-> > +					 .cycle_us = 70 };
-> > +
-> > +	of_property_read_u32(np, "write-1-bps", &limits.baudrate);
-> > +
-> > +	return w1_uart_set_config(serdev, &limits, &w1dev->cfg_touch_1);
-> > +}
-> > +
-> > +/*
-> > + * Configure and open the serial device
-> > + */
-> > +static int w1_uart_serdev_open(struct w1_uart_device *w1dev)
-> > +{
-> > +	struct serdev_device *serdev = w1dev->serdev;
-> > +	struct device *dev = &serdev->dev;
-> > +	int ret;
-> > +
-> > +	/* serdev is automatically closed on unbind or driver remove */
-> 
-> Drop comment, that's obvious. That's what devm* functions are for.
-> 
-> 
-
-Ok.
-
-> > +	ret = devm_serdev_device_open(dev, serdev);
-> 
-> 
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = serdev_device_set_parity(serdev, SERDEV_PARITY_NONE);
-> > +	if (ret < 0) {
-> > +		dev_err(dev, "set parity failed\n");
-> > +		return ret;
-> > +	}
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
-Thanks!
-Christoph
+We should document that __show_mem() prints only the top 10 largest
+allocations, therefore as long as this buffer is large enough to hold
+10 records we should be good. Technically we could simply print one
+record at a time and then the buffer can be smaller.
