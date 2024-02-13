@@ -1,178 +1,187 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0664241F9
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 08:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0316218026;
+	Tue, 13 Feb 2024 08:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707812883; cv=none; b=ZyRhfCkDb4CUrLeK/lpaNbbyRATagumnZbSKfFg5/lxoZTgIYUFIMgw5ZKVg89ilebCK3781JleLIvALD3CgeTWCflCNfO9itiGPgprf+UqqUDEaN0XR6oIkSZSOKDnQ+YQP4bwUkMnDP2WOOpTRomTgjuEwN4nrWVqBOjtMckE=
+	t=1707813014; cv=none; b=cwPAZn1fQ7WLNwALdks5lm2zLDLTIMz4XCKDO7ArwXzAlwocuYkswtPKr/IbnvrnLgglJU0fPoKMQaBzWbM9cwpKnuOKnuWXYPR5eO5V2QwEKBtqrR3Pk1/Wqd0PwnVvnwKI8NliA4AVP782fvjBtV8taz0bBo5dwNiHTjwX7MA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707812883; c=relaxed/simple;
-	bh=NFQ8Eln5KoExspwmfcVYKljJHKi3IqnIsAEvWlZKLWQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZePg08Zf8RS5jF65Q9wH86Nt6a0H+t0v+k//vKyU68hwXv8B2JAqR1lW9Gd7X2oVceLduSyqAJG02p3augv9FKaPMagOfsI/IfrQPok02DJBZ4pXBUUhR2QMZ613w8tFG9omTJZCLiWTlNRyZu5rIKoO53+icNbZPZFDWCnN5Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=npRm0MrQ; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1707813014; c=relaxed/simple;
+	bh=CloOXvX3e3OyBad9i8X+MAxCoHVaXSE6mAVeTadKyHs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o+7IfvuQr97sZeghIUE6MQ74ClueY4Y+b5rkDQirpEe0ZA1NXbcsKoNjiQ12cLg7YWTfkSjeilbAsm1qpZFnNWO/9sKe7nQGgTOe0+H5ESSzvf+NQkHsYp8VNWx62Yae7kvc8cBo85E+yOFd5i8MkhtYNsaE9MbarrZbcql0IqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JiyRDzmV; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="npRm0MrQ"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33ce0802f17so46305f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 00:28:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JiyRDzmV"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a3cc8f0c97fso166320166b.0;
+        Tue, 13 Feb 2024 00:30:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707812880; x=1708417680; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i+Or8C6zFHhe7sBrtU3uPWhG5vc9lJFYOzcSSs5Ma2k=;
-        b=npRm0MrQkbTbBGlxwXJ3jfyU4f4r6r7YphqQNtFFEy2LrI0+MrJJFwFTe9fqS5EIG4
-         1axuQePpvXh84Iu/xEltI+YduSZ69qXjcLXa/mzhaxHrJlfygZZQzhxQlOtPIvpLCDsH
-         AvVBE0XMbEKJEsFG1WTDvvsRvhf43ODa3nR3D73mW5zIErP+8pnS6w7u2MB1G01/2hPT
-         ZNVBiwVeeyq7AbRs+JFDfCSN0wU+BwUW3Z3+Dj8KSsps2SW68DWjG3v7Zy5ZNzGdubTQ
-         Dh0fYGM2r2khjV5svs+7o/oEjqmAgruVuCeGT3Eq/h4uNjT9ul/7sNP12i3FNDc/xXCO
-         DBeg==
+        d=gmail.com; s=20230601; t=1707813011; x=1708417811; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UVoibj/kriuj68qpqrmYwyDO76NZZTUK51M4zJowuXg=;
+        b=JiyRDzmVtu7qFQSJxeuvH1GlrRsg59b8das0TSoIaX8WccaN+jvM1iJZKtIUPwsMiZ
+         AMZNs1Nzx1dczXdWoYmm+P3jj5AYvJPfMUs1xTIvftcCGASTCl2yvBfNPzYKZ8xrMTht
+         E57/K5j9P/K3t251uiGjoEWv54IwVcSTFmGhZtq62vltUugmllsugdXLc/kwts5WOZQQ
+         XreW0+YUznNJpOjuS25jM/fxzlvjoHZg6Wn0pBFD3dQueNyT1gnuPK+J48aylm7jYFfQ
+         zRVnLc4bVfMr9XoDXWRB0EY7Np34Gndmd2sRCqhtiui4GJ08PkblcYKvA6DEv0ZPJgV9
+         kcGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707812880; x=1708417680;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i+Or8C6zFHhe7sBrtU3uPWhG5vc9lJFYOzcSSs5Ma2k=;
-        b=ZrBZFfIlfsFWtD74q/hIeGxn1t/DgzuxMDt9DBbp1SuG0FZU6WS9pXitTqc3FU2VZC
-         INt8JajT66wBIyy/dK6xSK563nDz+rkBGq9IjE2mEGOOBWq3uhE/lkui0NNUj/0Wnhnx
-         LbHc5czkuDKw0cZUuMiet51d6AHHbssP1UFwJ2BxEewGKF7xxsjzGE4YA+UXolrAFfNJ
-         jHCueklMB5pOsGR+mh7FnWLtZwOyMVXggY4R5+VM5fqY+ANcgHfLdh0k/O57Bl4W7SUW
-         GQTtCxlO/DO6ha9HuZchOuCPkqgp3Io9Li/sT8pGJAJiVkfxgt65jP4TBLyUQE3Mvnsi
-         Bscw==
-X-Gm-Message-State: AOJu0Yx+MuWXjI/FtaLGc7JUlv/bVx+OLzmrY1zsy6yP9bqKBpHvYFZI
-	3SYvplwkEonKACYvWXr++LLOD+vsu8O5XzD0rEfCIlJB3wXPQ9fW4WMGBQOYq93u9nLotCofGXp
-	W
-X-Google-Smtp-Source: AGHT+IGbP+cP/cTUakgsci4ABHN0F0PPkXeHT2vwwls659mO7zeBC7mwXi7meDBoHVqP+h6vY4Gd2Q==
-X-Received: by 2002:a5d:668e:0:b0:33c:e065:76c2 with SMTP id l14-20020a5d668e000000b0033ce06576c2mr172872wru.46.1707812880186;
-        Tue, 13 Feb 2024 00:28:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWz4IVYVva4AKF8MBOdfCnx0o8JMqJkNr16Qmx/coAsAdpH3Ng0+MD1c4+iAhBfupmIyDvgXmnBaQqoz+Ya1oNje5biVvRYksT34IfpLoir/L1o5v4QZH55i0cUQ1LImpEvPnJkjImD9+U0SEcGCxCo/E6DbhD4sdvSpxcfxuP9RHrIb5H0qrv4KAWI4NTua9N4hGJf/r/ojp+lWbj5mpbKup3GBMNkcpnryU5dH0/kRXAHFRC/BneJSfHE5h695L1p07SwquJdvpGnzCtMUY9ufEnd5X5b88f581+3/TbiR6je+G4Ev4dgK45liL+AstP2bZSAQp1jPtwagijyUC6u0Bz32QcpnVO9doU8FIZDozN/OSkkSgena5Ba
-Received: from [192.168.1.20] ([178.197.223.6])
-        by smtp.gmail.com with ESMTPSA id l21-20020adfa395000000b0033b3ceda5dbsm8933060wrb.44.2024.02.13.00.27.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Feb 2024 00:27:59 -0800 (PST)
-Message-ID: <6a19bafa-1ae0-427a-9ad7-644e000b8520@linaro.org>
-Date: Tue, 13 Feb 2024 09:27:58 +0100
+        d=1e100.net; s=20230601; t=1707813011; x=1708417811;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UVoibj/kriuj68qpqrmYwyDO76NZZTUK51M4zJowuXg=;
+        b=Rv+lvl+2DW4cd9qiT5Tf7l5As08KL+lcXqONynVOMj6OQlCK2x86j2B72oHQ6Mm6ss
+         HwlzoGbX5+pQAJEj/9Y419P3NVAUyD0KYkg8VJGkObu6nG+NfN4xoqoKh43CMoBtU4Wg
+         TEo2Zjq7V2Jqjo995T9PN06VMOC+vg77ZXATVpFEz6iQuEjk70dwo4q29jx+rtPrRG0I
+         BeGxD/nJ8Zj+5i70UTSbyZkD0D0ERrQg+s7bEqUoEb4Dm1iFxnMn3w9T3xsKsRxBzI9q
+         wY6st2zgRqS16mTulB524e1qHKLmInpA5x811YoNWEWWbLrTo74LrVGgOEQk36MOJ5ZO
+         qXfg==
+X-Forwarded-Encrypted: i=1; AJvYcCWA1hs6PDRQ1h1OZR+exmK0KURerX4V9Efp5TEodOGFqEZcqNvX4lgJt3Mott8y3jMATfvs7dOnE2SfT+FFyo0H1I5exvh/lFpy0S15DB0Pr4ck7yFpASQEDQwkwLkaBoh/ogwgSSoo1Y1IBlIqfEl7ku/kSKwE+mpRP5gdQJu/CvvG86GGV8QYA+IZpIUAJf2y4wNUUjk0ve28DI3b5mYaJj6IZjVbcdkhxv05HDTkl7uzc4vSjnpQU3ERm1CdxzyGrLUXspgqTI3r8Mq+r20iYxgeJNMCxzKOVw==
+X-Gm-Message-State: AOJu0YyuL57iGlEW0ulwhRQRKH71OmmoFuARWVgVEbvNp8lNUybDq1Vj
+	eJDLOWWP9mzu6ynO53znCYAQ7OIlo4XPPMn84M96nceQsT3Fn9txBYBlTpjjsSHpGx02Hn9TNYA
+	CfLaMr55O+MGIB96D732oMq5xs4A=
+X-Google-Smtp-Source: AGHT+IGx/YbYc3+LQ8reBTPjQn19LHdQNalJWBrwb4F8AS6CetNmE5OP52aorlUQ8qqrg2PWp0Ni3QIDkvdkx5+GGkc=
+X-Received: by 2002:a17:907:7896:b0:a3d:704:d688 with SMTP id
+ ku22-20020a170907789600b00a3d0704d688mr613690ejc.47.1707813011047; Tue, 13
+ Feb 2024 00:30:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] w1: add UART w1 bus driver
-Content-Language: en-US
-To: Christoph Winklhofer <cj.winklhofer@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240209-w1-uart-v6-0-3e753c149196@gmail.com>
- <20240209-w1-uart-v6-3-3e753c149196@gmail.com>
- <466d7be4-6ca1-4eb2-a59b-a3f0a846a2df@linaro.org>
- <ZcsUCHu42ILfKSBs@cjw-notebook>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZcsUCHu42ILfKSBs@cjw-notebook>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-2-surenb@google.com>
+ <CAHp75Vek3DEYLHnpUDBo_bYSd-ksN_66=LQ5s0Z+EhnNvhybpw@mail.gmail.com>
+In-Reply-To: <CAHp75Vek3DEYLHnpUDBo_bYSd-ksN_66=LQ5s0Z+EhnNvhybpw@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 13 Feb 2024 10:29:34 +0200
+Message-ID: <CAHp75VcftSPtAjOH-96wdyVhAYWAbOzZtfgm6J2Vwt1=-QTb=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 01/35] lib/string_helpers: Add flags param to string_get_size()
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
+	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org, Andy Shevchenko <andy@kernel.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	Paul Mackerras <paulus@samba.org>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	=?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 13/02/2024 08:02, Christoph Winklhofer wrote:
-> On Mon, Feb 12, 2024 at 04:30:00PM +0100, Krzysztof Kozlowski wrote:
->> On 09/02/2024 07:22, Christoph Winklhofer via B4 Relay wrote:
->>> From: Christoph Winklhofer <cj.winklhofer@gmail.com>
->>>
->>> Add a UART 1-Wire bus driver. The driver utilizes the UART interface via
->>> the Serial Device Bus to create the 1-Wire timing patterns. The driver
->>> was tested on a "Raspberry Pi 3B" with a DS18B20 and on a "Variscite
->>> DART-6UL" with a DS18S20 temperature sensor.
->>>
->>> The 1-Wire timing pattern and the corresponding UART baud-rate with the
->>> interpretation of the transferred bytes are described in the document:
->>
->>
->>> +/*
->>> + * struct w1_uart_config - configuration for 1-Wire operation
->>> + *
->>> + * @baudrate: baud-rate returned from serdev
->>> + * @delay_us: delay to complete a 1-Wire cycle (in us)
->>> + * @tx_byte: byte to generate 1-Wire timing pattern
->>> + */
->>> +struct w1_uart_config {
->>> +	unsigned int baudrate;
->>> +	unsigned int delay_us;
->>> +	u8 tx_byte;
->>> +};
->>> +
->>> +/*
->>> + * struct w1_uart_config - w1-uart device data
->>
->> That's neither correct (device, not config) nor proper kerneldoc nor
->> useful. Your comment repeats struct name. If you want to make it
->> kerneldoc, go ahead, but then make it a full kerneldoc.
->>
-> 
-> Yes, sorry - will use the correct name.
-> 
->> And obviously compile with W=1.
->>
-> 
-> You mean the padding error of mutex, I get it with W=3 and will fix it
-> by moving mutex up.
+On Tue, Feb 13, 2024 at 10:26=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Mon, Feb 12, 2024 at 11:39=E2=80=AFPM Suren Baghdasaryan <surenb@googl=
+e.com> wrote:
+> >
+> > From: Kent Overstreet <kent.overstreet@linux.dev>
+> >
+> > The new flags parameter allows controlling
+> >  - Whether or not the units suffix is separated by a space, for
+> >    compatibility with sort -h
+> >  - Whether or not to append a B suffix - we're not always printing
+> >    bytes.
 
-No, I meant W=1. Make it a kerneldoc and compile with W=1, so you will
-see the warning.
+And you effectively missed to _add_ the test cases for the modified code.
+Formal NAK for this, the rest is discussable, the absence of tests is not.
+
+> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>
+> It seems most of my points from the previous review were refused...
+>
+> ...
+>
+> You can move the below under --- cutter, so it won't pollute the git hist=
+ory.
+>
+> > Cc: Andy Shevchenko <andy@kernel.org>
+> > Cc: Michael Ellerman <mpe@ellerman.id.au>
+> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> > Cc: Paul Mackerras <paulus@samba.org>
+> > Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> > Cc: Jason Wang <jasowang@redhat.com>
+> > Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
+> > Cc: Jens Axboe <axboe@kernel.dk>
+> > ---
+>
+> ...
+>
+> > --- a/include/linux/string_helpers.h
+> > +++ b/include/linux/string_helpers.h
+> > @@ -17,14 +17,13 @@ static inline bool string_is_terminated(const char =
+*s, int len)
+>
+> ...
+>
+> > -/* Descriptions of the types of units to
+> > - * print in */
+> > -enum string_size_units {
+> > -       STRING_UNITS_10,        /* use powers of 10^3 (standard SI) */
+> > -       STRING_UNITS_2,         /* use binary powers of 2^10 */
+> > +enum string_size_flags {
+> > +       STRING_SIZE_BASE2       =3D (1 << 0),
+> > +       STRING_SIZE_NOSPACE     =3D (1 << 1),
+> > +       STRING_SIZE_NOBYTES     =3D (1 << 2),
+> >  };
+>
+> Do not kill documentation, I already said that. Or i.o.w. document this.
+> Also the _SIZE is ambigous (if you don't want UNITS, use SIZE_FORMAT.
+>
+> Also why did you kill BASE10 here? (see below as well)
+>
+> ...
+>
+> > --- a/lib/string_helpers.c
+> > +++ b/lib/string_helpers.c
+> > @@ -19,11 +19,17 @@
+> >  #include <linux/string.h>
+> >  #include <linux/string_helpers.h>
+> >
+> > +enum string_size_units {
+> > +       STRING_UNITS_10,        /* use powers of 10^3 (standard SI) */
+> > +       STRING_UNITS_2,         /* use binary powers of 2^10 */
+> > +};
+>
+> Why do we need this duplication?
+>
+> ...
+>
+> > +       enum string_size_units units =3D flags & flags & STRING_SIZE_BA=
+SE2
+> > +               ? STRING_UNITS_2 : STRING_UNITS_10;
+>
+> Double flags check is redundant.
 
 
-Best regards,
-Krzysztof
 
+--=20
+With Best Regards,
+Andy Shevchenko
