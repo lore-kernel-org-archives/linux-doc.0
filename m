@@ -1,145 +1,101 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7D9558AB4;
-	Tue, 13 Feb 2024 14:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED465F563
+	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 15:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707836071; cv=none; b=bJxbUfNO/q7I8l03zNRSa0QqsS7xetKKbeQbKZxW7XC1mgYg1XcgCLmGCkieMcqT5R4ov4hokyhQJoOBDV5P2nBjHq9w1UsnRkreAdKrAdTG7qkH/WDWdE7u5a/H8Hl3H9uidA+RIwDzobL9p2Q7LKQI/G9uzpqk265Fp/Awjdg=
+	t=1707839134; cv=none; b=pTQRiyeaPaM+qnYXEXcpOvd28vME3XIW9Db3+1OCNgIErahytt1NI/zAt93UKpBnOzPvFktUmhhRKKqEL8rJg+MxdbD4SGFuhVPYwvw1UhSYZG6GXytdKrsTw6oKGK2FbWh+WDHx8qvsgGyD0c3s/d0FZxllbDvz1PNy/qGep0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707836071; c=relaxed/simple;
-	bh=n0RduTBwmy+CHrwggpLTiv2Q4pY8AuF40ODIySrlxAQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ESOzG8hwSeQkdrvOcNTh2LvrPcKqtodgPpFanaVABCUBKZqGGruIpkBxD7CzUjbpMsLZ6skh+spmiOxD2+f3mKLU9+f42bFDzkXYdCYtnmoXNuSv+SmTLJdpyXyX1kOcxjnBBMqx1TppVAYzx9wHtUH3jB4Au3hOX/nWAezonrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A941DA7;
-	Tue, 13 Feb 2024 06:55:09 -0800 (PST)
-Received: from mango.localdomain (TVHN20WD9G.budapest.arm.com [10.45.25.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B79C33F7B4;
-	Tue, 13 Feb 2024 06:54:26 -0800 (PST)
-From: Balint Dobszay <balint.dobszay@arm.com>
-To: op-tee@lists.trustedfirmware.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: jens.wiklander@linaro.org,
-	sumit.garg@linaro.org,
-	corbet@lwn.net,
-	balint.dobszay@arm.com,
-	sudeep.holla@arm.com,
-	gyorgy.szing@arm.com
-Subject: [PATCH 3/3] Documentation: tee: Add TS-TEE driver
-Date: Tue, 13 Feb 2024 15:52:39 +0100
-Message-Id: <20240213145239.379875-4-balint.dobszay@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240213145239.379875-1-balint.dobszay@arm.com>
-References: <20240213145239.379875-1-balint.dobszay@arm.com>
+	s=arc-20240116; t=1707839134; c=relaxed/simple;
+	bh=Mb7cfkVoTPe9SpFqQPiRQCgZRgp43WdceLq+nhIl53M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RPOjNssdY1qHYq7v/AHJYwiEgALpkrVLQxMPKwKHw+YCK42oTfeHCKG+gBiZSJx2gcx9rd8A46Y1nVJMNdVCymuMR9j76C+vN/onQZUMWs/YBBKj7o9GoQXABlRvLDgQOCX9AaRhxT3ghc5FVcTjZMyChFS8wsbIb1M1uJ9zAfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=Vmj1mmLQ reason="key not found in DNS"; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="Vmj1mmLQ"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7872614af89so8779785a.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 07:45:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1707839131; x=1708443931; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=r+5lFm1GOYo46btsIaJvA6S/B+CQsp17IG3lccG/v6g=;
+        b=Vmj1mmLQ4yhugjb/lPfx3+kxHd1E/h0Kv5YjC6n1verDh8bforL8WJmTrmhqdYgyPX
+         56y9RZo1Mc5U/mF8FPCurWhd+rExv7UZueNkedhf/F3UMF4+TPDSL5z8wNhEeajGsva1
+         RCpTP8BbUJksyQEqy8waWFK14wWRVqePBgqfNsbDvyEJP5lN8zOpVxyRtyXGGxCqS9c+
+         eqSxQH/KlzMgGlgL+X73aBsTzO3bzsCM6zp8Bgti1AKInfQCsdy01WaodSCDPOx/76N3
+         k9pq74Hhw6oeQhYWQr/K8cMbwAzbnEL8K3HilA2scUgyGNxbQVBZCq4/4ORbpCYcCO5L
+         CfOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707839131; x=1708443931;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r+5lFm1GOYo46btsIaJvA6S/B+CQsp17IG3lccG/v6g=;
+        b=JTeuRwP/eSIqPdR9Xu7vHBZbS2H8TfpuT61aExzOU8i/SWV/2vfIkz+IePqxAnrF0O
+         fxWCJzpEmcn4AXEMyjoGmlce14FK5grF8xJnAxGRXP3r73u8GCCrJurLqTJEU+dyi8na
+         V53IyZAvUbABO5tJ/vOLHyLqZXcnA065c9Cr/a/GffbSzwxUlUMUkOqO9NAscuLPa6UH
+         N7t/uWq0ZxugTLsm+e5evN10QjjGEWutM3dECwIqhEw6MC+eyeo18sSrSpCyGv+94zXD
+         Z1oxEZkOr35bJSIXB+wE0cUmPLe+t0NKRgdmRUWhOZk5xSqCUMY0jeMAtrF6A/CDDzPY
+         mz9w==
+X-Gm-Message-State: AOJu0YyKu7fBrWEVAhYYSIWNBxg5EAbounZuBF/4hgz2m/nbpbu5qmqz
+	3vB9KPzBZz+gVNZqBF4KoBmkGzVPbh6LbKgPBYNMX7klOUxjO+vdXuQBTA7N0GkZ+vGZ5cHsJaZ
+	WpkvPQHTgaR7MGWajpzT0mAKp368mpjThUohVTP0EBIbr8N00hRY=
+X-Google-Smtp-Source: AGHT+IFqChznTFjr/EeidSN571ZA0nQfVJvF+Fp0E+Y2flaP6eNCXc4z1s3ADkdtr1CrUfrPgpTF+9pex3Z052b1w5U=
+X-Received: by 2002:a05:620a:618b:b0:787:1db5:f0de with SMTP id
+ or11-20020a05620a618b00b007871db5f0demr2991955qkn.26.1707839131046; Tue, 13
+ Feb 2024 07:45:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-11-pasha.tatashin@soleen.com> <20240213131210.GA28926@willie-the-truck>
+In-Reply-To: <20240213131210.GA28926@willie-the-truck>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 13 Feb 2024 10:44:53 -0500
+Message-ID: <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
+Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
+To: Will Deacon <will@kernel.org>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	yu-cheng.yu@intel.com, rientjes@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-Add documentation for the Trusted Services TEE driver.
+> >  SecPageTables
+> > -              Memory consumed by secondary page tables, this currently
+> > -              currently includes KVM mmu allocations on x86 and arm64.
+> > +              Memory consumed by secondary page tables, this currently includes
+> > +              KVM mmu and IOMMU allocations on x86 and arm64.
 
-Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
----
- Documentation/tee/index.rst  |  1 +
- Documentation/tee/ts-tee.rst | 70 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 Documentation/tee/ts-tee.rst
+Hi Will,
 
-diff --git a/Documentation/tee/index.rst b/Documentation/tee/index.rst
-index a23bd08847e5..4be6e69d7837 100644
---- a/Documentation/tee/index.rst
-+++ b/Documentation/tee/index.rst
-@@ -10,6 +10,7 @@ TEE Subsystem
-    tee
-    op-tee
-    amd-tee
-+   ts-tee
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/tee/ts-tee.rst b/Documentation/tee/ts-tee.rst
-new file mode 100644
-index 000000000000..e121ebbbfab7
---- /dev/null
-+++ b/Documentation/tee/ts-tee.rst
-@@ -0,0 +1,70 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================================
-+TS-TEE (Trusted Services project)
-+=================================
-+
-+This driver provides access to secure services implemented by Trusted Services.
-+
-+Trusted Services [1] is a TrustedFirmware.org project that provides a framework
-+for developing and deploying device Root of Trust services in FF-A [2] S-EL0
-+Secure Partitions. The project hosts the reference implementation of the Arm
-+Platform Security Architecture [3] for Arm A-profile devices.
-+
-+The FF-A Secure Partitions (SP) are accessible through the FF-A driver [4] which
-+provides the low level communication for this driver. On top of that the Trusted
-+Services RPC protocol is used [5]. To use the driver from user space a reference
-+implementation is provided at [6], which is part of the Trusted Services client
-+library called libts [7].
-+
-+All Trusted Services (TS) SPs have the same FF-A UUID, it identifies the TS RPC
-+protocol. A TS SP can host one or more services (e.g. PSA Crypto, PSA ITS, etc).
-+A service is identified by its service UUID, the same type of service cannot be
-+present twice in the same SP. During SP boot each service in the SP is assigned
-+an "interface ID", this is just a short ID to simplify message addressing.
-+
-+The generic TEE design is to share memory at once with the TEE implementation,
-+which can then be reused to communicate with multiple TAs. However, in case of
-+FF-A, memory sharing works on an endpoint level, i.e. memory is shared with a
-+specific SP. User space has to be able to separately share memory with each SP
-+based on its endpoint ID, therefore a separate TEE device is registered for each
-+discovered TS SP. Opening the SP corresponds to opening the TEE device and
-+creating a TEE context. A TS SP hosts one or more services, opening a service
-+corresponds to opening a session in the given tee_context.
-+
-+Overview of a system with Trusted Services components::
-+
-+   User space                  Kernel space                   Secure world
-+   ~~~~~~~~~~                  ~~~~~~~~~~~~                   ~~~~~~~~~~~~
-+   +--------+                                               +-------------+
-+   | Client |                                               | Trusted     |
-+   +--------+                                               | Services SP |
-+      /\                                                    +-------------+
-+      ||                                                          /\
-+      ||                                                          ||
-+      ||                                                          ||
-+      \/                                                          \/
-+   +-------+                +----------+--------+           +-------------+
-+   | libts |                |  TEE     | TS-TEE |           |  FF-A SPMC  |
-+   |       |                |  subsys  | driver |           |   + SPMD    |
-+   +-------+----------------+----+-----+--------+-----------+-------------+
-+   |      Generic TEE API        |     |  FF-A  |     TS RPC protocol     |
-+   |      IOCTL (TEE_IOC_*)      |     | driver |        over FF-A        |
-+   +-----------------------------+     +--------+-------------------------+
-+
-+References
-+==========
-+
-+[1] https://www.trustedfirmware.org/projects/trusted-services/
-+
-+[2] https://developer.arm.com/documentation/den0077/
-+
-+[3] https://www.arm.com/architecture/security-features/platform-security
-+
-+[4] drivers/firmware/arm_ffa/
-+
-+[5] https://trusted-services.readthedocs.io/en/v1.0.0/developer/service-access-protocols.html#abi
-+
-+[6] https://git.trustedfirmware.org/TS/trusted-services.git/tree/components/rpc/ts_rpc/caller/linux/ts_rpc_caller_linux.c?h=v1.0.0
-+
-+[7] https://git.trustedfirmware.org/TS/trusted-services.git/tree/deployments/libts/arm-linux/CMakeLists.txt?h=v1.0.0
--- 
-2.34.1
+> While I can see the value in this for IOMMU mappings managed by VFIO,
+> doesn't this end up conflating that with the normal case of DMA domains?
+> For systems that e.g. rely on an IOMMU for functional host DMA, it seems
+> wrong to subject that to accounting constraints.
 
+The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
+is passed to the iommu mapping functions. We do that from the vfio,
+iommufd, and vhost. Without this flag, the memory useage is reported
+in /proc/meminfo as part of  SecPageTables field, but not constrained
+in cgroup.
+
+Pasha
