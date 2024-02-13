@@ -1,214 +1,120 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4838F5D914;
-	Tue, 13 Feb 2024 16:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1035F54E;
+	Tue, 13 Feb 2024 17:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707840470; cv=none; b=XJVP0tphw9I/CRwZaMwe/D1OR+gNexPsDDeh3rEeZaGjrNax7xVMX5axmWmuQzqeH+iP5dJmTjUnUIWbt7paot+y6F9vP01xfP2eyUGoPqDlZwI6tsgK7B1m+1fUogirpYQko3CXu99QFUk8la8LM/Gum8eeyBBZLYYXLOvNYP0=
+	t=1707845197; cv=none; b=R1bYXXkVa4eSjI5bzrWNcIqyHTGQ7e5foFalkIsNMZLrsAbs1RpzkqLm2DcpwV3EbmMTRUQIIbK4tp+kFybwcvXJ+GDnNJHlbG3QjLbafVbjNFjtfzmxqnK6W/kt+dkTy4hYGkHi2Dx0Zs1o1BF8Y/RZHBhl8U7j6M5PmDwuNMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707840470; c=relaxed/simple;
-	bh=Nq5NLWM8fquBBRNIIZ/z4DwyXucV/4AOy2bTNrl4gfM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FHN0i51MB+ke4/a71oJ1Te4Z1bknVCx7qWFtLv3oOe3Mo8JtxgesU7FGy+oOo5e8m1bbla/NssmTN9mKbNjf+uJGLA5304CugEI1ktCw/RyRBMichjFd9axyRNB3eynI17qmW/6U2Cfk2whwIiyueIQPrPJ6/GtL/eUeLLSA5Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Bnx3owWj; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Bnx3owWj"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 93E41C000B;
-	Tue, 13 Feb 2024 16:07:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707840464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gVnzc7OAdrtUJbFDyTTibW0hk3NfWNlLDbaHw8ta+S8=;
-	b=Bnx3owWjNw2cJ0Jza4wUrQauMZ+sFCg4yoKBcAIBj/yJBtyZtWax7yKqIPwQRn12E6tuTa
-	tH9TbpLp08NNV0UZsDFx+XXBO5ROXyCuY31lNQ05P4vvnCwOvTzlp2nSiLGDDtjUdGusLD
-	0FY0RAGiwSQAqeGMfkpGHZRc7z9IRqb7uVt/pDGYx+ZlQFBILq3pS2unj+ofv6RnskuWnU
-	ROlzfe+uAx3ERoGD6S61ZsgbdKHWNKVoa5UBD4EtEGqTcSOi2Ue/mWaobcr5lgao6nV7h7
-	kDn67fD1vkhGVsK+yS5EMGgnHmOXUV5qX6k/VF5fFMEYeIlPu0Lk0nqvAgkcYg==
-Date: Tue, 13 Feb 2024 17:07:41 +0100
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, davem@davemloft.net, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Richard Cochran <richardcochran@gmail.com>,
- UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com, =?UTF-8?B?S8O2cnk=?= Maincent
- <kory.maincent@bootlin.com>
-Subject: Re: [PATCH net-next 1/3] net: phy: Add support for inband
- extensions
-Message-ID: <20240213170741.3ffa20e8@device-28.home>
-In-Reply-To: <27644300-ff4f-4603-9338-bad4aa0e5610@lunn.ch>
-References: <20240212173307.1124120-1-maxime.chevallier@bootlin.com>
-	<20240212173307.1124120-2-maxime.chevallier@bootlin.com>
-	<27644300-ff4f-4603-9338-bad4aa0e5610@lunn.ch>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1707845197; c=relaxed/simple;
+	bh=R4W/x6sdikq9L5mixsfBJrQlDgWaZ0hlbKehGewQpgE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bpv+ETvxc3uxOp4XmDz1Cw1ZpprtDQkn21HxeeumLOTto2Pwqc4ZcK9AdTuuAt1RoKaCGiTYqnsIVqcm1sTphAFRNZOgFzk8+0q3Tp/T7m2zYuNFIB+FzecHVP5kv7kvriGoBM9WcbuUF/jrm+6O2B42GsQCL+MpSZroLNydico=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 724E71FB;
+	Tue, 13 Feb 2024 09:27:15 -0800 (PST)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 155943F5A1;
+	Tue, 13 Feb 2024 09:26:27 -0800 (PST)
+Message-ID: <b008bd2d-a189-481f-917d-bb045c43cb07@arm.com>
+Date: Tue, 13 Feb 2024 17:26:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/10] iommu/vt-d: add wrapper functions for page
+ allocations
+Content-Language: en-GB
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io,
+ asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com,
+ cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+ dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+ iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com,
+ joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st,
+ mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org,
+ rdunlap@infradead.org, samuel@sholland.org, suravee.suthikulpanit@amd.com,
+ sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+ tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org,
+ yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com,
+ mkoutny@suse.com
+References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+ <20240207174102.1486130-2-pasha.tatashin@soleen.com>
+ <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
+ <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: maxime.chevallier@bootlin.com
 
-Hello Andrew,
+On 10/02/2024 2:21 am, Pasha Tatashin wrote:
+[...]
+>>> +/**
+>>> + * iommu_alloc_pages_node - allocate a zeroed page of a given order from
+>>> + * specific NUMA node.
+>>> + * @nid: memory NUMA node id
+>>> + * @gfp: buddy allocator flags
+>>> + * @order: page order
+>>> + *
+>>> + * returns the virtual address of the allocated page
+>>> + */
+>>> +static inline void *iommu_alloc_pages_node(int nid, gfp_t gfp, int order)
+>>> +{
+>>> +     struct page *page = __iommu_alloc_pages_node(nid, gfp, order);
+>>> +
+>>> +     if (unlikely(!page))
+>>> +             return NULL;
+>>
+>> As a general point I'd prefer to fold these checks into the accounting
+>> function itself rather than repeat them all over.
+> 
+> For the free functions this saves a few cycles by not repeating this
+> check again inside __free_pages(), to keep things symmetrical it makes
+> sense to keep __iomu_free_account and __iomu_alloc_account the same.
+> With the other clean-up there are not that many of these checks left.
 
-On Tue, 13 Feb 2024 15:03:01 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
+__free_pages() doesn't accept NULL, so __iommu_free_pages() shouldn't 
+need a check; free_pages() does, but correspondingly iommu_free_pages() 
+needs its own check up-front to avoid virt_to_page(NULL); either way it 
+means there are no callers of iommu_free_account() who should be passing 
+NULL.
 
-> > +Inband Extensions
-> > +=================
-> > +
-> > +The USGMII Standard allows the possibility to re-use the full-length 7-bytes
-> > +frame preamble to convey meaningful data. This is already partly used by modes
-> > +like QSGMII, which passes the port number in the preamble.
-> > +
-> > +In USGMII, we have a standardized approach to allow the MAC and PHY to pass
-> > +such data in the preamble, which looks like this :
-> > +
-> > +|  0   |  1   |  2  |  3  |  4  |  5  |  6  |  7  |  Frame data
-> > +| SoP  |      |      Extension              | CRC |
-> > +|     /        \_______________             |     |
-> > +|    /                         \            |     |
-> > +|   | type | subport | ext type |           |     |
-> > +
-> > +The preamble in that case uses the Packet Control Header (PCH) format, where
-> > +the byte 1 is used as a control field with :
-> > +
-> > +type - 2 bits :
-> > +        - 00 : Packet with PCH
-> > +        - 01 : Packet without PCH
-> > +        - 10 : Idle Packet, without data
-> > +        - 11 : Reserved
-> > +
-> > +subport - 4 bits : The subport identifier. For QUSGMII, this field ranges from
-> > +                   0 to 3, and for OUSGMII, it ranges from 0 to 7.
-> > +
-> > +ext type - 2 bits : Indicated the type of data conveyed in the extension
-> > +        - 00 : Ignore extension
-> > +        - 01 : 8 bits reserved + 32 timestamp
-> > +        - 10 : Reserved
-> > +        - 11 : Reserved  
-> 
-> Somewhat crystal ball...
-> 
-> Those two reserved values could be used in the future to indicate
-> other extensions. So we could have three in operation at once, but
-> only one selected per frame.
-> 
-> > +A PHY driver can register available modes with::
-> > +
-> > +  int phy_inband_ext_set_available(struct phy_device *phydev, enum phy_inband_ext ext);
-> > +  int phy_inband_ext_set_unavailable(struct phy_device *phydev, enum phy_inband_ext ext);  
-> 
-> enum phy_inband_ext is just an well defined, but arbitrary number? 0
-> is this time stamp value mode, 1 could be used MACSEC, 2 could be a
-> QoS indicator when doing rate adaptation? 3 could be ....
-> 
-> > +It's then up to the MAC driver to enable/disable the extension in the PHY as
-> > +needed. This was designed to fit the timestamping configuration model, as it
-> > +is the only mode supported so far.
-> > +
-> > +Enabling/Disabling an extension is done from the MAC driver through::
-> > +
-> > +  int phy_inband_ext_enable(struct phy_device *phydev, enum phy_inband_ext ext);  
-> 
-> So maybe this should return the 2 bit ext type value? The MAC can
-> request QoS marking, and the PHY replies it expects the bits to be 3 ?
-> 
-> I'm just trying to ensure we have an API which is extensible in the
-> future to make use of those two reserved values.
+The VA-returning allocators of course need to avoid page_address(NULL), 
+so I clearly made this comment in the wrong place to begin with, oops. 
+In the end I guess that will leave __iommu_alloc_pages() as the only 
+caller of iommu_alloc_account() who doesn't already need to handle their 
+own NULL. OK, I'm convinced, apologies for having to bounce it off you 
+to work it through :)
 
-You are right, that's a much better idea !
-
+>>> + */
+>>> +static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
+>>> +{
+>>> +     return iommu_alloc_pages_node(nid, gfp, 0);
+>>> +}
+>>
+>> TBH I'm not entirely convinced that saving 4 characters per invocation
+>> times 11 invocations makes this wrapper worthwhile :/
 > 
-> > diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-> > index 3b9531143be1..4b6cf94f51d5 100644
-> > --- a/drivers/net/phy/phy.c
-> > +++ b/drivers/net/phy/phy.c
-> > @@ -1760,3 +1760,89 @@ int phy_ethtool_nway_reset(struct net_device *ndev)
-> >  	return ret;
-> >  }
-> >  EXPORT_SYMBOL(phy_ethtool_nway_reset);
-> > +
-> > +/**
-> > + * PHY modes in the USXGMII family can have extensions, with data transmitted
-> > + * in the frame preamble.
-> > + * For now, only QUSGMII is supported, but other variants like USGMII and
-> > + * OUSGMII can be added in the future.
-> > + */
-> > +static inline bool phy_interface_has_inband_ext(phy_interface_t interface)  
-> 
-> No inline functions in .c file please. Let the compiler decide.
+> Let's keep them. After the clean-up that you suggested, there are
+> fewer functions left in this file, but I think that it is cleaner to
+> keep these remaining, as it is beneficial to easily distinguish when
+> exactly one page is allocated vs when multiple are allocated via code
+> search.
 
-My bad this one slept through the cracks...
+But is it, really? It's not at all obvious to me *why* it would be 
+significantly interesting to distinguish fixed order-0 allocations from 
+higher-order or variable-order (which may still be 0) ones. After all, 
+there's no regular alloc_page_node() wrapper, yet plenty more callers of 
+alloc_pages_node(..., 0) :/
 
-> 
-> > +bool phy_inband_ext_available(struct phy_device *phydev, enum phy_inband_ext ext)
-> > +{
-> > +	return !!(phydev->inband_ext.available & ext);  
-> 
-> should this be BIT(ext) ?
-
-Correct indeed
-
-> 
-> > +}
-> > +EXPORT_SYMBOL(phy_inband_ext_available);  
-> 
-> If you don't mind, i would prefer EXPORT_SYMBOL_GPL().
-
-I don't mind, I'll fix that
-
-> 
-> > +static int phy_set_inband_ext(struct phy_device *phydev,
-> > +			      enum phy_inband_ext ext,
-> > +			      bool enable)
-> > +{
-> > +	int ret;
-> > +
-> > +	if (!phy_interface_has_inband_ext(phydev->interface))
-> > +		return -EOPNOTSUPP;
-> > +
-> > +	if (!phydev->drv->set_inband_ext)
-> > +		return -EOPNOTSUPP;  
-> 
-> That is a driver bug. It should not set phydev->inband_ext.available
-> and then not have drv->set_inband_ext. So we should probably test this
-> earlier. Maybe define that phydev->inband_ext.available has to be set
-> during probe, and the core can validate this after probe and reject
-> the device if it is inconsistent?
-
-Good point, I'll add that !
-
-> 
-> > +
-> > +	mutex_lock(&phydev->lock);
-> > +	ret = phydev->drv->set_inband_ext(phydev, ext, enable);
-> > +	mutex_unlock(&phydev->lock);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	if (enable)
-> > +		phydev->inband_ext.enabled |= BIT(ext);
-> > +	else
-> > +		phydev->inband_ext.enabled &= ~BIT(ext);  
-> 
-> Should these be also protected by the mutex?
-
-I think you are right, it would be better making sure we serialize
-accesses to these indeed.
-
-Thanks for the review,
-
-Maxime
+Thanks,
+Robin.
