@@ -1,68 +1,70 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7EA7E1
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 00:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F1F7494
+	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 00:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707783300; cv=none; b=pkm7Atfy78mo3GVAsckZbxbGKQ1wqgnR7km4XmKoWLwXvZsTf0RVXcmrzape7F4ftDdXdsXkoP7zbaNdOhagRSdafirJUGI0nAw6jYo+6TMzI99bkTRP0PfvwGmrwPt96yO25dAlLGSwZwkT1KXMNaKkeeGDlESia6MGkl49KR8=
+	t=1707783326; cv=none; b=hmzdCD0uTInMHwSpBGggOKXbOb+qfXkVGbfXMHiHUFR36ssgjOb9Xvn6AursAGlJzm8ILkyoAKJxdR+t9DdHTE6CUfTwLp+Lk73KTZTroy5IWuRxXfc5b2morvMfPxfMquOCoeMwFKKA2oss6eT5cymmgwPx5PLaTAr3OptIyLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707783300; c=relaxed/simple;
-	bh=p+IVeRU3f9COk3wBMTH0iIf+8fVqKG0n9hzN9kdq2Xc=;
+	s=arc-20240116; t=1707783326; c=relaxed/simple;
+	bh=7Wwz+pVnHJ9jIYCJ6OslYOBAl9//CS1GWKGLZ0scfs8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YB5DXj90Qked2+wfjhHp69Mddw1eCHR0Lq83hZKDb3wuxmbzLny2cdfFdQQNV7BOCCO5gqVeWaqXJRu+dQkSUEKgNtjHCJVsAr9aZn6+NjUL+2vF7RNDppTuJe5dtek6Cz8ztJWsHHrS16SN3Rb5J5imMVwBE2xhHkI2VeRGlvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=hRFx8OzL reason="key not found in DNS"; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=A5iScxBpVnMiKRVeatLnCFzQD8TFPlqfSHl+VAeT+uumCX6LO8dFWsi6EbEUBFmFQEUx4yhtRe4pZ3qU1i9E6I9bSPoGUPVRdOI4hA44eqnkaPkufp0BF4od/jrBguu913T+7MzAcYLHopAFl/+5tFLuAdHxDBZOASodNSiWjRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0Fi+X0EZ; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="hRFx8OzL"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6e2dfaa93c5so851652a34.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 16:14:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0Fi+X0EZ"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dc6e080c1f0so3321789276.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 16:15:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1707783298; x=1708388098; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1707783324; x=1708388124; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zpkbch4s+SL6zR3ce+cP/IOGuaScUrbATNvaMsX6gQU=;
-        b=hRFx8OzLpzZfkX2KYjLz4MEK93nwhIERYV36+ueQxJxoEiHKMQL/1nEjdZ+7VSdbnf
-         siT39azOSxjFsh9kTAOIuasSKEjL0EFsOsuZ1OEiypY/Q3hVEUMNHWJWjqyTUj/IyQFT
-         tLV1wc7OS5h52ntKwWemX0veu7L2EfUlY9A7hdSorOd5CLoGWAIZ7u6C3IDp4GDa1eqD
-         epkpLwBxzRsy+dYvA+NpDHfSpCTF+zyOMqrG10Sb+ySK6Cm1hzKZ5DHceUiz02THdlF9
-         aF33k3ujEKG2VjS0Cn7Yf/4/qpOuWXFxZJbKA+6dw8lTQE4hLZDefHslyXT+60uZCqLy
-         eXnw==
+        bh=7Wwz+pVnHJ9jIYCJ6OslYOBAl9//CS1GWKGLZ0scfs8=;
+        b=0Fi+X0EZMVaI/UinNhEXfp0t8Cm5470SB2bK6OadTq7R3yvD+/e0lXmBXENPBhxCDy
+         IysoKO9VDa2guh3MlMCWAvFHHPbEq2TEKG0/1zVc/P5GwMHHucu8VszDo60LhpjLIU1s
+         pZaiz3JxDGP5DhSNubs4wBl9pI4YT4BWZzyzrE1D2ImFXtmwl5DqWAo5gfj5UFKdrrs+
+         HF3nTcIj9y3xQBaJcTV4EC3MmXTKb5gxTH4s/wMmVLWDAXTXW+JoIcnEYfwEOMv0nYeh
+         X+eTco00/QlypK57fsP5qA3YaPj7IwiS7Vt3cc7xqW9huiwTvWw0jPmpjkZ2dxI3dn+Z
+         euFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707783298; x=1708388098;
+        d=1e100.net; s=20230601; t=1707783324; x=1708388124;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Zpkbch4s+SL6zR3ce+cP/IOGuaScUrbATNvaMsX6gQU=;
-        b=WXoOJOCaYHAKmVoQuO8fNGhaqEmF1ixaopGGg/4H4/a3VECyg+4TuKaCQ8ejWtrkWr
-         aKJrLkA4+3aykg7mmkLcccHqgCCJKzMnV3uVrJ+Y1uU2YG7woBecKTO35lY+Qn5uDLu0
-         lUlR7+5b8uiJG3/49hSh5JEtjKBs9LqAp09S2sKXCkSoSaJfT39jpK4K69rYoZTiZcym
-         NLydJjN+4h3BJ3dBV9zyf3gBfMFLacmXmt1Vt7ppeijCMd6aHeflA5g1VV8uORSu8VJX
-         99unISlGtB8zISWg+whpD2u7alUQK44SZGhpni4QFlpoGiCvt43Hx4S612cDeuc4Elgs
-         pffA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQN7p/dBZdvuEP2PVrpo2M8WEvweNE+PHY0GSvspLcVHVYpUaZFFnfnynA5uebwrKaIIZjmmG6qppxhn49RNgxnn16x1XKP3Ta
-X-Gm-Message-State: AOJu0YzkY8RVGd2+Rn6deINLYG+Bb2qa77fKd5JuFek+Upgd8xlcIVOF
-	t3gCm/lrjM5hicuCgaDk/jv+xFKV5zhJG1DcGAfyqteXj+pVKMSeGsHv18TzfL7L4lrUOh4fAUd
-	/6BTxxDFPADIwg621s9j3ohvw+N8wg846fTsA1w==
-X-Google-Smtp-Source: AGHT+IENA2I2vQZTmviXZDRj9zPa9m0qm240EbRNcQEFbOk5GS9Qd9oHISJT+KIV/8e+A1RHV9ji5tIu3nuHQqetP/o=
-X-Received: by 2002:a05:6830:12c2:b0:6e2:e953:6fee with SMTP id
- a2-20020a05683012c200b006e2e9536feemr3152110otq.24.1707783298148; Mon, 12 Feb
- 2024 16:14:58 -0800 (PST)
+        bh=7Wwz+pVnHJ9jIYCJ6OslYOBAl9//CS1GWKGLZ0scfs8=;
+        b=FWApZHfh2PCzzOEBnyCsqOYFZk0EtDXCBOwgwTWK6GIPi1JiUUBFalPs6HgcUswemV
+         9r5gEN5UE4mzhn4dJlair0+3xiJ29hzIe3VttPK5duII/NYCivJvegTovHYDD+68bUnT
+         XR+Y5LH8yQRo/IrE9p/Y1RH9pgiNZM2ZzPMyHkYqU6xsuuTPcmmZJH4weSzU99NlVsui
+         bo1uVTb7Sa8dYifDUnAFN0nEAOli4X3XC34XTIEiazT+D63TTKyZS3lurSUYLntPYSVs
+         VIMoj8Qi77WsBM/xOEID0QBPio7XHNgZfxR1rpsFnBkju7/P2wX2TSzmiHkXnA/GoRZx
+         lv4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWQ4gC8cVOablEV/lMQ1NrE0+56sE8f3mSJOOhcBpMnd6wzML4M3n2N1z02K9ATRtmGygYLwSHpCNJYbyXyNvozBKNY5VcNst8E
+X-Gm-Message-State: AOJu0Yyt0mz9AnsE39w5MNUqpQbd2a2TtflpTbVJOLacjDSYd6naBJU8
+	SWUsNHHtZ269OFRh1le+zZ1LLDM0O2q0ROtRVPhM0YRftzaQkwDTJxnzKSQ+6u5yWyyHw3fkgc3
+	RA43f17n/GJ+81xPfND9nY47C2QJQ8cBPP+0e
+X-Google-Smtp-Source: AGHT+IFIduuZE1STvNicF9DxUXXadRzIx8lN/0f7DXD7a7IgTSoghi+1HrvGMrI5m8lZfvX3Zk7o2MADsuuEWWIky8I=
+X-Received: by 2002:a25:ac68:0:b0:dc6:d158:98f0 with SMTP id
+ r40-20020a25ac68000000b00dc6d15898f0mr6974706ybd.52.1707783323411; Mon, 12
+ Feb 2024 16:15:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com>
-In-Reply-To: <20240212213922.783301-1-surenb@google.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 12 Feb 2024 19:14:20 -0500
-Message-ID: <CA+CK2bBLD-mZ4ne56Awxbiy0EGpJq69k5qUKZwcXVB1Rt581TQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/35] Memory allocation profiling
-To: Suren Baghdasaryan <surenb@google.com>
+References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-34-surenb@google.com>
+ <202402121445.B6EDB95@keescook>
+In-Reply-To: <202402121445.B6EDB95@keescook>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 12 Feb 2024 16:15:12 -0800
+Message-ID: <CAJuCfpEoS=ea90EHHc-Kwg3G3_ZWsVgKvhRiZ4SVuGARBe=vnA@mail.gmail.com>
+Subject: Re: [PATCH v3 33/35] codetag: debug: mark codetags for reserved pages
+ as empty
+To: Kees Cook <keescook@chromium.org>
 Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
 	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
 	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
@@ -72,70 +74,45 @@ Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
 	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
 	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
 	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, yosryahmed@google.com, yuzhao@google.com, 
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, ndesaulniers@google.com, 
+	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
+	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
+	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
+	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, 
+	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
+	kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
 	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
 	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 12, 2024 at 4:39=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
+On Mon, Feb 12, 2024 at 2:45=E2=80=AFPM Kees Cook <keescook@chromium.org> w=
+rote:
 >
-> Memory allocation, v3 and final:
+> On Mon, Feb 12, 2024 at 01:39:19PM -0800, Suren Baghdasaryan wrote:
+> > To avoid debug warnings while freeing reserved pages which were not
+> > allocated with usual allocators, mark their codetags as empty before
+> > freeing.
 >
-> Overview:
-> Low overhead [1] per-callsite memory allocation profiling. Not just for d=
-ebug
-> kernels, overhead low enough to be deployed in production.
->
-> We're aiming to get this in the next merge window, for 6.9. The feedback
-> we've gotten has been that even out of tree this patchset has already
-> been useful, and there's a significant amount of other work gated on the
-> code tagging functionality included in this patchset [2].
->
-> Example output:
->   root@moria-kvm:~# sort -h /proc/allocinfo|tail
->    3.11MiB     2850 fs/ext4/super.c:1408 module:ext4 func:ext4_alloc_inod=
-e
->    3.52MiB      225 kernel/fork.c:356 module:fork func:alloc_thread_stack=
-_node
->    3.75MiB      960 mm/page_ext.c:270 module:page_ext func:alloc_page_ext
->    4.00MiB        2 mm/khugepaged.c:893 module:khugepaged func:hpage_coll=
-apse_alloc_folio
->    10.5MiB      168 block/blk-mq.c:3421 module:blk_mq func:blk_mq_alloc_r=
-qs
->    14.0MiB     3594 include/linux/gfp.h:295 module:filemap func:folio_all=
-oc_noprof
->    26.8MiB     6856 include/linux/gfp.h:295 module:memory func:folio_allo=
-c_noprof
->    64.5MiB    98315 fs/xfs/xfs_rmap_item.c:147 module:xfs func:xfs_rui_in=
-it
->    98.7MiB    25264 include/linux/gfp.h:295 module:readahead func:folio_a=
-lloc_noprof
->     125MiB     7357 mm/slub.c:2201 module:slub func:alloc_slab_page
+> How do these get their codetags to begin with?
 
-This kind of memory profiling would be an incredible asset in cloud
-environments.
+The space for the codetag reference is inside the page_ext and that
+reference is set to NULL. So, unless we set the reference as empty
+(set it to CODETAG_EMPTY), the free routine will detect that we are
+freeing an allocation that has never been accounted for and will issue
+a warning. To prevent this warning we use this CODETAG_EMPTY to denote
+that this codetag reference is expected to be empty because it was not
+allocated in a usual way.
 
-Over the past year, we've encountered several kernel memory overhead
-issues. Two particularly severe cases involved excessively large IOMMU
-page tables (20GB per machine) and IOVA magazines (up to 8GB).
-Considering thousands of machines were affected, the cumulative memory
-waste was huge.
-
-While we eventually resolved these issues with custom kernel profiling
-hacks (some based on this series) and kdump analysis, comprehensive
-memory profiling would have significantly accelerated the diagnostic
-process, pinpointing the precise source of the allocations.
+> Regardless:
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+>
+> --
+> Kees Cook
