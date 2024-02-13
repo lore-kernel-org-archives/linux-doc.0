@@ -1,68 +1,98 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471BF1B299
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 14:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFC5B3613A;
+	Tue, 13 Feb 2024 14:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707834893; cv=none; b=WfzKpDpdFTM/ec1ustHfNeyZY/uJCX5XZnD6r99pihr+38YPxTjCVCAmMzWL04h6ZRebEJ/Qlq1zFj8ngZb5bCjOhFlPKXxmAx3kNyNW2F/HM+ty0cByWPNLHmvhx3N6hJxZnp9WJszCJUmqEL6p/PCo0AR6BY5tGwAsvdC6b9Y=
+	t=1707836009; cv=none; b=Id/pqY2XkJkrBaJYkjwaQGPNE1iG5GepegAU+mFAf/enGi8ZclVS6a3av1RzxquxkCRRe757mNFtvq/M/yp0TEZtXSPuoSNpI1Xw6hFHNXfowU9quV8YZ39CnRgwGWzROa+EkG7oeWw2sAiCCjGF12ITfgeJd2O76fo67YHTej0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707834893; c=relaxed/simple;
-	bh=fOaOf3xN3gRI5H802Xas+WADPd41KxJY0dIvJXRvyXs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=e9i9X1jHYsqtlPUQVwlPb7rrKKox28n1KKqRA2VCkr0XW8MbwLOGcifqe1XuAQ8I/5zSRti3F3SyOlE1nCa3d0iBSlUSr35RrYK4PkbIjngMFQyhENyPKJT6/hqLrWSlaqodeYG8zkQgKTv+O1RiWfzChp1HOY44tyme7Br5Ylg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WcRkboWJ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WcRkboWJ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 53EC641A29
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707834890; bh=fOaOf3xN3gRI5H802Xas+WADPd41KxJY0dIvJXRvyXs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WcRkboWJuaQW2B2oCzXDmAmZWgL9JyQzdMW6qJKgYkktd7w5sMjHicVU2pYEPrIqu
-	 DAclpkQLxA/1MJImHLGIu6rT3pU7YMpblHBX9sR/m96cB6FnBa/GEnJ3tvEM0UjhQt
-	 QE5XZjNdiHhW987Fh5AM63uHzOVHG3HDdUbinmNBCoV7hxiUR0s340mHS1UF96aSEV
-	 YA4xC28pkfo5weoobTFz6ulTH1tQysL/lwF9JLFuhqcDPr5PIxv0C95pOQP+Qe8Zpg
-	 kJYjDeyXQqyy4TUDNBq+4t+zVaqyZAVQtcAHOrWFehwV5dKiy5UA7djir4AvmmT7jn
-	 LEAxviCf/XFPA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 53EC641A29;
-	Tue, 13 Feb 2024 14:34:50 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Vegard Nossum
- <vegard.nossum@oracle.com>, Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Subject: Re: docs: "translations" extension breaks "make latexdocs" with
- 6.1.3<=Sphinx<7.2
-In-Reply-To: <87jzn8908u.fsf@intel.com>
-References: <54a56c2e-a27c-45a0-b712-02a7bc7d2673@gmail.com>
- <37ecca9e-83f9-4f91-9b76-b5bd012dc3ee@oracle.com>
- <4806c264-1076-401b-bb5f-283fb7b68fb3@oracle.com>
- <875xyt8i67.fsf@meer.lwn.net>
- <8b51b6d6-0360-4f42-9b96-02e0ccd0b34f@oracle.com>
- <87jzn8908u.fsf@intel.com>
-Date: Tue, 13 Feb 2024 07:34:49 -0700
-Message-ID: <877cj877qu.fsf@meer.lwn.net>
+	s=arc-20240116; t=1707836009; c=relaxed/simple;
+	bh=t+C0wHRdPYUeT/g+3p7OkdvqqXBfXGLMN3mjtPjhcZ8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UABxHfb03+I6+Qm7l0CvBZ7G9cVFfUfmt53ZzOnk1QkwM1pLED7SrZxA2qU2MAzX5ZG+5eqZsoy845Jj9Urmp3091pSTY/6Obi4o9fXV72naS3b0CdQoGnejEsTboh9np4aeM+vV/N1v0kZi2Gj70sCN7yNDZolrdBlkD0Igtr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5DC40DA7;
+	Tue, 13 Feb 2024 06:54:07 -0800 (PST)
+Received: from mango.localdomain (TVHN20WD9G.budapest.arm.com [10.45.25.43])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 999893F7B4;
+	Tue, 13 Feb 2024 06:53:24 -0800 (PST)
+From: Balint Dobszay <balint.dobszay@arm.com>
+To: op-tee@lists.trustedfirmware.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: jens.wiklander@linaro.org,
+	sumit.garg@linaro.org,
+	corbet@lwn.net,
+	balint.dobszay@arm.com,
+	sudeep.holla@arm.com,
+	gyorgy.szing@arm.com
+Subject: [PATCH 0/3] TEE driver for Trusted Services
+Date: Tue, 13 Feb 2024 15:52:36 +0100
+Message-Id: <20240213145239.379875-1-balint.dobszay@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Jani Nikula <jani.nikula@linux.intel.com> writes:
+This series introduces a TEE driver for Trusted Services [1].
 
-> "Note that the current builder tag is not available in conf.py, as it is
-> created after the builder is initialized."
->
-> https://www.sphinx-doc.org/en/master/usage/configuration.html
+Trusted Services is a TrustedFirmware.org project that provides a
+framework for developing and deploying device Root of Trust services in
+FF-A [2] Secure Partitions. The project hosts the reference
+implementation of Arm Platform Security Architecture [3] for Arm
+A-profile devices.
 
-The command line is available, though, which should be enough to get the
-job done.
+The FF-A Secure Partitions are accessible through the FF-A driver in
+Linux. However, the FF-A driver doesn't have a user space interface so
+user space clients currently cannot access Trusted Services. The goal of
+this TEE driver is to bridge this gap and make Trusted Services
+functionality accessible from user space.
 
-jon
+Changelog:
+RFC[4] -> v1:
+  - Add patch for moving pool_op helper functions to the TEE subsystem,
+    as suggested by Jens
+  - Address comments from Sumit, add patch for documentation
+
+[1] https://www.trustedfirmware.org/projects/trusted-services/
+[2] https://developer.arm.com/documentation/den0077/
+[3] https://www.arm.com/architecture/security-features/platform-security
+[4] https://lore.kernel.org/linux-arm-kernel/20230927152145.111777-1-balint.dobszay@arm.com/
+
+
+Balint Dobszay (3):
+  tee: optee: Move pool_op helper functions
+  tee: tstee: Add Trusted Services TEE driver
+  Documentation: tee: Add TS-TEE driver
+
+ Documentation/tee/index.rst       |   1 +
+ Documentation/tee/ts-tee.rst      |  70 +++++
+ drivers/tee/Kconfig               |   1 +
+ drivers/tee/Makefile              |   1 +
+ drivers/tee/optee/core.c          |  64 ----
+ drivers/tee/optee/ffa_abi.c       |   6 +-
+ drivers/tee/optee/optee_private.h |  12 -
+ drivers/tee/optee/smc_abi.c       |  10 +-
+ drivers/tee/tee_shm.c             |  65 ++++
+ drivers/tee/tstee/Kconfig         |  11 +
+ drivers/tee/tstee/Makefile        |   3 +
+ drivers/tee/tstee/core.c          | 501 ++++++++++++++++++++++++++++++
+ drivers/tee/tstee/tstee_private.h |  92 ++++++
+ include/linux/tee_drv.h           |  11 +
+ include/uapi/linux/tee.h          |   1 +
+ 15 files changed, 765 insertions(+), 84 deletions(-)
+ create mode 100644 Documentation/tee/ts-tee.rst
+ create mode 100644 drivers/tee/tstee/Kconfig
+ create mode 100644 drivers/tee/tstee/Makefile
+ create mode 100644 drivers/tee/tstee/core.c
+ create mode 100644 drivers/tee/tstee/tstee_private.h
+
+-- 
+2.34.1
+
