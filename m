@@ -1,110 +1,160 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D4879E1
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 00:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EF68BFC
+	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 00:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707784277; cv=none; b=ugv88LNDo6O/xuX6rcRdwW9FNGq0iJw1evTdPYQOuZdcLGBDtTntXW9fv4vlxqWBprhDWDWn+JoQeoZmCrKNvB9Plk7yfnhyrK5Mh8cS4WL8LIXjQRqb6cbytNNpCi+SekmwcOAsDFDxDcWoVG1QvcnauuVzIu4wmKPDg1e1b0I=
+	t=1707784431; cv=none; b=l6z8d+HDEtewRPVdQGnD+wmelDNrtcDPxmdaEcb9EglrgAa3m++RvcHbHq2k6SPk1Zz8QhKHd2WuLITIvUVA+14eYCYvjNa3d95/O9kI5rdiVtrG+3ayondClT9nS1aNuxLDhDI1VzvvLHE+AZpbImbFWLAkeSIWOJYEWhMcJOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707784277; c=relaxed/simple;
-	bh=mNvkRhiyjJq1dsRwNB7SCDE/0DcmbqdFX7FIWlgw6qo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DPyiexPuYx1+C65Bp/ZkYmNEzcYbki3fqKhWobw6pEJmjN5Rppb0aKIDbtcR2XVqIVMbyUfJLAdSCUVVljIQvdCsn0duyuk6J8camZzo0xJBZrzBawnGPxSNRzBAgOBTxVHh1s0Za2NV2X7sG5SqVIxeHUbzpYthuR3DZKi05Oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IjXhgRtM; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1707784431; c=relaxed/simple;
+	bh=YxAXOy4o6OGYWuF03b59iNwixPAeZRO5FzV/qbzpd2g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jAnp6wkN105oqEGNJDx4tvBZgpNBADP/Vh+8psNfHWt7pluTt0gz1xzEFIxDrxOKy4GbO+2TlwsvuxtJO56cDAyMP09PXGps9GoiwEWAxFJXs4dbQQ11VNrAQuA3ItvAOOnL59QNMHrrU0bIFlB1MlnjvI7swW9qLNq2btef/cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0KZxAHv+; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IjXhgRtM"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e0507eb60cso2418695b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 16:31:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0KZxAHv+"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dcc660ce7a2so232082276.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 16:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707784275; x=1708389075; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=flZnqd6/OOEmgqviJI0+73E/bOCz1vKp47Qn2/+ubUU=;
-        b=IjXhgRtMIyUa1NFnp+Vp8P0i7g6V44gTGf6f9691xvdCR0dPBM2YGTq0ybNhVsEzpc
-         vhBDTK8bjhYwZmff/R8zsp7hVx5Wv02lzlOT0WauPFcM6UBzr/m3F5uE4uZbQdFHmG6c
-         BjMhYLlBgaqfSGw9AqTYS4SU1KGIDXVz4HARc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707784275; x=1708389075;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1707784427; x=1708389227; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=flZnqd6/OOEmgqviJI0+73E/bOCz1vKp47Qn2/+ubUU=;
-        b=GJ/gejjpp4zWlPeABKsbkwbUYU9NnmqvqbqcoeQupr9Av8pwHQBrMV8qfFwYjoYIjF
-         LIsk57pYY3ULtKAYLjS0949HHh8e5wkIx3WitCuVH374aE76No2/DUwG97MDGHz81P6A
-         rZE+OwyAjVN6nW3I+Iu0KH5RDFpTplrhD1Kv/hOSwc571vroi0Y6VOTE5wSnCGi3jTTN
-         VSJ1lV+QRQrUTZXb2Cy5UfUZaV4tKrJf9WVfb6WIHqGYL9iAmt8SuCzJfWcNP6Hj68x/
-         O6dbIvBG9sE8HGbPklqyzeB2lxhmiN6QrjlXpGTOD+8+NjDB17FbIOvGE/0GXHPr4F1X
-         Akbg==
-X-Forwarded-Encrypted: i=1; AJvYcCWdInCKtATA+wmrB2FUBsHY/XKa98iCUqiAyLsFSUSHODSRM+qLGv93l6FE30oWkw7XuAuBzHi8lrXLV0uoLzb9MU7YBPf2ZhfD
-X-Gm-Message-State: AOJu0YzOWjCvJO/c0EQXfoFeIjhzDidP4ITXdHJME80gXH+ZgJJgJ2s9
-	qS+tRAF8T8I05LamjZjvNak/8YCcE3KN/n/CrgxskaaOMrbhWBGCBGZwphx9Tg==
-X-Google-Smtp-Source: AGHT+IHsEPTpCmxVYDDW4VNRs2b8vcpDA5pedBCL8vEwt1Ggt87wDXOPZix8VtuDgH+3BmZUWUlZIg==
-X-Received: by 2002:aa7:82cf:0:b0:6e0:532a:d5f4 with SMTP id f15-20020aa782cf000000b006e0532ad5f4mr8655990pfn.27.1707784275520;
-        Mon, 12 Feb 2024 16:31:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVin3ur0Lo35hIyXtrtSV/cxI4vE5dmFtYD7ma+HtymCNeVZ2kkanG/e5r7jRI36pyWBjot8aUQYx6+p6LxLQnTNSm6weM6lZK91Z+2GZNgFWSN1ZeGPUdII18cHDDsVeHwP11mF9V5Cx7kzsoj1L4MeBLF1x4j/5G3iuwVW/cTP1lf4+jBzT6BusTtY+yb9OGjtgQsofJ3OkNeTsayYI6YnYoZKrbYP+SHJhtSllHfModJO/AP/ecndTCmiLycnsruuY+Z40gfK+ULp/KuzCJadwMupixtnYmRy1qpaieFOXGBmUxKVebYBQ0gaBO4gCxV5LZFueIZuKXFN1hKsPJNUcqwQAcizpIU/tBevp8sdiOcfLOYzHw+qiVJ5y0NJXKlMkVOcYTz8gNCo2Trtk3ICusgR7eUFM9ClFTEXbX5b6LW+RJ/ig/7J0FeSsOgfn3w7cYxkYi1mdkcSJqxdN9sljTmLw1cIEQpfmCmqGt7ZJwcUfz23XgPMMkH71ZPnZetjfaB08ugB7risf0yWGIFil3W8xnDYSDsWINLekmP/5pikpXr/SqTlI/kZtFx+R/Y7TJBg8XH8Khjudt2EkinnfvJOM9iaWgaRsupKFap50ol2vCniI0xkB+mMpzAvI1TnOxHZV03YgDwM1rGiJW/RCt7Rwyl0PU01O+eYaViHIiyZq9bR2CK5gDad7BWj2SfRdv7IqqyEtq4V00x9ZYyIPD3WstNoZqvyyTnQ8AXIH01cMXd3g==
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id r16-20020aa78b90000000b006e0dd50b0d0sm2678139pfd.8.2024.02.12.16.31.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 16:31:15 -0800 (PST)
-Date: Mon, 12 Feb 2024 16:31:14 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-	liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, peterx@redhat.com, david@redhat.com,
-	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
-	ndesaulniers@google.com, vvvvvv@google.com,
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
-	elver@google.com, dvyukov@google.com, shakeelb@google.com,
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 23/35] mm/slub: Mark slab_free_freelist_hook()
- __always_inline
-Message-ID: <202402121631.5954CFB@keescook>
-References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-24-surenb@google.com>
+        bh=0zKsIvn4BR7Vnfqbap08Xbsf16NSeakKE4Kz9sErxMk=;
+        b=0KZxAHv+0YkH6zj3t3zX+Xo9vEIewUaum4FfVunEy8hYAf1oeVsLdImyq+/+GND5m1
+         0YbFCmxBlnfhvKtlGGRTbv+SA8e3uq8bZgwTJcbgizI5ExCQvlzVLgAZy8NyY2SprsKg
+         Kh3f44QZmIuDvyA31c7M6Mj1s/7oW9mJtXU0bc63BVCEU7PiJcgbQPSQ/vv8DbxLyUVv
+         hyytuipsHNU4IXRMIC5RYo1rziokTgYok3jz2vZkmQ6gWfj/L6pJfbJmtU683hXFrceg
+         eGUjpvL4gL/U8GPNiMT83LlCZMWFAZ7ZxvDJvLd6/QT4weW1Yj9kAZu1vZlxT+lsGgV1
+         0VUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707784427; x=1708389227;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0zKsIvn4BR7Vnfqbap08Xbsf16NSeakKE4Kz9sErxMk=;
+        b=IR1o9bEhE58AbpD4QwXVHFtxEPK5LffMhdQ7FIcv4HWqkp54Ox0jdHHkgKjYzXeZAm
+         /hAboMUaXoaL8ivFhiPmY+rBu5x/FQonhuw393upLvsYY+/GrmBNI0MY2xp3+EaKPSnx
+         RqrpABr6SBNZCxvHZaNKQbClFfbciBOPoWTnzudXvojhxygJBEDmyXscasU3Yw2ww65D
+         ZHsuoz63hMFPru9kN7TbIBaiRZ0CZUx0KSWVLo6OO+4BYyh6DZpi+tcuzU5oCljY17Vl
+         Pn/DRZ2AIS16zTl3Iw7eog7aAAklhKsKekiBKHy5NVWZx1qrf5ji48oAgJ1QCIr/+tD1
+         uI8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWo676aBhXlw7JKdFc7Pt5CtSB/ezl5+aPKadlGSIwLwTeFj6tf5dBiOy5khKls5TZ3XQu4ga/rHonFJKwfaTASbkRQuFWG7WY8
+X-Gm-Message-State: AOJu0YwTzBfkGazUPRO+JClzN1m1vix/ZVcmJ/mp9sut5gER3ZnBX0ZH
+	kVEszekg+maYlXt5/HbEfyvVv7b/rK/k7MdGIGTtfHhSjpQtOECdaxgrVymysUWaJKQ8hk53Hqi
+	zhMuwQCYuA7GmUzKAZR1+xuXN4YBO31Yhbh5n
+X-Google-Smtp-Source: AGHT+IGBDTumArIlZgvzmWVR8GYKMRxNMBDeFHhDCQ0WU+YPU8v4cT6TjkFsT6OjBf2VIiSLkGOXD/+qxH3EvaRmjhU=
+X-Received: by 2002:a25:6dc1:0:b0:dcc:693e:b396 with SMTP id
+ i184-20020a256dc1000000b00dcc693eb396mr465601ybc.2.1707784427206; Mon, 12 Feb
+ 2024 16:33:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240212213922.783301-24-surenb@google.com>
+References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-36-surenb@google.com>
+ <202402121443.C131BA80@keescook>
+In-Reply-To: <202402121443.C131BA80@keescook>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 12 Feb 2024 16:33:34 -0800
+Message-ID: <CAJuCfpEkC9FXACy02PM6GTF_XHQ0XEN6UVpFzGxYNnPcFv8irw@mail.gmail.com>
+Subject: Re: [PATCH v3 35/35] MAINTAINERS: Add entries for code tagging and
+ memory allocation profiling
+To: Kees Cook <keescook@chromium.org>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, ndesaulniers@google.com, 
+	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
+	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
+	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
+	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, 
+	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
+	kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 12, 2024 at 01:39:09PM -0800, Suren Baghdasaryan wrote:
-> From: Kent Overstreet <kent.overstreet@linux.dev>
-> 
-> It seems we need to be more forceful with the compiler on this one.
+On Mon, Feb 12, 2024 at 2:43=E2=80=AFPM Kees Cook <keescook@chromium.org> w=
+rote:
+>
+> On Mon, Feb 12, 2024 at 01:39:21PM -0800, Suren Baghdasaryan wrote:
+> > From: Kent Overstreet <kent.overstreet@linux.dev>
+> >
+> > The new code & libraries added are being maintained - mark them as such=
+.
+> >
+> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > ---
+> >  MAINTAINERS | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 73d898383e51..6da139418775 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -5210,6 +5210,13 @@ S:     Supported
+> >  F:   Documentation/process/code-of-conduct-interpretation.rst
+> >  F:   Documentation/process/code-of-conduct.rst
+> >
+> > +CODE TAGGING
+> > +M:   Suren Baghdasaryan <surenb@google.com>
+> > +M:   Kent Overstreet <kent.overstreet@linux.dev>
+> > +S:   Maintained
+> > +F:   include/linux/codetag.h
+> > +F:   lib/codetag.c
+> > +
+> >  COMEDI DRIVERS
+> >  M:   Ian Abbott <abbotti@mev.co.uk>
+> >  M:   H Hartley Sweeten <hsweeten@visionengravers.com>
+> > @@ -14056,6 +14063,15 @@ F:   mm/memblock.c
+> >  F:   mm/mm_init.c
+> >  F:   tools/testing/memblock/
+> >
+> > +MEMORY ALLOCATION PROFILING
+> > +M:   Suren Baghdasaryan <surenb@google.com>
+> > +M:   Kent Overstreet <kent.overstreet@linux.dev>
+> > +S:   Maintained
+> > +F:   include/linux/alloc_tag.h
+> > +F:   include/linux/codetag_ctx.h
+> > +F:   lib/alloc_tag.c
+> > +F:   lib/pgalloc_tag.c
+>
+> Any mailing list to aim at? linux-mm maybe?
 
-Sure, but why?
+Good point. Will add. Thanks!
 
-> 
-> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
+>
+> Regardless:
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+>
+>
+> > +
+> >  MEMORY CONTROLLER DRIVERS
+> >  M:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >  L:   linux-kernel@vger.kernel.org
+> > --
+> > 2.43.0.687.g38aa6559b0-goog
+> >
+>
+> --
+> Kees Cook
