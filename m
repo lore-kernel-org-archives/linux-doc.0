@@ -1,197 +1,238 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC610225CE
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 10:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5306C1EEF7;
+	Tue, 13 Feb 2024 10:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707818404; cv=none; b=cZjxcOmG99wi/GvAKI08Ywrza4WznwS+1LmDrvJYhTH4vWAHIMhciAym+7qUbMK7t8Bh5MiHfscQoIGJPZ2CRd6K7hWFE7oQWzKgxwC+z+ajkHFni4pc1wODvzid/GQVMTyi4DSIHsG9+0IAJ9BdH/jFkCPBcTgSPbSeKCWUrIc=
+	t=1707820362; cv=none; b=Nxq5A8pLMr7vKvFlXjbxId9cG7XYeqmAEEMljJlc/xiieGNrecLEh8Ly8mqo4Ap3pgchwFDv5FMpmKS1KL6JGNTrEzAYA1wd5s1bb+GPA74Mk9A/iMu8SHlRIPLUj/YC41ClCo/3asAind+5cu4utcYYf7AN4OCZYW86grtTMXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707818404; c=relaxed/simple;
-	bh=ACSk1jf/AZFiby2B/e9ooFgYbhyONiPoItuRKcyxhT8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=loegWpL+ue0mdYe3Bpd+B8D82HPWg3hmXodATK5N/Jv+SDT+lhk9oTmuldauTGabPFFqa/AyIfoJqXgYiaQjFX9jsnJiY7Cb2HAv9U60uEDgDKFUVQ3UEQtQM424d1gVl9aar01/ufZKOLvktmmEvcAh31yaVM0Swb7IBEF6BVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at; spf=pass smtp.mailfrom=sigma-star.at; dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b=t3Nh5fOM; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigma-star.at
+	s=arc-20240116; t=1707820362; c=relaxed/simple;
+	bh=JXf3FW715Hij2/rVgflMXeAgFq6KllbSfYEa5EbJNnY=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kThBDMC4LMzklsE+KJqqUDY4sP6qKuD3qJUZIpkFna/KTlvg8IL8nWSW4p1UJ+0WRncKjrEoQ/YC+AN7vTeM02ASU8+di363QLyEpAt49w8/Dmvp0TnxNJk8dDyrstYj2JndnsGMHiYN8zXvsF7JKTTqLa7qS0KY+RsZcEN3o3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=yoETFqjZ; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b="t3Nh5fOM"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a3cb228b90bso180476866b.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 02:00:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sigma-star.at; s=google; t=1707818399; x=1708423199; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kyeDtepLgx0McOY1pO4WdkIJtQMiPkAy0vk69/uR3rI=;
-        b=t3Nh5fOMdbo5hs3AYuhV7+iRzgscPMB5IgBZynixUnDsGoYpfPt/5eYSV+PeQJQDq5
-         V8P8pWAaj8oG7kxiSh1YI5vDnYp1y2rbIFESWUtuOnHSg71ZTW5aAqjWq8VZ8GbvmeDR
-         hSvG5D//CTaEPNL7Pe+aUr8DmUd3eG9xAqzLqOhIF30OW1f5kDpahMLFca4jp9TZgurc
-         Uym+reZWagKZ31l5azkjmIgjR4JxNZtbi46yZFSYKj+4iiItYwOfkJizK4zlq1W05cpn
-         rjF8eXFU9L3mPUbmnQKxzyQH9mlPduVqSTZC0kWzciWrVxoN5jpqxJlhwrW257g8O4gB
-         UQHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707818399; x=1708423199;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kyeDtepLgx0McOY1pO4WdkIJtQMiPkAy0vk69/uR3rI=;
-        b=OZlg9JpKbBtdwaSrFruHltHv2N743+SdHNECcu09UK51EwNxei77wMxwKnoCZXbmA3
-         tPFbE+MBxBgxSHmt2DsknPn8BNrVJbDUINZR5TKLlUnR657u81rWVYftAFkSVvy/a0mq
-         rt4KChHjFVwsmV7BFiJnT1WdFTiEF2ZJeTldLuPGTFmPQRxSI2hsxjIyqKFEgB0TOkNR
-         EWmDZBv6eUxG0+zZ0gcJdywTpMTZRyLw9476PLuCRUwbugBAXuApx09Xmq8+ham3bRW5
-         u4kqX7T0tFg/1MXsgViZrwNSfxi2eltueYonGZR6f5PCUupRm2sVYB187Dg0jZIc4h88
-         9viA==
-X-Forwarded-Encrypted: i=1; AJvYcCUefZrKKSl2GLs8G+BbAV7qO/oS6rI6mcxRveM5HnRv8WH0yrY3fTxOx0MycVWwhogDaDtqR/8gAVfjn6q3DtUU6BOTPSVYy/GE
-X-Gm-Message-State: AOJu0Ywd6ANrZEq/Snk4ksVFEgTs+q08VnIcSdEK35RG3ZRmOIDCeUfu
-	8C6BMxvVOlBgMoJtm+F4MFFV1OsDzpfLH1oK8J9P4SpkH9tuZILQDH3mqDvEs30=
-X-Google-Smtp-Source: AGHT+IHEjTCzJQiMRtlAWhiS4vBU8FucNsWEQmzIuMGcPfQWtxNPG6A/AHgXHP88FZXuf9FpsLb1RA==
-X-Received: by 2002:a17:906:da03:b0:a3c:8772:97bc with SMTP id fi3-20020a170906da0300b00a3c877297bcmr4593945ejb.70.1707818399072;
-        Tue, 13 Feb 2024 01:59:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU9Lvd0gIyxW7fyt4/vBOTtTFhw8BwSuz+lp9azwGwU/sEacO3hp4UP5b9jT4ZdzTXdpxRrNw3yWTkRA2mZc0ViUYvJI1T1Wil0XREjFxK6TG0gNqfdSgjrNF3pi9+7ljipOLTqFxTmPut2EvJvoC8REQLk9w3hNJDOA5mnxH5VIGqWmQD6wpqUTTkgCCec3TIQHVlmxYJ+RIbhuiDhlBe61VOjQ6ixhteHpfb50d+9J3rO+r26f2iEIQN04Loa/NxVD9DoebEX0YjEI/E0wU7EuKGFQhUzHfBc7zRzkZICZaXj2PpNdGdV7ULDQtMx1e2tHpcuaNgXcZxx53a3PrQpPSWkPLUGh9PLTugf22ZPoLA79U+WpqCLjlqJ+wMIuGy4aRX2astyccDTpqopsnoZwr+Le8XQl44nQ6XGse4g+ZsL5HSIoGYaTdcc8put9I/V4NLPaVXKQeFqCJgyDybNC8Laewb91SL/TQRVdzTVLx9+dhvfWHwYXfHQeMNJCe72RkbkPzT6l/CPkYElYVrWj8wfEITjz6UKfDibWZB9i9ao8mCJ6B/0uiw9X6zcxuJUKi9qESLTeVDKBnfWtk8P58ZkCAu03Y+qtfwccvG07ICfkjzsKxpE5Pt861yDtMR6V1bK7JZVoQ72CkFkr4h1JAMpgffeNn5a8693YQG0btUA22KCxYl748oIeBuUaU5weN0OgylotSAWDn3J+w9D8+iAVNcYDDDm6vrBuVEVe/nkWh3eCqeE3h4+ixmPB1guSaScYDm3pSJsYggz3f3662OrPJO66ThrXIAoTwKOuD3gEuyFt9um4e5fU1zMso7lcn9Y4JkbAlXk5eM5zUfdLJX36PrPI/Cm6fIT2meQUyuGG0ZG0cYTECFnY1/RtGANkJEWV5Z1TL7Y/e+1gt9IS9+hus0u+UJ6M37+PAiCR0b1Lib4J7X75weyMTYmwhW0AK
- mqmjwh2l9tVFgBdCifZBmXLaCEPzP813Cy13sEjfE6Aw/xPVQ1s23IRXd3yquvCIyW2lH73g1yk3Yd1QO9sJHXm84uLvW1g9PraVncRy64krUOqC22xsO9nxpucuoBjrbq
-Received: from blindfold.localnet ([82.150.214.1])
-        by smtp.gmail.com with ESMTPSA id vg9-20020a170907d30900b00a3cf4e8fdf5sm657479ejc.150.2024.02.13.01.59.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 01:59:58 -0800 (PST)
-From: Richard Weinberger <richard@sigma-star.at>
-To: Mimi Zohar <zohar@linux.ibm.com>, James Bottomley <jejb@linux.ibm.com>, Jarkko Sakkinen <jarkko@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, upstream@sigma-star.at
-Cc: Shawn Guo <shawnguo@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, "kernel@pengutronix.de" <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, 
-	sigma star Kernel Team <upstream+dcp@sigma-star.at>, David Howells <dhowells@redhat.com>, 
-	Li Yang <leoyang.li@nxp.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
-	Tejun Heo <tj@kernel.org>, "Steven Rostedt (Google)" <rostedt@goodmis.org>, linux-doc@vger.kernel.org, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>, 
-	"keyrings@vger.kernel.org" <keyrings@vger.kernel.org>, 
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, 
-	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>, David Gstir <david@sigma-star.at>
-Subject: Re: [PATCH v5 0/6] DCP as trusted keys backend
-Date: Tue, 13 Feb 2024 10:59:56 +0100
-Message-ID: <47439997.XUcTiDjVJD@somecomputer>
-In-Reply-To: <7AED262F-9387-446D-B11A-C549C02542F9@sigma-star.at>
-References: <20231215110639.45522-1-david@sigma-star.at> <7AED262F-9387-446D-B11A-C549C02542F9@sigma-star.at>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="yoETFqjZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1707820360; x=1739356360;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JXf3FW715Hij2/rVgflMXeAgFq6KllbSfYEa5EbJNnY=;
+  b=yoETFqjZ0XYy8xwqsMrpkY2aB5+NKM8zX1JGGQrcmLdC8Lz0D/hupoNU
+   Ho5IJNVodwuxigMR1XEs8R6mLJIxa9h1UFatH8rk8WRKPed23DqX4gZLB
+   eOIuQwbOIMec3bbyp5P5ezWdtSZpQgSXRbCbfNeJ3Vzw/Bz+/Gen6146A
+   Dp5FR8k6vhKoP9L0F8dBeMEuL2l83W+Jff2FyxD471Czfply4jLaI03To
+   iu/sOvRLg53+HXWaMIM2Rqggb56UKTK2GlbF0RnMvSjcPbFQUC/43AUu7
+   oy9LmG9nUBn/Dlg4yi51N6MqHeLrKgT74+xOdNBxDBi65vPtTXBcpF1Vg
+   w==;
+X-CSE-ConnectionGUID: s6Tn9VPjQXCSnrMkzhF8Kg==
+X-CSE-MsgGUID: iHJrIj/tRK+lriDzJMhb5g==
+X-IronPort-AV: E=Sophos;i="6.06,156,1705388400"; 
+   d="scan'208";a="16162729"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Feb 2024 03:32:37 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 13 Feb 2024 03:31:57 -0700
+Received: from localhost (10.10.85.11) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
+ Transport; Tue, 13 Feb 2024 03:31:56 -0700
+Date: Tue, 13 Feb 2024 11:31:56 +0100
+From: Horatiu Vultur <horatiu.vultur@microchip.com>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+CC: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard Cochran
+	<richardcochran@gmail.com>, <UNGLinuxDriver@microchip.com>,
+	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <thomas.petazzoni@bootlin.com>,
+	=?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+Subject: Re: [PATCH net-next 2/3] net: lan966x: Allow using PCH extension for
+ PTP
+Message-ID: <20240213103156.rl4kzwpmxn3haz7y@DEN-DL-M31836.microchip.com>
+References: <20240212173307.1124120-1-maxime.chevallier@bootlin.com>
+ <20240212173307.1124120-3-maxime.chevallier@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <20240212173307.1124120-3-maxime.chevallier@bootlin.com>
 
-Am Montag, 5. Februar 2024, 09:39:07 CET schrieb David Gstir:
-> Hi,
->=20
-> > On 15.12.2023, at 12:06, David Gstir <david@sigma-star.at> wrote:
-> >=20
-> > This is a revival of the previous patch set submitted by Richard Weinbe=
-rger:
-> > https://lore.kernel.org/linux-integrity/20210614201620.30451-1-richard@=
-nod.at/
-> >=20
-> > v4 is here:
-> > https://lore.kernel.org/keyrings/20231024162024.51260-1-david@sigma-sta=
-r.at/
-> >=20
-> > v4 -> v5:
-> > - Make Kconfig for trust source check scalable as suggested by Jarkko S=
-akkinen
-> > - Add Acked-By from Herbert Xu to patch #1 - thanks!
-> > v3 -> v4:
-> > - Split changes on MAINTAINERS and documentation into dedicated patches
-> > - Use more concise wording in commit messages as suggested by Jarkko Sa=
-kkinen
-> > v2 -> v3:
-> > - Addressed review comments from Jarkko Sakkinen
-> > v1 -> v2:
-> > - Revive and rebase to latest version
-> > - Include review comments from Ahmad Fatoum
-> >=20
-> > The Data CoProcessor (DCP) is an IP core built into many NXP SoCs such
-> > as i.mx6ull.
-> >=20
-> > Similar to the CAAM engine used in more powerful SoCs, DCP can AES-
-> > encrypt/decrypt user data using a unique, never-disclosed,
-> > device-specific key. Unlike CAAM though, it cannot directly wrap and
-> > unwrap blobs in hardware. As DCP offers only the bare minimum feature
-> > set and a blob mechanism needs aid from software. A blob in this case
-> > is a piece of sensitive data (e.g. a key) that is encrypted and
-> > authenticated using the device-specific key so that unwrapping can only
-> > be done on the hardware where the blob was wrapped.
-> >=20
-> > This patch series adds a DCP based, trusted-key backend and is similar
-> > in spirit to the one by Ahmad Fatoum [0] that does the same for CAAM.
-> > It is of interest for similar use cases as the CAAM patch set, but for
-> > lower end devices, where CAAM is not available.
-> >=20
-> > Because constructing and parsing the blob has to happen in software,
-> > we needed to decide on a blob format and chose the following:
-> >=20
-> > struct dcp_blob_fmt {
-> > __u8 fmt_version;
-> > __u8 blob_key[AES_KEYSIZE_128];
-> > __u8 nonce[AES_KEYSIZE_128];
-> > __le32 payload_len;
-> > __u8 payload[];
-> > } __packed;
-> >=20
-> > The `fmt_version` is currently 1.
-> >=20
-> > The encrypted key is stored in the payload area. It is AES-128-GCM
-> > encrypted using `blob_key` and `nonce`, GCM auth tag is attached at
-> > the end of the payload (`payload_len` does not include the size of
-> > the auth tag).
-> >=20
-> > The `blob_key` itself is encrypted in AES-128-ECB mode by DCP using
-> > the OTP or UNIQUE device key. A new `blob_key` and `nonce` are generated
-> > randomly, when sealing/exporting the DCP blob.
-> >=20
-> > This patchset was tested with dm-crypt on an i.MX6ULL board.
-> >=20
-> > [0] https://lore.kernel.org/keyrings/20220513145705.2080323-1-a.fatoum@=
-pengutronix.de/
-> >=20
-> > David Gstir (6):
-> >  crypto: mxs-dcp: Add support for hardware-bound keys
-> >  KEYS: trusted: improve scalability of trust source config
-> >  KEYS: trusted: Introduce NXP DCP-backed trusted keys
-> >  MAINTAINERS: add entry for DCP-based trusted keys
-> >  docs: document DCP-backed trusted keys kernel params
-> >  docs: trusted-encrypted: add DCP as new trust source
-> >=20
-> > .../admin-guide/kernel-parameters.txt         |  13 +
-> > .../security/keys/trusted-encrypted.rst       |  85 +++++
-> > MAINTAINERS                                   |   9 +
-> > drivers/crypto/mxs-dcp.c                      | 104 +++++-
-> > include/keys/trusted_dcp.h                    |  11 +
-> > include/soc/fsl/dcp.h                         |  17 +
-> > security/keys/trusted-keys/Kconfig            |  18 +-
-> > security/keys/trusted-keys/Makefile           |   2 +
-> > security/keys/trusted-keys/trusted_core.c     |   6 +-
-> > security/keys/trusted-keys/trusted_dcp.c      | 311 ++++++++++++++++++
-> > 10 files changed, 562 insertions(+), 14 deletions(-)
-> > create mode 100644 include/keys/trusted_dcp.h
-> > create mode 100644 include/soc/fsl/dcp.h
-> > create mode 100644 security/keys/trusted-keys/trusted_dcp.c
->=20
-> Jarkko, Mimi, David do you need anything from my side for these patches t=
-o get them merged?
+The 02/12/2024 18:33, Maxime Chevallier wrote:
+> [Some people who received this message don't often get email from maxime.chevallier@bootlin.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
 
-=46riendly ping also from my side. :-)
+Hi Maxime,
 
-Thanks,
-//richard
+I have tried your patches on pcb8291, which is a lan966x without PHYs
+that support timestamping. And on this platform this patch breaks up the
+things. Because it should just do the timestamping the MAC in that case,
+but with this patch it doesn't get any time.
+The same issue can be reproduced on pcb8280 and then disable PHY
+timestamping, or change the lan8814 not to support HW timestamping.
 
-=2D-=20
-=E2=80=8B=E2=80=8B=E2=80=8B=E2=80=8B=E2=80=8Bsigma star gmbh | Eduard-Bodem=
-=2DGasse 6, 6020 Innsbruck, AUT
-UID/VAT Nr: ATU 66964118 | FN: 374287y
+Please see bellow the reason why.
 
+> 
+> +/* Enable or disable PCH timestamp transmission. This uses the USGMII PCH
+> + * extensions to transmit the timestamps in the frame preamble.
+> + */
+> +static void lan966x_ptp_pch_configure(struct lan966x_port *port, bool *enable)
+> +{
+> +       struct phy_device *phydev = port->dev->phydev;
+> +       int ret;
+> +
+> +       if (!phydev)
+> +               *enable = false;
+> +
+> +       if (*enable) {
+> +               /* If we cannot enable inband PCH mode, we fallback to classic
+> +                * timestamping
+> +                */
+> +               if (phy_inband_ext_available(phydev, PHY_INBAND_EXT_PCH_TIMESTAMP)) {
+> +                       ret = phy_inband_ext_enable(phydev, PHY_INBAND_EXT_PCH_TIMESTAMP);
+> +                       if (ret)
+> +                               *enable = false;
+> +               } else {
+> +                       *enable = false;
+> +               }
+> +       } else {
+> +               phy_inband_ext_disable(phydev, PHY_INBAND_EXT_PCH_TIMESTAMP);
+> +       }
+> +
+> +       lan_rmw(SYS_PCH_CFG_PCH_SUB_PORT_ID_SET(port->chip_port % 4) |
+> +               SYS_PCH_CFG_PCH_TX_MODE_SET(*enable) |
+> +               SYS_PCH_CFG_PCH_RX_MODE_SET(*enable),
+> +               SYS_PCH_CFG_PCH_SUB_PORT_ID |
+> +               SYS_PCH_CFG_PCH_TX_MODE |
+> +               SYS_PCH_CFG_PCH_RX_MODE,
+> +               port->lan966x, SYS_PCH_CFG(port->chip_port));
+> +}
+> +
+>  int lan966x_ptp_hwtstamp_set(struct lan966x_port *port,
+>                              struct kernel_hwtstamp_config *cfg,
+>                              struct netlink_ext_ack *extack)
+>  {
+>         struct lan966x *lan966x = port->lan966x;
+> +       bool timestamp_in_pch = false;
+>         struct lan966x_phc *phc;
+> 
+>         switch (cfg->tx_type) {
+> @@ -303,10 +339,18 @@ int lan966x_ptp_hwtstamp_set(struct lan966x_port *port,
+>                 return -ERANGE;
+>         }
+> 
+> +       if (cfg->source == HWTSTAMP_SOURCE_PHYLIB &&
+> +           cfg->tx_type == HWTSTAMP_TX_ON &&
+> +           port->config.portmode == PHY_INTERFACE_MODE_QUSGMII)
+> +               timestamp_in_pch = true;
+> +
+> +       lan966x_ptp_pch_configure(port, &timestamp_in_pch);
+> +
+>         /* Commit back the result & save it */
+>         mutex_lock(&lan966x->ptp_lock);
+>         phc = &lan966x->phc[LAN966X_PHC_PORT];
+>         phc->hwtstamp_config = *cfg;
+> +       phc->pch = timestamp_in_pch;
 
+Here we figure out if pch is enabled or not. If the cfg->source is not
+PHYLIB or the interface is not QUSGMII then timestamp_in_pch will stay
+false.
+
+>         mutex_unlock(&lan966x->ptp_lock);
+> 
+>         return 0;
+> @@ -397,6 +441,7 @@ int lan966x_ptp_txtstamp_request(struct lan966x_port *port,
+>         LAN966X_SKB_CB(skb)->jiffies = jiffies;
+> 
+>         lan966x->ptp_skbs++;
+> +
+
+I think this is just a small style change. So maybe it shouldn't be in
+here.
+
+>         port->ts_id++;
+>         if (port->ts_id == LAN966X_MAX_PTP_ID)
+>                 port->ts_id = 0;
+> @@ -500,6 +545,27 @@ irqreturn_t lan966x_ptp_irq_handler(int irq, void *args)
+>                 /* Read RX timestamping to get the ID */
+>                 id = lan_rd(lan966x, PTP_TWOSTEP_STAMP);
+> 
+> +               /* If PCH is enabled, there is a "feature" that also the MAC
+> +                * will generate an interrupt for transmitted frames. This
+> +                * interrupt should be ignored, so clear the allocated resources
+> +                * and try to get the next timestamp. Maybe should clean the
+> +                * resources on the TX side?
+> +                */
+> +               if (phy_inband_ext_enabled(port->dev->phydev,
+> +                                          PHY_INBAND_EXT_PCH_TIMESTAMP)) {
+> +                       spin_lock(&lan966x->ptp_ts_id_lock);
+> +                       lan966x->ptp_skbs--;
+> +                       spin_unlock(&lan966x->ptp_ts_id_lock);
+> +
+> +                       dev_kfree_skb_any(skb_match);
+> +
+> +                       lan_rmw(PTP_TWOSTEP_CTRL_NXT_SET(1),
+> +                               PTP_TWOSTEP_CTRL_NXT,
+> +                               lan966x, PTP_TWOSTEP_CTRL);
+> +
+> +                       continue;
+> +               }
+> +
+>                 spin_lock_irqsave(&port->tx_skbs.lock, flags);
+>                 skb_queue_walk_safe(&port->tx_skbs, skb, skb_tmp) {
+>                         if (LAN966X_SKB_CB(skb)->ts_id != id)
+> @@ -1088,19 +1154,27 @@ void lan966x_ptp_rxtstamp(struct lan966x *lan966x, struct sk_buff *skb,
+>         struct timespec64 ts;
+>         u64 full_ts_in_ns;
+> 
+> +       phc = &lan966x->phc[LAN966X_PHC_PORT];
+> +
+>         if (!lan966x->ptp ||
+> -           !lan966x->ports[src_port]->ptp_rx_cmd)
+> +           !lan966x->ports[src_port]->ptp_rx_cmd ||
+> +           !phc->pch)
+
+And here because phc->pch is false, it would just return.
+Meaning that it would never be able to get the time.
+I presume that this check should not be modified.
+
+>                 return;
+> 
+> -       phc = &lan966x->phc[LAN966X_PHC_PORT];
+> -       lan966x_ptp_gettime64(&phc->info, &ts);
+> -
+> -       /* Drop the sub-ns precision */
+> -       timestamp = timestamp >> 2;
+> -       if (ts.tv_nsec < timestamp)
+> -               ts.tv_sec--;
+> -       ts.tv_nsec = timestamp;
+> -       full_ts_in_ns = ktime_set(ts.tv_sec, ts.tv_nsec);
+> +       if (phc->pch) {
+> +               /* Drop the sub-ns precision */
+> +               timestamp = timestamp >> 2;
+> +               full_ts_in_ns = lower_32_bits(timestamp);
+> +       } else {
+> +               lan966x_ptp_gettime64(&phc->info, &ts);
+> +
+> +               /* Drop the sub-ns precision */
+> +               timestamp = timestamp >> 2;
+> +               if (ts.tv_nsec < timestamp)
+> +                       ts.tv_sec--;
+> +               ts.tv_nsec = timestamp;
+> +               full_ts_in_ns = ktime_set(ts.tv_sec, ts.tv_nsec);
+> +       }
+ 
+
+-- 
+/Horatiu
