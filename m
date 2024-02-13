@@ -1,83 +1,170 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63926627E3
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 21:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFEB62802;
+	Tue, 13 Feb 2024 21:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707860422; cv=none; b=uYYfmP9LP1iRFGWR/COBMfMj5+XvZH3/GWIaAZB9a0ipD2pz8o9I1pezFbRYuvmQl4ALP4cKP+hsBFh1feOEY1t+ggre7/1auueIY63MSSAiJQW2XB0Rzb+0b74xG6hRSLugpjd3EpN/qTg6QSd2R9RK20kS4IPbma14ukzKpXk=
+	t=1707860691; cv=none; b=IKtyhCWekWngX8rw1Lsv12X6IJhp6lHaMhjn3MACaTxMZXbvGR9UaCND+MS2pG8ndFZ+fNQmYBPxsnzIiPZWOyg8dLgt//kuppGYoNUxLoMRmGF9Pvxo3Apidr/OSKUP2KaNvlAI89/thNf7xMtoeRUF0fTHWZUs1p+ZVHcHkLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707860422; c=relaxed/simple;
-	bh=dbFTyn7f3Bl53OcK8D9X/nWjgslx47eYuZAqktCtuuk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZjBPk4NsGs7i1AeSmT8hgoNZ0WXEeZgqJmraod6BpYnElqlAxbVGZKWfEWYDVVExOchqvrJprDSrgsHveQMDijVKQqcz7+91PqbIgNZ0pv55V/fwP2kFR79M1oH2aqVaTAPHLPKwOyLSHYYOnvxOgAJtwJLcvS+VdaZnBKz0bWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nu+rDl5z; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1707860691; c=relaxed/simple;
+	bh=jNCmy3seRohNE9yt+CHrLJFiWauY6GxcQwgs5KLJKSc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iIzsOtR9NnvAM38rphDZKhJ/yRIFY7IUqJFTVJcNZ9m22c5kAAxk2uphSpgzcNSS66YfZXjZvjXqHodv9w/83pw0+g4UtLd7OAq+XGxXYCWW3GYpjMTtk/rl+LN8c6SlcqZ6N1czGxdGVZONBBiTfIDFg0ueG7Z+00dg/obprFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=t/imcYkn; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nu+rDl5z"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc745927098so4075169276.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 13:40:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707860419; x=1708465219; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dbFTyn7f3Bl53OcK8D9X/nWjgslx47eYuZAqktCtuuk=;
-        b=Nu+rDl5zo4iTrqjqPj78xjkzT4cMscx1PPubPBWe5N2cMjjLIDO18lFH3dM1JFSKZq
-         26UjzIah0cH/OWRiTC0v2MkcZ3kh8jFe6Nlwtqfe3yS7f2EmM8iPK64w3r05XpiJxnNh
-         RcjkbuHwbZxK+J1HqDufXLVPgSXUQ29zYnFPWGti6W7VxOgddSZcfIBHjTpHg6wpQ4Rs
-         CWQU0ydzXJNutGwSBXpJWpJ8ETw40aPHfruES92QxaBFcp90uiR8oOQRhAPE24GfTRGb
-         z2LpAPJ3LVxEoRrd5o3OczWvjTD9cQpM62f2ZRG1qjiNpY+Z4snzZ+N/X4Z5j2jxhcH8
-         rVIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707860419; x=1708465219;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dbFTyn7f3Bl53OcK8D9X/nWjgslx47eYuZAqktCtuuk=;
-        b=Zig2jrTeNbUkeowp9TZ0vztRA+NwvnkRy0g3QYmKiTa48Kh7r9H0ehIrQ52ke4afdl
-         HZD0vWdLxzTWFrK9eV1QDmb9UzzaMc4krtzlXoWTwVZKb5AVO1wukseEvOgQw0O1q+x1
-         +FD5XDi+HDYMaKqyyiYEkUoYOcmRnl2nWGox2hIVyaFREEKAi52m9hq0A0BL0Fnt+1Wq
-         6XSMIMLd0CHqgC8CF55lIHSh/E+nEOYamBE/xKPFLQKyo6BNPqyZuQN7hunthu7cISd6
-         B8aTjV/6J8Gcusp9SxR/mKNQPhib1JKnBtSoTCkqjLhkh3dFoMk4xXnixl++HzHdsncs
-         12DA==
-X-Forwarded-Encrypted: i=1; AJvYcCWyb7IRekzpjtqE9EEhGz7WFJQ0nBHzFyASKG0GrrpIs3sA2k1XGbU+tDwMYalN2wGv3OsesJv2oA5Rr1ZL7knO0MQ3SD2IQVry
-X-Gm-Message-State: AOJu0Yz2wzm3Fc48QyJtKmgDNctYt+hN9pccc+Qz78eyQkF7uwI7D16l
-	JMwZhfYjSVNKkvhVlIIDyFQxE66dm7gb39D6hGuM4RzRlcrFAGfwC7dagnfVtyBaCG64n8u8YzZ
-	6AoC9+L2/BTDKN8h/HF/v0zThTUfJi0aYO8KAZQ==
-X-Google-Smtp-Source: AGHT+IG+DrTkq+6t5fDsH9BhBPiao8mavkN9+7BGb5kbh070ERv4KU9R3wW6RVskOso+QLGC3mPrRgt0YTpbyg4aQl0=
-X-Received: by 2002:a25:ac18:0:b0:dcc:787:e8f9 with SMTP id
- w24-20020a25ac18000000b00dcc0787e8f9mr426631ybi.51.1707860419256; Tue, 13 Feb
- 2024 13:40:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="t/imcYkn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=5miLhE/iEo3nra3fkXw4P1c6eaX/GQReZ4c9vV6/hlo=; b=t/imcYknduAzHipiM3CczsIWfw
+	rvy7D7+WxrPq2SJeNb8CIWSpJs9e5DFVK0FIJBMkfDBqECAOyWvouLoYOPCBtFVWjvB6T7AqBDL9E
+	V4MJurV1jvV+PFWc/VBjEn7V+E6bvlGCMK5vr+CYc90M7gg38FtCYtiK7dme82OkC6vPxA1XOPN2p
+	agpiObPL8sMmjX8oTCV2g70JJILp0P4VxEbfsxGk9cgT2hj2hWB5mc2CqUaEnw6UZLsMH1aiL5/Fs
+	b/aFXtfH0cfUN03698FMCL49UuM8GUaz5kghTzfGi7uGgsCrsIO2MYkC9mVPYHuPOyCINaudRX7cd
+	xl7tMXtg==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1ra0a5-0000000Asby-3mjG;
+	Tue, 13 Feb 2024 21:44:45 +0000
+Message-ID: <bbb40718-9bfa-4431-a3b0-c09d068fd6cc@infradead.org>
+Date: Tue, 13 Feb 2024 13:44:45 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240213141222.382457-1-warthog618@gmail.com>
-In-Reply-To: <20240213141222.382457-1-warthog618@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 13 Feb 2024 22:40:08 +0100
-Message-ID: <CACRpkdYGTay1s=yK6nWXar-AoVzyZhd=i-h2Ff9xdH7_CO=gdA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: consistent use of logical line value terminology
-To: Kent Gibson <warthog618@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, brgl@bgdev.pl, andy@kernel.org, corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] Documentation: tee: Add TS-TEE driver
+Content-Language: en-US
+To: Balint Dobszay <balint.dobszay@arm.com>,
+ op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: jens.wiklander@linaro.org, sumit.garg@linaro.org, corbet@lwn.net,
+ sudeep.holla@arm.com, gyorgy.szing@arm.com
+References: <20240213145239.379875-1-balint.dobszay@arm.com>
+ <20240213145239.379875-4-balint.dobszay@arm.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240213145239.379875-4-balint.dobszay@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 13, 2024 at 3:12=E2=80=AFPM Kent Gibson <warthog618@gmail.com> =
-wrote:
+Hi--
 
-> Consistently use active/inactive to describe logical line values, rather
-> than high/low, which is used for physical values, or asserted/de-asserted
-> which is awkward.
->
-> Signed-off-by: Kent Gibson <warthog618@gmail.com>
+On 2/13/24 06:52, Balint Dobszay wrote:
+> Add documentation for the Trusted Services TEE driver.
+> 
+> Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
+> ---
+>  Documentation/tee/index.rst  |  1 +
+>  Documentation/tee/ts-tee.rst | 70 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 Documentation/tee/ts-tee.rst
+> 
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> diff --git a/Documentation/tee/ts-tee.rst b/Documentation/tee/ts-tee.rst
+> new file mode 100644
+> index 000000000000..e121ebbbfab7
+> --- /dev/null
+> +++ b/Documentation/tee/ts-tee.rst
+> @@ -0,0 +1,70 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=================================
+> +TS-TEE (Trusted Services project)
+> +=================================
+> +
+> +This driver provides access to secure services implemented by Trusted Services.
+> +
+> +Trusted Services [1] is a TrustedFirmware.org project that provides a framework
+> +for developing and deploying device Root of Trust services in FF-A [2] S-EL0
+> +Secure Partitions. The project hosts the reference implementation of the Arm
+> +Platform Security Architecture [3] for Arm A-profile devices.
+> +
+> +The FF-A Secure Partitions (SP) are accessible through the FF-A driver [4] which
+> +provides the low level communication for this driver. On top of that the Trusted
+> +Services RPC protocol is used [5]. To use the driver from user space a reference
+> +implementation is provided at [6], which is part of the Trusted Services client
+> +library called libts [7].
+> +
 
-Yours,
-Linus Walleij
+Fix run-on sentences:
+
+> +All Trusted Services (TS) SPs have the same FF-A UUID, it identifies the TS RPC
+
+                                                    UUID. It
+or
+                                                    UUIT; it
+
+> +protocol. A TS SP can host one or more services (e.g. PSA Crypto, PSA ITS, etc).
+> +A service is identified by its service UUID, the same type of service cannot be
+
+                                          UUID;
+
+> +present twice in the same SP. During SP boot each service in the SP is assigned
+> +an "interface ID", this is just a short ID to simplify message addressing.
+
+      "interface ID." This
+
+> +
+> +The generic TEE design is to share memory at once with the TEE implementation,
+> +which can then be reused to communicate with multiple TAs. However, in case of
+
+"TA" is not defined.
+
+> +FF-A, memory sharing works on an endpoint level, i.e. memory is shared with a
+> +specific SP. User space has to be able to separately share memory with each SP
+> +based on its endpoint ID, therefore a separate TEE device is registered for each
+
+                         ID; therefore
+
+> +discovered TS SP. Opening the SP corresponds to opening the TEE device and
+> +creating a TEE context. A TS SP hosts one or more services, opening a service
+
+                                                     services. Opening
+
+> +corresponds to opening a session in the given tee_context.
+> +
+> +Overview of a system with Trusted Services components::
+> +
+> +   User space                  Kernel space                   Secure world
+> +   ~~~~~~~~~~                  ~~~~~~~~~~~~                   ~~~~~~~~~~~~
+> +   +--------+                                               +-------------+
+> +   | Client |                                               | Trusted     |
+> +   +--------+                                               | Services SP |
+> +      /\                                                    +-------------+
+> +      ||                                                          /\
+> +      ||                                                          ||
+> +      ||                                                          ||
+> +      \/                                                          \/
+> +   +-------+                +----------+--------+           +-------------+
+> +   | libts |                |  TEE     | TS-TEE |           |  FF-A SPMC  |
+> +   |       |                |  subsys  | driver |           |   + SPMD    |
+> +   +-------+----------------+----+-----+--------+-----------+-------------+
+> +   |      Generic TEE API        |     |  FF-A  |     TS RPC protocol     |
+> +   |      IOCTL (TEE_IOC_*)      |     | driver |        over FF-A        |
+> +   +-----------------------------+     +--------+-------------------------+
+> +
+> +References
+> +==========
+> +
+> +[1] https://www.trustedfirmware.org/projects/trusted-services/
+> +
+> +[2] https://developer.arm.com/documentation/den0077/
+> +
+> +[3] https://www.arm.com/architecture/security-features/platform-security
+> +
+> +[4] drivers/firmware/arm_ffa/
+> +
+> +[5] https://trusted-services.readthedocs.io/en/v1.0.0/developer/service-access-protocols.html#abi
+> +
+> +[6] https://git.trustedfirmware.org/TS/trusted-services.git/tree/components/rpc/ts_rpc/caller/linux/ts_rpc_caller_linux.c?h=v1.0.0
+> +
+> +[7] https://git.trustedfirmware.org/TS/trusted-services.git/tree/deployments/libts/arm-linux/CMakeLists.txt?h=v1.0.0
+
+-- 
+#Randy
