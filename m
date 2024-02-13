@@ -1,135 +1,216 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA902605A3;
-	Tue, 13 Feb 2024 18:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7801F5FA;
+	Tue, 13 Feb 2024 18:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707847900; cv=none; b=YSxpnF810XXi3320J2qRdyiv7lgY/TZ2d9eyQP+seGJwIoy4rUBQO7FQyMVt0wcwVT1QVFzt8m3hK7u7KKN2Yg7xypXRzq+scLSe92cSa8KBCzODKmkBtHirIo4qwY/FHNWYUnhT6+djtXQO6nDfiPgkycYaQ/wBdeJZFxKPM/I=
+	t=1707850102; cv=none; b=JKJI5LiUmBhantSykhJV2VvGo/QdzfJcMAHCG3H9tRRyZ7dnGRQ6tktLJlqVO3yfqBi4Jk6C13QX29+qoLKa4dFOYmiZEdNEtCbHNuvUZDlhrgHWKCpqjV3nEkukZg1ByRFUiqRnffsmHZl1s49niQZTuT14Hhadp6JwoS8hOOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707847900; c=relaxed/simple;
-	bh=gkS582LnEt5AZDBlyZUbpbZ4EnHP61TwjQ5pjt1x8Ew=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QqDDOlN4eAT5qrmzeKPHSNiAK2NeQzHJ6EvyTpPBIyC6S4JFd6PfeMHeXdkxZuATys5vafvX0WkzF7IHsf1DQeLUzWqcKmOKeLFT8c6a1raJpXuIP5qI39+y9yCcbrTwKxGzERnFiFM3mIqDUIQ09RZxG3zkIFiJfEu75nEMiEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A57831FB;
-	Tue, 13 Feb 2024 10:12:19 -0800 (PST)
-Received: from [10.1.197.60] (eglon.cambridge.arm.com [10.1.197.60])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E8B393F766;
-	Tue, 13 Feb 2024 10:11:30 -0800 (PST)
-Message-ID: <a36b14b0-84d0-f815-b8c9-d10841f8b5d0@arm.com>
-Date: Tue, 13 Feb 2024 18:11:29 +0000
+	s=arc-20240116; t=1707850102; c=relaxed/simple;
+	bh=cvAoXtbJEwuTK60j1+t8oFvkHcGa9yopyDdarxYElP0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UyXDGJrMm9Oa0sW4i+4gU6/guuUxtO7Tw7LyhKRNQ0vqH3F3dFtapFs8Hx3JZyL3RDmxCkfTInfrni2pcFNXf8WN6tjHPREUbsBqWG9D6433KDHOiVpsfNNQIfkFAQNj8fpAs4qPKjfSJc2vH7bNpf+/LDbbYHRmP6UUe1hh4fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CxuBn95f; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CxuBn95f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E27CDC433F1;
+	Tue, 13 Feb 2024 18:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707850101;
+	bh=cvAoXtbJEwuTK60j1+t8oFvkHcGa9yopyDdarxYElP0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CxuBn95fFORGesLBWQFOCMIHZVgXfZ1eCxTjcQ2aMX2c/d07cOlF4spffnDquvsaN
+	 RDiTBeSNm8UG1P8dftlfrOG/bcSWETB0hgBIeYQC2vJVyPLjozNS3CwEKG7ItpIjV0
+	 FUTLk275PbrUytDqToj0g65H3B2eVGKQV1A6Pl4E=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	security@kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Lee Jones <lee@kernel.org>
+Subject: [PATCH] Documentation: Document the Linux Kernel CVE process
+Date: Tue, 13 Feb 2024 19:48:12 +0100
+Message-ID: <2024021314-unwelcome-shrill-690e@gregkh>
+X-Mailer: git-send-email 2.43.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v15-RFC 0/8] Add support for Sub-NUMA cluster (SNC)
- systems
-Content-Language: en-GB
-To: Tony Luck <tony.luck@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>
-Cc: "babu.moger@amd.com" <babu.moger@amd.com>,
- "Yu, Fenghua" <fenghua.yu@intel.com>, Peter Newman <peternewman@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "x86@kernel.org" <x86@kernel.org>, Shaopeng Tan <tan.shaopeng@fujitsu.com>,
- Jamie Iles <quic_jiles@quicinc.com>, Randy Dunlap <rdunlap@infradead.org>,
- Drew Fustini <dfustini@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "patches@lists.linux.dev" <patches@lists.linux.dev>
-References: <20240126223837.21835-1-tony.luck@intel.com>
- <20240130222034.37181-1-tony.luck@intel.com>
- <91bd281e-e21f-4b60-9e73-2f14fcbec316@amd.com>
- <642f81da-669b-4057-8b97-2894dd57842b@intel.com>
- <SJ1PR11MB6083036DC25D4FA55B02589AFC482@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <16a63923-2fd2-4d44-a8a3-32d8d6eeee9e@intel.com>
- <ZcqWFr8fX9G0hoJU@agluck-desk3>
-From: James Morse <james.morse@arm.com>
-In-Reply-To: <ZcqWFr8fX9G0hoJU@agluck-desk3>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8105; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=cvAoXtbJEwuTK60j1+t8oFvkHcGa9yopyDdarxYElP0=; b=owGbwMvMwCRo6H6F97bub03G02pJDKmnd+Y9vJOneXiJsHrFWb9ff7d6HQ3I77z3Zu1pA9F06 /XCTT/jO2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiD+8zLDjzben+2afsPzv8 XlK5l39P7qWCA3MYFly1YHl9P18j1eyKQHgJ1zFr+c+/CgE=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello,
+The Linux kernel project now has the ability to assign CVEs to fixed
+issues, so document the process and how individual developers can get a
+CVE if one is not automatically assigned for their fixes.
 
-On 12/02/2024 22:05, Tony Luck wrote:
-> On Mon, Feb 12, 2024 at 01:43:56PM -0800, Reinette Chatre wrote:
->> On 2/12/2024 11:57 AM, Luck, Tony wrote:
->>>>> To be honest, I like this series more than the previous series. I always
->>>>> thought RDT_RESOURCE_L3_MON should have been a separate resource by itself.
->>>>
->>>> Would you prefer that your "Reviewed-by" tag be removed from the
->>>> previous series?
->>>
->>> I'm thinking that I could continue splitting things and break "struct rdt_resource" into
->>> separate "ctrl" and "mon" structures. Then we'd have a clean split from top to bottom.
->>
->> It is not obvious what you mean with "continue splitting things". Are you
->> speaking about "continue splitting from v14" or "continue splitting from v15-RFC"?
-> 
-> I'm speaking of some future potential changes. Not proposing to
-> do this now.
-> 
->> I think that any solution needs to consider what makes sense for resctrl
->> as a whole instead of how to support SNC with smallest patch possible.
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ Documentation/process/cve.rst           | 116 ++++++++++++++++++++++++
+ Documentation/process/index.rst         |   1 +
+ Documentation/process/security-bugs.rst |   6 +-
+ 3 files changed, 120 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/process/cve.rst
 
->> There should not be any changes that makes resctrl harder to understand
->> and maintain, as exemplified by confusion introduced by a simple thing as
->> resource name choice [1].
->>
->>>
->>> Doing that would get rid of the rdt_resources_all[] array. Replacing with individual
->>> rdt_hw_ctrl_resource and rdt_hw_mon_resource declarations for each feature.
->>>
->>> Features found on a system would be added to a list of ctrl or list of mon resources.
->>
->> Could you please elaborate what is architecturally wrong with v14 and how this
->> new proposal addresses that?
-> 
-> There is nothing architecturally wrong with v14. I thought it was more
-> complex than it needed to be. You have convinced me that my v15-RFC
-> series, while simpler, is not a reasonable path for long-term resctrl
-> maintainability.
+diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
+new file mode 100644
+index 000000000000..17df5d673102
+--- /dev/null
++++ b/Documentation/process/cve.rst
+@@ -0,0 +1,116 @@
++CVEs
++====
++
++Common Vulnerabilities and Exposure (CVE®) numbers, were developed as an
++unambiguous way to identify, define, and catalog publically disclosed
++security vulnerabilities.  Over time, their usefulness has declined with
++regards to the kernel project, and CVE numbers were very often assigned
++in inappropriate ways and for inappropriate reasons.  Because of this,
++the kernel development community has tended to avoid them.  However, the
++combination of continuing pressure to assign CVEs and other forms of
++security identifiers, and ongoing abuses by community members outside of
++the kernel community has made it clear that the kernel community should
++have control over those assignments.
++
++The Linux kernel developer team does have the ability to assign CVEs for
++potential Linux kernel security issues.  This assignment is independent
++of the :doc:`normal Linux kernel security bug reporting
++process<../process/security_bugs>`.
++
++A list of all assigned CVEs for the Linux kernel can be found in the
++archives of the linux-cve mailing list, as seen on
++https://lore.kernel.org/linux-cve-announce/.  To get notice of the
++assigned CVEs, please subscribe to that mailing list.
++
++Process
++-------
++
++As part of the normal stable release process, kernel changes that are
++potentially security issues are identified by the developers responsible
++for CVE number assignments and have CVE numbers automatically assigned
++to them.  These assignments are published on the linux-cve mailing list
++as announcements on a frequent basis.
++
++Note, due to the layer at which the Linux kernel is in a system, almost
++any bug might be exploitable to compromise the security of the kernel,
++but the possibility of exploitation is often not evident when the bug is
++fixed.  Because of this, the CVE assignment team are overly cautious and
++assign CVE numbers to any bugfix that they identify.  This
++explains the seemingly large number of CVEs that are issued by the Linux
++kernel team.
++
++If the CVE assignment team misses a specific fix that any user feels
++should have a CVE assigned to it, please email them at <cve@kernel.org>
++and the team there will work with you on it.  Note, that no potential
++security issues should be sent to this alias, it is ONLY for assignment
++of CVEs for fixes that are already in released kernel trees.  If you
++feel you have found an unfixed security issue, please follow the
++:doc:`normal Linux kernel security bug reporting
++process<../process/security_bugs>`.
++
++No CVEs will be assigned for unfixed security issues in the Linux
++kernel, assignment will only happen after a fix is available as it can
++be properly tracked that way by the git commit id of the original fix.
++
++No CVEs will be assigned for any issue found in a version of the kernel
++that is not currently being actively supported by the Stable/LTS kernel
++team.  A list of the currently supported kernel branches can be found at
++https://kernel.org/category/releases.html
++
++Disputes of assigned CVEs
++-------------------------
++
++The authority to dispute or modify an assigned CVE for a specific kernel
++change lies solely with the maintainers of the relevant subsystem
++affected.  This principle ensures a high degree of accuracy and
++accountability in vulnerability reporting.  Only those individuals with
++deep expertise and intimate knowledge of the subsystem can effectively
++assess the validity and scope of a reported vulnerability and determine
++its appropriate CVE designation.  Any attempt to modify or dispute a CVE
++outside of this designated authority could lead to confusion, inaccurate
++reporting, and ultimately, compromised systems.
++
++Invalid CVEs
++------------
++
++If a security issue is found in a Linux kernel that is only supported by
++a Linux distribution due to the changes that have been made by that
++distribution, or due to the distribution supporting a kernel version
++that is no longer one of the kernel.org supported releases, then a CVE
++can not be assigned by the Linux kernel CVE team, and must be asked for
++from that Linux distribution itself.
++
++Any CVE that is assigned against the Linux kernel for an actively
++supported kernel version, by any group other than the kernel assignment
++CVE team should not be treated as a valid CVE.  Please notify the
++kernel CVE assignment team at <cve@kernel.org> so that they can work to
++invalidate such entries through the CNA remediation process.
++
++Applicability of specific CVEs
++------------------------------
++
++As the Linux kernel can be used in many different ways, with many
++different ways of accessing it by external users, or no access at all,
++the applicability of any specific CVE is up to the user of Linux to
++determine, it is not up to the CVE assignment team.  Please do not
++contact us to attempt to determine the applicability of any specific
++CVE.
++
++Also, as the source tree is so large, and any one system only uses a
++small subset of the source tree, any users of Linux should be aware that
++large numbers of assigned CVEs are not relevant for their systems.
++
++In short, we do not know your use case, and we do not know what portions
++of the kernel that you use, so there is no way for us to determine if a
++specific CVE is relevant for your system.
++
++As always, it is best to take all released kernel changes, as they are
++tested together in a unified whole by many community members, and not as
++individual cherry-picked changes.  Also note that for many bugs, the
++solution to the overall problem is not found in a single change, but by
++the sum of many fixes on top of each other.  Ideally CVEs will be
++assigned to all fixes for all issues, but sometimes we do not notice
++fixes in released kernels, so do not assume that because a specific
++change does not have a CVE assigned to it, that it is not relevant to
++take.
++
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index 6cb732dfcc72..de9cbb7bd7eb 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -81,6 +81,7 @@ of special classes of bugs: regressions and security problems.
+ 
+    handling-regressions
+    security-bugs
++   cve
+    embargoed-hardware-issues
+ 
+ Maintainer information
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index 692a3ba56cca..132842d8b377 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -99,9 +99,9 @@ CVE assignment
+ The security team does not assign CVEs, nor do we require them for
+ reports or fixes, as this can needlessly complicate the process and may
+ delay the bug handling.  If a reporter wishes to have a CVE identifier
+-assigned, they should find one by themselves, for example by contacting
+-MITRE directly.  However under no circumstances will a patch inclusion
+-be delayed to wait for a CVE identifier to arrive.
++assigned, after a fix is created and merged into a public tree, they can
++contact the :doc:`kernel CVE assignment team<../process/cve>` to obtain
++one.
+ 
+ Non-disclosure agreements
+ -------------------------
+-- 
+2.43.1
 
-I'm not sure if its helpful to describe a third approach at this point - but on the off
-chance its useful:
-With SNC enable, the L3 monitors are unaffected, but the controls behave as if they were
-part of some other component in the system..
-
-ACPI describes something called "memory side caches" [0] in the HMAT table, which are
-outside the CPU cache hierarchy, and are associated with a Proximity-Domain. I've heard
-that one of Arm's partners has built a system with MPAM controls on something like this.
-How would we support this - and would this be a better fit for the way SNC behaves?
-
-I think this would be a new resource and schema, 'MSC'(?) with domain-ids using the NUMA
-nid. As these aren't CPU caches, they wouldn't appear in the same part of the sysfs
-hierarchy, and wouldn't necessarily have a cache-id.
-
-For SNC systems, I think this would look like CMT on the L3, and CAT on the 'MSC'.
-Existing software wouldn't know to use the new schema, but equally wouldn't be surprised
-by the domain-ids being something other than the cache-id, and the controls and monitors
-not lining up.
-Where its not quite right for SNC is sysfs may not describe a memory side cache, but one
-would be present in resctrl. I don't think that's a problem - unless these systems do also
-have a memory-side-cache that behaves differently. (where is the controls being applied at
-the 'near' side of the link - I don't think the difference matters)
-
-
-I'm a little nervous that the SNC support looks strange if we ever add support for
-something like the above. Given its described in ACPI, I assume there are plenty of
-machines out there that look like this.
-
-(Why aren't memory-side-caches a CPU cache? They live near the memory controller and cache
-based on the PA, not the CPU that issued the transaction)
-
-
-Thanks,
-
-James
-
-[0]
-https://uefi.org/specs/ACPI/6.5/05_ACPI_Software_Programming_Model.html#memory-side-cache-overview
