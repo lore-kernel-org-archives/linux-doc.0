@@ -1,159 +1,117 @@
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C99F56764
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 14:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B66F5788A;
+	Tue, 13 Feb 2024 14:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707833150; cv=none; b=P7hlOSSSWW0oCSqoVtInJwgp/BdVIFH13+OHPJhLBb7F3PtupOCpVBauxh60OEk/snG/2LVTHBVFw01yZgjNZdOn2iLmJdNcWRBcfhEJeZexCQw/PSJ4vsgyPjzbRTSRxA33sCjd2O9XweAWfXqv+6gAL7dm9GELLwwp1NIyKDc=
+	t=1707833558; cv=none; b=oZfnYDMglNt04d+iKpVDFDHvUhpRrxobFR6JMDVjZbUeqULtPsgEBVUTYYD62Ah3JYBNCLQFY0GcvwLspqZkmrchi6a9GADQWmR06ZMRz0oVnYDfvsF+mwj+OPPmkPqYPkcn9o4Ah8p3yFjCszGDYpbU21fYL+BZ4TtyCOwGSiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707833150; c=relaxed/simple;
-	bh=ZffPAM8vbEKI9/iymjjwBQJuBEoGb2F5+MVh2HRI0PQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=lC8PMn+M9/ylTBFoe7VZcWMW4O0zXn0nR1m/KTxG6Dqkba4rLUALl3/+HBZGaytHCRyjP+c1A710FjoynnRuJwV8ONQjJbreVDe/quYy64BYc68wnB+67zZ1cKSUhh7uDbR9np59xmFjWBfFceoOM8w11D0+6xTDwpmudlyimQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:47b8:b872:d87c:512])
-	by andre.telenet-ops.be with bizsmtp
-	id me5d2B0091wMtyi01e5dSF; Tue, 13 Feb 2024 15:05:39 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rZtPe-000Z13-Fy;
-	Tue, 13 Feb 2024 15:05:37 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rZpxf-00G3dP-K7;
-	Tue, 13 Feb 2024 11:24:23 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Andrew Davis <afd@ti.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] docs: dt: Update overlay file extension
-Date: Tue, 13 Feb 2024 11:24:18 +0100
-Message-Id: <5ac79104822cdce7a4caab87f14ce02477f85820.1707819511.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1707833558; c=relaxed/simple;
+	bh=M60rv+CFL/yd6aFL1rLXU9HDgeU7hqolVlwtimAxAro=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aI51IBoN0M4xQhff2iAI6gBxz4FB3wHzKXXH483k/bDEWOaRoIpRlk95Ph9l5t4J8iNDRvgLasEWmLqr4SaeJJixA38Iktja2itQ0DeEVkV75HBSAMi49R6WiHmJSueWc6LtfGZGD1074X4/uCGt2lcFwdiVTlR53fW+jtubr4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mPsIJudx; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mPsIJudx"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d7881b1843so39684245ad.3;
+        Tue, 13 Feb 2024 06:12:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707833555; x=1708438355; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ClcF49SW9TVyg+8qgV4EbQKNakwAki5xkRZzYfgJ398=;
+        b=mPsIJudxJdLUGzOAZ/x2iRqjeXRYpCVQA5Acz6YxAq8bdrHP1LxmR8tomsel70zXS9
+         VnOwLZWQlO9GUicNsBFrVd69w6RVINV9iwlLeqfwECIboHEomM7Pl53hzB/I+13IK1T/
+         0eTdWe6joP5BzV0e3QkyLCLubPKgV6Qm8lL1XkcR3CwMVmzABJC8MQdXlPev+5THTZqv
+         uKlGfiSOJSX/JJ8qdz5MogFoFHAK0HLeM22L/ZNZHrulEsyMk8Pyd7sUWC/HOuZLAO3+
+         djZW+761GUkrE+4wbq2J/jkRU+68B9yIPEMsiGHg8y7wpUWeSPOdo5YPYHtw65KfO2dG
+         fM6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707833555; x=1708438355;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ClcF49SW9TVyg+8qgV4EbQKNakwAki5xkRZzYfgJ398=;
+        b=l86TupZk3jxXRlFTNY2F8FqXeL2RLqvUUnGj+mqCW67nNmTD5zkm90PateRgNy5A8W
+         OcG9lRbCJQdn9YfVE8s0FXRABSacC/5GzYFnpOyxHTQ+//0bjTf1sVTI9lYDFFFcD9Ou
+         DupJS/0B+FWJNbJylQ8AVD7EjndljM4hKzCd7DoazwjO9xxtU8abNsxUKtJR5+BwiWfy
+         C606Np8+86IAkRAJiBdiUUQH9C+E2JYjdk8eg2ZNPGOlCYI/SzVVP8MIHlbzt5UIgBwR
+         ST4btQJD1cB0DVfdd0BcQqaUqYSz8NZLb+LTYgywrxG2TVoWTl0L91iz+xlqXtwyHRNK
+         0rxw==
+X-Forwarded-Encrypted: i=1; AJvYcCWoJimo05nfWQvtdi1fEItrGByBaY66iODRwKsUni8iGwnQ3ZQS5pEbh2MtZqsMjn19QFoJHJEWFZjuJRPv3Y7yQ/izxgFSJAbnr/7psisjq8VQH+1IhMxb/DJPT4JaxqFXQFLrlg==
+X-Gm-Message-State: AOJu0YxK61E/ZRB4r6H/TRboc41Unpi/gSnG+xk8ivzcqwn/pmLsmTMb
+	7SJMbkIPM7OOa11Dqz2pkQeVEXepLQQBBOG0QytLujUBPQrPbYeXaQgLXRLV
+X-Google-Smtp-Source: AGHT+IFtXwt7v2/zfPpSeohh2Tq3mh2ZhcSZZHS+OaRwI+Y+j7TDWyiP9/yorScurNMnVufD/71ZMA==
+X-Received: by 2002:a17:903:595:b0:1db:499c:9b9e with SMTP id jv21-20020a170903059500b001db499c9b9emr410904plb.9.1707833555377;
+        Tue, 13 Feb 2024 06:12:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXe0AsYir0yCs/ajc1GJvax+XrOTKOsqxoO9LwwnmkIvzXAeYLWZat40/AsaJlvqyOnZD/s0Of4HrjDu6FF3d7pPW77Cr4NFypnqDEcm3/9rOo+m4ft7ojFttbjYTTUI1qwFa2hGvaGeM0AC3fN9o/qHdWtdRfnnZwZVeQLz+rvXN6CWcQVozFzy3Nelc4ukGkIo+YuopSZYLEfRTMLtn7rvKYk/566fb94+OHoP/j9
+Received: from rigel.home.arpa ([220.235.35.85])
+        by smtp.gmail.com with ESMTPSA id ld11-20020a170902facb00b001d9a42f6183sm2151102plb.45.2024.02.13.06.12.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 06:12:35 -0800 (PST)
+From: Kent Gibson <warthog618@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	brgl@bgdev.pl,
+	linus.walleij@linaro.org,
+	andy@kernel.org,
+	corbet@lwn.net
+Cc: Kent Gibson <warthog618@gmail.com>
+Subject: [PATCH] Documentation: gpio: consistent use of logical line value terminology
+Date: Tue, 13 Feb 2024 22:12:22 +0800
+Message-Id: <20240213141222.382457-1-warthog618@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Building DTB overlays from .dts files is no longer supported.
-Update the documentation to reflect this.
+Consistently use active/inactive to describe logical line values, rather
+than high/low, which is used for physical values, or asserted/de-asserted
+which is awkward.
 
-Fixes: 81d362732bac05f6 ("kbuild: Disallow DTB overlays to built from .dts named source files")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Kent Gibson <warthog618@gmail.com>
 ---
- Documentation/devicetree/overlay-notes.rst           | 12 ++++++------
- .../translations/zh_CN/devicetree/overlay-notes.rst  | 12 ++++++------
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ Documentation/driver-api/gpio/consumer.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
-index e139f22b363e9f36..35e79242af9a928d 100644
---- a/Documentation/devicetree/overlay-notes.rst
-+++ b/Documentation/devicetree/overlay-notes.rst
-@@ -38,10 +38,10 @@ Lets take an example where we have a foo board with the following base tree::
- 	};
-     ---- foo.dts ---------------------------------------------------------------
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index 3e588b9d678c..ab56ab0dd7a6 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -222,9 +222,9 @@ Use the following calls to access GPIOs from an atomic context::
+ 	int gpiod_get_value(const struct gpio_desc *desc);
+ 	void gpiod_set_value(struct gpio_desc *desc, int value);
  
--The overlay bar.dts,
-+The overlay bar.dtso,
- ::
+-The values are boolean, zero for low, nonzero for high. When reading the value
+-of an output pin, the value returned should be what's seen on the pin. That
+-won't always match the specified output value, because of issues including
++The values are boolean, zero for inactive, nonzero for active. When reading the
++value of an output pin, the value returned should be what's seen on the pin.
++That won't always match the specified output value, because of issues including
+ open-drain signaling and output latencies.
  
--    ---- bar.dts - overlay target location by label ----------------------------
-+    ---- bar.dtso - overlay target location by label ---------------------------
- 	/dts-v1/;
- 	/plugin/;
- 	&ocp {
-@@ -51,7 +51,7 @@ The overlay bar.dts,
- 			... /* various properties and child nodes */
- 		};
- 	};
--    ---- bar.dts ---------------------------------------------------------------
-+    ---- bar.dtso --------------------------------------------------------------
+ The get/set calls do not return errors because "invalid GPIO" should have been
+@@ -277,11 +277,11 @@ switch their output to a high impedance value. The consumer should not need to
+ care. (For details read about open drain in driver.rst.)
  
- when loaded (and resolved as described in [1]) should result in foo+bar.dts::
+ With this, all the gpiod_set_(array)_value_xxx() functions interpret the
+-parameter "value" as "asserted" ("1") or "de-asserted" ("0"). The physical line
++parameter "value" as "active" ("1") or "inactive" ("0"). The physical line
+ level will be driven accordingly.
  
-@@ -88,9 +88,9 @@ in the base DT. In this case, the target path can be provided. The target
- location by label syntax is preferred because the overlay can be applied to
- any base DT containing the label, no matter where the label occurs in the DT.
+ As an example, if the active low property for a dedicated GPIO is set, and the
+-gpiod_set_(array)_value_xxx() passes "asserted" ("1"), the physical line level
++gpiod_set_(array)_value_xxx() passes "active" ("1"), the physical line level
+ will be driven low.
  
--The above bar.dts example modified to use target path syntax is::
-+The above bar.dtso example modified to use target path syntax is::
- 
--    ---- bar.dts - overlay target location by explicit path --------------------
-+    ---- bar.dtso - overlay target location by explicit path -------------------
- 	/dts-v1/;
- 	/plugin/;
- 	&{/ocp} {
-@@ -100,7 +100,7 @@ The above bar.dts example modified to use target path syntax is::
- 			... /* various properties and child nodes */
- 		}
- 	};
--    ---- bar.dts ---------------------------------------------------------------
-+    ---- bar.dtso --------------------------------------------------------------
- 
- 
- Overlay in-kernel API
-diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-index 43e3c0bc5a9f8235..ba5edd05dc1e7fd2 100644
---- a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-+++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-@@ -43,10 +43,10 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
- 	};
-     ---- foo.dts ---------------------------------------------------------------
- 
--覆盖bar.dts,
-+覆盖bar.dtso,
- ::
- 
--    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
-+    ---- bar.dtso - 按标签覆盖目标位置 ---------------------------
- 	/dts-v1/;
- 	/插件/;
- 	&ocp {
-@@ -56,7 +56,7 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
- 			... /* 各种属性和子节点 */
- 		};
- 	};
--    ---- bar.dts ---------------------------------------------------------------
-+    ---- bar.dtso --------------------------------------------------------------
- 
- 当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
- 
-@@ -90,9 +90,9 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
- DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
- 较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
- 
--上面的bar.dts例子被修改为使用目标路径语法，即为::
-+上面的bar.dtso例子被修改为使用目标路径语法，即为::
- 
--    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
-+    ---- bar.dtso - 通过明确的路径覆盖目标位置 -------------------
- 	/dts-v1/;
- 	/插件/;
- 	&{/ocp} {
-@@ -102,7 +102,7 @@ DT中的适当位置。在这种情况下，可以提供目标路径。通过标
- 			... /* 各种外围设备和子节点 */
- 		}
- 	};
--    ---- bar.dts ---------------------------------------------------------------
-+    ---- bar.dtso --------------------------------------------------------------
- 
- 
- 内核中关于覆盖的API
+ To summarize::
 -- 
-2.34.1
+2.39.2
 
