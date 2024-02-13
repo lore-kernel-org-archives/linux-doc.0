@@ -1,335 +1,187 @@
-Received: from mail.katalix.com (mail.katalix.com [3.9.82.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAE3C225A6;
-	Tue, 13 Feb 2024 10:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.9.82.81
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0635532C60;
+	Tue, 13 Feb 2024 10:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707821472; cv=none; b=rkPGE6Ei4VY6vw/dBL1o58wa7gvou+CwtE6wr9mTdbj1syuEzdwRoFe/VPz0fS7USCRehipUG9Hy6SqquehB4/g/F/MsLXI1/0+fOLLpJYU455TXXLvp6YE0VIUykckdbh7D79BzvhtSLurRkL+NGVqKMFo+VRYS39AsHBLWzRY=
+	t=1707821699; cv=none; b=Q9rlhBAfiTZ4+VkOPxVkidekELaii/W+iP722QshF9XDTpTyCuRBhBNbK90GIOBVJTwGR/6UzwVKUsS5WbT837ydQM1v4pyfqcfeTHpRczt6DWDJlRgFyINEKBEyWuC4JwqTJj7FF7pRoqRumMNzK8MAHLmuTjMUeVSkPL0qHVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707821472; c=relaxed/simple;
-	bh=nGMX4aenpuZDTdzfZczuy4H823bXbSVyEL7qzNy2prE=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DlCXp2qdujWwCck5SMxQXehB/adBccRZu77VJ/vSDNLiDaZYRtpX5X4ZEZuSd/CeIxgIfj2o25i4bmvP0Tsm6NFlcS+IU0NwaVjTziyGqWJa3MsmGhuAKySrC14rjAu7NbUNuDYoxpPQOLImiEWnHHM4NCvU3MWdH4rvfCZb10E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com; spf=pass smtp.mailfrom=katalix.com; dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b=r0VICPfK; arc=none smtp.client-ip=3.9.82.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=katalix.com
+	s=arc-20240116; t=1707821699; c=relaxed/simple;
+	bh=K3t6IqIKVeRKOMmSmTLavxByRukWLKFnqr8MqyIR7DE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t1T+KmhCKPyPSiTWCwo+8VXi+eAv4umXsKDwZcLhQtg/77OHoz8piX4AqKfwuI3ElDe2m2hOUs8Y119HcvqV4rgJi/bf1KnElfUaavm3GwJhSpZpnALeyc2N4lClJRsCk4C47UCHUwgGt+DJdOp3Tf+fmF+BV5/9Cs6HWmck20w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ptWaMmHC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=utgGMOWR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ptWaMmHC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=utgGMOWR; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b="r0VICPfK"
-Received: from localhost (unknown [IPv6:2a02:8012:909b:0:eaae:9bde:cb7b:6924])
-	(Authenticated sender: tom)
-	by mail.katalix.com (Postfix) with ESMTPSA id D67337D5C1;
-	Tue, 13 Feb 2024 10:51:08 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=katalix.com; s=mail;
-	t=1707821468; bh=nGMX4aenpuZDTdzfZczuy4H823bXbSVyEL7qzNy2prE=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Disposition:In-Reply-To:From;
-	z=Date:=20Tue,=2013=20Feb=202024=2010:51:08=20+0000|From:=20Tom=20P
-	 arkin=20<tparkin@katalix.com>|To:=20Samuel=20Thibault=20<samuel.th
-	 ibault@ens-lyon.org>,=0D=0A=09James=20Chapman=20<jchapman@katalix.
-	 com>,=20edumazet@google.com,=0D=0A=09gnault@redhat.com,=20davem@da
-	 vemloft.net,=20kuba@kernel.org,=0D=0A=09pabeni@redhat.com,=20corbe
-	 t@lwn.net,=20netdev@vger.kernel.org,=0D=0A=09linux-doc@vger.kernel
-	 .org,=20linux-kernel@vger.kernel.org|Subject:=20Re:=20[PATCHv4]=20
-	 PPPoL2TP:=20Add=20more=20code=20snippets|Message-ID:=20<ZctJnCeUCA
-	 NJvxGj@katalix.com>|References:=20<20240212222344.xtv233r5sixme32h
-	 @begin>|MIME-Version:=201.0|Content-Disposition:=20inline|In-Reply
-	 -To:=20<20240212222344.xtv233r5sixme32h@begin>;
-	b=r0VICPfK0yPvrDK7aLblGMV1OQuUUPUojSyrFkabhJ7zUyGQtdwfU7oFpFnWcJNtn
-	 pNmZRSOEhapvomSQ+tsn+c/wgsjM4cTOI7WeXgDZB8Tlri3FL8p2YSAsk+7Pl5Qz9U
-	 0T/N4JxrE3QROPmFGyCKQvDauqrGRKBKR8drNUfl2Q1N0z2wg4VSv9BedH1jMQOUdX
-	 /9+9H3Wb3TquT3/Y6RKUTuFWOReUQ0p5GWrYOyDm3XkZB/dNfvR/rLtoazVuG+cqPt
-	 +XpmwR1d3wP01mYWVPhS2BwZRKjRNF/QVSHrxyX9JQG9ny8VJhctwMYrR/UHSXZnQ2
-	 35hQUqGr6WcZg==
-Date: Tue, 13 Feb 2024 10:51:08 +0000
-From: Tom Parkin <tparkin@katalix.com>
-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-	James Chapman <jchapman@katalix.com>, edumazet@google.com,
-	gnault@redhat.com, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv4] PPPoL2TP: Add more code snippets
-Message-ID: <ZctJnCeUCANJvxGj@katalix.com>
-References: <20240212222344.xtv233r5sixme32h@begin>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ptWaMmHC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="utgGMOWR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ptWaMmHC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="utgGMOWR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 193D01FC81;
+	Tue, 13 Feb 2024 10:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707821696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cBmU54n2WXwfimAjDCe1BZ77s/sceqYcDk/8NeTsA4A=;
+	b=ptWaMmHCu0WmXUctmHEU4mCeId9zOiG5a0iQQBRxFuY8QC/GafoaKTiU1V2jEmQDgCPwCQ
+	VTR3JZyPeesRR0C8sdcg3xYe2D1HV5oPut5gyCIuGktzlytdfqvGffdACMFJQEwvVMZmzN
+	K5pD4u0APQoNHkN/ZmV7xEtABWhhXJM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707821696;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cBmU54n2WXwfimAjDCe1BZ77s/sceqYcDk/8NeTsA4A=;
+	b=utgGMOWRS0M2GQZ6TPczOuJhSlppGUoiB+pe2BYHst1BPNtqP56qiBOaCPVFDbN+u4MGVy
+	yLrTGGdjCV86kaAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707821696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cBmU54n2WXwfimAjDCe1BZ77s/sceqYcDk/8NeTsA4A=;
+	b=ptWaMmHCu0WmXUctmHEU4mCeId9zOiG5a0iQQBRxFuY8QC/GafoaKTiU1V2jEmQDgCPwCQ
+	VTR3JZyPeesRR0C8sdcg3xYe2D1HV5oPut5gyCIuGktzlytdfqvGffdACMFJQEwvVMZmzN
+	K5pD4u0APQoNHkN/ZmV7xEtABWhhXJM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707821696;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cBmU54n2WXwfimAjDCe1BZ77s/sceqYcDk/8NeTsA4A=;
+	b=utgGMOWRS0M2GQZ6TPczOuJhSlppGUoiB+pe2BYHst1BPNtqP56qiBOaCPVFDbN+u4MGVy
+	yLrTGGdjCV86kaAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D2B4C13404;
+	Tue, 13 Feb 2024 10:54:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PNvnMn9Ky2WsbwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 13 Feb 2024 10:54:55 +0000
+Date: Tue, 13 Feb 2024 11:54:55 +0100
+Message-ID: <87y1boy6ps.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: <srinivas.kandagatla@linaro.org>,
+	<mathias.nyman@intel.com>,
+	<perex@perex.cz>,
+	<conor+dt@kernel.org>,
+	<corbet@lwn.net>,
+	<lgirdwood@gmail.com>,
+	<andersson@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>,
+	<gregkh@linuxfoundation.org>,
+	<Thinh.Nguyen@synopsys.com>,
+	<broonie@kernel.org>,
+	<bgoswami@quicinc.com>,
+	<tiwai@suse.com>,
+	<robh+dt@kernel.org>,
+	<konrad.dybcio@linaro.org>,
+	<linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>,
+	<linux-arm-msm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>
+Subject: Re: [PATCH v15 39/50] ASoC: Introduce SND kcontrols to select sound card and PCM device
+In-Reply-To: <20240213005422.3121-40-quic_wcheng@quicinc.com>
+References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
+	<20240213005422.3121-40-quic_wcheng@quicinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="k2N5Gjlw2xDByqqX"
-Content-Disposition: inline
-In-Reply-To: <20240212222344.xtv233r5sixme32h@begin>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ptWaMmHC;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=utgGMOWR
+X-Spamd-Result: default: False [0.88 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 R_RATELIMIT(0.00)[to_ip_from(RLe67txhfobum3fqdb5xx8e3au)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.31)[75.28%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[dt];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[23];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 0.88
+X-Rspamd-Queue-Id: 193D01FC81
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Bar: /
 
-
---k2N5Gjlw2xDByqqX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On  Mon, Feb 12, 2024 at 23:23:44 +0100, Samuel Thibault wrote:
-> --- a/Documentation/networking/l2tp.rst
-> +++ b/Documentation/networking/l2tp.rst
-> @@ -386,12 +386,17 @@ Sample userspace code:
-> =20
->    - Create session PPPoX data socket::
-> =20
-> +        /* Input: the L2TP tunnel UDP socket `tunnel_fd`, which needs to=
- be
-> +         * bound already, otherwise it will not be ready. */
+On Tue, 13 Feb 2024 01:54:11 +0100,
+Wesley Cheng wrote:
+> 
+> +static int soc_usb_get_offload_dev(struct snd_kcontrol *kcontrol,
+> +				   struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+> +	struct snd_soc_usb *ctx = snd_soc_usb_find_priv_data(component->dev);
+> +	int ret = 0;
 > +
+> +	mutex_lock(&ctx_mutex);
+> +	if (ctx && ctx->get_offload_dev)
+> +		ret = ctx->get_offload_dev(kcontrol, ucontrol);
+> +	mutex_unlock(&ctx_mutex);
 
-Sorry for the nit :-| but we should adhere to the kernel coding style
-I think -- so the comment block should look like this:
+It might be safer to initialize the values with -1 in case when the
+callback isn't available?
 
-    /* Input: the L2TP tunnel UDP socket `tunnel_fd`, which needs to be
-     * bound already, otherwise it will not be ready.
-     */
-
->          struct sockaddr_pppol2tp sax;
-> -        int fd;
-> +        int session_fd;
-> +        int ret;
+>  /**
+>   * snd_soc_usb_get_components_tag() - Retrieve SOC USB component tag
+>   * @playback: direction of audio stream
+> @@ -157,6 +218,12 @@ EXPORT_SYMBOL_GPL(snd_soc_usb_free_port);
+>   */
+>  int snd_soc_usb_add_port(struct snd_soc_usb *usb)
+>  {
+> +	int ret;
 > +
-> +        session_fd =3D socket(AF_PPPOX, SOCK_DGRAM, PX_PROTO_OL2TP);
-> +        if (session_fd < 0)
-> +                return -errno;
-> =20
-> -        /* Note, the tunnel socket must be bound already, else it
-> -         * will not be ready
-> -         */
->          sax.sa_family =3D AF_PPPOX;
->          sax.sa_protocol =3D PX_PROTO_OL2TP;
->          sax.pppol2tp.fd =3D tunnel_fd;
-> @@ -406,11 +411,117 @@ Sample userspace code:
->          /* session_fd is the fd of the session's PPPoL2TP socket.
->           * tunnel_fd is the fd of the tunnel UDP / L2TPIP socket.
->           */
-> -        fd =3D connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
-> -        if (fd < 0 ) {
-> +        ret =3D connect(session_fd, (struct sockaddr *)&sax, sizeof(sax)=
-);
-> +        if (ret < 0 ) {
-> +                close(session_fd);
-> +                return -errno;
-> +        }
+> +	ret = snd_soc_usb_control_init(usb->component);
+> +	if (ret < 0)
+> +		return ret;
 > +
-> +        return session_fd;
-> +
-> +L2TP control packets will still be available for read on `tunnel_fd`.
-> +
-> +  - Create PPP channel::
-> +
-> +        /* Input: the session PPPoX data socket session_fd which was cre=
-ated as
-> +         * described above. */
+>  	mutex_lock(&ctx_mutex);
+>  	list_add_tail(&usb->list, &usb_ctx_list);
+>  	mutex_unlock(&ctx_mutex);
 
-Again, I think this comment should adhere to the kernel coding style.
+We may need to remove the control element upon the driver removal,
+too?  In theory, you can unload the offload stuff while snd-usb-audio
+is still active.
 
-Do we need backticks for `session_fd` for consistency?
 
-> +
-> +        int chindx;
-> +        int ppp_chan_fd;
+thanks,
 
-=2E..and we should follow netdev-style Christmas-tree declaration
-ordering, i.e:
-
-    int ppp_chan_fd;
-    int chindx;
-
-> +
-> +        ret =3D ioctl(session_fd, PPPIOCGCHAN, &chindx);
-> +        if (ret < 0)
-> +                return -errno;
-> +
-> +        ppp_chan_fd =3D open("/dev/ppp", O_RDWR);
-> +        if (ppp_chan_fd < 0)
-> +                return -errno;
-> +
-> +        ret =3D ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx);
-> +        if (ret < 0) {
-> +                close(ppp_chan_fd);
-> +                return -errno;
-> +        }
-> +
-> +        return ppp_chan_fd;
-> +
-> +LCP PPP frames will be available for read on `ppp_chan_fd`.
-> +
-> +  - Create PPP interface::
-> +
-> +        /* Input: the PPP channel ppp_chan_fd which was created as descr=
-ibed
-> +         * above */
-
-Again, I think this comment should adhere to the kernel coding style.
-
-Do we need backticks for `ppp_chan_fd` for consistency?
-
-> +
-> +        int ppp_if_fd;
-> +        int ifunit =3D -1;
-
-netdev-style Christmas-tree declaration ordering here too please.
-
-> +
-> +        ppp_if_fd =3D open("/dev/ppp", O_RDWR);
-> +        if (ppp_if_fd < 0)
-> +                return -errno;
-> +
-> +        ret =3D ioctl(ppp_if_fd, PPPIOCNEWUNIT, &ifunit);
-> +        if (ret < 0) {
-> +                close(ppp_if_fd);
-> +                return -errno;
-> +        }
-> +
-> +        ret =3D ioctl(ppp_chan_fd, PPPIOCCONNECT, ifunit);
-
-I think this should be:
-
-    ret =3D ioctl(ppp_chan_fd, PPPIOCCONNECT, &ifunit);
-
-(note the missing '&' in the patch).
-
-> +        if (ret < 0) {
-> +                close(ppp_if_fd);
->                  return -errno;
->          }
-> -        return 0;
-> +
-> +        return ppp_if_fd;
-> +
-> +IPCP/IPv6CP PPP frames will be available for read on `ppp_if_fd`.
-> +
-> +The ppp<ifunit> interface can then be configured as usual with netlink's
-> +RTM_NEWLINK, RTM_NEWADDR, RTM_NEWROUTE, or ioctl's SIOCSIFMTU, SIOCSIFAD=
-DR,
-> +SIOCSIFDSTADDR, SIOCSIFNETMASK, SIOCSIFFLAGS, or with the `ip` command.
-> +
-> +  - Bridging L2TP sessions which have PPP pseudowire types (this is also=
- called
-> +    L2TP tunnel switching or L2TP multihop) is supported by bridging the=
- ppp
-> +    channels of the two L2TP sessions to be bridged::
-
-s/ppp/PPP/ for the indented block here.
-
-The device name `ppp<ifunit>` should be lowercase still since that's
-what the actual device name will be.
-
-> +
-> +        /* Input: the session PPPoX data sockets session_fd1 and session=
-_fd2
-> +         * which were created as described further above. */
-> +
-
-Again, I think this comment should adhere to the kernel coding style.
-
-Do we need backticks for `session_fd1` and `session_fd2` for consistency?
-
-> +        int chindx1;
-> +        int chindx2;
-> +        int ppp_chan_fd;
-> +
-
-netdev-style Christmas-tree declaration ordering here too please.
-
-> +        ret =3D ioctl(session_fd1, PPPIOCGCHAN, &chindx1);
-> +        if (ret < 0)
-> +                return -errno;
-> +
-> +        ret =3D ioctl(session_fd2, PPPIOCGCHAN, &chindx2);
-> +        if (ret < 0)
-> +                return -errno;
-> +
-> +        ppp_chan_fd =3D open("/dev/ppp", O_RDWR);
-> +        if (ppp_chan_fd < 0) {
-> +                return -errno;
-> +        }
-> +
-> +        ret =3D ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx1);
-> +        if (ret < 0) {
-> +                close(ppp_chan_fd);
-> +                return -errno;
-> +        }
-
-I think we should drop the PPPIOCATTCHAN ioctl call here.
-
-The input file descriptors are called out as being PPPoX sockets
-created as described earlier, in which case they should both
-already be attached to a channel.
-
-It would make more sense IMO to call out the two ppp_chan_fd file
-descriptors as being input parameters alongside the PPPoX session file
-descriptors.
-
-> +
-> +        ret =3D ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
-> +        close(ppp_chan_fd);
-> +        if (ret < 0)
-> +                return -errno;
-> +
-> +It can be noted that in this case no PPP interface is needed, and the PPP
-> +channel does not need to be kept open.  Only the session PPPoX data sock=
-ets need
-> +to be kept open.
-
-Is it true to say that the PPP channel file descriptors can be closed
-by userspace?  I'd need to re-review the ppp_generic.c refcounting to
-be sure -- maybe you have some code which proves this assertion?
-
-The user of PPPIOCBRIDGECHAN that I'm familiar with (go-l2tp) keeps
-the PPP channel fds for the PPPoE and PPPoL2TP channels around for the
-duration of the connection.  Possibly it's not necessary, but I'd
-prefer we're totally sure before we call it out in the docs.
-
-Maybe we could say something like this:
-
-    "When bridging PPP channels, the PPP session is not locally terminated,
-     and no local PPP device is created.  PPP frames arriving on one channel
-     are directly passed to the other channel, and vice versa."
-
-?
-
-> +
-> +More generally, it is also possible in the same way to e.g. bridge a PPP=
-ol2tp
-> +ppp channel with other types of ppp channels, such as PPPoE.
-
-s/PPPol2tp/PPPoL2TP/
-
-s/ppp/PPP/
-
-> +
-> +See more details for the PPP side in ppp_generic.rst.
-> =20
->  Old L2TPv2-only API
->  -------------------
-
-Thanks again for your work.  I know the above is all quite nit-picky
-on the whole, so apologies -- but that's probably a sign we're getting
-close :-)
-
-Tom
---=20
-Tom Parkin
-Katalix Systems Ltd
-https://katalix.com
-Catalysts for your Embedded Linux software development
-
---k2N5Gjlw2xDByqqX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEsUkgyDzMwrj81nq0lIwGZQq6i9AFAmXLSZkACgkQlIwGZQq6
-i9AMnwf+PR66R/OCMFb4CJwd4IBnu6T8qa6iz9ZsuPS9U6c/53dUGZfIF5FzuxB+
-5Mxy+ztKzfChrmk2sRZUPMDaVl7Pmqo5s9d2wLoGwtaT3/cEXHRFffFxITMPc+Hy
-rsFf+LgTDgtt/2j/TUmC3Cou8+T1VoS94o83eFlNGfEEPw+3eoBW/8R88HOKAw9n
-9N9ei/cspa3zFhZLcoE9Vwiz7xqrWU27Lzl/gXXVlaFSFJESXOOZaZkmsbYwa2T7
-wuov4km7N5BYbHkIj2xpbkxWsa1huXoeucMD003BmA6NT0K/7U4bZ/xF8kvD9rxe
-Px5FMyzIOnbNj80O82+bBVpbbXzqqw==
-=8cg1
------END PGP SIGNATURE-----
-
---k2N5Gjlw2xDByqqX--
+Takashi
