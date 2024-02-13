@@ -1,74 +1,74 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C177638DD5;
-	Tue, 13 Feb 2024 12:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FCC381A0;
+	Tue, 13 Feb 2024 12:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707826234; cv=none; b=gj+3AR3sbeQQAdqTTv0hkBLFcbY5cENIEwxvVnYJj4tRqwjA6qOcBxKfpSmsor7ZkorIiEbZbtEU6sPipSFp5eR8CwtZSsRoZRAn3C8Q+1rluST3cJhsVelU5OPjyF2LA4pwV3+ADpp+jkx40fPwTg2OJuvSj73pNx7dvQ4GBdo=
+	t=1707826685; cv=none; b=IIjZ72OX8lPRvQzVpTx3PPJtVgyyisDbNSNG2I0rOEcbp57gzIvY3lU0IFEKtBQFbyKCEup6FsSBlPcXoDEDRt/IhCq0Lxxjh+3tOzXtEUDgM/ZIeIkhyi0nxJTNzy960EIkscfGk4qmBMj7+Xq2BGlc24Wh6h+zbJsI5hEUvRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707826234; c=relaxed/simple;
-	bh=d2Ou20cP8XYlBETKi59cPtNyA6wJ/IizK+37DPPH+lk=;
+	s=arc-20240116; t=1707826685; c=relaxed/simple;
+	bh=TNsmmxa+6HeFCAOCpipUzX2RGd7pxLJG/+tp3ucMPnc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hin2IcRe5WlEA7HV91ZGXh22fj609/m73EJ4Zvo2HkgHmaxTDaNJQo6JGLEngFvq6emasr1nWWO8aAVFQanFy85PZnwjZcaGN26F9qKDcJkJuNkjg5tVVSuAJXkM/5RvjT+GF6BUpoDZNNgX5X1xc++XmF44l7x5tQbxjUBT/gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e7Tq9gZ8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F5PgQKCV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Wy7iPzij; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0teH5P3w; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=pm77CD3lwDcWTfEsh1Hj9fjscqXNGySwYk+co/LBACsG++5amED0GEHkY+Og7s1pV1OniRGYeaEcj5WFflmUjm5x6UkMBgL9xjXuzRjL5+8f/kMolOHWJCBdjRZ1p8Q7sRSH7orWIvuTfvBJzCf2cfR+UqkxMCdEQOdNtBKWfmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BgCj2Olw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W8XscNEP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BgCj2Olw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W8XscNEP; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e7Tq9gZ8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F5PgQKCV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wy7iPzij";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0teH5P3w"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BgCj2Olw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W8XscNEP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BgCj2Olw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W8XscNEP"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E00B422203;
-	Tue, 13 Feb 2024 12:10:24 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B656A1FCA1;
+	Tue, 13 Feb 2024 12:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707826225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1707826681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v7TZDFydWHl6WRFqmAy6Kwi1dhKU2+NmuD788mtOIC8=;
-	b=e7Tq9gZ8Cf8/2YdJzlYGZ8Yor99+jZfkVS5C6CNpXg+wM2mcL100PR4WrG2QB2PHPsnzqW
-	5afm/XD+hoeDdi6klqonKXFktnbZwfYbFJTuHttQPPFAHthxMfUfSLY/++OytMAzy08omt
-	tHHPR663G2ESiDGV/biQo0Gu3Wpvhak=
+	bh=OenRm4KDcWLHzJQS8tkPl+f9jR79iIvkYkLzvmSq+jQ=;
+	b=BgCj2Olw566Htu1EG2uF4EUwJZX2KMFBPnMyUuNwpbspUfqPlZCrVcM+5f4d9F1JjJ4zBl
+	KV4iug0fvq/hE34snF6uaTD8kGQOfXEOdncvZ4OAr63p3vPOHonWljidbMGbOxFR+KiArC
+	up6sUx6mW6fZPM1R/pzPK0TGsvBG5bU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707826225;
+	s=susede2_ed25519; t=1707826681;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v7TZDFydWHl6WRFqmAy6Kwi1dhKU2+NmuD788mtOIC8=;
-	b=F5PgQKCVE2cb/8sJrMMpiNrqNEuSTU0RJhJ8mS2prMp8Yz+Ct9DVxYkI2YCwIYBiC9EtEc
-	DZrtzN0OugwW/VBQ==
+	bh=OenRm4KDcWLHzJQS8tkPl+f9jR79iIvkYkLzvmSq+jQ=;
+	b=W8XscNEPtOb8qP2wQeAZwA9zewFvjRHHl52AQn5bsIQEvWUltf3QWdCfya5b5TY8A6Mrwd
+	+TWbSDJRKATZNkCQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707826224; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1707826681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v7TZDFydWHl6WRFqmAy6Kwi1dhKU2+NmuD788mtOIC8=;
-	b=Wy7iPzijVIXWCQ+xijOFndQ+G/40mH+S991gnJxtq3WICm3Z8M52cQsegfWDzMoO2163z9
-	hc/PtoT1CI2yVSK8BmC08Ro7Yinj5z2N7nuvy0vyNNL6t94Q5SggjIjdTiELqXN+zFzUaH
-	KYU5qONFxgpjbwcUcb8q4px79pm12gI=
+	bh=OenRm4KDcWLHzJQS8tkPl+f9jR79iIvkYkLzvmSq+jQ=;
+	b=BgCj2Olw566Htu1EG2uF4EUwJZX2KMFBPnMyUuNwpbspUfqPlZCrVcM+5f4d9F1JjJ4zBl
+	KV4iug0fvq/hE34snF6uaTD8kGQOfXEOdncvZ4OAr63p3vPOHonWljidbMGbOxFR+KiArC
+	up6sUx6mW6fZPM1R/pzPK0TGsvBG5bU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707826224;
+	s=susede2_ed25519; t=1707826681;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v7TZDFydWHl6WRFqmAy6Kwi1dhKU2+NmuD788mtOIC8=;
-	b=0teH5P3wlkXKW0KZnlXkIUETpXy6MAi85XeXhA6hVOjCC6y/CcGXTM6roi6O3dMfrU7Q1+
-	YB5+TJz3EVFvD3Bw==
+	bh=OenRm4KDcWLHzJQS8tkPl+f9jR79iIvkYkLzvmSq+jQ=;
+	b=W8XscNEPtOb8qP2wQeAZwA9zewFvjRHHl52AQn5bsIQEvWUltf3QWdCfya5b5TY8A6Mrwd
+	+TWbSDJRKATZNkCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99A451370C;
-	Tue, 13 Feb 2024 12:10:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6AEFA1370C;
+	Tue, 13 Feb 2024 12:18:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9Nv4JDBcy2WKBAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 Feb 2024 12:10:24 +0000
-Date: Tue, 13 Feb 2024 13:10:24 +0100
-Message-ID: <87plx0y37z.wl-tiwai@suse.de>
+	id J4IgGPldy2XVBgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 13 Feb 2024 12:18:01 +0000
+Date: Tue, 13 Feb 2024 13:18:01 +0100
+Message-ID: <87o7cky2va.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Wesley Cheng <quic_wcheng@quicinc.com>
 Cc: <srinivas.kandagatla@linaro.org>,
@@ -93,10 +93,10 @@ Cc: <srinivas.kandagatla@linaro.org>,
 	<linux-arm-msm@vger.kernel.org>,
 	<linux-doc@vger.kernel.org>,
 	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v15 41/50] ASoC: Add SND kcontrol for fetching USB offload status
-In-Reply-To: <20240213005422.3121-42-quic_wcheng@quicinc.com>
+Subject: Re: [PATCH v15 46/50] ALSA: usb-audio: Add USB offloading capable kcontrol
+In-Reply-To: <20240213005422.3121-47-quic_wcheng@quicinc.com>
 References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
-	<20240213005422.3121-42-quic_wcheng@quicinc.com>
+	<20240213005422.3121-47-quic_wcheng@quicinc.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -105,77 +105,66 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Wy7iPzij;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0teH5P3w
-X-Spamd-Result: default: False [0.19 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLe67txhfobum3fqdb5xx8e3au)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.00)[38.30%];
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [2.18 / 50.00];
 	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-0.22)[72.28%];
 	 FROM_HAS_DN(0.00)[];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 TO_DN_SOME(0.00)[];
 	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 TAGGED_RCPT(0.00)[dt];
 	 MIME_GOOD(-0.10)[text/plain];
+	 R_RATELIMIT(0.00)[to_ip_from(RLjs3ec4aura4kmsd6wxjjm4hg)];
+	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 RCPT_COUNT_TWELVE(0.00)[23];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
 	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
 	 RCVD_TLS_ALL(0.00)[];
 	 SUSPICIOUS_RECIPS(1.50)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: 0.19
-X-Rspamd-Queue-Id: E00B422203
-X-Spam-Level: 
+X-Spam-Level: **
+X-Spam-Score: 2.18
 X-Spam-Flag: NO
-X-Spamd-Bar: /
 
-On Tue, 13 Feb 2024 01:54:13 +0100,
+On Tue, 13 Feb 2024 01:54:18 +0100,
 Wesley Cheng wrote:
 > 
-> Add a kcontrol to the platform sound card to fetch the current offload
-> status.  This can allow for userspace to ensure/check which USB SND
-> resources are actually busy versus having to attempt opening the USB SND
-> devices, which will result in an error if offloading is active.
-> 
-> An example of fetching the USB offloading status would look like:
-> tinymix -D 0 get 'USB Offload Playback Route Status'
-> -1, -1 (range -1->32) --> [Offload is idle]
-> 
-> tinymix -D 0 get 'USB Offload Playback Route Status'
-> 1, 0 (range -1->32)  --> [Offload active on card#1 pcm#0]
+> --- a/sound/usb/Makefile
+> +++ b/sound/usb/Makefile
+> @@ -22,6 +22,7 @@ snd-usb-audio-objs := 	card.o \
+>  			stream.o \
+>  			validate.o
+>  
+> +snd-usb-audio-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
+>  snd-usb-audio-$(CONFIG_SND_USB_AUDIO_MIDI_V2) += midi2.o
+>  snd-usb-audio-$(CONFIG_SND_USB_AUDIO_USE_MEDIA_CONTROLLER) += media.o
 
-Ah, I didn't notice until now that the second value is the PCM index.
+This puts the code into snd-usb-audio driver, and that causes a
+dependency mess, since...
 
-> +static int snd_soc_usb_offload_status_info(struct snd_kcontrol *kcontrol,
-> +			      struct snd_ctl_elem_info *uinfo)
+> +snd_usb_offload_available_get(struct snd_kcontrol *kcontrol,
+> +		      struct snd_ctl_elem_value *ucontrol)
 > +{
-> +	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-> +	struct snd_soc_usb *ctx = snd_soc_find_usb_ctx(component->dev->of_node);
+> +	struct device *sysdev = snd_kcontrol_chip(kcontrol);
+> +	int ret;
 > +
-> +	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-> +	uinfo->count = 2*ctx->num_supported_streams;
-> +	uinfo->value.integer.min = -1;
-> +	uinfo->value.integer.max = SNDRV_CARDS;
+> +	ret = snd_soc_usb_device_offload_available(sysdev);
 
-Then it's bogus to set SNDRV_CARDS as max.  The PCM index number is
-independent from the card number.  In theory, it can be even more than
-the card max (very unlikely, though).
+... here you call snd_soc_usb_*() stuff that belongs to snd-soc-usb.
+That is, with this patch, snd-usb-audio driver will depend on
+snd-soc-usb, while snd-soc-usb also depends on snd-usb-audio for its
+helpers again.
 
-Wouldn't it be more intuitive to provide two different controls, one
-for card number and one for PCM index number?
+I believe the better way would be to move this whole miser_usb_offload
+code into sound/usb/qcom/.  You need only usb_device and snd_card
+objects at the creation, and you can get them in qcom driver side,
+too.
 
 
 thanks,
