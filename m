@@ -1,216 +1,327 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7801F5FA;
-	Tue, 13 Feb 2024 18:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5541D10796;
+	Tue, 13 Feb 2024 19:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707850102; cv=none; b=JKJI5LiUmBhantSykhJV2VvGo/QdzfJcMAHCG3H9tRRyZ7dnGRQ6tktLJlqVO3yfqBi4Jk6C13QX29+qoLKa4dFOYmiZEdNEtCbHNuvUZDlhrgHWKCpqjV3nEkukZg1ByRFUiqRnffsmHZl1s49niQZTuT14Hhadp6JwoS8hOOU=
+	t=1707850922; cv=none; b=n0di4JOs4S+KErgHh6fURPcdnbaC4Sp79F2MAB6Xs40/9EJcHw+eLfvKsvAzjzlYcNETQDT4fdsE4AC3u04TU9AsAgyCqshR27Hn+DKCB73PxQhqXUZXfo5d2g64X86rbVkI/bNRTyl4lIiyIRgVxF8sJ+uaORnb+iUQzE4hK+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707850102; c=relaxed/simple;
-	bh=cvAoXtbJEwuTK60j1+t8oFvkHcGa9yopyDdarxYElP0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UyXDGJrMm9Oa0sW4i+4gU6/guuUxtO7Tw7LyhKRNQ0vqH3F3dFtapFs8Hx3JZyL3RDmxCkfTInfrni2pcFNXf8WN6tjHPREUbsBqWG9D6433KDHOiVpsfNNQIfkFAQNj8fpAs4qPKjfSJc2vH7bNpf+/LDbbYHRmP6UUe1hh4fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CxuBn95f; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CxuBn95f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E27CDC433F1;
-	Tue, 13 Feb 2024 18:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707850101;
-	bh=cvAoXtbJEwuTK60j1+t8oFvkHcGa9yopyDdarxYElP0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=CxuBn95fFORGesLBWQFOCMIHZVgXfZ1eCxTjcQ2aMX2c/d07cOlF4spffnDquvsaN
-	 RDiTBeSNm8UG1P8dftlfrOG/bcSWETB0hgBIeYQC2vJVyPLjozNS3CwEKG7ItpIjV0
-	 FUTLk275PbrUytDqToj0g65H3B2eVGKQV1A6Pl4E=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: corbet@lwn.net
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	security@kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: [PATCH] Documentation: Document the Linux Kernel CVE process
-Date: Tue, 13 Feb 2024 19:48:12 +0100
-Message-ID: <2024021314-unwelcome-shrill-690e@gregkh>
-X-Mailer: git-send-email 2.43.1
+	s=arc-20240116; t=1707850922; c=relaxed/simple;
+	bh=3tNonKfBBFuXoYeTWvX8IDZRQ9mkZTw6tQXwn8u+Hvw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MQ6H1Rbog+pbsPv0S6DkvvrXdSTIT0OWjHGRZuPiSwY24jL6TGNPAxOt/zCW7mLVng7QQ4vzuitxVpevbAzJaymv15GAlcYPW4/2pXFJCudbPbYSGTc5hCj1ht/2neCfYc7AUjTJkHG5gGNd94frC6rxPABWfTqCskf5/7y/kY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from [194.95.143.137] (helo=phil.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1rZy2H-00088l-Vd; Tue, 13 Feb 2024 20:01:41 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Maxime Ripard <mripard@kernel.org>
+Subject:
+ Re: [PATCH v6 31/36] drm/rockchip: inno_hdmi: Switch to HDMI connector
+Date: Tue, 13 Feb 2024 20:01:40 +0100
+Message-ID: <1852174.atdPhlSkOF@phil>
+In-Reply-To: <20240212-kms-hdmi-connector-state-v6-31-f4bcdc979e6f@kernel.org>
+References:
+ <20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org>
+ <20240212-kms-hdmi-connector-state-v6-31-f4bcdc979e6f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8105; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=cvAoXtbJEwuTK60j1+t8oFvkHcGa9yopyDdarxYElP0=; b=owGbwMvMwCRo6H6F97bub03G02pJDKmnd+Y9vJOneXiJsHrFWb9ff7d6HQ3I77z3Zu1pA9F06 /XCTT/jO2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiD+8zLDjzben+2afsPzv8 XlK5l39P7qWCA3MYFly1YHl9P18j1eyKQHgJ1zFr+c+/CgE=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The Linux kernel project now has the ability to assign CVEs to fixed
-issues, so document the process and how individual developers can get a
-CVE if one is not automatically assigned for their fixes.
+Am Montag, 12. Februar 2024, 14:13:14 CET schrieb Maxime Ripard:
+> The new HDMI connector infrastructure allows to remove some boilerplate,
+> especially to generate infoframes. Let's switch to it.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-Signed-off-by: Lee Jones <lee@kernel.org>
----
- Documentation/process/cve.rst           | 116 ++++++++++++++++++++++++
- Documentation/process/index.rst         |   1 +
- Documentation/process/security-bugs.rst |   6 +-
- 3 files changed, 120 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/process/cve.rst
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 
-diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
-new file mode 100644
-index 000000000000..17df5d673102
---- /dev/null
-+++ b/Documentation/process/cve.rst
-@@ -0,0 +1,116 @@
-+CVEs
-+====
-+
-+Common Vulnerabilities and Exposure (CVE®) numbers, were developed as an
-+unambiguous way to identify, define, and catalog publically disclosed
-+security vulnerabilities.  Over time, their usefulness has declined with
-+regards to the kernel project, and CVE numbers were very often assigned
-+in inappropriate ways and for inappropriate reasons.  Because of this,
-+the kernel development community has tended to avoid them.  However, the
-+combination of continuing pressure to assign CVEs and other forms of
-+security identifiers, and ongoing abuses by community members outside of
-+the kernel community has made it clear that the kernel community should
-+have control over those assignments.
-+
-+The Linux kernel developer team does have the ability to assign CVEs for
-+potential Linux kernel security issues.  This assignment is independent
-+of the :doc:`normal Linux kernel security bug reporting
-+process<../process/security_bugs>`.
-+
-+A list of all assigned CVEs for the Linux kernel can be found in the
-+archives of the linux-cve mailing list, as seen on
-+https://lore.kernel.org/linux-cve-announce/.  To get notice of the
-+assigned CVEs, please subscribe to that mailing list.
-+
-+Process
-+-------
-+
-+As part of the normal stable release process, kernel changes that are
-+potentially security issues are identified by the developers responsible
-+for CVE number assignments and have CVE numbers automatically assigned
-+to them.  These assignments are published on the linux-cve mailing list
-+as announcements on a frequent basis.
-+
-+Note, due to the layer at which the Linux kernel is in a system, almost
-+any bug might be exploitable to compromise the security of the kernel,
-+but the possibility of exploitation is often not evident when the bug is
-+fixed.  Because of this, the CVE assignment team are overly cautious and
-+assign CVE numbers to any bugfix that they identify.  This
-+explains the seemingly large number of CVEs that are issued by the Linux
-+kernel team.
-+
-+If the CVE assignment team misses a specific fix that any user feels
-+should have a CVE assigned to it, please email them at <cve@kernel.org>
-+and the team there will work with you on it.  Note, that no potential
-+security issues should be sent to this alias, it is ONLY for assignment
-+of CVEs for fixes that are already in released kernel trees.  If you
-+feel you have found an unfixed security issue, please follow the
-+:doc:`normal Linux kernel security bug reporting
-+process<../process/security_bugs>`.
-+
-+No CVEs will be assigned for unfixed security issues in the Linux
-+kernel, assignment will only happen after a fix is available as it can
-+be properly tracked that way by the git commit id of the original fix.
-+
-+No CVEs will be assigned for any issue found in a version of the kernel
-+that is not currently being actively supported by the Stable/LTS kernel
-+team.  A list of the currently supported kernel branches can be found at
-+https://kernel.org/category/releases.html
-+
-+Disputes of assigned CVEs
-+-------------------------
-+
-+The authority to dispute or modify an assigned CVE for a specific kernel
-+change lies solely with the maintainers of the relevant subsystem
-+affected.  This principle ensures a high degree of accuracy and
-+accountability in vulnerability reporting.  Only those individuals with
-+deep expertise and intimate knowledge of the subsystem can effectively
-+assess the validity and scope of a reported vulnerability and determine
-+its appropriate CVE designation.  Any attempt to modify or dispute a CVE
-+outside of this designated authority could lead to confusion, inaccurate
-+reporting, and ultimately, compromised systems.
-+
-+Invalid CVEs
-+------------
-+
-+If a security issue is found in a Linux kernel that is only supported by
-+a Linux distribution due to the changes that have been made by that
-+distribution, or due to the distribution supporting a kernel version
-+that is no longer one of the kernel.org supported releases, then a CVE
-+can not be assigned by the Linux kernel CVE team, and must be asked for
-+from that Linux distribution itself.
-+
-+Any CVE that is assigned against the Linux kernel for an actively
-+supported kernel version, by any group other than the kernel assignment
-+CVE team should not be treated as a valid CVE.  Please notify the
-+kernel CVE assignment team at <cve@kernel.org> so that they can work to
-+invalidate such entries through the CNA remediation process.
-+
-+Applicability of specific CVEs
-+------------------------------
-+
-+As the Linux kernel can be used in many different ways, with many
-+different ways of accessing it by external users, or no access at all,
-+the applicability of any specific CVE is up to the user of Linux to
-+determine, it is not up to the CVE assignment team.  Please do not
-+contact us to attempt to determine the applicability of any specific
-+CVE.
-+
-+Also, as the source tree is so large, and any one system only uses a
-+small subset of the source tree, any users of Linux should be aware that
-+large numbers of assigned CVEs are not relevant for their systems.
-+
-+In short, we do not know your use case, and we do not know what portions
-+of the kernel that you use, so there is no way for us to determine if a
-+specific CVE is relevant for your system.
-+
-+As always, it is best to take all released kernel changes, as they are
-+tested together in a unified whole by many community members, and not as
-+individual cherry-picked changes.  Also note that for many bugs, the
-+solution to the overall problem is not found in a single change, but by
-+the sum of many fixes on top of each other.  Ideally CVEs will be
-+assigned to all fixes for all issues, but sometimes we do not notice
-+fixes in released kernels, so do not assume that because a specific
-+change does not have a CVE assigned to it, that it is not relevant to
-+take.
-+
-diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
-index 6cb732dfcc72..de9cbb7bd7eb 100644
---- a/Documentation/process/index.rst
-+++ b/Documentation/process/index.rst
-@@ -81,6 +81,7 @@ of special classes of bugs: regressions and security problems.
- 
-    handling-regressions
-    security-bugs
-+   cve
-    embargoed-hardware-issues
- 
- Maintainer information
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 692a3ba56cca..132842d8b377 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -99,9 +99,9 @@ CVE assignment
- The security team does not assign CVEs, nor do we require them for
- reports or fixes, as this can needlessly complicate the process and may
- delay the bug handling.  If a reporter wishes to have a CVE identifier
--assigned, they should find one by themselves, for example by contacting
--MITRE directly.  However under no circumstances will a patch inclusion
--be delayed to wait for a CVE identifier to arrive.
-+assigned, after a fix is created and merged into a public tree, they can
-+contact the :doc:`kernel CVE assignment team<../process/cve>` to obtain
-+one.
- 
- Non-disclosure agreements
- -------------------------
--- 
-2.43.1
+> ---
+>  drivers/gpu/drm/rockchip/inno_hdmi.c | 123 ++++++++++++-----------------------
+>  1 file changed, 42 insertions(+), 81 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> index 1d2261643743..d59947679042 100644
+> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> @@ -67,9 +67,7 @@ struct inno_hdmi {
+>  
+>  struct inno_hdmi_connector_state {
+>  	struct drm_connector_state	base;
+> -	unsigned int			enc_out_format;
+>  	unsigned int			colorimetry;
+> -	bool				rgb_limited_range;
+>  };
+>  
+>  static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
+> @@ -257,26 +255,29 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+>  	inno_hdmi_standby(hdmi);
+>  }
+>  
+> -static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
+> -				    enum hdmi_infoframe_type type)
+> +static int inno_hdmi_disable_frame(struct drm_connector *connector,
+> +				   enum hdmi_infoframe_type type)
+>  {
+> -	struct drm_connector *connector = &hdmi->connector;
+> +	struct inno_hdmi *hdmi = connector_to_inno_hdmi(connector);
+>  
+>  	if (type != HDMI_INFOFRAME_TYPE_AVI) {
+>  		drm_err(connector->dev,
+>  			"Unsupported infoframe type: %u\n", type);
+> -		return;
+> +		return 0;
+>  	}
+>  
+>  	hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_BUF_INDEX, INFOFRAME_AVI);
+> +
+> +	return 0;
+>  }
+>  
+> -static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
+> -				  union hdmi_infoframe *frame, enum hdmi_infoframe_type type)
+> +static int inno_hdmi_upload_frame(struct drm_connector *connector,
+> +				  enum hdmi_infoframe_type type,
+> +				  const u8 *buffer, size_t len)
+>  {
+> -	struct drm_connector *connector = &hdmi->connector;
+> +	struct inno_hdmi *hdmi = connector_to_inno_hdmi(connector);
+>  	u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
+> -	ssize_t rc, i;
+> +	ssize_t i;
+>  
+>  	if (type != HDMI_INFOFRAME_TYPE_AVI) {
+>  		drm_err(connector->dev,
+> @@ -284,59 +285,19 @@ static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
+>  		return 0;
+>  	}
+>  
+> -	inno_hdmi_disable_frame(hdmi, type);
+> +	inno_hdmi_disable_frame(connector, type);
+>  
+> -	rc = hdmi_infoframe_pack(frame, packed_frame,
+> -				 sizeof(packed_frame));
+> -	if (rc < 0)
+> -		return rc;
+> -
+> -	for (i = 0; i < rc; i++)
+> +	for (i = 0; i < len; i++)
+>  		hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_ADDR + i,
+>  			    packed_frame[i]);
+>  
+>  	return 0;
+>  }
+>  
+> -static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
+> -				      struct drm_display_mode *mode)
+> -{
+> -	struct drm_connector *connector = &hdmi->connector;
+> -	struct drm_connector_state *conn_state = connector->state;
+> -	struct inno_hdmi_connector_state *inno_conn_state =
+> -					to_inno_hdmi_conn_state(conn_state);
+> -	union hdmi_infoframe frame;
+> -	int rc;
+> -
+> -	rc = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
+> -						      &hdmi->connector,
+> -						      mode);
+> -	if (rc) {
+> -		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_AVI);
+> -		return rc;
+> -	}
+> -
+> -	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444)
+> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV444;
+> -	else if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV422)
+> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV422;
+> -	else
+> -		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
+> -
+> -	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
+> -		drm_hdmi_avi_infoframe_quant_range(&frame.avi,
+> -						   connector, mode,
+> -						   inno_conn_state->rgb_limited_range ?
+> -						   HDMI_QUANTIZATION_RANGE_LIMITED :
+> -						   HDMI_QUANTIZATION_RANGE_FULL);
+> -	} else {
+> -		frame.avi.quantization_range = HDMI_QUANTIZATION_RANGE_DEFAULT;
+> -		frame.avi.ycc_quantization_range =
+> -			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
+> -	}
+> -
+> -	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_AVI);
+> -}
+> +static const struct drm_connector_hdmi_funcs inno_hdmi_hdmi_connector_funcs = {
+> +	.clear_infoframe	= inno_hdmi_disable_frame,
+> +	.write_infoframe	= inno_hdmi_upload_frame,
+> +};
+>  
+>  static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>  {
+> @@ -361,8 +322,8 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>  		v_VIDEO_INPUT_CSP(0);
+>  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL2, value);
+>  
+> -	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
+> -		if (inno_conn_state->rgb_limited_range) {
+> +	if (conn_state->hdmi.output_format == HDMI_COLORSPACE_RGB) {
+> +		if (!conn_state->hdmi.is_full_range) {
+>  			csc_mode = CSC_RGB_0_255_TO_RGB_16_235_8BIT;
+>  			auto_csc = AUTO_CSC_DISABLE;
+>  			c0_c2_change = C0_C2_CHANGE_DISABLE;
+> @@ -380,14 +341,14 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>  		}
+>  	} else {
+>  		if (inno_conn_state->colorimetry == HDMI_COLORIMETRY_ITU_601) {
+> -			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
+> +			if (conn_state->hdmi.output_format == HDMI_COLORSPACE_YUV444) {
+>  				csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
+>  				auto_csc = AUTO_CSC_DISABLE;
+>  				c0_c2_change = C0_C2_CHANGE_DISABLE;
+>  				csc_enable = v_CSC_ENABLE;
+>  			}
+>  		} else {
+> -			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
+> +			if (conn_state->hdmi.output_format == HDMI_COLORSPACE_YUV444) {
+>  				csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
+>  				auto_csc = AUTO_CSC_DISABLE;
+>  				c0_c2_change = C0_C2_CHANGE_DISABLE;
+> @@ -462,10 +423,12 @@ static int inno_hdmi_config_video_timing(struct inno_hdmi *hdmi,
+>  }
+>  
+>  static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+> -			   struct drm_display_mode *mode)
+> +			   struct drm_crtc_state *new_crtc_state,
+> +			   struct drm_connector_state *new_conn_state)
+>  {
+> -	struct drm_display_info *display = &hdmi->connector.display_info;
+> -	unsigned long mpixelclock = mode->clock * 1000;
+> +	struct drm_connector *connector = &hdmi->connector;
+> +	struct drm_display_info *display = &connector->display_info;
+> +	struct drm_display_mode *mode = &new_crtc_state->adjusted_mode;
+>  
+>  	/* Mute video and audio output */
+>  	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+> @@ -479,8 +442,8 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+>  
+>  	inno_hdmi_config_video_csc(hdmi);
+>  
+> -	if (display->is_hdmi)
+> -		inno_hdmi_config_video_avi(hdmi, mode);
+> +	drm_atomic_helper_connector_hdmi_update_infoframes(connector,
+> +							   new_conn_state->state);
+>  
+>  	/*
+>  	 * When IP controller have configured to an accurate video
+> @@ -488,13 +451,13 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+>  	 * DCLK_LCDC, so we need to init the TMDS rate to mode pixel
+>  	 * clock rate, and reconfigure the DDC clock.
+>  	 */
+> -	inno_hdmi_i2c_init(hdmi, mpixelclock);
+> +	inno_hdmi_i2c_init(hdmi, new_conn_state->hdmi.tmds_char_rate);
+>  
+>  	/* Unmute video and audio output */
+>  	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+>  		  v_AUDIO_MUTE(0) | v_VIDEO_MUTE(0));
+>  
+> -	inno_hdmi_power_up(hdmi, mpixelclock);
+> +	inno_hdmi_power_up(hdmi, new_conn_state->hdmi.tmds_char_rate);
+>  
+>  	return 0;
+>  }
+> @@ -546,7 +509,7 @@ static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
+>  	if (WARN_ON(!crtc_state))
+>  		return;
+>  
+> -	inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
+> +	inno_hdmi_setup(hdmi, crtc_state, conn_state);
+>  }
+>  
+>  static void inno_hdmi_encoder_disable(struct drm_encoder *encoder,
+> @@ -563,7 +526,6 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+>  			       struct drm_connector_state *conn_state)
+>  {
+>  	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
+> -	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+>  	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+>  	u8 vic = drm_match_cea_mode(mode);
+>  	struct inno_hdmi_connector_state *inno_conn_state =
+> @@ -580,12 +542,7 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+>  	else
+>  		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
+>  
+> -	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
+> -	inno_conn_state->rgb_limited_range =
+> -		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED;
+> -
+> -	return  inno_hdmi_display_mode_valid(hdmi,
+> -				&crtc_state->adjusted_mode) == MODE_OK ? 0 : -EINVAL;
+> +	return 0;
+>  }
+>  
+>  static struct drm_encoder_helper_funcs inno_hdmi_encoder_helper_funcs = {
+> @@ -662,10 +619,9 @@ static void inno_hdmi_connector_reset(struct drm_connector *connector)
+>  		return;
+>  
+>  	__drm_atomic_helper_connector_reset(connector, &inno_conn_state->base);
+> +	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
+>  
+>  	inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
+> -	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
+> -	inno_conn_state->rgb_limited_range = false;
+>  }
+>  
+>  static struct drm_connector_state *
+> @@ -698,6 +654,7 @@ static const struct drm_connector_funcs inno_hdmi_connector_funcs = {
+>  };
+>  
+>  static struct drm_connector_helper_funcs inno_hdmi_connector_helper_funcs = {
+> +	.atomic_check = drm_atomic_helper_connector_hdmi_check,
+>  	.get_modes = inno_hdmi_connector_get_modes,
+>  	.mode_valid = inno_hdmi_connector_mode_valid,
+>  };
+> @@ -725,10 +682,14 @@ static int inno_hdmi_register(struct drm_device *drm, struct inno_hdmi *hdmi)
+>  
+>  	drm_connector_helper_add(&hdmi->connector,
+>  				 &inno_hdmi_connector_helper_funcs);
+> -	drm_connector_init_with_ddc(drm, &hdmi->connector,
+> -				    &inno_hdmi_connector_funcs,
+> -				    DRM_MODE_CONNECTOR_HDMIA,
+> -				    hdmi->ddc);
+> +	drmm_connector_hdmi_init(drm, &hdmi->connector,
+> +				 "Rockchip", "Inno HDMI",
+> +				 &inno_hdmi_connector_funcs,
+> +				 &inno_hdmi_hdmi_connector_funcs,
+> +				 DRM_MODE_CONNECTOR_HDMIA,
+> +				 hdmi->ddc,
+> +				 BIT(HDMI_COLORSPACE_RGB),
+> +				 8);
+>  
+>  	drm_connector_attach_encoder(&hdmi->connector, encoder);
+>  
+> 
+> 
+
+
+
 
