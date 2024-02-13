@@ -1,120 +1,151 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8636310E;
-	Tue, 13 Feb 2024 22:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6583E627EF
+	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 22:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707864559; cv=none; b=lLDL71mF/gGaJ+uYT/tWcDORvxMTZetx4JfZfOgrb9NM4171ETajiO3FWriEqvFFhC92GTjup8dOPBkm2FUNaUpgqvlem0V4RAE1CnGa7hHC5sVuN4G16hzQx2uhpijERlHDC9bPoaA5eOSe6Fz6TPYU95lEP1WBwBdi8eAJlyI=
+	t=1707864622; cv=none; b=GKjPdpG2ScMYiDZ26viN85Yt186dXsI0kriwFYa6K+fKFdJqoWe8RpgmoJLmKamPmmHHuOvx66LSFCuYk9TmQQntF2K2ryaJjtCNl29x1el8/HIdW7AOUCXnrmvFm9G51P79L7MPu4TvmI266vmvyJHPERMaPz34tPO/tpVWkC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707864559; c=relaxed/simple;
-	bh=jHvv+4ryYbSvF7PPwhAN75HK+TodxoZw2ak0Ibxc0XA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=f9nfOLhtiNRbhKXwnZwDJXRUuoPMzzRHnC+aRa4RW7pqeHkzkoqlKzkbxOnGRmQEKPcg7fylDE82vWfsO87IoZX+Yyi2xn4oZw9rpqDIC7XNqfDeJtLiLI6/ol68ITlVrjVShNOKqKCymwNToEtGigEQXW42DnbRqvbj6FE0Msw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IYveZ237; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1707864622; c=relaxed/simple;
+	bh=mnQeHdgfKd4auHjv2tW4/02mQfMb9y+DoY2fOGMIveo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tmeBLrjQEDrBXHVsiVwHI3yONzGqQItEn5RfRH3sDuNLf+IjPEs0RminWM+EG7H5SUPGXRELbWfc5NN6K6cr+UrjX+LO/hfFDAGFfm9m5/Ff/4nvwt/lKxZu70qspuTKU0VssJYvypHInR2f+Aj+o9WxeG/MMJYCeC/kW0feXgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=d6oZDfuz; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IYveZ237"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41DMNqvB013597;
-	Tue, 13 Feb 2024 22:48:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=kS0BuS/dFc0Sb2CDmjSXKeRKMVaweomB8kr69lr3DUI=; b=IY
-	veZ237BYo3/8kkpCqtX8a0sQz3ISSeSw1tccp3RkOlE6Y43Axf71iYjuE2NSieSv
-	09W7xZATnKZfM+C7VArnuqvb/mqOn8+hfN6Irq8zT7seH9rqT6SAMcGkUu2FCZlF
-	Iprk/CyP+3OLlBJ6gS+QTOsqPHtdI5JD74oarLbPAp8Rs8Wf4ChGdUWXXRJTMSf8
-	aQWUiCHRcr+QQBQPOPQ9bXOB7u5GeOXd7AUq+/CrKHcVQsTRQyNlcat5kB8mndON
-	n1cHkAmUFWFO5DqBIWsyb73MUimvr2IeLhKT/zWMxDS4aAH5cOsWZgwidmCYpwiR
-	dderqNLjSn7fbZJk4sFw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w7yh329ba-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Feb 2024 22:48:37 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41DMma8G004283
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Feb 2024 22:48:36 GMT
-Received: from [10.110.76.255] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 13 Feb
- 2024 14:48:36 -0800
-Message-ID: <289ae266-c1a4-796a-1f87-387d8ec98646@quicinc.com>
-Date: Tue, 13 Feb 2024 14:48:31 -0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="d6oZDfuz"
+Date: Tue, 13 Feb 2024 17:50:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1707864618;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jiv4lM5HdhNU9bAiRFQZPMt1GA0MoNC/u5JMEJbfz1E=;
+	b=d6oZDfuzS9N5a1qMbAKQ6zykd9yi5/xuQTmJuP4NK+YG9v3rNyDZZwDU2xN8Y2FicoJDuR
+	aO5Kuq9UCaA2KN9t39NpZ8EYZI34DD/+bkBS6+86bRfaQK36VndzqUyNd6byW8mhlIELi0
+	1iDpFn6Sx8ce8Gl7n1t1eE2XT/JFYxA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: David Hildenbrand <david@redhat.com>
+Cc: Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	akpm@linux-foundation.org, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
+	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, 
+	dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, 
+	paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com, 
+	yuzhao@google.com, dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-modules@vger.kernel.org, 
+	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Memory allocation profiling
+Message-ID: <r6cmbcmalryodbnlkmuj2fjnausbcysmolikjguqvdwkngeztq@45lbvxjavwb3>
+References: <20240212213922.783301-1-surenb@google.com>
+ <Zctfa2DvmlTYSfe8@tiehlicka>
+ <CAJuCfpEsWfZnpL1vUB2C=cxRi_WxhxyvgGhUg7WdAxLEqy6oSw@mail.gmail.com>
+ <9e14adec-2842-458d-8a58-af6a2d18d823@redhat.com>
+ <2hphuyx2dnqsj3hnzyifp5yqn2hpgfjuhfu635dzgofr5mst27@4a5dixtcuxyi>
+ <6a0f5d8b-9c67-43f6-b25e-2240171265be@redhat.com>
+ <CAJuCfpEtOhzL65eMDk2W5SchcquN9hMCcbfD50a-FgtPgxh4Fw@mail.gmail.com>
+ <adbb77ee-1662-4d24-bcbf-d74c29bc5083@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v15 29/50] ALSA: usb-audio: qcom: Introduce QC USB SND
- offloading support
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
- <20240213005422.3121-30-quic_wcheng@quicinc.com>
- <87wmr8y6hi.wl-tiwai@suse.de>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <87wmr8y6hi.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: CPkrbzsESQIWkFFv2CJithY9DWfBhg74
-X-Proofpoint-GUID: CPkrbzsESQIWkFFv2CJithY9DWfBhg74
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-13_14,2024-02-12_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- mlxlogscore=666 phishscore=0 spamscore=0 malwarescore=0 clxscore=1015
- suspectscore=0 mlxscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402130179
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <adbb77ee-1662-4d24-bcbf-d74c29bc5083@redhat.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Takashi,
-
-On 2/13/2024 2:59 AM, Takashi Iwai wrote:
-> On Tue, 13 Feb 2024 01:54:01 +0100,
-> Wesley Cheng wrote:
->> +static int __init qc_usb_audio_offload_init(void)
->> +{
->> +	struct uaudio_qmi_svc *svc;
->> +	int ret;
->> +
->> +	svc = kzalloc(sizeof(struct uaudio_qmi_svc), GFP_KERNEL);
->> +	if (!svc)
->> +		return -ENOMEM;
->> +
->> +	svc->uaudio_wq = create_singlethread_workqueue("uaudio_svc");
->> +	if (!svc->uaudio_wq) {
->> +		ret = -ENOMEM;
->> +		goto free_svc;
->> +	}
+On Tue, Feb 13, 2024 at 11:48:41PM +0100, David Hildenbrand wrote:
+> On 13.02.24 23:30, Suren Baghdasaryan wrote:
+> > On Tue, Feb 13, 2024 at 2:17 PM David Hildenbrand <david@redhat.com> wrote:
+> > > 
+> > > On 13.02.24 23:09, Kent Overstreet wrote:
+> > > > On Tue, Feb 13, 2024 at 11:04:58PM +0100, David Hildenbrand wrote:
+> > > > > On 13.02.24 22:58, Suren Baghdasaryan wrote:
+> > > > > > On Tue, Feb 13, 2024 at 4:24 AM Michal Hocko <mhocko@suse.com> wrote:
+> > > > > > > 
+> > > > > > > On Mon 12-02-24 13:38:46, Suren Baghdasaryan wrote:
+> > > > > > > [...]
+> > > > > > > > We're aiming to get this in the next merge window, for 6.9. The feedback
+> > > > > > > > we've gotten has been that even out of tree this patchset has already
+> > > > > > > > been useful, and there's a significant amount of other work gated on the
+> > > > > > > > code tagging functionality included in this patchset [2].
+> > > > > > > 
+> > > > > > > I suspect it will not come as a surprise that I really dislike the
+> > > > > > > implementation proposed here. I will not repeat my arguments, I have
+> > > > > > > done so on several occasions already.
+> > > > > > > 
+> > > > > > > Anyway, I didn't go as far as to nak it even though I _strongly_ believe
+> > > > > > > this debugging feature will add a maintenance overhead for a very long
+> > > > > > > time. I can live with all the downsides of the proposed implementation
+> > > > > > > _as long as_ there is a wider agreement from the MM community as this is
+> > > > > > > where the maintenance cost will be payed. So far I have not seen (m)any
+> > > > > > > acks by MM developers so aiming into the next merge window is more than
+> > > > > > > little rushed.
+> > > > > > 
+> > > > > > We tried other previously proposed approaches and all have their
+> > > > > > downsides without making maintenance much easier. Your position is
+> > > > > > understandable and I think it's fair. Let's see if others see more
+> > > > > > benefit than cost here.
+> > > > > 
+> > > > > Would it make sense to discuss that at LSF/MM once again, especially
+> > > > > covering why proposed alternatives did not work out? LSF/MM is not "too far"
+> > > > > away (May).
+> > > > > 
+> > > > > I recall that the last LSF/MM session on this topic was a bit unfortunate
+> > > > > (IMHO not as productive as it could have been). Maybe we can finally reach a
+> > > > > consensus on this.
+> > > > 
+> > > > I'd rather not delay for more bikeshedding. Before agreeing to LSF I'd
+> > > > need to see a serious proposl - what we had at the last LSF was people
+> > > > jumping in with half baked alternative proposals that very much hadn't
+> > > > been thought through, and I see no need to repeat that.
+> > > > 
+> > > > Like I mentioned, there's other work gated on this patchset; if people
+> > > > want to hold this up for more discussion they better be putting forth
+> > > > something to discuss.
+> > > 
+> > > I'm thinking of ways on how to achieve Michal's request: "as long as
+> > > there is a wider agreement from the MM community". If we can achieve
+> > > that without LSF, great! (a bi-weekly MM meeting might also be an option)
+> > 
+> > There will be a maintenance burden even with the cleanest proposed
+> > approach.
 > 
-> Do we need a dedicated workqueue?  I don't mind much, but an own
-> workqueue isn't usually needed unless specifically required such as
-> the request quantity control or isolation.
+> Yes.
 > 
+> > We worked hard to make the patchset as clean as possible and
+> > if benefits still don't outweigh the maintenance cost then we should
+> > probably stop trying.
+> 
+> Indeed.
+> 
+> > At LSF/MM I would rather discuss functonal
+> > issues/requirements/improvements than alternative approaches to
+> > instrument allocators.
+> > I'm happy to arrange a separate meeting with MM folks if that would
+> > help to progress on the cost/benefit decision.
+> Note that I am only proposing ways forward.
+> 
+> If you think you can easily achieve what Michal requested without all that,
+> good.
 
-I think we can remove this.  I checked the QMI interface implementation 
-and looks like they are running all the notifications on its own WQ, so 
-doing duplicate work with queuing to our own WQ here in qc_audio_offload.
-
-Thanks
-Wesley Cheng
+He requested something?
