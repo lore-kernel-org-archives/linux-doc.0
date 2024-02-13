@@ -1,170 +1,115 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sonata.ens-lyon.org (sonata.ens-lyon.org [140.77.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601752BB11;
-	Tue, 13 Feb 2024 10:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE45A38DCD;
+	Tue, 13 Feb 2024 11:53:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.77.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707821996; cv=none; b=ChzDXEUYZDKqCBcM1uroLSFpUmlXnbeBTfB4HS5cRN/x2u0LK77OWJcGVczFcuGSpBUao3PYjrT6n4PtEf/+TteSqJPOE3C6TCWiLyDHonT6WDAT19r4dL7qaiyq+6qb7PJ66d1dyPgJG/qspUuIb1AUDjx5FaGOOsNZHPdJdh8=
+	t=1707825190; cv=none; b=E6NYLH9QyheUMFfyrdSzAxQ55hD1qzbBMweRxiRltOzY3svEhnZSTF6c/xOYS62XrhloiTzUABjFAnDRdqVT/VbB36SzwuQy1Ed4yCDYnLY9Rd5h3Xb3WpQ9w71di2+fZbHerVxfFPenAoxm4UG84057rXCff4lrKZ0uuBtpex4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707821996; c=relaxed/simple;
-	bh=z5rLb6MsNMrDpWRnjctFpUrE7AGtrnX2KDuGHeXO7Ek=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=InMKC/WjJmBFA1bdo8J6Hd0jpXESrGsYAo0HVGkfC64t7VkMUCwL83tRP4UIwTMWMofdMDpqXCjWc2KCF+2oAHf8HQgwAhb3KjVsbHo5/jpkFdViH57ff8QnNfRqtrwpAoemMmqTisihiewgSjyTVy3aoRQny1yfO/dLd7pRgQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nQPWZMsL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=U704wtln; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nQPWZMsL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=U704wtln; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nQPWZMsL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U704wtln";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nQPWZMsL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U704wtln"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	s=arc-20240116; t=1707825190; c=relaxed/simple;
+	bh=fkBcdfRB38Ddw/ZwR2iHOK6nOHVyppNnyNGJz41GirY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wbo7oZmVIm61VtyMsZsoD8htHO4LFKnCsn+s8WbGEUYh0WkN8YD8N5ZecjKjhG07CMEL5l0ZTA3zeWo7mCMeSkkM7DXAuL+Szl1BqT/0CvMDR3LvoIGhJjvrH3xmwEpFx7i8xqqts9j0Mgq0Aj2uVm59qgcp3JlN2wiGpCgH190=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ens-lyon.org; spf=pass smtp.mailfrom=bounce.ens-lyon.org; arc=none smtp.client-ip=140.77.166.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ens-lyon.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bounce.ens-lyon.org
+Received: from localhost (localhost [127.0.0.1])
+	by sonata.ens-lyon.org (Postfix) with ESMTP id 7CFBEA01AB;
+	Tue, 13 Feb 2024 12:53:05 +0100 (CET)
+Received: from sonata.ens-lyon.org ([127.0.0.1])
+	by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IUruqtVTJVN6; Tue, 13 Feb 2024 12:53:05 +0100 (CET)
+Received: from begin (nat-inria-interne-52-gw-01-bso.bordeaux.inria.fr [194.199.1.52])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8C0CB1FCA1;
-	Tue, 13 Feb 2024 10:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707821993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nssWF1i/oSbiQpzptSWDyl0IEP8C/Hz0bw8YG0ty/hY=;
-	b=nQPWZMsLWCEqCIgUH0rwcQ3Luz26DlMH6dNGQuzYmrntsG9tIvn4uhY0EgiwdEkAqE5zUg
-	r8zvr/ohbG9MMe/N8Ffo1Oczy5PlS9YatpC964fkkjiI6Euq7z9SBYeRsxwvL5eMn2D+Ar
-	Hvz9vUqRbleHSMHv5kW0PpoSWV9GI3E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707821993;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nssWF1i/oSbiQpzptSWDyl0IEP8C/Hz0bw8YG0ty/hY=;
-	b=U704wtln6aIUurJC7nEA0jrBRJ7dYOjWgJvYaW9Ay6lVzJEJXmSN25ik06tXw6WiEvVotX
-	gy23pC7EoCMp2gAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707821993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nssWF1i/oSbiQpzptSWDyl0IEP8C/Hz0bw8YG0ty/hY=;
-	b=nQPWZMsLWCEqCIgUH0rwcQ3Luz26DlMH6dNGQuzYmrntsG9tIvn4uhY0EgiwdEkAqE5zUg
-	r8zvr/ohbG9MMe/N8Ffo1Oczy5PlS9YatpC964fkkjiI6Euq7z9SBYeRsxwvL5eMn2D+Ar
-	Hvz9vUqRbleHSMHv5kW0PpoSWV9GI3E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707821993;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nssWF1i/oSbiQpzptSWDyl0IEP8C/Hz0bw8YG0ty/hY=;
-	b=U704wtln6aIUurJC7nEA0jrBRJ7dYOjWgJvYaW9Ay6lVzJEJXmSN25ik06tXw6WiEvVotX
-	gy23pC7EoCMp2gAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4DF1913404;
-	Tue, 13 Feb 2024 10:59:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id h5x7EqlLy2UVcQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 Feb 2024 10:59:53 +0000
-Date: Tue, 13 Feb 2024 11:59:53 +0100
-Message-ID: <87wmr8y6hi.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: <srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<corbet@lwn.net>,
-	<lgirdwood@gmail.com>,
-	<andersson@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>,
-	<gregkh@linuxfoundation.org>,
-	<Thinh.Nguyen@synopsys.com>,
-	<broonie@kernel.org>,
-	<bgoswami@quicinc.com>,
-	<tiwai@suse.com>,
-	<robh+dt@kernel.org>,
-	<konrad.dybcio@linaro.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v15 29/50] ALSA: usb-audio: qcom: Introduce QC USB SND offloading support
-In-Reply-To: <20240213005422.3121-30-quic_wcheng@quicinc.com>
-References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
-	<20240213005422.3121-30-quic_wcheng@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by sonata.ens-lyon.org (Postfix) with ESMTPSA id ED475A01A6;
+	Tue, 13 Feb 2024 12:53:04 +0100 (CET)
+Received: from samy by begin with local (Exim 4.97)
+	(envelope-from <samuel.thibault@ens-lyon.org>)
+	id 1rZrLU-00000007DiE-2ER6;
+	Tue, 13 Feb 2024 12:53:04 +0100
+Date: Tue, 13 Feb 2024 12:53:04 +0100
+From: Samuel Thibault <samuel.thibault@ens-lyon.org>
+To: Tom Parkin <tparkin@katalix.com>
+Cc: James Chapman <jchapman@katalix.com>, edumazet@google.com,
+	gnault@redhat.com, davem@davemloft.net, kuba@kernel.org,
+	pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv4] PPPoL2TP: Add more code snippets
+Message-ID: <20240213115304.3oyqkvkb3oqkauwd@begin>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+	Tom Parkin <tparkin@katalix.com>,
+	James Chapman <jchapman@katalix.com>, edumazet@google.com,
+	gnault@redhat.com, davem@davemloft.net, kuba@kernel.org,
+	pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240212222344.xtv233r5sixme32h@begin>
+ <ZctJnCeUCANJvxGj@katalix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nQPWZMsL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=U704wtln
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-1.76 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLe67txhfobum3fqdb5xx8e3au)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-1.75)[93.51%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[dt];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[23];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: -1.76
-X-Rspamd-Queue-Id: 8C0CB1FCA1
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZctJnCeUCANJvxGj@katalix.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
 
-On Tue, 13 Feb 2024 01:54:01 +0100,
-Wesley Cheng wrote:
-> +static int __init qc_usb_audio_offload_init(void)
-> +{
-> +	struct uaudio_qmi_svc *svc;
-> +	int ret;
-> +
-> +	svc = kzalloc(sizeof(struct uaudio_qmi_svc), GFP_KERNEL);
-> +	if (!svc)
-> +		return -ENOMEM;
-> +
-> +	svc->uaudio_wq = create_singlethread_workqueue("uaudio_svc");
-> +	if (!svc->uaudio_wq) {
-> +		ret = -ENOMEM;
-> +		goto free_svc;
-> +	}
+Tom Parkin, le mar. 13 févr. 2024 10:51:08 +0000, a ecrit:
+> > +        ret = ioctl(session_fd1, PPPIOCGCHAN, &chindx1);
+> > +        if (ret < 0)
+> > +                return -errno;
+> > +
+> > +        ret = ioctl(session_fd2, PPPIOCGCHAN, &chindx2);
+> > +        if (ret < 0)
+> > +                return -errno;
+> > +
+> > +        ppp_chan_fd = open("/dev/ppp", O_RDWR);
+> > +        if (ppp_chan_fd < 0) {
+> > +                return -errno;
+> > +        }
+> > +
+> > +        ret = ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx1);
+> > +        if (ret < 0) {
+> > +                close(ppp_chan_fd);
+> > +                return -errno;
+> > +        }
+> 
+> I think we should drop the PPPIOCATTCHAN ioctl call here.
+> 
+> The input file descriptors are called out as being PPPoX sockets
+> created as described earlier, in which case they should both
+> already be attached to a channel.
+> 
+> It would make more sense IMO to call out the two ppp_chan_fd file
+> descriptors as being input parameters alongside the PPPoX session file
+> descriptors.
+> 
+> > +
+> > +        ret = ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
+> > +        close(ppp_chan_fd);
+> > +        if (ret < 0)
+> > +                return -errno;
+> > +
+> > +It can be noted that in this case no PPP interface is needed, and the PPP
+> > +channel does not need to be kept open.  Only the session PPPoX data sockets need
+> > +to be kept open.
+> 
+> Is it true to say that the PPP channel file descriptors can be closed
+> by userspace?
 
-Do we need a dedicated workqueue?  I don't mind much, but an own
-workqueue isn't usually needed unless specifically required such as
-the request quantity control or isolation.
+In our code we do it
+https://code.ffdn.org/sthibaul/l2tpns/-/blob/kernel/l2tpns.c?ref_type=heads#L1295
+and it works all fine indeed (and avoids that fd per session).
 
+That's actually one of the reason why I made the snipped only take the
+pppox sockets, and make it create the ppp chan fd only temporarily. AIUI
+the pppox socket already has a ppp chan (returned by PPPIOCGCHAN), and
+the ppp chan fd is there only for performing the bridging ioctl.
 
-thanks,
-
-Takashi
+Samuel
