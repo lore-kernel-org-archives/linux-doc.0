@@ -1,101 +1,247 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED465F563
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 15:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0DF5F54F;
+	Tue, 13 Feb 2024 15:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707839134; cv=none; b=pTQRiyeaPaM+qnYXEXcpOvd28vME3XIW9Db3+1OCNgIErahytt1NI/zAt93UKpBnOzPvFktUmhhRKKqEL8rJg+MxdbD4SGFuhVPYwvw1UhSYZG6GXytdKrsTw6oKGK2FbWh+WDHx8qvsgGyD0c3s/d0FZxllbDvz1PNy/qGep0c=
+	t=1707839847; cv=none; b=gOEqrOyrMUgF5IqMPbj2yWM2irr8hpcAn0Xt8q8HOUozxbnKgdr+WSmKHmKH4vUi9oKwu65XTwXgEXm9mB5DzNgcBEr7IJMwLWMscBr6JT+cN7YhvYXKCftULOPkl5LZpkme7HxSV6zcb9juawQ3zg6Rky/7IF+yONz9/jP/9RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707839134; c=relaxed/simple;
-	bh=Mb7cfkVoTPe9SpFqQPiRQCgZRgp43WdceLq+nhIl53M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RPOjNssdY1qHYq7v/AHJYwiEgALpkrVLQxMPKwKHw+YCK42oTfeHCKG+gBiZSJx2gcx9rd8A46Y1nVJMNdVCymuMR9j76C+vN/onQZUMWs/YBBKj7o9GoQXABlRvLDgQOCX9AaRhxT3ghc5FVcTjZMyChFS8wsbIb1M1uJ9zAfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=Vmj1mmLQ reason="key not found in DNS"; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1707839847; c=relaxed/simple;
+	bh=L5HFUuCbgdypUHaFrX7NoMN/dywBS26HbXH/mWMDEAE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ovkInI81FjbDeNd5RJ6igGDJDDb5rZKBYSYxccUjzT20BuqT/vYh66FJDvtBo1ERM0P8wFdz/qMv89DRNt84o3RgqxfjpGkkIvMo1KM6cL85r0cqwVGqeBJqQHiTIOI/ft3KIC8WWYP42ojpeg1+r+pruqGlCr6e0jdr5PFFdrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SsIPWU6J; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="Vmj1mmLQ"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7872614af89so8779785a.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 07:45:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1707839131; x=1708443931; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=r+5lFm1GOYo46btsIaJvA6S/B+CQsp17IG3lccG/v6g=;
-        b=Vmj1mmLQ4yhugjb/lPfx3+kxHd1E/h0Kv5YjC6n1verDh8bforL8WJmTrmhqdYgyPX
-         56y9RZo1Mc5U/mF8FPCurWhd+rExv7UZueNkedhf/F3UMF4+TPDSL5z8wNhEeajGsva1
-         RCpTP8BbUJksyQEqy8waWFK14wWRVqePBgqfNsbDvyEJP5lN8zOpVxyRtyXGGxCqS9c+
-         eqSxQH/KlzMgGlgL+X73aBsTzO3bzsCM6zp8Bgti1AKInfQCsdy01WaodSCDPOx/76N3
-         k9pq74Hhw6oeQhYWQr/K8cMbwAzbnEL8K3HilA2scUgyGNxbQVBZCq4/4ORbpCYcCO5L
-         CfOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707839131; x=1708443931;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r+5lFm1GOYo46btsIaJvA6S/B+CQsp17IG3lccG/v6g=;
-        b=JTeuRwP/eSIqPdR9Xu7vHBZbS2H8TfpuT61aExzOU8i/SWV/2vfIkz+IePqxAnrF0O
-         fxWCJzpEmcn4AXEMyjoGmlce14FK5grF8xJnAxGRXP3r73u8GCCrJurLqTJEU+dyi8na
-         V53IyZAvUbABO5tJ/vOLHyLqZXcnA065c9Cr/a/GffbSzwxUlUMUkOqO9NAscuLPa6UH
-         N7t/uWq0ZxugTLsm+e5evN10QjjGEWutM3dECwIqhEw6MC+eyeo18sSrSpCyGv+94zXD
-         Z1oxEZkOr35bJSIXB+wE0cUmPLe+t0NKRgdmRUWhOZk5xSqCUMY0jeMAtrF6A/CDDzPY
-         mz9w==
-X-Gm-Message-State: AOJu0YyKu7fBrWEVAhYYSIWNBxg5EAbounZuBF/4hgz2m/nbpbu5qmqz
-	3vB9KPzBZz+gVNZqBF4KoBmkGzVPbh6LbKgPBYNMX7klOUxjO+vdXuQBTA7N0GkZ+vGZ5cHsJaZ
-	WpkvPQHTgaR7MGWajpzT0mAKp368mpjThUohVTP0EBIbr8N00hRY=
-X-Google-Smtp-Source: AGHT+IFqChznTFjr/EeidSN571ZA0nQfVJvF+Fp0E+Y2flaP6eNCXc4z1s3ADkdtr1CrUfrPgpTF+9pex3Z052b1w5U=
-X-Received: by 2002:a05:620a:618b:b0:787:1db5:f0de with SMTP id
- or11-20020a05620a618b00b007871db5f0demr2991955qkn.26.1707839131046; Tue, 13
- Feb 2024 07:45:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SsIPWU6J"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 840E2E000F;
+	Tue, 13 Feb 2024 15:57:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1707839836;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xLKrcUWgSnxDEmML8cy4ZQrlK1+oKtedl7yJAvMVDT8=;
+	b=SsIPWU6Jqssq5dl7/9GfrkUzaqLNd6eF8iA+CPIlTZScJjDBNxoIrN7AI9CwOm9WNbmkNv
+	NqkPZbN7Ch1SsE29IVokl/WydXoJC1DmUcN5yKwJZyT/GQtH5xDQZiWFX7lH3NgBCnO+BM
+	1oj5LuzMHiTrzHlvWnzLnU2l+Uz8Q1TgLx53qTxmOkNtgCeQggPu1xmYIACmUVVNansOM9
+	Bmq4ffcmc0z/v3xRCkOqx/zmqA1LKiZ8AqfNLj1dshh5OJLZuQZ6ttLScMHPScZWP6kny2
+	d6xT8s7ApSVVPxb2SS4jJo/L9khL/YSpjF+/VBYHGLGhxwQ1CR6wBq/Rp45K2A==
+Date: Tue, 13 Feb 2024 16:57:12 +0100
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Horatiu Vultur <horatiu.vultur@microchip.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard Cochran
+ <richardcochran@gmail.com>, <UNGLinuxDriver@microchip.com>,
+ <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <thomas.petazzoni@bootlin.com>,
+ =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+Subject: Re: [PATCH net-next 2/3] net: lan966x: Allow using PCH extension
+ for PTP
+Message-ID: <20240213165712.27e0443a@device-28.home>
+In-Reply-To: <20240213103156.rl4kzwpmxn3haz7y@DEN-DL-M31836.microchip.com>
+References: <20240212173307.1124120-1-maxime.chevallier@bootlin.com>
+	<20240212173307.1124120-3-maxime.chevallier@bootlin.com>
+	<20240213103156.rl4kzwpmxn3haz7y@DEN-DL-M31836.microchip.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <20231226200205.562565-11-pasha.tatashin@soleen.com> <20240213131210.GA28926@willie-the-truck>
-In-Reply-To: <20240213131210.GA28926@willie-the-truck>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 13 Feb 2024 10:44:53 -0500
-Message-ID: <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
-Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
-To: Will Deacon <will@kernel.org>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	yu-cheng.yu@intel.com, rientjes@google.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: maxime.chevallier@bootlin.com
 
-> >  SecPageTables
-> > -              Memory consumed by secondary page tables, this currently
-> > -              currently includes KVM mmu allocations on x86 and arm64.
-> > +              Memory consumed by secondary page tables, this currently includes
-> > +              KVM mmu and IOMMU allocations on x86 and arm64.
+Hello Horatiu,
 
-Hi Will,
+On Tue, 13 Feb 2024 11:31:56 +0100
+Horatiu Vultur <horatiu.vultur@microchip.com> wrote:
 
-> While I can see the value in this for IOMMU mappings managed by VFIO,
-> doesn't this end up conflating that with the normal case of DMA domains?
-> For systems that e.g. rely on an IOMMU for functional host DMA, it seems
-> wrong to subject that to accounting constraints.
+> The 02/12/2024 18:33, Maxime Chevallier wrote:
+> > [Some people who received this message don't often get email from maxime.chevallier@bootlin.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]  
+> 
+> Hi Maxime,
+> 
+> I have tried your patches on pcb8291, which is a lan966x without PHYs
+> that support timestamping. And on this platform this patch breaks up the
+> things. Because it should just do the timestamping the MAC in that case,
+> but with this patch it doesn't get any time.
+> The same issue can be reproduced on pcb8280 and then disable PHY
+> timestamping, or change the lan8814 not to support HW timestamping.
+> 
+> Please see bellow the reason why.
 
-The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
-is passed to the iommu mapping functions. We do that from the vfio,
-iommufd, and vhost. Without this flag, the memory useage is reported
-in /proc/meminfo as part of  SecPageTables field, but not constrained
-in cgroup.
+You are entirely correct and I apparently messed-up my series as these
+changes were implemented locally and somehow lost in the rebase. Indeed
+this codes doesn't work at all... I'll resend that, thanks a lot for
+the test and sorry !
 
-Pasha
+> 
+> > 
+> > +/* Enable or disable PCH timestamp transmission. This uses the USGMII PCH
+> > + * extensions to transmit the timestamps in the frame preamble.
+> > + */
+> > +static void lan966x_ptp_pch_configure(struct lan966x_port *port, bool *enable)
+> > +{
+> > +       struct phy_device *phydev = port->dev->phydev;
+> > +       int ret;
+> > +
+> > +       if (!phydev)
+> > +               *enable = false;
+> > +
+> > +       if (*enable) {
+> > +               /* If we cannot enable inband PCH mode, we fallback to classic
+> > +                * timestamping
+> > +                */
+> > +               if (phy_inband_ext_available(phydev, PHY_INBAND_EXT_PCH_TIMESTAMP)) {
+> > +                       ret = phy_inband_ext_enable(phydev, PHY_INBAND_EXT_PCH_TIMESTAMP);
+> > +                       if (ret)
+> > +                               *enable = false;
+> > +               } else {
+> > +                       *enable = false;
+> > +               }
+> > +       } else {
+> > +               phy_inband_ext_disable(phydev, PHY_INBAND_EXT_PCH_TIMESTAMP);
+> > +       }
+> > +
+> > +       lan_rmw(SYS_PCH_CFG_PCH_SUB_PORT_ID_SET(port->chip_port % 4) |
+> > +               SYS_PCH_CFG_PCH_TX_MODE_SET(*enable) |
+> > +               SYS_PCH_CFG_PCH_RX_MODE_SET(*enable),
+> > +               SYS_PCH_CFG_PCH_SUB_PORT_ID |
+> > +               SYS_PCH_CFG_PCH_TX_MODE |
+> > +               SYS_PCH_CFG_PCH_RX_MODE,
+> > +               port->lan966x, SYS_PCH_CFG(port->chip_port));
+> > +}
+> > +
+> >  int lan966x_ptp_hwtstamp_set(struct lan966x_port *port,
+> >                              struct kernel_hwtstamp_config *cfg,
+> >                              struct netlink_ext_ack *extack)
+> >  {
+> >         struct lan966x *lan966x = port->lan966x;
+> > +       bool timestamp_in_pch = false;
+> >         struct lan966x_phc *phc;
+> > 
+> >         switch (cfg->tx_type) {
+> > @@ -303,10 +339,18 @@ int lan966x_ptp_hwtstamp_set(struct lan966x_port *port,
+> >                 return -ERANGE;
+> >         }
+> > 
+> > +       if (cfg->source == HWTSTAMP_SOURCE_PHYLIB &&
+> > +           cfg->tx_type == HWTSTAMP_TX_ON &&
+> > +           port->config.portmode == PHY_INTERFACE_MODE_QUSGMII)
+> > +               timestamp_in_pch = true;
+> > +
+> > +       lan966x_ptp_pch_configure(port, &timestamp_in_pch);
+> > +
+> >         /* Commit back the result & save it */
+> >         mutex_lock(&lan966x->ptp_lock);
+> >         phc = &lan966x->phc[LAN966X_PHC_PORT];
+> >         phc->hwtstamp_config = *cfg;
+> > +       phc->pch = timestamp_in_pch;  
+> 
+> Here we figure out if pch is enabled or not. If the cfg->source is not
+> PHYLIB or the interface is not QUSGMII then timestamp_in_pch will stay
+> false.
+> 
+> >         mutex_unlock(&lan966x->ptp_lock);
+> > 
+> >         return 0;
+> > @@ -397,6 +441,7 @@ int lan966x_ptp_txtstamp_request(struct lan966x_port *port,
+> >         LAN966X_SKB_CB(skb)->jiffies = jiffies;
+> > 
+> >         lan966x->ptp_skbs++;
+> > +  
+> 
+> I think this is just a small style change. So maybe it shouldn't be in
+> here.
+> 
+> >         port->ts_id++;
+> >         if (port->ts_id == LAN966X_MAX_PTP_ID)
+> >                 port->ts_id = 0;
+> > @@ -500,6 +545,27 @@ irqreturn_t lan966x_ptp_irq_handler(int irq, void *args)
+> >                 /* Read RX timestamping to get the ID */
+> >                 id = lan_rd(lan966x, PTP_TWOSTEP_STAMP);
+> > 
+> > +               /* If PCH is enabled, there is a "feature" that also the MAC
+> > +                * will generate an interrupt for transmitted frames. This
+> > +                * interrupt should be ignored, so clear the allocated resources
+> > +                * and try to get the next timestamp. Maybe should clean the
+> > +                * resources on the TX side?
+> > +                */
+> > +               if (phy_inband_ext_enabled(port->dev->phydev,
+> > +                                          PHY_INBAND_EXT_PCH_TIMESTAMP)) {
+> > +                       spin_lock(&lan966x->ptp_ts_id_lock);
+> > +                       lan966x->ptp_skbs--;
+> > +                       spin_unlock(&lan966x->ptp_ts_id_lock);
+> > +
+> > +                       dev_kfree_skb_any(skb_match);
+> > +
+> > +                       lan_rmw(PTP_TWOSTEP_CTRL_NXT_SET(1),
+> > +                               PTP_TWOSTEP_CTRL_NXT,
+> > +                               lan966x, PTP_TWOSTEP_CTRL);
+> > +
+> > +                       continue;
+> > +               }
+> > +
+> >                 spin_lock_irqsave(&port->tx_skbs.lock, flags);
+> >                 skb_queue_walk_safe(&port->tx_skbs, skb, skb_tmp) {
+> >                         if (LAN966X_SKB_CB(skb)->ts_id != id)
+> > @@ -1088,19 +1154,27 @@ void lan966x_ptp_rxtstamp(struct lan966x *lan966x, struct sk_buff *skb,
+> >         struct timespec64 ts;
+> >         u64 full_ts_in_ns;
+> > 
+> > +       phc = &lan966x->phc[LAN966X_PHC_PORT];
+> > +
+> >         if (!lan966x->ptp ||
+> > -           !lan966x->ports[src_port]->ptp_rx_cmd)
+> > +           !lan966x->ports[src_port]->ptp_rx_cmd ||
+> > +           !phc->pch)  
+> 
+> And here because phc->pch is false, it would just return.
+> Meaning that it would never be able to get the time.
+> I presume that this check should not be modified.
+
+Dammit you are right and I had these modifications locally, but
+apparently I messed my rebase and lost that... 
+
+> 
+> >                 return;
+> > 
+> > -       phc = &lan966x->phc[LAN966X_PHC_PORT];
+> > -       lan966x_ptp_gettime64(&phc->info, &ts);
+> > -
+> > -       /* Drop the sub-ns precision */
+> > -       timestamp = timestamp >> 2;
+> > -       if (ts.tv_nsec < timestamp)
+> > -               ts.tv_sec--;
+> > -       ts.tv_nsec = timestamp;
+> > -       full_ts_in_ns = ktime_set(ts.tv_sec, ts.tv_nsec);
+> > +       if (phc->pch) {
+> > +               /* Drop the sub-ns precision */
+> > +               timestamp = timestamp >> 2;
+> > +               full_ts_in_ns = lower_32_bits(timestamp);
+> > +       } else {
+> > +               lan966x_ptp_gettime64(&phc->info, &ts);
+> > +
+> > +               /* Drop the sub-ns precision */
+> > +               timestamp = timestamp >> 2;
+> > +               if (ts.tv_nsec < timestamp)
+> > +                       ts.tv_sec--;
+> > +               ts.tv_nsec = timestamp;
+> > +               full_ts_in_ns = ktime_set(ts.tv_sec, ts.tv_nsec);
+> > +       }  
+>  
+> 
+
+
+Thanks for the review and analysis Horatiu, and sorry for this hiccup !
+
+Maxime
