@@ -1,321 +1,83 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4490626BC
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 21:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63926627E3
+	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 21:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707858705; cv=none; b=bdD1PHm1ZYwh7d/znxwmQG3YzVFaTj4lxLc9mZ7pWUnDJ2sqckWpzSEXf7SzoYR6O46LZdtbZ3rMJg4Jwe9bBNv6sx8vfMLYEBvgF+lQruulOLzoaDBZtDXISAa/yRVtjOyF+fVZg050nqbWOCio5rRF+Sxxm30u4Ik2tkX7/Ag=
+	t=1707860422; cv=none; b=uYYfmP9LP1iRFGWR/COBMfMj5+XvZH3/GWIaAZB9a0ipD2pz8o9I1pezFbRYuvmQl4ALP4cKP+hsBFh1feOEY1t+ggre7/1auueIY63MSSAiJQW2XB0Rzb+0b74xG6hRSLugpjd3EpN/qTg6QSd2R9RK20kS4IPbma14ukzKpXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707858705; c=relaxed/simple;
-	bh=8PgonvMIbvrH9MSbhuItBe3sWcnPc7IU56AmceLpoEw=;
+	s=arc-20240116; t=1707860422; c=relaxed/simple;
+	bh=dbFTyn7f3Bl53OcK8D9X/nWjgslx47eYuZAqktCtuuk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iyZSODGAoYPaYpp5Ku0oVXVvmU8YoZE160mkaxA97qzF0cq65gdIQp0kjrh+ZuVNU1Lvcd1kV/KEh5p4GLMsAuxmcLoEnFK3GqPith0wuOkLoZ2ImnLNTc4uciGkHubjzXibzcghX0PGMdynn6ETVkewXHTRc7iK/gHB+lJ0haY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3qw+DHL3; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=ZjBPk4NsGs7i1AeSmT8hgoNZ0WXEeZgqJmraod6BpYnElqlAxbVGZKWfEWYDVVExOchqvrJprDSrgsHveQMDijVKQqcz7+91PqbIgNZ0pv55V/fwP2kFR79M1oH2aqVaTAPHLPKwOyLSHYYOnvxOgAJtwJLcvS+VdaZnBKz0bWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nu+rDl5z; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3qw+DHL3"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3832ef7726so574737066b.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 13:11:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nu+rDl5z"
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc745927098so4075169276.3
+        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 13:40:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707858701; x=1708463501; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1707860419; x=1708465219; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zsOIUemMTVXHoEVROLysOcQX18quXE3mcOSmusaiTVU=;
-        b=3qw+DHL3WKlvdWe731UgqTCdG+qi223RsObe3z8CUbETTRm40/NN6mBjH9dyNhgr5g
-         s33N2CJFc+rqmBDXPEqp1KSyPW8W2LMKeGsrgtN8m9F4+AZBS1GiPhBk73x4Po73Ug1z
-         ghvS03vAElxM0Ms8sO62V0tRLtk/6tnozaNNfNNYN1NGGj+qvBdNh70xCj0EIvwg1LBI
-         o148syW51Ot0cGQdz0rlPhjYAmhNxxf4TbCdrHIvglxbE1M/2+B2q3GZuB6YP1S8lZjr
-         LkBH0EFmodTlsm4KnccJYrPjlq0NCH1D3nDjfCEfEQ/88RtrGhpZgh66F8SUReet9Eqi
-         P68A==
+        bh=dbFTyn7f3Bl53OcK8D9X/nWjgslx47eYuZAqktCtuuk=;
+        b=Nu+rDl5zo4iTrqjqPj78xjkzT4cMscx1PPubPBWe5N2cMjjLIDO18lFH3dM1JFSKZq
+         26UjzIah0cH/OWRiTC0v2MkcZ3kh8jFe6Nlwtqfe3yS7f2EmM8iPK64w3r05XpiJxnNh
+         RcjkbuHwbZxK+J1HqDufXLVPgSXUQ29zYnFPWGti6W7VxOgddSZcfIBHjTpHg6wpQ4Rs
+         CWQU0ydzXJNutGwSBXpJWpJ8ETw40aPHfruES92QxaBFcp90uiR8oOQRhAPE24GfTRGb
+         z2LpAPJ3LVxEoRrd5o3OczWvjTD9cQpM62f2ZRG1qjiNpY+Z4snzZ+N/X4Z5j2jxhcH8
+         rVIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707858701; x=1708463501;
+        d=1e100.net; s=20230601; t=1707860419; x=1708465219;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zsOIUemMTVXHoEVROLysOcQX18quXE3mcOSmusaiTVU=;
-        b=rIgsc/bhso7K1tLyR9yxlXE1AYpKDmWFGx81gj3Nu2wf8OsC+cSFD1kN7RdJhdSMDT
-         pze39PthmFuJQYy6hKQt7cAvEGnDmflbt1TYs23rzoGEYAocdAQNNNT8ptxEss8wcf8N
-         /ENhzZCkNKwVvhkShQo9CVMb7oZpInVpjx9HoMqRPUHKGJvxE09Hzh/nAcaBCVSz+SOd
-         meEHtVqCnvQRx86ZUxfI9cEKd3O6l4DRuyfV/94xpzEYcxHOqqYp/a8Jf+nuVtWtoVEO
-         5wVDRzJ+lT62jWDjC/PG5lQhhm5e8vEQmZvUMSiKdPS/2uRPwfiuYJR9ga6tdIfg4CRr
-         EZYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX6XPQS8mlm53rkTRFcLWEbCqO3dj+FcNmGyFoS+YvWhE/eVtxgTmeASFBWXqaWr3sFTOUktUX4pCuO+G98gML5dTWsIvdJSqaz
-X-Gm-Message-State: AOJu0YwyxXg63emj52AR7G/1o7S4UCo1HeiMs5RCN3f2Rufu/R49YPQ8
-	TZZpcvCv71SkuM5xcPLapwuFLYeWt4vebCQAdSh2zC8lA3CqxcaPo7WXDoohj9Fiug/lFpDSGkt
-	PekELqbGwu8QaIO5ZKEO2c2UbmeGzt/d4GjY5
-X-Google-Smtp-Source: AGHT+IExITBQize1fGZuvy7b+0mnYFOUMkpqQ+6ifMmjq7oa8jqrG3qPbdpWEJmCURVq8IK8JranwyOGOl5XdgYpzX0=
-X-Received: by 2002:a17:906:8410:b0:a3c:eb18:8a4d with SMTP id
- n16-20020a170906841000b00a3ceb188a4dmr349416ejx.62.1707858700745; Tue, 13 Feb
- 2024 13:11:40 -0800 (PST)
+        bh=dbFTyn7f3Bl53OcK8D9X/nWjgslx47eYuZAqktCtuuk=;
+        b=Zig2jrTeNbUkeowp9TZ0vztRA+NwvnkRy0g3QYmKiTa48Kh7r9H0ehIrQ52ke4afdl
+         HZD0vWdLxzTWFrK9eV1QDmb9UzzaMc4krtzlXoWTwVZKb5AVO1wukseEvOgQw0O1q+x1
+         +FD5XDi+HDYMaKqyyiYEkUoYOcmRnl2nWGox2hIVyaFREEKAi52m9hq0A0BL0Fnt+1Wq
+         6XSMIMLd0CHqgC8CF55lIHSh/E+nEOYamBE/xKPFLQKyo6BNPqyZuQN7hunthu7cISd6
+         B8aTjV/6J8Gcusp9SxR/mKNQPhib1JKnBtSoTCkqjLhkh3dFoMk4xXnixl++HzHdsncs
+         12DA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyb7IRekzpjtqE9EEhGz7WFJQ0nBHzFyASKG0GrrpIs3sA2k1XGbU+tDwMYalN2wGv3OsesJv2oA5Rr1ZL7knO0MQ3SD2IQVry
+X-Gm-Message-State: AOJu0Yz2wzm3Fc48QyJtKmgDNctYt+hN9pccc+Qz78eyQkF7uwI7D16l
+	JMwZhfYjSVNKkvhVlIIDyFQxE66dm7gb39D6hGuM4RzRlcrFAGfwC7dagnfVtyBaCG64n8u8YzZ
+	6AoC9+L2/BTDKN8h/HF/v0zThTUfJi0aYO8KAZQ==
+X-Google-Smtp-Source: AGHT+IG+DrTkq+6t5fDsH9BhBPiao8mavkN9+7BGb5kbh070ERv4KU9R3wW6RVskOso+QLGC3mPrRgt0YTpbyg4aQl0=
+X-Received: by 2002:a25:ac18:0:b0:dcc:787:e8f9 with SMTP id
+ w24-20020a25ac18000000b00dcc0787e8f9mr426631ybi.51.1707860419256; Tue, 13 Feb
+ 2024 13:40:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231218024024.3516870-1-almasrymina@google.com>
- <20231218024024.3516870-8-almasrymina@google.com> <3374356e-5f4b-4a6f-bb19-8cb7c56103bc@gmail.com>
-In-Reply-To: <3374356e-5f4b-4a6f-bb19-8cb7c56103bc@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 13 Feb 2024 13:11:28 -0800
-Message-ID: <CAHS8izO2zARuMovrYU3kdwSXsQAM6+SajQjDT3ckSvVOfHwaCQ@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v5 07/14] page_pool: devmem support
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
-	John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240213141222.382457-1-warthog618@gmail.com>
+In-Reply-To: <20240213141222.382457-1-warthog618@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 13 Feb 2024 22:40:08 +0100
+Message-ID: <CACRpkdYGTay1s=yK6nWXar-AoVzyZhd=i-h2Ff9xdH7_CO=gdA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: gpio: consistent use of logical line value terminology
+To: Kent Gibson <warthog618@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, brgl@bgdev.pl, andy@kernel.org, corbet@lwn.net
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 13, 2024 at 5:28=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
-com> wrote:
+On Tue, Feb 13, 2024 at 3:12=E2=80=AFPM Kent Gibson <warthog618@gmail.com> =
+wrote:
+
+> Consistently use active/inactive to describe logical line values, rather
+> than high/low, which is used for physical values, or asserted/de-asserted
+> which is awkward.
 >
-> On 12/18/23 02:40, Mina Almasry wrote:
-> > Convert netmem to be a union of struct page and struct netmem. Overload
-> > the LSB of struct netmem* to indicate that it's a net_iov, otherwise
-> > it's a page.
-> >
-> > Currently these entries in struct page are rented by the page_pool and
-> > used exclusively by the net stack:
-> >
-> > struct {
-> >       unsigned long pp_magic;
-> >       struct page_pool *pp;
-> >       unsigned long _pp_mapping_pad;
-> >       unsigned long dma_addr;
-> >       atomic_long_t pp_ref_count;
-> > };
-> >
-> > Mirror these (and only these) entries into struct net_iov and implement
-> > netmem helpers that can access these common fields regardless of
-> > whether the underlying type is page or net_iov.
-> > Implement checks for net_iov in netmem helpers which delegate to mm
-> > APIs, to ensure net_iov are never passed to the mm stack.
-> >
-> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >
-> > ---
-> >
-> > RFCv5:
-> > - Use netmem instead of page* with LSB set.
-> > - Use pp_ref_count for refcounting net_iov.
-> > - Removed many of the custom checks for netmem.
-> >
-> > v1:
-> > - Disable fragmentation support for iov properly.
-> > - fix napi_pp_put_page() path (Yunsheng).
-> > - Use pp_frag_count for devmem refcounting.
-> >
-> > ---
-> >   include/net/netmem.h            | 145 ++++++++++++++++++++++++++++++-=
--
-> >   include/net/page_pool/helpers.h |  25 +++---
-> >   net/core/page_pool.c            |  26 +++---
-> >   net/core/skbuff.c               |   9 +-
-> >   4 files changed, 164 insertions(+), 41 deletions(-)
-> >
-> > diff --git a/include/net/netmem.h b/include/net/netmem.h
-> > index 31f338f19da0..7557aecc0f78 100644
-> > --- a/include/net/netmem.h
-> > +++ b/include/net/netmem.h
-> > @@ -12,11 +12,47 @@
-> >
-> >   /* net_iov */
-> >
-> > +DECLARE_STATIC_KEY_FALSE(page_pool_mem_providers);
-> > +
-> > +/*  We overload the LSB of the struct page pointer to indicate whether=
- it's
-> > + *  a page or net_iov.
-> > + */
-> > +#define NET_IOV 0x01UL
-> > +
-> >   struct net_iov {
-> > +     unsigned long __unused_padding;
-> > +     unsigned long pp_magic;
-> > +     struct page_pool *pp;
-> >       struct dmabuf_genpool_chunk_owner *owner;
-> >       unsigned long dma_addr;
-> > +     atomic_long_t pp_ref_count;
-> >   };
->
-> I wonder if it would be better to extract a common sub-struct
-> used in struct page, struct_group_tagged can help to avoid
-> touching old code:
->
-> struct page {
->         unsigned long flags;
->         union {
->                 ...
->                 struct_group_tagged(<struct_name>, ...,
->                         /**
->                          * @pp_magic: magic value to avoid recycling non
->                          * page_pool allocated pages.
->                          */
->                         unsigned long pp_magic;
->                         struct page_pool *pp;
->                         unsigned long _pp_mapping_pad;
->                         unsigned long dma_addr;
->                         atomic_long_t pp_ref_count;
->                 );
->         };
-> }
->
-> struct net_iov {
->         unsigned long pad;
->         struct <struct_name> p;
-> };
->
->
-> A bit of a churn with the padding and nesting net_iov but looks
-> sturdier. No duplication, and you can just check positions of the
-> structure instead of per-field NET_IOV_ASSERT_OFFSET, which you
-> have to not forget to update e.g. when adding a new field. Also,
+> Signed-off-by: Kent Gibson <warthog618@gmail.com>
 
-Yes, this is nicer. If possible I'll punt it to a minor cleanup as a
-follow up change. Logistically I think if this series need-not touch
-code outside of net/, that's better.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-> with the change __netmem_clear_lsb can return a pointer to that
-> structure, casting struct net_iov when it's a page is a bit iffy.
->
-> And the next question would be whether it'd be a good idea to encode
-> iov vs page not by setting a bit but via one of the fields in the
-> structure, maybe pp_magic.
->
-
-I will push back against this, for 2 reasons:
-
-1. I think pp_magic's first 2 bits (and maybe more) are used by mm
-code and thus I think extending usage of pp_magic in this series is a
-bit iffy and I would like to avoid it. I just don't want to touch the
-semantics of struct page if I don't have to.
-2. I think this will be a measurable perf regression. Currently we can
-tell if a pointer is a page or net_iov without dereferencing the
-pointer and dirtying the cache-line. This will cause us to possibly
-dereference the pointer in areas where we don't need to. I think I had
-an earlier version of this code that required a dereference to tell if
-a page was devmem and Eric pointed to me it was a perf regression.
-
-I also don't see any upside of using pp_magic, other than making the
-code slightly more readable, maybe.
-
-> With that said I'm a bit concerned about the net_iov size. If each
-> represents 4096 bytes and you're registering 10MB, then you need
-> 30 pages worth of memory just for the iov array. Makes kvmalloc
-> a must even for relatively small sizes.
->
-
-This I think is an age-old challenge with pages. 1.6% of the machine's
-memory is 'wasted' on every machine because a struct page needs to be
-allocated for each PAGE_SIZE region. We're running into the same issue
-here where if we want to refer to PAGE_SIZE regions of memory we need
-to allocate some reference to it. Note that net_iov can be relatively
-easily extended to support N order pages. Also note that in the devmem
-TCP use case it's not really an issue; the minor increase in mem
-utilization is more than offset by the saving in memory bw as compared
-to using host memory as a bounce buffer. All in all I vote this is
-something that can be tuned or improved in the future if someone finds
-the extra memory usage a hurdle to using devmem TCP or this net_iov
-infra.
-
-> And the final bit, I don't believe the overlay is necessary in
-> this series. Optimisations are great, but this one is a bit more on
-> the controversial side. Unless I missed something and it does make
-> things easier, it might make sense to do it separately later.
->
-
-I completely agree, the overlay is not necessary. I implemented the
-overlay in response to Yunsheng's  strong requests for more 'unified'
-processing between page and devmem. This is the most unification I can
-do IMO without violating the requirements from Jason. I'm prepared to
-remove the overlay if it turns out controversial, but so far I haven't
-seen any complaints. Jason, please do take a look if you have not
-already.
-
->
-> > +/* These fields in struct page are used by the page_pool and net stack=
-:
-> > + *
-> > + *   struct {
-> > + *           unsigned long pp_magic;
-> > + *           struct page_pool *pp;
-> > + *           unsigned long _pp_mapping_pad;
-> > + *           unsigned long dma_addr;
-> > + *           atomic_long_t pp_ref_count;
-> > + *   };
-> > + *
-> > + * We mirror the page_pool fields here so the page_pool can access the=
-se fields
-> > + * without worrying whether the underlying fields belong to a page or =
-net_iov.
-> > + *
-> > + * The non-net stack fields of struct page are private to the mm stack=
- and must
-> > + * never be mirrored to net_iov.
-> > + */
-> > +#define NET_IOV_ASSERT_OFFSET(pg, iov)             \
-> > +     static_assert(offsetof(struct page, pg) =3D=3D \
-> > +                   offsetof(struct net_iov, iov))
-> > +NET_IOV_ASSERT_OFFSET(pp_magic, pp_magic);
-> > +NET_IOV_ASSERT_OFFSET(pp, pp);
-> > +NET_IOV_ASSERT_OFFSET(dma_addr, dma_addr);
-> > +NET_IOV_ASSERT_OFFSET(pp_ref_count, pp_ref_count);
-> > +#undef NET_IOV_ASSERT_OFFSET
-> > +
-> >   static inline struct dmabuf_genpool_chunk_owner *
-> >   net_iov_owner(const struct net_iov *niov)
-> >   {
-> > @@ -47,19 +83,25 @@ net_iov_binding(const struct net_iov *niov)
-> >   struct netmem {
-> >       union {
-> >               struct page page;
-> > -
-> > -             /* Stub to prevent compiler implicitly converting from pa=
-ge*
-> > -              * to netmem_t* and vice versa.
-> > -              *
-> > -              * Other memory type(s) net stack would like to support
-> > -              * can be added to this union.
-> > -              */
-> > -             void *addr;
-> > +             struct net_iov niov;
-> >       };
-> >   };
-> >
-> ...
->
-> --
-> Pavel Begunkov
-
-
-
---
-Thanks,
-Mina
+Yours,
+Linus Walleij
