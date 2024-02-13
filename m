@@ -1,112 +1,155 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623393FE47
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 12:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+Received: from mail.katalix.com (mail.katalix.com [3.9.82.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E633C490;
+	Tue, 13 Feb 2024 12:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.9.82.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707828513; cv=none; b=cZR3oFokkRtttV8a9pdik9YQxeqbF6XaBaEe2vRT6HhmJhw+J0w1G6sITPgifcZaLX+PzRQyh/cJ4GkgTMAtgL83SZtAqZuaVUh4BQwdiv9bVACtyVUZERNaG2ydTogy/M7wDqDWpl/iVJf140Cid1yM9+VW+H7zYazzeaihr7E=
+	t=1707829123; cv=none; b=DGop41xxoSyjLUpQ08XiigcijyOXf3AuccJJfPNONse6QeMCWlJq5euedc4mmemEdhcxfni0tMrViUYAf2ifh/sTporE9mifavgBgata4d0H6uZudoLf9DdrKVw482LszkL+C5fFq3dSMHnIj5INTM98fd5D4VEnnOheEdF03eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707828513; c=relaxed/simple;
-	bh=OVKbyXJQFDYDCCsL63HkX198El9Zx1cnDLATPznODpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oFBMOXex5QB0eWN/pHHhhbeVP2CCkhqL8NhQVgcMcoZPsUsipOyyJld8J2ksbgWQDWM6aGlhAZO2tOgWCFMVxLFso1zdsCoiX7sOLfKqYTOLsNQlBefAt3UYCXSld/MQRQJDvOMX76Nk/tclkcqrP+FCQmcISIWxv2lSxO/54rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=SokMTIAY; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1707829123; c=relaxed/simple;
+	bh=8aKCQmHWe7W7w4cdBjfprF7BEjuAl+nGvi4s02wY+14=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mK321rivEIN3QWHnppUqXcfFBcT6S6OeKmncIj3A5t/rfS5WIXe5kp30G6lfw8QDCBfjhS54a3acfyLjGjuO6kI8WmgNtpjbRr1JQzilAen2F4lo8yYPlJWnOpd3tpjY7rou/dhk2ql1LhXIPqBHqf2177qY6AxOZkZvq/BfvUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com; spf=pass smtp.mailfrom=katalix.com; dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b=PC2o7VK+; arc=none smtp.client-ip=3.9.82.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=katalix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="SokMTIAY"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4114e0a2936so12270755e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 04:48:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1707828509; x=1708433309; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QUWoCWYTZG96LeGW2I5Svh729PgyYJVN4VDPaXkoaYc=;
-        b=SokMTIAYSrusSqHoKx2qZbYg2FokZJxjwNfM0yuQ3wmTiyyDk6meolS/giQR7UVFML
-         ZeTLQ7hDbo5TmsKc7HaUit5y+26gbN6ctWxfjvKbrDwm1jZb4uef3AcXviOq0S9Rov1R
-         ayhTkIAHuCYySJtqcX5HEhgDSMuSNWHNs0llz0WHPDf7Bf5r7Ixlfezk+lmBev/MeLXj
-         aT0ecu1w7Rs4Nj2vkamxdCIzbiaSJxUPP39tkSbfocA+nTjXwl4WEmnB4pNp1oVtpOYk
-         Ou9J3FEtuxynvyKkSXIGQ/xCJc04/WTeLNub1d0jhUFEbOnwJwHOlM2zCpajNqunUZM1
-         1jLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707828509; x=1708433309;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QUWoCWYTZG96LeGW2I5Svh729PgyYJVN4VDPaXkoaYc=;
-        b=iZwI93Y2DRw9LsxvjdZnN0yu+ITX5Copa06oqWUtawQY5NYA8HOvAIXmsxy/p9OcRZ
-         9SnuOqR5K9Kkrdz6x0PncC2YkViH156n7hmMmE2tNL+zbFtVrDFH2e22+zxx1s/A9b98
-         t5mRw1uTuaUku/OHrwEU/1sRo5NsmfgdTrxV8fT6xIDL85QWr6TjYcbqw+OI6M+xWtK7
-         rrnbazcUgXDeYsyowLdlCdgRJpHm8JSe3Am6dfqaonv3ZGaH2ZBwMEXMcQevrN9RN0Ht
-         cyI/nX0JrfG1CRH69+ZrCwoc03fhqorVhY8QNUS8unSAXbw3Ofv3JrLw8oPOP9qRrzkJ
-         6IEw==
-X-Gm-Message-State: AOJu0YyQHtNZ3MMWDkjIHyVYG4Z0TT4RBHziAfmSEXzMgEBLXq01MGKb
-	HiZnCINhVwbZp8CgYLwntDx0uFlltJCi/CPcd3Wt510WxXUOfFBez4JqD6oV7SE=
-X-Google-Smtp-Source: AGHT+IEG6zMMDgBfDbjQExu2oik6ONkv41vr28X+1JREqFdotpobj7c+rm569A9jlVKjt7LADMNgyA==
-X-Received: by 2002:a05:600c:470d:b0:40e:dbdf:9fb4 with SMTP id v13-20020a05600c470d00b0040edbdf9fb4mr8713030wmo.23.1707828508841;
-        Tue, 13 Feb 2024 04:48:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUFb08DhvqPTMElbd+VWJ5jyVDDEYkPSArk9WGE1wNTu2MxMwvaod2VTlYYQJn/ZNfVZqr+09shDGK1ERIbeaWlm7rvgWJfQ0oQCkTCFBUUcLHS/TWJsdTtXt04ydkGIfcBud/3wESDp19rkZpbPNe8kBPpHlSD8Gp+YW0cnOGpaR8n1Ur7Sc5XzvC2hGoYoaI3E34E/ZGwaK+ZINnwv7yDp/GHso5qQH21gfeaj/p+YBud4QRL3be9eH+Me0Os6CfVnO1LYc3OuKxXviUJnqD3QQMRvsJH5E05UgDIm0U6vtXBsEGVeFlRBDE5K8Yt04RucbJCtmUAoMZC5qXKyC71
-Received: from localhost ([193.47.165.251])
-        by smtp.gmail.com with ESMTPSA id bj8-20020a0560001e0800b0033b3ca3a255sm9496470wrb.19.2024.02.13.04.48.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 04:48:28 -0800 (PST)
-Date: Tue, 13 Feb 2024 13:48:25 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Breno Leitao <leitao@debian.org>, donald.hunter@redhat.com
-Subject: Re: [PATCH net-next v5 06/13] doc/netlink/specs: Add sub-message
- type to rt_link family
-Message-ID: <ZctlGYoynt1nMJdb@nanopsycho>
-References: <20231215093720.18774-1-donald.hunter@gmail.com>
- <20231215093720.18774-7-donald.hunter@gmail.com>
+	dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b="PC2o7VK+"
+Received: from localhost (unknown [IPv6:2a02:8012:909b:0:eaae:9bde:cb7b:6924])
+	(Authenticated sender: tom)
+	by mail.katalix.com (Postfix) with ESMTPSA id B20027D5C1;
+	Tue, 13 Feb 2024 12:58:40 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=katalix.com; s=mail;
+	t=1707829120; bh=8aKCQmHWe7W7w4cdBjfprF7BEjuAl+nGvi4s02wY+14=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Disposition:In-Reply-To:From;
+	z=Date:=20Tue,=2013=20Feb=202024=2012:58:40=20+0000|From:=20Tom=20P
+	 arkin=20<tparkin@katalix.com>|To:=20Samuel=20Thibault=20<samuel.th
+	 ibault@ens-lyon.org>,=0D=0A=09James=20Chapman=20<jchapman@katalix.
+	 com>,=20edumazet@google.com,=0D=0A=09gnault@redhat.com,=20davem@da
+	 vemloft.net,=20kuba@kernel.org,=0D=0A=09pabeni@redhat.com,=20corbe
+	 t@lwn.net,=20netdev@vger.kernel.org,=0D=0A=09linux-doc@vger.kernel
+	 .org,=20linux-kernel@vger.kernel.org|Subject:=20Re:=20[PATCHv4]=20
+	 PPPoL2TP:=20Add=20more=20code=20snippets|Message-ID:=20<ZctngNzLYe
+	 /+Iman@katalix.com>|References:=20<20240212222344.xtv233r5sixme32h
+	 @begin>=0D=0A=20<ZctJnCeUCANJvxGj@katalix.com>=0D=0A=20<2024021311
+	 5304.3oyqkvkb3oqkauwd@begin>|MIME-Version:=201.0|Content-Dispositi
+	 on:=20inline|In-Reply-To:=20<20240213115304.3oyqkvkb3oqkauwd@begin
+	 >;
+	b=PC2o7VK+pdQcwYecedvvUXAqJZqbT1Wyw9PKS4f0OmBIKD3C7N9R35HH7t49gQ3TU
+	 NLMHjXHfYjIIm1YCRVW/wsW8flkgJ0hVUMF4bUTyCGQ9I9DSR4Wtw1zHEOXGCoqhuQ
+	 vzBQAr9FtNFrLQkSHydEFMam5O2Q9xvRWUbazeGk6GpV6c2SNG0+w9WmDpZPJlBtNG
+	 vXa0l5930XvXIC04ii8Nir67n2h5sE6FrR86GusTELOD1ofTCsYz365csyKsKwTz8e
+	 pK2x9mTlxCtcdH9i3zsfCG0DR6tGeU7jPyn9Sh9gyhgo/ft3lyOrVrsi0gDdW+xyfz
+	 Dzf2FbwYktyeA==
+Date: Tue, 13 Feb 2024 12:58:40 +0000
+From: Tom Parkin <tparkin@katalix.com>
+To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+	James Chapman <jchapman@katalix.com>, edumazet@google.com,
+	gnault@redhat.com, davem@davemloft.net, kuba@kernel.org,
+	pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv4] PPPoL2TP: Add more code snippets
+Message-ID: <ZctngNzLYe/+Iman@katalix.com>
+References: <20240212222344.xtv233r5sixme32h@begin>
+ <ZctJnCeUCANJvxGj@katalix.com>
+ <20240213115304.3oyqkvkb3oqkauwd@begin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="G2qaJ+yw4/XCnyb6"
 Content-Disposition: inline
-In-Reply-To: <20231215093720.18774-7-donald.hunter@gmail.com>
-
-Fri, Dec 15, 2023 at 10:37:13AM CET, donald.hunter@gmail.com wrote:
-
-[...]
+In-Reply-To: <20240213115304.3oyqkvkb3oqkauwd@begin>
 
 
->+        name: mode
->+        type: flag
->+      -
->+        name: guard
->+        type: flag
->+      -
->+        name: protect
->+        type: flag
->+      -
->+        name: fast-leave
->+        type: flag
->+      -
->+        name: learning
->+        type: flag
->+      -
->+        name: unicast-flood
->+        type: flag
->+      -
->+        name: proxyarp
->+        type: flag
->+      -
->+        name: learning-sync
->+        type: flag
->+      -
->+        name: proxyarp-wifi
->+        type: flag
+--G2qaJ+yw4/XCnyb6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi, these are not "flag". These are "u8".
+On  Tue, Feb 13, 2024 at 12:53:04 +0100, Samuel Thibault wrote:
+> Tom Parkin, le mar. 13 f=E9vr. 2024 10:51:08 +0000, a ecrit:
+> > > +        ret =3D ioctl(session_fd1, PPPIOCGCHAN, &chindx1);
+> > > +        if (ret < 0)
+> > > +                return -errno;
+> > > +
+> > > +        ret =3D ioctl(session_fd2, PPPIOCGCHAN, &chindx2);
+> > > +        if (ret < 0)
+> > > +                return -errno;
+> > > +
+> > > +        ppp_chan_fd =3D open("/dev/ppp", O_RDWR);
+> > > +        if (ppp_chan_fd < 0) {
+> > > +                return -errno;
+> > > +        }
+> > > +
+> > > +        ret =3D ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx1);
+> > > +        if (ret < 0) {
+> > > +                close(ppp_chan_fd);
+> > > +                return -errno;
+> > > +        }
+> >=20
+> > I think we should drop the PPPIOCATTCHAN ioctl call here.
+> >=20
+> > The input file descriptors are called out as being PPPoX sockets
+> > created as described earlier, in which case they should both
+> > already be attached to a channel.
+> >=20
+> > It would make more sense IMO to call out the two ppp_chan_fd file
+> > descriptors as being input parameters alongside the PPPoX session file
+> > descriptors.
+> >=20
+> > > +
+> > > +        ret =3D ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
+> > > +        close(ppp_chan_fd);
+> > > +        if (ret < 0)
+> > > +                return -errno;
+> > > +
+> > > +It can be noted that in this case no PPP interface is needed, and th=
+e PPP
+> > > +channel does not need to be kept open.  Only the session PPPoX data =
+sockets need
+> > > +to be kept open.
+> >=20
+> > Is it true to say that the PPP channel file descriptors can be closed
+> > by userspace?
+>=20
+> In our code we do it
+> https://code.ffdn.org/sthibaul/l2tpns/-/blob/kernel/l2tpns.c?ref_type=3Dh=
+eads#L1295
+> and it works all fine indeed (and avoids that fd per session).
+>=20
+> That's actually one of the reason why I made the snipped only take the
+> pppox sockets, and make it create the ppp chan fd only temporarily. AIUI
+> the pppox socket already has a ppp chan (returned by PPPIOCGCHAN), and
+> the ppp chan fd is there only for performing the bridging ioctl.
 
-[...]
+Thanks for the code reference -- that makes it clearer.  And I'm glad
+someone (else) is using PPPIOCBRIDGECHAN :-)
+
+It's a while since I was looking in ppp_generic.c and you're right
+about the ppp channel fd.
+--=20
+Tom Parkin
+Katalix Systems Ltd
+https://katalix.com
+Catalysts for your Embedded Linux software development
+
+--G2qaJ+yw4/XCnyb6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEsUkgyDzMwrj81nq0lIwGZQq6i9AFAmXLZ30ACgkQlIwGZQq6
+i9DYkAf9GOhgqPlIofeqsI0xOlcmwUwi/8tE99f4HV85ghT242yIB66IYVCyGijG
+L5llsSOJ+d3cjw1/FrDAOFWuPira89FijTidj5ZgXApkGpHZo6Uomq/jYjNLXMh/
+cWqbMo53t2EMrwUgl804vkGAXQ5H9mIkuDGMegjO/Ld3pTDWstwwQWcZZBmUb33f
+116FyZcPNDzXmLvSDi7EBQBoXdZOXcXEaJl9XZZXgGjWrBzcKvs2Ed/emRKUUGRI
+ItlC1udf1eJ4RijloRzOUykwwigd/DdNEqb2xocrhQPnhFLBc2/Qj1iHYJYsMj24
++U6BGaqqzeVjSqLucUAjj0zKFsOeOg==
+=+am9
+-----END PGP SIGNATURE-----
+
+--G2qaJ+yw4/XCnyb6--
