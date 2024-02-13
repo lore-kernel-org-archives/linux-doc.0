@@ -1,155 +1,175 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DC018E1D
-	for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 00:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730D0631;
+	Tue, 13 Feb 2024 00:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707785239; cv=none; b=Jy7MhfGbQjg2q2NVY9IBDYhyhpnXUpAFR/hm/yDQA+6KF/eBoLuSv3gXUU82wpJO4wAcn0nH/ck6MAIImJNFkmn47eXp5Vy8ZW6y6z+eO13ZaBmIx5Vb6OJQ5kMmye6TdaL1FlkTGDHec7ueVv7SFvsGAFVKwALBi3k133+oopk=
+	t=1707785696; cv=none; b=sAq5TgbNkTvcO+5tJEKp5ANVF2b6IUjZFDmqKcBUPC1V3/vFztW/KUGvr37TTs4ulGWHD/kBA/E5b13NRkG9/yhuGGn0w2dYG3GL5Ez58zPC75MvXExU+jxk2wWS7Ij92F8ewAN4euBJbFJEBEtme9+GJ8v+XsiYKmdp7iepP98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707785239; c=relaxed/simple;
-	bh=vhshgUQEMVOYmzGB73Sv6P0idtfPu8TvDbWS2Ao2ViM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FRzOG5xl5S4p4KAjSnOB1ib7EOAhBZkG6P3gXC+wxsgwud6Nz/XfZUvu0dGOm9kdFPN3ypW436r/0g4QqgvKlfY+ZtC167/UwrH6NeHwnn+va00vRorrxxhRT9vSZX3MPW1Jpry/JQ2z1Ji/8QOVxgDWHCY4WOeptb6p/loG/bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fyfumgKA; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1707785696; c=relaxed/simple;
+	bh=9xhUO2oBg3VGby3vuFrh+xyofs8aRXlLZClt/1/wQLY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EYil5c7OmrqnjpemOF3ykc5LHlLU/UVntlzCtD68sIRSqwH7his7cAAWKFNL9s4mixVXD4IKOjl8Cm5AcZlKd9ccq1wfB3vNRLBzk4S1HKwr9jG9aoAx7HcGGtgLAwhMXFIYaR5RqR6URzOsBFwa4B1DW0g/q5Dutc49OFk0TkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aBrqkdTZ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fyfumgKA"
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dc745927098so3203665276.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Feb 2024 16:47:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707785237; x=1708390037; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6sfE4CKDsYgzSNtG/2Z/eISWKsnaJqJipJlJ0mll8gM=;
-        b=fyfumgKA94Kgr5KyPD1Vrqt0YbS0rqT8sOp1pFHm9s8Pxeq4CntxOuztXKMBlSddTe
-         9w9NRxkP/t724Ws90+hC9Ec2T56g3ZCmgr+/M+7a8i+a3+basEH7KIZfrooeNBQbkztP
-         W9cmzqhXfhcDQSgcO8Ht52/qdDmpQAraZqqZexkKMINS06ryY2yf8SfbRmTSqfTogAZt
-         R8Eq414Pt7FHMMQDSBLVL07sNjXU1xBuCVTWm2bFuxiiphDwenEE3+FKpP4D+q6oGTWU
-         Vrbp5OU656s710gCp+2yaZTU2NCVsDVRqEV9VPdHFDT8k66AbHrYx6MDnM8tqqrjeolD
-         WvdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707785237; x=1708390037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6sfE4CKDsYgzSNtG/2Z/eISWKsnaJqJipJlJ0mll8gM=;
-        b=We38/zsaMaq8R9nqQ3706Ayduckztw2swud/N9cdMY78IuZPUQpMyHokaw7Q05t0hD
-         ao/f/BAkEnlGgJ2SsbQLsIivPBzOydydghf0aW1zgkDWkSLFrNz8Xw8GO/1nf5cKRuNv
-         YDSYAvPGqBY+hGLLJ2A6ZUuQODRGZvKhMPiWM2FAYkPSfvQqBBC0qKAuF8dRbuZPAFXL
-         5FQah5aAut9yxY/UNKB8+Tsx/MztL3dWyxJhJQ3ZdhEyUtQpCnJmT05eM7owocxwYxym
-         EIRj+wrj4+gdbRXbmczElnJ/aEIEel6iGjn3z/tU/S/EoJx1PImzC8rq/1XAXAqhX5M9
-         HAVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmZ2I3233Hu9rq7uUu6NbEqJepfDNmL9glRomwON03H6Ujdgt0IVbRVKPcpGwMYf+v+e6Lrz/4gB38mzsrg3tM2g/9XILUonSm
-X-Gm-Message-State: AOJu0YwfeX6h/fxtaOvT483yY/vsMv6GtzZ4wCivD/KyiS1GuzGPhRqw
-	JwxwV/M8px0oS1Ov4i5NOQbzVUSWlS1jntBoR9FloAggSZWIcB6HDe4b0H/r3G5sF+apWbhj8vV
-	6c7sktuTt9tbwurQKR8ihRU+IkJtK9OpuVOgf
-X-Google-Smtp-Source: AGHT+IEd+FNtHN/ZZbzmP1f2A4KejGHdBoOnJaz/mv/ay/4vdGzg6uBQFsFNAQAmwG2iUWNQFb7fDd1J4oxNlZWT4bQ=
-X-Received: by 2002:a25:848d:0:b0:dc2:50ca:7d03 with SMTP id
- v13-20020a25848d000000b00dc250ca7d03mr6944337ybk.1.1707785236496; Mon, 12 Feb
- 2024 16:47:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aBrqkdTZ"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41D09Ysj016771;
+	Tue, 13 Feb 2024 00:54:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=e3ZP4UGfMJHN9tb9hE1a
+	TUT7cHSD1ZLTE7FnRsZFK6Q=; b=aBrqkdTZ61OWT36+l02qdAEAkAsimqWgdDmw
+	nHMayodPCCY6qLVgFbN9ZnKe2gHxCF0Os1moVwEx9AcZsZ2TQ+rE9fQPUOoaIlYO
+	kpRZBCi1+lptgzCkzLtNMziCh8yHdxmYdFIGmTxckTxD0Lmq0dkjU4dhw6d48Xko
+	ZZKPlrltq3InzhICLF7kulH4KRQTbUrrCC+BzwX0wOtfWIyX6oULu8suJfAni/Ad
+	ciaUmFx/DuGl2zHLhWFnPkTVvLO8FNsHOFwyrbVpNaaRYWk4sJNgQ9R7G8zORO6v
+	Hud64NxIeuc3aQJns8pc64Yb5ic9MzME4xqVGHgJaJjR0ZB6vg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3w62kt4ty8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 00:54:35 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41D0sYjR026763
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 00:54:34 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 12 Feb 2024 16:54:34 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v15 05/50] xhci: update event ring dequeue pointer position to controller correctly
+Date: Mon, 12 Feb 2024 16:53:37 -0800
+Message-ID: <20240213005422.3121-6-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240213005422.3121-1-quic_wcheng@quicinc.com>
+References: <20240213005422.3121-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <202402121602.CC62228@keescook>
-In-Reply-To: <202402121602.CC62228@keescook>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 12 Feb 2024 16:47:05 -0800
-Message-ID: <CAJuCfpF677Fu152GQAgD-GW=eFPsRMXfXzyXtnc5p6kPsxeQJA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/35] Memory allocation profiling
-To: Kees Cook <keescook@chromium.org>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, ndesaulniers@google.com, 
-	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
-	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: U3voO1VJLncFRE04Fk3igBRQ06DGSlg8
+X-Proofpoint-ORIG-GUID: U3voO1VJLncFRE04Fk3igBRQ06DGSlg8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-12_20,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 bulkscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ mlxscore=0 mlxlogscore=999 spamscore=0 malwarescore=0 adultscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402130005
 
-On Mon, Feb 12, 2024 at 4:29=E2=80=AFPM Kees Cook <keescook@chromium.org> w=
-rote:
->
-> On Mon, Feb 12, 2024 at 01:38:46PM -0800, Suren Baghdasaryan wrote:
-> > Low overhead [1] per-callsite memory allocation profiling. Not just for=
- debug
-> > kernels, overhead low enough to be deployed in production.
->
-> What's the plan for things like devm_kmalloc() and similar relatively
-> simple wrappers? I was thinking it would be possible to reimplement at
-> least devm_kmalloc() with size and flags changing helper a while back:
->
-> https://lore.kernel.org/all/202309111428.6F36672F57@keescook/
->
-> I suspect it could be possible to adapt the alloc_hooks wrapper in this
-> series similarly:
->
-> #define alloc_hooks_prep(_do_alloc, _do_prepare, _do_finish,            \
->                           ctx, size, flags)                             \
-> ({                                                                      \
->         typeof(_do_alloc) _res;                                         \
->         DEFINE_ALLOC_TAG(_alloc_tag, _old);                             \
->         ssize_t _size =3D (size);                                        =
- \
->         size_t _usable =3D _size;                                        =
- \
->         gfp_t _flags =3D (flags);                                        =
- \
->                                                                         \
->         _res =3D _do_prepare(ctx, &_size, &_flags);                      =
- \
->         if (!IS_ERR_OR_NULL(_res)                                       \
->                 _res =3D _do_alloc(_size, _flags);                       =
- \
->         if (!IS_ERR_OR_NULL(_res)                                       \
->                 _res =3D _do_finish(ctx, _usable, _size, _flags, _res);  =
- \
->         _res;                                                           \
-> })
->
-> #define devm_kmalloc(dev, size, flags)                                  \
->         alloc_hooks_prep(kmalloc, devm_alloc_prep, devm_alloc_finish,   \
->                          dev, size, flags)
->
-> And devm_alloc_prep() and devm_alloc_finish() adapted from the URL
-> above.
->
-> And _do_finish instances could be marked with __realloc_size(2)
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-devm_kmalloc() is definitely a great candidate to account separately.
-Looks like it's currently using
-alloc_dr()->kmalloc_node_track_caller(), so this series will account
-the internal kmalloc_node_track_caller() allocation. We can easily
-apply alloc_hook to devm_kmalloc() and friends and replace the
-kmalloc_node_track_caller() call inside alloc_dr() with
-kmalloc_node_track_caller_noprof(). That will move accounting directly
-to devm_kmalloc().
+The event ring dequeue pointer field (ERDP) in xHC hardware is used to
+inform controller how far the driver has processed events on the event
+ring.
 
->
-> -Kees
->
-> --
-> Kees Cook
+In the case all events are handled and event ring is empty then the
+address of the TRB after the last processed one should be written.
+This TRB is both the enqueue and dequeue pointer.
+
+But in case we are writing the ERDP in the middle of processing
+several events then ERDP field should be written with the "up to and
+including" address of the last handled event TRB.
+
+Currenly each ERDP write by driver is done as if all events are handled
+and ring is empty.
+
+Fix this by adjusting the order when software dequeue "inc_deq()"
+is called and hardware dequeue "xhci_update_erst_dequeue()" is updated.
+
+Details in xhci 1.2 specification section 4.9.4:
+
+"System software shall write the Event Ring Dequeue Pointer (ERDP)
+ register to inform the xHC that it has completed the processing of Event
+ TRBs up to and including the Event TRB referenced by the ERDP.
+
+ The detection of a Cycle bit mismatch in an Event TRB processed by
+ software indicates the location of the xHC Event Ring Enqueue Pointer
+ and that the Event Ring is empty. Software shall write the ERDP with
+ the address of this TRB to indicate that it has processed all Events
+ in the ring"
+
+This change depends on fixes made to relocate inc_deq() calls captured
+in the below commits:
+
+  commit 3321f84bfae0 ("xhci: simplify event ring dequeue tracking for
+  transfer events")
+
+  commit d1830364e963 ("xhci: Simplify event ring dequeue pointer update
+  for port change events")
+
+Fixes: dc0ffbea5729 ("usb: host: xhci: update event ring dequeue pointer on purpose")
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci-ring.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index a9d2e876d62b..0289d77839cf 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2966,9 +2966,6 @@ static int xhci_handle_event(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
+ 		return 0;
+ 	}
+ 
+-	/* Update SW event ring dequeue pointer */
+-	inc_deq(xhci, ir->event_ring);
+-
+ 	/* Are there more items on the event ring?  Caller will call us again to
+ 	 * check.
+ 	 */
+@@ -3091,15 +3088,21 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
+ 	 * that clears the EHB.
+ 	 */
+ 	while (xhci_handle_event(xhci, ir) > 0) {
+-		if (event_loop++ < TRBS_PER_SEGMENT / 2)
+-			continue;
+-		xhci_update_erst_dequeue(xhci, ir, false);
++		/*
++		 * If half a segment of events have been handled in one go then
++		 * update ERDP, and force isoc trbs to interrupt more often
++		 */
++		if (event_loop++ > TRBS_PER_SEGMENT / 2) {
++			xhci_update_erst_dequeue(xhci, ir, false);
++
++			if (ir->isoc_bei_interval > AVOID_BEI_INTERVAL_MIN)
++				ir->isoc_bei_interval = ir->isoc_bei_interval / 2;
+ 
+-		/* ring is half-full, force isoc trbs to interrupt more often */
+-		if (ir->isoc_bei_interval > AVOID_BEI_INTERVAL_MIN)
+-			ir->isoc_bei_interval = ir->isoc_bei_interval / 2;
++			event_loop = 0;
++		}
+ 
+-		event_loop = 0;
++		/* Update SW event ring dequeue pointer */
++		inc_deq(xhci, ir->event_ring);
+ 	}
+ 
+ 	xhci_update_erst_dequeue(xhci, ir, true);
