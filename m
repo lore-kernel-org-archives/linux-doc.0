@@ -1,199 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979B613DBA1;
-	Wed, 14 Feb 2024 20:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADF51339B6;
+	Wed, 14 Feb 2024 20:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707941410; cv=none; b=M+CIqvJhZPwQkKLY3F1hG5i/fNSusAu1ijddcF1yCio3vU6ZA0fV4quwEritmTlrQHxB8trypME5PaAGAN2u55TSGu4JzTVQtYQgp692IyQxtJnYkNaQ6Fcyg8KvJ9obeYDLXzSCCt9TO3O3v7pzKaNniHwYLbjePqehgsPEmVg=
+	t=1707941500; cv=none; b=gXZXt5xbXqRgD1CpdPIySE62tk7if53bFgnTWG7MnM6ThSy4vPr/7SW0kz7VJOTRQ5Y74+R87o+S3TVceEUV5gxUQHUd7aRzSdfQHPUjMkBrzpBk/PxeXCA31HBKj64LS3NgP157ZQmbNEVWQV+JKjYXvfpDajyMTgALTt4oZUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707941410; c=relaxed/simple;
-	bh=sJ2O1TysiYXzPmk/VbHIkh8RUm4JPVEySfwgSUfKEh0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lIBu3y3yd+euFe1r2SNcCsQhHn58gDBmGy0s99v+7f/SpZ2iNP8YtsrpL9m4kf7uje9FaYy4uSLizVgKjn1Gm3kwUGOThP8fNox72Fl2DfDeF+iMySnYUjenKFXPmh1DfjrE2lB/rgShDApH5lEtOT1l0L3/UjGMsfny2S9JJZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=j7AHgBTX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707941500; c=relaxed/simple;
+	bh=ugMuiBhXaOfS6JO62Z0RIeo0yfNv3ZBX5Go5vrWXW3E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ct22FMbDZROsQUe7VG/+yvBuCqB2+rdyJ3kXH7Jwd2mnNUhUvbQ0fVf4cfOeGZdHBslvIt4rTBEPfBLzjzdKTBDITaOiezLzgfI/TjZWyTrTq+tERR/2wuUUbK/fwFfICiLbu49w+nYXRiV7RLzlcwM/q02NfyyXCXhe+tbR9zA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RR1NvtO6; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j7AHgBTX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A030EC433F1;
-	Wed, 14 Feb 2024 20:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707941410;
-	bh=sJ2O1TysiYXzPmk/VbHIkh8RUm4JPVEySfwgSUfKEh0=;
-	h=From:Date:Subject:To:Cc:From;
-	b=j7AHgBTX0a6tWdO0KqlSsaN0z8fLxw5cZyRPqJz7cPtbbUE3qMx4FNf6jZlLsOTb4
-	 aWUnF4DEi3HFoIgwlQwlDUWIGIEJHUy3tZT4T8H7C8/fL+U5hSOJ/zBQy3urQLuN7p
-	 0dx5qw4w+wC4Lskk26kvmPxZ7teYnwQtJJdfHWxk=
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Date: Wed, 14 Feb 2024 15:09:53 -0500
-Subject: [PATCH] Documentation: update mailing list addresses
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RR1NvtO6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=nzG+mcwtKVReimCU6zx6inAB8xN7+k5Rvm7slPc1wIQ=; b=RR1NvtO6ycswu7Qr0ZPqrP4PWj
+	LNdeaqOqje4bdXi5DGOLcJDnCljck4gLPwvxmpGg8C/jn79uWuGkbeFakgpo4KvpoMMRm70tWfZDc
+	h3a/ClEjQy04HJCqcZoIa/UuoeMoErlzWJoYqeLBdkmpqNldKK5Ug+mvnI8Vi5gGJet7oyeLsxC8z
+	+uOHoreKUHyO7UI0Eg000CpPo780XBDKMyscM4NHbSlGKzsohlEU4AXPBnnT0TbasI2aUH2uGAqAv
+	VT5RE0ttZFCIN/1yTreaWG+Pgjj3ls1T3klTMs2e08Bnya7OFeXFa6z3SYcbhGwmuray0OLL9Q41J
+	vX72BgkQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1raLb0-0000000HUak-0HCQ;
+	Wed, 14 Feb 2024 20:11:06 +0000
+Date: Wed, 14 Feb 2024 20:11:05 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+	mgorman@suse.de, dave@stgolabs.net, liam.howlett@oracle.com,
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+	paulmck@kernel.org, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+	ndesaulniers@google.com, vvvvvv@google.com,
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+	elver@google.com, dvyukov@google.com, shakeelb@google.com,
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+	cgroups@vger.kernel.org, Andy Shevchenko <andy@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v3 01/35] lib/string_helpers: Add flags param to
+ string_get_size()
+Message-ID: <Zc0eWURJL64C3vqn@casper.infradead.org>
+References: <20240212213922.783301-1-surenb@google.com>
+ <20240212213922.783301-2-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240214-lf-org-list-migration-v1-1-ef1eab4b1543@linuxfoundation.org>
-X-B4-Tracking: v=1; b=H4sIABAezWUC/x3MPQqAMAxA4atIZgNN66BeRRyKpjXgH6mIULy7x
- fEN38uQWIUT9FUG5VuSHHsJqiuYFr9HRplLgzW2MZYaXAMeGnGVdOEmUf1VBJrQUqDOk3MOij2
- Vgzz/dxjf9wN53vMhZwAAAA==
-To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Carlos Bilbao <carlos.bilbao@amd.com>, Avadhut Naik <avadhut.naik@amd.com>
-Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- tech-board-discuss@lists.linux.dev, workflows@vger.kernel.org, 
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-X-Mailer: b4 0.13-dev-b7ccd
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6088;
- i=konstantin@linuxfoundation.org; h=from:subject:message-id;
- bh=sJ2O1TysiYXzPmk/VbHIkh8RUm4JPVEySfwgSUfKEh0=;
- b=owGbwMvMwCW27YjM47CUmTmMp9WSGFLPyimUR0QaHSortdecm9mqZ9h3c++/w8zNOhtuSx5i8
- 56jxcHSUcrCIMbFICumyFK2L3ZTUOFDD7n0HlOYOaxMIEMYuDgFYCIFDgz/DFWyTx47vfDkThVH
- W8Olfzhmx6qu5Aq/sHLvg03O/z2TPRkZ/uzpKCwS+7r98cYj/Me5H0iveB3hXq90/72wYtSCAP9
- jLAA=
-X-Developer-Key: i=konstantin@linuxfoundation.org; a=openpgp;
- fpr=DE0E66E32F1FDD0902666B96E63EDCA9329DD07E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240212213922.783301-2-surenb@google.com>
 
-The mailman2 server running on lists.linuxfoundation.org will be shut
-down in very imminent future. Update all instances of obsolete list
-addresses throughout the tree with their new destinations.
+On Mon, Feb 12, 2024 at 01:38:47PM -0800, Suren Baghdasaryan wrote:
+> -	string_get_size(size, 1, STRING_UNITS_2, buf, sizeof(buf));
+> +	string_get_size(size, 1, STRING_SIZE_BASE2, buf, sizeof(buf));
 
-Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
----
-Jon, I am sending this primarily to linux-doc, since most of the changes
-are in Documentation/* and only a handful in MAINTAINERS. I think it
-makes most sense to bubble this up via the docs subsystem.
----
- Documentation/ABI/testing/sysfs-bus-vdpa                       | 10 +++++-----
- Documentation/networking/bridge.rst                            |  2 +-
- Documentation/process/researcher-guidelines.rst                |  2 +-
- .../translations/sp_SP/process/researcher-guidelines.rst       |  2 +-
- MAINTAINERS                                                    |  6 +++---
- 5 files changed, 11 insertions(+), 11 deletions(-)
+This patch could be a whole lot smaller if ...
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-vdpa b/Documentation/ABI/testing/sysfs-bus-vdpa
-index 4da53878bff6..2c833b5163f2 100644
---- a/Documentation/ABI/testing/sysfs-bus-vdpa
-+++ b/Documentation/ABI/testing/sysfs-bus-vdpa
-@@ -1,6 +1,6 @@
- What:		/sys/bus/vdpa/drivers_autoprobe
- Date:		March 2020
--Contact:	virtualization@lists.linux-foundation.org
-+Contact:	virtualization@lists.linux.dev
- Description:
- 		This file determines whether new devices are immediately bound
- 		to a driver after the creation. It initially contains 1, which
-@@ -12,7 +12,7 @@ Description:
- 
- What:		/sys/bus/vdpa/driver_probe
- Date:		March 2020
--Contact:	virtualization@lists.linux-foundation.org
-+Contact:	virtualization@lists.linux.dev
- Description:
- 		Writing a device name to this file will cause the kernel binds
- 		devices to a compatible driver.
-@@ -22,7 +22,7 @@ Description:
- 
- What:		/sys/bus/vdpa/drivers/.../bind
- Date:		March 2020
--Contact:	virtualization@lists.linux-foundation.org
-+Contact:	virtualization@lists.linux.dev
- Description:
- 		Writing a device name to this file will cause the driver to
- 		attempt to bind to the device. This is useful for overriding
-@@ -30,7 +30,7 @@ Description:
- 
- What:		/sys/bus/vdpa/drivers/.../unbind
- Date:		March 2020
--Contact:	virtualization@lists.linux-foundation.org
-+Contact:	virtualization@lists.linux.dev
- Description:
- 		Writing a device name to this file will cause the driver to
- 		attempt to unbind from the device. This may be useful when
-@@ -38,7 +38,7 @@ Description:
- 
- What:		/sys/bus/vdpa/devices/.../driver_override
- Date:		November 2021
--Contact:	virtualization@lists.linux-foundation.org
-+Contact:	virtualization@lists.linux.dev
- Description:
- 		This file allows the driver for a device to be specified.
- 		When specified, only a driver with a name matching the value
-diff --git a/Documentation/networking/bridge.rst b/Documentation/networking/bridge.rst
-index ba14e7b07869..ef8b73e157b2 100644
---- a/Documentation/networking/bridge.rst
-+++ b/Documentation/networking/bridge.rst
-@@ -324,7 +324,7 @@ Contact Info
- The code is currently maintained by Roopa Prabhu <roopa@nvidia.com> and
- Nikolay Aleksandrov <razor@blackwall.org>. Bridge bugs and enhancements
- are discussed on the linux-netdev mailing list netdev@vger.kernel.org and
--bridge@lists.linux-foundation.org.
-+bridge@lists.linux.dev.
- 
- The list is open to anyone interested: http://vger.kernel.org/vger-lists.html#netdev
- 
-diff --git a/Documentation/process/researcher-guidelines.rst b/Documentation/process/researcher-guidelines.rst
-index d159cd4f5e5b..beb484c5965d 100644
---- a/Documentation/process/researcher-guidelines.rst
-+++ b/Documentation/process/researcher-guidelines.rst
-@@ -167,4 +167,4 @@ If no one can be found to internally review patches and you need
- help finding such a person, or if you have any other questions
- related to this document and the developer community's expectations,
- please reach out to the private Technical Advisory Board mailing list:
--<tech-board@lists.linux-foundation.org>.
-+<tech-board@groups.linuxfoundation.org>.
-diff --git a/Documentation/translations/sp_SP/process/researcher-guidelines.rst b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-index 462b3290b7b8..deccc908a68d 100644
---- a/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-+++ b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-@@ -147,4 +147,4 @@ Si no se puede encontrar a nadie para revisar internamente los parches y necesit
- ayuda para encontrar a esa persona, o si tiene alguna otra pregunta relacionada
- con este documento y las expectativas de la comunidad de desarrolladores, por
- favor contacte con la lista de correo privada Technical Advisory Board:
--<tech-board@lists.linux-foundation.org>.
-+<tech-board@groups.linuxfoundation.org>.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 73d898383e51..ffdfb311349f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14010,7 +14010,7 @@ F:	include/uapi/rdma/mlx5-abi.h
- 
- MELLANOX MLX5 VDPA DRIVER
- M:	Dragos Tatulea <dtatulea@nvidia.com>
--L:	virtualization@lists.linux-foundation.org
-+L:	virtualization@lists.linux.dev
- S:	Supported
- F:	drivers/vdpa/mlx5/
- 
-@@ -21519,7 +21519,7 @@ F:	tools/testing/selftests/drivers/net/team/
- TECHNICAL ADVISORY BOARD PROCESS DOCS
- M:	"Theodore Ts'o" <tytso@mit.edu>
- M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
--L:	tech-board-discuss@lists.linux-foundation.org
-+L:	tech-board-discuss@lists.linux.dev
- S:	Maintained
- F:	Documentation/process/contribution-maturity-model.rst
- F:	Documentation/process/researcher-guidelines.rst
-@@ -23078,7 +23078,7 @@ F:	drivers/vfio/pci/mlx5/
- VFIO VIRTIO PCI DRIVER
- M:	Yishai Hadas <yishaih@nvidia.com>
- L:	kvm@vger.kernel.org
--L:	virtualization@lists.linux-foundation.org
-+L:	virtualization@lists.linux.dev
- S:	Maintained
- F:	drivers/vfio/pci/virtio
- 
+> +++ b/include/linux/string_helpers.h
+> @@ -17,14 +17,13 @@ static inline bool string_is_terminated(const char *s, int len)
+>  	return memchr(s, '\0', len) ? true : false;
+>  }
+>  
+> -/* Descriptions of the types of units to
+> - * print in */
+> -enum string_size_units {
+> -	STRING_UNITS_10,	/* use powers of 10^3 (standard SI) */
+> -	STRING_UNITS_2,		/* use binary powers of 2^10 */
+> +enum string_size_flags {
+> +	STRING_SIZE_BASE2	= (1 << 0),
+> +	STRING_SIZE_NOSPACE	= (1 << 1),
+> +	STRING_SIZE_NOBYTES	= (1 << 2),
 
----
-base-commit: 7e90b5c295ec1e47c8ad865429f046970c549a66
-change-id: 20240214-lf-org-list-migration-0f81f19a1333
+you just added:
 
-Best regards,
--- 
-Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+#define	STRING_UNITS_10		0
+#define STRING_UNITS_2		STRING_SIZE_BASE2
+
+and you wouldn't need to change any of the callers.
 
