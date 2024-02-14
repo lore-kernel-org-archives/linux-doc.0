@@ -1,92 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AA718B14;
-	Wed, 14 Feb 2024 11:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BF1F18E28;
+	Wed, 14 Feb 2024 11:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707909027; cv=none; b=h+LOgeECfT/S/RdudhvH4HqCQ2pXuTGrlBR1wgMw1XpWCZl2uERVrZPpPxP34yM+7ad8JhS/q03Vong6e8nUTbVhh/q/jF3xmhcKyUE7n+6aXGYvvgVMHbJrNpaAKNnUPmllWaUUUBUcIgXinKizfVef78yb/TTEylhLEmIbnHI=
+	t=1707909085; cv=none; b=OPfil/lJ7dRJ94XHc5fbqCT11vhnaIT8+ty9yCty6MVv1DY4EUQZ685AbVC9v2k7mEam6/lY4MQRD3OK3GO4SMINVsURjlhkLqbxxZDZHOn8hHttDsKG9tZBj1x5zDevNxDz0hZIbz7FBZ0W064lBZvCRDBhzVUAR5FC6TtN7WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707909027; c=relaxed/simple;
-	bh=/N+Tr5D1cCwdzGyVTjVobKhxOLKQhp7GUjHGGqZReHw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=KsHRzbf/oHXiwiHqDhBYnc0jcfgQyRyWjUKDPq6+lC9CKoO1gWA1kAenwRas7srcnvMDwSE8wATRQRbPDW/AwL6UIMOlmuS5ZcsDHYf7ZI7kKMAFw3W3QnXu892+IKpAQdG5CDrTmuZvWSU5NSAfl5+BcU8S20TkSqs2Qv30fTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E05J9c6z; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E05J9c6z"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3D530C433F1;
-	Wed, 14 Feb 2024 11:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707909026;
-	bh=/N+Tr5D1cCwdzGyVTjVobKhxOLKQhp7GUjHGGqZReHw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=E05J9c6zjy/3kPry6R6UbtObeLdt6ciRvZaRUE8FGcM7/dCIRGfvgNEgLfQLk1+SA
-	 Z9F+GkB8OF2iKgwKw8hZhxz0+yOMMnjlJQMmlQRhOfsX3NbuntBYlM+JgdkuGm7p1F
-	 OVLnLUIPS55eHtpvWmoOotBxPgdfp4zbAiWvHBLeH4AUHspG8QzuQTy9isQpt0YuP/
-	 pBJwRQpoqnz9WlH3bcG8BXtZEkVNu2E0z8beEEAM9YOMc391H1xCeXHhIvfUe0FBWk
-	 OlfVs88mbDMzWkCkklwO3NHFsqAiPp+8e16jw0vKVTQYqX75Dng77y3Oqzybu/3J6W
-	 LOXJQqhj0ICIQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1C735D84BCE;
-	Wed, 14 Feb 2024 11:10:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1707909085; c=relaxed/simple;
+	bh=HsZd4cCR70HE0iyjlUKYCOohLKrz8PN3AKztuMP3OWc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=la3AL3Czfumqllwr7wFA3ndGh8aHuM7sbAlnyVsZ73KiZxHx3y5/4NFSn3gMPJ9xUNmOqMU4TCHyP1dqIEJHZ6BauqPJPv+L4VpbPMSyPctXnqRP8Sz1Q4SBMCmU96zfshqH3iv+fC4eVzYjBfBkEw+nCmJ3iAHaz31HCsVmnPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC7D61FB;
+	Wed, 14 Feb 2024 03:12:03 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.64.145])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 957893F766;
+	Wed, 14 Feb 2024 03:11:20 -0800 (PST)
+Date: Wed, 14 Feb 2024 11:11:14 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Oliver Upton <oliver.upton@linux.dev>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Rob Herring <robh@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>,
+	"moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" <linux-arm-kernel@lists.infradead.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] arm64: Subscribe Microsoft Azure Cobalt 100 to ARM
+ Neoverse N2 errata
+Message-ID: <Zcyf0oIJe7ukH0si@FVFF77S0Q05N>
+References: <20240212232909.2276378-1-eahariha@linux.microsoft.com>
+ <ZcqtUxhqUbYoRH-G@linux.dev>
+ <18b3ac3e-2bfc-4fce-9be4-3e75e487f9fc@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v8 0/4] Per epoll context busy poll support
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170790902610.17376.12972731965636317765.git-patchwork-notify@kernel.org>
-Date: Wed, 14 Feb 2024 11:10:26 +0000
-References: <20240213061652.6342-1-jdamato@fastly.com>
-In-Reply-To: <20240213061652.6342-1-jdamato@fastly.com>
-To: Joe Damato <jdamato@fastly.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- chuck.lever@oracle.com, jlayton@kernel.org, linux-api@vger.kernel.org,
- brauner@kernel.org, edumazet@google.com, davem@davemloft.net,
- alexander.duyck@gmail.com, sridhar.samudrala@intel.com, kuba@kernel.org,
- willemdebruijn.kernel@gmail.com, weiwan@google.com, David.Laight@ACULAB.COM,
- arnd@arndb.de, sdf@google.com, amritha.nambiar@intel.com,
- viro@zeniv.linux.org.uk, gregkh@linuxfoundation.org, deller@gmx.de,
- jack@suse.cz, jirislaby@kernel.org, corbet@lwn.net, jpanis@baylibre.com,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, mpe@ellerman.id.au,
- nathanl@linux.ibm.com, palmer@dabbelt.com, stfrench@microsoft.com,
- thuth@redhat.com, tzimmermann@suse.de
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <18b3ac3e-2bfc-4fce-9be4-3e75e487f9fc@linux.microsoft.com>
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
-
-On Tue, 13 Feb 2024 06:16:41 +0000 you wrote:
-> Greetings:
+On Tue, Feb 13, 2024 at 04:19:08PM -0800, Easwar Hariharan wrote:
+> >> diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+> >> index 7c7493cb571f..a632a7514e55 100644
+> >> --- a/arch/arm64/include/asm/cputype.h
+> >> +++ b/arch/arm64/include/asm/cputype.h
+> >> @@ -61,6 +61,7 @@
+> >>  #define ARM_CPU_IMP_HISI		0x48
+> >>  #define ARM_CPU_IMP_APPLE		0x61
+> >>  #define ARM_CPU_IMP_AMPERE		0xC0
+> >> +#define ARM_CPU_IMP_MICROSOFT		0x6D
+> >>  
+> >>  #define ARM_CPU_PART_AEM_V8		0xD0F
+> >>  #define ARM_CPU_PART_FOUNDATION		0xD00
+> >> @@ -135,6 +136,8 @@
+> >>  
+> >>  #define AMPERE_CPU_PART_AMPERE1		0xAC3
+> >>  
+> >> +#define MSFT_CPU_PART_AZURE_COBALT_100	0xD49 /* Based on r0p0 of ARM Neoverse N2 */
+> >> +
+> >>  #define MIDR_CORTEX_A53 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A53)
+> >>  #define MIDR_CORTEX_A57 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A57)
+> >>  #define MIDR_CORTEX_A72 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A72)
+> >> @@ -193,6 +196,7 @@
+> >>  #define MIDR_APPLE_M2_BLIZZARD_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_BLIZZARD_MAX)
+> >>  #define MIDR_APPLE_M2_AVALANCHE_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_AVALANCHE_MAX)
+> >>  #define MIDR_AMPERE1 MIDR_CPU_MODEL(ARM_CPU_IMP_AMPERE, AMPERE_CPU_PART_AMPERE1)
+> >> +#define MIDR_MICROSOFT_AZURE_COBALT_100 MIDR_CPU_MODEL(ARM_CPU_IMP_MICROSOFT, MSFT_CPU_PART_AZURE_COBALT_100)
+> > 
+> > nitpick: consistently use the abbreviated 'MSFT' for all the definitions
+> > you're adding.
 > 
-> Welcome to v8.
-> 
-> TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
-> epoll with socket fds.") by allowing user applications to enable
-> epoll-based busy polling, set a busy poll packet budget, and enable or
-> disable prefer busy poll on a per epoll context basis.
-> 
-> [...]
+> I was rather hoping to use Microsoft throughout, but I chose MSFT for the CPU_PART* to align columns
+> with the other defines. :) If consistency is of a higher priority than column alignment, I can change it
+> to MICROSOFT rather than MSFT throughout.
 
-Here is the summary with links:
-  - [net-next,v8,1/4] eventpoll: support busy poll per epoll instance
-    https://git.kernel.org/netdev/net-next/c/85455c795c07
-  - [net-next,v8,2/4] eventpoll: Add per-epoll busy poll packet budget
-    https://git.kernel.org/netdev/net-next/c/c6aa2a7778d8
-  - [net-next,v8,3/4] eventpoll: Add per-epoll prefer busy poll option
-    https://git.kernel.org/netdev/net-next/c/de57a2510822
-  - [net-next,v8,4/4] eventpoll: Add epoll ioctl for epoll_params
-    https://git.kernel.org/netdev/net-next/c/18e2bf0edf4d
+Consistency across the definitions is more important than alignmen; please
+choose either "MSFT" or "MICROSOFT" and use that consistently.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Mark.
