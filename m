@@ -1,129 +1,102 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A23E5D732;
-	Wed, 14 Feb 2024 15:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1237E5D75E
+	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 15:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707925326; cv=none; b=JtoTsTdAumfYRnnMRG69RMbcUpyCGFsR0zZ0ymXEgnRJVyWgSEORUs0mHFyBYOV8d15KlWCJ7sJHHsCXkzweoefZf7c1O5iXd9Cdlf/NfWZmjBDdpYE/NMwmczVBokJp/g3i1ibT7Z23moN6bLZ2AsTsRwRWLV5X69mfrZZRFe8=
+	t=1707925682; cv=none; b=t4ydV0EoXfl/VXpOvxqoUNbHF7BrXnpvDW0FwFf6ZWfaMPtpFt7z6um1+rxKCMIqYwa2hDYLI1TH3IVZZR2ygGzTdN5JibsRVejJsptCwxskUKEyaiqqucovg1KE0Gr6XgjRONE6xnthwM37LvWrU6zDuZTCjGf3J+be+C98Zfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707925326; c=relaxed/simple;
-	bh=fNbaUQKnlqEMDtnT9Negz1cAQM5I1BvNB5V3Wy7E/7k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OjNVqDn2lCBKFP6d5nSdGJ8c3S7dkAe3inll4YROP2R70oRgW1/Om9Pn/BRxR/IVwKTYkLuqdG3pRVnzvkgkIa9PvSTdkY7PE+5ISNC1aHEwA5HefGvUjhXoR300+UkbKXZ7Skg9gMJ2Ddw32l3+A6zGbYrpYsmmU8v7FJTiiQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=H+jixvZO; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1707925682; c=relaxed/simple;
+	bh=OXo9CJObNilBsOGumalkvDIP0Qjf2R+AA2nb7vEMJFg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=dedNYVi1S0X5x9c69wDD3JE1M5nW5KnE2Kq3whU5Whoe2272zdkaxToxHTSU1pHYy8SgFYlUXp8ygZrNyCAsgdnaq9IP4oHKL4QeVVtf2vk+MQlq408IArRFH//aTkmKS43gKoidX9ugRmJoAqqb0SUXHqsUXphnqJyqStxFp3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fJErqcrb; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="H+jixvZO"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F1C5A1BF204;
-	Wed, 14 Feb 2024 15:41:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707925314;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Na5G4sxiicAdKoJQUQHlrk8NKd8DIbup+Qjfv3MfFOA=;
-	b=H+jixvZObQoWqFarWziwlCexqzc1ILdE2JO0jQ/4k3ZZGF0oB2Nu0xg+QsZi0QTY4FMDAV
-	7cLDqjnpiPOp/U6nJTMgD4YgyNsiOdkeEEgIRN89s7ajuOJKtKzY5hN5zQj5+XBzxJiTe/
-	cTZaaxt2rJbDVQ5ujTtwcAop0eybMTcU6hQg9gjkPHPaotTzZC9QrpNGsX8AjJz+DUZal3
-	WYUi8LAAPdd5jouNPy6+HxD5odAIvuk0Xn2zwgykX7FNlz92HnNEvO117cDGHPwVBMDbQK
-	ZXRx7fEV0TaSw8qrAK3L+MqFM/hWC/EnmuxXzAZPCHe9lg7kMVbwRMno2IlzcA==
-Date: Wed, 14 Feb 2024 16:41:50 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v3 10/17] dt-bindings: net: pse-pd: Add another
- way of describing several PSE PIs
-Message-ID: <20240214164150.5be591d0@kmaincent-XPS-13-7390>
-In-Reply-To: <20240214141310.119364c4@kmaincent-XPS-13-7390>
-References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
-	<20240208-feature_poe-v3-10-531d2674469e@bootlin.com>
-	<20240209144349.GA3678044-robh@kernel.org>
-	<20240214141310.119364c4@kmaincent-XPS-13-7390>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fJErqcrb"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-55c2cf644f3so7545179a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 07:48:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707925679; x=1708530479; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=McuX+46GCJMWVVIeDmGS2EesDa+qgN6dZa0RniqPfYY=;
+        b=fJErqcrbwLtPl4rojjxpSNTwlp5EjJvRQrN08CpPv1JBvWA2oanw+uDYAbgMX4ECAo
+         C3OQNoLLD7D6q7TO6n37fxA3hMVT0djzuy8Mrf096l2/KCHRY5xXIaTb4PZkM3duU9Ur
+         NTk/a61jafgQFUxwpuaP2Ha968HOpCgnJuSkF941+WGl/N/VT6qFCoI0rRVEgtdgtQAi
+         ntBgREnSfRpjnMkO7id5IuMcwqm55ZTCCfuqDsyzfb6ddBKEHV3yrlAW/1e3jqYHBOyn
+         x5odjTG+Jwtal1dHoHO+ZVdmE/MZJ8Nzc4AtQCEN3SvHS/hKagj6p+FXiCOlBZc3Hd2k
+         R2oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707925679; x=1708530479;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=McuX+46GCJMWVVIeDmGS2EesDa+qgN6dZa0RniqPfYY=;
+        b=B2UBS2/yHTjlmeIn2yBz3BkyPXplQhUhMlaW5w0rPIoyvgbgjO2uBxurJEOb79mS+f
+         xi3dC8Brjn5s04aCXUAhbQERBc/oaMvTa6Y7xrBh5QD/Zni9gguGc4OhjmUy8KqQrHJd
+         Hylq6+x2PmNQ1hNQP5mgRhxa6v3k6Isr5mwdrJvTR+8e3onb4z/hZIo7vT3FkDjDwavh
+         UHa4bLUxcCI4XHxlrMI4/6lknYgLzEYj056NgAuHnjm3gJiEzLBFx9JXJiadkYbhEGjr
+         Muf2RTrZ1h/h0n6w9HdxQLhC7SJOIUfPl1sX0Gl4doL/NS90fmYeFewOxOKIoW0OutvS
+         4Ojw==
+X-Forwarded-Encrypted: i=1; AJvYcCU2aTo9iBZhSrpJ4idYPkpzConPnCDziiRK8ghRHGQfl1BFYptaP4HEgswJ5aeOd4TBZp/LupBq0KgOafuXGVrtwfBr6PbCEINm
+X-Gm-Message-State: AOJu0YzFDvLCrCpRTytIK9Xze+NGrmGfGY1zZcZhDojp+/lMYBR4P/D3
+	gE+Acou/RP2PO2EDS8qwKlC7i6imOk/Bz0UnPdlcrWbryqRgmVKdQ0ZT4j+Uq+k=
+X-Google-Smtp-Source: AGHT+IGvFxgX5xtNHTBtY0C7eJHL1+eIyCwo+5PZLWqptHy/PaLq5avuplbL8is2vdZyJDDISqW3aw==
+X-Received: by 2002:aa7:d752:0:b0:562:10a7:9ebc with SMTP id a18-20020aa7d752000000b0056210a79ebcmr2286734eds.18.1707925679279;
+        Wed, 14 Feb 2024 07:47:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUUz6FmQmF5wn3+zPS6iPau8SZ/a9b4GG47ZBDtTcZsdbARlczj3X3HDZ7VCr4lYdZgGmw0O3qjxKmLBU+SNQqg8cyJdgFpE0goL9yS3+Y/ch/8yobscE2JRBajb8iw24jXUFK9bhYBAdnPuNh9swYTi4+1tpo92mLZHrijTpWPJ08TKi7hOFrH0ZqpnQfJ/NdP7xUsW/VCJIuzQKq5zQk1jtQ2nrNmh7mgbD+jjI5bY3KC5AAlPttLPp9vcGJS7Sfcneb8xquWCn+DNrDMJm3QnmWo0secBSBTV7X29e25Otd4DfnXTlGt1JMjL0lTUGahkBeXTx5UjIOPiRCQsMhFM/VF31zzl5c31y48nNt1ocIGfTKGZgwM
+Received: from [127.0.1.1] ([78.10.207.130])
+        by smtp.gmail.com with ESMTPSA id p2-20020a056402044200b0056200715130sm1424435edw.54.2024.02.14.07.47.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Feb 2024 07:47:58 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Christoph Winklhofer <cj.winklhofer@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <20240214-w1-uart-v7-3-6e21fa24e066@gmail.com>
+References: <20240214-w1-uart-v7-0-6e21fa24e066@gmail.com>
+ <20240214-w1-uart-v7-3-6e21fa24e066@gmail.com>
+Subject: Re: (subset) [PATCH v7 3/3] w1: add UART w1 bus driver
+Message-Id: <170792567823.152954.6100416373090677412.b4-ty@linaro.org>
+Date: Wed, 14 Feb 2024 16:47:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.4
 
-On Wed, 14 Feb 2024 14:13:10 +0100
-K=C3=B6ry Maincent <kory.maincent@bootlin.com> wrote:
 
-> Hello Rob,
->=20
-> Thanks for your review!
->=20
-> On Fri, 9 Feb 2024 14:43:49 +0000
-> Rob Herring <robh@kernel.org> wrote:
->=20
-> > On Thu, Feb 08, 2024 at 02:08:47PM +0100, Kory Maincent wrote: =20
-> > > Before hand we set "#pse-cell" to 1 to define a PSE controller with  =
- =20
-> >=20
-> > #pse-cells
-> >  =20
-> > > several PIs (Power Interface). The drawback of this was that we could=
- not
-> > > have any information on the PI except its number.   =20
-> >=20
-> > Then increase it to what you need. The whole point of #foo-cells is tha=
-t=20
-> > it is variable depending on what the provider needs.=20
-> >  =20
-> > > Add support for pse_pis and pse_pi node to be able to have more
-> > > information on the PI like the number of pairset used and the pairset
-> > > pinout.   =20
-> >=20
-> > Please explain the problem you are trying to solve, not your solution. =
-I=20
-> > don't understand what the problem is to provide any useful suggestions=
-=20
-> > on the design. =20
->=20
-> Please see Oleksij's reply.
-> Thank you Oleksij, for the documentation!!
->=20
-> > >=20
-> > > Sponsored-by: Dent Project <dentproject@linuxfoundation.org>   =20
-> >=20
-> > Is this a recognized tag? First I've seen it. =20
->=20
-> This is not a standard tag but it has been used several times in the past.
+On Wed, 14 Feb 2024 07:36:15 +0100, Christoph Winklhofer wrote:
+> Add a UART 1-Wire bus driver. The driver utilizes the UART interface via
+> the Serial Device Bus to create the 1-Wire timing patterns. The driver
+> was tested on a "Raspberry Pi 3B" with a DS18B20 and on a "Variscite
+> DART-6UL" with a DS18S20 temperature sensor.
+> 
+> The 1-Wire timing pattern and the corresponding UART baud-rate with the
+> interpretation of the transferred bytes are described in the document:
+> 
+> [...]
 
-Not so much used indeed:
-$ git log --grep=3D"Sponsored" | grep Sponsored    =20
-    Sponsored by:  The FreeBSD Foundation
-    Sponsored by:  The FreeBSD Foundation
-    Sponsored by:  The FreeBSD Foundation
-    Sponsored by:  The FreeBSD Foundation
-    Sponsored-by: Google Chromium project
-    Sponsored: Google ChromeOS
-    Sponsored: Google ChromeOS
+Applied, thanks!
 
-Is it ok to keep it?
+[3/3] w1: add UART w1 bus driver
+      https://git.kernel.org/krzk/linux-w1/c/178cf9db9e6d8fb0c026098c8f2d1fd92ae3d79b
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
