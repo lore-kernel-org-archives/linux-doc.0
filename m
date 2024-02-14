@@ -1,106 +1,167 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6051513A860;
-	Wed, 14 Feb 2024 18:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905595D493;
+	Wed, 14 Feb 2024 18:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707935568; cv=none; b=JBuyslHFJtUsyUAonuA2o09AtA2TYvZknzDLwmEbbJWGb4X9XabZv44Rh89AFXCCwmRdkapym5JhD+9Sqghwsf06XDc/WGmgGiWz6VG8q6ZxiiblFqUDEolxICzsa3Yma3LWZSAJC1BlzATf6WfM2UPzge4nLb265Cm4BwXzIZw=
+	t=1707935929; cv=none; b=oLf14/96GDo0fMIckTdvqxawOkD/cAkmx6Z7y6FpfaZEiB/fH99vNrch+J5VnIawSJCcS+SQF1jDlGCo+2SjYFAznCLjfO1IXJb6IRGpfJjgZ9aa/QH7eEdS5K8n0clm5ddOTenAE6pt4eq+L32iReMU4hMY/dq9TnIVsYq5Xrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707935568; c=relaxed/simple;
-	bh=IuK+eM/ruVmfucxOCVpJr4pgRfUXO86poVMtwruf07g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bmc3pYQ2bf6ljtFstsYuihijlyMvc4PM8Rxl+RjJSl6EMqQQkCaz5ZTCw+84U0zPOf/1DnmzVC0wD1eqgNOGVlmrInAo3FUNFT3Fn6E/EvS3htn4tQsf0IvJXT+ZYaEMQ0CzK8ck+MR7aCkxOeblOLmVxnZ/Gnd0uCNUjARopTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=dzKx4kuE; arc=none smtp.client-ip=77.93.223.253
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1707935929; c=relaxed/simple;
+	bh=QVq3liDeH2KL42FCECf1+liwAvFENQw3050DpAJwYG4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Wjs5xvBUIUcd8XSviSLP+9QhtLGfw4pU1J+fMLF/4yFepvlhMKzOFnwXbKIvVAXrk+olYjL5qpKhyNgO3s2h4+gdMc+/rb6yVlmXHniAXqMVwGnyZl5Q6tsQMEI73E/IKqGQ+EBW1H77D8dBRJZcjyoL9NoDDtDnvW7IUtCk4pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hgJnHJfj; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="dzKx4kuE"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 209C51A3A01;
-	Wed, 14 Feb 2024 19:32:42 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1707935562; bh=IuK+eM/ruVmfucxOCVpJr4pgRfUXO86poVMtwruf07g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dzKx4kuEIwHcPcuEujpoVgHx0rE76yy/IdYr58ShNP4dfAhc1nuO+OJEP52A/zG0f
-	 W4WsEIjFibsazN+qVMYvG7pwuEj1V9e+sNRHOw+VEk3U/nOHGMCcPhPR2QWoE7v9YU
-	 2VU8XpVWrahb99EfwoxzAGj0aL83Pm4BDVAo2veNdQmuQXUJ8N06A0U1NlyzTTjNiD
-	 odgj/SDZRHnbJ0PvQZL8NzXL89p0k6KtVrLqyslP+ObYc1SlMOGJ9vHOgVrDVVB0g+
-	 nnjUuLpK7ENXSavc9IkdJeaTdZldUiLXs0tEyr19A4dzk+niCL13FBYlxpNMpL8dFT
-	 v15zJYLN1NB/Q==
-Date: Wed, 14 Feb 2024 19:32:41 +0100
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "hpa@zytor.com" <hpa@zytor.com>, "Xu, Pengfei" <pengfei.xu@intel.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>, "luto@kernel.org"
- <luto@kernel.org>, "kirill.shutemov@linux.intel.com"
- <kirill.shutemov@linux.intel.com>, "brgerst@gmail.com" <brgerst@gmail.com>,
- "dwmw@amazon.co.uk" <dwmw@amazon.co.uk>, "corbet@lwn.net" <corbet@lwn.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Li, Xin3"
- <xin3.li@intel.com>, "roberto.sassu@huaweicloud.com"
- <roberto.sassu@huaweicloud.com>, "petr.tesarik1@huawei-partners.com"
- <petr.tesarik1@huawei-partners.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
- "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
- "peterz@infradead.org" <peterz@infradead.org>, "rppt@kernel.org"
- <rppt@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>, "mhiramat@kernel.org"
- <mhiramat@kernel.org>, "oleg@redhat.com" <oleg@redhat.com>,
- "keescook@chromium.org" <keescook@chromium.org>, "Huang, Kai"
- <kai.huang@intel.com>, "jacob.jun.pan@linux.intel.com"
- <jacob.jun.pan@linux.intel.com>, "zegao2021@gmail.com"
- <zegao2021@gmail.com>, "Rodel, Jorg" <jroedel@suse.de>, "mingo@redhat.com"
- <mingo@redhat.com>, "jpoimboe@kernel.org" <jpoimboe@kernel.org>, "Zhang,
- Tina" <tina.zhang@intel.com>, "Hansen, Dave" <dave.hansen@intel.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "petrtesarik@huaweicloud.com" <petrtesarik@huaweicloud.com>, Kees Cook
- <keescook@chromium.org>
-Subject: Re: [PATCH v1 0/8] x86_64 SandBox Mode arch hooks
-Message-ID: <20240214193241.7447a082@meshulam.tesarici.cz>
-In-Reply-To: <a27c9c32e410fc3582f3593f209cc1cf3b287042.camel@intel.com>
-References: <20240214113516.2307-1-petrtesarik@huaweicloud.com>
-	<c424618c-d6c6-430a-8975-8851a617204e@intel.com>
-	<34B19756-91D3-4DA1-BE76-BD3122C16E95@zytor.com>
-	<20240214174143.74a4f10c@meshulam.tesarici.cz>
-	<a27c9c32e410fc3582f3593f209cc1cf3b287042.camel@intel.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hgJnHJfj"
+Received: from [192.168.7.187] ([71.202.196.111])
+	(authenticated bits=0)
+	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 41EIbLoR1382415
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Wed, 14 Feb 2024 10:37:22 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 41EIbLoR1382415
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024021201; t=1707935845;
+	bh=Wyscpp4BeSOOqkorWNUGlqTxHcB1H2qViK6BNum7IEA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hgJnHJfjYr57XAd5LwZE5FNAwg9V6OIe22OtpG20MftHzDhneGEzZwogu0MVU++0D
+	 Q9DHMn3y0Dr5RUqUD4dKd+2C70ozwo3Y7MV4ifV71zXwOHh1khFcs5QDYURQhwbZRA
+	 OoZICB64lDGeLnzY28rmxDN2S552mNTc8xE04XwPGqwsikIjBeHo9VzYE2TaoROcxy
+	 B6BuKq86pEPlTRUn1fYLfz72rCtWW9e6gaFMXaD4L9FlRtJdGe8hSdKy4wm6veAJ3M
+	 JLquy9Us+R1SYz8m0vqWjEDCMN6Q+9zggfVmuqfuYzmm8OV2wzKNDIGDmGUk+cT+gi
+	 4sHVN13YitHtA==
+Message-ID: <eec160a4-fc59-4e7e-885f-0384a7ede4cf@zytor.com>
+Date: Wed, 14 Feb 2024 10:37:19 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 7/8] sbm: documentation of the x86-64 SandBox Mode
+ implementation
+Content-Language: en-US
+To: Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+        Xin Li <xin3.li@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao <zegao2021@gmail.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>, David Woodhouse <dwmw@amazon.co.uk>,
+        Brian Gerst <brgerst@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Joerg Roedel <jroedel@suse.de>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Tina Zhang <tina.zhang@intel.com>,
+        Jacob Pan
+ <jacob.jun.pan@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Cc: Roberto Sassu <roberto.sassu@huaweicloud.com>, petr@tesarici.cz,
+        Petr Tesarik <petr.tesarik1@huawei-partners.com>
+References: <20240214113516.2307-1-petrtesarik@huaweicloud.com>
+ <20240214113516.2307-8-petrtesarik@huaweicloud.com>
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <20240214113516.2307-8-petrtesarik@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-(+Cc Kees)
+On 2/14/2024 3:35 AM, Petr Tesarik wrote:
+> From: Petr Tesarik <petr.tesarik1@huawei-partners.com>
+> 
+> Add a section about the x86-64 implementation.
+> 
+> Signed-off-by: Petr Tesarik <petr.tesarik1@huawei-partners.com>
+> ---
+>   Documentation/security/sandbox-mode.rst | 25 +++++++++++++++++++++++++
+>   1 file changed, 25 insertions(+)
+> 
+> diff --git a/Documentation/security/sandbox-mode.rst b/Documentation/security/sandbox-mode.rst
+> index 4405b8858c4a..84816b6b68de 100644
+> --- a/Documentation/security/sandbox-mode.rst
+> +++ b/Documentation/security/sandbox-mode.rst
 
-On Wed, 14 Feb 2024 18:14:49 +0000
-"Edgecombe, Rick P" <rick.p.edgecombe@intel.com> wrote:
+where is this file?
 
-> On Wed, 2024-02-14 at 17:41 +0100, Petr Tesa=C5=99=C3=ADk wrote:
-> > Second, a sandbox can run unmodified kernel code and interact
-> > directly
-> > with other parts of the kernel. It's not really possible with this
-> > initial patch series, but the plan is that sandbox mode can share
-> > locks
-> > with the kernel.
-> >=20
-> > Third, sandbox code can be trusted for operations like parsing keys
-> > for
-> > the trusted keychain if the kernel is locked down, i.e. when even a
-> > process with UID 0 is not on the same trust level as kernel mode. =20
->=20
-> What use case needs to have the sandbox both protected from the kernel
-> (trusted operations) and non-privileged (the kernel protected from it
-> via CPL3)? It seems like opposite things.
+I assumed it's newly added, but your patch doesn't say so.
 
-I think I have mentioned one: parsing keys for the trusted keyring. The
-parser is complex enough to be potentially buggy, but the security
-folks have already dismissed the idea to run it as a user mode helper.
+> @@ -111,6 +111,31 @@ These hooks must be implemented to select HAVE_ARCH_SBM.
+>   		:identifiers: arch_sbm_init arch_sbm_destroy arch_sbm_exec
+>   			      arch_sbm_map_readonly arch_sbm_map_writable
+>   
+> +X86_64 Implementation
+> +=====================
+> +
+> +The x86_64 implementation provides strong isolation and recovery from CPU
+> +exceptions.
+> +
+> +Sandbox mode runs in protection ring 3 (same as user mode). This means that:
+> +
+> +* sandbox code cannot execute privileged CPU instructions,
+> +* memory accesses are treated as user accesses.
+> +
+> +The thread stack is readable in sandbox mode, because an on-stack data
+> +structure is used by call helpers and thunks to pass target function
+> +arguments. However, it is not writable, and sandbox code runs on its own
+> +stack. The thread stack is not used by interrupt handlers either. Non-IST
+> +interrupt handlers run on a separate sandbox exception stack.
+> +
+> +The interrupt entry path modifies the saved pt_regs to make it appear as
+> +coming from kernel mode. The CR3 register is then switched to kernel mode.
+> +The interrupt exit path is modified to restore actual pt_regs and switch the
+> +CR3 register back to its sandbox mode value, overriding CR3 changes for page
+> +table isolation.
+> +
+> +Support for paravirtualized kernels is not (yet) provided.
+> +
+>   Current Limitations
+>   ===================
+>   
 
-Petr T
+
+
