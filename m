@@ -1,110 +1,95 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3193604CB;
-	Wed, 14 Feb 2024 16:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7340E60864;
+	Wed, 14 Feb 2024 16:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707928910; cv=none; b=XXQE2m4GetkY4An3zYqC5t7hpM2kEvkUYw0sjiW+DVb7zN1EKxGm8jfyOvw+7tV6299M06MFRMzvTGFZknPtYwkJxSlFPE+FKgqVNFRKOs06o75+MFvK3/9aJiLJgr3cWhphkSKnammuqmhSJobha3CMGP94aZWIlTsGvB4+bmk=
+	t=1707929061; cv=none; b=uNsikm8bq5OZK3U9Gy8lTanLGioGxEl0v0mDQTvwsAOoNkBr7iByQKw98LDbyp0Fs+4s5RMGbrZEC2a2wjozB+qFW2IIYUoA05nYTCHQbfUyLydrUNTzkDeEyqotO/6RYFRbWjGsqRBvBDkXju9By9ZGlULQ+Jqoi0dP3fieLt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707928910; c=relaxed/simple;
-	bh=Q71/BpMJg/AbWqKP1qYJYFEPWrystXrQwaexXADRFQI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c/X6K5IUt6nYyDqiF6ToYwdqbSQWTEXss4Ihc76MNupJALGwyPT2UPaxX4/firSvhAwY4BQ0mHsueQA5jnJ5UlkQDsz1Bdib2ZM+Br7nVvAYG8WFxLhFwcv7EMoUG4OeDVuFckQhNlbR/PFlTx5DLi3lSC0IuYuScUAFmGCqy0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=KMr/uUb6; arc=none smtp.client-ip=77.93.223.253
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1707929061; c=relaxed/simple;
+	bh=sfJuXclO1Ov9A69m5w+ZOgsfMXgKljyna2t9SiCtuw8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mHWbaT/WoRXUQcArzu7MMjOBqcoV+wImBK2n1kcWyMMqNFBGoNAwF4Iwtl+5fMezNP5I4pbffTUiBp+3rXwDjBnPJA2B1rPFnSHvqze1BDe1HU2j9fjbqk9aFbLAh4PObqltdu+YI1pKg1qyJtTCNd2fRX5X5whzwo0WP0Gt3s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EDQ4KWpZ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="KMr/uUb6"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id ABAE01A3327;
-	Wed, 14 Feb 2024 17:41:44 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1707928905; bh=mWZaJmgfhSWtEVIgRgaY/fsWvIsUU9IZYFtOlNYiHBs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=KMr/uUb6j0nYhwom+VKWjHGvMY7NB+megm25xjcgJ1qMcXzqb/MECJqgd3Wj9U6bW
-	 dGKUN/hbKMkhuNY0/L9kNi/2Vu2Qd16/7ScV7CWQNWxE13hd6WV7gv7mU8dYK+7Dn3
-	 WCombV/Ju5/DhXQqzSKaUY97Zxwz/MVN76c+3nJjWG7wLSBKdApg46oMgS5RzCRSWw
-	 ZVCXhmIc6nS5e2k46nMxJxBcSKiruSLp9ECp73KU3yGyiSw3ky+gZa7PV2uRSUqFSC
-	 R/U5HMItUgGvJRUIihuVkRc2mlxbCOaPB51IpKrKTmy1m5TR/5EHWzcE+F7tpPww1M
-	 /Q0ONf7ZdyBig==
-Date: Wed, 14 Feb 2024 17:41:43 +0100
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Dave Hansen <dave.hansen@intel.com>, Petr Tesarik
- <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>, Thomas
- Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
- Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, Andy
- Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter
- Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
- <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Kees Cook <keescook@chromium.org>, "Masami
- Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu
- <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao
- <zegao2021@gmail.com>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Kai Huang <kai.huang@intel.com>, David
- Woodhouse <dwmw@amazon.co.uk>, Brian Gerst <brgerst@gmail.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
- (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
- <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Roberto Sassu <roberto.sassu@huaweicloud.com>, Petr Tesarik
- <petr.tesarik1@huawei-partners.com>
-Subject: Re: [PATCH v1 0/8] x86_64 SandBox Mode arch hooks
-Message-ID: <20240214174143.74a4f10c@meshulam.tesarici.cz>
-In-Reply-To: <34B19756-91D3-4DA1-BE76-BD3122C16E95@zytor.com>
-References: <20240214113516.2307-1-petrtesarik@huaweicloud.com>
-	<c424618c-d6c6-430a-8975-8851a617204e@intel.com>
-	<34B19756-91D3-4DA1-BE76-BD3122C16E95@zytor.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EDQ4KWpZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=hftmzppcjHlorwgYJRp+lM988Qc6AOkd1AYuK4Aj3w0=; b=EDQ4KWpZCjyQrQSpbU0qS+hfgt
+	U4P5K0QWOTlNO/Gy8Ld5ua4ISXBQE4e2dzeLr7QZiWq5AccxD+wDdQKRMrq6mg9JUIKSTXqNfmS7w
+	6cKSKmJNrDBI9JIt8AlH2G8yNuwDnTmwMBbhnOqs+U7mVYByFqFrtNmnpaNs47cSWotVHv99u/m+m
+	P5h/bPloUGfsWPo9+SIPBrLJWDvXf+ViYExv7xpbpli68n8XxtIaRcjMbDIPznKFXmqZ/mPHD28f6
+	ukZssGWyaVq91PablLgmHy6YRoqm4GIyw4g0tVH/8IcaFt4Y5RvY0UDDTmdr5FhLzqQuMs+FoXtfs
+	kXvpKg+A==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1raIMr-0000000Da5u-48Th;
+	Wed, 14 Feb 2024 16:44:18 +0000
+Message-ID: <768355d0-df1e-48dd-b7fd-9ed34f7a4b7c@infradead.org>
+Date: Wed, 14 Feb 2024 08:44:17 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: Document the Linux Kernel CVE process
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, security@kernel.org,
+ Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
+References: <2024021314-unwelcome-shrill-690e@gregkh>
+ <60d67476-5c56-4fa4-93cf-1eb8f5aa5953@infradead.org>
+ <2024021450-giddy-garland-e499@gregkh>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <2024021450-giddy-garland-e499@gregkh>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Wed, 14 Feb 2024 07:28:35 -0800
-"H. Peter Anvin" <hpa@zytor.com> wrote:
 
-> On February 14, 2024 6:52:53 AM PST, Dave Hansen <dave.hansen@intel.com> =
-wrote:
-> >On 2/14/24 03:35, Petr Tesarik wrote: =20
-> >> This patch series implements x86_64 arch hooks for the generic SandBox
-> >> Mode infrastructure. =20
-> >
-> >I think I'm missing a bit of context here.  What does one _do_ with
-> >SandBox Mode?  Why is it useful? =20
->=20
-> Seriously. On the surface it looks like a really bad idea =E2=80=93 basic=
-ally an ad hoc, *more* privileged version of user shave.
 
-Hi hpa,
+On 2/13/24 23:15, Greg Kroah-Hartman wrote:
+> On Tue, Feb 13, 2024 at 11:56:42AM -0800, Randy Dunlap wrote:
+>>> +As part of the normal stable release process, kernel changes that are
+>>> +potentially security issues are identified by the developers responsible
+>>> +for CVE number assignments and have CVE numbers automatically assigned
+>>> +to them.  These assignments are published on the linux-cve mailing list
+>>
+>>                                                     linux-cve-announce mailing list
+> 
+> Ah, good catch, you can see the "old" name for the list here, this is
+> due to this document being an older version, a symptom of "write it on
+> my workstation, sync to laptop, travel with laptop for 3+ weeks and make
+> changes based on meetings with CVE and others and then forget to sync
+> from laptop when arriving home".
+> 
+> Ugh :(
+> 
+> Thanks so much for the grammer fixes, they are much appreciated.  I'll
+> apply them and send out the latest version in a bit.
+> 
+>>> +No CVEs will be assigned for unfixed security issues in the Linux
+>>> +kernel, assignment will only happen after a fix is available as it can
+>>
+>>    kernel;
+>>
+>>> +be properly tracked that way by the git commit id of the original fix.
+> 
+> One of my goals in life is to never use a ';' in a sentence, and after
+> writing 2 books without them, I thought I achieve that pretty well as I
+> never seem to remember when they are to be used or not.  But I'll trust
+> you on this and use it here.
 
-I agree that it kind of tries to do "user mode without user mode".
-There are some differences from actual user mode:
+For some reason kernel documentation has a plethora of run-on sentences. :(
 
-First, from a process management POV, sandbox mode appears to be
-running in kernel mode. So, there is no way to use ptrace(2), send
-malicious signals or otherwise interact with the sandbox. In fact,
-the process can have three independent contexts: user mode, kernel mode
-and sandbox mode.
+Guess we need doclint.
 
-Second, a sandbox can run unmodified kernel code and interact directly
-with other parts of the kernel. It's not really possible with this
-initial patch series, but the plan is that sandbox mode can share locks
-with the kernel.
-
-Third, sandbox code can be trusted for operations like parsing keys for
-the trusted keychain if the kernel is locked down, i.e. when even a
-process with UID 0 is not on the same trust level as kernel mode.
-
-HTH
-Petr T
+-- 
+#Randy
