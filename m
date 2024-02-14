@@ -1,46 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCD71420A6;
-	Wed, 14 Feb 2024 22:28:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C225312E72;
+	Wed, 14 Feb 2024 22:31:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707949695; cv=none; b=punQBtdPgugiMMiVywP4fvzuJOm8WBH8IwA/ZzPKpH6zQYOgTNlYEIRGpCYgTKzXv5HA8Nwhx0n9YWkyMtnB403l/30WihKhrrh2lI+EQMnMqnEVeqxxC+xl/5422of/etQwR44ztn+lW51Pij/PoQDNV7/FfbRA+1pngb0kqqE=
+	t=1707949868; cv=none; b=mrMfefpBaFaWmD7Pc1rJsOS/KV5IGkiiswH/vBfH670IRBcu+vWf5UnzhLOwdkPL8hZBgYwZrd5bkKxi+DMaRm1FwDJqZxDEnnms5jiySALVnlGbqv3Ub92E6bHbrRbRrfr61hw7Pfwm06QMpEbB6xSPyb/u1V3ylG3pycNCBNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707949695; c=relaxed/simple;
-	bh=dr6lNGuiUFMOm6kjpti+lKwB4aZCdRAyvldzrQmbQbE=;
+	s=arc-20240116; t=1707949868; c=relaxed/simple;
+	bh=Vxx+5XQMr8IU3WwkkyPFm5kBEdOfFEh/PDssEC6a2rk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FnGuA2GncxqL6CCXzyoIOu19qvEAsWzmKr1PdEJ/3CQJTq0Ml3JzdJjT7P47ocvceyugANHOGAMzZFeYgEO1XcLiX81xYX0p8PV2V46G1OG/syWG/Pa3pJRpvlkwsj1RxNnZRkb4VsjNwQ87HqgBqk8Y2Avu5LRuqNE4NADkKYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=B6C6M4z5; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=fWA41iIUtwLfx/g8yJTYlZh33zdtVhkm5cAk6qhLp0C/zhmBf3U1nduqjKrFVBmXtv/AM9Cmen+bUKwGXCBgOPeuKwetRrMfWBDbpa1iR8yf7VE2WS3AEOmqLrY0lgRCCflietNQjMB6z3UkMUe35CwrK/HWUJuPNJwbRI6KojI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nMfaSpo1; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="B6C6M4z5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 53DD642A45
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nMfaSpo1"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CC57742A45
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707949693; bh=vI0aS1kD+SnlU/BjSQqS1ZEksgUoJ9xDBQO/bMscYvs=;
+	t=1707949862; bh=L9JTrntkGwLJIcEnJGq6gLx3hEcUtseFjlblR5IDflg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=B6C6M4z58fkKyB07kJhbOm9zdZOptNZnvd+xTGiko6/QLgUFZi5Sgr3Jl6uOnZ9Cs
-	 i3l3dHsFb4DwXoK6qQB1D4P1liLU5va89iEnGU5RinUKNkA/s5n+44jLEyyn79A1B+
-	 3FqlI+x6BwjVDuyaTve514dB79+CZLszKOoLlKmfy8DVi7Bkd84tjSfgULZuhCK9e3
-	 FApoaNwIVyqsH5dJLTq1aGNqbsQuAiCctq+pNY/l/ZExDzhDB33ObyFkXICrFgup2t
-	 cNo9ozqV/FGF1X611a3s9Z6ucXFTlKiLwYuJCt0+TNTE/zHI0+Sy1QC0cZRprD6mHt
-	 kVZj4xQ6IeY3A==
+	b=nMfaSpo1rj9paaaQm6KUbXS2tlYhEeTWNgHKu+XBttotE0gujNjXSdOF4U/HEpRDD
+	 2ZQZHSdAVEVObwCE9h5PMwx4YiAgOr5woZrZ/HuFxX0P1jXW8v8fyFlC75wsy2XpLU
+	 ks0QGvfSD96Ug0vIlun7/tdSW667bU4z4V8FqCcEtK+b45wgYHwHK7ztifZ1oDCUwL
+	 4PWma4XC/5MWi2GLSCyJreL2QvIfLQfrzMXuxb620w2md7BHjsrgkAfnsYDaMkcjNL
+	 ntnsHDfInYRiMpzhgq668y/xano47dJbO0s6nI2283DqS16kxNTkR2lH9EsP2xldNj
+	 f5PhEX9KuDFCw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 53DD642A45;
-	Wed, 14 Feb 2024 22:28:13 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id CC57742A45;
+	Wed, 14 Feb 2024 22:31:01 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Federico Vaga <federico.vaga@vaga.pv.it>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Davide Benini
  <davide.benini@gmail.com>, Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: Re: [PATCH] doc:it_IT: remove unreferenced and not translated page
-In-Reply-To: <20240209222115.31505-1-federico.vaga@vaga.pv.it>
-References: <20240209222115.31505-1-federico.vaga@vaga.pv.it>
-Date: Wed, 14 Feb 2024 15:28:12 -0700
-Message-ID: <87le7mznnn.fsf@meer.lwn.net>
+Subject: Re: [PATCH] doc:it_IT:  add translation for I2C summary and protocol
+In-Reply-To: <20240209220126.28042-1-federico.vaga@vaga.pv.it>
+References: <20240209220126.28042-1-federico.vaga@vaga.pv.it>
+Date: Wed, 14 Feb 2024 15:31:01 -0700
+Message-ID: <87h6iazniy.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,16 +51,24 @@ Content-Type: text/plain
 
 Federico Vaga <federico.vaga@vaga.pv.it> writes:
 
-> The netdev-FAQ page in the italian translation was creted to avoid
-> having broken links. With the evolution of the documentation this was
-> not referenced anymore, but the page never removed.
+> From: Davide Benini <davide.benini@gmail.com>
 >
-> Reported-by: Davide Benini <davide.benini@gmail.com>
+> This patch adds the italian translation for I2C subsystem summary and
+> protocol. Plus, a reference in the subsystem-apis page.
+>
+> Signed-off-by: Davide Benini <davide.benini@gmail.com>
 > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 > ---
->  .../translations/it_IT/networking/netdev-FAQ.rst    | 13 -------------
->  1 file changed, 13 deletions(-)
->  delete mode 100644 Documentation/translations/it_IT/networking/netdev-FAQ.rst
+>  .../translations/it_IT/i2c/i2c-protocol.rst   | 99 +++++++++++++++++++
+>  .../translations/it_IT/i2c/index.rst          | 46 +++++++++
+>  .../translations/it_IT/i2c/summary.rst        | 64 ++++++++++++
+>  Documentation/translations/it_IT/index.rst    |  1 +
+>  .../translations/it_IT/subsystem-apis.rst     | 47 +++++++++
+>  5 files changed, 257 insertions(+)
+>  create mode 100644 Documentation/translations/it_IT/i2c/i2c-protocol.rst
+>  create mode 100644 Documentation/translations/it_IT/i2c/index.rst
+>  create mode 100644 Documentation/translations/it_IT/i2c/summary.rst
+>  create mode 100644 Documentation/translations/it_IT/subsystem-apis.rst
 
 Applied, thanks.
 
