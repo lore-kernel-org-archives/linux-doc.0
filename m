@@ -1,156 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEF7BA22;
-	Wed, 14 Feb 2024 02:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C584FB64A
+	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 03:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707877380; cv=none; b=EZTEpkuDSk6x+IrnK5ASQWBw6ve/cCQYy5ZMpIrceTz+t8TFXluSXSkNu/rDv4A3mlJ9hFIvAg3l+LpWCzq+eHMgz9RvEwClu3zWNeaEUnMnQuOjuXnWYc0OuEW5hMaQzN9sI4i5ch7Nro4ErBMhgX3aRrVW25HiTYeVKyNpMgk=
+	t=1707880469; cv=none; b=KIZDKKvnnEykNGa/O5oJXsLoo46Wc9mEtCf7l2fUWd01ESMqS09uRnM8Pl0P9Q/pTeub+id+kS2qLgUuzXsBhYxs+2L02HVbTUHIQSJTXZaDN0dV2gOHewESrUiikvD4f1e9cHNZqTc1iUMghJOmCgPzrUXaSlaJIgkECmCxJfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707877380; c=relaxed/simple;
-	bh=mYU4BqeqoU+8q8eBooFhBgcQd6WMmusiCtW20ZTS80g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IOZr2ZF3Pa3mUNvMgMWkd2TMmO9l2dJNBLLdePVoLtcuxKGvVG8+S6CLpFC3BZ/ot2SS3FuBHkZLXoyEUTzNTleej59UZe/MhUtbC5hXMAoYt9/N0v2/FzxM3CDu2r4amwFz8lAfDW0ain9Ubgxv1VDiTN7uE08IQnN0xHdMFV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XHiS2cTA; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707880469; c=relaxed/simple;
+	bh=DjlvOe+u+cyrL4JYuO9gr+urwu384Wuuey1WJE8DSes=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SEnV2Waw0jPG0T7FNI7optzbSo/QNJofGoItUIMaVwGb2R30WVKSoZS4TICSjTm5h6ofxC/HqgUU4jGVgteX9CloZ+RXc7JkdD4PBOlWFxO+vyX82VO2k2PCQXl5fO8kfjRbOwDDwFeC8kghXNJzuhtt0aeDkGJqD9GaSBKZRnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu; spf=pass smtp.mailfrom=umich.edu; dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b=oTkGF7IN; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=umich.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XHiS2cTA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707877378; x=1739413378;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mYU4BqeqoU+8q8eBooFhBgcQd6WMmusiCtW20ZTS80g=;
-  b=XHiS2cTAOLhWqZY7Ze4kn/BbNSLHUBmbzJ1Nq1Kdb8ecU1J58aCzZls3
-   bRduvcxXRe11axdwF6e1B1oVpCccvVMhOKKxRTpF35vQ13ufR3QDAQC+y
-   1SMCDO2TSO5yHAHEXoZIxi2ADvIl6k04QrQEk5sb5wr+X/UlIr/kY+I6j
-   oRP2miooBHaGm+iRWe+cz+96TbEHiELc/rl4EglTsgIIf/0755Vzy8brz
-   Cj2g4J6mqw9uJxP8emuj0ZIn781WFVSs+x+GdMyt26tss1P9fd4HMGfEf
-   A46yGohgmaoylMX1FG8SrDjYBdUxGA5XyGyIaDmMppayC8TTDrluQlpO9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="27359354"
-X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
-   d="scan'208";a="27359354"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 18:22:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,158,1705392000"; 
-   d="scan'208";a="26229202"
-Received: from diegoavi-mobl.amr.corp.intel.com (HELO desk) ([10.255.230.185])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2024 18:22:56 -0800
-Date: Tue, 13 Feb 2024 18:22:56 -0800
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, tony.luck@intel.com,
-	ak@linux.intel.com, tim.c.chen@linux.intel.com,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Alyssa Milburn <alyssa.milburn@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	antonio.gomez.iglesias@linux.intel.com
-Subject: [PATCH  v8 6/6] KVM: VMX: Move VERW closer to VMentry for MDS
- mitigation
-Message-ID: <20240213-delay-verw-v8-6-a6216d83edb7@linux.intel.com>
-X-Mailer: b4 0.12.3
-References: <20240213-delay-verw-v8-0-a6216d83edb7@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b="oTkGF7IN"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dccb1421bdeso1344696276.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Feb 2024 19:14:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umich.edu; s=google-2016-06-03; t=1707880465; x=1708485265; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DjlvOe+u+cyrL4JYuO9gr+urwu384Wuuey1WJE8DSes=;
+        b=oTkGF7INEwmhImM3Fdzh8IEZN02Nyq8pWl0G/5VdH06v0kRby8N3zJvVIhVaB830lq
+         hnL5gSf4HHBuW6b11+vPITS0inE0tjwoZyM/ueSKG4+OiXJu//a0rG10UOH3iV5I9UY7
+         chfSdfIRQdm1Sg+dZmEPMDV30y9cKhggyqIQFgtiP5tZx2wjiX7PfC9zhd65Xru0sSLo
+         NfINhU/r+MAtnwH2r41Jokc/n9/EcDRaAV7eKpaUcez3RoyhSx9m2GgROzEsCaB69oQl
+         +/vGsfeBDo0e4jYLS1EKI/OEP76/U4aqV4rmDfjZiaMXgKxFDN8E4FrnTol+WIgSkTY+
+         /eJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707880465; x=1708485265;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DjlvOe+u+cyrL4JYuO9gr+urwu384Wuuey1WJE8DSes=;
+        b=pWm+pzsv4IJbleAexT3+3FB2xwyvUGZcCXxz1/OYYyOnR0UEJ9h74SZYGCbtGLEfdd
+         2U0iIZpRcj9E4hEzvHT/EIFtNytHZ+lQ+9WY0ldou8ywVGCx3PUvpXbcV02YXwCOXT0W
+         cn2Jnzw7mdzEueFjNh2KE/lp08hA6Qxu5wgiunGD3Skj1iA+XQR5xp68vKvCWe42n4Y0
+         fwcKmoE8Quu/k5wte9Zu/+GBN2yQ345LetnVAJDRBuYiX7S1jleWoFSbidmkn+Dxktfw
+         cvz2WtvUxoO03JH3P4UGaEEnm8utJcuhAlnTVIUU0VT11nGqAbTJvzBLxpqZXvOAH1yG
+         Dktw==
+X-Forwarded-Encrypted: i=1; AJvYcCVK+FEMYpYMBU8Fxs86vOvy02xAmqXo+sJ1kPZzg7qwOM39YEWLMBC+HXIJ+E/r2kBDg2NRDt7UKBZBQXrZcW8l3qYqOn9D/qIE
+X-Gm-Message-State: AOJu0Yy3byOQBYqsDuwDPHovA7w1RnF31zxa43gDivOd6vTBwwxX+Szg
+	aUriw8ZD4SncsccfIeg7cBIwWVzx0fckIl/jbf9Y6V8afETobGPWTJtgsMHkmv4jqeQ0y4Yh1NS
+	RnzUTeQCklr5bFyW+0OrM6e5wpHm471hYH3MWrw==
+X-Google-Smtp-Source: AGHT+IFmvahvMgHVHQaI6LwlEgKPCBhhHem9kf5KUi6p+9U914j80HCS2QMvVYyZLMVtuaXgRDEFCZnR80UsYKJdDNU=
+X-Received: by 2002:a25:aacb:0:b0:dcc:35ca:aac4 with SMTP id
+ t69-20020a25aacb000000b00dcc35caaac4mr1239282ybi.51.1707880465625; Tue, 13
+ Feb 2024 19:14:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240213-delay-verw-v8-0-a6216d83edb7@linux.intel.com>
+References: <20240117-swiftly-parasail-618d62972d6e@spud> <CANiq72mVKCOAuK4Qe+8AHmpkFwyJsVfx8AqB7ccGi3DYpSSWcw@mail.gmail.com>
+ <20240118-implode-delirium-eefdd86e170e@spud> <CANiq72nx1s_nyvPW86jL7eiOxROr18LfOJqNtw8L42CP+gkhRg@mail.gmail.com>
+ <20240125-bucked-payroll-47f82077b262@wendy> <CANiq72k7n0aZrifRRU08N8qLkNe+2EZwijZy5sM7M56n2xYHgQ@mail.gmail.com>
+ <20240125-lazy-thrower-744aacc6632a@wendy> <CANiq72kb+_utZrYHtoKZQtQazikmkjpVUHpTBcaANizduMF5QQ@mail.gmail.com>
+ <20240126-eccentric-jaywalker-3560e2151a92@spud> <CANiq72nu2NXUWYanHZd5EXgX4P_v673EWn6SCRW60Es9naraQQ@mail.gmail.com>
+ <20240209-rage-keg-1b2982cd17d9@spud> <CALNs47sRqAbE=u3=_ciO2oge7Afz-6GBBhW+BwcLRET-TsuxTg@mail.gmail.com>
+ <CAOcBZOSfN8Yefez_Gy_T3_QTAd4HcLzmMCOoR37K2agWD_U_PQ@mail.gmail.com>
+ <CABCJKueFuDkmUmXWbtA3DveQ719vdZx5kBQE1bZ1f6oD5zYNzA@mail.gmail.com> <CAOcBZOQMF9_QqPvTPoRa=uHw11o74-hm=YdjtDCTj-yeq4nwjg@mail.gmail.com>
+In-Reply-To: <CAOcBZOQMF9_QqPvTPoRa=uHw11o74-hm=YdjtDCTj-yeq4nwjg@mail.gmail.com>
+From: Trevor Gross <tmgross@umich.edu>
+Date: Tue, 13 Feb 2024 22:14:14 -0500
+Message-ID: <CALNs47tr4nGhGTahZ9jyv-t4yKAGs-EX_fSZ_jwyT7WoYaB2WA@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
+To: Ramon de C Valle <rcvalle@google.com>
+Cc: Sami Tolvanen <samitolvanen@google.com>, Conor Dooley <conor@kernel.org>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	linux-riscv@lists.infradead.org, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	Matthew Maurer <mmaurer@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-During VMentry VERW is executed to mitigate MDS. After VERW, any memory
-access like register push onto stack may put host data in MDS affected
-CPU buffers. A guest can then use MDS to sample host data.
+On Tue, Feb 13, 2024 at 3:09=E2=80=AFPM Ramon de C Valle <rcvalle@google.co=
+m> wrote:
+>
+> On Mon, Feb 12, 2024 at 12:36=E2=80=AFPM Sami Tolvanen <samitolvanen@goog=
+le.com> wrote:
+> >
+> > On Mon, Feb 12, 2024 at 11:04=E2=80=AFAM Ramon de C Valle <rcvalle@goog=
+le.com> wrote:
+> > >
+> > > Sorry for the late reply. Sami might be the best person to answer
+> > > this, but KCFI (not CFI) tests are lowered by passes that are
+> > > architecture specific (see https://reviews.llvm.org/D119296), so we'd
+> > > need to add support for RISC-V. There is no additional work required
+> > > in the Rust compiler besides enabling it for the new target.
+> >
+> > LLVM 17 added KCFI support for RISC-V. Sounds like it's just a
+> > question of whether rustc uses a new enough version of LLVM then?
+>
+> rustc is using LLVM 17 since
+> https://github.com/rust-lang/rust/pull/114048, so I guess I can enable
+> it for RISC-V targets in
+> https://github.com/rust-lang/rust/tree/master/compiler/rustc_target/src/s=
+pec/targets,
+> and the Linux kernel will get it on the next compiler update?
 
-Although likelihood of secrets surviving in registers at current VERW
-callsite is less, but it can't be ruled out. Harden the MDS mitigation
-by moving the VERW mitigation late in VMentry path.
+18 as of a few hours ago :) https://github.com/rust-lang/rust/pull/120055
 
-Note that VERW for MMIO Stale Data mitigation is unchanged because of
-the complexity of per-guest conditional VERW which is not easy to handle
-that late in asm with no GPRs available. If the CPU is also affected by
-MDS, VERW is unconditionally executed late in asm regardless of guest
-having MMIO access.
-
-Cc: stable@kernel.org
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Acked-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/kvm/vmx/vmenter.S |  3 +++
- arch/x86/kvm/vmx/vmx.c     | 20 ++++++++++++++++----
- 2 files changed, 19 insertions(+), 4 deletions(-)
-
-diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
-index ef7cfbad4d57..2bfbf758d061 100644
---- a/arch/x86/kvm/vmx/vmenter.S
-+++ b/arch/x86/kvm/vmx/vmenter.S
-@@ -161,6 +161,9 @@ SYM_FUNC_START(__vmx_vcpu_run)
- 	/* Load guest RAX.  This kills the @regs pointer! */
- 	mov VCPU_RAX(%_ASM_AX), %_ASM_AX
- 
-+	/* Clobbers EFLAGS.ZF */
-+	CLEAR_CPU_BUFFERS
-+
- 	/* Check EFLAGS.CF from the VMX_RUN_VMRESUME bit test above. */
- 	jnc .Lvmlaunch
- 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 40594eae2cd3..305237dcba88 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -389,7 +389,16 @@ static __always_inline void vmx_enable_fb_clear(struct vcpu_vmx *vmx)
- 
- static void vmx_update_fb_clear_dis(struct kvm_vcpu *vcpu, struct vcpu_vmx *vmx)
- {
--	vmx->disable_fb_clear = (host_arch_capabilities & ARCH_CAP_FB_CLEAR_CTRL) &&
-+	/*
-+	 * Disable VERW's behavior of clearing CPU buffers for the guest if the
-+	 * CPU isn't affected by MDS/TAA, and the host hasn't forcefully enabled
-+	 * the mitigation. Disabling the clearing behavior provides a
-+	 * performance boost for guests that aren't aware that manually clearing
-+	 * CPU buffers is unnecessary, at the cost of MSR accesses on VM-Entry
-+	 * and VM-Exit.
-+	 */
-+	vmx->disable_fb_clear = !cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF) &&
-+				(host_arch_capabilities & ARCH_CAP_FB_CLEAR_CTRL) &&
- 				!boot_cpu_has_bug(X86_BUG_MDS) &&
- 				!boot_cpu_has_bug(X86_BUG_TAA);
- 
-@@ -7227,11 +7236,14 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
- 
- 	guest_state_enter_irqoff();
- 
--	/* L1D Flush includes CPU buffer clear to mitigate MDS */
-+	/*
-+	 * L1D Flush includes CPU buffer clear to mitigate MDS, but VERW
-+	 * mitigation for MDS is done late in VMentry and is still
-+	 * executed in spite of L1D Flush. This is because an extra VERW
-+	 * should not matter much after the big hammer L1D Flush.
-+	 */
- 	if (static_branch_unlikely(&vmx_l1d_should_flush))
- 		vmx_l1d_flush(vcpu);
--	else if (cpu_feature_enabled(X86_FEATURE_CLEAR_CPU_BUF))
--		mds_clear_cpu_buffers();
- 	else if (static_branch_unlikely(&mmio_stale_data_clear) &&
- 		 kvm_arch_has_assigned_device(vcpu->kvm))
- 		mds_clear_cpu_buffers();
-
--- 
-2.34.1
-
-
+Just for an idea of timing, anything merged this month will be in 1.78
+on 2024-05-02.
