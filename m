@@ -1,83 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F6813A87B;
-	Wed, 14 Feb 2024 18:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542F313A262;
+	Wed, 14 Feb 2024 18:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707936287; cv=none; b=InH7ftdvympKYofcwTxxpkFZ79WVWAPv9cKcwFMdhu93F+fkeDWS2Puu+rtIIyk+UGCtiVXWe0T+Ri0+bd9xJJw1h5e7321FEvVbkMYsqdJ5NNMLPDWCy3Bf/R2ItUmVxYyJ0PPLC5xftxaJPYsJY0DOK4I4ZjdwUODYH8wb2D8=
+	t=1707936536; cv=none; b=XdVRKPISpgtKbxAkL+hdDAHq3UdxW+esgWTac07GhBTAn2fyzCkLt5+kZyPmjD/HxFLlxQDsaV6FEPeaqVRkUq44fmsCTxwsNFcWeegMS5CDKR5z6eeIZs/EhkwcAKIt/6fpFia+tR2d5L4tfX6T5EKUGJz1eId505rHGJYE7Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707936287; c=relaxed/simple;
-	bh=KFBiMaQU/PxUVXVt4KYkyObRHLVGfa0+L/fkok95v0E=;
+	s=arc-20240116; t=1707936536; c=relaxed/simple;
+	bh=ejiWvMBTFfDP5bYwemxPHCGB5A7hNC8yP0sXjxxKzhg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rX259Tr/sold6AGE7fLoYT71G1rFJbmHHlIhnJWFh8sP2ye3c8HIxGCbabcOBh55JnnsELxo1E8j2bDFsOr9uMB1ngfD26ZAwSuc+/2hKnsc6XfxhMMlSiKMVrgLiGNSLGcu6L9PvBDupXRQD/0mSgNHSP451carz7toItxXKm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=black.fi.intel.com; spf=pass smtp.mailfrom=intel.com; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=black.fi.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="1850738"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
-   d="scan'208";a="1850738"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 10:44:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="935617408"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
-   d="scan'208";a="935617408"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Feb 2024 10:44:34 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id B4D90204; Wed, 14 Feb 2024 20:44:33 +0200 (EET)
-Date: Wed, 14 Feb 2024 20:44:33 +0200
-From: Andy Shevchenko <andy@black.fi.intel.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
-	liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, peterx@redhat.com, david@redhat.com,
-	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com,
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
-	elver@google.com, dvyukov@google.com, shakeelb@google.com,
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 00/35] Memory allocation profiling
-Message-ID: <Zc0KEfoCVvP1kWvA@black.fi.intel.com>
-References: <20240212213922.783301-1-surenb@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dfb2JgiIlNyMaWTZEJq+knUi70zbAt8DQC1Nlo8VH0I2iDWF+nu0MuANEbXWTy/MWEOiRyRjO2CWxPuu8muL0aYoyZzDKpnGbJFWlzoX+ledO9p02Ut4EN533e/Nhxms9Vna/TZBG7Y44RCzSyeHLJKciMstezXz5WPNR1mce2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=U+4WPR7F; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U+4WPR7F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AE04C433C7;
+	Wed, 14 Feb 2024 18:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707936535;
+	bh=ejiWvMBTFfDP5bYwemxPHCGB5A7hNC8yP0sXjxxKzhg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U+4WPR7F+47WH60A3+xBF8axrzPeVAgwicuRlfc9bYhYJrvhtOwpLzXZ7qvEGQDng
+	 qRdBIJQI1aIdcuCJFL0aAZRTqMMRJ9pBxBZrwOWp4dtlNvW8kLLpaT8+02Dwvx1aLf
+	 CGhn3AYWvzcALYu4/qR3qe51l2t4eNN05rB6IPuY=
+Date: Wed, 14 Feb 2024 19:48:52 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Petr Tesarik <petrtesarik@huaweicloud.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Kaplan <david.kaplan@amd.com>,
+	Larry Dewey <larry.dewey@amd.com>,
+	Elena Reshetova <elena.reshetova@intel.com>,
+	Carlos Bilbao <carlos.bilbao@amd.com>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Petr Mladek <pmladek@suse.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Eric DeVolder <eric.devolder@oracle.com>,
+	Marc =?iso-8859-1?Q?Aur=E8le?= La France <tsi@tuyoix.net>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Mike Christie <michael.christie@oracle.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Maninder Singh <maninder1.s@samsung.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Roberto Sassu <roberto.sassu@huaweicloud.com>,
+	Petr Tesarik <petr.tesarik1@huawei-partners.com>
+Subject: Re: [PATCH v1 5/5] sbm: SandBox Mode documentation
+Message-ID: <2024021417-magma-drudge-ad70@gregkh>
+References: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
+ <20240214113035.2117-6-petrtesarik@huaweicloud.com>
+ <20240214053053.982b48d993ae99dad1d59020@linux-foundation.org>
+ <2024021425-audition-expand-2901@gregkh>
+ <20240214155524.719ffb15@meshulam.tesarici.cz>
+ <2024021415-jokester-cackle-2923@gregkh>
+ <20240214173112.138e0e29@meshulam.tesarici.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240212213922.783301-1-surenb@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240214173112.138e0e29@meshulam.tesarici.cz>
 
-On Mon, Feb 12, 2024 at 01:38:46PM -0800, Suren Baghdasaryan wrote:
-> Memory allocation, v3 and final:
+On Wed, Feb 14, 2024 at 05:31:12PM +0100, Petr Tesařík wrote:
+> On Wed, 14 Feb 2024 16:11:05 +0100
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Wed, Feb 14, 2024 at 03:55:24PM +0100, Petr Tesařík wrote:
+> > > OK, so why didn't I send the whole thing?
+> > > 
+> > > Decomposition of the kernel requires many more changes, e.g. in linker
+> > > scripts. Some of them depend on this patch series. Before I go and
+> > > clean up my code into something that can be submitted, I want to get
+> > > feedback from guys like you, to know if the whole idea would be even
+> > > considered, aka "Fail Fast".  
+> > 
+> > We can't honestly consider this portion without seeing how it would
+> > work, as we don't even see a working implementation that uses it to
+> > verify it at all.
+> > 
+> > The joy of adding new frameworks is that you need a user before anyone
+> > can spend the time to review it, sorry.
+> 
+> Thank your for a quick assessment. Will it be sufficient if I send some
+> code for illustration (with some quick&dirty hacks to bridge the gaps),
+> or do you need clean and nice kernel code?
 
-Would be nice to have --base added to cover letter. The very first patch
-can't be applied on today's Linux Next.
+We need a real user in the kernel, otherwise why would we even consider
+it?  Would you want to review a new subsystem that does nothing and has
+no real users?  If not, why would you want us to?  :)
 
--- 
-With Best Regards,
-Andy Shevchenko
+thanks,
 
-
+greg k-h
