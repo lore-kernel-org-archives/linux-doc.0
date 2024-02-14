@@ -1,147 +1,164 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30355D8EF
-	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 16:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1BF5D916;
+	Wed, 14 Feb 2024 16:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707926494; cv=none; b=STp4mnYBK7IRJXGWxo/TJ1RPyrOxnCozaIAFVZnjxy+jipmH20GkdBf/eE7nvd1lxFYEi1kd7Now6foapkeFfycs87Fo6L10kbZbJl2W3Cr0MEo5duu3OzCP7bNdmpaumt8B+18R14wi7wZfPOTWjV0i7cJNsZUlck6CVCB9eBY=
+	t=1707926552; cv=none; b=qbXVTQ16XxtD7ly4Z9BvGkqLyJyCRz5F17G6RrubAh9GkLzIG5aHJQpH8PaGeOzFolal/BPXaafyXeadrEIjoxrRmw1PWjL4lsIKiM1umSQLYwHZBwhPxUjYUpR9EstYY3QMyP41ia3vcuMB7lVzNydraFnwvbwaHz5Dp8MKVyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707926494; c=relaxed/simple;
-	bh=mG2aiDwQBefPaMNK+Pn14SJya/ggnAhZnM5ZfZrJYyQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=m2SaYLHe6LTYGF+m6NAox64G8Vm3Rbj+wrjtR3Tce0m/k/cCVo0JJxLyejqpnzo9PLXxylSlOlpuWEhD6QlpTuCvn3+qvz+4s8yxdsID9mnt2/uElwK7r7bwcYVFwGODI4lPfxYHL6d8lyHlrm1CbETtCiWv5yOjSROdaQDkZOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QAk/HqLg; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1707926552; c=relaxed/simple;
+	bh=Vjmjh3llp7BlyhYgyDjPni4l/NzWqKQp3MPK/MYXb5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LUNPSW421jdDQgNNIvQy5/0kCVqHmyj+uBkzxFACJjD5tQHJLVuIBH9DczBUchISSzkgwPHm+VBKtD1iE1linvYMjDsXOdCXytcCEgbYBE6JToq+wrjtzhW9q6KIBJC7CXkWOPpRJrK3EgSP8HM//bZLf6qijJHuKiusE2+Lst0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=pWIk5zuX; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=rrdpvnmv; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QAk/HqLg"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-1d932f1c0fbso61350835ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 08:01:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707926492; x=1708531292; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vDhKhdgpExvnvihe9iHfOSKknaCWEhikPiTvyAPPe10=;
-        b=QAk/HqLgYjvy6Jd8ZrrIpX6BQReMTR4BJ8VfS2KyGocywH12mm9VdOhAw2qDL75zrB
-         INDry1X9/zQMf/DG3o8l1hIO1MW4M5Gleiv3DQsvUVg+MTsoft9wvAN/sY1iZIpgtGbB
-         95pjxJWCoVYDFlRjblZsJGDfI2iQb/lb7KKQMcOzp2obWq5n7sul+XXos3e4ttoWhynb
-         LvyPWLC6SWMEanMLdRIIq6v65kWPKhHWWoC8rsx/cgFh0k83Nskf5/0YBLDeTlLlbFU/
-         pobeXxvQKcElKVjofGXavU2MLDzIuTFNV7NwBi7YA8n23gjqZcQbzrkqT+ohGlAGfVWw
-         whLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707926492; x=1708531292;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vDhKhdgpExvnvihe9iHfOSKknaCWEhikPiTvyAPPe10=;
-        b=DnscgTlNitv33ZDp6QhUjNDG85gW+D13U5WOxJZTZ6HDyuZsXGwnbhSCZPGE7seGmJ
-         YNYp70TZmoJNDxvulmVyNQfPg/XCdD6vK8f4KhYZpqEd6HXfQzCv0wb2UFFKD6tK03uP
-         RDRdXZIICWm9cErKcljIgouvaL4Iz/d3jnv5wStNwD9N56M64RkASkOcAo8WG5AFpQpw
-         EffYn84mV1qWT5DQGp82EV3L0s0zTDpOIk934gT7NpjNAfslbCCK9sO0RN5QEgprKL8h
-         sBUIZjOzwbBx4f6NldEjIWCqbduW6YM18Jl0RsqNOHItDw0DDwPJKXeWhqEuRCOFitIn
-         QkXw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXtKvV/cyOH0EXZMI9AUxHLLqg3RaKatgzlVGd2esZvxrh6MXROz5K4Zc7ocac+p7Xpyok/nx2BDd3486SVhSk+Duw3MkRbH4Y
-X-Gm-Message-State: AOJu0Yzul5W3XgDlGqi23J5PTA8UQhBVKxgm1JSetoZBCxd97OArRJl5
-	nku9dCPFpszJnpuP6BGjBSkLKoE9uZymxtUdwHR7rSHNMhQ9TolmH2o4/BepoMNNhNFdN468CEY
-	RMw==
-X-Google-Smtp-Source: AGHT+IEN5+ID23PuzUqCy4d+vfh2sapVveap2dWxTrMhCE/ZUr1g7/fVADAe/6OhrogxAp4oYhMwc7tWtgg=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:902:b90a:b0:1d9:f334:d9c5 with SMTP id
- bf10-20020a170902b90a00b001d9f334d9c5mr8303plb.10.1707926492284; Wed, 14 Feb
- 2024 08:01:32 -0800 (PST)
-Date: Wed, 14 Feb 2024 08:01:30 -0800
-In-Reply-To: <7c31e31d0f0ad3f40619f8e0ecf67f1e3d3eef5f.camel@infradead.org>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="pWIk5zuX";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="rrdpvnmv"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D1B8421EB6;
+	Wed, 14 Feb 2024 16:02:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1707926549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pPXp/+cRrehfUHk2IR8IXdxKLmNDOpV5ikCDlFNmYEA=;
+	b=pWIk5zuXuhl6gONhU7unHCikdmp3ePqIfuVV/fRNzIjAZJu5zNcFPcZb7aimaNy3pgSpvQ
+	e3UGg7VHm+WzAzqFDPrnxAC3HZzgq5o4PcFY5z8ynJaPVtrYZ0HV43hukomLVaPd0BfiMD
+	VMJL5ZQsV6ebPnwnr8MqbkkfZka139g=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1707926548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pPXp/+cRrehfUHk2IR8IXdxKLmNDOpV5ikCDlFNmYEA=;
+	b=rrdpvnmvQplLj7Zw7mnKjtggZIVn2c3JHRtqp2UICpidV2uBqb6O4HFDkvPZAqOCRMfAzk
+	tayx2Yu8HmqHmbhsuk34DEtn1oEM6AWyk6PjCzgAShPTp4CJ6UKzhZSk2OrDA12CxO8k7u
+	nH3aZJD6781ON3G/cdM1hEKsMcMd+oY=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A66B913A72;
+	Wed, 14 Feb 2024 16:02:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BzUCKBTkzGW2MAAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Wed, 14 Feb 2024 16:02:28 +0000
+Date: Wed, 14 Feb 2024 17:02:28 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+	vbabka@suse.cz, roman.gushchin@linux.dev, mgorman@suse.de,
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+	paulmck@kernel.org, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+	ndesaulniers@google.com, vvvvvv@google.com,
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+	elver@google.com, dvyukov@google.com, shakeelb@google.com,
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Memory allocation profiling
+Message-ID: <ZczkFH1dxUmx6TM3@tiehlicka>
+References: <20240212213922.783301-1-surenb@google.com>
+ <20240214062020.GA989328@cmpxchg.org>
+ <ZczSSZOWMlqfvDg8@tiehlicka>
+ <ifz44lao4dbvvpzt7zha3ho7xnddcdxgp4fkeacqleu5lo43bn@f3dbrmcuticz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240115125707.1183-1-paul@xen.org> <20240115125707.1183-9-paul@xen.org>
- <ZcMBDP6H5PRo5C2d@google.com> <7c31e31d0f0ad3f40619f8e0ecf67f1e3d3eef5f.camel@infradead.org>
-Message-ID: <Zczj2vDCasKcBcjn@google.com>
-Subject: Re: [PATCH v12 08/20] KVM: pfncache: allow a cache to be activated
- with a fixed (userspace) HVA
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ifz44lao4dbvvpzt7zha3ho7xnddcdxgp4fkeacqleu5lo43bn@f3dbrmcuticz>
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=rrdpvnmv
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-1.01 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:106:10:150:64:167:received];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.com:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_GT_50(0.00)[73];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.00)[32.12%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[cmpxchg.org,google.com,linux-foundation.org,suse.cz,linux.dev,suse.de,stgolabs.net,infradead.org,oracle.com,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Score: -1.01
+X-Rspamd-Queue-Id: D1B8421EB6
+X-Spam-Flag: NO
 
-On Tue, Feb 06, 2024, David Woodhouse wrote:
-> On Tue, 2024-02-06 at 20:03 -0800, Sean Christopherson wrote:
-> > +s390 folks (question on kvm_is_error_gpa() for ya)
-> >=20
-> > On Mon, Jan 15, 2024, Paul Durrant wrote:
-> > > @@ -1398,7 +1414,9 @@ void kvm_gpc_deactivate(struct gfn_to_pfn_cache=
- *gpc);
-> > > =C2=A0 static inline void kvm_gpc_mark_dirty(struct gfn_to_pfn_cache =
-*gpc)
-> > > =C2=A0 {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0lockdep_assert_held(&=
-gpc->lock);
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mark_page_dirty_in_slot(gp=
-c->kvm, gpc->memslot, gpc->gpa >> PAGE_SHIFT);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (gpc->gpa !=3D KVM_XEN_=
-INVALID_GPA)
-> >=20
-> > KVM_XEN_INVALID_GPA absolutely doesn't belong in common code.=C2=A0 Not=
- to mention
-> > that it will break when Paolo (rightly) moves it to an x86 header.
-> >=20
-> > https://lore.kernel.org/all/20240131233056.10845-3-pbonzini@redhat.com
->=20
-> We can use plain INVALID_GPA for that, I think. ISTR the reason we have
-> a separate KVM_XEN_INVALID_GPA is because that's a userspace API.
->=20
-> ...
->=20
-> > But!  kvm_is_error_gpa() already exists, and it very, very sneakily
-> > does a memslot lookup and checks for a valid HVA.
->=20
-> Hm, that doesn't sound as fast as simple comparison. We also can't do
-> it from kvm_gpc_check(), can we?
+On Wed 14-02-24 10:01:14, Kent Overstreet wrote:
+> On Wed, Feb 14, 2024 at 03:46:33PM +0100, Michal Hocko wrote:
+> > On Wed 14-02-24 01:20:20, Johannes Weiner wrote:
+> > [...]
+> > > I agree we should discuss how the annotations are implemented on a
+> > > technical basis, but my take is that we need something like this.
+> > 
+> > I do not think there is any disagreement on usefulness of a better
+> > memory allocation tracking. At least for me the primary problem is the
+> > implementation. At LFSMM last year we have heard that existing tracing
+> > infrastructure hasn't really been explored much. Cover letter doesn't
+> > really talk much about those alternatives so it is really hard to
+> > evaluate whether the proposed solution is indeed our best way to
+> > approach this.
+> 
+> Michal, we covered this before.
 
-You snipped the part where I suggested renaming the existing kvm_is_error_g=
-pa().
+It is a good practice to summarize previous discussions in the cover
+letter. Especially when there are different approaches discussed over a
+longer time period or when the topic is controversial.
 
-I am suggesting we do the below (and obviously rename the s390 usage, too),=
- and
-then the gpc code can use use kvm_is_error_gpa().
+I do not see anything like that here. Neither for the existing tracing
+infrastructure, page owner nor performance concerns discussed before
+etc. Look, I do not want to nit pick or insist on formalisms but having
+those data points layed out would make any further discussion much more
+smooth.
 
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index bbfefd7e612f..e1df988e4d57 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -148,6 +148,11 @@ static inline bool kvm_is_error_hva(unsigned long addr=
-)
-=20
- #endif
-=20
-+static inline bool kvm_is_error_gpa(gpa_t gpa)
-+{
-+       return gpa =3D=3D INVALID_GPA;
-+}
-+
- #define KVM_ERR_PTR_BAD_PAGE   (ERR_PTR(-ENOENT))
-=20
- static inline bool is_error_page(struct page *page)
-@@ -1787,7 +1792,7 @@ static inline hpa_t pfn_to_hpa(kvm_pfn_t pfn)
-        return (hpa_t)pfn << PAGE_SHIFT;
- }
-=20
--static inline bool kvm_is_error_gpa(struct kvm *kvm, gpa_t gpa)
-+static inline bool kvm_gpa_is_in_memslot(struct kvm *kvm, gpa_t gpa)
- {
-        unsigned long hva =3D gfn_to_hva(kvm, gpa_to_gfn(gpa));
-=20
+-- 
+Michal Hocko
+SUSE Labs
