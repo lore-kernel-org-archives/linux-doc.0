@@ -1,65 +1,72 @@
 Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6436C127B74;
-	Wed, 14 Feb 2024 18:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6051513A860;
+	Wed, 14 Feb 2024 18:32:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707934943; cv=none; b=ssmjPiXj8eVw/w+dLT12sbZwUgAicatgYgb/ePU8301LjGJKaEkK9RVljFgITEWCLQL8BWViWh/3u/aBByyVVBQ4s7MuGsAZM/VCkDHAOwmz83Ph1Y60FH8vV52y68/ro+FZY6ulftk3Z5wslIT3VDRWYG7GOcm70XyI4Z9krFg=
+	t=1707935568; cv=none; b=JBuyslHFJtUsyUAonuA2o09AtA2TYvZknzDLwmEbbJWGb4X9XabZv44Rh89AFXCCwmRdkapym5JhD+9Sqghwsf06XDc/WGmgGiWz6VG8q6ZxiiblFqUDEolxICzsa3Yma3LWZSAJC1BlzATf6WfM2UPzge4nLb265Cm4BwXzIZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707934943; c=relaxed/simple;
-	bh=cxi0K/MaHmKgVzvoFzOwJIVgRtJ/p17H3LH1t03e15I=;
+	s=arc-20240116; t=1707935568; c=relaxed/simple;
+	bh=IuK+eM/ruVmfucxOCVpJr4pgRfUXO86poVMtwruf07g=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lSRQlEbR5NTUi3vvaWhEyTRsWNpR2IWkRJogUjjONquSl1+vGijyb36PNQvbwFBY+Qz5eit6Xt0/4JsEQdoVxtXoffd/d9ZjbvzUjuThqhkkMtjy+5pTmwxcHJB8AyKfHbSpkwQ4D2dHJEBU/ap8niGjrhsyU6irubVoFQnkAjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=geaqp6/G; arc=none smtp.client-ip=77.93.223.253
+	 MIME-Version:Content-Type; b=bmc3pYQ2bf6ljtFstsYuihijlyMvc4PM8Rxl+RjJSl6EMqQQkCaz5ZTCw+84U0zPOf/1DnmzVC0wD1eqgNOGVlmrInAo3FUNFT3Fn6E/EvS3htn4tQsf0IvJXT+ZYaEMQ0CzK8ck+MR7aCkxOeblOLmVxnZ/Gnd0uCNUjARopTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=dzKx4kuE; arc=none smtp.client-ip=77.93.223.253
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="geaqp6/G"
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="dzKx4kuE"
 Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 8E7BB1A18DE;
-	Wed, 14 Feb 2024 19:22:15 +0100 (CET)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 209C51A3A01;
+	Wed, 14 Feb 2024 19:32:42 +0100 (CET)
 Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1707934936; bh=tJbAk1tSLxXQwFrYiEG2aQGZJ0OdusHW11rdVdqo1Ws=;
+	t=1707935562; bh=IuK+eM/ruVmfucxOCVpJr4pgRfUXO86poVMtwruf07g=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=geaqp6/G7md2TmsavAUsI4+sweFqr6tph+mLkunwt57KrfLl0l568VIoLZ9J+8WXV
-	 Sc2MZPHxcQtHU4LJ59amKoBviPzCyL0uooAgStwFy4O1YVaPHHLFlOiiLKWDEhpEcb
-	 6U5bYPKSmDK+DNlwiOhlj2LU3wtqYTGKBCtC/2Nqq792MwBFNTAxgHTr96AOFJn8nf
-	 7pvC5kRnqVKzePShzkggY4ysSROZofcgpLj+RZY2dy+x/kD2XILZ41ruwGyuh8Y4bt
-	 aexbTONqgfDbUQ869P8q3MFkHDwjs5zZYZxWUurYEX+T0tdrfV+jM8fU8fh+xtS4ha
-	 YDQ5Oy4dwvbHg==
-Date: Wed, 14 Feb 2024 19:22:14 +0100
+	b=dzKx4kuEIwHcPcuEujpoVgHx0rE76yy/IdYr58ShNP4dfAhc1nuO+OJEP52A/zG0f
+	 W4WsEIjFibsazN+qVMYvG7pwuEj1V9e+sNRHOw+VEk3U/nOHGMCcPhPR2QWoE7v9YU
+	 2VU8XpVWrahb99EfwoxzAGj0aL83Pm4BDVAo2veNdQmuQXUJ8N06A0U1NlyzTTjNiD
+	 odgj/SDZRHnbJ0PvQZL8NzXL89p0k6KtVrLqyslP+ObYc1SlMOGJ9vHOgVrDVVB0g+
+	 nnjUuLpK7ENXSavc9IkdJeaTdZldUiLXs0tEyr19A4dzk+niCL13FBYlxpNMpL8dFT
+	 v15zJYLN1NB/Q==
+Date: Wed, 14 Feb 2024 19:32:41 +0100
 From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet
- <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, "maintainer:X86 ARCHITECTURE (32-BIT AND
- 64-BIT)" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Andy
- Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter
- Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
- <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Kees Cook <keescook@chromium.org>, "Masami
- Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu
- <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao
- <zegao2021@gmail.com>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Kai Huang <kai.huang@intel.com>, David
- Woodhouse <dwmw@amazon.co.uk>, Brian Gerst <brgerst@gmail.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
- (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
- <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Roberto Sassu <roberto.sassu@huaweicloud.com>, Petr Tesarik
- <petr.tesarik1@huawei-partners.com>
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc: "hpa@zytor.com" <hpa@zytor.com>, "Xu, Pengfei" <pengfei.xu@intel.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>, "luto@kernel.org"
+ <luto@kernel.org>, "kirill.shutemov@linux.intel.com"
+ <kirill.shutemov@linux.intel.com>, "brgerst@gmail.com" <brgerst@gmail.com>,
+ "dwmw@amazon.co.uk" <dwmw@amazon.co.uk>, "corbet@lwn.net" <corbet@lwn.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Li, Xin3"
+ <xin3.li@intel.com>, "roberto.sassu@huaweicloud.com"
+ <roberto.sassu@huaweicloud.com>, "petr.tesarik1@huawei-partners.com"
+ <petr.tesarik1@huawei-partners.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+ "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+ "peterz@infradead.org" <peterz@infradead.org>, "rppt@kernel.org"
+ <rppt@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>, "mhiramat@kernel.org"
+ <mhiramat@kernel.org>, "oleg@redhat.com" <oleg@redhat.com>,
+ "keescook@chromium.org" <keescook@chromium.org>, "Huang, Kai"
+ <kai.huang@intel.com>, "jacob.jun.pan@linux.intel.com"
+ <jacob.jun.pan@linux.intel.com>, "zegao2021@gmail.com"
+ <zegao2021@gmail.com>, "Rodel, Jorg" <jroedel@suse.de>, "mingo@redhat.com"
+ <mingo@redhat.com>, "jpoimboe@kernel.org" <jpoimboe@kernel.org>, "Zhang,
+ Tina" <tina.zhang@intel.com>, "Hansen, Dave" <dave.hansen@intel.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "petrtesarik@huaweicloud.com" <petrtesarik@huaweicloud.com>, Kees Cook
+ <keescook@chromium.org>
 Subject: Re: [PATCH v1 0/8] x86_64 SandBox Mode arch hooks
-Message-ID: <20240214192214.78734652@meshulam.tesarici.cz>
-In-Reply-To: <c424618c-d6c6-430a-8975-8851a617204e@intel.com>
+Message-ID: <20240214193241.7447a082@meshulam.tesarici.cz>
+In-Reply-To: <a27c9c32e410fc3582f3593f209cc1cf3b287042.camel@intel.com>
 References: <20240214113516.2307-1-petrtesarik@huaweicloud.com>
 	<c424618c-d6c6-430a-8975-8851a617204e@intel.com>
+	<34B19756-91D3-4DA1-BE76-BD3122C16E95@zytor.com>
+	<20240214174143.74a4f10c@meshulam.tesarici.cz>
+	<a27c9c32e410fc3582f3593f209cc1cf3b287042.camel@intel.com>
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -67,31 +74,33 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 14 Feb 2024 06:52:53 -0800
-Dave Hansen <dave.hansen@intel.com> wrote:
+(+Cc Kees)
 
-> On 2/14/24 03:35, Petr Tesarik wrote:
-> > This patch series implements x86_64 arch hooks for the generic SandBox
-> > Mode infrastructure.  
-> 
-> I think I'm missing a bit of context here.  What does one _do_ with
-> SandBox Mode?  Why is it useful?
+On Wed, 14 Feb 2024 18:14:49 +0000
+"Edgecombe, Rick P" <rick.p.edgecombe@intel.com> wrote:
 
-I see, I split the patch series into the base infrastructure and the
-x86_64 implementation, but I forgot to merge the two recipient lists.
-:-(
+> On Wed, 2024-02-14 at 17:41 +0100, Petr Tesa=C5=99=C3=ADk wrote:
+> > Second, a sandbox can run unmodified kernel code and interact
+> > directly
+> > with other parts of the kernel. It's not really possible with this
+> > initial patch series, but the plan is that sandbox mode can share
+> > locks
+> > with the kernel.
+> >=20
+> > Third, sandbox code can be trusted for operations like parsing keys
+> > for
+> > the trusted keychain if the kernel is locked down, i.e. when even a
+> > process with UID 0 is not on the same trust level as kernel mode. =20
+>=20
+> What use case needs to have the sandbox both protected from the kernel
+> (trusted operations) and non-privileged (the kernel protected from it
+> via CPL3)? It seems like opposite things.
 
-Anyway, in the long term I would like to work on gradual decomposition
-of the kernel into a core part and many self-contained components.
-Sandbox mode is a useful tool to enforce isolation.
-
-In its current form, sandbox mode is too limited for that, but I'm
-trying to find some balance between "publish early" and reaching a
-feature level where some concrete examples can be shown. I'd rather
-fail fast than maintain hundreds of patches in an out-of-tree branch
-before submitting (and failing anyway).
+I think I have mentioned one: parsing keys for the trusted keyring. The
+parser is complex enough to be potentially buggy, but the security
+folks have already dismissed the idea to run it as a user mode helper.
 
 Petr T
