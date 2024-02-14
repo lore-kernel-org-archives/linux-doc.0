@@ -1,164 +1,160 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1BF5D916;
-	Wed, 14 Feb 2024 16:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDE45D732;
+	Wed, 14 Feb 2024 16:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707926552; cv=none; b=qbXVTQ16XxtD7ly4Z9BvGkqLyJyCRz5F17G6RrubAh9GkLzIG5aHJQpH8PaGeOzFolal/BPXaafyXeadrEIjoxrRmw1PWjL4lsIKiM1umSQLYwHZBwhPxUjYUpR9EstYY3QMyP41ia3vcuMB7lVzNydraFnwvbwaHz5Dp8MKVyM=
+	t=1707926959; cv=none; b=vFBth7aZfnkqPh3RAinuebY0NVhujsDWnKJZaHGBzhKuc0YXHUOWvWn4dG2GMsPp4Z0G8rL5uT3KjjAXRX9SXBp5F5XagV1vwdlWqA7c7MEKMh4YtA7380GgegOf9Q1zgkCQjwZHoORdcAQDVDlJfSxqiVUWXNHJCkhdc2m8PTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707926552; c=relaxed/simple;
-	bh=Vjmjh3llp7BlyhYgyDjPni4l/NzWqKQp3MPK/MYXb5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LUNPSW421jdDQgNNIvQy5/0kCVqHmyj+uBkzxFACJjD5tQHJLVuIBH9DczBUchISSzkgwPHm+VBKtD1iE1linvYMjDsXOdCXytcCEgbYBE6JToq+wrjtzhW9q6KIBJC7CXkWOPpRJrK3EgSP8HM//bZLf6qijJHuKiusE2+Lst0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=pWIk5zuX; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=rrdpvnmv; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1707926959; c=relaxed/simple;
+	bh=dQoeYKZoENFVQvLsGVJmPnsaFxLZEW+StaKHuAoCXJ0=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ituthCBce9PrtJYyoDlrvzEWcjUZ0zB+K4Sfm9ogNWX7ZCqhcA0iGfB2BQh19BXtpdzPIk21iROGVh/oveymrKQslwf4IQV2o/fKtplILTc/B+ufIMaaNj3Zdawj/P2oG6Q3eqE8CTwAqcJEDOMAeTxzbnI3wABXBi31k5yPW4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AngGxXPN; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="pWIk5zuX";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="rrdpvnmv"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D1B8421EB6;
-	Wed, 14 Feb 2024 16:02:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1707926549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pPXp/+cRrehfUHk2IR8IXdxKLmNDOpV5ikCDlFNmYEA=;
-	b=pWIk5zuXuhl6gONhU7unHCikdmp3ePqIfuVV/fRNzIjAZJu5zNcFPcZb7aimaNy3pgSpvQ
-	e3UGg7VHm+WzAzqFDPrnxAC3HZzgq5o4PcFY5z8ynJaPVtrYZ0HV43hukomLVaPd0BfiMD
-	VMJL5ZQsV6ebPnwnr8MqbkkfZka139g=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1707926548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pPXp/+cRrehfUHk2IR8IXdxKLmNDOpV5ikCDlFNmYEA=;
-	b=rrdpvnmvQplLj7Zw7mnKjtggZIVn2c3JHRtqp2UICpidV2uBqb6O4HFDkvPZAqOCRMfAzk
-	tayx2Yu8HmqHmbhsuk34DEtn1oEM6AWyk6PjCzgAShPTp4CJ6UKzhZSk2OrDA12CxO8k7u
-	nH3aZJD6781ON3G/cdM1hEKsMcMd+oY=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A66B913A72;
-	Wed, 14 Feb 2024 16:02:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BzUCKBTkzGW2MAAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Wed, 14 Feb 2024 16:02:28 +0000
-Date: Wed, 14 Feb 2024 17:02:28 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-	vbabka@suse.cz, roman.gushchin@linux.dev, mgorman@suse.de,
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org,
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
-	paulmck@kernel.org, pasha.tatashin@soleen.com,
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
-	ndesaulniers@google.com, vvvvvv@google.com,
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
-	elver@google.com, dvyukov@google.com, shakeelb@google.com,
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 00/35] Memory allocation profiling
-Message-ID: <ZczkFH1dxUmx6TM3@tiehlicka>
-References: <20240212213922.783301-1-surenb@google.com>
- <20240214062020.GA989328@cmpxchg.org>
- <ZczSSZOWMlqfvDg8@tiehlicka>
- <ifz44lao4dbvvpzt7zha3ho7xnddcdxgp4fkeacqleu5lo43bn@f3dbrmcuticz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AngGxXPN"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-41166710058so22628365e9.3;
+        Wed, 14 Feb 2024 08:09:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707926956; x=1708531756; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qYfvmPaesO8YWN53cqmm2yO+rqp53z4kUnNbercSOGU=;
+        b=AngGxXPNv8C6+Fe1p8UeCbBRBuleUlbMZd3oKmV/fO8jkmptiBRvLgbOhg5u+2BTeB
+         3QEWweK2jgiRLUl+5GHjYPkuv/DjxOErqeNXNR0jDDvtqS5dAMqElaG5yIS5IB5P+CnV
+         VE+qw+Jx/iTNk1c+X30VgtMOtkicUwqGo7VirEzfcFuwGELiMqbaa/Z5Mj3ki3JjqA7J
+         Wwpq9xrxxex0Y8B1SSEhSDBL4ozNfoDe/gRTZ9K3qIv8cwmUjPw626hC05mGAxfBH0Ye
+         p2RuneBHysNMXoeez6YxReNMDAdDV2706z2osT+P6C2sXQirv4ePQSIuFI21K1g90E1V
+         tpOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707926956; x=1708531756;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qYfvmPaesO8YWN53cqmm2yO+rqp53z4kUnNbercSOGU=;
+        b=CXUvXAHZwqWiLLi9LuQfhphu0Q2tHSMs0CCax+PWksKrmwhfIy385kQKYBffHMKrfe
+         2J0IufEhE+mfubcWui2lwRKLQRjTBIqZYFESP131AaF4Hv8TFpnxCUlMiipRdT9wTC8Z
+         WAokz0pup57tygNs2Q6DNW6GDyXpl5zK57WE5A8IRXvmyYmS0hO75ffBjuRnhWVVzlmo
+         zpqsjPLLV42PbZNiLZ0lZM0GtMvdN7JmO2yjLztdo6NUfzdX9CAqJPGljwClVKu7Rz+C
+         c8juv15MK7lY+PSufCpLfV66sQ43nimXjGI+YZuWANC1jYkAdt1318V3bXoubb7RoElG
+         q9HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVr7Qk+wX3gPd+y/U2fietKeCKTNzciSTTOzRHiVUd5h67JLBYKnezIREWqk8M0HRQ/RlJdW40fEIPm5C9KjG+1HoByJqvBg3f26zw3xaHu1nw2pnlvmKGqhVJ3hfOqqLqpLIeYWUwxYRG0K7g9NcWG34PmQhVFERWgMqvQwLucX5FYdwbdnaYQ2sdHOZPSPhHdIqdG0gz7j96MmaJz
+X-Gm-Message-State: AOJu0YywcRQhW4DShVLtw0FE4iZYzQS/nSXCrQPRXH3TTCbWtKjrP2VB
+	BwjhNxrMYvyZWXT4kZ+9fN8GWIZH8iWUQ7+BZ+iCds0OTGVtyfwA
+X-Google-Smtp-Source: AGHT+IHbwEiqjQv9iLuTObvOUfd63cZXOTmHaFzCbjCfhIWuPnvc95/UXs9KA9We+Pi+LWXj6QxSeQ==
+X-Received: by 2002:a05:600c:35d6:b0:410:d8fa:fa5f with SMTP id r22-20020a05600c35d600b00410d8fafa5fmr2698181wmq.11.1707926956005;
+        Wed, 14 Feb 2024 08:09:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVJhlD+mcvhAaSJKZYf9+Nf0YrHsZXIbSGJYOxZwxaLmrbYRTabfVe63syiSYHd3UlFKRm2UBHVx1o40zkVnNmf+2ryPyDd/nh+S3kQk05loZsE1TOEfRpTjuz6xlDl/uXAqSfGiOtxUUABpqqQlyL979sOHEijeSvIDucbdnwdWGLjPjpRBGBmBoY5sgOhWI2hEkmF8YA/3SD5hOGyPnMM+aPjPya8j0GFpXmScMFxW5DgVOmVtb7Q08MZ75KqmVdEvC+jmQJR1k2G6fgIX8neByJn8uxEjB5HHhm1QiDJYxFCUvueO4joZfM3q1Mod5fNzHYS+lTG9gAiJiGvDnBY640d135etRuTY6hIqaMG7amUQtouqVs3YMos/9XXyeo2vkuyfTfbmrOBBqfXU9TRE+stjRacbwkssitqqBAguPVGrUP6Q0h5Q8R9L/zXYux4a740zZMgZEm7GT4P7yFz9mc0nGZ1u1bsyX2Iwm6ydxN3L7UQlT7JuIwXs3SjWtmyB61Xzh8V6dm7xYA9jIU0/RRsBCrCrCLl8iWdgKVVjQ==
+Received: from [192.168.11.205] (54-240-197-228.amazon.com. [54.240.197.228])
+        by smtp.gmail.com with ESMTPSA id 26-20020a05600c229a00b00411d640085csm2315458wmf.43.2024.02.14.08.09.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Feb 2024 08:09:15 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <02385b22-1a59-4bf0-ba08-0da18ca75f74@xen.org>
+Date: Wed, 14 Feb 2024 16:09:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ifz44lao4dbvvpzt7zha3ho7xnddcdxgp4fkeacqleu5lo43bn@f3dbrmcuticz>
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=rrdpvnmv
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-1.01 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:106:10:150:64:167:received];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_GT_50(0.00)[73];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.00)[32.12%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_MATCH_ENVRCPT_SOME(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[cmpxchg.org,google.com,linux-foundation.org,suse.cz,linux.dev,suse.de,stgolabs.net,infradead.org,oracle.com,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Spam-Score: -1.01
-X-Rspamd-Queue-Id: D1B8421EB6
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Reply-To: paul@xen.org
+Subject: Re: [PATCH v12 08/20] KVM: pfncache: allow a cache to be activated
+ with a fixed (userspace) HVA
+Content-Language: en-US
+To: Sean Christopherson <seanjc@google.com>,
+ David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>
+References: <20240115125707.1183-1-paul@xen.org>
+ <20240115125707.1183-9-paul@xen.org> <ZcMBDP6H5PRo5C2d@google.com>
+ <7c31e31d0f0ad3f40619f8e0ecf67f1e3d3eef5f.camel@infradead.org>
+ <Zczj2vDCasKcBcjn@google.com>
+Organization: Xen Project
+In-Reply-To: <Zczj2vDCasKcBcjn@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed 14-02-24 10:01:14, Kent Overstreet wrote:
-> On Wed, Feb 14, 2024 at 03:46:33PM +0100, Michal Hocko wrote:
-> > On Wed 14-02-24 01:20:20, Johannes Weiner wrote:
-> > [...]
-> > > I agree we should discuss how the annotations are implemented on a
-> > > technical basis, but my take is that we need something like this.
-> > 
-> > I do not think there is any disagreement on usefulness of a better
-> > memory allocation tracking. At least for me the primary problem is the
-> > implementation. At LFSMM last year we have heard that existing tracing
-> > infrastructure hasn't really been explored much. Cover letter doesn't
-> > really talk much about those alternatives so it is really hard to
-> > evaluate whether the proposed solution is indeed our best way to
-> > approach this.
+On 14/02/2024 16:01, Sean Christopherson wrote:
+> On Tue, Feb 06, 2024, David Woodhouse wrote:
+>> On Tue, 2024-02-06 at 20:03 -0800, Sean Christopherson wrote:
+>>> +s390 folks (question on kvm_is_error_gpa() for ya)
+>>>
+>>> On Mon, Jan 15, 2024, Paul Durrant wrote:
+>>>> @@ -1398,7 +1414,9 @@ void kvm_gpc_deactivate(struct gfn_to_pfn_cache *gpc);
+>>>>    static inline void kvm_gpc_mark_dirty(struct gfn_to_pfn_cache *gpc)
+>>>>    {
+>>>>          lockdep_assert_held(&gpc->lock);
+>>>> -       mark_page_dirty_in_slot(gpc->kvm, gpc->memslot, gpc->gpa >> PAGE_SHIFT);
+>>>> +
+>>>> +       if (gpc->gpa != KVM_XEN_INVALID_GPA)
+>>>
+>>> KVM_XEN_INVALID_GPA absolutely doesn't belong in common code.  Not to mention
+>>> that it will break when Paolo (rightly) moves it to an x86 header.
+>>>
+>>> https://lore.kernel.org/all/20240131233056.10845-3-pbonzini@redhat.com
+>>
+>> We can use plain INVALID_GPA for that, I think. ISTR the reason we have
+>> a separate KVM_XEN_INVALID_GPA is because that's a userspace API.
+>>
+>> ...
+>>
+>>> But!  kvm_is_error_gpa() already exists, and it very, very sneakily
+>>> does a memslot lookup and checks for a valid HVA.
+>>
+>> Hm, that doesn't sound as fast as simple comparison. We also can't do
+>> it from kvm_gpc_check(), can we?
 > 
-> Michal, we covered this before.
+> You snipped the part where I suggested renaming the existing kvm_is_error_gpa().
+> 
+> I am suggesting we do the below (and obviously rename the s390 usage, too), and
+> then the gpc code can use use kvm_is_error_gpa().
+> 
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index bbfefd7e612f..e1df988e4d57 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -148,6 +148,11 @@ static inline bool kvm_is_error_hva(unsigned long addr)
+>   
+>   #endif
+>   
+> +static inline bool kvm_is_error_gpa(gpa_t gpa)
+> +{
+> +       return gpa == INVALID_GPA;
+> +}
+> +
 
-It is a good practice to summarize previous discussions in the cover
-letter. Especially when there are different approaches discussed over a
-longer time period or when the topic is controversial.
+Are you ok with a local kvm_gpc_is_error_gpa() or somesuch until there 
+is agreement with s390?
 
-I do not see anything like that here. Neither for the existing tracing
-infrastructure, page owner nor performance concerns discussed before
-etc. Look, I do not want to nit pick or insist on formalisms but having
-those data points layed out would make any further discussion much more
-smooth.
+   Paul
 
--- 
-Michal Hocko
-SUSE Labs
+>   #define KVM_ERR_PTR_BAD_PAGE   (ERR_PTR(-ENOENT))
+>   
+>   static inline bool is_error_page(struct page *page)
+> @@ -1787,7 +1792,7 @@ static inline hpa_t pfn_to_hpa(kvm_pfn_t pfn)
+>          return (hpa_t)pfn << PAGE_SHIFT;
+>   }
+>   
+> -static inline bool kvm_is_error_gpa(struct kvm *kvm, gpa_t gpa)
+> +static inline bool kvm_gpa_is_in_memslot(struct kvm *kvm, gpa_t gpa)
+>   {
+>          unsigned long hva = gfn_to_hva(kvm, gpa_to_gfn(gpa));
+>   
+
