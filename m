@@ -1,194 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273726087D;
-	Wed, 14 Feb 2024 17:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC1A79DC3;
+	Wed, 14 Feb 2024 17:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707930661; cv=none; b=F2hrDwDkUewkKUDB4oYFur6ik3MG/73VsPGz5QMfItIZw8BQ2EOQoWad7J2PjR1wflukDN957KtJS1Q/JkP/LzfSz+kT9KYIZQqHPKopMIBR2hha523SIH4XZAf7a+0uhPtMBxnB990GegEzutmprpkJxcmQxnF94t5pdYtOMX8=
+	t=1707930831; cv=none; b=q59C33kdlBSmrJXKmEMODHh+jCAkJ3p8TAPLRNyu1XOM4PJL1icL67tD6H8T3U1lc9EZg3EBpSzmJ/R5ZykRrAMiDGYDheTtrMICNTYngjsvF8T+3tYSYv3XOPGvNvM/o9BJnunTOZ2q0hYp0WlDn6nOkdMaRMvJ2nIbt9FpO5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707930661; c=relaxed/simple;
-	bh=A6NbyRZQhC46qPsrT0BBp6me28szmBiiUUjKG4u5PT4=;
+	s=arc-20240116; t=1707930831; c=relaxed/simple;
+	bh=O4EP7ZsiuTpR1qxri74QC+bU4B0c46R87VFN0TDKcAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GIbKYlWp6IWUo5/wx1S+PqyZCFZTPgiNKjpnn4jriiqHctDBrXQQI1pOyKyZqoKW9ON7eLvhT61gy0kj7+85qhMGKbuuXDHBqiA83j0CbMSoqcw6j/fyAR4KbI8HgZp+Iqa4Ymll8GqJ7gd/8gD0yJqs5C6ECshRULzkrmsM27Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uSBuA6CN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHsym0rel6BvEbiuCI+NEXbNSoBAD/XfQYTdO3CshYz8cJUXTgFJdC73Les1IKJYDxX82qz6qi1pBo+9QwrWIDtOZuT5kh15GaweCR0GMRm6WNSm63ERup4Cx8UoVS6IUr+KuCWe8KI1MYPdBh6fZisUQkxZSX8uWuqVNZ9/ZYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=14/moJsH; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uSBuA6CN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2FB4C43601;
-	Wed, 14 Feb 2024 17:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707930659;
-	bh=A6NbyRZQhC46qPsrT0BBp6me28szmBiiUUjKG4u5PT4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uSBuA6CNHXE7KeWvUxHCv8XUEy7YyEQ9KOnw8syeKd65PeMoml6JLITOjmUgZL1h1
-	 1r/o39U9gpoI3eLY8Dy+Woi+y2ZESnI1lE0i+utAPjHGI2JOJfpUv4gUM+FnhHuFyA
-	 zTlD9IzT08eFSfjrV5UL97Niv7ZvXsoZ5Ui+8RwkDpYJGYK3Y0m9RafBu49bD0sw0t
-	 C6fuAet39YnNfFNzXtxtklDO2ougI34VJtKJQAOComG2377YMWV0j9zWwZ80adERtr
-	 BCGw8R1eM03m1UsEQL47IXzebdDou5lyWiZn3IX0XiOOsVpvyX40iQXi/fkUi1FIYE
-	 /UqfYUDMIBHYA==
-Date: Wed, 14 Feb 2024 18:10:51 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
-Message-ID: <e6ipl34ajoprzskvjuvdnlw5ak4sjwplh75qqboi2v572byrbm@z4d5ntl27ojp>
-References: <20240209-hid-bpf-sleepable-v1-0-4cc895b5adbd@kernel.org>
- <87bk8pve2z.fsf@toke.dk>
- <CAO-hwJ+UeaBydN9deA8KBbgBiC_UCt6oXX-wGnNuSr8fhUrkXw@mail.gmail.com>
- <875xyxva9u.fsf@toke.dk>
- <CAO-hwJLvEGNRXc8G2PR+AQ6kJg+k5YqSt3F7LCSc0zWnmFfe5g@mail.gmail.com>
- <87r0hhfudh.fsf@toke.dk>
- <CAO-hwJLxkt=THKBjxDA6KZsC5h52rCXZ-2RNKPCiYMHNjhQJNg@mail.gmail.com>
- <CAADnVQKt7zu2OY0xHCkTb=KSXO33Xj8H4vVYMqP51ZJ_Kj1sZA@mail.gmail.com>
- <zybv26nmqtmyghakbebwxanzgzsfm6brvi7qw3ljoh4dijbjki@ub7atnumzuhy>
- <CAP01T75Giw_5j0RXaaxX0rDzCcXXZgmHrw7QZ_Ayib8rHgunBQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="14/moJsH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=BwOfhdkr2CJpORP5be5oyVP8qg5R4oDqxvMHwIB5C7E=; b=14/moJsH2jrh6/MIfq4rqwUW23
+	HwYKLSmz48hGx2U5x7WSr/ThEpauCgOXWd+eQuSpaThBhEAFqzkDTZycmkOQKmV/epyH55zIFxPMJ
+	HGVMOYPeg+ZccuBMBUN0ffDKm7Q1hPt4nSRNPU15sKkWZXqmr7bTUtJ7HA8BROF7qC2E=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1raIpH-007o7X-VO; Wed, 14 Feb 2024 18:13:39 +0100
+Date: Wed, 14 Feb 2024 18:13:39 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v3 01/17] MAINTAINERS: net: Add Oleksij to
+ pse-pd maintainers
+Message-ID: <2a89db56-484f-466c-9dea-fce3e0da0e71@lunn.ch>
+References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
+ <20240208-feature_poe-v3-1-531d2674469e@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAP01T75Giw_5j0RXaaxX0rDzCcXXZgmHrw7QZ_Ayib8rHgunBQ@mail.gmail.com>
+In-Reply-To: <20240208-feature_poe-v3-1-531d2674469e@bootlin.com>
 
-On Feb 13 2024, Kumar Kartikeya Dwivedi wrote:
-> On Tue, 13 Feb 2024 at 18:46, Benjamin Tissoires <bentiss@kernel.org> wrote:
-> >
-> > On Feb 12 2024, Alexei Starovoitov wrote:
-> > > On Mon, Feb 12, 2024 at 10:21 AM Benjamin Tissoires
-> > > <benjamin.tissoires@redhat.com> wrote:
-> > > >
-> > > > On Mon, Feb 12, 2024 at 6:46 PM Toke Høiland-Jørgensen <toke@redhat.com> wrote:
-> > > > >
-> > > > > Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
-> > > > >
-> > [...]
-> > > I agree that workqueue delegation fits into the bpf_timer concept and
-> > > a lot of code can and should be shared.
-> >
-> > Thanks Alexei for the detailed answer. I've given it an attempt but still can not
-> > figure it out entirely.
-> >
-> > > All the lessons(bugs) learned with bpf_timer don't need to be re-discovered :)
-> > > Too bad, bpf_timer_set_callback() doesn't have a flag argument,
-> > > so we need a new kfunc to set a sleepable callback.
-> > > Maybe
-> > > bpf_timer_set_sleepable_cb() ?
-> >
-> > OK. So I guess I should drop Toke's suggestion with the bpf_timer_ini() flag?
-> >
-> > > The verifier will set is_async_cb = true for it (like it does for regular cb-s).
-> > > And since prog->aux->sleepable is kinda "global" we need another
-> > > per subprog flag:
-> > > bool is_sleepable: 1;
-> >
-> > done (in push_callback_call())
-> >
-> > >
-> > > We can factor out a check "if (prog->aux->sleepable)" into a helper
-> > > that will check that "global" flag and another env->cur_state->in_sleepable
-> > > flag that will work similar to active_rcu_lock.
-> >
-> > done (I think), cf patch 2 below
-> >
-> > > Once the verifier starts processing subprog->is_sleepable
-> > > it will set cur_state->in_sleepable = true;
-> > > to make all subprogs called from that cb to be recognized as sleepable too.
-> >
-> > That's the point I don't know where to put the new code.
-> >
+On Thu, Feb 08, 2024 at 02:08:38PM +0100, Kory Maincent wrote:
+> Oleksij was the first to add support for pse-pd net subsystem.
+> Add himself to the maintainers seems logical.
 > 
-> I think that would go in the already existing special case for
-> push_async_cb where you get the verifier state of the async callback.
-> You can make setting the boolean in that verifier state conditional on
-> whether it's your kfunc/helper you're processing taking a sleepable
-> callback.
+> Sponsored-by: Dent Project <dentproject@linuxfoundation.org>
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-Hehe, thanks a lot. Indeed, it was a simple fix. I tried to put this
-everywhere but here, and with your help got it working in 2 mins :)
+Oleksij, are you O.K. with this? It would be good to Acked-by: it.
 
-> 
-> > It seems the best place would be in do_check(), but I am under the impression
-> > that the code of the callback is added at the end of the instruction list, meaning
-> > that I do not know where it starts, and which subprog index it corresponds to.
-> >
-> > >
-> > > A bit of a challenge is what to do with global subprogs,
-> > > since they're verified lazily. They can be called from
-> > > sleepable and non-sleepable contex. Should be solvable.
-> >
-> > I must confess this is way over me (and given that I didn't even managed to make
-> > the "easy" case working, that might explain things a little :-P )
-> >
-> 
-> I think it will be solvable but made somewhat difficult by the fact
-> that even if we mark subprog_info of some global_func A as
-> in_sleepable, so that we explore it as sleepable during its
-> verification, we might encounter later another global_func that calls
-> a global func, already explored as non-sleepable, in sleepable
-> context. In this case I think we need to redo the verification of that
-> global func as sleepable once again. It could be that it is called
-> from both non-sleepable and sleepable contexts, so both paths
-> (in_sleepable = true, and in_sleepable = false) need to be explored,
-> or we could reject such cases, but it might be a little restrictive.
-> 
-> Some common helper global func unrelated to caller context doing some
-> auxiliary work, called from sleepable timer callback and normal main
-> subprog might be an example where rejection will be prohibitive.
-> 
-> An approach might be to explore main and global subprogs once as we do
-> now, and then keep a list of global subprogs that need to be revisited
-> as in_sleepable (due to being called from a sleepable context) and
-> trigger do_check_common for them again, this might have to be repeated
-> as the list grows on each iteration, but eventually we will have
-> explored all of them as in_sleepable if need be, and the loop will
-> end. Surely, this trades off logical simplicity of verifier code with
-> redoing verification of global subprogs again.
-> 
-> To add items to such a list, for each global subprog we encounter that
-> needs to be analyzed as in_sleepable, we will also collect all its
-> callee global subprogs by walking its instructions (a bit like
-> check_max_stack_depth does).
-
-FWIW, this (or Alexei's suggestion) is still not implemented in v2
-
-> 
-> > >
-> > > Overall I think this feature is needed urgently,
-> > > so if you don't have cycles to work on this soon,
-> > > I can prioritize it right after bpf_arena work.
-> >
-> > I can try to spare a few cycles on it. Even if your instructions were on
-> > spot, I still can't make the subprogs recognized as sleepable.
-> >
-> > For reference, this is where I am (probably bogus, but seems to be
-> > working when timer_set_sleepable_cb() is called from a sleepable context
-> > as mentioned by Toke):
-> >
-> 
-> I just skimmed the patch but I think it's already 90% there. The only
-> other change I would suggest is switching from helper to kfunc, as
-> originally proposed by Alexei.
-
-the kfunc was a rabbit hole:
-- I needed to teach the verifier about BPF_TIMER in kfunc
-- I needed to teach the verifier about the kfunc itself
-- I'm failing at calling the callback :(
-
-Anyway, I'm about to send a second RFC so we can discuss on the code and
-see where my monkey patching capabilities are reaching their limits.
-
-Cheers,
-Benjamin
+	Andrew
