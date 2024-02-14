@@ -1,160 +1,126 @@
-Received: from gepdcl09.sg.gdce.sony.com.sg (unknown [121.100.38.198])
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D70171A3;
-	Wed, 14 Feb 2024 11:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.100.38.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06321946C;
+	Wed, 14 Feb 2024 11:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707910182; cv=none; b=N9KURrlt9xo+kDgJditJbIeBtE8qKV3EtEVDDlfIpw4h5c3U5dTkOYxIVzan4lb63opmaOXCCwePCY04XErp63Q8067BuxlPwc0phEXptYfL6kGlsnawIntXLCb0+G8N3l182fWqTjxR2XTmbjCtKcH+8NIN9RQCaDuFhejOW0w=
+	t=1707910305; cv=none; b=kWrYOudJah+6voVZ71qyBxhydtCcXtrjrUYXNjYKcxH0toQb3miES3Meh6TjgnNQ3Z/qWwnI6bHIi02u3Ylu/oVt23w8Lr1ct6j38cF13WWMH+LE5KUXn6DyjSAyBzP7R+LxKDAX2furPP/IJrWqNMp5uKTH2t6rkQPm5dIE2XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707910182; c=relaxed/simple;
-	bh=3t2GII+GFBiCVO0yfeqLOOLESh/DgusqChhhZZZl7tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R3lq81YZeNR2jWn28OxDcXUBoftpmrZzRYP9Iq483kclCtqp84c2/Qz4cKURMTdsSm/1KeXrKT5QZEqSIkMC+xPYxyoHgONmbRVAa7UDBZEgTjsNf+kTjcx0jl3UbXZ/GNaKbRVPQgiMBoPvh5/qtYh2TFBh2EiNnR9CbnKk3T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; arc=none smtp.client-ip=121.100.38.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
-Received: from gepdcl04.s.gdce.sony.com.sg (SGGDCSE1NS08.sony.com.sg [146.215.123.198])
-	by gepdcl09.sg.gdce.sony.com.sg (8.14.7/8.14.4) with ESMTP id 41EAgcpk007668;
-	Wed, 14 Feb 2024 18:44:09 +0800
-Received: from mail.sony.com ([43.88.80.246])
-	by gepdcl04.s.gdce.sony.com.sg (8.14.7/8.14.4) with ESMTP id 41EAg5SS002885;
-	Wed, 14 Feb 2024 18:42:05 +0800
-Received: by mail.sony.com (Postfix, from userid 1000)
-	id 367FD20C089D; Wed, 14 Feb 2024 16:10:39 +0530 (IST)
-Date: Wed, 14 Feb 2024 16:10:39 +0530
-From: Sreenath Vijayan <sreenath.vijayan@sony.com>
-To: Petr Mladek <pmladek@suse.com>
-Cc: john.ogness@linutronix.de, corbet@lwn.net, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, rdunlap@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-        taichi.shimoyashiki@sony.com, daniel.palmer@sony.com,
-        anandakumar.balasubramaniam@sony.com
-Subject: Re: [PATCH v4 2/2] tty/sysrq: Dump printk ring buffer messages via
- sysrq
-Message-ID: <ZcyYp4eZsrrrunFj@sony.com>
-References: <cover.1706772349.git.sreenath.vijayan@sony.com>
- <ca8dd18e434f309612c907d90e9f77c09e045b37.1706772349.git.sreenath.vijayan@sony.com>
- <ZcOdLrOPiPJmCec5@alley>
+	s=arc-20240116; t=1707910305; c=relaxed/simple;
+	bh=aA0v41Fy4FPPkbpbsVHTm7iflrURNRSRGkKW/fkpDsU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=r5zeh584L5auL48DHZiKzqNIBD0Z6haQ5VabSLvKzbQP8sHwQkNhEC5uWo1f2tVlkPHkeqDT+kGiehBwtMgVPY6PWvgFu5AJSOjlWmp50ZAVltvwbclpLLAM76NIyGEbrFlETsxJMR8DWwV9UbeiWMOZNeYAYToG3J2QzUT5eSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4TZbBf69lYz9y61k;
+	Wed, 14 Feb 2024 19:12:26 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id DA080140732;
+	Wed, 14 Feb 2024 19:31:23 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.45.156.69])
+	by APP1 (Coremail) with SMTP id LxC2BwAn0Rl8pMxlwo99Ag--.51308S2;
+	Wed, 14 Feb 2024 12:31:23 +0100 (CET)
+From: Petr Tesarik <petrtesarik@huaweicloud.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	David Kaplan <david.kaplan@amd.com>,
+	Larry Dewey <larry.dewey@amd.com>,
+	Elena Reshetova <elena.reshetova@intel.com>,
+	Carlos Bilbao <carlos.bilbao@amd.com>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Petr Mladek <pmladek@suse.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Eric DeVolder <eric.devolder@oracle.com>,
+	=?UTF-8?q?Marc=20Aur=C3=A8le=20La=20France?= <tsi@tuyoix.net>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Mike Christie <michael.christie@oracle.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Maninder Singh <maninder1.s@samsung.com>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Roberto Sassu <roberto.sassu@huaweicloud.com>,
+	petr@tesarici.cz,
+	Petr Tesarik <petr.tesarik1@huawei-partners.com>
+Subject: [PATCH v1 0/5] Introduce SandBox Mode (SBM)
+Date: Wed, 14 Feb 2024 12:30:30 +0100
+Message-Id: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZcOdLrOPiPJmCec5@alley>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:LxC2BwAn0Rl8pMxlwo99Ag--.51308S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1DWF17ZF47Gry8XF1kXwb_yoW8Wr4Dp3
+	Z3tF1Fg3Z8tFy2y3yfJ3WrCa4Sy3yxCr43GFnrXryYyFyavr1kAFnaqr12qFyrurWxKayY
+	qw1Fkr18Kw1UJwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j
+	6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
+	BIdaVFxhVjvjDU0xZFpf9x0JU7CzZUUUUU=
+X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
 
-On Wed, Feb 07, 2024 at 04:09:34PM +0100, Petr Mladek wrote:
-> On Thu 2024-02-01 13:12:41, Sreenath Vijayan wrote:
-> > When terminal is unresponsive, one cannot use dmesg to view printk
-> > ring buffer messages. Also, syslog services may be disabled,
-> > to check the messages after a reboot, especially on embedded systems.
-> > In this scenario, dump the printk ring buffer messages via sysrq
-> > by pressing sysrq+D.
-> 
-> I would use sysrq-R and say that it replays the kernel log on
-> consoles.
-> 
-> The word "dump" is ambiguous. People might thing that it calls
-> dmesg dumpers.
->
+From: Petr Tesarik <petr.tesarik1@huawei-partners.com>
 
-Ok noted. We proposed sysrq-D as it is an alternative to dmesg
-command and might be easier to remember.
- 
-> Also the messages would be shown on the terminal only when
-> console_loglevel is set to show all messages. This is done
-> in __handle_sysrq(). But it is not done in the workqueue
-> context.
-> 
+The ultimate goal of SandBox Mode is to execute native kernel code
+in an environment which permits memory access only to predefined
+addresses, so potential vulnerabilities cannot be exploited or will
+have no impact on the rest of the kernel.
 
-Yes, the initial implementation was using write() of consoles
-so the messages would be shown irrespective of the console log
-level. The current implementation depends on the console log
-level but many other sysrq keys dump the messages at KERN_INFO
-level. In my understanding, __handle_sysrq() dumps only the
-sysrq header at the manipulated loglevel. It restores original
-loglevel before calling callback function for the key.
-If console_loglevel is set to show KERN_INFO messages, it would
-dump most of the important printk messages in our case. Also the
-loglevel can be modified using sysrq itself now.
+This patch series adds the API and arch-independent infrastructure
+of SandBox Mode to the kernel. It runs the target function on a
+vmalloc()'ed copy of all input and output data. This alone prevents
+some out-of-bounds accesses thanks to guard pages.
 
-> Finally, the commit message should explain why workqueues are used
-> and what are the limitations. Something like:
-> 
-> <add>
-> The log is replayed using workqueues. The reason is that it has to
-> be done a safe way (in compare with panic context).
-> 
-> This also means that the sysrq won't have the desired effect
-> when the system is in so bad state that workqueues do not
-> make any progress.
-> </add>
-> 
-> Another reason might be that we do not want to do it in
-> an interrupt context. But this reason is questionable.
-> Many other sysrq commands do a complicate work and
-> print many messages as well.
->
+Patch 4/5 adds KUnit tests. It is also a good starting point to
+understand how SandBox Mode is supposed to be used.
 
-Noted. Will add this if we proceed with workqueue implementation.
- 
-> Another reason is that the function need to use console_lock()
-> which can't be called in IRQ context. Maybe, we should use
-> console_trylock() instead.
-> 
-> The function would replay the messages only when console_trylock()
-> succeeds. Users could repeat the sysrq when it fails.
-> 
-> Idea:
-> 
-> Using console_trylock() actually might be more reliable than
-> workqueues. console_trylock() might fail repeatably when:
-> 
->     + the console_lock() owner is stuck. But workqueues would fail
->       in this case as well.
-> 
->     + there is a flood of messages. In this case, replaying
->       the log would not help much.
-> 
-> Another advantage is that the consoles would be flushed
-> in sysrq context with the manipulated console_loglevel.
-> 
-> Best Regards,
-> Petr
+Detailed description of SandBox Mode goals, usage and future plans
+can be found in patch 5/5 of this series and is not repeated in
+this cover letter.
 
-Yes, this seems to work well from interrupt context when the
-console lock owner is not stuck. We can also manipulate
-the console_loglevel. Something like this:
+Petr Tesarik (5):
+  sbm: SandBox Mode core data types and functions
+  sbm: sandbox input and output buffers
+  sbm: call helpers and thunks
+  sbm: SandBox Mode KUnit test suite
+  sbm: SandBox Mode documentation
 
-//in printk.c
-void console_replay_all(void)
-{
-       if (console_trylock()) {
-               __console_rewind_all();
-               console_unlock();
-       }
-}
+ Documentation/security/index.rst        |   1 +
+ Documentation/security/sandbox-mode.rst | 180 ++++++
+ include/linux/sbm.h                     | 516 +++++++++++++++++
+ init/Kconfig                            |   2 +
+ kernel/Kconfig.sbm                      |  43 ++
+ kernel/Makefile                         |   2 +
+ kernel/sbm.c                            | 133 +++++
+ kernel/sbm_test.c                       | 735 ++++++++++++++++++++++++
+ 8 files changed, 1612 insertions(+)
+ create mode 100644 Documentation/security/sandbox-mode.rst
+ create mode 100644 include/linux/sbm.h
+ create mode 100644 kernel/Kconfig.sbm
+ create mode 100644 kernel/sbm.c
+ create mode 100644 kernel/sbm_test.c
 
-//in sysrq.c
-static void sysrq_handle_dmesg_dump(u8 key)
-{
-       int orig_log_level = console_loglevel;
-       console_loglevel = CONSOLE_LOGLEVEL_DEFAULT;
-       console_replay_all();
-       console_loglevel = orig_log_level;
-}
+-- 
+2.34.1
 
-
-The downside I see is that the user may have to hit the
-key multiple times or give up trying if the console lock
-owner is busy at the time of key press. This information
-should probably be updated in the documentation.
-
-Please let me know your opinion.
-
-Regards,
-Sreenath
