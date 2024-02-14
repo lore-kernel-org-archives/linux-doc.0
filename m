@@ -1,227 +1,178 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962FD13A27B
-	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 19:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A4C134CCA;
+	Wed, 14 Feb 2024 19:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707937785; cv=none; b=BlyN6aCV+m5vRsLyN86BYsohRf49vMTYgGJ/cp4gKxCP5orXJZ8tKRKb2UpnJtVIbaz5V6YCcxiXVOVXvJSRhdaso/JWB2vJNfs0+vD3l4e7wZ0AV2zqZAFep/fgrCyPsZvy8ZJHvgK1CoF/oPKLiroj7cQp6/dsq711ntS3MbM=
+	t=1707938062; cv=none; b=XocY33qO6/Jij2Djm7EOBbKCde/sup/PWH9FJzvxcYy/FLU/Nv++FK36diUh3MdNHqvHw+I6ctEs6e8AL1868pznyRepIPqYFWlHB24bocQKHRJuIKTeK0lXczX34GUslFXXlgR9AcZ8I0J/66KTiInlc+fDlMcU10z+abXc4Kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707937785; c=relaxed/simple;
-	bh=7dJubmbUsQFXN8Bmn/iqqhqzUqvL9YDW9A4PwCTZpGU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KHlpsWa8n3emEDidpiSvYPkvLfQnHlHbV0Rm/fQG0yWPEaDycD2YujRxsHguQVdab7hhV1bXbcXoI+5DP8QaeUl3PTtS55KLh+ln00VfZzfqFUmtXog7iZmzJ43U5XWsPEu4E8u87fb/kwAOixv44yIIy3+o1+L7yhl8kmxU8oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hk1jdUmD; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1707938062; c=relaxed/simple;
+	bh=dtoL+qo2rjHSs2RZElyIu6BxXT9O3vZzuja1aFzJFgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZyS/pba5sgCdDhNitcyqlYCNM+kBo6oh6RPoM8P4Pbllr8r/eTMbq0xpGoNNqXjXK+XG1rIVd3VdJZ+5TLOrL6TUTBKbrQ7HxLwhM5YnnXyZ0VkkfyvXSREe9Q91riiobnxUIJ8UiJdUdgQ3+Yjn4gEC/bViZsTMlZlB3U8u32c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=usCflKiA; arc=none smtp.client-ip=77.93.223.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hk1jdUmD"
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dc6d24737d7so19938276.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 11:09:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707937782; x=1708542582; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YYQ1iEqH1bC/aeDNG7RWtd5Zq4jRnkeS9Y1nPQkLhuU=;
-        b=hk1jdUmDKoWNYCVQNvuhe/KXccAzQclL6keyuwBfLLOD0iIZidK/XoMxQR4iofKF4M
-         LjE5RxqHumu9djxGPw17mEpxHFTr7hwvgOoqbtvn8kqsayViEua17ouNnxzcvaHG70hI
-         wyVHQyX5+EVFHepnaDFuwmlAMWXVUb0IliyeV9uWw7JuN7rVzti54/1UmAbx3VOCEVtL
-         RHeeUrBIwGZ9bdTGTexEcIhKe1Bg41NU8WWMsj9VHL4fiJjQi3pE/NyVPQe+T7MTxVSA
-         IKRi/StsaDC6aaNYt4BSZSRkW6iYxJvZ3zAxVnKbnyWPTpSVlQ6giq+f1FKDKmVQV8c+
-         IwlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707937782; x=1708542582;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YYQ1iEqH1bC/aeDNG7RWtd5Zq4jRnkeS9Y1nPQkLhuU=;
-        b=I39TGZqu0rZDn2BCvy5P2HaFXC9TCWG/cLeEGFOel35kg7WiM0v+UkX3ybn6sR3sSn
-         +tBCJ1OxNgY9ZslPylYuU4tYgQb9iEshJ02mvF67YNZRwV548D0J6uNE7OR87E/cCSfL
-         vcn0e6p3c+bXTUzgqYFHivbdabPuMwokCAMgclk8A2P5R2OguQSlPr2HXtDn8awOYTxK
-         Dae7YtK8eBnPABAkdegtF6cb6oBYfg4xxGiy8ZQ5+SXGY9OUk/kwgvq0V1itWxa4P4+t
-         WQ/z3eVuERzs794iwL4e2TBqp6udMzzZpSs6JHGpuovhPOsRy64WxLLqYLX44LTQcwp2
-         QpVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLqjL5m3uRAHjIFWFQGR8gUJJTMddh+OYsL2WlkKBmwz5HAViMQYgu2oX6IE8Mq7SAyGsoXQQ8i98SXOMvvP3B83l6Ws3f+Sld
-X-Gm-Message-State: AOJu0YwYIPtZ14W6b0tHsdrFY/DfmElOJp5vYOHbZQ93JqwP8YpK9tyh
-	BcgNc6UEULKQCDFH9SyAzw6PWUlVZ+lnVE9n68vbSnp6GFole0dGHZ+hoaVlYvSMigKGTkPfk9F
-	0eVGbu6hBMQ0e4eI2yPZy+ll5aDNthBQdd3la
-X-Google-Smtp-Source: AGHT+IE0myNa43nYnaJsvlAr1q2GXvgjSojXmvsXBpkzj6lBL3cERK/G4k9guWv0KYdWk2/nQyibRz7ihpshNEhuuEk=
-X-Received: by 2002:a25:2d01:0:b0:dcc:8114:5a54 with SMTP id
- t1-20020a252d01000000b00dcc81145a54mr3243973ybt.43.1707937782071; Wed, 14 Feb
- 2024 11:09:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="usCflKiA"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id B035B1A3C02;
+	Wed, 14 Feb 2024 20:14:16 +0100 (CET)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1707938057; bh=+kn6Uw7nhL08sWX9dCxTs5rcdQk6XBojfgI0WQMAyeM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=usCflKiA3JOi0sndHsKiLct6zIXtCx2pAo2z6R8RG9ZpngNDPs6z9WIaKKrj5GjIl
+	 tDHR6M2vAxsifYMkJ162tDT1Na1kXS9h1CRw8bvhvtL3JuYHtL9sNlSOcViacWKgas
+	 tV0H2mY6PppGuPpBdgd/qBTAoqeh+MHxJFuCkCy72TBKG55Ak9xHJwxYWGlCNE/GDd
+	 wITsdEJ2GsMuiPbMGglmaS04jGW//E6Rddb4knK1d0SsGGKvhTWdR9XJdeLCZ4iVTt
+	 W1SwTq78Xwah5I93RkeHeAzgwt/UpxkV0rP/JdAUZje+1zf/V2enSndWWMthfZK2lS
+	 RP5m4YTchyBqg==
+Date: Wed, 14 Feb 2024 20:14:15 +0100
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Dave Hansen <dave.hansen@intel.com>, Petr Tesarik
+ <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>, Thomas
+ Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter
+ Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
+ <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
+ <rick.p.edgecombe@intel.com>, Kees Cook <keescook@chromium.org>, "Masami
+ Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu
+ <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao
+ <zegao2021@gmail.com>, "Kirill A. Shutemov"
+ <kirill.shutemov@linux.intel.com>, Kai Huang <kai.huang@intel.com>, David
+ Woodhouse <dwmw@amazon.co.uk>, Brian Gerst <brgerst@gmail.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
+ (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
+ <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Roberto Sassu <roberto.sassu@huaweicloud.com>, Petr Tesarik
+ <petr.tesarik1@huawei-partners.com>
+Subject: Re: [PATCH v1 0/8] x86_64 SandBox Mode arch hooks
+Message-ID: <20240214201415.3dc7d69f@meshulam.tesarici.cz>
+In-Reply-To: <9EF956AB-DF48-4DAA-AB42-0FBC513ECA22@zytor.com>
+References: <20240214113516.2307-1-petrtesarik@huaweicloud.com>
+	<c424618c-d6c6-430a-8975-8851a617204e@intel.com>
+	<34B19756-91D3-4DA1-BE76-BD3122C16E95@zytor.com>
+	<20240214174143.74a4f10c@meshulam.tesarici.cz>
+	<9EF956AB-DF48-4DAA-AB42-0FBC513ECA22@zytor.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <4f24986587b53be3f9ece187a3105774eb27c12f.camel@linux.intel.com>
-In-Reply-To: <4f24986587b53be3f9ece187a3105774eb27c12f.camel@linux.intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 14 Feb 2024 11:09:30 -0800
-Message-ID: <CAJuCfpGnnsMFu-2i6-d=n1N89Z3cByN4N1txpTv+vcWSBrC2eg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/35] Memory allocation profiling
-To: Tim Chen <tim.c.chen@linux.intel.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 14, 2024 at 10:54=E2=80=AFAM Tim Chen <tim.c.chen@linux.intel.c=
-om> wrote:
->
-> On Mon, 2024-02-12 at 13:38 -0800, Suren Baghdasaryan wrote:
-> > Memory allocation, v3 and final:
-> >
-> > Overview:
-> > Low overhead [1] per-callsite memory allocation profiling. Not just for=
- debug
-> > kernels, overhead low enough to be deployed in production.
-> >
-> > We're aiming to get this in the next merge window, for 6.9. The feedbac=
-k
-> > we've gotten has been that even out of tree this patchset has already
-> > been useful, and there's a significant amount of other work gated on th=
-e
-> > code tagging functionality included in this patchset [2].
-> >
-> > Example output:
-> >   root@moria-kvm:~# sort -h /proc/allocinfo|tail
-> >    3.11MiB     2850 fs/ext4/super.c:1408 module:ext4 func:ext4_alloc_in=
-ode
-> >    3.52MiB      225 kernel/fork.c:356 module:fork func:alloc_thread_sta=
-ck_node
-> >    3.75MiB      960 mm/page_ext.c:270 module:page_ext func:alloc_page_e=
-xt
-> >    4.00MiB        2 mm/khugepaged.c:893 module:khugepaged func:hpage_co=
-llapse_alloc_folio
-> >    10.5MiB      168 block/blk-mq.c:3421 module:blk_mq func:blk_mq_alloc=
-_rqs
-> >    14.0MiB     3594 include/linux/gfp.h:295 module:filemap func:folio_a=
-lloc_noprof
-> >    26.8MiB     6856 include/linux/gfp.h:295 module:memory func:folio_al=
-loc_noprof
-> >    64.5MiB    98315 fs/xfs/xfs_rmap_item.c:147 module:xfs func:xfs_rui_=
-init
-> >    98.7MiB    25264 include/linux/gfp.h:295 module:readahead func:folio=
-_alloc_noprof
-> >     125MiB     7357 mm/slub.c:2201 module:slub func:alloc_slab_page
-> >
-> > Since v2:
-> >  - tglx noticed a circular header dependency between sched.h and percpu=
-.h;
-> >    a bunch of header cleanups were merged into 6.8 to ameliorate this [=
-3].
-> >
-> >  - a number of improvements, moving alloc_hooks() annotations to the
-> >    correct place for better tracking (mempool), and bugfixes.
-> >
-> >  - looked at alternate hooking methods.
-> >    There were suggestions on alternate methods (compiler attribute,
-> >    trampolines), but they wouldn't have made the patchset any cleaner
-> >    (we still need to have different function versions for accounting vs=
-. no
-> >    accounting to control at which point in a call chain the accounting
-> >    happens), and they would have added a dependency on toolchain
-> >    support.
-> >
-> > Usage:
-> > kconfig options:
-> >  - CONFIG_MEM_ALLOC_PROFILING
-> >  - CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-> >  - CONFIG_MEM_ALLOC_PROFILING_DEBUG
-> >    adds warnings for allocations that weren't accounted because of a
-> >    missing annotation
-> >
-> > sysctl:
-> >   /proc/sys/vm/mem_profiling
-> >
-> > Runtime info:
-> >   /proc/allocinfo
-> >
-> > Notes:
-> >
-> > [1]: Overhead
-> > To measure the overhead we are comparing the following configurations:
-> > (1) Baseline with CONFIG_MEMCG_KMEM=3Dn
-> > (2) Disabled by default (CONFIG_MEM_ALLOC_PROFILING=3Dy &&
-> >     CONFIG_MEM_ALLOC_PROFILING_BY_DEFAULT=3Dn)
-> > (3) Enabled by default (CONFIG_MEM_ALLOC_PROFILING=3Dy &&
-> >     CONFIG_MEM_ALLOC_PROFILING_BY_DEFAULT=3Dy)
-> > (4) Enabled at runtime (CONFIG_MEM_ALLOC_PROFILING=3Dy &&
-> >     CONFIG_MEM_ALLOC_PROFILING_BY_DEFAULT=3Dn && /proc/sys/vm/mem_profi=
-ling=3D1)
-> > (5) Baseline with CONFIG_MEMCG_KMEM=3Dy && allocating with __GFP_ACCOUN=
-T
-> >
->
-> Thanks for the work on this patchset and it is quite useful.
-> A clarification question on the data:
->
-> I assume Config (2), (3) and (4) has CONFIG_MEMCG_KMEM=3Dn, right?
+On Wed, 14 Feb 2024 09:29:06 -0800
+"H. Peter Anvin" <hpa@zytor.com> wrote:
 
-Yes, correct.
-
-> If so do you have similar data for config (2), (3) and (4) but with
-> CONFIG_MEMCG_KMEM=3Dy for comparison with (5)?
-
-I have data for these additional configs (didn't think there were that
-important):
-(6) Disabled by default (CONFIG_MEM_ALLOC_PROFILING=3Dy &&
-CONFIG_MEM_ALLOC_PROFILING_BY_DEFAULT=3Dn)  && CONFIG_MEMCG_KMEM=3Dy
-(7) Enabled by default (CONFIG_MEM_ALLOC_PROFILING=3Dy &&
-CONFIG_MEM_ALLOC_PROFILING_BY_DEFAULT=3Dy) && CONFIG_MEMCG_KMEM=3Dy
-
-
->
-> Tim
->
-> > Performance overhead:
-> > To evaluate performance we implemented an in-kernel test executing
-> > multiple get_free_page/free_page and kmalloc/kfree calls with allocatio=
-n
-> > sizes growing from 8 to 240 bytes with CPU frequency set to max and CPU
-> > affinity set to a specific CPU to minimize the noise. Below are results
-> > from running the test on Ubuntu 22.04.2 LTS with 6.8.0-rc1 kernel on
-> > 56 core Intel Xeon:
+> On February 14, 2024 8:41:43 AM PST, "Petr Tesa=C5=99=C3=ADk" <petr@tesar=
+ici.cz> wrote:
+> >On Wed, 14 Feb 2024 07:28:35 -0800
+> >"H. Peter Anvin" <hpa@zytor.com> wrote:
+> > =20
+> >> On February 14, 2024 6:52:53 AM PST, Dave Hansen <dave.hansen@intel.co=
+m> wrote: =20
+> >> >On 2/14/24 03:35, Petr Tesarik wrote:   =20
+> >> >> This patch series implements x86_64 arch hooks for the generic Sand=
+Box
+> >> >> Mode infrastructure.   =20
+> >> >
+> >> >I think I'm missing a bit of context here.  What does one _do_ with
+> >> >SandBox Mode?  Why is it useful?   =20
+> >>=20
+> >> Seriously. On the surface it looks like a really bad idea =E2=80=93 ba=
+sically an ad hoc, *more* privileged version of user shave. =20
 > >
-> >                         kmalloc                 pgalloc
-> > (1 baseline)            6.764s                  16.902s
-> > (2 default disabled)    6.793s (+0.43%)         17.007s (+0.62%)
-> > (3 default enabled)     7.197s (+6.40%)         23.666s (+40.02%)
-> > (4 runtime enabled)     7.405s (+9.48%)         23.901s (+41.41%)
-> > (5 memcg)               13.388s (+97.94%)       48.460s (+186.71%)
-
-(6 default disabled+memcg)    13.332s (+97.10%)         48.105s (+184.61%)
-(7 default enabled+memcg)     13.446s (+98.78%)       54.963s (+225.18%)
-
-(6) shows a bit better performance than (5) but it's probably noise. I
-would expect them to be roughly the same. Hope this helps.
-
+> >Hi hpa,
 > >
->
->
+> >I agree that it kind of tries to do "user mode without user mode".
+> >There are some differences from actual user mode:
+> >
+> >First, from a process management POV, sandbox mode appears to be
+> >running in kernel mode. So, there is no way to use ptrace(2), send
+> >malicious signals or otherwise interact with the sandbox. In fact,
+> >the process can have three independent contexts: user mode, kernel mode
+> >and sandbox mode.
+> >
+> >Second, a sandbox can run unmodified kernel code and interact directly
+> >with other parts of the kernel. It's not really possible with this
+> >initial patch series, but the plan is that sandbox mode can share locks
+> >with the kernel.
+> >
+> >Third, sandbox code can be trusted for operations like parsing keys for
+> >the trusted keychain if the kernel is locked down, i.e. when even a
+> >process with UID 0 is not on the same trust level as kernel mode.
+> >
+> >HTH
+> >Petr T
+> > =20
+>=20
+> This, to me, seems like "all the downsides of a microkernel without the u=
+psides." Furthermore, it breaks security-hardening features like LASS and (=
+to a lesser degree) SMAP. Not to mention dropping global pages?
+
+I must be missing something... But I am always open to learn something new.
+
+I don't see how it breaks SMAP. Sandbox mode runs in its own address
+space which does not contain any user-mode pages. While running in
+sandbox mode, user pages belong to the sandboxed code, kernel pages are
+used to enter/exit kernel mode. Bottom half of the PGD is empty, all
+user page translations are removed from TLB.
+
+For a similar reason, I don't see right now how it breaks linear
+address space separation. Even if it did, I believe I can take care of
+it in the entry/exit path. Anyway, which branch contains the LASS
+patches now, so I can test?
+
+As for dropping global pages, that's only part of the story. Indeed,
+patch 6/8 of the series sets CR4.PGE to zero to have a known-good
+working state, but that code is removed again by patch 8/8. I wanted to
+implement lazy TLB flushing separately, so it can be easily reverted if
+it is suspected to cause an issue.
+
+Plus, each sandbox mode can use PCID to reduce TLB flushing even more.
+I haven't done it, because it would be a waste of time if the whole
+concept is scratched.
+
+I believe that only those global pages which are actually accessed by
+the sandbox need to be flushed. Yes, some parts of the necessary logic
+are missing in the current patch series. I can add them in a v2 series
+if you wish.
+
+> All in all, I cannot see this as anything other than an enormous step in =
+the wrong direction, and it isn't even in the sense of "it is harmless if n=
+oone uses it" =E2=80=93 you are introducing architectural changes that are =
+most definitely *very* harmful both to maintainers and users.
+
+I agree that it adds some burden. After all, that's why the ultimate
+decision is up to you, the maintainers. To defend my cause, I hope you
+have noticed that if CONFIG_SANDBOX_MODE is not set:
+
+1. literally nothing changes in entry_64.
+2. sandbox_mode() always evaluates to false, so the added conditionals in f=
+ault.c and traps.c are never executed
+3. top_of_instr_stack() always returns current_top_of_stack(), which is equ=
+ivalent to the code it replaces, namely this_cpu_read(pcpu_hot.top_of_stack)
+
+So, all the interesting stuff is under arch/x86/kernel/sbm/. Shall I
+add a corresponding entry with my name to MAINTAINERS?
+
+> To me, this feels like paravirtualization all over again. 20 years later =
+we still have not been able to undo all the damage that did.
+
+OK, I can follow you here. Indeed, there is some similarity with Xen PV
+(running kernel code with CPL 3), but I don't think there's more than
+this.
+
+Petr T
