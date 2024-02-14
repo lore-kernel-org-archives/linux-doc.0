@@ -1,239 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7962A5380D
-	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 12:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2138F52F6E;
+	Wed, 14 Feb 2024 13:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707915397; cv=none; b=WiMqYgudGhfQk7nXfjtOV7ShgauPn+8v/pyfcxvwYNv8GX9EwYzCObyhxBleZvaIWlCYGle/MYAhbIxR/0Uq0F4ZuESSLkrS7CRBq7s1ca7qNusbmHIfExauDiPJ1Q/mQ1AO9MG2Bn3UQaHoNjwcpE+3AkLppM0TkYnT4s7Nzb4=
+	t=1707915717; cv=none; b=jlzzghfh5omCr4P23OXTsJOvGdeXqBfeFsNY0XnogZjmGbJ/ooKG9idiEIvD144NKWFKobDn+7rZfOF1mPM+s8mZapwllt8RbK5pay4FjpRjZ7y+iQjLwgWuhFwIae58478HQ69zGxtMO9meX3Nu2fkTt9oxLIkXwEKWmlZBg+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707915397; c=relaxed/simple;
-	bh=FJp37iTRPYPRDJyHF81G0HZwGNHWM28gXJ/LmpRlD1c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=i3wrjSjoBRHPrqRymXJ+SjD7sSfS0CrfyazCXmxuKrwmW0bYeXKqCBGQ4rEPcG4PdLh/zaOuv91IdtJ/OdPfTx3NUYWGCrL1zX9GbtGmzmQYaC03dxLTzOagjfVOomR8QrfMDmVyLaBm7ExHlaM5xIOK/tQsrcNleh6/1jKyTRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ElxOW5Cp; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1707915717; c=relaxed/simple;
+	bh=UPDRuiOXlP13ChjfIMysQjZiACzpmw75739/2c4aLa4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XAaZDNM9hrCmDpPxPF7s64lAyfCwgjBtcer7dtNTmK5qe6tKWgSyX3NGslyY12pv3MXDwWbIS0893KoJKlm/azeqf5clu5mkpeQR8pEQe+mgSL2Vp5M4bvZhwFpbKHi7Jhmx0XiLxQqlCUM1zFvw6uSLknfOqyHY/iVbUMYJGLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZT00K+A; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ElxOW5Cp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707915394;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FJp37iTRPYPRDJyHF81G0HZwGNHWM28gXJ/LmpRlD1c=;
-	b=ElxOW5CpArpX64u0afpUChIZOOY9I6ImKHkhow2gvQ9taEad6idN+xxwdD5zUlqHPib5j3
-	qZ8/lF00JJ9EaHJgOtac8BkPN7GZk9xo34DO8u3BOxmrNgmy2/9iT75QY0rHS4E5OuXtY5
-	qTow6ycpNUaTE11GJN1sDEJakAydr6c=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-370-l85pvk-vMrywewCmLyrOZg-1; Wed, 14 Feb 2024 07:56:33 -0500
-X-MC-Unique: l85pvk-vMrywewCmLyrOZg-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5621c809a3bso506978a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 04:56:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707915391; x=1708520191;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FJp37iTRPYPRDJyHF81G0HZwGNHWM28gXJ/LmpRlD1c=;
-        b=hZELFl0uNg2pj0FWOtOcdCMmQ93j+EonnS7I9CvTxGHhGk5AN3we7T97CgjABAIolN
-         AxW6vAubCEsWa7Z6kRzFEMU9j0hux4esp5Yg0ymJl+U0+dIrURIsCFrJof8AVwDP3IQO
-         X+X2u0sFtPPAQYytIH2iaA+SUbO3sL7LlMC0G+AFxX/xomLgt9IMQdtg8Iiszcu+k6lW
-         oPeEkrF/kUlNekMOcOcat4QKECqzUg8flYEQnhj5muXVwuWhnaiXUDH76GjxckR9pCEe
-         A8Xit3sEsXMyRqPY4+cKWA0/+w9/2vYQJzRyWhcwBrxh1hzTu1UNqj1YeHY4tgJ3nz8o
-         3WlA==
-X-Forwarded-Encrypted: i=1; AJvYcCX1ueaiQlSRF1SqPgRyWYBgszkog3dp0LueFZ6VV2EZUm3zud1xD2BVynLiYbAjb9wWiA8lX/PFo/31C5R5ZJHb1dhcpKPhQTUP
-X-Gm-Message-State: AOJu0YyJikkVBzKrK0TzaV+AhFVB3God0kFYXq0zlFqz0cQ8ueiHaDA0
-	wY6A+X9SsV4baVhlVfKJb+DUA2yJ3/JllIq+Lu0/adMcFBmZ7dUKWA6+qOyONYeq+fPzD9yIyHi
-	kraYxpLbFPoBn2aAVpOxtLhcw43JhO+bG+DAP2Dc/kwXzJHNfLhHbcxJ+Dw==
-X-Received: by 2002:a17:906:f8cf:b0:a3d:2422:ee73 with SMTP id lh15-20020a170906f8cf00b00a3d2422ee73mr1559800ejb.77.1707915391120;
-        Wed, 14 Feb 2024 04:56:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEtC4RmVIKd3BfBmk6nYmZIZiM8phFHfpA/m86d7qk4SVIPJZDEl1BVx7eVsmIDBaNUG11aPw==
-X-Received: by 2002:a17:906:f8cf:b0:a3d:2422:ee73 with SMTP id lh15-20020a170906f8cf00b00a3d2422ee73mr1559778ejb.77.1707915390722;
-        Wed, 14 Feb 2024 04:56:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXeVT566eawAqV4mSiYIM54RSXg8KcFzFeTfM3lTaqYUMHBIUCXS/1t/A3OUh7PJjPlqfAuhmCDkluKHV5tDkoxAwbqEWcsb9OHKXszu9xt1+XsHDsqQR/Gt6oMAJQxj44Rtg1OIEF+AcFruNXTnueqhOSsty1y8hMHV/Q0Hy+vXJQpN0xBV3ghNG/4nguQ2hrqJJDM8MZHSY6bIj5ts1xFNA5MQpgsHrvI1Em0gVn7Y2389Jy3RsiAL7THwe00c2TzV7T7EyOWYKihiAu5o+rtxRs8uXtR/8gGy9RDXg28p1fPZJIaYFZR1R9IsZYukb84tHI0pSYWTJNbTvxqu+j6oHcO43pcoCf5hxkqfgFDAJYr0ELb4pmAHgPMPEFoJrJLDNiCLG16PPatmNBKy1MNPwrf/YGrGwcacXGEO19Jn8Suusnc+ODFM+fkSY0zIFsLdG799C9+nD4ryXbDWIt+ojfqV8NyG0IJdWyrRLa3cNG4+hmXhFUq3zif8GB1EA/FMNM7pf8JVk4YNRjHpH32s+cpFXVMNmhubaIYqYaL8uDYxGAF20wM0VY6oYtaO5GfSYOZhvG4Fuyz/XALrhx2z6Z7dsYB2dG2bUYSeLI8tCQ1YzLYVj6dKMcM3F9nDqm3Ur2Xrh8lMjGM0WTj7OwrpTIo9R78b+zsq8Yv9X+UDIL64djWOPfW1itQBIqU6VQ=
-Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
-        by smtp.gmail.com with ESMTPSA id vb1-20020a170907d04100b00a3cfe376116sm1673172ejc.57.2024.02.14.04.56.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Feb 2024 04:56:30 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-	id CF25D10F578E; Wed, 14 Feb 2024 13:56:29 +0100 (CET)
-From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>, Benjamin Tissoires
- <bentiss@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Andrii
- Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong
- Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, bpf
- <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, "open list:HID
- CORE LAYER" <linux-input@vger.kernel.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
- <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH RFC bpf-next 0/9] allow HID-BPF to do device IOs
-In-Reply-To: <b2k6rlzu5vgpouedwjbsigoteo43nwfk6qeeb2pc7c3r4ejnm6@nml66ds6wbeo>
-References: <87bk8pve2z.fsf@toke.dk>
- <CAO-hwJ+UeaBydN9deA8KBbgBiC_UCt6oXX-wGnNuSr8fhUrkXw@mail.gmail.com>
- <875xyxva9u.fsf@toke.dk>
- <CAO-hwJLvEGNRXc8G2PR+AQ6kJg+k5YqSt3F7LCSc0zWnmFfe5g@mail.gmail.com>
- <87r0hhfudh.fsf@toke.dk>
- <CAO-hwJLxkt=THKBjxDA6KZsC5h52rCXZ-2RNKPCiYMHNjhQJNg@mail.gmail.com>
- <CAADnVQKt7zu2OY0xHCkTb=KSXO33Xj8H4vVYMqP51ZJ_Kj1sZA@mail.gmail.com>
- <zybv26nmqtmyghakbebwxanzgzsfm6brvi7qw3ljoh4dijbjki@ub7atnumzuhy>
- <CAP01T75Giw_5j0RXaaxX0rDzCcXXZgmHrw7QZ_Ayib8rHgunBQ@mail.gmail.com>
- <877cj8f8ht.fsf@toke.dk>
- <b2k6rlzu5vgpouedwjbsigoteo43nwfk6qeeb2pc7c3r4ejnm6@nml66ds6wbeo>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date: Wed, 14 Feb 2024 13:56:29 +0100
-Message-ID: <874jebfblu.fsf@toke.dk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZT00K+A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707915715; x=1739451715;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UPDRuiOXlP13ChjfIMysQjZiACzpmw75739/2c4aLa4=;
+  b=YZT00K+Aip+tuYn07OoxOVHlYi8NiUJx0qbk2c/f0OmOFFsKj2fr2CWv
+   eSKYe4BwzmSsTLlMBPK28EiEGchMK4dO1MdqjQIAUqH7x87bY/T2o8B8f
+   Pfaqpp6xIkdN+b0nDUfyKWIJy6ed5GXqewU0zNNvQXqEw37Za4wSuZuhH
+   5yiTcT2+i0HyDBMjxx2zVCdO0P/ejpI8A62vdDWOwCtBd9OGtmr7Z3NIs
+   rg0XAMx0faDqXNXDQphOM6LaXNaagWataF//2d7vS+4ZUv58uCYJcjN/y
+   HXLgwx2+LUTdaNa+6l6T7UL3Q+RIdOFacKbWdRzP3cxgfvUwafKxicsWm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="1866040"
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="1866040"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 05:01:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
+   d="scan'208";a="7776217"
+Received: from lkp-server01.sh.intel.com (HELO 01f0647817ea) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 14 Feb 2024 05:01:50 -0800
+Received: from kbuild by 01f0647817ea with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1raEtY-0008m6-1t;
+	Wed, 14 Feb 2024 13:01:48 +0000
+Date: Wed, 14 Feb 2024 21:01:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Balint Dobszay <balint.dobszay@arm.com>,
+	op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, jens.wiklander@linaro.org,
+	sumit.garg@linaro.org, corbet@lwn.net, balint.dobszay@arm.com,
+	sudeep.holla@arm.com, gyorgy.szing@arm.com
+Subject: Re: [PATCH 1/3] tee: optee: Move pool_op helper functions
+Message-ID: <202402142042.JLQEGKBr-lkp@intel.com>
+References: <20240213145239.379875-2-balint.dobszay@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213145239.379875-2-balint.dobszay@arm.com>
 
-Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+Hi Balint,
 
-> On Tue, Feb 13, 2024 at 08:51:26PM +0100, Toke H=C3=B8iland-J=C3=B8rgense=
-n wrote:
->> Kumar Kartikeya Dwivedi <memxor@gmail.com> writes:
->>=20
->> > On Tue, 13 Feb 2024 at 18:46, Benjamin Tissoires <bentiss@kernel.org> =
-wrote:
->> >>
->> >> On Feb 12 2024, Alexei Starovoitov wrote:
->> >> > On Mon, Feb 12, 2024 at 10:21=E2=80=AFAM Benjamin Tissoires
->> >> > <benjamin.tissoires@redhat.com> wrote:
->> >> > >
->> >> > > On Mon, Feb 12, 2024 at 6:46=E2=80=AFPM Toke H=C3=B8iland-J=C3=B8=
-rgensen <toke@redhat.com> wrote:
->> >> > > >
->> >> > > > Benjamin Tissoires <benjamin.tissoires@redhat.com> writes:
->> >> > > >
->> >> [...]
->> >> > I agree that workqueue delegation fits into the bpf_timer concept a=
-nd
->> >> > a lot of code can and should be shared.
->> >>
->> >> Thanks Alexei for the detailed answer. I've given it an attempt but s=
-till can not
->> >> figure it out entirely.
->> >>
->> >> > All the lessons(bugs) learned with bpf_timer don't need to be re-di=
-scovered :)
->> >> > Too bad, bpf_timer_set_callback() doesn't have a flag argument,
->> >> > so we need a new kfunc to set a sleepable callback.
->> >> > Maybe
->> >> > bpf_timer_set_sleepable_cb() ?
->> >>
->> >> OK. So I guess I should drop Toke's suggestion with the bpf_timer_ini=
-() flag?
->> >>
->> >> > The verifier will set is_async_cb =3D true for it (like it does for=
- regular cb-s).
->> >> > And since prog->aux->sleepable is kinda "global" we need another
->> >> > per subprog flag:
->> >> > bool is_sleepable: 1;
->> >>
->> >> done (in push_callback_call())
->> >>
->> >> >
->> >> > We can factor out a check "if (prog->aux->sleepable)" into a helper
->> >> > that will check that "global" flag and another env->cur_state->in_s=
-leepable
->> >> > flag that will work similar to active_rcu_lock.
->> >>
->> >> done (I think), cf patch 2 below
->> >>
->> >> > Once the verifier starts processing subprog->is_sleepable
->> >> > it will set cur_state->in_sleepable =3D true;
->> >> > to make all subprogs called from that cb to be recognized as sleepa=
-ble too.
->> >>
->> >> That's the point I don't know where to put the new code.
->> >>
->> >
->> > I think that would go in the already existing special case for
->> > push_async_cb where you get the verifier state of the async callback.
->> > You can make setting the boolean in that verifier state conditional on
->> > whether it's your kfunc/helper you're processing taking a sleepable
->> > callback.
->> >
->> >> It seems the best place would be in do_check(), but I am under the im=
-pression
->> >> that the code of the callback is added at the end of the instruction =
-list, meaning
->> >> that I do not know where it starts, and which subprog index it corres=
-ponds to.
->> >>
->> >> >
->> >> > A bit of a challenge is what to do with global subprogs,
->> >> > since they're verified lazily. They can be called from
->> >> > sleepable and non-sleepable contex. Should be solvable.
->> >>
->> >> I must confess this is way over me (and given that I didn't even mana=
-ged to make
->> >> the "easy" case working, that might explain things a little :-P )
->> >>
->> >
->> > I think it will be solvable but made somewhat difficult by the fact
->> > that even if we mark subprog_info of some global_func A as
->> > in_sleepable, so that we explore it as sleepable during its
->> > verification, we might encounter later another global_func that calls
->> > a global func, already explored as non-sleepable, in sleepable
->> > context. In this case I think we need to redo the verification of that
->> > global func as sleepable once again. It could be that it is called
->> > from both non-sleepable and sleepable contexts, so both paths
->> > (in_sleepable =3D true, and in_sleepable =3D false) need to be explore=
-d,
->> > or we could reject such cases, but it might be a little restrictive.
->> >
->> > Some common helper global func unrelated to caller context doing some
->> > auxiliary work, called from sleepable timer callback and normal main
->> > subprog might be an example where rejection will be prohibitive.
->> >
->> > An approach might be to explore main and global subprogs once as we do
->> > now, and then keep a list of global subprogs that need to be revisited
->> > as in_sleepable (due to being called from a sleepable context) and
->> > trigger do_check_common for them again, this might have to be repeated
->> > as the list grows on each iteration, but eventually we will have
->> > explored all of them as in_sleepable if need be, and the loop will
->> > end. Surely, this trades off logical simplicity of verifier code with
->> > redoing verification of global subprogs again.
->> >
->> > To add items to such a list, for each global subprog we encounter that
->> > needs to be analyzed as in_sleepable, we will also collect all its
->> > callee global subprogs by walking its instructions (a bit like
->> > check_max_stack_depth does).
->>=20
->> Sorry if I'm being dense, but why is all this needed if it's already
->> possible to just define the timer callback from a program type that
->> allows sleeping, and then set the actual timeout from a different
->> program that is not sleepable? Isn't the set_sleepable_cb() kfunc just a
->> convenience then? Or did I misunderstand and it's not actually possible
->> to mix callback/timer arming from different program types?
->
-> More than just convience.
-> bpf_set_sleepable_cb() might need to be called from non-sleepable and
-> there could be no way to hack it around with fake sleepable entry.
-> bpf_timer_cancel() clears callback_fn.
-> So if prog wants to bpf_timer_start() and later bpf_timer_cancel()
-> it would need to bpf_set_sleepable_cb() every time before bpf_timer_start=
-().
-> And at that time it might be in non-sleepable ctx.
+kernel test robot noticed the following build errors:
 
-Ah, right, makes sense; didn't think about bpf_timer_cancel(). Thanks
-for the explanation :)
+[auto build test ERROR on lwn/docs-next]
+[also build test ERROR on soc/for-next linus/master v6.8-rc4 next-20240214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
--Toke
+url:    https://github.com/intel-lab-lkp/linux/commits/Balint-Dobszay/tee-optee-Move-pool_op-helper-functions/20240213-225716
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20240213145239.379875-2-balint.dobszay%40arm.com
+patch subject: [PATCH 1/3] tee: optee: Move pool_op helper functions
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240214/202402142042.JLQEGKBr-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240214/202402142042.JLQEGKBr-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202402142042.JLQEGKBr-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/tee/tee_shm.c: In function 'tee_shm_pool_op_alloc_helper':
+>> drivers/tee/tee_shm.c:227:22: error: implicit declaration of function 'virt_to_phys'; did you mean 'virt_to_pfn'? [-Werror=implicit-function-declaration]
+     227 |         shm->paddr = virt_to_phys(shm->kaddr);
+         |                      ^~~~~~~~~~~~
+         |                      virt_to_pfn
+   cc1: some warnings being treated as errors
+
+
+vim +227 drivers/tee/tee_shm.c
+
+   204	
+   205	int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
+   206					 size_t size, size_t align,
+   207					 int (*shm_register)(struct tee_context *ctx,
+   208							     struct tee_shm *shm,
+   209							     struct page **pages,
+   210							     size_t num_pages,
+   211							     unsigned long start))
+   212	{
+   213		size_t nr_pages = roundup(size, PAGE_SIZE) / PAGE_SIZE;
+   214		struct page **pages;
+   215		unsigned int i;
+   216		int rc = 0;
+   217	
+   218		/*
+   219		 * Ignore alignment since this is already going to be page aligned
+   220		 * and there's no need for any larger alignment.
+   221		 */
+   222		shm->kaddr = alloc_pages_exact(nr_pages * PAGE_SIZE,
+   223					       GFP_KERNEL | __GFP_ZERO);
+   224		if (!shm->kaddr)
+   225			return -ENOMEM;
+   226	
+ > 227		shm->paddr = virt_to_phys(shm->kaddr);
+   228		shm->size = nr_pages * PAGE_SIZE;
+   229	
+   230		pages = kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
+   231		if (!pages) {
+   232			rc = -ENOMEM;
+   233			goto err;
+   234		}
+   235	
+   236		for (i = 0; i < nr_pages; i++)
+   237			pages[i] = virt_to_page((u8 *)shm->kaddr + i * PAGE_SIZE);
+   238	
+   239		shm->pages = pages;
+   240		shm->num_pages = nr_pages;
+   241	
+   242		if (shm_register) {
+   243			rc = shm_register(shm->ctx, shm, pages, nr_pages,
+   244					  (unsigned long)shm->kaddr);
+   245			if (rc)
+   246				goto err;
+   247		}
+   248	
+   249		return 0;
+   250	err:
+   251		free_pages_exact(shm->kaddr, shm->size);
+   252		shm->kaddr = NULL;
+   253		return rc;
+   254	}
+   255	EXPORT_SYMBOL_GPL(tee_shm_pool_op_alloc_helper);
+   256	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
