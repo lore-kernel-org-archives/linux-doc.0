@@ -1,152 +1,147 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E520F13DB8C
-	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 20:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7745D5C90E;
+	Wed, 14 Feb 2024 20:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707940830; cv=none; b=nTl9roDf9cNZ2pu+eLBgEHE58FnU2NY+wLKD4jZ97C0ch1wS9K/naEZzLhADab6QFHxrRGpDIp9FxNSVXX2jApBVUKTb0fncK/m9Vlr3Lg/JxhG8ycar+bGZR7mSWbqrG4aLFh8Kvxv/vshiUqrw6hEreHNPbLq6yCb4KP68Gto=
+	t=1707941383; cv=none; b=ieQ4Vews0PtCSW41r+XM1o8rioL21Gh4jUwhikivtIe5HCJHdei5ofid+P6tNTiOmKjghObexzU5hEJ2YZv4aZhEvkdA06f0Wdx77x778BBDIqBf1dSSioe+I+J6GRtOujRXl3ReVYF5olCDLDBIcvsNJps1PXDjxHOzAjiNxpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707940830; c=relaxed/simple;
-	bh=sG1eMeXm6V7HoOMCkcfIrnxVJDrJycSjo8dnKLtS7so=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MCtzN1b863GxrVUAJ34dALCed6igDnjlUabQIxRFxGntMsxxhbz7yDzKx8gHfmyWEkyL4J1ajio/GVr6/y75woe4U2LyrzhkY4WrlE+KudH6ivV2GHrifxcmXeMdd9p58WIEl0V8GgkYx4LfDBkRjt5wrTO3JVnx0kBa72YrmNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=V0Dtva7q; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1707941383; c=relaxed/simple;
+	bh=FAp8q6u4+OafC5yLy+uYi9sE/N2x6rE7jj5vjk/Ekvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o/8WZBFHNZFU1X5fQpr65hIwTwzvDRhikjm+aC6rd2jYfr076+FN48aqE9/lss2KpRuUioodqq2uhHOOLyo7KsokSorW5sp9hF7ISovrpQztyaM0nfFfpzCKJ3v+EERyLwhl5HDFHiZojh+rr8RYWcwlF2pdkJgkyHJDtcwCJeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=oVdD9OVj; arc=none smtp.client-ip=77.93.223.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="V0Dtva7q"
-Date: Wed, 14 Feb 2024 15:00:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1707940826;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pf30Mbuh5b/kObn023v7ccfUflKK/+7eCEEfg4Q4/Xo=;
-	b=V0Dtva7qS2reHkZJi6PJ+HEovBCR0hF1cHRtyU3vqEVbBd8vXfQIrh8jm2X0ifBBI4P+IO
-	H5vrvDEyaz0upotCLVyuYanif0dGbMLFqnWADl59CQ4rEdihhMwhzsvSw9R6sR/elwVruF
-	7JlRVAQ9ZPkvUkS27LLag/qy7F3NQ4g=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>, Michal Hocko <mhocko@suse.com>, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net, 
-	willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, axboe@kernel.dk, 
-	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, 
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 00/35] Memory allocation profiling
-Message-ID: <stxem77cvysbfllp46dtgsgawzdtkr662ymw3jgo564ekssna3@t7iw7azgyqvy>
-References: <9e14adec-2842-458d-8a58-af6a2d18d823@redhat.com>
- <2hphuyx2dnqsj3hnzyifp5yqn2hpgfjuhfu635dzgofr5mst27@4a5dixtcuxyi>
- <6a0f5d8b-9c67-43f6-b25e-2240171265be@redhat.com>
- <CAJuCfpEtOhzL65eMDk2W5SchcquN9hMCcbfD50a-FgtPgxh4Fw@mail.gmail.com>
- <adbb77ee-1662-4d24-bcbf-d74c29bc5083@redhat.com>
- <r6cmbcmalryodbnlkmuj2fjnausbcysmolikjguqvdwkngeztq@45lbvxjavwb3>
- <CAJuCfpF4g1jeEwHVHjQWwi5kqS-3UqjMt7GnG0Kdz5VJGyhK3Q@mail.gmail.com>
- <20240214085548.d3608627739269459480d86e@linux-foundation.org>
- <7c3walgmzmcygchqaylcz2un5dandlnzdqcohyooryurx6utxr@66adcw7f26c3>
- <CAJuCfpGi6g3rG8aVmXveSxKvXnfm+5gLKS=Q4ouQBDaTxSuhww@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="oVdD9OVj"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 614671A0CF9;
+	Wed, 14 Feb 2024 21:09:38 +0100 (CET)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1707941379; bh=pnr9jHJcWT1LGtqicgTbuE7ZC/LWYS+FDN6jvOn19r8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oVdD9OVjXgVy9KOB0DRMYyhrHzr/TgA6xFoW1aTJDVuDp7JjCQgy8toowLVZunOOO
+	 aIwP48IDMxdda9abPRVjcxcHN+n9dRBbVKUwzi6McjyFz+cJKI/o2HbWCGSI2vjvz7
+	 xLIyesi1VXn64q+mjSb9Mz1cLd4YjZs6LRK3SRTsqzlGIj6h5dUjJ1h2Nzn8U4qYZb
+	 Qn/SKJRwTF0TP9kkdhpzMcsf0o9jUHXlGtMwi3PH2lk5aQwxuUXKhj+zgaCdpqU5S3
+	 61djeFCzEByPTh/ayK0TnQPCb/dEYtZsb34i+VP0Ab5Yh7uJ5QX4UNoiqcnK6E2BHt
+	 XSKwIQL2hegmg==
+Date: Wed, 14 Feb 2024 21:09:37 +0100
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Petr Tesarik <petrtesarik@huaweicloud.com>,
+ Jonathan Corbet <corbet@lwn.net>, David Kaplan <david.kaplan@amd.com>,
+ Larry Dewey <larry.dewey@amd.com>, Elena Reshetova
+ <elena.reshetova@intel.com>, Carlos Bilbao <carlos.bilbao@amd.com>, "Masami
+ Hiramatsu (Google)" <mhiramat@kernel.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Petr Mladek <pmladek@suse.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Eric DeVolder <eric.devolder@oracle.com>, Marc
+ =?UTF-8?B?QXVyw6hsZQ==?= La France <tsi@tuyoix.net>, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Nhat Pham <nphamcs@gmail.com>, "Christian Brauner
+ (Microsoft)" <brauner@kernel.org>, Douglas Anderson
+ <dianders@chromium.org>, Luis Chamberlain <mcgrof@kernel.org>, Guenter
+ Roeck <groeck@chromium.org>, Mike Christie <michael.christie@oracle.com>,
+ Maninder Singh <maninder1.s@samsung.com>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Roberto Sassu <roberto.sassu@huaweicloud.com>, Petr Tesarik
+ <petr.tesarik1@huawei-partners.com>
+Subject: Re: [PATCH v1 5/5] sbm: SandBox Mode documentation
+Message-ID: <20240214210937.3a19945f@meshulam.tesarici.cz>
+In-Reply-To: <g3llwlzlhatvz2a23cntx7lscqarepq4uyaq6wne6my7ddo3mk@6b64pjcnykah>
+References: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
+	<20240214113035.2117-6-petrtesarik@huaweicloud.com>
+	<20240214053053.982b48d993ae99dad1d59020@linux-foundation.org>
+	<2024021425-audition-expand-2901@gregkh>
+	<20240214155524.719ffb15@meshulam.tesarici.cz>
+	<2024021415-jokester-cackle-2923@gregkh>
+	<20240214173112.138e0e29@meshulam.tesarici.cz>
+	<g3llwlzlhatvz2a23cntx7lscqarepq4uyaq6wne6my7ddo3mk@6b64pjcnykah>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpGi6g3rG8aVmXveSxKvXnfm+5gLKS=Q4ouQBDaTxSuhww@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 14, 2024 at 11:24:23AM -0800, Suren Baghdasaryan wrote:
-> On Wed, Feb 14, 2024 at 9:52 AM Kent Overstreet
-> <kent.overstreet@linux.dev> wrote:
-> >
-> > On Wed, Feb 14, 2024 at 08:55:48AM -0800, Andrew Morton wrote:
-> > > On Tue, 13 Feb 2024 14:59:11 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
-> > >
-> > > > > > If you think you can easily achieve what Michal requested without all that,
-> > > > > > good.
-> > > > >
-> > > > > He requested something?
-> > > >
-> > > > Yes, a cleaner instrumentation. Unfortunately the cleanest one is not
-> > > > possible until the compiler feature is developed and deployed. And it
-> > > > still would require changes to the headers, so don't think it's worth
-> > > > delaying the feature for years.
-> > >
-> > > Can we please be told much more about this compiler feature?
-> > > Description of what it is, what it does, how it will affect this kernel
-> > > feature, etc.
-> > >
-> > > Who is developing it and when can we expect it to become available?
-> > >
-> > > Will we be able to migrate to it without back-compatibility concerns?
-> > > (I think "you need quite recent gcc for memory profiling" is
-> > > reasonable).
-> > >
-> > >
-> > >
-> > > Because: if the maintainability issues which Michel describes will be
-> > > significantly addressed with the gcc support then we're kinda reviewing
-> > > the wrong patchset.  Yes, it may be a maintenance burden initially, but
-> > > at some (yet to be revealed) time in the future, this will be addressed
-> > > with the gcc support?
-> >
-> > Even if we had compiler magic, after considering it more I don't think
-> > the patchset would be improved by it - I would still prefer to stick
-> > with the macro approach.
-> >
-> > There's also a lot of unresolved questions about whether the compiler
-> > approach would even end being what we need; we need macro expansion to
-> > happen in the caller of the allocation function
-> 
-> For the record, that's what this attribute will be doing. So it should
-> cover our usecase.
+On Wed, 14 Feb 2024 13:54:54 -0500
+Kent Overstreet <kent.overstreet@linux.dev> wrote:
 
-That wasn't clear in the meeting we had the other day; all that was
-discussed there was the attribute syntax, as I recall.
+> On Wed, Feb 14, 2024 at 05:31:12PM +0100, Petr Tesa=C5=99=C3=ADk wrote:
+> > On Wed, 14 Feb 2024 16:11:05 +0100
+> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> >  =20
+> > > On Wed, Feb 14, 2024 at 03:55:24PM +0100, Petr Tesa=C5=99=C3=ADk wrot=
+e: =20
+> > > > OK, so why didn't I send the whole thing?
+> > > >=20
+> > > > Decomposition of the kernel requires many more changes, e.g. in lin=
+ker
+> > > > scripts. Some of them depend on this patch series. Before I go and
+> > > > clean up my code into something that can be submitted, I want to get
+> > > > feedback from guys like you, to know if the whole idea would be even
+> > > > considered, aka "Fail Fast".   =20
+> > >=20
+> > > We can't honestly consider this portion without seeing how it would
+> > > work, as we don't even see a working implementation that uses it to
+> > > verify it at all.
+> > >=20
+> > > The joy of adding new frameworks is that you need a user before anyone
+> > > can spend the time to review it, sorry. =20
+> >=20
+> > Thank your for a quick assessment. Will it be sufficient if I send some
+> > code for illustration (with some quick&dirty hacks to bridge the gaps),
+> > or do you need clean and nice kernel code? =20
+>=20
+> Given that code is going to need a rewrite to make use of this anyways -
+> why not just do the rewrite in Rust?
 
-So say that does work out (and I don't think that's a given; if I were a
-compiler person I don't think I'd be interested in this strange half
-macro, half inline function beast); all that has accomplished is to get
-rid of the need for the renaming - the _noprof() versions of functions.
+Thank you for this question! I concur that rewriting the whole kernel
+in Rust would be a better option. I see two differences:
 
-So then how do you distinguish where in the callstack the accounting
-happens?
+1. amount of work
+2. regressions
 
-If you say "it happens at the outermost wrapper", then what happens is
+Rewriting something in Rust means pretty much writing it from scratch.
+Doing that necessarily introduces regressions. Old code has been used.
+It has been tested. In many corner cases. Lots of bugs have been found,
+and they=E2=80=99ve been fixed. If you write code from scratch, you lose mu=
+ch
+of the accumulated knowledge.
 
- - Extra overhead for all the inner wrapper invocations, where they have
-   to now check "actually, we already have an alloc tag, don't do
-   anything". That's a cost, and given how much time we spent shaving
-   cycles and branches during development it's not one we want.
+It may still pay off in the long run.
 
- - Inner allocations that shouldn't be accounted to the outer context
-   are now a major problem, because they silently will be accounted
-   there and never noticed.
+More importantly, sandbox mode can be viewed as a tool that enforces
+decomposition of kernel code. This decomposition is the main benefit.
+It requires understanding the dependencies among different parts of the
+kernel (both code flow and data flow), and that will in turn promote
+better design.
 
-   With our approach, inner allocations are by default (i.e. when we
-   haven't switched them to the _noprof() variant) accounted to their
-   own alloc tag; that way, when we're reading the /proc/allocinfo
-   output, we can examine them and check if they should be collapsed to
-   the outer context. With this approach they won't be seen.
+> Then you get memory safety, which seems to be what you're trying to
+> achieve here.
+>=20
+> Or, you say this is for when performance isn't critical - why not a user
+> mode helper?
 
-So no, we still don't want the compiler approach.
+Processes in user mode are susceptible to all kinds of attacks you may
+want to avoid. Sandbox mode can be used in situations where user mode
+does not exist, e.g. to display a boot logo or to unpack initramfs.
+
+Sandbox mode is part of the kernel, hence signed, which may be relevant
+if the kernel is locked down, so you can use it e.g. to parse a key
+from the bootloader and put it on the trusted keyring.
+
+Regarding performance, sandbox overhead is somewhere between kernel
+mode and UMH. It is not suitable for time-critical code (like handling
+NIC interrupts), but it's still much faster than UMH.
+
+Petr T
