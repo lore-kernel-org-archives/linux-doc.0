@@ -1,108 +1,97 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FF412E5E
-	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 09:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+Received: from mail.katalix.com (mail.katalix.com [3.9.82.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA7BB171A6;
+	Wed, 14 Feb 2024 09:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.9.82.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707902977; cv=none; b=ogcV3CimG09R8ZGpTYNWndK2fC6es08q+H6hSsJpwsRjdwdY2Na4YyRF18XOM9NxFBv6j1qxJ03Y7m4qrvZDKxTpEyogC2we/gBmSs8m0fLEsHveW9sDeuhSifX41AoixzbulfDJV4d+ZOr/KCifRxwChCr3xYVEbhaRwoCuec4=
+	t=1707903260; cv=none; b=NrQeno+nXXlNITwioAmEo6+0OcLp/z639jumEoshMhdQOvmrIIa2I8ldcixcHQCW+fkySVSXp3KwIImSqlxkHI8HrrEjN2/odAAVaAd+QReoGwYqzwK8KM6tMbWG3n+0pgMh2CCEEKjyZFFj6DSztKD+lp2d3fILiy2d7+5oRMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707902977; c=relaxed/simple;
-	bh=QGJGbBcSxuCx9Avf+9BT92M2uOkRt65tIyJgEDued6g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tufHJWLVl59heyh2c5YzHb1gv6qr2B8Lw3SOX+lUOwWK0va8xgbKpyuzXvJ9q0Ll5Zl2gzt11RZIDyxZGUHdm4Ir8m26nVbzbvkxsDf/7FJJVQkSiAhgifRxjCBvxRopeFDCl8BC+5MWenBbOmmiA/2wFnK4zqsjINt6Oxd/SzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=T0EctImZ; arc=none smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1707903260; c=relaxed/simple;
+	bh=N32bS7Dr+HbXZpA1Y+5OXodrXUlj45EuuQ2+2Y27jS8=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FWq0Yi0Q09kxa9/bb/7saLZctAEIpx/9dxn8i6epXC4GD5bLEk0i+QeP2hIrhMcNXWvINHzS+zz5wJUfetBkvRNqjMP7Plw/BUNSNXMLKUPMkpnSAzKTD1ydt3hwy0yHTMIS/vcApx2Jo5OfADm5xvwJLTE/+nKRXJIdOYGqJGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com; spf=pass smtp.mailfrom=katalix.com; dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b=lSbVWGEu; arc=none smtp.client-ip=3.9.82.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=katalix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="T0EctImZ"
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-7d5c40f874aso2153620241.1
-        for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 01:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1707902975; x=1708507775; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4NTlOSe5fjimviBpJdsalrhomrdPQE7oNI7Qj6Alw1M=;
-        b=T0EctImZYwp0q3bNcDuI/KHQXguCPWhQPhBEeNS/Y9BGb6Gp+aQCIMaE6Pj/JADY50
-         v4xxAiydJaGS20EQkjXt4c6NYdOEVMDMY+0AACTnbSgiCke7pbhmVz74oHowlMaqWVIq
-         2T+CWhG9nTDTQhw59tB7YBTOGSv0pGmw52NgVWVWzyA6TP4mERn5OUeo20krThvmmo1h
-         cP0/iN4SR+6a4b99EC7SDvsPE1eE/tE/oL/EcFpF/eIDbY6U3GhIt9+5EVO5X8B2cHLp
-         Y4WEH67iirem+BIucQ7fru3vIkEQ51Ghm1I1n/odNCJvWAfopng72fJyXMUnauxhJ4ro
-         zTlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707902975; x=1708507775;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4NTlOSe5fjimviBpJdsalrhomrdPQE7oNI7Qj6Alw1M=;
-        b=ug9/abkeqC6BdjxqSKmEahgfzZdRp6E6ZYEd2IbyVchFNz5OYv1eaTYooQ/+yWAJmm
-         MaUqVR3PypuZi7mZB+BqWOnp0ozMLjNGk7DcksbTaGCDvjLSbcf2RwfjZUmdusX4nzn4
-         UYSBN7/BvnT4eIwzaOwEWiQ0wxytBmbhnlMFh2Z5atGx9CZRNg9uUi0L1Vk9ti1v6isv
-         9NXQAEgwUWYpsXeYDNLuG8y+gVQym79WTLCXM3dUKizT7k7UkogyWcZO0eJAv1hjTokb
-         9Q8oHPf9p8e9u6Anv6iK+t3fwkiKjfaok2E//qmf1OsjU9pKEw6VJM70ORxL1rrjdP9A
-         PJiw==
-X-Forwarded-Encrypted: i=1; AJvYcCUS3lsL9cL8U74Mcy34BOo40tXdV6E88pDKyDhZY2HVUj9kWSs8xBlxXPxqmNJDDedFI0M4PCB1C6U+z2svvXENyiF+a8FzzfG3
-X-Gm-Message-State: AOJu0Yzzy3TDhOSWjD7hN81ibWTHQh64Uzyq9UrAvFGsSSdV3CzvNc8P
-	tUFmAh2pevsvEYAQzKqbGofny5uddEsjShDb7w+GmWblL5rHxVwBCCueSminlMAglEYHa0sWo3Z
-	s0blbgCaxAHhPh2xwUH0ia9tafj3G2SlsztAANQ==
-X-Google-Smtp-Source: AGHT+IH2j8d++4e+u1mW346Mzu8bIt7wE9r3caRvalw9/NdZqNB/8dU8pyZv7IJ5KcYwAbcnPABW8sixlqBXfX1Jc1I=
-X-Received: by 2002:a1f:c787:0:b0:4c0:292d:193d with SMTP id
- x129-20020a1fc787000000b004c0292d193dmr2079166vkf.12.1707902975308; Wed, 14
- Feb 2024 01:29:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b="lSbVWGEu"
+Received: from localhost (unknown [IPv6:2a02:8012:909b:0:c389:e482:863d:6bfb])
+	(Authenticated sender: tom)
+	by mail.katalix.com (Postfix) with ESMTPSA id D2F2C7D4A4;
+	Wed, 14 Feb 2024 09:34:11 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=katalix.com; s=mail;
+	t=1707903251; bh=N32bS7Dr+HbXZpA1Y+5OXodrXUlj45EuuQ2+2Y27jS8=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Disposition:In-Reply-To:From;
+	z=Date:=20Wed,=2014=20Feb=202024=2009:34:11=20+0000|From:=20Tom=20P
+	 arkin=20<tparkin@katalix.com>|To:=20Samuel=20Thibault=20<samuel.th
+	 ibault@ens-lyon.org>,=0D=0A=09James=20Chapman=20<jchapman@katalix.
+	 com>,=20edumazet@google.com,=0D=0A=09gnault@redhat.com,=20davem@da
+	 vemloft.net,=20kuba@kernel.org,=0D=0A=09pabeni@redhat.com,=20corbe
+	 t@lwn.net,=20netdev@vger.kernel.org,=0D=0A=09linux-doc@vger.kernel
+	 .org,=20linux-kernel@vger.kernel.org|Subject:=20Re:=20[PATCHv5]=20
+	 PPPoL2TP:=20Add=20more=20code=20snippets|Message-ID:=20<ZcyJE4oCaw
+	 Z6aBAW@katalix.com>|References:=20<20240214012102.dsdgcdgvwgfabzdi
+	 @begin>|MIME-Version:=201.0|Content-Disposition:=20inline|In-Reply
+	 -To:=20<20240214012102.dsdgcdgvwgfabzdi@begin>;
+	b=lSbVWGEufWRdvURg6uQdMzU4FIa75J+x4MVyK57MuSdnbx81Jy9/Fcg2k5yF87nex
+	 UtyOZbjUoCp/FlW25AtfP0F335ZFI76lbO9RcUjeICNRh84mAwV5sCbe6vM2zGQSYq
+	 VveXXWQY6xLqdysi6+VzSXu5ta27pOeAg6Hstf0wDo0k27qbZbDUKAKMNZIY1wYHjU
+	 rS4BYSpsvcMd0Gi6xPE4cdsHN+1WmxxRTvdmMr5goWDvYjY1uh4U3371VaIQD0xtES
+	 zuvZzEP9FE/F0w5F/lvw8kVA/4NQEl4hN8gcYm8RDGxaCuLNf2qo2FBHqaDxEHZTUZ
+	 pIOuoD4bpYv3w==
+Date: Wed, 14 Feb 2024 09:34:11 +0000
+From: Tom Parkin <tparkin@katalix.com>
+To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+	James Chapman <jchapman@katalix.com>, edumazet@google.com,
+	gnault@redhat.com, davem@davemloft.net, kuba@kernel.org,
+	pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv5] PPPoL2TP: Add more code snippets
+Message-ID: <ZcyJE4oCawZ6aBAW@katalix.com>
+References: <20240214012102.dsdgcdgvwgfabzdi@begin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212093420.381575-1-warthog618@gmail.com>
-In-Reply-To: <20240212093420.381575-1-warthog618@gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 14 Feb 2024 10:29:24 +0100
-Message-ID: <CAMRc=MfwCQYuouRfU7i2C-YKi64_pTCRCs7jj6evBefj7=Pbog@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: clarify sysfs line values are logical
-To: Kent Gibson <warthog618@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linus.walleij@linaro.org, andy@kernel.org, 
-	corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GNCEsAiJMMSTxwir"
+Content-Disposition: inline
+In-Reply-To: <20240214012102.dsdgcdgvwgfabzdi@begin>
+
+
+--GNCEsAiJMMSTxwir
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 12, 2024 at 10:34=E2=80=AFAM Kent Gibson <warthog618@gmail.com>=
- wrote:
->
-> Clarify that line values are logical, not physical, by replacing high/low
-> terminology with active/inactive.
->
-> Signed-off-by: Kent Gibson <warthog618@gmail.com>
-> ---
->  Documentation/userspace-api/gpio/sysfs.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/userspace-api/gpio/sysfs.rst b/Documentation/u=
-serspace-api/gpio/sysfs.rst
-> index e12037a0f2b4..116921048b18 100644
-> --- a/Documentation/userspace-api/gpio/sysfs.rst
-> +++ b/Documentation/userspace-api/gpio/sysfs.rst
-> @@ -87,9 +87,9 @@ and have the following read/write attributes:
->                 allow userspace to reconfigure this GPIO's direction.
->
->         "value" ...
-> -               reads as either 0 (low) or 1 (high). If the GPIO
-> +               reads as either 0 (inactive) or 1 (active). If the GPIO
->                 is configured as an output, this value may be written;
-> -               any nonzero value is treated as high.
-> +               any nonzero value is treated as active.
->
->                 If the pin can be configured as interrupt-generating inte=
-rrupt
->                 and if it has been configured to generate interrupts (see=
- the
-> --
-> 2.39.2
->
+On  Wed, Feb 14, 2024 at 02:21:02 +0100, Samuel Thibault wrote:
+> The existing documentation was not telling that one has to create a PPP
+> channel and a PPP interface to get PPPoL2TP data offloading working.
+>=20
+> Also, tunnel switching was not mentioned, so that people were thinking
+> it was not supported, while it actually is.
+>=20
+> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-Applied, thanks!
+LGTM.  Thanks again Samuel :-)
 
-Bart
+Acked-by: Tom Parkin <tparkin@katalix.com>
+
+--GNCEsAiJMMSTxwir
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEsUkgyDzMwrj81nq0lIwGZQq6i9AFAmXMiQsACgkQlIwGZQq6
+i9Ao5wf+J5uZNWOxNgn6cWGD/gEB7ACloBRqvi19EMh5YAkOnxLWw0QaKkC040MC
+gi6iwXzInBqcDa6nBI4MfMM4GOd5buOp5lG8dsEfKrWzqxrDxDwX/RyBVFEGcmOV
+0TQ41ybnjeoXyfUCNIepd0T0hNqy3/jSi/1hXJwIzbEUjx3vURHDnucRzm+Uq0Ot
+kqg1OpifXRbu4Wj3Ldn2fgQT8iqUjEKuDCac3rHrqSGkK15D2W3IsUr1eNKIrvS2
+7aAzwXG9V3dtW9NS35RERZyHZ3ebI3gqT4hT1V9U0Ywivj0+gg5LZE0lAOYdspN/
+56unm+WW9DlengWgam6Z45dNjVmM8Q==
+=4qhT
+-----END PGP SIGNATURE-----
+
+--GNCEsAiJMMSTxwir--
