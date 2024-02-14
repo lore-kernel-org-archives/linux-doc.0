@@ -1,145 +1,144 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2414126F34
-	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 17:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EBEC128384;
+	Wed, 14 Feb 2024 17:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707933158; cv=none; b=Nx6utRlXT00QgSWDf8AMncIqeWuXunRMKa3hryq9KEUi7sA6uKsuGNjGw3KLgzmXWrxA13XBXg7pZUzGKsQEyUblMEq8YeEdMFG6rog3VxDnjD2FFI3SLA1AMqdlMEk6ffWvOTjVeka2iD8GCP+hejcdaSIcD4qFeWz4Fof0HjA=
+	t=1707933357; cv=none; b=qfzVuwm8aSe7RKJn+2G9MkdQwH1ub+IqHIit+gXlPdVFdLXESZYfMq7moV7z9XnOaEdAMqBgN43hv+LFV2/7IgFKSBMj+RN7VQAOjbPlCt4lwTXzLz+dbmArHzsmqyRFOycC5QUjdpP8m4MuBA5qiDxefdLtC+QKoW1XQbWI1j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707933158; c=relaxed/simple;
-	bh=ludUKPauweTDD8POxHffFJwhelusk8jo87YHW7heVtY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fQeGze7oHpNv73v5fAP9LY86d4SZyTaizsJW+mjMGPC2vIPo8yUAZG8ZvJYWBjzCgBXbODfQBhbQECAy0910kCPviFy4gE98BsRcRe0pIBzlMAppBTCCx+a4PsB+6pHyFPqPExSACySTboazKgaXPyr7PVtxx/CNvY+iETakqeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IUp0RzOj; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1707933357; c=relaxed/simple;
+	bh=3qB79HFhmwRQp/g0OaJbQumLxLHsG6yTbWfyt0udki8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ewMIs5AR9QzqW06O+iFVYoWyRx6B0pKNY4Ljas2cjwEk7DSdQTNvKxm9lPfz9eTPuTYpy5laC2H4ESKmR5OkAvvmFX6zgULSm7tVS8vrzJbGRSLwVbNR4eatZfVOIkhl5fVxhZS6t/Cf22kd80yVGTQ3sXxiUVM1VrEpI1NT/kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CANiH6Gk; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IUp0RzOj"
-Date: Wed, 14 Feb 2024 12:52:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1707933154;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=leY9N3alrQ22C+fXPazgCJacTsU7ND5Lt0yRBT6Nl7E=;
-	b=IUp0RzOjGR+ggmt5QyQRdV5SyNmk5BeYvtJPmMdFZ/0gdArxfBF61ir/qJD7o6ZZlPI1fa
-	T++b6tnGr9lt+Pc8uqq9a0m6P/fzXGm/Y4Z0gDlSz3GfalRNyLUnqF6AUPN+VvXSj2JW0v
-	2fUSwnZl9xW1aSObJLfJA6MLK5YNJzA=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, 
-	David Hildenbrand <david@redhat.com>, Michal Hocko <mhocko@suse.com>, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net, 
-	willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, axboe@kernel.dk, 
-	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, 
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 00/35] Memory allocation profiling
-Message-ID: <7c3walgmzmcygchqaylcz2un5dandlnzdqcohyooryurx6utxr@66adcw7f26c3>
-References: <Zctfa2DvmlTYSfe8@tiehlicka>
- <CAJuCfpEsWfZnpL1vUB2C=cxRi_WxhxyvgGhUg7WdAxLEqy6oSw@mail.gmail.com>
- <9e14adec-2842-458d-8a58-af6a2d18d823@redhat.com>
- <2hphuyx2dnqsj3hnzyifp5yqn2hpgfjuhfu635dzgofr5mst27@4a5dixtcuxyi>
- <6a0f5d8b-9c67-43f6-b25e-2240171265be@redhat.com>
- <CAJuCfpEtOhzL65eMDk2W5SchcquN9hMCcbfD50a-FgtPgxh4Fw@mail.gmail.com>
- <adbb77ee-1662-4d24-bcbf-d74c29bc5083@redhat.com>
- <r6cmbcmalryodbnlkmuj2fjnausbcysmolikjguqvdwkngeztq@45lbvxjavwb3>
- <CAJuCfpF4g1jeEwHVHjQWwi5kqS-3UqjMt7GnG0Kdz5VJGyhK3Q@mail.gmail.com>
- <20240214085548.d3608627739269459480d86e@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CANiH6Gk"
+Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.160.19])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 03A7920B2000;
+	Wed, 14 Feb 2024 09:55:55 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 03A7920B2000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1707933355;
+	bh=r+rU2WMM4VJfoXEWQNhgxysCmsxnkWOjgrrXu2wK71A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CANiH6GkGIzkHCJvTmaYYdBbsgL+mrRs2lfI6hhhbU35UwoGFie29kiAWK/wPd8kn
+	 NBeGr6rQ2UuRKn2CUsYs5mwOCE1Uf5nw/ckCX9rBz7wW5i8GmnCuw16FHmrsmb9VNa
+	 8rWPxip0zOgOfI9hR2Ss9o5Ib4rVfg3MiqYSS/es=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Easwar Hariharan <eahariha@linux.microsoft.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: stable@vger.kernel.org
+Subject: [PATCH v2] arm64: Subscribe Microsoft Azure Cobalt 100 to ARM Neoverse N2 errata
+Date: Wed, 14 Feb 2024 17:55:18 +0000
+Message-Id: <20240214175522.2457857-1-eahariha@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240214085548.d3608627739269459480d86e@linux-foundation.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 14, 2024 at 08:55:48AM -0800, Andrew Morton wrote:
-> On Tue, 13 Feb 2024 14:59:11 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
-> 
-> > > > If you think you can easily achieve what Michal requested without all that,
-> > > > good.
-> > >
-> > > He requested something?
-> > 
-> > Yes, a cleaner instrumentation. Unfortunately the cleanest one is not
-> > possible until the compiler feature is developed and deployed. And it
-> > still would require changes to the headers, so don't think it's worth
-> > delaying the feature for years.
-> 
-> Can we please be told much more about this compiler feature? 
-> Description of what it is, what it does, how it will affect this kernel
-> feature, etc.
-> 
-> Who is developing it and when can we expect it to become available?
-> 
-> Will we be able to migrate to it without back-compatibility concerns? 
-> (I think "you need quite recent gcc for memory profiling" is
-> reasonable).
-> 
-> 
-> 
-> Because: if the maintainability issues which Michel describes will be
-> significantly addressed with the gcc support then we're kinda reviewing
-> the wrong patchset.  Yes, it may be a maintenance burden initially, but
-> at some (yet to be revealed) time in the future, this will be addressed
-> with the gcc support?
+Add the MIDR value of Microsoft Azure Cobalt 100, which is a Microsoft
+implemented CPU based on r0p0 of the ARM Neoverse N2 CPU, and therefore
+suffers from all the same errata.
 
-Even if we had compiler magic, after considering it more I don't think
-the patchset would be improved by it - I would still prefer to stick
-with the macro approach.
+CC: stable@vger.kernel.org # 5.15+
+Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+---
+changelog:
+v1->v2:
+* v1: https://lore.kernel.org/linux-arm-kernel/20240212232909.2276378-1-eahariha@linux.microsoft.com/T/#u
+* Consistently use MICROSOFT throughout
+---
+ Documentation/arch/arm64/silicon-errata.rst | 7 +++++++
+ arch/arm64/include/asm/cputype.h            | 4 ++++
+ arch/arm64/kernel/cpu_errata.c              | 3 +++
+ 3 files changed, 14 insertions(+)
 
-There's also a lot of unresolved questions about whether the compiler
-approach would even end being what we need; we need macro expansion to
-happen in the caller of the allocation function, and that's another
-level of hooking that I don't think the compiler people are even
-considering yet, since cpp runs before the main part of the compiler; if
-C macros worked and were implemented more like Rust macros I'm sure it
-could be done - in fact, I think this could all be done in Rust
-_without_ any new compiler support - but in C, this is a lot to ask.
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index e8c2ce1f9df6..45a7f4932fe0 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -243,3 +243,10 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ASR            | ASR8601         | #8601001        | N/A                         |
+ +----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
++| Microsoft      | Azure Cobalt 100| #2139208        | ARM64_ERRATUM_2139208       |
+++----------------+-----------------+-----------------+-----------------------------+
++| Microsoft      | Azure Cobalt 100| #2067961        | ARM64_ERRATUM_2067961       |
+++----------------+-----------------+-----------------+-----------------------------+
++| Microsoft      | Azure Cobalt 100| #2253138        | ARM64_ERRATUM_2253138       |
+++----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+index 7c7493cb571f..52f076afeb96 100644
+--- a/arch/arm64/include/asm/cputype.h
++++ b/arch/arm64/include/asm/cputype.h
+@@ -61,6 +61,7 @@
+ #define ARM_CPU_IMP_HISI		0x48
+ #define ARM_CPU_IMP_APPLE		0x61
+ #define ARM_CPU_IMP_AMPERE		0xC0
++#define ARM_CPU_IMP_MICROSOFT		0x6D
+ 
+ #define ARM_CPU_PART_AEM_V8		0xD0F
+ #define ARM_CPU_PART_FOUNDATION		0xD00
+@@ -135,6 +136,8 @@
+ 
+ #define AMPERE_CPU_PART_AMPERE1		0xAC3
+ 
++#define MICROSOFT_CPU_PART_AZURE_COBALT_100	0xD49 /* Based on r0p0 of ARM Neoverse N2 */
++
+ #define MIDR_CORTEX_A53 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A53)
+ #define MIDR_CORTEX_A57 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A57)
+ #define MIDR_CORTEX_A72 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A72)
+@@ -193,6 +196,7 @@
+ #define MIDR_APPLE_M2_BLIZZARD_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_BLIZZARD_MAX)
+ #define MIDR_APPLE_M2_AVALANCHE_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_AVALANCHE_MAX)
+ #define MIDR_AMPERE1 MIDR_CPU_MODEL(ARM_CPU_IMP_AMPERE, AMPERE_CPU_PART_AMPERE1)
++#define MIDR_MICROSOFT_AZURE_COBALT_100 MIDR_CPU_MODEL(ARM_CPU_IMP_MICROSOFT, MICROSOFT_CPU_PART_AZURE_COBALT_100)
+ 
+ /* Fujitsu Erratum 010001 affects A64FX 1.0 and 1.1, (v0r0 and v1r0) */
+ #define MIDR_FUJITSU_ERRATUM_010001		MIDR_FUJITSU_A64FX
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 967c7c7a4e7d..76b8dd37092a 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -374,6 +374,7 @@ static const struct midr_range erratum_1463225[] = {
+ static const struct midr_range trbe_overwrite_fill_mode_cpus[] = {
+ #ifdef CONFIG_ARM64_ERRATUM_2139208
+ 	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
++	MIDR_ALL_VERSIONS(MIDR_MICROSOFT_AZURE_COBALT_100),
+ #endif
+ #ifdef CONFIG_ARM64_ERRATUM_2119858
+ 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
+@@ -387,6 +388,7 @@ static const struct midr_range trbe_overwrite_fill_mode_cpus[] = {
+ static const struct midr_range tsb_flush_fail_cpus[] = {
+ #ifdef CONFIG_ARM64_ERRATUM_2067961
+ 	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
++	MIDR_ALL_VERSIONS(MIDR_MICROSOFT_AZURE_COBALT_100),
+ #endif
+ #ifdef CONFIG_ARM64_ERRATUM_2054223
+ 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
+@@ -399,6 +401,7 @@ static const struct midr_range tsb_flush_fail_cpus[] = {
+ static struct midr_range trbe_write_out_of_range_cpus[] = {
+ #ifdef CONFIG_ARM64_ERRATUM_2253138
+ 	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
++	MIDR_ALL_VERSIONS(MIDR_MICROSOFT_AZURE_COBALT_100),
+ #endif
+ #ifdef CONFIG_ARM64_ERRATUM_2224489
+ 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
+-- 
+2.34.1
 
-Let's look at the instrumentation again. There's two steps:
-
-- Renaming the original function to _noprof
-- Adding a hooked version of the original function.
-
-We need to do the renaming regardless of what approach we take in order
-to correctly handle allocations that happen inside the context of an
-existing alloc tag hook but should not be accounted to the outer
-context; we do that by selecting the alloc_foo() or alloc_foo_noprof()
-version as appropriate.
-
-It's important to get this right; consider slab object extension
-vectors or the slab allocator allocating pages from the page allocator.
-
-Second step, adding a hooked version of the original function. We do
-that with
-
-#define alloc_foo(...) alloc_hooks(alloc_foo_noprof(__VA_ARGS__))
-
-That's pretty clean, if you ask me. The only way to make it more succint
-be if it were possible for a C macro to define a new macro, then it
-could be just
-
-alloc_fn(alloc_foo);
-
-But honestly, the former is probably preferable anyways from a ctags/cscope POV.
