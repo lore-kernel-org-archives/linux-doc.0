@@ -1,101 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D42A5B67A;
-	Wed, 14 Feb 2024 15:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D0A5BACE;
+	Wed, 14 Feb 2024 15:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707923425; cv=none; b=dCxowx62pSMQnhjVFlEiAb6JhT/Kvc1p5S9fLk8ccp3NWwKbL8r/UaF0u1FtQHimA6Y3exYjdhF7FF0GR5dzfvfTtW8x3piGh/P2soPXIIEqZlyFErn4BU7ILsHYTQ3bqKgQO7Y77ZnG3QyYnPyA3wlszyhsoSUvO7OLXcSL0tQ=
+	t=1707923469; cv=none; b=Gq+oBNRdRtdP9bPfwddBR/1sayCbGwmpbf+kUuoGLBRpRZSG0kKmwfxGeW2XsL1uzWZOxwA/778CxfTBmVJvab7kMAqqxMy9DfMsuIMxdTIzAukZpHGxXCR85IYvFpp6E+TAWQK0r7m0AbADvPHA3wCu6uCbqe2/va090ODobT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707923425; c=relaxed/simple;
-	bh=GS4eSHaDiEsFeMPQ2s8gW0MM1LndD3K1GsMp2uxE/28=;
+	s=arc-20240116; t=1707923469; c=relaxed/simple;
+	bh=EoqxqOaIxvyEBwBR81VbvGez2zheFFJm9DMrW6MBOP8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DZbk9JwhItjsDRv4BYm5D16Q1gh/C8gBgI9ZquLpVbMAsOUL1FEqB2Ack9r7m6XAwbiMjcydKSo6aULA2yYUZotbHIyYkKFIN+b+pkoIjaT0iRn0/EnvavylNxFZAISpPRwRI7xnQVSjnsXCp+lscaYeK48oCLi8eg9wghnMfzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fsFUGwyG; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gbZcWPsuUSmGGjOvfhnWK/N6G7BcwFTAbuDwinnGdQnSkXtsVFlqlf+duILXXrtx8QpfTM7Vk6y9v0zH+UvvrqE8MCLA6TTZJZQiWwal2WKcfM86Qq5adQSwcFZdWUcZ5gN4H/MPXrn5yzqXs4AtubfLesgL5Vu16UHxZN+MEc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=F0gv+vf+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fsFUGwyG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3777BC433F1;
-	Wed, 14 Feb 2024 15:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707923425;
-	bh=GS4eSHaDiEsFeMPQ2s8gW0MM1LndD3K1GsMp2uxE/28=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="F0gv+vf+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37331C433C7;
+	Wed, 14 Feb 2024 15:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707923468;
+	bh=EoqxqOaIxvyEBwBR81VbvGez2zheFFJm9DMrW6MBOP8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fsFUGwyGH3kALXBm25gWqtFT3QTDs7epAdoZRtSmdulitCQmGSKgYezOsCdsNYMJ9
-	 a1CoBElpkxGALBxYgT3j416u8ST43b3WZ+ogEez7CRhd1+Pg23QkEIvtSgKZMnLaU2
-	 3QIvv7VR9vLT5ClAi89uTAs+ixfmEyW33SCMxHb0AGTcwOcFj+tcGPKIiJwwDWsn3C
-	 mrwAjrbToEiDPx+otZwMqAzVFkFZusy7VTTq9A+jrUs74eLw+ZPx62/8fpwcmh4X87
-	 n5y22X39ogjhxFHmOLCB14NVGY+BGEU5cyXJ+Ebvp2bxkgQrFmpU5kKIZ5Y71EaSZY
-	 Ggwk6iE4tMzVA==
-Date: Wed, 14 Feb 2024 15:10:20 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, security@kernel.org,
-	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <fb5f7cf4-6541-4d91-afbb-5514cec3ca47@sirena.org.uk>
-References: <2024021430-blanching-spotter-c7c8@gregkh>
- <nycvar.YFH.7.76.2402141433560.21798@cbobk.fhfr.pm>
- <7c177ba2-6b0a-4203-9ee6-113e75c6bb13@sirena.org.uk>
- <nycvar.YFH.7.76.2402141539180.21798@cbobk.fhfr.pm>
+	b=F0gv+vf+yuTKor+O5zCL0phtPuc3uSwPqlQQSKD2678x0iwPPbr0qWF7aHywRzLnx
+	 uhYAnCu3sFXJlkr37ygj3CFE4Rvbb50jyh1vCg7VppSEq6OeyHSuHoG1Lu4JS9IKGq
+	 wbu2nDvvVWcZppsF7MreAOHbi3FdbGXR67bGIEpI=
+Date: Wed, 14 Feb 2024 16:11:05 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Petr Tesarik <petrtesarik@huaweicloud.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Kaplan <david.kaplan@amd.com>,
+	Larry Dewey <larry.dewey@amd.com>,
+	Elena Reshetova <elena.reshetova@intel.com>,
+	Carlos Bilbao <carlos.bilbao@amd.com>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Petr Mladek <pmladek@suse.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Eric DeVolder <eric.devolder@oracle.com>,
+	Marc =?iso-8859-1?Q?Aur=E8le?= La France <tsi@tuyoix.net>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Mike Christie <michael.christie@oracle.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Maninder Singh <maninder1.s@samsung.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Roberto Sassu <roberto.sassu@huaweicloud.com>,
+	Petr Tesarik <petr.tesarik1@huawei-partners.com>
+Subject: Re: [PATCH v1 5/5] sbm: SandBox Mode documentation
+Message-ID: <2024021415-jokester-cackle-2923@gregkh>
+References: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
+ <20240214113035.2117-6-petrtesarik@huaweicloud.com>
+ <20240214053053.982b48d993ae99dad1d59020@linux-foundation.org>
+ <2024021425-audition-expand-2901@gregkh>
+ <20240214155524.719ffb15@meshulam.tesarici.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BG5O0liRLurZHdWB"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2402141539180.21798@cbobk.fhfr.pm>
-X-Cookie: Available while quantities last.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240214155524.719ffb15@meshulam.tesarici.cz>
 
+On Wed, Feb 14, 2024 at 03:55:24PM +0100, Petr Tesařík wrote:
+> OK, so why didn't I send the whole thing?
+> 
+> Decomposition of the kernel requires many more changes, e.g. in linker
+> scripts. Some of them depend on this patch series. Before I go and
+> clean up my code into something that can be submitted, I want to get
+> feedback from guys like you, to know if the whole idea would be even
+> considered, aka "Fail Fast".
 
---BG5O0liRLurZHdWB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We can't honestly consider this portion without seeing how it would
+work, as we don't even see a working implementation that uses it to
+verify it at all.
 
-On Wed, Feb 14, 2024 at 03:46:12PM +0100, Jiri Kosina wrote:
-> On Wed, 14 Feb 2024, Mark Brown wrote:
+The joy of adding new frameworks is that you need a user before anyone
+can spend the time to review it, sorry.
 
-> > There's an argument for many headphone volume related fixes too since
-> > excessively large volumes can cause substantial distress and potential
-> > injury to users (I can't remember if that fix would be relevant to that
-> > issue).
+thanks,
 
-> Something being too loud, causing distress ... that's really a grey zone=
-=20
-> (to put it mildly) for me. How about e.g. a bug in GPU driver, leading to=
-=20
-> a flickering screen? Many people are very sensitive to that (both=20
-> physically and mentally) for various reasons.
-
-> Bug worth fixing? Absolutely, as soon as possible. Security-relevant? Not=
-=20
-> in my book.
-
-To be clear, most headphone drivers can easily generate output levels
-which will cause temporary or permanent hearing loss after very brief
-exposure.  The distress is the urgent and instinctive need to remove the
-headphones as fast as possible that tends to result, much as it would
-for any other ongoing source of injury.
-
---BG5O0liRLurZHdWB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXM19sACgkQJNaLcl1U
-h9Awvgf9Gu8FSKxDu0eWu7eEILO1aW6n3afgdS4SSJxYcmqNDCJzBT2VDTi/N6hA
-aeDLNw9G94HI23Mabmi664LWHZrCcrfo1sWSMOdFsFREZWK5t1vKyauVDeGJTsuM
-5U4PcoX14VMUbnhGLXu9oTWWw/Tx/jda0ac7ZcU1IflxuMV/s0rtHH8qmyjlScnP
-KP4wSoIK+Cmmlx1o+0Z1UrMPc5XjqTbLHzKOS99ZgS6GLMxYFMO+AX0lAObj8XJ7
-MXLRSyMgoVHUAxTPPknTmNbeE67zrQ6Ml1osozMYdRACtOYEoW+gQWo8b/qMbhJW
-brCB0Xw7JhUqKjcdyCrrgpK73uWocg==
-=ulVa
------END PGP SIGNATURE-----
-
---BG5O0liRLurZHdWB--
+greg k-h
