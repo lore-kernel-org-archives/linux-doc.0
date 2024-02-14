@@ -1,95 +1,107 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7340E60864;
-	Wed, 14 Feb 2024 16:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D951604BC;
+	Wed, 14 Feb 2024 16:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707929061; cv=none; b=uNsikm8bq5OZK3U9Gy8lTanLGioGxEl0v0mDQTvwsAOoNkBr7iByQKw98LDbyp0Fs+4s5RMGbrZEC2a2wjozB+qFW2IIYUoA05nYTCHQbfUyLydrUNTzkDeEyqotO/6RYFRbWjGsqRBvBDkXju9By9ZGlULQ+Jqoi0dP3fieLt8=
+	t=1707929752; cv=none; b=gGg+zAVWRgws+NTYmPwWrAovxhn7j8f0KKes6Gkd/GavkUhdolVF2sv+0dc78MQCYTzMwRiXalKX2EmfQ5WxnVYXlNbKnNx8bDAFK9WkiK4igkaMOaSSyDV9jcdpCbFujXblAF/uDCY9+B+Dk4cvjw2GFaahNjQNvXvnMIdNvPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707929061; c=relaxed/simple;
-	bh=sfJuXclO1Ov9A69m5w+ZOgsfMXgKljyna2t9SiCtuw8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mHWbaT/WoRXUQcArzu7MMjOBqcoV+wImBK2n1kcWyMMqNFBGoNAwF4Iwtl+5fMezNP5I4pbffTUiBp+3rXwDjBnPJA2B1rPFnSHvqze1BDe1HU2j9fjbqk9aFbLAh4PObqltdu+YI1pKg1qyJtTCNd2fRX5X5whzwo0WP0Gt3s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EDQ4KWpZ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1707929752; c=relaxed/simple;
+	bh=Z1j0awbyiMqQJioymUvLXxMTBT0EGAz3kMP8dpbtft4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Qh9x31qTahDzxkLEMayQnWXSWt+TevPz6hxOoQrQIItZMqc9r7xlbL1eI74g8OvOmZ6i7JChSdKYxlSBcEANUssaXbHFOMXIpr7GFOzJi44h4/VkwGB1KrS8IVRdEcNIVH5fnHojpQQGObcAYPflsykxYsS3F+unmt/gX2XScNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=aP6eNqCb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EDQ4KWpZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=hftmzppcjHlorwgYJRp+lM988Qc6AOkd1AYuK4Aj3w0=; b=EDQ4KWpZCjyQrQSpbU0qS+hfgt
-	U4P5K0QWOTlNO/Gy8Ld5ua4ISXBQE4e2dzeLr7QZiWq5AccxD+wDdQKRMrq6mg9JUIKSTXqNfmS7w
-	6cKSKmJNrDBI9JIt8AlH2G8yNuwDnTmwMBbhnOqs+U7mVYByFqFrtNmnpaNs47cSWotVHv99u/m+m
-	P5h/bPloUGfsWPo9+SIPBrLJWDvXf+ViYExv7xpbpli68n8XxtIaRcjMbDIPznKFXmqZ/mPHD28f6
-	ukZssGWyaVq91PablLgmHy6YRoqm4GIyw4g0tVH/8IcaFt4Y5RvY0UDDTmdr5FhLzqQuMs+FoXtfs
-	kXvpKg+A==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raIMr-0000000Da5u-48Th;
-	Wed, 14 Feb 2024 16:44:18 +0000
-Message-ID: <768355d0-df1e-48dd-b7fd-9ed34f7a4b7c@infradead.org>
-Date: Wed, 14 Feb 2024 08:44:17 -0800
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="aP6eNqCb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57F71C433C7;
+	Wed, 14 Feb 2024 16:55:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1707929751;
+	bh=Z1j0awbyiMqQJioymUvLXxMTBT0EGAz3kMP8dpbtft4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aP6eNqCb/UgW05i+ulED3dJ38CFlbF46c9ImepcRNWw3cqV444ebJY3dOVwDX0TpF
+	 Zry6nkCkfDuDtI3bkVsahvhtqzq0e6p7PwaST0Yzxnx6S2AOkZW5cKbC+D8uj2KfhL
+	 cXIdI5wkzTTOR16ASzaWYyPLnnwcg8bFmbhrKB3U=
+Date: Wed, 14 Feb 2024 08:55:48 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>, David Hildenbrand
+ <david@redhat.com>, Michal Hocko <mhocko@suse.com>, vbabka@suse.cz,
+ hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+ dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+ corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+ juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
+ arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
+ rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
+ yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+ hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+ ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
+ ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+ bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+ iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+ elver@google.com, dvyukov@google.com, shakeelb@google.com,
+ songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+ cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Memory allocation profiling
+Message-Id: <20240214085548.d3608627739269459480d86e@linux-foundation.org>
+In-Reply-To: <CAJuCfpF4g1jeEwHVHjQWwi5kqS-3UqjMt7GnG0Kdz5VJGyhK3Q@mail.gmail.com>
+References: <20240212213922.783301-1-surenb@google.com>
+	<Zctfa2DvmlTYSfe8@tiehlicka>
+	<CAJuCfpEsWfZnpL1vUB2C=cxRi_WxhxyvgGhUg7WdAxLEqy6oSw@mail.gmail.com>
+	<9e14adec-2842-458d-8a58-af6a2d18d823@redhat.com>
+	<2hphuyx2dnqsj3hnzyifp5yqn2hpgfjuhfu635dzgofr5mst27@4a5dixtcuxyi>
+	<6a0f5d8b-9c67-43f6-b25e-2240171265be@redhat.com>
+	<CAJuCfpEtOhzL65eMDk2W5SchcquN9hMCcbfD50a-FgtPgxh4Fw@mail.gmail.com>
+	<adbb77ee-1662-4d24-bcbf-d74c29bc5083@redhat.com>
+	<r6cmbcmalryodbnlkmuj2fjnausbcysmolikjguqvdwkngeztq@45lbvxjavwb3>
+	<CAJuCfpF4g1jeEwHVHjQWwi5kqS-3UqjMt7GnG0Kdz5VJGyhK3Q@mail.gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Document the Linux Kernel CVE process
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, security@kernel.org,
- Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
-References: <2024021314-unwelcome-shrill-690e@gregkh>
- <60d67476-5c56-4fa4-93cf-1eb8f5aa5953@infradead.org>
- <2024021450-giddy-garland-e499@gregkh>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2024021450-giddy-garland-e499@gregkh>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Tue, 13 Feb 2024 14:59:11 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
+
+> > > If you think you can easily achieve what Michal requested without all that,
+> > > good.
+> >
+> > He requested something?
+> 
+> Yes, a cleaner instrumentation. Unfortunately the cleanest one is not
+> possible until the compiler feature is developed and deployed. And it
+> still would require changes to the headers, so don't think it's worth
+> delaying the feature for years.
+
+Can we please be told much more about this compiler feature? 
+Description of what it is, what it does, how it will affect this kernel
+feature, etc.
+
+Who is developing it and when can we expect it to become available?
+
+Will we be able to migrate to it without back-compatibility concerns? 
+(I think "you need quite recent gcc for memory profiling" is
+reasonable).
 
 
-On 2/13/24 23:15, Greg Kroah-Hartman wrote:
-> On Tue, Feb 13, 2024 at 11:56:42AM -0800, Randy Dunlap wrote:
->>> +As part of the normal stable release process, kernel changes that are
->>> +potentially security issues are identified by the developers responsible
->>> +for CVE number assignments and have CVE numbers automatically assigned
->>> +to them.  These assignments are published on the linux-cve mailing list
->>
->>                                                     linux-cve-announce mailing list
-> 
-> Ah, good catch, you can see the "old" name for the list here, this is
-> due to this document being an older version, a symptom of "write it on
-> my workstation, sync to laptop, travel with laptop for 3+ weeks and make
-> changes based on meetings with CVE and others and then forget to sync
-> from laptop when arriving home".
-> 
-> Ugh :(
-> 
-> Thanks so much for the grammer fixes, they are much appreciated.  I'll
-> apply them and send out the latest version in a bit.
-> 
->>> +No CVEs will be assigned for unfixed security issues in the Linux
->>> +kernel, assignment will only happen after a fix is available as it can
->>
->>    kernel;
->>
->>> +be properly tracked that way by the git commit id of the original fix.
-> 
-> One of my goals in life is to never use a ';' in a sentence, and after
-> writing 2 books without them, I thought I achieve that pretty well as I
-> never seem to remember when they are to be used or not.  But I'll trust
-> you on this and use it here.
 
-For some reason kernel documentation has a plethora of run-on sentences. :(
+Because: if the maintainability issues which Michel describes will be
+significantly addressed with the gcc support then we're kinda reviewing
+the wrong patchset.  Yes, it may be a maintenance burden initially, but
+at some (yet to be revealed) time in the future, this will be addressed
+with the gcc support?
 
-Guess we need doclint.
-
--- 
-#Randy
