@@ -1,125 +1,152 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA07D128368;
-	Wed, 14 Feb 2024 19:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E520F13DB8C
+	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 20:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707939781; cv=none; b=EzQPxC75DaUmQKgaNBJEn7CFDosh2zE3RcwA5+fEK27JRgrYzqG0uV6N7Snp53voIxpHECSTy3EYI+tpHDhNwJywmStY1xEsWSx7tLsJ/2MAynhxVjac2RavKRWaFPYcyVjtnfwOlKEqrLUY/kTNY1E0KVQVyWDyDcjoU9iQfe8=
+	t=1707940830; cv=none; b=nTl9roDf9cNZ2pu+eLBgEHE58FnU2NY+wLKD4jZ97C0ch1wS9K/naEZzLhADab6QFHxrRGpDIp9FxNSVXX2jApBVUKTb0fncK/m9Vlr3Lg/JxhG8ycar+bGZR7mSWbqrG4aLFh8Kvxv/vshiUqrw6hEreHNPbLq6yCb4KP68Gto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707939781; c=relaxed/simple;
-	bh=MjzHW3sbvo74UMtDvhMeOjKB1wFsSsg2w0qr4l02BqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LUDgwcmxWVaSNqIqOeWZ+OXJCmDOz5sgzADTM5loEISs7iKXR56dlXK6b7UL9ILkwqEKzZmTx95VPLTb89IojzxZe+40sBMkrChZJs65zjHE5gAhT5w9Qm59vXQmq3f1KfHWZmUuxscIhRn3MO+nenGKUyVa0K2II9SAUl3RvPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=PI0VbA7I; arc=none smtp.client-ip=77.93.223.253
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1707940830; c=relaxed/simple;
+	bh=sG1eMeXm6V7HoOMCkcfIrnxVJDrJycSjo8dnKLtS7so=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MCtzN1b863GxrVUAJ34dALCed6igDnjlUabQIxRFxGntMsxxhbz7yDzKx8gHfmyWEkyL4J1ajio/GVr6/y75woe4U2LyrzhkY4WrlE+KudH6ivV2GHrifxcmXeMdd9p58WIEl0V8GgkYx4LfDBkRjt5wrTO3JVnx0kBa72YrmNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=V0Dtva7q; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="PI0VbA7I"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 604D21A3F85;
-	Wed, 14 Feb 2024 20:42:55 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1707939775; bh=XbApCY7HYVbip/7kfqTJAZF1W0XGldnt6/Vj0L00k7w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PI0VbA7Imm50dQMfP324uH6fTp44EaM6tpjkV8GA938hByxVe5M0cJ9rBwKqLdF5y
-	 C+7e207+PkelEuEkVv3i4+HGF2OI9j4NSGCCnLSX26XODMg6DwA1Ny4Gqh7FrJbi0R
-	 clF7x6GlzMS6M6K+HbcKlG9UG4kQFxJZJBc0/Ap8hlrDLQYEOmm13TSf7VpF2F6jVt
-	 KYPkdJEVogk8gRrxd17XdhUeliOnOWXD83eXjYbewxju6/yaCaxl7T/C+5xwCll4wv
-	 bSd+6GnHaj8ajGwbPTZeJRptgYOHkCUg1VZrlOm1qfkGQax0qJFPEf8GyT/q1LkczW
-	 CyhSZaiqIeKnw==
-Date: Wed, 14 Feb 2024 20:42:54 +0100
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Petr Tesarik
- <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>, David
- Kaplan <david.kaplan@amd.com>, Larry Dewey <larry.dewey@amd.com>, Elena
- Reshetova <elena.reshetova@intel.com>, Carlos Bilbao
- <carlos.bilbao@amd.com>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Petr Mladek <pmladek@suse.com>, "Paul
- E. McKenney" <paulmck@kernel.org>, Eric DeVolder
- <eric.devolder@oracle.com>, Marc =?UTF-8?B?QXVyw6hsZQ==?= La France
- <tsi@tuyoix.net>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Nhat Pham
- <nphamcs@gmail.com>, "Christian Brauner (Microsoft)" <brauner@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, Luis Chamberlain
- <mcgrof@kernel.org>, Guenter Roeck <groeck@chromium.org>, Mike Christie
- <michael.christie@oracle.com>, Kent Overstreet <kent.overstreet@linux.dev>,
- Maninder Singh <maninder1.s@samsung.com>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Roberto Sassu <roberto.sassu@huaweicloud.com>, Petr Tesarik
- <petr.tesarik1@huawei-partners.com>
-Subject: Re: [PATCH v1 5/5] sbm: SandBox Mode documentation
-Message-ID: <20240214204254.6208ca2f@meshulam.tesarici.cz>
-In-Reply-To: <2024021417-magma-drudge-ad70@gregkh>
-References: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
-	<20240214113035.2117-6-petrtesarik@huaweicloud.com>
-	<20240214053053.982b48d993ae99dad1d59020@linux-foundation.org>
-	<2024021425-audition-expand-2901@gregkh>
-	<20240214155524.719ffb15@meshulam.tesarici.cz>
-	<2024021415-jokester-cackle-2923@gregkh>
-	<20240214173112.138e0e29@meshulam.tesarici.cz>
-	<2024021417-magma-drudge-ad70@gregkh>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="V0Dtva7q"
+Date: Wed, 14 Feb 2024 15:00:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1707940826;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pf30Mbuh5b/kObn023v7ccfUflKK/+7eCEEfg4Q4/Xo=;
+	b=V0Dtva7qS2reHkZJi6PJ+HEovBCR0hF1cHRtyU3vqEVbBd8vXfQIrh8jm2X0ifBBI4P+IO
+	H5vrvDEyaz0upotCLVyuYanif0dGbMLFqnWADl59CQ4rEdihhMwhzsvSw9R6sR/elwVruF
+	7JlRVAQ9ZPkvUkS27LLag/qy7F3NQ4g=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Michal Hocko <mhocko@suse.com>, vbabka@suse.cz, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, axboe@kernel.dk, 
+	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, 
+	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
+	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
+	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
+	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
+	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Memory allocation profiling
+Message-ID: <stxem77cvysbfllp46dtgsgawzdtkr662ymw3jgo564ekssna3@t7iw7azgyqvy>
+References: <9e14adec-2842-458d-8a58-af6a2d18d823@redhat.com>
+ <2hphuyx2dnqsj3hnzyifp5yqn2hpgfjuhfu635dzgofr5mst27@4a5dixtcuxyi>
+ <6a0f5d8b-9c67-43f6-b25e-2240171265be@redhat.com>
+ <CAJuCfpEtOhzL65eMDk2W5SchcquN9hMCcbfD50a-FgtPgxh4Fw@mail.gmail.com>
+ <adbb77ee-1662-4d24-bcbf-d74c29bc5083@redhat.com>
+ <r6cmbcmalryodbnlkmuj2fjnausbcysmolikjguqvdwkngeztq@45lbvxjavwb3>
+ <CAJuCfpF4g1jeEwHVHjQWwi5kqS-3UqjMt7GnG0Kdz5VJGyhK3Q@mail.gmail.com>
+ <20240214085548.d3608627739269459480d86e@linux-foundation.org>
+ <7c3walgmzmcygchqaylcz2un5dandlnzdqcohyooryurx6utxr@66adcw7f26c3>
+ <CAJuCfpGi6g3rG8aVmXveSxKvXnfm+5gLKS=Q4ouQBDaTxSuhww@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpGi6g3rG8aVmXveSxKvXnfm+5gLKS=Q4ouQBDaTxSuhww@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 14 Feb 2024 19:48:52 +0100
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+On Wed, Feb 14, 2024 at 11:24:23AM -0800, Suren Baghdasaryan wrote:
+> On Wed, Feb 14, 2024 at 9:52 AM Kent Overstreet
+> <kent.overstreet@linux.dev> wrote:
+> >
+> > On Wed, Feb 14, 2024 at 08:55:48AM -0800, Andrew Morton wrote:
+> > > On Tue, 13 Feb 2024 14:59:11 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
+> > >
+> > > > > > If you think you can easily achieve what Michal requested without all that,
+> > > > > > good.
+> > > > >
+> > > > > He requested something?
+> > > >
+> > > > Yes, a cleaner instrumentation. Unfortunately the cleanest one is not
+> > > > possible until the compiler feature is developed and deployed. And it
+> > > > still would require changes to the headers, so don't think it's worth
+> > > > delaying the feature for years.
+> > >
+> > > Can we please be told much more about this compiler feature?
+> > > Description of what it is, what it does, how it will affect this kernel
+> > > feature, etc.
+> > >
+> > > Who is developing it and when can we expect it to become available?
+> > >
+> > > Will we be able to migrate to it without back-compatibility concerns?
+> > > (I think "you need quite recent gcc for memory profiling" is
+> > > reasonable).
+> > >
+> > >
+> > >
+> > > Because: if the maintainability issues which Michel describes will be
+> > > significantly addressed with the gcc support then we're kinda reviewing
+> > > the wrong patchset.  Yes, it may be a maintenance burden initially, but
+> > > at some (yet to be revealed) time in the future, this will be addressed
+> > > with the gcc support?
+> >
+> > Even if we had compiler magic, after considering it more I don't think
+> > the patchset would be improved by it - I would still prefer to stick
+> > with the macro approach.
+> >
+> > There's also a lot of unresolved questions about whether the compiler
+> > approach would even end being what we need; we need macro expansion to
+> > happen in the caller of the allocation function
+> 
+> For the record, that's what this attribute will be doing. So it should
+> cover our usecase.
 
-> On Wed, Feb 14, 2024 at 05:31:12PM +0100, Petr Tesa=C5=99=C3=ADk wrote:
-> > On Wed, 14 Feb 2024 16:11:05 +0100
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> >  =20
-> > > On Wed, Feb 14, 2024 at 03:55:24PM +0100, Petr Tesa=C5=99=C3=ADk wrot=
-e: =20
-> > > > OK, so why didn't I send the whole thing?
-> > > >=20
-> > > > Decomposition of the kernel requires many more changes, e.g. in lin=
-ker
-> > > > scripts. Some of them depend on this patch series. Before I go and
-> > > > clean up my code into something that can be submitted, I want to get
-> > > > feedback from guys like you, to know if the whole idea would be even
-> > > > considered, aka "Fail Fast".   =20
-> > >=20
-> > > We can't honestly consider this portion without seeing how it would
-> > > work, as we don't even see a working implementation that uses it to
-> > > verify it at all.
-> > >=20
-> > > The joy of adding new frameworks is that you need a user before anyone
-> > > can spend the time to review it, sorry. =20
-> >=20
-> > Thank your for a quick assessment. Will it be sufficient if I send some
-> > code for illustration (with some quick&dirty hacks to bridge the gaps),
-> > or do you need clean and nice kernel code? =20
->=20
-> We need a real user in the kernel, otherwise why would we even consider
-> it?  Would you want to review a new subsystem that does nothing and has
-> no real users?  If not, why would you want us to?  :)
+That wasn't clear in the meeting we had the other day; all that was
+discussed there was the attribute syntax, as I recall.
 
-Greg, please enlighten me on the process. How is something like this
-supposed to get in?
+So say that does work out (and I don't think that's a given; if I were a
+compiler person I don't think I'd be interested in this strange half
+macro, half inline function beast); all that has accomplished is to get
+rid of the need for the renaming - the _noprof() versions of functions.
 
-Subsystem maintainers will not review code that depends on core features
-not yet reviewed by the respective maintainers. If I add only the API
-and a stub implementation, then it brings no benefit and attempts to
-introduce the API will be dismissed. I would certainly do just that if
-I was a maintainer...
+So then how do you distinguish where in the callstack the accounting
+happens?
 
-I could try to pack everything (base infrastructure, arch
-implementations, API users) into one big patch with pretty much
-everybody on the Cc list, but how is that ever going to get reviewed?
+If you say "it happens at the outermost wrapper", then what happens is
 
-Should I just go and maintain an out-of-tree repo for a few years,
-hoping that it gets merged one day, like bcachefs? Is this the way?
+ - Extra overhead for all the inner wrapper invocations, where they have
+   to now check "actually, we already have an alloc tag, don't do
+   anything". That's a cost, and given how much time we spent shaving
+   cycles and branches during development it's not one we want.
 
-Petr T
+ - Inner allocations that shouldn't be accounted to the outer context
+   are now a major problem, because they silently will be accounted
+   there and never noticed.
+
+   With our approach, inner allocations are by default (i.e. when we
+   haven't switched them to the _noprof() variant) accounted to their
+   own alloc tag; that way, when we're reading the /proc/allocinfo
+   output, we can examine them and check if they should be collapsed to
+   the outer context. With this approach they won't be seen.
+
+So no, we still don't want the compiler approach.
