@@ -1,75 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC507499;
-	Wed, 14 Feb 2024 13:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3730D29437;
+	Wed, 14 Feb 2024 13:41:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707917455; cv=none; b=GH2NiP6jcLjNtbCIXNdlpbCDCMVnP9wTq7cPHeZ7dCrkLrSzQiI3GP6Owdd6t3KqMirzcfjsPy+rCB8BoPISj1c1TZr+P+fMYOd3fDrJmVEbsJLeyD/rlk9JbRXmT51qVMEyJf7lRtUslb5LvhOkVJHA3Sy9UzoKppPCnhObMMA=
+	t=1707918092; cv=none; b=VTxOXRfJsv7/JiB0rz2bzn2e0W5UCdzONQi6C2uC59Kc2ueCcrPGFpaNhkBM2tDrfslDpZGb0iTMe/GKi1IhRW3MhSLGYDfOMnkBg12YkAxvVHSyIZdyvKsX6WwpoMGv+N7Qde3zx00/6gTAN8yeMNn6+cPGjDCFAoZb3qZzAUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707917455; c=relaxed/simple;
-	bh=K455WI33R+3XbLzWm+QlI6MIT3mn7lkjaRiD7AzxaF4=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Jp5t/J7MyHLcRQcE3EGy0wFB3CWPycJcpuq/SxmAg5q69HuWUakF0ZWBLOqBhPj3fl1OfUSOfJ1Uz0CoeSarxro3Z80x/IKvkk6vHxfKBS257w4uEHvlMPoQJLcPicu7CJF85llE/S09B5Ij1p9ojQVg+fn7Y9LH93EULEPiPYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=2Bwly8Af; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707918092; c=relaxed/simple;
+	bh=6AYHmBMfwJFBuyKVUjQPKB7rmm80y2Erjoou1j8rLWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qK+PYTBf9ICMkmu0ANZitfJJqFjWvqbs1vMOY+0RUvagKkcQSo5TxzP4aO68NL7Xej+mbmxnD4QickCfQFNp62zpGuhj6njDJw1NKRsnukYdtI4UWc1joMjCLMUfWUsnE2Pr0nMcF5k30s2QB/nLFP2Sk0FnUyvYUqQsJ8Ift4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oOckCedo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="2Bwly8Af"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C54C433C7;
-	Wed, 14 Feb 2024 13:30:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1707917454;
-	bh=K455WI33R+3XbLzWm+QlI6MIT3mn7lkjaRiD7AzxaF4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=2Bwly8Af5Am8RU4eqwKTcNBh/zkJGqw0bhqJFxF+8xgUQluNVkggAMsxJJ5ouGMEO
-	 kXKZ+BjwS9u8mSUR7Rf6dh4/azAGZV+s4ui/KQ7bo4KQBAStM4vZX/yChJh3LNZJ9D
-	 2TGhKOdESaP2te+w/zP0foEfTP1WovcfGQuhLhQI=
-Date: Wed, 14 Feb 2024 05:30:53 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Petr Tesarik <petrtesarik@huaweicloud.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Kaplan <david.kaplan@amd.com>,
- Larry Dewey <larry.dewey@amd.com>, Elena Reshetova
- <elena.reshetova@intel.com>, Carlos Bilbao <carlos.bilbao@amd.com>,
- "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Petr Mladek <pmladek@suse.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Eric DeVolder <eric.devolder@oracle.com>, Marc
- =?ISO-8859-1?Q?Aur=E8le?= La France <tsi@tuyoix.net>, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Nhat Pham <nphamcs@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Christian Brauner (Microsoft)"
- <brauner@kernel.org>, Douglas Anderson <dianders@chromium.org>, Luis
- Chamberlain <mcgrof@kernel.org>, Guenter Roeck <groeck@chromium.org>, Mike
- Christie <michael.christie@oracle.com>, Kent Overstreet
- <kent.overstreet@linux.dev>, Maninder Singh <maninder1.s@samsung.com>,
- linux-doc@vger.kernel.org (open list:DOCUMENTATION),
- linux-kernel@vger.kernel.org (open list), Roberto Sassu
- <roberto.sassu@huaweicloud.com>, petr@tesarici.cz, Petr Tesarik
- <petr.tesarik1@huawei-partners.com>
-Subject: Re: [PATCH v1 5/5] sbm: SandBox Mode documentation
-Message-Id: <20240214053053.982b48d993ae99dad1d59020@linux-foundation.org>
-In-Reply-To: <20240214113035.2117-6-petrtesarik@huaweicloud.com>
-References: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
-	<20240214113035.2117-6-petrtesarik@huaweicloud.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oOckCedo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B39CC433F1;
+	Wed, 14 Feb 2024 13:41:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707918091;
+	bh=6AYHmBMfwJFBuyKVUjQPKB7rmm80y2Erjoou1j8rLWk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oOckCedomc8CwHd3vnKGdNcyRi9z6sJxG7XwJmL/qg8OR5P3996wAtv/vf5k49TLV
+	 ry1KpOrZNhycswhDbEl73Y0wr39ctjtDfTjLl7at/qfY6ctPwR4ZLsYVCY6/WVzxZ9
+	 S0H5D74HR2I0FP/9uTCNuDi8Jo1Hwurn/hNbvJSE=
+Date: Wed, 14 Feb 2024 08:41:26 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, security@kernel.org, Kees Cook <keescook@chromium.org>, 
+	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
+Message-ID: <20240214-swinging-indigo-koala-a56069@lemur>
+References: <2024021430-blanching-spotter-c7c8@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2024021430-blanching-spotter-c7c8@gregkh>
 
-On Wed, 14 Feb 2024 12:30:35 +0100 Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+On Wed, Feb 14, 2024 at 09:00:30AM +0100, Greg Kroah-Hartman wrote:
+> +A list of all assigned CVEs for the Linux kernel can be found in the
+> +archives of the linux-cve mailing list, as seen on
+> +https://lore.kernel.org/linux-cve-announce/.  To get notice of the
+> +assigned CVEs, please subscribe to that mailing list.
 
-> +Although data structures are not serialized and deserialized between kernel
-> +mode and sandbox mode, all directly and indirectly referenced data structures
-> +must be explicitly mapped into the sandbox, which requires some manual effort.
+Since the archives page doesn't carry any instructions on how to subscribe,
+I think you should link to https://subspace.kernel.org/subscribing.html here,
+e.g.:
 
-Maybe I'm missing something here, but...
+... please `subscribe <https://subspace.kernel.org/subscribing.html>`_ to that
+mailing list.
 
-The requirement that the sandboxed function only ever touch two linear
-blocks of memory (yes?) seems a tremendous limitation.  I mean, how can
-the sandboxed function call kmalloc()?  How can it call any useful
-kernel functions?  They'll all touch memory which lies outside the
-sandbox areas?
+> +No CVEs will be assigned for any issue found in a version of the kernel
+> +that is not currently being actively supported by the Stable/LTS kernel
+> +team.  A list of the currently supported kernel branches can be found at
+> +https://kernel.org/category/releases.html
 
-Perhaps a simple but real-world example would help clarify.
+Can just be https://kernel.org/releases.html
+
+Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+
+-K
