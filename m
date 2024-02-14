@@ -1,75 +1,118 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C225312E72;
-	Wed, 14 Feb 2024 22:31:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694031DDD7;
+	Wed, 14 Feb 2024 22:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707949868; cv=none; b=mrMfefpBaFaWmD7Pc1rJsOS/KV5IGkiiswH/vBfH670IRBcu+vWf5UnzhLOwdkPL8hZBgYwZrd5bkKxi+DMaRm1FwDJqZxDEnnms5jiySALVnlGbqv3Ub92E6bHbrRbRrfr61hw7Pfwm06QMpEbB6xSPyb/u1V3ylG3pycNCBNg=
+	t=1707949930; cv=none; b=gDSCZ8qBkfu1nC2vegAwFZgsVPB5Y333YZPGF6/GTeXDhjaePZIfZ1rH36K8nZRgh0LE+lPhq+LzgmUks4ISY9zeV4/AT5MobntwxsW9JgOANbNraLVwzWv9o1pshwuZDkF2vGPKztJrJIjvXDRiOWTqxDvH27CQ8dDNlAY4178=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707949868; c=relaxed/simple;
-	bh=Vxx+5XQMr8IU3WwkkyPFm5kBEdOfFEh/PDssEC6a2rk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fWA41iIUtwLfx/g8yJTYlZh33zdtVhkm5cAk6qhLp0C/zhmBf3U1nduqjKrFVBmXtv/AM9Cmen+bUKwGXCBgOPeuKwetRrMfWBDbpa1iR8yf7VE2WS3AEOmqLrY0lgRCCflietNQjMB6z3UkMUe35CwrK/HWUJuPNJwbRI6KojI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nMfaSpo1; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1707949930; c=relaxed/simple;
+	bh=ZAx0hbDQxNxPk3gnGrB2LfNm++Pl1HRQT6UpuMGGB8w=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=OpEsVfAH4zQ55u3ydKgZldRyXY1djsaGkffQg7NVRa2ifOx6y5KY52mO3za+bKjrZkqZtHSVaVIiblhEr5y2V228pGX0XPiJtRCCmNQjiw+g91LkmIvNP+faRYWhNvoes7N6uSMVTJA0P3SSIkLHz2KyzhOUZawOxQ5veTRGMXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=d9fzbD43; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nMfaSpo1"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CC57742A45
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1707949862; bh=L9JTrntkGwLJIcEnJGq6gLx3hEcUtseFjlblR5IDflg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nMfaSpo1rj9paaaQm6KUbXS2tlYhEeTWNgHKu+XBttotE0gujNjXSdOF4U/HEpRDD
-	 2ZQZHSdAVEVObwCE9h5PMwx4YiAgOr5woZrZ/HuFxX0P1jXW8v8fyFlC75wsy2XpLU
-	 ks0QGvfSD96Ug0vIlun7/tdSW667bU4z4V8FqCcEtK+b45wgYHwHK7ztifZ1oDCUwL
-	 4PWma4XC/5MWi2GLSCyJreL2QvIfLQfrzMXuxb620w2md7BHjsrgkAfnsYDaMkcjNL
-	 ntnsHDfInYRiMpzhgq668y/xano47dJbO0s6nI2283DqS16kxNTkR2lH9EsP2xldNj
-	 f5PhEX9KuDFCw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CC57742A45;
-	Wed, 14 Feb 2024 22:31:01 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Davide Benini
- <davide.benini@gmail.com>, Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: Re: [PATCH] doc:it_IT:  add translation for I2C summary and protocol
-In-Reply-To: <20240209220126.28042-1-federico.vaga@vaga.pv.it>
-References: <20240209220126.28042-1-federico.vaga@vaga.pv.it>
-Date: Wed, 14 Feb 2024 15:31:01 -0700
-Message-ID: <87h6iazniy.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="d9fzbD43"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41ELiRZa022683;
+	Wed, 14 Feb 2024 22:31:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2023-11-20;
+ bh=eDxweK6fe3oib7W6T/1evsdFVVmS/oc6yGKmx5PFwhs=;
+ b=d9fzbD43R6Q5J4Et3YoOoBxkTq6KwLIyYUEK/KkNDnkAKazBGrbpmzB0WroOL8Yi4Rnk
+ LiRlYhnlZS1SaQYJfJDSR8qNAtHnWJSOsb+6osV2oS8C/f0PmAtuNUZbGE8tTT/I7xhD
+ 0rK2JuKZAxzhky6RgqN4EozvsLfLs23FP4OezCWdjZ23CgZQUU5QjDMnDHvw03okrN5B
+ GYGtR8yEI8DuV+Lh8r/GaxpXE1Zy5LKH57sYIJYswpeE0Def0LDfHMXE9gk5wDQmoIc1
+ MvEQtEyTOZAfieXY1TNdPRu8zlnecP2xIZPAE/jmzuEB0T43Fm7W7DXh4SkHqWq8TIfl Kg== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w92ppghjt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Feb 2024 22:31:35 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 41EL03gA000480;
+	Wed, 14 Feb 2024 22:31:33 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3w5yk9n76t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 14 Feb 2024 22:31:33 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41EMVTV0004281;
+	Wed, 14 Feb 2024 22:31:33 GMT
+Received: from bur-virt-x6-2-100.us.oracle.com (bur-virt-x6-2-100.us.oracle.com [10.153.92.40])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3w5yk9n72r-4
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 14 Feb 2024 22:31:32 +0000
+From: Ross Philipson <ross.philipson@oracle.com>
+To: linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+        linux-efi@vger.kernel.org
+Cc: ross.philipson@oracle.com, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+        James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
+        jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+        nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
+        davem@davemloft.net, kanth.ghatraju@oracle.com,
+        trenchboot-devel@googlegroups.com
+Subject: [PATCH v8 03/15] x86: Secure Launch Kconfig
+Date: Wed, 14 Feb 2024 14:18:35 -0800
+Message-Id: <20240214221847.2066632-4-ross.philipson@oracle.com>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20240214221847.2066632-1-ross.philipson@oracle.com>
+References: <20240214221847.2066632-1-ross.philipson@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-14_14,2024-02-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0 mlxscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2402140170
+X-Proofpoint-ORIG-GUID: qEOAt4N6P_IfV-bRj579FavWBYHDulDu
+X-Proofpoint-GUID: qEOAt4N6P_IfV-bRj579FavWBYHDulDu
 
-Federico Vaga <federico.vaga@vaga.pv.it> writes:
+Initial bits to bring in Secure Launch functionality. Add Kconfig
+options for compiling in/out the Secure Launch code.
 
-> From: Davide Benini <davide.benini@gmail.com>
->
-> This patch adds the italian translation for I2C subsystem summary and
-> protocol. Plus, a reference in the subsystem-apis page.
->
-> Signed-off-by: Davide Benini <davide.benini@gmail.com>
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> ---
->  .../translations/it_IT/i2c/i2c-protocol.rst   | 99 +++++++++++++++++++
->  .../translations/it_IT/i2c/index.rst          | 46 +++++++++
->  .../translations/it_IT/i2c/summary.rst        | 64 ++++++++++++
->  Documentation/translations/it_IT/index.rst    |  1 +
->  .../translations/it_IT/subsystem-apis.rst     | 47 +++++++++
->  5 files changed, 257 insertions(+)
->  create mode 100644 Documentation/translations/it_IT/i2c/i2c-protocol.rst
->  create mode 100644 Documentation/translations/it_IT/i2c/index.rst
->  create mode 100644 Documentation/translations/it_IT/i2c/summary.rst
->  create mode 100644 Documentation/translations/it_IT/subsystem-apis.rst
+Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+---
+ arch/x86/Kconfig | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Applied, thanks.
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 5edec175b9bf..d96d75f6f1a9 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2071,6 +2071,18 @@ config EFI_RUNTIME_MAP
+ 
+ 	  See also Documentation/ABI/testing/sysfs-firmware-efi-runtime-map.
+ 
++config SECURE_LAUNCH
++	bool "Secure Launch support"
++	default n
++	depends on X86_64 && X86_X2APIC
++	help
++	   The Secure Launch feature allows a kernel to be loaded
++	   directly through an Intel TXT measured launch. Intel TXT
++	   establishes a Dynamic Root of Trust for Measurement (DRTM)
++	   where the CPU measures the kernel image. This feature then
++	   continues the measurement chain over kernel configuration
++	   information and init images.
++
+ source "kernel/Kconfig.hz"
+ 
+ config ARCH_SUPPORTS_KEXEC
+-- 
+2.39.3
 
-jon
