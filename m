@@ -1,179 +1,115 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C88613A87B
-	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 19:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2D11E4B7;
+	Wed, 14 Feb 2024 19:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707938678; cv=none; b=DjDEyGSO8XKSKngtcqB+4zvud2r90r454dXBgGOSGxrZEVpy0kJNxU/Sv4QT4U80RtDYb8lmXr3xKMgpuv7WdMEsjXiCEPu+8XQqymdh3uhCWCym5ib3OdN0IqvvkZffGMc6RolV3CjLpclQFBs7A9evEPvCBlA3YGV88fJQw2U=
+	t=1707939219; cv=none; b=h++XiKbKOtPxJyi5/fYNAeWiiZkl17iS4Ww/IcPZ6+Vm2buUWRS35ymk2HxtfbSODhO8AkqaxaXAEwcKZgWXdTYoM/7Am61TmpSzXrT9cEAGBuMqmq13tQLo97ZBSMduwVIY3UADjooykexGb9PaNdCLEL8aHZtp0L0fDVZBBbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707938678; c=relaxed/simple;
-	bh=S0A1kfhRzOuiQ1TlmH8X2A+T0pY8dnMRCMj0SI+jFYY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RDyjYoM4gWr4LCA6ljvzLamjCiqth1l6hFef2qsNnMZLbFC0sM3Or2BYPk9jNBAPEC4FmJbtMzMQjzOPrNbDckpOGyQpanv2xWsWmBO0Pcck7JxTdEhCfKPHKeB3rJ1JZD1bV6M/H0Jm+sgEE8XZtypDSN/zRvkZq2aP3RjLANk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UwsuHlGc; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1707939219; c=relaxed/simple;
+	bh=3Uxw2BBpPfLn6Mh91wTNWE4KZxWkqy1JIOiIb4xxOw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A8NAbgT5/qEbje1zQRbC4dsKqXPRYFPI5GYM1HxBLgp+uKfLuvHIT07Ik2nIxf4+VNdf4v6wn1zHtNJXDonF5aYgNC8rgi+H7ZKajfNkjsY7PTJhon05+8SkyKv9Xnc5VaHaA7BhP15qBy0u4h0utlfNDARgqNrJenDSV/UbYNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=XgQsAz2b; arc=none smtp.client-ip=77.93.223.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UwsuHlGc"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dc238cb1b17so28838276.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 11:24:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707938675; x=1708543475; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QCBYE/AD/BvL6op5scnwP5wjSjqsrmapht1Ra223I1c=;
-        b=UwsuHlGcrhXjhdyz7FsaHAoTBX0zVMz5qXtPM2OUj55wrNZvLqHXFw+eWmQICcNqD2
-         mkRIzvQEt/wyfA87b6KzFPbtednd9Wmn4PYhx1ZSYaIQ3a9tTgY/ASdL/7qnbOlWxf+c
-         DeW0BYZFVxVxzLKtQqgf5JqXwApgR9aXf6eXe00HuM3qIUBz3mMid3IyuF5oqOk9dxEA
-         aWxa6nX0QA3VPyIIH1G820sazWtnbnvG3QIr2VkjFBstjRyavNejipQ18gjPiU6Xq8YY
-         Ow4V+/UvoV9CFC+8Ocfs3i8DP341meEB5WlQU0bq6ogkSqOXE3P/pDdaXHBawmv36DDf
-         zcZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707938675; x=1708543475;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QCBYE/AD/BvL6op5scnwP5wjSjqsrmapht1Ra223I1c=;
-        b=deGFHuG96/eBUs78der2SpRXAjN+imFujEp+QkkVc2Sa8njQs+fQ5VPNqz7cIG2Rll
-         4iLXQLouQyq8uegi8dqi7TCV8mRHUwWiMz9JV1HItAYC1FScYfeHzjhdyCySrrXhg9o1
-         R0zapNSrdRN/y+/y/M7hOBf2c0N+TrSddo5CLVJ0G0PfNXz0Spt5gPPLfBSCUc0WMroh
-         FL1YY147DvWAxIDZm3nPnDUCAB8cvyQvPsW+VK6UieSvWdcFgv06FTB5mcXhPSJ2RGaC
-         dnbr7VueqXNShVfgEt3NBFXFYMYFWxTyn5TTkmZwfRShKGqYsA2sjlB7qZts98RYFPdO
-         rycQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVO5eYcg2Fw593w3d3PrwmFubMhqKHNRFLqnW6RFxvWLpFnExK8NFIw3S8X8ozTValHzrNL57g9DGyofXdi+HV9XgYeEzY/Nx0c
-X-Gm-Message-State: AOJu0YxjEYCcC8WZ8qYbCGCGkJrbRna9O3nuOE+eBudPG9T4xiRRBDYR
-	6kTX9P820cV0AakgOU0Uvw7mYhIb+1SoalByayPfX7oqPpEhd7EOrAeZqmAj+lr9KUkdVSTqova
-	irsQrSINbwQkbMAJfcGlpUtkA5921RsyHslKp
-X-Google-Smtp-Source: AGHT+IEHeftxzGg3B5Z0Zkp/sdZtFFtkyDYYBmhmOt9OEJce/O9D422LSeKSHbRCNIcYUksKiHgnsjkqT91cBPG3844=
-X-Received: by 2002:a05:6902:143:b0:dcb:cdce:3902 with SMTP id
- p3-20020a056902014300b00dcbcdce3902mr3406955ybh.55.1707938674882; Wed, 14 Feb
- 2024 11:24:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="XgQsAz2b"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id A0FE91A36A5;
+	Wed, 14 Feb 2024 20:33:32 +0100 (CET)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1707939213; bh=3C0Q3eC899xoDvzLqtNRjkK3NL6o8Y9GbWdF64ouq0c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XgQsAz2bWVerxxg+fZgeInCVn9WFce0qUwc6Tc4ZaxsDMTcbA2LE5RjETQhfiPqr/
+	 D+WYw0uMYvdygK4CKZiJ8SxMDMgUylgSIRC9mlCfKiN3i2VWRzhmT7l1Cj66KWk30b
+	 b1eUgbW6kuV3BvyEXHX1KAlOTY8eULSfy28CgIiC2WuVqUbKblvFMbTn+0qkc2EmEZ
+	 ipfLU3qkjBWRDpNaA/cJFtm/bP9zoVc58itsqmWl5De7tKaK11cwBU9nIqkFwrrvkM
+	 KVvLsOgOyEAEt28tHBT8AorMWz/IK/k/0FAc9qLPpogDSuWKDoGBmBlPH1UHL8M8Wa
+	 rUBFW/Bt/zRRA==
+Date: Wed, 14 Feb 2024 20:33:31 +0100
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet
+ <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, "maintainer:X86 ARCHITECTURE (32-BIT AND
+ 64-BIT)" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter
+ Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
+ <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
+ <rick.p.edgecombe@intel.com>, Kees Cook <keescook@chromium.org>, "Masami
+ Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu
+ <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao
+ <zegao2021@gmail.com>, "Kirill A. Shutemov"
+ <kirill.shutemov@linux.intel.com>, Kai Huang <kai.huang@intel.com>, David
+ Woodhouse <dwmw@amazon.co.uk>, Brian Gerst <brgerst@gmail.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
+ (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
+ <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Roberto Sassu <roberto.sassu@huaweicloud.com>, Petr Tesarik
+ <petr.tesarik1@huawei-partners.com>
+Subject: Re: [PATCH v1 0/8] x86_64 SandBox Mode arch hooks
+Message-ID: <20240214203331.240a6863@meshulam.tesarici.cz>
+In-Reply-To: <a762aaba-feb7-46ab-9e13-cea3a097311e@intel.com>
+References: <20240214113516.2307-1-petrtesarik@huaweicloud.com>
+	<c424618c-d6c6-430a-8975-8851a617204e@intel.com>
+	<20240214192214.78734652@meshulam.tesarici.cz>
+	<a762aaba-feb7-46ab-9e13-cea3a097311e@intel.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <Zctfa2DvmlTYSfe8@tiehlicka> <CAJuCfpEsWfZnpL1vUB2C=cxRi_WxhxyvgGhUg7WdAxLEqy6oSw@mail.gmail.com>
- <9e14adec-2842-458d-8a58-af6a2d18d823@redhat.com> <2hphuyx2dnqsj3hnzyifp5yqn2hpgfjuhfu635dzgofr5mst27@4a5dixtcuxyi>
- <6a0f5d8b-9c67-43f6-b25e-2240171265be@redhat.com> <CAJuCfpEtOhzL65eMDk2W5SchcquN9hMCcbfD50a-FgtPgxh4Fw@mail.gmail.com>
- <adbb77ee-1662-4d24-bcbf-d74c29bc5083@redhat.com> <r6cmbcmalryodbnlkmuj2fjnausbcysmolikjguqvdwkngeztq@45lbvxjavwb3>
- <CAJuCfpF4g1jeEwHVHjQWwi5kqS-3UqjMt7GnG0Kdz5VJGyhK3Q@mail.gmail.com>
- <20240214085548.d3608627739269459480d86e@linux-foundation.org> <7c3walgmzmcygchqaylcz2un5dandlnzdqcohyooryurx6utxr@66adcw7f26c3>
-In-Reply-To: <7c3walgmzmcygchqaylcz2un5dandlnzdqcohyooryurx6utxr@66adcw7f26c3>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 14 Feb 2024 11:24:23 -0800
-Message-ID: <CAJuCfpGi6g3rG8aVmXveSxKvXnfm+5gLKS=Q4ouQBDaTxSuhww@mail.gmail.com>
-Subject: Re: [PATCH v3 00/35] Memory allocation profiling
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, 
-	Michal Hocko <mhocko@suse.com>, vbabka@suse.cz, hannes@cmpxchg.org, 
-	roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net, 
-	willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, 
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
-	peterx@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 14, 2024 at 9:52=E2=80=AFAM Kent Overstreet
-<kent.overstreet@linux.dev> wrote:
->
-> On Wed, Feb 14, 2024 at 08:55:48AM -0800, Andrew Morton wrote:
-> > On Tue, 13 Feb 2024 14:59:11 -0800 Suren Baghdasaryan <surenb@google.co=
-m> wrote:
-> >
-> > > > > If you think you can easily achieve what Michal requested without=
- all that,
-> > > > > good.
-> > > >
-> > > > He requested something?
-> > >
-> > > Yes, a cleaner instrumentation. Unfortunately the cleanest one is not
-> > > possible until the compiler feature is developed and deployed. And it
-> > > still would require changes to the headers, so don't think it's worth
-> > > delaying the feature for years.
-> >
-> > Can we please be told much more about this compiler feature?
-> > Description of what it is, what it does, how it will affect this kernel
-> > feature, etc.
-> >
-> > Who is developing it and when can we expect it to become available?
-> >
-> > Will we be able to migrate to it without back-compatibility concerns?
-> > (I think "you need quite recent gcc for memory profiling" is
-> > reasonable).
-> >
-> >
-> >
-> > Because: if the maintainability issues which Michel describes will be
-> > significantly addressed with the gcc support then we're kinda reviewing
-> > the wrong patchset.  Yes, it may be a maintenance burden initially, but
-> > at some (yet to be revealed) time in the future, this will be addressed
-> > with the gcc support?
->
-> Even if we had compiler magic, after considering it more I don't think
-> the patchset would be improved by it - I would still prefer to stick
-> with the macro approach.
->
-> There's also a lot of unresolved questions about whether the compiler
-> approach would even end being what we need; we need macro expansion to
-> happen in the caller of the allocation function
+On Wed, 14 Feb 2024 10:42:57 -0800
+Dave Hansen <dave.hansen@intel.com> wrote:
 
-For the record, that's what this attribute will be doing. So it should
-cover our usecase.
+> On 2/14/24 10:22, Petr Tesa=C5=99=C3=ADk wrote:
+> > Anyway, in the long term I would like to work on gradual decomposition
+> > of the kernel into a core part and many self-contained components.
+> > Sandbox mode is a useful tool to enforce isolation. =20
+>=20
+> I'd want to see at least a few examples of how this decomposition would
+> work and how much of a burden it is on each site that deployed it.
 
-> , and that's another
-> level of hooking that I don't think the compiler people are even
-> considering yet, since cpp runs before the main part of the compiler; if
-> C macros worked and were implemented more like Rust macros I'm sure it
-> could be done - in fact, I think this could all be done in Rust
-> _without_ any new compiler support - but in C, this is a lot to ask.
->
-> Let's look at the instrumentation again. There's two steps:
->
-> - Renaming the original function to _noprof
-> - Adding a hooked version of the original function.
->
-> We need to do the renaming regardless of what approach we take in order
-> to correctly handle allocations that happen inside the context of an
-> existing alloc tag hook but should not be accounted to the outer
-> context; we do that by selecting the alloc_foo() or alloc_foo_noprof()
-> version as appropriate.
->
-> It's important to get this right; consider slab object extension
-> vectors or the slab allocator allocating pages from the page allocator.
->
-> Second step, adding a hooked version of the original function. We do
-> that with
->
-> #define alloc_foo(...) alloc_hooks(alloc_foo_noprof(__VA_ARGS__))
->
-> That's pretty clean, if you ask me. The only way to make it more succint
-> be if it were possible for a C macro to define a new macro, then it
-> could be just
->
-> alloc_fn(alloc_foo);
->
-> But honestly, the former is probably preferable anyways from a ctags/csco=
-pe POV.
+Got it. Are you okay with a couple of examples to illustrate the
+concept? Because if you want patches that have been acked by the
+respective maintainers, it somehow becomes a chicken-and-egg kind of
+problem...
+
+> But I'm skeptical that this could ever work.  Ring-0 execution really is
+> special and it's _increasingly_ so.  Think of LASS or SMAP or SMEP.
+
+I have just answered a similar concern by hpa. In short, I don't think
+these features are relevant, because by definition sandbox mode does
+not share anything with user mode address space.
+
+> We're even seeing hardware designers add hardware security defenses to
+> ring-0 that are not applied to ring-3.
+>=20
+> In other words, ring-3 isn't just a deprivileged ring-0, it's more
+> exposed to attacks.
+>=20
+> > I'd rather fail fast than maintain hundreds of patches in an
+> > out-of-tree branch before submitting (and failing anyway). =20
+>=20
+> I don't see any remotely feasible path forward for this approach.
+
+I can live with such decision. But first, I want to make sure that the
+concept has been understood correctly. So far, at least some concerns
+suggest an understanding that is not quite accurate.
+
+Is this sandbox idea a bit too much out-of-the-box?
+
+Petr T
