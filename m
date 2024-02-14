@@ -1,279 +1,247 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from sonata.ens-lyon.org (sonata.ens-lyon.org [140.77.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791C565C;
-	Wed, 14 Feb 2024 01:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5B2625;
+	Wed, 14 Feb 2024 01:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.77.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707873196; cv=none; b=EN9BL+CK5QaEdeEtsQS0WDlvq9cyLEhKt8xwMKzHDbd1rei1M9HBJX8zzggyLIbd9dA5LQ+sa06aPVfKaIJ8aIhIpItpwU38ysb3ZN/v0qXtVU578khsiDHm8FLS/JL07mFoibVFfKbVckfBMVr4LpwD/qa647VvzeGD7ZsI3Zo=
+	t=1707873674; cv=none; b=VToUYbtA18d0umuJ/WTrCtcTNKo2S/Em692qMsXOJgLSanmFNTD6Ic8VsqOF5gWp0Zippfak0F8BnyHyD6Lp+NU3GqrtPiQr3aKsw8ZIyilcE245y2jdDrelvQdV4kUp7ltqDhLn3C4Ne4KHqJh/3PfqRmHzQGFVhpVrqoB/NEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707873196; c=relaxed/simple;
-	bh=IU2OyFsQSVkAVr6UneiocCkeAITKZ3ZEmhwNcNy7hFQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=aQZE4o32MvYgoKlQJPYLK+wQuTKy8ieTSjzEB2TrWLfefj6S1mP6ENOoZpFg721soaASvWWfESlLeedGWuz6fd9G6K3/R4ReR1esV0BkxpMQJjw9AHfM3sOHCpJR1vlqUeQdVUTnOX6vJrqXobU292MzIoKOPtWPfsFRfNr79TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ETcEgzvH; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ETcEgzvH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=/wMGEfoDa+2xdWbURYcG40lcr0z9t7tTiyBtN2BKVpU=; b=ETcEgzvH0k7Uj7GCd+90TYaDFo
-	pUXj2sRb2o08kjMHhb2m8ZuOzz9rpX+y6ZmICED6qp5cvzotnClUdKn7NhwN+WR1qpwgOHntHmpTO
-	yZ8/cldY/aQ9OATNcOiWnKiW8c64jq/1Ffn8knWKuXk6LYFD4u8dWYy2vMHQS6jiohCGcH1DEvfcc
-	GZKTXEfgmXSw1LW/rv31gDepBIl9HHLCLxsYW3RATGtT74rKtoHEDGewncNJYb5FwosgB5mEVwEE0
-	q8vncAtOd4e5aXWQZcK+OT2Ss6rMUYAdhlnzIKLw+8u0Q72iGFMY9fD4TCHNsKQZfiuM6YrvyQP8H
-	GJMFfEpw==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ra3pp-0000000BQ1J-3eYZ;
-	Wed, 14 Feb 2024 01:13:13 +0000
-Message-ID: <6076dba6-496e-4cae-be76-a30e006d3b77@infradead.org>
-Date: Tue, 13 Feb 2024 17:13:13 -0800
+	s=arc-20240116; t=1707873674; c=relaxed/simple;
+	bh=bqLD3tjF3cL5EuZmq9uiOLaB1zZv48E4vPXoo12cUto=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VeIDi7CabhM4ud5tOUXW5GDzjQPEWzXnzmJi0ZNqd7mUOYimpQg8iZMRrC/x8RcfJsMo+TwnDCX+8ppRj23/z7O6qQ+nC2So9kqOyyen9qcbwPmzYijYY4IRGFTMVLlBB/tFtgc9GjDJwJjwQmD6J7sofH9OCB5s32tTS7SQzkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ens-lyon.org; spf=pass smtp.mailfrom=bounce.ens-lyon.org; arc=none smtp.client-ip=140.77.166.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ens-lyon.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bounce.ens-lyon.org
+Received: from localhost (localhost [127.0.0.1])
+	by sonata.ens-lyon.org (Postfix) with ESMTP id 11E0CA025B;
+	Wed, 14 Feb 2024 02:21:04 +0100 (CET)
+Received: from sonata.ens-lyon.org ([127.0.0.1])
+	by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lKDa1_1_BEH5; Wed, 14 Feb 2024 02:21:03 +0100 (CET)
+Received: from begin (aamiens-653-1-111-57.w83-192.abo.wanadoo.fr [83.192.234.57])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by sonata.ens-lyon.org (Postfix) with ESMTPSA id 504D0A019F;
+	Wed, 14 Feb 2024 02:21:03 +0100 (CET)
+Received: from samy by begin with local (Exim 4.97)
+	(envelope-from <samuel.thibault@ens-lyon.org>)
+	id 1ra3xO-00000008bfE-36y2;
+	Wed, 14 Feb 2024 02:21:02 +0100
+Date: Wed, 14 Feb 2024 02:21:02 +0100
+From: Samuel Thibault <samuel.thibault@ens-lyon.org>
+To: James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+	edumazet@google.com, gnault@redhat.com
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCHv5] PPPoL2TP: Add more code snippets
+Message-ID: <20240214012102.dsdgcdgvwgfabzdi@begin>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+	James Chapman <jchapman@katalix.com>, tparkin@katalix.com,
+	edumazet@google.com, gnault@redhat.com, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] docs: iio: add documentation for device buffers
-Content-Language: en-US
-To: Ramona Gradinariu <ramona.gradinariu@analog.com>, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, jic23@kernel.org,
- nuno.sa@analog.com, linux-iio@vger.kernel.org
-References: <20240213081720.17549-1-ramona.gradinariu@analog.com>
- <20240213081720.17549-3-ramona.gradinariu@analog.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240213081720.17549-3-ramona.gradinariu@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20170609 (1.8.3)
 
+The existing documentation was not telling that one has to create a PPP
+channel and a PPP interface to get PPPoL2TP data offloading working.
 
+Also, tunnel switching was not mentioned, so that people were thinking
+it was not supported, while it actually is.
 
-On 2/13/24 00:17, Ramona Gradinariu wrote:
-> Add documentation for IIO device buffers describing buffer
-> attributes and how data is structured in buffers using
-> scan elements.
-> 
-> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> ---
-> changes in v4:
->  - documented multiple buffer support
->  - reworked scan elements section
->  - added reference to ABI docs
->  Documentation/iio/iio_devbuf.rst | 125 +++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst      |   1 +
->  2 files changed, 126 insertions(+)
->  create mode 100644 Documentation/iio/iio_devbuf.rst
-> 
-> diff --git a/Documentation/iio/iio_devbuf.rst b/Documentation/iio/iio_devbuf.rst
-> new file mode 100644
-> index 000000000000..e99143efb4d7
-> --- /dev/null
-> +++ b/Documentation/iio/iio_devbuf.rst
-> @@ -0,0 +1,125 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=============================
-> +Industrial IIO device buffers
-> +=============================
-> +
-> +1. Overview
-> +===========
-> +
-> +The Industrial I/O core offers a way for continuous data capture based on a
-> +trigger source. Multiple data channels can be read at once from
-> +/dev/iio:deviceX character device node, thus reducing the CPU load.
-> +
-> +Devices with buffer support feature an additional sub-folder in the
+Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-folder or directory?
+---
+Difference from v1:
+- follow kernel coding style
+- check for failures
+- also mention netlink and ip for configuring the link
+- fix bridging channels
 
-> +/sys/bus/iio/devices/deviceX/ folder hierarchy, called bufferY, where Y defaults
+Difference from v2:
+- fix text alignment
 
-folder or directory?
+Difference from v3:
+- fix some variables references
+- explicit inputs of the code snippets
+- explicit that bridging is supported for l2tp with PPP pseudowire type.
+- explicit that after bridging only the pppox sockets need to be kept
+- explicit that bridging can also be done with other types of ppp
+  channels
 
-> +to 0, for devices with a single buffer.
-> +
-> +2. Buffer attributes
-> +====================
-> +
-> +An IIO buffer has an associated attributes directory under
+Difference from v4:
+- Fix coding style
+- Fix parameter of PPPIOCCONNECT ioctl.
+- Describe the ppp frame bridging.
 
-directory or folder?
+---
+ Documentation/networking/l2tp.rst |  133 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 127 insertions(+), 6 deletions(-)
 
-Just be consistent, please.
-
-> +/sys/bus/iio/iio:deviceX/bufferY/. The attributes are described below.
-> +
-
-What are the corresponding attribute names?
-
-> +Length
-> +------
-> +
-> +Read / Write attribute which states the total number of data samples (capacity)
-> +that can be stored by the buffer.
-> +
-> +Enable
-> +------
-> +
-> +Read / Write attribute which starts / stops the buffer capture. This file should
-> +be written last, after length and selection of scan elements.
-> +
-> +Watermark
-> +---------
-> +
-> +Read / Write positive integer attribute specifying the maximum number of scan
-> +elements to wait for.
-> +
-> +Poll will block until the watermark is reached.
-> +
-> +Blocking read will wait until the minimum between the requested read amount or
-> +the low water mark is available.
-
-           watermark
-> +
-> +Non-blocking read will retrieve the available samples from the buffer even if
-> +there are less samples then watermark level. This allows the application to
-
-                          than the
-
-> +block on poll with a timeout and read the available samples after the timeout
-> +expires and thus have a maximum delay guarantee.
-> +
-> +Data available
-> +--------------
-> +
-> +Read-only attribute indicating the bytes of data available in the buffer. In the
-> +case of an output buffer, this indicates the amount of empty space available to
-> +write data to. In the case of an input buffer, this indicates the amount of data
-> +available for reading.
-> +
-> +Scan elements
-> +-------------
-> +
-> +The meta information associated with a channel reading placed in a buffer is
-
-That line gives me -ENOPARSE. Can it be improved?
-
-> +called a scan element. The scan elements are configurable per buffer, thus they
-> +are exposed to userspace applications via the /sys/bus/iio/iio:deviceX/bufferY/
-> +directory. The scan elements attributes are presented below.
-> +
-> +**_en**
-> +
-> +Read/ Write attribute used for enabling a channel. If and only if its value
-> +is non zero, then a triggered capture will contain data samples for this
-
-      non-zero,
-
-> +channel.
-> +
-> +**_index**
-> +
-> +Read-only positive integer attribute specifying the position of the channel in
-> +the buffer. Note these are not dependent on what is enabled and may not be
-> +contiguous. Thus for user-space to establish the full layout these must be used
-
-                        userspace
-as above.
-
-> +in conjunction with all _en attributes to establish which channels are present,
-> +and the relevant _type attributes to establish the data storage format.
-> +
-> +**_type**
-> +
-> +Read-only attribute containing the description of the scan element data storage
-> +within the buffer and hence the form in which it is read from user space. Format
-> +is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift], where:
-> +
-> +- **be** or **le** specifies big or little endian.
-> +- **s** or **u**, specifies if signed (2's complement) or unsigned.
-
-         no comma  ^
-
-> +- **bits**, is the number of valid data bits.
-
-    no comma ^
-
-> +- **storagebits**, is the number of bits (after padding) that it occupies in the
-
-      no comma      ^
-
-> +  buffer.
-> +- **repeat**, specifies the number of bits/storagebits repetitions. When the
-
-  no comma     ^
-
-> +  repeat element is 0 or 1, then the repeat value is omitted.
-> +- **shift**, if specified, is the shift that needs to be applied prior to
-
-  no comma    ^
-
-> +  masking out unused bits.
-> +
-> +For example, a driver for a 3-axis accelerometer with 12 bit resolution where
-
-                                                         12-bit
-
-> +data is stored in two 8-bits registers as follows:
-
-                         8-bit            is as follows:
-
-> +
-> +.. code-block:: bash
-> +
-> +          7   6   5   4   3   2   1   0
-> +        +---+---+---+---+---+---+---+---+
-> +        |D3 |D2 |D1 |D0 | X | X | X | X | (LOW byte, address 0x06)
-> +        +---+---+---+---+---+---+---+---+
-> +
-> +          7   6   5   4   3   2   1   0
-> +        +---+---+---+---+---+---+---+---+
-> +        |D11|D10|D9 |D8 |D7 |D6 |D5 |D4 | (HIGH byte, address 0x07)
-> +        +---+---+---+---+---+---+---+---+
-> +
-> +will have the following scan element type for each axis:
-> +
-> +.. code-block:: bash
-> +
-> +        $ cat /sys/bus/iio/devices/iio:device0/buffer0/in_accel_y_type
-> +        le:s12/16>>4
-> +
-> +A user space application will interpret data samples read from the buffer as two
-
-     userspace
-for consistency.
-                                                                             as two-
-
-> +byte little endian signed data, that needs a 4 bits right shift before masking
-
-        little-endian
-
-> +out the 12 valid bits of data.
-> +
-> +Please see Documentation/ABI/testing/sysfs-bus-iio for a complete description of
-> +the attributes.
-> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-> index db341b45397f..206a0aff5ca1 100644
-> --- a/Documentation/iio/index.rst
-> +++ b/Documentation/iio/index.rst
-> @@ -8,6 +8,7 @@ Industrial I/O
->     :maxdepth: 1
-> 
->     iio_configfs
-> +   iio_devbuf
-> 
->  Industrial I/O Kernel Drivers
->  =============================
-> --
-> 2.34.1
-> 
-> 
-
--- 
-#Randy
+--- a/Documentation/networking/l2tp.rst
++++ b/Documentation/networking/l2tp.rst
+@@ -386,12 +386,19 @@ Sample userspace code:
+ 
+   - Create session PPPoX data socket::
+ 
++        /* Input: the L2TP tunnel UDP socket `tunnel_fd`, which needs to be
++         * bound already (both sockname and peername), otherwise it will not be
++         * ready.
++         */
++
+         struct sockaddr_pppol2tp sax;
+-        int fd;
++        int session_fd;
++        int ret;
++
++        session_fd = socket(AF_PPPOX, SOCK_DGRAM, PX_PROTO_OL2TP);
++        if (session_fd < 0)
++                return -errno;
+ 
+-        /* Note, the tunnel socket must be bound already, else it
+-         * will not be ready
+-         */
+         sax.sa_family = AF_PPPOX;
+         sax.sa_protocol = PX_PROTO_OL2TP;
+         sax.pppol2tp.fd = tunnel_fd;
+@@ -406,12 +413,126 @@ Sample userspace code:
+         /* session_fd is the fd of the session's PPPoL2TP socket.
+          * tunnel_fd is the fd of the tunnel UDP / L2TPIP socket.
+          */
+-        fd = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
+-        if (fd < 0 ) {
++        ret = connect(session_fd, (struct sockaddr *)&sax, sizeof(sax));
++        if (ret < 0 ) {
++                close(session_fd);
++                return -errno;
++        }
++
++        return session_fd;
++
++L2TP control packets will still be available for read on `tunnel_fd`.
++
++  - Create PPP channel::
++
++        /* Input: the session PPPoX data socket `session_fd` which was created
++         * as described above.
++         */
++
++        int ppp_chan_fd;
++        int chindx;
++        int ret;
++
++        ret = ioctl(session_fd, PPPIOCGCHAN, &chindx);
++        if (ret < 0)
++                return -errno;
++
++        ppp_chan_fd = open("/dev/ppp", O_RDWR);
++        if (ppp_chan_fd < 0)
++                return -errno;
++
++        ret = ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx);
++        if (ret < 0) {
++                close(ppp_chan_fd);
+                 return -errno;
+         }
++
++        return ppp_chan_fd;
++
++LCP PPP frames will be available for read on `ppp_chan_fd`.
++
++  - Create PPP interface::
++
++        /* Input: the PPP channel `ppp_chan_fd` which was created as described
++         * above.
++         */
++
++        int ifunit = -1;
++        int ppp_if_fd;
++        int ret;
++
++        ppp_if_fd = open("/dev/ppp", O_RDWR);
++        if (ppp_if_fd < 0)
++                return -errno;
++
++        ret = ioctl(ppp_if_fd, PPPIOCNEWUNIT, &ifunit);
++        if (ret < 0) {
++                close(ppp_if_fd);
++                return -errno;
++        }
++
++        ret = ioctl(ppp_chan_fd, PPPIOCCONNECT, &ifunit);
++        if (ret < 0) {
++                close(ppp_if_fd);
++                return -errno;
++        }
++
++        return ppp_if_fd;
++
++IPCP/IPv6CP PPP frames will be available for read on `ppp_if_fd`.
++
++The ppp<ifunit> interface can then be configured as usual with netlink's
++RTM_NEWLINK, RTM_NEWADDR, RTM_NEWROUTE, or ioctl's SIOCSIFMTU, SIOCSIFADDR,
++SIOCSIFDSTADDR, SIOCSIFNETMASK, SIOCSIFFLAGS, or with the `ip` command.
++
++  - Bridging L2TP sessions which have PPP pseudowire types (this is also called
++    L2TP tunnel switching or L2TP multihop) is supported by bridging the PPP
++    channels of the two L2TP sessions to be bridged::
++
++        /* Input: the session PPPoX data sockets `session_fd1` and `session_fd2`
++         * which were created as described further above.
++         */
++
++        int ppp_chan_fd;
++        int chindx1;
++        int chindx2;
++        int ret;
++
++        ret = ioctl(session_fd1, PPPIOCGCHAN, &chindx1);
++        if (ret < 0)
++                return -errno;
++
++        ret = ioctl(session_fd2, PPPIOCGCHAN, &chindx2);
++        if (ret < 0)
++                return -errno;
++
++        ppp_chan_fd = open("/dev/ppp", O_RDWR);
++        if (ppp_chan_fd < 0)
++                return -errno;
++
++        ret = ioctl(ppp_chan_fd, PPPIOCATTCHAN, &chindx1);
++        if (ret < 0) {
++                close(ppp_chan_fd);
++                return -errno;
++        }
++
++        ret = ioctl(ppp_chan_fd, PPPIOCBRIDGECHAN, &chindx2);
++        close(ppp_chan_fd);
++        if (ret < 0)
++                return -errno;
++
+         return 0;
+ 
++It can be noted that when bridging PPP channels, the PPP session is not locally terminated, and no local PPP interface is created.  PPP frames arriving on one channel are directly passed to the other channel, and vice versa.
++
++The PPP channel does not need to be kept open.  Only the session PPPoX data
++sockets need to be kept open.
++
++More generally, it is also possible in the same way to e.g. bridge a PPPoL2TP
++PPP channel with other types of PPP channels, such as PPPoE.
++
++See more details for the PPP side in ppp_generic.rst.
++
+ Old L2TPv2-only API
+ -------------------
+ 
