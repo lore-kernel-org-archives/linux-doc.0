@@ -1,97 +1,84 @@
-Received: from mail.katalix.com (mail.katalix.com [3.9.82.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA7BB171A6;
-	Wed, 14 Feb 2024 09:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.9.82.81
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C828101E3
+	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 09:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707903260; cv=none; b=NrQeno+nXXlNITwioAmEo6+0OcLp/z639jumEoshMhdQOvmrIIa2I8ldcixcHQCW+fkySVSXp3KwIImSqlxkHI8HrrEjN2/odAAVaAd+QReoGwYqzwK8KM6tMbWG3n+0pgMh2CCEEKjyZFFj6DSztKD+lp2d3fILiy2d7+5oRMI=
+	t=1707903351; cv=none; b=CIsO+SeZv8xYK6XPwysyZVYM6rzc21WP2FTdB5R3sD7sNluKXkQcUuzISRZ0Ao1vejMKplhHCXac56H1pQth/ea+PE2XR0hs+D8T+3oMoG72ThhZIayOa+cFTqAQ4AKIa6bVxINV27wwpVsYOhqoSRW0Mf5DqBfAiKgKK3hw7dQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707903260; c=relaxed/simple;
-	bh=N32bS7Dr+HbXZpA1Y+5OXodrXUlj45EuuQ2+2Y27jS8=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FWq0Yi0Q09kxa9/bb/7saLZctAEIpx/9dxn8i6epXC4GD5bLEk0i+QeP2hIrhMcNXWvINHzS+zz5wJUfetBkvRNqjMP7Plw/BUNSNXMLKUPMkpnSAzKTD1ydt3hwy0yHTMIS/vcApx2Jo5OfADm5xvwJLTE/+nKRXJIdOYGqJGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com; spf=pass smtp.mailfrom=katalix.com; dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b=lSbVWGEu; arc=none smtp.client-ip=3.9.82.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=katalix.com
+	s=arc-20240116; t=1707903351; c=relaxed/simple;
+	bh=FxGJAH83UTrQJFawuwOkZhQNDaql6s20rG59BXEIoT0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fNh+BBf3PypHo+6hf4XA5deCUi7qaxRl5DcgqCZv1QN9ahltNYtD4IBt2pFyPd2+sxx3+i2kuKfehgOlGxedUp3fdGOxyAYlE3Qgjwcq2cxAYl9yNksgprJjF+b9wZW6TzfLPHlUt2SgiOxwGyJnK5fNn6LfVpWv1BSYREHeCMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=k9eS6af2; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b="lSbVWGEu"
-Received: from localhost (unknown [IPv6:2a02:8012:909b:0:c389:e482:863d:6bfb])
-	(Authenticated sender: tom)
-	by mail.katalix.com (Postfix) with ESMTPSA id D2F2C7D4A4;
-	Wed, 14 Feb 2024 09:34:11 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=katalix.com; s=mail;
-	t=1707903251; bh=N32bS7Dr+HbXZpA1Y+5OXodrXUlj45EuuQ2+2Y27jS8=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Disposition:In-Reply-To:From;
-	z=Date:=20Wed,=2014=20Feb=202024=2009:34:11=20+0000|From:=20Tom=20P
-	 arkin=20<tparkin@katalix.com>|To:=20Samuel=20Thibault=20<samuel.th
-	 ibault@ens-lyon.org>,=0D=0A=09James=20Chapman=20<jchapman@katalix.
-	 com>,=20edumazet@google.com,=0D=0A=09gnault@redhat.com,=20davem@da
-	 vemloft.net,=20kuba@kernel.org,=0D=0A=09pabeni@redhat.com,=20corbe
-	 t@lwn.net,=20netdev@vger.kernel.org,=0D=0A=09linux-doc@vger.kernel
-	 .org,=20linux-kernel@vger.kernel.org|Subject:=20Re:=20[PATCHv5]=20
-	 PPPoL2TP:=20Add=20more=20code=20snippets|Message-ID:=20<ZcyJE4oCaw
-	 Z6aBAW@katalix.com>|References:=20<20240214012102.dsdgcdgvwgfabzdi
-	 @begin>|MIME-Version:=201.0|Content-Disposition:=20inline|In-Reply
-	 -To:=20<20240214012102.dsdgcdgvwgfabzdi@begin>;
-	b=lSbVWGEufWRdvURg6uQdMzU4FIa75J+x4MVyK57MuSdnbx81Jy9/Fcg2k5yF87nex
-	 UtyOZbjUoCp/FlW25AtfP0F335ZFI76lbO9RcUjeICNRh84mAwV5sCbe6vM2zGQSYq
-	 VveXXWQY6xLqdysi6+VzSXu5ta27pOeAg6Hstf0wDo0k27qbZbDUKAKMNZIY1wYHjU
-	 rS4BYSpsvcMd0Gi6xPE4cdsHN+1WmxxRTvdmMr5goWDvYjY1uh4U3371VaIQD0xtES
-	 zuvZzEP9FE/F0w5F/lvw8kVA/4NQEl4hN8gcYm8RDGxaCuLNf2qo2FBHqaDxEHZTUZ
-	 pIOuoD4bpYv3w==
-Date: Wed, 14 Feb 2024 09:34:11 +0000
-From: Tom Parkin <tparkin@katalix.com>
-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-	James Chapman <jchapman@katalix.com>, edumazet@google.com,
-	gnault@redhat.com, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv5] PPPoL2TP: Add more code snippets
-Message-ID: <ZcyJE4oCawZ6aBAW@katalix.com>
-References: <20240214012102.dsdgcdgvwgfabzdi@begin>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="k9eS6af2"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-7d698a8d93cso866792241.3
+        for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 01:35:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1707903349; x=1708508149; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FxGJAH83UTrQJFawuwOkZhQNDaql6s20rG59BXEIoT0=;
+        b=k9eS6af2Le1UDrnWN4cY+JAmQ33DtPRzd55GR+pIeNMrDCv8z7vHyfwaqnTqbIc0Xf
+         wO6pDEbGuortCX1plRHEb/tnavCZlIa2wCtfa1zkS731DYHWpSnC/fkcQbsq3vrQoWYI
+         zCnh16Nsf7idk0olqb1AVOJ9iTv0imxvD3+no9uByAT7aYqdkMlvfaaCOvOuVLJhSc4x
+         YTqhJ0jCz24Ry5SBC0N/LPxtgx4ZrSv/WrSmu48up0CO34tsqavzN7YQPQrbQmlP3If+
+         j4QynBK4lm2GY0qXYou6WH/VW0qkUoep9rZXQMOgcQ2jFGz7BkXIiayiTj16wqAnfOyW
+         +nsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707903349; x=1708508149;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FxGJAH83UTrQJFawuwOkZhQNDaql6s20rG59BXEIoT0=;
+        b=LxqsaGkjUI3Dv6y2rB21E/82lgvSfzgGM8FI+REVaX/45Q1CcP51zASZhuw2l2qx5v
+         rcyW2iJ6beb8RvRKUW6tStE2iv/sTLiHVpo4zOjfawQltGoUJSNgakd685tse6TbQKPz
+         Z4f1KwLizVW2TRxdo9HMIagBCyHUJ4qWnRPmviO+Hd2vO0XCod3FpShC12xLut3yrnte
+         4aWFWUYiBU9/8RL4ARSeajEglRdD8Nqhctd1/226SsoyYZiDwGjv5KODK9sRi498VU/p
+         IGSfnhTIFyixpdqcF5Ub5qHXFdolot6o6SyfSfn5o2wLAj7+ZKZC3edpVkQY+/c+KSfn
+         aVPw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTZdzXK1Ebdmeps3mJc/1Zv99YXNhuTHgoT9DAJdHDatvju2JsNZvjiah6hiQw7VGDrxFVBZoKpUXOpu8MB04LDdH4EGFkP9Nt
+X-Gm-Message-State: AOJu0Yx/BC9H4ITrhiOKwXvfEmY9x8hHmMoqRAswLljpGVtu/8Nfat8O
+	B7jdidfa8rRDZnzW9z04+YQQs0asPt1y8nKNJsIul9Tz8OxMiS9doYKnbAe2YshtvF53QZXKRvU
+	CEHmY7IPX/b/50gIhgVqV4ewNiu2l3HAb0q/XjQ==
+X-Google-Smtp-Source: AGHT+IEOxg1ObHX8j5ADuwz4SaSKeY0U/wXSXneGYVCIWIk2eqRKhLL0UkhWDS2Bv0MsNKDNNk02uHpLn4FhpW05EPE=
+X-Received: by 2002:a05:6102:2746:b0:46e:d0cd:428d with SMTP id
+ p6-20020a056102274600b0046ed0cd428dmr1931571vsu.33.1707903349246; Wed, 14 Feb
+ 2024 01:35:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="GNCEsAiJMMSTxwir"
-Content-Disposition: inline
-In-Reply-To: <20240214012102.dsdgcdgvwgfabzdi@begin>
-
-
---GNCEsAiJMMSTxwir
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240213141222.382457-1-warthog618@gmail.com>
+In-Reply-To: <20240213141222.382457-1-warthog618@gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 14 Feb 2024 10:35:38 +0100
+Message-ID: <CAMRc=MdmfHLyy0UrfC21UMxFa8CTySOx8LCEg0Nt+Z9tb8mRSQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: gpio: consistent use of logical line value terminology
+To: Kent Gibson <warthog618@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linus.walleij@linaro.org, andy@kernel.org, 
+	corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On  Wed, Feb 14, 2024 at 02:21:02 +0100, Samuel Thibault wrote:
-> The existing documentation was not telling that one has to create a PPP
-> channel and a PPP interface to get PPPoL2TP data offloading working.
->=20
-> Also, tunnel switching was not mentioned, so that people were thinking
-> it was not supported, while it actually is.
->=20
-> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+On Tue, Feb 13, 2024 at 3:12=E2=80=AFPM Kent Gibson <warthog618@gmail.com> =
+wrote:
+>
+> Consistently use active/inactive to describe logical line values, rather
+> than high/low, which is used for physical values, or asserted/de-asserted
+> which is awkward.
+>
+> Signed-off-by: Kent Gibson <warthog618@gmail.com>
+> ---
 
-LGTM.  Thanks again Samuel :-)
+Applied, thanks!
 
-Acked-by: Tom Parkin <tparkin@katalix.com>
-
---GNCEsAiJMMSTxwir
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEsUkgyDzMwrj81nq0lIwGZQq6i9AFAmXMiQsACgkQlIwGZQq6
-i9Ao5wf+J5uZNWOxNgn6cWGD/gEB7ACloBRqvi19EMh5YAkOnxLWw0QaKkC040MC
-gi6iwXzInBqcDa6nBI4MfMM4GOd5buOp5lG8dsEfKrWzqxrDxDwX/RyBVFEGcmOV
-0TQ41ybnjeoXyfUCNIepd0T0hNqy3/jSi/1hXJwIzbEUjx3vURHDnucRzm+Uq0Ot
-kqg1OpifXRbu4Wj3Ldn2fgQT8iqUjEKuDCac3rHrqSGkK15D2W3IsUr1eNKIrvS2
-7aAzwXG9V3dtW9NS35RERZyHZ3ebI3gqT4hT1V9U0Ywivj0+gg5LZE0lAOYdspN/
-56unm+WW9DlengWgam6Z45dNjVmM8Q==
-=4qhT
------END PGP SIGNATURE-----
-
---GNCEsAiJMMSTxwir--
+Bart
