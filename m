@@ -1,91 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D0A5BACE;
-	Wed, 14 Feb 2024 15:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F035D918
+	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 15:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707923469; cv=none; b=Gq+oBNRdRtdP9bPfwddBR/1sayCbGwmpbf+kUuoGLBRpRZSG0kKmwfxGeW2XsL1uzWZOxwA/778CxfTBmVJvab7kMAqqxMy9DfMsuIMxdTIzAukZpHGxXCR85IYvFpp6E+TAWQK0r7m0AbADvPHA3wCu6uCbqe2/va090ODobT4=
+	t=1707923605; cv=none; b=pu4/yddulIAezmoOULyfj4lmfyvEiWsPjZubng7EIybZxbGdu6Un7p3AhAyN6oib9Aw64PGAlj5HwKYbETRanUQPpEO5+zgvWXYJYG9DaiALFOawKZWLSP/DSnDfR9p5iUKe8UfVms6PSBHsmvMajbP1CFS2kieExksqOmCQLFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707923469; c=relaxed/simple;
-	bh=EoqxqOaIxvyEBwBR81VbvGez2zheFFJm9DMrW6MBOP8=;
+	s=arc-20240116; t=1707923605; c=relaxed/simple;
+	bh=iLd26OvacHUz2LtzsLY81PDv5FJLEM70pEIMoNjFxWU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gbZcWPsuUSmGGjOvfhnWK/N6G7BcwFTAbuDwinnGdQnSkXtsVFlqlf+duILXXrtx8QpfTM7Vk6y9v0zH+UvvrqE8MCLA6TTZJZQiWwal2WKcfM86Qq5adQSwcFZdWUcZ5gN4H/MPXrn5yzqXs4AtubfLesgL5Vu16UHxZN+MEc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=F0gv+vf+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=saDCsTgqctnecQ/NHEq7oiOKiUxyL+l6p807OXYzJcJResLkBpGG5qiFw0MbInQOo+SS2lrSr/fO1lj+Yd9/U7yEnX5nw2zvwDH0r+IVc8zVYPZLag/xU5SPwfSrlW1NWB43GjJ0PlZj5EhGR5xx2hToUjT1nDOrJGHhZkT+f48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QqnVFzdf; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="F0gv+vf+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37331C433C7;
-	Wed, 14 Feb 2024 15:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707923468;
-	bh=EoqxqOaIxvyEBwBR81VbvGez2zheFFJm9DMrW6MBOP8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F0gv+vf+yuTKor+O5zCL0phtPuc3uSwPqlQQSKD2678x0iwPPbr0qWF7aHywRzLnx
-	 uhYAnCu3sFXJlkr37ygj3CFE4Rvbb50jyh1vCg7VppSEq6OeyHSuHoG1Lu4JS9IKGq
-	 wbu2nDvvVWcZppsF7MreAOHbi3FdbGXR67bGIEpI=
-Date: Wed, 14 Feb 2024 16:11:05 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Petr Tesarik <petrtesarik@huaweicloud.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	David Kaplan <david.kaplan@amd.com>,
-	Larry Dewey <larry.dewey@amd.com>,
-	Elena Reshetova <elena.reshetova@intel.com>,
-	Carlos Bilbao <carlos.bilbao@amd.com>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Petr Mladek <pmladek@suse.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Eric DeVolder <eric.devolder@oracle.com>,
-	Marc =?iso-8859-1?Q?Aur=E8le?= La France <tsi@tuyoix.net>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Nhat Pham <nphamcs@gmail.com>,
-	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Mike Christie <michael.christie@oracle.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Maninder Singh <maninder1.s@samsung.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Roberto Sassu <roberto.sassu@huaweicloud.com>,
-	Petr Tesarik <petr.tesarik1@huawei-partners.com>
-Subject: Re: [PATCH v1 5/5] sbm: SandBox Mode documentation
-Message-ID: <2024021415-jokester-cackle-2923@gregkh>
-References: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
- <20240214113035.2117-6-petrtesarik@huaweicloud.com>
- <20240214053053.982b48d993ae99dad1d59020@linux-foundation.org>
- <2024021425-audition-expand-2901@gregkh>
- <20240214155524.719ffb15@meshulam.tesarici.cz>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QqnVFzdf"
+Date: Wed, 14 Feb 2024 10:13:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1707923600;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PY07zx4xo5DT+YIldZdwTzLPFVE7nIythW2Rrqykp1E=;
+	b=QqnVFzdfgyWfkP1gDQRlNaQ9Xyie0OsgEXlSv6icMe/mIY70ikjjb+WkXEP8tlb20Awecc
+	eSWpRmstvlZgXVi+BSGTN5X3X9cM/puYpsElr3tKfaJBdRGgACJD6atY6S0rGhJ3jos+tq
+	NUAuld4iYByfqcO+Yc2C3ZNT2XCuffA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, 
+	David Hildenbrand <david@redhat.com>, Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, axboe@kernel.dk, 
+	mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, 
+	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
+	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
+	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
+	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
+	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Memory allocation profiling
+Message-ID: <lkozkbcucokzaicygwn7ym2cmmdt6bwyrluxb7ka7ygnrgyyfh@ktvirhq3hrtn>
+References: <CAJuCfpEsWfZnpL1vUB2C=cxRi_WxhxyvgGhUg7WdAxLEqy6oSw@mail.gmail.com>
+ <9e14adec-2842-458d-8a58-af6a2d18d823@redhat.com>
+ <2hphuyx2dnqsj3hnzyifp5yqn2hpgfjuhfu635dzgofr5mst27@4a5dixtcuxyi>
+ <6a0f5d8b-9c67-43f6-b25e-2240171265be@redhat.com>
+ <CAJuCfpEtOhzL65eMDk2W5SchcquN9hMCcbfD50a-FgtPgxh4Fw@mail.gmail.com>
+ <adbb77ee-1662-4d24-bcbf-d74c29bc5083@redhat.com>
+ <r6cmbcmalryodbnlkmuj2fjnausbcysmolikjguqvdwkngeztq@45lbvxjavwb3>
+ <CAJuCfpF4g1jeEwHVHjQWwi5kqS-3UqjMt7GnG0Kdz5VJGyhK3Q@mail.gmail.com>
+ <ea5vqiv5rt5cdbrlrdep5flej2pysqbfvxau4cjjbho64652um@7rz23kesqdup>
+ <ZczVcOXtmA2C3XX8@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240214155524.719ffb15@meshulam.tesarici.cz>
+In-Reply-To: <ZczVcOXtmA2C3XX8@casper.infradead.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Feb 14, 2024 at 03:55:24PM +0100, Petr Tesařík wrote:
-> OK, so why didn't I send the whole thing?
+On Wed, Feb 14, 2024 at 03:00:00PM +0000, Matthew Wilcox wrote:
+> On Tue, Feb 13, 2024 at 06:08:45PM -0500, Kent Overstreet wrote:
+> > This is what instrumenting an allocation function looks like:
+> > 
+> > #define krealloc_array(...)                     alloc_hooks(krealloc_array_noprof(__VA_ARGS__))
+> > 
+> > IOW, we have to:
+> >  - rename krealloc_array to krealloc_array_noprof
+> >  - replace krealloc_array with a one wrapper macro call
+> > 
+> > Is this really all we're getting worked up over?
+> > 
+> > The renaming we need regardless, because the thing that makes this
+> > approach efficient enough to run in production is that we account at
+> > _one_ point in the callstack, we don't save entire backtraces.
 > 
-> Decomposition of the kernel requires many more changes, e.g. in linker
-> scripts. Some of them depend on this patch series. Before I go and
-> clean up my code into something that can be submitted, I want to get
-> feedback from guys like you, to know if the whole idea would be even
-> considered, aka "Fail Fast".
+> I'm probably going to regret getting involved in this thread, but since
+> Suren already decided to put me on the cc ...
+> 
+> There might be a way to do it without renaming.  We have a bit of the
+> linker script called SCHED_TEXT which lets us implement
+> in_sched_functions().  ie we could have the equivalent of
+> 
+> include/linux/sched/debug.h:#define __sched             __section(".sched.text")
+> 
+> perhaps #define __memalloc __section(".memalloc.text")
+> which would do all the necessary magic to know where the backtrace
+> should stop.
 
-We can't honestly consider this portion without seeing how it would
-work, as we don't even see a working implementation that uses it to
-verify it at all.
+Could we please try to get through the cover letter before proposing
+alternatives? I already explained there why we need the renaming.
 
-The joy of adding new frameworks is that you need a user before anyone
-can spend the time to review it, sorry.
+In addition, you can't create the per-callsite codetag with linker
+magic; you nede the macro for that.
 
-thanks,
+Instead of citing myself again, I'm just going to post what I was
+working on last night for the documentation directory:
 
-greg k-h
+.. SPDX-License-Identifier: GPL-2.0
+
+===========================
+MEMORY ALLOCATION PROFILING
+===========================
+
+Low overhead (suitable for production) accounting of all memory allocations,
+tracked by file and line number.
+
+Usage:
+kconfig options:
+ - CONFIG_MEM_ALLOC_PROFILING
+ - CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
+ - CONFIG_MEM_ALLOC_PROFILING_DEBUG
+   adds warnings for allocations that weren't accounted because of a
+   missing annotation
+
+sysctl:
+  /proc/sys/vm/mem_profiling
+
+Runtime info:
+  /proc/allocinfo
+
+Example output:
+  root@moria-kvm:~# sort -h /proc/allocinfo|tail
+   3.11MiB     2850 fs/ext4/super.c:1408 module:ext4 func:ext4_alloc_inode
+   3.52MiB      225 kernel/fork.c:356 module:fork func:alloc_thread_stack_node
+   3.75MiB      960 mm/page_ext.c:270 module:page_ext func:alloc_page_ext
+   4.00MiB        2 mm/khugepaged.c:893 module:khugepaged func:hpage_collapse_alloc_folio
+   10.5MiB      168 block/blk-mq.c:3421 module:blk_mq func:blk_mq_alloc_rqs
+   14.0MiB     3594 include/linux/gfp.h:295 module:filemap func:folio_alloc_noprof
+   26.8MiB     6856 include/linux/gfp.h:295 module:memory func:folio_alloc_noprof
+   64.5MiB    98315 fs/xfs/xfs_rmap_item.c:147 module:xfs func:xfs_rui_init
+   98.7MiB    25264 include/linux/gfp.h:295 module:readahead func:folio_alloc_noprof
+    125MiB     7357 mm/slub.c:2201 module:slub func:alloc_slab_page
+
+
+Theory of operation:
+
+Memory allocation profiling builds off of code tagging, which is a library for
+declaring static structs (that typcially describe a file and line number in
+some way, hence code tagging) and then finding and operating on them at runtime
+- i.e. iterating over them to print them in debugfs/procfs.
+
+To add accounting for an allocation call, we replace it with a macro
+invocation, alloc_hooks(), that
+ - declares a code tag
+ - stashes a pointer to it in task_struct
+ - calls the real allocation function
+ - and finally, restores the task_struct alloc tag pointer to its previous value.
+
+This allows for alloc_hooks() calls to be nested, with the most recent one
+taking effect. This is important for allocations internal to the mm/ code that
+do not properly belong to the outer allocation context and should be counted
+separately: for example, slab object extension vectors, or when the slab
+allocates pages from the page allocator.
+
+Thus, proper usage requires determining which function in an allocation call
+stack should be tagged. There are many helper functions that essentially wrap
+e.g. kmalloc() and do a little more work, then are called in multiple places;
+we'll generally want the accounting to happen in the callers of these helpers,
+not in the helpers themselves.
+
+To fix up a given helper, for example foo(), do the following:
+ - switch its allocation call to the _noprof() version, e.g. kmalloc_noprof()
+ - rename it to foo_noprof()
+ - define a macro version of foo() like so:
+   #define foo(...) alloc_hooks(foo_noprof(__VA_ARGS__))
