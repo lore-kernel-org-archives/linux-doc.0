@@ -1,101 +1,112 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042C318E
-	for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 00:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FED87F;
+	Wed, 14 Feb 2024 00:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707869073; cv=none; b=ABxw1QTNu83oowOy5LRHU2LKUQmW3xUfJWlXRCEou3F7M1MnT8ENWuC76jXtjWhN8D0ncV1zrq3eloArhpsZxDaP2CJWjgi9I+MDingt/2hEEFg3UdyElHfv5yw0FBd33pLl0VMYCaJRNVG0+HAI2P+Ajho+8W+kwDOXMbFCjy8=
+	t=1707869959; cv=none; b=E05m+9gn5/BkUQFAjmlzVEmZsjkgUZ55i7GtogbCe3ieJWbdr9qsBYOT8LdNk+zK2BHdqziag8xJm+01IsDVvhamWF0t2CifRH7jJg2dBH5qAhSdVkCTMgkwFguc+0wGcscwVguF//BqFHAdEbXCAz5M6pw+XXTHTh9wxkuns0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707869073; c=relaxed/simple;
-	bh=HBo4/ZnPLdUMua0zJU4NpBUBSGdMyA1d1OPVB+TDxms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JMnCf3tmCflyAwHtqRMLwyRV/6T/VBI11WZfvApcxqQSQZFRV0ICZqVEgEZfd27YrKgn+vz2ZOIig9ccJeYAfiFMi1JtIoRSh+05cCxOx96p1EYQMx+FDoEWetete8fjubIG2D5mEGJ3MqdbUnjJ/UkKm4DnvcBxCIWT9Wa31C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=k67cy+ui; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1707869959; c=relaxed/simple;
+	bh=QAN7hZYSM3BJP81M/eLzNlJdF60Jewpg46NuJgdpOG0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kt+yUnUgbs3GIQof+AU3VOWVyK1ZjL1sFvC9RFiCZhtwJA7BXoshpYNb5sj0f+XpTlxbUqzlBnIj1ttXFjmSiv8QemZnwQySxsUgK7xLMkHuQFFAjm5XiDlZzftTPonkbCjLT+vLENomaa5X4ARYPbiLQo+W6Ab7hdvgZ7jOpCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ViEHfV3o; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="k67cy+ui"
-Date: Tue, 13 Feb 2024 19:04:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1707869068;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lwr8Vkf8N+L/tCuYvXon7N+M0Ve52ARdPVwI9sTaz1k=;
-	b=k67cy+uiY9Mx9j1UIeyoIR1jTVimFbXY0Ah+u9g9EkxXCXSlFErrbk1SmcOpMTNDyAuhJF
-	8yT0rOI4rnYhxMMnMPJPO3qnI0CHdh08Glhfbg3KTriY7en7/N6LEcl8lSKS5p117ormdf
-	8GPC7Twmy0k/brUYCR299XoutwGexNY=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Suren Baghdasaryan <surenb@google.com>, 
-	David Hildenbrand <david@redhat.com>, Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, 
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, 
-	dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, 
-	paulmck@kernel.org, yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 00/35] Memory allocation profiling
-Message-ID: <76imoy5prhf2rhtuajlx3whdowfs3swdmufmosqvqrlljj4bye@dofqsd4674ek>
-References: <6a0f5d8b-9c67-43f6-b25e-2240171265be@redhat.com>
- <CAJuCfpEtOhzL65eMDk2W5SchcquN9hMCcbfD50a-FgtPgxh4Fw@mail.gmail.com>
- <adbb77ee-1662-4d24-bcbf-d74c29bc5083@redhat.com>
- <r6cmbcmalryodbnlkmuj2fjnausbcysmolikjguqvdwkngeztq@45lbvxjavwb3>
- <CAJuCfpF4g1jeEwHVHjQWwi5kqS-3UqjMt7GnG0Kdz5VJGyhK3Q@mail.gmail.com>
- <a9b0440b-844e-4e45-a546-315d53322aad@redhat.com>
- <xbehqbtjp5wi4z2ppzrbmlj6vfazd2w5flz3tgjbo37tlisexa@caq633gciggt>
- <c842347d-5794-4925-9b95-e9966795b7e1@redhat.com>
- <CAJuCfpFB-WimQoC1s-ZoiAx+t31KRu1Hd9HgH3JTMssnskdvNw@mail.gmail.com>
- <CA+CK2bCvaoSRUjBZXFbyZi-1mPedNL3sZmUA9fHwcBB00eDygw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ViEHfV3o"
+Received: from [100.64.232.238] (unknown [20.29.225.195])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 16E3E20B2000;
+	Tue, 13 Feb 2024 16:19:10 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 16E3E20B2000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1707869951;
+	bh=H/WOKYyDPl6rQRUKTgqiCkym15mdTfioSDzSyvm7rqA=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=ViEHfV3oyxygjlUGYt/LLeSl96uQs8jUhmk++Wv0C8TJztCa2gsJu2BznCSuDKBMD
+	 Y2/gocRsP3+tPKr+v1ioILaBAZgaNkFZ/7Csq8saVZ9Rnve6jLiSBiiFTH8NEc9DQP
+	 WJK+8Ydb2sCZPAKXYfMdgk3C8JBWvZjSK4I6Ar0M=
+Message-ID: <18b3ac3e-2bfc-4fce-9be4-3e75e487f9fc@linux.microsoft.com>
+Date: Tue, 13 Feb 2024 16:19:08 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bCvaoSRUjBZXFbyZi-1mPedNL3sZmUA9fHwcBB00eDygw@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: Re: [PATCH] arm64: Subscribe Microsoft Azure Cobalt 100 to ARM
+ Neoverse N2 errata
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+ Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
+ Zenghui Yu <yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>,
+ "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, stable@vger.kernel.org
+References: <20240212232909.2276378-1-eahariha@linux.microsoft.com>
+ <ZcqtUxhqUbYoRH-G@linux.dev>
+Content-Language: en-US
+In-Reply-To: <ZcqtUxhqUbYoRH-G@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 13, 2024 at 06:54:09PM -0500, Pasha Tatashin wrote:
-> > > I tried to be helpful, finding ways *not having to* bypass the MM
-> > > community to get MM stuff merged.
-> > >
-> > > The reply I got is mostly negative energy.
-> > >
-> > > So you don't need my help here, understood.
-> > >
-> > > But I will fight against any attempts to bypass the MM community.
-> >
-> > Well, I'm definitely not trying to bypass the MM community, that's why
-> > this patchset is posted. Not sure why people can't voice their opinion
-> > on the benefit/cost balance of the patchset over the email... But if a
-> > meeting would be more productive I'm happy to set it up.
+On 2/12/2024 3:44 PM, Oliver Upton wrote:
+> Hi Easwar,
 > 
-> Discussing these concerns during the next available MM Alignment
-> session makes sense. At a minimum, Suren and Kent can present their
-> reasons for believing the current approach is superior to the
-> previously proposed alternatives.
+> On Mon, Feb 12, 2024 at 11:29:06PM +0000, Easwar Hariharan wrote:
+>> Add the MIDR value of Microsoft Azure Cobalt 100, which is a Microsoft
+>> implemented CPU based on r0p0 of the ARM Neoverse N2 CPU, and therefore
+>> suffers from all the same errata.
+> 
+> Can you comment at all on where one might find this MIDR? That is, does
+> your hypervisor report the native MIDR of the implementation or does it
+> repaint it as an Arm Neoverse N2 (0x410FD490)?
 
-Hang on though: I believe we did so adequately within this thread. Both
-in the cover letter, and I further outlined exactly what the hooks
-need to do, and cited the exact code.
+We will check on the Microsoft hypervisor's plans, and get back to you.
 
-Nobody seems to be complaining about the specifics, so I'm not sure what
-would be on the agenda?
+Notwithstanding that, we do have baremetal use cases for Microsoft Azure Cobalt 100
+as well where this MIDR value will show through.
+
+> 
+>> diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+>> index 7c7493cb571f..a632a7514e55 100644
+>> --- a/arch/arm64/include/asm/cputype.h
+>> +++ b/arch/arm64/include/asm/cputype.h
+>> @@ -61,6 +61,7 @@
+>>  #define ARM_CPU_IMP_HISI		0x48
+>>  #define ARM_CPU_IMP_APPLE		0x61
+>>  #define ARM_CPU_IMP_AMPERE		0xC0
+>> +#define ARM_CPU_IMP_MICROSOFT		0x6D
+>>  
+>>  #define ARM_CPU_PART_AEM_V8		0xD0F
+>>  #define ARM_CPU_PART_FOUNDATION		0xD00
+>> @@ -135,6 +136,8 @@
+>>  
+>>  #define AMPERE_CPU_PART_AMPERE1		0xAC3
+>>  
+>> +#define MSFT_CPU_PART_AZURE_COBALT_100	0xD49 /* Based on r0p0 of ARM Neoverse N2 */
+>> +
+>>  #define MIDR_CORTEX_A53 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A53)
+>>  #define MIDR_CORTEX_A57 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A57)
+>>  #define MIDR_CORTEX_A72 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A72)
+>> @@ -193,6 +196,7 @@
+>>  #define MIDR_APPLE_M2_BLIZZARD_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_BLIZZARD_MAX)
+>>  #define MIDR_APPLE_M2_AVALANCHE_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_AVALANCHE_MAX)
+>>  #define MIDR_AMPERE1 MIDR_CPU_MODEL(ARM_CPU_IMP_AMPERE, AMPERE_CPU_PART_AMPERE1)
+>> +#define MIDR_MICROSOFT_AZURE_COBALT_100 MIDR_CPU_MODEL(ARM_CPU_IMP_MICROSOFT, MSFT_CPU_PART_AZURE_COBALT_100)
+> 
+> nitpick: consistently use the abbreviated 'MSFT' for all the definitions
+> you're adding.
+> 
+
+I was rather hoping to use Microsoft throughout, but I chose MSFT for the CPU_PART* to align columns
+with the other defines. :) If consistency is of a higher priority than column alignment, I can change it
+to MICROSOFT rather than MSFT throughout.
+
+Thanks,
+Easwar
+
