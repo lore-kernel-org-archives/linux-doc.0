@@ -1,155 +1,174 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6088179BD;
-	Thu, 15 Feb 2024 09:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE89018037;
+	Thu, 15 Feb 2024 09:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707988983; cv=none; b=tOhveFpdDCWzI4b6/ZpeEwsWCyI7m0c+Y6oxv4E2ZqzKSRcO3jPtU96ywiavfHvg7JuT0KNGDiOqplixrE3qasZhEkuc1WxNwoFiaJbwgC3KbNwBtjFqWhKMHVDHSfe6/ORQD7HE75nQ62qbPBUjRjhXMTTslwasak+gAZUXliE=
+	t=1707989469; cv=none; b=J7Nl4ICy781xOomvGDcVxrEO/IBGsdpwH3nWQMaLMLP/0n09jeE77sA+sCoxam6LYIfFcf9QN5wYisseRs0wHaR6OkjPixJN2zjjxx2KhdlUVmdVVmTYDgzew6GQyE+4XzY/H7rME2TnfXBlnsg1e/ov+7MJcFdLZWw61CiQ1Zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707988983; c=relaxed/simple;
-	bh=WNYLiPDN/h368EHdEX8l1z4Wuz1Yugs/kYjrmi7aM0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fKnOv20R6DpRqrDbTZs99vmTxy21ZQsPMRKKt2hVqKIypTlFjtxJ6MnSMTjF+FamvJMj+bDggn+dnFk30nzSHBqhPNScWKzbkbngzeQggUAPi54alleWJ0bqht25JLPo4y1Iu6pZ58ksWF69kqptF4Hw8QbGyionN3URK/aUtv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=sfOAoS4D; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=sfOAoS4D; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1707989469; c=relaxed/simple;
+	bh=IGUUgoQv8fEzz2nY3/U/CkDsbN0lZVUbVVLYQfpeQAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UPf/kA8R9e1n64tolJCAx91+2rVODAtvEgtfPCqtssUANDGQ9EdoS6vB7UVzygyg9N2tkVdbgxiZZAazZMaRT0vqj/+uef09/FUkXIWHXrcyM6imjNf7gCsclB5Jo9BB7QU4CNOi12gVaR0DsuiKU6/mimqKQ8zoVaTdrDdCF0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=HL3FvJFS; arc=none smtp.client-ip=77.93.223.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="sfOAoS4D";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="sfOAoS4D"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="HL3FvJFS"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0F1001F871;
-	Thu, 15 Feb 2024 09:22:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1707988978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P0wAra6NNdsmQy/QOu3XOOm75y+sycyf1CReKWa3x/A=;
-	b=sfOAoS4D29QnYtnKO07SRNn72nriTA9zXXwoZ0RnHp0XHtxokuQn7bDggRyH/dV5bo4PMY
-	m6GbhMwzRlnOtmD5aW0DXlvPon3YpJ50cKwL/qadfxvkMWtOESzhQ0uXkZ1xrF5HxAfde3
-	KNje8XIUO7zvXrtU2TUsUX4dAPtyxss=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1707988978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P0wAra6NNdsmQy/QOu3XOOm75y+sycyf1CReKWa3x/A=;
-	b=sfOAoS4D29QnYtnKO07SRNn72nriTA9zXXwoZ0RnHp0XHtxokuQn7bDggRyH/dV5bo4PMY
-	m6GbhMwzRlnOtmD5aW0DXlvPon3YpJ50cKwL/qadfxvkMWtOESzhQ0uXkZ1xrF5HxAfde3
-	KNje8XIUO7zvXrtU2TUsUX4dAPtyxss=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CED2B13A53;
-	Thu, 15 Feb 2024 09:22:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gyDbMfHXzWUfGQAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Thu, 15 Feb 2024 09:22:57 +0000
-Date: Thu, 15 Feb 2024 10:22:57 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, vbabka@suse.cz,
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org,
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
-	paulmck@kernel.org, pasha.tatashin@soleen.com,
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
-	ndesaulniers@google.com, vvvvvv@google.com,
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
-	elver@google.com, dvyukov@google.com, shakeelb@google.com,
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
-Message-ID: <Zc3X8XlnrZmh2mgN@tiehlicka>
-References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-32-surenb@google.com>
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 6DAC91A601E;
+	Thu, 15 Feb 2024 10:30:59 +0100 (CET)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1707989460; bh=dKEi4/z9hKMT6w7OFzhXiUpF0cBZZojtikynuA7xrqA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HL3FvJFSNEEFF47AcfBwODUkLgp9ZS9Lm/nJwHw5qdhaOTSKSiq9y5yXF05yoUkai
+	 p07ETT8dae0IPABgfAtv6lR0MR1uGbZ9vOSCIb09WGCli5wLVuRZHmd+9BHqrQ6/cg
+	 DZWUAAPZQ4IzNjJCHQ8GhiwTyIBeVq9q8HSA2f/YM436ezs5ZcMcxIZT3cZqW+Ty0d
+	 imXFAdBer3Fwk85ODUaBRailji2nC8RR1b1dNNieT6t/0bhNtda2oQqm3CYI9mIodS
+	 xuIUzZA47sjRLwdXMaQ6Yvi67EBmRiHjexQK8hvEnkrXy9XGi8lhr50W5idNjkUsQA
+	 lz+8S/RS9tY4Q==
+Date: Thu, 15 Feb 2024 10:30:58 +0100
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: "H. Peter Anvin" <hpa@zytor.com>, Roberto Sassu
+ <roberto.sassu@huaweicloud.com>
+Cc: Xin Li <xin@zytor.com>, Dave Hansen <dave.hansen@intel.com>, Petr
+ Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter
+ Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
+ <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
+ <rick.p.edgecombe@intel.com>, Kees Cook <keescook@chromium.org>, "Masami
+ Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu
+ <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao
+ <zegao2021@gmail.com>, "Kirill A. Shutemov"
+ <kirill.shutemov@linux.intel.com>, Kai Huang <kai.huang@intel.com>, David
+ Woodhouse <dwmw@amazon.co.uk>, Brian Gerst <brgerst@gmail.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
+ (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
+ <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, Petr
+ Tesarik <petr.tesarik1@huawei-partners.com>
+Subject: Re: [PATCH v1 0/8] x86_64 SandBox Mode arch hooks
+Message-ID: <20240215103058.52461397@meshulam.tesarici.cz>
+In-Reply-To: <5434F240-2F74-4D9F-8BEE-220C8EC53C0F@zytor.com>
+References: <20240214113516.2307-1-petrtesarik@huaweicloud.com>
+	<c424618c-d6c6-430a-8975-8851a617204e@intel.com>
+	<20240214192214.78734652@meshulam.tesarici.cz>
+	<c66fa3f4-13f0-4355-9bf4-34fec31182de@zytor.com>
+	<20240215075932.66fef954@meshulam.tesarici.cz>
+	<5434F240-2F74-4D9F-8BEE-220C8EC53C0F@zytor.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240212213922.783301-32-surenb@google.com>
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=sfOAoS4D
-X-Spamd-Result: default: False [1.65 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 BAYES_HAM(-0.04)[58.58%];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 TO_MATCH_ENVRCPT_SOME(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_GT_50(0.00)[73];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[linux-foundation.org,linux.dev,suse.cz,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: 1.65
-X-Rspamd-Queue-Id: 0F1001F871
-X-Spam-Level: *
-X-Spam-Flag: NO
-X-Spamd-Bar: +
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon 12-02-24 13:39:17, Suren Baghdasaryan wrote:
-[...]
-> @@ -423,4 +424,18 @@ void __show_mem(unsigned int filter, nodemask_t *nodemask, int max_zone_idx)
->  #ifdef CONFIG_MEMORY_FAILURE
->  	printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poisoned_pages));
->  #endif
-> +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> +	{
-> +		struct seq_buf s;
-> +		char *buf = kmalloc(4096, GFP_ATOMIC);
-> +
-> +		if (buf) {
-> +			printk("Memory allocations:\n");
-> +			seq_buf_init(&s, buf, 4096);
-> +			alloc_tags_show_mem_report(&s);
-> +			printk("%s", buf);
-> +			kfree(buf);
-> +		}
-> +	}
-> +#endif
+On Thu, 15 Feb 2024 00:16:13 -0800
+"H. Peter Anvin" <hpa@zytor.com> wrote:
 
-I am pretty sure I have already objected to this. Memory allocations in
-the oom path are simply no go unless there is absolutely no other way
-around that. In this case the buffer could be preallocated.
+> On February 14, 2024 10:59:32 PM PST, "Petr Tesa=C5=99=C3=ADk" <petr@tesa=
+rici.cz> wrote:
+> >On Wed, 14 Feb 2024 10:52:47 -0800
+> >Xin Li <xin@zytor.com> wrote:
+> > =20
+> >> On 2/14/2024 10:22 AM, Petr Tesa=C5=99=C3=ADk wrote: =20
+> >> > On Wed, 14 Feb 2024 06:52:53 -0800
+> >> > Dave Hansen <dave.hansen@intel.com> wrote:
+> >> >    =20
+> >> >> On 2/14/24 03:35, Petr Tesarik wrote:   =20
+> >> >>> This patch series implements x86_64 arch hooks for the generic San=
+dBox
+> >> >>> Mode infrastructure.   =20
+> >> >>
+> >> >> I think I'm missing a bit of context here.  What does one _do_ with
+> >> >> SandBox Mode?  Why is it useful?   =20
+> >> >=20
+> >> > I see, I split the patch series into the base infrastructure and the
+> >> > x86_64 implementation, but I forgot to merge the two recipient lists.
+> >> > :-(
+> >> >=20
+> >> > Anyway, in the long term I would like to work on gradual decompositi=
+on
+> >> > of the kernel into a core part and many self-contained components.
+> >> > Sandbox mode is a useful tool to enforce isolation.
+> >> >=20
+> >> > In its current form, sandbox mode is too limited for that, but I'm
+> >> > trying to find some balance between "publish early" and reaching a
+> >> > feature level where some concrete examples can be shown. I'd rather
+> >> > fail fast than maintain hundreds of patches in an out-of-tree branch
+> >> > before submitting (and failing anyway).
+> >> >=20
+> >> > Petr T
+> >> >    =20
+> >>=20
+> >> What you're proposing sounds a gigantic thing, which could potentially
+> >> impact all subsystems. =20
+> >
+> >True. Luckily, sandbox mode allows me to move gradually, one component
+> >at a time.
+> > =20
+> >>  Unless you prove it has big advantages with real
+> >> world usages, I guess nobody even wants to look into the patches.
+> >>=20
+> >> BTW, this seems another attempt to get the idea of micro-kernel into
+> >> Linux. =20
+> >
+> >We know it's not feasible to convert Linux to a micro-kernel. AFAICS
+> >that would require some kind of big switch, affecting all subsystems at
+> >once.
+> >
+> >But with a growing code base and more or less constant bug-per-LOC rate,
+> >people will continue to come up with some ideas how to limit the
+> >potential impact of each bug. Logically, one of the concepts that come
+> >to mind is decomposition.
+> >
+> >If my attempt helps to clarify how such decomposition should be done to
+> >be acceptable, it is worthwile. If nothing else, I can summarize the
+> >situation and ask Jonathan if he would kindly accept it as a LWN
+> >article...
+> >
+> >Petr T
+> > =20
+>=20
+> I have been thinking more about this, and I'm more than ever convinced th=
+at exposing kernel memory to *any* kind of user space is a really, really b=
+ad idea. It is not a door we ever want to open; once that line gets muddled=
+, the attack surface opens up dramatically.
 
--- 
-Michal Hocko
-SUSE Labs
+Would you mind elaborating on this a bit more?
+
+For one thing, sandbox mode is *not* user mode. Sure, my proposed
+x86-64 implementation runs with the same CPU privilege level as user
+mode, but it is isolated from user mode with just as strong mechanisms
+as any two user mode processes are isolated from each other. Are you
+saying that process isolation in Linux is not all that strong after all?
+
+Don't get me wrong. I'm honestly trying to understand what exactly
+makes the idea so bad. I have apparently not considered something that
+you have, and I would be glad if you could reveal it.
+
+> And, in fact, we already have a sandbox mode in the kernel =E2=80=93 it i=
+s called eBPF.=20
+
+Sure. The difference is that eBPF is a platform of its own (with its
+own consistency model, machine code etc.). Rewriting code for eBPF may
+need a bit more effort.
+
+Besides, Roberto wrote a PGP key parser as an eBPF program at some
+point, and I believe it was rejected for that reason. So, it seems
+there are situations where eBPF is not an alternative.
+
+Roberto, can you remember and share some details?
+
+Petr T
