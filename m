@@ -1,154 +1,127 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7A179958;
-	Thu, 15 Feb 2024 18:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03991369B2
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 18:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708022185; cv=none; b=NvmaK2cjYums5f/yCE72L6Q6/CxUuJVDa2NUCuOKwUFF65tI3rsHkbAF/ur2Nag9+no2cnzXBnvHQhsANE0IxbiKyClR7uqMyDuwjYwKigl0ftpexX15JRUP7fjZdxXW/ppC3MxYe3MIdmpE3GQi+cc3k+fkYnodFZAoRIE9+FU=
+	t=1708022302; cv=none; b=Xkt0N/TLJVcgRooz7lx9hFMJwOG8lVT8w0JQVMVGUA4Ul0C+KKfjBNuaiEg6YmV867MPigrSAw9R413sc9nKt8wc2SQNYajiLFjInXpBJX3XqQGhkOW4qCqHuN+CuhfHMIXw/EQYQWsx7tZVJJZMDEDjxShK0I+iDieCS+0P/00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708022185; c=relaxed/simple;
-	bh=cqkZb2AW52urfGkdn7ilr6fwR5inqx8htNbTKkmCQTQ=;
+	s=arc-20240116; t=1708022302; c=relaxed/simple;
+	bh=1qVom1rSiklCLS5RbXYjODOEuKVFGJz+okg7fDM+Ia0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mOc6HKjoDHEtabZbfJY4zk4gUhvYao/lR4ttO/7KEWRQnG2bh/pVXNHLn4klTwI2A/sXRWdCEU/VTJu/egTLl1rOv4ZXVIzpbL8FHJsqCEiMmll6ul7G1iXRHob5s9kRG12fJS99XyCX4bDnk8HRh+TtSGSt1HvK4SDQLd15el8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=E1MXLBzZ; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=E1MXLBzZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=L4C6EWwt4LpTWuGzmKIW7fdOnl/T10VuidCLf84U2Qnz+OQc1MGvb1McmiznoFCOqHbjLxt56GeOMEEXB5lFCm5G9ZZ6VczxSEIBFrV6ln4vYXP5aW7YN6VXvlc4U67SjF+NZsPzm0cO0qkdFw3xitC4ZWMkeP8D8AYp/0MyaB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JN/LPHA6; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="E1MXLBzZ";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="E1MXLBzZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 53E091F8D9;
-	Thu, 15 Feb 2024 18:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708022181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JN/LPHA6"
+Date: Thu, 15 Feb 2024 13:38:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708022297;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vLhyLE2nQAAth2l/4rRuG/vsRIUDmsoRm+VuUP3aA/8=;
-	b=E1MXLBzZa1mHvBu6hH+35Vt0Rp05+HnxxpmIRQhix9DT04oKDblToaOh0pha++UKKBv8dI
-	VMOA1ethmBKKludCeWoTe0nGPWiQSxIWJ1020RCTqi8Os+2k3cgyGE+SXxC9isPEN0fTr7
-	NRbG+pjhhjdavn3GmjXpP8pbKY1O3Ds=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708022181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vLhyLE2nQAAth2l/4rRuG/vsRIUDmsoRm+VuUP3aA/8=;
-	b=E1MXLBzZa1mHvBu6hH+35Vt0Rp05+HnxxpmIRQhix9DT04oKDblToaOh0pha++UKKBv8dI
-	VMOA1ethmBKKludCeWoTe0nGPWiQSxIWJ1020RCTqi8Os+2k3cgyGE+SXxC9isPEN0fTr7
-	NRbG+pjhhjdavn3GmjXpP8pbKY1O3Ds=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28E3213A82;
-	Thu, 15 Feb 2024 18:36:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id R3lXB6VZzmWeIwAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Thu, 15 Feb 2024 18:36:21 +0000
-Date: Thu, 15 Feb 2024 19:36:20 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, security@kernel.org,
-	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <Zc5ZpB6jsuTKmhv5@tiehlicka>
-References: <2024021430-blanching-spotter-c7c8@gregkh>
- <Zc5PycMenLBYECAn@tiehlicka>
- <2024021518-stature-frightful-e7fc@gregkh>
+	bh=MX5iN/R1aA7qp1uBjwVKqzgAyTA6O01vDbmEmEpF1HI=;
+	b=JN/LPHA6l0xQ7QMKiDnxsNR2Ab6ALTGJ4OE63oTahR1/1K8veWc90tjRp4QXqdUElopDI5
+	YH5NElMZRXmq24WL24GA6MqkZu9wAXmJwNLE+wgHedUF1t2ic5fKjMy5mDaNTCYjsqAX5o
+	vtrOv4NPQDR3Mz1YWEXaxTFt9VFFDKU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, 
+	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
+	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, hughd@google.com, 
+	andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com, 
+	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
+	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, 
+	cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
+	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-modules@vger.kernel.org, 
+	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
+Message-ID: <qjw54t5doykhej63f5l5k7zee4fuiekkdp7px67f3bgu7y4bec@2akbmyhn2ubz>
+References: <20240212213922.783301-1-surenb@google.com>
+ <20240212213922.783301-32-surenb@google.com>
+ <Zc3X8XlnrZmh2mgN@tiehlicka>
+ <CAJuCfpHc2ee_V6SGAc_31O_ikjGGNivhdSG+2XNcc9vVmzO-9g@mail.gmail.com>
+ <Zc4_i_ED6qjGDmhR@tiehlicka>
+ <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
+ <ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut>
+ <CAJuCfpFCu73eCMo-hd=vvvMhGjEuOwvkcGb2DuDssHC5soNFGw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2024021518-stature-frightful-e7fc@gregkh>
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=E1MXLBzZ
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.01 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_LOW(-1.00)[suse.com:dkim];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Spam-Score: -5.01
-X-Rspamd-Queue-Id: 53E091F8D9
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpFCu73eCMo-hd=vvvMhGjEuOwvkcGb2DuDssHC5soNFGw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu 15-02-24 19:20:09, Greg KH wrote:
-> On Thu, Feb 15, 2024 at 06:54:17PM +0100, Michal Hocko wrote:
-> > On Wed 14-02-24 09:00:30, Greg KH wrote:
-> > [...]
-> > > +Process
-> > > +-------
-> > > +
-> > > +As part of the normal stable release process, kernel changes that are
-> > > +potentially security issues are identified by the developers responsible
-> > > +for CVE number assignments and have CVE numbers automatically assigned
-> > > +to them.  These assignments are published on the linux-cve-announce
-> > > +mailing list as announcements on a frequent basis.
-> > > +
-> > > +Note, due to the layer at which the Linux kernel is in a system, almost
-> > > +any bug might be exploitable to compromise the security of the kernel,
-> > > +but the possibility of exploitation is often not evident when the bug is
-> > > +fixed.  Because of this, the CVE assignment team is overly cautious and
-> > > +assign CVE numbers to any bugfix that they identify.  This
-> > > +explains the seemingly large number of CVEs that are issued by the Linux
-> > > +kernel team.
-> > 
-> > Does the process focus only on assigning CVE numbers to a given upstream
-> > commit(s) withou any specifics of the actual security threat covered by
-> > the said CVE?
+On Thu, Feb 15, 2024 at 10:33:53AM -0800, Suren Baghdasaryan wrote:
+> On Thu, Feb 15, 2024 at 10:29 AM Kent Overstreet
+> <kent.overstreet@linux.dev> wrote:
+> >
+> > On Thu, Feb 15, 2024 at 08:47:59AM -0800, Suren Baghdasaryan wrote:
+> > > On Thu, Feb 15, 2024 at 8:45 AM Michal Hocko <mhocko@suse.com> wrote:
+> > > >
+> > > > On Thu 15-02-24 06:58:42, Suren Baghdasaryan wrote:
+> > > > > On Thu, Feb 15, 2024 at 1:22 AM Michal Hocko <mhocko@suse.com> wrote:
+> > > > > >
+> > > > > > On Mon 12-02-24 13:39:17, Suren Baghdasaryan wrote:
+> > > > > > [...]
+> > > > > > > @@ -423,4 +424,18 @@ void __show_mem(unsigned int filter, nodemask_t *nodemask, int max_zone_idx)
+> > > > > > >  #ifdef CONFIG_MEMORY_FAILURE
+> > > > > > >       printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poisoned_pages));
+> > > > > > >  #endif
+> > > > > > > +#ifdef CONFIG_MEM_ALLOC_PROFILING
+> > > > > > > +     {
+> > > > > > > +             struct seq_buf s;
+> > > > > > > +             char *buf = kmalloc(4096, GFP_ATOMIC);
+> > > > > > > +
+> > > > > > > +             if (buf) {
+> > > > > > > +                     printk("Memory allocations:\n");
+> > > > > > > +                     seq_buf_init(&s, buf, 4096);
+> > > > > > > +                     alloc_tags_show_mem_report(&s);
+> > > > > > > +                     printk("%s", buf);
+> > > > > > > +                     kfree(buf);
+> > > > > > > +             }
+> > > > > > > +     }
+> > > > > > > +#endif
+> > > > > >
+> > > > > > I am pretty sure I have already objected to this. Memory allocations in
+> > > > > > the oom path are simply no go unless there is absolutely no other way
+> > > > > > around that. In this case the buffer could be preallocated.
+> > > > >
+> > > > > Good point. We will change this to a smaller buffer allocated on the
+> > > > > stack and will print records one-by-one. Thanks!
+> > > >
+> > > > __show_mem could be called with a very deep call chains. A single
+> > > > pre-allocated buffer should just do ok.
+> > >
+> > > Ack. Will do.
+> >
+> > No, we're not going to permanently burn 4k here.
 > 
-> Outside of the git commit text, no, we are not going to be adding
-> anything additional to the report, UNLESS someone wants to add
-> additional text to it, and then we will be glad to update a CVE entry
-> with the additional information.
+> We don't need 4K here. Just enough to store one line and then print
+> these 10 highest allocations one line at a time. This way we can also
+> change that 10 to any higher number we like without any side effects.
 
-OK, so what is the point of having CVE assigned to such a commit without
-any addional information which is already referenced by the kernel sha?
-What is the actual added value of that CVE?
-
-> Here's an example of what the CVE announcement is going to look like for
-> a "test" that we have been doing for our scripts
-> 	https://lore.kernel.org/linux-cve-announce/2024021353-drainage-unstuffed-a7c0@gregkh/T/#u
-
-Thanks this gave me some idea. One worrying part is
-: Please note that only supported kernel versions have fixes applied to
-: them.  For a full list of currently supported kernel versions, please
-: see https://www.kernel.org/
-
-From the above it is not really clear "supported by _whom_". Because I
-am pretty sure there are _fully_ supported kernels outside of that list
-which are actively maintained.
--- 
-Michal Hocko
-SUSE Labs
+There's no reason to make the change at all. If Michal thinks there's
+something "dangerous" about allocating a buffer here, he needs to able
+to explain what it is.
