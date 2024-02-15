@@ -1,105 +1,117 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from eastern.birch.relay.mailchannels.net (eastern.birch.relay.mailchannels.net [23.83.209.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09D969DF0;
-	Thu, 15 Feb 2024 14:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708007636; cv=none; b=d7wpQ1dLefc89cOlagZQmLk8IaujAsmSoENKCsbagI1NYbQ/c+vbHfOvqkWKlY7Gsr3SB5K/QZ8amJgFvnEWd/I8u+exDmB4ZzbxrovH7d40Kk2gHbwUYP1N4tCaGWf2gFUpZ2huBgWhC3cKAI0qmNqw6vMQS/7ytAlsVzwHar8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708007636; c=relaxed/simple;
-	bh=x/C4JrMOvi9rCj9I7QPAKYQAw03CTw9sUHduKSKVXmQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ucoBl5hC0jW3oQiw9j1OBOAKIaEA7rg6uG3bd+EO0icp92WljNqTHXP3Rqnx4BMeEpixmz+mvc4OcJGlQDFEgkK4SnD4VIzHwTDrB1QMASk8aLxsoDKrwY5WwqEnH+FpeX9skBZVBqkrUSQkDxxz07xCeZLVpWN9vYND+t6kaeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jfnLugIp; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AB620B3D
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 14:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.209.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708008780; cv=pass; b=NHLkbmL3xJNJUtNzn1RcW+pKG/LjGld3894EahJozX17DaArYT/m8yQRb0F39D2VWqRoO+S9c+5BwGGbLwyQ6NY+JoP0qoDbwzdnUA+ofxuMz8yDJoJcfdykBaLCMCNPTypZfUrguJOwvwdicwyCqH17xXHn70FMG1uKdB3DMLI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708008780; c=relaxed/simple;
+	bh=SCu1j3Obem6LNJ/Xer6MTTr5+qHPF9ABl1ytvK7ClnE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gVTT1cdz5UV9NPkRzXhDUK1oIp0wN4lXSIfurU2KcSJkfwOglKL5xF3/fNwco7cHxCw/EKES0Rd85HGH3NwGXrt1o61ZpQnvWduGbTSkjvHXOXT351SFgrxiZSpLgZrNLKzNtMK4XWnyZ88VBJyoWc2WfhdyWCX73zOFgZKPYOc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=okanakyuz.com; spf=none smtp.mailfrom=okanakyuz.com; dkim=pass (2048-bit key) header.d=okanakyuz.com header.i=@okanakyuz.com header.b=GOdGEoF2; arc=pass smtp.client-ip=23.83.209.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=okanakyuz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=okanakyuz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jfnLugIp"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 489A520002;
-	Thu, 15 Feb 2024 14:33:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708007625;
+	dkim=pass (2048-bit key) header.d=okanakyuz.com header.i=@okanakyuz.com header.b="GOdGEoF2"
+X-Sender-Id: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 37EC8362482
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 14:44:00 +0000 (UTC)
+Received: from fr-int-smtpout5.hostinger.io (unknown [127.0.0.6])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id DC1353628E4
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 14:43:58 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1708008239; a=rsa-sha256;
+	cv=none;
+	b=jGv2rlfAZxx0cGUU8EKT1ktiJo5nDZrADBH3KUJ1y3Rp98CBk1yd1jelAvHS37yGqBvO4h
+	SGMFWR8QKN1jt+7WFEJyRygO/EZALPv/kbV2WDRcMJCtPwrgAsg2+yUCfG1kHoU8385np6
+	rG2wldyyGsd8MGWDZgONgnslI1SbLH4ktJPUOSiiXVxKu6uZXmWYExi8CiZ6N9wEFUpjWB
+	UM3d0JqvfYVjWd4mkv29KJrFj8vEoRo92B8smdiFQwffDE/T4Xk1AOkEpYp69rBduNPCsK
+	76cImIs2X7KI+UTf588GHmEnKR/Djo4tomU9S91u8Gtd+xAo482GvgX9qGnhdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1708008239;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cdrzonxR0aohlaO272Q7MZrzcpjlQwtAuBm+FlVa2Zk=;
-	b=jfnLugIptfivZ7YdFpbIK7v/kS9Z5wDYbgN9JxdaFDSBKmFMzZioHeQjDfhB5IjWglucM4
-	Sqi0DuPcWmiN2jFy9WL98/pukDSqt8ZnZqlmQPyHcJCMqdvrB6agaUXCwMmTrc78hEyMwR
-	p9myXchCskW8S842CIb2DvZ0LqUh0ajdZvF7nyrRcMa4ZvEQomuyZsfYidc7uzMkZY7DK8
-	Cokymg3a2p/uT6FDqq/dh8gIDEao+tPQ4fDkDmU+TbMEqdjlRv/3Heh3apBXZUyneqM0pH
-	hM1waaf3aoSIhHIIFMwRm7PFg+qencCW54aQTPgtMaM6Kzg9nxdcDA7ca8g+Pw==
-Date: Thu, 15 Feb 2024 15:33:42 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Rob Herring <robh@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis
- Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v3 10/17] dt-bindings: net: pse-pd: Add another
- way of describing several PSE PIs
-Message-ID: <20240215153342.0be61fe0@kmaincent-XPS-13-7390>
-In-Reply-To: <377d2e0f-dc0c-400f-9c10-f4a158146ceb@lunn.ch>
-References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
-	<20240208-feature_poe-v3-10-531d2674469e@bootlin.com>
-	<20240209144349.GA3678044-robh@kernel.org>
-	<20240214141310.119364c4@kmaincent-XPS-13-7390>
-	<20240214164150.5be591d0@kmaincent-XPS-13-7390>
-	<20240215135130.GA4139246-robh@kernel.org>
-	<377d2e0f-dc0c-400f-9c10-f4a158146ceb@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=ZsVL3roLn5ZzHljGj+vaAjti80VZi5B763mXyyAuLe4=;
+	b=vWIb4OLp/vhkrgZFpv5tu5dUxykePFR0I8aVNyr5p6LdzMqgeEsnY3iRiWv8gZPTiDYvsE
+	co+yMqwNgC5hwi9wh5yfxZaUaaQcFmEEztuce7/t4duU/YAU8pxS+7iJ++d0ufOQDAdeGR
+	1OOGPsIwBLXCDbHG73yzB8XjgWE31cYOew3FnXkRyLk47nUydPI58a8UNNYD0KhI8Dz1Q5
+	Ht5yaDSTVwDNjYNjqmosgZtlsGK+erU8phZQl7l98FJ7Qf1cI0aS2Gqqy6cvK4dmFATH6e
+	N2r9h3iCGfsQz89qeBxZqDfSJyuqNYnGLL9k/H2q0ECjSY++CIuRcM/hVFq8fg==
+ARC-Authentication-Results: i=1;
+	rspamd-55b4bfd7cb-wrlld;
+	auth=pass smtp.auth=hostingeremail smtp.mailfrom=okanakyuz@okanakyuz.com
+X-Sender-Id: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Stop-Trouble: 67bfa2d9339aaa4a_1708008239900_3056963694
+X-MC-Loop-Signature: 1708008239900:2722775206
+X-MC-Ingress-Time: 1708008239900
+Received: from fr-int-smtpout5.hostinger.io ([UNAVAILABLE]. [89.116.146.168])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.126.119.136 (trex/6.9.2);
+	Thu, 15 Feb 2024 14:43:59 +0000
+From: Okan Akyuz <okanakyuz@okanakyuz.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=okanakyuz.com;
+	s=hostingermail-a; t=1708008236;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZsVL3roLn5ZzHljGj+vaAjti80VZi5B763mXyyAuLe4=;
+	b=GOdGEoF2PAzBMzmVx2LNMV0Uxji2RIF6W4v7AVjozPEQ8r7dzBT94+9wrz1EFoC9uFN4ML
+	9hlBkJw6U7ChNXe1wQQEZueCePOHDJzvqors5mWC4r3yTGKLJ3fhAqZ59PgJ8mwpmzdqUN
+	/rokLMaGQ8bQJJWbiBEtjbJ8Ec8MfxNSqmNXzPzIOjdP5evLGAfvh7srSHaWduSzSPuYwr
+	yerE8YUJHYHM6szHVJmy5VoRopnvKaYecs3SzgHKV+rVE6hdBuFtjm1MG2QSSRSJG/KR2P
+	aNa3U6ifklI7Mx1uU2NmO9hzi9D0/K/IC1fHl4EuUK2rM6s76upLqbAY0DxxSw==
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	okanakyuz@okanakyuz.com
+Subject: [PATCH 3/3] The URL of the datasheet seems to have changed.
+Date: Thu, 15 Feb 2024 17:34:29 +0300
+Message-ID: <20240215143429.18069-1-okanakyuz@okanakyuz.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 8bit
+X-CM-Envelope: MS4xfFCZA+rTQrfGErnwysmhRW6ed8HufZhBIM676TCDWVRFXQk79/rxWi59It2M+bjzYO1BJgtXKqfX6DOha4l/9Qi96QmcLwZLNYs6+Mcu03DfpPqX05g4 V/h3e2DAXlImoqGNG18wuuRrwLebg5pDbvHokrGypFyCCFj5Wr8VDVQ3JpjFYwIQx2e6Gg5oC8jptgFrC+Qo2ZQQY3rNeX4O+VfnWehGzUW9YzwcDfD97tmg mbW06qhT5CT4l1H6MviK7t5ykFZiN6LhPtMSZMi3SHZm/z2Ne2eN57aQfjGyPwvZRuEYeXjF4SIXFAMLGm9ZYhl4tRivyW1F+JJCzN5IapXlXqLB6642BOtn FFnhNJiBi6CMsETPQn/pF5G9V/y3NQQyToSpuQnSeIm06CbF2/X2oBKskHAWbC4ZJHiFMMGw7mTpvA1aHfU1T6vBcGdKLA==
+X-CM-Analysis: v=2.4 cv=apu0CzZV c=1 sm=1 tr=0 ts=65ce232c a=geHYaF3j5ifCImHjKwHHfg==:117 a=geHYaF3j5ifCImHjKwHHfg==:17 a=TiQ8hZ4ATvU4YVTt:21 a=-tA9vPf7AAAA:8 a=UXzzSC1OAAAA:8 a=gAnH3GRIAAAA:8 a=ODGrRrS54UuryLqHn6gA:9 a=vtdtr2SZiqPAgdHKmkdM:22 a=NXyddzfXndtU_1loVILY:22 a=oVHKYsEdi7-vN-J5QA_j:22
+X-AuthUser: okanakyuz@okanakyuz.com
 
-On Thu, 15 Feb 2024 15:01:08 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
+The datasheet is not reachable. Therefore, I replaced it with another
+one from the manufacturer's website.
 
-> > > Not so much used indeed:
-> > > $ git log --grep=3D"Sponsored" | grep Sponsored    =20
-> > >     Sponsored by:  The FreeBSD Foundation
-> > >     Sponsored by:  The FreeBSD Foundation
-> > >     Sponsored by:  The FreeBSD Foundation
-> > >     Sponsored by:  The FreeBSD Foundation
-> > >     Sponsored-by: Google Chromium project
-> > >     Sponsored: Google ChromeOS
-> > >     Sponsored: Google ChromeOS
-> > >=20
-> > > Is it ok to keep it? =20
-> >=20
-> > IMO, its use should be documented like other tags, or it should not be=
-=20
-> > used. Just write a sentence to the same effect. =20
->=20
-> Or include a patch to document it :-)
+Signed-off-by: Okan Akyuz <okanakyuz@okanakyuz.com>
+---
+ Documentation/hwmon/max6620.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It seems someone has already tried to send a patch to add this tag but it h=
-as
-not been accepted due to maintainers extra works bring by the tag:
-https://lore.kernel.org/lkml/20230817220957.41582-1-giulio.benetti@benettie=
-ngineering.com/
+diff --git a/Documentation/hwmon/max6620.rst b/Documentation/hwmon/max6620.rst
+index 84c1c44d3de4..d70173bf0242 100644
+--- a/Documentation/hwmon/max6620.rst
++++ b/Documentation/hwmon/max6620.rst
+@@ -11,7 +11,7 @@ Supported chips:
+ 
+     Addresses scanned: none
+ 
+-    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6620.pdf
++    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max6620.pdf
+ 
+ Authors:
+     - L\. Grunenberg <contact@lgrunenberg.de>
+-- 
+2.43.0
 
-I will replace it by a small sentence then.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
