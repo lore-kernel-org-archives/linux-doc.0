@@ -1,142 +1,153 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF511136648
-	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 16:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D0C131731;
+	Thu, 15 Feb 2024 17:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708015695; cv=none; b=rVasgKvmiMh9XhKHlRbuoD8LPEmFpwHfkKRB1ayWbVI2sHQ3uH4C9ltENUZwjUFnZg1k1JGKYr6nCdxW6mibK7w/+ETIlSzqQbEJ6Qd5GErxR1bGihy5ls6bGEPtjGC4yES3C0YTc9aWFN6EQGZm3LnmfgQIBpjmzyFqZDXqysw=
+	t=1708016410; cv=none; b=K3aAi2xZdrtcDKxCJQDbGZmbVwsm3nmzhHuPK1oQQyNqpLY0FP6A+hv9OWoUqR+Hzs5RUTGbkCyXfGhdKyqq8Jv5gJ1b2ONiVvrtQoIOTO2PGnguDE4wZMPTQzrqlnati6jh2LTN5RIv1d9mOf0OvfVtcvVDDnOFvSqKCmO+HP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708015695; c=relaxed/simple;
-	bh=9TO9rM05PYsgFPIWymZY990BiwuTMGTPoVWKOTW/5Ag=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XZT9IOJaOcqYmtwZy5u1Ta2nXltlDZxxbZV335zIs1dtiinmgColydJykxnx6sVX8OBmRP1bAVrshV/8ixUL4FpKQvbT1G5JelpUy3p4e785MzwPJ9UebEECShRkjjJmNgOTR1Sd5cMtjo6nsVY5AybC62T80xmeDS2eIIwDOU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EnbnGvf6; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1708016410; c=relaxed/simple;
+	bh=pk7QVe4QgcWvlAh/ynxTe68bky3FpJ+XYUBsXQt+Vz4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LE4TLGrpRo2++N401KHkPnTtHQKeYrANXYi4TUMHjEW5ukR6isMh8Utob3fduKAlB9LfUqeS+numKMnH3Kea4UBKwZfjjl7s9ujlvBadtjd8Lr4npUU7+uowHGCMoEStsvWU+/pTaBDh1AxeywEtWNXFnMc0P42LaUYJseEo7sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C/J1S7Q2; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EnbnGvf6"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-603fd31f5c2so18578487b3.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 08:48:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C/J1S7Q2"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6e0eacc5078so1011030b3a.0;
+        Thu, 15 Feb 2024 09:00:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708015693; x=1708620493; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1tI+hCE30y1jp9jG4DD8d4tpJXQ3JxVVysbuWcCVNic=;
-        b=EnbnGvf6qBn9DluDjUFMBAug9LH7ehPIMjVzChKOmKVWGkO63uM5+P3eGmEMu3I2+w
-         hYuNs6tQjTBwhzzn++VcATWdzg+9YbCpgJZ5rvZDxB8pBCpF2KUAWXuOvFK83srCGZMz
-         6IbiUFFa6jk6vPBIZUSJnbtJpTUTpXNCogIDyhOeoOxNLuNIXM1CLL2MGzJhuM/BbA/E
-         +N+WDdBEqgqmMStAyx5IPIuVotUpX9veTsI3Uc+uYFEZrQxAKLLI/BYMjSsgmXrO5zM9
-         9l93uMw5tho6Dc3A/WLlne58nbwFGCC6PVVUqrfcZqfgHbYIy8bc9hIx4CMUp9G9l1xm
-         pzwQ==
+        d=gmail.com; s=20230601; t=1708016408; x=1708621208; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=j8X2wgs720QDW2LTsvUkX4Xd2fXq1HeA2u5+0bOzQ5Q=;
+        b=C/J1S7Q2kyt0eKaNULZLuN5mt30sJEdVwqE0CLTvDuEQBkUU+d9GWXr139Lybzlx+O
+         TQlgiSx8LCuhyUe6PiEf1RLoX8sMzwfHabUqw79xkzLb3xYydhoZayClWP/58Kd23U8I
+         rl+BtU6C/XN4EoJB4joZvGbhLUCaYSgtjt347SbJK3w3UKgeo3xDiTN+IIaFe3l/2Jse
+         WDaNHPl8jOcfE7BpqvdeiTZKuCHu3j9Lr6CnlEVCEikFIOHnnK3yhhYSZgiLeXDBAMhb
+         /EDSrymT0vGTYpYSoRCq8E0UHQsRzbHdg3E6MwQUQNzJb97hb2qsUwgPP0Pv2sw9fTJo
+         fPOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708015693; x=1708620493;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1tI+hCE30y1jp9jG4DD8d4tpJXQ3JxVVysbuWcCVNic=;
-        b=K4Rz259zz1MpxHWvpLZFYx3tKiFuTEjntVOaOeJyXLWdE8G3TDdLID3hziMQvxqh3x
-         PjX+HU+M1WOQI7KpgdEQzjpPY7yOqlgH+PR+QYnLteuD6UQdRbdf8c0Xufdxm+y3Z7g/
-         BB32mTiRsn4HpRM1FhNOwGoR8GZfY6ZU5hTJpRrZmeYNSP9VYpeXkl0ImZGzrmLbFTA9
-         w8B4LYv15EBpQBdcY8oFuKbDUTpM70JoXNEF8XS2vngRtnEVDjmjw7N+AiPpc9Huz1Fq
-         kQF20TM6QP5AspvKIEq2GSHl7HtSzO9TpBo+ZOBx+LrPe2wYCFEqG80dORXcjbBjXIb0
-         MzVw==
-X-Forwarded-Encrypted: i=1; AJvYcCWTtn5g+nj7vp/ckWZbdptXQDHwaeLUV1xPagJYNv/rvtaWgo/tYLJZcT1al16I55yjZFqHZ5Rk24hvRfSiWy68kgiSXIh+VwvE
-X-Gm-Message-State: AOJu0YylHxdMhcNAlRa6fHae8eLMHYDqzH0X5oaGSE9OR1liqYsV5r1N
-	w0eH7ZMcsy+ZDHc6NAen8v2kvvsHSegIEwKujASxNJvXb49b404QQPvCDt1ZUvmoemXRk/N9Pde
-	fwr1zMhD3Lo2hEvbLa4tiP274rTv1WixaC/b6
-X-Google-Smtp-Source: AGHT+IEpKo2L6oplIyxSXpvbYHFzpW3S2D2HSJYFHw3+xQqVKIR17Ywy1D0gSKm8xVOUSCj/xezJ/KNnf15e7J0VTMo=
-X-Received: by 2002:a0d:e284:0:b0:607:77bd:711 with SMTP id
- l126-20020a0de284000000b0060777bd0711mr1808635ywe.11.1708015692595; Thu, 15
- Feb 2024 08:48:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708016408; x=1708621208;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j8X2wgs720QDW2LTsvUkX4Xd2fXq1HeA2u5+0bOzQ5Q=;
+        b=OnOEx3BD+Mz9StTiJpLG1Iq1yTQ0+ZSATApaKATy14Ig8LPj1A1aMYnpBCxRmd/C9v
+         cJtPx8/27WnEmDUrlykCK7Vwn//7HvdJjIHaL78cltOvnA4f4ZZ9Cs0Wb3jG+DjmfNnd
+         TE1LXGcoc28vhTVWwFrlgsXCraYA/nyikcoQQwIHq9rlHpt3k/5zHGvXLDOfoSEFdCsV
+         fX5PC0TxhkL4SPT6OfcbDGY1B7411i8CJxSASd9wj3d9x342R/+8x47IgrbOUrzoq65f
+         TgxvWhlOBGbBUKBXprz0b29w48X3qsbPh9unfbgzYxbJC5BJ7S3QVjFIEAuRb/UTxTO6
+         xjmg==
+X-Forwarded-Encrypted: i=1; AJvYcCVSehFpfppamSUtbCNumBwB4940momBKyVDpedlzXtkcTY52Y8Mfua2Znb5zS4adDKr/RghMl3COaRMuYBUrBIMDp+GaKYT9d/R48sRWw/mv0hauY2A791wbNxw5ybX00IGi8pAMeqI
+X-Gm-Message-State: AOJu0YzXOO+AZZUOpJHztWD50mqk8YDomBQuvx5z3u8HwOS22YtA0pvk
+	NtOvy5Q3CN4T4gV9Rd791trU58bwT1SqkdzXgOE79U94NG5b/yNX
+X-Google-Smtp-Source: AGHT+IFp9XjdsNy2SWMVQdrfUH6Pl9rTlRi0i18y3UXPQgDw3b2VmsMfLkzaflbIM9Nv/kD5El0nbQ==
+X-Received: by 2002:a05:6a00:cd4:b0:6e0:a025:feb2 with SMTP id b20-20020a056a000cd400b006e0a025feb2mr3431769pfv.11.1708016407653;
+        Thu, 15 Feb 2024 09:00:07 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id lc25-20020a056a004f5900b006e0eece1ca4sm1548049pfb.4.2024.02.15.09.00.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Feb 2024 09:00:06 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <da10b4b9-b950-4021-8737-d12cbccef8c9@roeck-us.net>
+Date: Thu, 15 Feb 2024 09:00:05 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-32-surenb@google.com>
- <Zc3X8XlnrZmh2mgN@tiehlicka> <CAJuCfpHc2ee_V6SGAc_31O_ikjGGNivhdSG+2XNcc9vVmzO-9g@mail.gmail.com>
- <Zc4_i_ED6qjGDmhR@tiehlicka>
-In-Reply-To: <Zc4_i_ED6qjGDmhR@tiehlicka>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 15 Feb 2024 08:47:59 -0800
-Message-ID: <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
-Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
-To: Michal Hocko <mhocko@suse.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] The datasheet URL has been changed.
+Content-Language: en-US
+To: Okan Akyuz <okanakyuz@okanakyuz.com>, jdelvare@suse.com, corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+References: <20240215151957.20855-1-okanakyuz@okanakyuz.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240215151957.20855-1-okanakyuz@okanakyuz.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 15, 2024 at 8:45=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrot=
-e:
->
-> On Thu 15-02-24 06:58:42, Suren Baghdasaryan wrote:
-> > On Thu, Feb 15, 2024 at 1:22=E2=80=AFAM Michal Hocko <mhocko@suse.com> =
-wrote:
-> > >
-> > > On Mon 12-02-24 13:39:17, Suren Baghdasaryan wrote:
-> > > [...]
-> > > > @@ -423,4 +424,18 @@ void __show_mem(unsigned int filter, nodemask_=
-t *nodemask, int max_zone_idx)
-> > > >  #ifdef CONFIG_MEMORY_FAILURE
-> > > >       printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poison=
-ed_pages));
-> > > >  #endif
-> > > > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> > > > +     {
-> > > > +             struct seq_buf s;
-> > > > +             char *buf =3D kmalloc(4096, GFP_ATOMIC);
-> > > > +
-> > > > +             if (buf) {
-> > > > +                     printk("Memory allocations:\n");
-> > > > +                     seq_buf_init(&s, buf, 4096);
-> > > > +                     alloc_tags_show_mem_report(&s);
-> > > > +                     printk("%s", buf);
-> > > > +                     kfree(buf);
-> > > > +             }
-> > > > +     }
-> > > > +#endif
-> > >
-> > > I am pretty sure I have already objected to this. Memory allocations =
-in
-> > > the oom path are simply no go unless there is absolutely no other way
-> > > around that. In this case the buffer could be preallocated.
-> >
-> > Good point. We will change this to a smaller buffer allocated on the
-> > stack and will print records one-by-one. Thanks!
->
-> __show_mem could be called with a very deep call chains. A single
-> pre-allocated buffer should just do ok.
+On 2/15/24 07:19, Okan Akyuz wrote:
+> The URL for the datasheet was not functional. It has been replaced
+> with the active one from the manufacturer's website.
+> 
+> Signed-off-by: Okan Akyuz <okanakyuz@okanakyuz.com>
+> ---
+>   Documentation/hwmon/max6620.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/hwmon/max6620.rst b/Documentation/hwmon/max6620.rst
+> index 84c1c44d3de4..d70173bf0242 100644
+> --- a/Documentation/hwmon/max6620.rst
+> +++ b/Documentation/hwmon/max6620.rst
+> @@ -11,7 +11,7 @@ Supported chips:
+>   
+>       Addresses scanned: none
+>   
+> -    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6620.pdf
+> +    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max6620.pdf
+>   
+>   Authors:
+>       - L\. Grunenberg <contact@lgrunenberg.de>
 
-Ack. Will do.
+Is this supposed to be v2 ? If so, please provide change logs.
 
->
-> --
-> Michal Hocko
-> SUSE Labs
+Neither "The datasheet URL has been changed" now the original
+"The URL of the datasheet seems to have changed" describes
+the patch.
+
+Please read and follow Documentation/process/submitting-patches.rst.
+
+Thanks,
+Guenter
+
