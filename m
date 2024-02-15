@@ -1,175 +1,225 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6844C132461;
-	Thu, 15 Feb 2024 15:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C84713248B;
+	Thu, 15 Feb 2024 15:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708009389; cv=none; b=gesmKtM0pzegseiEhTpoWn1nw/2W7miqlTEZ4WCpLH/0vKI5DBjFMK8x+qUsoKbTG/kmpUhyWtUC5Wsc37DtAzd48jExC8KeV5QQtwePaFL3BM2n8WXK9J0PMuBGW6L1zUal2Q85OcIveOw3TjZP11rKRCWWrNL0l3KFtbD0Z7A=
+	t=1708009756; cv=none; b=VswTsEt9Ke2d8V8x6gohS1AEUfhAlcs+tkndAFYLR9DA1isvAGXDaOghMLf/zmta9TJbAWkbdb2E0wYIN0JRNvtAteGP0Wnh3Kf0CeKr26t2xavO1K/V5yXQpQxvq0KdPV4sEGqDieeh7On4rSIfbafHJCw7h6L5tQf4TT/+qAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708009389; c=relaxed/simple;
-	bh=pKMvWqSNpDH5j4f/4uVNlDSGuJRg//bt7SddzxfDlNs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EkYDSWFmS7Rrt7kMNgPRFNwdgEReK3OfalRZ196An3vQM3nxPDg/JiN52GAtPYvErt+m13BLgUmDFsPzMSKgEJlmTZIM0XomYHhAsBHeyPT2Ka5DWAMxJkqsrFjPtaRMLTWeTgw+aLDO4hGcpAfoB7XFyCtyQwkPWgojS7qKI/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ABKTEcJJ; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ABKTEcJJ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1708009756; c=relaxed/simple;
+	bh=1dewdp2A0Zo42dyThGoQOQMbyk8kJSMF3Ua2SIJeM54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qpp0s7L2t5fS1fD+wN/i+oosLMLGiQ6PFwf47A/GtC8zxsxvsq7N+PF6Ys6DMWV2+HtpHYi+n5vhqbKuRrC7cYezf8MjgkMFZatSLppehitQ/XVFLPhfpyB9yb+PTtmrKES0Q1Acrzo1NxA51AC1+oVdbAvpu02zzvlXRDjGTNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApIWkTco; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ABKTEcJJ";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ABKTEcJJ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4A23C21B5D;
-	Thu, 15 Feb 2024 15:03:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708009383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zxPcn+LcDwI0imoN5yBcv9TPZ+gXrqFYsp2y4Ttalwg=;
-	b=ABKTEcJJ3FBZ6D2q3Xg6DBoo6MiwYn7vsZqpXGeTiLJO9cKmdj70oK7LDOpTn3KsPAiK61
-	f6bZ4YwN2ALDs2YvF2s7QxigQMKYHLG8l9Q9Y4chcOEzEkRNFw34YoN5xVf7XbDI7wyKbz
-	SJNsDHB/nvP6BGdVQMEqTCVJ0WYvtPg=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708009383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zxPcn+LcDwI0imoN5yBcv9TPZ+gXrqFYsp2y4Ttalwg=;
-	b=ABKTEcJJ3FBZ6D2q3Xg6DBoo6MiwYn7vsZqpXGeTiLJO9cKmdj70oK7LDOpTn3KsPAiK61
-	f6bZ4YwN2ALDs2YvF2s7QxigQMKYHLG8l9Q9Y4chcOEzEkRNFw34YoN5xVf7XbDI7wyKbz
-	SJNsDHB/nvP6BGdVQMEqTCVJ0WYvtPg=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C395613A53;
-	Thu, 15 Feb 2024 15:03:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UIOiLaYnzmUibwAAD6G6ig
-	(envelope-from <jgross@suse.com>); Thu, 15 Feb 2024 15:03:02 +0000
-Message-ID: <0bd8c620-7f80-44c4-ade3-b3d7951b48d8@suse.com>
-Date: Thu, 15 Feb 2024 16:03:02 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApIWkTco"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708009755; x=1739545755;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=1dewdp2A0Zo42dyThGoQOQMbyk8kJSMF3Ua2SIJeM54=;
+  b=ApIWkTcopMBYHHLcqaY4WvaivqTmGD4bX9BEWo70RJsYJ183w8vqA+TY
+   GUO8q+O1J4K2pNnGRkkIVY7K38oKM3fXYntwBSDrpv8RzITPPYuKoTJEa
+   TITDKVthtk2iDVJLlVfMBgWifkTl8Ha8ykCiztaBBuzCc6BRFk6puOcPo
+   PPbz8E4WpImeuqldPTUtYdhDQ7FzPUQ3ohKc/FuyDGUl+16oY1HKnK5oi
+   5fXS8mWIL3ddVT8xSik0Yytd4qSOBdhAwf2RLST9UlDH4nbiaPnSDVHL1
+   A8HlcaCAVX4o7sVD7sWPTZyAwDDTWatdNJJW/qjN5efBI5ZLW8tApb/eE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="5930139"
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="5930139"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 07:09:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826423681"
+X-IronPort-AV: E=Sophos;i="6.06,161,1705392000"; 
+   d="scan'208";a="826423681"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga001.jf.intel.com with SMTP; 15 Feb 2024 07:09:06 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Thu, 15 Feb 2024 17:09:05 +0200
+Date: Thu, 15 Feb 2024 17:09:05 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi:
+ Add Broadcast RGB property
+Message-ID: <Zc4pEfVRItn0ZCXE@intel.com>
+References: <Zb0M_2093UwPXK8y@intel.com>
+ <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+ <Zco-DQaXqae7B1jt@intel.com>
+ <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
+ <ZcsqoPCJDjA5PJUF@intel.com>
+ <dti6zcuzszhut5m4g2bxiwfogwctfhktv2mwuqlij7wtvh3bny@ry4mxpiqidmt>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] Documentation: Document the Linux Kernel CVE process
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, corbet@lwn.net,
- workflows@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- security@kernel.org, linux@leemhuis.info, Kees Cook <keescook@chromium.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Sasha Levin <sashal@kernel.org>,
- Lee Jones <lee@kernel.org>
-References: <2024021500-laziness-grimace-ed80@gregkh>
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-In-Reply-To: <2024021500-laziness-grimace-ed80@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.96
-X-Spamd-Result: default: False [-1.96 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 NEURAL_HAM_SHORT(-0.20)[-0.997];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RCPT_COUNT_TWELVE(0.00)[13];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 R_MIXED_CHARSET(0.83)[subject];
-	 FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,leemhuis.info,chromium.org,linuxfoundation.org,gmail.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <dti6zcuzszhut5m4g2bxiwfogwctfhktv2mwuqlij7wtvh3bny@ry4mxpiqidmt>
+X-Patchwork-Hint: comment
 
-On 15.02.24 13:10, Greg Kroah-Hartman wrote:
-> The Linux kernel project now has the ability to assign CVEs to fixed
-> issues, so document the process and how individual developers can get a
-> CVE if one is not automatically assigned for their fixes.
+On Thu, Feb 15, 2024 at 11:53:17AM +0100, Maxime Ripard wrote:
+> On Tue, Feb 13, 2024 at 10:38:56AM +0200, Ville Syrjälä wrote:
+> > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
+> > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrjälä wrote:
+> > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrjälä wrote:
+> > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
+> > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrjälä wrote:
+> > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard wrote:
+> > > > > > > > > > > Hi,
+> > > > > > > > > > > 
+> > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wick wrote:
+> > > > > > > > > > > > > >  /**
+> > > > > > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > > > > > >   *
+> > > > > > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Full vs Limited) used.
+> > > > > > > > > > > > > > + *      Infoframes will be generated according to that value.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      The value of this property can be one of the following:
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Automatic:
+> > > > > > > > > > > > > > + *              RGB Range is selected automatically based on the mode
+> > > > > > > > > > > > > > + *              according to the HDMI specifications.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Full:
+> > > > > > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > > > > > + *              Limited RGB Range is forced. Unlike the name suggests,
+> > > > > > > > > > > > > > + *              this works for any number of bits-per-component.
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > + *      Drivers can set up this property by calling
+> > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_property().
+> > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > This is a good time to document this in more detail. There might be two
+> > > > > > > > > > > > > different things being affected:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > All values of Broadcast RGB always affect the color pipeline processing
+> > > > > > > > > > > > > such that a full-range input to the CRTC is converted to either full- or
+> > > > > > > > > > > > > limited-range, depending on what the monitor is supposed to accept.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > When automatic is selected, does that mean that there is no signalling,
+> > > > > > > > > > > > > or that the signalling matches what the monitor is supposed to accept
+> > > > > > > > > > > > > according to the spec? Also, is this really HDMI specific?
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > When full or limited is selected and the monitor doesn't support the
+> > > > > > > > > > > > > signalling, what happens?
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Forgot to mention: user-space still has no control over RGB vs YCbCr on
+> > > > > > > > > > > > the cable, so is this only affecting RGB? If not, how does it affect
+> > > > > > > > > > > > YCbCr?
+> > > > > > > > > > > 
+> > > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and it looks like if
+> > > > > > > > > > > we're using a YCbCr format, i915 will always use a limited range while
+> > > > > > > > > > > vc4 will follow the value of the property.
+> > > > > > > > > > 
+> > > > > > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > > > > > That should explain why it's only affecting RGB.
+> > > > > > > > > 
+> > > > > > > > > Right. And the limited range option is called "Limited 16:235" despite
+> > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and history happens
+> > > > > > > > > to make names inconsistent too, that's fine and not an argument in
+> > > > > > > > > itself.
+> > > > > > > > > 
+> > > > > > > > > > Full range YCbCr is a much rarer beast so we've never bothered
+> > > > > > > > > > to enable it.
+> > > > > > > > > 
+> > > > > > > > > vc4 supports it.
+> > > > > > > > 
+> > > > > > > > Someone implemented it incorrectly then.
+> > > > > > > 
+> > > > > > > Incorrectly according to what documentation / specification? I'm sorry,
+> > > > > > > but I find it super ironic that i915 gets to do its own thing, not
+> > > > > > > document any of it, and when people try to clean things up they get told
+> > > > > > > that we got it all wrong.
+> > > > > > 
+> > > > > > FWIW, this was an i915 property and if another driver uses the same
+> > > > > > property name it must have the same behavior. Yes, it isn't standardized
+> > > > > > and yes, it's not documented (hence this effort here) but it's still on
+> > > > > > vc4 to make the property compatible.
+> > > > > 
+> > > > > How is it not compatible? It's a superset of what i915 provides, but
+> > > > > it's strictly compatible with it.
+> > > > 
+> > > > No it is not.
+> > > 
+> > > The property is compatible with i915 interpretation of it, whether you
+> > > like it or not. And that's what Sebastian was referring to.
+> > > 
+> > > > Eg. what happens if you set the thing to full range for RGB (which you
+> > > > must on many broken monitors), and then the kernel automagically
+> > > > switches to YCbCr (for whatever reason) but the monitor doesn't
+> > > > support full range YCbCr? Answer: you get crap output.
+> > > 
+> > > And that part is just moving goalposts.
+> > 
+> > No. Allowing users to get correct colors with broken displays
+> > is the sole reason why this property even exists.
 > 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> Signed-off-by: Lee Jones <lee@kernel.org>
-> ---
-> v4: Add MAINTAINER entry
->      Lots of tiny wording changes based on many reviews
->      Collected some Reviewed-by: tags
->      Fixed documenation build by properly referencing the security
->      process documentation file.
-> v3: fix up wording in security-bugs.rst based on the changes to the cve
->      assignment process from v1, thanks to a private reviewer for
->      pointing that out.
-> v2: Grammer fixes based on review from Randy
->      Updated paragraph about how CVE identifiers will be assigned
->      (automatically when added to stable trees, or ask us for one
->      directly before that happens if so desired)
+> HDMI 1.4, Section 6.6 - Video Quantization Ranges:
 > 
->   Documentation/process/cve.rst           | 120 ++++++++++++++++++++++++
->   Documentation/process/index.rst         |   1 +
->   Documentation/process/security-bugs.rst |   5 +-
->   MAINTAINERS                             |   5 +
->   4 files changed, 128 insertions(+), 3 deletions(-)
->   create mode 100644 Documentation/process/cve.rst
+>   If the sink’s EDID declares a selectable YCC Quantization Range
+>   (QY=1), then it shall expect limited range pixel values if it receives
+>   AVI YQ=0 and it shall expect full range pixel values if it receives
+>   AVI YQ=1. For other values of YQ, the sink shall expect pixel values
+>   with the default range for the transmitted video format.
 > 
-> diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
-> new file mode 100644
-> index 000000000000..6b244d938694
-> --- /dev/null
-> +++ b/Documentation/process/cve.rst
-> @@ -0,0 +1,120 @@
+> So, the only concern you have is if the EDID has QY set to 1 but the
+> monitor doesn't actually support it? If so, could we qualify the monitor
+> as a "broken display" and thus would require that property to apply to
+> YUV too?
 
-...
+Sinks that declare a selectable quantization range are not the
+problem, or at least I don't recall ever seeing one that lied about
+that. The problem is the sinks that don't have selectable quantization
+range, and which implement the default rules incorrectly. The only way
+to get correct colors on those is for the user to override the
+quantization range manually.
 
-> +Invalid CVEs
-> +------------
-> +
-> +If a security issue is found in a Linux kernel that is only supported by
-> +a Linux distribution due to the changes that have been made by that
-> +distribution, or due to the distribution supporting a kernel version
-> +that is no longer one of the kernel.org supported releases, then a CVE
-> +can not be assigned by the Linux kernel CVE team, and must be asked for
-> +from that Linux distribution itself.
-> +
-> +Any CVE that is assigned against the Linux kernel for an actively
-> +supported kernel version, by any group other than the kernel assignment
-> +CVE team should not be treated as a valid CVE.  Please notify the
-> +kernel CVE assignment team at <cve@kernel.org> so that they can work to
-> +invalidate such entries through the CNA remediation process.
+Typically TVs get it mostly right (though I have at least one that
+also expects limited range for 640x480 which is not correct), and 
+many (perhaps even most?) computer displays get it wrong (as in
+they always assume RGB to be full range).
 
-Today we (the Xen security team) are allocating CVEs for Xen-related
-kernel security bugs.
+We could in theory quirk those, but the quirk list would be enormous,
+and fragile to maintain because the user can also shoot themselves in
+the foot here by frobbing with the "black level"/etc. settings on the
+display itself. So we'd surely end up with lots of false positives
+on the quirk list.
 
-Does this mean we should do that via cve@kernel.org in future, or are
-you happy us continuing our process as today? If the latter, I think
-this should be noted somehow in this document in order to avoid complaints
-regarding CVEs allocated by us.
-
-
-Juergen (on behalf of the Xen security team)
+-- 
+Ville Syrjälä
+Intel
