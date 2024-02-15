@@ -1,180 +1,177 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB6412B14C
-	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 11:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4616469DFE;
+	Thu, 15 Feb 2024 11:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707997722; cv=none; b=hDEG7IwfE89wTW+U9TiNAzt3fGiPV+CHyeLGCKXreinDqH1U7oY0Rq/Jm9qj3qpU3ScpGzwpOxocyZHDdDWLCx1+Y9GeZcUARiuTvXeOWmvaiQn9ofKUetezIWMceUsrzfpP4CjPgYzhJ87VUuAdVekv2hqshhcz6pt7qXGdP3E=
+	t=1707997845; cv=none; b=aEmVJVjEZ+O27p/Lgrnr4K2FRiRBj2QiQRKK78m9qDCmpmi9Wt3LM2nPIBTiGjGHixULTPpqfkRssNUcvDkl84ai4OHmPnWD3B103EldhbRKF9zAHecmhJ2pmB1wh59VV6ytZb2DR009MKPZbuW+HW4pKKfxEJOX/0+xI5Zvuts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707997722; c=relaxed/simple;
-	bh=8IGtjDC8lwX138mc9T3n6QxlYh/K434+nFH09sU4g/E=;
+	s=arc-20240116; t=1707997845; c=relaxed/simple;
+	bh=VOnAZGdJlyPOJMTv09bm7xiQrXM7tmo6hqbCLdeAUN8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ac8bvrFOHlnlAty4mAbh9OQ5/corMk7tsgcaWKZ8+BdDGwxdK3ahIdaWyhRbo+wnwchve+llo4c4IxeJSLuzklIHUeSlj3Tzw+rqfjL/a8Nvp8E7iqVcq01SS6rk/+UeCj6TqlmBRgZoczyuMhBe+pQokC4Cjb+cjSV+9vQ9Vls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1raaCf-0007ES-Uk; Thu, 15 Feb 2024 12:46:57 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1raaCW-000sHg-HB; Thu, 15 Feb 2024 12:46:48 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1raaCW-005KD7-12;
-	Thu, 15 Feb 2024 12:46:48 +0100
-Date: Thu, 15 Feb 2024 12:46:48 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: linux-pwm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, James Clark <james.clark@arm.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Paul Cercueil <paul@crapouillou.net>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Michael Walle <mwalle@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Hammer Hsieh <hammerh0314@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
-	Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Robert Foss <rfoss@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Pavel Machek <pavel@ucw.cz>, 
-	Lee Jones <lee@kernel.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
-	Bjorn Andersson <quic_bjorande@quicinc.com>, Kees Cook <keescook@chromium.org>, Rob Herring <robh@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Douglas Anderson <dianders@chromium.org>, linux-doc@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Guenter Roeck <groeck@chromium.org>, linux-riscv@lists.infradead.org, 
-	Fabio Estevam <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jerome Brunet <jbrunet@baylibre.com>, 
-	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-rockchip@lists.infradead.org, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-leds@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, Jonas Karlman <jonas@kwiboo.se>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-mips@vger.kernel.org, asahi@lists.linux.dev, 
-	kernel@pengutronix.de, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v6 000/164] pwm: Improve lifetime tracking for pwm_chips
-Message-ID: <frrn4vofjuskb67rxrgnwqrsqioonglp7nidoueumgw2hemhxq@6hrsnivgobuw>
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=SPu8N69JCppDRV8dXSSH5ZkqLLwkEK6+jERZwSB5yO2qpX42FptADsJcJL3w51RdsPq6XMs1jOe8x2g0U5TuskAVHeyhp7Sc2wma1AjFtx15M9Lgsely9v+eEN3Dag6O6SiXvRqDE/Y6trt6lKL4CHGznvcAJS5HoboafW5Xigg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1jNKYzkL; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1jNKYzkL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E104C433F1;
+	Thu, 15 Feb 2024 11:50:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707997844;
+	bh=VOnAZGdJlyPOJMTv09bm7xiQrXM7tmo6hqbCLdeAUN8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=1jNKYzkLMaUu5FD+ms8xdddv1Cv3NlTOrDf0Z4mRCtbz0g4zKjxKgBDgXBahkjeqn
+	 6qMKdffB28cI95vG5M94vrXSlWVDrgVnRZPqxm1h7qXpbAQrYoa33gq9DRVQZ2Htnd
+	 gHtC4c1C4zjQtKAH1jQU29Kyacooc55H4FXQWjgI=
+Date: Thu, 15 Feb 2024 12:50:41 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, security@kernel.org,
+	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
+	Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
+Message-ID: <2024021530-plank-cornmeal-90eb@gregkh>
+References: <2024021430-blanching-spotter-c7c8@gregkh>
+ <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="t4o747itgdnx5oup"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
+
+On Wed, Feb 14, 2024 at 09:37:31AM +0100, Vegard Nossum wrote:
+> 
+> On 14/02/2024 09:00, Greg Kroah-Hartman wrote:
+> > diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
+> > new file mode 100644
+> > index 000000000000..6465e6a79c18
+> > --- /dev/null
+> > +++ b/Documentation/process/cve.rst
+> > @@ -0,0 +1,120 @@
+> > +CVEs
+> > +====
+> 
+> Document titles should have ==== above them as well, and then you would
+> need to shift all the other headings in this document (i.e. all the ---
+> should become ===).
+> 
+> Info here: https://docs.kernel.org/doc-guide/sphinx.html#specific-guidelines-for-the-kernel-documentation
+
+Really?  I copied this directly from
+Documentation/process/security-bugs.rst which is in the format that I
+used here.  Which one is incorrect, I'm confused.
+
+> > +The Linux kernel developer team does have the ability to assign CVEs for
+> > +potential Linux kernel security issues.  This assignment is independent
+> > +of the :doc:`normal Linux kernel security bug reporting
+> > +process<../process/security_bugs>`.
+> 
+> These documents are both under process/ so it should be enough to say:
+> 
+> :doc:`[...] <security-bugs>`
+> 
+> In fact, when building the docs with your patch applied, I see:
+> 
+> Documentation/process/cve.rst:15: WARNING: unknown document:
+> ./process/security_bugs
+> Documentation/process/cve.rst:42: WARNING: unknown document:
+> ./process/security_bugs
 
 
---t4o747itgdnx5oup
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Odd, I would have thought that going back a directory and then into it
+would work, as that's how filesystems normally are handled :)
 
-Hello,
+In fact, again, security-bugs.rst has this very format, which is why I
+used it, is it throwing that same warning?
 
-On Wed, Feb 14, 2024 at 10:30:47AM +0100, Uwe Kleine-K=F6nig wrote:
-> this is v6 of the series introducing better lifetime tracking for
-> pwmchips that addresses (for now theoretic) lifetime issues of pwm
-> chips. Addressing these is a necessary precondition to introduce chardev
-> support for PWMs.
->=20
-> Locking got more complicated due to non-sleeping chips, so I dropped
-> the character device patch because it got still more incomplete now.
-> Also I'm not yet entirely sure about patches #162 and #163 and I expect
-> them to change before they can go in. My plan for the next merge window
-> is to get the patches in up to #160. After that the addition of chardev
-> support (including correct locking) can continue without having to touch
-> the lowlevel driver. So the idea of this series is to get the driver
-> adaptions out of the way as this requires some cross-tree coordination.
->=20
-> The patches that touch files outside of drivers/pwm include:
->=20
->  - gpio: mvebu: Make use of devm_pwmchip_alloc() function
->    It already has an Ack by Linus Walleij.
->=20
->  - drm/bridge: ti-sn65dsi86: Make use of pwmchip_parent() accessor
->  - drm/bridge: ti-sn65dsi86: Make use of devm_pwmchip_alloc() function
->    The 2nd already has an Ack by Douglas Anderson which I tend to assume
->    good enough to merge this via my pwm tree, too. An Ack for the first
->    patch would be nice.
->=20
->  - leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
->    Already has an Ack by Lee Jones.
->=20
->  - staging: greybus: pwm: Change prototype of helpers to prepare further =
-changes
->  - staging: greybus: pwm: Make use of pwmchip_parent() accessor
->  - staging: greybus: pwm: Rely on pwm framework to pass a valid hwpwm
->  - staging: greybus: pwm: Drop unused gb_connection_set_data()
->  - staging: greybus: pwm: Rework how the number of PWM lines is determined
->  - staging: greybus: pwm: Make use of devm_pwmchip_alloc() function
->    The greybus patches already got an Ack by Greg Kroah-Hartman in an
->    earlier series, but I dropped it as the patches changed considerably.
+> Note the hyphen vs. underscore (it should have a hyphen like my line above).
 
-After getting the needed acks, I pushed out this series in
+Ah, ick, nevermind, my fault, I thought I built this with it added, I'll
+go fix this up and use the hyphen.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-=
-next
+> 
+> > +Process
+> > +-------
+> > +
+> > +As part of the normal stable release process, kernel changes that are
+> > +potentially security issues are identified by the developers responsible
+> > +for CVE number assignments and have CVE numbers automatically assigned
+> > +to them.  These assignments are published on the linux-cve-announce
+> > +mailing list as announcements on a frequent basis.
+> > +
+> > +Note, due to the layer at which the Linux kernel is in a system, almost
+> > +any bug might be exploitable to compromise the security of the kernel,
+> > +but the possibility of exploitation is often not evident when the bug is
+> > +fixed.  Because of this, the CVE assignment team is overly cautious and
+> 
+> What is the composition of the CVE assignment team, or is that secret?
+> Should this be a MAINTAINERS entry? (s@k.org is one.)
 
-up to patch #161.
+Yeah, it should be a MAINTAINERS entry, I'll add that as part of the
+next version of this patch.
 
-(But don't let you stop looking at the changes, reviews are still
-welcome.)
+As for the composition, it's not a "secret", but I'd prefer not to list
+it individually here.  As per the signed-off-by on this patch it's Lee,
+Sasha, and I for now, but I anticipate it will change over time, much
+like s@k.o has.
 
-Best regards
-Uwe
+> > +If the CVE assignment team misses a specific fix that any user feels
+> > +should have a CVE assigned to it, please email them at <cve@kernel.org>
+> > +and the team there will work with you on it.  Note that no potential
+> > +security issues should be sent to this alias, it is ONLY for assignment
+> > +of CVEs for fixes that are already in released kernel trees.  If you
+> > +feel you have found an unfixed security issue, please follow the
+> > +:doc:`normal Linux kernel security bug reporting
+> > +process<../process/security_bugs>`.
+> 
+> Same
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Thanks, will fix.
 
---t4o747itgdnx5oup
-Content-Type: application/pgp-signature; name="signature.asc"
+> > +Disputes of assigned CVEs
+> > +-------------------------
+> > +
+> > +The authority to dispute or modify an assigned CVE for a specific kernel
+> > +change lies solely with the maintainers of the relevant subsystem
+> > +affected.  This principle ensures a high degree of accuracy and
+> > +accountability in vulnerability reporting.  Only those individuals with
+> > +deep expertise and intimate knowledge of the subsystem can effectively
+> > +assess the validity and scope of a reported vulnerability and determine
+> > +its appropriate CVE designation.  Any attempt to modify or dispute a CVE
+> > +outside of this designated authority could lead to confusion, inaccurate
+> > +reporting, and ultimately, compromised systems.
+> 
+> Just to clarify, I think "dispute" here is used in the
+> Mitre/CVE-technical meaning of the word, correct? I assume people will
+> still have the right to say "hey, this doesn't look like a real issue
+> [because of X/Y/Z]" on a mailing list.
 
------BEGIN PGP SIGNATURE-----
+Yes, mailing list discussion is always good and encouraged and is what
+is covered here as well.  There is the MITRE use of "dispute" as well,
+and that too is allowed if needed, so this covers both paths.
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXN+acACgkQj4D7WH0S
-/k6nrwf9Huw1P/RTRggrOHnHFRGpBXi+TWvCPbsOC65CPiHeI7iVxtq/vUtQ4A6L
-CNA0O2W96568TwCEnxxCI6Be+7t8/H/Xb+oTs0yb6hblYkDhxYrXz+wAtoCTWOM8
-MI6xhfufB/JvOhgeX0iVMIx/TOc7gDY0wnFCS7bE15PPxMTjb1yF9Uo3az97CIld
-AF8InyaA81p8dcTlhmHzMa59LEFqoPzmNoySKqTIII7UuHmQRXOqV1RuEmKxN9Ho
-yRvisZgaqoinb8K7tXdw6G8HErBcN1aHM4OQBkZWI0ufVRNzQ8gT1sfoaRlsilOv
-yc/xo9Wl8bLPEKrjcpb9Hv/C+LgzyQ==
-=hkRd
------END PGP SIGNATURE-----
+> 
+> > --- a/Documentation/process/security-bugs.rst
+> > +++ b/Documentation/process/security-bugs.rst
+> > @@ -99,9 +99,8 @@ CVE assignment
+> >   The security team does not assign CVEs, nor do we require them for
+> >   reports or fixes, as this can needlessly complicate the process and may
+> >   delay the bug handling.  If a reporter wishes to have a CVE identifier
+> > -assigned, they should find one by themselves, for example by contacting
+> > -MITRE directly.  However under no circumstances will a patch inclusion
+> > -be delayed to wait for a CVE identifier to arrive.
+> > +assigned for a confirmed issue, they can contact the :doc:`kernel CVE
+> > +assignment team<../process/cve>` to obtain one.
+> 
+> Same here, this could be just <cve>.
 
---t4o747itgdnx5oup--
+I'll keep it to match the other references in this file :)
+
+many thanks for the review!
+
+greg k-h
