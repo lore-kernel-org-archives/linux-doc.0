@@ -1,37 +1,59 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEB63FC7;
-	Thu, 15 Feb 2024 01:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5713FC7
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 02:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707962257; cv=none; b=HaR59yPZzFGzN3dth0LNkovWQRF746cqPmqcjCYBq15O2Bd/tg90q7ZrgApGvDypB2ivZCc9WCW9Dub8JtrZ/+cQ0jNoC9WY2Zke6+SBbOi8R+Wsj8NkP7a5Zd0AYlarnO/Sshu1QKJb5kGWRSYsVDI1ciwZljVbzOWSg9w3r+0=
+	t=1707965019; cv=none; b=SKklpX06nsYB4ZajiWakiYYzq+8ckC3Ia/spyv8wERYt8/4Ggbtmh/LF4RczFTj2bZfJBskPT4kmntBwVYEpUE4bxc+YYmKgjAsJTH1vIjr7v39pGYMdlYLmkJDYoLXMC2SI9/UmLvURhrVxzersyDtx8ZUvWZjmmfux5JOyitQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707962257; c=relaxed/simple;
-	bh=88Qz9eFS1Y9K5U7QleKKZQI4CEyZ/DgYqYs6eEc0G1c=;
+	s=arc-20240116; t=1707965019; c=relaxed/simple;
+	bh=G10d7raIfR4Yi+lsaCDAnUnnqWmwrcy8RZx/DcWTnDs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f7dV04fYHZoWdWjzAo0lwiX+vZPm87HNTcBIzz9D4aiXdtpxyC9d4lp3ywJqwZ1GU45fxAVR4rXJBjySIS+Z8YN8k188NYFEzt4WQazYQKuGeciEu1/yz51OobCFybKcVz41y10A4RbEPFyNDHzJCJZseaGUr270KX3IqljMGos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MIlkEz7Z; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=qwlxRUKbjRSOrqff6nKFH2cXTukot2YoPHyHl0wo9cqTgxp9VyCp9Ksj5DwXpJ2tljFpzYob1EFihcGVmr0HmXaowVZ2kriYfeJFcsJqDG1ElrpLraMwUlcKPs2UdJ0s8hk8DUBAgIGyGAJ8FkslE2j+nlOP+Vv580McqMmpXL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S5qrgTxV; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MIlkEz7Z"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=A+G9YvrX/oVxjoyzS0ghgMs1YJikNrn1ZJ9/JanSdZA=; b=MIlkEz7ZJfbWJ/ycFROYwW77RF
-	rvToQo3TJ3tkK2fnq7XCIYiawsE124TvC9+rDaTc4FFPs/bl/ekteECIyxiVaXjp4HjsT3OzJ8rjq
-	EHJoEdo9zIyVlbLcJRsqI4c7PSbZ+Gyc64x0cTWUvrAtmtu8fV4NPoKTdgaLDs9G04FuEUnPdg2Qe
-	h7KdagzmGcEOxb1+uANLtXY7d471jfbXId1/aBvi4lJ6QhG5B9h5CHHEvhp5gzjQN7Ca7K6FAc+Ks
-	iuFQhC1y2HNPDhStotSPQte/rDSI5iAAZWNhEKLwsDhWFRRsUKRJxjItCgZYc8avFRdmi3Al1Nnnf
-	8ViCYGQA==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raR09-0000000Emlx-45G3;
-	Thu, 15 Feb 2024 01:57:26 +0000
-Message-ID: <51a442ec-3835-4282-982b-734c0962141c@infradead.org>
-Date: Wed, 14 Feb 2024 17:57:23 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S5qrgTxV"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d8ef977f1eso3534285ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Feb 2024 18:43:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707965017; x=1708569817; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=78Wf/iZ8RUUmG1Ne7OtvdNp7HqBIuuCroCCWtmHhnf0=;
+        b=S5qrgTxVlTX67tqeZCra5r0n3dpngNccil9QuiuJtEXRKsuN53kkKh49DNHaP8V9jo
+         TFSy4Jt/C8Esg1tT1kcPuULe5CKoRH6DQcxOAV42lotpoRRVd8+BUF9KMWLGSTq9qeJL
+         1hgygte+VrYi7omkT2BE30C0Jy7Y8ueaMdBvwcE6G6C9cUEavjuWZJzuOwVhiPdZsLhE
+         TrAhAJbwxyjTwe8CATs7pB1OQNWlbjSHp89jt6k/ZVlVch8fJpo1snLmaTVrpKBDyxbg
+         cTOnMPAcgo+EHUl8tUQYNdzbAr+uFJvzifvCWXWVVjvmSV184xGEyH9nc9YDnI12jncY
+         9PCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707965017; x=1708569817;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=78Wf/iZ8RUUmG1Ne7OtvdNp7HqBIuuCroCCWtmHhnf0=;
+        b=BCNCMAGZzOfSU79LbCQTFee0YIRf7rqLTfCYWW5qIPmgPKzKxoibMgtoUxedjiqnUc
+         d2LtaolC9p9HoxvokcxC/xxkU11LHj3rZxRg0KpkyWSA+27zxs9HikB+UUO37+ZCBN+z
+         BBEa8AwBRdIHd5ghIHzDGTJoTqFNmJ8+8igXBL7qrjct4/EAspmlrl4rMV1oApjTfxE+
+         9R7WyIrfvV/TrEm4zanenKSBcKConByi1jZ4ccVYIaHyHgxTNTFHemAyy/YuR49V3KvU
+         x44yhoXDKACTSFF3VPImpmKp42Cdk/IhT932WcAk4BZ5cyPg5oJdb3pVeZgozpNcvsZH
+         9XoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUps6uIqMc+lCs+NiERv/59kaMW7/NwMMo0Hy4z+eyqspzKXVbUQOFiBw80GX5riul1zqNP6dlZ9H0YWH2/ZdaXzpqmlhcfpi7x
+X-Gm-Message-State: AOJu0YznykWnPL5TPQ2UPie2IbZdhBA3YvJ+gMrqj/J8U4PQaH3xQnJd
+	xSoNqr0+3bUpQlgaHgTmtEiclr7yYaUJUuGKyjDxXGrk4T8GYWG2e7cHLnbC
+X-Google-Smtp-Source: AGHT+IG3U3wzDjoDjaOPki4JoqjCvBXdoroul/JAesHH5wNkEO6t9DiPnh8p/lim1xjmCcydK1hDRQ==
+X-Received: by 2002:a17:902:8649:b0:1d9:5b89:98e4 with SMTP id y9-20020a170902864900b001d95b8998e4mr439009plt.41.1707965016767;
+        Wed, 14 Feb 2024 18:43:36 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id kv5-20020a17090328c500b001db57f03e19sm146254plb.4.2024.02.14.18.43.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Feb 2024 18:43:36 -0800 (PST)
+Message-ID: <aa42e525-3dd5-4cd9-a8c5-6e9d92c3ad15@gmail.com>
+Date: Thu, 15 Feb 2024 11:43:32 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,96 +61,83 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/31] ntsync: Introduce the ntsync driver and character
- device.
+Subject: Re: [PATCH] docs: Only load the translations extension for HTML
+ output
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: Vegard Nossum <vegard.nossum@oracle.com>,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <87sf1uy6f5.fsf@meer.lwn.net>
 Content-Language: en-US
-To: Elizabeth Figura <zfigura@codeweavers.com>, Arnd Bergmann
- <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org, =?UTF-8?Q?Andr=C3=A9_Almeida?=
- <andrealmeid@igalia.com>, Wolfram Sang <wsa@kernel.org>,
- Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20240214233645.9273-1-zfigura@codeweavers.com>
- <20240214233645.9273-2-zfigura@codeweavers.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240214233645.9273-2-zfigura@codeweavers.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87sf1uy6f5.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Jon,
 
-On 2/14/24 15:36, Elizabeth Figura wrote:
-> ntsync uses a misc device as the simplest and least intrusive uAPI interface.
+On 2024/02/15 8:25, Jonathan Corbet wrote:
+> This extension brings no value for other output formats and can create
+> problems with the pdfdocs build.
 > 
-> Each file description on the device represents an isolated NT instance, intended
-> to correspond to a single NT virtual machine.
-> 
-> Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 > ---
->  drivers/misc/Kconfig  |  9 ++++++++
->  drivers/misc/Makefile |  1 +
->  drivers/misc/ntsync.c | 52 +++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 62 insertions(+)
->  create mode 100644 drivers/misc/ntsync.c
+>  Documentation/conf.py | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index 4fb291f0bf7c..bdd8a71bd853 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -504,6 +504,15 @@ config OPEN_DICE
->  	  measured boot flow. Userspace can use CDIs for remote attestation
->  	  and sealing.
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 5830b01c5642..6071d3e24375 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -55,7 +55,13 @@ needs_sphinx = '2.4.4'
+>  extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
+>                'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+>                'maintainers_include', 'sphinx.ext.autosectionlabel',
+> -              'kernel_abi', 'kernel_feat', 'translations']
+> +              'kernel_abi', 'kernel_feat']
+> +#
+> +# Only enable the translation extension if we are building the HTML docs;
+> +# it brings no value otherwise and can cause problems.
+> +#
+> +if 'html' in sys.argv:
+> +    extensions.append('translations')
+
+I tested incremental build of latexdocs against Sphinx 7.2.6 as follows:
+
+    make cleandocs
+    make htmldocs
+    make latexdocs
+
+Without this change, "make latexdocs" completes 2 or 3 minutes
+quicker than full builds.
+
+With this change applied and against Sphinx 7.2.6, "make latexdocs"
+slows down significantly (the same as the slowdown of incremental
+builds reported elsewhere), and it ends up in an exception, whose
+message reads:
+
+--------------------------
+WARNING: unknown node type: <LanguagesNode: <#text: 'Chinese (Simpl ...'><#text: 'Chinese (Tradi ... ...>
+
+Exception occurred:
+  File "/home/akira/sphinx-7.2.6/lib/python3.10/site-packages/docutils/nodes.py", line 2068, in unknown_departure
+    raise NotImplementedError(
+NotImplementedError: <class 'sphinx.writers.latex.LaTeXTranslator'> departing unknown node type: LanguagesNode
+The full traceback has been saved in /tmp/sphinx-err-3inve171.log, if you want to report the issue to the developers.
+--------------------------
+
+I don't see the error against Sphinx 4.3.2 (of Ubuntu 22.04).
+So it is (again) dependent on Sphinx or docutils version.
+
+For v6.8, how about loading translations extension with
+Sphinx<6.1.3 or Sphinx>=7.2 for all the builders.
+
+Note that Linux distros to be released in a couple of month,
+Ubuntu 24.04 and Fedora 40 have Sphinx 7.2.6 in their pre-release
+repository.  openSUSE Leap 15.5 already has 7.2.6 as a package
+of the name python311-Sphinx.
+
+        Thanks, Akira
+
 >  
-> +config NTSYNC
-> +	tristate "NT synchronization primitive emulation"
-> +	help
-> +	  This module provides kernel support for emulation of Windows NT
-> +	  synchronization primitives. It is not a hardware driver.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called ntsync.
-> +
->  	  If unsure, say N.
-
-It looks like the "If unsure" line belongs to the OPEN_DICE kconfig entry
-above here. If you want one for NTSYNC, please add one.
-
->  
->  config VCPU_STALL_DETECTOR
-
-
-> diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
-> new file mode 100644
-> index 000000000000..e4969ef90722
-> --- /dev/null
-> +++ b/drivers/misc/ntsync.c
-> @@ -0,0 +1,52 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * ntsync.c - Kernel driver for NT synchronization primitives
-> + *
-> + * Copyright (C) 2024 Elizabeth Figura
-
-It would be nice to have your email address above...
-
-> + */
-> +
-
-> +
-> +MODULE_AUTHOR("Elizabeth Figura");
-
-but at least please add it in MODULE_AUTHOR(). Yes it's optional, but
-roughly 7900 of 10400 entries do include it (according to my rough
-grepping).
-
-Yes, I know that it's in MAINTAINERS.
-
-> +MODULE_DESCRIPTION("Kernel driver for NT synchronization primitives");
-> +MODULE_LICENSE("GPL");
-
-thanks.
--- 
-#Randy
+>  if major >= 3:
+>      if (major > 3) or (minor > 0 or patch >= 2):
