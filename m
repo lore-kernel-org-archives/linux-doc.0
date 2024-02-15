@@ -1,58 +1,58 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB7912B17C
-	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 11:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D565129A73
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 11:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707995449; cv=none; b=HK+7WEUh47rbNFFuDCQqAwSK91w516dT6poXgCwHfr0g7BUsSCGO74gLMWQm8Zlmy0moAA8bmOd/OBs2N9unTz8jswNio47XiulyEyHhBQCXluW1vpLWcCmCJImvjm9wM0WQD4BgIWqdoP5YkYN4RZMtoSOCki66mScttXjCfpo=
+	t=1707996176; cv=none; b=MTGZK4Q95RWsvRwdc3K0C+FHHzIopDn9w1/yoM7EHTacqTRbf6Sy86+iWwQ2AUo9d0vS958ZHr4k5MA0GukfcIicwR3JAGNK0YFZs742eZ2JINnHT2sf6WD9b8MRplRAN/cQ5H2VPcroOjuOxR9QYicc7EiBl9IDwKlodFr9s2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707995449; c=relaxed/simple;
-	bh=BAP4ykgtywomJf+mWXXZ5eMuWYJ/NKDhztpjwb/COcw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=ZHquwUbXy0wcpYNfMFOnR+zwggH1lNDth8W6rVJIp45EWlERZvEmj1JvK2hQiUsQNjhNM7RRfxPQTmSeMgiP0oVQAJjobmyA/4IkQPx1rRfGDKoB2xvibOmSc73Ddoalt/SFKPPZ7M0Hv8tAdPx0L+e2QCLgfVbA15I/hvBkK6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eaW+QcdI; arc=none smtp.client-ip=209.85.215.177
+	s=arc-20240116; t=1707996176; c=relaxed/simple;
+	bh=mG0LW+GpjdBaCjgCYourVXx6g/9QKI2UvOOKChi3FVs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fQK+7J0jTeDLCNAP8IKlq7SaIzEdik9TH8vfGvL+dF+F4dwKRI/KeUwXP819f+osJp7zwSdEqURBMwrBU4EUNqt+hRz72RzNYAxQXe73WxotFPicKAypYsP4ZA8cUJOadcO5+st4+sLwkqn78TgiFTmPnoQNg2L/wufv2fbkFlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TNzyKAZ5; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eaW+QcdI"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5cdf76cde78so629538a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 03:10:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TNzyKAZ5"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d751bc0c15so7105735ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 03:22:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707995447; x=1708600247; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eXuQEhUgYXwgsNMFJHbQyq+fkOj4TLENtN7726xctAQ=;
-        b=eaW+QcdIMxy3rEWxsI36bsWXWsnOSPh6AvwaF/qW3JY5W59s3eHkes21C+C3iPRdC+
-         6hG7OaOlCR2IqRNrl0vEbhGRyFqXhpPTg6kq+KGR5ylMt4f7BhZXPNapYSUWOr16uEja
-         txjOXpqfk7dl+pQ3wnsOZNkendhYbBiZ281xfUosgYHqjmCdHM+pOMtnASi4xIGeIGuG
-         GrL/0zO/FvMcZudOtEKhUPfrBEiN2FkI5oUrJ2SZXR/PKZz5DpArnqMlzGc5ItRpUWBd
-         EMNs3+H2SmWJ4DjIKgpBYCNwamL+NgwxjubTNtwe0ktl4SZ266ZCtCnKsHHoyfl/LE4l
-         C5Fg==
+        d=gmail.com; s=20230601; t=1707996174; x=1708600974; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZkOXC5c461FQNoS143aOPxpKt5S2ei7XBpsihkr4PNc=;
+        b=TNzyKAZ5W2TUQW2iB5yMrmp3LnUp/yjdtXSrxIYpGOrb7TGuqnfnBFwtu1TrAdaCCw
+         IvqPtD51GEBSXg6VsTEm7NDhcedauTk2i9o1chQrKp3nCrSjQVNqpe+syljPtrzBYyu4
+         GQryV7/2dqZq95PMP5FFCwODanaZzDUFDB9+VUNG3Pr7sKD6oIKTMGi4hYM2pIXn9WzP
+         j/pgzEvwqkxN2apCDBb7S62L4hxuTNs8Rj8vEuYpCRLvBw6tVk6E7qZiUpMhGk4r5NkQ
+         Bza6m0OhIGhbnrIBceAXVmdDEEG9vunkeuQ3bpIDtH8uZICWu+xROdjumI5+6IIRdul1
+         efXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707995447; x=1708600247;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1707996174; x=1708600974;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eXuQEhUgYXwgsNMFJHbQyq+fkOj4TLENtN7726xctAQ=;
-        b=EqhcPrCDNcDjt0k1n7IDS/3SdvHag471ztqnhdLUJY1gg01C84NM/63uW6+eReNpKL
-         G8RD0TR4rzY9CEpQ3XZWqezD+Qas7IBr3e4284u9lZa/vGsT9Cvsv10igxNGjwm1/t7K
-         hs9OH10TemGydxgkQkpeP5ldl9zEPmCXcpIbOrQ9FHt02Hzl8ZS1yewEI60QInPh3MsG
-         CQXrfPF+PK/WTE3V4UvvQrdL9Swy5JbD/AUTc2Q58YZKMDZSXtZeNXx1nZl9+uZjzAfi
-         uKAqLDrkNBoeawA2J/VW6QiFiZXi8OchZM0A93cM3V3iQ+IUxrWTFtzUA3kMEv2WT3AC
-         +7mA==
-X-Gm-Message-State: AOJu0Yzz66G5k3Z1BjO2AiDLptE3GUwEPHwzjaUPkXh9nZnnZgJ+migv
-	xQbPF2Ss0TLOo6/081gDf6RhMn6fp+3CRELE8pquQEDZw0/qrKJ/
-X-Google-Smtp-Source: AGHT+IG3otWKyJW6dTlf5hueVwk2XGiqYrqLzPis1fYFktigJSezRZr30Dqaif/5Zd8hcg50VqTApg==
-X-Received: by 2002:a17:90b:4d06:b0:299:1fe1:cf5e with SMTP id mw6-20020a17090b4d0600b002991fe1cf5emr211031pjb.30.1707995446842;
-        Thu, 15 Feb 2024 03:10:46 -0800 (PST)
+        bh=ZkOXC5c461FQNoS143aOPxpKt5S2ei7XBpsihkr4PNc=;
+        b=HYqsTz9vsvZHnMj1VRkc3CqLN75OdGlG9Ik/2GDZP2b2EWvnahYf7Ml19qTs2RW/If
+         g2/qmHSuuqFCBMMafJihf1Op529y+fFtizDH1QcDXass3pDKypUpAvRR9ddqbaExp44z
+         M9k3/a/PlXMCLZM9hK3UVAX6tfVDGKWztMMGzQNan+Jfo0dOnGzPWtmbLBaj/sNZEzW0
+         CIx47bxLwsaVcl19inl5JTSI2fhalX+GeZ1JTOdet8tthAVjken5KBblT2Ht0MjgnaRB
+         orpxn39J4lo4VSMeHpnYhKdqpL3zzZZLkmhDFsXKtYbK7yjpNOYtQQ78wAZVLROTWxHU
+         reHQ==
+X-Gm-Message-State: AOJu0YzFTNdQpLpsW7qXLPVJg153A+x5dBV3rG6gWxIs/FRfEBFylf1R
+	JvqftjGwVL0ll/qqzuJ7hIOclJko9Ibr6B8oXD8Iux786/GjecSt
+X-Google-Smtp-Source: AGHT+IEQL6dXkvfHnrl795waSaGDZ1qE3P6A6eh8YDfCF75xzLatDEcQS8Y2r55IlVFpEWPPDtqDsw==
+X-Received: by 2002:a05:6a20:37a9:b0:1a0:762c:7caa with SMTP id q41-20020a056a2037a900b001a0762c7caamr1224080pze.31.1707996174582;
+        Thu, 15 Feb 2024 03:22:54 -0800 (PST)
 Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id r13-20020a17090ad40d00b00298d2182f1asm3161405pju.55.2024.02.15.03.10.45
+        by smtp.gmail.com with ESMTPSA id c7-20020aa78c07000000b006e03a640007sm1084906pfd.71.2024.02.15.03.22.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Feb 2024 03:10:46 -0800 (PST)
-Message-ID: <d34e3dce-0a16-48fc-b3dd-e83ff3568baa@gmail.com>
-Date: Thu, 15 Feb 2024 20:10:44 +0900
+        Thu, 15 Feb 2024 03:22:54 -0800 (PST)
+Message-ID: <dae665be-d2b4-4e53-af38-b160787e7327@gmail.com>
+Date: Thu, 15 Feb 2024 20:22:53 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,72 +60,50 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Only load the translations extension for HTML
- output
-To: Vegard Nossum <vegard.nossum@oracle.com>
-References: <87sf1uy6f5.fsf@meer.lwn.net>
- <aa42e525-3dd5-4cd9-a8c5-6e9d92c3ad15@gmail.com>
- <3c037ee8-210b-4bb9-9877-35637749d2b1@oracle.com>
+Subject: Re: [PATCH] docs: translations: use attribute to store current
+ language
 Content-Language: en-US
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Akira Yokosawa <akiyks@gmail.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <20240215064109.1193556-1-vegard.nossum@oracle.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <3c037ee8-210b-4bb9-9877-35637749d2b1@oracle.com>
+In-Reply-To: <20240215064109.1193556-1-vegard.nossum@oracle.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Vegard,
+On Thu, 15 Feb 2024 07:41:09 +0100, Vegard Nossum wrote:
+> Akira Yokosawa reported [1] that the "translations" extension we added in
+> commit 7418ec5b151f ("docs: translations: add translations links when they
+> exist") broke the build on Sphinx versions v6.1.3 through 7.1.2 (possibly
+> others) with the following error:
+> 
+>     Exception occurred:
+>       File "/usr/lib/python3.12/site-packages/sphinx/util/nodes.py", line 624, in _copy_except__document
+>         newnode = self.__class__(rawsource=self.rawsource, **self.attributes)
+>                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>     TypeError: LanguagesNode.__init__() missing 1 required positional argument: 'current_language'
+>     The full traceback has been saved in /tmp/sphinx-err-7xmwytuu.log, if you want to report the issue to the developers.
+> 
+> Solve this problem by making 'current_language' a true element attribute
+> of the LanguagesNode element, which is probably the more correct way to do
+> it anyway.
+> 
+> Tested on Sphinx 2.x, 3.x, 6.x, and 7.x.
+> 
+> [1]: https://lore.kernel.org/all/54a56c2e-a27c-45a0-b712-02a7bc7d2673@gmail.com/
 
-On 2024/02/15 15:22, Vegard Nossum wrote:
-> 
-> On 15/02/2024 03:43, Akira Yokosawa wrote:
->> On 2024/02/15 8:25, Jonathan Corbet wrote:
->>> +#
->>> +# Only enable the translation extension if we are building the HTML docs;
->>> +# it brings no value otherwise and can cause problems.
->>> +#
->>> +if 'html' in sys.argv:
->>> +    extensions.append('translations')
->>
->> I tested incremental build of latexdocs against Sphinx 7.2.6 as follows:
-> 
-> [...]
-> 
->> WARNING: unknown node type: <LanguagesNode: <#text: 'Chinese (Simpl ...'><#text: 'Chinese (Tradi ... ...>
->>
->> Exception occurred:
->>    File "/home/akira/sphinx-7.2.6/lib/python3.10/site-packages/docutils/nodes.py", line 2068, in unknown_departure
->>      raise NotImplementedError(
->> NotImplementedError: <class 'sphinx.writers.latex.LaTeXTranslator'> departing unknown node type: LanguagesNode
->> The full traceback has been saved in /tmp/sphinx-err-3inve171.log, if you want to report the issue to the developers.
-> 
-> Jon, this is pretty much what I said would happen here:
-> 
-> https://lore.kernel.org/all/8b51b6d6-0360-4f42-9b96-02e0ccd0b34f@oracle.com/
-> 
-> I have a proper fix that should fix all errors everywhere:
-> 
-> https://lore.kernel.org/all/4806c264-1076-401b-bb5f-283fb7b68fb3@oracle.com/
-
-Oh, that's even better!
+Let me add a couple of tags below.
 
 > 
-> Why not use that? I'll do a proper submission, I was just waiting a
-> couple of days to see if anybody else would would test it too.
+> Fixes: 7418ec5b151f ("docs: translations: add translations links when they exist")
+> Reported-by: Akira Yokosawa <akiyks@gmail.com>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+Closes: https://lore.kernel.org/all/54a56c2e-a27c-45a0-b712-02a7bc7d2673@gmail.com/
+Tested-by: Akira Yokosawa <akiyks@gmail.com>  # Sphinx 4.3.2, 5.3.0 and 6.2.1
 
-I didn't respond because I mistook your words
+        Thanks, Akira
 
-> I'll test a bit more and submit a proper patch if this works.
+> ---
+>  Documentation/sphinx/translations.py | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 
-and decided to wait for a proper patch from you.  I was thinking
-the delay meant there was something you needed to work further...
-
-I've just tested your proper patch and it worked across v4.3.2 (of
-Ubuntu 22.04) and V6.2.1 (of Fedora 39), among others.
-
-Many thanks,
-Akira
-
-> 
-> 
-> Vegard
