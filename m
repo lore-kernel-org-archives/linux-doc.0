@@ -1,111 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FB5132C04;
-	Thu, 15 Feb 2024 17:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809E31369AC;
+	Thu, 15 Feb 2024 17:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708019403; cv=none; b=BeRHgq8h/b2P6WLOe3saNfRtuZc+YFCizSXk4nA5OCIEFMAfhz+yR3lWb+xJY3TipJjcGh0KegdOo3hP5kYySco1Xk8m4u7NkmzHdm/rB95Z9j5SHI3rw/jluHD7i2r/+76E8PStzPw5YFUIB2mDb4ONQrhe90OHnPpVYCPHY5E=
+	t=1708019522; cv=none; b=Lw5PzTjARDVN3vjIppRICtQNpapiJOfUeqb6md/ObjYD4N03tdjUVVY8XNVRdLvx39g7i+O2nPIqmpOf9XZLOoU5cIO7qZCK7iM9o5HkBieYhQAx8HXpns9R7Fd/72OHeCjYCq7ntG8g3gqLOcXZeTgi4pykfT58B6VdYpaOhL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708019403; c=relaxed/simple;
-	bh=6iQEyzYwkfviCF0e55aaTe03PfZ0ULlRw8Re/HVfXG4=;
+	s=arc-20240116; t=1708019522; c=relaxed/simple;
+	bh=M6zXTumOL2shrnbpTbNe6dcztXS6mmrTVGsLmlPGQoY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JxRnF6QcBZ+VtCu7Fitb0xRl99d0m0wVSDNLTbvKmbnKJjr5DwQv7RAMPruKNwHSgAFFhF3FMBbGLE37X/3f2+JvVQcy+FUs4/kYB5i3e6bLtOv0RJJ4Vh5BpWt/9gVRIOMsSW16jPKJGk/RoO/wZME1a5ZuDs46q00jIlThlvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uOe3plOE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=F/mPh9B8TFywnmUjrW5FvIzPd6hPlwQj+OIYAWCmo2RTD5xyeBkfLInmYkiavGxr3pCmXOVwduOY6MM6kRR6mSbdinm5UkYRAbBbrotifa8pYuQ3MOqE9YPzdMwYQp29lqR9qu5UqIcQvRfTYZrvg2so8gLwbZuknIHDHZDs3K0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=gsNS5axL; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uOe3plOE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CDCDC433C7;
-	Thu, 15 Feb 2024 17:50:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708019402;
-	bh=6iQEyzYwkfviCF0e55aaTe03PfZ0ULlRw8Re/HVfXG4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uOe3plOEdv4hi0f9UwZO1CKVPuo7vyj8zfyB/Vcjs79ilrzKx2dCW7wkj2WIW6xRp
-	 lY4lvr+dDPR+87ZGwsahxBrziCUjClG3S8DwVGeKSu6YdjdWM1Ci8VcdQTppTwQ5yF
-	 YdbPga9Kf9il4NVPS7eqyfAuJhpRcgkbZhFLQfFU=
-Date: Thu, 15 Feb 2024 18:49:59 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, security@kernel.org,
-	Kees Cook <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <2024021518-repressed-sinless-7111@gregkh>
-References: <2024021430-blanching-spotter-c7c8@gregkh>
- <CAKXUXMw-xZ_w6prrdTG5Vs=QL1EDvwGv1M9r2PT14LE+HxWUHQ@mail.gmail.com>
- <2024021532-commode-knickers-3895@gregkh>
- <12454500.O9o76ZdvQC@natalenko.name>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="gsNS5axL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=afifmMcrSbICMT6eW/B4pDL5KgJCwV2V/YrMyURwkms=; b=gsNS5axLRq3buRV6dXpy+Bz2As
+	8UXaY7jygcMiSlnXuOamtkRuVun1KmDgFmKGqN5cX53zP9UdBrWpreEjbzvNTW1Knmqt7VmBo/0pI
+	4M2SnqUkG4OMzJ4OdowkDh+L8Ggg+jPwosskYbdlI0dGpnfXN3dZgxznbLiGynmBvU5M=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1raftr-007umH-W8; Thu, 15 Feb 2024 18:51:55 +0100
+Date: Thu, 15 Feb 2024 18:51:55 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v3 14/17] dt-bindings: net: pse-pd: Add bindings
+ for PD692x0 PSE controller
+Message-ID: <65099b67-b7dc-4d78-ba42-d550aae2c31e@lunn.ch>
+References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
+ <20240208-feature_poe-v3-14-531d2674469e@bootlin.com>
+ <20240209145727.GA3702230-robh@kernel.org>
+ <ZciUQqjM4Z8Tc6Db@pengutronix.de>
+ <618be4b1-c52c-4b8f-8818-1e4150867cad@lunn.ch>
+ <Zc3IrO_MXIdLXnEL@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <12454500.O9o76ZdvQC@natalenko.name>
+In-Reply-To: <Zc3IrO_MXIdLXnEL@pengutronix.de>
 
-On Thu, Feb 15, 2024 at 05:10:50PM +0100, Oleksandr Natalenko wrote:
-> Hello.
+> Hm.. good question. I didn't found the answer in the spec. By combining all
+> puzzle parts I assume, different Alternative configurations are designed
+> to handle conflict between "PSE Physical Layer classification" and PHY
+> autoneg.
 > 
-> On čtvrtek 15. února 2024 13:04:56 CET Greg Kroah-Hartman wrote:
-> > On Wed, Feb 14, 2024 at 09:34:38AM +0100, Lukas Bulwahn wrote:
-> > > On Wed, Feb 14, 2024 at 9:01 AM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > The Linux kernel project now has the ability to assign CVEs to fixed
-> > > > issues, so document the process and how individual developers can get a
-> > > > CVE if one is not automatically assigned for their fixes.
-> > > >
-> > > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > > > Signed-off-by: Lee Jones <lee@kernel.org>
-> > > > ---
-> > > > v3: fix up wording in security-bugs.rst based on the changes to the cve
-> > > >     assignment process from v1, thanks to a private reviewer for
-> > > >     pointing that out.
-> > > > v2: Grammer fixes based on review from Randy
-> > > >     Updated paragraph about how CVE identifiers will be assigned
-> > > >     (automatically when added to stable trees, or ask us for one
-> > > >     directly before that happens if so desired)
-> > > >
-> > > 
-> > > Hi Greg, Sasha, Lee,
-> > > 
-> > > Generally, I think this is a great step forward on the whole "security
-> > > vulnerability mess" and this will certainly help me and others in the
-> > > embedded space to argue to update to recent stable kernel versions.
-> > > This can then finally put the practice of shipping multiple-year-old
-> > > kernel versions to an end. Often this was just done with the argument
-> > > that there is not a recent CVE and fix assigned to some recent stable
-> > > kernel version---and integrators think updates to recent kernel stable
-> > > versions are not needed and not recommended.
-> > > 
-> > > I am looking forward to seeing what and how many stable commits are
-> > > going to get CVEs assigned. If Greg's policy from the Kernel Recipes
-> > > 2019 presentation comes into play, every git kernel hash (GKH)---at
-> > > least in the stable tree---could get a CVE identifier (just to be on
-> > > the safe side). But I assume you are going to use some expert
-> > > knowledge, heuristics or some machine-learning AI to make some commits
-> > > in the stable tree carrying a CVE identifier and some others not.
-> > 
-> > Yes, that "expert knowledge" will be "review all patches by hand" just
-> > like we do today for all that are included in the stable trees.
+> Here is how multi-pulse Physical Layer classification is done:
+> https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2020/07/Figure_5.5f2094553a61c.png
 > 
-> Not undermining your efforts in any way, but I'd like to get an honest answer: is this really true? For instance,
+> this is the source:
+> https://www.electronicdesign.com/technologies/power/whitepaper/21137799/silicon-labs-90-w-power-over-ethernet-explained
 > 
-> $ git log --oneline v6.7.1..v6.7.2 | wc -l
-> 641
+> To avoid classification conflict with autoneg. Assuming, PHY on PD side
+> will be not powered until classification is completed. The only source
+> of pulses is the PHY on PSE side (if it is not under control of software
+> on PSE side or Midspan PSE is used), so aneg pulses should be send on
+> negative PoE pair? This all is just speculation, I would need to ask
+> some expert or do testing.
 > 
-> Is it physically possible to actually review all these backports in just five days?
+> If this assumption is correct, PHY framework will need to know exact
+> layout of MDI-X setting and/or silent PHY until PSE classification is done.
 
-I did, yes.  And have been doing so for 15+ years, practice makes it
-easier :)
+Ideally, we don't want to define a DT binding, and then find it is
+wrong for 1000BaseT and above and we need to change it.
 
-thanks,
+So, either somebody needs to understand 1000BaseT and can say the
+proposed binding works, or we explicitly document the binding is
+limited to 10BaseT and 100BaseT.
 
-greg k-h
+I'm not sure the second solution will actually fly. This was being
+tested with Marvell Prestera switch. I doubt it even has any Fast
+Ethernet ports.
+
+	Andrew
+
