@@ -1,249 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C2117581;
-	Thu, 15 Feb 2024 11:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB7912B17C
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 11:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707994804; cv=none; b=Lg7lhnELP7IS3274rbgCy5DFF5o7FZ90hrP2Pap4QJi+0y5Nc/2MplqffVAiOTC68nLp3kbag3eHH+U9U0ZtufRiTdWvfrgMDvbp7jSzxDbzi//7eRlwKvX//apsB9isF05rvq15q0xO0Q/bf0tHfhhal8YUTzTccdy0nKEmrFg=
+	t=1707995449; cv=none; b=HK+7WEUh47rbNFFuDCQqAwSK91w516dT6poXgCwHfr0g7BUsSCGO74gLMWQm8Zlmy0moAA8bmOd/OBs2N9unTz8jswNio47XiulyEyHhBQCXluW1vpLWcCmCJImvjm9wM0WQD4BgIWqdoP5YkYN4RZMtoSOCki66mScttXjCfpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707994804; c=relaxed/simple;
-	bh=Ljo22OLLV1jsYk36eFmaaPdGKB/DzUQf8sEwgakSRIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yo1o47SY+k5xn+YmZIb6/MK9OWsPRRBKwkNIH74CcoL6sNaBiRJVSpqdDPnliPT7m9px8+hYakFdBKtcgrzHBoeC3UQGuS3dyJKri04zUvyT49Aoy0FoevZdpD4aDpzjeoL7RxyHVj2N2AHrWrUeUo6uKnyELtf71htsXcvxxLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjCNBHd3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707995449; c=relaxed/simple;
+	bh=BAP4ykgtywomJf+mWXXZ5eMuWYJ/NKDhztpjwb/COcw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=ZHquwUbXy0wcpYNfMFOnR+zwggH1lNDth8W6rVJIp45EWlERZvEmj1JvK2hQiUsQNjhNM7RRfxPQTmSeMgiP0oVQAJjobmyA/4IkQPx1rRfGDKoB2xvibOmSc73Ddoalt/SFKPPZ7M0Hv8tAdPx0L+e2QCLgfVbA15I/hvBkK6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eaW+QcdI; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjCNBHd3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBC5BC433C7;
-	Thu, 15 Feb 2024 11:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707994804;
-	bh=Ljo22OLLV1jsYk36eFmaaPdGKB/DzUQf8sEwgakSRIE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QjCNBHd3MZI6fRfVp7a6EoNWM616T5+u1n3Gf4bZLB4kjTRfsQTP8F/kWttSSeKv9
-	 QburFf6ryiGXRiidxyJZCgfnhAX4P7ArXA8rqrziRC6lA619UHo1/phVHn5v/HdVjD
-	 nOhC/aBrya8y9SfT6a4CuZ3+xdiIKmjI0Ozpd6rIIbT8y5sl/LJFQvI+7mxPA08NhX
-	 lsquCp+j3U8h7mXjn7+mDQHcleMtdEc8sp5/uflqTrlWTEO4QHtuMo4VUhyZIVLVLF
-	 mYmN81mQ12sZngJ2Y9Wws0QKIPlsc9vp8yvm2+LolXIRSwxyzLpT031jL2rhqPxCTD
-	 DOK1Tcdk4tRsA==
-Date: Thu, 15 Feb 2024 12:00:01 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v5 08/44] drm/connector: hdmi:
- Add Broadcast RGB property
-Message-ID: <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
-References: <73peztbeeikb3fg6coxu3punxllgtyrmgco34tnxkojtsjbr3s@26bud3sjbcez>
- <Zb0M_2093UwPXK8y@intel.com>
- <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
- <Zb0aYAapkxQ2kopt@intel.com>
- <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
- <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
- <Zco-DQaXqae7B1jt@intel.com>
- <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
- <20240212170618.GA1372043@toolbox>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eaW+QcdI"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5cdf76cde78so629538a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 03:10:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707995447; x=1708600247; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=eXuQEhUgYXwgsNMFJHbQyq+fkOj4TLENtN7726xctAQ=;
+        b=eaW+QcdIMxy3rEWxsI36bsWXWsnOSPh6AvwaF/qW3JY5W59s3eHkes21C+C3iPRdC+
+         6hG7OaOlCR2IqRNrl0vEbhGRyFqXhpPTg6kq+KGR5ylMt4f7BhZXPNapYSUWOr16uEja
+         txjOXpqfk7dl+pQ3wnsOZNkendhYbBiZ281xfUosgYHqjmCdHM+pOMtnASi4xIGeIGuG
+         GrL/0zO/FvMcZudOtEKhUPfrBEiN2FkI5oUrJ2SZXR/PKZz5DpArnqMlzGc5ItRpUWBd
+         EMNs3+H2SmWJ4DjIKgpBYCNwamL+NgwxjubTNtwe0ktl4SZ266ZCtCnKsHHoyfl/LE4l
+         C5Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707995447; x=1708600247;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eXuQEhUgYXwgsNMFJHbQyq+fkOj4TLENtN7726xctAQ=;
+        b=EqhcPrCDNcDjt0k1n7IDS/3SdvHag471ztqnhdLUJY1gg01C84NM/63uW6+eReNpKL
+         G8RD0TR4rzY9CEpQ3XZWqezD+Qas7IBr3e4284u9lZa/vGsT9Cvsv10igxNGjwm1/t7K
+         hs9OH10TemGydxgkQkpeP5ldl9zEPmCXcpIbOrQ9FHt02Hzl8ZS1yewEI60QInPh3MsG
+         CQXrfPF+PK/WTE3V4UvvQrdL9Swy5JbD/AUTc2Q58YZKMDZSXtZeNXx1nZl9+uZjzAfi
+         uKAqLDrkNBoeawA2J/VW6QiFiZXi8OchZM0A93cM3V3iQ+IUxrWTFtzUA3kMEv2WT3AC
+         +7mA==
+X-Gm-Message-State: AOJu0Yzz66G5k3Z1BjO2AiDLptE3GUwEPHwzjaUPkXh9nZnnZgJ+migv
+	xQbPF2Ss0TLOo6/081gDf6RhMn6fp+3CRELE8pquQEDZw0/qrKJ/
+X-Google-Smtp-Source: AGHT+IG3otWKyJW6dTlf5hueVwk2XGiqYrqLzPis1fYFktigJSezRZr30Dqaif/5Zd8hcg50VqTApg==
+X-Received: by 2002:a17:90b:4d06:b0:299:1fe1:cf5e with SMTP id mw6-20020a17090b4d0600b002991fe1cf5emr211031pjb.30.1707995446842;
+        Thu, 15 Feb 2024 03:10:46 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id r13-20020a17090ad40d00b00298d2182f1asm3161405pju.55.2024.02.15.03.10.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Feb 2024 03:10:46 -0800 (PST)
+Message-ID: <d34e3dce-0a16-48fc-b3dd-e83ff3568baa@gmail.com>
+Date: Thu, 15 Feb 2024 20:10:44 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7ujblr6jhcr73aj6"
-Content-Disposition: inline
-In-Reply-To: <20240212170618.GA1372043@toolbox>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Only load the translations extension for HTML
+ output
+To: Vegard Nossum <vegard.nossum@oracle.com>
+References: <87sf1uy6f5.fsf@meer.lwn.net>
+ <aa42e525-3dd5-4cd9-a8c5-6e9d92c3ad15@gmail.com>
+ <3c037ee8-210b-4bb9-9877-35637749d2b1@oracle.com>
+Content-Language: en-US
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <3c037ee8-210b-4bb9-9877-35637749d2b1@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi Vegard,
 
---7ujblr6jhcr73aj6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2024/02/15 15:22, Vegard Nossum wrote:
+> 
+> On 15/02/2024 03:43, Akira Yokosawa wrote:
+>> On 2024/02/15 8:25, Jonathan Corbet wrote:
+>>> +#
+>>> +# Only enable the translation extension if we are building the HTML docs;
+>>> +# it brings no value otherwise and can cause problems.
+>>> +#
+>>> +if 'html' in sys.argv:
+>>> +    extensions.append('translations')
+>>
+>> I tested incremental build of latexdocs against Sphinx 7.2.6 as follows:
+> 
+> [...]
+> 
+>> WARNING: unknown node type: <LanguagesNode: <#text: 'Chinese (Simpl ...'><#text: 'Chinese (Tradi ... ...>
+>>
+>> Exception occurred:
+>>    File "/home/akira/sphinx-7.2.6/lib/python3.10/site-packages/docutils/nodes.py", line 2068, in unknown_departure
+>>      raise NotImplementedError(
+>> NotImplementedError: <class 'sphinx.writers.latex.LaTeXTranslator'> departing unknown node type: LanguagesNode
+>> The full traceback has been saved in /tmp/sphinx-err-3inve171.log, if you want to report the issue to the developers.
+> 
+> Jon, this is pretty much what I said would happen here:
+> 
+> https://lore.kernel.org/all/8b51b6d6-0360-4f42-9b96-02e0ccd0b34f@oracle.com/
+> 
+> I have a proper fix that should fix all errors everywhere:
+> 
+> https://lore.kernel.org/all/4806c264-1076-401b-bb5f-283fb7b68fb3@oracle.com/
 
-On Mon, Feb 12, 2024 at 06:06:18PM +0100, Sebastian Wick wrote:
-> On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
-> > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
-> > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
-> > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
-> > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4 wro=
-te:
-> > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard wrote:
-> > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4l=E4=
- wrote:
-> > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripard w=
-rote:
-> > > > > > > > > > Hi,
-> > > > > > > > > >=20
-> > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian Wic=
-k wrote:
-> > > > > > > > > > > > >  /**
-> > > > > > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > > > > > >   *
-> > > > > > > > > > > > > + * Broadcast RGB
-> > > > > > > > > > > > > + *      Indicates the RGB Quantization Range (Fu=
-ll vs Limited) used.
-> > > > > > > > > > > > > + *      Infoframes will be generated according t=
-o that value.
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      The value of this property can be one of=
- the following:
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      Automatic:
-> > > > > > > > > > > > > + *              RGB Range is selected automatica=
-lly based on the mode
-> > > > > > > > > > > > > + *              according to the HDMI specificat=
-ions.
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      Full:
-> > > > > > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > > > > > + *              Limited RGB Range is forced. Unl=
-ike the name suggests,
-> > > > > > > > > > > > > + *              this works for any number of bit=
-s-per-component.
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > > > + *      Drivers can set up this property by call=
-ing
-> > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_prope=
-rty().
-> > > > > > > > > > > > > + *
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > This is a good time to document this in more detail=
-=2E There might be two
-> > > > > > > > > > > > different things being affected:
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > > > > > 2. The color pipeline processing
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > All values of Broadcast RGB always affect the color=
- pipeline processing
-> > > > > > > > > > > > such that a full-range input to the CRTC is convert=
-ed to either full- or
-> > > > > > > > > > > > limited-range, depending on what the monitor is sup=
-posed to accept.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > When automatic is selected, does that mean that the=
-re is no signalling,
-> > > > > > > > > > > > or that the signalling matches what the monitor is =
-supposed to accept
-> > > > > > > > > > > > according to the spec? Also, is this really HDMI sp=
-ecific?
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > When full or limited is selected and the monitor do=
-esn't support the
-> > > > > > > > > > > > signalling, what happens?
-> > > > > > > > > > >=20
-> > > > > > > > > > > Forgot to mention: user-space still has no control ov=
-er RGB vs YCbCr on
-> > > > > > > > > > > the cable, so is this only affecting RGB? If not, how=
- does it affect
-> > > > > > > > > > > YCbCr?
-> > > > > > > > > >=20
-> > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, and =
-it looks like if
-> > > > > > > > > > we're using a YCbCr format, i915 will always use a limi=
-ted range while
-> > > > > > > > > > vc4 will follow the value of the property.
-> > > > > > > > >=20
-> > > > > > > > > The property is literally called "Broadcast *RGB*".
-> > > > > > > > > That should explain why it's only affecting RGB.
-> > > > > > > >=20
-> > > > > > > > Right. And the limited range option is called "Limited 16:2=
-35" despite
-> > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and his=
-tory happens
-> > > > > > > > to make names inconsistent too, that's fine and not an argu=
-ment in
-> > > > > > > > itself.
-> > > > > > > >=20
-> > > > > > > > > Full range YCbCr is a much rarer beast so we've never bot=
-hered
-> > > > > > > > > to enable it.
-> > > > > > > >=20
-> > > > > > > > vc4 supports it.
-> > > > > > >=20
-> > > > > > > Someone implemented it incorrectly then.
-> > > > > >=20
-> > > > > > Incorrectly according to what documentation / specification? I'=
-m sorry,
-> > > > > > but I find it super ironic that i915 gets to do its own thing, =
-not
-> > > > > > document any of it, and when people try to clean things up they=
- get told
-> > > > > > that we got it all wrong.
-> > > > >=20
-> > > > > FWIW, this was an i915 property and if another driver uses the sa=
-me
-> > > > > property name it must have the same behavior. Yes, it isn't stand=
-ardized
-> > > > > and yes, it's not documented (hence this effort here) but it's st=
-ill on
-> > > > > vc4 to make the property compatible.
-> > > >=20
-> > > > How is it not compatible? It's a superset of what i915 provides, but
-> > > > it's strictly compatible with it.
-> > >=20
-> > > No it is not.
-> >=20
-> > The property is compatible with i915 interpretation of it, whether you
-> > like it or not. And that's what Sebastian was referring to.
-> >=20
-> > > Eg. what happens if you set the thing to full range for RGB (which you
-> > > must on many broken monitors), and then the kernel automagically
-> > > switches to YCbCr (for whatever reason) but the monitor doesn't
-> > > support full range YCbCr? Answer: you get crap output.
-> >=20
-> > And that part is just moving goalposts.
->=20
-> But it's really not.
+Oh, that's even better!
 
-It really is. This whole discussion started by "well it would be nice if
-we made that property handled by the core", and we're now at the "we
-need to deal with broken YCbCr displays and i915 opinion about them"
-stage. After creating documentation, unit tests, etc. It's the textbook
-definition of moving goalposts. And while i915 won't be affected by all
-that work.
+> 
+> Why not use that? I'll do a proper submission, I was just waiting a
+> couple of days to see if anybody else would would test it too.
 
-That series has been stuck for multiple iterations on pointless and
-mundane debates while the biggest part and whole point of it is not
-getting any review. So yeah, sorry, it's frustrating.
+I didn't respond because I mistook your words
 
-> The Broadcast RGB property kind of works from a user space perspective
-> because it's a workaround for broken sinks. If a sink expects limited
-> range we can force full range. If this however affects YCbCr modes as
-> well, then this isn't a workaround for broken RGB range anymore
-> because it now breaks YCbCr.
+> I'll test a bit more and submit a proper patch if this works.
 
-Or, you know, it's a workaround for broken YCbCr display.
+and decided to wait for a proper patch from you.  I was thinking
+the delay meant there was something you needed to work further...
 
-> Sorry, but vc4 just has to change.
->=20
-> And again: let's please stop trying to improve the property.
+I've just tested your proper patch and it worked across v4.3.2 (of
+Ubuntu 22.04) and V6.2.1 (of Fedora 39), among others.
 
-I'm not. I'm super close to just dropping that patch entirely and keep
-the current situation that seems to work fine for everyone.
+Many thanks,
+Akira
 
-Maxime
-
---7ujblr6jhcr73aj6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZc3usAAKCRDj7w1vZxhR
-xUOcAPsFDv7RLl3qbYbEO9cMd3YT0Mx2eLivHvf3dB/UGMSz0QEAqPyXmKeZnkyC
-qKM4LbWO65EO3EMbSppQ/HMoRyV2CAg=
-=aE2T
------END PGP SIGNATURE-----
-
---7ujblr6jhcr73aj6--
+> 
+> 
+> Vegard
