@@ -1,135 +1,191 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D22BA37
-	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 06:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BECE0211C;
+	Thu, 15 Feb 2024 06:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707979286; cv=none; b=ZTXmxqXTWEpi5rRAkVROlfLxJpn69I4/RzT5VBruGuotrmt4Bq5b5S2UHbLqs6VKdyUD+Ahq17gjbII/uNxk6KYTFM8Avkw7I/YPalDo/q5zgFej7zCXshboEEqK/tlDYkXFlUTrocbDyY8o98J+NMrzxjVBRuMrUJN94SIWD8s=
+	t=1707979386; cv=none; b=Md9VE2/ApzOWSzrztPWrQjMhlgZekWDIiIEI5kChPl9Oc/fAFjeLAViDuYn/F6DT1crzGip28GtLZRt4ruiOqsZGhKPvXyLEq7OMt4y7RtRXfGkQnygoySj/nKEuW4zGA9BA1Cx45XoebGFtvxy6XmVf+Sb6juqRooigyGc3oMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707979286; c=relaxed/simple;
-	bh=1JI+NvvPPx0mKVRQGP1iGBRIZHBmDWgrRWO1W6B95uE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CspJYwagT+DuREla19NR7xM8ERboVOCgQU2FxKeEwNwyq5bcPtM4Ewb7cDBRoeHlf7jfmP0lMjMaTXHA52M4JJ2EVppZxx/O7wbGy8eWqHx+o8RIJM6tU2YKZjanY0ifJQnpQGINSqrByeznf2A5e60b+fdrgk2pCNB4h7zYy0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=EegriTCn; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1707979386; c=relaxed/simple;
+	bh=bFiX7l/dkvvas2y9mVAwdKZIWk+ygNpgsck+Owe+Lq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=X2gXySraJ6qU/ECqjXTE/na5SU1IeDauOCMtDRit7AWFuKL5+NhivfcalB5VDgqii2XMlQGWXFOdlpn2i0vCf8jGJlW7HihxRJZPAm9mkI+qtgzzyF7tI1gtdpoiYbh5vjE1vnCBclxR1KGRuQbHvsaHXCpiVKpPRbmvDr3tRPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=hQ3fK5AL; arc=none smtp.client-ip=77.93.223.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EegriTCn"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41EMhukE007049;
-	Thu, 15 Feb 2024 06:41:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=RibD2ymXoVa0vnJk0htb0vf7Cs8s/HYLVETgjZZCq3M=;
- b=EegriTCnT/+xwAV4VmBZgYbj3b7P3SKzcqp8DnfQS4CMHBanSWGsCawCtU/rs1MdDmhp
- BaUxUDYWituJYDP7DTLOAEzOmerFm3X7OZtCkxsG5vk5GxT2SUmum0Hkzy4unu67KwyY
- H9JihMjVRXprde5KoQFkEuFHm1IMAt1k8LzQsg8HsOLQLJ9bmoEfM+ixq7L7AAgsbFH2
- Ou6UGc44ysqiFdvGJDwxaiRkPFOvXYRXWZYHtbM9IUCGA9NWdSR9wPxhZpuY822b6Aez
- 6mlV4KyH+DcyRpcyalzLn/G2DeyQb6/NX2lUU956lItbzCMIZPQDp9uOLhDpUAj7q/fn Ug== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w92db16g1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Feb 2024 06:41:21 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 41F5G6rU024690;
-	Thu, 15 Feb 2024 06:41:16 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3w5ykgbk0r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Feb 2024 06:41:16 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41F6fG2N001537;
-	Thu, 15 Feb 2024 06:41:16 GMT
-Received: from localhost.localdomain (dhcp-10-175-43-240.vpn.oracle.com [10.175.43.240])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3w5ykgbk09-1;
-	Thu, 15 Feb 2024 06:41:15 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs: translations: use attribute to store current language
-Date: Thu, 15 Feb 2024 07:41:09 +0100
-Message-Id: <20240215064109.1193556-1-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="hQ3fK5AL"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 21CDD1A3976;
+	Thu, 15 Feb 2024 07:42:58 +0100 (CET)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1707979378; bh=roTSoTjD1emgQbuZBBx1xt9ZwmvzvUB+EtlQG2bp7ok=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=hQ3fK5ALBbXSZMz5v2tBvspwuzmMEyb6ks+phJIRLvodwLMM/EfAoZaSTGpESGGki
+	 VtOafw1tFGW+kcl56pvlpyTE3FLYNZH9VvNgSOIK4uOVB1EIx63hparlv/+IvmcS4f
+	 WQjWelg0QcwUvLf4xHH9F3/PdauiETogjpgX8txcnOT6hpvmv+URq9N1w/Q3yOxnjD
+	 anheVqX40snEpKW2uTYwVEmhZcazMBXmDHEugQ+KqRm2qlLw24Rz48Ug6jIpmzyFiu
+	 Zk7c8NXkno2VZr9wu/RQQYDT16KRyuMRDDVh/M56I3mbmQ94Z+U4wf0PYylLyAlar4
+	 Ro2zwEQHkpezg==
+Date: Thu, 15 Feb 2024 07:42:57 +0100
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Petr Tesarik <petrtesarik@huaweicloud.com>,
+ Jonathan Corbet <corbet@lwn.net>, David Kaplan <david.kaplan@amd.com>,
+ Larry Dewey <larry.dewey@amd.com>, Elena Reshetova
+ <elena.reshetova@intel.com>, Carlos Bilbao <carlos.bilbao@amd.com>, "Masami
+ Hiramatsu (Google)" <mhiramat@kernel.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Petr Mladek <pmladek@suse.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Eric DeVolder <eric.devolder@oracle.com>, Marc
+ =?UTF-8?B?QXVyw6hsZQ==?= La France <tsi@tuyoix.net>, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Nhat Pham <nphamcs@gmail.com>, "Christian Brauner
+ (Microsoft)" <brauner@kernel.org>, Douglas Anderson
+ <dianders@chromium.org>, Luis Chamberlain <mcgrof@kernel.org>, Guenter
+ Roeck <groeck@chromium.org>, Mike Christie <michael.christie@oracle.com>,
+ Maninder Singh <maninder1.s@samsung.com>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Roberto Sassu <roberto.sassu@huaweicloud.com>, Petr Tesarik
+ <petr.tesarik1@huawei-partners.com>, Kees Cook <keescook@chromium.org>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Subject: Re: [PATCH v1 5/5] sbm: SandBox Mode documentation
+Message-ID: <20240215074257.10e00a53@meshulam.tesarici.cz>
+In-Reply-To: <xg7iz7syomv3oobjktgn76fyxms4vfs66jul56ub36prwnncxm@hsjhc5m72ipq>
+References: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
+	<20240214113035.2117-6-petrtesarik@huaweicloud.com>
+	<20240214053053.982b48d993ae99dad1d59020@linux-foundation.org>
+	<2024021425-audition-expand-2901@gregkh>
+	<20240214155524.719ffb15@meshulam.tesarici.cz>
+	<2024021415-jokester-cackle-2923@gregkh>
+	<20240214173112.138e0e29@meshulam.tesarici.cz>
+	<g3llwlzlhatvz2a23cntx7lscqarepq4uyaq6wne6my7ddo3mk@6b64pjcnykah>
+	<20240214210937.3a19945f@meshulam.tesarici.cz>
+	<xg7iz7syomv3oobjktgn76fyxms4vfs66jul56ub36prwnncxm@hsjhc5m72ipq>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-15_06,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0
- mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402150049
-X-Proofpoint-GUID: gTAOHlwRMR7WANMWOlxzEyZU2oab3uWx
-X-Proofpoint-ORIG-GUID: gTAOHlwRMR7WANMWOlxzEyZU2oab3uWx
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Akira Yokosawa reported [1] that the "translations" extension we added in
-commit 7418ec5b151f ("docs: translations: add translations links when they
-exist") broke the build on Sphinx versions v6.1.3 through 7.1.2 (possibly
-others) with the following error:
+On Wed, 14 Feb 2024 15:19:04 -0500
+Kent Overstreet <kent.overstreet@linux.dev> wrote:
 
-    Exception occurred:
-      File "/usr/lib/python3.12/site-packages/sphinx/util/nodes.py", line 624, in _copy_except__document
-        newnode = self.__class__(rawsource=self.rawsource, **self.attributes)
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    TypeError: LanguagesNode.__init__() missing 1 required positional argument: 'current_language'
-    The full traceback has been saved in /tmp/sphinx-err-7xmwytuu.log, if you want to report the issue to the developers.
+> On Wed, Feb 14, 2024 at 09:09:37PM +0100, Petr Tesa=C5=99=C3=ADk wrote:
+> > On Wed, 14 Feb 2024 13:54:54 -0500
+> > Kent Overstreet <kent.overstreet@linux.dev> wrote:
+> >  =20
+> > > On Wed, Feb 14, 2024 at 05:31:12PM +0100, Petr Tesa=C5=99=C3=ADk wrot=
+e: =20
+> > > > On Wed, 14 Feb 2024 16:11:05 +0100
+> > > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> > > >    =20
+> > > > > On Wed, Feb 14, 2024 at 03:55:24PM +0100, Petr Tesa=C5=99=C3=ADk =
+wrote:   =20
+> > > > > > OK, so why didn't I send the whole thing?
+> > > > > >=20
+> > > > > > Decomposition of the kernel requires many more changes, e.g. in=
+ linker
+> > > > > > scripts. Some of them depend on this patch series. Before I go =
+and
+> > > > > > clean up my code into something that can be submitted, I want t=
+o get
+> > > > > > feedback from guys like you, to know if the whole idea would be=
+ even
+> > > > > > considered, aka "Fail Fast".     =20
+> > > > >=20
+> > > > > We can't honestly consider this portion without seeing how it wou=
+ld
+> > > > > work, as we don't even see a working implementation that uses it =
+to
+> > > > > verify it at all.
+> > > > >=20
+> > > > > The joy of adding new frameworks is that you need a user before a=
+nyone
+> > > > > can spend the time to review it, sorry.   =20
+> > > >=20
+> > > > Thank your for a quick assessment. Will it be sufficient if I send =
+some
+> > > > code for illustration (with some quick&dirty hacks to bridge the ga=
+ps),
+> > > > or do you need clean and nice kernel code?   =20
+> > >=20
+> > > Given that code is going to need a rewrite to make use of this anyway=
+s -
+> > > why not just do the rewrite in Rust? =20
+> >=20
+> > Thank you for this question! I concur that rewriting the whole kernel
+> > in Rust would be a better option. I see two differences:
+> >=20
+> > 1. amount of work
+> > 2. regressions
+> >=20
+> > Rewriting something in Rust means pretty much writing it from scratch.
+> > Doing that necessarily introduces regressions. Old code has been used.
+> > It has been tested. In many corner cases. Lots of bugs have been found,
+> > and they=E2=80=99ve been fixed. If you write code from scratch, you los=
+e much
+> > of the accumulated knowledge. =20
+>=20
+> But it's work that already has some growing momentum behind it,
+> especially in the area you cited - decompression algorithms.
 
-Solve this problem by making 'current_language' a true element attribute
-of the LanguagesNode element, which is probably the more correct way to do
-it anyway.
+Fair enough, this is indeed going for a better solution.
 
-Tested on Sphinx 2.x, 3.x, 6.x, and 7.x.
+> > More importantly, sandbox mode can be viewed as a tool that enforces
+> > decomposition of kernel code. This decomposition is the main benefit.
+> > It requires understanding the dependencies among different parts of the
+> > kernel (both code flow and data flow), and that will in turn promote
+> > better design. =20
+>=20
+> You see this as a tool for general purpose code...?
+>=20
+> Typical kernel code tends to be quite pointer heavy.
 
-[1]: https://lore.kernel.org/all/54a56c2e-a27c-45a0-b712-02a7bc7d2673@gmail.com/
+Yes. I believe this fact contributes to the difficulty of ensuring
+memory safety in the kernel. With so much code potentially depnding on
+any other kernel data structure, it does not help much that you protect
+it as a whole. A finer-grained protection would make more sense.
 
-Fixes: 7418ec5b151f ("docs: translations: add translations links when they exist")
-Reported-by: Akira Yokosawa <akiyks@gmail.com>
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Documentation/sphinx/translations.py | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+> > > Then you get memory safety, which seems to be what you're trying to
+> > > achieve here.
+> > >=20
+> > > Or, you say this is for when performance isn't critical - why not a u=
+ser
+> > > mode helper? =20
+> >=20
+> > Processes in user mode are susceptible to all kinds of attacks you may
+> > want to avoid. Sandbox mode can be used in situations where user mode
+> > does not exist, e.g. to display a boot logo or to unpack initramfs. =20
+>=20
+> [citation needed]
 
-diff --git a/Documentation/sphinx/translations.py b/Documentation/sphinx/translations.py
-index 47161e6eba99..32c2b32b2b5e 100644
---- a/Documentation/sphinx/translations.py
-+++ b/Documentation/sphinx/translations.py
-@@ -29,10 +29,7 @@ all_languages = {
- }
- 
- class LanguagesNode(nodes.Element):
--    def __init__(self, current_language, *args, **kwargs):
--        super().__init__(*args, **kwargs)
--
--        self.current_language = current_language
-+    pass
- 
- class TranslationsTransform(Transform):
-     default_priority = 900
-@@ -49,7 +46,8 @@ class TranslationsTransform(Transform):
-             # normalize docname to be the untranslated one
-             docname = os.path.join(*components[2:])
- 
--        new_nodes = LanguagesNode(all_languages[this_lang_code])
-+        new_nodes = LanguagesNode()
-+        new_nodes['current_language'] = all_languages[this_lang_code]
- 
-         for lang_code, lang_name in all_languages.items():
-             if lang_code == this_lang_code:
-@@ -84,7 +82,7 @@ def process_languages(app, doctree, docname):
- 
-         html_content = app.builder.templates.render('translations.html',
-             context={
--                'current_language': node.current_language,
-+                'current_language': node['current_language'],
-                 'languages': languages,
-             })
- 
--- 
-2.34.1
+I assume you mean citation for the kinds of attacks, not for the
+unavailability of user space before initramfs is unpacked. ;-)
 
+Here you go:
+
+On Wed, 2023-03-22 at 15:27 -0700, Alexei Starovoitov wrote:
+> On Wed, Mar 22, 2023 at 5:08=E2=80=AFAM Roberto Sassu
+[...]
+> <roberto.sassu@huaweicloud.com> wrote:
+> > possible use case. The main goal is to move something that was running
+> > in the kernel to user space, with the same isolation guarantees as if
+> > the code was executed in the kernel.
+>=20
+> They are not the same guarantees.
+> UMD is exactly equivalent to root process running in user space.
+> Meaning it can be killed, ptraced, priority inverted, etc
+
+https://lore.kernel.org/lkml/CAADnVQJC0h7rtuntt0tqS5BbxWsmyWs3ZSbboZMmUKetM=
+G2VhA@mail.gmail.com/
+
+Petr T
