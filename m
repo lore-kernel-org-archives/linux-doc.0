@@ -1,131 +1,175 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936E2132C01
-	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 14:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6844C132461;
+	Thu, 15 Feb 2024 15:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708009138; cv=none; b=DWmHWpm4sP7s56i7ZKotFck5faJwDyl4b7LIv+NGbwM8jhp7DMnx23J58fMAV2cS6rBbdTzFDX0NIhBWnvmVdusYBPvmuuI4urC5rSAeSY31bopt7P/KH5Q+O6BDnyEace6qBqzBO3C4vDNHym5+alLuOfRTqrOJzGc8rQX9FLE=
+	t=1708009389; cv=none; b=gesmKtM0pzegseiEhTpoWn1nw/2W7miqlTEZ4WCpLH/0vKI5DBjFMK8x+qUsoKbTG/kmpUhyWtUC5Wsc37DtAzd48jExC8KeV5QQtwePaFL3BM2n8WXK9J0PMuBGW6L1zUal2Q85OcIveOw3TjZP11rKRCWWrNL0l3KFtbD0Z7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708009138; c=relaxed/simple;
-	bh=6IMij2aMCDzlI1InstPj/0SjhHnSgb7se0txHOjqYec=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P1v/H9CnwgbcIlreQPtPOt7i+oj8a4D2OWeChEXKNnKGMu9UP+lUjuWNJnM7hsjn0DHz8sMd5v2YqibNVyN458u20SrXD6c1CfdT1bhv7X/zbrEaICCZ2PvHtVTnOirHQWUThOQfCgjsPYWWHraPkPg9TxpAUF7zcF1QRKuXkLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QCSBC1fn; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1708009389; c=relaxed/simple;
+	bh=pKMvWqSNpDH5j4f/4uVNlDSGuJRg//bt7SddzxfDlNs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EkYDSWFmS7Rrt7kMNgPRFNwdgEReK3OfalRZ196An3vQM3nxPDg/JiN52GAtPYvErt+m13BLgUmDFsPzMSKgEJlmTZIM0XomYHhAsBHeyPT2Ka5DWAMxJkqsrFjPtaRMLTWeTgw+aLDO4hGcpAfoB7XFyCtyQwkPWgojS7qKI/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ABKTEcJJ; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ABKTEcJJ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QCSBC1fn"
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso930220276.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 06:58:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708009135; x=1708613935; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tw/wN6EwhF1l4GL2nZ/ht1qejqJOWh5ecVMENBzDBDY=;
-        b=QCSBC1fn1Ka2h7g6fyuo/iR+OmsxJN+44ewMiK7TnEvXLUwE54/Fla7TeargSAD7FL
-         K4XY0N++HOd/XQR20ySjDvDEt4AT0wRqIA6SonOzfFP5z8DdEIZqaTEQUNCb8KPaAgTi
-         KuGZZAXkpnbLQ8uo8Gzowy4mMy4fIf8FjABi8dPX6Dpz9E5EvFoaI1UKe7ERn4Wuu7vW
-         9RpviaBpJWGkU607Q3RTsx1Q9BMnNxYkHWLkp9p4vl9Ttstb/nKLi8MMIMkJ5YhE7prP
-         AqX5xmoXXbk2RV4MOgo4U2hdSmx6j9jUjLVFg+6dNyF4KktkZz5uVsTEJBtCoOEQfFva
-         7uKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708009135; x=1708613935;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tw/wN6EwhF1l4GL2nZ/ht1qejqJOWh5ecVMENBzDBDY=;
-        b=GVK646nHcrZ4Xe/gnh1BzUlJN07rmeyf3G0hKmrwArW0XLCqUUBQ8dAE+ogDH9fjQ0
-         OjCypwkE1+Rwtvr2yusjOzEcxbRTtodsvp05DLbSS+wJxRDG2SyQwMyfO+3wfVp1M7A+
-         l/p2/Nl+CuD0DYv1atxwSvXmM5Uo3bIp8VlKM/wopUERwyKgoHwlygOag136DX539YY8
-         geZqstUPHXT4ljyYCDB6r7xadp77DnENkoLnVpw9SK3FNtlM3cRCxFiMFVtZzGLSKsds
-         t0TliZ3avNYGnuWyV7QfwEZ2kZcnviMSUZGoduk1ts5IUoLuVn9a4ncnreJ2ZJZFfNQP
-         DS/g==
-X-Forwarded-Encrypted: i=1; AJvYcCW1lZq+7sDzDrjyuooblJWsvjQ0MwgjSloeKssuHbOKNbkhRxAo8qWbC47WWMF7xdjrh2xKC6iXKvN6dFDsU4nKXfTG66yw6amq
-X-Gm-Message-State: AOJu0YyVKn137QLzV50sXM2q32wOoRrFRIUEFf+W5EZIULm2REw9f8PJ
-	svvwi6HM3xfJCZVM/Qv2irLeaAQXK6kjWl8X1EDztotANKvIHkfzFOAZDY2ytatfNpfz5jfGwaB
-	sw4uRJ67/HtDPSK/mDV2Je4TGnOPUi4DJgM8N
-X-Google-Smtp-Source: AGHT+IHbdGXWcfbi3sM7zNcX3xbLXT1pZZDBplduLx68NqKeXRGL2TAUM4SLA4O1Gc053VxRA9U/P0Ad1H3i0YzTDwI=
-X-Received: by 2002:a25:8750:0:b0:dbe:9509:141c with SMTP id
- e16-20020a258750000000b00dbe9509141cmr1821330ybn.30.1708009135319; Thu, 15
- Feb 2024 06:58:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ABKTEcJJ";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ABKTEcJJ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4A23C21B5D;
+	Thu, 15 Feb 2024 15:03:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708009383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zxPcn+LcDwI0imoN5yBcv9TPZ+gXrqFYsp2y4Ttalwg=;
+	b=ABKTEcJJ3FBZ6D2q3Xg6DBoo6MiwYn7vsZqpXGeTiLJO9cKmdj70oK7LDOpTn3KsPAiK61
+	f6bZ4YwN2ALDs2YvF2s7QxigQMKYHLG8l9Q9Y4chcOEzEkRNFw34YoN5xVf7XbDI7wyKbz
+	SJNsDHB/nvP6BGdVQMEqTCVJ0WYvtPg=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708009383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zxPcn+LcDwI0imoN5yBcv9TPZ+gXrqFYsp2y4Ttalwg=;
+	b=ABKTEcJJ3FBZ6D2q3Xg6DBoo6MiwYn7vsZqpXGeTiLJO9cKmdj70oK7LDOpTn3KsPAiK61
+	f6bZ4YwN2ALDs2YvF2s7QxigQMKYHLG8l9Q9Y4chcOEzEkRNFw34YoN5xVf7XbDI7wyKbz
+	SJNsDHB/nvP6BGdVQMEqTCVJ0WYvtPg=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C395613A53;
+	Thu, 15 Feb 2024 15:03:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UIOiLaYnzmUibwAAD6G6ig
+	(envelope-from <jgross@suse.com>); Thu, 15 Feb 2024 15:03:02 +0000
+Message-ID: <0bd8c620-7f80-44c4-ade3-b3d7951b48d8@suse.com>
+Date: Thu, 15 Feb 2024 16:03:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-32-surenb@google.com>
- <Zc3X8XlnrZmh2mgN@tiehlicka>
-In-Reply-To: <Zc3X8XlnrZmh2mgN@tiehlicka>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 15 Feb 2024 06:58:42 -0800
-Message-ID: <CAJuCfpHc2ee_V6SGAc_31O_ikjGGNivhdSG+2XNcc9vVmzO-9g@mail.gmail.com>
-Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
-To: Michal Hocko <mhocko@suse.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] Documentation: Document the Linux Kernel CVE process
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, corbet@lwn.net,
+ workflows@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ security@kernel.org, linux@leemhuis.info, Kees Cook <keescook@chromium.org>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Sasha Levin <sashal@kernel.org>,
+ Lee Jones <lee@kernel.org>
+References: <2024021500-laziness-grimace-ed80@gregkh>
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+In-Reply-To: <2024021500-laziness-grimace-ed80@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.96
+X-Spamd-Result: default: False [-1.96 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-0.20)[-0.997];
+	 BAYES_HAM(-3.00)[100.00%];
+	 RCPT_COUNT_TWELVE(0.00)[13];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 R_MIXED_CHARSET(0.83)[subject];
+	 FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,leemhuis.info,chromium.org,linuxfoundation.org,gmail.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
 
-On Thu, Feb 15, 2024 at 1:22=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrot=
-e:
->
-> On Mon 12-02-24 13:39:17, Suren Baghdasaryan wrote:
-> [...]
-> > @@ -423,4 +424,18 @@ void __show_mem(unsigned int filter, nodemask_t *n=
-odemask, int max_zone_idx)
-> >  #ifdef CONFIG_MEMORY_FAILURE
-> >       printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poisoned_p=
-ages));
-> >  #endif
-> > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> > +     {
-> > +             struct seq_buf s;
-> > +             char *buf =3D kmalloc(4096, GFP_ATOMIC);
-> > +
-> > +             if (buf) {
-> > +                     printk("Memory allocations:\n");
-> > +                     seq_buf_init(&s, buf, 4096);
-> > +                     alloc_tags_show_mem_report(&s);
-> > +                     printk("%s", buf);
-> > +                     kfree(buf);
-> > +             }
-> > +     }
-> > +#endif
->
-> I am pretty sure I have already objected to this. Memory allocations in
-> the oom path are simply no go unless there is absolutely no other way
-> around that. In this case the buffer could be preallocated.
+On 15.02.24 13:10, Greg Kroah-Hartman wrote:
+> The Linux kernel project now has the ability to assign CVEs to fixed
+> issues, so document the process and how individual developers can get a
+> CVE if one is not automatically assigned for their fixes.
+> 
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> ---
+> v4: Add MAINTAINER entry
+>      Lots of tiny wording changes based on many reviews
+>      Collected some Reviewed-by: tags
+>      Fixed documenation build by properly referencing the security
+>      process documentation file.
+> v3: fix up wording in security-bugs.rst based on the changes to the cve
+>      assignment process from v1, thanks to a private reviewer for
+>      pointing that out.
+> v2: Grammer fixes based on review from Randy
+>      Updated paragraph about how CVE identifiers will be assigned
+>      (automatically when added to stable trees, or ask us for one
+>      directly before that happens if so desired)
+> 
+>   Documentation/process/cve.rst           | 120 ++++++++++++++++++++++++
+>   Documentation/process/index.rst         |   1 +
+>   Documentation/process/security-bugs.rst |   5 +-
+>   MAINTAINERS                             |   5 +
+>   4 files changed, 128 insertions(+), 3 deletions(-)
+>   create mode 100644 Documentation/process/cve.rst
+> 
+> diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
+> new file mode 100644
+> index 000000000000..6b244d938694
+> --- /dev/null
+> +++ b/Documentation/process/cve.rst
+> @@ -0,0 +1,120 @@
 
-Good point. We will change this to a smaller buffer allocated on the
-stack and will print records one-by-one. Thanks!
+...
 
->
-> --
-> Michal Hocko
-> SUSE Labs
+> +Invalid CVEs
+> +------------
+> +
+> +If a security issue is found in a Linux kernel that is only supported by
+> +a Linux distribution due to the changes that have been made by that
+> +distribution, or due to the distribution supporting a kernel version
+> +that is no longer one of the kernel.org supported releases, then a CVE
+> +can not be assigned by the Linux kernel CVE team, and must be asked for
+> +from that Linux distribution itself.
+> +
+> +Any CVE that is assigned against the Linux kernel for an actively
+> +supported kernel version, by any group other than the kernel assignment
+> +CVE team should not be treated as a valid CVE.  Please notify the
+> +kernel CVE assignment team at <cve@kernel.org> so that they can work to
+> +invalidate such entries through the CNA remediation process.
+
+Today we (the Xen security team) are allocating CVEs for Xen-related
+kernel security bugs.
+
+Does this mean we should do that via cve@kernel.org in future, or are
+you happy us continuing our process as today? If the latter, I think
+this should be noted somehow in this document in order to avoid complaints
+regarding CVEs allocated by us.
+
+
+Juergen (on behalf of the Xen security team)
