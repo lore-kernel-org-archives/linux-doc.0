@@ -1,107 +1,203 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6799969D01
-	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 10:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE581292D8
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 10:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707992807; cv=none; b=Yra0/DIsg8vVUHpl9lkkjcvcO253+bezgV/+S70cCN7/Ir57zUUI+J12x+HvArUY+Z6NGWLD3kgZ9U3aZ/YP5iwJUSz/iu+D9cxBh05xzQvKvf6o5Io7lN2k0jT8kN8gxbDdhymS4XeswR/0xGs5swpl+yKLFS/246awfBZ8yKA=
+	t=1707993140; cv=none; b=eW4bTr7BxnQTEGj9E2qBtQxvpa2TX+px9tDesDKBoDZBgFGHC4mUqlSebMf8nAkc8PFSNCxeUbyajREuBD5Y3QpCwr6A/0rXXBQahAOxOynfNHFtRNJl1tsrx8yqwPbum0MczCpiCervBkz7uaI0oWhImd4LQLbJIuwZ1ypckBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707992807; c=relaxed/simple;
-	bh=VlVepo/NDpXDvIFU4Rid0oX2XIVrdjuPr3NAtWZLA5A=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Pl8G0i7o6xNgadPZzyInh1GXjP4kDVVaNMfJcnUmIkYD8vj2I44t1y1TfYxGn5ei9wlFW8X7Rts3dPBMvzhAFjNMU3x+Dbo2h0fRE1oq67EdvjEwarHrgvRfPc3woL0WvQ0PtebGD3zWIzsl/5von/a1vBBVrxNbcz9Iex+/85Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V8I2WIF0; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1707993140; c=relaxed/simple;
+	bh=cONun6TngeRrkk4IMltlDOWagNPI0xWvUxmkNTiDM40=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AboL8xo7fNkTJlIWi90tXOU8A4hSL1XZ3wSx64fhv2wKFckaOcxyBCe6dg3ECKSyyD9ftmnpqMTcuTy637SBcvTJgM0Jn/4i6LmMpc6MwV+OpEwqUrHkNHzAE6QXJ1JeIEPUVmQPLjJ7YbMNIEw5r/3YBPWsDbfpNTEGcOjDkNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WsNTaPXr; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V8I2WIF0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707992805;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VlVepo/NDpXDvIFU4Rid0oX2XIVrdjuPr3NAtWZLA5A=;
-	b=V8I2WIF0mlU3iq02ve4Hv+Y6Hl8u/h4WjSTCQ+nPxAQur8MJuk7s8Y8vC3TTjf6HfNjq0u
-	UXcEA7V0o+0F2BWXacTsBK6dFCVOXjcCaUtfdiLbTIWbmlGb1AlAv7B6PWQQ36S+USLUW3
-	iMawvXcDzFcqg1zlq3Hb+pLQEX7bSzk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-680-FNs1edi6MEWAzVp5Eyf4PA-1; Thu, 15 Feb 2024 05:26:43 -0500
-X-MC-Unique: FNs1edi6MEWAzVp5Eyf4PA-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-40e4303fceaso1617355e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 02:26:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WsNTaPXr"
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-59a29a93f38so178309eaf.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 02:32:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707993138; x=1708597938; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BnSnP54cWq3RDS6TzZYCLsOok3bG0dcYaLglmFl6H+k=;
+        b=WsNTaPXrEu/023Pykc3vHgraElj4QzxyBWRMKnJGrFV8iAJ6W30Dqijk3kxoOBFM/I
+         Br6ayjWlTja2Tnm8yLsKrXhpeYfWh1H1jht9MW3rguQnt4gdSmuMx41ZrjO8jVGYhuKc
+         jZuzjxmijwXg51oMkYNMoNhHUf6NPwH2VoNSkTVB52QtO2yF6ChnzmYCnZfes5Rxz3yT
+         Q3njCGShnQOERmsauf6+Xl733oMjmwPbTEFxouanKkOKKtUSw9i0pSPDzgS0nc2SjjLg
+         VBfiLbp7SetN/QesKludKP8dv8pwbYqe+0Xm+45F8Y2qFghg3U6Q7ciyiVjSsWr/N7rf
+         fOpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707992802; x=1708597602;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VlVepo/NDpXDvIFU4Rid0oX2XIVrdjuPr3NAtWZLA5A=;
-        b=gUXqAJLLgWVeL9ilEFKMEwVxfXJ5kkjiNFpsVKmejQlj1plLZxZ7TYkVcNaBrF6UYb
-         0oJ7BABhOCy7flK6bhegXtpZROKwfOX7+OWyGwmxg5Uej3yRaCKo2L4QRrgZjWkxXvPL
-         QtMwuqv2V5vXB6FaOLTqinXZoBuxk6oTS+5DaXt8i+Apge9nHi04AHL+ZatlFdpoXdu4
-         yodpGO/PhCsxi46ODMB8QoXHjucVC4kfMT7Ef4nA4FXFqMFZylp04/DC7Y8dn5n9UlM+
-         hzB+7Ysnm7T+kOrwisikDmSygl9JtdFgk5OBeqqee1nkCcBNPPrwqhMifRM/yNa3edmV
-         xGUg==
-X-Forwarded-Encrypted: i=1; AJvYcCU2EP3sm2o44bXpbTMg2l2Y8yQZhEbixTVwAnvCBzr/5XR6Aa9+AWzy1zDLmCzO7p4HkNJe0Ky2LDDNOX3S4Jh2tdit6uGeFzrV
-X-Gm-Message-State: AOJu0Yxxo2OvObQJdqbQXrhFCcgnzPXVdvl1jqYnH5jFC0M0um3KWLaG
-	2L3rgHzGeR8Oy1SucdtfUWK07QvXFIFyLIj3aD5B1hSnKOzeqcKarY0hyOP5CqERoqSSONWOr/k
-	pAfkU/aiUbL1pap/bCZqmaN1rSgxkzKx3CcY5z/QM8/mjSFc6ZIsYU+BnWg==
-X-Received: by 2002:a05:600c:3550:b0:411:de28:bb58 with SMTP id i16-20020a05600c355000b00411de28bb58mr1000557wmq.2.1707992802039;
-        Thu, 15 Feb 2024 02:26:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEmte3W9zihZAN6S/rvlMjLTydWTOdUxVztjFWSwq+qHrZwZRrHKFoM8N930oI9WOaYDu809g==
-X-Received: by 2002:a05:600c:3550:b0:411:de28:bb58 with SMTP id i16-20020a05600c355000b00411de28bb58mr1000540wmq.2.1707992801729;
-        Thu, 15 Feb 2024 02:26:41 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-227-156.dyn.eolo.it. [146.241.227.156])
-        by smtp.gmail.com with ESMTPSA id j4-20020a05600c1c0400b004120537210esm2488937wms.46.2024.02.15.02.26.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 02:26:41 -0800 (PST)
-Message-ID: <8eb6384a82fc4c4b9c99463a6ff956f04c9d5e33.camel@redhat.com>
-Subject: Re: [PATCH net-next v8 1/2] ethtool: Add GTP RSS hash options to
- ethtool.h
-From: Paolo Abeni <pabeni@redhat.com>
-To: Takeru Hayasaka <hayatake396@gmail.com>, Jesse Brandeburg
- <jesse.brandeburg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,  Jonathan Corbet
- <corbet@lwn.net>
-Cc: intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	mailhol.vincent@wanadoo.fr, vladimir.oltean@nxp.com, laforge@gnumonks.org, 
-	Marcin Szycik <marcin.szycik@linux.intel.com>
-Date: Thu, 15 Feb 2024 11:26:39 +0100
-In-Reply-To: <CADFiAcL+2vVUHWcWS_o3Oxk67tuZeNk8+8ygjGGKK3smop595A@mail.gmail.com>
-References: <20240212020403.1639030-1-hayatake396@gmail.com>
-	 <CADFiAcL+2vVUHWcWS_o3Oxk67tuZeNk8+8ygjGGKK3smop595A@mail.gmail.com>
-Autocrypt: addr=pabeni@redhat.com; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+        d=1e100.net; s=20230601; t=1707993138; x=1708597938;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BnSnP54cWq3RDS6TzZYCLsOok3bG0dcYaLglmFl6H+k=;
+        b=GQ7FL9nbR2ySeX2JohOTOnVkcdRU24j4RTtFe23Nzf6/nhcaByUR10RL6F6aV8qxEQ
+         hfPjuPHcWeLjGXJbtPN0Tfqfh3p2AlD10FvPV3hqhnsR17BhSAY8mxYPE1EhzaJuzxn0
+         ToIVudHc3JyftAAFEhnwVYrZQgaMoOf/c7nBKznWXClEqDrsD3dpl5dAHsEWOutGEGhd
+         MiPOJL2vyS1MiSs5wpRawDVRj1SaByywH9FboQ9PjnDvQ5A6D9pmF+t3UKilmXFpsI15
+         Z9Am0CtnIMccfBMNFkgiS60ND9seIhNHTc3D91OPa+LtN5H4JUhYf2Oyzy7nr2RJNXa+
+         tIPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0jVtLYR5236zjULK0MaCc9xvq8d4a8MzJgsqDLhf4GLLYQ9uEOS0O3O3watVIxCrNN7In11DVL0Sqs5BlAUST7uQjWJECiORw
+X-Gm-Message-State: AOJu0YzrHEfDf5ivOmELhcmCkInWaYTwtv3t4Z/RXteaRlHnY5Pd79E0
+	bMbAnpjMdNoyL8bHkmGzmReNBMt+PytlkJ+I+cf8AIhWU+HYP9iJvyyTeYYcfl35gmma4z8FFO2
+	3ovDGwnXk2S4AorDC9K4TN4U5fGHmOLgdF7zbrg==
+X-Google-Smtp-Source: AGHT+IEDZl0jC7JHpc3qKLwfiY44WZzrpOsYhTkKATayJtv93hEMXdcWmrqZG5pYDXKUMkeXBqFkh+j2mFsHa2Vvcl8=
+X-Received: by 2002:a4a:d2d2:0:b0:59d:f09:352b with SMTP id
+ j18-20020a4ad2d2000000b0059d0f09352bmr1191490oos.9.1707993137914; Thu, 15 Feb
+ 2024 02:32:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240213145239.379875-1-balint.dobszay@arm.com>
+ <20240213145239.379875-3-balint.dobszay@arm.com> <ed8aaee7-be14-43ab-981c-d2ac04f4fc71@kernel.org>
+In-Reply-To: <ed8aaee7-be14-43ab-981c-d2ac04f4fc71@kernel.org>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 15 Feb 2024 11:32:07 +0100
+Message-ID: <CAHUa44FUmXMCLvJEB8v2_H4j+yNzR+YMU0xSO6uaaqF0BHj_2Q@mail.gmail.com>
+Subject: Re: [PATCH 2/3] tee: tstee: Add Trusted Services TEE driver
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Balint Dobszay <balint.dobszay@arm.com>, op-tee@lists.trustedfirmware.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, sumit.garg@linaro.org, corbet@lwn.net, 
+	sudeep.holla@arm.com, gyorgy.szing@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Thu, Feb 15, 2024 at 9:59=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 13/02/2024 15:52, Balint Dobszay wrote:
+> > The Trusted Services project provides a framework for developing and
+> > deploying device Root of Trust services in FF-A Secure Partitions. The
+> > FF-A SPs are accessible through the FF-A driver, but this doesn't
+> > provide a user space interface. The goal of this TEE driver is to make
+> > Trusted Services SPs accessible for user space clients.
+> >
+> > All TS SPs have the same FF-A UUID, it identifies the RPC protocol used
+> > by TS. A TS SP can host one or more services, a service is identified b=
+y
+> > its service UUID. The same type of service cannot be present twice in
+> > the same SP. During SP boot each service in an SP is assigned an
+> > interface ID, this is just a short ID to simplify message addressing.
+> > There is 1:1 mapping between TS SPs and TEE devices, i.e. a separate TE=
+E
+> > device is registered for each TS SP. This is required since contrary to
+> > the generic TEE design where memory is shared with the whole TEE
+> > implementation, in case of FF-A, memory is shared with a specific SP. A
+> > user space client has to be able to separately share memory with each S=
+P
+> > based on its endpoint ID.
+> >
+> > Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
+> > ---
+>
+>
+> > +static int tstee_probe(struct ffa_device *ffa_dev)
+> > +{
+> > +     struct tstee *tstee;
+> > +     int rc;
+> > +
+> > +     ffa_dev->ops->msg_ops->mode_32bit_set(ffa_dev);
+> > +
+> > +     if (!tstee_check_rpc_compatible(ffa_dev))
+> > +             return -EINVAL;
+> > +
+> > +     tstee =3D kzalloc(sizeof(*tstee), GFP_KERNEL);
+> > +     if (!tstee)
+> > +             return -ENOMEM;
+> > +
+> > +     tstee->ffa_dev =3D ffa_dev;
+> > +
+> > +     tstee->pool =3D tstee_create_shm_pool();
+> > +     if (IS_ERR(tstee->pool)) {
+> > +             rc =3D PTR_ERR(tstee->pool);
+> > +             tstee->pool =3D NULL;
+> > +             goto err;
+>
+> Is it logically correct to call here tee_device_unregister()?
 
-On Thu, 2024-02-15 at 17:44 +0900, Takeru Hayasaka wrote:
-> As previously advised, the patch has been divided.
-> I apologize for the inconvenience, but I would appreciate it if you
-> could take the time to review the patch.
-> I understand you may be busy, but your confirmation would be greatly
-> appreciated.
-
-The series LGTM. I *think* the series should go first in the intel
-tree, so it can be tested on the relevant H/W. @Tony: do you agree?
+It is harmless since it ignores null pointers, but you have a point.
+It doesn't make sense to call tee_device_unregister() before
+tee_device_register() has been called.
 
 Thanks,
+Jens
 
-Paolo
-
+>
+> > +     }
+> > +
+> > +     tstee->teedev =3D tee_device_alloc(&tstee_desc, NULL, tstee->pool=
+, tstee);
+> > +     if (IS_ERR(tstee->teedev)) {
+> > +             rc =3D PTR_ERR(tstee->teedev);
+> > +             tstee->teedev =3D NULL;
+> > +             goto err;
+> > +     }
+> > +
+> > +     rc =3D tee_device_register(tstee->teedev);
+> > +     if (rc)
+> > +             goto err;
+> > +
+> > +     ffa_dev_set_drvdata(ffa_dev, tstee);
+> > +
+> > +     pr_info("driver initialized for endpoint 0x%x\n", ffa_dev->vm_id)=
+;
+>
+> Don't print simple probe success messages. Anyway all prints in device
+> context should be dev_*.
+>
+> > +
+> > +     return 0;
+> > +
+> > +err:
+> > +     tstee_deinit_common(tstee);
+> > +     return rc;
+> > +}
+> > +
+> > +static void tstee_remove(struct ffa_device *ffa_dev)
+> > +{
+> > +     tstee_deinit_common(ffa_dev->dev.driver_data);
+> > +}
+> > +
+> > +static const struct ffa_device_id tstee_device_ids[] =3D {
+> > +     /* TS RPC protocol UUID: bdcd76d7-825e-4751-963b-86d4f84943ac */
+> > +     { TS_RPC_UUID },
+> > +     {}
+> > +};
+> > +
+> > +static struct ffa_driver tstee_driver =3D {
+> > +     .name =3D "arm_tstee",
+> > +     .probe =3D tstee_probe,
+> > +     .remove =3D tstee_remove,
+> > +     .id_table =3D tstee_device_ids,
+> > +};
+> > +
+> > +static int __init mod_init(void)
+> > +{
+> > +     return ffa_register(&tstee_driver);
+> > +}
+> > +module_init(mod_init)
+> > +
+> > +static void __exit mod_exit(void)
+> > +{
+> > +     ffa_unregister(&tstee_driver);
+> > +}
+> > +module_exit(mod_exit)
+> > +
+> > +MODULE_ALIAS("arm-tstee");
+>
+> Why do you need this alias? I don't see MODULE_DEVICE_TABLE, so how this
+> bus handles module loading?
+>
+>
+> Best regards,
+> Krzysztof
+>
