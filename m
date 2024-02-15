@@ -1,244 +1,151 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92514199AB;
-	Thu, 15 Feb 2024 09:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD5113ADD;
+	Thu, 15 Feb 2024 09:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707987677; cv=none; b=GpRJUAaereD2G1q58uWKJhBPEPTddceIvTFQkXsyKU4Q+VnHk8bnR199Y1QSW7haX5YOeBxGhqunQaHp1XfBsQmgcHidNmPTzJsKw4hV3QsTfAxKZIG2XlM8sJH05jY4cGTLwezUwvQCgDPpoB32yFsmc6JMccWsNh4MIAWB3i8=
+	t=1707988270; cv=none; b=dLSjzDcW83oU7GCwkKWf6js43LFAXdGLwyJ1dJhXfPLi4+D5Roi+318pGHNFkJrHqjnGv4iGlToD6okCpKzd6S+n4w7LbeHlR62t1snzko5wbcVf8UHgN4k1kmfUv7aSp7uMkhR8apYRpO3070r0Nvyb0fbPHxFXHEVK1mAAgi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707987677; c=relaxed/simple;
-	bh=SiUIHayVYcHe9bkFxdrXvjU/ru0D8DtTz59xRaJtJBY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YcVVy5ZILHgSmqPUVkqvkC/iYxDaMWDu0xfiAvLW3r4aEoQYd0l2npd5v39LGoqlnCUs7LEqwi2CEgw3h/2gAE6Uv8HroLxFg2zzgH2ihtsTO8Kq4VrrnFh0FPifpmH3h9m3Kst4rGbQaCGqS2Cus56HMFliE6VJCLTB6U0sWRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d03AaO80; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707988270; c=relaxed/simple;
+	bh=7eGIJxOK0G/jSamaJ4jiJZq4d17+9v1xzV/cbhLB+Ac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XBvnJeClk4gKhUa3itFERHAHopLmrtTplU/g+PHGw/i5LwP6JRlWROJyjNfjo2zidqcJPIvZMRqFAnRh4/seDI8ljqwYN03sde0g6KeRbUnROgyX4OAiDHGxJCgn9lB2r46pSGRelw1THEBz5GCY8JB4m3d4nVmLkE4EnYtXrWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lrawo/vv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d03AaO80"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D62AC43390;
-	Thu, 15 Feb 2024 09:01:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707987677;
-	bh=SiUIHayVYcHe9bkFxdrXvjU/ru0D8DtTz59xRaJtJBY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=d03AaO80PMznAQ1ygGgl4bP0JD/qWg8lwUAYD+Cd0KOAbgw27sPii/DOLCtE9wDv7
-	 kgjhC5bdEAdt+IPU9T9VwDKHOmfzmcl/NVCU5ed4BO78QZjSy9MOH3YX6y49OcHyT0
-	 nqkOvzjulchPTBi1+5V9FTsIiarwJANjG+ZTThceD2MUbOALEivnzP6D57dXeKgzLM
-	 VWgtPxQ13aFGJmFZYynLjEZ/zZcdFnFTNe+L4X1YXFlHVSm9v/RLHNr5SVYYaUrbAJ
-	 3e4+THnFEVAhZ+kaFSSbZETU2qEWz2cPDi0kWcg3Wrqd7ZAOO/3iGWcgUZK+i6bCs8
-	 POayKDFk0TKow==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-51182ece518so715354e87.3;
-        Thu, 15 Feb 2024 01:01:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWP7CX7KVF10AhNKyV+NjbqXfw3cHQMgUjpOGEejdFNOTRdFHEyo4LA2rkbOdgVMoB+eY4PJsfmbGfi5aRrNDTpLSB65yiMQPl08qKZCnakrZ06jAxVyeGMqOUZJ0XoHZROriWMUr6fLDfhcZ0dKO10Inu1LAflxtQkdLgCNcXy1YeyfJyXt5xISJx1RxJcXn+Hx9jRT1RX4e16L79ophtu8A3n
-X-Gm-Message-State: AOJu0YwSXx2fa5GdVOS9r9CSfaaF5jt42OxzXcXTueJgZ71ViTR8xcbc
-	pCXqMNppsSMiUF6E7B6seYQUxFqjwzBXEnS+c7YNwKrUnkTHMLSabZ2rm3OHtGYU1rjGMKy+06n
-	nnqFmli6g5EpNmr7bahnLQTdbt+U=
-X-Google-Smtp-Source: AGHT+IESsSC82ZPO7zHm75aViouaK3gACXPSL8wbxHFLyvmlDJHekLM2uaQ5vnuSYH17EGhdPcRUbgpXLJsKGUFiH2M=
-X-Received: by 2002:ac2:4946:0:b0:511:6ec9:d380 with SMTP id
- o6-20020ac24946000000b005116ec9d380mr904187lfi.30.1707987675245; Thu, 15 Feb
- 2024 01:01:15 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lrawo/vv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EC24C433F1;
+	Thu, 15 Feb 2024 09:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1707988269;
+	bh=7eGIJxOK0G/jSamaJ4jiJZq4d17+9v1xzV/cbhLB+Ac=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lrawo/vvf9RjklBWJmIYkaGooX/f9MU2fxom5gF0oAiukSehNeOQONWHr+1A0MBAX
+	 Afb9rzUx+RjdPjUnMeau51NkD1RwJ5amxxkxBB5LcLBaEl/GqQxgUG235aa2cDxZi6
+	 PtfNHsZi45/jmfn25HPUihNL7MgiVfmMU+Lz6BfY=
+Date: Thu, 15 Feb 2024 10:11:05 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Petr Tesarik <petrtesarik@huaweicloud.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Kaplan <david.kaplan@amd.com>,
+	Larry Dewey <larry.dewey@amd.com>,
+	Elena Reshetova <elena.reshetova@intel.com>,
+	Carlos Bilbao <carlos.bilbao@amd.com>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Petr Mladek <pmladek@suse.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Eric DeVolder <eric.devolder@oracle.com>,
+	Marc =?iso-8859-1?Q?Aur=E8le?= La France <tsi@tuyoix.net>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Mike Christie <michael.christie@oracle.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Maninder Singh <maninder1.s@samsung.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Roberto Sassu <roberto.sassu@huaweicloud.com>,
+	Petr Tesarik <petr.tesarik1@huawei-partners.com>
+Subject: Re: [PATCH v1 5/5] sbm: SandBox Mode documentation
+Message-ID: <2024021514-manmade-ambitious-414a@gregkh>
+References: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
+ <20240214113035.2117-6-petrtesarik@huaweicloud.com>
+ <20240214053053.982b48d993ae99dad1d59020@linux-foundation.org>
+ <2024021425-audition-expand-2901@gregkh>
+ <20240214155524.719ffb15@meshulam.tesarici.cz>
+ <2024021415-jokester-cackle-2923@gregkh>
+ <20240214173112.138e0e29@meshulam.tesarici.cz>
+ <2024021417-magma-drudge-ad70@gregkh>
+ <20240214204254.6208ca2f@meshulam.tesarici.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240214221847.2066632-1-ross.philipson@oracle.com> <20240214221847.2066632-16-ross.philipson@oracle.com>
-In-Reply-To: <20240214221847.2066632-16-ross.philipson@oracle.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 15 Feb 2024 10:01:03 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXF3k_c4Wn9GU+NC_+_aYfDpAzAUnfR=A4L_T+re1H3G=w@mail.gmail.com>
-Message-ID: <CAMj1kXF3k_c4Wn9GU+NC_+_aYfDpAzAUnfR=A4L_T+re1H3G=w@mail.gmail.com>
-Subject: Re: [PATCH v8 15/15] x86: EFI stub DRTM launch support for Secure Launch
-To: Ross Philipson <ross.philipson@oracle.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-efi@vger.kernel.org, dpsmith@apertussolutions.com, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, 
-	mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, 
-	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, kanth.ghatraju@oracle.com, 
-	trenchboot-devel@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240214204254.6208ca2f@meshulam.tesarici.cz>
 
-On Wed, 14 Feb 2024 at 23:32, Ross Philipson <ross.philipson@oracle.com> wrote:
->
-> This support allows the DRTM launch to be initiated after an EFI stub
-> launch of the Linux kernel is done. This is accomplished by providing
-> a handler to jump to when a Secure Launch is in progress. This has to be
-> called after the EFI stub does Exit Boot Services.
->
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-> ---
->  drivers/firmware/efi/libstub/x86-stub.c | 55 +++++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
->
-> diff --git a/drivers/firmware/efi/libstub/x86-stub.c b/drivers/firmware/efi/libstub/x86-stub.c
-> index 0d510c9a06a4..4df2cf539194 100644
-> --- a/drivers/firmware/efi/libstub/x86-stub.c
-> +++ b/drivers/firmware/efi/libstub/x86-stub.c
-> @@ -9,6 +9,7 @@
->  #include <linux/efi.h>
->  #include <linux/pci.h>
->  #include <linux/stddef.h>
-> +#include <linux/slr_table.h>
->
->  #include <asm/efi.h>
->  #include <asm/e820/types.h>
-> @@ -810,6 +811,57 @@ static efi_status_t efi_decompress_kernel(unsigned long *kernel_entry)
->         return EFI_SUCCESS;
->  }
->
-> +static void efi_secure_launch(struct boot_params *boot_params)
-> +{
-> +       struct slr_entry_uefi_config *uefi_config;
-> +       struct slr_uefi_cfg_entry *uefi_entry;
-> +       struct slr_entry_dl_info *dlinfo;
-> +       efi_guid_t guid = SLR_TABLE_GUID;
-> +       struct slr_table *slrt;
-> +       u64 memmap_hi;
-> +       void *table;
-> +       u8 buf[64] = {0};
-> +
+On Wed, Feb 14, 2024 at 08:42:54PM +0100, Petr Tesařík wrote:
+> On Wed, 14 Feb 2024 19:48:52 +0100
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Wed, Feb 14, 2024 at 05:31:12PM +0100, Petr Tesařík wrote:
+> > > On Wed, 14 Feb 2024 16:11:05 +0100
+> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> > >   
+> > > > On Wed, Feb 14, 2024 at 03:55:24PM +0100, Petr Tesařík wrote:  
+> > > > > OK, so why didn't I send the whole thing?
+> > > > > 
+> > > > > Decomposition of the kernel requires many more changes, e.g. in linker
+> > > > > scripts. Some of them depend on this patch series. Before I go and
+> > > > > clean up my code into something that can be submitted, I want to get
+> > > > > feedback from guys like you, to know if the whole idea would be even
+> > > > > considered, aka "Fail Fast".    
+> > > > 
+> > > > We can't honestly consider this portion without seeing how it would
+> > > > work, as we don't even see a working implementation that uses it to
+> > > > verify it at all.
+> > > > 
+> > > > The joy of adding new frameworks is that you need a user before anyone
+> > > > can spend the time to review it, sorry.  
+> > > 
+> > > Thank your for a quick assessment. Will it be sufficient if I send some
+> > > code for illustration (with some quick&dirty hacks to bridge the gaps),
+> > > or do you need clean and nice kernel code?  
+> > 
+> > We need a real user in the kernel, otherwise why would we even consider
+> > it?  Would you want to review a new subsystem that does nothing and has
+> > no real users?  If not, why would you want us to?  :)
+> 
+> Greg, please enlighten me on the process. How is something like this
+> supposed to get in?
 
-If you add a flex array to slr_entry_uefi_config as I suggested in
-response to the other patch, we could simplify this substantially
+If you were in our shoes, what would you want to see in order to be able
+to properly review and judge if a new subsystem was ok to accept?
 
-static struct slr_entry_uefi_config cfg = {
-        .hdr.tag        = SLR_ENTRY_UEFI_CONFIG,
-        .hdr.size       = sizeof(cfg),
-        .revision       = SLR_UEFI_CONFIG_REVISION,
-        .nr_entries     = 1,
-        .entries[0]     = {
-                .pcr    = 18,
-                .evt_info = "Measured UEFI memory map",
-        },
-};
+> Subsystem maintainers will not review code that depends on core features
+> not yet reviewed by the respective maintainers. If I add only the API
+> and a stub implementation, then it brings no benefit and attempts to
+> introduce the API will be dismissed. I would certainly do just that if
+> I was a maintainer...
 
-cfg.entries[0].cfg  = boot_params->efi_info.efi_memmap |
-                      (u64)boot_params->efi_info.efi_memmap_hi << 32;
-cfg.entries[0].size = boot_params->efi_info.efi_memmap_size;
+Exactly, you need a real user.
 
+> I could try to pack everything (base infrastructure, arch
+> implementations, API users) into one big patch with pretty much
+> everybody on the Cc list, but how is that ever going to get reviewed?
 
+How are we supposed to know if any of this even works at all if you
+don't show that it actually works and is useful?  Has any of that work
+even been done yet?  I'm guessing it has (otherwise you wouldn't have
+posted this), but you are expecting us to just "trust us, stuff in the
+future is going to use this and need it" here.
 
-> +       table = get_efi_config_table(guid);
-> +
-> +       /*
-> +        * The presence of this table indicated a Secure Launch
-> +        * is being requested.
-> +        */
-> +       if (!table)
-> +               return;
-> +
-> +       slrt = (struct slr_table *)table;
-> +
-> +       if (slrt->magic != SLR_TABLE_MAGIC)
-> +               return;
-> +
+Again, we can not add new infrastructure for things that have no users,
+nor do you want us to.  Ideally you will have at least 3 different
+users, as that seems to be the "magic number" that shows that the
+api/interface will actually work well, and is flexible enough.  Just
+one user is great for proof-of-concept, but that usually isn't good
+enough to determine if it will work for others (and so it wouldn't need
+to be infrastructure at all, but rather just part of that one feature on
+its own.)
 
-slrt = (struct slr_table *)get_efi_config_table(guid);
-if (!slrt || slrt->magic != SLR_TABLE_MAGIC)
-        return;
+> Should I just go and maintain an out-of-tree repo for a few years,
+> hoping that it gets merged one day, like bcachefs? Is this the way?
 
-> +       /* Add config information to measure the UEFI memory map */
-> +       uefi_config = (struct slr_entry_uefi_config *)buf;
-> +       uefi_config->hdr.tag = SLR_ENTRY_UEFI_CONFIG;
-> +       uefi_config->hdr.size = sizeof(*uefi_config) + sizeof(*uefi_entry);
-> +       uefi_config->revision = SLR_UEFI_CONFIG_REVISION;
-> +       uefi_config->nr_entries = 1;
-> +       uefi_entry = (struct slr_uefi_cfg_entry *)(buf + sizeof(*uefi_config));
-> +       uefi_entry->pcr = 18;
-> +       uefi_entry->cfg = boot_params->efi_info.efi_memmap;
-> +       memmap_hi = boot_params->efi_info.efi_memmap_hi;
-> +       uefi_entry->cfg |= memmap_hi << 32;
-> +       uefi_entry->size = boot_params->efi_info.efi_memmap_size;
-> +       memcpy(&uefi_entry->evt_info[0], "Measured UEFI memory map",
-> +               strlen("Measured UEFI memory map"));
-> +
+No, show us how this is going to be used.
 
-Drop all of this
+Again, think about what you would want if you had to review this.
 
-> +       if (slr_add_entry(slrt, (struct slr_entry_hdr *)uefi_config))
+thanks,
 
-if (slr_add_entry(slrt, &uefi_config.hdr))
-
-
-> +               return;
-> +
-> +       /* Jump through DL stub to initiate Secure Launch */
-> +       dlinfo = (struct slr_entry_dl_info *)
-> +               slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_DL_INFO);
-> +
-> +       asm volatile ("jmp *%%rax"
-> +                     : : "a" (dlinfo->dl_handler), "D" (&dlinfo->bl_context));
-
-Fix the prototype and just do
-
-dlinfo->dl_handler(&dlinfo->bl_context);
-unreachable();
-
-
-So in summary, this becomes
-
-static void efi_secure_launch(struct boot_params *boot_params)
-{
-        static struct slr_entry_uefi_config cfg = {
-                .hdr.tag        = SLR_ENTRY_UEFI_CONFIG,
-                .hdr.size       = sizeof(cfg),
-                .revision       = SLR_UEFI_CONFIG_REVISION,
-                .nr_entries     = 1,
-                .entries[0]     = {
-                        .pcr    = 18,
-                        .evt_info = "Measured UEFI memory map",
-                },
-        };
-        struct slr_entry_dl_info *dlinfo;
-        efi_guid_t guid = SLR_TABLE_GUID;
-        struct slr_table *slrt;
-
-        /*
-         * The presence of this table indicated a Secure Launch
-         * is being requested.
-         */
-        slrt = (struct slr_table *)get_efi_config_table(guid);
-        if (!slrt || slrt->magic != SLR_TABLE_MAGIC)
-                return;
-
-        cfg.entries[0].cfg  = boot_params->efi_info.efi_memmap |
-                              (u64)boot_params->efi_info.efi_memmap_hi << 32;
-        cfg.entries[0].size = boot_params->efi_info.efi_memmap_size;
-
-        if (slr_add_entry(slrt, &cfg.hdr))
-                return;
-
-        /* Jump through DL stub to initiate Secure Launch */
-        dlinfo = (struct slr_entry_dl_info *)
-                 slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_DL_INFO);
-
-        dlinfo->dl_handler(&dlinfo->bl_context);
-
-        unreachable();
-}
-
-
-> +}
-> +
->  static void __noreturn enter_kernel(unsigned long kernel_addr,
->                                     struct boot_params *boot_params)
->  {
-> @@ -934,6 +986,9 @@ void __noreturn efi_stub_entry(efi_handle_t handle,
->                 goto fail;
->         }
->
-> +       /* If a Secure Launch is in progress, this never returns */
-
-if (IS_ENABLED(CONFIG_SECURE_LAUNCH))
-
-> +       efi_secure_launch(boot_params);
-> +
->         /*
->          * Call the SEV init code while still running with the firmware's
->          * GDT/IDT, so #VC exceptions will be handled by EFI.
-> --
-> 2.39.3
->
+greg k-h
