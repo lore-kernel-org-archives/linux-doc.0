@@ -1,107 +1,136 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAEB12DD9A;
-	Thu, 15 Feb 2024 19:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B496E12D75F;
+	Thu, 15 Feb 2024 19:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708023780; cv=none; b=FKnfE7t5S/e08gUa0zmZjH0tnCtUtFjqtUZJmbRqZMZiCMGTY8VarEfj1PisjR3otjPv6/gnY9F2xFMAE7DlOOLNTfHHJq4bOGVypQkyhsri34Xz0X9POwebIVowPr+p5uWAx+iSBJRm4jLVwCGXVyqoh685U+jvg0wOeFe969w=
+	t=1708023860; cv=none; b=L75HLaHAQc4Q4n5G0rFZUIcIHkyGcQy/GjiCCzHgZ1aTMEx9u9JEqcbDsDv2dH+Ggc5xKcbgJnLt7xlqdgn+tMbTy2F2XigNwAzluWd4cJWqTGriQT92puAAqnNT8pX1CTxSHvBCMzP9KSapqy+4lTbKpsRerr530id7IfIOTkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708023780; c=relaxed/simple;
-	bh=HsBrw5k92azhVa2kk89DFI6B38rW/uSwNntF9cCgQJI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=It0dDsO8K2/D89FUE+YrRV6xVTEsl4yFK6p1MAbbl6N8qKUg8doak8k8nHEHWtC1oz3VgyLiBNtxDNGtbxaVJfK1e7xCSCZ0URkZbW2woyGv2FWjrH/jNE4afmRraZUpJl3BCKhHbcYuwyRpF/OWsrcQIUDAjAdzoAJh2JzvEXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wJF/rbQj; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1708023860; c=relaxed/simple;
+	bh=HYmJH9FlFar2LSJS4Rf0ZwmqXkUarTQN1CFW8NL4Nds=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jBwR6J/zybMzTPDQfek+aX8iy3WvutXxAZQcY1I6eSAsEXGkPXJqOFSEZTU8NRJaqBoiW8sa/mCIqmyvDzVszitWgCL3GSoQ3xRwSc220UOJ9f3M/8L0VEnpqTZl3oROLypQL6/v8UwZvRM0qyAzNklUns8z0ShfxJu/RQDW4aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=rg0Hdjtb; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wJF/rbQj"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="rg0Hdjtb"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=gdINLcaBB47zjBU/4s1ytJ3Urnla7jYI4l5DT0ooHEU=; b=wJF/rbQjW7bIgzw2xmupq4Djik
-	Hxythy3wICwxBo/jIiqaL9vXGSNyajTSki6afi+xio+8sOE0gUR/wCz3I4w7Ig9uN13cH85ypDAAn
-	DN0sh4IfiUwv/AjvwoBJfLe1f1HN+/pydOClSwFB9uNjbwtYrXCpOtbFzDPnRrybQKCnFfifE8iBT
-	JAwNo886q/c3HXwypW+kjpuDx8lowAAUqftgf80th9cvXJGtBKeLVcLIIcPMcgrreDon7O6zRKb3T
-	Xn4j1/N5M+AVUBSI6xtjLfAnzFCjI84tkr153GprarnvIA4PTGWpZdYyLtjhDT2rcaV00Kd2AUNVQ
-	7N8l98CQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rah0W-0000000HRTc-0sMR;
-	Thu, 15 Feb 2024 19:02:52 +0000
-Message-ID: <8030a0b6-0816-4313-bf70-aa602fc1a871@infradead.org>
-Date: Thu, 15 Feb 2024 11:02:51 -0800
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=pIfAYq4N+gqGnpM/2pjkFTmquDU3bWf7IeLw/ovzE98=; b=rg0Hdjtbip4Ksba0pqUURE4fP9
+	GEGUhSU0N5X+FnuzqLGh2LjcSFAsjQpPJA7jMoQ2PYX3FdHNgjPL7QxNw3GDhmA6cQIJO8mCXahwd
+	TdyL+Mrj6o7J5uloSt4dYrI3WbLfeUr5PKmzDS6bolMORjmDf+zqgB583E/w/Bp1L5P7TdaMyBCng
+	ehhke1Kcr0SJW3qgw+FUDJYTE4u2CgRdxmt/S5UdkPmvd8tpd4gTaOEaumpq/hgoRrv07H17k6ds2
+	+6hoIFrJHD+5TIQp7veZFY0D1VZzBPu3kztUOYC2LZJM8lJX7s7Hxw8kaqeXXnOG4xNrqzqca1Ll4
+	K1+zg0/g==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1rah1c-00HJp9-2j;
+	Thu, 15 Feb 2024 13:04:00 -0600
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
+ Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject:
+ Re: [PATCH 01/31] ntsync: Introduce the ntsync driver and character device.
+Date: Thu, 15 Feb 2024 13:04:00 -0600
+Message-ID: <4897444.31r3eYUQgx@camazotz>
+In-Reply-To: <51a442ec-3835-4282-982b-734c0962141c@infradead.org>
+References:
+ <20240214233645.9273-1-zfigura@codeweavers.com>
+ <20240214233645.9273-2-zfigura@codeweavers.com>
+ <51a442ec-3835-4282-982b-734c0962141c@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kasan: Add documentation for CONFIG_KASAN_EXTRA_INFO
-Content-Language: en-US
-To: Juntong Deng <juntong.deng@outlook.com>, ryabinin.a.a@gmail.com,
- glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
- vincenzo.frascino@arm.com, corbet@lwn.net
-Cc: kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <AM6PR03MB58480786BBA03365CE454CDB994D2@AM6PR03MB5848.eurprd03.prod.outlook.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <AM6PR03MB58480786BBA03365CE454CDB994D2@AM6PR03MB5848.eurprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi--
-
-On 2/15/24 10:43, Juntong Deng wrote:
-> This patch adds CONFIG_KASAN_EXTRA_INFO introduction information to
-> KASAN documentation.
+On Wednesday, 14 February 2024 19:57:23 CST Randy Dunlap wrote:
+> Hi,
 > 
-> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
-> ---
->  Documentation/dev-tools/kasan.rst | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+> On 2/14/24 15:36, Elizabeth Figura wrote:
+> > ntsync uses a misc device as the simplest and least intrusive uAPI interface.
+> > 
+> > Each file description on the device represents an isolated NT instance, intended
+> > to correspond to a single NT virtual machine.
+> > 
+> > Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+> > ---
+> >  drivers/misc/Kconfig  |  9 ++++++++
+> >  drivers/misc/Makefile |  1 +
+> >  drivers/misc/ntsync.c | 52 +++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 62 insertions(+)
+> >  create mode 100644 drivers/misc/ntsync.c
+> > 
+> > diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> > index 4fb291f0bf7c..bdd8a71bd853 100644
+> > --- a/drivers/misc/Kconfig
+> > +++ b/drivers/misc/Kconfig
+> > @@ -504,6 +504,15 @@ config OPEN_DICE
+> >  	  measured boot flow. Userspace can use CDIs for remote attestation
+> >  	  and sealing.
+> >  
+> > +config NTSYNC
+> > +	tristate "NT synchronization primitive emulation"
+> > +	help
+> > +	  This module provides kernel support for emulation of Windows NT
+> > +	  synchronization primitives. It is not a hardware driver.
+> > +
+> > +	  To compile this driver as a module, choose M here: the
+> > +	  module will be called ntsync.
+> > +
+> >  	  If unsure, say N.
 > 
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index a5a6dbe9029f..3dc48b08cf71 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -277,6 +277,27 @@ traces point to places in code that interacted with the object but that are not
->  directly present in the bad access stack trace. Currently, this includes
->  call_rcu() and workqueue queuing.
->  
-> +CONFIG_KASAN_EXTRA_INFO
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
+> It looks like the "If unsure" line belongs to the OPEN_DICE kconfig entry
+> above here. If you want one for NTSYNC, please add one.
 
-Fix punctuation (run-on sentence):
+Oops, looks like that was a bad rebase :-(
 
-> +Enabling CONFIG_KASAN_EXTRA_INFO allows KASAN to record and report more
-> +information, the extra information currently supported is the CPU number and
+> 
+> >  
+> >  config VCPU_STALL_DETECTOR
+> 
+> 
+> > diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
+> > new file mode 100644
+> > index 000000000000..e4969ef90722
+> > --- /dev/null
+> > +++ b/drivers/misc/ntsync.c
+> > @@ -0,0 +1,52 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * ntsync.c - Kernel driver for NT synchronization primitives
+> > + *
+> > + * Copyright (C) 2024 Elizabeth Figura
+> 
+> It would be nice to have your email address above...
+> 
+> > + */
+> > +
+> 
+> > +
+> > +MODULE_AUTHOR("Elizabeth Figura");
+> 
+> but at least please add it in MODULE_AUTHOR(). Yes it's optional, but
+> roughly 7900 of 10400 entries do include it (according to my rough
+> grepping).
+> 
+> Yes, I know that it's in MAINTAINERS.
 
-   information. The
+Will add, thanks. As you guessed I did just pick an arbitrary module to copy.
 
-> +timestamp at allocation and free. More information can help find the cause of
-> +the bug and correlate the error with other system events, at the cost of using
-> +extra memory to record more information (more cost details in the help text of
-> +CONFIG_KASAN_EXTRA_INFO).
-> +
-> +Here is the report with CONFIG_KASAN_EXTRA_INFO enabled (only the
-> +different parts are shown)::
-> +
-> +    ==================================================================
-> +    ...
-> +    Allocated by task 134 on cpu 5 at 229.133855s:
-> +    ...
-> +    Freed by task 136 on cpu 3 at 230.199335s:
-> +    ...
-> +    ==================================================================
-> +
->  Implementation details
->  ----------------------
->  
 
-thanks.
--- 
-#Randy
