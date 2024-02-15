@@ -1,137 +1,141 @@
-Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com [95.215.58.185])
+Received: from olivedrab.birch.relay.mailchannels.net (olivedrab.birch.relay.mailchannels.net [23.83.209.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EB013AA4B
-	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 20:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.185
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708029227; cv=none; b=RU5KolW/lpDk2Ulr9BMilJ4N5WY7CIGZ4+a5o4WaWv8e+7Y/lb3tkIg/WAEVX0nSlCpetU5+MLU8qCkg84/UXqRxYoesR5aGYGguo0fWyV7AovxdZkQLYT8CzYmdBb2LNwoVh3uYeXVyCmfJuPUG9sGz//g1eugPVZ3cUsGBz3E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708029227; c=relaxed/simple;
-	bh=svZI8lR5yuLAKcmkdT/NwJ0LBFg7C4bhwIEcPtd4wK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RFIPX2lNxJghhoxPzqhN2DbNNaen5IVc6UMUWa5rfs0U54A/I8mrLk8/5k1hVtqRMejP47Lrf9ZIEYqXC/fXcp9edcGzfBLCKPizFHxIig8UQIRvaIInWp8wKYaVPq68ye7Vcy8Jg/nOCNo7/z5x7XRg+jk0h6oIIR7FWHtTlE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uKMqNbYR; arc=none smtp.client-ip=95.215.58.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B735713B2BC
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 20:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.209.135
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708030786; cv=pass; b=R25EbJvOHr+4GZax/5QJrO6ldxw9oUIIdnCP6DsNNRqoKZl/0siaW7pET6dmxBvhlrkmp8MK/15E6w3BVK/MwHNlAO7VAHP1zBTfoZ4x5zHbr+64/Jmzwbi+z0s5Mg6Npk6RE36EZi/S9TkrOkZiJOpUW6mivu6MyLaYisqXIII=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708030786; c=relaxed/simple;
+	bh=/mSUBbaJgobG9E0uIKTDJyTpld50sZunPGvI+/SX598=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aEz9IU9pxguGlF52vAORlgJuV3WeCsItiXrXzmXCV/Sa6gJ9WLc9yJ/PwKTdZnCc9+DqXw+RlwyMSqVjpC5xInGvlVMeFU0pzb/KYqYNHCGosBnpHiEXun6ZiPzVSPmvdSiQZJhqNw2u59F2zJ7ohOepeSIMuzL3ZLAtqTcGGHo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=okanakyuz.com; spf=none smtp.mailfrom=okanakyuz.com; dkim=pass (2048-bit key) header.d=okanakyuz.com header.i=@okanakyuz.com header.b=MHqYS84h; arc=pass smtp.client-ip=23.83.209.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=okanakyuz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=okanakyuz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uKMqNbYR"
-Date: Thu, 15 Feb 2024 15:33:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1708029222;
+	dkim=pass (2048-bit key) header.d=okanakyuz.com header.i=@okanakyuz.com header.b="MHqYS84h"
+X-Sender-Id: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 81DDB941275
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 20:42:35 +0000 (UTC)
+Received: from fr-int-smtpout5.hostinger.io (unknown [127.0.0.6])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 0EB83940A27
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 20:42:33 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1708029754; a=rsa-sha256;
+	cv=none;
+	b=rlL8oGiAUIPl4OO8l5fDEvmNxJfAml4ZUCWIa5hicUrt9CgwvJDdAfW/0/7Ca1k24tx/xA
+	T48crWsZ6F17GM3HwZIfEDe6+pmkFZxQbwAAQB4JaAvB0rTal8QWDyORepQYULcgeq66by
+	Jt6/cEp6gjSEB6r2D3W0wUyn/IEC6MzUKQUS6tfGq+bGBjgvVR/xW8M/UMnRObp3+2HPFt
+	XVtklL6/q8ZoWroKAWz3qQtL7i4gdEtevu82WEZ5gGhiuEfOKP3+rCHzaLgJon2N05htEg
+	594L6bNIRGClVHFfKcdad/eOC7mnUE1WR/G7cJExyC7cStKU5uBqrjapywbYhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1708029754;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=6ot6RPa4XOaODJrhv54Aj+MPR5wL0ugjba+aQ/EkZnA=;
+	b=15BQVhtgmFzpdDq+yFiUuvopysIAkFRjn01OL3hvb6m5W3YBc6l9BtpCX92CCfsQN1cpmW
+	BjdQBiUGBP/gYzO6Ygjpq54INJdb5BmwfswsIlwNuk9hx13fAI+cyyQwq2WawWW+eDnjzf
+	XsW82ZaqRAXsKKTZrFGarEwdaSYLD63JHi5lDOibNExLX5an1oF1/E5JIdu0KfwbW3k1j+
+	OdNuoE99umGAofgLEZOt51UVsdWu+Hy1kta5PzgSQ1FkdYQla+H/NyTP/g0xx6zfYNwrxK
+	adO/o6dODYUjQxCzLS0jCgCZwjqZsOlcICbl5NAGFk1noIA3+nfwfKkB/y1sDg==
+ARC-Authentication-Results: i=1;
+	rspamd-6bdc45795d-4sp4r;
+	auth=pass smtp.auth=hostingeremail smtp.mailfrom=okanakyuz@okanakyuz.com
+X-Sender-Id: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Reign-Occur: 5a1539fe73aa7fac_1708029755094_1991775511
+X-MC-Loop-Signature: 1708029755094:2875241703
+X-MC-Ingress-Time: 1708029755094
+Received: from fr-int-smtpout5.hostinger.io ([UNAVAILABLE]. [89.116.146.168])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.120.66.9 (trex/6.9.2);
+	Thu, 15 Feb 2024 20:42:35 +0000
+Message-ID: <d1cf9665-df49-4ab8-a80e-e02530d9aa42@okanakyuz.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=okanakyuz.com;
+	s=hostingermail-a; t=1708029752;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1h3mKBhbYx2gO9e1zxP9AUVbRxFOpkSn+Z2PNxlzZgw=;
-	b=uKMqNbYRWjGlI+HaoeIYPI5ERvXjACozyNlWdRNl+Qg1jnpaLiF79qYZW/RTxK0qgoH1Wj
-	xEHLKTRGoGqywmCPXSAl2Kq3qU0Ae4RnatPfkhFcJzRdH8nYJYHyebbvQZadulqXqF8Jgg
-	hvFxKVPZazAslAUs1cKqTwK9orq6Wkw=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	akpm@linux-foundation.org, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, 
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, hughd@google.com, 
-	andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com, 
-	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
-	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, 
-	cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
-	kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-modules@vger.kernel.org, 
-	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
-Message-ID: <efxe67vo32epvmyzplmpd344nw2wf37azicpfhvkt3zz4aujm3@n27pl5j5zahj>
-References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-32-surenb@google.com>
- <Zc3X8XlnrZmh2mgN@tiehlicka>
- <CAJuCfpHc2ee_V6SGAc_31O_ikjGGNivhdSG+2XNcc9vVmzO-9g@mail.gmail.com>
- <Zc4_i_ED6qjGDmhR@tiehlicka>
- <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
- <ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut>
- <320cd134-b767-4f29-869b-d219793ba8a1@suse.cz>
+	bh=6ot6RPa4XOaODJrhv54Aj+MPR5wL0ugjba+aQ/EkZnA=;
+	b=MHqYS84hpe4sBxl/2GDg2810B7/EUA/5uFDOsFebY7m3GmJ+dL5plBba8ogLdhTJLSpmLj
+	ZV3he29WK47+oizN5tUgBo67FGpmRecHHWMdODsxaDuBveky0yeHPtcw2KE9kP2qJKzd6v
+	FnGyWAvFgxmR4+U0vVmR2TN01V3o9eOUCyjysAFotwY+UCfCRMvFe+IEfgb5U7jwBv3RYv
+	TaznqSyIu8zDJXzDmN1ORL2g2AIBbWvSbGgaPlkBLSeODiF/iEbsOXLGN4fG2IQxLpctxk
+	j/65SUfCjXtZXJP3m/L9zyXI3g2rdEzKi3fVFjKIICeahgxZI69+s++iyL2o/A==
+Date: Thu, 15 Feb 2024 23:42:30 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] The datasheet URL has been changed.
+To: Guenter Roeck <linux@roeck-us.net>, jdelvare@suse.com, corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+References: <20240215151957.20855-1-okanakyuz@okanakyuz.com>
+ <da10b4b9-b950-4021-8737-d12cbccef8c9@roeck-us.net>
+Content-Language: en-GB
+From: =?UTF-8?Q?Okan_Aky=C3=BCz?= <okanakyuz@okanakyuz.com>
+In-Reply-To: <da10b4b9-b950-4021-8737-d12cbccef8c9@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <320cd134-b767-4f29-869b-d219793ba8a1@suse.cz>
-X-Migadu-Flow: FLOW_OUT
+X-CM-Envelope: MS4xfMnkNkm6M0NIYgJlzn3EgqxwLUMeDhzKqAxUhXvzaNxgC4g0AeuSas1qWHR3A2qUruZv/9miDSTnWGfpv/ZS4KfbPL9mMkybtEVHXjGB3Gy2QjL0EnGr evp7c/11htgTvDiDU/Ovozgt1gNZi/o5Md1NkdOBzra2+cqqA4P2O+Mjw4bcYifP+9iZIjtf6vx0fSiUzfKgCJTYQsCMRJgCobPd1yHLU67BT59rDHl/epMP rUrI+TLAIMAdabU8QgUVYNZKCxMULzw3aDl7NgIR5Ax6IkW3LseeLYx9A9bC9qgA9diniOJv1bMogxTot4HOzC2fqyqP5qI9HcQ2WbQS+4/zNH2na49D8cqD 5Q8SnJnxo9FNLJKjg5Bn4vNgcx2KKG0+ZXHML6+xMnspNi+MAu8=
+X-CM-Analysis: v=2.4 cv=apu0CzZV c=1 sm=1 tr=0 ts=65ce7738 a=geHYaF3j5ifCImHjKwHHfg==:117 a=geHYaF3j5ifCImHjKwHHfg==:17 a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=a4NEJbfMAAAA:8 a=-tA9vPf7AAAA:8 a=UXzzSC1OAAAA:8 a=gAnH3GRIAAAA:8 a=vKjkYViWplyUrToOSwAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=vtdtr2SZiqPAgdHKmkdM:22 a=NXyddzfXndtU_1loVILY:22 a=oVHKYsEdi7-vN-J5QA_j:22
+X-AuthUser: okanakyuz@okanakyuz.com
 
-On Thu, Feb 15, 2024 at 09:22:07PM +0100, Vlastimil Babka wrote:
-> On 2/15/24 19:29, Kent Overstreet wrote:
-> > On Thu, Feb 15, 2024 at 08:47:59AM -0800, Suren Baghdasaryan wrote:
-> >> On Thu, Feb 15, 2024 at 8:45 AM Michal Hocko <mhocko@suse.com> wrote:
-> >> >
-> >> > On Thu 15-02-24 06:58:42, Suren Baghdasaryan wrote:
-> >> > > On Thu, Feb 15, 2024 at 1:22 AM Michal Hocko <mhocko@suse.com> wrote:
-> >> > > >
-> >> > > > On Mon 12-02-24 13:39:17, Suren Baghdasaryan wrote:
-> >> > > > [...]
-> >> > > > > @@ -423,4 +424,18 @@ void __show_mem(unsigned int filter, nodemask_t *nodemask, int max_zone_idx)
-> >> > > > >  #ifdef CONFIG_MEMORY_FAILURE
-> >> > > > >       printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poisoned_pages));
-> >> > > > >  #endif
-> >> > > > > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> >> > > > > +     {
-> >> > > > > +             struct seq_buf s;
-> >> > > > > +             char *buf = kmalloc(4096, GFP_ATOMIC);
-> >> > > > > +
-> >> > > > > +             if (buf) {
-> >> > > > > +                     printk("Memory allocations:\n");
-> >> > > > > +                     seq_buf_init(&s, buf, 4096);
-> >> > > > > +                     alloc_tags_show_mem_report(&s);
-> >> > > > > +                     printk("%s", buf);
-> >> > > > > +                     kfree(buf);
-> >> > > > > +             }
-> >> > > > > +     }
-> >> > > > > +#endif
-> >> > > >
-> >> > > > I am pretty sure I have already objected to this. Memory allocations in
-> >> > > > the oom path are simply no go unless there is absolutely no other way
-> >> > > > around that. In this case the buffer could be preallocated.
-> >> > >
-> >> > > Good point. We will change this to a smaller buffer allocated on the
-> >> > > stack and will print records one-by-one. Thanks!
-> >> >
-> >> > __show_mem could be called with a very deep call chains. A single
-> >> > pre-allocated buffer should just do ok.
-> >> 
-> >> Ack. Will do.
-> > 
-> > No, we're not going to permanently burn 4k here.
-> > 
-> > It's completely fine if the allocation fails, there's nothing "unsafe"
-> > about doing a GFP_ATOMIC allocation here.
-> 
-> Well, I think without __GFP_NOWARN it will cause a warning and thus
-> recursion into __show_mem(), potentially infinite? Which is of course
-> trivial to fix, but I'd myself rather sacrifice a bit of memory to get this
-> potentially very useful output, if I enabled the profiling. The necessary
-> memory overhead of page_ext and slabobj_ext makes the printing buffer
-> overhead negligible in comparison?
+Analog Devices (ADI) acquired Maxim Integrated on September 8, 2021. I 
+compared the revision numbers of the pdf files on archive.org. The 
+addresses of the files changed somewhere between January 2022 and 
+December 4, 2023. There is no version change on the pdf, just the url.
 
-__GFP_NOWARN is a good point, we should have that.
+I will read the documentation again and prepare a more suitable patch. 
+Since it was my first attempt.
 
-But - and correct me if I'm wrong here - doesn't an OOM kick in well
-before GFP_ATOMIC 4k allocations are failing? I'd expect the system to
-be well and truly hosed at that point.
+Thank you for your help and understending.
+Okan
 
-If we want this report to be 100% reliable, then yes the preallocated
-buffer makes sense - but I don't think 100% makes sense here; I think we
-can accept ~99% and give back that 4k.
+On 15/02/2024 20:00, Guenter Roeck wrote:
+> On 2/15/24 07:19, Okan Akyuz wrote:
+>> The URL for the datasheet was not functional. It has been replaced
+>> with the active one from the manufacturer's website.
+>>
+>> Signed-off-by: Okan Akyuz <okanakyuz@okanakyuz.com>
+>> ---
+>>   Documentation/hwmon/max6620.rst | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/hwmon/max6620.rst 
+>> b/Documentation/hwmon/max6620.rst
+>> index 84c1c44d3de4..d70173bf0242 100644
+>> --- a/Documentation/hwmon/max6620.rst
+>> +++ b/Documentation/hwmon/max6620.rst
+>> @@ -11,7 +11,7 @@ Supported chips:
+>>         Addresses scanned: none
+>>   -    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6620.pdf
+>> +    Datasheet: 
+>> https://www.analog.com/media/en/technical-documentation/data-sheets/max6620.pdf
+>>     Authors:
+>>       - L\. Grunenberg <contact@lgrunenberg.de>
+>
+> Is this supposed to be v2 ? If so, please provide change logs.
+>
+> Neither "The datasheet URL has been changed" now the original
+> "The URL of the datasheet seems to have changed" describes
+> the patch.
+>
+> Please read and follow Documentation/process/submitting-patches.rst.
+>
+> Thanks,
+> Guenter
+>
