@@ -1,153 +1,374 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D0C131731;
-	Thu, 15 Feb 2024 17:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA3113666C
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 17:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708016410; cv=none; b=K3aAi2xZdrtcDKxCJQDbGZmbVwsm3nmzhHuPK1oQQyNqpLY0FP6A+hv9OWoUqR+Hzs5RUTGbkCyXfGhdKyqq8Jv5gJ1b2ONiVvrtQoIOTO2PGnguDE4wZMPTQzrqlnati6jh2LTN5RIv1d9mOf0OvfVtcvVDDnOFvSqKCmO+HP0=
+	t=1708017558; cv=none; b=K7TMUQOmMpIW06fnN+5kgT3u8XXXWJXxbo0sn9CuiqtTwiDWitNdPpEpOzCRnTbXF05cK9Rq37NWvsPSaCQxtRF8OIJmdHoD8x13o+mEqKymOoceLCtb0vSmMdvUl03tAV0HZ7Tf+XSKy71bPDz4jJTba4ljV3+qfArHeM8a8Ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708016410; c=relaxed/simple;
-	bh=pk7QVe4QgcWvlAh/ynxTe68bky3FpJ+XYUBsXQt+Vz4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LE4TLGrpRo2++N401KHkPnTtHQKeYrANXYi4TUMHjEW5ukR6isMh8Utob3fduKAlB9LfUqeS+numKMnH3Kea4UBKwZfjjl7s9ujlvBadtjd8Lr4npUU7+uowHGCMoEStsvWU+/pTaBDh1AxeywEtWNXFnMc0P42LaUYJseEo7sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C/J1S7Q2; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708017558; c=relaxed/simple;
+	bh=v/XADi085pTDQFnJvJ0SZOENbNwpi/b0x6jIKlLw6xI=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=EIZIDAdszbjzJdP5DHv4J3YCloSLHqyQOqk6Ocjm2zXeXV0xToQhlg2ucyVwAXXkw7/b/AEdL6gbHgDcWWWDll1UqfOzwt1678KEnnr/Ww90tABuc0FRPrGq9By5RQEYsjs1cfS+jZUfSd035+ZWDf2MgbrDFe5gM/KbA3F6KTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rmoar.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QwEh5JKo; arc=none smtp.client-ip=209.85.219.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rmoar.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C/J1S7Q2"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6e0eacc5078so1011030b3a.0;
-        Thu, 15 Feb 2024 09:00:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QwEh5JKo"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dc74645bfa8so1454623276.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 09:19:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708016408; x=1708621208; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=j8X2wgs720QDW2LTsvUkX4Xd2fXq1HeA2u5+0bOzQ5Q=;
-        b=C/J1S7Q2kyt0eKaNULZLuN5mt30sJEdVwqE0CLTvDuEQBkUU+d9GWXr139Lybzlx+O
-         TQlgiSx8LCuhyUe6PiEf1RLoX8sMzwfHabUqw79xkzLb3xYydhoZayClWP/58Kd23U8I
-         rl+BtU6C/XN4EoJB4joZvGbhLUCaYSgtjt347SbJK3w3UKgeo3xDiTN+IIaFe3l/2Jse
-         WDaNHPl8jOcfE7BpqvdeiTZKuCHu3j9Lr6CnlEVCEikFIOHnnK3yhhYSZgiLeXDBAMhb
-         /EDSrymT0vGTYpYSoRCq8E0UHQsRzbHdg3E6MwQUQNzJb97hb2qsUwgPP0Pv2sw9fTJo
-         fPOQ==
+        d=google.com; s=20230601; t=1708017556; x=1708622356; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Je/OUWP1qPeulJpIvCAQz1kDrZhjiWg8SJiukvHtTak=;
+        b=QwEh5JKog0Mthh3Gj2xbOh5CDNH7t8bscJGG29MnCZmwvl9LPQpizX+8XakkmDkKCO
+         arCfLL2lrRIvouCFyKYiPBoFTPT4Q2GwltK6itmBNmQS0CuSfIuL2p8bl1tHvCimtL3Y
+         OL0b/7UoMMsmcDZ1OahF0jdBh9LklRSttec+axBPu0svKSEnM4AMY0jRkqj4S03u2x6U
+         4QdQ226bBtDq6L16noyP2SHGNgYNicZYyS/byIbXahVgQRT+N/i806njZxKZ2zTnoB4c
+         UfGND99nenQizR15uB5nxGx6knDTnFxNPDnxtWLgyJUUxfu5gEoVEv/NB0R1jTe9LIxp
+         xL0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708016408; x=1708621208;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j8X2wgs720QDW2LTsvUkX4Xd2fXq1HeA2u5+0bOzQ5Q=;
-        b=OnOEx3BD+Mz9StTiJpLG1Iq1yTQ0+ZSATApaKATy14Ig8LPj1A1aMYnpBCxRmd/C9v
-         cJtPx8/27WnEmDUrlykCK7Vwn//7HvdJjIHaL78cltOvnA4f4ZZ9Cs0Wb3jG+DjmfNnd
-         TE1LXGcoc28vhTVWwFrlgsXCraYA/nyikcoQQwIHq9rlHpt3k/5zHGvXLDOfoSEFdCsV
-         fX5PC0TxhkL4SPT6OfcbDGY1B7411i8CJxSASd9wj3d9x342R/+8x47IgrbOUrzoq65f
-         TgxvWhlOBGbBUKBXprz0b29w48X3qsbPh9unfbgzYxbJC5BJ7S3QVjFIEAuRb/UTxTO6
-         xjmg==
-X-Forwarded-Encrypted: i=1; AJvYcCVSehFpfppamSUtbCNumBwB4940momBKyVDpedlzXtkcTY52Y8Mfua2Znb5zS4adDKr/RghMl3COaRMuYBUrBIMDp+GaKYT9d/R48sRWw/mv0hauY2A791wbNxw5ybX00IGi8pAMeqI
-X-Gm-Message-State: AOJu0YzXOO+AZZUOpJHztWD50mqk8YDomBQuvx5z3u8HwOS22YtA0pvk
-	NtOvy5Q3CN4T4gV9Rd791trU58bwT1SqkdzXgOE79U94NG5b/yNX
-X-Google-Smtp-Source: AGHT+IFp9XjdsNy2SWMVQdrfUH6Pl9rTlRi0i18y3UXPQgDw3b2VmsMfLkzaflbIM9Nv/kD5El0nbQ==
-X-Received: by 2002:a05:6a00:cd4:b0:6e0:a025:feb2 with SMTP id b20-20020a056a000cd400b006e0a025feb2mr3431769pfv.11.1708016407653;
-        Thu, 15 Feb 2024 09:00:07 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id lc25-20020a056a004f5900b006e0eece1ca4sm1548049pfb.4.2024.02.15.09.00.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Feb 2024 09:00:06 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <da10b4b9-b950-4021-8737-d12cbccef8c9@roeck-us.net>
-Date: Thu, 15 Feb 2024 09:00:05 -0800
+        d=1e100.net; s=20230601; t=1708017556; x=1708622356;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Je/OUWP1qPeulJpIvCAQz1kDrZhjiWg8SJiukvHtTak=;
+        b=bgxbFP5nCmQaxKLJ0nqRh7n0zeiA2kOKt+5xwk73JpV4nkzkmn92TDRYw554sHER24
+         OL+/tiPrkoKvsxDXm1wLknZ467T2z5+vt++Tgzh42CaL69QcjkMggjgxrMiIWY6iSe3e
+         hIllK7Czd2C6vZ/tFXiX2AKMmcjTmSr5GwCAEIXh3H5AOuniMnkqk7/At+Q9s6f2QuHw
+         yc235xxIAMzzeoR9uMWh3e0K5JejnJ9n3q+nQNRGai/SPI21AqiSh0I15G2Q9e179Iyb
+         VSioKaUBEpjFANlSrNfiONgA23c0AN6DBzXwUIGhdf3VRbOV1LKrSKHO6mhWS9Y6LTHY
+         RZKg==
+X-Forwarded-Encrypted: i=1; AJvYcCWQjwdMt1R2hl4TSZi9cyvM4EktReHpaYSiXTNh65AfuJSbdIO0NOF5LaHvCZK6YCwIUn8aqIYCBTTEUtzREipC8Zrry1G7hImC
+X-Gm-Message-State: AOJu0YzTUfK/19kPfi3o/J7d/7mCzI58aPi0ARPyU/lFEUOrQfuseazq
+	BJYVSVVm1rSwfvbWZR/u/NOBj6UavYNsFZx0ChNdJ+SbOudoQbjct4fOacaSqzCt3NlgSmz7Ww=
+	=
+X-Google-Smtp-Source: AGHT+IFmJD76xjEzonvqtMrm7uBUII0pmwIOzvgHjIARWX5En5BWjAcEvI/rTg6MV1ugOwjSiHuE/oRgbQ==
+X-Received: from rmoar-specialist.c.googlers.com ([fda3:e722:ac3:cc00:2b:7d90:c0a8:45d3])
+ (user=rmoar job=sendgmr) by 2002:a05:6902:1005:b0:dc7:59d9:7b46 with SMTP id
+ w5-20020a056902100500b00dc759d97b46mr75845ybt.3.1708017555875; Thu, 15 Feb
+ 2024 09:19:15 -0800 (PST)
+Date: Thu, 15 Feb 2024 17:18:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] The datasheet URL has been changed.
-Content-Language: en-US
-To: Okan Akyuz <okanakyuz@okanakyuz.com>, jdelvare@suse.com, corbet@lwn.net
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-References: <20240215151957.20855-1-okanakyuz@okanakyuz.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240215151957.20855-1-okanakyuz@okanakyuz.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.43.0.687.g38aa6559b0-goog
+Message-ID: <20240215171859.1907668-1-rmoar@google.com>
+Subject: [KTAP V2 PATCH v3] ktap_v2: add test metadata
+From: Rae Moar <rmoar@google.com>
+To: frowand.list@gmail.com, davidgow@google.com, keescook@chromium.org, 
+	Tim.Bird@sony.com, shuah@kernel.org, brendanhiggins@google.com, 
+	dlatypov@google.com
+Cc: tytso@google.com, gustavo.padovan@collabora.com, 
+	ricardo.canuelo@collabora.com, corbet@lwn.net, kernelci@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Rae Moar <rmoar@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2/15/24 07:19, Okan Akyuz wrote:
-> The URL for the datasheet was not functional. It has been replaced
-> with the active one from the manufacturer's website.
-> 
-> Signed-off-by: Okan Akyuz <okanakyuz@okanakyuz.com>
-> ---
->   Documentation/hwmon/max6620.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hwmon/max6620.rst b/Documentation/hwmon/max6620.rst
-> index 84c1c44d3de4..d70173bf0242 100644
-> --- a/Documentation/hwmon/max6620.rst
-> +++ b/Documentation/hwmon/max6620.rst
-> @@ -11,7 +11,7 @@ Supported chips:
->   
->       Addresses scanned: none
->   
-> -    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6620.pdf
-> +    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max6620.pdf
->   
->   Authors:
->       - L\. Grunenberg <contact@lgrunenberg.de>
+Add specification for test metadata to the KTAP v2 spec.
 
-Is this supposed to be v2 ? If so, please provide change logs.
+KTAP v1 only specifies the output format of very basic test information:
+test result and test name. Any additional test information either gets
+added to general diagnostic data or is not included in the output at all.
 
-Neither "The datasheet URL has been changed" now the original
-"The URL of the datasheet seems to have changed" describes
-the patch.
+The purpose of KTAP metadata is to create a framework to include and
+easily identify additional important test information in KTAP.
 
-Please read and follow Documentation/process/submitting-patches.rst.
+KTAP metadata could include any test information that is pertinent for
+user interaction before or after the running of the test. For example,
+the test file path or the test speed.
 
-Thanks,
-Guenter
+Since this includes a large variety of information, this specification
+will recognize notable types of KTAP metadata to ensure consistent format
+across test frameworks. See the full list of types in the specification.
+
+Example of KTAP Metadata:
+
+ KTAP version 2
+ #:ktap_test: main
+ #:ktap_arch: uml
+ 1..1
+     KTAP version 2
+     #:ktap_test: suite_1
+     #:ktap_subsystem: example
+     #:ktap_test_file: lib/test.c
+     1..2
+     ok 1 test_1
+     #:ktap_test: test_2
+     #:ktap_speed: very_slow
+     # test_2 has begun
+     #:custom_is_flaky: true
+     ok 2 test_2
+ # suite_1 has passed
+ ok 1 suite_1
+
+The changes to the KTAP specification outline the format, location, and
+different types of metadata.
+
+Reviewed-by: David Gow <davidgow@google.com>
+Signed-off-by: Rae Moar <rmoar@google.com>
+---
+Changes since v2:
+- Change format of metadata line from "# prefix_type: value" to
+  "#:prefix_type: value".
+- Add examples of edge cases, such as diagnostic information interrupting
+  metadata lines and lines in the wrong location, to the example in the
+  specification.
+- Add current list of accepted prefixes.
+- Add notes on indentation and generated files.
+- Fix a few typos.
+
+ Documentation/dev-tools/ktap.rst | 182 ++++++++++++++++++++++++++++++-
+ 1 file changed, 178 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+index ff77f4aaa6ef..42a7e50b9270 100644
+--- a/Documentation/dev-tools/ktap.rst
++++ b/Documentation/dev-tools/ktap.rst
+@@ -17,19 +17,22 @@ KTAP test results describe a series of tests (which may be nested: i.e., test
+ can have subtests), each of which can contain both diagnostic data -- e.g., log
+ lines -- and a final result. The test structure and results are
+ machine-readable, whereas the diagnostic data is unstructured and is there to
+-aid human debugging.
++aid human debugging. Since version 2, tests can also contain metadata which
++consists of important supplemental test information and can be
++machine-readable.
++
++KTAP output is built from five different types of lines:
+ 
+-KTAP output is built from four different types of lines:
+ - Version lines
+ - Plan lines
+ - Test case result lines
+ - Diagnostic lines
++- Metadata lines
+ 
+ In general, valid KTAP output should also form valid TAP output, but some
+ information, in particular nested test results, may be lost. Also note that
+ there is a stagnant draft specification for TAP14, KTAP diverges from this in
+-a couple of places (notably the "Subtest" header), which are described where
+-relevant later in this document.
++a couple of places, which are described where relevant later in this document.
+ 
+ Version lines
+ -------------
+@@ -166,6 +169,171 @@ even if they do not start with a "#": this is to capture any other useful
+ kernel output which may help debug the test. It is nevertheless recommended
+ that tests always prefix any diagnostic output they have with a "#" character.
+ 
++KTAP metadata lines
++-------------------
++
++KTAP metadata lines are used to include and easily identify important
++supplemental test information in KTAP. These lines may appear similar to
++diagnostic lines. The format of metadata lines is below:
++
++.. code-block:: none
++
++	#:<prefix>_<metadata type>: <metadata value>
++
++The <prefix> indicates where to find the specification for the type of
++metadata, such as the name of a test framework or "ktap" to indicate this
++specification. The list of currently approved prefixes and where to find the
++documentation of the metadata types is below. Note any metadata type that does
++not use a prefix from the list below must use the prefix "custom".
++
++Current List of Approved Prefixes:
++
++- ``ktap``: See Types of KTAP Metadata below for the list of metadata types.
++
++The format of <metadata type> and <value> varies based on the type. See the
++individual specification. For "custom" types the <metadata type> can be any
++string excluding ":", spaces, or newline characters and the <value> can be any
++string.
++
++**Location:**
++
++The first KTAP metadata line for a test must be "#:ktap_test: <test name>",
++which acts as a header to associate metadata with the correct test. Metadata
++for the main KTAP level uses the test name "main".
++
++For test cases, the location of the metadata is between the prior test result
++line and the current test result line. For test suites, the location of the
++metadata is between the suite's version line and test plan line. For the main
++level, the location of the metadata is between the main version line and main
++test plan line. See the example below.
++
++Note that a test case's metadata is inline with the test's result line. Whereas
++a suite's metadata is inline with the suite's version line and thus will be
++more indented than the suite's result line. Additionally, metadata for the main
++level is inline with the main version line.
++
++KTAP metadata for a test does not need to be contiguous. For example, a kernel
++warning or other diagnostic output could interrupt metadata lines. However, it
++is recommended to keep a test's metadata lines in the correct location and
++together when possible, as this improves readability.
++
++**Example of KTAP metadata:**
++
++::
++
++        KTAP version 2
++        #:ktap_test: main
++        #:ktap_arch: uml
++        1..1
++          KTAP version 2
++          #:ktap_test: suite_1
++          #:ktap_subsystem: example
++          #:ktap_test_file: lib/test.c
++          1..2
++          # WARNING: test_1 skipped
++          ok 1 test_1 # SKIP
++          #:ktap_test: test_2
++          #:ktap_speed: very_slow
++          # test_2 has begun
++          #:custom_is_flaky: true
++          ok 2 test_2
++          #:ktap_duration: 1.231s
++        # suite_1 passed
++        ok 1 suite_1
++
++In this example, the tests are running on UML. The test suite "suite_1" is part
++of the subsystem "example" and belongs to the file "lib/test.c". It has
++two subtests, "test_1" and "test_2". The subtest "test_2" has a speed of
++"very_slow" and has been marked with a custom KTAP metadata type called
++"custom_is_flaky" with the value of "true".
++
++Additionally "test_2" has a duration of 1.231s. The ktap_duration line is not
++contiguous with the other metadata and is not in the correct location, which
++is not recommended. However, it is allowed because it is below the
++"#:ktap_test: test_2" line.
++
++**Types of KTAP Metadata:**
++
++This is the current list of KTAP metadata types recognized in this
++specification. Note that all of these metadata types are optional (except for
++ktap_test as the KTAP metadata header).
++
++- ``ktap_test``: Name of test (used as header of KTAP metadata). This should
++  match the test name printed in the test result line: "ok 1 [test_name]".
++
++- ``ktap_module``: Name of the module containing the test
++
++- ``ktap_subsystem``: Name of the subsystem being tested
++
++- ``ktap_start_time``: Time tests started in ISO8601 format
++
++  - Example: "#:ktap_start_time: 2024-01-09T13:09:01.990000+00:00"
++
++- ``ktap_duration``: Time taken (in seconds) to execute the test
++
++  - Example: "#:ktap_duration: 10.154s"
++
++- ``ktap_speed``: Category of how fast test runs: "normal", "slow", or
++  "very_slow"
++
++- ``ktap_test_file``: Path to source file containing the test. This metadata
++  line can be repeated if the test is spread across multiple files.
++
++  - Example: "#:ktap_test_file: lib/test.c"
++
++- ``ktap_generated_file``: Description of and path to file generated during
++  test execution. This could be a core dump, generated filesystem image, some
++  form of visual output (for graphics drivers), etc. This metadata line can be
++  repeated to attach multiple files to the test. Note use ktap_log_file or
++  ktap_error_file instead of this type if more applicable.
++
++  - Example: "#:ktap_generated_file: Core dump: /var/lib/systemd/coredump/hello.core"
++
++- ``ktap_log_file``: Path to file containing kernel log test output
++
++  - Example: "#:ktap_log_file: /sys/kernel/debugfs/kunit/example/results"
++
++- ``ktap_error_file``: Path to file containing context for test failure or
++  error. This could include the difference between optimal test output and
++  actual test output.
++
++  - Example: "#:ktap_error_file: fs/results/example.out.bad"
++
++- ``ktap_results_url``: Link to webpage describing this test run and its
++  results
++
++  - Example: "#:ktap_results_url: https://kcidb.kernelci.org/hello"
++
++- ``ktap_arch``: Architecture used during test run
++
++  - Example: "#:ktap_arch: x86_64"
++
++- ``ktap_compiler``: Compiler used during test run
++
++  - Example: "#:ktap_compiler: gcc (GCC) 10.1.1 20200507 (Red Hat 10.1.1-1)"
++
++- ``ktap_respository_url``: Link to git repository of the checked out code.
++
++  - Example: "#:ktap_respository_url: https://github.com/torvalds/linux.git"
++
++- ``ktap_git_branch``: Name of git branch of checked out code
++
++  - Example: "#:ktap_git_branch: kselftest/kunit"
++
++- ``ktap_kernel_version``: Version of Linux Kernel being used during test run
++
++  - Example: "#:ktap_kernel_version: 6.7-rc1"
++
++- ``ktap_commit_hash``: The full git commit hash of the checked out base code.
++
++  - Example: "#:ktap_commit_hash: 064725faf8ec2e6e36d51e22d3b86d2707f0f47f"
++
++**Other Metadata Types:**
++
++There can also be KTAP metadata that is not included in the recognized list
++above. This metadata must be prefixed with the test framework, ie. "kselftest",
++or with the prefix "custom". For example, "# custom_batch: 20".
++
+ Unknown lines
+ -------------
+ 
+@@ -206,6 +374,7 @@ An example of a test with two nested subtests:
+ 	KTAP version 2
+ 	1..1
+ 	  KTAP version 2
++	  #:ktap_test: example
+ 	  1..2
+ 	  ok 1 test_1
+ 	  not ok 2 test_2
+@@ -219,6 +388,7 @@ An example format with multiple levels of nested testing:
+ 	KTAP version 2
+ 	1..2
+ 	  KTAP version 2
++	  #:ktap_test: example_test_1
+ 	  1..2
+ 	    KTAP version 2
+ 	    1..2
+@@ -254,6 +424,7 @@ Example KTAP output
+ 	KTAP version 2
+ 	1..1
+ 	  KTAP version 2
++	  #:ktap_test: main_test
+ 	  1..3
+ 	    KTAP version 2
+ 	    1..1
+@@ -261,11 +432,14 @@ Example KTAP output
+ 	    ok 1 test_1
+ 	  ok 1 example_test_1
+ 	    KTAP version 2
++	    #:ktap_test: example_test_2
++	    #:ktap_speed: slow
+ 	    1..2
+ 	    ok 1 test_1 # SKIP test_1 skipped
+ 	    ok 2 test_2
+ 	  ok 2 example_test_2
+ 	    KTAP version 2
++	    #:ktap_test: example_test_3
+ 	    1..3
+ 	    ok 1 test_1
+ 	    # test_2: FAIL
+
+base-commit: 906f02e42adfbd5ae70d328ee71656ecb602aaf5
+-- 
+2.43.0.687.g38aa6559b0-goog
 
