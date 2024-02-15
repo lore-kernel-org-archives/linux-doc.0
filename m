@@ -1,189 +1,85 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE0F635;
-	Thu, 15 Feb 2024 09:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C42B8BEA;
+	Thu, 15 Feb 2024 09:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707990322; cv=none; b=o4yw0smidbK3CzI1SddMwVeCt0OVRSWHhVJZ9a/LYYQOTxxG4lkJeS29tOppbNWXalBxDlqT+YIJbjvpDCMx6Kvc7eqlbVQAoJEYaR8G5ZeMQKo0te/URggxXQbwh6qJ8ut8/ivVb0So3zRfsLs/Jup2du3hlvnbhoBswysmrj4=
+	t=1707991047; cv=none; b=I8ARkqWXbkWqOp8ip2AP/sLUsmiH5xjxXIH6ST6Tiwh8KvWdDmGbXoz8MM2cYH4IJtBAfdxw7vcWdAXza4ITNhBzvFilK/e7ziGlu4xbAh9vuh9D13BhEnY58qzo8BbW+b8uacj7C2+6VGDi63tvIM9aG9ZT4mIzEKdFJB0Osp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707990322; c=relaxed/simple;
-	bh=D6T1r6v3EbsT85MgKqOYf6gakz8WEgJuzlWbIuokI+g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VJwnvd/HF02SjVIeL4eKlY1IZ5lU28bCFu11CGVcbo1V8Pde1i1FBdcnmq6feGpFk/gLe94+ArWu4klfAC3Ip2FBNlVpjHoRTy3+ehchkSMSW1bCnLi0kuzfyuk7cqCOdMcxjok1elP1RqOCCEy7yD14aGzhQc17VByf+MKq/qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=V3pStprb; arc=none smtp.client-ip=77.93.223.253
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1707991047; c=relaxed/simple;
+	bh=X3UCxj2K3TEeOtq3SMWbTaguBDA15VifsZaxMqU6Dac=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GbSi/aYp1RNpf+QN3jUO2Kpg2TBOT4YBs0P/oDmGr4u4fVRJr8PHQk8TznYPXEq8DQa0A+1l1v9wPKngHPdWpRT+OAprwUj9aeHbE8vlnZblku7419gHVZqhnf2ymDbHobxjGcyXrnvIYQh2lWicqxIXvJL4SrFuzQzfrjlyscE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r5L9/pPC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="V3pStprb"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 0E5411A5DA6;
-	Thu, 15 Feb 2024 10:45:15 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1707990316; bh=+r7JQcTZF4Th4Y1yTvwhdkSZSn3/oj/5ngBs5tfMidg=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r5L9/pPC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A91C433C7;
+	Thu, 15 Feb 2024 09:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707991046;
+	bh=X3UCxj2K3TEeOtq3SMWbTaguBDA15VifsZaxMqU6Dac=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=V3pStprbN51RK3H+QJOl1KXPEw7A3jgQke7AlVdLhlxBLKhqcahDB2uVp/VQPsT35
-	 Ogk9ik32b+QhbjbE6Yf99aIliN7y8OWkxalFLu6YUnok62TDId1urgasIjU7woNcD7
-	 U6dcqGGAXKj3PMVkd09vShs+uANTbbrvYeRUx8NnOl3w6MIyN84Gfz7AfnD98Ufbut
-	 4RQPSCVVXk0wmmPi/P7jf4ptuJU1Wrhr7IzkYB8Zks9hBGFgoFYFZkc1II1LKTh+ux
-	 VcxmV8wu4glsENcP3/RnrOUpA70tbNFIdJg17wVGBwIoG7T36cv7y3oCLd+p+yHeAC
-	 JBmZgNkvRM2Dg==
-Date: Thu, 15 Feb 2024 10:45:15 +0100
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Petr Tesarik
- <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>, David
- Kaplan <david.kaplan@amd.com>, Larry Dewey <larry.dewey@amd.com>, Elena
- Reshetova <elena.reshetova@intel.com>, Carlos Bilbao
- <carlos.bilbao@amd.com>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Petr Mladek <pmladek@suse.com>, "Paul
- E. McKenney" <paulmck@kernel.org>, Eric DeVolder
- <eric.devolder@oracle.com>, Marc =?UTF-8?B?QXVyw6hsZQ==?= La France
- <tsi@tuyoix.net>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Nhat Pham
- <nphamcs@gmail.com>, "Christian Brauner (Microsoft)" <brauner@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, Luis Chamberlain
- <mcgrof@kernel.org>, Guenter Roeck <groeck@chromium.org>, Mike Christie
- <michael.christie@oracle.com>, Kent Overstreet <kent.overstreet@linux.dev>,
- Maninder Singh <maninder1.s@samsung.com>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Roberto Sassu <roberto.sassu@huaweicloud.com>, Petr Tesarik
- <petr.tesarik1@huawei-partners.com>
-Subject: Re: [PATCH v1 5/5] sbm: SandBox Mode documentation
-Message-ID: <20240215104515.2075577e@meshulam.tesarici.cz>
-In-Reply-To: <2024021514-manmade-ambitious-414a@gregkh>
-References: <20240214113035.2117-1-petrtesarik@huaweicloud.com>
-	<20240214113035.2117-6-petrtesarik@huaweicloud.com>
-	<20240214053053.982b48d993ae99dad1d59020@linux-foundation.org>
-	<2024021425-audition-expand-2901@gregkh>
-	<20240214155524.719ffb15@meshulam.tesarici.cz>
-	<2024021415-jokester-cackle-2923@gregkh>
-	<20240214173112.138e0e29@meshulam.tesarici.cz>
-	<2024021417-magma-drudge-ad70@gregkh>
-	<20240214204254.6208ca2f@meshulam.tesarici.cz>
-	<2024021514-manmade-ambitious-414a@gregkh>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
+	b=r5L9/pPC2HN/ocZeeOvypkvIicIKSwsr3WiianpYw/QwS+wC0T3QK0uAtecXY0JZi
+	 hNKXPn+GBcM2Y3HMHqqE+s3o0/vRJNMA0KkyfecKnODn4yfkRwY8dGejZ0j0V/rkqj
+	 1HTXxwYB3rBxdLf8vFqDOuWw3MyLtIPNduO029K4TDrEBBvHPJRz8OEkRp23rQ+IJr
+	 TvUA2k72kT2cokn+7pwYMbReRtJfrssW1/UpS0vmPKD9wll2ZqYIQpoZz5Ic063KaB
+	 kkNTDm6R5Sk824DQhDXT29zhSggFEIbGbgSVPneR/+fl9oYZ6l6pGnsx4ohK6gfOpe
+	 pT7U06R0LFErw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1raYUe-003R7W-14;
+	Thu, 15 Feb 2024 09:57:24 +0000
+Date: Thu, 15 Feb 2024 09:57:22 +0000
+Message-ID: <86r0he3v99.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh@kernel.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] arm64: Subscribe Microsoft Azure Cobalt 100 to ARM Neoverse N2 errata
+In-Reply-To: <20240214175522.2457857-1-eahariha@linux.microsoft.com>
+References: <20240214175522.2457857-1-eahariha@linux.microsoft.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: eahariha@linux.microsoft.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, robh@kernel.org, andre.przywara@arm.com, mark.rutland@arm.com, oliver.upton@linux.dev, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Thu, 15 Feb 2024 10:11:05 +0100
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+On Wed, 14 Feb 2024 17:55:18 +0000,
+Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
+> 
+> Add the MIDR value of Microsoft Azure Cobalt 100, which is a Microsoft
+> implemented CPU based on r0p0 of the ARM Neoverse N2 CPU, and therefore
+> suffers from all the same errata.
+> 
+> CC: stable@vger.kernel.org # 5.15+
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 
-> On Wed, Feb 14, 2024 at 08:42:54PM +0100, Petr Tesa=C5=99=C3=ADk wrote:
-> > On Wed, 14 Feb 2024 19:48:52 +0100
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> >  =20
-> > > On Wed, Feb 14, 2024 at 05:31:12PM +0100, Petr Tesa=C5=99=C3=ADk wrot=
-e: =20
-> > > > On Wed, 14 Feb 2024 16:11:05 +0100
-> > > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > > >    =20
-> > > > > On Wed, Feb 14, 2024 at 03:55:24PM +0100, Petr Tesa=C5=99=C3=ADk =
-wrote:   =20
-> > > > > > OK, so why didn't I send the whole thing?
-> > > > > >=20
-> > > > > > Decomposition of the kernel requires many more changes, e.g. in=
- linker
-> > > > > > scripts. Some of them depend on this patch series. Before I go =
-and
-> > > > > > clean up my code into something that can be submitted, I want t=
-o get
-> > > > > > feedback from guys like you, to know if the whole idea would be=
- even
-> > > > > > considered, aka "Fail Fast".     =20
-> > > > >=20
-> > > > > We can't honestly consider this portion without seeing how it wou=
-ld
-> > > > > work, as we don't even see a working implementation that uses it =
-to
-> > > > > verify it at all.
-> > > > >=20
-> > > > > The joy of adding new frameworks is that you need a user before a=
-nyone
-> > > > > can spend the time to review it, sorry.   =20
-> > > >=20
-> > > > Thank your for a quick assessment. Will it be sufficient if I send =
-some
-> > > > code for illustration (with some quick&dirty hacks to bridge the ga=
-ps),
-> > > > or do you need clean and nice kernel code?   =20
-> > >=20
-> > > We need a real user in the kernel, otherwise why would we even consid=
-er
-> > > it?  Would you want to review a new subsystem that does nothing and h=
-as
-> > > no real users?  If not, why would you want us to?  :) =20
-> >=20
-> > Greg, please enlighten me on the process. How is something like this
-> > supposed to get in? =20
->=20
-> If you were in our shoes, what would you want to see in order to be able
-> to properly review and judge if a new subsystem was ok to accept?
->=20
-> > Subsystem maintainers will not review code that depends on core features
-> > not yet reviewed by the respective maintainers. If I add only the API
-> > and a stub implementation, then it brings no benefit and attempts to
-> > introduce the API will be dismissed. I would certainly do just that if
-> > I was a maintainer... =20
->=20
-> Exactly, you need a real user.
+Thanks for respinning this.
 
-Er, what I was trying to say was rather: You need a real implementation
-of a core feature before a subsystem maintainer considers using it for
-their subsystem.
+Acked-by: Marc Zyngier <maz@kernel.org>
 
-But I get your point. I need *both*.
+	M.
 
-> > I could try to pack everything (base infrastructure, arch
-> > implementations, API users) into one big patch with pretty much
-> > everybody on the Cc list, but how is that ever going to get reviewed? =
-=20
->=20
-> How are we supposed to know if any of this even works at all if you
-> don't show that it actually works and is useful?  Has any of that work
-> even been done yet?  I'm guessing it has (otherwise you wouldn't have
-> posted this), but you are expecting us to just "trust us, stuff in the
-> future is going to use this and need it" here.
-
-Understood.
-
-> Again, we can not add new infrastructure for things that have no users,
-> nor do you want us to.  Ideally you will have at least 3 different
-> users, as that seems to be the "magic number" that shows that the
-> api/interface will actually work well, and is flexible enough.  Just
-> one user is great for proof-of-concept, but that usually isn't good
-> enough to determine if it will work for others (and so it wouldn't need
-> to be infrastructure at all, but rather just part of that one feature on
-> its own.)
->=20
-> > Should I just go and maintain an out-of-tree repo for a few years,
-> > hoping that it gets merged one day, like bcachefs? Is this the way? =20
->=20
-> No, show us how this is going to be used.
-
-OK, working on it.
-
-> Again, think about what you would want if you had to review this.
-
-Review, or merge? For a review, I would want enough information to
-understand what it is *and* where it is going.
-
-As a matter of fact, hpa does not like the x86 implementation. For
-reasons that I do not fully understand (yet), but if the concept turns
-out to be impractical, then my submission will serve a purpose, as I
-can save myself (and anybody else with a similar idea) a lot of work by
-failing fast.
-
-Is this a valid way to get early feedback?
-
-Thanks,
-Petr T
+-- 
+Without deviation from the norm, progress is not possible.
