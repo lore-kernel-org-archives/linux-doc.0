@@ -1,147 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8707413B2AB;
-	Thu, 15 Feb 2024 23:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059A912C53A
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 23:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708039563; cv=none; b=rBmTRMmLwHyk6fskQHTNUzWcv20qDMxOU32C9/w3QE85W+G3la0PbIvArsgRG779zwQIkGbU2kgWQL6NfCEzTBBha3vldG2IMjtBhy85trEZ2wTz7A3eY4w3EXYasBCbVi/cZG816aX3o9jwU+LZNF133UxYz7/OUX2krmS6gUE=
+	t=1708039952; cv=none; b=EmyHChFep7/7uOQctyqBIQr8vSfcFOyvqSb+XYM/hVcAdrD3nBwPTbAEUXjYipQd13W48jOKRjoEyyPX2h2rOAsAO95KWQGRSTNQ9y38TCwfxeU5OuhYj6+GPYGXvZZM3ovNx3x5YNXhOXPW/Dnh9ldiG8quuMeluStO+947E0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708039563; c=relaxed/simple;
-	bh=XS5bJqlP4STQgp1DfmpPHfkB4RaRvPoEvv+ra766L+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gI1HFXSuCMFRc5NHOWZGJ1P9hJdHEvsoSuXX3VH88Sz9MZ1HcA8ybXqIey6j1FSz3hGEG5E4tqXSPLTVn6kyhbflJo7mbqI6TPFJrhm53IkWWaAFEGfq4b30CiNvb0qB4rIICedJNyIrGx14wm7k9egYhq+817EPlDv3CZ7bdwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6610C433F1;
-	Thu, 15 Feb 2024 23:25:55 +0000 (UTC)
-Date: Thu, 15 Feb 2024 18:27:29 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- akpm@linux-foundation.org, hannes@cmpxchg.org, roman.gushchin@linux.dev,
- mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
- liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
- peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
- will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
- dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
- david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
- nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
- rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
- yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
- hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
- ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
- ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, bsegall@google.com, bristot@redhat.com,
- vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
- iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
- elver@google.com, dvyukov@google.com, shakeelb@google.com,
- songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
- minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in
- show_mem()
-Message-ID: <20240215182729.659f3f1c@gandalf.local.home>
-In-Reply-To: <20240215181648.67170ed5@gandalf.local.home>
-References: <20240212213922.783301-1-surenb@google.com>
-	<20240212213922.783301-32-surenb@google.com>
-	<Zc3X8XlnrZmh2mgN@tiehlicka>
-	<CAJuCfpHc2ee_V6SGAc_31O_ikjGGNivhdSG+2XNcc9vVmzO-9g@mail.gmail.com>
-	<Zc4_i_ED6qjGDmhR@tiehlicka>
-	<CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
-	<ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut>
-	<320cd134-b767-4f29-869b-d219793ba8a1@suse.cz>
-	<efxe67vo32epvmyzplmpd344nw2wf37azicpfhvkt3zz4aujm3@n27pl5j5zahj>
-	<20240215180742.34470209@gandalf.local.home>
-	<20240215181648.67170ed5@gandalf.local.home>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1708039952; c=relaxed/simple;
+	bh=FM1+HUZG5gJUxy5QV5jCr4amZydcFggwvDuhx2BtR2Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H/UYcEB6dIaMjJLVOyaidbBLZ6gH4y6ATfJRp3z+ck9B8Epm06v7JEMb/qnwxL/qijzc+sNUC6GDgjiidNPhb8knkIB8v90AaDCT847dCiNAz2FTbWdUFLimhpxPXFn2IZK0Gyr0JfbUHa7L1AJ5Keu6ks2GSC3gl06cBFW/na0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mMQAkY73; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mMQAkY73"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=gtD0SNkqZJIb1h8qzwq6wJzbeQyR7+4yTb9BiMe7RMM=; b=mMQAkY73ZB9KVISzIUjffjf1sc
+	jEoSylDMIcP0z7VMU61EuBIomnMGl17SL3r0aL5LVzuEt4691GcU+qqHK2vYIt1Q/rvHsUG2acsE6
+	Te7ODBw+CFQ4iDy0t87eLBoe4Qv/AF88D6Axf1uUPgF/We18MUUxotekDORnD1TJKRNEYXw/7493v
+	VwkplmNUdYbbicaarkxawHmE9VA0l6+qMEfTHxe4wLyoePAMWqmoI5wkw/LV8g4SMP2fVn4ItxB4a
+	gkvvR51glSy2slMbC81WYdpBIA0Nk9t5WAFZcv30SHtVnFS6T47iUNlBhSzq7y83DXghHAOiTYqnV
+	6nNQIY5A==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1ralDK-00000000Tgo-3utW;
+	Thu, 15 Feb 2024 23:32:23 +0000
+Message-ID: <14e986a7-8e86-4ddb-b9b2-b5c4a54d3606@infradead.org>
+Date: Thu, 15 Feb 2024 15:32:22 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] scripts/kernel-doc: simplify function printing
+Content-Language: en-US
+To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+References: <20240215134828.1277109-1-vegard.nossum@oracle.com>
+ <20240215134828.1277109-3-vegard.nossum@oracle.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240215134828.1277109-3-vegard.nossum@oracle.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thu, 15 Feb 2024 18:16:48 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> On Thu, 15 Feb 2024 18:07:42 -0500
-> Steven Rostedt <rostedt@goodmis.org> wrote:
+
+On 2/15/24 05:48, Vegard Nossum wrote:
+> Get rid of the $start variable, since it's really not necessary.
 > 
-> >    text         data            bss     dec             hex filename
-> > 29161847        18352730        5619716 53134293        32ac3d5 vmlinux.orig
-> > 29162286        18382638        5595140 53140064        32ada60 vmlinux.memtag-off		(+5771)
-> > 29230868        18887662        5275652 53394182        32ebb06 vmlinux.memtag			(+259889)
-> > 29230746        18887662        5275652 53394060        32eba8c vmlinux.memtag-default-on	(+259767) dropped?
-> > 29276214        18946374        5177348 53399936        32ed180 vmlinux.memtag-debug		(+265643)  
+> No functional change.
 > 
-> If you plan on running this in production, and this increases the size of
-> the text by 68k, have you measured the I$ pressure that this may induce?
-> That is, what is the full overhead of having this enabled, as it could
-> cause more instruction cache misses?
-> 
-> I wonder if there has been measurements of it off. That is, having this
-> configured in but default off still increases the text size by 68k. That
-> can't be good on the instruction cache.
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  scripts/kernel-doc | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 > 
 
-I should have read the cover letter ;-)  (someone pointed me to that on IRC):
-
-> Performance overhead:
-> To evaluate performance we implemented an in-kernel test executing
-> multiple get_free_page/free_page and kmalloc/kfree calls with allocation
-> sizes growing from 8 to 240 bytes with CPU frequency set to max and CPU
-> affinity set to a specific CPU to minimize the noise. Below are results
-> from running the test on Ubuntu 22.04.2 LTS with 6.8.0-rc1 kernel on
-> 56 core Intel Xeon:
-
-These are micro benchmarks, were any larger benchmarks taken? As
-microbenchmarks do not always show I$ issues (because the benchmark itself
-will warm up the cache). The cache issue could slow down tasks at a bigger
-picture, as it can cause more cache misses.
-
-Running other benchmarks under perf and recording the cache misses between
-the different configs would be a good picture to show.
-
-> 
->                         kmalloc                 pgalloc
-> (1 baseline)            6.764s                  16.902s
-> (2 default disabled)    6.793s (+0.43%)         17.007s (+0.62%)
-> (3 default enabled)     7.197s (+6.40%)         23.666s (+40.02%)
-> (4 runtime enabled)     7.405s (+9.48%)         23.901s (+41.41%)
-> (5 memcg)               13.388s (+97.94%)       48.460s (+186.71%)
-
-
-> 
-> Memory overhead:
-> Kernel size:
-> 
->    text           data        bss         dec         diff
-> (1) 26515311	      18890222    17018880    62424413
-> (2) 26524728	      19423818    16740352    62688898    264485
-> (3) 26524724	      19423818    16740352    62688894    264481
-> (4) 26524728	      19423818    16740352    62688898    264485
-> (5) 26541782	      18964374    16957440    62463596    39183
-
-Similar to my builds.
-
-
-> 
-> Memory consumption on a 56 core Intel CPU with 125GB of memory:
-> Code tags:           192 kB
-> PageExts:         262144 kB (256MB)
-> SlabExts:           9876 kB (9.6MB)
-> PcpuExts:            512 kB (0.5MB)
-> 
-> Total overhead is 0.2% of total memory.
-
-
-All this, and we are still worried about 4k for useful debugging :-/
-
--- Steve
+-- 
+#Randy
