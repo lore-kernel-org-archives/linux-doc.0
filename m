@@ -1,429 +1,118 @@
-Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
+Received: from seahorse.cherry.relay.mailchannels.net (seahorse.cherry.relay.mailchannels.net [23.83.223.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2F2135A5D;
-	Thu, 15 Feb 2024 15:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.130.215.37
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708011880; cv=none; b=Iini8eHmHeFuUOHb0rafcbO8MOrtIZL/a+hiOwvaSDc6DohCEnCvdFLgAvheRYhlGl4reZLI+QzF5v5wpAOpt1W3yZn/JtlWbj6MrBRyM8kZ/MKuqi0abJSBNGKApBFXP/dwybXlA2Jwywrp3pMLBjM8ycpLVSgstaX4WYMvZes=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708011880; c=relaxed/simple;
-	bh=jamOUiu5lQ6zoQwEZ5Si401NudxQcl8ZjbzfUSAqIxE=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XUm0QHW0xe7BnbPmJGts7KMrAbnIL0HqM2l50uslZABztE1h4Wb7LXrDhLLOTDBUIcw4KixTcGOpmM7JEkrB7Issz/AkP0Zk3OmZzqSEjTNcxakpQ2rNTq1kQx6URgx2rRmNsNcy3old6DsX44YAL864enXHmXniwJc1NQ5zeJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xen.org; spf=pass smtp.mailfrom=xen.org; dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b=HVnql+R7; arc=none smtp.client-ip=104.130.215.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xen.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xen.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8278213343B
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 15:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.223.161
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708012130; cv=pass; b=VmT/EkRT0G6ftiZKq36/YtcGW7xOTb+PDyY9ZbC+uNs91ChoCn/JBwvkqytDDCW7BoKIiT7fxwQ19VNxfd97XGnqVgL3Xg2IvoHMDOkSA/y1Oi+9TcR8uVyTR987G/vkmvjgqXgqxDTSxYiLb2GxokzSHw+iCe+GxepnRsDLt2E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708012130; c=relaxed/simple;
+	bh=+4O3D4o5CsfHbruLVlheO0dIe4wiYNfrvNQ9FVYTaoU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sE5JDn2Jxbk/GETV8r69FrNAyV3QX3xG7iBUAf/qX6ej3sYUaIaC1bVdwfl/5IcUud7cX9dsh7GLAq4on+S8j+bgPMGmCMzRXPQMW4bh4xnOaHW0wugtrtkhpcrjz/TgSWowLLJiF2TEOUwyC3/smfQrCqyvp0Rt638c/agoJXw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=okanakyuz.com; spf=none smtp.mailfrom=okanakyuz.com; dkim=pass (2048-bit key) header.d=okanakyuz.com header.i=@okanakyuz.com header.b=ZI5tZ5+F; arc=pass smtp.client-ip=23.83.223.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=okanakyuz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=okanakyuz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xen.org header.i=@xen.org header.b="HVnql+R7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
-	s=20200302mail; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:To:From;
-	bh=ZxLu2L3EQRBVOIZcp8jrgh2VrxikcN7ir8gRMfEtsRs=; b=HVnql+R7gxtXpdeXHDwI1BRbRG
-	MNLK6QX/3GUBzZd+IU3Wo/qN8edQUgRk9scwuKE8+VldNomyIhSqpwuQreVW0U+bFv38nIXDkKezX
-	9XDUhZtyWD1EHJvdAwXwPIshFDRVD6bKt+O58jiqMSczetJsDzGVfpadydvQ/+xUumlU=;
-Received: from xenbits.xenproject.org ([104.239.192.120])
-	by mail.xenproject.org with esmtp (Exim 4.92)
-	(envelope-from <paul@xen.org>)
-	id 1raduL-0001WK-QA; Thu, 15 Feb 2024 15:44:17 +0000
-Received: from 54-240-197-226.amazon.com ([54.240.197.226] helo=REM-PW02S00X.ant.amazon.com)
-	by xenbits.xenproject.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <paul@xen.org>)
-	id 1radhh-00089r-2Z; Thu, 15 Feb 2024 15:31:13 +0000
-From: Paul Durrant <paul@xen.org>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	David Hildenbrand <david@redhat.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Paul Durrant <paul@xen.org>,
-	Shuah Khan <shuah@kernel.org>,
-	kvm@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=okanakyuz.com header.i=@okanakyuz.com header.b="ZI5tZ5+F"
+X-Sender-Id: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 1118F81F24
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 15:29:25 +0000 (UTC)
+Received: from uk-fast-smtpout2.hostinger.io (unknown [127.0.0.6])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 4C36681F05
+	for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 15:29:24 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1708010964; a=rsa-sha256;
+	cv=none;
+	b=9fkIjxjmpKPPAok9AKQKZF0/FzJIwVx6bCmnIg/6+Szo2+JJxIBsT4eGcVQ54+anf12key
+	GRGfzVWGBq0iUiZ9ZXt43i6MDiiVlHUdl2UDkLAtHy7KTpYgfQmIASG6thKx1ye0LsE94S
+	2k4h883GX7v9YrjuSf7lI49u/Bxg2GRBMqF3iO1FDbn/WIoO9i93iHILGj3K0m3mWTDW7N
+	Pz5LxmM058CxP2iJVqB5/ZcOM2lK4hmsEmo8hbEU2k9RazyFQD5Uax+mGafIxY3VNZye8V
+	oOWAm3E3r9G8HX1Lx/OJGMur93boEQlLcFdQejzacLPV0wTqKW2inekKyY3IBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1708010964;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=cbX2TFeKmQIH09gm5LYQHKCMm5YzJk5x0VxemUSMmNU=;
+	b=5TEn/ssRXw3vSYsobv3Xapycx62Z75055/c2oY3L5AsXp19n/bW34Mj96WGpDxujOOgKlq
+	7yQM76znlFDq6PsFCnbnAC+wDDOTTn8vO7D8YMlVuSL2dW8zloBu463dZwwPhM7FZ9klt9
+	f2TopggpMxXaW6vtEt38HKfmq8fjeVJWHF9aIfE2c9l8Xior7jn3hea1aXP5fxVLVOcbcx
+	/h3260rzbb/Uk/d0MmOqiBRj4wQHh/e/h2Q0081baf/FgyRTlnekv6f0tactgR0SMaQ8hG
+	DViL0HMJxN1CeKzFRPxLJ0c4aQs7bliCrPyzpPp7yE/zMwDdDyWyI/UiAWrkhg==
+ARC-Authentication-Results: i=1;
+	rspamd-6bdc45795d-dx4t8;
+	auth=pass smtp.auth=hostingeremail smtp.mailfrom=okanakyuz@okanakyuz.com
+X-Sender-Id: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Ruddy-Harbor: 6984111523b62a61_1708010964829_699144811
+X-MC-Loop-Signature: 1708010964829:1298361503
+X-MC-Ingress-Time: 1708010964829
+Received: from uk-fast-smtpout2.hostinger.io (uk-fast-smtpout2.hostinger.io
+ [31.220.23.36])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.119.153.71 (trex/6.9.2);
+	Thu, 15 Feb 2024 15:29:24 +0000
+From: Okan Akyuz <okanakyuz@okanakyuz.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=okanakyuz.com;
+	s=hostingermail-a; t=1708010962;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cbX2TFeKmQIH09gm5LYQHKCMm5YzJk5x0VxemUSMmNU=;
+	b=ZI5tZ5+FAniwcDdqXIV+E1OcmYk+pNteOtrqb7CrD/3jH70hAvQGOk8HWEBGoUpx+AzDSW
+	t5rxiA0Uewd6B0lxilNIN0DDIS842Ea1RwyEEhz1Jlokf8I5MxTiQ+PeWEw1sEcspCK44H
+	IPGoLVI8KZYprahKaPoyUEpQPARxX2zFoxANOBFf0d/5OmsEOEmetQ3NqOstl/HdU4Q/HR
+	t2s3caEKs9o6Rwkohu8/KSX5mmY5E9tV7Uf8zmMm2KP32yIaLR/6pQCU1eVrUoRtZIkxI+
+	qv05TCcKiVsA3Ja/I4PS50fugC5z+91mKMol9pFl7778HbT1btIGxwWD6GSRgQ==
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v13 21/21] KVM: pfncache: rework __kvm_gpc_refresh() to fix locking issues
-Date: Thu, 15 Feb 2024 15:29:16 +0000
-Message-Id: <20240215152916.1158-22-paul@xen.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240215152916.1158-1-paul@xen.org>
-References: <20240215152916.1158-1-paul@xen.org>
+	skhan@linuxfoundation.org,
+	okanakyuz@okanakyuz.com
+Subject: [PATCH] The datasheet URL has been changed.
+Date: Thu, 15 Feb 2024 18:19:57 +0300
+Message-ID: <20240215151957.20855-1-okanakyuz@okanakyuz.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-Envelope: MS4xfELWMjXxd9QwZl2hd/DXq0dhbDsJyXzaJU1n2KAVlPPQQWWAaX4bocHs95nVwUzgkes8cSg6c3/XcyXMdZ9Ssxin/55zpWCdg+I7z41lRicNDzc99Uq3 3W0vvCsyii0gCRm7ZSp+xmVg9RNmg7CIh5E9JS0MZodQ4iW9EVXPUeZoEImWpArh64clFdpdvy0ueMiZlFLy5jj4MDCCSXSmUuGRUijxUv+rm/+3yd2a0ZJ8 Ha1SDJxk/KVBEiLAArZU+zzIUrOPk1SbXA3v2dOat5VEx0V8GFv52hlbwY6BLVddBzzMqBEaVUHI3AfzOvin/of//dE/I5wp5/RGeku8Uj74ewwjmVOrdAiP Dy+AvZBDHNrgZRRt34622uWpjltK3K1aUC3hOUEAOvi+Qg1byN+Y2v/2OiJfYkz65xnnQiQkC2rgDLK1KtZtDB9ADHrnJA==
+X-CM-Analysis: v=2.4 cv=Rp/DLjmK c=1 sm=1 tr=0 ts=65ce2dd2 a=geHYaF3j5ifCImHjKwHHfg==:117 a=geHYaF3j5ifCImHjKwHHfg==:17 a=-tA9vPf7AAAA:8 a=UXzzSC1OAAAA:8 a=gAnH3GRIAAAA:8 a=2_2egfEcOiK7PuE5XgAA:9 a=vtdtr2SZiqPAgdHKmkdM:22 a=NXyddzfXndtU_1loVILY:22 a=oVHKYsEdi7-vN-J5QA_j:22
+X-AuthUser: okanakyuz@okanakyuz.com
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+The URL for the datasheet was not functional. It has been replaced
+with the active one from the manufacturer's website.
 
-This function can race with kvm_gpc_deactivate(), which does not take
-the ->refresh_lock. This means kvm_gpc_deactivate() can wipe the ->pfn
-and ->khva fields, and unmap the latter, while hva_to_pfn_retry() has
-temporarily dropped its write lock on gpc->lock.
-
-Then if hva_to_pfn_retry() determines that the PFN hasn't changed and
-that the original pfn and khva can be reused, they get assigned back to
-gpc->pfn and gpc->khva even though the khva was already unmapped by
-kvm_gpc_deactivate(). This leaves the cache in an apparently valid state
-but with ->khva pointing to an address which has been unmapped. Which in
-turn leads to oopses in e.g. __kvm_xen_has_interrupt() and
-set_shinfo_evtchn_pending() when they dereference said khva.
-
-It may be possible to fix this just by making kvm_gpc_deactivate() take
-the ->refresh_lock, but that still leaves ->refresh_lock being basically
-redundant with the write lock on ->lock, which frankly makes my skin
-itch, with the way that pfn_to_hva_retry() operates on fields in the gpc
-without holding a write lock on ->lock.
-
-Instead, fix it by cleaning up the semantics of hva_to_pfn_retry(). It
-now no longer does locking gymnastics because it no longer operates on
-the gpc object at all. I's called with a uhva and simply returns the
-corresponding pfn (pinned), and a mapped khva for it.
-
-Its caller __kvm_gpc_refresh() now sets gpc->uhva and clears gpc->valid
-before dropping ->lock, calling hva_to_pfn_retry() and retaking ->lock
-for write.
-
-If hva_to_pfn_retry() fails, *or* if the ->uhva or ->active fields in
-the gpc changed while the lock was dropped, the new mapping is discarded
-and the gpc is not modified. On success with an unchanged gpc, the new
-mapping is installed and the current ->pfn and ->uhva are taken into the
-local old_pfn and old_khva variables to be unmapped once the locks are
-all released.
-
-This simplification means that ->refresh_lock is no longer needed for
-correctness, but it does still provide a minor optimisation because it
-will prevent two concurrent __kvm_gpc_refresh() calls from mapping a
-given PFN, only for one of them to lose the race and discard its
-mapping.
-
-The optimisation in hva_to_pfn_retry() where it attempts to use the old
-mapping if the pfn doesn't change is dropped, since it makes the pinning
-more complex. It's a pointless optimisation anyway, since the odds of
-the pfn ending up the same when the uhva has changed (i.e. the odds of
-the two userspace addresses both pointing to the same underlying
-physical page) are negligible,
-
-The 'hva_changed' local variable in __kvm_gpc_refresh() is also removed,
-since it's simpler just to clear gpc->valid if the uhva changed.
-Likewise the unmap_old variable is dropped because it's just as easy to
-check the old_pfn variable for KVM_PFN_ERR_FAULT.
-
-I remain slightly confused because although this is clearly a race in
-the gfn_to_pfn_cache code, I don't quite know how the Xen support code
-actually managed to trigger it. We've seen oopses from dereferencing a
-valid-looking ->khva in both __kvm_xen_has_interrupt() (the vcpu_info)
-and in set_shinfo_evtchn_pending() (the shared_info). But surely the
-race shouldn't happen for the vcpu_info gpc because all calls to both
-refresh and deactivate hold the vcpu mutex, and it shouldn't happen
-for the shared_info gpc because all calls to both will hold the
-kvm->arch.xen.xen_lock mutex.
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
+Signed-off-by: Okan Akyuz <okanakyuz@okanakyuz.com>
 ---
-Cc: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+ Documentation/hwmon/max6620.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v12:
- - New in this version.
----
- virt/kvm/pfncache.c | 184 +++++++++++++++++++++-----------------------
- 1 file changed, 88 insertions(+), 96 deletions(-)
-
-diff --git a/virt/kvm/pfncache.c b/virt/kvm/pfncache.c
-index a60d8f906896..d1c73b452570 100644
---- a/virt/kvm/pfncache.c
-+++ b/virt/kvm/pfncache.c
-@@ -139,108 +139,65 @@ static inline bool mmu_notifier_retry_cache(struct kvm *kvm, unsigned long mmu_s
- 	return kvm->mmu_invalidate_seq != mmu_seq;
- }
+diff --git a/Documentation/hwmon/max6620.rst b/Documentation/hwmon/max6620.rst
+index 84c1c44d3de4..d70173bf0242 100644
+--- a/Documentation/hwmon/max6620.rst
++++ b/Documentation/hwmon/max6620.rst
+@@ -11,7 +11,7 @@ Supported chips:
  
--static kvm_pfn_t hva_to_pfn_retry(struct gfn_to_pfn_cache *gpc)
-+/*
-+ * Given a user virtual address, obtain a pinned host PFN and kernel mapping
-+ * for it. The caller will release the PFN after installing it into the GPC
-+ * so that the MMU notifier invalidation mechanism is active.
-+ */
-+static kvm_pfn_t hva_to_pfn_retry(struct kvm *kvm, unsigned long uhva,
-+				  kvm_pfn_t *pfn, void **khva)
- {
- 	/* Note, the new page offset may be different than the old! */
--	void *old_khva = (void *)PAGE_ALIGN_DOWN((uintptr_t)gpc->khva);
- 	kvm_pfn_t new_pfn = KVM_PFN_ERR_FAULT;
- 	void *new_khva = NULL;
- 	unsigned long mmu_seq;
+     Addresses scanned: none
  
--	lockdep_assert_held(&gpc->refresh_lock);
--
--	lockdep_assert_held_write(&gpc->lock);
--
--	/*
--	 * Invalidate the cache prior to dropping gpc->lock, the gpa=>uhva
--	 * assets have already been updated and so a concurrent check() from a
--	 * different task may not fail the gpa/uhva/generation checks.
--	 */
--	gpc->valid = false;
--
--	do {
--		mmu_seq = gpc->kvm->mmu_invalidate_seq;
-+	for (;;) {
-+		mmu_seq = kvm->mmu_invalidate_seq;
- 		smp_rmb();
+-    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6620.pdf
++    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max6620.pdf
  
--		write_unlock_irq(&gpc->lock);
--
--		/*
--		 * If the previous iteration "failed" due to an mmu_notifier
--		 * event, release the pfn and unmap the kernel virtual address
--		 * from the previous attempt.  Unmapping might sleep, so this
--		 * needs to be done after dropping the lock.  Opportunistically
--		 * check for resched while the lock isn't held.
--		 */
--		if (new_pfn != KVM_PFN_ERR_FAULT) {
--			/*
--			 * Keep the mapping if the previous iteration reused
--			 * the existing mapping and didn't create a new one.
--			 */
--			if (new_khva != old_khva)
--				gpc_unmap(new_pfn, new_khva);
--
--			kvm_release_pfn_clean(new_pfn);
--
--			cond_resched();
--		}
--
- 		/* We always request a writeable mapping */
--		new_pfn = hva_to_pfn(gpc->uhva, false, false, NULL, true, NULL);
-+		new_pfn = hva_to_pfn(uhva, false, false, NULL, true, NULL);
- 		if (is_error_noslot_pfn(new_pfn))
--			goto out_error;
-+			return -EFAULT;
- 
- 		/*
--		 * Obtain a new kernel mapping if KVM itself will access the
--		 * pfn.  Note, kmap() and memremap() can both sleep, so this
--		 * too must be done outside of gpc->lock!
-+		 * Always obtain a new kernel mapping. Trying to reuse an
-+		 * existing one is more complex than it's worth.
- 		 */
--		if (new_pfn == gpc->pfn)
--			new_khva = old_khva;
--		else
--			new_khva = gpc_map(new_pfn);
--
-+		new_khva = gpc_map(new_pfn);
- 		if (!new_khva) {
- 			kvm_release_pfn_clean(new_pfn);
--			goto out_error;
-+			return -EFAULT;
- 		}
- 
--		write_lock_irq(&gpc->lock);
-+		if (!mmu_notifier_retry_cache(kvm, mmu_seq))
-+			break;
- 
- 		/*
--		 * Other tasks must wait for _this_ refresh to complete before
--		 * attempting to refresh.
-+		 * If this iteration "failed" due to an mmu_notifier event,
-+		 * release the pfn and unmap the kernel virtual address, and
-+		 * loop around again.
- 		 */
--		WARN_ON_ONCE(gpc->valid);
--	} while (mmu_notifier_retry_cache(gpc->kvm, mmu_seq));
--
--	gpc->valid = true;
--	gpc->pfn = new_pfn;
--	gpc->khva = new_khva + offset_in_page(gpc->uhva);
-+		if (new_pfn != KVM_PFN_ERR_FAULT) {
-+			gpc_unmap(new_pfn, new_khva);
-+			kvm_release_pfn_clean(new_pfn);
-+		}
-+	}
- 
--	/*
--	 * Put the reference to the _new_ pfn.  The pfn is now tracked by the
--	 * cache and can be safely migrated, swapped, etc... as the cache will
--	 * invalidate any mappings in response to relevant mmu_notifier events.
--	 */
--	kvm_release_pfn_clean(new_pfn);
-+	*pfn = new_pfn;
-+	*khva = new_khva;
- 
- 	return 0;
--
--out_error:
--	write_lock_irq(&gpc->lock);
--
--	return -EFAULT;
- }
- 
--static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned long uhva,
--			     unsigned long len)
-+static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa,
-+			     unsigned long uhva, unsigned long len)
- {
- 	unsigned long page_offset = kvm_is_error_gpa(gpa) ?
- 		offset_in_page(uhva) : offset_in_page(gpa);
--	bool unmap_old = false;
- 	unsigned long old_uhva;
--	kvm_pfn_t old_pfn;
--	bool hva_change = false;
-+	kvm_pfn_t old_pfn = KVM_PFN_ERR_FAULT;
- 	void *old_khva;
- 	int ret;
- 
-@@ -257,8 +214,9 @@ static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned l
- 
- 	/*
- 	 * If another task is refreshing the cache, wait for it to complete.
--	 * There is no guarantee that concurrent refreshes will see the same
--	 * gpa, memslots generation, etc..., so they must be fully serialized.
-+	 * This is purely an optimisation, to avoid concurrent mappings from
-+	 * hva_to_pfn_retry(), all but one of which will be discarded after
-+	 * losing a race to install them in the GPC.
- 	 */
- 	mutex_lock(&gpc->refresh_lock);
- 
-@@ -279,7 +237,7 @@ static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned l
- 		gpc->uhva = PAGE_ALIGN_DOWN(uhva);
- 
- 		if (gpc->uhva != old_uhva)
--			hva_change = true;
-+			gpc->valid = false;
- 	} else {
- 		struct kvm_memslots *slots = kvm_memslots(gpc->kvm);
- 
-@@ -294,7 +252,11 @@ static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned l
- 
- 			if (kvm_is_error_hva(gpc->uhva)) {
- 				ret = -EFAULT;
--				goto out;
-+
-+				gpc->valid = false;
-+				gpc->pfn = KVM_PFN_ERR_FAULT;
-+				gpc->khva = NULL;
-+				goto out_unlock;
- 			}
- 
- 			/*
-@@ -302,7 +264,7 @@ static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned l
- 			 * HVA may still be the same.
- 			 */
- 			if (gpc->uhva != old_uhva)
--				hva_change = true;
-+				gpc->valid = false;
- 		} else {
- 			gpc->uhva = old_uhva;
- 		}
-@@ -315,9 +277,7 @@ static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned l
- 	 * If the userspace HVA changed or the PFN was already invalid,
- 	 * drop the lock and do the HVA to PFN lookup again.
- 	 */
--	if (!gpc->valid || hva_change) {
--		ret = hva_to_pfn_retry(gpc);
--	} else {
-+	if (gpc->valid) {
- 		/*
- 		 * If the HVA→PFN mapping was already valid, don't unmap it.
- 		 * But do update gpc->khva because the offset within the page
-@@ -325,30 +285,62 @@ static int __kvm_gpc_refresh(struct gfn_to_pfn_cache *gpc, gpa_t gpa, unsigned l
- 		 */
- 		gpc->khva = old_khva + page_offset;
- 		ret = 0;
--		goto out_unlock;
--	}
- 
-- out:
--	/*
--	 * Invalidate the cache and purge the pfn/khva if the refresh failed.
--	 * Some/all of the uhva, gpa, and memslot generation info may still be
--	 * valid, leave it as is.
--	 */
--	if (ret) {
-+		/* old_pfn must not be unmapped because it was reused. */
-+		old_pfn = KVM_PFN_ERR_FAULT;
-+	} else {
-+		kvm_pfn_t new_pfn = KVM_PFN_ERR_FAULT;
-+		unsigned long new_uhva = gpc->uhva;
-+		void *new_khva = NULL;
-+
-+		/*
-+		 * Invalidate the cache prior to dropping gpc->lock; the
-+		 * gpa=>uhva assets have already been updated and so a
-+		 * concurrent check() from a different task may not fail
-+		 * the gpa/uhva/generation checks as it should.
-+		 */
- 		gpc->valid = false;
--		gpc->pfn = KVM_PFN_ERR_FAULT;
--		gpc->khva = NULL;
--	}
- 
--	/* Detect a pfn change before dropping the lock! */
--	unmap_old = (old_pfn != gpc->pfn);
-+		write_unlock_irq(&gpc->lock);
-+
-+		ret = hva_to_pfn_retry(gpc->kvm, new_uhva, &new_pfn, &new_khva);
-+
-+		write_lock_irq(&gpc->lock);
-+
-+		WARN_ON_ONCE(gpc->valid);
-+
-+		if (ret || !gpc->active || gpc->uhva != new_uhva) {
-+			/*
-+			 * On failure or if another change occurred while the
-+			 * lock was dropped, just purge the new mapping.
-+			 */
-+			old_pfn = new_pfn;
-+			old_khva = new_khva;
-+		} else {
-+			old_pfn = gpc->pfn;
-+			old_khva = gpc->khva;
-+
-+			gpc->pfn = new_pfn;
-+			gpc->khva = new_khva + offset_in_page(gpc->uhva);
-+			gpc->valid = true;
-+		}
-+
-+		/*
-+		 * Put the reference to the _new_ pfn. On success, the
-+		 * pfn is now tracked by the cache and can safely be
-+		 * migrated, swapped, etc. as the cache will invalidate
-+		 * any mappings in response to relevant mmu_notifier
-+		 * events.
-+		 */
-+		kvm_release_pfn_clean(new_pfn);
-+	}
- 
- out_unlock:
- 	write_unlock_irq(&gpc->lock);
- 
- 	mutex_unlock(&gpc->refresh_lock);
- 
--	if (unmap_old)
-+	if (old_pfn != KVM_PFN_ERR_FAULT)
- 		gpc_unmap(old_pfn, old_khva);
- 
- 	return ret;
+ Authors:
+     - L\. Grunenberg <contact@lgrunenberg.de>
 -- 
-2.39.2
+2.43.0
 
