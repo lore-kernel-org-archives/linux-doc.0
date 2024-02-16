@@ -1,209 +1,178 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7A017C7F;
-	Fri, 16 Feb 2024 08:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349681B94A;
+	Fri, 16 Feb 2024 08:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708070696; cv=none; b=NLQ89F1y/9V52CA9f9VvLPfAzp1xP1ozj+Mf/qUFR+trZwphNpZSZ9N6vuK7C3F8go7c1dd+Oiowx5CnHdMGy99oUJIC4zqKMo9OsMz5X5z54/FksKnP9mjDxZteLRvWGCyORAYAjZOvgBFI5R/x64QyFEgdXuftOyUTyZ+nIs4=
+	t=1708071197; cv=none; b=Amo2pjih51gsyV+JiQKiklmfrfruJGQt5i6CaAbQf8iiqL9KPbl+h3qQXfxB2CAdvwTb4aBRFpAY5OkxaQX14YYf8ILV9l1yRse221yRoqjYvqZilfP7q6YjfxfnDuwIP+xPQkgt3yC5eK9nQxHVyharHileLm+bQ5U96OkQJTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708070696; c=relaxed/simple;
-	bh=6IcxGgQ6KhP2QolO3Y7TmheTe+h1XES9Kzd919zh5Ac=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rym1xpZwgWr0VJ0BAiPFAdgQr7y4F6PTnGNDa2b2nBcxDM63Kg1iXQZQkiq6+RxYDrgpVad8th/7D30OH5R5ptVNj8F8huS3JekKDpTe+C3+apQMXdyIAE4uoJKdEkctZdiQEf8YfQPLdm52Bf6v/4Fi2WoSEYwowwnPb0jt1eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=QEdyB/lG; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=fmu3FUXo; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1708071197; c=relaxed/simple;
+	bh=2yAzUFrshahCJDeF/Txc7JdTyHzEPst4ox4Ao1JajmU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ROD6BN9KPPb9VpUB1M7IyBIJC+6uR57uiwD3FIMS5cxSu/HBunSWah6gOTk/AaNqGFT8I5oJxTbCgtED+lUmf6raNXdS+QA5Onc/2rKcaQySvffccb/Y5vB61Ee8MaCJC/eEDEqOGMf6qkdLOBXkhpDji7d+tHeVCc7d+YEddnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hhi5FVbw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="QEdyB/lG";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="fmu3FUXo"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E221D21FC8;
-	Fri, 16 Feb 2024 08:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708070646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H4morDVMYuFmPhrSEse/hUV+Yz8JfX8TaTSr9hmBxFI=;
-	b=QEdyB/lGeuxHG0U5scwLIc9Cj1bx3qqH1rT/lVZxpjggc+KalZugeSHFuZ2tFZuYF6THB7
-	itInW+zh4gQM+7FVBKcPmi3hAxuPFcI/SXCGs6OjOuJXpdIiIkQah8RRdgFFdDqBYWobQB
-	0XA37rzcFzq9aLw5ncXqmSVOQvfFV+E=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708070643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H4morDVMYuFmPhrSEse/hUV+Yz8JfX8TaTSr9hmBxFI=;
-	b=fmu3FUXoyo7eLHfudWqM3JlOzgsOdU4WrVMJiJmU+j1+t8D6d4fgLE4c2/CdHeA5aIEXmM
-	qD14hzVEnwqChB91PhRJmo2dXe+NLp0sgbxpTA2kHQw7QFsyqLd4M39bVSdLCzqqSkpbAJ
-	kmnvTIgZmsl/TKRPmLY1I1R4AVKGoTU=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7451F1398D;
-	Fri, 16 Feb 2024 08:04:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0ntWGvMWz2WgWAAAD6G6ig
-	(envelope-from <jgross@suse.com>); Fri, 16 Feb 2024 08:04:03 +0000
-Message-ID: <a2ccf959-2b43-4a9d-9b7d-77122670b090@suse.com>
-Date: Fri, 16 Feb 2024 09:04:03 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hhi5FVbw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30CDEC433F1;
+	Fri, 16 Feb 2024 08:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708071196;
+	bh=2yAzUFrshahCJDeF/Txc7JdTyHzEPst4ox4Ao1JajmU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Hhi5FVbwJBQGJrQ5LdUmS8j/Le4dlaV8h1U5wH5BlNyGQrrM2XqyMxRnsnAKFbMZx
+	 SFQaP2/aGi379Z5SHpZ7wDWSp5e8G7tgjc9AzIziwGmtse4q48U46iFQcjxylokg1P
+	 K/KhkeBJZ0tIrTsozcIJ3KwcSyKyhvNudlZ1i40K93iF9DdiWTEHMtM1Ctlw8Rn0FL
+	 87TYT0ZzNruWA3tPglsbxs14kOOquqHn11S8ZJYb+kCD+bHh6l0sKaOq/r8DsSVhnE
+	 pjRSDqix+iI+/rl9GYYLZNkr/LrWhcipZI7K9C8xWWE9FHcnzdDXIKPhtSPxTBM90q
+	 HQKdGiuY7w7pQ==
+Date: Fri, 16 Feb 2024 09:13:03 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
+ timers
+Message-ID: <r3yhu4h23tdg2dqj7eq3lhevsigvvb3qkge3icxmaqpgkayvoi@gxfxstkr2pxl>
+References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
+ <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+ <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] Documentation: Document the Linux Kernel CVE process
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, security@kernel.org, linux@leemhuis.info,
- Kees Cook <keescook@chromium.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Sasha Levin <sashal@kernel.org>,
- Lee Jones <lee@kernel.org>, "Xen.org security team" <security@xen.org>
-References: <2024021500-laziness-grimace-ed80@gregkh>
- <0bd8c620-7f80-44c4-ade3-b3d7951b48d8@suse.com>
- <2024021557-remedial-mutilated-63c6@gregkh>
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-In-Reply-To: <2024021557-remedial-mutilated-63c6@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=fmu3FUXo
-X-Spamd-Result: default: False [-0.97 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_SOME(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLnj7krbkygzjkra4c7ii5ombr)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 R_MIXED_CHARSET(0.83)[subject];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 RCPT_COUNT_TWELVE(0.00)[14];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[lwn.net,vger.kernel.org,kernel.org,leemhuis.info,chromium.org,linuxfoundation.org,gmail.com,xen.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -0.97
-X-Rspamd-Queue-Id: E221D21FC8
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Bar: /
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
 
-On 15.02.24 18:49, Greg Kroah-Hartman wrote:
-> On Thu, Feb 15, 2024 at 04:03:02PM +0100, Jürgen Groß wrote:
->> On 15.02.24 13:10, Greg Kroah-Hartman wrote:
->>> The Linux kernel project now has the ability to assign CVEs to fixed
->>> issues, so document the process and how individual developers can get a
->>> CVE if one is not automatically assigned for their fixes.
->>>
->>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
->>> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
->>> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
->>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->>> Signed-off-by: Lee Jones <lee@kernel.org>
->>> ---
->>> v4: Add MAINTAINER entry
->>>       Lots of tiny wording changes based on many reviews
->>>       Collected some Reviewed-by: tags
->>>       Fixed documenation build by properly referencing the security
->>>       process documentation file.
->>> v3: fix up wording in security-bugs.rst based on the changes to the cve
->>>       assignment process from v1, thanks to a private reviewer for
->>>       pointing that out.
->>> v2: Grammer fixes based on review from Randy
->>>       Updated paragraph about how CVE identifiers will be assigned
->>>       (automatically when added to stable trees, or ask us for one
->>>       directly before that happens if so desired)
->>>
->>>    Documentation/process/cve.rst           | 120 ++++++++++++++++++++++++
->>>    Documentation/process/index.rst         |   1 +
->>>    Documentation/process/security-bugs.rst |   5 +-
->>>    MAINTAINERS                             |   5 +
->>>    4 files changed, 128 insertions(+), 3 deletions(-)
->>>    create mode 100644 Documentation/process/cve.rst
->>>
->>> diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
->>> new file mode 100644
->>> index 000000000000..6b244d938694
->>> --- /dev/null
->>> +++ b/Documentation/process/cve.rst
->>> @@ -0,0 +1,120 @@
->>
->> ...
->>
->>> +Invalid CVEs
->>> +------------
->>> +
->>> +If a security issue is found in a Linux kernel that is only supported by
->>> +a Linux distribution due to the changes that have been made by that
->>> +distribution, or due to the distribution supporting a kernel version
->>> +that is no longer one of the kernel.org supported releases, then a CVE
->>> +can not be assigned by the Linux kernel CVE team, and must be asked for
->>> +from that Linux distribution itself.
->>> +
->>> +Any CVE that is assigned against the Linux kernel for an actively
->>> +supported kernel version, by any group other than the kernel assignment
->>> +CVE team should not be treated as a valid CVE.  Please notify the
->>> +kernel CVE assignment team at <cve@kernel.org> so that they can work to
->>> +invalidate such entries through the CNA remediation process.
->>
->> Today we (the Xen security team) are allocating CVEs for Xen-related
->> kernel security bugs.
->>
->> Does this mean we should do that via cve@kernel.org in future, or are
->> you happy us continuing our process as today? If the latter, I think
->> this should be noted somehow in this document in order to avoid complaints
->> regarding CVEs allocated by us.
->>
->>
->> Juergen (on behalf of the Xen security team)
+On Feb 15 2024, Martin KaFai Lau wrote:
+> On 2/14/24 9:18 AM, Benjamin Tissoires wrote:
+> > +static void bpf_timer_work_cb(struct work_struct *work)
+> > +{
+> > +	struct bpf_hrtimer *t = container_of(work, struct bpf_hrtimer, work);
+> > +	struct bpf_map *map = t->map;
+> > +	void *value = t->value;
+> > +	bpf_callback_t callback_fn;
+> > +	void *key;
+> > +	u32 idx;
+> > +
+> > +	BTF_TYPE_EMIT(struct bpf_timer);
+> > +
+> > +	rcu_read_lock();
+> > +	callback_fn = rcu_dereference(t->sleepable_cb_fn);
+> > +	rcu_read_unlock();
 > 
-> That's a good question, and from what I can tell for the "rules" here,
-> yes, we need to coordinate somehow for anything that is Linux
-> kernel-only.  Just email us and ask us for an id and our tools can take
-> it from there for the submission and other stuff, so hopefully this will
-> make things easier.
+> I took a very brief look at patch 2. One thing that may worth to ask here,
+> the rcu_read_unlock() seems to be done too early. It is protecting the
+> t->sleepable_cb_fn (?), so should it be done after finished using the
+> callback_fn?
 
-Okay, thanks, noted.
+Probably :)
 
-> For stuff that crosses both sides (Xen and Linux), you are free to
-> create your own CVE and then use that identifier in the kernel patch
-> like you have in the past as I would consider Xen being the "primary"
-> CNA, don't you?
+TBH, everytime I work with RCUs I spent countless hours trying to
+re-understand everything, and in this case I'm currently in the "let's
+make it work" process than fixing concurrency issues.
+I still gave it a shot in case it solves my issue, but no, I still have
+the crash.
 
-We didn't have this case so far, and I think we'd just have one CVE for Xen
-and one for Linux. Nevertheless good to know should this case ever come up.
+But given that callback_fn might sleep, isn't it an issue to keep the
+RCU_reader lock so long? (we don't seem to call synchronize_rcu() so it
+might be fine, but I'd like the confirmation from someone else).
 
-> Is that ok?  We want to make this as easy as possible, so I don't want
-> to get in the way of your existing process if at all possible.
+> 
+> A high level design question. The intention of the new
+> bpf_timer_set_sleepable_cb() kfunc is actually to delay work to a workqueue.
+> It is useful to delay work from the bpf_timer_cb and it may also useful to
+> delay work from other bpf running context (e.g. the networking hooks like
+> "tc"). The bpf_timer_set_sleepable_cb() seems to be unnecessary forcing
+> delay-work must be done in a bpf_timer_cb.
 
-Yes, thanks, this is okay. Just wanted to have it spelled out. :-)
+Basically I'm just a monkey here. I've been told that I should use
+bpf_timer[0]. But my implementation is not finished, as Alexei mentioned
+that we should bypass hrtimer if I'm not wrong [1].
+
+> 
+> Have you thought about if it is possible to create a more generic kfunc like
+> bpf_schedule_work() to delay work to a workqueue ?
+> 
+
+AFAIU if we were to have a separate bpf_schedule_work(), we still need
+all of the infra of bpf_timer, because we need to keep the programs
+around in the same way bpf_timer does. So basically, bpf_timer will not
+only be about hrtimers, but anything that need to run an async callback.
+
+I submitted this RFC v2 not for the "this is ready", but mostly because
+there is a crash and I can't see where it comes from, and I suspect this
+is from a piece I do not understand (translation from the BPF langage
+into actual elf assembly).
 
 
-Juergen
+Cheers,
+Benjamin
+
+[0] https://lore.kernel.org/bpf/ztou4yyrsdfmmhdwgu2f2noartpqklhvtbw7vj2ptk54eqohvb@qci7bcnbd56q/T/#mc9cab17138b13c83299f0836ca0b2dde0643ea4b
+[1] https://lore.kernel.org/bpf/ztou4yyrsdfmmhdwgu2f2noartpqklhvtbw7vj2ptk54eqohvb@qci7bcnbd56q/T/#mf59824ad625992b980afbc4f27c83e76245815e7
+
+> 
+> 
+> > +	if (!callback_fn)
+> > +		return;
+> > +
+> > +	/* FIXME: do we need any locking? */
+> > +	if (map->map_type == BPF_MAP_TYPE_ARRAY) {
+> > +		struct bpf_array *array = container_of(map, struct bpf_array, map);
+> > +
+> > +		/* compute the key */
+> > +		idx = ((char *)value - array->value) / array->elem_size;
+> > +		key = &idx;
+> > +	} else { /* hash or lru */
+> > +		key = value - round_up(map->key_size, 8);
+> > +	}
+> > +
+> > +	/* FIXME: this crashes the system with
+> > +	 * BUG: kernel NULL pointer dereference, address: 000000000000000b
+> > +	 */
+> > +	/* callback_fn((u64)(long)map, (u64)(long)key, (u64)(long)value, 0, 0); */
+> > +	/* The verifier checked that return value is zero. */
+> > +}
+> > +
+> 
+> [ ... ]
+> 
+> > +/* FIXME: use kernel doc style */
+> > +/* Description
+> > + *	Configure the timer to call *callback_fn* static function in a
+> > + *	sleepable context.
+> > + * Return
+> > + *	0 on success.
+> > + *	**-EINVAL** if *timer* was not initialized with bpf_timer_init() earlier.
+> > + *	**-EPERM** if *timer* is in a map that doesn't have any user references.
+> > + *	The user space should either hold a file descriptor to a map with timers
+> > + *	or pin such map in bpffs. When map is unpinned or file descriptor is
+> > + *	closed all timers in the map will be cancelled and freed.
+> > + */
+> > +__bpf_kfunc int bpf_timer_set_sleepable_cb(struct bpf_timer_kern *timer,
+> > +					   int (callback_fn)(void *map, int *key, struct bpf_timer *timer))
+> > +{
+> > +	struct bpf_throw_ctx ctx = {};
+> > +
+> > +	/* FIXME: definietely not sure this is OK */
+> > +	arch_bpf_stack_walk(bpf_stack_walker, &ctx);
+> > +	WARN_ON_ONCE(!ctx.aux);
+> > +
+> > +	if (!ctx.aux)
+> > +		return -EINVAL;
+> > +
+> > +	return __bpf_timer_set_callback(timer, (void *)callback_fn, ctx.aux, true);
+> > +}
+> > +
+> 
