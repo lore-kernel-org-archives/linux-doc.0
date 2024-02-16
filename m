@@ -1,167 +1,119 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from slateblue.cherry.relay.mailchannels.net (slateblue.cherry.relay.mailchannels.net [23.83.223.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A47A17BD4
-	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 07:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708069671; cv=none; b=MolYa8dIthWjPnumvXbjukJZHsuxTkSKu89I4HtQp9SbyJDGaz5WC6F/ioDRyy9GkXniPvh9mJONjDELCKj8GMtXVBaLCM0X+sKFOCQCS73G7bHZh1EGbCClhInkjqigxXb+hJt2zTJxboKw+Kd+sYBgxfAEfLkne/7d2h/hiHE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708069671; c=relaxed/simple;
-	bh=3noQ3o49Pc5ne8wz1cpxVthGqv81fCY7M1gEjpsVPLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CNQsPg3AzNiIK31w2e7PLRBw8wu3rQg5s5s3/Z6WbAL90ouoxp2jvWbZZyP/W3/KKrc1KbNtH1G6AVuCHTPVg2GmnkOqP5SXwwL+eJ3IRabAsZqs8VsfelOhEfa06VIv3SA3KDq7Mt6i7yjcbdHbNKTApw8PuJeoR2QbWQhrx1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1raswK-00039k-1q; Fri, 16 Feb 2024 08:47:20 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1raswE-00129N-5e; Fri, 16 Feb 2024 08:47:14 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1raswE-00BRTq-0C;
-	Fri, 16 Feb 2024 08:47:14 +0100
-Date: Fri, 16 Feb 2024 08:47:14 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Rob Herring <robh@kernel.org>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v3 14/17] dt-bindings: net: pse-pd: Add bindings
- for PD692x0 PSE controller
-Message-ID: <Zc8TAojumif1irE-@pengutronix.de>
-References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
- <20240208-feature_poe-v3-14-531d2674469e@bootlin.com>
- <20240209145727.GA3702230-robh@kernel.org>
- <ZciUQqjM4Z8Tc6Db@pengutronix.de>
- <618be4b1-c52c-4b8f-8818-1e4150867cad@lunn.ch>
- <Zc3IrO_MXIdLXnEL@pengutronix.de>
- <65099b67-b7dc-4d78-ba42-d550aae2c31e@lunn.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA9A1758E
+	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 07:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.223.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708070002; cv=pass; b=V1wlEGHKfXAzvdwOyXKNQ+Aqe6Rt7fgjBHMjYa1k84uEn1OICJPF9QEaaBjWLRUTwaslmT5AGolCquJjwK3bQbsV2NSuq3WNMsDn+rfEKL1qZWMsRdCSV6L9KvSDZ5cHrszWHM3DNDpcK2ZnmwKfsewab9f8+8UdF9Qgzj/t/aM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708070002; c=relaxed/simple;
+	bh=PezQPniDwrxOS1sZ6Z9vu2b1Y/jy/gMt+PRn3CnoUHM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X17g/eUycohjeTQcirfsVjRGnABjX2F12/PNVkWWT0x7tJLWwaj411QtVO+TKyUyT0K+KhF24vUIrGqEOFSE3o8iH0gzYcT7RO7Byb0KHgh0QHldrREWRN/FPuAd/tQZPdQ8lDcfcTA884kYVPb8rl9aKBhH/GGyaZql+60E/B4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=okanakyuz.com; spf=none smtp.mailfrom=okanakyuz.com; dkim=pass (2048-bit key) header.d=okanakyuz.com header.i=@okanakyuz.com header.b=TRTefXCL; arc=pass smtp.client-ip=23.83.223.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=okanakyuz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=okanakyuz.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=okanakyuz.com header.i=@okanakyuz.com header.b="TRTefXCL"
+X-Sender-Id: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id A89517A26B6
+	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 07:53:18 +0000 (UTC)
+Received: from nl-srv-smtpout1.hostinger.io (unknown [127.0.0.6])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 4A5287A2084
+	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 07:53:17 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1708069997; a=rsa-sha256;
+	cv=none;
+	b=4sVCiECtszvz19bPrHlVsxtJeP4sLNB5EbXFpipgdNyHPzeVUfGw4VrRnwlKv2de2nJIqn
+	VhYvcoaRZrQQPaZlOSbVnBtudAHK823Bu6i6T+982P7Rc0nEAfktxuTgZQxWMRU+iLfzSR
+	oHYF+Y7xodTj/Ukerm+BXuBbEgQajoBHg97cNmqAAyPALc1tWrT7eARupS2gtHeNG4ZG5N
+	6UMmppo7FNmfqKO/8Y2b9vbI+w8lZmOObovvxVC8lahUdhcc/FvF5lYZL15xx2CRV3i+nt
+	z21bU+epESG8G1p0AApW3y8g49GScg8iiCACORrZMN6bSIZpAIs5t1wxC3Iv2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1708069997;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=8cmGCBCZUEA+TV3yv1pZQqP0Eu0Q4AFcXv53Tf+4EVA=;
+	b=FMR35+bEHjuXDTmBb5koRU7EJootvOOUTZ2CZA4+GoXCU2cYVN9nmd5j0dJ/yiK+01UkVk
+	HVS6FjzokGOFXxFgiOQ1gyI6xMSQW/i5mzKG6bAIDwhJchpVcBBp+mXg7edbfZjY2mWKoQ
+	1Pk4ELddkuWsaPuMpNCFQUTGqFOrze+yOWpdCPT3N/2PD65x8lrdXpponUj9zffZMzuIya
+	xI/csWeYyNA2TLB4AEo+D34L8Hwv+irahqxAqP4J+WnIJlZoPGpcjUtNWQif00S7fEZMMr
+	drrdMa+DP7bm/VmvnmaCqAznuMuzRx6+wRdCto6qhr33mLAh+4cZbhBMYJJskg==
+ARC-Authentication-Results: i=1;
+	rspamd-55b4bfd7cb-pj7rr;
+	auth=pass smtp.auth=hostingeremail smtp.mailfrom=okanakyuz@okanakyuz.com
+X-Sender-Id: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostingeremail|x-authuser|okanakyuz@okanakyuz.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Tangy-Wide-Eyed: 73f89abf50e14aac_1708069998354_3359575331
+X-MC-Loop-Signature: 1708069998354:874490510
+X-MC-Ingress-Time: 1708069998354
+Received: from nl-srv-smtpout1.hostinger.io (nl-srv-smtpout1.hostinger.io
+ [145.14.150.87])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.126.181.84 (trex/6.9.2);
+	Fri, 16 Feb 2024 07:53:18 +0000
+From: Okan Akyuz <okanakyuz@okanakyuz.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=okanakyuz.com;
+	s=hostingermail-a; t=1708069995;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8cmGCBCZUEA+TV3yv1pZQqP0Eu0Q4AFcXv53Tf+4EVA=;
+	b=TRTefXCLsMTfrTsBtc/J/itLJ2XMJM0yAN7TpWEAYP+9h5q4fHEoR0oNFxJUaNbL2PeYHH
+	fxzx2+8th6lE6FtTFJfGZTHYwcvZpbC+GfVZWsRtZzphEA/JiByXUKnta4b/vpHi1o7Bcp
+	KNJcxb0iVqveglNWjNOGmC0J6J88FxI6jPcADaY4M4KGqAWo4d1i4JhuA4v70gudL+Ih75
+	i8XhOw5ChZQu5Kie0RPsapLWf0PTX7EmzSIFXEnFUB9ZfPxpqcE7L7mRMkotw5Its1IVMY
+	19jwVNSzDCMw5ome6Y0BKJlS7y6bGTGXiN0nWQE64mt+cgGjhQVw9ndosqOa+Q==
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	okanakyuz@okanakyuz.com
+Subject: [PATCH] Update broken Datasheet URL
+Date: Fri, 16 Feb 2024 10:52:12 +0300
+Message-ID: <20240216075212.69118-1-okanakyuz@okanakyuz.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <65099b67-b7dc-4d78-ba42-d550aae2c31e@lunn.ch>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+X-CM-Analysis: v=2.4 cv=DIOJ4TNb c=1 sm=1 tr=0 ts=65cf146b a=geHYaF3j5ifCImHjKwHHfg==:117 a=geHYaF3j5ifCImHjKwHHfg==:17 a=-tA9vPf7AAAA:8 a=UXzzSC1OAAAA:8 a=gAnH3GRIAAAA:8 a=GDfwrwm8OuJMyJXZuzcA:9 a=vtdtr2SZiqPAgdHKmkdM:22 a=NXyddzfXndtU_1loVILY:22 a=oVHKYsEdi7-vN-J5QA_j:22
+X-CM-Envelope: MS4xfBJ5/lmWxDk8XyjpN88LEIZVKZvTv/g7W8OexkmoDW7V+K8eHde8XNgYKiWZCNI0JgCyugfhGhOOUkUczW5LYsB7fOWVD3aM+0Pwg1qqN05XCEi8NIjK YNcZUVBJ6NX58Fz1761dAM/SAj40PNyzid8tady3ZNxLmuE2grzZGDUxPFIWjl3vN1iZMxNQGWQkgiI2HiCTbhuNZV8PUN1URjLwucqngczsdn4W3zrUShRi nQo0NzIIyEPG9Wu6KCezx83n4dVQSwdEhW+h/weYocfLPqYntaNFceRh+UxxqZo6IqVXMm2HWz5JGZYS8L18UijlT7Lb8YUq0impiRJSLTdbzuBosicmXnx5 f+ecEu/sYaRqgAs8arQX1f4oYBPubsFpakbigwsDmUrWPN8Ak9+BvFtNxz34LUn76YPalOUcTK3HNnxuWq4DlhKR+mbk/A==
+X-AuthUser: okanakyuz@okanakyuz.com
 
-On Thu, Feb 15, 2024 at 06:51:55PM +0100, Andrew Lunn wrote:
-> > Hm.. good question. I didn't found the answer in the spec. By combining all
-> > puzzle parts I assume, different Alternative configurations are designed
-> > to handle conflict between "PSE Physical Layer classification" and PHY
-> > autoneg.
-> > 
-> > Here is how multi-pulse Physical Layer classification is done:
-> > https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2020/07/Figure_5.5f2094553a61c.png
-> > 
-> > this is the source:
-> > https://www.electronicdesign.com/technologies/power/whitepaper/21137799/silicon-labs-90-w-power-over-ethernet-explained
-> > 
-> > To avoid classification conflict with autoneg. Assuming, PHY on PD side
-> > will be not powered until classification is completed. The only source
-> > of pulses is the PHY on PSE side (if it is not under control of software
-> > on PSE side or Midspan PSE is used), so aneg pulses should be send on
-> > negative PoE pair? This all is just speculation, I would need to ask
-> > some expert or do testing.
-> > 
-> > If this assumption is correct, PHY framework will need to know exact
-> > layout of MDI-X setting and/or silent PHY until PSE classification is done.
-> 
-> Ideally, we don't want to define a DT binding, and then find it is
-> wrong for 1000BaseT and above and we need to change it.
->
-> So, either somebody needs to understand 1000BaseT and can say the
-> proposed binding works, or we explicitly document the binding is
-> limited to 10BaseT and 100BaseT.
+The URL for the document in version 19-4039 Rev1 has changed. Updated
+the URL reflect the conrect location of the datasheet for the same
+version.
 
-I asked the internet and found the answer: Some PSE/PD implementations
-are not compatible with 1000BaseT.
+Signed-off-by: Okan Akyuz <okanakyuz@okanakyuz.com>
+---
+ Documentation/hwmon/max6620.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-See Figure 33–4—10BASE-T/100BASE-TX Endpoint PSE location overview.
-Alternative B show a variant where power is injected directly to pairs
-without using magnetics as it is done for Alternative A (phantom
-delivery - over magnetics).
-
-I assume, the reasoning for this kind of design is simple - price.
-Otherwise magnetics will have special requirements:
-https://www.coilcraft.com/de-de/edu/series/magnetics-for-power-over-ethernet/
-
-So, we have following variants of 2 pairs PoE:
-+---------+---------------+-------------------+---------------------+--------------------+
-| Variant | Alternative   | Polarity          | Power Feeding Type  | Compatibility with |
-|         | (a/b)         | (Direct/Reverse)  | (Direct/Phantom)    | 1000BaseT          |
-+=========+===============+===================+=====================+====================+
-| 1       | a             | Direct            | Phantom             | Yes                |
-+---------+---------------+-------------------+---------------------+--------------------+
-| 2       | a             | Reverse           | Phantom             | Yes                |
-+---------+---------------+-------------------+---------------------+--------------------+
-| 3       | b             | Direct            | Phantom             | Yes                |
-+---------+---------------+-------------------+---------------------+--------------------+
-| 4       | b             | Reverse           | Phantom             | Yes                |
-+---------+---------------+-------------------+---------------------+--------------------+
-| 5       | b             | Direct            | Direct              | No                 |
-+---------+---------------+-------------------+---------------------+--------------------+
-| 6       | b             | Reverse           | Direct              | No                 |
-+---------+---------------+-------------------+---------------------+--------------------+
-
-An advanced PSE may implement range of different variants direct in the PSE
-controller or with additional ICs in the PSE PI. The same is about PD.
-
-Let's take as example PD-IM-7608M eval board:
-https://www.microchip.com/en-us/development-tool/PD-IM-7608M
-
-According to the schematics:
-https://ww1.microchip.com/downloads/en/DeviceDoc/PD-IM-7608M.zip
-It supports only Variant 5 - Alternative B, with only one polarity,
-and direct feeding without magnetics.
-
-The simple PD may support only one variant:
-https://community.fs.com/article/troubleshooting-poe-errors.html
-" the power modes of PSE and PD are other factors that may cause PoE
-faults. There are three PoE modes: Alternative A, alternative B, and
-4-pair delivery. If a PD only supports PoE mode B power delivery, while
-a PoE switch is based on Alternative A, as a result, the PD and PoE
-switch can not work together."
-
-For this case, it will be good if systems knows supported modes, so user
-can get this information  directly. For example with ethtool
-
+diff --git a/Documentation/hwmon/max6620.rst b/Documentation/hwmon/max6620.rst
+index 84c1c44d3de4..d70173bf0242 100644
+--- a/Documentation/hwmon/max6620.rst
++++ b/Documentation/hwmon/max6620.rst
+@@ -11,7 +11,7 @@ Supported chips:
+ 
+     Addresses scanned: none
+ 
+-    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6620.pdf
++    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max6620.pdf
+ 
+ Authors:
+     - L\. Grunenberg <contact@lgrunenberg.de>
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.43.0
+
