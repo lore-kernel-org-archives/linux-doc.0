@@ -1,176 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BEA1292F4;
-	Fri, 16 Feb 2024 14:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E9813341C;
+	Fri, 16 Feb 2024 15:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708095508; cv=none; b=HcRHzROKkcQeENli0RWjcgng3ta7sSvuiCPEfy13EpNn5RLLfrkP97F8EkBvGigjmd6tx/UdLmlOtxxYK8zitEE9uDA37GL9BlySBxF8qAP2tMbksQw5udfOrDd8hSWZchWN8Vcdrynp9FvnICCg7zfrwoAjiDc0j3ROylzMk5s=
+	t=1708097120; cv=none; b=q2mGgKIBxAn6TjwjO39Ufb/W1hxkMd/BGWSJs/y0YCXqtXph2LHV26dyuIYMK4uwuxuc33RCijSkR69Ga7N0qH8HYwaINA/0DtW9YkU89HRU5WYbs5+62Z/ZUM5y7oppcrk9gGVWUaYIsuW6TuO83zln6QPpLWMA/R/CZwXBk2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708095508; c=relaxed/simple;
-	bh=UATXrrWE0KIZjCnorRcUUIgyCjcvQQOol8XVnqqKE2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uguwsWyiOIro/lbEmOWAd2UwRHBgpFByHLmxFrJjWJoEI0BFoHWQXbIlILKB68pFHvpKW0HHAYUadokMNZn3AIjixYvibryy8p9UtA5IoLGg9z+hgILz1W7ohtUt2WPBrVExuvy/VdNQGjepduW24gw/QdduwjZ4f2jTRZ19x6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/YPsiy7; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/YPsiy7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E86C433F1;
-	Fri, 16 Feb 2024 14:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708095508;
-	bh=UATXrrWE0KIZjCnorRcUUIgyCjcvQQOol8XVnqqKE2Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J/YPsiy7eNHfNsjp8pzZqaEqqgA6Exp0D19yHtLBtxaDBIQ/ZOJkVR0KDanGBVGtc
-	 nzfSkhvWTRZ9lHlTNbWMoqSXTWfuUmlXh9hKqLK/SCpzN7fyRsSSR76b0JMUiISHDH
-	 d9Co4G7FXvyaHgRG5U5Osjh5QG58uNve+gbdzQmOly+TxSKmKpKQyazGSgydStNbhG
-	 HSG172Tn6CS2qiCVpPAr4OfxDepTphT25VAzWlXJKTSd9XUtvgP9/kpHz0JNrRLCLn
-	 rK2fz16GwPprqomT9IE6Umktaac/VQzenXXYsj6RmtIsKAoSGJOG8Kk/Wu/HTZY6J+
-	 IXf5ffEKzwbrw==
-Date: Fri, 16 Feb 2024 15:58:20 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>, bpf@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
- timers
-Message-ID: <fckhc367l6eha2gpftixhzjdsmo2jts5p6ir6ukx2q5xndsbhf@btzjwvuamcv4>
-References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
- <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
- <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
- <r3yhu4h23tdg2dqj7eq3lhevsigvvb3qkge3icxmaqpgkayvoi@gxfxstkr2pxl>
- <87eddccx1q.fsf@toke.dk>
+	s=arc-20240116; t=1708097120; c=relaxed/simple;
+	bh=0d4a909JZ7AEgtDboMnxUVr1QUz9fzJ35MpJ5SdnxVU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=m+KM3bMUJTkKHy0ZMFQ+3364GANlwW0wo20LZAMamDtb56QLLR4kzjHX+5TqbuOqd6vsMaQLLkUL9D/nk3MW0HuqIqXbOe3QL98VAmNPqNJo7TYw0VsTjakEBomS6yBH7b4vcCZhLNE15LYBywswpT+q4o4qCWFnylFdHcvVfLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4TbwMf0scdz9xrth;
+	Fri, 16 Feb 2024 23:09:50 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 20943140489;
+	Fri, 16 Feb 2024 23:25:09 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.48.131.30])
+	by APP2 (Coremail) with SMTP id GxC2BwAHQCRBfs9lTLSaAg--.11044S2;
+	Fri, 16 Feb 2024 16:25:08 +0100 (CET)
+From: Petr Tesarik <petrtesarik@huaweicloud.com>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>,
+	Petr Tesarik <petrtesarik@huaweicloud.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Xin Li <xin3.li@intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Kees Cook <keescook@chromium.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Pengfei Xu <pengfei.xu@intel.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Ze Gao <zegao2021@gmail.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Kai Huang <kai.huang@intel.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Brian Gerst <brgerst@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Joerg Roedel <jroedel@suse.de>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Tina Zhang <tina.zhang@intel.com>,
+	Jacob Pan <jacob.jun.pan@linux.intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Roberto Sassu <roberto.sassu@huaweicloud.com>,
+	David Howells <dhowells@redhat.com>,
+	Petr Tesarik <petr.tesarik1@huawei-partners.com>
+Subject: [RFC 0/8] PGP key parser using SandBox Mode
+Date: Fri, 16 Feb 2024 16:24:27 +0100
+Message-Id: <20240216152435.1575-1-petrtesarik@huaweicloud.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
+References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87eddccx1q.fsf@toke.dk>
+X-CM-TRANSID:GxC2BwAHQCRBfs9lTLSaAg--.11044S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1DWF1kurW7KFy5Kw17KFg_yoW8Ww4Upa
+	n5C395tF48try2krWfJw1xWw45AF48Ar4agw4Iqw1UC3sFqr48CFZ2kr13Ga47GFy8X348
+	trs8AF15WF1Uta7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUva14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
+	0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+	8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8
+	Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
+	14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyT
+	uYvjfUojjgUUUUU
+X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
 
-On Feb 16 2024, Toke Høiland-Jørgensen wrote:
-> Benjamin Tissoires <bentiss@kernel.org> writes:
-> 
-> > On Feb 15 2024, Martin KaFai Lau wrote:
-> >> On 2/14/24 9:18 AM, Benjamin Tissoires wrote:
-> >> > +static void bpf_timer_work_cb(struct work_struct *work)
-> >> > +{
-> >> > +	struct bpf_hrtimer *t = container_of(work, struct bpf_hrtimer, work);
-> >> > +	struct bpf_map *map = t->map;
-> >> > +	void *value = t->value;
-> >> > +	bpf_callback_t callback_fn;
-> >> > +	void *key;
-> >> > +	u32 idx;
-> >> > +
-> >> > +	BTF_TYPE_EMIT(struct bpf_timer);
-> >> > +
-> >> > +	rcu_read_lock();
-> >> > +	callback_fn = rcu_dereference(t->sleepable_cb_fn);
-> >> > +	rcu_read_unlock();
-> >> 
-> >> I took a very brief look at patch 2. One thing that may worth to ask here,
-> >> the rcu_read_unlock() seems to be done too early. It is protecting the
-> >> t->sleepable_cb_fn (?), so should it be done after finished using the
-> >> callback_fn?
-> >
-> > Probably :)
-> >
-> > TBH, everytime I work with RCUs I spent countless hours trying to
-> > re-understand everything, and in this case I'm currently in the "let's
-> > make it work" process than fixing concurrency issues.
-> > I still gave it a shot in case it solves my issue, but no, I still have
-> > the crash.
-> >
-> > But given that callback_fn might sleep, isn't it an issue to keep the
-> > RCU_reader lock so long? (we don't seem to call synchronize_rcu() so it
-> > might be fine, but I'd like the confirmation from someone else).
-> 
-> You're right, it isn't. From the RCU/checklist.rst doc:
-> 
-> 13.	Unlike most flavors of RCU, it *is* permissible to block in an
-> 	SRCU read-side critical section (demarked by srcu_read_lock()
-> 	and srcu_read_unlock()), hence the "SRCU": "sleepable RCU".
-> 	Please note that if you don't need to sleep in read-side critical
-> 	sections, you should be using RCU rather than SRCU, because RCU
-> 	is almost always faster and easier to use than is SRCU.
-> 
-> So we can't use the regular RCU protection for the callback in this
-> usage. We'll need to either convert it to SRCU, or add another
-> protection mechanism to make sure the callback function is not freed
-> from under us (like a refcnt). I suspect the latter may be simpler (from
-> reading the rest of that documentation around SRCU.
+From: Petr Tesarik <petr.tesarik1@huawei-partners.com>
 
-Currently I'm thinking at also incrementing the ->prog held in the
-bpf_hrtimer which should prevent the callback to be freed, if I'm not wrong.
-Then I should be able to just release the rcu_read_unlock before calling
-the actual callback. And then put the ref on ->prog once done.
+While I started working on my development branch to illustrate how
+SandBox Mode could be enhanced to allow dynamic memory allocation and
+other features necessary to convert some existing code, my colleague
+Roberto Sassu set out and adapted a PGP key parser to run in a sandbox.
 
-But to be able to do that I might need to protect ->prog with an RCU
-too.
+Disclaimer:
 
-> 
-> >> A high level design question. The intention of the new
-> >> bpf_timer_set_sleepable_cb() kfunc is actually to delay work to a workqueue.
-> >> It is useful to delay work from the bpf_timer_cb and it may also useful to
-> >> delay work from other bpf running context (e.g. the networking hooks like
-> >> "tc"). The bpf_timer_set_sleepable_cb() seems to be unnecessary forcing
-> >> delay-work must be done in a bpf_timer_cb.
-> >
-> > Basically I'm just a monkey here. I've been told that I should use
-> > bpf_timer[0]. But my implementation is not finished, as Alexei mentioned
-> > that we should bypass hrtimer if I'm not wrong [1].
-> 
-> I don't think getting rid of the hrtimer in favour of
-> schedule_delayed_work() makes any sense. schedule_delayed_work() does
-> exactly the same as you're doing in this version of the patch: it
-> schedules a timer callback, and calls queue_work() from inside that
-> timer callback. It just uses "regular" timers instead of hrtimers. So I
-> don't think there's any performance benefit from using that facility; on
-> the contrary, it would require extra logic to handle cancellation etc;
-> might as well just re-use the existing hrtimer-based callback logic we
-> already have, and do a schedule_work() from the hrtimer callback like
-> you're doing now.
+The code had to be rearranged in order to avoid memory allocations
+and crypto operations in the sandbox. The code might contain errors.
 
-I agree that we can nicely emulate delayed_timer with the current patch
-series. However, if I understand Alexei's idea (and Martin's) there are
-cases where we just want schedule_work(), without any timer involved.
-That makes a weird timer (with a delay always equal to 0), but it would
-allow to satisfy those latency issues.
+David Howells (4):
+  PGPLIB: PGP definitions (RFC 4880)
+  PGPLIB: Basic packet parser
+  PGPLIB: Signature parser
+  KEYS: PGP data parser
 
-So (and this also answers your second email today) I'm thinking at:
-- have multiple flags to control the timer (with dedicated timer_cb
-  kernel functions):
-  - BPF_F_TIMER_HRTIMER (default)
-  - BPF_F_TIMER_WORKER (no timer, just workqueue)
-  - BPF_F_TIMER_DELAYED_WORKER (hrtimer + workqueue, or actual
-    delayed_work, but that's re-implementing stuffs)
-- have bpf_timer_set_callback() and bpf_timer_set_sleepable_cb() strictly
-  equivalent in terms of processing, but the latter just instructs the
-  verifier that the callback can be sleepable (so calling
-  bpf_timer_set_callback() on a BPF_F_TIMER_DELAYED_WORKER is fine as
-  long as the target callback is using non sleepable kfuncs).
-- ensure that bpf_timer_set_sleepable_cb() is invalid when called with
-  a non sleepable timer flag.
-- ensure that when the bpf_timer has no hrtimer we also return -EINVAL
-  when a delay is given in bpf_timer_start().
+Roberto Sassu (4):
+  mpi: Introduce mpi_key_length()
+  rsa: add parser of raw format
+  KEYS: Run PGP key parser in a sandbox
+  KEYS: Add intentional fault injection
 
-Actually, BPF_F_TIMER_DELAYED_WORKER could be just a combination of
-(BPF_F_TIMER_HRTIMER | BPF_F_TIMER_WORKER) which would reflect the
-reality of how things are implemented.
+ crypto/asymmetric_keys/Kconfig          |  17 +
+ crypto/asymmetric_keys/Makefile         |  20 +
+ crypto/asymmetric_keys/pgp.h            | 206 +++++++++
+ crypto/asymmetric_keys/pgp_library.c    | 556 ++++++++++++++++++++++++
+ crypto/asymmetric_keys/pgp_parser.h     |  18 +
+ crypto/asymmetric_keys/pgp_public_key.c | 441 +++++++++++++++++++
+ crypto/asymmetric_keys/pgplib.h         |  58 +++
+ crypto/rsa.c                            |  14 +-
+ crypto/rsa_helper.c                     |  69 +++
+ include/crypto/internal/rsa.h           |   6 +
+ include/linux/mpi.h                     |   2 +
+ lib/crypto/mpi/mpicoder.c               |  33 +-
+ 12 files changed, 1429 insertions(+), 11 deletions(-)
+ create mode 100644 crypto/asymmetric_keys/pgp.h
+ create mode 100644 crypto/asymmetric_keys/pgp_library.c
+ create mode 100644 crypto/asymmetric_keys/pgp_parser.h
+ create mode 100644 crypto/asymmetric_keys/pgp_public_key.c
+ create mode 100644 crypto/asymmetric_keys/pgplib.h
 
-Thinking through this a little bit more, maybe we should have
-BPF_F_TIMER_SLEEPABLE instead of BPF_F_TIMER_WORKER. We can still have
-BPF_F_TIMER_SLEEPABLE_BH when WQ_BH gets merged. _SLEEPABLE allows to
-not bind the flag to the implementation...
+-- 
+2.34.1
 
-Cheers,
-Benjamin
