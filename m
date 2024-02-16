@@ -1,102 +1,103 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF5B803
-	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 00:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DE3101EE;
+	Fri, 16 Feb 2024 00:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708044006; cv=none; b=Gi9eDMRYCb0FPnGQ0KmVIFOco83jnNAQt5Fyfv0Vj0+nb/VueGgTA/l4bZG6sw8s1xtHsNzL/DVZgB1TKK/YoiAdVyz7It3FN04dQXLHw6dScC3iX3csydUqaJAAZUF3ss7QVmnb/nW1otnm1mjXAa8Ibq7uPk5e8m4L39h7utE=
+	t=1708044641; cv=none; b=IWAM3zLAgNZScof1R+5f3I4QCOzxn5KF1Rjy39MwCjSkfvsC4aUYEYPz4RtaWhe5fp1/ffffcIfqvz4moKxodf4xxIpQjvNrf2+dRUOKZHNBhd+t4o7j6HfUFJkRF3kYu338IZsIsbx5JeQ1nUpKugPrNCTwpkzD5TsCtsnTo+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708044006; c=relaxed/simple;
-	bh=lNWtY/B1xY1q4emMITPcTwneXwj+O8lm1/92kGWavpY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S3SEsovrmadNrbty6vv7AqGFfG8SjzHzUR2f8ku8h6yR5O8lvd/tahT6Ff1HJbOhES/0hpk3HbVqZvdglk2vvcD04oTwj6f8A2z0IbxTUMgcLlg6V+1zyEdKHHszk0JTA6QbJdfO57Wdr4nl7vQes+atWRYB3Cim6pAy9ZtFSWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vFhJ52U5; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1708044641; c=relaxed/simple;
+	bh=yJvazTFR+86hv5uLjPrGm+ajAykGtrKmqRpojL3XFvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jAi9NoX3IB5ynMm2LfTI2fkfHHRa/G3vBvLxPQ46p9jmR0RnfUrUjIRYe+dnLriHbZe1pzwQ8JHG7k9dSr08x1exUHqAVegOkI3PsROfVcdV9NTj8gPtUAyZIoinnpjNPYJcfKefunXHuS5laAGP4VYBvy+Z+H0OmmgwgH9SWVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VQv3k7CK; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vFhJ52U5"
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dcbc00f6c04so220312276.3
-        for <linux-doc@vger.kernel.org>; Thu, 15 Feb 2024 16:40:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708044004; x=1708648804; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lNWtY/B1xY1q4emMITPcTwneXwj+O8lm1/92kGWavpY=;
-        b=vFhJ52U5Ca5lVgqXIok35m/wap6nAv63NFbqMG9BgcMU0LoFgV5xwyrMj48LUMEffE
-         Uszg0p7JKzKZAJkqmYynoxYdmZqkm0PYwHTP86g3ujio1PT6UdhgJ6QbUek6pLkAYEyk
-         8NUh6EXYOeiKAn4WWXiH9wX4B3uc5iADYqTjIB1owC5fGlpDICK88WPAZsmZgct+VSSD
-         Po7N2t6/E8cr3ZitpP/aeAZ81eZfWhtUt6rDQO7ncBVgUUHk3wkYo6DNepKipZYUnBJ5
-         x6ukBbpUrq075zaiEYBqC7BD1U5d6GA5FUre9XS1dFH+rt4m12JjSyhuFoPon2w2UKVy
-         HJbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708044004; x=1708648804;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lNWtY/B1xY1q4emMITPcTwneXwj+O8lm1/92kGWavpY=;
-        b=cyvlrVK3Qwa1323WMeStWOhwVm4Z5UOA9XCiOd6+73eO29EYhYzKMRhdKjnmrRTs8G
-         oSSGoeM4WAucvU/frqcnkvRKdQGO3yooF6Oj6INd/fjy8F/L4NsKLPQb8oNF17QwxYvx
-         xbgeknyBUBbDb5x7l4oQ8gEMhm4ekiFQNwzkdXBfDn6tayZtp2vTyhWFoAmxLxiQeIkB
-         b4dlLqTVw4t1CVgxga+MTe42rwo3WcPtZBJEBQsEUnyZOpFYkrBp9EAX9Ovt+8y1UabC
-         zRihJcoy1WpRoZyhrh7gb5sVTY57j1jD92I/F43RAuHpXgTfyuVGIbecDRYPTtRZq8HP
-         C7yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9JhEwWvcNUT2GDAb7dXL3rLmmda60g09leV3d+RtP8jmAKvMn6y8F5+mkOum3DWgAy8SEPLEn2cNW7d/zC8DoJyGCkpJYSGsd
-X-Gm-Message-State: AOJu0YyHxgiFu8xNra4EiBYQQHCltfzbn4QEYTlUva5A0cTzohheXnGL
-	+YsMYRUxyRH+Y7iGoQSLQGQPcHz8qf969esP3qzflPh4sfG1Za5TyL/PC3q4j5YaS6gDNwAJxSX
-	FvQu5tKw0d8rflYgzyTlpLaqqvG4RkOLz27fU
-X-Google-Smtp-Source: AGHT+IHAAsugZ3/nqJLaPaGwbaKWrJXvPAuodtlX22tVU71nS9Rg5t7nXyOIvNMt6vhQws8u5s7RYzYtvfhsM7i5y6I=
-X-Received: by 2002:a25:b184:0:b0:dc6:c510:4484 with SMTP id
- h4-20020a25b184000000b00dc6c5104484mr3417966ybj.26.1708044003733; Thu, 15 Feb
- 2024 16:40:03 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VQv3k7CK"
+Date: Thu, 15 Feb 2024 19:50:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708044637;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mLCxs+brit7Xt9ohcQIkEDEwu4CGUrETZSQhOqg+Gh4=;
+	b=VQv3k7CKQO7VvnNiO0UaPC3fRsfnv/HUGMdvgh4+aJJ2aWRJtV+YlrOeBfde8VCHgAcbY5
+	lXO47e7kbZbILN8ftGGc8KCEueNDr1rNHWaoOXL0Hdz+XHBXnlrz7urf5prbXjGBLGGyRP
+	hi3yRo88y4QRr5f5p0UTWDtVOke68ds=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, david@redhat.com, 
+	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, 
+	dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, 
+	paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com, 
+	yuzhao@google.com, dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com, bristot@redhat.com, 
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
+	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
+	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
+Message-ID: <a3ha7fchkeugpthmatm5lw7chg6zxkapyimn3qio3pkoipg4tc@3j6xfdfoustw>
+References: <Zc4_i_ED6qjGDmhR@tiehlicka>
+ <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
+ <ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut>
+ <320cd134-b767-4f29-869b-d219793ba8a1@suse.cz>
+ <efxe67vo32epvmyzplmpd344nw2wf37azicpfhvkt3zz4aujm3@n27pl5j5zahj>
+ <20240215180742.34470209@gandalf.local.home>
+ <jpmlfejxcmxa7vpsuyuzykahr6kz5vjb44ecrzfylw7z4un3g7@ia3judu4xkfp>
+ <20240215192141.03421b85@gandalf.local.home>
+ <uhagqnpumyyqsnf4qj3fxm62i6la47yknuj4ngp6vfi7hqcwsy@lm46eypwe2lp>
+ <20240215193915.2d457718@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240214225741.403783-1-souravpanda@google.com>
- <20240214225741.403783-2-souravpanda@google.com> <20240215161441.c8a2350a61f6929c0dbe9e7b@linux-foundation.org>
-In-Reply-To: <20240215161441.c8a2350a61f6929c0dbe9e7b@linux-foundation.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 15 Feb 2024 16:39:50 -0800
-Message-ID: <CAJuCfpHF=yxV9+=pUo+5DwSjvF=r2y7A9_8LHsUGUSoP7EUNXA@mail.gmail.com>
-Subject: Re: [PATCH v8 1/1] mm: report per-page metadata information
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Sourav Panda <souravpanda@google.com>, corbet@lwn.net, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, mike.kravetz@oracle.com, muchun.song@linux.dev, 
-	rppt@kernel.org, david@redhat.com, rdunlap@infradead.org, 
-	chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com, 
-	bhelgaas@google.com, ivan@cloudflare.com, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com, 
-	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com, 
-	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, willy@infradead.org, 
-	weixugc@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240215193915.2d457718@gandalf.local.home>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Feb 15, 2024 at 4:14=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Wed, 14 Feb 2024 14:57:40 -0800 Sourav Panda <souravpanda@google.com> =
-wrote:
->
-> > Adds two new per-node fields, namely nr_memmap and nr_memmap_boot,
-> > to /sys/devices/system/node/nodeN/vmstat and a global Memmap field
-> > to /proc/meminfo. This information can be used by users to see how
-> > much memory is being used by per-page metadata, which can vary
-> > depending on build configuration, machine architecture, and system
-> > use.
->
-> Would this information be available by the proposed memory
-> allocation profiling?
+On Thu, Feb 15, 2024 at 07:39:15PM -0500, Steven Rostedt wrote:
+> On Thu, 15 Feb 2024 19:32:38 -0500
+> Kent Overstreet <kent.overstreet@linux.dev> wrote:
+> 
+> > > But where are the benchmarks that are not micro-benchmarks. How much
+> > > overhead does this cause to those? Is it in the noise, or is it noticeable?  
+> > 
+> > Microbenchmarks are how we magnify the effect of a change like this to
+> > the most we'll ever see. Barring cache effects, it'll be in the noise.
+> > 
+> > Cache effects are a concern here because we're now touching task_struct
+> > in the allocation fast path; that is where the
+> > "compiled-in-but-turned-off" overhead comes from, because we can't add
+> > static keys for that code without doubling the amount of icache
+> > footprint, and I don't think that would be a great tradeoff.
+> > 
+> > So: if your code has fastpath allocations where the hot part of
+> > task_struct isn't in cache, then this will be noticeable overhead to
+> > you, otherwise it won't be.
+> 
+> All nice, but where are the benchmarks? This looks like it will have an
+> affect on cache and you can talk all you want about how it will not be an
+> issue, but without real world benchmarks, it's meaningless. Numbers talk.
 
-Well, not without jumping through the hoops. You would need to find
-the places in the source code where all this matadata is allocated and
-find the appropriate records inside /proc/allocinfo file.
-
->
-> https://lkml.kernel.org/r/20240212213922.783301-1-surenb@google.com
+Steve, you're being demanding. We provided sufficient benchmarks to show
+the overhead is low enough for production, and then I gave you a
+detailed breakdown of where our overhead is and where it'll show up. I
+think that's reasonable.
