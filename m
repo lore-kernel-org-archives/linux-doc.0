@@ -1,120 +1,145 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D9510979;
-	Fri, 16 Feb 2024 06:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C30513AEE
+	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 06:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708064378; cv=none; b=p/vasPIkjGcCvTkm/zRc4iXynM3vywwTZTVTEuTakp8CZIjcmp8VNZ2mi6DjDbgsYSF5juWz3g6WIlH1zNQvFT9W25MqA99CuoMuIA7CtjOxKsyPEg8PqnEmfEjUMiVx1zpDqoPE3D+5ps1aH5gJ95T2eF4UoY9PLMZIsviqNkA=
+	t=1708065391; cv=none; b=HozzzBITv3ZmUwcccfsUGbjLhl/qRnYIqijRRM787TrKtYRSm39BreWgzKSlx0vspOXum76zwMfEA3AQqyBjS5DbH3QXDAgmLO8csUyOd3ewZ6v2RWlWs5O6G5in4g0BPBd4TQsWr+gN58iqd1ednFKTsmLXooyIWNeKPxhXh+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708064378; c=relaxed/simple;
-	bh=twDT7pQukCriu5b7GZvI8MsCbZs40QK0iZ/i8KWlgCI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hQHEnhiX8jhGLCpbXRs/n49Fzq7pxiPnJKYXmf5cI3+L8cqmVfgIFs+m0JH/YcHdOCcOrccGXl+Ad/KbilEBPu3Q/lpBoBEzRvTYEX63V2kbrfuuqvamGRLmohjclMIuGyTs82DmjyXvnJpryS1XmUpNJtA3EICmGkwBImLtcU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HAmT4VjZ; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708065391; c=relaxed/simple;
+	bh=8c1US9OauGX6MoQAcSIvGGnaJf+45MAgZiqviPZZqa0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IteYWb4m9FY5f9CE6aHntkWb1+PqGGZYTh2CnfH6HsF6jZ0mW3bW5XRh8r6yYwPnUpib27Lu063gAl73zaGYh1DcJDN+p5xrUr6MzIFFQxYG5rvNgz6bhhsQwRmD3uI99ExRZcf8MK8cPrW+KB1OWTwN3HpqaZyrx3uIQlafGTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tBnKIN5q; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HAmT4VjZ"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a3dbc8426f3so39189066b.1;
-        Thu, 15 Feb 2024 22:19:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708064375; x=1708669175; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=twDT7pQukCriu5b7GZvI8MsCbZs40QK0iZ/i8KWlgCI=;
-        b=HAmT4VjZAlyDbs6F6VN2odRNpKU47eGnCfYH1gPP74wj0HZo7LcEKe+fpE31AHSrPk
-         q02BjmfoR/ro8cERH+W+yndE+xTFnoT0VHEIVmAM944vbS4YW28Zyq3yewEdvVcCqPwA
-         4TFCL5hlHv8bP7s6KPGl+cy+1J07dslQxD4jTfN1IZFvCyU7SYH2GbJqtcxetLECPFHT
-         NK15BBRX/CB+M/LJTO3gqoyXtrejC2TpHwb5Dw4A1BFWRnmFWbaLREqz591RrxXxHkza
-         xRMO9ulNi0b0hRFZJLi/lqVSUfg2D1kbE8ar4pNN1g7mMI12klAb2pvlWE19Fh2trzbi
-         kiYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708064375; x=1708669175;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=twDT7pQukCriu5b7GZvI8MsCbZs40QK0iZ/i8KWlgCI=;
-        b=SzqR4zfOhBiMvZB1ZbE+mmXVmq7ATUztlHM+vZ3uyATgm4dPZ39IHTaLdWhrC0U5jK
-         NKAZsxGx6dfhWHYV7QDeanI8NLnnUdiNkz3G/vNaAguB8x5R7OAL/90wxuGqdXFvhTCd
-         LVjfqQt+kg3JcwzHWJWvqLkcngXvGziDZsvyugY7XGxMZVU9CQBNxETiG6BTKeMxLUEg
-         +ZQMOirdoJo0DU3FlDhAkYcjqRX9wW1DwjXG+buDV8gSJ+fl+7XGB69s608vYloTTO93
-         43PvMBKXfrcxF6WnbEpFrinVUU3LDr2KhB792Dc1F0poTAysmIpo1sr4ZSkAtS63E1Gd
-         qIDA==
-X-Forwarded-Encrypted: i=1; AJvYcCX0XW8KxH2N5HfgaDfn4TT13rsYW89ga945d6ELW+jCDabcK8rU6hOGe8kPlTPU1KI4gt3nu8p6JFlCFlPQaPq5SG/Dc/wi2OVNaJ+1DIyS9tbpOltSzFVd4id8vpNSuGEB3gSmZLfr
-X-Gm-Message-State: AOJu0YzxQCzTFpDbNfE8fdHcbIb+MfUxLFtG0MfRPUoL/FA7e4sBY1uy
-	SYNmNCgQ15dFlZZXScEIXQWyHdoptdWAC0iMghIJ+e5p1jUy/GTdFn6MG9h1EqQeTjvHIMo0/MB
-	pDyR9OzoUu69qUwByTON+Dqj3D/E=
-X-Google-Smtp-Source: AGHT+IG3UH321Wj+62YjK+x82KH4WpkZBya/9VqrCbb8iOi2xWuIQnhYdvT8EKc9ZPnqf6YyWJaQstUaRwJ/OfHfStI=
-X-Received: by 2002:a17:906:8404:b0:a3c:f7c9:5ba with SMTP id
- n4-20020a170906840400b00a3cf7c905bamr2441015ejx.10.1708064375165; Thu, 15 Feb
- 2024 22:19:35 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tBnKIN5q"
+Message-ID: <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708065387;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Sbr4QPVSTcHUa+AezXbiMdDvlOjSGnMLEs0dFzkc8tc=;
+	b=tBnKIN5qT9O82LzS5wQNyKs9/9Jb+2Nc3qdyyuiBtmOVizx2dqWVe5a8J1MYRI23lPllFO
+	j/SZsfaf+P6X/lHOIi+2MCjlLrur4E4RLAT/YArdbMOhYy0W/dVa7NmBcz64oHTYxea4q9
+	/yoOzUZ8yBH9dlUy1WcGM+fUCpQtCk8=
+Date: Thu, 15 Feb 2024 22:36:16 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <piosq44nxwlfeutperrk6d23bx564qlbfirc5xlbouyrunf24r@u6qsgqp47fz6> <tencent_B08771190400813E0CC41E36A3F540AACA07@qq.com>
-In-Reply-To: <tencent_B08771190400813E0CC41E36A3F540AACA07@qq.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Fri, 16 Feb 2024 07:19:23 +0100
-Message-ID: <CAKXUXMy8WZwAqrARe-6nNhtvjSiosDD3X5aPZPfn7GXtkG8B8w@mail.gmail.com>
-Subject: Re: [PATCH] Fixed case issue with 'fault-injection' in documentation
-To: "Ran.Park" <ranpark@foxmail.com>
-Cc: ricardo@marliere.net, akinobu.mita@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
+ timers
+Content-Language: en-US
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
+ <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Feb 16, 2024 at 6:29=E2=80=AFAM Ran.Park <ranpark@foxmail.com> wrot=
-e:
->
-> Thank you for your reply. I'm sorry that I noticed this problem
-> while browsing the document. I have not seen any report about this proble=
-m
-> on lore.kernel.org or other places. Should I mention the situation elsewh=
-ere
-> and then resend the patch to mention and fix the problem.
->
+On 2/14/24 9:18 AM, Benjamin Tissoires wrote:
+> +static void bpf_timer_work_cb(struct work_struct *work)
+> +{
+> +	struct bpf_hrtimer *t = container_of(work, struct bpf_hrtimer, work);
+> +	struct bpf_map *map = t->map;
+> +	void *value = t->value;
+> +	bpf_callback_t callback_fn;
+> +	void *key;
+> +	u32 idx;
+> +
+> +	BTF_TYPE_EMIT(struct bpf_timer);
+> +
+> +	rcu_read_lock();
+> +	callback_fn = rcu_dereference(t->sleepable_cb_fn);
+> +	rcu_read_unlock();
 
-Ran, in the future: please do not remove the context when you reply to
-somebody's email.
+I took a very brief look at patch 2. One thing that may worth to ask here, the 
+rcu_read_unlock() seems to be done too early. It is protecting the 
+t->sleepable_cb_fn (?), so should it be done after finished using the callback_fn?
 
-In this case, I wanted to help you to understand what Ricardo was
-asking, but his original response was not in your email. So, I copy
-and pasted it now---but that is not how it is supposed to be for
-someone replying to your email.
+A high level design question. The intention of the new 
+bpf_timer_set_sleepable_cb() kfunc is actually to delay work to a workqueue. It 
+is useful to delay work from the bpf_timer_cb and it may also useful to delay 
+work from other bpf running context (e.g. the networking hooks like "tc"). The 
+bpf_timer_set_sleepable_cb() seems to be unnecessary forcing delay-work must be 
+done in a bpf_timer_cb.
 
-On Wed, Feb 14, 2024 at 2:21=E2=80=AFPM Ricardo B. Marliere
-<ricardo@marliere.net> wrote:
->
-> Hi Ran,
->
-> On 14 Feb 19:40, Ran.Park wrote:
-> > In the 'fault-injection' subdirectory, the first letter F
-> > is capitalized, whereas in index.rst f is lowercase, but in
-> > index.rst all other elements in the same column are capitalized.
->
-> Does this fix any error or build warning? If so, it should be mentioned.
->
-
-Ricardo suggests that:
-
-- you run 'make htmldocs' before applying the patch and check for the
-existing warnings.
-
-- you run 'make cleandocs' and 'make htmldocs' after applying the
-patch and check for the existing warnings.
-
-Did any warning disappear or appear due to your patch? Were you
-motivated by a specific warning you observed during the build and you
-addressing that?
-
-So, for starters: did you already try 'make htmldocs' with your patch
-applied? What did you observe?
+Have you thought about if it is possible to create a more generic kfunc like 
+bpf_schedule_work() to delay work to a workqueue ?
 
 
-Lukas
+
+> +	if (!callback_fn)
+> +		return;
+> +
+> +	/* FIXME: do we need any locking? */
+> +	if (map->map_type == BPF_MAP_TYPE_ARRAY) {
+> +		struct bpf_array *array = container_of(map, struct bpf_array, map);
+> +
+> +		/* compute the key */
+> +		idx = ((char *)value - array->value) / array->elem_size;
+> +		key = &idx;
+> +	} else { /* hash or lru */
+> +		key = value - round_up(map->key_size, 8);
+> +	}
+> +
+> +	/* FIXME: this crashes the system with
+> +	 * BUG: kernel NULL pointer dereference, address: 000000000000000b
+> +	 */
+> +	/* callback_fn((u64)(long)map, (u64)(long)key, (u64)(long)value, 0, 0); */
+> +	/* The verifier checked that return value is zero. */
+> +}
+> +
+
+[ ... ]
+
+> +/* FIXME: use kernel doc style */
+> +/* Description
+> + *	Configure the timer to call *callback_fn* static function in a
+> + *	sleepable context.
+> + * Return
+> + *	0 on success.
+> + *	**-EINVAL** if *timer* was not initialized with bpf_timer_init() earlier.
+> + *	**-EPERM** if *timer* is in a map that doesn't have any user references.
+> + *	The user space should either hold a file descriptor to a map with timers
+> + *	or pin such map in bpffs. When map is unpinned or file descriptor is
+> + *	closed all timers in the map will be cancelled and freed.
+> + */
+> +__bpf_kfunc int bpf_timer_set_sleepable_cb(struct bpf_timer_kern *timer,
+> +					   int (callback_fn)(void *map, int *key, struct bpf_timer *timer))
+> +{
+> +	struct bpf_throw_ctx ctx = {};
+> +
+> +	/* FIXME: definietely not sure this is OK */
+> +	arch_bpf_stack_walk(bpf_stack_walker, &ctx);
+> +	WARN_ON_ONCE(!ctx.aux);
+> +
+> +	if (!ctx.aux)
+> +		return -EINVAL;
+> +
+> +	return __bpf_timer_set_callback(timer, (void *)callback_fn, ctx.aux, true);
+> +}
+> +
+
