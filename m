@@ -1,130 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F88DDDC;
-	Fri, 16 Feb 2024 01:54:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FFFC157;
+	Fri, 16 Feb 2024 02:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708048490; cv=none; b=jY4OScmujOMX71O3VemLjBZlWHrLLnfhOJb1USqMjq0th0+NHSqn1G56qoOm5y+DW+QxduAYPmj8TeUvRAKUbe4q0hPE8cTJD2D9BudaQH788WGaK7DzWzbbbuGsDBC17EEFzOH3c8ux/tx/IDNib5kZUU/8d0WWHLp6nXVsmLA=
+	t=1708049740; cv=none; b=R5JfmGkYsw0F+aVssNT6blfWCVumkayliY+LmDAdhSgmbb8LlAiztxZiy547Lth3LiGKWpKX1TFuNdpAkxT2S38owvbPeJxM8W8Val4rPx3Len91kGOZJP8OXSGZXvyXEqwoD5MbICiN3ZbtPizPcBHNC5J4qt7CyZQdapXOea8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708048490; c=relaxed/simple;
-	bh=B0BsOsgqeWZMYS+uSGOcCu0eCAs37Yp+bwFNHbFSqDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ic2Xr2+uJMrh0ylPdR+PouoXdtLyoBqGm/LX2VK8etnM98zRvpc4NIwNVyf9o8+tjXH9Vm3wNiG9c3wjQbbSP8Uljom9ukvxQdbtAocXJmv7LGWMtkEW0Jk1qFA6Lo6AhVtsDrFZcgNnunvUkkmU5abyy+PtgWx5U/C+2jDkyzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=emKjrbww; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708049740; c=relaxed/simple;
+	bh=ARqY6mUTlN+X8PxUwy7uCqH8uqqNhJsDjkHBaAlCrWg=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=WvxUN1alD7ZNx3iyBQHBrHm5Z3NCHfTMBMBayUXQwoVJxHishy9ZDVEC/IhjsZVCEVgare6xWbANIadnNeNOfnurB13fgbRrnDLbEBVKbSuOEOHKW6D9M3qHmuxgfnVa3jsSpEPz7z875nuqfZfJwGpZ3EaOCu/XKKohR9z4h7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lNbal+Cy; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emKjrbww"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708048488; x=1739584488;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B0BsOsgqeWZMYS+uSGOcCu0eCAs37Yp+bwFNHbFSqDw=;
-  b=emKjrbwwOvp7I7nrxtNGZh6QZK55mYjlkG8V1ms0GfqxD9IGrp6w1O50
-   eyuNaPXF4NFTD1jlCrVmM28SyaKaAsUJrf2wJahnt+In+joi1LRc17LjP
-   azUc0gGFdqzfpZWxvG3YI4HRTKsGJ3up2eL/+pDnDG9U1MRAJoCS8k4oT
-   UiRBb0Xhd+L5I7s+ZzoaaUdtyzKGkGx49yt1rAJWiE0nivcaDXHtON111
-   oC9MpAc4eqo7W0wZx9Ci/za/V8ssCQPgRxpQpOAYZhXwJ5VCTma1jyIDk
-   HTvuZ7gfjvAFpJEJe9aQYWssxW9YrpBfiRm3UdP6fEaVd3Tq1kAZFh1eZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2026587"
-X-IronPort-AV: E=Sophos;i="6.06,163,1705392000"; 
-   d="scan'208";a="2026587"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 17:54:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,163,1705392000"; 
-   d="scan'208";a="3793993"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 15 Feb 2024 17:54:38 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ranQx-0000w1-1c;
-	Fri, 16 Feb 2024 01:54:35 +0000
-Date: Fri, 16 Feb 2024 09:53:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Petr Tesarik <petrtesarik@huaweicloud.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	David Kaplan <david.kaplan@amd.com>,
-	Larry Dewey <larry.dewey@amd.com>,
-	Elena Reshetova <elena.reshetova@intel.com>,
-	Carlos Bilbao <carlos.bilbao@amd.com>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Petr Mladek <pmladek@suse.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Eric DeVolder <eric.devolder@oracle.com>,
-	Marc =?iso-8859-1?Q?Aur=E8le?= La France <tsi@tuyoix.net>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Christian Brauner (Microsoft)" <brauner@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Mike Christie <michael.christie@oracle.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Maninder Singh <maninder1.s@samsung.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Roberto Sassu <roberto.sassu@huaweicloud.com>, petr@tesarici.cz,
-	Petr Tesarik <petr.tesarik1@huawei-partners.com>
-Subject: Re: [PATCH v1 4/5] sbm: SandBox Mode KUnit test suite
-Message-ID: <202402160907.r0qgAoRs-lkp@intel.com>
-References: <20240214113035.2117-5-petrtesarik@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lNbal+Cy"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d8da50bffaso9134305ad.2;
+        Thu, 15 Feb 2024 18:15:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708049738; x=1708654538; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q9cQ2zWbvweV7CQGRMU52GzC1urlxVK4rcMLJdR1GzA=;
+        b=lNbal+CyeDDUYlEKf9rMokjNANeH38FGB8VmB4ZUeyAlxa6DQtWA0bJD3K4qZujVO3
+         QixD9DXIfwmJr3dYxpw2CfWsbTfScFU0648kERxBpngvtZCRqsnTjBdNphuJEtr94ZY4
+         iAKMrem8evxEE+AzS13qWXgj1w8UW/s+A8EuvLJbJ0AhmiGQhS0UYqQQ7d7P/lFdXADf
+         kn+woiJ+0L+qh+f2125Dbb+AoWK5+9qtmcUJBum7JPjy0XYsS86NorfAuceu24XQVAWU
+         QsRMeomBHkunmMIHE6ZkeAmayMWqbIfV7dQNE6K2puXcv6kdBGyGaZM+gbkDTftpac3Y
+         AMsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708049738; x=1708654538;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q9cQ2zWbvweV7CQGRMU52GzC1urlxVK4rcMLJdR1GzA=;
+        b=Y+vGScv+AWj325Ib+6WyrKX/RZWpG25QdaJ2DREVRnU7QkHtXqCMEpUJMwT3AsW0km
+         TRU0oDVeUCbXBP97OpoTKUdoBWzCEjw4Nz+MXhyQfxM397qlQt1bSwPe67bHVUiNBrn7
+         br/WbL3McMgiccwMeGhij+J5MPpbCUh09jnB6qMYNt4NKjwXAocb+Hb2WzDXD3sjviSk
+         DZf0uuLbFkOiX+ehGxKlTSmQoZefQxq1mOrRSXCUQUQWPnPrH2aIh4XOuXMZymIgbduE
+         62MZFc9HGprNGJuKrxv+HPNL8tQi8QGvBzIhe1fAjxn8TeaLGgclGg4iqrnkcAOKYxXn
+         j7nQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXv34whOALp2c3Iyz5l+BsfQZUyiyemOfGgMTD9N7iTj1xoEUnsKVNMOxHv3/06o9ZVijrtCOjA8FVF9iwoCsOD1eaPaN5N+kYHqO+HsXP9sN3kKu/fit1J5EEw1nwH0crWA6XN7g1q
+X-Gm-Message-State: AOJu0Yx5Wr7gNeFylZ9J53pAIeCpMhtTvgjRFBdQtWKD2JBZrxj3QZMS
+	LcvBvWLTKsFJoNAcAAnsJQeePMYRak6mv4siFT5VxSiJvnxERJIB
+X-Google-Smtp-Source: AGHT+IE4zxgSO6UiWRnOuG7pVs+WaKgIdjfh/vLNYLlIqUCS60kR6/+U0omEw4lxbkXIGpqg7xbMyw==
+X-Received: by 2002:a17:903:234a:b0:1d9:578:4582 with SMTP id c10-20020a170903234a00b001d905784582mr4620901plh.37.1708049737877;
+        Thu, 15 Feb 2024 18:15:37 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id y21-20020a170902e19500b001db4433ef95sm1913240pla.152.2024.02.15.18.15.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Feb 2024 18:15:37 -0800 (PST)
+Message-ID: <fd73a8b4-c13d-4469-86ad-1ca6a0953c16@gmail.com>
+Date: Fri, 16 Feb 2024 11:15:12 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240214113035.2117-5-petrtesarik@huaweicloud.com>
+User-Agent: Mozilla Thunderbird
+To: federico.vaga@vaga.pv.it
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <20240215214546.19947-1-federico.vaga@vaga.pv.it>
+Subject: Re: [PATCH] doc: it_IT: remove references to original documents
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20240215214546.19947-1-federico.vaga@vaga.pv.it>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Petr,
+On Thu, 15 Feb 2024 22:45:46 +0100, Federico Vaga wrote:
+> A relatively recent improvement to the document building process added a
+> functionality to point to documents in different languages. Hence, it is
+> not necessary to add an explicit link to the main English page.
 
-kernel test robot noticed the following build warnings:
+It might be true as far as htmldocs is concerned, but please remember
+there are other targets such as latexdocs, epubdocs, etc., where the
+translations extension has no effect.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.8-rc4 next-20240215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+That said, you are the maintainer of Italian pages.  I wouldn't complain
+if you ignore the other targets and go forward.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Petr-Tesarik/sbm-SandBox-Mode-core-data-types-and-functions/20240214-193528
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240214113035.2117-5-petrtesarik%40huaweicloud.com
-patch subject: [PATCH v1 4/5] sbm: SandBox Mode KUnit test suite
-config: mips-randconfig-r121-20240215 (https://download.01.org/0day-ci/archive/20240216/202402160907.r0qgAoRs-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240216/202402160907.r0qgAoRs-lkp@intel.com/reproduce)
+Regards,
+Akira
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402160907.r0qgAoRs-lkp@intel.com/
+> 
+> This patch removes those references
+> 
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sbm_test.c:300:13: sparse: sparse: symbol 'static_bss' was not declared. Should it be static?
-
-vim +/static_bss +300 kernel/sbm_test.c
-
-   293	
-   294	/**************************************************************
-   295	 * Memory write to kernel BSS.
-   296	 *
-   297	 * Sandbox mode cannot write to kernel BSS.
-   298	 */
-   299	
- > 300	struct data static_bss;
-   301	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
