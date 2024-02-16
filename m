@@ -1,61 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2DB1A587;
-	Fri, 16 Feb 2024 08:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22BB17BBD;
+	Fri, 16 Feb 2024 08:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708072129; cv=none; b=n9WBMvpu0k4YG+TMPBFRv3+3g8AP/dCe50T7uykcN60CyqJ1bLPCrapatPKMkd2h/J4FtNsZqxUfNV7HZCYamBFcmgSgWFpcDUlu/U9qtbVuSKNSf+ddAX1GMPIW1edRf5Vx4m2asboyDEFnfkWYEV97dIFvOnDGflVDBVdL6KI=
+	t=1708072708; cv=none; b=AhK5WkFPGn0hyMZ7MRKl9ju0cMkwZmQTJxMxKG2xz08iwnV3gwTlWQSPxTLm6f9K+N0hc3kIgbWq2RgiQI5EV4Ycl7/OhVSQQNhMVqRdM4ZsXLR0VSc1hpSfkzIwRHK5TaJGv9Q00nVHWBOGNiB4hwAlK2NxsZProSD/Bg9PQ6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708072129; c=relaxed/simple;
-	bh=Nc4byJdJJWJ4cNNExDneUkbDXxOHN/J7AM2XX7SxI70=;
+	s=arc-20240116; t=1708072708; c=relaxed/simple;
+	bh=HxOuetD/ZDxORTouQxar11u838Ki34k7zzeCS5xykLA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j0nmY13a4jBDCC8fwVgzKCU+qOB1Yi0wI1rEqbKCmEKNLLTwOMyyr4Kct4bmiws58AX6bZxWEWOKjHPQwlpaG/gpoFblAwV8c90O7NuQ8QSf00t4KPJC2Jym4fORtWLVVuLTK2/z8w8lNi4xwZQsAYPTmHmU9tgpUCg1st9GzWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GcXRItxH; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+	 MIME-Version:Content-Type; b=M3AEWxZYtl3mgdoMs4b7hxHVWskIwtBXF4tazZ4A+VLIBPU0HTGLOBpUyKVoRBTuZ/+R6i3qFnrgXwkesPvJMR5NipNmZscvf4Ieu+OyhycdiRfkLOLkbj4HS8dyNsAi1Lu3Peq7nE/R+Q7uTC0AJyf9tvxBWEZf5eUPln76Nzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cog6cQBn; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GcXRItxH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cog6cQBn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708072127; x=1739608127;
+  t=1708072708; x=1739608708;
   h=from:to:cc:subject:in-reply-to:references:date:
    message-id:mime-version;
-  bh=Nc4byJdJJWJ4cNNExDneUkbDXxOHN/J7AM2XX7SxI70=;
-  b=GcXRItxHPIpAxAA44S324CjU8WZxiqE4BBaUahpz7r8nPj5a5W9/mSvK
-   KsnyQbN8AnDjnkJ0M9Edl4zyA7Wdiise/vkiB32J01bTMVArnn1UPvQXD
-   f1VMIjRpFDGuoC4tC74+WCo1MeogXmRPFRbBFISvz3ltRK1nYPCkbiXXV
-   jsmoNTGMoL9yiYsFvecYkmlpasiannbDfrfEfqBsxX7OmZ51ASkWS+lDg
-   3e8PRgzlGp2tb2Nst3n3q1dDAgJu0p4TMDChpHbYEqrNL01NEtXCmqPFk
-   bLQ34fX12VUcWvgMoAn+/eSKuq9m+cqOTTZ2LPSbAPGrmryoABzGLnkNW
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="24658539"
+  bh=HxOuetD/ZDxORTouQxar11u838Ki34k7zzeCS5xykLA=;
+  b=Cog6cQBne0fvT97EP9JoAJ7wDz2DrzrjuFy/NM1F1SnRSn14v8wEU8JD
+   6w1nv91347TY/t2Dp3b2ZSKTRGdVIKA62In4ecbOM0pugawpkdsQtxQdN
+   rY2XKVO5SYYgy9eexCWcAzUGWU8+B5MKY9rwjXGBtFAT1C1W8hZ8Y1QsN
+   kWYV/6C9XLhMxuRPU1gFlhjDngnSX37tAlMi3pu8GraS79fDfwB6nqf1+
+   DSTfzrIvYEdA1yfaeTTFhypqlM++Fxu5HGKwn/jybTVv6oGFe1j0Tc1Lm
+   ZYPtAkWVzyh94VTm/oigBMWCKjFemnOkLPxW1CNcKx3wQFEvv1YNiOG0a
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2063360"
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="24658539"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 00:28:46 -0800
+   d="scan'208";a="2063360"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 00:38:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="912324995"
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="912324995"
+   d="scan'208";a="4144870"
 Received: from pshishpo-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.48.79])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 00:28:41 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Vegard Nossum <vegard.nossum@oracle.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, security@kernel.org, Kees Cook
- <keescook@chromium.org>, Sasha Levin <sashal@kernel.org>, Lee Jones
- <lee@kernel.org>
-Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-In-Reply-To: <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com>
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 00:38:04 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
+ hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+ dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+ corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+ juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
+ arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+ masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
+ muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+ pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
+ dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
+ keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com,
+ gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+ bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+ penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+ glider@google.com, elver@google.com, dvyukov@google.com,
+ shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+ rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+ surenb@google.com, kernel-team@android.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-modules@vger.kernel.org,
+ kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Memory allocation profiling
+In-Reply-To: <20240212213922.783301-1-surenb@google.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <2024021430-blanching-spotter-c7c8@gregkh>
- <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
- <2024021530-plank-cornmeal-90eb@gregkh>
- <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com>
-Date: Fri, 16 Feb 2024 10:28:39 +0200
-Message-ID: <87v86o4xu0.fsf@intel.com>
+References: <20240212213922.783301-1-surenb@google.com>
+Date: Fri, 16 Feb 2024 10:38:00 +0200
+Message-ID: <87sf1s4xef.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,43 +80,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Thu, 15 Feb 2024, Vegard Nossum <vegard.nossum@oracle.com> wrote:
-> On 15/02/2024 12:50, Greg Kroah-Hartman wrote:
->> On Wed, Feb 14, 2024 at 09:37:31AM +0100, Vegard Nossum wrote:
->>> Document titles should have ==== above them as well, and then you would
->>> need to shift all the other headings in this document (i.e. all the ---
->>> should become ===).
->>>
->>> Info here: https://docs.kernel.org/doc-guide/sphinx.html#specific-guidelines-for-the-kernel-documentation
->> 
->> Really?  I copied this directly from
->> Documentation/process/security-bugs.rst which is in the format that I
->> used here.  Which one is incorrect, I'm confused.
+On Mon, 12 Feb 2024, Suren Baghdasaryan <surenb@google.com> wrote:
+> Memory allocation, v3 and final:
 >
-> Documentation/ currently has a mix of both formats and they both work,
-> but the guidelines linked above is the gold standard and what we should
-> aim for in new documents.
+> Overview:
+> Low overhead [1] per-callsite memory allocation profiling. Not just for debug
+> kernels, overhead low enough to be deployed in production.
 >
-> The "correct" format would thus be:
->
-> ====
-> CVEs
-> ====
->
-> ...
->
-> Process
-> =======
->
-> ...
->
-> At least this is my understanding; I'm happy to be corrected (and in
-> this case, we should also update the documentation).
+> We're aiming to get this in the next merge window, for 6.9. The feedback
+> we've gotten has been that even out of tree this patchset has already
+> been useful, and there's a significant amount of other work gated on the
+> code tagging functionality included in this patchset [2].
 
-rst basically allows any order of the heading underlines, and their
-relative hierarchy is determined by how they show up in each document,
-it's not specified by rst. However, it would be much easier for everyone
-if all the kernel documents followed the same style.
+I wonder if it wouldn't be too much trouble to write at least a brief
+overview document under Documentation/ describing what this is all
+about? Even as follow-up. People seeing the patch series have the
+benefit of the cover letter and the commit messages, but that's hardly
+documentation.
+
+We have all these great frameworks and tools but their discoverability
+to kernel developers isn't always all that great.
 
 BR,
 Jani.
