@@ -1,105 +1,89 @@
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B871468F4;
-	Fri, 16 Feb 2024 22:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.103.80.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6B1149000;
+	Fri, 16 Feb 2024 23:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708121439; cv=none; b=jQiwh8Fc4DW+U088svM4cMheG06qVz/Ak7Wj9JLy296fhUdB14ZlWhzARsRcYViR9Hp/qqTmsUEQhDAt2CmIzfZ143BClHRJYoaXD1xib0CRdL0DBFoqx+wg3N34nNouqMzUFm5NRk6ufmrVUsIEhOdOqq5e3cyTdwI0bMb2HKU=
+	t=1708125982; cv=none; b=EIXXBIHKrG202yQhLlmlLNfp6CvVl9jNrR0t+n4HdmYF+JOdB4zi/R5W9phi9F0YzofKIDxYUrpFuwmhXhYzSGgu9LQofiRVDVUUbnlRguIn7hzURNjZagQbB7TE9vERiqOTUimazvB9bhgx0WnVnR/2DR+/2fAZswA3tkcSJ1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708121439; c=relaxed/simple;
-	bh=/sHZUn/XAwNS125EErNta5TM4Zds8ZmJ65gZ+Q3h5Zg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Zkjzw7/oUR0qJR4Efu3sq0YGYAWDZEBpBh4ryQKedUMDEhqII8MdXBbCQmiSmkhinYbweufy/tV/I3lw58P7b1fRVaakDIkUoYnGg35fJ3udIyEFA1TYNK6Dz5B7J2zCGp93bycsdxwRMp1RY5Pscqi4YONULkkHfPxGLm2uOg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b=wF5Ows0i; arc=none smtp.client-ip=212.103.80.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
+	s=arc-20240116; t=1708125982; c=relaxed/simple;
+	bh=HjwfytaqXF8iH9Dbpef0PBEdfS3nBXLDDCpMfB7MbjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NLpRpdWZu3bguPgtfusFCpq6HaXksAGs1PX7DTAoTUaSKVoRVs8UyhhUmhmd2mWPbVoAJUDGrAy0dFhR/THu8ZpUytu/QQwytnVhpKVkMhUGspfoN7aE3wD4pOk4FwITS+41d0VmyNABZsrJ0SeSpdebWjIrdDQrRLsg94MynKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=C1BPf5NM; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="wF5Ows0i"
-Received: from localhost (unknown [127.0.0.1])
-	by mx.kolabnow.com (Postfix) with ESMTP id C1A3D2095C2B;
-	Fri, 16 Feb 2024 23:10:27 +0100 (CET)
-Authentication-Results: ext-mx-out011.mykolab.com (amavis);
- dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
- header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-	in-reply-to:content-disposition:content-type:content-type
-	:mime-version:message-id:subject:subject:from:from:date:date
-	:received:received:received; s=dkim20160331; t=1708121426; x=
-	1709935827; bh=xuxrpYY0iWD0Zd2UtKI2bE2ueb3gq7tcisj5wWW8amg=; b=w
-	F5Ows0irSNnOd0O5+CHtAiFzk+lwXyY0HTzOLgWteK9KLZVxNJ4gRPJ0+Yx6rb4u
-	YwwKU/xljJ76Rh0pTbmwccqkgtOwgmPdjUTarja9qyR/CBWjoWcxqbQ7zxDd4Xw5
-	Kuq4uxfP5+zCHZBLs0LL5HK+NBNVZa7/nQBRtMGwIYK5nT64gxrP3KDeBEVKnCZI
-	HA+N0xMEtY0Bn1OaP7V6Ttc3D8J/ZfUQSSMbqQSTwYlVArBXPZF6mD4T3iDtcteT
-	EC/kp3uwyHQgLR7ozd2V54VULjZCEe7+iof79CnjuJY4MgwniUMJm8oVgHzRfWAy
-	1nZDHHfEiep9H0xw2GOIDkOLsq+T+U17GLufNwcOEMVqzx5m+qjC6aOLuo2qAJUI
-	2tWyoENKPIFUCLQIi+0Rj9PcseYbHDkEbk55laeh+l+frKytR5NPlOYXvuiR7xY9
-	AueViFsP9gr57bX0hF7vj814kFSaLnJ8F4RmBWOOTwVpZWPccwPvgwu8ht+AX92L
-	IRgd8756HizopaIHOXek/Wlh6owEQbvk8a73vBPUCMfO+AretAdC3u59JDoKKusQ
-	qjNb4CmHHAsXRi/POlKg0MDAJJv0vQr6utegyw0+6Fdd0/K5a9t5aGMSoIMlWQiE
-	QHFeGur9lg8glyBQ2DL2Z738cVrN8zFO6z/8n/3QRk=
-X-Virus-Scanned: amavis at mykolab.com
-X-Spam-Flag: NO
-X-Spam-Score: -1
-X-Spam-Level:
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out011.mykolab.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id di_rhQ4buexV; Fri, 16 Feb 2024 23:10:26 +0100 (CET)
-Received: from int-mx011.mykolab.com (unknown [10.9.13.11])
-	by mx.kolabnow.com (Postfix) with ESMTPS id 3433E2095C2A;
-	Fri, 16 Feb 2024 23:10:26 +0100 (CET)
-Received: from ext-subm010.mykolab.com (unknown [10.9.6.10])
-	by int-mx011.mykolab.com (Postfix) with ESMTPS id E929930B2B99;
-	Fri, 16 Feb 2024 23:10:25 +0100 (CET)
-Date: Fri, 16 Feb 2024 23:10:24 +0100
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: it_IT: remove references to original documents
-Message-ID: <20240216221024.7oqlosmy5yemqum4@numero-86.vaga.pv.it>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="C1BPf5NM"
+Date: Fri, 16 Feb 2024 18:26:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708125977;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i1dxXMhVUP1rgHFbx3bYUtrQ4Vj3OMrjAfFZh9B2nko=;
+	b=C1BPf5NM9g0o4QItUPGRDmMrvEdGWmyuKm4wf1nFggUVoULHG8BShovAlb221Bb8TlJ2Ja
+	KutXp2dyrtywnpnLlJsZyWbMnLgEtGr2j6xQgJwjPAMGkgKbYaLIt/Hwmsmi7ACHkQBytE
+	lKW+kj7xiaratGuJKp1Q6urfXB8QmCo=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Kees Cook <keescook@chromium.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
+	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, hughd@google.com, 
+	andreyknvl@gmail.com, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-modules@vger.kernel.org, 
+	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 13/35] lib: add allocation tagging support for memory
+ allocation profiling
+Message-ID: <lvrwtp73y2upktswswekhhilrp2i742tmhcxi2c4gayyn24qd2@hdktbg3qutgb>
+References: <20240212213922.783301-1-surenb@google.com>
+ <20240212213922.783301-14-surenb@google.com>
+ <202402121433.5CC66F34B@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fd73a8b4-c13d-4469-86ad-1ca6a0953c16@gmail.com>
+In-Reply-To: <202402121433.5CC66F34B@keescook>
+X-Migadu-Flow: FLOW_OUT
 
-Hello Akira,
+On Mon, Feb 12, 2024 at 02:40:12PM -0800, Kees Cook wrote:
+> On Mon, Feb 12, 2024 at 01:38:59PM -0800, Suren Baghdasaryan wrote:
+> > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > index ffe8f618ab86..da68a10517c8 100644
+> > --- a/include/linux/sched.h
+> > +++ b/include/linux/sched.h
+> > @@ -770,6 +770,10 @@ struct task_struct {
+> >  	unsigned int			flags;
+> >  	unsigned int			ptrace;
+> >  
+> > +#ifdef CONFIG_MEM_ALLOC_PROFILING
+> > +	struct alloc_tag		*alloc_tag;
+> > +#endif
+> 
+> Normally scheduling is very sensitive to having anything early in
+> task_struct. I would suggest moving this the CONFIG_SCHED_CORE ifdef
+> area.
 
-On Fri, Feb 16, 2024 at 11:15:12AM +0900, Akira Yokosawa wrote:
->On Thu, 15 Feb 2024 22:45:46 +0100, Federico Vaga wrote:
->> A relatively recent improvement to the document building process added a
->> functionality to point to documents in different languages. Hence, it is
->> not necessary to add an explicit link to the main English page.
->
->It might be true as far as htmldocs is concerned, but please remember
->there are other targets such as latexdocs, epubdocs, etc., where the
->translations extension has no effect.
-
-You are peferctly right. However, I do not see a significant value in these
-references if they are not hyperlinks in a browser.
-
-The reader of a translation might use the reference I'm removing in this patch
-to quickly access the original document. But in theory it should come back once
-clarified the doubts. (Otherwise there is no point in reading a translation if
-then you stay on another language)
-
-This easy way to go back and forth is offered only by using a web browser.
-
->That said, you are the maintainer of Italian pages.  I wouldn't complain
->if you ignore the other targets and go forward.
->
->Regards,
->Akira
->
->>
->> This patch removes those references
->>
->> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
->
-
--- 
-Federico Vaga
+This is even hotter than the scheduler members; we actually do want it
+up front.
