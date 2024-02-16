@@ -1,119 +1,75 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173B778B5C;
-	Fri, 16 Feb 2024 16:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7064228E23;
+	Fri, 16 Feb 2024 16:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708099702; cv=none; b=k4o3vH9MjVmRIPMpwYzqpiC6BjaaBhJ0SFMVqy6NJDCVpuy0zEAjG3cFslIZrH8DAzIGW5MBECr8YG5KB6VUjQrnx0QVwgMjC8xB+Ots4BDbq9M0rPHqv9ifT6CKxn88uWMLT566Se7MTduDVBC7lVC3ntkAe5BLzn21M+EYqsE=
+	t=1708100388; cv=none; b=i/XqjXZEVDFQ5NQoaUkZ5ZLQIXH3y5ppf4s10o2MfTFwRJ1j95fuVQ9Yw+WWBrNJzsztoqysNy7NzvheAViUNezqjbrqOBjz5PzWz6YlLi0MUR4/Lf/Yn4hllC9LPYJcpAgjFX8EEEx1dretYqo0RD+Sszz9ZGCi+NImTVN6QkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708099702; c=relaxed/simple;
-	bh=XZFqH1AHH+zywN7bCiDB54cVqBQHS1vAHNy2hjesWnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W9p/1cNVC8TaQuW5Z9YNk3ERdT2mu2cUs9CIf50zmno7mPjxS3eaTHLvK5qj9Ee9+y+MdGkqBtBJWpbKfCP13d4rPzi1ky3do6EtotgJoF2fCyXQV6qXSS3NL8UBhEbT0b6NiS42kGbotHbJmxFa32qhP/jB1sb3LE1KEsNGWhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=Zcqc9q7K; arc=none smtp.client-ip=77.93.223.253
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1708100388; c=relaxed/simple;
+	bh=z1doxho28WvuEFUFHtMx7FRZ5WVb05cgN25WfGEJ6TA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TJ11IBtOH8EQhCPpcjHkRobg6v6YCIYljZDL7yTRQI7LA3q84dsqHiuAXSYcGKzvQuClAiSlWfzz0e/NczQh+TSIczCHN7GEDMOsg7Y2doh/xG8/kRoY5uPOG519Y3UFLG7O2yhUEdGsmqlDZxjXsFv3ihr/MOKplLvjCVtXIBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfoG3gxp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="Zcqc9q7K"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 5AAA51A8CE2;
-	Fri, 16 Feb 2024 17:08:07 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1708099687; bh=DKX/6lJWnQLEOT1m3g58ZZW/atm/xKbGax5uWE14zqU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Zcqc9q7KWchJwmvx0t4vSX1KyUPURQZe1OK75OB/21bUMdJEzk/HvdVz24nddVkD0
-	 CNVRqHQo7B4zrf1kvFcF4tB/aOZSV6aairJvFO88QqAjAo3zFBmlkHbsZhNXlaV3t2
-	 3BGih5r1MNlJeVPSsIhL7OwD7mgro5Ji5mLvxWoIUlSzHTjHQ65MAiJhJPwu86I/JH
-	 Y9FkETzAokazd09YWhYTQARYxGfZgBRA0iIZrGCwLBhekdPJObp8DVQRuVfWTYdf/Q
-	 rsLVpYSY13y+czJnxT7X7w7GUzCSq0Ui0Ej8FHtQilHx2Q0qlkgoAWtgp5Cr+ZX9PA
-	 N+eT8KYvOnZmw==
-Date: Fri, 16 Feb 2024 17:08:05 +0100
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet
- <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, "maintainer:X86 ARCHITECTURE (32-BIT AND
- 64-BIT)" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Andy
- Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter
- Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
- <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Kees Cook <keescook@chromium.org>, "Masami
- Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu
- <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao
- <zegao2021@gmail.com>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Kai Huang <kai.huang@intel.com>, David
- Woodhouse <dwmw@amazon.co.uk>, Brian Gerst <brgerst@gmail.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
- (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
- <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Roberto Sassu <roberto.sassu@huaweicloud.com>, David Howells
- <dhowells@redhat.com>, Petr Tesarik <petr.tesarik1@huawei-partners.com>
-Subject: Re: [RFC 0/8] PGP key parser using SandBox Mode
-Message-ID: <20240216170805.0d0decd5@meshulam.tesarici.cz>
-In-Reply-To: <c65eb8f1-2903-4043-a3ab-945d880043b5@intel.com>
-References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
-	<20240216152435.1575-1-petrtesarik@huaweicloud.com>
-	<c65eb8f1-2903-4043-a3ab-945d880043b5@intel.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfoG3gxp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05A84C433C7;
+	Fri, 16 Feb 2024 16:19:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708100388;
+	bh=z1doxho28WvuEFUFHtMx7FRZ5WVb05cgN25WfGEJ6TA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cfoG3gxp297QjKR6XGzJ/eNyOwHUIJxXsvj7C5cw30eRc+qy/YS+WwWt91Af1GnQK
+	 CSTann89YP5twvpYH1PddAed2X7GN5aZfxoQpkRrojiSWd+jn3M6ZkLQqegbDtIATx
+	 PwKBp+5vvUGX2vclDuzBLQ+53XBlE/d69sDoYEwF8xzUsbcZugv38uCSTszlme/lgC
+	 G/k32/wcGZzKeGWo2bfodHTXoEzEDCAGsXk01R7K+8mtMF8CzmM0K+NYZk2mMQPcUl
+	 qMC6jbUtuUxeh+I5WLYfzUIENUlwboJYjP1QwjnLdtf636JGBvYkbaZrmIjcL/a4LV
+	 jh9EB3wodI/pQ==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	Jakub Kicinski <kuba@kernel.org>,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net] docs: netdev: update the link to the CI repo
+Date: Fri, 16 Feb 2024 08:19:45 -0800
+Message-ID: <20240216161945.2208842-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 16 Feb 2024 07:38:30 -0800
-Dave Hansen <dave.hansen@intel.com> wrote:
+Netronome graciously transferred the original NIPA repo
+to our new netdev umbrella org. Link to that instead of
+my private fork.
 
-> On 2/16/24 07:24, Petr Tesarik wrote:
-> > While I started working on my development branch to illustrate how
-> > SandBox Mode could be enhanced to allow dynamic memory allocation and
-> > other features necessary to convert some existing code, my colleague
-> > Roberto Sassu set out and adapted a PGP key parser to run in a sandbox.
-> > 
-> > Disclaimer:
-> > 
-> > The code had to be rearranged in order to avoid memory allocations
-> > and crypto operations in the sandbox. The code might contain errors.  
-> 
-> I'm confused by this.  The kernel doesn't (appear to) have a PGP parser
-> today.  So are you saying that it *should* have one and it's only
-> feasible if its confined in a sandbox?
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/process/maintainer-netdev.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm sorry if this is confusing. Yes, your understanding is correct.
-This patch series demonstrates that SBM (even in the initial version
-that was submitted) allows to write a PGP parser which can survive
-memory safety bugs withoug compromising the rest of the kernel.
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index 84ee60fceef2..fd96e4a3cef9 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -431,7 +431,7 @@ patchwork checks
+ Checks in patchwork are mostly simple wrappers around existing kernel
+ scripts, the sources are available at:
+ 
+-https://github.com/kuba-moo/nipa/tree/master/tests
++https://github.com/linux-netdev/nipa/tree/master/tests
+ 
+ **Do not** post your patches just to run them through the checks.
+ You must ensure that your patches are ready by testing them locally
+-- 
+2.43.0
 
-> A much more powerful example would be to take something that the kernel
-> has already and put it in a sandbox.  That would show us how difficult
-> it is to sandbox something versus just doing it _normally_ in the kernel.
-
-That's what I have also tested as a PoC with an earlier version of my
-patch series and a few quick hacks on top. As it happens, that code
-on top needs to be adapted for the current patch series, so I cannot
-post it just yet. Please, stay tuned.
-
-> As it stands, I fear this was just the largest chunk of sandbox code
-> that was laying around and it seemed like a good idea to just chuck
-> ~1400 lines of code over the wall at a huge cc list.
-
-You asked for some real-world scenarios, and this should be one.
-Another is on the way, but see above why it takes a bit of time.
-
-I am not trying to claim I'm the smartest person on this planet. I can
-accept it if there is a fundamental flaw in my approach. Yet, I'd be
-glad if somebody can make me a favor and at least hint at what exactly
-is the issue with it. I have to admit this thing is still not quite
-clear to me. I would be sad if I couldn't learn from this experience.
-
-Petr T
