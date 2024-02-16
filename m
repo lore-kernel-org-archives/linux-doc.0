@@ -1,281 +1,129 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A112F1BF20;
-	Fri, 16 Feb 2024 08:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA8F1BC31;
+	Fri, 16 Feb 2024 08:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708073835; cv=none; b=fCJAYmZQfALBbGtaeQG6hhRZzaxYYjLA0h7LvtO4AjW66ifM62SICJ9q7mzFAonNEfwn0F+yYRVv5qv6PAnH1BWcbgql3NrbwEN5an19vaZTl1IBM/tlU2yG5vx6sm4nDGvliAc2hDVc/V4U/inNyHYv4t/gKusspyPvh/fIRyM=
+	t=1708073919; cv=none; b=XyqaNTqcsYspObpD6dkmcI6EM4oiorhdVWWDW5eDzVWbqOYKDzdhdbeX1GGelDQr8xFipA56vl6HOxIBZwjN/ANFoRz8Jgq9uyVCGZfiwBLHWBllVXPvmh2OCjugmUXlpYiWSDlGL9i53o7nr4ZGVMJWlYmTcvJCiORy48PrgJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708073835; c=relaxed/simple;
-	bh=PZN4NUDhlSPRqQ+5OSGmNZJaVH5TCFAyxJEt+khL/ZI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NT84X6UweABbA3o/E6qCgvtNhUQV/EnMSpqBy3+JynKQx9jnn9vKmfj1SXuuKzSyntRckJX1C81ZRhDVruQafEux05tyf6ucNjJ1Q5q/G2nQtso2fSBdV2iexreMBjxdchrR67Nk/4/uBxAbf8uZturD0X0fxuqib3GtEn9oipw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xqZAC8Nf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DNo3cJgt; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=o6dFJHJY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aZITzFqx; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1708073919; c=relaxed/simple;
+	bh=eEtVCkbL1zLpF1IuJ2P51hMpCC9ce5VcXTMVCrOozwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WrQdu1C1L5UeDkSkqXKhhyDd+1aeQGqMa2B/xKd/0irGpSOLnu5JF5X4kd5wB/HYgD8pELSFxLq3paitNcyR/p8bn64JsCPCgQLOHmWw4c9SrPxoRlUDI5nZXoRPPgTKwBMxeHGX2KJbrJFPqOoLMLyKb3bGYFHvvDDOPl3OXZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=By0CxpoX; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xqZAC8Nf";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DNo3cJgt";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="o6dFJHJY";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aZITzFqx"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C06D422230;
-	Fri, 16 Feb 2024 08:57:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708073831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="By0CxpoX"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2C6FCFF802;
+	Fri, 16 Feb 2024 08:58:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1708073914;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6frag4EZ1jOwLxH7IawG8bVTXT73kvKmKsBZp1SHOo0=;
-	b=xqZAC8NfI4VPwOmiN56g60Raff5Lxhe17+xsX3vNH0QOzt6ShH89ZxADUdhLUmfzqa/yo3
-	TabAy019LUdCeaduHWP4hOkoOZikSueMUfLfFSxX3nthI3Q5FCXBIh5gkIPnuSEzUUHNC8
-	aoYjNlz6r1ytNmjUW0gbjA0CboAyvwM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708073831;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6frag4EZ1jOwLxH7IawG8bVTXT73kvKmKsBZp1SHOo0=;
-	b=DNo3cJgtVq0BnRTQlqXu+WykI9JOTEPvpS44g5kWEcGyImxRgdwT11KmfN81I/tNOI2VSh
-	2qzAv6tbxotS0DBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708073830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6frag4EZ1jOwLxH7IawG8bVTXT73kvKmKsBZp1SHOo0=;
-	b=o6dFJHJYflEIhmu8oJUS9nBoJdP7QX+krsnSyjAwSUNaPBESiTUd+tjTVJio1OYYVYDu8j
-	RJQ2ECJWmXvAR40mvWwwCTnb0VwMxSzGAwbFN7ZbKS4nInD0v8SqrIY6ixqlIVwvXyJkLa
-	BmrtOuKfG6D2kWVEeFboNt4w/oWeZcU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708073830;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6frag4EZ1jOwLxH7IawG8bVTXT73kvKmKsBZp1SHOo0=;
-	b=aZITzFqxUxBBasuAdIqf/L/wncDfXgMKlk4TZrjJz7f6VSl6Ep4mywzmGsuZ9cplv0PiuQ
-	xX5khlTEjs1YAwAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 309BB13A67;
-	Fri, 16 Feb 2024 08:57:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hBNOC2Yjz2U1ZQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 16 Feb 2024 08:57:10 +0000
-Message-ID: <f92ad1e3-2dde-4db2-9b76-96c6bbc6a208@suse.cz>
-Date: Fri, 16 Feb 2024 09:57:09 +0100
+	bh=CiS06Ba9lRype48ky6kOoEGXIXSDOLtm/1ZqevNezdI=;
+	b=By0CxpoXwlqrQa7QSSS1EBd0TrZt65BWnSkr4Wu2tU2J8bmvJds7j8FGPEV6b1V7qImpKR
+	F47MRVR7q0Iqxj0rR9SfxvwRbMWAt77IIi3ZdAyLeYPGKSvH/ATcj17q1Y3MnzZWE9gbBN
+	T0LKqYZkJYBc+nBHLaSEipLnuBUXcuNk1paQikZzX3SHUnr6JSgHl42X+XgcZKIG9rfKi+
+	JwkzlGtlB1Ye+HU0cFWVy1VsZnmEpgroVBIdWJfHZfd229YJH0Z5WsH/1aXTiHr45w99oB
+	MJRkqBFcgy5XzDMr28umn6GWNDUufWG0LElKab4rT3ygvO7y07Ffe+GFnWLY1g==
+Date: Fri, 16 Feb 2024 09:58:29 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Luis Chamberlain
+ <mcgrof@kernel.org>, "David S. Miller" <davem@davemloft.net>, Jonathan
+ Corbet <corbet@lwn.net>, netdev@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Russell King <linux@armlinux.org.uk>,
+ devicetree@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dent Project
+ <dentproject@linuxfoundation.org>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Frank Rowand <frowand.list@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, Russ Weight
+ <russ.weight@linux.dev>, Eric Dumazet <edumazet@google.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Jakub Kicinski
+ <kuba@kernel.org>
+Subject: Re: [PATCH net-next v4 11/17] dt-bindings: net: pse-pd: Add another
+ way of describing several PSE PIs
+Message-ID: <20240216095829.44b8797f@kmaincent-XPS-13-7390>
+In-Reply-To: <20240216095616.3300aef3@kmaincent-XPS-13-7390>
+References: <20240215-feature_poe-v4-0-35bb4c23266c@bootlin.com>
+	<20240215-feature_poe-v4-11-35bb4c23266c@bootlin.com>
+	<170802277529.323906.8697693998570251856.robh@kernel.org>
+	<20240216095616.3300aef3@kmaincent-XPS-13-7390>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/35] lib: add allocation tagging support for memory
- allocation profiling
-Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: kent.overstreet@linux.dev, mhocko@suse.com, hannes@cmpxchg.org,
- roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
- willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
- void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
- catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de,
- mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
- peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
- masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
- muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
- pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
- dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
- keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com,
- gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
- bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
- penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
- glider@google.com, elver@google.com, dvyukov@google.com,
- shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
- rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
- kernel-team@android.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-modules@vger.kernel.org,
- kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-14-surenb@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20240212213922.783301-14-surenb@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -2.79
-X-Spamd-Result: default: False [-2.79 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 TO_MATCH_ENVRCPT_SOME(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_GT_50(0.00)[73];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On 2/12/24 22:38, Suren Baghdasaryan wrote:
-> Introduce CONFIG_MEM_ALLOC_PROFILING which provides definitions to easily
-> instrument memory allocators. It registers an "alloc_tags" codetag type
-> with /proc/allocinfo interface to output allocation tag information when
-> the feature is enabled.
-> CONFIG_MEM_ALLOC_PROFILING_DEBUG is provided for debugging the memory
-> allocation profiling instrumentation.
-> Memory allocation profiling can be enabled or disabled at runtime using
-> /proc/sys/vm/mem_profiling sysctl when CONFIG_MEM_ALLOC_PROFILING_DEBUG=n.
-> CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT enables memory allocation
-> profiling by default.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> ---
->  Documentation/admin-guide/sysctl/vm.rst |  16 +++
->  Documentation/filesystems/proc.rst      |  28 +++++
->  include/asm-generic/codetag.lds.h       |  14 +++
->  include/asm-generic/vmlinux.lds.h       |   3 +
->  include/linux/alloc_tag.h               | 133 ++++++++++++++++++++
->  include/linux/sched.h                   |  24 ++++
->  lib/Kconfig.debug                       |  25 ++++
->  lib/Makefile                            |   2 +
->  lib/alloc_tag.c                         | 158 ++++++++++++++++++++++++
->  scripts/module.lds.S                    |   7 ++
->  10 files changed, 410 insertions(+)
->  create mode 100644 include/asm-generic/codetag.lds.h
->  create mode 100644 include/linux/alloc_tag.h
->  create mode 100644 lib/alloc_tag.c
-> 
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index c59889de122b..a214719492ea 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -43,6 +43,7 @@ Currently, these files are in /proc/sys/vm:
->  - legacy_va_layout
->  - lowmem_reserve_ratio
->  - max_map_count
-> +- mem_profiling         (only if CONFIG_MEM_ALLOC_PROFILING=y)
->  - memory_failure_early_kill
->  - memory_failure_recovery
->  - min_free_kbytes
-> @@ -425,6 +426,21 @@ e.g., up to one or two maps per allocation.
->  The default value is 65530.
->  
->  
-> +mem_profiling
-> +==============
-> +
-> +Enable memory profiling (when CONFIG_MEM_ALLOC_PROFILING=y)
-> +
-> +1: Enable memory profiling.
-> +
-> +0: Disabld memory profiling.
+On Fri, 16 Feb 2024 09:56:16 +0100
+K=C3=B6ry Maincent <kory.maincent@bootlin.com> wrote:
 
-      Disable
+> On Thu, 15 Feb 2024 12:46:16 -0600
+> Rob Herring <robh@kernel.org> wrote:
+>=20
+> > On Thu, 15 Feb 2024 17:02:52 +0100, Kory Maincent wrote: =20
+> > > PSE PI setup may encompass multiple PSE controllers or auxiliary circ=
+uits
+> > > that collectively manage power delivery to one Ethernet port.
+> > > Such configurations might support a range of PoE standards and require
+> > > the capability to dynamically configure power delivery based on the
+> > > operational mode (e.g., PoE2 versus PoE4) or specific requirements of
+> > > connected devices. In these instances, a dedicated PSE PI node becomes
+> > > essential for accurately documenting the system architecture. This no=
+de
+> > > would serve to detail the interactions between different PSE controll=
+ers,
+> > > the support for various PoE modes, and any additional logic required =
+to
+> > > coordinate power delivery across the network infrastructure.
+> > >=20
+> > > The old usage of "#pse-cells" is unsuficient as it carries only the P=
+SE PI
+> > > index information.
+> > >=20
+> > > This patch is sponsored by Dent Project <dentproject@linuxfoundation.=
+org>.
+> > >=20
+> > > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> > > ---
+> > >=20
+> > > Changes in v3:
+> > > - New patch
+> > >=20
+> > > Changes in v4:
+> > > - Remove $def
+> > > - Fix pairset-names item list
+> > > - Upgrade few properties description
+> > > - Update the commit message
+> > > ---
+> > >  .../bindings/net/pse-pd/pse-controller.yaml        | 84
+> > > +++++++++++++++++++++- 1 file changed, 81 insertions(+), 3 deletions(=
+-)
+> > >    =20
+> >=20
+> > My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_chec=
+k'
+> > on your patch (DT_CHECKER_FLAGS is new in v5.13): =20
+>=20
+> Weird, I don't get your errors even with dt-schema up to date.
+> Maybe I have version mismatch in other tools.
 
-...
+Ah found it! I had yamllint not up to date.
+Sorry for the noise.
 
-> +allocinfo
-> +~~~~~~~
-> +
-> +Provides information about memory allocations at all locations in the code
-> +base. Each allocation in the code is identified by its source file, line
-> +number, module and the function calling the allocation. The number of bytes
-> +allocated at each location is reported.
-
-See, it even says "number of bytes" :)
-
-> +
-> +Example output.
-> +
-> +::
-> +
-> +    > cat /proc/allocinfo
-> +
-> +      153MiB     mm/slub.c:1826 module:slub func:alloc_slab_page
-
-Is "module" meant in the usual kernel module sense? In that case IIRC is
-more common to annotate things e.g. [xfs] in case it's really a module, and
-nothing if it's built it, such as slub. Is that "slub" simply derived from
-"mm/slub.c"? Then it's just redundant?
-
-> +     6.08MiB     mm/slab_common.c:950 module:slab_common func:_kmalloc_order
-> +     5.09MiB     mm/memcontrol.c:2814 module:memcontrol func:alloc_slab_obj_exts
-> +     4.54MiB     mm/page_alloc.c:5777 module:page_alloc func:alloc_pages_exact
-> +     1.32MiB     include/asm-generic/pgalloc.h:63 module:pgtable func:__pte_alloc_one
-> +     1.16MiB     fs/xfs/xfs_log_priv.h:700 module:xfs func:xlog_kvmalloc
-> +     1.00MiB     mm/swap_cgroup.c:48 module:swap_cgroup func:swap_cgroup_prepare
-> +      734KiB     fs/xfs/kmem.c:20 module:xfs func:kmem_alloc
-> +      640KiB     kernel/rcu/tree.c:3184 module:tree func:fill_page_cache_func
-> +      640KiB     drivers/char/virtio_console.c:452 module:virtio_console func:alloc_buf
-> +      ...
-> +
-> +
->  meminfo
-
-...
-
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 0be2d00c3696..78d258ca508f 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -972,6 +972,31 @@ config CODE_TAGGING
->  	bool
->  	select KALLSYMS
->  
-> +config MEM_ALLOC_PROFILING
-> +	bool "Enable memory allocation profiling"
-> +	default n
-> +	depends on PROC_FS
-> +	depends on !DEBUG_FORCE_WEAK_PER_CPU
-> +	select CODE_TAGGING
-> +	help
-> +	  Track allocation source code and record total allocation size
-> +	  initiated at that code location. The mechanism can be used to track
-> +	  memory leaks with a low performance and memory impact.
-> +
-> +config MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-> +	bool "Enable memory allocation profiling by default"
-> +	default y
-
-I'd go with default n as that I'd select for a general distro.
-
-> +	depends on MEM_ALLOC_PROFILING
-> +
-> +config MEM_ALLOC_PROFILING_DEBUG
-> +	bool "Memory allocation profiler debugging"
-> +	default n
-> +	depends on MEM_ALLOC_PROFILING
-> +	select MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-> +	help
-> +	  Adds warnings with helpful error messages for memory allocation
-> +	  profiling.
-> +
-
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
