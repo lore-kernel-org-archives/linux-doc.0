@@ -1,88 +1,121 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9151EA7A;
-	Fri, 16 Feb 2024 16:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60430130AF7
+	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 16:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708101079; cv=none; b=tQ17h1dvegVbctUzf0Q8DzJcKrr8+g+85Psp32NUKxUbVvqnvq9gNhCwhDI/G93mZnGdKS9YeMKyndzEAL6NboFTckr7691JjWGMTVCIQTTITMOattH1AidivsebhVGUo9cyogC48QNUz3Ch3keKv4up2/+WwwtbneHR26gFs1Y=
+	t=1708101554; cv=none; b=DwiqBc+q9bSK7m/5Vovo5FUzlP24Vez7B3b2KYaa509LS237bagdlPoQkvLYg3SIwm07+P/8piRWgffC+h6Q5GciEwYECvha5XeMeYTPQSQnOgU2CXRtaSCN5wbAhnY1IdyRSVkPriA8+pQws8qOwRLLtC1j1f6/83RpHsgPsJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708101079; c=relaxed/simple;
-	bh=mvhUG7Rm1RzkETXGdubqawFc+pot5tVe+dKejiOX1AQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dvq1zsmJCG7GeKSPAVRhnPY6+Gd0V+PN94BUFtqshDiflPolNLgcIvGpuaQGnOKair472pZ+bXiNCGauUXTvuMwUe9uE9Hen+3+LGNr41uKFIHwZeC8ybOQiwexXIDRlFrQK2Ui1DJ8hbFlgoL43vU0M8QkvEaRfH0vR/2pCPA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f48dtKdO; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708101554; c=relaxed/simple;
+	bh=PkWRMaDgTly/5ez9/SA93u9YGwFkohBiRhZ2gvWvgoY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WUFLzknWhFstODrY3O1ny1/JT/1Z61GmnSc7Epmbyhfp7Nf05aJIvmazc0d0VLj9RV3bP4BgyKuEe26lFbV/F1pRAb1raAhlK02fj6T0qXXH45byo0MD2SO6U6Qw5WK2C2m7tbG3RuqdiwGJy6MjZzqMlzn3O/85rpI9Bj5cIog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=P/rHKmX3; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f48dtKdO"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d21a68dd3bso9146431fa.1;
-        Fri, 16 Feb 2024 08:31:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708101076; x=1708705876; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KKqRhlwnpPAoRAORBxhCFRSOC3qB0pNS/W30w/sCAcg=;
-        b=f48dtKdORptG0klWY3yvxHEdwmbe55DgI308r/1mWunyRY6wALuUZcbzCpZ7+eO9Dv
-         LhaytTnSjFGu4VVpHYmHlY7es2Dhz3kA5wMxoUtG9MxXNYFyfQPRTeETs5dMs29oZOqz
-         iXnn0dAGAfrmklPENam1VxtSPyiNQFhbJPPr/yXRE3VRwvjJ3oAVx1MKeFoKrPxfsH5k
-         BfMyEvtjUmu7x42D05DIDhBj4WC0G+9zt8wynh6mR6kbPggXmSOts7TG3xD09++yMmXN
-         a/UMr8UePR75bGa/9cCkNe1bRFneh93rLszZjNEs40bXWsChgnoXYRD7kwDqs7zvLBy3
-         Oqfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708101076; x=1708705876;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KKqRhlwnpPAoRAORBxhCFRSOC3qB0pNS/W30w/sCAcg=;
-        b=mEGBX2Q/9eS4f8BaUWTMbURfEy+qKbsfN4UAjBXIqNvTXz5vYCyUZsZiODFP0oB14P
-         xX9xYxM0c5gW4NgnJ5PzGzpt657zGS4DWgIpXIeR0lyca40Fm38Nv/N2Vm1XdAJRlgYc
-         fTbwxT4gPmCZbJhqypmyUkK67bVQTzefIkN0zlLuONWBsy0klAv8LWnU/FiORPyGWoDU
-         S50Ob8X98KnL7sa2nLtmCCSJDbjiU/uUw3w2Nulnki39rndr4/Ro1XTvWDuhKt609WsM
-         XM59wu8WT0gJb6/4LzrGr7pNVL5QyOahwlj7cvtaxkxOwSUk4tl39HfzHe7AWilsPmsw
-         LkXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqd5lH8t+wRIybSUBjSB73kju4ggE+BI8hl+oO9wAmbg2IHwWMEJKRUA1dkgp5zC5DqfZZQiV3URwY4qyKnxmjRjNyW+O2Qbq9d4s8RKnZGjx0IPA8LEDDBtaw5BTCWTfTDGy+qQijsfCUZl9VFSGh3JoonYzvwkJOENLwveCuImC16gyL9fhzMDI/g7bljit4+RNY0ldc7gFmzm3g9rVtBLE+
-X-Gm-Message-State: AOJu0YxD3efHIpBT3XQnXZWu91mM3R8Q6nlAGbpHLUy48hwJuilVf7FS
-	IBI6fX53thKaZUmnBz5ikhqdEpfO8NU7b5bNsN8/MVD+uEmdqZA=
-X-Google-Smtp-Source: AGHT+IF6Kx06xVo5O1YNA5lW9q32aL7kZEmHkTDV9jC0bLqcybt/Vrx991QKEa3fLPejtmQqakNnkA==
-X-Received: by 2002:a2e:8813:0:b0:2d0:e45c:5650 with SMTP id x19-20020a2e8813000000b002d0e45c5650mr4166062ljh.11.1708101075709;
-        Fri, 16 Feb 2024 08:31:15 -0800 (PST)
-Received: from p183 ([46.53.252.171])
-        by smtp.gmail.com with ESMTPSA id m41-20020a05600c3b2900b0041076fc2a61sm2893051wms.5.2024.02.16.08.31.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 08:31:14 -0800 (PST)
-Date: Fri, 16 Feb 2024 19:31:12 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	=?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Elizabeth Figura <zfigura@codeweavers.com>,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 00/31] NT synchronization primitive driver
-Message-ID: <5ae668e3-e275-40b0-af3c-6a459e3a0b87@p183>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="P/rHKmX3"
+Date: Fri, 16 Feb 2024 11:38:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708101549;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ykstDffvORkHR/QBul+dunCrpEbnMsgllsNmRKwgALQ=;
+	b=P/rHKmX3j/prO7tgG2j74FOBqArykGjAD+QXCi/CNWHvRgoNUgOhhnMDCES9P7PyrRETo+
+	l/VeuBrESrdYcr+HcB7pGshKvMzuIAFjDfuOhDowTTeo3OT984nPcJzcavwvweaH8hU/1B
+	3Wof2PoerJMLJIVUnvZFOQj0zf3N6Rg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
+	mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, 
+	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
+	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, hughd@google.com, 
+	andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com, 
+	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
+	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, 
+	cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
+	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-modules@vger.kernel.org, 
+	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 21/35] mm/slab: add allocation accounting into slab
+ allocation and free paths
+Message-ID: <vjtuo55tzxrezoxz54zav5oxp5djngtyftkgrj2mnimf4wqq6a@hedzv4xlrgv7>
+References: <20240212213922.783301-1-surenb@google.com>
+ <20240212213922.783301-22-surenb@google.com>
+ <ec0f9be2-d544-45a6-b6a9-178872b27bd4@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ec0f9be2-d544-45a6-b6a9-178872b27bd4@suse.cz>
+X-Migadu-Flow: FLOW_OUT
 
-> drivers/misc/ntsync.c                         | 1146 ++++++++++++++
+On Fri, Feb 16, 2024 at 05:31:11PM +0100, Vlastimil Babka wrote:
+> On 2/12/24 22:39, Suren Baghdasaryan wrote:
+> > Account slab allocations using codetag reference embedded into slabobj_ext.
+> > 
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > ---
+> >  mm/slab.h | 26 ++++++++++++++++++++++++++
+> >  mm/slub.c |  5 +++++
+> >  2 files changed, 31 insertions(+)
+> > 
+> > diff --git a/mm/slab.h b/mm/slab.h
+> > index 224a4b2305fb..c4bd0d5348cb 100644
+> > --- a/mm/slab.h
+> > +++ b/mm/slab.h
+> > @@ -629,6 +629,32 @@ prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
+> >  
+> >  #endif /* CONFIG_SLAB_OBJ_EXT */
+> >  
+> > +#ifdef CONFIG_MEM_ALLOC_PROFILING
+> > +
+> > +static inline void alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab,
+> > +					void **p, int objects)
+> > +{
+> > +	struct slabobj_ext *obj_exts;
+> > +	int i;
+> > +
+> > +	obj_exts = slab_obj_exts(slab);
+> > +	if (!obj_exts)
+> > +		return;
+> > +
+> > +	for (i = 0; i < objects; i++) {
+> > +		unsigned int off = obj_to_index(s, slab, p[i]);
+> > +
+> > +		alloc_tag_sub(&obj_exts[off].ref, s->size);
+> > +	}
+> > +}
+> > +
+> > +#else
+> > +
+> > +static inline void alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab,
+> > +					void **p, int objects) {}
+> > +
+> > +#endif /* CONFIG_MEM_ALLOC_PROFILING */
+> 
+> You don't actually use the alloc_tagging_slab_free_hook() anywhere? I see
+> it's in the next patch, but logically should belong to this one.
 
-Assuming this doesn't go into futex(2) or some other existing code...
-
-Can you start putting all of this into top-level "windows" directory?
-I suspect there will be more Windows stuff in the future.
-
-So those who don't care about Windows can turn off just one config option
-(CONFIG_WINDOWS) and be done with it.
-
-Name it "Linux Subsystem for Windows" for 146% better memes.
+I don't think it makes any sense to quibble about introducing something
+in one patch that's not used until the next patch; often times, it's
+just easier to review that way.
