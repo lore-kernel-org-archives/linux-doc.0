@@ -1,115 +1,288 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A48F1BC2A;
-	Fri, 16 Feb 2024 09:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4ED1BDCE;
+	Fri, 16 Feb 2024 09:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708076539; cv=none; b=GAFvdJWnycWLiY9cph1yvNpRRJd6r2WztrhBfCEsWN/kR/IJKaKaO5OPItIX47C36W/Ob8kynrd6uo4RI+Nx6pfoJuFXLi70WYQdXWr65kIPR3ehW3n6uI7xvZLU+gho1xwG+V4QRYYmka7GaOznrSagPn6LsDYR/Ax1lj2xXa4=
+	t=1708076746; cv=none; b=C0c9URupxhwFErvZdptahyXqB+CDLMfFE6byxYZDSPRTClkN8ZnRR+Qxi46nmUrOV9QX9dsu7OSxOJrnr+bwBehYUj/DOOkSZ7SvkFpREXsWA4MPatdIzGMnDfzkh/rB3wLkEaNIwAIS/7CafZRCnIujpf8iFN+ZYeJaOiyVCUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708076539; c=relaxed/simple;
-	bh=TcPjtRN0fCXPtV1aDiGHQNfENaIZjNeyrfeeupm6VEU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C8FW4xCKtHKxKgaazNRQxsogcUupd04Sy0J+ZxKjyv85HPvgFflYhFenNSzsubXp7bA3VgiuHQqk8P6zDf+0MBFDC5F+POGrZTupVo2MQ97wg3fhRHJ8n00zqARxnSlzlIlWYwq2AzP0HR8oiqUB3rQCjdZcJ5PIGF3p+5Xys80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RFBLrv4/; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1708076746; c=relaxed/simple;
+	bh=WVjbAfHuftK8LltDDQjmFiGwj7PPAcUMu1yWr19lI/w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EtPFBI6l05E+wM1iV2QjRty3xfflH7nvLS9Q+q/H3rEnl1FWgbWSbK/j71FKqO9q5vCqhKjL2x+y8GrIi73Jr3KN08jnwJTa0A7Py1fh/alJE7Bsq9aQMpOIZiO+RPEk9FbNnFequuoyAjoR+JX36GOCSLrP1CdppNKstlLYW04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K3GJLk0N; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WPdo0nzZ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K3GJLk0N; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WPdo0nzZ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RFBLrv4/"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 435071C0005;
-	Fri, 16 Feb 2024 09:42:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708076534;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K3GJLk0N";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WPdo0nzZ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K3GJLk0N";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WPdo0nzZ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9417021B7B;
+	Fri, 16 Feb 2024 09:45:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708076741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TcPjtRN0fCXPtV1aDiGHQNfENaIZjNeyrfeeupm6VEU=;
-	b=RFBLrv4/h7fR0ZxO7IY+mFBxecYc+8jhDm8Iw+0WrK3MhFSZCMpFPGqzMtIuM6X3SIJo8M
-	mwECtKlAJXS8LIhTaPfnqNa3BLlVdM0hQf9yr3Us3LXiim1DR9eSvh234Lzcd7jbjbbvce
-	XDDGhCN6naFGvcJS3r5dcgWPY2RJbnSsFGaDxmi7UStuGUOXUUcF44WoddkNDOZ6tv8I22
-	keQssxlcPj+8+mfe27dfzCMzj01z/BbLUheNS4gYbZDh59AbY1rLhqs6HxorJQQlcfa0fG
-	9qCamda9NpovbP7bbdR1r7RwO+BxTIV/PQZRziHwsYLzuBDVyqND5r7sjBPWeQ==
-Date: Fri, 16 Feb 2024 10:42:11 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown
- <broonie@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, Dent Project
- <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v4 05/17] net: pse-pd: Introduce PSE types
- enumeration
-Message-ID: <20240216104211.2c11d1cc@kmaincent-XPS-13-7390>
-In-Reply-To: <20240215105846.6dd48886@kernel.org>
-References: <20240215-feature_poe-v4-0-35bb4c23266c@bootlin.com>
-	<20240215-feature_poe-v4-5-35bb4c23266c@bootlin.com>
-	<20240215105846.6dd48886@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	bh=iYMvNCYqDaBQbPMA0B0bnoIRN91Lu24uOJ7yYQTso7E=;
+	b=K3GJLk0NyXrPMf/aFqjbRry/Qxwjc8Bj/g4q/MeRsSfZAu8Ybdf5Tj7wI+qAyBsgbcC0vR
+	xvxA7q+GGIm0yNvWUhWlBiqDWnj8pXbApt4a7yj3KGLQ2wRXaaHf5f+9c+RLhe5CYVhpn1
+	ZLX976pxOCFWLoG08M8uzuMAE2T3dv0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708076741;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iYMvNCYqDaBQbPMA0B0bnoIRN91Lu24uOJ7yYQTso7E=;
+	b=WPdo0nzZBeg7Is27N5OIoEVPSfjVEKKv5xifLSGaijJGJbFNXXV9iA4sUvGd1/G+OGidNi
+	O5Nz+b6HIU0o9pAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708076741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iYMvNCYqDaBQbPMA0B0bnoIRN91Lu24uOJ7yYQTso7E=;
+	b=K3GJLk0NyXrPMf/aFqjbRry/Qxwjc8Bj/g4q/MeRsSfZAu8Ybdf5Tj7wI+qAyBsgbcC0vR
+	xvxA7q+GGIm0yNvWUhWlBiqDWnj8pXbApt4a7yj3KGLQ2wRXaaHf5f+9c+RLhe5CYVhpn1
+	ZLX976pxOCFWLoG08M8uzuMAE2T3dv0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708076741;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iYMvNCYqDaBQbPMA0B0bnoIRN91Lu24uOJ7yYQTso7E=;
+	b=WPdo0nzZBeg7Is27N5OIoEVPSfjVEKKv5xifLSGaijJGJbFNXXV9iA4sUvGd1/G+OGidNi
+	O5Nz+b6HIU0o9pAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF6F313A39;
+	Fri, 16 Feb 2024 09:45:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rhsGNsQuz2WEcAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 16 Feb 2024 09:45:40 +0000
+Message-ID: <039a817d-20c4-487d-a443-f87e19727305@suse.cz>
+Date: Fri, 16 Feb 2024 10:45:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 14/35] lib: introduce support for page allocation
+ tagging
+Content-Language: en-US
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, hannes@cmpxchg.org,
+ roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+ willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
+ void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+ catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de,
+ mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
+ peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+ masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
+ muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+ pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
+ dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
+ keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com,
+ gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+ bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+ penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+ glider@google.com, elver@google.com, dvyukov@google.com,
+ shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+ rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+ kernel-team@android.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-modules@vger.kernel.org,
+ kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+References: <20240212213922.783301-1-surenb@google.com>
+ <20240212213922.783301-15-surenb@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20240212213922.783301-15-surenb@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -2.79
+X-Spamd-Result: default: False [-2.79 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 BAYES_HAM(-3.00)[100.00%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_GT_50(0.00)[73];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
 
-On Thu, 15 Feb 2024 10:58:46 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
+On 2/12/24 22:39, Suren Baghdasaryan wrote:
+> Introduce helper functions to easily instrument page allocators by
+> storing a pointer to the allocation tag associated with the code that
+> allocated the page in a page_ext field.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> +
+> +#ifdef CONFIG_MEM_ALLOC_PROFILING
+> +
+> +#include <linux/page_ext.h>
+> +
+> +extern struct page_ext_operations page_alloc_tagging_ops;
+> +extern struct page_ext *page_ext_get(struct page *page);
+> +extern void page_ext_put(struct page_ext *page_ext);
+> +
+> +static inline union codetag_ref *codetag_ref_from_page_ext(struct page_ext *page_ext)
+> +{
+> +	return (void *)page_ext + page_alloc_tagging_ops.offset;
+> +}
+> +
+> +static inline struct page_ext *page_ext_from_codetag_ref(union codetag_ref *ref)
+> +{
+> +	return (void *)ref - page_alloc_tagging_ops.offset;
+> +}
+> +
+> +static inline union codetag_ref *get_page_tag_ref(struct page *page)
+> +{
+> +	if (page && mem_alloc_profiling_enabled()) {
+> +		struct page_ext *page_ext = page_ext_get(page);
+> +
+> +		if (page_ext)
+> +			return codetag_ref_from_page_ext(page_ext);
 
-> On Thu, 15 Feb 2024 17:02:46 +0100 Kory Maincent wrote:
-> > Introduce an enumeration to define PSE types (C33 or PoDL),
-> > utilizing a bitfield for potential future support of both types.
-> > Include 'pse_get_types' helper for external access to PSE type info. =20
->=20
-> I haven't read the series, just noticed this breaks the build:
->=20
-> error: ../include/uapi/linux/pse.h: missing "WITH Linux-syscall-note" for
-> SPDX-License-Identifier
+I think when structured like this, you're not getting the full benefits of
+static keys, and the compiler probably can't improve that on its own.
 
-By curiosity how do you get that error?=20
-Is it with C=3D1? I didn't faced it with W=3D1.
-C=3D1 is broken for several architecture like arm64, indeed I forgot to run=
- it.
+- page is tested before the static branch is evaluated
+- when disabled, the result is NULL, and that's again tested in the callers
 
-> but why the separate header? Is it going to be used in other parts of
-> uAPI than just in ethtool?
+> +	}
+> +	return NULL;
+> +}
+> +
+> +static inline void put_page_tag_ref(union codetag_ref *ref)
+> +{
+> +	page_ext_put(page_ext_from_codetag_ref(ref));
+> +}
+> +
+> +static inline void pgalloc_tag_add(struct page *page, struct task_struct *task,
+> +				   unsigned int order)
+> +{
+> +	union codetag_ref *ref = get_page_tag_ref(page);
 
-We might use it in pse core if capabilities between PoE and PoDL differ but=
- I
-am not sure about it.
-Do you prefer to move it to ethtool header and add prefix ETHTOOL_ to the e=
-num
-values?
+So the more optimal way would be to test mem_alloc_profiling_enabled() here
+as the very first thing before trying to get the ref.
 
-> > This patch is sponsored by Dent Project <dentproject@linuxfoundation.or=
-g> =20
->=20
-> side-note: no objections to the line but for accounting purposes
-> (i.e. when we generate development stats) we use the Author / From
-> line exclusively. So it'd be easier to compute stats of things funded
-> by Dent if you used:
->=20
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
->=20
-> but that's entirely up to you :)
+> +	if (ref) {
+> +		alloc_tag_add(ref, task->alloc_tag, PAGE_SIZE << order);
+> +		put_page_tag_ref(ref);
+> +	}
+> +}
+> +
+> +static inline void pgalloc_tag_sub(struct page *page, unsigned int order)
+> +{
+> +	union codetag_ref *ref = get_page_tag_ref(page);
 
-Does adding the line side to the SOB in the commit message is sufficient or
-should I modify the git send email config?
+And same here.
 
-Regard,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> +	if (ref) {
+> +		alloc_tag_sub(ref, PAGE_SIZE << order);
+> +		put_page_tag_ref(ref);
+> +	}
+> +}
+> +
+> +#else /* CONFIG_MEM_ALLOC_PROFILING */
+> +
+> +static inline void pgalloc_tag_add(struct page *page, struct task_struct *task,
+> +				   unsigned int order) {}
+> +static inline void pgalloc_tag_sub(struct page *page, unsigned int order) {}
+> +
+> +#endif /* CONFIG_MEM_ALLOC_PROFILING */
+> +
+> +#endif /* _LINUX_PGALLOC_TAG_H */
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 78d258ca508f..7bbdb0ddb011 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -978,6 +978,7 @@ config MEM_ALLOC_PROFILING
+>  	depends on PROC_FS
+>  	depends on !DEBUG_FORCE_WEAK_PER_CPU
+>  	select CODE_TAGGING
+> +	select PAGE_EXTENSION
+>  	help
+>  	  Track allocation source code and record total allocation size
+>  	  initiated at that code location. The mechanism can be used to track
+> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> index 4fc031f9cefd..2d5226d9262d 100644
+> --- a/lib/alloc_tag.c
+> +++ b/lib/alloc_tag.c
+> @@ -3,6 +3,7 @@
+>  #include <linux/fs.h>
+>  #include <linux/gfp.h>
+>  #include <linux/module.h>
+> +#include <linux/page_ext.h>
+>  #include <linux/proc_fs.h>
+>  #include <linux/seq_buf.h>
+>  #include <linux/seq_file.h>
+> @@ -124,6 +125,22 @@ static bool alloc_tag_module_unload(struct codetag_type *cttype,
+>  	return module_unused;
+>  }
+>  
+> +static __init bool need_page_alloc_tagging(void)
+> +{
+> +	return true;
+
+So this means the page_ext memory overead is paid unconditionally once
+MEM_ALLOC_PROFILING is compile time enabled, even if never enabled during
+runtime? That makes it rather costly to be suitable for generic distro
+kernels where the code could be compile time enabled, and runtime enabling
+suggested in a debugging/support scenario. It's what we do with page_owner,
+debug_pagealloc, slub_debug etc.
+
+Ideally we'd have some vmalloc based page_ext flavor for later-than-boot
+runtime enablement, as we now have for stackdepot. But that could be
+explored later. For now it would be sufficient to add an early_param boot
+parameter to control the enablement including page_ext, like page_owner and
+other features do.
+
+> +}
+> +
+> +static __init void init_page_alloc_tagging(void)
+> +{
+> +}
+> +
+> +struct page_ext_operations page_alloc_tagging_ops = {
+> +	.size = sizeof(union codetag_ref),
+> +	.need = need_page_alloc_tagging,
+> +	.init = init_page_alloc_tagging,
+> +};
+> +EXPORT_SYMBOL(page_alloc_tagging_ops);
+
+
