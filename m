@@ -1,39 +1,38 @@
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD71112F5AE;
-	Fri, 16 Feb 2024 15:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5398812FB20;
+	Fri, 16 Feb 2024 15:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708098788; cv=none; b=UVqWo4ikJwFwArGq9icAJ8JDXefMbPCZjZU7ki7LvWL+MBdjg5idhKD9mQNDtMfNR7O0SGhwTDDAmrx9iqfBKjL/I8bH8juQqRqcPseCrefLGYgGwAKkuYwKuOZc8kQJwctgyTKVvlw2LPrMdBoQ2fZqDMHSstdd74Po5Up0fxw=
+	t=1708098789; cv=none; b=ULIekHSlH6nA+DRf7ygfRM8b0tvJqKa2/x2UVczKQKhJL1SOg6UF+g7YdkxCiMqRDIwKS3T9gmTu28L/B7fb0K5/ikqtZzIPHbu3xsEuRDz7z9+RJirm/ZW7SxuV4XeJIks7vCh29siiN9JOj1mQM80/FcGRZFhTNXABym6yJu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708098788; c=relaxed/simple;
-	bh=Fbj/2gyrWNa39AIruWxAlw+xq5h9FHnRkUSzy2mwA8E=;
+	s=arc-20240116; t=1708098789; c=relaxed/simple;
+	bh=t9DftvwHYXJXtsEXtK9HBnIXPvK2VHYobKs97PldUo8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=L/AeCO7G8cQ0mWY8LNyEX9cjc2lVJPbsXaWTt2urxEaR7H+F9IfyJ8fuho+BhHM3xvwCdnZGfjyqqrBacpdDhdh5XOjz27fNri1up/BDpBYMNfpsxPjc91uxz+JhWcocjfk19cxwlS78kAMU/prulJGYc7D0kIhOhApkEL3/dDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZbSlHd+0; arc=none smtp.client-ip=217.70.183.193
+	 In-Reply-To:To:Cc; b=UMQ2teGnqMHwKv/SNIrGIPWT2iMzfqNiruGSftc6T/rcymdTNn0qLb411RR+5M7L+PKYbqd0gHOb9tJV8DEH9QhopQOtAPD8D3cw5dK+OgRKvaLAfYVPvMtABnaWGWhBU8mxc/r2jR+r4IpUnm2KakMgfy4VUmDHKiu6xGX8aB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mieHUj3Y; arc=none smtp.client-ip=217.70.183.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZbSlHd+0"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 20AC3240005;
-	Fri, 16 Feb 2024 15:52:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mieHUj3Y"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4FD14240009;
+	Fri, 16 Feb 2024 15:53:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708098777;
+	t=1708098784;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3UZnngXwdr0LC2jpI0/oTtXDE8jw/GJHgrZURo6q588=;
-	b=ZbSlHd+0aB3h/GrrffTuYcFRaGxCn38xYLNSY/j/NYuJeOlPzViqvkWxzm79QjKHiXk2or
-	T17wMlrrgkctata2xwS582yJfd4svlhL1thE44yEfA3za6Y8KpJHeYneILVQI7hMSGs2EZ
-	EDoy1UUl+qymthuAoag4LFRHuDvvOoQbMlPZzN7rOtj2dENYLppVraXvTJ8dmdIkNAzwBs
-	wJkCuTW52WFBkFsZwpEdqV62QXISuQZNp+ipEQtTkRxevmIDkS9d8/CIHHJEe1dkNw1h9J
-	5Y2hnnKGb9XN3Wk3nQM8DWxkGh1VVETL1iwYNHAiQ8bebxRt6uk8a9PrVnXFzQ==
+	bh=Vt7pqaInPUQVg2cWblp5rRamZytG6+i7+g/PwgWu1us=;
+	b=mieHUj3YhUhot+FdrhYmScxvoYrgALn4DfVvCOcXfkplzuNveM1LvjHs57EdccaZT709XZ
+	E2lGk6VjEhKeagsqIzdOQMl3+imVIYwDJJvEu9mmE/1Pq87HGrfEwBnRE5LOSHBVE9wGhl
+	z7ExsFhJGD3mqd02ktVRhUROHjD7ev+ApB0su38cm5ETyukfeviqgmcJjLrVsb1vuPDVHk
+	E+aNtIoKF7dsijNDta7qhn79IvW7piwajqUQsfTQGDmifIfhttOXp9ednNOswrwsrjh5lC
+	F5qMTORSNuOpn2OmgLjvoFdmEvnfhLBK6L7r2AVtOeRPWgaXSa91rOAy/dbWNA==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Fri, 16 Feb 2024 16:52:19 +0100
-Subject: [PATCH RFC net-next v8 01/13] net_tstamp: Add TIMESTAMPING
- SOFTWARE and HARDWARE mask
+Date: Fri, 16 Feb 2024 16:52:25 +0100
+Subject: [PATCH RFC net-next v8 07/13] ptp: Move from simple ida to xarray
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240216-feature_ptp_netnext-v8-1-510f42f444fb@bootlin.com>
+Message-Id: <20240216-feature_ptp_netnext-v8-7-510f42f444fb@bootlin.com>
 References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
 In-Reply-To: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
@@ -64,46 +63,78 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Maxime Chevallier <maxime.chevallier@bootlin.com>, 
  Rahul Rameshbabu <rrameshbabu@nvidia.com>, 
- Kory Maincent <kory.maincent@bootlin.com>, 
- Willem de Bruijn <willemb@google.com>
+ Kory Maincent <kory.maincent@bootlin.com>
 X-Mailer: b4 0.12.4
 X-GND-Sasl: kory.maincent@bootlin.com
 
-Timestamping software or hardware flags are often used as a group,
-therefore adding these masks will easier future use.
+Move from simple ida to xarray for storing and loading the ptp_clock
+pointer. This prepares support for future hardware timestamp selection by
+being able to link the ptp clock index to its pointer.
 
-I did not use SOF_TIMESTAMPING_SYS_HARDWARE flag as it is deprecated and
-not use at all.
-
-Reviewed-by: Willem de Bruijn <willemb@google.com>
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
 
-Changes in v7:
-- Move the masks out of uapi to include/linux/net_tstamp.h
+Changes in v8:
+- New patch
 ---
- include/linux/net_tstamp.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/ptp/ptp_clock.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/net_tstamp.h b/include/linux/net_tstamp.h
-index eb01c37e71e0..3799c79b6c83 100644
---- a/include/linux/net_tstamp.h
-+++ b/include/linux/net_tstamp.h
-@@ -5,6 +5,14 @@
+diff --git a/drivers/ptp/ptp_clock.c b/drivers/ptp/ptp_clock.c
+index 3aaf1a3430c5..f374b1e89780 100644
+--- a/drivers/ptp/ptp_clock.c
++++ b/drivers/ptp/ptp_clock.c
+@@ -31,7 +31,7 @@ struct class *ptp_class;
  
- #include <uapi/linux/net_tstamp.h>
+ static dev_t ptp_devt;
  
-+#define SOF_TIMESTAMPING_SOFTWARE_MASK	(SOF_TIMESTAMPING_RX_SOFTWARE | \
-+					 SOF_TIMESTAMPING_TX_SOFTWARE | \
-+					 SOF_TIMESTAMPING_SOFTWARE)
-+
-+#define SOF_TIMESTAMPING_HARDWARE_MASK	(SOF_TIMESTAMPING_RX_HARDWARE | \
-+					 SOF_TIMESTAMPING_TX_HARDWARE | \
-+					 SOF_TIMESTAMPING_RAW_HARDWARE)
-+
- enum hwtstamp_source {
- 	HWTSTAMP_SOURCE_NETDEV,
- 	HWTSTAMP_SOURCE_PHYLIB,
+-static DEFINE_IDA(ptp_clocks_map);
++static DEFINE_XARRAY_FLAGS(ptp_clocks_map, XA_FLAGS_LOCK_IRQ | XA_FLAGS_ALLOC);
+ 
+ /* time stamp event queue operations */
+ 
+@@ -201,7 +201,7 @@ static void ptp_clock_release(struct device *dev)
+ 	bitmap_free(tsevq->mask);
+ 	kfree(tsevq);
+ 	debugfs_remove(ptp->debugfs_root);
+-	ida_free(&ptp_clocks_map, ptp->index);
++	xa_erase(&ptp_clocks_map, ptp->index);
+ 	kfree(ptp);
+ }
+ 
+@@ -246,11 +246,10 @@ struct ptp_clock *ptp_clock_register(struct ptp_clock_info *info,
+ 	if (ptp == NULL)
+ 		goto no_memory;
+ 
+-	index = ida_alloc_max(&ptp_clocks_map, MINORMASK, GFP_KERNEL);
+-	if (index < 0) {
+-		err = index;
++	err = xa_alloc(&ptp_clocks_map, &index, ptp, xa_limit_31b,
++		       GFP_KERNEL);
++	if (err)
+ 		goto no_slot;
+-	}
+ 
+ 	ptp->clock.ops = ptp_clock_ops;
+ 	ptp->info = info;
+@@ -378,7 +377,7 @@ struct ptp_clock *ptp_clock_register(struct ptp_clock_info *info,
+ 	list_del(&queue->qlist);
+ 	kfree(queue);
+ no_memory_queue:
+-	ida_free(&ptp_clocks_map, index);
++	xa_erase(&ptp_clocks_map, index);
+ no_slot:
+ 	kfree(ptp);
+ no_memory:
+@@ -511,7 +510,7 @@ static void __exit ptp_exit(void)
+ {
+ 	class_destroy(ptp_class);
+ 	unregister_chrdev_region(ptp_devt, MINORMASK + 1);
+-	ida_destroy(&ptp_clocks_map);
++	xa_destroy(&ptp_clocks_map);
+ }
+ 
+ static int __init ptp_init(void)
 
 -- 
 2.25.1
