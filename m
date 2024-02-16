@@ -1,39 +1,39 @@
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A314133287;
-	Fri, 16 Feb 2024 15:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896411350CC;
+	Fri, 16 Feb 2024 15:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708098793; cv=none; b=Ag5KM2zteVC4aU+CLH8EsaapTj51w6nLIw0739yiRdpiZ0NJpbmTLw5JN7UFaNOWGIB49diNaKTqPwz/pieCbxL8NDYb+xlsysVPkkvkZigVaye+GtdTgxb24HNTqnkmzxvhRvutRVetH58Fd7DwIcBDbH+wlKFyFK0WpWPBMSI=
+	t=1708098795; cv=none; b=MV/oj3X6EkswvswqKAgFSzufZMt+wzmMoUSktqTPFRbY2F0RTbWzNS3AW38o5k58+YQM84QCliB4E3vfCoQWKvB250Zg05heomzpjSv+MCvksykEUIOLX2Rf0RO5ma4/WG7w3qhiZiyn7PHJhLX5vkZ/NZyQJbiBIWmmyJXX8UU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708098793; c=relaxed/simple;
-	bh=Qcp2uc+UUo36BOh1LCqqElt85kVpuM5XT+lI8HhHyio=;
+	s=arc-20240116; t=1708098795; c=relaxed/simple;
+	bh=mxBFK4Fb71lyE8xT3cEVQg0kPCMLh4VSthxx6LrQ+zs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EDHTKhl9/FtR8onCH0vrS/qsZrP+7mE3Uk+tCnR/C3iBcYRdnXCwlClkyPi4/eV4btPUSosLvoswjJIYAyoUM5Te9nJKhh5Cl2JL+RuvmCgrwsb5zm//JUMS2v+26roOuDTNNQ6DeubTFLPuW8ULBINQCsVxn570IZExDSckxVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Sdru2HTo; arc=none smtp.client-ip=217.70.183.193
+	 In-Reply-To:To:Cc; b=EcYcDAHoIza8vTGxN9oAiT/G5C7lX3leUmfMvACwNXZzmM51rtfKspojuOfxYhydOebXpytlqLT4jNGEDhF0c80ddrAY8mHU5AugEHqaEAeHcNSidXBT1z8zA2UoN1+KCdz3H9Z2tyof7/J5i87RNLhSWUPhZgK+ESeErzYvI2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=U72O1Mzd; arc=none smtp.client-ip=217.70.183.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Sdru2HTo"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4934F240007;
-	Fri, 16 Feb 2024 15:53:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="U72O1Mzd"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D1B35240014;
+	Fri, 16 Feb 2024 15:53:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708098789;
+	t=1708098791;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Fcclx+P2VRL5YyMqc19FLMrEZY/bn8QqcU/6ryhVROM=;
-	b=Sdru2HToC5w4SIlyVlPdFHMaouOsUH9ZYHKsGipSdGiEK1cKxcQEvQg97SCS+cxB+dwP7o
-	dmLxHVvkT4yPK7Q9agn1Mf4r+cy0n/acW+1Wvwkvv7Ddz3FD7tX6nZ9Qpk+AKXA+FGg5Ql
-	FDHZ1ku/r69gCOVvb1x4mwCjRG6nBEXJL2RSItuGAyUaMD+tUTxA3gEuhJQq/w0YdVsa94
-	GnpaQhQJCTEMHUh0/0FFuyDHt7GS6LpCupoIajybnLjvTPCUsjW0TYInZ8ZFSmZP/W7zIm
-	WVtu2gODgv2V5PzQ5iT8g2AmBxuDYr42bkunhXSiifsAETM1+XsRD3PriMbKaw==
+	bh=hrBO2wzt0J4arvEYzmCu+K7sTUcd+qHj9mVz8SibBag=;
+	b=U72O1MzdaaSHoWqTPgTIH721SmoYlSoYg2d9SFUS6k6i6ZfPCN/QdxB6fxw2Zzj2UXCeen
+	IzaF3/1jgZ7eeULzsawMjo2jaT2mzNyCTGjN0kEQrIdmOnb7VaHiE/No0KjFwXVqUlAXWm
+	j9JQSZ44jnJ8Zax7vUOsO7yosbeLOs4i4j0kRV8PnvI0OUuykB/vXwCqlViK30nR778S9m
+	yNOne0ScrADlRW8lbt3iRkiln+mRu/j0orwYpJTpd+VIlMbyM2XHsg4F41L9Vhnzmlgg4G
+	pMGR9PgdQ41HifmBIaXzY233i3/Wm1NU1ynQo8HRtUlOmMQU8p+df2bZDPrHcQ==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Fri, 16 Feb 2024 16:52:29 +0100
-Subject: [PATCH RFC net-next v8 11/13] net: macb: Convert to
- netdev_ptp_clock_register
+Date: Fri, 16 Feb 2024 16:52:31 +0100
+Subject: [PATCH RFC net-next v8 13/13] netlink: specs: tsinfo: Enhance
+ netlink attributes and add a set command
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240216-feature_ptp_netnext-v8-11-510f42f444fb@bootlin.com>
+Message-Id: <20240216-feature_ptp_netnext-v8-13-510f42f444fb@bootlin.com>
 References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
 In-Reply-To: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
@@ -68,32 +68,99 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: kory.maincent@bootlin.com
 
-The hardware registration clock for net device is now using
-netdev_ptp_clock_register to save the net_device pointer within the ptp
-clock xarray. Convert the macb driver to the new API.
+Add new attributed to tsinfo allowing to get the tsinfo and the hwtstamp
+from a phc provider (composed by a phc index and a phc qualifier) on a
+netdevice's link.
+Add simultaneously a set command to be able to set hwtstamp configuration
+for a specified phc provider.
 
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
 
-Change in v8:
+Changes in v8:
 - New patch
 ---
- drivers/net/ethernet/cadence/macb_ptp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/netlink/specs/ethtool.yaml | 35 +++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/cadence/macb_ptp.c b/drivers/net/ethernet/cadence/macb_ptp.c
-index a63bf29c4fa8..50fa62a0ddc5 100644
---- a/drivers/net/ethernet/cadence/macb_ptp.c
-+++ b/drivers/net/ethernet/cadence/macb_ptp.c
-@@ -332,7 +332,7 @@ void gem_ptp_init(struct net_device *dev)
- 	bp->tsu_rate = bp->ptp_info->get_tsu_rate(bp);
- 	bp->ptp_clock_info.max_adj = bp->ptp_info->get_ptp_max_adj();
- 	gem_ptp_init_timer(bp);
--	bp->ptp_clock = ptp_clock_register(&bp->ptp_clock_info, &dev->dev);
-+	bp->ptp_clock = netdev_ptp_clock_register(&bp->ptp_clock_info, dev);
- 	if (IS_ERR(bp->ptp_clock)) {
- 		pr_err("ptp clock register failed: %ld\n",
- 			PTR_ERR(bp->ptp_clock));
+diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+index 197208f419dc..cfe48f8d6283 100644
+--- a/Documentation/netlink/specs/ethtool.yaml
++++ b/Documentation/netlink/specs/ethtool.yaml
+@@ -559,6 +559,15 @@ attribute-sets:
+       -
+         name: tx-lpi-timer
+         type: u32
++  -
++    name: tsinfo-hwtst-provider
++    attributes:
++      -
++        name: index
++        type: u32
++      -
++        name: qualifier
++        type: u32
+   -
+     name: tsinfo
+     attributes:
+@@ -581,6 +590,13 @@ attribute-sets:
+       -
+         name: phc-index
+         type: u32
++      -
++        name: hwtst-provider
++        type: nest
++        nested-attributes: tsinfo-hwtst-provider
++      -
++        name: hwtst-flags
++        type: u32
+   -
+     name: cable-result
+     attributes:
+@@ -1373,7 +1389,7 @@ operations:
+       notify: eee-get
+     -
+       name: tsinfo-get
+-      doc: Get tsinfo params.
++      doc: Get tsinfo params or hwtstamp config.
+ 
+       attribute-set: tsinfo
+ 
+@@ -1381,6 +1397,7 @@ operations:
+         request:
+           attributes:
+             - header
++            - hwtst-provider
+         reply:
+           attributes:
+             - header
+@@ -1388,6 +1405,8 @@ operations:
+             - tx-types
+             - rx-filters
+             - phc-index
++            - hwtst-provider
++            - hwtst-flags
+       dump: *tsinfo-get-op
+     -
+       name: cable-test-act
+@@ -1693,3 +1712,17 @@ operations:
+       name: mm-ntf
+       doc: Notification for change in MAC Merge configuration.
+       notify: mm-get
++    -
++      name: tsinfo-set
++      doc: Set hwtstamp.
++
++      attribute-set: tsinfo
++
++      do:
++        request:
++          attributes:
++            - header
++            - tx-types
++            - rx-filters
++            - hwtst-provider
++            - hwtst-flags
 
 -- 
 2.25.1
